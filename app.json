@@ -2,9 +2,11 @@
   "expo": {
     "name": "monk-sdk",
     "slug": "monk-sdk",
-    "version": "1.0.0",
+    "owner": "monkvision",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "primaryColor": "#274b9f",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
