@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from 'react-native-paper';
+import CustomPropTypes from 'Components/CustomPropTypes';
 
 /**
  * Display NODE_ENV value by default.
@@ -12,7 +13,10 @@ import { Badge } from 'react-native-paper';
  */
 function NodeEnv({ title, value, ...passThroughProps }) {
   return (
-    <Badge title={title} {...passThroughProps}>
+    <Badge
+      title={title}
+      {...passThroughProps}
+    >
       {value}
     </Badge>
   );
@@ -20,7 +24,7 @@ function NodeEnv({ title, value, ...passThroughProps }) {
 
 NodeEnv.propTypes = {
   title: PropTypes.string,
-  value: PropTypes.oneOf(['development', 'test', 'production']),
+  value: CustomPropTypes.nodeEnv,
 };
 
 NodeEnv.defaultProps = {

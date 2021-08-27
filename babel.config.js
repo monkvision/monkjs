@@ -10,6 +10,7 @@ function babelConfig(api) {
     },
     plugins: [
       ['module-resolver', { root: ['./src'] }],
+      'react-native-reanimated/plugin',
     ],
   };
 }
