@@ -1,50 +1,58 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { FAB, Provider as PaperProvider } from 'react-native-paper';
 
-import { Provider as PaperProvider } from 'react-native-paper';
-import { Provider as StoreProvider } from 'react-redux';
-
-import { store } from 'Controllers';
-
-import Loader from 'Components/Loader';
+import Camera from 'components/Camera';
+import CameraSideBar from 'components/CameraSideBar';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  fab: {
+    backgroundColor: 'white',
   },
-  loader: {
-    height: 100,
-    width: 100,
+  largeFab: {
+    transform: [{ scale: 1.3 }],
   },
 });
 
 export default function App() {
-  const [isLoading, setLoading] = useState(false);
+  function closeCamera() {
+    // console.warn('Closing camera...');
+  }
 
-  function handlePress() {
-    setLoading((prevState) => !prevState);
+  function takeAPicture() {
+    // console.warn('Taking picture...');
+  }
+
+  function showGallery() {
+    // console.warn('Showing gallery...');
   }
 
   return (
-    <StoreProvider store={store}>
-      <PaperProvider theme={store.getState().theme}>
-        <View style={styles.container}>
-          <Pressable onPress={handlePress}>
-            <Loader
-              isLoading={isLoading}
-              style={styles.loader}
-            />
-          </Pressable>
-          <Text style={{ marginTop: 16 }}>
-            Welcome to Monk Software Development Kit!
-          </Text>
-          <StatusBar />
-        </View>
-      </PaperProvider>
-    </StoreProvider>
+    <PaperProvider>
+      <Camera>
+        <CameraSideBar right={0} width={125}>
+          <FAB
+            accessibilityLabel="Close camera"
+            icon="close"
+            onPress={closeCamera}
+            small
+            style={styles.fab}
+          />
+          <FAB
+            accessibilityLabel="Take a picture"
+            icon="camera-image"
+            onPress={takeAPicture}
+            style={[styles.fab, styles.largeFab]}
+          />
+          <FAB
+            accessibilityLabel="Show gallery"
+            icon="folder-multiple-image"
+            onPress={showGallery}
+            small
+            style={styles.fab}
+          />
+        </CameraSideBar>
+      </Camera>
+    </PaperProvider>
   );
 }

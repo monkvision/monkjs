@@ -1,7 +1,7 @@
 <svg width="1024px" height="1024px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
     <g>
         <circle
-            stroke="#274b9f"
+            stroke="#fff"
             stroke-width="124"
             fill="transparent"
             cx="512"
@@ -9,7 +9,7 @@
             r="390"
         />
         <circle
-            fill="#000"
+            fill="#fff"
             cx="512"
             cy="512"
             r="102"

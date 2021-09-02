@@ -34,6 +34,9 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'error',
     'object-curly-newline': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'react/jsx-filename-extension': [1, {
+      extensions: ['.native.js', '.ios.js', '.android.js', '.jsx'],
+    }],
   },
   overrides: [
     {
