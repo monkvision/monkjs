@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "monk-sdk",
-    "slug": "monk-sdk",
+    "name": "Monk",
+    "slug": "Monk",
     "owner": "monkvision",
     "version": "0.0.1",
     "orientation": "portrait",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#274b9f"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,12 +19,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.monkvision.monk",
+      "buildNumber": "0.0.1",
+      "supportsTablet": true,
+      "requireFullScreen": true
     },
     "android": {
+      "package": "com.monkvision.monk",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#274b9f"
       }
     },
     "web": {

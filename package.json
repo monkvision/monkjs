@@ -17,19 +17,18 @@
     "eject": "expo eject"
   },
   "peerDependencies": {
-    "@reduxjs/toolkit": "^1.6.1",
-    "lodash.identity": "^3.0.0",
-    "lodash.isempty": "^4.4.0",
     "prop-types": "^15.7.2",
     "react-native-paper": "^4.9.2",
-    "react-native-svg": "12.1.1",
-    "react-redux": "^7.2.4"
+    "react-native-svg": "12.1.1"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.1",
     "expo": "~42.0.1",
+    "expo-blur": "~9.0.3",
     "expo-camera": "~11.2.2",
+    "expo-device": "~3.3.0",
+    "expo-screen-orientation": "~3.2.1",
     "expo-status-bar": "~1.0.4",
+    "lodash.camelcase": "^4.3.0",
     "lodash.identity": "^3.0.0",
     "lodash.isempty": "^4.4.0",
     "lodash.noop": "^3.0.1",
@@ -40,8 +39,7 @@
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-svg": "12.1.1",
-    "react-native-web": "~0.13.12",
-    "react-redux": "^7.2.4"
+    "react-native-web": "~0.13.12"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

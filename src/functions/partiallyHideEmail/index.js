@@ -1,11 +1,11 @@
-import isEmpty from 'Functions/isEmpty';
+import isEmpty from 'functions/isEmpty';
 
 /**
  * Take an email and replace it by a string partially hidden.
  * @param email {string}
  * @returns {string}
  */
-export default function protectEmail(email) {
+export default function partiallyHideEmail(email) {
   if (isEmpty(email)) {
     throw Error('email (1) argument is required in privatizeEmail function');
   }

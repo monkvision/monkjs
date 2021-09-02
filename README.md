@@ -1,6 +1,10 @@
-![Banner](assets/banner.webp)
+# 👁️‍🗨️ Monk
+Get a fully automated damage report with all item changes classified by type, location and severity.
 
-# Monk SDK
+Find more information on [our website](https://monk.ai).
+
+---
+# React Native SDK
 
 [![Build Status][circleci-image]][circleci-url]
 [![NPM version][npm-image]][npm-url]
@@ -8,36 +12,80 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
-Client Side JavaScript toolkit for Monk API including React Native components.
-
-If you want to read the full API documentation of Monk SDK, see [here](https://monkvision.github.io/monk-sdk/api).
+Interested in using parts of our product? SDK brings you composable components for your apps.
 
 - [Install](#install)
 - [Documentation](#documentation)
 - [Issue Reporting](#issue-reporting)
+- [Dependencies](#dependencies)
 - [License](#license)
 
 ## Install
 
 ```sh
-npm install monk-sdk
+npm install react-native-monk-ai
 ```
 If you are using yarn.
 ```sh
-yarn add monk-sdk
+yarn add react-native-monk-ai
 ```
 
-After installing the `monk-sdk` module, you'll need bundle it up along with all of its dependencies.
+Now you can import components from the lib.
+``` javascript
+import React from 'react';
+import { StyleSheet, View, Button } from 'react-native';
+
+import { Camera, CameraSideBar } from 'react-native-monk-sdk/components';
+
+export default function App() {
+  function closeCamera() {
+    // console.log('Closing camera...');
+  }
+
+  function takeAPicture() {
+    // console.log('Taking picture...');
+  }
+
+  function showGallery() {
+    // console.log('Showing gallery...');
+  }
+
+  return (
+    <Camera>
+      <CameraSideBar right={0} width={125}>
+        <Button
+          accessibilityLabel="Close camera"
+          onPress={closeCamera}
+        />
+        <Button
+          accessibilityLabel="Take a picture"
+          onPress={takeAPicture}
+        />
+        <Button
+          accessibilityLabel="Show Gallery"
+          onPress={showGallery}
+        />
+      </CameraSideBar>
+    </Camera>
+  );
+}
+```
 
 ## Documentation
 
-For a complete reference and examples please check our [docs](https://auth0.com/docs/libraries/auth0js).
+For a complete reference and examples please check our [documentation](https://monkvision.github.io/monk/docs).
 
 ## Issue Reporting
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Auth0 Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
 
 For Monk related questions/support please use the [Support Center](https://support.monkvision.ai).
+
+## Dependencies
+
+Monk applications are built with [React Native](https://reactnative.dev/) and [Expo](https://expo.dev/). We are also using few [Lodash](https://lodash.com/) functions. Find all our dependencies in the [package.json](package.json).
+
+If you don't want to use our App or SDK, please follow how to [work with Monk from scratch]().
 
 ## License
 

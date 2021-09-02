@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import Svg, { Circle, G, Path } from 'react-native-svg';
-import isEmpty from 'Functions/isEmpty';
 
 import Animated, {
   cancelAnimation,
@@ -97,8 +95,8 @@ const InnerCircle = Platform.select({
 
 const styles = StyleSheet.create({
   root: {
-    height: 75,
-    width: 75,
+    height: 100,
+    width: 100,
   },
 });
 
@@ -110,18 +108,11 @@ const styles = StyleSheet.create({
  * @returns {JSX.Element}
  * @constructor
  */
-function Logo({
+function Loader({
   animated,
   color,
   ...passThroughProps
 }) {
-  const { colors } = useTheme();
-
-  const stroke = useMemo(
-    () => (isEmpty(color) ? colors.primary : color),
-    [color, colors.primary],
-  );
-
   return (
     <Svg
       viewBox="0 0 100 100"
@@ -130,7 +121,7 @@ function Logo({
     >
       <G>
         <Circle
-          stroke={stroke}
+          stroke={color}
           fill="transparent"
           strokeWidth={12}
           cx="50"
@@ -143,14 +134,14 @@ function Logo({
   );
 }
 
-Logo.propTypes = {
+Loader.propTypes = {
   animated: PropTypes.bool,
   color: PropTypes.string,
 };
 
-Logo.defaultProps = {
-  animated: false,
-  color: '',
+Loader.defaultProps = {
+  animated: true,
+  color: '#274b9f',
 };
 
-export default Logo;
+export default Loader;
