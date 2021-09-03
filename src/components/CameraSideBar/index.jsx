@@ -1,49 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
-import { BlurView } from 'expo-blur';
+import { View, Platform, StyleSheet/* , ViewPropTypes */ } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
     display: 'flex',
-    height: '100%',
     flexDirection: 'column',
+    height: '100%',
+    width: '100%',
     justifyContent: 'space-around',
-    position: 'absolute',
-    right: 0,
+    ...Platform.select({
+      native: {
+        minWidth: 75,
+      },
+      default: {
+        minWidth: 100,
+      },
+    }),
   },
 });
 
 /**
- * @param children
- * @param right
- * @param width
+ * @param children {node}
+ * @param style {ViewPropTypes.style}
+ * @param passThroughProps
  * @returns {JSX.Element}
  * @constructor
  */
-function CameraSideBar({ children, right, width }) {
+function CameraSideBar({ children, style, ...passThroughProps }) {
   return (
-    <BlurView
-      intensity={80}
-      tint="dark"
-      style={[styles.root, { right, width }]}
-    >
+    <View style={[styles.root, style]} {...passThroughProps}>
       {children}
-    </BlurView>
+    </View>
   );
 }
 
 CameraSideBar.propTypes = {
   children: PropTypes.node,
-  right: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-  width: PropTypes.number,
+  // https://github.com/GeekyAnts/NativeBase/issues/3264
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.any, // ViewPropTypes.style,
 };
 
 CameraSideBar.defaultProps = {
   children: null,
-  right: false,
-  width: 100,
+  style: {},
 };
 
 export default CameraSideBar;

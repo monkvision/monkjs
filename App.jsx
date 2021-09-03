@@ -29,30 +29,60 @@ export default function App() {
 
   return (
     <PaperProvider>
-      <Camera>
-        <CameraSideBar right={0} width={125}>
-          <FAB
-            accessibilityLabel="Close camera"
-            icon="close"
-            onPress={closeCamera}
-            small
-            style={styles.fab}
-          />
-          <FAB
-            accessibilityLabel="Take a picture"
-            icon="camera-image"
-            onPress={takeAPicture}
-            style={[styles.fab, styles.largeFab]}
-          />
-          <FAB
-            accessibilityLabel="Show gallery"
-            icon="folder-multiple-image"
-            onPress={showGallery}
-            small
-            style={styles.fab}
-          />
-        </CameraSideBar>
-      </Camera>
+      <Camera
+        leftElements={(
+          <CameraSideBar>
+            <FAB
+              accessibilityLabel="Close camera"
+              color="#EDAB25"
+              icon="lightbulb-on"
+              onPress={closeCamera}
+              small
+              style={styles.fab}
+            />
+            <FAB
+              accessibilityLabel="Close camera"
+              icon="chevron-right"
+              onPress={closeCamera}
+              small
+              style={styles.fab}
+            />
+            <FAB
+              accessibilityLabel="Close camera"
+              disabled
+              icon="chevron-right"
+              onPress={closeCamera}
+              small
+              style={[styles.fab, { visibility: 'hidden', opacity: 0 }]}
+            />
+          </CameraSideBar>
+        )}
+        rightElements={(
+          <CameraSideBar>
+            <FAB
+              accessibilityLabel="Close camera"
+              icon="close-thick"
+              onPress={closeCamera}
+              small
+              style={styles.fab}
+            />
+            <FAB
+              accessibilityLabel="Take a picture"
+              color="#000"
+              icon="camera-image"
+              onPress={takeAPicture}
+              style={[styles.fab, styles.largeFab]}
+            />
+            <FAB
+              accessibilityLabel="Show gallery"
+              icon="folder-multiple-image"
+              onPress={showGallery}
+              small
+              style={styles.fab}
+            />
+          </CameraSideBar>
+        )}
+      />
     </PaperProvider>
   );
 }

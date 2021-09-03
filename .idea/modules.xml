@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/monk-sdk.iml" filepath="$PROJECT_DIR$/.idea/monk-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/monk.iml" filepath="$PROJECT_DIR$/.idea/monk.iml" />
     </modules>
   </component>
 </project>
