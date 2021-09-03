@@ -23,11 +23,11 @@ Interested in using parts of our product? SDK brings you composable components f
 ## Install
 
 ```sh
-npm install react-native-monk-ai
+npm install react-native-monk
 ```
 If you are using yarn.
 ```sh
-yarn add react-native-monk-ai
+yarn add react-native-monk
 ```
 
 Now you can import components from the lib.
@@ -35,7 +35,7 @@ Now you can import components from the lib.
 import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 
-import { Camera, CameraSideBar } from 'react-native-monk-sdk/components';
+import { Camera, CameraSideBar } from 'react-native-monk/components';
 
 export default function App() {
   function closeCamera() {

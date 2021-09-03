@@ -1,4 +1,5 @@
 build
 lib
+react-native-monk
 node_modules
 .idea

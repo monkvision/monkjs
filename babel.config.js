@@ -2,7 +2,10 @@ function babelConfig(api) {
   api.cache(true);
 
   return {
-    presets: ['babel-preset-expo'],
+    presets: [
+      'babel-preset-expo',
+      'module:metro-react-native-babel-preset',
+    ],
     env: {
       production: {
         plugins: ['react-native-paper/babel'],

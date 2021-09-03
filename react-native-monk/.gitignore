@@ -20,10 +20,6 @@ web-build/
 # production
 /build
 /lib
-/react-native-monk/module
-/react-native-monk/commonjs
-/react-native-monk/src
-/react-native-monk/typescript
 
 # misc
 .env.local
