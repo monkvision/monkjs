@@ -1,10 +1,15 @@
 {
   "name": "react-native-monk",
-  "version": "0.0.1",
+  "version": "0.1.0-0",
   "description": "AI-powered vehicle damage detection for React Native",
   "main": "commonjs/index.js",
   "module": "module/index.js",
-  "files": ["commonjs", "module", "LICENSE", "README.md"],
+  "files": [
+    "commonjs",
+    "module",
+    "LICENSE",
+    "README.md"
+  ],
   "sideEffects": false,
   "repository": {
     "type": "git",
