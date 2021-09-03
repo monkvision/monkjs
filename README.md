@@ -6,9 +6,7 @@ Find more information on [our website](https://monk.ai).
 ---
 # React Native SDK
 
-[![Build Status][circleci-image]][circleci-url]
 [![NPM version][npm-image]][npm-url]
-[![Coverage][codecov-image]][codecov-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
@@ -93,13 +91,9 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 <!-- CONST -->
 
-[npm-image]: https://img.shields.io/npm/v/monk-sdk.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/monk-sdk
-[circleci-image]: https://img.shields.io/circleci/project/github/monkvision/monk-sdk.svg?branch=master&style=flat-square
-[circleci-url]: https://circleci.com/gh/monkvision/monk-sdk.js
-[codecov-image]: https://img.shields.io/codecov/c/github/monkvision/monk-sdk.js/master.svg?style=flat-square
-[codecov-url]: https://codecov.io/github/monkvision/monk-sdk.js?branch=master
-[license-image]: https://img.shields.io/npm/l/monk-sdk-js.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/react-native-monk.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/react-native-monk
+[license-image]: https://img.shields.io/npm/l/react-native-monk-js.svg?style=flat-square
 [license-url]: #license
-[downloads-image]: https://img.shields.io/npm/dm/monk-sdk-js.svg?style=flat-square
-[downloads-url]: https://npmjs.org/package/monk-sdk
+[downloads-image]: https://img.shields.io/npm/dm/react-native-monk-js.svg?style=flat-square
+[downloads-url]: https://npmjs.org/package/react-native-monk
