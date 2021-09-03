@@ -8,19 +8,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: '100%',
     justifyContent: 'space-around',
+    width: '100%',
     ...Platform.select({
-      native: {
-        minWidth: 75,
-      },
-      default: {
-        minWidth: 100,
-      },
+      native: { minWidth: 75 },
+      default: { minWidth: 100 },
     }),
   },
 });
 
+// Inspection doesn't like ViewPropTypes
+// noinspection JSValidateJSDoc
 /**
  * @param children {node}
  * @param style {ViewPropTypes.style}

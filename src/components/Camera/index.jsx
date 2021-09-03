@@ -1,13 +1,35 @@
 import React, { useCallback, useState } from 'react';
-import { Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View, StyleSheet } from 'react-native';
 
 import { Camera as ExpoCamera } from 'expo-camera';
 
-import useCameraAsync from 'controllers/hooks/Camera/useCameraAsync';
+import useCameraAsync from 'hooks/Camera/useCameraAsync';
 
 import PropTypes from 'prop-types';
 import noop from 'functions/noop';
 import isEmpty from 'functions/isEmpty';
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    overflow: 'hidden',
+    backgroundColor: '#000',
+  },
+  leftElements: {
+    ...Platform.select({
+      native: { width: 75 },
+      default: { width: 100 },
+    }),
+  },
+  rightElements: {
+    position: 'relative',
+    ...Platform.select({
+      native: { flexGrow: 1 },
+    }),
+  },
+});
 
 /**
  * A View using Camera native features
@@ -50,9 +72,9 @@ function Camera({ children, leftElements, onCameraRef, ratio, rightElements }) {
   }
 
   return (
-    <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'nowrap', overflow: 'hidden', backgroundColor: '#000' }}>
+    <View style={styles.root}>
       <StatusBar hidden />
-      <View style={{ width: 75 }}>
+      <View style={styles.leftElements}>
         {leftElements}
       </View>
       <ExpoCamera
@@ -63,18 +85,7 @@ function Camera({ children, leftElements, onCameraRef, ratio, rightElements }) {
       >
         {children}
       </ExpoCamera>
-      <View style={{
-        position: 'relative',
-        ...Platform.select({
-          native: {
-            flexGrow: 1,
-          },
-          default: {
-            // other platforms, web for example
-          },
-        }),
-      }}
-      >
+      <View style={styles.rightElements}>
         {rightElements}
       </View>
     </View>

@@ -1,2 +1,3 @@
-export * as Components from 'components';
-export * as Functions from 'functions';
+export * as components from 'components';
+export * as functions from 'functions';
+export * as hooks from 'hooks';
