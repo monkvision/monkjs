@@ -16,7 +16,7 @@
     "url": "https://github.com/monkvision/monk.git"
   },
   "author": "monkvision",
-  "license": "MIT",
+  "license": "BSD-3-Clause-Cleare",
   "bugs": {
     "url": "https://github.com/monkvision/monk/issues"
   },
@@ -29,10 +29,7 @@
     "vehicle damage detection"
   ],
   "scripts": {
-    "release": "release-it"
-  },
-  "devDependencies": {
-    "release-it": "^14.11.5"
+    "sdk:release": "release-it"
   },
   "peerDependencies": {
     "expo": "^42",
