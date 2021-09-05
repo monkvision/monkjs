@@ -7,7 +7,6 @@ Find more information on [our website](https://monk.ai).
 # React Native SDK
 
 [![NPM version][npm-image]][npm-url]
-[![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
 Interested in using parts of our product? SDK brings you composable components for your apps.
@@ -87,13 +86,10 @@ If you don't want to use our App or SDK, please follow how to [work with Monk fr
 
 ## License
 
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+This project is licensed under the Clear BSD license. See the [LICENSE](LICENSE) file for more info.
 
 <!-- CONST -->
 
 [npm-image]: https://img.shields.io/npm/v/react-native-monk.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-native-monk
-[license-image]: https://img.shields.io/npm/l/react-native-monk-js.svg?style=flat-square
-[license-url]: #license
-[downloads-image]: https://img.shields.io/npm/dm/react-native-monk-js.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/react-native-monk
