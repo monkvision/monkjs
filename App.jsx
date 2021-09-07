@@ -4,9 +4,13 @@ import { FAB, Provider as PaperProvider } from 'react-native-paper';
 
 import Camera from 'components/Camera';
 import CameraSideBar from 'components/CameraSideBar';
+import CarMaskView from 'views/CarMaskView';
 
 const styles = StyleSheet.create({
   fab: {
+    backgroundColor: '#333',
+  },
+  fabImportant: {
     backgroundColor: 'white',
   },
   largeFab: {
@@ -23,8 +27,8 @@ export default function App() {
     // console.warn('Taking picture...');
   }
 
-  function showGallery() {
-    // console.warn('Showing gallery...');
+  function showPicture() {
+    // console.warn('Showing picture...');
   }
 
   return (
@@ -33,7 +37,7 @@ export default function App() {
         leftElements={(
           <CameraSideBar>
             <FAB
-              accessibilityLabel="Close camera"
+              accessibilityLabel="Get advice"
               color="#EDAB25"
               icon="lightbulb-on"
               onPress={closeCamera}
@@ -41,17 +45,16 @@ export default function App() {
               style={styles.fab}
             />
             <FAB
-              accessibilityLabel="Close camera"
+              accessibilityLabel="Camera settings"
               icon="chevron-right"
               onPress={closeCamera}
               small
               style={styles.fab}
             />
             <FAB
-              accessibilityLabel="Close camera"
+              accessibilityLabel="Advanced"
               disabled
               icon="chevron-right"
-              onPress={closeCamera}
               small
               style={[styles.fab, { visibility: 'hidden', opacity: 0 }]}
             />
@@ -68,21 +71,23 @@ export default function App() {
             />
             <FAB
               accessibilityLabel="Take a picture"
-              color="#000"
               icon="camera-image"
               onPress={takeAPicture}
-              style={[styles.fab, styles.largeFab]}
+              style={[styles.fabImportant, styles.largeFab]}
             />
             <FAB
-              accessibilityLabel="Show gallery"
-              icon="folder-multiple-image"
-              onPress={showGallery}
+              accessibilityLabel="Show picture"
+              disabled
+              icon="image"
+              onPress={showPicture}
               small
               style={styles.fab}
             />
           </CameraSideBar>
         )}
-      />
+      >
+        <CarMaskView />
+      </Camera>
     </PaperProvider>
   );
 }

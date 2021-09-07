@@ -5,13 +5,15 @@
   "main": "node_modules/expo/AppEntry.js",
   "author": "monkvision",
   "scripts": {
-    "docs": "cd website && yarn run docs:start",
-    "sdk:prepare": "bob build",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "unlisted:andoid": "expo build:android --release-channel unlisted",
+    "unlisted:ios": "expo build:ios --release-channel unlisted",
+    "eject": "expo eject",
+    "docs": "cd website && yarn run docs:start",
+    "sdk:prepare": "bob build"
   },
   "dependencies": {
     "expo": "~42.0.1",
@@ -21,10 +23,12 @@
     "lodash.camelcase": "^4.3.0",
     "lodash.identity": "^3.0.0",
     "lodash.isempty": "^4.4.0",
+    "lodash.isplainobject": "^4.0.6",
     "lodash.noop": "^3.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-pager-view": "5.0.12",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-svg": "12.1.1",

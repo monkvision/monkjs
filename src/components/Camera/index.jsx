@@ -3,7 +3,7 @@ import { Platform, StatusBar, View, StyleSheet } from 'react-native';
 
 import { Camera as ExpoCamera } from 'expo-camera';
 
-import useCameraAsync from 'hooks/Camera/useCameraAsync';
+import useCameraAsync from 'hooks/useCameraAsync';
 
 import PropTypes from 'prop-types';
 import noop from 'functions/noop';

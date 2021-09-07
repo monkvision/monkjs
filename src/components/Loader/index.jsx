@@ -94,15 +94,18 @@ const InnerCircle = Platform.select({
 })();
 
 const styles = StyleSheet.create({
-  root: {
-    height: 100,
-    width: 100,
+  center: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translate: '-50%, -50%' }],
   },
 });
 
 /**
  * Display Monk's SVG logo
  * @param animated {bool}
+ * @param centered {bool}
  * @param color {string}
  * @param passThroughProps {object}
  * @returns {JSX.Element}
@@ -110,13 +113,16 @@ const styles = StyleSheet.create({
  */
 function Loader({
   animated,
+  centered,
   color,
   ...passThroughProps
 }) {
   return (
     <Svg
       viewBox="0 0 100 100"
-      style={styles}
+      style={centered ? styles.center : []}
+      width={100}
+      height={100}
       {...passThroughProps}
     >
       <G>
@@ -136,11 +142,13 @@ function Loader({
 
 Loader.propTypes = {
   animated: PropTypes.bool,
+  centered: PropTypes.bool,
   color: PropTypes.string,
 };
 
 Loader.defaultProps = {
   animated: true,
+  centered: false,
   color: '#274b9f',
 };
 
