@@ -15,6 +15,10 @@ function babelConfig(api) {
       ['module-resolver', { root: ['./src'] }],
       'react-native-reanimated/plugin',
     ],
+    babelrcRoots: [
+      '.',
+      'monk-js-sdk/*',
+    ],
   };
 }
 

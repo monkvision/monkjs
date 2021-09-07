@@ -29,7 +29,7 @@
     "vehicle damage detection"
   ],
   "scripts": {
-    "sdk:release": "release-it"
+    "release": "release-it"
   },
   "peerDependencies": {
     "expo": "^42",

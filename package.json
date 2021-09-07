@@ -13,7 +13,7 @@
     "unlisted:ios": "expo build:ios --release-channel unlisted",
     "eject": "expo eject",
     "docs": "cd website && yarn run docs:start",
-    "sdk:prepare": "bob build"
+    "react-native-monk:prepare": "bob build"
   },
   "dependencies": {
     "expo": "~42.0.1",
