@@ -2,6 +2,7 @@ module.exports = {
   title: 'Monk',
   url: 'https://monkvision.github.io',
   baseUrl: '/',
+  trailingSlash: false,
   favicon: 'favicon.png',
   organizationName: 'monkvision',
   themeConfig: {
@@ -14,7 +15,6 @@ module.exports = {
       },
       items: [
         { to: 'docs', label: 'Docs', position: 'left' },
-        { to: 'api', label: 'API', position: 'left' },
         { to: 'blog', label: 'Blog', position: 'left' },
       ],
     },
