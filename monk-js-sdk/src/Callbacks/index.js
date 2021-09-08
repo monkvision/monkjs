@@ -53,14 +53,14 @@ export default class Callbacks {
   /**
    * @returns {string}
    */
-  get title() {
+  getTitle() {
     return this.title;
   }
 
   /**
    * @param value {string}
    */
-  set title(value) {
+  setTitle(value) {
     if (typeof value !== 'string') {
       throw Error(`Invalid "value" param. Must be a string`);
     }

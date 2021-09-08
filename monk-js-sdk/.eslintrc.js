@@ -1,10 +1,11 @@
 module.exports = {
+  root: true,
   env: {
     es6: true,
     browser: true,
     node: true,
   },
-  extends: ['plugin:import/recommended', 'airbnb'],
+  extends: ['plugin:import/recommended', 'airbnb-base'],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
