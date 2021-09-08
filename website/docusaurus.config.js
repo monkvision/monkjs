@@ -1,10 +1,11 @@
 module.exports = {
   title: 'Monk',
   url: 'https://monkvision.github.io',
-  baseUrl: '/',
+  projectName: 'monk',
+  organizationName: 'monkvision',
+  baseUrl: '/monk/',
   trailingSlash: false,
   favicon: 'favicon.png',
-  organizationName: 'monkvision',
   themeConfig: {
     customCss: [require.resolve('./docs.custom.css')],
     navbar: {

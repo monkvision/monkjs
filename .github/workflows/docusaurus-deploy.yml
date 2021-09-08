@@ -36,15 +36,15 @@ jobs:
           node-version: '12.x'
       - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+          ssh-private-key: ${{ secrets.FUTURA_SECRET }}
       - name: Release to GitHub Pages
         env:
           USE_SSH: true
           GIT_USER: git
         run: |
           cd website
-          git config --global user.email "actions@github.com"
-          git config --global user.name "gh-actions"
+          git config --global user.email "futura@monkvision.ai"
+          git config --global user.name "Futura"
           if [ -e yarn.lock ]; then
             yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
