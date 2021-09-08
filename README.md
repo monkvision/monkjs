@@ -1,10 +1,8 @@
-# 👁️‍🗨️ Monk
+![Monk banner](assets/banner.webp)
+
 Get a fully automated damage report with all item changes classified by type, location and severity.
 
-Find more information on [our website](https://monk.ai).
-
----
-# React Native SDK
+## 👁️‍🗨️ React Native components
 
 [![NPM version][npm-image]][npm-url]
 
@@ -26,47 +24,6 @@ If you are using yarn.
 yarn add react-native-monk
 ```
 
-Now you can import components from the lib.
-``` javascript
-import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
-
-import { Camera, CameraSideBar } from 'react-native-monk/components';
-
-export default function App() {
-  function closeCamera() {
-    // console.log('Closing camera...');
-  }
-
-  function takeAPicture() {
-    // console.log('Taking picture...');
-  }
-
-  function showGallery() {
-    // console.log('Showing gallery...');
-  }
-
-  return (
-    <Camera>
-      <CameraSideBar right={0} width={125}>
-        <Button
-          accessibilityLabel="Close camera"
-          onPress={closeCamera}
-        />
-        <Button
-          accessibilityLabel="Take a picture"
-          onPress={takeAPicture}
-        />
-        <Button
-          accessibilityLabel="Show Gallery"
-          onPress={showGallery}
-        />
-      </CameraSideBar>
-    </Camera>
-  );
-}
-```
-
 ## Documentation
 
 For a complete reference and examples please check our [documentation](https://monkvision.github.io/monk/docs).
@@ -83,6 +40,21 @@ Monk applications are built with [React Native](https://reactnative.dev/) and [E
 
 If you don't want to use our App or SDK, please follow how to [work with Monk from scratch]().
 
+## Monk JavaScript SDK
+
+[![NPM version][npm-image2]][npm-url2]
+
+Only JavaScript to get, run and validate inspections.
+See all core features in our [documentation](https://monkvision.github.io/monk/docs/core).
+
+```sh
+npm install monk-js-sdk
+```
+If you are using yarn.
+```sh
+yarn add monk-js-sdk
+```
+
 ## License
 
 This project is licensed under the Clear BSD license. See the [LICENSE](LICENSE) file for more info.
@@ -91,3 +63,6 @@ This project is licensed under the Clear BSD license. See the [LICENSE](LICENSE)
 
 [npm-image]: https://img.shields.io/npm/v/react-native-monk.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-native-monk
+
+[npm-image2]: https://img.shields.io/npm/v/monk-js-sdk.svg?style=flat-square
+[npm-url2]: https://npmjs.org/package/monk-js-sdk
