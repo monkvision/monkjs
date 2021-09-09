@@ -1,4 +1,10 @@
 ![Monk banner](assets/banner.webp)
+``` text
+author: monkvision
+name: monk
+description: Main Monk repository for front-end projects.
+version: 0.1.0-0
+```
 
 Get a fully automated damage report with all item changes classified by type, location and severity.
 
