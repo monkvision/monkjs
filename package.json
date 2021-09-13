@@ -26,7 +26,7 @@
     "lodash.isplainobject": "^4.0.6",
     "lodash.noop": "^3.0.1",
     "prop-types": "^15.7.2",
-    "react": "^16.14.0",
+    "react": "^17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-pager-view": "5.4.1",
     "react-native-paper": "^4.9.2",
@@ -46,7 +46,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-dom": "^16.14.0",
+    "react-dom": "^17.0.2",
     "react-native-builder-bob": "^0.18.1",
     "release-it": "^14.11.5"
   }
