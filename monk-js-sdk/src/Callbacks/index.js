@@ -1,4 +1,5 @@
-import { log, noop } from '../utils';
+import log from 'utils/log';
+import noop from 'utils/noop';
 
 export const ON_CALLBACKS = ['start', 'success', 'error', 'end'];
 
@@ -26,11 +27,12 @@ export default class Callbacks {
       `);
     }
 
-    this.start = handleStart;
-    this.success = handleSuccess;
-    this.error = handleError;
-    this.end = handleEnd;
-    this.title = title;
+    this._start = handleStart;
+    this._success = handleSuccess;
+    this._error = handleError;
+    this._end = handleEnd;
+    this._title = title;
+    this._handlers = handlers;
   }
 
   static validate(paramName, value) {
@@ -50,6 +52,58 @@ export default class Callbacks {
     }
   }
 
+  get handlers() {
+    return this._handlers;
+  }
+
+  set handlers(value) {
+    this._handlers = value;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  set title(value) {
+    if (typeof value !== 'string') {
+      throw Error(`Invalid "value" param. Must be a string`);
+    }
+
+    this._title = value;
+  }
+
+  get start() {
+    return this._start;
+  }
+
+  set start(value) {
+    this._start = value;
+  }
+
+  get success() {
+    return this._success;
+  }
+
+  set success(value) {
+    this._success = value;
+  }
+
+  get error() {
+    return this._error;
+  }
+
+  set error(value) {
+    this._error = value;
+  }
+
+  get end() {
+    return this._end;
+  }
+
+  set end(value) {
+    this._end = value;
+  }
+
   /**
    * @returns {string}
    */
@@ -58,25 +112,14 @@ export default class Callbacks {
   }
 
   /**
-   * @param value {string}
-   */
-  setTitle(value) {
-    if (typeof value !== 'string') {
-      throw Error(`Invalid "value" param. Must be a string`);
-    }
-
-    this.title = value;
-  }
-
-  /**
    * @param on
    * @param handle
    */
-  set callback([on, handle]) {
+  setCallback([on, handle]) {
     Callbacks.validate('on', on);
     Callbacks.validate('handle', handle);
 
-    this[on] = handle;
+    this[`_${on}`] = handle;
   }
 
   /**
@@ -84,10 +127,10 @@ export default class Callbacks {
    * @param payload
    */
   run([on, payload]) {
-    const handle = this[on];
+    const handle = this[`_${on}`];
 
     if (handle !== undefined) {
-      log(`Running ${handle} callback for function: ${this.title}`);
+      log(`Running ${handle} callback for function: ${this.getTitle()}`);
       Callbacks.validate('handle', handle);
       handle(payload);
     }

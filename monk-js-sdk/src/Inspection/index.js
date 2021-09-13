@@ -1,9 +1,5 @@
 import axios from 'axios';
-import { callAsync } from '../utils';
-
-export { default as Image } from './Image';
-export { default as PDF } from './PDF';
-export { default as Task } from './Task';
+import callAsync from 'utils/callAsync';
 
 /**
  * @param payload {{
