@@ -1,5 +1,4 @@
-import axios from 'axios';
-import callAsync from 'utils/callAsync';
+import Callbacks from 'Callbacks';
 
 /**
  * @param payload {{
@@ -7,20 +6,29 @@ import callAsync from 'utils/callAsync';
  *   query: { showDeletedObjects: boolean },
  * }}
  * @param callbacks {Callbacks}
+ * @param serverInstance {Root.serverInstance}
  * @returns {Promise<boolean>}
  */
-export function getInspectionAsync(payload = {}, callbacks) {
-  const { params, query } = payload;
+export async function getInspectionAsync(
+  payload = {},
+  callbacks = new Callbacks([]),
+  serverInstance = this.serverInstance,
+) {
+  // eslint-disable-next-line no-param-reassign
+  callbacks.title = getInspectionAsync.name;
+  callbacks.onStart(payload);
 
-  const functionAsync = () => {
-    axios.get(`/inspections/${params.id}`, {
+  try {
+    const { params, query } = payload;
+    const response = await serverInstance.get(`/inspections/${params.id}`, {
       params: {
         show_deleted_objects: query.showDeletedObjects,
       },
     });
-  };
-
-  return callAsync(functionAsync, callbacks, payload);
+    callbacks.onSuccess({ response });
+  } catch (error) {
+    callbacks.onError({ error });
+  }
 }
 
 class Inspection {

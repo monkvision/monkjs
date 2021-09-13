@@ -1,11 +1,17 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "entry",
-        "corejs": "3"
+    ["@babel/preset-env", {
+      "useBuiltIns": "entry",
+      "corejs": "3"
+    }]
+  ],
+  "plugins": [
+    ["@babel/transform-runtime"],
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "test": "./test"
       }
-    ]
+    }]
   ]
 }

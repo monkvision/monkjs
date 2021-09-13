@@ -1,4 +1,4 @@
-import log from 'utils/log';
+import mlog from 'mocha-logger';
 import noop from 'utils/noop';
 
 export const ON_CALLBACKS = ['start', 'success', 'error', 'end'];
@@ -12,25 +12,14 @@ export default class Callbacks {
     const [
       handleSuccess,
       handleError,
-      handleStart = noop,
-      handleEnd = noop,
+      handleStart,
+      handleEnd,
     ] = handlers;
 
-    if (typeof handleSuccess !== 'function' || typeof handleError !== 'function') {
-      throw Error(`
-        Callbacks instance should have at least
-        {handleSuccess} and {handleError} handlers,
-        because there is a try and a catch.
-        <code>
-          const callbacks = new Callbacks([handleSuccess, handleError], 'getSomethingAsync');
-        </code>
-      `);
-    }
-
-    this._start = handleStart;
-    this._success = handleSuccess;
-    this._error = handleError;
-    this._end = handleEnd;
+    this._start = handleStart || noop;
+    this._success = handleSuccess || noop;
+    this._error = handleError || noop;
+    this._end = handleEnd || noop;
     this._title = title;
     this._handlers = handlers;
   }
@@ -105,13 +94,6 @@ export default class Callbacks {
   }
 
   /**
-   * @returns {string}
-   */
-  getTitle() {
-    return this.title;
-  }
-
-  /**
    * @param on
    * @param handle
    */
@@ -130,7 +112,7 @@ export default class Callbacks {
     const handle = this[`_${on}`];
 
     if (handle !== undefined) {
-      log(`Running ${handle} callback for function: ${this.getTitle()}`);
+      mlog.log(`Running ${on} callback for function: ${this.title}`);
       Callbacks.validate('handle', handle);
       handle(payload);
     }

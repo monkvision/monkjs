@@ -1,4 +1,4 @@
-name: "Run Tests"
+name: Test
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 
 jobs:
   analyze:
-    name: Analyze
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -26,6 +25,5 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      - run: cd monk-js-sdk
       - run: yarn install
-      - run: yarn test
+      - run: yarn ci

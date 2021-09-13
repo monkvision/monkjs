@@ -26,6 +26,7 @@ web-build/
 /react-native-monk/typescript
 
 # misc
+monk-js-sdk/.env
 .env.local
 .env.development.local
 .env.test.local

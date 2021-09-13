@@ -3,7 +3,7 @@ module.exports = {
   env: {
     es6: true,
     node: true,
-    mocha: true
+    mocha: true,
   },
   extends: ['plugin:import/recommended', 'airbnb-base'],
   plugins: ['mocha'],
@@ -23,7 +23,6 @@ module.exports = {
     'import/namespace': ['error', { allowComputed: true }],
     'object-curly-newline': 'off',
     'no-underscore-dangle': 'off',
-    'import:no-extensions': 0,
   },
   overrides: [
     {
@@ -42,7 +41,7 @@ module.exports = {
         'import/named': 0,
         // for expect style assertions
         'no-unused-expressions': 'off',
-        "import/extensions": 0,
+        'import/extensions': 0,
       },
     },
     {
