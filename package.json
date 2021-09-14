@@ -28,7 +28,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
-    "react-native-pager-view": "5.4.1",
+    "react-native-pager-view": "5.4.4",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.2.1",
     "react-native-svg": "12.1.1",
