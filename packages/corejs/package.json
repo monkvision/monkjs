@@ -1,0 +1,59 @@
+{
+  "name": "@monk/corejs",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "version": "0.0.1",
+  "description": "AI-powered vehicle damage detection for JavaScript",
+  "homepage": "https://monkvision.github.io/monk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monk/issues"
+  },
+  "keywords": [
+    "javascript",
+    "ai kit",
+    "sdk",
+    "vehicle damage detection"
+  ],
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "src",
+    ".editorconfig",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "ci": "mocha --require @babel/register --enable-source-maps --recursive ./test",
+    "test": "yarn ci --watch --watch-extensions js ./test",
+    "lint": "eslint src test --cache",
+    "build": "babel src --out-dir lib --source-maps",
+    "release": "yarn lint && yarn build && release-it"
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "normalizr": "^3.6.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.4",
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/register": "^7.15.3",
+    "@babel/runtime": "^7.15.4",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-mocha": "^9.0.0",
+    "core-js": "3",
+    "mocha": "^9.1.1",
+    "mocha-logger": "^1.0.7",
+    "release-it": "^14.11.5"
+  }
+}

@@ -1,9 +1,11 @@
 {
   "name": "monk",
-  "version": "0.1.0",
-  "license": "BSD-3-Clause-Clear",
-  "main": "node_modules/expo/AppEntry.js",
+  "version": "0.0.1",
   "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "private": true,
+  "main": "src/App.jsx",
+  "workspaces": ["packages/*"],
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -12,10 +14,11 @@
     "unlisted:andoid": "expo build:android --release-channel unlisted",
     "unlisted:ios": "expo build:ios --release-channel unlisted",
     "eject": "expo eject",
-    "docs": "cd website && yarn run docs:start",
-    "react-native-monk:prepare": "bob build"
+    "docs": "cd website && yarn run docs:start"
   },
   "dependencies": {
+    "@monk/corejs": "^0.0.1",
+    "@monk/react-native": "^0.1.0-0",
     "expo": "~42.0.1",
     "expo-camera": "~11.2.2",
     "expo-screen-orientation": "~3.2.1",
@@ -43,11 +46,10 @@
     "eslint-plugin-import": "^2.24.1",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-module-resolver": "^1.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-dom": "^17.0.2",
-    "react-native-builder-bob": "^0.18.1",
-    "release-it": "^14.11.5"
+    "react-dom": "^17.0.2"
   }
 }

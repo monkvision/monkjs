@@ -9,11 +9,14 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: 'module',
   },
-  plugins: ['jest', 'react-hooks'],
+
+  plugins: ['jest', 'react-hooks', 'module-resolver'],
+
   rules: {
     curly: ['error', 'all'],
     'consistent-this': ['error', 'self'],
     'linebreak-style': 'off', // Doesn't play nicely with Windows
+    'object-curly-newline': 'off',
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
     'prefer-destructuring': 'off', // Destructuring harm grep potential.
     'jsx-a11y/label-has-associated-control': 'off',
@@ -21,23 +24,26 @@ module.exports = {
     'react/jsx-handler-names': ['error', {
       eventHandlerPrefix: 'handle',
       eventHandlerPropPrefix: 'on',
-    },
-    ],
+    }],
+
     'react/no-danger': 'error',
     'react/no-direct-mutation-state': 'error',
     'react/sort-prop-types': 'error',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
+    'react/jsx-props-no-spreading': 'off',
+    'react/prop-types': [2, { ignore: ['children', 'className'] }],
+    'react/jsx-filename-extension': [1, {
+      extensions: ['.native.js', '.ios.js', '.android.js', '.jsx'],
+    }],
+
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-as-default': 'off',
     'import/no-unresolved': [0],
     'import/namespace': ['error', { allowComputed: true }],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'error',
-    'object-curly-newline': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'react/jsx-filename-extension': [1, {
-      extensions: ['.native.js', '.ios.js', '.android.js', '.jsx'],
-    }],
+    'module-resolver/use-alias': 2,
   },
+
   overrides: [
     {
       files: [
@@ -66,4 +72,5 @@ module.exports = {
       },
     },
   ],
+
 };
