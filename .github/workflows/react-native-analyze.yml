@@ -1,4 +1,4 @@
-name: Analyze packages/react-native-monk
+name: Analyze packages/react-native
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      - run: cd packages/react-native-monk
+      - run: cd packages/react-native
       - run: yarn install
       - run: yarn run lint
       - run: yarn run ci
