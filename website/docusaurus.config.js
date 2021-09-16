@@ -3,7 +3,7 @@ module.exports = {
   url: 'https://monkvision.github.io',
   projectName: 'monk',
   organizationName: 'monkvision',
-  baseUrl: '/monk/',
+  baseUrl: '/monkjs/',
   trailingSlash: false,
   favicon: 'favicon.png',
   themeConfig: {
