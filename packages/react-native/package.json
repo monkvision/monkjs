@@ -64,5 +64,8 @@
     "react-native-reanimated": "^2",
     "react-native-svg": "^12",
     "react-native-web": "~0.13.12"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

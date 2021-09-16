@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "release-it": "^14.11.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
