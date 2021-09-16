@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "src/",
     "paths": {
-      "@monk/*": ["packages/*"]
+      "@monkvision/*": ["packages/*"]
     }
   }
 }

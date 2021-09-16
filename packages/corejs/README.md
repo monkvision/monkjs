@@ -1,17 +1,17 @@
-# 👁️‍🗨️ @monk/corejs
-[![npm latest package](https://img.shields.io/npm/v/@monk/corejs/latest.svg)](https://www.npmjs.com/package/@monk/corejs)
+# 👁️‍🗨️ @monkvision/corejs
+[![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/corejs)
 
 AI-powered vehicle damage detection for JavaScript.
 Check out the full [documentation](https://monkvision.github.io/monk/docs).
 
 ``` yarn
-npm install @monk/corejs
-yarn add @monk/corejs
+npm install @monkvision/corejs
+yarn add @monkvision/corejs
 ```
 
 ### Usage
 ``` ecmascript 6
-import { createRoot, Inspection } from '@monk/corejs';
+import { createRoot, Inspection } from '@monkvision/corejs';
 
 const monk = createRoot(DOMAIN, CLIENT_ID);
 
@@ -33,7 +33,7 @@ const inspections = await monk.getInspectionsAsync();
 
 ### NPM module content
 ``` xpath2
-├── @monk
+├── @monkvision
   ├── ...
   ├── corejs
     ├── lib

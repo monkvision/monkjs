@@ -21,8 +21,8 @@
   "dependencies": {
     "@expo/vector-icons": "^12.0.5",
     "@expo/webpack-config": "^0.15.0",
-    "@monk/corejs": "^0.0.1",
-    "@monk/react-native": "^0.0.1",
+    "@monkvision/corejs": "^0.0.1",
+    "@monkvision/react-native": "^0.0.1",
     "expo": "~42.0.1",
     "expo-camera": "~11.2.2",
     "expo-screen-orientation": "~3.2.1",

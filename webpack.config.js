@@ -6,8 +6,8 @@ const path = require('path');
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
   // If you want to add a new alias to the config.
-  config.resolve.alias['@monk/corejs'] = path.resolve(__dirname, './packages/corejs');
-  config.resolve.alias['@monk/react-native'] = path.resolve(__dirname, './packages/react-native');
+  config.resolve.alias['@monkvision/corejs'] = path.resolve(__dirname, './packages/corejs');
+  config.resolve.alias['@monkvision/react-native'] = path.resolve(__dirname, './packages/react-native');
 
   // Maybe you want to turn off compression in dev mode.
   if (config.mode === 'development') {

@@ -4,13 +4,13 @@
 
 ---
 
-## 👁️‍🗨️ @monk JavaScript
+## 👁️‍🗨️ @monkvision JavaScript
 Interested in using parts of our product? We bring to you SDKs and composable components for your apps.
 
 |  Name  |   Version     |    Install    |
 | ------------- | ------------- | ------------- |
-| [@monk/corejs](packages/corejs/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monk/corejs/latest.svg)](https://www.npmjs.com/package/@monk/corejs)  | `yarn add @monk/corejs` |
-| [@monk/react-native](packages/react-native/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monk/react-native/latest.svg)](https://www.npmjs.com/package/@monk/react-native)  | `yarn add @monk/react-native` |
+| [@monkvision/corejs](packages/corejs/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/corejs)  | `yarn add @monkvision/corejs` |
+| [@monkvision/react-native](packages/react-native/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native)  | `yarn add @monkvision/react-native` |
 
 ## Documentation
 
@@ -18,7 +18,7 @@ For complete reference and examples please check our [documentation](https://mon
 
 Overview of all our JavaScript modules.
 ``` xpath2
-├── @monk
+├── @monkvision
   ├── cra-template
   ├── corejs
   └── react-native

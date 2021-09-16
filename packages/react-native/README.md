@@ -1,17 +1,17 @@
-# 👁️‍🗨️ @monk/react-native
-[![npm latest package](https://img.shields.io/npm/v/@monk/react-native/latest.svg)](https://www.npmjs.com/package/@monk/react-native)
+# 👁️‍🗨️ @monkvision/react-native
+[![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native)
 
 AI-powered vehicle damage detection for React Native.
 Check out the [documentation](https://monkvision.github.io/monk/docs).
 
 ``` yarn
-npm install @monk/react-native
-yarn add @monk/react-native
+npm install @monkvision/react-native
+yarn add @monkvision/react-native
 ```
 
 Module content:
 ``` xpath2
-├── @monk
+├── @monkvision
   ├── ...
   ├── corejs
   ├── react-native

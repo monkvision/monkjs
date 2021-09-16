@@ -12,8 +12,8 @@
     ["module-resolver", {
       "root": ["./src"],
       "alias": {
-        "@monk/corejs": "./packages/corejs",
-        "@monk/react-native": "./packages/react-native"
+        "@monkvision/corejs": "./packages/corejs",
+        "@monkvision/react-native": "./packages/react-native"
       }
     }],
     "react-native-reanimated/plugin"

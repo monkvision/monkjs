@@ -4,7 +4,7 @@ module.exports = {
   projectRoot: __dirname,
   watchFolders: [path.resolve(__dirname, './packages')],
   resolver: {
-    extraNodeModules: ['@monk/corejs', '@monk/react-native'],
+    extraNodeModules: ['@monkvision/corejs', '@monkvision/react-native'],
   },
   transformerPath: require.resolve('metro/src/JSTransformer/worker.js'),
 };
