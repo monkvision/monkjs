@@ -1,9 +1,10 @@
 {
   "name": "@monkvision/cra-template",
-  "version": "0.0.1",
+  "author": "monkvision",
   "license": "MIT",
   "description": "Monk's create react-app template for internal or new projects.",
-  "author": "monkvision",
+  "version": "0.0.1",
+  "private": "false",
   "homepage": "https://github.com/monkvision/monkjs/packages/cra-template/#readme",
   "repository": {
     "type": "git",
