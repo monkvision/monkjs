@@ -25,7 +25,5 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      - run: cd packages/react-native
-      - run: yarn install
-      - run: yarn run lint
-      - run: yarn run ci
+      - run: cd packages/react-native && yarn install
+      - run: cd packages/react-native && yarn lint

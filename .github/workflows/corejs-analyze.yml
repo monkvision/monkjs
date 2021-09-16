@@ -25,7 +25,6 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      - run: cd packages/corejs
-      - run: yarn install
-      - run: yarn run lint
-      - run: yarn run ci
+      - run: cd packages/corejs && yarn install
+      - run: cd packages/corejs && yarn lint
+      - run: cd packages/corejs && yarn ci
