@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
-import actionsToString from 'functions/actionsToString';
-import { CLASSIC_CAR_MASKS } from 'components/CarMask/ClassicCar';
+import actionsToString from '../functions/actionsToString';
+import { CLASSIC_CAR_MASKS } from '../components/CarMask/ClassicCar';
 
 /**
  * @type {{

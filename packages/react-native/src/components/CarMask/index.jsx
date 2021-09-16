@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import Loader from 'components/Loader';
-import isEmpty from 'functions/isEmpty';
+import Loader from '../Loader';
+import isEmpty from '../../functions/isEmpty';
 
 export const AVAILABLE_CARS = [
   'ClassicCar',

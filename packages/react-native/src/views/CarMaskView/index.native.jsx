@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import ViewPager from 'react-native-pager-view';
 
-import useMasks from 'hooks/useMasks';
+import useMasks from '../../hooks/useMasks';
 
-import { ClassicPartsWheel } from 'components/CarMask/ClassicCar';
+import { ClassicPartsWheel } from '../../components/CarMask/ClassicCar';
 
-import ClassicFrontLeftMask from 'components/CarMask/ClassicCar/FrontLeftMask';
-import ClassicFrontMask from 'components/CarMask/ClassicCar/FrontMask';
-import ClassicFrontRightMask from 'components/CarMask/ClassicCar/FrontRightMask';
-import ClassicLateralFrontLeftMask from 'components/CarMask/ClassicCar/LateralFrontLeftMask';
-import ClassicLateralFrontRightMask from 'components/CarMask/ClassicCar/LateralFrontRightMask';
-import ClassicLateralRearLeftMask from 'components/CarMask/ClassicCar/LateralRearLeftMask';
-import ClassicLateralRearRightMask from 'components/CarMask/ClassicCar/LateralRearRightMask';
-import ClassicRearLeftMask from 'components/CarMask/ClassicCar/RearLeftMask';
-import ClassicRearMask from 'components/CarMask/ClassicCar/RearMask';
-import ClassicRearRightMask from 'components/CarMask/ClassicCar/RearRightMask';
+import ClassicFrontLeftMask from '../../components/CarMask/ClassicCar/FrontLeftMask';
+import ClassicFrontMask from '../../components/CarMask/ClassicCar/FrontMask';
+import ClassicFrontRightMask from '../../components/CarMask/ClassicCar/FrontRightMask';
+import ClassicLateralFrontLeftMask from '../../components/CarMask/ClassicCar/LateralFrontLeftMask';
+import ClassicLateralFrontRightMask from '../../components/CarMask/ClassicCar/LateralFrontRightMask';
+import ClassicLateralRearLeftMask from '../../components/CarMask/ClassicCar/LateralRearLeftMask';
+import ClassicLateralRearRightMask from '../../components/CarMask/ClassicCar/LateralRearRightMask';
+import ClassicRearLeftMask from '../../components/CarMask/ClassicCar/RearLeftMask';
+import ClassicRearMask from '../../components/CarMask/ClassicCar/RearMask';
+import ClassicRearRightMask from '../../components/CarMask/ClassicCar/RearRightMask';
 
 const styles = StyleSheet.create({
   root: {

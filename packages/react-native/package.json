@@ -42,10 +42,8 @@
     "lodash.noop": "*"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/plugin-transform-runtime": "^7.15.0",
-    "@babel/runtime": "^7.15.4",
-    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-preset-expo": "^8.4.1",
+    "metro-react-native-babel-preset": "^0.66.2",
     "react-native-builder-bob": "^0.18.1",
     "release-it": "^14.11.5"
   },

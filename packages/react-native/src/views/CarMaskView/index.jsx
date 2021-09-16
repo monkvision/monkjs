@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 
-import { ClassicPartsWheel } from 'components/CarMask/ClassicCar';
+import { ClassicPartsWheel } from '../../components/CarMask/ClassicCar';
 import useMasks from '../../hooks/useMasks';
 import CarMask from '../../components/CarMask';
 

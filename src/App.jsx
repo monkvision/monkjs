@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FAB, Provider as PaperProvider } from 'react-native-paper';
 
-import Camera from '@monk/react-native/src/components/Camera';
+import Camera from '@monk/react-native/module/components/Camera';
 import CameraSideBar from '@monk/react-native/src/components/CameraSideBar';
 import CarMaskView from '@monk/react-native/src/views/CarMaskView';
 
@@ -39,14 +40,14 @@ export default function App() {
             <FAB
               accessibilityLabel="Get advice"
               color="#EDAB25"
-              icon="lightbulb-on"
+              icon={(props) => <MaterialCommunityIcons name="lightbulb-on" {...props} />}
               onPress={closeCamera}
               small
               style={styles.fab}
             />
             <FAB
               accessibilityLabel="Camera settings"
-              icon="chevron-right"
+              icon={(props) => <MaterialCommunityIcons name="chevron-right" {...props} />}
               onPress={closeCamera}
               small
               style={styles.fab}
@@ -54,7 +55,7 @@ export default function App() {
             <FAB
               accessibilityLabel="Advanced"
               disabled
-              icon="chevron-right"
+              icon={(props) => <MaterialCommunityIcons name="chevron-right" {...props} />}
               small
               style={[styles.fab, { visibility: 'hidden', opacity: 0 }]}
             />
@@ -64,21 +65,21 @@ export default function App() {
           <CameraSideBar>
             <FAB
               accessibilityLabel="Close camera"
-              icon="close-thick"
+              icon={(props) => <MaterialCommunityIcons name="close-thick" {...props} />}
               onPress={closeCamera}
               small
               style={styles.fab}
             />
             <FAB
               accessibilityLabel="Take a picture"
-              icon="camera-image"
+              icon={(props) => <MaterialCommunityIcons name="camera-image" {...props} />}
               onPress={takeAPicture}
               style={[styles.fabImportant, styles.largeFab]}
             />
             <FAB
               accessibilityLabel="Show picture"
               disabled
-              icon="image"
+              icon={(props) => <MaterialCommunityIcons name="image" {...props} />}
               onPress={showPicture}
               small
               style={styles.fab}

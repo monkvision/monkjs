@@ -3,11 +3,11 @@ import { Platform, StatusBar, View, StyleSheet } from 'react-native';
 
 import { Camera as ExpoCamera } from 'expo-camera';
 
-import useCameraAsync from 'hooks/useCameraAsync';
-
 import PropTypes from 'prop-types';
-import noop from 'functions/noop';
-import isEmpty from 'functions/isEmpty';
+
+import useCameraAsync from '../../hooks/useCameraAsync';
+import noop from '../../functions/noop';
+import isEmpty from '../../functions/isEmpty';
 
 const styles = StyleSheet.create({
   root: {

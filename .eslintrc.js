@@ -10,7 +10,7 @@ module.exports = {
     sourceType: 'module',
   },
 
-  plugins: ['jest', 'react-hooks', 'module-resolver'],
+  plugins: ['jest', 'react-hooks'],
 
   rules: {
     curly: ['error', 'all'],
@@ -41,7 +41,6 @@ module.exports = {
     'import/no-named-as-default': 'off',
     'import/no-unresolved': [0],
     'import/namespace': ['error', { allowComputed: true }],
-    'module-resolver/use-alias': 2,
   },
 
   overrides: [

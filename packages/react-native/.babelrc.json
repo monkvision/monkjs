@@ -1,11 +1,3 @@
 {
-  "plugins": [
-    ["@babel/transform-runtime"],
-    ["module-resolver", {
-      "root": ["./src"],
-      "alias": {
-        "test": "./test"
-      }
-    }]
-  ]
+  "presets": ["module:metro-react-native-babel-preset", "babel-preset-expo"]
 }

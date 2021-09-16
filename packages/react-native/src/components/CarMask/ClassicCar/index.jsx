@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
-import noop from 'functions/noop';
+import noop from '../../../functions/noop';
 
 import ClassicFrontLeftMask from './FrontLeftMask';
 import ClassicFrontMask from './FrontMask';
