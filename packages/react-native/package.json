@@ -1,0 +1,67 @@
+{
+  "name": "@monk/react-native",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "version": "0.1.0-0",
+  "description": "AI-powered vehicle damage detection for React Native",
+  "homepage": "https://monkvision.github.io/monk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monk/issues"
+  },
+  "keywords": [
+    "react native",
+    "ai kit",
+    "native components",
+    "vehicle damage detection"
+  ],
+  "main": "commonjs/index.js",
+  "module": "module/index.js",
+  "react-native": "src/index.js",
+  "files": [
+    "commonjs",
+    "module",
+    "src",
+    ".babelrc.json",
+    ".editorconfig",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "lint": "eslint src --cache",
+    "prepare": "bob build",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "lodash.camelcase": "*",
+    "lodash.identity": "*",
+    "lodash.isempty": "*",
+    "lodash.noop": "*"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^8.4.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react-native-builder-bob": "^0.18.1",
+    "release-it": "^14.11.5"
+  },
+  "peerDependencies": {
+    "expo": "^42",
+    "expo-camera": "^11",
+    "expo-screen-orientation": "^3",
+    "expo-status-bar": "^1",
+    "prop-types": "*",
+    "react": "^17",
+    "react-native": "*",
+    "react-native-paper": "*",
+    "react-native-reanimated": "^2",
+    "react-native-svg": "^12",
+    "react-native-web": "~0.13.12"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "presets": [
+    "babel-preset-expo",
+    "module:metro-react-native-babel-preset"
+  ],
+  "env": {
+    "production": {
+      "plugins": ["react-native-paper/babel"]
+    }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "@monk/corejs": "./packages/corejs",
+        "@monk/react-native": "./packages/react-native"
+      }
+    }],
+    "react-native-reanimated/plugin"
+  ]
+}
