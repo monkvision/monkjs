@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FAB, Provider as PaperProvider } from 'react-native-paper';
 
-import Camera from '@monk/react-native/module/components/Camera';
+import Camera from '@monk/react-native/src/components/Camera';
 import CameraSideBar from '@monk/react-native/src/components/CameraSideBar';
 import CarMaskView from '@monk/react-native/src/views/CarMaskView';
 
