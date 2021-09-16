@@ -2,15 +2,15 @@
   "name": "@monk/react-native",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "0.1.0-0",
+  "version": "0.0.1",
   "description": "AI-powered vehicle damage detection for React Native",
-  "homepage": "https://monkvision.github.io/monk",
+  "homepage": "https://github.com/monkvision/monkjs/packages/react-native/#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/monkvision/monk.git"
+    "url": "git+https://github.com/monkvision/monkjs.git"
   },
   "bugs": {
-    "url": "https://github.com/monkvision/monk/issues"
+    "url": "https://github.com/monkvision/monkjs/issues"
   },
   "keywords": [
     "react native",

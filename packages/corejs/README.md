@@ -4,7 +4,7 @@
 AI-powered vehicle damage detection for JavaScript.
 Check out the full [documentation](https://monkvision.github.io/monk/docs).
 
-```sh
+``` yarn
 npm install @monk/corejs
 yarn add @monk/corejs
 ```
@@ -32,22 +32,24 @@ const inspections = await monk.getInspectionsAsync();
 ```
 
 ### NPM module content
-```
-├── @monk/corejs
-  ├── lib
-  ├── src
-      ├── Inspection
-      ├── Root
-      ├── helpers.js
-      └── index.js
-  ├── .babelrc.json
-  ├── .editorconfig
-  ├── LICENSE
-  ├── package.json
-  └── README.md
+``` xpath2
+├── @monk
+  ├── ...
+  ├── corejs
+    ├── lib
+    ├── src
+        ├── Inspection
+        ├── Root
+        ├── helpers.js
+        └── index.js
+    ├── .babelrc.json
+    ├── .editorconfig
+    ├── LICENSE
+    ├── package.json
+    └── README.md
 ```
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
 
 ----
-![Monk banner](https://raw.githubusercontent.com/monkvision/monk/master/assets/banner.webp)
+![Monk banner](https://raw.githubusercontent.com/monkvision/monkjs/master/assets/banner.webp)
