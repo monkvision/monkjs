@@ -5,20 +5,22 @@ const path = require('path');
 // eslint-disable-next-line func-names
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
-  // If you want to add a new alias to the config.
+
+  config.resolve.alias.components = path.resolve(__dirname, './src/components');
+  config.resolve.alias.config = path.resolve(__dirname, './src/config');
+  config.resolve.alias.hooks = path.resolve(__dirname, './src/hooks');
+  config.resolve.alias.store = path.resolve(__dirname, './src/store');
+
   config.resolve.alias['@monkvision/corejs'] = path.resolve(__dirname, './packages/corejs');
   config.resolve.alias['@monkvision/react-native'] = path.resolve(__dirname, './packages/react-native');
 
-  // Maybe you want to turn off compression in dev mode.
   if (config.mode === 'development') {
     config.devServer.compress = false;
   }
 
-  // Or prevent minimizing the bundle when you build.
   if (config.mode === 'production') {
     config.optimization.minimize = true;
   }
 
-  // Finally return the new config for the CLI to use.
   return config;
 };

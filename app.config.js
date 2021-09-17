@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+const env = dotenv.config().parsed;
+
 export default {
   name: process.env.APP_NAME,
   slug: process.env.APP_SLUG,
@@ -5,6 +9,7 @@ export default {
   owner: process.env.OWNER,
   primaryColor: process.env.APP_COLOR,
   privacy: process.env.APP_PRIVACY,
+  scheme: process.env.APP_SLUG,
 
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -42,4 +47,6 @@ export default {
   web: {
     favicon: './assets/favicon.png',
   },
+
+  extra: { ...env },
 };
