@@ -1,9 +1,6 @@
 ### ENV.md
 
 ``` dotenv
-# Encrypt with NO_SECURE
-NO_SECURE_KEY=
-
 # Configuring https://docs.expo.dev/versions/v42.0.0/config/app
 
 APP_NAME=monk

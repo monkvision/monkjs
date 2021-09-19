@@ -13,8 +13,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "unlisted:andoid": "expo build:android --release-channel unlisted",
-    "unlisted:ios": "expo build:ios --release-channel unlisted",
+    "unlisted:andoid": "expo build:android",
+    "unlisted:ios": "expo build:ios",
     "eject": "expo eject",
     "docs": "cd website && yarn run docs:start"
   },

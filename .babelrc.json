@@ -16,7 +16,7 @@
         "@monkvision/react-native": "./packages/react-native"
       }
     }],
-    "react-native-reanimated/plugin",
-    ["babel-plugin-inline-import", { "extensions": [".svg"] }]
+    ["babel-plugin-inline-import", { "extensions": [".svg"] }],
+    "react-native-reanimated/plugin"
   ]
 }

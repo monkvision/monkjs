@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
@@ -35,14 +35,16 @@ export default function LoginButton() {
     discovery,
   );
 
+  const handlePress = useCallback(() => {
+    promptAsync({ useProxy });
+  }, [promptAsync]);
+
   useEffect(() => {
     if (response && response.type === 'success') {
       const payload = response.params;
-
-      // Updating the store
-      dispatch(authSlice.actions.logIn(payload));
+      dispatch(authSlice.actions.update(payload));
     }
-  }, [dispatch, response]);
+  }, [dispatch, request, response]);
 
   return (
     <Button
@@ -50,7 +52,7 @@ export default function LoginButton() {
       size="large"
       mode="contained"
       disabled={!request}
-      onPress={() => promptAsync({ useProxy })}
+      onPress={handlePress}
       style={styles.signIn}
     >
       Sign In

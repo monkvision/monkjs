@@ -3,34 +3,12 @@ import Constants from 'expo-constants';
 
 import store from 'store';
 import { Provider } from 'react-redux';
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 import theme from 'config/theme';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import Authentication from 'components/Authentication';
-import Test from 'components/Test';
-
-const Stack = createNativeStackNavigator();
-
-function Navigation() {
-  const { isAuthenticated } = useAuth0();
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Authentication">
-        {isAuthenticated ? (
-          <>
-            <Stack.Screen name="Test" component={Test} />
-          </>
-        ) : <Stack.Screen name="Authentication" component={Authentication} />}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+import Navigation from 'config/Navigation';
 
 export default function App() {
   return (

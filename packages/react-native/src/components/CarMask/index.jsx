@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import Loader from '../Loader';
 import isEmpty from '../../functions/isEmpty';
 
 export const AVAILABLE_CARS = [
@@ -29,7 +28,7 @@ function CarMask({ activeMask, carType, maskColor }) {
     getMasks(carType);
   }, [carType]);
 
-  return isEmpty(masks) ? <Loader centered /> : <Component color={maskColor} />;
+  return isEmpty(masks) ? null : <Component color={maskColor} />;
 }
 
 CarMask.propTypes = {
