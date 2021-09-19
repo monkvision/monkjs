@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { authAxiosInstance, monkAxiosInstance } from 'config/axiosInstances';
 
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
@@ -22,7 +23,7 @@ const discovery = {
   authorizationEndpoint: `https://${Constants.manifest.extra.AUTH_DOMAIN}/authorize`,
 };
 
-export default function LoginButton() {
+export default function SignIn() {
   const dispatch = useDispatch();
 
   const [request, response, promptAsync] = useAuthRequest(
@@ -41,10 +42,18 @@ export default function LoginButton() {
 
   useEffect(() => {
     if (response && response.type === 'success') {
-      const payload = response.params;
+      const payload = {
+        ...response.params,
+        isLoading: false,
+        isSignedOut: false,
+      };
+
+      authAxiosInstance.defaults.headers.common.Authorization = payload.access_token;
+      monkAxiosInstance.defaults.headers.common.Authorization = `Bearer ${payload.access_token}`;
+
       dispatch(authSlice.actions.update(payload));
     }
-  }, [dispatch, request, response]);
+  }, [dispatch, response]);
 
   return (
     <Button

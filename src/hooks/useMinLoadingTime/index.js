@@ -4,11 +4,13 @@ export default function useMinLoadingTime(isLoading, timeout = 1250) {
   const [timeoutId, setTimeoutId] = useState(null);
 
   useEffect(() => {
-    const id = setTimeout(() => {
-      setTimeoutId(null);
-    }, timeout);
+    if (isLoading === true) {
+      const id = setTimeout(() => {
+        setTimeoutId(null);
+      }, timeout);
 
-    setTimeoutId(id);
+      setTimeoutId(id);
+    }
   }, [isLoading, timeout]);
 
   useEffect(() => () => {
@@ -17,5 +19,5 @@ export default function useMinLoadingTime(isLoading, timeout = 1250) {
     }
   }, [timeoutId]);
 
-  return isLoading || timeoutId;
+  return Boolean(isLoading === true || timeoutId);
 }

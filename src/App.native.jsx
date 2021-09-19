@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import theme from 'config/theme';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import Navigation from 'config/Navigation';
+import Navigation from 'components/Navigation';
 
 export default function App() {
   return (

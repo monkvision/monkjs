@@ -16,6 +16,9 @@ export default StyleSheet.create({
       },
     }),
   },
+  text: {
+    marginTop: spacing(2),
+  },
   signIn: {
     margin: spacing(3),
   },

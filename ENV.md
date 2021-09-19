@@ -24,4 +24,8 @@ APP_PRIVACY=hidden
 
 AUTH_DOMAIN=
 AUTH_CLIENT_ID=
+
+# Requesting
+
+MONK_DOMAIN=core-api-4la6rtzclq-ew.a.run.app/v1
 ```

@@ -1,21 +1,20 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Text, Title, useTheme } from 'react-native-paper';
 
 import Drawing from 'components/Drawing';
-import MonkIcon from 'components/Icons/MonkIcon';
 import SignIn from 'components/Authentication/SignIn';
 
-import svgXml from './undraw_mobile_photos_psm5.svg';
-import styles from './styles';
+import svgXml from './undraw_a_day_off_w9ex.svg';
+import styles from '../styles';
 
-export default function Authentication() {
+export default function Outed() {
   const { colors } = useTheme();
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
-      <MonkIcon color={colors.primary} width={250} height={64} />
-      <Text style={styles.text}>AI powered vehicle damage detection</Text>
+      <Title>You are signed out</Title>
+      <Text>See you next time!</Text>
       <SignIn />
       <Drawing xml={svgXml} alt="artwork" width={304} height={221} />
     </View>
