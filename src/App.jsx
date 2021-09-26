@@ -8,7 +8,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import theme from 'config/theme';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import Navigation from 'components/Navigation';
+import Navigation from 'screens/Navigation';
 
 export default function App() {
   return (

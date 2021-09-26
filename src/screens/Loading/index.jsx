@@ -4,7 +4,8 @@ import isEmpty from 'lodash.isempty';
 
 import { spacing } from 'config/theme';
 
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
 import Loader from 'components/Loader';
 
 const styles = StyleSheet.create({
@@ -41,5 +42,5 @@ Loading.propTypes = {
 };
 
 Loading.defaultProps = {
-  text: 'Loading...',
+  text: 'Loading',
 };

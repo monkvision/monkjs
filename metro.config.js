@@ -1,10 +1,24 @@
 const path = require('path');
 
-module.exports = {
+const reactNativePath = require.resolve('react-native');
+const reactNativeFolder = `${
+  reactNativePath.split('node_modules/react-native/')[0]
+}node_modules/react-native/`;
+
+const getConfig = async () => ({
+  resetCache: Boolean(process.env.RESET_METRO_CACHE),
   projectRoot: __dirname,
   watchFolders: [path.resolve(__dirname, './packages')],
+  transformerPath: require.resolve('metro/src/JSTransformer/worker.js'),
   resolver: {
     extraNodeModules: ['@monkvision/corejs', '@monkvision/react-native'],
+    blacklistRE: new RegExp(
+      `^((?!${reactNativeFolder.replace(
+        '/',
+        '\\/',
+      )}).)*\\/node_modules\\/react-native\\/.*$`,
+    ),
   },
-  transformerPath: require.resolve('metro/src/JSTransformer/worker.js'),
-};
+});
+
+module.exports = getConfig();

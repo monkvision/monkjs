@@ -8,7 +8,8 @@
   "homepage": "https://github.com/monkvision/monkjs/packages/cra-template/#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/monkvision/monkjs.git"
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/cra-template"
   },
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"

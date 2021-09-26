@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { authAxiosInstance, monkAxiosInstance } from 'config/axiosInstances';
 
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
@@ -11,7 +10,7 @@ import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button } from 'react-native-paper';
 
-import styles from 'components/Authentication/styles';
+import styles from '../styles';
 
 WebBrowser.maybeCompleteAuthSession();
 const useProxy = true;
@@ -47,9 +46,6 @@ export default function SignIn() {
         isLoading: false,
         isSignedOut: false,
       };
-
-      authAxiosInstance.defaults.headers.common.Authorization = payload.access_token;
-      monkAxiosInstance.defaults.headers.common.Authorization = `Bearer ${payload.access_token}`;
 
       dispatch(authSlice.actions.update(payload));
     }

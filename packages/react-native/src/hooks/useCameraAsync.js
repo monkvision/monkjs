@@ -37,7 +37,8 @@ export default function useCameraAsync() {
     }
 
     changeScreenOrientation();
-    return () => ScreenOrientation.unlockAsync();
+
+    return () => ScreenOrientation.unlockAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
   }, []);
 
   return { hasPermission, isAvailable };

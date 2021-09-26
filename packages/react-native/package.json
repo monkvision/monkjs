@@ -8,7 +8,8 @@
   "homepage": "https://github.com/monkvision/monkjs/packages/react-native/#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/monkvision/monkjs.git"
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/react-native"
   },
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"
@@ -53,17 +54,13 @@
     "release-it": "^14.11.5"
   },
   "peerDependencies": {
-    "expo": "^42",
+    "expo": "*",
     "expo-camera": "^11",
     "expo-screen-orientation": "^3",
-    "expo-status-bar": "^1",
     "prop-types": "*",
-    "react": "^17",
+    "react": "*",
     "react-native": "*",
-    "react-native-paper": "*",
-    "react-native-reanimated": "^2",
-    "react-native-svg": "^12",
-    "react-native-web": "~0.13.12"
+    "react-native-svg": "^12"
   },
   "publishConfig": {
     "access": "public"

@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import { Text, Title, useTheme } from 'react-native-paper';
 
 import Drawing from 'components/Drawing';
-import SignIn from 'components/Authentication/SignIn';
 
+import SignIn from '../SignIn';
 import svgXml from './undraw_a_day_off_w9ex.svg';
 import styles from '../styles';
 

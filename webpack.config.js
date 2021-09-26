@@ -6,9 +6,12 @@ const path = require('path');
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
 
+  config.resolve.alias.react = path.resolve(__dirname, './node_modules/react');
+
   config.resolve.alias.components = path.resolve(__dirname, './src/components');
   config.resolve.alias.config = path.resolve(__dirname, './src/config');
   config.resolve.alias.hooks = path.resolve(__dirname, './src/hooks');
+  config.resolve.alias.screens = path.resolve(__dirname, './src/screens');
   config.resolve.alias.store = path.resolve(__dirname, './src/store');
 
   config.resolve.alias['@monkvision/corejs'] = path.resolve(__dirname, './packages/corejs');

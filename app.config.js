@@ -44,6 +44,10 @@ export default {
     },
   },
 
+  androidStatusBar: {
+    barStyle: 'light-content',
+  },
+
   web: {
     favicon: './assets/favicon.png',
   },

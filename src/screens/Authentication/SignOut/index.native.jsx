@@ -9,7 +9,6 @@ import { revokeAsync } from 'expo-auth-session';
 import { authSlice } from 'store/slices/auth';
 import useAuth from 'hooks/useAuth';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button } from 'react-native-paper';
 
 export default function SignOut() {
@@ -38,9 +37,6 @@ export default function SignOut() {
 
   return (
     <Button
-      icon={(props) => <MaterialCommunityIcons name="logout" {...props} />}
-      size="large"
-      mode="contained"
       onPress={handlePress}
       loading={isLoading}
     >

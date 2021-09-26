@@ -1,11 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { Text, useTheme } from 'react-native-paper';
 
 import Drawing from 'components/Drawing';
 import MonkIcon from 'components/Icons/MonkIcon';
-import SignIn from 'components/Authentication/SignIn';
 
+import SignIn from './SignIn';
 import svgXml from './undraw_mobile_photos_psm5.svg';
 import styles from './styles';
 
@@ -14,6 +15,7 @@ export default function Authentication() {
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
+      <StatusBar style="dark" />
       <MonkIcon color={colors.primary} width={250} height={64} />
       <Text style={styles.text}>AI powered vehicle damage detection</Text>
       <SignIn />
