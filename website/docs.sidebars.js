@@ -3,7 +3,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['intro', 'register', 'create-app', 'install'],
+      items: ['intro', 'register', 'install'],
     },
   ],
 };
