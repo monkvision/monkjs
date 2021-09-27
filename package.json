@@ -14,8 +14,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "unlisted:andoid": "expo build:android",
-    "unlisted:ios": "expo build:ios",
+    "build:andoid": "expo build:android",
+    "build:ios": "expo build:ios",
     "eject": "expo eject",
     "prune": "rm -rf node_modules/ && rm -f package-lock.json && rm -f yarn.lock && yarn cache clean && yarn install",
     "docs": "cd website && yarn run docs:start"

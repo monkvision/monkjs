@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import monkCore from 'config/monkCore';
 import logger from 'redux-logger';
-
-import inspectionApi from './services/inspection';
 
 import auth from './slices/auth';
 
-const middlewares = [inspectionApi.middleware];
+const middlewares = [monkCore.inspection.middleware];
 
 const devTools = process.env.NODE_ENV !== 'production';
 
@@ -19,7 +18,7 @@ const store = configureStore({
   middleware: (getMiddleware) => getMiddleware().concat(middlewares),
   reducer: {
     auth,
-    [inspectionApi.reducerPath]: inspectionApi.reducer,
+    [monkCore.inspection.reducerPath]: monkCore.inspection.reducer,
   },
 });
 

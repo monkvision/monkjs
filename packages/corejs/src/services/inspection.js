@@ -1,10 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import baseQuery from 'config/baseQuery';
 
 const providesTags = (result, error, id) => [{ type: 'Inspection', id }];
 const invalidatesTags = ['Inspection'];
 
-const inspectionApi = createApi({
+const getInspectionApi = (baseQuery) => createApi({
   baseQuery,
   reducerPath: 'inspection',
   tagTypes: ['Inspection'],
@@ -23,11 +22,11 @@ const inspectionApi = createApi({
     }),
 
     /**
-     * getInspectionList
-     * action type: inspection/getInspectionList
+     * getInspections
+     * action type: inspection/getInspections
      * https://core-api-4la6rtzclq-ew.a.run.app/v1/apidocs/#/Inspection/get_all_inspections
      */
-    getInspectionList: builder.query({
+    getInspections: builder.query({
       query: ({ paging = {}, limit = 100, order = 'desc' } = {}) => ({
         url: `inspections`,
         params: {
@@ -70,24 +69,4 @@ const inspectionApi = createApi({
   }),
 });
 
-/**
- * @function useGetInspectionByIdQuery
- *  @params {id: string}
- *
- * @function useGetInspectionListQuery
- *  @params {{ offset: number, limit: number, order: asc|desc}}
- *
- * @function useGetAllInspectionsQuery
- *  @params {{ inOrganization: bool, order: asc|desc}}
- *
- * @function usePostOneInspectionQuery
- *  @params {body: object}
- */
-export const {
-  useGetInspectionByIdQuery,
-  useGetInspectionListQuery,
-  useGetAllInspectionsQuery,
-  usePostOneInspectionQuery,
-} = inspectionApi;
-
-export default inspectionApi;
+export default getInspectionApi;

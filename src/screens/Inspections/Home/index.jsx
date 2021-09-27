@@ -7,8 +7,7 @@ import moment from 'moment';
 import useOk from 'hooks/useOk';
 import useMinLoadingTime from 'hooks/useMinLoadingTime';
 import { useNavigation } from '@react-navigation/native';
-
-import { useGetInspectionListQuery } from 'store/services/inspection';
+import { useGetInspectionsQuery } from 'hooks';
 
 import Loading from 'screens/Loading';
 import Empty from 'screens/Empty';
@@ -36,7 +35,7 @@ export default function InspectionsHome() {
     isLoading,
     isFetching,
     refetch,
-  } = useGetInspectionListQuery({ limit });
+  } = useGetInspectionsQuery({ limit });
 
   const isRefreshing = useMinLoadingTime(isFetching);
 

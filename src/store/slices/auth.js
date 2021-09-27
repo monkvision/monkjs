@@ -7,7 +7,7 @@ const customAccessToken = process.env.NODE_ENV === 'development'
   : false;
 
 const initialState = {
-  accessToken: customAccessToken ? 'CUSTOM_ACCESS_TOKEN' : null,
+  accessToken: customAccessToken || null,
   isAuthenticated: Boolean(customAccessToken),
   isLoading: false,
   isSignedOut: false,

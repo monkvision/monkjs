@@ -14,7 +14,7 @@ Interested in using parts of our product? We bring to you SDKs and composable co
 
 ## Documentation
 
-For complete reference and examples please check our [documentation](https://monkvision.github.io/monk/docs).
+For complete reference and examples please check our [documentation](https://monkvision.github.io/monkjs/docs).
 
 Overview of all our JavaScript modules.
 ``` xpath2

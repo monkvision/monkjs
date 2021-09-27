@@ -10,25 +10,25 @@ yarn add @monkvision/corejs
 ```
 
 ### Usage
-``` ecmascript 6
-import { createRoot, Inspection } from '@monkvision/corejs';
+``` javascript
+import MonkCore from '@monkvision/corejs';
 
-const monk = createRoot(DOMAIN, CLIENT_ID);
+const monkCore = new MonkCore({ baseUrl, customHeaders});
+const { useGetInspectionsQuery } = monkCore.inspection;
 
-// Authentication process...
-monk.bearerToken = bearerToken;
+function App() {
+  const { data, isLoading } = useGetInspectionsQuery();
 
-async function submit(values) {
-  try {
-    const inspection = new Inspection(values);
-    const response = await monk.postInspection(inspection);
-    // ...
-  } catch (error) {
-    // ...
+  if (isLoading) {
+    return <>Loading...</>;
   }
-}
 
-const inspections = await monk.getInspectionsAsync();
+  if (!data || data.length === 0) {
+    return <>Empty</>;
+  }
+
+  return data.map((props) => <Inspection {...props) />;
+}
 ```
 
 ### NPM module content
@@ -38,9 +38,8 @@ const inspections = await monk.getInspectionsAsync();
   ├── corejs
     ├── lib
     ├── src
-        ├── Inspection
-        ├── Root
-        ├── helpers.js
+        ├── services
+          └── inspection.js
         └── index.js
     ├── .babelrc.json
     ├── .editorconfig

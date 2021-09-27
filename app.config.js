@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 const env = dotenv.config().parsed;
 
 export default {
-  name: process.env.APP_NAME,
-  slug: process.env.APP_SLUG,
-  version: process.env.APP_VERSION || '1.0.0',
-  owner: process.env.OWNER,
-  primaryColor: process.env.APP_COLOR,
-  privacy: process.env.APP_PRIVACY,
-  scheme: process.env.APP_SLUG,
+  name: 'monk',
+  slug: 'monk',
+  version: '1.0.0',
+  owner: 'monkvision',
+  primaryColor: '#274b9f',
+  privacy: 'hidden',
+  scheme: 'monk',
 
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -17,7 +17,7 @@ export default {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: process.env.APP_COLOR,
+    backgroundColor: '#274b9f',
   },
 
   updates: {
@@ -29,18 +29,18 @@ export default {
   ],
 
   ios: {
-    bundleIdentifier: process.env.APP_IOS_PACKAGE,
+    bundleIdentifier: 'com.monkvision.adrian',
     buildNumber: '0.0.1',
     supportsTablet: true,
     requireFullScreen: true,
   },
 
   android: {
-    package: process.env.APP_ANDROID_PACKAGE,
+    package: 'com.monkvision.adrian',
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: process.env.APP_COLOR,
+      backgroundColor: '#274b9f',
     },
   },
 
