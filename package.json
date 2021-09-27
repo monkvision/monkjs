@@ -27,7 +27,7 @@
     "@monkvision/corejs": "^1.0.0-0",
     "@monkvision/react-native": "^1.0.0-0",
     "@react-native-picker/picker": "1.16.1",
-    "@react-navigation/drawer": "^6.1.4",
+    "@react-navigation/drawer": "^6.1.6",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "@reduxjs/toolkit": "^1.6.1",
