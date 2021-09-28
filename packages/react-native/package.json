@@ -39,10 +39,12 @@
     "release": "release-it"
   },
   "dependencies": {
-    "lodash.camelcase": "*",
-    "lodash.identity": "*",
-    "lodash.isempty": "*",
-    "lodash.noop": "*"
+    "expo-camera": "~11.2.2",
+    "expo-constants": "~11.0.1",
+    "expo-screen-orientation": "~3.2.1",
+    "expo-status-bar": "~1.0.4",
+    "lodash.isempty": "^4.4.0",
+    "lodash.noop": "^3.0.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.4.1",
@@ -50,17 +52,15 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-native-builder-bob": "^0.18.1",
+    "react-native-builder-bob": "^0.18.2",
     "release-it": "^14.11.5"
   },
   "peerDependencies": {
     "expo": "*",
-    "expo-camera": "^11",
-    "expo-screen-orientation": "^3",
     "prop-types": "*",
     "react": "*",
     "react-native": "*",
-    "react-native-svg": "^12"
+    "react-native-svg": "*"
   },
   "publishConfig": {
     "access": "public"
