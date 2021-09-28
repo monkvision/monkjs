@@ -21,7 +21,8 @@ Overview of all our JavaScript modules.
 ├── @monkvision
   ├── cra-template
   ├── corejs
-  └── react-native
+  ├── react-native
+  └── react-native-views
 ```
 
 ## Issue Reporting

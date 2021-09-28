@@ -14,9 +14,9 @@ Each module can be used alone without the others.
 ## Javascript example
 |  Module Name  |   Version     |    Install    |
 | ------------- | ------------- | ------------- |
-| [@monkvision/corejs](packages/corejs/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/corejs)  | `yarn add @monkvision/corejs` |
-| [@monkvision/react-native](packages/react-native/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native)  | `yarn add @monkvision/react-native` |
-| [@monkvision/react-native-views](packages/react-native-views/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native-views)  | `yarn add @monkvision/react-native-views` |
+| [@monkvision/corejs](https://ghithub.io/monkvision/monkjs/master/packages/corejs/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/corejs)  | `yarn add @monkvision/corejs` |
+| [@monkvision/react-native](https://ghithub.io/monkvision/monkjs/master/packages/react-native/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native)  | `yarn add @monkvision/react-native` |
+| [@monkvision/react-native-views](https://ghithub.io/monkvision/monkjs/master/packages/react-native-views/README.md)  | [![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native-views)  | `yarn add @monkvision/react-native-views` |
 
 Instantiate MonkCore with your own `MONK_DOMAIN` environment variable.
 ``` javascript
@@ -35,6 +35,8 @@ export default monkCore;
 
 Your various APIs to handle your data.
 ``` javascript
+/* App.jsx */
+
 import monkCore from 'config/monkCore';
 import Inspection from '@monkvision/react-native/src/Inspection';
 
@@ -54,8 +56,6 @@ function App() {
   return data.map((props) => <Inspection {...props) />;
 }
 ```
-
----
 
 There is only one stack supported for now: `JavaScript + React Native`, but we are working to provide more.
 

@@ -1,12 +1,12 @@
-# 👁️‍🗨️ @monkvision/react-native
-[![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native)
+# 👁️‍🗨️ @monkvision/react-native-views
+[![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)](https://www.npmjs.com/package/@monkvision/react-native-views)
 
 AI-powered vehicle damage detection for React Native.
 Check out the [documentation](https://monkvision.github.io/monk/docs).
 
 ``` yarn
-npm install @monkvision/react-native
-yarn add @monkvision/react-native
+npm install @monkvision/react-native-views
+yarn add @monkvision/react-native-views
 ```
 
 Module content:
@@ -15,13 +15,11 @@ Module content:
   ├── ...
   ├── corejs
   ├── react-native
+  ├── react-native-views
     ├── commonjs
     ├── module
     ├── src
         ├── components
-        ├── functions
-        ├── hooks
-        ├── views
         └── index.js
     ├── .babelrc.json
     ├── .editorconfig

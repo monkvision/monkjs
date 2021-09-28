@@ -32,7 +32,7 @@
   "scripts": {
     "ci": "mocha --require @babel/register --enable-source-maps --recursive ./test",
     "test": "yarn ci --watch --watch-extensions js ./test",
-    "lint": "eslint src test --cache",
+    "lint": "eslint src --cache",
     "build": "babel src --out-dir lib --source-maps",
     "release": "yarn lint && yarn build && release-it"
   },
