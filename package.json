@@ -26,7 +26,7 @@
     "@expo/webpack-config": "^0.15.0",
     "@monkvision/corejs": "^1.0.0-0",
     "@monkvision/react-native": "^1.0.0-0",
-    "@react-native-picker/picker": "1.16.1",
+    "@react-native-picker/picker": "2.1.0",
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
