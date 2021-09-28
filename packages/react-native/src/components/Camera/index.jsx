@@ -11,22 +11,23 @@ import isEmpty from '../../functions/isEmpty';
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'nowrap',
     overflow: 'hidden',
     backgroundColor: '#000',
-  },
-  leftElements: {
+    justifyContent: 'space-between',
     ...Platform.select({
-      native: { width: 75 },
-      default: { width: 100 },
+      native: { flex: 1 },
+      default: {
+        display: 'flex',
+        flex: 1,
+      },
     }),
   },
-  rightElements: {
-    position: 'relative',
+  sideBar: {
     ...Platform.select({
-      native: { flexGrow: 1 },
+      native: { width: 100 },
+      default: { width: 150 },
     }),
   },
 });
@@ -68,13 +69,13 @@ function Camera({ children, leftElements, onCameraRef, ratio, rightElements }) {
   }, [ratio]);
 
   if (!isAvailable || !hasPermission) {
-    return <View />;
+    return <View style={styles.root} />;
   }
 
   return (
     <View style={styles.root}>
       <StatusBar hidden />
-      <View style={styles.leftElements}>
+      <View style={styles.sideBar}>
         {leftElements}
       </View>
       <ExpoCamera
@@ -85,7 +86,7 @@ function Camera({ children, leftElements, onCameraRef, ratio, rightElements }) {
       >
         {children}
       </ExpoCamera>
-      <View style={styles.rightElements}>
+      <View style={styles.sideBar}>
         {rightElements}
       </View>
     </View>
