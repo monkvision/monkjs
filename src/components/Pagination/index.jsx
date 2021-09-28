@@ -1,12 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { spacing } from 'config/theme';
 import { Button, Text } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import utils from 'components/utils';
-import useOk from 'hooks/useOk';
 import noop from 'lodash.noop';
+import isEmpty from 'lodash.isempty';
 
 const styles = StyleSheet.create({
   root: {
@@ -27,7 +27,6 @@ export default function Pagination({
   initialLimit, isFetching, limitOptions, onLimitChange, onNext, onPrevious, paging,
 }) {
   const { cursors } = paging;
-  const ok = useOk(cursors);
 
   const [selectedOption, setSelectedOption] = useState(initialLimit);
 
@@ -36,24 +35,12 @@ export default function Pagination({
     onLimitChange(itemValue);
   };
 
-  const handleNext = useCallback(() => {
-    if (ok) {
-      onNext(cursors.next);
-    }
-  }, [cursors, ok, onNext]);
-
-  const handPrevious = useCallback(() => {
-    if (ok) {
-      onNext(cursors.previous);
-    }
-  }, [cursors, ok, onNext]);
-
-  return ok && (
+  return !isEmpty(cursors) && (
     <View style={styles.root}>
       <Button
         disabled={cursors.previous === null}
         style={styles.element}
-        onPress={handPrevious}
+        onPress={() => onPrevious(cursors.previous)}
       >
         Previous
       </Button>
@@ -67,14 +54,14 @@ export default function Pagination({
           style={styles.element}
         >
           {limitOptions.map((option) => (
-            <Picker.Item label={option} value={option} />
+            <Picker.Item key={`pagination-option-${option}`} label={option} value={option} />
           ))}
         </Picker>
       </View>
       <Button
         disabled={cursors.next === null}
         style={styles.element}
-        onPress={handleNext}
+        onPress={() => onNext(cursors.next)}
       >
         Next
       </Button>
@@ -83,36 +70,32 @@ export default function Pagination({
 }
 
 Pagination.propTypes = {
-  initialLimit: PropTypes.number,
+  initialLimit: PropTypes.string,
   isFetching: PropTypes.bool,
-  limitOptions: PropTypes.arrayOf(PropTypes.number),
+  limitOptions: PropTypes.arrayOf(PropTypes.string),
   onLimitChange: PropTypes.func,
   onNext: PropTypes.func,
   onPrevious: PropTypes.func,
   paging: PropTypes.shape({
-    cursors: {
+    cursors: PropTypes.shape({
       after: PropTypes.string,
       before: PropTypes.string,
-      next: {
+      next: PropTypes.shape({
         after: PropTypes.string,
         before: PropTypes.string,
-        limit: PropTypes.number,
-        pagination_order: PropTypes.oneOf(['asc', 'desc']),
-      },
-      previous: {
+      }),
+      previous: PropTypes.shape({
         after: PropTypes.string,
         before: PropTypes.string,
-        limit: PropTypes.number,
-        pagination_order: PropTypes.oneOf(['asc', 'desc']),
-      },
-    },
+      }),
+    }),
   }).isRequired,
 };
 
 Pagination.defaultProps = {
-  initialLimit: 20,
+  initialLimit: '20',
   isFetching: false,
-  limitOptions: [10, 20, 50, 100],
+  limitOptions: ['10', '20', '50', '100'],
   onLimitChange: noop,
   onNext: noop,
   onPrevious: noop,

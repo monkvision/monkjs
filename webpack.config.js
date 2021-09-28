@@ -8,6 +8,7 @@ module.exports = async function (env, argv) {
 
   config.resolve.alias.react = path.resolve(__dirname, './node_modules/react');
 
+  config.resolve.alias.assets = path.resolve(__dirname, './src/assets');
   config.resolve.alias.components = path.resolve(__dirname, './src/components');
   config.resolve.alias.config = path.resolve(__dirname, './src/config');
   config.resolve.alias.hooks = path.resolve(__dirname, './src/hooks');

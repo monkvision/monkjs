@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import isEmpty from 'lodash.isempty';
 import isArray from 'lodash.isarray';
 import moment from 'moment';
@@ -9,19 +9,16 @@ import useMinLoadingTime from 'hooks/useMinLoadingTime';
 import { useNavigation } from '@react-navigation/native';
 import { useGetInspectionsQuery } from 'hooks';
 
-import Loading from 'screens/Loading';
 import Empty from 'screens/Empty';
-import Pagination from 'components/Pagination';
-
 import ScreenView from 'screens/ScreenView';
+import ActivityIndicator from 'screens/ActivityIndicator';
 import InspectionsHomeRightActions from 'screens/Inspections/Home/RightActions';
+
 import { DataTable, Surface, Text, useTheme } from 'react-native-paper';
+import Pagination from 'components/Pagination';
 
 const styles = StyleSheet.create({
   id: {
-    ...Platform.select({
-      default: { fontFamily: 'monospace, Roboto' },
-    }),
     fontWeight: 'bold',
   },
 });
@@ -55,7 +52,7 @@ export default function InspectionsHome() {
   }, [refetch]);
 
   if (isLoading) {
-    return <Loading />;
+    return <ActivityIndicator />;
   }
 
   if (!ok) {
@@ -80,7 +77,7 @@ export default function InspectionsHome() {
           </DataTable.Header>
 
           {response.data.map((o) => (
-            <DataTable.Row style={styles.row}>
+            <DataTable.Row key={o.id} style={styles.row}>
               <DataTable.Cell title={o.id}>
                 <Text style={[styles.id, { color: colors.primary }]}>
                   {`${o.id.split('-')[0]}`}
@@ -95,7 +92,7 @@ export default function InspectionsHome() {
             </DataTable.Row>
           ))}
           <Pagination
-            initialLimit={limit}
+            initialLimit={limit.toString(10)}
             isFetching={isFetching}
             paging={response.paging}
             onLimitChange={handleLimitChange}

@@ -11,9 +11,12 @@ yarn add @monkvision/corejs @reduxjs/toolkit
 
 ### Usage
 ``` javascript
-import MonkCore from '@monkvision/corejs';
+import MonkCore, { getBaseQuery } from '@monkvision/corejs';
 
-const monkCore = new MonkCore({ baseUrl, customHeaders});
+const monkCore = new MonkCore(getBaseQuery({
+  baseUrl: `https://${Constants.manifest.extra.MONK_DOMAIN}/`,
+}));
+
 const { useGetInspectionsQuery } = monkCore.inspection;
 
 function App() {
@@ -29,23 +32,6 @@ function App() {
 
   return data.map((props) => <Inspection {...props) />;
 }
-```
-
-### NPM module content
-``` xpath2
-├── @monkvision
-  ├── ...
-  ├── corejs
-    ├── lib
-    ├── src
-        ├── services
-          └── inspection.js
-        └── index.js
-    ├── .babelrc.json
-    ├── .editorconfig
-    ├── LICENSE
-    ├── package.json
-    └── README.md
 ```
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.

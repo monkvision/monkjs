@@ -22,34 +22,17 @@ export function getBaseQuery({ baseUrl, customHeaders = [] }) {
 }
 
 class MonkCore {
-  constructor({ baseUrl, customHeaders }) {
-    this._baseUrl = baseUrl;
-    this._customHeaders = customHeaders;
+  constructor(baseQuery) {
+    this._baseQuery = baseQuery;
+    this._inspection = getInspectionApi(baseQuery);
   }
 
-  get baseUrl() {
-    return this._baseUrl;
-  }
-
-  set baseUrl(value) {
-    this._baseUrl = value;
-  }
-
-  get customHeaders() {
-    return this._customHeaders;
-  }
-
-  set customHeaders(value) {
-    this._customHeaders = value;
+  get baseQuery() {
+    return this._baseQuery;
   }
 
   get inspection() {
-    const baseQuery = getBaseQuery({
-      baseUrl: this.baseUrl,
-      customHeaders: this.customHeaders,
-    });
-
-    return getInspectionApi(baseQuery);
+    return this._inspection;
   }
 }
 

@@ -4,8 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import useAuth from 'hooks/useAuth';
-import { useFonts } from 'expo-font';
-import useMinLoadingTime from 'hooks/useMinLoadingTime';
+import useLoading from 'hooks/useLoading';
 
 import Header from 'components/Header';
 
@@ -17,8 +16,6 @@ import Inspections from 'screens/Inspections';
 import Profile from 'screens/Profile';
 import Settings from 'screens/Settings';
 
-import MaterialCommunityIcons from '@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
-
 const Drawer = createDrawerNavigator();
 const prefix = Linking.createURL('/');
 
@@ -27,13 +24,8 @@ const linking = {
 };
 
 export default function Navigation() {
-  const { isAuthenticated, isLoading: isAuthenticating, isSignedOut } = useAuth();
-  const [fontsLoaded] = useFonts({
-    MaterialCommunityIcons,
-    'Material Design Icons': MaterialCommunityIcons,
-  });
-
-  const isLoading = useMinLoadingTime(isAuthenticating || !fontsLoaded);
+  const isLoading = useLoading();
+  const { isAuthenticated, isSignedOut } = useAuth();
 
   if (isLoading) {
     return <Loading />;
