@@ -5,8 +5,8 @@ AI-powered vehicle damage detection for JavaScript.
 Check out the full [documentation](https://monkvision.github.io/monk/docs).
 
 ``` yarn
-npm install @monkvision/corejs
-yarn add @monkvision/corejs
+npm install @monkvision/corejs @reduxjs/toolkit --save
+yarn add @monkvision/corejs @reduxjs/toolkit
 ```
 
 ### Usage

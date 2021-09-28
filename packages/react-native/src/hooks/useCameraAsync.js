@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import noop from '../functions/noop';
+import noop from 'lodash.noop';
 
 /**
  * Hooks initiating camera on mount with async results.

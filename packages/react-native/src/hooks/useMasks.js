@@ -1,6 +1,4 @@
 import { useReducer } from 'react';
-import actionsToString from '../functions/actionsToString';
-import { CLASSIC_CAR_MASKS } from '../components/CarMask/ClassicCar';
 
 /**
  * @type {{
@@ -11,7 +9,7 @@ import { CLASSIC_CAR_MASKS } from '../components/CarMask/ClassicCar';
  * }}
  */
 const initialState = {
-  availableParts: CLASSIC_CAR_MASKS,
+  availableParts: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   active: 0,
   error: [],
   success: [],
@@ -39,7 +37,7 @@ function reducer(state, { type, payload }) {
       throw new Error(`
         Invalid action type for masksReducer.</br>
         Type must be one of
-        ${actionsToString(ACTIONS)}
+        ${Object.values(ACTIONS).join('|')}
       `);
   }
 }

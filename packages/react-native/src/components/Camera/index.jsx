@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { Platform, StatusBar, View, StyleSheet } from 'react-native';
-
-import { Camera as ExpoCamera } from 'expo-camera';
-
 import PropTypes from 'prop-types';
 
+import { Platform, StatusBar, View, StyleSheet } from 'react-native';
+import { Camera as ExpoCamera } from 'expo-camera';
+
+import noop from 'lodash.noop';
+import isEmpty from 'lodash.isempty';
+
 import useCameraAsync from '../../hooks/useCameraAsync';
-import noop from '../../functions/noop';
-import isEmpty from '../../functions/isEmpty';
 
 const styles = StyleSheet.create({
   root: {

@@ -36,9 +36,8 @@
     "build": "babel src --out-dir lib --source-maps",
     "release": "yarn lint && yarn build && release-it"
   },
-  "dependencies": {
-    "axios": "^0.21.4",
-    "normalizr": "^3.6.1"
+  "peerDependencies": {
+    "@reduxjs/toolkit": "*"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",

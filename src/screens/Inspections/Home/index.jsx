@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import isEmpty from 'lodash.isempty';
 import isArray from 'lodash.isarray';
 import moment from 'moment';
@@ -19,7 +19,9 @@ import { DataTable, Surface, Text, useTheme } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   id: {
-    fontFamily: 'monospace, Roboto',
+    ...Platform.select({
+      default: { fontFamily: 'monospace, Roboto' },
+    }),
     fontWeight: 'bold',
   },
 });
