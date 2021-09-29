@@ -67,7 +67,7 @@ export default function InspectionsHome() {
   }
 
   return (
-    <ScreenView>
+    <ScreenView refreshing={isFetching} onRefresh={refetch}>
       <Surface>
         <DataTable>
           <DataTable.Header>
