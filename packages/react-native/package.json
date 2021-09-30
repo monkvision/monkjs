@@ -43,6 +43,7 @@
     "expo-constants": "~11.0.1",
     "expo-screen-orientation": "~3.2.1",
     "expo-status-bar": "~1.0.4",
+    "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
     "lodash.noop": "^3.0.1"
   },

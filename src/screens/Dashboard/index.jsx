@@ -5,6 +5,8 @@ import { StyleSheet } from 'react-native';
 import { Avatar, Button, Card } from 'react-native-paper';
 import { spacing } from 'config/theme';
 
+import { VehicleViewFront } from '@monkvision/react-native/src/components/VehicleView';
+
 import inspectionCover from './covers/inspections.jpg';
 
 const styles = StyleSheet.create({
@@ -32,6 +34,7 @@ export default function Dashboard() {
           <Button onPress={() => navigation.navigate('Inspections')}>See all</Button>
         </Card.Actions>
       </Card>
+      <VehicleViewFront />
     </ScreenView>
   );
 }
