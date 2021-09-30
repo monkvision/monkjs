@@ -47,6 +47,12 @@ export default function InspectionsHome() {
     setLimit(newLimit);
   }, []);
 
+  const handleSelectInspection = useCallback((inspectionId) => {
+    navigation.navigate('DamageLibrary', {
+      inspectionId,
+    });
+  }, []);
+
   const handleRefresh = useCallback(() => {
     refetch();
   }, [refetch]);
@@ -77,7 +83,11 @@ export default function InspectionsHome() {
           </DataTable.Header>
 
           {response.data.map((o) => (
-            <DataTable.Row key={o.id} style={styles.row}>
+            <DataTable.Row
+              key={o.id}
+              style={styles.row}
+              onPress={() => handleSelectInspection(o.id)}
+            >
               <DataTable.Cell title={o.id}>
                 <Text style={[styles.id, { color: colors.primary }]}>
                   {`${o.id.split('-')[0]}`}

@@ -13,6 +13,7 @@ import Outed from 'screens/Authentication/Outed';
 import Authentication from 'screens/Authentication';
 import Dashboard from 'screens/Dashboard';
 import Inspections from 'screens/Inspections';
+import DamageLibrary from 'screens/Inspections/DamageLibrary';
 import Profile from 'screens/Profile';
 import Settings from 'screens/Settings';
 
@@ -57,6 +58,14 @@ export default function Navigation() {
         <Drawer.Screen
           name="Inspections"
           component={Inspections}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Drawer.Screen
+          name="Damage Library"
+          component={DamageLibrary}
           options={{
             headerShown: false,
           }}
