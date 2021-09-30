@@ -38,6 +38,9 @@
     "prepare": "bob build",
     "release": "release-it"
   },
+  "dependencies": {
+    "lodash.noop": "^3.0.1"
+  },
   "devDependencies": {
     "babel-preset-expo": "^8.4.1",
     "eslint": "^7.32.0",
@@ -50,7 +53,8 @@
   "peerDependencies": {
     "prop-types": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-paper": "*"
   },
   "publishConfig": {
     "access": "public"
