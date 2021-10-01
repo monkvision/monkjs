@@ -45,7 +45,8 @@
     "expo-status-bar": "~1.0.4",
     "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
-    "lodash.noop": "^3.0.1"
+    "lodash.noop": "^3.0.1",
+    "react-native-xml2js": "^1.0.3"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.4.1",

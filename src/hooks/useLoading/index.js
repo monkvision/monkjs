@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import useAuth from 'hooks/useAuth';
-import useMinLoadingTime from 'hooks/useMinLoadingTime';
 
 import MaterialCommunityIcons from '@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
 import Roboto from 'assets/fonts/Roboto/Roboto-Regular.ttf';
@@ -29,5 +28,5 @@ export default function useLoading() {
     loadFonts();
   }, []);
 
-  return useMinLoadingTime(isAuthenticating || fontsLoaded !== true);
+  return isAuthenticating || fontsLoaded !== true;
 }

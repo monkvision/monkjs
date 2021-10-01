@@ -11,7 +11,11 @@ const getConfig = async () => ({
   watchFolders: [path.resolve(__dirname, './packages')],
   transformerPath: require.resolve('metro/src/JSTransformer/worker.js'),
   resolver: {
-    extraNodeModules: ['@monkvision/corejs', '@monkvision/react-native'],
+    extraNodeModules: [
+      '@monkvision/corejs',
+      '@monkvision/react-native',
+      '@monkvision/react-native-views',
+    ],
     blacklistRE: new RegExp(
       `^((?!${reactNativeFolder.replace(
         '/',

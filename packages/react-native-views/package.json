@@ -51,6 +51,8 @@
     "release-it": "^14.11.5"
   },
   "peerDependencies": {
+    "@monkvision/corejs": "*",
+    "@monkvision/react-native": "*",
     "prop-types": "*",
     "react": "*",
     "react-native": "*",

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import ScreenView from 'screens/ScreenView';
 import { useNavigation } from '@react-navigation/native';
@@ -5,7 +6,7 @@ import { StyleSheet } from 'react-native';
 import { Avatar, Button, Card } from 'react-native-paper';
 import { spacing } from 'config/theme';
 
-import { VehicleViewFront } from '@monkvision/react-native/src/components/VehicleView';
+import VehicleView from '@monkvision/react-native/src/components/VehicleView';
 
 import inspectionCover from './covers/inspections.jpg';
 
@@ -34,7 +35,7 @@ export default function Dashboard() {
           <Button onPress={() => navigation.navigate('Inspections')}>See all</Button>
         </Card.Actions>
       </Card>
-      <VehicleViewFront />
+      <VehicleView xmlPath={require('assets/svg/FrontView.svg')} />
     </ScreenView>
   );
 }
