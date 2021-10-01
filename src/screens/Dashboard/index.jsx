@@ -35,7 +35,7 @@ export default function Dashboard() {
           <Button onPress={() => navigation.navigate('Inspections')}>See all</Button>
         </Card.Actions>
       </Card>
-      <VehicleView xmlPath={vehicleViewSvg} />
+      <VehicleView xml={vehicleViewSvg} />
     </ScreenView>
   );
 }

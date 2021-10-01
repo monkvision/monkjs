@@ -76,29 +76,12 @@ SVGComponent.propTypes = {
 };
 
 /**
- * @param xmlPath {string}
+ * @param xml {string}
  * @returns {JSX.Element}
  * @constructor
  */
-export default function VehicleView({ xmlPath }) {
-  // const [error, setError] = useState();
-  // const [isLoading, setLoading] = useState();
-
-  const [xml, setXml] = useState(null);
-
-  const handleLoad = useCallback((event) => {
-    xml2js.parseString(event.target.response, (err, result) => {
-      setXml(result);
-    });
-  }, []);
-
-  useEffect(() => {
-    const oReq = new XMLHttpRequest();
-    oReq.onload = handleLoad;
-    oReq.open('get', xmlPath, true);
-    oReq.send();
-  }, [handleLoad, xmlPath]);
-
+export default function VehicleView({ xml }) {
+  const [parsedSvg, setParsedSvg] = useState();
   const [activeParts, setActiveParts] = useState({});
 
   const handlePress = useCallback((id) => {
@@ -117,10 +100,16 @@ export default function VehicleView({ xmlPath }) {
     return activePart ? '#fa603d' : defaultColor;
   }, [activeParts]);
 
-  return !isEmpty(xml) && (
+  useEffect(() => {
+    xml2js.parseString(xml, (e, result) => {
+      setParsedSvg(result.svg);
+    });
+  }, [xml]);
+
+  return !isEmpty(parsedSvg) && (
     <SVGComponent
       elementTag="svg"
-      parsedSVG={xml.svg}
+      parsedSVG={parsedSvg}
       onPress={handlePress}
       getFillColor={getFillColor}
     />
@@ -128,5 +117,5 @@ export default function VehicleView({ xmlPath }) {
 }
 
 VehicleView.propTypes = {
-  xmlPath: PropTypes.string.isRequired,
+  xml: PropTypes.string.isRequired,
 };
