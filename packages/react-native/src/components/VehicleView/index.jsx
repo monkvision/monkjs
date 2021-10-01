@@ -1,11 +1,79 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback, useEffect, useState } from 'react';
-import Svg, { G, Path, Ellipse, Defs } from 'react-native-svg';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
+
+import Svg, { G, Path, Ellipse, Defs } from 'react-native-svg';
 
 import isBoolean from 'lodash.isboolean';
 import isEmpty from 'lodash.isempty';
+import camelCase from 'lodash.camelcase';
+import isPropValid from '@emotion/is-prop-valid';
 import xml2js from 'react-native-xml2js';
+
+function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG }) {
+  const Component = { svg: Svg, g: G, path: Path, ellipse: Ellipse, defs: Defs }[elementTag];
+  const { $: nodeProps = {}, ...children } = parsedSVG;
+
+  const { id, fill, ...props } = useMemo(() => {
+    const newProps = {};
+
+    Object.entries(nodeProps).forEach(([key, value]) => {
+      if (isPropValid(key)) {
+        newProps[key] = value;
+      } else if (isPropValid(camelCase(key))) {
+        newProps[camelCase(key)] = value;
+      }
+    });
+
+    const onClickPress = () => onPress(id, elementTag);
+
+    return {
+      ...newProps,
+      ...Platform.select({
+        default: { onClick: onClickPress },
+        native: { onPress: onClickPress },
+      }),
+    };
+  }, [elementTag, nodeProps, onPress]);
+
+  if (!Component) {
+    return null;
+  }
+
+  return (
+    <Component
+      {...props}
+      id={id}
+      onClick={() => onPress(id, elementTag)}
+      fill={getFillColor(id, fill)}
+    >
+      {!isEmpty(children) ? (
+        Object.entries(children).map(([childTag, parsedChildSVGArray]) => (
+          parsedChildSVGArray.map((parsedChildSVG, childIndex) => (
+            <SVGComponent
+              key={`${childTag}-${childIndex}`}
+              elementTag={childTag}
+              getFillColor={getFillColor}
+              parsedSVG={parsedChildSVG}
+              onClick={onPress}
+              onPress={onPress}
+            />
+          ))
+        ))
+      ) : null}
+    </Component>
+  );
+}
+
+SVGComponent.propTypes = {
+  elementTag: PropTypes.string.isRequired,
+  getFillColor: PropTypes.func.isRequired,
+  onPress: PropTypes.func.isRequired,
+  parsedSVG: PropTypes.shape({
+    $: PropTypes.objectOf(PropTypes.any),
+  }).isRequired,
+};
 
 /**
  * @param xmlPath {string}
@@ -54,52 +122,10 @@ export default function VehicleView({ xmlPath }) {
       elementTag="svg"
       parsedSVG={xml.svg}
       onPress={handlePress}
-      fill={getFillColor}
+      getFillColor={getFillColor}
     />
   );
 }
-
-function SVGComponent({ elementTag, fill, onPress, parsedSVG }) {
-  const Component = { svg: Svg, g: G, path: Path, ellipse: Ellipse, defs: Defs }[elementTag];
-  const { $: nodeProps = {}, ...children } = parsedSVG;
-
-  if (!Component) {
-    return null;
-  }
-
-  return (
-    <Component
-      {...nodeProps}
-      onClick={() => onPress(nodeProps.id, elementTag)}
-      onPress={() => onPress(nodeProps.id, elementTag)}
-      fill={fill(nodeProps.id, nodeProps.fill)}
-    >
-      {!isEmpty(children) ? (
-        Object.entries(children).map(([childTag, parsedChildSVGArray]) => (
-          parsedChildSVGArray.map((parsedChildSVG, childIndex) => (
-            <SVGComponent
-              key={`${childTag}-${childIndex}`}
-              elementTag={childTag}
-              parsedSVG={parsedChildSVG}
-              onClick={onPress}
-              onPress={onPress}
-              fill={fill}
-            />
-          ))
-        ))
-      ) : null}
-    </Component>
-  );
-}
-
-SVGComponent.propTypes = {
-  elementTag: PropTypes.string.isRequired,
-  fill: PropTypes.func.isRequired,
-  onPress: PropTypes.func.isRequired,
-  parsedSVG: PropTypes.shape({
-    $: PropTypes.objectOf(PropTypes.any),
-  }).isRequired,
-};
 
 VehicleView.propTypes = {
   xmlPath: PropTypes.string.isRequired,
