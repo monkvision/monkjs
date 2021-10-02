@@ -10,11 +10,11 @@ import { spacing } from 'config/theme';
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingBottom: spacing(2),
+    paddingVertical: spacing(2),
   },
   scrollView: {
     paddingTop: spacing(2),
-    marginHorizontal: spacing(2),
+    paddingHorizontal: spacing(2),
   },
 });
 

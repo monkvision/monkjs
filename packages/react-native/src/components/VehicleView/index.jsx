@@ -7,11 +7,13 @@ import Svg, { G, Path, Ellipse, Defs } from 'react-native-svg';
 
 import isBoolean from 'lodash.isboolean';
 import isEmpty from 'lodash.isempty';
+import noop from 'lodash.noop';
 import camelCase from 'lodash.camelcase';
 import isPropValid from '@emotion/is-prop-valid';
 import xml2js from 'react-native-xml2js';
+import tinycolor from 'tinycolor2';
 
-function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG }) {
+function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG, ...passThroughProps }) {
   const Component = { svg: Svg, g: G, path: Path, ellipse: Ellipse, defs: Defs }[elementTag];
   const { $: nodeProps = {}, ...children } = parsedSVG;
 
@@ -26,16 +28,17 @@ function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG }) {
       }
     });
 
-    const onClickPress = () => onPress(id, elementTag);
+    const onClickPress = () => onPress(newProps.id, elementTag);
 
     return {
       ...newProps,
+      ...passThroughProps,
       ...Platform.select({
         default: { onClick: onClickPress },
         native: { onPress: onClickPress },
       }),
     };
-  }, [elementTag, nodeProps, onPress]);
+  }, [elementTag, nodeProps, onPress, passThroughProps]);
 
   if (!Component) {
     return null;
@@ -76,29 +79,37 @@ SVGComponent.propTypes = {
 };
 
 /**
+ * @param activeMixedColor {string}
+ * @param pressAble {bool}
+ * @param onPress {func}
  * @param xml {string}
+ * @param passThroughProps
  * @returns {JSX.Element}
  * @constructor
  */
-export default function VehicleView({ xml }) {
+export default function VehicleView({
+  activeMixedColor, onPress, pressAble, xml, ...passThroughProps
+}) {
   const [parsedSvg, setParsedSvg] = useState();
   const [activeParts, setActiveParts] = useState({});
 
   const handlePress = useCallback((id) => {
-    if (id !== undefined) {
+    if (id !== undefined && pressAble === true) {
       const activePart = activeParts[id];
+      const isActive = isBoolean(activePart) ? !activePart : true;
 
-      setActiveParts((prev) => ({
-        ...prev,
-        [id]: isBoolean(activePart) ? !activePart : true,
-      }));
+      setActiveParts((prev) => ({ ...prev, [id]: isActive }));
+
+      onPress(id, isActive, activeParts);
     }
-  }, [activeParts]);
+  }, [activeParts, onPress, pressAble]);
 
   const getFillColor = useCallback((id, defaultColor) => {
     const activePart = activeParts[id];
-    return activePart ? '#fa603d' : defaultColor;
-  }, [activeParts]);
+    return activePart
+      ? tinycolor.mix(activeMixedColor, defaultColor).toHexString()
+      : defaultColor;
+  }, [activeMixedColor, activeParts]);
 
   useEffect(() => {
     xml2js.parseString(xml, (e, result) => {
@@ -112,10 +123,20 @@ export default function VehicleView({ xml }) {
       parsedSVG={parsedSvg}
       onPress={handlePress}
       getFillColor={getFillColor}
+      {...passThroughProps}
     />
   );
 }
 
 VehicleView.propTypes = {
+  activeMixedColor: PropTypes.string,
+  onPress: PropTypes.func,
+  pressAble: PropTypes.bool,
   xml: PropTypes.string.isRequired,
+};
+
+VehicleView.defaultProps = {
+  activeMixedColor: '#fa603d',
+  onPress: noop,
+  pressAble: false,
 };
