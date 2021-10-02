@@ -13,7 +13,8 @@
       "root": ["./src"],
       "alias": {
         "@monkvision/corejs": "./packages/corejs",
-        "@monkvision/react-native": "./packages/react-native"
+        "@monkvision/react-native": "./packages/react-native",
+        "@monkvision/react-native-views": "./packages/react-native-views"
       }
     }],
     ["babel-plugin-inline-import", { "extensions": [".svg"] }],
