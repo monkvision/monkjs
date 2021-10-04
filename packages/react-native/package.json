@@ -61,7 +61,6 @@
     "release-it": "^14.11.5"
   },
   "peerDependencies": {
-    "expo": "*",
     "prop-types": "*",
     "react": "*",
     "react-native": "*",
