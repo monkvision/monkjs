@@ -12,7 +12,7 @@ import CameraSideBar from '../CameraSideBar';
 
 const styles = StyleSheet.create({
   root: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     flexWrap: 'nowrap',
     overflow: 'hidden',
     backgroundColor: '#000',
@@ -94,7 +94,11 @@ function Camera({
   return (
     <View style={styles.root}>
       <StatusBar hidden />
-      <Left camera={{ ref: camera, ready }} />
+      <CameraSideBar
+        camera={{ ref: camera, ready }}
+        Component={right}
+        containerProps={sideBarProps}
+      />
       <ExpoCamera
         onCameraReady={handleCameraReady}
         ref={handleCameraRef}
@@ -102,14 +106,12 @@ function Camera({
         style={handleContainedSize()}
         type={ExpoCamera.Constants.Type.back}
       >
-        {showBlackScreen && <View style={styles.blackScreen} />}
+        {(showBlackScreen && Platform.OS === 'web')
+          ? <View style={styles.blackScreen} />
+          : null}
         {children}
       </ExpoCamera>
-      <CameraSideBar
-        camera={{ ref: camera, ready }}
-        Component={right}
-        containerProps={sideBarProps}
-      />
+      <Left camera={{ ref: camera, ready }} />
     </View>
   );
 }

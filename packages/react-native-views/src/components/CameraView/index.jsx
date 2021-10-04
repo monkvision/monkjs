@@ -37,7 +37,7 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture 
 
       setPictures((prevState) => prevState.concat({
         id: 'uniqPartId',
-        data: picture,
+        source: picture,
       }));
 
       onTakePicture(picture, pictures, camera);

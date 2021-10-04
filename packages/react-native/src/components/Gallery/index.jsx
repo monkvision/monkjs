@@ -1,23 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, ScrollView, SafeAreaView, Image } from 'react-native';
+import { StyleSheet, ScrollView, SafeAreaView, Image, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
-    flexGrow: 1,
-    alignItems: 'center',
     flexDirection: 'column',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingVertical: 8,
-    maxWidth: 134,
+    maxWidth: 125,
+    overflow: 'visible',
+    ...Platform.select({
+      native: { flexGrow: 1 },
+      default: { width: 125 },
+    }),
+  },
+  scrollView: {
+    paddingVertical: 4,
   },
   picture: {
-    height: 75,
-    width: 100,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderStyle: 'solid',
+    ...Platform.select({
+      native: { width: 80, height: 60, paddingLeft: 16 },
+      default: { width: 160, height: 120, borderStyle: 'solid' },
+    }),
+    margin: 8,
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 5,
@@ -31,11 +37,11 @@ const styles = StyleSheet.create({
 function Gallery({ pictures }) {
   return (
     <SafeAreaView style={styles.root}>
-      <ScrollView persistentScrollbar>
-        {pictures.map(({ id, data }) => (id ? (
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
+        {pictures.map(({ id, source }) => (id ? (
           <Image
-            key={`picture-${id}`}
-            source={data.base64}
+            key={`picture-${id}-${source.uri}`}
+            source={source}
             style={styles.picture}
           />
         ) : null))}
@@ -49,7 +55,7 @@ export default Gallery;
 Gallery.propTypes = {
   pictures: PropTypes.arrayOf(PropTypes.shape({
     data: PropTypes.shape({
-      base64: PropTypes.string,
+      uri: PropTypes.string,
     }),
     id: PropTypes.string,
   })),
