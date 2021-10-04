@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Surface } from 'react-native-paper';
 import { spacing } from 'config/theme';
-import VehicleView from '@monkvision/react-native/src/components/VehicleView';
+import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 
 import { classic as classicCar } from 'assets/svg/vehicles';
 import inspectionCover from './covers/inspections.jpg';
@@ -36,7 +36,7 @@ export default function Dashboard() {
         </Card.Actions>
       </Card>
       <Surface style={styles.card}>
-        <VehicleView pressAble xml={classicCar.front} width={320} height={206} />
+        <Vehicle pressAble xml={classicCar.front} width={320} height={206} />
       </Surface>
     </ScreenView>
   );

@@ -87,7 +87,7 @@ SVGComponent.propTypes = {
  * @returns {JSX.Element}
  * @constructor
  */
-export default function VehicleView({
+export default function Vehicle({
   activeMixedColor, onPress, pressAble, xml, ...passThroughProps
 }) {
   const [parsedSvg, setParsedSvg] = useState();
@@ -128,14 +128,14 @@ export default function VehicleView({
   );
 }
 
-VehicleView.propTypes = {
+Vehicle.propTypes = {
   activeMixedColor: PropTypes.string,
   onPress: PropTypes.func,
   pressAble: PropTypes.bool,
   xml: PropTypes.string.isRequired,
 };
 
-VehicleView.defaultProps = {
+Vehicle.defaultProps = {
   activeMixedColor: '#fa603d',
   onPress: noop,
   pressAble: false,
