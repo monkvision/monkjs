@@ -5,9 +5,9 @@ slug: /
 ---
 
 Monk's SDK is divided in three main concepts:
-1. A **core** module providing a redux kit to get and manipulate data 🧿
-2. A **components** module exporting basic native features 🧱
-3. A **views** module using core and components together 🚀
+1. A **CORE** module providing a redux kit to get and manipulate data 🧿
+2. A **COMPONENTS** module exporting basic native features 🧱
+3. A **VIEWS** module using core and components together 🚀
 
 ## 🧿 Core
 
@@ -60,7 +60,11 @@ function App() {
 
 ## 🧱 Components
 
-TODO: Explain components
+The React Native component library allows you to build a set of views or modules brick by brick.
+
+> For example, the `CameraView` is composed of the` Camera` and `Gallery` component at the same time,` Camera` accepting as parameters your own capture buttons.
+
+This library is useful if you want to use lower level features or customize your components as you wish, unlike the `react-native-views` library which embeds much more than micro-components.
 
 ``` javascript
 /* MyCamera.jsx */
@@ -153,7 +157,11 @@ MyCamera.defaultProps = {
 
 ## 🚀 Views
 
-TODO: Explain views
+The `react-native-views` library embeds the features of the previous two. It mixes the server calls with the components in order to provide a very high level development kit.
+
+> Each view globally accepts a panel of callbacks like `onCloseCamera` or` onTakingPicture`. They are however heavier, using `react-native-paper` as the default UI library, which can weigh down your bundle.
+
+The views are all compatible with Android, iOS and Web, unless specified otherwise.
 
 ``` javascript
 /* MyNavigationScreen.jsx */
@@ -175,3 +183,8 @@ export default function MyNavigationScreen() {
   );
 }
 ```
+
+## What's next?
+
+Now that you understand each basic principle, you can install the necessary modules for your own tech stack.
+Any request or feedback is welcome. For that, please create an issue on the repository [monkvision/monkjs](https://github.com/monkvision/monkjs/issues/new).
