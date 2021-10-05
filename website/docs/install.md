@@ -4,6 +4,14 @@ title: Installation
 slug: /installation
 ---
 
+## Available modules
+| Language or framework | Module |
+|-----------------------|--------|
+| JavaScript | [@monkvision/corejs](#monkvisioncorejs) |
+| React Native | [@monkvision/react-native](#monkvisionreact-native)<br/>[@monkvision/react-native-views](#monkvisionreact-native-views) |
+
+We are working to provide as soon as possible new SDKs for _Dart_, _Flutter_ or _Python_.
+
 ## @monkvision/corejs
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
 
