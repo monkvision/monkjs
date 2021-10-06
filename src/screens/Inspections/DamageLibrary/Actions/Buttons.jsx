@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, useTheme, Text } from 'react-native-paper';
-import {SvgXml} from 'react-native-svg';
+import { SvgXml } from 'react-native-svg';
 
-import guideIcon from '../../../../assets/svg/icons/GuideIcon.svg';
+import GuideIcon from '../../../../assets/svg/icons/GuideIcon.svg';
 
 const styles = StyleSheet.create({
   validateButton: {
@@ -44,7 +44,7 @@ export const ValidateButton = (props) => {
 export const GuideButton = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.guideIcon}><SvgXml xml={guideIcon} height={63} width={63} /></View>
+      <View style={styles.guideIcon}><SvgXml xml={GuideIcon} height={63} width={63} /></View>
       <Text style={styles.guideBtnText}>Guide</Text>
     </TouchableOpacity>
   );

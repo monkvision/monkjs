@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
+import { SvgXml } from 'react-native-svg';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import DamageLibraryLeftActionsActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
 import { classic as classicCar } from '../../../assets/svg/vehicles';
+
+import AiFoundIcon from '../../../assets/svg/icons/AiFoundIcon.svg';
 
 const styles = StyleSheet.create({
   root: {
@@ -131,7 +134,8 @@ export default function DamageLibrary() {
           </View>
         </View>
         <View style={styles.helpTextContainer}>
-          <Text style={styles.helpText}>Click on the vehicle parts to add damage</Text>
+          <Text style={styles.helpText}>Click on the vehicle parts to add damage </Text>
+          <SvgXml xml={AiFoundIcon} height={30} width={36} />
         </View>
         {/* eslint-disable-next-line max-len */}
         <DamageLibraryLeftActionsActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
