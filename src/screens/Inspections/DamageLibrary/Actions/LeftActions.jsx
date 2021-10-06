@@ -1,20 +1,18 @@
 import React from 'react';
 import { StyleSheet, Image, View, Platform, TouchableOpacity } from 'react-native';
-import PropTypes from "prop-types";
-import Vehicle from "@monkvision/react-native/src/components/Vehicle";
-import noop from "lodash.noop";
+import PropTypes from 'prop-types';
 
 const carViews = {
-  front: require('../../../../assets/carViews/Miniatures/front.png'),
-  back: require('../../../../assets/carViews/Miniatures/back.png'),
-  top: require('../../../../assets/carViews/Miniatures/top.png'),
+  front: require('../../../../assets/svg/vehicles/miniatures/front.png'),
+  back: require('../../../../assets/svg/vehicles/miniatures/back.png'),
+  top: require('../../../../assets/svg/vehicles/miniatures/top.png'),
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
     top: 60,
-    left: 45,
+    left: 80,
     bottom: 20,
     ...Platform.select({
       native: { flex: 1 },

@@ -5,12 +5,14 @@ import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-pap
 import * as ScreenOrientation from 'expo-screen-orientation';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import DamageLibraryLeftActionsActions from './Actions/LeftActions';
+import { GuideButton, ValidateButton } from './Actions/Buttons';
 import { classic as classicCar } from '../../../assets/svg/vehicles';
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   surface: {
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 10,
+    paddingHorizontal: 40,
     position: 'absolute',
   },
   close: {
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     justifyContent: 'space-around',
-    paddingHorizontal: 100,
+    paddingHorizontal: 120,
   },
   progressText: {
     alignSelf: 'center',
@@ -69,6 +71,18 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     // fontFamily: 'roboto',
+  },
+  guideBtnContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    top: 30,
+    right: 30,
+  },
+  validateBtnContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    bottom: 30,
+    right: 30,
   },
 });
 
@@ -101,7 +115,7 @@ export default function DamageLibrary() {
       <Surface style={styles.surface}>
         {/* eslint-disable-next-line max-len */}
         <View style={styles.vehicle}>
-          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="85%" />
+          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="70%" />
         </View>
         <View style={styles.header}>
           <IconButton
@@ -121,6 +135,8 @@ export default function DamageLibrary() {
         </View>
         {/* eslint-disable-next-line max-len */}
         <DamageLibraryLeftActionsActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
+        <View style={styles.guideBtnContainer}><GuideButton onPress={() => console.log('open guide')} /></View>
+        <View style={styles.validateBtnContainer}><ValidateButton style={styles.validateBtn} text="Validate report" onPress={() => console.log('validate damages')} /></View>
       </Surface>
     </SafeAreaView>
   );
