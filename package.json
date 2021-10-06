@@ -30,7 +30,7 @@
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
-    "@reduxjs/toolkit": "^1.6.1",
+    "@reduxjs/toolkit": "^1.6.2",
     "dotenv": "^10.0.0",
     "expo": "~42.0.1",
     "expo-auth-session": "~3.3.1",
