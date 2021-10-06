@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {Platform, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import DamageLibraryLeftActionsActions from './Actions/LeftActions';
-import CarView from './CarView';
+import { classic as classicCar } from '../../../assets/svg/vehicles';
 
 const styles = StyleSheet.create({
   root: {
@@ -23,6 +24,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
     backgroundColor: '#E5E5E5',
+  },
+  vehicle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingTop: '8%',
   },
   header: {
     flexDirection: 'row',
@@ -66,6 +74,7 @@ const styles = StyleSheet.create({
 
 export default function DamageLibrary() {
   const navigation = useNavigation();
+  const [currentView, setCurrentView] = useState('front');
   const unLockScreenAsync = async () => {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
     await ScreenOrientation.unlockAsync();
@@ -90,7 +99,10 @@ export default function DamageLibrary() {
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
-        <CarView />
+        {/* eslint-disable-next-line max-len */}
+        <View style={styles.vehicle}>
+          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="85%" />
+        </View>
         <View style={styles.header}>
           <IconButton
             accessibilityLabel="Cancel"
@@ -107,7 +119,8 @@ export default function DamageLibrary() {
         <View style={styles.helpTextContainer}>
           <Text style={styles.helpText}>Click on the vehicle parts to add damage</Text>
         </View>
-        <DamageLibraryLeftActionsActions handlePress={() => console.log('pressed')} />
+        {/* eslint-disable-next-line max-len */}
+        <DamageLibraryLeftActionsActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
       </Surface>
     </SafeAreaView>
   );
