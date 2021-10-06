@@ -5,6 +5,7 @@ import Header from 'components/Header';
 
 import InspectionsHome from 'screens/Inspections/Home';
 import InspectionsCreate from 'screens/Inspections/Create';
+import Tutorial from 'screens/Inspections/Tutorial';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,13 @@ export default function Inspections() {
         options={{
           title: 'New inspection',
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="InspectionsTutorial"
+        component={Tutorial}
+        options={{
+          title: 'Inspection tutorial',
         }}
       />
     </Stack.Navigator>

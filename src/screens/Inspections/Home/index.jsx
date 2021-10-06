@@ -60,7 +60,7 @@ export default function InspectionsHome() {
       <Empty
         createLabel="Start"
         isFetching={isRefreshing}
-        onCreatePress={() => navigation.navigate('InspectionsCreate')}
+        onCreatePress={() => navigation.navigate('InspectionsTutorial')}
         onRefreshPress={handleRefresh}
       />
     );
