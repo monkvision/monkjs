@@ -16,27 +16,59 @@ yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-nat
 import { CameraView } from `@monkvision/react-native-views`
 ```
 
-### Sights Schemes
+### Sights
 
-A capture scheme is a list of sights `[Sight]` with a unique string `id`, a value `tetha` between 0 and 359 and a string `label`.
+A capture scheme is a list of sights `[Sight]` with a unique string `id` and [cylindrical coordinates](https://en.wikipedia.org/wiki/Cylindrical_coordinate_system) `"(ρφz)"`.
 
 > If our AI can work without this metadata, it analyzes much more easily with it. The Camera view then embeds a list of default sights that you can customize in the near future.
 
-13. `{ theta: 0, label: "front" }`
-14. `{ theta: 30, label: "front right"}`
-15. `{ theta: 60, label: "front lateral right"}`
-16. `{ theta: 90, label: "middle lateral right"}`
-17. `{ theta: 120, label: "rear lateral right"}`
-18. `{ theta: 150, label: "rear right"}`
-19. `{ theta: 180, label: "rear"}`
-20. `{ theta: 210, label: "rear left"}`
-21. `{ theta: 240, label: "rear lateral left"}`
-22. `{ theta: 270, label: "middle lateral left"}`
-23. `{ theta: 300, label: "front lateral left"}`
-24. `{ theta: 330, label: "front left"}`
+``` json
+/* sights.json */
+
+[{
+  id: "abstractFront"
+  "(ρφz)": { ρ: null , φ: 0, z: null }
+}, {
+  id: "abstractFrontLeft"
+  "(ρφz)": { ρ: null , φ: 30, z: null }
+}, {
+  id: "abstractFrontLateralLeft"
+  "(ρφz)": { ρ: null , φ: 60, z: null }
+}, {
+  id: "abstractMiddleLateralLeft"
+  "(ρφz)": { ρ: null , φ: 90, z: null }
+}, {
+  id: "abstractRearLateralLeft"
+  "(ρφz)": { ρ: null , φ: 120, z: null }
+}, {
+  id: "abstractRearLeft"
+  "(ρφz)": { ρ: null , φ: 150, z: null }
+}, {
+  id: "abstractRear"
+  "(ρφz)": { ρ: null , φ: 180, z: null }
+}, {
+  id: "abstractRearRight"
+  "(ρφz)": { ρ: null , φ: 210, z: null }
+}, {
+  id: "abstractRearLateralRight"
+  "(ρφz)": { ρ: null , φ: 240, z: null }
+}, {
+  id: "abstractMiddleLateralRight"
+  "(ρφz)": { ρ: null , φ: 270, z: null }
+}, {
+  id: "abstractFrontLateralRight"
+  "(ρφz)": { ρ: null , φ: 300, z: null }
+}, {
+  id: "abstractFrontRight"
+  "(ρφz)": { ρ: null , φ: 330, z: null }
+}]
+```
+
+Can also be simplified
+`const abstractSight = new Sight('abstractFront', [null, 0, null]);`
 
 This scheme will enable a wheel indicator displaying the angle we need to take the picture.
-Plus an overlay is completing the view showing helping to take position before capture.
+Plus an overlay is completing the view helping to take position before taking the picture.
 
 ![classic-car-masks.jpg](../../../static/guides/classic-car-masks.jpg)
 
@@ -75,10 +107,14 @@ export default function MyCameraView() {
 Here is an example of `picture` callback response:
 
 ``` json
-/* console.log(pictures) */
+/* console.log(picture) */
 
-[{ theta: 0, label: "front" }, { source: "base64", ...pictureProps }],
-[{ theta: 30, label: "front right" }, { source: "base64", ...pictureProps }],
+[
+  // Sight
+  { id: "abstractFront", "(ρφz)": { ρ: null , φ: 0, z: null }},
+  // NativeCameraPicture
+  { source: "base64", ...pictureProps },
+]
 ```
 
 And a preview of what `<CameraView />` looks like.

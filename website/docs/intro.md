@@ -4,36 +4,36 @@ title: Overview
 slug: /
 ---
 
-Monk's SDKs are divided in three:
-1. A **core** module providing a redux kit to get and manipulate data 🧿
-2. A **components** module exporting basic native features 🧱
-3. A **views** module using core and components together 🚀
+Let's divide Monk into three parts. The **core**, the **view** and the **app**.
 
-They act like the following diagram:
+* Core is a module using redux queries
+* View is a component using native features with core features
+* App is your own application
+
 
 ``` mermaid
 sequenceDiagram
 
 participant App
-participant Views
+participant View
 participant Core
 
 par Runtime
 App->>Core: Create an instance of MonkCore
-Note over App,Views: const monkCore = new MonkCore({ baseUrl });
-App->>Views: Render a CameraView loading native Camera
-Note over App,Views: import { CameraView } from '@monkvision/react-native-views';
+Note over App,View: const monkCore = new MonkCore({ baseUrl });
+App->>View: Render a CameraView loading native Camera
+Note over App,View: import { CameraView } from '@monkvision/react-native-views';
 end
 
 loop Component Lifecycle
-Views-->>Core: Use hooks to get or set data
-Core-->>Views: Update view with new data
-Note over Core,Views: Execute callbacks from Components
+View-->>Core: Use hooks to get or set data
+Core-->>View: Update view with new data
+Note over Core,View: Execute callbacks from Components
 end
 
-Views->>App: Display elements and drive use until<br>he gets the full inspection
-Note over Views,App: const handleCloseCamera =<br>useCallback((pictures) => { ... }, []);
-Note over Views,App: <CameraView onCloseCamera={handleCloseCamera} />
+View->>App: Display elements and drive use until<br>he gets the full inspection
+Note over View,App: const handleCloseCamera =<br>useCallback((pictures) => { ... }, []);
+Note over View,App: <CameraView onCloseCamera={handleCloseCamera} />
 ```
 
 ## 🧿 Core
