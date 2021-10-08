@@ -2,7 +2,7 @@ module.exports = {
   docsSidebar: [{
     type: 'category',
     label: 'Getting Started',
-    items: ['intro', 'install', 'configure'],
+    items: ['intro', 'install'/* , 'configure' */],
   }, {
     type: 'category',
     label: 'JavaScript',
@@ -11,20 +11,13 @@ module.exports = {
       label: 'Guides',
       items: [
         'js/guides/picturing',
-        'js/guides/analyzing',
-        'js/guides/manipulating',
-        'js/guides/displaying',
+        // 'js/guides/analyzing',
+        // 'js/guides/manipulating',
+        // 'js/guides/displaying',
       ],
     }, {
       type: 'category',
-      label: 'Components',
-      items: [
-        'js/components/react-native',
-        'js/components/react-native-views',
-      ],
-    }, {
-      type: 'category',
-      label: 'API',
+      label: 'APIs 🚧',
       items: [
         'js/api/corejs',
         'js/api/react-native',

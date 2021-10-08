@@ -1,20 +1,57 @@
 ---
 id: intro
-title: Main concepts
+title: Overview
 slug: /
 ---
 
-Monk's SDK is divided in three main concepts:
-1. A **CORE** module providing a redux kit to get and manipulate data 🧿
-2. A **COMPONENTS** module exporting basic native features 🧱
-3. A **VIEWS** module using core and components together 🚀
+Monk's SDKs are divided in three:
+1. A **core** module providing a redux kit to get and manipulate data 🧿
+2. A **components** module exporting basic native features 🧱
+3. A **views** module using core and components together 🚀
+
+They act like the following diagram:
+
+``` mermaid
+sequenceDiagram
+
+participant App
+participant Views
+participant Core
+
+par Runtime
+App->>Core: Create an instance of MonkCore
+Note over App,Views: const monkCore = new MonkCore({ baseUrl });
+App->>Views: Render a CameraView loading native Camera
+Note over App,Views: import { CameraView } from '@monkvision/react-native-views';
+end
+
+loop Component Lifecycle
+Views-->>Core: Use hooks to get or set data
+Core-->>Views: Update view with new data
+Note over Core,Views: Execute callbacks from Components
+end
+
+Views->>App: Display elements and drive use until<br>he gets the full inspection
+Note over Views,App: const handleCloseCamera =<br>useCallback((pictures) => { ... }, []);
+Note over Views,App: <CameraView onCloseCamera={handleCloseCamera} />
+```
 
 ## 🧿 Core
 
-**The core is a basic module. It translates calls from your code to Monk's servers.**
+**The core is a basic module. It's a proxy between your code and Monk's servers.**
 
-> Currently written in _JavaScript_, we are working to provide a core for every popular language that can be requested to execute a query (_EcmaScript, TypeScript, Dart, Python..._).
-It accepts a `CLIENT_ID`, a domain name `MONK_DOMAIN` and an `accessToken` as parameters. It follows the _Redux_ pattern and can be combined with your own store and your own middleware.
+``` mermaid
+sequenceDiagram
+
+participant Core
+participant Servers
+
+loop
+  Core->>Servers: Execute queries
+  Servers->>Core: Update client store via HTTP response
+  Servers-->>Core: Invalidate cache with WS stream
+end
+```
 
 Once instantiated, the core **provides the APIs** essential to the use of artificial intelligence, but also **hooks** and other **middlewares** specific to front-end development.
 
@@ -58,108 +95,22 @@ function App() {
 }
 ```
 
+> Currently written in _JavaScript_, we are working to provide a core for every popular language that can be requested to execute a query (_EcmaScript, TypeScript, Dart, Python..._).
+It accepts a `CLIENT_ID` and domain name `MONK_DOMAIN` as parameters. It follows the _Redux_ pattern and can be combined with your own store and your own middleware.
+
 ## 🧱 Components
 
 The React Native component library allows you to build a set of views or modules brick by brick.
 
-> For example, the `CameraView` is composed of the` Camera` and `Gallery` component at the same time,` Camera` accepting as parameters your own capture buttons.
+> For example, the `CameraView` is composed of the `Camera` and `Gallery` component at the same time, `Camera` accepting as parameters your own capture buttons.
 
 This library is useful if you want to use lower level features or customize your components as you wish, unlike the `react-native-views` library which embeds much more than micro-components.
-
-``` javascript
-/* MyCamera.jsx */
-
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import noop from 'lodash.noop';
-
-import { StyleSheet } from 'react-native';
-import { FAB } from 'react-native-paper';
-
-import { Camera, Gallery } from '@monkvision/react-native';
-
-const styles = StyleSheet.create({
-  largeFab: {
-    transform: [{ scale: 1.3 }],
-  },
-});
-
-export default function MyCamera({ onCloseCamera, onTakePicture , onToggleMenu }) {
-  const [pictures, setPictures] = useState([]);
-
-  const handleCloseCamera = useCallback(() => {
-    onCloseCamera(pictures);
-  }, [onCloseCamera, pictures]);
-
-  const handleTakePicture = useCallback(async (camera) => {
-    if (camera.ready) {
-      setBlackScreen(true);
-
-      const options = { quality: 1 };
-      const picture = await camera.ref.takePictureAsync(options);
-
-      setPictures((prevState) => prevState.concat({
-        id: 'uniqPartId',
-        source: picture,
-      }));
-
-      onTakePicture(picture, pictures, camera);
-    }
-  }, [onTakePicture, pictures]);
-
-  const handleToggleMenu = () => {
-    // console.warn('Toggle menu...');
-    onToggleMenu(pictures);
-  };
-
-  return (
-    <Camera
-      left={() => <Gallery pictures={pictures} setPictures={setPictures} />}
-      right={({ camera }) => (
-        <>
-          <FAB
-            accessibilityLabel="Toggle Menu"
-            color="#edab25"
-            icon="menu"
-            onPress={handleToggleMenu}
-            small
-          />
-          <FAB
-            accessibilityLabel="Take picture"
-            icon="camera-image"
-            onPress={() => handleTakePicture(camera)}
-            style={styles.largeFab}
-          />
-          <FAB
-            accessibilityLabel="Close camera"
-            icon="close"
-            onPress={handleCloseCamera}
-            small
-          />
-        </>
-      )}
-    />
-  );
-}
-
-MyCamera.propTypes = {
-  onCloseCamera: PropTypes.func,
-  onTakePicture: PropTypes.func,
-  onToggleMenu: PropTypes.func,
-};
-
-MyCamera.defaultProps = {
-  onCloseCamera: noop,
-  onToggleMenu: noop,
-  onTakePicture: noop,
-};
-```
 
 ## 🚀 Views
 
 The `react-native-views` library embeds the features of the previous two. It mixes the server calls with the components in order to provide a very high level development kit.
 
-> Each view globally accepts a panel of callbacks like `onCloseCamera` or` onTakingPicture`. They are however heavier, using `react-native-paper` as the default UI library, which can weigh down your bundle.
+> Each view globally accepts a panel of callbacks like `onCloseCamera` or `onTakingPicture`. They are however heavier, using `react-native-paper` as the default UI library, which can weigh down your bundle.
 
 The views are all compatible with Android, iOS and Web, unless specified otherwise.
 

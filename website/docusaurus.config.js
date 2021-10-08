@@ -32,6 +32,8 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./docs.sidebars.js'),
+          // eslint-disable-next-line global-require
+          remarkPlugins: [require('mdx-mermaid')],
         },
         blog: {
           blogSidebarCount: 'ALL',

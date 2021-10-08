@@ -10,16 +10,15 @@ For complete reference and examples please check our [documentation](https://mon
 **🚧 v1.0.0 is under construction**.
 
 * [Getting started](https://monkvision.github.io/monkjs/docs)
-  * [Main concepts](https://monkvision.github.io/monkjs/docs/intro)
+  * [Overview](https://monkvision.github.io/monkjs/docs/)
   * [Installation](https://monkvision.github.io/monkjs/docs/install)
-  * [Usage](https://monkvision.github.io/monkjs/docs/usage)
+  * [Console 🚧](https://monkvision.github.io/monkjs/docs/usage)
 * [JavaScript](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
   * [Guides](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
-    * [Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
-    * [Analyzing](https://monkvision.github.io/monkjs/docs/js/guides/analysing)
-    * [Manipulating](https://monkvision.github.io/monkjs/docs/js/guides/manipulating)
-    * [Showing results](https://monkvision.github.io/monkjs/docs/js/guides/displaying)
-  * [Components](https://monkvision.github.io/monkjs/docs/js/components)
+    * [Capture](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
+    * [Analyze](https://monkvision.github.io/monkjs/docs/js/guides/analysing)
+    * [Manipulate](https://monkvision.github.io/monkjs/docs/js/guides/manipulating)
+    * [Display](https://monkvision.github.io/monkjs/docs/js/guides/displaying)
   * [APIs](https://monkvision.github.io/monkjs/docs/js/api)
 * Python
   * Guides
