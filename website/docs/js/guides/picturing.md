@@ -68,7 +68,7 @@ export default function MyCameraView() {
 }
 ```
 
-**See the [CameraView API](/js/api/react-native-views#CameraView) to more details.**
+**See the [CameraView API](https://monkvision.github.io/monkjs/js/api/react-native-views#CameraView) to more details.**
 
 ### Results
 
