@@ -33,7 +33,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'error',
     'react/jsx-props-no-spreading': 'off',
     'react/style-prop-object': 'off',
-    'react/prop-types': [2, { ignore: ['children', 'className'] }],
+    'react/prop-types': [2, { ignore: ['children', 'className', 'style'] }],
     'react/jsx-filename-extension': [1, {
       extensions: ['.native.js', '.ios.js', '.android.js', '.jsx'],
     }],

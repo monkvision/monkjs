@@ -2,11 +2,9 @@ import React from 'react';
 import ScreenView from 'screens/ScreenView';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
-import { Avatar, Button, Card, Surface } from 'react-native-paper';
+import { Avatar, Button, Card } from 'react-native-paper';
 import { spacing } from 'config/theme';
-import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 
-import { classic as classicCar } from 'assets/svg/vehicles';
 import inspectionCover from './covers/inspections.jpg';
 
 const styles = StyleSheet.create({
@@ -35,9 +33,6 @@ export default function Dashboard() {
           <Button onPress={() => navigation.navigate('Inspections')}>See all</Button>
         </Card.Actions>
       </Card>
-      <Surface style={styles.card}>
-        <Vehicle pressAble xml={classicCar.front} width={320} height={206} />
-      </Surface>
     </ScreenView>
   );
 }

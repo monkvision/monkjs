@@ -47,6 +47,7 @@
     "lodash.camelcase": "^4.3.0",
     "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
+    "lodash.kebabcase": "^4.1.1",
     "lodash.noop": "^3.0.1",
     "react-native-xml2js": "^1.0.3",
     "tinycolor2": "^1.4.2"

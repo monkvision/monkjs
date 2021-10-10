@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
@@ -6,9 +6,9 @@ import { StyleSheet } from 'react-native';
 import { FAB, Text } from 'react-native-paper';
 
 import Camera from '@monkvision/react-native/src/components/Camera';
+import Mask from '@monkvision/react-native/src/components/Mask';
 
 import useSights from './useSights';
-import defaultSights from './sights.json';
 
 const styles = StyleSheet.create({
   fab: {
@@ -27,14 +27,31 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
+ * @param sightMasks {{string}}
  * @param sights {[Sight]}
  * @returns {JSX.Element}
  * @constructor
  */
-export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture, sights }) {
+export default function CameraView({
+  onCloseCamera,
+  onShowAdvice,
+  onTakePicture,
+  sightMasks,
+  sights,
+}) {
   const { activeSight, nextSightProps } = useSights(sights);
 
+  const sightMask = useMemo(
+    () => sightMasks[activeSight.id],
+    [activeSight.id, sightMasks],
+  );
+
   const [pictures, setPictures] = useState({});
+
+  const [ready, setReady] = useState(false);
+  const handleCameraReady = useCallback(() => {
+    setReady(true);
+  }, [setReady]);
 
   const handleCloseCamera = useCallback(() => {
     onCloseCamera(pictures);
@@ -68,7 +85,8 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture,
 
   return (
     <Camera
-      left={() => <Text>{activeSight.id}</Text>}
+      left={() => <Text style={{ color: 'white' }}>{activeSight.id}</Text>}
+      onCameraReady={handleCameraReady}
       right={({ camera }) => (
         <>
           <FAB
@@ -94,7 +112,9 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture,
           />
         </>
       )}
-    />
+    >
+      {(ready && sightMask) && <Mask alt={activeSight.id} xml={sightMask} />}
+    </Camera>
   );
 }
 
@@ -103,6 +123,7 @@ CameraView.propTypes = {
   onShowAdvice: PropTypes.func,
   // onSightsDone: PropTypes.func,
   onTakePicture: PropTypes.func,
+  sightMasks: PropTypes.objectOf(PropTypes.string),
   sights: PropTypes.arrayOf(PropTypes.array),
 };
 
@@ -111,5 +132,6 @@ CameraView.defaultProps = {
   onShowAdvice: noop,
   // onSightsDone: noop,
   onTakePicture: noop,
-  sights: defaultSights,
+  sightMasks: {},
+  sights: [],
 };

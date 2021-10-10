@@ -22,14 +22,6 @@ const styles = StyleSheet.create({
       default: { display: 'flex', flex: 1 },
     }),
   },
-  blackScreen: {
-    display: 'flex',
-    flex: 1,
-    backgroundColor: 'black',
-    width: '100%',
-    height: '100%',
-    zIndex: 10,
-  },
 });
 
 function getContainedSize(ratio, onlyResult = false) {
@@ -49,7 +41,6 @@ function getContainedSize(ratio, onlyResult = false) {
  * @param onCameraRef {func}
  * @param ratio {string}
  * @param right {func}
- * @param showBlackScreen {bool}
  * @param sideBarProps {object}
  * @returns {JSX.Element}
  * @constructor
@@ -62,7 +53,6 @@ function Camera({
   onCameraRef,
   ratio,
   right,
-  showBlackScreen,
   sideBarProps,
 }) {
   // STATE
@@ -106,9 +96,6 @@ function Camera({
         style={handleContainedSize()}
         type={ExpoCamera.Constants.Type.back}
       >
-        {(showBlackScreen && Platform.OS === 'web')
-          ? <View style={styles.blackScreen} />
-          : null}
         {children}
       </ExpoCamera>
       <Left camera={{ ref: camera, ready }} />
@@ -123,7 +110,6 @@ Camera.propTypes = {
   onCameraRef: PropTypes.func,
   ratio: PropTypes.string,
   right: PropTypes.func,
-  showBlackScreen: PropTypes.bool,
   sideBarProps: PropTypes.objectOf(PropTypes.any),
 };
 
@@ -134,7 +120,6 @@ Camera.defaultProps = {
   onCameraRef: noop,
   ratio: '4:3',
   right: () => null,
-  showBlackScreen: false,
   sideBarProps: {},
 };
 
