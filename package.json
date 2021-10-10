@@ -46,6 +46,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.isfunction": "^3.0.9",
     "lodash.isplainobject": "^4.0.6",
+    "lodash.kebabcase": "^4.1.1",
     "lodash.mapkeys": "^4.6.0",
     "lodash.noop": "^3.0.1",
     "lodash.snakecase": "^4.1.1",
@@ -70,7 +71,7 @@
     "redux-logger": "^3.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.15.8",
     "babel-plugin-inline-import": "^3.0.0",
     "babel-preset-expo": "^8.4.1",
     "eslint": "^7.32.0",
