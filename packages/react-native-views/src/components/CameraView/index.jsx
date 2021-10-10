@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
 import { StyleSheet } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { FAB, Text } from 'react-native-paper';
 
 import Camera from '@monkvision/react-native/src/components/Camera';
-import Gallery from '@monkvision/react-native/src/components/Gallery';
+
+import useSights from './useSights';
+import defaultSights from './sights.json';
 
 const styles = StyleSheet.create({
   fab: {
@@ -20,9 +22,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture }) {
-  const [pictures, setPictures] = useState([]);
-  const [blackScreen, setBlackScreen] = useState(false);
+/**
+ *
+ * @param onCloseCamera {func}
+ * @param onShowAdvice {func}
+ * @param onTakePicture {func}
+ * @param sights {[Sight]}
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture, sights }) {
+  const { activeSight, nextSightProps } = useSights(sights);
+
+  const [pictures, setPictures] = useState({});
 
   const handleCloseCamera = useCallback(() => {
     onCloseCamera(pictures);
@@ -30,33 +42,33 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture 
 
   const handleTakePicture = useCallback(async (camera) => {
     if (camera.ready) {
-      setBlackScreen(true);
-
       const options = { quality: 1 };
       const picture = await camera.ref.takePictureAsync(options);
 
-      setPictures((prevState) => prevState.concat({
-        id: 'uniqPartId',
-        source: picture,
+      setPictures((prevState) => ({
+        ...prevState,
+        [activeSight.id]: {
+          sight: activeSight,
+          source: picture,
+        },
       }));
 
       onTakePicture(picture, pictures, camera);
+
+      if (!nextSightProps.disabled) {
+        nextSightProps.onPress();
+      }
     }
-  }, [onTakePicture, pictures]);
+  }, [activeSight, nextSightProps, onTakePicture, pictures]);
 
   const handleShowAdvice = () => {
     // console.warn('Showing advice...');
     onShowAdvice(pictures);
   };
 
-  useEffect(() => {
-    const id = setTimeout(() => setBlackScreen(false), 200);
-    return () => clearTimeout(id);
-  }, [blackScreen]);
-
   return (
     <Camera
-      left={() => <Gallery pictures={pictures} setPictures={setPictures} />}
+      left={() => <Text>{activeSight.id}</Text>}
       right={({ camera }) => (
         <>
           <FAB
@@ -69,7 +81,6 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture 
           />
           <FAB
             accessibilityLabel="Take a picture"
-            disabled={blackScreen}
             icon="camera-image"
             onPress={() => handleTakePicture(camera)}
             style={[styles.fabImportant, styles.largeFab]}
@@ -83,7 +94,6 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture 
           />
         </>
       )}
-      showBlackScreen={blackScreen}
     />
   );
 }
@@ -91,11 +101,15 @@ export default function CameraView({ onCloseCamera, onShowAdvice, onTakePicture 
 CameraView.propTypes = {
   onCloseCamera: PropTypes.func,
   onShowAdvice: PropTypes.func,
+  // onSightsDone: PropTypes.func,
   onTakePicture: PropTypes.func,
+  sights: PropTypes.arrayOf(PropTypes.array),
 };
 
 CameraView.defaultProps = {
   onCloseCamera: noop,
   onShowAdvice: noop,
+  // onSightsDone: noop,
   onTakePicture: noop,
+  sights: defaultSights,
 };

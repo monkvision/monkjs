@@ -23,45 +23,12 @@ A capture scheme is a list of sights `[Sight]` with a unique string `id` and [cy
 > If our AI can work without this metadata, it analyzes much more easily with it. The Camera view then embeds a list of default sights that you can customize in the near future.
 
 ``` json
-/* sights.json */
-
-[{
-  id: "abstractFront"
-  "(ρφz)": { ρ: null , φ: 0, z: null }
-}, {
-  id: "abstractFrontLeft"
-  "(ρφz)": { ρ: null , φ: 30, z: null }
-}, {
-  id: "abstractFrontLateralLeft"
-  "(ρφz)": { ρ: null , φ: 60, z: null }
-}, {
-  id: "abstractMiddleLateralLeft"
-  "(ρφz)": { ρ: null , φ: 90, z: null }
-}, {
-  id: "abstractRearLateralLeft"
-  "(ρφz)": { ρ: null , φ: 120, z: null }
-}, {
-  id: "abstractRearLeft"
-  "(ρφz)": { ρ: null , φ: 150, z: null }
-}, {
-  id: "abstractRear"
-  "(ρφz)": { ρ: null , φ: 180, z: null }
-}, {
-  id: "abstractRearRight"
-  "(ρφz)": { ρ: null , φ: 210, z: null }
-}, {
-  id: "abstractRearLateralRight"
-  "(ρφz)": { ρ: null , φ: 240, z: null }
-}, {
-  id: "abstractMiddleLateralRight"
-  "(ρφz)": { ρ: null , φ: 270, z: null }
-}, {
-  id: "abstractFrontLateralRight"
-  "(ρφz)": { ρ: null , φ: 300, z: null }
-}, {
-  id: "abstractFrontRight"
-  "(ρφz)": { ρ: null , φ: 330, z: null }
-}]
+"id": "abstractFront",
+"(ρφz)": {
+  "ρ": null,
+  "φ": 0,
+  "z": null
+}
 ```
 
 Can also be simplified
@@ -102,22 +69,39 @@ export default function MyCameraView() {
 
 **See the [CameraView API](https://monkvision.github.io/monkjs/js/api/react-native-views#CameraView) to more details.**
 
-### Results
-
-Here is an example of `picture` callback response:
+### Outputs
 
 ``` json
-/* console.log(picture) */
+/* picture */
 
-[
-  // Sight
-  { id: "abstractFront", "(ρφz)": { ρ: null , φ: 0, z: null }},
-  // NativeCameraPicture
-  { source: "base64", ...pictureProps },
-]
+{
+  "abstractFront":{
+    "sight":{
+      "_id":"abstractFront",
+      "_poz":[
+        null,
+        0,
+        null
+      ]
+    },
+    "source":{
+      "uri":"data:image/png;base64",
+      "base64":"data:image/png;base64",
+      "width":640,
+      "height":480,
+      "exif":{
+        "aspectRatio":1.3333333333333333,
+        "deviceId":"3e472a",
+        "frameRate":30.000030517578125,
+        "groupId":"cf50a2",
+        "height":480,
+        "resizeMode":"none",
+        "width":640
+      }
+    }
+  }
+}
 ```
-
-And a preview of what `<CameraView />` looks like.
 
 ![camera-view-example.png](../../../static/guides/camera-view-example.png)
 

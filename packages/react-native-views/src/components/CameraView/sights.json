@@ -1,0 +1,14 @@
+[
+  ["abstractFront", [null, 0, null]],
+  ["abstractFrontLeft", [null, 30, null]],
+  ["abstractFrontLateralLeft", [null, 60, null]],
+  ["abstractMiddleLateralLeft", [null, 90, null]],
+  ["abstractRearLateralLeft", [null, 120, null]],
+  ["abstractRearLeft", [null, 150, null]],
+  ["abstractRear", [null, 180, null]],
+  ["abstractRearRight", [null, 210, null]],
+  ["abstractRearLateralRight", [null, 240, null]],
+  ["abstractMiddleLateralRight", [null, 270, null]],
+  ["abstractFrontLateralRight", [null, 300, null]],
+  ["abstractFrontRight", [null, 330, null]]
+]
