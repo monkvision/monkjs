@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, useTheme, Text } from 'react-native-paper';
-import { SvgXml } from 'react-native-svg';
-
-import GuideIcon from '../../../../assets/svg/icons/GuideIcon.svg';
+import { Octicons } from '@expo/vector-icons';
+import PropTypes from 'prop-types';
+import noop from 'lodash.noop';
 
 const styles = StyleSheet.create({
   validateButton: {
@@ -29,23 +29,48 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 2,
+    backgroundColor: '#FFF',
+    borderRadius: 50,
+    padding: 10,
+    marginBottom: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-export const ValidateButton = (props) => {
+export const ValidateButton = ({ onPress, text }) => {
   const theme = useTheme();
   return (
-    <Button mode="contained" uppercase={false} style={styles.validateButton} onPress={props.onPress} color={theme.colors.primary}>
-      <Text style={styles.validateButtonText}>{props.text ?? 'Validate'}</Text>
+    <Button mode="contained" uppercase={false} style={styles.validateButton} onPress={onPress} color={theme.colors.primary}>
+      <Text style={styles.validateButtonText}>{text}</Text>
     </Button>
   );
 };
 
-export const GuideButton = (props) => {
-  return (
-    <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.guideIcon}><SvgXml xml={GuideIcon} height={63} width={63} /></View>
-      <Text style={styles.guideBtnText}>Guide</Text>
-    </TouchableOpacity>
-  );
+
+export const GuideButton = ({ onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={styles.guideIcon}>
+      <Octicons name="light-bulb" size={24} color="#274B9F" />
+    </View>
+    <Text style={styles.guideBtnText}>Guide</Text>
+  </TouchableOpacity>
+);
+
+ValidateButton.propTypes = {
+  onPress: PropTypes.func,
+  text: PropTypes.string,
+};
+
+ValidateButton.defaultProps = {
+  onPress: noop,
+  text: 'Validate',
+};
+
+GuideButton.propTypes = {
+  onPress: PropTypes.func,
+};
+
+GuideButton.defaultProps = {
+  onPress: noop,
 };

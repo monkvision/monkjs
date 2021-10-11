@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Image, View, Platform, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import noop from 'lodash.noop';
 
 const carViews = {
-  front: require('../../../../assets/svg/vehicles/miniatures/front.png'),
-  back: require('../../../../assets/svg/vehicles/miniatures/back.png'),
-  top: require('../../../../assets/svg/vehicles/miniatures/top.png'),
+  front: require('assets/svg/vehicles/miniatures/front.png'),
+  back: require('assets/svg/vehicles/miniatures/back.png'),
+  top: require('assets/svg/vehicles/miniatures/top.png'),
 };
 
 const styles = StyleSheet.create({
@@ -79,6 +80,6 @@ DamageLibraryLeftActions.propTypes = {
 };
 
 DamageLibraryLeftActions.defaultProps = {
-  handlePress: () => {},
+  handlePress: noop,
   selected: 'front',
 };

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
-import { SvgXml } from 'react-native-svg';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
-import DamageLibraryLeftActionsActions from './Actions/LeftActions';
+import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
 import { classic as classicCar } from '../../../assets/svg/vehicles';
-
-import AiFoundIcon from '../../../assets/svg/icons/AiFoundIcon.svg';
 
 const styles = StyleSheet.create({
   root: {
@@ -91,32 +89,33 @@ const styles = StyleSheet.create({
 
 export default function DamageLibrary() {
   const navigation = useNavigation();
+  const focused = useIsFocused();
   const [currentView, setCurrentView] = useState('front');
+
   const unLockScreenAsync = async () => {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
     await ScreenOrientation.unlockAsync();
   };
+
   const goBack = () => {
-    unLockScreenAsync().then(() => {
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate('Inspections');
-      }
-    });
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Inspections');
+    }
   };
 
   useEffect(() => {
     async function lockScreenOrientation() {
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-    };
-    lockScreenOrientation();
-  }, []);
+    }
+    if (focused) { lockScreenOrientation(); }
+    return () => unLockScreenAsync();
+  }, [focused]);
 
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
-        {/* eslint-disable-next-line max-len */}
         <View style={styles.vehicle}>
           <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="70%" />
         </View>
@@ -135,10 +134,10 @@ export default function DamageLibrary() {
         </View>
         <View style={styles.helpTextContainer}>
           <Text style={styles.helpText}>Click on the vehicle parts to add damage </Text>
-          <SvgXml xml={AiFoundIcon} height={30} width={36} />
+          <MaterialCommunityIcons name="brain" color="#274B9F" size={30} />
         </View>
         {/* eslint-disable-next-line max-len */}
-        <DamageLibraryLeftActionsActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
+        <DamageLibraryLeftActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
         <View style={styles.guideBtnContainer}><GuideButton onPress={() => console.log('open guide')} /></View>
         <View style={styles.validateBtnContainer}><ValidateButton style={styles.validateBtn} text="Validate report" onPress={() => console.log('validate damages')} /></View>
       </Surface>
