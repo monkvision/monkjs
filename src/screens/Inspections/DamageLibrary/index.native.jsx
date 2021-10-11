@@ -3,6 +3,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import DamageLibraryLeftActions from './Actions/LeftActions';
@@ -116,9 +117,16 @@ export default function DamageLibrary() {
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
-        <View style={styles.vehicle}>
+        <ReactNativeZoomableView
+          maxZoom={1.5}
+          minZoom={0.5}
+          zoomStep={0.5}
+          initialZoom={1}
+          bindToBorders
+          style={styles.vehicle}
+        >
           <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="70%" />
-        </View>
+        </ReactNativeZoomableView>
         <View style={styles.header}>
           <IconButton
             accessibilityLabel="Cancel"
