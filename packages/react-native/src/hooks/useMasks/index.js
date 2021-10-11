@@ -7,7 +7,7 @@ export default function useMasks(sights) {
   useEffect(() => {
     const entries = sights
       // eslint-disable-next-line global-require,import/no-dynamic-require
-      .map(([id]) => [id, require(`../assets/sightMasks/${kebabCase(id)}.svg`)]);
+      .map(([id]) => [id, require(`../../assets/sightMasks/${kebabCase(id)}.svg`)]);
 
     setMasks(Object.fromEntries(entries));
   }, [sights]);

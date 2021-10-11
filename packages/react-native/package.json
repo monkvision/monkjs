@@ -42,7 +42,7 @@
     "@emotion/is-prop-valid": "^1.1.0",
     "expo-camera": "~11.2.2",
     "expo-constants": "~11.0.1",
-    "expo-screen-orientation": "~3.2.1",
+    "expo-screen-orientation": "~3.3.0",
     "expo-status-bar": "~1.0.4",
     "lodash.camelcase": "^4.3.0",
     "lodash.isboolean": "^3.0.3",
@@ -50,7 +50,8 @@
     "lodash.kebabcase": "^4.1.1",
     "lodash.noop": "^3.0.1",
     "react-native-xml2js": "^1.0.3",
-    "tinycolor2": "^1.4.2"
+    "tinycolor2": "^1.4.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.4.1",
