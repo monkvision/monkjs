@@ -1,13 +1,10 @@
 import React from 'react';
-import { StyleSheet, Image, View, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Platform, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-const carViews = {
-  front: require('assets/svg/vehicles/miniatures/front.png'),
-  back: require('assets/svg/vehicles/miniatures/back.png'),
-  top: require('assets/svg/vehicles/miniatures/top.png'),
-};
+import Vehicle from '@monkvision/react-native/src/components/Vehicle';
+import { classic as classicCar } from '../../../../assets/svg/vehicles';
 
 const styles = StyleSheet.create({
   root: {
@@ -24,7 +21,7 @@ const styles = StyleSheet.create({
     }),
     position: 'absolute',
     backgroundColor: 'transparent',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     alignContent: 'center',
     alignItems: 'center',
     width: 92,
@@ -55,19 +52,19 @@ export default function DamageLibraryLeftActions(props) {
     <View style={styles.root}>
       <View style={selected === 'front' ? [styles.card, styles.cardSelected] : [styles.card]}>
         <TouchableOpacity onPress={() => handlePress('front')}>
-          <Image height={52} width={92} source={Image.resolveAssetSource(carViews.front)} />
+          <Vehicle pressAble={false} xml={classicCar.front} width={52} height={92} />
         </TouchableOpacity>
       </View>
 
       <View onPress={handlePress} style={selected === 'back' ? [styles.card, styles.cardSelected] : [styles.card]}>
         <TouchableOpacity onPress={() => handlePress('back')}>
-          <Image height={52} width={92} source={Image.resolveAssetSource(carViews.back)} />
+          <Vehicle pressAble={false} xml={classicCar.back} width={52} height={92} />
         </TouchableOpacity>
       </View>
 
       <View onPress={handlePress} style={selected === 'top' ? [styles.card, styles.cardSelected] : [styles.card]}>
         <TouchableOpacity onPress={() => handlePress('top')}>
-          <Image height={52} width={92} source={Image.resolveAssetSource(carViews.top)} />
+          <Vehicle pressAble={false} xml={classicCar.top} width={52} height={92} />
         </TouchableOpacity>
       </View>
     </View>

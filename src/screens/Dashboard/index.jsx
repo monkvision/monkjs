@@ -8,6 +8,10 @@ import { spacing } from 'config/theme';
 import inspectionCover from './covers/inspections.jpg';
 
 const styles = StyleSheet.create({
+  card: {
+    marginBottom: spacing(2),
+    maxWidth: 720,
+  },
   cardActions: {
     justifyContent: 'flex-end',
   },

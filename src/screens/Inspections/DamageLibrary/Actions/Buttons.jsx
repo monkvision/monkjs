@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   validateButtonText: {
     fontWeight: 'bold',
     color: '#FFF',
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 40,
   },
   guideBtnText: {

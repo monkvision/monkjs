@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import DamageLibraryLeftActions from './Actions/LeftActions';
@@ -10,15 +11,12 @@ import { classic as classicCar } from '../../../assets/svg/vehicles';
 
 const styles = StyleSheet.create({
   root: {
-    flexDirection: 'row-reverse',
-    flexWrap: 'nowrap',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
-    height: '100%',
+    paddingHorizontal: 20,
   },
   surface: {
-    height: '100%',
     ...Platform.select({
       native: { flex: 1 },
       default: {
@@ -26,6 +24,8 @@ const styles = StyleSheet.create({
         flex: 1,
       },
     }),
+    flexDirection: 'column',
+    flexWrap: 'wrap',
     backgroundColor: '#E5E5E5',
   },
   vehicle: {
@@ -36,9 +36,8 @@ const styles = StyleSheet.create({
     paddingTop: '8%',
   },
   header: {
-    flex: 1,
     flexDirection: 'row',
-    width: '100%',
+    flexWrap: 'wrap',
     paddingHorizontal: 40,
     position: 'absolute',
   },
@@ -48,7 +47,8 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     flex: 1,
-    justifyContent: 'center',
+    display: 'flex',
+    justifyContent: 'space-around',
     paddingHorizontal: 120,
   },
   progressText: {
@@ -89,7 +89,13 @@ const styles = StyleSheet.create({
 
 export default function DamageLibrary() {
   const navigation = useNavigation();
+  const focused = useIsFocused();
   const [currentView, setCurrentView] = useState('front');
+
+  const unLockScreenAsync = async () => {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    await ScreenOrientation.unlockAsync();
+  };
 
   const goBack = () => {
     if (navigation.canGoBack()) {
@@ -99,11 +105,19 @@ export default function DamageLibrary() {
     }
   };
 
+  useEffect(() => {
+    async function lockScreenOrientation() {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
+    }
+    if (focused) { lockScreenOrientation(); }
+    return () => unLockScreenAsync();
+  }, [focused]);
+
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
         <View style={styles.vehicle}>
-          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="85%" />
+          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="70%" />
         </View>
         <View style={styles.header}>
           <IconButton
