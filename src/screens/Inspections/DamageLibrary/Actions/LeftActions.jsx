@@ -46,25 +46,43 @@ const styles = StyleSheet.create({
   },
 });
 export default function DamageLibraryLeftActions(props) {
-  const { handlePress, selected } = props;
+  const { handlePress, selected, activeParts } = props;
 
   return (
     <View style={styles.root}>
       <View style={selected === 'front' ? [styles.card, styles.cardSelected] : [styles.card]}>
         <TouchableOpacity onPress={() => handlePress('front')}>
-          <Vehicle pressAble={false} xml={classicCar.front} width={52} height={92} />
+          <Vehicle
+            pressAble={false}
+            xml={classicCar.front}
+            activeParts={activeParts}
+            width={52}
+            height={92}
+          />
         </TouchableOpacity>
       </View>
 
       <View onPress={handlePress} style={selected === 'back' ? [styles.card, styles.cardSelected] : [styles.card]}>
         <TouchableOpacity onPress={() => handlePress('back')}>
-          <Vehicle pressAble={false} xml={classicCar.back} width={52} height={92} />
+          <Vehicle
+            pressAble={false}
+            xml={classicCar.back}
+            activeParts={activeParts}
+            width={52}
+            height={92}
+          />
         </TouchableOpacity>
       </View>
 
       <View onPress={handlePress} style={selected === 'top' ? [styles.card, styles.cardSelected] : [styles.card]}>
         <TouchableOpacity onPress={() => handlePress('top')}>
-          <Vehicle pressAble={false} xml={classicCar.top} width={52} height={92} />
+          <Vehicle
+            pressAble={false}
+            xml={classicCar.top}
+            activeParts={activeParts}
+            width={52}
+            height={92}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -72,11 +90,13 @@ export default function DamageLibraryLeftActions(props) {
 }
 
 DamageLibraryLeftActions.propTypes = {
+  activeParts: PropTypes.objectOf(PropTypes.bool),
   handlePress: PropTypes.func,
   selected: PropTypes.string,
 };
 
 DamageLibraryLeftActions.defaultProps = {
+  activeParts: {},
   handlePress: noop,
   selected: 'front',
 };

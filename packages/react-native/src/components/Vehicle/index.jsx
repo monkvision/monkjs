@@ -89,28 +89,29 @@ SVGComponent.propTypes = {
  * @constructor
  */
 export default function Vehicle({
-  activeMixedColor, onPress, pressAble, xml, ...passThroughProps
+  activeMixedColor, onPress, pressAble, xml, intialActiveParts, activeParts, ...passThroughProps
 }) {
   const [parsedSvg, setParsedSvg] = useState();
-  const [activeParts, setActiveParts] = useState({});
+  const [localActiveParts, setActiveParts] = useState(intialActiveParts);
 
   const handlePress = useCallback((id) => {
     if (id !== undefined && pressAble === true) {
-      const activePart = activeParts[id];
+      const activePart = activeParts !== undefined ? activeParts[id] : localActiveParts[id];
       const isActive = isBoolean(activePart) ? !activePart : true;
 
       setActiveParts((prev) => ({ ...prev, [id]: isActive }));
 
       onPress(id, isActive, activeParts);
     }
-  }, [activeParts, onPress, pressAble]);
+  }, [activeParts, localActiveParts, onPress, pressAble]);
 
   const getFillColor = useCallback((id, defaultColor) => {
-    const activePart = activeParts[id];
+    const activePart = activeParts !== undefined ? activeParts[id] : localActiveParts[id];
+
     return activePart
       ? tinycolor.mix(activeMixedColor, defaultColor).toHexString()
       : defaultColor;
-  }, [activeMixedColor, activeParts]);
+  }, [activeMixedColor, activeParts, localActiveParts]);
 
   useEffect(() => {
     xml2js.parseString(xml, (e, result) => {
@@ -131,6 +132,8 @@ export default function Vehicle({
 
 Vehicle.propTypes = {
   activeMixedColor: PropTypes.string,
+  activeParts: PropTypes.objectOf(PropTypes.bool),
+  intialActiveParts: PropTypes.objectOf(PropTypes.bool),
   onPress: PropTypes.func,
   pressAble: PropTypes.bool,
   xml: PropTypes.string.isRequired,
@@ -138,6 +141,8 @@ Vehicle.propTypes = {
 
 Vehicle.defaultProps = {
   activeMixedColor: '#fa603d',
+  activeParts: {},
+  intialActiveParts: {},
   onPress: noop,
   pressAble: false,
 };

@@ -4,9 +4,13 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
+import monkCore from 'config/monkCore';
+
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
 import { classic as classicCar } from '../../../assets/svg/vehicles';
+
+const { useGetInspectionByIdQuery } = monkCore.inspection;
 
 const styles = StyleSheet.create({
   root: {

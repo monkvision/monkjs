@@ -2,13 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
+import camelCase from 'lodash.camelcase';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
+import monkCore from 'config/monkCore';
+import useMinLoadingTime from 'hooks/useMinLoadingTime';
+
+import ActivityIndicatorScreen from 'screens/ActivityIndicator';
+import { classic as classicCar } from 'assets/svg/vehicles';
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
-import { classic as classicCar } from '../../../assets/svg/vehicles';
+
+const { useGetInspectionByIdQuery } = monkCore.inspection;
+
+function getInitialActiveParts(data) {
+  if (!data) { return {}; }
+  const { damages, parts } = data;
+  const activeParts = {};
+  if (damages) {
+    damages.forEach((damage) => {
+      damage.part_ids.forEach((part_id) => {
+        const part = parts.find(({ id }) => id === part_id);
+        activeParts[camelCase(part.part_type)] = true;
+      });
+    });
+  }
+  return activeParts;
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -93,6 +115,15 @@ export default function DamageLibrary() {
   const focused = useIsFocused();
   const [currentView, setCurrentView] = useState('front');
 
+  const inspectionId = '57dc368c-785a-b7ef-570f-6b8771b4bc49';
+
+  const { isLoading, data } = useGetInspectionByIdQuery(inspectionId);
+  const minLoading = useMinLoadingTime(isLoading);
+
+  const [activeParts, setActiveParts] = useState({});
+
+  console.log(activeParts);
+
   const unLockScreenAsync = async () => {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
     await ScreenOrientation.unlockAsync();
@@ -106,6 +137,11 @@ export default function DamageLibrary() {
     }
   };
 
+  const handlePress = (id, isActive, localActiveParts) => {
+    console.log(id, isActive, localActiveParts);
+    setActiveParts((prev) => ({ ...prev, [id]: isActive }));
+  };
+
   useEffect(() => {
     async function lockScreenOrientation() {
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
@@ -113,6 +149,8 @@ export default function DamageLibrary() {
     if (focused) { lockScreenOrientation(); }
     return () => unLockScreenAsync();
   }, [focused]);
+
+  useEffect(() => { setActiveParts(getInitialActiveParts(data)); }, [data]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -125,7 +163,16 @@ export default function DamageLibrary() {
           bindToBorders
           style={styles.vehicle}
         >
-          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="70%" />
+          {minLoading ? (<ActivityIndicatorScreen />) : (
+            <Vehicle
+              pressAble
+              xml={classicCar[currentView]}
+              onPress={handlePress}
+              activeParts={activeParts}
+              width="100%"
+              height="70%"
+            />
+          )}
         </ReactNativeZoomableView>
         <View style={styles.header}>
           <IconButton
@@ -145,7 +192,7 @@ export default function DamageLibrary() {
           <MaterialCommunityIcons name="brain" color="#274B9F" size={30} />
         </View>
         {/* eslint-disable-next-line max-len */}
-        <DamageLibraryLeftActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
+        <DamageLibraryLeftActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} activeParts={activeParts} />
         <View style={styles.guideBtnContainer}><GuideButton onPress={() => console.log('open guide')} /></View>
         <View style={styles.validateBtnContainer}><ValidateButton style={styles.validateBtn} text="Validate report" onPress={() => console.log('validate damages')} /></View>
       </Surface>
