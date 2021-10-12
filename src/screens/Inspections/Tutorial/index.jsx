@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import CameraView from '@monkvision/react-native-views/src/components/VehicleTour';
+import CameraView from '@monkvision/react-native-views/src/components/VehicleTourTutorial';
 
 export default function InspectionsCreate() {
   const navigation = useNavigation();

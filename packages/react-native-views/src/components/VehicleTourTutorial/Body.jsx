@@ -1,6 +1,6 @@
-import { Entypo, Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import style from './style';
@@ -14,26 +14,26 @@ export default function Body() {
     <View style={style.body}>
       <View style={style.photoProcess}>
         {/* Photo Progress icon */}
-        <Feather name="camera" size={30} color={colors.primary} />
-        <Text style={{ color: colors.primary, fontWeight: 700, paddingTop: 5 }}>
+        <MaterialCommunityIcons name="camera" size={40} color={colors.primary} />
+        <Text style={{ color: colors.primary, paddingTop: 5 }}>
           PHOTO PROCESS
         </Text>
       </View>
       <View style={style.columnStyle}>
         {/* outside photos */}
-        <Image source={require('./svg/vehicle-outside.svg')} style={{ width: 72, height: 94.85, marginLeft: 20 }} />
+        <Image source={require('./images/outside_view.png')} width={75} height={122} style={{ width: 73, height: 95 }} />
         <View style={style.columnTextStyle}>
           <Text style={style.columnPhotoNumber}>{totalPhoto.outside}</Text>
-          <Entypo name="cross" size={15} style={{ flex: 0.1 }} color={infoColor} />
+          <MaterialCommunityIcons name="close" size={15} style={{ flex: 0.1 }} color={infoColor} />
           <Text style={style.columnInfoStyle}>photos outsides</Text>
         </View>
       </View>
       <View style={style.columnStyle}>
         {/* inside photos */}
-        <Image source={require('./svg/vehicle-inside.svg')} style={{ width: 45, height: 59.52, margin: 17 }} />
+        <Image source={require('./images/inside_view.png')} width={45} height={92} style={{ width: 45, height: 60, margin: 15 }} />
         <View style={style.columnTextStyle}>
           <Text style={style.columnPhotoNumber}>{totalPhoto.inside}</Text>
-          <Entypo name="cross" size={15} style={{ flex: 0.1 }} color={infoColor} />
+          <MaterialCommunityIcons name="close" size={15} style={{ flex: 0.1 }} color={infoColor} />
           <Text style={style.columnInfoStyle}>photos insides</Text>
         </View>
       </View>

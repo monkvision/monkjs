@@ -1,4 +1,4 @@
-import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -10,7 +10,9 @@ export default function Header({ onCancel, progression }) {
   const { colors } = useTheme();
   return (
     <View style={style.header}>
-      <Entypo name="cross" size={24} style={{ flex: 0.1 }} onPress={onCancel} />
+      <View style={{ flex: 0.1 }}>
+        <MaterialCommunityIcons name="close" size={24} onPress={onCancel} />
+      </View>
       <View style={{ flex: 0.85 }}>
         <Text>{`${progression * 100}%`}</Text>
         <ProgressBar progress={progression} color={colors.primary} />

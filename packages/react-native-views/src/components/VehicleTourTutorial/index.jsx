@@ -11,7 +11,11 @@ import Body from './Body';
 export default function VehicleTour({ onCancel, onStart, progression }) {
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-    return () => { ScreenOrientation.unlockAsync(); };
+    return () => {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).then(() => {
+        ScreenOrientation.unlockAsync();
+      });
+    };
   }, []);
 
   return (
