@@ -25,7 +25,7 @@ Install from `yarn`
 yarn add @monkvision/corejs @reduxjs/toolkit
 ```
 
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/master/packages/corejs/package.json):
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
  ``` json
 "@reduxjs/toolkit": "*"
  ```
@@ -44,7 +44,7 @@ Install from `yarn`
 yarn add @monkvision/react-native prop-types react react-native react-native-svg
 ```
 
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/master/packages/react-native/package.json):
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native/package.json):
  ``` json
 "prop-types": "*",
 "react": "*",
@@ -67,7 +67,7 @@ Install from `yarn`
 yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native
 ```
 
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/master/packages/react-native-views/package.json):
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native-views/package.json):
  ``` json
 "@monkvision/corejs": "*",
 "@monkvision/react-native": "*",
