@@ -49,6 +49,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.kebabcase": "^4.1.1",
     "lodash.noop": "^3.0.1",
+    "lodash.upperfirst": "^4.3.1",
     "react-native-xml2js": "^1.0.3",
     "tinycolor2": "^1.4.2",
     "xml2js": "^0.4.23"

@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { StyleSheet } from 'react-native';
-import { FAB, Text } from 'react-native-paper';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { FAB, Surface, Text, useTheme } from 'react-native-paper';
 
 import Camera from '@monkvision/react-native/src/components/Camera';
 import Mask from '@monkvision/react-native/src/components/Mask';
@@ -20,6 +20,31 @@ const styles = StyleSheet.create({
   largeFab: {
     transform: [{ scale: 1.3 }],
   },
+  badge: {
+    position: 'absolute',
+    height: 38,
+    borderRadius: 5,
+    top: 16,
+    left: 16,
+    fontSize: 17,
+    fontWeight: '400',
+    lineHeight: 38,
+    color: 'white',
+    paddingHorizontal: 12,
+  },
+  left: {
+    marginVertical: 4,
+  },
+  surface: {
+    marginHorizontal: 8,
+    marginVertical: 4,
+    padding: 16,
+    height: 80,
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },
 });
 
 /**
@@ -27,7 +52,6 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
- * @param sightMasks {{string}}
  * @param sights {[Sight]}
  * @returns {JSX.Element}
  * @constructor
@@ -36,22 +60,13 @@ export default function CameraView({
   onCloseCamera,
   onShowAdvice,
   onTakePicture,
-  sightMasks,
   sights,
 }) {
+  const { colors } = useTheme();
+
   const { activeSight, nextSightProps } = useSights(sights);
 
-  const sightMask = useMemo(
-    () => sightMasks[activeSight.id],
-    [activeSight.id, sightMasks],
-  );
-
   const [pictures, setPictures] = useState({});
-
-  const [ready, setReady] = useState(false);
-  const handleCameraReady = useCallback(() => {
-    setReady(true);
-  }, [setReady]);
 
   const handleCloseCamera = useCallback(() => {
     onCloseCamera(pictures);
@@ -85,8 +100,17 @@ export default function CameraView({
 
   return (
     <Camera
-      left={() => <Text style={{ color: 'white' }}>{activeSight.id}</Text>}
-      onCameraReady={handleCameraReady}
+      left={() => (
+        <SafeAreaView style={styles.left}>
+          <ScrollView>
+            {sights.map(([id]) => (
+              <Surface style={[styles.surface, { backgroundColor: colors.primary }]}>
+                <Mask id={id} />
+              </Surface>
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      )}
       right={({ camera }) => (
         <>
           <FAB
@@ -113,7 +137,10 @@ export default function CameraView({
         </>
       )}
     >
-      {(ready && sightMask) && <Mask alt={activeSight.id} xml={sightMask} />}
+      <Mask id={activeSight.id} />
+      <Text style={[styles.badge, { backgroundColor: colors.primary }]}>
+        {activeSight.id}
+      </Text>
     </Camera>
   );
 }
@@ -123,7 +150,6 @@ CameraView.propTypes = {
   onShowAdvice: PropTypes.func,
   // onSightsDone: PropTypes.func,
   onTakePicture: PropTypes.func,
-  sightMasks: PropTypes.objectOf(PropTypes.string),
   sights: PropTypes.arrayOf(PropTypes.array),
 };
 
@@ -132,6 +158,5 @@ CameraView.defaultProps = {
   onShowAdvice: noop,
   // onSightsDone: noop,
   onTakePicture: noop,
-  sightMasks: {},
   sights: [],
 };

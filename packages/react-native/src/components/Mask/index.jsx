@@ -1,6 +1,8 @@
+/* eslint-disable import/no-dynamic-require, global-require */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
+import kebabCase from 'lodash.kebabcase';
 
 const styles = StyleSheet.create({
   root: {
@@ -11,15 +13,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Mask({ alt, xml, ...props }) {
+export default function Mask({ id, ...props }) {
   return (
     <View style={styles.root}>
-      <img src={xml} alt={alt} {...props} />
+      <img
+        src={require(`../../assets/sightMasks/${kebabCase(id)}.svg`)}
+        alt={id}
+        {...props}
+      />
     </View>
   );
 }
 
 Mask.propTypes = {
-  alt: PropTypes.string.isRequired,
-  xml: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };

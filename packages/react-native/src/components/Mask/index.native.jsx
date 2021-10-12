@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import xml2js from 'react-native-xml2js';
-import { SvgXml } from 'react-native-svg';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import upperFirst from 'lodash.upperfirst';
+import * as sightMasks from '../SightMasks';
 
 const styles = StyleSheet.create({
   root: {
@@ -13,27 +13,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Mask({ alt, xml, ...props }) {
-  const windowHeight = Dimensions.get('window').height;
-  const [svgSizes, setSvgSizes] = useState({ height: windowHeight });
-
-  useEffect(() => {
-    xml2js.parseString(xml, (e, result) => {
-      setSvgSizes({
-        height: Math.floor(windowHeight),
-        width: Math.floor((result.svg.$.width / result.svg.$.height) * windowHeight),
-      });
-    });
-  }, [windowHeight, xml]);
+export default function Mask({ id, style, ...props }) {
+  const Svg = useMemo(() => sightMasks[upperFirst(id)], [id]);
 
   return (
     <View style={styles.root}>
-      <SvgXml xml={xml} alt={alt} {...svgSizes} {...props} />
+      <Svg {...props} />
     </View>
   );
 }
 
 Mask.propTypes = {
-  alt: PropTypes.string.isRequired,
-  xml: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
