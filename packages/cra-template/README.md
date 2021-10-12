@@ -5,4 +5,4 @@
 yarn create react-app <project-name> --template @monkvision/cra-template
 ```
 ---
-![Monk banner](https://raw.githubusercontent.com/monkvision/monkjs/master/assets/banner.webp)
+![Monk banner](https://raw.githubusercontent.com/monkvision/monkjs/main/assets/banner.webp)

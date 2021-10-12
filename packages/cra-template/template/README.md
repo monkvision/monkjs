@@ -90,7 +90,7 @@ cp .env .env.local
 
 **[Based on our versioning rules.](https://www.notion.so/Versioning-2dc3113c8e6340f6bd45bdd97f303602)**
 
-- Branch `master` is the more advanced development version and is protected
+- Branch `main` is the more advanced development version and is protected
 - Branch `live` is for production and is protected
 - Trust our assistant `Futura` via [workflows and actions](https://docs.github.com/en/actions)
 - Rebase only if necessary otherwise keep the history of your work
