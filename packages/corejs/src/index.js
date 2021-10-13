@@ -37,3 +37,6 @@ class MonkCore {
 }
 
 export default MonkCore;
+
+export { default as Sight } from './classes/Sight';
+export { default as abstractSights } from './sights/abstract.json';
