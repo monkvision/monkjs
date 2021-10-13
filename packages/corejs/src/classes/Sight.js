@@ -1,14 +1,14 @@
 export default class Sight {
-  constructor(id, poz) {
+  constructor(id, poz, label) {
     this._id = id;
+    this._label = label;
 
     const [p, o, z] = poz;
     this._poz = { p, o, z };
-    this._poz = poz;
   }
 
   toString() {
-    return `{"id": ${this._id}, "(ρφz)": { "ρ": ${this._poz.p}, "φ": ${this._poz.o}, "z": ${this._poz.z}}}`;
+    return `${this._label} {"id": ${this._id}, "(ρφz)": (${this._poz.p}, ${this._poz.o},${this._poz.z})}`;
   }
 
   get id() {
@@ -17,6 +17,14 @@ export default class Sight {
 
   set id(value) {
     this._id = value;
+  }
+
+  get label() {
+    return this._label;
+  }
+
+  set label(value) {
+    this._label = value;
   }
 
   get poz() {

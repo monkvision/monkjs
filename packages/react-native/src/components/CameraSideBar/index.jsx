@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
@@ -14,37 +13,18 @@ const styles = StyleSheet.create({
 });
 
 /**
- * @param camera {{ ref, ready: bool }}
- * @param Component {func}
- * @param containerProps {object}
+ * @param children
+ * @param style
+ * @param passThroughProps
  * @returns {JSX.Element}
  * @constructor
  */
-function CameraSideBar({
-  camera,
-  Component,
-  containerProps: { style: containerStyle, ...rest },
-}) {
+function CameraSideBar({ children, style, ...passThroughProps }) {
   return (
-    <View style={[styles.root, containerStyle]} {...rest}>
-      <Component camera={camera} />
+    <View style={[styles.root, style]} {...passThroughProps}>
+      {children}
     </View>
   );
 }
 
 export default CameraSideBar;
-
-CameraSideBar.propTypes = {
-  camera: PropTypes.shape({
-    ready: PropTypes.bool,
-    ref: PropTypes.shape({
-      takePictureAsync: PropTypes.func,
-    }),
-  }).isRequired,
-  Component: PropTypes.func.isRequired,
-  containerProps: PropTypes.objectOf(PropTypes.any),
-};
-
-CameraSideBar.defaultProps = {
-  containerProps: {},
-};

@@ -6,10 +6,8 @@ import kebabCase from 'lodash.kebabcase';
 
 const styles = StyleSheet.create({
   root: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flex: 1,
+    width: '100%',
+    height: '100%',
   },
 });
 

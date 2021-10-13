@@ -10,6 +10,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flex: 1,
+    width: '100%',
+    height: '100%',
   },
 });
 

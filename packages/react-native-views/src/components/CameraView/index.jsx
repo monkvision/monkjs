@@ -1,16 +1,38 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { FAB, Surface, Text, useTheme } from 'react-native-paper';
+import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { FAB } from 'react-native-paper';
 
 import Camera from '@monkvision/react-native/src/components/Camera';
+import CameraSideBar from '@monkvision/react-native/src/components/CameraSideBar';
+import PicturesScrollPreview from '@monkvision/react-native/src/components/PicturesScrollPreview';
+
 import Mask from '@monkvision/react-native/src/components/Mask';
+import utils from '@monkvision/react-native/src/components/utils';
+import ActivityIndicatorView from '@monkvision/react-native-views/src/components/ActivityIndicatorView';
 
 import useSights from './useSights';
 
 const styles = StyleSheet.create({
+  root: {
+    ...Platform.select({
+      native: { flex: 1 },
+      default: { display: 'flex', flex: 1, height: '100vh' },
+    }),
+  },
+  container: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    overflow: 'hidden',
+    backgroundColor: '#000',
+    justifyContent: 'space-between',
+    ...Platform.select({
+      native: { flex: 1 },
+      default: { display: 'flex', flex: 1 },
+    }),
+  },
   fab: {
     backgroundColor: '#333',
   },
@@ -18,32 +40,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   largeFab: {
-    transform: [{ scale: 1.3 }],
+    transform: [{ scale: 1.5 }],
   },
-  badge: {
+  overLaps: {
+    ...utils.styles.flex,
+    ...utils.styles.getContainedSizes('4:3'),
     position: 'absolute',
-    height: 38,
-    borderRadius: 5,
-    top: 16,
-    left: 16,
-    fontSize: 17,
-    fontWeight: '400',
-    lineHeight: 38,
-    color: 'white',
-    paddingHorizontal: 12,
-  },
-  left: {
-    marginVertical: 4,
-  },
-  surface: {
-    marginHorizontal: 8,
-    marginVertical: 4,
-    padding: 16,
-    height: 80,
-    width: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
+    top: 0,
+    left: 0,
+    zIndex: 10,
   },
 });
 
@@ -62,20 +67,18 @@ export default function CameraView({
   onTakePicture,
   sights,
 }) {
-  const { colors } = useTheme();
-
-  const { activeSight, nextSightProps } = useSights(sights);
-
+  // STATE TO PROPS
+  const scrollRef = useRef();
+  const [fakeActivity, setFakeActivity] = useState(null);
+  const [camera, setCamera] = useState();
   const [pictures, setPictures] = useState({});
+  const { activeSight, activeSightIndex, nextSightProps } = useSights(sights);
 
-  const handleCloseCamera = useCallback(() => {
-    onCloseCamera(pictures);
-  }, [onCloseCamera, pictures]);
-
-  const handleTakePicture = useCallback(async (camera) => {
-    if (camera.ready) {
+  // PICTURES
+  const handleTakePicture = useCallback(async () => {
+    if (camera) {
       const options = { quality: 1 };
-      const picture = await camera.ref.takePictureAsync(options);
+      const picture = await camera.takePictureAsync(options);
 
       setPictures((prevState) => ({
         ...prevState,
@@ -89,59 +92,84 @@ export default function CameraView({
 
       if (!nextSightProps.disabled) {
         nextSightProps.onPress();
+
+        // scrollRef.current.scrollTo({
+        //   y: (activeSightIndex * 96),
+        //   animated: true,
+        // });
       }
     }
-  }, [activeSight, nextSightProps, onTakePicture, pictures]);
+  }, [activeSight, camera, nextSightProps, onTakePicture, pictures]);
 
+  // CAMERA
+  const handleCloseCamera = useCallback(() => {
+    onCloseCamera(pictures);
+  }, [onCloseCamera, pictures]);
+  const handleCameraReady = useCallback(setCamera, [setCamera]);
+
+  // UI
   const handleShowAdvice = () => {
     // console.warn('Showing advice...');
     onShowAdvice(pictures);
   };
 
+  useEffect(() => {
+    const fakeActivityId = setTimeout(() => {
+      setFakeActivity(null);
+    }, 750);
+
+    setFakeActivity(fakeActivityId);
+
+    return () => { clearTimeout(fakeActivityId); };
+  }, [activeSight.id]);
+
   return (
-    <Camera
-      left={() => (
-        <SafeAreaView style={styles.left}>
-          <ScrollView>
-            {sights.map(([id]) => (
-              <Surface style={[styles.surface, { backgroundColor: colors.primary }]}>
-                <Mask id={id} />
-              </Surface>
-            ))}
-          </ScrollView>
-        </SafeAreaView>
-      )}
-      right={({ camera }) => (
-        <>
+    <View style={styles.root}>
+      <StatusBar hidden />
+      <SafeAreaView style={styles.container}>
+        <PicturesScrollPreview
+          activeSightLabel={activeSight.label}
+          activeSightIndex={activeSightIndex}
+          sights={sights}
+          pictures={pictures}
+          ref={scrollRef}
+        />
+        <View>
+          <Camera onCameraReady={handleCameraReady} />
+          <View style={styles.overLaps}>
+            {fakeActivity ? <ActivityIndicatorView /> : <Mask id={activeSight.id} />}
+          </View>
+        </View>
+        <CameraSideBar>
           <FAB
-            accessibilityLabel="Show advice"
+            accessibilityLabel="Advices"
             color="#edab25"
-            icon="lightbulb-on"
+            disabled={fakeActivity}
+            icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
+            label={Platform.OS === 'ios' ? 'Advices' : undefined}
             onPress={handleShowAdvice}
             small
             style={styles.fab}
           />
           <FAB
             accessibilityLabel="Take a picture"
+            disabled={fakeActivity}
             icon="camera-image"
-            onPress={() => handleTakePicture(camera)}
+            onPress={handleTakePicture}
             style={[styles.fabImportant, styles.largeFab]}
           />
           <FAB
             accessibilityLabel="Close camera"
-            icon="close"
+            disabled={fakeActivity}
+            icon={Platform.OS !== 'ios' ? 'close' : undefined}
+            label={Platform.OS === 'ios' ? 'Close' : undefined}
             onPress={handleCloseCamera}
             small
             style={styles.fab}
           />
-        </>
-      )}
-    >
-      <Mask id={activeSight.id} />
-      <Text style={[styles.badge, { backgroundColor: colors.primary }]}>
-        {activeSight.id}
-      </Text>
-    </Camera>
+        </CameraSideBar>
+      </SafeAreaView>
+    </View>
   );
 }
 
