@@ -10,7 +10,7 @@ Here you can find popular alternatives to
 * [ ] Configure tokens and authentication on your repository if needed
 * [ ] Clone you repository with CLI or UI
 * [ ] Build initial sources
-* [ ] Git commit with message `commit -m "Build initial sources"` and push to remote:master
+* [ ] Git commit with message `commit -m "Build initial sources"` and push to remote:main
 
 ## Establishing rules and tools
 * [ ] Choose a git flow

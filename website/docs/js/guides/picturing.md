@@ -10,7 +10,7 @@ The Camera view takes on a more complete state with **Sights**. We recommend usi
 yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native
 ```
 
-⛓️ Peer deps in [`@monkvision/react-native-views/package.json`](https://github.com/monkvision/monkjs/tree/master/packages/react-native-views/package.json)
+⛓️ Peer deps in [`@monkvision/react-native-views/package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native-views/package.json)
 
 ``` javascript
 import { CameraView } from `@monkvision/react-native-views`
