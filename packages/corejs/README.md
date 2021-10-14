@@ -2,7 +2,7 @@
 [![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/corejs)
 
 AI-powered vehicle damage detection for JavaScript.
-Check out the full [documentation](https://monkvision.github.io/monk/docs).
+Check out the full [documentation](https://monkvision.github.io/monkjs/docs/js/api/corejs).
 
 ``` yarn
 npm install @monkvision/corejs @reduxjs/toolkit --save

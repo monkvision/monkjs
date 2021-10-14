@@ -92,11 +92,6 @@ export default function CameraView({
 
       if (!nextSightProps.disabled) {
         nextSightProps.onPress();
-
-        // scrollRef.current.scrollTo({
-        //   y: (activeSightIndex * 96),
-        //   animated: true,
-        // });
       }
     }
   }, [activeSight, camera, nextSightProps, onTakePicture, pictures]);
@@ -176,7 +171,6 @@ export default function CameraView({
 CameraView.propTypes = {
   onCloseCamera: PropTypes.func,
   onShowAdvice: PropTypes.func,
-  // onSightsDone: PropTypes.func,
   onTakePicture: PropTypes.func,
   sights: PropTypes.arrayOf(PropTypes.array),
 };
@@ -184,7 +178,6 @@ CameraView.propTypes = {
 CameraView.defaultProps = {
   onCloseCamera: noop,
   onShowAdvice: noop,
-  // onSightsDone: noop,
   onTakePicture: noop,
   sights: [],
 };

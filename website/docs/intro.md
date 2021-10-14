@@ -1,6 +1,6 @@
 ---
 id: intro
-title: Overview
+title: "🏁 Overview"
 slug: /
 ---
 
@@ -31,14 +31,14 @@ Core-->>View: Update view with new data
 Note over Core,View: Execute callbacks from Components
 end
 
-View->>App: Display elements and drive use until<br>he gets the full inspection
+View->>App: Display elements and drive user until<br>he gets the full inspection
 Note over View,App: const handleCloseCamera =<br>useCallback((pictures) => { ... }, []);
 Note over View,App: <CameraView onCloseCamera={handleCloseCamera} />
 ```
 
 ## 🧿 Core
 
-**The core is a basic module. It's a proxy between your code and Monk's servers.**
+Based on Redux, the core instance provides a set of tools to request manipulation of Monk data.
 
 ``` mermaid
 sequenceDiagram
@@ -58,12 +58,12 @@ Once instantiated, the core **provides the APIs** essential to the use of artifi
 ``` javascript
 /* config/monkCore.js */
 
-import MonkCore from '@monkvision/corejs/src';
+import MonkCore, { getBaseQuery } from '@monkvision/corejs/src';
 import Constants from 'expo-constants';
 
-const monkCore = new MonkCore({
+const monkCore = new MonkCore(getBaseQuery({
   baseUrl: `https://${Constants.manifest.extra.MONK_DOMAIN}/`,
-});
+}));
 
 export default monkCore;
 ```
@@ -102,8 +102,6 @@ It accepts a `CLIENT_ID` and domain name `MONK_DOMAIN` as parameters. It follows
 
 The React Native component library allows you to build a set of views or modules brick by brick.
 
-> For example, the `CameraView` is composed of the `Camera` and `Gallery` component at the same time, `Camera` accepting as parameters your own capture buttons.
-
 This library is useful if you want to use lower level features or customize your components as you wish, unlike the `react-native-views` library which embeds much more than micro-components.
 
 ## 🚀 Views
@@ -138,4 +136,5 @@ export default function MyNavigationScreen() {
 ## What's next?
 
 Now that you understand each basic principle, you can install the necessary modules for your own tech stack.
-Any request or feedback is welcome. For that, please create an issue on the repository [monkvision/monkjs](https://github.com/monkvision/monkjs/issues/new).
+Any request or feedback is welcome.
+For that, please create an issue on the repository [monkvision/monkjs](https://github.com/monkvision/monkjs/issues/new).

@@ -1,6 +1,6 @@
 ---
 id: install
-title: Installation
+title: "📦 Installation"
 slug: /installation
 ---
 
@@ -15,7 +15,7 @@ We are working to provide as soon as possible new SDKs for _Dart_, _Flutter_ or 
 ## @monkvision/corejs
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
 
-Install with `npm`
+Install from `npm`
 ``` npm
 npm install @monkvision/corejs @reduxjs/toolkit --save
 ```
@@ -34,7 +34,7 @@ yarn add @monkvision/corejs @reduxjs/toolkit
 ## @monkvision/react-native
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
 
-Install with `npm`
+Install from `npm`
 ``` npm
 npm install @monkvision/react-native prop-types react react-native react-native-svg --save
 ```
@@ -57,19 +57,29 @@ yarn add @monkvision/react-native prop-types react react-native react-native-svg
 ## @monkvision/react-native-views
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
 
-Install with `npm`
+Install from `npm`
 ``` npm
-npm install @monkvision/react-native-views @monkvision/corejs @monkvision/react-native --save
+npm install @monkvision/react-native-views @monkvision/corejs @monkvision/react-native react-native-paper --save
 ```
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native
+yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native react-native-paper
 ```
+
+> Note: this module requires `react-native-paper` for basic use of Monk.
+> For full customization of our components, please refer to `@monkvision/react-native`
 
 ⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native-views/package.json):
  ``` json
 "@monkvision/corejs": "*",
 "@monkvision/react-native": "*",
+"prop-types": "*",
+"react": "*",
+"react-native": "*",
+"react-native-paper": "*"
  ```
 
+## What's next?
+
+You can start following our guides on how to take photos and how to analyze them.
