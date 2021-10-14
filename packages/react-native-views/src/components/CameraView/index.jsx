@@ -1,20 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
 
+import Sight from '@monkvision/corejs/src/classes/Sight';
 import {
   Camera,
   CameraSideBar,
   PicturesScrollPreview,
   Mask,
+  SightsWheel,
   utils,
 } from '@monkvision/react-native';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
-
 import useSights from './useSights';
 
 const styles = StyleSheet.create({
@@ -120,10 +121,18 @@ export default function CameraView({
     return () => { clearTimeout(fakeActivityId); };
   }, [activeSight.id]);
 
+  // :TODO: remove this! SightsWheel use sight objects, they should be made available more directly
+  const actualSights = useMemo(() => sights.map((sightArgs) => new Sight(...sightArgs)), [sights]);
+
   return (
     <View style={styles.root}>
       <StatusBar hidden />
       <SafeAreaView style={styles.container}>
+        <SightsWheel
+          sights={actualSights}
+          filledSightIds={[actualSights[0].id, actualSights[1].id]} // :TODO: compute filledSightIds
+          activeSightId={activeSight.id}
+        />
         <PicturesScrollPreview
           activeSightLabel={activeSight.label}
           activeSightIndex={activeSightIndex}
