@@ -36,5 +36,7 @@ module.exports = {
       },
     ],
     collapsed: false,
-  }],
+  },
+  'troubleshooting',
+  ],
 };

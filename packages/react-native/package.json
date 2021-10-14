@@ -66,8 +66,10 @@
   },
   "peerDependencies": {
     "prop-types": "*",
+    "babel-preset-expo": "^8.4.1",
+    "metro-react-native-babel-preset": "^0.66.2",
     "react": "*",
-    "react-native": "*",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-svg": "*"
   },
   "publishConfig": {

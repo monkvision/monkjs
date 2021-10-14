@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import isPlainObject from 'lodash.isplainobject';
 
-import { Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Image, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Surface, Chip, useTheme } from 'react-native-paper';
 
 import * as sightMasks from '../../assets/sightMasks';
@@ -11,8 +11,11 @@ import * as sightMasks from '../../assets/sightMasks';
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
-    height: '100%',
     width: 125,
+    ...Platform.select({
+      native: { height: '100%' },
+      default: { height: '100vh' },
+    }),
   },
   chip: {
     position: 'absolute',

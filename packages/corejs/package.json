@@ -37,7 +37,17 @@
     "release": "yarn lint && yarn build && release-it"
   },
   "peerDependencies": {
-    "@reduxjs/toolkit": "*"
+    "@reduxjs/toolkit": "*",
+    "react": "^16.14.0 || ^17.0.0",
+    "react-redux": "^7.2.1"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-redux": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
