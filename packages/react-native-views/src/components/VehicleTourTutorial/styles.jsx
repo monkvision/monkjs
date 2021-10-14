@@ -1,7 +1,18 @@
 import { StyleSheet } from 'react-native';
 
-const infoColor = '#43494A';
-export default StyleSheet.create({
+export const getThemedStyles = (theme) => StyleSheet.create({
+  columnInfoStyle: {
+    width: 55,
+    lineHeight: 20,
+    color: theme.colors.info,
+  },
+  columnPhotoNumber: {
+    fontSize: 40,
+    color: theme.colors.info,
+  },
+});
+
+export const styles = StyleSheet.create({
   root: {
     display: 'flex',
     flexWrap: 'nowrap',
@@ -25,10 +36,6 @@ export default StyleSheet.create({
     flex: 0.15,
     justifyContent: 'center',
   },
-  columnPhotoNumber: {
-    fontSize: 40,
-    color: '#43494A',
-  },
   columnStyle: {
     flex: 0.45,
     justifyContent: 'center',
@@ -40,11 +47,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     textAlign: 'center',
-  },
-  columnInfoStyle: {
-    width: 55,
-    lineHeight: 20,
-    color: infoColor,
   },
   startButton: {
     flex: 0.02,

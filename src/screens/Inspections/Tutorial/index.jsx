@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import CameraView from '@monkvision/react-native-views/src/components/VehicleTourTutorial';
+import VehicleTour from '@monkvision/react-native-views/src/components/VehicleTourTutorial';
 
 export default function InspectionsCreate() {
   const navigation = useNavigation();
@@ -13,6 +13,6 @@ export default function InspectionsCreate() {
   }, [navigation]);
 
   return (
-    <CameraView onCancel={handleCancel} onStart={handleStart} progression={0.1} />
+    <VehicleTour onCancel={handleCancel} onStart={handleStart} />
   );
 }

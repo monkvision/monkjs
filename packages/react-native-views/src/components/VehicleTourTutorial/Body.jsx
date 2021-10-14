@@ -1,42 +1,35 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import style from './style';
+import { styles, getThemedStyles } from './styles';
 
-const infoColor = '#43494A';
 const totalPhoto = { inside: 4, outside: 12 };
 
 export default function Body() {
   const { colors } = useTheme();
+  const themedStyles = getThemedStyles({ colors });
+
+  const ColumnItem = (title, count, image, style) => (
+    <View style={styles.columnStyle}>
+      <Image source={image} style={style} />
+      <View style={styles.columnTextStyle}>
+        <Text style={themedStyles.columnPhotoNumber}>{count}</Text>
+        <MaterialCommunityIcons name="close" size={15} styles={{ flex: 0.1 }} color={colors.info} />
+        <Text style={themedStyles.columnInfoStyle}>{title}</Text>
+      </View>
+    </View>
+  );
+
   return (
-    <View style={style.body}>
-      <View style={style.photoProcess}>
-        {/* Photo Progress icon */}
+    <View style={styles.body}>
+      <View style={styles.photoProcess}>
         <MaterialCommunityIcons name="camera" size={40} color={colors.primary} />
-        <Text style={{ color: colors.primary, paddingTop: 5 }}>
-          PHOTO PROCESS
-        </Text>
+        <Text style={{ color: colors.primary, paddingTop: 5 }}>PHOTO PROCESS</Text>
       </View>
-      <View style={style.columnStyle}>
-        {/* outside photos */}
-        <Image source={require('./images/outside_view.png')} width={75} height={122} style={{ width: 73, height: 95 }} />
-        <View style={style.columnTextStyle}>
-          <Text style={style.columnPhotoNumber}>{totalPhoto.outside}</Text>
-          <MaterialCommunityIcons name="close" size={15} style={{ flex: 0.1 }} color={infoColor} />
-          <Text style={style.columnInfoStyle}>photos outsides</Text>
-        </View>
-      </View>
-      <View style={style.columnStyle}>
-        {/* inside photos */}
-        <Image source={require('./images/inside_view.png')} width={45} height={92} style={{ width: 45, height: 60, margin: 15 }} />
-        <View style={style.columnTextStyle}>
-          <Text style={style.columnPhotoNumber}>{totalPhoto.inside}</Text>
-          <MaterialCommunityIcons name="close" size={15} style={{ flex: 0.1 }} color={infoColor} />
-          <Text style={style.columnInfoStyle}>photos insides</Text>
-        </View>
-      </View>
+      {ColumnItem('photos outsides', totalPhoto.outside, require('./images/outside_view.png'), { width: 73, height: 95 })}
+      {ColumnItem('photos insides', totalPhoto.inside, require('./images/inside_view.png'), { width: 45, height: 60, margin: 15 })}
     </View>
   );
 }
