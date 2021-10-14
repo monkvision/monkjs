@@ -1,6 +1,6 @@
 import React from 'react';
 
-import utils from '@monkvision/react-native/src/components/utils';
+import { utils } from '@monkvision/react-native';
 
 import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';

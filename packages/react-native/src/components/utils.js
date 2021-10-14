@@ -33,11 +33,9 @@ function getContainedSizes(ratio) {
   };
 }
 
-export const styles = {
-  flex,
-  getContainedSizes,
-};
-
 export default {
-  styles,
+  styles: {
+    flex,
+    getContainedSizes,
+  },
 };

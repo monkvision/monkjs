@@ -6,7 +6,7 @@ import isPlainObject from 'lodash.isplainobject';
 import { Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Surface, Chip, useTheme } from 'react-native-paper';
 
-import * as sightMasks from '@monkvision/react-native/src/assets/sightMasks';
+import * as sightMasks from '../../assets/sightMasks';
 
 const styles = StyleSheet.create({
   root: {

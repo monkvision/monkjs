@@ -5,13 +5,15 @@ import noop from 'lodash.noop';
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
 
-import Camera from '@monkvision/react-native/src/components/Camera';
-import CameraSideBar from '@monkvision/react-native/src/components/CameraSideBar';
-import PicturesScrollPreview from '@monkvision/react-native/src/components/PicturesScrollPreview';
+import {
+  Camera,
+  CameraSideBar,
+  PicturesScrollPreview,
+  Mask,
+  utils,
+} from '@monkvision/react-native';
 
-import Mask from '@monkvision/react-native/src/components/Mask';
-import utils from '@monkvision/react-native/src/components/utils';
-import ActivityIndicatorView from '@monkvision/react-native-views/src/components/ActivityIndicatorView';
+import ActivityIndicatorView from '../ActivityIndicatorView';
 
 import useSights from './useSights';
 
