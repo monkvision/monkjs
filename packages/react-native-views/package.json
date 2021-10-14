@@ -2,7 +2,7 @@
   "name": "@monkvision/react-native-views",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "1.0.0-3",
+  "version": "1.0.0",
   "private": false,
   "description": "AI-powered vehicle damage detection for React Native",
   "homepage": "https://github.com/monkvision/monkjs/packages/react-native-views/#readme",
