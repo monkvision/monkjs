@@ -3,7 +3,7 @@ id: react-native
 title: "🧱 react-native"
 slug: /js/api/react-native
 ---
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
+![npm next package](https://img.shields.io/npm/v/@monkvision/react-native/next.svg)
 
 Install with `npm`
 ``` npm

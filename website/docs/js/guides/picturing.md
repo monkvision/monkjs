@@ -25,18 +25,7 @@ A capture scheme is a list of sights `[Sight]` with a unique string `id` and [cy
 
 > If our AI can work without this metadata, it analyzes much more easily with it. The Camera view then embeds a list of default sights that you can customize in the near future.
 
-``` json
-"id": "abstractFront",
-"label": "Front",
-"(ρφz)": {
-  "ρ": null,
-  "φ": 0,
-  "z": null
-}
-```
-
-Can also be simplified
-`const abstractSight = new Sight('abstractFront', [null, 0, null], 'Front');`
+`const sight = new Sight('abstractFront', [null, 0, null], 'Front');`
 
 This scheme will enable a wheel indicator displaying the angle we need to take the picture.
 Plus an overlay is completing the view helping to take position before taking the picture.
@@ -48,15 +37,7 @@ Plus an overlay is completing the view helping to take position before taking th
 
 {
   "abstractFront":{
-    "sight":{
-      "_id":"abstractFront",
-      "_label":"Front",
-      "_poz":[
-        null,
-        0,
-        null
-      ]
-    },
+    "sight":Sight,
     "source":{
       "uri":"data:image/png;base64",
       "base64":"data:image/png;base64",
@@ -104,7 +85,7 @@ export default function MyCameraView() {
 }
 ```
 
-**See the [CameraView API](https://monkvision.github.io/monkjs/js/api/react-native-views#CameraView) to more details.**
+**See the [CameraView API](https://monkvision.github.io/monkjs/docs/js/api/react-native-views#cameraview) to more details.**
 
 ## What's next?
 

@@ -3,7 +3,7 @@ id: corejs
 title: "🧿 corejs"
 slug: /js/api/corejs
 ---
-![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
+![npm next package](https://img.shields.io/npm/v/@monkvision/corejs/next.svg)
 
 Install with `npm`
 ``` npm

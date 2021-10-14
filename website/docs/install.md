@@ -13,7 +13,7 @@ slug: /installation
 We are working to provide as soon as possible new SDKs for _Dart_, _Flutter_ or _Python_.
 
 ## @monkvision/corejs
-![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
+![npm next package](https://img.shields.io/npm/v/@monkvision/corejs/next.svg)
 
 Install from `npm`
 ``` npm
@@ -32,7 +32,7 @@ yarn add @monkvision/corejs @reduxjs/toolkit
 ---
 
 ## @monkvision/react-native
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
+![npm next package](https://img.shields.io/npm/v/@monkvision/react-native/next.svg)
 
 Install from `npm`
 ``` npm
@@ -55,7 +55,7 @@ yarn add @monkvision/react-native prop-types react react-native react-native-svg
 ---
 
 ## @monkvision/react-native-views
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
+![npm next package](https://img.shields.io/npm/v/@monkvision/react-native-views/next.svg)
 
 Install from `npm`
 ``` npm

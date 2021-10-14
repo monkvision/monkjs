@@ -3,7 +3,7 @@ id: react-native-views
 title: "🚀 react-native-views"
 slug: /js/api/react-native-views
 ---
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
+![npm next package](https://img.shields.io/npm/v/@monkvision/react-native-views/next.svg)
 
 Install with `npm`
 ``` npm
