@@ -10,3 +10,4 @@ export { default as AbstractRearLateralLeft } from './AbstractRearLateralLeft';
 export { default as AbstractRearLateralRight } from './AbstractRearLateralRight';
 export { default as AbstractRearLeft } from './AbstractRearLeft';
 export { default as AbstractRearRight } from './AbstractRearRight';
+export { default as Vin } from './Vin';

@@ -1,4 +1,4 @@
-name: @monkvision/react-native
+name: react-native
 
 on:
   push:

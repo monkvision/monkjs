@@ -1,4 +1,4 @@
-name: @monkvision/corejs
+name: corejs
 
 on:
   push:
