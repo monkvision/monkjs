@@ -4,7 +4,7 @@ import isEmpty from 'lodash.isempty';
 import isPlainObject from 'lodash.isplainobject';
 
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Surface, Chip, useTheme } from 'react-native-paper';
+import { Surface, Chip, useTheme, Badge } from 'react-native-paper';
 import { Sight } from '@monkvision/corejs';
 
 import SightsWheel from '../SightsWheel';
@@ -60,11 +60,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 12.5,
     marginVertical: 4,
   },
+  badge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+  },
 });
 
 const PicturesScrollPreview = forwardRef(({
   activeSight,
   pictures,
+  showPicture,
   sights,
 }, ref) => {
   const { colors } = useTheme();
@@ -74,11 +80,12 @@ const PicturesScrollPreview = forwardRef(({
       <ScrollView style={styles.scrollContainer}>
         {sights.map(([id]) => {
           const picture = pictures[id];
-          const source = isPlainObject(picture)
+          const isImage = isPlainObject(picture) && showPicture === true;
+          const source = isImage
             ? picture.source
             : sightMasks[id];
 
-          if (isPlainObject(picture)) {
+          if (isImage) {
             return (
               <Image
                 key={`picture-${id}`}
@@ -90,6 +97,12 @@ const PicturesScrollPreview = forwardRef(({
 
           return (
             <Surface key={id} style={[styles.surface, { backgroundColor: colors.primary }]}>
+              <Badge
+                visible={isPlainObject(picture)}
+                style={[styles.badge, { backgroundColor: colors.success }]}
+              >
+                ✔️
+              </Badge>
               <Image
                 key={`picture-${id}`}
                 source={source}
@@ -99,7 +112,7 @@ const PicturesScrollPreview = forwardRef(({
           );
         })}
       </ScrollView>
-      {!isEmpty(activeSight.label) && (
+      {(activeSight !== null && !isEmpty(activeSight.label)) && (
         <View style={styles.topView}>
           <SightsWheel
             sights={sights.map((s) => new Sight(...s))}
@@ -124,11 +137,13 @@ PicturesScrollPreview.propTypes = {
     label: PropTypes.string,
   }),
   pictures: PropTypes.objectOf(PropTypes.object).isRequired,
+  showPicture: PropTypes.bool,
   sights: PropTypes.arrayOf(PropTypes.array).isRequired,
 };
 
 PicturesScrollPreview.defaultProps = {
   activeSight: null,
+  showPicture: false,
 };
 
 export default PicturesScrollPreview;

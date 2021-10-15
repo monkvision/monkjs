@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 
 import Svg, { Circle, Path } from 'react-native-svg';
 import { Sight } from '@monkvision/corejs';
 
-import sightsWheelCarPng from '../../assets/sights-wheel-car.png';
+import SightsWheelCar from './SightsWheelCar';
 
 const externalSize = 116; // in pixels, the complete size of the wheel and the spacing around it
 const makeStyles = ({ colors }) => ({
@@ -158,26 +158,13 @@ function SightsWheel({
         <Circle cx={0} cy={0} r={styles.outerCircleRadius} fill={styles.circleBackground} />
         {SectionComponents}
       </Svg>
-      <Image
-        source={{ uri: sightsWheelCarPng }}
-        style={{
-          width: 60,
-          height: 60,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: [
-            { translateX: '-50%' },
-            { translateY: '-50%' },
-          ],
-        }}
-      />
+      <SightsWheelCar />
     </View>
   );
 }
 
 SightsWheel.propTypes = {
-  activeSightId: PropTypes.string.isRequired,
+  activeSightId: PropTypes.string,
   filledSightIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   sights: PropTypes.arrayOf(PropTypes.shape(Sight)).isRequired,
   theme: PropTypes.shape({ colors: {
@@ -187,6 +174,7 @@ SightsWheel.propTypes = {
 };
 
 SightsWheel.defaultProps = {
+  activeSightId: '',
   theme: { colors: { accent: '#7af7ff', primary: '#274b9f' } },
 };
 
