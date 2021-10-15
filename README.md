@@ -1,31 +1,22 @@
-![Monk banner](assets/banner.webp)
+![Monk banner](assets/banner.png)
 
 🧿 **Get a fully automated damage report classified by type, car parts, position and severity.**
 
----
+![@monkvision/corejs](https://github.com/monkvision/monkjs/actions/workflows/corejs-analyze.yml/badge.svg)
+![@monkvision/react-native](https://github.com/monkvision/monkjs/actions/workflows/react-native-analyze.yml/badge.svg)
+![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
 
 ## 📖 Documentation
 
-For complete reference and examples please check our [documentation](https://monkvision.github.io/monkjs/docs).
-**🚧 v1.0.0 is under construction**.
+![Build](https://github.com/monkvision/monkjs/actions/workflows/website-deploy.yml/badge.svg)
 
 * [Getting started](https://monkvision.github.io/monkjs/docs)
-  * [Overview](https://monkvision.github.io/monkjs/docs/)
-  * [Installation](https://monkvision.github.io/monkjs/docs/install)
-  * [Console 🚧](https://monkvision.github.io/monkjs/docs/usage)
-* [JavaScript](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
-  * [Guides](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
-    * [Capture](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
-    * [Analyze](https://monkvision.github.io/monkjs/docs/js/guides/analysing)
-    * [Manipulate](https://monkvision.github.io/monkjs/docs/js/guides/manipulating)
-    * [Display](https://monkvision.github.io/monkjs/docs/js/guides/displaying)
-  * [APIs](https://monkvision.github.io/monkjs/docs/js/api)
-* Python
-  * Guides
-  * APIs
-* HTTP Requests
-
----
+  * [🏁 Overview](https://monkvision.github.io/monkjs/docs/)
+  * [📦 Installation](https://monkvision.github.io/monkjs/docs/install)
+* [Guides](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
+  * [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
+  * [🔓 Authenticate](https://monkvision.github.io/monkjs/docs/js/guides/authenticating)
+* [🧯 Troubleshooting](https://monkvision.github.io/monkjs/docs/troubleshooting)
 
 ## 🪲 Issue Reporting
 
