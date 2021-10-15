@@ -1,4 +1,4 @@
-name: Analyze packages/corejs
+name: @monkvision/corejs
 
 on:
   push:

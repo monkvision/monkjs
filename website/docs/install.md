@@ -39,7 +39,7 @@ For questions or problems, see the [🧯 Troubleshooting](https://monkvision.git
 or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issues).
 
 ### @monkvision/corejs
-![npm next package](https://img.shields.io/npm/v/@monkvision/corejs/next.svg)
+![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
 
 ⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
  ``` json
@@ -49,7 +49,7 @@ or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issue
  ```
 
 ### @monkvision/react-native
-![npm next package](https://img.shields.io/npm/v/@monkvision/react-native/next.svg)
+![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
 
 ⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native/package.json):
  ``` json
@@ -57,7 +57,7 @@ or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issue
  ```
 
 ### @monkvision/react-native-views
-![npm next package](https://img.shields.io/npm/v/@monkvision/react-native-views/next.svg)
+![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
 
 > Note: this module requires `react-native-paper` for basic use of Monk.
 > For full customization of our components, please refer to `@monkvision/react-native`

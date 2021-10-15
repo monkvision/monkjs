@@ -1,13 +1,4 @@
-![Monk banner](public/img/banner.webp)
-
-``` text
-author: monkvision
-name: monk-new-react-project
-description: Freshly initiated React project.
-version: 1.0.0
-```
-
-## Requirements
+![Monk banner](https://raw.githubusercontent.com/monkvision/monkjs/main/assets/banner.png)
 
 1. Install your favorite IDE ([Webstorm](https://www.jetbrains.com/fr-fr/webstorm/) of course :-P)
 2. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)

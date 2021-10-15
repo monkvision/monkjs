@@ -1,4 +1,4 @@
-name: Analyze packages/react-native
+name: @monkvision/react-native
 
 on:
   push:
