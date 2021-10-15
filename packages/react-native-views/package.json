@@ -45,7 +45,7 @@
     "babel-preset-expo": "^8.4.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-import": "^2.25.2",
     "metro-react-native-babel-preset": "^0.66.2",
     "prop-types": "^15.7.2",
     "react-native-builder-bob": "^0.18.2",
