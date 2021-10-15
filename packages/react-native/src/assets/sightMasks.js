@@ -10,3 +10,4 @@ export { default as abstractRearLateralLeft } from './sightMasks/abstract-rear-l
 export { default as abstractRearLateralRight } from './sightMasks/abstract-rear-lateral-right.png';
 export { default as abstractRearLeft } from './sightMasks/abstract-rear-left.png';
 export { default as abstractRearRight } from './sightMasks/abstract-rear-right.png';
+export { default as vin } from './sightMasks/vin.png';

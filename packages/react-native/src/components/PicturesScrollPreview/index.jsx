@@ -3,32 +3,39 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import isPlainObject from 'lodash.isplainobject';
 
-import { Image, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Surface, Chip, useTheme } from 'react-native-paper';
+import { Sight } from '@monkvision/corejs';
 
+import SightsWheel from '../SightsWheel';
 import * as sightMasks from '../../assets/sightMasks';
 
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
-    width: 125,
+    width: 116,
     ...Platform.select({
       native: { height: '100%' },
       default: { height: '100vh' },
     }),
   },
-  chip: {
+  topView: {
+    display: 'flex',
+    alignItems: 'center',
+    width: 125,
     position: 'absolute',
-    alignSelf: 'center',
     marginVertical: 8,
     marginHorizontal: 4,
+  },
+  chip: {
+    alignSelf: 'center',
   },
   chipText: {
     fontSize: 12,
     fontWeight: '400',
   },
   scrollContainer: {
-    paddingTop: 48,
+    paddingTop: 166,
     paddingBottom: 16,
   },
   surface: {
@@ -55,7 +62,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const PicturesScrollPreview = forwardRef(({ activeSightLabel, pictures, sights }, ref) => {
+const PicturesScrollPreview = forwardRef(({
+  activeSight,
+  pictures,
+  sights,
+}, ref) => {
   const { colors } = useTheme();
 
   return (
@@ -88,26 +99,36 @@ const PicturesScrollPreview = forwardRef(({ activeSightLabel, pictures, sights }
           );
         })}
       </ScrollView>
-      {!isEmpty(activeSightLabel) && (
-        <Chip
-          style={[styles.chip, { backgroundColor: colors.accent }]}
-          textStyle={styles.chipText}
-        >
-          {activeSightLabel}
-        </Chip>
+      {!isEmpty(activeSight.label) && (
+        <View style={styles.topView}>
+          <SightsWheel
+            sights={sights.map((s) => new Sight(...s))}
+            filledSightIds={Object.keys(pictures)}
+            activeSightId={activeSight.id}
+          />
+          <Chip
+            style={[styles.chip, { backgroundColor: colors.accent }]}
+            textStyle={styles.chipText}
+          >
+            {activeSight.label}
+          </Chip>
+        </View>
       )}
     </SafeAreaView>
   );
 });
 
 PicturesScrollPreview.propTypes = {
-  activeSightLabel: PropTypes.string,
+  activeSight: PropTypes.shape({
+    id: PropTypes.string,
+    label: PropTypes.string,
+  }),
   pictures: PropTypes.objectOf(PropTypes.object).isRequired,
   sights: PropTypes.arrayOf(PropTypes.array).isRequired,
 };
 
 PicturesScrollPreview.defaultProps = {
-  activeSightLabel: '',
+  activeSight: null,
 };
 
 export default PicturesScrollPreview;

@@ -11,3 +11,4 @@ export const abstractRearLateralLeft = require('./sightMasks/abstract-rear-later
 export const abstractRearLateralRight = require('./sightMasks/abstract-rear-lateral-right.png');
 export const abstractRearLeft = require('./sightMasks/abstract-rear-left.png');
 export const abstractRearRight = require('./sightMasks/abstract-rear-right.png');
+export const vin = require('./sightMasks/vin.png');
