@@ -7,7 +7,7 @@ const flex = {
   alignItems: 'center',
   ...Platform.select({
     native: { flex: 1 },
-    default: { display: 'flex', flexGrow: 1 },
+    default: { display: 'flex', flexGrow: 1, height: '100vh' },
   }),
 };
 

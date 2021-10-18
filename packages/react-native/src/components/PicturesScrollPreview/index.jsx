@@ -5,6 +5,7 @@ import isPlainObject from 'lodash.isplainobject';
 
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Surface, Chip, useTheme, Badge } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Sight } from '@monkvision/corejs';
 
 import SightsWheel from '../SightsWheel';
@@ -13,7 +14,8 @@ import * as sightMasks from '../../assets/sightMasks';
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
-    width: 116,
+    alignItems: 'center',
+    width: 125,
     ...Platform.select({
       native: { height: '100%' },
       default: { height: '100vh' },
@@ -25,7 +27,6 @@ const styles = StyleSheet.create({
     width: 125,
     position: 'absolute',
     marginVertical: 8,
-    marginHorizontal: 4,
   },
   chip: {
     alignSelf: 'center',
@@ -33,21 +34,25 @@ const styles = StyleSheet.create({
   chipText: {
     fontSize: 12,
     fontWeight: '400',
+    textTransform: 'capitalize',
   },
   scrollContainer: {
     paddingTop: 166,
     paddingBottom: 16,
+    overflow: 'visible',
+    paddingHorizontal: 8,
   },
   surface: {
     width: 100,
     height: 100,
-    marginHorizontal: 12.5,
-    marginVertical: 4,
+    margin: 4,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 4,
     borderRadius: 8,
     padding: 15,
+    borderStyle: 'solid',
+    borderWidth: 2,
   },
   sightMask: {
     width: 80,
@@ -57,13 +62,12 @@ const styles = StyleSheet.create({
     width: 100,
     height: 75,
     borderRadius: 8,
-    marginHorizontal: 12.5,
     marginVertical: 4,
   },
   badge: {
     position: 'absolute',
-    top: 8,
-    right: 8,
+    top: -4,
+    right: -4,
   },
 });
 
@@ -72,18 +76,22 @@ const PicturesScrollPreview = forwardRef(({
   pictures,
   showPicture,
   sights,
+  sightWheelProps,
 }, ref) => {
   const { colors } = useTheme();
 
   return (
     <SafeAreaView style={styles.root} ref={ref}>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        style={styles.scrollContainer}
+        showsHorizontalScrollIndicator={false}
+      >
         {sights.map(([id]) => {
           const picture = pictures[id];
           const isImage = isPlainObject(picture) && showPicture === true;
-          const source = isImage
-            ? picture.source
-            : sightMasks[id];
+          const isActive = id === activeSight.id;
+
+          const source = isImage ? picture.source : sightMasks[id];
 
           if (isImage) {
             return (
@@ -96,12 +104,18 @@ const PicturesScrollPreview = forwardRef(({
           }
 
           return (
-            <Surface key={id} style={[styles.surface, { backgroundColor: colors.primary }]}>
+            <Surface
+              key={id}
+              style={[styles.surface, {
+                backgroundColor: colors.primary,
+                borderColor: isActive ? colors.accent : colors.primary,
+              }]}
+            >
               <Badge
                 visible={isPlainObject(picture)}
                 style={[styles.badge, { backgroundColor: colors.success }]}
               >
-                ✔️
+                <MaterialCommunityIcons name="check" />
               </Badge>
               <Image
                 key={`picture-${id}`}
@@ -118,6 +132,7 @@ const PicturesScrollPreview = forwardRef(({
             sights={sights.map((s) => new Sight(...s))}
             filledSightIds={Object.keys(pictures)}
             activeSightId={activeSight.id}
+            {...sightWheelProps}
           />
           <Chip
             style={[styles.chip, { backgroundColor: colors.accent }]}
@@ -139,11 +154,13 @@ PicturesScrollPreview.propTypes = {
   pictures: PropTypes.objectOf(PropTypes.object).isRequired,
   showPicture: PropTypes.bool,
   sights: PropTypes.arrayOf(PropTypes.array).isRequired,
+  sightWheelProps: PropTypes.objectOf(PropTypes.any),
 };
 
 PicturesScrollPreview.defaultProps = {
   activeSight: null,
   showPicture: false,
+  sightWheelProps: {},
 };
 
 export default PicturesScrollPreview;

@@ -39,6 +39,7 @@
     "release": "release-it"
   },
   "dependencies": {
+    "expo-screen-orientation": "^3.2.1",
     "lodash.noop": "^3.0.1"
   },
   "devDependencies": {

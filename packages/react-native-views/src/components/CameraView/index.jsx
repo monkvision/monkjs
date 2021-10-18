@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { Camera, CameraSideBar, Mask, PicturesScrollPreview, utils } from '@monkvision/react-native/src/index';
+import { Camera, CameraSideBar, Mask, PicturesScrollPreview, utils } from '@monkvision/react-native';
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { FAB, Snackbar, Text, useTheme } from 'react-native-paper';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 import useSights from './useSights';
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   largeFab: {
-    transform: [{ scale: 1.5 }],
+    transform: [{ scale: 1.75 }],
   },
   overLaps: {
     ...utils.styles.flex,
@@ -44,6 +44,14 @@ const styles = StyleSheet.create({
     left: 0,
     zIndex: 10,
   },
+  snackBar: {
+    display: 'flex',
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    ...Platform.select({
+      native: { width: 300 },
+    }),
+  },
 });
 
 /**
@@ -51,6 +59,7 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
+ * @param onTourEnd {func}
  * @param sights {[Sight]}
  * @returns {JSX.Element}
  * @constructor
@@ -59,6 +68,7 @@ export default function CameraView({
   onCloseCamera,
   onShowAdvice,
   onTakePicture,
+  onTourEnd,
   sights,
 }) {
   // STATE TO PROPS
@@ -66,7 +76,8 @@ export default function CameraView({
   const [fakeActivity, setFakeActivity] = useState(null);
   const [camera, setCamera] = useState();
   const [pictures, setPictures] = useState({});
-  const { activeSight, nextSightProps } = useSights(sights);
+
+  const { activeSight, count, nextSightProps } = useSights(sights);
 
   // PICTURES
   const handleTakePicture = useCallback(async () => {
@@ -90,6 +101,29 @@ export default function CameraView({
     }
   }, [activeSight, camera, nextSightProps, onTakePicture, pictures]);
 
+  // UI
+  const { colors } = useTheme();
+
+  const handleShowAdvice = () => {
+    onShowAdvice(pictures);
+  };
+
+  const handleFakeActivity = useCallback((onEnd = noop) => {
+    const fakeActivityId = setTimeout(() => {
+      setFakeActivity(null);
+      onEnd();
+    }, 500);
+
+    setFakeActivity(fakeActivityId);
+
+    return () => { clearTimeout(fakeActivityId); };
+  }, []);
+
+  const [visibleSnack, setVisibleSnack] = useState(false);
+
+  const toggleSnackBar = () => setVisibleSnack((prev) => !prev);
+  const handleDismissSnackBar = () => setVisibleSnack(false);
+
   // CAMERA
   const handleCloseCamera = useCallback(() => {
     onCloseCamera(pictures);
@@ -97,21 +131,17 @@ export default function CameraView({
 
   const handleCameraReady = useCallback(setCamera, [setCamera]);
 
-  // UI
-  const handleShowAdvice = () => {
-    // console.warn('Showing advice...');
-    onShowAdvice(pictures);
-  };
+  // EFFECTS
+  useEffect(() => {
+    handleFakeActivity();
+  }, [activeSight.id, handleFakeActivity]);
 
   useEffect(() => {
-    const fakeActivityId = setTimeout(() => {
-      setFakeActivity(null);
-    }, 500);
-
-    setFakeActivity(fakeActivityId);
-
-    return () => { clearTimeout(fakeActivityId); };
-  }, [activeSight.id]);
+    const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
+    if (count === picturesTaken) {
+      handleFakeActivity(() => onTourEnd(pictures, camera, sights));
+    }
+  }, [camera, count, handleFakeActivity, onTourEnd, pictures, sights]);
 
   return (
     <View style={styles.root}>
@@ -152,12 +182,27 @@ export default function CameraView({
             disabled={fakeActivity}
             icon={Platform.OS !== 'ios' ? 'close' : undefined}
             label={Platform.OS === 'ios' ? 'Close' : undefined}
-            onPress={handleCloseCamera}
+            onPress={toggleSnackBar}
             small
             style={styles.fab}
           />
         </CameraSideBar>
       </SafeAreaView>
+      <Snackbar
+        visible={visibleSnack}
+        onDismiss={handleDismissSnackBar}
+        duration={14000}
+        style={styles.snackBar}
+        action={{
+          label: 'Leave',
+          onPress: handleCloseCamera,
+          color: colors.error,
+        }}
+      >
+        <Text style={{ color: colors.warning }}>
+          You are leaving the process, are you sure ?
+        </Text>
+      </Snackbar>
     </View>
   );
 }
@@ -166,6 +211,7 @@ CameraView.propTypes = {
   onCloseCamera: PropTypes.func,
   onShowAdvice: PropTypes.func,
   onTakePicture: PropTypes.func,
+  onTourEnd: PropTypes.func,
   sights: PropTypes.arrayOf(PropTypes.array),
 };
 
@@ -173,18 +219,19 @@ CameraView.defaultProps = {
   onCloseCamera: noop,
   onShowAdvice: noop,
   onTakePicture: noop,
+  onTourEnd: noop,
   sights: [
     ['abstractFront', [null, 0, null], 'front'],
     ['abstractFrontRight', [null, 330, null], 'front right'],
     ['abstractFrontLateralRight', [null, 300, null], 'front side right'],
-    ['abstractRearLateralRight', [null, 240, null], 'rear side right'],
     ['abstractMiddleLateralRight', [null, 270, null], 'middle side right'],
+    ['abstractRearLateralRight', [null, 240, null], 'rear side right'],
     ['abstractRearRight', [null, 210, null], 'rear right'],
-    ['abstractFrontLeft', [null, 30, null], 'front left'],
     ['abstractRear', [null, 180, null], 'rear'],
     ['abstractRearLeft', [null, 150, null], 'rear left'],
     ['abstractRearLateralLeft', [null, 120, null], 'read side left'],
     ['abstractMiddleLateralLeft', [null, 90, null], 'middle side left'],
     ['abstractFrontLateralLeft', [null, 60, null], 'front side left'],
+    ['abstractFrontLeft', [null, 30, null], 'front left'],
   ],
 };
