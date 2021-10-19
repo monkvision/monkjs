@@ -38,7 +38,7 @@
     "expo-constants": "~11.0.1",
     "expo-font": "~9.2.1",
     "expo-random": "~11.2.0",
-    "expo-screen-orientation": "~3.3.0",
+    "expo-screen-orientation": "~4.0.2",
     "expo-status-bar": "~1.0.4",
     "lodash.camelcase": "^4.3.0",
     "lodash.identity": "^3.0.0",
