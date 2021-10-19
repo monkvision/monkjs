@@ -38,10 +38,6 @@
     "prepare": "bob build",
     "release": "release-it"
   },
-  "dependencies": {
-    "expo-screen-orientation": "^3.2.1",
-    "lodash.noop": "^3.0.1"
-  },
   "devDependencies": {
     "babel-preset-expo": "^8.4.1",
     "eslint": "^7.32.0",
@@ -55,8 +51,6 @@
   "peerDependencies": {
     "@monkvision/corejs": "*",
     "@monkvision/react-native": "*",
-    "react": "*",
-    "react-native": "*",
     "react-native-paper": "*"
   },
   "publishConfig": {

@@ -40,10 +40,8 @@
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.1.0",
-    "expo-camera": "~11.2.2",
-    "expo-constants": "~11.0.1",
-    "expo-screen-orientation": "~3.3.0",
-    "expo-status-bar": "~1.0.4",
+    "@unimodules/core": "^7.1.2",
+    "@unimodules/react-native-adapter": "^6.3.9",
     "lodash.camelcase": "^4.3.0",
     "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
@@ -66,8 +64,11 @@
     "release-it": "^14.11.5"
   },
   "peerDependencies": {
+    "expo-camera": "*",
+    "expo-screen-orientation": "*",
     "react": "*",
     "react-native": "*",
+    "react-native-web": "*",
     "react-native-svg": "*"
   },
   "publishConfig": {

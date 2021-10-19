@@ -23,13 +23,28 @@ you can directly use the SDK for the **JS & React Native stack**.
 
 Install from `npm`
 ``` npm
-npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-svg react-native-paper --save
+npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper expo-camera expo-screen-orientation --save
 ```
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-svg react-native-paper
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper expo-camera expo-screen-orientation
 ```
+
+### What's all that?
+* **@monkvision/corejs**
+* **@monkvision/react-native**
+* **@monkvision/react-native-views**
+* @reduxjs/toolkit
+* expo-camera
+* expo-screen-orientation
+* react-native
+* _react-native-web_
+* react-native-svg
+* react-native-paper
+* react-redux
+
+The command install all dependencies you need if you go all in. We mean that you probably don't need _react-native-web_ if you don't run your App in the browser.
 
 > Are you starting a new application? We recommend the use of Expo.
 > Already have a React Native app? Some may be required
@@ -53,6 +68,11 @@ or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issue
 
 ⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native/package.json):
  ``` json
+"expo-camera": "*",
+"expo-screen-orientation": "*",
+"react": "*",
+"react-native": "*",
+"react-native-web": "*",
 "react-native-svg": "*"
  ```
 
@@ -66,8 +86,6 @@ or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issue
  ``` json
 "@monkvision/corejs": "*",
 "@monkvision/react-native": "*",
-"react": "*",
-"react-native": "*",
 "react-native-paper": "*"
  ```
 
