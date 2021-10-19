@@ -4,8 +4,7 @@ import isEmpty from 'lodash.isempty';
 import isPlainObject from 'lodash.isplainobject';
 
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Surface, Chip, useTheme, Badge } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Surface, Chip, useTheme, Avatar } from 'react-native-paper';
 import { Sight } from '@monkvision/corejs';
 
 import SightsWheel from '../SightsWheel';
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
   badge: {
     position: 'absolute',
     top: -4,
-    right: -4,
+    right: -8,
   },
 });
 
@@ -111,12 +110,13 @@ const PicturesScrollPreview = forwardRef(({
                 borderColor: isActive ? colors.accent : colors.primary,
               }]}
             >
-              <Badge
-                visible={isPlainObject(picture)}
-                style={[styles.badge, { backgroundColor: colors.success }]}
-              >
-                <MaterialCommunityIcons name="check" />
-              </Badge>
+              {isPlainObject(picture) && (
+                <Avatar.Icon
+                  size={24}
+                  icon="check"
+                  style={[styles.badge, { backgroundColor: colors.success }]}
+                />
+              )}
               <Image
                 key={`picture-${id}`}
                 source={source}
