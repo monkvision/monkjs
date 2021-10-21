@@ -76,8 +76,13 @@ Finally, we change scripts in the `package.json` to run the project with a `yarn
 
 ## Loading icons
 
-`CameraView` component is using `react-native-paper` icons.
-In order to load and bundle these assets, we need to use the proper hook in the root component (`<App />`).
+`CameraView` component is using `react-native-paper` icons. First, get icons from registry.
+
+``` yarn
+yarn add react-native-vector-icons
+```
+
+Then, use the `useIcons` hook in the root component (`<App />`).
 
 ``` javascript
 /* App.jsx */
