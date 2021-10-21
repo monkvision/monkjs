@@ -7,8 +7,8 @@ slug: /installation
 ## Available releases
 | Language or framework | Module |
 |-----------------------|--------|
-| JavaScript | [@monkvision/corejs](#monkvisioncorejs) |
-| React Native | [@monkvision/react-native](#monkvisionreact-native)<br/>[@monkvision/react-native-views](#monkvisionreact-native-views) |
+| JavaScript | [@monkvision/corejs](https://monkvision.github.io/monkjs/docs/js/api/corejs) |
+| React Native | [@monkvision/react-native](https://monkvision.github.io/monkjs/docs/js/api/react-native) <br/>[@monkvision/react-native-views](https://monkvision.github.io/monkjs/docs/js/api/react-native-views) |
 
 We are working to provide as soon as possible new SDKs for other languages.
 
@@ -28,21 +28,8 @@ npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper expo-camera expo-screen-orientation
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper
 ```
-
-### What's all that?
-* **@monkvision/corejs**
-* **@monkvision/react-native**
-* **@monkvision/react-native-views**
-* @reduxjs/toolkit
-* expo-camera
-* expo-screen-orientation
-* react-native
-* _react-native-web_
-* react-native-svg
-* react-native-paper
-* react-redux
 
 The command install all dependencies you need if you go all in. We mean that you probably don't need _react-native-web_ if you don't run your App in the browser.
 
@@ -53,42 +40,6 @@ The command install all dependencies you need if you go all in. We mean that you
 For questions or problems, see the [🧯 Troubleshooting](https://monkvision.github.io/monkjs/docs/troubleshooting) section
 or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issues).
 
-### @monkvision/corejs
-![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
-
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
- ``` json
-"@reduxjs/toolkit": "*"
-"react": "^16.14.0 || ^17.0.0",
-"react-redux": "^7.2.1"
- ```
-
-### @monkvision/react-native
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
-
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native/package.json):
- ``` json
-"expo-camera": "*",
-"expo-screen-orientation": "*",
-"react": "*",
-"react-native": "*",
-"react-native-web": "*",
-"react-native-svg": "*"
- ```
-
-### @monkvision/react-native-views
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
-
-> Note: this module requires `react-native-paper` for basic use of Monk.
-> For full customization of our components, please refer to `@monkvision/react-native`
-
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native-views/package.json):
- ``` json
-"@monkvision/corejs": "*",
-"@monkvision/react-native": "*",
-"react-native-paper": "*"
- ```
-
 ## What's next?
 
-You can start following our guides on how to take photos and how to analyze them.
+You can start following our guides on first, setting up depending on the workflow you use, then taking pictures.

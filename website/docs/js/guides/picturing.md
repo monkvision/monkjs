@@ -4,31 +4,36 @@ title: "📷 Taking pictures"
 slug: /js/guides/picturing
 ---
 
-`import { CameraView } from '@monkvision/react-native-views';`
+We open a React based project with our favorite IDE, then we import the Camera view.
 
 ``` javascript
-/* MyCameraView.jsx */
+/* App.jsx */
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import { CameraView } from '@monkvision/react-native-views';
 
-export default function MyCameraView() {
-  const handleCloseCamera = useCallback((pictures) => {
-    console.log(pictures); // [[Sight, CameraPicture], ...]
-  }, []);
-
-  const handleTakePicture = useCallback((picture) => {
-    console.log(picture); // [Sight, CameraPicture]
-  }, []);
-
-  return (
-    <CameraView
-      onCloseCamera={handleCloseCamera}
-      onTakePicture={handleTakePicture}
-      analyzeAfterCapture
-    />
-  );
+export default function App() {
+  return <CameraView />;
 }
+```
+
+This will create a tunnel view for taking pictures. ``<CameraView />`` takes callbacks and compose with your own logic.
+
+``` javascript
+const handleCloseCamera = React.useCallback((pictures) => {
+    console.log(pictures); // [[Sight, Source], ...]
+  }, []);
+
+const handleTakePicture = React.useCallback((picture) => {
+  console.log(picture); // [Sight, Source]
+}, []);
+
+return (
+  <CameraView
+    onCloseCamera={handleCloseCamera}
+    onTakePicture={handleTakePicture}
+  />
+);
 ```
 
 **See the [CameraView API](https://monkvision.github.io/monkjs/docs/js/api/react-native-views#cameraview) to more details.**

@@ -1,24 +1,24 @@
+/* eslint-disable no-alert, no-console */
 import React, { useCallback, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 
 import CameraView from '@monkvision/react-native-views/src/components/CameraView';
 import PicturesSummary from '@monkvision/react-native-views/src/components/PicturesSummary';
 
 export default function InspectionsCreate() {
-  const navigation = useNavigation();
   const [cameraViewPictures, setPictures] = useState({});
   const [cameraViewSights, setSights] = useState([]);
   const [end, setEnd] = useState(false);
 
-  const handleCloseCamera = useCallback(() => {
-    navigation.navigate('InspectionsHome');
-  }, [navigation]);
+  const handleCloseCamera = useCallback((pictures) => {
+    console.log(pictures);
+  }, []);
 
   const handleTourEnd = useCallback((pictures, camera, sights) => {
     setPictures(pictures);
     setSights(sights);
     setEnd(true);
-  }, []);
+    handleCloseCamera(pictures);
+  }, [handleCloseCamera]);
 
   return end === false ? (
     <CameraView

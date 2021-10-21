@@ -14,3 +14,9 @@ Install from `yarn`
 ``` yarn
 yarn add @monkvision/react-native prop-types react react-native react-native-svg
 ```
+
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native/package.json):
+ ``` json
+"react-native-web": "*",
+"react-native-svg": "*"
+ ```

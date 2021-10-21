@@ -8,7 +8,7 @@ module.exports = {
     type: 'category',
     label: 'Guides',
     items: [
-      // 'js/guides/setting-up',
+      'js/guides/setting-up',
       'js/guides/picturing',
       'js/guides/authenticating',
       // 'js/guides/analyzing',

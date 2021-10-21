@@ -15,6 +15,13 @@ Install from `yarn`
 yarn add @monkvision/corejs @reduxjs/toolkit
 ```
 
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
+ ``` json
+"@reduxjs/toolkit": "*"
+"react": "^16.14.0 || ^17.0.0",
+"react-redux": "^7.2.1"
+ ```
+
 ## MonkCore
 
 Based on Redux, the core instance provides a set of tools to request manipulation of Monk data.

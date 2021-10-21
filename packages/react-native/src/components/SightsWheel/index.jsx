@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import Svg, { Circle, Path } from 'react-native-svg';
-import { Sight } from '@monkvision/corejs';
 
 import SightsWheelCar from './SightsWheelCar';
 
@@ -101,7 +100,7 @@ const sectionSvgProps = (isActive, isFilled, style) => {
  * @param filledSightIds {[string]}
  *    an array of sight ids, each sight whose id is included
  *    get the applied the 'filled' style from style (other sections get the 'empty' style)
- * @param sights {[Sight]}
+ * @param sights {[{}]}
  *    the ordered array of Sights to represent,
  *    each sight will be represented by a section around the wheel
  * @param theme {{ colors: { accent: string, primary: string }}}
@@ -166,7 +165,7 @@ function SightsWheel({
 SightsWheel.propTypes = {
   activeSightId: PropTypes.string,
   filledSightIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  sights: PropTypes.arrayOf(PropTypes.shape(Sight)).isRequired,
+  sights: PropTypes.arrayOf(PropTypes.object).isRequired,
   theme: PropTypes.shape({ colors: {
     accent: PropTypes.string,
     primary: PropTypes.string,

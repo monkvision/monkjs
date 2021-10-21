@@ -5,12 +5,15 @@ import store from 'store';
 import { Provider } from 'react-redux';
 import { Auth0Provider } from '@auth0/auth0-react';
 
-import theme from 'config/theme';
+import { useIcons } from '@monkvision/react-native';
+import { theme } from '@monkvision/react-native-views';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import Navigation from 'screens/Navigation';
+import InspectionsCreate from 'screens/Inspections/Create';
 
 export default function App() {
+  useIcons();
+
   return (
     <Provider store={store}>
       <Auth0Provider
@@ -19,7 +22,7 @@ export default function App() {
         redirectUri={window.location.origin}
       >
         <PaperProvider theme={theme}>
-          <Navigation />
+          <InspectionsCreate />
         </PaperProvider>
       </Auth0Provider>
     </Provider>

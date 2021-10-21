@@ -1,6 +1,6 @@
 {
   "git": {
-    "commitMessage": "Release v${version}"
+    "commitMessage": "Release @monkvision/react-native-views v${version}"
   },
   "github": {
     "release": true

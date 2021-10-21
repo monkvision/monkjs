@@ -15,6 +15,16 @@ Install from `yarn`
 yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native
 ```
 
+> Note: this module requires `react-native-paper` for basic use of Monk.
+> For full customization of our components, please refer to `@monkvision/react-native`
+
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native-views/package.json):
+ ``` json
+"@monkvision/corejs": "*",
+"@monkvision/react-native": "*",
+"react-native-paper": "*"
+ ```
+
 ## CameraView
 
 | Released | Last update | Status |
