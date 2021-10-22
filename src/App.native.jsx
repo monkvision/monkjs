@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from 'screens/Loading';
 
 import store from 'store';
 import { Provider } from 'react-redux';
@@ -10,7 +11,11 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import InspectionsCreate from 'screens/Inspections/Create';
 
 export default function App() {
-  useIcons();
+  const isLoading = useIcons();
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Provider store={store}>

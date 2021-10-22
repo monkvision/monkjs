@@ -79,8 +79,21 @@ export default function CameraView({
 
   const { activeSight, count, nextSightProps } = useSights(sights);
 
+  const handleFakeActivity = useCallback((onEnd = noop) => {
+    const fakeActivityId = setTimeout(() => {
+      setFakeActivity(null);
+      onEnd();
+    }, 500);
+
+    setFakeActivity(fakeActivityId);
+
+    return () => { clearTimeout(fakeActivityId); };
+  }, []);
+
   // PICTURES
   const handleTakePicture = useCallback(async () => {
+    handleFakeActivity();
+
     if (camera) {
       const options = { quality: 1 };
       const picture = await camera.takePictureAsync(options);
@@ -99,7 +112,7 @@ export default function CameraView({
         nextSightProps.onPress();
       }
     }
-  }, [activeSight, camera, nextSightProps, onTakePicture, pictures]);
+  }, [activeSight, camera, handleFakeActivity, nextSightProps, onTakePicture, pictures]);
 
   // UI
   const { colors } = useTheme();
@@ -107,17 +120,6 @@ export default function CameraView({
   const handleShowAdvice = () => {
     onShowAdvice(pictures);
   };
-
-  const handleFakeActivity = useCallback((onEnd = noop) => {
-    const fakeActivityId = setTimeout(() => {
-      setFakeActivity(null);
-      onEnd();
-    }, 500);
-
-    setFakeActivity(fakeActivityId);
-
-    return () => { clearTimeout(fakeActivityId); };
-  }, []);
 
   const [visibleSnack, setVisibleSnack] = useState(false);
 
@@ -132,10 +134,6 @@ export default function CameraView({
   const handleCameraReady = useCallback(setCamera, [setCamera]);
 
   // EFFECTS
-  useEffect(() => {
-    handleFakeActivity();
-  }, [activeSight.id, handleFakeActivity]);
-
   useEffect(() => {
     const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
     if (count === picturesTaken) {
@@ -233,5 +231,10 @@ CameraView.defaultProps = {
     ['abstractMiddleLateralLeft', [null, 90, null], 'middle side left'],
     ['abstractFrontLateralLeft', [null, 60, null], 'front side left'],
     ['abstractFrontLeft', [null, 30, null], 'front left'],
+    ['vin', [null, null, null], 'VIN'],
+    ['abstractInteriorFront', [null, null, null], 'interior front'],
+    ['abstractBoard', [null, null, null], 'board'],
+    ['abstractInteriorBack', [null, null, null], 'interior back'],
+    ['abstractTrunk', [null, null, null], 'trunk'],
   ],
 };

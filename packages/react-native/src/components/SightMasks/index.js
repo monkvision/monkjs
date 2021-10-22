@@ -11,3 +11,7 @@ export { default as AbstractRearLateralRight } from './AbstractRearLateralRight'
 export { default as AbstractRearLeft } from './AbstractRearLeft';
 export { default as AbstractRearRight } from './AbstractRearRight';
 export { default as Vin } from './Vin';
+export { default as AbstractInteriorBack } from './AbstractInteriorBack';
+export { default as AbstractInteriorFront } from './AbstractInteriorFront';
+export { default as AbstractBoard } from './AbstractBoard';
+export { default as AbstractTrunk } from './AbstractTrunk';

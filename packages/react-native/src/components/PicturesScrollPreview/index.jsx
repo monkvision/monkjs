@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   badge: {
     position: 'absolute',
     top: -4,
-    right: -8,
+    right: -4,
   },
 });
 
@@ -118,7 +118,7 @@ const PicturesScrollPreview = forwardRef(({
                 />
               )}
               <Image
-                key={`picture-${id}`}
+                key={`sightMask-${id}`}
                 source={source}
                 style={styles.sightMask}
               />

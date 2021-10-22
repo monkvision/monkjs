@@ -27,7 +27,7 @@ function getContainedSizes(ratio) {
       },
       default: {
         height: '100vh',
-        width: `${100 * (a / b)}vh`,
+        width: `${Math.floor(100 * (a / b))}vh`,
       },
     }),
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/react-native';
 
@@ -14,10 +15,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ActivityIndicatorView() {
+export default function ActivityIndicatorView({ hideIndicator }) {
   return (
     <View style={styles.root}>
-      <ActivityIndicator color="white" />
+      {!hideIndicator && <ActivityIndicator color="white" />}
     </View>
   );
 }
+
+ActivityIndicatorView.propTypes = {
+  hideIndicator: PropTypes.bool,
+};
+
+ActivityIndicatorView.defaultProps = {
+  hideIndicator: false,
+};
