@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * @param hideIndicator {boolean}
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function ActivityIndicatorView({ hideIndicator }) {
   return (
     <View style={styles.root}>

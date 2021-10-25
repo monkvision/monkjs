@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
  * @returns {JSX.Element}
  * @constructor
  */
-export default function PicturesSummary({
+export default function PicturesSummaryView({
   cameraViewPictures: p,
   onNextPicture,
   onTourEnd,
@@ -132,14 +132,14 @@ export default function PicturesSummary({
   );
 }
 
-PicturesSummary.propTypes = {
+PicturesSummaryView.propTypes = {
   cameraViewPictures: PropTypes.objectOf(PropTypes.object).isRequired,
   onNextPicture: PropTypes.func,
   onTourEnd: PropTypes.func,
   sights: PropTypes.arrayOf(PropTypes.array).isRequired,
 };
 
-PicturesSummary.defaultProps = {
+PicturesSummaryView.defaultProps = {
   onNextPicture: noop,
   onTourEnd: noop,
 };

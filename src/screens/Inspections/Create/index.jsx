@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from 'react';
 
 import CameraView from '@monkvision/react-native-views/src/components/CameraView';
-import PicturesSummary from '@monkvision/react-native-views/src/components/PicturesSummary';
+import PicturesSummaryView from '@monkvision/react-native-views/src/components/PicturesSummaryView';
 
 export default function InspectionsCreate() {
   const [cameraViewPictures, setPictures] = useState({});
@@ -44,7 +44,7 @@ export default function InspectionsCreate() {
       ]}
     />
   ) : (
-    <PicturesSummary
+    <PicturesSummaryView
       cameraViewPictures={cameraViewPictures}
       onTourEnd={() => alert('end')}
       sights={cameraViewSights}
