@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import monkCore from 'config/monkCore';
+import useMinLoadingTime from 'hooks/useMinLoadingTime';
+import ActivityIndicatorScreen from 'screens/ActivityIndicator';
+import { getInitialActiveParts } from '../../../utils/inspection.utils';
 
+import { classic as classicCar } from '../../../assets/svg/vehicles';
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
-import { classic as classicCar } from '../../../assets/svg/vehicles';
 
 const { useGetInspectionByIdQuery } = monkCore.inspection;
 
@@ -91,9 +93,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DamageLibrary() {
-  const navigation = useNavigation();
+export default function DamageLibrary({ navigation, route }) {
   const [currentView, setCurrentView] = useState('front');
+  const [activeParts, setActiveParts] = useState({});
+
+  const inspectionId = route.params?.inspectionId ?? '57dc368c-785a-b7ef-570f-6b8771b4bc49'; // SAMPLE INSPECTION
+  const { isLoading, data } = useGetInspectionByIdQuery(inspectionId);
+  const minLoading = useMinLoadingTime(isLoading);
 
   const goBack = () => {
     if (navigation.canGoBack()) {
@@ -103,11 +109,27 @@ export default function DamageLibrary() {
     }
   };
 
+  const handlePress = (id, isActive, localActiveParts) => {
+    console.log(id, isActive, localActiveParts);
+    setActiveParts((prev) => ({ ...prev, [id]: isActive }));
+  };
+
+  useEffect(() => { setActiveParts(getInitialActiveParts(data)); }, [data]);
+
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
         <View style={styles.vehicle}>
-          <Vehicle pressAble xml={classicCar[currentView]} width="100%" height="85%" />
+          {minLoading ? (<ActivityIndicatorScreen />) : (
+            <Vehicle
+              pressAble
+              xml={classicCar[currentView]}
+              onPress={handlePress}
+              activeParts={activeParts}
+              width="100%"
+              height="85%"
+            />
+          )}
         </View>
         <View style={styles.header}>
           <IconButton
@@ -127,7 +149,7 @@ export default function DamageLibrary() {
           <MaterialCommunityIcons name="brain" color="#274B9F" size={30} />
         </View>
         {/* eslint-disable-next-line max-len */}
-        <DamageLibraryLeftActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} />
+        <DamageLibraryLeftActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} activeParts={activeParts} />
         <View style={styles.guideBtnContainer}><GuideButton onPress={() => console.log('open guide')} /></View>
         <View style={styles.validateBtnContainer}><ValidateButton style={styles.validateBtn} text="Validate report" onPress={() => console.log('validate damages')} /></View>
       </Surface>

@@ -1,36 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
-import camelCase from 'lodash.camelcase';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Vehicle from '@monkvision/react-native/src/components/Vehicle';
 import monkCore from 'config/monkCore';
 import useMinLoadingTime from 'hooks/useMinLoadingTime';
-
 import ActivityIndicatorScreen from 'screens/ActivityIndicator';
+import { getInitialActiveParts } from 'utils/inspection.utils';
+
 import { classic as classicCar } from 'assets/svg/vehicles';
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
 
 const { useGetInspectionByIdQuery } = monkCore.inspection;
-
-function getInitialActiveParts(data) {
-  if (!data) { return {}; }
-  const { damages, parts } = data;
-  const activeParts = {};
-  if (damages) {
-    damages.forEach((damage) => {
-      damage.part_ids.forEach((part_id) => {
-        const part = parts.find(({ id }) => id === part_id);
-        activeParts[camelCase(part.part_type)] = true;
-      });
-    });
-  }
-  return activeParts;
-}
 
 const styles = StyleSheet.create({
   root: {
@@ -110,19 +94,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DamageLibrary() {
-  const navigation = useNavigation();
-  const focused = useIsFocused();
+export default function DamageLibrary({ navigation, route }) {
+  const focused = navigation?.isFocused();
   const [currentView, setCurrentView] = useState('front');
-
-  const inspectionId = '57dc368c-785a-b7ef-570f-6b8771b4bc49';
-
-  const { isLoading, data } = useGetInspectionByIdQuery(inspectionId);
-  const minLoading = useMinLoadingTime(isLoading);
-
   const [activeParts, setActiveParts] = useState({});
 
-  console.log(activeParts);
+  const inspectionId = route.params?.inspectionId ?? '57dc368c-785a-b7ef-570f-6b8771b4bc49'; // SAMPLE INSPECTION
+  const { isLoading, data } = useGetInspectionByIdQuery(inspectionId);
+  const minLoading = useMinLoadingTime(isLoading);
 
   const unLockScreenAsync = async () => {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
@@ -130,10 +109,10 @@ export default function DamageLibrary() {
   };
 
   const goBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
+    if (navigation?.canGoBack()) {
+      navigation?.goBack();
     } else {
-      navigation.navigate('Inspections');
+      navigation?.navigate('Inspections');
     }
   };
 
