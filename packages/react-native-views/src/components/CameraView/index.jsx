@@ -91,12 +91,12 @@ export default function CameraView({
 
   const handleFakeActivity = useCallback((onEnd = noop) => {
     const fakeActivityId = setTimeout(() => {
-      camera.resumePreview();
+      camera?.resumePreview();
       setFakeActivity(null);
       onEnd();
     }, 500);
 
-    camera.pausePreview();
+    camera?.pausePreview();
     setFakeActivity(fakeActivityId);
 
     return () => { clearTimeout(fakeActivityId); };
@@ -135,12 +135,12 @@ export default function CameraView({
 
   const [visibleAdvices, setVisibleAdvices] = useState(false);
   const showAdvices = () => {
-    camera.pausePreview();
+    camera?.pausePreview();
     setVisibleAdvices(true);
   };
 
   const hideAdvices = () => {
-    camera.resumePreview();
+    camera?.resumePreview();
     setVisibleAdvices(false);
   };
   const handleShowAdvice = () => {
