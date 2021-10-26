@@ -12,6 +12,6 @@ export { default as abstractRearLeft } from './sightMasks/abstract-rear-left.png
 export { default as abstractRearRight } from './sightMasks/abstract-rear-right.png';
 export { default as vin } from './sightMasks/vin.png';
 export { default as abstractInteriorFront } from './sightMasks/abstract-interior-front.png';
-export { default as abstractInteriorBack } from './sightMasks/abstract-interior-back.png';
+export { default as abstractInteriorRear } from './sightMasks/abstract-interior-rear.png';
 export { default as abstractTrunk } from './sightMasks/abstract-trunk.png';
-export { default as abstractBoard } from './sightMasks/abstract-board.png';
+export { default as abstractDashboard } from './sightMasks/abstract-dashboard.png';

@@ -91,16 +91,14 @@ export default function CameraView({
 
   const handleFakeActivity = useCallback((onEnd = noop) => {
     const fakeActivityId = setTimeout(() => {
-      camera?.resumePreview();
       setFakeActivity(null);
       onEnd();
     }, 500);
 
-    camera?.pausePreview();
     setFakeActivity(fakeActivityId);
 
     return () => { clearTimeout(fakeActivityId); };
-  }, [camera]);
+  }, []);
 
   // PICTURES
   const handleTakePicture = useCallback(async () => {

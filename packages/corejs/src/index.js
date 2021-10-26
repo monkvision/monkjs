@@ -1,5 +1,6 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import getInspectionApi from './services/inspection';
+import json from './sights.json';
 
 export function getBaseQuery({ baseUrl, customHeaders = [] }) {
   return fetchBaseQuery({
@@ -39,3 +40,27 @@ class MonkCore {
 export default MonkCore;
 
 export { default as Sight } from './classes/Sight';
+
+export const sights = {
+  all: Object.values(json),
+  combos: {
+    withInterior: [
+      json.abstractFront,
+      json.abstractFrontRight,
+      json.abstractFrontLateralRight,
+      json.abstractMiddleLateralRight,
+      json.abstractRearLateralRight,
+      json.abstractRearRight,
+      json.abstractRear,
+      json.abstractRearLeft,
+      json.abstractRearLateralLeft,
+      json.abstractMiddleLateralLeft,
+      json.abstractFrontLateralLeft,
+      json.abstractFrontLeft,
+      json.abstractDashboard,
+      json.abstractInteriorFront,
+      json.abstractInteriorRear,
+      json.abstractTrunk,
+    ],
+  },
+};
