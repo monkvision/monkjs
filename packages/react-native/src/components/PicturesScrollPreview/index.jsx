@@ -131,7 +131,7 @@ const PicturesScrollPreview = forwardRef(({
           <SightsWheel
             sights={sights.map((s) => new Sight(...s))}
             filledSightIds={Object.keys(pictures)}
-            activeSightId={activeSight.id}
+            activeSight={activeSight}
             {...sightWheelProps}
           />
           <Chip
