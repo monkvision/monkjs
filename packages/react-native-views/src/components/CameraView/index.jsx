@@ -56,10 +56,12 @@ const styles = StyleSheet.create({
   },
   advices: {
     width: '100%',
-    maxWidth: 512,
+    height: '100%',
     backgroundColor: 'white',
-    margin: 16,
-    padding: 16,
+    borderRadius: 40,
+    overflow: 'hidden',
+    maxWidth: 512,
+    maxHeight: 512,
     alignSelf: 'center',
   },
 });
@@ -163,11 +165,9 @@ export default function CameraView({
 
   return (
     <View style={styles.root}>
-
       <StatusBar hidden />
 
       <SafeAreaView style={styles.container}>
-
         <PicturesScrollPreview
           activeSight={activeSight}
           sights={sights}
@@ -216,9 +216,8 @@ export default function CameraView({
           onDismiss={hideAdvices}
           contentContainerStyle={styles.advices}
         >
-          <AdvicesView />
+          <AdvicesView onDismiss={hideAdvices} />
         </Modal>
-
       </SafeAreaView>
 
       <Snackbar
