@@ -9,7 +9,7 @@ import { useIcons } from '@monkvision/react-native';
 import { theme } from '@monkvision/react-native-views';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import InspectionsCreate from 'screens/Inspections/Create';
+import Navigation from 'Navigation';
 
 export default function App() {
   useIcons();
@@ -22,7 +22,7 @@ export default function App() {
         redirectUri={window.location.origin}
       >
         <PaperProvider theme={theme}>
-          <InspectionsCreate />
+          <Navigation />
         </PaperProvider>
       </Auth0Provider>
     </Provider>
