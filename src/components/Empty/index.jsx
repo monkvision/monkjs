@@ -2,8 +2,9 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button, Text, Title, useTheme } from 'react-native-paper';
+import { utils } from '@monkvision/react-native';
 
 import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';
@@ -12,18 +13,8 @@ import svgXml from './undraw_void_3ggu.svg';
 
 const styles = StyleSheet.create({
   root: {
+    ...utils.styles.flex,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...Platform.select({
-      native: {
-        flex: 1,
-      },
-      default: {
-        display: 'flex',
-        minHeight: '100vh',
-      },
-    }),
   },
   text: {
     marginBottom: spacing(3),
