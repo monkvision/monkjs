@@ -1,92 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
+import { View, Image, TouchableOpacity, Platform } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import SideSwipe from 'react-native-sideswipe';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-const center = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  carouselDotsLayout: {
-    ...center,
-    flexDirection: 'row',
-    width: '100%',
-    height: 20,
-    ...Platform.select({
-      ios: {
-        width: 512,
-        position: 'absolute',
-        bottom: 8,
-        zIndex: 1,
-      },
-      android: {
-        width: 512,
-        position: 'absolute',
-        bottom: 8,
-        zIndex: 1,
-      },
-    }),
-  },
-  carouselDot: {
-    width: 10,
-    height: 10,
-    margin: 10,
-    borderRadius: 999,
-  },
-  carouselContent: {
-    display: 'flex',
-    alignItems: 'center',
-    ...Platform.select({
-      ios: {
-        width: 512,
-      },
-      android: {
-        width: 512,
-      },
-    }),
-  },
-  iconLayout: {
-    marginTop: 24,
-    marginBottom: 10,
-    height: 24,
-  },
-  closeButton: {
-    borderRadius: 999,
-    width: 32,
-    height: 32,
-    ...center,
-    backgroundColor: 'grey',
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    zIndex: 1,
-  },
-  adviceImage: {
-    ...Platform.select({
-      web: {
-        width: 512,
-        height: 340,
-      },
-      ios: {
-        width: 270,
-        height: 180,
-      },
-      android: {
-        width: 270,
-        height: 180,
-      },
-    }),
-  },
-});
+import { styles, center } from './styles';
 
 /**
  * @param onDismiss {func}
@@ -100,6 +17,9 @@ export default function AdvicesView({ onDismiss, ...props }) {
   const handleCurrentDotColor = (index) => ({
     backgroundColor: index === currentAdviceIndex ? colors['--ifm-color-primary'] : '#C6D3F3',
   });
+
+  const delay = currentAdviceIndex >= 2 ? null : 3000;
+  useInterval(() => setCurrentAdviceIndex((prev) => prev + 1), delay);
   return (
     <View style={styles.root} {...props}>
       <TouchableOpacity style={styles.closeButton} onPress={onDismiss}>
@@ -144,6 +64,29 @@ export default function AdvicesView({ onDismiss, ...props }) {
     </View>
   );
 }
+
+// in case we want this hook to be reusable then we can move it to "/hooks"
+const useInterval = (callback, delay) => {
+  const savedCallback = React.useRef(callback);
+
+  // Remember the latest callback if it changes.
+  React.useLayoutEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  React.useEffect(() => {
+    // Don't schedule if no delay is specified.
+    if (!delay) {
+      return;
+    }
+
+    const id = setInterval(() => savedCallback.current(), delay);
+
+    return () => clearInterval(id);
+  }, [delay]);
+};
+
 const items = [
   {
     icon: 'brightness-5',
