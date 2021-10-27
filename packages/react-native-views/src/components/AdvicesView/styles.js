@@ -11,26 +11,13 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     position: 'relative',
+    height: '100%',
   },
   carouselDotsLayout: {
-    ...center,
     flexDirection: 'row',
     width: '100%',
     height: 20,
-    ...Platform.select({
-      ios: {
-        width: 512,
-        position: 'absolute',
-        bottom: 8,
-        zIndex: 1,
-      },
-      android: {
-        width: 512,
-        position: 'absolute',
-        bottom: 8,
-        zIndex: 1,
-      },
-    }),
+    ...center,
   },
   carouselDot: {
     width: 10,
@@ -42,29 +29,34 @@ export const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     ...Platform.select({
-      ios: {
-        width: 512,
-      },
-      android: {
-        width: 512,
-      },
+      native: { width: 512 },
+    }),
+  },
+  carousel: {
+    width: 512,
+    overflow: 'hidden',
+    ...Platform.select({
+      web: { height: 460 },
+      native: { height: 270 },
     }),
   },
   iconLayout: {
-    marginTop: 24,
-    marginBottom: 10,
     height: 24,
+    ...Platform.select({
+      web: { marginTop: 24 },
+      native: { marginTop: 12 },
+    }),
   },
   closeButton: {
     borderRadius: 999,
     width: 32,
     height: 32,
-    ...center,
     backgroundColor: 'grey',
     position: 'absolute',
     top: 20,
     right: 20,
     zIndex: 1,
+    ...center,
   },
   adviceImage: {
     ...Platform.select({
@@ -72,14 +64,17 @@ export const styles = StyleSheet.create({
         width: 512,
         height: 340,
       },
-      ios: {
-        width: 270,
-        height: 180,
-      },
-      android: {
+      native: {
         width: 270,
         height: 180,
       },
     }),
+  },
+  label: {
+    textAlign: 'center',
+    color: '#7C8080',
+  },
+  labelLayout: {
+    marginTop: 10,
   },
 });
