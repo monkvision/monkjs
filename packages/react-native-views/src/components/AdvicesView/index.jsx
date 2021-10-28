@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import SideSwipe from 'react-native-sideswipe';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { styles } from './styles';
+import noop from 'lodash.noop';
 import { useInterval } from './hooks';
-
+import { styles } from './styles';
+import items from './data';
 /**
  * @param onDismiss {func}
  * @returns {JSX.Element}
@@ -38,10 +40,10 @@ export default function AdvicesView({ onDismiss, ...props }) {
       />
       {/* carousel dots */}
       <View style={styles.carouselDotsLayout}>
-        {new Array(3).fill('').map((_, index) => (
+        {[0, 1, 2].map((item, index) => (
           <TouchableOpacity
             style={[styles.carouselDot, handleCurrentDotColor(index)]}
-            key={index}
+            key={item}
             onPress={() => {
               // swipe to the current index screen
               setCurrentAdviceIndex(index);
@@ -68,7 +70,8 @@ const Carousel = ({ currentAdviceIndex, toggleAutoSwipe, setCurrentAdviceIndex }
         <View style={{ borderRadius: 18, overflow: 'hidden' }}>
           <Image source={item.src} style={styles.adviceImage} />
         </View>
-        {/* please keep this view (iconLayout) outside of the condition so it holds the icon place */}
+        {/* please keep this view (iconLayout) outside of
+        the condition so it holds the icon place */}
         {item?.icon ? (
           <View style={styles.iconLayout}>
             <MaterialCommunityIcons name={item.icon} size={24} color="black" />
@@ -80,35 +83,22 @@ const Carousel = ({ currentAdviceIndex, toggleAutoSwipe, setCurrentAdviceIndex }
   />
 );
 
-const Label = ({ children }) => <Text style={styles.label}>{children}</Text>;
-const items = [
-  {
-    icon: 'brightness-5',
-    src: require('../../assets/brightness.gif'),
-    text: (
-      <View style={styles.labelLayout}>
-        <Label>Make sure that the picture is taken </Label>
-        <Label>in a bright enough space</Label>
-      </View>
-    ),
-  },
-  {
-    icon: 'triangle-outline',
-    src: require('../../assets/sharpness.gif'),
-    text: (
-      <View style={styles.labelLayout}>
-        <Label>Make sure that the picture is clear</Label>
-      </View>
-    ),
-  },
-  {
-    src: require('../../assets/carMask.gif'),
-    text: (
-      <View style={styles.labelLayout}>
-        <Label>Please follow overlay masks on</Label>
-        <Label>the screen to take the pictures in</Label>
-        <Label>the right angle</Label>
-      </View>
-    ),
-  },
-];
+Carousel.propTypes = {
+  currentAdviceIndex: PropTypes.number,
+  setCurrentAdviceIndex: PropTypes.func,
+  toggleAutoSwipe: PropTypes.func,
+};
+
+Carousel.defaultProps = {
+  currentAdviceIndex: 0,
+  setCurrentAdviceIndex: noop,
+  toggleAutoSwipe: noop,
+};
+
+AdvicesView.propTypes = {
+  onDismiss: PropTypes.func,
+};
+
+AdvicesView.defaultProps = {
+  onDismiss: noop,
+};
