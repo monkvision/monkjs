@@ -221,15 +221,15 @@ export default function CameraView({
             style={styles.fab}
           />
         </CameraSideBar>
-
-        <Modal
-          visible={visibleAdvices}
-          onDismiss={hideAdvices}
-          contentContainerStyle={styles.advices}
-        >
-          <AdvicesView onDismiss={hideAdvices} />
-        </Modal>
       </SafeAreaView>
+
+      <Modal
+        visible={visibleAdvices}
+        onDismiss={hideAdvices}
+        contentContainerStyle={styles.advices}
+      >
+        <AdvicesView onDismiss={hideAdvices} />
+      </Modal>
 
       <Snackbar
         visible={visibleSnack}
