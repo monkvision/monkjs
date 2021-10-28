@@ -31,7 +31,7 @@
     "@react-native-picker/picker": "1.16.1",
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.6",
-    "@react-navigation/native-stack": "^6.1.0",
+    "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.6.1",
     "dotenv": "^10.0.0",
     "expo": "~42.0.1",
