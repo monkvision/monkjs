@@ -5,6 +5,9 @@
   "license": "BSD-3-Clause-Clear",
   "private": true,
   "main": "AppEntry.js",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "watch:corejs": "cd ./packages/corejs && yarn watch",
     "watch:react-native": "cd ./packages/react-native && yarn watch",

@@ -40,12 +40,10 @@
     "release": "release-it"
   },
   "dependencies": {
-    "@react-navigation/native": "^6.0.6",
-    "@react-navigation/native-stack": "^6.1.0",
+    "@expo/vector-icons": "^12.0.5",
     "react-native-pager-view": "^5.0.12",
     "react-native-paper": "^4.9.2",
-    "react-native-safe-area-context": "^3.3.2",
-    "react-native-screens": "^3.8.0"
+    "react-native-sideswipe": "^1.5.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.14.5",
