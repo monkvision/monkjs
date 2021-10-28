@@ -2,7 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { Camera, CameraSideBar, Mask, PicturesScrollPreview, utils } from '@monkvision/react-native';
+import {
+  Camera,
+  CameraSideBar,
+  Mask,
+  PicturesScrollPreview,
+  utils,
+} from '@monkvision/react-native';
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { FAB, Modal, Snackbar, Text, useTheme } from 'react-native-paper';
 import { sights as defaultSights } from '@monkvision/corejs';
@@ -57,10 +63,14 @@ const styles = StyleSheet.create({
   },
   advices: {
     width: '100%',
+    height: '100%',
+    borderRadius: 40,
+    overflow: 'hidden',
     maxWidth: 512,
-    backgroundColor: 'white',
-    margin: 16,
-    padding: 16,
+    ...Platform.select({
+      web: { maxHeight: 512 },
+      native: { maxHeight: 300 },
+    }),
     alignSelf: 'center',
   },
 });
@@ -98,7 +108,9 @@ export default function CameraView({
 
     setFakeActivity(fakeActivityId);
 
-    return () => { clearTimeout(fakeActivityId); };
+    return () => {
+      clearTimeout(fakeActivityId);
+    };
   }, []);
 
   // PICTURES
@@ -164,11 +176,9 @@ export default function CameraView({
 
   return (
     <View style={styles.root}>
-
       <StatusBar hidden />
 
       <SafeAreaView style={styles.container}>
-
         <PicturesScrollPreview
           activeSight={activeSight}
           sights={sights}
@@ -211,16 +221,15 @@ export default function CameraView({
             style={styles.fab}
           />
         </CameraSideBar>
-
-        <Modal
-          visible={visibleAdvices}
-          onDismiss={hideAdvices}
-          contentContainerStyle={styles.advices}
-        >
-          <AdvicesView />
-        </Modal>
-
       </SafeAreaView>
+
+      <Modal
+        visible={visibleAdvices}
+        onDismiss={hideAdvices}
+        contentContainerStyle={styles.advices}
+      >
+        <AdvicesView onDismiss={hideAdvices} />
+      </Modal>
 
       <Snackbar
         visible={visibleSnack}
@@ -233,9 +242,7 @@ export default function CameraView({
           color: colors.error,
         }}
       >
-        <Text style={{ color: colors.warning }}>
-          You are leaving the process, are you sure ?
-        </Text>
+        <Text style={{ color: colors.warning }}>You are leaving the process, are you sure ?</Text>
       </Snackbar>
     </View>
   );
