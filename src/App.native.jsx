@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from 'screens/Loading';
+import Loading from 'components/Loading';
 
 import store from 'store';
 import { Provider } from 'react-redux';
