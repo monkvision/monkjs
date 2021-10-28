@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 
+// eslint-disable-next-line import/prefer-default-export
 export const useInterval = (callback, delay) => {
   const savedCallback = React.useRef(callback);
 
   // Remember the latest callback if it changes.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
   // Set up the interval.
-  React.useEffect(() => {
+  useEffect(() => {
     // Don't schedule if no delay is specified.
     if (!delay) {
       return;
@@ -17,6 +18,7 @@ export const useInterval = (callback, delay) => {
 
     const id = setInterval(() => savedCallback.current(), delay);
 
+    // eslint-disable-next-line consistent-return
     return () => clearInterval(id);
   }, [delay]);
 };
