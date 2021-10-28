@@ -34,6 +34,7 @@
     "README.md"
   ],
   "scripts": {
+    "watch": "watch 'yarn run prepare' src",
     "lint": "eslint src --cache",
     "prepare": "bob build",
     "release": "release-it"

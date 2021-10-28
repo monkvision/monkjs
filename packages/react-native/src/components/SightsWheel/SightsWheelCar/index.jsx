@@ -11,6 +11,7 @@ export default () => (
       position: 'absolute',
       top: (116 - 60) / 2,
       left: (116 - 42) / 2,
+      zIndex: 1,
     }}
   />
 );

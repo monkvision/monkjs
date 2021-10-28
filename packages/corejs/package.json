@@ -30,10 +30,11 @@
     "README.md"
   ],
   "scripts": {
+    "watch": "watch 'yarn run prepare' src",
     "ci": "mocha --require @babel/register --enable-source-maps --recursive ./test",
     "test": "yarn ci --watch --watch-extensions js ./test",
     "lint": "eslint src --cache",
-    "build": "babel src --out-dir lib --source-maps",
+    "prepare": "babel src --out-dir lib --source-maps",
     "release": "yarn lint && yarn build && release-it"
   },
   "peerDependencies": {

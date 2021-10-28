@@ -11,6 +11,7 @@ import {
 } from '@monkvision/react-native';
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { FAB, Modal, Snackbar, Text, useTheme } from 'react-native-paper';
+import { sights as defaultSights } from '@monkvision/corejs';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 import AdvicesView from '../AdvicesView';
@@ -260,23 +261,5 @@ CameraView.defaultProps = {
   onShowAdvice: noop,
   onTakePicture: noop,
   onTourEnd: noop,
-  sights: [
-    ['abstractFront', [null, 0, null], 'front'],
-    ['abstractFrontRight', [null, 330, null], 'front right'],
-    ['abstractFrontLateralRight', [null, 300, null], 'front side right'],
-    ['abstractMiddleLateralRight', [null, 270, null], 'middle side right'],
-    ['abstractRearLateralRight', [null, 240, null], 'rear side right'],
-    ['abstractRearRight', [null, 210, null], 'rear right'],
-    ['abstractRear', [null, 180, null], 'rear'],
-    ['abstractRearLeft', [null, 150, null], 'rear left'],
-    ['abstractRearLateralLeft', [null, 120, null], 'read side left'],
-    ['abstractMiddleLateralLeft', [null, 90, null], 'middle side left'],
-    ['abstractFrontLateralLeft', [null, 60, null], 'front side left'],
-    ['abstractFrontLeft', [null, 30, null], 'front left'],
-    ['vin', [null, null, null], 'VIN'],
-    ['abstractInteriorFront', [null, null, null], 'interior front'],
-    ['abstractBoard', [null, null, null], 'board'],
-    ['abstractInteriorBack', [null, null, null], 'interior back'],
-    ['abstractTrunk', [null, null, null], 'trunk'],
-  ],
+  sights: defaultSights.combos.withInterior,
 };

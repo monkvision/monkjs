@@ -8,7 +8,7 @@ import { useIcons } from '@monkvision/react-native';
 import { theme } from '@monkvision/react-native-views';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import InspectionsCreate from 'screens/Inspections/Create';
+import Navigation from 'Navigation';
 
 export default function App() {
   const isLoading = useIcons();
@@ -20,7 +20,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <InspectionsCreate />
+        <Navigation />
       </PaperProvider>
     </Provider>
   );
