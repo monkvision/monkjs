@@ -1,7 +1,9 @@
-import isPlainObject from 'lodash.isplainobject';
 import React from 'react';
+import isPlainObject from 'lodash.isplainobject';
+import PropTypes from 'prop-types';
 import { Avatar, Surface, useTheme } from 'react-native-paper';
 import { Image } from 'react-native';
+import noop from 'lodash.noop';
 import styles from './styles';
 
 // This components has been moved here to be keep it's layout clean and readeable
@@ -23,7 +25,7 @@ const SightCard = ({
     if (isActive) {
       scrollToCurrentElement();
     }
-  }, [isActive]);
+  }, [isActive, scrollToCurrentElement]);
 
   if (isImage) {
     return <Image key={`picture-${id}`} source={source} style={styles.picture} />;
@@ -51,4 +53,25 @@ const SightCard = ({
     </Surface>
   );
 };
+
+SightCard.propTypes = {
+  activeSight: PropTypes.shape({
+    id: PropTypes.string,
+    label: PropTypes.string,
+  }),
+  id: PropTypes.string,
+  pictures: PropTypes.objectOf(PropTypes.object).isRequired,
+  scrollToCurrentElement: PropTypes.func,
+  showPicture: PropTypes.bool,
+  sightMasks: PropTypes.string,
+};
+
+SightCard.defaultProps = {
+  activeSight: null,
+  id: null,
+  sightMasks: PropTypes.string,
+  scrollToCurrentElement: noop,
+  showPicture: false,
+};
+
 export default SightCard;

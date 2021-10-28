@@ -19,7 +19,9 @@ const PicturesScrollPreview = forwardRef(
     const { colors } = useTheme();
 
     const scrollViewRef = React.useRef(null);
-    const scrollToCurrentElement = (index) => scrollViewRef.current.scrollTo({ y: index * ROW_HEIGHT });
+    const scrollToCurrentElement = (index) => {
+      scrollViewRef.current.scrollTo({ y: index * ROW_HEIGHT });
+    };
     return (
       <SafeAreaView style={styles.root} ref={ref}>
         <ScrollView
