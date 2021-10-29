@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   scrollContainer: {
-    paddingTop: 166,
+    marginTop: 166,
     paddingBottom: 16,
     overflow: 'visible',
     paddingHorizontal: 8,
