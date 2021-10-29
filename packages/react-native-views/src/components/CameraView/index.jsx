@@ -1,18 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+
 import noop from 'lodash.noop';
 
-import {
-  Camera,
-  CameraSideBar,
-  Mask,
-  PicturesScrollPreview,
-  utils,
-} from '@monkvision/react-native';
+import Components, { propTypes, utils } from '@monkvision/react-native';
+import { Sight, values } from '@monkvision/corejs';
+
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { FAB, Snackbar, Text, useTheme } from 'react-native-paper';
 // import { Modal } from 'react-native-paper';
-import { sights as defaultSights } from '@monkvision/corejs';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 // import AdvicesView from '../AdvicesView';
@@ -81,7 +76,7 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
- * @param onTourEnd {func}
+ * @param onSuccess {func}
  * @param sights {[Sight]}
  * @returns {JSX.Element}
  * @constructor
@@ -90,7 +85,7 @@ export default function CameraView({
   onCloseCamera,
   // onShowAdvice,
   onTakePicture,
-  onTourEnd,
+  onSuccess,
   sights,
 }) {
   // STATE TO PROPS
@@ -170,16 +165,16 @@ export default function CameraView({
   useEffect(() => {
     const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
     if (count === picturesTaken) {
-      handleFakeActivity(() => onTourEnd(pictures, camera, sights));
+      handleFakeActivity(() => onSuccess(pictures, camera, sights));
     }
-  }, [camera, count, handleFakeActivity, onTourEnd, pictures, sights]);
+  }, [camera, count, handleFakeActivity, onSuccess, pictures, sights]);
 
   return (
     <View style={styles.root}>
       <StatusBar hidden />
 
       <SafeAreaView style={styles.container}>
-        <PicturesScrollPreview
+        <Components.PicturesScrollPreview
           activeSight={activeSight}
           sights={sights}
           pictures={pictures}
@@ -187,13 +182,13 @@ export default function CameraView({
         />
 
         <View>
-          <Camera onCameraReady={handleCameraReady} />
+          <Components.Camera onCameraReady={handleCameraReady} />
           <View style={styles.overLaps}>
-            {fakeActivity ? <ActivityIndicatorView /> : <Mask id={activeSight.id} />}
+            {fakeActivity ? <ActivityIndicatorView /> : <Components.Mask id={activeSight.id} />}
           </View>
         </View>
 
-        <CameraSideBar>
+        <Components.CameraSideBar>
           <FAB
             accessibilityLabel="Advices"
             color="#edab25"
@@ -220,7 +215,7 @@ export default function CameraView({
             small
             style={styles.fab}
           />
-        </CameraSideBar>
+        </Components.CameraSideBar>
       </SafeAreaView>
 
       {/*
@@ -251,17 +246,19 @@ export default function CameraView({
 }
 
 CameraView.propTypes = {
-  onCloseCamera: PropTypes.func,
-  // onShowAdvice: PropTypes.func,
-  onTakePicture: PropTypes.func,
-  onTourEnd: PropTypes.func,
-  sights: PropTypes.arrayOf(PropTypes.array),
+  onCloseCamera: propTypes.callback,
+  // onError: propTypes.onError,
+  // onShowAdvice: propTypes.callback,
+  onSuccess: propTypes.onSuccess,
+  onTakePicture: propTypes.callback,
+  sights: propTypes.sights,
 };
 
 CameraView.defaultProps = {
   onCloseCamera: noop,
+  // onError: noop,
   // onShowAdvice: noop,
   onTakePicture: noop,
-  onTourEnd: noop,
-  sights: defaultSights.combos.withInterior,
+  onSuccess: noop,
+  sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
 };

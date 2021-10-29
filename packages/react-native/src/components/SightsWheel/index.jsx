@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Image, View } from 'react-native';
 
+import { Image, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
-import * as sightMasks from '../../assets/sightMasks';
-
 import SightsWheelCar from './SightsWheelCar';
+import * as propTypes from '../propTypes';
+import * as sightMasks from '../../assets/sightMasks';
 
 const externalSize = 116; // in pixels, the complete size of the wheel and the spacing around it
 const makeStyles = ({ colors }, isInterior) => ({
@@ -194,16 +194,10 @@ function SightsWheel({
 }
 
 SightsWheel.propTypes = {
-  activeSight: PropTypes.shape({
-    flags: PropTypes.arrayOf(PropTypes.string),
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  activeSight: propTypes.sight.isRequired,
   filledSightIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  sights: PropTypes.arrayOf(PropTypes.object).isRequired,
-  theme: PropTypes.shape({ colors: {
-    accent: PropTypes.string,
-    primary: PropTypes.string,
-  } }),
+  sights: propTypes.sights.isRequired,
+  theme: propTypes.theme,
 };
 
 SightsWheel.defaultProps = {

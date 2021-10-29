@@ -1601,10 +1601,42 @@
     dequal "^1.0.0"
     isoworker "^0.1.1"
 
-"@monkvision/corejs@^1.0.0":
+"@monkvision/corejs@*":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.0.8.tgz#071daee5099c4adcbd382879154cac55fb9e4e41"
   integrity sha512-6x/AvbHDd6aCddKl4tRzrl5190YpVaCO8q9vhPBD++Pr2jINHJtLxrWyv8w2ckBt1fFhc4oajR46+LdvdEwf9A==
+
+"@monkvision/react-native-views@*":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.0.8.tgz#c614f266278ef2ac9b9b0652b1a5a29726f1bb8b"
+  integrity sha512-5mXXVTqjeKZ4iJq+kHeReWLlkhPSWoLUlyJzP6HgGnQrdNSUWVCli2xXQgaMDlMGyqa9X0WLfmMn/KiuFqlSJA==
+  dependencies:
+    "@expo/vector-icons" "^12.0.5"
+    react-native-pager-view "^5.0.12"
+    react-native-paper "^4.9.2"
+    react-native-sideswipe "^1.5.0"
+
+"@monkvision/react-native@*":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.0.8.tgz#acc2332b56d585a019f97d7bf21795446491e52b"
+  integrity sha512-9sI9HFfHaedGw0zJCrtaMumkDJ8UCWDfJbxHqzGsh5LAQ5znAAsgKmMXCQRkFVSZFiDyONxDjcIVD4xSLoybmw==
+  dependencies:
+    "@emotion/is-prop-valid" "^1.1.0"
+    "@expo/vector-icons" "^12.0.5"
+    "@unimodules/core" "^7.1.2"
+    "@unimodules/react-native-adapter" "^6.3.9"
+    expo-camera "^11.2.2"
+    expo-font "^9.2.1"
+    expo-screen-orientation "^3.2.1"
+    lodash.camelcase "^4.3.0"
+    lodash.isboolean "^3.0.3"
+    lodash.isempty "^4.4.0"
+    lodash.isplainobject "^4.0.6"
+    lodash.noop "^3.0.1"
+    react-native-animation-library "^0.0.8"
+    react-native-xml2js "^1.0.3"
+    tinycolor2 "^1.4.2"
+    xml2js "^0.4.23"
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
@@ -10471,6 +10503,11 @@ react-native-screens@^3.8.0:
   integrity sha512-lHrnB/elAoMJKv8O12U6BLgeup4lB6ZKJHEOVuG/D72nv/OE9wUusbou6YCB5tp3YbaSpHflPnkFmHA/vCejpw==
   dependencies:
     warn-once "^0.1.0"
+
+react-native-sideswipe@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-sideswipe/-/react-native-sideswipe-1.5.0.tgz#f67014633456c7d1a44112b6126ee877f7202f50"
+  integrity sha512-1qI9qQrc+UwM24qtQN5Tk9cucvTRTpp3wnGxG3JjeATwaBxcIMQPtxbuosMFi+gXBH2p/ofmtD4jZc7w2bmGeg==
 
 react-native-svg-transformer@^0.14.3:
   version "0.14.3"

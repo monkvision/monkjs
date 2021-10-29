@@ -1,13 +1,14 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+
 import isEmpty from 'lodash.isempty';
 import isPlainObject from 'lodash.isplainobject';
 
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Surface, Chip, useTheme, Avatar } from 'react-native-paper';
-import { Sight } from '@monkvision/corejs';
 
 import SightsWheel from '../SightsWheel';
+import * as propTypes from '../propTypes';
 import * as sightMasks from '../../assets/sightMasks';
 
 const styles = StyleSheet.create({
@@ -85,7 +86,7 @@ const PicturesScrollPreview = forwardRef(({
         style={styles.scrollContainer}
         showsHorizontalScrollIndicator={false}
       >
-        {sights.map(([id]) => {
+        {sights.map(({ id }) => {
           const picture = pictures[id];
           const isImage = isPlainObject(picture) && showPicture === true;
           const isActive = id === activeSight.id;
@@ -129,7 +130,7 @@ const PicturesScrollPreview = forwardRef(({
       {(activeSight !== null && !isEmpty(activeSight.label)) && (
         <View style={styles.topView}>
           <SightsWheel
-            sights={sights.map((s) => new Sight(...s))}
+            sights={sights}
             filledSightIds={Object.keys(pictures)}
             activeSight={activeSight}
             {...sightWheelProps}
@@ -147,13 +148,10 @@ const PicturesScrollPreview = forwardRef(({
 });
 
 PicturesScrollPreview.propTypes = {
-  activeSight: PropTypes.shape({
-    id: PropTypes.string,
-    label: PropTypes.string,
-  }),
-  pictures: PropTypes.objectOf(PropTypes.object).isRequired,
+  activeSight: propTypes.sight,
+  pictures: propTypes.cameraPictures.isRequired,
   showPicture: PropTypes.bool,
-  sights: PropTypes.arrayOf(PropTypes.array).isRequired,
+  sights: propTypes.sights.isRequired,
   sightWheelProps: PropTypes.objectOf(PropTypes.any),
 };
 
