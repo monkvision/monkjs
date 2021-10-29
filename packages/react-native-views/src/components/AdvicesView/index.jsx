@@ -1,15 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, TouchableOpacity } from 'react-native';
-import { useTheme } from 'react-native-paper';
-import SideSwipe from 'react-native-sideswipe';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { propTypes } from '@monkvision/react-native';
+
 import noop from 'lodash.noop';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Image, TouchableOpacity } from 'react-native';
+import SideSwipe from 'react-native-sideswipe';
+import { useTheme } from 'react-native-paper';
+
 import { useInterval } from './hooks';
 import { styles } from './styles';
 import items from './data';
+
 /**
  * @param onDismiss {func}
+ * @param props
  * @returns {JSX.Element}
  * @constructor
  */
@@ -96,7 +102,7 @@ Carousel.defaultProps = {
 };
 
 AdvicesView.propTypes = {
-  onDismiss: PropTypes.func,
+  onDismiss: propTypes.callback,
 };
 
 AdvicesView.defaultProps = {

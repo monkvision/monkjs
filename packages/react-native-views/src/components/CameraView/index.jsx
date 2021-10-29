@@ -1,20 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+
 import noop from 'lodash.noop';
 
-import {
-  Camera,
-  CameraSideBar,
-  Mask,
-  PicturesScrollPreview,
-  utils,
-} from '@monkvision/react-native';
+import Components, { propTypes, utils } from '@monkvision/react-native';
+import { Sight, values } from '@monkvision/corejs';
+
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { FAB, Modal, Snackbar, Text, useTheme } from 'react-native-paper';
-import { sights as defaultSights } from '@monkvision/corejs';
+import { FAB, Snackbar, Text, useTheme } from 'react-native-paper';
+// import { Modal } from 'react-native-paper';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
-import AdvicesView from '../AdvicesView';
+// import AdvicesView from '../AdvicesView';
 
 import useSights from './useSights';
 
@@ -80,16 +76,16 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
- * @param onTourEnd {func}
+ * @param onSuccess {func}
  * @param sights {[Sight]}
  * @returns {JSX.Element}
  * @constructor
  */
 export default function CameraView({
   onCloseCamera,
-  onShowAdvice,
+  // onShowAdvice,
   onTakePicture,
-  onTourEnd,
+  onSuccess,
   sights,
 }) {
   // STATE TO PROPS
@@ -144,20 +140,19 @@ export default function CameraView({
   const toggleSnackBar = () => setVisibleSnack((prev) => !prev);
   const handleDismissSnackBar = () => setVisibleSnack(false);
 
-  const [visibleAdvices, setVisibleAdvices] = useState(false);
-  const showAdvices = () => {
-    camera?.pausePreview();
-    setVisibleAdvices(true);
-  };
-
-  const hideAdvices = () => {
-    camera?.resumePreview();
-    setVisibleAdvices(false);
-  };
-  const handleShowAdvice = () => {
-    showAdvices();
-    onShowAdvice(pictures);
-  };
+  // const [visibleAdvices, setVisibleAdvices] = useState(false);
+  // const showAdvices = () => {
+  //   camera?.pausePreview();
+  //   setVisibleAdvices(true);
+  // };
+  // const hideAdvices = () => {
+  //   camera?.resumePreview();
+  //   setVisibleAdvices(false);
+  // };
+  // const handleShowAdvice = () => {
+  //   showAdvices();
+  //   onShowAdvice(pictures);
+  // };
 
   // CAMERA
   const handleCloseCamera = useCallback(() => {
@@ -170,16 +165,16 @@ export default function CameraView({
   useEffect(() => {
     const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
     if (count === picturesTaken) {
-      handleFakeActivity(() => onTourEnd(pictures, camera, sights));
+      handleFakeActivity(() => onSuccess(pictures, camera, sights));
     }
-  }, [camera, count, handleFakeActivity, onTourEnd, pictures, sights]);
+  }, [camera, count, handleFakeActivity, onSuccess, pictures, sights]);
 
   return (
     <View style={styles.root}>
       <StatusBar hidden />
 
       <SafeAreaView style={styles.container}>
-        <PicturesScrollPreview
+        <Components.PicturesScrollPreview
           activeSight={activeSight}
           sights={sights}
           pictures={pictures}
@@ -187,22 +182,22 @@ export default function CameraView({
         />
 
         <View>
-          <Camera onCameraReady={handleCameraReady} />
+          <Components.Camera onCameraReady={handleCameraReady} />
           <View style={styles.overLaps}>
-            {fakeActivity ? <ActivityIndicatorView /> : <Mask id={activeSight.id} />}
+            {fakeActivity ? <ActivityIndicatorView /> : <Components.Mask id={activeSight.id} />}
           </View>
         </View>
 
-        <CameraSideBar>
+        <Components.CameraSideBar>
           <FAB
             accessibilityLabel="Advices"
             color="#edab25"
             disabled={fakeActivity}
             icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
             label={Platform.OS === 'ios' ? 'Advices' : undefined}
-            onPress={handleShowAdvice}
+            onPress={noop}
             small
-            style={styles.fab}
+            style={[styles.fab, { visibility: 'hidden' }]}
           />
           <FAB
             accessibilityLabel="Take a picture"
@@ -220,9 +215,10 @@ export default function CameraView({
             small
             style={styles.fab}
           />
-        </CameraSideBar>
+        </Components.CameraSideBar>
       </SafeAreaView>
 
+      {/*
       <Modal
         visible={visibleAdvices}
         onDismiss={hideAdvices}
@@ -230,6 +226,7 @@ export default function CameraView({
       >
         <AdvicesView onDismiss={hideAdvices} />
       </Modal>
+      */}
 
       <Snackbar
         visible={visibleSnack}
@@ -249,17 +246,19 @@ export default function CameraView({
 }
 
 CameraView.propTypes = {
-  onCloseCamera: PropTypes.func,
-  onShowAdvice: PropTypes.func,
-  onTakePicture: PropTypes.func,
-  onTourEnd: PropTypes.func,
-  sights: PropTypes.arrayOf(PropTypes.array),
+  onCloseCamera: propTypes.callback,
+  // onError: propTypes.onError,
+  // onShowAdvice: propTypes.callback,
+  onSuccess: propTypes.onSuccess,
+  onTakePicture: propTypes.callback,
+  sights: propTypes.sights,
 };
 
 CameraView.defaultProps = {
   onCloseCamera: noop,
-  onShowAdvice: noop,
+  // onError: noop,
+  // onShowAdvice: noop,
   onTakePicture: noop,
-  onTourEnd: noop,
-  sights: defaultSights.combos.withInterior,
+  onSuccess: noop,
+  sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
 };
