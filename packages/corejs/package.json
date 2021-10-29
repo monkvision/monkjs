@@ -34,7 +34,7 @@
     "ci": "mocha --require @babel/register --enable-source-maps --recursive ./test",
     "test": "yarn ci --watch --watch-extensions js ./test",
     "lint": "eslint src --cache",
-    "prepare": "babel src --out-dir lib --source-maps",
+    "prepare": "yarn tsc",
     "release": "yarn lint && yarn build && release-it"
   },
   "peerDependencies": {
@@ -67,7 +67,8 @@
     "core-js": "3",
     "mocha": "^9.1.1",
     "mocha-logger": "^1.0.7",
-    "release-it": "^14.11.5"
+    "release-it": "^14.11.5",
+    "typescript": "^4.4.4"
   },
   "publishConfig": {
     "access": "public"
