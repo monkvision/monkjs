@@ -7,7 +7,7 @@ import { SafeAreaView, ScrollView, View } from 'react-native';
 import { Chip, useTheme } from 'react-native-paper';
 
 import SightsWheel from '../SightsWheel';
-import * as propTypes from '../propTypes';
+import propTypes from '../propTypes';
 import * as sightMasks from '../../assets/sightMasks';
 
 import styles from './styles';

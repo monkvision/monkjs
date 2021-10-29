@@ -1,4 +1,6 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
+
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   root: {
@@ -6,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 125,
     ...Platform.select({
-      native: { height: '100%' },
+      native: { height: windowHeight },
       default: { height: '100vh' },
     }),
   },
