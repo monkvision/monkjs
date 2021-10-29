@@ -5,7 +5,7 @@ import { Image, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import SightsWheelCar from './SightsWheelCar';
-import * as propTypes from '../propTypes';
+import propTypes from '../propTypes';
 import * as sightMasks from '../../assets/sightMasks';
 
 const externalSize = 116; // in pixels, the complete size of the wheel and the spacing around it

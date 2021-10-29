@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// import useAuth from 'hooks/useAuth';
+import useAuth from 'hooks/useAuth';
 import useLoading from 'hooks/useLoading';
 
 import * as Screens from 'screens';
@@ -14,19 +14,19 @@ const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   const isLoading = useLoading();
-  // const { isAuthenticated, isSignedOut } = useAuth();
+  const { isAuthenticated, isSignedOut } = useAuth();
 
   if (isLoading) {
     return <Loading />;
   }
 
-  // if (isSignedOut) {
-  //   return <Screens.Outed />;
-  // }
-  //
-  // if (isAuthenticated !== true) {
-  //   return <Screens.Authentication />;
-  // }
+  if (isSignedOut) {
+    return <Screens.Outed />;
+  }
+
+  if (isAuthenticated !== true) {
+    return <Screens.Authentication />;
+  }
 
   return (
     <NavigationContainer>
