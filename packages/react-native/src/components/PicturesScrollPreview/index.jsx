@@ -31,7 +31,7 @@ const PicturesScrollPreview = forwardRef(
           ref={scrollViewRef}
           showsHorizontalScrollIndicator={false}
         >
-          {sights.map(([id], index) => (
+          {sights.map(({ id }, index) => (
             <SightCard
               scrollToCurrentElement={() => scrollToCurrentElement(index)}
               pictures={pictures}
