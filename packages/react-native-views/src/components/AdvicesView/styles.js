@@ -30,14 +30,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       native: { width: 512 },
+      web: { width: 1024 },
     }),
   },
   carousel: {
-    width: 512,
-    overflow: 'hidden',
     ...Platform.select({
-      web: { height: 460 },
-      native: { height: 270 },
+      native: { width: 512 },
+      web: { width: 1024 },
     }),
   },
   iconLayout: {
