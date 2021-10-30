@@ -31,10 +31,10 @@ export function getBaseQuery({
 }
 
 class MonkCore {
-  _baseQuery: string;
+  _baseQuery: any;
   _inspection: any;
 
-  constructor(baseQuery: string) {
+  constructor(baseQuery: any) {
     this._baseQuery = baseQuery;
     this._inspection = getInspectionApi(baseQuery);
   }

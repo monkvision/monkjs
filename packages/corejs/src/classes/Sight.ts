@@ -1,11 +1,15 @@
 export default class Sight {
   /**
    * @param id {string}
-   * @param poz {[number]}
+   * @param poz {object}
    * @param label {string}
    * @param flags {[string]}
    */
-  constructor(id, poz, label, flags) {
+  _id: string;
+  _poz: { p: number; o: number; z: number };
+  _label: string;
+  _flags: string[];
+  constructor(id: string, poz: any, label: string, flags: string[]) {
     this._id = id;
     this._label = label;
     this._flags = flags;
