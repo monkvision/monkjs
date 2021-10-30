@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "watch:corejs": "cd ./packages/corejs && yarn watch",
+    "watch:react": "cd ./packages/react && yarn watch",
     "watch:react-native": "cd ./packages/react-native && yarn watch",
     "watch:react-native-view": "cd ./packages/react-native-views && yarn watch",
     "start": "expo start",

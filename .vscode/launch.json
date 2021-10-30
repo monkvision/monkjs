@@ -17,6 +17,12 @@
             "type": "node-terminal"
         },
         {
+            "command": "yarn watch:react",
+            "name": "Run watch:react",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "command": "yarn watch:react-native",
             "name": "Run watch:react-native",
             "request": "launch",

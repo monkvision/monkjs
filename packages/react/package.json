@@ -1,0 +1,59 @@
+{
+  "name": "@monkvision/react",
+  "version": "1.0.0",
+  "description": "Extension package to provide a react context for CoreJs",
+  "homepage": "https://github.com/monkvision/monkjs/packages/react/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "main": "lib/index.js",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "private": false,
+  "files": [
+    "lib",
+    "src",
+    ".editorconfig",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "watch": "watch 'yarn run prepare' src",
+    "lint": "eslint src --cache",
+    "prepare": "yarn tsc",
+    "release": "yarn lint && yarn build && release-it"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0 || ^17.0.0",
+    "typescript": "~4.1.5",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-redux": "^7.1.7"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "expo-constants": "~11.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-mocha": "^9.0.0",
+    "release-it": "^14.11.5",
+    "typescript": "~4.1.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

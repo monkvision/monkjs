@@ -9,7 +9,7 @@ export function getBaseQuery({
   customHeaders = [],
 }: {
   baseUrl: string;
-  customHeaders: any;
+  customHeaders?: any;
 }) {
   return fetchBaseQuery({
     baseUrl,
