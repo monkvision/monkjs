@@ -1,4 +1,12 @@
 {
+  "hooks": {
+    "after:bump": [
+      "npm run build:corejs",
+      "npm run build:react-native",
+      "npm run build:react-native-views"
+    ],
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
   "plugins": {
     "release-it-yarn-workspaces": true
   },
