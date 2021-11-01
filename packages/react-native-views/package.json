@@ -34,14 +34,11 @@
     "README.md"
   ],
   "scripts": {
-    "watch": "watch 'yarn run prepare' src",
+    "watch": "watch 'yarn run build' src",
     "lint": "eslint src --cache",
-    "prepare": "bob build",
-    "release": "release-it"
+    "build": "bob build"
   },
   "dependencies": {
-    "@expo/vector-icons": "^12.0.5",
-    "react-native-pager-view": "^5.0.12",
     "react-native-paper": "^4.9.2"
   },
   "devDependencies": {
