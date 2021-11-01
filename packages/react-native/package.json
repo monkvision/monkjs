@@ -45,7 +45,7 @@
     "@unimodules/react-native-adapter": "^6.3.9",
     "expo-camera": "^11.2.2",
     "expo-font": "^9.2.1",
-    "expo-screen-orientation": "^3.2.1",
+    "expo-screen-orientation": "^4.0.3",
     "lodash.camelcase": "^4.3.0",
     "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
