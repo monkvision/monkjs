@@ -7,14 +7,17 @@ import { SafeAreaView, ScrollView, View } from 'react-native';
 import { Chip, useTheme } from 'react-native-paper';
 
 import SightsWheel from '../SightsWheel';
+import SightCard from '../SightCard';
+
 import propTypes from '../propTypes';
 import * as sightMasks from '../../assets/sightMasks';
 
 import styles from './styles';
-import SightCard from './sightCard';
 
 // ROW_HEIGHT is the height of the surface element inside sightCard
 const ROW_HEIGHT = 100;
+const ROW_MARGIN = 8;
+const ROW = ROW_HEIGHT + ROW_MARGIN;
 
 const PicturesScrollPreview = forwardRef(
   ({ activeSight, pictures, showPicture, sights, sightWheelProps }, ref) => {
@@ -22,7 +25,7 @@ const PicturesScrollPreview = forwardRef(
 
     const scrollViewRef = React.useRef(null);
     const scrollToCurrentElement = (index) => {
-      scrollViewRef.current.scrollTo({ y: index * ROW_HEIGHT });
+      scrollViewRef.current.scrollTo({ y: 4 + index * ROW });
     };
     return (
       <SafeAreaView style={styles.root} ref={ref}>
@@ -33,9 +36,10 @@ const PicturesScrollPreview = forwardRef(
         >
           {sights.map(({ id }, index) => (
             <SightCard
+              id={id}
+              key={`sightCard-${id}`}
               scrollToCurrentElement={() => scrollToCurrentElement(index)}
               pictures={pictures}
-              id={id}
               showPicture={showPicture}
               activeSight={activeSight}
               sightMasks={sightMasks}

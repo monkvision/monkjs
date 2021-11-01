@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { propTypes } from '@monkvision/react-native';
 
 import noop from 'lodash.noop';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Image, TouchableOpacity } from 'react-native';
-import SideSwipe from 'react-native-sideswipe';
+import { View, /* Image , */TouchableOpacity } from 'react-native';
+// import SideSwipe from 'react-native-sideswipe';
 import { useTheme } from 'react-native-paper';
 
 import { useInterval } from './hooks';
 import { styles } from './styles';
-import items from './data';
+// import items from './data';
 
 /**
  * @param onDismiss {func}
@@ -39,11 +39,11 @@ export default function AdvicesView({ onDismiss, ...props }) {
       </TouchableOpacity>
 
       {/* carousel */}
-      <Carousel
+      {/* <Carousel
         currentAdviceIndex={currentAdviceIndex}
         toggleAutoSwipe={toggleAutoSwipe}
         setCurrentAdviceIndex={setCurrentAdviceIndex}
-      />
+      /> */}
       {/* carousel dots */}
       <View style={styles.carouselDotsLayout}>
         {[0, 1, 2].map((item, index) => (
@@ -63,43 +63,43 @@ export default function AdvicesView({ onDismiss, ...props }) {
   );
 }
 
-const Carousel = ({ currentAdviceIndex, toggleAutoSwipe, setCurrentAdviceIndex }) => (
-  <SideSwipe
-    index={currentAdviceIndex}
-    itemWidth={512}
-    onEndReached={() => toggleAutoSwipe(false)}
-    style={styles.carousel}
-    data={items}
-    onIndexChange={(index) => setCurrentAdviceIndex(index)}
-    renderItem={({ item }) => (
-      <View style={styles.carouselContent}>
-        <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-          <Image source={item.src} style={styles.adviceImage} />
-        </View>
-        {/* please keep this view (iconLayout) outside of
-        the condition so it holds the icon place */}
-        {item?.icon ? (
-          <View style={styles.iconLayout}>
-            <MaterialCommunityIcons name={item.icon} size={24} color="black" />
-          </View>
-        ) : null}
-        {item.text}
-      </View>
-    )}
-  />
-);
-
-Carousel.propTypes = {
-  currentAdviceIndex: PropTypes.number,
-  setCurrentAdviceIndex: PropTypes.func,
-  toggleAutoSwipe: PropTypes.func,
-};
-
-Carousel.defaultProps = {
-  currentAdviceIndex: 0,
-  setCurrentAdviceIndex: noop,
-  toggleAutoSwipe: noop,
-};
+// const Carousel = ({ currentAdviceIndex, toggleAutoSwipe, setCurrentAdviceIndex }) => (
+//   <SideSwipe
+//     index={currentAdviceIndex}
+//     itemWidth={512}
+//     onEndReached={() => toggleAutoSwipe(false)}
+//     style={styles.carousel}
+//     data={items}
+//     onIndexChange={(index) => setCurrentAdviceIndex(index)}
+//     renderItem={({ item }) => (
+//       <View style={styles.carouselContent}>
+//         <View style={{ borderRadius: 18, overflow: 'hidden' }}>
+//           <Image source={item.src} style={styles.adviceImage} />
+//         </View>
+//         {/* please keep this view (iconLayout) outside of
+//         the condition so it holds the icon place */}
+//         {item?.icon ? (
+//           <View style={styles.iconLayout}>
+//             <MaterialCommunityIcons name={item.icon} size={24} color="black" />
+//           </View>
+//         ) : null}
+//         {item.text}
+//       </View>
+//     )}
+//   />
+// );
+//
+// Carousel.propTypes = {
+//   currentAdviceIndex: PropTypes.number,
+//   setCurrentAdviceIndex: PropTypes.func,
+//   toggleAutoSwipe: PropTypes.func,
+// };
+//
+// Carousel.defaultProps = {
+//   currentAdviceIndex: 0,
+//   setCurrentAdviceIndex: noop,
+//   toggleAutoSwipe: noop,
+// };
 
 AdvicesView.propTypes = {
   onDismiss: propTypes.callback,
