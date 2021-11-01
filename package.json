@@ -26,8 +26,7 @@
     "build:ios": "expo build:ios",
     "eject": "expo eject",
     "clear:modules": "rm -rf 'node_modules, package-lock.json, yarn.lock'",
-    "clear": "yarn run clear:modules && yarn cache clean && yarn install",
-    "release": "release-it"
+    "clear": "yarn run clear:modules && yarn cache clean && yarn install"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.7.0",
