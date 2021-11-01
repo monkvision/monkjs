@@ -1,33 +1,31 @@
 {
   "name": "monk",
-  "version": "1.0.9",
+  "version": "1.1.0-0",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "main": "AppEntry.js",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "jest": {
-    "setupFiles": ["<rootDir>/src/tests/jest-setup.js"]
+    "setupFiles": [
+      "<rootDir>/src/tests/jest-setup.js"
+    ]
   },
   "scripts": {
     "watch:corejs": "cd ./packages/corejs && yarn watch",
     "watch:react-native": "cd ./packages/react-native && yarn watch",
     "watch:react-native-view": "cd ./packages/react-native-views && yarn watch",
-
     "start": "expo start",
     "start:documentation": "cd website && yarn run docs:start",
-
     "build:corejs": "cd ./packages/corejs && yarn run build",
     "build:react-native": "cd ./packages/react-native && yarn run build",
     "build:react-native-view": "cd ./packages/react-native-views && yarn run build",
-
     "build:andoid": "expo build:android",
     "build:ios": "expo build:ios",
-
     "release": "release-it --only-version",
-
     "clear:modules": "rm -rf 'node_modules, package-lock.json, yarn.lock'",
     "clear": "yarn run clear:modules && yarn cache clean && yarn install",
-
     "eject": "expo eject"
   },
   "dependencies": {
