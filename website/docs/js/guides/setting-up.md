@@ -75,14 +75,14 @@ Finally, we change scripts in the `package.json` to run the project with a `yarn
 
 ``` javascript
 import React from 'react';
-
 import { useIcons } from '@monkvision/react-native';
 import { CameraView, theme } from '@monkvision/react-native-views';
+import { Provider as PaperProvider } from 'react-native-paper';
 
-function App() {
-  useIcons();
+export default function App() {
+  const loading = useIcons();
 
-  return (
+  return loading ? 'Loading...' : (
     <PaperProvider theme={theme}>
       <CameraView />
     </PaperProvider>
