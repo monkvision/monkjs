@@ -1602,24 +1602,21 @@
     isoworker "^0.1.1"
 
 "@monkvision/corejs@*":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.0.8.tgz#071daee5099c4adcbd382879154cac55fb9e4e41"
-  integrity sha512-6x/AvbHDd6aCddKl4tRzrl5190YpVaCO8q9vhPBD++Pr2jINHJtLxrWyv8w2ckBt1fFhc4oajR46+LdvdEwf9A==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.1.0.tgz#af4fbb489c0c2e4cd7b9aba0378115ad908b876f"
+  integrity sha512-eCrHhHri7S2bHYGg4J14ifPf3JS2gfwLFfrGpGNnFsgBiQFNgbiBaiPQ+i1EMoC7NFU0l5oGCOCPDVavRULRtg==
 
 "@monkvision/react-native-views@*":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.0.8.tgz#c614f266278ef2ac9b9b0652b1a5a29726f1bb8b"
-  integrity sha512-5mXXVTqjeKZ4iJq+kHeReWLlkhPSWoLUlyJzP6HgGnQrdNSUWVCli2xXQgaMDlMGyqa9X0WLfmMn/KiuFqlSJA==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.1.0.tgz#4c171a3157d302369ef0ea84da08c339ceeff748"
+  integrity sha512-mnm8sahVK9JqHuZVmalgs3MHESk9DvSK+cI8P0HeB5Fy5KLDweHoHljnaOgWzQFq4YtABDsUmuh54NEHmUftJA==
   dependencies:
-    "@expo/vector-icons" "^12.0.5"
-    react-native-pager-view "^5.0.12"
     react-native-paper "^4.9.2"
-    react-native-sideswipe "^1.5.0"
 
 "@monkvision/react-native@*":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.0.8.tgz#acc2332b56d585a019f97d7bf21795446491e52b"
-  integrity sha512-9sI9HFfHaedGw0zJCrtaMumkDJ8UCWDfJbxHqzGsh5LAQ5znAAsgKmMXCQRkFVSZFiDyONxDjcIVD4xSLoybmw==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.1.0.tgz#4a5b6c184412f13d98109334fc91c31aa7b4961c"
+  integrity sha512-Ih6s7VY/mMVeDTZQD4tV0VE+JSrwgZUAWjd2wnxzXRiJ27J0LKD9Au2wEIfnBqwlvZ6PZMPZOn9p7h1T65202A==
   dependencies:
     "@emotion/is-prop-valid" "^1.1.0"
     "@expo/vector-icons" "^12.0.5"
@@ -1634,6 +1631,9 @@
     lodash.isplainobject "^4.0.6"
     lodash.noop "^3.0.1"
     react-native-animation-library "^0.0.8"
+    react-native-svg "^12.1.1"
+    react-native-vector-icons "^8.1.0"
+    react-native-web "^0.17.5"
     react-native-xml2js "^1.0.3"
     tinycolor2 "^1.4.2"
     xml2js "^0.4.23"
@@ -10504,11 +10504,6 @@ react-native-screens@^3.8.0:
   dependencies:
     warn-once "^0.1.0"
 
-react-native-sideswipe@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-sideswipe/-/react-native-sideswipe-1.5.0.tgz#f67014633456c7d1a44112b6126ee877f7202f50"
-  integrity sha512-1qI9qQrc+UwM24qtQN5Tk9cucvTRTpp3wnGxG3JjeATwaBxcIMQPtxbuosMFi+gXBH2p/ofmtD4jZc7w2bmGeg==
-
 react-native-svg-transformer@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz#43c8e176f5a11f16f39b87a64018e0ac090ffbdb"
@@ -10519,7 +10514,7 @@ react-native-svg-transformer@^0.14.3:
     path-dirname "^1.0.2"
     semver "^5.6.0"
 
-react-native-svg@12.1.1:
+react-native-svg@12.1.1, react-native-svg@^12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
   integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==
@@ -10541,7 +10536,7 @@ react-native-vector-icons@^8.1.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native-web@~0.17.2:
+react-native-web@^0.17.5, react-native-web@~0.17.2:
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.17.5.tgz#2c27452b4654fb098c3c412cb04c379add1015a6"
   integrity sha512-pdieIZi2/YeVTaOuIaeaLC6FMkk8h3pvPNruedH+6cWiE15Oz6BGjJ+5IafdXEyiipb1Y0+QuecW81fa3DVM4g==
