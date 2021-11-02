@@ -24,7 +24,7 @@ cd my-awesome-project
 ```
 
 ``` yarn
-yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web
 ```
 
 **See the [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing) section to find how to display a `<CameraView />` component.**
@@ -33,16 +33,11 @@ yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-vi
 
 **Externals**, in the babel vocabulary, means modules used in the sources of your App. We are going to add loaders so that Babel can handle modern JS such as [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining).
 
-First, we install the necessary loaders in dev dependencies.
+1. First, we install the necessary loaders in dev dependencies.
+2. Then, the modules that will allow us to customiz and rewired the App.
 
 ``` yarn
-yarn add -D @babel/plugin-proposal-optional-chaining @babel/plugin-proposal-nullish-coalescing-operator @babel/plugin-proposal-class-properties @babel/plugin-syntax-jsx @babel/plugin-transform-react-jsx @babel/plugin-transform-react-display-name
-```
-
-Then, we install the modules that will allow us to customiz and rewired the App.
-
-``` yarn
-yarn add -D customize-cra react-app-rewired
+yarn add -D @babel/plugin-proposal-optional-chaining @babel/plugin-proposal-nullish-coalescing-operator @babel/plugin-proposal-class-properties @babel/plugin-syntax-jsx @babel/plugin-transform-react-jsx @babel/plugin-transform-react-display-name && yarn add -D customize-cra react-app-rewired
 ```
 
 As specified in the `customize-cra` [documentation](https://github.com/arackaf/customize-cra), we overload the configuration to add the custom plugins. For that, we create at the root of the project a `config-overrides.js` file, and we add the following:
@@ -74,56 +69,34 @@ Finally, we change scripts in the `package.json` to run the project with a `yarn
 },
 ```
 
-## Loading icons
+## Theming & Loading icons
 
-`CameraView` component is using `react-native-paper` icons. First, get icons from registry.
-
-``` yarn
-yarn add react-native-vector-icons
-```
-
-Then, use the `useIcons` hook in the root component (`<App />`).
+`CameraView` component is using `react-native-paper` icons from `MaterialCommunityIcons`. We use a hook `useIcons` to load icons as fonts in the root component (`<App />`).
 
 ``` javascript
-/* App.jsx */
-
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
-
 import { useIcons } from '@monkvision/react-native';
 import { CameraView, theme } from '@monkvision/react-native-views';
+import { Provider as PaperProvider } from 'react-native-paper';
 
-function App() {
-  useIcons();
+export default function App() {
+  const loading = useIcons();
 
-  return (
+  return loading ? 'Loading...' : (
     <PaperProvider theme={theme}>
       <CameraView />
     </PaperProvider>
   );
 }
-
-export default App;
 ```
+The hook also provides a `const loading = useIcons();` boolean.
 
-## Theming
-
-We saw a preview in the previous code example. To customize the theme, we can create our own theming file and import it instead of the MonK one.
+To customize the theme, we can create our own `theme.js` file and import it via the `<PaperProvider>` or use the Monk theme file.
 
 ``` javascript
 /* theme.js */
 
-import { Platform } from 'react-native';
 import { DefaultTheme } from 'react-native-paper';
-
-const SPACING_BASE = 8;
-const nativeSpacing = (spacingFactor = 1) => SPACING_BASE * spacingFactor;
-const defaultSpacing = (spacingFactor) => `${nativeSpacing(spacingFactor)}px`;
-
-const spacing = Platform.select({
-  native: nativeSpacing,
-  default: defaultSpacing,
-});
 
 const theme = {
   ...DefaultTheme,
@@ -138,29 +111,12 @@ const theme = {
     info: '#bbbdbf',
     primaryContrastText: '#ffffff',
   },
-  spacing,
 };
 
 export default theme;
 ```
 
 **See the [theming](https://callstack.github.io/react-native-paper/theming.html) section of `react-native-paper` to more details.**
-
-``` javascript
-/* App.jsx */
-
-import myAwesomeTheme from './theme.js';
-
-function App() {
-  // ...
-
-  return (
-    <PaperProvider theme={myAwesomeTheme}>
-      <CameraView />
-    </PaperProvider>
-  );
-}
-```
 
 ## What's next?
 

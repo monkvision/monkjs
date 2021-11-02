@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "after:bump": [
+      "npm run build:corejs",
+      "npm run build:react-native",
+      "npm run build:react-native-views"
+    ],
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
+  "plugins": {
+    "release-it-yarn-workspaces": true
+  },
+  "git": {
+    "commit": true,
+    "commitMessage": "Release @monkvision/monkjs v${version}",
+    "tag": true,
+    "tagAnnotation": "Release ${version}",
+    "push": true
+  },
+  "npm": false,
+  "github": {
+    "release": true,
+    "releaseName": "Release ${version}",
+    "web": true
+  }
+}

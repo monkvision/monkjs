@@ -7,8 +7,8 @@ slug: /installation
 ## Available releases
 | Language or framework | Module |
 |-----------------------|--------|
-| JavaScript | [@monkvision/corejs](https://monkvision.github.io/monkjs/docs/js/api/corejs) |
-| React Native | [@monkvision/react-native](https://monkvision.github.io/monkjs/docs/js/api/react-native) <br/>[@monkvision/react-native-views](https://monkvision.github.io/monkjs/docs/js/api/react-native-views) |
+| JavaScript | [@monkvision/corejs](https://www.npmjs.com/package/@monkvision/corejs) |
+| React Native | [@monkvision/react-native](https://www.npmjs.com/package/@monkvision/react-native) <br/>[@monkvision/react-native-views](https://www.npmjs.com/package/@monkvision/react-native-views) |
 
 We are working to provide as soon as possible new SDKs for other languages.
 
@@ -23,12 +23,12 @@ you can directly use the SDK for the **JS & React Native stack**.
 
 Install from `npm`
 ``` npm
-npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper expo-camera expo-screen-orientation --save
+npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web --save
 ```
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native react-native-web react-native-svg react-native-paper
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web
 ```
 
 The command install all dependencies you need if you go all in. We mean that you probably don't need _react-native-web_ if you don't run your App in the browser.

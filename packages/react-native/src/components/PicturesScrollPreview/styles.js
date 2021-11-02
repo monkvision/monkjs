@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   root: {
     display: 'flex',
     alignItems: 'center',
+    flexDirection: 'column-reverse',
     width: 125,
     ...Platform.select({
       native: { height: windowHeight },
@@ -16,11 +17,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     width: 125,
-    position: 'absolute',
+    height: 150,
     marginVertical: 8,
   },
   chip: {
     alignSelf: 'center',
+    height: 34,
   },
   chipText: {
     fontSize: 12,
@@ -28,37 +30,10 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   scrollContainer: {
-    paddingTop: 166,
-    paddingBottom: 16,
+    flex: 1,
     overflow: 'visible',
-    paddingHorizontal: 8,
-  },
-  surface: {
-    width: 100,
-    height: 100,
-    margin: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-    borderRadius: 8,
-    padding: 15,
-    borderStyle: 'solid',
-    borderWidth: 2,
-  },
-  sightMask: {
-    width: 80,
-    height: 60,
-  },
-  picture: {
-    width: 100,
-    height: 75,
-    borderRadius: 8,
-    marginVertical: 4,
-  },
-  badge: {
-    position: 'absolute',
-    top: -4,
-    right: -4,
+    padding: 8,
+    paddingBottom: 16,
   },
 });
 export default styles;

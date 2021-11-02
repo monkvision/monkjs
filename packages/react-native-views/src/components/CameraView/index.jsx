@@ -164,7 +164,7 @@ export default function CameraView({
   useEffect(() => {
     const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
     if (count === picturesTaken) {
-      handleFakeActivity(() => onSuccess(pictures, camera, sights));
+      handleFakeActivity(() => onSuccess({ pictures, camera, sights }));
     }
   }, [camera, count, handleFakeActivity, onSuccess, pictures, sights]);
 

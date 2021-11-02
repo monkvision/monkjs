@@ -12,7 +12,7 @@ npm install @monkvision/react-native-views @monkvision/corejs @monkvision/react-
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native
+yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-native @reduxjs/toolkit react-redux
 ```
 
 > Note: this module requires `react-native-paper` for basic use of Monk.
@@ -22,23 +22,66 @@ yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-nat
  ``` json
 "@monkvision/corejs": "*",
 "@monkvision/react-native": "*",
-"react-native-paper": "*"
  ```
 
 ## CameraView
-
-| Released | Last update | Status |
-|----------|-------------|--------|
-| v1.0.0-0 | **v1.0.0-1** | _pre-released_ |
 
 ``` javascript
 import { CameraView } from '@monkvision/react-native-views';
 ```
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| **analyzeAfterCapture** | `boolean` | false | Query a `prediction` directly after capturing |
-| **onCloseCamera** | `function(pictures])` | _noop_ | Callback for Close button |
-| **onShowAdvice** | `function(pictures])` | _noop_ | Callback for Advices button
-| **onTakePicture** | `function(pictures])` | _noop_ | Callback triggered after each taken picture
-| **sights** | `[Sight]` | [ ] | List of [Sight](https://monkvision.github.io/monkjs/docs/js/api/corejs/Sights) |
+### Response payload
+`{ pictures, camera, sights }`
+``` json
+// const handleSuccess = (payload) => console.log(payload);
+// <CameraView onSuccess={handleSuccess} />
+
+{
+  "pictures": {
+    "abstractFront": {
+      "sight": Sight,
+      "source": {
+        "uri": "data:image/png;base64",
+        "base64": "data:image/png;base64",
+        "width": 640,
+        "height": 480,
+        "exif": {
+          "aspectRatio": 1.3333333333333333,
+          "deviceId": "3e472a239b0f0e574a61cb062f2e69cff8df2c458fdfbdc7eb3589cee7550448",
+          "frameRate": 30.000030517578125,
+          "groupId": "da16b5c015ee7ecafa3aa85f486560d9e7dd3f8a37a416d4819419c00b80a981",
+          "resizeMode": "none",
+        }
+      }
+    },
+    "abstractFrontRight": {
+      "sight": Sight,
+      "source": Source
+    },
+  },
+  "camera": Camera,
+  "sights": Sights
+}
+```
+
+### Types
+
+``` javascript
+CameraView.propTypes = {
+  onCloseCamera: propTypes.callback,
+  onSuccess: propTypes.onSuccess,
+  onTakePicture: propTypes.callback,
+  sights: propTypes.sights,
+};
+```
+
+### Default values
+
+``` javascript
+CameraView.defaultProps = {
+  onCloseCamera: noop,
+  onTakePicture: noop,
+  onSuccess: noop,
+  sights: DefaultSights
+};
+```

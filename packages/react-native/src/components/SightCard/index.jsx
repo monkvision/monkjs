@@ -1,75 +1,78 @@
-import React from 'react';
-import isPlainObject from 'lodash.isplainobject';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import isPlainObject from 'lodash.isplainobject';
+import noop from 'lodash.noop';
+
 import { Avatar, Surface, useTheme } from 'react-native-paper';
 import { Image } from 'react-native';
-import noop from 'lodash.noop';
+
+import propTypes from '../propTypes';
 import styles from './styles';
 
-// This components has been moved here to be keep it's layout clean and readeable
 const SightCard = ({
-  pictures,
-  id,
-  showPicture,
   activeSight,
-  sightMasks,
+  id,
+  pictures,
   scrollToCurrentElement,
+  showPicture,
+  sightMasks,
 }) => {
   const { colors } = useTheme();
+
   const picture = pictures[id];
+
   const isImage = isPlainObject(picture) && showPicture === true;
   const isActive = id === activeSight.id;
+
   const source = isImage ? picture.source : sightMasks[id];
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isActive) {
       scrollToCurrentElement();
     }
   }, [isActive, scrollToCurrentElement]);
 
   if (isImage) {
-    return <Image key={`picture-${id}`} source={source} style={styles.picture} />;
+    return <Image key={`sightCard-picture-${id}`} source={source} style={styles.picture} />;
   }
 
   return (
     <Surface
-      key={id}
+      key={`sightCard-mask-${id}`}
       style={[
-        styles.surface,
-        {
+        styles.surface, {
           backgroundColor: colors.primary,
           borderColor: isActive ? colors.accent : colors.primary,
         },
       ]}
     >
-      {isPlainObject(picture) && (
+      {isPlainObject(picture) ? (
         <Avatar.Icon
           size={24}
           icon="check"
           style={[styles.badge, { backgroundColor: colors.success }]}
         />
-      )}
-      <Image key={`sightMask-${id}`} source={source} style={styles.sightMask} />
+      ) : null}
+      <Image source={source} style={styles.sightMask} />
     </Surface>
   );
 };
 
 SightCard.propTypes = {
-  activeSight: PropTypes.shape({
-    id: PropTypes.string,
-    label: PropTypes.string,
-  }),
+  activeSight: propTypes.sight,
   id: PropTypes.string,
-  pictures: PropTypes.objectOf(PropTypes.object).isRequired,
+  pictures: propTypes.cameraPictures.isRequired,
   scrollToCurrentElement: PropTypes.func,
   showPicture: PropTypes.bool,
-  sightMasks: PropTypes.string,
+  // object of source uri ?
+  sightMasks: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 
 SightCard.defaultProps = {
   activeSight: null,
-  id: null,
-  sightMasks: PropTypes.string,
+  id: '',
+  sightMasks: {},
   scrollToCurrentElement: noop,
   showPicture: false,
 };
