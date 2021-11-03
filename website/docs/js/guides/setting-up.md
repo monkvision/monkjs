@@ -71,22 +71,30 @@ Finally, we change scripts in the `package.json` to run the project with a `yarn
 
 ## Create Expo App
 
-Create an [expo](https://https://docs.expo.dev/) project with [npx](https://https://docs.expo.dev/get-started/create-a-new-app/) with a blank template.
+Create an [expo](https://https://docs.expo.dev/) project with [npx](https://https://docs.expo.dev/get-started/create-a-new-app/) and choose the workflow you want.
 
-```sh
-npx expo init my-awesome-project
+```shell
+npx expo init my-awesome-project && cd my-awesome-project
 ```
+
 Like for the CRA project creation, install dependencies required to import SDK's.
 
-```sh
-cd my-awesome-project && yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web
+```yarn
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web
 ```
 
 >You may also need to install expo-font, if you get a `fontFamily "material-community" is not a system font and has not been loaded through Font.loadAsync.` error. This may be caused by a conflict between the project and the sdk's expo version that conducts to an incompatibility with the sdk's expo-font dependency.
 
-```sh
+```npm
 npx expo install expo-font
 ```
+
+### Manage Workflow project
+
+All you have to do is import and use Monk.
+
+* See the [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing) section
+* See the [Theming & Loading icons](#theming--loading-icons) section
 
 ### Bare Workflow project
 
@@ -97,12 +105,14 @@ Execution failed for task ':app:checkDebugAarMetadata'.
 > Could not resolve all files for configuration ':app:debugRuntimeClasspath'.
    > Could not find com.google.android:cameraview:1.0.0.
      Searched in the following locations:
-       - file:/home/alexandre/.m2/repository/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
-       - file:/home/alexandre/test/expo-test-bare/node_modules/react-native/android/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
-       - file:/home/alexandre/test/expo-test-bare/node_modules/jsc-android/dist/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
+       - file:/home/user/.m2/repository/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
+       - file:/home/user/test/expo-test-bare/node_modules/react-native/android/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
+       - file:/home/user/test/expo-test-bare/node_modules/jsc-android/dist/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
 ```
 
-So you may need to add this to `android/build.gradle`:
+So you may need to:
+1. Add maven url to `android/build.gradle`
+2. Re-install broken dependencies
 
 ```gradle
 allprojects {
@@ -115,13 +125,9 @@ allprojects {
 }
 ```
 
-and re-install broken dependencies:
-
-```
+```yarn
 yarn add expo-camera react-native-svg
 ```
-
-**See the [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing) section to find how to display a `<CameraView />` component.**
 
 ## Theming & Loading icons
 
@@ -134,9 +140,9 @@ import { CameraView, theme } from '@monkvision/react-native-views';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 export default function App() {
-  const loading = useIcons();
+  useIcons();
 
-  return loading ? 'Loading...' : (
+  return (
     <PaperProvider theme={theme}>
       <CameraView />
     </PaperProvider>
