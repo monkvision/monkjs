@@ -11,6 +11,7 @@ const carMask = require('../../assets/carMask.gif');
 
 const items = [
   {
+    key: 'Brightness',
     icon: 'brightness-5',
     src: brightness,
     text: (
@@ -21,6 +22,7 @@ const items = [
     ),
   },
   {
+    key: 'Sharpness',
     icon: 'triangle-outline',
     src: sharpness,
     text: (
@@ -30,6 +32,7 @@ const items = [
     ),
   },
   {
+    key: 'Car mask',
     src: carMask,
     text: (
       <View style={styles.labelLayout}>

@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     height: '100%',
+    width: '100%',
   },
   carouselDotsLayout: {
     flexDirection: 'row',
@@ -24,20 +25,23 @@ export const styles = StyleSheet.create({
     height: 10,
     margin: 10,
     borderRadius: 999,
+    ...Platform.select({
+      // native: { width: 512 },
+      // web: { marginTop: -20 },
+    }),
   },
   carouselContent: {
     display: 'flex',
     alignItems: 'center',
     ...Platform.select({
       native: { width: 512 },
+      web: { width: 512 },
     }),
   },
   carousel: {
-    width: 512,
-    overflow: 'hidden',
     ...Platform.select({
-      web: { height: 460 },
-      native: { height: 270 },
+      native: { width: 512, maxHeight: 270 },
+      web: { width: 512, overflowX: 'scroll', maxHeight: 460 },
     }),
   },
   iconLayout: {
