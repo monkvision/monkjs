@@ -1,17 +1,14 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { propTypes } from '@monkvision/react-native';
-
+import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
-
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, /* Image , */TouchableOpacity } from 'react-native';
-// import SideSwipe from 'react-native-sideswipe';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import { useInterval } from './hooks';
 import { styles } from './styles';
-// import items from './data';
+import items from './data';
+import useInterval from './hooks';
 
 /**
  * @param onDismiss {func}
@@ -19,17 +16,24 @@ import { styles } from './styles';
  * @returns {JSX.Element}
  * @constructor
  */
+
 export default function AdvicesView({ onDismiss, ...props }) {
-  const [currentAdviceIndex, setCurrentAdviceIndex] = React.useState(0);
-  const [autoSwipe, toggleAutoSwipe] = React.useState(true);
   const { colors } = useTheme();
+  const [currentIndex, setCurrentIndex] = React.useState(0);
 
-  const handleCurrentDotColor = (index) => ({
-    backgroundColor: index === currentAdviceIndex ? colors['--ifm-color-primary'] : '#C6D3F3',
-  });
+  // here we convert the scroll coordinate (x) to an integer (index) based on the width
+  const getIndex = (event) => {
+    setCurrentIndex(Math.round(parseFloat(event.nativeEvent.contentOffset.x / 512)));
+  };
 
-  const delay = autoSwipe ? 3000 : null;
-  useInterval(() => setCurrentAdviceIndex((prev) => prev + 1), delay);
+  // scrollView ref gives us the ability to scroll programmatically
+  const scrollViewRef = React.useRef(null);
+
+  // trigger a swipe (to the right every 3 sec)
+  const delay = currentIndex < 2 ? 3000 : null;
+  useInterval(() => {
+    scrollViewRef.current.scrollTo({ x: 512 * (currentIndex + 1), animated: true });
+  }, delay);
 
   return (
     <View style={styles.root} {...props}>
@@ -39,23 +43,31 @@ export default function AdvicesView({ onDismiss, ...props }) {
       </TouchableOpacity>
 
       {/* carousel */}
-      {/* <Carousel
-        currentAdviceIndex={currentAdviceIndex}
-        toggleAutoSwipe={toggleAutoSwipe}
-        setCurrentAdviceIndex={setCurrentAdviceIndex}
-      /> */}
+      <ScrollView
+        pagingEnabled
+        horizontal
+        style={styles.carousel}
+        showsHorizontalScrollIndicator={false}
+        onScroll={getIndex}
+        ref={scrollViewRef}
+        scrollEventThrottle={16}
+      >
+        {items.map((item) => (
+          <Item {...item} key={item.key} currentIndex={currentIndex} />
+        ))}
+      </ScrollView>
+
       {/* carousel dots */}
       <View style={styles.carouselDotsLayout}>
         {[0, 1, 2].map((item, index) => (
-          <TouchableOpacity
-            style={[styles.carouselDot, handleCurrentDotColor(index)]}
+          <View
+            style={[
+              styles.carouselDot,
+              {
+                backgroundColor: index === currentIndex ? colors['--ifm-color-primary'] : '#C6D3F3',
+              },
+            ]}
             key={item}
-            onPress={() => {
-              // swipe to the current index screen
-              setCurrentAdviceIndex(index);
-              // disable the auto swipe (to avoid having conflict with auto swipe)
-              toggleAutoSwipe(false);
-            }}
           />
         ))}
       </View>
@@ -63,43 +75,43 @@ export default function AdvicesView({ onDismiss, ...props }) {
   );
 }
 
-// const Carousel = ({ currentAdviceIndex, toggleAutoSwipe, setCurrentAdviceIndex }) => (
-//   <SideSwipe
-//     index={currentAdviceIndex}
-//     itemWidth={512}
-//     onEndReached={() => toggleAutoSwipe(false)}
-//     style={styles.carousel}
-//     data={items}
-//     onIndexChange={(index) => setCurrentAdviceIndex(index)}
-//     renderItem={({ item }) => (
-//       <View style={styles.carouselContent}>
-//         <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-//           <Image source={item.src} style={styles.adviceImage} />
-//         </View>
-//         {/* please keep this view (iconLayout) outside of
-//         the condition so it holds the icon place */}
-//         {item?.icon ? (
-//           <View style={styles.iconLayout}>
-//             <MaterialCommunityIcons name={item.icon} size={24} color="black" />
-//           </View>
-//         ) : null}
-//         {item.text}
-//       </View>
-//     )}
-//   />
-// );
-//
-// Carousel.propTypes = {
-//   currentAdviceIndex: PropTypes.number,
-//   setCurrentAdviceIndex: PropTypes.func,
-//   toggleAutoSwipe: PropTypes.func,
-// };
-//
-// Carousel.defaultProps = {
-//   currentAdviceIndex: 0,
-//   setCurrentAdviceIndex: noop,
-//   toggleAutoSwipe: noop,
-// };
+const Item = ({ src, icon, text }) => (
+  <View style={styles.carouselContent}>
+    <View style={{ borderRadius: 18, overflow: 'hidden' }}>
+      <Image source={src} style={styles.adviceImage} />
+    </View>
+    {icon ? (
+      <View style={styles.iconLayout}>
+        <MaterialCommunityIcons name={icon} size={24} color="black" />
+      </View>
+    ) : null}
+    {text}
+  </View>
+);
+
+Item.propTypes = {
+  icon: PropTypes.string,
+  src: PropTypes.oneOfType([
+    PropTypes.shape({
+      headers: PropTypes.objectOf(PropTypes.string),
+      uri: PropTypes.string,
+    }),
+    PropTypes.number,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        headers: PropTypes.objectOf(PropTypes.string),
+        height: PropTypes.number,
+        uri: PropTypes.string,
+        width: PropTypes.number,
+      }),
+    ),
+  ]).isRequired,
+  text: PropTypes.element.isRequired,
+};
+
+Item.defaultProps = {
+  icon: '',
+};
 
 AdvicesView.propTypes = {
   onDismiss: propTypes.callback,
