@@ -2,72 +2,27 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import noop from 'lodash.noop';
 
-import Components, { propTypes, utils } from '@monkvision/react-native';
+import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
 
-import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { View, Platform, SafeAreaView, StatusBar, Dimensions } from 'react-native';
 import { FAB, Snackbar, Text, useTheme, Modal } from 'react-native-paper';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 import AdvicesView from '../AdvicesView';
 
 import useSights from './useSights';
+import styles from './styles';
 
-const styles = StyleSheet.create({
-  root: {
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flex: 1, height: '100vh' },
-    }),
-  },
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    overflow: 'hidden',
-    backgroundColor: '#000',
-    justifyContent: 'space-between',
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flex: 1 },
-    }),
-  },
-  fab: {
-    backgroundColor: '#333',
-  },
-  fabImportant: {
-    backgroundColor: 'white',
-  },
-  largeFab: {
-    transform: [{ scale: 1.75 }],
-  },
-  overLaps: {
-    ...utils.styles.flex,
-    ...utils.styles.getContainedSizes('4:3'),
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 10,
-  },
-  snackBar: {
-    display: 'flex',
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    ...Platform.select({
-      native: { width: 300 },
-    }),
-  },
-  advices: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 40,
-    overflow: 'hidden',
-    maxWidth: 512,
-    ...Platform.select({
-      web: { maxHeight: 512 },
-      native: { maxHeight: 300 },
-    }),
-    alignSelf: 'center',
-  },
+const { width, height } = Dimensions.get('window');
+const SIDEBAR_WIDTH = 250;
+const makeRatio = (w, h) => `${w / 240}:${h / 240}`;
+
+const ratio = Platform.select({
+  web: makeRatio(width - SIDEBAR_WIDTH, height),
+  // using Math.max and Math.min to avoid having a conflict
+  // between width and height while rotating the mobile screen
+  native: makeRatio(Math.max(width, height) - SIDEBAR_WIDTH, Math.min(width, height)),
 });
 
 /**
@@ -181,9 +136,18 @@ export default function CameraView({
         />
 
         <View>
-          <Components.Camera onCameraReady={handleCameraReady} />
+          <Components.Camera onCameraReady={handleCameraReady} ratio={ratio} />
           <View style={styles.overLaps}>
-            {fakeActivity ? <ActivityIndicatorView /> : <Components.Mask id={activeSight.id} />}
+            {fakeActivity ? (
+              <ActivityIndicatorView />
+            ) : (
+              <Components.Mask
+                resizeMode="contain"
+                id={activeSight.id}
+                width="100%"
+                style={styles.mask}
+              />
+            )}
           </View>
         </View>
 
