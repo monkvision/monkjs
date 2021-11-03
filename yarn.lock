@@ -1601,46 +1601,6 @@
     dequal "^1.0.0"
     isoworker "^0.1.1"
 
-<<<<<<< HEAD
-"@monkvision/corejs@*":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.1.0.tgz#af4fbb489c0c2e4cd7b9aba0378115ad908b876f"
-  integrity sha512-eCrHhHri7S2bHYGg4J14ifPf3JS2gfwLFfrGpGNnFsgBiQFNgbiBaiPQ+i1EMoC7NFU0l5oGCOCPDVavRULRtg==
-
-"@monkvision/react-native-views@*":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.1.0.tgz#4c171a3157d302369ef0ea84da08c339ceeff748"
-  integrity sha512-mnm8sahVK9JqHuZVmalgs3MHESk9DvSK+cI8P0HeB5Fy5KLDweHoHljnaOgWzQFq4YtABDsUmuh54NEHmUftJA==
-  dependencies:
-    react-native-paper "^4.9.2"
-
-"@monkvision/react-native@*":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.1.0.tgz#4a5b6c184412f13d98109334fc91c31aa7b4961c"
-  integrity sha512-Ih6s7VY/mMVeDTZQD4tV0VE+JSrwgZUAWjd2wnxzXRiJ27J0LKD9Au2wEIfnBqwlvZ6PZMPZOn9p7h1T65202A==
-  dependencies:
-    "@emotion/is-prop-valid" "^1.1.0"
-    "@expo/vector-icons" "^12.0.5"
-    "@unimodules/core" "^7.1.2"
-    "@unimodules/react-native-adapter" "^6.3.9"
-    expo-camera "^11.2.2"
-    expo-font "^9.2.1"
-    expo-screen-orientation "^3.2.1"
-    lodash.camelcase "^4.3.0"
-    lodash.isboolean "^3.0.3"
-    lodash.isempty "^4.4.0"
-    lodash.isplainobject "^4.0.6"
-    lodash.noop "^3.0.1"
-    react-native-animation-library "^0.0.8"
-    react-native-svg "^12.1.1"
-    react-native-vector-icons "^8.1.0"
-    react-native-web "^0.17.5"
-    react-native-xml2js "^1.0.3"
-    tinycolor2 "^1.4.2"
-    xml2js "^0.4.23"
-
-=======
->>>>>>> 77e7881f1a6c2705e5c09e9404da819480b40f32
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"

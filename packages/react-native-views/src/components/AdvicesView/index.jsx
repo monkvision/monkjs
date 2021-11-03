@@ -53,7 +53,7 @@ export default function AdvicesView({ onDismiss, ...props }) {
         scrollEventThrottle={16}
       >
         {items.map((item) => (
-          <Item item={item} key={items.key} currentIndex={currentIndex} />
+          <Item {...item} key={item.key} currentIndex={currentIndex} />
         ))}
       </ScrollView>
 
@@ -75,26 +75,42 @@ export default function AdvicesView({ onDismiss, ...props }) {
   );
 }
 
-const Item = ({ item }) => (
+const Item = ({ src, icon, text }) => (
   <View style={styles.carouselContent}>
     <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-      <Image source={item.src} style={styles.adviceImage} />
+      <Image source={src} style={styles.adviceImage} />
     </View>
-    {item?.icon ? (
+    {icon ? (
       <View style={styles.iconLayout}>
-        <MaterialCommunityIcons name={item.icon} size={24} color="black" />
+        <MaterialCommunityIcons name={icon} size={24} color="black" />
       </View>
     ) : null}
-    {item.text}
+    {text}
   </View>
 );
 
 Item.propTypes = {
-  item: PropTypes.objectOf({
-    icon: PropTypes.string,
-    text: PropTypes.JSX,
-    src: PropTypes.Image,
-  }).isRequired,
+  icon: PropTypes.string,
+  src: PropTypes.oneOfType([
+    PropTypes.shape({
+      headers: PropTypes.objectOf(PropTypes.string),
+      uri: PropTypes.string,
+    }),
+    PropTypes.number,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        headers: PropTypes.objectOf(PropTypes.string),
+        height: PropTypes.number,
+        uri: PropTypes.string,
+        width: PropTypes.number,
+      }),
+    ),
+  ]).isRequired,
+  text: PropTypes.element.isRequired,
+};
+
+Item.defaultProps = {
+  icon: '',
 };
 
 AdvicesView.propTypes = {
