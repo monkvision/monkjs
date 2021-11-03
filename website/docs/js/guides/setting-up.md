@@ -69,6 +69,55 @@ Finally, we change scripts in the `package.json` to run the project with a `yarn
 },
 ```
 
+## Create Expo App
+
+Create an [expo](https://https://docs.expo.dev/) project with [npx](https://https://docs.expo.dev/get-started/create-a-new-app/) with a blank template.
+
+```sh
+npx expo init my-awesome-project
+```
+Like for the CRA project creation, install dependencies required to import SDK's.
+```sh
+cd my-awesome-project && yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web
+```
+>You may also need to install expo-font, if you get a `fontFamily "material-community" is not a system font and has not been loaded through Font.loadAsync.` error. This may be caused by a conflict between the project and the sdk's expo version that conducts to an incompatibility with the sdk's expo-font dependency.
+
+```sh
+npx expo install expo-font
+```
+
+### Bare Workflow project
+
+>If your expo version is **>= 43**, then you may encounter this error while launching the android app build,
+
+```
+Execution failed for task ':app:checkDebugAarMetadata'.
+> Could not resolve all files for configuration ':app:debugRuntimeClasspath'.
+   > Could not find com.google.android:cameraview:1.0.0.
+     Searched in the following locations:
+       - file:/home/alexandre/.m2/repository/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
+       - file:/home/alexandre/test/expo-test-bare/node_modules/react-native/android/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
+       - file:/home/alexandre/test/expo-test-bare/node_modules/jsc-android/dist/com/google/android/cameraview/1.0.0/cameraview-1.0.0.pom
+
+```
+So you may need to add this to `android/build.gradle`:
+```gradle
+allprojects {
+  repositories {
+    ...
+    maven {
+      url "$rootDir/../node_modules/expo-camera/android/maven"
+    }
+  }
+}
+```
+and re-install broken dependencies:
+```
+yarn add expo-camera react-native-svg
+```
+
+**See the [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing) section to find how to display a `<CameraView />` component.**
+
 ## Theming & Loading icons
 
 `CameraView` component is using `react-native-paper` icons from `MaterialCommunityIcons`. We use a hook `useIcons` to load icons as fonts in the root component (`<App />`).
