@@ -3,6 +3,7 @@ import { Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
+    backgroundColor: '#000',
     ...Platform.select({
       native: { flex: 1 },
       default: { display: 'flex', flex: 1, height: '100vh' },
@@ -12,6 +13,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     overflow: 'hidden',
+    minWidth: '100%',
+    minHeight: '100%',
     backgroundColor: '#000',
     justifyContent: 'space-between',
     ...Platform.select({
@@ -40,10 +43,6 @@ const styles = StyleSheet.create({
   mask: {
     width: '100%',
     height: '100%',
-    ...Platform.select({
-      web: { marginLeft: 30 },
-      native: { marginLeft: 10 },
-    }),
   },
   snackBar: {
     display: 'flex',
