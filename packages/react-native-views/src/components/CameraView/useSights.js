@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
-import Sight from '@monkvision/corejs/src/classes/Sight';
 
 export default function useSights(sights, active = 0) {
   const [activeSightIndex, setActiveSightIndex] = useState(active);
 
   const activeSight = useMemo(
-    () => new Sight(...sights[activeSightIndex]),
+    () => sights[activeSightIndex],
     [activeSightIndex, sights],
   );
 

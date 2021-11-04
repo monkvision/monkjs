@@ -1,6 +1,6 @@
 {
   "name": "monk",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "private": true,
@@ -8,27 +8,36 @@
   "workspaces": [
     "packages/*"
   ],
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/src/tests/jest-setup.js"
+    ]
+  },
   "scripts": {
     "start": "expo start",
-    "start:nocache": "expo start -c",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start:documentation": "cd website && yarn run docs:start",
+    "watch:corejs": "cd ./packages/corejs && yarn watch",
+    "watch:react-native": "cd ./packages/react-native && yarn watch",
+    "watch:react-native-view": "cd ./packages/react-native-views && yarn watch",
+    "build:corejs": "cd ./packages/corejs && yarn run build",
+    "build:react-native": "cd ./packages/react-native && yarn run build",
+    "build:react-native-views": "cd ./packages/react-native-views && yarn run build",
     "build:andoid": "expo build:android",
     "build:ios": "expo build:ios",
     "eject": "expo eject",
-    "prune": "rm -rf node_modules/ && rm -f package-lock.json && rm -f yarn.lock && yarn cache clean && yarn install",
-    "docs": "cd website && yarn run docs:start"
+    "clear:modules": "rm -rf 'node_modules, package-lock.json, yarn.lock'",
+    "clear": "yarn run clear:modules && yarn cache clean && yarn install"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.7.0",
     "@expo/vector-icons": "^12.0.5",
     "@expo/webpack-config": "^0.15.0",
-    "@monkvision/corejs": "^1.0.0-0",
-    "@monkvision/react-native": "^1.0.0-0",
+    "@monkvision/corejs": "*",
+    "@monkvision/react-native": "*",
+    "@monkvision/react-native-views": "*",
     "@react-native-picker/picker": "1.16.1",
     "@react-navigation/drawer": "^6.1.4",
-    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.1.0",
     "@reduxjs/toolkit": "^1.6.1",
     "dotenv": "^10.0.0",
@@ -59,12 +68,12 @@
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-animation-library": "^0.0.8",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-pager-view": "5.0.12",
     "react-native-paper": "^4.9.2",
-    "react-native-reanimated": "~2.2.1",
+    "react-native-reanimated": "^2.2.3",
     "react-native-safe-area-context": "3.2.0",
-    "react-native-screens": "~3.4.0",
+    "react-native-screens": "^3.8.0",
     "react-native-svg": "12.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.17.2",
@@ -74,6 +83,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "babel-plugin-inline-import": "^3.0.0",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "babel-preset-expo": "^8.4.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -86,6 +96,8 @@
     "metro-config": "^0.66.2",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-dom": "^17.0.2",
-    "react-native-svg-transformer": "^0.14.3"
+    "react-native-svg-transformer": "^0.14.3",
+    "release-it-yarn-workspaces": "^2.0.1",
+    "watch": "^1.0.2"
   }
 }

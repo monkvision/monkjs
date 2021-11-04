@@ -2,7 +2,7 @@
   "name": "@monkvision/react-native",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "1.0.0-1",
+  "version": "1.1.0",
   "private": false,
   "description": "AI-powered vehicle damage detection for React Native",
   "homepage": "https://github.com/monkvision/monkjs/packages/react-native/#readme",
@@ -34,22 +34,27 @@
     "README.md"
   ],
   "scripts": {
+    "watch": "watch 'yarn run build' src",
     "lint": "eslint src --cache",
-    "prepare": "bob build",
-    "release": "release-it"
+    "build": "bob build"
   },
   "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
     "@emotion/is-prop-valid": "^1.1.0",
-    "expo-camera": "~11.2.2",
-    "expo-constants": "~11.0.1",
-    "expo-screen-orientation": "~3.3.0",
-    "expo-status-bar": "~1.0.4",
+    "@unimodules/core": "^7.1.2",
+    "@unimodules/react-native-adapter": "^6.3.9",
+    "expo-camera": "^11.2.2",
+    "expo-font": "^9.2.1",
+    "expo-screen-orientation": "^3.2.1",
     "lodash.camelcase": "^4.3.0",
     "lodash.isboolean": "^3.0.3",
     "lodash.isempty": "^4.4.0",
-    "lodash.kebabcase": "^4.1.1",
+    "lodash.isplainobject": "^4.0.6",
     "lodash.noop": "^3.0.1",
-    "lodash.upperfirst": "^4.3.1",
+    "react-native-animation-library": "^0.0.8",
+    "react-native-svg": "^12.1.1",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-web": "^0.17.5",
     "react-native-xml2js": "^1.0.3",
     "tinycolor2": "^1.4.2",
     "xml2js": "^0.4.23"
@@ -60,14 +65,13 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-native-builder-bob": "^0.18.2",
-    "release-it": "^14.11.5"
+    "prop-types": "^15.7.2",
+    "react-native-builder-bob": "^0.18.2"
   },
   "peerDependencies": {
-    "prop-types": "*",
+    "@monkvision/corejs": "1.1.0",
     "react": "*",
-    "react-native": "*",
-    "react-native-svg": "*"
+    "react-native": "*"
   },
   "publishConfig": {
     "access": "public"

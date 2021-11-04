@@ -7,7 +7,7 @@ const flex = {
   alignItems: 'center',
   ...Platform.select({
     native: { flex: 1 },
-    default: { display: 'flex', flexGrow: 1 },
+    default: { display: 'flex', flexGrow: 1, height: '100vh' },
   }),
 };
 
@@ -27,17 +27,15 @@ function getContainedSizes(ratio) {
       },
       default: {
         height: '100vh',
-        width: `${100 * (a / b)}vh`,
+        width: `${Math.floor(100 * (a / b))}vh`,
       },
     }),
   };
 }
 
-export const styles = {
-  flex,
-  getContainedSizes,
-};
-
 export default {
-  styles,
+  styles: {
+    flex,
+    getContainedSizes,
+  },
 };

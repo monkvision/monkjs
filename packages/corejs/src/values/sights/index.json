@@ -1,0 +1,21 @@
+{
+  "abstract": {
+    "front": ["abstractFront", [null, 0, null], "front", ["exterior"]],
+    "frontRight": ["abstractFrontRight", [null, 330, null], "front right", ["exterior"]],
+    "frontLateralRight": ["abstractFrontLateralRight", [null, 300, null], "front side right", ["exterior"]],
+    "middleLateralRight": ["abstractMiddleLateralRight", [null, 270, null], "middle side right", ["exterior"]],
+    "rearLateralRight": ["abstractRearLateralRight", [null, 240, null], "rear side right", ["exterior"]],
+    "rearRight": ["abstractRearRight", [null, 210, null], "rear right", ["exterior"]],
+    "rear": ["abstractRear", [null, 180, null], "rear", ["exterior"]],
+    "rearLeft": ["abstractRearLeft", [null, 150, null], "rear left", ["exterior"]],
+    "rearLateralLeft": ["abstractRearLateralLeft", [null, 120, null], "read side left", ["exterior"]],
+    "middleLateralLeft": ["abstractMiddleLateralLeft", [null, 90, null], "middle side left", ["exterior"]],
+    "frontLateralLeft": ["abstractFrontLateralLeft", [null, 60, null], "front side left", ["exterior"]],
+    "frontLeft": ["abstractFrontLeft", [null, 30, null], "front left", ["exterior"]],
+    "dashboard": ["abstractDashboard", [null, null, null], "dashboard", ["interior"]],
+    "interiorFront": ["abstractInteriorFront", [null, null, null], "interior front", ["interior"]],
+    "interiorRear": ["abstractInteriorRear", [null, null, null], "interior rear", ["interior"]],
+    "trunk": ["abstractTrunk", [null, null, null], "trunk", ["interior"]]
+  },
+  "vin": ["vin", [null, null, null], "vin", ["document"]]
+}

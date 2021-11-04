@@ -1,17 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+
 import noop from 'lodash.noop';
 
+import Components, { propTypes, utils } from '@monkvision/react-native';
+import { Sight, values } from '@monkvision/corejs';
+
 import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { FAB, Snackbar, Text, useTheme, Modal } from 'react-native-paper';
 
-import Camera from '@monkvision/react-native/src/components/Camera';
-import CameraSideBar from '@monkvision/react-native/src/components/CameraSideBar';
-import PicturesScrollPreview from '@monkvision/react-native/src/components/PicturesScrollPreview';
-
-import Mask from '@monkvision/react-native/src/components/Mask';
-import utils from '@monkvision/react-native/src/components/utils';
-import ActivityIndicatorView from '@monkvision/react-native-views/src/components/ActivityIndicatorView';
+import ActivityIndicatorView from '../ActivityIndicatorView';
+import AdvicesView from '../AdvicesView';
 
 import useSights from './useSights';
 
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   largeFab: {
-    transform: [{ scale: 1.5 }],
+    transform: [{ scale: 1.75 }],
   },
   overLaps: {
     ...utils.styles.flex,
@@ -50,6 +48,26 @@ const styles = StyleSheet.create({
     left: 0,
     zIndex: 10,
   },
+  snackBar: {
+    display: 'flex',
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    ...Platform.select({
+      native: { width: 300 },
+    }),
+  },
+  advices: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 40,
+    overflow: 'hidden',
+    maxWidth: 512,
+    ...Platform.select({
+      web: { maxHeight: 512 },
+      native: { maxHeight: 300 },
+    }),
+    alignSelf: 'center',
+  },
 });
 
 /**
@@ -57,6 +75,7 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
+ * @param onSuccess {func}
  * @param sights {[Sight]}
  * @returns {JSX.Element}
  * @constructor
@@ -65,6 +84,7 @@ export default function CameraView({
   onCloseCamera,
   onShowAdvice,
   onTakePicture,
+  onSuccess,
   sights,
 }) {
   // STATE TO PROPS
@@ -72,10 +92,26 @@ export default function CameraView({
   const [fakeActivity, setFakeActivity] = useState(null);
   const [camera, setCamera] = useState();
   const [pictures, setPictures] = useState({});
-  const { activeSight, activeSightIndex, nextSightProps } = useSights(sights);
+
+  const { activeSight, count, nextSightProps } = useSights(sights);
+
+  const handleFakeActivity = useCallback((onEnd = noop) => {
+    const fakeActivityId = setTimeout(() => {
+      setFakeActivity(null);
+      onEnd();
+    }, 500);
+
+    setFakeActivity(fakeActivityId);
+
+    return () => {
+      clearTimeout(fakeActivityId);
+    };
+  }, []);
 
   // PICTURES
   const handleTakePicture = useCallback(async () => {
+    handleFakeActivity();
+
     if (camera) {
       const options = { quality: 1 };
       const picture = await camera.takePictureAsync(options);
@@ -94,48 +130,64 @@ export default function CameraView({
         nextSightProps.onPress();
       }
     }
-  }, [activeSight, camera, nextSightProps, onTakePicture, pictures]);
+  }, [activeSight, camera, handleFakeActivity, nextSightProps, onTakePicture, pictures]);
+
+  // UI
+  const { colors } = useTheme();
+
+  const [visibleSnack, setVisibleSnack] = useState(false);
+  const toggleSnackBar = () => setVisibleSnack((prev) => !prev);
+  const handleDismissSnackBar = () => setVisibleSnack(false);
+
+  const [visibleAdvices, setVisibleAdvices] = useState(false);
+  const showAdvices = () => {
+    camera?.pausePreview();
+    setVisibleAdvices(true);
+  };
+  const hideAdvices = () => {
+    camera?.resumePreview();
+    setVisibleAdvices(false);
+  };
+  const handleShowAdvice = () => {
+    showAdvices();
+    onShowAdvice(pictures);
+  };
 
   // CAMERA
   const handleCloseCamera = useCallback(() => {
     onCloseCamera(pictures);
   }, [onCloseCamera, pictures]);
+
   const handleCameraReady = useCallback(setCamera, [setCamera]);
 
-  // UI
-  const handleShowAdvice = () => {
-    // console.warn('Showing advice...');
-    onShowAdvice(pictures);
-  };
-
+  // EFFECTS
   useEffect(() => {
-    const fakeActivityId = setTimeout(() => {
-      setFakeActivity(null);
-    }, 750);
-
-    setFakeActivity(fakeActivityId);
-
-    return () => { clearTimeout(fakeActivityId); };
-  }, [activeSight.id]);
+    const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
+    if (count === picturesTaken) {
+      handleFakeActivity(() => onSuccess({ pictures, camera, sights }));
+    }
+  }, [camera, count, handleFakeActivity, onSuccess, pictures, sights]);
 
   return (
     <View style={styles.root}>
       <StatusBar hidden />
+
       <SafeAreaView style={styles.container}>
-        <PicturesScrollPreview
-          activeSightLabel={activeSight.label}
-          activeSightIndex={activeSightIndex}
+        <Components.PicturesScrollPreview
+          activeSight={activeSight}
           sights={sights}
           pictures={pictures}
           ref={scrollRef}
         />
+
         <View>
-          <Camera onCameraReady={handleCameraReady} />
+          <Components.Camera onCameraReady={handleCameraReady} />
           <View style={styles.overLaps}>
-            {fakeActivity ? <ActivityIndicatorView /> : <Mask id={activeSight.id} />}
+            {fakeActivity ? <ActivityIndicatorView /> : <Components.Mask id={activeSight.id} />}
           </View>
         </View>
-        <CameraSideBar>
+
+        <Components.CameraSideBar>
           <FAB
             accessibilityLabel="Advices"
             color="#edab25"
@@ -158,26 +210,52 @@ export default function CameraView({
             disabled={fakeActivity}
             icon={Platform.OS !== 'ios' ? 'close' : undefined}
             label={Platform.OS === 'ios' ? 'Close' : undefined}
-            onPress={handleCloseCamera}
+            onPress={toggleSnackBar}
             small
             style={styles.fab}
           />
-        </CameraSideBar>
+        </Components.CameraSideBar>
       </SafeAreaView>
+
+      <Modal
+        visible={visibleAdvices}
+        onDismiss={hideAdvices}
+        contentContainerStyle={styles.advices}
+      >
+        <AdvicesView onDismiss={hideAdvices} />
+      </Modal>
+
+      <Snackbar
+        visible={visibleSnack}
+        onDismiss={handleDismissSnackBar}
+        duration={14000}
+        style={styles.snackBar}
+        action={{
+          label: 'Leave',
+          onPress: handleCloseCamera,
+          color: colors.error,
+        }}
+      >
+        <Text style={{ color: colors.warning }}>You are leaving the process, are you sure ?</Text>
+      </Snackbar>
     </View>
   );
 }
 
 CameraView.propTypes = {
-  onCloseCamera: PropTypes.func,
-  onShowAdvice: PropTypes.func,
-  onTakePicture: PropTypes.func,
-  sights: PropTypes.arrayOf(PropTypes.array),
+  onCloseCamera: propTypes.callback,
+  // onError: propTypes.onError,
+  onShowAdvice: propTypes.callback,
+  onSuccess: propTypes.onSuccess,
+  onTakePicture: propTypes.callback,
+  sights: propTypes.sights,
 };
 
 CameraView.defaultProps = {
   onCloseCamera: noop,
+  // onError: noop,
   onShowAdvice: noop,
   onTakePicture: noop,
-  sights: [],
+  onSuccess: noop,
+  sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
 };

@@ -3,6 +3,7 @@
     "baseUrl": "src/",
     "paths": {
       "@monkvision/*": ["packages/*"]
-    }
+    },
+    "target": "es2020"
   }
 }

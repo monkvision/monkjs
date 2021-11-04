@@ -1,6 +1,9 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import getInspectionApi from './services/inspection';
 
+export { default as values } from './values';
+export { default as Sight } from './classes/Sight';
+
 export function getBaseQuery({ baseUrl, customHeaders = [] }) {
   return fetchBaseQuery({
     baseUrl,
@@ -37,6 +40,3 @@ class MonkCore {
 }
 
 export default MonkCore;
-
-export { default as Sight } from './classes/Sight';
-export { default as abstractSights } from './sights/abstract.json';

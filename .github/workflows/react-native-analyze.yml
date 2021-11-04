@@ -1,4 +1,4 @@
-name: Analyze packages/react-native
+name: react-native
 
 on:
   push:
@@ -27,3 +27,4 @@ jobs:
           cache: 'yarn'
       - run: cd packages/react-native && yarn install
       - run: cd packages/react-native && yarn lint
+      - run: cd packages/react-native && yarn run build

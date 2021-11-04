@@ -1,3 +1,6 @@
-export * as components from './components';
-export * as hooks from './hooks';
-export * as sightMasks from './assets/sightMasks';
+import * as MonkComponents from './components';
+
+export * from './components';
+export * from './hooks';
+
+export default MonkComponents;

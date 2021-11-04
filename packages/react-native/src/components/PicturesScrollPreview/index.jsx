@@ -1,110 +1,84 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+
 import isEmpty from 'lodash.isempty';
-import isPlainObject from 'lodash.isplainobject';
 
-import { Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { Surface, Chip, useTheme } from 'react-native-paper';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Chip, useTheme } from 'react-native-paper';
 
-import * as sightMasks from '@monkvision/react-native/src/assets/sightMasks';
+import SightsWheel from '../SightsWheel';
+import SightCard from '../SightCard';
 
-const styles = StyleSheet.create({
-  root: {
-    display: 'flex',
-    height: '100%',
-    width: 125,
-  },
-  chip: {
-    position: 'absolute',
-    alignSelf: 'center',
-    marginVertical: 8,
-    marginHorizontal: 4,
-  },
-  chipText: {
-    fontSize: 12,
-    fontWeight: '400',
-  },
-  scrollContainer: {
-    paddingTop: 48,
-    paddingBottom: 16,
-  },
-  surface: {
-    width: 100,
-    height: 100,
-    marginHorizontal: 12.5,
-    marginVertical: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-    borderRadius: 8,
-    padding: 15,
-  },
-  sightMask: {
-    width: 80,
-    height: 60,
-  },
-  picture: {
-    width: 100,
-    height: 75,
-    borderRadius: 8,
-    marginHorizontal: 12.5,
-    marginVertical: 4,
-  },
-});
+import propTypes from '../propTypes';
+import * as sightMasks from '../../assets/sightMasks';
 
-const PicturesScrollPreview = forwardRef(({ activeSightLabel, pictures, sights }, ref) => {
-  const { colors } = useTheme();
+import styles from './styles';
 
-  return (
-    <SafeAreaView style={styles.root} ref={ref}>
-      <ScrollView style={styles.scrollContainer}>
-        {sights.map(([id]) => {
-          const picture = pictures[id];
-          const source = isPlainObject(picture)
-            ? picture.source
-            : sightMasks[id];
+// ROW_HEIGHT is the height of the surface element inside sightCard
+const ROW_HEIGHT = 100;
+const ROW_MARGIN = 8;
+const ROW = ROW_HEIGHT + ROW_MARGIN;
 
-          if (isPlainObject(picture)) {
-            return (
-              <Image
-                key={`picture-${id}`}
-                source={source}
-                style={styles.picture}
-              />
-            );
-          }
+const PicturesScrollPreview = forwardRef(
+  ({ activeSight, pictures, showPicture, sights, sightWheelProps }, ref) => {
+    const { colors } = useTheme();
 
-          return (
-            <Surface key={id} style={[styles.surface, { backgroundColor: colors.primary }]}>
-              <Image
-                key={`picture-${id}`}
-                source={source}
-                style={styles.sightMask}
-              />
-            </Surface>
-          );
-        })}
-      </ScrollView>
-      {!isEmpty(activeSightLabel) && (
-        <Chip
-          style={[styles.chip, { backgroundColor: colors.accent }]}
-          textStyle={styles.chipText}
+    const scrollViewRef = React.useRef(null);
+    const scrollToCurrentElement = (index) => {
+      scrollViewRef.current.scrollTo({ y: 4 + index * ROW });
+    };
+    return (
+      <SafeAreaView style={styles.root} ref={ref}>
+        <ScrollView
+          style={styles.scrollContainer}
+          ref={scrollViewRef}
+          showsHorizontalScrollIndicator={false}
         >
-          {activeSightLabel}
-        </Chip>
-      )}
-    </SafeAreaView>
-  );
-});
+          {sights.map(({ id }, index) => (
+            <SightCard
+              id={id}
+              key={`sightCard-${id}`}
+              scrollToCurrentElement={() => scrollToCurrentElement(index)}
+              pictures={pictures}
+              showPicture={showPicture}
+              activeSight={activeSight}
+              sightMasks={sightMasks}
+            />
+          ))}
+        </ScrollView>
+        {activeSight !== null && !isEmpty(activeSight.label) && (
+          <View style={styles.topView}>
+            <SightsWheel
+              sights={sights}
+              filledSightIds={Object.keys(pictures)}
+              activeSight={activeSight}
+              {...sightWheelProps}
+            />
+            <Chip
+              style={[styles.chip, { backgroundColor: colors.accent }]}
+              textStyle={styles.chipText}
+            >
+              {activeSight.label}
+            </Chip>
+          </View>
+        )}
+      </SafeAreaView>
+    );
+  },
+);
 
 PicturesScrollPreview.propTypes = {
-  activeSightLabel: PropTypes.string,
-  pictures: PropTypes.objectOf(PropTypes.object).isRequired,
-  sights: PropTypes.arrayOf(PropTypes.array).isRequired,
+  activeSight: propTypes.sight,
+  pictures: propTypes.cameraPictures.isRequired,
+  showPicture: PropTypes.bool,
+  sights: propTypes.sights.isRequired,
+  sightWheelProps: PropTypes.objectOf(PropTypes.any),
 };
 
 PicturesScrollPreview.defaultProps = {
-  activeSightLabel: '',
+  activeSight: null,
+  showPicture: false,
+  sightWheelProps: {},
 };
 
 export default PicturesScrollPreview;

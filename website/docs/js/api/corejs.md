@@ -7,13 +7,20 @@ slug: /js/api/corejs
 
 Install with `npm`
 ``` npm
-npm install @monkvision/corejs @reduxjs/toolkit --save
+npm install @monkvision/corejs @reduxjs/toolkit react-redux --save
 ```
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/corejs @reduxjs/toolkit
+yarn add @monkvision/corejs @reduxjs/toolkit react-redux
 ```
+
+⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
+ ``` json
+"@reduxjs/toolkit": "*"
+"react": "^16.14.0 || ^17.0.0",
+"react-redux": "^7.2.1"
+ ```
 
 ## MonkCore
 
