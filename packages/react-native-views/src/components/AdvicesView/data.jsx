@@ -5,9 +5,9 @@ import { styles } from './styles';
 
 const Label = ({ children }) => <Text style={styles.label}>{children}</Text>;
 
-const brightness = require('../../assets/brightness.gif');
-const sharpness = require('../../assets/sharpness.gif');
-const carMask = require('../../assets/carMask.gif');
+const brightness = require('../../assets/brightness.webp');
+const sharpness = require('../../assets/sharpness.webp');
+const carMask = require('../../assets/carMask.webp');
 
 const items = [
   {
