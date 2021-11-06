@@ -13,16 +13,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Mask({ id, style, ...props }) {
+export default function Mask({ id, ...props }) {
   const source = useMemo(() => sightMasks[id], [id]);
 
   return (
     <View style={styles.root}>
-      <Image
-        source={source}
-        style={{ ...utils.styles.getContainedSizes('4:3') }}
-        {...props}
-      />
+      <Image source={source} {...props} />
     </View>
   );
 }
