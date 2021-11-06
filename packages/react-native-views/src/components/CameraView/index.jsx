@@ -2,73 +2,20 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import noop from 'lodash.noop';
 
-import Components, { propTypes, utils } from '@monkvision/react-native';
+import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
 
-import { View, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { View, Platform, SafeAreaView, StatusBar } from 'react-native';
 import { FAB, Snackbar, Text, useTheme, Modal } from 'react-native-paper';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 import AdvicesView from '../AdvicesView';
 
 import useSights from './useSights';
+import styles from './styles';
 
-const styles = StyleSheet.create({
-  root: {
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flex: 1, height: '100vh' },
-    }),
-  },
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    overflow: 'hidden',
-    backgroundColor: '#000',
-    justifyContent: 'space-between',
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flex: 1 },
-    }),
-  },
-  fab: {
-    backgroundColor: '#333',
-  },
-  fabImportant: {
-    backgroundColor: 'white',
-  },
-  largeFab: {
-    transform: [{ scale: 1.75 }],
-  },
-  overLaps: {
-    ...utils.styles.flex,
-    ...utils.styles.getContainedSizes('4:3'),
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 10,
-  },
-  snackBar: {
-    display: 'flex',
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    ...Platform.select({
-      native: { width: 300 },
-    }),
-  },
-  advices: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 40,
-    overflow: 'hidden',
-    maxWidth: 512,
-    ...Platform.select({
-      web: { maxHeight: 512 },
-      native: { maxHeight: 300 },
-    }),
-    alignSelf: 'center',
-  },
-});
+const SIDEBAR_WIDTH = 250;
+const makeRatio = (width, height) => `${(width - SIDEBAR_WIDTH) / 240}:${height / 240}`;
 
 /**
  *
@@ -167,54 +114,85 @@ export default function CameraView({
       handleFakeActivity(() => onSuccess({ pictures, camera, sights }));
     }
   }, [camera, count, handleFakeActivity, onSuccess, pictures, sights]);
+  const [measures, setMeasures] = React.useState({ width: null, height: null });
 
   return (
     <View style={styles.root}>
       <StatusBar hidden />
 
-      <SafeAreaView style={styles.container}>
-        <Components.PicturesScrollPreview
-          activeSight={activeSight}
-          sights={sights}
-          pictures={pictures}
-          ref={scrollRef}
-        />
+      <SafeAreaView>
+        <View
+          style={styles.container}
+          onLayout={(e) => {
+            const layout = e.nativeEvent.layout;
+            setMeasures({
+              // shortest to be height always
+              height: Math.min(layout.width, layout.height),
+              // longest to be width always
+              width: Math.max(layout.width, layout.height),
+            });
+          }}
+        >
+          {/* pictures scroll preview sidebar */}
+          <Components.PicturesScrollPreview
+            activeSight={activeSight}
+            sights={sights}
+            pictures={pictures}
+            ref={scrollRef}
+          />
 
-        <View>
-          <Components.Camera onCameraReady={handleCameraReady} />
-          <View style={styles.overLaps}>
-            {fakeActivity ? <ActivityIndicatorView /> : <Components.Mask id={activeSight.id} />}
+          {/* camera and mask overlay */}
+          <View>
+            {measures.width ? (
+              <Components.Camera
+                onCameraReady={handleCameraReady}
+                ratio={makeRatio(measures.width, measures.height)}
+              />
+            ) : null}
+            <View style={styles.overLaps}>
+              {fakeActivity ? (
+                <ActivityIndicatorView />
+              ) : (
+                <Components.Mask
+                  resizeMode="contain"
+                  id={activeSight.id}
+                  width="100%"
+                  style={styles.mask}
+                />
+              )}
+            </View>
           </View>
-        </View>
 
-        <Components.CameraSideBar>
-          <FAB
-            accessibilityLabel="Advices"
-            color="#edab25"
-            disabled={fakeActivity}
-            icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
-            label={Platform.OS === 'ios' ? 'Advices' : undefined}
-            onPress={handleShowAdvice}
-            small
-            style={styles.fab}
-          />
-          <FAB
-            accessibilityLabel="Take a picture"
-            disabled={fakeActivity}
-            icon="camera-image"
-            onPress={handleTakePicture}
-            style={[styles.fabImportant, styles.largeFab]}
-          />
-          <FAB
-            accessibilityLabel="Close camera"
-            disabled={fakeActivity}
-            icon={Platform.OS !== 'ios' ? 'close' : undefined}
-            label={Platform.OS === 'ios' ? 'Close' : undefined}
-            onPress={toggleSnackBar}
-            small
-            style={styles.fab}
-          />
-        </Components.CameraSideBar>
+          {/* camera sidebar */}
+          <Components.CameraSideBar>
+            <FAB
+              accessibilityLabel="Advices"
+              color="#edab25"
+              disabled={fakeActivity}
+              icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
+              label={Platform.OS === 'ios' ? 'Advices' : undefined}
+              onPress={handleShowAdvice}
+              small
+              style={styles.fab}
+            />
+            <FAB
+              accessibilityLabel="Take a picture"
+              disabled={fakeActivity}
+              icon="camera-image"
+              onPress={handleTakePicture}
+              style={[styles.fabImportant, styles.largeFab]}
+            />
+            <FAB
+              accessibilityLabel="Close camera"
+              disabled={fakeActivity}
+              icon={Platform.OS !== 'ios' ? 'close' : undefined}
+              label={Platform.OS === 'ios' ? 'Close' : undefined}
+              onPress={toggleSnackBar}
+              small
+              style={styles.fab}
+            />
+          </Components.CameraSideBar>
+        </View>
       </SafeAreaView>
 
       <Modal
