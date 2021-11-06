@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.INSPECTION_CREATE}>
+      <Stack.Navigator initialRouteName={names.TUTORIAL}>
 
         <Stack.Screen
           name={names.GET_START}
@@ -81,6 +81,11 @@ export default function Navigation() {
         <Stack.Screen
           name={names.DAMAGE_UPDATE}
           component={Screens.DamageUpdate}
+        />
+
+        <Stack.Screen
+          name={names.TUTORIAL}
+          component={Screens.Tutorial}
         />
 
       </Stack.Navigator>

@@ -18,3 +18,5 @@ export const DAMAGE_CREATE = 'createDamage';
 export const DAMAGE_READ = 'readDamage';
 export const DAMAGE_UPDATE = 'updateDamage';
 export const DAMAGES = 'listDamages';
+
+export const TUTORIAL = 'tutorial';

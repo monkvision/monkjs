@@ -150,9 +150,8 @@ export default function CameraView({
               />
             ) : null}
             <View style={styles.overLaps}>
-              {fakeActivity ? (
-                <ActivityIndicatorView />
-              ) : (
+              {fakeActivity && <ActivityIndicatorView />}
+              {(!fakeActivity && camera) && (
                 <Components.Mask
                   resizeMode="contain"
                   id={activeSight.id}
