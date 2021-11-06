@@ -11,13 +11,14 @@ import items from './data';
 import useInterval from './hooks';
 
 /**
+ * @param hideCloseButton {boolean}
  * @param onDismiss {func}
  * @param props
  * @returns {JSX.Element}
  * @constructor
  */
 
-export default function AdvicesView({ onDismiss, ...props }) {
+export default function AdvicesView({ hideCloseButton, onDismiss, ...props }) {
   const { colors } = useTheme();
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -38,9 +39,11 @@ export default function AdvicesView({ onDismiss, ...props }) {
   return (
     <View style={styles.root} {...props}>
       {/* close button */}
-      <TouchableOpacity style={styles.closeButton} onPress={onDismiss}>
-        <MaterialCommunityIcons name="close" size={24} color="white" />
-      </TouchableOpacity>
+      {!hideCloseButton ? (
+        <TouchableOpacity style={styles.closeButton} onPress={onDismiss}>
+          <MaterialCommunityIcons name="close" size={24} color="white" />
+        </TouchableOpacity>
+      ) : null}
 
       {/* carousel */}
       <ScrollView
@@ -114,9 +117,11 @@ Item.defaultProps = {
 };
 
 AdvicesView.propTypes = {
+  hideCloseButton: PropTypes.bool,
   onDismiss: propTypes.callback,
 };
 
 AdvicesView.defaultProps = {
+  hideCloseButton: false,
   onDismiss: noop,
 };
