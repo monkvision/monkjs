@@ -1,19 +1,28 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { styles } from './styles';
 
 const Label = ({ children }) => <Text style={styles.label}>{children}</Text>;
 
-const brightness = require('../../assets/brightness.webp');
-const sharpness = require('../../assets/sharpness.webp');
-const carMask = require('../../assets/carMask.webp');
+// IOS
+const brightnessGif = require('../../assets/brightness.gif');
+const sharpnessGif = require('../../assets/sharpness.gif');
+const carMaskGif = require('../../assets/carMask.gif');
+
+// Android and WEB
+const brightnessWebP = require('../../assets/brightness.webp');
+const sharpnessWebP = require('../../assets/sharpness.webp');
+const carMaskWebP = require('../../assets/carMask.webp');
 
 const items = [
   {
     key: 'Brightness',
     icon: 'brightness-5',
-    src: brightness,
+    src: Platform.select({
+      ios: brightnessGif,
+      default: brightnessWebP,
+    }),
     text: (
       <View style={styles.labelLayout}>
         <Label>Make sure that the picture is taken </Label>
@@ -24,7 +33,10 @@ const items = [
   {
     key: 'Sharpness',
     icon: 'triangle-outline',
-    src: sharpness,
+    src: Platform.select({
+      ios: sharpnessGif,
+      default: sharpnessWebP,
+    }),
     text: (
       <View style={styles.labelLayout}>
         <Label>Make sure that the picture is clear</Label>
@@ -33,7 +45,10 @@ const items = [
   },
   {
     key: 'Car mask',
-    src: carMask,
+    src: Platform.select({
+      ios: carMaskGif,
+      default: carMaskWebP,
+    }),
     text: (
       <View style={styles.labelLayout}>
         <Label>Please follow overlay masks on</Label>
