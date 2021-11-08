@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     width: 125,
     height: 150,
     marginVertical: 8,
-    zIndex: 1,
   },
   chip: {
     alignSelf: 'center',
