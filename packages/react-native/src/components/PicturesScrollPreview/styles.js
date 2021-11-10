@@ -1,6 +1,4 @@
-import { Dimensions, Platform, StyleSheet } from 'react-native';
-
-const windowHeight = Dimensions.get('window').height;
+import { Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
@@ -9,7 +7,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column-reverse',
     width: 125,
     ...Platform.select({
-      native: { height: windowHeight },
+      native: { height: '100%' },
       default: { height: '100vh' },
     }),
   },
@@ -33,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     overflow: 'visible',
     padding: 8,
-    paddingBottom: 16,
+    marginBottom: 16,
   },
 });
 export default styles;
