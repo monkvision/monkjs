@@ -3,6 +3,8 @@ import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
+import utils from '../../components/utils';
+
 /**
  * @returns {[unknown, {isAvailable: null, hasPermission: null, isLockInLandscape: null}]}
  */
@@ -12,34 +14,38 @@ export default function useCameraAsync() {
     [],
   );
 
+  const isAlwaysAvailable = useMemo(
+    () => Platform.OS !== 'web' && utils.getOS() !== 'iOS',
+    [],
+  );
+
   const [cameraAsync, setCameraAsync] = useState({
     hasPermission: null,
-    // isAvailable: null, // isAvailable was causing issues on Android web apps
+    isAvailable: isAlwaysAvailable,
     isLockInLandscape: null,
   });
 
   const cameraCanMount = useMemo(() => {
     const {
       hasPermission,
-      // isAvailable,
+      isAvailable,
       isLockInLandscape,
     } = cameraAsync;
 
-    // return hasPermission && isAvailable && isLockInLandscape;
-    return hasPermission && isLockInLandscape;
+    return hasPermission && isAvailable && isLockInLandscape;
   }, [cameraAsync]);
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
-      // const isAvailable = isNative || await Camera.isAvailableAsync();
+      const isAvailable = isAlwaysAvailable || await Camera.isAvailableAsync();
       const isLockInLandscape = !isNative || await ScreenOrientation.lockAsync(
         ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
       );
 
       setCameraAsync({
         hasPermission: status === 'granted',
-        // isAvailable,
+        isAvailable,
         isLockInLandscape,
       });
     })();
@@ -51,7 +57,7 @@ export default function useCameraAsync() {
         );
       }
     };
-  }, [isNative]);
+  }, [isAlwaysAvailable, isNative]);
 
   return [cameraCanMount, cameraAsync];
 }

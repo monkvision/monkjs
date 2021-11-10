@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { StyleSheet } from 'react-native';
+import { View, Platform, StyleSheet } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
 import utils from '../utils';
@@ -25,7 +25,7 @@ function Camera({
 }) {
   // STATE
   const [camera, setCamera] = useState();
-  useCameraAsync();
+  const [cameraCanMount] = useCameraAsync();
 
   const cameraStyle = useMemo(() => {
     // eslint-disable-next-line import/no-named-as-default-member
@@ -44,9 +44,9 @@ function Camera({
   }, [camera, onCameraReady]);
 
   // RENDERERS
-  // if (!cameraCanMount) {
-  //   return <View />;
-  // }
+  if (Platform.OS === 'web' && utils.getOS() === 'iOS' && !cameraCanMount) {
+    return <View />;
+  }
 
   return (
     <ExpoCamera
