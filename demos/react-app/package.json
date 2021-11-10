@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@monkvision/corejs": "^1.1.0",
-    "@monkvision/react-native": "^1.1.0",
-    "@monkvision/react-native-views": "^1.1.0",
+    "@monkvision/corejs": "^1.1.1",
+    "@monkvision/react-native": "^1.1.1",
+    "@monkvision/react-native-views": "^1.1.1",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

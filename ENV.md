@@ -16,7 +16,7 @@ APP_PRIVACY=unlisted
 
 # Authenticating https://manage.auth0.com/dashboard
 
-AUTH_DOMAIN=monk-dev.eu.auth0.com
+AUTH_DOMAIN=idp.dev.monk.ai
 AUTH_CLIENT_ID=
 
 # Requesting

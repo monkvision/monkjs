@@ -1699,22 +1699,22 @@
     dequal "^1.0.0"
     isoworker "^0.1.1"
 
-"@monkvision/corejs@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.1.0.tgz#af4fbb489c0c2e4cd7b9aba0378115ad908b876f"
-  integrity sha512-eCrHhHri7S2bHYGg4J14ifPf3JS2gfwLFfrGpGNnFsgBiQFNgbiBaiPQ+i1EMoC7NFU0l5oGCOCPDVavRULRtg==
+"@monkvision/corejs@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.1.1.tgz#26180fc049f4c61c1f5e0311e5c583bf0091993b"
+  integrity sha512-LCjttDZIyzSpziKXGEC02vR2fK+xWaikG9jvZXLGP3x7B6+EBWSt0yFNf7KXK2gxAgpypbROxHIeSU5FLU/TOA==
 
-"@monkvision/react-native-views@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.1.0.tgz#4c171a3157d302369ef0ea84da08c339ceeff748"
-  integrity sha512-mnm8sahVK9JqHuZVmalgs3MHESk9DvSK+cI8P0HeB5Fy5KLDweHoHljnaOgWzQFq4YtABDsUmuh54NEHmUftJA==
+"@monkvision/react-native-views@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.1.1.tgz#96c4b3124c5e03cd3bbde77d1fc578e928ab169b"
+  integrity sha512-kJLc6FG5JPOe6Pq1I5TW4sqrwGQEpbNe4pKUToZyyRM7PeOnhGdk0J97m9PgeiumP34+iNoP1H2WBx/VpIJWkw==
   dependencies:
     react-native-paper "^4.9.2"
 
-"@monkvision/react-native@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.1.0.tgz#4a5b6c184412f13d98109334fc91c31aa7b4961c"
-  integrity sha512-Ih6s7VY/mMVeDTZQD4tV0VE+JSrwgZUAWjd2wnxzXRiJ27J0LKD9Au2wEIfnBqwlvZ6PZMPZOn9p7h1T65202A==
+"@monkvision/react-native@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.1.1.tgz#7e2299aebdd2c890622ac61e296692daa33b3cd3"
+  integrity sha512-2InL4G73CNxnFnafcxttHUlp4ywN7QRFA0wzpvYUHKbVPE3lzLrzHLxHWY7npWpBwASVHymLb7enrm3R40KvhA==
   dependencies:
     "@emotion/is-prop-valid" "^1.1.0"
     "@expo/vector-icons" "^12.0.5"
