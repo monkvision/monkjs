@@ -14,7 +14,8 @@
     ]
   },
   "scripts": {
-    "start": "expo start --https",
+    "start": "expo start",
+    "start:https": "expo start --https",
     "start:documentation": "cd website && yarn run docs:start",
     "watch:corejs": "cd ./packages/corejs && yarn watch",
     "watch:react-native": "cd ./packages/react-native && yarn watch",
