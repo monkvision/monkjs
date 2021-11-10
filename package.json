@@ -14,7 +14,7 @@
     ]
   },
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --https",
     "start:documentation": "cd website && yarn run docs:start",
     "watch:corejs": "cd ./packages/corejs && yarn watch",
     "watch:react-native": "cd ./packages/react-native && yarn watch",
@@ -66,7 +66,7 @@
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "raw-loader": "^4.0.2",
-    "react": "^17.0.2",
+    "react": "17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-animation-library": "^0.0.8",
     "react-native-gesture-handler": "^1.10.3",
