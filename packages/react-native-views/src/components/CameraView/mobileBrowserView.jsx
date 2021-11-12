@@ -72,103 +72,98 @@ export default function MobileBrowserView({
     >
       <StatusBar hidden />
       <SafeAreaView>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'nowrap',
-              justifyContent: 'space-between',
-              display: 'flex',
-              overflow: 'hidden',
-              maxHeight: width,
-              maxWidth: height,
-            }}
-            onLayout={(e) => {
-              const layout = e.nativeEvent.layout;
-              setMeasures({
-                // shortest to be height always
-                height: Math.min(layout.width, layout.height),
-                // longest to be width always
-                width: Math.max(layout.width, layout.height) - SIDEBAR_WIDTH,
-              });
-            }}
-          >
-            {/* pictures scroll preview sidebar */}
-            <View>
-              <Components.PicturesScrollPreview
-                activeSight={activeSight}
-                sights={sights}
-                pictures={pictures}
-                ref={scrollRef}
-              />
-            </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            justifyContent: 'space-between',
+            display: 'flex',
+            overflow: 'hidden',
+            maxHeight: width,
+            maxWidth: height,
+          }}
+          onLayout={(e) => {
+            const layout = e.nativeEvent.layout;
+            setMeasures({
+              // shortest to be height always
+              height: Math.min(layout.width, layout.height),
+              // longest to be width always
+              width: Math.max(layout.width, layout.height) - SIDEBAR_WIDTH,
+            });
+          }}
+        >
+          {/* pictures scroll preview sidebar */}
+          <View>
+            <Components.PicturesScrollPreview
+              activeSight={activeSight}
+              sights={sights}
+              pictures={pictures}
+              ref={scrollRef}
+            />
+          </View>
 
-            {/* camera and mask overlay */}
-            <View style={{ alignSelf: 'center' }}>
-              <View
-                style={{
-                  transform: [{ rotate: '-90deg' }, { scale: 0.8 }],
-                  // zIndex: -1,
-                  ...measures,
-                  marginTop: 100,
-                }}
-              >
-                {measures.width ? (
-                  <Components.Camera
-                    onCameraReady={handleCameraReady}
-                    ratio={makeRatio(measures.width, measures.height)}
-                  />
-                ) : null}
-              </View>
-              <View style={styles.overLaps}>
-                {fakeActivity && <ActivityIndicatorView />}
-                {!fakeActivity && camera && (
-                  <Components.Mask
-                    resizeMode="contain"
-                    id={activeSight.id}
-                    width="100%"
-                    style={styles.mask}
-                  />
-                )}
-              </View>
+          {/* camera and mask overlay */}
+          <View style={{ alignSelf: 'center' }}>
+            <View
+              style={{
+                transform: [{ rotate: '-90deg' }, { scale: 0.8 }],
+                zIndex: -1,
+                ...measures,
+                marginTop: 100,
+              }}
+            >
+              {measures.width ? (
+                <Components.Camera
+                  onCameraReady={handleCameraReady}
+                  ratio={makeRatio(measures.width, measures.height)}
+                />
+              ) : null}
             </View>
-
-            {/* camera sidebar */}
-            <View ref={sidebarRef}>
-              <Components.CameraSideBar>
-                <FAB
-                  accessibilityLabel="Advices"
-                  color="#edab25"
-                  disabled={fakeActivity}
-                  icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
-                  label={Platform.OS === 'ios' ? 'Advices' : undefined}
-                  onPress={handleShowAdvice}
-                  small
-                  style={styles.fab}
+            <View style={styles.overLaps}>
+              {fakeActivity && <ActivityIndicatorView />}
+              {!fakeActivity && camera && (
+                <Components.Mask
+                  resizeMode="contain"
+                  id={activeSight.id}
+                  width="100%"
+                  style={styles.mask}
                 />
-                <FAB
-                  accessibilityLabel="Take a picture"
-                  disabled={fakeActivity}
-                  icon="camera-image"
-                  onPress={handleTakePicture}
-                  style={[styles.fabImportant, styles.largeFab]}
-                />
-                <FAB
-                  accessibilityLabel="Close camera"
-                  disabled={fakeActivity}
-                  icon={Platform.OS !== 'ios' ? 'close' : undefined}
-                  label={Platform.OS === 'ios' ? 'Close' : undefined}
-                  onPress={toggleSnackBar}
-                  small
-                  style={styles.fab}
-                />
-              </Components.CameraSideBar>
+              )}
             </View>
           </View>
-        </View>
-      </SafeAreaView>
 
-      <View style={{ zIndex: 999 }}>
+          {/* camera sidebar */}
+          <View ref={sidebarRef}>
+            <Components.CameraSideBar>
+              <FAB
+                accessibilityLabel="Advices"
+                color="#edab25"
+                disabled={fakeActivity}
+                icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
+                label={Platform.OS === 'ios' ? 'Advices' : undefined}
+                onPress={handleShowAdvice}
+                small
+                style={styles.fab}
+              />
+              <FAB
+                accessibilityLabel="Take a picture"
+                disabled={fakeActivity}
+                icon="camera-image"
+                onPress={handleTakePicture}
+                style={[styles.fabImportant, styles.largeFab]}
+              />
+              <FAB
+                accessibilityLabel="Close camera"
+                disabled={fakeActivity}
+                icon={Platform.OS !== 'ios' ? 'close' : undefined}
+                label={Platform.OS === 'ios' ? 'Close' : undefined}
+                onPress={toggleSnackBar}
+                small
+                style={styles.fab}
+              />
+            </Components.CameraSideBar>
+          </View>
+        </View>
         <Modal
           visible={visibleAdvices}
           onDismiss={hideAdvices}
@@ -176,7 +171,7 @@ export default function MobileBrowserView({
         >
           <AdvicesView onDismiss={hideAdvices} />
         </Modal>
-      </View>
+      </SafeAreaView>
 
       <Snackbar
         visible={visibleSnack}
