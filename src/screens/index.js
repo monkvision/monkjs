@@ -1,7 +1,7 @@
 export { default as Authentication } from './Authentication';
 export { default as Outed } from './Authentication/Outed';
 
-export { default as GetStart } from './GetStart';
+export { default as GettingStarted } from './GettingStarted';
 
 export { default as Damages } from './Damages';
 export { default as DamageCreate } from './DamageCreate';

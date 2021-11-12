@@ -3,31 +3,44 @@ import noop from 'lodash.noop';
 
 import useSights from './useSights';
 
+/**
+ * Wraps taken pictures with Sights sights prop and metadata
+ * @param camera
+ * @param sights
+ * @param onTakePicture
+ * @param handleFakeActivity
+ * @returns {{
+ *   activeSight: Object,
+ *   sightsCount: number,
+ *   handleTakePicture: ((function(): Promise<void>)|*),
+ *   pictures: {}
+ * }}
+ */
 function usePictures(camera, sights, onTakePicture, handleFakeActivity = noop) {
-  const { activeSight, count: nbOfSights, nextSightProps } = useSights(sights);
+  const { activeSight, count: sightsCount, nextSightProps } = useSights(sights);
   const [pictures, setPictures] = useState({});
 
   const handleTakePicture = useCallback(async () => {
-    if (camera) {
-      handleFakeActivity();
+    if (!camera) { return; }
 
-      const options = { quality: 1 };
-      const picture = await camera.takePictureAsync(options);
-      const payload = { sight: activeSight, source: picture };
+    handleFakeActivity();
 
-      setPictures((prevState) => ({ ...prevState, [activeSight.id]: payload }));
-      onTakePicture(payload);
+    const options = { quality: 1 };
+    const picture = await camera.takePictureAsync(options);
+    const payload = { sight: activeSight, source: picture };
 
-      if (!nextSightProps.disabled) {
-        nextSightProps.onPress();
-      }
+    setPictures((prevState) => ({ ...prevState, [activeSight.id]: payload }));
+    onTakePicture(payload);
+
+    if (!nextSightProps.disabled) {
+      nextSightProps.onPress();
     }
   }, [activeSight, camera, handleFakeActivity, nextSightProps, onTakePicture]);
 
   return {
     activeSight,
     handleTakePicture,
-    nbOfSights,
+    sightsCount,
     pictures,
   };
 }

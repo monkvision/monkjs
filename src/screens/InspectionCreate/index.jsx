@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { CameraView } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 
-import { GET_START, INSPECTION_REVIEW } from 'screens/names';
+import { GETTING_STARTED, INSPECTION_REVIEW } from 'screens/names';
 
 export default () => {
   const navigation = useNavigation();
@@ -17,7 +17,7 @@ export default () => {
   }, [navigation]);
 
   const handleClose = useCallback(() => {
-    navigation.navigate(GET_START);
+    navigation.navigate(GETTING_STARTED);
   }, [navigation]);
 
   return <CameraView onSuccess={handleSuccess} onCloseCamera={handleClose} />;

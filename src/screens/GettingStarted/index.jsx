@@ -5,7 +5,7 @@ import { TutorialView } from '@monkvision/react-native-views';
 
 import { INSPECTION_CREATE } from 'screens/names';
 
-export default function GetStart() {
+export default function GettingStarted() {
   const navigation = useNavigation();
 
   const handleStart = useCallback(() => {

@@ -1,5 +1,18 @@
 import { useCallback, useState } from 'react';
 
+/**
+ * Wraps states and callbacks to manage UI in one hook place
+ * @param camera
+ * @param pictures
+ * @param onCloseCamera
+ * @param onShowAdvice
+ * @returns {{
+ *   camera: {handleClose: function},
+ *   container: { measures: {width: number, height: number}, handleLayout: function},
+ *   modal: {handleDismiss: function, handleShow: function, isVisible: boolean},
+ *   snackbar: {handleDismiss: function, handleToggle: function, isVisible: boolean},
+ * }}
+ */
 function useUI(camera, pictures, onCloseCamera, onShowAdvice) {
   // container
   const [measures, setMeasures] = useState({ width: null, height: null });
@@ -36,6 +49,9 @@ function useUI(camera, pictures, onCloseCamera, onShowAdvice) {
   }, [onCloseCamera, pictures]);
 
   return {
+    camera: {
+      handleClose: handleCloseCamera,
+    },
     container: {
       handleLayout,
       measures,
@@ -49,9 +65,6 @@ function useUI(camera, pictures, onCloseCamera, onShowAdvice) {
       handleDismiss: handleDismissSnackbar,
       handleToggle: handleToggleSnackbar,
       isVisible: snackIsVisible,
-    },
-    camera: {
-      handleClose: handleCloseCamera,
     },
   };
 }

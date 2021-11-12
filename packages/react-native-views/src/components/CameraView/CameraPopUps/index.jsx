@@ -7,6 +7,18 @@ import { Modal, Snackbar, Text, useTheme } from 'react-native-paper';
 import AdvicesView from '../../AdvicesView';
 
 const styles = StyleSheet.create({
+  advices: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 40,
+    overflow: 'hidden',
+    maxWidth: 512,
+    ...Platform.select({
+      web: { maxHeight: 512 },
+      native: { maxHeight: 300 },
+    }),
+    alignSelf: 'center',
+  },
   snackBar: {
     display: 'flex',
     backgroundColor: 'white',

@@ -1,15 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
+/**
+ * When last picture is taken
+ * @param onSuccess
+ * @param payload
+ * @param handleFakeActivity
+ */
 function useSuccess(onSuccess, payload, handleFakeActivity) {
-  const { pictures, camera, sights } = payload;
-  const nbOfSights = sights.length;
+  const { pictures, sights } = payload;
+
+  const sightsCount = sights.length;
+  const picturesCount = useMemo(
+    () => Object.values(pictures).filter((p) => p.source).length,
+    [pictures],
+  );
 
   useEffect(() => {
-    const picturesTaken = Object.values(pictures).filter((p) => Boolean(p.source)).length;
-    if (nbOfSights === picturesTaken) {
+    if (sightsCount === picturesCount) {
       handleFakeActivity(() => onSuccess(payload));
     }
-  }, [camera, nbOfSights, handleFakeActivity, onSuccess, pictures, sights, payload]);
+  }, [handleFakeActivity, onSuccess, payload, picturesCount, sightsCount]);
 }
 
 export default useSuccess;

@@ -1,7 +1,7 @@
 export const AUTHENTICATION = 'authentication';
 export const OUTED = 'outed';
 
-export const GET_START = 'getStart';
+export const GETTING_STARTED = 'gettingStarted';
 
 export const CAPTURE = 'capture';
 export const ANALYZE = 'analyze';
