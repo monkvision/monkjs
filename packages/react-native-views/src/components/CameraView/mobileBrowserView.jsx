@@ -17,6 +17,13 @@ const SIDEBAR_WIDTH = 250;
 const makeRatio = (width, height) => `${width / 240}:${height / 240}`;
 const { height, width } = Dimensions.get('window');
 
+/**
+ * to be tested:
+ * detect mobile web
+ * all screen sizes
+ * ipad and tablet screens
+ */
+
 export default function MobileBrowserView({
   sights,
   activeSight,

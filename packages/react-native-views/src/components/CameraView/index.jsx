@@ -119,8 +119,8 @@ export default function CameraView({
   const [measures, setMeasures] = React.useState({ width: null, height: null });
 
   // MOBILE BROWSER VIEW
-  const isLandscape = useBrowserViewConfig();
-  if (!isLandscape) {
+  const isPortrait = useBrowserViewConfig();
+  if (isPortrait) {
     return (
       <MobileBrowserView
         activeSight={activeSight}
