@@ -3,23 +3,21 @@ import React, { useCallback } from 'react';
 import { CameraView } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 
-import { TUTORIAL } from 'screens/names';
+import { GET_START, INSPECTION_REVIEW } from 'screens/names';
 
 export default () => {
   const navigation = useNavigation();
 
-  // eslint-disable-next-line no-console
-  const handleSuccess = (payload) => console.log(payload);
-  // Use API to get predictions
-  // Show result in a JSON pretty component
-  // Read navigation docs to pass result as params
+  const handleSuccess = useCallback((payload) => {
+    // eslint-disable-next-line no-console
+    console.log(payload);
+    navigation.navigate(INSPECTION_REVIEW);
 
-  // const handleSuccess = useCallback(() => {
-  //   navigation.navigate(INSPECTION_READ);
-  // }, [navigation]);
+    // Use API to get predictions
+  }, [navigation]);
 
   const handleClose = useCallback(() => {
-    navigation.navigate(TUTORIAL);
+    navigation.navigate(GET_START);
   }, [navigation]);
 
   return <CameraView onSuccess={handleSuccess} onCloseCamera={handleClose} />;

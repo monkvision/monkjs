@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Avatar, Appbar, Button, Card, List, useTheme } from 'react-native-paper';
+import { Avatar, Appbar, Button, List, useTheme } from 'react-native-paper';
 
-import AdvicesView from '../AdvicesView';
+import Illustration from './Illustration';
 
 const styles = StyleSheet.create({
   root: {
@@ -14,12 +14,8 @@ const styles = StyleSheet.create({
   },
   listView: {
     marginTop: 8,
-  },
-  card: {
-    margin: 16,
-  },
-  cardActions: {
-    justifyContent: 'flex-end',
+    maxWidth: 720,
+    alignSelf: 'center',
   },
 });
 
@@ -47,12 +43,14 @@ export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePi
           <Appbar.Header>
             <Appbar.BackAction onPress={handleGoBack} />
             <Appbar.Content title="Photo process" />
-            <Appbar.Action icon="camera" onPress={onStart} />
+            <Button icon="camera" color={colors.primaryContrastText} onPress={onStart}>
+              Start
+            </Button>
           </Appbar.Header>
         ),
       });
     }
-  }, [handleGoBack, navigation, onStart]);
+  }, [colors.primaryContrastText, handleGoBack, navigation, onStart]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -81,14 +79,9 @@ export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePi
             )}
           />
         </View>
-        <Card style={styles.card}>
-          <Card.Content>
-            <AdvicesView hideCloseButton />
-          </Card.Content>
-          <Card.Actions style={styles.cardActions}>
-            <Button onPress={onStart}>Start</Button>
-          </Card.Actions>
-        </Card>
+        <View>
+          <Illustration />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
