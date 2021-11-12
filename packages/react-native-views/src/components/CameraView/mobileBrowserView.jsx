@@ -126,7 +126,7 @@ export default function MobileBrowserView({
                   resizeMode="contain"
                   id={activeSight.id}
                   width="100%"
-                  style={styles.mask}
+                  style={[styles.mask, { maxWidth: width - SIDEBAR_WIDTH }]}
                 />
               )}
             </View>
