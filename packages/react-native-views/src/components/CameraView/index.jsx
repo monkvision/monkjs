@@ -13,6 +13,8 @@ import AdvicesView from '../AdvicesView';
 
 import useSights from './useSights';
 import styles from './styles';
+import useBrowserViewConfig from '../../hooks/useBrowserViewConfig';
+import MobileBrowserView from './mobileBrowserView';
 
 const SIDEBAR_WIDTH = 250;
 const makeRatio = (width, height) => `${(width - SIDEBAR_WIDTH) / 240}:${height / 240}`;
@@ -116,6 +118,29 @@ export default function CameraView({
   }, [camera, count, handleFakeActivity, onSuccess, pictures, sights]);
   const [measures, setMeasures] = React.useState({ width: null, height: null });
 
+  // MOBILE BROWSER VIEW
+  const isLandscape = useBrowserViewConfig();
+  if (!isLandscape) {
+    return (
+      <MobileBrowserView
+        activeSight={activeSight}
+        camera={camera}
+        fakeActivity={fakeActivity}
+        handleCameraReady={handleCameraReady}
+        handleShowAdvice={handleShowAdvice}
+        handleTakePicture={handleTakePicture}
+        hideAdvices={hideAdvices}
+        pictures={pictures}
+        sights={sights}
+        toggleSnackBar={toggleSnackBar}
+        visibleSnack={visibleSnack}
+        visibleAdvices={visibleAdvices}
+        handleDismissSnackBar={handleDismissSnackBar}
+        handleCloseCamera={handleCloseCamera}
+      />
+    );
+  }
+
   return (
     <View style={styles.root}>
       <StatusBar hidden />
@@ -151,7 +176,7 @@ export default function CameraView({
             ) : null}
             <View style={styles.overLaps}>
               {fakeActivity && <ActivityIndicatorView />}
-              {(!fakeActivity && camera) && (
+              {!fakeActivity && camera && (
                 <Components.Mask
                   resizeMode="contain"
                   id={activeSight.id}
