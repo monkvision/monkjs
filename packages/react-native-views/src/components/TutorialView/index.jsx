@@ -11,11 +11,13 @@ import Illustration from './Illustration';
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    justifyContent: 'center',
   },
   listView: {
-    marginTop: 8,
-    maxWidth: 720,
-    alignSelf: 'center',
+    marginVertical: 8,
+  },
+  illustrationView: {
+    margin: 16,
   },
 });
 
@@ -79,7 +81,7 @@ export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePi
             )}
           />
         </View>
-        <View>
+        <View style={styles.illustrationView}>
           <Illustration />
         </View>
       </ScrollView>
