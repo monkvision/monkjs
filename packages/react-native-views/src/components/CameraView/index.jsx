@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
@@ -8,13 +8,16 @@ import useFakeActivity from './hooks/useFakeActivity';
 import usePictures from './hooks/usePictures';
 import useSuccess from './hooks/useSuccess';
 import useUI from './hooks/useUI';
+import useMobileBrowserConfig from './hooks/useMobileBrowserConfig';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
+import { SIDEBAR_WIDTH } from './constants';
 
 import CameraControls from './CameraControls';
 import CameraOverlay from './CameraOverlay';
 import CameraPopUps from './CameraPopUps';
 import CameraScrollView from './CameraScrollView';
+import CameraMobileBrowserView from './CameraMobileBrowserView';
 
 const styles = StyleSheet.create({
   root: {
@@ -39,7 +42,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const SIDEBAR_WIDTH = 250;
 const makeRatio = (width, height) => `${(width - SIDEBAR_WIDTH) / 240}:${height / 240}`;
 
 /**
@@ -70,10 +72,7 @@ export default function CameraView({
   const { activeSight, handleTakePicture, pictures } = picturesWrapper;
 
   // Data payload given for common user callbacks
-  const payload = useMemo(
-    () => ({ pictures, camera, sights }),
-    [camera, pictures, sights],
-  );
+  const payload = useMemo(() => ({ pictures, camera, sights }), [camera, pictures, sights]);
 
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onShowAdvice);
@@ -83,25 +82,26 @@ export default function CameraView({
   // When last picture is taken
   useSuccess(onSuccess, payload, handleFakeActivity);
 
-  // MOBILE BROWSER VIEW
-  const isMobileBrowser = useMobileBrowserConfig();
+  const onRotateToPortrait = useCallback(
+    // eslint-disable-next-line no-alert
+    () => alert(`For better experience, please rotate your device to landscape.w${width} h${height}`),
+    [width, height],
+  );
+
+  // Mobile browser view
+  const isMobileBrowser = useMobileBrowserConfig(onRotateToPortrait);
   if (isMobileBrowser) {
     return (
-      <MobileBrowserView
+      <CameraMobileBrowserView
+        sights={sights}
+        ui={ui}
         activeSight={activeSight}
+        pictures={pictures}
+        handleCameraReady={handleCameraReady}
+        ratio={ratio}
         camera={camera}
         fakeActivity={fakeActivity}
-        handleCameraReady={handleCameraReady}
-        handleShowAdvice={handleShowAdvice}
         handleTakePicture={handleTakePicture}
-        hideAdvices={hideAdvices}
-        pictures={pictures}
-        sights={sights}
-        toggleSnackBar={toggleSnackBar}
-        visibleSnack={visibleSnack}
-        visibleAdvices={visibleAdvices}
-        handleDismissSnackBar={handleDismissSnackBar}
-        handleCloseCamera={handleCloseCamera}
       />
     );
   }
@@ -111,24 +111,15 @@ export default function CameraView({
       <StatusBar hidden />
       {/* container */}
       <SafeAreaView>
-        <View
-          style={styles.container}
-          onLayout={ui.container.handleLayout}
-        >
+        <View style={styles.container} onLayout={ui.container.handleLayout}>
+          <>
             {/* pictures scroll preview sidebar */}
-            <CameraScrollView
-              activeSight={activeSight}
-              pictures={pictures}
-              sights={sights}
-            />
+            <CameraScrollView activeSight={activeSight} pictures={pictures} sights={sights} />
 
             {/* camera and mask overlay */}
             <View>
               {ui.container.measures.width && (
-                <Components.Camera
-                  onCameraReady={handleCameraReady}
-                  ratio={ratio}
-                />
+                <Components.Camera onCameraReady={handleCameraReady} ratio={ratio} />
               )}
               <CameraOverlay
                 activeSightId={activeSight.id}

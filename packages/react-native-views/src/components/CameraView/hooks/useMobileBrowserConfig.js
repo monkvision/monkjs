@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React from 'react';
 import { useWindowDimensions } from 'react-native';
 
@@ -17,7 +16,13 @@ window.matchMedia = window.matchMedia || DEFAULT_MACTH_MEDIA_OBJECT;
 const MOBILE_USERAGENT_PATTERN = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 const MEDIA_QUERY = window.matchMedia('(max-width: 480px)');
 
-const useMobileBrowserConfig = () => {
+/**
+ * Wraps states and callbacks to manage UI in one hook place
+ * @param {function} onRotateToPortrait - Will be called once the device get into Portrait
+ * Orientation (mobile only)
+ * @returns {boolean}
+ */
+const useMobileBrowserConfig = (onRotateToPortrait) => {
   const { height, width } = useWindowDimensions();
 
   const isPortrait = width < height;
@@ -30,10 +35,10 @@ const useMobileBrowserConfig = () => {
    */
 
   React.useEffect(() => {
-    if (isMobileBrowserUserAgent && isPortrait && isMobileSize) {
-      alert(`For better experience, please rotate your device to landscape.`);
+    if (isMobileBrowserUserAgent && isPortrait && isMobileSize && Boolean(onRotateToPortrait)) {
+      onRotateToPortrait();
     }
-  }, [isPortrait, isMobileBrowserUserAgent, isMobileSize]);
+  }, [isMobileBrowserUserAgent, isPortrait, isMobileSize, onRotateToPortrait]);
   return isMobileBrowserUserAgent && isPortrait && isMobileSize;
 };
 

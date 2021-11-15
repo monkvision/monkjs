@@ -1,9 +1,13 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import Components, { propTypes, utils } from '@monkvision/react-native';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
+import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
+import { SIDEBAR_WIDTH } from '../constants';
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   overLaps: {
@@ -22,10 +26,8 @@ const styles = StyleSheet.create({
 });
 
 function CameraOverlay({ activeSightId, camera, fakeActivity }) {
-  const maskCanMount = useMemo(
-    () => (!fakeActivity && camera),
-    [camera, fakeActivity],
-  );
+  const maskCanMount = useMemo(() => !fakeActivity && camera, [camera, fakeActivity]);
+  const isMobileBrowser = useMobileBrowserConfig();
 
   return (
     <View style={styles.overLaps}>
@@ -34,7 +36,7 @@ function CameraOverlay({ activeSightId, camera, fakeActivity }) {
         <Components.Mask
           id={activeSightId}
           resizeMode="contain"
-          style={styles.mask}
+          style={[styles.mask, isMobileBrowser ? { maxWidth: width - SIDEBAR_WIDTH } : {}]}
           width="100%"
         />
       )}
