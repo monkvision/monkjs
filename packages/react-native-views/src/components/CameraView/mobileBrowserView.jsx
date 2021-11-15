@@ -200,12 +200,8 @@ export default function MobileBrowserView({
 MobileBrowserView.propTypes = {
   activeSight: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, propTypes.sights]))
     .isRequired,
-  camera: PropTypes.oneOfType([
-    // Either a function
-    PropTypes.func,
-    // Or the instance of a DOM native element
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  camera: PropTypes.any.isRequired,
   fakeActivity: noop.isRequired,
   handleCameraReady: PropTypes.func.isRequired,
   handleCloseCamera: PropTypes.func.isRequired,

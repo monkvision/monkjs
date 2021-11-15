@@ -13,7 +13,7 @@ import AdvicesView from '../AdvicesView';
 
 import useSights from './useSights';
 import styles from './styles';
-import useBrowserViewConfig from '../../hooks/useBrowserViewConfig';
+import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
 import MobileBrowserView from './mobileBrowserView';
 
 const SIDEBAR_WIDTH = 250;
@@ -119,8 +119,8 @@ export default function CameraView({
   const [measures, setMeasures] = React.useState({ width: null, height: null });
 
   // MOBILE BROWSER VIEW
-  const isPortrait = useBrowserViewConfig();
-  if (isPortrait) {
+  const isMobileBrowser = useMobileBrowserConfig();
+  if (isMobileBrowser) {
     return (
       <MobileBrowserView
         activeSight={activeSight}
