@@ -6,7 +6,7 @@ const MIN_LOADING_TIME = 500; // in ms
 /**
  * Use fake activity when you need to render ActivityIndicator for better UX
  */
-function useFakeActivity() {
+function useFakeActivity(trueActivity) {
   const [fakeActivity, setFakeActivity] = useState(null);
 
   const handleFakeActivity = useCallback((onEnd = noop) => {
@@ -22,7 +22,7 @@ function useFakeActivity() {
     };
   }, []);
 
-  return [fakeActivity, handleFakeActivity];
+  return [trueActivity || fakeActivity, handleFakeActivity];
 }
 
 export default useFakeActivity;
