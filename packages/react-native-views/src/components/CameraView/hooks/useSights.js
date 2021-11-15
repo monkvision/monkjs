@@ -1,5 +1,19 @@
 import { useMemo, useState } from 'react';
 
+/**
+ * Wraps states and callbacks to manage Sights in one hook place
+ * @param sights
+ * @param active
+ * @returns {{
+ *   activeSight: object,
+ *   nextSightProps: {onPress: function, disabled: boolean},
+ *   setPrevSight: function,
+ *   prevSightProps: {onPress: function, disabled: boolean},
+ *   count,
+ *   setNextSight: function,
+ *   activeSightIndex: number,
+ * }}
+ */
 export default function useSights(sights, active = 0) {
   const [activeSightIndex, setActiveSightIndex] = useState(active);
 

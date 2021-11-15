@@ -31,7 +31,7 @@ import { CameraView } from '@monkvision/react-native-views';
 ```
 
 ### Response payload
-`{ pictures, camera, sights }`
+`{ pictures, camera, sights, nbOfSights }`
 ``` json
 // const handleSuccess = (payload) => console.log(payload);
 // <CameraView onSuccess={handleSuccess} />

@@ -1,7 +1,7 @@
 export const AUTHENTICATION = 'authentication';
 export const OUTED = 'outed';
 
-export const GET_START = 'getStart';
+export const GETTING_STARTED = 'gettingStarted';
 
 export const CAPTURE = 'capture';
 export const ANALYZE = 'analyze';
@@ -18,5 +18,3 @@ export const DAMAGE_CREATE = 'createDamage';
 export const DAMAGE_READ = 'readDamage';
 export const DAMAGE_UPDATE = 'updateDamage';
 export const DAMAGES = 'listDamages';
-
-export const TUTORIAL = 'tutorial';
