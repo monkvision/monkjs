@@ -108,15 +108,15 @@ export default function CameraMobileBrowserView({
           />
           {!camera && <ActivityIndicatorView />}
         </View>
-      </SafeAreaView>
 
-      <CameraPopUps
-        modalIsVisible={ui.modal.isVisible}
-        onCloseCamera={ui.camera.handleClose}
-        onDismissAdvices={ui.modal.handleDismiss}
-        onDismissSnack={ui.snackbar.handleDismiss}
-        snackIsVisible={ui.snackbar.isVisible}
-      />
+        <CameraPopUps
+          modalIsVisible={ui.modal.isVisible}
+          onCloseCamera={ui.camera.handleClose}
+          onDismissAdvices={ui.modal.handleDismiss}
+          onDismissSnack={ui.snackbar.handleDismiss}
+          snackIsVisible={ui.snackbar.isVisible}
+        />
+      </SafeAreaView>
     </View>
   );
 }
@@ -124,7 +124,6 @@ export default function CameraMobileBrowserView({
 CameraMobileBrowserView.propTypes = {
   activeSight: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, propTypes.sights]))
     .isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   camera: propTypes.camera,
   fakeActivity: noop.isRequired,
   handleCameraReady: PropTypes.func.isRequired,

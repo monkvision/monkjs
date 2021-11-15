@@ -84,8 +84,8 @@ export default function CameraView({
 
   const onRotateToPortrait = useCallback(
     // eslint-disable-next-line no-alert
-    () => alert(`For better experience, please rotate your device to landscape.w${width} h${height}`),
-    [width, height],
+    () => alert(`For better experience, please rotate your device to landscape.`),
+    [],
   );
 
   // Mobile browser view

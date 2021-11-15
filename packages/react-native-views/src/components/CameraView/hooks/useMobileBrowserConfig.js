@@ -1,20 +1,17 @@
 import React from 'react';
 import { useWindowDimensions } from 'react-native';
-
-const DEFAULT_MACTH_MEDIA_OBJECT = () => ({
-  matches: false,
-  addListener() {},
-  removeListener() {},
-});
+import {
+  DEFAULT_MACTH_MEDIA_OBJECT,
+  MOBILE_MAX_WIDTH,
+  MOBILE_USERAGENT_PATTERN,
+} from '../constants';
 /**
  * Let's assign `DEFAULT_MACTH_MEDIA_OBJECT` object to `window.mathMedia`
  * just to handle platforms that doesn't support this method.
  * NOTE: This won't work using `Platform.select`.
  *  */
 window.matchMedia = window.matchMedia || DEFAULT_MACTH_MEDIA_OBJECT;
-
-const MOBILE_USERAGENT_PATTERN = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-const MEDIA_QUERY = window.matchMedia('(max-width: 480px)');
+const MEDIA_QUERY = window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 /**
  * Wraps states and callbacks to manage UI in one hook place
