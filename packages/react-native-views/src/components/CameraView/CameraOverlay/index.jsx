@@ -30,13 +30,13 @@ function CameraOverlay({ activeSightId, camera, fakeActivity }) {
   const isMobileBrowser = useMobileBrowserConfig();
 
   return (
-    <View style={styles.overLaps}>
+    <View style={[styles.overLaps, { width: width - SIDEBAR_WIDTH }]}>
       {fakeActivity && <ActivityIndicatorView />}
       {maskCanMount && (
         <Components.Mask
           id={activeSightId}
           resizeMode="contain"
-          style={[styles.mask, isMobileBrowser ? { maxWidth: width - SIDEBAR_WIDTH } : {}]}
+          style={[styles.mask, isMobileBrowser ? { width: '100%' } : {}]}
           width="100%"
         />
       )}

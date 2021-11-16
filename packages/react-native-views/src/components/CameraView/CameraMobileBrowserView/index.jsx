@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     display: 'flex',
-    overflow: 'hidden',
     maxHeight: width,
     maxWidth: height,
   },
@@ -74,8 +73,10 @@ export default function CameraMobileBrowserView({
           {/* camera and mask overlay */}
           <View
             style={{
-              alignSelf: 'baseline',
               height: ui.container.measures.height,
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-end',
             }}
           >
             <View
