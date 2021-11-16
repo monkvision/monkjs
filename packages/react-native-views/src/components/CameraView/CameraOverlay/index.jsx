@@ -29,16 +29,12 @@ function CameraOverlay({ activeSightId, camera, fakeActivity }) {
   const maskCanMount = useMemo(() => !fakeActivity && camera, [camera, fakeActivity]);
   const isMobileBrowser = useMobileBrowserConfig();
 
+  const overlayWidth = isMobileBrowser ? width - SIDEBAR_WIDTH : '100%';
   return (
-    <View style={[styles.overLaps, { width: width - SIDEBAR_WIDTH }]}>
+    <View style={[styles.overLaps, { width: overlayWidth }]}>
       {fakeActivity && <ActivityIndicatorView />}
       {maskCanMount && (
-        <Components.Mask
-          id={activeSightId}
-          resizeMode="contain"
-          style={[styles.mask, isMobileBrowser ? { width: '100%' } : {}]}
-          width="100%"
-        />
+        <Components.Mask id={activeSightId} resizeMode="contain" style={styles.mask} width="100%" />
       )}
     </View>
   );

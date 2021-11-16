@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWindowDimensions } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 import {
   DEFAULT_MACTH_MEDIA_OBJECT,
   MOBILE_MAX_WIDTH,
@@ -36,7 +36,10 @@ const useMobileBrowserConfig = (onRotateToPortrait) => {
       onRotateToPortrait();
     }
   }, [isMobileBrowserUserAgent, isPortrait, isMobileSize, onRotateToPortrait]);
-  return isMobileBrowserUserAgent && isPortrait && isMobileSize;
+  return Platform.select({
+    native: false,
+    default: isMobileBrowserUserAgent && isPortrait && isMobileSize,
+  });
 };
 
 export default useMobileBrowserConfig;
