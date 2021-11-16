@@ -14,7 +14,6 @@ window.matchMedia = window.matchMedia || DEFAULT_MACTH_MEDIA_OBJECT;
 const MEDIA_QUERY = window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 /**
- * Wraps states and callbacks to manage UI in one hook place
  * @param {function} onRotateToPortrait - Will be called once the device get into Portrait
  * Orientation (mobile only)
  * @returns {boolean}

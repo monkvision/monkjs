@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
@@ -82,28 +82,10 @@ export default function CameraView({
   // When last picture is taken
   useSuccess(onSuccess, payload, handleFakeActivity);
 
-  const onRotateToPortrait = useCallback(
-    // eslint-disable-next-line no-alert
-    () => alert(`For better experience, please rotate your device to landscape.`),
-    [],
-  );
-
   // Mobile browser view
-  const isMobileBrowser = useMobileBrowserConfig(onRotateToPortrait);
+  const isMobileBrowser = useMobileBrowserConfig();
   if (isMobileBrowser) {
-    return (
-      <CameraMobileBrowserView
-        sights={sights}
-        ui={ui}
-        activeSight={activeSight}
-        pictures={pictures}
-        handleCameraReady={handleCameraReady}
-        ratio={ratio}
-        camera={camera}
-        fakeActivity={fakeActivity}
-        handleTakePicture={handleTakePicture}
-      />
-    );
+    return <CameraMobileBrowserView />;
   }
 
   return (
