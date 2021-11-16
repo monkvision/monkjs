@@ -47,14 +47,12 @@ export default function SignIn() {
   }, [promptAsync]);
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      if (response.authentication?.accessToken) {
-        dispatch(authSlice.actions.update({
-          ...response.authentication,
-          isLoading: false,
-          isSignedOut: false,
-        }));
-      }
+    if (response?.type === 'success' && response.authentication?.accessToken) {
+      dispatch(authSlice.actions.update({
+        ...response.authentication,
+        isLoading: false,
+        isSignedOut: false,
+      }));
     }
   }, [dispatch, request, response]);
 
