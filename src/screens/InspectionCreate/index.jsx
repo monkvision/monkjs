@@ -2,7 +2,7 @@ import { selectInspectionById } from '@monkvision/corejs/src';
 import React, { useCallback, useEffect } from 'react';
 
 import { CameraView } from '@monkvision/react-native-views';
-import { createOneInspection } from '@monkvision/corejs';
+import { createOneInspection, createOneImage } from '@monkvision/corejs';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector, useStore } from 'react-redux';
@@ -49,7 +49,18 @@ export default () => {
   const handleTakePicture = useCallback((picture) => {
     // eslint-disable-next-line no-console
     console.log(picture);
-  }, []);
+    const data = new FormData();
+    data.append('json', JSON.stringify({
+      acquisition: {
+        strategy: 'upload_multipart_form_keys',
+        file_key: 'image',
+      },
+      tasks: ['damage_detection'],
+    }));
+    data.append('image', picture.source.uri);
+
+    dispatch(createOneImage({ baseUrl, data, inspectionId: inspection.id, axiosRequestConfig: { headers: { 'Content-Type': 'multipart/form-data' } } }));
+  }, [dispatch, inspection]);
 
   useEffect(() => {
     if (loading !== 'pending' && freshlyCreated === null && !error) {
