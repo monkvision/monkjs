@@ -1,5 +1,13 @@
-import { useAuth0 } from '@auth0/auth0-react';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function useAuth() {
-  return useAuth0();
+  const auth = useSelector((state) => state.auth);
+
+  const isAuthenticated = useMemo(
+    () => Boolean(auth.accessToken),
+    [auth],
+  );
+
+  return { ...auth, isAuthenticated };
 }

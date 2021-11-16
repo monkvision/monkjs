@@ -23,6 +23,7 @@ module.exports = {
     'import/namespace': ['error', { allowComputed: true }],
     'object-curly-newline': 'off',
     'no-underscore-dangle': 'off',
+    'no-param-reassign': ['error', { props: false }],
   },
   overrides: [
     {

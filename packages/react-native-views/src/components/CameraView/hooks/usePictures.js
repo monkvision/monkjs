@@ -12,7 +12,7 @@ import useSights from './useSights';
  * @returns {{
  *   activeSight: Object,
  *   sightsCount: number,
- *   handleTakePicture: ((function(): Promise<void>)|*),
+ *   handleTakePicture: function,
  *   pictures: {}
  * }}
  */
@@ -27,7 +27,7 @@ function usePictures(camera, sights, onTakePicture, handleFakeActivity = noop) {
 
     const options = { quality: 1 };
     const picture = await camera.takePictureAsync(options);
-    const payload = { sight: activeSight, source: picture };
+    const payload = { sight: activeSight.toPlainObject(), source: picture };
 
     setPictures((prevState) => ({ ...prevState, [activeSight.id]: payload }));
     onTakePicture(payload);

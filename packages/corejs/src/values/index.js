@@ -1,4 +1,4 @@
-import sights from './sights/index.json';
+import sights from '../sights/sightsValues.json';
 
 export default {
   sights,

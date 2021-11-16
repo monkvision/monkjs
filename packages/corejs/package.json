@@ -36,18 +36,12 @@
     "lint": "eslint src --cache",
     "build": "babel src --out-dir lib --source-maps"
   },
-  "peerDependencies": {
-    "@reduxjs/toolkit": "*",
-    "react": "^16.14.0 || ^17.0.0",
-    "react-redux": "^7.2.1"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-redux": {
-      "optional": true
-    }
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
+    "axios": "^0.24.0",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.isplainobject": "^4.0.6",
+    "lodash.mapkeys": "^4.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
