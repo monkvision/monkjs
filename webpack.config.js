@@ -13,6 +13,7 @@ module.exports = async function (env, argv) {
   config.resolve.alias.hooks = path.resolve(__dirname, './src/hooks');
   config.resolve.alias.screens = path.resolve(__dirname, './src/screens');
   config.resolve.alias.store = path.resolve(__dirname, './src/store');
+  config.resolve.alias.Navigation = path.resolve(__dirname, './src/Navigation');
 
   config.resolve.alias['@monkvision/corejs'] = path.resolve(__dirname, './packages/corejs');
   config.resolve.alias['@monkvision/react-native'] = path.resolve(__dirname, './packages/react-native');

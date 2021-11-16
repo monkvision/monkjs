@@ -1,17 +1,19 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
 
+import { Image, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import SightsWheelCar from './SightsWheelCar';
+import propTypes from '../propTypes';
+import * as sightMasks from '../../assets/sightMasks';
 
 const externalSize = 116; // in pixels, the complete size of the wheel and the spacing around it
-const makeStyles = ({ colors }) => ({
+const makeStyles = ({ colors }, isInterior) => ({
   externalSize,
   outerCircleRadius: 100 / externalSize / 2, // between 0 and 0.5 (there would be no spacing)
   innerCircleRadius: 0.7 * (100 / externalSize / 2), // between 0 and outerCircleRadius
-  circleBackground: 'white',
+  circleBackground: isInterior ? 'transparent' : 'white',
   activeBackground: colors.accent,
   activeBorder: 'white',
   activeBorderWidth: '0.016',
@@ -21,6 +23,17 @@ const makeStyles = ({ colors }) => ({
   emptyBackground: 'white',
   emptyBorder: 'grey',
   emptyBorderWidth: '0',
+  svg: {
+    zIndex: 1,
+  },
+  sightMask: {
+    width: 80,
+    height: 60,
+    position: 'absolute',
+    top: (116 - 60) / 2,
+    left: (116 - 80) / 2,
+    zIndex: 0,
+  },
 });
 
 /* We can probably do this in a better way, maybe using https://lodash.com/docs/#range and .map? */
@@ -93,7 +106,7 @@ const sectionSvgProps = (isActive, isFilled, style) => {
 /**
  * A component to represents sights, in different states, around a vehicle.
  *
- * @param activeSightId {string}
+ * @param activeSight {{}}
  *    the (optional) id of a sight whose section will get style with the 'active'
  * @param children {node}
  *    the center of the wheel, would typically contain a vehicle
@@ -110,15 +123,23 @@ const sectionSvgProps = (isActive, isFilled, style) => {
  * @constructor
  */
 function SightsWheel({
-  activeSightId,
+  activeSight,
   filledSightIds,
   sights,
   theme,
 }) {
-  const styles = makeStyles(theme);
+  const activeSightId = activeSight.id;
+
+  const isExterior = useMemo(() => activeSight.flags.includes('exterior'), [activeSight.flags]);
+  const isInterior = useMemo(() => !isExterior, [isExterior]);
+
+  const styles = makeStyles(theme, isInterior);
 
   const [sightsCount, startsInFront] = useMemo(
-    () => [sights.length, sights[0]?.poz?.o === 0],
+    () => [
+      sights.filter((value) => value.flags.includes('exterior')).length,
+      sights[0]?.poz?.o === 0,
+    ],
     [sights],
   );
 
@@ -153,27 +174,33 @@ function SightsWheel({
 
   return (
     <View>
-      <Svg width={styles.externalSize} height={styles.externalSize} viewBox="-0.5 -0.5 1 1">
+      <Svg
+        width={styles.externalSize}
+        height={styles.externalSize}
+        viewBox="-0.5 -0.5 1 1"
+        style={styles.svg}
+      >
         <Circle cx={0} cy={0} r={styles.outerCircleRadius} fill={styles.circleBackground} />
         {SectionComponents}
       </Svg>
-      <SightsWheelCar />
+      {isExterior ? <SightsWheelCar /> : (
+        <Image
+          source={sightMasks[activeSightId]}
+          style={styles.sightMask}
+        />
+      )}
     </View>
   );
 }
 
 SightsWheel.propTypes = {
-  activeSightId: PropTypes.string,
+  activeSight: propTypes.sight.isRequired,
   filledSightIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  sights: PropTypes.arrayOf(PropTypes.object).isRequired,
-  theme: PropTypes.shape({ colors: {
-    accent: PropTypes.string,
-    primary: PropTypes.string,
-  } }),
+  sights: propTypes.sights.isRequired,
+  theme: propTypes.theme,
 };
 
 SightsWheel.defaultProps = {
-  activeSightId: '',
   theme: { colors: { accent: '#7af7ff', primary: '#274b9f' } },
 };
 

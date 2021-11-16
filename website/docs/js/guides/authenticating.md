@@ -12,12 +12,12 @@ and we will direct you to the section dedicated to authentication for more info.
 
 Install `@monkvision/corejs` from `npm`
 ``` npm
-npm install @monkvision/corejs @reduxjs/toolkit --save
+npm install @monkvision/corejs --save
 ```
 
 Install `@monkvision/corejs` from `yarn`
 ``` yarn
-yarn add @monkvision/corejs @reduxjs/toolkit
+yarn add @monkvision/corejs
 ```
 
 Then we start by instantiating the core with an object of type `BaseQuery`.

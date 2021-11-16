@@ -6,20 +6,28 @@ slug: /js/guides/picturing
 
 We open a React based project with our favorite IDE, then we import the Camera view.
 
-``` javascript
+```javascript
 /* App.jsx */
 
 import React from 'react';
-import { CameraView } from '@monkvision/react-native-views';
+import { useIcons } from '@monkvision/react-native';
+import { CameraView, theme } from '@monkvision/react-native-views';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 export default function App() {
-  return <CameraView />;
+  useIcons();
+
+  return (
+    <PaperProvider theme={theme}>
+      <CameraView />
+    </PaperProvider>
+  );
 }
 ```
 
 This will create a tunnel view for taking pictures. ``<CameraView />`` takes callbacks and compose with your own logic.
 
-``` javascript
+```javascript
 const handleCloseCamera = React.useCallback((pictures) => {
     console.log(pictures); // [[Sight, Source], ...]
   }, []);
@@ -44,7 +52,7 @@ A capture scheme is a list of sights `[Sight]` with a unique string `id` and [cy
 
 > If our AI can work without this metadata, it analyzes much more easily with it. The Camera view then embeds a list of default sights that you can customize in the near future.
 
-`const sight = new Sight('abstractFront', [null, 0, null], 'Front');`
+`const sight = new Sight('abstractFront', [null, 0, null], 'Front', ['exterior']);`
 
 This scheme will enable a wheel indicator displaying the angle we need to take the picture.
 Plus an overlay is completing the view helping to take position before taking the picture.

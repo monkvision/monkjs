@@ -7,16 +7,10 @@ slug: /js/api/react-native
 
 Install with `npm`
 ``` npm
-npm install @monkvision/react-native prop-types react react-native react-native-svg --save
+npm install @monkvision/react-native
 ```
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/react-native prop-types react react-native react-native-svg
+yarn add @monkvision/react-native
 ```
-
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/react-native/package.json):
- ``` json
-"react-native-web": "*",
-"react-native-svg": "*"
- ```

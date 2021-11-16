@@ -1,19 +1,20 @@
+# 👁️‍🗨️ @monkvision/monkjs ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
+
 ![Monk banner](assets/banner.png)
 
 🧿 **Get a fully automated damage report classified by type, car parts, position and severity.**
 
 ![@monkvision/corejs](https://github.com/monkvision/monkjs/actions/workflows/corejs-analyze.yml/badge.svg)
 ![@monkvision/react-native](https://github.com/monkvision/monkjs/actions/workflows/react-native-analyze.yml/badge.svg)
-![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
+![@monkvision/react-native-views](https://github.com/monkvision/monkjs/actions/workflows/react-native-views-analyze.yml/badge.svg)
 
 ## 📖 Documentation
 
-![Build](https://github.com/monkvision/monkjs/actions/workflows/website-deploy.yml/badge.svg)
-
 * [Getting started](https://monkvision.github.io/monkjs/docs)
   * [🏁 Overview](https://monkvision.github.io/monkjs/docs/)
-  * [📦 Installation](https://monkvision.github.io/monkjs/docs/install)
+  * [📦 Installation](https://monkvision.github.io/monkjs/docs/installation)
 * [Guides](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
+  * [⚙️ Setting up](https://monkvision.github.io/monkjs/docs/js/guides/setting-up)
   * [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing)
   * [🔓 Authenticate](https://monkvision.github.io/monkjs/docs/js/guides/authenticating)
 * [🧯 Troubleshooting](https://monkvision.github.io/monkjs/docs/troubleshooting)

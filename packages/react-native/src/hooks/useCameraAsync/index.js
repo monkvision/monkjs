@@ -1,45 +1,63 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import noop from 'lodash.noop';
+
+import utils from '../../components/utils';
 
 /**
- * Hooks initiating camera on mount with async results.
- * 1. async for permissions
- * 2. async for availability
- * 3. lock screen orientation
- * @returns {{ hasPermission: boolean, isAvailable: boolean }}
+ * @returns {[unknown, {isAvailable: null, hasPermission: null, isLockInLandscape: null}]}
  */
 export default function useCameraAsync() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [isAvailable, setAvailable] = useState(null);
+  const isNative = useMemo(
+    () => Platform.select({ native: true, default: false }),
+    [],
+  );
+
+  const isAlwaysAvailable = useMemo(
+    () => Platform.OS !== 'web' && utils.getOS() !== 'iOS',
+    [],
+  );
+
+  const [cameraAsync, setCameraAsync] = useState({
+    hasPermission: null,
+    isAvailable: isAlwaysAvailable,
+    isLockInLandscape: null,
+  });
+
+  const cameraCanMount = useMemo(() => {
+    const {
+      hasPermission,
+      isAvailable,
+      isLockInLandscape,
+    } = cameraAsync;
+
+    return hasPermission && isAvailable && isLockInLandscape;
+  }, [cameraAsync]);
 
   useEffect(() => {
     (async () => {
-      // PERMISSIONS
       const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-
-      // AVAILABILITY
-      setAvailable(
-        ['android', 'ios'].includes(Platform.OS)
-        || await Camera.isAvailableAsync(),
+      const isAvailable = isAlwaysAvailable || await Camera.isAvailableAsync();
+      const isLockInLandscape = !isNative || await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
       );
+
+      setCameraAsync({
+        hasPermission: status === 'granted',
+        isAvailable,
+        isLockInLandscape,
+      });
     })();
 
-    if (!['android', 'ios'].includes(Platform.OS)) {
-      return noop;
-    }
+    return () => {
+      if (isNative) {
+        ScreenOrientation.unlockAsync(
+          ScreenOrientation.Orientation.PORTRAIT_UP,
+        );
+      }
+    };
+  }, [isAlwaysAvailable, isNative]);
 
-    async function changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-    }
-
-    changeScreenOrientation();
-
-    return () => ScreenOrientation.unlockAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
-  }, []);
-
-  return { hasPermission, isAvailable };
+  return [cameraCanMount, cameraAsync];
 }

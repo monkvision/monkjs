@@ -1,39 +1,26 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useCallback } from 'react';
+import { Button } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
+import { View } from 'react-native';
 
-import Header from 'components/Header';
+import { getAllInspections, selectAllInspections } from '@monkvision/corejs';
 
-import InspectionsHome from 'screens/Inspections/Home';
-import InspectionsCreate from 'screens/Inspections/Create';
+import baseUrl from 'config/baseUrl';
 
-const Stack = createNativeStackNavigator();
+export default () => {
+  const dispatch = useDispatch();
+  const inspections = useSelector(selectAllInspections);
 
-export default function Inspections() {
+  // eslint-disable-next-line no-console
+  console.log(inspections);
+
+  const getAll = useCallback(() => {
+    dispatch(getAllInspections({ baseUrl }));
+  }, [dispatch]);
+
   return (
-    <Stack.Navigator
-      initialRouteName="InspectionsHome"
-      screenOptions={{
-        header: (props) => (
-          <Header {...props} />
-        ),
-      }}
-    >
-      <Stack.Screen
-        name="InspectionsHome"
-        component={InspectionsHome}
-        options={{
-          title: 'Inspections',
-          children: <InspectionsHome.RightActions />,
-        }}
-      />
-      <Stack.Screen
-        name="InspectionsCreate"
-        component={InspectionsCreate}
-        options={{
-          title: 'New inspection',
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
+    <View>
+      <Button onPress={getAll}>Get All</Button>
+    </View>
   );
-}
+};

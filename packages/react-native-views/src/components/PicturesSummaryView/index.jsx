@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { CameraSideBar, PicturesScrollPreview, utils } from '@monkvision/react-native';
+import Components, { utils, propTypes } from '@monkvision/react-native';
+
 import { Image, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { FAB, Snackbar, Text, useTheme } from 'react-native-paper';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -36,15 +36,15 @@ const styles = StyleSheet.create({
 /**
  * @param p {{}}
  * @param onNextPicture {func}
- * @param onTourEnd {func}
+ * @param onSuccess {func}
  * @param sights {[[]]}
  * @returns {JSX.Element}
  * @constructor
  */
 export default function PicturesSummaryView({
-  cameraViewPictures: p,
+  cameraPictures: p,
   onNextPicture,
-  onTourEnd,
+  onSuccess,
   sights,
 }) {
   const { colors } = useTheme();
@@ -66,7 +66,7 @@ export default function PicturesSummaryView({
     const next = activeSightIndex + 1;
 
     if (next === sights.length) {
-      onTourEnd();
+      onSuccess();
     } else {
       if (next === sights.length - 1) {
         toggleSnackBar();
@@ -75,7 +75,7 @@ export default function PicturesSummaryView({
       setActiveSightIndex((prev) => prev + 1);
       onNextPicture(p[next], next, p[activeSightIndex]);
     }
-  }, [activeSightIndex, sights.length, onTourEnd, onNextPicture, p]);
+  }, [activeSightIndex, sights.length, onSuccess, onNextPicture, p]);
 
   useEffect(() => {
     async function changeScreenOrientation() {
@@ -91,7 +91,7 @@ export default function PicturesSummaryView({
     <>
       <StatusBar hidden />
       <SafeAreaView style={styles.root}>
-        <PicturesScrollPreview
+        <Components.PicturesScrollPreview
           activeSight={activeSight}
           pictures={p}
           sights={sights}
@@ -107,7 +107,7 @@ export default function PicturesSummaryView({
           alt={activeSightIndex.label}
           style={styles.image}
         />
-        <CameraSideBar>
+        <Components.CameraSideBar>
           <FAB
             accessibilityLabel="Next"
             disabled={activeSightIndex === p.length - 1}
@@ -116,7 +116,7 @@ export default function PicturesSummaryView({
             onPress={handleNext}
             style={styles.next}
           />
-        </CameraSideBar>
+        </Components.CameraSideBar>
       </SafeAreaView>
       <Snackbar
         visible={visibleSnack}
@@ -133,13 +133,14 @@ export default function PicturesSummaryView({
 }
 
 PicturesSummaryView.propTypes = {
-  cameraViewPictures: PropTypes.objectOf(PropTypes.object).isRequired,
-  onNextPicture: PropTypes.func,
-  onTourEnd: PropTypes.func,
-  sights: PropTypes.arrayOf(PropTypes.array).isRequired,
+  cameraPictures: propTypes.cameraPictures.isRequired,
+  // onError: propTypes.onError,
+  onNextPicture: propTypes.callback,
+  onSuccess: propTypes.onSuccess,
+  sights: propTypes.sights.isRequired,
 };
 
 PicturesSummaryView.defaultProps = {
   onNextPicture: noop,
-  onTourEnd: noop,
+  onSuccess: noop,
 };

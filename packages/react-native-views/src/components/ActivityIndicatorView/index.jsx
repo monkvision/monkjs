@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 export default function ActivityIndicatorView({ hideIndicator }) {
   return (
     <View style={styles.root}>
-      {!hideIndicator && <ActivityIndicator color="white" />}
+      {!hideIndicator ? <ActivityIndicator color="white" /> : null}
     </View>
   );
 }
