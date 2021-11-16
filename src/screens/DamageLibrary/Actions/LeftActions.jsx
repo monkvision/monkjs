@@ -3,8 +3,8 @@ import { StyleSheet, View, Platform, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import Vehicle from '@monkvision/react-native/src/components/Vehicle';
-import { classic as classicCar } from '../../../../assets/svg/vehicles';
+import { Vehicle } from '@monkvision/react-native';
+import vehicleViews from 'assets/vehicle.json';
 
 const styles = StyleSheet.create({
   root: {
@@ -54,7 +54,7 @@ export default function DamageLibraryLeftActions(props) {
         <TouchableOpacity onPress={() => handlePress('front')}>
           <Vehicle
             pressAble={false}
-            xml={classicCar.front}
+            xml={vehicleViews.front}
             activeParts={activeParts}
             width={52}
             height={92}
@@ -66,7 +66,7 @@ export default function DamageLibraryLeftActions(props) {
         <TouchableOpacity onPress={() => handlePress('back')}>
           <Vehicle
             pressAble={false}
-            xml={classicCar.back}
+            xml={vehicleViews.back}
             activeParts={activeParts}
             width={52}
             height={92}
@@ -74,11 +74,11 @@ export default function DamageLibraryLeftActions(props) {
         </TouchableOpacity>
       </View>
 
-      <View onPress={handlePress} style={selected === 'top' ? [styles.card, styles.cardSelected] : [styles.card]}>
-        <TouchableOpacity onPress={() => handlePress('top')}>
+      <View onPress={handlePress} style={selected === 'interior' ? [styles.card, styles.cardSelected] : [styles.card]}>
+        <TouchableOpacity onPress={() => handlePress('interior')}>
           <Vehicle
             pressAble={false}
-            xml={classicCar.top}
+            xml={vehicleViews.interior}
             activeParts={activeParts}
             width={52}
             height={92}

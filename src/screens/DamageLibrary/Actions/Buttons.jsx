@@ -47,7 +47,6 @@ export const ValidateButton = ({ onPress, text }) => {
   );
 };
 
-
 export const GuideButton = ({ onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={styles.guideIcon}>

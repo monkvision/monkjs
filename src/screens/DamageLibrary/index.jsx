@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
-import { Surface, IconButton, ProgressBar, Text, Colors } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Vehicle from '@monkvision/react-native/src/components/Vehicle';
-import monkCore from 'config/monkCore';
-import useMinLoadingTime from 'hooks/useMinLoadingTime';
-import ActivityIndicatorScreen from 'screens/ActivityIndicator';
-import { getInitialActiveParts } from '../../../utils/inspection.utils';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-import { classic as classicCar } from '../../../assets/svg/vehicles';
+import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+import { Vehicle } from '@monkvision/react-native';
+import { useFakeActivity, ActivityIndicatorView } from '@monkvision/react-native-views';
+
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Surface, ProgressBar, Text, Colors } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import baseUrl from 'config/baseUrl';
+import vehicleViews from 'assets/vehicle.json';
+
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
-
-const { useGetInspectionByIdQuery } = monkCore.inspection;
 
 const styles = StyleSheet.create({
   root: {
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 40,
     position: 'absolute',
+    top: 16,
   },
   close: {
     transform: [{ scale: 1.3 }],
@@ -93,37 +95,37 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DamageLibrary({ navigation, route }) {
+export default function DamageLibrary() {
+  const store = useStore();
+  const dispatch = useDispatch();
+
+  const inspectionId = '57dc368c-785a-b7ef-570f-6b8771b4bc49'; // SAMPLE INSPECTION
+  const inspection = selectInspectionById(store.getState(), inspectionId);
+  const { loading, error } = useSelector(((state) => state.inspections));
+
   const [currentView, setCurrentView] = useState('front');
   const [activeParts, setActiveParts] = useState({});
 
-  const inspectionId = route.params?.inspectionId ?? '57dc368c-785a-b7ef-570f-6b8771b4bc49'; // SAMPLE INSPECTION
-  const { isLoading, data } = useGetInspectionByIdQuery(inspectionId);
-  const minLoading = useMinLoadingTime(isLoading);
+  const [fakeActivity] = useFakeActivity(loading === 'pending');
 
-  const goBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.navigate('Inspections');
-    }
-  };
-
-  const handlePress = (id, isActive, localActiveParts) => {
-    console.log(id, isActive, localActiveParts);
+  const handlePress = (id, isActive) => {
     setActiveParts((prev) => ({ ...prev, [id]: isActive }));
   };
 
-  useEffect(() => { setActiveParts(getInitialActiveParts(data)); }, [data]);
+  useEffect(() => {
+    if (loading !== 'pending' && !inspection && !error) {
+      dispatch(getOneInspectionById({ baseUrl, id: inspectionId }));
+    }
+  }, [dispatch, error, inspection, loading]);
 
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
         <View style={styles.vehicle}>
-          {minLoading ? (<ActivityIndicatorScreen />) : (
+          {fakeActivity ? (<ActivityIndicatorView light />) : (
             <Vehicle
               pressAble
-              xml={classicCar[currentView]}
+              xml={vehicleViews[currentView]}
               onPress={handlePress}
               activeParts={activeParts}
               width="100%"
@@ -132,13 +134,6 @@ export default function DamageLibrary({ navigation, route }) {
           )}
         </View>
         <View style={styles.header}>
-          <IconButton
-            accessibilityLabel="Cancel"
-            icon="close"
-            onPress={goBack}
-            style={styles.close}
-            color={Colors.grey700}
-          />
           <View style={styles.progressContainer}>
             <Text style={styles.progressText}>70%</Text>
             <ProgressBar progress={0.5} color={Colors.blue300} style={styles.progressBar} />
@@ -148,10 +143,28 @@ export default function DamageLibrary({ navigation, route }) {
           <Text style={styles.helpText}>Click on the vehicle parts to add damage </Text>
           <MaterialCommunityIcons name="brain" color="#274B9F" size={30} />
         </View>
-        {/* eslint-disable-next-line max-len */}
-        <DamageLibraryLeftActions selected={currentView} handlePress={(selected) => setCurrentView(selected)} activeParts={activeParts} />
-        <View style={styles.guideBtnContainer}><GuideButton onPress={() => console.log('open guide')} /></View>
-        <View style={styles.validateBtnContainer}><ValidateButton style={styles.validateBtn} text="Validate report" onPress={() => console.log('validate damages')} /></View>
+        <DamageLibraryLeftActions
+          selected={currentView}
+          handlePress={(selected) => setCurrentView(selected)}
+          activeParts={activeParts}
+        />
+        <View style={styles.guideBtnContainer}>
+          <GuideButton onPress={
+            // eslint-disable-next-line no-console
+            () => console.log('open guide')
+          }
+          />
+        </View>
+        <View style={styles.validateBtnContainer}>
+          <ValidateButton
+            style={styles.validateBtn}
+            text="Validate report"
+            onPress={
+              // eslint-disable-next-line no-console
+              () => console.log('validate damages')
+            }
+          />
+        </View>
       </Surface>
     </SafeAreaView>
   );

@@ -84,34 +84,42 @@ SVGComponent.propTypes = {
  * @param pressAble {bool}
  * @param onPress {func}
  * @param xml {string}
+ * @param initialActiveParts
+ * @param activeParts
  * @param passThroughProps
  * @returns {JSX.Element}
  * @constructor
  */
 export default function Vehicle({
-  activeMixedColor, onPress, pressAble, xml, intialActiveParts, activeParts, ...passThroughProps
+  activeMixedColor,
+  onPress,
+  pressAble,
+  xml,
+  initialActiveParts,
+  activeParts,
+  ...passThroughProps
 }) {
   const [parsedSvg, setParsedSvg] = useState();
-  const [localActiveParts, setActiveParts] = useState(intialActiveParts);
+  const [controlledActiveParts, setActiveParts] = useState(initialActiveParts);
 
   const handlePress = useCallback((id) => {
     if (id !== undefined && pressAble === true) {
-      const activePart = activeParts !== undefined ? activeParts[id] : localActiveParts[id];
+      const activePart = activeParts !== undefined ? activeParts[id] : controlledActiveParts[id];
       const isActive = isBoolean(activePart) ? !activePart : true;
 
       setActiveParts((prev) => ({ ...prev, [id]: isActive }));
 
       onPress(id, isActive, activeParts);
     }
-  }, [activeParts, localActiveParts, onPress, pressAble]);
+  }, [activeParts, controlledActiveParts, onPress, pressAble]);
 
   const getFillColor = useCallback((id, defaultColor) => {
-    const activePart = activeParts !== undefined ? activeParts[id] : localActiveParts[id];
+    const activePart = activeParts !== undefined ? activeParts[id] : controlledActiveParts[id];
 
     return activePart
       ? tinycolor.mix(activeMixedColor, defaultColor).toHexString()
       : defaultColor;
-  }, [activeMixedColor, activeParts, localActiveParts]);
+  }, [activeMixedColor, activeParts, controlledActiveParts]);
 
   useEffect(() => {
     xml2js.parseString(xml, (e, result) => {
@@ -133,7 +141,7 @@ export default function Vehicle({
 Vehicle.propTypes = {
   activeMixedColor: PropTypes.string,
   activeParts: PropTypes.objectOf(PropTypes.bool),
-  intialActiveParts: PropTypes.objectOf(PropTypes.bool),
+  initialActiveParts: PropTypes.objectOf(PropTypes.bool),
   onPress: PropTypes.func,
   pressAble: PropTypes.bool,
   xml: PropTypes.string.isRequired,
@@ -142,7 +150,7 @@ Vehicle.propTypes = {
 Vehicle.defaultProps = {
   activeMixedColor: '#fa603d',
   activeParts: {},
-  intialActiveParts: {},
+  initialActiveParts: {},
   onPress: noop,
   pressAble: false,
 };

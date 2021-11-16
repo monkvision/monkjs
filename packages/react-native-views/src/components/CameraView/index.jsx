@@ -5,7 +5,7 @@ import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
 import noop from 'lodash.noop';
 
-import useFakeActivity from './hooks/useFakeActivity';
+import useFakeActivity from '../../hooks/useFakeActivity';
 import usePictures from './hooks/usePictures';
 import useSuccess from './hooks/useSuccess';
 import useUI from './hooks/useUI';

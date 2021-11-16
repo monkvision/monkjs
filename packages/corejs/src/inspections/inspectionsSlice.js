@@ -32,9 +32,18 @@ export const createOneInspection = createAsyncThunk(
   },
 );
 
-const handlePending = (state) => { state.loading = 'pending'; };
-const handleRejected = (state) => { state.loading = 'idle'; };
+const handlePending = (state) => {
+  state.error = false;
+  state.loading = 'pending';
+};
+
+const handleRejected = (state, action) => {
+  state.loading = 'idle';
+  state.error = action.error;
+};
+
 const handleFulfilled = (state, action) => {
+  state.error = false;
   state.loading = 'idle';
   inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
 };
@@ -42,6 +51,7 @@ const handleFulfilled = (state, action) => {
 export const slice = createSlice({
   name: 'inspections',
   initialState: inspectionsAdapter.getInitialState({
+    error: false,
     loading: 'idle',
     freshlyCreated: null,
   }),
