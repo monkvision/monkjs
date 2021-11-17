@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
 import noop from 'lodash.noop';
 
-import useFakeActivity from './hooks/useFakeActivity';
+import useFakeActivity from '../../hooks/useFakeActivity';
 import usePictures from './hooks/usePictures';
 import useSuccess from './hooks/useSuccess';
 import useUI from './hooks/useUI';
@@ -46,6 +47,7 @@ const makeRatio = (width, height) => `${(width - SIDEBAR_WIDTH) / 240}:${height 
 
 /**
  *
+ * @param isLoading {boolean}
  * @param onCloseCamera {func}
  * @param onShowAdvice {func}
  * @param onTakePicture {func}
@@ -55,6 +57,7 @@ const makeRatio = (width, height) => `${(width - SIDEBAR_WIDTH) / 240}:${height 
  * @constructor
  */
 export default function CameraView({
+  isLoading,
   onCloseCamera,
   onShowAdvice,
   onTakePicture,
@@ -65,7 +68,7 @@ export default function CameraView({
   const [camera, handleCameraReady] = useState();
 
   // Use fake activity when you need to render ActivityIndicator for better UX
-  const [fakeActivity, handleFakeActivity] = useFakeActivity();
+  const [fakeActivity, handleFakeActivity] = useFakeActivity(isLoading);
 
   // Wraps taken pictures with Sights sights prop and metadata
   const picturesWrapper = usePictures(camera, sights, onTakePicture, handleFakeActivity);
@@ -134,6 +137,7 @@ export default function CameraView({
 }
 
 CameraView.propTypes = {
+  isLoading: PropTypes.bool,
   onCloseCamera: propTypes.callback,
   // onError: propTypes.onError,
   onShowAdvice: propTypes.callback,
@@ -143,6 +147,7 @@ CameraView.propTypes = {
 };
 
 CameraView.defaultProps = {
+  isLoading: false,
   onCloseCamera: noop,
   // onError: noop,
   onShowAdvice: noop,

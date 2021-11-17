@@ -21,6 +21,15 @@ export default class Sight {
     `;
   }
 
+  toPlainObject() {
+    return {
+      id: this.id,
+      label: this.label,
+      flags: this.flags,
+      poz: Object.values(this.poz),
+    };
+  }
+
   get id() {
     return this._id;
   }

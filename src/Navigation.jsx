@@ -79,6 +79,11 @@ export default function Navigation() {
         />
 
         <Stack.Screen
+          name={names.DAMAGE_LIBRARY}
+          component={Screens.DamageLibrary}
+        />
+
+        <Stack.Screen
           name={names.DAMAGE_UPDATE}
           component={Screens.DamageUpdate}
         />
