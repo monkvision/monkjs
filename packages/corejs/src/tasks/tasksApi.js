@@ -17,13 +17,12 @@ import axios from 'axios';
  * @returns {Promise}
  */
 // eslint-disable-next-line import/prefer-default-export
-export function createOne({
-  inspectionId, data, baseUrl, ...axiosRequestConfig
+export function updateOne({
+  inspectionId, taskName, data, baseUrl, ...axiosRequestConfig
 }) {
-  // console.log(inspectionId, axiosRequestConfig);
   return axios.request({
-    method: 'post',
-    url: `${baseUrl}/inspections/${inspectionId}/images`,
+    method: 'patch',
+    url: `${baseUrl}/inspections/${inspectionId}/tasks/${taskName}`,
     data,
     ...axiosRequestConfig,
   }).catch((e) => console.error(e));

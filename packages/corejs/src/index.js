@@ -20,6 +20,14 @@ export const {
   selectTotal: selectTotalImages,
 } = imagesAdapter.getSelectors((state) => state.images);
 
+export const {
+  selectById: selectTaskById,
+  selectIds: selectTaskIds,
+  selectEntities: selectTaskEntities,
+  selectAll: selectAllTasks,
+  selectTotal: selectTotalTasks,
+} = imagesAdapter.getSelectors((state) => state.images);
+
 export {
   default as inspections,
   getOneInspectionById,
@@ -31,5 +39,10 @@ export {
   default as images,
   createOneImage,
 } from './images/imagesSlice';
+
+export {
+  default as tasks,
+  updateOneTask,
+} from './tasks/tasksSlice';
 
 export { default as config } from './config';

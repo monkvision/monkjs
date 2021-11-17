@@ -2,7 +2,7 @@ import { selectInspectionById } from '@monkvision/corejs/src';
 import React, { useCallback, useEffect } from 'react';
 
 import { CameraView } from '@monkvision/react-native-views';
-import { createOneInspection, createOneImage } from '@monkvision/corejs';
+import { createOneInspection, createOneImage, updateOneTask } from '@monkvision/corejs';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector, useStore } from 'react-redux';
@@ -37,10 +37,14 @@ export default () => {
   const handleSuccess = useCallback((payload) => {
     // eslint-disable-next-line no-console
     console.log(payload);
-    navigation.navigate(DAMAGE_LIBRARY, { inspectionId: inspection?.id });
-
-    // Use API to get predictions
-  }, [inspection?.id, navigation]);
+    // start inspection prediction task
+    try {
+      const params = { inspectionId: inspection.id, taskName: 'damage_detection', data: { status: 'TODO' } };
+      dispatch(updateOneTask(params));
+      navigation.navigate(DAMAGE_LIBRARY, { inspectionId: inspection?.id });
+      // Use API to get predictions
+    } catch (err) { console.error(err); }
+  }, [dispatch, inspection?.id, navigation]);
 
   const handleClose = useCallback(() => {
     navigation.navigate(GETTING_STARTED);
@@ -49,7 +53,7 @@ export default () => {
   const handleTakePicture = useCallback((picture) => {
     // eslint-disable-next-line no-console
     console.log(picture);
-    const baseParams = { baseUrl, inspectionId: inspection.id, axiosRequestConfig: { headers: { 'Content-Type': 'multipart/form-data' } } };
+    const baseParams = { inspectionId: inspection.id, axiosRequestConfig: { headers: { 'Content-Type': 'multipart/form-data' } } };
     const multiPartKeys = { image: 'image', json: 'json', filename: `${inspection.id}.png`, type: 'image/png' };
     const jsonData = JSON.stringify({
       acquisition: {
