@@ -49,17 +49,23 @@ export default () => {
   const handleTakePicture = useCallback((picture) => {
     // eslint-disable-next-line no-console
     console.log(picture);
-    const data = new FormData();
-    data.append('json', JSON.stringify({
+    const baseParams = { baseUrl, inspectionId: inspection.id, axiosRequestConfig: { headers: { 'Content-Type': 'multipart/form-data' } } };
+    const multiPartKeys = { image: 'image', json: 'json', filename: `${inspection.id}.png`, type: 'image/png' };
+    const jsonData = JSON.stringify({
       acquisition: {
         strategy: 'upload_multipart_form_keys',
-        file_key: 'image',
+        file_key: multiPartKeys.image,
       },
       tasks: ['damage_detection'],
-    }));
-    data.append('image', picture.source.uri);
-
-    dispatch(createOneImage({ baseUrl, data, inspectionId: inspection.id, axiosRequestConfig: { headers: { 'Content-Type': 'multipart/form-data' } } }));
+    });
+    fetch(picture.source.uri).then((res) => res.blob()) // res.arrayBuffer()
+      .then((buf) => new File([buf], multiPartKeys.filename, { type: multiPartKeys.type }))
+      .then((imageFile) => {
+        const data = new FormData();
+        data.append(multiPartKeys.json, jsonData);
+        data.append(multiPartKeys.image, imageFile);
+        dispatch(createOneImage({ ...baseParams, data }));
+      });
   }, [dispatch, inspection]);
 
   useEffect(() => {

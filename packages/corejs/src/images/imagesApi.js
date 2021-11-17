@@ -17,11 +17,14 @@ import axios from 'axios';
  * @returns {Promise}
  */
 // eslint-disable-next-line import/prefer-default-export
-export function createOne({ inspectionId, data, baseUrl, ...axiosRequestConfig }) {
+export function createOne({
+  inspectionId, data, baseUrl, isNative, ...axiosRequestConfig
+}) {
+  // console.log(inspectionId, axiosRequestConfig);
   return axios.request({
     method: 'post',
     url: `${baseUrl}/inspections/${inspectionId}/images`,
     data,
     ...axiosRequestConfig,
-  });
+  }).catch((e) => console.warn(e));
 }

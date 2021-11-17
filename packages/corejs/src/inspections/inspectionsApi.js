@@ -86,3 +86,12 @@ export function createOne({ data, ...customReqConfig }) {
     ...customReqConfig,
   });
 }
+
+export function update({ data, baseUrl, ...axiosRequestConfig }) {
+  return axios.request({
+    method: 'post',
+    url: `${baseUrl}/inspections`,
+    data,
+    ...axiosRequestConfig,
+  });
+}
