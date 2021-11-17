@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.DAMAGE_LIBRARY}>
+      <Stack.Navigator initialRouteName={names.GETTING_STARTED}>
 
         <Stack.Screen
           name={names.GETTING_STARTED}

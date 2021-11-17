@@ -1,8 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 
-import config from '../config';
-
 import * as api from './inspectionsApi';
 import { entity } from './inspectionsEntity';
 
@@ -10,24 +8,24 @@ export const inspectionsAdapter = createEntityAdapter();
 
 export const getOneInspectionById = createAsyncThunk(
   'inspections/getOne',
-  async (arg, { getState }) => {
-    const { data } = await api.getOne(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.getOne({ ...arg });
     return normalize(data, entity);
   },
 );
 
 export const getAllInspections = createAsyncThunk(
   'inspections/getAll',
-  async (arg, { getState }) => {
-    const { data } = await api.getAll(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.getAll({ ...arg });
     return normalize(data, entity);
   },
 );
 
 export const createOneInspection = createAsyncThunk(
   'inspections/createOne',
-  async (arg, { getState }) => {
-    const { data } = await api.createOne(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.createOne({ ...arg });
     return normalize(data, entity);
   },
 );

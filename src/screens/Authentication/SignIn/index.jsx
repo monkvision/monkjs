@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
 
-import Constants from 'expo-constants';
+import { config } from '@monkvision/corejs';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
 
@@ -32,11 +32,11 @@ export default function SignIn() {
   const [request, response, promptAsync] = useAuthRequest(
     {
       responseType: ResponseType.Token,
-      clientId: Constants.manifest.extra.AUTH_CLIENT_ID,
+      clientId: config.authConfig.clientId,
       scopes: ['openid', 'email', 'profile', 'read:current_user', 'update:current_user_metadata'],
       redirectUri,
       extraParams: {
-        audience: Constants.manifest.extra.AUTH_AUDIENCE,
+        audience: config.authConfig.audience,
       },
     },
     discoveries,
@@ -48,6 +48,9 @@ export default function SignIn() {
 
   useEffect(() => {
     if (response?.type === 'success' && response.authentication?.accessToken) {
+      const { accessToken } = response.authentication;
+      config.accessToken = accessToken;
+
       dispatch(authSlice.actions.update({
         ...response.authentication,
         isLoading: false,

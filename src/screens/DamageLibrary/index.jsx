@@ -9,7 +9,6 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Surface, ProgressBar, Text, Colors } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import baseUrl from 'config/baseUrl';
 import vehicleViews from 'assets/vehicle.json';
 
 import DamageLibraryLeftActions from './Actions/LeftActions';
@@ -114,7 +113,7 @@ export default function DamageLibrary() {
 
   useEffect(() => {
     if (loading !== 'pending' && !inspection && !error) {
-      dispatch(getOneInspectionById({ baseUrl, id: inspectionId }));
+      dispatch(getOneInspectionById({ id: inspectionId }));
     }
   }, [dispatch, error, inspection, loading]);
 
