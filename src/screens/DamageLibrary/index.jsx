@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
@@ -6,7 +7,7 @@ import { Vehicle } from '@monkvision/react-native';
 import { useFakeActivity, ActivityIndicatorView } from '@monkvision/react-native-views';
 
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
-import { Surface, ProgressBar, Text, Colors } from 'react-native-paper';
+import { Surface, ProgressBar, Text, Colors, Appbar } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import vehicleViews from 'assets/vehicle.json';
@@ -94,11 +95,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DamageLibrary() {
+export default function DamageLibrary({ navigation, route }) {
   const store = useStore();
   const dispatch = useDispatch();
 
-  const inspectionId = '57dc368c-785a-b7ef-570f-6b8771b4bc49'; // SAMPLE INSPECTION
+  const { inspectionId } = route.params;
   const inspection = selectInspectionById(store.getState(), inspectionId);
   const { loading, error } = useSelector(((state) => state.inspections));
 
@@ -111,11 +112,30 @@ export default function DamageLibrary() {
     setActiveParts((prev) => ({ ...prev, [id]: isActive }));
   };
 
+  const handleGoBack = useCallback(() => {
+    if (navigation && navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }, [navigation]);
+
+  useLayoutEffect(() => {
+    if (navigation) {
+      navigation?.setOptions({
+        header: () => (
+          <Appbar.Header>
+            <Appbar.BackAction onPress={handleGoBack} />
+            <Appbar.Content title="Damage Library" />
+          </Appbar.Header>
+        ),
+      });
+    }
+  }, [handleGoBack, navigation]);
+
   useEffect(() => {
     if (loading !== 'pending' && !inspection && !error) {
       dispatch(getOneInspectionById({ id: inspectionId }));
     }
-  }, [dispatch, error, inspection, loading]);
+  }, [dispatch, error, inspection, inspectionId, loading]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -168,3 +188,15 @@ export default function DamageLibrary() {
     </SafeAreaView>
   );
 }
+
+DamageLibrary.propTypes = {
+  navigation: PropTypes.shape({
+    canGoBack: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setOptions: PropTypes.func,
+  }).isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({ inspectionId: PropTypes.string }),
+  }).isRequired,
+};
