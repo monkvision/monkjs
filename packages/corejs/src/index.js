@@ -17,3 +17,5 @@ export {
   getAllInspections,
   createOneInspection,
 } from './inspections/inspectionsSlice';
+
+export { default as config } from './config';

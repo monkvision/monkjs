@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../config';
 
 /**
  * @name getOneInspectionById
@@ -12,18 +13,18 @@ import axios from 'axios';
  * @param {$uuid: {string}} id
  * @param {Object} [params]
  * @param {boolean} [params.show_deleted_objects=false]
- *
- * @param {string} [baseUrl]
- * @param {Object} [axiosRequestConfig]
+ * @param {Object} [customReqConfig]
  *
  * @returns {Promise}
  */
-export function getOne({ id, params, baseUrl, ...axiosRequestConfig }) {
-  return axios.request({
+export function getOne({ id, params, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
     method: 'get',
-    url: `${baseUrl}/inspections/${id}`,
+    url: `/inspections/${id}`,
     params,
-    ...axiosRequestConfig,
+    ...customReqConfig,
   });
 }
 
@@ -41,18 +42,18 @@ export function getOne({ id, params, baseUrl, ...axiosRequestConfig }) {
  * @param {"asc"|"desc"} [params.pagination_order="desc"]
  * @param {boolean} [params.all_inspections=false]
  * @param {boolean} [params.all_inspections_in_organization=false]
- *
- * @param {string} [baseUrl]
- * @param {Object} [axiosRequestConfig]
+ * @param {Object} [customReqConfig]
  *
  * @returns {Promise}
  */
-export function getAll({ params, baseUrl, ...axiosRequestConfig }) {
-  return axios.request({
+export function getAll({ params, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
     method: 'get',
-    url: `${baseUrl}/inspections`,
+    url: `/inspections`,
     params,
-    ...axiosRequestConfig,
+    ...customReqConfig,
   });
 }
 
@@ -71,17 +72,17 @@ export function getAll({ params, baseUrl, ...axiosRequestConfig }) {
  * @link https://api.preview.monk.ai/v1/apidocs/#/Inspection/get_all_inspections
  *
  * @param {Object} data - body data
- *
- * @param {string} [baseUrl]
- * @param {Object} [axiosRequestConfig]
+ * @param {Object} [customReqConfig]
  *
  * @returns {Promise}
  */
-export function createOne({ data, baseUrl, ...axiosRequestConfig }) {
-  return axios.request({
+export function createOne({ data, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
     method: 'post',
-    url: `${baseUrl}/inspections`,
+    url: `/inspections`,
     data,
-    ...axiosRequestConfig,
+    ...customReqConfig,
   });
 }
