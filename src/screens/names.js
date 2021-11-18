@@ -19,3 +19,5 @@ export const DAMAGE_READ = 'readDamage';
 export const DAMAGE_UPDATE = 'updateDamage';
 export const DAMAGE_LIBRARY = 'damageLibrary';
 export const DAMAGES = 'listDamages';
+
+export const LANDING = 'landing';

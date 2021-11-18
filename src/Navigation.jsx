@@ -30,11 +30,16 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.GETTING_STARTED}>
+      <Stack.Navigator initialRouteName={names.LANDING}>
 
         <Stack.Screen
           name={names.GETTING_STARTED}
           component={Screens.GettingStarted}
+        />
+
+        <Stack.Screen
+          name={names.LANDING}
+          component={Screens.Landing}
         />
 
         <Stack.Screen
