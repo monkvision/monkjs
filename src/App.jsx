@@ -8,6 +8,8 @@ import { Provider as PaperProvider } from 'react-native-paper';
 
 import Navigation from 'Navigation';
 
+import 'config/corejs';
+
 export default function App() {
   return (
     <Provider store={store}>

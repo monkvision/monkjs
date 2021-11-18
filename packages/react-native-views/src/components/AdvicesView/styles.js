@@ -1,4 +1,7 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+const isMobileSize = Math.min(width, height) < 512;
 
 export const center = {
   display: 'flex',
@@ -65,8 +68,8 @@ export const styles = StyleSheet.create({
   adviceImage: {
     ...Platform.select({
       web: {
-        width: 512,
-        height: 340,
+        width: isMobileSize ? 270 : 512,
+        height: isMobileSize ? 180 : 340,
       },
       native: {
         width: 270,

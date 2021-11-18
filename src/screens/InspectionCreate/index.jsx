@@ -5,11 +5,9 @@ import { CameraView } from '@monkvision/react-native-views';
 import { createOneInspection } from '@monkvision/corejs';
 
 import { useNavigation } from '@react-navigation/native';
-
-import baseUrl from 'config/baseUrl';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-import { GETTING_STARTED, INSPECTION_REVIEW } from 'screens/names';
+import { DAMAGE_LIBRARY, GETTING_STARTED } from 'screens/names';
 
 const initialInspectionData = {
   tasks: {
@@ -25,7 +23,12 @@ export default () => {
   const store = useStore();
   const dispatch = useDispatch();
 
-  const { loading, freshlyCreated } = useSelector((state) => state.inspections);
+  const {
+    loading,
+    freshlyCreated,
+    error,
+  } = useSelector((state) => state.inspections);
+
   const inspection = selectInspectionById(store.getState(), freshlyCreated);
 
   // eslint-disable-next-line no-console
@@ -34,10 +37,10 @@ export default () => {
   const handleSuccess = useCallback((payload) => {
     // eslint-disable-next-line no-console
     console.log(payload);
-    navigation.navigate(INSPECTION_REVIEW);
+    navigation.navigate(DAMAGE_LIBRARY, { inspectionId: inspection?.id });
 
     // Use API to get predictions
-  }, [navigation]);
+  }, [inspection?.id, navigation]);
 
   const handleClose = useCallback(() => {
     navigation.navigate(GETTING_STARTED);
@@ -49,10 +52,10 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    if (loading !== 'pending' && freshlyCreated === null) {
-      dispatch(createOneInspection({ baseUrl, data: initialInspectionData }));
+    if (loading !== 'pending' && freshlyCreated === null && !error) {
+      dispatch(createOneInspection({ data: initialInspectionData }));
     }
-  }, [dispatch, freshlyCreated, loading]);
+  }, [dispatch, error, freshlyCreated, loading]);
 
   return (
     <CameraView

@@ -1,28 +1,59 @@
-import isPlainObject from 'lodash.isplainobject';
+export const baseAxiosConfig = {
+  baseURL: 'https://api.monk.ai/v1/',
+  headers: { 'Access-Control-Allow-Origin': '*' },
+};
 
-function formatAxiosConfig(axiosConfig, getState) {
-  const config = { headers: { 'Access-Control-Allow-Origin': '*' }, ...axiosConfig };
+export const baseAuthConfig = {
+  domain: 'idv.monk.ai',
+  audience: 'https://api.monk.ai/v1/',
+  clientId: '',
+};
 
-  if (typeof getState === 'function') {
-    const stateToken = getState().auth.accessToken;
-    if (stateToken) {
-      config.headers.Authorization = `Bearer ${stateToken}`;
-    }
+export class Config {
+  constructor(
+    axiosConfig = baseAxiosConfig,
+    authConfig = baseAuthConfig,
+  ) {
+    this._authConfig = authConfig;
+    this._axiosConfig = axiosConfig;
   }
 
-  return config;
+  get authConfig() {
+    return this._authConfig;
+  }
+
+  set authConfig(value) {
+    this._authConfig = value;
+  }
+
+  get axiosConfig() {
+    return this._axiosConfig;
+  }
+
+  set axiosConfig(value) {
+    this._axiosConfig = value;
+  }
+
+  get accessToken() {
+    return this.axiosConfig.headers.Authorization;
+  }
+
+  set accessToken(value) {
+    this._axiosConfig = {
+      ...this.axiosConfig,
+      headers: {
+        ...this.axiosConfig.headers,
+        Authorization: `Bearer ${value.replace('Bearer ', '')}`,
+      },
+    };
+  }
+
+  toPlainObject() {
+    return {
+      authConfig: this.authConfig,
+      axiosConfig: this.axiosConfig,
+    };
+  }
 }
 
-/**
- * @link https://axios-http.com/docs/req_config
- * @param arg
- * @param getState
- * @returns {[*, (*&{headers: {'Access-Control-Allow-Origin': string}})]}
- */
-export default (arg = {}, getState) => {
-  if (!isPlainObject(arg)) {
-    throw Error('Parameter `arg` must be a plain object.');
-  }
-
-  return formatAxiosConfig(arg, getState);
-};
+export default new Config();

@@ -1,8 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 
-import config from '../config';
-
 import * as api from './inspectionsApi';
 import { entity } from './inspectionsEntity';
 
@@ -10,31 +8,40 @@ export const inspectionsAdapter = createEntityAdapter();
 
 export const getOneInspectionById = createAsyncThunk(
   'inspections/getOne',
-  async (arg, { getState }) => {
-    const { data } = await api.getOne(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.getOne({ ...arg });
     return normalize(data, entity);
   },
 );
 
 export const getAllInspections = createAsyncThunk(
   'inspections/getAll',
-  async (arg, { getState }) => {
-    const { data } = await api.getAll(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.getAll({ ...arg });
     return normalize(data, entity);
   },
 );
 
 export const createOneInspection = createAsyncThunk(
   'inspections/createOne',
-  async (arg, { getState }) => {
-    const { data } = await api.createOne(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.createOne({ ...arg });
     return normalize(data, entity);
   },
 );
 
-const handlePending = (state) => { state.loading = 'pending'; };
-const handleRejected = (state) => { state.loading = 'idle'; };
+const handlePending = (state) => {
+  state.error = false;
+  state.loading = 'pending';
+};
+
+const handleRejected = (state, action) => {
+  state.loading = 'idle';
+  state.error = action.error;
+};
+
 const handleFulfilled = (state, action) => {
+  state.error = false;
   state.loading = 'idle';
   inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
 };
@@ -42,6 +49,7 @@ const handleFulfilled = (state, action) => {
 export const slice = createSlice({
   name: 'inspections',
   initialState: inspectionsAdapter.getInitialState({
+    error: false,
     loading: 'idle',
     freshlyCreated: null,
   }),

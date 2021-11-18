@@ -31,15 +31,22 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={names.LANDING}>
+
+        <Stack.Screen
+          name={names.GETTING_STARTED}
+          component={Screens.GettingStarted}
+        />
+
         <Stack.Screen
           name={names.LANDING}
           component={Screens.Landing}
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen name={names.GETTING_STARTED} component={Screens.GettingStarted} />
-
-        <Stack.Screen name={names.INSPECTIONS} component={Screens.Inspections} />
+        <Stack.Screen
+          name={names.INSPECTIONS}
+          component={Screens.Inspections}
+        />
 
         <Stack.Screen
           name={names.INSPECTION_CREATE}
@@ -47,19 +54,46 @@ export default function Navigation() {
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen name={names.INSPECTION_REVIEW} component={Screens.InspectionReview} />
+        <Stack.Screen
+          name={names.INSPECTION_REVIEW}
+          component={Screens.InspectionReview}
+        />
 
-        <Stack.Screen name={names.INSPECTION_READ} component={Screens.InspectionRead} />
+        <Stack.Screen
+          name={names.INSPECTION_READ}
+          component={Screens.InspectionRead}
+        />
 
-        <Stack.Screen name={names.INSPECTION_UPDATE} component={Screens.InspectionUpdate} />
+        <Stack.Screen
+          name={names.INSPECTION_UPDATE}
+          component={Screens.InspectionUpdate}
+        />
 
-        <Stack.Screen name={names.DAMAGES} component={Screens.Damages} />
+        <Stack.Screen
+          name={names.DAMAGES}
+          component={Screens.Damages}
+        />
 
-        <Stack.Screen name={names.DAMAGE_CREATE} component={Screens.DamageCreate} />
+        <Stack.Screen
+          name={names.DAMAGE_CREATE}
+          component={Screens.DamageCreate}
+        />
 
-        <Stack.Screen name={names.DAMAGE_READ} component={Screens.DamageRead} />
+        <Stack.Screen
+          name={names.DAMAGE_READ}
+          component={Screens.DamageRead}
+        />
 
-        <Stack.Screen name={names.DAMAGE_UPDATE} component={Screens.DamageUpdate} />
+        <Stack.Screen
+          name={names.DAMAGE_LIBRARY}
+          component={Screens.DamageLibrary}
+        />
+
+        <Stack.Screen
+          name={names.DAMAGE_UPDATE}
+          component={Screens.DamageUpdate}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

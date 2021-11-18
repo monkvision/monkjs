@@ -5,8 +5,6 @@ import { View } from 'react-native';
 
 import { getAllInspections, selectAllInspections } from '@monkvision/corejs';
 
-import baseUrl from 'config/baseUrl';
-
 export default () => {
   const dispatch = useDispatch();
   const inspections = useSelector(selectAllInspections);
@@ -15,7 +13,7 @@ export default () => {
   console.log(inspections);
 
   const getAll = useCallback(() => {
-    dispatch(getAllInspections({ baseUrl }));
+    dispatch(getAllInspections());
   }, [dispatch]);
 
   return (

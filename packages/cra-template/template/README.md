@@ -56,7 +56,7 @@ cp .env .env.local
 ┌── components                      # uncontrolled-ish components with no-depth
     ├── ...
     └── MyComponent
-        ├── index.jsx
+        ├── LeftActions.jsx
         ├── index.fallback.jsx      # is displayed when the component crashes
         ├── MyComponent.md          # documentation for the Component
         └── MyComponent.test.js
@@ -69,11 +69,11 @@ cp .env .env.local
     ├── ...
     └──  App
         ├── ...
-        └── index.jsx
+        └── LeftActions.jsx
 ├── ...
 ├── .env
 ├── .env.local
-├── index.jsx
+├── LeftActions.jsx
 └── README.md
 ```
 

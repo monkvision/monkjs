@@ -7,6 +7,7 @@ export { default as Damages } from './Damages';
 export { default as DamageCreate } from './DamageCreate';
 export { default as DamageRead } from './DamageRead';
 export { default as DamageUpdate } from './DamageUpdate';
+export { default as DamageLibrary } from './DamageLibrary';
 
 export { default as Inspections } from './Inspections';
 export { default as InspectionCreate } from './InspectionCreate';

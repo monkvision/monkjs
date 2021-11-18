@@ -23,7 +23,7 @@
     "build:corejs": "cd ./packages/corejs && yarn run build",
     "build:react-native": "cd ./packages/react-native && yarn run build",
     "build:react-native-views": "cd ./packages/react-native-views && yarn run build",
-    "build:andoid": "expo build:android",
+    "build:android": "expo build:android",
     "build:ios": "expo build:ios",
     "eject": "expo eject",
     "clear:modules": "rm -rf 'node_modules, package-lock.json, yarn.lock'",
