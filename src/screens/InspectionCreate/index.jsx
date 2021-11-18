@@ -7,7 +7,7 @@ import { createOneInspection } from '@monkvision/corejs';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-import { DAMAGE_LIBRARY, GETTING_STARTED } from 'screens/names';
+import {DAMAGE_LIBRARY, GETTING_STARTED, INSPECTION_REVIEW} from 'screens/names';
 
 const initialInspectionData = {
   tasks: {
@@ -37,7 +37,7 @@ export default () => {
   const handleSuccess = useCallback((payload) => {
     // eslint-disable-next-line no-console
     console.log(payload);
-    navigation.navigate(DAMAGE_LIBRARY, { inspectionId: inspection?.id });
+    navigation.navigate(INSPECTION_REVIEW, { inspectionId: inspection?.id, pictures: payload.pictures, sights: payload.sights });
 
     // Use API to get predictions
   }, [inspection?.id, navigation]);

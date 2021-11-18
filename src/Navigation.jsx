@@ -56,6 +56,7 @@ export default function Navigation() {
         <Stack.Screen
           name={names.INSPECTION_REVIEW}
           component={Screens.InspectionReview}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
