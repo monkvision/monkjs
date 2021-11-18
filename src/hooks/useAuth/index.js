@@ -1,36 +1,36 @@
-import auth0Discovery from 'config/discoveries';
-import { revokeAsync } from 'expo-auth-session';
-import Constants from 'expo-constants';
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { config } from '@monkvision/corejs';
+import discoveries from 'config/discoveries';
+
+import { revokeAsync } from 'expo-auth-session';
 import { authSlice } from 'store/slices/auth';
 
 export default function useAuth() {
-  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const isAuthenticated = useMemo(() => Boolean(auth.accessToken), [auth]);
 
-  // signout
+  const auth = useSelector((state) => state.auth);
+  const { accessToken, tokenType } = auth;
+  const isAuthenticated = useMemo(() => Boolean(accessToken), [accessToken]);
+
+  // signOut
   const [isLoggingOut, setLoggingOut] = useState(false);
 
-  const signout = useCallback(async () => {
+  const signOut = useCallback(async () => {
     setLoggingOut(true);
-    const clientId = Constants.manifest.extra.AUTH_CLIENT_ID;
     try {
-      await revokeAsync(
-        {
-          client_id: clientId,
-          token: auth.accessToken,
-          tokenType: auth.tokenType,
-        },
-        auth0Discovery,
-      );
+      await revokeAsync({
+        clientId: config.authConfig.clientId,
+        token: accessToken,
+        tokenTypeHint: tokenType,
+      }, discoveries);
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (e) {
       setLoggingOut(false);
     }
-  }, [auth.accessToken, auth.tokenType, dispatch]);
+  }, [accessToken, dispatch, tokenType]);
 
-  return { ...auth, signout, isLoggingOut, isAuthenticated };
+  return { ...auth, signOut, isLoggingOut, isAuthenticated };
 }

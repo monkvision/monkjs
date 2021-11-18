@@ -5,8 +5,9 @@ import noop from 'lodash.noop';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Appbar, Button, List, useTheme } from 'react-native-paper';
+// import { SvgXml } from 'react-native-svg';
 
-import Illustration from './Illustration';
+// import drawing from '../../assets/undraw_camera_re_cnp4.json';
 
 const styles = StyleSheet.create({
   root: {
@@ -54,6 +55,8 @@ export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePi
     }
   }, [colors.primaryContrastText, handleGoBack, navigation, onStart]);
 
+  // console.log(drawing);
+
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView>
@@ -81,9 +84,9 @@ export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePi
             )}
           />
         </View>
-        <View style={styles.illustrationView}>
-          <Illustration />
-        </View>
+        {/* <View style={styles.illustrationView}> */}
+        {/*  <SvgXml {...drawing} height="100%" /> */}
+        {/* </View> */}
       </ScrollView>
     </SafeAreaView>
   );

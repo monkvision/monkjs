@@ -40,7 +40,6 @@ export default function Navigation() {
         <Stack.Screen
           name={names.LANDING}
           component={Screens.Landing}
-          options={{ headerShown: false }}
         />
 
         <Stack.Screen
