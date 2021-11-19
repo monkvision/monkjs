@@ -72,12 +72,9 @@ export default () => {
     console.log('Delete inspection');
   }, []);
 
-  const handlePress = useCallback(
-    (inspectionId) => {
-      navigation.navigate(INSPECTION_READ, { inspectionId });
-    },
-    [navigation],
-  );
+  const handlePress = useCallback((inspectionId) => {
+    navigation.navigate(INSPECTION_READ, { inspectionId });
+  }, [navigation]);
 
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
@@ -85,16 +82,11 @@ export default () => {
     }
   }, [navigation]);
 
-  const getCover = useCallback(
-    (inspection) => {
-      if (inspection.images.length === 0) {
-        return notFoundImage;
-      }
-      const cover = images[inspection.images[0]];
-      return { uri: cover.path };
-    },
-    [images],
-  );
+  const getCover = useCallback((inspection) => {
+    if (inspection.images.length === 0) { return notFoundImage; }
+    const cover = images[inspection.images[0]];
+    return { uri: cover.path };
+  }, [images]);
 
   useLayoutEffect(() => {
     if (navigation) {
