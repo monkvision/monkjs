@@ -87,11 +87,21 @@ export function createOne({ data, ...customReqConfig }) {
   });
 }
 
-export function update({ data, baseUrl, ...axiosRequestConfig }) {
-  return axios.request({
+/**
+ * @name updateOneInspection
+ *
+ * @param {Object} data - body data
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function updateOne({ data, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
     method: 'post',
-    url: `${baseUrl}/inspections`,
+    url: `/inspections`,
     data,
-    ...axiosRequestConfig,
+    ...customReqConfig,
   });
 }

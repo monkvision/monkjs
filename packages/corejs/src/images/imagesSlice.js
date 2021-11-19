@@ -1,24 +1,33 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 
-import config from '../config';
+import { getAllInspections } from '../inspections/inspectionsSlice';
 
 import * as api from './imagesApi';
 import { entity } from './imagesEntity';
 
 export const imagesAdapter = createEntityAdapter();
 
-export const createOneImage = createAsyncThunk(
+export const addOneImageToInspection = createAsyncThunk(
   'images/createOne',
-  async (arg, { getState }) => {
-    const { data } = await api.createOne(config(arg, getState));
+  async (arg) => {
+    const { data } = await api.addOne({ ...arg });
     return normalize(data, entity);
   },
 );
 
-const handlePending = (state) => { state.loading = 'pending'; };
-const handleRejected = (state) => { state.loading = 'idle'; };
+const handlePending = (state) => {
+  state.error = false;
+  state.loading = 'pending';
+};
+
+const handleRejected = (state, action) => {
+  state.loading = 'idle';
+  state.error = action.error;
+};
+
 const handleFulfilled = (state, action) => {
+  state.error = false;
   state.loading = 'idle';
   state.freshlyCreated = action.payload.result;
   imagesAdapter.upsertMany(state, action.payload.entities.images);
@@ -27,15 +36,19 @@ const handleFulfilled = (state, action) => {
 export const slice = createSlice({
   name: 'images',
   initialState: imagesAdapter.getInitialState({
+    error: false,
     loading: 'idle',
     freshlyCreated: null,
   }),
   reducers: {},
   extraReducers: (builder) => {
-    // createOneImage
-    builder.addCase(createOneImage.pending, handlePending);
-    builder.addCase(createOneImage.rejected, handleRejected);
-    builder.addCase(createOneImage.fulfilled, handleFulfilled);
+    // addOneImageToInspection
+    builder.addCase(addOneImageToInspection.pending, handlePending);
+    builder.addCase(addOneImageToInspection.rejected, handleRejected);
+    builder.addCase(addOneImageToInspection.fulfilled, handleFulfilled);
+    builder.addCase(getAllInspections.fulfilled, ((state, action) => {
+      imagesAdapter.upsertMany(state, action.payload.entities.images);
+    }));
   },
 });
 

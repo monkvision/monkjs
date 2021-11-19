@@ -1,7 +1,8 @@
 import axios from 'axios';
+import config from '../config';
 
 /**
- * @name createOneInspection
+ * @name addOneImageToInspection
  * Adds image to an existing inspection.
  * You must provide the id of the concerned inspection
  * The method returns a unique image id.
@@ -10,21 +11,18 @@ import axios from 'axios';
  *
  * @param {string} inspectionId
  * @param {Object} data - body data
- *
- * @param {string} [baseUrl]
- * @param {Object} [axiosRequestConfig]
+ * @param {Object} [customReqConfig]
  *
  * @returns {Promise}
  */
 // eslint-disable-next-line import/prefer-default-export
-export function createOne({
-  inspectionId, data, baseUrl, ...axiosRequestConfig
-}) {
-  // console.log(inspectionId, axiosRequestConfig);
-  return axios.request({
+export function addOne({ inspectionId, data, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
     method: 'post',
-    url: `${baseUrl}/inspections/${inspectionId}/images`,
+    url: `/inspections/${inspectionId}/images`,
     data,
-    ...axiosRequestConfig,
-  }).catch((e) => console.error(e));
+    ...customReqConfig,
+  });
 }

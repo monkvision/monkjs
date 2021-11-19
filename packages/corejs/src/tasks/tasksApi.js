@@ -1,29 +1,24 @@
 import axios from 'axios';
+import config from '../config';
 
 /**
- * @name createOneInspection
- * Adds image to an existing inspection.
- * You must provide the id of the concerned inspection
- * The method returns a unique image id.
- *
- * @link https://api.preview.monk.ai/v1/apidocs/#/Image/add_image_to_inspection
+ * @name updateOneTaskOfInspection
  *
  * @param {string} inspectionId
+ * @param {string} taskName
  * @param {Object} data - body data
- *
- * @param {string} [baseUrl]
- * @param {Object} [axiosRequestConfig]
+ * @param {Object} [customReqConfig]
  *
  * @returns {Promise}
  */
 // eslint-disable-next-line import/prefer-default-export
-export function updateOne({
-  inspectionId, taskName, data, baseUrl, ...axiosRequestConfig
-}) {
-  return axios.request({
+export function updateOne({ inspectionId, taskName, data, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
     method: 'patch',
-    url: `${baseUrl}/inspections/${inspectionId}/tasks/${taskName}`,
+    url: `/inspections/${inspectionId}/tasks/${taskName}`,
     data,
-    ...axiosRequestConfig,
-  }).catch((e) => console.error(e));
+    ...customReqConfig,
+  });
 }
