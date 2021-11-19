@@ -9,7 +9,7 @@ import { useFakeActivity } from '@monkvision/react-native-views';
 import { Appbar, Button, Card, IconButton, useTheme } from 'react-native-paper';
 import { ScrollView, SafeAreaView, View, StyleSheet, Platform, Dimensions } from 'react-native';
 import { INSPECTION_READ } from 'screens/names';
-// import Pagination from 'components/Pagination';
+import Placeholder from 'components/Placeholder';
 
 // const LIMIT_OPTIONS = [10, 20, 50, 100];
 import notFoundImage from './image-not-found-scaled.png';
@@ -37,6 +37,17 @@ const styles = StyleSheet.create({
       default: { maxWidth: 'calc(100% - 16px)' },
     }),
   },
+  loadingIndicator: {
+    margin: 8,
+    display: 'flex',
+    flexGrow: 1,
+    minWidth: 340,
+    minHeight: 227,
+    ...Platform.select({
+      native: { maxWidth: Dimensions.get('window').width - 16 },
+      default: { maxWidth: 'calc(100% - 16px)' },
+    }),
+  },
 });
 
 export default () => {
@@ -58,9 +69,12 @@ export default () => {
     console.log('Delete inspection');
   }, []);
 
-  const handlePress = useCallback((inspectionId) => {
-    navigation.navigate(INSPECTION_READ, { inspectionId });
-  }, [navigation]);
+  const handlePress = useCallback(
+    (inspectionId) => {
+      navigation.navigate(INSPECTION_READ, { inspectionId });
+    },
+    [navigation],
+  );
 
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
@@ -99,29 +113,34 @@ export default () => {
     }
   }, [error, fakeActivity, handleRefresh, paging]);
 
+  const placeHolderArray = new Array(Platform.select({ web: 6, native: 3 })).fill('');
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView>
         <View style={styles.listView}>
-          {inspections.map((inspection) => (
-            <Card
-              key={inspection.id}
-              style={styles.card}
-              onPress={() => handlePress(inspection.id)}
-            >
-              <Card.Title
-                title="Vehicle info"
-                subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
-                right={() => (
-                  <IconButton icon="trash-can" color={colors.warning} onPress={handleDelete} />
-                )}
-              />
-              <Card.Cover
-                source={notFoundImage}
-                style={{ height: 200 }}
-              />
-            </Card>
-          ))}
+          {inspections.length
+            ? inspections.map((inspection) => (
+              <Card
+                key={inspection.id}
+                style={styles.card}
+                onPress={() => handlePress(inspection.id)}
+              >
+                <Card.Title
+                  title="Vehicle info"
+                  subtitle={`${moment(inspection.createdAt).format('L')} - ${
+                    inspection.id.split('-')[0]
+                  }...`}
+                  right={() => (
+                    <IconButton icon="trash-can" color={colors.warning} onPress={handleDelete} />
+                  )}
+                />
+                <Card.Cover source={notFoundImage} style={{ height: 200 }} />
+              </Card>
+            ))
+            : placeHolderArray.map((_, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Placeholder key={i} style={styles.loadingIndicator} />
+            ))}
         </View>
         {/* <View> */}
         {/*  {paging && ( */}
