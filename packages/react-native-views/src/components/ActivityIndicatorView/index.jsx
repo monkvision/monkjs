@@ -25,7 +25,7 @@ export default function ActivityIndicatorView({ hideIndicator, light }) {
 
   return (
     <View style={[styles.root,
-      { backgroundColor: `rgba(${light ? '255, 255, 255' : '0, 0, 0'}, 0.9)` }]}
+      { backgroundColor: `rgba(${light ? '255, 255, 255' : '0, 0, 0'}, 0.5)` }]}
     >
       {!hideIndicator ? <ActivityIndicator color={light ? colors.primary : 'white'} /> : null}
     </View>
