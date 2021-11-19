@@ -24,7 +24,7 @@ export default function Navigation() {
     return <Screens.Outed />;
   }
 
-  if (isAuthenticated === true) {
+  if (isAuthenticated !== true) {
     return <Screens.Authentication />;
   }
 

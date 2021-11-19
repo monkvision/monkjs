@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Animated, ViewPropTypes } from 'react-native';
+import { Animated } from 'react-native';
+import PropTypes from 'prop-types';
 
 export default function Placeholder({ style }) {
   const bgColorAnim = React.useRef(new Animated.Value(0)).current;
@@ -28,7 +29,7 @@ export default function Placeholder({ style }) {
   return <Animated.View style={[{ backgroundColor: interpolateColor }, style]} />;
 }
 Placeholder.propTypes = {
-  style: ViewPropTypes.style,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Placeholder.defaultProps = {

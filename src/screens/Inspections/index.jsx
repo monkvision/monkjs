@@ -1,16 +1,18 @@
+import { selectAllInspections, selectImageEntities } from '@monkvision/corejs/src';
 import React, { useCallback, useEffect, useLayoutEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-
 import moment from 'moment';
 
-import { getAllInspections, selectAllInspections } from '@monkvision/corejs';
+import { getAllInspections } from '@monkvision/corejs';
 import { useFakeActivity } from '@monkvision/react-native-views';
+import { useNavigation } from '@react-navigation/native';
+
+import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Card, IconButton, useTheme } from 'react-native-paper';
-import { ScrollView, SafeAreaView, View, StyleSheet, Platform, Dimensions } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { INSPECTION_READ } from 'screens/names';
 import Placeholder from 'components/Placeholder';
 
+// import Pagination from 'components/Pagination';
 // const LIMIT_OPTIONS = [10, 20, 50, 100];
 import notFoundImage from './image-not-found-scaled.png';
 
@@ -55,8 +57,9 @@ export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
+  const { loading, error, paging } = useSelector(({ inspections }) => inspections);
   const inspections = useSelector(selectAllInspections);
-  const { loading, error, paging } = useSelector((sate) => sate.inspections);
+  const images = useSelector(selectImageEntities);
 
   const [fakeActivity] = useFakeActivity(loading === 'pending');
 
@@ -81,6 +84,17 @@ export default () => {
       navigation.goBack();
     }
   }, [navigation]);
+
+  const getCover = useCallback(
+    (inspection) => {
+      if (inspection.images.length === 0) {
+        return notFoundImage;
+      }
+      const cover = images[inspection.images[0]];
+      return { uri: cover.path };
+    },
+    [images],
+  );
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -134,7 +148,7 @@ export default () => {
                     <IconButton icon="trash-can" color={colors.warning} onPress={handleDelete} />
                   )}
                 />
-                <Card.Cover source={notFoundImage} style={{ height: 200 }} />
+                <Card.Cover source={getCover(inspection)} style={{ height: 200 }} />
               </Card>
             ))
             : placeHolderArray.map((_, i) => (
