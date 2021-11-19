@@ -20,4 +20,10 @@ export const DAMAGE_UPDATE = 'updateDamage';
 export const DAMAGE_LIBRARY = 'damageLibrary';
 export const DAMAGES = 'listDamages';
 
+export const VEHICLE_CREATE = 'createVehicle';
+export const VEHICLE_READ = 'readVehicle';
+export const VEHICLE_UPDATE = 'updateVehicle';
+export const VEHICLE_DETAILS = 'vehicleDetails';
+export const VEHICLES = 'listVehicles';
+
 export const LANDING = 'landing';

@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.LANDING}>
+      <Stack.Navigator initialRouteName={names.VEHICLES}>
 
         <Stack.Screen
           name={names.GETTING_STARTED}
@@ -92,6 +92,16 @@ export default function Navigation() {
         <Stack.Screen
           name={names.DAMAGE_UPDATE}
           component={Screens.DamageUpdate}
+        />
+
+        <Stack.Screen
+          name={names.VEHICLES}
+          component={Screens.Vehicles}
+        />
+
+        <Stack.Screen
+          name={names.VEHICLE_UPDATE}
+          component={Screens.VehicleUpdate}
         />
 
       </Stack.Navigator>

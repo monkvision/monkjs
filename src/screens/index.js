@@ -9,6 +9,9 @@ export { default as DamageRead } from './DamageRead';
 export { default as DamageUpdate } from './DamageUpdate';
 export { default as DamageLibrary } from './DamageLibrary';
 
+export { default as Vehicles } from './Vehicles';
+export { default as VehicleUpdate } from './VehicleUpdate';
+
 export { default as Inspections } from './Inspections';
 export { default as InspectionCreate } from './InspectionCreate';
 export { default as InspectionRead } from './InspectionRead';
