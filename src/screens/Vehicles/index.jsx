@@ -1,31 +1,30 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Searchbar, List, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 
-import { getAllInspections, selectAllInspections } from '@monkvision/corejs';
+import { getAllVehicles, selectAllVehicles } from '@monkvision/corejs/src';
 
 import useFilter from 'hooks/useFilter/index';
 import { VEHICLE_UPDATE } from 'screens/names';
-
-import vehicles from './vehicles';
 
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const theme = useTheme();
 
-  const inspections = useSelector(selectAllInspections);
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const vehicles = useSelector(selectAllVehicles);
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   // eslint-disable-next-line no-console
-  console.log(inspections);
+  console.log('vehicles', vehicles);
 
   const filteredVehicles = useFilter(['vin', 'brand'], searchQuery, vehicles ?? []);
 
   const getAll = useCallback(() => {
-    dispatch(getAllInspections());
+    dispatch(getAllVehicles());
   }, [dispatch]);
 
   const handleVehicleUpdate = useCallback(() => {
