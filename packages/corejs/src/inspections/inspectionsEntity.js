@@ -18,3 +18,5 @@ export const entity = new schema.Entity(KEY, {
   documents,
   tasks,
 }, entities.options);
+
+export const entityCollection = [entity];

@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useLayoutEffect } from 'react';
 
 import { GETTING_STARTED, INSPECTIONS } from 'screens/names';
@@ -10,7 +11,7 @@ import useAuth from 'hooks/useAuth';
 import MonkIcon from 'components/Icons/MonkIcon';
 import Drawing from 'components/Drawing';
 import { Appbar, Button, Text, useTheme } from 'react-native-paper';
-import { StyleSheet, Platform, SafeAreaView } from 'react-native';
+import { StyleSheet, Platform, SafeAreaView, View } from 'react-native';
 
 import logo from 'assets/logo-white.svg';
 import drawing from './drawing.svg';
@@ -90,14 +91,17 @@ export default () => {
   }, [colors, goToInspections, handleSignOut, isMediumSize, navigation]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Drawing xml={drawing} height={200} />
-      <Text style={styles.text}>
-        Take your car damage inspection to a next level, using only your device camera
-      </Text>
-      <Button onPress={handleStart} mode="contained">
-        Start an inspection
-      </Button>
-    </SafeAreaView>
+    <View style={styles.root}>
+      <StatusBar />
+      <SafeAreaView style={styles.root}>
+        <Drawing xml={drawing} height={200} />
+        <Text style={styles.text}>
+          Take your car damage inspection to a next level, using only your device camera
+        </Text>
+        <Button onPress={handleStart} mode="contained">
+          Start an inspection
+        </Button>
+      </SafeAreaView>
+    </View>
   );
 };
