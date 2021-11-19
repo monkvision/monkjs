@@ -16,7 +16,7 @@ APP_PRIVACY=unlisted
 
 # Authenticating https://manage.auth0.com/dashboard/eu/monk
 
-AUTH_DOMAIN=monk-staging.eu.auth0.com
+AUTH_DOMAIN=idp.stg.monk.ai
 AUTH_AUDIENCE=https://api.monk.ai/v1/
 AUTH_CLIENT_ID=DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L
 

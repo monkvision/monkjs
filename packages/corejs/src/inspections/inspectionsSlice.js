@@ -2,7 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import { normalize } from 'normalizr';
 
 import * as api from './inspectionsApi';
-import { entity } from './inspectionsEntity';
+import { entity, entityCollection } from './inspectionsEntity';
 
 export const inspectionsAdapter = createEntityAdapter();
 
@@ -18,7 +18,7 @@ export const getAllInspections = createAsyncThunk(
   'inspections/getAll',
   async (arg) => {
     const { data } = await api.getAll({ ...arg });
-    return normalize(data, entity);
+    return normalize(data, { data: entityCollection });
   },
 );
 
@@ -43,6 +43,7 @@ const handleRejected = (state, action) => {
 const handleFulfilled = (state, action) => {
   state.error = false;
   state.loading = 'idle';
+  if (action.payload.result?.paging) { state.paging = action.payload.result.paging; }
   inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
 };
 
@@ -52,6 +53,7 @@ export const slice = createSlice({
     error: false,
     loading: 'idle',
     freshlyCreated: null,
+    paging: null,
   }),
   reducers: {},
   extraReducers: (builder) => {
