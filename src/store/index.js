@@ -1,6 +1,5 @@
-import { inspections } from '@monkvision/corejs';
+import { inspections, images, tasks } from '@monkvision/corejs';
 import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
 import auth from './slices/auth';
 
 const devTools = process.env.NODE_ENV !== 'production';
@@ -9,11 +8,11 @@ const store = configureStore({
   devTools,
   reducer: {
     auth,
+    images,
     inspections,
+    tasks,
   },
 });
-
-setupListeners(store.dispatch);
 
 export default store;
 export * from './slices/auth';
