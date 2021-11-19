@@ -70,6 +70,7 @@
     "prop-types": "^15.7.2",
     "raw-loader": "^4.0.2",
     "react": "17.0.2",
+    "react-json-pretty": "^2.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-animation-library": "^0.0.8",
     "react-native-gesture-handler": "^1.10.3",

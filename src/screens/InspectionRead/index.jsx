@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useCallback, useLayoutEffect } from 'react';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import JSONPretty from 'react-json-pretty';
+import { Appbar } from 'react-native-paper';
 
-// JSON pretty component
-// Use redux toolkit selector with corejs
-// https://redux-toolkit.js.org/rtk-query/api/created-api/redux-integration
+export default () => {
+  const data = useSelector((state) => state.inspections);
+  const route = useRoute();
+  const navigation = useNavigation();
+  const inspectionId = route.params.inspectionId;
 
-export default () => <></>;
+  const handleGoBack = useCallback(() => {
+    if (navigation && navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }, [navigation]);
+
+  useLayoutEffect(() => {
+    if (navigation) {
+      navigation?.setOptions({
+        header: () => (
+          <Appbar.Header>
+            <Appbar.BackAction onPress={handleGoBack} />
+            <Appbar.Content title="Inspection" subtitle={inspectionId} />
+          </Appbar.Header>
+        ),
+      });
+    }
+  }, [handleGoBack, navigation, inspectionId]);
+  return <JSONPretty id="json-pretty" data={data.entities[inspectionId]} />;
+};
