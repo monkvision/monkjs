@@ -1,8 +1,7 @@
-import { selectAllInspections, selectImageEntities } from '@monkvision/corejs/src';
 import React, { useCallback, useEffect, useLayoutEffect } from 'react';
 import moment from 'moment';
 
-import { getAllInspections } from '@monkvision/corejs';
+import { getAllInspections, selectAllInspections, selectImageEntities } from '@monkvision/corejs';
 import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 

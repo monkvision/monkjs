@@ -48,6 +48,7 @@ export function getOne({ inspectionId, params, ...customReqConfig }) {
  */
 export function getAll({ params, ...customReqConfig }) {
   const http = axios.create(config.axiosConfig);
+
   return http.request({
     method: 'get',
     url: `/inspections?inspection_status=DONE&inspection_status=VALIDATED`,
@@ -56,16 +57,27 @@ export function getAll({ params, ...customReqConfig }) {
   }).then(({ data: result }) => {
     const inspections = result.data ?? [];
     const vehiclesPromises = [];
-    // eslint-disable-next-line max-len
-    inspections?.forEach((inspection) => vehiclesPromises.push(getOne({ inspectionId: inspection.id, ...params, ...customReqConfig })));
+
+    inspections?.forEach((inspection) => {
+      vehiclesPromises.push(getOne({
+        inspectionId: inspection.id,
+        ...params,
+        ...customReqConfig,
+      }));
+    });
+
     return Promise.all(vehiclesPromises)
       .then((promiseResults) => promiseResults.map((promiseResult) => promiseResult.data))
       .then((detailledInspections) => ({
-        ...result,
-        // eslint-disable-next-line max-len
-        data: detailledInspections?.map((inspection) => ({ ...inspection.vehicle, id: inspection.id })), // because the api doenst provide the vehicle.id
+        data: {
+          ...result,
+          data: detailledInspections?.map((inspection) => ({
+            ...inspection.vehicle,
+            id: inspection.id,
+          })), // because the api doenst provide the vehicle.id
+        },
       }));
-  }).catch((error) => console.error(error));
+  });
 }
 
 /**

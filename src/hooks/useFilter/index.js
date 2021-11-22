@@ -28,7 +28,7 @@ export default function useFilter(keys, query, items, startAt = 1) {
     for (const key of keys) {
       const regex = new RegExp(`${query.trim()}`, 'i');
       filterList = filterList.filter(
-        (item) => (key in item) && item[key].search(regex) >= 0,
+        (item) => (key in item) && item[key] && item[key].search(regex) >= 0,
       );
       if (isEmpty(filterList)) { filterList = items; } else { break; }
     }

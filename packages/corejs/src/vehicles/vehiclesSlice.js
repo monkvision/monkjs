@@ -2,9 +2,9 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import { normalize } from 'normalizr';
 
 import * as api from './vehiclesApi';
-import { entity } from './vehiclesEntity';
+import { entity, entityCollection } from './vehiclesEntity';
 
-export const vehiclesAdapter = createEntityAdapter();
+export const vehiclesAdapter = createEntityAdapter({});
 
 export const getOneVehicle = createAsyncThunk(
   'vehicles/getOne',
@@ -18,7 +18,7 @@ export const getAllVehicles = createAsyncThunk(
   'vehicles/getAll',
   async (arg) => {
     const { data } = await api.getAll({ ...arg });
-    return normalize(data, entity);
+    return normalize(data, { data: entityCollection });
   },
 );
 
@@ -43,7 +43,11 @@ const handleRejected = (state, action) => {
 const handleFulfilled = (state, action) => {
   state.error = false;
   state.loading = 'idle';
-  vehiclesAdapter.upsertMany(state, action.payload.entities.vehicles);
+
+  const { entities, result } = action.payload;
+  if (result?.paging) { state.paging = result.paging; }
+
+  vehiclesAdapter.upsertMany(state, entities.vehicles);
 };
 
 export const slice = createSlice({
@@ -52,6 +56,7 @@ export const slice = createSlice({
     error: false,
     loading: 'idle',
     freshlyCreated: null,
+    paging: null,
   }),
   reducers: {},
   extraReducers: (builder) => {
