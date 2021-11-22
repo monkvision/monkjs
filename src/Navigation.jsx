@@ -100,8 +100,8 @@ export default function Navigation() {
         />
 
         <Stack.Screen
-          name={names.VEHICLE_UPDATE}
-          component={Screens.VehicleUpdate}
+          name={names.VEHICLE_READ}
+          component={Screens.VehicleRead}
         />
 
       </Stack.Navigator>

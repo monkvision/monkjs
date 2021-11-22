@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import useFilter from 'hooks/useFilter/index';
 import { VEHICLE_READ } from 'screens/names';
 
+// TODO remove : mockVehicles
+import mockVehicles from './mockVehicles';
+
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
@@ -52,7 +55,7 @@ export default () => {
   // eslint-disable-next-line no-console
   console.log('vehicles', vehicles);
 
-  const filteredVehicles = useFilter(['vin', 'brand'], searchQuery, vehicles ?? []);
+  const filteredVehicles = useFilter(['vin', 'brand'], searchQuery, [...mockVehicles, ...(vehicles ?? [])]);
 
   const handleRefresh = useCallback(() => {
     dispatch(getAllVehicles());
@@ -107,7 +110,7 @@ export default () => {
   return (
     <SafeAreaView>
       <Searchbar
-        placeholder="Filter by vehicle VIN"
+        placeholder="Filter by vehicle VIN or brand"
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
