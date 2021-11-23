@@ -1,5 +1,4 @@
 import isEmpty from 'lodash.isempty';
-import isArray from 'lodash.isArray';
 import { useMemo, useCallback } from 'react';
 
 /**
@@ -17,7 +16,7 @@ import { useMemo, useCallback } from 'react';
  * @returns {Array<Object>}
  */
 export default function useFilter(keys, query, items, startAt = 1) {
-  if (!isArray(keys) || !isArray(items)) {
+  if (!Array.isArray(keys) || !Array.isArray(items)) {
     throw Error(`filterBy(keys:${typeof keys}, ...items:${typeof items}) error check arguments`);
   }
 

@@ -22,10 +22,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexGrow: 1,
     minWidth: 304,
-    cursor: 'pointer',
     ...Platform.select({
       native: { maxWidth: Dimensions.get('window').width - 16 },
-      default: { maxWidth: 'calc(100% - 16px)' },
+      default: { maxWidth: 'calc(100% - 16px)', cursor: 'pointer' },
     }),
   },
 });

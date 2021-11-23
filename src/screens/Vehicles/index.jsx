@@ -11,9 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import useFilter from 'hooks/useFilter/index';
 import { VEHICLE_READ } from 'screens/names';
 
-// TODO remove : mockVehicles
-import mockVehicles from './mockVehicles';
-
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
@@ -32,10 +29,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexGrow: 1,
     minWidth: 304,
-    cursor: 'pointer',
     ...Platform.select({
       native: { maxWidth: Dimensions.get('window').width - 16 },
-      default: { maxWidth: 'calc(100% - 16px)' },
+      default: { maxWidth: 'calc(100% - 16px)', cursor: 'pointer' },
     }),
   },
 });
@@ -55,7 +51,7 @@ export default () => {
   // eslint-disable-next-line no-console
   console.log('vehicles', vehicles);
 
-  const filteredVehicles = useFilter(['vin', 'brand'], searchQuery, [...mockVehicles, ...(vehicles ?? [])]);
+  const filteredVehicles = useFilter(['vin', 'brand'], searchQuery, vehicles ?? []);
 
   const handleRefresh = useCallback(() => {
     dispatch(getAllVehicles());
