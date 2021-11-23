@@ -17,7 +17,7 @@ export default {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#274b9f',
+    backgroundColor: '#000',
   },
 
   updates: {
@@ -40,7 +40,7 @@ export default {
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#274b9f',
+      backgroundColor: '#fff',
     },
   },
 
