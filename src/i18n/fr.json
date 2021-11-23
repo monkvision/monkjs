@@ -1,0 +1,13 @@
+{ 
+    "screens": {
+        "vehicle-read": { 
+            "view-name" : "Liste véhicules",
+            "header-title": "Liste véhicules",
+            "vehicle-details" : {
+                "brand": "Marque",
+                "model": "Modèle",
+                "vin": "Immatriculation"
+            }
+        }
+    }
+}

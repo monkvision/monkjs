@@ -93,7 +93,7 @@ export default () => {
             <Appbar.BackAction onPress={handleGoBack} />
             <Appbar.Content
               title={`Vehicle ${editable ? 'Details edit' : 'Details'}`}
-              subtitle={`${vehicle?.VIN ?? vehicle?.id}`}
+              subtitle={`VIN: ${vehicle?.VIN ?? vehicle?.id}`}
             />
             { editable && (
             <Button
@@ -112,7 +112,7 @@ export default () => {
     }
   }, [colors, editable, fakeActivity, handleGoBack, handleUpdate, navigation, vehicle]);
 
-  // No need for extra details for vehicle
+  // No need for extra details for vehicle for now
   /*
   const handleRefresh = useCallback(() => {
     dispatch(getOneVehicle({ id: vehicleId }));
@@ -130,7 +130,7 @@ export default () => {
       <Card>
         <Card.Title
           title={vehicle.vin}
-          subtitle={`Creation date: ${moment(vehicle.createdAt).format('L')} - ${vehicle.id}`}
+          subtitle={`Creation date: ${moment(vehicle.createdAt).format('L')} - id: ${vehicle.id}`}
           right={() => (editable ? (
             <IconButton icon="trash-can" color={colors.warning} onPress={handleDelete} />
           ) : (
@@ -144,77 +144,86 @@ export default () => {
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="brand"
+            label="Brand"
             value={vehicleValues.brand}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('brand', val)}
+            placeholder="e.g TOYOTA"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="model"
+            label="Model"
             value={vehicleValues.model}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('model', val)}
+            placeholder="e.g model"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="plate"
+            label="Plate"
             value={vehicleValues.plate}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('plate', val)}
+            placeholder="e.g plate"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="mileage"
+            label="Mileage"
             value={vehicleValues.mileage?.value}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('mileage', {
               unit: vehicleValues.mileage?.unit ?? 'km',
               value: val,
             })}
+            placeholder="e.g mileage"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="vin"
+            label="Vin"
             value={vehicleValues.vin}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('vin', val)}
+            placeholder="e.g vin"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="color"
+            label="Color"
             value={vehicleValues.color}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('color', val)}
+            placeholder="e.g white"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="exterior_cleanliness"
+            label="Exterior cleanliness"
             value={vehicleValues.exterior_cleanliness}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('exterior_cleanliness', val)}
+            placeholder="e.g clean"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="interior_cleanliness"
+            label="Interior cleanliness"
             value={vehicleValues.interior_cleanliness}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('interior_cleanliness', val)}
+            placeholder="e.g dirty"
           />
           <TextInput
             mode="outlined"
             style={styles.input}
-            label="date_of_circulation"
+            label="Date of circulation"
             value={vehicleValues.date_of_circulation}
             disabled={!editable}
             onChangeText={(val) => updateVehicleField('date_of_circulation', val)}
+            placeholder="e.g Date"
           />
         </Card.Content>
       </Card>

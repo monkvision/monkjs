@@ -51,7 +51,7 @@ export function getAll({ params, ...customReqConfig }) {
 
   return http.request({
     method: 'get',
-    url: `/inspections?inspection_status=DONE&inspection_status=VALIDATED`,
+    url: `/inspections?inspection_status=DONE`,
     params,
     ...customReqConfig,
   }).then(({ data: result }) => {
