@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CameraView } from '@monkvision/react-native-views';
 import { GETTING_STARTED, INSPECTION_REVIEW } from 'screens/names';
 
@@ -16,19 +16,12 @@ const initialInspectionData = { tasks: { damage_detection: { status: 'NOT_STARTE
 
 export default () => {
   const navigation = useNavigation();
-
-  const store = useStore();
   const dispatch = useDispatch();
 
-  const {
-    loading,
-    freshlyCreated,
-    error,
-  } = useSelector((state) => state.inspections);
+  const { loading, freshlyCreated, error } = useSelector((state) => state.inspections);
+  const inspection = useSelector((state) => selectInspectionById(state, freshlyCreated));
 
-  const inspection = selectInspectionById(store.getState(), freshlyCreated);
-
-  const handleSuccess = useCallback(({ pictures, sights}) => {
+  const handleSuccess = useCallback(({ pictures, sights }) => {
     const params = {
       inspectionId: inspection.id,
       taskName: 'damage_detection',
