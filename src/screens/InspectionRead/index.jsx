@@ -1,7 +1,11 @@
-import React, { useCallback, useLayoutEffect } from 'react';
+import moment from 'moment';
+import React, { useCallback, useEffect, useLayoutEffect } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { Appbar } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+
+import { Appbar, Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
 
 // we can customize the json component by making changes to the theme object
@@ -26,10 +30,13 @@ const theme = {
 };
 
 export default () => {
-  const data = useSelector((state) => state.inspections);
   const route = useRoute();
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const inspectionId = route.params.inspectionId;
+
+  const { inspectionId } = route.params;
+  const inspection = useSelector(((state) => selectInspectionById(state, inspectionId)));
+  const { loading, error } = useSelector(((state) => state.inspections));
 
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
@@ -49,5 +56,26 @@ export default () => {
       });
     }
   }, [handleGoBack, navigation, inspectionId]);
-  return <JSONTree data={data.entities[inspectionId]} theme={theme} />;
+
+  useEffect(() => {
+    if (loading !== 'pending' && !inspection && !error) {
+      dispatch(getOneInspectionById({ id: inspectionId }));
+    }
+  }, [dispatch, error, inspection, inspectionId, loading]);
+
+  return (
+    <Card>
+      <Card.Title
+        title="Vehicle info"
+        subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
+      />
+      <Card.Content>
+        <JSONTree data={inspection} theme={theme} />
+      </Card.Content>
+      <Card.Actions>
+        <Button>Show images</Button>
+        <Button>Delete</Button>
+      </Card.Actions>
+    </Card>
+  );
 };
