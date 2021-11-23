@@ -82,10 +82,7 @@ export default () => {
         header: () => (
           <Appbar.Header>
             <Appbar.BackAction onPress={handleGoBack} />
-            <Appbar.Content
-              title="Inspections list"
-              subtitle="Owned by your organization and you"
-            />
+            <Appbar.Content title="Inspections list" />
             <Button
               icon={fakeActivity ? undefined : 'refresh'}
               onPress={handleRefresh}

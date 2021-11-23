@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
 import { Vehicle } from '@monkvision/react-native';
@@ -96,11 +96,10 @@ const styles = StyleSheet.create({
 });
 
 export default function DamageLibrary({ navigation, route }) {
-  const store = useStore();
   const dispatch = useDispatch();
 
   const { inspectionId } = route.params;
-  const inspection = selectInspectionById(store.getState(), inspectionId);
+  const inspection = useSelector(((state) => selectInspectionById(state, inspectionId)));
   const { loading, error } = useSelector(((state) => state.inspections));
 
   const [currentView, setCurrentView] = useState('front');
