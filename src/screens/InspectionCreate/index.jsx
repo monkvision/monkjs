@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { CameraView } from '@monkvision/react-native-views';
-import { GETTING_STARTED, INSPECTION_READ } from 'screens/names';
+import { GETTING_STARTED, INSPECTION_REVIEW } from 'screens/names';
 
 import {
   createOneInspection,
@@ -28,7 +28,7 @@ export default () => {
 
   const inspection = selectInspectionById(store.getState(), freshlyCreated);
 
-  const handleSuccess = useCallback(() => {
+  const handleSuccess = useCallback(({ pictures, sights}) => {
     const params = {
       inspectionId: inspection.id,
       taskName: 'damage_detection',
@@ -37,7 +37,11 @@ export default () => {
 
     dispatch(updateOneTaskOfInspection(params));
 
-    navigation.navigate(INSPECTION_READ, { inspectionId: inspection.id });
+    navigation.navigate(INSPECTION_REVIEW, {
+      inspectionId: inspection.id,
+      pictures,
+      sights,
+    });
   }, [dispatch, inspection?.id, navigation]);
 
   const handleClose = useCallback(() => {
