@@ -86,7 +86,7 @@ export default () => {
 
   const getCover = useCallback(
     (inspection) => {
-      if (inspection.images.length === 0) {
+      if (!inspection?.images?.length) {
         return notFoundImage;
       }
       const cover = images[inspection.images[0]];
