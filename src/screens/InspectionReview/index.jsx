@@ -1,52 +1,47 @@
-import React, {useCallback, useEffect} from 'react';
-import {useSelector, useDispatch, useStore} from 'react-redux';
-import {useNavigation} from "@react-navigation/native";
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
+import { getOneInspectionById } from '@monkvision/corejs';
+import { propTypes } from '@monkvision/react-native';
 import { PicturesSummaryView } from '@monkvision/react-native-views';
 
-import {GETTING_STARTED} from "../names";
+import { INSPECTION_READ } from 'screens/names';
 
-export default ({ route }) => {
+export default function InspectionReview({ route }) {
   const navigation = useNavigation();
   const { inspectionId, pictures, sights } = route.params;
+
   const dispatch = useDispatch();
-  const {
-    loading,
-    error,
-  } = useSelector((state) => state.inspections);
-  const store = useStore();
-  const inspection = selectInspectionById(store.getState(), inspectionId);
+  const { loading, error } = useSelector((state) => state.inspections);
 
-  const getInspection = useCallback(async () => {
-    dispatch(getOneInspectionById({ id:inspectionId }));
-    console.log(inspection)
-    }, [dispatch]);
-
-  const handleNextPicture = () => {
-    console.log('next');
-  }
-  const handleSucces = () => {
-    console.log('success');
-    navigation.navigate(GETTING_STARTED);
-  }
+  const handleSuccess = () => {
+    navigation.navigate(INSPECTION_READ, { inspectionId });
+  };
 
   useEffect(() => {
     if (loading !== 'pending' && !error) {
       dispatch(getOneInspectionById({ id: inspectionId }));
     }
-  }, [dispatch, error, loading]);
-
-  useEffect(() => {
-    console.log(inspection)
-  }, [inspection])
+  }, [dispatch, error, inspectionId, loading]);
 
   return (
-      <PicturesSummaryView
-        cameraPictures={pictures}
-        onNextPicture={handleNextPicture}
-        onSuccess={handleSucces}
-        sights={sights}
-      />
+    <PicturesSummaryView
+      cameraPictures={pictures}
+      onSuccess={handleSuccess}
+      sights={sights}
+    />
   );
 }
+
+InspectionReview.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      inspectionId: PropTypes.string,
+      pictures: propTypes.cameraPictures,
+      sights: propTypes.sights,
+    }),
+  }).isRequired,
+};
