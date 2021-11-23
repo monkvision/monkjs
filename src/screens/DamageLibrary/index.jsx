@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
 import { Vehicle } from '@monkvision/react-native';
@@ -96,18 +96,16 @@ const styles = StyleSheet.create({
 });
 
 export default function DamageLibrary({ navigation, route }) {
-  const store = useStore();
   const dispatch = useDispatch();
 
   const { inspectionId } = route.params;
-  const inspection = selectInspectionById(store.getState(), inspectionId);
-  const { loading, error } = useSelector(((state) => state.inspections));
+  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
+  const { loading, error } = useSelector((state) => state.inspections);
 
   const [currentView, setCurrentView] = useState('front');
   const [activeParts, setActiveParts] = useState({});
 
   const [fakeActivity] = useFakeActivity(loading === 'pending');
-
   const handlePress = (id, isActive) => {
     setActiveParts((prev) => ({ ...prev, [id]: isActive }));
   };
@@ -131,6 +129,14 @@ export default function DamageLibrary({ navigation, route }) {
     }
   }, [handleGoBack, navigation]);
 
+  const toSnakeCase = (str) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+  const handleReportValidation = useCallback(() => {
+    const filteredParts = Object.keys(activeParts).map(
+      (key) => activeParts[key] && { part_type: toSnakeCase(key), damage_type: 'body_crack' },
+    );
+    // eslint-disable-next-line no-console
+    console.log(filteredParts);
+  }, [activeParts]);
   useEffect(() => {
     if (loading !== 'pending' && !inspection && !error) {
       dispatch(getOneInspectionById({ id: inspectionId }));
@@ -141,7 +147,9 @@ export default function DamageLibrary({ navigation, route }) {
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
         <View style={styles.vehicle}>
-          {fakeActivity ? (<ActivityIndicatorView light />) : (
+          {fakeActivity ? (
+            <ActivityIndicatorView light />
+          ) : (
             <Vehicle
               pressAble
               xml={vehicleViews[currentView]}
@@ -168,20 +176,18 @@ export default function DamageLibrary({ navigation, route }) {
           activeParts={activeParts}
         />
         <View style={styles.guideBtnContainer}>
-          <GuideButton onPress={
-            // eslint-disable-next-line no-console
-            () => console.log('open guide')
-          }
+          <GuideButton
+            onPress={
+              // eslint-disable-next-line no-console
+              () => console.log('open guide')
+            }
           />
         </View>
         <View style={styles.validateBtnContainer}>
           <ValidateButton
             style={styles.validateBtn}
             text="Validate report"
-            onPress={
-              // eslint-disable-next-line no-console
-              () => console.log('validate damages')
-            }
+            onPress={handleReportValidation}
           />
         </View>
       </Surface>
