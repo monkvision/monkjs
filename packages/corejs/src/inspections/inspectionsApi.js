@@ -86,3 +86,22 @@ export function createOne({ data, ...customReqConfig }) {
     ...customReqConfig,
   });
 }
+
+/**
+ * @name updateOneInspection
+ *
+ * @param {Object} data - body data
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function updateOne({ data, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
+    method: 'post',
+    url: `/inspections`,
+    data,
+    ...customReqConfig,
+  });
+}

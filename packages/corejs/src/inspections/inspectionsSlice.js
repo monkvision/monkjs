@@ -2,7 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import { normalize } from 'normalizr';
 
 import * as api from './inspectionsApi';
-import { entity } from './inspectionsEntity';
+import { entity, entityCollection } from './inspectionsEntity';
 
 export const inspectionsAdapter = createEntityAdapter();
 
@@ -18,7 +18,7 @@ export const getAllInspections = createAsyncThunk(
   'inspections/getAll',
   async (arg) => {
     const { data } = await api.getAll({ ...arg });
-    return normalize(data, entity);
+    return normalize(data, { data: entityCollection });
   },
 );
 
@@ -26,6 +26,14 @@ export const createOneInspection = createAsyncThunk(
   'inspections/createOne',
   async (arg) => {
     const { data } = await api.createOne({ ...arg });
+    return normalize(data, entity);
+  },
+);
+
+export const updateOneInspection = createAsyncThunk(
+  'inspections/updateOne',
+  async (arg) => {
+    const { data } = await api.updateOne({ ...arg });
     return normalize(data, entity);
   },
 );
@@ -43,7 +51,11 @@ const handleRejected = (state, action) => {
 const handleFulfilled = (state, action) => {
   state.error = false;
   state.loading = 'idle';
-  inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
+
+  const { entities, result } = action.payload;
+  if (result?.paging) { state.paging = result.paging; }
+
+  inspectionsAdapter.upsertMany(state, entities.inspections);
 };
 
 export const slice = createSlice({
@@ -52,6 +64,7 @@ export const slice = createSlice({
     error: false,
     loading: 'idle',
     freshlyCreated: null,
+    paging: null,
   }),
   reducers: {},
   extraReducers: (builder) => {
@@ -70,8 +83,19 @@ export const slice = createSlice({
     builder.addCase(createOneInspection.rejected, handleRejected);
     builder.addCase(createOneInspection.fulfilled, (state, action) => {
       state.loading = 'idle';
-      state.freshlyCreated = action.payload.result;
-      inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
+      const { entities, result } = action.payload;
+      state.freshlyCreated = result;
+      inspectionsAdapter.upsertMany(state, entities.inspections);
+    });
+
+    // updateOneInspection
+    builder.addCase(updateOneInspection.pending, handlePending);
+    builder.addCase(updateOneInspection.rejected, handleRejected);
+    builder.addCase(updateOneInspection.fulfilled, (state, action) => {
+      state.loading = 'idle';
+      const { entities, result } = action.payload;
+      state.freshlyCreated = result;
+      inspectionsAdapter.upsertMany(state, entities.inspections);
     });
   },
 });

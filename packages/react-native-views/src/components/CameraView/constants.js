@@ -1,4 +1,5 @@
 export const SIDEBAR_WIDTH = 250;
+export const RATIO_FACTOR = 240;
 
 export const DEFAULT_MACTH_MEDIA_OBJECT = () => ({
   matches: false,
