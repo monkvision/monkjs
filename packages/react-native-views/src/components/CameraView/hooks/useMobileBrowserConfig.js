@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, useWindowDimensions } from 'react-native';
 import {
-  DEFAULT_MACTH_MEDIA_OBJECT,
+  DEFAULT_MATCH_MEDIA_OBJECT,
   MOBILE_MAX_WIDTH,
   MOBILE_USERAGENT_PATTERN,
 } from '../constants';
@@ -10,7 +10,7 @@ import {
  * just to handle platforms that doesn't support this method.
  * NOTE: This won't work using `Platform.select`.
  *  */
-window.matchMedia = window.matchMedia || DEFAULT_MACTH_MEDIA_OBJECT;
+window.matchMedia = window.matchMedia || DEFAULT_MATCH_MEDIA_OBJECT;
 const MEDIA_QUERY = window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 /**
