@@ -30,6 +30,14 @@ export const createOneInspection = createAsyncThunk(
   },
 );
 
+export const updateOneInspection = createAsyncThunk(
+  'inspections/updateOne',
+  async (arg) => {
+    const { data } = await api.updateOne({ ...arg });
+    return normalize(data, entity);
+  },
+);
+
 const handlePending = (state) => {
   state.error = false;
   state.loading = 'pending';
@@ -43,8 +51,11 @@ const handleRejected = (state, action) => {
 const handleFulfilled = (state, action) => {
   state.error = false;
   state.loading = 'idle';
-  if (action.payload.result?.paging) { state.paging = action.payload.result.paging; }
-  inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
+
+  const { entities, result } = action.payload;
+  if (result?.paging) { state.paging = result.paging; }
+
+  inspectionsAdapter.upsertMany(state, entities.inspections);
 };
 
 export const slice = createSlice({
@@ -72,8 +83,19 @@ export const slice = createSlice({
     builder.addCase(createOneInspection.rejected, handleRejected);
     builder.addCase(createOneInspection.fulfilled, (state, action) => {
       state.loading = 'idle';
-      state.freshlyCreated = action.payload.result;
-      inspectionsAdapter.upsertMany(state, action.payload.entities.inspections);
+      const { entities, result } = action.payload;
+      state.freshlyCreated = result;
+      inspectionsAdapter.upsertMany(state, entities.inspections);
+    });
+
+    // updateOneInspection
+    builder.addCase(updateOneInspection.pending, handlePending);
+    builder.addCase(updateOneInspection.rejected, handleRejected);
+    builder.addCase(updateOneInspection.fulfilled, (state, action) => {
+      state.loading = 'idle';
+      const { entities, result } = action.payload;
+      state.freshlyCreated = result;
+      inspectionsAdapter.upsertMany(state, entities.inspections);
     });
   },
 });

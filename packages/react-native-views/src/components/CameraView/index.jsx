@@ -12,7 +12,7 @@ import useUI from './hooks/useUI';
 import useMobileBrowserConfig from './hooks/useMobileBrowserConfig';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
-import { SIDEBAR_WIDTH } from './constants';
+import { SIDEBAR_WIDTH, RATIO_FACTOR } from './constants';
 
 import CameraControls from './CameraControls';
 import CameraOverlay from './CameraOverlay';
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const makeRatio = (width, height) => `${(width - SIDEBAR_WIDTH) / 240}:${height / 240}`;
+const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
 
 /**
  *
@@ -80,7 +80,7 @@ export default function CameraView({
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onShowAdvice);
   const { height, width } = ui.container.measures;
-  const ratio = useMemo(() => makeRatio(width, height), [height, width]);
+  const ratio = useMemo(() => makeRatio(width - SIDEBAR_WIDTH, height), [height, width]);
 
   // When last picture is taken
   useSuccess(onSuccess, payload, handleFakeActivity);
