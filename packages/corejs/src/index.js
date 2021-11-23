@@ -45,6 +45,8 @@ export const {
   default: tasks,
   tasksAdapter,
   updateOneTaskOfInspection,
+  getOneInspectionTask,
+  getAllInspectionTasks,
 } = tasksSlice;
 
 export const {
