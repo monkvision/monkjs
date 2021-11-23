@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+import { getOneInspectionById, selectInspectionById, selectAllParts, selectAllDamages } from '@monkvision/corejs';
 import { Vehicle } from '@monkvision/react-native';
 import { useFakeActivity, ActivityIndicatorView } from '@monkvision/react-native-views';
 
@@ -11,6 +11,9 @@ import { Surface, ProgressBar, Text, Colors, Appbar } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import vehicleViews from 'assets/vehicle.json';
+
+import snakeCase from 'lodash.snakecase';
+import camelCase from 'lodash.camelcase';
 
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
@@ -95,6 +98,13 @@ const styles = StyleSheet.create({
   },
 });
 
+const toSnakeCase = (str) => {
+  if (str === str.toLowerCase()) {
+    return str.charAt(0).toUpperCase() + str.substring(1);
+  }
+  return snakeCase(str);
+};
+
 export default function DamageLibrary({ navigation, route }) {
   const dispatch = useDispatch();
 
@@ -102,8 +112,29 @@ export default function DamageLibrary({ navigation, route }) {
   const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
   const { loading, error } = useSelector((state) => state.inspections);
 
+  const parts = useSelector((state) => selectAllParts(state)
+    .filter((part) => inspection.parts.includes(part.id)));
+
+  const damages = useSelector((state) => selectAllDamages(state)
+    .filter((damage) => inspection.damages.includes(damage.id)));
+
   const [currentView, setCurrentView] = useState('front');
   const [activeParts, setActiveParts] = useState({});
+
+  // using the following ref we avoid having re-rendering loop
+  const ref = useRef({ rerenders: 0 });
+  useEffect(() => {
+    if (parts?.length && ref.current.rerenders === 0) {
+      // convert parts array to object
+      const normalizedParts = parts.reduce((acc, cur) => {
+        acc[camelCase(cur.part_type)] = true;
+        return acc;
+      }, {});
+
+      setActiveParts(normalizedParts);
+      ref.current.rerenders += 1;
+    }
+  }, [parts]);
 
   const [fakeActivity] = useFakeActivity(loading === 'pending');
   const handlePress = (id, isActive) => {
@@ -129,19 +160,33 @@ export default function DamageLibrary({ navigation, route }) {
     }
   }, [handleGoBack, navigation]);
 
-  const toSnakeCase = (str) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
   const handleReportValidation = useCallback(() => {
-    const filteredParts = Object.keys(activeParts).map(
-      (key) => activeParts[key] && { part_type: toSnakeCase(key), damage_type: 'body_crack' },
-    );
+    const initialReportData = damages.map((damage) => ({
+      part_type: parts.find((part) => part.id === damage.part_ids[0]).part_type,
+      damage_type: damage.damage_type,
+    }));
+
+    const finalReportData = Object.keys(activeParts).map(
+      (key) => {
+        if (activeParts[key]) {
+          if (parts.some((part) => part.part_type === toSnakeCase(key))) {
+            return initialReportData.find((damage) => damage.part_type === toSnakeCase(key));
+          } return {
+            part_type: toSnakeCase(key), damage_type: 'body_crack',
+          };
+        }
+        return null;
+      },
+    ).filter((part) => !!part);
     // eslint-disable-next-line no-console
-    console.log(filteredParts);
-  }, [activeParts]);
+    console.log(finalReportData);
+  }, [activeParts, damages, parts]);
+
   useEffect(() => {
-    if (loading !== 'pending' && !inspection && !error) {
+    if (loading !== 'pending' && !inspection?.damages && !error) {
       dispatch(getOneInspectionById({ id: inspectionId }));
     }
-  }, [dispatch, error, inspection, inspectionId, loading]);
+  }, [dispatch, error, inspection?.damages, inspectionId, loading]);
 
   return (
     <SafeAreaView style={styles.root}>
