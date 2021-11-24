@@ -1,16 +1,18 @@
 import { selectAllInspections, selectImageEntities } from '@monkvision/corejs/src';
-import React, { useCallback, useEffect, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import moment from 'moment';
 
 import { getAllInspections } from '@monkvision/corejs';
 import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 
-import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Appbar, Button, Card, IconButton, useTheme } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { INSPECTION_READ } from 'screens/names';
 import Placeholder from 'components/Placeholder';
+import useInterval from 'hooks/useInterval';
 
 // import Pagination from 'components/Pagination';
 // const LIMIT_OPTIONS = [10, 20, 50, 100];
@@ -52,6 +54,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const AutoRefresh = ({ handleRefresh }) => {
+  const [secondes, setSecondes] = useState(0);
+  const handleSetSecondes = useCallback(() => {
+    setSecondes((prev) => (prev + 1 === 60 ? 0 : prev + 1));
+  }, [setSecondes]);
+  useInterval(handleSetSecondes, 1000);
+
+  const delay = 60000;
+  useInterval(handleRefresh, delay);
+
+  return <Text>{secondes}</Text>;
+};
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
