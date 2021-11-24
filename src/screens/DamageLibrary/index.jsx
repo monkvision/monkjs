@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOneInspectionById, selectInspectionById, selectAllParts, selectAllDamages } from '@monkvision/corejs';
+import { getOneInspectionById, selectInspectionById, selectAllParts } from '@monkvision/corejs';
 import { Vehicle } from '@monkvision/react-native';
 import { useFakeActivity, ActivityIndicatorView } from '@monkvision/react-native-views';
 
@@ -12,7 +12,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import vehicleViews from 'assets/vehicle.json';
 
-import snakeCase from 'lodash.snakecase';
 import camelCase from 'lodash.camelcase';
 
 import DamageLibraryLeftActions from './Actions/LeftActions';
@@ -98,13 +97,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const toSnakeCase = (str) => {
-  if (str === str.toLowerCase()) {
-    return str.charAt(0).toUpperCase() + str.substring(1);
-  }
-  return snakeCase(str);
-};
-
 export default function DamageLibrary({ navigation, route }) {
   const dispatch = useDispatch();
 
@@ -113,10 +105,7 @@ export default function DamageLibrary({ navigation, route }) {
   const { loading, error } = useSelector((state) => state.inspections);
 
   const parts = useSelector((state) => selectAllParts(state)
-    .filter((part) => inspection.parts.includes(part.id)));
-
-  const damages = useSelector((state) => selectAllDamages(state)
-    .filter((damage) => inspection.damages.includes(damage.id)));
+    .filter((part) => inspection.parts?.includes(part.id)));
 
   const [currentView, setCurrentView] = useState('front');
   const [activeParts, setActiveParts] = useState({});
@@ -161,26 +150,9 @@ export default function DamageLibrary({ navigation, route }) {
   }, [handleGoBack, navigation]);
 
   const handleReportValidation = useCallback(() => {
-    const initialReportData = damages.map((damage) => ({
-      part_type: parts.find((part) => part.id === damage.part_ids[0]).part_type,
-      damage_type: damage.damage_type,
-    }));
-
-    const finalReportData = Object.keys(activeParts).map(
-      (key) => {
-        if (activeParts[key]) {
-          if (parts.some((part) => part.part_type === toSnakeCase(key))) {
-            return initialReportData.find((damage) => damage.part_type === toSnakeCase(key));
-          } return {
-            part_type: toSnakeCase(key), damage_type: 'body_crack',
-          };
-        }
-        return null;
-      },
-    ).filter((part) => !!part);
     // eslint-disable-next-line no-console
-    console.log(finalReportData);
-  }, [activeParts, damages, parts]);
+    console.log(activeParts);
+  }, [activeParts]);
 
   useEffect(() => {
     if (loading !== 'pending' && !inspection?.damages && !error) {
@@ -196,7 +168,6 @@ export default function DamageLibrary({ navigation, route }) {
             <ActivityIndicatorView light />
           ) : (
             <Vehicle
-              pressAble
               xml={vehicleViews[currentView]}
               onPress={handlePress}
               activeParts={activeParts}
