@@ -1,3 +1,4 @@
+import * as damagesSlice from './damages/damageSlice';
 import * as inspectionsSlice from './inspections/inspectionsSlice';
 import * as imagesSlice from './images/imagesSlice';
 import * as tasksSlice from './tasks/tasksSlice';
@@ -38,6 +39,18 @@ export const {
   selectAll: selectAllImages,
   selectTotal: selectTotalImages,
 } = imagesAdapter.getSelectors((state) => state.images);
+
+// DAMAGES
+
+export const { default: damages, damagesAdapter } = damagesSlice;
+
+export const {
+  selectById: selectDamageById,
+  selectIds: selectDamageIds,
+  selectEntities: selectDamageEntities,
+  selectAll: selectAllDamages,
+  selectTotal: selectTotalDamages,
+} = damagesAdapter.getSelectors((state) => state.damages);
 
 // TASKS
 

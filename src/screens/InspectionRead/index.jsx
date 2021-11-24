@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOneInspectionById, selectInspectionById, selectAllTasks, getAllInspectionTasks } from '@monkvision/corejs';
+import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
 
 import { Appbar, Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
@@ -44,6 +44,9 @@ export default () => {
   const { loading: tasksLoading, error: tasksError } = useSelector(((state) => state.tasks));
   const tasks = useSelector(selectAllTasks);
 
+  const { loading: damagesLoading, error: damagesError } = useSelector(((state) => state.damages));
+  const damages = useSelector(selectAllDamages);
+
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
       navigation.goBack();
@@ -80,14 +83,14 @@ export default () => {
   useInterval(poolTasks, delay);
 
   useEffect(() => {
-    if (tasks && tasks.length) {
-      if (!tasksToBeDone.length) { // && !damages && damagesLoading !== 'pending' && !damagesError
-        // dispatch(getAllDamages({ inspectionId }));
-        // eslint-disable-next-line no-console
-        console.log('get damages');
-      }
+    if (!tasksToBeDone && damagesLoading !== 'pending' && !damagesError) {
+      // eslint-disable-next-line no-console
+      dispatch(getOneInspectionById({ id: inspectionId }));
     }
-  }, [tasks, tasksToBeDone.length]); // dispatch, tasks, damages, damagesLoading damagesError
+  }, [
+    damagesError, damagesLoading,
+    dispatch, inspectionId, tasks, tasksToBeDone,
+  ]);
 
   return (
     <Card>
@@ -96,7 +99,7 @@ export default () => {
         subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
       />
       <Card.Content>
-        <JSONTree data={{ ...inspection, tasks }} theme={theme} />
+        <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
       </Card.Content>
       <Card.Actions>
         <Button>Show images</Button>
