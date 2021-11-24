@@ -54,17 +54,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const AutoRefresh = ({ handleRefresh }) => {
-  const [secondes, setSecondes] = useState(0);
+const AutoRefresh = ({ handleRefresh, shouldReset }) => {
+  const [secondes, setSecondes] = useState(60);
   const handleSetSecondes = useCallback(() => {
-    setSecondes((prev) => (prev + 1 === 60 ? 0 : prev + 1));
+    setSecondes((prev) => (prev - 1 === 0 ? 60 : prev - 1));
   }, [setSecondes]);
-  useInterval(handleSetSecondes, 1000);
 
-  const delay = 60000;
+  React.useEffect(() => {
+    if (shouldReset) { setSecondes(60); }
+  }, [shouldReset]);
+
+  const SECONDE = 1000;
+  useInterval(handleSetSecondes, SECONDE);
+
+  const MINUTE = 1000;
+  const delay = !shouldReset && MINUTE;
   useInterval(handleRefresh, delay);
 
-  return <Text>{secondes}</Text>;
+  return (
+    <>
+      (
+      {secondes}
+      )
+    </>
+  );
 };
 export default () => {
   const dispatch = useDispatch();
@@ -124,13 +137,15 @@ export default () => {
               loading={fakeActivity}
               disabled={fakeActivity}
             >
+              <AutoRefresh handleRefresh={handleRefresh} shouldReset={fakeActivity} />
+              {' '}
               Refresh
             </Button>
           </Appbar.Header>
         ),
       });
     }
-  }, [colors, fakeActivity, handleGoBack, handleRefresh, navigation]);
+  }, [colors, fakeActivity, handleGoBack, handleRefresh, navigation, loading]);
 
   useEffect(() => {
     if (!fakeActivity && !paging && !error) {
