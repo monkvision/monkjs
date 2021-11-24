@@ -49,6 +49,7 @@ export function getOne({ inspectionId, taskName, ...customReqConfig }) {
  * @returns {Promise}
  */
 export function getAll({ inspectionId, ...customReqConfig }) {
+  console.log('pooling');
   const http = axios.create(config.axiosConfig);
   return http.request({
     method: 'get',

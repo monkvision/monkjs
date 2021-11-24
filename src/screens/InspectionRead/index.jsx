@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useCallback, useEffect, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { getOneInspectionById, selectInspectionById, selectAllTasks, getAllInspe
 
 import { Appbar, Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import usePool from 'hooks/usePool/index';
+import useInterval from 'hooks/useInterval';
 
 // we can customize the json component by making changes to the theme object
 // see more in the docs https://www.npmjs.com/package/react-native-json-tree
@@ -30,11 +30,12 @@ const theme = {
   base0F: '#cc6633',
 };
 
+const DEFAULT_POOL = 10000; // 1 min
+
 export default () => {
   const route = useRoute();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { startPool, isPooling, clearPool } = usePool();
 
   const { inspectionId } = route.params;
   const inspection = useSelector(((state) => selectInspectionById(state, inspectionId)));
@@ -68,34 +69,25 @@ export default () => {
     }
   }, [dispatch, error, inspection, inspectionId, loading]);
 
-  useEffect(() => {
-    if (!isPooling() && inspection && tasksLoading !== 'pending' && !tasksError) {
-      startPool(() => dispatch(getAllInspectionTasks({ inspectionId })));
-    }
+  const poolTasks = useCallback(
+    () => dispatch(getAllInspectionTasks({ inspectionId })), [dispatch, inspectionId],
+  );
 
-    return () => {
-      if (isPooling()) {
-        // clearPool(); // idk why the return is fired up when the component is mounted
-      }
-    };
-  }, [
-    dispatch, tasksError, inspection, inspectionId,
-    tasksLoading, isPooling, startPool, clearPool,
-  ]);
+  const tasksToBeDone = useMemo(() => (tasks?.length ? tasks?.some((task) => (task.status !== 'DONE' && task.status !== 'ERROR' && task.status !== 'VALIDATED')) : true), [tasks]);
+
+  const delay = inspection && tasksLoading !== 'pending' && !tasksError && tasksToBeDone && DEFAULT_POOL;
+
+  useInterval(poolTasks, delay);
 
   useEffect(() => {
     if (tasks && tasks.length) {
-      const tasksToBeDone = tasks.filter((task) => (task.status === 'NOT_STARTED' || task.status === 'TODO' || task.status === 'IN_PROGRESS'));
       if (!tasksToBeDone.length) { // && !damages && damagesLoading !== 'pending' && !damagesError
         // dispatch(getAllDamages({ inspectionId }));
         // eslint-disable-next-line no-console
         console.log('get damages');
-        if (isPooling()) {
-          clearPool();
-        }
       }
     }
-  }, [tasks, clearPool, isPooling]); // dispatch, tasks, damages, damagesLoading damagesError
+  }, [tasks, tasksToBeDone.length]); // dispatch, tasks, damages, damagesLoading damagesError
 
   return (
     <Card>
