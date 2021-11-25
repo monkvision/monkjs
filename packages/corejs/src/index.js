@@ -13,6 +13,7 @@ export const {
   getOneInspectionById,
   getAllInspections,
   createOneInspection,
+  deleteOneInspection,
 } = inspectionsSlice;
 
 export const {

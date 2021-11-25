@@ -105,3 +105,21 @@ export function updateOne({ data, ...customReqConfig }) {
     ...customReqConfig,
   });
 }
+
+/**
+ * @name deleteOneInspection
+ *
+ * @param {$uuid: {string}} id
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function deleteOne({ id, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
+    method: 'delete',
+    url: `/inspections/${id}`,
+    ...customReqConfig,
+  });
+}
