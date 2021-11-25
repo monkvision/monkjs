@@ -162,7 +162,7 @@ export default () => {
         ),
       });
     }
-  }, [colors, fakeActivity, handleGoBack, handleRefresh, navigation, loading]);
+  }, [colors, fakeActivity, handleGoBack, handleRefresh, navigation]);
 
   useEffect(() => {
     if (!fakeActivity && !paging && !error) {
