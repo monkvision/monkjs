@@ -38,6 +38,14 @@ export const updateOneInspection = createAsyncThunk(
   },
 );
 
+export const deleteOneInspection = createAsyncThunk(
+  'inspections/deleteOne',
+  async (arg) => {
+    await api.deleteOne({ ...arg });
+    return arg;
+  },
+);
+
 const handlePending = (state) => {
   state.error = false;
   state.loading = 'pending';
@@ -104,6 +112,14 @@ export const slice = createSlice({
       const { entities, result } = action.payload;
       state.freshlyCreated = result;
       inspectionsAdapter.upsertMany(state, entities.inspections);
+    });
+
+    // deleteOneInspection
+    builder.addCase(deleteOneInspection.pending, handlePending);
+    builder.addCase(deleteOneInspection.rejected, handleRejected);
+    builder.addCase(deleteOneInspection.fulfilled, (state, action) => {
+      state.loading = 'idle';
+      inspectionsAdapter.removeOne(state, action.id);
     });
   },
 });

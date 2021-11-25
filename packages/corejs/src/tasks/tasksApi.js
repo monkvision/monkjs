@@ -11,7 +11,6 @@ import config from '../config';
  *
  * @returns {Promise}
  */
-// eslint-disable-next-line import/prefer-default-export
 export function updateOne({ inspectionId, taskName, data, ...customReqConfig }) {
   const http = axios.create(config.axiosConfig);
 
@@ -19,6 +18,41 @@ export function updateOne({ inspectionId, taskName, data, ...customReqConfig }) 
     method: 'patch',
     url: `/inspections/${inspectionId}/tasks/${taskName}`,
     data,
+    ...customReqConfig,
+  });
+}
+
+/**
+ * @name getOnInspectionTask
+ *
+ * @param {string} inspectionId
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function getOne({ inspectionId, taskName, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
+    method: 'get',
+    url: `/inspections/${inspectionId}/tasks/${taskName}`,
+    ...customReqConfig,
+  });
+}
+
+/**
+ * @name getAllInspectionTasks
+ *
+ * @param {string} inspectionId
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function getAll({ inspectionId, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+  return http.request({
+    method: 'get',
+    url: `/inspections/${inspectionId}/tasks`,
     ...customReqConfig,
   });
 }

@@ -1,9 +1,12 @@
-import * as inspectionsSlice from './inspections/inspectionsSlice';
+import * as damagesSlice from './damages/damagesSlice';
 import * as imagesSlice from './images/imagesSlice';
+import * as partsSlice from './parts/partsSlice';
+import * as inspectionsSlice from './inspections/inspectionsSlice';
 import * as tasksSlice from './tasks/tasksSlice';
 
-export { default as values } from './values';
+export { default as config } from './config';
 export { default as Sight } from './sights/Sight';
+export { default as values } from './values';
 
 // INSPECTIONS
 
@@ -13,6 +16,7 @@ export const {
   getOneInspectionById,
   getAllInspections,
   createOneInspection,
+  deleteOneInspection,
 } = inspectionsSlice;
 
 export const {
@@ -39,12 +43,38 @@ export const {
   selectTotal: selectTotalImages,
 } = imagesAdapter.getSelectors((state) => state.images);
 
+// DAMAGES
+
+export const { default: damages, damagesAdapter } = damagesSlice;
+
+export const {
+  selectById: selectDamageById,
+  selectIds: selectDamageIds,
+  selectEntities: selectDamageEntities,
+  selectAll: selectAllDamages,
+  selectTotal: selectTotalDamages,
+} = damagesAdapter.getSelectors((state) => state.damages);
+
+// PARTS
+
+export const { default: parts, partsAdapter } = partsSlice;
+
+export const {
+  selectById: selectPartById,
+  selectIds: selectPartIds,
+  selectEntities: selectPartEntities,
+  selectAll: selectAllParts,
+  selectTotal: selectTotalParts,
+} = partsAdapter.getSelectors((state) => state.parts);
+
 // TASKS
 
 export const {
   default: tasks,
   tasksAdapter,
   updateOneTaskOfInspection,
+  getOneInspectionTask,
+  getAllInspectionTasks,
 } = tasksSlice;
 
 export const {
@@ -54,5 +84,3 @@ export const {
   selectAll: selectAllTasks,
   selectTotal: selectTotalTasks,
 } = tasksAdapter.getSelectors((state) => state.tasks);
-
-export { default as config } from './config';

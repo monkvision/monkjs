@@ -19,8 +19,8 @@ participant View
 participant Core
 
 par Runtime
-App->>Core: Create an instance of MonkCore
-Note over App,View: const monkCore = new MonkCore({ baseUrl });
+App->>Core: Configure instance of MonkCore
+Note over App,View: import { config } from '@monkvision/corejs';
 App->>View: Render a CameraView loading native Camera
 Note over App,View: import { CameraView } from '@monkvision/react-native-views';
 end
@@ -56,42 +56,65 @@ end
 Once instantiated, the core **provides the APIs** essential to the use of artificial intelligence, but also **hooks** and other **middlewares** specific to front-end development.
 
 ``` javascript
-/* config/monkCore.js */
+/* config/corejs.js */
 
-import MonkCore, { getBaseQuery } from '@monkvision/corejs/src';
 import Constants from 'expo-constants';
+import { config } from '@monkvision/corejs';
 
-const monkCore = new MonkCore(getBaseQuery({
-  baseUrl: `https://${Constants.manifest.extra.MONK_DOMAIN}/`,
-}));
+const axiosConfig = {
+  baseURL: `https://${Constants.manifest.extra.API_DOMAIN}`,
+  headers: { 'Access-Control-Allow-Origin': '*' },
+};
 
-export default monkCore;
+const authConfig = {
+  domain: Constants.manifest.extra.AUTH_DOMAIN,
+  audience: Constants.manifest.extra.AUTH_AUDIENCE,
+  clientId: Constants.manifest.extra.AUTH_CLIENT_ID,
+};
+
+config.axiosConfig = axiosConfig;
+config.authConfig = authConfig;
 ```
+
 ``` javascript
 /* App.jsx */
 
-import monkCore from 'config/monkCore';
-import isEmpty from 'lodash.isempty';
+import React, { useCallback, useEffect } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+
+import JSONTree from 'react-native-json-tree';
 
 // Your own components...
 import Loading from 'components/Loading';
-import Empty from 'components/Empty';
+import ErrorCard from 'components/ErrorCard';
 import Inspection from 'components/Inspection';
 
-const { useGetInspectionsQuery } = monkCore.inspection;
+function GetInspectionScreen() {
+  const route = useRoute();
+  const dispatch = useDispatch();
 
-function App() {
-  const { data, isLoading } = useGetInspectionsQuery();
+  const { inspectionId } = route.params;
+  const inspection = useSelector(((state) => selectInspectionById(state, inspectionId)));
+  const { loading, error } = useSelector(((state) => state.inspections));
 
-  if (isLoading) {
+  useEffect(() => {
+    if (loading !== 'pending' && !inspection && !error) {
+      dispatch(getOneInspectionById({ id: inspectionId }));
+    }
+  }, [dispatch, error, inspection, inspectionId, loading]);
+
+  if (loading === 'pending') {
     return <Loading />;
   }
 
-  if (isEmpty(data)) {
-    return <Empty />;
+  if (error) {
+    return <ErrorCard />;
   }
 
-  return data.map((props) => <Inspection {...props) />;
+  return <Inspection {...inspection) />;
 }
 ```
 

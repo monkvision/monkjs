@@ -1,18 +1,35 @@
-import { selectAllInspections, selectImageEntities } from '@monkvision/corejs/src';
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import moment from 'moment';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getAllInspections } from '@monkvision/corejs';
+import moment from 'moment';
+import isEmpty from 'lodash.isempty';
+
+import {
+  getAllInspections,
+  deleteOneInspection,
+  selectAllInspections,
+  selectImageEntities,
+} from '@monkvision/corejs';
+
 import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 
 import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Appbar, Button, Card, IconButton, useTheme } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { INSPECTION_READ } from 'screens/names';
 import Placeholder from 'components/Placeholder';
-
 import Pagination from 'components/Pagination';
+
+import {
+  Appbar,
+  Button,
+  Card,
+  Dialog,
+  IconButton,
+  Portal,
+  Text,
+  useTheme,
+} from 'react-native-paper';
+
+import { INSPECTION_READ } from 'screens/names';
 import notFoundImage from './image-not-found-scaled.png';
 
 const LIMIT_OPTIONS = [10, 20, 50, 100];
@@ -51,6 +68,10 @@ const styles = StyleSheet.create({
       default: { maxWidth: 'calc(100% - 16px)' },
     }),
   },
+  dialog: {
+    maxWidth: 450,
+    alignSelf: 'center',
+  },
 });
 
 export default () => {
@@ -63,16 +84,39 @@ export default () => {
   const images = useSelector(selectImageEntities);
   const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
 
+  const [inspectionToDelete, setInspectionToDelete] = useState(null);
+
   const [fakeActivity] = useFakeActivity(loading === 'pending');
+
+  const getCover = useCallback(
+    (inspection) => {
+      if (inspection.images.length === 0) {
+        return notFoundImage;
+      }
+      const cover = images[inspection.images[0]];
+      return { uri: cover.path };
+    },
+    [images],
+  );
+
+  const getSubtitle = useCallback(({ createdAt, id }) => `
+    ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
+  `, []);
+
+  const skeletons = useMemo(() => new Array(Platform.select({ web: 6, native: 3 }))
+    .fill(<Placeholder style={styles.loadingIndicator} />), []);
 
   const handleRefresh = useCallback(() => {
     dispatch(getAllInspections({ params: { limit: pageLimiter } }));
   }, [dispatch, pageLimiter]);
 
-  const handleDelete = useCallback(() => {
-    // eslint-disable-next-line no-console
-    console.log('Delete inspection');
+  const handleDismissDialog = useCallback(() => {
+    setInspectionToDelete(null);
   }, []);
+
+  const handleDelete = useCallback(() => {
+    dispatch(deleteOneInspection({ id: inspectionToDelete }));
+  }, [dispatch, inspectionToDelete]);
 
   const handleNext = useCallback((next) => {
     dispatch(getAllInspections({ params: { limit: pageLimiter, before: next.before } }));
@@ -94,17 +138,6 @@ export default () => {
       navigation.goBack();
     }
   }, [navigation]);
-
-  const getCover = useCallback(
-    (inspection) => {
-      if (!inspection?.images?.length) {
-        return notFoundImage;
-      }
-      const cover = images[inspection.images[0]];
-      return { uri: cover.path };
-    },
-    [images],
-  );
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -134,13 +167,12 @@ export default () => {
     }
   }, [error, fakeActivity, handleRefresh, paging]);
 
-  const placeHolderArray = new Array(Platform.select({ web: pageLimiter, native: 3 })).fill('');
   return (
-    <SafeAreaView style={styles.root}>
-      <ScrollView>
-        <View style={styles.listView}>
-          {inspections.length && loading === 'idle'
-            ? inspections.map((inspection) => (
+    <>
+      <SafeAreaView style={styles.root}>
+        <ScrollView>
+          <View style={styles.listView}>
+            {inspections.map((inspection) => (
               <Card
                 key={inspection.id}
                 style={styles.card}
@@ -148,34 +180,55 @@ export default () => {
               >
                 <Card.Title
                   title="Vehicle info"
-                  subtitle={`${moment(inspection.createdAt).format('L')} - ${
-                    inspection.id.split('-')[0]
-                  }...`}
+                  subtitle={getSubtitle(inspection)}
                   right={() => (
-                    <IconButton icon="trash-can" color={colors.warning} onPress={handleDelete} />
+                    <IconButton
+                      icon="trash-can"
+                      color={colors.warning}
+                      onPress={() => setInspectionToDelete(inspection.id)}
+                    />
                   )}
                 />
                 <Card.Cover source={getCover(inspection)} style={{ height: 200 }} />
               </Card>
-            ))
-            : placeHolderArray.map((_, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Placeholder key={i} style={styles.loadingIndicator} />
             ))}
-        </View>
-        <View>
-          {paging && (
-          <Pagination
-            paging={paging}
-            initialLimit={pageLimiter}
-            limitOptions={LIMIT_OPTIONS}
-            onLimitChange={setPageLimiter}
-            onNext={handleNext}
-            onPrevious={handlePrev}
-          />
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            {isEmpty(inspections) && skeletons}
+          </View>
+          <View>
+            {paging && (
+              <Pagination
+                paging={paging}
+                initialLimit={pageLimiter}
+                limitOptions={LIMIT_OPTIONS}
+                onLimitChange={setPageLimiter}
+                onNext={handleNext}
+                onPrevious={handlePrev}
+              />
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      <Portal>
+        <Dialog
+          visible={Boolean(inspectionToDelete)}
+          onDismiss={handleDismissDialog}
+          style={styles.dialog}
+        >
+          <Dialog.Title>
+            <Text>
+              Are you sure ?
+            </Text>
+          </Dialog.Title>
+          <Dialog.Actions>
+            <Button onPress={handleDismissDialog}>
+              Cancel
+            </Button>
+            <Button color={colors.error} onPress={handleDelete}>
+              Delete
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
   );
 };
