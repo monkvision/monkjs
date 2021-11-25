@@ -2,7 +2,8 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Image, Platform, StyleSheet } from 'react-native';
+import { Image, Platform, StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { getOneInspectionById, selectInspectionById, selectAllTasks, selectImageEntities, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
 
@@ -12,6 +13,10 @@ import useInterval from 'hooks/useInterval';
 import Carousel from 'components/Carousel';
 import { DAMAGE_LIBRARY } from '../names';
 
+const { width } = Dimensions.get('window');
+const DEFAULT_POOL = 10000; // 1 min
+const MODAL_MAX_WIDTH = 512;
+const CONTENT_WIDTH = Platform.select({ web: MODAL_MAX_WIDTH, native: width });
 // we can customize the json component by making changes to the theme object
 // see more in the docs https://www.npmjs.com/package/react-native-json-tree
 const theme = {
@@ -32,22 +37,35 @@ const theme = {
   base0E: '#ae81ff',
   base0F: '#cc6633',
 };
-
 const styles = StyleSheet.create({
   modal: {
     width: '100%',
     height: '100%',
-    borderRadius: 40,
+    borderRadius: Platform.select({ web: 40, native: 0 }),
     overflow: 'hidden',
     maxWidth: 512,
-    ...Platform.select({
-      web: { maxHeight: 512 },
-      native: { maxHeight: 300 },
-    }),
+    maxHeight: 512,
     alignSelf: 'center',
+    position: 'relative',
+    alignItems: 'flex-start',
+    zIndex: 10,
+  },
+  image: {
+    width: '100%', height: CONTENT_WIDTH,
+  },
+  closeButton: {
+    borderRadius: 999,
+    width: 32,
+    height: 32,
+    backgroundColor: 'grey',
+    position: 'absolute',
+    top: Platform.select({ web: 20, native: 20 + (MODAL_MAX_WIDTH - width) / 2 }),
+    right: 20,
+    zIndex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-const DEFAULT_POOL = 10000; // 1 min
 
 export default () => {
   const [picturesModal, setPicturesModal] = useState(false);
@@ -136,30 +154,40 @@ export default () => {
 
   return (
     <>
-      <Card>
-        <Card.Title
-          title="Vehicle info"
-          subtitle={getSubtitle(inspection)}
-        />
-        <Card.Content>
-          <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
-        </Card.Content>
-        <Card.Actions>
-          <Button onPress={handleOpenModal}>Show images</Button>
-          <Button onPress={goToLibrary}>
-            Show damages
-          </Button>
-        </Card.Actions>
-      </Card>
+      <View style={{ zIndex: -1 }}>
+        <Card>
+          <Card.Title
+            title="Vehicle info"
+            subtitle={getSubtitle(inspection)}
+          />
+          <Card.Content>
+            <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
+          </Card.Content>
+          <Card.Actions>
+            <Button onPress={handleOpenModal}>Show images</Button>
+            <Button onPress={goToLibrary}>
+              Show damages
+            </Button>
+          </Card.Actions>
+        </Card>
+      </View>
       <Modal
         contentContainerStyle={styles.modal}
         onDismiss={handleCloseModal}
         visible={picturesModal}
       >
+        {/* close button */}
+        <TouchableOpacity style={styles.closeButton} onPress={handleCloseModal}>
+          <MaterialCommunityIcons name="close" size={24} color="white" />
+        </TouchableOpacity>
+
+        {/* carousel */}
         <Carousel
+          withArrows
+          contentWidth={CONTENT_WIDTH}
           data={imagesList}
           renderItem={({ item, index }) => (
-            <Image source={{ uri: item.path }} key={index} style={{ width: '100%', height: 512 }} />
+            <Image source={{ uri: item.path }} key={index} style={styles.image} />
           )}
         />
       </Modal>
