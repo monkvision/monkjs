@@ -2,7 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import { normalize } from 'normalizr';
 
 import * as api from './tasksApi';
-import { entity } from './tasksEntity';
+import { entity, entityCollection } from './tasksEntity';
 
 export const tasksAdapter = createEntityAdapter();
 
@@ -11,6 +11,22 @@ export const updateOneTaskOfInspection = createAsyncThunk(
   async (arg) => {
     const { data } = await api.updateOne({ ...arg });
     return normalize(data, entity);
+  },
+);
+
+export const getOneInspectionTask = createAsyncThunk(
+  'tasks/getOne',
+  async (arg) => {
+    const { data } = await api.getOne({ ...arg });
+    return normalize(data, entity);
+  },
+);
+
+export const getAllInspectionTasks = createAsyncThunk(
+  'tasks/getAll',
+  async (arg) => {
+    const { data } = await api.getAll({ ...arg });
+    return normalize(data, entityCollection);
   },
 );
 
@@ -44,6 +60,16 @@ export const slice = createSlice({
     builder.addCase(updateOneTaskOfInspection.pending, handlePending);
     builder.addCase(updateOneTaskOfInspection.rejected, handleRejected);
     builder.addCase(updateOneTaskOfInspection.fulfilled, handleFulfilled);
+
+    // getOneInspectionTask
+    builder.addCase(getOneInspectionTask.pending, handlePending);
+    builder.addCase(getOneInspectionTask.rejected, handleRejected);
+    builder.addCase(getOneInspectionTask.fulfilled, handleFulfilled);
+
+    // getAllInspectionTasks
+    builder.addCase(getAllInspectionTasks.pending, handlePending);
+    builder.addCase(getAllInspectionTasks.rejected, handleRejected);
+    builder.addCase(getAllInspectionTasks.fulfilled, handleFulfilled);
   },
 });
 

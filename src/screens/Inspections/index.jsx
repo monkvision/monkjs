@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Placeholder from 'components/Placeholder';
 import useInterval from 'hooks/useInterval';
-// import Pagination from 'components/Pagination';
+import Pagination from 'components/Pagination';
 
 import {
   Appbar,
@@ -32,7 +32,8 @@ import {
 
 import { INSPECTION_READ } from 'screens/names';
 import notFoundImage from './image-not-found-scaled.png';
-// const LIMIT_OPTIONS = [10, 20, 50, 100];
+
+const LIMIT_OPTIONS = [10, 20, 50, 100];
 
 const styles = StyleSheet.create({
   root: {
@@ -83,6 +84,7 @@ export default () => {
   const { loading, error, paging } = useSelector(({ inspections }) => inspections);
   const inspections = useSelector(selectAllInspections);
   const images = useSelector(selectImageEntities);
+  const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
 
   const [inspectionToDelete, setInspectionToDelete] = useState(null);
 
@@ -107,8 +109,8 @@ export default () => {
     .fill(<Placeholder style={styles.loadingIndicator} />), []);
 
   const handleRefresh = useCallback(() => {
-    dispatch(getAllInspections());
-  }, [dispatch]);
+    dispatch(getAllInspections({ params: { limit: pageLimiter } }));
+  }, [dispatch, pageLimiter]);
 
   const handleDismissDialog = useCallback(() => {
     setInspectionToDelete(null);
@@ -117,6 +119,14 @@ export default () => {
   const handleDelete = useCallback(() => {
     dispatch(deleteOneInspection({ id: inspectionToDelete }));
   }, [dispatch, inspectionToDelete]);
+
+  const handleNext = useCallback((next) => {
+    dispatch(getAllInspections({ params: { limit: pageLimiter, before: next.before } }));
+  }, [dispatch, pageLimiter]);
+
+  const handlePrev = useCallback((prev) => {
+    dispatch(getAllInspections({ params: { limit: pageLimiter, after: prev.after } }));
+  }, [dispatch, pageLimiter]);
 
   const handlePress = useCallback(
     (inspectionId) => {
@@ -187,15 +197,18 @@ export default () => {
             ))}
             {isEmpty(inspections) && skeletons}
           </View>
-          {/* <View> */}
-          {/*  {paging && ( */}
-          {/*  <Pagination */}
-          {/*    paging={paging} */}
-          {/*    initialLimit={LIMIT_OPTIONS[0]} */}
-          {/*    limitOptions={LIMIT_OPTIONS} */}
-          {/*  /> */}
-          {/*  )} */}
-          {/* </View> */}
+          <View>
+            {paging && (
+              <Pagination
+                paging={paging}
+                initialLimit={pageLimiter}
+                limitOptions={LIMIT_OPTIONS}
+                onLimitChange={setPageLimiter}
+                onNext={handleNext}
+                onPrevious={handlePrev}
+              />
+            )}
+          </View>
         </ScrollView>
       </SafeAreaView>
       <Portal>

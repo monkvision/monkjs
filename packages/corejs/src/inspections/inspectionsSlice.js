@@ -84,7 +84,15 @@ export const slice = createSlice({
     // getAllInspections
     builder.addCase(getAllInspections.pending, handlePending);
     builder.addCase(getAllInspections.rejected, handleRejected);
-    builder.addCase(getAllInspections.fulfilled, handleFulfilled);
+    builder.addCase(getAllInspections.fulfilled, (state, action) => {
+      state.error = false;
+      state.loading = 'idle';
+
+      const { entities, result } = action.payload;
+      if (result?.paging) { state.paging = result.paging; }
+
+      inspectionsAdapter.setAll(state, entities.inspections);
+    });
 
     // createOneInspection
     builder.addCase(createOneInspection.pending, handlePending);
