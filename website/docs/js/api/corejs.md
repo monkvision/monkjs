@@ -1,109 +1,39 @@
 ---
 id: corejs
-title: "🧿 corejs"
+title: "Fetching data"
 slug: /js/api/corejs
 ---
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)
 
 Install with `npm`
 ``` npm
-npm install @monkvision/corejs @reduxjs/toolkit react-redux --save
+npm install @monkvision/corejs --save
 ```
 
 Install from `yarn`
 ``` yarn
-yarn add @monkvision/corejs @reduxjs/toolkit react-redux
+yarn add @monkvision/corejs
 ```
 
-⛓️ Peer dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
+⛓️ Dependencies in [`package.json`](https://github.com/monkvision/monkjs/tree/main/packages/corejs/package.json):
  ``` json
-"@reduxjs/toolkit": "*"
-"react": "^16.14.0 || ^17.0.0",
-"react-redux": "^7.2.1"
+"dependencies": {
+  "@reduxjs/toolkit": "^1.6.2",
+  "axios": "^0.24.0",
+  "lodash.camelcase": "^4.3.0",
+  "lodash.isplainobject": "^4.0.6",
+  "lodash.mapkeys": "^4.6.0"
+}
  ```
 
-## MonkCore
+## damages
+## documents
+## images
+## inspections
+## parts
+## sights
+## tasks
+## vehicles
+## views
 
-Based on Redux, the core instance provides a set of tools to request manipulation of Monk data.
 
-``` javascript
-import MonkCore, { getBaseQuery } from '@monkvision/corejs';
-import dotenv from 'dotenv'
-
-// Use the env config tool that fit your own project
-// For example:
-// import Constants from 'expo-constants';
-// const config = Constants.manifest.extra;
-
-const config = dotenv.config()
-
-if (config.error) {
-  throw config.error
-}
-
-const monkCore = new MonkCore(getBaseQuery({
-  baseUrl: `https://${config.MONK_DOMAIN}/`,
-}));
-
-export default monkCore;
-```
-
-### APIs
-* [inspection](#inspection-api)
-* [damage](#damage-api)
-
-## Inspection API
-``` javascript
-import monkCore from 'config/monkCore';
-
-// Your own components...
-import Loading from 'components/Loading';
-import Empty from 'components/Empty';
-import Inspection from 'components/Inspection';
-
-const { useGetInspectionsQuery } = monkCore.inspection;
-
-function App() {
-  const { data, isLoading } = useGetInspectionsQuery();
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isEmpty(data)) {
-    return <Empty />;
-  }
-
-  return data.map((props) => <Inspection {...props) />;
-}
-```
-
-### useGetInspectionByIdQuery
-
-``` javascript
-const { useGetInspectionsQuery } = monkCore.inspection;
-const { data, isLoading } = useGetInspectionsQuery(id);
-```
-
-### useGetInspectionsQuery
-
-``` javascript
-const { useGetInspectionsQuery } = monkCore.inspection;
-const { data, isLoading } = useGetInspectionsQuery({ limit: 20 });
-```
-
-### useGetAllInspectionsQuery
-
-``` javascript
-const { useGetAllInspectionsQuery } = monkCore.inspection;
-```
-
-### usePostOneInspectionQuery
-
-``` javascript
-const { usePostOneInspectionQuery } = monkCore.inspection;
-```
-
-## Damage API
-
-## Sights

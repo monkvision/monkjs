@@ -20,10 +20,8 @@ Install `@monkvision/corejs` from `yarn`
 yarn add @monkvision/corejs
 ```
 
-Then we start by instantiating the core with an object of type `BaseQuery`.
-
 ``` javascript
-import MonkCore, { getBaseQuery } from '@monkvision/corejs';
+import { config as corejs } from '@monkvision/corejs';
 import dotenv from 'dotenv'
 
 // Use the env config tool that fit your own project
@@ -37,62 +35,33 @@ if (config.error) {
   throw config.error
 }
 
-const monkCore = new MonkCore(getBaseQuery({
-  baseUrl: `https://${config.MONK_DOMAIN}/`,
-}));
+const axiosConfig = {
+  baseURL: `https://${config.API_DOMAIN}`,
+  headers: { 'Access-Control-Allow-Origin': '*' },
+};
 
-export default monkCore;
+const authConfig = {
+  domain: config.AUTH_DOMAIN,
+  audience: config.AUTH_AUDIENCE,
+  clientId: config.AUTH_CLIENT_ID,
+};
+
+corejs.axiosConfig = axiosConfig;
+corejs.authConfig = authConfig;
 ```
 
-## `baseQuery` option
+## `config` instance
 
-The easiest way is to directly specify a custom header when instantiating the core.
-
-``` javascript
-const monkCore = new MonkCore(getBaseQuery({
-  baseUrl: `https://${config.MONK_DOMAIN}/`,
-  customHeaders: [['authorization', `Bearer ${yourToken}`]]
-}));
-```
-
-## `auth` reducer
-
-You can also instantiate the core at runtime and setup a listener
-via [Redux Toolkit](https://redux-toolkit.js.org/rtk-query/api/created-api/redux-integration).
+The easiest way is to directly specify a custom accessToken to the corejs instance.
 
 ``` javascript
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import monkCore from 'config/monkCore';
+import { config } from '@monkvision/corejs';
 
-// Your own auth slice reducer
-import auth from './slices/auth';
+// ...
 
-const middlewares = [monkCore.inspection.middleware];
+if (response?.type === 'success' && response.authentication?.accessToken) {
+      const { accessToken } = response.authentication;
+      config.accessToken = accessToken;
 
-
-const store = configureStore({
-  middleware: (getMiddleware) => getMiddleware().concat(middlewares),
-  reducer: {
-    auth,
-    [monkCore.inspection.reducerPath]: monkCore.inspection.reducer,
-  },
-});
-
-setupListeners(store.dispatch);
-
-export default store;
-```
-
-The core will listen directly to your store
-and will use the `accessToken` present in the `auth` reducer.
-In this case, it is important to respect the names `auth.accessToken`
-since the core prepares its headers in the following way.
-
-``` javascript
-prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.accessToken;
       // ...
 ```
-
-**Soon: via the `<MonkProvider />`**

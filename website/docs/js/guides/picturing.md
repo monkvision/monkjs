@@ -28,23 +28,23 @@ export default function App() {
 This will create a tunnel view for taking pictures. ``<CameraView />`` takes callbacks and compose with your own logic.
 
 ```javascript
-const handleCloseCamera = React.useCallback((pictures) => {
+const handleSuccess = React.useCallback(({ pictures }) => {
     console.log(pictures); // [[Sight, Source], ...]
   }, []);
 
-const handleTakePicture = React.useCallback((picture) => {
+const handleTakePicture = React.useCallback(({ picture }) => {
   console.log(picture); // [Sight, Source]
 }, []);
 
 return (
   <CameraView
-    onCloseCamera={handleCloseCamera}
+    onSuccess={handleSuccess}
     onTakePicture={handleTakePicture}
   />
 );
 ```
 
-**See the [CameraView API](https://monkvision.github.io/monkjs/docs/js/api/react-native-views#cameraview) to more details.**
+**See the [CameraView API](https://monkvision.github.io/monkjs/docs/js/api/react-native#cameraview) to more details.**
 
 ## Sights
 
@@ -58,8 +58,9 @@ This scheme will enable a wheel indicator displaying the angle we need to take t
 Plus an overlay is completing the view helping to take position before taking the picture.
 
 ``` json
-/* picture */
+/* pictures */
 {
+  // ...
   "abstractFront": {
     "sight": Sight,
     "source": { "uri":"data:image/png;base64", "width":640, "height":480, "exif":{...} }
