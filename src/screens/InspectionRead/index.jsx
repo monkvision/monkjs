@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
 
-import { Appbar, Card, Button } from 'react-native-paper';
+import { useFakeActivity } from '@monkvision/react-native-views';
+import { Appbar, Card, Button, useTheme } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
 import useInterval from 'hooks/useInterval';
 import { DAMAGE_LIBRARY } from '../names';
@@ -37,14 +38,12 @@ export default () => {
   const route = useRoute();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { colors } = useTheme();
 
   const { inspectionId } = route.params;
   const { loading, error } = useSelector((state) => state.inspections);
+  const [fakeActivity] = useFakeActivity(loading === 'pending');
   const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
-
-  const getSubtitle = useCallback(({ createdAt, id }) => `
-    ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
-  `, []);
 
   const { loading: tasksLoading, error: tasksError } = useSelector(((state) => state.tasks));
   const tasks = useSelector(selectAllTasks);
@@ -52,11 +51,26 @@ export default () => {
   const { loading: damagesLoading, error: damagesError } = useSelector(((state) => state.damages));
   const damages = useSelector(selectAllDamages);
 
+  const getSubtitle = useCallback(({ createdAt, id }) => `
+    ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
+  `, []);
+
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
       navigation.goBack();
     }
   }, [navigation]);
+
+  const poolTasks = useCallback(
+    () => dispatch(getAllInspectionTasks({ inspectionId })), [dispatch, inspectionId],
+  );
+
+  const handleRefresh = useCallback(() => dispatch(getOneInspectionById({ id: inspectionId })),
+    [dispatch, inspectionId]);
+
+  const goToLibrary = useCallback(() => {
+    navigation.navigate(DAMAGE_LIBRARY, { inspectionId });
+  }, [inspectionId, navigation]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -65,25 +79,26 @@ export default () => {
           <Appbar.Header>
             <Appbar.BackAction onPress={handleGoBack} />
             <Appbar.Content title="Inspection" subtitle={inspectionId} />
+            <Button
+              onPress={handleRefresh}
+              icon={fakeActivity ? undefined : 'refresh'}
+              color={colors.primaryContrastText}
+              loading={fakeActivity}
+              disabled={fakeActivity}
+            >
+              Refresh
+            </Button>
           </Appbar.Header>
         ),
       });
     }
-  }, [handleGoBack, navigation, inspectionId]);
+  }, [handleGoBack, navigation, inspectionId, fakeActivity, colors, handleRefresh]);
 
   useEffect(() => {
     if (loading !== 'pending' && !inspection && !error) {
-      dispatch(getOneInspectionById({ id: inspectionId }));
+      handleRefresh();
     }
-  }, [dispatch, error, inspection, inspectionId, loading]);
-
-  const goToLibrary = useCallback(() => {
-    navigation.navigate(DAMAGE_LIBRARY, { inspectionId });
-  }, [inspectionId, navigation]);
-
-  const poolTasks = useCallback(
-    () => dispatch(getAllInspectionTasks({ inspectionId })), [dispatch, inspectionId],
-  );
+  }, [error, handleRefresh, inspection, loading]);
 
   const tasksToBeDone = useMemo(() => (
     tasks?.length
@@ -100,12 +115,9 @@ export default () => {
 
   useEffect(() => {
     if (!tasksToBeDone && damagesLoading !== 'pending' && !damagesError) {
-      dispatch(getOneInspectionById({ id: inspectionId }));
+      handleRefresh();
     }
-  }, [
-    damagesError, damagesLoading,
-    dispatch, inspectionId, tasks, tasksToBeDone,
-  ]);
+  }, [damagesError, damagesLoading, handleRefresh, tasksToBeDone]);
 
   return (
     <Card>
