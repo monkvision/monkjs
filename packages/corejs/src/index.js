@@ -29,7 +29,11 @@ export const {
 
 // IMAGES
 
-export const { default: images, imagesAdapter, addOneImageToInspection } = imagesSlice;
+export const {
+  default: images,
+  imagesAdapter,
+  addOneImageToInspection,
+} = imagesSlice;
 
 export const {
   selectById: selectImageById,
@@ -65,7 +69,13 @@ export const {
 
 // TASKS
 
-export const { default: tasks, tasksAdapter, updateOneTaskOfInspection } = tasksSlice;
+export const {
+  default: tasks,
+  tasksAdapter,
+  updateOneTaskOfInspection,
+  getOneInspectionTask,
+  getAllInspectionTasks,
+} = tasksSlice;
 
 export const {
   selectById: selectTaskById,

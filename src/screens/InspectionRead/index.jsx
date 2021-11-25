@@ -1,11 +1,13 @@
 import moment from 'moment';
-import React, { useCallback, useEffect, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
+
 import { Appbar, Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
+import useInterval from 'hooks/useInterval';
 import { DAMAGE_LIBRARY } from '../names';
 
 // we can customize the json component by making changes to the theme object
@@ -29,6 +31,8 @@ const theme = {
   base0F: '#cc6633',
 };
 
+const DEFAULT_POOL = 10000; // 1 min
+
 export default () => {
   const route = useRoute();
   const dispatch = useDispatch();
@@ -41,6 +45,12 @@ export default () => {
   const getSubtitle = useCallback(({ createdAt, id }) => `
     ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
   `, []);
+
+  const { loading: tasksLoading, error: tasksError } = useSelector(((state) => state.tasks));
+  const tasks = useSelector(selectAllTasks);
+
+  const { loading: damagesLoading, error: damagesError } = useSelector(((state) => state.damages));
+  const damages = useSelector(selectAllDamages);
 
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
@@ -71,6 +81,32 @@ export default () => {
     navigation.navigate(DAMAGE_LIBRARY, { inspectionId });
   }, [inspectionId, navigation]);
 
+  const poolTasks = useCallback(
+    () => dispatch(getAllInspectionTasks({ inspectionId })), [dispatch, inspectionId],
+  );
+
+  const tasksToBeDone = useMemo(() => (
+    tasks?.length
+      ? tasks?.some((task) => (
+        task.status !== 'DONE'
+        && task.status !== 'ERROR'
+        && task.status !== 'VALIDATED'
+      ))
+      : true), [tasks]);
+
+  const delay = inspection && tasksLoading !== 'pending' && !tasksError && tasksToBeDone && DEFAULT_POOL;
+
+  useInterval(poolTasks, delay);
+
+  useEffect(() => {
+    if (!tasksToBeDone && damagesLoading !== 'pending' && !damagesError) {
+      dispatch(getOneInspectionById({ id: inspectionId }));
+    }
+  }, [
+    damagesError, damagesLoading,
+    dispatch, inspectionId, tasks, tasksToBeDone,
+  ]);
+
   return (
     <Card>
       <Card.Title
@@ -78,7 +114,7 @@ export default () => {
         subtitle={getSubtitle(inspection)}
       />
       <Card.Content>
-        <JSONTree data={inspection} theme={theme} />
+        <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
       </Card.Content>
       <Card.Actions>
         <Button>Show images</Button>
