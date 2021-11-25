@@ -12,7 +12,8 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getOneInspectionById.fulfilled, (state, action) => {
-      partsAdapter.upsertMany(state, action.payload.entities.parts);
+      const { parts } = action.payload.entities;
+      if (parts) { partsAdapter.upsertMany(state, parts); }
     });
   },
 });

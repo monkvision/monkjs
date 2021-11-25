@@ -98,22 +98,21 @@ const styles = StyleSheet.create({
 });
 
 export default function DamageLibrary({ navigation, route }) {
+  // using the following ref we avoid having re-rendering loop
+  const ref = useRef({ reRenders: 0 });
   const dispatch = useDispatch();
 
   const { inspectionId } = route.params;
-  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
   const { loading, error } = useSelector((state) => state.inspections);
-
-  const parts = useSelector((state) => selectAllParts(state)
-    .filter((part) => inspection.parts?.includes(part.id)));
+  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
+  const parts = useSelector((state) => selectAllParts(state))
+    .filter((part) => inspection.parts?.includes(part.id));
 
   const [currentView, setCurrentView] = useState('front');
   const [activeParts, setActiveParts] = useState({});
 
-  // using the following ref we avoid having re-rendering loop
-  const ref = useRef({ rerenders: 0 });
   useEffect(() => {
-    if (parts?.length && ref.current.rerenders === 0) {
+    if (parts?.length && ref.current.reRenders === 0) {
       // convert parts array to object
       const normalizedParts = parts.reduce((acc, cur) => {
         acc[camelCase(cur.part_type)] = true;
@@ -121,7 +120,7 @@ export default function DamageLibrary({ navigation, route }) {
       }, {});
 
       setActiveParts(normalizedParts);
-      ref.current.rerenders += 1;
+      ref.current.reRenders += 1;
     }
   }, [parts]);
 

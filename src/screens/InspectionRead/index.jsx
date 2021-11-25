@@ -35,8 +35,12 @@ export default () => {
   const navigation = useNavigation();
 
   const { inspectionId } = route.params;
-  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
   const { loading, error } = useSelector((state) => state.inspections);
+  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
+
+  const getSubtitle = useCallback(({ createdAt, id }) => `
+    ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
+  `, []);
 
   const handleGoBack = useCallback(() => {
     if (navigation && navigation.canGoBack()) {
@@ -71,16 +75,15 @@ export default () => {
     <Card>
       <Card.Title
         title="Vehicle info"
-        subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
+        subtitle={getSubtitle(inspection)}
       />
       <Card.Content>
         <JSONTree data={inspection} theme={theme} />
       </Card.Content>
       <Card.Actions>
         <Button>Show images</Button>
-        <Button>Delete</Button>
-        <Button onPress={goToLibrary} mode="contained">
-          Go to damage library
+        <Button onPress={goToLibrary}>
+          Show damages
         </Button>
       </Card.Actions>
     </Card>
