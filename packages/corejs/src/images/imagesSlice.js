@@ -47,7 +47,9 @@ export const slice = createSlice({
     builder.addCase(addOneImageToInspection.rejected, handleRejected);
     builder.addCase(addOneImageToInspection.fulfilled, handleFulfilled);
     builder.addCase(getAllInspections.fulfilled, ((state, action) => {
-      imagesAdapter.upsertMany(state, action.payload.entities.images);
+      if (action?.payload?.entities?.images) {
+        imagesAdapter.upsertMany(state, action.payload.entities.images);
+      }
     }));
   },
 });

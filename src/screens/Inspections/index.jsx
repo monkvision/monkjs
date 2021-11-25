@@ -1,5 +1,5 @@
 import { selectAllInspections, selectImageEntities } from '@monkvision/corejs/src';
-import React, { useCallback, useEffect, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import moment from 'moment';
 
 import { getAllInspections } from '@monkvision/corejs';
@@ -12,9 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { INSPECTION_READ } from 'screens/names';
 import Placeholder from 'components/Placeholder';
 
-// import Pagination from 'components/Pagination';
-// const LIMIT_OPTIONS = [10, 20, 50, 100];
+import Pagination from 'components/Pagination';
 import notFoundImage from './image-not-found-scaled.png';
+
+const LIMIT_OPTIONS = [10, 20, 50, 100];
 
 const styles = StyleSheet.create({
   root: {
@@ -60,17 +61,26 @@ export default () => {
   const { loading, error, paging } = useSelector(({ inspections }) => inspections);
   const inspections = useSelector(selectAllInspections);
   const images = useSelector(selectImageEntities);
+  const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
 
   const [fakeActivity] = useFakeActivity(loading === 'pending');
 
   const handleRefresh = useCallback(() => {
-    dispatch(getAllInspections());
-  }, [dispatch]);
+    dispatch(getAllInspections({ params: { limit: pageLimiter } }));
+  }, [dispatch, pageLimiter]);
 
   const handleDelete = useCallback(() => {
     // eslint-disable-next-line no-console
     console.log('Delete inspection');
   }, []);
+
+  const handleNext = useCallback((next) => {
+    dispatch(getAllInspections({ params: { limit: pageLimiter, before: next.before } }));
+  }, [dispatch, pageLimiter]);
+
+  const handlePrev = useCallback((prev) => {
+    dispatch(getAllInspections({ params: { limit: pageLimiter, after: prev.after } }));
+  }, [dispatch, pageLimiter]);
 
   const handlePress = useCallback(
     (inspectionId) => {
@@ -87,7 +97,7 @@ export default () => {
 
   const getCover = useCallback(
     (inspection) => {
-      if (inspection.images.length === 0) {
+      if (!inspection?.images?.length) {
         return notFoundImage;
       }
       const cover = images[inspection.images[0]];
@@ -124,12 +134,12 @@ export default () => {
     }
   }, [error, fakeActivity, handleRefresh, paging]);
 
-  const placeHolderArray = new Array(Platform.select({ web: 6, native: 3 })).fill('');
+  const placeHolderArray = new Array(Platform.select({ web: pageLimiter, native: 3 })).fill('');
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView>
         <View style={styles.listView}>
-          {inspections.length
+          {inspections.length && loading === 'idle'
             ? inspections.map((inspection) => (
               <Card
                 key={inspection.id}
@@ -153,15 +163,18 @@ export default () => {
               <Placeholder key={i} style={styles.loadingIndicator} />
             ))}
         </View>
-        {/* <View> */}
-        {/*  {paging && ( */}
-        {/*    <Pagination */}
-        {/*      paging={paging} */}
-        {/*      initialLimit={LIMIT_OPTIONS[0]} */}
-        {/*      limitOptions={LIMIT_OPTIONS} */}
-        {/*    /> */}
-        {/*  )} */}
-        {/* </View> */}
+        <View>
+          {paging && (
+          <Pagination
+            paging={paging}
+            initialLimit={pageLimiter}
+            limitOptions={LIMIT_OPTIONS}
+            onLimitChange={setPageLimiter}
+            onNext={handleNext}
+            onPrevious={handlePrev}
+          />
+          )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

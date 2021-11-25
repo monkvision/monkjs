@@ -17,9 +17,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: spacing(1),
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    height: '100%',
   },
   viewCenter: {
     ...utils.styles.flex,
+    alignItems: 'flex-end',
+    height: '100%',
   },
   element: {
     marginHorizontal: spacing(1),
