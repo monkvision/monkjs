@@ -1,14 +1,14 @@
 import { selectAllInspections, selectImageEntities } from '@monkvision/corejs/src';
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect } from 'react';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getAllInspections } from '@monkvision/corejs';
 import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 
-import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Card, IconButton, useTheme } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { INSPECTION_READ } from 'screens/names';
 import Placeholder from 'components/Placeholder';
@@ -54,31 +54,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AutoRefresh = ({ handleRefresh, shouldReset }) => {
-  const [secondes, setSecondes] = useState(60);
-  const handleSetSecondes = useCallback(() => {
-    setSecondes((prev) => (prev - 1 === 0 ? 60 : prev - 1));
-  }, [setSecondes]);
-
-  React.useEffect(() => {
-    if (shouldReset) { setSecondes(60); }
-  }, [shouldReset]);
-
-  const SECONDE = 1000;
-  useInterval(handleSetSecondes, SECONDE);
-
-  const MINUTE = 1000;
-  const delay = !shouldReset && MINUTE;
-  useInterval(handleRefresh, delay);
-
-  return (
-    <>
-      (
-      {secondes}
-      )
-    </>
-  );
-};
+const MINUTE = 60000; // in ms
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -123,6 +99,7 @@ export default () => {
     [images],
   );
 
+  useInterval(handleRefresh, MINUTE);
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -137,8 +114,6 @@ export default () => {
               loading={fakeActivity}
               disabled={fakeActivity}
             >
-              <AutoRefresh handleRefresh={handleRefresh} shouldReset={fakeActivity} />
-              {' '}
               Refresh
             </Button>
           </Appbar.Header>
