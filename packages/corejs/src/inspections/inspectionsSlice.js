@@ -41,8 +41,8 @@ export const updateOneInspection = createAsyncThunk(
 export const deleteOneInspection = createAsyncThunk(
   'inspections/deleteOne',
   async (arg) => {
-    const { data } = await api.deleteOne({ ...arg });
-    return normalize(data, entity);
+    await api.deleteOne({ ...arg });
+    return arg;
   },
 );
 
@@ -111,8 +111,7 @@ export const slice = createSlice({
     builder.addCase(deleteOneInspection.rejected, handleRejected);
     builder.addCase(deleteOneInspection.fulfilled, (state, action) => {
       state.loading = 'idle';
-      const { entities } = action.payload;
-      inspectionsAdapter.removeOne(state, entities.inspections);
+      inspectionsAdapter.removeOne(state, action.id);
     });
   },
 });
