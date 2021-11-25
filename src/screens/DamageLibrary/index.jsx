@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
+import { getOneInspectionById, selectInspectionById, selectAllParts } from '@monkvision/corejs';
 import { Vehicle } from '@monkvision/react-native';
 import { useFakeActivity, ActivityIndicatorView } from '@monkvision/react-native-views';
 
@@ -11,6 +11,8 @@ import { Surface, ProgressBar, Text, Colors, Appbar } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import vehicleViews from 'assets/vehicle.json';
+
+import camelCase from 'lodash.camelcase';
 
 import DamageLibraryLeftActions from './Actions/LeftActions';
 import { GuideButton, ValidateButton } from './Actions/Buttons';
@@ -96,17 +98,33 @@ const styles = StyleSheet.create({
 });
 
 export default function DamageLibrary({ navigation, route }) {
+  // using the following ref we avoid having re-rendering loop
+  const ref = useRef({ reRenders: 0 });
   const dispatch = useDispatch();
 
   const { inspectionId } = route.params;
-  const inspection = useSelector(((state) => selectInspectionById(state, inspectionId)));
-  const { loading, error } = useSelector(((state) => state.inspections));
+  const { loading, error } = useSelector((state) => state.inspections);
+  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
+  const parts = useSelector((state) => selectAllParts(state))
+    .filter((part) => inspection.parts?.includes(part.id));
 
   const [currentView, setCurrentView] = useState('front');
   const [activeParts, setActiveParts] = useState({});
 
-  const [fakeActivity] = useFakeActivity(loading === 'pending');
+  useEffect(() => {
+    if (parts?.length && ref.current.reRenders === 0) {
+      // convert parts array to object
+      const normalizedParts = parts.reduce((acc, cur) => {
+        acc[camelCase(cur.part_type)] = true;
+        return acc;
+      }, {});
 
+      setActiveParts(normalizedParts);
+      ref.current.reRenders += 1;
+    }
+  }, [parts]);
+
+  const [fakeActivity] = useFakeActivity(loading === 'pending');
   const handlePress = (id, isActive) => {
     setActiveParts((prev) => ({ ...prev, [id]: isActive }));
   };
@@ -130,19 +148,25 @@ export default function DamageLibrary({ navigation, route }) {
     }
   }, [handleGoBack, navigation]);
 
+  const handleReportValidation = useCallback(() => {
+    // eslint-disable-next-line no-console
+    console.log(activeParts);
+  }, [activeParts]);
+
   useEffect(() => {
-    if (loading !== 'pending' && !inspection && !error) {
+    if (loading !== 'pending' && !inspection?.damages && !error) {
       dispatch(getOneInspectionById({ id: inspectionId }));
     }
-  }, [dispatch, error, inspection, inspectionId, loading]);
+  }, [dispatch, error, inspection?.damages, inspectionId, loading]);
 
   return (
     <SafeAreaView style={styles.root}>
       <Surface style={styles.surface}>
         <View style={styles.vehicle}>
-          {fakeActivity ? (<ActivityIndicatorView light />) : (
+          {fakeActivity ? (
+            <ActivityIndicatorView light />
+          ) : (
             <Vehicle
-              pressAble
               xml={vehicleViews[currentView]}
               onPress={handlePress}
               activeParts={activeParts}
@@ -167,20 +191,18 @@ export default function DamageLibrary({ navigation, route }) {
           activeParts={activeParts}
         />
         <View style={styles.guideBtnContainer}>
-          <GuideButton onPress={
-            // eslint-disable-next-line no-console
-            () => console.log('open guide')
-          }
+          <GuideButton
+            onPress={
+              // eslint-disable-next-line no-console
+              () => console.log('open guide')
+            }
           />
         </View>
         <View style={styles.validateBtnContainer}>
           <ValidateButton
             style={styles.validateBtn}
             text="Validate report"
-            onPress={
-              // eslint-disable-next-line no-console
-              () => console.log('validate damages')
-            }
+            onPress={handleReportValidation}
           />
         </View>
       </Surface>
