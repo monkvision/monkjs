@@ -1,13 +1,15 @@
 import moment from 'moment';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Image, Platform, StyleSheet } from 'react-native';
 
-import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
+import { getOneInspectionById, selectInspectionById, selectAllTasks, selectImageEntities, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
 
-import { Appbar, Card, Button } from 'react-native-paper';
+import { Appbar, Card, Button, Modal } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
 import useInterval from 'hooks/useInterval';
+import Carousel from 'components/Carousel';
 import { DAMAGE_LIBRARY } from '../names';
 
 // we can customize the json component by making changes to the theme object
@@ -31,12 +33,29 @@ const theme = {
   base0F: '#cc6633',
 };
 
+const styles = StyleSheet.create({
+  modal: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 40,
+    overflow: 'hidden',
+    maxWidth: 512,
+    ...Platform.select({
+      web: { maxHeight: 512 },
+      native: { maxHeight: 300 },
+    }),
+    alignSelf: 'center',
+  },
+});
 const DEFAULT_POOL = 10000; // 1 min
 
 export default () => {
+  const [picturesModal, setPicturesModal] = useState(false);
   const route = useRoute();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const images = useSelector(selectImageEntities);
 
   const { inspectionId } = route.params;
   const { loading, error } = useSelector((state) => state.inspections);
@@ -85,6 +104,14 @@ export default () => {
     () => dispatch(getAllInspectionTasks({ inspectionId })), [dispatch, inspectionId],
   );
 
+  const handleOpenModal = useCallback(() => setPicturesModal(true), [setPicturesModal]);
+  const handleCloseModal = useCallback(() => setPicturesModal(false), [setPicturesModal]);
+
+  const imagesList = useMemo(
+    () => inspection.images.map((image) => images[image]).filter((image) => image),
+    [images, inspection],
+  );
+
   const tasksToBeDone = useMemo(() => (
     tasks?.length
       ? tasks?.some((task) => (
@@ -108,20 +135,34 @@ export default () => {
   ]);
 
   return (
-    <Card>
-      <Card.Title
-        title="Vehicle info"
-        subtitle={getSubtitle(inspection)}
-      />
-      <Card.Content>
-        <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
-      </Card.Content>
-      <Card.Actions>
-        <Button>Show images</Button>
-        <Button onPress={goToLibrary}>
-          Show damages
-        </Button>
-      </Card.Actions>
-    </Card>
+    <>
+      <Card>
+        <Card.Title
+          title="Vehicle info"
+          subtitle={getSubtitle(inspection)}
+        />
+        <Card.Content>
+          <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
+        </Card.Content>
+        <Card.Actions>
+          <Button onPress={handleOpenModal}>Show images</Button>
+          <Button onPress={goToLibrary}>
+            Show damages
+          </Button>
+        </Card.Actions>
+      </Card>
+      <Modal
+        contentContainerStyle={styles.modal}
+        onDismiss={handleCloseModal}
+        visible={picturesModal}
+      >
+        <Carousel
+          data={imagesList}
+          renderItem={({ item, index }) => (
+            <Image source={{ uri: item.path }} key={index} style={{ width: '100%', height: 512 }} />
+          )}
+        />
+      </Modal>
+    </>
   );
 };
