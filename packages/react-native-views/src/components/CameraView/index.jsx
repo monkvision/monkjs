@@ -19,7 +19,7 @@ import CameraControls from './CameraControls';
 import CameraOverlay from './CameraOverlay';
 import CameraPopUps from './CameraPopUps';
 import CameraScrollView from './CameraScrollView';
-import CameraMobileBrowserView from './CameraMobileBrowserView';
+import CameraOrientationView from './CameraOrientationView';
 
 const styles = StyleSheet.create({
   root: {
@@ -86,12 +86,20 @@ export default function CameraView({
   // When last picture is taken
   useSuccess(onSuccess, payload, handleFakeActivity);
 
-  const isNative = Platform.select({ native: true });
-  const [orientation] = useOrientation();
   // Mobile browser view
+  const [orientation, rotateToLandscape, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
-  if (isMobileBrowser || (isNative && orientation !== 3)) {
-    return <CameraMobileBrowserView />;
+
+  const isNative = Platform.select({ native: true });
+  const isNotLandscape = orientation !== 4 && orientation !== 3;
+
+  if (isMobileBrowser || (isNative && isNotLandscape)) {
+    return (
+      <CameraOrientationView
+        rotateToLandscape={rotateToLandscape}
+        supportOrientation={!isNotSupported && !isMobileBrowser}
+      />
+    );
   }
   return (
     <View style={styles.root}>
@@ -106,7 +114,11 @@ export default function CameraView({
             {/* camera and mask overlay */}
             <View>
               {ui.container.measures.width && (
-                <Components.Camera onCameraReady={handleCameraReady} ratio={ratio} />
+                <Components.Camera
+                  lockOrientationOnRendner={false}
+                  onCameraReady={handleCameraReady}
+                  ratio={ratio}
+                />
               )}
               <CameraOverlay
                 activeSightId={activeSight.id}
