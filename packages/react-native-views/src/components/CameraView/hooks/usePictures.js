@@ -25,11 +25,12 @@ function usePictures(camera, sights, onTakePicture, handleFakeActivity = noop) {
 
     handleFakeActivity();
 
-    const options = { quality: 1 };
+    const options = { quality: 1, zoom: 0 };
+    const sight = activeSight.toPlainObject();
     const picture = await camera.takePictureAsync(options);
-    const payload = { sight: activeSight.toPlainObject(), source: picture };
+    const payload = { name: sight.id, sight, source: picture };
 
-    setPictures((prevState) => ({ ...prevState, [activeSight.id]: payload }));
+    setPictures((prevState) => ({ ...prevState, [sight.id]: payload }));
     onTakePicture(payload);
 
     if (!nextSightProps.disabled) {

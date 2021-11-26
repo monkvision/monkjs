@@ -22,6 +22,8 @@ export default () => {
   const inspection = useSelector((state) => selectInspectionById(state, freshlyCreated));
 
   const handleSuccess = useCallback(({ pictures, sights }) => {
+    if (!inspection) { return; }
+
     const params = {
       inspectionId: inspection.id,
       taskName: 'damage_detection',
@@ -35,13 +37,15 @@ export default () => {
       pictures,
       sights,
     });
-  }, [dispatch, inspection?.id, navigation]);
+  }, [dispatch, inspection, navigation]);
 
   const handleClose = useCallback(() => {
     navigation.navigate(GETTING_STARTED);
   }, [navigation]);
 
   const handleTakePicture = useCallback((picture) => {
+    if (!inspection) { return; }
+
     const baseParams = {
       inspectionId: inspection.id,
       headers: { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' },

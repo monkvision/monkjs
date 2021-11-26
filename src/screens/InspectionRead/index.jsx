@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
 
-import { Appbar, Card, Button } from 'react-native-paper';
+import { Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
 import useInterval from 'hooks/useInterval';
 import { DAMAGE_LIBRARY } from '../names';
@@ -42,9 +42,9 @@ export default () => {
   const { loading, error } = useSelector((state) => state.inspections);
   const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
 
-  const getSubtitle = useCallback(({ createdAt, id }) => `
-    ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
-  `, []);
+  const subtitle = useMemo(() => `
+    ${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...
+  `, [inspection]);
 
   const { loading: tasksLoading, error: tasksError } = useSelector(((state) => state.tasks));
   const tasks = useSelector(selectAllTasks);
@@ -52,24 +52,14 @@ export default () => {
   const { loading: damagesLoading, error: damagesError } = useSelector(((state) => state.damages));
   const damages = useSelector(selectAllDamages);
 
-  const handleGoBack = useCallback(() => {
-    if (navigation && navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }, [navigation]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        header: () => (
-          <Appbar.Header>
-            <Appbar.BackAction onPress={handleGoBack} />
-            <Appbar.Content title="Inspection" subtitle={inspectionId} />
-          </Appbar.Header>
-        ),
+        title: `Inspection #${inspectionId.split('-')[0]}`,
+        headerBackVisible: true,
       });
     }
-  }, [handleGoBack, navigation, inspectionId]);
+  }, [navigation, inspectionId]);
 
   useEffect(() => {
     if (loading !== 'pending' && !inspection && !error) {
@@ -111,7 +101,7 @@ export default () => {
     <Card>
       <Card.Title
         title="Vehicle info"
-        subtitle={getSubtitle(inspection)}
+        subtitle={subtitle}
       />
       <Card.Content>
         <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />

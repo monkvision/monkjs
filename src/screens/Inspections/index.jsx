@@ -18,16 +18,7 @@ import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from
 import Placeholder from 'components/Placeholder';
 import Pagination from 'components/Pagination';
 
-import {
-  Appbar,
-  Button,
-  Card,
-  Dialog,
-  IconButton,
-  Portal,
-  Text,
-  useTheme,
-} from 'react-native-paper';
+import { Button, Card, Dialog, IconButton, Portal, Text, useTheme } from 'react-native-paper';
 
 import { INSPECTION_READ } from 'screens/names';
 import notFoundImage from './image-not-found-scaled.png';
@@ -99,10 +90,6 @@ export default () => {
     [images],
   );
 
-  const getSubtitle = useCallback(({ createdAt, id }) => `
-    ${moment(createdAt).format('L')} - ${id.split('-')[0]}...
-  `, []);
-
   const skeletons = useMemo(() => new Array(Platform.select({ web: 6, native: 3 }))
     .fill(<Placeholder style={styles.loadingIndicator} />), []);
 
@@ -133,33 +120,24 @@ export default () => {
     [navigation],
   );
 
-  const handleGoBack = useCallback(() => {
-    if (navigation && navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }, [navigation]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        header: () => (
-          <Appbar.Header>
-            <Appbar.BackAction onPress={handleGoBack} />
-            <Appbar.Content title="Inspections list" />
-            <Button
-              icon={fakeActivity ? undefined : 'refresh'}
-              onPress={handleRefresh}
-              color={colors.primaryContrastText}
-              loading={fakeActivity}
-              disabled={fakeActivity}
-            >
-              Refresh
-            </Button>
-          </Appbar.Header>
+        title: 'Inspections list',
+        headerBackVisible: true,
+        headerRight: () => (
+          <Button
+            icon={fakeActivity ? undefined : 'refresh'}
+            onPress={handleRefresh}
+            loading={fakeActivity}
+            disabled={fakeActivity}
+          >
+            Refresh
+          </Button>
         ),
       });
     }
-  }, [colors, fakeActivity, handleGoBack, handleRefresh, navigation]);
+  }, [colors, fakeActivity, handleRefresh, navigation]);
 
   useEffect(() => {
     if (!fakeActivity && !paging && !error) {
@@ -180,7 +158,10 @@ export default () => {
               >
                 <Card.Title
                   title="Vehicle info"
-                  subtitle={getSubtitle(inspection)}
+                  subtitle={`
+                    ${moment(inspection.createdAt).format('L')} -
+                    ${inspection.id.split('-')[0]}...
+                  `}
                   right={() => (
                     <IconButton
                       icon="trash-can"

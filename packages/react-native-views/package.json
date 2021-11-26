@@ -39,7 +39,7 @@
     "build": "bob build"
   },
   "dependencies": {
-    "react-native-paper": "^4.9.2"
+    "react-native-paper": "^4.10.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.14.5",

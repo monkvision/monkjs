@@ -1,13 +1,10 @@
-import React, { useCallback, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import noop from 'lodash.noop';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Avatar, Appbar, Button, List, useTheme } from 'react-native-paper';
-// import { SvgXml } from 'react-native-svg';
-
-// import drawing from '../../assets/undraw_camera_re_cnp4.json';
+import { Avatar, Button, List, useTheme } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   root: {
@@ -33,29 +30,15 @@ const styles = StyleSheet.create({
 export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePics, onStart }) {
   const { colors } = useTheme();
 
-  const handleGoBack = useCallback(() => {
-    if (navigation && navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }, [navigation]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        header: () => (
-          <Appbar.Header>
-            <Appbar.BackAction onPress={handleGoBack} />
-            <Appbar.Content title="Photo process" />
-            <Button icon="camera" color={colors.primaryContrastText} onPress={onStart}>
-              Start
-            </Button>
-          </Appbar.Header>
-        ),
+        title: 'Photo process',
+        headerBackVisible: true,
+        headerRight: () => <Button icon="camera" onPress={onStart}>Start</Button>,
       });
     }
-  }, [colors.primaryContrastText, handleGoBack, navigation, onStart]);
-
-  // console.log(drawing);
+  }, [navigation, onStart]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -84,9 +67,6 @@ export default function TutorialView({ navigation, nbOfInsidePics, nbOfOutsidePi
             )}
           />
         </View>
-        {/* <View style={styles.illustrationView}> */}
-        {/*  <SvgXml {...drawing} height="100%" /> */}
-        {/* </View> */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -7,7 +7,7 @@ import { Vehicle } from '@monkvision/react-native';
 import { useFakeActivity, ActivityIndicatorView } from '@monkvision/react-native-views';
 
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
-import { Surface, ProgressBar, Text, Colors, Appbar } from 'react-native-paper';
+import { Surface, ProgressBar, Text, Colors } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import vehicleViews from 'assets/vehicle.json';
@@ -129,24 +129,14 @@ export default function DamageLibrary({ navigation, route }) {
     setActiveParts((prev) => ({ ...prev, [id]: isActive }));
   };
 
-  const handleGoBack = useCallback(() => {
-    if (navigation && navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }, [navigation]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        header: () => (
-          <Appbar.Header>
-            <Appbar.BackAction onPress={handleGoBack} />
-            <Appbar.Content title="Damage Library" />
-          </Appbar.Header>
-        ),
+        headerBackVisible: true,
+        title: 'Damage Library',
       });
     }
-  }, [handleGoBack, navigation]);
+  }, [navigation]);
 
   const handleReportValidation = useCallback(() => {
     // eslint-disable-next-line no-console
