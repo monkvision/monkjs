@@ -10,6 +10,7 @@ import usePictures from './hooks/usePictures';
 import useSuccess from './hooks/useSuccess';
 import useUI from './hooks/useUI';
 import useMobileBrowserConfig from './hooks/useMobileBrowserConfig';
+import useOrientation from '../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 import { SIDEBAR_WIDTH, RATIO_FACTOR } from './constants';
@@ -85,12 +86,13 @@ export default function CameraView({
   // When last picture is taken
   useSuccess(onSuccess, payload, handleFakeActivity);
 
+  const isNative = Platform.select({ native: true });
+  const [orientation] = useOrientation();
   // Mobile browser view
   const isMobileBrowser = useMobileBrowserConfig();
-  if (isMobileBrowser) {
+  if (isMobileBrowser || (isNative && orientation !== 3)) {
     return <CameraMobileBrowserView />;
   }
-
   return (
     <View style={styles.root}>
       <StatusBar hidden />

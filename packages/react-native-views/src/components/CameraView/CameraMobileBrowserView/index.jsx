@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import LandscapeIllustration from './PortraitErrorIllustration';
+import { Button } from 'react-native-paper';
+import { SvgXml } from 'react-native-svg';
+// import LandscapeIllustration from './PortraitErrorIllustration';
+import useOrientation from '../../../hooks/useOrientation';
+import drawing from './drawing.svg';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,16 +24,23 @@ const styles = StyleSheet.create({
   title: { textAlign: 'center', fontSize: 28, fontWeight: '500' },
   text: { textAlign: 'center', margin: 16 },
 });
-const PortraitErrorView = () => (
-  <View style={styles.container}>
-    <View style={[styles.grayBar, { width: 40, top: 20 }]} />
-    <View style={[styles.grayBar, { width: 20, top: 100 }]} />
 
-    <Text style={styles.title}>Oops </Text>
-    <Text style={styles.text}>
-      This feature works only on landscape orientation, please rotate your phone.
-    </Text>
-    <LandscapeIllustration />
-  </View>
-);
+const PortraitErrorView = () => {
+  const [orientation, lock] = useOrientation();
+
+  return (
+    <View style={styles.container}>
+      <View style={[styles.grayBar, { width: 40, top: 20 }]} />
+      <View style={[styles.grayBar, { width: 20, top: 100 }]} />
+
+      <SvgXml xml={drawing} />
+
+      <Text style={styles.title}>Oops </Text>
+      <Text style={styles.text}>
+        This feature works only on landscape orientation, please rotate your phone.
+      </Text>
+      {orientation && orientation !== 3 ? <Button onPress={lock}>Rotate</Button> : null}
+    </View>
+  );
+};
 export default PortraitErrorView;
