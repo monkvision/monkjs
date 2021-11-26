@@ -158,10 +158,7 @@ export default () => {
               >
                 <Card.Title
                   title="Vehicle info"
-                  subtitle={`
-                    ${moment(inspection.createdAt).format('L')} -
-                    ${inspection.id.split('-')[0]}...
-                  `}
+                  subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
                   right={() => (
                     <IconButton
                       icon="trash-can"
