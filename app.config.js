@@ -8,7 +8,7 @@ export default {
   version: '1.0.0',
   owner: 'monkvision',
   primaryColor: '#274b9f',
-  privacy: 'hidden',
+  privacy: 'unlisted',
   scheme: 'monk',
 
   orientation: 'portrait',
@@ -17,7 +17,7 @@ export default {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#000',
+    backgroundColor: '#f2f2f2',
   },
 
   updates: {
@@ -40,7 +40,7 @@ export default {
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#fff',
+      backgroundColor: '#f2f2f2',
     },
   },
 
