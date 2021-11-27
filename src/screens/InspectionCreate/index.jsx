@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CameraView } from '@monkvision/react-native-views';
-import { GETTING_STARTED, INSPECTION_REVIEW } from 'screens/names';
+import { DAMAGES, GETTING_STARTED } from 'screens/names';
 
 import {
   createOneInspection,
@@ -32,7 +32,7 @@ export default () => {
 
     dispatch(updateOneTaskOfInspection(params));
 
-    navigation.navigate(INSPECTION_REVIEW, {
+    navigation.navigate(DAMAGES, {
       inspectionId: inspection.id,
       pictures,
       sights,

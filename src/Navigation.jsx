@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.DAMAGES}>
+      <Stack.Navigator initialRouteName={names.LANDING}>
 
         <Stack.Screen
           name={names.GETTING_STARTED}
@@ -82,11 +82,6 @@ export default function Navigation() {
         <Stack.Screen
           name={names.DAMAGE_READ}
           component={Screens.DamageRead}
-        />
-
-        <Stack.Screen
-          name={names.DAMAGE_LIBRARY}
-          component={Screens.DamageLibrary}
         />
 
         <Stack.Screen

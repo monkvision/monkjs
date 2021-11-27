@@ -8,7 +8,7 @@ import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDa
 import { Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
 import useInterval from 'hooks/useInterval';
-import { DAMAGE_LIBRARY } from '../names';
+import { DAMAGES } from '../names';
 
 // we can customize the json component by making changes to the theme object
 // see more in the docs https://www.npmjs.com/package/react-native-json-tree
@@ -42,10 +42,6 @@ export default () => {
   const { loading, error } = useSelector((state) => state.inspections);
   const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
 
-  const subtitle = useMemo(() => `
-    ${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...
-  `, [inspection]);
-
   const { loading: tasksLoading, error: tasksError } = useSelector(((state) => state.tasks));
   const tasks = useSelector(selectAllTasks);
 
@@ -68,7 +64,7 @@ export default () => {
   }, [dispatch, error, inspection, inspectionId, loading]);
 
   const goToLibrary = useCallback(() => {
-    navigation.navigate(DAMAGE_LIBRARY, { inspectionId });
+    navigation.navigate(DAMAGES, { inspectionId });
   }, [inspectionId, navigation]);
 
   const poolTasks = useCallback(
@@ -101,7 +97,7 @@ export default () => {
     <Card>
       <Card.Title
         title="Vehicle info"
-        subtitle={subtitle}
+        subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
       />
       <Card.Content>
         <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />

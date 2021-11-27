@@ -61,7 +61,7 @@ export default function Pagination({
           style={styles.element}
         >
           {limitOptions.map((option) => (
-            <Picker.Item key={`pagination-option-${option}`} label={option} value={option} />
+            <Picker.Item key={`pagination-option-${option}`} label={`${option}`} value={option} />
           ))}
         </Picker>
       </View>

@@ -20,7 +20,7 @@ import Pagination from 'components/Pagination';
 
 import { Button, Card, Dialog, IconButton, Portal, Text, useTheme } from 'react-native-paper';
 
-import { INSPECTION_READ } from 'screens/names';
+import { DAMAGES } from 'screens/names';
 import notFoundImage from './image-not-found-scaled.png';
 
 const LIMIT_OPTIONS = [10, 20, 50, 100];
@@ -85,7 +85,7 @@ export default () => {
         return notFoundImage;
       }
       const cover = images[inspection.images[0]];
-      return { uri: cover.path };
+      return cover ? { uri: cover.path } : {};
     },
     [images],
   );
@@ -115,7 +115,7 @@ export default () => {
 
   const handlePress = useCallback(
     (inspectionId) => {
-      navigation.navigate(INSPECTION_READ, { inspectionId });
+      navigation.navigate(DAMAGES, { inspectionId });
     },
     [navigation],
   );
