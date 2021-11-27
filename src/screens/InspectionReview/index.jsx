@@ -8,7 +8,7 @@ import { getOneInspectionById } from '@monkvision/corejs';
 import { propTypes } from '@monkvision/react-native';
 import { PicturesSummaryView } from '@monkvision/react-native-views';
 
-import { INSPECTION_READ } from 'screens/names';
+import { LANDING } from 'screens/names';
 
 export default function InspectionReview({ route }) {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ export default function InspectionReview({ route }) {
   const { loading, error } = useSelector((state) => state.inspections);
 
   const handleSuccess = () => {
-    navigation.navigate(INSPECTION_READ, { inspectionId });
+    navigation.navigate(LANDING);
   };
 
   useEffect(() => {

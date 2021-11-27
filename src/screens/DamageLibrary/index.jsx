@@ -13,9 +13,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import vehicleViews from 'assets/vehicle.json';
 
 import camelCase from 'lodash.camelcase';
+import { LANDING } from 'screens/names';
 
 import DamageLibraryLeftActions from './Actions/LeftActions';
-import { GuideButton, ValidateButton } from './Actions/Buttons';
+import { CloseButton, ValidateButton } from './Actions/Buttons';
 
 const styles = StyleSheet.create({
   root: {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     // fontFamily: 'roboto',
   },
-  guideBtnContainer: {
+  closeBtnContainer: {
     position: 'absolute',
     alignSelf: 'flex-end',
     top: 30,
@@ -129,15 +130,6 @@ export default function DamageLibrary({ navigation, route }) {
     setActiveParts((prev) => ({ ...prev, [id]: isActive }));
   };
 
-  useLayoutEffect(() => {
-    if (navigation) {
-      navigation?.setOptions({
-        headerBackVisible: true,
-        title: 'Damage Library',
-      });
-    }
-  }, [navigation]);
-
   const handleReportValidation = useCallback(() => {
     // eslint-disable-next-line no-console
     console.log(activeParts);
@@ -148,6 +140,12 @@ export default function DamageLibrary({ navigation, route }) {
       dispatch(getOneInspectionById({ id: inspectionId }));
     }
   }, [dispatch, error, inspection?.damages, inspectionId, loading]);
+
+  useLayoutEffect(() => {
+    if (navigation) {
+      navigation.setOptions({ headerShown: false });
+    }
+  }, [navigation, inspectionId]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -180,13 +178,8 @@ export default function DamageLibrary({ navigation, route }) {
           handlePress={(selected) => setCurrentView(selected)}
           activeParts={activeParts}
         />
-        <View style={styles.guideBtnContainer}>
-          <GuideButton
-            onPress={
-              // eslint-disable-next-line no-console
-              () => console.log('open guide')
-            }
-          />
+        <View style={styles.closeBtnContainer}>
+          <CloseButton onPress={() => navigation.navigate(LANDING)} />
         </View>
         <View style={styles.validateBtnContainer}>
           <ValidateButton

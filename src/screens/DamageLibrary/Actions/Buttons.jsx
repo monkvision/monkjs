@@ -1,29 +1,16 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, useTheme, Text } from 'react-native-paper';
-import { Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
 const styles = StyleSheet.create({
-  validateButton: {
-    justifyContent: 'center',
-    height: 60,
-    width: 178,
-    backgroundColor: '#5CCC68',
-  },
-  validateButtonText: {
-    fontWeight: 'bold',
-    color: '#FFF',
-    fontSize: 16,
-    lineHeight: 40,
-  },
-  guideBtnText: {
-    color: '#274B9F',
+  closeBtnText: {
     alignSelf: 'center',
     fontSize: 17,
   },
-  guideIcon: {
+  closeIcon: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -39,22 +26,32 @@ const styles = StyleSheet.create({
 });
 
 export const ValidateButton = ({ onPress, text }) => {
-  const theme = useTheme();
+  const { colors } = useTheme();
+
   return (
-    <Button mode="contained" uppercase={false} style={styles.validateButton} onPress={onPress} color={theme.colors.primary}>
-      <Text style={styles.validateButtonText}>{text}</Text>
+    <Button
+      mode="contained"
+      uppercase={false}
+      onPress={onPress}
+      color={colors.success}
+    >
+      {text}
     </Button>
   );
 };
 
-export const GuideButton = ({ onPress }) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={styles.guideIcon}>
-      <Octicons name="light-bulb" size={24} color="#274B9F" />
-    </View>
-    <Text style={styles.guideBtnText}>Guide</Text>
-  </TouchableOpacity>
-);
+export const CloseButton = ({ onPress }) => {
+  const { colors } = useTheme();
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.closeIcon}>
+        <MaterialCommunityIcons name="close" size={24} color={colors.danger} />
+      </View>
+      <Text style={{ color: colors.primary }}>Close</Text>
+    </TouchableOpacity>
+  );
+};
 
 ValidateButton.propTypes = {
   onPress: PropTypes.func,
@@ -66,10 +63,10 @@ ValidateButton.defaultProps = {
   text: 'Validate',
 };
 
-GuideButton.propTypes = {
+CloseButton.propTypes = {
   onPress: PropTypes.func,
 };
 
-GuideButton.defaultProps = {
+CloseButton.defaultProps = {
   onPress: noop,
 };
