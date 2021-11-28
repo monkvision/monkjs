@@ -115,7 +115,7 @@ export default function CameraView({
             <View>
               {ui.container.measures.width && (
                 <Components.Camera
-                  lockOrientationOnRendner={false}
+                  lockOrientationOnRender={false}
                   onCameraReady={handleCameraReady}
                   ratio={ratio}
                 />
