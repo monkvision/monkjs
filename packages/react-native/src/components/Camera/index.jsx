@@ -14,7 +14,7 @@ import useCameraAsync from '../../hooks/useCameraAsync';
  * @param onCameraReady {func}
  * @param onCameraRef {func}
  * @param ratio {string}
- * @param lockOrientationOnRendner {bool}
+ * @param lockOrientationOnRender {bool}
  * @returns {JSX.Element}
  * @constructor
  *
@@ -23,11 +23,11 @@ function Camera({
   onCameraReady,
   onCameraRef,
   ratio,
-  lockOrientationOnRendner,
+  lockOrientationOnRender,
 }) {
   // STATE
   const [camera, setCamera] = useState();
-  const [cameraCanMount] = useCameraAsync({ lockOrientationOnRendner });
+  const [cameraCanMount] = useCameraAsync({ lockOrientationOnRender });
 
   const cameraStyle = useMemo(() => {
     // eslint-disable-next-line import/no-named-as-default-member
@@ -62,7 +62,7 @@ function Camera({
 }
 
 Camera.propTypes = {
-  lockOrientationOnRendner: PropTypes.bool,
+  lockOrientationOnRender: PropTypes.bool,
   onCameraReady: PropTypes.func,
   onCameraRef: PropTypes.func,
   ratio: PropTypes.string,
@@ -72,7 +72,7 @@ Camera.defaultProps = {
   onCameraReady: noop,
   onCameraRef: noop,
   ratio: '4:3',
-  lockOrientationOnRendner: true,
+  lockOrientationOnRender: true,
 };
 
 export default Camera;

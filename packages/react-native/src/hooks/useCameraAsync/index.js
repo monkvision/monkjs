@@ -7,7 +7,7 @@ import utils from '../../components/utils';
 /**
  * @returns {[unknown, {isAvailable: null, hasPermission: null, isLockInLandscape: null}]}
  */
-export default function useCameraAsync({ lockOrientationOnRendner }) {
+export default function useCameraAsync({ lockOrientationOnRender }) {
   const isNative = useMemo(
     () => Platform.select({ native: true, default: false }),
     [],
@@ -38,7 +38,7 @@ export default function useCameraAsync({ lockOrientationOnRendner }) {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       const isAvailable = isAlwaysAvailable || await Camera.isAvailableAsync();
-      const isLockInLandscape = lockOrientationOnRendner
+      const isLockInLandscape = lockOrientationOnRender
       && (!isNative
         || await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT));
 
@@ -56,7 +56,7 @@ export default function useCameraAsync({ lockOrientationOnRendner }) {
         );
       }
     };
-  }, [isAlwaysAvailable, isNative, lockOrientationOnRendner]);
+  }, [isAlwaysAvailable, isNative, lockOrientationOnRender]);
 
   return [cameraCanMount, cameraAsync];
 }
