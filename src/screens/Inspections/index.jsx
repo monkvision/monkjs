@@ -3,12 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import moment from 'moment';
 import isEmpty from 'lodash.isempty';
+import { denormalize } from 'normalizr';
 
 import {
   getAllInspections,
+  selectInspectionIds,
+  selectInspectionEntities,
   deleteOneInspection,
-  selectAllInspections,
   selectImageEntities,
+  inspectionsEntity,
+  imagesEntity,
 } from '@monkvision/corejs';
 
 import { useFakeActivity } from '@monkvision/react-native-views';
@@ -80,12 +84,17 @@ export default () => {
   const { colors } = useTheme();
 
   const { loading, error, paging } = useSelector(({ inspections }) => inspections);
-  const inspections = useSelector(selectAllInspections);
-  const images = useSelector(selectImageEntities);
+  const ids = useSelector(selectInspectionIds);
+  const inspectionEntities = useSelector(selectInspectionEntities);
+  const imagesEntities = useSelector(selectImageEntities);
+
+  const { inspections } = denormalize({ inspections: ids }, {
+    inspections: [inspectionsEntity],
+    images: [imagesEntity],
+  }, { inspections: inspectionEntities, images: imagesEntities });
+
   const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
-
   const [inspectionToDelete, setInspectionToDelete] = useState(null);
-
   const [fakeActivity] = useFakeActivity(loading === 'pending');
 
   const getCover = useCallback(
@@ -93,17 +102,18 @@ export default () => {
       if (inspection.images.length === 0) {
         return notFoundImage;
       }
-      const cover = images[inspection.images[0]];
+
+      const cover = inspection.images[0];
       return cover ? { uri: cover.path } : {};
     },
-    [images],
+    [],
   );
 
   const skeletons = useMemo(() => new Array(Platform.select({ web: 6, native: 3 }))
     .fill(<Placeholder style={styles.loadingIndicator} />), []);
 
   const handleRefresh = useCallback(() => {
-    dispatch(getAllInspections({ params: { limit: pageLimiter } }));
+    dispatch(getAllInspections({ params: { limit: pageLimiter, show_deleted: false } }));
   }, [dispatch, pageLimiter]);
 
   const handleDismissDialog = useCallback(() => {
@@ -155,6 +165,12 @@ export default () => {
       handleRefresh();
     }
   }, [error, fakeActivity, handleRefresh, paging]);
+
+  useEffect(() => {
+    if (!fakeActivity && inspectionToDelete !== null && !inspectionEntities[inspectionToDelete]) {
+      setInspectionToDelete(null);
+    }
+  }, [fakeActivity, inspectionEntities, inspectionToDelete]);
 
   return (
     <>
@@ -224,7 +240,16 @@ export default () => {
             </Button>
           </Dialog.Actions>
           <Dialog.Actions>
-            <Button color={colors.error} style={styles.dialogActions} onPress={handleDelete} mode="contained" icon="trash-can" labelStyle={{ color: 'white' }}>
+            <Button
+              color={colors.error}
+              style={styles.dialogActions}
+              onPress={handleDelete}
+              mode="contained"
+              icon={loading === 'pending' ? undefined : 'trash-can'}
+              labelStyle={{ color: 'white' }}
+              loading={loading === 'pending'}
+              disabled={loading === 'pending'}
+            >
               Delete
             </Button>
           </Dialog.Actions>

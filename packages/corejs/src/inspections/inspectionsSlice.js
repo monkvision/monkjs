@@ -119,7 +119,7 @@ export const slice = createSlice({
     builder.addCase(deleteOneInspection.rejected, handleRejected);
     builder.addCase(deleteOneInspection.fulfilled, (state, action) => {
       state.loading = 'idle';
-      inspectionsAdapter.removeOne(state, action.id);
+      inspectionsAdapter.removeOne(state, action.payload.id);
     });
   },
 });

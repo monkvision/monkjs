@@ -4,6 +4,12 @@ import * as partsSlice from './parts/partsSlice';
 import * as inspectionsSlice from './inspections/inspectionsSlice';
 import * as tasksSlice from './tasks/tasksSlice';
 
+export { default as damagesEntity } from './damages/damagesEntity';
+export { default as imagesEntity } from './images/imagesEntity';
+export { default as partsEntity } from './parts/partsEntity';
+export { default as inspectionsEntity } from './inspections/inspectionsEntity';
+export { default as tasksEntity } from './tasks/tasksEntity';
+
 export { default as config } from './config';
 export { default as Sight } from './sights/Sight';
 export { default as values } from './values';

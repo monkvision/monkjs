@@ -1,5 +1,5 @@
-import entities from 'entities';
 import { schema } from 'normalizr';
+import entities from '../entities';
 
 export const entity = new schema.Entity('vehicles', {}, entities.options);
 

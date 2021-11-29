@@ -1,5 +1,4 @@
 import { schema } from 'normalizr';
-
 import entities from '../entities';
 
 import { entityCollection as images } from '../images/imagesEntity';
@@ -20,3 +19,5 @@ export const entity = new schema.Entity(KEY, {
 }, entities.options);
 
 export const entityCollection = [entity];
+
+export default entity;
