@@ -23,7 +23,7 @@ import { Button, Card, Dialog, IconButton, Portal, Text, useTheme } from 'react-
 import { DAMAGES } from 'screens/names';
 import notFoundImage from './image-not-found-scaled.png';
 
-const LIMIT_OPTIONS = [10, 20, 50, 100];
+const LIMIT_OPTIONS = ['10', '20', '50', '100'];
 
 const styles = StyleSheet.create({
   root: {
