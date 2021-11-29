@@ -18,10 +18,12 @@ import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from
 import Placeholder from 'components/Placeholder';
 import Pagination from 'components/Pagination';
 
-import { Button, Card, Dialog, IconButton, Portal, Text, useTheme } from 'react-native-paper';
+import Drawing from 'components/Drawing';
+import { Button, Card, Dialog, IconButton, Portal, Paragraph, useTheme } from 'react-native-paper';
 
 import { DAMAGES } from 'screens/names';
 import notFoundImage from './image-not-found-scaled.png';
+import trash from './trash.svg';
 
 const LIMIT_OPTIONS = [10, 20, 50, 100];
 
@@ -62,7 +64,11 @@ const styles = StyleSheet.create({
   dialog: {
     maxWidth: 450,
     alignSelf: 'center',
+    padding: 12,
   },
+  dialogDrawing: { display: 'flex', alignItems: 'center' },
+  dialogContent: { textAlign: 'center' },
+  dialogActions: { width: '100%' },
 });
 
 export default () => {
@@ -192,16 +198,28 @@ export default () => {
           onDismiss={handleDismissDialog}
           style={styles.dialog}
         >
-          <Dialog.Title>
-            <Text>
-              Are you sure ?
-            </Text>
+          <View style={styles.dialogDrawing}>
+            <Drawing xml={trash} width="200" height="120" />
+          </View>
+          <Dialog.Title style={styles.dialogContent}>
+            Are you sure?
           </Dialog.Title>
+
+          <Dialog.Content>
+            <Paragraph style={styles.dialogContent}>
+              You
+              {'\''}
+              re about to delete an inspection, there is no going back in this action.
+            </Paragraph>
+          </Dialog.Content>
+
           <Dialog.Actions>
-            <Button onPress={handleDismissDialog}>
+            <Button onPress={handleDismissDialog} style={styles.dialogActions} mode="outlined">
               Cancel
             </Button>
-            <Button color={colors.error} onPress={handleDelete}>
+          </Dialog.Actions>
+          <Dialog.Actions>
+            <Button color={colors.error} style={styles.dialogActions} onPress={handleDelete} mode="contained" icon="trash-can" labelStyle={{ color: 'white' }}>
               Delete
             </Button>
           </Dialog.Actions>
