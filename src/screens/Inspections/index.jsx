@@ -21,7 +21,9 @@ import Pagination from 'components/Pagination';
 import { Button, Card, Dialog, IconButton, Portal, Text, useTheme } from 'react-native-paper';
 
 import { DAMAGES } from 'screens/names';
+import Drawing from 'components/Drawing/index';
 import notFoundImage from './image-not-found-scaled.png';
+import errorDrawing from './error.svg';
 
 const LIMIT_OPTIONS = [10, 20, 50, 100];
 
@@ -63,6 +65,15 @@ const styles = StyleSheet.create({
     maxWidth: 450,
     alignSelf: 'center',
   },
+  errorLayout: {
+    ...Platform.select({ native: { flex: 1 },
+      default: { display: 'flex', flexGrow: 1, minHeight: 'calc(100vh - 64px)' },
+    }),
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContent: { textAlign: 'center', margin: 12 },
 });
 
 export default () => {
@@ -145,6 +156,18 @@ export default () => {
     }
   }, [error, fakeActivity, handleRefresh, paging]);
 
+  if (error && !inspections?.length) {
+    return (
+      <View style={styles.errorLayout}>
+        <Drawing xml={errorDrawing} height="200" />
+        <Text style={styles.errorContent}>
+          Something went wrong, we
+          {'\''}
+          re investigating...
+        </Text>
+      </View>
+    );
+  }
   return (
     <>
       <SafeAreaView style={styles.root}>
