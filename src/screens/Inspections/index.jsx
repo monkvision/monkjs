@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import moment from 'moment';
@@ -65,6 +65,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const Placeholders = () => {
+  const array = new Array(Platform.select({ web: 6, native: 3 })).fill('');
+  // eslint-disable-next-line react/no-array-index-key
+  return array.map((_, i) => <Placeholder key={i} style={styles.loadingIndicator} />);
+};
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -89,9 +94,6 @@ export default () => {
     },
     [images],
   );
-
-  const skeletons = useMemo(() => new Array(Platform.select({ web: 6, native: 3 }))
-    .fill(<Placeholder style={styles.loadingIndicator} />), []);
 
   const handleRefresh = useCallback(() => {
     dispatch(getAllInspections({ params: { limit: pageLimiter } }));
@@ -170,7 +172,7 @@ export default () => {
                 <Card.Cover source={getCover(inspection)} style={{ height: 200 }} />
               </Card>
             ))}
-            {isEmpty(inspections) && skeletons}
+            {isEmpty(inspections) && <Placeholders />}
           </View>
           <View>
             {paging && (
