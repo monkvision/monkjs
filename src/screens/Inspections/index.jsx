@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Placeholder from 'components/Placeholder';
+import useInterval from 'hooks/useInterval';
 import Pagination from 'components/Pagination';
 
 import { Button, Card, Dialog, IconButton, Portal, Text, useTheme } from 'react-native-paper';
@@ -64,6 +65,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+const MINUTE = 60000; // in ms
 
 export default () => {
   const dispatch = useDispatch();
@@ -119,6 +122,8 @@ export default () => {
     },
     [navigation],
   );
+
+  useInterval(handleRefresh, MINUTE);
 
   useLayoutEffect(() => {
     if (navigation) {
