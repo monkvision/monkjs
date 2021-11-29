@@ -39,6 +39,7 @@
     "build": "bob build"
   },
   "dependencies": {
+    "expo-screen-orientation": "^4.0.3",
     "react-native-paper": "^4.10.1"
   },
   "devDependencies": {

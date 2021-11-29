@@ -1,14 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ScreenOrientation from 'expo-screen-orientation';
-
+import { useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import utils from '../../components/utils';
 
 /**
  * @returns {[unknown, {isAvailable: null, hasPermission: null, isLockInLandscape: null}]}
  */
-export default function useCameraAsync() {
+export default function useCameraAsync({ lockOrientationOnRender }) {
   const isNative = useMemo(
     () => Platform.select({ native: true, default: false }),
     [],
@@ -39,9 +38,9 @@ export default function useCameraAsync() {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       const isAvailable = isAlwaysAvailable || await Camera.isAvailableAsync();
-      const isLockInLandscape = !isNative || await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
-      );
+      const isLockInLandscape = lockOrientationOnRender
+      && (!isNative
+        || await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT));
 
       setCameraAsync({
         hasPermission: status === 'granted',
@@ -57,7 +56,7 @@ export default function useCameraAsync() {
         );
       }
     };
-  }, [isAlwaysAvailable, isNative]);
+  }, [isAlwaysAvailable, isNative, lockOrientationOnRender]);
 
   return [cameraCanMount, cameraAsync];
 }

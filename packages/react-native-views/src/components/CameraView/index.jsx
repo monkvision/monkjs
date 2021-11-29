@@ -10,6 +10,7 @@ import usePictures from './hooks/usePictures';
 import useSuccess from './hooks/useSuccess';
 import useUI from './hooks/useUI';
 import useMobileBrowserConfig from './hooks/useMobileBrowserConfig';
+import useOrientation from '../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../ActivityIndicatorView';
 import { SIDEBAR_WIDTH, RATIO_FACTOR } from './constants';
@@ -18,7 +19,7 @@ import CameraControls from './CameraControls';
 import CameraOverlay from './CameraOverlay';
 import CameraPopUps from './CameraPopUps';
 import CameraScrollView from './CameraScrollView';
-import CameraMobileBrowserView from './CameraMobileBrowserView';
+import CameraOrientationView from './CameraOrientationView';
 
 const styles = StyleSheet.create({
   root: {
@@ -86,11 +87,20 @@ export default function CameraView({
   useSuccess(onSuccess, payload, handleFakeActivity);
 
   // Mobile browser view
+  const [orientation, rotateToLandscape, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
-  if (isMobileBrowser) {
-    return <CameraMobileBrowserView />;
-  }
 
+  const isNative = Platform.select({ native: true });
+  const isNotLandscape = orientation !== 4 && orientation !== 3;
+
+  if (isMobileBrowser || (isNative && isNotLandscape)) {
+    return (
+      <CameraOrientationView
+        rotateToLandscape={rotateToLandscape}
+        supportOrientation={!isNotSupported && !isMobileBrowser}
+      />
+    );
+  }
   return (
     <View style={styles.root}>
       <StatusBar hidden />
@@ -104,7 +114,11 @@ export default function CameraView({
             {/* camera and mask overlay */}
             <View>
               {ui.container.measures.width && (
-                <Components.Camera onCameraReady={handleCameraReady} ratio={ratio} />
+                <Components.Camera
+                  lockOrientationOnRender={false}
+                  onCameraReady={handleCameraReady}
+                  ratio={ratio}
+                />
               )}
               <CameraOverlay
                 activeSightId={activeSight.id}
