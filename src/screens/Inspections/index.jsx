@@ -24,10 +24,9 @@ import useInterval from 'hooks/useInterval';
 import Pagination from 'components/Pagination';
 
 import Drawing from 'components/Drawing';
-import { Button, Card, Dialog, IconButton, Portal, Paragraph, useTheme } from 'react-native-paper';
+import { Button, Card, Dialog, IconButton, Portal, Paragraph, Text, useTheme } from 'react-native-paper';
 
 import { DAMAGES } from 'screens/names';
-import Drawing from 'components/Drawing/index';
 import notFoundImage from './image-not-found-scaled.png';
 import trash from './trash.svg';
 import errorDrawing from './error.svg';
