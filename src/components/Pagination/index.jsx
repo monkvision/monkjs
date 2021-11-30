@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import noop from 'lodash.noop';
@@ -7,7 +7,7 @@ import isEmpty from 'lodash.isempty';
 import { utils } from '@monkvision/react-native';
 import { spacing } from 'config/theme';
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 
@@ -17,16 +17,25 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: spacing(1),
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'baseline',
     height: '100%',
-  },
-  viewCenter: {
-    ...utils.styles.flex,
-    alignItems: 'flex-end',
-    height: '100%',
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   element: {
     marginHorizontal: spacing(1),
+  },
+  picker: {
+    ...Platform.select({
+      web: {
+        borderColor: '#FFFFFF',
+        cursor: 'pointer',
+      },
+      android: {
+        width: '100%',
+        maxWidth: 100 },
+    }),
   },
 });
 
@@ -36,6 +45,9 @@ export default function Pagination({
   const { cursors } = paging;
 
   const [selectedOption, setSelectedOption] = useState(initialLimit);
+
+  const pickerRef = useRef(null);
+  const focusPicker = () => pickerRef.current.focus();
 
   const handleValueChange = (itemValue) => {
     setSelectedOption(itemValue);
@@ -49,16 +61,21 @@ export default function Pagination({
         style={styles.element}
         onPress={() => onPrevious(cursors.previous)}
       >
-        Previous
+        Prev
       </Button>
-      <View style={styles.viewCenter}>
-        <Text style={styles.element}>
-          {isFetching ? 'Fetching...' : 'Items per row'}
-        </Text>
+      <View>
+        {Platform.OS === 'android'
+          ? <Button onPress={focusPicker}>per page</Button>
+          : (
+            <Text style={styles.element}>
+              {isFetching ? 'Fetching...' : 'Per page'}
+            </Text>
+          )}
         <Picker
+          ref={pickerRef}
           selectedValue={selectedOption}
           onValueChange={handleValueChange}
-          style={styles.element}
+          style={[styles.element, styles.picker]}
         >
           {limitOptions.map((option) => (
             <Picker.Item key={`pagination-option-${option}`} label={`${option}`} value={option} />
