@@ -1,0 +1,50 @@
+{
+  "build": {
+    "production": {
+      "releaseChannel": "production",
+      "env": {
+        "API_DOMAIN": "api.monk.ai/v1",
+        "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
+        "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
+        "AUTH_DOMAIN": "idp.monk.ai"
+      }
+    },
+    "preview": {
+      "releaseChannel": "staging",
+      "extends": "production",
+      "distribution": "internal",
+      "env": {
+        "API_DOMAIN": "api.preview.monk.ai/v1",
+        "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
+        "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
+        "AUTH_DOMAIN": "idp.monk.ai"
+      }
+    },
+    "development": {
+      "extends": "production",
+      "distribution": "internal",
+      "env": {
+        "API_DOMAIN": "api.staging.monk.ai/v1",
+        "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
+        "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
+        "AUTH_DOMAIN": "idp.staging.monk.ai"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./pc-api-6873028426645699928-857-bf990300d0ef.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "EXPO_APPLE_ID",
+        "ascAppId": "1597509593",
+        "appleTeamId": "Y6L6XB7J9K"
+      }
+    }
+  },
+  "cli": {
+    "version": ">= 0.38.1"
+  }
+}

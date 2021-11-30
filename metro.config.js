@@ -1,7 +1,7 @@
 const path = require('path');
 
 const getConfig = async () => ({
-  resetCache: Boolean(process.env.RESET_METRO_CACHE),
+  resetCache: true,
   projectRoot: __dirname,
   watchFolders: [path.resolve(__dirname, './packages')],
   resolver: {
