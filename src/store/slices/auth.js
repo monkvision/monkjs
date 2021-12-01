@@ -1,12 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import Constants from 'expo-constants';
 import createReducers from 'store/createReducers';
 
-const customAccessToken = process.env.NODE_ENV === 'development' ? Constants.manifest.extra.CUSTOM_ACCESS_TOKEN : false;
-
 const initialState = {
-  accessToken: customAccessToken || null,
-  isAuthenticated: Boolean(customAccessToken),
+  accessToken: null,
+  isAuthenticated: false,
   isLoading: false,
   isSignedOut: false,
 };

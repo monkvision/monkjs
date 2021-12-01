@@ -2,6 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { CameraView } from '@monkvision/react-native-views';
+import { useTheme } from 'react-native-paper';
+
 import { DAMAGES, GETTING_STARTED } from 'screens/names';
 
 import {
@@ -15,6 +17,7 @@ import {
 const initialInspectionData = { tasks: { damage_detection: { status: 'NOT_STARTED' } } };
 
 export default () => {
+  const theme = useTheme();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -92,6 +95,7 @@ export default () => {
       onTakePicture={handleTakePicture}
       onSuccess={handleSuccess}
       onCloseCamera={handleClose}
+      theme={theme}
     />
   );
 };

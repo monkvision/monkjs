@@ -9,7 +9,6 @@ import { Provider as PaperProvider } from 'react-native-paper';
 
 import Navigation from 'Navigation';
 
-import '@expo/match-media';
 import 'config/corejs';
 
 export default function App() {

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import Components, { propTypes } from '@monkvision/react-native';
+import { withTheme } from 'react-native-paper';
 import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 
 function CameraScrollView({ activeSight, pictures, sights }) {
@@ -21,10 +22,10 @@ function CameraScrollView({ activeSight, pictures, sights }) {
   );
 }
 
-export default CameraScrollView;
-
 CameraScrollView.propTypes = {
   activeSight: propTypes.sight.isRequired,
   pictures: propTypes.cameraPictures.isRequired,
   sights: propTypes.sights.isRequired,
 };
+
+export default withTheme(CameraScrollView);

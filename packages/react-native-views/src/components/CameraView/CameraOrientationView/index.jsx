@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import Proptypes from 'prop-types';
-import { Button } from 'react-native-paper';
+import { Button, withTheme } from 'react-native-paper';
 import { SvgXml } from 'react-native-svg';
 
 import drawing from './drawing';
@@ -27,13 +27,17 @@ const PortraitErrorView = ({ rotateToLandscape, supportOrientation }) => (
     <Text style={styles.text}>
       This feature works only on landscape orientation, please rotate your phone.
     </Text>
-    {supportOrientation
-      ? <Button onPress={rotateToLandscape} mode="contained">Rotate</Button>
-      : null}
+    {supportOrientation ? (
+      <Button icon="phone-rotate-landscape" onPress={rotateToLandscape} mode="contained">
+        Rotate
+      </Button>
+    ) : null}
   </View>
 );
+
 PortraitErrorView.propTypes = {
   rotateToLandscape: Proptypes.func.isRequired,
   supportOrientation: Proptypes.bool.isRequired,
 };
-export default PortraitErrorView;
+
+export default withTheme(PortraitErrorView);

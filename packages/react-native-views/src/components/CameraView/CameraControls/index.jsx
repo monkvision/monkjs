@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { FAB, withTheme } from 'react-native-paper';
 import Components, { propTypes } from '@monkvision/react-native';
 
 const styles = StyleSheet.create({
@@ -49,11 +49,11 @@ function CameraControls({ fakeActivity, onLeave, onShowAdvices, onTakePicture })
   );
 }
 
-export default CameraControls;
-
 CameraControls.propTypes = {
   fakeActivity: PropTypes.bool.isRequired,
   onLeave: propTypes.callback.isRequired,
   onShowAdvices: propTypes.callback.isRequired,
   onTakePicture: propTypes.callback.isRequired,
 };
+
+export default withTheme(CameraControls);

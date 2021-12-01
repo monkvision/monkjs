@@ -35,16 +35,19 @@ export default function Navigation() {
         <Stack.Screen
           name={names.GETTING_STARTED}
           component={Screens.GettingStarted}
+          title="Getting Started"
         />
 
         <Stack.Screen
           name={names.LANDING}
           component={Screens.Landing}
+          title="Home"
         />
 
         <Stack.Screen
           name={names.INSPECTIONS}
           component={Screens.Inspections}
+          title="Inspections"
         />
 
         <Stack.Screen
@@ -62,31 +65,37 @@ export default function Navigation() {
         <Stack.Screen
           name={names.INSPECTION_READ}
           component={Screens.InspectionRead}
+          title="Inspection"
         />
 
         <Stack.Screen
           name={names.INSPECTION_UPDATE}
           component={Screens.InspectionUpdate}
+          title="Update inspection"
         />
 
         <Stack.Screen
           name={names.DAMAGES}
           component={Screens.Damages}
+          title="Damaged parts"
         />
 
         <Stack.Screen
           name={names.DAMAGE_CREATE}
           component={Screens.DamageCreate}
+          title="New damage"
         />
 
         <Stack.Screen
           name={names.DAMAGE_READ}
           component={Screens.DamageRead}
+          title="Damage"
         />
 
         <Stack.Screen
           name={names.DAMAGE_UPDATE}
           component={Screens.DamageUpdate}
+          title="Update damage"
         />
 
       </Stack.Navigator>

@@ -11,13 +11,13 @@ export const center = {
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'white',
     alignItems: 'center',
     position: 'relative',
     height: '100%',
     width: '100%',
   },
   carouselDotsLayout: {
+    marginTop: 8,
     flexDirection: 'row',
     width: '100%',
     height: 20,

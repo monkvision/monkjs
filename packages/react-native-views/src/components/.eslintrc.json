@@ -1,0 +1,5 @@
+{
+  "rules": {
+    "react/prop-types": [2, { "ignore": ["children", "className", "style", "theme", "navigation"] }]
+  }
+}

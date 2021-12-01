@@ -1,9 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { Provider, withTheme } from 'react-native-paper';
+import noop from 'lodash.noop';
+
 import Components, { propTypes } from '@monkvision/react-native';
 import { Sight, values } from '@monkvision/corejs';
-import noop from 'lodash.noop';
 
 import useFakeActivity from '../../hooks/useFakeActivity';
 import usePictures from './hooks/usePictures';
@@ -54,16 +57,18 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @param onTakePicture {func}
  * @param onSuccess {func}
  * @param sights {[Sight]}
+ * @param theme
  * @returns {JSX.Element}
  * @constructor
  */
-export default function CameraView({
+function CameraView({
   isLoading,
   onCloseCamera,
   onShowAdvice,
   onTakePicture,
   onSuccess,
   sights,
+  theme,
 }) {
   // Camera must be declared first
   const [camera, handleCameraReady] = useState();
@@ -95,65 +100,73 @@ export default function CameraView({
 
   if (isMobileBrowser || (isNative && isNotLandscape)) {
     return (
-      <CameraOrientationView
-        rotateToLandscape={rotateToLandscape}
-        supportOrientation={!isNotSupported && !isMobileBrowser}
-      />
+      <Provider theme={theme}>
+        <CameraOrientationView
+          rotateToLandscape={rotateToLandscape}
+          supportOrientation={!isNotSupported && !isMobileBrowser}
+        />
+      </Provider>
     );
   }
   return (
-    <View style={styles.root}>
-      <StatusBar hidden />
-      {/* container */}
-      <SafeAreaView>
-        <View style={styles.container} onLayout={ui.container.handleLayout}>
-          <>
-            {/* pictures scroll preview sidebar */}
-            <CameraScrollView activeSight={activeSight} pictures={pictures} sights={sights} />
-
-            {/* camera and mask overlay */}
-            <View>
-              {ui.container.measures.width && (
-                <Components.Camera
-                  lockOrientationOnRender={false}
-                  onCameraReady={handleCameraReady}
-                  ratio={ratio}
-                />
-              )}
-              <CameraOverlay
-                activeSightId={activeSight.id}
-                camera={camera}
-                fakeActivity={Boolean(fakeActivity)}
+    <Provider theme={theme}>
+      <View style={styles.root}>
+        <StatusBar hidden />
+        {/* container */}
+        <SafeAreaView>
+          <View style={styles.container} onLayout={ui.container.handleLayout}>
+            <>
+              {/* pictures scroll preview sidebar */}
+              <CameraScrollView
+                activeSight={activeSight}
+                pictures={pictures}
+                sights={sights}
               />
-            </View>
 
-            {/* camera sidebar */}
-            <CameraControls
-              fakeActivity={Boolean(fakeActivity)}
-              onLeave={ui.snackbar.handleToggle}
-              onShowAdvices={ui.modal.handleShow}
-              onTakePicture={handleTakePicture}
-            />
-          </>
-          {!camera && <ActivityIndicatorView />}
-        </View>
-      </SafeAreaView>
+              {/* camera and mask overlay */}
+              <View>
+                {ui.container.measures.width && (
+                  <Components.Camera
+                    lockOrientationOnRender={false}
+                    onCameraReady={handleCameraReady}
+                    ratio={ratio}
+                  />
+                )}
+                <CameraOverlay
+                  activeSightId={activeSight.id}
+                  camera={camera}
+                  fakeActivity={Boolean(fakeActivity)}
+                  theme={theme}
+                />
+              </View>
 
-      <CameraPopUps
-        modalIsVisible={ui.modal.isVisible}
-        onCloseCamera={ui.camera.handleClose}
-        onDismissAdvices={ui.modal.handleDismiss}
-        onDismissSnack={ui.snackbar.handleDismiss}
-        snackIsVisible={ui.snackbar.isVisible}
-      />
-    </View>
+              {/* camera sidebar */}
+              <CameraControls
+                fakeActivity={Boolean(fakeActivity)}
+                onLeave={ui.snackbar.handleToggle}
+                onShowAdvices={ui.modal.handleShow}
+                onTakePicture={handleTakePicture}
+              />
+            </>
+            {!camera && <ActivityIndicatorView />}
+          </View>
+        </SafeAreaView>
+
+        <CameraPopUps
+          modalIsVisible={ui.modal.isVisible}
+          onCloseCamera={ui.camera.handleClose}
+          onDismissAdvices={ui.modal.handleDismiss}
+          onDismissSnack={ui.snackbar.handleDismiss}
+          snackIsVisible={ui.snackbar.isVisible}
+        />
+      </View>
+    </Provider>
   );
 }
 
 CameraView.propTypes = {
   isLoading: PropTypes.bool,
   onCloseCamera: propTypes.callback,
-  // onError: propTypes.onError,
   onShowAdvice: propTypes.callback,
   onSuccess: propTypes.onSuccess,
   onTakePicture: propTypes.callback,
@@ -163,9 +176,10 @@ CameraView.propTypes = {
 CameraView.defaultProps = {
   isLoading: false,
   onCloseCamera: noop,
-  // onError: noop,
   onShowAdvice: noop,
   onTakePicture: noop,
   onSuccess: noop,
   sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
 };
+
+export default withTheme(CameraView);

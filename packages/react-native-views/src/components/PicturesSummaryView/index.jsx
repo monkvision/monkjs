@@ -4,7 +4,7 @@ import noop from 'lodash.noop';
 import Components, { utils, propTypes } from '@monkvision/react-native';
 
 import { Image, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { FAB, Snackbar, Text, useTheme } from 'react-native-paper';
+import { FAB, Provider, Snackbar, Text, withTheme } from 'react-native-paper';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 const styles = StyleSheet.create({
@@ -38,16 +38,18 @@ const styles = StyleSheet.create({
  * @param onNextPicture {func}
  * @param onSuccess {func}
  * @param sights {[[]]}
+ * @param theme
  * @returns {JSX.Element}
  * @constructor
  */
-export default function PicturesSummaryView({
+function PicturesSummaryView({
   cameraPictures: p,
   onNextPicture,
   onSuccess,
   sights,
+  theme,
 }) {
-  const { colors } = useTheme();
+  const { colors } = theme;
 
   const [visibleSnack, setVisibleSnack] = useState(false);
 
@@ -88,7 +90,7 @@ export default function PicturesSummaryView({
   }, []);
 
   return (
-    <>
+    <Provider theme={theme}>
       <StatusBar hidden />
       <SafeAreaView style={styles.root}>
         <Components.PicturesScrollPreview
@@ -128,13 +130,12 @@ export default function PicturesSummaryView({
           You are all set! Next step 👉
         </Text>
       </Snackbar>
-    </>
+    </Provider>
   );
 }
 
 PicturesSummaryView.propTypes = {
   cameraPictures: propTypes.cameraPictures.isRequired,
-  // onError: propTypes.onError,
   onNextPicture: propTypes.callback,
   onSuccess: propTypes.onSuccess,
   sights: propTypes.sights.isRequired,
@@ -144,3 +145,5 @@ PicturesSummaryView.defaultProps = {
   onNextPicture: noop,
   onSuccess: noop,
 };
+
+export default withTheme(PicturesSummaryView);

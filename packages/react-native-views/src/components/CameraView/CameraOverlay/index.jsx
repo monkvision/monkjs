@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Dimensions } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import Components, { propTypes, utils } from '@monkvision/react-native';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
@@ -40,8 +41,6 @@ function CameraOverlay({ activeSightId, camera, fakeActivity }) {
   );
 }
 
-export default CameraOverlay;
-
 CameraOverlay.propTypes = {
   activeSightId: PropTypes.string.isRequired,
   camera: propTypes.camera,
@@ -51,3 +50,5 @@ CameraOverlay.propTypes = {
 CameraOverlay.defaultProps = {
   camera: null,
 };
+
+export default withTheme(CameraOverlay);

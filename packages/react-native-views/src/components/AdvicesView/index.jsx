@@ -4,22 +4,23 @@ import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { Provider, withTheme } from 'react-native-paper';
 
 import { styles } from './styles';
 import items from './data';
-import useInterval from './hooks';
+// import useInterval from './hooks';
 
 /**
  * @param hideCloseButton {boolean}
  * @param onDismiss {func}
+ * @param theme
  * @param props
  * @returns {JSX.Element}
  * @constructor
  */
 
-export default function AdvicesView({ hideCloseButton, onDismiss, ...props }) {
-  const { colors } = useTheme();
+function AdvicesView({ hideCloseButton, onDismiss, theme, ...props }) {
+  const { colors } = theme;
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   // here we convert the scroll coordinate (x) to an integer (index) based on the width
@@ -31,50 +32,51 @@ export default function AdvicesView({ hideCloseButton, onDismiss, ...props }) {
   const scrollViewRef = React.useRef(null);
 
   // trigger a swipe (to the right every 3 sec)
-  const delay = currentIndex < 2 ? 3000 : null;
-  useInterval(() => {
-    scrollViewRef.current.scrollTo({ x: 512 * (currentIndex + 1), animated: true });
-  }, delay);
+  // const delay = currentIndex < 2 ? 3000 : null;
+  // useInterval(() => {
+  //   scrollViewRef.current.scrollTo({ x: 512 * (currentIndex + 1), animated: true });
+  // }, delay);
 
   return (
-    <View style={styles.root} {...props}>
-      {/* close button */}
-      {!hideCloseButton ? (
-        <TouchableOpacity style={styles.closeButton} onPress={onDismiss}>
-          <MaterialCommunityIcons name="close" size={24} color="white" />
-        </TouchableOpacity>
-      ) : null}
+    <Provider theme={theme}>
+      <View style={styles.root} {...props}>
+        {/* close button */}
+        {!hideCloseButton ? (
+          <TouchableOpacity style={styles.closeButton} onPress={onDismiss}>
+            <MaterialCommunityIcons name="close" size={24} color="white" />
+          </TouchableOpacity>
+        ) : null}
 
-      {/* carousel */}
-      <ScrollView
-        pagingEnabled
-        horizontal
-        style={styles.carousel}
-        showsHorizontalScrollIndicator={false}
-        onScroll={getIndex}
-        ref={scrollViewRef}
-        scrollEventThrottle={16}
-      >
-        {items.map((item) => (
-          <Item {...item} key={item.key} currentIndex={currentIndex} />
-        ))}
-      </ScrollView>
+        {/* carousel */}
+        <ScrollView
+          pagingEnabled
+          horizontal
+          style={styles.carousel}
+          showsHorizontalScrollIndicator={false}
+          onScroll={getIndex}
+          ref={scrollViewRef}
+          scrollEventThrottle={16}
+        >
+          {items.map((item) => (
+            <Item {...item} key={item.key} currentIndex={currentIndex} />
+          ))}
+        </ScrollView>
 
-      {/* carousel dots */}
-      <View style={styles.carouselDotsLayout}>
-        {[0, 1, 2].map((item, index) => (
-          <View
-            style={[
-              styles.carouselDot,
-              {
-                backgroundColor: index === currentIndex ? colors['--ifm-color-primary'] : '#C6D3F3',
-              },
-            ]}
-            key={item}
-          />
-        ))}
+        {/* carousel dots */}
+        <View style={styles.carouselDotsLayout}>
+          {[0, 1, 2].map((item, index) => (
+            <View
+              style={[
+                styles.carouselDot, {
+                  backgroundColor: index === currentIndex ? colors.primary : '#C6D3F3',
+                },
+              ]}
+              key={item}
+            />
+          ))}
+        </View>
       </View>
-    </View>
+    </Provider>
   );
 }
 
@@ -125,3 +127,5 @@ AdvicesView.defaultProps = {
   hideCloseButton: false,
   onDismiss: noop,
 };
+
+export default withTheme(AdvicesView);

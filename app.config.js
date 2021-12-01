@@ -1,7 +1,3 @@
-import dotenv from 'dotenv';
-
-const env = dotenv.config().parsed;
-
 export default {
   name: 'monk',
   slug: 'monk',
@@ -30,7 +26,6 @@ export default {
 
   ios: {
     bundleIdentifier: 'com.monkvision.adrian',
-    buildNumber: '0.0.1',
     supportsTablet: true,
     requireFullScreen: true,
   },
@@ -48,5 +43,10 @@ export default {
     favicon: './assets/favicon.png',
   },
 
-  extra: { ...env },
+  extra: {
+    AUTH_DOMAIN: 'idp.staging.monk.ai',
+    AUTH_AUDIENCE: 'https://api.monk.ai/v1/',
+    AUTH_CLIENT_ID: 'DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L',
+    API_DOMAIN: 'api.staging.monk.ai/v1',
+  },
 };

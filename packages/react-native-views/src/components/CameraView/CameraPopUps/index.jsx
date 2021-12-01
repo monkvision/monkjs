@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet } from 'react-native';
 import { propTypes } from '@monkvision/react-native';
-import { Modal, Snackbar, Text, useTheme } from 'react-native-paper';
+import { Modal, Snackbar, Text, withTheme } from 'react-native-paper';
 
 import AdvicesView from '../../AdvicesView';
 
@@ -35,8 +35,9 @@ function CameraPopUps({
   onDismissAdvices,
   onDismissSnack,
   snackIsVisible,
+  theme,
 }) {
-  const { colors } = useTheme();
+  const { colors } = theme;
 
   return (
     <>
@@ -67,8 +68,6 @@ function CameraPopUps({
   );
 }
 
-export default CameraPopUps;
-
 CameraPopUps.propTypes = {
   modalIsVisible: PropTypes.bool.isRequired,
   onCloseCamera: propTypes.callback.isRequired,
@@ -76,3 +75,5 @@ CameraPopUps.propTypes = {
   onDismissSnack: propTypes.callback.isRequired,
   snackIsVisible: PropTypes.bool.isRequired,
 };
+
+export default withTheme(CameraPopUps);

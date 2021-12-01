@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { utils } from '@monkvision/react-native';
 
 import { StyleSheet, View } from 'react-native';
-import { ActivityIndicator, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Provider, withTheme } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   root: {
@@ -17,18 +17,21 @@ const styles = StyleSheet.create({
 /**
  * @param hideIndicator {boolean}
  * @param light {boolean}
+ * @param theme
  * @returns {JSX.Element}
  * @constructor
  */
-export default function ActivityIndicatorView({ hideIndicator, light }) {
-  const { colors } = useTheme();
+function ActivityIndicatorView({ hideIndicator, light, theme }) {
+  const { colors } = theme;
 
   return (
-    <View style={[styles.root,
-      { backgroundColor: `rgba(${light ? '255, 255, 255' : '0, 0, 0'}, 0.5)` }]}
-    >
-      {!hideIndicator ? <ActivityIndicator color={light ? colors.primary : 'white'} /> : null}
-    </View>
+    <Provider theme={theme}>
+      <View style={[styles.root,
+        { backgroundColor: `rgba(${light ? '255, 255, 255' : '0, 0, 0'}, 0.5)` }]}
+      >
+        {!hideIndicator ? <ActivityIndicator color={light ? colors.primary : 'white'} /> : null}
+      </View>
+    </Provider>
   );
 }
 
@@ -41,3 +44,5 @@ ActivityIndicatorView.defaultProps = {
   hideIndicator: false,
   light: false,
 };
+
+export default withTheme(ActivityIndicatorView);
