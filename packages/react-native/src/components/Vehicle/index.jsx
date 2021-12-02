@@ -154,3 +154,4 @@ Vehicle.defaultProps = {
   onPress: noop,
   pressAble: false,
 };
+export { default as vehiclePartsNames } from './vehiclePartsNames';

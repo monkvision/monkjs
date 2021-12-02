@@ -4,5 +4,6 @@ export { default as Mask } from './Mask';
 export { default as PicturesScrollPreview } from './PicturesScrollPreview';
 export { default as propTypes } from './propTypes';
 export { default as SightsWheel } from './SightsWheel';
-export { default as Vehicle } from './Vehicle';
 export { default as utils } from './utils';
+export * from './Vehicle';
+export { default as Vehicle } from './Vehicle';
