@@ -51,9 +51,8 @@ export default function useCameraAsync({ lockOrientationOnRender }) {
 
     return () => {
       if (isNative) {
-        ScreenOrientation.unlockAsync(
-          ScreenOrientation.Orientation.PORTRAIT_UP,
-        );
+        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
+          .then(() => ScreenOrientation.unlockAsync());
       }
     };
   }, [isAlwaysAvailable, isNative, lockOrientationOnRender]);
