@@ -1,5 +1,5 @@
 import usePartDamages from 'hooks/usePartDamages';
-import React, { useLayoutEffect, useMemo } from 'react';
+import React, { useLayoutEffect, useMemo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
@@ -28,6 +28,7 @@ import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
+import { vehiclePartsNames } from '../../../packages/react-native/src/components/Vehicle/index';
 
 const styles = StyleSheet.create({
   root: {
@@ -134,15 +135,15 @@ Scene.defaultProps = {
   partsWithDamages: [],
 };
 
-function Navigation({ damagedPartsCount, ...props }) {
+function Navigation({ damagedPartsCount, computedParts, ...props }) {
   const [index, setIndex] = React.useState(0);
   const disabled = damagedPartsCount === 0;
 
   const [routes] = React.useState([
-    { key: 'front', title: 'Front', icon: 'car' },
-    { key: 'back', title: 'Back', icon: 'car-back' },
-    { key: 'interior', title: 'Interior', icon: 'car-seat' },
-    { key: 'list', title: 'List of all', icon: 'format-list-text', disabled },
+    { key: 'front', title: 'Front', icon: 'car', badge: computedParts.front },
+    { key: 'back', title: 'Back', icon: 'car-back', badge: computedParts.back },
+    { key: 'interior', title: 'Interior', icon: 'car-seat', badge: computedParts.interior },
+    { key: 'list', title: 'List of all', icon: 'format-list-text', badge: damagedPartsCount, disabled },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -163,6 +164,11 @@ function Navigation({ damagedPartsCount, ...props }) {
 }
 
 Navigation.propTypes = {
+  computedParts: PropTypes.shape({
+    back: PropTypes.number,
+    front: PropTypes.number,
+    interior: PropTypes.number,
+  }).isRequired,
   damagedPartsCount: PropTypes.number,
 };
 
@@ -226,12 +232,32 @@ export default () => {
   if (partsWithDamages.length === 0) {
     return null;
   }
+  const activeParts = partsWithDamages.map((part) => camelCase(part.partType));
+
+  const computedParts = useCallback(() => {
+    const parts = {
+      front: 0,
+      back: 0,
+      interior: 0,
+    };
+    activeParts.map((item) => {
+      // front
+      if (vehiclePartsNames.front.some((e) => e === item)) { parts.front += 1; }
+      // back
+      if (vehiclePartsNames.back.some((e) => e === item)) { parts.back += 1; }
+      // interior
+      if (vehiclePartsNames.interior.some((e) => e === item)) { parts.interior += 1; }
+      return undefined;
+    });
+    return parts;
+  }, [activeParts]);
 
   return (
     <SafeAreaView style={styles.root}>
       {fakeActivity ? <ActivityIndicatorView light /> : (
         <Navigation
           partsWithDamages={partsWithDamages}
+          computedParts={computedParts()}
           damagedPartsCount={partsWithDamages.length}
         />
       )}
