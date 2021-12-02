@@ -54,6 +54,7 @@ export default () => {
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
+        title: 'Home',
         headerTitle: () => (
           <MonkIcon
             width={100}

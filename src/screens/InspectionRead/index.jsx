@@ -123,7 +123,7 @@ export default () => {
         <Card style={styles.card}>
           <Card.Title
             title={inspection.id.split('-')[0]}
-            subtitle={moment(inspection.createdAt).format('L')}
+            subtitle={moment(inspection.createdAt).format('LLL')}
           />
           <Card.Content>
             <JSONTree data={{ ...inspection }} theme={theme} invertTheme={false} />

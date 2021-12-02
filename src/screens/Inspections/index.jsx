@@ -123,7 +123,7 @@ export default () => {
 
   const getCover = useCallback(
     (inspection) => {
-      if (inspection.images.length === 0) {
+      if (inspection?.images?.length === 0) {
         return notFoundImage;
       }
 
@@ -206,7 +206,7 @@ export default () => {
               >
                 <Card.Title
                   title={inspection.id.split('-')[0]}
-                  subtitle={moment(inspection.createdAt).format('L')}
+                  subtitle={moment(inspection.createdAt).format('LLL')}
                   right={() => (
                     <IconButton
                       icon="trash-can"
