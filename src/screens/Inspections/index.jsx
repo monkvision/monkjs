@@ -26,11 +26,11 @@ import Pagination from 'components/Pagination';
 import Drawing from 'components/Drawing';
 import { Button, Card, Dialog, IconButton, Portal, Paragraph, Text, useTheme } from 'react-native-paper';
 
-import { DAMAGES } from 'screens/names';
+import { INSPECTION_READ } from 'screens/names';
 
-import notFoundImage from './image-not-found-scaled.png';
-import trash from './trash.svg';
-import errorDrawing from './error.svg';
+import notFoundImage from './assets/image-not-found-scaled.png';
+import trash from './assets/trash.svg';
+import errorDrawing from './assets/error.svg';
 
 const LIMIT_OPTIONS = ['10', '20', '50', '100'];
 
@@ -102,6 +102,7 @@ export default () => {
   const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
   const [inspectionToDelete, setInspectionToDelete] = useState(null);
 
+  // Request
   const { error, isLoading, refresh, response } = useRequest(getAllInspections({
     params: {
       limit: pageLimiter,
@@ -150,7 +151,7 @@ export default () => {
 
   const handlePress = useCallback(
     (inspectionId) => {
-      navigation.navigate(DAMAGES, { inspectionId });
+      navigation.navigate(INSPECTION_READ, { inspectionId });
     },
     [navigation],
   );
@@ -204,8 +205,8 @@ export default () => {
                 onPress={() => handlePress(inspection.id)}
               >
                 <Card.Title
-                  title="Vehicle info"
-                  subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
+                  title={inspection.id.split('-')[0]}
+                  subtitle={moment(inspection.createdAt).format('L')}
                   right={() => (
                     <IconButton
                       icon="trash-can"

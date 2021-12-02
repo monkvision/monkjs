@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { createReducer } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import noop from 'lodash.noop';
 
 const STARTED = 'started';
 const FULFILLED = 'fulfilled';
@@ -37,26 +38,31 @@ const reducer = createReducer(initialState, (builder) => {
     });
 });
 
-export default function useRequest(asyncThunk) {
+export default function useRequest(asyncThunk, callbacks = {}, shouldFetch = true) {
   const dispatch = useDispatch();
   const [state, setState] = useReducer(reducer, initialState);
 
   const request = useCallback(async () => {
+    const { onStart = noop, onSuccess = noop, onError = noop } = callbacks;
+
     try {
       if (!state.isLoading) {
         setState({ type: STARTED });
+        onStart();
 
         const originalPromiseResult = await dispatch(asyncThunk).unwrap();
         setState({ type: FULFILLED, payload: originalPromiseResult });
+        onSuccess(originalPromiseResult);
       }
     } catch (rejectedValueOrSerializedError) {
       setState({ type: REJECTED, payload: rejectedValueOrSerializedError });
+      onError(rejectedValueOrSerializedError);
     }
-  }, [asyncThunk, dispatch, state.isLoading]);
+  }, [asyncThunk, callbacks, dispatch, state.isLoading]);
 
   useEffect(() => {
-    if (state.requestCount === 0) { request(); }
-  }, [request, state.requestCount]);
+    if (state.requestCount === 0 && shouldFetch) { request(); }
+  }, [request, shouldFetch, state.requestCount]);
 
-  return { ...state, refresh: request };
+  return { ...state, refresh: request, request };
 }

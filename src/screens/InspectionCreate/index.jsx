@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { CameraView } from '@monkvision/react-native-views';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-import { DAMAGES, GETTING_STARTED } from 'screens/names';
+import { CameraView, useFakeActivity } from '@monkvision/react-native-views';
+import useRequest from 'hooks/useRequest';
+
+import { GETTING_STARTED, LANDING } from 'screens/names';
 
 import {
   createOneInspection,
   addOneImageToInspection,
   updateOneTaskOfInspection,
-  selectInspectionById,
   config,
 } from '@monkvision/corejs';
 
@@ -21,43 +22,45 @@ export default () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const { loading, freshlyCreated, error } = useSelector((state) => state.inspections);
-  const inspection = useSelector((state) => selectInspectionById(state, freshlyCreated));
+  const [inspectionId, setInspectionId] = useState();
 
-  const handleSuccess = useCallback(({ pictures, sights }) => {
-    if (!inspection) { return; }
+  const { isLoading } = useRequest(
+    createOneInspection({ data: initialInspectionData }),
+    { onSuccess: ({ result }) => setInspectionId(result) },
+  );
 
-    const params = {
-      inspectionId: inspection.id,
+  const { isLoading: isFinishing, request: updateTask } = useRequest(
+    updateOneTaskOfInspection({
+      inspectionId,
       taskName: 'damage_detection',
       data: { status: 'TODO' },
-    };
+    }),
+    { onSuccess: ({ result }) => navigation.navigate(LANDING, { inspectionId: result }) },
+    false,
+  );
 
-    dispatch(updateOneTaskOfInspection(params));
+  const [fakeActivity] = useFakeActivity(isLoading || isFinishing);
 
-    navigation.navigate(DAMAGES, {
-      inspectionId: inspection.id,
-      pictures,
-      sights,
-    });
-  }, [dispatch, inspection, navigation]);
+  const handleSuccess = useCallback(() => {
+    updateTask();
+  }, [updateTask]);
 
   const handleClose = useCallback(() => {
     navigation.navigate(GETTING_STARTED);
   }, [navigation]);
 
   const handleTakePicture = useCallback((picture) => {
-    if (!inspection) { return; }
+    if (!inspectionId) { return; }
 
     const baseParams = {
-      inspectionId: inspection.id,
+      inspectionId,
       headers: { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' },
     };
 
     const multiPartKeys = {
       image: 'image',
       json: 'json',
-      filename: `${picture.sight.id}-${inspection.id}.png`,
+      filename: `${picture.sight.id}-${inspectionId}.png`,
       type: 'image/png',
     };
 
@@ -69,7 +72,7 @@ export default () => {
       tasks: ['damage_detection'],
     });
 
-    fetch(picture.source.uri).then((res) => res.blob()) // res.arrayBuffer()
+    fetch(picture.source.uri).then((res) => res.blob())
       .then((buf) => new File(
         [buf], multiPartKeys.filename,
         { type: multiPartKeys.type },
@@ -81,17 +84,11 @@ export default () => {
 
         dispatch(addOneImageToInspection({ ...baseParams, data }));
       });
-  }, [dispatch, inspection]);
-
-  useEffect(() => {
-    if (loading !== 'pending' && freshlyCreated === null && !error) {
-      dispatch(createOneInspection({ data: initialInspectionData }));
-    }
-  }, [dispatch, error, freshlyCreated, loading]);
+  }, [dispatch, inspectionId]);
 
   return (
     <CameraView
-      isLoading={loading === 'pending'}
+      isLoading={fakeActivity}
       onTakePicture={handleTakePicture}
       onSuccess={handleSuccess}
       onCloseCamera={handleClose}

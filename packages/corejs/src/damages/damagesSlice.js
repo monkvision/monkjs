@@ -1,20 +1,25 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { getOneInspectionById } from '../inspections/inspectionsSlice';
+import { getOneInspectionById } from '../asyncThunks';
 
 export const damagesAdapter = createEntityAdapter();
+
+function upsertReducer(state, action) {
+  state.history.push(action);
+
+  const { damages } = action.payload.entities;
+  damagesAdapter.upsertMany(state, damages);
+}
 
 export const slice = createSlice({
   name: 'damages',
   initialState: damagesAdapter.getInitialState({
-    error: false,
-    loading: 'idle',
+    entities: {},
+    history: [],
+    ids: [],
   }),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getOneInspectionById.fulfilled, (state, action) => {
-      const { damages } = action.payload.entities;
-      if (damages) { damagesAdapter.upsertMany(state, damages); }
-    });
+    builder.addCase(getOneInspectionById.fulfilled, upsertReducer);
   },
 });
 

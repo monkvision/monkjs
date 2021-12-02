@@ -1,26 +1,33 @@
-import camelCase from 'lodash.camelcase';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import usePartDamages from 'hooks/usePartDamages';
+import React, { useLayoutEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import camelCase from 'lodash.camelcase';
+import { denormalize } from 'normalizr';
 
 import {
+  damagesEntity,
   getOneInspectionById,
-  // selectInspectionById,
   selectDamageEntities,
+  selectInspectionEntities,
+  selectImageEntities,
   selectPartEntities,
+  selectTaskEntities,
+  imagesEntity,
+  inspectionsEntity,
+  tasksEntity,
 } from '@monkvision/corejs';
 
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import usePartDamages from 'hooks/usePartDamages';
+import useRequest from 'hooks/useRequest';
 
 import { Vehicle } from '@monkvision/react-native';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { Avatar, BottomNavigation, IconButton, List, useTheme } from 'react-native-paper';
-import { spacing } from 'config/theme';
+import { BottomNavigation, Button, IconButton, List, useTheme } from 'react-native-paper';
+import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
+import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
-import { INSPECTIONS } from 'screens/names';
 
 const styles = StyleSheet.create({
   root: {
@@ -164,45 +171,61 @@ Navigation.defaultProps = {
 };
 
 export default () => {
-  const dispatch = useDispatch();
+  const route = useRoute();
   const navigation = useNavigation();
 
-  const route = useRoute();
-  const inspectionId = route.params.inspectionId;
-  // const inspectionId = 'aa0b8f38-83be-7f93-aa61-2d47849872ad';
+  const { inspectionId } = route.params;
 
-  const { loading } = useSelector(({ inspections }) => inspections);
-  const [fakeActivity] = useFakeActivity(loading === 'pending');
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
 
-  // const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
-  const damages = useSelector(selectDamageEntities);
-  const parts = useSelector(selectPartEntities);
+  const inspectionEntities = useSelector(selectInspectionEntities);
+  const imagesEntities = useSelector(selectImageEntities);
+  const damagesEntities = useSelector(selectDamageEntities);
+  const partsEntities = useSelector(selectPartEntities);
+  const tasksEntities = useSelector(selectTaskEntities);
 
-  const partsWithDamages = usePartDamages(parts, damages);
+  const { inspection } = denormalize({ inspection: inspectionId }, {
+    inspection: inspectionsEntity,
+    images: [imagesEntity],
+    damages: [damagesEntity],
+    tasks: [tasksEntity],
+  }, {
+    inspections: inspectionEntities,
+    images: imagesEntities,
+    damages: damagesEntities,
+    parts: partsEntities,
+    tasks: tasksEntities,
+  });
 
-  const handleRefresh = useCallback(() => {
-    dispatch(getOneInspectionById({ id: inspectionId }));
-  }, [dispatch, inspectionId]);
+  const [fakeActivity] = useFakeActivity(isLoading);
+
+  const partsWithDamages = inspection.damages
+    ? usePartDamages(inspection.parts, inspection.damages)
+    : [];
 
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        title: `Damaged parts #${inspectionId.split('-')[0]}`,
-        headerLeft: () => (
-          <IconButton icon="close" onPress={() => navigation.navigate(INSPECTIONS)} />
-        ),
+        title: !inspection.damages
+          ? 'Vehicle has no damage'
+          : `Vehicle has ${inspection?.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`,
         headerRight: () => (
-          <Avatar.Text
-            size={36}
-            style={styles.avatar}
-            label={fakeActivity ? '...' : partsWithDamages.length}
-          />
+          <Button
+            icon={fakeActivity ? undefined : 'refresh'}
+            onPress={refresh}
+            loading={fakeActivity}
+            disabled={fakeActivity}
+          >
+            Refresh
+          </Button>
         ),
       });
     }
-  }, [fakeActivity, handleRefresh, inspectionId, navigation, partsWithDamages.length]);
+  }, [fakeActivity, inspection, inspectionId, navigation, refresh]);
 
-  useEffect(() => handleRefresh(), [handleRefresh]);
+  if (partsWithDamages.length === 0) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.root}>

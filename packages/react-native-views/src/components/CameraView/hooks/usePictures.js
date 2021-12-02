@@ -8,6 +8,7 @@ import useSights from './useSights';
  * @param camera
  * @param sights
  * @param onTakePicture
+ * @param onSuccess
  * @param handleFakeActivity
  * @returns {{
  *   activeSight: Object,
@@ -16,7 +17,7 @@ import useSights from './useSights';
  *   pictures: {}
  * }}
  */
-function usePictures(camera, sights, onTakePicture, handleFakeActivity = noop) {
+function usePictures(camera, sights, onTakePicture, onSuccess, handleFakeActivity = noop) {
   const { activeSight, count: sightsCount, nextSightProps } = useSights(sights);
   const [pictures, setPictures] = useState({});
 
@@ -35,8 +36,14 @@ function usePictures(camera, sights, onTakePicture, handleFakeActivity = noop) {
 
     if (!nextSightProps.disabled) {
       nextSightProps.onPress();
+    } else {
+      onSuccess({ pictures, camera, sights });
     }
-  }, [activeSight, camera, handleFakeActivity, nextSightProps, onTakePicture]);
+  }, [
+    activeSight, camera, handleFakeActivity,
+    nextSightProps, onSuccess, onTakePicture,
+    pictures, sights,
+  ]);
 
   return {
     activeSight,

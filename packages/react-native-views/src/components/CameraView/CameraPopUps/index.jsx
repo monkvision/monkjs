@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet } from 'react-native';
 import { propTypes } from '@monkvision/react-native';
-import { Modal, Snackbar, Text, withTheme } from 'react-native-paper';
-
-import AdvicesView from '../../AdvicesView';
+import { Snackbar, Text, withTheme } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   advices: {
@@ -30,9 +28,7 @@ const styles = StyleSheet.create({
 });
 
 function CameraPopUps({
-  modalIsVisible,
   onCloseCamera,
-  onDismissAdvices,
   onDismissSnack,
   snackIsVisible,
   theme,
@@ -41,14 +37,6 @@ function CameraPopUps({
 
   return (
     <>
-      <Modal
-        contentContainerStyle={styles.advices}
-        onDismiss={onDismissAdvices}
-        visible={modalIsVisible}
-      >
-        <AdvicesView onDismiss={onDismissAdvices} />
-      </Modal>
-
       <Snackbar
         action={{
           label: 'Leave',
@@ -69,9 +57,7 @@ function CameraPopUps({
 }
 
 CameraPopUps.propTypes = {
-  modalIsVisible: PropTypes.bool.isRequired,
   onCloseCamera: propTypes.callback.isRequired,
-  onDismissAdvices: propTypes.callback.isRequired,
   onDismissSnack: propTypes.callback.isRequired,
   snackIsVisible: PropTypes.bool.isRequired,
 };

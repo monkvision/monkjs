@@ -14,6 +14,8 @@ export { default as config } from './config';
 export { default as Sight } from './sights/Sight';
 export { default as values } from './values';
 
+export * as asyncThunks from './asyncThunks';
+
 // INSPECTIONS
 
 export const {

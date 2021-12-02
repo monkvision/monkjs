@@ -1,7 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 
-import { getAllInspections } from '../inspections/inspectionsSlice';
+import { getOneInspectionById, getAllInspections } from '../asyncThunks';
 
 import * as api from './imagesApi';
 import { entity } from './imagesEntity';
@@ -16,41 +16,29 @@ export const addOneImageToInspection = createAsyncThunk(
   },
 );
 
-const handlePending = (state) => {
-  state.error = false;
-  state.loading = 'pending';
-};
+function upsertReducer(state, action) {
+  const { images } = action.payload.entities;
+  imagesAdapter.upsertMany(state, images);
+}
 
-const handleRejected = (state, action) => {
-  state.loading = 'idle';
-  state.error = action.error;
-};
-
-const handleFulfilled = (state, action) => {
-  state.error = false;
-  state.loading = 'idle';
-  state.freshlyCreated = action.payload.result;
-  imagesAdapter.upsertMany(state, action.payload.entities.images);
-};
+function upsertIfExistReducer(state, action) {
+  const images = action?.payload?.entities?.images;
+  if (images) { imagesAdapter.upsertMany(state, images); }
+}
 
 export const slice = createSlice({
   name: 'images',
   initialState: imagesAdapter.getInitialState({
-    error: false,
-    loading: 'idle',
-    freshlyCreated: null,
+    entities: {},
+    ids: [],
   }),
   reducers: {},
   extraReducers: (builder) => {
-    // addOneImageToInspection
-    builder.addCase(addOneImageToInspection.pending, handlePending);
-    builder.addCase(addOneImageToInspection.rejected, handleRejected);
-    builder.addCase(addOneImageToInspection.fulfilled, handleFulfilled);
-    builder.addCase(getAllInspections.fulfilled, ((state, action) => {
-      if (action?.payload?.entities?.images) {
-        imagesAdapter.upsertMany(state, action.payload.entities.images);
-      }
-    }));
+    builder.addCase(addOneImageToInspection.fulfilled, upsertReducer);
+
+    builder.addCase(getOneInspectionById.fulfilled, upsertIfExistReducer);
+
+    builder.addCase(getAllInspections.fulfilled, upsertIfExistReducer);
   },
 });
 

@@ -34,7 +34,7 @@ export const updateOneInspection = createAsyncThunk(
   'inspections/updateOne',
   async (arg) => {
     const { data } = await api.updateOne({ ...arg });
-    return normalize(data, entity);
+    return { ...normalize(data, entity), ...arg };
   },
 );
 
@@ -46,6 +46,13 @@ export const deleteOneInspection = createAsyncThunk(
   },
 );
 
+function upsertReducer(state, action) {
+  state.history.push(action);
+
+  const { inspections } = action.payload.entities;
+  inspectionsAdapter.upsertMany(state, inspections);
+}
+
 export const slice = createSlice({
   name: 'inspections',
   initialState: inspectionsAdapter.getInitialState({
@@ -55,38 +62,18 @@ export const slice = createSlice({
   }),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getOneInspectionById.fulfilled, (state, action) => {
-      state.history.push(action);
+    builder.addCase(getOneInspectionById.fulfilled, upsertReducer);
 
-      const { entities, result } = action.payload;
-      if (result?.paging) { state.paging = result.paging; }
+    builder.addCase(getAllInspections.fulfilled, upsertReducer);
 
-      inspectionsAdapter.upsertMany(state, entities.inspections);
-    });
-
-    builder.addCase(getAllInspections.fulfilled, (state, action) => {
-      state.history.push(action);
-
-      const { entities, result } = action.payload;
-      if (result?.paging) { state.paging = result.paging; }
-
-      inspectionsAdapter.setAll(state, entities.inspections);
-    });
-
-    builder.addCase(createOneInspection.fulfilled, (state, action) => {
-      state.history.push(action);
-
-      const { entities, result } = action.payload;
-      state.freshlyCreated = result;
-      inspectionsAdapter.upsertMany(state, entities.inspections);
-    });
+    builder.addCase(createOneInspection.fulfilled, upsertReducer);
 
     builder.addCase(updateOneInspection.fulfilled, (state, action) => {
       state.history.push(action);
 
-      const { entities, result } = action.payload;
-      state.freshlyCreated = result;
-      inspectionsAdapter.upsertMany(state, entities.inspections);
+      const { entities, id } = action.payload;
+      const { inspections } = entities;
+      inspectionsAdapter.updateOne(state, id, inspections[id]);
     });
 
     builder.addCase(deleteOneInspection.fulfilled, (state, action) => {

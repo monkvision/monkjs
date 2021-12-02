@@ -25,13 +25,15 @@ function ActivityIndicatorView({ hideIndicator, light, theme }) {
   const { colors } = theme;
 
   return (
-    <Provider theme={theme}>
-      <View style={[styles.root,
-        { backgroundColor: `rgba(${light ? '255, 255, 255' : '0, 0, 0'}, 0.5)` }]}
-      >
+    <View
+      style={[styles.root, {
+        backgroundColor: `rgba(${light ? '255, 255, 255' : '0, 0, 0'}, 0.5)`,
+      }]}
+    >
+      <Provider theme={theme}>
         {!hideIndicator ? <ActivityIndicator color={light ? colors.primary : 'white'} /> : null}
-      </View>
-    </Provider>
+      </Provider>
+    </View>
   );
 }
 

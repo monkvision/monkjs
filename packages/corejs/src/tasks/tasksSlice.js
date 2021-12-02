@@ -4,6 +4,8 @@ import { normalize } from 'normalizr';
 import * as api from './tasksApi';
 import { entity, entityCollection } from './tasksEntity';
 
+import { getOneInspectionById } from '../asyncThunks';
+
 export const tasksAdapter = createEntityAdapter();
 
 export const updateOneTaskOfInspection = createAsyncThunk(
@@ -30,46 +32,29 @@ export const getAllInspectionTasks = createAsyncThunk(
   },
 );
 
-const handlePending = (state) => {
-  state.error = false;
-  state.loading = 'pending';
-};
+function upsertReducer(state, action) {
+  state.history.push(action);
 
-const handleRejected = (state, action) => {
-  state.loading = 'idle';
-  state.error = action.error;
-};
-
-const handleFulfilled = (state, action) => {
-  state.error = false;
-  state.loading = 'idle';
-  state.freshlyCreated = action.payload.result;
-  tasksAdapter.upsertMany(state, action.payload.entities.tasks);
-};
+  const { tasks } = action.payload.entities;
+  tasksAdapter.upsertMany(state, tasks);
+}
 
 export const slice = createSlice({
   name: 'tasks',
   initialState: tasksAdapter.getInitialState({
-    error: false,
-    loading: 'idle',
-    freshlyCreated: null,
+    entities: {},
+    history: [],
+    ids: [],
   }),
   reducers: {},
   extraReducers: (builder) => {
-    // updateOneTaskOfInspection
-    builder.addCase(updateOneTaskOfInspection.pending, handlePending);
-    builder.addCase(updateOneTaskOfInspection.rejected, handleRejected);
-    builder.addCase(updateOneTaskOfInspection.fulfilled, handleFulfilled);
+    builder.addCase(updateOneTaskOfInspection.fulfilled, upsertReducer);
 
-    // getOneInspectionTask
-    builder.addCase(getOneInspectionTask.pending, handlePending);
-    builder.addCase(getOneInspectionTask.rejected, handleRejected);
-    builder.addCase(getOneInspectionTask.fulfilled, handleFulfilled);
+    builder.addCase(getOneInspectionTask.fulfilled, upsertReducer);
 
-    // getAllInspectionTasks
-    builder.addCase(getAllInspectionTasks.pending, handlePending);
-    builder.addCase(getAllInspectionTasks.rejected, handleRejected);
-    builder.addCase(getAllInspectionTasks.fulfilled, handleFulfilled);
+    builder.addCase(getAllInspectionTasks.fulfilled, upsertReducer);
+
+    builder.addCase(getOneInspectionById.fulfilled, upsertReducer);
   },
 });
 

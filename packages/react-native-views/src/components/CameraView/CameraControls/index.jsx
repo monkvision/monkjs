@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { FAB, withTheme } from 'react-native-paper';
 import Components, { propTypes } from '@monkvision/react-native';
 
@@ -8,34 +8,40 @@ const styles = StyleSheet.create({
   fab: {
     backgroundColor: '#333',
   },
-  fabImportant: {
-    backgroundColor: 'white',
+  takePictureButton: {
+    backgroundColor: '#fff',
   },
-  largeFab: {
-    transform: [{ scale: 1.75 }],
+  takePictureButtonContainer: {
+    display: 'flex',
+    borderRadius: 100,
+    padding: 4,
+    borderColor: '#fff',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    transform: [{ scale: 1.40 }],
   },
 });
 
-function CameraControls({ fakeActivity, onLeave, onShowAdvices, onTakePicture }) {
+function CameraControls({ fakeActivity, onLeave, onSettings, onTakePicture }) {
   return (
     <Components.CameraSideBar>
       <FAB
         accessibilityLabel="Advices"
-        color="#edab25"
-        disabled={fakeActivity}
-        icon={Platform.OS !== 'ios' ? 'lightbulb-on' : undefined}
-        label={Platform.OS === 'ios' ? 'Advices' : undefined}
-        onPress={onShowAdvices}
+        disabled
+        icon={Platform.OS !== 'ios' ? 'cog' : undefined}
+        label={Platform.OS === 'ios' ? 'Settings' : undefined}
+        onPress={onSettings}
         small
         style={styles.fab}
       />
-      <FAB
-        accessibilityLabel="Take a picture"
-        disabled={fakeActivity}
-        icon="camera-image"
-        onPress={onTakePicture}
-        style={[styles.fabImportant, styles.largeFab]}
-      />
+      <View style={styles.takePictureButtonContainer}>
+        <FAB
+          accessibilityLabel="Take a picture"
+          disabled={fakeActivity}
+          onPress={onTakePicture}
+          style={styles.takePictureButton}
+        />
+      </View>
       <FAB
         accessibilityLabel="Close camera"
         disabled={fakeActivity}
@@ -52,7 +58,7 @@ function CameraControls({ fakeActivity, onLeave, onShowAdvices, onTakePicture })
 CameraControls.propTypes = {
   fakeActivity: PropTypes.bool.isRequired,
   onLeave: propTypes.callback.isRequired,
-  onShowAdvices: propTypes.callback.isRequired,
+  onSettings: propTypes.callback.isRequired,
   onTakePicture: propTypes.callback.isRequired,
 };
 

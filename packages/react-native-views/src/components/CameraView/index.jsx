@@ -10,7 +10,6 @@ import { Sight, values } from '@monkvision/corejs';
 
 import useFakeActivity from '../../hooks/useFakeActivity';
 import usePictures from './hooks/usePictures';
-import useSuccess from './hooks/useSuccess';
 import useUI from './hooks/useUI';
 import useMobileBrowserConfig from './hooks/useMobileBrowserConfig';
 import useOrientation from '../../hooks/useOrientation';
@@ -53,7 +52,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  *
  * @param isLoading {boolean}
  * @param onCloseCamera {func}
- * @param onShowAdvice {func}
+ * @param onSettings {func}
  * @param onTakePicture {func}
  * @param onSuccess {func}
  * @param sights {[Sight]}
@@ -64,7 +63,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
 function CameraView({
   isLoading,
   onCloseCamera,
-  onShowAdvice,
+  onSettings,
   onTakePicture,
   onSuccess,
   sights,
@@ -77,19 +76,13 @@ function CameraView({
   const [fakeActivity, handleFakeActivity] = useFakeActivity(isLoading);
 
   // Wraps taken pictures with Sights sights prop and metadata
-  const picturesWrapper = usePictures(camera, sights, onTakePicture, handleFakeActivity);
+  const picturesWrapper = usePictures(camera, sights, onTakePicture, onSuccess, handleFakeActivity);
   const { activeSight, handleTakePicture, pictures } = picturesWrapper;
 
-  // Data payload given for common user callbacks
-  const payload = useMemo(() => ({ pictures, camera, sights }), [camera, pictures, sights]);
-
   // Wraps states and callbacks to manage UI in one hook place
-  const ui = useUI(camera, pictures, onCloseCamera, onShowAdvice);
+  const ui = useUI(camera, pictures, onCloseCamera, onSettings);
   const { height, width } = ui.container.measures;
   const ratio = useMemo(() => makeRatio(width - SIDEBAR_WIDTH, height), [height, width]);
-
-  // When last picture is taken
-  useSuccess(onSuccess, payload, handleFakeActivity);
 
   // Mobile browser view
   const [orientation, rotateToLandscape, isNotSupported] = useOrientation();
@@ -144,7 +137,7 @@ function CameraView({
               <CameraControls
                 fakeActivity={Boolean(fakeActivity)}
                 onLeave={ui.snackbar.handleToggle}
-                onShowAdvices={ui.modal.handleShow}
+                onSettingss={ui.modal.handleShow}
                 onTakePicture={handleTakePicture}
               />
             </>
@@ -153,9 +146,7 @@ function CameraView({
         </SafeAreaView>
 
         <CameraPopUps
-          modalIsVisible={ui.modal.isVisible}
           onCloseCamera={ui.camera.handleClose}
-          onDismissAdvices={ui.modal.handleDismiss}
           onDismissSnack={ui.snackbar.handleDismiss}
           snackIsVisible={ui.snackbar.isVisible}
         />
@@ -167,7 +158,7 @@ function CameraView({
 CameraView.propTypes = {
   isLoading: PropTypes.bool,
   onCloseCamera: propTypes.callback,
-  onShowAdvice: propTypes.callback,
+  onSettings: propTypes.callback,
   onSuccess: propTypes.onSuccess,
   onTakePicture: propTypes.callback,
   sights: propTypes.sights,
@@ -176,7 +167,7 @@ CameraView.propTypes = {
 CameraView.defaultProps = {
   isLoading: false,
   onCloseCamera: noop,
-  onShowAdvice: noop,
+  onSettings: noop,
   onTakePicture: noop,
   onSuccess: noop,
   sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),

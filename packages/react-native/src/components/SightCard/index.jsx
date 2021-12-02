@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import isPlainObject from 'lodash.isplainobject';
 import noop from 'lodash.noop';
 
-import { Avatar, Surface, useTheme } from 'react-native-paper';
-import { Image } from 'react-native';
+import { Image, View, Text } from 'react-native';
 
 import propTypes from '../propTypes';
 import styles from './styles';
@@ -13,13 +12,12 @@ import styles from './styles';
 const SightCard = ({
   activeSight,
   id,
+  label,
   pictures,
   scrollToCurrentElement,
   showPicture,
   sightMasks,
 }) => {
-  const { colors } = useTheme();
-
   const picture = pictures[id];
 
   const isImage = isPlainObject(picture) && showPicture === true;
@@ -38,40 +36,35 @@ const SightCard = ({
   }
 
   return (
-    <Surface
+    <View
       key={`sightCard-mask-${id}`}
       style={[
-        styles.surface, {
-          backgroundColor: colors.primary,
-          borderColor: isActive ? colors.accent : colors.primary,
+        styles.sightCard, {
+          borderColor: isActive ? '#fafafa' : '#d3d3d3',
+          borderWidth: isActive ? 2 : 1,
         },
       ]}
     >
-      {isPlainObject(picture) ? (
-        <Avatar.Icon
-          size={24}
-          icon="check"
-          style={[styles.badge, { backgroundColor: colors.success }]}
-        />
-      ) : null}
       <Image source={source} style={styles.sightMask} />
-    </Surface>
+      <Text style={styles.text}>{label}</Text>
+    </View>
   );
 };
 
 SightCard.propTypes = {
   activeSight: propTypes.sight,
   id: PropTypes.string,
+  label: PropTypes.string,
   pictures: propTypes.cameraPictures.isRequired,
   scrollToCurrentElement: PropTypes.func,
   showPicture: PropTypes.bool,
-  // object of source uri ?
   sightMasks: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 
 SightCard.defaultProps = {
   activeSight: null,
   id: '',
+  label: '',
   sightMasks: {},
   scrollToCurrentElement: noop,
   showPicture: false,

@@ -1,18 +1,36 @@
-import moment from 'moment';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useLayoutEffect } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
+import { useFakeActivity } from '@monkvision/react-native-views';
+import useRequest from 'hooks/useRequest';
+import moment from 'moment';
+import { denormalize } from 'normalizr';
 
-import { getOneInspectionById, selectInspectionById, selectAllTasks, selectAllDamages, getAllInspectionTasks } from '@monkvision/corejs';
+import { spacing } from 'config/theme';
+
+import {
+  damagesEntity,
+  getOneInspectionById,
+  selectDamageEntities,
+  selectInspectionEntities,
+  selectImageEntities,
+  selectPartEntities,
+  selectTaskEntities,
+  imagesEntity,
+  inspectionsEntity,
+  tasksEntity,
+} from '@monkvision/corejs';
 
 import { Card, Button } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import useInterval from 'hooks/useInterval';
 import { DAMAGES } from '../names';
 
 // we can customize the json component by making changes to the theme object
 // see more in the docs https://www.npmjs.com/package/react-native-json-tree
 const theme = {
+  scheme: 'monokai',
+  author: 'wimer hazenberg (http://www.monokai.nl)',
   base00: '#272822',
   base01: '#383830',
   base02: '#49483e',
@@ -31,83 +49,91 @@ const theme = {
   base0F: '#cc6633',
 };
 
-const DEFAULT_POOL = 10000; // 1 min
+const styles = StyleSheet.create({
+  card: {
+    margin: spacing(2),
+  },
+  cardActions: {
+    justifyContent: 'flex-end',
+  },
+});
 
 export default () => {
   const route = useRoute();
-  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const { inspectionId } = route.params;
-  const { loading, error } = useSelector((state) => state.inspections);
-  const inspection = useSelector((state) => selectInspectionById(state, inspectionId));
 
-  const { loading: tasksLoading, error: tasksError } = useSelector(((state) => state.tasks));
-  const tasks = useSelector(selectAllTasks);
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
 
-  const { loading: damagesLoading, error: damagesError } = useSelector(((state) => state.damages));
-  const damages = useSelector(selectAllDamages);
+  const inspectionEntities = useSelector(selectInspectionEntities);
+  const imagesEntities = useSelector(selectImageEntities);
+  const damagesEntities = useSelector(selectDamageEntities);
+  const partsEntities = useSelector(selectPartEntities);
+  const tasksEntities = useSelector(selectTaskEntities);
+
+  const { inspection } = denormalize({ inspection: inspectionId }, {
+    inspection: inspectionsEntity,
+    images: [imagesEntity],
+    damages: [damagesEntity],
+    tasks: [tasksEntity],
+  }, {
+    inspections: inspectionEntities,
+    images: imagesEntities,
+    damages: damagesEntities,
+    parts: partsEntities,
+    tasks: tasksEntities,
+  });
+
+  const [fakeActivity] = useFakeActivity(isLoading);
+
+  const handleShowImages = useCallback(() => {
+  }, []);
+
+  const handleShowDamages = useCallback(() => {
+    navigation.navigate(DAMAGES, { inspectionId });
+  }, [inspectionId, navigation]);
 
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
         title: `Inspection #${inspectionId.split('-')[0]}`,
         headerBackVisible: true,
+        headerRight: () => (
+          <Button
+            icon={fakeActivity ? undefined : 'refresh'}
+            onPress={refresh}
+            loading={fakeActivity}
+            disabled={fakeActivity}
+          >
+            Refresh
+          </Button>
+        ),
       });
     }
-  }, [navigation, inspectionId]);
+  }, [fakeActivity, inspectionId, navigation, refresh]);
 
-  useEffect(() => {
-    if (loading !== 'pending' && !inspection && !error) {
-      dispatch(getOneInspectionById({ id: inspectionId }));
-    }
-  }, [dispatch, error, inspection, inspectionId, loading]);
-
-  const goToLibrary = useCallback(() => {
-    navigation.navigate(DAMAGES, { inspectionId });
-  }, [inspectionId, navigation]);
-
-  const poolTasks = useCallback(
-    () => dispatch(getAllInspectionTasks({ inspectionId })), [dispatch, inspectionId],
-  );
-
-  const tasksToBeDone = useMemo(() => (
-    tasks?.length
-      ? tasks?.some((task) => (
-        task.status !== 'DONE'
-        && task.status !== 'ERROR'
-        && task.status !== 'VALIDATED'
-      ))
-      : true), [tasks]);
-
-  const delay = inspection && tasksLoading !== 'pending' && !tasksError && tasksToBeDone && DEFAULT_POOL;
-
-  useInterval(poolTasks, delay);
-
-  useEffect(() => {
-    if (!tasksToBeDone && damagesLoading !== 'pending' && !damagesError) {
-      dispatch(getOneInspectionById({ id: inspectionId }));
-    }
-  }, [
-    damagesError, damagesLoading,
-    dispatch, inspectionId, tasks, tasksToBeDone,
-  ]);
+  if (!inspection) {
+    return null;
+  }
 
   return (
-    <Card>
-      <Card.Title
-        title="Vehicle info"
-        subtitle={`${moment(inspection.createdAt).format('L')} - ${inspection.id.split('-')[0]}...`}
-      />
-      <Card.Content>
-        <JSONTree data={{ ...inspection, tasks, damages }} theme={theme} />
-      </Card.Content>
-      <Card.Actions>
-        <Button>Show images</Button>
-        <Button onPress={goToLibrary}>
-          Show damages
-        </Button>
-      </Card.Actions>
-    </Card>
+    <SafeAreaView>
+      <ScrollView>
+        <Card style={styles.card}>
+          <Card.Title
+            title={inspection.id.split('-')[0]}
+            subtitle={moment(inspection.createdAt).format('L')}
+          />
+          <Card.Content>
+            <JSONTree data={{ ...inspection }} theme={theme} invertTheme={false} />
+          </Card.Content>
+          <Card.Actions style={styles.cardActions}>
+            <Button onPress={handleShowImages}>Show images</Button>
+            <Button onPress={handleShowDamages}>Show damages</Button>
+          </Card.Actions>
+        </Card>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

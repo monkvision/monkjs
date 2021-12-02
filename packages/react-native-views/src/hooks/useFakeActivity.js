@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import noop from 'lodash.noop';
 
-const MIN_LOADING_TIME = 500; // in ms
+const MIN_LOADING_TIME = 850; // in ms
 
 /**
  * Use fake activity when you need to render ActivityIndicator for better UX

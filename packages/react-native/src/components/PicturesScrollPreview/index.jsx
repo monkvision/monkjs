@@ -1,12 +1,8 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-import isEmpty from 'lodash.isempty';
+import { SafeAreaView, ScrollView } from 'react-native';
 
-import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Chip, useTheme } from 'react-native-paper';
-
-import SightsWheel from '../SightsWheel';
 import SightCard from '../SightCard';
 
 import propTypes from '../propTypes';
@@ -20,9 +16,7 @@ const ROW_MARGIN = 8;
 const ROW = ROW_HEIGHT + ROW_MARGIN;
 
 const PicturesScrollPreview = forwardRef(
-  ({ activeSight, pictures, showPicture, sights, sightWheelProps }, ref) => {
-    const { colors } = useTheme();
-
+  ({ activeSight, pictures, showPicture, sights }, ref) => {
     const scrollViewRef = React.useRef(null);
     const scrollToCurrentElement = (index) => {
       scrollViewRef.current.scrollTo({ y: 4 + index * ROW });
@@ -34,9 +28,10 @@ const PicturesScrollPreview = forwardRef(
           ref={scrollViewRef}
           showsHorizontalScrollIndicator={false}
         >
-          {sights.map(({ id }, index) => (
+          {sights.map(({ id, label }, index) => (
             <SightCard
               id={id}
+              label={label}
               key={`sightCard-${id}`}
               scrollToCurrentElement={() => scrollToCurrentElement(index)}
               pictures={pictures}
@@ -46,22 +41,6 @@ const PicturesScrollPreview = forwardRef(
             />
           ))}
         </ScrollView>
-        {activeSight !== null && !isEmpty(activeSight.label) && (
-          <View style={styles.topView}>
-            <SightsWheel
-              sights={sights}
-              filledSightIds={Object.keys(pictures)}
-              activeSight={activeSight}
-              {...sightWheelProps}
-            />
-            <Chip
-              style={[styles.chip, { backgroundColor: colors.accent }]}
-              textStyle={styles.chipText}
-            >
-              {activeSight.label}
-            </Chip>
-          </View>
-        )}
       </SafeAreaView>
     );
   },
@@ -72,13 +51,11 @@ PicturesScrollPreview.propTypes = {
   pictures: propTypes.cameraPictures.isRequired,
   showPicture: PropTypes.bool,
   sights: propTypes.sights.isRequired,
-  sightWheelProps: PropTypes.objectOf(PropTypes.any),
 };
 
 PicturesScrollPreview.defaultProps = {
   activeSight: null,
   showPicture: false,
-  sightWheelProps: {},
 };
 
 export default PicturesScrollPreview;
