@@ -17,16 +17,17 @@ import {
 
 import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
+import useRequest from 'hooks/useRequest';
 
 import { Dimensions, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Placeholder from 'components/Placeholder';
-import useInterval from 'hooks/useInterval';
 import Pagination from 'components/Pagination';
 
 import Drawing from 'components/Drawing';
 import { Button, Card, Dialog, IconButton, Portal, Paragraph, Text, useTheme } from 'react-native-paper';
 
 import { DAMAGES } from 'screens/names';
+
 import notFoundImage from './image-not-found-scaled.png';
 import trash from './trash.svg';
 import errorDrawing from './error.svg';
@@ -86,8 +87,6 @@ const styles = StyleSheet.create({
   errorContent: { textAlign: 'center', margin: 12 },
 });
 
-const MINUTE = 60000; // in ms
-
 const Placeholders = () => {
   const array = new Array(Platform.select({ web: 6, native: 3 })).fill('');
   // eslint-disable-next-line react/no-array-index-key
@@ -99,7 +98,17 @@ export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
-  const { loading, error, paging } = useSelector(({ inspections }) => inspections);
+  // Request filters
+  const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
+  const [inspectionToDelete, setInspectionToDelete] = useState(null);
+
+  const { error, isLoading, refresh, response } = useRequest(getAllInspections({
+    params: {
+      limit: pageLimiter,
+      show_deleted: false,
+    },
+  }));
+
   const ids = useSelector(selectInspectionIds);
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -109,9 +118,7 @@ export default () => {
     images: [imagesEntity],
   }, { inspections: inspectionEntities, images: imagesEntities });
 
-  const [pageLimiter, setPageLimiter] = useState(LIMIT_OPTIONS[1]);
-  const [inspectionToDelete, setInspectionToDelete] = useState(null);
-  const [fakeActivity] = useFakeActivity(loading === 'pending');
+  const [fakeActivity] = useFakeActivity(isLoading);
 
   const getCover = useCallback(
     (inspection) => {
@@ -124,10 +131,6 @@ export default () => {
     },
     [],
   );
-
-  const handleRefresh = useCallback(() => {
-    dispatch(getAllInspections({ params: { limit: pageLimiter, show_deleted: false } }));
-  }, [dispatch, pageLimiter]);
 
   const handleDismissDialog = useCallback(() => {
     setInspectionToDelete(null);
@@ -152,8 +155,6 @@ export default () => {
     [navigation],
   );
 
-  useInterval(handleRefresh, MINUTE);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -162,7 +163,7 @@ export default () => {
         headerRight: () => (
           <Button
             icon={fakeActivity ? undefined : 'refresh'}
-            onPress={handleRefresh}
+            onPress={refresh}
             loading={fakeActivity}
             disabled={fakeActivity}
           >
@@ -171,13 +172,7 @@ export default () => {
         ),
       });
     }
-  }, [colors, fakeActivity, handleRefresh, navigation]);
-
-  useEffect(() => {
-    if (!fakeActivity && !paging && !error) {
-      handleRefresh();
-    }
-  }, [error, fakeActivity, handleRefresh, paging]);
+  }, [colors, fakeActivity, refresh, navigation]);
 
   useEffect(() => {
     if (!fakeActivity && inspectionToDelete !== null && !inspectionEntities[inspectionToDelete]) {
@@ -225,9 +220,9 @@ export default () => {
             {isEmpty(inspections) && <Placeholders />}
           </View>
           <View>
-            {paging && (
+            {response?.result?.paging && (
               <Pagination
-                paging={paging}
+                paging={response?.result?.paging}
                 initialLimit={pageLimiter}
                 limitOptions={LIMIT_OPTIONS}
                 onLimitChange={setPageLimiter}
@@ -270,10 +265,10 @@ export default () => {
               style={styles.dialogActions}
               onPress={handleDelete}
               mode="contained"
-              icon={loading === 'pending' ? undefined : 'trash-can'}
+              icon={isLoading ? undefined : 'trash-can'}
               labelStyle={{ color: 'white' }}
-              loading={loading === 'pending'}
-              disabled={loading === 'pending'}
+              loading={isLoading}
+              disabled={isLoading}
             >
               Delete
             </Button>

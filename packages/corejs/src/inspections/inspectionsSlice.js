@@ -46,47 +46,26 @@ export const deleteOneInspection = createAsyncThunk(
   },
 );
 
-const handlePending = (state) => {
-  state.error = false;
-  state.loading = 'pending';
-};
-
-const handleRejected = (state, action) => {
-  state.loading = 'idle';
-  state.error = action.error;
-};
-
-const handleFulfilled = (state, action) => {
-  state.error = false;
-  state.loading = 'idle';
-
-  const { entities, result } = action.payload;
-  if (result?.paging) { state.paging = result.paging; }
-
-  inspectionsAdapter.upsertMany(state, entities.inspections);
-};
-
 export const slice = createSlice({
   name: 'inspections',
   initialState: inspectionsAdapter.getInitialState({
-    error: false,
-    loading: 'idle',
-    freshlyCreated: null,
-    paging: null,
+    entities: {},
+    history: [],
+    ids: [],
   }),
   reducers: {},
   extraReducers: (builder) => {
-    // getOneInspectionById
-    builder.addCase(getOneInspectionById.pending, handlePending);
-    builder.addCase(getOneInspectionById.rejected, handleRejected);
-    builder.addCase(getOneInspectionById.fulfilled, handleFulfilled);
+    builder.addCase(getOneInspectionById.fulfilled, (state, action) => {
+      state.history.push(action);
 
-    // getAllInspections
-    builder.addCase(getAllInspections.pending, handlePending);
-    builder.addCase(getAllInspections.rejected, handleRejected);
+      const { entities, result } = action.payload;
+      if (result?.paging) { state.paging = result.paging; }
+
+      inspectionsAdapter.upsertMany(state, entities.inspections);
+    });
+
     builder.addCase(getAllInspections.fulfilled, (state, action) => {
-      state.error = false;
-      state.loading = 'idle';
+      state.history.push(action);
 
       const { entities, result } = action.payload;
       if (result?.paging) { state.paging = result.paging; }
@@ -94,31 +73,25 @@ export const slice = createSlice({
       inspectionsAdapter.setAll(state, entities.inspections);
     });
 
-    // createOneInspection
-    builder.addCase(createOneInspection.pending, handlePending);
-    builder.addCase(createOneInspection.rejected, handleRejected);
     builder.addCase(createOneInspection.fulfilled, (state, action) => {
-      state.loading = 'idle';
+      state.history.push(action);
+
       const { entities, result } = action.payload;
       state.freshlyCreated = result;
       inspectionsAdapter.upsertMany(state, entities.inspections);
     });
 
-    // updateOneInspection
-    builder.addCase(updateOneInspection.pending, handlePending);
-    builder.addCase(updateOneInspection.rejected, handleRejected);
     builder.addCase(updateOneInspection.fulfilled, (state, action) => {
-      state.loading = 'idle';
+      state.history.push(action);
+
       const { entities, result } = action.payload;
       state.freshlyCreated = result;
       inspectionsAdapter.upsertMany(state, entities.inspections);
     });
 
-    // deleteOneInspection
-    builder.addCase(deleteOneInspection.pending, handlePending);
-    builder.addCase(deleteOneInspection.rejected, handleRejected);
     builder.addCase(deleteOneInspection.fulfilled, (state, action) => {
-      state.loading = 'idle';
+      state.history.push(action);
+
       inspectionsAdapter.removeOne(state, action.payload.id);
     });
   },
