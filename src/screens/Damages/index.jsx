@@ -12,23 +12,27 @@ import {
   selectImageEntities,
   selectPartEntities,
   selectTaskEntities,
+  taskStatuses,
   imagesEntity,
   inspectionsEntity,
   tasksEntity,
+  updateOneTaskOfInspection,
 } from '@monkvision/corejs';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 import usePartDamages from 'hooks/usePartDamages';
 
-import { Vehicle } from '@monkvision/react-native';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { BottomNavigation, Button, IconButton, List, useTheme } from 'react-native-paper';
+import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { BottomNavigation, Button, IconButton, List, useTheme, Dialog, Paragraph, Portal } from 'react-native-paper';
+
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
-import { vehiclePartsNames } from '../../../packages/react-native/src/components/Vehicle/index';
+import Drawing from 'components/Drawing/index';
+import submitDrawing from './assets/submit.svg';
 
 const styles = StyleSheet.create({
   root: {
@@ -47,7 +51,77 @@ const styles = StyleSheet.create({
   avatar: {
     marginHorizontal: spacing(2),
   },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  },
+  validationButton: { margin: spacing(2) },
+  buttonLabel: { color: '#FFFFFF' },
+  dialog: { maxWidth: 450, alignSelf: 'center', padding: 12 },
+  dialogDrawing: { display: 'flex', alignItems: 'center' },
+  dialogContent: { textAlign: 'center' },
+  dialogActions: { width: '100%' },
 });
+
+function DialogModal({ isDialogOpen, handleDismissDialog }) {
+  const route = useRoute();
+  const { inspectionId } = route.params;
+  // we need error handling here
+  const { isLoading, request } = useRequest(
+    updateOneTaskOfInspection({
+      inspectionId,
+      taskName: 'damage_detection',
+      data: { status: taskStatuses.VALIDATED },
+    }),
+    { onSuccess: handleDismissDialog },
+    false,
+  );
+  return (
+    <Portal>
+      <Dialog
+        visible={Boolean(isDialogOpen)}
+        onDismiss={handleDismissDialog}
+        style={styles.dialog}
+      >
+        <View style={styles.dialogDrawing}>
+          <Drawing xml={submitDrawing} width="200" height="120" />
+        </View>
+        <Dialog.Title style={styles.dialogContent}>
+          Are you sure?
+        </Dialog.Title>
+
+        <Dialog.Content>
+          <Paragraph style={styles.dialogContent}>
+            Please confirm your damage validation
+          </Paragraph>
+        </Dialog.Content>
+
+        <Dialog.Actions>
+          <Button onPress={handleDismissDialog} style={styles.dialogActions} mode="outlined">
+            Cancel
+          </Button>
+        </Dialog.Actions>
+        <Dialog.Actions>
+          <Button
+            style={styles.dialogActions}
+            onPress={request}
+            mode="contained"
+            disabled={isLoading}
+            labelStyle={{ color: 'white' }}
+          >
+            Confirm
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
+  );
+}
+
+DialogModal.propTypes = {
+  handleDismissDialog: PropTypes.func.isRequired,
+  isDialogOpen: PropTypes.bool.isRequired,
+};
 
 export function DamageListItem({ damageType, createdBy }) {
   const { colors } = useTheme();
@@ -82,7 +156,7 @@ PartListSection.propTypes = {
   partType: PropTypes.string.isRequired,
 };
 
-export function PartsList({ partsWithDamages }) {
+export function PartsList({ partsWithDamages, handleOpenDialog }) {
   if (!partsWithDamages) { return null; }
 
   return (
@@ -90,11 +164,22 @@ export function PartsList({ partsWithDamages }) {
       {partsWithDamages.map((part) => (
         <PartListSection key={`part-${part.id}`} {...part} />
       ))}
+      <Button
+        color="#5CCC68"
+        labelStyle={styles.buttonLabel}
+        onPress={handleOpenDialog}
+        mode="contained"
+        style={styles.validationButton}
+        icon="send"
+      >
+        Validate
+      </Button>
     </ScrollView>
   );
 }
 
 PartsList.propTypes = {
+  handleOpenDialog: PropTypes.func.isRequired,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -102,7 +187,7 @@ PartsList.defaultProps = {
   partsWithDamages: [],
 };
 
-function Scene({ partsWithDamages, viewType }) {
+function Scene({ partsWithDamages, viewType, handleOpenDialog }) {
   const activeParts = useMemo(
     () => {
       const object = {};
@@ -115,6 +200,16 @@ function Scene({ partsWithDamages, viewType }) {
 
   return (
     <ScrollView contentContainerStyle={styles.scene}>
+      <Button
+        style={[styles.validationButton, styles.floatingButton]}
+        color="#5CCC68"
+        labelStyle={styles.buttonLabel}
+        mode="contained"
+        onPress={handleOpenDialog}
+        icon="send"
+      >
+        Validate
+      </Button>
       <Vehicle
         xml={vehicleViews[viewType]}
         activeParts={activeParts}
@@ -127,6 +222,7 @@ function Scene({ partsWithDamages, viewType }) {
 }
 
 Scene.propTypes = {
+  handleOpenDialog: PropTypes.func.isRequired,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
   viewType: PropTypes.oneOf(['front', 'back', 'interior']).isRequired,
 };
@@ -140,27 +236,37 @@ function Navigation({ damagedPartsCount, computedParts, ...props }) {
   const disabled = damagedPartsCount === 0;
   const badge = (nb) => nb > 0 && nb;
 
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const handleDismissDialog = useCallback(() => {
+    setDialogOpen(false);
+  }, []);
+  const handleOpenDialog = useCallback(() => {
+    setDialogOpen(true);
+  }, []);
+
   const [routes] = useState([
     { key: 'front', title: 'Front', icon: 'car', badge: badge(computedParts.front) },
     { key: 'back', title: 'Back', icon: 'car-back', badge: badge(computedParts.back) },
     { key: 'interior', title: 'Interior', icon: 'car-seat', badge: badge(computedParts.interior) },
     { key: 'list', title: 'List of all', icon: 'format-list-text', badge: badge(damagedPartsCount), disabled },
   ]);
-
   const renderScene = BottomNavigation.SceneMap({
-    front: () => <Scene viewType="front" {...props} />,
-    back: () => <Scene viewType="back" {...props} />,
-    interior: () => <Scene viewType="interior" {...props} />,
-    list: () => <PartsList {...props} />,
+    front: () => <Scene viewType="front" handleOpenDialog={handleOpenDialog} {...props} />,
+    back: () => <Scene viewType="back" handleOpenDialog={handleOpenDialog} {...props} />,
+    interior: () => <Scene viewType="interior" handleOpenDialog={handleOpenDialog} {...props} />,
+    list: () => <PartsList handleOpenDialog={handleOpenDialog} {...props} />,
   });
 
   return (
-    <BottomNavigation
-      barStyle={{ backgroundColor: '#fff' }}
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
+    <>
+      <DialogModal isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
+      <BottomNavigation
+        barStyle={{ backgroundColor: '#fff' }}
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+    </>
   );
 }
 
