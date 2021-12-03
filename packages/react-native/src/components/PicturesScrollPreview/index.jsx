@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { SafeAreaView, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import SightCard from '../SightCard';
 
@@ -12,7 +13,7 @@ import styles from './styles';
 
 // ROW_HEIGHT is the height of the surface element inside sightCard
 const ROW_HEIGHT = 100;
-const ROW_MARGIN = 8;
+const ROW_MARGIN = 16;
 const ROW = ROW_HEIGHT + ROW_MARGIN;
 
 const PicturesScrollPreview = forwardRef(
@@ -41,6 +42,11 @@ const PicturesScrollPreview = forwardRef(
             />
           ))}
         </ScrollView>
+        <LinearGradient
+          style={styles.gradient}
+          colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.01)']}
+          pointerEvents="none"
+        />
       </SafeAreaView>
     );
   },

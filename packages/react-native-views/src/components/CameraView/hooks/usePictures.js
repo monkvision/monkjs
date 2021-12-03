@@ -10,6 +10,7 @@ import useSights from './useSights';
  * @param onTakePicture
  * @param onSuccess
  * @param handleFakeActivity
+ * @param initialPicturesState
  * @returns {{
  *   activeSight: Object,
  *   sightsCount: number,
@@ -17,9 +18,20 @@ import useSights from './useSights';
  *   pictures: {}
  * }}
  */
-function usePictures(camera, sights, onTakePicture, onSuccess, handleFakeActivity = noop) {
-  const { activeSight, count: sightsCount, nextSightProps } = useSights(sights);
-  const [pictures, setPictures] = useState({});
+function usePictures(
+  camera,
+  sights,
+  onTakePicture,
+  onSuccess,
+  handleFakeActivity = noop,
+  initialPicturesState = {},
+) {
+  const { activeSight, count: sightsCount, nextSightProps } = useSights(
+    sights,
+    Object.keys(initialPicturesState).length,
+  );
+
+  const [pictures, setPictures] = useState(initialPicturesState);
 
   const handleTakePicture = useCallback(async () => {
     if (!camera) { return; }

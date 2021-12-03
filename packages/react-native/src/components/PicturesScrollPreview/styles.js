@@ -14,7 +14,16 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     overflow: 'visible',
+    paddingTop: 32,
     padding: 8,
+  },
+  gradient: {
+    position: 'absolute',
+    top: 0,
+    width: 104,
+    height: 50,
+    alignSelf: 'center',
+    zIndex: 10,
   },
 });
 export default styles;

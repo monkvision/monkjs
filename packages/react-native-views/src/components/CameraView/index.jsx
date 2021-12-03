@@ -50,6 +50,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
 
 /**
  *
+ * @param initialPicturesState
  * @param isLoading {boolean}
  * @param onCloseCamera {func}
  * @param onSettings {func}
@@ -61,6 +62,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @constructor
  */
 function CameraView({
+  initialPicturesState,
   isLoading,
   onCloseCamera,
   onSettings,
@@ -75,8 +77,16 @@ function CameraView({
   // Use fake activity when you need to render ActivityIndicator for better UX
   const [fakeActivity, handleFakeActivity] = useFakeActivity(isLoading);
 
-  // Wraps taken pictures with Sights sights prop and metadata
-  const picturesWrapper = usePictures(camera, sights, onTakePicture, onSuccess, handleFakeActivity);
+  // Wraps taken pictures with sights prop and metadata
+  const picturesWrapper = usePictures(
+    camera,
+    sights,
+    onTakePicture,
+    onSuccess,
+    handleFakeActivity,
+    initialPicturesState,
+  );
+
   const { activeSight, handleTakePicture, pictures } = picturesWrapper;
 
   // Wraps states and callbacks to manage UI in one hook place
@@ -156,6 +166,7 @@ function CameraView({
 }
 
 CameraView.propTypes = {
+  initialPicturesState: propTypes.cameraPictures,
   isLoading: PropTypes.bool,
   onCloseCamera: propTypes.callback,
   onSettings: propTypes.callback,
@@ -165,6 +176,7 @@ CameraView.propTypes = {
 };
 
 CameraView.defaultProps = {
+  initialPicturesState: {},
   isLoading: false,
   onCloseCamera: noop,
   onSettings: noop,

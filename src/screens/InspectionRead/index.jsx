@@ -1,4 +1,3 @@
-import Drawing from 'components/Drawing/index';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
@@ -28,6 +27,7 @@ import {
   vehiclesEntity,
 } from '@monkvision/corejs';
 
+import Drawing from 'components/Drawing';
 import { Image, StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import {
   Card,
@@ -40,7 +40,7 @@ import {
   Text,
 } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import { DAMAGES } from 'screens/names';
+import { DAMAGES, LANDING } from 'screens/names';
 
 import trash from './assets/trash.svg';
 
@@ -140,7 +140,10 @@ export default () => {
 
   const { request: handleDelete } = useRequest(
     deleteOneInspection({ id: inspectionId }),
-    { onSuccess: () => setDialogOpen(false) },
+    { onSuccess: () => {
+      setDialogOpen(false);
+      navigation.navigate(LANDING);
+    } },
     false,
   );
 
@@ -175,7 +178,7 @@ export default () => {
     return <ActivityIndicatorView light />;
   }
 
-  return (
+  return !isEmpty(inspection) && (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
