@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import noop from 'lodash.noop';
 
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View, Platform } from 'react-native';
 import { Avatar, Button, List, withTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import AdvicesView from '../AdvicesView';
@@ -21,7 +21,13 @@ const styles = StyleSheet.create({
   },
   actions: {
     margin: 16,
+    ...Platform.select({ web: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    } }),
   },
+  cta: Platform.select({ web: { maxWidth: 200 } }),
 });
 
 /**
@@ -66,7 +72,7 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
           </View>
           <AdvicesView hideCloseButton />
           <View style={styles.actions}>
-            <Button onPress={onStart} mode="contained">
+            <Button onPress={onStart} mode="contained" style={styles.cta}>
               New Inspection
             </Button>
           </View>
