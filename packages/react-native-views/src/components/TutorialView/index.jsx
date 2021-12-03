@@ -48,7 +48,7 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
         <ScrollView>
           <View style={styles.listView}>
             <List.Item
-              title="✖ outside pictures"
+              title="outside pictures"
               description="Make a 360° tour of the vehicle and take exterior pictures."
               left={(props) => (
                 <Avatar.Text
@@ -59,7 +59,7 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
               )}
             />
             <List.Item
-              title="✖ inside pictures"
+              title="inside pictures"
               description="Open the vehicle and take interior pictures."
               left={(props) => (
                 <Avatar.Text

@@ -1,6 +1,7 @@
 import Drawing from 'components/Drawing/index';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import moment from 'moment';
@@ -28,7 +29,16 @@ import {
 } from '@monkvision/corejs';
 
 import { Image, StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
-import { Card, Button, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
+import {
+  Card,
+  Button,
+  Dialog,
+  Paragraph,
+  Portal,
+  useTheme,
+  DataTable,
+  Text,
+} from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
 import { DAMAGES } from 'screens/names';
 
@@ -58,8 +68,12 @@ const jsonTheme = {
 };
 
 const styles = StyleSheet.create({
+  root: {
+    paddingVertical: spacing(1),
+  },
   card: {
-    margin: spacing(2),
+    marginHorizontal: spacing(2),
+    marginVertical: spacing(1),
   },
   cardActions: {
     justifyContent: 'flex-end',
@@ -70,13 +84,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexShrink: 0,
     flexWrap: 'nowrap',
+    marginBottom: spacing(2),
     marginHorizontal: spacing(1),
-    marginBottom: spacing(1),
   },
   image: {
     width: 200,
     height: 150,
-    margin: spacing(1),
+    marginHorizontal: spacing(1),
   },
   dialog: {
     maxWidth: 450,
@@ -85,7 +99,9 @@ const styles = StyleSheet.create({
   },
   dialogDrawing: { display: 'flex', alignItems: 'center' },
   dialogContent: { textAlign: 'center' },
-  dialogActions: { width: '100%' },
+  dialogActions: { flexWrap: 'wrap' },
+  button: { width: '100%', marginVertical: 4 },
+  actionButton: { marginLeft: spacing(1) },
 });
 
 export default () => {
@@ -161,20 +177,51 @@ export default () => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
             title={`${inspection.vehicle?.brand} ${inspection.vehicle?.model}`}
             subtitle={`${moment(inspection.createdAt).format('lll')} - ${inspection.vehicle?.vin}`}
+            right={() => ((!isEmpty(inspection.damages)) ? (
+              <Button
+                icon="image-broken-variant"
+                onPress={handleShowDamages}
+                color={theme.colors.warning}
+                mode="contained"
+                labelStyle={{ color: '#fff' }}
+                style={{ marginRight: spacing(1) }}
+              >
+                {`${inspection.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`}
+              </Button>
+            ) : <Text>NO DAMAGES</Text>)}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
               <Image key={name} style={styles.image} source={{ uri: path }} />
             )) : null}
           </ScrollView>
-          <Card.Content>
-            <JSONTree data={{ ...inspection }} theme={jsonTheme} invertTheme={false} />
-          </Card.Content>
+          {!isEmpty(inspection.tasks) && (
+            <CardContent>
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>Name</DataTable.Title>
+                  <DataTable.Title>Status</DataTable.Title>
+                  <DataTable.Title numeric>Detection time</DataTable.Title>
+                </DataTable.Header>
+
+                {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
+                  <DataTable.Row key={`taskRow-${id}`}>
+                    <DataTable.Cell>{name}</DataTable.Cell>
+                    <DataTable.Cell>{status}</DataTable.Cell>
+                    <DataTable.Cell numeric>
+                      {moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}
+                      sec.
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))}
+              </DataTable>
+            </CardContent>
+          )}
           <Card.Actions style={styles.cardActions}>
             <Button
               icon="trash-can"
@@ -183,8 +230,26 @@ export default () => {
             >
               Delete
             </Button>
-            <Button onPress={handleShowDamages}>Show damages</Button>
+            <Button
+              disabled
+              icon="send"
+              mode="contained"
+              labelStyle={{ color: '#fff' }}
+              color={theme.colors.success}
+              style={styles.actionButton}
+            >
+              Validate
+            </Button>
           </Card.Actions>
+        </Card>
+        <Card style={styles.card}>
+          <Card.Title
+            title="Raw data"
+            subtitle="Only available in alpha version"
+          />
+          <Card.Content>
+            <JSONTree data={{ ...inspection }} theme={jsonTheme} invertTheme={false} />
+          </Card.Content>
         </Card>
       </ScrollView>
       <Portal>
@@ -208,15 +273,13 @@ export default () => {
             </Paragraph>
           </Dialog.Content>
 
-          <Dialog.Actions>
-            <Button onPress={handleDismissDialog} style={styles.dialogActions} mode="outlined">
+          <Dialog.Actions style={styles.dialogActions}>
+            <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
               Cancel
             </Button>
-          </Dialog.Actions>
-          <Dialog.Actions>
             <Button
               color={theme.colors.error}
-              style={styles.dialogActions}
+              style={styles.button}
               onPress={handleDelete}
               mode="contained"
               icon={isLoading ? undefined : 'trash-can'}
