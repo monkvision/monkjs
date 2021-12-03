@@ -28,11 +28,12 @@ export default {
     bundleIdentifier: 'com.monkvision.adrian',
     supportsTablet: true,
     requireFullScreen: true,
+    buildNumber: '2',
   },
 
   android: {
     package: 'com.monkvision.adrian',
-    versionCode: 1,
+    versionCode: 2,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#f2f2f2',
