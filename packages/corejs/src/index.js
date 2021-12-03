@@ -3,12 +3,14 @@ import * as imagesSlice from './images/imagesSlice';
 import * as partsSlice from './parts/partsSlice';
 import * as inspectionsSlice from './inspections/inspectionsSlice';
 import * as tasksSlice from './tasks/tasksSlice';
+import * as vehiclesSlice from './vehicles/vehiclesSlice';
 
 export { default as damagesEntity } from './damages/damagesEntity';
 export { default as imagesEntity } from './images/imagesEntity';
 export { default as partsEntity } from './parts/partsEntity';
 export { default as inspectionsEntity } from './inspections/inspectionsEntity';
 export { default as tasksEntity } from './tasks/tasksEntity';
+export { default as vehiclesEntity } from './vehicles/vehiclesEntity';
 
 export { default as config } from './config';
 export { default as Sight } from './sights/Sight';
@@ -92,3 +94,15 @@ export const {
   selectAll: selectAllTasks,
   selectTotal: selectTotalTasks,
 } = tasksAdapter.getSelectors((state) => state.tasks);
+
+// VEHICLES
+
+export const { default: vehicles, vehiclesAdapter } = vehiclesSlice;
+
+export const {
+  selectById: selectVehicleById,
+  selectIds: selectVehicleIds,
+  selectEntities: selectVehicleEntities,
+  selectAll: selectAllVehicles,
+  selectTotal: selectTotalVehicles,
+} = vehiclesAdapter.getSelectors((state) => state.vehicles);

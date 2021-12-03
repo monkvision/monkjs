@@ -1,5 +1,4 @@
-import usePartDamages from 'hooks/usePartDamages';
-import React, { useLayoutEffect, useMemo, useCallback } from 'react';
+import React, { useLayoutEffect, useMemo, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
@@ -20,6 +19,7 @@ import {
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
+import usePartDamages from 'hooks/usePartDamages';
 
 import { Vehicle } from '@monkvision/react-native';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
@@ -136,14 +136,15 @@ Scene.defaultProps = {
 };
 
 function Navigation({ damagedPartsCount, computedParts, ...props }) {
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
   const disabled = damagedPartsCount === 0;
+  const badge = (nb) => nb > 0 && nb;
 
-  const [routes] = React.useState([
-    { key: 'front', title: 'Front', icon: 'car', badge: computedParts.front },
-    { key: 'back', title: 'Back', icon: 'car-back', badge: computedParts.back },
-    { key: 'interior', title: 'Interior', icon: 'car-seat', badge: computedParts.interior },
-    { key: 'list', title: 'List of all', icon: 'format-list-text', badge: damagedPartsCount, disabled },
+  const [routes] = useState([
+    { key: 'front', title: 'Front', icon: 'car', badge: badge(computedParts.front) },
+    { key: 'back', title: 'Back', icon: 'car-back', badge: badge(computedParts.back) },
+    { key: 'interior', title: 'Interior', icon: 'car-seat', badge: badge(computedParts.interior) },
+    { key: 'list', title: 'List of all', icon: 'format-list-text', badge: badge(damagedPartsCount), disabled },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
