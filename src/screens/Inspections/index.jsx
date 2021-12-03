@@ -33,6 +33,7 @@ import { DataTable, Button, Text, useTheme } from 'react-native-paper';
 import { INSPECTION_READ } from 'screens/names';
 
 import errorDrawing from './assets/error.svg';
+import emptyDrawing from './assets/emptyDocument.svg';
 
 const LIMIT_OPTIONS = [10, 20, 30, 100];
 
@@ -124,6 +125,7 @@ export default () => {
     setPage(0);
   }, [itemsPerPage]);
 
+  // error
   if (error && !inspections?.length) {
     return (
       <View style={styles.errorLayout}>
@@ -137,6 +139,19 @@ export default () => {
     );
   }
 
+  // no data yet
+  if (!error && !isLoading && !inspections?.length) {
+    return (
+      <View style={styles.errorLayout}>
+        <Drawing xml={emptyDrawing} height="200" />
+        <Text style={styles.errorContent}>
+          It seems like you have no data yet, once you submit an inspections, it will be shown here.
+        </Text>
+      </View>
+    );
+  }
+
+  // loading
   if (isLoading) {
     return <ActivityIndicatorView light />;
   }
