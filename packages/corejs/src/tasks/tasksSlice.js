@@ -1,11 +1,10 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
-
+import { getOneInspectionById } from '../asyncThunks';
 import * as api from './tasksApi';
 import { entity, entityCollection } from './tasksEntity';
 
-import { getOneInspectionById } from '../asyncThunks';
-
+export { default as taskStatuses } from './constants';
 export const tasksAdapter = createEntityAdapter();
 
 export const updateOneTaskOfInspection = createAsyncThunk(
