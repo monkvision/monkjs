@@ -12,16 +12,18 @@ import {
   selectImageEntities,
   selectPartEntities,
   selectTaskEntities,
+  taskStatuses,
   imagesEntity,
   inspectionsEntity,
   tasksEntity,
+  updateOneTaskOfInspection,
 } from '@monkvision/corejs';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 import usePartDamages from 'hooks/usePartDamages';
 
-import { Vehicle } from '@monkvision/react-native';
+import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { BottomNavigation, Button, IconButton, List, useTheme, Dialog, Paragraph, Portal } from 'react-native-paper';
 
@@ -30,7 +32,6 @@ import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
 import Drawing from 'components/Drawing/index';
-import { vehiclePartsNames } from '../../../packages/react-native/src/components/Vehicle/index';
 import submitDrawing from './assets/submit.svg';
 
 const styles = StyleSheet.create({
@@ -64,6 +65,18 @@ const styles = StyleSheet.create({
 });
 
 function DialogModal({ isDialogOpen, handleDismissDialog }) {
+  const route = useRoute();
+  const { inspectionId } = route.params;
+  // we need error handling here
+  const { isLoading, request } = useRequest(
+    updateOneTaskOfInspection({
+      inspectionId,
+      taskName: 'damage_detection',
+      data: { status: taskStatuses.VALIDATED },
+    }),
+    { onSuccess: handleDismissDialog },
+    false,
+  );
   return (
     <Portal>
       <Dialog
@@ -92,8 +105,9 @@ function DialogModal({ isDialogOpen, handleDismissDialog }) {
         <Dialog.Actions>
           <Button
             style={styles.dialogActions}
-            onPress={() => console.log('submit validation')}
+            onPress={request}
             mode="contained"
+            disabled={isLoading}
             labelStyle={{ color: 'white' }}
           >
             Confirm
@@ -156,6 +170,7 @@ export function PartsList({ partsWithDamages, handleOpenDialog }) {
         onPress={handleOpenDialog}
         mode="contained"
         style={styles.validationButton}
+        icon="send"
       >
         Validate
       </Button>
@@ -191,6 +206,7 @@ function Scene({ partsWithDamages, viewType, handleOpenDialog }) {
         labelStyle={styles.buttonLabel}
         mode="contained"
         onPress={handleOpenDialog}
+        icon="send"
       >
         Validate
       </Button>
