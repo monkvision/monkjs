@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
   dialog: { maxWidth: 450, alignSelf: 'center', padding: 12 },
   dialogDrawing: { display: 'flex', alignItems: 'center' },
   dialogContent: { textAlign: 'center' },
-  dialogActions: { width: '100%' },
+  dialogActions: { flexWrap: 'wrap' },
+  button: { width: '100%', marginVertical: 4 },
 });
 
 function DialogModal({ isDialogOpen, handleDismissDialog }) {
@@ -96,15 +97,12 @@ function DialogModal({ isDialogOpen, handleDismissDialog }) {
             Please confirm your damage validation
           </Paragraph>
         </Dialog.Content>
-
-        <Dialog.Actions>
-          <Button onPress={handleDismissDialog} style={styles.dialogActions} mode="outlined">
+        <Dialog.Actions style={styles.dialogActions}>
+          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
             Cancel
           </Button>
-        </Dialog.Actions>
-        <Dialog.Actions>
           <Button
-            style={styles.dialogActions}
+            style={styles.button}
             onPress={request}
             mode="contained"
             disabled={isLoading}

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Platform, useWindowDimensions } from 'react-native';
+
 import {
   DEFAULT_MATCH_MEDIA_OBJECT,
   MOBILE_MAX_WIDTH,
   MOBILE_USERAGENT_PATTERN,
 } from '../constants';
+
 /**
  * Let's assign `DEFAULT_MACTH_MEDIA_OBJECT` object to `window.mathMedia`
  * just to handle platforms that doesn't support this method.
@@ -24,6 +26,7 @@ const useMobileBrowserConfig = (onRotateToPortrait) => {
   const isPortrait = width < height;
   const isMobileBrowserUserAgent = MOBILE_USERAGENT_PATTERN.test(navigator.userAgent);
   const isMobileSize = MEDIA_QUERY?.matches;
+
   /**
    * As long as the `userAgent` string is user configureable
    * We can add another condition layer for detecting a mobile browser

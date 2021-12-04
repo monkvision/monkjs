@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import { useDispatch } from 'react-redux';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -71,6 +72,11 @@ export default () => {
 
   const [fakeActivity] = useFakeActivity(isLoading || isUploading);
 
+  const isNative = useMemo(
+    () => Platform.select({ native: true, default: false }),
+    [],
+  );
+
   const handleSuccess = useCallback(({ camera }) => {
     camera.pausePreview();
     setCompleted(true);
@@ -132,8 +138,12 @@ export default () => {
 
       return () => {
         setVisible(false);
+        if (isNative) {
+          ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
+            .then(() => ScreenOrientation.unlockAsync());
+        }
       };
-    }, [isCompleted]),
+    }, [isCompleted, isNative]),
   );
 
   return (

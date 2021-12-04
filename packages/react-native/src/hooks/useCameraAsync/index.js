@@ -37,10 +37,13 @@ export default function useCameraAsync({ lockOrientationOnRender }) {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
+
       const isAvailable = isAlwaysAvailable || await Camera.isAvailableAsync();
-      const isLockInLandscape = lockOrientationOnRender
-      && (!isNative
-        || await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT));
+
+      const isLockInLandscape = (Platform.OS === 'web' && utils.getOS() === 'iOS')
+        || (lockOrientationOnRender && (!isNative || await ScreenOrientation.lockAsync(
+          ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
+        )));
 
       setCameraAsync({
         hasPermission: status === 'granted',

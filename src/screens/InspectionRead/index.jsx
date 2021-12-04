@@ -196,7 +196,7 @@ export default () => {
               >
                 {`${inspection.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`}
               </Button>
-            ) : <Text>NO DAMAGES</Text>)}
+            ) : <Text style={{ marginRight: spacing(1) }}>NO DAMAGES</Text>)}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
@@ -232,16 +232,6 @@ export default () => {
               onPress={() => setDialogOpen(true)}
             >
               Delete
-            </Button>
-            <Button
-              disabled
-              icon="send"
-              mode="contained"
-              labelStyle={{ color: '#fff' }}
-              color={theme.colors.success}
-              style={styles.actionButton}
-            >
-              Validate
             </Button>
           </Card.Actions>
         </Card>
