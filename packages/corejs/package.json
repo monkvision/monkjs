@@ -41,7 +41,8 @@
     "axios": "^0.24.0",
     "lodash.camelcase": "^4.3.0",
     "lodash.isplainobject": "^4.0.6",
-    "lodash.mapkeys": "^4.6.0"
+    "lodash.mapkeys": "^4.6.0",
+    "normalizr": "^3.6.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
