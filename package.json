@@ -85,7 +85,8 @@
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "^0.17.5",
     "react-redux": "^7.2.6",
-    "react-responsive": "^9.0.0-beta.4"
+    "react-responsive": "^9.0.0-beta.4",
+    "release-it": "^14.11.8"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
