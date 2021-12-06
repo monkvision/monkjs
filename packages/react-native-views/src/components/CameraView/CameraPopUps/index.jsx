@@ -48,7 +48,7 @@ function CameraPopUps({
         style={styles.snackBar}
         visible={snackIsVisible}
       >
-        <Text style={{ color: colors.warning }}>
+        <Text style={{ color: '#ff9800' }}>
           You are leaving the process, are you sure ?
         </Text>
       </Snackbar>
