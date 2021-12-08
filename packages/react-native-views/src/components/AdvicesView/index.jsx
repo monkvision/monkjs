@@ -96,7 +96,7 @@ const Item = ({ src, icon, text }) => (
 
 Item.propTypes = {
   icon: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   text: PropTypes.element.isRequired,
 };
 
