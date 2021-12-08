@@ -15,18 +15,7 @@ import pictureSide from './pictureSide';
  * A component to represents sights, in different states, around a vehicle.
  *
  * @param activeSight {{}}
- *    the (optional) id of a sight whose section will get style with the 'active'
- * @param children {node}
- *    the center of the wheel, would typically contain a vehicle
- * @param filledSightIds {[string]}
- *    an array of sight ids, each sight whose id is included
- *    get the applied the 'filled' style from style (other sections get the 'empty' style)
- * @param sights {[{}]}
- *    the ordered array of Sights to represent,
- *    each sight will be represented by a section around the wheel
- * @param theme {{ colors: { accent: string, primary: string }}}
- *    the ordered array of Sights to represent,
- *    each sight will be represented by a section around the wheel
+ *    the id of a sight whose section will get style with the 'active'
  * @returns {JSX.Element}
  * @constructor
  */

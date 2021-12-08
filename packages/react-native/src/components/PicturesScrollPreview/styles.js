@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sightsIndicatorText: {
+    position: 'relative',
     color: '#FFFFFF',
     textAlign: 'center',
     fontSize: 11,
@@ -42,6 +43,11 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     lineHeight: 28,
   },
-
+  sightsIndicatorCounter: {
+    width: 62,
+    borderRadius: 9,
+    height: 28,
+    position: 'absolute',
+  },
 });
 export default styles;
