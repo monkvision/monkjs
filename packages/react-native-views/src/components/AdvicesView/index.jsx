@@ -73,7 +73,7 @@ function AdvicesView({ hideCloseButton, onDismiss, onStart, theme, ...props }) {
           scrollEventThrottle={16}
         >
           {items.map((item) => (
-            <Item {...item} key={item.key} currentIndex={currentIndex} />
+            <Item {...item} key={item.key} />
           ))}
         </ScrollView>
 
