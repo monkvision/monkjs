@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import moment from 'moment';
 import isEmpty from 'lodash.isempty';
+import PropTypes from 'prop-types';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
@@ -38,9 +39,12 @@ import {
   useTheme,
   DataTable,
   Text,
+  Menu,
+  IconButton,
+  Divider,
 } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import { DAMAGES, LANDING } from 'screens/names';
+import { DAMAGES, INSPECTION_UPDATE, LANDING } from 'screens/names';
 
 import trash from './assets/trash.svg';
 
@@ -104,6 +108,57 @@ const styles = StyleSheet.create({
   actionButton: { marginLeft: spacing(1) },
 });
 
+function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
+  const navigation = useNavigation();
+  const { colors } = useTheme();
+
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const handleOpenMenu = useCallback(() => {
+    setMenuOpen(true);
+  }, []);
+
+  const handleDismissMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
+  const handleGoToEditInspection = useCallback(() => {
+    navigation.navigate(INSPECTION_UPDATE);
+  }, [navigation]);
+
+  return (
+    <Menu
+      anchor={<IconButton icon="menu" onPress={handleOpenMenu} />}
+      visible={isMenuOpen}
+      onDismiss={handleDismissMenu}
+    >
+      <Menu.Item
+        title="Refresh"
+        onPress={handleRefresh}
+        loading={inspectionLoading}
+        disabled={inspectionLoading}
+      />
+      <Menu.Item onPress={handleGoToEditInspection} disabled title="Edit" />
+      <Menu.Item disabled title="Export as PDF" />
+      <Divider />
+      <Menu.Item
+        onPress={() => {
+          handleDelete();
+          handleDismissMenu();
+        }}
+        title="Delete"
+        titleStyle={{ color: colors.error }}
+      />
+    </Menu>
+  );
+}
+
+ActionsMenu.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired,
+  inspectionLoading: PropTypes.bool.isRequired,
+};
+
 export default () => {
   const theme = useTheme();
   const route = useRoute();
@@ -151,6 +206,10 @@ export default () => {
     navigation.navigate(DAMAGES, { inspectionId });
   }, [inspectionId, navigation]);
 
+  const openDeletionDialog = useCallback(() => {
+    setDialogOpen(true);
+  }, []);
+
   const handleDismissDialog = useCallback(() => {
     setDialogOpen(false);
   }, []);
@@ -161,18 +220,15 @@ export default () => {
         title: `Inspection #${inspectionId.split('-')[0]}`,
         headerBackVisible: true,
         headerRight: () => (
-          <Button
-            icon={fakeActivity ? undefined : 'refresh'}
-            onPress={refresh}
-            loading={fakeActivity}
-            disabled={fakeActivity}
-          >
-            Refresh
-          </Button>
+          <ActionsMenu
+            handleRefresh={refresh}
+            handleDelete={openDeletionDialog}
+            inspectionLoading={Boolean(fakeActivity)}
+          />
         ),
       });
     }
-  }, [fakeActivity, inspectionId, navigation, refresh]);
+  }, [fakeActivity, inspectionId, navigation, refresh, openDeletionDialog]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;
@@ -229,7 +285,7 @@ export default () => {
             <Button
               icon="trash-can"
               color={theme.colors.error}
-              onPress={() => setDialogOpen(true)}
+              onPress={openDeletionDialog}
             >
               Delete
             </Button>
