@@ -58,7 +58,7 @@ function AdvicesView({ hideCloseButton, onDismiss, theme, ...props }) {
           scrollEventThrottle={16}
         >
           {items.map((item) => (
-            <Item {...item} key={item.key} currentIndex={currentIndex} />
+            <Item {...item} key={item.key} />
           ))}
         </ScrollView>
 
@@ -96,21 +96,7 @@ const Item = ({ src, icon, text }) => (
 
 Item.propTypes = {
   icon: PropTypes.string,
-  src: PropTypes.oneOfType([
-    PropTypes.shape({
-      headers: PropTypes.objectOf(PropTypes.string),
-      uri: PropTypes.string,
-    }),
-    PropTypes.number,
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        headers: PropTypes.objectOf(PropTypes.string),
-        height: PropTypes.number,
-        uri: PropTypes.string,
-        width: PropTypes.number,
-      }),
-    ),
-  ]).isRequired,
+  src: PropTypes.string.isRequired,
   text: PropTypes.element.isRequired,
 };
 
