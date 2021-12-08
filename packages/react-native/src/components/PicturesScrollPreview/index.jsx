@@ -1,9 +1,10 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import SightsWheel from '../SightsWheel';
 import SightCard from '../SightCard';
 
 import propTypes from '../propTypes';
@@ -24,6 +25,11 @@ const PicturesScrollPreview = forwardRef(
     };
     return (
       <SafeAreaView style={styles.root} ref={ref}>
+        <LinearGradient
+          style={styles.gradient}
+          colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.01)']}
+          pointerEvents="none"
+        />
         <ScrollView
           style={styles.scrollContainer}
           ref={scrollViewRef}
@@ -42,11 +48,15 @@ const PicturesScrollPreview = forwardRef(
             />
           ))}
         </ScrollView>
-        <LinearGradient
-          style={styles.gradient}
-          colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.01)']}
-          pointerEvents="none"
-        />
+
+        <View style={{ backgroundColor: '#000000' }}>
+          <SightsWheel activeSight={activeSight} />
+          <View style={styles.sightsIndicator}>
+            <Text style={styles.sightsIndicatorText}>
+              {`${Object.keys(pictures).length + 1} / ${sights.length}`}
+            </Text>
+          </View>
+        </View>
       </SafeAreaView>
     );
   },
