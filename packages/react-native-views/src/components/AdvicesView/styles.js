@@ -1,7 +1,4 @@
-import { Dimensions, Platform, StyleSheet } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
-const isMobileSize = Math.min(width, height) < 512;
+import { Platform, StyleSheet } from 'react-native';
 
 export const center = {
   display: 'flex',
@@ -15,6 +12,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
     height: '100%',
     width: '100%',
+    padding: 16,
   },
   carouselDotsLayout: {
     marginTop: 8,
@@ -22,16 +20,13 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 20,
     ...center,
+    alignItems: 'center',
   },
   carouselDot: {
     width: 10,
     height: 10,
     margin: 10,
     borderRadius: 999,
-    ...Platform.select({
-      // native: { width: 512 },
-      // web: { marginTop: -20 },
-    }),
   },
   carouselContent: {
     display: 'flex',
@@ -66,20 +61,12 @@ export const styles = StyleSheet.create({
     ...center,
   },
   adviceImage: {
-    ...Platform.select({
-      web: {
-        width: isMobileSize ? 270 : 512,
-        height: isMobileSize ? 180 : 340,
-      },
-      native: {
-        width: 270,
-        height: 180,
-      },
-    }),
+    width: 246,
+    height: 141,
   },
   label: {
     textAlign: 'center',
-    color: '#7C8080',
+    color: '#ffffff',
   },
   labelLayout: {
     marginTop: 10,

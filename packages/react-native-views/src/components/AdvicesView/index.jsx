@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { propTypes } from '@monkvision/react-native';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { Provider, withTheme } from 'react-native-paper';
-
+import { View, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import { Provider, withTheme, Button } from 'react-native-paper';
+import { SvgXml } from 'react-native-svg';
 import { styles } from './styles';
 import items from './data';
 // import useInterval from './hooks';
@@ -14,13 +14,14 @@ import items from './data';
  * @param hideCloseButton {boolean}
  * @param onDismiss {func}
  * @param theme
+ * @param onStart {func}
+ * @param canStart {bool}
  * @param props
  * @returns {JSX.Element}
  * @constructor
  */
 
-function AdvicesView({ hideCloseButton, onDismiss, theme, ...props }) {
-  const { colors } = theme;
+function AdvicesView({ hideCloseButton, onDismiss, theme, onStart, canStart, ...props }) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   // here we convert the scroll coordinate (x) to an integer (index) based on the width
@@ -31,11 +32,25 @@ function AdvicesView({ hideCloseButton, onDismiss, theme, ...props }) {
   // scrollView ref gives us the ability to scroll programmatically
   const scrollViewRef = React.useRef(null);
 
+  const handleGoToNextSlide = useCallback(
+    () => scrollViewRef.current.scrollTo({ x: 512 * (currentIndex + 1), animated: true }),
+    [currentIndex],
+  );
   // trigger a swipe (to the right every 3 sec)
   // const delay = currentIndex < 2 ? 3000 : null;
   // useInterval(() => {
-  //   scrollViewRef.current.scrollTo({ x: 512 * (currentIndex + 1), animated: true });
+  //   handleGoToNextSlide();
   // }, delay);
+
+  const handlePress = useCallback(() => {
+    if (currentIndex < 2) {
+      handleGoToNextSlide();
+    } else if (canStart) {
+      onStart();
+    } else {
+      onDismiss();
+    }
+  }, [currentIndex, canStart, handleGoToNextSlide, onStart, onDismiss]);
 
   return (
     <Provider theme={theme}>
@@ -62,13 +77,23 @@ function AdvicesView({ hideCloseButton, onDismiss, theme, ...props }) {
           ))}
         </ScrollView>
 
+        <Button
+          color="#FFFFFF"
+          mode="contained"
+          onPress={handlePress}
+          labelStyle={{ color: '#43494A' }}
+          style={{ marginVertical: 8 }}
+        >
+          {currentIndex === 2 && canStart ? 'Start' : 'Got it'}
+        </Button>
+
         {/* carousel dots */}
         <View style={styles.carouselDotsLayout}>
           {[0, 1, 2].map((item, index) => (
             <View
               style={[
                 styles.carouselDot, {
-                  backgroundColor: index === currentIndex ? colors.primary : '#C6D3F3',
+                  backgroundColor: index === currentIndex ? '#FFFFFF' : '#ffffff40',
                 },
               ]}
               key={item}
@@ -83,11 +108,14 @@ function AdvicesView({ hideCloseButton, onDismiss, theme, ...props }) {
 const Item = ({ src, icon, text }) => (
   <View style={styles.carouselContent}>
     <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-      <Image source={src} style={styles.adviceImage} />
+      {Platform.OS === 'web'
+        // eslint-disable-next-line react/no-danger
+        ? <div dangerouslySetInnerHTML={{ __html: src }} />
+        : <SvgXml xml={src} style={styles.adviceImage} />}
     </View>
     {icon ? (
       <View style={styles.iconLayout}>
-        <MaterialCommunityIcons name={icon} size={24} color="black" />
+        <MaterialCommunityIcons name={icon} size={24} color="white" />
       </View>
     ) : null}
     {text}
@@ -96,21 +124,7 @@ const Item = ({ src, icon, text }) => (
 
 Item.propTypes = {
   icon: PropTypes.string,
-  src: PropTypes.oneOfType([
-    PropTypes.shape({
-      headers: PropTypes.objectOf(PropTypes.string),
-      uri: PropTypes.string,
-    }),
-    PropTypes.number,
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        headers: PropTypes.objectOf(PropTypes.string),
-        height: PropTypes.number,
-        uri: PropTypes.string,
-        width: PropTypes.number,
-      }),
-    ),
-  ]).isRequired,
+  src: PropTypes.string.isRequired,
   text: PropTypes.element.isRequired,
 };
 
@@ -119,13 +133,17 @@ Item.defaultProps = {
 };
 
 AdvicesView.propTypes = {
+  canStart: PropTypes.bool,
   hideCloseButton: PropTypes.bool,
   onDismiss: propTypes.callback,
+  onStart: PropTypes.func,
 };
 
 AdvicesView.defaultProps = {
   hideCloseButton: false,
+  onStart: noop,
   onDismiss: noop,
+  canStart: false,
 };
 
 export default withTheme(AdvicesView);

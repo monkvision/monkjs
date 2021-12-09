@@ -28,6 +28,18 @@ const styles = StyleSheet.create({
     } }),
   },
   cta: Platform.select({ web: { maxWidth: 200 } }),
+  adviceCard: {
+    maxWidth: 500,
+    maxHeight: 360,
+    borderRadius: 30,
+    backgroundColor: '#43494A',
+  },
+  adviceContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 /**
@@ -70,9 +82,13 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
               )}
             />
           </View>
-          <AdvicesView hideCloseButton />
+          <View style={styles.adviceContainer}>
+            <View style={styles.adviceCard}>
+              <AdvicesView hideCloseButton onStart={onStart} canStart />
+            </View>
+          </View>
           <View style={styles.actions}>
-            <Button onPress={onStart} mode="contained" style={styles.cta}>
+            <Button onPress={onStart} mode="ourlined" style={styles.cta}>
               New Inspection
             </Button>
           </View>

@@ -136,6 +136,7 @@ function CameraView({
                   />
                 )}
                 <CameraOverlay
+                  onShowAdvices={ui.modal.handleShow}
                   activeSightId={activeSight.id}
                   camera={camera}
                   fakeActivity={Boolean(fakeActivity)}
@@ -159,6 +160,8 @@ function CameraView({
           onCloseCamera={ui.camera.handleClose}
           onDismissSnack={ui.snackbar.handleDismiss}
           snackIsVisible={ui.snackbar.isVisible}
+          onDismissAdvices={ui.modal.handleDismiss}
+          modalIsVisible={ui.modal.isVisible}
         />
       </View>
     </Provider>
