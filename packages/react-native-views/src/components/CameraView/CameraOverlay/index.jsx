@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { withTheme, IconButton } from 'react-native-paper';
+import { withTheme, FAB } from 'react-native-paper';
 import Components, { propTypes, utils } from '@monkvision/react-native';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
@@ -24,11 +24,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  fab: {
+  advicesButton: {
     position: 'absolute',
     top: 10,
     left: 10,
     zIndex: 10,
+    backgroundColor: '#333',
   },
 });
 
@@ -40,12 +41,12 @@ function CameraOverlay({ activeSightId, camera, fakeActivity, onShowAdvices }) {
   return (
     <View style={[styles.overLaps, { width: overlayWidth }]}>
       {maskCanMount && (
-      <IconButton
+      <FAB
         accessibilityLabel="Advices"
         color="#edab25"
-        disabled={fakeActivity}
+        small
         icon="lightbulb-on"
-        style={styles.fab}
+        style={styles.advicesButton}
         onPress={onShowAdvices}
       />
       )}

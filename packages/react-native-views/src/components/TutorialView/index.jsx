@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
 import { SafeAreaView, ScrollView, StyleSheet, View, Platform } from 'react-native';
-import { Avatar, Button, List, withTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Avatar, List, withTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import AdvicesView from '../AdvicesView';
 
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     maxWidth: 500,
     maxHeight: 360,
     borderRadius: 30,
-    backgroundColor: '#43494A',
+    backgroundColor: '#274B9F',
+    overflow: 'hidden',
   },
   adviceContainer: {
     width: '100%',
@@ -60,7 +61,7 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
         <ScrollView>
           <View style={styles.listView}>
             <List.Item
-              title="outside pictures"
+              title="Outside pictures"
               description="Make a 360° tour of the vehicle and take exterior pictures."
               left={(props) => (
                 <Avatar.Text
@@ -71,7 +72,7 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
               )}
             />
             <List.Item
-              title="inside pictures"
+              title="Inside pictures"
               description="Open the vehicle and take interior pictures."
               left={(props) => (
                 <Avatar.Text
@@ -86,11 +87,6 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
             <View style={styles.adviceCard}>
               <AdvicesView hideCloseButton onStart={onStart} canStart />
             </View>
-          </View>
-          <View style={styles.actions}>
-            <Button onPress={onStart} mode="ourlined" style={styles.cta}>
-              New Inspection
-            </Button>
           </View>
         </ScrollView>
       </SafeAreaView>
