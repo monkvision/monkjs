@@ -21,7 +21,7 @@ import items from './data';
  * @constructor
  */
 
-function AdvicesView({ hideCloseButton, onDismiss, theme, onStart, canStart, ...props }) {
+function AdvicesView({ hideCloseButton, onDismiss, theme, onStart, ...props }) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   // here we convert the scroll coordinate (x) to an integer (index) based on the width
@@ -45,12 +45,12 @@ function AdvicesView({ hideCloseButton, onDismiss, theme, onStart, canStart, ...
   const handlePress = useCallback(() => {
     if (currentIndex < 2) {
       handleGoToNextSlide();
-    } else if (canStart) {
+    } else if (onStart) {
       onStart();
     } else {
       onDismiss();
     }
-  }, [currentIndex, canStart, handleGoToNextSlide, onStart, onDismiss]);
+  }, [currentIndex, handleGoToNextSlide, onStart, onDismiss]);
 
   return (
     <Provider theme={theme}>
@@ -84,7 +84,7 @@ function AdvicesView({ hideCloseButton, onDismiss, theme, onStart, canStart, ...
           labelStyle={{ color: '#43494A' }}
           style={{ marginVertical: 8 }}
         >
-          {currentIndex === 2 && canStart ? 'Start' : 'Got it'}
+          {currentIndex === 2 && onStart ? 'Start' : 'Got it'}
         </Button>
 
         {/* carousel dots */}
@@ -133,17 +133,18 @@ Item.defaultProps = {
 };
 
 AdvicesView.propTypes = {
-  canStart: PropTypes.bool,
   hideCloseButton: PropTypes.bool,
   onDismiss: propTypes.callback,
-  onStart: PropTypes.func,
+  onStart: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.bool,
+  ]),
 };
 
 AdvicesView.defaultProps = {
   hideCloseButton: false,
-  onStart: noop,
+  onStart: false,
   onDismiss: noop,
-  canStart: false,
 };
 
 export default withTheme(AdvicesView);
