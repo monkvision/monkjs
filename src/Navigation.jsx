@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.LANDING}>
+      <Stack.Navigator initialRouteName={names.PROFILE}>
 
         <Stack.Screen
           name={names.GETTING_STARTED}
@@ -96,6 +96,12 @@ export default function Navigation() {
           name={names.DAMAGE_UPDATE}
           component={Screens.DamageUpdate}
           title="Update damage"
+        />
+
+        <Stack.Screen
+          name={names.PROFILE}
+          component={Screens.Profile}
+          title="Profile"
         />
 
       </Stack.Navigator>

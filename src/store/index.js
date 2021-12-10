@@ -1,4 +1,4 @@
-import { damages, images, inspections, parts, tasks, vehicles } from '@monkvision/corejs';
+import { damages, images, inspections, parts, tasks, vehicles, users } from '@monkvision/corejs';
 import { configureStore } from '@reduxjs/toolkit';
 import auth from './slices/auth';
 
@@ -14,6 +14,7 @@ const store = configureStore({
     damages,
     parts,
     vehicles,
+    users,
   },
 });
 
