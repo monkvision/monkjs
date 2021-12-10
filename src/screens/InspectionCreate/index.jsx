@@ -5,6 +5,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import { useDispatch } from 'react-redux';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
+import useMediaGallery from 'hooks/useMediaGallery';
 
 import { CameraView, useFakeActivity } from '@monkvision/react-native-views';
 import { Button, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
@@ -51,6 +52,8 @@ export default () => {
     { onSuccess: ({ result }) => setInspectionId(result) },
   );
 
+  const { isLoading: isSaving, saveToDevice, preparePictures } = useMediaGallery();
+
   const handleNext = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
   }, [inspectionId, navigation]);
@@ -77,15 +80,20 @@ export default () => {
     [],
   );
 
-  const handleSuccess = useCallback(({ camera }) => {
+  const handleSuccess = useCallback(({ camera, pictures }) => {
     camera.pausePreview();
     setCompleted(true);
     setVisible(true);
-  }, []);
+    preparePictures(pictures);
+  }, [preparePictures]);
 
   const handleValidate = useCallback(() => {
     updateTask();
   }, [updateTask]);
+
+  const handleSavePictures = useCallback(() => {
+    saveToDevice();
+  }, [saveToDevice]);
 
   const handleClose = useCallback(() => {
     navigation.navigate(GETTING_STARTED);
@@ -173,7 +181,14 @@ export default () => {
             </Paragraph>
           </Dialog.Content>
           <Dialog.Actions style={styles.dialogActions}>
-            <Button icon="download" mode="outlined" disabled style={styles.button}>
+            <Button
+              icon={isSaving ? undefined : 'download'}
+              loading={isSaving}
+              disabled={isSaving}
+              onPress={handleSavePictures}
+              mode="outlined"
+              style={styles.button}
+            >
               Save in device
             </Button>
             {taskUpdated ? (
