@@ -56,8 +56,18 @@ function getOS() {
   return os;
 }
 
+const SPACING_BASE = 8;
+const nativeSpacing = (spacingFactor = 1) => SPACING_BASE * spacingFactor;
+const defaultSpacing = (spacingFactor) => `${nativeSpacing(spacingFactor)}px`;
+
+const spacing = Platform.select({
+  native: nativeSpacing,
+  default: defaultSpacing,
+});
+
 export default {
   styles: {
+    spacing,
     flex,
     getContainedSizes,
   },
