@@ -89,6 +89,14 @@ const styles = StyleSheet.create({
     marginBottom: spacing(2),
     marginHorizontal: spacing(1),
   },
+  tasks: {
+    display: 'flex',
+    flexBasis: 'auto',
+    flexDirection: 'row',
+    flexShrink: 0,
+    flexWrap: 'nowrap',
+    marginBottom: spacing(2),
+  },
   image: {
     width: 200,
     height: 150,
@@ -224,7 +232,7 @@ export default () => {
           </ScrollView>
           {!isEmpty(inspection.tasks) && (
             <CardContent>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <ScrollView contentContainerStyle={styles.tasks} horizontal>
                 {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
                   <Chip
                     key={`taskChip-${id}`}
@@ -234,12 +242,10 @@ export default () => {
                   >
                     {startCase(name)}
                     {' '}
-                    (
-                    {moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}
-                    s)
+                    {doneAt && createdAt ? `(${moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}s)` : null}
                   </Chip>
                 ))}
-              </View>
+              </ScrollView>
             </CardContent>
           )}
           <Card.Actions style={styles.cardActions}>
