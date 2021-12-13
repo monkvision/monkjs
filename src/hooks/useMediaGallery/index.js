@@ -29,7 +29,7 @@ const useMediaGallery = () => {
     try {
       const picturesSights = Object.values(pictures);
 
-      if (!picturesSights.length) { return; }
+      if (isLoading || !picturesSights.length) { return; }
       setIsLoading(true);
 
       const renamePromises = [];
@@ -47,10 +47,8 @@ const useMediaGallery = () => {
         assetsPromises.push(MediaLibrary.createAssetAsync(savePath));
       });
 
-      const renamedPictures = await Promise.all(renamePromises);
-      console.log('renamedPictures', renamedPictures);
-      const assets = await Promise.all(renamedPictures);
-      console.log('assets', assets);
+      await Promise.all(renamePromises);
+      const assets = await Promise.all(assetsPromises);
       const initialAsset = assets.pop();
 
       const albumName = `Vehicle-${getDate()}`;
