@@ -19,11 +19,35 @@ const styles = StyleSheet.create({
   },
   gradient: {
     position: 'absolute',
-    top: 0,
+    top: 153,
     width: 104,
     height: 50,
     alignSelf: 'center',
     zIndex: 10,
+  },
+  sightsIndicator: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sightsIndicatorText: {
+    position: 'relative',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontSize: 11,
+    width: 62,
+    height: 28,
+    borderColor: '#FFFFFF',
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    borderRadius: 9,
+    lineHeight: 28,
+  },
+  sightsIndicatorCounter: {
+    width: 62,
+    borderRadius: 9,
+    height: 28,
+    position: 'absolute',
   },
 });
 export default styles;

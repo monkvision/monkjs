@@ -21,7 +21,7 @@ import items from './data';
  * @constructor
  */
 
-function AdvicesView({ hideCloseButton, onDismiss, theme, onStart, ...props }) {
+function AdvicesView({ hideCloseButton, onDismiss, onStart, theme, ...props }) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   // here we convert the scroll coordinate (x) to an integer (index) based on the width
