@@ -181,16 +181,18 @@ export default () => {
             </Paragraph>
           </Dialog.Content>
           <Dialog.Actions style={styles.dialogActions}>
-            <Button
-              icon={isSaving || isSaved ? undefined : 'download'}
-              loading={isSaving}
-              disabled={isSaving || isSaved}
-              onPress={handleSavePictures}
-              mode="outlined"
-              style={styles.button}
-            >
-              { isSaved ? 'Photos Saved !' : 'Save in device' }
-            </Button>
+            {Platform.OS !== 'web' && (
+              <Button
+                icon={isSaving || isSaved ? undefined : 'download'}
+                loading={isSaving}
+                disabled={isSaving || isSaved}
+                onPress={handleSavePictures}
+                mode="outlined"
+                style={styles.button}
+              >
+                { isSaved ? 'Photos Saved !' : 'Save in device' }
+              </Button>
+            )}
             {taskUpdated ? (
               <Button
                 onPress={handleNext}
