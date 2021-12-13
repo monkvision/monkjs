@@ -13,6 +13,7 @@ const useMediaGallery = () => {
   const [status, requestPermission] = MediaLibrary.usePermissions();
   const [pictures, preparePictures] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const getPermissions = useCallback(() => {
     if (!status) {
@@ -29,7 +30,7 @@ const useMediaGallery = () => {
     try {
       const picturesSights = Object.values(pictures);
 
-      if (isLoading || !picturesSights.length) { return; }
+      if (isLoading || isSaved || !picturesSights.length) { return; }
       setIsLoading(true);
 
       const renamePromises = [];
@@ -56,13 +57,14 @@ const useMediaGallery = () => {
 
       if (newAlbum) {
         await MediaLibrary.addAssetsToAlbumAsync(assets, newAlbum.id, false);
+        setIsSaved(true);
       } else { console.error('Unable to get or create album'); }
       setIsLoading(false);
     } catch (error) {
       console.error('savePictures error', error);
       setIsLoading(false);
     }
-  }, [pictures]);
+  }, [isLoading, isSaved, pictures]);
 
   useEffect(getPermissions, [status, getPermissions]);
 
@@ -70,6 +72,7 @@ const useMediaGallery = () => {
     saveToDevice,
     preparePictures,
     isLoading,
+    isSaved,
   };
 };
 

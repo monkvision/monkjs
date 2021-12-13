@@ -52,7 +52,7 @@ export default () => {
     { onSuccess: ({ result }) => setInspectionId(result) },
   );
 
-  const { isLoading: isSaving, saveToDevice, preparePictures } = useMediaGallery();
+  const { isLoading: isSaving, isSaved, saveToDevice, preparePictures } = useMediaGallery();
 
   const handleNext = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
@@ -182,14 +182,14 @@ export default () => {
           </Dialog.Content>
           <Dialog.Actions style={styles.dialogActions}>
             <Button
-              icon={isSaving ? undefined : 'download'}
+              icon={isSaving || isSaved ? undefined : 'download'}
               loading={isSaving}
-              disabled={isSaving}
+              disabled={isSaving || isSaved}
               onPress={handleSavePictures}
               mode="outlined"
               style={styles.button}
             >
-              Save in device
+              { isSaved ? 'Photos Saved !' : 'Save in device' }
             </Button>
             {taskUpdated ? (
               <Button
