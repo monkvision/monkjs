@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet } from 'react-native';
 import { propTypes } from '@monkvision/react-native';
-import { Snackbar, Text, withTheme } from 'react-native-paper';
+import { Snackbar, Text, withTheme, Modal } from 'react-native-paper';
+import AdvicesView from '../../AdvicesView';
 
 const styles = StyleSheet.create({
   advices: {
@@ -10,12 +11,13 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 40,
     overflow: 'hidden',
-    maxWidth: 512,
-    ...Platform.select({
-      web: { maxHeight: 512 },
-      native: { maxHeight: 300 },
-    }),
+    maxWidth: 500,
+    backgroundColor: '#000000c1',
     alignSelf: 'center',
+    ...Platform.select({
+      web: { maxHeight: 360 },
+      native: { maxHeight: '96%' },
+    }),
   },
   snackBar: {
     display: 'flex',
@@ -31,12 +33,22 @@ function CameraPopUps({
   onCloseCamera,
   onDismissSnack,
   snackIsVisible,
+  onDismissAdvices,
+  modalIsVisible,
   theme,
 }) {
   const { colors } = theme;
 
   return (
     <>
+      <Modal
+        contentContainerStyle={styles.advices}
+        style={{ display: 'flex', justifyContent: 'center' }}
+        onDismiss={onDismissAdvices}
+        visible={modalIsVisible}
+      >
+        <AdvicesView onDismiss={onDismissAdvices} />
+      </Modal>
       <Snackbar
         action={{
           label: 'Leave',
@@ -57,7 +69,9 @@ function CameraPopUps({
 }
 
 CameraPopUps.propTypes = {
+  modalIsVisible: PropTypes.bool.isRequired,
   onCloseCamera: propTypes.callback.isRequired,
+  onDismissAdvices: propTypes.callback.isRequired,
   onDismissSnack: propTypes.callback.isRequired,
   snackIsVisible: PropTypes.bool.isRequired,
 };
