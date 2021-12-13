@@ -4,6 +4,7 @@ import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import moment from 'moment';
+import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
@@ -24,6 +25,7 @@ import {
   imagesEntity,
   inspectionsEntity,
   tasksEntity,
+  taskStatuses,
   vehiclesEntity,
 } from '@monkvision/corejs';
 
@@ -36,11 +38,11 @@ import {
   Paragraph,
   Portal,
   useTheme,
-  DataTable,
+  Chip,
   Text,
 } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import { DAMAGES, LANDING } from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ } from 'screens/names';
 
 import trash from './assets/trash.svg';
 
@@ -104,6 +106,16 @@ const styles = StyleSheet.create({
   actionButton: { marginLeft: spacing(1) },
 });
 
+const taskChipIcons = {
+  [taskStatuses.NOT_STARTED]: 'clock-alert-outline',
+  [taskStatuses.TODO]: 'av-timer',
+  [taskStatuses.IN_PROGRESS]: 'clock-outline',
+  [taskStatuses.DONE]: 'check-circle-outline',
+  [taskStatuses.ERROR]: 'alert-circle-outline',
+  [taskStatuses.ABORTED]: 'progress-close',
+  [taskStatuses.VALIDATED]: 'check',
+};
+
 export default () => {
   const theme = useTheme();
   const route = useRoute();
@@ -155,6 +167,13 @@ export default () => {
     setDialogOpen(false);
   }, []);
 
+  const handleGoToTaskRead = useCallback(
+    (args) => {
+      navigation.navigate(TASK_READ, { ...args, inspectionId });
+    },
+    [navigation, inspectionId],
+  );
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -205,24 +224,22 @@ export default () => {
           </ScrollView>
           {!isEmpty(inspection.tasks) && (
             <CardContent>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Name</DataTable.Title>
-                  <DataTable.Title>Status</DataTable.Title>
-                  <DataTable.Title numeric>Detection time</DataTable.Title>
-                </DataTable.Header>
-
+              <View style={{ display: 'flex', flexDirection: 'row' }}>
                 {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
-                  <DataTable.Row key={`taskRow-${id}`}>
-                    <DataTable.Cell>{name}</DataTable.Cell>
-                    <DataTable.Cell>{status}</DataTable.Cell>
-                    <DataTable.Cell numeric>
-                      {moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}
-                      sec.
-                    </DataTable.Cell>
-                  </DataTable.Row>
+                  <Chip
+                    key={`taskChip-${id}`}
+                    icon={taskChipIcons[status]}
+                    onPress={() => handleGoToTaskRead({ taskName: name, taskId: id })}
+                    style={{ margin: 2 }}
+                  >
+                    {startCase(name)}
+                    {' '}
+                    (
+                    {moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}
+                    s)
+                  </Chip>
                 ))}
-              </DataTable>
+              </View>
             </CardContent>
           )}
           <Card.Actions style={styles.cardActions}>

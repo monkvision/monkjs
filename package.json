@@ -64,6 +64,7 @@
     "lodash.mapvalues": "^4.6.0",
     "lodash.noop": "^3.0.1",
     "lodash.snakecase": "^4.1.1",
+    "lodash.startcase": "^4.4.0",
     "lodash.upperfirst": "^4.3.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",

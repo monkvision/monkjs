@@ -20,3 +20,5 @@ export const DAMAGE_UPDATE = 'updateDamage';
 export const DAMAGES = 'listDamages';
 
 export const LANDING = 'landing';
+
+export const TASK_READ = 'taskRead';
