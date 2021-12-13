@@ -96,7 +96,7 @@ export default () => {
 
   const handlePress = useCallback(
     (inspectionId) => {
-      navigation.navigate(INSPECTION_READ, { inspectionId });
+      navigation.navigate(INSPECTION_READ, { inspectionId: '5ff7fbeb-e31e-d44a-5f9d-5994e438da56' });
     },
     [navigation],
   );

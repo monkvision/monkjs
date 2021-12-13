@@ -22,12 +22,13 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 import usePartDamages from 'hooks/usePartDamages';
+import useToggle from 'hooks/useToggle';
 
 import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { BottomNavigation, Button, IconButton, List, useTheme, Dialog, Paragraph, Portal } from 'react-native-paper';
-
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { BottomNavigation, Button, IconButton, List, useTheme, Dialog, Paragraph, Portal, Menu, Divider } from 'react-native-paper';
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
@@ -64,6 +65,44 @@ const styles = StyleSheet.create({
   dialogActions: { flexWrap: 'wrap' },
   button: { width: '100%', marginVertical: 4 },
 });
+
+function ActionsMenu({ handleRefresh, loading, handleValidate, handleAddDamage }) {
+  const { colors } = useTheme();
+  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
+
+  return (
+    <Menu
+      anchor={<IconButton icon="menu" onPress={handleOpenMenu} />}
+      visible={isMenuOpen}
+      onDismiss={handleDismissMenu}
+    >
+      <Menu.Item
+        title="Refresh"
+        loading={loading}
+        onPress={() => handleDismissMenu(handleRefresh)}
+        disabled={loading}
+      />
+      <Menu.Item
+        onPress={() => handleDismissMenu(handleAddDamage)}
+        title="Add damage"
+      />
+      <Divider />
+      <Menu.Item
+        onPress={() => handleDismissMenu(handleValidate)}
+        disabled
+        title="Validate"
+        titleStyle={{ color: colors.success }}
+      />
+    </Menu>
+  );
+}
+
+ActionsMenu.propTypes = {
+  handleAddDamage: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired,
+  handleValidate: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 function DialogModal({ isDialogOpen, handleDismissDialog }) {
   const route = useRoute();
@@ -321,14 +360,12 @@ export default () => {
           ? 'Vehicle has no damage'
           : `Vehicle has ${inspection?.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`,
         headerRight: () => (
-          <Button
-            icon={fakeActivity ? undefined : 'refresh'}
-            onPress={refresh}
-            loading={fakeActivity}
-            disabled={fakeActivity}
-          >
-            Refresh
-          </Button>
+          <ActionsMenu
+            handleRefresh={refresh}
+            damagesLoading={Boolean(fakeActivity)}
+            handleAddDamage={() => {}}
+            handleValidate={() => {}}
+          />
         ),
       });
     }
