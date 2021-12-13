@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
+import useToggle from 'hooks/useToggle';
 
 import { spacing } from 'config/theme';
 
@@ -108,29 +109,33 @@ const styles = StyleSheet.create({
   actionButton: { marginLeft: spacing(1) },
 });
 
-function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
+function useMenu() {
   const navigation = useNavigation();
-  const { colors } = useTheme();
+  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
 
-  const [isMenuOpen, setMenuOpen] = useState(false);
-
-  const handleOpenMenu = useCallback(() => {
-    setMenuOpen(true);
-  }, []);
-
-  const handleDismissMenu = useCallback(() => {
-    setMenuOpen(false);
-  }, []);
-
+  const handleExportPdf = useCallback(() => {}, []);
   const handleGoToEditInspection = useCallback(() => {
     navigation.navigate(INSPECTION_UPDATE);
   }, [navigation]);
 
+  const events = {
+    handleOpenMenu,
+    handleDismissMenu,
+    handleGoToEditInspection,
+    handleExportPdf,
+  };
+  return { isMenuOpen, events };
+}
+
+function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
+  const { colors } = useTheme();
+  const { isMenuOpen, events } = useMenu();
+
   return (
     <Menu
-      anchor={<IconButton icon="menu" onPress={handleOpenMenu} />}
+      anchor={<IconButton icon="menu" onPress={events.handleOpenMenu} />}
       visible={isMenuOpen}
-      onDismiss={handleDismissMenu}
+      onDismiss={events.handleDismissMenu}
     >
       <Menu.Item
         title="Refresh"
@@ -138,13 +143,13 @@ function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
         loading={inspectionLoading}
         disabled={inspectionLoading}
       />
-      <Menu.Item onPress={handleGoToEditInspection} disabled title="Edit" />
-      <Menu.Item disabled title="Export as PDF" />
+      <Menu.Item onPress={events.handleGoToEditInspection} disabled title="Edit" />
+      <Menu.Item onPress={events.handleExportPdf} disabled title="Export as PDF" />
       <Divider />
       <Menu.Item
         onPress={() => {
           handleDelete();
-          handleDismissMenu();
+          events.handleDismissMenu();
         }}
         title="Delete"
         titleStyle={{ color: colors.error }}
