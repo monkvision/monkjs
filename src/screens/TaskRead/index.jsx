@@ -29,15 +29,10 @@ import validated from './assets/validated.svg';
 const styles = StyleSheet.create({
   root: {
     paddingVertical: spacing(1),
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flexGrow: 1, minHeight: 'calc(100vh - 64px)' },
-    }),
   },
   card: {
     marginHorizontal: spacing(2),
     marginVertical: spacing(1),
-    height: '100%',
   },
   text: {
     color: '#43494A',
@@ -79,7 +74,6 @@ const styles = StyleSheet.create({
   tag: {
     height: 26,
     lineHeight: 26,
-    borderRadius: 12,
     textAlign: 'center',
     paddingHorizontal: spacing(1),
     color: '#FFFFFF',
@@ -88,6 +82,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     marginVertical: spacing(1),
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   drawing: {
     marginHorizontal: spacing(2),
@@ -196,7 +192,7 @@ export default () => {
         headerRight: () => (
           <ActionsMenu
             handleRefresh={refresh}
-            taskLoading={fakeActivity}
+            taskLoading={Boolean(fakeActivity)}
             handleCancel={handleCancel}
             handleRerun={handleRerun}
           />
@@ -211,31 +207,38 @@ export default () => {
   return (
     <SafeAreaView contentContainerStyle={styles.root}>
       <Card style={styles.card}>
-        <View style={[styles.flex, styles.drawing]}>
-          <Drawing height="200" maxWidth="90%" xml={taskAssets.drawing} />
-        </View>
-        <Card.Content style={styles.content}>
-          <Title>{startCase(task.name)}</Title>
-          <View style={styles.flex}>
-            <View style={styles.tagLayout}>
-              <Text style={[styles.tag, taskAssets.style]}>
-                {startCase(task.status)}
-              </Text>
+        <Card.Content>
+          {/* drawing */}
+          <View style={[styles.flex, styles.drawing]}>
+            <Drawing height="200" style={{ maxWidth: '90%' }} xml={taskAssets.drawing} />
+          </View>
+
+          {/* content */}
+          <View style={styles.content}>
+            <Title>{startCase(task.name)}</Title>
+            <View style={styles.flex}>
+              <View style={[styles.tagLayout, taskAssets.style]}>
+                <Text style={[styles.tag]}>
+                  {startCase(task.status)}
+                </Text>
+              </View>
+              <CopyButton taskId={taskId} />
             </View>
-            <CopyButton taskId={taskId} />
+            <View style={styles.flex}>
+              <Text style={styles.lowContrast}>{moment(task.createdAt).format('DD-MM-YYYY hh:mm')}</Text>
+              {executionTime ? (
+                <Text style={styles.lowContrast}>
+                  {executionTime}
+                </Text>
+              ) : null}
+            </View>
+            <Text style={styles.text}>
+              {taskAssets.text}
+            </Text>
           </View>
-          <View style={styles.flex}>
-            <Text style={styles.lowContrast}>{moment(task.createdAt).format('DD-MM-YYYY hh:mm')}</Text>
-            {executionTime ? (
-              <Text style={styles.lowContrast}>
-                {executionTime}
-              </Text>
-            ) : null}
-          </View>
-          <Text style={styles.text}>
-            {taskAssets.text}
-          </Text>
         </Card.Content>
+
+        {/* actions */}
         <Card.Actions style={styles.actions}>
           <Button
             accessibilityLabel="Validate"
@@ -244,7 +247,8 @@ export default () => {
             color={colors.success}
             icon="send"
             mode="contained"
-            disalbed={task.status === taskStatuses.VALIDATED}
+            // I put true because to the feature not available
+            disabled={task.status === taskStatuses.VALIDATED || true}
           >
             Validate
           </Button>
