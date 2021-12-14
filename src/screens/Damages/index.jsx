@@ -89,7 +89,6 @@ function ActionsMenu({ handleRefresh, loading, handleValidate, handleAddDamage }
       <Divider />
       <Menu.Item
         onPress={() => handleDismissMenu(handleValidate)}
-        disabled
         title="Validate"
         titleStyle={{ color: colors.success }}
       />
@@ -268,18 +267,10 @@ Scene.defaultProps = {
   partsWithDamages: [],
 };
 
-function Navigation({ damagedPartsCount, computedParts, ...props }) {
+function Navigation({ damagedPartsCount, computedParts, handleOpenDialog, ...props }) {
   const [index, setIndex] = useState(0);
   const disabled = damagedPartsCount === 0;
   const badge = (nb) => nb > 0 && nb;
-
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const handleDismissDialog = useCallback(() => {
-    setDialogOpen(false);
-  }, []);
-  const handleOpenDialog = useCallback(() => {
-    setDialogOpen(true);
-  }, []);
 
   const [routes] = useState([
     { key: 'front', title: 'Front', icon: 'car', badge: badge(computedParts.front) },
@@ -296,7 +287,6 @@ function Navigation({ damagedPartsCount, computedParts, ...props }) {
 
   return (
     <>
-      <DialogModal isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
       <BottomNavigation
         barStyle={{ backgroundColor: '#fff' }}
         navigationState={{ index, routes }}
@@ -314,6 +304,7 @@ Navigation.propTypes = {
     interior: PropTypes.number,
   }).isRequired,
   damagedPartsCount: PropTypes.number,
+  handleOpenDialog: PropTypes.func.isRequired,
 };
 
 Navigation.defaultProps = {
@@ -353,6 +344,14 @@ export default () => {
     ? usePartDamages(inspection.parts, inspection.damages)
     : [];
 
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const handleDismissDialog = useCallback(() => {
+    setDialogOpen(false);
+  }, []);
+  const handleOpenDialog = useCallback(() => {
+    setDialogOpen(true);
+  }, []);
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -364,12 +363,12 @@ export default () => {
             handleRefresh={refresh}
             damagesLoading={Boolean(fakeActivity)}
             handleAddDamage={() => {}}
-            handleValidate={() => {}}
+            handleValidate={handleOpenDialog}
           />
         ),
       });
     }
-  }, [fakeActivity, inspection, inspectionId, navigation, refresh]);
+  }, [fakeActivity, handleOpenDialog, inspection, inspectionId, navigation, refresh]);
 
   if (partsWithDamages.length === 0) {
     return null;
@@ -397,11 +396,15 @@ export default () => {
   return (
     <SafeAreaView style={styles.root}>
       {fakeActivity ? <ActivityIndicatorView light /> : (
-        <Navigation
-          partsWithDamages={partsWithDamages}
-          computedParts={computedParts()}
-          damagedPartsCount={partsWithDamages.length}
-        />
+        <>
+          <DialogModal isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
+          <Navigation
+            partsWithDamages={partsWithDamages}
+            computedParts={computedParts()}
+            damagedPartsCount={partsWithDamages.length}
+            handleOpenDialog={handleOpenDialog}
+          />
+        </>
       )}
     </SafeAreaView>
   );
