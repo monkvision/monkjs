@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useMemo, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
 import { denormalize } from 'normalizr';
@@ -7,6 +7,7 @@ import { denormalize } from 'normalizr';
 import {
   damagesEntity,
   getOneInspectionById,
+  deleteOneDamage,
   selectDamageEntities,
   selectInspectionEntities,
   selectImageEntities,
@@ -28,7 +29,7 @@ import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { BottomNavigation, Button, List, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
-import { DAMAGE_CREATE } from 'screens/names';
+import { DAMAGE_CREATE, DAMAGE_READ } from 'screens/names';
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
@@ -125,11 +126,23 @@ DialogModal.propTypes = {
 };
 
 export function PartListSection({ partType, damages }) {
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
+  const handleSelectDamage = useCallback((damage) => {
+    navigation.navigate(DAMAGE_READ, { damage });
+  }, [navigation]);
+
+  const handleDeleteDamage = useCallback((damage) => {
+    dispatch(deleteOneDamage({ id: damage.id, inspectionId: damage.inspectionId }));
+  }, [dispatch]);
+
   return damages && (
     <List.Section>
       <List.Subheader>{partType}</List.Subheader>
       {damages.map((damage) => (
-        <DamageListItem key={`damage-${damage.id}`} onSelect={() => {}} onDelete={() => {}} {...damage} />
+        <DamageListItem key={`damage-${damage.id}`} onSelect={() => handleSelectDamage(damage)} onDelete={() => handleDeleteDamage(damage)} {...damage} />
       ))}
     </List.Section>
   );

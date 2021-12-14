@@ -56,7 +56,12 @@ export const {
 
 // DAMAGES
 
-export const { default: damages, damagesAdapter } = damagesSlice;
+export const {
+  default: damages,
+  damagesAdapter,
+  createOneDamage,
+  deleteOneDamage,
+} = damagesSlice;
 
 export const {
   selectById: selectDamageById,
