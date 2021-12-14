@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     overflow: 'visible',
-    paddingTop: 32,
     padding: 8,
   },
   gradient: {
