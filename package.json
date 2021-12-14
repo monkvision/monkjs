@@ -46,6 +46,7 @@
     "expo": "^43.0.3",
     "expo-auth-session": "~3.4.2",
     "expo-camera": "~12.0.3",
+    "expo-clipboard": "^2.0.3",
     "expo-constants": "~12.1.3",
     "expo-font": "~10.0.3",
     "expo-linear-gradient": "^10.0.3",
