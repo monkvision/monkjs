@@ -3,7 +3,7 @@ import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, SafeAreaView, Platform, View, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Card, Title, Button, useTheme, Menu, Divider, IconButton } from 'react-native-paper';
+import { Card, Title, Button, useTheme, Menu, Divider, IconButton, ActivityIndicator } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 import moment from 'moment';
 import * as Clipboard from 'expo-clipboard';
@@ -16,8 +16,8 @@ import useRequest from 'hooks/useRequest';
 import useTimeout from 'hooks/useTimeout';
 import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';
-
 import useToggle from 'hooks/useToggle/index';
+
 import notStarted from './assets/notStarted.svg';
 import todo from './assets/todo.svg';
 import inProgress from './assets/inProgress.svg';
@@ -70,15 +70,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   tag: {
     height: 26,
     lineHeight: 26,
     textAlign: 'center',
-    paddingHorizontal: spacing(1),
     color: '#FFFFFF',
   },
   tagLayout: {
+    paddingHorizontal: spacing(1),
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     marginVertical: spacing(1),
@@ -215,10 +218,13 @@ export default () => {
 
           {/* content */}
           <View style={styles.content}>
-            <Title>{startCase(task.name)}</Title>
+            <View style={styles.flex}>
+              <Title>{startCase(task.name)}</Title>
+              {task.status === taskStatuses.IN_PROGRESS ? <ActivityIndicator color="#BBBDBF" /> : null}
+            </View>
             <View style={styles.flex}>
               <View style={[styles.tagLayout, taskAssets.style]}>
-                <Text style={[styles.tag]}>
+                <Text style={styles.tag}>
                   {startCase(task.status)}
                 </Text>
               </View>
