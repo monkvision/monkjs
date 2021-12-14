@@ -128,31 +128,41 @@ function useMenu() {
 }
 
 function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
-  const { colors } = useTheme();
   const { isMenuOpen, events } = useMenu();
 
   return (
     <Menu
-      anchor={<IconButton icon="menu" onPress={events.handleOpenMenu} />}
+      anchor={<IconButton icon="dots-vertical" onPress={events.handleOpenMenu} />}
       visible={isMenuOpen}
       onDismiss={events.handleDismissMenu}
     >
       <Menu.Item
+        icon="refresh"
         title="Refresh"
         onPress={handleRefresh}
         loading={inspectionLoading}
         disabled={inspectionLoading}
       />
-      <Menu.Item onPress={events.handleGoToEditInspection} disabled title="Edit" />
-      <Menu.Item onPress={events.handleExportPdf} disabled title="Export as PDF" />
+      <Menu.Item
+        icon="file-document-edit"
+        onPress={events.handleGoToEditInspection}
+        disabled
+        title="Edit"
+      />
+      <Menu.Item
+        icon="pdf-box"
+        onPress={events.handleExportPdf}
+        disabled
+        title="Export as PDF"
+      />
       <Divider />
       <Menu.Item
+        icon="trash-can"
         onPress={() => {
           handleDelete();
           events.handleDismissMenu();
         }}
         title="Delete"
-        titleStyle={{ color: colors.error }}
       />
     </Menu>
   );
@@ -286,15 +296,6 @@ export default () => {
               </DataTable>
             </CardContent>
           )}
-          <Card.Actions style={styles.cardActions}>
-            <Button
-              icon="trash-can"
-              color={theme.colors.error}
-              onPress={openDeletionDialog}
-            >
-              Delete
-            </Button>
-          </Card.Actions>
         </Card>
         <Card style={styles.card}>
           <Card.Title
