@@ -22,17 +22,19 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 import usePartDamages from 'hooks/usePartDamages';
-import useToggle from 'hooks/useToggle';
 
 import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { BottomNavigation, Button, IconButton, List, useTheme, Dialog, Paragraph, Portal, Menu, Divider } from 'react-native-paper';
+import { BottomNavigation, Button, List, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
+import { DAMAGE_CREATE } from 'screens/names';
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
 import Drawing from 'components/Drawing/index';
+import ActionMenu from 'components/ActionMenu';
+import DamageListItem from './DamageListItem';
 import submitDrawing from './assets/submit.svg';
 
 const styles = StyleSheet.create({
@@ -65,43 +67,6 @@ const styles = StyleSheet.create({
   dialogActions: { flexWrap: 'wrap' },
   button: { width: '100%', marginVertical: 4 },
 });
-
-function ActionsMenu({ handleRefresh, loading, handleValidate, handleAddDamage }) {
-  const { colors } = useTheme();
-  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
-
-  return (
-    <Menu
-      anchor={<IconButton icon="menu" onPress={handleOpenMenu} />}
-      visible={isMenuOpen}
-      onDismiss={handleDismissMenu}
-    >
-      <Menu.Item
-        title="Refresh"
-        loading={loading}
-        onPress={() => handleDismissMenu(handleRefresh)}
-        disabled={loading}
-      />
-      <Menu.Item
-        onPress={() => handleDismissMenu(handleAddDamage)}
-        title="Add damage"
-      />
-      <Divider />
-      <Menu.Item
-        onPress={() => handleDismissMenu(handleValidate)}
-        title="Validate"
-        titleStyle={{ color: colors.success }}
-      />
-    </Menu>
-  );
-}
-
-ActionsMenu.propTypes = {
-  handleAddDamage: PropTypes.func.isRequired,
-  handleRefresh: PropTypes.func.isRequired,
-  handleValidate: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-};
 
 function DialogModal({ isDialogOpen, handleDismissDialog }) {
   const route = useRoute();
@@ -159,29 +124,12 @@ DialogModal.propTypes = {
   isDialogOpen: PropTypes.bool.isRequired,
 };
 
-export function DamageListItem({ damageType, createdBy }) {
-  const { colors } = useTheme();
-
-  return (
-    <List.Item
-      title={damageType}
-      left={() => <List.Icon color="#000" icon={createdBy === 'algo' ? 'matrix' : 'account'} />}
-      right={() => <IconButton icon="trash-can" color={colors.warning} onPress={() => {}} />}
-    />
-  );
-}
-
-DamageListItem.propTypes = {
-  createdBy: PropTypes.string.isRequired,
-  damageType: PropTypes.string.isRequired,
-};
-
 export function PartListSection({ partType, damages }) {
   return damages && (
     <List.Section>
       <List.Subheader>{partType}</List.Subheader>
       {damages.map((damage) => (
-        <DamageListItem key={`damage-${damage.id}`} {...damage} />
+        <DamageListItem key={`damage-${damage.id}`} onSelect={() => {}} onDelete={() => {}} {...damage} />
       ))}
     </List.Section>
   );
@@ -314,6 +262,7 @@ Navigation.defaultProps = {
 export default () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const { colors } = useTheme();
 
   const { inspectionId } = route.params;
 
@@ -352,6 +301,18 @@ export default () => {
     setDialogOpen(true);
   }, []);
 
+  const handleAddDamage = useCallback(() => {
+    navigation.navigate(DAMAGE_CREATE, {
+      inspectionId,
+    });
+  }, [inspectionId, navigation]);
+
+  const menuItems = useMemo(() => [
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
+    { title: 'Add damage', onPress: handleAddDamage },
+    { title: 'Validate', titleStyle: { color: colors.success }, onPress: handleOpenDialog, divider: true },
+  ], [colors.success, fakeActivity, handleAddDamage, handleOpenDialog, refresh]);
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -359,16 +320,16 @@ export default () => {
           ? 'Vehicle has no damage'
           : `Vehicle has ${inspection?.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`,
         headerRight: () => (
-          <ActionsMenu
-            handleRefresh={refresh}
-            damagesLoading={Boolean(fakeActivity)}
-            handleAddDamage={() => {}}
-            handleValidate={handleOpenDialog}
+          <ActionMenu
+            menuItems={menuItems}
           />
         ),
       });
     }
-  }, [fakeActivity, handleOpenDialog, inspection, inspectionId, navigation, refresh]);
+  }, [
+    fakeActivity, handleAddDamage, handleOpenDialog,
+    inspection, inspectionId, menuItems, navigation, refresh,
+  ]);
 
   if (partsWithDamages.length === 0) {
     return null;
