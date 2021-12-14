@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useLayoutEffect } from 'react';
 
-import { GETTING_STARTED, INSPECTIONS } from 'screens/names';
+import { GETTING_STARTED, INSPECTIONS, PROFILE } from 'screens/names';
 import { spacing } from 'config/theme';
 
 import { useNavigation } from '@react-navigation/native';
-import useAuth from 'hooks/useAuth';
 
 import MonkIcon from 'components/Icons/MonkIcon';
 import Drawing from 'components/Drawing';
@@ -45,9 +44,8 @@ const styles = StyleSheet.create({
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const { signOut } = useAuth();
 
-  const handleSignOut = useCallback(signOut, [signOut]);
+  const handleSignOut = useCallback(() => navigation.navigate(PROFILE), [navigation]);
   const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
   const handleList = useCallback(() => navigation.navigate(INSPECTIONS), [navigation]);
 
@@ -65,7 +63,7 @@ export default () => {
           />
         ),
         headerRight: () => (
-          <Button onPress={handleSignOut} accessibilityLabel="Sign out">
+          <Button onPress={handleSignOut} accessibilityLabel="Profile">
             Sign out
           </Button>
         ),

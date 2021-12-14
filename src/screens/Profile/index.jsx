@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -8,11 +8,16 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { config, getUserSignature, setUserSignature, selectAllUser } from '@monkvision/corejs';
 
 import Signature from 'components/Signature';
+import { useNavigation } from '@react-navigation/native';
+import useAuth from '../../hooks/useAuth';
 
 export default function Profile() {
-  const store = useStore();
+  const { signOut } = useAuth();
   const dispatch = useDispatch();
   const headerHeight = useHeaderHeight();
+  const navigation = useNavigation();
+  const store = useStore();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [company, setCompany] = useState('');
@@ -20,6 +25,8 @@ export default function Profile() {
   const [signature, setSignature] = useState(null);
   const [visible, setVisible] = useState(false);
   const user = useSelector(selectAllUser);
+
+  const handleSignOut = useCallback(signOut, [signOut]);
 
   useEffect(() => {
     if (user && user[0]?.signature) {
@@ -30,6 +37,19 @@ export default function Profile() {
       reader.readAsDataURL(user[0]?.signature);
     }
   }, [user]);
+
+  useLayoutEffect(() => {
+    if (navigation) {
+      navigation?.setOptions({
+        title: 'Profile',
+        headerRight: () => (
+          <Button onPress={handleSignOut} accessibilityLabel="Sign out">
+            Sign out
+          </Button>
+        ),
+      });
+    }
+  }, [handleSignOut, navigation]);
 
   const styles = StyleSheet.create({
     form: { width: '80%',
