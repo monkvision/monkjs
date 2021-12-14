@@ -131,7 +131,7 @@ export function PartListSection({ partType, damages }) {
   const dispatch = useDispatch();
 
   const handleSelectDamage = useCallback((damage) => {
-    navigation.navigate(DAMAGE_READ, { damage });
+    navigation.navigate(DAMAGE_READ, { id: damage.id, inspectionId: damage.inspectionId });
   }, [navigation]);
 
   const handleDeleteDamage = useCallback((damage) => {
@@ -332,11 +332,7 @@ export default () => {
         title: !inspection.damages
           ? 'Vehicle has no damage'
           : `Vehicle has ${inspection?.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`,
-        headerRight: () => (
-          <ActionMenu
-            menuItems={menuItems}
-          />
-        ),
+        headerRight: () => (<ActionMenu menuItems={menuItems} />),
       });
     }
   }, [
