@@ -6,9 +6,11 @@ import { denormalize } from 'normalizr';
 import moment from 'moment';
 import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
+import PropTypes from 'prop-types';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
+import useToggle from 'hooks/useToggle';
 
 import { spacing } from 'config/theme';
 
@@ -40,9 +42,12 @@ import {
   useTheme,
   Chip,
   Text,
+  Menu,
+  IconButton,
+  Divider,
 } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import { DAMAGES, LANDING, TASK_READ } from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
 import trash from './assets/trash.svg';
 
@@ -123,6 +128,70 @@ const taskChipIcons = {
   [taskStatuses.ABORTED]: 'progress-close',
   [taskStatuses.VALIDATED]: 'check',
 };
+function useMenu() {
+  const navigation = useNavigation();
+  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
+
+  const handleExportPdf = useCallback(() => {}, []);
+  const handleGoToEditInspection = useCallback(() => {
+    navigation.navigate(INSPECTION_UPDATE);
+  }, [navigation]);
+
+  const events = {
+    handleOpenMenu,
+    handleDismissMenu,
+    handleGoToEditInspection,
+    handleExportPdf,
+  };
+  return { isMenuOpen, events };
+}
+
+function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
+  const { isMenuOpen, events } = useMenu();
+
+  return (
+    <Menu
+      anchor={<IconButton icon="dots-vertical" onPress={events.handleOpenMenu} />}
+      visible={isMenuOpen}
+      onDismiss={events.handleDismissMenu}
+    >
+      <Menu.Item
+        icon="refresh"
+        title="Refresh"
+        onPress={handleRefresh}
+        loading={inspectionLoading}
+        disabled={inspectionLoading}
+      />
+      <Menu.Item
+        icon="file-document-edit"
+        onPress={events.handleGoToEditInspection}
+        disabled
+        title="Edit"
+      />
+      <Menu.Item
+        icon="pdf-box"
+        onPress={events.handleExportPdf}
+        disabled
+        title="Export as PDF"
+      />
+      <Divider />
+      <Menu.Item
+        icon="trash-can"
+        onPress={() => {
+          handleDelete();
+          events.handleDismissMenu();
+        }}
+        title="Delete"
+      />
+    </Menu>
+  );
+}
+
+ActionsMenu.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired,
+  inspectionLoading: PropTypes.bool.isRequired,
+};
 
 export default () => {
   const theme = useTheme();
@@ -171,6 +240,10 @@ export default () => {
     navigation.navigate(DAMAGES, { inspectionId });
   }, [inspectionId, navigation]);
 
+  const openDeletionDialog = useCallback(() => {
+    setDialogOpen(true);
+  }, []);
+
   const handleDismissDialog = useCallback(() => {
     setDialogOpen(false);
   }, []);
@@ -188,18 +261,15 @@ export default () => {
         title: `Inspection #${inspectionId.split('-')[0]}`,
         headerBackVisible: true,
         headerRight: () => (
-          <Button
-            icon={fakeActivity ? undefined : 'refresh'}
-            onPress={refresh}
-            loading={fakeActivity}
-            disabled={fakeActivity}
-          >
-            Refresh
-          </Button>
+          <ActionsMenu
+            handleRefresh={refresh}
+            handleDelete={openDeletionDialog}
+            inspectionLoading={Boolean(fakeActivity)}
+          />
         ),
       });
     }
-  }, [fakeActivity, inspectionId, navigation, refresh]);
+  }, [fakeActivity, inspectionId, navigation, refresh, openDeletionDialog]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;
@@ -248,15 +318,6 @@ export default () => {
               </ScrollView>
             </CardContent>
           )}
-          <Card.Actions style={styles.cardActions}>
-            <Button
-              icon="trash-can"
-              color={theme.colors.error}
-              onPress={() => setDialogOpen(true)}
-            >
-              Delete
-            </Button>
-          </Card.Actions>
         </Card>
         <Card style={styles.card}>
           <Card.Title
