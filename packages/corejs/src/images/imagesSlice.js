@@ -18,7 +18,9 @@ export const addOneImageToInspection = createAsyncThunk(
 
 function upsertReducer(state, action) {
   const { images } = action.payload.entities;
-  imagesAdapter.upsertMany(state, images);
+  if (images) {
+    imagesAdapter.upsertMany(state, images);
+  }
 }
 
 function upsertIfExistReducer(state, action) {

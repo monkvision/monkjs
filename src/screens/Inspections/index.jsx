@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import isEmpty from 'lodash.isempty';
 import moment from 'moment';
 import { denormalize } from 'normalizr';
 
@@ -167,17 +166,17 @@ export default () => {
             <DataTable.Title>Tasks</DataTable.Title>
           </DataTable.Header>
 
-          {inspections.map(({ id, createdAt, images, vehicle }) => !isEmpty(images) && (
-          <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
-            <DataTable.Cell><Text style={styles.id}>{id.split('-')[0]}</Text></DataTable.Cell>
-            <DataTable.Cell>
-              {vehicle?.brand}
-              {` `}
-              {vehicle?.model}
-            </DataTable.Cell>
-            <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
-            <DataTable.Cell />
-          </DataTable.Row>
+          {inspections.map(({ id, createdAt, vehicle }) => (
+            <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
+              <DataTable.Cell><Text style={styles.id}>{id.split('-')[0]}</Text></DataTable.Cell>
+              <DataTable.Cell>
+                {vehicle?.brand}
+                {` `}
+                {vehicle?.model}
+              </DataTable.Cell>
+              <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
+              <DataTable.Cell />
+            </DataTable.Row>
           ))}
 
           <DataTable.Pagination

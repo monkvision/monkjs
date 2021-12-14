@@ -30,7 +30,7 @@ import {
 } from '@monkvision/corejs';
 
 import Drawing from 'components/Drawing';
-import { Image, StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
+import { Image, StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
 import {
   Card,
   Button,
@@ -48,6 +48,7 @@ import JSONTree from 'react-native-json-tree';
 import { DAMAGES, INSPECTION_UPDATE, LANDING } from 'screens/names';
 
 import trash from './assets/trash.svg';
+import process from './assets/process.svg';
 
 // we can customize the json component by making changes to the theme object
 // see more in the docs https://www.npmjs.com/package/react-native-json-tree
@@ -107,6 +108,29 @@ const styles = StyleSheet.create({
   dialogActions: { flexWrap: 'wrap' },
   button: { width: '100%', marginVertical: 4 },
   actionButton: { marginLeft: spacing(1) },
+
+  process: {
+    ...Platform.select({
+      native: { flex: 1 },
+      default: { display: 'flex', flexGrow: 1, minHeight: 'calc(100vh - 64px)' },
+    }),
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    textAlign: 'center',
+    margin: spacing(2),
+  },
+  processButton: {
+    margin: spacing(1),
+  },
+  actions: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
 });
 
 function useMenu() {
@@ -249,7 +273,30 @@ export default () => {
     return <ActivityIndicatorView light />;
   }
 
-  return !isEmpty(inspection) && (
+  if (isEmpty(inspection) || isEmpty(inspection.tasks) || inspection.tasks[0].status === 'IN_PROGRESS') {
+    return (
+      <View style={styles.process}>
+        <Drawing xml={process} height={200} />
+        <Text style={styles.text}>
+          Inspection is still processing...
+        </Text>
+        <View style={styles.actions}>
+          <Button
+            icon="refresh"
+            onPress={refresh}
+            loading={fakeActivity}
+            disabled={fakeActivity}
+            mode="contained"
+            style={styles.processButton}
+          >
+            Refresh
+          </Button>
+        </View>
+      </View>
+    );
+  }
+
+  return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>

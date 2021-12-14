@@ -4,17 +4,16 @@ import { getOneInspectionById } from '../asyncThunks';
 export const partsAdapter = createEntityAdapter();
 
 function upsertReducer(state, action) {
-  state.history.push(action);
-
   const { parts } = action.payload.entities;
-  partsAdapter.upsertMany(state, parts);
+  if (parts) {
+    partsAdapter.upsertMany(state, parts);
+  }
 }
 
 export const slice = createSlice({
   name: 'parts',
   initialState: partsAdapter.getInitialState({
     entities: {},
-    history: [],
     ids: [],
   }),
   reducers: {},

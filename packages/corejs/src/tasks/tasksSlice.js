@@ -32,17 +32,16 @@ export const getAllInspectionTasks = createAsyncThunk(
 );
 
 function upsertReducer(state, action) {
-  state.history.push(action);
-
   const { tasks } = action.payload.entities;
-  tasksAdapter.upsertMany(state, tasks);
+  if (tasks) {
+    tasksAdapter.upsertMany(state, tasks);
+  }
 }
 
 export const slice = createSlice({
   name: 'tasks',
   initialState: tasksAdapter.getInitialState({
     entities: {},
-    history: [],
     ids: [],
   }),
   reducers: {},

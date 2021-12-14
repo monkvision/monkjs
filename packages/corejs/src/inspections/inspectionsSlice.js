@@ -47,38 +47,32 @@ export const deleteOneInspection = createAsyncThunk(
 );
 
 function upsertReducer(state, action) {
-  state.history.push(action);
-
   const { inspections } = action.payload.entities;
-  inspectionsAdapter.upsertMany(state, inspections);
+  if (inspections) {
+    inspectionsAdapter.upsertMany(state, inspections);
+  }
 }
 
 export const slice = createSlice({
   name: 'inspections',
   initialState: inspectionsAdapter.getInitialState({
     entities: {},
-    history: [],
     ids: [],
   }),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getOneInspectionById.fulfilled, upsertReducer);
-
-    builder.addCase(getAllInspections.fulfilled, upsertReducer);
-
     builder.addCase(createOneInspection.fulfilled, upsertReducer);
-
+    builder.addCase(getOneInspectionById.fulfilled, (state, action) => {
+      const { entities, result } = action.payload;
+      inspectionsAdapter.setOne(state, entities.inspections[result]);
+    });
+    builder.addCase(getAllInspections.fulfilled, upsertReducer);
     builder.addCase(updateOneInspection.fulfilled, (state, action) => {
-      state.history.push(action);
-
       const { entities, id } = action.payload;
       const { inspections } = entities;
       inspectionsAdapter.updateOne(state, id, inspections[id]);
     });
-
     builder.addCase(deleteOneInspection.fulfilled, (state, action) => {
-      state.history.push(action);
-
       inspectionsAdapter.removeOne(state, action.payload.id);
     });
   },
