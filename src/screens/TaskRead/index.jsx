@@ -3,7 +3,7 @@ import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, SafeAreaView, Platform, View, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Card, Title, Button, useTheme } from 'react-native-paper';
+import { Card, Title, Button, useTheme, Menu, Divider, IconButton } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 import moment from 'moment';
 import * as Clipboard from 'expo-clipboard';
@@ -17,6 +17,7 @@ import useTimeout from 'hooks/useTimeout';
 import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';
 
+import useToggle from 'hooks/useToggle/index';
 import notStarted from './assets/notStarted.svg';
 import todo from './assets/todo.svg';
 import inProgress from './assets/inProgress.svg';
@@ -47,14 +48,15 @@ const styles = StyleSheet.create({
     color: '#777777',
   },
   content: {
-    marginVertical: spacing(2),
+    marginVertical: spacing(1),
   },
   actions: {
-    marginVertical: spacing(2),
-    flexWrap: 'wrap',
     ...Platform.select({
-      web: { justifyContent: 'flex-start' },
-      default: { justifyContent: 'space-around' },
+      native: {
+        marginHorizontal: spacing(1),
+        alignItems: 'stretch',
+        justifyContent: 'center',
+      },
     }),
   },
   button: {
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
   },
   drawing: {
     marginHorizontal: spacing(2),
-    marginVertical: spacing(2),
+    marginVertical: spacing(1),
     ...Platform.select({
       native: { justifyContent: 'center' },
       web: { justifyContent: 'flex-start' },
@@ -129,6 +131,46 @@ CopyButton.propTypes = {
   taskId: PropTypes.string.isRequired,
 };
 
+function ActionsMenu({ handleRefresh, handleRerun, handleCancel, taskLoading }) {
+  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
+
+  return (
+    <Menu
+      anchor={<IconButton icon="dots-vertical" onPress={handleOpenMenu} />}
+      visible={isMenuOpen}
+      onDismiss={handleDismissMenu}
+    >
+      <Menu.Item
+        icon="refresh"
+        title="Refresh"
+        onPress={handleRefresh}
+        loading={taskLoading}
+        disabled={taskLoading}
+      />
+      <Menu.Item
+        icon="reload"
+        onPress={handleRerun}
+        disabled
+        title="Re-run"
+      />
+      <Divider />
+      <Menu.Item
+        icon="cancel"
+        onPress={handleCancel}
+        disabled
+        title="Cancel"
+      />
+    </Menu>
+  );
+}
+
+ActionsMenu.propTypes = {
+  handleCancel: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired,
+  handleRerun: PropTypes.func.isRequired,
+  taskLoading: PropTypes.bool.isRequired,
+};
+
 export default () => {
   const route = useRoute();
   const { taskId, inspectionId, taskName } = route.params;
@@ -139,6 +181,9 @@ export default () => {
   const task = useSelector((state) => selectTaskById(state, taskId));
   const [fakeActivity] = useFakeActivity(isLoading);
 
+  const handleCancel = useCallback(() => null, []);
+  const handleRerun = useCallback(() => null, []);
+
   const taskAssets = useMemo(() => assets[task.status], [task.status]);
   const executionTime = useMemo(() => (task.doneAt && task.createdAt ? `Executed in ${moment.duration(moment(task.doneAt).diff(moment(task.createdAt))).seconds()}s` : null),
     [task.createdAt, task.doneAt]);
@@ -146,21 +191,19 @@ export default () => {
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        title: `Task #${route.params.taskId}`,
+        title: `Task #${taskId}`,
         headerBackVisible: true,
         headerRight: () => (
-          <Button
-            icon={fakeActivity ? undefined : 'refresh'}
-            onPress={refresh}
-            loading={fakeActivity}
-            disabled={fakeActivity}
-          >
-            Refresh
-          </Button>
+          <ActionsMenu
+            handleRefresh={refresh}
+            taskLoading={fakeActivity}
+            handleCancel={handleCancel}
+            handleRerun={handleRerun}
+          />
         ),
       });
     }
-  }, [fakeActivity, navigation, refresh, route.params.taskId]);
+  }, [fakeActivity, handleCancel, handleRerun, navigation, refresh, taskId]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;
@@ -204,15 +247,6 @@ export default () => {
             disalbed={task.status === taskStatuses.VALIDATED}
           >
             Validate
-          </Button>
-          <Button
-            accessibilityLabel="Relaunch"
-            style={styles.button}
-            color={colors.primary}
-            icon="reload"
-            mode="contained"
-          >
-            Re-run
           </Button>
         </Card.Actions>
       </Card>
