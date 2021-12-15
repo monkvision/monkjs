@@ -1,3 +1,12 @@
+---
+name: 'New Issue '
+about: 'Create new issue'
+title: "Title"
+labels: Blog
+assignees: ''
+
+---
+
 ALL CONTRIBUTIONS WILL BE REVIEWED BY AT LEAST ONE OF OUR FRONTEND TEAM MEMBERS.
 
 <!--- Provide a general summary of the issue in the Title above -->

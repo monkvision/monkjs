@@ -1,3 +1,12 @@
+---
+name: 'New Pull Request '
+about: 'Create new pull request'
+title: "Title"
+labels: Blog
+assignees: ''
+
+---
+
 ALL CONTRIBUTIONS WILL BE REVIEWED BY AT LEAST ONE OF OUR FRONTEND TEAM MEMBERS.
 
 <!--- Before all please request a review from your team leader -->
