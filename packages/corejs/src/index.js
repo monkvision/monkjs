@@ -27,6 +27,7 @@ export const {
   getAllInspections,
   createOneInspection,
   deleteOneInspection,
+  inspectionStatuses,
 } = inspectionsSlice;
 
 export const {
