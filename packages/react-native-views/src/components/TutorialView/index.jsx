@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   advices: {
     width: '100%',
     height: '100%',
+    zIndex: 10,
     borderRadius: 40,
     overflow: 'hidden',
     maxWidth: 500,
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
+    zIndex: 0,
   },
   cta: { width: 140, margin: utils.styles.spacing(1) },
   text: { textAlign: 'center', margin: utils.styles.spacing(2) },
@@ -130,7 +132,7 @@ function TutorialView({ nbOfInsidePics, nbOfOutsidePics, onStart, theme }) {
             </Text>
 
             {/* toggle explanation dialog */}
-            <TouchableOpacity onPress={onOpenExplanation} style={{ height: 14 }}>
+            <TouchableOpacity onPress={onOpenExplanation} style={{ height: 16 }}>
               <Text style={{ color: colors.primary }}> See more.</Text>
             </TouchableOpacity>
           </Text>
