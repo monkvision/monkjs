@@ -1,4 +1,4 @@
-const buildNumber = '6';
+const buildNumber = 6;
 
 export default {
   name: 'monk',
@@ -21,7 +21,7 @@ export default {
     bundleIdentifier: 'com.monkvision.adrian',
     supportsTablet: true,
     requireFullScreen: true,
-    buildNumber,
+    buildNumber: `${buildNumber}`,
   },
 
   android: {
