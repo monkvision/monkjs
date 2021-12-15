@@ -32,7 +32,8 @@ import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
 import Drawing from 'components/Drawing/index';
-import submitDrawing from './assets/submit.svg';
+import useToggle from 'hooks/useToggle/index';
+import submitDrawing from 'assets/submit.svg';
 
 const styles = StyleSheet.create({
   root: {
@@ -234,13 +235,7 @@ function Navigation({ damagedPartsCount, computedParts, ...props }) {
   const disabled = damagedPartsCount === 0;
   const badge = (nb) => nb > 0 && nb;
 
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const handleDismissDialog = useCallback(() => {
-    setDialogOpen(false);
-  }, []);
-  const handleOpenDialog = useCallback(() => {
-    setDialogOpen(true);
-  }, []);
+  const [isDialogOpen, handleOpenDialog, handleDismissDialog] = useToggle(false);
 
   const [routes] = useState([
     { key: 'front', title: 'Front', icon: 'car', badge: badge(computedParts.front) },
