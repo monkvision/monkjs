@@ -4,7 +4,9 @@ export default function useToggle() {
   const [isOn, toggle] = useState(false);
 
   const handleToggleOn = useCallback(() => { toggle(true); }, []);
-  const handleToggleOff = useCallback(() => { toggle(false); }, []);
+  const handleToggleOff = useCallback((callback) => {
+    toggle(false); if (typeof callback === 'function') { callback(); }
+  }, []);
 
   return [isOn, handleToggleOn, handleToggleOff];
 }

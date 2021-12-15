@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useMemo, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
 import { denormalize } from 'normalizr';
@@ -7,6 +7,7 @@ import { denormalize } from 'normalizr';
 import {
   damagesEntity,
   getOneInspectionById,
+  deleteOneDamage,
   selectDamageEntities,
   selectInspectionEntities,
   selectImageEntities,
@@ -24,16 +25,19 @@ import useRequest from 'hooks/useRequest';
 import usePartDamages from 'hooks/usePartDamages';
 
 import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { BottomNavigation, Button, IconButton, List, useTheme, Dialog, Paragraph, Portal } from 'react-native-paper';
-
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { BottomNavigation, Button, List, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
+import { DAMAGE_CREATE, DAMAGE_READ } from 'screens/names';
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
 import Drawing from 'components/Drawing/index';
+import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
 import submitDrawing from 'assets/submit.svg';
+import DamageListItem from './DamageListItem';
 
 const styles = StyleSheet.create({
   root: {
@@ -122,29 +126,28 @@ DialogModal.propTypes = {
   isDialogOpen: PropTypes.bool.isRequired,
 };
 
-export function DamageListItem({ damageType, createdBy }) {
-  const { colors } = useTheme();
-
-  return (
-    <List.Item
-      title={damageType}
-      left={() => <List.Icon color="#000" icon={createdBy === 'algo' ? 'matrix' : 'account'} />}
-      right={() => <IconButton icon="trash-can" color={colors.warning} onPress={() => {}} />}
-    />
-  );
-}
-
-DamageListItem.propTypes = {
-  createdBy: PropTypes.string.isRequired,
-  damageType: PropTypes.string.isRequired,
-};
-
 export function PartListSection({ partType, damages }) {
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
+  const handleSelectDamage = useCallback((damage) => {
+    navigation.navigate(DAMAGE_READ, {
+      id: damage.id,
+      inspectionId: damage.inspectionId,
+      partType,
+    });
+  }, [navigation, partType]);
+
+  const handleDeleteDamage = useCallback((damage) => {
+    dispatch(deleteOneDamage({ id: damage.id, inspectionId: damage.inspectionId }));
+  }, [dispatch]);
+
   return damages && (
     <List.Section>
       <List.Subheader>{partType}</List.Subheader>
       {damages.map((damage) => (
-        <DamageListItem key={`damage-${damage.id}`} {...damage} />
+        <DamageListItem key={`damage-${damage.id}`} onSelect={() => handleSelectDamage(damage)} onDelete={() => handleDeleteDamage(damage)} {...damage} />
       ))}
     </List.Section>
   );
@@ -230,12 +233,10 @@ Scene.defaultProps = {
   partsWithDamages: [],
 };
 
-function Navigation({ damagedPartsCount, computedParts, ...props }) {
+function Navigation({ damagedPartsCount, computedParts, handleOpenDialog, ...props }) {
   const [index, setIndex] = useState(0);
   const disabled = damagedPartsCount === 0;
   const badge = (nb) => nb > 0 && nb;
-
-  const [isDialogOpen, handleOpenDialog, handleDismissDialog] = useToggle(false);
 
   const [routes] = useState([
     { key: 'front', title: 'Front', icon: 'car', badge: badge(computedParts.front) },
@@ -251,15 +252,12 @@ function Navigation({ damagedPartsCount, computedParts, ...props }) {
   });
 
   return (
-    <>
-      <DialogModal isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
-      <BottomNavigation
-        barStyle={{ backgroundColor: '#fff' }}
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-      />
-    </>
+    <BottomNavigation
+      barStyle={{ backgroundColor: '#fff' }}
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 }
 
@@ -270,6 +268,7 @@ Navigation.propTypes = {
     interior: PropTypes.number,
   }).isRequired,
   damagedPartsCount: PropTypes.number,
+  handleOpenDialog: PropTypes.func.isRequired,
 };
 
 Navigation.defaultProps = {
@@ -279,6 +278,7 @@ Navigation.defaultProps = {
 export default () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const { colors } = useTheme();
 
   const { inspectionId } = route.params;
 
@@ -309,25 +309,39 @@ export default () => {
     ? usePartDamages(inspection.parts, inspection.damages)
     : [];
 
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const handleDismissDialog = useCallback(() => {
+    setDialogOpen(false);
+  }, []);
+  const handleOpenDialog = useCallback(() => {
+    setDialogOpen(true);
+  }, []);
+
+  const handleAddDamage = useCallback(() => {
+    navigation.navigate(DAMAGE_CREATE, {
+      inspectionId,
+    });
+  }, [inspectionId, navigation]);
+
+  const menuItems = useMemo(() => [
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
+    { title: 'Add damage', onPress: handleAddDamage },
+    { title: 'Validate', titleStyle: { color: colors.success }, onPress: handleOpenDialog, divider: true },
+  ], [colors.success, fakeActivity, handleAddDamage, handleOpenDialog, refresh]);
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
         title: !inspection.damages
           ? 'Vehicle has no damage'
           : `Vehicle has ${inspection?.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`,
-        headerRight: () => (
-          <Button
-            icon={fakeActivity ? undefined : 'refresh'}
-            onPress={refresh}
-            loading={fakeActivity}
-            disabled={fakeActivity}
-          >
-            Refresh
-          </Button>
-        ),
+        headerRight: () => (<ActionMenu menuItems={menuItems} />),
       });
     }
-  }, [fakeActivity, inspection, inspectionId, navigation, refresh]);
+  }, [
+    fakeActivity, handleAddDamage, handleOpenDialog,
+    inspection, inspectionId, menuItems, navigation, refresh,
+  ]);
 
   if (partsWithDamages.length === 0) {
     return null;
@@ -355,11 +369,15 @@ export default () => {
   return (
     <SafeAreaView style={styles.root}>
       {fakeActivity ? <ActivityIndicatorView light /> : (
-        <Navigation
-          partsWithDamages={partsWithDamages}
-          computedParts={computedParts()}
-          damagedPartsCount={partsWithDamages.length}
-        />
+        <>
+          <DialogModal isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
+          <Navigation
+            partsWithDamages={partsWithDamages}
+            computedParts={computedParts()}
+            damagedPartsCount={partsWithDamages.length}
+            handleOpenDialog={handleOpenDialog}
+          />
+        </>
       )}
     </SafeAreaView>
   );
