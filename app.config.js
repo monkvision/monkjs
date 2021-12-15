@@ -1,10 +1,11 @@
+const buildNumber = '6';
+
 export default {
   name: 'monk',
   slug: 'monk',
   version: '1.0.0',
   owner: 'monkvision',
   primaryColor: '#274b9f',
-  privacy: 'unlisted',
   scheme: 'monk',
 
   orientation: 'portrait',
@@ -16,24 +17,16 @@ export default {
     backgroundColor: '#f2f2f2',
   },
 
-  updates: {
-    fallbackToCacheTimeout: 0,
-  },
-
-  assetBundlePatterns: [
-    '**/*',
-  ],
-
   ios: {
     bundleIdentifier: 'com.monkvision.adrian',
     supportsTablet: true,
     requireFullScreen: true,
-    buildNumber: '5',
+    buildNumber,
   },
 
   android: {
     package: 'com.monkvision.adrian',
-    versionCode: 5,
+    versionCode: buildNumber,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#f2f2f2',
