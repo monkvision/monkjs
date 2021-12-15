@@ -7,15 +7,14 @@ import DamageImage from './DamageImage';
 
 export default function DamagePolygon({ width, height, currentImage, view, style }) {
   const getDamagePolygons = useMemo(() => {
-    const { imageWidth, imageHeight } = currentImage;
     const specification = view.map((v) => v.image_region.specification);
-    return specification.map((spec) => spec.polygons.map((polygon) => <Polygon points={polygon.map((card) => `${(card[0] * width) / imageWidth},${(card[1] * height) / imageHeight}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />));
+    return specification.map((spec) => spec.polygons.map((polygon) => <Polygon points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />));
   }, [currentImage, height, view, width]);
 
   return (
     currentImage && (
     <View style={style}>
-      <Svg width={width} height={height}>
+      <Svg width={width} height={height} viewBox={`0 0 ${currentImage.imageWidth} ${currentImage.imageHeight}`}>
         <Defs>
           <ClipPath id={`clip${currentImage.name}`}>
             {getDamagePolygons}
