@@ -3,13 +3,13 @@ import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, SafeAreaView, Platform, View, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Card, Title, Button, useTheme, Menu, Divider, IconButton, ActivityIndicator } from 'react-native-paper';
+import { Card, Title, Button, useTheme, Menu, Divider, IconButton, ActivityIndicator, Dialog, Paragraph, Portal } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 import moment from 'moment';
 import * as Clipboard from 'expo-clipboard';
 import PropTypes from 'prop-types';
 
-import { getOneInspectionTask, selectTaskById, taskStatuses } from '@monkvision/corejs';
+import { getOneInspectionTask, selectTaskById, updateOneTaskOfInspection, taskStatuses } from '@monkvision/corejs';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
 import useRequest from 'hooks/useRequest';
@@ -18,6 +18,7 @@ import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';
 import useToggle from 'hooks/useToggle/index';
 
+import submitDrawing from 'assets/submit.svg';
 import notStarted from './assets/notStarted.svg';
 import todo from './assets/todo.svg';
 import inProgress from './assets/inProgress.svg';
@@ -96,6 +97,10 @@ const styles = StyleSheet.create({
       web: { justifyContent: 'flex-start' },
     }),
   },
+  dialog: { maxWidth: 450, alignSelf: 'center', padding: 12 },
+  dialogDrawing: { display: 'flex', alignItems: 'center' },
+  dialogContent: { textAlign: 'center' },
+  dialogActions: { flexWrap: 'wrap' },
 });
 
 const assets = {
@@ -170,6 +175,68 @@ ActionsMenu.propTypes = {
   taskLoading: PropTypes.bool.isRequired,
 };
 
+function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
+  const route = useRoute();
+  const { inspectionId } = route.params;
+  // we need error handling here
+  const { isLoading, request } = useRequest(
+    updateOneTaskOfInspection({
+      inspectionId,
+      taskName: 'damage_detection',
+      data: { status: taskStatuses.VALIDATED },
+    }),
+    {
+      onSuccess: () => {
+        handleDismissDialog();
+        handleRefresh();
+      },
+    },
+    false,
+  );
+  return (
+    <Portal>
+      <Dialog
+        visible={Boolean(isDialogOpen)}
+        onDismiss={handleDismissDialog}
+        style={styles.dialog}
+      >
+        <View style={styles.dialogDrawing}>
+          <Drawing xml={submitDrawing} width="200" height="120" />
+        </View>
+        <Dialog.Title style={styles.dialogContent}>
+          Are you sure?
+        </Dialog.Title>
+
+        <Dialog.Content>
+          <Paragraph style={styles.dialogContent}>
+            Please confirm your damage validation
+          </Paragraph>
+        </Dialog.Content>
+        <Dialog.Actions style={styles.dialogActions}>
+          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
+            Cancel
+          </Button>
+          <Button
+            style={styles.button}
+            onPress={request}
+            mode="contained"
+            disabled={isLoading}
+            labelStyle={{ color: 'white' }}
+          >
+            Confirm
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
+  );
+}
+
+DialogModal.propTypes = {
+  handleDismissDialog: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired,
+  isDialogOpen: PropTypes.bool.isRequired,
+};
+
 export default () => {
   const route = useRoute();
   const { taskId, inspectionId, taskName } = route.params;
@@ -180,6 +247,7 @@ export default () => {
   const task = useSelector((state) => selectTaskById(state, taskId));
   const [fakeActivity] = useFakeActivity(isLoading);
 
+  const [isDialogOpen, handleOpenDialog, handleDismissDialog] = useToggle(false);
   const handleCancel = useCallback(() => null, []);
   const handleRerun = useCallback(() => null, []);
 
@@ -209,6 +277,11 @@ export default () => {
   }
   return (
     <SafeAreaView contentContainerStyle={styles.root}>
+      <DialogModal
+        isDialogOpen={isDialogOpen}
+        handleRefresh={refresh}
+        handleDismissDialog={handleDismissDialog}
+      />
       <Card style={styles.card}>
         <Card.Content>
           {/* drawing */}
@@ -253,8 +326,8 @@ export default () => {
             color={colors.success}
             icon="send"
             mode="contained"
-            // I put true because to the feature not available
-            disabled={task.status === taskStatuses.VALIDATED || true}
+            onPress={handleOpenDialog}
+            disabled={task.status === taskStatuses.VALIDATED}
           >
             Validate
           </Button>
