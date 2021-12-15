@@ -35,7 +35,6 @@ import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
 import Drawing from 'components/Drawing/index';
 import ActionMenu from 'components/ActionMenu';
-import useToggle from 'hooks/useToggle/index';
 import submitDrawing from 'assets/submit.svg';
 import DamageListItem from './DamageListItem';
 

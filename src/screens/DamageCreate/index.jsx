@@ -222,7 +222,7 @@ export default () => {
           </CardContent>
           <Card.Actions style={styles.cardActions}>
             <Button
-              color={theme.colors.success}
+              color={theme.colors.primary}
               labelStyle={styles.buttonLabel}
               onPress={handleCreateDamage}
               mode="contained"
