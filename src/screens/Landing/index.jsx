@@ -1,5 +1,5 @@
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import React, { useCallback, useLayoutEffect } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import { DataTable, Button, useTheme, Text, Card, IconButton } from 'react-native-paper';
@@ -11,7 +11,8 @@ import useAuth from 'hooks/useAuth';
 import useRequest from 'hooks/useRequest/index';
 import MonkIcon from 'components/Icons/MonkIcon';
 import { GETTING_STARTED, INSPECTIONS, INSPECTION_READ } from 'screens/names';
-import { spacing } from 'config/theme';
+import theme, { spacing } from 'config/theme';
+import Placeholder from 'components/Placeholder/index';
 
 const styles = StyleSheet.create({
   root: {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   card: {
     marginHorizontal: spacing(2),
     marginVertical: spacing(1),
-    minHeight: 180,
+    minHeight: 200,
   },
   button: {
     margin: spacing(1),
@@ -38,11 +39,25 @@ const styles = StyleSheet.create({
     marginVertical: spacing(3),
     marginTop: spacing(5),
   },
+  statusDot: {
+    width: 12,
+    maxWidth: 12,
+    height: 12,
+    borderRadius: 999,
+    marginHorizontal: spacing(1),
+  },
+  statusLayout: {
+    display: 'flex', alignItems: 'center',
+  },
+  activityIndicator: { marginTop: spacing(3) },
 });
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
   const { signOut } = useAuth();
+  const { width } = useWindowDimensions();
+
+  const canRenderStatus = width > 480;
 
   const handleSignOut = useCallback(signOut, [signOut]);
   const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
@@ -72,17 +87,21 @@ export default () => {
   }));
   const [fakeInProgressLoading] = useFakeActivity(inProgressLoading);
 
-  const doneInspections = useMemo(() => {
-    const inspections = doneResponse?.entities?.inspections;
+  const getInspectionsArray = useCallback((response) => {
+    const inspections = response?.entities?.inspections;
     if (!inspections) { return null; }
     return Object.keys(inspections).map((key) => inspections[key]);
-  }, [doneResponse.entities]);
+  }, []);
 
-  const inProgressInspections = useMemo(() => {
-    const inspections = inProgressResponse?.entities?.inspections;
-    if (!inspections) { return null; }
-    return Object.keys(inspections).map((key) => inspections[key]);
-  }, [inProgressResponse.entities]);
+  const doneInspections = getInspectionsArray(doneResponse);
+  const inProgressInspections = getInspectionsArray(inProgressResponse);
+
+  const handleSubtitles = useCallback((loading, inspectionsLength, status) => {
+    if (loading) { return 'Loading...'; }
+    if (!inspectionsLength) { return `No inspection ${status} yet`; }
+    if (inspectionsLength === 1) { return `The first ${status} inspection`; }
+    return `The last ${inspectionsLength} ${status} inspections `;
+  }, []);
 
   const handlePress = useCallback(
     (inspectionId) => {
@@ -114,13 +133,12 @@ export default () => {
   }, [colors, handleSignOut, navigation]);
 
   return (
-
     <SafeAreaView style={styles.root}>
       <ScrollView>
         <Card style={styles.card}>
           <Card.Title
-            title="Latest done inspections"
-            subtitle={doneInspections?.length && `Here are your ${doneInspections.length} last done inspections`}
+            title="Done inspections"
+            subtitle={handleSubtitles(doneLoading, doneInspections?.length, 'done')}
             right={() => (<IconButton onPress={refreshDoneInspections} icon="refresh" color={colors.primary} disabled={fakeDoneLoading} />)}
           />
           <Card.Content>
@@ -132,27 +150,39 @@ export default () => {
                 <DataTable.Title>Status</DataTable.Title>
               </DataTable.Header>
 
-              {fakeDoneLoading ? <ActivityIndicatorView light /> : null}
+              {/* loading */}
+              {fakeDoneLoading ? (
+                <View style={styles.activityIndicator}>
+                  <ActivityIndicatorView theme={theme} light />
+                </View>
+              ) : null}
+
+              {/* data */}
               {doneInspections?.length
-          && doneInspections.map(({ id, createdAt, vehicle }) => (
-            <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
-              <DataTable.Cell><Text style={styles.id}>{id.split('-')[0]}</Text></DataTable.Cell>
-              <DataTable.Cell>
-                {vehicle?.brand}
-                {` `}
-                {vehicle?.model}
-              </DataTable.Cell>
-              <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
-              <DataTable.Cell>Done</DataTable.Cell>
-            </DataTable.Row>
-          ))}
+                && doneInspections.map(({ id, createdAt, vehicle }) => (
+                  <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
+                    <DataTable.Cell><Text style={styles.id}>{id.split('-')[0]}</Text></DataTable.Cell>
+                    <DataTable.Cell>
+                      {vehicle?.brand}
+                      {` `}
+                      {vehicle?.model}
+                    </DataTable.Cell>
+                    <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
+                    <DataTable.Cell style={styles.statusLayout}>
+                      {canRenderStatus ? <Text style={{ height: 12 }}>Done</Text> : null}
+                      <View>
+                        <View style={[styles.statusDot, { backgroundColor: colors.success }]} />
+                      </View>
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))}
             </DataTable>
           </Card.Content>
         </Card>
         <Card style={styles.card}>
           <Card.Title
             title="In progress inspections"
-            subtitle={inProgressInspections?.length && `Here are your ${inProgressInspections.length} last in progress inspections`}
+            subtitle={handleSubtitles(inProgressLoading, inProgressInspections?.length, 'in progress')}
             right={() => (<IconButton onPress={refreshInProgressInspections} icon="refresh" color={colors.primary} disabled={fakeInProgressLoading} />)}
           />
           <Card.Content>
@@ -164,7 +194,14 @@ export default () => {
                 <DataTable.Title>Status</DataTable.Title>
               </DataTable.Header>
 
-              {inProgressLoading ? <ActivityIndicatorView light /> : null}
+              {/* loading */}
+              {inProgressLoading ? (
+                <View style={styles.activityIndicator}>
+                  <ActivityIndicatorView theme={theme} light />
+                </View>
+              ) : null}
+
+              {/* data */}
               {inProgressInspections?.length
           && inProgressInspections.map(({ id, createdAt, vehicle }) => (
             <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
@@ -175,7 +212,12 @@ export default () => {
                 {vehicle?.model}
               </DataTable.Cell>
               <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
-              <DataTable.Cell>In progress</DataTable.Cell>
+              <DataTable.Cell style={styles.statusLayout}>
+                {canRenderStatus ? <Text style={{ height: 12 }}>In progress</Text> : null}
+                <View>
+                  <Placeholder style={styles.statusDot} />
+                </View>
+              </DataTable.Cell>
             </DataTable.Row>
           ))}
             </DataTable>
