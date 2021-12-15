@@ -36,7 +36,7 @@ import {
 } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
-import CustomDialog from './CustomDialog';
+import CustomDialog from 'components/CustomDialog';
 
 const getDamageViews = (damageId, images) => {
   const damageViews = images.map((img) => img.views?.filter((v) => v.element_id === damageId))
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
 });
 
 export default () => {
-  const theme = useTheme();
   const route = useRoute();
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -181,7 +180,7 @@ export default () => {
       <IconButton
         icon="pencil"
         disabled={!isEditable}
-        color={theme.colors.grey}
+        color={colors.grey}
         onPress={onPress}
       />
     </DataTable.Cell>
@@ -196,12 +195,12 @@ export default () => {
             titleStyle={styles.cardTitle}
             subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt).format('lll')}`}
             onClick={() => {}}
-            left={(props) => <List.Icon {...props} icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'account'} />}
+            left={(props) => <List.Icon {...props} icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'shape-square-plus'} />}
             right={() => (isEditable ? (
               <IconButton
                 icon="camera-plus"
                 size={30}
-                color={theme.colors.primary}
+                color={colors.primary}
                 onPress={() => {}}
               />
             ) : null)}
@@ -237,7 +236,7 @@ export default () => {
           </CardContent>
           <Card.Actions style={styles.cardActions}>
             <Button
-              color={theme.colors.warning}
+              color={colors.warning}
               labelStyle={styles.buttonLabel}
               onPress={openDeletionDialog}
               mode="contained"
@@ -253,7 +252,7 @@ export default () => {
       <CustomDialog
         isOpen={isDeleteDialogOpen}
         handDismiss={handleDismissDeleteDialog}
-        icon={<Button icon="alert" size={36} color={theme.colors.warning} />}
+        icon={<Button icon="alert" size={36} color={colors.warning} />}
         title="Confirm damage deletion"
         content="Are you sure that you really really want to DELETE this damage ?"
         actions={(
@@ -262,7 +261,7 @@ export default () => {
               Cancel
             </Button>
             <Button
-              color={theme.colors.error}
+              color={colors.error}
               style={styles.button}
               onPress={handleDelete}
               mode="contained"

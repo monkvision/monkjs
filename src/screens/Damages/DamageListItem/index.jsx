@@ -9,7 +9,7 @@ export default function DamageListItem({ damageType, createdBy, onSelect, onDele
     <List.Item
       title={damageType}
       onPress={onSelect}
-      left={() => <List.Icon color="#000" icon={createdBy === 'algo' ? 'matrix' : 'account'} />}
+      left={() => <List.Icon color="#000" icon={createdBy === 'algo' ? 'matrix' : 'shape-square-plus'} />}
       right={() => <IconButton icon="trash-can" color={colors.warning} onPress={onDelete} />}
     />
   );
