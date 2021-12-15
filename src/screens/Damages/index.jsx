@@ -131,8 +131,12 @@ export function PartListSection({ partType, damages }) {
   const dispatch = useDispatch();
 
   const handleSelectDamage = useCallback((damage) => {
-    navigation.navigate(DAMAGE_READ, { id: damage.id, inspectionId: damage.inspectionId });
-  }, [navigation]);
+    navigation.navigate(DAMAGE_READ, {
+      id: damage.id,
+      inspectionId: damage.inspectionId,
+      partType,
+    });
+  }, [navigation, partType]);
 
   const handleDeleteDamage = useCallback((damage) => {
     dispatch(deleteOneDamage({ id: damage.id, inspectionId: damage.inspectionId }));

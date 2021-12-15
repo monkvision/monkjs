@@ -43,8 +43,6 @@ export const slice = createSlice({
     builder.addCase(createOneDamage.fulfilled, upsertReducer);
 
     builder.addCase(deleteOneDamage.fulfilled, (state, action) => {
-      state.history.push(action);
-
       damagesAdapter.removeOne(state, action.payload.id);
     });
   },
