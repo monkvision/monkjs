@@ -6,6 +6,7 @@ import { denormalize } from 'normalizr';
 import Constants from 'expo-constants';
 
 import moment from 'moment';
+import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
 import PropTypes from 'prop-types';
 
@@ -28,6 +29,7 @@ import {
   imagesEntity,
   inspectionsEntity,
   tasksEntity,
+  taskStatuses,
   vehiclesEntity,
 } from '@monkvision/corejs';
 
@@ -40,14 +42,14 @@ import {
   Paragraph,
   Portal,
   useTheme,
-  DataTable,
+  Chip,
   Text,
   Menu,
   IconButton,
   Divider,
 } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree';
-import { DAMAGES, INSPECTION_UPDATE, LANDING } from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
 import trash from './assets/trash.svg';
 import process from './assets/process.svg';
@@ -95,6 +97,14 @@ const styles = StyleSheet.create({
     marginBottom: spacing(2),
     marginHorizontal: spacing(1),
   },
+  tasks: {
+    display: 'flex',
+    flexBasis: 'auto',
+    flexDirection: 'row',
+    flexShrink: 0,
+    flexWrap: 'nowrap',
+    marginBottom: spacing(2),
+  },
   image: {
     width: 200,
     height: 150,
@@ -135,6 +145,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const taskChipIcons = {
+  [taskStatuses.NOT_STARTED]: 'clock-alert-outline',
+  [taskStatuses.TODO]: 'av-timer',
+  [taskStatuses.IN_PROGRESS]: 'clock-outline',
+  [taskStatuses.DONE]: 'check-circle-outline',
+  [taskStatuses.ERROR]: 'alert-circle-outline',
+  [taskStatuses.ABORTED]: 'progress-close',
+  [taskStatuses.VALIDATED]: 'check',
+};
 function useMenu() {
   const navigation = useNavigation();
   const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
@@ -255,6 +274,13 @@ export default () => {
     setDialogOpen(false);
   }, []);
 
+  const handleGoToTaskRead = useCallback(
+    (args) => {
+      navigation.navigate(TASK_READ, { ...args, inspectionId });
+    },
+    [navigation, inspectionId],
+  );
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -325,24 +351,20 @@ export default () => {
           </ScrollView>
           {!isEmpty(inspection.tasks) && (
             <CardContent>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Name</DataTable.Title>
-                  <DataTable.Title>Status</DataTable.Title>
-                  <DataTable.Title numeric>Detection time</DataTable.Title>
-                </DataTable.Header>
-
+              <ScrollView contentContainerStyle={styles.tasks} horizontal>
                 {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
-                  <DataTable.Row key={`taskRow-${id}`}>
-                    <DataTable.Cell>{name}</DataTable.Cell>
-                    <DataTable.Cell>{status}</DataTable.Cell>
-                    <DataTable.Cell numeric>
-                      {moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}
-                      sec.
-                    </DataTable.Cell>
-                  </DataTable.Row>
+                  <Chip
+                    key={`taskChip-${id}`}
+                    icon={taskChipIcons[status]}
+                    onPress={() => handleGoToTaskRead({ taskName: name, taskId: id })}
+                    style={{ margin: 2 }}
+                  >
+                    {startCase(name)}
+                    {' '}
+                    {doneAt && createdAt ? `(${moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}s)` : null}
+                  </Chip>
                 ))}
-              </DataTable>
+              </ScrollView>
             </CardContent>
           )}
         </Card>
