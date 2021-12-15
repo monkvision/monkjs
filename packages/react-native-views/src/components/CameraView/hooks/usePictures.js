@@ -38,7 +38,7 @@ function usePictures(
 
     handleFakeActivity();
 
-    const options = { quality: 1, zoom: 0 };
+    const options = { quality: 1, zoom: 0, base64: true };
     const sight = activeSight.toPlainObject();
     const picture = await camera.takePictureAsync(options);
     const payload = { name: sight.id, sight, source: picture };

@@ -99,45 +99,39 @@ export default () => {
     navigation.navigate(GETTING_STARTED);
   }, [navigation]);
 
-  const handleTakePicture = useCallback((picture) => {
+  const handleTakePicture = useCallback(async (picture) => {
     if (!inspectionId) { return; }
 
     setUploading(true);
 
-    const baseParams = {
-      inspectionId,
-      headers: { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' },
-    };
+    const filename = `${picture.sight.id}-${inspectionId}.jpg`;
+    const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
 
-    const multiPartKeys = {
-      image: 'image',
-      json: 'json',
-      filename: `${picture.sight.id}-${inspectionId}.png`,
-      type: 'image/png',
-    };
+    const headers = { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' };
+    const baseParams = { inspectionId, headers };
 
-    const jsonData = JSON.stringify({
-      acquisition: {
-        strategy: 'upload_multipart_form_keys',
-        file_key: multiPartKeys.image,
-      },
-      tasks: ['damage_detection'],
-    });
+    const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
+    const json = JSON.stringify({ acquisition, tasks: ['damage_detection'] });
 
-    fetch(picture.source.uri).then((res) => res.blob())
-      .then((buf) => new File(
-        [buf], multiPartKeys.filename,
-        { type: multiPartKeys.type },
-      ))
-      .then((imageFile) => {
-        const data = new FormData();
-        data.append(multiPartKeys.json, jsonData);
-        data.append(multiPartKeys.image, imageFile);
+    const data = new FormData();
+    data.append(multiPartKeys.json, json);
 
-        dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
-          .then(() => { setUploading(false); })
-          .catch(() => { setUploading(false); });
+    if (Platform.OS === 'web') {
+      const response = await fetch(picture.source.base64);
+      const blob = await response.blob();
+      const file = await new File([blob], multiPartKeys.filename, { type: multiPartKeys.type });
+      data.append(multiPartKeys.image, file);
+    } else {
+      data.append('image', {
+        uri: picture.source.uri,
+        name: multiPartKeys.filename,
+        type: multiPartKeys.type,
       });
+    }
+
+    dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
+      .then(() => setUploading(false))
+      .catch(() => setUploading(false));
   }, [dispatch, inspectionId]);
 
   useFocusEffect(

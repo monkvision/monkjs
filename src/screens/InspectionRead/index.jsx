@@ -3,6 +3,8 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
+import Constants from 'expo-constants';
+
 import moment from 'moment';
 import isEmpty from 'lodash.isempty';
 import PropTypes from 'prop-types';
@@ -301,8 +303,8 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${inspection.vehicle?.brand} ${inspection.vehicle?.model}`}
-            subtitle={`${moment(inspection.createdAt).format('lll')} - ${inspection.vehicle?.vin}`}
+            title={`${inspection.vehicle?.brand || 'Brand'} ${inspection.vehicle?.model || 'Model'}`}
+            subtitle={`${moment(inspection.createdAt).format('lll')} - ${inspection.vehicle?.vin || ''}`}
             right={() => ((!isEmpty(inspection.damages)) ? (
               <Button
                 icon="image-broken-variant"
@@ -344,15 +346,19 @@ export default () => {
             </CardContent>
           )}
         </Card>
-        <Card style={styles.card}>
-          <Card.Title
-            title="Raw data"
-            subtitle="Only available in alpha version"
-          />
-          <Card.Content>
-            <JSONTree data={{ ...inspection }} theme={jsonTheme} invertTheme={false} />
-          </Card.Content>
-        </Card>
+
+        {Constants.manifest.extra.ENV === 'development' && (
+          <Card style={styles.card}>
+            <Card.Title
+              title="Raw data"
+              subtitle="Only available in development"
+            />
+            <Card.Content>
+              <JSONTree data={{ ...inspection }} theme={jsonTheme} invertTheme={false} />
+            </Card.Content>
+          </Card>
+        )}
+
       </ScrollView>
       <Portal>
         <Dialog

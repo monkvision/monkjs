@@ -45,6 +45,7 @@ export default {
   },
 
   extra: {
+    ENV: 'development',
     AUTH_DOMAIN: 'idp.staging.monk.ai',
     AUTH_AUDIENCE: 'https://api.monk.ai/v1/',
     AUTH_CLIENT_ID: 'DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L',
