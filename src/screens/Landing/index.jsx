@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useLayoutEffect } from 'react';
 
-import { GETTING_STARTED, INSPECTIONS } from 'screens/names';
+import { GETTING_STARTED, INSPECTIONS, INSPECTION_IMPORT } from 'screens/names';
 import { spacing } from 'config/theme';
 
 import { useNavigation } from '@react-navigation/native';
@@ -50,6 +50,9 @@ export default () => {
   const handleSignOut = useCallback(signOut, [signOut]);
   const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
   const handleList = useCallback(() => navigation.navigate(INSPECTIONS), [navigation]);
+  const handleGoToImportInspection = useCallback(
+    () => navigation.navigate(INSPECTION_IMPORT), [navigation],
+  );
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -82,6 +85,7 @@ export default () => {
           Take your car damage inspection to a next level, using only your device camera
         </Text>
         <View style={styles.actions}>
+          <Button onPress={handleGoToImportInspection}>Import images</Button>
           <Button onPress={handleStart} mode="contained" style={styles.button}>
             Start an inspection
           </Button>
