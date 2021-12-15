@@ -37,6 +37,7 @@ import {
 
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
+import DamagePolygon from './DamagePolygon';
 
 const getDamageViews = (damageId, images) => {
   const damageViews = images.map((img) => img.views?.filter((v) => v.element_id === damageId))
@@ -206,9 +207,16 @@ export default () => {
             ) : null)}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(inspection.images) ? damageImages.map(({ name, path }) => (
-              <TouchableRipple key={name} onPress={() => openPreviewDialog({ name, path })}>
-                <Image style={styles.image} source={{ uri: path }} />
+            {!isEmpty(inspection.images) ? damageImages.map((image) => (
+              <TouchableRipple
+                key={image.name}
+                onPress={() => openPreviewDialog({ name: image.name, path: image.path })}
+              >
+                <DamagePolygon
+                  style={styles.image}
+                  currentImage={image}
+                  view={damageViews.filter((view) => view.image_region.image_id === image.id)}
+                />
               </TouchableRipple>
             )) : null}
           </ScrollView>
