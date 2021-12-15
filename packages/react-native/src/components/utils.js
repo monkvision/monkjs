@@ -10,6 +10,8 @@ const flex = {
     default: { display: 'flex', flexGrow: 1, height: '100vh' },
   }),
 };
+const RATIO_FACTOR = 240;
+const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
 
 function getContainedSizes(ratio) {
   if (isEmpty(ratio)) { return {}; }
@@ -71,5 +73,6 @@ export default {
     flex,
     getContainedSizes,
   },
+  makeRatio,
   getOS,
 };
