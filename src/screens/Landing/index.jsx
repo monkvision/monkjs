@@ -69,7 +69,7 @@ export default () => {
     refresh: refreshDoneInspections,
   } = useRequest(getAllInspections({
     params: {
-      inspection_status: inspectionStatuses.IN_PROGRESS,
+      inspection_status: inspectionStatuses.DONE,
       limit: 3,
     },
   }));
@@ -81,7 +81,7 @@ export default () => {
     refresh: refreshInProgressInspections,
   } = useRequest(getAllInspections({
     params: {
-      inspection_status: inspectionStatuses.DONE,
+      inspection_status: inspectionStatuses.IN_PROGRESS,
       limit: 3,
     },
   }));
