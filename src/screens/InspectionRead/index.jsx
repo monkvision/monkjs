@@ -3,7 +3,6 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
-import Constants from 'expo-constants';
 
 import moment from 'moment';
 import startCase from 'lodash.startcase';
@@ -48,34 +47,10 @@ import {
   IconButton,
   Divider,
 } from 'react-native-paper';
-import JSONTree from 'react-native-json-tree';
 import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
 import trash from './assets/trash.svg';
 import process from './assets/process.svg';
-
-// we can customize the json component by making changes to the theme object
-// see more in the docs https://www.npmjs.com/package/react-native-json-tree
-const jsonTheme = {
-  scheme: 'monokai',
-  author: 'wimer hazenberg (http://www.monokai.nl)',
-  base00: '#272822',
-  base01: '#383830',
-  base02: '#49483e',
-  base03: '#75715e',
-  base04: '#a59f85',
-  base05: '#f8f8f2',
-  base06: '#f5f4f1',
-  base07: '#f9f8f5',
-  base08: '#f92672',
-  base09: '#fd971f',
-  base0A: '#f4bf75',
-  base0B: '#a6e22e',
-  base0C: '#a1efe4',
-  base0D: '#66d9ef',
-  base0E: '#ae81ff',
-  base0F: '#cc6633',
-};
 
 const styles = StyleSheet.create({
   root: {
@@ -95,7 +70,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     flexWrap: 'nowrap',
     marginBottom: spacing(2),
-    marginHorizontal: spacing(1),
+    paddingLeft: spacing(2),
   },
   tasks: {
     display: 'flex',
@@ -108,7 +83,7 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 150,
-    marginHorizontal: spacing(1),
+    marginRight: spacing(2),
   },
   dialog: {
     maxWidth: 450,
@@ -373,19 +348,6 @@ export default () => {
             </CardContent>
           )}
         </Card>
-
-        {Constants.manifest.extra.ENV === 'development' && (
-          <Card style={styles.card}>
-            <Card.Title
-              title="Raw data"
-              subtitle="Only available in development"
-            />
-            <Card.Content>
-              <JSONTree data={{ ...inspection }} theme={jsonTheme} invertTheme={false} />
-            </Card.Content>
-          </Card>
-        )}
-
       </ScrollView>
       <Portal>
         <Dialog
