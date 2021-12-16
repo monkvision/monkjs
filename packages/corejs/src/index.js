@@ -104,10 +104,10 @@ export const { default: vehicles, vehiclesAdapter } = vehiclesSlice;
 
 export const {
   selectById: selectVehicleById,
-  selectids: selectvehicleids,
-  selectentities: selectvehicleentities,
-  selectall: selectallvehicles,
-  selecttotal: selecttotalvehicles,
+  selectIds: selectVehicleIds,
+  selectEntities: selectVehicleEntities,
+  selectAll: selectAllVehicles,
+  selectTotal: selectTotalVehicles,
 } = vehiclesAdapter.getSelectors((state) => state.vehicles);
 // INSPECTIONS
 
