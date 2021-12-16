@@ -1,113 +1,205 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 
 import { spacing } from 'config/theme';
 
 import { useNavigation } from '@react-navigation/native';
-import { utils } from '@monkvision/react-native';
+import { sightMasks, utils } from '@monkvision/react-native';
+import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Sight, values, updateOneTaskOfInspection } from '@monkvision/corejs';
 
-import { Button, Text } from 'react-native-paper';
-import { StyleSheet, Platform, SafeAreaView, View, Image, Dimensions } from 'react-native';
+import { Card, Button, useTheme, IconButton, ActivityIndicator } from 'react-native-paper';
+import { StyleSheet, Platform, SafeAreaView, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import useRequest from 'hooks/useRequest/index';
+
+import useImport from './hooks/useImport';
+import useUploadPicture from './hooks/useUploadPicture';
+import { INSPECTION_READ } from '../names';
 
 const styles = StyleSheet.create({
   root: {
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flexGrow: 1, minHeight: 'calc(100vh - 64px)' },
-    }),
-    flexDirection: 'column',
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    position: 'relative',
+  },
+  id: { fontFamily: 'monospace' },
+  card: {
+    marginHorizontal: spacing(2),
+    marginVertical: spacing(1),
+    minHeight: 200,
+  },
+  sightCard: {
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '48%',
+    height: 170,
+    backgroundColor: '#636363',
+    marginVertical: spacing(1),
+    borderRadius: 22,
+    position: 'relative',
   },
-  text: {
-    textAlign: 'center',
-    margin: spacing(2),
-  },
-  logo: {
-    marginLeft: spacing(2),
-  },
-  button: {
-    margin: spacing(1),
-  },
-  actions: {
+  sightsLayout: {
     display: 'flex',
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    justifyContent: 'center',
     flexWrap: 'wrap',
+    marginBottom: 200,
+    position: 'relative',
   },
+  picture: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 22,
+    marginVertical: 4,
+    position: 'absolute',
+    zIndex: 0,
+    opacity: 0.2,
+  },
+  sightLabel: {
+    color: '#ffffff',
+    backgroundColor: 'blue',
+    fontSize: 14,
+    height: 28,
+    zIndex: 99,
+  },
+  floatingButton: { position: 'absolute', alignSelf: 'center', bottom: 50, zIndex: 9 },
+  editSightPicture: { position: 'absolute', zIndex: 9 },
 });
 
-const { width, height } = Dimensions.get('window');
 export default () => {
   const navigation = useNavigation();
+  const { colors } = useTheme();
 
-  const [image, setImage] = useState(null);
-  const [accessGranted, setAccess] = useState(false);
+  const [pictures, setPictures] = useState([]);
+  const [inspectionId] = useState('d97eff45-9261-c45d-d914-5d3a9547ca05');
 
-  const handleRequestGalleryAccess = useCallback((async () => {
-    if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        setAccess(false);
-      } else {
-        setAccess(true);
-      }
-    }
-  }), []);
+  // const { isLoading } = useRequest(
+  //   createOneInspection({ data: initialInspectionData }),
+  //   { onSuccess: ({ result }) => setInspectionId(result) },
+  // );
 
-  useEffect(() => {
-    handleRequestGalleryAccess();
-  }, [handleRequestGalleryAccess]);
+  const onSuccess = useCallback(() => {
+    navigation.navigate(INSPECTION_READ, { inspectionId });
+  }, [inspectionId, navigation]);
 
-  const aspect = useMemo(() => {
-    const ratio = utils.makeRatio(Math.max(width, height), Math.min(width, height));
-    return [ratio[0], ratio[2]];
-  }, []);
-  const handleOpenGallery = useCallback(async () => {
-    if (Platform.OS !== 'web') {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Image,
-        aspect,
-        quality: 1,
-        allowsMultipleSelection: true,
-      });
+  const { isLoading: isUpdating, request: updateTask } = useRequest(
+    updateOneTaskOfInspection({
+      inspectionId,
+      taskName: 'damage_detection',
+      data: { status: 'TODO' },
+    }),
+    { onSuccess },
+    false,
+  );
 
-      if (!result.cancelled) {
-        setImage(result.uri);
-      }
-    }
-  }, [aspect]);
+  const getSightPreview = useCallback(
+    (id) => pictures.find((picture) => picture.id === id), [pictures],
+  );
 
+  const {
+    accessGranted,
+    handleOpenMediaLibrary,
+    inputRef,
+    handlePickImage,
+    handleRequestMediaLibraryAccess,
+  } = useImport({ getSightPreview, setPictures, inspectionId });
+
+  const handleUploadPicture = useUploadPicture({ inspectionId, setPictures });
+
+  const sights = Object.values(values.sights.abstract).map((s) => new Sight(...s));
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        title: 'Import inspection images',
+        title: 'Import inspection pictures',
         headerBackVisible: true,
       });
     }
   }, [navigation]);
 
-  return (
-    <View style={styles.root}>
-      <StatusBar />
-      <SafeAreaView style={styles.root}>
-        {image?.map
-          ? image.map((img) => <Image source={{ uri: img }} style={{ width: 200, height: 200 }} />)
-          : <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-        {accessGranted
-          ? <Button onPress={handleOpenGallery}>Import images</Button>
-          : (
-            <View>
-              <Text style={styles.text}>
-                To choose images from your gallery, your will have to give
-                Monk App the permission to access your files
-              </Text>
-              <Button onPress={handleRequestGalleryAccess}>Request access</Button>
-            </View>
-          )}
+  // loading
+  if (false) { return <ActivityIndicatorView />; }
 
-      </SafeAreaView>
-    </View>
+  // no permission given
+  if (!accessGranted) {
+    return (
+      <View style={utils.styles.flex}>
+        <Button onPress={handleRequestMediaLibraryAccess}>
+          Request access to camera roll
+        </Button>
+      </View>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.root}>
+      <StatusBar />
+      <Button style={styles.floatingButton} mode="contained" disabled={isUpdating} icon="file-edit-outline" color={colors.primary} onPress={updateTask}>
+        Create inspection
+      </Button>
+      <Card>
+        <Card.Title
+          title="Create inspection"
+          subtitle="Start an inspection by importing your pictures"
+        />
+        <Card.Content>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* <JSONTree data={res} /> */}
+            <View style={styles.sightsLayout}>
+              {sights.map(({ id, label }) => (
+                <TouchableOpacity
+                  key={id}
+                  style={styles.sightCard}
+                  onPress={() => handleOpenMediaLibrary(id)}
+                  disabled={getSightPreview(id)}
+                  accessibilityLabel={label}
+                >
+                  {Platform.OS === 'web' ? <input onChange={(e) => handlePickImage(id, e.target.files[0])} type="file" ref={inputRef} style={{ width: 0, height: 0 }} /> : null}
+                  {getSightPreview(id) && !getSightPreview(id).isLoading
+                    ? (
+                      <View style={[styles.editSightPicture, { display: 'flex', flexDirection: 'row' }]}>
+                        <IconButton
+                          icon="circle-edit-outline"
+                          size={24}
+                          onPress={() => handleOpenMediaLibrary(id)}
+                          style={{ backgroundColor: '#FFF' }}
+                          color={colors.primary}
+                        />
+                        <IconButton
+                          icon="reload"
+                          size={24}
+                          onPress={() => handleUploadPicture(getSightPreview(id).uri, id)}
+                          style={{ backgroundColor: '#FFF', alignSelf: 'center' }}
+                          color={colors.error}
+                        />
+                      </View>
+                    )
+                    : null}
+
+                  {!getSightPreview(id)?.isLoading ? (
+                    <View style={{ transform: [{ scale: 0.3 }], zIndex: 2, height: 400 }}>
+                      <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" />
+                    </View>
+                  ) : null}
+
+                  {/* we can try implementing the new Img conponent
+                  here for a smooth image rendering */}
+                  {getSightPreview(id)?.uri && !getSightPreview(id)?.isLoading
+                    ? <Image source={{ uri: getSightPreview(id).uri }} style={styles.picture} />
+                    : null}
+
+                  {/* loading */}
+                  {getSightPreview(id)?.isLoading ? <ActivityIndicator color="#FFFFFF" /> : null}
+
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </Card.Content>
+      </Card>
+    </SafeAreaView>
   );
 };
+const SightMask = ({ id, ...props }) => (sightMasks?.[id] ? sightMasks[id](props) : null);
