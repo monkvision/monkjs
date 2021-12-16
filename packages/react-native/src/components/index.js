@@ -1,3 +1,6 @@
+import * as sightMasks from './SightMasks';
+
+export { sightMasks };
 export { default as Camera } from './Camera';
 export { default as CameraSideBar } from './CameraSideBar';
 export { default as Mask } from './Mask';
