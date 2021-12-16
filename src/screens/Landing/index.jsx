@@ -1,6 +1,7 @@
 import React, { useCallback, useLayoutEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 import moment from 'moment';
 import { DataTable, Button, useTheme, Text, Card, IconButton } from 'react-native-paper';
 
@@ -134,6 +135,7 @@ export default () => {
 
   return (
     <SafeAreaView style={styles.root}>
+      <StatusBar style="dark" />
       <ScrollView>
         <Card style={styles.card}>
           <Card.Title

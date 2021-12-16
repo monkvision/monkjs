@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
 import useToggle from 'hooks/useToggle';
-
+import Img from 'components/Img';
 import { spacing } from 'config/theme';
 
 import {
@@ -34,7 +34,7 @@ import {
 } from '@monkvision/corejs';
 
 import Drawing from 'components/Drawing';
-import { Image, StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
 import {
   Card,
   Button,
@@ -346,7 +346,12 @@ export default () => {
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
-              <Image key={name} style={styles.image} source={{ uri: path }} />
+              <Img
+                key={name + path}
+                style={styles.image}
+                skeletonStyle={styles.image}
+                source={{ uri: path }}
+              />
             )) : null}
           </ScrollView>
           {!isEmpty(inspection.tasks) && (

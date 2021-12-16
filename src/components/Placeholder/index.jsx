@@ -36,7 +36,6 @@ export default function Placeholder({ style }) {
     <Animated.View style={[{
       opacity: interpolateOpacity,
       backgroundColor: '#c6c6c6',
-      borderRadius: 4,
     }, style]}
     />
   );
