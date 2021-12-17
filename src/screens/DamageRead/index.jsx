@@ -195,7 +195,7 @@ export default () => {
                 <DamagePolygon
                   style={styles.image}
                   currentImage={image}
-                  view={damageViews.filter((view) => view.image_region.image_id === image.id)}
+                  views={damageViews.filter((view) => view.image_region?.image_id === image.id)}
                 />
               </TouchableRipple>
             )) : null}
@@ -206,10 +206,13 @@ export default () => {
                 <DataTable.Title>Metadata</DataTable.Title>
                 <DataTable.Title style={styles.alignLeft}>Value</DataTable.Title>
               </DataTable.Header>
-
               <DataTable.Row key="metadata-partType">
-                <DataTable.Cell> Part type </DataTable.Cell>
+                <DataTable.Cell>Part type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>{partType}</DataTable.Cell>
+              </DataTable.Row>
+              <DataTable.Row key="metadata-damageType">
+                <DataTable.Cell>Damage type</DataTable.Cell>
+                <DataTable.Cell style={styles.alignLeft}>{currentDamage.damageType}</DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row key="metadata-severity">
                 <DataTable.Cell>Severity</DataTable.Cell>

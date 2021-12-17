@@ -306,7 +306,7 @@ export default () => {
                 key="metadata-partType"
                 onPress={() => openSelectDialog(damageMetadataList.partTypes)}
               >
-                <DataTable.Cell> Part type </DataTable.Cell>
+                <DataTable.Cell>Part type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
                   {currentDamage.part_type ?? 'Not given'}
                   <EditButton disabled />
@@ -316,7 +316,7 @@ export default () => {
                 key="metadata-damageType"
                 onPress={() => openSelectDialog(damageMetadataList.damageTypes)}
               >
-                <DataTable.Cell> Damage type </DataTable.Cell>
+                <DataTable.Cell>Damage type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
                   {currentDamage.damage_type ?? 'Not given'}
                   <EditButton disabled />

@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 
 import DamageImage from './DamageImage';
 
-export default function DamagePolygon({ width, height, currentImage, view, style }) {
+export default function DamagePolygon({ width, height, currentImage, views, style }) {
   const getDamagePolygons = useMemo(() => {
-    const specification = view.map((v) => v.image_region.specification);
-    return specification.map((spec) => spec.polygons.map((polygon) => <Polygon points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />));
-  }, [currentImage, height, view, width]);
+    if (!(currentImage && width && height)) { return null; }
+    const specifications = views.filter((v) => v.image_region)
+      .map((v) => v.image_region?.specification)
+      .map((spec) => spec.polygons?.map((polygon) => <Polygon points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />));
+    return specifications ?? null;
+  }, [currentImage, height, views, width]);
 
   return (
     currentImage && (
@@ -38,7 +41,7 @@ DamagePolygon.propTypes = {
     path: PropTypes.string,
   },
   height: PropTypes.number,
-  view: [{
+  views: [{
     element_id: PropTypes.string,
     image_region: {
       specification: [{
@@ -58,6 +61,6 @@ DamagePolygon.defaultProps = {
     path: '',
   },
   height: 300,
-  view: [],
+  views: [],
   width: 400,
 };
