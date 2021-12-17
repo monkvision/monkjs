@@ -15,6 +15,7 @@ import { spacing } from 'config/theme';
 import useImport, { initialPictureData } from './hooks/useImport';
 import { INSPECTION_READ } from '../names';
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
@@ -33,21 +34,33 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 170,
-    height: 170,
-    maxWidth: 300,
-    backgroundColor: '#636363',
     marginVertical: spacing(1),
     borderRadius: 22,
     position: 'relative',
+    borderWidth: 1.2,
+    // backgroundColor: '#F1F3F4',
+    margin: 4,
+    ...Platform.select({
+      web: {
+        maxWidth: 170,
+        maxHeight: 170,
+      },
+      native: {
+        maxWidth: (width * 0.4) + 14,
+        maxHeight: (width * 0.4) + 14,
+      },
+    }),
+    width: '100%',
+    height: '100%',
   },
   sightsLayout: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 200,
     position: 'relative',
+    margin: -2,
   },
   picture: {
     width: '100%',
@@ -77,15 +90,18 @@ function SightCard({ sight, events }) {
 
   return (
     <TouchableOpacity
-      style={styles.sightCard}
+      style={[styles.sightCard, {
+        borderColor: isFailed ? colors.error : colors.primary,
+        borderStyle: uri ? 'solid' : 'dashed',
+      }]}
       onPress={() => events.handleOpenMediaLibrary(id)}
       disabled={uri}
       accessibilityLabel={label}
     >
 
       {/* overlay button */}
-      <View style={styles.reloadButtonLayout}>
-        {isFailed ? (
+      {!isLoading && isFailed ? (
+        <View style={styles.reloadButtonLayout}>
           <IconButton
             icon="reload"
             size={24}
@@ -93,13 +109,26 @@ function SightCard({ sight, events }) {
             style={styles.reloadButton}
             color={colors.error}
           />
-        ) : null}
-      </View>
+        </View>
+      ) : null}
+
+      {/* overlay button */}
+      {!uri ? (
+        <View style={styles.reloadButtonLayout}>
+          <IconButton
+            icon="plus"
+            size={24}
+            onPress={() => events.handleOpenMediaLibrary(id)}
+            style={[styles.reloadButton, { backgroundColor: colors.primary }]}
+            color="white"
+          />
+        </View>
+      ) : null}
 
       {/* sight mask */}
       {!isLoading ? (
-        <View style={{ transform: [{ scale: 0.3 }], zIndex: 2, height: 400 }}>
-          <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" />
+        <View style={{ transform: [{ scale: 0.28 }], zIndex: 2, height: 400 }}>
+          <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colors.primary} />
         </View>
       ) : null}
 
@@ -109,7 +138,7 @@ function SightCard({ sight, events }) {
         : null}
 
       {/* loading */}
-      {isLoading ? <ActivityIndicator color="#FFFFFF" /> : null}
+      {isLoading ? <ActivityIndicator color={isFailed ? colors.error : colors.primary} /> : null}
 
     </TouchableOpacity>
   );
@@ -188,9 +217,7 @@ export default () => {
     return (
       <View style={utils.styles.flex}>
         <Button onPress={handleRequestMediaLibraryAccess}>
-          Request access to camera roll (
-          {accessGranted.toString()}
-          )
+          Request access to camera roll
         </Button>
       </View>
     );
@@ -213,7 +240,7 @@ export default () => {
       <Card>
         <Card.Title
           title="Create inspection"
-          subtitle="Start an inspection by importing your pictures"
+          subtitle="Inspect pictures from your device"
         />
         <Card.Content>
           <ScrollView showsVerticalScrollIndicator={false}>

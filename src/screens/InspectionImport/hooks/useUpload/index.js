@@ -10,8 +10,6 @@ export default ({ inspectionId, setPictures }) => {
   const handleUploadPicture = useCallback(async (picture, id) => {
     if (!inspectionId) { return; }
 
-    // const uri = Platform.OS === 'ios' ? picture.replace('file://', '/private') : picture;
-
     setPictures((prev) => prev.map((image) => {
       if (image.id === id) { return { ...image, isLoading: true }; }
       return image;
