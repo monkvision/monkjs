@@ -1,5 +1,9 @@
 import React, { useCallback, useLayoutEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
+
+import { GETTING_STARTED, INSPECTIONS, PROFILE, INSPECTION_READ } from 'screens/names';
+import theme, { spacing } from 'config/theme';
+
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import moment from 'moment';
@@ -10,9 +14,8 @@ import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native
 
 import useAuth from 'hooks/useAuth';
 import useRequest from 'hooks/useRequest/index';
+
 import MonkIcon from 'components/Icons/MonkIcon';
-import { GETTING_STARTED, INSPECTIONS, INSPECTION_READ } from 'screens/names';
-import theme, { spacing } from 'config/theme';
 import Placeholder from 'components/Placeholder/index';
 
 const styles = StyleSheet.create({
@@ -52,6 +55,7 @@ const styles = StyleSheet.create({
   },
   activityIndicator: { marginTop: spacing(3) },
 });
+
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -60,7 +64,7 @@ export default () => {
 
   const canRenderStatus = width > 480;
 
-  const handleSignOut = useCallback(signOut, [signOut]);
+  const handleSignOut = useCallback(() => navigation.navigate(PROFILE), [navigation]);
   const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
   const handleList = useCallback(() => navigation.navigate(INSPECTIONS), [navigation]);
 
@@ -125,7 +129,7 @@ export default () => {
           />
         ),
         headerRight: () => (
-          <Button onPress={handleSignOut} accessibilityLabel="Sign out">
+          <Button onPress={handleSignOut} accessibilityLabel="Profile">
             Sign out
           </Button>
         ),

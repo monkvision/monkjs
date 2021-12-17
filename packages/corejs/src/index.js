@@ -4,6 +4,7 @@ import * as partsSlice from './parts/partsSlice';
 import * as inspectionsSlice from './inspections/inspectionsSlice';
 import * as tasksSlice from './tasks/tasksSlice';
 import * as vehiclesSlice from './vehicles/vehiclesSlice';
+import * as usersSlice from './users/usersSlice';
 
 export { default as damagesEntity } from './damages/damagesEntity';
 export { default as imagesEntity } from './images/imagesEntity';
@@ -11,6 +12,7 @@ export { default as partsEntity } from './parts/partsEntity';
 export { default as inspectionsEntity } from './inspections/inspectionsEntity';
 export { default as tasksEntity } from './tasks/tasksEntity';
 export { default as vehiclesEntity } from './vehicles/vehiclesEntity';
+export { default as usersEntity } from './users/usersEntity';
 
 export { default as config } from './config';
 export { default as Sight } from './sights/Sight';
@@ -113,3 +115,22 @@ export const {
   selectAll: selectAllVehicles,
   selectTotal: selectTotalVehicles,
 } = vehiclesAdapter.getSelectors((state) => state.vehicles);
+// INSPECTIONS
+
+export const {
+  default: users,
+  usersAdapter,
+  getUserInfo,
+  updateUserInfo,
+  getUserSignature,
+  setUserSignature,
+  deleteUserSignature,
+} = usersSlice;
+
+export const {
+  selectById: selectSignature,
+  selectIds: selectUserIds,
+  selectEntities: selectUserEntities,
+  selectAll: selectAllUser,
+  selectTotal: selectTotalUser,
+} = usersAdapter.getSelectors((state) => state.users);

@@ -99,6 +99,12 @@ export default function Navigation() {
         />
 
         <Stack.Screen
+          name={names.PROFILE}
+          component={Screens.Profile}
+          title="Profile"
+        />
+
+        <Stack.Screen
           name={names.TASK_READ}
           component={Screens.TaskRead}
           title="Task read"
