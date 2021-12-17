@@ -28,7 +28,6 @@ import { Image, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import {
   Card,
   Button,
-  IconButton,
   useTheme,
   DataTable,
   List,
@@ -97,7 +96,7 @@ export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
-  const { inspectionId, id: damageId, partType, isEditable } = route.params;
+  const { inspectionId, id: damageId, partType } = route.params;
 
   const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
 
@@ -176,17 +175,6 @@ export default () => {
     return <ActivityIndicatorView light />;
   }
 
-  const EditButton = (onPress) => (
-    <DataTable.Cell style={styles.alignLeft}>
-      <IconButton
-        icon="pencil"
-        disabled={!isEditable}
-        color={colors.grey}
-        onPress={onPress}
-      />
-    </DataTable.Cell>
-  );
-
   return !isEmpty(currentDamage) && (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.root}>
@@ -197,14 +185,6 @@ export default () => {
             subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt).format('lll')}`}
             onClick={() => {}}
             left={(props) => <List.Icon {...props} icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'shape-square-plus'} />}
-            right={() => (isEditable ? (
-              <IconButton
-                icon="camera-plus"
-                size={30}
-                color={colors.primary}
-                onPress={() => {}}
-              />
-            ) : null)}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? damageImages.map((image) => (
@@ -224,21 +204,16 @@ export default () => {
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title>Metadata</DataTable.Title>
-                <DataTable.Title>Value</DataTable.Title>
-                {isEditable && (
-                <DataTable.Title style={styles.alignLeft} disabled>Edit</DataTable.Title>
-                )}
+                <DataTable.Title style={styles.alignLeft}>Value</DataTable.Title>
               </DataTable.Header>
 
               <DataTable.Row key="metadata-partType">
                 <DataTable.Cell> Part type </DataTable.Cell>
-                <DataTable.Cell>{partType}</DataTable.Cell>
-                {isEditable && (<EditButton onPress={() => {}} />)}
+                <DataTable.Cell style={styles.alignLeft}>{partType}</DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row key="metadata-severity">
                 <DataTable.Cell>Severity</DataTable.Cell>
-                <DataTable.Cell>{ currentDamage.severity ?? 'Not given' }</DataTable.Cell>
-                {isEditable && (<EditButton onPress={() => {}} />)}
+                <DataTable.Cell style={styles.alignLeft}>{ currentDamage.severity ?? 'Not given' }</DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </CardContent>
