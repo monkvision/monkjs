@@ -4,6 +4,7 @@ import { normalize } from 'normalizr';
 import * as api from './inspectionsApi';
 import { entity, entityCollection } from './inspectionsEntity';
 
+export { default as inspectionStatuses } from './constants';
 export const inspectionsAdapter = createEntityAdapter();
 
 export const getOneInspectionById = createAsyncThunk(

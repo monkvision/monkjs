@@ -7,6 +7,6 @@ export default function usePartDamages(parts, damages) {
     .map((part) => ({
       ...part,
       damages: Object.values(damages)
-        .filter((damage) => damage.partIds?.includes(part.id)),
+        .filter((damage) => damage && damage.partIds?.includes(part.id)),
     })), [parts, damages]);
 }

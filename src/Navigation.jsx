@@ -103,6 +103,12 @@ export default function Navigation() {
           title="Update damage"
         />
 
+        <Stack.Screen
+          name={names.TASK_READ}
+          component={Screens.TaskRead}
+          title="Task read"
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

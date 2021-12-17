@@ -3,6 +3,7 @@
     "production": {
       "releaseChannel": "production",
       "env": {
+        "ENV": "production",
         "API_DOMAIN": "api.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
@@ -14,6 +15,7 @@
       "extends": "production",
       "distribution": "internal",
       "env": {
+        "ENV": "staging",
         "API_DOMAIN": "api.preview.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
@@ -24,6 +26,7 @@
       "extends": "production",
       "distribution": "internal",
       "env": {
+        "ENV": "development",
         "API_DOMAIN": "api.staging.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",

@@ -16,3 +16,5 @@ export { default as InspectionReview } from './InspectionReview';
 export { default as InspectionUpdate } from './InspectionUpdate';
 
 export { default as Landing } from './Landing';
+
+export { default as TaskRead } from './TaskRead';

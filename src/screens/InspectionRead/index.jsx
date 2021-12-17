@@ -3,14 +3,16 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
+
 import moment from 'moment';
+import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
 import PropTypes from 'prop-types';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
 import useToggle from 'hooks/useToggle';
-
+import Img from 'components/Img';
 import { spacing } from 'config/theme';
 
 import {
@@ -26,11 +28,12 @@ import {
   imagesEntity,
   inspectionsEntity,
   tasksEntity,
+  taskStatuses,
   vehiclesEntity,
 } from '@monkvision/corejs';
 
 import Drawing from 'components/Drawing';
-import { Image, StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
 import {
   Card,
   Button,
@@ -38,40 +41,16 @@ import {
   Paragraph,
   Portal,
   useTheme,
-  DataTable,
+  Chip,
   Text,
   Menu,
   IconButton,
   Divider,
 } from 'react-native-paper';
-import JSONTree from 'react-native-json-tree';
-import { DAMAGES, INSPECTION_UPDATE, LANDING } from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
 import trash from './assets/trash.svg';
 import process from './assets/process.svg';
-
-// we can customize the json component by making changes to the theme object
-// see more in the docs https://www.npmjs.com/package/react-native-json-tree
-const jsonTheme = {
-  scheme: 'monokai',
-  author: 'wimer hazenberg (http://www.monokai.nl)',
-  base00: '#272822',
-  base01: '#383830',
-  base02: '#49483e',
-  base03: '#75715e',
-  base04: '#a59f85',
-  base05: '#f8f8f2',
-  base06: '#f5f4f1',
-  base07: '#f9f8f5',
-  base08: '#f92672',
-  base09: '#fd971f',
-  base0A: '#f4bf75',
-  base0B: '#a6e22e',
-  base0C: '#a1efe4',
-  base0D: '#66d9ef',
-  base0E: '#ae81ff',
-  base0F: '#cc6633',
-};
 
 const styles = StyleSheet.create({
   root: {
@@ -91,12 +70,20 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     flexWrap: 'nowrap',
     marginBottom: spacing(2),
-    marginHorizontal: spacing(1),
+    paddingLeft: spacing(2),
+  },
+  tasks: {
+    display: 'flex',
+    flexBasis: 'auto',
+    flexDirection: 'row',
+    flexShrink: 0,
+    flexWrap: 'nowrap',
+    marginBottom: spacing(2),
   },
   image: {
     width: 200,
     height: 150,
-    marginHorizontal: spacing(1),
+    marginRight: spacing(2),
   },
   dialog: {
     maxWidth: 450,
@@ -133,6 +120,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const taskChipIcons = {
+  [taskStatuses.NOT_STARTED]: 'clock-alert-outline',
+  [taskStatuses.TODO]: 'av-timer',
+  [taskStatuses.IN_PROGRESS]: 'clock-outline',
+  [taskStatuses.DONE]: 'check-circle-outline',
+  [taskStatuses.ERROR]: 'alert-circle-outline',
+  [taskStatuses.ABORTED]: 'progress-close',
+  [taskStatuses.VALIDATED]: 'check',
+};
 function useMenu() {
   const navigation = useNavigation();
   const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
@@ -253,6 +249,13 @@ export default () => {
     setDialogOpen(false);
   }, []);
 
+  const handleGoToTaskRead = useCallback(
+    (args) => {
+      navigation.navigate(TASK_READ, { ...args, inspectionId });
+    },
+    [navigation, inspectionId],
+  );
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -301,8 +304,8 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${inspection.vehicle?.brand} ${inspection.vehicle?.model}`}
-            subtitle={`${moment(inspection.createdAt).format('lll')} - ${inspection.vehicle?.vin}`}
+            title={`${inspection.vehicle?.brand || 'Brand'} ${inspection.vehicle?.model || 'Model'}`}
+            subtitle={`${moment(inspection.createdAt).format('lll')} - ${inspection.vehicle?.vin || ''}`}
             right={() => ((!isEmpty(inspection.damages)) ? (
               <Button
                 icon="image-broken-variant"
@@ -318,40 +321,32 @@ export default () => {
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
-              <Image key={name} style={styles.image} source={{ uri: path }} />
+              <Img
+                key={name + path}
+                style={styles.image}
+                skeletonStyle={styles.image}
+                source={{ uri: path }}
+              />
             )) : null}
           </ScrollView>
           {!isEmpty(inspection.tasks) && (
             <CardContent>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Name</DataTable.Title>
-                  <DataTable.Title>Status</DataTable.Title>
-                  <DataTable.Title numeric>Detection time</DataTable.Title>
-                </DataTable.Header>
-
+              <ScrollView contentContainerStyle={styles.tasks} horizontal>
                 {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
-                  <DataTable.Row key={`taskRow-${id}`}>
-                    <DataTable.Cell>{name}</DataTable.Cell>
-                    <DataTable.Cell>{status}</DataTable.Cell>
-                    <DataTable.Cell numeric>
-                      {moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}
-                      sec.
-                    </DataTable.Cell>
-                  </DataTable.Row>
+                  <Chip
+                    key={`taskChip-${id}`}
+                    icon={taskChipIcons[status]}
+                    onPress={() => handleGoToTaskRead({ taskName: name, taskId: id })}
+                    style={{ margin: 2 }}
+                  >
+                    {startCase(name)}
+                    {' '}
+                    {doneAt && createdAt ? `(${moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}s)` : null}
+                  </Chip>
                 ))}
-              </DataTable>
+              </ScrollView>
             </CardContent>
           )}
-        </Card>
-        <Card style={styles.card}>
-          <Card.Title
-            title="Raw data"
-            subtitle="Only available in alpha version"
-          />
-          <Card.Content>
-            <JSONTree data={{ ...inspection }} theme={jsonTheme} invertTheme={false} />
-          </Card.Content>
         </Card>
       </ScrollView>
       <Portal>

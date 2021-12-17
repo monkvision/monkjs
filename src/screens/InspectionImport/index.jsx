@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { Card, Button, useTheme, IconButton, ActivityIndicator } from 'react-native-paper';
-import { StyleSheet, Platform, SafeAreaView, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { StyleSheet, Platform, SafeAreaView, View, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 // import JSONTree from 'react-native-json-tree';
 
 import { sightMasks, utils } from '@monkvision/react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
-import { Sight, values, updateOneTaskOfInspection } from '@monkvision/corejs';
+import { Sight, values, updateOneTaskOfInspection, createOneInspection } from '@monkvision/corejs';
 
 import useRequest from 'hooks/useRequest/index';
 import { spacing } from 'config/theme';
@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '48%',
-    maxWidth: 170,
+    width: 170,
     height: 170,
+    maxWidth: 300,
     backgroundColor: '#636363',
-    margin: spacing(1),
+    marginVertical: spacing(1),
     borderRadius: 22,
     position: 'relative',
   },
@@ -72,34 +72,16 @@ const styles = StyleSheet.create({
 
 function SightCard({ sight, events }) {
   const { colors } = useTheme();
-  const inputRef = useRef(null);
 
   const { id, label, uri, isLoading, isFailed } = sight;
-
-  const handleOpenMediaLibrary = useCallback(() => {
-    if (Platform.OS === 'web') {
-      inputRef.current.click();
-    } else { events.handleOpenMediaLibrary(id); }
-  }, [events, id]);
 
   return (
     <TouchableOpacity
       style={styles.sightCard}
-      onPress={handleOpenMediaLibrary}
+      onPress={() => events.handleOpenMediaLibrary(id)}
       disabled={uri}
       accessibilityLabel={label}
     >
-      {/* web input  */}
-      {Platform.OS === 'web' ? (
-        <input
-          ref={inputRef}
-          type="file"
-          style={{ width: 0, height: 0, opacity: 0, position: 'absolute' }}
-          onChange={
-            (e) => events.handlePickImage(URL.createObjectURL(e.target.files[0]), id)
-          }
-        />
-      ) : null}
 
       {/* overlay button */}
       <View style={styles.reloadButtonLayout}>
@@ -148,6 +130,7 @@ SightCard.propTypes = {
     uri: PropTypes.string,
   }).isRequired,
 };
+const initialInspectionData = { tasks: { damage_detection: { status: 'NOT_STARTED' } } };
 
 export default () => {
   const navigation = useNavigation();
@@ -158,12 +141,13 @@ export default () => {
   const [pictures, setPictures] = useState(
     sights.map(({ id, label }) => ({ ...initialPictureData, id, label })),
   );
-  const [inspectionId] = useState('d97eff45-9261-c45d-d914-5d3a9547ca05');
+  const [inspectionId, setInspectionId] = useState();
 
-  // const { isLoading } = useRequest(
-  //   createOneInspection({ data: initialInspectionData }),
-  //   { onSuccess: ({ result }) => setInspectionId(result) },
-  // );
+  const { isLoading } = useRequest(
+    createOneInspection({ data: initialInspectionData }),
+    { onSuccess: ({ result }) => setInspectionId(result) },
+    !inspectionId,
+  );
 
   const onSuccess = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
@@ -197,14 +181,16 @@ export default () => {
   }, [navigation]);
 
   // loading
-  if (false) { return <ActivityIndicatorView light />; }
+  if (isLoading) { return <ActivityIndicatorView light />; }
 
   // no permission given
   if (!accessGranted) {
     return (
       <View style={utils.styles.flex}>
         <Button onPress={handleRequestMediaLibraryAccess}>
-          Request access to camera roll
+          Request access to camera roll (
+          {accessGranted.toString()}
+          )
         </Button>
       </View>
     );
@@ -213,7 +199,15 @@ export default () => {
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar />
-      <Button style={styles.floatingButton} mode="contained" disabled={isUpdating} icon="file-edit-outline" color={colors.primary} onPress={updateTask}>
+      <Button
+        style={styles.floatingButton}
+        // onPress={onSuccess}
+        mode="contained"
+        disabled={isUpdating}
+        icon="file-edit-outline"
+        color={colors.primary}
+        onPress={updateTask}
+      >
         Start inspecting
       </Button>
       <Card>

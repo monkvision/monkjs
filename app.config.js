@@ -1,10 +1,11 @@
+const buildNumber = 6;
+
 export default {
   name: 'monk',
   slug: 'monk',
   version: '1.0.0',
   owner: 'monkvision',
   primaryColor: '#274b9f',
-  privacy: 'unlisted',
   scheme: 'monk',
 
   orientation: 'portrait',
@@ -16,24 +17,16 @@ export default {
     backgroundColor: '#f2f2f2',
   },
 
-  updates: {
-    fallbackToCacheTimeout: 0,
-  },
-
-  assetBundlePatterns: [
-    '**/*',
-  ],
-
   ios: {
     bundleIdentifier: 'com.monkvision.adrian',
     supportsTablet: true,
     requireFullScreen: true,
-    buildNumber: '4',
+    buildNumber: `${buildNumber}`,
   },
 
   android: {
     package: 'com.monkvision.adrian',
-    versionCode: 4,
+    versionCode: buildNumber,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#f2f2f2',
@@ -45,6 +38,7 @@ export default {
   },
 
   extra: {
+    ENV: 'development',
     AUTH_DOMAIN: 'idp.staging.monk.ai',
     AUTH_AUDIENCE: 'https://api.monk.ai/v1/',
     AUTH_CLIENT_ID: 'DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L',
