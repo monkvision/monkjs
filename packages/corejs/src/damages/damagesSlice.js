@@ -2,7 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import { normalize } from 'normalizr';
 import { getOneInspectionById } from '../asyncThunks';
 
-import * as api from './damagesInsApi';
+import * as api from './damagesApi';
 import { entity } from './damagesEntity';
 
 export const damagesAdapter = createEntityAdapter();
