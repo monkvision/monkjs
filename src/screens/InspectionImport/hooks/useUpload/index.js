@@ -7,17 +7,15 @@ import { Platform } from 'react-native';
 export default ({ inspectionId, setPictures }) => {
   const dispatch = useDispatch();
 
-  const handleUploadPicture = useCallback(async (pictureUri, id) => {
+  const handleUploadPicture = useCallback((picture, id) => {
     if (!inspectionId) { return; }
 
-    const uri = Platform.OS === 'ios' ? pictureUri.replace('file://', '/private') : pictureUri;
-    setPictures((prev) => {
-      const currentPicture = prev.find((image) => image.id === id);
-      return [
-        ...prev.filter((image) => image.id !== id),
-        { ...currentPicture, isLoading: true, isUploaded: false },
-      ];
-    });
+    const uri = Platform.OS === 'ios' ? picture.replace('file://', '/private') : picture;
+
+    setPictures((prev) => prev.map((image) => {
+      if (image.id === id) { return { ...image, isLoading: true }; }
+      return image;
+    }));
 
     const baseParams = {
       inspectionId,
@@ -50,22 +48,16 @@ export default ({ inspectionId, setPictures }) => {
 
         dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
           .then(() => {
-            setPictures((prev) => {
-              const currentPicture = prev.find((image) => image.id === id);
-              return [
-                ...prev.filter((image) => image.id !== id),
-                { ...currentPicture, isLoading: false, isUploaded: true },
-              ];
-            });
+            setPictures((prev) => prev.map((image) => {
+              if (image.id === id) { return { ...image, isUploaded: true, isLoading: false }; }
+              return image;
+            }));
           })
           .catch(() => {
-            setPictures((prev) => {
-              const currentPicture = prev.find((image) => image.id === id);
-              return [
-                ...prev.filter((image) => image.id !== id),
-                { ...currentPicture, isLoading: false, isUploaded: false },
-              ];
-            });
+            setPictures((prev) => prev.map((image) => {
+              if (image.id === id) { return { ...image, isFailed: true, isLoading: false }; }
+              return image;
+            }));
           });
       });
   }, [dispatch, inspectionId, setPictures]);

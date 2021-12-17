@@ -4,15 +4,15 @@ import { Dimensions } from 'react-native';
 
 import { utils } from '@monkvision/react-native';
 
-import useUploadImage from '../useUploadPicture';
+import useUpload from '../useUpload';
 
 const { width, height } = Dimensions.get('window');
-const initialPictureData = { isLoading: false, isUploaded: true, id: '', uri: '' };
+export const initialPictureData = { isLoading: false, isFailed: false, isUploaded: false, id: '', label: '', uri: null };
 
-export default ({ getSightPreview, setPictures, inspectionId }) => {
+export default ({ pictures, setPictures, inspectionId }) => {
   const [accessGranted, setAccess] = useState(false);
 
-  const handleUploadPicture = useUploadImage({ inspectionId, setPictures });
+  const handleUploadPicture = useUpload({ inspectionId, setPictures });
 
   // request media library permission
   const handleRequestMediaLibraryAccess = useCallback(async () => {
@@ -46,26 +46,29 @@ export default ({ getSightPreview, setPictures, inspectionId }) => {
         // if the sight has already a picture
         // we remove the old existing picture and replace it by the new one
         // else we add a new sight
-        if (getSightPreview(id)) {
-          setPictures((prev) => [
-            ...prev.filter((picture) => picture.id !== id),
-            { ...initialPictureData, id, uri: result.uri },
-          ]);
+        if (pictures.some((picture) => picture.id === id)) {
+          setPictures((prev) => prev.map((image) => {
+            if (image.id === id) { return { ...image, uri: result.uri }; }
+            return image;
+          }));
           handleUploadPicture(result.uri, id);
         } else {
-          setPictures((prev) => [...prev, { ...initialPictureData, id, uri: result.uri }]);
+          setPictures((prev) => prev.map((image) => {
+            if (image.id === id) { return { ...image, id, uri: result.uri }; }
+            return image;
+          }));
           handleUploadPicture(result.uri, id);
         }
       }
     }
-  }, [accessGranted, aspect, getSightPreview,
+  }, [accessGranted, aspect, pictures,
     handleRequestMediaLibraryAccess, handleUploadPicture, setPictures]);
 
   return {
     accessGranted,
     handleOpenMediaLibrary,
     handleRequestMediaLibraryAccess,
-    inputRef: { current: null },
+    handleUploadPicture,
     handlePickImage: () => null,
   };
 };

@@ -1,19 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useLayoutEffect, useState } from 'react';
-
-import { spacing } from 'config/theme';
-
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Card, Button, useTheme, IconButton, ActivityIndicator } from 'react-native-paper';
+import { StyleSheet, Platform, SafeAreaView, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
+// import JSONTree from 'react-native-json-tree';
+
 import { sightMasks, utils } from '@monkvision/react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { Sight, values, updateOneTaskOfInspection } from '@monkvision/corejs';
 
-import { Card, Button, useTheme, IconButton, ActivityIndicator } from 'react-native-paper';
-import { StyleSheet, Platform, SafeAreaView, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import useRequest from 'hooks/useRequest/index';
-
-import useImport from './hooks/useImport';
-import useUploadPicture from './hooks/useUploadPicture';
+import { spacing } from 'config/theme';
+import useImport, { initialPictureData } from './hooks/useImport';
 import { INSPECTION_READ } from '../names';
 
 const styles = StyleSheet.create({
@@ -35,9 +34,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '48%',
+    maxWidth: 170,
     height: 170,
     backgroundColor: '#636363',
-    marginVertical: spacing(1),
+    margin: spacing(1),
     borderRadius: 22,
     position: 'relative',
   },
@@ -65,15 +65,99 @@ const styles = StyleSheet.create({
     height: 28,
     zIndex: 99,
   },
-  floatingButton: { position: 'absolute', alignSelf: 'center', bottom: 50, zIndex: 9 },
-  editSightPicture: { position: 'absolute', zIndex: 9 },
+  floatingButton: { position: Platform.OS === 'web' ? 'fixed' : 'absolute', alignSelf: 'center', bottom: 50, zIndex: 9 },
+  reloadButtonLayout: { position: 'absolute', display: 'flex', flexDirection: 'row', zIndex: 11 },
+  reloadButton: { backgroundColor: '#FFF', alignSelf: 'center' },
 });
+
+function SightCard({ sight, events }) {
+  const { colors } = useTheme();
+  const inputRef = useRef(null);
+
+  const { id, label, uri, isLoading, isFailed } = sight;
+
+  const handleOpenMediaLibrary = useCallback(() => {
+    if (Platform.OS === 'web') {
+      inputRef.current.click();
+    } else { events.handleOpenMediaLibrary(id); }
+  }, [events, id]);
+
+  return (
+    <TouchableOpacity
+      style={styles.sightCard}
+      onPress={handleOpenMediaLibrary}
+      disabled={uri}
+      accessibilityLabel={label}
+    >
+      {/* web input  */}
+      {Platform.OS === 'web' ? (
+        <input
+          ref={inputRef}
+          type="file"
+          style={{ width: 0, height: 0, opacity: 0, position: 'absolute' }}
+          onChange={
+            (e) => events.handlePickImage(URL.createObjectURL(e.target.files[0]), id)
+          }
+        />
+      ) : null}
+
+      {/* overlay button */}
+      <View style={styles.reloadButtonLayout}>
+        {isFailed ? (
+          <IconButton
+            icon="reload"
+            size={24}
+            onPress={() => events.handleUploadPicture(uri, id)}
+            style={styles.reloadButton}
+            color={colors.error}
+          />
+        ) : null}
+      </View>
+
+      {/* sight mask */}
+      {!isLoading ? (
+        <View style={{ transform: [{ scale: 0.3 }], zIndex: 2, height: 400 }}>
+          <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" />
+        </View>
+      ) : null}
+
+      {/* we can try implementing the new Img conponent here for a smooth image rendering */}
+      {uri
+        ? <Image source={{ uri }} style={styles.picture} />
+        : null}
+
+      {/* loading */}
+      {isLoading ? <ActivityIndicator color="#FFFFFF" /> : null}
+
+    </TouchableOpacity>
+  );
+}
+
+SightCard.propTypes = {
+  events: PropTypes.shape({
+    handleOpenMediaLibrary: PropTypes.func,
+    handlePickImage: PropTypes.func,
+    handleUploadPicture: PropTypes.func,
+  }).isRequired,
+  sight: PropTypes.shape({
+    id: PropTypes.string,
+    isFailed: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    isUploaded: PropTypes.bool,
+    label: PropTypes.string,
+    uri: PropTypes.string,
+  }).isRequired,
+};
 
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
+  const sights = useMemo(() => Object.values(values.sights.abstract).map((s) => new Sight(...s)),
+    []);
 
-  const [pictures, setPictures] = useState([]);
+  const [pictures, setPictures] = useState(
+    sights.map(({ id, label }) => ({ ...initialPictureData, id, label })),
+  );
   const [inspectionId] = useState('d97eff45-9261-c45d-d914-5d3a9547ca05');
 
   // const { isLoading } = useRequest(
@@ -95,21 +179,14 @@ export default () => {
     false,
   );
 
-  const getSightPreview = useCallback(
-    (id) => pictures.find((picture) => picture.id === id), [pictures],
-  );
-
   const {
     accessGranted,
     handleOpenMediaLibrary,
-    inputRef,
     handlePickImage,
     handleRequestMediaLibraryAccess,
-  } = useImport({ getSightPreview, setPictures, inspectionId });
+    handleUploadPicture,
+  } = useImport({ pictures, setPictures, inspectionId });
 
-  const handleUploadPicture = useUploadPicture({ inspectionId, setPictures });
-
-  const sights = Object.values(values.sights.abstract).map((s) => new Sight(...s));
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -120,7 +197,7 @@ export default () => {
   }, [navigation]);
 
   // loading
-  if (false) { return <ActivityIndicatorView />; }
+  if (false) { return <ActivityIndicatorView light />; }
 
   // no permission given
   if (!accessGranted) {
@@ -137,7 +214,7 @@ export default () => {
     <SafeAreaView style={styles.root}>
       <StatusBar />
       <Button style={styles.floatingButton} mode="contained" disabled={isUpdating} icon="file-edit-outline" color={colors.primary} onPress={updateTask}>
-        Create inspection
+        Start inspecting
       </Button>
       <Card>
         <Card.Title
@@ -146,54 +223,18 @@ export default () => {
         />
         <Card.Content>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {/* <JSONTree data={res} /> */}
+            {/* <JSONTree data={pictures} /> */}
             <View style={styles.sightsLayout}>
-              {sights.map(({ id, label }) => (
-                <TouchableOpacity
-                  key={id}
-                  style={styles.sightCard}
-                  onPress={() => handleOpenMediaLibrary(id)}
-                  disabled={getSightPreview(id)}
-                  accessibilityLabel={label}
-                >
-                  {Platform.OS === 'web' ? <input onChange={(e) => handlePickImage(id, e.target.files[0])} type="file" ref={inputRef} style={{ width: 0, height: 0 }} /> : null}
-                  {getSightPreview(id) && !getSightPreview(id).isLoading
-                    ? (
-                      <View style={[styles.editSightPicture, { display: 'flex', flexDirection: 'row' }]}>
-                        <IconButton
-                          icon="circle-edit-outline"
-                          size={24}
-                          onPress={() => handleOpenMediaLibrary(id)}
-                          style={{ backgroundColor: '#FFF' }}
-                          color={colors.primary}
-                        />
-                        <IconButton
-                          icon="reload"
-                          size={24}
-                          onPress={() => handleUploadPicture(getSightPreview(id).uri, id)}
-                          style={{ backgroundColor: '#FFF', alignSelf: 'center' }}
-                          color={colors.error}
-                        />
-                      </View>
-                    )
-                    : null}
-
-                  {!getSightPreview(id)?.isLoading ? (
-                    <View style={{ transform: [{ scale: 0.3 }], zIndex: 2, height: 400 }}>
-                      <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" />
-                    </View>
-                  ) : null}
-
-                  {/* we can try implementing the new Img conponent
-                  here for a smooth image rendering */}
-                  {getSightPreview(id)?.uri && !getSightPreview(id)?.isLoading
-                    ? <Image source={{ uri: getSightPreview(id).uri }} style={styles.picture} />
-                    : null}
-
-                  {/* loading */}
-                  {getSightPreview(id)?.isLoading ? <ActivityIndicator color="#FFFFFF" /> : null}
-
-                </TouchableOpacity>
+              {pictures.map((sight) => (
+                <SightCard
+                  key={sight.id}
+                  sight={sight}
+                  events={{
+                    handleOpenMediaLibrary,
+                    handlePickImage,
+                    handleUploadPicture,
+                  }}
+                />
               ))}
             </View>
           </ScrollView>
