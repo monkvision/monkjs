@@ -261,11 +261,7 @@ export default () => {
             </DataTable>
           </Card.Content>
           <Card.Actions style={styles.actions}>
-            {/* <Button onPress={handleGoToImportInspection}>Import images</Button> */}
             <StartInspectionMenu goToImport={handleGoToImportInspection} goToCamera={handleStart} />
-            {/* <Button onPress={handleStart} mode="contained" style={styles.button} icon="file-edit-outline">
-              New inspection
-            </Button> */}
             <Button
               onPress={handleList}
               mode="outlined"
