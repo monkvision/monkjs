@@ -43,13 +43,25 @@ export default ({ inspectionId, setPictures }) => {
     dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
       .then(() => {
         setPictures((prev) => prev.map((image) => {
-          if (image.id === id) { return { ...image, isUploaded: true, isLoading: false }; }
+          if (image.id === id) {
+            return {
+              ...image,
+              isUploaded: true,
+              isLoading: false,
+              isFailed: false };
+          }
           return image;
         }));
       })
       .catch(() => {
         setPictures((prev) => prev.map((image) => {
-          if (image.id === id) { return { ...image, isFailed: true, isLoading: false }; }
+          if (image.id === id) {
+            return {
+              ...image,
+              isUploaded: true,
+              isFailed: true,
+              isLoading: false };
+          }
           return image;
         }));
       });
