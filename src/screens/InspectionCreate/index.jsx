@@ -42,14 +42,16 @@ export default () => {
   const dispatch = useDispatch();
 
   const [inspectionId, setInspectionId] = useState();
+  const [pictureToSave, setPictureToSave] = useState();
   const [isUploading, setUploading] = useState(false);
   const [isCompleted, setCompleted] = useState(false);
   const [isVisibleDialog, setVisible] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
   const [taskUpdated, setTaskUpdated] = useState(false);
 
   const { isLoading } = useRequest(
     createOneInspection({ data: initialInspectionData }),
-    { onSuccess: ({ result }) => setInspectionId(result) },
+    { onSuccess: ({ result }) => setInspectionId(result), onError: () => console.log('error') },
   );
 
   const { isLoading: isSaving, isSaved, saveToDevice, preparePictures } = useMediaGallery();
@@ -92,8 +94,19 @@ export default () => {
   }, [updateTask]);
 
   const handleSavePictures = useCallback(() => {
-    saveToDevice();
-  }, [saveToDevice]);
+    // allows the user to download the picture
+    if (Platform.OS === 'web' && pictureToSave) {
+      const encodedUri = encodeURI(pictureToSave);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `${Date.now()}.png`);
+      document.body.appendChild(link);
+      link.click();
+      setIsOffline(false);
+    } else {
+      saveToDevice();
+    }
+  }, [pictureToSave, saveToDevice]);
 
   const handleClose = useCallback(() => {
     navigation.navigate(GETTING_STARTED);
@@ -131,7 +144,13 @@ export default () => {
 
     dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
       .then(() => setUploading(false))
-      .catch(() => setUploading(false));
+      .catch(() => {
+        setUploading(false);
+        setIsOffline(true);
+        if (Platform.OS === 'web') {
+          setPictureToSave(picture.source.base64);
+        }
+      });
   }, [dispatch, inspectionId]);
 
   useFocusEffect(
@@ -158,6 +177,32 @@ export default () => {
         theme={theme}
       />
       <Portal>
+        <Dialog
+          visible={isOffline}
+          style={styles.dialog}
+          onDismiss={() => navigation.navigate(LANDING)}
+        >
+          <Dialog.Title style={styles.dialogContent}>
+            Upload failed
+          </Dialog.Title>
+          <Dialog.Content>
+            <Paragraph style={styles.dialogContent}>
+              Your photo upload failed. Do you want to save it so you can add it later?
+            </Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions style={styles.dialogActions}>
+            <Button
+              icon={isSaving || isSaved ? undefined : 'download'}
+              loading={isSaving}
+              disabled={isSaving || isSaved}
+              onPress={handleSavePictures}
+              mode="outlined"
+              style={styles.button}
+            >
+              { isSaved ? 'Photos Saved !' : 'Save in device' }
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
         <Dialog
           visible={isVisibleDialog && isCompleted && !isUploading}
           style={styles.dialog}
