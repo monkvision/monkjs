@@ -172,11 +172,22 @@ export default () => {
   );
   const [inspectionId, setInspectionId] = useState();
 
-  const { isLoading } = useRequest(
+  const canGoNext = useMemo(() => pictures.some((picture) => picture.isUploaded), [pictures]);
+  const { isLoading, request: createInspection } = useRequest(
     createOneInspection({ data: initialInspectionData }),
     { onSuccess: ({ result }) => setInspectionId(result) },
-    !inspectionId,
+    false,
   );
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setPictures(sights.map(({ id, label }) => ({ ...initialPictureData, id, label })));
+      setInspectionId(null);
+      createInspection();
+    });
+
+    return unsubscribe;
+  }, [navigation, createInspection, sights]);
 
   const onSuccess = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
@@ -227,10 +238,9 @@ export default () => {
     <SafeAreaView style={styles.root}>
       <StatusBar />
       <Button
-        style={styles.floatingButton}
-        // onPress={onSuccess}
+        style={[styles.floatingButton, { backgroundColor: isUpdating || !canGoNext ? '#BBBDBF' : colors.primary }]}
         mode="contained"
-        disabled={isUpdating}
+        disabled={isUpdating || !canGoNext}
         icon="file-edit-outline"
         color={colors.primary}
         onPress={updateTask}
