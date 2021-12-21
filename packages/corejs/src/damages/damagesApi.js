@@ -12,6 +12,7 @@ import config from '../config';
  *
  * @param {$uuid: {string}} inspectionId
  * @param {Object} data - body data
+ * @param {$uuid: {string}} partId
  * @param {Object} [customReqConfig]
  *
  * @returns {Promise}
@@ -31,6 +32,7 @@ export function createOne({ inspectionId, data, ...customReqConfig }) {
  * @name deleteOneDamage
  * @param {$uuid: {string}} id
  * @param {$uuid: {string}} inspectionId
+ * @param {$uuid: {string}} partId
  * @param {Object} [customReqConfig]
  *
  * @returns {Promise}

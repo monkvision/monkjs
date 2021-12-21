@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import moment from 'moment';
 import isEmpty from 'lodash.isempty';
+import startcase from 'lodash.startcase';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
@@ -15,6 +16,7 @@ import {
   damagesEntity,
   deleteOneDamage,
   getOneInspectionById,
+  selectPartById,
   selectDamageById,
   selectDamageEntities,
   selectInspectionEntities,
@@ -100,7 +102,7 @@ export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
-  const { inspectionId, id: damageId, partType } = route.params;
+  const { inspectionId, id: damageId, partId } = route.params;
 
   const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
 
@@ -110,6 +112,7 @@ export default () => {
   const partsEntities = useSelector(selectPartEntities);
   const tasksEntities = useSelector(selectTaskEntities);
 
+  const currentPart = useSelector(((state) => selectPartById(state, partId)));
   const currentDamage = useSelector(((state) => selectDamageById(state, damageId)));
 
   const { inspection } = denormalize({ inspection: inspectionId }, {
@@ -138,7 +141,7 @@ export default () => {
   const [previewImage, setPreviewImage] = useState({});
 
   const { isLoading: isDeleteLoading, request: handleDelete } = useRequest(
-    deleteOneDamage({ id: damageId, inspectionId }),
+    deleteOneDamage({ id: damageId, inspectionId, partId }),
     { onSuccess: () => {
       setDeleteDialogOpen(false);
       if (navigation.canGoBack()) {
@@ -183,7 +186,7 @@ export default () => {
         headerRight: () => (<ActionMenu menuItems={menuItems} />),
       });
     }
-  }, [fakeActivity, navigation, refresh, openDeletionDialog, damageId, menuItems, partType]);
+  }, [navigation, damageId, menuItems]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;
@@ -194,7 +197,7 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${currentDamage.damageType} on ${partType} with id: #${currentDamage.id.split('-')[0]}`}
+            title={`${currentDamage.damageType} on ${currentPart.partType} with id: #${currentDamage.id.split('-')[0]}`}
             titleStyle={styles.cardTitle}
             subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt).format('lll')}`}
             onClick={() => {}}
@@ -222,11 +225,15 @@ export default () => {
               </DataTable.Header>
               <DataTable.Row key="metadata-partType">
                 <DataTable.Cell>Part type</DataTable.Cell>
-                <DataTable.Cell style={styles.alignLeft}>{partType}</DataTable.Cell>
+                <DataTable.Cell style={styles.alignLeft}>
+                  {startcase(currentPart.partType)}
+                </DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row key="metadata-damageType">
                 <DataTable.Cell>Damage type</DataTable.Cell>
-                <DataTable.Cell style={styles.alignLeft}>{currentDamage.damageType}</DataTable.Cell>
+                <DataTable.Cell style={styles.alignLeft}>
+                  {startcase(currentDamage.damageType)}
+                </DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row key="metadata-severity">
                 <DataTable.Cell>Severity</DataTable.Cell>

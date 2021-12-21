@@ -164,7 +164,7 @@ DeleteDamageDialog.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
 
-export function PartListSection({ partType, damages, isValidated }) {
+export function PartListSection({ id: partId, partType, damages, isValidated }) {
   const navigation = useNavigation();
   const [deleteDamage, setDeleteDamage] = useState({});
 
@@ -183,9 +183,9 @@ export function PartListSection({ partType, damages, isValidated }) {
     navigation.navigate(DAMAGE_READ, {
       id: damage.id,
       inspectionId: damage.inspectionId,
-      partType,
+      partId,
     });
-  }, [navigation, partType]);
+  }, [navigation, partId]);
 
   const handleDeleteDamage = useCallback(() => {
     handleDelete();
@@ -211,6 +211,7 @@ export function PartListSection({ partType, damages, isValidated }) {
 
 PartListSection.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  id: PropTypes.string.isRequired,
   isValidated: PropTypes.bool.isRequired,
   partType: PropTypes.string.isRequired,
 };

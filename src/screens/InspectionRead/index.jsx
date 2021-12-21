@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
@@ -7,11 +7,9 @@ import { denormalize } from 'normalizr';
 import moment from 'moment';
 import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
-import PropTypes from 'prop-types';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
-import useToggle from 'hooks/useToggle';
 import Img from 'components/Img';
 import { spacing } from 'config/theme';
 
@@ -43,10 +41,10 @@ import {
   useTheme,
   Chip,
   Text,
-  Menu,
-  IconButton,
-  Divider,
 } from 'react-native-paper';
+
+import ActionMenu from 'components/ActionMenu';
+
 import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
 import trash from './assets/trash.svg';
@@ -129,70 +127,6 @@ const taskChipIcons = {
   [taskStatuses.ABORTED]: 'progress-close',
   [taskStatuses.VALIDATED]: 'check',
 };
-function useMenu() {
-  const navigation = useNavigation();
-  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
-
-  const handleExportPdf = useCallback(() => {}, []);
-  const handleGoToEditInspection = useCallback(() => {
-    navigation.navigate(INSPECTION_UPDATE);
-  }, [navigation]);
-
-  const events = {
-    handleOpenMenu,
-    handleDismissMenu,
-    handleGoToEditInspection,
-    handleExportPdf,
-  };
-  return { isMenuOpen, events };
-}
-
-function ActionsMenu({ handleRefresh, inspectionLoading, handleDelete }) {
-  const { isMenuOpen, events } = useMenu();
-
-  return (
-    <Menu
-      anchor={<IconButton icon="dots-vertical" onPress={events.handleOpenMenu} />}
-      visible={isMenuOpen}
-      onDismiss={events.handleDismissMenu}
-    >
-      <Menu.Item
-        icon="refresh"
-        title="Refresh"
-        onPress={handleRefresh}
-        loading={inspectionLoading}
-        disabled={inspectionLoading}
-      />
-      <Menu.Item
-        icon="file-document-edit"
-        onPress={events.handleGoToEditInspection}
-        disabled
-        title="Edit"
-      />
-      <Menu.Item
-        icon="pdf-box"
-        onPress={events.handleExportPdf}
-        disabled
-        title="Export as PDF"
-      />
-      <Divider />
-      <Menu.Item
-        icon="trash-can"
-        onPress={() => {
-          handleDelete();
-          events.handleDismissMenu();
-        }}
-        title="Delete"
-      />
-    </Menu>
-  );
-}
-
-ActionsMenu.propTypes = {
-  handleDelete: PropTypes.func.isRequired,
-  handleRefresh: PropTypes.func.isRequired,
-  inspectionLoading: PropTypes.bool.isRequired,
-};
 
 export default () => {
   const theme = useTheme();
@@ -256,21 +190,29 @@ export default () => {
     [navigation, inspectionId],
   );
 
+  const handleExportPdf = useCallback(() => {}, []);
+  const handleGoToEditInspection = useCallback(() => {
+    navigation.navigate(INSPECTION_UPDATE);
+  }, [navigation]);
+
+  const menuItems = useMemo(() => [
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
+    { title: 'Edit', onPress: handleGoToEditInspection, icon: 'file-document-edit', disabled: true },
+    { title: 'Export as PDF', onPress: handleExportPdf, icon: 'pdf-box', disabled: true },
+    { title: 'Delete', onPress: openDeletionDialog, icon: 'trash-can', divider: true },
+  ], [fakeActivity, handleExportPdf, handleGoToEditInspection, openDeletionDialog, refresh]);
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
         title: `Inspection #${inspectionId.split('-')[0]}`,
         headerBackVisible: true,
         headerRight: () => (
-          <ActionsMenu
-            handleRefresh={refresh}
-            handleDelete={openDeletionDialog}
-            inspectionLoading={Boolean(fakeActivity)}
-          />
+          <ActionMenu menuItems={menuItems} />
         ),
       });
     }
-  }, [fakeActivity, inspectionId, navigation, refresh, openDeletionDialog]);
+  }, [fakeActivity, inspectionId, navigation, menuItems, openDeletionDialog]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;

@@ -2,6 +2,7 @@ import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import isEmpty from 'lodash.isempty';
+import startcase from 'lodash.startcase';
 
 import { useDispatch } from 'react-redux';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
   buttonLabel: { color: '#FFFFFF' },
   validationButton: { margin: spacing(2), flex: 1 },
   divider: { opacity: 0.3 },
+  cameraIcon: { marginRight: spacing(4) },
 });
 
 export default () => {
@@ -151,7 +153,10 @@ export default () => {
   }, [currentDamage.id, dispatch, inspectionId]);
 
   const createDamageViews = useCallback(async (damageId) => {
-    if (isEmpty(damagePictures) || !damageId) { return; }
+    if (isEmpty(damagePictures) || !damageId) {
+      handleGoBack();
+      return;
+    }
     const viewsPromises = [];
     setUploading(true);
     damagePictures.forEach((source, i) => viewsPromises.push(
@@ -279,6 +284,7 @@ export default () => {
               <IconButton
                 icon="camera-plus"
                 size={30}
+                style={styles.cameraIcon}
                 color={theme.colors.primary}
                 onPress={handleOpenCamera}
               />
@@ -308,7 +314,7 @@ export default () => {
               >
                 <DataTable.Cell>Part type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {currentDamage.part_type ?? 'Not given'}
+                  {startcase(currentDamage.part_type) ?? 'Not given'}
                   <EditButton disabled />
                 </DataTable.Cell>
               </DataTable.Row>
@@ -318,7 +324,7 @@ export default () => {
               >
                 <DataTable.Cell>Damage type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {currentDamage.damage_type ?? 'Not given'}
+                  {startcase(currentDamage.damage_type) ?? 'Not given'}
                   <EditButton disabled />
                 </DataTable.Cell>
               </DataTable.Row>
@@ -369,13 +375,13 @@ export default () => {
             keyExtractor={(_item, index) => String(index)}
             ListHeaderComponent={() => (
               <List.Subheader theme={theme}>
-                { currentSelectItems.field }
+                { startcase(currentSelectItems.field) }
               </List.Subheader>
             )}
             ItemSeparatorComponent={() => (<Divider style={styles.divider} />)}
             renderItem={({ item: value }) => (
               <List.Item
-                title={value}
+                title={startcase(value)}
                 theme={theme}
                 titleEllipsizeMode="middle"
                 onPress={() => updateDamageMetaData({ field: currentSelectItems.field, value })}

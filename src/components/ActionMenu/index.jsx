@@ -8,13 +8,14 @@ export default function ActionsMenu({ menuItems }) {
   const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
   return React.useMemo(() => (
     <Menu
-      anchor={<IconButton icon="menu" onPress={handleOpenMenu} />}
+      anchor={<IconButton icon="dots-vertical" onPress={handleOpenMenu} />}
       visible={isMenuOpen}
       onDismiss={handleDismissMenu}
     >
       { menuItems.map((item, index) => !item.divider && (
         <Menu.Item
           key={String(index)}
+          icon={item.icon}
           title={item.title}
           titleStyle={item.titleStyle}
           loading={item.loading}
@@ -26,6 +27,7 @@ export default function ActionsMenu({ menuItems }) {
       { menuItems.map((item, index) => item.divider && (
         <Menu.Item
           key={String(index)}
+          icon={item.icon}
           title={item.title}
           titleStyle={item.titleStyle}
           loading={item.loading}
@@ -41,6 +43,7 @@ ActionsMenu.propTypes = {
   menuItems: PropTypes.arrayOf(PropTypes.shape({
     disabled: PropTypes.bool,
     divider: PropTypes.bool,
+    icon: PropTypes.string,
     loading: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
