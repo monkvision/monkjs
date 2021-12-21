@@ -31,7 +31,7 @@ import {
 } from '@monkvision/corejs';
 
 import Drawing from 'components/Drawing';
-import { StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
+import { Image, StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
 import {
   Card,
   Button,
@@ -41,9 +41,11 @@ import {
   useTheme,
   Chip,
   Text,
+  TouchableRipple,
 } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
+import CustomDialog from 'components/CustomDialog';
 
 import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
@@ -82,6 +84,12 @@ const styles = StyleSheet.create({
     width: 200,
     height: 150,
     marginRight: spacing(2),
+  },
+  previewImage: {
+    flex: 1,
+    width: 400,
+    height: 400,
+    marginHorizontal: spacing(0),
   },
   dialog: {
     maxWidth: 450,
@@ -161,6 +169,8 @@ export default () => {
 
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState({});
 
   const { request: handleDelete } = useRequest(
     deleteOneInspection({ id: inspectionId }),
@@ -194,6 +204,15 @@ export default () => {
   const handleGoToEditInspection = useCallback(() => {
     navigation.navigate(INSPECTION_UPDATE);
   }, [navigation]);
+
+  const openPreviewDialog = useCallback((image) => {
+    setPreviewImage(image);
+    setPreviewDialogOpen(true);
+  }, []);
+
+  const handleDismissPreviewDialog = useCallback(() => {
+    setPreviewDialogOpen(false);
+  }, []);
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
@@ -263,12 +282,16 @@ export default () => {
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
-              <Img
+              <TouchableRipple
                 key={name + path}
-                style={styles.image}
-                skeletonStyle={styles.image}
-                source={{ uri: path }}
-              />
+                onPress={() => openPreviewDialog({ name, path })}
+              >
+                <Img
+                  style={styles.image}
+                  skeletonStyle={styles.image}
+                  source={{ uri: path }}
+                />
+              </TouchableRipple>
             )) : null}
           </ScrollView>
           {!isEmpty(inspection.tasks) && (
@@ -331,6 +354,17 @@ export default () => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
+      <CustomDialog
+        isOpen={isPreviewDialogOpen}
+        handDismiss={handleDismissPreviewDialog}
+        actions={(
+          <Button onPress={handleDismissPreviewDialog} style={styles.button} mode="outlined">
+            Close
+          </Button>
+        )}
+      >
+        <Image style={styles.previewImage} source={{ uri: previewImage.path }} />
+      </CustomDialog>
     </SafeAreaView>
   );
 };

@@ -236,7 +236,7 @@ export default () => {
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        title: `Add damage to inspection part`,
+        title: `Add damage on vehicle part`,
         headerBackVisible: true,
       });
     }
@@ -276,7 +276,7 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`Please add photos of the ${currentDamage.damage_type ?? 'damage'} on the ${currentDamage.part_type ?? 'part'}`}
+            title={`Add photos for ${startcase(currentDamage.damage_type ?? 'damage')} on the ${startcase(currentDamage.part_type ?? 'part')}`}
             titleStyle={styles.cardTitle}
             onClick={() => {}}
             left={(props) => <List.Icon {...props} icon="shape-square-plus" />}

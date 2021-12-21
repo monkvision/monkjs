@@ -197,7 +197,7 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${currentDamage.damageType} on ${currentPart.partType} with id: #${currentDamage.id.split('-')[0]}`}
+            title={`${startcase(currentDamage.damageType)} on ${startcase(currentPart.partType)} with id: #${currentDamage.id.split('-')[0]}`}
             titleStyle={styles.cardTitle}
             subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt).format('lll')}`}
             onClick={() => {}}
