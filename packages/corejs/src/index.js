@@ -96,6 +96,7 @@ export const {
   getOneInspectionTask,
   getAllInspectionTasks,
   taskStatuses,
+  taskNames,
 } = tasksSlice;
 
 export const {

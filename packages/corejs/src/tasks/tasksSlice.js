@@ -4,7 +4,7 @@ import { getOneInspectionById } from '../asyncThunks';
 import * as api from './tasksApi';
 import { entity, entityCollection } from './tasksEntity';
 
-export { default as taskStatuses } from './constants';
+export * from './constants';
 export const tasksAdapter = createEntityAdapter();
 
 export const updateOneTaskOfInspection = createAsyncThunk(

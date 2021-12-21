@@ -20,8 +20,12 @@ import {
   selectInspectionEntities,
   selectImageEntities,
   selectPartEntities,
+  selectTaskEntities,
   imagesEntity,
   inspectionsEntity,
+  tasksEntity,
+  taskNames,
+  taskStatuses,
 } from '@monkvision/corejs';
 
 import { Image, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
@@ -104,6 +108,7 @@ export default () => {
   const imagesEntities = useSelector(selectImageEntities);
   const damagesEntities = useSelector(selectDamageEntities);
   const partsEntities = useSelector(selectPartEntities);
+  const tasksEntities = useSelector(selectTaskEntities);
 
   const currentDamage = useSelector(((state) => selectDamageById(state, damageId)));
 
@@ -111,12 +116,21 @@ export default () => {
     inspection: inspectionsEntity,
     images: [imagesEntity],
     damages: [damagesEntity],
+    tasks: [tasksEntity],
   }, {
     inspections: inspectionEntities,
     images: imagesEntities,
     damages: damagesEntities,
     parts: partsEntities,
+    tasks: tasksEntities,
   });
+
+  const isValidated = useMemo(
+    () => inspection.tasks.find(
+      (t) => t.name === taskNames.DAMAGE_DETECTION,
+    ).status === taskStatuses.VALIDATED,
+    [inspection.tasks],
+  );
 
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -153,8 +167,8 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
-    { title: 'Delete', titleStyle: { color: colors.warning }, onPress: openDeletionDialog, divider: true },
-  ], [colors.warning, fakeActivity, openDeletionDialog, refresh]);
+    { title: 'Delete', titleStyle: { color: colors.warning }, onPress: openDeletionDialog, disabled: isValidated, divider: true },
+  ], [colors.warning, fakeActivity, openDeletionDialog, isValidated, refresh]);
 
   const damageViews = useMemo(() => getDamageViews(damageId, inspection?.images ?? []),
     [damageId, inspection.images]);
@@ -229,6 +243,7 @@ export default () => {
               style={styles.validationButton}
               icon="delete"
               loading={isLoading}
+              disabled={isValidated}
             >
               Delete damage
             </Button>
