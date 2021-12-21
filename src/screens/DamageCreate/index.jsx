@@ -1,39 +1,37 @@
 import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
-import { useSelector } from 'react-redux';
-import { denormalize } from 'normalizr';
 import isEmpty from 'lodash.isempty';
 
+import { useDispatch } from 'react-redux';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+import CameraSimpleView from '@monkvision/react-native-views/src/components/CameraView/CameraSimpleView';
 import useRequest from 'hooks/useRequest';
 
 import { spacing } from 'config/theme';
 
 import {
-  damagesEntity,
-  getOneInspectionById,
-  selectDamageEntities,
-  selectInspectionEntities,
-  selectImageEntities,
-  selectPartEntities,
-  imagesEntity,
-  inspectionsEntity,
+  createOneDamage,
+  addOneViewToInspection,
+  // deleteOneView,
+  config,
 } from '@monkvision/corejs';
 
-import { Image, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Image, StyleSheet, SafeAreaView, ScrollView, FlatList, Platform } from 'react-native';
 import {
   Card,
   Button,
   IconButton,
   useTheme,
   DataTable,
-  List,
   TouchableRipple,
+  List,
+  Divider,
+  Dialog,
 } from 'react-native-paper';
 
-import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
+import damageMetadataList from './metadataList';
 
 const styles = StyleSheet.create({
   root: {
@@ -70,67 +68,141 @@ const styles = StyleSheet.create({
     height: 400,
     marginHorizontal: spacing(0),
   },
+  scrollArea: {
+    width: 400,
+  },
+  flatList: {
+    flex: 1,
+    width: 360,
+    maxHeight: 400,
+    marginHorizontal: 0,
+  },
   button: { width: '100%', marginVertical: 4 },
   alignLeft: {
     justifyContent: 'flex-end',
   },
   buttonLabel: { color: '#FFFFFF' },
   validationButton: { margin: spacing(2), flex: 1 },
+  divider: { opacity: 0.3 },
 });
 
 export default () => {
   const theme = useTheme();
   const route = useRoute();
   const navigation = useNavigation();
+  const partType = route.params?.partType;
+  const inspectionId = route.params?.inspectionId;
+  const dispatch = useDispatch();
 
-  const { inspectionId, imageId, partType } = route.params;
-
-  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
-
-  const inspectionEntities = useSelector(selectInspectionEntities);
-  const imagesEntities = useSelector(selectImageEntities);
-  const damagesEntities = useSelector(selectDamageEntities);
-  const partsEntities = useSelector(selectPartEntities);
-
-  const { inspection } = denormalize({ inspection: inspectionId }, {
-    inspection: inspectionsEntity,
-    images: [imagesEntity],
-    damages: [damagesEntity],
-  }, {
-    inspections: inspectionEntities,
-    images: imagesEntities,
-    damages: damagesEntities,
-    parts: partsEntities,
-  });
-
-  const currentImage = useMemo(() => inspection?.images?.filter((i) => i.id === imageId),
-    [imageId, inspection?.images]);
-
-  const [currentDamage, updateDamage] = useState({
-    inspection_id: inspectionId,
+  const [currentDamage, setCurrentDamage] = useState({
     part_type: partType,
     damage_type: undefined,
-    severity: undefined,
+    // severity: undefined,
   });
 
-  const [damageViews, setDamageViews] = useState([]);
-
-  const [fakeActivity] = useFakeActivity(isLoading);
-  const [isEditable, setIsEditable] = useState(true);
+  const [damagePictures, setDamagePictures] = useState([]);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
+  const [isCameraViewOpen, setCameraViewOpen] = useState(false);
+  const [selectDialogOpen, setSelectDialogOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState({});
+  const [currentSelectItems, setCurrentSelectItems] = useState({ field: undefined, values: [] });
+  const [isUploading, setUploading] = useState(false);
 
-  const openCamera = useCallback(() => {
+  const handleGoBack = useCallback(() => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }, [navigation]);
 
-  }, []);
+  const handleAddViewPicture = useCallback(async (viewPicture, index) => {
+    if (!inspectionId || !viewPicture.viewData) { return; }
 
-  const handleAddViewPicture = useCallback(() => {
+    setUploading(true);
 
-  }, []);
+    const filename = `${currentDamage.id}-${index}-${inspectionId}.jpg`;
+    const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
 
-  const handleCreateDamage = useCallback(() => {
+    const headers = { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' };
+    const baseParams = { inspectionId, headers };
 
-  }, []);
+    const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
+    const json = JSON.stringify({
+      ...viewPicture.viewData,
+      new_image: { name: multiPartKeys.filename, acquisition },
+    });
+
+    const data = new FormData();
+    data.append(multiPartKeys.json, json);
+
+    if (Platform.OS === 'web') {
+      const response = await fetch(viewPicture.source.base64);
+      const blob = await response.blob();
+      const file = await new File([blob], multiPartKeys.filename, { type: multiPartKeys.type });
+      data.append(multiPartKeys.image, file);
+    } else {
+      data.append('image', {
+        uri: viewPicture.source.uri,
+        name: multiPartKeys.filename,
+        type: multiPartKeys.type,
+      });
+    }
+
+    await dispatch(addOneViewToInspection({ ...baseParams, data })).unwrap();
+  }, [currentDamage.id, dispatch, inspectionId]);
+
+  const createDamageViews = useCallback(async (damageId) => {
+    if (isEmpty(damagePictures) || !damageId) { return; }
+    const viewsPromises = [];
+    setUploading(true);
+    damagePictures.forEach((source, i) => viewsPromises.push(
+      handleAddViewPicture({
+        source,
+        viewData: {
+          damage_id: damageId,
+          // polygons: [[[0]]], // TODO
+          // bounding_box: { xmin: 0, ymin: 0, width: 0, height: 0 }, // TODO
+        },
+      }, i),
+    ));
+    Promise.all(viewsPromises)
+      .then(() => {
+        setUploading(false);
+        handleGoBack();
+      })
+      .catch(() => setUploading(false));
+  }, [damagePictures, handleAddViewPicture, handleGoBack]);
+
+  const { isLoading, request: createDamageRequest } = useRequest(
+    createOneDamage({ inspectionId, data: currentDamage }),
+    { onSuccess: ({ result: id }) => {
+      setCurrentDamage((old) => ({ ...old, id }));
+      createDamageViews(id);
+    } },
+    false,
+  );
+
+  const isDamageValid = useMemo(() => currentDamage.part_type && currentDamage.damage_type,
+    [currentDamage.damage_type, currentDamage.part_type]);
+
+  const [fakeActivity] = useFakeActivity(isLoading || isUploading);
+
+  const handleOpenCamera = useCallback(() => {
+    setCameraViewOpen(true);
+    navigation?.setOptions({ headerShown: false });
+  }, [navigation]);
+
+  const handleCloseCamera = useCallback((pictures) => {
+    setDamagePictures(pictures);
+    setCameraViewOpen(false);
+    navigation?.setOptions({ headerShown: true });
+  }, [navigation]);
+
+  const handleRemovePicture = useCallback(() => {
+    // Remove taken picture
+    setDamagePictures((old) => old.filter((_p, i) => i !== previewImage.index));
+    setPreviewDialogOpen(false);
+    setPreviewImage({});
+  }, [previewImage]);
 
   const openPreviewDialog = useCallback((image) => {
     setPreviewImage(image);
@@ -141,82 +213,125 @@ export default () => {
     setPreviewDialogOpen(false);
   }, []);
 
-  const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
-  ], [fakeActivity, refresh]);
+  const openSelectDialog = useCallback((fieldValues) => {
+    setCurrentSelectItems(fieldValues);
+    setSelectDialogOpen(true);
+  }, []);
+
+  const handleDismissSelectDialog = useCallback(() => {
+    setSelectDialogOpen(false);
+    setCurrentSelectItems({ field: undefined, values: [] });
+  }, []);
+
+  const updateDamageMetaData = useCallback(({ field, value }) => {
+    setCurrentDamage((old) => ({ ...old, [field]: value }));
+    handleDismissSelectDialog();
+  }, [handleDismissSelectDialog]);
 
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
         title: `Add damage to inspection part`,
         headerBackVisible: true,
-        headerRight: () => (<ActionMenu menuItems={menuItems} />),
       });
     }
-  }, [menuItems, navigation]);
+  }, [navigation]);
 
-  if (isLoading) {
+  if (fakeActivity) {
     return <ActivityIndicatorView light />;
   }
 
-  const EditButton = (onPress) => (
+  const EditButton = (onPress, disabled) => (
     <DataTable.Cell style={styles.alignLeft}>
       <IconButton
         icon="pencil"
-        disabled={!isEditable}
+        disabled={disabled}
         color={theme.colors.grey}
         onPress={onPress}
       />
     </DataTable.Cell>
   );
 
+  if (isCameraViewOpen) {
+    return (
+      <>
+        <CameraSimpleView
+          isLoading={fakeActivity}
+          onTakePicture={() => {}}
+          onCloseCamera={handleCloseCamera}
+          theme={theme}
+          initialPicturesState={damagePictures}
+        />
+      </>
+    );
+  }
+
   return !isEmpty(currentDamage) && (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`Add ${currentDamage.damage_type ?? 'damage'} on ${currentDamage.part_type ?? 'part'}`}
+            title={`Please add photos of the ${currentDamage.damage_type ?? 'damage'} on the ${currentDamage.part_type ?? 'part'}`}
             titleStyle={styles.cardTitle}
             onClick={() => {}}
             left={(props) => <List.Icon {...props} icon="shape-square-plus" />}
-            right={() => (isEditable ? (
+            right={() => (
               <IconButton
                 icon="camera-plus"
                 size={30}
                 color={theme.colors.primary}
-                onPress={() => {}}
+                onPress={handleOpenCamera}
               />
-            ) : null)}
+            )}
           />
 
-          { currentImage && (<Image style={styles.image} source={{ uri: currentImage?.path }} />) }
-
           <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(damageViews) ? damageViews.map(({ name, path }) => (
-              <TouchableRipple key={name} onPress={() => openPreviewDialog({ name, path })}>
-                <Image style={styles.image} source={{ uri: path }} />
+            {!isEmpty(damagePictures) ? damagePictures.map(({ uri }, index) => (
+              <TouchableRipple
+                key={String(index)}
+                onPress={() => openPreviewDialog({ uri, index })}
+              >
+                <Image style={styles.image} source={{ uri }} />
               </TouchableRipple>
             )) : null}
           </ScrollView>
           <CardContent>
             <DataTable>
               <DataTable.Header>
-                <DataTable.Title>Metadata</DataTable.Title>
-                <DataTable.Title>Value</DataTable.Title>
-                {isEditable && (
-                <DataTable.Title style={styles.alignLeft} disabled>Edit</DataTable.Title>
-                )}
+                <DataTable.Title>Add damage Metadata</DataTable.Title>
+                <DataTable.Title style={styles.alignLeft}>Value</DataTable.Title>
               </DataTable.Header>
 
-              <DataTable.Row key="metadata-partType">
-                <DataTable.Cell> Part type </DataTable.Cell>
-                <DataTable.Cell>{currentDamage.part_type ?? 'Not given'}</DataTable.Cell>
-                {isEditable && (<EditButton onPress={() => {}} />)}
+              <DataTable.Row
+                key="metadata-partType"
+                onPress={() => openSelectDialog(damageMetadataList.partTypes)}
+              >
+                <DataTable.Cell>Part type</DataTable.Cell>
+                <DataTable.Cell style={styles.alignLeft}>
+                  {currentDamage.part_type ?? 'Not given'}
+                  <EditButton disabled />
+                </DataTable.Cell>
               </DataTable.Row>
-              <DataTable.Row key="metadata-severity">
+              <DataTable.Row
+                key="metadata-damageType"
+                onPress={() => openSelectDialog(damageMetadataList.damageTypes)}
+              >
+                <DataTable.Cell>Damage type</DataTable.Cell>
+                <DataTable.Cell style={styles.alignLeft}>
+                  {currentDamage.damage_type ?? 'Not given'}
+                  <EditButton disabled />
+                </DataTable.Cell>
+              </DataTable.Row>
+              <DataTable.Row
+                key="metadata-severity"
+                onPress={() => openSelectDialog(damageMetadataList.severityTypes)}
+                disabled
+              >
                 <DataTable.Cell>Severity</DataTable.Cell>
-                <DataTable.Cell>{ currentDamage.severity ?? 'Not given' }</DataTable.Cell>
-                {isEditable && (<EditButton onPress={() => {}} />)}
+                <DataTable.Cell style={styles.alignLeft}>
+                  { currentDamage.severity ?? 'Not given' }
+                  <EditButton disabled />
+                </DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </CardContent>
@@ -224,27 +339,74 @@ export default () => {
             <Button
               color={theme.colors.primary}
               labelStyle={styles.buttonLabel}
-              onPress={handleCreateDamage}
+              onPress={createDamageRequest}
               mode="contained"
               style={styles.validationButton}
               icon="shape-square-plus"
-              loading={isLoading}
+              loading={fakeActivity}
+              disabled={!isDamageValid}
             >
-              Create damage
+              Add damage
             </Button>
           </Card.Actions>
         </Card>
       </ScrollView>
+
+      <CustomDialog
+        isOpen={selectDialogOpen}
+        handDismiss={handleDismissSelectDialog}
+        title="Please select"
+        actions={(
+          <Button onPress={handleDismissSelectDialog} style={styles.button} mode="outlined">
+            Cancel
+          </Button>
+        )}
+      >
+        <Dialog.ScrollArea style={styles.scrollArea}>
+          <FlatList
+            style={[styles.flatList]}
+            data={currentSelectItems.values}
+            keyExtractor={(_item, index) => String(index)}
+            ListHeaderComponent={() => (
+              <List.Subheader theme={theme}>
+                { currentSelectItems.field }
+              </List.Subheader>
+            )}
+            ItemSeparatorComponent={() => (<Divider style={styles.divider} />)}
+            renderItem={({ item: value }) => (
+              <List.Item
+                title={value}
+                theme={theme}
+                titleEllipsizeMode="middle"
+                onPress={() => updateDamageMetaData({ field: currentSelectItems.field, value })}
+              />
+            )}
+          />
+        </Dialog.ScrollArea>
+      </CustomDialog>
+
       <CustomDialog
         isOpen={isPreviewDialogOpen}
         handDismiss={handleDismissPreviewDialog}
         actions={(
-          <Button onPress={handleDismissPreviewDialog} style={styles.button} mode="outlined">
-            Close
-          </Button>
+          <>
+            <Button onPress={handleDismissPreviewDialog} style={styles.button} mode="outlined">
+              Cancel
+            </Button>
+            <Button
+              color={theme.colors.error}
+              style={styles.button}
+              onPress={handleRemovePicture}
+              mode="contained"
+              icon={fakeActivity ? undefined : 'trash-can'}
+              labelStyle={{ color: 'white' }}
+            >
+              Delete
+            </Button>
+          </>
         )}
       >
-        <Image style={styles.previewImage} source={{ uri: previewImage.path }} />
+        <Image style={styles.previewImage} source={{ uri: previewImage.uri }} />
       </CustomDialog>
     </SafeAreaView>
   );

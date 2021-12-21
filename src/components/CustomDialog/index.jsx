@@ -24,11 +24,12 @@ export default function CustomDialog({
         onDismiss={handDismiss}
         style={styles.dialog}
       >
+        {title && (
         <Dialog.Title style={styles.dialogContent}>
           {icon && icon}
           {title}
         </Dialog.Title>
-
+        )}
         {content && (
         <Dialog.Content>
           <Paragraph style={styles.dialogContent}>
@@ -37,11 +38,7 @@ export default function CustomDialog({
         </Dialog.Content>
         )}
 
-        {children && (
-        <Dialog.Content style={styles.dialogContent}>
-          {children}
-        </Dialog.Content>
-        )}
+        {children && (<>{ children }</>)}
 
         { actions && (
           <Dialog.Actions style={styles.dialogActions}>

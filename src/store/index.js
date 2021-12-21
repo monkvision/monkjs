@@ -1,4 +1,4 @@
-import { damages, images, inspections, parts, tasks, vehicles, users } from '@monkvision/corejs';
+import { damages, images, inspections, parts, tasks, vehicles, users, views } from '@monkvision/corejs';
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import auth from './slices/auth';
@@ -16,6 +16,7 @@ const store = configureStore({
     parts,
     vehicles,
     users,
+    views,
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware();
