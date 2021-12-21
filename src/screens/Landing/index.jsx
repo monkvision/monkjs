@@ -12,7 +12,6 @@ import { DataTable, Button, useTheme, Text, Card, IconButton } from 'react-nativ
 import { getAllInspections, inspectionStatuses } from '@monkvision/corejs';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
-import useAuth from 'hooks/useAuth';
 import useRequest from 'hooks/useRequest/index';
 
 import MonkIcon from 'components/Icons/MonkIcon';
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const { signOut } = useAuth();
   const { width } = useWindowDimensions();
 
   const canRenderStatus = width > 480;
@@ -130,7 +128,7 @@ export default () => {
         ),
         headerRight: () => (
           <Button onPress={handleSignOut} accessibilityLabel="Profile">
-            Sign out
+            Account
           </Button>
         ),
       });

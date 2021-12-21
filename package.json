@@ -28,6 +28,7 @@
     "build:ios": "expo build:ios",
     "eject": "expo eject",
     "clear:modules": "rm -rf 'node_modules, package-lock.json, yarn.lock'",
+    "licenses": "lic",
     "clear": "yarn run clear:modules && yarn cache clean && yarn install"
   },
   "dependencies": {

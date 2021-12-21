@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
-import { useHeaderHeight } from '@react-navigation/elements';
+import { SafeAreaView, Image, ScrollView, StyleSheet } from 'react-native';
+import { Button, TextInput, Card } from 'react-native-paper';
+
 import jwtDecode from 'jwt-decode';
+
 import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import { config, getUserSignature, setUserSignature, selectAllUser } from '@monkvision/corejs';
 
+import useAuth from 'hooks/useAuth';
 import Signature from 'components/Signature';
-import { useNavigation } from '@react-navigation/native';
-import useAuth from '../../hooks/useAuth';
 
 export default function Profile() {
   const { signOut } = useAuth();
   const dispatch = useDispatch();
-  const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
   const store = useStore();
 
@@ -52,25 +52,11 @@ export default function Profile() {
   }, [handleSignOut, navigation]);
 
   const styles = StyleSheet.create({
-    form: { width: '80%',
-      height: Dimensions.get('window').height - headerHeight,
-      alignSelf: 'center',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-    },
-    inputs: {
-      width: '100%',
-      height: 400,
-      justifyContent: 'space-around',
-    },
     signature: {
       width: 300,
       height: 300,
       borderWidth: 1,
       borderColor: '#00000048',
-    },
-    element: {
-      width: '100%',
     },
   });
 
@@ -118,28 +104,30 @@ export default function Profile() {
       });
   }, [dispatch, signature, store]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const id = jwtDecode(store.getState().auth.accessToken).sub;
     dispatch(getUserSignature({ id, params: { return_image: true } }));
   }, [dispatch, store]);
 
   return (
-    <ScrollView>
-      {!visible
-        && (
-          <View style={styles.form}>
-            <View style={styles.inputs}>
-              <TextInput label="First name" value={firstName} onChangeText={setFirstName} />
-              <TextInput label="Last name" value={lastName} onChangeText={setLastName} />
-              <TextInput label="Company" value={company} onChangeText={setCompany} />
-              <TextInput label="Site" value={site} onChangeText={setSite} />
-              <Button mode="outlined" onPress={() => setVisible(true)}>Edit Signature</Button>
-            </View>
+    <SafeAreaView>
+      <ScrollView>
+        <Card>
+          <Card.Title title={`${firstName} ${lastName}`} subtitle={`${company} ${site}`} />
+          <Card.Content>
+            <TextInput label="First name" value={firstName} onChangeText={setFirstName} />
+            <TextInput label="Last name" value={lastName} onChangeText={setLastName} />
+            <TextInput label="Company" value={company} onChangeText={setCompany} />
+            <TextInput label="Site" value={site} onChangeText={setSite} />
             {signature && <Image source={signature} style={styles.signature} />}
-            <Button mode="contained" onPress={handleSubmit} style={styles.element} disabled={isEmpty}>Submit</Button>
-          </View>
-        )}
-      <Signature visible={visible} onSave={handleSave} />
-    </ScrollView>
+          </Card.Content>
+          <Card.Actions>
+            <Button onPress={() => setVisible(true)}>Edit Signature</Button>
+            <Button onPress={handleSubmit} disabled={isEmpty}>Submit</Button>
+          </Card.Actions>
+        </Card>
+        <Signature visible={visible} onSave={handleSave} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
