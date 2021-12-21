@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import { useDispatch } from 'react-redux';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 import useMediaGallery from 'hooks/useMediaGallery';
@@ -13,13 +12,9 @@ import Drawing from 'components/Drawing';
 
 import { GETTING_STARTED, INSPECTION_READ, LANDING } from 'screens/names';
 
-import {
-  createOneInspection,
-  addOneImageToInspection,
-  updateOneTaskOfInspection,
-  config,
-} from '@monkvision/corejs';
+import { createOneInspection, updateOneTaskOfInspection } from '@monkvision/corejs';
 
+import useUpload from 'hooks/useUpload/index';
 import completing from './assets/undraw_order_confirmed_re_g0if.svg';
 
 const initialInspectionData = { tasks: { damage_detection: { status: 'NOT_STARTED' } } };
@@ -39,7 +34,6 @@ const styles = StyleSheet.create({
 export default () => {
   const theme = useTheme();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const [inspectionId, setInspectionId] = useState();
   const [isUploading, setUploading] = useState(false);
@@ -99,40 +93,12 @@ export default () => {
     navigation.navigate(GETTING_STARTED);
   }, [navigation]);
 
-  const handleTakePicture = useCallback(async (picture) => {
-    if (!inspectionId) { return; }
-
-    setUploading(true);
-
-    const filename = `${picture.sight.id}-${inspectionId}.jpg`;
-    const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
-
-    const headers = { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' };
-    const baseParams = { inspectionId, headers };
-
-    const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
-    const json = JSON.stringify({ acquisition, tasks: ['damage_detection'] });
-
-    const data = new FormData();
-    data.append(multiPartKeys.json, json);
-
-    if (Platform.OS === 'web') {
-      const response = await fetch(picture.source.base64);
-      const blob = await response.blob();
-      const file = await new File([blob], multiPartKeys.filename, { type: multiPartKeys.type });
-      data.append(multiPartKeys.image, file);
-    } else {
-      data.append('image', {
-        uri: picture.source.uri,
-        name: multiPartKeys.filename,
-        type: multiPartKeys.type,
-      });
-    }
-
-    dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
-      .then(() => setUploading(false))
-      .catch(() => setUploading(false));
-  }, [dispatch, inspectionId]);
+  const handleTakePicture = useUpload({
+    inspectionId,
+    onSuccess: () => setUploading(false),
+    onLoading: () => setUploading(true),
+    onError: () => setUploading(false),
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -152,7 +118,12 @@ export default () => {
     <>
       <CameraView
         isLoading={fakeActivity}
-        onTakePicture={handleTakePicture}
+        onTakePicture={(picture) => handleTakePicture(
+          Platform.OS === 'web'
+            ? picture.source.base64
+            : picture.source.uri,
+          inspectionId,
+        )}
         onSuccess={handleSuccess}
         onCloseCamera={handleClose}
         theme={theme}

@@ -4,7 +4,7 @@ import { Dimensions, Platform } from 'react-native';
 
 import { utils } from '@monkvision/react-native';
 
-import useUpload from '../useUpload';
+import useUpload from 'hooks/useUpload';
 
 const { width, height } = Dimensions.get('window');
 export const initialPictureData = { isLoading: false, isFailed: false, isUploaded: false, id: '', label: '', uri: null };
@@ -12,7 +12,23 @@ export const initialPictureData = { isLoading: false, isFailed: false, isUploade
 export default ({ pictures, setPictures, inspectionId }) => {
   const [accessGranted, setAccess] = useState(false);
 
-  const handleUploadPicture = useUpload({ inspectionId, setPictures });
+  const onLoading = useCallback((id) => setPictures(
+    (prev) => prev.map((image) => (image.id === id ? { ...image, isLoading: true } : image)),
+  ), [setPictures]);
+
+  const onSuccess = useCallback((id) => setPictures((prev) => prev.map((image) => (image.id === id
+    ? { ...image, isUploaded: true, isLoading: false, isFailed: false } : image))), [setPictures]);
+
+  const onError = useCallback((id) => setPictures((prev) => prev.map((image) => (image.id === id ? {
+    ...image, isUploaded: false, isFailed: true, isLoading: false } : image))),
+  [setPictures]);
+
+  const handleUploadPicture = useUpload({
+    inspectionId,
+    onSuccess,
+    onLoading,
+    onError,
+  });
 
   // request media library permission
   const handleRequestMediaLibraryAccess = useCallback(async () => {
