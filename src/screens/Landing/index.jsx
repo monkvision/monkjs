@@ -1,18 +1,21 @@
 import React, { useCallback, useLayoutEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
 
-import { GETTING_STARTED, INSPECTIONS, PROFILE, INSPECTION_READ } from 'screens/names';
+import { GETTING_STARTED, INSPECTIONS, PROFILE, INSPECTION_READ, INSPECTION_IMPORT } from 'screens/names';
 import theme, { spacing } from 'config/theme';
 
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import moment from 'moment';
-import { DataTable, Button, useTheme, Text, Card, IconButton } from 'react-native-paper';
+import { DataTable, Button, useTheme, Text, Card, IconButton, Menu } from 'react-native-paper';
 
 import { getAllInspections, inspectionStatuses } from '@monkvision/corejs';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
 import useRequest from 'hooks/useRequest/index';
+import useToggle from 'hooks/useToggle/index';
 
 import MonkIcon from 'components/Icons/MonkIcon';
 import Placeholder from 'components/Placeholder/index';
@@ -55,6 +58,38 @@ const styles = StyleSheet.create({
   activityIndicator: { marginTop: spacing(3) },
 });
 
+function StartInspectionMenu({ goToImport, goToCamera }) {
+  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
+
+  return (
+    <Menu
+      anchor={(
+        <Button onPress={handleOpenMenu} mode="contained" style={styles.button} icon="file-edit-outline">
+          New inspection
+        </Button>
+)}
+      visible={isMenuOpen}
+      onDismiss={handleDismissMenu}
+    >
+      <Menu.Item
+        icon="image"
+        title="Import pictures"
+        onPress={() => { goToImport(); handleDismissMenu(); }}
+      />
+      <Menu.Item
+        icon="camera"
+        title="Take pictures"
+        onPress={() => { goToCamera(); handleDismissMenu(); }}
+      />
+    </Menu>
+  );
+}
+
+StartInspectionMenu.propTypes = {
+  goToCamera: PropTypes.func.isRequired,
+  goToImport: PropTypes.func.isRequired,
+};
+
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -65,6 +100,9 @@ export default () => {
   const handleSignOut = useCallback(() => navigation.navigate(PROFILE), [navigation]);
   const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
   const handleList = useCallback(() => navigation.navigate(INSPECTIONS), [navigation]);
+  const handleGoToImportInspection = useCallback(
+    () => navigation.navigate(INSPECTION_IMPORT), [navigation],
+  );
 
   const {
     response: doneResponse,
@@ -227,9 +265,7 @@ export default () => {
             </DataTable>
           </Card.Content>
           <Card.Actions style={styles.actions}>
-            <Button onPress={handleStart} mode="contained" style={styles.button} icon="file-edit-outline">
-              New inspection
-            </Button>
+            <StartInspectionMenu goToImport={handleGoToImportInspection} goToCamera={handleStart} />
             <Button
               onPress={handleList}
               mode="outlined"
