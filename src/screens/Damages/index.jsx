@@ -1,8 +1,10 @@
 import React, { useLayoutEffect, useMemo, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
 import { denormalize } from 'normalizr';
+import { useMediaQuery } from 'react-responsive';
+import startCase from 'lodash.startcase';
 
 import {
   damagesEntity,
@@ -18,6 +20,7 @@ import {
   inspectionsEntity,
   tasksEntity,
   updateOneTaskOfInspection,
+  taskNames,
 } from '@monkvision/corejs';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -28,14 +31,16 @@ import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { BottomNavigation, Button, List, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
+import { BottomNavigation, Button, List, useTheme } from 'react-native-paper';
 import { DAMAGE_CREATE, DAMAGE_READ } from 'screens/names';
 
 import { spacing } from 'config/theme';
 import vehicleViews from 'assets/vehicle.json';
+
 import Drawing from 'components/Drawing/index';
 import ActionMenu from 'components/ActionMenu';
 import submitDrawing from 'assets/submit.svg';
+import CustomDialog from 'components/CustomDialog';
 import DamageListItem from './DamageListItem';
 
 const styles = StyleSheet.create({
@@ -69,39 +74,33 @@ const styles = StyleSheet.create({
   button: { width: '100%', marginVertical: 4 },
 });
 
-function DialogModal({ isDialogOpen, handleDismissDialog }) {
+function ValidateDialog({ isDialogOpen, handleDismissDialog }) {
   const route = useRoute();
   const { inspectionId } = route.params;
   // we need error handling here
   const { isLoading, request } = useRequest(
     updateOneTaskOfInspection({
       inspectionId,
-      taskName: 'damage_detection',
+      taskName: taskNames.DAMAGE_DETECTION,
       data: { status: taskStatuses.VALIDATED },
     }),
     { onSuccess: handleDismissDialog },
     false,
   );
+
   return (
-    <Portal>
-      <Dialog
-        visible={Boolean(isDialogOpen)}
-        onDismiss={handleDismissDialog}
-        style={styles.dialog}
-      >
+    <CustomDialog
+      isOpen={Boolean(isDialogOpen)}
+      handDismiss={handleDismissDialog}
+      title="Are you sure?"
+      content="Please confirm your damage validation"
+      icon={(
         <View style={styles.dialogDrawing}>
           <Drawing xml={submitDrawing} width="200" height="120" />
         </View>
-        <Dialog.Title style={styles.dialogContent}>
-          Are you sure?
-        </Dialog.Title>
-
-        <Dialog.Content>
-          <Paragraph style={styles.dialogContent}>
-            Please confirm your damage validation
-          </Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions style={styles.dialogActions}>
+      )}
+      actions={(
+        <>
           <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
             Cancel
           </Button>
@@ -114,21 +113,71 @@ function DialogModal({ isDialogOpen, handleDismissDialog }) {
           >
             Confirm
           </Button>
-        </Dialog.Actions>
-      </Dialog>
-    </Portal>
+        </>
+        )}
+    />
   );
 }
 
-DialogModal.propTypes = {
+ValidateDialog.propTypes = {
   handleDismissDialog: PropTypes.func.isRequired,
   isDialogOpen: PropTypes.bool.isRequired,
 };
 
-export function PartListSection({ partType, damages }) {
-  const navigation = useNavigation();
+function DeleteDamageDialog({ isDialogOpen, handleDismissDialog, handleDelete, isLoading }) {
+  const { colors } = useTheme();
 
-  const dispatch = useDispatch();
+  return (
+    <CustomDialog
+      isOpen={isDialogOpen}
+      handDismiss={handleDismissDialog}
+      icon={<Button icon="alert" size={36} color={colors.warning} />}
+      title="Confirm damage deletion"
+      content="Are you sure that you really really want to DELETE this damage ?"
+      actions={(
+        <>
+          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
+            Cancel
+          </Button>
+          <Button
+            color={colors.error}
+            style={styles.button}
+            onPress={handleDelete}
+            mode="contained"
+            icon={isLoading ? undefined : 'trash-can'}
+            labelStyle={{ color: 'white' }}
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Delete
+          </Button>
+        </>
+        )}
+    />
+  );
+}
+
+DeleteDamageDialog.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
+  handleDismissDialog: PropTypes.func.isRequired,
+  isDialogOpen: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
+export function PartListSection({ partType, damages, isValidated }) {
+  const navigation = useNavigation();
+  const [deleteDamage, setDeleteDamage] = useState({});
+
+  const handleDismissDialog = useCallback(() => {
+    setDeleteDamage({});
+  }, []);
+
+  // we need error handling here
+  const { isLoading: isDeleteLoading, request: handleDelete } = useRequest(
+    deleteOneDamage({ id: deleteDamage.id, inspectionId: deleteDamage.inspectionId }),
+    { onSuccess: handleDismissDialog },
+    false,
+  );
 
   const handleSelectDamage = useCallback((damage) => {
     navigation.navigate(DAMAGE_READ, {
@@ -138,49 +187,74 @@ export function PartListSection({ partType, damages }) {
     });
   }, [navigation, partType]);
 
-  const handleDeleteDamage = useCallback((damage) => {
-    dispatch(deleteOneDamage({ id: damage.id, inspectionId: damage.inspectionId }));
-  }, [dispatch]);
+  const handleDeleteDamage = useCallback(() => {
+    handleDelete();
+  }, [handleDelete]);
 
   return damages && (
-    <List.Section>
-      <List.Subheader>{partType}</List.Subheader>
-      {damages.map((damage) => (
-        <DamageListItem key={`damage-${damage.id}`} onSelect={() => handleSelectDamage(damage)} onDelete={() => handleDeleteDamage(damage)} {...damage} />
-      ))}
-    </List.Section>
+    <>
+      <List.Section>
+        <List.Subheader>{startCase(partType)}</List.Subheader>
+        {damages.map((damage) => (
+          <DamageListItem isValidated={isValidated} key={`damage-${damage.id}`} onSelect={() => handleSelectDamage(damage)} onDelete={() => setDeleteDamage(damage)} {...damage} />
+        ))}
+      </List.Section>
+      <DeleteDamageDialog
+        isDialogOpen={deleteDamage.id}
+        handleDismissDialog={handleDismissDialog}
+        isLoading={isDeleteLoading}
+        handleDelete={handleDeleteDamage}
+      />
+    </>
   );
 }
 
 PartListSection.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isValidated: PropTypes.bool.isRequired,
   partType: PropTypes.string.isRequired,
 };
 
-export function PartsList({ partsWithDamages, handleOpenDialog }) {
+export function ValidationButton({ onPress, isValidated }) {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-device-width: 1224px)',
+  });
+  return (
+    <Button
+      color="#5CCC68"
+      labelStyle={styles.buttonLabel}
+      onPress={onPress}
+      mode="contained"
+      style={[styles.validationButton, isDesktopOrLaptop ? { maxWidth: 180, alignSelf: 'flex-end' } : {}]}
+      icon="send"
+      disabled={isValidated}
+    >
+      Validate
+    </Button>
+  );
+}
+
+ValidationButton.propTypes = {
+  isValidated: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired,
+};
+
+export function PartsList({ partsWithDamages, handleOpenDialog, isValidated }) {
   if (!partsWithDamages) { return null; }
 
   return (
     <ScrollView>
       {partsWithDamages.map((part) => (
-        <PartListSection key={`part-${part.id}`} {...part} />
+        <PartListSection isValidated={isValidated} key={`part-${part.id}`} {...part} />
       ))}
-      <Button
-        color="#5CCC68"
-        labelStyle={styles.buttonLabel}
-        onPress={handleOpenDialog}
-        mode="contained"
-        style={styles.validationButton}
-        icon="send"
-      >
-        Validate
-      </Button>
+      <ValidationButton onPress={handleOpenDialog} isValidated={isValidated} />
     </ScrollView>
   );
 }
 
 PartsList.propTypes = {
   handleOpenDialog: PropTypes.func.isRequired,
+  isValidated: PropTypes.bool.isRequired,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -188,7 +262,7 @@ PartsList.defaultProps = {
   partsWithDamages: [],
 };
 
-function Scene({ partsWithDamages, viewType, handleOpenDialog }) {
+function Scene({ partsWithDamages, viewType, handleOpenDialog, isValidated }) {
   const activeParts = useMemo(
     () => {
       const object = {};
@@ -208,6 +282,7 @@ function Scene({ partsWithDamages, viewType, handleOpenDialog }) {
         mode="contained"
         onPress={handleOpenDialog}
         icon="send"
+        disabled={isValidated}
       >
         Validate
       </Button>
@@ -224,6 +299,7 @@ function Scene({ partsWithDamages, viewType, handleOpenDialog }) {
 
 Scene.propTypes = {
   handleOpenDialog: PropTypes.func.isRequired,
+  isValidated: PropTypes.bool.isRequired,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
   viewType: PropTypes.oneOf(['front', 'back', 'interior']).isRequired,
 };
@@ -282,6 +358,7 @@ export default () => {
   const { inspectionId } = route.params;
 
   const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
+  const { loading: damagesLoading } = useSelector((state) => state.damages);
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -302,7 +379,14 @@ export default () => {
     tasks: tasksEntities,
   });
 
-  const [fakeActivity] = useFakeActivity(isLoading);
+  const isValidated = useMemo(
+    () => inspection.tasks.find(
+      (t) => t.name === taskNames.DAMAGE_DETECTION,
+    ).status === taskStatuses.VALIDATED,
+    [inspection.tasks],
+  );
+
+  const [fakeActivity] = useFakeActivity(isLoading || damagesLoading);
 
   const partsWithDamages = inspection.damages
     ? usePartDamages(inspection.parts, inspection.damages)
@@ -324,9 +408,9 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
-    { title: 'Add damage', onPress: handleAddDamage },
-    { title: 'Validate', titleStyle: { color: colors.success }, onPress: handleOpenDialog, divider: true },
-  ], [colors.success, fakeActivity, handleAddDamage, handleOpenDialog, refresh]);
+    { title: 'Add damage', onPress: handleAddDamage, disabled: isValidated },
+    { title: 'Validate', titleStyle: { color: colors.success }, onPress: handleOpenDialog, disabled: isValidated, divider: true },
+  ], [colors.success, fakeActivity, handleAddDamage, handleOpenDialog, isValidated, refresh]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -369,12 +453,13 @@ export default () => {
     <SafeAreaView style={styles.root}>
       {fakeActivity ? <ActivityIndicatorView light /> : (
         <>
-          <DialogModal isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
+          <ValidateDialog isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
           <Navigation
             partsWithDamages={partsWithDamages}
             computedParts={computedParts()}
             damagedPartsCount={partsWithDamages.length}
             handleOpenDialog={handleOpenDialog}
+            isValidated={isValidated}
           />
         </>
       )}
