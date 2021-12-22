@@ -14,7 +14,14 @@ export default function ValidationDialog({ screen, requests }) {
   const theme = useTheme();
   const navigation = useNavigation();
 
-  const { isVisibleDialog, isCompleted, isUploading, isTaskUpdated } = screen.state;
+  const {
+    isVisibleDialog,
+    isCompleted,
+    isUploading,
+    isTaskUpdated,
+    uploadHasFailed,
+  } = screen.state;
+
   const { savePictures, updateTask } = requests;
 
   const handleDismiss = useCallback(() => {
@@ -59,7 +66,7 @@ export default function ValidationDialog({ screen, requests }) {
           >
             { savePictures.isSaved ? 'Photos Saved !' : 'Save in device' }
           </Button>
-          {isTaskUpdated ? (
+          {!uploadHasFailed && (isTaskUpdated ? (
             <Button
               onPress={screen.handleNext}
               mode="contained"
@@ -82,7 +89,7 @@ export default function ValidationDialog({ screen, requests }) {
             >
               Analyze with AI
             </Button>
-          )}
+          ))}
         </Dialog.Actions>
       </Dialog>
     </Portal>

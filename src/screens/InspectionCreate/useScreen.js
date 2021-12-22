@@ -8,7 +8,10 @@ export default function useScreen() {
   const navigation = useNavigation();
 
   const [inspectionId, setInspectionId] = useState();
+
   const [isUploading, setUploading] = useState(false);
+  const [uploadHasFailed, setUploadHasFailed] = useState(false);
+
   const [isCompleted, setTourIsCompleted] = useState(false);
   const [isVisibleDialog, setVisibleDialog] = useState(false);
   const [isTaskUpdated, setTaskUpdated] = useState(false);
@@ -41,12 +44,14 @@ export default function useScreen() {
       isTaskUpdated,
       isUploading,
       isVisibleDialog,
+      uploadHasFailed,
     },
     handleNext,
     setTourIsCompleted,
     setInspectionId,
     setTaskUpdated,
     setUploading,
+    setUploadHasFailed,
     setVisibleDialog,
   };
 }
