@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { SafeAreaView, Image, ScrollView, StyleSheet } from 'react-native';
-import { Button, TextInput, Card } from 'react-native-paper';
+import { SafeAreaView, Image, StyleSheet, View } from 'react-native';
+import { useTheme, Surface, Button, TextInput, Card, Title, Paragraph } from 'react-native-paper';
 
 import jwtDecode from 'jwt-decode';
 
@@ -8,35 +8,82 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import { config, getUserSignature, setUserSignature, selectAllUser } from '@monkvision/corejs';
+import { ActivityIndicatorView } from '@monkvision/react-native-views';
 
 import useAuth from 'hooks/useAuth';
 import Signature from 'components/Signature';
+import { spacing } from 'config/theme';
+import Drawing from 'components/Drawing';
+
+import emptyDrawing from 'assets/emptyDocument.svg';
+import { useMediaQuery } from 'react-responsive';
+
+const styles = StyleSheet.create({
+  card: {
+    marginHorizontal: spacing(2),
+    marginVertical: spacing(2),
+  },
+  signature: {
+    width: 300,
+    height: 300,
+    borderRadius: 4,
+  },
+  surface: {
+    elevation: 3,
+    width: 300,
+    height: 300,
+  },
+  layout: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: spacing(2),
+  },
+  actions: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-wround',
+  },
+  button: {
+    margin: spacing(1),
+    width: 200,
+  },
+});
 
 export default function Profile() {
+  const { colors } = useTheme();
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-device-width: 1224px)',
+  });
   const { signOut } = useAuth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const store = useStore();
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [company, setCompany] = useState('');
-  const [site, setSite] = useState('');
-  const [signature, setSignature] = useState(null);
+  const [accountData, setAccountData] = useState({ firstName: 'John', lastName: 'Doe', company: 'Monk AI', site: 'France Paris', signature: { isFailed: false, uri: null } });
+  const { firstName, lastName, company, site, signature } = accountData;
+
   const [visible, setVisible] = useState(false);
   const user = useSelector(selectAllUser);
 
   const handleSignOut = useCallback(signOut, [signOut]);
 
+  const updateAccountData = useCallback(
+    (args) => setAccountData((prev) => ({ ...prev, ...args })), [],
+  );
   useEffect(() => {
     if (user && user[0]?.signature) {
       const reader = new FileReader();
-      reader.onload = () => {
-        setSignature({ uri: reader.result });
-      };
       reader.readAsDataURL(user[0]?.signature);
+      reader.onload = () => updateAccountData({
+        signature: { isFailed: false, uri: reader.result } });
+      reader.onerror = () => updateAccountData({
+        signature: { isFailed: true, uri: null } });
+    } else {
+      updateAccountData({ signature: { isFailed: false, uri: null } });
     }
-  }, [user]);
+  }, [updateAccountData, user]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -51,20 +98,11 @@ export default function Profile() {
     }
   }, [handleSignOut, navigation]);
 
-  const styles = StyleSheet.create({
-    signature: {
-      width: 300,
-      height: 300,
-      borderWidth: 1,
-      borderColor: '#00000048',
-    },
-  });
-
   const isEmpty = useMemo(() => !firstName || !lastName || !company || !site || !signature,
     [company, firstName, lastName, signature, site]);
 
-  const handleSave = (image) => {
-    setSignature(image);
+  const handleSave = (uri) => {
+    updateAccountData({ signature: { isLoading: false, isFailed: false, uri } });
     setVisible(false);
   };
 
@@ -111,23 +149,45 @@ export default function Profile() {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <Card>
-          <Card.Title title={`${firstName} ${lastName}`} subtitle={`${company} ${site}`} />
-          <Card.Content>
-            <TextInput label="First name" value={firstName} onChangeText={setFirstName} />
-            <TextInput label="Last name" value={lastName} onChangeText={setLastName} />
-            <TextInput label="Company" value={company} onChangeText={setCompany} />
-            <TextInput label="Site" value={site} onChangeText={setSite} />
-            {signature && <Image source={signature} style={styles.signature} />}
-          </Card.Content>
-          <Card.Actions>
-            <Button onPress={() => setVisible(true)}>Edit Signature</Button>
-            <Button onPress={handleSubmit} disabled={isEmpty}>Submit</Button>
-          </Card.Actions>
-        </Card>
-        <Signature visible={visible} onSave={handleSave} />
-      </ScrollView>
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title style={{ textAlign: 'center' }}>
+            {`${firstName}  ${lastName}`}
+          </Title>
+          <Paragraph style={{ textAlign: 'center', color: '#aaaaaa' }}>
+            {`${company} - ${site}`}
+          </Paragraph>
+
+          <View style={styles.layout}>
+            {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" /> : null}
+            {signature?.uri
+              ? (
+                <Surface style={styles.surface}>
+                  <Image source={signature} style={styles.signature} />
+                </Surface>
+              )
+              : <ActivityIndicatorView color={colors.primary} light /> }
+          </View>
+        </Card.Content>
+        <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
+          <Button onPress={() => setVisible(true)} mode="contained" style={styles.button} icon="account-edit">Edit</Button>
+          <Button onPress={handleSubmit} disabled={isEmpty} mode="outlined" style={[styles.button, { borderColor: colors.primary }]} icon="send">Submit</Button>
+        </Card.Actions>
+      </Card>
+      {/* this to be animated */}
+      <Card>
+        <Card.Content>
+          <TextInput label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />
+          <TextInput label="Last name" value={lastName} onChangeText={(val) => updateAccountData({ lastName: val })} />
+          <TextInput label="Company" value={company} onChangeText={(val) => updateAccountData({ company: val })} />
+          <TextInput label="Site" value={site} onChangeText={(val) => updateAccountData({ site: val })} />
+          <Signature visible={visible} onSave={handleSave} />
+        </Card.Content>
+        <Card.Actions>
+          <Button onPress={() => setVisible(true)}>Edit Signature</Button>
+          <Button onPress={handleSubmit} disabled={isEmpty}>Submit</Button>
+        </Card.Actions>
+      </Card>
     </SafeAreaView>
   );
 }

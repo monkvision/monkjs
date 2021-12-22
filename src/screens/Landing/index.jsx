@@ -165,9 +165,7 @@ export default () => {
           />
         ),
         headerRight: () => (
-          <Button onPress={handleSignOut} accessibilityLabel="Profile">
-            Account
-          </Button>
+          <IconButton onPress={handleSignOut} accessibilityLabel="Profile" icon="account" color={colors.primary} />
         ),
       });
     }
