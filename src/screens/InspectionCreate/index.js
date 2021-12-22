@@ -36,7 +36,15 @@ export default () => {
 
   const handleTakePicture = useUpload({
     inspectionId,
-    onSuccess: () => screen.setUploading(false),
+    onSuccess: (id, uri) => {
+      screen.setUploading(false);
+      screen.setPicturesNotUploaded((prevState) => prevState.filter((picture) => {
+        if (Platform.OS === 'web') {
+          return picture.source.base64 === uri;
+        }
+        return picture.source.uri === uri;
+      }));
+    },
     onLoading: () => screen.setUploading(true),
     onError: () => {
       screen.setUploading(false);
@@ -44,11 +52,24 @@ export default () => {
     },
   });
 
+  const handleRefreshUpload = useCallback(() => {
+    screen.setUploadHasFailed(false);
+    screen.state.picturesNotUploaded.forEach((picture) => {
+      handleTakePicture(
+        Platform.OS === 'web'
+          ? picture.source.base64
+          : picture.source.uri,
+        inspectionId,
+      );
+    });
+  }, [handleTakePicture, inspectionId, screen]);
+
   return (
     <>
       <CameraView
         isLoading={fakeActivity}
         onTakePicture={(picture) => {
+          screen.setPicturesNotUploaded((prevState) => [...prevState, picture]);
           if (!screen.state.uploadHasFailed) {
             handleTakePicture(
               Platform.OS === 'web'
@@ -59,6 +80,7 @@ export default () => {
           }
         }}
         onSuccess={handleSuccess}
+        onRefreshUpload={handleRefreshUpload}
         onCloseCamera={handleClose}
         theme={theme}
       />

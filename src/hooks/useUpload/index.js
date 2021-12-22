@@ -46,7 +46,7 @@ export default ({
     }
 
     dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
-      .then((res) => onSuccess(id, res))
+      .then((res) => onSuccess(id, uri, res))
       .catch((err) => onError(id, err));
   }, [dispatch, inspectionId, onError, onLoading, onSuccess, taskName]);
 };

@@ -11,6 +11,7 @@ export default function useScreen() {
 
   const [isUploading, setUploading] = useState(false);
   const [uploadHasFailed, setUploadHasFailed] = useState(false);
+  const [picturesNotUploaded, setPicturesNotUploaded] = useState([]);
 
   const [isCompleted, setTourIsCompleted] = useState(false);
   const [isVisibleDialog, setVisibleDialog] = useState(false);
@@ -44,11 +45,13 @@ export default function useScreen() {
       isTaskUpdated,
       isUploading,
       isVisibleDialog,
+      picturesNotUploaded,
       uploadHasFailed,
     },
     handleNext,
     setTourIsCompleted,
     setInspectionId,
+    setPicturesNotUploaded,
     setTaskUpdated,
     setUploading,
     setUploadHasFailed,

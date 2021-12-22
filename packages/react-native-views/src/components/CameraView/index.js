@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
-import { Provider, withTheme } from 'react-native-paper';
+import { FAB, Provider, withTheme } from 'react-native-paper';
 import noop from 'lodash.noop';
 
 import Components, { propTypes } from '@monkvision/react-native';
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
       default: { display: 'flex', flex: 1 },
     }),
   },
+  refreshIcon: { backgroundColor: '#333', position: 'absolute', top: 10, left: 60, zIndex: 100 },
 });
 
 const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
@@ -53,6 +54,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @param initialPicturesState
  * @param isLoading {boolean}
  * @param onCloseCamera {func}
+ * @param onRefreshUpload {func}
  * @param onSettings {func}
  * @param onTakePicture {func}
  * @param onSuccess {func}
@@ -65,6 +67,7 @@ function CameraView({
   initialPicturesState,
   isLoading,
   onCloseCamera,
+  onRefreshUpload,
   onSettings,
   onTakePicture,
   onSuccess,
@@ -142,6 +145,14 @@ function CameraView({
                   fakeActivity={Boolean(fakeActivity)}
                   theme={theme}
                 />
+                <FAB
+                  accessibilityLabel="Retry an upload of the pictures"
+                  color="white"
+                  small
+                  icon="refresh"
+                  style={styles.refreshIcon}
+                  onPress={onRefreshUpload}
+                />
               </View>
 
               {/* camera sidebar */}
@@ -172,6 +183,7 @@ CameraView.propTypes = {
   initialPicturesState: propTypes.cameraPictures,
   isLoading: PropTypes.bool,
   onCloseCamera: propTypes.callback,
+  onRefreshUpload: propTypes.callback,
   onSettings: propTypes.callback,
   onSuccess: propTypes.onSuccess,
   onTakePicture: propTypes.callback,
@@ -182,6 +194,7 @@ CameraView.defaultProps = {
   initialPicturesState: {},
   isLoading: false,
   onCloseCamera: noop,
+  onRefreshUpload: noop,
   onSettings: noop,
   onTakePicture: noop,
   onSuccess: noop,
