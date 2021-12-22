@@ -7,8 +7,22 @@ import { Button, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper'
 import Drawing from 'components/Drawing';
 
 import { LANDING } from 'screens/names';
-import completing from 'screens/InspectionCreate/assets/undraw_order_confirmed_re_g0if.svg';
 import styles from 'screens/InspectionCreate/styles';
+import uploaded from 'screens/InspectionCreate/assets/undraw_order_confirmed_re_g0if.svg';
+import notUploaded from 'screens/InspectionCreate/assets/undraw_notify_re_65on.svg';
+
+const UploadHasFailed = () => (
+  <>
+    <Dialog.Title style={styles.dialogContent}>
+      Not all pictures were upload
+    </Dialog.Title>
+    <Dialog.Content>
+      <Paragraph style={styles.dialogContent}>
+        We recommend to store them in your device, then import it later.
+      </Paragraph>
+    </Dialog.Content>
+  </>
+);
 
 export default function ValidationDialog({ screen, requests }) {
   const theme = useTheme();
@@ -45,16 +59,20 @@ export default function ValidationDialog({ screen, requests }) {
         onDismiss={handleDismiss}
       >
         <View style={styles.dialogDrawing}>
-          <Drawing xml={completing} width="200" height="75" />
+          <Drawing xml={uploadHasFailed ? notUploaded : uploaded} height="75" />
         </View>
-        <Dialog.Title style={styles.dialogContent}>
-          All images are uploaded
-        </Dialog.Title>
-        <Dialog.Content>
-          <Paragraph style={styles.dialogContent}>
-            Would you like to start the analyze ?
-          </Paragraph>
-        </Dialog.Content>
+        {uploadHasFailed ? <UploadHasFailed /> : (
+          <>
+            <Dialog.Title style={styles.dialogContent}>
+              All images are uploaded
+            </Dialog.Title>
+            <Dialog.Content>
+              <Paragraph style={styles.dialogContent}>
+                Would you like to start the analyze ?
+              </Paragraph>
+            </Dialog.Content>
+          </>
+        )}
         <Dialog.Actions style={styles.dialogActions}>
           <Button
             icon={savePictures.isLoading || (savePictures.isSaved ? undefined : 'download')}
