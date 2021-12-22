@@ -27,15 +27,14 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 import usePartDamages from 'hooks/usePartDamages';
 
-import { Vehicle, vehiclePartsNames } from '@monkvision/react-native';
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+import { vehiclePartsNames } from '@monkvision/react-native';
+import { ActivityIndicatorView, DamagedPartsView, useFakeActivity } from '@monkvision/react-native-views';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { BottomNavigation, Button, List, useTheme } from 'react-native-paper';
 import { DAMAGE_CREATE, DAMAGE_READ } from 'screens/names';
 
 import { spacing } from 'config/theme';
-import vehicleViews from 'assets/vehicle.json';
 
 import Drawing from 'components/Drawing/index';
 import ActionMenu from 'components/ActionMenu';
@@ -217,18 +216,21 @@ PartListSection.propTypes = {
 };
 
 export function ValidationButton({ onPress, isValidated }) {
-  const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-device-width: 1224px)',
-  });
+  const { colors } = useTheme();
+  const isDesktopOrLaptop = useMediaQuery({ query: '(min-device-width: 1224px)' });
+
   return (
     <Button
-      color="#5CCC68"
+      color={colors.success}
       labelStyle={styles.buttonLabel}
       onPress={onPress}
       mode="contained"
-      style={[styles.validationButton, isDesktopOrLaptop ? { maxWidth: 180, alignSelf: 'flex-end' } : {}]}
       icon="send"
       disabled={isValidated}
+      style={[
+        styles.validationButton,
+        isDesktopOrLaptop ? { maxWidth: 180, alignSelf: 'flex-end' } : {},
+      ]}
     >
       Validate
     </Button>
@@ -263,44 +265,18 @@ PartsList.defaultProps = {
   partsWithDamages: [],
 };
 
-function Scene({ partsWithDamages, viewType, handleOpenDialog, isValidated }) {
-  const activeParts = useMemo(
-    () => {
-      const object = {};
-      partsWithDamages.forEach((part) => { object[camelCase(part.partType)] = true; });
-
-      return object;
-    },
-    [partsWithDamages],
-  );
-
+function Scene({ partsWithDamages, viewType }) {
   return (
     <ScrollView contentContainerStyle={styles.scene}>
-      <Button
-        style={[styles.validationButton, styles.floatingButton]}
-        color="#5CCC68"
-        labelStyle={styles.buttonLabel}
-        mode="contained"
-        onPress={handleOpenDialog}
-        icon="send"
-        disabled={isValidated}
-      >
-        Validate
-      </Button>
-      <Vehicle
-        xml={vehicleViews[viewType]}
-        activeParts={activeParts}
-        pressAble={false}
-        width="100%"
-        height="100%"
+      <DamagedPartsView
+        viewType={viewType}
+        partsWithDamages={partsWithDamages}
       />
     </ScrollView>
   );
 }
 
 Scene.propTypes = {
-  handleOpenDialog: PropTypes.func.isRequired,
-  isValidated: PropTypes.bool.isRequired,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
   viewType: PropTypes.oneOf(['front', 'back', 'interior']).isRequired,
 };
@@ -354,7 +330,6 @@ Navigation.defaultProps = {
 export default () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { colors } = useTheme();
 
   const { inspectionId } = route.params;
 
@@ -408,10 +383,10 @@ export default () => {
   }, [inspectionId, navigation]);
 
   const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
-    { title: 'Add damage', onPress: handleAddDamage, disabled: isValidated },
-    { title: 'Validate', titleStyle: { color: colors.success }, onPress: handleOpenDialog, disabled: isValidated, divider: true },
-  ], [colors.success, fakeActivity, handleAddDamage, handleOpenDialog, isValidated, refresh]);
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
+    { title: 'Add a damage', onPress: handleAddDamage, disabled: isValidated, icon: 'camera-plus' },
+    { title: 'Validate', onPress: handleOpenDialog, disabled: isValidated, divider: true, icon: 'send' },
+  ], [fakeActivity, handleAddDamage, handleOpenDialog, isValidated, refresh]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -433,20 +408,14 @@ export default () => {
   const activeParts = partsWithDamages.map((part) => camelCase(part.partType));
 
   const computedParts = useCallback(() => {
-    const parts = {
-      front: 0,
-      back: 0,
-      interior: 0,
-    };
-    activeParts.map((item) => {
-      // front
+    const parts = { front: 0, back: 0, interior: 0 };
+
+    activeParts.forEach((item) => {
       if (vehiclePartsNames.front.some((e) => e === item)) { parts.front += 1; }
-      // back
       if (vehiclePartsNames.back.some((e) => e === item)) { parts.back += 1; }
-      // interior
       if (vehiclePartsNames.interior.some((e) => e === item)) { parts.interior += 1; }
-      return undefined;
     });
+
     return parts;
   }, [activeParts]);
 
