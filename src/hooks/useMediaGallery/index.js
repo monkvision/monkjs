@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
+import { Platform } from 'react-native';
 
 function getDate() {
   const today = new Date();
@@ -17,51 +18,66 @@ const useMediaGallery = () => {
 
   const getPermissions = useCallback(() => {
     if (!status) {
-      console.log('No media permission status, requesting..');
       requestPermission();
     } else if (!status.granted) {
-      requestPermission().then((newPermission) => {
-        if (newPermission.granted) { console.info('Media permission granted !'); } else { console.warn('Unable to get media permissions !'); }
-      });
-    } else { console.info('Media permission already granted !'); }
+      requestPermission();
+    }
   }, [requestPermission, status]);
 
   const saveToDevice = useCallback(async () => {
     try {
       const picturesSights = Object.values(pictures);
 
-      if (isLoading || isSaved || !picturesSights.length) { return; }
-      setIsLoading(true);
+      if (Platform.OS === 'web') {
+        picturesSights.forEach((picture) => {
+          const { source, sight } = picture;
+          const { uri, width, height } = source;
+          const extension = uri.slice(uri.lastIndexOf('.'), uri.length);
+          const id = new Date().valueOf();
+          const name = `${sight.id}-${id}-${width}x${height}${extension}`;
 
-      const renamePromises = [];
-      const assetsPromises = [];
+          const encodedUri = encodeURI(picture.source.base64);
+          const link = document.createElement('a');
+          link.setAttribute('href', encodedUri);
+          link.setAttribute('download', name);
+          document.body.appendChild(link);
+          link.click();
+        });
+      } else {
+        if (isLoading || isSaved || !picturesSights.length) {
+          return;
+        }
+        setIsLoading(true);
 
-      picturesSights.forEach((pictureSight, index) => {
-        const { source, sight } = pictureSight;
-        const { uri, width, height } = source;
-        const pathFolder = uri.slice(0, uri.lastIndexOf('/'));
-        const extention = uri.slice(uri.lastIndexOf('.'), uri.length);
-        const id = new Date().valueOf();
-        const savePath = `${pathFolder}/${index}-${sight.id}-${id}-${width}x${height}${extention}`;
+        const renamePromises = [];
+        const assetsPromises = [];
 
-        renamePromises.push(FileSystem.moveAsync({ from: uri, to: savePath }));
-        assetsPromises.push(MediaLibrary.createAssetAsync(savePath));
-      });
+        picturesSights.forEach((pictureSight, index) => {
+          const { source, sight } = pictureSight;
+          const { uri, width, height } = source;
+          const pathFolder = uri.slice(0, uri.lastIndexOf('/'));
+          const extension = uri.slice(uri.lastIndexOf('.'), uri.length);
+          const id = new Date().valueOf();
+          const savePath = `${pathFolder}/${index}-${sight.id}-${id}-${width}x${height}${extension}`;
 
-      await Promise.all(renamePromises);
-      const assets = await Promise.all(assetsPromises);
-      const initialAsset = assets.pop();
+          renamePromises.push(FileSystem.moveAsync({ from: uri, to: savePath }));
+          assetsPromises.push(MediaLibrary.createAssetAsync(savePath));
+        });
 
-      const albumName = `Vehicle-${getDate()}`;
-      const newAlbum = await MediaLibrary.createAlbumAsync(albumName, initialAsset);
+        await Promise.all(renamePromises);
+        const assets = await Promise.all(assetsPromises);
+        const initialAsset = assets.pop();
 
-      if (newAlbum) {
-        await MediaLibrary.addAssetsToAlbumAsync(assets, newAlbum.id, false);
-        setIsSaved(true);
-      } else { console.error('Unable to get or create album'); }
-      setIsLoading(false);
+        const albumName = `Vehicle-${getDate()}`;
+        const newAlbum = await MediaLibrary.createAlbumAsync(albumName, initialAsset);
+
+        if (newAlbum) {
+          await MediaLibrary.addAssetsToAlbumAsync(assets, newAlbum.id, false);
+          setIsSaved(true);
+        }
+        setIsLoading(false);
+      }
     } catch (error) {
-      console.error('savePictures error', error);
       setIsLoading(false);
     }
   }, [isLoading, isSaved, pictures]);
