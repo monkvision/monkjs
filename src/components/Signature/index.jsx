@@ -1,15 +1,41 @@
-import React, { createRef, useCallback, useEffect, useState } from 'react';
-import { Dimensions, Platform, StyleSheet, View } from 'react-native';
+/* eslint-disable react/prop-types */
+import React, { createRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { Dimensions, PanResponder, Platform, StyleSheet, View } from 'react-native';
 import Canvas from 'react-native-canvas';
-import { Button } from 'react-native-paper';
-import { useHeaderHeight } from '@react-navigation/elements';
-import PropTypes from 'prop-types';
-import noop from 'lodash.noop';
+import { Button, useTheme } from 'react-native-paper';
+
+import { spacing } from 'config/theme';
 
 const color = '#000';
 const margin = 0.8;
 
-export default function Signature({ onSave, visible }) {
+const { width, height } = Dimensions.get('window');
+const w = width * margin;
+const h = height * margin;
+
+const styles = StyleSheet.create({
+  body: {
+    flexDirection: 'column',
+    alignSelf: 'center',
+    justifyContent: 'space-around',
+    marginVertical: spacing(1),
+  },
+  canvas: {
+    width: w,
+    height: h,
+    backgroundColor: '#fff',
+    maxWidth: 300,
+    maxHeight: 300,
+    position: 'relative',
+  },
+  clearbutton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 20,
+  },
+});
+export default forwardRef(({ visible, setScrollEnabled }, ref) => {
   const [previousX, setPreviousX] = useState('');
   const [previousY, setPreviousY] = useState('');
   const [currentX, setCurrentX] = useState('');
@@ -18,34 +44,24 @@ export default function Signature({ onSave, visible }) {
   const [isOpen, setIsOpen] = useState(false);
   const [strokeCount, setStrokeCount] = useState(0);
 
+  const { colors } = useTheme();
   const canvas = createRef();
   const isWeb = Platform.OS === 'web';
-  const [w, h] = [Dimensions.get('window').width * margin, Dimensions.get('window').height * margin];
 
-  const styles = StyleSheet.create({
-    body: {
-      flexDirection: 'column',
-      alignSelf: 'center',
-      justifyContent: 'space-around',
-      height: Dimensions.get('window').height - useHeaderHeight(),
-      width: 'min-content',
-    },
-  });
-
-  const initialize = useCallback(() => {
+  const handleClear = useCallback(() => {
     const ctx = canvas.current.getContext('2d');
-    canvas.current.width = w;
-    canvas.current.height = h;
+    canvas.current.width = 300;
+    canvas.current.height = 300;
     ctx.strokeStyle = 'rgb(00, 00, 00)';
-    ctx.strokeRect(0, 0, w, h);
+    ctx.strokeRect(0, 0, 300, 300);
     setIsOpen(true);
     setStrokeCount(0);
-  }, [canvas, w, h]);
+  }, [canvas]);
 
   useEffect(() => {
-    if (visible && !isOpen) { initialize(); }
+    if (visible && !isOpen) { handleClear(); }
     if (!visible) { setIsOpen(false); }
-  }, [initialize, isOpen, visible]);
+  }, [handleClear, isOpen, visible]);
 
   const moveCursor = useCallback((nativeEvent) => {
     if (isWeb) {
@@ -95,16 +111,29 @@ export default function Signature({ onSave, visible }) {
     setCurrentY('');
   }, []);
 
-  const save = useCallback(() => {
-    onSave(canvas.current.toDataURL());
-  }, [canvas, onSave]);
+  useImperativeHandle(ref, () => ({
+    getStrokeLength: () => strokeCount,
+    getUri: () => canvas.current.toDataURL(),
+    handleClear,
+  }));
+
+  // disable/enable scroll when drawing
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderStart: () => setScrollEnabled(false),
+      onPanResponderRelease: () => setScrollEnabled(true),
+      onPanResponderTerminate: () => setScrollEnabled(true),
+    }),
+  ).current;
 
   if (!visible) { return <View />; }
 
   return (
     <View style={styles.body}>
       <View
-        style={{ width: w, height: h, backgroundColor: '#fff' }}
+        {...panResponder.panHandlers}
+        style={styles.canvas}
         onMouseDown={onTouch}
         onMouseUp={onTouchEnd}
         onMouseMove={onMove}
@@ -112,20 +141,11 @@ export default function Signature({ onSave, visible }) {
         onTouchMove={onMove}
         onTouchEnd={onTouchEnd}
       >
+        <Button mode="outlined" icon="eraser-variant" color={colors.primary} style={styles.clearbutton} onPress={handleClear}>
+          Clear
+        </Button>
         {isWeb ? <canvas ref={canvas} /> : <Canvas ref={canvas} />}
       </View>
-      <Button disabled={strokeCount < 1} onPress={save} mode="contained">Save</Button>
-      <Button onPress={initialize}>Clear</Button>
     </View>
   );
-}
-
-Signature.propTypes = {
-  onSave: PropTypes.func,
-  visible: PropTypes.bool,
-};
-
-Signature.defaultProps = {
-  onSave: noop,
-  visible: false,
-};
+});
