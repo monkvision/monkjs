@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 
@@ -64,6 +64,10 @@ export default () => {
     });
   }, [handleTakePicture, inspectionId, screen]);
 
+  const sightIds = useMemo(() => (
+    screen.state.picturesNotUploaded.map((pic) => pic.sight.id)
+  ), [screen.state.picturesNotUploaded]);
+
   return (
     <>
       <CameraView
@@ -82,6 +86,7 @@ export default () => {
         onSuccess={handleSuccess}
         onRefreshUpload={handleRefreshUpload}
         onCloseCamera={handleClose}
+        sightIdsNotUploaded={sightIds}
         theme={theme}
       />
       <ValidationDialog requests={requests} screen={screen} />

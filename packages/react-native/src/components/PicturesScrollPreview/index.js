@@ -19,7 +19,13 @@ const ROW = ROW_HEIGHT + ROW_MARGIN;
 
 const FULL_SIGHT_INDICATOR_WIDTH = 62;
 
-const PicturesScrollPreview = forwardRef(({ activeSight, pictures, showPicture, sights }, ref) => {
+const PicturesScrollPreview = forwardRef(({
+  activeSight,
+  pictures,
+  showPicture,
+  sightIdsNotUploaded,
+  sights,
+}, ref) => {
   const { colors } = useTheme();
 
   const scrollViewRef = React.useRef(null);
@@ -42,6 +48,7 @@ const PicturesScrollPreview = forwardRef(({ activeSight, pictures, showPicture, 
         {sights.map(({ id, label }, index) => (
           <SightCard
             id={id}
+            error={sightIdsNotUploaded.includes(id)}
             label={label}
             key={`sightCard-${id}`}
             scrollToCurrentElement={() => scrollToCurrentElement(index)}
@@ -72,12 +79,14 @@ PicturesScrollPreview.propTypes = {
   activeSight: propTypes.sight,
   pictures: propTypes.cameraPictures.isRequired,
   showPicture: PropTypes.bool,
+  sightIdsNotUploaded: PropTypes.string,
   sights: propTypes.sights.isRequired,
 };
 
 PicturesScrollPreview.defaultProps = {
   activeSight: null,
   showPicture: false,
+  sightIdsNotUploaded: [],
 };
 
 export default PicturesScrollPreview;

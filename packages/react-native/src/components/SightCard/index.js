@@ -5,12 +5,14 @@ import isPlainObject from 'lodash.isplainobject';
 import noop from 'lodash.noop';
 
 import { Image, View, Text } from 'react-native';
+import { Badge } from 'react-native-paper';
 
 import propTypes from '../propTypes';
 import styles from './styles';
 
 const SightCard = ({
   activeSight,
+  error,
   id,
   label,
   pictures,
@@ -36,23 +38,27 @@ const SightCard = ({
   }
 
   return (
-    <View
-      key={`sightCard-mask-${id}`}
-      style={[
-        styles.sightCard, {
-          borderColor: isActive ? '#fafafa' : '#d3d3d3',
-          borderWidth: isActive ? 2 : 1,
-        },
-      ]}
-    >
-      <Image source={source} style={styles.sightMask} />
-      <Text style={styles.text}>{label}</Text>
-    </View>
+    <>
+      <View
+        key={`sightCard-mask-${id}`}
+        style={[
+          styles.sightCard, {
+            borderColor: isActive ? '#fafafa' : '#d3d3d3',
+            borderWidth: isActive ? 2 : 1,
+          },
+        ]}
+      >
+        {error && <Badge style={{ position: 'absolute', top: 0, right: 0, zIndex: 10, backgroundColor: 'orange', color: 'white', borderBottom: 0 }}>!</Badge>}
+        <Image source={source} style={[styles.sightMask, { position: 'relative' }]} />
+        <Text style={styles.text}>{label}</Text>
+      </View>
+    </>
   );
 };
 
 SightCard.propTypes = {
   activeSight: propTypes.sight,
+  error: PropTypes.bool,
   id: PropTypes.string,
   label: PropTypes.string,
   pictures: propTypes.cameraPictures.isRequired,
@@ -63,6 +69,7 @@ SightCard.propTypes = {
 
 SightCard.defaultProps = {
   activeSight: null,
+  error: false,
   id: '',
   label: '',
   sightMasks: {},

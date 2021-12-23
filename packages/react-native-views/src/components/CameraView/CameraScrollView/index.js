@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import Components, { propTypes } from '@monkvision/react-native';
 import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function CameraScrollView({ activeSight, pictures, sights }) {
+function CameraScrollView({ activeSight, pictures, sightIdsNotUploaded, sights }) {
   const scrollRef = useRef();
   const onRotateToPortrait = () => scrollRef.current.setNativeProps({
     style: { height: '100%' },
@@ -38,6 +39,7 @@ function CameraScrollView({ activeSight, pictures, sights }) {
         activeSight={activeSight}
         pictures={pictures}
         ref={scrollRef}
+        sightIdsNotUploaded={sightIdsNotUploaded}
         sights={sights}
       />
     </View>
@@ -47,7 +49,12 @@ function CameraScrollView({ activeSight, pictures, sights }) {
 CameraScrollView.propTypes = {
   activeSight: propTypes.sight.isRequired,
   pictures: propTypes.cameraPictures.isRequired,
+  sightIdsNotUploaded: PropTypes.string,
   sights: propTypes.sights.isRequired,
+};
+
+CameraScrollView.defaultProps = {
+  sightIdsNotUploaded: [],
 };
 
 export default withTheme(CameraScrollView);

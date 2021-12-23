@@ -59,6 +59,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @param onTakePicture {func}
  * @param onSuccess {func}
  * @param sights {[Sight]}
+ * @param sightIdsNotUploaded {[string]}
  * @param theme
  * @returns {JSX.Element}
  * @constructor
@@ -71,6 +72,7 @@ function CameraView({
   onSettings,
   onTakePicture,
   onSuccess,
+  sightIdsNotUploaded,
   sights,
   theme,
 }) {
@@ -126,6 +128,7 @@ function CameraView({
               <CameraScrollView
                 activeSight={activeSight}
                 pictures={pictures}
+                sightIdsNotUploaded={sightIdsNotUploaded}
                 sights={sights}
               />
 
@@ -145,14 +148,17 @@ function CameraView({
                   fakeActivity={Boolean(fakeActivity)}
                   theme={theme}
                 />
-                <FAB
-                  accessibilityLabel="Retry an upload of the pictures"
-                  color="white"
-                  small
-                  icon="refresh"
-                  style={styles.refreshIcon}
-                  onPress={onRefreshUpload}
-                />
+                {sightIdsNotUploaded.length > 0
+                  && (
+                    <FAB
+                      accessibilityLabel="Retry an upload of the pictures"
+                      color="white"
+                      small
+                      icon="refresh"
+                      style={styles.refreshIcon}
+                      onPress={onRefreshUpload}
+                    />
+                  )}
               </View>
 
               {/* camera sidebar */}
@@ -187,6 +193,7 @@ CameraView.propTypes = {
   onSettings: propTypes.callback,
   onSuccess: propTypes.onSuccess,
   onTakePicture: propTypes.callback,
+  sightIdsNotUploaded: propTypes.string,
   sights: propTypes.sights,
 };
 
@@ -198,6 +205,7 @@ CameraView.defaultProps = {
   onSettings: noop,
   onTakePicture: noop,
   onSuccess: noop,
+  sightIdsNotUploaded: [],
   sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
 };
 
