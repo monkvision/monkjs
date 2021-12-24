@@ -32,6 +32,7 @@ import {
 } from 'react-native-paper';
 
 import CustomDialog from 'components/CustomDialog';
+import ImageViewer from 'components/ImageViewer';
 import damageMetadataList from './metadataList';
 
 const styles = StyleSheet.create({
@@ -360,7 +361,7 @@ export default () => {
 
       <CustomDialog
         isOpen={selectDialogOpen}
-        handDismiss={handleDismissSelectDialog}
+        handleDismiss={handleDismissSelectDialog}
         title="Please select"
         actions={(
           <Button onPress={handleDismissSelectDialog} style={styles.button} mode="outlined">
@@ -391,29 +392,19 @@ export default () => {
         </Dialog.ScrollArea>
       </CustomDialog>
 
-      <CustomDialog
+      <ImageViewer
         isOpen={isPreviewDialogOpen}
-        handDismiss={handleDismissPreviewDialog}
-        actions={(
-          <>
-            <Button onPress={handleDismissPreviewDialog} style={styles.button} mode="outlined">
-              Cancel
-            </Button>
-            <Button
-              color={theme.colors.error}
-              style={styles.button}
-              onPress={handleRemovePicture}
-              mode="contained"
-              icon={fakeActivity ? undefined : 'trash-can'}
-              labelStyle={{ color: 'white' }}
-            >
-              Delete
-            </Button>
-          </>
+        images={damagePictures.map((i) => ({ url: i.uri }))}
+        index={previewImage.index}
+        handleDismiss={handleDismissPreviewDialog}
+        deleteButton={(
+          <IconButton
+            color={theme.colors.error}
+            onPress={handleRemovePicture}
+            icon={fakeActivity ? undefined : 'trash-can'}
+          />
         )}
-      >
-        <Image style={styles.previewImage} source={{ uri: previewImage.uri }} />
-      </CustomDialog>
+      />
     </SafeAreaView>
   );
 };

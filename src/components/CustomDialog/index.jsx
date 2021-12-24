@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
 });
 
 export default function CustomDialog({
-  isOpen, handDismiss, title, content,
+  isOpen, handleDismiss, title, content,
   icon, actions, children,
 }) {
   return (
     <Portal>
       <Dialog
         visible={Boolean(isOpen)}
-        onDismiss={handDismiss}
+        onDismiss={handleDismiss}
         style={styles.dialog}
       >
         {title && (
@@ -54,7 +54,7 @@ CustomDialog.propTypes = {
   actions: PropTypes.element,
   children: PropTypes.element,
   content: PropTypes.string,
-  handDismiss: PropTypes.func.isRequired,
+  handleDismiss: PropTypes.func.isRequired,
   icon: PropTypes.element,
   isOpen: PropTypes.bool,
   title: PropTypes.string,

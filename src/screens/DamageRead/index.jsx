@@ -30,7 +30,7 @@ import {
   taskStatuses,
 } from '@monkvision/corejs';
 
-import { Image, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import {
   Card,
   Button,
@@ -42,6 +42,7 @@ import {
 
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
+import ImageViewer from 'components/ImageViewer';
 import DamagePolygon from './DamagePolygon';
 
 const getDamageViews = (damageId, images) => {
@@ -204,10 +205,10 @@ export default () => {
             left={(props) => <List.Icon {...props} icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'shape-square-plus'} />}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(inspection.images) ? damageImages.map((image) => (
+            {!isEmpty(inspection.images) ? damageImages.map((image, index) => (
               <TouchableRipple
-                key={image.name}
-                onPress={() => openPreviewDialog({ name: image.name, path: image.path })}
+                key={String(index)}
+                onPress={() => openPreviewDialog({ name: image.name, path: image.path, index })}
               >
                 <DamagePolygon
                   style={styles.image}
@@ -259,7 +260,7 @@ export default () => {
       </ScrollView>
       <CustomDialog
         isOpen={isDeleteDialogOpen}
-        handDismiss={handleDismissDeleteDialog}
+        handleDismiss={handleDismissDeleteDialog}
         icon={<Button icon="alert" size={36} color={colors.warning} />}
         title="Confirm damage deletion"
         content="Are you sure that you really really want to DELETE this damage ?"
@@ -283,17 +284,12 @@ export default () => {
           </>
         )}
       />
-      <CustomDialog
+      <ImageViewer
         isOpen={isPreviewDialogOpen}
-        handDismiss={handleDismissPreviewDialog}
-        actions={(
-          <Button onPress={handleDismissPreviewDialog} style={styles.button} mode="outlined">
-            Close
-          </Button>
-        )}
-      >
-        <Image style={styles.previewImage} source={{ uri: previewImage.path }} />
-      </CustomDialog>
+        images={damageImages.map((i) => ({ url: i.path }))}
+        index={previewImage.index}
+        handleDismiss={handleDismissPreviewDialog}
+      />
     </SafeAreaView>
   );
 };

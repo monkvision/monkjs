@@ -10,7 +10,7 @@ export default function DamagePolygon({ width, height, currentImage, views, styl
     if (!(currentImage && width && height)) { return null; }
     const specifications = views.filter((v) => v.image_region)
       .map((v) => v.image_region?.specification)
-      .map((spec) => spec.polygons?.map((polygon) => <Polygon points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />));
+      .map((spec) => spec.polygons?.map((polygon, index) => <Polygon key={String(index)} points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />));
     return specifications ?? null;
   }, [currentImage, height, views, width]);
 
@@ -34,14 +34,14 @@ export default function DamagePolygon({ width, height, currentImage, views, styl
 }
 
 DamagePolygon.propTypes = {
-  currentImage: {
-    imageWidth: PropTypes.number,
+  currentImage: PropTypes.shape({
     imageHeight: PropTypes.number,
+    imageWidth: PropTypes.number,
     name: PropTypes.string,
     path: PropTypes.string,
-  },
+  }),
   height: PropTypes.number,
-  views: [{
+  views: PropTypes.arrayOf(PropTypes.shape({
     element_id: PropTypes.string,
     image_region: {
       specification: [{
@@ -49,7 +49,7 @@ DamagePolygon.propTypes = {
         polygons: PropTypes.array,
       }],
     },
-  }],
+  })),
   width: PropTypes.number,
 };
 

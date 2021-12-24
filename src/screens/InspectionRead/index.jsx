@@ -31,7 +31,7 @@ import {
 } from '@monkvision/corejs';
 
 import Drawing from 'components/Drawing';
-import { Image, StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
 import {
   Card,
   Button,
@@ -45,7 +45,7 @@ import {
 } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
-import CustomDialog from 'components/CustomDialog';
+import ImageViewer from 'components/ImageViewer';
 
 import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
@@ -354,17 +354,14 @@ export default () => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      <CustomDialog
-        isOpen={isPreviewDialogOpen}
-        handDismiss={handleDismissPreviewDialog}
-        actions={(
-          <Button onPress={handleDismissPreviewDialog} style={styles.button} mode="outlined">
-            Close
-          </Button>
-        )}
-      >
-        <Image style={styles.previewImage} source={{ uri: previewImage.path }} />
-      </CustomDialog>
+      {!isEmpty(inspection.images) && (
+        <ImageViewer
+          isOpen={isPreviewDialogOpen}
+          images={inspection.images.map((i) => ({ url: i.path }))}
+          index={previewImage.index}
+          handleDismiss={handleDismissPreviewDialog}
+        />
+      )}
     </SafeAreaView>
   );
 };
