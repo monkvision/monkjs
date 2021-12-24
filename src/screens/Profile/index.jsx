@@ -189,7 +189,7 @@ export default function Profile() {
   const navigation = useNavigation();
   const store = useStore();
 
-  const [accountData, setAccountData] = useState({ firstName: 'John', lastName: 'Doe', company: 'Monk AI', site: 'France Paris', signature: { isFailed: false, uri: null } });
+  const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isFailed: false, uri: null } });
   const { firstName, lastName, company, site, signature } = accountData;
   const [showPopup, togglePopup] = useState(false);
   const user = useSelector(selectAllUser);
@@ -309,10 +309,11 @@ export default function Profile() {
           <View>
             <Card.Content>
               <Title style={{ textAlign: 'center' }}>
-                {`${firstName}  ${lastName}`}
+                {`${lastName || firstName ? firstName : 'Anonymous user'}  ${lastName}`}
               </Title>
               <Paragraph style={{ textAlign: 'center', color: '#aaaaaa' }}>
-                {`${company} - ${site}`}
+                {company && site ? `${company} - ${site}`
+                  : company || (site ? `Anonymous company - ${site}` : 'Anonymous company')}
               </Paragraph>
 
               <View style={styles.layout}>
