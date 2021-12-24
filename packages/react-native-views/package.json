@@ -40,8 +40,10 @@
   },
   "dependencies": {
     "expo-screen-orientation": "^4.0.3",
+    "lodash.startcase": "^4.4.0",
     "react-native-paper": "^4.10.1",
-    "react-native-svg": "^12.1.1"
+    "react-native-svg": "^12.1.1",
+    "react-responsive": "^8.2.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.14.5",
