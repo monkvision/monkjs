@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: -1,
   },
   signature: {
     width: 300,
@@ -79,7 +80,6 @@ const styles = StyleSheet.create({
   animatedView: {
     width: '100%',
     position: 'absolute',
-    zIndex: 10,
   },
   divider: {
     width: 100,
@@ -276,8 +276,13 @@ export default function Profile() {
       .start(() => togglePopup(false));
   }, [translateY]);
 
-  const handleSave = useCallback((uri) => {
-    updateAccountData({ signature: { isLoading: false, isFailed: false, uri } });
+  const handleSave = useCallback((getUri) => {
+    getUri.then(
+      (uri) => updateAccountData({ signature: {
+        isLoading: false,
+        isFailed: false,
+        uri: Platform.OS === 'web' ? uri : uri?.substring(1, uri.length - 1) } }),
+    );
     handleClosePopup();
   }, [handleClosePopup, updateAccountData]);
 
@@ -303,7 +308,12 @@ export default function Profile() {
               <Surface style={styles.surface}>
                 {signature?.uri
                   ? (
-                    <Image source={signature} style={styles.signature} />
+                    <Image
+                      source={signature}
+                      style={styles.signature}
+                      width={300}
+                      height={300}
+                    />
                   )
                   : <ActivityIndicatorView color={colors.primary} light /> }
               </Surface>
@@ -323,9 +333,7 @@ export default function Profile() {
         </View>
       </Card>
       <Animated.View
-        style={
-          [styles.animatedView, { transform: [{ translateY }], display: showPopup ? 'flex' : 'none' }]
-}
+        style={[styles.animatedView, { transform: [{ translateY }], display: showPopup ? 'flex' : 'none' }]}
       >
         <Popup
           showPopup={showPopup}

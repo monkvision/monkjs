@@ -113,7 +113,10 @@ export default forwardRef(({ visible, setScrollEnabled }, ref) => {
 
   useImperativeHandle(ref, () => ({
     getStrokeLength: () => strokeCount,
-    getUri: () => canvas.current.toDataURL(),
+    getUri: async () => {
+      const uri = await canvas.current.toDataURL();
+      return uri;
+    },
     handleClear,
   }));
 
