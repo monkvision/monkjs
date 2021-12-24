@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: -1,
   },
   signature: {
     width: 300,
@@ -75,9 +74,11 @@ const styles = StyleSheet.create({
     }),
     paddingVertical: spacing(4),
     height,
+    zIndex: 999,
     position: 'relative',
   },
   animatedView: {
+    zIndex: 999,
     width: '100%',
     position: 'absolute',
   },
@@ -292,46 +293,7 @@ export default function Profile() {
   }, [dispatch, store]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Card style={styles.card}>
-        <View>
-          <Card.Content>
-            <Title style={{ textAlign: 'center' }}>
-              {`${firstName}  ${lastName}`}
-            </Title>
-            <Paragraph style={{ textAlign: 'center', color: '#aaaaaa' }}>
-              {`${company} - ${site}`}
-            </Paragraph>
-
-            <View style={styles.layout}>
-              {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" /> : null}
-              <Surface style={styles.surface}>
-                {signature?.uri
-                  ? (
-                    <Image
-                      source={signature}
-                      style={styles.signature}
-                      width={300}
-                      height={300}
-                    />
-                  )
-                  : <ActivityIndicatorView color={colors.primary} light /> }
-              </Surface>
-            </View>
-          </Card.Content>
-          <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
-            <Button
-              onPress={handleOpenPopup}
-              mode="contained"
-              style={styles.button}
-              icon="account-edit"
-            >
-              Edit
-            </Button>
-            <Button onPress={handleSubmit} disabled={isEmpty} mode="outlined" style={[styles.button, { borderColor: colors.primary }]} icon="send">Submit</Button>
-          </Card.Actions>
-        </View>
-      </Card>
+    <SafeAreaView>
       <Animated.View
         style={[styles.animatedView, { transform: [{ translateY }], display: showPopup ? 'flex' : 'none' }]}
       >
@@ -342,6 +304,47 @@ export default function Profile() {
           handleSave={handleSave}
         />
       </Animated.View>
+      <View style={styles.root}>
+        <Card style={styles.card}>
+          <View>
+            <Card.Content>
+              <Title style={{ textAlign: 'center' }}>
+                {`${firstName}  ${lastName}`}
+              </Title>
+              <Paragraph style={{ textAlign: 'center', color: '#aaaaaa' }}>
+                {`${company} - ${site}`}
+              </Paragraph>
+
+              <View style={styles.layout}>
+                {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" /> : null}
+                <Surface style={styles.surface}>
+                  {signature?.uri
+                    ? (
+                      <Image
+                        source={signature}
+                        style={styles.signature}
+                        width={300}
+                        height={300}
+                      />
+                    )
+                    : <ActivityIndicatorView color={colors.primary} light /> }
+                </Surface>
+              </View>
+            </Card.Content>
+            <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
+              <Button
+                onPress={handleOpenPopup}
+                mode="contained"
+                style={styles.button}
+                icon="account-edit"
+              >
+                Edit
+              </Button>
+              <Button onPress={handleSubmit} disabled={isEmpty} mode="outlined" style={[styles.button, { borderColor: colors.primary }]} icon="send">Submit</Button>
+            </Card.Actions>
+          </View>
+        </Card>
+      </View>
     </SafeAreaView>
   );
 }
