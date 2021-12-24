@@ -28,16 +28,19 @@ export function updateOne({ id, accessToken, data, ...customReqConfig }) {
   });
 }
 
-export function getSignature({ id, params, ...customReqConfig }) {
+export async function getSignature({ id, params, ...customReqConfig }) {
   const http = axios.create(config.axiosConfig);
-
-  return http.request({
-    method: 'get',
-    url: `users/${id}/signatures`,
-    params,
-    responseType: 'blob',
-    ...customReqConfig,
-  });
+  const { data } = await http.get(`users/${id}/signatures`);
+  if (data.has_signature) {
+    return http.request({
+      method: 'get',
+      url: `users/${id}/signatures`,
+      params,
+      responseType: 'blob',
+      ...customReqConfig,
+    });
+  }
+  return Promise.reject(new Error('Don\'t have signature yet'));
 }
 
 export function setSignature({ id, data, ...customReqConfig }) {
