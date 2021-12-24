@@ -43,12 +43,12 @@ DamagePolygon.propTypes = {
   height: PropTypes.number,
   views: PropTypes.arrayOf(PropTypes.shape({
     element_id: PropTypes.string,
-    image_region: {
-      specification: [{
-        bounding_box: PropTypes.object,
-        polygons: PropTypes.array,
-      }],
-    },
+    image_region: PropTypes.shape({
+      specification: PropTypes.shape({
+        bounding_box: PropTypes.shape,
+        polygons: PropTypes.arrayOf(PropTypes.array),
+      }),
+    }),
   })),
   width: PropTypes.number,
 };
