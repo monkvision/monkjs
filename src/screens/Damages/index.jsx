@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import usePartDamages from 'hooks/usePartDamages';
 
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
@@ -13,6 +13,7 @@ import useComputedParts from 'screens/Damages/useComputedParts';
 import useLayout from 'screens/Damages/useLayout';
 
 import ValidateDialog from 'screens/Damages/ValidateDialog';
+import { DAMAGE_CREATE } from 'screens/names';
 
 import styles from 'screens/Damages/styles';
 
@@ -29,6 +30,7 @@ import {
 } from '@monkvision/corejs';
 
 export default () => {
+  const navigation = useNavigation();
   const route = useRoute();
   const { inspectionId } = route.params;
 
@@ -64,6 +66,12 @@ export default () => {
     return null;
   }
 
+  const handlePartSelect = useCallback((partType) => {
+    navigation.navigate(DAMAGE_CREATE, {
+      partType,
+    });
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.root}>
       {fakeActivity ? <ActivityIndicatorView light /> : (
@@ -75,6 +83,8 @@ export default () => {
             damagedPartsCount={partsWithDamages.length}
             handleOpenDialog={handleOpenDialog}
             isValidated={isValidated}
+            onPress={handlePartSelect}
+            pressAble={!isValidated}
           />
         </>
       )}

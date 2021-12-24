@@ -1433,7 +1433,7 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@emotion/is-prop-valid@^1.1.0", "@emotion/is-prop-valid@^1.1.1":
+"@emotion/is-prop-valid@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.1.1.tgz#cbd843d409dfaad90f9404e7c0404c55eae8c134"
   integrity sha512-bW1Tos67CZkOURLc0OalnfxtSXQJMrAMV0jZTVGJUPSOd4qgjF3+tTD5CwJM13PHA8cltGW1WGbbvV9NpvUZPw==
@@ -1460,7 +1460,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@expo/config-plugins@3.1.0", "@expo/config-plugins@^3.0.0":
+"@expo/config-plugins@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-3.1.0.tgz#0752ff33c5eab21cf42034a44e79df97f0f867f8"
   integrity sha512-V5qxaxCAExBM0TXmbU1QKiZcAGP3ecu7KXede8vByT15cro5PkcWu2sSdJCYbHQ/gw6Vf/i8sr8gKlN8V8TSLg==
@@ -1716,57 +1716,12 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@koale/useworker@^3.2.1":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@koale/useworker/-/useworker-3.4.0.tgz#773ac623212bfaed377ff5e6cd44240ed52e40ff"
-  integrity sha512-cDGItsqyNd6SlaO+9XmDupANNNl4omjisdLcLbITdcKktlK+wpW1HwbnVjHiXBtHXQsKxxE832qVMlE/q9lmXg==
-  dependencies:
-    dequal "^1.0.0"
-    isoworker "^0.1.1"
-
 "@koale/useworker@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@koale/useworker/-/useworker-4.0.2.tgz#cb540a2581cd6025307c3ca6685bc60748773e58"
   integrity sha512-xPIPADtom8/3/4FLNj7MvNcBM/Z2FleH85Fdx2O869eoKW8+PoEgtSVvoxWjCWMA46Sm9A5/R1TyzNGc+yM0wg==
   dependencies:
     dequal "^1.0.0"
-
-"@monkvision/corejs@*":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@monkvision/corejs/-/corejs-1.1.3.tgz#1f57b571828314b6ecd830749d9ea49f2c349ee2"
-  integrity sha512-KvuMeJUUu2ik9SnjlUdpX3BBbiAmM1nTT9FQb74vHTJH4sOQKgA6BjhEGsXCzDHPVL5+ES7W1eXe2baTwE2Nzg==
-
-"@monkvision/react-native-views@*":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native-views/-/react-native-views-1.1.3.tgz#766b435026174f1ff100ecc241817293aa0c5c4e"
-  integrity sha512-FgZDoJPojkNtkjaXSe4YMMp+eDAlGQsZsREeyOSNC037TqqYuDORv5Nns+eKp1oYw/YQHVW/+ZX9mNJ6QrTMgA==
-  dependencies:
-    react-native-paper "^4.9.2"
-
-"@monkvision/react-native@*":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@monkvision/react-native/-/react-native-1.1.3.tgz#db3d3e4a94624093af1878276221dae1c503471d"
-  integrity sha512-TJPsNAWlOnJJ8r3bQdXBamFZ0mlA28bmtZ0R+Ao3Qrgch2hVVmqbWDlpyH9n4Ihnp/uJN93Mb/H/adpiWuMKGA==
-  dependencies:
-    "@emotion/is-prop-valid" "^1.1.0"
-    "@expo/vector-icons" "^12.0.5"
-    "@unimodules/core" "^7.1.2"
-    "@unimodules/react-native-adapter" "^6.3.9"
-    expo-camera "^11.2.2"
-    expo-font "^9.2.1"
-    expo-screen-orientation "^3.2.1"
-    lodash.camelcase "^4.3.0"
-    lodash.isboolean "^3.0.3"
-    lodash.isempty "^4.4.0"
-    lodash.isplainobject "^4.0.6"
-    lodash.noop "^3.0.1"
-    react-native-animation-library "^0.0.8"
-    react-native-svg "^12.1.1"
-    react-native-vector-icons "^8.1.0"
-    react-native-web "^0.17.5"
-    react-native-xml2js "^1.0.3"
-    tinycolor2 "^1.4.2"
-    xml2js "^0.4.23"
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
@@ -5446,16 +5401,6 @@ expo-auth-session@~3.4.2:
     invariant "^2.2.4"
     qs "6.9.1"
 
-expo-camera@^11.2.2:
-  version "11.3.1"
-  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-11.3.1.tgz#f7599c9e2f2184c2369d9acd658c131a9e9efba3"
-  integrity sha512-yjLUvM+ZzPL0u2hrGdwJKpX1URQ/6VuU7j0vVItqGAGlTn6JMl7vQUp0uX0HIIY0Tew6WA0+eBUm7JJqcDxqlA==
-  dependencies:
-    "@expo/config-plugins" "^3.0.0"
-    "@koale/useworker" "^3.2.1"
-    expo-modules-core "~0.2.0"
-    invariant "2.2.4"
-
 expo-camera@^12.0.3, expo-camera@~12.0.3:
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-12.0.3.tgz#9afc38c12b973f385d38c7393627f0e2eb3d49a9"
@@ -5547,14 +5492,6 @@ expo-font@^10.0.3, expo-font@~10.0.3:
     expo-modules-core "~0.4.4"
     fontfaceobserver "^2.1.0"
 
-expo-font@^9.2.1:
-  version "9.3.0"
-  resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-9.3.0.tgz#ef569c57f6742f9db72f9e9de3645d3935aa2d82"
-  integrity sha512-1Hgdos2KBUS/7U/r7BjHM5wh7EYr7KFVtEciQPLE1Zm1xlf+p1ZHdFkyOVagwLdovsfxhxeQQagUeOdtMKfmrQ==
-  dependencies:
-    expo-modules-core "~0.3.0"
-    fontfaceobserver "^2.1.0"
-
 expo-image-picker@^11.0.3:
   version "11.0.3"
   resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-11.0.3.tgz#c0b6cb9b5fa027f1bd1879a879fe13157f31ac94"
@@ -5628,19 +5565,6 @@ expo-modules-autolinking@~0.3.4:
     find-up "~5.0.0"
     fs-extra "^9.1.0"
 
-expo-modules-core@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.2.0.tgz#68e5b6e53d0afbf8d131578831aed657589a2d42"
-  integrity sha512-inpfZ5X/BaTtbj2wG9PA9AC0MN8VyId6KSRlVuEg7+ziurHBy/kKDFxpOddUokhwiln2uhoYPSStJjR/tKypdw==
-
-expo-modules-core@~0.3.0:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.3.2.tgz#b0b92b4100c6c13b69ef80ff0a8e97f2cc4f20b6"
-  integrity sha512-7ESMwkO5AwRflGDwcF0Yki98244/0n57alUJA/87TNZdciU0wa0joHi2Eb/fT2ggLT8ta1/bnavb1i3xGftj1Q==
-  dependencies:
-    compare-versions "^3.4.0"
-    invariant "^2.2.4"
-
 expo-modules-core@~0.4.4, expo-modules-core@~0.4.6, expo-modules-core@~0.4.8:
   version "0.4.8"
   resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.4.8.tgz#6fed03fca9370793b0a4bebc4fe1a44b213ed445"
@@ -5667,13 +5591,6 @@ expo-random@^12.0.1:
   dependencies:
     base64-js "^1.3.0"
     expo-modules-core "~0.4.6"
-
-expo-screen-orientation@^3.2.1:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/expo-screen-orientation/-/expo-screen-orientation-3.3.0.tgz#790ca327af7d949e44734c861c09457fe1e00d52"
-  integrity sha512-J+VSqaMw65UNjavhIVbSNV8suzx7CzbvuuaPxbyqTzPejjlpcLpTFImS28Px58OXTkcMPky72vrj4KynLKsUNA==
-  dependencies:
-    "@expo/config-plugins" "^3.0.0"
 
 expo-screen-orientation@^4.0.3, expo-screen-orientation@~4.0.3:
   version "4.0.3"
@@ -7359,11 +7276,6 @@ isomorphic-fetch@^2.1.1:
   dependencies:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
-
-isoworker@^0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/isoworker/-/isoworker-0.1.3.tgz#a54587fa1da2f57d401565f83b1c4ee8b21ae372"
-  integrity sha512-NmguMXzoa/ixeQv373vIf+zYgqvZMqEFpMSysAQWfdNAf+TvjZQH7ZiQEk9ZKHkktfPqH74GSab4IVXda71hbw==
 
 jest-get-type@^26.3.0:
   version "26.3.0"
@@ -10717,15 +10629,6 @@ react-native-paper@^4.10.1:
     color "^3.1.2"
     react-native-iphone-x-helper "^1.3.1"
 
-react-native-paper@^4.9.2:
-  version "4.11.1"
-  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.11.1.tgz#da7c1b66950002d1511ac888e19fc82acec758a2"
-  integrity sha512-mAQ74KUrOIcMEg1crrIsA7eXDaPk/fjvKFDLcN7gBBeV/zhhQiqc+/y6t+8STKsZutRA2U5/eB+0MBisybokmQ==
-  dependencies:
-    "@callstack/react-theme-provider" "^3.0.7"
-    color "^3.1.2"
-    react-native-iphone-x-helper "^1.3.1"
-
 react-native-reanimated@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.2.4.tgz#36c5d15028b0bd7d479fba5199117ac870c7a532"
@@ -10765,20 +10668,6 @@ react-native-svg@^12.1.1:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
-
-react-native-vector-icons@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-8.1.0.tgz#e8ee2b17bc4d9f636da1c6f67feee8e2a850c3d8"
-  integrity sha512-sHIdBB6Y0dHaot2fMXgy5J/hhCn5YuyN7SKDNFgPzL8KA1oF2/v7mgYMavnK7LIIs2dJoGnDANKf61dsU+TZlg==
-  dependencies:
-    lodash.frompairs "^4.0.1"
-    lodash.isequal "^4.5.0"
-    lodash.isstring "^4.0.1"
-    lodash.omit "^4.5.0"
-    lodash.pick "^4.4.0"
-    lodash.template "^4.5.0"
-    prop-types "^15.7.2"
-    yargs "^16.1.1"
 
 react-native-vector-icons@^9.0.0:
   version "9.0.0"

@@ -14,11 +14,13 @@ import isPropValid from '@emotion/is-prop-valid';
 import xml2js from 'react-native-xml2js';
 import tinycolor from 'tinycolor2';
 
-function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG, ...passThroughProps }) {
+function SVGComponent({
+  elementTag, getFillColor, selectedId, onPress, parsedSVG, ...passThroughProps
+}) {
   const Component = { svg: Svg, g: G, path: Path, ellipse: Ellipse, defs: Defs }[elementTag];
   const { $: nodeProps = {}, ...children } = parsedSVG;
 
-  const { id, fill, ...props } = useMemo(() => {
+  const { id, fill, stroke, ...props } = useMemo(() => {
     const newProps = {};
 
     Object.entries(nodeProps).forEach(([key, value]) => {
@@ -41,6 +43,9 @@ function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG, ...passThr
     };
   }, [elementTag, nodeProps, onPress, passThroughProps]);
 
+  const getStroke = useCallback((_id, defaultColor) => ((_id === selectedId && selectedId !== undefined) ? tinycolor('#274b9f').toHexString()
+    : defaultColor), [selectedId]);
+
   if (!Component) {
     return null;
   }
@@ -51,6 +56,7 @@ function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG, ...passThr
       id={id}
       onClick={() => onPress(id, elementTag)}
       fill={getFillColor(id, fill)}
+      stroke={getStroke(id, stroke)}
     >
       {!isEmpty(children) ? (
         Object.entries(children).map(([childTag, parsedChildSVGArray]) => (
@@ -59,6 +65,7 @@ function SVGComponent({ elementTag, getFillColor, onPress, parsedSVG, ...passThr
               key={`${childTag}-${childIndex}`}
               elementTag={childTag}
               getFillColor={getFillColor}
+              selectedId={selectedId}
               parsedSVG={parsedChildSVG}
               onClick={onPress}
               onPress={onPress}
@@ -77,6 +84,11 @@ SVGComponent.propTypes = {
   parsedSVG: PropTypes.shape({
     $: PropTypes.objectOf(PropTypes.any),
   }).isRequired,
+  selectedId: PropTypes.string,
+};
+
+SVGComponent.defaultProps = {
+  selectedId: undefined,
 };
 
 /**
@@ -101,6 +113,7 @@ export default function Vehicle({
 }) {
   const [parsedSvg, setParsedSvg] = useState();
   const [controlledActiveParts, setActiveParts] = useState(initialActiveParts);
+  const [selectedId, setSelectedId] = useState();
 
   const handlePress = useCallback((id) => {
     if (id !== undefined && pressAble === true) {
@@ -108,6 +121,7 @@ export default function Vehicle({
       const isActive = isBoolean(activePart) ? !activePart : true;
 
       setActiveParts((prev) => ({ ...prev, [id]: isActive }));
+      setSelectedId(id);
 
       onPress(id, isActive, activeParts);
     }
@@ -133,6 +147,7 @@ export default function Vehicle({
       parsedSVG={parsedSvg}
       onPress={handlePress}
       getFillColor={getFillColor}
+      selectedId={selectedId}
       {...passThroughProps}
     />
   );
