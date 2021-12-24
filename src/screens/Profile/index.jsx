@@ -148,7 +148,7 @@ function Popup({ accountData, handleClosePopup, handleSave, showPopup }) {
           </Card.Content>
           <Card.Actions style={styles.actions}>
             <Button
-              onPress={() => handleSave(signatureRef.current.getUri())}
+              onPress={() => handleSave(signatureRef.current.getUri)}
               mode="outlined"
               style={[styles.button, { alignSelf: 'center' }]}
               icon="content-save"
@@ -278,7 +278,7 @@ export default function Profile() {
   }, [translateY]);
 
   const handleSave = useCallback((getUri) => {
-    getUri.then(
+    getUri().then(
       (uri) => updateAccountData({ signature: {
         isLoading: false,
         isFailed: false,
@@ -317,19 +317,21 @@ export default function Profile() {
               </Paragraph>
 
               <View style={styles.layout}>
-                {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" /> : null}
-                <Surface style={styles.surface}>
-                  {signature?.uri
-                    ? (
-                      <Image
-                        source={signature}
-                        style={styles.signature}
-                        width={300}
-                        height={300}
-                      />
-                    )
-                    : <ActivityIndicatorView color={colors.primary} light /> }
-                </Surface>
+                {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" />
+                  : (
+                    <Surface style={styles.surface}>
+                      {signature?.uri
+                        ? (
+                          <Image
+                            source={signature}
+                            style={styles.signature}
+                            width={300}
+                            height={300}
+                          />
+                        )
+                        : <ActivityIndicatorView color={colors.primary} light /> }
+                    </Surface>
+                  )}
               </View>
             </Card.Content>
             <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
