@@ -208,7 +208,7 @@ export default function Profile() {
       reader.onerror = () => updateAccountData({
         signature: { isFailed: true, uri: null } });
     } else {
-      updateAccountData({ signature: { isFailed: false, uri: null } });
+      updateAccountData({ signature: { isFailed: false, isLoading: false, uri: null } });
     }
   }, [updateAccountData, user]);
 
@@ -317,21 +317,24 @@ export default function Profile() {
               </Paragraph>
 
               <View style={styles.layout}>
-                {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" />
-                  : (
+                {signature?.isFailed || signature?.uri === null ? <Drawing xml={emptyDrawing} height="200" /> : null}
+
+                {signature?.uri
+                  ? (
                     <Surface style={styles.surface}>
-                      {signature?.uri
-                        ? (
-                          <Image
-                            source={signature}
-                            style={styles.signature}
-                            width={300}
-                            height={300}
-                          />
-                        )
-                        : <ActivityIndicatorView color={colors.primary} light /> }
+                      <Image
+                        source={signature}
+                        style={styles.signature}
+                        width={300}
+                        height={300}
+                      />
                     </Surface>
-                  )}
+                  )
+                  : null }
+
+                {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
+                  : null }
+
               </View>
             </Card.Content>
             <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
