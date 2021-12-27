@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-export default function AbstractDashboard({ color, ...props}) {
+export default function AbstractDashboard({ color, ...props }) {
   return (
     <svg width="502" height="380" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M341.785 256.118c53.456 6.33 167.412 17.092 195.583 9.495 6.902-1.055 21.629-3.165 25.321-3.165m-211.143-41.28 184.373 16.354h26.772M317.257 116.321l188.989 17.804c1.934.484 6.225 3.218 7.913 10.287l13.188 66.206-10.419 11.474-164.063-14.639M276.373 86.912c9.407 1.758 30.676 6.33 40.488 10.55l126.212 6.463M281.384 88.89l65.546 24.926c3.913 1.363 13.558 4.088 20.838 4.088M56.127 301.75 38.587 376M15.903 184.769 1 209.958l3.165 31.125 51.83 60.798 77.943 2.901" stroke={color} strokeWidth="3.191" />

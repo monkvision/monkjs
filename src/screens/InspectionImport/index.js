@@ -1,19 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { Card, Button, useTheme, IconButton, ActivityIndicator } from 'react-native-paper';
-import { StyleSheet, Platform, SafeAreaView, View, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
-import PropTypes from 'prop-types';
-import { useNavigation } from '@react-navigation/native';
+import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@monkvision/corejs';
 // import JSONTree from 'react-native-json-tree';
-
 import { sightMasks, utils } from '@monkvision/react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
-import { Sight, values, updateOneTaskOfInspection, createOneInspection } from '@monkvision/corejs';
+import { useNavigation } from '@react-navigation/native';
+import { spacing } from 'config/theme';
+import { StatusBar } from 'expo-status-bar';
 
 import useRequest from 'hooks/useRequest/index';
-import { spacing } from 'config/theme';
-import useImport, { initialPictureData } from './hooks/useImport';
+import PropTypes from 'prop-types';
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import {
+  Dimensions,
+  Image,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { ActivityIndicator, Button, Card, IconButton, useTheme } from 'react-native-paper';
 import { INSPECTION_READ } from '../names';
+import useImport, { initialPictureData } from './hooks/useImport';
 
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -179,15 +187,11 @@ export default () => {
     false,
   );
 
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setPictures(sights.map(({ id, label }) => ({ ...initialPictureData, id, label })));
-      setInspectionId(null);
-      createInspection();
-    });
-
-    return unsubscribe;
-  }, [navigation, createInspection, sights]);
+  React.useEffect(() => navigation.addListener('focus', () => {
+    setPictures(sights.map(({ id, label }) => ({ ...initialPictureData, id, label })));
+    setInspectionId(null);
+    createInspection();
+  }), [navigation, createInspection, sights]);
 
   const onSuccess = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });

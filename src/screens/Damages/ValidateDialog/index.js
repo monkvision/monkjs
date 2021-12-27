@@ -35,7 +35,7 @@ export default function ValidateDialog({ isDialogOpen, handleDismissDialog }) {
   return (
     <CustomDialog
       isOpen={Boolean(isDialogOpen)}
-      handDismiss={handleDismissDialog}
+      handleDismiss={handleDismissDialog}
       title="Are you sure?"
       content="Please confirm your damage validation"
       icon={(

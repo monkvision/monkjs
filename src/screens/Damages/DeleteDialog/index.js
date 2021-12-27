@@ -17,7 +17,7 @@ export default function DeleteDamageDialog({
   return (
     <CustomDialog
       isOpen={Boolean(isDialogOpen)}
-      handDismiss={handleDismissDialog}
+      handleDismiss={handleDismissDialog}
       icon={<Button icon="alert" size={36} color={colors.warning} />}
       title="Confirm damage deletion"
       content="Are you sure that you really really want to DELETE this damage ?"
