@@ -49,7 +49,7 @@ function CameraScrollView({ activeSight, pictures, sightIdsNotUploaded, sights }
 CameraScrollView.propTypes = {
   activeSight: propTypes.sight.isRequired,
   pictures: propTypes.cameraPictures.isRequired,
-  sightIdsNotUploaded: PropTypes.string,
+  sightIdsNotUploaded: PropTypes.arrayOf(PropTypes.string),
   sights: propTypes.sights.isRequired,
 };
 

@@ -79,7 +79,7 @@ PicturesScrollPreview.propTypes = {
   activeSight: propTypes.sight,
   pictures: propTypes.cameraPictures.isRequired,
   showPicture: PropTypes.bool,
-  sightIdsNotUploaded: PropTypes.string,
+  sightIdsNotUploaded: PropTypes.arrayOf(PropTypes.string),
   sights: propTypes.sights.isRequired,
 };
 

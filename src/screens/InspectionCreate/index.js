@@ -38,11 +38,11 @@ export default () => {
     inspectionId,
     onSuccess: (id, uri) => {
       screen.setUploading(false);
-      screen.setPicturesNotUploaded((prevState) => prevState.filter((picture) => {
+      screen.setPicturesNotUploaded((prevState) => prevState.filter((pic) => {
         if (Platform.OS === 'web') {
-          return picture.source.base64 === uri;
+          return pic.source.base64 !== uri;
         }
-        return picture.source.uri === uri;
+        return pic.source.uri !== uri;
       }));
     },
     onLoading: () => screen.setUploading(true),
@@ -72,13 +72,13 @@ export default () => {
     <>
       <CameraView
         isLoading={fakeActivity}
-        onTakePicture={(picture) => {
-          screen.setPicturesNotUploaded((prevState) => [...prevState, picture]);
+        onTakePicture={(pic) => {
+          screen.setPicturesNotUploaded((prevState) => [...prevState, pic]);
           if (!screen.state.uploadHasFailed) {
             handleTakePicture(
               Platform.OS === 'web'
-                ? picture.source.base64
-                : picture.source.uri,
+                ? pic.source.base64
+                : pic.source.uri,
               inspectionId,
             );
           }
