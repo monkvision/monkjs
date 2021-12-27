@@ -48,7 +48,7 @@ const SightCard = ({
           },
         ]}
       >
-        {error && <Badge style={{ position: 'absolute', top: 0, right: 0, zIndex: 10, backgroundColor: 'orange', color: 'white', borderBottom: 0 }}>!</Badge>}
+        {error && <Badge style={styles.badge}>!</Badge>}
         <Image source={source} style={[styles.sightMask, { position: 'relative' }]} />
         <Text style={styles.text}>{label}</Text>
       </View>

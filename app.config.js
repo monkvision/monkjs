@@ -1,4 +1,4 @@
-const buildNumber = 6;
+const buildNumber = 7;
 
 export default {
   name: 'monk',

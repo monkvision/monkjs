@@ -31,5 +31,14 @@ const styles = StyleSheet.create({
     fontSize: 7,
     textTransform: 'capitalize',
   },
+  badge: {
+    top: 0,
+    right: 0,
+    zIndex: 10,
+    color: 'white',
+    borderBottom: 0,
+    position: 'absolute',
+    backgroundColor: '#ff9800',
+  },
 });
 export default styles;

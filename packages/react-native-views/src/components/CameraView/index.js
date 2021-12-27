@@ -148,17 +148,16 @@ function CameraView({
                   fakeActivity={Boolean(fakeActivity)}
                   theme={theme}
                 />
-                {sightIdsNotUploaded.length > 0
-                  && (
-                    <FAB
-                      accessibilityLabel="Retry an upload of the pictures"
-                      color="white"
-                      small
-                      icon="refresh"
-                      style={styles.refreshIcon}
-                      onPress={onRefreshUpload}
-                    />
-                  )}
+                {(sightIdsNotUploaded.length > 0 && !fakeActivity) && (
+                  <FAB
+                    small
+                    color="white"
+                    icon="refresh"
+                    style={styles.refreshIcon}
+                    onPress={onRefreshUpload}
+                    accessibilityLabel="Retry an upload of the pictures"
+                  />
+                )}
               </View>
 
               {/* camera sidebar */}
