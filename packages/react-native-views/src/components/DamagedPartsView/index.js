@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
+import noop from 'lodash.noop';
 
 import { Vehicle } from '@monkvision/react-native';
 import vehicleViews from '../../assets/vehicle';
 
-export default function DamagedPartsView({ partsWithDamages, viewType }) {
+export default function DamagedPartsView({ partsWithDamages, viewType, pressAble, onPress }) {
   const activeParts = useMemo(
     () => {
       const object = {};
@@ -20,7 +21,8 @@ export default function DamagedPartsView({ partsWithDamages, viewType }) {
     <Vehicle
       xml={vehicleViews[viewType]}
       activeParts={activeParts}
-      pressAble={false}
+      pressAble={Boolean(pressAble)}
+      onPress={onPress}
       width="100%"
       height="100%"
     />
@@ -28,10 +30,14 @@ export default function DamagedPartsView({ partsWithDamages, viewType }) {
 }
 
 DamagedPartsView.propTypes = {
+  onPress: PropTypes.func,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
+  pressAble: PropTypes.bool,
   viewType: PropTypes.oneOf(['front', 'back', 'interior']).isRequired,
 };
 
 DamagedPartsView.defaultProps = {
   partsWithDamages: [],
+  pressAble: false,
+  onPress: noop,
 };
