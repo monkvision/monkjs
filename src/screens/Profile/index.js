@@ -13,9 +13,7 @@ import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import useAuth from 'hooks/useAuth';
 import Signature from 'components/Signature';
 import { spacing } from 'config/theme';
-import Drawing from 'components/Drawing';
 
-import emptyDrawing from 'assets/emptyDocument.svg';
 import { useMediaQuery } from 'react-responsive';
 
 const { height } = Dimensions.get('window');
@@ -168,7 +166,7 @@ Popup.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     signature: PropTypes.shape({
-      isFailed: PropTypes.bool,
+      isLoading: PropTypes.bool,
       uri: PropTypes.string,
     }),
     site: PropTypes.string,
@@ -189,7 +187,7 @@ export default function Profile() {
   const navigation = useNavigation();
   const store = useStore();
 
-  const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isFailed: false, isLoading: false, uri: null } });
+  const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isLoading: false, uri: null } });
   const { firstName, lastName, company, site, signature } = accountData;
   const [showPopup, togglePopup] = useState(false);
   const user = useSelector(selectAllUser);
@@ -200,16 +198,16 @@ export default function Profile() {
     (args) => setAccountData((prev) => ({ ...prev, ...args })), [],
   );
   useEffect(() => {
-    updateAccountData({ signature: { isLoading: true, isFailed: false, uri: null } });
+    updateAccountData({ signature: { isLoading: true, uri: null } });
     if (user && user[0]?.signature) {
       const reader = new FileReader();
       reader.readAsDataURL(user[0]?.signature);
       reader.onload = () => updateAccountData({
-        signature: { isFailed: false, uri: reader.result } });
+        signature: { isLoading: false, uri: reader.result } });
       reader.onerror = () => updateAccountData({
-        signature: { isFailed: true, uri: null } });
+        signature: { isLoading: false, uri: null } });
     } else {
-      updateAccountData({ signature: { isFailed: false, isLoading: false, uri: null } });
+      updateAccountData({ signature: { isLoading: false, uri: null } });
     }
   }, [updateAccountData, user]);
 
@@ -282,7 +280,6 @@ export default function Profile() {
     getUri().then(
       (uri) => updateAccountData({ signature: {
         isLoading: false,
-        isFailed: false,
         uri: Platform.OS === 'web' ? uri : uri?.substring(1, uri.length - 1) } }),
     );
     handleClosePopup();
@@ -318,23 +315,21 @@ export default function Profile() {
               </Paragraph>
 
               <View style={styles.layout}>
-                {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" /> : null}
-
-                {signature?.uri
-                  ? (
-                    <Surface style={styles.surface}>
+                <Surface style={styles.surface}>
+                  {signature?.uri
+                    ? (
                       <Image
                         source={signature}
                         style={styles.signature}
                         width={300}
                         height={300}
                       />
-                    </Surface>
-                  )
-                  : null }
+                    )
+                    : null }
 
-                {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
-                  : null }
+                  {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
+                    : null }
+                </Surface>
 
               </View>
             </Card.Content>
