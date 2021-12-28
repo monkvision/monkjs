@@ -189,7 +189,7 @@ export default function Profile() {
   const navigation = useNavigation();
   const store = useStore();
 
-  const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isFailed: false, uri: null } });
+  const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isFailed: false, isLoading: false, uri: null } });
   const { firstName, lastName, company, site, signature } = accountData;
   const [showPopup, togglePopup] = useState(false);
   const user = useSelector(selectAllUser);
@@ -200,6 +200,7 @@ export default function Profile() {
     (args) => setAccountData((prev) => ({ ...prev, ...args })), [],
   );
   useEffect(() => {
+    updateAccountData({ signature: { isLoading: true, isFailed: false, uri: null } });
     if (user && user[0]?.signature) {
       const reader = new FileReader();
       reader.readAsDataURL(user[0]?.signature);
@@ -317,7 +318,7 @@ export default function Profile() {
               </Paragraph>
 
               <View style={styles.layout}>
-                {signature?.isFailed || signature?.uri === null ? <Drawing xml={emptyDrawing} height="200" /> : null}
+                {signature?.isFailed ? <Drawing xml={emptyDrawing} height="200" /> : null}
 
                 {signature?.uri
                   ? (
