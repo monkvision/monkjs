@@ -30,6 +30,8 @@ import {
   taskStatuses,
 } from '@monkvision/corejs';
 
+import { PicturePolygons } from '@monkvision/react-native';
+
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import {
   Card,
@@ -43,7 +45,6 @@ import {
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
 import ImageViewer from 'components/ImageViewer';
-import DamagePolygon from './DamagePolygon';
 
 const getDamageViews = (damageId, images) => {
   const damageViews = images.map((img) => img.views?.filter((v) => v.element_id === damageId))
@@ -179,6 +180,14 @@ export default () => {
   const damageImages = useMemo(() => getDamageImages(damageViews, inspection?.images ?? []),
     [damageViews, inspection.images]);
 
+  const polygons = useCallback((image) => {
+    const views = damageViews.filter((view) => view.image_region?.image_id === image.id);
+    const specifications = views.filter((v) => v.image_region)
+      .map((v) => v.image_region?.specification)
+      .map((spec) => spec.polygons);
+    return specifications ?? null;
+  }, [damageViews]);
+
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -210,11 +219,7 @@ export default () => {
                 key={String(index)}
                 onPress={() => openPreviewDialog({ name: image.name, path: image.path, index })}
               >
-                <DamagePolygon
-                  style={styles.image}
-                  currentImage={image}
-                  views={damageViews.filter((view) => view.image_region?.image_id === image.id)}
-                />
+                <PicturePolygons image={image} polygons={polygons(image)} />
               </TouchableRipple>
             )) : null}
           </ScrollView>

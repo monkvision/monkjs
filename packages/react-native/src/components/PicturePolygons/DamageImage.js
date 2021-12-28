@@ -5,20 +5,21 @@ import PropTypes from 'prop-types';
 
 export default function DamageImage({ name, path, clipId, opacity }) {
   return (
-    Platform.OS === 'ios' ? (
-      <G clipPath={clipId && `url(#${clipId})`}>
-        <Image
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-          preserveAspectRatio="xMidYMid slice"
-          key={name}
-          href={{ uri: path }}
-          opacity={`${opacity}`}
-        />
-      </G>
-    )
+    Platform.OS === 'ios'
+      ? (
+        <G clipPath={clipId && `url(#${clipId})`}>
+          <Image
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid slice"
+            key={name}
+            href={{ uri: path }}
+            opacity={`${opacity}`}
+          />
+        </G>
+      )
       : (
         <Image
           x="0"
