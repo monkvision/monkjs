@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-export default function PicturePolygons({ image, polygons }) {
+export default function DamageHighlight({ image, polygons }) {
   if (!image && !polygons && !polygons.length <= 0) {
     return <View />;
   }
@@ -39,7 +39,7 @@ export default function PicturePolygons({ image, polygons }) {
   );
 }
 
-PicturePolygons.propTypes = {
+DamageHighlight.propTypes = {
   image: PropTypes.shape({
     id: PropTypes.string,
     imageHeight: PropTypes.number,

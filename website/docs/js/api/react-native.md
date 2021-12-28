@@ -45,6 +45,38 @@ yarn add @monkvision/react-native
 }
  ```
 
+## Damage Highlight component
+### Description
+The `DamageHighlight` component allows to display damages of the inspected car on an image.
+The damage is then highlight by the property `clipPath` while the opacity of the rest of the image is reduced to be able to localized the damage on the car.
+```js
+import { DamageHighlight } from '@monkvision/react-native';
+```
+### Usage
+So the component can be used like this:
+```js
+  return <DamageHighlight image={image} polygons={polygons} />;
+```
+### Properties description
+The component's properties are from the result of an inspection, both of them are a part of `inspection.images`
+```js
+  // Details of an image from the array `inspection.images`
+  const image = {
+    id: "uuid", // image's uuid
+    imageHeight: 0, // original size of the image
+    imageWidth: 0,
+    path: "https://my_image_path.monk.ai"
+  };
+```
+```js
+  const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
+```
+The polygons are also taken from `inspection.images[i].views.image_region.polygons`
+and is in a form of a 3 levels array where:
+* The first array list all polygons of a `damage` on the current `image`
+* The second one list all `points` of a single `polygon`
+* The last one list the `position` of the `point p` in the plane (so basically it is `p.x` and `p.y`)
+
 # Views
 
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
