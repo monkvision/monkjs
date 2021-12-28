@@ -36,9 +36,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 10,
     color: 'white',
-
-    // NOTE(Ilyass): The borderBottom, logs a warning (to be fixed)
-    borderBottom: 0,
+    borderBottomWidth: 0,
     position: 'absolute',
     backgroundColor: '#ff9800',
   },
