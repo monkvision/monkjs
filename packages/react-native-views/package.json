@@ -2,7 +2,7 @@
   "name": "@monkvision/react-native-views",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "1.2.0-2",
+  "version": "1.2.0",
   "private": false,
   "description": "AI-powered vehicle damage detection for React Native",
   "homepage": "https://github.com/monkvision/monkjs/packages/react-native-views/#readme",
@@ -40,8 +40,10 @@
   },
   "dependencies": {
     "expo-screen-orientation": "^4.0.3",
+    "lodash.startcase": "^4.4.0",
     "react-native-paper": "^4.10.1",
-    "react-native-svg": "^12.1.1"
+    "react-native-svg": "^12.1.1",
+    "react-responsive": "^8.2.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -54,8 +56,8 @@
     "react-app-rewired": "^2.1.8"
   },
   "peerDependencies": {
-    "@monkvision/corejs": "1.2.0-2",
-    "@monkvision/react-native": "1.2.0-2"
+    "@monkvision/corejs": "1.2.0",
+    "@monkvision/react-native": "1.2.0"
   },
   "publishConfig": {
     "access": "public"

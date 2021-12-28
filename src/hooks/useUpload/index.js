@@ -1,15 +1,22 @@
+import { addOneImageToInspection, config } from '@monkvision/corejs';
+import { noop } from 'lodash';
 import { useCallback } from 'react';
+import { Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { addOneImageToInspection, config } from '@monkvision/corejs';
-import { Platform } from 'react-native';
-import { noop } from 'lodash';
-
-export default ({ onLoading = noop, onSuccess = noop, onError = noop, inspectionId, taskName = 'damage_detection' }) => {
+export default ({
+  onLoading = noop,
+  onSuccess = noop,
+  onError = noop,
+  inspectionId,
+  taskName = 'damage_detection',
+}) => {
   const dispatch = useDispatch();
 
-  const handleUploadPicture = useCallback(async (uri, id) => {
-    if (!inspectionId) { return; }
+  return useCallback(async (uri, id) => {
+    if (!inspectionId) {
+      return;
+    }
 
     onLoading(id);
 
@@ -39,9 +46,7 @@ export default ({ onLoading = noop, onSuccess = noop, onError = noop, inspection
     }
 
     dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
-      .then((res) => onSuccess(id, res))
+      .then((res) => onSuccess(id, uri, res))
       .catch((err) => onError(id, err));
   }, [dispatch, inspectionId, onError, onLoading, onSuccess, taskName]);
-
-  return handleUploadPicture;
 };

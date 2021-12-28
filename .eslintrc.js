@@ -35,7 +35,7 @@ module.exports = {
     'react/style-prop-object': 'off',
     'react/prop-types': [2, { ignore: ['children', 'className', 'style', 'theme', 'navigation'] }],
     'react/jsx-filename-extension': [1, {
-      extensions: ['.native.js', '.ios.js', '.android.js', '.jsx', '.js'],
+      extensions: ['.native.js', '.ios.js', '.android.js', '.js'],
     }],
 
     'import/no-extraneous-dependencies': 'off',
