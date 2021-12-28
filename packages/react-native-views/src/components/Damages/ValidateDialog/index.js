@@ -26,8 +26,9 @@ export default function ValidateDialog({
       taskName: taskNames.DAMAGE_DETECTION,
       data: { status: taskStatuses.VALIDATED },
     }),
+    { onSuccess: handleDismissDialog },
   ),
-  [inspectionId, onValidate]);
+  [handleDismissDialog, inspectionId, onValidate]);
 
   return (
     <CustomDialog
