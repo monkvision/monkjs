@@ -13,6 +13,8 @@ export default function Navigation({
   onSelectDamage,
   isValidated,
   isDeleting,
+  onPressPart,
+  isVehiclePressAble,
   ...props
 }) {
   const [index, setIndex] = useState(0);
@@ -25,10 +27,12 @@ export default function Navigation({
     { key: 'interior', title: 'Interior', icon: 'car-seat', badge: badge(computedParts.interior) },
     { key: 'list', title: 'List of all', icon: 'format-list-text', badge: badge(damagedPartsCount), disabled },
   ]);
+
+  const sceneprops = { onPress: onPressPart, pressAble: isVehiclePressAble };
   const renderScene = BottomNavigation.SceneMap({
-    front: () => <Scene viewType="front" handleOpenDialog={handleOpenDialog} {...props} />,
-    back: () => <Scene viewType="back" handleOpenDialog={handleOpenDialog} {...props} />,
-    interior: () => <Scene viewType="interior" handleOpenDialog={handleOpenDialog} {...props} />,
+    front: () => <Scene {...sceneprops} viewType="front" handleOpenDialog={handleOpenDialog} {...props} />,
+    back: () => <Scene {...sceneprops} viewType="back" handleOpenDialog={handleOpenDialog} {...props} />,
+    interior: () => <Scene {...sceneprops} viewType="interior" handleOpenDialog={handleOpenDialog} {...props} />,
     list: () => (
       <PartsList
         isValidated={isValidated}
@@ -61,14 +65,19 @@ Navigation.propTypes = {
   handleOpenDialog: PropTypes.func.isRequired,
   isDeleting: PropTypes.bool,
   isValidated: PropTypes.bool,
+  isVehiclePressAble: PropTypes.bool,
   onDeleteDamage: PropTypes.func,
+  onPressPart: PropTypes.func,
   onSelectDamage: PropTypes.func,
+
 };
 
 Navigation.defaultProps = {
   damagedPartsCount: 0,
   isValidated: false,
   isDeleting: false,
+  isVehiclePressAble: false,
   onDeleteDamage: noop,
   onSelectDamage: noop,
+  onPressPart: noop,
 };

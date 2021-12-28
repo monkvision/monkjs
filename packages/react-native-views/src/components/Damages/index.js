@@ -21,6 +21,8 @@ export default function Damages({
   onDeleteDamage,
   onSelectDamage,
   onValidate,
+  onPressPart,
+  isVehiclePressAble,
 }) {
   const inspectionId = inspection?.id;
 
@@ -56,6 +58,8 @@ export default function Damages({
             onDeleteDamage={onDeleteDamage}
             onSelectDamage={onSelectDamage}
             isDeleting={isDeleting}
+            isVehiclePressAble={isVehiclePressAble && !isValidated}
+            onPressPart={onPressPart}
           />
         </>
       )}
@@ -74,7 +78,9 @@ Damages.propTypes = {
   isDeleting: PropTypes.bool,
   isLoading: PropTypes.bool,
   isValidating: PropTypes.bool,
+  isVehiclePressAble: PropTypes.bool,
   onDeleteDamage: PropTypes.func,
+  onPressPart: PropTypes.func,
   onSelectDamage: PropTypes.func,
   onValidate: PropTypes.func,
 };
@@ -83,8 +89,10 @@ Damages.defaultProps = {
   inspection: {},
   isLoading: false,
   isValidating: false,
+  isVehiclePressAble: false,
   isDeleting: false,
   onDeleteDamage: noop,
   onSelectDamage: noop,
+  onPressPart: noop,
   onValidate: noop,
 };
