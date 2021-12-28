@@ -10,7 +10,7 @@ export default function DeleteDamageDialog({
   isDialogOpen,
   handleDismissDialog,
   handleDelete,
-  isLoading,
+  isDeleting,
 }) {
   const { colors } = useTheme();
 
@@ -31,10 +31,10 @@ export default function DeleteDamageDialog({
             style={styles.button}
             onPress={handleDelete}
             mode="contained"
-            icon={isLoading ? undefined : 'trash-can'}
+            icon={isDeleting ? undefined : 'trash-can'}
             labelStyle={{ color: 'white' }}
-            loading={isLoading}
-            disabled={isLoading}
+            loading={isDeleting}
+            disabled={isDeleting}
           >
             Delete
           </Button>
@@ -47,6 +47,6 @@ export default function DeleteDamageDialog({
 DeleteDamageDialog.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   handleDismissDialog: PropTypes.func.isRequired,
+  isDeleting: PropTypes.bool.isRequired,
   isDialogOpen: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 };

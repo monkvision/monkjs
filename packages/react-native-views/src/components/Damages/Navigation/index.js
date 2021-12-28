@@ -11,8 +11,8 @@ export default function Navigation({
   handleOpenDialog,
   onDeleteDamage,
   onSelectDamage,
-  isLoading,
   isValidated,
+  isDeleting,
   ...props
 }) {
   const [index, setIndex] = useState(0);
@@ -34,8 +34,8 @@ export default function Navigation({
         isValidated={isValidated}
         handleOpenDialog={handleOpenDialog}
         onDeleteDamage={onDeleteDamage}
+        isDeleting={isDeleting}
         onSelectDamage={onSelectDamage}
-        isLoading={isLoading}
         {...props}
       />
     ),
@@ -59,7 +59,7 @@ Navigation.propTypes = {
   }).isRequired,
   damagedPartsCount: PropTypes.number,
   handleOpenDialog: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  isDeleting: PropTypes.bool,
   isValidated: PropTypes.bool,
   onDeleteDamage: PropTypes.func,
   onSelectDamage: PropTypes.func,
@@ -67,8 +67,8 @@ Navigation.propTypes = {
 
 Navigation.defaultProps = {
   damagedPartsCount: 0,
-  isLoading: false,
   isValidated: false,
+  isDeleting: false,
   onDeleteDamage: noop,
   onSelectDamage: noop,
 };

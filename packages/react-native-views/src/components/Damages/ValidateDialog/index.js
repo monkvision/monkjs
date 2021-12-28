@@ -5,7 +5,7 @@ import noop from 'lodash.noop';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
-import { taskStatuses, taskNames } from '@monkvision/corejs';
+import { updateOneTaskOfInspection, taskNames, taskStatuses } from '@monkvision/corejs';
 
 import CustomDialog from '../../CustomDialog';
 import Drawing from '../../Drawing';
@@ -14,19 +14,20 @@ import submitDrawing from './submit';
 import styles from '../styles';
 
 export default function ValidateDialog({
-  inspectionId,
   isDialogOpen,
   isLoading,
   onValidate,
   handleDismissDialog,
+  inspectionId,
 }) {
-  const handeValidate = useCallback(() => {
-    onValidate({
+  const handeValidate = useCallback(() => onValidate(
+    updateOneTaskOfInspection({
       inspectionId,
       taskName: taskNames.DAMAGE_DETECTION,
       data: { status: taskStatuses.VALIDATED },
-    });
-  }, [inspectionId, onValidate]);
+    }),
+  ),
+  [inspectionId, onValidate]);
 
   return (
     <CustomDialog
@@ -65,6 +66,7 @@ ValidateDialog.propTypes = {
   isDialogOpen: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool,
   onValidate: PropTypes.func,
+
 };
 
 ValidateDialog.defaultProps = {
