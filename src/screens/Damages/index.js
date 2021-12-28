@@ -3,19 +3,10 @@ import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import usePartDamages from 'hooks/usePartDamages';
 
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { DamagesView, useFakeActivity } from '@monkvision/react-native-views';
 
-import { SafeAreaView } from 'react-native';
-import Navigation from 'screens/Damages/Navigation';
-import useComputedParts from 'screens/Damages/useComputedParts';
-import useLayout from 'screens/Damages/useLayout';
-
-import ValidateDialog from 'screens/Damages/ValidateDialog';
 import { DAMAGE_CREATE } from 'screens/names';
-
-import styles from 'screens/Damages/styles';
 
 import {
   damagesEntity,
@@ -27,7 +18,9 @@ import {
   imagesEntity,
   inspectionsEntity,
   tasksEntity,
+  getOneInspectionById,
 } from '@monkvision/corejs';
+import useRequest from 'hooks/useRequest/index';
 
 export default () => {
   const navigation = useNavigation();
@@ -39,6 +32,10 @@ export default () => {
   const damagesEntities = useSelector(selectDamageEntities);
   const partsEntities = useSelector(selectPartEntities);
   const tasksEntities = useSelector(selectTaskEntities);
+
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
+  const { loading: damagesLoading } = useSelector((state) => state.damages);
+  const [fakeActivity] = useFakeActivity(isLoading || damagesLoading);
 
   const { inspection } = denormalize({ inspection: inspectionId }, {
     inspection: inspectionsEntity,
@@ -53,41 +50,24 @@ export default () => {
     tasks: tasksEntities,
   });
 
-  const {
-    fakeActivity,
-    isDialogOpen, handleOpenDialog, handleDismissDialog,
-    isValidated,
-  } = useLayout({ inspection, inspectionId });
+  const handleSelectDamage = useCallback((partType) => navigation.navigate(DAMAGE_CREATE, partType),
+    [navigation]);
 
-  const partsWithDamages = usePartDamages(inspection.damages, inspection.parts);
-  const computedParts = useComputedParts(partsWithDamages);
+  const { isLoading: isValidating, request: handleValidate } = useRequest(null,
+    { onSuccess: refresh }, false);
 
-  if (partsWithDamages.length === 0) {
-    return null;
-  }
-
-  const handlePartSelect = useCallback((partType) => {
-    navigation.navigate(DAMAGE_CREATE, {
-      partType,
-    });
-  }, [navigation]);
+  const { isLoading: isDeleting, request: handleDelete } = useRequest(null,
+    { onSuccess: refresh }, false);
 
   return (
-    <SafeAreaView style={styles.root}>
-      {fakeActivity ? <ActivityIndicatorView light /> : (
-        <>
-          <ValidateDialog isDialogOpen={isDialogOpen} handleDismissDialog={handleDismissDialog} />
-          <Navigation
-            partsWithDamages={partsWithDamages}
-            computedParts={computedParts}
-            damagedPartsCount={partsWithDamages.length}
-            handleOpenDialog={handleOpenDialog}
-            isValidated={isValidated}
-            onPress={handlePartSelect}
-            pressAble={!isValidated}
-          />
-        </>
-      )}
-    </SafeAreaView>
+    <DamagesView
+      inspection={inspection}
+      onDeleteDamage={handleDelete}
+      onSelectDamage={handleSelectDamage}
+      onValidate={handleValidate}
+      isLoading={fakeActivity}
+      isDeleting={isDeleting}
+      isValidating={isValidating}
+    />
   );
 };
