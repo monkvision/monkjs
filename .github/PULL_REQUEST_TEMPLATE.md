@@ -1,16 +1,10 @@
----
-name: 'New Pull Request '
-about: 'Create new pull request'
-title: "Title"
-labels: Blog
-assignees: ''
-
----
-
 ALL CONTRIBUTIONS WILL BE REVIEWED BY AT LEAST ONE OF OUR FRONTEND TEAM MEMBERS.
 
 <!--- Before all please request a review from your team leader -->
 <!--- and members who might be interested in this PR  -->
+
+<!--- in case this is a new idea proposal please use the NEW_IDEA_PROPOSAL template by adding -->
+<!--- &template=NEW_IDEA_PROPOSAL.md to the create pull request page url -->
 
 ## Technical description
 <!--- Describe your changes technically in detail -->
