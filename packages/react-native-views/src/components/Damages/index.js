@@ -17,9 +17,12 @@ export default function Damages({
   inspection,
   isLoading,
   isValidating,
+  isDeleting,
   onDeleteDamage,
   onSelectDamage,
   onValidate,
+  onPressPart,
+  isVehiclePressAble,
 }) {
   const inspectionId = inspection?.id;
 
@@ -40,11 +43,11 @@ export default function Damages({
       {isLoading ? <ActivityIndicatorView light /> : (
         <>
           <ValidateDialog
-            inspectionId={inspectionId}
             isDialogOpen={isDialogOpen}
             handleDismissDialog={handleDismissDialog}
             onValidate={onValidate}
-            isLoading={isValidating}
+            isValidating={isValidating}
+            inspectionId={inspection.id}
           />
           <Navigation
             partsWithDamages={partsWithDamages}
@@ -54,6 +57,9 @@ export default function Damages({
             isValidated={isValidated}
             onDeleteDamage={onDeleteDamage}
             onSelectDamage={onSelectDamage}
+            isDeleting={isDeleting}
+            isVehiclePressAble={isVehiclePressAble && !isValidated}
+            onPressPart={onPressPart}
           />
         </>
       )}
@@ -69,9 +75,12 @@ Damages.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     parts: PropTypes.any.isRequired,
   }),
+  isDeleting: PropTypes.bool,
   isLoading: PropTypes.bool,
   isValidating: PropTypes.bool,
+  isVehiclePressAble: PropTypes.bool,
   onDeleteDamage: PropTypes.func,
+  onPressPart: PropTypes.func,
   onSelectDamage: PropTypes.func,
   onValidate: PropTypes.func,
 };
@@ -80,7 +89,10 @@ Damages.defaultProps = {
   inspection: {},
   isLoading: false,
   isValidating: false,
+  isVehiclePressAble: false,
+  isDeleting: false,
   onDeleteDamage: noop,
   onSelectDamage: noop,
+  onPressPart: noop,
   onValidate: noop,
 };

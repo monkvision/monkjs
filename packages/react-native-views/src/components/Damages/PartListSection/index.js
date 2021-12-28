@@ -5,6 +5,7 @@ import startCase from 'lodash.startcase';
 import noop from 'lodash.noop';
 
 import { List } from 'react-native-paper';
+import { deleteOneDamage } from '@monkvision/corejs';
 
 import DamageListItem from '../DamageListItem';
 import DeleteDamageDialog from '../DeleteDialog';
@@ -16,20 +17,17 @@ export default function PartListSection({
   isValidated,
   onSelectDamage,
   onDeleteDamage,
-  isLoading,
+  isDeleting,
 }) {
   const [deleteDamage, setDeleteDamage] = useState({});
 
-  const handleDismissDialog = useCallback(() => {
-    setDeleteDamage({});
-  }, []);
+  const handleDismissDialog = useCallback(() => setDeleteDamage({}), []);
 
-  const handleDelete = useCallback(() => {
-    onDeleteDamage({
-      id: deleteDamage.id,
-      inspectionId: deleteDamage.inspectionId,
-    }, handleDismissDialog);
-  }, [deleteDamage.id, deleteDamage.inspectionId, handleDismissDialog, onDeleteDamage]);
+  const handleDeleteDamage = useCallback(() => {
+    onDeleteDamage(
+      deleteOneDamage({ id: deleteDamage.id, inspectionId: deleteDamage.inspectionId }),
+    );
+  }, [deleteDamage.id, deleteDamage.inspectionId, onDeleteDamage]);
 
   const handleSelectDamage = useCallback((damage) => {
     onSelectDamage({
@@ -39,11 +37,8 @@ export default function PartListSection({
     });
   }, [onSelectDamage, partId]);
 
-  const handleDeleteDamage = useCallback(() => {
-    handleDelete();
-  }, [handleDelete]);
-
-  return damages && (
+  if (!damages) { return null; }
+  return (
     <>
       <List.Section>
         <List.Subheader>{startCase(partType)}</List.Subheader>
@@ -58,9 +53,9 @@ export default function PartListSection({
         ))}
       </List.Section>
       <DeleteDamageDialog
-        isDialogOpen={deleteDamage.id}
+        isDialogOpen={!!deleteDamage.id}
         handleDismissDialog={handleDismissDialog}
-        isLoading={isLoading}
+        isDeleting={isDeleting}
         handleDelete={handleDeleteDamage}
       />
     </>
@@ -70,7 +65,7 @@ export default function PartListSection({
 PartListSection.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool,
+  isDeleting: PropTypes.bool,
   isValidated: PropTypes.bool.isRequired,
   onDeleteDamage: PropTypes.func,
   onSelectDamage: PropTypes.func,
@@ -78,7 +73,7 @@ PartListSection.propTypes = {
 };
 
 PartListSection.defaultProps = {
-  isLoading: false,
+  isDeleting: false,
   onDeleteDamage: noop,
   onSelectDamage: noop,
 };

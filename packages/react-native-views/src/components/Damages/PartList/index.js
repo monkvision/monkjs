@@ -42,7 +42,6 @@ PartsList.propTypes = {
   onDeleteDamage: PropTypes.func,
   onSelectDamage: PropTypes.func,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
-  partType: PropTypes.string.isRequired,
 };
 
 PartsList.defaultProps = {
