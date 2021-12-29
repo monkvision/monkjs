@@ -30,6 +30,8 @@ import {
   taskStatuses,
 } from '@monkvision/corejs';
 
+import { DamageHighlight, usePolygons } from '@monkvision/react-native';
+
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import {
   Card,
@@ -43,7 +45,6 @@ import {
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
 import ImageViewer from 'components/ImageViewer';
-import DamagePolygon from './DamagePolygon';
 
 const getDamageViews = (damageId, images) => {
   const damageViews = images.map((img) => img.views?.filter((v) => v.element_id === damageId))
@@ -140,6 +141,7 @@ export default () => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState({});
+  const [formatImage, extractPolygon] = usePolygons();
 
   const { isLoading: isDeleteLoading, request: handleDelete } = useRequest(
     deleteOneDamage({ id: damageId, inspectionId, partId }),
@@ -210,10 +212,9 @@ export default () => {
                 key={String(index)}
                 onPress={() => openPreviewDialog({ name: image.name, path: image.path, index })}
               >
-                <DamagePolygon
-                  style={styles.image}
-                  currentImage={image}
-                  views={damageViews.filter((view) => view.image_region?.image_id === image.id)}
+                <DamageHighlight
+                  image={formatImage(image)}
+                  polygons={extractPolygon(image.id, damageViews)[0]}
                 />
               </TouchableRipple>
             )) : null}
