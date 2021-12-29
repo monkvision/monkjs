@@ -88,9 +88,8 @@ const handleRefreshUpload = useCallback(() => {
 <CaptureTour onRefreshUpload={handleRefreshUpload}/>
 ```
 
-
 ## onSettings
-``PropTypes.func``
+`PropTypes.func`
 
 Will call a function when the user press on the "Settings" control.
 
@@ -100,11 +99,10 @@ const handleSettings = () => console.log('Open settings menu');
 <CaptureTour onSettings={handleSettings}/>
 ```
 
-
 ## onSuccess
-``PropTypes.func``
+`PropTypes.func`
 
-Will call a function when the user has ended on the tour. You can use `@monkvision/corejs` API to start a damage inspection for example.
+Will call a function when the user has ended the tour. You can use `@monkvision/corejs` API to start a damage inspection for example.
 
 ``` javascript
 const handleSuccess = ({ pictures, camera, sights }) => console.log(pictures);
@@ -118,9 +116,8 @@ const handleSuccess = ({ pictures, camera, sights }) => console.log(pictures);
 <CaptureTour onSuccess={handleSuccess}/>
 ```
 
-
 ## onTakePicture
-``PropTypes.func``
+`PropTypes.func`
 
 Will call a function when the camera has taken a picture. You can use `@monkvision/corejs` API to upload the picture to an inspection for example.
 
@@ -136,9 +133,8 @@ const handleTakePicture = (picture) => console.log(picture);
 <CaptureTour onTakePicture={handleTakePicture}/>
 ```
 
-
 ## sightIdsNotUploaded
-``PropTypes.arrayof(PropTypes.string)``
+`PropTypes.arrayof(PropTypes.string)`
 
 List of picture names or ids that have failed to upload. If not empty, it will display a refresh button to use with the `onRefreshUpload` callback.
 
@@ -151,9 +147,8 @@ const sightIdsNotUploaded = [
 <CaptureTour sightIdsNotUploaded={sightIdsNotUploaded}/>
 ```
 
-
 ## sights
-``propTypes.sights``
+`propTypes.sights`
 
 List of sights. Sights are metadata for picture to enhance AI capabilities. We recommended letting this prop by default to experience the common Monk workflow (16 pictures, exterior and interior).
 

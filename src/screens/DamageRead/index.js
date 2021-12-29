@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import moment from 'moment';
 import isEmpty from 'lodash.isempty';
-import startcase from 'lodash.startcase';
+import startCase from 'lodash.startcase';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
@@ -141,7 +141,7 @@ export default () => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState({});
-  const [formatImage, extractPolygon] = usePolygons();
+  const [getImage, getPolygons] = usePolygons();
 
   const { isLoading: isDeleteLoading, request: handleDelete } = useRequest(
     deleteOneDamage({ id: damageId, inspectionId, partId }),
@@ -173,13 +173,18 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
-    { title: 'Delete', titleStyle: { color: colors.warning }, onPress: openDeletionDialog, disabled: isValidated, divider: true },
-  ], [colors.warning, fakeActivity, openDeletionDialog, isValidated, refresh]);
+    { title: 'Delete', onPress: openDeletionDialog, disabled: isValidated, divider: true },
+  ], [fakeActivity, isValidated, openDeletionDialog, refresh]);
 
-  const damageViews = useMemo(() => getDamageViews(damageId, inspection?.images ?? []),
-    [damageId, inspection.images]);
-  const damageImages = useMemo(() => getDamageImages(damageViews, inspection?.images ?? []),
-    [damageViews, inspection.images]);
+  const damageViews = useMemo(
+    () => getDamageViews(damageId, inspection?.images ?? []),
+    [damageId, inspection.images],
+  );
+
+  const damageImages = useMemo(
+    () => getDamageImages(damageViews, inspection?.images ?? []),
+    [damageViews, inspection.images],
+  );
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -200,11 +205,15 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${startcase(currentDamage.damageType)} on ${startcase(currentPart.partType)} with id: #${currentDamage.id.split('-')[0]}`}
+            title={`${startCase(currentDamage.damageType)} on ${startCase(currentPart.partType)} with id: #${currentDamage.id.split('-')[0]}`}
             titleStyle={styles.cardTitle}
             subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt).format('lll')}`}
-            onClick={() => {}}
-            left={(props) => <List.Icon {...props} icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'shape-square-plus'} />}
+            left={(props) => (
+              <List.Icon
+                icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'shape-square-plus'}
+                {...props}
+              />
+            )}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(inspection.images) ? damageImages.map((image, index) => (
@@ -213,8 +222,8 @@ export default () => {
                 onPress={() => openPreviewDialog({ name: image.name, path: image.path, index })}
               >
                 <DamageHighlight
-                  image={formatImage(image)}
-                  polygons={extractPolygon(image.id, damageViews)[0]}
+                  image={getImage(image)}
+                  polygons={getPolygons(image.id, damageViews)[0]}
                 />
               </TouchableRipple>
             )) : null}
@@ -228,18 +237,20 @@ export default () => {
               <DataTable.Row key="metadata-partType">
                 <DataTable.Cell>Part type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {startcase(currentPart.partType)}
+                  {startCase(currentPart.partType)}
                 </DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row key="metadata-damageType">
                 <DataTable.Cell>Damage type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {startcase(currentDamage.damageType)}
+                  {startCase(currentDamage.damageType)}
                 </DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row key="metadata-severity">
                 <DataTable.Cell>Severity</DataTable.Cell>
-                <DataTable.Cell style={styles.alignLeft}>{ currentDamage.severity ?? 'Not given' }</DataTable.Cell>
+                <DataTable.Cell style={styles.alignLeft}>
+                  {currentDamage.severity ?? 'Not given' }
+                </DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </CardContent>
