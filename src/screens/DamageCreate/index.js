@@ -1,24 +1,20 @@
 import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import CardContent from 'react-native-paper/src/components/Card/CardContent';
-import isEmpty from 'lodash.isempty';
-import startcase from 'lodash.startcase';
-
 import { useDispatch } from 'react-redux';
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
-import CameraSimpleView from '@monkvision/react-native-views/src/components/CameraView/CameraSimpleView';
 import useRequest from 'hooks/useRequest';
 
 import { spacing } from 'config/theme';
+import isEmpty from 'lodash.isempty';
+import startCase from 'lodash.startcase';
 
-import {
-  createOneDamage,
-  addOneViewToInspection,
-  // deleteOneView,
-  config,
-} from '@monkvision/corejs';
+import { createOneDamage, addOneViewToInspection, config } from '@monkvision/corejs';
 
 import { Image, StyleSheet, SafeAreaView, ScrollView, FlatList, Platform } from 'react-native';
+import { ActivityIndicatorView, CameraSimpleView, useFakeActivity } from '@monkvision/react-native-views';
+
+import CustomDialog from 'components/CustomDialog';
+import ImageViewer from 'components/ImageViewer';
+
 import {
   Card,
   Button,
@@ -31,8 +27,6 @@ import {
   Dialog,
 } from 'react-native-paper';
 
-import CustomDialog from 'components/CustomDialog';
-import ImageViewer from 'components/ImageViewer';
 import damageMetadataList from './metadataList';
 
 const styles = StyleSheet.create({
@@ -277,7 +271,7 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`Add photos for ${startcase(currentDamage.damage_type ?? 'damage')} on the ${startcase(currentDamage.part_type ?? 'part')}`}
+            title={`Add photos for ${startCase(currentDamage.damage_type ?? 'damage')} on the ${startCase(currentDamage.part_type ?? 'part')}`}
             titleStyle={styles.cardTitle}
             onClick={() => {}}
             left={(props) => <List.Icon {...props} icon="shape-square-plus" />}
@@ -302,7 +296,7 @@ export default () => {
               </TouchableRipple>
             )) : null}
           </ScrollView>
-          <CardContent>
+          <Card.Content>
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title>Add damage Metadata</DataTable.Title>
@@ -315,7 +309,7 @@ export default () => {
               >
                 <DataTable.Cell>Part type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {startcase(currentDamage.part_type) ?? 'Not given'}
+                  {startCase(currentDamage.part_type) ?? 'Not given'}
                   <EditButton disabled />
                 </DataTable.Cell>
               </DataTable.Row>
@@ -325,7 +319,7 @@ export default () => {
               >
                 <DataTable.Cell>Damage type</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {startcase(currentDamage.damage_type) ?? 'Not given'}
+                  {startCase(currentDamage.damage_type) ?? 'Not given'}
                   <EditButton disabled />
                 </DataTable.Cell>
               </DataTable.Row>
@@ -341,7 +335,7 @@ export default () => {
                 </DataTable.Cell>
               </DataTable.Row>
             </DataTable>
-          </CardContent>
+          </Card.Content>
           <Card.Actions style={styles.cardActions}>
             <Button
               color={theme.colors.primary}
@@ -376,13 +370,13 @@ export default () => {
             keyExtractor={(_item, index) => String(index)}
             ListHeaderComponent={() => (
               <List.Subheader theme={theme}>
-                { startcase(currentSelectItems.field) }
+                { startCase(currentSelectItems.field) }
               </List.Subheader>
             )}
             ItemSeparatorComponent={() => (<Divider style={styles.divider} />)}
             renderItem={({ item: value }) => (
               <List.Item
-                title={startcase(value)}
+                title={startCase(value)}
                 theme={theme}
                 titleEllipsizeMode="middle"
                 onPress={() => updateDamageMetaData({ field: currentSelectItems.field, value })}

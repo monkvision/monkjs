@@ -64,7 +64,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @returns {JSX.Element}
  * @constructor
  */
-function CameraView({
+function CaptureTour({
   initialPicturesState,
   isLoading,
   onCloseCamera,
@@ -184,7 +184,7 @@ function CameraView({
   );
 }
 
-CameraView.propTypes = {
+CaptureTour.propTypes = {
   initialPicturesState: propTypes.cameraPictures,
   isLoading: PropTypes.bool,
   onCloseCamera: propTypes.callback,
@@ -196,7 +196,7 @@ CameraView.propTypes = {
   sights: propTypes.sights,
 };
 
-CameraView.defaultProps = {
+CaptureTour.defaultProps = {
   initialPicturesState: {},
   isLoading: false,
   onCloseCamera: noop,
@@ -208,4 +208,4 @@ CameraView.defaultProps = {
   sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
 };
 
-export default withTheme(CameraView);
+export default withTheme(CaptureTour);
