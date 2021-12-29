@@ -1,12 +1,12 @@
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { DamagesView, useFakeActivity } from '@monkvision/react-native-views';
+import { DamagesView, useFakeActivity, CreateDamageForm } from '@monkvision/react-native-views';
 
-import { DAMAGE_CREATE, DAMAGE_READ, INSPECTION_READ } from 'screens/names';
+import { DAMAGE_READ, INSPECTION_READ } from 'screens/names';
 
 import {
   damagesEntity,
@@ -26,6 +26,7 @@ import {
 
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
+import useToggle from 'hooks/useToggle/index';
 
 export default () => {
   const navigation = useNavigation();
@@ -41,6 +42,19 @@ export default () => {
   const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
   const { loading: damagesLoading } = useSelector((state) => state.damages);
   const [fakeActivity] = useFakeActivity(isLoading || damagesLoading);
+
+  const [drawerIsOpen, handleOpenDrawer, handleCloseDrawer] = useToggle();
+
+  const [currentDamage, setCurrentDamage] = useState({
+    part_type: null,
+    damage_type: null,
+    severity: null,
+  });
+
+  const partRef = useRef({ selectedId: currentDamage.part_type });
+  React.useEffect(() => {
+    partRef.current.selectedId = currentDamage.part_type;
+  }, [currentDamage]);
 
   const { inspection } = denormalize({ inspection: inspectionId }, {
     inspection: inspectionsEntity,
@@ -68,11 +82,15 @@ export default () => {
   const handleSelectDamage = useCallback((payload) => navigation.navigate(DAMAGE_READ, payload),
     [navigation]);
 
-  const handleSelectPart = useCallback((partType) => navigation.navigate(DAMAGE_CREATE, {
-    partType,
-    inspectionId,
-  }),
-  [inspectionId, navigation]);
+  const handleSelectPart = useCallback((partType) => {
+    setCurrentDamage((prev) => ({ ...prev, part_type: partType }));
+    handleOpenDrawer();
+  },
+  [setCurrentDamage, handleOpenDrawer]);
+
+  const updateDamageMetaData = useCallback(({ field, value }) => {
+    setCurrentDamage((old) => ({ ...old, [field]: value }));
+  }, []);
 
   const { isLoading: isValidating, request: handleValidate } = useRequest(null,
     { onSuccess: refresh }, false);
@@ -82,7 +100,7 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
-    { title: 'Add damage', onPress: handleSelectPart, icon: 'camera-plus', disabled: isValidated },
+    { title: 'Add damage', onPress: handleOpenDrawer, icon: 'camera-plus', disabled: isValidated },
     { title: 'Validate',
       onPress: () => handleValidate(updateOneTaskOfInspection({
         inspectionId,
@@ -95,7 +113,7 @@ export default () => {
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleSelectPart, isValidated,
+  ], [fakeActivity, refresh, handleOpenDrawer, isValidated,
     handleValidate, inspectionId, handleGoToInspectionRead]);
 
   useLayoutEffect(() => {
@@ -111,16 +129,25 @@ export default () => {
   }, [inspectionId, menuItems, navigation]);
 
   return (
-    <DamagesView
-      inspection={inspection}
-      onDeleteDamage={handleDelete}
-      onSelectDamage={handleSelectDamage}
-      onValidate={handleValidate}
-      isLoading={fakeActivity}
-      isDeleting={isDeleting}
-      isValidating={isValidating}
-      onPressPart={handleSelectPart}
-      isVehiclePressAble
-    />
+    <>
+      <CreateDamageForm
+        isOpen={drawerIsOpen}
+        handleClose={handleCloseDrawer}
+        currentDamage={currentDamage}
+        updateDamageMetaData={updateDamageMetaData}
+      />
+      <DamagesView
+        inspection={inspection}
+        onDeleteDamage={handleDelete}
+        onSelectDamage={handleSelectDamage}
+        onValidate={handleValidate}
+        isLoading={fakeActivity}
+        isDeleting={isDeleting}
+        isValidating={isValidating}
+        onPressPart={handleSelectPart}
+        isVehiclePressAble
+        selectedId={partRef.current.selectedId}
+      />
+    </>
   );
 };
