@@ -24,8 +24,18 @@ module.exports = {
         type: 'category',
         label: 'JavaScript',
         items: [
-          'js/api/corejs',
-          'js/api/react-native',
+          'js/api/sight',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'React Native',
+        items: [
+          'js/api/components/capture-damage',
+          'js/api/components/capture-tour',
+          'js/api/components/damage-highlight',
+          'js/api/components/damage-library',
+          'js/api/components/inspected-vehicle',
         ],
       },
     ],

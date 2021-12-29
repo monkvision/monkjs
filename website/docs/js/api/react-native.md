@@ -72,18 +72,3 @@ yarn add @monkvision/react-native-views @monkvision/corejs @monkvision/react-nat
   "@monkvision/react-native": "1.1.3"
 }
  ```
-
-## CameraView
-
-``` javascript
-import { CameraView } from '@monkvision/react-native-views';
-```
-
-```
-isLoading: bool,
-onCloseCamera: ({ camera, pictures, sights }) => ( ... ),
-onShowAdvice: ({ camera, pictures, sights }) => ( ... )
-onSuccess: ({ camera, pictures, sights }) => ( ... ),
-onTakePicture: ({ picture, sight }) => ( ... ),
-sights: [],
-```

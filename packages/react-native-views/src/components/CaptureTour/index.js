@@ -192,7 +192,7 @@ CaptureTour.propTypes = {
   onSettings: propTypes.callback,
   onSuccess: propTypes.onSuccess,
   onTakePicture: propTypes.callback,
-  sightIdsNotUploaded: propTypes.string,
+  sightIdsNotUploaded: PropTypes.arrayOf(PropTypes.string),
   sights: propTypes.sights,
 };
 
