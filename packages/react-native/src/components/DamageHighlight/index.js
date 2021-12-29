@@ -1,19 +1,19 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
 import DamageImage from './DamageImage';
 
-const width = 400;
+const width = Math.min(Dimensions.get('window').width - 50, 400);
 const height = 300;
 const IMAGE_OPACITY = 0.15;
 
 const styles = {
   content: {
     flex: 1,
-    width: 400,
-    height: 300,
+    width,
+    height,
   },
 };
 
@@ -24,16 +24,24 @@ export default function DamageHighlight({ image, polygons }) {
 
   return (
     <View style={styles.content}>
-      <Svg width={width} height={height} viewBox={`0 0 ${image.imageWidth} ${image.imageHeight}`}>
+      <Svg width={width} height={height} viewBox={`0 0 ${image.width} ${image.height}`}>
         <Defs>
           <ClipPath id={`clip${image.id}`}>
-            {polygons.map((region) => region.map((polygon, index) => <Polygon key={String(index)} points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')} fill="red" stroke="black" strokeWidth="1" />))}
+            {polygons?.map((polygon, index) => (
+              <Polygon
+                key={String(index)}
+                points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')}
+                fill="red"
+                stroke="black"
+                strokeWidth="1"
+              />
+            ))}
           </ClipPath>
         </Defs>
         {/* Show Damages Polygon */}
-        <DamageImage name={image.id} path={image.path} clipId={`clip${image.id}`} />
+        <DamageImage name={image.id} source={image.source} clip />
         {/* Show background image with a low opacity */}
-        <DamageImage name={image.id} path={image.path} opacity={IMAGE_OPACITY} />
+        <DamageImage name={image.id} source={image.source} opacity={IMAGE_OPACITY} />
       </Svg>
     </View>
   );
@@ -41,10 +49,24 @@ export default function DamageHighlight({ image, polygons }) {
 
 DamageHighlight.propTypes = {
   image: PropTypes.shape({
+    height: PropTypes.number,
     id: PropTypes.string,
-    imageHeight: PropTypes.number,
-    imageWidth: PropTypes.number,
-    path: PropTypes.string,
+    source: {
+      uri: PropTypes.string,
+    },
+    width: PropTypes.number,
   }).isRequired,
   polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))).isRequired,
 };
+// Values example
+
+// const image = {
+//   id: "uuid", // image's uuid
+//   width: 0, // original size of the image
+//   height: 0,
+//   source: {
+//     uri: "https://my_image_path.monk.ai"
+//   },
+// };
+
+// const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];

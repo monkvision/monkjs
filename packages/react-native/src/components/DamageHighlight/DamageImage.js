@@ -3,11 +3,11 @@ import { Platform } from 'react-native';
 import { G, Image } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
-export default function DamageImage({ name, path, clipId, opacity }) {
+export default function DamageImage({ clip, name, source, opacity }) {
   return (
     Platform.OS === 'ios'
       ? (
-        <G clipPath={clipId && `url(#${clipId})`}>
+        <G clipPath={name && `url(#clip${name})`}>
           <Image
             x="0"
             y="0"
@@ -15,7 +15,7 @@ export default function DamageImage({ name, path, clipId, opacity }) {
             height="100%"
             preserveAspectRatio="xMidYMid slice"
             key={name}
-            href={{ uri: path }}
+            href={source}
             opacity={`${opacity}`}
           />
         </G>
@@ -28,24 +28,26 @@ export default function DamageImage({ name, path, clipId, opacity }) {
           height="100%"
           preserveAspectRatio="xMidYMid slice"
           key={name}
-          href={Platform.OS === 'web' ? path : { uri: path }}
+          href={Platform.OS === 'web' ? source.uri : source}
           opacity={`${opacity}`}
-          clipPath={clipId && `url(#${clipId})`}
+          clipPath={clip && `url(#clip${name})`}
         />
       )
   );
 }
 
 DamageImage.propTypes = {
-  clipId: PropTypes.string,
+  clip: PropTypes.bool,
   name: PropTypes.string,
   opacity: PropTypes.number,
-  path: PropTypes.string,
+  source: {
+    uri: PropTypes.string,
+  },
 };
 
 DamageImage.defaultProps = {
-  clipId: null,
+  clip: false,
   name: '',
   opacity: 1,
-  path: '',
+  source: { uri: '' },
 };

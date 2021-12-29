@@ -63,9 +63,11 @@ The component's properties are from the result of an inspection, both of them ar
   // Details of an image from the array `inspection.images`
   const image = {
     id: "uuid", // image's uuid
-    imageHeight: 0, // original size of the image
-    imageWidth: 0,
-    path: "https://my_image_path.monk.ai"
+    width: 0, // original size of the image
+    height: 0,
+    source: {
+      uri: "https://my_image_path.monk.ai"
+    },
   };
 ```
 ```js
@@ -76,6 +78,20 @@ and is in a form of a 3 levels array where:
 * The first array list all polygons of a `damage` on the current `image`
 * The second one list all `points` of a single `polygon`
 * The last one list the `position` of the `point p` in the plane (so basically it is `p.x` and `p.y`)
+
+### Hook
+#### Description
+In the case you would use the component on the output of our api (`/inspection/{id}`), you can use the hook `usePolygons` to format the api's inspection image information and extract the polygons:
+```js
+const [formatImage, extractPolygons] = usePolygons();
+```
+#### Usage
+```
+fomatImage(image): { width, height, id, source }
+```
+```
+extractPolygons(imageId, views): [[[[x0, y0], [x1, y1]], [[x2, y2], [x3, y3]]]]
+```
 
 # Views
 
