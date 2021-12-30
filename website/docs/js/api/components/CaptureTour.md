@@ -6,6 +6,12 @@ slug: /js/api/components/capture-tour
 
 **Interface guiding user in a 360 vehicle capture process.**
 
+![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
+
+```yarn
+yarn add @monkvision/react-native-views
+```
+
 ``` javascript
 import { CaptureTour } from '@monkvision/react-native-views'; // or CameraView
 ```

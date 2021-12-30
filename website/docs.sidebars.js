@@ -1,10 +1,5 @@
 module.exports = {
-  docsSidebar: [{
-    type: 'category',
-    label: 'Getting Started',
-    items: ['intro', 'install'/* , 'configure' */],
-    collapsed: false,
-  }, {
+  docsSidebar: ['intro', {
     type: 'category',
     label: 'Guides',
     items: [
@@ -24,7 +19,12 @@ module.exports = {
         type: 'category',
         label: 'JavaScript',
         items: [
+          'js/api/damages',
+          'js/api/images',
+          'js/api/inspections',
           'js/api/sight',
+          'js/api/tasks',
+          'js/api/views',
         ],
       },
       {

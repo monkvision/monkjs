@@ -1,6 +1,6 @@
 ---
 id: sight
-title: "Sight"
+title: "Sights"
 slug: /js/api/sight
 ---
 

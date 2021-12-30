@@ -8,6 +8,12 @@ slug: /js/api/components/damage-highlight
 Damages are highlighted by the property `clipPath` while the opacity of the rest of the image is reduced to localized the damage on the car.
 [Try it with Expo Snack.](https://snack.expo.dev/@alexandre-em-monk/damagehighlight-component)
 
+![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
+
+```yarn
+yarn add @monkvision/react-native
+```
+
 ``` javascript
 import { DamageHighlight } from '@monkvision/react-native';
 ```
