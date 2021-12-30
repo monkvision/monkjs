@@ -156,4 +156,4 @@ export const {
   selectTotal: selectTotalViews,
 } = viewsAdapter.getSelectors((state) => state.views);
 
-export { default as monkApi } from './monkApi';
+export * as monkApi from './monkApi';
