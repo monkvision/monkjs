@@ -6,8 +6,10 @@ import { noop, startCase, isEmpty } from 'lodash';
 
 import { utils } from '@monkvision/react-native';
 
-import useToggle from 'hooks/useToggle';
-import { ImageViewer, Drawer } from '..';
+import Drawer from '../Drawer';
+import ImageViewer from '../ImageViewer';
+import useToggle from '../../hooks/useToggle';
+
 import CameraSimpleView from '../CameraView/CameraSimpleView';
 import damageMetadataList from './metadataList';
 
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   divider: { opacity: 0.3 },
   cameraIcon: { marginRight: spacing(4) },
 });
-  // handleDismissSelectDialog();
+
 function CreateDamageForm({
   theme,
   isOpen,
@@ -114,6 +116,8 @@ function CreateDamageForm({
     setPreviewImage({});
   }, [setDamagePictures, closePreviewDialog, previewImage.index]);
 
+  const handleClearDamagePictures = useCallback(() => setDamagePictures([]), [setDamagePictures]);
+
   const wrapTitles = useMemo(() => {
     if (currentDamage.damage_type) { return startCase(currentDamage.damage_type); }
     return 'a damage';
@@ -127,7 +131,7 @@ function CreateDamageForm({
   if (isEmpty(currentDamage)) { return null; }
   return (
     <>
-      <Drawer isOpen={isOpen} handleClose={handleClose}>
+      <Drawer isOpen={isOpen} handleClose={handleClose} onClose={handleClearDamagePictures}>
         <Drawer.Title
           title={`Add photos for ${wrapTitles}`}
           subtitle={wrapSubtitles}
@@ -145,7 +149,7 @@ function CreateDamageForm({
           )}
         />
 
-        <ScrollView style={{ height: 500 }}>
+        <ScrollView style={{ height: Drawer.CONTENT_HEIGHT }}>
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(damagePictures) ? damagePictures?.map(({ uri }, index) => (
               <TouchableRipple

@@ -53,7 +53,11 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
   return (
     <Drawer isOpen={isOpen} handleClose={handleClose}>
       <Drawer.Title title="Edit account data" />
-      <ScrollView scrollEnabled={scrollEnabled} ref={scrollRef}>
+      <ScrollView
+        scrollEnabled={scrollEnabled}
+        ref={scrollRef}
+        style={{ height: Drawer.CONTENT_HEIGHT }}
+      >
         <View style={{ height: 900 }}>
           <Drawer.Content>
             <TextInput style={styles.textInput} label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />

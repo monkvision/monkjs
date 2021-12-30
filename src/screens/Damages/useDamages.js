@@ -8,6 +8,7 @@ import useToggle from 'hooks/useToggle';
 
 import { createOneDamage, addOneViewToInspection, config } from '@monkvision/corejs';
 import { Platform } from 'react-native';
+import { snakeCase } from 'lodash';
 
 function useDamages({ currentDamage, inspectionId, setCurrentDamage, handleCloseDrawer, refresh }) {
   const [isUploading, toggleUploadingOn, toggleUploadingOff] = useToggle();
@@ -78,7 +79,12 @@ function useDamages({ currentDamage, inspectionId, setCurrentDamage, handleClose
     handleCloseDrawer, toggleUploadingOff, toggleUploadingOn]);
 
   const { isLoading, request: createDamageRequest } = useRequest(
-    createOneDamage({ inspectionId, data: currentDamage }),
+    createOneDamage({ inspectionId,
+      data: {
+        part_type: snakeCase(currentDamage.part_type),
+        damage_type: snakeCase(currentDamage.damage_type),
+      },
+    }),
     {
       onSuccess: ({ result: id }) => {
         setCurrentDamage((old) => ({ ...old, id }));
@@ -88,7 +94,6 @@ function useDamages({ currentDamage, inspectionId, setCurrentDamage, handleClose
       } },
     false,
   );
-
   const isDamageValid = useMemo(() => currentDamage.part_type && currentDamage.damage_type,
     [currentDamage.damage_type, currentDamage.part_type]);
 
