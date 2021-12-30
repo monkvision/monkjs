@@ -10,7 +10,7 @@ import Drawer from '../Drawer';
 import ImageViewer from '../ImageViewer';
 import useToggle from '../../hooks/useToggle';
 
-import CameraSimpleView from '../CameraView/CameraSimpleView';
+import CameraSimpleView from '../CaptureTour/CameraSimpleView';
 import damageMetadataList from './metadataList';
 
 const spacing = utils.styles.spacing;
