@@ -4,7 +4,7 @@ import { denormalize } from 'normalizr';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { DamagesView, useFakeActivity, CreateDamageForm } from '@monkvision/react-native-views';
+import { DamagesView, useFakeActivity, CreateDamageForm, useOrientation } from '@monkvision/react-native-views';
 
 import { DAMAGE_READ, INSPECTION_READ } from 'screens/names';
 
@@ -33,6 +33,7 @@ export default () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { inspectionId } = route.params;
+  const [orientation, rotateTo, orientationIsNotSupported] = useOrientation();
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -91,10 +92,11 @@ export default () => {
     [navigation]);
 
   const handleSelectPart = useCallback((partType) => {
+    if (orientation !== 1 && !orientationIsNotSupported) { rotateTo.portrait(); }
     setCurrentDamage((prev) => ({ ...prev, part_type: partType }));
     handleOpenDrawer();
   },
-  [setCurrentDamage, handleOpenDrawer]);
+  [orientation, handleOpenDrawer, rotateTo, orientationIsNotSupported]);
 
   const handleAddNewDamage = useCallback(() => {
     setCurrentDamage((prev) => ({ ...prev, part_type: null }));
@@ -105,6 +107,14 @@ export default () => {
   const updateDamageMetaData = useCallback(({ field, value }) => {
     setCurrentDamage((old) => ({ ...old, [field]: value }));
   }, []);
+
+  const handleHideNavigationBar = useCallback(() => navigation.setOptions({
+    headerShown: true,
+  }), [navigation]);
+
+  const handleShowNavigationBar = useCallback(() => navigation.setOptions({
+    headerShown: true,
+  }), [navigation]);
 
   const { isLoading: isValidating, request: handleValidate } = useRequest(null,
     { onSuccess: refresh }, false);
@@ -153,6 +163,8 @@ export default () => {
         isDamageValid={isDamageValid}
         handleCreateDamageRequest={createDamageRequest}
         isLoading={damageIsLoading}
+        onCameraOpen={handleHideNavigationBar}
+        onCameraClose={handleShowNavigationBar}
       />
       <DamagesView
         inspection={inspection}

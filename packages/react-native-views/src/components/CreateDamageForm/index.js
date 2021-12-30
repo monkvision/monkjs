@@ -1,11 +1,12 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, StyleSheet, Image, FlatList } from 'react-native';
+import { ScrollView, StyleSheet, Image, FlatList, View, Text } from 'react-native';
 import { IconButton, DataTable, Button, withTheme, List, TouchableRipple, Portal, Modal, Dialog, Divider } from 'react-native-paper';
 import { noop, startCase, isEmpty } from 'lodash';
 
 import { utils } from '@monkvision/react-native';
 
+import useOrientation from '../../hooks/useOrientation';
 import Drawer from '../Drawer';
 import ImageViewer from '../ImageViewer';
 import useToggle from '../../hooks/useToggle';
@@ -64,11 +65,42 @@ const styles = StyleSheet.create({
   alignLeft: {
     justifyContent: 'flex-end',
   },
+  cell: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    paddingTop: 5,
+  },
   buttonLabel: { color: '#FFFFFF' },
   validationButton: { margin: spacing(2), flex: 1 },
   divider: { opacity: 0.3 },
   cameraIcon: { marginRight: spacing(4) },
 });
+
+function RowCell({ value, icon, title }) {
+  return (
+    <>
+      <DataTable.Cell>{title}</DataTable.Cell>
+      <DataTable.Cell style={styles.alignLeft}>
+        <View style={styles.cell}>
+          <Text>{startCase(value) || 'Not given'}</Text>
+          <IconButton icon={icon} disabled />
+        </View>
+      </DataTable.Cell>
+    </>
+  );
+}
+RowCell.propTypes = {
+  icon: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  value: PropTypes.string,
+};
+RowCell.defaultProps = {
+  value: null,
+  title: null,
+};
 
 function CreateDamageForm({
   theme,
@@ -80,6 +112,8 @@ function CreateDamageForm({
   isDamageValid,
   handleCreateDamageRequest,
   isLoading,
+  onCameraOpen,
+  onCameraClose,
 }) {
   const [isCameraViewOpen, openCameraView, closeCameraView] = useToggle();
   const [isSelectDialogOpen, openSelectDialog, closeSelectDialog] = useToggle();
@@ -128,7 +162,35 @@ function CreateDamageForm({
     return 'On a part';
   }, [currentDamage.part_type]);
 
+  const [orientation,, orientationIsNotSupported] = useOrientation();
+
+  // trigger the camera open/close events
+  useEffect(() => {
+    if (isCameraViewOpen) { onCameraOpen(); } else { onCameraClose(); }
+  }, [isCameraViewOpen, onCameraClose, onCameraOpen]);
+
   if (isEmpty(currentDamage)) { return null; }
+  if (isCameraViewOpen) {
+    return (
+      <Portal>
+        <Modal visible>
+          <View style={{ backgroundColor: '#FFF', width: '100%', height: '100%' }}>
+            <CameraSimpleView
+              isLoading={false}
+              onTakePicture={noop}
+              onCloseCamera={(pictures) => { closeCameraView(); setDamagePictures(pictures); }}
+              theme={theme}
+              initialPicturesState={damagePictures}
+            />
+          </View>
+        </Modal>
+      </Portal>
+    );
+  }
+
+  // the drawer doesn't support orientation change (based on animated)
+  // in this case we force the drawer to be opened onlu in portrait orientation
+  if (orientation !== 1 && !orientationIsNotSupported) { return null; }
   return (
     <>
       <Drawer isOpen={isOpen} handleClose={handleClose} onClose={handleClearDamagePictures}>
@@ -171,54 +233,25 @@ function CreateDamageForm({
                 key="metadata-partType"
                 onPress={() => handleOpenSelectDialog(damageMetadataList.partTypes)}
               >
-                <DataTable.Cell>Part type</DataTable.Cell>
-                <DataTable.Cell style={styles.alignLeft}>
-                  {startCase(currentDamage.part_type) ?? 'Not given'}
-                  <DataTable.Cell style={styles.alignLeft}>
-                    <IconButton
-                      icon="pencil"
-                      disabled
-                    />
-                  </DataTable.Cell>
-                </DataTable.Cell>
+                <RowCell title="Part type" value={currentDamage.part_type} icon="pencil" />
               </DataTable.Row>
               <DataTable.Row
                 key="metadata-damageType"
                 onPress={() => handleOpenSelectDialog(damageMetadataList.damageTypes)}
               >
-                <DataTable.Cell>Damage type</DataTable.Cell>
-                <DataTable.Cell style={styles.alignLeft}>
-                  {startCase(currentDamage.damage_type) ?? 'Not given'}
-                  <DataTable.Cell style={styles.alignLeft}>
-                    <IconButton
-                      icon="pencil"
-                      disabled
-                    />
-                  </DataTable.Cell>
-                </DataTable.Cell>
+                <RowCell title="Damage type" value={currentDamage.damage_type} icon="pencil" />
               </DataTable.Row>
               <DataTable.Row
                 key="metadata-severity"
                 onPress={() => handleOpenSelectDialog(damageMetadataList.severityTypes)}
                 disabled
               >
-                <DataTable.Cell>Severity</DataTable.Cell>
-                <DataTable.Cell style={styles.alignLeft}>
-                  {currentDamage.severity ?? 'Not given' }
-                  <DataTable.Cell style={styles.alignLeft}>
-                    <IconButton
-                      icon="pencil"
-                      disabled
-                    />
-                  </DataTable.Cell>
-
-                </DataTable.Cell>
+                <RowCell title="Severity" value={currentDamage.severity} icon="pencil" />
               </DataTable.Row>
             </DataTable>
           </Drawer.Content>
           <Drawer.Actions style={styles.cardActions}>
             <Button
-          // color={theme.colors.primary}
               labelStyle={styles.buttonLabel}
               onPress={handleCreateDamageRequest}
               mode="contained"
@@ -232,15 +265,6 @@ function CreateDamageForm({
         </ScrollView>
       </Drawer>
       <Portal>
-        <Modal visible={isCameraViewOpen}>
-          <CameraSimpleView
-            isLoading={false}
-            onTakePicture={noop}
-            onCloseCamera={(pictures) => { closeCameraView(); setDamagePictures(pictures); }}
-            theme={theme}
-            initialPicturesState={damagePictures}
-          />
-        </Modal>
         <Modal visible={isSelectDialogOpen}>
           <Dialog.ScrollArea style={styles.scrollArea}>
             <FlatList
@@ -302,8 +326,11 @@ CreateDamageForm.propTypes = {
   isDamageValid: PropTypes.bool,
   isLoading: PropTypes.bool,
   isOpen: PropTypes.bool,
+  onCameraClose: PropTypes.func,
+  onCameraOpen: PropTypes.func,
   updateCurrentDamage: PropTypes.func,
   updateDamageMetaData: PropTypes.func,
+
 };
 
 CreateDamageForm.defaultProps = {
@@ -320,5 +347,7 @@ CreateDamageForm.defaultProps = {
   isDamageValid: false,
   handleCreateDamageRequest: noop,
   isLoading: false,
+  onCameraClose: noop,
+  onCameraOpen: noop,
 };
 export default withTheme(CreateDamageForm);
