@@ -6,3 +6,5 @@ export { default as DamagesView } from './Damages';
 export { default as PicturesSummaryView } from './PicturesSummaryView';
 export { default as TutorialView } from './TutorialView';
 export { default as CreateDamageForm } from './CreateDamageForm';
+export { default as ImageViewer } from './ImageViewer';
+export { default as Drawer } from './Drawer';

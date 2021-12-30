@@ -27,6 +27,7 @@ import {
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
+import useDamages from './useDamages';
 
 export default () => {
   const navigation = useNavigation();
@@ -48,7 +49,7 @@ export default () => {
   const [currentDamage, setCurrentDamage] = useState({
     part_type: null,
     damage_type: null,
-    severity: null,
+    // severity: null,
   });
 
   const partRef = useRef({ selectedId: currentDamage.part_type });
@@ -69,6 +70,13 @@ export default () => {
     tasks: tasksEntities,
   });
 
+  const {
+    damageIsLoading,
+    createDamageRequest,
+    isDamageValid,
+    damagePicturesState,
+  } = useDamages({ currentDamage, inspectionId, setCurrentDamage, handleCloseDrawer, refresh });
+
   const isValidated = useMemo(
     () => inspection.tasks.find(
       (t) => t.name === taskNames.DAMAGE_DETECTION,
@@ -88,6 +96,12 @@ export default () => {
   },
   [setCurrentDamage, handleOpenDrawer]);
 
+  const handleAddNewDamage = useCallback(() => {
+    setCurrentDamage((prev) => ({ ...prev, part_type: null }));
+    handleOpenDrawer();
+  },
+  [setCurrentDamage, handleOpenDrawer]);
+
   const updateDamageMetaData = useCallback(({ field, value }) => {
     setCurrentDamage((old) => ({ ...old, [field]: value }));
   }, []);
@@ -100,7 +114,7 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
-    { title: 'Add damage', onPress: handleOpenDrawer, icon: 'camera-plus', disabled: isValidated },
+    { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated },
     { title: 'Validate',
       onPress: () => handleValidate(updateOneTaskOfInspection({
         inspectionId,
@@ -113,7 +127,7 @@ export default () => {
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleOpenDrawer, isValidated,
+  ], [fakeActivity, refresh, handleAddNewDamage, isValidated,
     handleValidate, inspectionId, handleGoToInspectionRead]);
 
   useLayoutEffect(() => {
@@ -135,6 +149,10 @@ export default () => {
         handleClose={handleCloseDrawer}
         currentDamage={currentDamage}
         updateDamageMetaData={updateDamageMetaData}
+        damagePicturesState={damagePicturesState}
+        isDamageValid={isDamageValid}
+        handleCreateDamageRequest={createDamageRequest}
+        isLoading={damageIsLoading}
       />
       <DamagesView
         inspection={inspection}
