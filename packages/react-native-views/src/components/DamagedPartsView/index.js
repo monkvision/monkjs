@@ -6,7 +6,8 @@ import noop from 'lodash.noop';
 import { Vehicle } from '@monkvision/react-native';
 import vehicleViews from '../../assets/vehicle';
 
-export default function DamagedPartsView({ partsWithDamages, viewType, pressAble, onPress }) {
+export default function DamagedPartsView({ partsWithDamages, viewType, pressAble, onPress,
+  selectedId }) {
   const activeParts = useMemo(
     () => {
       const object = {};
@@ -19,6 +20,7 @@ export default function DamagedPartsView({ partsWithDamages, viewType, pressAble
 
   return (
     <Vehicle
+      selectedId={selectedId}
       xml={vehicleViews[viewType]}
       activeParts={activeParts}
       pressAble={Boolean(pressAble)}
@@ -33,6 +35,7 @@ DamagedPartsView.propTypes = {
   onPress: PropTypes.func,
   partsWithDamages: PropTypes.arrayOf(PropTypes.object),
   pressAble: PropTypes.bool,
+  selectedId: PropTypes.string,
   viewType: PropTypes.oneOf(['front', 'back', 'interior']).isRequired,
 };
 
@@ -40,4 +43,5 @@ DamagedPartsView.defaultProps = {
   partsWithDamages: [],
   pressAble: false,
   onPress: noop,
+  selectedId: null,
 };

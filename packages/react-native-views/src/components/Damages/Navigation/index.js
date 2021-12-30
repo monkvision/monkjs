@@ -15,6 +15,7 @@ export default function Navigation({
   isDeleting,
   onPressPart,
   isVehiclePressAble,
+  selectedId,
   ...props
 }) {
   const [index, setIndex] = useState(0);
@@ -28,7 +29,7 @@ export default function Navigation({
     { key: 'list', title: 'List of all', icon: 'format-list-text', badge: badge(damagedPartsCount), disabled },
   ]);
 
-  const sceneprops = { onPress: onPressPart, pressAble: isVehiclePressAble };
+  const sceneprops = { onPress: onPressPart, pressAble: isVehiclePressAble, selectedId };
   const renderScene = BottomNavigation.SceneMap({
     front: () => <Scene {...sceneprops} viewType="front" handleOpenDialog={handleOpenDialog} {...props} />,
     back: () => <Scene {...sceneprops} viewType="back" handleOpenDialog={handleOpenDialog} {...props} />,
@@ -69,7 +70,7 @@ Navigation.propTypes = {
   onDeleteDamage: PropTypes.func,
   onPressPart: PropTypes.func,
   onSelectDamage: PropTypes.func,
-
+  selectedId: PropTypes.string,
 };
 
 Navigation.defaultProps = {
@@ -80,4 +81,5 @@ Navigation.defaultProps = {
   onDeleteDamage: noop,
   onSelectDamage: noop,
   onPressPart: noop,
+  selectedId: null,
 };
