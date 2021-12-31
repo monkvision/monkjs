@@ -155,3 +155,5 @@ export const {
   selectAll: selectAllViews,
   selectTotal: selectTotalViews,
 } = viewsAdapter.getSelectors((state) => state.views);
+
+export * as monkApi from './monkApi';

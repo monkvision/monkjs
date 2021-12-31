@@ -1,91 +1,22 @@
 ---
 id: intro
-title: "🏁 Overview"
+title: "🚀 Getting started"
 slug: /
 ---
 
-Let's divide Monk into three parts. The **core**, the **view** and the **app**.
+![@monkvision/react-native-views latest package](https://img.shields.io/npm/v/@monkvision/react-native-views/latest.svg)
 
-* Core is a module using redux queries
-* View is a component using native features with core features
-* App is your own application
-
-
-``` mermaid
-sequenceDiagram
-
-participant App
-participant View
-participant Core
-
-par Runtime
-App->>Core: Configure instance of MonkCore
-Note over App,View: import { config } from '@monkvision/corejs';
-App->>View: Render a CameraView loading native Camera
-Note over App,View: import { CameraView } from '@monkvision/react-native-views';
-end
-
-loop Component Lifecycle
-View-->>Core: Use hooks to get or set data
-Core-->>View: Update view with new data
-Note over Core,View: Execute callbacks from Components
-end
-
-View->>App: Display elements and drive user until<br>he gets the full inspection
-Note over View,App: const handleCloseCamera =<br>useCallback((pictures) => { ... }, []);
-Note over View,App: <CameraView onCloseCamera={handleCloseCamera} />
+```yarn
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views
 ```
 
-## 🧿 Core
-
-Based on Redux, the core instance provides a set of tools to request manipulation of Monk data.
-
-``` mermaid
-sequenceDiagram
-
-participant Core
-participant Servers
-
-loop
-  Core->>Servers: Execute queries
-  Servers->>Core: Update client store via HTTP response
-  Servers-->>Core: Invalidate cache with WS stream
-end
-```
-
-Once instantiated, the core **provides the APIs** essential to the use of artificial intelligence, but also **hooks** and other **middlewares** specific to front-end development.
-
-``` javascript
-/* config/corejs.js */
-
-import Constants from 'expo-constants';
-import { config } from '@monkvision/corejs';
-
-const axiosConfig = {
-  baseURL: `https://${Constants.manifest.extra.API_DOMAIN}`,
-  headers: { 'Access-Control-Allow-Origin': '*' },
-};
-
-const authConfig = {
-  domain: Constants.manifest.extra.AUTH_DOMAIN,
-  audience: Constants.manifest.extra.AUTH_AUDIENCE,
-  clientId: Constants.manifest.extra.AUTH_CLIENT_ID,
-};
-
-config.axiosConfig = axiosConfig;
-config.authConfig = authConfig;
-```
-
-``` javascript
+```javascript
 /* App.jsx */
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { getOneInspectionById, selectInspectionById } from '@monkvision/corejs';
-
-import JSONTree from 'react-native-json-tree';
+import { monkApi } from '@monkvision/corejs';
 
 // Your own components...
 import Loading from 'components/Loading';
@@ -94,70 +25,74 @@ import Inspection from 'components/Inspection';
 
 function GetInspectionScreen() {
   const route = useRoute();
-  const dispatch = useDispatch();
-
   const { inspectionId } = route.params;
-  const inspection = useSelector(((state) => selectInspectionById(state, inspectionId)));
-  const { loading, error } = useSelector(((state) => state.inspections));
+
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleRequest = useCallback(async (id) => {
+    try {
+      setLoading(true);
+      const apiResult = await monkapi.inspections.getOne({ id });
+      setLoading(false); setResult(apiResult);
+    } catch (e) {
+      setLoading(false); setError(e);
+    }
+  }, []);
 
   useEffect(() => {
-    if (loading !== 'pending' && !inspection && !error) {
-      dispatch(getOneInspectionById({ id: inspectionId }));
-    }
-  }, [dispatch, error, inspection, inspectionId, loading]);
+    handleRequest(inspectionId)
+  }, [inspectionId]);
 
-  if (loading === 'pending') {
+  if (loading) {
     return <Loading />;
   }
 
   if (error) {
-    return <ErrorCard />;
+    return <ErrorCard error={error} />;
   }
 
-  return <Inspection {...inspection) />;
+  return <Inspection result={result} />;
 }
 ```
 
-> Currently written in _JavaScript_, we are working to provide a core for every popular language that can be requested to execute a query (_EcmaScript, TypeScript, Dart, Python..._).
-It accepts a `CLIENT_ID` and domain name `MONK_DOMAIN` as parameters. It follows the _Redux_ pattern and can be combined with your own store and your own middleware.
+## 📦 Available releases
+| Language or framework | Module |
+|-----------------------|--------|
+| JavaScript | [@monkvision/corejs](https://www.npmjs.com/package/@monkvision/corejs) |
+| React Native | [@monkvision/react-native](https://www.npmjs.com/package/@monkvision/react-native) <br/>[@monkvision/react-native-views](https://www.npmjs.com/package/@monkvision/react-native-views) |
 
-## 🧱 Components
+We are working to provide as soon as possible new SDKs for other languages.
 
-The React Native component library allows you to build a set of views or modules brick by brick.
+## JavaScript and React Native
 
-This library is useful if you want to use lower level features or customize your components as you wish, unlike the `react-native-views` library which embeds much more than micro-components.
+Monk's SDK is made up of different modules which can be dense.
+This is why we leave a lot of transparency in the use of the product,
+and we install the dependencies as peers rather than overloading the modules.
 
-## 🚀 Views
+With the following **bulk command**,
+you can directly use the SDK for the **JS & React Native stack**.
 
-The `react-native-views` library embeds the features of the previous two. It mixes the server calls with the components in order to provide a very high level development kit.
-
-> Each view globally accepts a panel of callbacks like `onCloseCamera` or `onTakingPicture`. They are however heavier, using `react-native-paper` as the default UI library, which can weigh down your bundle.
-
-The views are all compatible with Android, iOS and Web, unless specified otherwise.
-
-``` javascript
-/* MyNavigationScreen.jsx */
-
-import React, { useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { CameraView } from '@monkvision/react-native-views';
-
-export default function MyNavigationScreen() {
-  const navigation = useNavigation();
-
-  const handleCloseCamera = useCallback((/* pictures */) => {
-    // console.log(pictures);
-    navigation.navigate('HomePage');
-  }, [navigation]);
-
-  return (
-    <CameraView onCloseCamera={handleCloseCamera} />
-  );
-}
+Install from `npm`
+```npm
+npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-native-web --save
 ```
+
+Install from `yarn`
+```yarn
+yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-native-web
+```
+
+The command install all dependencies you need if you go all in. We mean that you probably don't need _react-native-web_ if you don't run your App in the browser.
+
+> Are you starting a new application? We recommend the use of Expo.
+> Already have a React Native app? Some may be required
+> to manage iOS, Android and Web compatibility as much as possible.
+
+For questions or problems, see the [🧯 Troubleshooting](https://monkvision.github.io/monkjs/docs/troubleshooting) section
+or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issues).
 
 ## What's next?
 
-Now that you understand each basic principle, you can install the necessary modules for your own tech stack.
-Any request or feedback is welcome.
-For that, please create an issue on the repository [monkvision/monkjs](https://github.com/monkvision/monkjs/issues/new).
+You can start following our guides on first, setting up depending on the workflow you use, then taking pictures.

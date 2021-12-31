@@ -9,10 +9,10 @@ import { useNavigation } from '@react-navigation/native';
 import { getUserSignature } from '@monkvision/corejs';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 
-import useAuth from 'hooks/useAuth';
 import { spacing } from 'config/theme';
 
 import { useMediaQuery } from 'react-responsive';
+import SignOut from 'screens/Authentication/SignOut';
 
 import useToggle from 'hooks/useToggle/index';
 import EditSignatureForm from './EditSignatureForm';
@@ -68,7 +68,7 @@ export default function Profile() {
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-device-width: 1224px)',
   });
-  const { signOut } = useAuth();
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const store = useStore();
@@ -76,8 +76,6 @@ export default function Profile() {
   const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isLoading: false, uri: null } });
   const { firstName, lastName, company, site, signature } = accountData;
   const [drawerIsOpen, handleOpenDrawer, handleCloseDrawer] = useToggle();
-
-  const handleSignOut = useCallback(signOut, [signOut]);
 
   const updateAccountData = useCallback(
     (args) => setAccountData((prev) => ({ ...prev, ...args })), [],
@@ -93,14 +91,10 @@ export default function Profile() {
     if (navigation) {
       navigation?.setOptions({
         title: 'Profile',
-        headerRight: () => (
-          <Button onPress={handleSignOut} accessibilityLabel="Sign out">
-            Sign out
-          </Button>
-        ),
+        headerRight: () => <SignOut />,
       });
     }
-  }, [handleSignOut, navigation]);
+  }, [navigation]);
 
   const isEmpty = useMemo(() => !firstName || !lastName || !company || !site || !signature,
     [company, firstName, lastName, signature, site]);

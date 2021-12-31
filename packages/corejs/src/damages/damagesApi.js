@@ -3,8 +3,8 @@ import config from '../config';
 
 /**
  * @name createOneDamage
- * Creates a new Damage.
- * An Damage contains data about the result of damage analyis task.
+ * Creates new damage.
+ * Damage contains data about the result of damage analysis task.
  * You can add some damages manually
  * The method returns a unique damage id.
  *

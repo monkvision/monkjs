@@ -148,7 +148,7 @@ CameraSimpleView.propTypes = {
   onCloseCamera: propTypes.callback,
   onSettings: propTypes.callback,
   onTakePicture: propTypes.callback,
-  renderOverlay: PropTypes.element,
+  renderOverlay: PropTypes.func,
 };
 
 CameraSimpleView.defaultProps = {
