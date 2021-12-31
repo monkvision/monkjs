@@ -1,6 +1,18 @@
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useLayoutEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
+
+/**
+ * "getNativeOrientationOrFallbackToDimensions"
+ * Because `ScreenOrientation.getOrientationLockAsync` does not fire at the first render sometimes
+ * we can fallback to:
+ * If height is bigger or equals the width then is portrait orientation (value=1)
+ */
+const getNativeOrientationOrFallbackToDimensions = (o) => {
+  if (o) { return o; }
+  const dim = Dimensions.get('screen');
+  if (dim.height >= dim.width) { return 1; } return 0;
+};
 
 const isNative = Platform.select({ native: true, web: false });
 
@@ -11,6 +23,10 @@ export default () => {
     ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
   );
 
+  const handleRotateToPortrait = () => ScreenOrientation.lockAsync(
+    ScreenOrientation.OrientationLock.PORTRAIT_UP,
+  );
+
   const isNotSupported = !isNative || orientation === null;
 
   useLayoutEffect(() => {
@@ -19,17 +35,17 @@ export default () => {
     // unlock any current orientation lock
     ScreenOrientation.unlockAsync();
 
-    // set initial orientation
-    ScreenOrientation.getOrientationLockAsync().then((_, o) => {
-      setOrientation(o);
-    });
-
     // check if screen orientation is supported
     ScreenOrientation.supportsOrientationLockAsync(
       ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
     )
-      .then(() => setOrientation(true))
+      .then(() => setOrientation(0))
       .catch(() => setOrientation(null));
+
+    // set initial orientation
+    ScreenOrientation.getOrientationLockAsync().then((o) => {
+      setOrientation(getNativeOrientationOrFallbackToDimensions(o));
+    });
 
     // subscribe to future changes
     const subscription = ScreenOrientation.addOrientationChangeListener(
@@ -40,5 +56,8 @@ export default () => {
     return () => ScreenOrientation.removeOrientationChangeListener(subscription);
   }, [isNotSupported]);
 
-  return [orientation, handleRotateToLandscape, isNotSupported];
+  return [orientation, {
+    landscape: handleRotateToLandscape,
+    portrait: handleRotateToPortrait,
+  }, isNotSupported];
 };

@@ -13,14 +13,13 @@ import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 import useOrientation from '../../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
-import { SIDEBAR_WIDTH, RATIO_FACTOR } from '../constants';
+import { RATIO_FACTOR } from '../constants';
 
 import CameraControls from '../CameraControls';
 import CameraOrientationView from '../CameraOrientationView';
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: '#000',
     ...Platform.select({
       native: { flex: 1 },
       default: { display: 'flex', flex: 1, height: '100vh' },
@@ -32,12 +31,17 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     minWidth: '100%',
     minHeight: '100%',
-    backgroundColor: '#000',
+    marginTop: -10,
     justifyContent: 'space-between',
     ...Platform.select({
       native: { flex: 1 },
       default: { display: 'flex', flex: 1 },
     }),
+  },
+  controls: {
+    position: 'absolute',
+    right: 0,
+    height: '100%',
   },
 });
 
@@ -50,6 +54,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @param onCloseCamera {func}
  * @param onSettings {func}
  * @param onTakePicture {func}
+ * @param renderOverlay {element}
  * @param theme
  * @returns {JSX.Element}
  * @constructor
@@ -60,6 +65,7 @@ function CameraSimpleView({
   onCloseCamera,
   onSettings,
   onTakePicture,
+  renderOverlay: RenderOverlay,
   theme,
 }) {
   // Camera must be declared first
@@ -82,9 +88,9 @@ function CameraSimpleView({
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onSettings);
   const { height, width } = ui.container.measures;
-  const ratio = useMemo(() => makeRatio(width - SIDEBAR_WIDTH, height), [height, width]);
+  const ratio = useMemo(() => makeRatio(width, height), [height, width]);
   // Mobile browser view
-  const [orientation, rotateToLandscape, isNotSupported] = useOrientation();
+  const [orientation, rotateTo, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
 
   const isNative = Platform.select({ native: true });
@@ -94,7 +100,7 @@ function CameraSimpleView({
     return (
       <Provider theme={theme}>
         <CameraOrientationView
-          rotateToLandscape={rotateToLandscape}
+          rotateToLandscape={rotateTo.landscape}
           supportOrientation={!isNotSupported && !isMobileBrowser}
         />
       </Provider>
@@ -118,14 +124,17 @@ function CameraSimpleView({
               )}
 
               {/* camera sidebar */}
-              <CameraControls
-                fakeActivity={Boolean(fakeActivity)}
-                onLeave={ui.camera.handleClose}
-                onSettingss={ui.modal.handleShow}
-                onTakePicture={handleTakePicture}
-              />
+              <View style={styles.controls}>
+                <CameraControls
+                  fakeActivity={Boolean(fakeActivity)}
+                  onLeave={ui.camera.handleClose}
+                  onSettingss={ui.modal.handleShow}
+                  onTakePicture={handleTakePicture}
+                />
+              </View>
             </>
             {!camera && <ActivityIndicatorView />}
+            <RenderOverlay />
           </View>
         </SafeAreaView>
       </View>
@@ -139,6 +148,7 @@ CameraSimpleView.propTypes = {
   onCloseCamera: propTypes.callback,
   onSettings: propTypes.callback,
   onTakePicture: propTypes.callback,
+  renderOverlay: PropTypes.func,
 };
 
 CameraSimpleView.defaultProps = {
@@ -147,6 +157,7 @@ CameraSimpleView.defaultProps = {
   onCloseCamera: noop,
   onSettings: noop,
   onTakePicture: noop,
+  renderOverlay: () => <></>,
 };
 
 export default withTheme(CameraSimpleView);

@@ -39,6 +39,7 @@
     "build": "bob build"
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.2.1",
     "expo-screen-orientation": "^4.0.3",
     "lodash.startcase": "^4.4.0",
     "react-native-paper": "^4.10.1",

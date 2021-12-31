@@ -100,7 +100,7 @@ function CaptureTour({
   const ratio = useMemo(() => makeRatio(width - SIDEBAR_WIDTH, height), [height, width]);
 
   // Mobile browser view
-  const [orientation, rotateToLandscape, isNotSupported] = useOrientation();
+  const [orientation, rotateTo, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
 
   const isNative = Platform.select({ native: true });
@@ -110,7 +110,7 @@ function CaptureTour({
     return (
       <Provider theme={theme}>
         <CameraOrientationView
-          rotateToLandscape={rotateToLandscape}
+          rotateToLandscape={rotateTo.landscape}
           supportOrientation={!isNotSupported && !isMobileBrowser}
         />
       </Provider>
