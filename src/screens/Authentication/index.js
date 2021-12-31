@@ -7,7 +7,7 @@ import Drawing from 'components/Drawing';
 import MonkIcon from 'components/Icons/MonkIcon';
 
 import SignIn from './SignIn';
-import svgXml from './undraw_mobile_photos_psm5.svg';
+import svgXml from './undraw_visualization_c-2-ps.svg';
 import styles from './styles';
 
 export default function Authentication() {
