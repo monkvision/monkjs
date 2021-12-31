@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { IconButton, DataTable } from 'react-native-paper';
 import { startCase } from 'lodash';
-import styles from '../styles';
 
+const styles = StyleSheet.create({
+  cell: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    paddingTop: 5,
+  },
+  alignLeft: { justifyContent: 'flex-end' },
+});
 export default function DamageRow({ value, title, ...rest }) {
   return (
     <DataTable.Row {...rest}>

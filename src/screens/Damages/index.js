@@ -29,6 +29,12 @@ import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
 import useDamages from './useDamages';
 
+const currentDamageInitialState = {
+  part_type: null,
+  damage_type: null,
+  // severity: null,
+};
+
 export default () => {
   const navigation = useNavigation();
   const route = useRoute();
@@ -47,11 +53,7 @@ export default () => {
 
   const [drawerIsOpen, handleOpenDrawer, handleCloseDrawer] = useToggle();
 
-  const [currentDamage, setCurrentDamage] = useState({
-    part_type: null,
-    damage_type: null,
-    // severity: null,
-  });
+  const [currentDamage, setCurrentDamage] = useState(currentDamageInitialState);
 
   const partRef = useRef({ selectedId: currentDamage.part_type });
   React.useEffect(() => {
@@ -71,12 +73,13 @@ export default () => {
     tasks: tasksEntities,
   });
 
-  const {
-    damageIsLoading,
-    createDamageRequest,
-    isDamageValid,
-    damagePicturesState,
-  } = useDamages({ currentDamage, inspectionId, setCurrentDamage, handleCloseDrawer, refresh });
+  const { damageIsLoading, createDamageRequest, isDamageValid, damagePicturesState } = useDamages({
+    currentDamage,
+    inspectionId,
+    handleCloseDrawer,
+    refresh,
+    reset: () => setCurrentDamage(currentDamageInitialState),
+  });
 
   const isValidated = useMemo(
     () => inspection.tasks.find(
@@ -101,12 +104,12 @@ export default () => {
   [orientation, handleOpenDrawer, rotateTo, orientationIsNotSupported]);
 
   const handleAddNewDamage = useCallback(() => {
-    setCurrentDamage((prev) => ({ ...prev, part_type: null }));
+    setCurrentDamage(currentDamageInitialState);
     handleOpenDrawer();
   },
   [setCurrentDamage, handleOpenDrawer]);
 
-  const updateCurrentDamage = useCallback((newDamageMetaData) => {
+  const onChangeCurrentDamage = useCallback((newDamageMetaData) => {
     setCurrentDamage((prev) => ({ ...prev, ...newDamageMetaData }));
   }, []);
 
@@ -153,20 +156,21 @@ export default () => {
       });
     }
   }, [inspectionId, menuItems, navigation]);
-
+  console.log(currentDamage);
   return (
     <>
       <CreateDamageForm
         isOpen={drawerIsOpen}
-        handleClose={handleCloseDrawer}
-        currentDamage={currentDamage}
-        updateCurrentDamage={updateCurrentDamage}
-        damagePicturesState={damagePicturesState}
-        isDamageValid={isDamageValid}
-        handleCreateDamageRequest={createDamageRequest}
-        isLoading={damageIsLoading}
+        onClose={() => { handleCloseDrawer(); setCurrentDamage(currentDamageInitialState); }}
+        onSubmit={createDamageRequest}
         onCameraOpen={handleHideNavigationBar}
         onCameraClose={handleShowNavigationBar}
+        onReset={() => setCurrentDamage(currentDamageInitialState)}
+        isLoading={damageIsLoading}
+        currentDamage={currentDamage}
+        onChangeCurrentDamage={onChangeCurrentDamage}
+        damagePicturesState={damagePicturesState}
+        isDamageValid={isDamageValid}
       />
       <DamagesView
         inspection={inspection}

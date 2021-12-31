@@ -10,7 +10,7 @@ import { createOneDamage, addOneViewToInspection, config } from '@monkvision/cor
 import { Platform } from 'react-native';
 import { snakeCase } from 'lodash';
 
-function useDamages({ currentDamage, inspectionId, setCurrentDamage, handleCloseDrawer, refresh }) {
+function useDamages({ currentDamage, inspectionId, handleCloseDrawer, refresh, reset }) {
   const [isUploading, toggleUploadingOn, toggleUploadingOff] = useToggle();
   const [damagePictures, setDamagePictures] = useState([]);
 
@@ -87,9 +87,9 @@ function useDamages({ currentDamage, inspectionId, setCurrentDamage, handleClose
     }),
     {
       onSuccess: ({ result: id }) => {
-        setCurrentDamage((old) => ({ ...old, id }));
         createDamageViews(id);
         handleCloseDrawer();
+        reset();
         refresh();
       } },
     false,

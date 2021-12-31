@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 import { IconButton, DataTable, Button, withTheme, List } from 'react-native-paper';
-import { noop, startCase } from 'lodash';
+import { noop, startCase, snakeCase } from 'lodash';
 
+import { utils } from '@monkvision/react-native';
 import Drawer from '../Drawer';
 import ImageViewer from '../ImageViewer';
 
@@ -11,25 +12,49 @@ import useOrientation from '../../hooks/useOrientation';
 import useToggle from '../../hooks/useToggle';
 
 import damageMetadataList from './metadataList';
-import styles from './styles';
 
-import DamagePicturesViewer from './DamagePicturesPreview';
+import DamagePicturesPreview from './DamagePicturesPreview';
 import CameraSimpleViewModal from './CameraSimpleViewModal/index';
 import DamageRow from './DamageRow';
 import DamagePicker from './DamagePicker';
 
+const { spacing } = utils.styles;
+const styles = StyleSheet.create({
+  cardTitle: {
+    fontSize: 16,
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  alignLeft: { justifyContent: 'flex-end' },
+  buttonLabel: { color: '#FFFFFF' },
+  validationButton: {
+    margin: spacing(1),
+    flex: 1,
+    width: 120 },
+  clearButton: { alignSelf: 'flex-end' },
+  formWarningText: {
+    marginTop: spacing(2),
+    textAlign: 'center',
+    color: 'gray',
+  },
+});
+
 function CreateDamageForm({
   theme,
   isOpen,
-  handleClose,
+  onClose,
   currentDamage,
-  updateCurrentDamage,
+  onChangeCurrentDamage,
   damagePicturesState,
   isDamageValid,
-  handleCreateDamageRequest,
+  onSubmit,
   isLoading,
   onCameraOpen,
   onCameraClose,
+  onReset,
 }) {
   const { colors } = theme;
   const [isCameraViewOpen, openCameraView, closeCameraView] = useToggle();
@@ -37,7 +62,7 @@ function CreateDamageForm({
   const [isPreviewDialogOpen, openPreviewDialog, closePreviewDialog] = useToggle();
 
   const [damagePictures, setDamagePictures] = damagePicturesState;
-  const [previewImage, setPreviewImage] = useState(false);
+  const [previewImage, setPreviewImage] = useState({});
   const [selectField, setSelectField] = useState(null);
 
   const handleOpenPreviewDialog = useCallback((image) => {
@@ -56,13 +81,13 @@ function CreateDamageForm({
   }, [closeSelectDialog]);
 
   const handleUpdateDamageMetaData = useCallback((metaData) => {
-    updateCurrentDamage(metaData);
+    onChangeCurrentDamage(metaData);
     handleDismissSelectDialog();
-  }, [handleDismissSelectDialog, updateCurrentDamage]);
+  }, [handleDismissSelectDialog, onChangeCurrentDamage]);
 
   const handleRemovePicture = useCallback(() => {
     // Remove taken picture
-    setDamagePictures((old) => old.filter((_p, i) => i !== previewImage.index));
+    setDamagePictures((prev) => prev.filter((_, i) => i !== previewImage.index));
     closePreviewDialog();
     setPreviewImage({});
   }, [setDamagePictures, closePreviewDialog, previewImage.index]);
@@ -96,6 +121,10 @@ function CreateDamageForm({
     if (isCameraViewOpen) { onCameraOpen(); } else { onCameraClose(); }
   }, [isCameraViewOpen, onCameraClose, onCameraOpen]);
 
+  // check if the form is filled with data and not yet submitted (dirty)
+  const isDirty = useMemo(() => Object.values(currentDamage).some(Boolean),
+    [currentDamage]);
+
   // camera view
   if (isCameraViewOpen) {
     return (
@@ -103,40 +132,44 @@ function CreateDamageForm({
         theme={theme}
         setDamagePictures={setDamagePictures}
         closeCameraView={closeCameraView}
-        openPreviewDialog={openPreviewDialog}
+        openPreviewDialog={handleOpenPreviewDialog}
         damagePictures={damagePictures}
         {...damagePicturesViewer}
       />
     );
   }
-
   // The drawer doesn't support orientation change (based on animated)
   // in this case we force the drawer to be closed on landscape orientation
   if (orientation !== 1 && !orientationIsNotSupported) { return null; }
   return (
     <>
-      <Drawer isOpen={isOpen} handleClose={handleClose} onClose={handleClearDamagePictures}>
+      <Drawer
+        isOpen={isOpen}
+        handleClose={() => !isDirty && onClose()}
+        onClose={handleClearDamagePictures}
+      >
         <ScrollView style={{ height: Drawer.CONTENT_HEIGHT }}>
           <Drawer.Title
             title={`Add photos for ${wrapTitles}`}
             subtitle={wrapSubtitles}
             titleStyle={styles.cardTitle}
             left={(props) => <List.Icon {...props} icon="shape-square-plus" />}
-            right={() => (
-              <IconButton
-                icon="camera-plus"
-                size={30}
-                style={styles.cameraIcon}
-                color={colors.primary}
-                onPress={openCameraView}
-              />
-            )}
           />
-          <DamagePicturesViewer
+          <DamagePicturesPreview
             damagePictures={damagePictures}
             handleOpenPreviewDialog={handleOpenPreviewDialog}
           />
           <Drawer.Content>
+            <Button
+              accessibilityLabel="Reset form data"
+              mode="outlined"
+              icon="eraser-variant"
+              color={colors.primary}
+              style={styles.clearButton}
+              onPress={() => { onReset(); handleClearDamagePictures(); }}
+            >
+              Reset
+            </Button>
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title>Add damage Metadata</DataTable.Title>
@@ -162,17 +195,33 @@ function CreateDamageForm({
                 disabled
               />
             </DataTable>
+            {isDirty ? (
+              <Text style={styles.formWarningText}>
+                In order to close the form please hit submit or clear your data.
+              </Text>
+            ) : null}
           </Drawer.Content>
           <Drawer.Actions style={styles.cardActions}>
             <Button
+              accessibilityLabel="Add damage"
               labelStyle={styles.buttonLabel}
-              onPress={handleCreateDamageRequest}
+              onPress={onSubmit}
               mode="contained"
               style={styles.validationButton}
               icon="shape-square-plus"
               disabled={!isDamageValid}
             >
               Add damage
+            </Button>
+            <Button
+              accessibilityLabel="Add pictures"
+              onPress={openCameraView}
+              mode="outlined"
+              color={colors.primary}
+              style={[styles.validationButton, { borderColor: colors.primary }]}
+              icon="camera-plus"
+            >
+              Add pictures
             </Button>
           </Drawer.Actions>
         </ScrollView>
@@ -181,9 +230,9 @@ function CreateDamageForm({
       {/* damage picker */}
       <DamagePicker
         visible={Boolean(isSelectDialogOpen && selectField)}
-        selectedValue={currentDamage[selectField] || ''}
+        selectedValue={snakeCase(currentDamage[selectField]) || ''}
         onValueChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
-        data={damageMetadataList[selectField]}
+        data={damageMetadataList[selectField] || []}
         onClose={handleDismissSelectDialog}
       />
       <ImageViewer {...damagePicturesViewer} />
@@ -197,14 +246,15 @@ CreateDamageForm.propTypes = {
     severity: PropTypes.string,
   }),
   damagePicturesState: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.any), PropTypes.func]),
-  handleClose: PropTypes.func,
-  handleCreateDamageRequest: PropTypes.func,
   isDamageValid: PropTypes.bool,
   isLoading: PropTypes.bool,
   isOpen: PropTypes.bool,
   onCameraClose: PropTypes.func,
   onCameraOpen: PropTypes.func,
-  updateCurrentDamage: PropTypes.func,
+  onChangeCurrentDamage: PropTypes.func,
+  onClose: PropTypes.func,
+  onReset: PropTypes.func,
+  onSubmit: PropTypes.func,
 
 };
 
@@ -214,14 +264,15 @@ CreateDamageForm.defaultProps = {
     damage_type: null,
     severity: null,
   },
-  handleClose: noop,
-  updateCurrentDamage: noop,
+  onClose: noop,
+  onChangeCurrentDamage: noop,
   isOpen: false,
   damagePicturesState: [[], noop],
   isDamageValid: false,
-  handleCreateDamageRequest: noop,
+  onSubmit: noop,
   isLoading: false,
   onCameraClose: noop,
   onCameraOpen: noop,
+  onReset: noop,
 };
 export default withTheme(CreateDamageForm);
