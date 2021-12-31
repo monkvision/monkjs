@@ -94,7 +94,7 @@ function useDamages({ currentDamage, inspectionId, setCurrentDamage, handleClose
       } },
     false,
   );
-  const isDamageValid = useMemo(() => currentDamage.part_type && currentDamage.damage_type,
+  const isDamageValid = useMemo(() => Boolean(currentDamage.part_type && currentDamage.damage_type),
     [currentDamage.damage_type, currentDamage.part_type]);
 
   const [damageIsLoading] = useFakeActivity(isLoading || isUploading);

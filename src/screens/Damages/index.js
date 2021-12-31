@@ -92,6 +92,8 @@ export default () => {
     [navigation]);
 
   const handleSelectPart = useCallback((partType) => {
+    // The drawer doesn't support orientation change (based on animated)
+    // in this case we force lock the orientation to portrait
     if (orientation !== 1 && !orientationIsNotSupported) { rotateTo.portrait(); }
     setCurrentDamage((prev) => ({ ...prev, part_type: partType }));
     handleOpenDrawer();
@@ -104,8 +106,8 @@ export default () => {
   },
   [setCurrentDamage, handleOpenDrawer]);
 
-  const updateDamageMetaData = useCallback(({ field, value }) => {
-    setCurrentDamage((old) => ({ ...old, [field]: value }));
+  const updateCurrentDamage = useCallback((newDamageMetaData) => {
+    setCurrentDamage((prev) => ({ ...prev, ...newDamageMetaData }));
   }, []);
 
   const handleHideNavigationBar = useCallback(() => navigation.setOptions({
@@ -158,7 +160,7 @@ export default () => {
         isOpen={drawerIsOpen}
         handleClose={handleCloseDrawer}
         currentDamage={currentDamage}
-        updateDamageMetaData={updateDamageMetaData}
+        updateCurrentDamage={updateCurrentDamage}
         damagePicturesState={damagePicturesState}
         isDamageValid={isDamageValid}
         handleCreateDamageRequest={createDamageRequest}

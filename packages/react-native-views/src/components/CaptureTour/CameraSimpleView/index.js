@@ -54,6 +54,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @param onCloseCamera {func}
  * @param onSettings {func}
  * @param onTakePicture {func}
+ * @param renderOverlay {element}
  * @param theme
  * @returns {JSX.Element}
  * @constructor
@@ -64,6 +65,7 @@ function CameraSimpleView({
   onCloseCamera,
   onSettings,
   onTakePicture,
+  renderOverlay: RenderOverlay,
   theme,
 }) {
   // Camera must be declared first
@@ -132,6 +134,7 @@ function CameraSimpleView({
               </View>
             </>
             {!camera && <ActivityIndicatorView />}
+            <RenderOverlay />
           </View>
         </SafeAreaView>
       </View>
@@ -145,6 +148,7 @@ CameraSimpleView.propTypes = {
   onCloseCamera: propTypes.callback,
   onSettings: propTypes.callback,
   onTakePicture: propTypes.callback,
+  renderOverlay: PropTypes.element,
 };
 
 CameraSimpleView.defaultProps = {
@@ -153,6 +157,7 @@ CameraSimpleView.defaultProps = {
   onCloseCamera: noop,
   onSettings: noop,
   onTakePicture: noop,
+  renderOverlay: () => <></>,
 };
 
 export default withTheme(CameraSimpleView);
