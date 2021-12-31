@@ -1,4 +1,4 @@
-const buildNumber = 7;
+const buildNumber = 9;
 
 export default {
   name: 'monk',
@@ -22,6 +22,9 @@ export default {
     supportsTablet: true,
     requireFullScreen: true,
     buildNumber: `${buildNumber}`,
+    entitlements: {
+      'com.apple.developer.applesignin': ['Default'],
+    },
   },
 
   android: {
