@@ -124,7 +124,7 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
-    { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated },
+    { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || drawerIsOpen },
     { title: 'Validate',
       onPress: () => handleValidate(updateOneTaskOfInspection({
         inspectionId,
@@ -137,7 +137,7 @@ export default () => {
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleAddNewDamage, isValidated,
+  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, drawerIsOpen,
     handleValidate, inspectionId, handleGoToInspectionRead]);
 
   useLayoutEffect(() => {

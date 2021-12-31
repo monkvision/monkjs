@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { Button, TextInput, Title } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
@@ -47,43 +47,43 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) { scrollRef.current.scrollTo({ x: 0, y: 0, animated: false }); }
+    if (isOpen && scrollRef.current) {
+      scrollRef.current.scrollTo({ x: 0, y: 0, animated: false });
+    }
   }, [isOpen]);
 
   return (
     <Drawer isOpen={isOpen} handleClose={handleClose}>
-      <Drawer.Title title="Edit account data" />
       <ScrollView
         scrollEnabled={scrollEnabled}
         ref={scrollRef}
         style={{ height: Drawer.CONTENT_HEIGHT }}
       >
-        <View style={{ height: 900 }}>
-          <Drawer.Content>
-            <TextInput style={styles.textInput} label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />
-            <TextInput style={styles.textInput} label="Last name" value={lastName} onChangeText={(val) => updateAccountData({ lastName: val })} />
-            <TextInput style={styles.textInput} label="Company" value={company} onChangeText={(val) => updateAccountData({ company: val })} />
-            <TextInput style={styles.textInput} label="Site" value={site} onChangeText={(val) => updateAccountData({ site: val })} />
-            <Title style={{ marginVertical: spacing(1) }}>
-              Edit your signature
-            </Title>
-            <Signature
-              visible
-              setScrollEnabled={setScrollEnabled}
-              ref={signatureRef}
-            />
-          </Drawer.Content>
-          <Drawer.Actions style={styles.actions}>
-            <Button
-              onPress={() => handleSave(signatureRef.current.getUri)}
-              mode="outlined"
-              style={[styles.button, { alignSelf: 'center' }]}
-              icon="content-save"
-            >
-              Save
-            </Button>
-          </Drawer.Actions>
-        </View>
+        <Drawer.Title title="Edit account data" />
+        <Drawer.Content>
+          <TextInput style={styles.textInput} label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />
+          <TextInput style={styles.textInput} label="Last name" value={lastName} onChangeText={(val) => updateAccountData({ lastName: val })} />
+          <TextInput style={styles.textInput} label="Company" value={company} onChangeText={(val) => updateAccountData({ company: val })} />
+          <TextInput style={styles.textInput} label="Site" value={site} onChangeText={(val) => updateAccountData({ site: val })} />
+          <Title style={{ marginVertical: spacing(1) }}>
+            Edit your signature
+          </Title>
+          <Signature
+            visible
+            setScrollEnabled={setScrollEnabled}
+            ref={signatureRef}
+          />
+        </Drawer.Content>
+        <Drawer.Actions style={styles.actions}>
+          <Button
+            onPress={() => handleSave(signatureRef.current.getUri)}
+            mode="outlined"
+            style={[styles.button, { alignSelf: 'center' }]}
+            icon="content-save"
+          >
+            Save
+          </Button>
+        </Drawer.Actions>
       </ScrollView>
     </Drawer>
   );

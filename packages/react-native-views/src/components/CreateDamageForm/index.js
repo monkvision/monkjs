@@ -194,24 +194,23 @@ function CreateDamageForm({
   return (
     <>
       <Drawer isOpen={isOpen} handleClose={handleClose} onClose={handleClearDamagePictures}>
-        <Drawer.Title
-          title={`Add photos for ${wrapTitles}`}
-          subtitle={wrapSubtitles}
-          titleStyle={styles.cardTitle}
-          onClick={() => {}}
-          left={(props) => <List.Icon {...props} icon="shape-square-plus" />}
-          right={() => (
-            <IconButton
-              icon="camera-plus"
-              size={30}
-              style={styles.cameraIcon}
-              color={theme.colors.primary}
-              onPress={openCameraView}
-            />
-          )}
-        />
-
         <ScrollView style={{ height: Drawer.CONTENT_HEIGHT }}>
+          <Drawer.Title
+            title={`Add photos for ${wrapTitles}`}
+            subtitle={wrapSubtitles}
+            titleStyle={styles.cardTitle}
+            onClick={() => {}}
+            left={(props) => <List.Icon {...props} icon="shape-square-plus" />}
+            right={() => (
+              <IconButton
+                icon="camera-plus"
+                size={30}
+                style={styles.cameraIcon}
+                color={theme.colors.primary}
+                onPress={openCameraView}
+              />
+            )}
+          />
           <ScrollView contentContainerStyle={styles.images} horizontal>
             {!isEmpty(damagePictures) ? damagePictures?.map(({ uri }, index) => (
               <TouchableRipple
