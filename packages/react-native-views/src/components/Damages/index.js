@@ -1,6 +1,6 @@
 import noop from 'lodash.noop';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useImperativeHandle, forwardRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 
@@ -13,7 +13,7 @@ import ValidateDialog from './ValidateDialog';
 
 import styles from './styles';
 
-export default function Damages({
+function Damages({
   inspection,
   isLoading,
   isValidating,
@@ -24,7 +24,7 @@ export default function Damages({
   onPressPart,
   isVehiclePressAble,
   selectedId,
-}) {
+}, ref) {
   const inspectionId = inspection?.id;
 
   const {
@@ -36,6 +36,10 @@ export default function Damages({
 
   const partsWithDamages = usePartDamages(inspection.damages, inspection.parts);
   const computedParts = useComputedParts(partsWithDamages);
+
+  useImperativeHandle(ref, () => ({
+    validate: handleOpenDialog,
+  }));
 
   if (partsWithDamages.length === 0) { return null; }
 
@@ -100,3 +104,4 @@ Damages.defaultProps = {
   onValidate: noop,
   selectedId: null,
 };
+export default forwardRef(Damages);

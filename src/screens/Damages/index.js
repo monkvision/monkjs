@@ -6,7 +6,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { DamagesView, useFakeActivity, CreateDamageForm, useOrientation } from '@monkvision/react-native-views';
 
-import { DAMAGE_READ, INSPECTION_READ } from 'screens/names';
+import { DAMAGE_READ } from 'screens/names';
 
 import {
   damagesEntity,
@@ -19,7 +19,6 @@ import {
   inspectionsEntity,
   tasksEntity,
   getOneInspectionById,
-  updateOneTaskOfInspection,
   taskNames,
   taskStatuses,
 } from '@monkvision/corejs';
@@ -27,6 +26,7 @@ import {
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
+import { Portal } from 'react-native-paper';
 import useDamages from './useDamages';
 
 const currentDamageInitialState = {
@@ -88,9 +88,6 @@ export default () => {
     [inspection.tasks],
   );
 
-  const handleGoToInspectionRead = useCallback(() => navigation.navigate(INSPECTION_READ,
-    { inspectionId }), [inspectionId, navigation]);
-
   const handleSelectDamage = useCallback((payload) => navigation.navigate(DAMAGE_READ, payload),
     [navigation]);
 
@@ -127,23 +124,17 @@ export default () => {
   const { isLoading: isDeleting, request: handleDelete } = useRequest(null,
     { onSuccess: refresh }, false);
 
+  const damagesViewRef = useRef(null);
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
     { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || drawerIsOpen },
     { title: 'Validate',
-      onPress: () => handleValidate(updateOneTaskOfInspection({
-        inspectionId,
-        taskName: taskNames.DAMAGE_DETECTION,
-        data: { status: taskStatuses.VALIDATED },
-      }), {
-        onSuccess: handleGoToInspectionRead,
-      }),
+      onPress: damagesViewRef.current?.validate,
       icon: 'send',
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, drawerIsOpen,
-    handleValidate, inspectionId, handleGoToInspectionRead]);
+  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, drawerIsOpen]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -156,9 +147,9 @@ export default () => {
       });
     }
   }, [inspectionId, menuItems, navigation]);
-  console.log(currentDamage);
+
   return (
-    <>
+    <Portal.Host>
       <CreateDamageForm
         isOpen={drawerIsOpen}
         onClose={() => { handleCloseDrawer(); setCurrentDamage(currentDamageInitialState); }}
@@ -173,6 +164,7 @@ export default () => {
         isDamageValid={isDamageValid}
       />
       <DamagesView
+        ref={damagesViewRef}
         inspection={inspection}
         onDeleteDamage={handleDelete}
         onSelectDamage={handleSelectDamage}
@@ -184,6 +176,6 @@ export default () => {
         isVehiclePressAble
         selectedId={partRef.current.selectedId}
       />
-    </>
+    </Portal.Host>
   );
 };
