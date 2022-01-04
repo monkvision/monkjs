@@ -5,9 +5,7 @@ import { denormalize } from 'normalizr';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { DamagesView, useFakeActivity, CreateDamageForm, useOrientation } from '@monkvision/react-native-views';
-
 import { DAMAGE_READ } from 'screens/names';
-
 import {
   damagesEntity,
   selectDamageEntities,
@@ -26,8 +24,26 @@ import {
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
-import { Portal } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import useDamages from './useDamages';
+
+const styles = StyleSheet.create({
+  root: {
+    // display: 'flex',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    position: 'relative',
+  },
+  overRoot: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+});
 
 const currentDamageInitialState = {
   part_type: null,
@@ -37,6 +53,7 @@ const currentDamageInitialState = {
 
 export default () => {
   const navigation = useNavigation();
+  const theme = useTheme();
   const route = useRoute();
   const { inspectionId } = route.params;
   const [orientation, rotateTo, orientationIsNotSupported] = useOrientation();
@@ -149,8 +166,9 @@ export default () => {
   }, [inspectionId, menuItems, navigation]);
 
   return (
-    <Portal.Host>
+    <SafeAreaView style={styles.root}>
       <CreateDamageForm
+        theme={theme}
         isOpen={drawerIsOpen}
         onClose={() => { handleCloseDrawer(); setCurrentDamage(currentDamageInitialState); }}
         onSubmit={createDamageRequest}
@@ -163,19 +181,22 @@ export default () => {
         damagePicturesState={damagePicturesState}
         isDamageValid={isDamageValid}
       />
-      <DamagesView
-        ref={damagesViewRef}
-        inspection={inspection}
-        onDeleteDamage={handleDelete}
-        onSelectDamage={handleSelectDamage}
-        onValidate={handleValidate}
-        isLoading={fakeActivity}
-        isDeleting={isDeleting}
-        isValidating={isValidating}
-        onPressPart={handleSelectPart}
-        isVehiclePressAble
-        selectedId={partRef.current.selectedId}
-      />
-    </Portal.Host>
+      <View style={{ zIndex: -1 }}>
+        <DamagesView
+          theme={theme}
+          ref={damagesViewRef}
+          inspection={inspection}
+          onDeleteDamage={handleDelete}
+          onSelectDamage={handleSelectDamage}
+          onValidate={handleValidate}
+          isLoading={fakeActivity}
+          isDeleting={isDeleting}
+          isValidating={isValidating}
+          onPressPart={handleSelectPart}
+          isVehiclePressAble
+          selectedId={partRef.current.selectedId}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
