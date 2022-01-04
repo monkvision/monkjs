@@ -25,7 +25,7 @@ import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
 import { useTheme } from 'react-native-paper';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import useDamages from './useDamages';
 
 const styles = StyleSheet.create({
@@ -36,12 +36,15 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
-  overRoot: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
+  damages: {
+    zIndex: -1,
+    width: '100%',
+    height: '100%',
+    ...Platform.select({
+      android: {
+        position: 'absolute',
+      },
+    }),
   },
 });
 
@@ -181,7 +184,7 @@ export default () => {
         damagePicturesState={damagePicturesState}
         isDamageValid={isDamageValid}
       />
-      <View style={{ zIndex: -1 }}>
+      <View style={styles.damages}>
         <DamagesView
           theme={theme}
           ref={damagesViewRef}
