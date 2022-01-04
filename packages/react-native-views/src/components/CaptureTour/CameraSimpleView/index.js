@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { Dimensions, Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { Provider, withTheme } from 'react-native-paper';
 import noop from 'lodash.noop';
 
@@ -13,10 +13,17 @@ import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 import useOrientation from '../../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
-import { RATIO_FACTOR } from '../constants';
+// import { RATIO_FACTOR } from '../constants';
 
 import CameraControls from '../CameraControls';
 import CameraOrientationView from '../CameraOrientationView';
+
+const { width, height } = Dimensions.get('window');
+
+function gcd(a, b) {
+  return (b === 0) ? a : gcd(b, a % b);
+}
+const ratio = gcd(width, height);
 
 const styles = StyleSheet.create({
   root: {
@@ -45,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
+// const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
 
 /**
  *
@@ -87,8 +94,8 @@ function CameraSimpleView({
 
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onSettings);
-  const { height, width } = ui.container.measures;
-  const ratio = useMemo(() => makeRatio(width, height), [height, width]);
+  // const { height, width } = ui.container.measures;
+  // const ratio = useMemo(() => makeRatio(width, height), [height, width]);
   // Mobile browser view
   const [orientation, rotateTo, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
@@ -119,7 +126,8 @@ function CameraSimpleView({
                 <Components.Camera
                   lockOrientationOnRender={false}
                   onCameraReady={handleCameraReady}
-                  ratio={ratio}
+                  ratio={`${(ui.container.measures.width / ratio)}:${(ui.container.measures.height / ratio)}`}
+                  fullscreen
                 />
               )}
 

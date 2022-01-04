@@ -7,27 +7,47 @@ import { Camera as ExpoCamera } from 'expo-camera';
 
 import utils from '../utils';
 import useCameraAsync from '../../hooks/useCameraAsync';
+import useCameraFullscreen from './useCameraFullscreen';
 
 /**
  * A View using Camera native features
  *
  * @param onCameraReady {func}
  * @param onCameraRef {func}
- * @param ratio {string}
+ * @param ratio {number || string}
  * @param lockOrientationOnRender {bool}
+ * @param children {elem}
+ * @param fullscreen {bool}
  * @returns {JSX.Element}
  * @constructor
  *
  */
+const styles = StyleSheet.create({
+  cover: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+});
+
 function Camera({
   onCameraReady,
   onCameraRef,
   ratio,
   lockOrientationOnRender,
+  children,
+  fullscreen,
 }) {
   // STATE
   const [camera, setCamera] = useState();
   const [cameraCanMount] = useCameraAsync({ lockOrientationOnRender });
+
+  const {
+    cameraStyle: fullscreenCameraStyle,
+    contentStyle: fullscreenContentStyle,
+  } = useCameraFullscreen(ratio);
 
   const cameraStyle = useMemo(() => {
     // eslint-disable-next-line import/no-named-as-default-member
@@ -49,7 +69,20 @@ function Camera({
   if (Platform.OS === 'web' && utils.getOS() === 'iOS' && !cameraCanMount) {
     return <View />;
   }
-
+  if (fullscreen) {
+    return (
+      <ExpoCamera
+        style={[styles.cover, fullscreenCameraStyle]}
+        onCameraReady={handleCameraReady}
+        ref={handleCameraRef}
+        type={ExpoCamera.Constants.Type.back}
+      >
+        <View style={[styles.cover, fullscreenContentStyle]}>
+          {children}
+        </View>
+      </ExpoCamera>
+    );
+  }
   return (
     <ExpoCamera
       onCameraReady={handleCameraReady}
@@ -62,6 +95,8 @@ function Camera({
 }
 
 Camera.propTypes = {
+  children: PropTypes.element,
+  fullscreen: PropTypes.bool,
   lockOrientationOnRender: PropTypes.bool,
   onCameraReady: PropTypes.func,
   onCameraRef: PropTypes.func,
@@ -69,10 +104,12 @@ Camera.propTypes = {
 };
 
 Camera.defaultProps = {
+  children: null,
   onCameraReady: noop,
   onCameraRef: noop,
   ratio: '4:3',
   lockOrientationOnRender: true,
+  fullscreen: false,
 };
 
 export default Camera;
