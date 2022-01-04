@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/cra-template",
   "author": "monkvision",
-  "license": "MIT",
+  "license": "BSD-3-Clause-Clear",
   "description": "Monk's create react-app template for internal or new projects.",
   "version": "1.2.2",
   "private": false,

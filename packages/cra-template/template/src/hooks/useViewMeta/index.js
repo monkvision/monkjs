@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import identity from 'helpers/identity';
+import identity from 'lodash.identity';
 
 const useTranslation = () => ({
   t: (a, b) => identity(b),
@@ -24,7 +24,7 @@ const useViewMeta = (viewName, description, title) => {
     document.title = translations.title;
     document
       .querySelector('meta[name="description"]')
-      .setAttribute('content', translations.description);
+      ?.setAttribute('content', translations.description);
   }, [translations]);
 
   return translations;

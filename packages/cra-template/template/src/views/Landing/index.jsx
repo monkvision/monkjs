@@ -9,7 +9,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import View from 'components/View';
 import LogoIcon from 'components/LogoIcon';
-import MonkIcon from 'components/MonkIcon';
+import BrandIcon from 'components/BrandIcon';
 
 import undrawSvg from './undraw_coolness_dtmq.svg';
 
@@ -18,7 +18,7 @@ export default function Landing() {
   const { palette } = useTheme();
 
   return (
-    <View viewName="landing" title="Monk Console">
+    <View viewName="landing" title="Monk">
       <CssBaseline />
       <Box
         sx={{
@@ -30,7 +30,7 @@ export default function Landing() {
           bgcolor: 'background.paper',
         }}
       >
-        <MonkIcon color={palette.text.secondary} sx={{ width: 250, height: 64 }} />
+        <BrandIcon sx={{ width: 250, height: 64 }} />
         <Box sx={{ display: 'flex', justifyContent: 'center', m: 3 }}>
           <Button
             size="large"
@@ -38,7 +38,7 @@ export default function Landing() {
             color="inherit"
             startIcon={<LogoIcon outerColor={palette.primary.main} />}
             component="a"
-            href="https://monkvision.github.io/monk"
+            href="https://monkvision.github.io/monkjs/"
             target="_blank"
             rel="noreferrer noopener"
             sx={{ m: 1 }}

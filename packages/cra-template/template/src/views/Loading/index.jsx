@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import View from 'components/View';
 import Loader from 'components/Loader';
 
-import isEmpty from 'helpers/isEmpty';
+import isEmpty from 'lodash.isempty';
 
 export default function Loading({ text }) {
   const { palette } = useTheme();

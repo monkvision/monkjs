@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from 'store';
 
 import { Auth0Provider } from '@auth0/auth0-react';
+import { authConfig } from 'config/corejs';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -17,12 +18,16 @@ import App from 'views/App';
 
 // import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+
+root.render(
   <Provider store={store}>
     <Auth0Provider
-      domain={process.env.REACT_APP_AUTH_DOMAIN}
-      clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
-      redirectUri={window.location.origin}
+      audience={authConfig.audience}
+      clientId={authConfig.clientId}
+      domain={authConfig.domain}
+      redirectUri={`${window.origin}/login/callback`}
     >
       <Router>
         <ThemeProvider theme={createTheme(theme)}>
@@ -31,7 +36,6 @@ ReactDOM.render(
       </Router>
     </Auth0Provider>
   </Provider>,
-  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

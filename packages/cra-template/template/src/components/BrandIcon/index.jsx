@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { SvgIcon } from '@mui/material';
 
-export default function MonkIcon({ color, hidePupil, ...passThroughProps }) {
+export default function BrandIcon({ color, hidePupil, ...passThroughProps }) {
   return (
     <SvgIcon
       width={782}
@@ -33,12 +33,12 @@ export default function MonkIcon({ color, hidePupil, ...passThroughProps }) {
   );
 }
 
-MonkIcon.propTypes = {
+BrandIcon.propTypes = {
   color: PropTypes.string,
   hidePupil: PropTypes.bool,
 };
 
-MonkIcon.defaultProps = {
+BrandIcon.defaultProps = {
   color: '#274b9f',
   hidePupil: false,
 };
