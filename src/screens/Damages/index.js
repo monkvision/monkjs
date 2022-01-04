@@ -5,9 +5,7 @@ import { denormalize } from 'normalizr';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { DamagesView, useFakeActivity, CreateDamageForm, useOrientation } from '@monkvision/react-native-views';
-
-import { DAMAGE_READ, INSPECTION_READ } from 'screens/names';
-
+import { DAMAGE_READ } from 'screens/names';
 import {
   damagesEntity,
   selectDamageEntities,
@@ -19,7 +17,6 @@ import {
   inspectionsEntity,
   tasksEntity,
   getOneInspectionById,
-  updateOneTaskOfInspection,
   taskNames,
   taskStatuses,
 } from '@monkvision/corejs';
@@ -27,7 +24,29 @@ import {
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
+import { useTheme } from 'react-native-paper';
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import useDamages from './useDamages';
+
+const styles = StyleSheet.create({
+  root: {
+    // display: 'flex',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    position: 'relative',
+  },
+  damages: {
+    zIndex: -1,
+    width: '100%',
+    height: '100%',
+    ...Platform.select({
+      android: {
+        position: 'absolute',
+      },
+    }),
+  },
+});
 
 const currentDamageInitialState = {
   part_type: null,
@@ -37,6 +56,7 @@ const currentDamageInitialState = {
 
 export default () => {
   const navigation = useNavigation();
+  const theme = useTheme();
   const route = useRoute();
   const { inspectionId } = route.params;
   const [orientation, rotateTo, orientationIsNotSupported] = useOrientation();
@@ -88,9 +108,6 @@ export default () => {
     [inspection.tasks],
   );
 
-  const handleGoToInspectionRead = useCallback(() => navigation.navigate(INSPECTION_READ,
-    { inspectionId }), [inspectionId, navigation]);
-
   const handleSelectDamage = useCallback((payload) => navigation.navigate(DAMAGE_READ, payload),
     [navigation]);
 
@@ -127,23 +144,17 @@ export default () => {
   const { isLoading: isDeleting, request: handleDelete } = useRequest(null,
     { onSuccess: refresh }, false);
 
+  const damagesViewRef = useRef(null);
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
     { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || drawerIsOpen },
     { title: 'Validate',
-      onPress: () => handleValidate(updateOneTaskOfInspection({
-        inspectionId,
-        taskName: taskNames.DAMAGE_DETECTION,
-        data: { status: taskStatuses.VALIDATED },
-      }), {
-        onSuccess: handleGoToInspectionRead,
-      }),
+      onPress: damagesViewRef.current?.validate,
       icon: 'send',
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, drawerIsOpen,
-    handleValidate, inspectionId, handleGoToInspectionRead]);
+  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, drawerIsOpen]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -156,10 +167,11 @@ export default () => {
       });
     }
   }, [inspectionId, menuItems, navigation]);
-  console.log(currentDamage);
+
   return (
-    <>
+    <SafeAreaView style={styles.root}>
       <CreateDamageForm
+        theme={theme}
         isOpen={drawerIsOpen}
         onClose={() => { handleCloseDrawer(); setCurrentDamage(currentDamageInitialState); }}
         onSubmit={createDamageRequest}
@@ -172,18 +184,22 @@ export default () => {
         damagePicturesState={damagePicturesState}
         isDamageValid={isDamageValid}
       />
-      <DamagesView
-        inspection={inspection}
-        onDeleteDamage={handleDelete}
-        onSelectDamage={handleSelectDamage}
-        onValidate={handleValidate}
-        isLoading={fakeActivity}
-        isDeleting={isDeleting}
-        isValidating={isValidating}
-        onPressPart={handleSelectPart}
-        isVehiclePressAble
-        selectedId={partRef.current.selectedId}
-      />
-    </>
+      <View style={styles.damages}>
+        <DamagesView
+          theme={theme}
+          ref={damagesViewRef}
+          inspection={inspection}
+          onDeleteDamage={handleDelete}
+          onSelectDamage={handleSelectDamage}
+          onValidate={handleValidate}
+          isLoading={fakeActivity}
+          isDeleting={isDeleting}
+          isValidating={isValidating}
+          onPressPart={handleSelectPart}
+          isVehiclePressAble
+          selectedId={partRef.current.selectedId}
+        />
+      </View>
+    </SafeAreaView>
   );
 };

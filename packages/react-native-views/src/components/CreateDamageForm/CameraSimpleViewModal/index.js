@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import { Portal, Modal } from 'react-native-paper';
+import { Portal } from 'react-native-paper';
 
 import ImageViewer from '../../ImageViewer';
 import CameraSimpleView from '../../CaptureTour/CameraSimpleView';
@@ -23,25 +23,23 @@ export default function CameraSimpleViewModal({
   return (
     <>
       <Portal>
-        <Modal visible>
-          <View style={styles.cameraLayout}>
-            <CameraSimpleView
-              isLoading={false}
-              onTakePicture={(picture) => setDamagePictures(
-                (prev) => (prev?.length ? [...prev, picture] : [picture]),
-              )}
-              onCloseCamera={closeCameraView}
-              theme={theme}
-              initialPicturesState={damagePictures}
-              renderOverlay={() => (
-                <DamagePicturesCameraPreview
-                  onPress={openPreviewDialog}
-                  damagePictures={damagePictures}
-                />
-              )}
-            />
-          </View>
-        </Modal>
+        <View style={styles.cameraLayout}>
+          <CameraSimpleView
+            isLoading={false}
+            onTakePicture={(picture) => setDamagePictures(
+              (prev) => (prev?.length ? [...prev, picture] : [picture]),
+            )}
+            onCloseCamera={closeCameraView}
+            theme={theme}
+            initialPicturesState={damagePictures}
+            renderOverlay={() => (
+              <DamagePicturesCameraPreview
+                onPress={openPreviewDialog}
+                damagePictures={damagePictures}
+              />
+            )}
+          />
+        </View>
       </Portal>
       <ImageViewer {...rest} />
     </>

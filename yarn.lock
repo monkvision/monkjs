@@ -2002,7 +2002,7 @@
 
 "@react-native-picker/picker@1.16.1":
   version "1.16.1"
-  resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-1.16.1.tgz"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.16.1.tgz#cc5d05b0d651445afa519c67824d8af3e43fa10c"
   integrity sha512-sk07ARwL0cMXwkXsqcxyprL/KiEVD0xRFXFqznTnZs1YXqwxEqz6GiGtq2vQlK64CzXDpHX8gw1QQz47abBY1Q==
 
 "@react-native/assets@1.0.0":
