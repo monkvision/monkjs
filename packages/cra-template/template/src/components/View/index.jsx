@@ -16,10 +16,10 @@ export default function View({ children, description, title, viewName }) {
   useViewMeta(viewName, description, title);
 
   return (
-    <section>
+    <div>
       <ScrollToTop />
       {children}
-    </section>
+    </div>
   );
 }
 

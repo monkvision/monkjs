@@ -2,56 +2,48 @@
   "package": {
     "main": "src/index.jsx",
     "dependencies": {
-      "@auth0/auth0-react": "^1.7.0",
-      "@emotion/react": "^11.4.1",
-      "@emotion/styled": "^11.3.0",
-      "@fontsource/roboto": "^4.5.0",
-      "@mui/icons-material": "^5.0.0-rc.1",
-      "@mui/material": "^5.0.0-rc.1",
-      "@reduxjs/toolkit": "^1.6.1",
-      "axios": "^0.21.4",
+      "@auth0/auth0-react": "^1.8.0",
+      "@emotion/react": "^11.7.1",
+      "@emotion/styled": "^11.6.0",
+      "@fontsource/roboto": "^4.5.1",
+      "@monkvision/corejs": "^1.2.2",
+      "@monkvision/react-native": "^1.2.2",
+      "@monkvision/react-native-views": "^1.2.2",
+      "@mui/icons-material": "^5.2.5",
+      "@mui/material": "^5.2.7",
+      "@reduxjs/toolkit": "^1.7.1",
+      "axios": "^0.24.0",
+      "dotenv": "^10.0.0",
       "lodash.identity": "^3.0.0",
       "lodash.isempty": "^4.4.0",
       "lodash.isplainobject": "^4.0.6",
       "lodash.noop": "^3.0.1",
-      "normalizr": "^3.6.1",
-      "prop-types": "^15.7.2",
-      "react": "^17.0.2",
-      "react-dom": "^17.0.2",
-      "react-redux": "^7.2.4",
-      "react-router": "^5.2.1",
-      "react-router-dom": "^5.3.0",
-      "react-scripts": "^4.0.3",
-      "release-it": "^14.11.5"
+      "prop-types": "^15.8.0",
+      "react": "^18.0.0-rc.0",
+      "react-dom": "^18.0.0-rc.0",
+      "react-redux": "^7.2.6",
+      "react-router": "^6.2.1",
+      "react-router-dom": "^6.2.1",
+      "react-scripts": "^5.0.0",
+      "release-it": "^14.11.8"
     },
     "scripts": {
       "serve": "serve -s build",
       "build-and-serve": "yarn build && yarn run serve",
       "release": "release-it"
     },
-    "browserslist": {
-      "production": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-      ],
-      "development": [
-        "last 1 chrome version",
-        "last 1 firefox version",
-        "last 1 safari version"
-      ]
-    },
     "devDependencies": {
-      "@testing-library/dom": "^8.1.0",
-      "eslint": "^7.32.0",
-      "eslint-config-airbnb": "^18.2.1",
-      "eslint-plugin-import": "^2.24.1",
-      "eslint-plugin-jest": "^24.4.0",
-      "eslint-plugin-jsx-a11y": "^6.4.1",
-      "eslint-plugin-react": "^7.24.0",
-      "eslint-plugin-react-hooks": "^4.2.0",
-      "serve": "^12.0.0",
-      "typescript": "^4.3.5"
+      "@testing-library/dom": "^8.11.1",
+      "eslint": "^8.6.0",
+      "eslint-config-airbnb": "^19.0.4",
+      "eslint-plugin-import": "^2.25.4",
+      "eslint-plugin-jest": "^25.3.4",
+      "eslint-plugin-jsx-a11y": "^6.5.1",
+      "eslint-plugin-react": "^7.28.0",
+      "eslint-plugin-react-hooks": "^4.3.0",
+      "redux-logger": "^3.0.6",
+      "serve": "^13.0.2",
+      "typescript": "^4.5.4"
     }
   }
 }

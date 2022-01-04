@@ -12,8 +12,6 @@ web-build/
 
 # modules
 node_modules/
-.expo/
-.docusaurus/
 
 # logs
 npm-debug.*
