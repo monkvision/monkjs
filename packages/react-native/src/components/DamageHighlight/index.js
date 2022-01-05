@@ -1,22 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions, Platform, View } from 'react-native';
-import { G, Image, Polygon, Svg, Ellipse, Circle } from 'react-native-svg';
+import { G, Image, Polygon, Svg, Ellipse, Circle, Defs, ClipPath } from 'react-native-svg';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import noop from 'lodash.noop';
 
 const width = Math.min(Dimensions.get('window').width - 50, 400);
-const height = 300;
-const IMAGE_OPACITY = '0.45';
+const IMAGE_OPACITY = '0.35';
 const RADIUS_INIT = 15;
-
-const styles = {
-  content: {
-    flex: 1,
-    width,
-    height,
-  },
-};
 
 function Wrapper({ children, name }) {
   if (Platform.OS === 'ios') {
@@ -72,7 +63,7 @@ DamageImage.defaultProps = {
   source: { uri: '' },
 };
 
-export default function DamageHighlight({ image, polygons, ellipse, isValidated, onAdd, onValidate }) {
+function DamageHighlight({ image, polygons, ellipse, isValidated, onAdd, onValidate }) {
   const [ellipseW, setEllipseW] = useState(null);
   const [ellipseH, setEllipseH] = useState(null);
   const [location, setLocation] = useState(null);
@@ -80,6 +71,7 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
   const [dragY, setDragY] = useState(false);
   const [dragLocation, setDragLocation] = useState(false);
 
+  const height = image.height * (width / image.width);
   const RATIO_X = image.width / width;
   const RATIO_Y = image.height / height;
 
@@ -110,13 +102,10 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
   }, [ellipse, location, ellipseH]);
 
   const handleMouseUp = useCallback(() => {
-    if (dragX) {
-      setDragX(false);
-    }
-    if (dragY) {
-      setDragY(false);
-    }
-  }, [dragY, dragX]);
+    setDragX(false);
+    setDragY(false);
+    setDragLocation(false);
+  }, []);
 
   const handleDrag = useCallback((e) => {
     const x = Platform.OS === 'web' ? e.nativeEvent.layerX : e.nativeEvent.locationX;
@@ -138,14 +127,45 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
   }, [dragX, dragY, dragLocation, RATIO_X, RATIO_Y]);
 
   const handleFinish = useCallback(() => {
-    const newEllipse = {
-      cx: location.cx,
-      cy: location.cy,
-      rx: updatedWidth,
-      ry: updatedHeight,
-    };
-    onValidate(newEllipse);
-  }, [onValidate, location.cx, location.cy, updatedHeight, updatedWidth]);
+    if (location && updatedWidth !== 0 && updatedHeight !== 0) {
+      const newEllipse = {
+        cx: location.cx * (width / image.width),
+        cy: location.cy * (height / image.height),
+        rx: updatedWidth * (width / image.width),
+        ry: updatedHeight * (height / image.height),
+      };
+      onValidate(newEllipse);
+    }
+  }, [location, image, updatedWidth, updatedHeight, onValidate]);
+
+  const polygon = useMemo(() => (
+    <>
+      {
+          ellipse && (
+            <Ellipse
+              cx={location ? location.cx : ellipse.cx}
+              cy={location ? location.cy : ellipse.cy}
+              rx={ellipseW ? Math.abs(ellipseW - ellipse.cx) : ellipse.rx}
+              ry={ellipseH ? Math.abs(ellipseH - ellipse.cy) : ellipse.ry}
+              stroke="yellow"
+              fillOpacity={0} // On the web, by default it is fill in black
+              strokeWidth={2.5}
+            />
+          )
+        }
+      {
+          polygons.map((p, index) => (
+            <Polygon
+              key={`${image.id}-polygon-${String(index)}`}
+              points={p.map((card) => `${(card[0])},${(card[1])}`).join(' ')}
+              stroke="yellow"
+              fillOpacity={0} // On the web, by default it is fill in black
+              strokeWidth={2.5}
+            />
+          ))
+        }
+    </>
+  ), [ellipse, location, ellipseW, ellipseH, polygons, image.id]);
 
   useEffect(() => {
     if (isValidated) {
@@ -172,7 +192,7 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
   }
 
   return (
-    <View style={styles.content}>
+    <View>
       <Svg
         width={width}
         height={height}
@@ -181,28 +201,16 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
         onMouseMove={handleDrag}
         onTouchMove={handleDrag}
         onMouseUp={handleMouseUp}
-        onTouchStart={handleMouseUp}
+        onTouchEnd={handleMouseUp}
       >
+        <Defs>
+          <ClipPath>{polygon}</ClipPath>
+        </Defs>
         {/* Show background image with a low opacity */}
-        <DamageImage name={image.id} source={image.source} />
-        {ellipse && (
-          <Ellipse
-            cx={location ? location.cx : ellipse.cx}
-            cy={location ? location.cy : ellipse.cy}
-            rx={ellipseW ? Math.abs(ellipseW - ellipse.cx) : ellipse.rx}
-            ry={ellipseH ? Math.abs(ellipseH - ellipse.cy) : ellipse.ry}
-            fill="red"
-            opacity={IMAGE_OPACITY}
-          />
-        )}
-        {polygons.map((polygon, index) => (
-          <Polygon
-            key={`${image.id}-polygon-${String(index)}`}
-            points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')}
-            fill="red"
-            opacity={IMAGE_OPACITY}
-          />
-        ))}
+        <DamageImage name={image.id} source={image.source} opacity={IMAGE_OPACITY} />
+        {/* Show Damages Polygon */}
+        <DamageImage name={image.id} source={image.source} clip />
+        {polygon}
         {
           ellipse && (
             <>
@@ -212,7 +220,7 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
                 cx={location ? location.cx : ellipse.cx}
                 fill="mediumseagreen"
                 onMouseDown={() => setDragY(true)}
-                onTouchEnd={() => setDragY(true)}
+                onPressIn={() => setDragY(true)}
               />
               <Circle
                 r={RADIUS_INIT}
@@ -220,7 +228,7 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
                 cy={location ? location.cy : ellipse.cy}
                 fill="red"
                 onMouseDown={() => setDragX(true)}
-                onTouchEnd={() => setDragX(true)}
+                onPressIn={() => setDragX(true)}
               />
               <Circle
                 r={RADIUS_INIT}
@@ -228,9 +236,7 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
                 cx={location ? location.cx : ellipse.cx}
                 fill="orange"
                 onMouseDown={() => setDragLocation(true)}
-                onTouchEnd={() => setDragLocation(true)}
-                onMouseUp={() => setDragLocation(false)}
-                onTouchStart={() => setDragLocation(false)}
+                onPressIn={() => setDragLocation(true)}
               />
             </>
           )
@@ -240,9 +246,11 @@ export default function DamageHighlight({ image, polygons, ellipse, isValidated,
   );
 }
 
+export default DamageHighlight;
+
 DamageHighlight.propTypes = {
   ellipse: PropTypes.shape({
-                          cx: PropTypes.number,
+    cx: PropTypes.number,
     cy: PropTypes.number,
     rx: PropTypes.number,
     ry: PropTypes.number,

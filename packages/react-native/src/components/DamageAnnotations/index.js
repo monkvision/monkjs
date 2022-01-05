@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
@@ -12,9 +12,11 @@ export default function DamageAnnotations({ image, onAdd, onRemove, onValidate }
   const [isValidated, setIsValidated] = useState(false);
 
   const handleAddPoint = (event) => {
+    const width = Math.min(Dimensions.get('window').width - 50, 400);
+    const height = image.height * (width / image.width);
     if (!isPointAdded) {
-      const ratioX = 700 / 400;
-      const ratioY = 503 / 300;
+      const ratioX = image.width / width;
+      const ratioY = image.height / height;
       let cx; let cy;
       if (Platform.OS === 'web') {
         cx = event.nativeEvent.layerX * ratioX;
