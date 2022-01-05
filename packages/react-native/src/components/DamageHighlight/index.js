@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Dimensions, Platform, View } from 'react-native';
+import { Dimensions, Platform, View, Image as Img } from 'react-native';
 import { ClipPath, Defs, G, Image, Polygon, Svg } from 'react-native-svg';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
@@ -71,8 +71,10 @@ DamageImage.defaultProps = {
 };
 
 export default function DamageHighlight({ image, polygons }) {
-  if (!image || isEmpty(polygons)) {
+  if (!image) {
     return <View />;
+  } if (isEmpty(polygons)) {
+    return <Img style={{ height, width }} source={image.source} />;
   }
 
   return (
