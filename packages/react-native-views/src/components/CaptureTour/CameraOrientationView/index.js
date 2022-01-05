@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFF',
   },
   title: { textAlign: 'center', fontSize: 28, fontWeight: '500' },
   text: { textAlign: 'center', margin: 16 },
