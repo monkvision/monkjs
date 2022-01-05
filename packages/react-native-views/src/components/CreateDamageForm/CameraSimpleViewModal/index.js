@@ -11,7 +11,7 @@ import { damagePicturesPropType } from '../proptypes';
 
 const styles = StyleSheet.create({
   cameraLayout: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#000',
     width: '100%',
     height: '100%',
     position: 'relative' },

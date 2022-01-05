@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Portal, Dialog, IconButton } from 'react-native-paper';
 import ImageView from 'react-native-image-zoom-viewer-fixed';
@@ -7,6 +7,7 @@ import ImageView from 'react-native-image-zoom-viewer-fixed';
 const styles = StyleSheet.create({
   dialog: {
     backgroundColor: 'black',
+    position: 'relative',
   },
   footerContainer: {
     ...Platform.select({
@@ -21,18 +22,32 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
+  buttonLayout: {
+    width: 40,
+    height: 40,
+    borderRadius: 999,
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 99,
+  },
+  closeButtonLayout: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    right: 20,
+    top: 20,
+  },
+  deleteButtonLayout: {
+    backgroundColor: '#FFF',
+    bottom: 20,
+    alignSelf: 'center',
+  },
   closeButton: {
     borderColor: 'white',
     alignSelf: 'center',
   },
 });
 
-const renderFooter = ({ deleteButton, handleDismiss }) => (
-  <>
-    {deleteButton || null}
-    <IconButton size={46} color="white" style={styles.closeButton} icon="close" onPress={handleDismiss} />
-  </>
-);
 export default function CustomDialog({ deleteButton, handleDismiss, images, index, isOpen }) {
   if (!images?.length) { return null; }
 
@@ -43,16 +58,30 @@ export default function CustomDialog({ deleteButton, handleDismiss, images, inde
         onDismiss={handleDismiss}
         styles={styles.dialog}
       />
+
       {isOpen ? (
-        <ImageView
-          enableImageZoom
-          enableSwipeDown={false}
-          imageUrls={images}
-          index={index}
-          onRequestClose={handleDismiss}
-          renderFooter={() => renderFooter({ deleteButton, handleDismiss })}
-          footerContainerStyle={styles.footerContainer}
-        />
+        <>
+          <View style={[styles.buttonLayout, styles.closeButtonLayout]}>
+            <IconButton size={28} color="white" style={styles.closeButton} icon="close" onPress={handleDismiss} />
+          </View>
+
+          {deleteButton ? (
+            <View style={[styles.buttonLayout, styles.deleteButtonLayout]}>
+              {deleteButton}
+            </View>
+          ) : null}
+
+          <ImageView
+            enableImageZoom
+            enableSwipeDown={false}
+            imageUrls={images}
+            index={index}
+            onRequestClose={handleDismiss}
+          // renderFooter={() => deleteButton || null}
+            footerContainerStyle={styles.footerContainer}
+          />
+
+        </>
       ) : null}
     </Portal>
   );

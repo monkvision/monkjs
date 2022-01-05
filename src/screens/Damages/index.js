@@ -131,7 +131,7 @@ export default () => {
   }, []);
 
   const handleHideNavigationBar = useCallback(() => navigation.setOptions({
-    headerShown: true,
+    headerShown: false,
   }), [navigation]);
 
   const handleShowNavigationBar = useCallback(() => navigation.setOptions({
@@ -149,7 +149,7 @@ export default () => {
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
     { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || drawerIsOpen },
     { title: 'Validate',
-      onPress: damagesViewRef.current?.validate,
+      onPress: () => damagesViewRef.current?.validate(),
       icon: 'send',
       disabled: isValidated,
       divider: true },

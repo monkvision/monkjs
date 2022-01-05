@@ -164,7 +164,7 @@ function CaptureTour({
               <CameraControls
                 fakeActivity={Boolean(fakeActivity)}
                 onLeave={ui.snackbar.handleToggle}
-                onSettingss={ui.modal.handleShow}
+                onSettings={ui.modal.handleShow}
                 onTakePicture={handleTakePicture}
               />
             </>

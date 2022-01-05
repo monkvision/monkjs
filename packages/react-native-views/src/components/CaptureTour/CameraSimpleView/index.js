@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Provider, withTheme } from 'react-native-paper';
 import noop from 'lodash.noop';
 
@@ -13,10 +13,19 @@ import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 import useOrientation from '../../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
-import { RATIO_FACTOR } from '../constants';
 
 import CameraControls from '../CameraControls';
 import CameraOrientationView from '../CameraOrientationView';
+
+function gcd(a, b) {
+  return (b === 0) ? a : gcd(b, a % b);
+}
+/* ratio is to get the gcd and divide each component
+by the gcd, then return a string with the typical colon-separated value */
+function ratio(w, h) {
+  const c = gcd(w, h);
+  return `${w / c}:${h / c}`;
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -45,8 +54,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
-
 /**
  *
  * @param initialPicturesState
@@ -68,6 +75,7 @@ function CameraSimpleView({
   renderOverlay: RenderOverlay,
   theme,
 }) {
+  const { width, height } = useWindowDimensions();
   // Camera must be declared first
   const [camera, handleCameraReady] = useState();
 
@@ -87,8 +95,7 @@ function CameraSimpleView({
 
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onSettings);
-  const { height, width } = ui.container.measures;
-  const ratio = useMemo(() => makeRatio(width, height), [height, width]);
+
   // Mobile browser view
   const [orientation, rotateTo, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
@@ -119,19 +126,19 @@ function CameraSimpleView({
                 <Components.Camera
                   lockOrientationOnRender={false}
                   onCameraReady={handleCameraReady}
-                  ratio={ratio}
+                  ratio={ratio(width, height - (height - ui.container.measures.height))}
                 />
               )}
-
               {/* camera sidebar */}
               <View style={styles.controls}>
                 <CameraControls
                   fakeActivity={Boolean(fakeActivity)}
                   onLeave={ui.camera.handleClose}
-                  onSettingss={ui.modal.handleShow}
+                  onSettings={ui.modal.handleShow}
                   onTakePicture={handleTakePicture}
                 />
               </View>
+
             </>
             {!camera && <ActivityIndicatorView />}
             <RenderOverlay />
