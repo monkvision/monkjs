@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { flushSync } from 'react-dom';
 // import { View } from 'react-native';
 import { IconButton, withTheme, Provider as PaperProvider } from 'react-native-paper';
 import { noop, snakeCase } from 'lodash';
@@ -72,7 +73,11 @@ function CreateDamageForm({
           theme={theme}
           setDamagePictures={setDamagePictures}
           closeCameraView={closeCameraView}
-          openPreviewDialog={handleOpenPreviewDialog}
+          openPreviewDialog={(val) => {
+            // close the camera synchronously and then call handleOpenPreviewDialog
+            flushSync(() => closeCameraView());
+            handleOpenPreviewDialog(val);
+          }}
           damagePictures={damagePictures}
           {...damagePicturesViewer}
         />

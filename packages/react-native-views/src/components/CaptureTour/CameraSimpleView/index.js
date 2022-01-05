@@ -126,7 +126,7 @@ function CameraSimpleView({
                 <Components.Camera
                   lockOrientationOnRender={false}
                   onCameraReady={handleCameraReady}
-                  ratio={ratio(width, height)}
+                  ratio={ratio(width, height - (height - ui.container.measures.height))}
                 />
               )}
               {/* camera sidebar */}
