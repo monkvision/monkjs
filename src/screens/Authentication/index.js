@@ -8,7 +8,7 @@ import MonkIcon from 'components/Icons/MonkIcon';
 
 import SignIn from './SignIn';
 import styles from './styles';
-import svgXml from './splash-fit.svg';
+import svgXml from './undraw_visualization_c-2-ps.svg';
 
 export default function Authentication() {
   const { colors } = useTheme();
@@ -19,7 +19,7 @@ export default function Authentication() {
       <MonkIcon color={colors.primary} width={250} height={64} />
       <Text style={styles.text}>AI powered vehicle damage detection</Text>
       <SignIn />
-      <Drawing xml={svgXml} alt="artwork" width={226} height={226} />
+      <Drawing xml={svgXml} alt="artwork" width={228} height={193} />
     </View>
   );
 }
