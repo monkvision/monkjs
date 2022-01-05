@@ -19,7 +19,6 @@ export default function useDamagesForm({ onChangeCurrentDamage, setDamagePicture
   }, [openSelectDialog]);
 
   const handleDismissSelectDialog = useCallback(() => {
-    setSelectField(null);
     closeSelectDialog();
   }, [closeSelectDialog]);
 
