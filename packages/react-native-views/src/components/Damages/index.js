@@ -1,9 +1,10 @@
-import noop from 'lodash.noop';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { SafeAreaView } from 'react-native';
+/* eslint-disable react/prop-types */
+// import noop from 'lodash.noop';
+// import PropTypes from 'prop-types';
+import React, { useImperativeHandle, forwardRef } from 'react';
+import { View } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
-
+import { Provider as PaperProvider } from 'react-native-paper';
 import useComputedParts from './useComputedParts';
 import useLayout from './useLayout';
 import usePartDamages from './usePartDamages';
@@ -13,7 +14,8 @@ import ValidateDialog from './ValidateDialog';
 
 import styles from './styles';
 
-export default function Damages({
+function Damages({
+  theme,
   inspection,
   isLoading,
   isValidating,
@@ -24,7 +26,7 @@ export default function Damages({
   onPressPart,
   isVehiclePressAble,
   selectedId,
-}) {
+}, ref) {
   const inspectionId = inspection?.id;
 
   const {
@@ -37,66 +39,73 @@ export default function Damages({
   const partsWithDamages = usePartDamages(inspection.damages, inspection.parts);
   const computedParts = useComputedParts(partsWithDamages);
 
+  useImperativeHandle(ref, () => ({
+    validate: handleOpenDialog,
+  }));
+
   if (partsWithDamages.length === 0) { return null; }
 
   return (
-    <SafeAreaView style={styles.root}>
-      {isLoading ? <ActivityIndicatorView light /> : (
-        <>
-          <ValidateDialog
-            isDialogOpen={isDialogOpen}
-            handleDismissDialog={handleDismissDialog}
-            onValidate={onValidate}
-            isValidating={isValidating}
-            inspectionId={inspection.id}
-          />
-          <Navigation
-            partsWithDamages={partsWithDamages}
-            computedParts={computedParts}
-            damagedPartsCount={partsWithDamages.length}
-            handleOpenDialog={handleOpenDialog}
-            isValidated={isValidated}
-            onDeleteDamage={onDeleteDamage}
-            onSelectDamage={onSelectDamage}
-            isDeleting={isDeleting}
-            isVehiclePressAble={isVehiclePressAble && !isValidated}
-            onPressPart={onPressPart}
-            selectedId={selectedId}
-          />
-        </>
-      )}
-    </SafeAreaView>
+    <View style={styles.root}>
+      <PaperProvider theme={theme}>
+        {isLoading ? <ActivityIndicatorView light /> : (
+          <>
+            <ValidateDialog
+              isDialogOpen={isDialogOpen}
+              handleDismissDialog={handleDismissDialog}
+              onValidate={onValidate}
+              isValidating={isValidating}
+              inspectionId={inspection.id}
+            />
+            <Navigation
+              partsWithDamages={partsWithDamages}
+              computedParts={computedParts}
+              damagedPartsCount={partsWithDamages.length}
+              handleOpenDialog={handleOpenDialog}
+              isValidated={isValidated}
+              onDeleteDamage={onDeleteDamage}
+              onSelectDamage={onSelectDamage}
+              isDeleting={isDeleting}
+              isVehiclePressAble={isVehiclePressAble && !isValidated}
+              onPressPart={onPressPart}
+              selectedId={selectedId}
+            />
+          </>
+        )}
+      </PaperProvider>
+    </View>
   );
 }
 
-Damages.propTypes = {
-  inspection: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
-    damages: PropTypes.any.isRequired,
-    id: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    parts: PropTypes.any.isRequired,
-  }),
-  isDeleting: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isValidating: PropTypes.bool,
-  isVehiclePressAble: PropTypes.bool,
-  onDeleteDamage: PropTypes.func,
-  onPressPart: PropTypes.func,
-  onSelectDamage: PropTypes.func,
-  onValidate: PropTypes.func,
-  selectedId: PropTypes.string,
-};
+// Damages.propTypes = {
+//   inspection: PropTypes.shape({
+//     // eslint-disable-next-line react/forbid-prop-types
+//     damages: PropTypes.any.isRequired,
+//     id: PropTypes.string.isRequired,
+//     // eslint-disable-next-line react/forbid-prop-types
+//     parts: PropTypes.any.isRequired,
+//   }),
+//   isDeleting: PropTypes.bool,
+//   isLoading: PropTypes.bool,
+//   isValidating: PropTypes.bool,
+//   isVehiclePressAble: PropTypes.bool,
+//   onDeleteDamage: PropTypes.func,
+//   onPressPart: PropTypes.func,
+//   onSelectDamage: PropTypes.func,
+//   onValidate: PropTypes.func,
+//   selectedId: PropTypes.string,
+// };
 
-Damages.defaultProps = {
-  inspection: {},
-  isLoading: false,
-  isValidating: false,
-  isVehiclePressAble: false,
-  isDeleting: false,
-  onDeleteDamage: noop,
-  onSelectDamage: noop,
-  onPressPart: noop,
-  onValidate: noop,
-  selectedId: null,
-};
+// Damages.defaultProps = {
+//   inspection: {},
+//   isLoading: false,
+//   isValidating: false,
+//   isVehiclePressAble: false,
+//   isDeleting: false,
+//   onDeleteDamage: noop,
+//   onSelectDamage: noop,
+//   onPressPart: noop,
+//   onValidate: noop,
+//   selectedId: null,
+// };
+export default forwardRef(Damages);
