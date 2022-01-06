@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
   title: { maxWidth: 100 },
 });
 
-// width < 350 ? MAX_POSSIBLE_LENGTH : Infinity
-
 export default function DamageRow({ value, title, ...rest }) {
   const isMobile = useMediaQuery({ query: '(max-device-width: 350px)' });
 
