@@ -138,7 +138,7 @@ function DamageHighlight({
     }
   }, [state.dragX, state.dragY, state.dragLocation, setter, RATIO_X, RATIO_Y]);
 
-  const handleFinish = useCallback(() => {
+  const handleValidate = useCallback(() => {
     if (state.location && updatedWidth !== 0 && updatedHeight !== 0) {
       const newEllipse = saveEllipse(updatedWidth, updatedHeight);
       onValidate(newEllipse);
@@ -177,9 +177,9 @@ function DamageHighlight({
 
   useEffect(() => {
     if (isValidated) {
-      handleFinish();
+      handleValidate();
     }
-  }, [handleFinish, isValidated]);
+  }, [handleValidate, isValidated]);
 
   if (!image) {
     return <View />;

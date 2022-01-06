@@ -49,7 +49,7 @@ export default function DamageAnnotations({
   const handleRemove = useCallback(() => {
     onRemove(ellipse);
     setEllipse(null);
-  }, [onRemove]);
+  }, [ellipse, onRemove]);
 
   useEffect(() => {
     if (!ellipse) {
