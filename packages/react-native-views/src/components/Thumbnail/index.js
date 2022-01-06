@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { propTypes, sightMasks, utils } from '@monkvision/react-native';
 import { Image, View, StyleSheet } from 'react-native';
-import { ActivityIndicator, withTheme } from 'react-native-paper';
+import { ActivityIndicator, withTheme, IconButton } from 'react-native-paper';
+
+import useToggle from '../../hooks/useToggle';
+import ComplianceModal from './ComplianceModal';
 
 const { spacing } = utils.styles;
 const styles = StyleSheet.create({
@@ -14,10 +17,9 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     position: 'relative',
     borderWidth: 1.2,
-    // backgroundColor: '#F1F3F4',
     margin: 4,
-    width: 180,
-    height: 180,
+    width: 100,
+    height: 100,
   },
   picture: {
     width: '100%',
@@ -32,35 +34,92 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
   },
+  reloadButtonLayout: {
+    position: 'absolute',
+    display: 'flex',
+    flexDirection: 'row',
+    zIndex: 11,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  overlayButton: {
+    backgroundColor: '#FFF',
+    margin: spacing(1),
+  },
 });
 
 const SightMask = ({ id, ...props }) => (sightMasks?.[id] ? sightMasks[id](props) : null);
 
+const colorsVariant = (colors) => ({
+  rejected: colors.error,
+  pending: colors.primary,
+  fulfilled: colors.primary,
+});
 function Thumbnail({ theme, complianceStatus, image, isUploading, metadata, uploadStatus }) {
   const { colors } = theme;
-  const { id, uri } = metadata.sight;
+  const { id } = metadata.sight;
+
+  const [complianceModalIsOpen, openComplianceModal, closeComplianceModal] = useToggle();
+  const complianceIssues = useMemo(
+    () => Object.keys(complianceStatus).filter(
+      (key) => !!complianceStatus[key],
+    ), [complianceStatus],
+  );
+  const isNotCompliant = complianceIssues?.length;
 
   console.log({ complianceStatus, image, isUploading, uploadStatus });
+
+  const isFailed = uploadStatus === 'rejected';
+  const isPending = uploadStatus === 'pending';
   return (
-    <View
-      style={[styles.sightCard, {
-        borderColor: uploadStatus === 'rejected' ? colors.error : colors.primary,
-      }]}
-    >
+    <>
+      <ComplianceModal
+        visible={complianceModalIsOpen}
+        complianceIssues={complianceIssues}
+        onDismiss={closeComplianceModal}
+      />
+      <View style={[styles.sightCard, { borderColor: colorsVariant(colors)[uploadStatus] }]}>
+        <View style={styles.reloadButtonLayout}>
+          {/* compliance button */}
+          {isNotCompliant ? (
+            <IconButton
+              icon="information-outline"
+              size={24}
+              onPress={openComplianceModal}
+              style={styles.overlayButton}
+              color={colors.info}
+            />
+          ) : null}
 
-      {/* sight mask */}
-      <View style={{ transform: [{ scale: 0.28 }], zIndex: 2, height: 400 }}>
-        <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colors.primary} />
+          {/* reload button */}
+          {!isPending && isFailed ? (
+            <IconButton
+              icon="reload"
+              size={24}
+              onPress={() => null}
+              style={styles.overlayButton}
+              color={colors.error}
+            />
+          ) : null}
+        </View>
+
+        {/* sight mask */}
+        {uploadStatus !== 'pending' ? (
+          <View style={{ transform: [{ scale: 0.19 }], zIndex: 2, height: 400 }}>
+            <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colorsVariant(colors)[uploadStatus]} />
+          </View>
+        ) : null}
+
+        {/* we can try implementing the new Img conponent here for a smooth image rendering */}
+        {image
+          ? <Image source={{ uri: image }} style={styles.picture} />
+          : null}
+
+        {/* loading */}
+        {uploadStatus === 'pending' ? <ActivityIndicator style={styles.loading} color={uploadStatus === 'rejected' ? colors.error : colors.primary} /> : null}
       </View>
-
-      {/* we can try implementing the new Img conponent here for a smooth image rendering */}
-      {uri
-        ? <Image source={{ uri }} style={styles.picture} />
-        : null}
-
-      {/* loading */}
-      {uploadStatus === 'pending' ? <ActivityIndicator style={styles.loading} color={uploadStatus === 'rejected' ? colors.error : colors.primary} /> : null}
-    </View>
+    </>
   );
 }
 
