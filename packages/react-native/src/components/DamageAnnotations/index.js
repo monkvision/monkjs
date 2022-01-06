@@ -1,29 +1,35 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dimensions, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
 import DamageHighlight from '../DamageHighlight';
+import { useDamageImage } from '../../hooks';
 
-export default function DamageAnnotations({ image, onAdd, onRemove, onValidate }) {
+export default function DamageAnnotations({
+  image,
+  onAdd,
+  onRemove,
+  onValidate,
+}) {
   const [isPointAdded, setIsPointAdded] = useState(false);
   const [ellipse, setEllipse] = useState(null);
   const [isValidated, setIsValidated] = useState(false);
+  const { getSvgRatio } = useDamageImage(image);
 
   const handleAddPoint = (event) => {
-    const width = Math.min(Dimensions.get('window').width - 50, 400);
-    const height = image.height * (width / image.width);
+    const [RATIO_X, RATIO_Y] = getSvgRatio;
+
     if (!isPointAdded) {
-      const ratioX = image.width / width;
-      const ratioY = image.height / height;
-      let cx; let cy;
+      let cx;
+      let cy;
       if (Platform.OS === 'web') {
-        cx = event.nativeEvent.layerX * ratioX;
-        cy = event.nativeEvent.layerY * ratioY;
+        cx = event.nativeEvent.layerX * RATIO_X;
+        cy = event.nativeEvent.layerY * RATIO_Y;
       } else {
-        cx = event.nativeEvent.locationX * ratioX;
-        cy = event.nativeEvent.locationY * ratioY;
+        cx = event.nativeEvent.locationX * RATIO_X;
+        cy = event.nativeEvent.locationY * RATIO_Y;
       }
       setIsPointAdded(true);
       setEllipse({
@@ -41,15 +47,17 @@ export default function DamageAnnotations({ image, onAdd, onRemove, onValidate }
   }, [onValidate]);
 
   const handleRemove = useCallback(() => {
+    onRemove(ellipse);
     setEllipse(null);
-    onRemove();
   }, [onRemove]);
 
   useEffect(() => {
     if (!ellipse) {
       setIsPointAdded(false);
+    } else {
+      onAdd(ellipse);
     }
-  }, [ellipse]);
+  }, [ellipse, onAdd]);
 
   return (
     <Card>
@@ -64,7 +72,14 @@ export default function DamageAnnotations({ image, onAdd, onRemove, onValidate }
       </Card.Content>
       <Card.Actions>
         <Button onPress={handleRemove}>Remove</Button>
-        <Button onPress={() => { setIsValidated(true); }} mode="contained">Finish</Button>
+        <Button
+          onPress={() => {
+            setIsValidated(true);
+          }}
+          mode="contained"
+        >
+          Finish
+        </Button>
       </Card.Actions>
     </Card>
   );
