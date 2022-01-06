@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, SafeAreaView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { Provider, withTheme } from 'react-native-paper';
 import noop from 'lodash.noop';
 
@@ -13,22 +13,14 @@ import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 import useOrientation from '../../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
+import { SIDEBAR_WIDTH, RATIO_FACTOR } from '../constants';
 
 import CameraControls from '../CameraControls';
 import CameraOrientationView from '../CameraOrientationView';
 
-function gcd(a, b) {
-  return (b === 0) ? a : gcd(b, a % b);
-}
-/* ratio is to get the gcd and divide each component
-by the gcd, then return a string with the typical colon-separated value */
-function ratio(w, h) {
-  const c = gcd(w, h);
-  return `${w / c}:${h / c}`;
-}
-
 const styles = StyleSheet.create({
   root: {
+    backgroundColor: '#000',
     ...Platform.select({
       native: { flex: 1 },
       default: { display: 'flex', flex: 1, height: '100vh' },
@@ -36,23 +28,21 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
+    position: 'relative',
     flexWrap: 'nowrap',
     overflow: 'hidden',
     minWidth: '100%',
     minHeight: '100%',
-    marginTop: -10,
+    backgroundColor: '#000',
     justifyContent: 'space-between',
     ...Platform.select({
       native: { flex: 1 },
       default: { display: 'flex', flex: 1 },
     }),
   },
-  controls: {
-    position: 'absolute',
-    right: 0,
-    height: '100%',
-  },
 });
+
+const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
 
 /**
  *
@@ -61,7 +51,7 @@ const styles = StyleSheet.create({
  * @param onCloseCamera {func}
  * @param onSettings {func}
  * @param onTakePicture {func}
- * @param renderOverlay {element}
+ * @param renderOvelay {func}
  * @param theme
  * @returns {JSX.Element}
  * @constructor
@@ -72,10 +62,8 @@ function CameraSimpleView({
   onCloseCamera,
   onSettings,
   onTakePicture,
-  renderOverlay: RenderOverlay,
   theme,
 }) {
-  const { width, height } = useWindowDimensions();
   // Camera must be declared first
   const [camera, handleCameraReady] = useState();
 
@@ -95,7 +83,8 @@ function CameraSimpleView({
 
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onSettings);
-
+  const { height, width } = ui.container.measures;
+  const ratio = useMemo(() => makeRatio(width - SIDEBAR_WIDTH, height), [height, width]);
   // Mobile browser view
   const [orientation, rotateTo, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
@@ -126,22 +115,19 @@ function CameraSimpleView({
                 <Components.Camera
                   lockOrientationOnRender={false}
                   onCameraReady={handleCameraReady}
-                  ratio={ratio(width, height - (height - ui.container.measures.height))}
+                  ratio={ratio}
                 />
               )}
-              {/* camera sidebar */}
-              <View style={styles.controls}>
-                <CameraControls
-                  fakeActivity={Boolean(fakeActivity)}
-                  onLeave={ui.camera.handleClose}
-                  onSettings={ui.modal.handleShow}
-                  onTakePicture={handleTakePicture}
-                />
-              </View>
 
+              {/* camera sidebar */}
+              <CameraControls
+                fakeActivity={Boolean(fakeActivity)}
+                onLeave={ui.camera.handleClose}
+                onSettingss={ui.modal.handleShow}
+                onTakePicture={handleTakePicture}
+              />
             </>
             {!camera && <ActivityIndicatorView />}
-            <RenderOverlay />
           </View>
         </SafeAreaView>
       </View>
@@ -155,7 +141,6 @@ CameraSimpleView.propTypes = {
   onCloseCamera: propTypes.callback,
   onSettings: propTypes.callback,
   onTakePicture: propTypes.callback,
-  renderOverlay: PropTypes.func,
 };
 
 CameraSimpleView.defaultProps = {
@@ -164,7 +149,6 @@ CameraSimpleView.defaultProps = {
   onCloseCamera: noop,
   onSettings: noop,
   onTakePicture: noop,
-  renderOverlay: () => <></>,
 };
 
 export default withTheme(CameraSimpleView);

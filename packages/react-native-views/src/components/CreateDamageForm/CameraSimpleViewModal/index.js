@@ -6,7 +6,6 @@ import { Portal } from 'react-native-paper';
 import ImageViewer from '../../ImageViewer';
 import CameraSimpleView from '../../CaptureTour/CameraSimpleView';
 
-import DamagePicturesCameraPreview from '../DamagePicturesCameraPreview';
 import { damagePicturesPropType } from '../proptypes';
 
 const styles = StyleSheet.create({
@@ -32,12 +31,6 @@ export default function CameraSimpleViewModal({
             onCloseCamera={closeCameraView}
             theme={theme}
             initialPicturesState={damagePictures}
-            renderOverlay={() => (
-              <DamagePicturesCameraPreview
-                onPress={openPreviewDialog}
-                damagePictures={damagePictures}
-              />
-            )}
           />
         </View>
       </Portal>
