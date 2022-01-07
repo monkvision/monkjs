@@ -4,7 +4,7 @@ import { denormalize } from 'normalizr';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { DamagesView, useFakeActivity, CreateDamageForm, useOrientation } from '@monkvision/react-native-views';
+import { DamagesView, useFakeActivity, CreateDamageForm } from '@monkvision/react-native-views';
 import { DAMAGE_READ } from 'screens/names';
 import {
   damagesEntity,
@@ -59,7 +59,6 @@ export default () => {
   const theme = useTheme();
   const route = useRoute();
   const { inspectionId } = route.params;
-  const [orientation, rotateTo, orientationIsNotSupported] = useOrientation();
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -112,13 +111,10 @@ export default () => {
     [navigation]);
 
   const handleSelectPart = useCallback((partType) => {
-    // The drawer doesn't support orientation change (based on animated)
-    // in this case we force lock the orientation to portrait
-    if (orientation !== 1 && !orientationIsNotSupported) { rotateTo.portrait(); }
     setCurrentDamage((prev) => ({ ...prev, part_type: partType }));
     handleOpenDrawer();
   },
-  [orientation, handleOpenDrawer, rotateTo, orientationIsNotSupported]);
+  [handleOpenDrawer]);
 
   const handleAddNewDamage = useCallback(() => {
     setCurrentDamage(currentDamageInitialState);

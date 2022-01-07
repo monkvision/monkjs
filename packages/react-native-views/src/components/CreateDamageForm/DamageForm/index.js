@@ -7,8 +7,6 @@ import { noop, startCase } from 'lodash';
 import { utils } from '@monkvision/react-native';
 import Drawer from '../../Drawer';
 
-import useOrientation from '../../../hooks/useOrientation';
-
 import DamagePicturesPreview from '../DamagePicturesPreview';
 import DamageRow from '../DamageRow';
 
@@ -62,15 +60,10 @@ function DamageForm({
     return 'On a part';
   }, [currentDamage.part_type]);
 
-  const [orientation,, orientationIsNotSupported] = useOrientation();
-
   // check if the form is filled with data and not yet submitted (dirty)
   const isDirty = useMemo(() => Object.values(currentDamage).some(Boolean),
     [currentDamage]);
 
-  // The drawer doesn't support orientation change (based on animated)
-  // in this case we force the drawer to be closed on landscape orientation
-  if (orientation !== 1 && !orientationIsNotSupported) { return null; }
   return (
 
     <Drawer
@@ -78,7 +71,7 @@ function DamageForm({
       handleClose={() => !isDirty && onClose()}
       onClose={handleClearDamagePictures}
     >
-      <ScrollView style={{ height: Drawer.CONTENT_HEIGHT }}>
+      <ScrollView style={{ height: '100%' }}>
         <Drawer.Title
           title={`Add photos for ${wrapTitles}`}
           subtitle={wrapSubtitles}
