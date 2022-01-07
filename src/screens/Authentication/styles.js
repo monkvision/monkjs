@@ -22,4 +22,10 @@ export default StyleSheet.create({
   signIn: {
     margin: spacing(3),
   },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: spacing(4),
+  },
 });
