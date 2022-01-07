@@ -1,9 +1,9 @@
-const buildNumber = 10;
+const buildNumber = 1;
 
 export default {
   name: 'monk',
   slug: 'monk',
-  version: '1.0.0',
+  version: '1.2.3',
   owner: 'monkvision',
   primaryColor: '#274b9f',
   scheme: 'monk',
@@ -42,9 +42,9 @@ export default {
 
   extra: {
     ENV: 'development',
-    AUTH_DOMAIN: 'idp.staging.monk.ai',
+    API_DOMAIN: 'api.staging.monk.ai/v1',
     AUTH_AUDIENCE: 'https://api.monk.ai/v1/',
     AUTH_CLIENT_ID: 'DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L',
-    API_DOMAIN: 'api.staging.monk.ai/v1',
+    AUTH_DOMAIN: 'idp.staging.monk.ai',
   },
 };
