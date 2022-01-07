@@ -7,13 +7,15 @@ import ImageViewer from '../../ImageViewer';
 import CameraSimpleView from '../../CaptureTour/CameraSimpleView';
 
 import { damagePicturesPropType } from '../proptypes';
+import DamagePicturesCameraPreview from '../DamagePicturesCameraPreview/index';
 
 const styles = StyleSheet.create({
   cameraLayout: {
     backgroundColor: '#000',
     width: '100%',
     height: '100%',
-    position: 'relative' },
+    position: 'relative',
+  },
 });
 
 export default function CameraSimpleViewModal({
@@ -31,6 +33,13 @@ export default function CameraSimpleViewModal({
             onCloseCamera={closeCameraView}
             theme={theme}
             initialPicturesState={damagePictures}
+            onSettings={() => null}
+            renderLeftSidebar={() => (
+              <DamagePicturesCameraPreview
+                onPress={openPreviewDialog}
+                damagePictures={damagePictures}
+              />
+            )}
           />
         </View>
       </Portal>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
@@ -13,8 +13,6 @@ import useMobileBrowserConfig from '../hooks/useMobileBrowserConfig';
 import useOrientation from '../../../hooks/useOrientation';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
-import { SIDEBAR_WIDTH, RATIO_FACTOR } from '../constants';
-
 import CameraControls from '../CameraControls';
 import CameraOrientationView from '../CameraOrientationView';
 
@@ -28,21 +26,33 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    position: 'relative',
     flexWrap: 'nowrap',
     overflow: 'hidden',
     minWidth: '100%',
     minHeight: '100%',
     backgroundColor: '#000',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     ...Platform.select({
       native: { flex: 1 },
       default: { display: 'flex', flex: 1 },
     }),
   },
+  controls: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 99,
+    height: '100%',
+    width: 125,
+    backgroundColor: '#000',
+  },
+  leftSidebar: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 99,
+  },
 });
-
-const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
 
 /**
  *
@@ -51,7 +61,7 @@ const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_F
  * @param onCloseCamera {func}
  * @param onSettings {func}
  * @param onTakePicture {func}
- * @param renderOvelay {func}
+ * @param renderLeftSidebar {func}
  * @param theme
  * @returns {JSX.Element}
  * @constructor
@@ -62,6 +72,7 @@ function CameraSimpleView({
   onCloseCamera,
   onSettings,
   onTakePicture,
+  renderLeftSidebar: RenderLeftSidebar,
   theme,
 }) {
   // Camera must be declared first
@@ -83,8 +94,6 @@ function CameraSimpleView({
 
   // Wraps states and callbacks to manage UI in one hook place
   const ui = useUI(camera, pictures, onCloseCamera, onSettings);
-  const { height, width } = ui.container.measures;
-  const ratio = useMemo(() => makeRatio(width - SIDEBAR_WIDTH, height), [height, width]);
   // Mobile browser view
   const [orientation, rotateTo, isNotSupported] = useOrientation();
   const isMobileBrowser = useMobileBrowserConfig();
@@ -110,24 +119,41 @@ function CameraSimpleView({
         <SafeAreaView>
           <View style={styles.container} onLayout={ui.container.handleLayout}>
             <>
+              {/* optional left sidebar */}
+              <View style={styles.leftSidebar}>
+                <RenderLeftSidebar />
+              </View>
+
               {/* camera and mask overlay */}
-              {ui.container.measures.width && (
-                <Components.Camera
-                  lockOrientationOnRender={false}
-                  onCameraReady={handleCameraReady}
-                  ratio={ratio}
-                />
+              {Platform.OS === 'web' ? (
+                ui.container.measures.width && (
+                  <Components.Camera
+                    lockOrientationOnRender={false}
+                    onCameraReady={handleCameraReady}
+                    ratio="4:3"
+                  />
+                )
+              ) : ui.container.measures.width && (
+                <View>
+                  <Components.Camera
+                    lockOrientationOnRender={false}
+                    onCameraReady={handleCameraReady}
+                    ratio="4:3"
+                  />
+                </View>
               )}
 
               {/* camera sidebar */}
-              <CameraControls
-                fakeActivity={Boolean(fakeActivity)}
-                onLeave={ui.camera.handleClose}
-                onSettingss={ui.modal.handleShow}
-                onTakePicture={handleTakePicture}
-              />
+              <View style={styles.controls}>
+                <CameraControls
+                  fakeActivity={Boolean(fakeActivity)}
+                  onLeave={ui.camera.handleClose}
+                  onSettings={() => null}
+                  onTakePicture={handleTakePicture}
+                />
+              </View>
+              {!camera && <ActivityIndicatorView />}
             </>
-            {!camera && <ActivityIndicatorView />}
           </View>
         </SafeAreaView>
       </View>
@@ -141,6 +167,7 @@ CameraSimpleView.propTypes = {
   onCloseCamera: propTypes.callback,
   onSettings: propTypes.callback,
   onTakePicture: propTypes.callback,
+  renderLeftSidebar: PropTypes.func,
 };
 
 CameraSimpleView.defaultProps = {
@@ -149,6 +176,7 @@ CameraSimpleView.defaultProps = {
   onCloseCamera: noop,
   onSettings: noop,
   onTakePicture: noop,
+  renderLeftSidebar: () => <></>,
 };
 
 export default withTheme(CameraSimpleView);
