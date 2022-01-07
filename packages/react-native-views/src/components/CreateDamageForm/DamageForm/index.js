@@ -45,8 +45,11 @@ function DamageForm({
   handleClearDamagePictures,
   damagePictures,
   handleOpenPreviewDialog,
-  handleOpenSelectDialog,
+  setSelectField,
   openCameraView,
+  data,
+  onChange,
+  selectedValue,
 }) {
   const { colors } = theme;
 
@@ -102,19 +105,25 @@ function DamageForm({
               title="Part type"
               value={currentDamage.part_type}
               key="metadata-partType"
-              onPress={() => handleOpenSelectDialog('part_type')}
+              onPress={() => setSelectField('part_type')}
+              data={data}
+              onChange={onChange}
+              selectedValue={selectedValue}
             />
             <DamageRow
               title="Damage type"
               value={currentDamage.damage_type}
               key="metadata-damageType"
-              onPress={() => handleOpenSelectDialog('damage_type')}
+              onPress={() => setSelectField('damage_type')}
+              data={data}
+              onChange={onChange}
+              selectedValue={selectedValue}
             />
             <DamageRow
               title="Severity"
               value={currentDamage.severity}
               key="metadata-severity"
-              onPress={() => handleOpenSelectDialog('severity')}
+              onPress={() => setSelectField('severity')}
               disabled
             />
           </DataTable>
@@ -161,15 +170,18 @@ DamageForm.propTypes = {
   }),
   // eslint-disable-next-line react/forbid-prop-types
   damagePictures: PropTypes.any,
+  data: PropTypes.arrayOf(PropTypes.any),
   handleClearDamagePictures: PropTypes.func,
   handleOpenPreviewDialog: PropTypes.func,
-  handleOpenSelectDialog: PropTypes.func,
   isDamageValid: PropTypes.bool,
   isOpen: PropTypes.bool,
+  onChange: PropTypes.func,
   onClose: PropTypes.func,
   onReset: PropTypes.func,
   onSubmit: PropTypes.func,
   openCameraView: PropTypes.func,
+  selectedValue: PropTypes.string,
+  setSelectField: PropTypes.func,
 };
 
 DamageForm.defaultProps = {
@@ -182,11 +194,14 @@ DamageForm.defaultProps = {
   isOpen: false,
   isDamageValid: false,
   onSubmit: noop,
+  onChange: noop,
   onReset: noop,
   handleClearDamagePictures: noop,
   handleOpenPreviewDialog: noop,
-  handleOpenSelectDialog: noop,
+  setSelectField: noop,
   openCameraView: noop,
   damagePictures: [],
+  data: [],
+  selectedValue: null,
 };
 export default withTheme(DamageForm);

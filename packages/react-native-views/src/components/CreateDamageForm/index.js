@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { flushSync } from 'react-dom';
 // import { View } from 'react-native';
 import { IconButton, withTheme, Provider as PaperProvider } from 'react-native-paper';
-import { noop, snakeCase } from 'lodash';
-
+import { noop, startCase } from 'lodash';
 import ImageViewer from '../ImageViewer';
 import useToggle from '../../hooks/useToggle';
 
@@ -12,7 +11,7 @@ import damageMetadataList from './metadataList';
 
 import DamagesForm from './DamageForm';
 import CameraSimpleViewModal from './CameraSimpleViewModal/index';
-import DamagePicker from './DamagePicker';
+// import DamagePicker from './DamagePicker';
 import useDamagesForm from './useDamagesForm';
 
 function CreateDamageForm({
@@ -34,17 +33,15 @@ function CreateDamageForm({
   const [damagePictures, setDamagePictures] = damagePicturesState;
 
   const {
-    isSelectDialogOpen,
     isPreviewDialogOpen,
     selectField,
+    setSelectField,
     handleOpenPreviewDialog,
-    handleOpenSelectDialog,
     handleUpdateDamageMetaData,
     handleRemovePicture,
     handleClearDamagePictures,
     previewImage,
     closePreviewDialog,
-    handleDismissSelectDialog,
   } = useDamagesForm({ onChangeCurrentDamage, setDamagePictures });
 
   const damagePicturesViewer = useMemo(() => ({
@@ -95,17 +92,11 @@ function CreateDamageForm({
           handleClearDamagePictures={handleClearDamagePictures}
           damagePictures={damagePictures}
           handleOpenPreviewDialog={handleOpenPreviewDialog}
-          handleOpenSelectDialog={handleOpenSelectDialog}
+          setSelectField={setSelectField}
           openCameraView={openCameraView}
-        />
-
-        {/* damage picker */}
-        <DamagePicker
-          visible={Boolean(isSelectDialogOpen && selectField)}
-          selectedValue={snakeCase(currentDamage[selectField]) || ''}
-          onValueChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
           data={damageMetadataList[selectField] || []}
-          onClose={handleDismissSelectDialog}
+          onChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
+          selectedValue={startCase(currentDamage[selectField])}
         />
         <ImageViewer {...damagePicturesViewer} />
       </>

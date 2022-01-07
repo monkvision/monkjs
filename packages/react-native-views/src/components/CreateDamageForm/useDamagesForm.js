@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import useToggle from '../../hooks/useToggle';
 
 export default function useDamagesForm({ onChangeCurrentDamage, setDamagePictures }) {
-  const [isSelectDialogOpen, openSelectDialog, closeSelectDialog] = useToggle();
   const [isPreviewDialogOpen, openPreviewDialog, closePreviewDialog] = useToggle();
 
   const [previewImage, setPreviewImage] = useState({});
@@ -13,19 +12,9 @@ export default function useDamagesForm({ onChangeCurrentDamage, setDamagePicture
     openPreviewDialog();
   }, [openPreviewDialog]);
 
-  const handleOpenSelectDialog = useCallback((field) => {
-    setSelectField(field);
-    openSelectDialog();
-  }, [openSelectDialog]);
-
-  const handleDismissSelectDialog = useCallback(() => {
-    closeSelectDialog();
-  }, [closeSelectDialog]);
-
   const handleUpdateDamageMetaData = useCallback((metaData) => {
     onChangeCurrentDamage(metaData);
-    handleDismissSelectDialog();
-  }, [handleDismissSelectDialog, onChangeCurrentDamage]);
+  }, [onChangeCurrentDamage]);
 
   const handleRemovePicture = useCallback(() => {
     // Remove taken picture
@@ -37,16 +26,14 @@ export default function useDamagesForm({ onChangeCurrentDamage, setDamagePicture
   const handleClearDamagePictures = useCallback(() => setDamagePictures([]), [setDamagePictures]);
 
   return {
-    isSelectDialogOpen,
     isPreviewDialogOpen,
+    setSelectField,
     selectField,
     handleOpenPreviewDialog,
-    handleOpenSelectDialog,
     handleUpdateDamageMetaData,
     handleRemovePicture,
     handleClearDamagePictures,
     previewImage,
     closePreviewDialog,
-    handleDismissSelectDialog,
   };
 }
