@@ -64,8 +64,6 @@ function DamageForm({
   const isDirty = useMemo(() => Object.values(currentDamage).some(Boolean),
     [currentDamage]);
 
-  // The drawer doesn't support orientation change (based on animated)
-  // in this case we force the drawer to be closed on landscape orientation
   return (
 
     <Drawer
