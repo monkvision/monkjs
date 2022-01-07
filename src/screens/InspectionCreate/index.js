@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 
 import useUpload from 'hooks/useUpload';
+import useViewpoints from 'hooks/useViewpoints';
 import UploadFailureDialog from 'screens/InspectionCreate/UploadFailureDialog';
 import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
@@ -18,6 +19,7 @@ export default () => {
   const navigation = useNavigation();
   const screen = useScreen();
   const requests = useRequests(screen);
+  const viewpoints = useViewpoints();
 
   const { inspectionId } = screen.state;
   const trueActivity = requests.createInspection.isLoading || screen.state.isUploading;
@@ -60,9 +62,10 @@ export default () => {
           ? picture.source.base64
           : picture.source.uri,
         inspectionId,
+        viewpoints.metadata,
       );
     });
-  }, [handleTakePicture, inspectionId, screen]);
+  }, [handleTakePicture, inspectionId, viewpoints, screen]);
 
   const sightIds = useMemo(() => (
     screen.state.picturesNotUploaded.map((pic) => pic.sight.id)
@@ -80,6 +83,7 @@ export default () => {
                 ? pic.source.base64
                 : pic.source.uri,
               inspectionId,
+              viewpoints.metadata,
             );
           }
         }}

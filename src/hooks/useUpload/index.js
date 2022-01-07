@@ -13,7 +13,7 @@ export default ({
 }) => {
   const dispatch = useDispatch();
 
-  return useCallback(async (uri, id) => {
+  return useCallback(async (uri, id, metadata) => {
     if (!inspectionId) {
       return;
     }
@@ -27,7 +27,13 @@ export default ({
     const baseParams = { inspectionId, headers };
 
     const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
-    const json = JSON.stringify({ acquisition, tasks: [taskName] });
+    const task = {
+      name: taskName,
+      image_details: {
+        viewpoint_name: metadata && metadata.viewpointName(),
+      },
+    };
+    const json = JSON.stringify({ acquisition, tasks: [task] });
 
     const data = new FormData();
     data.append(multiPartKeys.json, json);
