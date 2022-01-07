@@ -6,7 +6,6 @@ import { IconButton, withTheme, Provider as PaperProvider } from 'react-native-p
 import { noop, snakeCase } from 'lodash';
 
 import ImageViewer from '../ImageViewer';
-import useOrientation from '../../hooks/useOrientation';
 import useToggle from '../../hooks/useToggle';
 
 import damageMetadataList from './metadataList';
@@ -58,8 +57,6 @@ function CreateDamageForm({
   }), [closePreviewDialog, colors.error, damagePictures,
     handleRemovePicture, isLoading, isPreviewDialogOpen, previewImage.index]);
 
-  const [orientation,, orientationIsNotSupported] = useOrientation();
-
   // trigger the camera open/close events
   useEffect(() => {
     if (isCameraViewOpen) { onCameraOpen(); } else { onCameraClose(); }
@@ -84,9 +81,7 @@ function CreateDamageForm({
       </PaperProvider>
     );
   }
-  // The drawer doesn't support orientation change (based on animated)
-  // in this case we force the drawer to be closed on landscape orientation
-  if (orientation !== 1 && !orientationIsNotSupported) { return null; }
+
   return (
     <PaperProvider theme={theme}>
       <>
