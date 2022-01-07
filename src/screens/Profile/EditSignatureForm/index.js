@@ -57,7 +57,6 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
       <ScrollView
         scrollEnabled={scrollEnabled}
         ref={scrollRef}
-        style={{ height: Drawer.CONTENT_HEIGHT }}
       >
         <Drawer.Title title="Edit account data" />
         <Drawer.Content>
