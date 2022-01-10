@@ -1,7 +1,7 @@
-import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
 import { noop } from 'lodash';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Menu } from 'react-native-paper';
 
 import useToggle from '../../hooks/useToggle';
@@ -13,17 +13,22 @@ const styles = StyleSheet.create({
 });
 
 function Select({
-  selectedValue,
-  data,
-  onChange,
-  label,
-  anchor,
-  itemKey,
-  onOpen,
-  disabled,
-  contentStyle,
-}) {
+  selectedValue = '',
+  data = ['Not given'],
+  onChange = noop,
+  label = (item) => item,
+  anchor = () => <></>,
+  itemKey = (item) => item,
+  onOpen = noop,
+  disabled = false,
+  contentStyle = {},
+}, ref) {
   const [isOpen, handleOpen, handleDismiss] = useToggle();
+
+  useImperativeHandle(ref, () => ({
+    focus: handleOpen,
+    blur: handleDismiss,
+  }));
 
   return (
     <Menu
@@ -56,29 +61,4 @@ function Select({
   );
 }
 
-Select.propTypes = {
-  anchor: PropTypes.func,
-  contentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
-  data: PropTypes.arrayOf(PropTypes.any),
-  disabled: PropTypes.bool,
-  itemKey: PropTypes.func,
-  label: PropTypes.func,
-  onChange: PropTypes.func,
-  onOpen: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  selectedValue: PropTypes.any,
-};
-
-Select.defaultProps = {
-  anchor: () => <></>,
-  contentStyle: {},
-  data: ['Not given'],
-  disabled: false,
-  itemKey: (item) => item,
-  label: (item) => item,
-  onChange: noop,
-  onOpen: noop,
-  selectedValue: '',
-};
-
-export default Select;
+export default forwardRef(Select);
