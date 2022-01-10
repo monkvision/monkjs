@@ -47,6 +47,7 @@ function DamageForm({
   handleOpenPreviewDialog,
   handleOpenSelectDialog,
   openCameraView,
+  isLoading,
 }) {
   const { colors } = theme;
 
@@ -132,7 +133,8 @@ function DamageForm({
             mode="contained"
             style={styles.validationButton}
             icon="shape-square-plus"
-            disabled={!isDamageValid}
+            disabled={!isDamageValid || isLoading}
+            loading={isLoading}
           >
             Add damage
           </Button>
@@ -165,6 +167,7 @@ DamageForm.propTypes = {
   handleOpenPreviewDialog: PropTypes.func,
   handleOpenSelectDialog: PropTypes.func,
   isDamageValid: PropTypes.bool,
+  isLoading: PropTypes.bool,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onReset: PropTypes.func,
@@ -188,5 +191,6 @@ DamageForm.defaultProps = {
   handleOpenSelectDialog: noop,
   openCameraView: noop,
   damagePictures: [],
+  isLoading: false,
 };
 export default withTheme(DamageForm);

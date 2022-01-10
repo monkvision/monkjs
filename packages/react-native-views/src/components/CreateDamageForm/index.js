@@ -97,6 +97,7 @@ function CreateDamageForm({
           handleOpenPreviewDialog={handleOpenPreviewDialog}
           handleOpenSelectDialog={handleOpenSelectDialog}
           openCameraView={openCameraView}
+          isLoading={isLoading}
         />
 
         {/* damage picker */}
