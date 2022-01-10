@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Animated, TouchableOpacity, Easing, Platform, StyleSheet, useWindowDimensions } from 'react-native';
-import { Card } from 'react-native-paper';
+import { Card, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 
@@ -82,17 +82,19 @@ export default function Drawer({ isOpen, handleClose, children, onClose, onOpen 
 
   if (!isDisplayed) { return null; }
   return (
-    <Animated.View style={[styles.animatedView, { transform: [{ translateY }] }]}>
-      <Card style={[styles.card, { height }]}>
-        <TouchableOpacity
-          style={styles.dividerLayout}
-          onPress={handleClose}
-        >
-          <View style={styles.divider} />
-        </TouchableOpacity>
-        <View style={styles.children}>{children}</View>
-      </Card>
-    </Animated.View>
+    <Portal>
+      <Animated.View style={[styles.animatedView, { transform: [{ translateY }] }]}>
+        <Card style={[styles.card, { height }]}>
+          <TouchableOpacity
+            style={styles.dividerLayout}
+            onPress={handleClose}
+          >
+            <View style={styles.divider} />
+          </TouchableOpacity>
+          <View style={styles.children}>{children}</View>
+        </Card>
+      </Animated.View>
+    </Portal>
   );
 }
 
