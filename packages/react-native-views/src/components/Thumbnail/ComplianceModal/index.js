@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
-import { Modal, Card, Button, Portal, withTheme } from 'react-native-paper';
-import { startCase, noop } from 'lodash';
+import { Modal, Card, Button, Portal, useTheme } from 'react-native-paper';
+import startCase from 'lodash.startcase';
+import noop from 'lodash.noop';
 
 import { utils } from '@monkvision/react-native';
 
@@ -37,8 +38,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function ComplianceModal({ theme, complianceIssues, onDismiss, ...props }) {
-  const { colors } = theme;
+function ComplianceModal({ complianceIssues, onDismiss, ...props }) {
+  const { colors } = useTheme();
+
   return (
     <Portal>
       <Modal
@@ -80,4 +82,4 @@ ComplianceModal.propTypes = {
 ComplianceModal.defaultProps = {
   onDismiss: noop,
 };
-export default withTheme(ComplianceModal);
+export default ComplianceModal;

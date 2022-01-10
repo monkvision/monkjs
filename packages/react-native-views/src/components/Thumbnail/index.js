@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+
 import { propTypes, sightMasks, utils } from '@monkvision/react-native';
 import { Image, View, StyleSheet } from 'react-native';
-import { ActivityIndicator, withTheme, IconButton } from 'react-native-paper';
+import { ActivityIndicator, useTheme, IconButton } from 'react-native-paper';
 
 import useToggle from '../../hooks/useToggle';
 import ComplianceModal from './ComplianceModal';
@@ -56,8 +57,8 @@ const colorsVariant = (colors) => ({
   pending: colors.primary,
   fulfilled: colors.primary,
 });
-function Thumbnail({ theme, complianceStatus, image, isUploading, metadata, uploadStatus }) {
-  const { colors } = theme;
+function Thumbnail({ complianceStatus, image, isUploading, metadata, uploadStatus }) {
+  const { colors } = useTheme();
   const { id } = metadata.sight;
 
   const [complianceModalIsOpen, openComplianceModal, closeComplianceModal] = useToggle();
@@ -68,10 +69,9 @@ function Thumbnail({ theme, complianceStatus, image, isUploading, metadata, uplo
   );
   const isNotCompliant = complianceIssues?.length;
 
-  console.log({ complianceStatus, image, isUploading, uploadStatus });
-
   const isFailed = uploadStatus === 'rejected';
-  const isPending = uploadStatus === 'pending';
+  const isPending = uploadStatus === 'pending' || isUploading;
+
   return (
     <>
       <ComplianceModal
@@ -105,7 +105,7 @@ function Thumbnail({ theme, complianceStatus, image, isUploading, metadata, uplo
         </View>
 
         {/* sight mask */}
-        {uploadStatus !== 'pending' ? (
+        {!isPending ? (
           <View style={{ transform: [{ scale: 0.19 }], zIndex: 2, height: 400 }}>
             <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colorsVariant(colors)[uploadStatus]} />
           </View>
@@ -113,11 +113,11 @@ function Thumbnail({ theme, complianceStatus, image, isUploading, metadata, uplo
 
         {/* we can try implementing the new Img conponent here for a smooth image rendering */}
         {image
-          ? <Image source={{ uri: image }} style={styles.picture} />
+          ? <Image {...image} style={styles.picture} />
           : null}
 
         {/* loading */}
-        {uploadStatus === 'pending' ? <ActivityIndicator style={styles.loading} color={uploadStatus === 'rejected' ? colors.error : colors.primary} /> : null}
+        {isPending ? <ActivityIndicator style={styles.loading} color={uploadStatus === 'rejected' ? colors.error : colors.primary} /> : null}
       </View>
     </>
   );
@@ -143,4 +143,4 @@ Thumbnail.defaultProps = {
   isUploading: PropTypes.bool,
   uploadStatus: 'pending',
 };
-export default withTheme(Thumbnail);
+export default Thumbnail;
