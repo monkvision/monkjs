@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton, DataTable } from 'react-native-paper';
@@ -40,11 +40,19 @@ export default function DamageRow({
     return startCase(value);
   }, [value, isMobile]);
 
+  const selectRef = useRef(null);
+
+  const handlePress = useCallback(() => {
+    onPress();
+    selectRef.current?.focus();
+  }, [onPress]);
+
   return (
-    <DataTable.Row onPress={onPress}>
+    <DataTable.Row onPress={handlePress}>
       <DataTable.Cell style={styles.title}>{title}</DataTable.Cell>
       <DataTable.Cell style={styles.rightSide}>
         <Select
+          ref={selectRef}
           disabled={disabled}
           onChange={(e) => onChange(e)}
           onOpen={onPress}
@@ -54,8 +62,8 @@ export default function DamageRow({
           itemKey={(item) => item}
           anchor={() => (
             <View style={styles.cell}>
+              <IconButton icon="chevron-down" disabled />
               <Text>{handleValueWidth || 'Not given'}</Text>
-              <IconButton icon="pencil" disabled />
             </View>
           )}
         />
