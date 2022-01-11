@@ -1,5 +1,6 @@
 ---
-id: damage-highlight title: "DamageHighlight"
+id: damage-highlight
+title: "DamageHighlight"
 slug: /js/api/components/damage-highlight
 ---
 

@@ -1,5 +1,6 @@
 ---
-id: damage-annotation title: "DamageAnnotation"
+id: damage-annotation
+title: "DamageAnnotation"
 slug: /js/api/components/damage-annotation
 ---
 
