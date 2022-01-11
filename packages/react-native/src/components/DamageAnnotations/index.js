@@ -22,15 +22,12 @@ export default function DamageAnnotations({
     const [RATIO_X, RATIO_Y] = getSvgRatio;
 
     if (!isPointAdded) {
-      let cx;
-      let cy;
-      if (Platform.OS === 'web') {
-        cx = event.nativeEvent.layerX * RATIO_X;
-        cy = event.nativeEvent.layerY * RATIO_Y;
-      } else {
-        cx = event.nativeEvent.locationX * RATIO_X;
-        cy = event.nativeEvent.locationY * RATIO_Y;
-      }
+      const prefixKey = Platform.select({
+        native: 'location',
+        default: 'layer',
+      });
+      const cx = event.nativeEvent[`${prefixKey}X`] * RATIO_X;
+      const cy = event.nativeEvent[`${prefixKey}Y`] * RATIO_Y;
       setIsPointAdded(true);
       setEllipse({
         cx,

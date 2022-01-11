@@ -120,8 +120,19 @@ function DamageHighlight({
   }, [setter]);
 
   const handleDrag = useCallback((e) => {
-    const x = Platform.OS === 'web' ? e.nativeEvent.layerX : e.nativeEvent.locationX;
-    const y = Platform.OS === 'web' ? e.nativeEvent.layerY : e.nativeEvent.locationY;
+    const {
+      x,
+      y,
+    } = Platform.select({
+      native: {
+        x: e.nativeEvent.locationX,
+        y: e.nativeEvent.locationY,
+      },
+      default: {
+        x: e.nativeEvent.layerX,
+        y: e.nativeEvent.layerY,
+      },
+    });
 
     if (state.dragX) {
       setter.setEllipseW(x * RATIO_X);
@@ -145,35 +156,42 @@ function DamageHighlight({
     }
   }, [state.location, updatedWidth, updatedHeight, saveEllipse, onValidate]);
 
-  const polygon = useMemo(() => (
-    <>
-      {
-        ellipse && (
-          <Ellipse
-            cx={state.location ? state.location.cx : ellipse.cx}
-            cy={state.location ? state.location.cy : ellipse.cy}
-            rx={state.ellipseW ? Math.abs(state.ellipseW - ellipse.cx) : ellipse.rx}
-            ry={state.ellipseH ? Math.abs(state.ellipseH - ellipse.cy) : ellipse.ry}
-            stroke="yellow"
-            fillOpacity={0} // On the web, by default it is fill in black
-            strokeWidth={2.5}
-          />
-        )
-      }
-      {
-        polygons.map((p, index) => (
-          <Polygon
-            key={`${image.id}-polygon-${String(index)}`}
-            points={p.map((card) => `${(card[0])},${(card[1])}`)
-              .join(' ')}
-            stroke="yellow"
-            fillOpacity={0} // On the web, by default it is fill in black
-            strokeWidth={2.5}
-          />
-        ))
-      }
-    </>
-  ), [ellipse, state.location, state.ellipseW, state.ellipseH, polygons, image.id]);
+  const polygon = useMemo(() => {
+    const {
+      location,
+      ellipseW,
+      ellipseH,
+    } = state;
+    return (
+      <>
+        {
+          ellipse && (
+            <Ellipse
+              cx={location ? location.cx : ellipse.cx}
+              cy={location ? location.cy : ellipse.cy}
+              rx={ellipseW ? Math.abs(ellipseW - ellipse.cx) : ellipse.rx}
+              ry={ellipseH ? Math.abs(ellipseH - ellipse.cy) : ellipse.ry}
+              stroke="yellow"
+              fillOpacity={0} // On the web, by default it is fill in black
+              strokeWidth={2.5}
+            />
+          )
+        }
+        {
+          polygons.map((p, index) => (
+            <Polygon
+              key={`${image.id}-polygon-${String(index)}`}
+              points={p.map((card) => `${(card[0])},${(card[1])}`)
+                .join(' ')}
+              stroke="yellow"
+              fillOpacity={0} // On the web, by default it is fill in black
+              strokeWidth={2.5}
+            />
+          ))
+        }
+      </>
+    );
+  }, [state, ellipse, polygons, image.id]);
 
   useEffect(() => {
     if (isValidated) {
