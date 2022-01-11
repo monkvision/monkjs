@@ -28,14 +28,18 @@ export default function useImageDamage(image) {
   }, [image, width, height]);
 
   const saveEllipse = useCallback((updatedWidth, updatedHeight) => {
-    const [ORATIO_X, ORATIO_Y] = getOriginalRatio;
-    return {
-      cx: location.cx * ORATIO_X,
-      cy: location.cy * ORATIO_Y,
-      rx: updatedWidth * ORATIO_X,
-      ry: updatedHeight * ORATIO_Y,
-    };
-  }, [getOriginalRatio, location.cx, location.cy]);
+    if (location) {
+      const [ORATIO_X, ORATIO_Y] = getOriginalRatio;
+
+      return {
+        cx: location.cx * ORATIO_X,
+        cy: location.cy * ORATIO_Y,
+        rx: updatedWidth * ORATIO_X,
+        ry: updatedHeight * ORATIO_Y,
+      };
+    }
+    return null;
+  }, [getOriginalRatio, location]);
 
   return {
     state: {
