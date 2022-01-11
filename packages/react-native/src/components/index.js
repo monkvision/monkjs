@@ -4,6 +4,7 @@ export { sightMasks };
 export { default as Camera } from './Camera';
 export { default as CameraSideBar } from './CameraSideBar';
 export { default as DamageHighlight } from './DamageHighlight';
+export { default as DamageAnnotations } from './DamageAnnotations';
 export { default as Mask } from './Mask';
 export { default as PicturesScrollPreview } from './PicturesScrollPreview';
 export { default as propTypes } from './propTypes';
