@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 
 import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
 
-import { GETTING_STARTED, INSPECTIONS, PROFILE, INSPECTION_READ, INSPECTION_IMPORT } from 'screens/names';
+import { GETTING_STARTED, PROFILE, INSPECTION_READ, INSPECTION_IMPORT } from 'screens/names';
 import theme, { spacing } from 'config/theme';
 
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import moment from 'moment';
-import { DataTable, Button, useTheme, Text, Card, IconButton, Menu } from 'react-native-paper';
+import {
+  DataTable,
+  Button,
+  useTheme,
+  Text,
+  Card,
+  IconButton,
+  Menu,
+} from 'react-native-paper';
 
+import moment from 'moment';
 import { getAllInspections, inspectionStatuses } from '@monkvision/corejs';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 
@@ -18,7 +26,6 @@ import useRequest from 'hooks/useRequest/index';
 import useToggle from 'hooks/useToggle/index';
 
 import MonkIcon from 'components/Icons/MonkIcon';
-import Placeholder from 'components/Placeholder/index';
 
 const styles = StyleSheet.create({
   root: {
@@ -27,23 +34,24 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
   },
-  id: { fontFamily: 'monospace' },
+  id: {
+    fontFamily: 'monospace',
+  },
   card: {
-    marginHorizontal: spacing(2),
+    marginHorizontal: spacing(1),
     marginVertical: spacing(1),
-    minHeight: 200,
+    minHeight: 250,
+  },
+  cardContent: {
+    paddingTop: 0,
+    paddingHorizontal: 0,
+    margin: 0,
+  },
+  cardActions: {
+    justifyContent: 'flex-end',
   },
   button: {
-    margin: spacing(1),
-    width: 200,
-  },
-  actions: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    marginVertical: spacing(3),
-    marginTop: spacing(5),
+    marginLeft: spacing(2),
   },
   statusDot: {
     width: 12,
@@ -53,9 +61,23 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing(1),
   },
   statusLayout: {
-    display: 'flex', alignItems: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    maxWidth: 200,
+    justifyContent: 'flex-end',
   },
-  activityIndicator: { marginTop: spacing(3) },
+  dateLayout: {
+    display: 'flex',
+    alignItems: 'center',
+    maxWidth: 200,
+    minWidth: 150,
+  },
+  refreshButton: {
+    marginVertical: 0,
+  },
+  rowOdd: {
+    backgroundColor: '#f6f6f6',
+  },
 });
 
 function StartInspectionMenu({ goToImport, goToCamera }) {
@@ -64,10 +86,10 @@ function StartInspectionMenu({ goToImport, goToCamera }) {
   return (
     <Menu
       anchor={(
-        <Button onPress={handleOpenMenu} mode="contained" style={styles.button} icon="file-edit-outline">
+        <Button onPress={handleOpenMenu} style={styles.button} icon="plus">
           New inspection
         </Button>
-)}
+      )}
       visible={isMenuOpen}
       onDismiss={handleDismissMenu}
     >
@@ -99,7 +121,6 @@ export default () => {
 
   const handleSignOut = useCallback(() => navigation.navigate(PROFILE), [navigation]);
   const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
-  const handleList = useCallback(() => navigation.navigate(INSPECTIONS), [navigation]);
   const handleGoToImportInspection = useCallback(
     () => navigation.navigate(INSPECTION_IMPORT), [navigation],
   );
@@ -111,22 +132,10 @@ export default () => {
   } = useRequest(getAllInspections({
     params: {
       inspection_status: inspectionStatuses.DONE,
-      limit: 3,
+      limit: 10,
     },
   }));
   const [fakeDoneLoading] = useFakeActivity(doneLoading);
-
-  const {
-    response: inProgressResponse,
-    isLoading: inProgressLoading,
-    refresh: refreshInProgressInspections,
-  } = useRequest(getAllInspections({
-    params: {
-      inspection_status: inspectionStatuses.IN_PROGRESS,
-      limit: 3,
-    },
-  }));
-  const [fakeInProgressLoading] = useFakeActivity(inProgressLoading);
 
   const getInspectionsArray = useCallback((response) => {
     const inspections = response?.entities?.inspections;
@@ -135,14 +144,6 @@ export default () => {
   }, []);
 
   const doneInspections = getInspectionsArray(doneResponse);
-  const inProgressInspections = getInspectionsArray(inProgressResponse);
-
-  const handleSubtitles = useCallback((loading, inspectionsLength, status) => {
-    if (loading) { return 'Loading...'; }
-    if (!inspectionsLength) { return `No inspection ${status} yet`; }
-    if (inspectionsLength === 1) { return `The first ${status} inspection`; }
-    return `The last ${inspectionsLength} ${status} inspections `;
-  }, []);
 
   const handlePress = useCallback(
     (inspectionId) => {
@@ -165,113 +166,72 @@ export default () => {
           />
         ),
         headerRight: () => (
-          <IconButton onPress={handleSignOut} accessibilityLabel="Profile" icon="account" color={colors.primary} />
+          <IconButton
+            onPress={handleSignOut}
+            accessibilityLabel="Profile"
+            icon="account"
+            color={colors.primary}
+          />
         ),
       });
     }
   }, [colors, handleSignOut, navigation]);
+
+  if (fakeDoneLoading) {
+    return <ActivityIndicatorView theme={theme} light />;
+  }
 
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar style="dark" />
       <ScrollView>
         <Card style={styles.card}>
-          <Card.Title
-            title="Done inspections"
-            subtitle={handleSubtitles(doneLoading, doneInspections?.length, 'done')}
-            right={() => (<IconButton onPress={refreshDoneInspections} icon="refresh" color={colors.primary} disabled={fakeDoneLoading} />)}
-          />
-          <Card.Content>
+          <Card.Content style={styles.cardContent}>
             <DataTable>
               <DataTable.Header>
-                <DataTable.Title># Key</DataTable.Title>
                 <DataTable.Title>Vehicle</DataTable.Title>
-                <DataTable.Title>Date</DataTable.Title>
-                <DataTable.Title>Status</DataTable.Title>
+                <DataTable.Title style={styles.dateLayout}>Datetime</DataTable.Title>
+                <DataTable.Title style={styles.statusLayout}>
+                  <Button
+                    labelStyle={styles.refreshButton}
+                    compact
+                    onPress={refreshDoneInspections}
+                    icon="refresh"
+                    color={colors.primary}
+                    disabled={fakeDoneLoading}
+                  >
+                    Refresh
+                  </Button>
+                </DataTable.Title>
               </DataTable.Header>
 
-              {/* loading */}
-              {fakeDoneLoading ? (
-                <View style={styles.activityIndicator}>
-                  <ActivityIndicatorView theme={theme} light />
-                </View>
-              ) : null}
-
               {/* data */}
-              {doneInspections?.length
-                && doneInspections.map(({ id, createdAt, vehicle }) => (
-                  <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
-                    <DataTable.Cell><Text style={styles.id}>{id.split('-')[0]}</Text></DataTable.Cell>
-                    <DataTable.Cell>
-                      {vehicle?.brand}
-                      {` `}
-                      {vehicle?.model}
-                    </DataTable.Cell>
-                    <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
-                    <DataTable.Cell style={styles.statusLayout}>
-                      {canRenderStatus ? <Text style={{ height: 12 }}>Done</Text> : null}
-                      <View>
-                        <View style={[styles.statusDot, { backgroundColor: colors.success }]} />
-                      </View>
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))}
+              {doneInspections?.length && doneInspections.map(({ id, createdAt, vehicle }, i) => (
+                <DataTable.Row
+                  key={`inspectionRow-${id}`}
+                  onPress={() => handlePress(id)}
+                  style={[styles.row, Math.abs(i % 2) === 1 && styles.rowOdd]}
+                >
+                  <DataTable.Cell>
+                    {vehicle?.brand}
+                    {` `}
+                    {vehicle?.model}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.dateLayout}>
+                    {moment(createdAt).format('lll')}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.statusLayout}>
+                    {canRenderStatus ? <Text style={{ height: 12 }}>Done</Text> : null}
+                    <View>
+                      <View style={[styles.statusDot, { backgroundColor: colors.success }]} />
+                    </View>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
             </DataTable>
           </Card.Content>
-        </Card>
-        <Card style={styles.card}>
-          <Card.Title
-            title="In progress inspections"
-            subtitle={handleSubtitles(inProgressLoading, inProgressInspections?.length, 'in progress')}
-            right={() => (<IconButton onPress={refreshInProgressInspections} icon="refresh" color={colors.primary} disabled={fakeInProgressLoading} />)}
-          />
-          <Card.Content>
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title># Key</DataTable.Title>
-                <DataTable.Title>Vehicle</DataTable.Title>
-                <DataTable.Title>Date</DataTable.Title>
-                <DataTable.Title>Status</DataTable.Title>
-              </DataTable.Header>
-
-              {/* loading */}
-              {inProgressLoading ? (
-                <View style={styles.activityIndicator}>
-                  <ActivityIndicatorView theme={theme} light />
-                </View>
-              ) : null}
-
-              {/* data */}
-              {inProgressInspections?.length
-          && inProgressInspections.map(({ id, createdAt, vehicle }) => (
-            <DataTable.Row key={`inspectionRow-${id}`} onPress={() => handlePress(id)}>
-              <DataTable.Cell><Text style={styles.id}>{id.split('-')[0]}</Text></DataTable.Cell>
-              <DataTable.Cell>
-                {vehicle?.brand}
-                {` `}
-                {vehicle?.model}
-              </DataTable.Cell>
-              <DataTable.Cell>{moment(createdAt).format('lll')}</DataTable.Cell>
-              <DataTable.Cell style={styles.statusLayout}>
-                {canRenderStatus ? <Text style={{ height: 12 }}>In progress</Text> : null}
-                <View>
-                  <Placeholder style={styles.statusDot} />
-                </View>
-              </DataTable.Cell>
-            </DataTable.Row>
-          ))}
-            </DataTable>
-          </Card.Content>
-          <Card.Actions style={styles.actions}>
+          <Card.Actions style={styles.cardActions}>
             <StartInspectionMenu goToImport={handleGoToImportInspection} goToCamera={handleStart} />
-            <Button
-              onPress={handleList}
-              mode="outlined"
-              style={[styles.button, { borderColor: colors.primary }]}
-              icon="folder-search-outline"
-            >
-              All inspections
-            </Button>
           </Card.Actions>
         </Card>
       </ScrollView>

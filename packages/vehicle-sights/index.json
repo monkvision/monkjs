@@ -1,0 +1,210 @@
+{
+  "extH0M": {
+    "radialDistance": "high",
+    "angularCoordinate": 0,
+    "height": "medium",
+    "label": "front",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH30M": {
+    "radialDistance": "high",
+    "angularCoordinate": 30,
+    "height": "medium",
+    "label": "front left",
+    "category": "exterior",
+    "centerParts": ["headLightRight", "hood"],
+    "vehicleType": ""
+  },
+  "extH60M": {
+    "radialDistance": "high",
+    "angularCoordinate": 60,
+    "height": "medium",
+    "label": "front lateral left",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH90M": {
+    "radialDistance": "high",
+    "angularCoordinate": 90,
+    "height": "medium",
+    "label": "lateral left",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH120M": {
+    "radialDistance": "high",
+    "angularCoordinate": 120,
+    "height": "medium",
+    "label": "rear lateral left",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH150M": {
+    "radialDistance": "high",
+    "angularCoordinate": 150,
+    "height": "medium",
+    "label": "rear left",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH180M": {
+    "radialDistance": "high",
+    "angularCoordinate": 180,
+    "height": "medium",
+    "label": "rear",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH210M": {
+    "radialDistance": "high",
+    "angularCoordinate": 210,
+    "height": "medium",
+    "label": "rear right",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH240M": {
+    "radialDistance": "high",
+    "angularCoordinate": 240,
+    "height": "medium",
+    "label": "rear lateral right",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH270M": {
+    "radialDistance": "high",
+    "angularCoordinate": 270,
+    "height": "medium",
+    "label": "lateral right",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extH300M": {
+    "radialDistance": "high",
+    "angularCoordinate": 300,
+    "height": "medium",
+    "label": "front lateral right",
+    "category": "exterior",
+    "centerParts": ["fenderFrontRight", "doorFrontRight"],
+    "vehicleType": ""
+  },
+  "extH330M": {
+    "radialDistance": "high",
+    "angularCoordinate": 330,
+    "height": "medium",
+    "label": "front right",
+    "category": "exterior",
+    "centerParts": ["headLightRight", "hood"],
+    "vehicleType": ""
+  },
+  "extM60L": {
+    "radialDistance": "medium",
+    "angularCoordinate": 60,
+    "height": "low",
+    "label": "front left wheel",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extM150L": {
+    "radialDistance": "medium",
+    "angularCoordinate": 60,
+    "height": "low",
+    "label": "rear left wheel",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extM240L": {
+    "radialDistance": "medium",
+    "angularCoordinate": 60,
+    "height": "low",
+    "label": "rear right wheel",
+    "category": "exterior",
+    "centerParts": [],
+    "vehicleType": ""
+  },
+  "extM300L": {
+    "radialDistance": "medium",
+    "angularCoordinate": 60,
+    "height": "low",
+    "label": "front right wheel",
+    "category": "exterior",
+    "centerParts": ["fenderFrontLeft", "doorFrontLeft"],
+    "vehicleType": ""
+  },
+  "frontSeats": {
+    "label": "front seats",
+    "category": "interior",
+    "vehicleType": ""
+  },
+  "dashboard": {
+    "label": "dashboard",
+    "category": "interior",
+    "vehicleType": ""
+  },
+  "backSeats": {
+    "label": "back seats",
+    "category": "interior",
+    "vehicleType": ""
+  },
+  "trunk": {
+    "label": "trunk",
+    "category": "interior",
+    "vehicleType": ""
+  },
+  "vin": {
+    "label": "VIN",
+    "category": "miscellaneous"
+  },
+  "frontRoof": {
+    "label": "front roof",
+    "category": "roof",
+    "vehicleType": ""
+  },
+  "leftRoof": {
+    "label": "left roof",
+    "category": "roof",
+    "vehicleType": ""
+  },
+  "rearRoof": {
+    "label": "rear roof",
+    "category": "roof",
+    "vehicleType": ""
+  },
+  "rightRoof": {
+    "label": "right roof",
+    "category": "roof",
+    "vehicleType": ""
+  },
+  "frontUndercarriage": {
+    "label": "front undercarriage",
+    "category": "undercarriage",
+    "vehicleType": ""
+  },
+  "leftUndercarriage": {
+    "label": "left undercarriage",
+    "category": "undercarriage",
+    "vehicleType": ""
+  },
+  "rearUndercarriage": {
+    "label": "rear undercarriage",
+    "category": "undercarriage",
+    "vehicleType": ""
+  },
+  "rightUndercarriage": {
+    "label": "right undercarriage",
+    "category": "undercarriage",
+    "vehicleType": ""
+  }
+}

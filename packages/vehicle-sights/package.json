@@ -1,0 +1,41 @@
+{
+  "name": "@monkvision/vehicle-sights",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "version": "1.2.3",
+  "private": false,
+  "description": "Vehicle sights assets for AI-powered damage detection",
+  "homepage": "https://github.com/monkvision/monkjs/packages/vehicle-sights/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/vehicle-sights"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "keywords": [
+    "javascript",
+    "assets",
+    "sights",
+    "vehicle damage detection"
+  ],
+  "main": "index.json",
+  "files": [
+    "assets",
+    ".editorconfig",
+    "index.json",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "lint": "eslint ./"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,13 +1,13 @@
 const buildNumber = 2;
 
 export default {
+  version: '1.2.3',
   name: 'monk',
   slug: 'monk',
-  version: '1.2.3',
-  owner: 'monkvision',
-  primaryColor: '#274b9f',
   scheme: 'monk',
+  owner: 'monkvision',
 
+  primaryColor: '#274b9f',
   orientation: 'portrait',
   icon: './assets/icon.png',
 

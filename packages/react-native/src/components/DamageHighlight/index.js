@@ -1,106 +1,70 @@
 import React, { useMemo } from 'react';
-import { Dimensions, Platform, View, Image as Img } from 'react-native';
-import { ClipPath, Defs, G, Image, Polygon, Svg } from 'react-native-svg';
+import { View } from 'react-native';
+import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
+import DamageImage from '../DamageImage';
+import useImageDamage from '../../hooks/useDamageImage';
 
-const width = Math.min(Dimensions.get('window').width - 50, 400);
-const height = 300;
-const IMAGE_OPACITY = '0.15';
+const IMAGE_OPACITY = '0.35';
 
-const styles = {
-  content: {
-    flex: 1,
-    width,
-    height,
-  },
-};
+function DamageHighlight({
+  image,
+  polygons,
+}) {
+  const {
+    state: {
+      width,
+      height,
+    },
+  } = useImageDamage(image);
 
-function Wrapper({ children, name }) {
-  if (Platform.OS === 'ios') {
-    return <G clipPath={name && `url(#clip${name})`}>{children}</G>;
-  }
-
-  return children;
-}
-
-Wrapper.propTypes = {
-  name: PropTypes.string.isRequired,
-};
-
-function DamageImage({ clip, name, source, opacity }) {
-  const href = useMemo(
-    () => (Platform.OS === 'web' ? source.uri : source),
-    [source],
-  );
-
-  const clipPath = useMemo(
-    () => (Platform.OS !== 'ios' ? clip && `url(#clip${name})` : undefined),
-    [clip, name],
-  );
-
-  return (
-    <Wrapper name={name}>
-      <Image
-        key={name}
-        x="0"
-        y="0"
-        width="100%"
-        height="100%"
-        preserveAspectRatio="xMidYMid slice"
-        opacity={opacity}
-        href={href}
-        clipPath={clipPath}
+  const polygon = useMemo(() => (
+    polygons.map((p, index) => (
+      <Polygon
+        key={`${image.id}-polygon-${String(index)}`}
+        points={p.map((card) => `${(card[0])},${(card[1])}`)
+          .join(' ')}
+        stroke="yellow"
+        fillOpacity={0} // On the web, by default it is fill in black
+        strokeWidth={2.5}
       />
-    </Wrapper>
-  );
-}
+    ))
+  ), [polygons, image.id]);
 
-DamageImage.propTypes = {
-  clip: PropTypes.bool,
-  name: PropTypes.string,
-  opacity: PropTypes.string,
-  source: PropTypes.shape({ uri: PropTypes.string }),
-};
-
-DamageImage.defaultProps = {
-  clip: false,
-  name: '',
-  opacity: '1',
-  source: { uri: '' },
-};
-
-export default function DamageHighlight({ image, polygons }) {
   if (!image) {
     return <View />;
-  } if (isEmpty(polygons)) {
-    return <Img style={{ height, width }} source={image.source} />;
+  }
+
+  if (isEmpty(polygons)) {
+    return (
+      <Svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${image.width} ${image.height}`}
+      >
+        <DamageImage name={image.id} source={image.source} />
+      </Svg>
+    );
   }
 
   return (
-    <View style={styles.content}>
+    <View>
       <Svg width={width} height={height} viewBox={`0 0 ${image.width} ${image.height}`}>
         <Defs>
-          <ClipPath id={`clip${image.id}`}>
-            {polygons.map((polygon, index) => (
-              <Polygon
-                key={`${image.id}-polygon-${String(index)}`}
-                points={polygon.map((card) => `${(card[0])},${(card[1])}`).join(' ')}
-                fill="red"
-                stroke="black"
-                strokeWidth="1"
-              />
-            ))}
-          </ClipPath>
+          <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
         </Defs>
-        {/* Show Damages Polygon */}
-        <DamageImage name={image.id} source={image.source} clip />
         {/* Show background image with a low opacity */}
         <DamageImage name={image.id} source={image.source} opacity={IMAGE_OPACITY} />
+        {/* Show Damages Polygon */}
+        <DamageImage name={image.id} source={image.source} clip />
+        {polygon}
       </Svg>
     </View>
   );
 }
+
+export default DamageHighlight;
 
 DamageHighlight.propTypes = {
   image: PropTypes.shape({
