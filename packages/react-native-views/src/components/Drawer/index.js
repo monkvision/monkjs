@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, Animated, TouchableOpacity, Easing, Platform, StyleSheet, useWindowDimensions } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import { View, Animated, Platform, StyleSheet, useWindowDimensions } from 'react-native';
 import { Card, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 
 import { utils } from '@monkvision/react-native';
+
+import usePanResponder from './usePanResponder';
+import useToggle from '../../hooks/useToggle';
 
 const { spacing } = utils.styles;
 
@@ -43,34 +46,38 @@ const styles = StyleSheet.create({
     top: spacing(-4),
     paddingTop: spacing(4),
     zIndex: 11,
+    ...Platform.select({
+      web: {
+        cursor: 'grab',
+      },
+    }),
   },
   children: {
     marginTop: spacing(4),
     height: '90%',
     paddingVertical: 10,
   },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 20,
+    backgroundColor: 'gray',
+  },
 });
 
-export default function Drawer({ isOpen, handleClose, children, onClose, onOpen }) {
-  const [isDisplayed, setIsDisplayed] = useState(false);
-
+export default function Drawer({ isOpen, children, onClose, onOpen, lock }) {
+  const [isDisplayed, display, hide] = useToggle();
+  const { pan, panGesture, animate } = usePanResponder({ onClose, lock });
   const { height } = useWindowDimensions();
-  const display = useCallback(() => setIsDisplayed(true), []);
-  const hide = useCallback(() => setIsDisplayed(false), []);
-
-  const translateY = useRef(new Animated.Value(height)).current;
 
   const handleOpenPopup = useCallback(() => {
     display();
     onOpen();
-    Animated.spring(translateY, { duration: 150, ease: Easing.ease, toValue: 10, useNativeDriver: Platform.OS !== 'web' })
-      .start();
-  }, [display, onOpen, translateY]);
+    animate.visible();
+  }, [display, onOpen, animate]);
 
-  const handleClosePopup = useCallback(() => {
-    Animated.timing(translateY, { duration: 150, ease: Easing.ease, toValue: height, useNativeDriver: Platform.OS !== 'web' })
-      .start(() => { hide(); onClose(); });
-  }, [translateY, height, hide, onClose]);
+  const handleClosePopup = useCallback(() => animate.hidden(() => { hide(); }),
+    [animate, hide]);
 
   useEffect(() => {
     if (isOpen) { handleOpenPopup(); }
@@ -83,14 +90,15 @@ export default function Drawer({ isOpen, handleClose, children, onClose, onOpen 
   if (!isDisplayed) { return null; }
   return (
     <Portal>
-      <Animated.View style={[styles.animatedView, { transform: [{ translateY }] }]}>
-        <Card style={[styles.card, { height }]}>
-          <TouchableOpacity
-            style={styles.dividerLayout}
-            onPress={handleClose}
-          >
+      <Animated.View style={[styles.animatedView, { transform: [{ translateY: pan }] }]}>
+        <Card style={[styles.card, { height: height * 2 }]}>
+
+          {/* divider */}
+          <View style={styles.dividerLayout} {...panGesture.panHandlers}>
             <View style={styles.divider} />
-          </TouchableOpacity>
+          </View>
+
+          {/* childrens  */}
           <View style={styles.children}>{children}</View>
         </Card>
       </Animated.View>
@@ -109,6 +117,7 @@ Drawer.propTypes = {
   ]),
   handleClose: PropTypes.func,
   isOpen: PropTypes.bool,
+  lock: PropTypes.bool,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
 };
@@ -119,4 +128,5 @@ Drawer.defaultProps = {
   isOpen: false,
   onClose: noop,
   onOpen: noop,
+  lock: false,
 };
