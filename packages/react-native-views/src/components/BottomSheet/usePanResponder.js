@@ -1,6 +1,8 @@
 import noop from 'lodash.noop';
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { Animated, PanResponder, Platform, useWindowDimensions } from 'react-native';
+
+const config = { duration: 250, useNativeDriver: Platform.OS !== 'web' };
 
 // onFinish will be called when the animation finished (only when closing the bottom sheet)
 const usePanResponder = ({ onClose = noop, lock }) => {
@@ -9,37 +11,33 @@ const usePanResponder = ({ onClose = noop, lock }) => {
 
   const pan = useRef(new Animated.Value(ANIMATED.HIDDEN)).current;
 
-  const animate = (toValue, type = 'spring') => {
-    const config = { duration: 250, toValue, useNativeDriver: Platform.OS !== 'web' };
-    return Animated[type](pan, config);
-  };
+  const visible = useCallback(
+    () => Animated.spring(pan, { toValue: ANIMATED.VISIBLE, ...config }).start(),
+    [ANIMATED.VISIBLE, pan],
+  );
 
-  const visible = () => animate(ANIMATED.VISIBLE, 'spring').start();
-  const hidden = (onFinish = noop) => animate(ANIMATED.HIDDEN, 'timing').start(onFinish);
-
-  const onPanResponderMove = (_, gestureState) => {
-    Animated.event([null, { dy: pan }], {
-      useNativeDriver: false,
-    })(_, gestureState);
-  };
+  const hidden = useCallback(
+    (onFinish = noop) => Animated.timing(pan, { toValue: ANIMATED.HIDDEN, ...config })
+      .start(onFinish), [ANIMATED.HIDDEN, pan],
+  );
 
   const onMoveShouldSetPanResponder = (_, gestureState) => gestureState.dy >= 10
    || gestureState.dy >= -10;
 
-  const onPanResponderRelease = (_, gestureState) => {
-    const gestureLimitArea = ANIMATED.HIDDEN / 3;
-    const gestureDistance = gestureState.dy;
-
-    if (gestureDistance > gestureLimitArea && !lock) {
-      onClose();
-    } else {
-      visible();
-    }
-  };
-
   const panGesture = PanResponder.create({
-    onPanResponderMove,
-    onPanResponderRelease,
+    onPanResponderMove: (_, gestureState) => {
+      Animated.event([null, { dy: pan }], { useNativeDriver: false })(_, gestureState);
+    },
+    onPanResponderRelease: (_, gestureState) => {
+      const gestureLimitArea = ANIMATED.HIDDEN / 3;
+      const gestureDistance = gestureState.dy;
+
+      if (gestureDistance > gestureLimitArea && !lock) {
+        onClose();
+      } else {
+        visible();
+      }
+    },
     onMoveShouldSetPanResponder,
     onStartShouldSetPanResponderCapture: onMoveShouldSetPanResponder,
   });
