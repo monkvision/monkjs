@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         elevation: 22,
       },
     }),
-    paddingVertical: spacing(4),
+    paddingBottom: spacing(4),
     zIndex: 999,
     position: 'relative',
   },
@@ -40,10 +40,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   dividerLayout: {
-    height: 60,
+    height: 70,
     position: 'absolute',
     width: '100%',
-    top: spacing(-4),
     paddingTop: spacing(4),
     zIndex: 11,
     ...Platform.select({
@@ -53,15 +52,9 @@ const styles = StyleSheet.create({
     }),
   },
   children: {
-    marginTop: spacing(4),
-    height: '90%',
+    marginTop: spacing(8),
     paddingVertical: 10,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 20,
-    backgroundColor: 'gray',
+    overflow: 'visible',
   },
 });
 
@@ -88,10 +81,11 @@ export default function BottomSheet({ isOpen, children, onClose, onOpen, lock })
   }, [handleClosePopup, isOpen]);
 
   if (!isDisplayed) { return null; }
+
   return (
     <Portal>
-      <Animated.View style={[styles.animatedView, { transform: [{ translateY: pan }] }]}>
-        <Card style={[styles.card, { height: height * 2 }]}>
+      <Animated.View style={[styles.animatedView, { backgroundColor: 'cyan', transform: [{ translateY: pan }] }]}>
+        <Card style={[styles.card, { height }]}>
 
           {/* divider */}
           <View style={styles.dividerLayout} {...panGesture.panHandlers}>
@@ -99,7 +93,10 @@ export default function BottomSheet({ isOpen, children, onClose, onOpen, lock })
           </View>
 
           {/* childrens  */}
-          <View style={styles.children}>{children}</View>
+          {/* TODO add scrollview */}
+          <View style={[styles.children, { height: height * 0.8 - height * 0.01 }]}>
+            {children}
+          </View>
         </Card>
       </Animated.View>
     </Portal>
