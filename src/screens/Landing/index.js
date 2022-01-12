@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     maxWidth: 200,
-    justifyContent: 'right',
+    justifyContent: 'flex-end',
   },
   dateLayout: {
     display: 'flex',

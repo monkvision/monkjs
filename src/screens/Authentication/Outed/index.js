@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text, Title, useTheme } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
 
 import Drawing from 'components/Drawing';
 
@@ -13,6 +14,7 @@ export default function Outed() {
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
+      <StatusBar style="dark" />
       <Title>You are signed out</Title>
       <Text>See you next time!</Text>
       <SignIn />
