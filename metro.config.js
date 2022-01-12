@@ -11,6 +11,7 @@ config.resolver = {
     '@monkvision/corejs',
     '@monkvision/react-native',
     '@monkvision/react-native-views',
+    '@monkvision/vehicle-sights',
   ],
 };
 
