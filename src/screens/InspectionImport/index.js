@@ -1,5 +1,4 @@
 import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@monkvision/corejs';
-// import JSONTree from 'react-native-json-tree';
 import { sightMasks, utils } from '@monkvision/react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
@@ -258,7 +257,6 @@ export default () => {
         />
         <Card.Content>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {/* <JSONTree data={pictures} /> */}
             <View style={styles.sightsLayout}>
               {pictures.map((sight) => (
                 <SightCard

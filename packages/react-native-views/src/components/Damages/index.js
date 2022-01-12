@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-// import noop from 'lodash.noop';
-// import PropTypes from 'prop-types';
 import React, { useImperativeHandle, forwardRef } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
@@ -77,35 +75,4 @@ function Damages({
   );
 }
 
-// Damages.propTypes = {
-//   inspection: PropTypes.shape({
-//     // eslint-disable-next-line react/forbid-prop-types
-//     damages: PropTypes.any.isRequired,
-//     id: PropTypes.string.isRequired,
-//     // eslint-disable-next-line react/forbid-prop-types
-//     parts: PropTypes.any.isRequired,
-//   }),
-//   isDeleting: PropTypes.bool,
-//   isLoading: PropTypes.bool,
-//   isValidating: PropTypes.bool,
-//   isVehiclePressAble: PropTypes.bool,
-//   onDeleteDamage: PropTypes.func,
-//   onPressPart: PropTypes.func,
-//   onSelectDamage: PropTypes.func,
-//   onValidate: PropTypes.func,
-//   selectedId: PropTypes.string,
-// };
-
-// Damages.defaultProps = {
-//   inspection: {},
-//   isLoading: false,
-//   isValidating: false,
-//   isVehiclePressAble: false,
-//   isDeleting: false,
-//   onDeleteDamage: noop,
-//   onSelectDamage: noop,
-//   onPressPart: noop,
-//   onValidate: noop,
-//   selectedId: null,
-// };
 export default forwardRef(Damages);
