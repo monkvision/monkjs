@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Signature from 'components/Signature';
 import { spacing } from 'config/theme';
 
-import Drawer from 'components/Drawer';
+import { BottomSheet } from '@monkvision/react-native-views';
 import { noop } from 'lodash';
 
 const styles = StyleSheet.create({
@@ -53,13 +53,13 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
   }, [isOpen]);
 
   return (
-    <Drawer isOpen={isOpen} handleClose={handleClose}>
+    <BottomSheet isOpen={isOpen} onClose={handleClose}>
       <ScrollView
         scrollEnabled={scrollEnabled}
         ref={scrollRef}
       >
-        <Drawer.Title title="Edit account data" />
-        <Drawer.Content>
+        <BottomSheet.Title title="Edit account data" />
+        <BottomSheet.Content>
           <TextInput style={styles.textInput} label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />
           <TextInput style={styles.textInput} label="Last name" value={lastName} onChangeText={(val) => updateAccountData({ lastName: val })} />
           <TextInput style={styles.textInput} label="Company" value={company} onChangeText={(val) => updateAccountData({ company: val })} />
@@ -72,8 +72,8 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
             setScrollEnabled={setScrollEnabled}
             ref={signatureRef}
           />
-        </Drawer.Content>
-        <Drawer.Actions style={styles.actions}>
+        </BottomSheet.Content>
+        <BottomSheet.Actions style={styles.actions}>
           <Button
             onPress={() => handleSave(signatureRef.current.getUri)}
             mode="outlined"
@@ -82,9 +82,9 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
           >
             Save
           </Button>
-        </Drawer.Actions>
+        </BottomSheet.Actions>
       </ScrollView>
-    </Drawer>
+    </BottomSheet>
   );
 }
 

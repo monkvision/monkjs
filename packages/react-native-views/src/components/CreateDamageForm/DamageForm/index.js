@@ -5,7 +5,7 @@ import { DataTable, Button, List, withTheme } from 'react-native-paper';
 import { noop, startCase } from 'lodash';
 
 import { utils } from '@monkvision/react-native';
-import Drawer from '../../Drawer';
+import BottomSheet from '../../BottomSheet';
 
 import DamagePicturesPreview from '../DamagePicturesPreview';
 import DamageRow from '../DamageRow';
@@ -71,13 +71,13 @@ function DamageForm({
   );
 
   return (
-    <Drawer
+    <BottomSheet
       isOpen={isOpen}
       lock={!!isDirty}
       onClose={onClose}
     >
       <ScrollView style={{ height: '100%' }}>
-        <Drawer.Title
+        <BottomSheet.Title
           title={`Add photos for ${wrapTitles}`}
           subtitle={wrapSubtitles}
           titleStyle={styles.cardTitle}
@@ -87,7 +87,7 @@ function DamageForm({
           damagePictures={damagePictures}
           handleOpenPreviewDialog={handleOpenPreviewDialog}
         />
-        <Drawer.Content>
+        <BottomSheet.Content>
           <Button
             accessibilityLabel="Reset form data"
             mode="outlined"
@@ -134,8 +134,8 @@ function DamageForm({
               In order to close the form please hit submit or clear your data.
             </Text>
           ) : null}
-        </Drawer.Content>
-        <Drawer.Actions style={styles.cardActions}>
+        </BottomSheet.Content>
+        <BottomSheet.Actions style={styles.cardActions}>
           <Button
             accessibilityLabel="Add damage"
             labelStyle={styles.buttonLabel}
@@ -158,9 +158,9 @@ function DamageForm({
           >
             Add pictures
           </Button>
-        </Drawer.Actions>
+        </BottomSheet.Actions>
       </ScrollView>
-    </Drawer>
+    </BottomSheet>
 
   );
 }

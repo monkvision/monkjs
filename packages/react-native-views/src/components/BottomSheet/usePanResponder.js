@@ -2,7 +2,7 @@ import noop from 'lodash.noop';
 import { useRef } from 'react';
 import { Animated, PanResponder, Platform, useWindowDimensions } from 'react-native';
 
-// onFinish will be called when the animation finished (only when closing the drawer)
+// onFinish will be called when the animation finished (only when closing the bottom sheet)
 const usePanResponder = ({ onClose = noop, lock }) => {
   const { height } = useWindowDimensions();
   const ANIMATED = { HIDDEN: height, VISIBLE: 10 };

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Drawer({ isOpen, children, onClose, onOpen, lock }) {
+export default function BottomSheet({ isOpen, children, onClose, onOpen, lock }) {
   const [isDisplayed, display, hide] = useToggle();
   const { pan, panGesture, animate } = usePanResponder({ onClose, lock });
   const { height } = useWindowDimensions();
@@ -106,11 +106,11 @@ export default function Drawer({ isOpen, children, onClose, onOpen, lock }) {
   );
 }
 
-Drawer.Title = Card.Title;
-Drawer.Content = Card.Content;
-Drawer.Actions = Card.Actions;
+BottomSheet.Title = Card.Title;
+BottomSheet.Content = Card.Content;
+BottomSheet.Actions = Card.Actions;
 
-Drawer.propTypes = {
+BottomSheet.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -122,7 +122,7 @@ Drawer.propTypes = {
   onOpen: PropTypes.func,
 };
 
-Drawer.defaultProps = {
+BottomSheet.defaultProps = {
   children: [],
   handleClose: noop,
   isOpen: false,
