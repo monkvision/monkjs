@@ -65,15 +65,16 @@ function DamageForm({
   }, [currentDamage.part_type]);
 
   // check if the form is filled with data and not yet submitted (dirty)
-  const isDirty = useMemo(() => Object.values(currentDamage).some(Boolean),
-    [currentDamage]);
+  const isDirty = useMemo(
+    () => Object.values(currentDamage).some(Boolean) || damagePictures?.length,
+    [currentDamage, damagePictures],
+  );
 
   return (
-
     <Drawer
       isOpen={isOpen}
-      handleClose={() => !isDirty && onClose()}
-      onClose={handleClearDamagePictures}
+      lock={!!isDirty}
+      onClose={onClose}
     >
       <ScrollView style={{ height: '100%' }}>
         <Drawer.Title
