@@ -73,6 +73,20 @@ const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
 <DamageHighlight polygons={polygons}/>
 ```
 
+It is also possible to manipulate the polygons properties like its opacity, the stroke color and width
+but also the background image opacity.
+
+```js
+  backgroundOpacity: PropTypes.number,
+  polygonsProps: PropTypes.shape({
+    opacity: PropTypes.number,
+    stroke: PropTypes.shape({
+      color: PropTypes.string,
+      strokeWidth: PropTypes.number,
+    }),
+  }),
+```
+
 ## usePolygons
 
 Extract properties from an API server response
@@ -89,39 +103,15 @@ const [getImage, getPolygons] = usePolygons();
 <DamageHighlight
   image={getImage(oneImage)}
   polygons={getPolygons(oneImage.id, damage.views)[0]}
-/>
-```
-
-## Ellipse
-
-It is also possible to manually add a damage by highlighting it with an ellipse which has properties:
-
-```js
-Ellipse.propTypes = {
-  cx: PropTypes.number, // Position of the center
-  cy: PropTypes.number,
-  rx: PropTypes.number, // Radius of the ellipse on `x` axis
-  ry: PropTypes.number, // Radius of the ellipse on `y` axis
-};
-```
-
-Which we add some callback:
-
-* `onAdd` that takes a SVG `event` as property to compute the location of the ellipse on the image
-* `onValidated` that takes an `Ellipse` as a property
-* `isValidate` allows to call `onValidated` function when the user validate the ellipse
-
-It is especially used on
-the [DamageAnnotation](https://monkvision.github.io/monkjs/docs/js/api/components/damage-annotation) component to
-annotate the damage related to an image.
-
-```jsx
-// Example of use
-<DamageHighlight
-  image={image}
-  ellipse={ellipse}
-  isValidated={isValidated}
-  onAdd={handleAddPoint}
-  onValidate={handleValidate}
+  polygonsProps={{
+    opacity: 0.75,
+    polygonsProps={{
+      opacity: 0.5,
+      stroke: {
+        color: 'green',
+        strokeWidth: 50,
+      }
+    }}
+  }}
 />
 ```
