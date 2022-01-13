@@ -127,10 +127,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginLeft: spacing(2),
-    ...Platform.select({
-      native: { cursor: undefined },
-      default: { cursor: 'pointer' },
-    }),
+    ...(Platform.OS === 'web' ? { cursor: 'pointer' } : {}),
   },
 });
 
