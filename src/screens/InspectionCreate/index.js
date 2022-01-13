@@ -11,7 +11,7 @@ import { Platform } from 'react-native';
 import { CameraView, useFakeActivity } from '@monkvision/react-native-views';
 import ValidationDialog from 'screens/InspectionCreate/ValidationDialog';
 
-import { GETTING_STARTED } from 'screens/names';
+import { LANDING } from 'screens/names';
 
 export default () => {
   const theme = useTheme();
@@ -31,7 +31,7 @@ export default () => {
   }, [requests.savePictures, screen]);
 
   const handleClose = useCallback(() => {
-    navigation.navigate(GETTING_STARTED);
+    navigation.navigate(LANDING);
   }, [navigation]);
 
   const handleTakePicture = useUpload({
@@ -89,7 +89,7 @@ export default () => {
         sightIdsNotUploaded={sightIds}
         theme={theme}
       />
-      <ValidationDialog requests={requests} screen={screen} />
+      <ValidationDialog requests={requests} screen={screen} inspectionId={inspectionId} />
       <UploadFailureDialog isVisible={screen.state.uploadHasFailed} />
     </>
   );

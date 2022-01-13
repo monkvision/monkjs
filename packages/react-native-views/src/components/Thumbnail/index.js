@@ -57,6 +57,7 @@ const colorsVariant = (colors) => ({
   pending: colors.primary,
   fulfilled: colors.primary,
 });
+
 function Thumbnail({ complianceStatus, image, isUploading, metadata, uploadStatus }) {
   const { colors } = useTheme();
   const { id } = metadata.sight;

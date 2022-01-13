@@ -18,7 +18,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ActivityIndicator, Button, Card, IconButton, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Button, IconButton, useTheme } from 'react-native-paper';
 import { INSPECTION_READ } from '../names';
 import useImport, { initialPictureData } from './hooks/useImport';
 
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     height: 28,
     zIndex: 99,
   },
-  floatingButton: { position: Platform.OS === 'web' ? 'fixed' : 'absolute', alignSelf: 'center', bottom: 50, zIndex: 9 },
   reloadButtonLayout: { position: 'absolute', display: 'flex', flexDirection: 'row', zIndex: 11 },
   reloadButton: { backgroundColor: '#FFF', alignSelf: 'center' },
 });
@@ -219,9 +218,19 @@ export default () => {
       navigation?.setOptions({
         title: 'Import inspection pictures',
         headerBackVisible: true,
+        headerRight: () => (
+          <Button
+            disabled={isUpdating || !canGoNext}
+            icon="send"
+            color={colors.primary}
+            onPress={updateTask}
+          >
+            Start inspecting
+          </Button>
+        ),
       });
     }
-  }, [navigation]);
+  }, [canGoNext, colors.primary, isUpdating, navigation, updateTask]);
 
   // loading
   if (isLoading) { return <ActivityIndicatorView light />; }
@@ -239,40 +248,22 @@ export default () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <StatusBar />
-      <Button
-        style={[styles.floatingButton, { backgroundColor: isUpdating || !canGoNext ? '#BBBDBF' : colors.primary }]}
-        mode="contained"
-        disabled={isUpdating || !canGoNext}
-        icon="file-edit-outline"
-        color={colors.primary}
-        onPress={updateTask}
-      >
-        Start inspecting
-      </Button>
-      <Card>
-        <Card.Title
-          title="Create inspection"
-          subtitle="Inspect pictures from your device"
-        />
-        <Card.Content>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.sightsLayout}>
-              {pictures.map((sight) => (
-                <SightCard
-                  key={sight.id}
-                  sight={sight}
-                  events={{
-                    handleOpenMediaLibrary,
-                    handlePickImage,
-                    handleUploadPicture,
-                  }}
-                />
-              ))}
-            </View>
-          </ScrollView>
-        </Card.Content>
-      </Card>
+      <StatusBar style="light" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.sightsLayout}>
+          {pictures.map((sight) => (
+            <SightCard
+              key={sight.id}
+              sight={sight}
+              events={{
+                handleOpenMediaLibrary,
+                handlePickImage,
+                handleUploadPicture,
+              }}
+            />
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
