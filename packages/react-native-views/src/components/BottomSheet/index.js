@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, Animated, Platform, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import { Card, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
-import { noop } from 'lodash';
+import noop from 'lodash.noop';
 
 import { utils } from '@monkvision/react-native';
 
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     width: '100%',
     position: 'absolute',
-    overflow: 'hidden',
   },
   divider: {
     width: 100,
