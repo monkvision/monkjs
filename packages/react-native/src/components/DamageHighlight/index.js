@@ -1,32 +1,17 @@
-import React, { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { View } from 'react-native';
 import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
-import { Chip, ToggleButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import DamageImage from '../DamageImage';
 import useImageDamage from '../../hooks/useDamageImage';
 
-const styles = StyleSheet.create({
-  chip: {
-    width: 'min-content',
-    margin: 10,
-  },
-  label: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-});
-
 export default function DamageHighlight({
   backgroundOpacity,
-  damageType,
   image,
-  partTypes,
   polygons,
   polygonsProps,
 }) {
-  const [showLabel, setShowLabel] = useState('unchecked');
   const {
     state: {
       width,
@@ -83,43 +68,12 @@ export default function DamageHighlight({
         <DamageImage name={image.id} source={image.source} clip opacity={polygonsProps.opacity} />
         {polygon}
       </Svg>
-      <ScrollView>
-        <View style={styles.label}>
-          <ToggleButton
-            icon="car-door"
-            status={showLabel}
-            onPress={() => setShowLabel((prevState) => (prevState === 'unchecked' ? 'checked' : 'unchecked'))}
-          />
-          {showLabel === 'checked' && (
-            <>
-              <Chip
-                icon="alert-circle"
-                textStyle={{ fontSize: 12 }}
-                style={styles.chip}
-              >
-                {damageType}
-              </Chip>
-              {!isEmpty(partTypes) && partTypes.map((part) => (
-                <Chip
-                  key={`${image.id}-${part}`}
-                  icon="car-door"
-                  textStyle={{ fontSize: 12 }}
-                  style={styles.chip}
-                >
-                  {part}
-                </Chip>
-              ))}
-            </>
-          )}
-        </View>
-      </ScrollView>
     </View>
   );
 }
 
 DamageHighlight.propTypes = {
   backgroundOpacity: PropTypes.number,
-  damageType: PropTypes.string,
   image: PropTypes.shape({
     height: PropTypes.number,
     id: PropTypes.string, // image's uuid
@@ -128,7 +82,6 @@ DamageHighlight.propTypes = {
     }),
     width: PropTypes.number, // original size of the image
   }),
-  partTypes: PropTypes.arrayOf(PropTypes.string),
   polygons: PropTypes.arrayOf(
     PropTypes.arrayOf(
       PropTypes.arrayOf(PropTypes.number),
@@ -145,9 +98,7 @@ DamageHighlight.propTypes = {
 
 DamageHighlight.defaultProps = {
   backgroundOpacity: 0.35,
-  damageType: '',
   image: null,
-  partTypes: [],
   polygons: [],
   polygonsProps: {
     opacity: 1,

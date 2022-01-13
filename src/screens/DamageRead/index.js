@@ -212,38 +212,6 @@ export default () => {
     [damageViews, inspection.images],
   );
 
-  const getPartType = useCallback((partI) => (
-    inspection.parts.reduce((prev, part) => {
-      if (part.id === partI) {
-        return part.partType;
-      }
-      return prev;
-    }, null)
-  ), [inspection.parts]);
-
-  const parts = useMemo(() => {
-    const damages = inspection?.damages.reduce((prev, dmg) => {
-      if (dmg.id === damageId) {
-        return dmg;
-      }
-      return prev;
-    }, null);
-    if (!damages) {
-      return null;
-    }
-    const partsType = damages.partIds?.map((part) => {
-      const partType = getPartType(part);
-      if (partType) {
-        return partType;
-      }
-      return null;
-    });
-    return {
-      damageType: damages.damageType,
-      partsType,
-    };
-  }, [damageId, getPartType, inspection?.damages]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -263,7 +231,7 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${startCase(currentDamage.damageType)} on ${startCase(currentPart.partType)} with id: #${currentDamage.id.split('-')[0]}`}
+            title={`${startCase(currentDamage.damageType)} on ${startCase(currentPart.partType)}`}
             titleStyle={styles.cardTitle}
             subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt)
               .format('lll')}`}
@@ -275,34 +243,29 @@ export default () => {
             )}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(inspection.images) ? damageImages.map((image, index) => {
-              console.log(parts);
-              return (
-                <TouchableRipple
-                  key={String(index)}
-                  onPress={() => openPreviewDialog({
-                    name: image.name,
-                    path: image.path,
-                    index,
-                  })}
-                >
-                  <DamageHighlight
-                    image={getImage(image)}
-                    polygons={getPolygons(image.id, damageViews)[0]}
-                    backgroundOpacity={0.05}
-                    polygonsProps={{
-                      opacity: 0.5,
-                      stroke: {
-                        color: 'green',
-                        strokeWidth: 50,
-                      },
-                    }}
-                    damageType={parts.damageType}
-                    partTypes={parts.partsType}
-                  />
-                </TouchableRipple>
-              );
-            }) : null}
+            {!isEmpty(inspection.images) ? damageImages.map((image, index) => (
+              <TouchableRipple
+                key={String(index)}
+                onPress={() => openPreviewDialog({
+                  name: image.name,
+                  path: image.path,
+                  index,
+                })}
+              >
+                <DamageHighlight
+                  image={getImage(image)}
+                  polygons={getPolygons(image.id, damageViews)[0]}
+                  backgroundOpacity={0.4}
+                  polygonsProps={{
+                    opacity: 0.1,
+                    stroke: {
+                      color: '#ec00ff',
+                      strokeWidth: 40,
+                    },
+                  }}
+                />
+              </TouchableRipple>
+            )) : null}
           </ScrollView>
           <CardContent>
             <DataTable>

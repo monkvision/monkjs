@@ -1,42 +1,38 @@
 import React, { useCallback, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { denormalize } from 'normalizr';
 import PropTypes from 'prop-types';
 
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  View,
-  useWindowDimensions,
-  Platform,
-} from 'react-native';
-
-import {
-  PROFILE,
-  INSPECTION_READ,
-  INSPECTION_IMPORT,
-  INSPECTION_CREATE,
-} from 'screens/names';
+import { PROFILE, INSPECTION_READ, INSPECTION_IMPORT, INSPECTION_CREATE } from 'screens/names';
 import theme, { spacing } from 'config/theme';
-
-import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import {
-  DataTable,
-  Button,
-  useTheme,
-  Text,
-  Card,
-  IconButton,
-  Menu,
-} from 'react-native-paper';
+
+import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
+import { DataTable, Button, useTheme, Text, Card, Menu } from 'react-native-paper';
 import LogoIcon from 'components/Icons/LogoIcon';
 
-import moment from 'moment';
-import { getAllInspections, inspectionStatuses } from '@monkvision/corejs';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
-
+import { useNavigation } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest/index';
 import useToggle from 'hooks/useToggle/index';
+import moment from 'moment';
+
+import {
+  damagesEntity,
+  getAllInspections,
+  selectDamageEntities,
+  selectInspectionEntities,
+  selectInspectionIds,
+  selectImageEntities,
+  selectPartEntities,
+  selectTaskEntities,
+  selectVehicleEntities,
+  imagesEntity,
+  inspectionsEntity,
+  tasksEntity,
+  vehiclesEntity,
+  inspectionStatuses,
+} from '@monkvision/corejs';
 
 const styles = StyleSheet.create({
   root: {
@@ -74,22 +70,13 @@ const styles = StyleSheet.create({
   statusLayout: {
     display: 'flex',
     alignItems: 'center',
-    maxWidth: 200,
     justifyContent: 'flex-end',
+    maxWidth: 75,
   },
   dateLayout: {
     display: 'flex',
     alignItems: 'center',
-    maxWidth: 200,
-    minWidth: 150,
-  },
-  refreshButton: {
-    ...Platform.select({
-      default: {
-        marginVertical: 0,
-        justifyContent: 'flex-start',
-      },
-    }),
+    width: 47,
   },
   rowOdd: {
     backgroundColor: '#f6f6f6',
@@ -108,8 +95,13 @@ function StartInspectionMenu({ goToImport, goToCamera }) {
   return (
     <Menu
       anchor={(
-        <Button onPress={handleOpenMenu} style={styles.button} icon="plus">
-          New inspection
+        <Button
+          accessibilityLabel="New inspection"
+          onPress={handleOpenMenu}
+          style={styles.button}
+          icon="plus"
+        >
+          Inspection
         </Button>
       )}
       visible={isMenuOpen}
@@ -157,7 +149,6 @@ export default () => {
   );
 
   const {
-    response: doneResponse,
     isLoading: doneLoading,
     refresh: refreshDoneInspections,
   } = useRequest(getAllInspections({
@@ -168,13 +159,28 @@ export default () => {
   }));
   const [fakeDoneLoading] = useFakeActivity(doneLoading);
 
-  const getInspectionsArray = useCallback((response) => {
-    const inspections = response?.entities?.inspections;
-    if (!inspections) { return null; }
-    return Object.keys(inspections).map((key) => inspections[key]);
-  }, []);
+  const ids = useSelector(selectInspectionIds);
+  const inspectionEntities = useSelector(selectInspectionEntities);
+  const imagesEntities = useSelector(selectImageEntities);
+  const damagesEntities = useSelector(selectDamageEntities);
+  const partsEntities = useSelector(selectPartEntities);
+  const tasksEntities = useSelector(selectTaskEntities);
+  const vehiclesEntities = useSelector(selectVehicleEntities);
 
-  const doneInspections = getInspectionsArray(doneResponse);
+  const { inspections: doneInspections } = denormalize({ inspections: ids }, {
+    inspections: [inspectionsEntity],
+    images: [imagesEntity],
+    damages: [damagesEntity],
+    tasks: [tasksEntity],
+    vehicles: [vehiclesEntity],
+  }, {
+    inspections: inspectionEntities,
+    images: imagesEntities,
+    damages: damagesEntities,
+    parts: partsEntities,
+    tasks: tasksEntities,
+    vehicles: vehiclesEntities,
+  });
 
   const handlePress = useCallback(
     (inspectionId) => {
@@ -202,8 +208,12 @@ export default () => {
               goToImport={handleGoToImportInspection}
               goToCamera={handleStart}
             />
-            <Button onPress={handleSignOut} icon="account">
-              Profile
+            <Button
+              onPress={handleSignOut}
+              icon="account"
+              accessibilityLabel="Account"
+            >
+              Account
             </Button>
           </View>
         ),
@@ -225,20 +235,9 @@ export default () => {
               <DataTable.Header>
                 <DataTable.Title>Vehicle</DataTable.Title>
                 <DataTable.Title style={styles.dateLayout}>Datetime</DataTable.Title>
-                <DataTable.Title style={styles.statusLayout}>
-                  <IconButton
-                    style={styles.refreshButton}
-                    accessibilityLabel="Refresh"
-                    onPress={refreshDoneInspections}
-                    icon="refresh"
-                    color={colors.primary}
-                    disabled={fakeDoneLoading}
-                  />
-                </DataTable.Title>
+                <DataTable.Title style={styles.statusLayout}>Status</DataTable.Title>
               </DataTable.Header>
-
-              {/* data */}
-              {doneInspections?.length && doneInspections.map(({ id, createdAt, vehicle }, i) => (
+              {doneInspections.map(({ id, createdAt, vehicle }, i) => (
                 <DataTable.Row
                   key={`inspectionRow-${id}`}
                   onPress={() => handlePress(id)}
@@ -250,7 +249,7 @@ export default () => {
                     {vehicle?.model}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.dateLayout}>
-                    {moment(createdAt).format('lll')}
+                    {moment(createdAt).format('ll')}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.statusLayout}>
                     {canRenderStatus ? <Text style={{ height: 12 }}>Done</Text> : null}
@@ -263,10 +262,17 @@ export default () => {
             </DataTable>
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
-            <StartInspectionMenu
-              goToImport={handleGoToImportInspection}
-              goToCamera={handleStart}
-            />
+            <Button
+              style={styles.refreshButton}
+              accessibilityLabel="Refresh"
+              onPress={refreshDoneInspections}
+              icon="refresh"
+              color={colors.primary}
+              loading={fakeDoneLoading}
+              disabled={fakeDoneLoading}
+            >
+              Refresh
+            </Button>
           </Card.Actions>
         </Card>
       </ScrollView>
