@@ -8,4 +8,5 @@ export { default as DamagesView } from './Damages';
 export { default as PicturesSummaryView } from './PicturesSummaryView';
 export { default as TutorialView } from './TutorialView';
 export { default as CreateDamageForm } from './CreateDamageForm';
+export { default as BottomSheet } from './BottomSheet';
 export { default as Thumbnail } from './Thumbnail';

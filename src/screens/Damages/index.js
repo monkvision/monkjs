@@ -70,7 +70,7 @@ export default () => {
   const { loading: damagesLoading } = useSelector((state) => state.damages);
   const [fakeActivity] = useFakeActivity(isLoading || damagesLoading);
 
-  const [drawerIsOpen, handleOpenDrawer, handleCloseDrawer] = useToggle();
+  const [bottomsheetIsOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
 
   const [currentDamage, setCurrentDamage] = useState(currentDamageInitialState);
 
@@ -95,7 +95,7 @@ export default () => {
   const { damageIsLoading, createDamageRequest, isDamageValid, damagePicturesState } = useDamages({
     currentDamage,
     inspectionId,
-    handleCloseDrawer,
+    handleCloseBottomSheet,
     refresh,
     reset: () => setCurrentDamage(currentDamageInitialState),
   });
@@ -112,15 +112,15 @@ export default () => {
 
   const handleSelectPart = useCallback((partType) => {
     setCurrentDamage((prev) => ({ ...prev, part_type: partType }));
-    handleOpenDrawer();
+    handleOpenBottomSheet();
   },
-  [handleOpenDrawer]);
+  [handleOpenBottomSheet]);
 
   const handleAddNewDamage = useCallback(() => {
     setCurrentDamage(currentDamageInitialState);
-    handleOpenDrawer();
+    handleOpenBottomSheet();
   },
-  [setCurrentDamage, handleOpenDrawer]);
+  [setCurrentDamage, handleOpenBottomSheet]);
 
   const onChangeCurrentDamage = useCallback((newDamageMetaData) => {
     setCurrentDamage((prev) => ({ ...prev, ...newDamageMetaData }));
@@ -143,14 +143,14 @@ export default () => {
   const damagesViewRef = useRef(null);
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
-    { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || drawerIsOpen },
+    { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || bottomsheetIsOpen },
     { title: 'Validate',
       onPress: () => damagesViewRef.current?.validate(),
       icon: 'send',
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, drawerIsOpen]);
+  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, bottomsheetIsOpen]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -168,8 +168,8 @@ export default () => {
     <SafeAreaView style={styles.root}>
       <CreateDamageForm
         theme={theme}
-        isOpen={drawerIsOpen}
-        onClose={() => { handleCloseDrawer(); setCurrentDamage(currentDamageInitialState); }}
+        isOpen={bottomsheetIsOpen}
+        onClose={() => { handleCloseBottomSheet(); setCurrentDamage(currentDamageInitialState); }}
         onSubmit={createDamageRequest}
         onCameraOpen={handleHideNavigationBar}
         onCameraClose={handleShowNavigationBar}

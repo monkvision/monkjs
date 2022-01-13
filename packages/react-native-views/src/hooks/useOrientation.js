@@ -6,7 +6,7 @@ import { Platform, Dimensions } from 'react-native';
  * "getNativeOrientationOrFallbackToDimensions"
  * Because `ScreenOrientation.getOrientationLockAsync` does not fire at the first render sometimes
  * we can fallback to:
- * If height is bigger or equals the width then is portrait orientation (value=1)
+ * If height is bigger or equals the width then the orientation is portrait (value=1)
  */
 const getNativeOrientationOrFallbackToDimensions = (o) => {
   if (o) { return o; }
