@@ -1,5 +1,5 @@
-import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
@@ -16,31 +16,25 @@ import {
   damagesEntity,
   deleteOneDamage,
   getOneInspectionById,
-  selectPartById,
-  selectDamageById,
-  selectDamageEntities,
-  selectInspectionEntities,
-  selectImageEntities,
-  selectPartEntities,
-  selectTaskEntities,
   imagesEntity,
   inspectionsEntity,
-  tasksEntity,
+  partsEntity,
+  selectDamageById,
+  selectDamageEntities,
+  selectImageEntities,
+  selectInspectionEntities,
+  selectPartById,
+  selectPartEntities,
+  selectTaskEntities,
   taskNames,
+  tasksEntity,
   taskStatuses,
 } from '@monkvision/corejs';
 
 import { DamageHighlight, usePolygons } from '@monkvision/react-native';
 
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import {
-  Card,
-  Button,
-  useTheme,
-  DataTable,
-  List,
-  TouchableRipple,
-} from 'react-native-paper';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
@@ -91,12 +85,18 @@ const styles = StyleSheet.create({
     height: 400,
     marginHorizontal: spacing(0),
   },
-  button: { width: '100%', marginVertical: 4 },
+  button: {
+    width: '100%',
+    marginVertical: 4,
+  },
   alignLeft: {
     justifyContent: 'flex-end',
   },
   buttonLabel: { color: '#FFFFFF' },
-  validationButton: { margin: spacing(2), flex: 1 },
+  validationButton: {
+    margin: spacing(2),
+    flex: 1,
+  },
 });
 
 export default () => {
@@ -104,9 +104,16 @@ export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
-  const { inspectionId, id: damageId, partId } = route.params;
+  const {
+    inspectionId,
+    id: damageId,
+    partId,
+  } = route.params;
 
-  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
+  const {
+    isLoading,
+    refresh,
+  } = useRequest(getOneInspectionById({ id: inspectionId }));
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -121,6 +128,7 @@ export default () => {
     inspection: inspectionsEntity,
     images: [imagesEntity],
     damages: [damagesEntity],
+    parts: [partsEntity],
     tasks: [tasksEntity],
   }, {
     inspections: inspectionEntities,
@@ -143,14 +151,23 @@ export default () => {
   const [previewImage, setPreviewImage] = useState({});
   const [getImage, getPolygons] = usePolygons();
 
-  const { isLoading: isDeleteLoading, request: handleDelete } = useRequest(
-    deleteOneDamage({ id: damageId, inspectionId, partId }),
-    { onSuccess: () => {
-      setDeleteDialogOpen(false);
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      }
-    } },
+  const {
+    isLoading: isDeleteLoading,
+    request: handleDelete,
+  } = useRequest(
+    deleteOneDamage({
+      id: damageId,
+      inspectionId,
+      partId,
+    }),
+    {
+      onSuccess: () => {
+        setDeleteDialogOpen(false);
+        if (navigation.canGoBack()) {
+          navigation.goBack();
+        }
+      },
+    },
     false,
   );
 
@@ -172,8 +189,17 @@ export default () => {
   }, []);
 
   const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh },
-    { title: 'Delete', onPress: openDeletionDialog, disabled: isValidated, divider: true },
+    {
+      title: 'Refresh',
+      loading: Boolean(fakeActivity),
+      onPress: refresh,
+    },
+    {
+      title: 'Delete',
+      onPress: openDeletionDialog,
+      disabled: isValidated,
+      divider: true,
+    },
   ], [fakeActivity, isValidated, openDeletionDialog, refresh]);
 
   const damageViews = useMemo(
@@ -185,6 +211,38 @@ export default () => {
     () => getDamageImages(damageViews, inspection?.images ?? []),
     [damageViews, inspection.images],
   );
+
+  const getPartType = useCallback((partI) => (
+    inspection.parts.reduce((prev, part) => {
+      if (part.id === partI) {
+        return part.partType;
+      }
+      return prev;
+    }, null)
+  ), [inspection.parts]);
+
+  const parts = useMemo(() => {
+    const damages = inspection?.damages.reduce((prev, dmg) => {
+      if (dmg.id === damageId) {
+        return dmg;
+      }
+      return prev;
+    }, null);
+    if (!damages) {
+      return null;
+    }
+    const partsType = damages.partIds?.map((part) => {
+      const partType = getPartType(part);
+      if (partType) {
+        return partType;
+      }
+      return null;
+    });
+    return {
+      damageType: damages.damageType,
+      partsType,
+    };
+  }, [damageId, getPartType, inspection?.damages]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -207,7 +265,8 @@ export default () => {
           <Card.Title
             title={`${startCase(currentDamage.damageType)} on ${startCase(currentPart.partType)} with id: #${currentDamage.id.split('-')[0]}`}
             titleStyle={styles.cardTitle}
-            subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt).format('lll')}`}
+            subtitle={`Created ${currentDamage.createdBy === 'algo' ? 'by algo' : 'manually'} at ${moment(currentDamage.createdAt)
+              .format('lll')}`}
             left={(props) => (
               <List.Icon
                 icon={currentDamage.createdBy === 'algo' ? 'matrix' : 'shape-square-plus'}
@@ -216,17 +275,34 @@ export default () => {
             )}
           />
           <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(inspection.images) ? damageImages.map((image, index) => (
-              <TouchableRipple
-                key={String(index)}
-                onPress={() => openPreviewDialog({ name: image.name, path: image.path, index })}
-              >
-                <DamageHighlight
-                  image={getImage(image)}
-                  polygons={getPolygons(image.id, damageViews)[0]}
-                />
-              </TouchableRipple>
-            )) : null}
+            {!isEmpty(inspection.images) ? damageImages.map((image, index) => {
+              console.log(parts);
+              return (
+                <TouchableRipple
+                  key={String(index)}
+                  onPress={() => openPreviewDialog({
+                    name: image.name,
+                    path: image.path,
+                    index,
+                  })}
+                >
+                  <DamageHighlight
+                    image={getImage(image)}
+                    polygons={getPolygons(image.id, damageViews)[0]}
+                    backgroundOpacity={0.05}
+                    polygonsProps={{
+                      opacity: 0.5,
+                      stroke: {
+                        color: 'green',
+                        strokeWidth: 50,
+                      },
+                    }}
+                    damageType={parts.damageType}
+                    partTypes={parts.partsType}
+                  />
+                </TouchableRipple>
+              );
+            }) : null}
           </ScrollView>
           <CardContent>
             <DataTable>
@@ -249,7 +325,7 @@ export default () => {
               <DataTable.Row key="metadata-severity">
                 <DataTable.Cell>Severity</DataTable.Cell>
                 <DataTable.Cell style={styles.alignLeft}>
-                  {currentDamage.severity ?? 'Not given' }
+                  {currentDamage.severity ?? 'Not given'}
                 </DataTable.Cell>
               </DataTable.Row>
             </DataTable>

@@ -54,13 +54,13 @@ export default function DamageImage({
 DamageImage.propTypes = {
   clip: PropTypes.bool,
   name: PropTypes.string,
-  opacity: PropTypes.string,
+  opacity: PropTypes.number || PropTypes.string,
   source: PropTypes.shape({ uri: PropTypes.string }),
 };
 
 DamageImage.defaultProps = {
   clip: false,
   name: '',
-  opacity: '1',
+  opacity: 1,
   source: { uri: '' },
 };
