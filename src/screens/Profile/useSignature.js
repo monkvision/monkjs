@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { config, setUserSignature, selectAllUser } from '@monkvision/corejs';
 import { Platform } from 'react-native';
 
-export default function useSignature({ signature, updateAccountData, handleCloseDrawer }) {
+export default function useSignature({ signature, updateAccountData, handleCloseBottomSheet }) {
   const store = useStore();
   const dispatch = useDispatch();
   const user = useSelector(selectAllUser);
@@ -65,8 +65,8 @@ export default function useSignature({ signature, updateAccountData, handleClose
         isLoading: false,
         uri: Platform.OS === 'web' ? uri : uri?.substring(1, uri.length - 1) } }),
     );
-    handleCloseDrawer();
-  }, [handleCloseDrawer, updateAccountData]);
+    handleCloseBottomSheet();
+  }, [handleCloseBottomSheet, updateAccountData]);
 
   return { handleSubmit, handleSave };
 }

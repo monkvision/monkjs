@@ -75,7 +75,7 @@ export default function Profile() {
 
   const [accountData, setAccountData] = useState({ firstName: '', lastName: '', company: '', site: '', signature: { isLoading: false, uri: null } });
   const { firstName, lastName, company, site, signature } = accountData;
-  const [drawerIsOpen, handleOpenDrawer, handleCloseDrawer] = useToggle();
+  const [bottomsheetIsOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
 
   const updateAccountData = useCallback(
     (args) => setAccountData((prev) => ({ ...prev, ...args })), [],
@@ -84,7 +84,7 @@ export default function Profile() {
   const { handleSave, handleSubmit } = useSignature({
     signature,
     updateAccountData,
-    handleCloseDrawer,
+    handleCloseBottomSheet,
   });
 
   useLayoutEffect(() => {
@@ -111,8 +111,8 @@ export default function Profile() {
         <EditSignatureForm
           accountData={{ ...accountData, updateAccountData }}
           handleSave={handleSave}
-          isOpen={drawerIsOpen}
-          handleClose={handleCloseDrawer}
+          isOpen={bottomsheetIsOpen}
+          handleClose={handleCloseBottomSheet}
         />
         <View style={styles.root}>
           <Card style={styles.card}>
@@ -147,7 +147,7 @@ export default function Profile() {
               </Card.Content>
               <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
                 <Button
-                  onPress={handleOpenDrawer}
+                  onPress={handleOpenBottomSheet}
                   mode="contained"
                   style={styles.button}
                   icon="account-edit"
