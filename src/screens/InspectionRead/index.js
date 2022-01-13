@@ -40,7 +40,9 @@ import {
   Portal,
   useTheme,
   Chip,
+  Subheading,
   Text,
+  Title,
   TouchableRipple,
 } from 'react-native-paper';
 
@@ -126,8 +128,18 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   logo: {
-    marginLeft: spacing(2),
+    ...Platform.select({
+      native: { marginLeft: 0, marginRight: spacing(1) },
+      default: { marginLeft: spacing(2) },
+    }),
     ...(Platform.OS === 'web' ? { cursor: 'pointer' } : {}),
+  },
+  title: {
+    lineHeight: 20,
+  },
+  subheading: {
+    fontSize: 14,
+    lineHeight: 14,
   },
 });
 
@@ -232,6 +244,29 @@ export default () => {
         title: isEmpty(inspection) ? `Inspection #${inspectionId.split('-')[0]}` : (
           `${inspection.vehicle?.brand || 'Brand'} ${inspection?.vehicle?.model || 'Model'} ${moment(inspection.createdAt).format('lll')}`
         ),
+        headerTitle: () => {
+          if (isEmpty(inspection)) {
+            return (
+              <Title>
+                Inspection
+                {`#${inspectionId.split('-')[0]}`}
+              </Title>
+            );
+          }
+
+          return (
+            <View>
+              <Title style={styles.title}>
+                {inspection.vehicle?.brand || 'Brand'}
+                {` `}
+                {inspection.vehicle?.model || 'Model'}
+              </Title>
+              <Subheading style={styles.subheading}>
+                {moment(inspection.createdAt).format('lll')}
+              </Subheading>
+            </View>
+          );
+        },
         headerBackVisible: false,
         headerLeft: () => (
           <LogoIcon

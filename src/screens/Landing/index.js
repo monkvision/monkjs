@@ -1,7 +1,14 @@
 import React, { useCallback, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  View,
+  useWindowDimensions,
+  Platform,
+} from 'react-native';
 
 import {
   PROFILE,
@@ -77,8 +84,12 @@ const styles = StyleSheet.create({
     minWidth: 150,
   },
   refreshButton: {
-    marginVertical: 0,
-    justifyContent: 'flex-start',
+    ...Platform.select({
+      default: {
+        marginVertical: 0,
+        justifyContent: 'flex-start',
+      },
+    }),
   },
   rowOdd: {
     backgroundColor: '#f6f6f6',
