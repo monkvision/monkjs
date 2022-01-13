@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button, TextInput, Title } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import Signature from 'components/Signature';
 import { spacing } from 'config/theme';
 
 import { BottomSheet } from '@monkvision/react-native-views';
-import { noop } from 'lodash';
+import noop from 'lodash.noop';
 
 const styles = StyleSheet.create({
   card: {
@@ -53,37 +53,33 @@ export default function EditSignatureForm({ accountData, handleSave, isOpen, han
   }, [isOpen]);
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={handleClose}>
-      <ScrollView
-        scrollEnabled={scrollEnabled}
-        ref={scrollRef}
-      >
-        <BottomSheet.Title title="Edit account data" />
-        <BottomSheet.Content>
-          <TextInput style={styles.textInput} label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />
-          <TextInput style={styles.textInput} label="Last name" value={lastName} onChangeText={(val) => updateAccountData({ lastName: val })} />
-          <TextInput style={styles.textInput} label="Company" value={company} onChangeText={(val) => updateAccountData({ company: val })} />
-          <TextInput style={styles.textInput} label="Site" value={site} onChangeText={(val) => updateAccountData({ site: val })} />
-          <Title style={{ marginVertical: spacing(1) }}>
-            Edit your signature
-          </Title>
-          <Signature
-            visible
-            setScrollEnabled={setScrollEnabled}
-            ref={signatureRef}
-          />
-        </BottomSheet.Content>
-        <BottomSheet.Actions style={styles.actions}>
-          <Button
-            onPress={() => handleSave(signatureRef.current.getUri)}
-            mode="outlined"
-            style={[styles.button, { alignSelf: 'center' }]}
-            icon="content-save"
-          >
-            Save
-          </Button>
-        </BottomSheet.Actions>
-      </ScrollView>
+    <BottomSheet isOpen={isOpen} onClose={handleClose} scrollEnabled={scrollEnabled}>
+
+      <BottomSheet.Title title="Edit account data" />
+      <BottomSheet.Content>
+        <TextInput style={styles.textInput} label="First name" value={firstName} onChangeText={(val) => updateAccountData({ firstName: val })} />
+        <TextInput style={styles.textInput} label="Last name" value={lastName} onChangeText={(val) => updateAccountData({ lastName: val })} />
+        <TextInput style={styles.textInput} label="Company" value={company} onChangeText={(val) => updateAccountData({ company: val })} />
+        <TextInput style={styles.textInput} label="Site" value={site} onChangeText={(val) => updateAccountData({ site: val })} />
+        <Title style={{ marginVertical: spacing(1) }}>
+          Edit your signature
+        </Title>
+        <Signature
+          visible
+          setScrollEnabled={setScrollEnabled}
+          ref={signatureRef}
+        />
+      </BottomSheet.Content>
+      <BottomSheet.Actions style={styles.actions}>
+        <Button
+          onPress={() => handleSave(signatureRef.current.getUri)}
+          mode="outlined"
+          style={[styles.button, { alignSelf: 'center' }]}
+          icon="content-save"
+        >
+          Save
+        </Button>
+      </BottomSheet.Actions>
     </BottomSheet>
   );
 }

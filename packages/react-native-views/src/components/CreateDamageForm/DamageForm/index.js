@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { DataTable, Button, List, withTheme } from 'react-native-paper';
 import { noop, startCase } from 'lodash';
 
@@ -76,7 +76,7 @@ function DamageForm({
       lock={!!isDirty}
       onClose={onClose}
     >
-      <ScrollView style={{ height: '100%' }}>
+      <>
         <BottomSheet.Title
           title={`Add photos for ${wrapTitles}`}
           subtitle={wrapSubtitles}
@@ -159,7 +159,7 @@ function DamageForm({
             Add pictures
           </Button>
         </BottomSheet.Actions>
-      </ScrollView>
+      </>
     </BottomSheet>
 
   );

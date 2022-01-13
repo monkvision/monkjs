@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { SafeAreaView, Image, StyleSheet, View, Dimensions } from 'react-native';
-import { useTheme, Surface, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { useTheme, Surface, Button, Card, Title, Paragraph, Portal } from 'react-native-paper';
 import jwtDecode from 'jwt-decode';
 
 import { useDispatch, useStore } from 'react-redux';
@@ -106,49 +106,60 @@ export default function Profile() {
 
   return (
     <SafeAreaView>
-      <EditSignatureForm
-        accountData={{ ...accountData, updateAccountData }}
-        handleSave={handleSave}
-        isOpen={drawerIsOpen}
-        handleClose={handleCloseDrawer}
-      />
-      <View style={styles.root}>
-        <Card style={styles.card}>
-          <View>
-            <Card.Content>
-              <Title style={{ textAlign: 'center' }}>
-                {`${lastName || firstName ? firstName : 'Anonymous user'}  ${lastName}`}
-              </Title>
-              <Paragraph style={{ textAlign: 'center', color: '#aaaaaa' }}>
-                {company && site ? `${company} - ${site}`
-                  : company || (site ? `Anonymous company - ${site}` : 'Anonymous company')}
-              </Paragraph>
+      <Portal.Host>
 
-              <View style={styles.layout}>
-                <Surface style={styles.surface}>
-                  {signature?.uri
-                    ? <Image source={signature} style={styles.signature} width={300} height={300} />
-                    : null }
-                  {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
-                    : null }
-                </Surface>
+        <EditSignatureForm
+          accountData={{ ...accountData, updateAccountData }}
+          handleSave={handleSave}
+          isOpen={drawerIsOpen}
+          handleClose={handleCloseDrawer}
+        />
+        <View style={styles.root}>
+          <Card style={styles.card}>
+            <View>
+              <Card.Content>
+                <Title style={{ textAlign: 'center' }}>
+                  {`${lastName || firstName ? firstName : 'Anonymous user'}  ${lastName}`}
+                </Title>
+                <Paragraph style={{ textAlign: 'center', color: '#aaaaaa' }}>
+                  {company && site ? `${company} - ${site}`
+                    : company || (site ? `Anonymous company - ${site}` : 'Anonymous company')}
+                </Paragraph>
 
-              </View>
-            </Card.Content>
-            <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
-              <Button
-                onPress={handleOpenDrawer}
-                mode="contained"
-                style={styles.button}
-                icon="account-edit"
-              >
-                Edit
-              </Button>
-              <Button onPress={handleSubmit} disabled={isEmpty} mode="outlined" style={[styles.button, { borderColor: colors.primary }]} icon="send">Submit</Button>
-            </Card.Actions>
-          </View>
-        </Card>
-      </View>
+                <View style={styles.layout}>
+                  <Surface style={styles.surface}>
+                    {signature?.uri
+                      ? (
+                        <Image
+                          source={signature}
+                          style={styles.signature}
+                          width={300}
+                          height={300}
+                        />
+                      )
+                      : null }
+
+                    {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
+                      : null }
+                  </Surface>
+
+                </View>
+              </Card.Content>
+              <Card.Actions style={[styles.actions, { flexDirection: isDesktopOrLaptop ? 'row' : 'column' }]}>
+                <Button
+                  onPress={handleOpenDrawer}
+                  mode="contained"
+                  style={styles.button}
+                  icon="account-edit"
+                >
+                  Edit
+                </Button>
+                <Button onPress={handleSubmit} disabled={isEmpty} mode="outlined" style={[styles.button, { borderColor: colors.primary }]} icon="send">Submit</Button>
+              </Card.Actions>
+            </View>
+          </Card>
+        </View>
+      </Portal.Host>
     </SafeAreaView>
   );
 }

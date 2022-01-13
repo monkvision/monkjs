@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     flexWrap: 'nowrap',
     marginBottom: spacing(2),
+    height: 300,
     marginHorizontal: spacing(1),
   },
   image: {
@@ -26,16 +27,17 @@ const styles = StyleSheet.create({
   },
 });
 export default function DamagePicturesViewer({ damagePictures, handleOpenPreviewDialog }) {
+  if (isEmpty(damagePictures)) { return null; }
   return (
     <ScrollView contentContainerStyle={styles.images} horizontal>
-      {!isEmpty(damagePictures) ? damagePictures?.map(({ uri }, index) => (
+      {damagePictures?.map(({ uri }, index) => (
         <TouchableRipple
           key={String(index)}
           onPress={() => handleOpenPreviewDialog({ uri, index })}
         >
           <Image style={styles.image} source={{ uri }} />
         </TouchableRipple>
-      )) : null}
+      ))}
     </ScrollView>
   );
 }
