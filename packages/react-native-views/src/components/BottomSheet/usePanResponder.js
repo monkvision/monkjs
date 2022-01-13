@@ -21,14 +21,23 @@ const usePanResponder = ({ onClose = noop, lock }) => {
       .start(onFinish), [ANIMATED.HIDDEN, pan],
   );
 
+  // respond to a touch move only if the distance between the original touch value and the
+  // new current touch value is more than 10 or less than -10
   const onMoveShouldSetPanResponder = (_, gestureState) => gestureState.dy >= 10
    || gestureState.dy >= -10;
 
   const panGesture = PanResponder.create({
     onPanResponderMove: (_, gestureState) => {
-      Animated.event([null, { dy: pan }], { useNativeDriver: false })(_, gestureState);
+      // follow the touch move vertically only if the moveY is more than 100
+      // which means the bottomSheet will not get dragged up for a value under 100
+      if (gestureState.moveY > 100) {
+        Animated.event([null, { dy: pan }], { useNativeDriver: false })(_, gestureState);
+      }
     },
     onPanResponderRelease: (_, gestureState) => {
+      // if the distance between the original value and the new value that we got
+      // when the user releases his touch is more than 30% of the HIDDEN value which
+      // is by default (height of the screen), then close it else open it
       const gestureLimitArea = ANIMATED.HIDDEN / 3;
       const gestureDistance = gestureState.dy;
 

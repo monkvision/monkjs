@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
-import { View, Animated, Platform, StyleSheet, useWindowDimensions } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { View, Animated, Platform, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import { Card, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 
 import { utils } from '@monkvision/react-native';
 
+import useOrientation from '../../hooks/useOrientation';
 import usePanResponder from './usePanResponder';
 import useToggle from '../../hooks/useToggle';
 
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
     width: '100%',
     position: 'absolute',
+    overflow: 'hidden',
   },
   divider: {
     width: 100,
@@ -44,39 +46,69 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     paddingTop: spacing(4),
-    zIndex: 11,
+    zIndex: 201,
     ...Platform.select({
       web: {
         cursor: 'grab',
       },
     }),
   },
-  children: {
+  scrollview: {
+    height: '100%',
+    overflow: 'visible',
+  },
+  container: {
     marginTop: spacing(8),
     paddingVertical: 10,
-    overflow: 'visible',
+    overflow: 'hidden',
+    height: '200%',
   },
 });
 
-export default function BottomSheet({ isOpen, children, onClose, onOpen, lock }) {
+export default function BottomSheet({ isOpen, children, onClose, onOpen, lock, ...props }) {
   const [isDisplayed, display, hide] = useToggle();
-  const { pan, panGesture, animate } = usePanResponder({ onClose, lock });
   const { height } = useWindowDimensions();
+  const [orientation] = useOrientation();
+
+  const [contentHeight, setContentHeight] = useState(null);
+  const { pan, panGesture, animate } = usePanResponder({ onClose, lock });
+
+  const scrollHeightHolder = useMemo(() => {
+    // we check if the contentHeight is set or not yet,
+    // if yes we return the contentHeight + 100px to handle large screens
+    if (contentHeight) { return contentHeight + 100; }
+
+    // else if the orientation is portrait we return the
+    // full height + 30% of it (this can make the scroll longer than the content)
+    if (orientation === 1) { return height + height * 0.3; }
+
+    // else just give two times the height (this also can make the scroll longer than the content)
+    return height * 2;
+  }, [contentHeight, orientation, height]);
 
   const handleOpenPopup = useCallback(() => {
+    // make the bottomsheet accessible in the viewport
     display();
+
+    // trigger the onOpen callback
     onOpen();
+
+    // and animate the bottomsheet to the bottom
     animate.visible();
   }, [display, onOpen, animate]);
 
+  // animate the bottomsheet to the bottom, and when the animation finish,
+  // then hide the bottomsheet from the viewport
   const handleClosePopup = useCallback(() => animate.hidden(() => { hide(); }),
     [animate, hide]);
 
   useEffect(() => {
+    // trigger open bottomsheet
     if (isOpen) { handleOpenPopup(); }
   }, [handleOpenPopup, isOpen]);
 
   useEffect(() => {
+    // trigger close bottomsheet
     if (!isOpen) { handleClosePopup(); }
   }, [handleClosePopup, isOpen]);
 
@@ -84,7 +116,7 @@ export default function BottomSheet({ isOpen, children, onClose, onOpen, lock })
 
   return (
     <Portal>
-      <Animated.View style={[styles.animatedView, { backgroundColor: 'cyan', transform: [{ translateY: pan }] }]}>
+      <Animated.View style={[styles.animatedView, { transform: [{ translateY: pan }] }]}>
         <Card style={[styles.card, { height }]}>
 
           {/* divider */}
@@ -92,10 +124,23 @@ export default function BottomSheet({ isOpen, children, onClose, onOpen, lock })
             <View style={styles.divider} />
           </View>
 
-          {/* childrens  */}
-          {/* TODO add scrollview */}
-          <View style={[styles.children, { height: height * 0.8 - height * 0.01 }]}>
-            {children}
+          {/* the container hold the whole layout height */}
+          <View style={styles.container}>
+
+            {/* the following view is just keeping the scrollview in the viewport and not
+            overflow  */}
+            <View style={{ height: height - 150 }}>
+              <ScrollView style={styles.scrollview} {...props}>
+                <View style={{ height: scrollHeightHolder }}>
+
+                  {/* we wrap a normal view without any style just to make it more natural
+                  for the content */}
+                  <View onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}>
+                    {children}
+                  </View>
+                </View>
+              </ScrollView>
+            </View>
           </View>
         </Card>
       </Animated.View>
