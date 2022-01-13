@@ -1,4 +1,4 @@
-const buildNumber = 3;
+const buildNumber = 42;
 
 export default {
   version: '1.2.3',
