@@ -1,13 +1,24 @@
 import React, { useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
-import { Chip } from 'react-native-paper';
+import { Chip, ToggleButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import DamageImage from '../DamageImage';
 import useImageDamage from '../../hooks/useDamageImage';
 
-function DamageHighlight({
+const styles = StyleSheet.create({
+  chip: {
+    width: 'min-content',
+    margin: 10,
+  },
+  label: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+});
+
+export default function DamageHighlight({
   backgroundOpacity,
   damageType,
   image,
@@ -15,7 +26,7 @@ function DamageHighlight({
   polygons,
   polygonsProps,
 }) {
-  const [showTags, setShowTags] = useState(false);
+  const [showLabel, setShowLabel] = useState('unchecked');
   const {
     state: {
       width,
@@ -34,7 +45,7 @@ function DamageHighlight({
         strokeWidth={Math.max(polygonsProps.stroke.strokeWidth, image.width * 0.0005)}
       />
     ))
-  ), [polygons, image, polygonsProps.stroke.color, polygonsProps.stroke.strokeWidth]);
+  ), [polygons, image.id, image.width, polygonsProps.stroke]);
 
   if (!image) {
     return <View />;
@@ -53,8 +64,12 @@ function DamageHighlight({
   }
 
   return (
-    <View onPress={() => setShowTags(((prevState) => !prevState))}>
-      <Svg width={width} height={height} viewBox={`0 0 ${image.width} ${image.height}`}>
+    <View>
+      <Svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${image.width} ${image.height}`}
+      >
         <Defs>
           <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
         </Defs>
@@ -68,25 +83,39 @@ function DamageHighlight({
         <DamageImage name={image.id} source={image.source} clip opacity={polygonsProps.opacity} />
         {polygon}
       </Svg>
-      {!showTags && (
-        <ScrollView>
-          <View style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-          >
-            <Chip icon="alert-circle" style={{ margin: 10 }}>{damageType}</Chip>
-            {!isEmpty(partTypes) && partTypes.map((part) => (
-              <Chip icon="car-door" style={{ margin: 10 }}>{part}</Chip>
-            ))}
-          </View>
-        </ScrollView>
-      )}
+      <ScrollView>
+        <View style={styles.label}>
+          <ToggleButton
+            icon="car-door"
+            status={showLabel}
+            onPress={() => setShowLabel((prevState) => (prevState === 'unchecked' ? 'checked' : 'unchecked'))}
+          />
+          {showLabel === 'checked' && (
+            <>
+              <Chip
+                icon="alert-circle"
+                textStyle={{ fontSize: 12 }}
+                style={styles.chip}
+              >
+                {damageType}
+              </Chip>
+              {!isEmpty(partTypes) && partTypes.map((part) => (
+                <Chip
+                  key={`${image.id}-${part}`}
+                  icon="car-door"
+                  textStyle={{ fontSize: 12 }}
+                  style={styles.chip}
+                >
+                  {part}
+                </Chip>
+              ))}
+            </>
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
-
-export default DamageHighlight;
 
 DamageHighlight.propTypes = {
   backgroundOpacity: PropTypes.number,

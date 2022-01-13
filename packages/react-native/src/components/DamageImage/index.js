@@ -30,7 +30,7 @@ export default function DamageImage({
   );
 
   const clipPath = useMemo(
-    () => (Platform.OS !== 'ios' ? clip && `url(#clip${name})` : undefined),
+    () => (clip && Platform.OS !== 'ios' ? `url(#clip${name})` : undefined),
     [clip, name],
   );
 
