@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
 
-import { GETTING_STARTED, PROFILE, INSPECTION_READ, INSPECTION_IMPORT } from 'screens/names';
+import {
+  PROFILE,
+  INSPECTION_READ,
+  INSPECTION_IMPORT,
+  INSPECTION_CREATE,
+} from 'screens/names';
 import theme, { spacing } from 'config/theme';
 
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +22,7 @@ import {
   IconButton,
   Menu,
 } from 'react-native-paper';
+import LogoIcon from 'components/Icons/LogoIcon';
 
 import moment from 'moment';
 import { getAllInspections, inspectionStatuses } from '@monkvision/corejs';
@@ -24,8 +30,6 @@ import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native
 
 import useRequest from 'hooks/useRequest/index';
 import useToggle from 'hooks/useToggle/index';
-
-import MonkIcon from 'components/Icons/MonkIcon';
 
 const styles = StyleSheet.create({
   root: {
@@ -74,9 +78,16 @@ const styles = StyleSheet.create({
   },
   refreshButton: {
     marginVertical: 0,
+    justifyContent: 'flex-start',
   },
   rowOdd: {
     backgroundColor: '#f6f6f6',
+  },
+  headerRight: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
@@ -119,10 +130,19 @@ export default () => {
 
   const canRenderStatus = width > 480;
 
-  const handleSignOut = useCallback(() => navigation.navigate(PROFILE), [navigation]);
-  const handleStart = useCallback(() => navigation.navigate(GETTING_STARTED), [navigation]);
+  const handleSignOut = useCallback(
+    () => navigation.navigate(PROFILE),
+    [navigation],
+  );
+
+  const handleStart = useCallback(
+    () => navigation.navigate(INSPECTION_CREATE),
+    [navigation],
+  );
+
   const handleGoToImportInspection = useCallback(
-    () => navigation.navigate(INSPECTION_IMPORT), [navigation],
+    () => navigation.navigate(INSPECTION_IMPORT),
+    [navigation],
   );
 
   const {
@@ -132,7 +152,7 @@ export default () => {
   } = useRequest(getAllInspections({
     params: {
       inspection_status: inspectionStatuses.DONE,
-      limit: 10,
+      limit: 25,
     },
   }));
   const [fakeDoneLoading] = useFakeActivity(doneLoading);
@@ -157,8 +177,8 @@ export default () => {
       navigation?.setOptions({
         title: 'Home',
         headerTitle: () => (
-          <MonkIcon
-            width={100}
+          <LogoIcon
+            width={44}
             height={44}
             color={colors.primary}
             style={styles.logo}
@@ -166,16 +186,19 @@ export default () => {
           />
         ),
         headerRight: () => (
-          <IconButton
-            onPress={handleSignOut}
-            accessibilityLabel="Profile"
-            icon="account"
-            color={colors.primary}
-          />
+          <View style={styles.headerRight}>
+            <StartInspectionMenu
+              goToImport={handleGoToImportInspection}
+              goToCamera={handleStart}
+            />
+            <Button onPress={handleSignOut} icon="account">
+              Profile
+            </Button>
+          </View>
         ),
       });
     }
-  }, [colors, handleSignOut, navigation]);
+  }, [colors.primary, handleGoToImportInspection, handleSignOut, handleStart, navigation]);
 
   if (fakeDoneLoading) {
     return <ActivityIndicatorView theme={theme} light />;
@@ -192,16 +215,14 @@ export default () => {
                 <DataTable.Title>Vehicle</DataTable.Title>
                 <DataTable.Title style={styles.dateLayout}>Datetime</DataTable.Title>
                 <DataTable.Title style={styles.statusLayout}>
-                  <Button
-                    labelStyle={styles.refreshButton}
-                    compact
+                  <IconButton
+                    style={styles.refreshButton}
+                    accessibilityLabel="Refresh"
                     onPress={refreshDoneInspections}
                     icon="refresh"
                     color={colors.primary}
                     disabled={fakeDoneLoading}
-                  >
-                    Refresh
-                  </Button>
+                  />
                 </DataTable.Title>
               </DataTable.Header>
 
@@ -231,7 +252,10 @@ export default () => {
             </DataTable>
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
-            <StartInspectionMenu goToImport={handleGoToImportInspection} goToCamera={handleStart} />
+            <StartInspectionMenu
+              goToImport={handleGoToImportInspection}
+              goToCamera={handleStart}
+            />
           </Card.Actions>
         </Card>
       </ScrollView>

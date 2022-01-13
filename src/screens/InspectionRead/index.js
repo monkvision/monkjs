@@ -46,6 +46,7 @@ import {
 
 import ActionMenu from 'components/ActionMenu';
 import ImageViewer from 'components/ImageViewer';
+import LogoIcon from 'components/Icons/LogoIcon';
 
 import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
 
@@ -123,6 +124,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
+  },
+  logo: {
+    marginLeft: spacing(2),
+    ...(Platform.OS === 'web' ? { cursor: 'pointer' } : {}),
   },
 });
 
@@ -224,14 +229,26 @@ export default () => {
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
-        title: `Inspection #${inspectionId.split('-')[0]}`,
-        headerBackVisible: true,
+        title: isEmpty(inspection) ? `Inspection #${inspectionId.split('-')[0]}` : (
+          `${inspection.vehicle?.brand || 'Brand'} ${inspection?.vehicle?.model || 'Model'} ${moment(inspection.createdAt).format('lll')}`
+        ),
+        headerBackVisible: false,
+        headerLeft: () => (
+          <LogoIcon
+            width={44}
+            height={44}
+            style={styles.logo}
+            alt="Return home"
+            onClick={() => navigation.navigate(LANDING)}
+            onPress={() => navigation.navigate(LANDING)}
+          />
+        ),
         headerRight: () => (
           <ActionMenu menuItems={menuItems} />
         ),
       });
     }
-  }, [fakeActivity, inspectionId, navigation, menuItems, openDeletionDialog]);
+  }, [inspection, inspectionId, menuItems, navigation]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;
@@ -265,8 +282,8 @@ export default () => {
       <ScrollView contentContainerStyle={styles.root}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${inspection.vehicle?.brand || 'Brand'} ${inspection.vehicle?.model || 'Model'}`}
-            subtitle={`${moment(inspection.createdAt).format('lll')} - ${inspection.vehicle?.vin || ''}`}
+            title="Inspection report"
+            subtitle={`#${inspectionId}`}
             right={() => ((!isEmpty(inspection.damages)) ? (
               <Button
                 icon="image-broken-variant"
@@ -280,20 +297,6 @@ export default () => {
               </Button>
             ) : <Text style={{ marginRight: spacing(1) }}>NO DAMAGES</Text>)}
           />
-          <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
-              <TouchableRipple
-                key={name + path}
-                onPress={() => openPreviewDialog({ name, path })}
-              >
-                <Img
-                  style={styles.image}
-                  skeletonStyle={styles.image}
-                  source={{ uri: path }}
-                />
-              </TouchableRipple>
-            )) : null}
-          </ScrollView>
           {!isEmpty(inspection.tasks) && (
             <CardContent>
               <ScrollView contentContainerStyle={styles.tasks} horizontal>
@@ -313,6 +316,20 @@ export default () => {
             </CardContent>
           )}
         </Card>
+      </ScrollView>
+      <ScrollView contentContainerStyle={styles.images} horizontal>
+        {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
+          <TouchableRipple
+            key={name + path}
+            onPress={() => openPreviewDialog({ name, path })}
+          >
+            <Img
+              style={styles.image}
+              skeletonStyle={styles.image}
+              source={{ uri: path }}
+            />
+          </TouchableRipple>
+        )) : null}
       </ScrollView>
       <Portal>
         <Dialog

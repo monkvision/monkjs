@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { Button, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
 import Drawing from 'components/Drawing';
 
-import { LANDING } from 'screens/names';
+import { INSPECTION_IMPORT, INSPECTION_READ } from 'screens/names';
 import styles from 'screens/InspectionCreate/styles';
 import uploaded from 'screens/InspectionCreate/assets/undraw_order_confirmed_re_g0if.svg';
 import notUploaded from 'screens/InspectionCreate/assets/undraw_notify_re_65on.svg';
@@ -24,7 +24,7 @@ const UploadHasFailed = () => (
   </>
 );
 
-export default function ValidationDialog({ screen, requests }) {
+export default function ValidationDialog({ screen, requests, inspectionId }) {
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -39,8 +39,8 @@ export default function ValidationDialog({ screen, requests }) {
   const { savePictures, updateTask } = requests;
 
   const handleDismiss = useCallback(() => {
-    navigation.navigate(LANDING);
-  }, [navigation]);
+    navigation.navigate(INSPECTION_READ, { inspectionId });
+  }, [inspectionId, navigation]);
 
   const handleUpdateTask = useCallback(() => {
     updateTask.request();
@@ -48,7 +48,7 @@ export default function ValidationDialog({ screen, requests }) {
 
   const handleSavePictures = useCallback(() => {
     savePictures.saveToDevice();
-    navigation.navigate(LANDING);
+    navigation.navigate(INSPECTION_IMPORT);
   }, [navigation, savePictures]);
 
   return (
