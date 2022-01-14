@@ -69,7 +69,6 @@ function Select({
         </TouchableOpacity>
 )}
     >
-      {/* <ScrollView persistentScrollbar showsVerticalScrollIndicator> */}
       <VirtualizedList
         data={data}
         initialNumToRender={5}
@@ -78,25 +77,12 @@ function Select({
             style={{ backgroundColor: selectedValue === label(item) ? '#F2F2F2' : 'transparent' }}
             onPress={() => { handleDismiss(); onChange(item); }}
             title={label(item)}
-          >
-            <View onLayout={(e) => console.log(e.nativeEvent)} />
-
-          </Menu.Item>
-
+          />
         )}
         keyExtractor={(item) => itemKey(item)}
         getItemCount={(d) => d?.length}
         getItem={(items, index) => label(items[index])}
       />
-      {/* {data?.length ? data.map((item) => (
-          <Menu.Item
-            style={{ backgroundColor: selectedValue === label(item) ? '#F2F2F2' : 'transparent' }}
-            onPress={() => { handleDismiss(); onChange(item); }}
-            key={itemKey(item)}
-            title={label(item)}
-          />
-        )) : null} */}
-      {/* </ScrollView> */}
     </Menu>
   );
 }
