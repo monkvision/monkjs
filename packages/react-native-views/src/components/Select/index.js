@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { noop } from 'lodash';
 import React, { forwardRef, useImperativeHandle, useCallback } from 'react';
-import { Platform, StyleSheet, TouchableOpacity, View, VirtualizedList } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, VirtualizedList } from 'react-native';
 import { Menu } from 'react-native-paper';
 
 import useToggle from '../../hooks/useToggle';
