@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect } from 'react';
+import React, { useCallback, useLayoutEffect, useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
@@ -10,7 +10,7 @@ import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 
 import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
 import MonkIcon from 'components/Icons/MonkIcon';
 
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest/index';
 import moment from 'moment';
@@ -33,6 +33,8 @@ import {
   vehiclesEntity,
   inspectionStatuses,
 } from '@monkvision/corejs';
+
+const PAGINATION = 25;
 
 const styles = StyleSheet.create({
   root: {
@@ -110,9 +112,9 @@ export default () => {
   } = useRequest(getAllInspections({
     params: {
       inspection_status: inspectionStatuses.DONE,
-      limit: 25,
+      limit,
     },
-  }));
+  }), false);
   const [fakeDoneLoading] = useFakeActivity(doneLoading);
 
   const ids = useSelector(selectInspectionIds);
@@ -173,14 +175,39 @@ export default () => {
     }
   }, [colors.primary, handleSignOut, navigation]);
 
-  if (fakeDoneLoading) {
-    return <ActivityIndicatorView theme={theme} light />;
-  }
+  const scrollViewRef = useRef();
+
+  const isCloseToBottom = useCallback(({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y
+      >= contentSize.height - paddingToBottom;
+  }, []);
+
+  const paginate = useCallback((reset) => {
+    setLimit((old) => (reset ? PAGINATION : old + PAGINATION));
+  }, []);
+
+  useEffect(() => {
+    if (!fakeDoneLoading && doneInspections && doneInspections.length < limit) {
+      refreshDoneInspections();
+    }
+  }, [doneInspections, fakeDoneLoading, limit, refreshDoneInspections]);
 
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar style="dark" />
-      <ScrollView style={styles.container}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={fakeDoneLoading} onRefresh={() => paginate(true)} />
+        }
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            paginate();
+          }
+        }}
+        scrollEventThrottle={400}
+        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+      >
         <Card style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <DataTable>
