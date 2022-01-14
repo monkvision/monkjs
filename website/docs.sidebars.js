@@ -34,6 +34,7 @@ module.exports = {
           'js/api/components/capture-damage',
           'js/api/components/capture-tour',
           'js/api/components/damage-highlight',
+          'js/api/components/damage-annotation',
           'js/api/components/damage-library',
           'js/api/components/inspected-vehicle',
         ],

@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { DataTable, Button, List, withTheme } from 'react-native-paper';
 import { noop, startCase } from 'lodash';
 
 import { utils } from '@monkvision/react-native';
-import Drawer from '../../Drawer';
+import BottomSheet from '../../BottomSheet';
 
 import DamagePicturesPreview from '../DamagePicturesPreview';
 import DamageRow from '../DamageRow';
@@ -65,18 +65,19 @@ function DamageForm({
   }, [currentDamage.part_type]);
 
   // check if the form is filled with data and not yet submitted (dirty)
-  const isDirty = useMemo(() => Object.values(currentDamage).some(Boolean),
-    [currentDamage]);
+  const isDirty = useMemo(
+    () => Object.values(currentDamage).some(Boolean) || damagePictures?.length,
+    [currentDamage, damagePictures],
+  );
 
   return (
-
-    <Drawer
+    <BottomSheet
       isOpen={isOpen}
-      handleClose={() => !isDirty && onClose()}
-      onClose={handleClearDamagePictures}
+      lock={!!isDirty}
+      onClose={onClose}
     >
-      <ScrollView style={{ height: '100%' }}>
-        <Drawer.Title
+      <>
+        <BottomSheet.Title
           title={`Add photos for ${wrapTitles}`}
           subtitle={wrapSubtitles}
           titleStyle={styles.cardTitle}
@@ -86,7 +87,7 @@ function DamageForm({
           damagePictures={damagePictures}
           handleOpenPreviewDialog={handleOpenPreviewDialog}
         />
-        <Drawer.Content>
+        <BottomSheet.Content>
           <Button
             accessibilityLabel="Reset form data"
             mode="outlined"
@@ -133,8 +134,8 @@ function DamageForm({
               In order to close the form please hit submit or clear your data.
             </Text>
           ) : null}
-        </Drawer.Content>
-        <Drawer.Actions style={styles.cardActions}>
+        </BottomSheet.Content>
+        <BottomSheet.Actions style={styles.cardActions}>
           <Button
             accessibilityLabel="Add damage"
             labelStyle={styles.buttonLabel}
@@ -157,9 +158,9 @@ function DamageForm({
           >
             Add pictures
           </Button>
-        </Drawer.Actions>
-      </ScrollView>
-    </Drawer>
+        </BottomSheet.Actions>
+      </>
+    </BottomSheet>
 
   );
 }

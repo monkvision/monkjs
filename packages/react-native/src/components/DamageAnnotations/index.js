@@ -7,10 +7,9 @@ import { Circle, ClipPath, Defs, Ellipse, Svg } from 'react-native-svg';
 import useImageDamage from '../../hooks/useDamageImage';
 import DamageImage from '../DamageImage';
 
-const RADIUS_INIT = 15;
-const IMAGE_OPACITY = '0.35';
-
 export default function DamageAnnotations({
+  backgroundOpacity,
+  ellipseProps,
   image,
   onAdd,
   onRemove,
@@ -26,6 +25,7 @@ export default function DamageAnnotations({
   } = useImageDamage(image);
 
   const [RATIO_X, RATIO_Y] = getSvgRatio;
+  const RADIUS_INIT = useMemo(() => Math.max(15, image.width * 0.025), [image.width]);
 
   const updatedWidth = useMemo(() => {
     if (ellipse) {
@@ -67,8 +67,8 @@ export default function DamageAnnotations({
       setEllipse({
         cx,
         cy,
-        rx: 100,
-        ry: 100,
+        rx: 100 * RATIO_X,
+        ry: 100 * RATIO_Y,
       });
     }
     onAdd();
@@ -142,12 +142,12 @@ export default function DamageAnnotations({
         cy={location?.cy ? location.cy : ellipse.cy}
         rx={ellipseW ? Math.abs(ellipseW - ellipse.cx) : ellipse.rx}
         ry={ellipseH ? Math.abs(ellipseH - ellipse.cy) : ellipse.ry}
-        stroke="yellow"
+        stroke={ellipseProps.stroke.color}
         fillOpacity={0} // On the web, by default it is fill in black
-        strokeWidth={2.5}
+        strokeWidth={Math.max(ellipseProps.stroke.strokeWidth, image.width * 0.005)}
       />
     );
-  }, [state, ellipse]);
+  }, [state, ellipse, ellipseProps.stroke, image.width]);
 
   if (!image) {
     return <View />;
@@ -194,9 +194,9 @@ export default function DamageAnnotations({
             <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
           </Defs>
           {/* Show background image with a low opacity */}
-          <DamageImage name={image.id} source={image.source} opacity={IMAGE_OPACITY} />
+          <DamageImage name={image.id} source={image.source} opacity={backgroundOpacity} />
           {/* Show Damages Polygon */}
-          <DamageImage name={image.id} source={image.source} clip />
+          <DamageImage name={image.id} source={image.source} clip opacity={ellipseProps.opacity} />
           {polygon}
           {
             ellipse && (
@@ -244,6 +244,14 @@ export default function DamageAnnotations({
 }
 
 DamageAnnotations.propTypes = {
+  backgroundOpacity: PropTypes.number,
+  ellipseProps: PropTypes.shape({
+    opacity: PropTypes.number,
+    stroke: PropTypes.shape({
+      color: PropTypes.string,
+      strokeWidth: PropTypes.number,
+    }),
+  }),
   image: PropTypes.shape({
     height: PropTypes.number,
     id: PropTypes.string, // image's uuid
@@ -258,6 +266,14 @@ DamageAnnotations.propTypes = {
 };
 
 DamageAnnotations.defaultProps = {
+  backgroundOpacity: 0.35,
+  ellipseProps: {
+    opacity: 1,
+    stroke: {
+      color: 'yellow',
+      strokeWidth: 2.5,
+    },
+  },
   image: null,
   onAdd: noop,
   onRemove: noop,

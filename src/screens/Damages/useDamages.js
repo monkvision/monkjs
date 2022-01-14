@@ -10,7 +10,7 @@ import { createOneDamage, addOneViewToInspection, config } from '@monkvision/cor
 import { Platform } from 'react-native';
 import { snakeCase } from 'lodash';
 
-function useDamages({ currentDamage, inspectionId, handleCloseDrawer, refresh, reset }) {
+function useDamages({ currentDamage, inspectionId, handleCloseBottomSheet, refresh, reset }) {
   const [isUploading, toggleUploadingOn, toggleUploadingOff] = useToggle();
   const [damagePictures, setDamagePictures] = useState([]);
 
@@ -54,7 +54,7 @@ function useDamages({ currentDamage, inspectionId, handleCloseDrawer, refresh, r
 
   const createDamageViews = useCallback(async (damageId) => {
     if (isEmpty(damagePictures) || !damageId) {
-      handleCloseDrawer();
+      handleCloseBottomSheet();
       return;
     }
     const viewsPromises = [];
@@ -72,11 +72,11 @@ function useDamages({ currentDamage, inspectionId, handleCloseDrawer, refresh, r
     Promise.all(viewsPromises)
       .then(() => {
         toggleUploadingOff();
-        handleCloseDrawer();
+        handleCloseBottomSheet();
       })
       .catch(toggleUploadingOff);
   }, [damagePictures, handleAddViewPicture,
-    handleCloseDrawer, toggleUploadingOff, toggleUploadingOn]);
+    handleCloseBottomSheet, toggleUploadingOff, toggleUploadingOn]);
 
   const { isLoading, request: createDamageRequest } = useRequest(
     createOneDamage({ inspectionId,
@@ -88,7 +88,7 @@ function useDamages({ currentDamage, inspectionId, handleCloseDrawer, refresh, r
     {
       onSuccess: ({ result: id }) => {
         createDamageViews(id);
-        handleCloseDrawer();
+        handleCloseBottomSheet();
         reset();
         refresh();
       } },

@@ -4,8 +4,8 @@ title: "DamageAnnotation"
 slug: /js/api/components/damage-annotation
 ---
 
-`DamageAnnotation` uses the `DamageHighlight`, allowing the user to highlight a damage manually with an ellipse. Then he
-can manipulate this ellipse by moving and resizing it to match a damage.
+`DamageAnnotation` allows the user to highlight a damage manually with an ellipse. Then he can manipulate this ellipse
+by moving and resizing it to match a damage.
 [Try it with Expo Snack.](https://snack.expo.dev/@alexandre-em-monk/damageannotation-component)
 
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
@@ -41,7 +41,8 @@ const handleValidate = (ellipse) => {
   addViewDamage(inspectionId, damageId, image, ellipse);
 }
 
-<DamageHighlight image={image}
+<DamageAnnotation
+  image={image}
   onAdd={handleAdd}
   onRemove={handleRemove}
   onValidate={handleValidate}
