@@ -1,4 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState, useRef, useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
@@ -6,7 +7,7 @@ import { PROFILE, INSPECTION_READ } from 'screens/names';
 import theme, { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
 
-import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions } from 'react-native';
 import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
 import MonkIcon from 'components/Icons/MonkIcon';
 
@@ -34,7 +35,7 @@ import {
   inspectionStatuses,
 } from '@monkvision/corejs';
 
-const PAGINATION = 25;
+const PAGINATION = 20;
 
 const styles = StyleSheet.create({
   root: {
@@ -109,12 +110,8 @@ export default () => {
   const {
     isLoading: doneLoading,
     refresh: refreshDoneInspections,
-  } = useRequest(getAllInspections({
-    params: {
-      inspection_status: inspectionStatuses.DONE,
-      limit,
-    },
-  }), false);
+  } = useRequest(null, {}, false);
+
   const [fakeDoneLoading] = useFakeActivity(doneLoading);
 
   const ids = useSelector(selectInspectionIds);
@@ -175,23 +172,58 @@ export default () => {
     }
   }, [colors.primary, handleSignOut, navigation]);
 
+  useEffect(() => {
+    if (doneInspections.length || fakeDoneLoading) { return; }
+    refreshDoneInspections(getAllInspections({
+      params: {
+        inspection_status: inspectionStatuses.DONE,
+        limit: PAGINATION,
+      },
+    }));
+  }, [doneInspections.length, fakeDoneLoading, refreshDoneInspections]);
+
   const scrollViewRef = useRef();
 
-  const isCloseToBottom = useCallback(({ layoutMeasurement, contentOffset, contentSize }) => {
-    const paddingToBottom = 20;
-    return layoutMeasurement.height + contentOffset.y
-      >= contentSize.height - paddingToBottom;
+  const isCloseToBottom = useCallback(({ layoutMeasurement, contentOffset }) => {
+    const paddingToBottom = 500;
+    return layoutMeasurement.height - contentOffset.y
+      <= paddingToBottom;
   }, []);
 
   const paginate = useCallback((reset) => {
-    setLimit((old) => (reset ? PAGINATION : old + PAGINATION));
-  }, []);
+    const newLimit = reset ? PAGINATION : limit + PAGINATION;
+    refreshDoneInspections(getAllInspections({
+      params: {
+        inspection_status: inspectionStatuses.DONE,
+        limit: newLimit,
+      },
+    }), {
+      onSuccess: () => setLimit(newLimit),
+    });
+  }, [limit, refreshDoneInspections]);
 
-  useEffect(() => {
-    if (!fakeDoneLoading && doneInspections && doneInspections.length < limit) {
-      refreshDoneInspections();
-    }
-  }, [doneInspections, fakeDoneLoading, limit, refreshDoneInspections]);
+  const renderItem = useCallback(({ item: { id, createdAt, vehicle }, index }) => (
+    <DataTable.Row
+      key={`inspectionRow-${id}`}
+      onPress={() => handlePress(id)}
+      style={[styles.row, Math.abs(index % 2) === 1 && styles.rowOdd]}
+    >
+      <DataTable.Cell>
+        {vehicle?.brand}
+        {` `}
+        {vehicle?.model}
+      </DataTable.Cell>
+      <DataTable.Cell style={styles.dateLayout}>
+        {moment(createdAt).format('ll')}
+      </DataTable.Cell>
+      <DataTable.Cell style={styles.statusLayout}>
+        {canRenderStatus ? <Text style={{ height: 12 }}>Done</Text> : null}
+        <View>
+          <View style={[styles.statusDot, { backgroundColor: colors.success }]} />
+        </View>
+      </DataTable.Cell>
+    </DataTable.Row>
+  ), [canRenderStatus, colors.success, handlePress]);
 
   return (
     <SafeAreaView style={styles.root}>
