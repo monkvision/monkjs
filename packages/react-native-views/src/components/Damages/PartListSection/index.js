@@ -1,34 +1,48 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import startCase from 'lodash.startcase';
 import noop from 'lodash.noop';
+import { Platform, StyleSheet } from 'react-native';
 
-import { List } from 'react-native-paper';
-import { deleteOneDamage } from '@monkvision/corejs';
+import { Card, Chip, DataTable } from 'react-native-paper';
+import { spacing } from '../../../theme';
 
-import DamageListItem from '../DamageListItem';
-import DeleteDamageDialog from '../DeleteDialog';
+const styles = StyleSheet.create({
+  card: {
+    marginHorizontal: spacing(2),
+    marginBottom: spacing(2),
+  },
+  cardContent: {
+    paddingTop: 0,
+    paddingHorizontal: 0,
+    margin: 0,
+  },
+  cardActions: {
+    justifyContent: 'flex-end',
+  },
+  row: {
+    backgroundColor: '#fafafa',
+  },
+  rowOdd: {
+    backgroundColor: '#f6f6f6',
+  },
+  flexEnd: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  chip: {
+    ...Platform.OS === 'web' ? { cursor: 'default' } : {},
+  },
+});
 
 export default function PartListSection({
   id: partId,
   partType,
   damages,
-  isValidated,
   onSelectDamage,
-  onDeleteDamage,
-  isDeleting,
 }) {
-  const [deleteDamage, setDeleteDamage] = useState({});
-
-  const handleDismissDialog = useCallback(() => setDeleteDamage({}), []);
-
-  const handleDeleteDamage = useCallback(() => {
-    onDeleteDamage(
-      deleteOneDamage({ id: deleteDamage.id, inspectionId: deleteDamage.inspectionId }),
-    );
-  }, [deleteDamage.id, deleteDamage.inspectionId, onDeleteDamage]);
-
   const handleSelectDamage = useCallback((damage) => {
     onSelectDamage({
       id: damage.id,
@@ -37,43 +51,50 @@ export default function PartListSection({
     });
   }, [onSelectDamage, partId]);
 
-  if (!damages) { return null; }
+  if (!damages) {
+    return null;
+  }
+
   return (
-    <>
-      <List.Section>
-        <List.Subheader>{startCase(partType)}</List.Subheader>
-        {damages.map((damage) => (
-          <DamageListItem
-            isValidated={isValidated}
-            key={`damage-${damage.id}`}
-            onSelect={() => handleSelectDamage(damage)}
-            onDelete={() => setDeleteDamage(damage)}
-            {...damage}
-          />
-        ))}
-      </List.Section>
-      <DeleteDamageDialog
-        isDialogOpen={!!deleteDamage.id}
-        handleDismissDialog={handleDismissDialog}
-        isDeleting={isDeleting}
-        handleDelete={handleDeleteDamage}
+    <Card style={styles.card}>
+      <Card.Title
+        title={startCase(partType)}
+        subtitle={`${damages.length} damage${damages.length > 1 ? 's' : ''} detected`}
       />
-    </>
+      <Card.Content style={styles.cardContent}>
+        <DataTable>
+          {damages.map((damage, i) => (
+            <DataTable.Row
+              key={`damage-${damage.id}`}
+              onPress={() => handleSelectDamage(damage)}
+              style={Math.abs(i % 2) === 1 ? styles.rowOdd : styles.row}
+            >
+              <DataTable.Cell>
+                {startCase(damage.damageType)}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.flexEnd}>
+                <Chip
+                  style={styles.chip}
+                  icon={damage.createdBy === 'algo' ? 'matrix' : 'account'}
+                >
+                  {damage.createdBy === 'algo' ? 'AI' : 'Human'}
+                </Chip>
+              </DataTable.Cell>
+            </DataTable.Row>
+          ))}
+        </DataTable>
+      </Card.Content>
+    </Card>
   );
 }
 
 PartListSection.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
-  isDeleting: PropTypes.bool,
-  isValidated: PropTypes.bool.isRequired,
-  onDeleteDamage: PropTypes.func,
   onSelectDamage: PropTypes.func,
   partType: PropTypes.string.isRequired,
 };
 
 PartListSection.defaultProps = {
-  isDeleting: false,
-  onDeleteDamage: noop,
   onSelectDamage: noop,
 };

@@ -1,28 +1,35 @@
-import noop from 'lodash.noop';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
+import noop from 'lodash.noop';
+
 import PartListSection from '../PartListSection';
 import ValidationButton from '../ValidationButton';
+
+import { spacing } from '../../../theme';
+
+const styles = StyleSheet.create({
+  root: {
+    marginTop: spacing(2),
+  },
+});
 
 export default function PartsList({
   partsWithDamages,
   handleOpenDialog,
   isValidated,
   onSelectDamage,
-  onDeleteDamage,
   isLoading,
 }) {
   if (!partsWithDamages) { return null; }
 
   return (
-    <ScrollView>
+    <ScrollView containerStyle={styles.root}>
       {partsWithDamages.map((part) => (
         <PartListSection
           isValidated={isValidated}
           key={`part-${part.id}`}
           onSelectDamage={onSelectDamage}
-          onDeleteDamage={onDeleteDamage}
           isLoading={isLoading}
           {...part}
         />

@@ -3,9 +3,9 @@ import React, { useImperativeHandle, forwardRef } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { Provider as PaperProvider } from 'react-native-paper';
-import useComputedParts from './useComputedParts';
+import useComputedParts from '../../hooks/useComputedParts';
+import usePartDamages from '../../hooks/usePartDamages';
 import useLayout from './useLayout';
-import usePartDamages from './usePartDamages';
 
 import Navigation from './Navigation';
 import ValidateDialog from './ValidateDialog';

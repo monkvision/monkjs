@@ -1,6 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
@@ -8,7 +7,7 @@ import moment from 'moment';
 import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
 
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+import { ActivityIndicatorView, PartListSection, useFakeActivity, usePartDamages } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
 import Img from 'components/Img';
 import { spacing } from 'config/theme';
@@ -31,7 +30,15 @@ import {
 } from '@monkvision/corejs';
 
 import Drawing from 'components/Drawing';
-import { StyleSheet, SafeAreaView, ScrollView, View, Platform } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  View,
+  Platform,
+  VirtualizedList,
+} from 'react-native';
+
 import {
   Card,
   Button,
@@ -50,7 +57,7 @@ import ActionMenu from 'components/ActionMenu';
 import ImageViewer from 'components/ImageViewer';
 import LogoIcon from 'components/Icons/LogoIcon';
 
-import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE } from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE, DAMAGE_READ } from 'screens/names';
 
 import trash from './assets/trash.svg';
 import process from './assets/process.svg';
@@ -84,9 +91,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing(2),
   },
   image: {
-    width: 200,
-    height: 150,
-    marginRight: spacing(2),
+    width: 400,
+    height: 300,
+    marginHorizontal: spacing(0),
   },
   previewImage: {
     flex: 1,
@@ -184,6 +191,8 @@ export default () => {
     vehicles: vehiclesEntities,
   });
 
+  const partsWithDamages = usePartDamages(inspection.damages, inspection.parts);
+
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
@@ -211,10 +220,13 @@ export default () => {
   }, []);
 
   const handleGoToTaskRead = useCallback(
-    (args) => {
-      navigation.navigate(TASK_READ, { ...args, inspectionId });
-    },
+    (args) => navigation.navigate(TASK_READ, { ...args, inspectionId }),
     [navigation, inspectionId],
+  );
+
+  const handleGoToDamageRead = useCallback(
+    (payload) => navigation.navigate(DAMAGE_READ, payload),
+    [navigation],
   );
 
   const handleExportPdf = useCallback(() => {}, []);
@@ -319,21 +331,21 @@ export default () => {
           <Card.Title
             title="Inspection report"
             subtitle={`#${inspectionId}`}
-            right={() => ((!isEmpty(inspection.damages)) ? (
+            right={() => (
               <Button
                 icon="image-broken-variant"
                 onPress={handleShowDamages}
                 color={theme.colors.warning}
-                mode="contained"
-                labelStyle={{ color: '#fff' }}
                 style={{ marginRight: spacing(1) }}
               >
-                {`${inspection.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`}
+                {(isEmpty(inspection.damages)) ? 'No damage' : (
+                  `${inspection.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`
+                )}
               </Button>
-            ) : <Text style={{ marginRight: spacing(1) }}>NO DAMAGES</Text>)}
+            )}
           />
           {!isEmpty(inspection.tasks) && (
-            <CardContent>
+            <Card.Content>
               <ScrollView contentContainerStyle={styles.tasks} horizontal>
                 {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
                   <Chip
@@ -348,23 +360,46 @@ export default () => {
                   </Chip>
                 ))}
               </ScrollView>
-            </CardContent>
+            </Card.Content>
           )}
+          {!isEmpty(inspection.images) ? (
+            <VirtualizedList
+              horizontal
+              data={inspection.images}
+              initialNumToRender={10}
+              keyExtractor={(item, index) => String(index)}
+              getItemCount={(d) => d?.length}
+              getItem={(items, index) => items[index]}
+              renderItem={({ item: image, index }) => (
+                <View style={styles.images}>
+                  <TouchableRipple
+                    key={String(index)}
+                    onPress={() => openPreviewDialog({
+                      name: image.name,
+                      path: image.path,
+                      index,
+                    })}
+                  >
+                    <Img
+                      style={styles.image}
+                      skeletonStyle={styles.image}
+                      source={{ uri: image.path }}
+                    />
+                  </TouchableRipple>
+                </View>
+              )}
+            />
+          ) : null}
         </Card>
       </ScrollView>
-      <ScrollView contentContainerStyle={styles.images} horizontal>
-        {!isEmpty(inspection.images) ? inspection.images.map(({ name, path }) => (
-          <TouchableRipple
-            key={name + path}
-            onPress={() => openPreviewDialog({ name, path })}
-          >
-            <Img
-              style={styles.image}
-              skeletonStyle={styles.image}
-              source={{ uri: path }}
-            />
-          </TouchableRipple>
-        )) : null}
+      <ScrollView>
+        {partsWithDamages.map((part) => (
+          <PartListSection
+            key={`part-${part.id}`}
+            onSelectDamage={handleGoToDamageRead}
+            {...part}
+          />
+        ))}
       </ScrollView>
       <Portal>
         <Dialog
