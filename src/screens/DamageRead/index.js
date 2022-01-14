@@ -33,7 +33,7 @@ import {
 
 import { DamageHighlight, usePolygons } from '@monkvision/react-native';
 
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
 import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
@@ -242,31 +242,43 @@ export default () => {
               />
             )}
           />
-          <ScrollView contentContainerStyle={styles.images} horizontal>
-            {!isEmpty(inspection.images) ? damageImages.map((image, index) => (
-              <TouchableRipple
-                key={String(index)}
-                onPress={() => openPreviewDialog({
-                  name: image.name,
-                  path: image.path,
-                  index,
-                })}
-              >
-                <DamageHighlight
-                  image={getImage(image)}
-                  polygons={getPolygons(image.id, damageViews)[0]}
-                  backgroundOpacity={0.4}
-                  polygonsProps={{
-                    opacity: 0.1,
-                    stroke: {
-                      color: '#ec00ff',
-                      strokeWidth: 40,
-                    },
-                  }}
-                />
-              </TouchableRipple>
-            )) : null}
-          </ScrollView>
+          {!isEmpty(inspection.images) ? (
+            <VirtualizedList
+              horizontal
+              data={inspection.images}
+              initialNumToRender={10}
+              keyExtractor={(item, index) => String(index)}
+              getItemCount={(d) => d?.length}
+              getItem={(items, index) => items[index]}
+              renderItem={({ item: image, index }) => (
+                <View syle={styles.images}>
+                  <TouchableRipple
+                    key={String(index)}
+                    onPress={() => openPreviewDialog({
+                      name: image.name,
+                      path: image.path,
+                      index,
+                    })}
+                  >
+                    <DamageHighlight
+                      image={getImage(image)}
+                      polygons={getPolygons(image.id, damageViews)[0]}
+                      backgroundOpacity={0.4}
+                      polygonsProps={{
+                        opacity: 0.1,
+                        stroke: {
+                          color: '#ec00ff',
+                          strokeWidth: 40,
+                        },
+                      }}
+                    />
+                  </TouchableRipple>
+                </View>
+              )}
+            />
+
+          ) : null}
+
           <CardContent>
             <DataTable>
               <DataTable.Header>
