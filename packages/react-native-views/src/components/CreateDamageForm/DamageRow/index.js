@@ -60,9 +60,9 @@ export default function DamageRow({
           selectedValue={selectedValue}
           label={(item) => startCase(item)}
           itemKey={(item) => item}
-          anchor={() => (
+          anchor={(open) => (
             <View style={styles.cell}>
-              <IconButton icon="chevron-down" disabled />
+              <IconButton icon="chevron-down" color="gray" onPress={open} />
               <Text>{handleValueWidth || 'Not given'}</Text>
             </View>
           )}
