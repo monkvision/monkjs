@@ -40,6 +40,7 @@ import {
 } from 'react-native';
 
 import {
+  Appbar,
   Card,
   Button,
   Dialog,
@@ -47,16 +48,19 @@ import {
   Portal,
   useTheme,
   Chip,
-  Subheading,
-  Title,
   TouchableRipple,
 } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
 import ImageViewer from 'components/ImageViewer';
-import LogoIcon from 'components/Icons/LogoIcon';
 
-import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE, DAMAGE_READ } from 'screens/names';
+import {
+  DAMAGES,
+  LANDING,
+  TASK_READ,
+  INSPECTION_UPDATE,
+  DAMAGE_READ,
+} from 'screens/names';
 
 import trash from './assets/trash.svg';
 
@@ -66,7 +70,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     flex: 1,
-    paddingVertical: spacing(1),
   },
   card: {
     marginHorizontal: spacing(2),
@@ -134,20 +137,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-  },
-  logo: {
-    ...Platform.select({
-      native: { marginLeft: 0, marginRight: spacing(1) },
-      default: { marginLeft: spacing(2) },
-    }),
-    ...(Platform.OS === 'web' ? { cursor: 'pointer' } : {}),
-  },
-  title: {
-    lineHeight: 20,
-  },
-  subheading: {
-    fontSize: 14,
-    lineHeight: 14,
   },
 });
 
@@ -232,8 +221,8 @@ export default () => {
 
   const handleExportPdf = useCallback(() => {}, []);
   const handleGoToEditInspection = useCallback(() => {
-    navigation.navigate(INSPECTION_UPDATE);
-  }, [navigation]);
+    navigation.navigate(INSPECTION_UPDATE, { inspectionId });
+  }, [navigation, inspectionId]);
 
   const openPreviewDialog = useCallback((image) => {
     setPreviewImage(image);
@@ -246,7 +235,7 @@ export default () => {
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
-    { title: 'Edit', onPress: handleGoToEditInspection, icon: 'file-document-edit', disabled: true },
+    { title: 'Update', onPress: handleGoToEditInspection, icon: 'file-document-edit' },
     { title: 'Export as PDF', onPress: handleExportPdf, icon: 'pdf-box', disabled: true },
     { title: 'Delete', onPress: openDeletionDialog, icon: 'trash-can', divider: true },
   ], [fakeActivity, handleExportPdf, handleGoToEditInspection, openDeletionDialog, refresh]);
@@ -257,37 +246,18 @@ export default () => {
         title: isEmpty(inspection) ? `Inspection #${inspectionId.split('-')[0]}` : (
           `${inspection.vehicle?.brand || 'Brand'} ${inspection?.vehicle?.model || 'Model'} ${moment(inspection.createdAt).format('lll')}`
         ),
-        headerTitle: () => {
-          if (isEmpty(inspection)) {
-            return (
-              <Title>
-                Inspection
-                {`#${inspectionId.split('-')[0]}`}
-              </Title>
-            );
-          }
-
-          return (
-            <View>
-              <Title style={styles.title}>
-                {inspection.vehicle?.brand || 'Brand'}
-                {` `}
-                {inspection.vehicle?.model || 'Model'}
-              </Title>
-              <Subheading style={styles.subheading}>
-                {moment(inspection.createdAt).format('lll')}
-              </Subheading>
-            </View>
-          );
-        },
+        headerTitle: () => (
+          <Appbar.Content
+            color={theme.colors.text}
+            style={{ justifyContent: 'center' }}
+            title={`${inspection.vehicle?.brand || 'Brand'} ${inspection.vehicle?.model || 'Model'}`}
+            subtitle={moment(inspection.createdAt).format('lll')}
+          />
+        ),
         headerBackVisible: false,
         headerLeft: () => (
-          <LogoIcon
-            width={44}
-            height={44}
-            style={styles.logo}
-            alt="Return home"
-            onClick={() => navigation.navigate(LANDING)}
+          <Appbar.BackAction
+            accessibilityLabel="Return to inspection"
             onPress={() => navigation.navigate(LANDING)}
           />
         ),
@@ -296,7 +266,7 @@ export default () => {
         ),
       });
     }
-  }, [inspection, inspectionId, menuItems, navigation]);
+  }, [theme.colors.text, inspection, inspectionId, menuItems, navigation]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;

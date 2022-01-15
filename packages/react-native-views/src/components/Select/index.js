@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   menuContent: {
     height: 220,
     width: 240,
+    paddingVertical: 0,
   },
 });
 
@@ -28,16 +29,16 @@ function Select({
   contentStyle = {},
 }, ref) {
   const [isOpen, handleOpen, handleDismiss] = useToggle();
-  const [isOpenAfterDelay, handleOpenAferDelay, handleDismissAfterDelay] = useToggle();
+  const [isOpenAfterDelay, handleOpenAfterDelay, handleDismissAfterDelay] = useToggle();
 
   /**
-   * Due to the fact that we don't need web menu animation; whenever the state "isOpen"
+   * Due to the fact that we don't need Web menu animation; whenever the state "isOpen"
    * has become true, we will update "isOpenAfterDelay" to be also true but after the
    * animation delay and in the same way when it became false.
    */
 
   const delay = isOpen ? MENU_ANIMATION_DELAY : null;
-  useTimeout(handleOpenAferDelay, delay);
+  useTimeout(handleOpenAfterDelay, delay);
 
   useImperativeHandle(ref, () => ({
     focus: handleOpen,
@@ -67,7 +68,7 @@ function Select({
             if (!disabled) { handleOpen(); onOpen(); }
           })}
         </TouchableOpacity>
-)}
+    )}
     >
       <VirtualizedList
         data={data}
