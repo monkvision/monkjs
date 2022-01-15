@@ -2,6 +2,7 @@ import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@
 import { sightMasks, utils } from '@monkvision/react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
+import LogoIcon from 'components/Icons/LogoIcon';
 import { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
 
@@ -19,7 +20,7 @@ import {
   View,
 } from 'react-native';
 import { ActivityIndicator, Button, IconButton, useTheme } from 'react-native-paper';
-import { INSPECTION_READ } from '../names';
+import { INSPECTION_READ, LANDING } from '../names';
 import useImport, { initialPictureData } from './hooks/useImport';
 
 const { width } = Dimensions.get('window');
@@ -87,6 +88,13 @@ const styles = StyleSheet.create({
   },
   reloadButtonLayout: { position: 'absolute', display: 'flex', flexDirection: 'row', zIndex: 11 },
   reloadButton: { backgroundColor: '#FFF', alignSelf: 'center' },
+  logo: {
+    ...Platform.select({
+      native: { marginLeft: 0, marginRight: spacing(1) },
+      default: { marginLeft: spacing(2) },
+    }),
+    ...(Platform.OS === 'web' ? { cursor: 'pointer' } : {}),
+  },
 });
 
 function SightCard({ sight, events }) {
@@ -217,7 +225,16 @@ export default () => {
     if (navigation) {
       navigation?.setOptions({
         title: 'Import inspection pictures',
-        headerBackVisible: true,
+        headerLeft: () => (
+          <LogoIcon
+            width={44}
+            height={44}
+            style={styles.logo}
+            alt="Return home"
+            onClick={() => navigation.navigate(LANDING)}
+            onPress={() => navigation.navigate(LANDING)}
+          />
+        ),
         headerRight: () => (
           <Button
             disabled={isUpdating || !canGoNext}
@@ -225,7 +242,7 @@ export default () => {
             color={colors.primary}
             onPress={updateTask}
           >
-            Start inspecting
+            Inspect
           </Button>
         ),
       });

@@ -3,39 +3,8 @@ import PropTypes from 'prop-types';
 
 import startCase from 'lodash.startcase';
 import noop from 'lodash.noop';
-import { Platform, StyleSheet } from 'react-native';
 
-import { Card, Chip, DataTable } from 'react-native-paper';
-import { spacing } from '../../../theme';
-
-const styles = StyleSheet.create({
-  card: {
-    marginHorizontal: spacing(2),
-    marginBottom: spacing(2),
-  },
-  cardContent: {
-    paddingTop: 0,
-    paddingHorizontal: 0,
-    margin: 0,
-  },
-  cardActions: {
-    justifyContent: 'flex-end',
-  },
-  row: {
-    backgroundColor: '#fafafa',
-  },
-  rowOdd: {
-    backgroundColor: '#f6f6f6',
-  },
-  flexEnd: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  chip: {
-    ...Platform.OS === 'web' ? { cursor: 'default' } : {},
-  },
-});
+import { List, Chip } from 'react-native-paper';
 
 export default function PartListSection({
   id: partId,
@@ -56,35 +25,26 @@ export default function PartListSection({
   }
 
   return (
-    <Card style={styles.card}>
-      <Card.Title
-        title={startCase(partType)}
-        subtitle={`${damages.length} damage${damages.length > 1 ? 's' : ''} detected`}
-      />
-      <Card.Content style={styles.cardContent}>
-        <DataTable>
-          {damages.map((damage, i) => (
-            <DataTable.Row
-              key={`damage-${damage.id}`}
+    <List.Accordion
+      title={startCase(partType)}
+      description={`${damages.length} damage${damages.length > 1 ? 's' : ''} detected`}
+    >
+      {damages.map((damage) => (
+        <List.Item
+          key={`damage-${damage.id}`}
+          title={startCase(damage.damageType)}
+          onPress={() => handleSelectDamage(damage)}
+          right={() => (
+            <Chip
+              icon={damage.createdBy === 'algo' ? 'matrix' : 'account'}
               onPress={() => handleSelectDamage(damage)}
-              style={Math.abs(i % 2) === 1 ? styles.rowOdd : styles.row}
             >
-              <DataTable.Cell>
-                {startCase(damage.damageType)}
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.flexEnd}>
-                <Chip
-                  style={styles.chip}
-                  icon={damage.createdBy === 'algo' ? 'matrix' : 'account'}
-                >
-                  {damage.createdBy === 'algo' ? 'AI' : 'Human'}
-                </Chip>
-              </DataTable.Cell>
-            </DataTable.Row>
-          ))}
-        </DataTable>
-      </Card.Content>
-    </Card>
+              {damage.createdBy === 'algo' ? 'AI' : 'HI'}
+            </Chip>
+          )}
+        />
+      ))}
+    </List.Accordion>
   );
 }
 

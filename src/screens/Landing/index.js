@@ -1,21 +1,21 @@
 import React, { useCallback, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
-import PropTypes from 'prop-types';
 
-import { PROFILE, INSPECTION_READ, INSPECTION_IMPORT, INSPECTION_CREATE } from 'screens/names';
+import { PROFILE, INSPECTION_READ } from 'screens/names';
 import theme, { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
 
 import { StyleSheet, SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
-import { DataTable, Button, useTheme, Text, Card, Menu } from 'react-native-paper';
-import LogoIcon from 'components/Icons/LogoIcon';
+import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
+import MonkIcon from 'components/Icons/MonkIcon';
 
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest/index';
-import useToggle from 'hooks/useToggle/index';
 import moment from 'moment';
+
+import InspectionButton from 'screens/Landing/InspectionButton';
 
 import {
   damagesEntity,
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
   },
+  container: {
+    paddingBottom: spacing(3),
+  },
   id: {
     fontFamily: 'monospace',
   },
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   cardActions: {
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
   button: {
     marginLeft: spacing(2),
@@ -89,43 +92,6 @@ const styles = StyleSheet.create({
   },
 });
 
-function StartInspectionMenu({ goToImport, goToCamera }) {
-  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
-
-  return (
-    <Menu
-      anchor={(
-        <Button
-          accessibilityLabel="New inspection"
-          onPress={handleOpenMenu}
-          style={styles.button}
-          icon="plus"
-        >
-          Inspection
-        </Button>
-      )}
-      visible={isMenuOpen}
-      onDismiss={handleDismissMenu}
-    >
-      <Menu.Item
-        icon="image"
-        title="Import pictures"
-        onPress={() => { goToImport(); handleDismissMenu(); }}
-      />
-      <Menu.Item
-        icon="camera"
-        title="Take pictures"
-        onPress={() => { goToCamera(); handleDismissMenu(); }}
-      />
-    </Menu>
-  );
-}
-
-StartInspectionMenu.propTypes = {
-  goToCamera: PropTypes.func.isRequired,
-  goToImport: PropTypes.func.isRequired,
-};
-
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -135,16 +101,6 @@ export default () => {
 
   const handleSignOut = useCallback(
     () => navigation.navigate(PROFILE),
-    [navigation],
-  );
-
-  const handleStart = useCallback(
-    () => navigation.navigate(INSPECTION_CREATE),
-    [navigation],
-  );
-
-  const handleGoToImportInspection = useCallback(
-    () => navigation.navigate(INSPECTION_IMPORT),
     [navigation],
   );
 
@@ -194,9 +150,9 @@ export default () => {
       navigation?.setOptions({
         title: 'Home',
         headerTitle: () => (
-          <LogoIcon
-            width={44}
-            height={44}
+          <MonkIcon
+            width={135}
+            height={34}
             color={colors.primary}
             style={styles.logo}
             alt="Monk logo"
@@ -204,10 +160,6 @@ export default () => {
         ),
         headerRight: () => (
           <View style={styles.headerRight}>
-            <StartInspectionMenu
-              goToImport={handleGoToImportInspection}
-              goToCamera={handleStart}
-            />
             <Button
               onPress={handleSignOut}
               icon="account"
@@ -219,7 +171,7 @@ export default () => {
         ),
       });
     }
-  }, [colors.primary, handleGoToImportInspection, handleSignOut, handleStart, navigation]);
+  }, [colors.primary, handleSignOut, navigation]);
 
   if (fakeDoneLoading) {
     return <ActivityIndicatorView theme={theme} light />;
@@ -228,7 +180,7 @@ export default () => {
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar style="dark" />
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <Card style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <DataTable>
@@ -276,6 +228,7 @@ export default () => {
           </Card.Actions>
         </Card>
       </ScrollView>
+      <InspectionButton />
     </SafeAreaView>
   );
 };

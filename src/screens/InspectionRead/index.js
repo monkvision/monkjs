@@ -48,7 +48,6 @@ import {
   useTheme,
   Chip,
   Subheading,
-  Text,
   Title,
   TouchableRipple,
 } from 'react-native-paper';
@@ -60,15 +59,19 @@ import LogoIcon from 'components/Icons/LogoIcon';
 import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE, DAMAGE_READ } from 'screens/names';
 
 import trash from './assets/trash.svg';
-import process from './assets/process.svg';
 
 const styles = StyleSheet.create({
   root: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    flex: 1,
     paddingVertical: spacing(1),
   },
   card: {
     marginHorizontal: spacing(2),
     marginVertical: spacing(1),
+    overflow: 'hidden',
   },
   cardActions: {
     justifyContent: 'flex-end',
@@ -79,8 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexShrink: 0,
     flexWrap: 'nowrap',
-    marginBottom: spacing(2),
-    paddingLeft: spacing(2),
   },
   tasks: {
     display: 'flex',
@@ -91,8 +92,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing(2),
   },
   image: {
-    width: 400,
-    height: 300,
+    width: 300,
+    height: 225,
     marginHorizontal: spacing(0),
   },
   previewImage: {
@@ -301,32 +302,9 @@ export default () => {
     return <ActivityIndicatorView light />;
   }
 
-  if (isEmpty(inspection) || isEmpty(inspection.tasks) || inspection.tasks[0].status === 'IN_PROGRESS') {
-    return (
-      <View style={styles.process}>
-        <Drawing xml={process} height={200} />
-        <Text style={styles.text}>
-          Inspection is still processing...
-        </Text>
-        <View style={styles.actions}>
-          <Button
-            icon="refresh"
-            onPress={refresh}
-            loading={fakeActivity}
-            disabled={fakeActivity}
-            mode="contained"
-            style={styles.processButton}
-          >
-            Refresh
-          </Button>
-        </View>
-      </View>
-    );
-  }
-
   return (
-    <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.root}>
+    <SafeAreaView style={styles.root}>
+      <ScrollView>
         <Card style={styles.card}>
           <Card.Title
             title="Inspection report"
@@ -344,23 +322,28 @@ export default () => {
               </Button>
             )}
           />
+          {partsWithDamages.map((part) => (
+            <PartListSection
+              key={`part-${part.id}`}
+              onSelectDamage={handleGoToDamageRead}
+              {...part}
+            />
+          ))}
           {!isEmpty(inspection.tasks) && (
-            <Card.Content>
-              <ScrollView contentContainerStyle={styles.tasks} horizontal>
-                {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
-                  <Chip
-                    key={`taskChip-${id}`}
-                    icon={taskChipIcons[status]}
-                    onPress={() => handleGoToTaskRead({ taskName: name, taskId: id })}
-                    style={{ margin: 2 }}
-                  >
-                    {startCase(name)}
-                    {' '}
-                    {doneAt && createdAt ? `(${moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}s)` : null}
-                  </Chip>
-                ))}
-              </ScrollView>
-            </Card.Content>
+            <ScrollView horizontal>
+              {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
+                <Chip
+                  key={`taskChip-${id}`}
+                  icon={taskChipIcons[status]}
+                  onPress={() => handleGoToTaskRead({ taskName: name, taskId: id })}
+                  style={{ marginHorizontal: spacing(1), marginVertical: spacing(2) }}
+                >
+                  {startCase(name)}
+                  {' '}
+                  {doneAt && createdAt ? `(${moment.duration(moment(doneAt).diff(moment(createdAt))).seconds()}s)` : null}
+                </Chip>
+              ))}
+            </ScrollView>
           )}
           {!isEmpty(inspection.images) ? (
             <VirtualizedList
@@ -391,15 +374,6 @@ export default () => {
             />
           ) : null}
         </Card>
-      </ScrollView>
-      <ScrollView>
-        {partsWithDamages.map((part) => (
-          <PartListSection
-            key={`part-${part.id}`}
-            onSelectDamage={handleGoToDamageRead}
-            {...part}
-          />
-        ))}
       </ScrollView>
       <Portal>
         <Dialog
