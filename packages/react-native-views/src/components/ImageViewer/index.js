@@ -7,7 +7,8 @@ import ImageView from 'react-native-image-zoom-viewer-fixed';
 const styles = StyleSheet.create({
   dialog: {
     backgroundColor: 'black',
-    position: 'relative',
+    position: 'absolute',
+    zIndex: 999,
   },
   footerContainer: {
     ...Platform.select({

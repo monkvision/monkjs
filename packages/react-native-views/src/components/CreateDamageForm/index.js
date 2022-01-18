@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom';
 
 import { IconButton, withTheme, Provider as PaperProvider } from 'react-native-paper';
 import { noop, startCase } from 'lodash';
+
 import ImageViewer from '../ImageViewer';
 import useToggle from '../../hooks/useToggle';
 
@@ -81,26 +82,24 @@ function CreateDamageForm({
 
   return (
     <PaperProvider theme={theme}>
-      <>
-        <DamagesForm
-          isOpen={isOpen}
-          onClose={onClose}
-          currentDamage={currentDamage}
-          isDamageValid={isDamageValid}
-          onSubmit={onSubmit}
-          onReset={onReset}
-          handleClearDamagePictures={handleClearDamagePictures}
-          damagePictures={damagePictures}
-          handleOpenPreviewDialog={handleOpenPreviewDialog}
-          setSelectField={setSelectField}
-          openCameraView={openCameraView}
-          data={damageMetadataList[selectField] || []}
-          onChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
-          selectedValue={startCase(currentDamage[selectField])}
-          isLoading={isLoading}
-        />
-        <ImageViewer {...damagePicturesViewer} />
-      </>
+      <DamagesForm
+        overlay={() => <ImageViewer {...damagePicturesViewer} />}
+        isOpen={isOpen}
+        onClose={onClose}
+        currentDamage={currentDamage}
+        isDamageValid={isDamageValid}
+        onSubmit={onSubmit}
+        onReset={onReset}
+        handleClearDamagePictures={handleClearDamagePictures}
+        damagePictures={damagePictures}
+        handleOpenPreviewDialog={handleOpenPreviewDialog}
+        setSelectField={setSelectField}
+        openCameraView={openCameraView}
+        data={damageMetadataList[selectField] || []}
+        onChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
+        selectedValue={startCase(currentDamage[selectField])}
+        isLoading={isLoading}
+      />
     </PaperProvider>
   );
 }
