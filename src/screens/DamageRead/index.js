@@ -349,7 +349,7 @@ export default () => {
       />
       <ImageViewer
         isOpen={isPreviewDialogOpen}
-        images={damageImages.map((i) => ({ url: i.path }))}
+        images={inspection.images.map((i) => ({ url: i.path }))}
         index={previewImage.index}
         handleDismiss={handleDismissPreviewDialog}
       />

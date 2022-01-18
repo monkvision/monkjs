@@ -323,23 +323,21 @@ export default () => {
               keyExtractor={(item, index) => String(index)}
               getItemCount={(d) => d?.length}
               getItem={(items, index) => items[index]}
+              style={styles.images}
               renderItem={({ item: image, index }) => (
-                <View style={styles.images}>
-                  <TouchableRipple
-                    key={String(index)}
-                    onPress={() => openPreviewDialog({
-                      name: image.name,
-                      path: image.path,
-                      index,
-                    })}
-                  >
-                    <Img
-                      style={styles.image}
-                      skeletonStyle={styles.image}
-                      source={{ uri: image.path }}
-                    />
-                  </TouchableRipple>
-                </View>
+                <TouchableRipple
+                  onPress={() => openPreviewDialog({
+                    name: image.name,
+                    path: image.path,
+                    index,
+                  })}
+                >
+                  <Img
+                    style={styles.image}
+                    skeletonStyle={styles.image}
+                    source={{ uri: image.path }}
+                  />
+                </TouchableRipple>
               )}
             />
           ) : null}

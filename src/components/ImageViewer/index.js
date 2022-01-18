@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 export default function CustomDialog({
   deleteButton, handleDismiss, images, index, isOpen,
 }) {
-  if (!images.length) { return null; }
+  if (!images?.length) { return null; }
 
   const renderFooter = () => (
     <>
