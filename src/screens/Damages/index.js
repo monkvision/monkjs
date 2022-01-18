@@ -100,6 +100,7 @@ export default () => {
     reset: () => setCurrentDamage(currentDamageInitialState),
   });
 
+  const [, setDamagePictures] = damagePicturesState;
   const isValidated = useMemo(
     () => inspection.tasks.find(
       (t) => t.name === taskNames.DAMAGE_DETECTION,
@@ -134,6 +135,11 @@ export default () => {
     headerShown: true,
   }), [navigation]);
 
+  const handleReset = useCallback(() => {
+    setDamagePictures([]);
+    setCurrentDamage(currentDamageInitialState);
+  }, [setDamagePictures]);
+
   const { isLoading: isValidating, request: handleValidate } = useRequest(null,
     { onSuccess: refresh }, false);
 
@@ -142,7 +148,7 @@ export default () => {
 
   const damagesViewRef = useRef(null);
   const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: () => { refresh(null, { onSuccess: handleReset }); handleCloseBottomSheet(); }, icon: 'refresh' },
     { title: 'Add damage', onPress: handleAddNewDamage, icon: 'camera-plus', disabled: isValidated || bottomsheetIsOpen },
     { title: 'Validate',
       onPress: () => damagesViewRef.current?.validate(),
@@ -150,7 +156,8 @@ export default () => {
       disabled: isValidated,
       divider: true },
 
-  ], [fakeActivity, refresh, handleAddNewDamage, isValidated, bottomsheetIsOpen]);
+  ], [fakeActivity, handleAddNewDamage, isValidated, bottomsheetIsOpen, handleReset,
+    refresh, handleCloseBottomSheet]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -169,11 +176,11 @@ export default () => {
       <CreateDamageForm
         theme={theme}
         isOpen={bottomsheetIsOpen}
-        onClose={() => { handleCloseBottomSheet(); setCurrentDamage(currentDamageInitialState); }}
+        onClose={() => { handleReset(); handleCloseBottomSheet(); }}
         onSubmit={createDamageRequest}
         onCameraOpen={handleHideNavigationBar}
         onCameraClose={handleShowNavigationBar}
-        onReset={() => setCurrentDamage(currentDamageInitialState)}
+        onReset={handleReset}
         isLoading={damageIsLoading}
         currentDamage={currentDamage}
         onChangeCurrentDamage={onChangeCurrentDamage}

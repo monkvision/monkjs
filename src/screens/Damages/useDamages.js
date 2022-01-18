@@ -90,6 +90,7 @@ function useDamages({ currentDamage, inspectionId, handleCloseBottomSheet, refre
         createDamageViews(id);
         handleCloseBottomSheet();
         reset();
+        setDamagePictures([]);
         refresh();
       } },
     false,
