@@ -283,8 +283,8 @@ export default () => {
             />
           </DataTable>
         </Card.Content>
+        <InspectionButton />
       </Card>
-      <InspectionButton />
     </SafeAreaView>
   );
 };
