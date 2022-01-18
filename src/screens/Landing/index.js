@@ -42,15 +42,11 @@ const styles = StyleSheet.create({
     flex: 1,
     overflow: 'hidden',
   },
-  container: {
-    paddingBottom: spacing(3),
-  },
   id: {
     fontFamily: 'monospace',
   },
   card: {
-    marginHorizontal: spacing(1),
-    marginVertical: spacing(1),
+    borderTopStartRadius: 0,
   },
   cardContent: {
     paddingTop: 0,
