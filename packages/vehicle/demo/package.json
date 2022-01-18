@@ -1,8 +1,9 @@
 {
-  "name": "@monkvision/vehicle-sights-demo",
+  "name": "@monkvision/vehicle-demo",
   "version": "1.2.3",
   "private": false,
   "license": "BSD-3-Clause-Clear",
+  "main": "index.js",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",

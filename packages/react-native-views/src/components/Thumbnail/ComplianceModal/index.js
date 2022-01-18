@@ -54,19 +54,26 @@ function ComplianceModal({ complianceIssues, onDismiss, ...props }) {
           <Card.Content style={styles.cardContent}>
             <View style={styles.cardContentLayout}>
               <Text style={styles.firstText}>
-                Issues in this image:
+                Oops, something isn&#39;t right with the picture.
+                Please check if it&#39;s not:
               </Text>
               {complianceIssues.map((item) => (
                 <Text key={item}>
-                  -
-                  {' '}
+                  &#9679;&nbsp;
                   {startCase(item)}
                 </Text>
               ))}
             </View>
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
-            <Button onPress={onDismiss} mode="contained" color={colors.primary} style={styles.button}>got it</Button>
+            <Button
+              onPress={onDismiss}
+              mode="contained"
+              color={colors.primary}
+              style={styles.button}
+            >
+              Got it
+            </Button>
           </Card.Actions>
         </Card>
       </Modal>

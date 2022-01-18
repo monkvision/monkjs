@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { propTypes, sightMasks, utils } from '@monkvision/react-native';
 import { Image, View, StyleSheet } from 'react-native';
 import { ActivityIndicator, useTheme, IconButton } from 'react-native-paper';
+import isEmpty from 'lodash.isempty';
 
 import useToggle from '../../hooks/useToggle';
 import ComplianceModal from './ComplianceModal';
@@ -58,17 +59,25 @@ const colorsVariant = (colors) => ({
   fulfilled: colors.primary,
 });
 
-function Thumbnail({ complianceStatus, image, isUploading, metadata, uploadStatus }) {
-  const { colors } = useTheme();
-  const { id } = metadata.sight;
+function useCompliance(complianceStatus) {
+  const [isOpen, handleOpen, handleDismiss] = useToggle();
 
-  const [complianceModalIsOpen, openComplianceModal, closeComplianceModal] = useToggle();
-  const complianceIssues = useMemo(
+  const issues = useMemo(
     () => Object.keys(complianceStatus).filter(
       (key) => !!complianceStatus[key],
     ), [complianceStatus],
   );
-  const isNotCompliant = complianceIssues?.length;
+
+  const isNotCompliant = useMemo(() => !isEmpty(issues), [issues]);
+
+  return { isNotCompliant, issues, modal: { isOpen, handleOpen, handleDismiss } };
+}
+
+function Thumbnail({ complianceStatus, image, isUploading, metadata, uploadStatus }) {
+  const { colors } = useTheme();
+  const { id } = metadata.sight;
+
+  const compliance = useCompliance(complianceStatus);
 
   const isFailed = uploadStatus === 'rejected';
   const isPending = uploadStatus === 'pending' || isUploading;
@@ -76,18 +85,19 @@ function Thumbnail({ complianceStatus, image, isUploading, metadata, uploadStatu
   return (
     <>
       <ComplianceModal
-        visible={complianceModalIsOpen}
-        complianceIssues={complianceIssues}
-        onDismiss={closeComplianceModal}
+        visible={compliance.modal.isOpen}
+        complianceIssues={compliance.issues}
+        onDismiss={compliance.modal.handleDismiss}
       />
       <View style={[styles.sightCard, { borderColor: colorsVariant(colors)[uploadStatus] }]}>
         <View style={styles.reloadButtonLayout}>
+
           {/* compliance button */}
-          {isNotCompliant ? (
+          {compliance.isNotCompliant ? (
             <IconButton
               icon="information-outline"
               size={24}
-              onPress={openComplianceModal}
+              onPress={compliance.modal.handleOpen}
               style={styles.overlayButton}
               color={colors.info}
             />
@@ -103,22 +113,32 @@ function Thumbnail({ complianceStatus, image, isUploading, metadata, uploadStatu
               color={colors.error}
             />
           ) : null}
+
         </View>
 
         {/* sight mask */}
         {!isPending ? (
           <View style={{ transform: [{ scale: 0.19 }], zIndex: 2, height: 400 }}>
-            <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colorsVariant(colors)[uploadStatus]} />
+            <SightMask
+              id={id.charAt(0).toUpperCase() + id.slice(1)}
+              height="400"
+              width="500"
+              color={colorsVariant(colors)[uploadStatus]}
+            />
           </View>
         ) : null}
 
-        {/* we can try implementing the new Img conponent here for a smooth image rendering */}
-        {image
-          ? <Image {...image} style={styles.picture} />
-          : null}
+        {/* we can try implementing the new Img component here for a smooth image rendering */}
+        {image ? <Image {...image} style={styles.picture} /> : null}
 
         {/* loading */}
-        {isPending ? <ActivityIndicator style={styles.loading} color={uploadStatus === 'rejected' ? colors.error : colors.primary} /> : null}
+        {isPending ? (
+          <ActivityIndicator
+            style={styles.loading}
+            color={uploadStatus === 'rejected' ? colors.error : colors.primary}
+          />
+        ) : null}
+
       </View>
     </>
   );
@@ -137,11 +157,13 @@ Thumbnail.propTypes = {
   }).isRequired,
   isUploading: PropTypes.bool,
   metadata: PropTypes.shape({ sight: propTypes.sight }).isRequired,
-  uploadStatus: PropTypes.oneOf(['pending', 'fulfilled', 'rejected']),
+  uploadStatus: PropTypes.oneOf(['idle', 'pending', 'fulfilled', 'rejected']),
 };
+
 Thumbnail.defaultProps = {
   complianceStatus: { hasBlur: false, isOverExposed: false, isUnderExposed: false },
   isUploading: PropTypes.bool,
-  uploadStatus: 'pending',
+  uploadStatus: 'idle',
 };
+
 export default Thumbnail;
