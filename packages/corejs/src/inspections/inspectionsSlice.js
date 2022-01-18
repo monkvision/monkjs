@@ -49,6 +49,10 @@ export const deleteOneInspection = createAsyncThunk(
 
 function upsertReducer(state, action) {
   const { inspections } = action.payload.entities;
+  const { reset } = action.meta.arg;
+  if (reset) {
+    inspectionsAdapter.removeAll(state);
+  }
   if (inspections) {
     inspectionsAdapter.upsertMany(state, inspections);
   }

@@ -1,19 +1,18 @@
-import React, { useCallback, useLayoutEffect, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useLayoutEffect, useState, useEffect, useRef } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { denormalize } from 'normalizr';
 
 import { PROFILE, INSPECTION_READ } from 'screens/names';
-import theme, { spacing } from 'config/theme';
+import { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
 
-import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions, Platform } from 'react-native';
 import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
 import MonkIcon from 'components/Icons/MonkIcon';
 
 import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
-import useRequest from 'hooks/useRequest/index';
 import moment from 'moment';
 
 import InspectionButton from 'screens/Landing/InspectionButton';
@@ -35,14 +34,13 @@ import {
   inspectionStatuses,
 } from '@monkvision/corejs';
 
-const PAGINATION = 20;
+const LIMIT = 25;
 
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
-    width: '100%',
-    height: '100%',
     flex: 1,
+    overflow: 'hidden',
   },
   container: {
     paddingBottom: spacing(3),
@@ -53,7 +51,6 @@ const styles = StyleSheet.create({
   card: {
     marginHorizontal: spacing(1),
     marginVertical: spacing(1),
-    minHeight: 250,
   },
   cardContent: {
     paddingTop: 0,
@@ -93,6 +90,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  scrollList: {
+    overflow: 'visible',
+    minHeight: 250,
+    height: Platform.select({
+      web: '90vh',
+      default: '100%',
+    }),
+  },
 });
 
 export default () => {
@@ -107,10 +112,33 @@ export default () => {
     [navigation],
   );
 
-  const {
-    isLoading: doneLoading,
-    refresh: refreshDoneInspections,
-  } = useRequest(null, {}, false);
+  const scrollListRef = useRef();
+  const [nextPage, setNextPage] = useState();
+  const [doneLoading, setDoneLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const loadMoreInspections = useCallback((reset) => {
+    if (doneLoading) { return; }
+    setDoneLoading(true);
+    dispatch(getAllInspections({
+      params: {
+        inspection_status: inspectionStatuses.DONE,
+        limit: LIMIT,
+        before: reset ? null : nextPage?.before,
+        after: reset ? null : nextPage?.after,
+      },
+      reset,
+    })).unwrap()
+      .then((res) => {
+        setNextPage(res.result.paging?.cursors?.next);
+        setDoneLoading(false);
+        if (reset) { scrollListRef.current?.scrollToOffset({ offset: 0 }); }
+      }).catch(() => {
+        setNextPage(null);
+        setDoneLoading(false);
+      });
+  }, [dispatch, doneLoading, nextPage]);
 
   const [fakeDoneLoading] = useFakeActivity(doneLoading);
 
@@ -173,34 +201,15 @@ export default () => {
   }, [colors.primary, handleSignOut, navigation]);
 
   useEffect(() => {
-    if (doneInspections.length || fakeDoneLoading) { return; }
-    refreshDoneInspections(getAllInspections({
-      params: {
-        inspection_status: inspectionStatuses.DONE,
-        limit: PAGINATION,
-      },
-    }));
-  }, [doneInspections.length, fakeDoneLoading, refreshDoneInspections]);
+    if (doneLoading || nextPage !== undefined) { return; }
+    loadMoreInspections();
+  }, [doneLoading, loadMoreInspections, nextPage]);
 
-  const scrollViewRef = useRef();
-
-  const isCloseToBottom = useCallback(({ layoutMeasurement, contentOffset }) => {
-    const paddingToBottom = 500;
-    return layoutMeasurement.height - contentOffset.y
-      <= paddingToBottom;
-  }, []);
-
-  const paginate = useCallback((reset) => {
-    const newLimit = reset ? PAGINATION : limit + PAGINATION;
-    refreshDoneInspections(getAllInspections({
-      params: {
-        inspection_status: inspectionStatuses.DONE,
-        limit: newLimit,
-      },
-    }), {
-      onSuccess: () => setLimit(newLimit),
-    });
-  }, [limit, refreshDoneInspections]);
+  const paginate = useCallback(() => {
+    if (nextPage) {
+      loadMoreInspections();
+    }
+  }, [nextPage, loadMoreInspections]);
 
   const renderItem = useCallback(({ item: { id, createdAt, vehicle }, index }) => (
     <DataTable.Row
@@ -228,65 +237,53 @@ export default () => {
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar style="dark" />
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={fakeDoneLoading} onRefresh={() => paginate(true)} />
-        }
-        onScroll={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent)) {
-            paginate();
-          }
-        }}
-        scrollEventThrottle={400}
-        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-      >
-        <Card style={styles.card}>
-          <Card.Content style={styles.cardContent}>
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title>Vehicle</DataTable.Title>
-                <DataTable.Title style={styles.dateLayout}>Datetime</DataTable.Title>
-                <DataTable.Title style={styles.statusLayout}>Status</DataTable.Title>
-              </DataTable.Header>
-              {doneInspections.map(({ id, createdAt, vehicle }, i) => (
-                <DataTable.Row
-                  key={`inspectionRow-${id}`}
-                  onPress={() => handlePress(id)}
-                  style={[styles.row, Math.abs(i % 2) === 1 && styles.rowOdd]}
-                >
-                  <DataTable.Cell>
-                    {vehicle?.brand}
-                    {` `}
-                    {vehicle?.model}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.dateLayout}>
-                    {moment(createdAt).format('ll')}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.statusLayout}>
-                    {canRenderStatus ? <Text style={{ height: 12 }}>Done</Text> : null}
-                    <View>
-                      <View style={[styles.statusDot, { backgroundColor: colors.success }]} />
-                    </View>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-            </DataTable>
-          </Card.Content>
-          <Card.Actions style={styles.cardActions}>
-            <Button
-              style={styles.refreshButton}
-              accessibilityLabel="Refresh"
-              onPress={refreshDoneInspections}
-              icon="refresh"
-              color={colors.primary}
-              loading={fakeDoneLoading}
-              disabled={fakeDoneLoading}
-            >
-              Refresh
-            </Button>
-          </Card.Actions>
-        </Card>
-      </ScrollView>
+      <Card style={styles.card}>
+        <Card.Content style={styles.cardContent}>
+          <DataTable>
+            <VirtualizedList
+              ref={scrollListRef}
+              style={styles.scrollList}
+              refreshControl={(
+                <RefreshControl
+                  refreshing={fakeDoneLoading}
+                  onRefresh={() => loadMoreInspections(true)}
+                />
+              )}
+              onEndReached={paginate}
+              onEndReachedThreshold={100}
+              scrollEventThrottle={400}
+              ListHeaderComponent={(
+                <DataTable.Header>
+                  <DataTable.Title>Vehicle</DataTable.Title>
+                  <DataTable.Title style={styles.dateLayout}>Datetime</DataTable.Title>
+                  <DataTable.Title style={styles.statusLayout}>Status</DataTable.Title>
+                </DataTable.Header>
+                )}
+              data={doneInspections}
+              initialNumToRender={LIMIT}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              getItemCount={(d) => d?.length}
+              getItem={(items, index) => items[index]}
+              ListFooterComponent={(
+                <Card.Actions style={styles.cardActions}>
+                  <Button
+                    style={styles.refreshButton}
+                    accessibilityLabel="Refresh"
+                    onPress={() => loadMoreInspections(true)}
+                    icon="refresh"
+                    color={colors.primary}
+                    loading={fakeDoneLoading}
+                    disabled={fakeDoneLoading}
+                  >
+                    Refresh
+                  </Button>
+                </Card.Actions>
+              )}
+            />
+          </DataTable>
+        </Card.Content>
+      </Card>
       <InspectionButton />
     </SafeAreaView>
   );
