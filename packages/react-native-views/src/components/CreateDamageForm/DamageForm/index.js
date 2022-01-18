@@ -51,6 +51,7 @@ function DamageForm({
   onChange,
   selectedValue,
   isLoading,
+  overlay,
 }) {
   const { colors } = theme;
 
@@ -75,6 +76,7 @@ function DamageForm({
       isOpen={isOpen}
       lock={!!isDirty}
       onClose={onClose}
+      overlay={overlay}
     >
       <>
         <BottomSheet.Title
@@ -184,6 +186,7 @@ DamageForm.propTypes = {
   onReset: PropTypes.func,
   onSubmit: PropTypes.func,
   openCameraView: PropTypes.func,
+  overlay: PropTypes.func,
   selectedValue: PropTypes.string,
   setSelectField: PropTypes.func,
 };
@@ -208,5 +211,6 @@ DamageForm.defaultProps = {
   data: [],
   selectedValue: null,
   isLoading: false,
+  overlay: () => <></>,
 };
 export default withTheme(DamageForm);

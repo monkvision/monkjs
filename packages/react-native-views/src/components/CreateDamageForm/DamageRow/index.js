@@ -48,7 +48,11 @@ export default function DamageRow({
   }, [onPress]);
 
   return (
-    <DataTable.Row onPress={handlePress}>
+    <DataTable.Row
+      onPress={handlePress}
+      disabled={disabled}
+      style={{ opacity: disabled ? 0.4 : 1 }}
+    >
       <DataTable.Cell style={styles.title}>{title}</DataTable.Cell>
       <DataTable.Cell style={styles.rightSide}>
         <Select

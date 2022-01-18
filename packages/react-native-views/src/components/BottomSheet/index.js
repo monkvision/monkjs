@@ -25,11 +25,9 @@ const styles = StyleSheet.create({
       },
     }),
     paddingBottom: spacing(4),
-    zIndex: 999,
     position: 'relative',
   },
   animatedView: {
-    zIndex: 999,
     width: '100%',
     position: 'absolute',
   },
@@ -62,9 +60,18 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     height: '200%',
   },
+  layout: {
+    position: 'absolute',
+    zIndex: 100,
+    width: '100%',
+  },
+  animatedViewContainer: {
+    position: 'relative',
+    overflow: 'hidden',
+  },
 });
 
-export default function BottomSheet({ isOpen, children, onClose, onOpen, lock, ...props }) {
+function BottomSheet({ isOpen, children, onClose, onOpen, lock, overlay: Overlay, ...props }) {
   const [isDisplayed, display, hide] = useToggle();
   const { height } = useWindowDimensions();
   const [orientation] = useOrientation();
@@ -115,34 +122,39 @@ export default function BottomSheet({ isOpen, children, onClose, onOpen, lock, .
 
   return (
     <Portal>
-      <Animated.View style={[styles.animatedView, { transform: [{ translateY: pan }] }]}>
-        <Card style={[styles.card, { height }]}>
+      <View style={styles.layout}>
+        <Overlay />
+        <View style={[styles.animatedViewContainer, { height }]}>
+          <Animated.View style={[styles.animatedView, { transform: [{ translateY: pan }] }]}>
+            <Card style={[styles.card, { height }]}>
 
-          {/* divider */}
-          <View style={styles.dividerLayout} {...panGesture.panHandlers}>
-            <View style={styles.divider} />
-          </View>
+              {/* divider */}
+              <View style={styles.dividerLayout} {...panGesture.panHandlers}>
+                <View style={styles.divider} />
+              </View>
 
-          {/* the container hold the whole layout height */}
-          <View style={styles.container}>
+              {/* the container hold the whole layout height */}
+              <View style={styles.container}>
 
-            {/* the following view is just keeping the scrollview in the viewport and not
+                {/* the following view is just keeping the scrollview in the viewport and not
             overflow  */}
-            <View style={{ height: height - 150 }}>
-              <ScrollView style={styles.scrollview} {...props}>
-                <View style={{ height: scrollHeightHolder }}>
+                <View style={{ height: height - 150 }}>
+                  <ScrollView style={styles.scrollview} {...props}>
+                    <View style={{ height: scrollHeightHolder }}>
 
-                  {/* we wrap a normal view without any style just to make it more natural
+                      {/* we wrap a normal view without any style just to make it more natural
                   for the content */}
-                  <View onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}>
-                    {children}
-                  </View>
+                      <View onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}>
+                        {children}
+                      </View>
+                    </View>
+                  </ScrollView>
                 </View>
-              </ScrollView>
-            </View>
-          </View>
-        </Card>
-      </Animated.View>
+              </View>
+            </Card>
+          </Animated.View>
+        </View>
+      </View>
     </Portal>
   );
 }
@@ -161,6 +173,7 @@ BottomSheet.propTypes = {
   lock: PropTypes.bool,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
+  overlay: PropTypes.func,
 };
 
 BottomSheet.defaultProps = {
@@ -170,4 +183,7 @@ BottomSheet.defaultProps = {
   onClose: noop,
   onOpen: noop,
   lock: false,
+  overlay: () => <></>,
 };
+
+export default BottomSheet;
