@@ -285,6 +285,7 @@ export default () => {
                 onPress={handleShowDamages}
                 color={theme.colors.warning}
                 style={{ marginRight: spacing(1) }}
+                disabled={!partsWithDamages?.length}
               >
                 {(isEmpty(inspection.damages)) ? 'No damage' : (
                   `${inspection.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`
