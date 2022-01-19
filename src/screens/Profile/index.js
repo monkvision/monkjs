@@ -14,6 +14,7 @@ import { spacing } from 'config/theme';
 import { useMediaQuery } from 'react-responsive';
 import SignOut from 'screens/Authentication/SignOut';
 
+import withComingSoon from 'components/withComingSoon';
 import useToggle from 'hooks/useToggle/index';
 import EditSignatureForm from './EditSignatureForm';
 import useSignature from './useSignature';
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Profile() {
+function Profile() {
   const { colors } = useTheme();
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-device-width: 1224px)',
@@ -163,3 +164,4 @@ export default function Profile() {
     </SafeAreaView>
   );
 }
+export default withComingSoon(Profile);
