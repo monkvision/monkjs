@@ -1,25 +1,47 @@
 import { useCallback, useEffect } from 'react';
-import { useStore, useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import jwtDecode from 'jwt-decode';
-import { config, setUserSignature, selectAllUser } from '@monkvision/corejs';
+import { config, selectAllUser, setUserSignature } from '@monkvision/corejs';
 import { Platform } from 'react-native';
 
-export default function useSignature({ signature, updateAccountData, handleCloseBottomSheet }) {
+export default function useSignature({
+  signature,
+  updateAccountData,
+  handleCloseBottomSheet,
+}) {
   const store = useStore();
   const dispatch = useDispatch();
   const user = useSelector(selectAllUser);
 
   useEffect(() => {
-    updateAccountData({ signature: { isLoading: true, uri: null } });
+    updateAccountData({
+      signature: {
+        isLoading: true,
+        uri: null,
+      },
+    });
     if (user && user[0]?.signature) {
       const reader = new FileReader();
       reader.readAsDataURL(user[0]?.signature);
       reader.onload = () => updateAccountData({
-        signature: { isLoading: false, uri: reader.result } });
+        signature: {
+          isLoading: false,
+          uri: reader.result,
+        },
+      });
       reader.onerror = () => updateAccountData({
-        signature: { isLoading: false, uri: null } });
+        signature: {
+          isLoading: false,
+          uri: null,
+        },
+      });
     } else {
-      updateAccountData({ signature: { isLoading: false, uri: null } });
+      updateAccountData({
+        signature: {
+          isLoading: false,
+          uri: null,
+        },
+      });
     }
   }, [updateAccountData, user]);
 
@@ -28,7 +50,10 @@ export default function useSignature({ signature, updateAccountData, handleClose
 
     const baseParams = {
       id,
-      headers: { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' },
+      headers: {
+        ...config.axiosConfig,
+        'Content-Type': 'multipart/form-data',
+      },
     };
 
     const multiPartKeys = {
@@ -45,7 +70,8 @@ export default function useSignature({ signature, updateAccountData, handleClose
       },
     });
 
-    fetch(signature).then((res) => res.blob())
+    fetch(signature.uri)
+      .then((res) => res.blob())
       .then((buf) => new File(
         [buf], multiPartKeys.filename,
         { type: multiPartKeys.type },
@@ -55,18 +81,29 @@ export default function useSignature({ signature, updateAccountData, handleClose
         data.append(multiPartKeys.json, jsonData);
         data.append(multiPartKeys.image, imageFile);
 
-        dispatch(setUserSignature({ ...baseParams, data })).unwrap();
+        dispatch(setUserSignature({
+          ...baseParams,
+          data,
+        }))
+          .unwrap();
       });
   }, [dispatch, signature, store]);
 
   const handleSave = useCallback((getUri) => {
-    getUri().then(
-      (uri) => updateAccountData({ signature: {
-        isLoading: false,
-        uri: Platform.OS === 'web' ? uri : uri?.substring(1, uri.length - 1) } }),
-    );
+    getUri()
+      .then(
+        (uri) => updateAccountData({
+          signature: {
+            isLoading: false,
+            uri: Platform.OS === 'web' ? uri : uri?.substring(1, uri.length - 1),
+          },
+        }),
+      );
     handleCloseBottomSheet();
   }, [handleCloseBottomSheet, updateAccountData]);
 
-  return { handleSubmit, handleSave };
+  return {
+    handleSubmit,
+    handleSave,
+  };
 }
