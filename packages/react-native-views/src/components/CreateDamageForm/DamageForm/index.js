@@ -148,7 +148,7 @@ function DamageForm({
             disabled={!isDamageValid || isLoading}
             loading={isLoading}
           >
-            Add damage
+            Submit
           </Button>
           <Button
             accessibilityLabel="Add pictures"
