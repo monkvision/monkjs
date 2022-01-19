@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useImperativeHandle, forwardRef } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { utils } from '@monkvision/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import useComputedParts from '../../hooks/useComputedParts';
 import usePartDamages from '../../hooks/usePartDamages';
@@ -41,7 +42,13 @@ function Damages({
     validate: handleOpenDialog,
   }));
 
-  if (partsWithDamages.length === 0) { return null; }
+  if (!partsWithDamages?.length) {
+    return (
+      <View style={utils.styles.flex}>
+        <Text>This inspection has no damage.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.root}>

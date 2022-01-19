@@ -30,7 +30,6 @@ import useDamages from './useDamages';
 
 const styles = StyleSheet.create({
   root: {
-    // display: 'flex',
     width: '100%',
     height: '100%',
     flex: 1,
