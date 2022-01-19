@@ -31,10 +31,9 @@ const useMediaGallery = () => {
       if (Platform.OS === 'web') {
         picturesSights.forEach((picture) => {
           const { source, sight } = picture;
-          const { uri, width, height } = source;
-          const extension = uri.slice(uri.lastIndexOf('.'), uri.length);
+          const { width, height } = source;
           const id = new Date().valueOf();
-          const name = `${sight.id}-${id}-${width}x${height}${extension}`;
+          const name = `${sight.id}-${id}-${width}x${height}`;
 
           const encodedUri = encodeURI(picture.source.base64);
           const link = document.createElement('a');
