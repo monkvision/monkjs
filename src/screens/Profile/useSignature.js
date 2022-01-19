@@ -20,9 +20,10 @@ export default function useSignature({
         uri: null,
       },
     });
-    if (user && user[0]?.signature) {
+    const id = jwtDecode(store.getState().auth.accessToken).sub;
+    if (user && user[0]?.entities?.user[id]?.signature) {
       const reader = new FileReader();
-      reader.readAsDataURL(user[0]?.signature);
+      reader.readAsDataURL(user[0]?.entities?.user[id]?.signature);
       reader.onload = () => updateAccountData({
         signature: {
           isLoading: false,

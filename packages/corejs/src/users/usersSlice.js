@@ -25,8 +25,12 @@ export const updateUserInfo = createAsyncThunk(
 export const getUserSignature = createAsyncThunk(
   'users/getSignature',
   async (arg) => {
+    const { id } = arg;
     const { data } = await api.getSignature({ ...arg });
-    const signature = { signature: data };
+    const signature = {
+      signature: data,
+      id,
+    };
     return normalize(signature, entity);
   },
 );
@@ -42,17 +46,11 @@ export const setUserSignature = createAsyncThunk(
 export const deleteUserSignature = createAsyncThunk(
   'users/deleteSignature',
   async (arg) => {
+    const { id } = arg;
     await api.deleteSignature({ ...arg });
-    return arg;
+    return normalize(id, entity);
   },
 );
-
-function upsertReducer(state, action) {
-  state.history.push(action);
-
-  const { users } = action.payload.entities;
-  usersAdapter.upsertMany(state, users);
-}
 
 export const slice = createSlice({
   name: 'users',
@@ -63,18 +61,23 @@ export const slice = createSlice({
   }),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUserInfo.fulfilled, upsertReducer);
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {
+      usersAdapter.upsertOne(state, action.payload);
+    });
 
-    builder.addCase(updateUserInfo.fulfilled, upsertReducer);
+    builder.addCase(updateUserInfo.fulfilled, (state, action) => {
+      usersAdapter.upsertOne(state, action.payload);
+    });
 
-    builder.addCase(getUserSignature.fulfilled, upsertReducer);
-
-    builder.addCase(setUserSignature.fulfilled, upsertReducer);
+    builder.addCase(getUserSignature.fulfilled, (state, action) => {
+      usersAdapter.upsertOne(state, action.payload);
+    });
 
     builder.addCase(deleteUserSignature.fulfilled, (state, action) => {
-      state.history.push(action);
-
-      usersAdapter.removeOne(state, action.payload.id);
+      usersAdapter.upsertOne(state, {
+        id: action.payload.id,
+        signature: '',
+      });
     });
   },
 });
