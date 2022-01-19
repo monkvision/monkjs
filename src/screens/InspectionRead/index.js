@@ -286,8 +286,8 @@ export default () => {
                 color={theme.colors.warning}
                 style={{ marginRight: spacing(1) }}
               >
-                {(isEmpty(inspection.damages)) ? 'No damage' : (
-                  `${inspection.damages.length} damage${inspection.damages.length > 1 ? 's' : ''}`
+                {(isEmpty(partsWithDamages)) ? 'No damage' : (
+                  `${partsWithDamages.length} damage${partsWithDamages.length > 1 ? 's' : ''}`
                 )}
               </Button>
             )}
