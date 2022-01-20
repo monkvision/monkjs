@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import jwtDecode from 'jwt-decode';
-import { config, selectAllUser, setUserSignature } from '@monkvision/corejs';
+import { config, selectUserEntities, setUserSignature } from '@monkvision/corejs';
 import { Platform } from 'react-native';
 
 export default function useSignature({
@@ -11,7 +11,7 @@ export default function useSignature({
 }) {
   const store = useStore();
   const dispatch = useDispatch();
-  const user = useSelector(selectAllUser);
+  const entities = useSelector(selectUserEntities);
 
   useEffect(() => {
     updateAccountData({
@@ -20,16 +20,19 @@ export default function useSignature({
         uri: null,
       },
     });
+
     const id = jwtDecode(store.getState().auth.accessToken).sub;
-    if (user && user[0]?.entities?.user[id]?.signature) {
+    if (entities && entities[id]?.signature) {
       const reader = new FileReader();
-      reader.readAsDataURL(user[0]?.entities?.user[id]?.signature);
-      reader.onload = () => updateAccountData({
-        signature: {
-          isLoading: false,
-          uri: reader.result,
-        },
-      });
+      reader.readAsDataURL(entities[id]?.signature);
+      reader.onload = () => {
+        updateAccountData({
+          signature: {
+            isLoading: false,
+            uri: reader.result,
+          },
+        });
+      };
       reader.onerror = () => updateAccountData({
         signature: {
           isLoading: false,
@@ -44,7 +47,7 @@ export default function useSignature({
         },
       });
     }
-  }, [updateAccountData, user]);
+  }, [entities, store, updateAccountData]);
 
   const handleSubmit = useCallback(() => {
     const id = jwtDecode(store.getState().auth.accessToken).sub;

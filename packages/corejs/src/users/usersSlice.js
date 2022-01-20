@@ -27,11 +27,10 @@ export const getUserSignature = createAsyncThunk(
   async (arg) => {
     const { id } = arg;
     const { data } = await api.getSignature({ ...arg });
-    const signature = {
-      signature: data,
+    return {
       id,
+      signature: data,
     };
-    return normalize(signature, entity);
   },
 );
 
