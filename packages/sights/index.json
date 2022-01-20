@@ -1,7 +1,10 @@
 {
   "0o2lYb": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "door_back_left",
+      "fender_back_left"
+    ],
     "id": "0o2lYb",
     "label": "rear lateral left",
     "template": {
@@ -9,11 +12,19 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_back",
+      "door_back_left",
+      "fender_back_left",
+      "wheel_back_left"
+    ]
   },
   "17C0fh": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "licence_plate_back",
+      "trunk"
+    ],
     "id": "17C0fh",
     "label": "rear",
     "template": {
@@ -21,11 +32,20 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_back",
+      "tail_light_left",
+      "tail_light_right",
+      "trunk",
+      "windshield_back"
+    ]
   },
   "AXuZ8H": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "door_front_right",
+      "fender_front_right"
+    ],
     "id": "AXuZ8H",
     "label": "front lateral right",
     "template": {
@@ -33,11 +53,21 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_front",
+      "fender_front_right",
+      "head_light_right",
+      "hood",
+      "wheel_front_right",
+      "windshield_front"
+    ]
   },
   "H12i1w": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "head_light_left",
+      "hood"
+    ],
     "id": "H12i1w",
     "label": "front left",
     "template": {
@@ -45,11 +75,22 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_front",
+      "door_front_left",
+      "fender_front_left",
+      "head_light_left",
+      "hood",
+      "wheel_front_left",
+      "windshield_front"
+    ]
   },
   "IO3gpE": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "fender_back_left",
+      "tail_light_left"
+    ],
     "id": "IO3gpE",
     "label": "rear left",
     "template": {
@@ -57,7 +98,15 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_back",
+      "door_back_left",
+      "fender_back_left",
+      "tail_light_left",
+      "trunk",
+      "wheel_back_left",
+      "windshield_back"
+    ]
   },
   "IqwSM3": {
     "category": "interior",
@@ -73,7 +122,10 @@
   },
   "Js1yPM": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "fender_back_right",
+      "tail_light_right"
+    ],
     "id": "Js1yPM",
     "label": "rear right",
     "template": {
@@ -81,11 +133,21 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_back",
+      "door_back_right",
+      "fender_back_right",
+      "tail_light_right",
+      "trunk",
+      "wheel_back_right",
+      "windshield_back"
+    ]
   },
   "OVluNy": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "fender_back_right"
+    ],
     "id": "OVluNy",
     "label": "rear lateral right",
     "template": {
@@ -93,23 +155,19 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
-  },
-  "qhKA2z": {
-    "category": "interior",
-    "centerParts": [],
-    "id": "qhKA2z",
-    "label": "trunk",
-    "template": {
-      "cameraCoordinates": [],
-      "renderingImage": ""
-    },
-    "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_back",
+      "door_back_right",
+      "fender_back_right",
+      "wheel_back_right"
+    ]
   },
   "QtRSGx": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "door_front_left",
+      "fender_front_left"
+    ],
     "id": "QtRSGx",
     "label": "front lateral left",
     "template": {
@@ -117,13 +175,43 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "bumper_front",
+      "fender_front_left",
+      "head_light_left",
+      "hood",
+      "wheel_front_left",
+      "windshield_front"
+    ]
   },
-  "rj5mhm": {
+  "VGv4m3": {
+    "category": "exterior",
+    "centerParts": [
+      "bumper_front",
+      "grill_radiator",
+      "hood",
+      "logo"
+    ],
+    "id": "VGv4m3",
+    "label": "front",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visibleParts": [
+      "bumper_front",
+      "head_light_left",
+      "head_light_right",
+      "hood",
+      "windshield_front"
+    ]
+  },
+  "qhKA2z": {
     "category": "interior",
     "centerParts": [],
-    "id": "rj5mhm",
-    "label": "back seats",
+    "id": "qhKA2z",
+    "label": "trunk",
     "template": {
       "cameraCoordinates": [],
       "renderingImage": ""
@@ -145,9 +233,32 @@
   },
   "rVVtgm": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "head_light_right",
+      "hood"
+    ],
     "id": "rVVtgm",
     "label": "front right",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visibleParts": [
+      "bumper_front",
+      "door_front_right",
+      "fender_front_right",
+      "head_light_right",
+      "hood",
+      "wheel_front_right",
+      "windshield_front"
+    ]
+  },
+  "rj5mhm": {
+    "category": "interior",
+    "centerParts": [],
+    "id": "rj5mhm",
+    "label": "back seats",
     "template": {
       "cameraCoordinates": [],
       "renderingImage": ""
@@ -169,7 +280,9 @@
   },
   "uk3vsS": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "door_front_left"
+    ],
     "id": "uk3vsS",
     "label": "lateral left",
     "template": {
@@ -177,11 +290,16 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "door_back_left",
+      "door_front_left"
+    ]
   },
   "unM2IO": {
     "category": "exterior",
-    "centerParts": [],
+    "centerParts": [
+      "door_front_right"
+    ],
     "id": "unM2IO",
     "label": "lateral right",
     "template": {
@@ -189,18 +307,9 @@
       "renderingImage": ""
     },
     "vehicleType": "default",
-    "visiblePars": []
-  },
-  "VGv4m3": {
-    "category": "exterior",
-    "centerParts": [],
-    "id": "VGv4m3",
-    "label": "front",
-    "template": {
-      "cameraCoordinates": [],
-      "renderingImage": ""
-    },
-    "vehicleType": "default",
-    "visiblePars": []
+    "visibleParts": [
+      "door_back_right",
+      "door_front_right"
+    ]
   }
 }
