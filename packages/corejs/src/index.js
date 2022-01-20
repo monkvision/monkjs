@@ -77,7 +77,10 @@ export const {
 
 // PARTS
 
-export const { default: parts, partsAdapter } = partsSlice;
+export const {
+  default: parts,
+  partsAdapter,
+} = partsSlice;
 
 export const {
   selectById: selectPartById,
@@ -109,7 +112,10 @@ export const {
 
 // VEHICLES
 
-export const { default: vehicles, vehiclesAdapter } = vehiclesSlice;
+export const {
+  default: vehicles,
+  vehiclesAdapter,
+} = vehiclesSlice;
 
 export const {
   selectById: selectVehicleById,
@@ -132,7 +138,7 @@ export const {
 } = usersSlice;
 
 export const {
-  selectById: selectSignature,
+  selectById: selectUserById,
   selectIds: selectUserIds,
   selectEntities: selectUserEntities,
   selectAll: selectAllUser,
