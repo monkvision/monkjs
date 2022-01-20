@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { flushSync } from 'react-dom';
 
 import { IconButton, withTheme, Provider as PaperProvider } from 'react-native-paper';
-import { noop, startCase } from 'lodash';
+import noop from 'lodash.noop';
 
 import ImageViewer from '../ImageViewer';
 import useToggle from '../../hooks/useToggle';
@@ -12,7 +12,6 @@ import damageMetadataList from './metadataList';
 
 import DamagesForm from './DamageForm';
 import CameraSimpleViewModal from './CameraSimpleViewModal/index';
-// import DamagePicker from './DamagePicker';
 import useDamagesForm from './useDamagesForm';
 
 function CreateDamageForm({
@@ -97,7 +96,7 @@ function CreateDamageForm({
         openCameraView={openCameraView}
         data={damageMetadataList[selectField] || []}
         onChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
-        selectedValue={startCase(currentDamage[selectField])}
+        selectedValue={currentDamage[selectField]}
         isLoading={isLoading}
       />
     </PaperProvider>

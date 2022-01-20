@@ -15,9 +15,9 @@ import {
   vehiclesEntity,
 } from '@monkvision/corejs';
 
-import { Appbar, Avatar, Button, Card, IconButton, Menu, RadioButton, Text, TextInput, useTheme } from 'react-native-paper';
-import { ScrollView, SafeAreaView, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { ActivityIndicatorView, useToggle } from '@monkvision/react-native-views';
+import { Appbar, Avatar, Button, Card, IconButton, RadioButton, Text, TextInput, useTheme } from 'react-native-paper';
+import { ScrollView, SafeAreaView, View, StyleSheet } from 'react-native';
+import { ActivityIndicatorView, Select } from '@monkvision/react-native-views';
 import { TextInputMask } from 'react-native-masked-text';
 import { Formik } from 'formik';
 
@@ -100,8 +100,6 @@ export default () => {
   const route = useRoute();
   const { colors } = useTheme();
   const navigation = useNavigation();
-
-  const [isVehicleTypeOn, handleVehicleTypeOn, handleVehicleTypeOff] = useToggle(false);
 
   const { inspectionId } = route.params;
 
@@ -290,47 +288,30 @@ export default () => {
                     />
 
                     <View style={{ marginBottom: spacing(2) }}>
-                      <Menu
-                        visible={isVehicleTypeOn}
-                        onDismiss={handleVehicleTypeOff}
-                        contentStyle={{ paddingVertical: 0 }}
-                        anchor={(
-                          <TouchableOpacity
-                            disabled={isVehicleTypeOn}
-                            onPress={handleVehicleTypeOn}
-                          >
-                            <TextInput
-                              mode="outlined"
-                              readOnly
-                              label="Vehicle type"
-                              placeholder="Sedan"
-                              onBlur={handleBlur('vehicle_type')}
-                              right={(
-                                <TextInput.Icon
-                                  name="chevron-down-circle"
-                                  onPress={handleVehicleTypeOn}
-                                />
+                      <Select
+                        selectedValue={values.vehicle_type}
+                        data={VEHICLE_TYPES}
+                        style={{ left: 'auto', right: 20 }}
+                        itemKey={(item) => item.key}
+                        label={(item) => item.label}
+                        onChange={(item) => handleChange('vehicle_type')(item.key)}
+                        anchor={(openSelect) => (
+                          <TextInput
+                            mode="outlined"
+                            editable={false}
+                            label="Vehicle type"
+                            placeholder="Sedan"
+                            onBlur={handleBlur('vehicle_type')}
+                            right={(
+                              <TextInput.Icon
+                                name="chevron-down"
+                                onPress={openSelect}
+                              />
                               )}
-                              value={VEHICLE_TYPES.find(
-                                (e) => (e.key === values.vehicle_type),
-                              )?.label || ''}
-                            />
-                          </TouchableOpacity>
-                        )}
-                      >
-                        {VEHICLE_TYPES.map(({ key, label }) => (
-                          <Menu.Item
-                            title={label}
-                            style={{ backgroundColor:
-                                values.vehicle_type === key ? '#F2F2F2' : 'transparent',
-                            }}
-                            onPress={() => {
-                              handleChange('vehicle_type')(key);
-                              handleVehicleTypeOff();
-                            }}
+                            value={VEHICLE_TYPES.find((e) => (e.key === values.vehicle_type))?.label || ''}
                           />
-                        ))}
-                      </Menu>
+                        )}
+                      />
                     </View>
 
                     <View style={{ flexDirection: 'row', flexWrap: 'nowrap' }}>

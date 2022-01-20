@@ -3,7 +3,7 @@ import { ScrollView, Image, View, TouchableOpacity, StyleSheet, useWindowDimensi
 
 import { utils } from '@monkvision/react-native';
 
-import { noop } from 'lodash';
+import noop from 'lodash.noop';
 import PropTypes from 'prop-types';
 import { damagePicturesPropType } from '../proptypes';
 
