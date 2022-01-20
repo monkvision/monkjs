@@ -1,0 +1,206 @@
+{
+  "0o2lYb": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "0o2lYb",
+    "label": "rear lateral left",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "17C0fh": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "17C0fh",
+    "label": "rear",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "AXuZ8H": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "AXuZ8H",
+    "label": "front lateral right",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "H12i1w": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "H12i1w",
+    "label": "front left",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "IO3gpE": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "IO3gpE",
+    "label": "rear left",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "IqwSM3": {
+    "category": "interior",
+    "centerParts": [],
+    "id": "IqwSM3",
+    "label": "front seats",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "Js1yPM": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "Js1yPM",
+    "label": "rear right",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "OVluNy": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "OVluNy",
+    "label": "rear lateral right",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "qhKA2z": {
+    "category": "interior",
+    "centerParts": [],
+    "id": "qhKA2z",
+    "label": "trunk",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "QtRSGx": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "QtRSGx",
+    "label": "front lateral left",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "rj5mhm": {
+    "category": "interior",
+    "centerParts": [],
+    "id": "rj5mhm",
+    "label": "back seats",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "rSvk2C": {
+    "category": "interior",
+    "centerParts": [],
+    "id": "rSvk2C",
+    "label": "dashboard",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "rVVtgm": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "rVVtgm",
+    "label": "front right",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "sLu0Cf": {
+    "category": "misc",
+    "centerParts": [],
+    "id": "sLu0Cf",
+    "label": "VIN",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "uk3vsS": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "uk3vsS",
+    "label": "lateral left",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "unM2IO": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "unM2IO",
+    "label": "lateral right",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
+  "VGv4m3": {
+    "category": "exterior",
+    "centerParts": [],
+    "id": "VGv4m3",
+    "label": "front",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  }
+}

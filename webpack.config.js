@@ -18,7 +18,7 @@ module.exports = async function (env, argv) {
   config.resolve.alias['@monkvision/corejs'] = path.resolve(__dirname, './packages/corejs');
   config.resolve.alias['@monkvision/react-native'] = path.resolve(__dirname, './packages/react-native');
   config.resolve.alias['@monkvision/react-native-views'] = path.resolve(__dirname, './packages/react-native-views');
-  config.resolve.alias['@monkvision/vehicle'] = path.resolve(__dirname, './packages/vehicle');
+  config.resolve.alias['@monkvision/sights'] = path.resolve(__dirname, './packages/sights');
 
   if (config.mode === 'development') {
     config.devServer.compress = false;
