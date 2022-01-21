@@ -109,7 +109,7 @@ export const {
 
 // VEHICLES
 
-export const { default: vehicles, vehiclesAdapter } = vehiclesSlice;
+export const { default: vehicles, vehiclesAdapter, updateOneInspectionVehicle } = vehiclesSlice;
 
 export const {
   selectById: selectVehicleById,
