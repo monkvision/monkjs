@@ -39,6 +39,14 @@ export const updateOneInspection = createAsyncThunk(
   },
 );
 
+export const updateOneInspectionAdditionalData = createAsyncThunk(
+  'inspections/updateOneAdditionalData',
+  async (arg) => {
+    const { data } = await api.updateOneAdditionalData({ ...arg });
+    return { ...normalize(data, entity), ...arg };
+  },
+);
+
 export const deleteOneInspection = createAsyncThunk(
   'inspections/deleteOne',
   async (arg) => {
@@ -80,6 +88,7 @@ export const slice = createSlice({
     builder.addCase(deleteOneInspection.fulfilled, (state, action) => {
       inspectionsAdapter.removeOne(state, action.payload.id);
     });
+    builder.addCase(updateOneInspectionAdditionalData.fulfilled, upsertReducer);
   },
 });
 

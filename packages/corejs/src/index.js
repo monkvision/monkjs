@@ -32,6 +32,7 @@ export const {
   createOneInspection,
   deleteOneInspection,
   inspectionStatuses,
+  updateOneInspectionAdditionalData,
 } = inspectionsSlice;
 
 export const {
