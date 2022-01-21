@@ -16,6 +16,7 @@ import {
   inspectionsEntity,
   vehiclesEntity,
   updateOneInspectionVehicle,
+  updateOneInspectionAdditionalData,
 } from '@monkvision/corejs';
 
 import { Appbar, Avatar, Button, Card, IconButton, RadioButton, Text, TextInput, useTheme } from 'react-native-paper';
@@ -119,6 +120,9 @@ export default () => {
   const { isLoading: isSubmittingVehicleInfo,
     request: submitVehicleInfo } = useRequest(null, {}, false);
 
+  const { isLoading: isSubmittingAdditionalData,
+    request: submitAdditionalData } = useRequest(null, {}, false);
+
   const inspectionEntities = useSelector(selectInspectionEntities);
   const vehiclesEntities = useSelector(selectVehicleEntities);
 
@@ -140,6 +144,8 @@ export default () => {
     return { ...normalizedInfos, market_value: normalizedMarketValue, mileage: normalizedMileage };
   }, [inspection.vehicle]);
 
+  const additionalData = inspection.additionalData.pdf_data;
+
   const handleGoBack = useCallback(
     () => navigation.navigate(INSPECTION_READ, { inspectionId }),
     [navigation, inspectionId],
@@ -148,6 +154,12 @@ export default () => {
     (data) => submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data }),
       { onSuccess: refresh }),
     [inspectionId, refresh, submitVehicleInfo],
+  );
+  const handleSubmitAdditionalData = useCallback(
+    (data) => submitAdditionalData(updateOneInspectionAdditionalData({
+      inspectionId, data }),
+    { onSuccess: refresh }),
+    [inspectionId, refresh, submitAdditionalData],
   );
 
   useLayoutEffect(() => {
@@ -187,18 +199,15 @@ export default () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <ScrollView>
-        <Card style={styles.card}>
-          <Formik
-            enableReinitialize
-            initialValues={normalizedVehicleInfo || vehicleInfoInitialValues}
-            onSubmit={(values) => handleSubmitVehicleInfo(values)}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values }) => (
+      <ScrollView style={{ paddingBottom: 200 }}>
+        <View style={{ paddingBottom: 200 }}>
+          <Card style={styles.card}>
+            <Formik
+              enableReinitialize
+              initialValues={normalizedVehicleInfo || vehicleInfoInitialValues}
+              onSubmit={(values) => handleSubmitVehicleInfo(values)}
+            >
+              {({ handleChange, handleBlur, handleSubmit, values, dirty }) => (
                 <View style={styles.form}>
                   <Card.Title
                     title="Vehicle"
@@ -380,182 +389,181 @@ export default () => {
                       icon="send"
                       color={colors.success}
                       loading={isSubmittingVehicleInfo}
-                      disabled={isSubmittingVehicleInfo}
+                      disabled={isSubmittingVehicleInfo || !dirty}
                     >
                       Submit
                     </Button>
                   </Card.Actions>
                 </View>
-            )}
-          </Formik>
-        </Card>
+              )}
+            </Formik>
+          </Card>
 
-        <Card style={[styles.card, { marginBottom: spacing(2) }]}>
-          <Formik
-            initialValues={additionalInfoInitialValues}
-            onSubmit={(values) => console.log(values)}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-            }) => (
-              <View style={styles.form}>
-                <Card.Title
-                  title="Additional info"
-                  left={(props) => <Avatar.Icon {...props} icon="card-account-details" />}
-                />
-                <Card.Content>
-
-                  <TextInput
-                    mode="outlined"
-                    label="ID"
-                    multiline
-                    value={inspectionId}
-                    style={styles.textInput}
-                    editable={false}
+          <Card style={[styles.card, { marginBottom: spacing(2) }]}>
+            <Formik
+              enableReinitialize
+              initialValues={additionalData || additionalInfoInitialValues}
+              onSubmit={(values) => handleSubmitAdditionalData(values)}
+            >
+              {({ handleChange, handleBlur, handleSubmit, values, dirty }) => (
+                <View style={styles.form}>
+                  <Card.Title
+                    title="Additional info"
+                    left={(props) => <Avatar.Icon {...props} icon="card-account-details" />}
                   />
+                  <Card.Content>
 
-                  <TextInput
-                    mode="outlined"
-                    label="Agent first name"
-                    onChangeText={handleChange('agent_first_name')}
-                    onBlur={handleBlur('agent_first_name')}
-                    value={values.agent_first_name}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="ID"
+                      multiline
+                      value={inspectionId}
+                      style={styles.textInput}
+                      editable={false}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Agent last name"
-                    onChangeText={handleChange('agent_last_name')}
-                    onBlur={handleBlur('agent_last_name')}
-                    value={values.agent_last_name}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Agent first name"
+                      onChangeText={handleChange('agent_first_name')}
+                      onBlur={handleBlur('agent_first_name')}
+                      value={values.agent_first_name}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Agent company"
-                    onChangeText={handleChange('agent_company')}
-                    onBlur={handleBlur('agent_company')}
-                    value={values.agent_company}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Agent last name"
+                      onChangeText={handleChange('agent_last_name')}
+                      onBlur={handleBlur('agent_last_name')}
+                      value={values.agent_last_name}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Agent city"
-                    onChangeText={handleChange('agent_company_city')}
-                    onBlur={handleBlur('agent_company_city')}
-                    value={values.agent_company_city}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Agent company"
+                      onChangeText={handleChange('agent_company')}
+                      onBlur={handleBlur('agent_company')}
+                      value={values.agent_company}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Vehicle owner first name"
-                    onChangeText={handleChange('vehicle_owner_first_name')}
-                    onBlur={handleBlur('vehicle_owner_first_name')}
-                    value={values.vehicle_owner_first_name}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Agent city"
+                      onChangeText={handleChange('agent_company_city')}
+                      onBlur={handleBlur('agent_company_city')}
+                      value={values.agent_company_city}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Vehicle owner last name"
-                    onChangeText={handleChange('vehicle_owner_last_name')}
-                    onBlur={handleBlur('vehicle_owner_last_name')}
-                    value={values.vehicle_owner_last_name}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Vehicle owner first name"
+                      onChangeText={handleChange('vehicle_owner_first_name')}
+                      onBlur={handleBlur('vehicle_owner_first_name')}
+                      value={values.vehicle_owner_first_name}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Vehicle owner address"
-                    onChangeText={handleChange('vehicle_owner_address')}
-                    onBlur={handleBlur('vehicle_owner_address')}
-                    value={values.vehicle_owner_address}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Vehicle owner last name"
+                      onChangeText={handleChange('vehicle_owner_last_name')}
+                      onBlur={handleBlur('vehicle_owner_last_name')}
+                      value={values.vehicle_owner_last_name}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="Vehicle owner phone"
-                    onChangeText={handleChange('vehicle_owner_phone')}
-                    onBlur={handleBlur('vehicle_owner_phone')}
-                    value={values.vehicle_owner_phone}
-                    style={styles.textInput}
-                    render={(props) => (
-                      <TextInputMask
-                        type="cel-phone"
-                        options={{
-                          maskType: 'INTERNATIONAL',
-                          withDDD: true,
-                          dddMask: '(33) ',
-                        }}
-                        {...props}
-                      />
-                    )}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Vehicle owner address"
+                      onChangeText={handleChange('vehicle_owner_address')}
+                      onBlur={handleBlur('vehicle_owner_address')}
+                      value={values.vehicle_owner_address}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    type="email"
-                    label="Vehicle owner email"
-                    onChangeText={handleChange('vehicle_owner_email')}
-                    onBlur={handleBlur('vehicle_owner_email')}
-                    value={values.vehicle_owner_email}
-                    style={styles.textInput}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="Vehicle owner phone"
+                      onChangeText={handleChange('vehicle_owner_phone')}
+                      onBlur={handleBlur('vehicle_owner_phone')}
+                      value={values.vehicle_owner_phone}
+                      style={styles.textInput}
+                      render={(props) => (
+                        <TextInputMask
+                          type="cel-phone"
+                          options={{
+                            maskType: 'INTERNATIONAL',
+                            withDDD: true,
+                            dddMask: '(33) ',
+                          }}
+                          {...props}
+                        />
+                      )}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="License date of start"
-                    onChangeText={handleChange('date_of_start')}
-                    onBlur={handleBlur('date_of_start')}
-                    value={values.date_of_start}
-                    style={styles.textInput}
-                    render={(props) => (
-                      <TextInputMask
-                        type="datetime"
-                        options={{ format: 'YYYY/MM/DD' }}
-                        {...props}
-                      />
-                    )}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      type="email"
+                      label="Vehicle owner email"
+                      onChangeText={handleChange('vehicle_owner_email')}
+                      onBlur={handleBlur('vehicle_owner_email')}
+                      value={values.vehicle_owner_email}
+                      style={styles.textInput}
+                    />
 
-                  <TextInput
-                    mode="outlined"
-                    label="License date of validation"
-                    onChangeText={handleChange('date_of_validation')}
-                    onBlur={handleBlur('date_of_validation')}
-                    value={values.date_of_validation}
-                    style={styles.textInput}
-                    render={(props) => (
-                      <TextInputMask
-                        type="datetime"
-                        options={{ format: 'YYYY/MM/DD' }}
-                        {...props}
-                      />
-                    )}
-                  />
+                    <TextInput
+                      mode="outlined"
+                      label="License date of start"
+                      onChangeText={handleChange('date_of_start')}
+                      onBlur={handleBlur('date_of_start')}
+                      value={values.date_of_start}
+                      style={styles.textInput}
+                      render={(props) => (
+                        <TextInputMask
+                          type="datetime"
+                          options={{ format: 'YYYY/MM/DD' }}
+                          {...props}
+                        />
+                      )}
+                    />
 
-                </Card.Content>
-                <Card.Actions style={{ justifyContent: 'flex-end' }}>
-                  <Button
-                    onPress={handleSubmit}
-                    icon="send"
-                    color={colors.success}
-                  >
-                    Submit
-                  </Button>
-                </Card.Actions>
-              </View>
-            )}
-          </Formik>
-        </Card>
+                    <TextInput
+                      mode="outlined"
+                      label="License date of validation"
+                      onChangeText={handleChange('date_of_validation')}
+                      onBlur={handleBlur('date_of_validation')}
+                      value={values.date_of_validation}
+                      style={styles.textInput}
+                      render={(props) => (
+                        <TextInputMask
+                          type="datetime"
+                          options={{ format: 'YYYY/MM/DD' }}
+                          {...props}
+                        />
+                      )}
+                    />
+
+                  </Card.Content>
+                  <Card.Actions style={{ justifyContent: 'flex-end' }}>
+                    <Button
+                      onPress={handleSubmit}
+                      icon="send"
+                      color={colors.success}
+                      loading={isSubmittingAdditionalData}
+                      disabled={isSubmittingAdditionalData || !dirty}
+                    >
+                      Submit
+                    </Button>
+                  </Card.Actions>
+                </View>
+              )}
+            </Formik>
+          </Card>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
