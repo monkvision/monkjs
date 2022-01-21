@@ -1,8 +1,10 @@
-import React, { useCallback, useLayoutEffect } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
+import omit from 'lodash.omit';
+import snakeCase from 'lodash.snakecase';
 import moment from 'moment';
 import useRequest from 'hooks/useRequest';
 import { spacing } from 'config/theme';
@@ -13,6 +15,7 @@ import {
   selectVehicleEntities,
   inspectionsEntity,
   vehiclesEntity,
+  updateOneInspectionVehicle,
 } from '@monkvision/corejs';
 
 import { Appbar, Avatar, Button, Card, IconButton, RadioButton, Text, TextInput, useTheme } from 'react-native-paper';
@@ -22,6 +25,14 @@ import { TextInputMask } from 'react-native-masked-text';
 import { Formik } from 'formik';
 
 import { INSPECTION_READ } from 'screens/names';
+
+function renameKeys(obj, newKeys, callback = null) {
+  const keyValues = Object.keys(obj).map((key) => {
+    const newKey = callback ? callback(key) : (newKeys[key] || key);
+    return { [newKey]: obj[key] };
+  });
+  return Object.assign({}, ...keyValues);
+}
 
 const VEHICLE_TYPES = [
   { key: 'sedan', label: 'Sedan' },
@@ -60,6 +71,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing(2),
   },
 });
+const unusedFields = ['additionalData', 'createdAt', 'deletedAt', 'id', 'objectType', 'ownerInfo', 'repairEstimate'];
 
 const vehicleInfoInitialValues = {
   brand: '',
@@ -103,7 +115,9 @@ export default () => {
 
   const { inspectionId } = route.params;
 
-  const { isLoading } = useRequest(getOneInspectionById({ id: inspectionId }));
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
+  const { isLoading: isSubmittingVehicleInfo,
+    request: submitVehicleInfo } = useRequest(null, {}, false);
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const vehiclesEntities = useSelector(selectVehicleEntities);
@@ -116,9 +130,24 @@ export default () => {
     vehicles: vehiclesEntities,
   });
 
+  const normalizedVehicleInfo = useMemo(() => {
+    const vehicleInfo = omit(inspection.vehicle, unusedFields);
+    const normalizedInfos = renameKeys(vehicleInfo, null, (key) => snakeCase(key));
+
+    const normalizedMarketValue = renameKeys(normalizedInfos.market_value, { market_value_unit: 'unit', market_value_value: 'value' });
+    const normalizedMileage = renameKeys(normalizedInfos.mileage, { mileage_unit: 'unit', mileage_value: 'value' });
+
+    return { ...normalizedInfos, market_value: normalizedMarketValue, mileage: normalizedMileage };
+  }, [inspection.vehicle]);
+
   const handleGoBack = useCallback(
     () => navigation.navigate(INSPECTION_READ, { inspectionId }),
     [navigation, inspectionId],
+  );
+  const handleSubmitVehicleInfo = useCallback(
+    (data) => submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data }),
+      { onSuccess: refresh }),
+    [inspectionId, refresh, submitVehicleInfo],
   );
 
   useLayoutEffect(() => {
@@ -161,8 +190,9 @@ export default () => {
       <ScrollView>
         <Card style={styles.card}>
           <Formik
-            initialValues={vehicleInfoInitialValues}
-            onSubmit={(values) => console.log(values)}
+            enableReinitialize
+            initialValues={normalizedVehicleInfo || vehicleInfoInitialValues}
+            onSubmit={(values) => handleSubmitVehicleInfo(values)}
           >
             {({
               handleChange,
@@ -175,12 +205,11 @@ export default () => {
                     left={(props) => <Avatar.Icon {...props} icon="car" />}
                   />
                   <Card.Content>
-
                     <TextInput
                       mode="outlined"
                       label="Brand"
                       placeholder="Toyota"
-                      onChangeText={handleChange('Brand')}
+                      onChangeText={handleChange('brand')}
                       onBlur={handleBlur('brand')}
                       value={values.brand}
                       style={styles.textInput}
@@ -238,7 +267,7 @@ export default () => {
                         label="Mileage"
                         onChangeText={handleChange('mileage.value')}
                         onBlur={handleBlur('mileage.value')}
-                        value={values.mileage.value}
+                        value={values.mileage.value.toString()}
                         style={[styles.textInput, { flexGrow: 1, width: 'auto' }]}
                         right={<TextInput.Affix text={values.mileage.unit} />}
                       />
@@ -322,7 +351,7 @@ export default () => {
                         label="Market value"
                         onChangeText={handleChange('market_value.value')}
                         onBlur={handleBlur('market_value.value')}
-                        value={values.market_value.value}
+                        value={values.market_value.value.toString()}
                         style={[styles.textInput, { flexGrow: 1, width: 'auto' }]}
                         right={<TextInput.Affix text={values.market_value.unit} />}
                       />
@@ -350,6 +379,8 @@ export default () => {
                       onPress={handleSubmit}
                       icon="send"
                       color={colors.success}
+                      loading={isSubmittingVehicleInfo}
+                      disabled={isSubmittingVehicleInfo}
                     >
                       Submit
                     </Button>
@@ -380,9 +411,10 @@ export default () => {
                   <TextInput
                     mode="outlined"
                     label="ID"
+                    multiline
                     value={inspectionId}
                     style={styles.textInput}
-                    readOnly
+                    editable={false}
                   />
 
                   <TextInput

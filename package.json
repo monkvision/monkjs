@@ -70,6 +70,7 @@
     "lodash.mapkeys": "^4.6.0",
     "lodash.mapvalues": "^4.6.0",
     "lodash.noop": "^3.0.1",
+    "lodash.omit": "^4.5.0",
     "lodash.snakecase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
     "lodash.upperfirst": "^4.3.1",
