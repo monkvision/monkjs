@@ -1,10 +1,17 @@
 import axios from 'axios';
 import config from '../config';
 
-export function getOne({ id, accessToken, ...customReqConfig }) {
+export function getOne({
+  id,
+  accessToken,
+  ...customReqConfig
+}) {
   const http = axios.create({
     baseURL: `https://${process.env.REACT_APP_AUTH_DOMAIN}/api/v2/`,
-    headers: { 'Access-Control-Allow-Origin': '*', Authorization: accessToken },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      Authorization: accessToken,
+    },
   });
 
   return http.request({
@@ -14,10 +21,18 @@ export function getOne({ id, accessToken, ...customReqConfig }) {
   });
 }
 
-export function updateOne({ id, accessToken, data, ...customReqConfig }) {
+export function updateOne({
+  id,
+  accessToken,
+  data,
+  ...customReqConfig
+}) {
   const http = axios.create({
     baseURL: `https://${process.env.REACT_APP_AUTH_DOMAIN}/api/v2/`,
-    headers: { 'Access-Control-Allow-Origin': '*', Authorization: accessToken },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      Authorization: accessToken,
+    },
   });
 
   return http.request({
@@ -28,7 +43,11 @@ export function updateOne({ id, accessToken, data, ...customReqConfig }) {
   });
 }
 
-export async function getSignature({ id, params, ...customReqConfig }) {
+export async function getSignature({
+  id,
+  params,
+  ...customReqConfig
+}) {
   const http = axios.create(config.axiosConfig);
   const { data } = await http.get(`users/${id}/signatures`);
   if (data.has_signature) {
@@ -43,7 +62,11 @@ export async function getSignature({ id, params, ...customReqConfig }) {
   return Promise.reject(new Error('Don\'t have signature yet'));
 }
 
-export function setSignature({ id, data, ...customReqConfig }) {
+export function setSignature({
+  id,
+  data,
+  ...customReqConfig
+}) {
   const http = axios.create(config.axiosConfig);
 
   return http.request({
@@ -54,7 +77,10 @@ export function setSignature({ id, data, ...customReqConfig }) {
   });
 }
 
-export function deleteSignature({ id, ...customReqConfig }) {
+export function deleteSignature({
+  id,
+  ...customReqConfig
+}) {
   const http = axios.create(config.axiosConfig);
 
   return http.request({
