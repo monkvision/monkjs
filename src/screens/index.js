@@ -20,3 +20,5 @@ export { default as TaskRead } from './TaskRead';
 export { default as Profile } from './Profile';
 
 export { default as Landing } from './Landing';
+
+export { default as Test } from './Test';

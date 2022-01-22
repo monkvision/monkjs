@@ -1,0 +1,63 @@
+{
+  "name": "@monkvision/camera",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "version": "1.2.3",
+  "private": false,
+  "description": "AI-powered vehicle damage detection for React Native",
+  "homepage": "https://github.com/monkvision/monkjs/packages/react-native/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/camera"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "keywords": [
+    "react native",
+    "camera",
+    "native components",
+    "vehicle damage detection"
+  ],
+  "main": "commonjs/index.js",
+  "module": "module/index.js",
+  "react-native": "src/index.js",
+  "files": [
+    "commonjs",
+    "module",
+    "src",
+    ".editorconfig",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "watch": "watch 'yarn run build' src",
+    "lint": "eslint src --cache",
+    "build": "bob build"
+  },
+  "dependencies": {
+    "@monkvision/corejs": "1.2.3",
+    "@unimodules/core": "^7.1.2",
+    "@unimodules/react-native-adapter": "^6.3.9",
+    "expo-camera": "^12.1.0",
+    "expo-linear-gradient": "^11.0.0",
+    "expo-screen-orientation": "^4.1.1",
+    "react-native-svg": "^12.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "prop-types": "^15.8.1",
+    "react-native-builder-bob": "^0.18.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-native": "^0.67.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
