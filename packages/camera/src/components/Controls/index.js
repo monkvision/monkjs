@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { NEXT_SIGHT, SET_PICTURE } from '../../hooks/useSights';
+
+import { Platform, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+
+import Actions from '../../actions';
+import Constants from '../../const';
 
 const styles = StyleSheet.create({
   container: {
@@ -58,19 +61,28 @@ ControlButton.defaultProps = {
 
 function Controls({ camera, containerStyle, isLoading, isReady, onCapture, onCapturing, sights }) {
   const [takenPicture, setPicture] = useState(false);
+  const { height: windowHeight } = useWindowDimensions();
 
   const handleCapture = useCallback(async () => {
     setPicture('capturing');
 
+    // eslint-disable-next-line no-console
+    if (!Constants.PRODUCTION) { console.log(`Awaiting picture to be taken...`); }
+
     const picture = await camera.takePictureAsync();
 
+    if (!Constants.PRODUCTION) {
+      // eslint-disable-next-line no-console
+      console.log(`Camera 'takePictureAsync' has fulfilled with picture:`, picture);
+    }
+
     sights.dispatch({
-      type: SET_PICTURE,
+      type: Actions.sights.SET_PICTURE,
       payload: { id: sights.state.currentSight, picture },
     });
 
     sights.dispatch({
-      type: NEXT_SIGHT,
+      type: Actions.sights.NEXT_SIGHT,
     });
 
     setPicture(picture);
@@ -89,7 +101,13 @@ function Controls({ camera, containerStyle, isLoading, isReady, onCapture, onCap
   }, [onCapturing, takenPicture]);
 
   return (
-    <View acccessibilityLabel="Controls" style={[styles.container, containerStyle]}>
+    <View
+      acccessibilityLabel="Controls"
+      style={[styles.container, containerStyle, Platform.select({
+        native: { maxHeight: '100vh' },
+        default: { maxHeight: windowHeight },
+      })]}
+    >
       <ControlButton
         acccessibilityLabel="Capture button"
         disabled={disabled}

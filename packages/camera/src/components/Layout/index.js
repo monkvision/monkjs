@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, Platform, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
-
-const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -21,25 +19,18 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
   },
-  center: {
-    ...Platform.select({
-      native: { maxWidth: windowWidth - 200 },
-      web: { maxWidth: 'calc(100% - 200px)' },
-    }),
-  },
 });
 
 function Layout({ children, containerStyle, left, right, sectionStyle }) {
+  const [isAvailable, setAvailable] = useState(false);
   const isNative = Platform.select({ native: true });
 
   const orientation = useOrientation();
-  const mobileBrowserIsPortrait = useMobileBrowserConfig();
+  const { width: windowWidth } = useWindowDimensions();
+  const mobileBrowserIsPortrait = useMobileBrowserConfig(setAvailable);
 
-  if (mobileBrowserIsPortrait || (isNative && orientation.isNotLandscape)) {
-    return (
-      <View />
-    );
-  }
+  if (!isAvailable) { return (<View />); }
+  if (mobileBrowserIsPortrait || (isNative && orientation.isNotLandscape)) { return (<View />); }
 
   return (
     <View
@@ -54,9 +45,12 @@ function Layout({ children, containerStyle, left, right, sectionStyle }) {
       </View>
       <View
         accessibilityLabel="Center"
-        style={[styles.section, styles.center, sectionStyle]}
+        style={[styles.section, Platform.select({
+          native: { maxWidth: windowWidth - 225 },
+          web: { maxWidth: 'calc(100% - 225px)' },
+        }), sectionStyle]}
       >
-        {children}
+        {isAvailable ? children : <ActivityIndicator size="large" />}
       </View>
       <View
         accessibilityLabel="Side right"

@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Dimensions, Platform, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
 import usePermissions from '../../hooks/usePermissions';
 
-function getSize(ratio) {
-  const windowHeight = Dimensions.get('window').height;
-  const windowWidth = Dimensions.get('window').width;
-
+export function getSize(ratio, { windowHeight, windowWidth }) {
   const [a, b] = ratio.split(':').sort((c, d) => (c + d));
   const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
 
@@ -27,15 +24,33 @@ function getSize(ratio) {
   };
 }
 
+const styles = StyleSheet.create({
+  title: {
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    borderRadius: 18,
+    color: 'white',
+    fontFamily: 'monospace',
+    fontSize: 14,
+    lineHeight: 9,
+    marginTop: 4,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    position: 'absolute',
+  },
+});
+
 export default function Camera({
   children,
   containerStyle,
   onRef,
   ratio,
   style,
+  title,
   ...passThroughProps
 }) {
   const permissions = usePermissions();
+  const { height: windowHeight, width: windowWidth } = useWindowDimensions();
 
   if (permissions.isGranted === null) {
     return <View />;
@@ -48,7 +63,7 @@ export default function Camera({
   return (
     <View
       accessibilityLabel="Camera container"
-      style={[getSize(ratio), containerStyle]}
+      style={[getSize(ratio, { windowHeight, windowWidth }), containerStyle]}
     >
       <ExpoCamera
         ref={onRef}
@@ -58,6 +73,7 @@ export default function Camera({
       >
         {children}
       </ExpoCamera>
+      {title !== '' && <Text style={styles.title}>{title}</Text>}
     </View>
   );
 }
@@ -67,9 +83,11 @@ Camera.propTypes = {
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onRef: PropTypes.func.isRequired,
   ratio: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 Camera.defaultProps = {
   children: null,
   containerStyle: null,
+  title: '',
 };

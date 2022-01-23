@@ -1,31 +1,30 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert, Dimensions, Platform, StyleSheet, ScrollView, Text, Button } from 'react-native';
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  ScrollView,
+  Text,
+  Button,
+  useWindowDimensions,
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
-
 import Thumbnail from '../Thumbnail';
-
-import { RESET_TOUR, SET_CURRENT_SIGHT } from '../../hooks/useSights';
-
-const windowHeight = Dimensions.get('window').height;
+import Actions from '../../actions';
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    ...Platform.select({
-      native: { maxHeight: '100vh' },
-      default: { maxHeight: windowHeight },
-    }),
-  },
   text: {
+    alignSelf: 'center',
     color: 'white',
     textAlign: 'center',
-    width: 125,
     margin: 8,
     lineHeight: 20,
   },
   reset: {
-    width: 125,
+    width: '100%',
     marginVertical: 16,
   },
 });
@@ -37,14 +36,16 @@ export default function Sights({
   metadata,
   takenPictures,
 }) {
+  const { height: windowHeight } = useWindowDimensions();
+
   const handlePress = useCallback((id) => {
-    dispatch({ type: SET_CURRENT_SIGHT, payload: id });
+    dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: id });
   }, [dispatch]);
 
   const handleReset = useCallback(() => {
     const title = 'Are you sure?';
     const message = 'It will reset all taken pictures.';
-    const updateState = () => dispatch({ type: RESET_TOUR });
+    const updateState = () => dispatch({ type: Actions.sights.RESET_TOUR });
 
     // eslint-disable-next-line no-alert
     if (Platform.OS === 'web' && window.confirm(`${title} ${message}`)) {
@@ -62,7 +63,10 @@ export default function Sights({
       endFillColor="#000"
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={Platform.select({
+        native: { maxHeight: '100vh' },
+        default: { maxHeight: windowHeight },
+      })}
     >
       <LinearGradient colors={['black', 'transparent']}>
         <Text style={styles.text}>

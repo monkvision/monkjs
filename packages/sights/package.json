@@ -32,7 +32,8 @@
     "README.md"
   ],
   "scripts": {
-    "prepare": "node scripts/buildNative.mjs",
+    "prepare": "yarn run lint && yarn run build",
+    "build": "node scripts/buildNative.mjs",
     "lint": "eslint ./"
   },
   "devDependencies": {

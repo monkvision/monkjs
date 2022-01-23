@@ -10,4 +10,5 @@ export default {
   MOBILE_USERAGENT_PATTERN: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i,
   RATIO_FACTOR: 240,
   SIDEBAR_WIDTH: 250,
+  PRODUCTION: process.env.NODE_ENV === 'production',
 };

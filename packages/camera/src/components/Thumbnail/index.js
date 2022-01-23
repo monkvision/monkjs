@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import '@expo/match-media';
+import { useMediaQuery } from 'react-responsive';
 import { Image, View, StyleSheet, Text, Platform } from 'react-native';
+
 import Overlay from '../Overlay';
 
 const styles = StyleSheet.create({
@@ -24,6 +28,20 @@ const styles = StyleSheet.create({
     height: 100,
     width: 125,
     transform: [{ rotateY: '180deg' }],
+    borderWidth: 1.5,
+    opacity: 0.5,
+  },
+  smRoot: {
+    width: 100,
+    height: 100,
+  },
+  smOverlay: {
+    height: 75,
+    width: 100,
+  },
+  smPicture: {
+    height: 75,
+    width: 100,
   },
   text: {
     color: 'white',
@@ -50,13 +68,36 @@ export default function Thumbnail({
   uploadStatus,
   ...passThroughProps
 }) {
+  const isSmallScreen = useMediaQuery({ maxWidth: 720 });
+
   return (
     <View
-      style={[styles.root, { borderColor: colorsVariant(colors)[uploadStatus] }]}
+      style={[
+        styles.root,
+        { borderColor: colorsVariant(colors)[uploadStatus] },
+        isSmallScreen ? styles.smRoot : undefined,
+      ]}
       {...passThroughProps}
     >
-      {picture !== null && <Image source={picture} style={styles.picture} />}
-      <Overlay svg={overlay} style={styles.overlay} label={label} />
+      {picture !== null && (
+        <Image
+          alt={`Picture of ${label} sight`}
+          source={picture}
+          style={[
+            styles.picture,
+            { borderColor: colorsVariant(colors)[uploadStatus] },
+            isSmallScreen ? styles.smPicture : undefined,
+          ]}
+        />
+      )}
+      <Overlay
+        svg={overlay}
+        style={[
+          styles.overlay,
+          isSmallScreen ? styles.smOverlay : undefined,
+        ]}
+        label={label}
+      />
       <Text style={styles.text}>{label}</Text>
     </View>
   );

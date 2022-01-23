@@ -1,12 +1,8 @@
 import { useMemo, useReducer } from 'react';
 import sightsData from '@monkvision/sights/dist/native';
 
-export const SET_PICTURE = 'SET_PICTURE';
-export const REMOVE_PICTURE = 'REMOVE_PICTURE';
-export const SET_CURRENT_SIGHT = 'SET_CURRENT_SIGHT';
-export const PREVIOUS_SIGHT = 'PREVIOUS_SIGHT';
-export const NEXT_SIGHT = 'NEXT_SIGHT';
-export const RESET_TOUR = 'RESET_TOUR';
+import Actions from '../../actions';
+import Constants from '../../const';
 
 function init(initialState) {
   return initialState ? { ...initialState } : ({
@@ -17,8 +13,11 @@ function init(initialState) {
 }
 
 function reducer(state, action) {
+  const previousSight = action.sightIds[state.index - 1];
+  const nextSight = action.sightIds[state.index + 1];
+
   switch (action.type) {
-    case SET_PICTURE:
+    case Actions.sights.SET_PICTURE:
       return {
         ...state,
         takenPictures: {
@@ -27,7 +26,10 @@ function reducer(state, action) {
         },
       };
 
-    case REMOVE_PICTURE:
+    case Actions.sights.REMOVE_PICTURE:
+      // eslint-disable-next-line no-console
+      if (!Constants.PRODUCTION) { console.log(`Remove picture for #${action.payload.id} sight`); }
+
       return {
         ...state,
         takenPictures: {
@@ -36,32 +38,40 @@ function reducer(state, action) {
         },
       };
 
-    case SET_CURRENT_SIGHT:
+    case Actions.sights.SET_CURRENT_SIGHT:
+      // eslint-disable-next-line no-console
+      if (!Constants.PRODUCTION) { console.log(`Set current sight to #${action.payload}`); }
       return {
         ...state,
         index: action.sightIds.findIndex((id) => id === action.payload),
         currentSight: action.payload,
       };
 
-    case PREVIOUS_SIGHT:
+    case Actions.sights.PREVIOUS_SIGHT:
       if (state.index === 0) { return state; }
+
+      // eslint-disable-next-line no-console
+      if (!Constants.PRODUCTION) { console.log(`Going previous sight #${previousSight}`); }
 
       return {
         ...state,
         index: state.index - 1,
-        currentSight: action.sightIds[state.index - 1],
+        currentSight: previousSight,
       };
 
-    case NEXT_SIGHT:
+    case Actions.sights.NEXT_SIGHT:
       if (state.index === action.sightIds.length - 1) { return state; }
+
+      // eslint-disable-next-line no-console
+      if (!Constants.PRODUCTION) { console.log(`Going next sight #${nextSight}`); }
 
       return {
         ...state,
         index: state.index + 1,
-        currentSight: action.sightIds[state.index + 1],
+        currentSight: nextSight,
       };
 
-    case RESET_TOUR:
+    case Actions.sights.RESET_TOUR:
       return init(action.payload);
 
     default:
