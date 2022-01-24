@@ -16,7 +16,7 @@ const getNativeOrientationOrFallbackToDimensions = (o) => {
   return 0;
 };
 
-const isNative = Platform.select({ native: true, web: false });
+const isNative = Platform.select({ native: true, default: false });
 
 export default () => {
   const [value, setValue] = useState();

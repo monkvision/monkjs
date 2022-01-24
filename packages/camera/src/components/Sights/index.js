@@ -1,17 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Alert,
-  Platform,
-  StyleSheet,
-  ScrollView,
-  Text,
-  Button,
-  useWindowDimensions,
-} from 'react-native';
+import { Alert, Platform, StyleSheet, ScrollView, Text, Button } from 'react-native';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
-import { LinearGradient } from 'expo-linear-gradient';
 import Thumbnail from '../Thumbnail';
 import Actions from '../../actions';
 
@@ -64,15 +56,13 @@ export default function Sights({
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
       contentContainerStyle={Platform.select({
-        native: { maxHeight: '100vh' },
-        default: { maxHeight: windowHeight },
+        native: { maxHeight: windowHeight },
+        default: { maxHeight: '100vh' },
       })}
     >
-      <LinearGradient colors={['black', 'transparent']}>
-        <Text style={styles.text}>
-          {`${index} / ${ids.length} `}
-        </Text>
-      </LinearGradient>
+      <Text style={styles.text}>
+        {`${index} / ${ids.length} `}
+      </Text>
       {metadata.map(({ id, label, overlay }) => (
         <Thumbnail
           key={`thumbnail-${id}`}

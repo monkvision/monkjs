@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
 
 const styles = StyleSheet.create({
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 
 function Layout({ children, containerStyle, left, right, sectionStyle }) {
   const [isAvailable, setAvailable] = useState(false);
-  const isNative = Platform.select({ native: true });
+  const isNative = Platform.select({ native: true, default: false });
 
   const orientation = useOrientation();
   const { width: windowWidth } = useWindowDimensions();
@@ -47,7 +48,7 @@ function Layout({ children, containerStyle, left, right, sectionStyle }) {
         accessibilityLabel="Center"
         style={[styles.section, Platform.select({
           native: { maxWidth: windowWidth - 225 },
-          web: { maxWidth: 'calc(100% - 225px)' },
+          default: { maxWidth: 'calc(100% - 225px)' },
         }), sectionStyle]}
       >
         {isAvailable ? children : <ActivityIndicator size="large" />}

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
 import usePermissions from '../../hooks/usePermissions';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 export function getSize(ratio, { windowHeight, windowWidth }) {
   const [a, b] = ratio.split(':').sort((c, d) => (c + d));
@@ -51,6 +52,12 @@ export default function Camera({
 }) {
   const permissions = usePermissions();
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
+  const size = getSize(ratio, { windowHeight, windowWidth });
+
+  const handleError = useCallback((error) => {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }, []);
 
   if (permissions.isGranted === null) {
     return <View />;
@@ -63,11 +70,12 @@ export default function Camera({
   return (
     <View
       accessibilityLabel="Camera container"
-      style={[getSize(ratio, { windowHeight, windowWidth }), containerStyle]}
+      style={[containerStyle, size]}
     >
       <ExpoCamera
         ref={onRef}
         ratio={ratio}
+        onMountError={handleError}
         type={ExpoCamera.Constants.Type.back}
         {...passThroughProps}
       >

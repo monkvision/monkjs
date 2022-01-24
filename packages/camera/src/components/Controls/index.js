@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
+
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 import Actions from '../../actions';
 import Constants from '../../const';

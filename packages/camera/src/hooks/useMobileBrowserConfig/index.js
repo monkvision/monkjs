@@ -1,6 +1,9 @@
-import { useEffect, useMemo } from 'react';
-import { Platform, useWindowDimensions } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
+
+import useWindowDimensions from '../useWindowDimensions';
+
 import Constants from '../../const';
 
 function getOS() {
@@ -40,13 +43,18 @@ const MEDIA_QUERY = window.matchMedia(`(max-width: ${Constants.MOBILE_MAX_WIDTH}
  * Orientation (mobile only)
  * @returns {boolean}
  */
-const useMobileBrowserConfig = (onAvailable, onRotateToPortrait) => {
+const useMobileBrowserConfig = (onAvailable = () => {}, onRotateToPortrait) => {
+  const [alreadyAvailable, setAvailable] = useState(false);
   const { height, width } = useWindowDimensions();
 
   const isPortrait = width < height;
   const isMobileBrowserUserAgent = Constants.MOBILE_USERAGENT_PATTERN.test(navigator.userAgent);
   const isMobileSize = MEDIA_QUERY?.matches;
-  const isAlwaysAvailable = useMemo(() => Platform.OS !== 'web' && getOS() !== 'iOS', []);
+
+  const isAlwaysAvailable = useMemo(() => (
+    (Platform.OS !== 'web')
+    || (Platform.OS !== 'web' && getOS() !== 'iOS')
+  ), []);
 
   /**
    * Check availability Web only
@@ -54,7 +62,7 @@ const useMobileBrowserConfig = (onAvailable, onRotateToPortrait) => {
    * Beware of obscure behavior on iOS mobile browsers
    */
   useEffect(() => {
-    if (!isAlwaysAvailable) {
+    if (!isAlwaysAvailable && !alreadyAvailable) {
       (async () => {
         // eslint-disable-next-line no-console
         if (!Constants.PRODUCTION) { console.log(`Awaiting for camera availability...`); }
@@ -62,18 +70,20 @@ const useMobileBrowserConfig = (onAvailable, onRotateToPortrait) => {
         const isAvailable = await ExpoCamera.isAvailableAsync();
 
         if (isAvailable) {
+          setAvailable(true);
           onAvailable(isAvailable);
           // eslint-disable-next-line no-console
           if (!Constants.PRODUCTION) { console.log(`Camera is available!`); }
           // eslint-disable-next-line no-console
         } else if (!Constants.PRODUCTION) { console.error(`Camera is not available!`); }
       })();
-    } else {
+    } else if (!alreadyAvailable) {
       // eslint-disable-next-line no-console
       if (!Constants.PRODUCTION) { console.log(`Camera is always available`); }
+      setAvailable(true);
       onAvailable(true);
     }
-  }, [isAlwaysAvailable, onAvailable]);
+  }, [alreadyAvailable, isAlwaysAvailable, onAvailable]);
 
   /**
    * As long as the `userAgent` string is user configurable

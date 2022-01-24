@@ -35,16 +35,14 @@
   "scripts": {
     "watch": "watch 'yarn run build' src",
     "lint": "eslint src --cache",
-    "build": "bob build"
+    "build": "bob build",
+    "release": "release-it"
   },
   "dependencies": {
-    "@monkvision/corejs": "*",
-    "@monkvision/sights": "*",
+    "@expo/match-media": "^0.3.0",
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
     "expo-camera": "^12.1.0",
-    "expo-linear-gradient": "^11.0.0",
-    "@expo/match-media": "^0.3.0",
     "expo-screen-orientation": "^4.1.1",
     "react-native-svg": "^12.1.1",
     "react-responsive": "^9.0.0-beta.6"
@@ -54,11 +52,14 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "prop-types": "^15.8.1",
-    "react-native-builder-bob": "^0.18.2"
+    "react-native-builder-bob": "^0.18.2",
+    "release-it": "*"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-native": "^0.67.1"
+    "@monkvision/corejs": "*",
+    "@monkvision/sights": "*",
+    "react": "*",
+    "react-native": "*"
   },
   "publishConfig": {
     "access": "public"

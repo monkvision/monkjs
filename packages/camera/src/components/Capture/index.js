@@ -50,6 +50,12 @@ export default function Capture({
     return `${label} - ${id}`;
   }, [index, sights.metadata]);
 
+  const handleCameraReady = useCallback(() => {
+    setReady(true);
+    // eslint-disable-next-line no-console
+    if (!Constants.PRODUCTION) { console.log(`Camera preview has been set`); }
+  }, []);
+
   const handleCapture = useCallback((picture) => {
     const newPictures = { ...takenPictures, [currentSight]: picture };
 
@@ -114,11 +120,11 @@ export default function Capture({
       >
         <Camera
           onRef={setCamera}
-          onCameraReady={() => setReady(true)}
+          onCameraReady={handleCameraReady}
           title={title}
           {...settings}
         >
-          {sights.currentOverlay ? (
+          {(isReady && sights.currentOverlay) ? (
             <Overlay
               svg={sights.currentOverlay}
               style={styles.overlay}
