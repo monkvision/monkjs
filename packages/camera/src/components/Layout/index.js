@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Button, Platform, StyleSheet, View } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
@@ -20,7 +20,37 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
   },
+  fullScreenButtonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 8,
+  },
 });
+
+function FullScreenButton() {
+  const toggleFullScreen = useCallback(() => {
+    if (!document) { return; }
+
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }, []);
+
+  return Platform.OS === 'web' && (
+    <View style={styles.fullScreenButtonContainer}>
+      <Button
+        color="rgba(0,0,0,0.75)"
+        acccessibilityLabel={toggleFullScreen}
+        onPress={toggleFullScreen}
+        title="Fullscreen"
+      />
+    </View>
+  );
+}
 
 function Layout({ children, containerStyle, left, right, sectionStyle }) {
   const isNative = Platform.select({ native: true, default: false });
@@ -52,6 +82,7 @@ function Layout({ children, containerStyle, left, right, sectionStyle }) {
         }), sectionStyle]}
       >
         {children}
+        <FullScreenButton />
       </View>
       <View
         accessibilityLabel="Side right"
