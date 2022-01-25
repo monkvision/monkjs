@@ -123,3 +123,23 @@ export function deleteOne({ id, ...customReqConfig }) {
     ...customReqConfig,
   });
 }
+
+/**
+ * @name updateOneInspectionAdditionalData
+ *
+ * @param {string} inspectionId
+ * @param {Object} data - body data
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function updateOneAdditionalData({ inspectionId, data, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
+    method: 'patch',
+    url: `/inspections/${inspectionId}/pdf_data`,
+    data,
+    ...customReqConfig,
+  });
+}

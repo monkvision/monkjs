@@ -32,6 +32,7 @@ export const {
   createOneInspection,
   deleteOneInspection,
   inspectionStatuses,
+  updateOneInspectionAdditionalData,
 } = inspectionsSlice;
 
 export const {
@@ -112,10 +113,7 @@ export const {
 
 // VEHICLES
 
-export const {
-  default: vehicles,
-  vehiclesAdapter,
-} = vehiclesSlice;
+export const { default: vehicles, vehiclesAdapter, updateOneInspectionVehicle } = vehiclesSlice;
 
 export const {
   selectById: selectVehicleById,

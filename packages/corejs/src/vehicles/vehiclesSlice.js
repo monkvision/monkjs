@@ -1,5 +1,9 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { normalize } from 'normalizr';
+
 import { getOneInspectionById } from '../asyncThunks';
+import { entity } from './vehiclesEntity';
+import * as api from './vehiclesApi';
 
 export const vehiclesAdapter = createEntityAdapter();
 
@@ -10,6 +14,14 @@ function upsertReducer(state, action) {
   }
 }
 
+export const updateOneInspectionVehicle = createAsyncThunk(
+  'vehicles/updateOne',
+  async (arg) => {
+    const { data } = await api.updateOne({ ...arg });
+    return normalize(data, entity);
+  },
+);
+
 export const slice = createSlice({
   name: 'vehicles',
   initialState: vehiclesAdapter.getInitialState({
@@ -19,6 +31,8 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getOneInspectionById.fulfilled, upsertReducer);
+
+    builder.addCase(updateOneInspectionVehicle.fulfilled, upsertReducer);
   },
 });
 

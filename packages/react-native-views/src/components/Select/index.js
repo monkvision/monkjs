@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { noop } from 'lodash';
+import noop from 'lodash.noop';
 import React, { forwardRef, useImperativeHandle, useCallback } from 'react';
 import { Platform, StyleSheet, TouchableOpacity, VirtualizedList } from 'react-native';
 import { Menu } from 'react-native-paper';
@@ -27,6 +27,7 @@ function Select({
   onOpen = noop,
   disabled = false,
   contentStyle = {},
+  style = {},
 }, ref) {
   const [isOpen, handleOpen, handleDismiss] = useToggle();
   const [isOpenAfterDelay, handleOpenAfterDelay, handleDismissAfterDelay] = useToggle();
@@ -57,7 +58,7 @@ function Select({
       contentStyle={styles.menuContent}
       visible={isOpen}
       onDismiss={onDismiss}
-      style={{ opacity: isWebAndShouldWaitForTheDelay ? 0 : 1 }}
+      style={{ opacity: isWebAndShouldWaitForTheDelay ? 0 : 1, position: 'absolute', ...style }}
       anchor={(
         <TouchableOpacity
           disabled={disabled}
@@ -75,14 +76,14 @@ function Select({
         initialNumToRender={5}
         renderItem={({ item }) => (
           <Menu.Item
-            style={{ backgroundColor: selectedValue === label(item) ? '#F2F2F2' : 'transparent' }}
+            style={{ backgroundColor: selectedValue === itemKey(item) ? '#F2F2F2' : 'transparent' }}
             onPress={() => { handleDismiss(); onChange(item); }}
             title={label(item)}
           />
         )}
         keyExtractor={(item) => itemKey(item)}
         getItemCount={(d) => d?.length}
-        getItem={(items, index) => label(items[index])}
+        getItem={(items, index) => items[index]}
       />
     </Menu>
   );
