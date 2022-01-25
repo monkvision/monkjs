@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
+import PortraitOrientationBlocker from './PortraitOrientationBlocker/index';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,12 +26,18 @@ const styles = StyleSheet.create({
 function Layout({ children, containerStyle, left, right, sectionStyle }) {
   const isNative = Platform.select({ native: true, default: false });
 
-  const orientation = useOrientation();
   const { width: windowWidth } = useWindowDimensions();
   const mobileBrowserIsPortrait = useMobileBrowserConfig();
+  const orientation = useOrientation('landscape');
+  const [grantedLandscape, grantLandscape] = useState(false);
 
-  if (mobileBrowserIsPortrait || (isNative && orientation.isNotLandscape)) {
-    return (<View />);
+  if (!grantedLandscape || mobileBrowserIsPortrait || (isNative && orientation.isNotLandscape)) {
+    return (
+      <PortraitOrientationBlocker
+        grantLandscape={grantLandscape}
+        isPortrait={mobileBrowserIsPortrait}
+      />
+    );
   }
 
   return (

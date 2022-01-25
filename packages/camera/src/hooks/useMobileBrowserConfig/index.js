@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
+import { useMediaQuery } from 'react-responsive';
 import useWindowDimensions from '../useWindowDimensions';
 
 import Constants from '../../const';
@@ -10,8 +11,9 @@ import Constants from '../../const';
  * just to handle platforms that doesn't support this method.
  * NOTE: This won't work using `Platform.select`.
  *  */
-window.matchMedia = window.matchMedia || Constants.DEFAULT_MATCH_MEDIA_OBJECT;
-const MEDIA_QUERY = window.matchMedia(`(max-width: ${Constants.MOBILE_MAX_WIDTH}px)`);
+
+const isWeb = Platform.OS === 'web';
+const isMobileBrowserUserAgent = window.mobileCheck;
 
 /**
  * @param {function} onRotateToPortrait - Will be called once the device get into Portrait
@@ -20,9 +22,23 @@ const MEDIA_QUERY = window.matchMedia(`(max-width: ${Constants.MOBILE_MAX_WIDTH}
  */
 const useMobileBrowserConfig = (onRotateToPortrait) => {
   const { height, width } = useWindowDimensions();
-  const isPortrait = width < height;
-  const isMobileBrowserUserAgent = Constants.MOBILE_USERAGENT_PATTERN.test(navigator.userAgent);
-  const isMobileSize = MEDIA_QUERY?.matches;
+  const isMobileSize = useMediaQuery({ query: '(max-width: 480px)' });
+
+  const [webIsPortrait, setWebIsPortrait] = useState((window.innerWidth < window.innerHeight)
+     && window.innerWidth <= 480);
+
+  const isPortrait = isWeb ? webIsPortrait : width < height;
+
+  useLayoutEffect(() => {
+    if (!isWeb) { return undefined; }
+
+    const handleGetResizeBounds = () => setWebIsPortrait(
+      window.innerWidth < window.innerHeight && window.innerWidth <= 480,
+    );
+
+    window.addEventListener('resize', handleGetResizeBounds);
+    return () => window.removeEventListener('resize', handleGetResizeBounds);
+  }, []);
 
   /**
    * As long as the `userAgent` string is user configurable
@@ -30,18 +46,16 @@ const useMobileBrowserConfig = (onRotateToPortrait) => {
    * which is using `window.matchMedia`
    */
   useEffect(() => {
-    if (isMobileBrowserUserAgent && isPortrait && isMobileSize && Boolean(onRotateToPortrait)) {
+    if (isMobileBrowserUserAgent && isMobileSize && isPortrait && Boolean(onRotateToPortrait)) {
       // eslint-disable-next-line no-console
       if (!Constants.PRODUCTION) { console.log(`Screen orientation rotating to portrait...`); }
 
       onRotateToPortrait();
     }
-  }, [isMobileBrowserUserAgent, isPortrait, isMobileSize, onRotateToPortrait]);
+  }, [isMobileSize, isPortrait, onRotateToPortrait]);
 
-  return Platform.select({
-    native: false,
-    default: isMobileBrowserUserAgent && isPortrait && isMobileSize,
-  });
+  if (!isWeb) { return false; }
+  return isPortrait && isMobileBrowserUserAgent && isMobileSize;
 };
 
 export default useMobileBrowserConfig;
