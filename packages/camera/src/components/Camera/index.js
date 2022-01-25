@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
+import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
@@ -50,6 +51,7 @@ export default function Camera({
   title,
   ...passThroughProps
 }) {
+  const available = useAvailable();
   const permissions = usePermissions();
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
   const size = getSize(ratio, { windowHeight, windowWidth });
@@ -65,6 +67,10 @@ export default function Camera({
 
   if (permissions.isGranted === false) {
     return <Text>No access to camera</Text>;
+  }
+
+  if (!available) {
+    return <ActivityIndicator size="large" />;
   }
 
   return (
