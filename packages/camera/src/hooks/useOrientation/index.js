@@ -18,7 +18,7 @@ const getNativeOrientationOrFallbackToDimensions = (o) => {
 
 const isNative = Platform.select({ native: true, default: false });
 
-export default () => {
+export default (initialOrientationLock = null) => {
   const [value, setValue] = useState();
 
   const rotateToLandscape = useCallback((onSuccess) => ScreenOrientation.lockAsync(
@@ -31,6 +31,11 @@ export default () => {
 
   const isNotSupported = !isNative || value === null;
   const isNotLandscape = value !== 4 && value !== 3;
+
+  useLayoutEffect(() => {
+    if (!isNotSupported && initialOrientationLock === 'portrait') { rotateToPortrait(); }
+    if (!isNotSupported && initialOrientationLock === 'landscape') { rotateToLandscape(); }
+  }, [initialOrientationLock, isNotSupported, rotateToLandscape, rotateToPortrait]);
 
   useLayoutEffect(() => {
     if (isNotSupported) { return undefined; }
