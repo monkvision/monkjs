@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import useSettings from '../../hooks/useSettings';
 
+import log from '../../utils/log';
+import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 import useToggle from '../../hooks/useToggle';
 
@@ -11,8 +12,6 @@ import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
-
-import Constants from '../../const';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +27,7 @@ export default function Capture({
   initialSightsState,
   onCapture,
   onChange,
+  onReset,
   sightIds,
   style,
 }) {
@@ -52,8 +52,7 @@ export default function Capture({
 
   const handleCameraReady = useCallback(() => {
     setReady(true);
-    // eslint-disable-next-line no-console
-    if (!Constants.PRODUCTION) { console.log(`Camera preview has been set`); }
+    log([`Camera preview has been set`]);
   }, []);
 
   const handleCapture = useCallback((picture) => {
@@ -62,12 +61,7 @@ export default function Capture({
     const remainingPictures = sightIds.length - Object.keys(newPictures)
       .filter((id) => sightIds.includes(id)).length;
 
-    if (!Constants.PRODUCTION) {
-      // eslint-disable-next-line no-console
-      console.log(
-        `It remains ${remainingPictures} picture${remainingPictures > 1 ? 's' : ''} to take`,
-      );
-    }
+    log([`It remains ${remainingPictures} picture${remainingPictures > 1 ? 's' : ''} to take`]);
 
     const payload = {
       metadata: sights.metadata[index],
@@ -77,19 +71,14 @@ export default function Capture({
       takenPictures: newPictures,
     };
 
-    // eslint-disable-next-line no-console
-    if (!Constants.PRODUCTION) { console.log(`Payload sent to 'onCapture' callback:`, payload); }
+    log([`Payload sent to 'onCapture' callback:`, payload]);
 
     onCapture(payload, setLoadingOff);
   }, [currentSight, index, onCapture, setLoadingOff, sightIds, sights.metadata, takenPictures]);
 
   useEffect(() => {
-    if (!Constants.PRODUCTION) {
-      // eslint-disable-next-line no-console
-      console.log(`Capture workflow initialized with sights`, sights.metadata);
-      // eslint-disable-next-line no-console
-      console.log(`See https://sights.monk.ai?q=${sightIds.join(',')}`);
-    }
+    log([`Capture workflow initialized with sights`, sights.metadata]);
+    log([`See https://sights.monk.ai?q=${sightIds.join(',')}`]);
   }, [sights.metadata, sightIds]);
 
   useEffect(() => {
@@ -104,6 +93,7 @@ export default function Capture({
             dispatch={sights.dispatch}
             ids={sightIds}
             metadata={sights.metadata}
+            onReset={onReset}
             {...sights.state}
           />
         )}
@@ -148,6 +138,7 @@ Capture.propTypes = {
   }),
   onCapture: PropTypes.func,
   onChange: PropTypes.func,
+  onReset: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
 };
 
@@ -163,6 +154,7 @@ Capture.defaultProps = {
   },
   onCapture: (payload, setLoadingOff) => { setLoadingOff(); },
   onChange: () => {},
+  onReset: () => {},
   sightIds: [
     'VGv4m3', // front
     'H12i1w', // front left

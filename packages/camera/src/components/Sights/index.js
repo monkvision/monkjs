@@ -26,6 +26,7 @@ export default function Sights({
   ids,
   index,
   metadata,
+  onReset,
   takenPictures,
 }) {
   const { height: windowHeight } = useWindowDimensions();
@@ -37,7 +38,11 @@ export default function Sights({
   const handleReset = useCallback(() => {
     const title = 'Are you sure?';
     const message = 'It will reset all taken pictures.';
-    const updateState = () => dispatch({ type: Actions.sights.RESET_TOUR });
+    const updateState = () => {
+      dispatch({ type: Actions.sights.RESET_TOUR });
+      dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: metadata[0].id });
+      onReset();
+    };
 
     // eslint-disable-next-line no-alert
     if (Platform.OS === 'web' && window.confirm(`${title} ${message}`)) {
@@ -48,7 +53,7 @@ export default function Sights({
       { text: 'Cancel', style: 'cancel' },
       { text: 'OK', onPress: updateState },
     ]);
-  }, [dispatch]);
+  }, [dispatch, metadata, onReset]);
 
   return (
     <ScrollView
@@ -61,7 +66,7 @@ export default function Sights({
       })}
     >
       <Text style={styles.text}>
-        {`${index} / ${ids.length} `}
+        {`${index + 1} / ${ids.length} `}
       </Text>
       {metadata.map(({ id, label, overlay }) => (
         <Thumbnail
@@ -92,10 +97,12 @@ Sights.propTypes = {
     label: PropTypes.string,
     overlay: PropTypes.string,
   })).isRequired,
+  onReset: PropTypes.func,
   takenPictures: PropTypes.objectOf(PropTypes.object),
 };
 
 Sights.defaultProps = {
   index: 0,
+  onReset: () => {},
   takenPictures: {},
 };

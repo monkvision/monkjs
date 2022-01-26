@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
 import useWindowDimensions from '../useWindowDimensions';
 
-import Constants from '../../const';
+import log from '../../utils/log';
 
 /**
  * Let's assign `DEFAULT_MATCH_MEDIA_OBJECT` object to `window.mathMedia`
@@ -47,8 +47,7 @@ const useMobileBrowserConfig = (onRotateToPortrait) => {
    */
   useEffect(() => {
     if (isMobileBrowserUserAgent && isMobileSize && isPortrait && Boolean(onRotateToPortrait)) {
-      // eslint-disable-next-line no-console
-      if (!Constants.PRODUCTION) { console.log(`Screen orientation rotating to portrait...`); }
+      log([`Screen orientation rotating to portrait...`]);
 
       onRotateToPortrait();
     }

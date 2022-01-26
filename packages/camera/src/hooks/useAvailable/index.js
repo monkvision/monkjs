@@ -2,30 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
-import Constants from '../../const';
-
-export function getOS() {
-  const userAgent = window.navigator.userAgent;
-  const platform = window.navigator.platform;
-  const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
-  const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
-  const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
-  let os = null;
-
-  if (macosPlatforms.indexOf(platform) !== -1) {
-    os = 'Mac OS';
-  } else if (iosPlatforms.indexOf(platform) !== -1) {
-    os = 'iOS';
-  } else if (windowsPlatforms.indexOf(platform) !== -1) {
-    os = 'Windows';
-  } else if (/Android/.test(userAgent)) {
-    os = 'Android';
-  } else if (/Linux/.test(platform)) {
-    os = 'Linux';
-  }
-
-  return os;
-}
+import log from '../../utils/log';
+import getOS from '../../utils/getOS';
 
 /**
  * Check availability Web only
@@ -42,24 +20,19 @@ const useAvailable = () => {
   useEffect(() => {
     if (!isAlwaysAvailable && !available) {
       (async () => {
-        // eslint-disable-next-line no-console
-        if (!Constants.PRODUCTION) { console.log(Platform.OS, getOS()); }
-
-        // eslint-disable-next-line no-console
-        if (!Constants.PRODUCTION) { console.log(`Awaiting for camera availability...`); }
+        log([Platform.OS, getOS()]);
+        log([`Awaiting for camera availability...`]);
 
         const isAvailable = await ExpoCamera.isAvailableAsync();
 
         if (isAvailable) {
           setAvailable(true);
-          // eslint-disable-next-line no-console
-          if (!Constants.PRODUCTION) { console.log(`Camera is available!`); }
-          // eslint-disable-next-line no-console
-        } else if (!Constants.PRODUCTION) { console.error(`Camera is not available!`); }
+          log([`Camera is available!`]);
+          log([`Camera is not available!`], 'error');
+        }
       })();
     } else if (!available) {
-      // eslint-disable-next-line no-console
-      if (!Constants.PRODUCTION) { console.log(`Camera is always available`); }
+      log([`Camera is always available`]);
       setAvailable(true);
     }
   }, [available, isAlwaysAvailable]);

@@ -26,14 +26,13 @@
     "assets",
     ".editorconfig",
     "dist",
-    "index.json",
     "LICENSE",
     "package.json",
     "README.md"
   ],
   "scripts": {
     "prepare": "yarn run lint && yarn run build",
-    "build": "node scripts/buildNative.mjs",
+    "build": "node scripts/build.mjs",
     "lint": "eslint ./"
   },
   "devDependencies": {

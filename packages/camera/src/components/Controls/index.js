@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 
-import useWindowDimensions from '../../hooks/useWindowDimensions';
-
+import log from '../../utils/log';
 import Actions from '../../actions';
-import Constants from '../../const';
 
 const styles = StyleSheet.create({
   container: {
@@ -68,15 +66,10 @@ function Controls({ camera, containerStyle, isLoading, isReady, onCapture, onCap
   const handleCapture = useCallback(async () => {
     setPicture('capturing');
 
-    // eslint-disable-next-line no-console
-    if (!Constants.PRODUCTION) { console.log(`Awaiting picture to be taken...`); }
+    log([`Awaiting picture to be taken...`]);
 
     const picture = await camera.takePictureAsync();
-
-    if (!Constants.PRODUCTION) {
-      // eslint-disable-next-line no-console
-      console.log(`Camera 'takePictureAsync' has fulfilled with picture:`, picture);
-    }
+    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
     sights.dispatch({
       type: Actions.sights.SET_PICTURE,

@@ -1,55 +1,58 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
-import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import Proptypes from 'prop-types';
-import { Button, withTheme } from 'react-native-paper';
-import { noop } from '../../../../../../../../../Library/Caches/typescript/4.4/node_modules/@babel/types/lib/index';
-// import { SvgXml } from 'react-native-svg';
-
-// import drawing from './drawing';
+import { Button, Dimensions, Platform, StyleSheet, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#000',
-    width: '100%',
-    height: '100%',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    ...Platform.select({
+      native: {
+        minHeight: Dimensions.get('window').height,
+      },
+      default: {
+        minHeight: '100vh',
+      },
+    }),
   },
-  title: { textAlign: 'center', fontSize: 28, fontWeight: '500' },
-  text: { textAlign: 'center', margin: 16, color: '#FFF' },
+  title: {
+    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: '500',
+  },
+  text: {
+    textAlign: 'center',
+    margin: 16,
+    color: 'white',
+  },
 });
 
-const PortraitOrientationBlocker = ({ grantLandscape, isPortrait }) => {
-  const { height } = useWindowDimensions();
-  return (
-    <View style={{ minHeight: height + 100 }}>
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          For a better experience please rotate your device to landscape
-        </Text>
-        {!isPortrait ? (
-          <Button color="#FFF" labelStyle={{ color: '#000' }} onPress={grantLandscape} mode="contained">
-            Done
-          </Button>
-        ) : null}
-      </View>
-    </View>
-  );
-};
+const PortraitOrientationBlocker = ({ grantLandscape, isPortrait }) => (
+  <View style={styles.container}>
+    <Text style={styles.text}>
+      For a better experience please rotate your device to landscape.
+    </Text>
+    {!isPortrait ? (
+      <Button
+        onPress={grantLandscape}
+        title="It's Done"
+      />
+    ) : null}
+  </View>
+);
 
 PortraitOrientationBlocker.propTypes = {
   grantLandscape: Proptypes.func,
   isPortrait: Proptypes.bool,
-  // rotateToLandscape: Proptypes.func,
 };
 
 PortraitOrientationBlocker.defaultProps = {
   // rotateToLandscape: noop,
   isPortrait: false,
-  grantLandscape: noop,
+  grantLandscape: () => {},
 };
 
-export default withTheme(PortraitOrientationBlocker);
+export default PortraitOrientationBlocker;

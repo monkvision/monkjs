@@ -1,8 +1,8 @@
 import { useMemo, useReducer } from 'react';
-import sightsData from '@monkvision/sights/dist/native';
+import sightsData from '@monkvision/sights/dist';
 
 import Actions from '../../actions';
-import Constants from '../../const';
+import log from '../../utils/log';
 
 function init(initialState) {
   return initialState ? { ...initialState } : ({
@@ -27,8 +27,7 @@ function reducer(state, action) {
       };
 
     case Actions.sights.REMOVE_PICTURE:
-      // eslint-disable-next-line no-console
-      if (!Constants.PRODUCTION) { console.log(`Remove picture for #${action.payload.id} sight`); }
+      log([`Remove picture for #${action.payload.id} sight`]);
 
       return {
         ...state,
@@ -39,8 +38,8 @@ function reducer(state, action) {
       };
 
     case Actions.sights.SET_CURRENT_SIGHT:
-      // eslint-disable-next-line no-console
-      if (!Constants.PRODUCTION) { console.log(`Set current sight to #${action.payload}`); }
+      log([`Set current sight to #${action.payload}`]);
+
       return {
         ...state,
         index: action.sightIds.findIndex((id) => id === action.payload),
@@ -50,8 +49,7 @@ function reducer(state, action) {
     case Actions.sights.PREVIOUS_SIGHT:
       if (state.index === 0) { return state; }
 
-      // eslint-disable-next-line no-console
-      if (!Constants.PRODUCTION) { console.log(`Going previous sight #${previousSight}`); }
+      log([`Going previous sight #${previousSight}`]);
 
       return {
         ...state,
@@ -62,8 +60,7 @@ function reducer(state, action) {
     case Actions.sights.NEXT_SIGHT:
       if (state.index === action.sightIds.length - 1) { return state; }
 
-      // eslint-disable-next-line no-console
-      if (!Constants.PRODUCTION) { console.log(`Going next sight #${nextSight}`); }
+      log([`Going next sight #${nextSight}`]);
 
       return {
         ...state,

@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Platform, StyleSheet, View } from 'react-native';
 
+import getOS from '../../utils/getOS';
+import useToggle from '../../hooks/useToggle';
 import useOrientation from '../../hooks/useOrientation';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
@@ -31,23 +33,28 @@ const styles = StyleSheet.create({
 });
 
 function FullScreenButton() {
+  const [isOn, setOn, setOff] = useToggle();
+  const title = useMemo(() => (isOn ? 'ESC.' : 'Fullscreen'), [isOn]);
+
   const toggleFullScreen = useCallback(() => {
     if (!document) { return; }
 
     if (!document.fullscreenElement) {
+      setOn();
       document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
+      setOff();
       document.exitFullscreen();
     }
-  }, []);
+  }, [setOff, setOn]);
 
   return Platform.OS === 'web' && (
     <View style={styles.fullScreenButtonContainer}>
       <Button
         color="rgba(0,0,0,0.75)"
-        acccessibilityLabel={toggleFullScreen}
+        acccessibilityLabel="Toggle FullScreen"
         onPress={toggleFullScreen}
-        title="Fullscreen"
+        title={title}
       />
     </View>
   );
@@ -60,8 +67,14 @@ function Layout({ children, containerStyle, left, right, sectionStyle }) {
   const mobileBrowserIsPortrait = useMobileBrowserConfig();
   const orientation = useOrientation('landscape');
   const [grantedLandscape, grantLandscape] = useState(false);
+  const showOrientationBLocker = useMemo(() => (
+    !['Mac OS', 'Windows', 'Linux'].includes(getOS())
+    && (!grantedLandscape
+    || mobileBrowserIsPortrait
+    || (isNative && orientation.isNotLandscape))
+  ), [grantedLandscape, isNative, mobileBrowserIsPortrait, orientation.isNotLandscape]);
 
-  if (!grantedLandscape || mobileBrowserIsPortrait || (isNative && orientation.isNotLandscape)) {
+  if (showOrientationBLocker) {
     return (
       <PortraitOrientationBlocker
         grantLandscape={grantLandscape}

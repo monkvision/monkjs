@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Camera as ExpoCamera } from 'expo-camera';
 import { Platform } from 'react-native';
-import Constants from '../../const';
+import log from '../../utils/log';
 
 /**
  * Be careful with https://github.com/expo/expo/issues/13431
@@ -15,14 +15,12 @@ export default function usePermissions() {
       if (Platform !== 'web') {
         setState({ status: 'granted', isGranted: true });
       } else {
-        // eslint-disable-next-line no-console
-        if (!Constants.PRODUCTION) { console.log('Awaiting camera permissions...'); }
+        log(['Awaiting camera permissions...']);
 
         const { status } = await ExpoCamera.requestCameraPermissionsAsync();
         setState({ status, isGranted: status === 'granted' });
 
-        // eslint-disable-next-line no-console
-        if (!Constants.PRODUCTION) { console.log(`Camera permission set to ${status}`); }
+        log([`Camera permission set to ${status}`]);
       }
     })();
   }, []);
