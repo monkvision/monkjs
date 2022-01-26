@@ -26,5 +26,4 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: cd packages/sights && yarn install
-      - run: cd packages/sights && yarn lint
       - run: cd packages/sights && yarn run build
