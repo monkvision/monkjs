@@ -3,10 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import Proptypes from 'prop-types';
 import { Button, withTheme } from 'react-native-paper';
-import { noop } from '../../../../../../../../../Library/Caches/typescript/4.4/node_modules/@babel/types/lib/index';
-// import { SvgXml } from 'react-native-svg';
-
-// import drawing from './drawing';
+import noop from 'lodash.noop';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,11 +40,9 @@ const PortraitOrientationBlocker = ({ grantLandscape, isPortrait }) => {
 PortraitOrientationBlocker.propTypes = {
   grantLandscape: Proptypes.func,
   isPortrait: Proptypes.bool,
-  // rotateToLandscape: Proptypes.func,
 };
 
 PortraitOrientationBlocker.defaultProps = {
-  // rotateToLandscape: noop,
   isPortrait: false,
   grantLandscape: noop,
 };
