@@ -119,7 +119,6 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
     return Object.keys(normalizedValues).reduce((acc, key) => { acc[key] = normalizedValues[key] || ''; return acc; }, {});
   }, [inspection.vehicle]);
 
-  console.log(normalizedVehicleInfo);
   const handleSubmitVehicleInfo = useCallback(
     (data) => submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data }),
       { onSuccess: refresh }),
