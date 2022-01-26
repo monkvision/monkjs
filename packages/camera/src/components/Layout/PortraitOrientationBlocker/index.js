@@ -50,7 +50,6 @@ PortraitOrientationBlocker.propTypes = {
 };
 
 PortraitOrientationBlocker.defaultProps = {
-  // rotateToLandscape: noop,
   isPortrait: false,
   grantLandscape: () => {},
 };
