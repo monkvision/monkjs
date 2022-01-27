@@ -3,8 +3,8 @@ import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import log from '../../utils/log';
 
-export default function useSettings(initialSettings, camera) {
-  const [settings, setSettings] = useState(initialSettings);
+export default function useSettings(camera) {
+  const [settings, setSettings] = useState({ ratio: '4:3', zoom: 0 });
 
   useEffect(() => {
     (async () => {

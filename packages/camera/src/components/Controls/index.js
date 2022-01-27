@@ -1,10 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
-
-import log from '../../utils/log';
-import Actions from '../../actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -59,41 +56,8 @@ ControlButton.defaultProps = {
   disabled: false,
 };
 
-function Controls({ camera, containerStyle, isLoading, isReady, onCapture, onCapturing, sights }) {
-  const [takenPicture, setPicture] = useState(false);
+function Controls({ containerStyle, onCapture, ...passThroughProps }) {
   const { height: windowHeight } = useWindowDimensions();
-
-  const handleCapture = useCallback(async () => {
-    setPicture('capturing');
-
-    log([`Awaiting picture to be taken...`]);
-
-    const picture = await camera.takePictureAsync();
-    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
-
-    sights.dispatch({
-      type: Actions.sights.SET_PICTURE,
-      payload: { id: sights.state.currentSight, picture },
-    });
-
-    sights.dispatch({
-      type: Actions.sights.NEXT_SIGHT,
-    });
-
-    setPicture(picture);
-    onCapture(picture);
-  }, [camera, onCapture, sights]);
-
-  const disabled = useMemo(
-    () => (!isReady || isLoading || takenPicture === 'capturing'),
-    [isLoading, isReady, takenPicture],
-  );
-
-  useEffect(() => {
-    if (takenPicture === 'capturing') {
-      onCapturing();
-    }
-  }, [onCapturing, takenPicture]);
 
   return (
     <View
@@ -105,9 +69,9 @@ function Controls({ camera, containerStyle, isLoading, isReady, onCapture, onCap
     >
       <ControlButton
         acccessibilityLabel="Capture button"
-        disabled={disabled}
-        onPress={handleCapture}
+        onPress={onCapture}
         style={styles.captureButton}
+        {...passThroughProps}
       >
         <View style={styles.button} />
       </ControlButton>
@@ -116,25 +80,13 @@ function Controls({ camera, containerStyle, isLoading, isReady, onCapture, onCap
 }
 
 Controls.propTypes = {
-  camera: PropTypes.shape({ takePictureAsync: PropTypes.func }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  isLoading: PropTypes.bool,
-  isReady: PropTypes.bool,
   onCapture: PropTypes.func,
-  onCapturing: PropTypes.func,
-  sights: PropTypes.shape({
-    dispatch: PropTypes.func,
-    state: PropTypes.shape({ currentSight: PropTypes.string }),
-  }).isRequired,
 };
 
 Controls.defaultProps = {
-  camera: null,
   containerStyle: null,
-  isLoading: false,
-  isReady: false,
   onCapture: () => {},
-  onCapturing: () => {},
 };
 
 export default Controls;

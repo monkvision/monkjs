@@ -22,25 +22,25 @@ const styles = StyleSheet.create({
 });
 
 export default function Sights({
+  current,
   dispatch,
+  hideReset,
   ids,
-  index,
-  metadata,
   onReset,
   takenPictures,
+  tour,
 }) {
   const { height: windowHeight } = useWindowDimensions();
 
   const handlePress = useCallback((id) => {
-    dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: id });
+    dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [dispatch]);
 
   const handleReset = useCallback(() => {
     const title = 'Are you sure?';
     const message = 'It will reset all taken pictures.';
     const updateState = () => {
-      dispatch({ type: Actions.sights.RESET_TOUR });
-      dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: metadata[0].id });
+      dispatch({ type: Actions.sights.RESET_TOUR, payload: ids });
       onReset();
     };
 
@@ -53,7 +53,7 @@ export default function Sights({
       { text: 'Cancel', style: 'cancel' },
       { text: 'OK', onPress: updateState },
     ]);
-  }, [dispatch, metadata, onReset]);
+  }, [dispatch, ids, onReset]);
 
   return (
     <ScrollView
@@ -66,9 +66,9 @@ export default function Sights({
       })}
     >
       <Text style={styles.text}>
-        {`${index + 1} / ${ids.length} `}
+        {`${current.index + 1} / ${ids.length} `}
       </Text>
-      {metadata.map(({ id, label, overlay }) => (
+      {Object.values(tour).map(({ id, label, overlay }) => (
         <Thumbnail
           key={`thumbnail-${id}`}
           label={label}
@@ -78,31 +78,34 @@ export default function Sights({
           onClick={() => handlePress(id)}
         />
       ))}
-      <Button
-        style={styles.reset}
-        onPress={handleReset}
-        title="Reset"
-        color="black"
-      />
+      {!hideReset && (
+        <Button
+          style={styles.reset}
+          onPress={handleReset}
+          title="Reset"
+          color="black"
+        />
+      )}
     </ScrollView>
   );
 }
 
 Sights.propTypes = {
+  current: PropTypes.shape({ index: PropTypes.number }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  hideReset: PropTypes.bool,
   ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-  index: PropTypes.number,
-  metadata: PropTypes.arrayOf(PropTypes.shape({
+  onReset: PropTypes.func,
+  takenPictures: PropTypes.objectOf(PropTypes.object),
+  tour: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
     overlay: PropTypes.string,
   })).isRequired,
-  onReset: PropTypes.func,
-  takenPictures: PropTypes.objectOf(PropTypes.object),
 };
 
 Sights.defaultProps = {
-  index: 0,
+  hideReset: false,
   onReset: () => {},
   takenPictures: {},
 };

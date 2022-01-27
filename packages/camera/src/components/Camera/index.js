@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
+import log from '../../utils/log';
 import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
@@ -57,20 +58,15 @@ export default function Camera({
   const size = getSize(ratio, { windowHeight, windowWidth });
 
   const handleError = useCallback((error) => {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    log([error], 'error');
   }, []);
 
   if (permissions.isGranted === null) {
     return <View />;
   }
 
-  if (permissions.isGranted === false) {
+  if (permissions.isGranted === false || !available) {
     return <Text>No access to camera</Text>;
-  }
-
-  if (!available) {
-    return <ActivityIndicator size="large" />;
   }
 
   return (

@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import PropTypes from 'prop-types';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import log from '../../utils/log';
+
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 import useToggle from '../../hooks/useToggle';
@@ -13,100 +14,73 @@ import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 
+import Actions from '../../actions';
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  overlay: {
-    flex: 1,
-  },
+  container: { flex: 1 },
+  overlay: { flex: 1 },
 });
 
-export default function Capture({
-  initialSettings,
-  initialSightsState,
-  onCapture,
-  onChange,
-  onReset,
-  sightIds,
-  style,
-}) {
+/**
+ * This is uncontrolled component
+ * @param hideReset
+ * @param onChange
+ * @param onReset
+ * @param sightIds
+ * @param style
+ * @return {JSX.Element}
+ * @constructor
+ */
+export default function Capture({ hideReset, onChange, onReset, sightIds, style }) {
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
-  const [isLoading, setLoadingOn, setLoadingOff] = useToggle();
+  const [awaitingPicture, setAwaitingPicture, unsetAwaitingPicture] = useToggle();
 
-  const settings = useSettings(initialSettings);
-  const sights = useSights(sightIds, {
-    ...initialSightsState,
-    currentSight: sightIds[initialSightsState.index],
-  });
+  const settings = useSettings();
+  const [state, dispatch] = useSights(sightIds);
 
-  const { currentSight, index, takenPictures } = sights.state;
+  const { current, metadata } = state;
+  const { overlay } = current.metadata;
+
   const title = useMemo(() => {
-    const currentSightMetadata = sights.metadata[index];
-    if (!currentSightMetadata) { return ''; }
-    const { label, id } = currentSightMetadata;
+    if (!current.metadata) { return ''; }
+    const { label, id } = current.metadata;
 
     return `${label} - ${id}`;
-  }, [index, sights.metadata]);
+  }, [current]);
 
   const handleCameraReady = useCallback(() => {
     setReady(true);
     log([`Camera preview has been set`]);
   }, []);
 
-  const handleCapture = useCallback((picture) => {
-    const newPictures = { ...takenPictures, [currentSight]: picture };
+  const handleCapture = useCallback(async () => {
+    setAwaitingPicture();
 
-    const remainingPictures = sightIds.length - Object.keys(newPictures)
-      .filter((id) => sightIds.includes(id)).length;
+    log([`Awaiting picture to be taken...`]);
+    const picture = await camera.takePictureAsync();
+    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
-    log([`It remains ${remainingPictures} picture${remainingPictures > 1 ? 's' : ''} to take`]);
+    dispatch({ type: Actions.sights.SET_PICTURE, payload: { id: current.id, picture } });
+    dispatch({ type: Actions.sights.NEXT_SIGHT });
 
-    const payload = {
-      metadata: sights.metadata[index],
-      name: currentSight,
-      picture,
-      remainingPictures,
-      takenPictures: newPictures,
-    };
-
-    log([`Payload sent to 'onCapture' callback:`, payload]);
-
-    onCapture(payload, setLoadingOff);
-  }, [currentSight, index, onCapture, setLoadingOff, sightIds, sights.metadata, takenPictures]);
+    unsetAwaitingPicture();
+  }, [camera, current.id, dispatch, setAwaitingPicture, unsetAwaitingPicture]);
 
   useEffect(() => {
-    log([`Capture workflow initialized with sights`, sights.metadata]);
+    onChange(state);
+  }, [onChange, state]);
+
+  useEffect(() => {
+    log([`Capture workflow initialized with sights`, metadata]);
     log([`See https://sights.monk.ai?q=${sightIds.join(',')}`]);
-  }, [sights.metadata, sightIds]);
-
-  useEffect(() => {
-    onChange(sights);
-  }, [onChange, sights]);
+  }, [metadata, sightIds]);
 
   return (
     <View accessibilityLabel="Capture component" style={[styles.container, style]}>
       <Layout
-        left={(
-          <Sights
-            dispatch={sights.dispatch}
-            ids={sightIds}
-            metadata={sights.metadata}
-            onReset={onReset}
-            {...sights.state}
-          />
-        )}
-        right={(
-          <Controls
-            camera={camera}
-            isReady={isReady}
-            isLoading={isLoading}
-            onCapture={handleCapture}
-            onCapturing={setLoadingOn}
-            sights={sights}
-          />
-        )}
+        left={(<Sights onReset={onReset} hideReset={hideReset} {...state} dispatch={dispatch} />)}
+        right={(<Controls onCapture={handleCapture} disabled={awaitingPicture} />)}
       >
         <Camera
           onRef={setCamera}
@@ -114,45 +88,23 @@ export default function Capture({
           title={title}
           {...settings}
         >
-          {(isReady && sights.currentOverlay) ? (
-            <Overlay
-              svg={sights.currentOverlay}
-              style={styles.overlay}
-            />
-          ) : null}
+          {(isReady && overlay) ? <Overlay svg={overlay} style={styles.overlay} /> : null}
         </Camera>
+        {awaitingPicture && <ActivityIndicator />}
       </Layout>
     </View>
   );
 }
 
 Capture.propTypes = {
-  initialSettings: PropTypes.shape({
-    ratio: PropTypes.string,
-    zoom: PropTypes.number,
-  }),
-  initialSightsState: PropTypes.shape({
-    currentSight: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
-    takenPictures: PropTypes.objectOf(PropTypes.object).isRequired,
-  }),
-  onCapture: PropTypes.func,
+  hideReset: PropTypes.bool,
   onChange: PropTypes.func,
   onReset: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 Capture.defaultProps = {
-  initialSettings: {
-    ratio: '4:3',
-    zoom: 0,
-  },
-  initialSightsState: {
-    currentSight: '',
-    index: 0,
-    takenPictures: {},
-  },
-  onCapture: (payload, setLoadingOff) => { setLoadingOff(); },
+  hideReset: false,
   onChange: () => {},
   onReset: () => {},
   sightIds: [
