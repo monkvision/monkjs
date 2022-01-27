@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { FAB, useTheme } from 'react-native-paper';
 
-import { INSPECTION_CREATE, INSPECTION_IMPORT } from 'screens/names';
+import { INSPECTION_VIN, INSPECTION_IMPORT } from 'screens/names';
 
 export default function InspectionButton() {
   const { colors } = useTheme();
@@ -10,7 +10,7 @@ export default function InspectionButton() {
   const [open, setOpen] = useState(false);
 
   const handleTakePictures = useCallback(
-    () => navigation.navigate(INSPECTION_CREATE),
+    () => navigation.navigate(INSPECTION_VIN),
     [navigation],
   );
 

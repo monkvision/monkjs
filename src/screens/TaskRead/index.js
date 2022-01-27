@@ -228,9 +228,9 @@ export default () => {
     }), { onSuccess: () => { handleDismissDialog(); refresh(); } },
     false,
   );
-  const shouldNotStart = task.status !== taskStatuses.NOT_STARTED
-    || task.status !== taskStatuses.ABORTED
-    || task.status !== taskStatuses.ERROR
+  const shouldNotStart = (task.status !== taskStatuses.NOT_STARTED
+    && task.status !== taskStatuses.ABORTED
+    && task.status !== taskStatuses.ERROR)
     || starting;
 
   const menuItems = useMemo(() => [

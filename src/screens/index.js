@@ -11,6 +11,7 @@ export { default as DamageUpdate } from './DamageUpdate';
 export { default as Inspections } from './Inspections';
 export { default as InspectionImport } from './InspectionImport';
 export { default as InspectionCreate } from './InspectionCreate';
+export { default as InspectionVin } from './InspectionVin';
 export { default as InspectionRead } from './InspectionRead';
 export { default as InspectionReview } from './InspectionReview';
 export { default as InspectionUpdate } from './InspectionUpdate';
