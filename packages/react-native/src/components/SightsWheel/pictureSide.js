@@ -1,5 +1,4 @@
 export default {
-  vin: null,
   abstractFront: {
     circle: {
       cx: 48.98,

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { withTheme, FAB, Button, useTheme } from 'react-native-paper';
+import { withTheme, FAB } from 'react-native-paper';
 import Components, { propTypes, utils } from '@monkvision/react-native';
 
 import ActivityIndicatorView from '../../ActivityIndicatorView';
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
 function CameraOverlay({ activeSightId, camera, fakeActivity, onShowAdvices }) {
   const maskCanMount = useMemo(() => !fakeActivity && camera, [camera, fakeActivity]);
   const isMobileBrowser = useMobileBrowserConfig();
-  const { colors } = useTheme();
 
   const overlayWidth = isMobileBrowser ? width - SIDEBAR_WIDTH : '100%';
   const isVin = activeSightId === 'vin';
@@ -60,7 +59,6 @@ function CameraOverlay({ activeSightId, camera, fakeActivity, onShowAdvices }) {
       {maskCanMount && (
         <Components.Mask id={activeSightId} resizeMode={isVin ? 'cover' : 'contain'} style={styles.mask} width="100%" />
       )}
-      {isVin ? <Button color={colors.primary} onPress={onShowAdvices} mode="contained" style={styles.vinButton}>Cannot locate the vin?</Button> : null}
     </View>
   );
 }

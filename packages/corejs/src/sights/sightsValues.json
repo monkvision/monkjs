@@ -1,6 +1,5 @@
 {
   "abstract": {
-    "vin": ["vin", [null, null, null], "vin", ["document"]],
     "front": ["abstractFront", [null, 0, null], "front", ["exterior"]],
     "frontRight": ["abstractFrontRight", [null, 330, null], "front right", ["exterior"]],
     "frontLateralRight": ["abstractFrontLateralRight", [null, 300, null], "front side right", ["exterior"]],
@@ -17,5 +16,6 @@
     "interiorFront": ["abstractInteriorFront", [null, null, null], "interior front", ["interior"]],
     "interiorRear": ["abstractInteriorRear", [null, null, null], "interior rear", ["interior"]],
     "trunk": ["abstractTrunk", [null, null, null], "trunk", ["interior"]]
-  }
+  },
+  "vin": ["vin", [null, null, null], "vin", ["document"]]
 }
