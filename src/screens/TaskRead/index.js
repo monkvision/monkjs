@@ -3,7 +3,7 @@ import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, SafeAreaView, Platform, View, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Card, Title, Button, useTheme, Menu, Divider, IconButton, ActivityIndicator, Dialog, Paragraph, Portal } from 'react-native-paper';
+import { Card, Title, Button, useTheme, ActivityIndicator, Dialog, Paragraph, Portal } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 import moment from 'moment';
 import * as Clipboard from 'expo-clipboard';
@@ -16,6 +16,7 @@ import useRequest from 'hooks/useRequest';
 import useTimeout from 'hooks/useTimeout';
 import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';
+import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
 
 import submitDrawing from 'assets/submit.svg';
@@ -47,11 +48,14 @@ const styles = StyleSheet.create({
     marginVertical: spacing(1),
   },
   actions: {
+    marginHorizontal: spacing(1),
+    alignItems: 'stretch',
+    justifyContent: 'center',
     ...Platform.select({
       native: {
-        marginHorizontal: spacing(1),
-        alignItems: 'stretch',
-        justifyContent: 'center',
+        flexDirection: 'row',
+        display: 'flex',
+        flexWrap: 'wrap',
       },
     }),
   },
@@ -135,46 +139,6 @@ CopyButton.propTypes = {
   taskId: PropTypes.string.isRequired,
 };
 
-function ActionsMenu({ handleRefresh, handleRerun, handleCancel, taskLoading }) {
-  const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();
-
-  return (
-    <Menu
-      anchor={<IconButton icon="dots-vertical" onPress={handleOpenMenu} />}
-      visible={isMenuOpen}
-      onDismiss={handleDismissMenu}
-    >
-      <Menu.Item
-        icon="refresh"
-        title="Refresh"
-        onPress={handleRefresh}
-        loading={taskLoading}
-        disabled={taskLoading}
-      />
-      <Menu.Item
-        icon="reload"
-        onPress={handleRerun}
-        disabled
-        title="Re-run"
-      />
-      <Divider />
-      <Menu.Item
-        icon="cancel"
-        onPress={handleCancel}
-        disabled
-        title="Cancel"
-      />
-    </Menu>
-  );
-}
-
-ActionsMenu.propTypes = {
-  handleCancel: PropTypes.func.isRequired,
-  handleRefresh: PropTypes.func.isRequired,
-  handleRerun: PropTypes.func.isRequired,
-  taskLoading: PropTypes.bool.isRequired,
-};
-
 function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
   const route = useRoute();
   const { inspectionId } = route.params;
@@ -213,9 +177,6 @@ function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
           </Paragraph>
         </Dialog.Content>
         <Dialog.Actions style={styles.dialogActions}>
-          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
-            Cancel
-          </Button>
           <Button
             style={styles.button}
             onPress={request}
@@ -224,6 +185,9 @@ function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
             labelStyle={{ color: 'white' }}
           >
             Confirm
+          </Button>
+          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
+            Cancel
           </Button>
         </Dialog.Actions>
       </Dialog>
@@ -252,8 +216,30 @@ export default () => {
   const handleRerun = useCallback(() => null, []);
 
   const taskAssets = useMemo(() => assets[task.status], [task.status]);
+
   const executionTime = useMemo(() => (task.doneAt && task.createdAt ? `Executed in ${moment.duration(moment(task.doneAt).diff(moment(task.createdAt))).seconds()}s` : null),
     [task.createdAt, task.doneAt]);
+
+  const { isLoading: starting, request: startTask } = useRequest(
+    updateOneTaskOfInspection({
+      inspectionId,
+      taskName: 'damage_detection',
+      data: { status: taskStatuses.TODO },
+    }), { onSuccess: () => { handleDismissDialog(); refresh(); } },
+    false,
+  );
+  const shouldNotStart = task.status !== taskStatuses.NOT_STARTED
+    || task.status !== taskStatuses.ABORTED
+    || task.status !== taskStatuses.ERROR
+    || starting;
+
+  const menuItems = useMemo(() => [
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
+    { title: 'Re-run', disabled: true, onPress: handleRerun, icon: 'reload' },
+    { title: 'Start', disabled: shouldNotStart, loading: starting, onPress: handleRerun, icon: 'rocket-launch-outline' },
+    { title: 'Cancel', disabled: true, onPress: handleCancel, icon: 'cancel' },
+
+  ], [shouldNotStart, fakeActivity, handleCancel, handleRerun, refresh, starting]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -261,16 +247,11 @@ export default () => {
         title: `Task #${taskId}`,
         headerBackVisible: true,
         headerRight: () => (
-          <ActionsMenu
-            handleRefresh={refresh}
-            taskLoading={Boolean(fakeActivity)}
-            handleCancel={handleCancel}
-            handleRerun={handleRerun}
-          />
+          <ActionMenu menuItems={menuItems} />
         ),
       });
     }
-  }, [fakeActivity, handleCancel, handleRerun, navigation, refresh, taskId]);
+  }, [fakeActivity, handleCancel, handleRerun, menuItems, navigation, refresh, taskId]);
 
   if (isLoading) {
     return <ActivityIndicatorView light />;
@@ -330,6 +311,19 @@ export default () => {
             disabled={task.status === taskStatuses.VALIDATED}
           >
             Validate
+          </Button>
+          <Button
+            accessibilityLabel="Start task"
+            style={styles.button}
+            labelStyle={styles.buttonLabel}
+            color={colors.primary}
+            icon="rocket-launch-outline"
+            mode="contained"
+            onPress={startTask}
+            loading={starting}
+            disabled={shouldNotStart}
+          >
+            Start
           </Button>
         </Card.Actions>
       </Card>
