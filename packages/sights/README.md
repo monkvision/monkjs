@@ -1,11 +1,8 @@
-# 👁️‍🗨️ @monkvision/corejs
-[![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/corejs)
-
-AI-powered vehicle damage detection for JavaScript.
-Check out the full [documentation](https://monkvision.github.io/monkjs/docs/js/api/corejs).
+# 👁️‍🗨️ @monkvision/sights
+[![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/sights)
 
 ``` yarn
-yarn add @monkvision/corejs @reduxjs/toolkit
+yarn add @monkvision/sights
 ```
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.

@@ -8,6 +8,7 @@ config.projectRoot = __dirname;
 config.watchFolders = [path.resolve(__dirname, './packages')];
 config.resolver = {
   extraNodeModules: [
+    '@monkvision/camera',
     '@monkvision/corejs',
     '@monkvision/react-native',
     '@monkvision/react-native-views',

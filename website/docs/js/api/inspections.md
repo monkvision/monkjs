@@ -19,7 +19,7 @@ Returns an inspection with all its tasks.
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.inspections.getOne({ id, params });
+  await monkApi.inspections.getOne({ id, params });
 }
 ```
 
@@ -34,7 +34,7 @@ Returns all inspections created by user/organization.
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.inspections.getAll({ params });
+  await monkApi.inspections.getAll({ params });
 }
 ```
 
@@ -57,7 +57,7 @@ or to add more image on which you want to apply task.
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.inspections.createOne({ data });
+  await monkApi.inspections.createOne({ data });
 }
 ```
 
@@ -70,7 +70,7 @@ const handleRequest = async () => {
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.inspections.updateOne({ data });
+  await monkApi.inspections.updateOne({ data });
 }
 ```
 
@@ -83,7 +83,7 @@ const handleRequest = async () => {
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.inspections.deleteOne({ id });
+  await monkApi.inspections.deleteOne({ id });
 }
 ```
 
