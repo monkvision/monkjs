@@ -1,4 +1,5 @@
 import React from 'react';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import Layout from '@theme/Layout';
@@ -10,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import ReactJson from 'react-json-view';
+import Box from '@mui/material/Box';
 
 import sightsData from '@monkvision/sights/dist';
 
@@ -45,19 +46,10 @@ function SightCard({ id, label, category, vehicleType, overlay }) {
           {label.charAt(0).toUpperCase() + label.slice(1)}
           <Chip label={id} />
         </Typography>
-        <ReactJson
-          style={{
-            margin: 0,
-            marginTop: '8px',
-          }}
-          src={{ id, category, vehicleType }}
-          theme="harmonic"
-          enableClipboard={false}
-          displayDataTypes={false}
-          displayObjectSize={false}
-          collapseStringsAfterLength={20}
-        />
       </CardContent>
+      <Box component="pre" sx={{ backgroundColor: 'black', borderRadius: 0 }}>
+        {JSON.stringify({ id, label, category, vehicleType }, null, 2)}
+      </Box>
     </Card>
   );
 }
@@ -88,7 +80,9 @@ function Sights() {
         >
           <CssBaseline />
           {Object.values(sightsData).map((sight) => (
-            <SightCard key={sight.id} {...sight} />
+            <BrowserOnly>
+              {() => <SightCard key={sight.id} {...sight} />}
+            </BrowserOnly>
           ))}
         </Container>
       </Layout>
