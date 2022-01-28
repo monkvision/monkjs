@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
@@ -7,7 +7,10 @@ import noop from 'lodash.noop';
 import { BottomSheet } from '@monkvision/react-native-views';
 
 import { spacing } from 'config/theme';
+import Drawing from 'components/Drawing/index';
 import texts from './text';
+import vinLocations from './vinLocations.svg';
+import vinFormat from './vinFormat.svg';
 
 const styles = StyleSheet.create({
   content: {
@@ -24,6 +27,21 @@ const styles = StyleSheet.create({
   },
   li: {
     marginTop: spacing(2),
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    width: '100%',
+  },
+  liText: {
+    flexShrink: 1,
+  },
+  smallTitle: {
+    fontWeight: '500',
+    fontSize: 16,
+  },
+  drawing: {
+    marginVertical: spacing(1),
+    width: '100%',
+    alignItems: 'center',
   },
 });
 
@@ -32,13 +50,23 @@ export default function VinGuide({ isOpen, handleClose }) {
     <BottomSheet isOpen={isOpen} onClose={handleClose}>
       <BottomSheet.Title title="Where to find the VIN?" />
       <BottomSheet.Content style={styles.content}>
-        <Text>VIN can usually be found:</Text>
+        <View style={styles.drawing}>
+          <Drawing xml={vinFormat} width={180} />
+        </View>
+        <View style={styles.drawing}>
+          <Drawing xml={vinLocations} height={200} />
+        </View>
+        <Text style={styles.smallTitle}>VIN can usually be found:</Text>
         {texts.map((text) => (
-          <Text key={text} style={styles.li}>
-            👉
-            {' '}
-            {text}
-          </Text>
+          <View key={text} style={styles.li}>
+            <Text>
+              👉
+              {' '}
+            </Text>
+            <Text style={styles.liText}>
+              {text}
+            </Text>
+          </View>
         ))}
       </BottomSheet.Content>
       <BottomSheet.Actions style={styles.actions}>

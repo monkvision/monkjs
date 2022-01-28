@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text, View } from 'react-native';
 import Svg, {
   Mask,
   Path,
@@ -20,7 +21,13 @@ import pictureSide from './pictureSide';
  */
 function SightsWheel({ activeSight }) {
   const currentSight = activeSight.id;
-
+  if (currentSight === 'vin') {
+    return (
+      <View style={{ width: 125, height: 125, justifyContent: 'center' }}>
+        <Text style={{ textAlign: 'center', color: 'white' }}>Vin</Text>
+      </View>
+    );
+  }
   return (
     <Svg
       width="125"
