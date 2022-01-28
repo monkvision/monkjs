@@ -10,7 +10,7 @@ import usePermissions from '../../hooks/usePermissions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 export function getSize(ratio, { windowHeight, windowWidth }) {
-  const [a, b] = ratio.split(':').sort((c, d) => (c + d));
+  const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // [4:3] || [3:4]
   const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
 
   return {
