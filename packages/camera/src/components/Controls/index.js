@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
+import {
+  Platform, Pressable, StyleSheet,
+  useWindowDimensions, View,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,6 +14,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
+    fontSize: 34,
     width: 68,
     height: 68,
     justifyContent: 'center',
@@ -32,13 +36,17 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     overflow: 'hidden',
   },
+  hidden: {
+    visibility: 'hidden',
+    opacity: 0,
+  },
 });
 
-export function ControlButton({ children, disabled, style, ...passThroughProps }) {
+export function ControlButton({ children, disabled, hidden, style, ...passThroughProps }) {
   return (
     <Pressable
-      disabled={disabled}
-      style={[styles.button, style]}
+      disabled={disabled || hidden}
+      style={[styles.button, style, hidden ? styles.hidden : {}]}
       {...passThroughProps}
     >
       {children}
@@ -49,14 +57,25 @@ export function ControlButton({ children, disabled, style, ...passThroughProps }
 ControlButton.propTypes = {
   children: PropTypes.element,
   disabled: PropTypes.bool,
+  hidden: PropTypes.bool,
 };
 
 ControlButton.defaultProps = {
   children: null,
   disabled: false,
+  hidden: false,
 };
 
-function Controls({ containerStyle, onCapture, ...passThroughProps }) {
+function Controls({
+  buttonCaptureProps,
+  buttonSettingsProps,
+  buttonValidateProps,
+  containerStyle,
+  onSettings,
+  onCapture,
+  onValidate,
+  ...passThroughProps
+}) {
   const { height: windowHeight } = useWindowDimensions();
 
   return (
@@ -68,25 +87,54 @@ function Controls({ containerStyle, onCapture, ...passThroughProps }) {
       })]}
     >
       <ControlButton
+        acccessibilityLabel="Settings button"
+        onPress={onSettings}
+        style={styles.button}
+        {...buttonSettingsProps}
+        {...passThroughProps}
+      >
+        ⚙️
+      </ControlButton>
+      <ControlButton
         acccessibilityLabel="Capture button"
         onPress={onCapture}
         style={styles.captureButton}
+        {...buttonCaptureProps}
         {...passThroughProps}
       >
         <View style={styles.button} />
+      </ControlButton>
+      <ControlButton
+        acccessibilityLabel="Validate button"
+        onPress={onValidate}
+        style={styles.button}
+        {...buttonValidateProps}
+        {...passThroughProps}
+      >
+        ✔️
       </ControlButton>
     </View>
   );
 }
 
 Controls.propTypes = {
+  buttonCaptureProps: PropTypes.objectOf(PropTypes.any),
+  buttonSettingsProps: PropTypes.objectOf(PropTypes.any),
+  buttonValidateProps: PropTypes.objectOf(PropTypes.any),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onCapture: PropTypes.func,
+  onSettings: PropTypes.func,
+  onValidate: PropTypes.func,
 };
 
 Controls.defaultProps = {
+  buttonCaptureProps: {},
+  buttonSettingsProps: { hidden: true },
+  buttonValidateProps: { hidden: true },
   containerStyle: null,
   onCapture: () => {},
+  onSettings: () => {},
+  onValidate: () => {},
 };
 
 export default Controls;

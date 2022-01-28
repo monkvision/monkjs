@@ -30,9 +30,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 8,
   },
+  hidden: {
+    visibility: 'hidden',
+    opacity: 0,
+  },
 });
 
-function FullScreenButton() {
+function FullScreenButton({ hidden, ...rest }) {
   const [isOn, setOn, setOff] = useToggle();
   const title = useMemo(() => (isOn ? 'ESC.' : 'Fullscreen'), [isOn]);
 
@@ -55,12 +59,23 @@ function FullScreenButton() {
         acccessibilityLabel="Toggle FullScreen"
         onPress={toggleFullScreen}
         title={title}
+        disabled={hidden}
+        style={[hidden ? styles.hidden : {}]}
+        {...rest}
       />
     </View>
   );
 }
 
-function Layout({ children, containerStyle, left, right, sectionStyle }) {
+FullScreenButton.propTypes = {
+  hidden: PropTypes.bool,
+};
+
+FullScreenButton.defaultProps = {
+  hidden: false,
+};
+
+function Layout({ buttonFullScreenProps, children, containerStyle, left, right, sectionStyle }) {
   const isNative = Platform.select({ native: true, default: false });
 
   const { width: windowWidth } = useWindowDimensions();
@@ -102,7 +117,7 @@ function Layout({ children, containerStyle, left, right, sectionStyle }) {
         }), sectionStyle]}
       >
         {children}
-        <FullScreenButton />
+        <FullScreenButton {...buttonFullScreenProps} />
       </View>
       <View
         accessibilityLabel="Side right"
@@ -115,6 +130,7 @@ function Layout({ children, containerStyle, left, right, sectionStyle }) {
 }
 
 Layout.propTypes = {
+  buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
   right: PropTypes.element,
@@ -122,6 +138,7 @@ Layout.propTypes = {
 };
 
 Layout.defaultProps = {
+  buttonFullScreenProps: {},
   containerStyle: null,
   left: null,
   right: null,

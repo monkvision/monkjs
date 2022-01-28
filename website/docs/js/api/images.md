@@ -21,7 +21,7 @@ The response is a unique image id.
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.images.addOne({ inspectionId, data });
+  await monkApi.images.addOne({ inspectionId, data });
 }
 ```
 

@@ -31,7 +31,21 @@ const styles = StyleSheet.create({
  * @return {JSX.Element}
  * @constructor
  */
-export default function Capture({ hideReset, onChange, onReset, sightIds, style }) {
+export default function Capture({
+  buttonFullScreenProps,
+  buttonCaptureProps,
+  buttonResetProps,
+  buttonSettingsProps,
+  buttonValidateProps,
+  onCapture,
+  onChange,
+  onOffline,
+  onReset,
+  onSettings,
+  onValidate,
+  sightIds,
+  style,
+}) {
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
   const [awaitingPicture, setAwaitingPicture, unsetAwaitingPicture] = useToggle();
@@ -65,7 +79,9 @@ export default function Capture({ hideReset, onChange, onReset, sightIds, style 
     dispatch({ type: Actions.sights.NEXT_SIGHT });
 
     unsetAwaitingPicture();
-  }, [camera, current.id, dispatch, setAwaitingPicture, unsetAwaitingPicture]);
+
+    onCapture(picture, camera);
+  }, [camera, current.id, dispatch, onCapture, setAwaitingPicture, unsetAwaitingPicture]);
 
   useEffect(() => {
     onChange(state);
@@ -79,8 +95,27 @@ export default function Capture({ hideReset, onChange, onReset, sightIds, style 
   return (
     <View accessibilityLabel="Capture component" style={[styles.container, style]}>
       <Layout
-        left={(<Sights onReset={onReset} hideReset={hideReset} {...state} dispatch={dispatch} />)}
-        right={(<Controls onCapture={handleCapture} disabled={awaitingPicture} />)}
+        buttonFullScreenProps={buttonFullScreenProps}
+        left={(
+          <Sights
+            buttonResetProps={buttonResetProps}
+            onOffline={onOffline}
+            onReset={onReset}
+            {...state}
+            dispatch={dispatch}
+          />
+        )}
+        right={(
+          <Controls
+            buttonCaptureProps={buttonCaptureProps}
+            buttonSettingsProps={buttonSettingsProps}
+            buttonValidateProps={buttonValidateProps}
+            onCapture={handleCapture}
+            onSettings={onSettings}
+            onValidate={onValidate}
+            disabled={awaitingPicture}
+          />
+        )}
       >
         <Camera
           onRef={setCamera}
@@ -97,16 +132,32 @@ export default function Capture({ hideReset, onChange, onReset, sightIds, style 
 }
 
 Capture.propTypes = {
-  hideReset: PropTypes.bool,
+  buttonCaptureProps: PropTypes.objectOf(PropTypes.any),
+  buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
+  buttonResetProps: PropTypes.objectOf(PropTypes.any),
+  buttonSettingsProps: PropTypes.objectOf(PropTypes.any),
+  buttonValidateProps: PropTypes.objectOf(PropTypes.any),
+  onCapture: PropTypes.func,
   onChange: PropTypes.func,
+  onOffline: PropTypes.func,
   onReset: PropTypes.func,
+  onSettings: PropTypes.func,
+  onValidate: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 Capture.defaultProps = {
-  hideReset: false,
+  buttonFullScreenProps: {},
+  buttonCaptureProps: {},
+  buttonResetProps: { hidden: true },
+  buttonSettingsProps: { hidden: true },
+  buttonValidateProps: { hidden: true },
+  onCapture: () => {},
   onChange: () => {},
+  onOffline: () => {},
   onReset: () => {},
+  onSettings: () => {},
+  onValidate: () => {},
   sightIds: [
     'VGv4m3', // front
     'H12i1w', // front left
