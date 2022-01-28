@@ -80,8 +80,8 @@ export default function Capture({
 
     unsetAwaitingPicture();
 
-    onCapture(picture, camera);
-  }, [camera, current.id, dispatch, onCapture, setAwaitingPicture, unsetAwaitingPicture]);
+    onCapture(picture, camera, { current });
+  }, [camera, current, dispatch, onCapture, setAwaitingPicture, unsetAwaitingPicture]);
 
   useEffect(() => {
     onChange(state);
