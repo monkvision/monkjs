@@ -16,6 +16,7 @@ module.exports = {
       },
       items: [
         { to: 'docs', label: 'Docs', position: 'left' },
+        { to: 'sights', label: 'Sights', position: 'left' },
         { to: 'blog', label: 'Blog', position: 'left' },
       ],
     },
