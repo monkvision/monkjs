@@ -19,7 +19,7 @@ import { ScrollView, SafeAreaView, View, StyleSheet } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 
 import { INSPECTION_READ } from 'screens/names';
-import VehicleForm from './VehicleForm';
+import VehicleForm from './VehicleForm/index';
 import AdditionalDataForm from './AdditionalDataForm';
 
 const styles = StyleSheet.create({
@@ -90,6 +90,7 @@ export default () => {
   if (isLoading) {
     return <ActivityIndicatorView light />;
   }
+  if (!inspection?.vehicle) { return null; }
 
   return (
     <SafeAreaView style={styles.root}>

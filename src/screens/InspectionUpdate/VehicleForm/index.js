@@ -1,9 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useCallback, useMemo } from 'react';
 import omit from 'lodash.omit';
 import noop from 'lodash.noop';
 import snakeCase from 'lodash.snakecase';
-import { Avatar, Button, Card, RadioButton, Text, TextInput, useTheme } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import { Avatar, Button, Card, RadioButton, Text, TextInput, useTheme, HelperText } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Formik } from 'formik';
@@ -13,6 +14,7 @@ import { Select } from '@monkvision/react-native-views';
 
 import { spacing } from 'config/theme';
 import useRequest from 'hooks/useRequest';
+import vehicleValidationSchema from './validation';
 
 function renameKeys(obj, newKeys, callback = null) {
   const keyValues = Object.keys(obj).map((key) => {
@@ -50,6 +52,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: '100%',
+    marginBottom: spacing(1),
+  },
+  textInputLayout: {
     marginBottom: spacing(2),
   },
 });
@@ -75,6 +80,22 @@ const vehicleInfoInitialValues = {
   date_of_circulation: '',
 };
 
+const CustomHelperText = ({ name, touched, errors, ...props }) => (
+  <HelperText
+    {...props}
+    type="error"
+    visible={errors[name]}
+  >
+    {errors[name]}
+  </HelperText>
+);
+
+CustomHelperText.propTypes = {
+  errors: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  touched: PropTypes.object.isRequired,
+};
+
 export default function VehicleForm({ inspection, refresh, inspectionId }) {
   const { colors } = useTheme();
 
@@ -85,10 +106,17 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
     const vehicleInfo = omit(inspection.vehicle, unusedFields);
     const normalizedInfos = renameKeys(vehicleInfo, null, (key) => snakeCase(key));
 
-    const normalizedMarketValue = renameKeys(normalizedInfos.market_value, { market_value_unit: 'unit', market_value_value: 'value' });
-    const normalizedMileage = renameKeys(normalizedInfos.mileage, { mileage_unit: 'unit', mileage_value: 'value' });
+    const normalizedMarketValue = {
+      unit: normalizedInfos.market_value.market_value_unit || '',
+      value: normalizedInfos.market_value.market_value_value || '' };
 
-    return { ...normalizedInfos, market_value: normalizedMarketValue, mileage: normalizedMileage };
+    const mileage = {
+      unit: normalizedInfos.mileage.mileage_unit || '',
+      value: normalizedInfos.mileage.mileage_value || '' };
+
+    const normalizedValues = { ...normalizedInfos, market_value: normalizedMarketValue, mileage };
+
+    return Object.keys(normalizedValues).reduce((acc, key) => { acc[key] = normalizedValues[key] || ''; return acc; }, {});
   }, [inspection.vehicle]);
 
   const handleSubmitVehicleInfo = useCallback(
@@ -96,21 +124,22 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
       { onSuccess: refresh }),
     [inspectionId, refresh, submitVehicleInfo],
   );
-
   return (
     <Card style={styles.card}>
       <Formik
+        validationSchema={vehicleValidationSchema}
         enableReinitialize
         initialValues={normalizedVehicleInfo || vehicleInfoInitialValues}
         onSubmit={(values) => handleSubmitVehicleInfo(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, dirty }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, dirty, errors }) => (
           <View style={styles.form}>
             <Card.Title
               title="Vehicle"
               left={(props) => <Avatar.Icon {...props} icon="car" />}
             />
             <Card.Content>
+
               <TextInput
                 mode="outlined"
                 label="Brand"
@@ -173,7 +202,7 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
                   label="Mileage"
                   onChangeText={handleChange('mileage.value')}
                   onBlur={handleBlur('mileage.value')}
-                  value={values.mileage.value.toString()}
+                  value={values.mileage.value?.toString()}
                   style={[styles.textInput, { flexGrow: 1, width: 'auto' }]}
                   right={<TextInput.Affix text={values.mileage.unit} />}
                 />
@@ -189,7 +218,7 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
                     </View>
                     <View style={{ alignItems: 'center' }}>
                       <Text>mi</Text>
-                      <RadioButton value="mi" color={colors.primary} />
+                      <RadioButton value="miles" color={colors.primary} />
                     </View>
                   </RadioButton.Group>
                 </View>
@@ -257,7 +286,7 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
                   label="Market value"
                   onChangeText={handleChange('market_value.value')}
                   onBlur={handleBlur('market_value.value')}
-                  value={values.market_value.value.toString()}
+                  value={values.market_value.value?.toString()}
                   style={[styles.textInput, { flexGrow: 1, width: 'auto' }]}
                   right={<TextInput.Affix text={values.market_value.unit} />}
                 />
@@ -278,7 +307,18 @@ export default function VehicleForm({ inspection, refresh, inspectionId }) {
                   </RadioButton.Group>
                 </View>
               </View>
-
+              <HelperText type="error" visible={errors?.mileage && errors?.mileage?.unit}>
+                {errors?.mileage?.unit}
+              </HelperText>
+              <HelperText type="error" visible={errors?.mileage && errors?.mileage?.value}>
+                {errors?.mileage?.value}
+              </HelperText>
+              <HelperText type="error" visible={errors?.market_value && errors?.market_value?.unit}>
+                {errors?.market_value?.unit}
+              </HelperText>
+              <HelperText type="error" visible={errors?.market_value && errors?.market_value?.value}>
+                {errors?.market_value?.value}
+              </HelperText>
             </Card.Content>
             <Card.Actions style={{ justifyContent: 'flex-end' }}>
               <Button

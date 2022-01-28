@@ -44,7 +44,7 @@ export default function AdditionalDataForm({ inspection, refresh, inspectionId }
   const { isLoading: isSubmittingAdditionalData,
     request: submitAdditionalData } = useRequest(null, {}, false);
 
-  const additionalData = inspection.additionalData.pdf_data;
+  const additionalData = inspection?.additionalData?.pdf_data;
 
   const handleSubmitAdditionalData = useCallback(
     (data) => submitAdditionalData(updateOneInspectionAdditionalData({
