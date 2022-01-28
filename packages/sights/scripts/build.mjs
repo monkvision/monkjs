@@ -15,12 +15,20 @@ function start() {
         fs.readFile(path, 'utf8' , (err, data) => {
           if (err) return console.log(err);
 
-          newItems[key] = { ...newItems[key], overlay: data.replace(/^\s+|\s+$/gm,'') }
+          const item = newItems[key];
 
-          fs.mkdir('./dist/native', { recursive: true }, (err) => {
+          newItems[key] = {
+            id: item.id,
+            label: item.label,
+            category: item.category,
+            vehicleType: item.vehicleType,
+            overlay: data.replace(/^\s+|\s+$/gm,'')
+          }
+
+          fs.mkdir('./dist', { recursive: true }, (err) => {
             if (err) return console.log(err);
 
-            fs.writeFile('./dist/native/index.json', JSON.stringify(newItems, null, 2), (err) => {
+            fs.writeFile('./dist/index.json', JSON.stringify(newItems, null, 2), (err) => {
               if (err) return console.log(err);
             });
           });

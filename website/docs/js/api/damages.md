@@ -17,7 +17,7 @@ yarn add @monkvision/corejs
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.damages.createOne({ inspectionId, data });
+  await monkApi.damages.createOne({ inspectionId, data });
 }
 ```
 
@@ -30,7 +30,7 @@ const handleRequest = async () => {
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkapi.damages.deleteOne({ id, inspectionId });
+  await monkApi.damages.deleteOne({ id, inspectionId });
 }
 ```
 

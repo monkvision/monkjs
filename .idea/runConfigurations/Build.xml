@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build" type="CompoundRunConfigurationType">
-    <toRun name="build:react-native" type="js.build_tools.npm" />
-    <toRun name="build:react-native-views" type="js.build_tools.npm" />
-    <toRun name="build:corejs" type="js.build_tools.npm" />
-    <method v="2" />
-  </configuration>
-</component>
