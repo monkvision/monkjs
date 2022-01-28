@@ -1,4 +1,4 @@
-name: Check Core package
+name: Check Sights package
 
 on:
   push:
@@ -25,6 +25,6 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      - run: cd packages/corejs && yarn install
-      - run: cd packages/corejs && yarn lint
-      - run: cd packages/corejs && yarn run build
+      - run: cd packages/sights && yarn install
+      - run: cd packages/sights && yarn lint
+      - run: cd packages/sights && yarn run build
