@@ -61,12 +61,16 @@ export default function useRequest(asyncThunk, callbacks = {}, shouldFetch = tru
 
         const originalPromiseResult = await dispatch(asyncThunk || customAsyncThunk).unwrap();
         setState({ type: FULFILLED, payload: originalPromiseResult });
-        if (additionalCallbacks?.onSuccess) { additionalCallbacks.onSuccess(); }
+        if (additionalCallbacks?.onSuccess) {
+          additionalCallbacks.onSuccess(originalPromiseResult);
+        }
         onSuccess(originalPromiseResult);
       }
     } catch (rejectedValueOrSerializedError) {
       setState({ type: REJECTED, payload: rejectedValueOrSerializedError });
-      if (additionalCallbacks?.onError) { additionalCallbacks.onError(); }
+      if (additionalCallbacks?.onError) {
+        additionalCallbacks.onError(rejectedValueOrSerializedError);
+      }
       onError(rejectedValueOrSerializedError);
     }
   }, [asyncThunk, callbacks, dispatch, state.isLoading]);
