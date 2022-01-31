@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, Platform } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -8,16 +8,22 @@ import { createOneInspection,
   values as sightValues,
   updateOneTaskOfInspection,
   selectVehicleEntities,
+  selectTaskEntities,
+  selectInspectionEntities,
   getOneInspectionById,
+  inspectionsEntity,
   vehiclesEntity,
+  tasksEntity,
+  taskStatuses,
 } from '@monkvision/corejs';
 import { denormalize } from 'normalizr';
 
-import useRequest from 'hooks/useRequest/index';
-import useUpload from 'hooks/useUpload/index';
+import useRequest from 'hooks/useRequest';
+import useInterval from 'hooks/useInterval';
+import useUpload from 'hooks/useUpload';
 import { useSelector } from 'react-redux';
-import VinGuide from './VinGuide/index';
-import VinForm from './VinForm/index';
+import VinGuide from './VinGuide';
+import VinForm from './VinForm';
 
 const vinSight = Object.values(sightValues.sights.abstract).map((s) => new Sight(...s)).filter((item) => item.id === 'vin');
 
@@ -25,26 +31,53 @@ export default () => {
   const theme = useTheme();
   const navigation = useNavigation();
 
-  const [uploading, toggleOnUploading, toggleOffUploading] = useToggle();
-  const [inspectionId, setInspectionId] = useState(false);
-  const [camera, setCamera] = useState(false);
+  const [inspectionId, setInspectionId] = useState(null);
   const [vinPicture, setVinPicture] = useState();
 
+  const [camera, toggleOnCamera, toggleOffCamera] = useToggle();
+  const [uploading, toggleOnUploading, toggleOffUploading] = useToggle();
   const [guideIsOpen, handleOpenGuide, handleCloseGuide] = useToggle();
 
   const payload = { data: { tasks: { damage_detection: { status: 'NOT_STARTED' }, images_ocr: { status: 'NOT_STARTED' } } } };
   const callbacks = { onSuccess: ({ result }) => setInspectionId(result) };
 
-  const { isLoading } = useRequest(createOneInspection(payload), callbacks);
-  const { refresh } = useRequest(getOneInspectionById({ id: inspectionId }), false);
+  const {
+    isLoading,
+    request: createInspection } = useRequest(createOneInspection(payload), callbacks);
+  const { refresh } = useRequest(getOneInspectionById({ id: inspectionId }), {}, false);
+
   const vehiclesEntities = useSelector(selectVehicleEntities);
+  const tasksEntities = useSelector(selectTaskEntities);
+  const inspectionEntities = useSelector(selectInspectionEntities);
 
   const { inspection } = denormalize({ inspection: inspectionId }, {
-    vehicles: [vehiclesEntity] }, { vehicles: vehiclesEntities });
+    inspection: inspectionsEntity,
+    vehicles: [vehiclesEntity],
+    tasks: [tasksEntity],
+  }, {
+    inspections: inspectionEntities,
+    vehicles: vehiclesEntities,
+    tasks: tasksEntities,
+  });
 
-  const vin = inspection?.vehicle?.vin;
-  // console.log(vehiclesEntities[inspectionId]);
-  const ocrPayload = { inspectionId, taskName: 'images_ocr', data: { status: 'TODO' } };
+  const lastDetectedVin = inspection?.vehicle?.vin;
+  const updateVehicleRequiredFields = {
+    marketValue: inspection?.vehicle?.marketValue,
+    mileage: inspection?.vehicle?.mileage,
+  };
+
+  const lastOcrTask = useMemo(() => {
+    const allOcrTasks = inspection?.tasks?.filter((task) => task?.name === 'images_ocr');
+    return allOcrTasks?.find((_, i) => i === allOcrTasks?.length - 1);
+  }, [inspection]);
+
+  const delay = useMemo(() => {
+    if (lastOcrTask?.status !== taskStatuses.DONE && vinPicture) { return 3000; }
+    return null;
+  }, [lastOcrTask, vinPicture]);
+  useInterval(refresh, delay);
+
+  const ocrPayload = { inspectionId, taskName: 'images_ocr', data: { status: taskStatuses.TODO } };
   const {
     request: startOcr,
     isLoading: ocrIsLoading,
@@ -54,13 +87,13 @@ export default () => {
     if (vinPicture) { setVinPicture(null); }
 
     navigation?.setOptions({ headerShown: false });
-    setCamera(true);
-  }, [navigation, vinPicture]);
+    toggleOnCamera();
+  }, [navigation, toggleOnCamera, vinPicture]);
 
   const handleCloseVinCamera = useCallback(() => {
     navigation?.setOptions({ headerShown: true });
-    setCamera(false);
-  }, [navigation]);
+    toggleOffCamera();
+  }, [navigation, toggleOffCamera]);
 
   const upload = useUpload({
     inspectionId,
@@ -83,9 +116,15 @@ export default () => {
   const [uploadingFakeActivity] = useFakeActivity(uploading);
   const [ocrLoadingFakeActivity] = useFakeActivity(ocrIsLoading);
 
-  // useEffect(() => {
-  //   if (vinPicture?.source) { handleUploadVin(); }
-  // }, [handleUploadVin, vinPicture]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setInspectionId(null);
+      setVinPicture(null);
+      createInspection();
+    });
+
+    return unsubscribe;
+  }, [createInspection, navigation]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -114,12 +153,14 @@ export default () => {
       <VinGuide isOpen={guideIsOpen} handleClose={handleCloseGuide} />
       <VinForm
         inspectionId={inspectionId}
-        vin={vin}
+        vin={lastDetectedVin}
+        status={lastOcrTask?.status}
         handleOpenGuide={handleOpenGuide}
         handleOpenCamera={handleOpenVinCameraOrRetake}
         vinPicture={vinPicture}
-        ocrIsLoading={ocrLoadingFakeActivity}
-        isUploading={uploadingFakeActivity}
+        ocrIsLoading={!!ocrLoadingFakeActivity}
+        isUploading={!!uploadingFakeActivity}
+        requiredFields={updateVehicleRequiredFields}
       />
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Platform, Text } from 'react-native';
 import { useTheme, Button, TextInput, IconButton, Card } from 'react-native-paper';
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { INSPECTION_CREATE } from 'screens/names';
 import { spacing } from 'config/theme';
 import useRequest from 'hooks/useRequest/index';
+import handleStatuses from './statuses';
 
 const styles = StyleSheet.create({
   picture: {
@@ -65,6 +66,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const payload = { market_value: { unit: 'EUR', value: 1 }, mileage: { value: 1, unit: 'km' } };
+
 export default function VinForm({
   inspectionId,
   vin,
@@ -73,6 +76,8 @@ export default function VinForm({
   vinPicture,
   ocrIsLoading,
   isUploading,
+  status,
+  requiredFields,
 }) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -84,14 +89,32 @@ export default function VinForm({
   const { isLoading: isSubmittingVehicleInfo,
     request: submitVehicleInfo } = useRequest(null, {}, false);
 
+  const requiredPayload = useMemo(() => {
+    const hasMileage = requiredFields.mileage?.unit && requiredFields.mileage?.value;
+    const hasMarketValue = requiredFields.marketValue?.unit && requiredFields.marketValue?.value;
+    return { market_value: hasMarketValue ? requiredFields.marketValue : payload.market_value,
+      mileage: hasMileage ? requiredFields.mileage : payload.mileage,
+    };
+  }, [requiredFields.marketValue, requiredFields.mileage]);
+
+  const handleSkip = useCallback(() => submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data: { vin: '', ...requiredPayload } }),
+    { onSuccess: handleTakePictures }),
+  [submitVehicleInfo, inspectionId, requiredPayload, handleTakePictures]);
+
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: { vin: vin || '' },
     enableReinitialize: true,
-    onSubmit: ({ vals }) => {
-      submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data: { ...vals, market_value: { unit: 'EUR', value: 1 }, mileage: { value: 1, unit: 'km' } } }),
-        { onSuccess: handleTakePictures });
+    onSubmit: (vals) => {
+      submitVehicleInfo(updateOneInspectionVehicle({ inspectionId,
+        data: { vin: vals.vin, ...requiredPayload } }),
+      { onSuccess: handleTakePictures });
     },
   });
+
+  const statusText = useMemo(
+    () => handleStatuses({ status, ocrIsLoading, vinPicture, vin, values, isUploading }),
+    [isUploading, ocrIsLoading, status, values, vin, vinPicture],
+  );
 
   return (
     <Card>
@@ -104,15 +127,9 @@ export default function VinForm({
           Take a clear picture of your VIN, or type it manually.
         </Text>
 
-        {ocrIsLoading ? (
+        {statusText ? (
           <Text style={styles.wait}>
-            AI is reading the image, please be patient...
-          </Text>
-        ) : null}
-
-        {isUploading ? (
-          <Text style={styles.wait}>
-            Uploading the VIN image...
+            {statusText}
           </Text>
         ) : null}
 
@@ -129,14 +146,16 @@ export default function VinForm({
           : null}
 
         <Text style={styles.orText}>OR</Text>
-        <IconButton style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenCamera} />
+        <IconButton disabled={vinPicture} style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenCamera} />
 
       </Card.Content>
       <Card.Actions style={styles.actions}>
-        <Button onPress={handleSubmit} loading={isSubmittingVehicleInfo} style={styles.button} mode="contained" disabled={!values.vin || isSubmittingVehicleInfo} labelStyle={{ color: '#FFF' }}>
+        <Button onPress={handleSubmit} style={styles.button} mode="contained" disabled={!values.vin || isSubmittingVehicleInfo} labelStyle={{ color: '#FFF' }}>
           Validate VIN
         </Button>
-        <Button onPress={handleTakePictures} style={styles.button}>Skip</Button>
+        <Button onPress={handleSkip} disabled={isSubmittingVehicleInfo} style={styles.button}>
+          Skip
+        </Button>
       </Card.Actions>
     </Card>
   );
@@ -145,9 +164,27 @@ export default function VinForm({
 VinForm.propTypes = {
   handleOpenCamera: PropTypes.func.isRequired,
   handleOpenGuide: PropTypes.func.isRequired,
-  inspectionId: PropTypes.string.isRequired,
+  inspectionId: PropTypes.string,
   isUploading: PropTypes.bool.isRequired,
   ocrIsLoading: PropTypes.bool.isRequired,
-  vin: PropTypes.string.isRequired,
-  vinPicture: propTypes.cameraPictures.isRequired,
+  requiredFields: PropTypes.shape({
+    marketValue: PropTypes.shape({
+      unit: PropTypes.string,
+      value: PropTypes.number,
+    }),
+    mileage: PropTypes.shape({
+      unit: PropTypes.string,
+      value: PropTypes.number,
+    }),
+  }).isRequired,
+  status: PropTypes.string,
+  vin: PropTypes.string,
+  vinPicture: propTypes.cameraPictures,
+};
+
+VinForm.defaultProps = {
+  inspectionId: null,
+  vinPicture: null,
+  vin: null,
+  status: null,
 };
