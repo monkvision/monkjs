@@ -75,6 +75,7 @@ function Gradient() {
 }
 
 export default function Sights({
+  buttonOfflineProps,
   buttonResetProps,
   current,
   dispatch,
@@ -137,13 +138,16 @@ export default function Sights({
             {`${current.index + 1} / ${ids.length} `}
           </Text>
         </View>
-        <View style={styles.switchContainer}>
-          <Switch
-            onValueChange={handleOffline}
-            value={isOnline}
-          />
-          <Text style={styles.switchText}>{onlineText}</Text>
-        </View>
+        {!buttonOfflineProps.hidden && (
+          <View style={styles.switchContainer}>
+            <Switch
+              onValueChange={handleOffline}
+              value={isOnline}
+              {...buttonOfflineProps}
+            />
+            <Text style={styles.switchText}>{onlineText}</Text>
+          </View>
+        )}
       </View>
       {Object.values(tour).map(({ id, label, overlay }) => (
         <Thumbnail
@@ -170,6 +174,7 @@ export default function Sights({
 }
 
 Sights.propTypes = {
+  buttonOfflineProps: PropTypes.objectOf(PropTypes.any),
   buttonResetProps: PropTypes.objectOf(PropTypes.any),
   current: PropTypes.shape({ index: PropTypes.number }).isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -185,7 +190,8 @@ Sights.propTypes = {
 };
 
 Sights.defaultProps = {
-  buttonResetProps: [],
+  buttonOfflineProps: {},
+  buttonResetProps: {},
   onOffline: () => {},
   onReset: () => {},
   takenPictures: {},

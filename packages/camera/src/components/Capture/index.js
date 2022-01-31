@@ -15,6 +15,7 @@ import Overlay from '../Overlay';
 import Sights from '../Sights';
 
 import Actions from '../../actions';
+import Constants from '../../const';
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -32,8 +33,9 @@ const styles = StyleSheet.create({
  * @constructor
  */
 export default function Capture({
-  buttonFullScreenProps,
   buttonCaptureProps,
+  buttonFullScreenProps,
+  buttonOfflineProps,
   buttonResetProps,
   buttonSettingsProps,
   buttonValidateProps,
@@ -59,6 +61,10 @@ export default function Capture({
   const title = useMemo(() => {
     if (!current.metadata) { return ''; }
     const { label, id } = current.metadata;
+
+    if (Constants.PRODUCTION) {
+      return label;
+    }
 
     return `${label} - ${id}`;
   }, [current]);
@@ -98,6 +104,7 @@ export default function Capture({
         buttonFullScreenProps={buttonFullScreenProps}
         left={(
           <Sights
+            buttonOfflineProps={buttonOfflineProps}
             buttonResetProps={buttonResetProps}
             onOffline={onOffline}
             onReset={onReset}
@@ -134,6 +141,7 @@ export default function Capture({
 Capture.propTypes = {
   buttonCaptureProps: PropTypes.objectOf(PropTypes.any),
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
+  buttonOfflineProps: PropTypes.objectOf(PropTypes.any),
   buttonResetProps: PropTypes.objectOf(PropTypes.any),
   buttonSettingsProps: PropTypes.objectOf(PropTypes.any),
   buttonValidateProps: PropTypes.objectOf(PropTypes.any),
@@ -147,8 +155,9 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
-  buttonFullScreenProps: {},
   buttonCaptureProps: {},
+  buttonFullScreenProps: {},
+  buttonOfflineProps: { hidden: true },
   buttonResetProps: { hidden: true },
   buttonSettingsProps: { hidden: true },
   buttonValidateProps: { hidden: true },

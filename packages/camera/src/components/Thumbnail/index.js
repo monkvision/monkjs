@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 125,
     transform: [{ rotateY: '180deg' }],
-    borderWidth: 1.5,
+    borderBottomWidth: 1.5,
     opacity: 0.5,
   },
   smRoot: {

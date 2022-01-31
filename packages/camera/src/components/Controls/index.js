@@ -92,9 +92,7 @@ function Controls({
         style={styles.button}
         {...buttonSettingsProps}
         {...passThroughProps}
-      >
-        ⚙️
-      </ControlButton>
+      />
       <ControlButton
         acccessibilityLabel="Capture button"
         onPress={onCapture}
@@ -110,9 +108,7 @@ function Controls({
         style={styles.button}
         {...buttonValidateProps}
         {...passThroughProps}
-      >
-        ✔️
-      </ControlButton>
+      />
     </View>
   );
 }
