@@ -1,92 +1,55 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, SafeAreaView, Platform, Text } from 'react-native';
-import { useTheme, Button, TextInput, IconButton, Card } from 'react-native-paper';
-
+import { SafeAreaView, Platform } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { useFakeActivity, ActivityIndicatorView, CameraView, useToggle } from '@monkvision/react-native-views';
-import { createOneInspection, Sight, values } from '@monkvision/corejs';
+import { createOneInspection,
+  Sight,
+  values as sightValues,
+  updateOneTaskOfInspection,
+  selectVehicleEntities,
+  getOneInspectionById,
+  vehiclesEntity,
+} from '@monkvision/corejs';
+import { denormalize } from 'normalizr';
 
-import { INSPECTION_CREATE } from 'screens/names';
 import useRequest from 'hooks/useRequest/index';
-import { spacing } from 'config/theme';
 import useUpload from 'hooks/useUpload/index';
+import { useSelector } from 'react-redux';
 import VinGuide from './VinGuide/index';
+import VinForm from './VinForm/index';
 
-const styles = StyleSheet.create({
-
-  picture: {
-    width: '100%',
-    maxWidth: 512,
-    height: 60,
-    borderRadius: 4,
-    marginTop: spacing(2),
-    alignSelf: 'center',
-  },
-  textInput: {
-    width: '100%',
-    maxWidth: 512,
-    alignSelf: 'center',
-  },
-  actions: {
-    margin: spacing(1),
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    ...Platform.select({
-      native: {
-        flexDirection: 'row',
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-    }),
-  },
-  button: {
-    marginBottom: spacing(1),
-    marginHorizontal: spacing(1),
-    ...Platform.select({
-      web: { width: 140 },
-      default: { width: '100%' },
-    }),
-  },
-  captureVinButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 999,
-    alignSelf: 'center',
-  },
-  orText: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    marginVertical: spacing(2),
-  },
-  text: {
-    marginBottom: spacing(2),
-  },
-});
+const vinSight = Object.values(sightValues.sights.abstract).map((s) => new Sight(...s)).filter((item) => item.id === 'vin');
 
 export default () => {
   const theme = useTheme();
   const navigation = useNavigation();
 
-  const [validating, setValidating] = useState(false);
+  const [uploading, toggleOnUploading, toggleOffUploading] = useToggle();
   const [inspectionId, setInspectionId] = useState(false);
   const [camera, setCamera] = useState(false);
   const [vinPicture, setVinPicture] = useState();
 
-  // to be filled with vin from ML
-  const [vin] = useState('1 G1 YZ23J 9P5 803427');
   const [guideIsOpen, handleOpenGuide, handleCloseGuide] = useToggle();
 
-  const payload = { data: { tasks: { damage_detection: { status: 'NOT_STARTED' } } } };
+  const payload = { data: { tasks: { damage_detection: { status: 'NOT_STARTED' }, images_ocr: { status: 'NOT_STARTED' } } } };
   const callbacks = { onSuccess: ({ result }) => setInspectionId(result) };
 
   const { isLoading } = useRequest(createOneInspection(payload), callbacks);
+  const { refresh } = useRequest(getOneInspectionById({ id: inspectionId }), false);
+  const vehiclesEntities = useSelector(selectVehicleEntities);
 
-  const vinSight = Object.values(values.sights.abstract).map((s) => new Sight(...s)).filter((item) => item.id === 'vin');
+  const { inspection } = denormalize({ inspection: inspectionId }, {
+    vehicles: [vehiclesEntity] }, { vehicles: vehiclesEntities });
 
-  const handleTakePictures = useCallback(
-    () => navigation.navigate(INSPECTION_CREATE, { inspectionId }),
-    [inspectionId, navigation],
-  );
+  const vin = inspection?.vehicle?.vin;
+  // console.log(vehiclesEntities[inspectionId]);
+  const ocrPayload = { inspectionId, taskName: 'images_ocr', data: { status: 'TODO' } };
+  const {
+    request: startOcr,
+    isLoading: ocrIsLoading,
+  } = useRequest(updateOneTaskOfInspection(ocrPayload), { onSuccess: refresh }, false);
+
   const handleOpenVinCameraOrRetake = useCallback(() => {
     if (vinPicture) { setVinPicture(null); }
 
@@ -101,16 +64,28 @@ export default () => {
 
   const upload = useUpload({
     inspectionId,
-    onSuccess: () => { handleTakePictures(); setValidating(false); },
-    onLoading: () => setValidating(true),
-    onError: () => setValidating(false),
+    onSuccess: () => { startOcr(); toggleOffUploading(); },
+    onLoading: toggleOnUploading,
+    onError: toggleOffUploading,
+    taskName: {
+      name: 'images_ocr',
+      image_details: {
+        image_type: 'VIN',
+      } },
   });
 
-  const handleValidateVin = useCallback(() => {
-    upload(Platform.OS === 'web' ? vinPicture.source.base64 : vinPicture.source.uri, vinSight[0].id);
-  }, [upload, vinSight, vinPicture?.source]);
+  const handleUploadVin = useCallback((pic) => {
+    setVinPicture(pic);
+    upload(Platform.OS === 'web' ? pic.source.base64 : pic.source.uri, vinSight[0].id);
+  }, [upload]);
 
   const [fakeActivity] = useFakeActivity(isLoading);
+  const [uploadingFakeActivity] = useFakeActivity(uploading);
+  const [ocrLoadingFakeActivity] = useFakeActivity(ocrIsLoading);
+
+  // useEffect(() => {
+  //   if (vinPicture?.source) { handleUploadVin(); }
+  // }, [handleUploadVin, vinPicture]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -127,7 +102,7 @@ export default () => {
       <CameraView
         sights={vinSight}
         isLoading={fakeActivity}
-        onTakePicture={(pic) => setVinPicture(pic)}
+        onTakePicture={(pic) => handleUploadVin(pic)}
         onSuccess={handleCloseVinCamera}
         theme={theme}
       />
@@ -137,35 +112,15 @@ export default () => {
   return (
     <SafeAreaView>
       <VinGuide isOpen={guideIsOpen} handleClose={handleCloseGuide} />
-      <Card>
-        <Card.Title
-          title="Set your vin"
-          right={() => <Button onPress={handleOpenGuide} icon="book">Where to find?</Button>}
-        />
-        <Card.Content>
-          <Text style={styles.text}>Take a clear picture of your VIN, or type it manually.</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="VFX XXXXX XXXXXXXX"
-            value={vin}
-            mode="outlined"
-            label="Vin"
-            right={<IconButton icon="edit" />}
-          />
-          {vinPicture ? <Image source={{ uri: `data:image/jpeg;base64,${vinPicture.source.base64}` }} style={styles.picture} />
-            : null}
-
-          <Text style={styles.orText}>OR</Text>
-          <IconButton style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenVinCameraOrRetake} />
-
-        </Card.Content>
-        <Card.Actions style={styles.actions}>
-          <Button onPress={handleValidateVin} loading={validating} style={styles.button} mode="contained" disabled={!vinPicture || !vin || validating} labelStyle={{ color: '#FFF' }}>
-            Validate vin
-          </Button>
-          <Button onPress={handleTakePictures} style={styles.button}>Skip</Button>
-        </Card.Actions>
-      </Card>
+      <VinForm
+        inspectionId={inspectionId}
+        vin={vin}
+        handleOpenGuide={handleOpenGuide}
+        handleOpenCamera={handleOpenVinCameraOrRetake}
+        vinPicture={vinPicture}
+        ocrIsLoading={ocrLoadingFakeActivity}
+        isUploading={uploadingFakeActivity}
+      />
     </SafeAreaView>
   );
 };
