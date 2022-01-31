@@ -312,1022 +312,1544 @@
       "door_front_right"
     ]
   },
+
   "xsuH1g5T": {
     "id": "xsuH1g5T",
-    "label": "front fender",
+    "label": "front fender left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front fender left x67 z45 1.5m",
+      "locationXyz": [
         1.7549424171447754,
         -2.4460859298706055,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1693706512451172,
         -0.0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "xsuH1g5T.front fender x67 z45 1.5m.opengl.png",
+    "templateImage": "xsuH1g5T.opengl.png",
+    "overlay": "xsuH1g5T.svg"
+  },
+  "IzMR_OzQ": {
+    "id": "IzMR_OzQ",
+    "label": "front fender left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender left x65.5 z40 1.5m",
+      "locationXyz": [
+        1.4488260746002197,
+        -2.5688226222991943,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.143190622329712,
+        -0.0,
+        0.6981316804885864
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "IzMR_OzQ.opengl.png",
+    "overlay": "IzMR_OzQ.svg"
+  },
+  "AEc967h1": {
+    "id": "AEc967h1",
+    "label": "doors left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "doors left x70 z70 1.5m",
+      "locationXyz": [
+        2.5270965099334717,
+        -0.4450318217277527,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.2217304706573486,
+        -0.0,
+        1.2217304706573486
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "AEc967h1.opengl.png",
+    "overlay": "AEc967h1.svg"
   },
   "3vKXafwc": {
     "id": "3vKXafwc",
-    "label": "rear fender",
+    "label": "rear fender left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear fender left x66 z130 1.5m",
+      "locationXyz": [
         1.767639398574829,
         2.285799741744995,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         2.268928050994873
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "3vKXafwc.rear fender x66 z130 1.5m.opengl.png",
+    "templateImage": "3vKXafwc.opengl.png",
+    "overlay": "3vKXafwc.svg"
+  },
+  "3a3OheoD": {
+    "id": "3a3OheoD",
+    "label": "rear fender left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear fender left x65 z150 1.5m",
+      "locationXyz": [
+        0.9878284335136414,
+        2.840301752090454,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1344640254974365,
+        -0.0,
+        2.6179938316345215
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "3a3OheoD.opengl.png",
+    "overlay": "3a3OheoD.svg"
   },
   "ClEZSucK": {
     "id": "ClEZSucK",
-    "label": "rear lateral",
+    "label": "rear lateral left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear lateral left x80 z95 0.9m",
+      "locationXyz": [
         2.140855073928833,
         1.229339838027954,
         0.8999999761581421
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.3962633609771729,
         -0.0,
         1.6580628156661987
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "ClEZSucK.rear lateral x80 z95 0.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "ClEZSucK.opengl.png",
+    "overlay": "ClEZSucK.svg"
   },
   "zjAIjUgU": {
     "id": "zjAIjUgU",
-    "label": "front lateral",
+    "label": "front lateral left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front lateral left x79 z75 0.9m",
+      "locationXyz": [
         2.171881675720215,
         -1.1752331256866455,
         0.8999999761581421
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.378810167312622,
         -0.0,
         1.3089969158172607
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "zjAIjUgU.front lateral x79 z75 0.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "zjAIjUgU.opengl.png",
+    "overlay": "zjAIjUgU.svg"
   },
   "vLcBGkeh": {
     "id": "vLcBGkeh",
     "label": "front",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front x66 1.5m",
+      "locationXyz": [
         0.0,
         -3.0999999046325684,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         0.0
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "vLcBGkeh.front x66 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "vLcBGkeh.opengl.png",
+    "overlay": "vLcBGkeh.svg"
   },
   "PLh198NC": {
     "id": "PLh198NC",
-    "label": "front fender",
+    "label": "front fender left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front fender left x66 z30 1.5m",
+      "locationXyz": [
         1.0768440961837769,
         -2.856078624725342,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         0.5235987901687622
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "PLh198NC.front fender x66 z30 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "PLh198NC.opengl.png",
+    "overlay": "PLh198NC.svg"
   },
   "LE9h1xh0": {
     "id": "LE9h1xh0",
-    "label": "front fender",
+    "label": "front fender left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front fender left x65 z57 1.5m",
+      "locationXyz": [
         1.9203107357025146,
         -2.0104517936706543,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1344640254974365,
         -0.0,
         0.9948377013206482
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "LE9h1xh0.front fender x65 z57 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "LE9h1xh0.opengl.png",
+    "overlay": "LE9h1xh0.svg"
   },
   "IVcF1dOP": {
     "id": "IVcF1dOP",
-    "label": "doors",
+    "label": "doors left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "doors left x67 z60 1.5m",
+      "locationXyz": [
         2.112504243850708,
         -0.7950102090835571,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1693706512451172,
         -0.0,
         1.0471975803375244
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "IVcF1dOP.doors x67 z60 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "IVcF1dOP.opengl.png",
+    "overlay": "IVcF1dOP.svg"
   },
   "GvCtVnoD": {
     "id": "GvCtVnoD",
-    "label": "rear lateral",
+    "label": "rear lateral left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear lateral left x66 z95 1.5m",
+      "locationXyz": [
         2.172027349472046,
         1.09205961227417,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         1.6580628156661987
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "GvCtVnoD.rear lateral x66 z95 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "GvCtVnoD.opengl.png",
+    "overlay": "GvCtVnoD.svg"
   },
   "GHbWVnMB": {
     "id": "GHbWVnMB",
-    "label": "rear fender",
+    "label": "rear fender left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear fender left x65 z140 1.5m",
+      "locationXyz": [
         1.399125337600708,
         2.5577476024627686,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1344640254974365,
         -0.0,
         2.4434609413146973
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "GHbWVnMB.rear fender x65 z140 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "GHbWVnMB.opengl.png",
+    "overlay": "GHbWVnMB.svg"
   },
   "XyeyZlaU": {
     "id": "XyeyZlaU",
     "label": "rear",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear x66 z180 1.5m",
+      "locationXyz": [
         0.0,
         3.0399999618530273,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         3.141592502593994
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "XyeyZlaU.rear x66 z180 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "XyeyZlaU.opengl.png",
+    "overlay": "XyeyZlaU.svg"
   },
   "oIk8RQ3w": {
     "id": "oIk8RQ3w",
     "label": "windshield",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "windshield x58 1.9m",
+      "locationXyz": [
         0.0,
         -1.6620965003967285,
         1.899999976158142
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.0122909545898438,
         5.9797477915596346e-18,
         8.053430443816277e-20
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "oIk8RQ3w.windshield x58 1.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "oIk8RQ3w.opengl.png",
+    "overlay": "oIk8RQ3w.svg"
   },
   "m1rhrZ88": {
     "id": "m1rhrZ88",
-    "label": "front roof",
+    "label": "front roof left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
+      "locationXyz": [
         1.0691311359405518,
         -0.39549964666366577,
         1.7999999523162842
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.3089969158172607,
         -0.0,
         0.9250245094299316
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "m1rhrZ88.front roof IGNORE_MIRROR x75 z53 1.8m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "m1rhrZ88.opengl.png",
+    "overlay": "m1rhrZ88.svg"
   },
   "36qmcrgr": {
     "id": "36qmcrgr",
-    "label": "rear roof",
+    "label": "rear roof right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
+      "locationXyz": [
         -0.8915903568267822,
         1.6373134851455688,
         1.7999999523162842
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.3089969158172607,
         -0.0,
         3.944444179534912
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "36qmcrgr.rear roof IGNORE_MIRROR x75 z226 1.8m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "36qmcrgr.opengl.png",
+    "overlay": "36qmcrgr.svg"
   },
   "eOkUJUBk": {
     "id": "eOkUJUBk",
-    "label": "frame rail",
+    "label": "frame rail left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "frame rail left x115 z41 0.1m",
+      "locationXyz": [
         1.0736500024795532,
         -1.0054600238800049,
         0.10000000894069672
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         2.0071287155151367,
         -0.0,
         0.7155849933624268
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "eOkUJUBk.frame rail x115 z41 0.1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "eOkUJUBk.opengl.png",
+    "overlay": "eOkUJUBk.svg"
   },
   "RMeCZRbd": {
     "id": "RMeCZRbd",
     "label": "hood windshield",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "hood windshield x60 1.7m",
+      "locationXyz": [
         0.0,
         -2.6243207454681396,
         1.7000000476837158
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.0471975803375244,
         -5.0674301934860153e-17,
         9.836880648136746e-18
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "RMeCZRbd.hood windshield x60 1.7m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "RMeCZRbd.opengl.png",
+    "overlay": "RMeCZRbd.svg"
   },
   "dQOmxo13": {
     "id": "dQOmxo13",
-    "label": "frame rail rear",
+    "label": "frame rail rear left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "frame rail rear left x115 z139 0.1m",
+      "locationXyz": [
         1.11472487449646,
         0.963828444480896,
         0.10000000894069672
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         2.0071287155151367,
         -0.0,
         2.4260077476501465
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "dQOmxo13.frame rail rear x115 z139 0.1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "dQOmxo13.opengl.png",
+    "overlay": "dQOmxo13.svg"
   },
   "xfbBpq3Q": {
     "id": "xfbBpq3Q",
-    "label": "front bumper side",
+    "label": "front bumper side left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front bumper side left x73 z45 0.9m",
+      "locationXyz": [
         1.1992995738983154,
         -2.4210193157196045,
         0.8999999761581421
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.2740904092788696,
         -0.0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "xfbBpq3Q.front bumper side x73 z45 0.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "xfbBpq3Q.opengl.png",
+    "overlay": "xfbBpq3Q.svg"
   },
   "j8YHvnDP": {
     "id": "j8YHvnDP",
-    "label": "rear bumper side",
+    "label": "rear bumper side left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear bumper side left x74 z140 1m",
+      "locationXyz": [
         1.1293162107467651,
         2.5584888458251953,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.2915436029434204,
         -0.0,
         2.4434609413146973
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "j8YHvnDP.rear bumper side x74 z140 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "j8YHvnDP.opengl.png",
+    "overlay": "j8YHvnDP.svg"
   },
-  "8/W2PO8L": {
-    "id": "8/W2PO8L",
-    "label": "rear wheel",
+  "8_W2PO8L": {
+    "id": "8_W2PO8L",
+    "label": "rear wheel left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear wheel left x85 z90 0.6m",
+      "locationXyz": [
         1.8515325784683228,
         1.2667466402053833,
         0.6000000238418579
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.483529806137085,
         -0.0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "8/W2PO8L.rear wheel x85 z90 0.6m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "8_W2PO8L.opengl.png",
+    "overlay": "8_W2PO8L.svg"
   },
   "xQKQ0bXS": {
     "id": "xQKQ0bXS",
-    "label": "front wheel",
+    "label": "front wheel left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front wheel left x85 z90 0.6m",
+      "locationXyz": [
         1.857212781906128,
         -1.1906272172927856,
         0.6000000238418579
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.483529806137085,
         -0.0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "xQKQ0bXS.front wheel x85 z90 0.6m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "xQKQ0bXS.opengl.png",
+    "overlay": "xQKQ0bXS.svg"
   },
   "UHZkpCuK": {
     "id": "UHZkpCuK",
-    "label": "rocker panel",
+    "label": "rocker panel left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rocker panel left x95 z90 0.6m",
+      "locationXyz": [
         2.345973014831543,
         0.0,
         0.6000000238418579
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.6580628156661987,
         -0.0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "UHZkpCuK.rocker panel x95 z90 0.6m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "UHZkpCuK.opengl.png",
+    "overlay": "UHZkpCuK.svg"
   },
   "Q7vIg3d7": {
     "id": "Q7vIg3d7",
-    "label": "front door",
+    "label": "front door left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front door left y80 z-20 1m",
+      "locationXyz": [
         1.8842357397079468,
         -0.7803248167037964,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         1.3962633609771729,
         -0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "Q7vIg3d7.front door y80 z-20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "Q7vIg3d7.opengl.png",
+    "overlay": "Q7vIg3d7.svg"
   },
-  "S/iJHs+D": {
-    "id": "S/iJHs+D",
-    "label": "rear door",
+  "S_iJHs-D": {
+    "id": "S_iJHs-D",
+    "label": "rear door left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear door left y80 z-20 1m",
+      "locationXyz": [
         1.8402453660964966,
         0.29878973960876465,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         1.3962633609771729,
         -0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "S/iJHs+D.rear door y80 z-20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "S_iJHs-D.opengl.png",
+    "overlay": "S_iJHs-D.svg"
   },
   "chSQvJEk": {
     "id": "chSQvJEk",
-    "label": "front door",
+    "label": "front door left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front door left y80 z-30 1m",
+      "locationXyz": [
         1.7169437408447266,
         -0.9741133451461792,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         1.3962633609771729,
         -0.5235987901687622
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "chSQvJEk.front door y80 z-30 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "chSQvJEk.opengl.png",
+    "overlay": "chSQvJEk.svg"
   },
   "7MWNpxhQ": {
     "id": "7MWNpxhQ",
-    "label": "front door",
+    "label": "front door left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front door left y85 z20 1m",
+      "locationXyz": [
         1.9469342231750488,
         0.2433021515607834,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         1.483529806137085,
         0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "7MWNpxhQ.front door y85 z20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "7MWNpxhQ.opengl.png",
+    "overlay": "7MWNpxhQ.svg"
   },
   "aO4iBxeM": {
     "id": "aO4iBxeM",
-    "label": "rear door",
+    "label": "rear door left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear door left y80 z20 1m",
+      "locationXyz": [
         1.8319326639175415,
         1.1923993825912476,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         1.3962633609771729,
         0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "aO4iBxeM.rear door y80 z20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "aO4iBxeM.opengl.png",
+    "overlay": "aO4iBxeM.svg"
   },
   "dTy7YRvT": {
     "id": "dTy7YRvT",
-    "label": "rear door",
+    "label": "rear door left",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear door left y80 z30 1m",
+      "locationXyz": [
         1.6542497873306274,
         1.35085928440094,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         1.3962633609771729,
         0.5235987901687622
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "dTy7YRvT.rear door y80 z30 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "dTy7YRvT.opengl.png",
+    "overlay": "dTy7YRvT.svg"
   },
   "Fh972HlF": {
     "id": "Fh972HlF",
     "label": "front undercarriage",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front undercarriage x115 0.1m",
+      "locationXyz": [
         0.0,
         -2.485210418701172,
         0.10000000149011612
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         2.0071287155151367,
         0.0,
         0.0
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "Fh972HlF.front undercarriage x115 0.1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "Fh972HlF.opengl.png",
+    "overlay": "Fh972HlF.svg"
   },
-  "jgB+cu5G": {
-    "id": "jgB+cu5G",
-    "label": "front fender",
+  "jgB-cu5G": {
+    "id": "jgB-cu5G",
+    "label": "front fender right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front fender right x67 z-45 1.5m",
+      "locationXyz": [
         -1.7549400329589844,
         -2.4460859298706055,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1693706512451172,
         -0.0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "jgB+cu5G.front fender x67 z-45 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "jgB-cu5G.opengl.png",
+    "overlay": "jgB-cu5G.svg"
   },
   "0U14gFyk": {
     "id": "0U14gFyk",
-    "label": "front lateral",
+    "label": "front lateral right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front lateral right x79 z-75 0.9m",
+      "locationXyz": [
         -2.171880006790161,
         -1.1752331256866455,
         0.8999999761581421
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.378810167312622,
         -0.0,
         -1.3089969158172607
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "0U14gFyk.front lateral x79 z-75 0.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "0U14gFyk.opengl.png",
+    "overlay": "0U14gFyk.svg"
   },
   "Cce1KCd3": {
     "id": "Cce1KCd3",
-    "label": "rear fender",
+    "label": "rear fender right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear fender right x66 z-130 1.5m",
+      "locationXyz": [
         -1.7676399946212769,
         2.285799741744995,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         -2.268928050994873
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "Cce1KCd3.rear fender x66 z-130 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "Cce1KCd3.opengl.png",
+    "overlay": "Cce1KCd3.svg"
   },
   "QqBpHiVP": {
     "id": "QqBpHiVP",
-    "label": "rear lateral",
+    "label": "rear lateral right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear lateral right x80 z-95 0.9m",
+      "locationXyz": [
         -2.140860080718994,
         1.229339838027954,
         0.8999999761581421
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.3962633609771729,
         -0.0,
         -1.6580628156661987
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "QqBpHiVP.rear lateral x80 z-95 0.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "QqBpHiVP.opengl.png",
+    "overlay": "QqBpHiVP.svg"
   },
   "Pzgw0WGe": {
     "id": "Pzgw0WGe",
-    "label": "doors",
+    "label": "doors right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "doors right x67 z-60 1.5m",
+      "locationXyz": [
         -2.112499952316284,
         -0.795009970664978,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1693706512451172,
         0.0,
         -1.0471975803375244
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "Pzgw0WGe.doors x67 z-60 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "Pzgw0WGe.opengl.png",
+    "overlay": "Pzgw0WGe.svg"
   },
   "jqJOb6Ov": {
     "id": "jqJOb6Ov",
-    "label": "front fender",
+    "label": "front fender right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front fender right x65 z-57 1.5m",
+      "locationXyz": [
         -1.9203100204467773,
         -2.0104517936706543,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1344640254974365,
         -0.0,
         -0.9948377013206482
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "jqJOb6Ov.front fender x65 z-57 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "jqJOb6Ov.opengl.png",
+    "overlay": "jqJOb6Ov.svg"
   },
   "EqLDVYj3": {
     "id": "EqLDVYj3",
-    "label": "front fender",
+    "label": "front fender right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front fender right x66 z-30 1.5m",
+      "locationXyz": [
         -1.0768400430679321,
         -2.856078624725342,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         -0.5235987901687622
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "EqLDVYj3.front fender x66 z-30 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "EqLDVYj3.opengl.png",
+    "overlay": "EqLDVYj3.svg"
   },
   "j3E2UHFc": {
     "id": "j3E2UHFc",
-    "label": "rear fender",
+    "label": "rear fender right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear fender right x65 z-140 1.5m",
+      "locationXyz": [
         -1.3991299867630005,
         2.5577476024627686,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1344640254974365,
         -0.0,
         -2.4434609413146973
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "j3E2UHFc.rear fender x65 z-140 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "j3E2UHFc.opengl.png",
+    "overlay": "j3E2UHFc.svg"
   },
-  "AoO+nOoM": {
-    "id": "AoO+nOoM",
-    "label": "rear lateral",
+  "AoO-nOoM": {
+    "id": "AoO-nOoM",
+    "label": "rear lateral right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear lateral right x66 z-95 1.5m",
+      "locationXyz": [
         -2.172029972076416,
         1.09205961227417,
         1.5
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.1519173383712769,
         -0.0,
         -1.6580628156661987
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "AoO+nOoM.rear lateral x66 z-95 1.5m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "AoO-nOoM.opengl.png",
+    "overlay": "AoO-nOoM.svg"
   },
   "WWZsroCu": {
     "id": "WWZsroCu",
-    "label": "frame rail",
+    "label": "frame rail right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "frame rail right x115 z-41 0.1m",
+      "locationXyz": [
         -1.0736500024795532,
         -1.0054600238800049,
         0.10000000894069672
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         2.0071287155151367,
         -0.0,
         -0.7155849933624268
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "WWZsroCu.frame rail x115 z-41 0.1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "WWZsroCu.opengl.png",
+    "overlay": "WWZsroCu.svg"
   },
   "CELBsvYD": {
     "id": "CELBsvYD",
-    "label": "front bumper side",
+    "label": "front bumper side right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front bumper side right x73 z-45 0.9m",
+      "locationXyz": [
         -1.1993000507354736,
         -2.4210193157196045,
         0.8999999761581421
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.2740904092788696,
         -0.0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "CELBsvYD.front bumper side x73 z-45 0.9m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "CELBsvYD.opengl.png",
+    "overlay": "CELBsvYD.svg"
   },
   "PuIw17h0": {
     "id": "PuIw17h0",
-    "label": "front wheel",
+    "label": "front wheel right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front wheel right x85 z-90 0.6m",
+      "locationXyz": [
         -1.8572100400924683,
         -1.1906272172927856,
         0.6000000238418579
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.483529806137085,
         -0.0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "PuIw17h0.front wheel x85 z-90 0.6m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "PuIw17h0.opengl.png",
+    "overlay": "PuIw17h0.svg"
   },
   "LDRoAPnk": {
     "id": "LDRoAPnk",
-    "label": "rear bumper side",
+    "label": "rear bumper side right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear bumper side right x74 z-140 1m",
+      "locationXyz": [
         -1.1293200254440308,
         2.5584888458251953,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.2915436029434204,
         -0.0,
         -2.4434609413146973
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "LDRoAPnk.rear bumper side x74 z-140 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "LDRoAPnk.opengl.png",
+    "overlay": "LDRoAPnk.svg"
   },
   "rN39Y3HR": {
     "id": "rN39Y3HR",
-    "label": "rear wheel",
+    "label": "rear wheel right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear wheel right x85 z-90 0.6m",
+      "locationXyz": [
         -1.8515299558639526,
         1.2667466402053833,
         0.6000000238418579
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.483529806137085,
         -0.0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "rN39Y3HR.rear wheel x85 z-90 0.6m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "rN39Y3HR.opengl.png",
+    "overlay": "rN39Y3HR.svg"
   },
-  "B5s1CWT+": {
-    "id": "B5s1CWT+",
-    "label": "rocker panel",
+  "B5s1CWT-": {
+    "id": "B5s1CWT-",
+    "label": "rocker panel right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rocker panel right x95 z-90 0.6m",
+      "locationXyz": [
         -2.3459699153900146,
         0.0,
         0.6000000238418579
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         1.6580628156661987,
         -0.0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "B5s1CWT+.rocker panel x95 z-90 0.6m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "B5s1CWT-.opengl.png",
+    "overlay": "B5s1CWT-.svg"
   },
   "eWZsEThb": {
     "id": "eWZsEThb",
-    "label": "frame rail rear",
+    "label": "frame rail rear right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "frame rail rear right x115 z-139 0.1m",
+      "locationXyz": [
         -1.1147199869155884,
         0.963828444480896,
         0.10000000894069672
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         2.0071287155151367,
         -0.0,
         -2.4260077476501465
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "eWZsEThb.frame rail rear x115 z-139 0.1m.opengl.png",
+    "templateImage": "eWZsEThb.opengl.png",
+    "overlay": "eWZsEThb.svg"
+  },
+  "au5yyzOT": {
+    "id": "au5yyzOT",
+    "label": "vin",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "vin 1m",
+      "locationXyz": [
+        0.0,
+        5.0,
+        1.0
+      ],
+      "rotationXyzRad": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "au5yyzOT.opengl.png",
+    "overlay": "au5yyzOT.svg"
   },
   "dOAqz0uT": {
     "id": "dOAqz0uT",
-    "label": "rear door",
+    "label": "rear door right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear door right y-80 z-30 1m",
+      "locationXyz": [
         -1.6542500257492065,
         1.35085928440094,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         -1.3962633609771729,
         -0.5235987901687622
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "dOAqz0uT.rear door y-80 z-30 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "dOAqz0uT.opengl.png",
+    "overlay": "dOAqz0uT.svg"
   },
-  "7C4Ii/TK": {
-    "id": "7C4Ii/TK",
-    "label": "rear door",
+  "7C4Ii_TK": {
+    "id": "7C4Ii_TK",
+    "label": "rear door right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear door right y-80 z-20 1m",
+      "locationXyz": [
         -1.8319300413131714,
         1.1923993825912476,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         -1.3962633609771729,
         -0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "7C4Ii/TK.rear door y-80 z-20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "7C4Ii_TK.opengl.png",
+    "overlay": "7C4Ii_TK.svg"
   },
   "OEEnUjNK": {
     "id": "OEEnUjNK",
-    "label": "rear door",
+    "label": "rear door right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "rear door right y-80 z20 1m",
+      "locationXyz": [
         -1.840250015258789,
         0.29879000782966614,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         -1.3962633609771729,
         0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "OEEnUjNK.rear door y-80 z20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "OEEnUjNK.opengl.png",
+    "overlay": "OEEnUjNK.svg"
   },
   "JkOuYHqN": {
     "id": "JkOuYHqN",
-    "label": "front door",
+    "label": "front door right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front door right y-85 z-20 1m",
+      "locationXyz": [
         -1.9469300508499146,
         0.2433021515607834,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         -1.483529806137085,
         -0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "JkOuYHqN.front door y-85 z-20 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "JkOuYHqN.opengl.png",
+    "overlay": "JkOuYHqN.svg"
   },
   "Z1MTGFVX": {
     "id": "Z1MTGFVX",
-    "label": "front door",
+    "label": "front door right",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front door right y-80 z30 1m",
+      "locationXyz": [
         -1.7169400453567505,
         -0.9741129875183105,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         -1.3962633609771729,
         0.5235987901687622
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "Z1MTGFVX.front door y-80 z30 1m.opengl.png",
-    "category": "exterior",
-    "vehicleType": "Small Crossover/SUV"
+    "templateImage": "Z1MTGFVX.opengl.png",
+    "overlay": "Z1MTGFVX.svg"
   },
   "lxxEbNrd": {
     "id": "lxxEbNrd",
-    "label": "front door",
+    "label": "front door right",
+    "category": "exterior",
+    "type": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
     "camera": {
-      "location_xyz": [
+      "name": "front door right y-80 z20 1m",
+      "locationXyz": [
         -1.8842400312423706,
         -0.7803249955177307,
         1.0
       ],
-      "rotation_xyz_rad": [
+      "rotationXyzRad": [
         0.0,
         -1.3962633609771729,
         0.3490658402442932
       ],
-      "focal_length": 26.0
+      "focalLength": 26.0
     },
-    "template_image": "lxxEbNrd.front door y-80 z20 1m.opengl.png"
-  }
-}
+    "templateImage": "lxxEbNrd.opengl.png",
+    "overlay": "lxxEbNrd.svg"
+  }}

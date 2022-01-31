@@ -6962,6 +6962,11 @@ image-size@^1.0.0:
   dependencies:
     queue "6.0.2"
 
+imagetracerjs@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/imagetracerjs/-/imagetracerjs-1.2.6.tgz#1f618b9b94b6f298145ce9cb5e74a88447f15184"
+  integrity sha512-LKJlnKmXFzDdh6IZtXTyBxXcCLTAkwgKYS+NMiPXiXVnlTLjQC8fq7U89laUSgHtypJB3TdMMDK4ecG5NI/Cgw==
+
 immer@8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
@@ -10660,6 +10665,16 @@ plist@^3.0.1, plist@^3.0.4:
   dependencies:
     base64-js "^1.5.1"
     xmlbuilder "^9.0.7"
+
+png-js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/png-js/-/png-js-1.0.0.tgz#e5484f1e8156996e383aceebb3789fd75df1874d"
+  integrity sha512-k+YsbhpA9e+EFfKjTCH3VW6aoKlyNYI6NYdTfDL4CIvFnvsuO84ttonmZE7rc+v23SLTH8XX+5w/Ak9v0xGY4g==
+
+png.js@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/png.js/-/png.js-0.2.1.tgz#da6b83c134bdc101940d9ab1c98e9154affbb1f2"
+  integrity sha1-2muDwTS9wQGUDZqxyY6RVK/7sfI=
 
 pngjs@^3.3.0:
   version "3.4.0"

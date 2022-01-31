@@ -15,6 +15,8 @@ import Box from '@mui/material/Box';
 
 import sightsData from '@monkvision/sights/dist';
 
+console.log(sightsData);
+
 // eslint-disable-next-line react/prop-types
 function SightCard({ id, label, category, vehicleType, overlay }) {
   const base64 = btoa(unescape(encodeURIComponent(overlay)));

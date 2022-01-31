@@ -33,6 +33,7 @@
   "scripts": {
     "prepare": "yarn run lint && yarn run build",
     "build": "node scripts/build.mjs",
+    "trace": "node scripts/trace.mjs",
     "lint": "eslint ./"
   },
   "devDependencies": {
