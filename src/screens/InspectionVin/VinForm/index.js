@@ -3,9 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Platform, Text } from 'react-native';
 import { useTheme, Button, TextInput, IconButton, Card } from 'react-native-paper';
 import { useFormik } from 'formik';
-import { propTypes } from '@monkvision/react-native';
-import { updateOneInspectionVehicle } from '@monkvision/corejs';
 import PropTypes from 'prop-types';
+import noop from 'lodash.noop';
+
+import { updateOneInspectionVehicle } from '@monkvision/corejs';
 
 import { INSPECTION_CREATE } from 'screens/names';
 import { spacing } from 'config/theme';
@@ -98,7 +99,7 @@ export default function VinForm({
   }, [requiredFields.marketValue, requiredFields.mileage]);
 
   const handleSkip = useCallback(() => submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data: { vin: '', ...requiredPayload } }),
-    { onSuccess: handleTakePictures }),
+    { onSuccess: handleTakePictures, onError: handleTakePictures }),
   [submitVehicleInfo, inspectionId, requiredPayload, handleTakePictures]);
 
   const { values, handleChange, handleSubmit } = useFormik({
@@ -142,7 +143,7 @@ export default function VinForm({
           onChangeText={handleChange('vin')}
           right={<IconButton icon="edit" />}
         />
-        {vinPicture ? <Image source={{ uri: Platform.OS === 'web' ? vinPicture.source.uri : `data:image/jpeg;base64,${vinPicture.source.base64}` }} style={styles.picture} />
+        {vinPicture ? <Image source={{ uri: vinPicture }} style={styles.picture} />
           : null}
 
         <Text style={styles.orText}>OR</Text>
@@ -162,8 +163,8 @@ export default function VinForm({
 }
 
 VinForm.propTypes = {
-  handleOpenCamera: PropTypes.func.isRequired,
-  handleOpenGuide: PropTypes.func.isRequired,
+  handleOpenCamera: PropTypes.func,
+  handleOpenGuide: PropTypes.func,
   inspectionId: PropTypes.string,
   isUploading: PropTypes.bool.isRequired,
   ocrIsLoading: PropTypes.bool.isRequired,
@@ -179,10 +180,12 @@ VinForm.propTypes = {
   }).isRequired,
   status: PropTypes.string,
   vin: PropTypes.string,
-  vinPicture: propTypes.cameraPictures,
+  vinPicture: PropTypes.string,
 };
 
 VinForm.defaultProps = {
+  handleOpenCamera: noop,
+  handleOpenGuide: noop,
   inspectionId: null,
   vinPicture: null,
   vin: null,

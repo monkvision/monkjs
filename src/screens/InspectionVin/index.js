@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView, Platform } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { SafeAreaView, Platform, StyleSheet } from 'react-native';
+import { useTheme, Snackbar } from 'react-native-paper';
 import { useFakeActivity, ActivityIndicatorView, CameraView, useToggle } from '@monkvision/react-native-views';
 import { createOneInspection,
   Sight,
@@ -25,6 +25,20 @@ import { useSelector } from 'react-redux';
 import VinGuide from './VinGuide';
 import VinForm from './VinForm';
 
+const styles = StyleSheet.create({
+  root: {
+    position: 'relative',
+    height: '100%',
+  },
+  snackbar: {
+    position: 'absolute',
+    bottom: 0,
+  },
+  snackbarButton: {
+    color: '#FFF',
+  },
+});
+
 const vinSight = Object.values(sightValues.sights.abstract).map((s) => new Sight(...s)).filter((item) => item.id === 'vin');
 
 export default () => {
@@ -37,9 +51,12 @@ export default () => {
   const [camera, toggleOnCamera, toggleOffCamera] = useToggle();
   const [uploading, toggleOnUploading, toggleOffUploading] = useToggle();
   const [guideIsOpen, handleOpenGuide, handleCloseGuide] = useToggle();
+  const [snackbarIsvVisible, handleOpenErrorSnackbar, handleDismissErrorSnackbar] = useToggle();
 
   const payload = { data: { tasks: { damage_detection: { status: 'NOT_STARTED' }, images_ocr: { status: 'NOT_STARTED' } } } };
-  const callbacks = { onSuccess: ({ result }) => setInspectionId(result) };
+  const callbacks = {
+    onSuccess: ({ result }) => setInspectionId(result),
+    onError: handleOpenErrorSnackbar };
 
   const {
     isLoading,
@@ -81,7 +98,8 @@ export default () => {
   const {
     request: startOcr,
     isLoading: ocrIsLoading,
-  } = useRequest(updateOneTaskOfInspection(ocrPayload), { onSuccess: refresh }, false);
+  } = useRequest(updateOneTaskOfInspection(ocrPayload),
+    { onSuccess: refresh, onError: handleOpenErrorSnackbar }, false);
 
   const handleOpenVinCameraOrRetake = useCallback(() => {
     if (vinPicture) { setVinPicture(null); }
@@ -97,9 +115,9 @@ export default () => {
 
   const upload = useUpload({
     inspectionId,
-    onSuccess: () => { startOcr(); toggleOffUploading(); },
+    onSuccess: (_, uri) => { startOcr(); toggleOffUploading(); setVinPicture(uri); },
     onLoading: toggleOnUploading,
-    onError: toggleOffUploading,
+    onError: () => { toggleOffUploading(); handleOpenErrorSnackbar(); },
     taskName: {
       name: 'images_ocr',
       image_details: {
@@ -108,7 +126,6 @@ export default () => {
   });
 
   const handleUploadVin = useCallback((pic) => {
-    setVinPicture(pic);
     upload(Platform.OS === 'web' ? pic.source.base64 : pic.source.uri, vinSight[0].id);
   }, [upload]);
 
@@ -149,7 +166,7 @@ export default () => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.root}>
       <VinGuide isOpen={guideIsOpen} handleClose={handleCloseGuide} />
       <VinForm
         inspectionId={inspectionId}
@@ -161,7 +178,16 @@ export default () => {
         ocrIsLoading={!!ocrLoadingFakeActivity}
         isUploading={!!uploadingFakeActivity}
         requiredFields={updateVehicleRequiredFields}
+        handleOpenErrorSnackbar={handleOpenErrorSnackbar}
       />
+      <Snackbar
+        visible={snackbarIsvVisible}
+        onDismiss={handleDismissErrorSnackbar}
+        style={[{ backgroundColor: theme.colors.error }, styles.snackbar]}
+        action={{ label: 'Ok', onPress: handleDismissErrorSnackbar, labelStyle: styles.snackbarButton }}
+      >
+        Request failed, please try again.
+      </Snackbar>
     </SafeAreaView>
   );
 };
