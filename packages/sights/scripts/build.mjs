@@ -26,7 +26,7 @@ function start() {
           fs.mkdir('./dist', { recursive: true }, (err) => {
             if (err) { return console.log(err); }
 
-            fs.writeFile('./dist/index.json', JSON.stringify(newItems, null, 2), (err) => {
+            fs.writeFile('./dist/index.json', JSON.stringify(newItems, null, 0), (err) => {
               if (err) { return console.log(err); }
             });
           });
