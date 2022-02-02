@@ -4,25 +4,10 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import Layout from '@theme/Layout';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { Autocomplete, Box, Card, CardContent, CardMedia, Chip, Container, CssBaseline, Stack, TextField, Typography } from '@mui/material';
 
 import sightsData from '@monkvision/sights/dist';
-import {
-  Autocomplete,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-} from '@mui/material';
+import SelectForm from './SelectForm';
 
 console.log(sightsData);
 
@@ -140,14 +125,15 @@ function Sights() {
 
   const getFilterList = (key) => Object.values(sightsData)
     .map((sight) => sight[key])
-    .filter((item, index, self) => self.indexOf(item) === index);
+    .filter((item, index, self) => self.indexOf(item) === index)
+    .concat(['all']);
 
   useEffect(() => {
     setSightResult(() => {
       const categoryFilter = Object.values(sightsData)
         .filter((sight) => (category && category !== 'all') && sight.category === category);
 
-      const typeFilter = Object.values(sightsData)
+      const typeFilter = categoryFilter
         .filter((sight) => (vehicleType && category !== 'all') && sight.vehicleType === vehicleType);
 
       const searchFilter = Object.values(sightsData)
@@ -203,45 +189,28 @@ function Sights() {
               />
             )}
           />
-          <FormControl style={{ width: 150 }}>
-            <InputLabel id="demo-simple-select-label">Category</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              label="Category"
-              value={category}
-              onChange={(e) => handleChange(e, setCategory)}
-            >
-              <MenuItem value="all">all</MenuItem>
-              {getFilterList('category')
-                .map((cat) => <MenuItem key={cat} value={cat}>{cat}</MenuItem>)}
-            </Select>
-          </FormControl>
-          <FormControl style={{ width: 150 }}>
-            <InputLabel id="demo-simple-select-label">Vehicle type</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              label="Vehicle type"
-              value={vehicleType}
-              onChange={(e) => handleChange(e, setVehicleType)}
-            >
-              <MenuItem value="all">all</MenuItem>
-              {getFilterList('vehicleType')
-                .map((type) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
-            </Select>
-          </FormControl>
-          <FormControl style={{ width: 150 }}>
-            <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              label="Sort by"
-              value={sortBy}
-              onChange={(e) => handleChange(e, setSortBy)}
-            >
-              {Object.keys(Object.values(sightsData)[0])
-                .filter((sort) => sort !== 'overlay')
-                .map((sort) => <MenuItem key={sort} value={sort}>{sort}</MenuItem>)}
-            </Select>
-          </FormControl>
+          <SelectForm
+            name="Category"
+            value={category}
+            items={getFilterList('category')}
+            onChange={handleChange}
+            setter={setCategory}
+          />
+          <SelectForm
+            name="Vehicle type"
+            value={vehicleType}
+            items={getFilterList('vehicleType')}
+            onChange={handleChange}
+            setter={setVehicleType}
+          />
+          <SelectForm
+            name="Sort by"
+            value={sortBy}
+            items={Object.keys(Object.values(sightsData)[0])}
+            onChange={handleChange}
+            setter={setSortBy}
+          />
+
         </Stack>
         <Stack direction="row" spacing={1} style={{ margin: '0 10px' }}>
           {searchKeyword.map((keyword, i) => (
