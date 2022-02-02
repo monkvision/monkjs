@@ -23,7 +23,7 @@ function SightCard({ id, label, category, vehicleType, overlay }) {
     <Card sx={{
       width: '100%',
       maxWidth: '320px',
-      margin: '8px',
+      margin: 2,
     }}
     >
       <CardMedia
@@ -73,13 +73,14 @@ function Sights() {
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            paddingTop: '8px',
-            paddingBottom: '8px',
+            paddingTop: 2,
+            paddingBottom: 2,
           }}
+          maxWidth={false}
           disableGutters
         >
           <CssBaseline />
-          {Object.values(sightsData).map((sight) => (
+          {Object.values(sightsData).filter((sight) => !!sight.overlay).map((sight) => (
             <BrowserOnly key={sight.id}>
               {() => <SightCard {...sight} />}
             </BrowserOnly>

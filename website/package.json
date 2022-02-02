@@ -23,6 +23,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.2.8",
+    "@monkvision/sights": "^1.3.0-7",
     "mdx-mermaid": "^1.1.0",
     "mermaid": "^8.13.2",
     "react": "^17.0.2",
