@@ -88,8 +88,10 @@ function Sights() {
   const [searchKeyword, setSearchKeyword] = useState([]);
   const [vehicleType, setVehicleType] = useState(null);
   const [category, setCategory] = useState(null);
+  const [sortBy, setSortBy] = useState('id');
   const [sightResult, setSightResult] = useState(Object.values(sightsData));
   const context = useDocusaurusContext();
+
   const {
     siteConfig: {
       customFields = {},
@@ -111,10 +113,13 @@ function Sights() {
 
   const handleAddWord = (event) => {
     if (event && event.keyCode === 32) {
+      event.preventDefault();
       const keyword = event.target.value.substring(0, event.target.value.length - 1);
       setSearchKeyword((prevState) => [...prevState, keyword]);
       setSearchInput('');
     }
+
+    return event?.keyCode !== 32;
   };
 
   const handleDelete = useCallback((indice) => {
@@ -129,6 +134,7 @@ function Sights() {
       .filter((label, index, self) => (
         self.indexOf(label) === index && !searchKeyword.includes(label)
       ));
+
     return labels.concat(Object.keys(sightsData));
   }, [searchKeyword]);
 
@@ -139,39 +145,34 @@ function Sights() {
   useEffect(() => {
     setSightResult(() => {
       const categoryFilter = Object.values(sightsData)
-        .filter((sight) => {
-          if (category && category !== 'all') {
-            return sight.category === category;
-          }
-          return false;
-        });
+        .filter((sight) => (category && category !== 'all') && sight.category === category);
 
       const typeFilter = Object.values(sightsData)
-        .filter((sight) => {
-          if (vehicleType && category !== 'all') {
-            return sight.vehicleType === vehicleType;
-          }
-          return false;
-        });
+        .filter((sight) => (vehicleType && category !== 'all') && sight.vehicleType === vehicleType);
 
       const searchFilter = Object.values(sightsData)
-        .filter((sight) => {
-          if (searchKeyword.length > 0) {
-            return searchKeyword.includes(sight.id) || sight.label.split(' ')
-              .map((label) => searchKeyword.includes(label))
-              .reduce((prev, curr) => curr || prev, false);
-          }
-          return false;
-        });
+        .filter((sight) => (searchKeyword.length > 0) && (searchKeyword.includes(sight.id)
+          || sight.label
+            .split(' ')
+            .map((label) => searchKeyword.includes(label))
+            .reduce((prev, curr) => curr || prev, false)));
+
       const newResult = categoryFilter
         .concat(typeFilter, searchFilter)
         .filter((item, index, self) => self.indexOf(item) === index);
-      if (newResult.length <= 0) {
-        return Object.values(sightsData);
-      }
-      return newResult;
+
+      return ((newResult.length <= 0) ? Object.values(sightsData) : newResult)
+        .sort((a, b) => {
+          if (a[sortBy].toLocaleLowerCase() < b[sortBy].toLocaleLowerCase()) {
+            return -1;
+          }
+          if (a[sortBy].toLocaleLowerCase() > b[sortBy].toLocaleLowerCase()) {
+            return 1;
+          }
+          return 0;
+        });
     });
-  }, [category, vehicleType, searchKeyword]);
+  }, [category, vehicleType, searchKeyword, sortBy]);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -184,7 +185,10 @@ function Sights() {
           style={{ margin: '15px 0' }}
         >
           <Autocomplete
-            style={{ width: '80%' }}
+            style={{
+              width: 'calc(97% - 450px)',
+              minWidth: 150,
+            }}
             inputValue={searchInput}
             onInputChange={(e) => handleChange(e, setSearchInput)}
             onChange={(event, newKeyword) => {
@@ -222,11 +226,24 @@ function Sights() {
             >
               <MenuItem value="all">all</MenuItem>
               {getFilterList('vehicleType')
-                .map((cat) => <MenuItem key={cat} value={cat}>{cat}</MenuItem>)}
+                .map((type) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
+            </Select>
+          </FormControl>
+          <FormControl style={{ width: 150 }}>
+            <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              label="Sort by"
+              value={sortBy}
+              onChange={(e) => handleChange(e, setSortBy)}
+            >
+              {Object.keys(Object.values(sightsData)[0])
+                .filter((sort) => sort !== 'overlay')
+                .map((sort) => <MenuItem key={sort} value={sort}>{sort}</MenuItem>)}
             </Select>
           </FormControl>
         </Stack>
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={1} style={{ margin: '0 10px' }}>
           {searchKeyword.map((keyword, i) => (
             <Chip
               key={keyword}
