@@ -19,7 +19,7 @@ jobs:
         run: |
           cd website
           if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
+            yarn install
           elif [ -e package-lock.json ]; then
             npm ci
           else
@@ -46,7 +46,7 @@ jobs:
           git config --global user.email "futura@monkvision.ai"
           git config --global user.name "Futura"
           if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
+            yarn install
           elif [ -e package-lock.json ]; then
             npm ci
           else
