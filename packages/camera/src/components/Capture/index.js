@@ -7,6 +7,7 @@ import log from '../../utils/log';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 import useToggle from '../../hooks/useToggle';
+import useUploads, { handleUpload } from '../../hooks/useUploads';
 
 import Camera from '../Camera';
 import Controls from '../Controls';
@@ -39,6 +40,7 @@ export default function Capture({
   buttonResetProps,
   buttonSettingsProps,
   buttonValidateProps,
+  inspectionId,
   onCapture,
   onChange,
   onOffline,
@@ -47,6 +49,7 @@ export default function Capture({
   onValidate,
   sightIds,
   style,
+  withUploads,
 }) {
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
@@ -54,9 +57,10 @@ export default function Capture({
 
   const settings = useSettings();
   const [state, dispatch] = useSights(sightIds);
+  const [uploads, uploadsDispatch] = useUploads(sightIds);
 
   const { current, metadata } = state;
-  const { overlay } = current.metadata;
+  const overlay = current?.metadata?.overlay || '';
 
   const title = useMemo(() => {
     if (!current.metadata) { return ''; }
@@ -87,7 +91,20 @@ export default function Capture({
     unsetAwaitingPicture();
 
     onCapture(picture, camera, { current });
-  }, [camera, current, dispatch, onCapture, setAwaitingPicture, unsetAwaitingPicture]);
+
+    if (withUploads) {
+      handleUpload(
+        { picture, camera, sights: { current }, inspectionId },
+        uploads,
+        uploadsDispatch,
+        () => {},
+      );
+    }
+  }, [
+    camera, current, dispatch,
+    inspectionId, onCapture, setAwaitingPicture,
+    unsetAwaitingPicture, uploads, uploadsDispatch, withUploads,
+  ]);
 
   useEffect(() => {
     onChange(state);
@@ -145,6 +162,7 @@ Capture.propTypes = {
   buttonResetProps: PropTypes.objectOf(PropTypes.any),
   buttonSettingsProps: PropTypes.objectOf(PropTypes.any),
   buttonValidateProps: PropTypes.objectOf(PropTypes.any),
+  inspectionId: PropTypes.string,
   onCapture: PropTypes.func,
   onChange: PropTypes.func,
   onOffline: PropTypes.func,
@@ -152,6 +170,9 @@ Capture.propTypes = {
   onSettings: PropTypes.func,
   onValidate: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
+  withCarCoverage: PropTypes.bool,
+  withImageQualityCheck: PropTypes.bool,
+  withUploads: PropTypes.bool,
 };
 
 Capture.defaultProps = {
@@ -161,6 +182,7 @@ Capture.defaultProps = {
   buttonResetProps: { hidden: true },
   buttonSettingsProps: { hidden: true },
   buttonValidateProps: { hidden: true },
+  inspectionId: null,
   onCapture: () => {},
   onChange: () => {},
   onOffline: () => {},
@@ -181,4 +203,7 @@ Capture.defaultProps = {
     'AXuZ8H', // front lateral right
     'rVVtgm', // front right
   ],
+  withCarCoverage: false,
+  withImageQualityCheck: false,
+  withUploads: false,
 };

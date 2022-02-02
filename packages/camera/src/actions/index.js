@@ -7,4 +7,8 @@ export default {
     NEXT_SIGHT: 'NEXT_SIGHT',
     RESET_TOUR: 'RESET_TOUR',
   },
+  uploads: {
+    UPDATE_UPLOAD: 'UPDATE_UPLOAD',
+    RESET_UPLOADS: 'RESET_UPLOADS',
+  },
 };
