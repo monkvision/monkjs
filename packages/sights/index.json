@@ -1959,11 +1959,166 @@
     },
     "templateImage": "5b0223f4.opengl.png"
   },
+  "VmFL3v2A": {
+    "id": "VmFL3v2A",
+    "label": "front door left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door left x80 z70 1m",
+      "locationXyz": [
+        1.8842357397079468,
+        -0.7803248167037964,
+        1.0
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0.0,
+        1.2217304706573486
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "VmFL3v2A.opengl.png"
+  },
+  "1-gwCM0m": {
+    "id": "1-gwCM0m",
+    "label": "rear door left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door left x80 z70 1m",
+      "locationXyz": [
+        1.8402453660964966,
+        0.29878973960876465,
+        1.0
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0.0,
+        1.2217304706573486
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "1-gwCM0m.opengl.png"
+  },
+  "T24v9XS8": {
+    "id": "T24v9XS8",
+    "label": "front door left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door left x80 z60 1m",
+      "locationXyz": [
+        1.7169437408447266,
+        -0.9741133451461792,
+        1.0
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0.0,
+        1.0471975803375244
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "T24v9XS8.opengl.png"
+  },
+  "GOQq1-nN": {
+    "id": "GOQq1-nN",
+    "label": "front door left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door left x85 z110 1m",
+      "locationXyz": [
+        1.9469342231750488,
+        0.2433021515607834,
+        1.0
+      ],
+      "rotationXyzRad": [
+        1.483529806137085,
+        0.0,
+        1.9198622703552246
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "GOQq1-nN.opengl.png"
+  },
+  "D4r9OKHt": {
+    "id": "D4r9OKHt",
+    "label": "rear door left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door left x80 z110 1m",
+      "locationXyz": [
+        1.8319326639175415,
+        1.1923993825912476,
+        1.0
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0.0,
+        1.919862151145935
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "D4r9OKHt.opengl.png"
+  },
+  "OOJDJ7go": {
+    "id": "OOJDJ7go",
+    "label": "rear door left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door left x80 z120 1m",
+      "locationXyz": [
+        1.6542497873306274,
+        1.35085928440094,
+        1.0
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0.0,
+        2.094395160675049
+      ],
+      "focalLength": 26.0
+    },
+    "templateImage": "OOJDJ7go.opengl.png"
+  },
   "2RFF3Uf8": {
     "id": "2RFF3Uf8",
     "label": "rear door right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1990,7 +2145,6 @@
     "id": "TDLex8-D",
     "label": "rear door right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -2017,7 +2171,6 @@
     "id": "6MR5C13s",
     "label": "rear door right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -2044,7 +2197,6 @@
     "id": "QJ_yOnBl",
     "label": "front door right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -2071,7 +2223,6 @@
     "id": "2wVqenwP",
     "label": "front door right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -2098,7 +2249,6 @@
     "id": "enHQTFae",
     "label": "front door right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -2120,5 +2270,32 @@
       "focalLength": 26.0
     },
     "templateImage": "enHQTFae.opengl.png"
+  },
+  "rN39Y3HR": {
+    "id": "rN39Y3HR",
+    "label": "front door",
+    "category": "exterior",
+    "vehicleType": "Small Crossover/SUV",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensionsXyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear wheel x85 z-90 0.6m",
+      "locationXyz": [
+        -1.8515299558639526,
+        1.2667466402053833,
+        0.6000000238418579
+      ],
+      "rotationXyzRad": [
+        1.483529806137085,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focalLength": 25.99999237060547
+    },
+    "templateImage": "rN39Y3HR.opengl.png"
   }
 }
