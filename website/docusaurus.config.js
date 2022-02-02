@@ -4,9 +4,13 @@ module.exports = {
   projectName: 'monk',
   organizationName: 'monkvision',
   baseUrl: '/monkjs/',
-  trailingSlash: false,
   favicon: 'favicon.png',
   themeConfig: {
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
     customCss: [require.resolve('./docs.custom.css')],
     navbar: {
       title: 'Monk',
@@ -47,7 +51,6 @@ module.exports = {
         sitemap: {
           changefreq: 'monthly',
           priority: 0.5,
-          trailingSlash: false,
         },
       },
     ],
