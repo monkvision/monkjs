@@ -14,10 +14,10 @@
     "docs:write-heading-ids": "docusaurus write-heading-ids"
   },
   "devDependencies": {
-    "@docusaurus/core": "^2.0.0-beta.6",
-    "@docusaurus/preset-classic": "^2.0.0-beta.6",
-    "@docusaurus/theme-classic": "^2.0.0-beta.6",
-    "@docusaurus/theme-live-codeblock": "^2.0.0-beta.6"
+    "@docusaurus/core": "^2.0.0-beta.15",
+    "@docusaurus/preset-classic": "^2.0.0-beta.15",
+    "@docusaurus/theme-classic": "^2.0.0-beta.15",
+    "@docusaurus/theme-live-codeblock": "^2.0.0-beta.15"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

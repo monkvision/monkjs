@@ -214,7 +214,6 @@ function Sights() {
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            paddingTop: 2,
             paddingBottom: 2,
           }}
           maxWidth={false}

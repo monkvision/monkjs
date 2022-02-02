@@ -1183,7 +1183,7 @@
     "@docsearch/css" "3.0.0-alpha.42"
     algoliasearch "^4.0.0"
 
-"@docusaurus/core@2.0.0-beta.15", "@docusaurus/core@^2.0.0-beta.6":
+"@docusaurus/core@2.0.0-beta.15", "@docusaurus/core@^2.0.0-beta.15":
   version "2.0.0-beta.15"
   resolved "https://registry.yarnpkg.com/@docusaurus/core/-/core-2.0.0-beta.15.tgz#1a3f8361803767072e56c77d60332c87e59f1ad0"
   integrity sha512-zXhhD0fApMSvq/9Pkm9DQxa//hGOXVCq9yMHiXOkI5D1tLec7PxtnaC5cLfGHljkN9cKIfRDYUVcG1gHymVfpA==
@@ -1399,7 +1399,7 @@
     sitemap "^7.0.0"
     tslib "^2.3.1"
 
-"@docusaurus/preset-classic@^2.0.0-beta.6":
+"@docusaurus/preset-classic@^2.0.0-beta.15":
   version "2.0.0-beta.15"
   resolved "https://registry.yarnpkg.com/@docusaurus/preset-classic/-/preset-classic-2.0.0-beta.15.tgz#13d2f3c4fa7c055af35541ae5e93453450efb208"
   integrity sha512-3NZIXWTAzk+kOgiB8uAbD+FZv3VFR1qkU6+TW24DRenjRnXof3CkRuldhI1QI0hILm1fuJ319QRkakV8FFtXyA==
@@ -1424,7 +1424,7 @@
     "@types/react" "*"
     prop-types "^15.6.2"
 
-"@docusaurus/theme-classic@2.0.0-beta.15", "@docusaurus/theme-classic@^2.0.0-beta.6":
+"@docusaurus/theme-classic@2.0.0-beta.15", "@docusaurus/theme-classic@^2.0.0-beta.15":
   version "2.0.0-beta.15"
   resolved "https://registry.yarnpkg.com/@docusaurus/theme-classic/-/theme-classic-2.0.0-beta.15.tgz#35d04232f2d5fcb2007675339b0e6d0e8681be95"
   integrity sha512-WwNRcQvMtQ7KDhOEHFKFHxXCdoZwLg66hT3vhqNIFMfGQuPzOP91MX5LUSo1QWHhlrD3H3Og+r7Ik/fy2bf5lQ==
@@ -1462,7 +1462,7 @@
     tslib "^2.3.1"
     utility-types "^3.10.0"
 
-"@docusaurus/theme-live-codeblock@^2.0.0-beta.6":
+"@docusaurus/theme-live-codeblock@^2.0.0-beta.15":
   version "2.0.0-beta.15"
   resolved "https://registry.yarnpkg.com/@docusaurus/theme-live-codeblock/-/theme-live-codeblock-2.0.0-beta.15.tgz#8afbcda759de50b2d4e4e54634c2a959b7c998e5"
   integrity sha512-lgZBr4Ichrc/PLyI2n2Ap2cF/hrbg79C2Ex9PVRiHKGWBWGfL4xVcU4jE+CiqAuuNwOUEJaLtpWCuY410mB8dA==
@@ -1702,6 +1702,11 @@
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
+
+"@monkvision/sights@^1.3.0-7":
+  version "1.3.0-7"
+  resolved "https://registry.yarnpkg.com/@monkvision/sights/-/sights-1.3.0-7.tgz#01b1dce85fa18b7ecfd2f123cd8c38029c60d6bd"
+  integrity sha512-CV4LkQUdtTbu1oL9TKDVmIwCGoe87+yFkSVrkf8DsAV8jrhphppy5Ewax/JJOBWvBkmN1dUDv9efL+iZujgKDA==
 
 "@mui/base@5.0.0-alpha.67":
   version "5.0.0-alpha.67"
