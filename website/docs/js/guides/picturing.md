@@ -9,11 +9,42 @@ Open a React based project with our favorite IDE, then import the Camera view ca
 ```javascript
 /* App.jsx */
 
-import React from 'react';
-import { Capture, theme } from '@monkvision/rcamera';
+import React, { useCallback, useState } from 'react';
+import { Capture, Controls } from '@monkvision/camera';
+import { SafeAreaView, StatusBar } from 'react-native';
 
 export default function App() {
-  return <Capture />;
+  const [loading, setLoading] = useState();
+
+  const handleCapture = useCallback(async (api) => {
+    const { takePictureAsync, startUploadAsync, goNextSight } = api;
+
+    setLoading(true);
+    const { picture } = await takePictureAsync();
+
+    setTimeout(() => {
+      setLoading(false);
+      goNextSight();
+      startUploadAsync(picture);
+    }, 200);
+  }, []);
+
+  const controls = [{
+    disabled: loading,
+    onPress: handleCapture,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  return (
+    <SafeAreaView>
+      <StatusBar hidden />
+      <Capture
+        inspectionId="999999999-0000-0000-9999-999999999999"
+        controls={controls}
+        loading={loading}
+      />
+    </SafeAreaView>
+  );
 }
 ```
 
