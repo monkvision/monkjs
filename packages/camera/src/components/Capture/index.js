@@ -62,10 +62,10 @@ export default function Capture({
   const [isReady, setReady] = useState(false);
 
   const settings = useSettings();
-  const [state, dispatch] = useSights(sightIds);
+  const [pictureState, dispatch] = useSights(sightIds);
   const [uploads, uploadsDispatch] = useUploads(sightIds);
 
-  const { current, tour } = state;
+  const { current, tour } = pictureState;
   const overlay = current?.metadata?.overlay || '';
 
   const title = useMemo(() => {
@@ -108,12 +108,12 @@ export default function Capture({
   const handleCameraReady = useCallback(() => {
     setReady(true);
     log([`Camera preview has been set`]);
-    onReady(state, api);
-  }, [api, onReady, state]);
+    onReady(pictureState, api);
+  }, [api, onReady, pictureState]);
 
   useEffect(() => {
-    onChange(state, api);
-  }, [api, onChange, state]);
+    onChange(pictureState, uploads, api);
+  }, [api, onChange, pictureState, uploads]);
 
   useEffect(() => {
     if (sightIds) {
@@ -126,7 +126,7 @@ export default function Capture({
     <View accessibilityLabel="Capture component" style={[styles.container, style]}>
       <Layout
         fullscreen={fullscreen}
-        left={<Sights offline={offline} dispatch={dispatch} footer={footer} {...state} />}
+        left={<Sights offline={offline} dispatch={dispatch} footer={footer} {...pictureState} />}
         right={<Controls elements={controls} api={api} />}
       >
         <Camera
