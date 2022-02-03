@@ -95,7 +95,6 @@ Controls.CaptureButtonProps = {
     borderRadius: 84,
     borderColor: 'white',
     borderWidth: 4,
-    overflow: 'hidden',
     shadowColor: 'white',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },

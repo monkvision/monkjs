@@ -71,7 +71,13 @@ export async function handleUpload(payload, state, dispatch, callback) {
     const json = JSON.stringify({
       acquisition,
       tasks: ['damage_detection'],
-      additional_data: { ...sights.current.metadata, overlay: undefined },
+      additional_data: {
+        ...sights.current.metadata,
+        width: picture.width,
+        height: picture.height,
+        exif: picture.exif,
+        overlay: undefined,
+      },
     });
 
     const data = new FormData();

@@ -81,8 +81,12 @@ export default function Capture({
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
     const payload = { id: current.id, picture };
     dispatch({ type: Actions.sights.SET_PICTURE, payload });
-    return payload;
+    return { ...payload, ...current };
   }, [camera, current, dispatch]);
+
+  const goPrevSight = useCallback(() => {
+    dispatch({ type: Actions.sights.PREVIOUS_SIGHT });
+  }, [dispatch]);
 
   const goNextSight = useCallback(() => {
     dispatch({ type: Actions.sights.NEXT_SIGHT });
@@ -94,10 +98,12 @@ export default function Capture({
   }, [camera, current, inspectionId, uploads, uploadsDispatch]);
 
   const api = useMemo(() => ({
+    goPrevSight,
     goNextSight,
     startUploadAsync,
     takePictureAsync,
-  }), [goNextSight, startUploadAsync, takePictureAsync]);
+    camera,
+  }), [camera, goNextSight, goPrevSight, startUploadAsync, takePictureAsync]);
 
   const handleCameraReady = useCallback(() => {
     setReady(true);
