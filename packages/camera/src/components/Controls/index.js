@@ -59,8 +59,8 @@ export default function Controls({ api, containerStyle, elements, ...passThrough
 
 Controls.propTypes = {
   api: PropTypes.shape({
-    startUploadAsync: PropTypes.func,
     goNextSight: PropTypes.func,
+    startUploadAsync: PropTypes.func,
     takePictureSync: PropTypes.func,
   }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
