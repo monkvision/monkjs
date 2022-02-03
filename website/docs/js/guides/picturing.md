@@ -4,30 +4,22 @@ title: "📷 Taking pictures"
 slug: /js/guides/picturing
 ---
 
-Open a React based project with our favorite IDE, then import the Camera view called ``CaptureTour``.
+Open a React based project with our favorite IDE, then import the Camera view called ``Capture``.
 
 ```javascript
 /* App.jsx */
 
 import React from 'react';
-import { useIcons } from '@monkvision/react-native';
-import { CaptureTour, theme } from '@monkvision/react-native-views';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Capture, theme } from '@monkvision/rcamera';
 
 export default function App() {
-  useIcons();
-
-  return (
-    <PaperProvider theme={theme}>
-      <CaptureTour />
-    </PaperProvider>
-  );
+  return <Capture />;
 }
 ```
 
-This will create a tunnel view for taking pictures. `<CaptureTour />` takes callbacks and compose with your own logic.
+This will create a tunnel view for taking pictures. `<Capture />` takes callbacks and compose with your own logic.
 
-**See the [CaptureTour API](/docs/js/api/components/capture-tour) to more details.**
+**See the [Capture API](/docs/js/api/components/capture) to more details.**
 
 ## What's next?
 

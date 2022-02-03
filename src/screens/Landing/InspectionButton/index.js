@@ -1,13 +1,33 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { FAB, useTheme } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 
 import { INSPECTION_VIN, INSPECTION_IMPORT } from 'screens/names';
 
+const styles = StyleSheet.create({
+  inspectionButton: {
+    position: Platform.select({
+      native: 'absolute',
+      default: 'fixed',
+    }),
+    flexDirection: 'row',
+    bottom: 8,
+    right: 8,
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: 8,
+    marginLeft: 8,
+  },
+  importButton: {
+    backgroundColor: '#333',
+  },
+});
+
 export default function InspectionButton() {
-  const { colors } = useTheme();
   const navigation = useNavigation();
-  const [open, setOpen] = useState(false);
 
   const handleTakePictures = useCallback(
     () => navigation.navigate(INSPECTION_VIN),
@@ -20,25 +40,23 @@ export default function InspectionButton() {
   );
 
   return (
-    <FAB.Group
-      accessibilityLabel="New inspection"
-      color="white"
-      fabStyle={{ backgroundColor: colors.primary }}
-      open={open}
-      icon={open ? 'camera-image' : 'plus'}
-      actions={[
-        {
-          icon: 'image',
-          label: 'Import pictures',
-          onPress: handleImportPictures,
-        },
-        {
-          icon: 'camera',
-          label: 'Take pictures',
-          onPress: handleTakePictures,
-        },
-      ]}
-      onStateChange={(state) => setOpen(state.open)}
-    />
+    <View style={styles.inspectionButton}>
+      <Button
+        icon="camera-image"
+        mode="contained"
+        onPress={handleImportPictures}
+        style={[styles.button, styles.importButton]}
+      >
+        Import
+      </Button>
+      <Button
+        icon="camera"
+        mode="contained"
+        onPress={handleTakePictures}
+        style={styles.button}
+      >
+        Take pictures
+      </Button>
+    </View>
   );
 }

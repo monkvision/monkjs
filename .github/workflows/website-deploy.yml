@@ -14,12 +14,12 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
       - name: Test Build
         run: |
           cd website
           if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
+            yarn install
           elif [ -e package-lock.json ]; then
             npm ci
           else
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
       - uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.FUTURA_SECRET }}
@@ -46,7 +46,7 @@ jobs:
           git config --global user.email "futura@monkvision.ai"
           git config --global user.name "Futura"
           if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
+            yarn install
           elif [ -e package-lock.json ]; then
             npm ci
           else

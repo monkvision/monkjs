@@ -5,7 +5,7 @@ slug: /js/guides/setting-up
 ---
 
 You will find guides to integrate the SDK according to your environment. We try to provide documentation and knowledge for as many cases as possible.
-For each workflow, you may find nuances that will be detailed in the [🧯 Troubleshooting](https://monkvision.github.io/monkjs/docs/troubleshooting) section.
+For each workflow, you may find nuances that will be detailed in the [🧯 Troubleshooting](/docs/troubleshooting) section.
 
 > The JS stack allows us to integrate a camera in Native via the React Native bridge, but also in web, via a compatible browser. This means that we can cover the following projects, from Create React App, React Native or Expo.
 
@@ -27,7 +27,7 @@ cd my-awesome-project
 yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-redux react-native-web
 ```
 
-**See the [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing) section to find how to display a `<CameraView />` component.**
+**See the [📷 Taking pictures](/docs/js/guides/picturing) section to find how to display a `<CameraView />` component.**
 
 > Projects initiated by CRA use a default webpack config. This brings problems when our dependencies are not exported by their owner in ES6.
 
@@ -93,7 +93,7 @@ npx expo install expo-font
 
 All you have to do is import and use Monk.
 
-* See the [📷 Taking pictures](https://monkvision.github.io/monkjs/docs/js/guides/picturing) section
+* See the [📷 Taking pictures](/docs/js/guides/picturing) section
 * See the [Theming & Loading icons](#theming--loading-icons) section
 
 ### Bare Workflow project

@@ -1,4 +1,4 @@
-name: corejs
+name: Check Core package
 
 on:
   push:

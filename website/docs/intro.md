@@ -34,7 +34,7 @@ function GetInspectionScreen() {
   const handleRequest = useCallback(async (id) => {
     try {
       setLoading(true);
-      const apiResult = await monkapi.inspections.getOne({ id });
+      const apiResult = await monkApi.inspections.getOne({ id });
       setLoading(false); setResult(apiResult);
     } catch (e) {
       setLoading(false); setError(e);
@@ -90,7 +90,7 @@ The command install all dependencies you need if you go all in. We mean that you
 > Already have a React Native app? Some may be required
 > to manage iOS, Android and Web compatibility as much as possible.
 
-For questions or problems, see the [🧯 Troubleshooting](https://monkvision.github.io/monkjs/docs/troubleshooting) section
+For questions or problems, see the [🧯 Troubleshooting](/docs/troubleshooting) section
 or post an issue on our [GitHub repo](https://github.com/monkvision/monkjs/issues).
 
 ## What's next?

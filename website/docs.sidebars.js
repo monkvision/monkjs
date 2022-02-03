@@ -31,12 +31,8 @@ module.exports = {
         type: 'category',
         label: 'React Native',
         items: [
-          'js/api/components/capture-damage',
-          'js/api/components/capture-tour',
+          'js/api/components/capture',
           'js/api/components/damage-highlight',
-          'js/api/components/damage-annotation',
-          'js/api/components/damage-library',
-          'js/api/components/inspected-vehicle',
         ],
       },
     ],

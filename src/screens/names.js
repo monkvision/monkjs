@@ -26,3 +26,5 @@ export const TASK_READ = 'taskRead';
 export const PROFILE = 'profile';
 
 export const LANDING = 'landing';
+
+export const TEST = 'test';

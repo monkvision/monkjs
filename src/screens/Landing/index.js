@@ -1,6 +1,7 @@
-import React, { useCallback, useLayoutEffect, useState, useEffect, useRef } from 'react';
+import useRequest from 'hooks/useRequest';
+import React, { useCallback, useLayoutEffect, useRef } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 
 import { PROFILE, INSPECTION_READ } from 'screens/names';
@@ -8,7 +9,7 @@ import { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
 
 import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions, Platform } from 'react-native';
-import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
+import { DataTable, Button, useTheme, Text, Card, ActivityIndicator } from 'react-native-paper';
 import MonkIcon from 'components/Icons/MonkIcon';
 
 import { useFakeActivity } from '@monkvision/react-native-views';
@@ -31,7 +32,6 @@ import {
   inspectionsEntity,
   tasksEntity,
   vehiclesEntity,
-  inspectionStatuses,
 } from '@monkvision/corejs';
 
 const LIMIT = 25;
@@ -86,13 +86,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  scrollList: {
-    overflow: 'visible',
-    minHeight: 250,
+  scrollListContainer: {
     height: Platform.select({
-      web: '90vh',
-      default: '100%',
+      native: '100%',
+      default: '100vh',
     }),
+  },
+  scrollList: {
+    paddingBottom: 132,
+  },
+  activityIndicator: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 150,
   },
 });
 
@@ -109,34 +115,13 @@ export default () => {
   );
 
   const scrollListRef = useRef();
-  const [nextPage, setNextPage] = useState();
-  const [doneLoading, setDoneLoading] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const loadMoreInspections = useCallback((reset) => {
-    if (doneLoading) { return; }
-    setDoneLoading(true);
-    dispatch(getAllInspections({
-      params: {
-        inspection_status: inspectionStatuses.DONE,
-        limit: LIMIT,
-        before: reset ? null : nextPage?.before,
-        after: reset ? null : nextPage?.after,
-      },
-      reset,
-    })).unwrap()
-      .then((res) => {
-        setNextPage(res.result.paging?.cursors?.next);
-        setDoneLoading(false);
-        if (reset) { scrollListRef.current?.scrollToOffset({ offset: 0 }); }
-      }).catch(() => {
-        setNextPage(null);
-        setDoneLoading(false);
-      });
-  }, [dispatch, doneLoading, nextPage]);
-
-  const [fakeDoneLoading] = useFakeActivity(doneLoading);
+  const { loading, refresh } = useRequest(getAllInspections({
+    params: {
+      limit: LIMIT,
+      show_deleted: false,
+    },
+  }));
 
   const ids = useSelector(selectInspectionIds);
   const inspectionEntities = useSelector(selectInspectionEntities);
@@ -196,17 +181,6 @@ export default () => {
     }
   }, [colors.primary, handleSignOut, navigation]);
 
-  useEffect(() => {
-    if (doneLoading || nextPage !== undefined) { return; }
-    loadMoreInspections();
-  }, [doneLoading, loadMoreInspections, nextPage]);
-
-  const paginate = useCallback(() => {
-    if (nextPage) {
-      loadMoreInspections();
-    }
-  }, [nextPage, loadMoreInspections]);
-
   const renderItem = useCallback(({ item: { id, createdAt, vehicle }, index }) => (
     <DataTable.Row
       key={`inspectionRow-${id}`}
@@ -238,16 +212,10 @@ export default () => {
           <DataTable>
             <VirtualizedList
               ref={scrollListRef}
-              style={styles.scrollList}
-              refreshControl={(
-                <RefreshControl
-                  refreshing={fakeDoneLoading}
-                  onRefresh={() => loadMoreInspections(true)}
-                />
-              )}
-              onEndReached={paginate}
-              onEndReachedThreshold={100}
-              scrollEventThrottle={400}
+              style={styles.scrollListContainer}
+              contentContainerStyle={styles.scrollList}
+              refreshControl={(<RefreshControl onRefresh={refresh} />)}
+              scrollEventThrottle={0}
               ListHeaderComponent={(
                 <DataTable.Header>
                   <DataTable.Title>Vehicle</DataTable.Title>
@@ -261,26 +229,12 @@ export default () => {
               keyExtractor={(item) => item.id}
               getItemCount={(d) => d?.length}
               getItem={(items, index) => items[index]}
-              ListFooterComponent={(
-                <Card.Actions style={styles.cardActions}>
-                  <Button
-                    style={styles.refreshButton}
-                    accessibilityLabel="Refresh"
-                    onPress={() => loadMoreInspections(true)}
-                    icon="refresh"
-                    color={colors.primary}
-                    loading={fakeDoneLoading}
-                    disabled={fakeDoneLoading}
-                  >
-                    Refresh
-                  </Button>
-                </Card.Actions>
-              )}
             />
           </DataTable>
         </Card.Content>
         <InspectionButton />
       </Card>
+      {loading && <ActivityIndicator style={styles.activityIndicator} />}
     </SafeAreaView>
   );
 };

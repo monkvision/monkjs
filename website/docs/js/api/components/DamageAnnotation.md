@@ -50,7 +50,7 @@ const handleValidate = (ellipse) => {
 ```
 
 The property `image` comes from the result of an inspection, which is formatted with the
-hooks [`usePolygon`](https://monkvision.github.io/monkjs/docs/js/api/components/damage-highlight#usepolygons).
+hooks [`usePolygon`](/docs/js/api/components/damage-highlight#usepolygons).
 
 The argument `ellipse` of each callback has the following format:
 

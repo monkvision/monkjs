@@ -2,6 +2,8 @@
   "hooks": {
     "after:bump": [
       "npm run build:corejs",
+      "npm run build:sights",
+      "npm run build:camera",
       "npm run build:react-native",
       "npm run build:react-native-views"
     ],
