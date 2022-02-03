@@ -1,16 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, Platform, Text } from 'react-native';
-import { useTheme, Button, TextInput, IconButton, Card } from 'react-native-paper';
-import { useFormik } from 'formik';
-import PropTypes from 'prop-types';
-import noop from 'lodash.noop';
-
 import { updateOneInspectionVehicle } from '@monkvision/corejs';
-
-import { INSPECTION_CREATE } from 'screens/names';
+import { useNavigation } from '@react-navigation/native';
 import { spacing } from 'config/theme';
+import { useFormik } from 'formik';
 import useRequest from 'hooks/useRequest/index';
+import noop from 'lodash.noop';
+import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { Image, Platform, StyleSheet, Text } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+import { Button, Card, IconButton, TextInput, useTheme } from 'react-native-paper';
+import { INSPECTION_CREATE } from 'screens/names';
 import handleStatuses from './statuses';
 
 const styles = StyleSheet.create({
@@ -74,6 +73,7 @@ export default function VinForm({
   vin,
   handleOpenGuide,
   handleOpenCamera,
+  handleOpenErrorSnackbar,
   vinPicture,
   ocrIsLoading,
   isUploading,
@@ -102,13 +102,13 @@ export default function VinForm({
     { onSuccess: handleTakePictures, onError: handleTakePictures }),
   [submitVehicleInfo, inspectionId, requiredPayload, handleTakePictures]);
 
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, handleSubmit, handleBlur } = useFormik({
     initialValues: { vin: vin || '' },
     enableReinitialize: true,
     onSubmit: (vals) => {
       submitVehicleInfo(updateOneInspectionVehicle({ inspectionId,
         data: { vin: vals.vin, ...requiredPayload } }),
-      { onSuccess: handleTakePictures });
+      { onSuccess: handleTakePictures, onError: handleOpenErrorSnackbar });
     },
   });
 
@@ -136,13 +136,22 @@ export default function VinForm({
 
         <TextInput
           style={styles.textInput}
-          placeholder="VFX XXXXX XXXXXXXX"
-          value={values.vin}
           mode="outlined"
-          label="Vin"
+          label="VIN"
+          placeholder="VFX XXXXX XXXXXXXX"
           onChangeText={handleChange('vin')}
-          right={<IconButton icon="edit" />}
+          onBlur={handleBlur('vin')}
+          value={values.vin}
+          right={<TextInput.Icon name={!values.vin ? 'keyboard-outline' : 'cancel'} disabled />}
+          render={(props) => (
+            <TextInputMask
+              type="custom"
+              options={{ mask: 'SSS SSSSSS SSSSSSSS' }}
+              {...props}
+            />
+          )}
         />
+
         {vinPicture ? <Image source={{ uri: vinPicture }} style={styles.picture} />
           : null}
 
@@ -164,6 +173,7 @@ export default function VinForm({
 
 VinForm.propTypes = {
   handleOpenCamera: PropTypes.func,
+  handleOpenErrorSnackbar: PropTypes.func,
   handleOpenGuide: PropTypes.func,
   inspectionId: PropTypes.string,
   isUploading: PropTypes.bool.isRequired,
@@ -186,6 +196,7 @@ VinForm.propTypes = {
 VinForm.defaultProps = {
   handleOpenCamera: noop,
   handleOpenGuide: noop,
+  handleOpenErrorSnackbar: noop,
   inspectionId: null,
   vinPicture: null,
   vin: null,
