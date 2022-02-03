@@ -1,15 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback } from 'react';
+import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  createElement,
-  Platform,
-  StyleSheet, Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
