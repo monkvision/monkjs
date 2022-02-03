@@ -6,7 +6,6 @@ import log from '../../utils/log';
 
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
-import useToggle from '../../hooks/useToggle';
 import useUploads, { handleUpload } from '../../hooks/useUploads';
 
 import Camera from '../Camera';
@@ -21,125 +20,108 @@ import Constants from '../../const';
 const styles = StyleSheet.create({
   container: { flex: 1 },
   overlay: { flex: 1 },
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
 });
 
 /**
- * This is uncontrolled component
- * @param hideReset
+ * @param controls
+ * @param footer
+ * @param fullscreen
+ * @param inspectionId
+ * @param loading
+ * @param offline
  * @param onChange
- * @param onReset
+ * @param onReady
+ * @param primaryColor
  * @param sightIds
  * @param style
  * @return {JSX.Element}
  * @constructor
  */
 export default function Capture({
-  buttonCaptureProps,
-  buttonFullScreenProps,
-  buttonOfflineProps,
-  buttonResetProps,
-  buttonSettingsProps,
-  buttonValidateProps,
+  controls,
+  footer,
+  fullscreen,
   inspectionId,
-  onCapture,
+  loading,
+  offline,
   onChange,
-  onOffline,
-  onReset,
-  onSettings,
-  onValidate,
+  onReady,
+  primaryColor,
   sightIds,
   style,
-  withUploads,
 }) {
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
-  const [awaitingPicture, setAwaitingPicture, unsetAwaitingPicture] = useToggle();
 
   const settings = useSettings();
   const [state, dispatch] = useSights(sightIds);
   const [uploads, uploadsDispatch] = useUploads(sightIds);
 
-  const { current, metadata } = state;
+  const { current, tour } = state;
   const overlay = current?.metadata?.overlay || '';
 
   const title = useMemo(() => {
     if (!current.metadata) { return ''; }
     const { label, id } = current.metadata;
-
-    if (Constants.PRODUCTION) {
-      return label;
-    }
-
+    if (Constants.PRODUCTION) { return label; }
     return `${label} - ${id}`;
   }, [current]);
+
+  const takePictureAsync = useCallback(async () => {
+    log([`Awaiting picture to be taken...`]);
+    const picture = await camera.takePictureAsync();
+    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
+    const payload = { id: current.id, picture };
+    dispatch({ type: Actions.sights.SET_PICTURE, payload });
+    return payload;
+  }, [camera, current, dispatch]);
+
+  const goNextSight = useCallback(() => {
+    dispatch({ type: Actions.sights.NEXT_SIGHT });
+  }, [dispatch]);
+
+  const startUploadAsync = useCallback((picture) => {
+    const payload = { picture, camera, sights: { current }, inspectionId };
+    handleUpload(payload, uploads, uploadsDispatch, () => {});
+  }, [camera, current, inspectionId, uploads, uploadsDispatch]);
+
+  const api = useMemo(() => ({
+    goNextSight,
+    startUploadAsync,
+    takePictureAsync,
+  }), [goNextSight, startUploadAsync, takePictureAsync]);
 
   const handleCameraReady = useCallback(() => {
     setReady(true);
     log([`Camera preview has been set`]);
-  }, []);
+    onReady(state, api);
+  }, [api, onReady, state]);
 
-  const handleCapture = useCallback(async () => {
-    setAwaitingPicture();
+  useEffect(() => {
+    onChange(state, api);
+  }, [api, onChange, state]);
 
-    log([`Awaiting picture to be taken...`]);
-    const picture = await camera.takePictureAsync();
-    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
-
-    dispatch({ type: Actions.sights.SET_PICTURE, payload: { id: current.id, picture } });
-    dispatch({ type: Actions.sights.NEXT_SIGHT });
-
-    unsetAwaitingPicture();
-
-    onCapture(picture, camera, { current });
-
-    if (withUploads) {
-      handleUpload(
-        { picture, camera, sights: { current }, inspectionId },
-        uploads,
-        uploadsDispatch,
-        () => {},
-      );
+  useEffect(() => {
+    if (sightIds) {
+      log([`Capture workflow initialized with sights`, tour]);
+      log([`See https://sights.monk.ai?q=${sightIds.join(',')}`]);
     }
-  }, [
-    camera, current, dispatch,
-    inspectionId, onCapture, setAwaitingPicture,
-    unsetAwaitingPicture, uploads, uploadsDispatch, withUploads,
-  ]);
-
-  useEffect(() => {
-    onChange(state);
-  }, [onChange, state]);
-
-  useEffect(() => {
-    log([`Capture workflow initialized with sights`, metadata]);
-    log([`See https://sights.monk.ai?q=${sightIds.join(',')}`]);
-  }, [metadata, sightIds]);
+  }, [tour, sightIds]);
 
   return (
     <View accessibilityLabel="Capture component" style={[styles.container, style]}>
       <Layout
-        buttonFullScreenProps={buttonFullScreenProps}
-        left={(
-          <Sights
-            buttonOfflineProps={buttonOfflineProps}
-            buttonResetProps={buttonResetProps}
-            onOffline={onOffline}
-            onReset={onReset}
-            {...state}
-            dispatch={dispatch}
-          />
-        )}
-        right={(
-          <Controls
-            buttonCaptureProps={buttonCaptureProps}
-            buttonSettingsProps={buttonSettingsProps}
-            buttonValidateProps={buttonValidateProps}
-            onCapture={handleCapture}
-            onSettings={onSettings}
-            onValidate={onValidate}
-            disabled={awaitingPicture}
-          />
-        )}
+        fullscreen={fullscreen}
+        left={<Sights offline={offline} dispatch={dispatch} footer={footer} {...state} />}
+        right={<Controls elements={controls} api={api} />}
       >
         <Camera
           onRef={setCamera}
@@ -147,63 +129,48 @@ export default function Capture({
           title={title}
           {...settings}
         >
-          {(isReady && overlay) ? <Overlay svg={overlay} style={styles.overlay} /> : null}
+          <>
+            {(isReady && overlay && loading === false) ? (
+              <Overlay svg={overlay} style={styles.overlay} />
+            ) : null}
+            {loading === true ? (
+              <View style={styles.loading}>
+                <ActivityIndicator size="large" color={primaryColor} />
+              </View>
+            ) : null}
+          </>
         </Camera>
-        {awaitingPicture && <ActivityIndicator />}
       </Layout>
     </View>
   );
 }
 
 Capture.propTypes = {
-  buttonCaptureProps: PropTypes.objectOf(PropTypes.any),
-  buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
-  buttonOfflineProps: PropTypes.objectOf(PropTypes.any),
-  buttonResetProps: PropTypes.objectOf(PropTypes.any),
-  buttonSettingsProps: PropTypes.objectOf(PropTypes.any),
-  buttonValidateProps: PropTypes.objectOf(PropTypes.any),
+  controls: PropTypes.arrayOf(PropTypes.shape({
+    component: PropTypes.element,
+    disabled: PropTypes.bool,
+    onPress: PropTypes.func,
+  })),
+  footer: PropTypes.element,
+  fullscreen: PropTypes.objectOf(PropTypes.any),
   inspectionId: PropTypes.string,
-  onCapture: PropTypes.func,
+  loading: PropTypes.bool,
+  offline: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,
-  onOffline: PropTypes.func,
-  onReset: PropTypes.func,
-  onSettings: PropTypes.func,
-  onValidate: PropTypes.func,
+  onReady: PropTypes.func,
+  primaryColor: PropTypes.string,
   sightIds: PropTypes.arrayOf(PropTypes.string),
-  withCarCoverage: PropTypes.bool,
-  withImageQualityCheck: PropTypes.bool,
-  withUploads: PropTypes.bool,
 };
 
 Capture.defaultProps = {
-  buttonCaptureProps: {},
-  buttonFullScreenProps: {},
-  buttonOfflineProps: { hidden: true },
-  buttonResetProps: { hidden: true },
-  buttonSettingsProps: { hidden: true },
-  buttonValidateProps: { hidden: true },
+  controls: [],
+  footer: null,
+  fullscreen: null,
   inspectionId: null,
-  onCapture: () => {},
+  loading: false,
+  offline: null,
   onChange: () => {},
-  onOffline: () => {},
-  onReset: () => {},
-  onSettings: () => {},
-  onValidate: () => {},
-  sightIds: [
-    'VGv4m3', // front
-    'H12i1w', // front left
-    'QtRSGx', // front lateral left
-    'uk3vsS', // lateral left
-    '0o2lYb', // rear lateral left
-    'IO3gpE', // rear left
-    '17C0fh', // rear
-    'Js1yPM', // rear right
-    'OVluNy', // rear lateral right
-    'unM2IO', // lateral right
-    'AXuZ8H', // front lateral right
-    'rVVtgm', // front right
-  ],
-  withCarCoverage: false,
-  withImageQualityCheck: false,
-  withUploads: false,
+  onReady: () => {},
+  primaryColor: '#FFF',
+  sightIds: ['vLcBGkeh', 'sLu0Cf'],
 };

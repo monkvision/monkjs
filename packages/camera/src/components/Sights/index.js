@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert, Platform, StyleSheet, ScrollView, Text, Button, Switch, View } from 'react-native';
+import { Platform, StyleSheet, ScrollView, Text, Switch, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { useMediaQuery } from 'react-responsive';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
-import useToggle from '../../hooks/useToggle';
 
 import Thumbnail from '../Thumbnail';
 import Actions from '../../actions';
@@ -15,16 +14,13 @@ const styles = StyleSheet.create({
   textContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: 68,
   },
   text: {
     alignSelf: 'center',
     color: 'white',
     textAlign: 'center',
     lineHeight: 20,
-  },
-  reset: {
-    width: '100%',
-    marginVertical: 16,
   },
   switchContainer: {
     width: 68,
@@ -47,9 +43,8 @@ const styles = StyleSheet.create({
   gradient: {
     position: 'absolute',
   },
-  hidden: {
-    visibility: 'hidden',
-    opacity: 0,
+  footer: {
+    marginTop: 8,
   },
 });
 
@@ -76,60 +71,30 @@ function Gradient() {
 
 export default function Sights({
   buttonOfflineProps,
-  buttonResetProps,
   current,
   dispatch,
+  footer,
   ids,
-  onOffline,
-  onReset,
   takenPictures,
   tour,
 }) {
   const { height: windowHeight } = useWindowDimensions();
 
-  const [isOnline, , , toggleOnline] = useToggle(true);
-  const onlineText = useMemo(
-    () => `${isOnline ? 'online' : 'offline'}`,
-    [isOnline],
-  );
-
-  const handleOffline = useCallback((value) => {
-    onOffline(!value);
-    toggleOnline();
-  }, [onOffline, toggleOnline]);
-
   const handlePress = useCallback((id) => {
     dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [dispatch]);
-
-  const handleReset = useCallback(() => {
-    const title = 'Are you sure?';
-    const message = 'It will reset all taken pictures.';
-    const updateState = () => {
-      dispatch({ type: Actions.sights.RESET_TOUR, payload: ids });
-      onReset();
-    };
-
-    // eslint-disable-next-line no-alert
-    if (Platform.OS === 'web' && window.confirm(`${title} ${message}`)) {
-      updateState();
-    }
-
-    Alert.alert(title, message, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'OK', onPress: updateState },
-    ]);
-  }, [dispatch, ids, onReset]);
 
   return (
     <ScrollView
       endFillColor="#000"
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
-      contentContainerStyle={Platform.select({
-        native: { maxHeight: windowHeight },
-        default: { maxHeight: '100vh' },
-      })}
+      contentContainerStyle={{
+        ...Platform.select({
+          native: { maxHeight: windowHeight },
+          default: { maxHeight: '100vh' },
+        }),
+      }}
     >
       <View style={styles.stickyHeader}>
         <Gradient />
@@ -138,49 +103,36 @@ export default function Sights({
             {`${current.index + 1} / ${ids.length} `}
           </Text>
         </View>
-        {!buttonOfflineProps.hidden && (
+        {buttonOfflineProps && (
           <View style={styles.switchContainer}>
-            <Switch
-              onValueChange={handleOffline}
-              value={isOnline}
-              {...buttonOfflineProps}
-            />
-            <Text style={styles.switchText}>{onlineText}</Text>
+            <Switch {...buttonOfflineProps} />
+            <Text style={styles.switchText}>{buttonOfflineProps.text}</Text>
           </View>
         )}
       </View>
-      {Object.values(tour).map(({ id, label, overlay }) => (
-        <Thumbnail
-          key={`thumbnail-${id}`}
-          label={label}
-          overlay={overlay}
-          picture={takenPictures[id]}
-          onPress={() => handlePress(id)}
-          onClick={() => handlePress(id)}
-        />
-      ))}
-      {!buttonResetProps.hidden && (
-        <Button
-          onPress={handleReset}
-          title="Reset"
-          color="black"
-          disabled={buttonResetProps.hidden}
-          style={[styles.reset, buttonResetProps.hidden ? styles.hidden : {}]}
-          {...buttonResetProps}
-        />
-      )}
+      <View>
+        {Object.values(tour).map(({ id, label, overlay }) => (
+          <Thumbnail
+            key={`thumbnail-${id}`}
+            label={label}
+            overlay={overlay}
+            picture={takenPictures[id]}
+            onPress={() => handlePress(id)}
+            onClick={() => handlePress(id)}
+          />
+        ))}
+        <View style={styles.footer}>{footer}</View>
+      </View>
     </ScrollView>
   );
 }
 
 Sights.propTypes = {
   buttonOfflineProps: PropTypes.objectOf(PropTypes.any),
-  buttonResetProps: PropTypes.objectOf(PropTypes.any),
   current: PropTypes.shape({ index: PropTypes.number }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  footer: PropTypes.element,
   ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onOffline: PropTypes.func,
-  onReset: PropTypes.func,
   takenPictures: PropTypes.objectOf(PropTypes.object),
   tour: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
@@ -190,9 +142,7 @@ Sights.propTypes = {
 };
 
 Sights.defaultProps = {
-  buttonOfflineProps: {},
-  buttonResetProps: {},
-  onOffline: () => {},
-  onReset: () => {},
+  buttonOfflineProps: null,
+  footer: null,
   takenPictures: {},
 };

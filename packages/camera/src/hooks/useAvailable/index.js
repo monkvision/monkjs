@@ -28,7 +28,10 @@ const useAvailable = () => {
         if (isAvailable) {
           setAvailable(true);
           log([`Camera is available!`]);
-          log([`Camera is not available!`], 'error');
+        } else {
+          setAvailable(false);
+          // eslint-disable-next-line no-console
+          console.error(`Camera is not available!`);
         }
       })();
     } else if (!available) {

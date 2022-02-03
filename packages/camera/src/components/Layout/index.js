@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
     visibility: 'hidden',
     opacity: 0,
   },
+  right: {
+    maxWidth: 141,
+    flexGrow: 1,
+  },
 });
 
 function FullScreenButton({ hidden, ...rest }) {
