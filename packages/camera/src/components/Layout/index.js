@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   section: {
     height: '100%',
     minWidth: 100,
-    overflowX: 'hidden',
     alignItems: 'center',
   },
   fullScreenButtonContainer: {
