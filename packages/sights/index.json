@@ -1,4 +1,16 @@
 {
+  "sLu0Cf": {
+    "category": "misc",
+    "centerParts": [],
+    "id": "sLu0Cf",
+    "label": "VIN",
+    "template": {
+      "cameraCoordinates": [],
+      "renderingImage": ""
+    },
+    "vehicleType": "default",
+    "visiblePars": []
+  },
   "xsuH1g5T": {
     "id": "xsuH1g5T",
     "label": "Front Fender Left",
