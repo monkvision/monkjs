@@ -62,7 +62,7 @@ export default function Capture({
   const [isReady, setReady] = useState(false);
 
   const settings = useSettings();
-  const [pictureState, dispatch] = useSights(sightIds);
+  const [pictureState, pictureDispatch] = useSights(sightIds);
   const [uploads, uploadsDispatch] = useUploads(sightIds);
 
   const { current, tour } = pictureState;
@@ -80,21 +80,26 @@ export default function Capture({
     const picture = await camera.takePictureAsync();
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
     const payload = { id: current.id, picture };
-    dispatch({ type: Actions.sights.SET_PICTURE, payload });
+    pictureDispatch({ type: Actions.sights.SET_PICTURE, payload });
     return { ...payload, ...current };
-  }, [camera, current, dispatch]);
+  }, [camera, current, pictureDispatch]);
 
   const goPrevSight = useCallback(() => {
-    dispatch({ type: Actions.sights.PREVIOUS_SIGHT });
-  }, [dispatch]);
+    pictureDispatch({ type: Actions.sights.PREVIOUS_SIGHT });
+  }, [pictureDispatch]);
 
   const goNextSight = useCallback(() => {
-    dispatch({ type: Actions.sights.NEXT_SIGHT });
-  }, [dispatch]);
+    pictureDispatch({ type: Actions.sights.NEXT_SIGHT });
+  }, [pictureDispatch]);
 
-  const startUploadAsync = useCallback((picture) => {
+  const startUploadAsync = useCallback((
+    picture,
+    state = uploads,
+    dispatch = uploadsDispatch,
+    callback,
+  ) => {
     const payload = { picture, camera, sights: { current }, inspectionId };
-    handleUpload(payload, uploads, uploadsDispatch, () => {});
+    handleUpload(payload, state, dispatch, callback);
   }, [camera, current, inspectionId, uploads, uploadsDispatch]);
 
   const api = useMemo(() => ({
@@ -126,7 +131,14 @@ export default function Capture({
     <View accessibilityLabel="Capture component" style={[styles.container, style]}>
       <Layout
         fullscreen={fullscreen}
-        left={<Sights offline={offline} dispatch={dispatch} footer={footer} {...pictureState} />}
+        left={(
+          <Sights
+            offline={offline}
+            dispatch={pictureDispatch}
+            footer={footer}
+            {...pictureState}
+          />
+        )}
         right={<Controls elements={controls} api={api} />}
       >
         <Camera
