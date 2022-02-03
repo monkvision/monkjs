@@ -314,9 +314,8 @@
   },
   "xsuH1g5T": {
     "id": "xsuH1g5T",
-    "label": "front fender left",
+    "label": "Front Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -325,25 +324,16 @@
     },
     "camera": {
       "name": "front fender left x67 z45 1.5m",
-      "locationXyz": [
-        1.7549424171447754,
-        -2.4460859298706055,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1693706512451172,
-        -0.0,
-        0.7853981852531433
-      ],
+      "locationXyz": [1.7549424171447754, -2.4460859298706055, 1.5],
+      "rotationXyzRad": [1.1693706512451172, -0.0, 0.7853981852531433],
       "focalLength": 26.0
     },
     "templateImage": "xsuH1g5T.opengl.png"
   },
   "IzMR_OzQ": {
     "id": "IzMR_OzQ",
-    "label": "front fender left",
+    "label": "Front Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -352,25 +342,16 @@
     },
     "camera": {
       "name": "front fender left x65.5 z40 1.5m",
-      "locationXyz": [
-        1.4488260746002197,
-        -2.5688226222991943,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.143190622329712,
-        -0.0,
-        0.6981316804885864
-      ],
+      "locationXyz": [1.4488260746002197, -2.5688226222991943, 1.5],
+      "rotationXyzRad": [1.143190622329712, -0.0, 0.6981316804885864],
       "focalLength": 26.0
     },
     "templateImage": "IzMR_OzQ.opengl.png"
   },
   "AEc967h1": {
     "id": "AEc967h1",
-    "label": "doors left",
+    "label": "Doors Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -379,25 +360,16 @@
     },
     "camera": {
       "name": "doors left x70 z70 1.5m",
-      "locationXyz": [
-        2.5270965099334717,
-        -0.4450318217277527,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.2217304706573486,
-        -0.0,
-        1.2217304706573486
-      ],
+      "locationXyz": [2.5270965099334717, -0.4450318217277527, 1.5],
+      "rotationXyzRad": [1.2217304706573486, -0.0, 1.2217304706573486],
       "focalLength": 26.0
     },
     "templateImage": "AEc967h1.opengl.png"
   },
   "3vKXafwc": {
     "id": "3vKXafwc",
-    "label": "rear fender left",
+    "label": "Rear Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -406,25 +378,16 @@
     },
     "camera": {
       "name": "rear fender left x66 z130 1.5m",
-      "locationXyz": [
-        1.767639398574829,
-        2.285799741744995,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        2.268928050994873
-      ],
+      "locationXyz": [1.767639398574829, 2.285799741744995, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, 2.268928050994873],
       "focalLength": 26.0
     },
     "templateImage": "3vKXafwc.opengl.png"
   },
   "3a3OheoD": {
     "id": "3a3OheoD",
-    "label": "rear fender left",
+    "label": "Rear Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -433,25 +396,16 @@
     },
     "camera": {
       "name": "rear fender left x65 z150 1.5m",
-      "locationXyz": [
-        0.9878284335136414,
-        2.840301752090454,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1344640254974365,
-        -0.0,
-        2.6179938316345215
-      ],
+      "locationXyz": [0.9878284335136414, 2.840301752090454, 1.5],
+      "rotationXyzRad": [1.1344640254974365, -0.0, 2.6179938316345215],
       "focalLength": 26.0
     },
     "templateImage": "3a3OheoD.opengl.png"
   },
   "ClEZSucK": {
     "id": "ClEZSucK",
-    "label": "rear lateral left",
+    "label": "Rear Lateral Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -460,25 +414,16 @@
     },
     "camera": {
       "name": "rear lateral left x80 z95 0.9m",
-      "locationXyz": [
-        2.140855073928833,
-        1.229339838027954,
-        0.8999999761581421
-      ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        -0.0,
-        1.6580628156661987
-      ],
+      "locationXyz": [2.140855073928833, 1.229339838027954, 0.8999999761581421],
+      "rotationXyzRad": [1.3962633609771729, -0.0, 1.6580628156661987],
       "focalLength": 26.0
     },
     "templateImage": "ClEZSucK.opengl.png"
   },
   "zjAIjUgU": {
     "id": "zjAIjUgU",
-    "label": "front lateral left",
+    "label": "Front Lateral Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -488,24 +433,17 @@
     "camera": {
       "name": "front lateral left x79 z75 0.9m",
       "locationXyz": [
-        2.171881675720215,
-        -1.1752331256866455,
-        0.8999999761581421
+        2.171881675720215, -1.1752331256866455, 0.8999999761581421
       ],
-      "rotationXyzRad": [
-        1.378810167312622,
-        -0.0,
-        1.3089969158172607
-      ],
+      "rotationXyzRad": [1.378810167312622, -0.0, 1.3089969158172607],
       "focalLength": 26.0
     },
     "templateImage": "zjAIjUgU.opengl.png"
   },
   "vLcBGkeh": {
     "id": "vLcBGkeh",
-    "label": "front",
+    "label": "Front",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -514,25 +452,16 @@
     },
     "camera": {
       "name": "front x66 1.5m",
-      "locationXyz": [
-        0.0,
-        -3.0999999046325684,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        0.0
-      ],
+      "locationXyz": [0.0, -3.0999999046325684, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, 0.0],
       "focalLength": 26.0
     },
     "templateImage": "vLcBGkeh.opengl.png"
   },
   "PLh198NC": {
     "id": "PLh198NC",
-    "label": "front fender left",
+    "label": "Front Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -541,25 +470,16 @@
     },
     "camera": {
       "name": "front fender left x66 z30 1.5m",
-      "locationXyz": [
-        1.0768440961837769,
-        -2.856078624725342,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        0.5235987901687622
-      ],
+      "locationXyz": [1.0768440961837769, -2.856078624725342, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, 0.5235987901687622],
       "focalLength": 26.0
     },
     "templateImage": "PLh198NC.opengl.png"
   },
   "LE9h1xh0": {
     "id": "LE9h1xh0",
-    "label": "front fender left",
+    "label": "Front Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -568,25 +488,16 @@
     },
     "camera": {
       "name": "front fender left x65 z57 1.5m",
-      "locationXyz": [
-        1.9203107357025146,
-        -2.0104517936706543,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1344640254974365,
-        -0.0,
-        0.9948377013206482
-      ],
+      "locationXyz": [1.9203107357025146, -2.0104517936706543, 1.5],
+      "rotationXyzRad": [1.1344640254974365, -0.0, 0.9948377013206482],
       "focalLength": 26.0
     },
     "templateImage": "LE9h1xh0.opengl.png"
   },
   "IVcF1dOP": {
     "id": "IVcF1dOP",
-    "label": "doors left",
+    "label": "Doors Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -595,25 +506,16 @@
     },
     "camera": {
       "name": "doors left x67 z60 1.5m",
-      "locationXyz": [
-        2.112504243850708,
-        -0.7950102090835571,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1693706512451172,
-        -0.0,
-        1.0471975803375244
-      ],
+      "locationXyz": [2.112504243850708, -0.7950102090835571, 1.5],
+      "rotationXyzRad": [1.1693706512451172, -0.0, 1.0471975803375244],
       "focalLength": 26.0
     },
     "templateImage": "IVcF1dOP.opengl.png"
   },
   "GvCtVnoD": {
     "id": "GvCtVnoD",
-    "label": "rear lateral left",
+    "label": "Rear Lateral Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -622,25 +524,16 @@
     },
     "camera": {
       "name": "rear lateral left x66 z95 1.5m",
-      "locationXyz": [
-        2.172027349472046,
-        1.09205961227417,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        1.6580628156661987
-      ],
+      "locationXyz": [2.172027349472046, 1.09205961227417, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, 1.6580628156661987],
       "focalLength": 26.0
     },
     "templateImage": "GvCtVnoD.opengl.png"
   },
   "GHbWVnMB": {
     "id": "GHbWVnMB",
-    "label": "rear fender left",
+    "label": "Rear Fender Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -649,25 +542,16 @@
     },
     "camera": {
       "name": "rear fender left x65 z140 1.5m",
-      "locationXyz": [
-        1.399125337600708,
-        2.5577476024627686,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1344640254974365,
-        -0.0,
-        2.4434609413146973
-      ],
+      "locationXyz": [1.399125337600708, 2.5577476024627686, 1.5],
+      "rotationXyzRad": [1.1344640254974365, -0.0, 2.4434609413146973],
       "focalLength": 26.0
     },
     "templateImage": "GHbWVnMB.opengl.png"
   },
   "XyeyZlaU": {
     "id": "XyeyZlaU",
-    "label": "rear",
+    "label": "Rear",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -676,25 +560,16 @@
     },
     "camera": {
       "name": "rear x66 z180 1.5m",
-      "locationXyz": [
-        0.0,
-        3.0399999618530273,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        3.141592502593994
-      ],
+      "locationXyz": [0.0, 3.0399999618530273, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, 3.141592502593994],
       "focalLength": 26.0
     },
     "templateImage": "XyeyZlaU.opengl.png"
   },
   "oIk8RQ3w": {
     "id": "oIk8RQ3w",
-    "label": "windshield",
+    "label": "Windshield",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -703,15 +578,9 @@
     },
     "camera": {
       "name": "windshield x58 1.9m",
-      "locationXyz": [
-        0.0,
-        -1.6620965003967285,
-        1.899999976158142
-      ],
+      "locationXyz": [0.0, -1.6620965003967285, 1.899999976158142],
       "rotationXyzRad": [
-        1.0122909545898438,
-        5.9797477915596346e-18,
-        8.053430443816277e-20
+        1.0122909545898438, 5.9797477915596346e-18, 8.053430443816277e-20
       ],
       "focalLength": 26.0
     },
@@ -719,9 +588,8 @@
   },
   "m1rhrZ88": {
     "id": "m1rhrZ88",
-    "label": "front roof left",
+    "label": "Front Roof Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -731,24 +599,17 @@
     "camera": {
       "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
       "locationXyz": [
-        1.0691311359405518,
-        -0.39549964666366577,
-        1.7999999523162842
+        1.0691311359405518, -0.39549964666366577, 1.7999999523162842
       ],
-      "rotationXyzRad": [
-        1.3089969158172607,
-        -0.0,
-        0.9250245094299316
-      ],
+      "rotationXyzRad": [1.3089969158172607, -0.0, 0.9250245094299316],
       "focalLength": 26.0
     },
     "templateImage": "m1rhrZ88.opengl.png"
   },
   "36qmcrgr": {
     "id": "36qmcrgr",
-    "label": "rear roof right",
+    "label": "Rear Roof Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -758,24 +619,17 @@
     "camera": {
       "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
       "locationXyz": [
-        -0.8915903568267822,
-        1.6373134851455688,
-        1.7999999523162842
+        -0.8915903568267822, 1.6373134851455688, 1.7999999523162842
       ],
-      "rotationXyzRad": [
-        1.3089969158172607,
-        -0.0,
-        3.944444179534912
-      ],
+      "rotationXyzRad": [1.3089969158172607, -0.0, 3.944444179534912],
       "focalLength": 26.0
     },
     "templateImage": "36qmcrgr.opengl.png"
   },
   "eOkUJUBk": {
     "id": "eOkUJUBk",
-    "label": "frame rail left",
+    "label": "Frame Rail Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -785,24 +639,17 @@
     "camera": {
       "name": "frame rail left x115 z41 0.1m",
       "locationXyz": [
-        1.0736500024795532,
-        -1.0054600238800049,
-        0.10000000894069672
+        1.0736500024795532, -1.0054600238800049, 0.10000000894069672
       ],
-      "rotationXyzRad": [
-        2.0071287155151367,
-        -0.0,
-        0.7155849933624268
-      ],
+      "rotationXyzRad": [2.0071287155151367, -0.0, 0.7155849933624268],
       "focalLength": 26.0
     },
     "templateImage": "eOkUJUBk.opengl.png"
   },
   "RMeCZRbd": {
     "id": "RMeCZRbd",
-    "label": "hood windshield",
+    "label": "Hood Windshield",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -811,15 +658,9 @@
     },
     "camera": {
       "name": "hood windshield x60 1.7m",
-      "locationXyz": [
-        0.0,
-        -2.6243207454681396,
-        1.7000000476837158
-      ],
+      "locationXyz": [0.0, -2.6243207454681396, 1.7000000476837158],
       "rotationXyzRad": [
-        1.0471975803375244,
-        -5.0674301934860153e-17,
-        9.836880648136746e-18
+        1.0471975803375244, -5.0674301934860153e-17, 9.836880648136746e-18
       ],
       "focalLength": 26.0
     },
@@ -827,9 +668,8 @@
   },
   "dQOmxo13": {
     "id": "dQOmxo13",
-    "label": "frame rail rear left",
+    "label": "Frame Rail Rear Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -838,25 +678,16 @@
     },
     "camera": {
       "name": "frame rail rear left x115 z139 0.1m",
-      "locationXyz": [
-        1.11472487449646,
-        0.963828444480896,
-        0.10000000894069672
-      ],
-      "rotationXyzRad": [
-        2.0071287155151367,
-        -0.0,
-        2.4260077476501465
-      ],
+      "locationXyz": [1.11472487449646, 0.963828444480896, 0.10000000894069672],
+      "rotationXyzRad": [2.0071287155151367, -0.0, 2.4260077476501465],
       "focalLength": 26.0
     },
     "templateImage": "dQOmxo13.opengl.png"
   },
   "xfbBpq3Q": {
     "id": "xfbBpq3Q",
-    "label": "front bumper side left",
+    "label": "Front Bumper Side Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -866,24 +697,17 @@
     "camera": {
       "name": "front bumper side left x73 z45 0.9m",
       "locationXyz": [
-        1.1992995738983154,
-        -2.4210193157196045,
-        0.8999999761581421
+        1.1992995738983154, -2.4210193157196045, 0.8999999761581421
       ],
-      "rotationXyzRad": [
-        1.2740904092788696,
-        -0.0,
-        0.7853981852531433
-      ],
+      "rotationXyzRad": [1.2740904092788696, -0.0, 0.7853981852531433],
       "focalLength": 26.0
     },
     "templateImage": "xfbBpq3Q.opengl.png"
   },
   "j8YHvnDP": {
     "id": "j8YHvnDP",
-    "label": "rear bumper side left",
+    "label": "Rear Bumper Side Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -892,25 +716,16 @@
     },
     "camera": {
       "name": "rear bumper side left x74 z140 1m",
-      "locationXyz": [
-        1.1293162107467651,
-        2.5584888458251953,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.2915436029434204,
-        -0.0,
-        2.4434609413146973
-      ],
+      "locationXyz": [1.1293162107467651, 2.5584888458251953, 1.0],
+      "rotationXyzRad": [1.2915436029434204, -0.0, 2.4434609413146973],
       "focalLength": 26.0
     },
     "templateImage": "j8YHvnDP.opengl.png"
   },
   "8_W2PO8L": {
     "id": "8_W2PO8L",
-    "label": "rear wheel left",
+    "label": "Rear Wheel Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -920,24 +735,17 @@
     "camera": {
       "name": "rear wheel left x85 z90 0.6m",
       "locationXyz": [
-        1.8515325784683228,
-        1.2667466402053833,
-        0.6000000238418579
+        1.8515325784683228, 1.2667466402053833, 0.6000000238418579
       ],
-      "rotationXyzRad": [
-        1.483529806137085,
-        -0.0,
-        1.5707963705062866
-      ],
+      "rotationXyzRad": [1.483529806137085, -0.0, 1.5707963705062866],
       "focalLength": 26.0
     },
     "templateImage": "8_W2PO8L.opengl.png"
   },
   "xQKQ0bXS": {
     "id": "xQKQ0bXS",
-    "label": "front wheel left",
+    "label": "Front Wheel Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -947,24 +755,17 @@
     "camera": {
       "name": "front wheel left x85 z90 0.6m",
       "locationXyz": [
-        1.857212781906128,
-        -1.1906272172927856,
-        0.6000000238418579
+        1.857212781906128, -1.1906272172927856, 0.6000000238418579
       ],
-      "rotationXyzRad": [
-        1.483529806137085,
-        -0.0,
-        1.5707963705062866
-      ],
+      "rotationXyzRad": [1.483529806137085, -0.0, 1.5707963705062866],
       "focalLength": 26.0
     },
     "templateImage": "xQKQ0bXS.opengl.png"
   },
   "UHZkpCuK": {
     "id": "UHZkpCuK",
-    "label": "rocker panel left",
+    "label": "Rocker Panel Left",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -973,16 +774,8 @@
     },
     "camera": {
       "name": "rocker panel left x95 z90 0.6m",
-      "locationXyz": [
-        2.345973014831543,
-        0.0,
-        0.6000000238418579
-      ],
-      "rotationXyzRad": [
-        1.6580628156661987,
-        -0.0,
-        1.5707963705062866
-      ],
+      "locationXyz": [2.345973014831543, 0.0, 0.6000000238418579],
+      "rotationXyzRad": [1.6580628156661987, -0.0, 1.5707963705062866],
       "focalLength": 26.0
     },
     "templateImage": "UHZkpCuK.opengl.png"
@@ -1151,9 +944,8 @@
   },
   "Fh972HlF": {
     "id": "Fh972HlF",
-    "label": "front undercarriage",
+    "label": "Front Undercarriage",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1162,16 +954,8 @@
     },
     "camera": {
       "name": "front undercarriage x115 0.1m",
-      "locationXyz": [
-        0.0,
-        -2.485210418701172,
-        0.10000000149011612
-      ],
-      "rotationXyzRad": [
-        2.0071287155151367,
-        0.0,
-        0.0
-      ],
+      "locationXyz": [0.0, -2.485210418701172, 0.10000000149011612],
+      "rotationXyzRad": [2.0071287155151367, 0.0, 0.0],
       "focalLength": 26.0
     },
     "templateImage": "Fh972HlF.opengl.png"
@@ -1205,9 +989,8 @@
   },
   "0U14gFyk": {
     "id": "0U14gFyk",
-    "label": "front lateral right",
+    "label": "Front Lateral Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1217,24 +1000,17 @@
     "camera": {
       "name": "front lateral right x79 z-75 0.9m",
       "locationXyz": [
-        -2.171880006790161,
-        -1.1752331256866455,
-        0.8999999761581421
+        -2.171880006790161, -1.1752331256866455, 0.8999999761581421
       ],
-      "rotationXyzRad": [
-        1.378810167312622,
-        -0.0,
-        -1.3089969158172607
-      ],
+      "rotationXyzRad": [1.378810167312622, -0.0, -1.3089969158172607],
       "focalLength": 26.0
     },
     "templateImage": "0U14gFyk.opengl.png"
   },
   "Cce1KCd3": {
     "id": "Cce1KCd3",
-    "label": "rear fender right",
+    "label": "Rear Fender Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1243,25 +1019,16 @@
     },
     "camera": {
       "name": "rear fender right x66 z-130 1.5m",
-      "locationXyz": [
-        -1.7676399946212769,
-        2.285799741744995,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        -2.268928050994873
-      ],
+      "locationXyz": [-1.7676399946212769, 2.285799741744995, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, -2.268928050994873],
       "focalLength": 26.0
     },
     "templateImage": "Cce1KCd3.opengl.png"
   },
   "QqBpHiVP": {
     "id": "QqBpHiVP",
-    "label": "rear lateral right",
+    "label": "Rear Lateral Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1271,24 +1038,17 @@
     "camera": {
       "name": "rear lateral right x80 z-95 0.9m",
       "locationXyz": [
-        -2.140860080718994,
-        1.229339838027954,
-        0.8999999761581421
+        -2.140860080718994, 1.229339838027954, 0.8999999761581421
       ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        -0.0,
-        -1.6580628156661987
-      ],
+      "rotationXyzRad": [1.3962633609771729, -0.0, -1.6580628156661987],
       "focalLength": 26.0
     },
     "templateImage": "QqBpHiVP.opengl.png"
   },
   "Pzgw0WGe": {
     "id": "Pzgw0WGe",
-    "label": "doors right",
+    "label": "Doors Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1297,25 +1057,16 @@
     },
     "camera": {
       "name": "doors right x67 z-60 1.5m",
-      "locationXyz": [
-        -2.112499952316284,
-        -0.795009970664978,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1693706512451172,
-        0.0,
-        -1.0471975803375244
-      ],
+      "locationXyz": [-2.112499952316284, -0.795009970664978, 1.5],
+      "rotationXyzRad": [1.1693706512451172, 0.0, -1.0471975803375244],
       "focalLength": 26.0
     },
     "templateImage": "Pzgw0WGe.opengl.png"
   },
   "jqJOb6Ov": {
     "id": "jqJOb6Ov",
-    "label": "front fender right",
+    "label": "Front Fender Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1324,25 +1075,16 @@
     },
     "camera": {
       "name": "front fender right x65 z-57 1.5m",
-      "locationXyz": [
-        -1.9203100204467773,
-        -2.0104517936706543,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1344640254974365,
-        -0.0,
-        -0.9948377013206482
-      ],
+      "locationXyz": [-1.9203100204467773, -2.0104517936706543, 1.5],
+      "rotationXyzRad": [1.1344640254974365, -0.0, -0.9948377013206482],
       "focalLength": 26.0
     },
     "templateImage": "jqJOb6Ov.opengl.png"
   },
   "EqLDVYj3": {
     "id": "EqLDVYj3",
-    "label": "front fender right",
+    "label": "Front Fender Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1351,25 +1093,16 @@
     },
     "camera": {
       "name": "front fender right x66 z-30 1.5m",
-      "locationXyz": [
-        -1.0768400430679321,
-        -2.856078624725342,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1519173383712769,
-        -0.0,
-        -0.5235987901687622
-      ],
+      "locationXyz": [-1.0768400430679321, -2.856078624725342, 1.5],
+      "rotationXyzRad": [1.1519173383712769, -0.0, -0.5235987901687622],
       "focalLength": 26.0
     },
     "templateImage": "EqLDVYj3.opengl.png"
   },
   "j3E2UHFc": {
     "id": "j3E2UHFc",
-    "label": "rear fender right",
+    "label": "Rear Fender Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1378,16 +1111,8 @@
     },
     "camera": {
       "name": "rear fender right x65 z-140 1.5m",
-      "locationXyz": [
-        -1.3991299867630005,
-        2.5577476024627686,
-        1.5
-      ],
-      "rotationXyzRad": [
-        1.1344640254974365,
-        -0.0,
-        -2.4434609413146973
-      ],
+      "locationXyz": [-1.3991299867630005, 2.5577476024627686, 1.5],
+      "rotationXyzRad": [1.1344640254974365, -0.0, -2.4434609413146973],
       "focalLength": 26.0
     },
     "templateImage": "j3E2UHFc.opengl.png"
@@ -1421,9 +1146,8 @@
   },
   "WWZsroCu": {
     "id": "WWZsroCu",
-    "label": "frame rail right",
+    "label": "Frame Rail Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1433,24 +1157,17 @@
     "camera": {
       "name": "frame rail right x115 z-41 0.1m",
       "locationXyz": [
-        -1.0736500024795532,
-        -1.0054600238800049,
-        0.10000000894069672
+        -1.0736500024795532, -1.0054600238800049, 0.10000000894069672
       ],
-      "rotationXyzRad": [
-        2.0071287155151367,
-        -0.0,
-        -0.7155849933624268
-      ],
+      "rotationXyzRad": [2.0071287155151367, -0.0, -0.7155849933624268],
       "focalLength": 26.0
     },
     "templateImage": "WWZsroCu.opengl.png"
   },
   "CELBsvYD": {
     "id": "CELBsvYD",
-    "label": "front bumper side right",
+    "label": "Front Bumper Side Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1460,24 +1177,17 @@
     "camera": {
       "name": "front bumper side right x73 z-45 0.9m",
       "locationXyz": [
-        -1.1993000507354736,
-        -2.4210193157196045,
-        0.8999999761581421
+        -1.1993000507354736, -2.4210193157196045, 0.8999999761581421
       ],
-      "rotationXyzRad": [
-        1.2740904092788696,
-        -0.0,
-        -0.7853981852531433
-      ],
+      "rotationXyzRad": [1.2740904092788696, -0.0, -0.7853981852531433],
       "focalLength": 26.0
     },
     "templateImage": "CELBsvYD.opengl.png"
   },
   "PuIw17h0": {
     "id": "PuIw17h0",
-    "label": "front wheel right",
+    "label": "Front Wheel Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1487,24 +1197,17 @@
     "camera": {
       "name": "front wheel right x85 z-90 0.6m",
       "locationXyz": [
-        -1.8572100400924683,
-        -1.1906272172927856,
-        0.6000000238418579
+        -1.8572100400924683, -1.1906272172927856, 0.6000000238418579
       ],
-      "rotationXyzRad": [
-        1.483529806137085,
-        -0.0,
-        -1.5707963705062866
-      ],
+      "rotationXyzRad": [1.483529806137085, -0.0, -1.5707963705062866],
       "focalLength": 26.0
     },
     "templateImage": "PuIw17h0.opengl.png"
   },
   "LDRoAPnk": {
     "id": "LDRoAPnk",
-    "label": "rear bumper side right",
+    "label": "Rear Bumper Side Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1513,16 +1216,8 @@
     },
     "camera": {
       "name": "rear bumper side right x74 z-140 1m",
-      "locationXyz": [
-        -1.1293200254440308,
-        2.5584888458251953,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.2915436029434204,
-        -0.0,
-        -2.4434609413146973
-      ],
+      "locationXyz": [-1.1293200254440308, 2.5584888458251953, 1.0],
+      "rotationXyzRad": [1.2915436029434204, -0.0, -2.4434609413146973],
       "focalLength": 26.0
     },
     "templateImage": "LDRoAPnk.opengl.png"
@@ -1583,9 +1278,8 @@
   },
   "eWZsEThb": {
     "id": "eWZsEThb",
-    "label": "frame rail rear right",
+    "label": "Frame Rail Rear Right",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1595,24 +1289,17 @@
     "camera": {
       "name": "frame rail rear right x115 z-139 0.1m",
       "locationXyz": [
-        -1.1147199869155884,
-        0.963828444480896,
-        0.10000000894069672
+        -1.1147199869155884, 0.963828444480896, 0.10000000894069672
       ],
-      "rotationXyzRad": [
-        2.0071287155151367,
-        -0.0,
-        -2.4260077476501465
-      ],
+      "rotationXyzRad": [2.0071287155151367, -0.0, -2.4260077476501465],
       "focalLength": 26.0
     },
     "templateImage": "eWZsEThb.opengl.png"
   },
   "au5yyzOT": {
     "id": "au5yyzOT",
-    "label": "vin",
+    "label": "VIN",
     "category": "exterior",
-    "vehicleType": "Small Crossover/SUV",
     "vehicle": {
       "type": "Small Crossover/SUV",
       "dimensionsXyz": null,
@@ -1621,16 +1308,8 @@
     },
     "camera": {
       "name": "vin 1m",
-      "locationXyz": [
-        0.0,
-        5.0,
-        1.0
-      ],
-      "rotationXyzRad": [
-        0.0,
-        -0.0,
-        0.0
-      ],
+      "locationXyz": [0.0, 5.0, 1.0],
+      "rotationXyzRad": [0.0, -0.0, 0.0],
       "focalLength": 26.0
     },
     "templateImage": "au5yyzOT.opengl.png"
@@ -2117,7 +1796,7 @@
   },
   "2RFF3Uf8": {
     "id": "2RFF3Uf8",
-    "label": "rear door right",
+    "label": "Rear Door Right",
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -2127,23 +1806,15 @@
     },
     "camera": {
       "name": "rear door right x80 z-120 1m",
-      "locationXyz": [
-        -1.6542500257492065,
-        1.35085928440094,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        0.0,
-        -2.094395160675049
-      ],
+      "locationXyz": [-1.6542500257492065, 1.35085928440094, 1.0],
+      "rotationXyzRad": [1.3962633609771729, 0.0, -2.094395160675049],
       "focalLength": 26.0
     },
     "templateImage": "2RFF3Uf8.opengl.png"
   },
   "TDLex8-D": {
     "id": "TDLex8-D",
-    "label": "rear door right",
+    "label": "Rear Door Right",
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -2153,23 +1824,15 @@
     },
     "camera": {
       "name": "rear door right x80 z-110 1m",
-      "locationXyz": [
-        -1.8319300413131714,
-        1.1923993825912476,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        0.0,
-        -1.919862151145935
-      ],
+      "locationXyz": [-1.8319300413131714, 1.1923993825912476, 1.0],
+      "rotationXyzRad": [1.3962633609771729, 0.0, -1.919862151145935],
       "focalLength": 26.0
     },
     "templateImage": "TDLex8-D.opengl.png"
   },
   "6MR5C13s": {
     "id": "6MR5C13s",
-    "label": "rear door right",
+    "label": "Rear Door Right",
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -2179,23 +1842,15 @@
     },
     "camera": {
       "name": "rear door right x80 z-70 1m",
-      "locationXyz": [
-        -1.840250015258789,
-        0.29879000782966614,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        0.0,
-        -1.2217304706573486
-      ],
+      "locationXyz": [-1.840250015258789, 0.29879000782966614, 1.0],
+      "rotationXyzRad": [1.3962633609771729, 0.0, -1.2217304706573486],
       "focalLength": 26.0
     },
     "templateImage": "6MR5C13s.opengl.png"
   },
   "QJ_yOnBl": {
     "id": "QJ_yOnBl",
-    "label": "front door right",
+    "label": "Front Door Right",
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -2205,23 +1860,15 @@
     },
     "camera": {
       "name": "front door right x85 z-110 1m",
-      "locationXyz": [
-        -1.9469300508499146,
-        0.2433021515607834,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.483529806137085,
-        0.0,
-        -1.919862151145935
-      ],
+      "locationXyz": [-1.9469300508499146, 0.2433021515607834, 1.0],
+      "rotationXyzRad": [1.483529806137085, 0.0, -1.919862151145935],
       "focalLength": 26.0
     },
     "templateImage": "QJ_yOnBl.opengl.png"
   },
   "2wVqenwP": {
     "id": "2wVqenwP",
-    "label": "front door right",
+    "label": "Front Door Right",
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -2231,23 +1878,15 @@
     },
     "camera": {
       "name": "front door right x80 z-60 1m",
-      "locationXyz": [
-        -1.7169400453567505,
-        -0.9741129875183105,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        0.0,
-        -1.0471975803375244
-      ],
+      "locationXyz": [-1.7169400453567505, -0.9741129875183105, 1.0],
+      "rotationXyzRad": [1.3962633609771729, 0.0, -1.0471975803375244],
       "focalLength": 26.0
     },
     "templateImage": "2wVqenwP.opengl.png"
   },
   "enHQTFae": {
     "id": "enHQTFae",
-    "label": "front door right",
+    "label": "Front Door Right",
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -2257,16 +1896,8 @@
     },
     "camera": {
       "name": "front door right x80 z-70 1m",
-      "locationXyz": [
-        -1.8842400312423706,
-        -0.7803249955177307,
-        1.0
-      ],
-      "rotationXyzRad": [
-        1.3962633609771729,
-        0.0,
-        -1.2217304706573486
-      ],
+      "locationXyz": [-1.8842400312423706, -0.7803249955177307, 1.0],
+      "rotationXyzRad": [1.3962633609771729, 0.0, -1.2217304706573486],
       "focalLength": 26.0
     },
     "templateImage": "enHQTFae.opengl.png"
