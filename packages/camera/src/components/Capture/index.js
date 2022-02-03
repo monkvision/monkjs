@@ -172,5 +172,5 @@ Capture.defaultProps = {
   onChange: () => {},
   onReady: () => {},
   primaryColor: '#FFF',
-  sightIds: ['vLcBGkeh', 'sLu0Cf'],
+  sightIds: ['vLcBGkeh', 'sLu0CfOt'],
 };
