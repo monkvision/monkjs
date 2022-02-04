@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function VinGuide({ isOpen, handleClose }) {
+export default function VinGuide({ isOpen, onClose }) {
   return (
-    <BottomSheet isOpen={isOpen} onClose={handleClose}>
+    <BottomSheet isOpen={isOpen} onClose={onClose}>
       <BottomSheet.Title title="Where to find the VIN?" />
       <BottomSheet.Content style={styles.content}>
         <View style={styles.drawing}>
@@ -71,7 +71,7 @@ export default function VinGuide({ isOpen, handleClose }) {
       </BottomSheet.Content>
       <BottomSheet.Actions style={styles.actions}>
         <Button
-          onPress={handleClose}
+          onPress={onClose}
           mode="contained"
           style={[styles.button, { alignSelf: 'center' }]}
         >
@@ -83,11 +83,11 @@ export default function VinGuide({ isOpen, handleClose }) {
 }
 
 VinGuide.propTypes = {
-  handleClose: PropTypes.func,
   isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 VinGuide.defaultProps = {
-  handleClose: noop,
   isOpen: false,
+  onClose: noop,
 };

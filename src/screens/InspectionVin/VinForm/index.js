@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import noop from 'lodash.noop';
 import PropTypes from 'prop-types';
-import { useNavigation } from '@react-navigation/native';
 import { Button, Card, IconButton, TextInput, Title, useTheme } from 'react-native-paper';
 import { useFormik } from 'formik';
 import { TextInputMask } from 'react-native-masked-text';
@@ -10,10 +9,9 @@ import { TextInputMask } from 'react-native-masked-text';
 import { updateOneInspectionVehicle } from '@monkvision/corejs';
 
 import { spacing } from 'config/theme';
-import useRequest from 'hooks/useRequest/index';
 import useToggle from 'hooks/useToggle/index';
-import { INSPECTION_CREATE } from 'screens/names';
 import handleStatuses from './statuses';
+import useVinForm from '../hooks/useVinForm';
 
 const styles = StyleSheet.create({
   card: {
@@ -53,21 +51,14 @@ const styles = StyleSheet.create({
     margin: spacing(1),
     alignItems: 'stretch',
     justifyContent: 'center',
-    ...Platform.select({
-      native: {
-        flexDirection: 'row',
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-    }),
+    flexDirection: 'row',
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   button: {
     marginBottom: spacing(1),
     marginHorizontal: spacing(1),
-    ...Platform.select({
-      web: { width: 140 },
-      default: { width: '100%' },
-    }),
+    width: '100%',
   },
   captureVinButton: {
     width: 48,
@@ -94,15 +85,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const payload = { market_value: { unit: 'EUR', value: 1 }, mileage: { value: 1, unit: 'km' } };
-
 export default function VinForm({
   inspectionId,
   vin,
-  handleOpenGuide,
-  handleOpenCamera,
-  handleOpenErrorSnackbar,
-  handleRenitializeInspection,
+  onOpenGuide,
+  onOpenCamera,
+  onOpenErrorSnackbar,
+  onRenitializeInspection,
   vinPicture,
   ocrIsLoading,
   isUploading,
@@ -110,27 +99,15 @@ export default function VinForm({
   requiredFields,
 }) {
   const theme = useTheme();
-  const navigation = useNavigation();
   const [isFocused, focus, blur] = useToggle();
 
-  const handleTakePictures = useCallback(
-    () => navigation.navigate(INSPECTION_CREATE, { inspectionId }),
-    [inspectionId, navigation],
-  );
-  const { isLoading: isSubmittingVehicleInfo,
-    request: submitVehicleInfo } = useRequest(null, {}, false);
-
-  const requiredPayload = useMemo(() => {
-    const hasMileage = requiredFields.mileage?.unit && requiredFields.mileage?.value;
-    const hasMarketValue = requiredFields.marketValue?.unit && requiredFields.marketValue?.value;
-    return { market_value: hasMarketValue ? requiredFields.marketValue : payload.market_value,
-      mileage: hasMileage ? requiredFields.mileage : payload.mileage,
-    };
-  }, [requiredFields.marketValue, requiredFields.mileage]);
-
-  const handleSkip = useCallback(() => submitVehicleInfo(updateOneInspectionVehicle({ inspectionId, data: { vin: '', ...requiredPayload } }),
-    { onSuccess: handleTakePictures, onError: handleTakePictures }),
-  [submitVehicleInfo, inspectionId, requiredPayload, handleTakePictures]);
+  const {
+    handleTakePictures,
+    handleSkip,
+    requiredPayload,
+    isSubmittingVehicleInfo,
+    submitVehicleInfo,
+  } = useVinForm({ inspectionId, requiredFields, vin });
 
   const { values, handleChange, handleSubmit, handleBlur, setFieldValue } = useFormik({
     initialValues: { vin: vin || '' },
@@ -138,7 +115,7 @@ export default function VinForm({
     onSubmit: (vals) => {
       submitVehicleInfo(updateOneInspectionVehicle({ inspectionId,
         data: { vin: vals.vin, ...requiredPayload } }),
-      { onSuccess: handleTakePictures, onError: handleOpenErrorSnackbar });
+      { onSuccess: handleTakePictures, onError: onOpenErrorSnackbar });
     },
   });
 
@@ -146,11 +123,12 @@ export default function VinForm({
     () => handleStatuses({ status, ocrIsLoading, vinPicture, vin, values, isUploading }),
     [isUploading, ocrIsLoading, status, values, vin, vinPicture],
   );
+
   const handleOpenVinCameraOrRetake = useCallback(() => {
-    if (vinPicture) {
-      handleRenitializeInspection(null, { onSuccess: handleOpenCamera });
-    } else { handleOpenCamera(); }
-  }, [handleRenitializeInspection, handleOpenCamera, vinPicture]);
+    if (!vinPicture) { onOpenCamera(); } else {
+      onRenitializeInspection(null, { onSuccess: onOpenCamera });
+    }
+  }, [onRenitializeInspection, onOpenCamera, vinPicture]);
 
   return (
     <Card style={styles.card}>
@@ -173,7 +151,7 @@ export default function VinForm({
 
         <Card.Content style={styles.content}>
           <View style={styles.textInputLayout}>
-            <TouchableOpacity onPress={handleOpenGuide}>
+            <TouchableOpacity onPress={onOpenGuide}>
               <Text style={[styles.lowContrast, styles.guideText]}>Where to find?</Text>
             </TouchableOpacity>
 
@@ -226,13 +204,13 @@ export default function VinForm({
 }
 
 VinForm.propTypes = {
-  handleOpenCamera: PropTypes.func,
-  handleOpenErrorSnackbar: PropTypes.func,
-  handleOpenGuide: PropTypes.func,
-  handleRenitializeInspection: PropTypes.func,
   inspectionId: PropTypes.string,
   isUploading: PropTypes.bool.isRequired,
   ocrIsLoading: PropTypes.bool.isRequired,
+  onOpenCamera: PropTypes.func,
+  onOpenErrorSnackbar: PropTypes.func,
+  onOpenGuide: PropTypes.func,
+  onRenitializeInspection: PropTypes.func,
   requiredFields: PropTypes.shape({
     marketValue: PropTypes.shape({
       unit: PropTypes.string,
@@ -249,10 +227,10 @@ VinForm.propTypes = {
 };
 
 VinForm.defaultProps = {
-  handleOpenCamera: noop,
-  handleOpenGuide: noop,
-  handleOpenErrorSnackbar: noop,
-  handleRenitializeInspection: noop,
+  onOpenCamera: noop,
+  onOpenGuide: noop,
+  onOpenErrorSnackbar: noop,
+  onRenitializeInspection: noop,
   inspectionId: null,
   vinPicture: null,
   vin: null,
