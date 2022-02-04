@@ -1,15 +1,17 @@
-import { updateOneInspectionVehicle } from '@monkvision/corejs';
-import { useNavigation } from '@react-navigation/native';
-import { spacing } from 'config/theme';
-import { useFormik } from 'formik';
-import useRequest from 'hooks/useRequest/index';
-import useToggle from 'hooks/useToggle/index';
-import noop from 'lodash.noop';
-import PropTypes from 'prop-types';
 import React, { useCallback, useMemo } from 'react';
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
+import noop from 'lodash.noop';
+import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
 import { Button, Card, IconButton, TextInput, Title, useTheme } from 'react-native-paper';
+import { useFormik } from 'formik';
+import { TextInputMask } from 'react-native-masked-text';
+
+import { updateOneInspectionVehicle } from '@monkvision/corejs';
+
+import { spacing } from 'config/theme';
+import useRequest from 'hooks/useRequest/index';
+import useToggle from 'hooks/useToggle/index';
 import { INSPECTION_CREATE } from 'screens/names';
 import handleStatuses from './statuses';
 
@@ -211,7 +213,7 @@ export default function VinForm({
 
         <Card.Actions style={styles.actions}>
           <Button onPress={handleSubmit} style={styles.button} mode="contained" disabled={!values.vin || isSubmittingVehicleInfo} labelStyle={{ color: '#FFF' }}>
-            Validate VIN
+            Submit & Continue
           </Button>
 
           <Button onPress={handleSkip} disabled={isSubmittingVehicleInfo} style={styles.button}>

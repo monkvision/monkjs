@@ -9,8 +9,8 @@ import { BottomSheet } from '@monkvision/react-native-views';
 import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing/index';
 import texts from './text';
-import vinLocations from './vinLocations.svg';
-import vinFormat from './vinFormat.svg';
+import vinLocations from '../assets/vinLocations.svg';
+import vinFormat from '../assets/vinFormat.svg';
 
 const styles = StyleSheet.create({
   content: {
