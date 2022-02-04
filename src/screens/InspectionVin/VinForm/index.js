@@ -3,16 +3,26 @@ import { useNavigation } from '@react-navigation/native';
 import { spacing } from 'config/theme';
 import { useFormik } from 'formik';
 import useRequest from 'hooks/useRequest/index';
+import useToggle from 'hooks/useToggle/index';
 import noop from 'lodash.noop';
 import PropTypes from 'prop-types';
 import React, { useCallback, useMemo } from 'react';
-import { Image, Platform, StyleSheet, Text } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button, Card, IconButton, TextInput, useTheme } from 'react-native-paper';
+import { Button, Card, IconButton, TextInput, Title, useTheme } from 'react-native-paper';
 import { INSPECTION_CREATE } from 'screens/names';
 import handleStatuses from './statuses';
 
 const styles = StyleSheet.create({
+  card: {
+    height: '100%',
+    position: 'relative',
+  },
+  contentContainerStyle: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
   picture: {
     width: '100%',
     maxWidth: 512,
@@ -21,10 +31,21 @@ const styles = StyleSheet.create({
     marginTop: spacing(2),
     alignSelf: 'center',
   },
+  textInputLayout: {
+    width: '100%',
+    alignSelf: 'center',
+  },
   textInput: {
     width: '100%',
-    maxWidth: 512,
     alignSelf: 'center',
+  },
+  guideText: {
+    textAlign: 'right',
+    textDecorationLine: 'underline',
+    marginBottom: spacing(1),
+  },
+  content: {
+    marginVertical: spacing(3),
   },
   actions: {
     margin: spacing(1),
@@ -57,12 +78,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: spacing(2),
   },
-  text: {
-    marginBottom: spacing(2),
+  title: {
+    textAlign: 'center',
+    marginTop: 20,
   },
-  wait: {
-    marginBottom: spacing(2),
+  text: {
+    marginVertical: spacing(2),
+    textAlign: 'center',
+  },
+  lowContrast: {
     color: 'gray',
+    textAlign: 'center',
   },
 });
 
@@ -74,6 +100,7 @@ export default function VinForm({
   handleOpenGuide,
   handleOpenCamera,
   handleOpenErrorSnackbar,
+  handleRenitializeInspection,
   vinPicture,
   ocrIsLoading,
   isUploading,
@@ -82,6 +109,7 @@ export default function VinForm({
 }) {
   const theme = useTheme();
   const navigation = useNavigation();
+  const [isFocused, focus, blur] = useToggle();
 
   const handleTakePictures = useCallback(
     () => navigation.navigate(INSPECTION_CREATE, { inspectionId }),
@@ -102,7 +130,7 @@ export default function VinForm({
     { onSuccess: handleTakePictures, onError: handleTakePictures }),
   [submitVehicleInfo, inspectionId, requiredPayload, handleTakePictures]);
 
-  const { values, handleChange, handleSubmit, handleBlur } = useFormik({
+  const { values, handleChange, handleSubmit, handleBlur, setFieldValue } = useFormik({
     initialValues: { vin: vin || '' },
     enableReinitialize: true,
     onSubmit: (vals) => {
@@ -116,57 +144,81 @@ export default function VinForm({
     () => handleStatuses({ status, ocrIsLoading, vinPicture, vin, values, isUploading }),
     [isUploading, ocrIsLoading, status, values, vin, vinPicture],
   );
+  const handleOpenVinCameraOrRetake = useCallback(() => {
+    if (vinPicture) {
+      handleRenitializeInspection(null, { onSuccess: handleOpenCamera });
+    } else { handleOpenCamera(); }
+  }, [handleRenitializeInspection, handleOpenCamera, vinPicture]);
 
   return (
-    <Card>
-      <Card.Title
-        title="Set your vin"
-        right={() => <Button onPress={handleOpenGuide} icon="book">Where to find?</Button>}
-      />
-      <Card.Content>
-        <Text style={styles.text}>
-          Take a clear picture of your VIN, or type it manually.
-        </Text>
+    <Card style={styles.card}>
+      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+        <View>
+          <Title style={styles.title}>
+            Set your vin
+          </Title>
 
-        {statusText ? (
-          <Text style={styles.wait}>
-            {statusText}
+          <Text style={styles.text}>
+            Take a clear picture of your VIN, or type it manually
           </Text>
-        ) : null}
 
-        <TextInput
-          style={styles.textInput}
-          mode="outlined"
-          label="VIN"
-          placeholder="VFX XXXXX XXXXXXXX"
-          onChangeText={handleChange('vin')}
-          onBlur={handleBlur('vin')}
-          value={values.vin}
-          right={<TextInput.Icon name={!values.vin ? 'keyboard-outline' : 'cancel'} disabled />}
-          render={(props) => (
-            <TextInputMask
-              type="custom"
-              options={{ mask: 'SSS SSSSSS SSSSSSSS' }}
-              {...props}
+          {statusText ? (
+            <Text style={styles.lowContrast}>
+              {statusText}
+            </Text>
+          ) : null}
+        </View>
+
+        <Card.Content style={styles.content}>
+          <View style={styles.textInputLayout}>
+            <TouchableOpacity onPress={handleOpenGuide}>
+              <Text style={[styles.lowContrast, styles.guideText]}>Where to find?</Text>
+            </TouchableOpacity>
+
+            <TextInput
+              style={styles.textInput}
+              mode="outlined"
+              label="VIN"
+              placeholder="VFX XXXXX XXXXXXXX"
+              onChangeText={handleChange('vin')}
+              onBlur={(e) => { handleBlur('vin')(e); blur(); }}
+              onFocus={focus}
+              value={values.vin}
+              right={(
+                <TextInput.Icon
+                  name={!values.vin ? 'keyboard-outline' : 'backspace-outline'}
+                  disabled={!isFocused}
+                  onPress={() => setFieldValue('vin', '')}
+                />
+              )}
+              render={(props) => (
+                <TextInputMask
+                  type="custom"
+                  options={{ mask: 'SSS SSSSSS SSSSSSSS' }}
+                  {...props}
+                />
+              )}
             />
-          )}
-        />
+          </View>
 
-        {vinPicture ? <Image source={{ uri: vinPicture }} style={styles.picture} />
-          : null}
+          {vinPicture ? <Image source={{ uri: vinPicture }} style={styles.picture} />
+            : null}
 
-        <Text style={styles.orText}>OR</Text>
-        <IconButton disabled={vinPicture} style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenCamera} />
+          <Text style={styles.orText}>OR</Text>
 
-      </Card.Content>
-      <Card.Actions style={styles.actions}>
-        <Button onPress={handleSubmit} style={styles.button} mode="contained" disabled={!values.vin || isSubmittingVehicleInfo} labelStyle={{ color: '#FFF' }}>
-          Validate VIN
-        </Button>
-        <Button onPress={handleSkip} disabled={isSubmittingVehicleInfo} style={styles.button}>
-          Skip
-        </Button>
-      </Card.Actions>
+          <IconButton style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenVinCameraOrRetake} />
+        </Card.Content>
+
+        <Card.Actions style={styles.actions}>
+          <Button onPress={handleSubmit} style={styles.button} mode="contained" disabled={!values.vin || isSubmittingVehicleInfo} labelStyle={{ color: '#FFF' }}>
+            Validate VIN
+          </Button>
+
+          <Button onPress={handleSkip} disabled={isSubmittingVehicleInfo} style={styles.button}>
+            Skip
+          </Button>
+        </Card.Actions>
+      </ScrollView>
     </Card>
   );
 }
@@ -175,6 +227,7 @@ VinForm.propTypes = {
   handleOpenCamera: PropTypes.func,
   handleOpenErrorSnackbar: PropTypes.func,
   handleOpenGuide: PropTypes.func,
+  handleRenitializeInspection: PropTypes.func,
   inspectionId: PropTypes.string,
   isUploading: PropTypes.bool.isRequired,
   ocrIsLoading: PropTypes.bool.isRequired,
@@ -197,6 +250,7 @@ VinForm.defaultProps = {
   handleOpenCamera: noop,
   handleOpenGuide: noop,
   handleOpenErrorSnackbar: noop,
+  handleRenitializeInspection: noop,
   inspectionId: null,
   vinPicture: null,
   vin: null,

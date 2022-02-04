@@ -1,29 +1,20 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView, Platform, StyleSheet } from 'react-native';
-import { useTheme, Snackbar } from 'react-native-paper';
-import { useFakeActivity, ActivityIndicatorView, CameraView, useToggle } from '@monkvision/react-native-views';
-import { createOneInspection,
-  Sight,
-  values as sightValues,
-  updateOneTaskOfInspection,
-  selectVehicleEntities,
-  selectTaskEntities,
-  selectInspectionEntities,
-  getOneInspectionById,
-  inspectionsEntity,
-  vehiclesEntity,
-  tasksEntity,
-  taskStatuses,
+import {
+  createOneInspection, getOneInspectionById, inspectionsEntity, selectInspectionEntities,
+  selectTaskEntities, selectVehicleEntities, Sight, tasksEntity,
+  taskStatuses, updateOneTaskOfInspection, values as sightValues, vehiclesEntity,
 } from '@monkvision/corejs';
-import { denormalize } from 'normalizr';
-
-import useRequest from 'hooks/useRequest';
+import { ActivityIndicatorView, CameraView, useFakeActivity, useToggle } from '@monkvision/react-native-views';
+import { useNavigation } from '@react-navigation/native';
 import useInterval from 'hooks/useInterval';
+import useRequest from 'hooks/useRequest';
 import useUpload from 'hooks/useUpload';
+import { denormalize } from 'normalizr';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { Snackbar, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
-import VinGuide from './VinGuide';
 import VinForm from './VinForm';
+import VinGuide from './VinGuide';
 
 const styles = StyleSheet.create({
   root: {
@@ -179,6 +170,7 @@ export default () => {
         isUploading={!!uploadingFakeActivity}
         requiredFields={updateVehicleRequiredFields}
         handleOpenErrorSnackbar={handleOpenErrorSnackbar}
+        handleRenitializeInspection={createInspection}
       />
       <Snackbar
         visible={snackbarIsvVisible}

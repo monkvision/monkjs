@@ -9,6 +9,6 @@ function handleStatuses({ status, ocrIsLoading, vinPicture, vin, values, isUploa
     return 'Our AI seems not to have detected a VIN in the current image, but you can skip this step';
   }
   if (isUploading) { return 'Uploading the VIN image...'; }
-  return null;
+  return 'You can always skip this step and start your inspection';
 }
 export default handleStatuses;
