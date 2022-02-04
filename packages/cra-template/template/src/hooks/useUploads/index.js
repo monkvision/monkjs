@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import { monkApi } from '@monkvision/corejs';
 
-import Actions from '../../actions';
+import actions from '../../config/actions';
 
 function init(ids) {
   const state = {};
@@ -15,7 +15,7 @@ function init(ids) {
 }
 
 function reducer(state, action) {
-  if (action.type === Actions.uploads.RESET_UPLOADS) {
+  if (action.type === actions.uploads.RESET) {
     return init(action.ids);
   }
 
@@ -32,7 +32,7 @@ function reducer(state, action) {
   }
 
   switch (action.type) {
-    case Actions.uploads.UPDATE_UPLOAD:
+    case actions.uploads.UPDATE:
       return ({
         ...state,
         [id]: { ...prevUpload, ...action.payload, uploadCount },
@@ -59,7 +59,7 @@ export async function handleUpload(payload, state, dispatch, callback) {
 
   try {
     dispatch({
-      type: Actions.uploads.UPDATE_UPLOAD,
+      type: actions.uploads.UPDATE,
       increment: true,
       payload: { id, picture, status: 'pending', label },
     });
@@ -96,22 +96,18 @@ export async function handleUpload(payload, state, dispatch, callback) {
     await monkApi.images.addOne({ inspectionId, data });
 
     dispatch({
-      type: Actions.uploads.UPDATE_UPLOAD,
+      type: actions.uploads.UPDATE,
       payload: { id, status: 'fulfilled' },
     });
 
-    if (typeof callback === 'function') {
-      callback(payload, 'success');
-    }
+    callback(payload, 'success');
   } catch (err) {
     dispatch({
-      type: Actions.uploads.UPDATE_UPLOAD,
+      type: actions.uploads.UPDATE,
       increment: true,
       payload: { id, status: 'error', error: err },
     });
 
-    if (typeof callback === 'function') {
-      callback(payload, 'error', err);
-    }
+    callback(payload, 'error', err);
   }
 }

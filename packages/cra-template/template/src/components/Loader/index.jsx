@@ -1,10 +1,14 @@
+import { useTheme } from '@mui/material/styles';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 function InnerCircle({ animated }) {
+  const theme = useTheme();
+  const fill = theme.palette.mode === 'dark' ? '#fff' : '#000';
+
   return (
     <circle
-      fill="#000"
+      fill={fill}
       cx="0"
       cy="0"
       r="10"

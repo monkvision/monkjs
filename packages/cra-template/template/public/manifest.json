@@ -1,6 +1,4 @@
 {
-  "short_name": "Monk",
-  "name": "Monk App Sample",
   "icons": [
     {
       "src": "favicon.png",
@@ -19,7 +17,5 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#274b9f",
-  "background_color": "#333"
+  "display": "standalone"
 }

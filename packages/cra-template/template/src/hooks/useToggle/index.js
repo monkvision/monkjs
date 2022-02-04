@@ -1,12 +1,11 @@
 import { useCallback, useState } from 'react';
 
-export default function useToggle(initialState = false) {
-  const [isOn, toggle] = useState(initialState);
+export default function useToggle(initialValue = false) {
+  const [isSet, toggle] = useState(initialValue);
 
-  const handleToggleOn = useCallback(() => { toggle(true); }, []);
-  const handleToggleOff = useCallback((callback) => {
-    toggle(false); if (typeof callback === 'function') { callback(); }
-  }, []);
+  const handleSet = useCallback(() => { toggle(true); }, []);
+  const handleUnset = useCallback(() => { toggle(false); }, []);
+  const handleToggle = useCallback(() => { toggle((prev) => !prev); }, []);
 
-  return [isOn, handleToggleOn, handleToggleOff];
+  return [isSet, handleSet, handleUnset, handleToggle];
 }

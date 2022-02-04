@@ -38,14 +38,6 @@ const reducer = createReducer(initialState, (builder) => {
     });
 });
 
-/**
-   * NOTE(Ilyass):
-   * Now we can pass the asyncThunk (customAsyncThunk) to request/refresh function by passing null
-   * to the hook asyncThunk param, as well as we can pass some additional callbacks
-   * (onStart...) to request/refresh.
-   * (The additional callbacks will not override the ones received from the hook
-   *  params, instead they will both be called)
-   *  */
 export default function useRequest(asyncThunk, callbacks = {}, shouldFetch = true) {
   const dispatch = useDispatch();
   const [state, setState] = useReducer(reducer, initialState);
