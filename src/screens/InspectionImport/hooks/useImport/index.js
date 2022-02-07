@@ -2,8 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Dimensions, Platform } from 'react-native';
 
+import { taskStatuses, updateOneTaskOfInspection } from '@monkvision/corejs';
 import { utils } from '@monkvision/react-native';
 
+import useRequest from 'hooks/useRequest';
 import useUpload from 'hooks/useUpload';
 
 const { width, height } = Dimensions.get('window');
@@ -28,6 +30,22 @@ export default ({ pictures, setPictures, inspectionId }) => {
     onSuccess,
     onLoading,
     onError,
+  });
+
+  // vin
+  const ocrPayload = { inspectionId, taskName: 'images_ocr', data: { status: taskStatuses.TODO } };
+  const { request: startOcr } = useRequest(updateOneTaskOfInspection(ocrPayload), {}, false);
+
+  const handleUploadVinPicture = useUpload({
+    inspectionId,
+    onSuccess: (id) => { onSuccess(id); startOcr(); },
+    onLoading,
+    onError,
+    taskName: {
+      name: 'images_ocr',
+      image_details: {
+        image_type: 'VIN',
+      } },
   });
 
   // request media library permission
@@ -66,24 +84,24 @@ export default ({ pictures, setPictures, inspectionId }) => {
             if (image.id === id) { return { ...image, uri: result.uri }; }
             return image;
           }));
-          handleUploadPicture(result.uri, id);
+          if (id === 'vin') { handleUploadVinPicture(result.uri, id); } else { handleUploadPicture(result.uri, id); }
         } else {
           setPictures((prev) => prev.map((image) => {
             if (image.id === id) { return { ...image, id, uri: result.uri }; }
             return image;
           }));
-          handleUploadPicture(result.uri, id);
+          if (id === 'vin') { handleUploadVinPicture(result.uri, id); } else { handleUploadPicture(result.uri, id); }
         }
       }
     }
-  }, [accessGranted, aspect, pictures,
-    handleRequestMediaLibraryAccess, handleUploadPicture, setPictures]);
+  }, [accessGranted, handleRequestMediaLibraryAccess, aspect, pictures,
+    setPictures, handleUploadVinPicture, handleUploadPicture]);
 
   return {
     accessGranted,
     handleOpenMediaLibrary,
     handleRequestMediaLibraryAccess,
     handleUploadPicture,
-    handlePickImage: () => null,
+    handleUploadVinPicture,
   };
 };
