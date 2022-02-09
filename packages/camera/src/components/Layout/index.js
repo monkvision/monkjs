@@ -18,9 +18,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   section: {
-    height: '100%',
+    ...Platform.select({
+      native: { height: '100%' },
+      default: { height: '100vh' },
+    }),
     minWidth: 100,
-    overflow: 'hidden',
     alignItems: 'center',
   },
   fullScreenButtonContainer: {
@@ -33,6 +35,10 @@ const styles = StyleSheet.create({
   hidden: {
     visibility: 'hidden',
     opacity: 0,
+  },
+  right: {
+    maxWidth: 141,
+    flexGrow: 1,
   },
 });
 

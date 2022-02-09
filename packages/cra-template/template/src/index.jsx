@@ -9,36 +9,39 @@ import { authConfig } from 'config/corejs';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import 'config/vars.css';
+import { SnackbarProvider } from 'notistack';
+
 import '@fontsource/roboto';
 import theme from 'config/theme';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import App from 'views/App';
 
-// import reportWebVitals from './reportWebVitals';
+function Root() {
+  return (
+    <Provider store={store}>
+      <Auth0Provider
+        audience={authConfig.audience}
+        clientId={authConfig.clientId}
+        domain={authConfig.domain}
+        redirectUri={`${window.origin}`}
+      >
+        <Router>
+          <ThemeProvider theme={createTheme(theme)}>
+            <SnackbarProvider
+              maxSnack={3}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              <App />
+            </SnackbarProvider>
+          </ThemeProvider>
+        </Router>
+      </Auth0Provider>
+    </Provider>
+  );
+}
 
-const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
-
-root.render(
-  <Provider store={store}>
-    <Auth0Provider
-      audience={authConfig.audience}
-      clientId={authConfig.clientId}
-      domain={authConfig.domain}
-      redirectUri={`${window.origin}/login/callback`}
-    >
-      <Router>
-        <ThemeProvider theme={createTheme(theme)}>
-          <App />
-        </ThemeProvider>
-      </Router>
-    </Auth0Provider>
-  </Provider>,
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
+ReactDOM.render(<Root />, document.getElementById('root'));

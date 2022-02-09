@@ -1,10 +1,7 @@
-import React from 'react';
+/* eslint-disable react/no-array-index-key */
+import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  Platform, Pressable, StyleSheet,
-  useWindowDimensions, View,
-} from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,69 +11,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    fontSize: 34,
+    maxWidth: '100%',
+    borderRadius: 150,
     width: 68,
     height: 68,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    padding: 5,
-    borderRadius: 68,
-    backgroundColor: 'white',
-  },
-  captureButton: {
-    width: 84,
-    height: 84,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 5,
-    borderRadius: 84,
-    backgroundColor: 'black',
-    borderColor: 'white',
-    borderWidth: 4,
-    overflow: 'hidden',
-  },
-  hidden: {
-    visibility: 'hidden',
-    opacity: 0,
+    backgroundColor: '#fff',
   },
 });
 
-export function ControlButton({ children, disabled, hidden, style, ...passThroughProps }) {
-  return (
-    <Pressable
-      disabled={disabled || hidden}
-      style={[styles.button, style, hidden ? styles.hidden : {}]}
-      {...passThroughProps}
-    >
-      {children}
-    </Pressable>
-  );
-}
-
-ControlButton.propTypes = {
-  children: PropTypes.element,
-  disabled: PropTypes.bool,
-  hidden: PropTypes.bool,
-};
-
-ControlButton.defaultProps = {
-  children: null,
-  disabled: false,
-  hidden: false,
-};
-
-function Controls({
-  buttonCaptureProps,
-  buttonSettingsProps,
-  buttonValidateProps,
-  containerStyle,
-  onSettings,
-  onCapture,
-  onValidate,
-  ...passThroughProps
-}) {
+export default function Controls({ api, containerStyle, elements, ...passThroughProps }) {
   const { height: windowHeight } = useWindowDimensions();
+  const handlePress = useCallback((onPress) => () => onPress(api), [api]);
 
   return (
     <View
@@ -86,51 +31,73 @@ function Controls({
         default: { maxHeight: windowHeight },
       })]}
     >
-      <ControlButton
-        acccessibilityLabel="Settings button"
-        onPress={onSettings}
-        style={styles.button}
-        {...buttonSettingsProps}
-        {...passThroughProps}
-      />
-      <ControlButton
-        acccessibilityLabel="Capture button"
-        onPress={onCapture}
-        style={styles.captureButton}
-        {...buttonCaptureProps}
-        {...passThroughProps}
-      >
-        <View style={styles.button} />
-      </ControlButton>
-      <ControlButton
-        acccessibilityLabel="Validate button"
-        onPress={onValidate}
-        style={styles.button}
-        {...buttonValidateProps}
-        {...passThroughProps}
-      />
+      {elements.map(({
+        children,
+        component = TouchableOpacity,
+        onPress,
+        ...rest
+      }, i) => (
+        createElement(component, {
+          key: `camera-control-${i}`,
+          onPress: handlePress(onPress),
+          style: StyleSheet.flatten([styles.button]),
+          ...rest,
+          ...passThroughProps,
+        }, children)
+      ))}
     </View>
   );
 }
 
 Controls.propTypes = {
-  buttonCaptureProps: PropTypes.objectOf(PropTypes.any),
-  buttonSettingsProps: PropTypes.objectOf(PropTypes.any),
-  buttonValidateProps: PropTypes.objectOf(PropTypes.any),
+  api: PropTypes.shape({
+    goNextSight: PropTypes.func,
+    startUploadAsync: PropTypes.func,
+    takePictureSync: PropTypes.func,
+  }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onCapture: PropTypes.func,
-  onSettings: PropTypes.func,
-  onValidate: PropTypes.func,
+  elements: PropTypes.arrayOf(PropTypes.shape({
+    component: PropTypes.element,
+    disabled: PropTypes.bool,
+    onPress: PropTypes.func,
+  })),
 };
 
 Controls.defaultProps = {
-  buttonCaptureProps: {},
-  buttonSettingsProps: { hidden: true },
-  buttonValidateProps: { hidden: true },
+  api: {},
   containerStyle: null,
-  onCapture: () => {},
-  onSettings: () => {},
-  onValidate: () => {},
+  elements: [],
 };
 
-export default Controls;
+Controls.CaptureButtonProps = {
+  accessibilityLabel: 'Take picture',
+  children: (
+    <Text style={{
+      display: 'flex',
+      alignItems: 'center',
+      textAlign: 'center',
+      height: '100%',
+      fontSize: 10,
+      textTransform: 'uppercase',
+    }}
+    >
+      Take picture
+    </Text>
+  ),
+  style: {
+    maxWidth: '100%',
+    backgroundColor: '#fff',
+    width: 84,
+    height: 84,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 84,
+    borderColor: 'white',
+    borderWidth: 4,
+    shadowColor: 'white',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: '4px 4px',
+  },
+};

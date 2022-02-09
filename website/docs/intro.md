@@ -58,10 +58,10 @@ function GetInspectionScreen() {
 ```
 
 ## 📦 Available releases
-| Language or framework | Module |
-|-----------------------|--------|
-| JavaScript | [@monkvision/corejs](https://www.npmjs.com/package/@monkvision/corejs) |
-| React Native | [@monkvision/react-native](https://www.npmjs.com/package/@monkvision/react-native) <br/>[@monkvision/react-native-views](https://www.npmjs.com/package/@monkvision/react-native-views) |
+| Language or framework | Module                                                                 |
+|-----------------------|------------------------------------------------------------------------|
+| JavaScript            | [@monkvision/corejs](https://www.npmjs.com/package/@monkvision/corejs) |
+| React                 | [@monkvision/camera](https://www.npmjs.com/package/@monkvision/camera) |
 
 We are working to provide as soon as possible new SDKs for other languages.
 
@@ -76,12 +76,12 @@ you can directly use the SDK for the **JS & React Native stack**.
 
 Install from `npm`
 ```npm
-npm install @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-native-web --save
+npm install @monkvision/corejs @monkvision/camera react-native-web --save
 ```
 
 Install from `yarn`
 ```yarn
-yarn add @monkvision/corejs @monkvision/react-native @monkvision/react-native-views @reduxjs/toolkit react-native-web
+yarn add @monkvision/corejs @monkvision/camera react-native-web
 ```
 
 The command install all dependencies you need if you go all in. We mean that you probably don't need _react-native-web_ if you don't run your App in the browser.
