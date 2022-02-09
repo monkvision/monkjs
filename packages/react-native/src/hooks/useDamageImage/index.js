@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default function useImageDamage(image) {
-  const width = Math.min(Dimensions.get('window').width - 50, 400);
+export default function useImageDamage(image, originalWidth) {
+  const width = Math.min(Dimensions.get('window').width * 0.8, originalWidth);
   const height = image.height * (width / image.width);
 
   const [ellipseW, setEllipseW] = useState(null);

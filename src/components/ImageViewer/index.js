@@ -1,12 +1,19 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { Portal, Dialog, IconButton } from 'react-native-paper';
-import ImageView from 'react-native-image-zoom-viewer-fixed';
+import { Button, Dialog, Portal } from 'react-native-paper';
+import { DamageHighlight } from '@monkvision/react-native';
+
+const {
+  width,
+} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   dialog: {
     backgroundColor: 'black',
+  },
+  content: {
+    alignItems: 'center',
   },
   footerContainer: {
     ...Platform.select({
@@ -28,16 +35,14 @@ const styles = StyleSheet.create({
 });
 
 export default function CustomDialog({
-  deleteButton, handleDismiss, images, index, isOpen,
+  handleDismiss,
+  image,
+  isOpen,
+  polygons,
 }) {
-  if (!images?.length) { return null; }
-
-  const renderFooter = () => (
-    <>
-      { deleteButton && deleteButton }
-      <IconButton size={46} color="white" style={styles.closeButton} icon="close" onPress={handleDismiss} />
-    </>
-  );
+  if (!image || !polygons) {
+    return null;
+  }
 
   return (
     <Portal>
@@ -45,32 +50,46 @@ export default function CustomDialog({
         visible={Boolean(isOpen)}
         onDismiss={handleDismiss}
         styles={styles.dialog}
-      />
-      { isOpen && (
-      <ImageView
-        enableImageZoom
-        enableSwipeDown={false}
-        imageUrls={images}
-        index={index}
-        onRequestClose={handleDismiss}
-        renderFooter={renderFooter}
-        footerContainerStyle={styles.footerContainer}
-      />
-      ) }
+      >
+        <Dialog.Actions>
+          <Button icon="close" onPress={handleDismiss} />
+        </Dialog.Actions>
+        <Dialog.Content style={styles.content}>
+          <DamageHighlight
+            style={styles.footerContainer}
+            image={image}
+            polygons={polygons}
+            backgroundOpacity={0.4}
+            polygonsProps={{
+              opacity: 0.1,
+              stroke: {
+                color: '#ec00ff',
+                strokeWidth: 40,
+              },
+            }}
+            touchable
+            width={width * 0.8}
+          />
+        </Dialog.Content>
+      </Dialog>
     </Portal>
   );
 }
 
 CustomDialog.propTypes = {
-  deleteButton: PropTypes.element,
   handleDismiss: PropTypes.func.isRequired,
-  images: PropTypes.arrayOf(PropTypes.shape({ url: PropTypes.string })).isRequired,
-  index: PropTypes.number,
+  image: PropTypes.shape({ url: PropTypes.string }).isRequired,
   isOpen: PropTypes.bool,
+  polygons: PropTypes.shape({
+    opacity: PropTypes.number,
+    stroke: PropTypes.shape({
+      color: PropTypes.string,
+      strokeWidth: PropTypes.number,
+    }),
+  }),
 };
 
 CustomDialog.defaultProps = {
-  index: 0,
   isOpen: false,
-  deleteButton: null,
+  polygons: [],
 };
