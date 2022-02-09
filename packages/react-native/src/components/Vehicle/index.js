@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Svg, { G, Path, Ellipse, Defs } from 'react-native-svg';
+import Svg, { Defs, Ellipse, G, Path } from 'react-native-svg';
 
 import isBoolean from 'lodash.isboolean';
 import isEmpty from 'lodash.isempty';
@@ -15,21 +15,41 @@ import xml2js from 'react-native-xml2js';
 import tinycolor from 'tinycolor2';
 
 function SVGComponent({
-  elementTag, getFillColor, selectedId, onPress, parsedSVG, ...passThroughProps
+  elementTag,
+  getFillColor,
+  selectedId,
+  onPress,
+  parsedSVG,
+  ...passThroughProps
 }) {
-  const Component = { svg: Svg, g: G, path: Path, ellipse: Ellipse, defs: Defs }[elementTag];
-  const { $: nodeProps = {}, ...children } = parsedSVG;
+  const Component = {
+    svg: Svg,
+    g: G,
+    path: Path,
+    ellipse: Ellipse,
+    defs: Defs,
+  }[elementTag];
+  const {
+    $: nodeProps = {},
+    ...children
+  } = parsedSVG;
 
-  const { id, fill, stroke, ...props } = useMemo(() => {
+  const {
+    id,
+    fill,
+    stroke,
+    ...props
+  } = useMemo(() => {
     const newProps = {};
 
-    Object.entries(nodeProps).forEach(([key, value]) => {
-      if (isPropValid(key)) {
-        newProps[key] = value;
-      } else if (isPropValid(camelCase(key))) {
-        newProps[camelCase(key)] = value;
-      }
-    });
+    Object.entries(nodeProps)
+      .forEach(([key, value]) => {
+        if (isPropValid(key)) {
+          newProps[key] = value;
+        } else if (isPropValid(camelCase(key))) {
+          newProps[camelCase(key)] = value;
+        }
+      });
 
     const onClickPress = () => onPress(newProps.id, elementTag);
 
@@ -43,7 +63,8 @@ function SVGComponent({
     };
   }, [elementTag, nodeProps, onPress, passThroughProps]);
 
-  const getStroke = useCallback((_id, defaultColor) => ((_id === selectedId && selectedId !== undefined) ? tinycolor('#274b9f').toHexString()
+  const getStroke = useCallback((_id, defaultColor) => ((_id === selectedId && selectedId !== undefined) ? tinycolor('#274b9f')
+    .toHexString()
     : defaultColor), [selectedId]);
 
   if (!Component) {
@@ -55,23 +76,25 @@ function SVGComponent({
       {...props}
       id={id}
       onClick={() => onPress(id, elementTag)}
+      onPress={onPress}
       fill={getFillColor(id, fill)}
       stroke={getStroke(id, stroke)}
     >
       {!isEmpty(children) ? (
-        Object.entries(children).map(([childTag, parsedChildSVGArray]) => (
-          parsedChildSVGArray.map((parsedChildSVG, childIndex) => (
-            <SVGComponent
-              key={`${childTag}-${childIndex}`}
-              elementTag={childTag}
-              getFillColor={getFillColor}
-              selectedId={selectedId}
-              parsedSVG={parsedChildSVG}
-              onClick={onPress}
-              onPress={onPress}
-            />
+        Object.entries(children)
+          .map(([childTag, parsedChildSVGArray]) => (
+            parsedChildSVGArray.map((parsedChildSVG, childIndex) => (
+              <SVGComponent
+                key={`${childTag}-${childIndex}`}
+                elementTag={childTag}
+                getFillColor={getFillColor}
+                selectedId={selectedId}
+                parsedSVG={parsedChildSVG}
+                onClick={onPress}
+                onPress={onPress}
+              />
+            ))
           ))
-        ))
       ) : null}
     </Component>
   );
@@ -120,7 +143,10 @@ export default function Vehicle({
       const activePart = activeParts !== undefined ? activeParts[id] : controlledActiveParts[id];
       const isActive = isBoolean(activePart) ? !activePart : true;
 
-      setActiveParts((prev) => ({ ...prev, [id]: isActive }));
+      setActiveParts((prev) => ({
+        ...prev,
+        [id]: isActive,
+      }));
       setSelectedId(id);
 
       onPress(id, isActive, activeParts);
@@ -131,7 +157,8 @@ export default function Vehicle({
     const activePart = activeParts !== undefined ? activeParts[id] : controlledActiveParts[id];
 
     return activePart
-      ? tinycolor.mix(activeMixedColor, defaultColor).toHexString()
+      ? tinycolor.mix(activeMixedColor, defaultColor)
+        .toHexString()
       : defaultColor;
   }, [activeMixedColor, activeParts, controlledActiveParts]);
 

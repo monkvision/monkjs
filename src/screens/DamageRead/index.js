@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   buttonLabel: { color: '#FFFFFF' },
   validationButton: {
     margin: spacing(2),
-    flex: 1,
+    flex: 0.5,
   },
 });
 
@@ -245,12 +245,15 @@ export default () => {
           {!isEmpty(inspection.images) ? (
             <VirtualizedList
               horizontal
-              data={inspection.images}
+              data={damageImages}
               initialNumToRender={10}
               keyExtractor={(item, index) => String(index)}
               getItemCount={(d) => d?.length}
               getItem={(items, index) => items[index]}
-              renderItem={({ item: image, index }) => (
+              renderItem={({
+                item: image,
+                index,
+              }) => (
                 <View syle={styles.images}>
                   <TouchableRipple
                     key={String(index)}
