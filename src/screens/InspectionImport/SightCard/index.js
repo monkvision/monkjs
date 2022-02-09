@@ -6,13 +6,14 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { ActivityIndicator, IconButton, useTheme } from 'react-native-paper';
+import startCase from 'lodash.startcase';
+
 import { sightMasks } from '@monkvision/react-native';
-import Drawing from 'components/Drawing';
-import vinSvg from '../assets/vin.svg';
 
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -49,6 +50,22 @@ const styles = StyleSheet.create({
   },
   reloadButtonLayout: { position: 'absolute', display: 'flex', flexDirection: 'row', zIndex: 11 },
   reloadButton: { backgroundColor: '#FFF', alignSelf: 'center' },
+  sightLabel: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    textAlign: 'center',
+    color: '#FFF',
+    paddingVertical: spacing(1),
+    paddingHorizontal: spacing(0.4),
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
+  },
+  sightLabelText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontWeight: Platform.OS === 'android' ? 'normal' : '500',
+  },
 });
 
 const SightMask = ({ id, ...props }) => (sightMasks?.[id] ? sightMasks[id](props) : null);
@@ -68,6 +85,13 @@ export default function SightCard({ sight, events }) {
       disabled={uri}
       accessibilityLabel={label}
     >
+
+      {/* sight label */}
+      <View style={styles.sightLabel}>
+        <Text style={[styles.sightLabelText, { color: colors.primary }]}>
+          {startCase(label)}
+        </Text>
+      </View>
 
       {/* overlay button */}
       {!isLoading && isFailed ? (
@@ -98,8 +122,9 @@ export default function SightCard({ sight, events }) {
       {/* sight mask */}
       {!isLoading ? (
         <View style={{ transform: [{ scale: 0.28 }], zIndex: 2, height: 400 }}>
-          {id === 'vin' ? <Drawing xml={vinSvg} />
-            : <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colors.primary} />}
+          {id !== 'vin'
+            ? <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colors.primary} />
+            : null}
         </View>
       ) : null}
 

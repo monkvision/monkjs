@@ -32,10 +32,13 @@ export default ({ pictures, setPictures, inspectionId }) => {
     onError,
   });
 
-  // vin
+  // vin payload
   const ocrPayload = { inspectionId, taskName: 'images_ocr', data: { status: taskStatuses.TODO } };
+
+  // start the OCR task
   const { request: startOcr } = useRequest(updateOneTaskOfInspection(ocrPayload), {}, false);
 
+  // upload with OCR task
   const handleUploadVinPicture = useUpload({
     inspectionId,
     onSuccess: (id) => { onSuccess(id); startOcr(); },
@@ -54,6 +57,7 @@ export default ({ pictures, setPictures, inspectionId }) => {
     setAccess(granted);
   }, []);
 
+  // request access to camera roll
   useEffect(() => {
     handleRequestMediaLibraryAccess();
   }, [handleRequestMediaLibraryAccess]);

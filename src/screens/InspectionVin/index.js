@@ -88,13 +88,13 @@ export default () => {
       <VinForm
         inspectionId={inspectionId}
         vin={vin.value}
-        status={status}
-        onOpenGuide={guide.handleToggleOn}
-        onOpenCamera={handleOpenVinCameraOrRetake}
         vinPicture={vin.picture}
+        status={status}
+        requiredFields={requiredFields}
         ocrIsLoading={!!ocrIsLoading}
         isUploading={!!isUploading}
-        requiredFields={requiredFields}
+        onOpenGuide={guide.handleToggleOn}
+        onOpenCamera={handleOpenVinCameraOrRetake}
         onOpenErrorSnackbar={errorSnackbar.handleToggleOn}
         onRenitializeInspection={createInspection}
       />
