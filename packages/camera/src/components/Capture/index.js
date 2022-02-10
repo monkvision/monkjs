@@ -2,6 +2,7 @@ import { monkApi } from '@monkvision/corejs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import getWebFileData from 'utils/getWebFileData';
 
 import log from '../../utils/log';
 
@@ -33,52 +34,57 @@ const styles = StyleSheet.create({
 
 /**
  * @param controls
+ * @param controlsContainerStyle
  * @param footer
  * @param fullscreen
+ * @param initialState
  * @param inspectionId
  * @param loading
+ * @param navigationOptions
  * @param offline
  * @param onChange
  * @param onReady
  * @param primaryColor
  * @param sightIds
+ * @param sightsContainerStyle
  * @param style
+ * @param thumbnailStyle
  * @return {JSX.Element}
  * @constructor
  */
 export default function Capture({
   controls,
+  controlsContainerStyle,
   footer,
   fullscreen,
+  initialState,
   inspectionId,
   loading,
+  navigationOptions,
   offline,
   onChange,
   onReady,
   primaryColor,
   sightIds,
+  sightsContainerStyle,
   style,
+  thumbnailStyle,
 }) {
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
 
-  const settings = useSettings();
+  const settings = useSettings({ camera, initialState });
 
   /**
    * @type {{dispatch: (function({}): void), name: string, state: {
-   * current,
-   * ids,
-   * remainingPictures,
-   * takenPictures: {},
-   * tour,
-   * }}|*}
+   * current, ids, remainingPictures, takenPictures: {}, tour, }}|*}
    */
-  const sights = useSights(sightIds);
+  const sights = useSights({ sightIds, initialState });
 
   /**
    * @type {{dispatch: (function({}): void), name: string, state: S}|*}
    */
-  const uploads = useUploads(sightIds);
+  const uploads = useUploads({ sightIds, initialState });
 
   const { current, tour } = sights.state;
   const overlay = current?.metadata?.overlay || '';
@@ -117,7 +123,6 @@ export default function Capture({
     }
 
     const { id, label } = sights.state.current.metadata;
-    const { uri } = picture;
 
     try {
       dispatch({
@@ -126,35 +131,7 @@ export default function Capture({
         payload: { id, picture, status: 'pending', label },
       });
 
-      const filename = `${id}-${inspectionId}.jpg`;
-      const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
-
-      const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
-      const json = JSON.stringify({
-        acquisition,
-        tasks: ['damage_detection'],
-        additional_data: {
-          ...sights.current.metadata,
-          width: picture.width,
-          height: picture.height,
-          exif: picture.exif,
-          overlay: undefined,
-        },
-      });
-
-      const data = new FormData();
-      data.append(multiPartKeys.json, json);
-
-      const blobUri = await fetch(uri);
-      const blob = await blobUri.blob();
-      const file = await new File(
-        [blob],
-        multiPartKeys.filename,
-        { type: multiPartKeys.type },
-      );
-
-      data.append(multiPartKeys.image, file);
-
+      const data = getWebFileData(picture, sights, inspectionId);
       const result = await monkApi.images.addOne({ inspectionId, data });
 
       dispatch({
@@ -212,13 +189,23 @@ export default function Capture({
         fullscreen={fullscreen}
         left={(
           <Sights
+            containerStyle={sightsContainerStyle}
             dispatch={sights.dispatch}
             footer={footer}
             offline={offline}
+            navigationOptions={navigationOptions}
+            thumbnailStyle={thumbnailStyle}
             {...sights.state}
           />
         )}
-        right={<Controls elements={controls} state={state} api={api} />}
+        right={(
+          <Controls
+            api={api}
+            containerStyle={controlsContainerStyle}
+            elements={controls}
+            state={state}
+          />
+        )}
       >
         <Camera
           onRef={setCamera}
@@ -248,26 +235,56 @@ Capture.propTypes = {
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
   })),
+  controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
   footer: PropTypes.element,
   fullscreen: PropTypes.objectOf(PropTypes.any),
+  initialState: PropTypes.shape({
+    settings: PropTypes.objectOf(PropTypes.any),
+    sights: PropTypes.objectOf(PropTypes.any),
+    uploads: PropTypes.objectOf(PropTypes.any),
+  }),
   inspectionId: PropTypes.string,
   loading: PropTypes.bool,
+  navigationOptions: PropTypes.shape({
+    allowNavigate: PropTypes.bool,
+    allowRetake: PropTypes.bool,
+    allowSkip: PropTypes.bool,
+    retakeMaxTry: PropTypes.number,
+    retakeMinTry: PropTypes.number,
+  }),
   offline: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,
   onReady: PropTypes.func,
   primaryColor: PropTypes.string,
   sightIds: PropTypes.arrayOf(PropTypes.string),
+  sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
+  thumbnailStyle: PropTypes.objectOf(PropTypes.any),
 };
 
 Capture.defaultProps = {
   controls: [],
+  controlsContainerStyle: {},
   footer: null,
   fullscreen: null,
+  initialState: {
+    settings: null,
+    sights: null,
+    uploads: null,
+  },
   inspectionId: null,
   loading: false,
+  navigationOptions: {
+    allowNavigate: false,
+    allowRetake: true,
+    allowSkip: false,
+    retakeMaxTry: 1,
+    retakeMinTry: 1,
+  },
   offline: null,
   onChange: () => {},
   onReady: () => {},
   primaryColor: '#FFF',
   sightIds: ['vLcBGkeh', 'sLu0CfOt'],
+  sightsContainerStyle: {},
+  thumbnailStyle: {},
 };

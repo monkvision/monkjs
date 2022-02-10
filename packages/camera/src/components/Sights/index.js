@@ -71,30 +71,35 @@ function Gradient() {
 
 export default function Sights({
   buttonOfflineProps,
+  contentContainerStyle,
   current,
   dispatch,
   footer,
   ids,
+  navigationOptions,
   takenPictures,
+  thumbnailStyle,
   tour,
 }) {
   const { height: windowHeight } = useWindowDimensions();
 
   const handlePress = useCallback((id) => {
-    dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
-  }, [dispatch]);
+    if (navigationOptions.allowNavigate) {
+      dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
+    }
+  }, [dispatch, navigationOptions.allowNavigate]);
 
   return (
     <ScrollView
       endFillColor="#000"
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
-      contentContainerStyle={{
+      contentContainerStyle={[{
         ...Platform.select({
           native: { maxHeight: windowHeight },
           default: { maxHeight: '100vh' },
-        }),
-      }}
+        }, contentContainerStyle),
+      }]}
     >
       <View style={styles.stickyHeader}>
         <Gradient />
@@ -119,6 +124,7 @@ export default function Sights({
             picture={takenPictures[id]}
             onPress={() => handlePress(id)}
             onClick={() => handlePress(id)}
+            style={thumbnailStyle}
           />
         ))}
         <View style={styles.footer}>{footer}</View>
@@ -129,11 +135,20 @@ export default function Sights({
 
 Sights.propTypes = {
   buttonOfflineProps: PropTypes.objectOf(PropTypes.any),
+  contentContainerStyle: PropTypes.objectOf(PropTypes.any),
   current: PropTypes.shape({ index: PropTypes.number }).isRequired,
   dispatch: PropTypes.func.isRequired,
   footer: PropTypes.element,
   ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+  navigationOptions: PropTypes.shape({
+    allowNavigate: PropTypes.bool,
+    allowRetake: PropTypes.bool,
+    allowSkip: PropTypes.bool,
+    retakeMaxTry: PropTypes.number,
+    retakeMinTry: PropTypes.number,
+  }).isRequired,
   takenPictures: PropTypes.objectOf(PropTypes.object),
+  thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   tour: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
@@ -143,6 +158,8 @@ Sights.propTypes = {
 
 Sights.defaultProps = {
   buttonOfflineProps: null,
+  contentContainerStyle: {},
   footer: null,
   takenPictures: {},
+  thumbnailStyle: {},
 };

@@ -4,7 +4,7 @@ title: "Capture"
 slug: /js/api/components/capture
 ---
 
-**Interface guiding user in a 360 vehicle capture process.**
+**Interface guiding user in a 360° vehicle capture coverage.**
 
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/camera/latest.svg)
 
@@ -62,10 +62,12 @@ export default function Inspector({ inspectionId }) {
 }
 ```
 
+# Props
+
 ## controls
 `PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, disabled: PropTypes.bool, onPress: PropTypes.func }))`
 
-An array of props inherited from TouchableOpacity|*
+An array of props inherited from `TouchableOpacity|*`
 
 ```js
 const controls = [{
@@ -78,17 +80,69 @@ const controls = [{
 ## footer
 `PropTypes.element`
 
-A rendered element to be display has footer of the Sights scrool list
+A rendered element to be display has footer of the Sights scroll list
 
 ## fullscreen
 `PropTypes.objectOf(PropTypes.any)`
 
-Props inherited from Button
+Props inherited from `Button`
+
+## initialState
+`PropTypes.state`
+
+InitialState to begin with. Very useful if you persist the state
+on each change from [`onChange`](#onchange) callback.
+See the [`state`](#state) section for more details.
+
+## inspectionId
+`PropTypes.string`
+
+ID of an inspection if you want to use component's API like [`startUploadAsync`](#startuploadasync).
 
 ## loading
 `PropTypes.bool`
 
 A boolean showing an ActivityIndicator and disabling controls if true
+
+## navigationOptions
+```js
+PropTypes.shape({
+  allowNavigate: PropTypes.bool,
+  allowRetake: PropTypes.bool,
+  allowSkip: PropTypes.bool,
+  retakeMaxTry: PropTypes.number,
+  retakeMinTry: PropTypes.number,
+})
+```
+
+### allowNavigate
+`PropTypes.bool`
+
+A boolean allowing user to navigate between sight. Default is `false`.
+
+### allowRetake
+`PropTypes.bool`
+
+A boolean allowing user to retake a picture if not compliant. Default is `true`.
+
+### allowSkip
+`PropTypes.bool`
+
+A boolean allowing user to skip a sight if he is not capable of taking it. Default is `false`.
+
+### retakeMaxTry
+`PropTypes.number`
+
+A number setting the max limit of retake trys. Default is `1`.
+
+### retakeMinTry
+`PropTypes.number`
+
+A number setting the min limit of retake trys. Default is `1`.
+
+> Current scenario is user has to retake at least 1 (`retakeMinTry`) picture,
+> but can retake only 1 (`retakeMaxTry`) before being redirected to the next stage,
+> only if picture is not compliant to `Image Quality Check` or `Car 360° coverage`.
 
 ## onChange
 `PropTypes.func`
@@ -117,9 +171,11 @@ Custom color for better user experience (default is white)
 `PropTypes.arrayOf(PropTypes.string)`
 
 List of sights in order you want theme to be displayed.
-See [monkjs/sights](https://monkvision.github.io/monkjs/sights) to choose sights you want.
+See [monkjs/sights](/monkjs/sights) to choose sights you want.
 
 ----
+
+# State and Methods
 
 ## state
 ```js
@@ -143,7 +199,7 @@ console.log(uploads); // { state, distpatch }
 console.log(uploads.state); // { sightId: { picture: null, status: 'idle', error: null, uploadCount: 0 } }
 ````
 
-## API
+## api
 ```js
 console.log(API); // { camera, goPrevSight, goNextSight, startUploadAsync, takePictureAsync };
 ```
@@ -178,3 +234,22 @@ setLoading(false);
 const uploadResult = await startUploadAsync(picture);
 console.log('Upload has succeed!')
 ```
+
+----
+
+## Style
+
+### controlsContainerStyle
+`PropTypes.style`
+
+Style of the control's container (layout side right).
+
+### sightsContainerStyle
+`PropTypes.style`
+
+Style of the sight's scroll list container (layout side left).
+
+### thumbnailStyle
+`PropTypes.style`
+
+Style of a thumbnail in a sights list.

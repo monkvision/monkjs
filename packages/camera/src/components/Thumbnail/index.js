@@ -65,6 +65,7 @@ export default function Thumbnail({
   label,
   overlay,
   picture,
+  style,
   uploadStatus,
   ...passThroughProps
 }) {
@@ -76,6 +77,7 @@ export default function Thumbnail({
         styles.root,
         { borderColor: colorsVariant(colors)[uploadStatus] },
         isSmallScreen ? styles.smRoot : undefined,
+        style,
       ]}
       {...passThroughProps}
     >
