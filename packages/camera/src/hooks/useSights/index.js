@@ -83,6 +83,11 @@ function reducer(state, action) {
   }
 }
 
+/**
+ * @param ids
+ * @return {{dispatch: ({}) => void, name: string, state: S}}
+ */
 export default function useSights(ids) {
-  return useReducer(reducer, ids, init);
+  const [state, dispatch] = useReducer(reducer, ids, init);
+  return { state, dispatch, name: 'sights' };
 }

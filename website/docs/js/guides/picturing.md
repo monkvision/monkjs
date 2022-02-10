@@ -16,17 +16,21 @@ import { SafeAreaView, StatusBar } from 'react-native';
 export default function App() {
   const [loading, setLoading] = useState();
 
-  const handleCapture = useCallback(async (api) => {
+  const handleCapture = useCallback(async (state, api, event) => {
+    event.preventDefault();
     const { takePictureAsync, startUploadAsync, goNextSight } = api;
 
-    setLoading(true);
-    const { picture } = await takePictureAsync();
-
-    setTimeout(() => {
+    setTimeout(async () => {
+      setLoading(true);
+      const { picture } = await takePictureAsync();
+      console.log('Picture has been taken!')
       setLoading(false);
+
       goNextSight();
-      startUploadAsync(picture);
-    }, 200);
+
+      const uploadResult = await startUploadAsync(picture);
+      console.log('Upload has succeed!')
+    }, 150);
   }, []);
 
   const controls = [{
