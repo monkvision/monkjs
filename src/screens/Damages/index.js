@@ -24,7 +24,7 @@ import {
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
-import { useTheme } from 'react-native-paper';
+import { useTheme, Portal } from 'react-native-paper';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import useDamages from './useDamages';
 
@@ -172,20 +172,22 @@ export default () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <CreateDamageForm
-        theme={theme}
-        isOpen={bottomsheetIsOpen}
-        onClose={() => { handleReset(); handleCloseBottomSheet(); }}
-        onSubmit={createDamageRequest}
-        onCameraOpen={handleHideNavigationBar}
-        onCameraClose={handleShowNavigationBar}
-        onReset={handleReset}
-        isLoading={damageIsLoading}
-        currentDamage={currentDamage}
-        onChangeCurrentDamage={onChangeCurrentDamage}
-        damagePicturesState={damagePicturesState}
-        isDamageValid={isDamageValid}
-      />
+      <Portal.Host>
+        <CreateDamageForm
+          theme={theme}
+          isOpen={bottomsheetIsOpen}
+          onClose={() => { handleReset(); handleCloseBottomSheet(); }}
+          onSubmit={createDamageRequest}
+          onCameraOpen={handleHideNavigationBar}
+          onCameraClose={handleShowNavigationBar}
+          onReset={handleReset}
+          isLoading={damageIsLoading}
+          currentDamage={currentDamage}
+          onChangeCurrentDamage={onChangeCurrentDamage}
+          damagePicturesState={damagePicturesState}
+          isDamageValid={isDamageValid}
+        />
+      </Portal.Host>
       <View style={styles.damages}>
         <DamagesView
           theme={theme}
