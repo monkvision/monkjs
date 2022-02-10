@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   buttonLabel: { color: '#FFFFFF' },
   validationButton: {
     margin: spacing(2),
-    flex: 0.5,
+    flex: 1,
   },
 });
 
