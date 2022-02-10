@@ -76,7 +76,7 @@ function SVGComponent({
       {...props}
       id={id}
       onClick={() => onPress(id, elementTag)}
-      onPress={onPress}
+      onPress={() => onPress(id, elementTag)}
       fill={getFillColor(id, fill)}
       stroke={getStroke(id, stroke)}
     >
