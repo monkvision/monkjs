@@ -18,10 +18,11 @@ export default function App() {
 
   const handleCapture = useCallback(async (state, api, event) => {
     event.preventDefault();
+    setLoading(true);
+
     const { takePictureAsync, startUploadAsync, goNextSight } = api;
 
     setTimeout(async () => {
-      setLoading(true);
       const { picture } = await takePictureAsync();
       console.log('Picture has been taken!')
       setLoading(false);
@@ -29,8 +30,8 @@ export default function App() {
       goNextSight();
 
       const uploadResult = await startUploadAsync(picture);
-      console.log('Upload has succeed!')
-    }, 150);
+      console.log('Upload has succeeded!')
+    }, 200);
   }, []);
 
   const controls = [{
