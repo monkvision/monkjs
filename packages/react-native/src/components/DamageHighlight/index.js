@@ -6,7 +6,7 @@ import isEmpty from 'lodash.isempty';
 import DamageImage from '../DamageImage';
 import useImageDamage from '../../hooks/useDamageImage';
 
-const DELAY_TAP = 500;
+const DELAY_TAP = 300;
 
 export default function DamageHighlight({
   backgroundOpacity,
@@ -31,11 +31,28 @@ export default function DamageHighlight({
     x: 0,
     y: 0,
   });
+  const [originPosition, setOriginPosition] = useState({
+    x: 0,
+    y: 0,
+  });
 
   const [RATIO_X, RATIO_Y] = getSvgRatio;
 
   const handlePress = useCallback(
     (e, type) => {
+      const {
+        x,
+        y,
+      } = Platform.select({
+        native: {
+          x: e.nativeEvent.locationX,
+          y: e.nativeEvent.locationY,
+        },
+        default: {
+          x: e.nativeEvent.layerX,
+          y: e.nativeEvent.layerY,
+        },
+      });
       if (touchable) {
         if (type === 'up') {
           setPress(false);
@@ -44,19 +61,6 @@ export default function DamageHighlight({
           if (lastPress && now - lastPress < DELAY_TAP) {
             setZoom((prevState) => (prevState === 1 ? 0.35 : 1));
             if (zoom === 1) {
-              const {
-                x,
-                y,
-              } = Platform.select({
-                native: {
-                  x: e.nativeEvent.locationX,
-                  y: e.nativeEvent.locationY,
-                },
-                default: {
-                  x: e.nativeEvent.layerX,
-                  y: e.nativeEvent.layerY,
-                },
-              });
               setPosition({
                 x: (x - 100) * RATIO_X,
                 y: (y - 100) * RATIO_Y,
@@ -74,6 +78,10 @@ export default function DamageHighlight({
         if (type === 'down') {
           setPress(true);
           setShowPolygon(false);
+          setOriginPosition({
+            x,
+            y,
+          });
         }
       }
     },
@@ -100,16 +108,16 @@ export default function DamageHighlight({
       });
       setPosition((prevstate) => (Platform.select({
         default: {
-          x: prevstate.x - x * (e.movementX / 100),
-          y: prevstate.y - y * (e.movementY / 100),
+          x: prevstate.x - x * (e.movementX / 150),
+          y: prevstate.y - y * (e.movementY / 150),
         },
         native: {
-          x: prevstate.x + (x * ((x - prevstate.x) / 500)),
-          y: prevstate.y + (y * ((y - prevstate.y) / 500)),
+          x: prevstate.x + ((originPosition.x - x) / 10),
+          y: prevstate.y + ((originPosition.y - y) / 10),
         },
       })));
     },
-    [press, touchable],
+    [originPosition, press, touchable],
   );
 
   const polygon = useMemo(() => (
