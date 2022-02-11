@@ -1,124 +1,27 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Platform, View } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import { View } from 'react-native';
 import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import DamageImage from '../DamageImage';
 import useImageDamage from '../../hooks/useDamageImage';
+import useDamageHighlightEvents from './hooks/useDamageHighlightEvents';
 
-const DELAY_TAP = 300;
-
-export default function DamageHighlight({
-  backgroundOpacity,
-  image,
-  polygons,
-  polygonsProps,
-  touchable,
-  width,
-}) {
-  const {
-    state: {
-      width: imageWidth,
-      height: imageHeight,
-    },
-    getSvgRatio,
+function DamageHighlight({ backgroundOpacity, image, polygons, polygonsProps, touchable, width }) {
+  const { state: { width: imageWidth, height: imageHeight }, getSvgRatio,
   } = useImageDamage(image, width);
-  const [press, setPress] = useState(false);
-  const [showPolygon, setShowPolygon] = useState(true);
-  const [lastPress, setLastPress] = useState(null);
-  const [zoom, setZoom] = useState(1);
-  const [position, setPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-  const [originPosition, setOriginPosition] = useState({
-    x: 0,
-    y: 0,
-  });
 
-  const [RATIO_X, RATIO_Y] = getSvgRatio;
+  const [ratioX, ratioY] = getSvgRatio;
 
-  const handlePress = useCallback(
-    (e, type) => {
-      const {
-        x,
-        y,
-      } = Platform.select({
-        native: {
-          x: e.nativeEvent.locationX,
-          y: e.nativeEvent.locationY,
-        },
-        default: {
-          x: e.nativeEvent.layerX,
-          y: e.nativeEvent.layerY,
-        },
-      });
-      if (touchable) {
-        if (type === 'up') {
-          setPress(false);
-          setShowPolygon(true);
-          const now = Date.now();
-          if (lastPress && now - lastPress < DELAY_TAP) {
-            setZoom((prevState) => (prevState === 1 ? 0.35 : 1));
-            if (zoom === 1) {
-              setPosition({
-                x: (x - 100) * RATIO_X,
-                y: (y - 100) * RATIO_Y,
-              });
-            } else {
-              setPosition({
-                x: 0,
-                y: 0,
-              });
-            }
-          } else {
-            setLastPress(now);
-          }
-        }
-        if (type === 'down') {
-          setPress(true);
-          setShowPolygon(false);
-          setOriginPosition({
-            x,
-            y,
-          });
-        }
-      }
-    },
-    [touchable, lastPress, zoom, RATIO_X, RATIO_Y],
-  );
+  const {
+    handleDrag,
+    handlePress,
+    position,
+    zoom,
+    showPolygon } = useDamageHighlightEvents({ touchable, ratioX, ratioY });
 
-  const handleDrag = useCallback(
-    (e) => {
-      if (!press || !touchable) {
-        return;
-      }
-      const {
-        x,
-        y,
-      } = Platform.select({
-        native: {
-          x: e.nativeEvent.locationX,
-          y: e.nativeEvent.locationY,
-        },
-        default: {
-          x: e.nativeEvent.layerX,
-          y: e.nativeEvent.layerY,
-        },
-      });
-      setPosition((prevstate) => (Platform.select({
-        default: {
-          x: prevstate.x - x * (e.movementX / 150),
-          y: prevstate.y - y * (e.movementY / 150),
-        },
-        native: {
-          x: prevstate.x + ((originPosition.x - x) / 10),
-          y: prevstate.y + ((originPosition.y - y) / 10),
-        },
-      })));
-    },
-    [originPosition, press, touchable],
-  );
+  const handleMouseUp = useCallback((e) => handlePress(e, 'up'), [handlePress]);
+  const handleMouseDown = useCallback((e) => handlePress(e, 'down'), [handlePress]);
 
   const polygon = useMemo(() => (
     polygons.map((p, index) => (
@@ -143,11 +46,11 @@ export default function DamageHighlight({
         width={imageWidth}
         height={imageHeight}
         onMouseMove={handleDrag}
-        onMouseUp={(e) => handlePress(e, 'up')}
-        onMouseDown={(e) => handlePress(e, 'down')}
+        onMouseUp={handleMouseUp}
+        onMouseDown={handleMouseDown}
         onTouchMove={handleDrag}
-        onTouchEnd={(e) => handlePress(e, 'up')}
-        onTouchStart={(e) => handlePress(e, 'down')}
+        onTouchEnd={handleMouseUp}
+        onTouchStart={handleMouseDown}
         viewBox={`${position.x} ${position.y} ${image.width * zoom} ${image.height * zoom}`}
       >
         <DamageImage name={image.id} source={image.source} />
@@ -160,11 +63,11 @@ export default function DamageHighlight({
       width={imageWidth}
       height={imageHeight}
       onMouseMove={handleDrag}
-      onMouseUp={(e) => handlePress(e, 'up')}
-      onMouseDown={(e) => handlePress(e, 'down')}
+      onMouseUp={handleMouseUp}
+      onMouseDown={handleMouseDown}
       onTouchMove={handleDrag}
-      onTouchEnd={(e) => handlePress(e, 'up')}
-      onTouchStart={(e) => handlePress(e, 'down')}
+      onTouchEnd={handleMouseUp}
+      onTouchStart={handleMouseDown}
       viewBox={`${position.x} ${position.y} ${image.width * zoom} ${image.height * zoom}`}
     >
       <Defs>
@@ -192,17 +95,17 @@ DamageHighlight.propTypes = {
   height: PropTypes.number,
   image: PropTypes.shape({
     height: PropTypes.number,
-    id: PropTypes.string, // image's uuid
+    id: PropTypes.string,
     source: PropTypes.shape({
-      uri: PropTypes.string, // "https://my_image_path.monk.ai"
+      uri: PropTypes.string,
     }),
-    width: PropTypes.number, // original size of the image
+    width: PropTypes.number,
   }),
   polygons: PropTypes.arrayOf(
     PropTypes.arrayOf(
       PropTypes.arrayOf(PropTypes.number),
     ),
-  ), // [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]]
+  ),
   polygonsProps: PropTypes.shape({
     opacity: PropTypes.number,
     stroke: PropTypes.shape({
@@ -229,3 +132,4 @@ DamageHighlight.defaultProps = {
   touchable: false,
   width: 400,
 };
+export default DamageHighlight;
