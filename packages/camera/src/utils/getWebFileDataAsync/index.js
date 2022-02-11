@@ -19,12 +19,11 @@ export default async function getWebFileData(picture, sights, inspectionId) {
   const filename = `${id}-${inspectionId}.jpg`;
   const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
 
-  const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
   const json = JSON.stringify({
-    acquisition,
+    acquisition: { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image },
     tasks: ['damage_detection'],
     additional_data: {
-      ...sights.current.metadata,
+      ...sights.state.current.metadata,
       width: picture.width,
       height: picture.height,
       exif: picture.exif,

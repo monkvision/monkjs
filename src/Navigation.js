@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.LANDING}>
+      <Stack.Navigator initialRouteName={names.TEST}>
 
         {process.env.NODE_ENV !== 'production' ? (
           <Stack.Screen

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '@expo/match-media';
 import { useMediaQuery } from 'react-responsive';
-import { Image, View, StyleSheet, Text, Platform } from 'react-native';
+import { ActivityIndicator, Image, View, StyleSheet, Text, Platform } from 'react-native';
 
 import Overlay from '../Overlay';
 
@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     opacity: 0.5,
   },
+  loader: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: '-50%', translateY: '-50%' }],
+  },
   smRoot: {
     width: 100,
     height: 100,
@@ -53,13 +59,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const colorsVariant = (colors) => ({
-  idle: 'white',
-  rejected: colors.error,
-  pending: colors.primary,
-  fulfilled: colors.primary,
-});
-
 export default function Thumbnail({
   colors,
   label,
@@ -75,7 +74,7 @@ export default function Thumbnail({
     <View
       style={[
         styles.root,
-        { borderColor: colorsVariant(colors)[uploadStatus] },
+        { borderColor: colors[uploadStatus] },
         isSmallScreen ? styles.smRoot : undefined,
         style,
       ]}
@@ -87,7 +86,7 @@ export default function Thumbnail({
           source={picture}
           style={[
             styles.picture,
-            { borderColor: colorsVariant(colors)[uploadStatus] },
+            { borderColor: colors[uploadStatus] },
             isSmallScreen ? styles.smPicture : undefined,
           ]}
         />
@@ -101,14 +100,19 @@ export default function Thumbnail({
         label={label}
       />
       <Text style={styles.text}>{label}</Text>
+      {uploadStatus === 'pending' ? (
+        <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
+      ) : null}
     </View>
   );
 }
 
 Thumbnail.propTypes = {
   colors: PropTypes.shape({
-    error: PropTypes.string,
-    primary: PropTypes.string,
+    rejected: PropTypes.string,
+    fulfilled: PropTypes.string,
+    pending: PropTypes.string,
+    idle: PropTypes.string,
   }),
   label: PropTypes.string,
   overlay: PropTypes.string,
@@ -122,8 +126,10 @@ Thumbnail.propTypes = {
 
 Thumbnail.defaultProps = {
   colors: {
-    error: '#fa603d',
-    primary: '#274b9f',
+    rejected: '#fa603d',
+    fulfilled: '#36b0c2',
+    pending: '#ffcc66',
+    idle: 'white',
   },
   label: '',
   picture: null,

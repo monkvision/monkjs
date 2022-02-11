@@ -2,13 +2,13 @@ import { useReducer } from 'react';
 
 import Actions from '../../actions';
 
-function init({ sightsIds, initialState }) {
+function init({ sightIds, initialState }) {
   if (initialState) { return initialState; }
 
   const state = {};
   const initialUploadState = { picture: null, status: 'idle', error: null, uploadCount: 0 };
 
-  sightsIds.forEach((id) => {
+  sightIds.forEach((id) => {
     state[id] = { id, ...initialUploadState };
   });
 
@@ -48,7 +48,7 @@ function reducer(state, action) {
  * @param ids
  * @return {{dispatch: ({}) => void, name: string, state: S}}
  */
-export default function useUploads({ sightsIds, initialState }) {
-  const [state, dispatch] = useReducer(reducer, { sightsIds, initialState }, init);
+export default function useUploads({ sightIds, initialState }) {
+  const [state, dispatch] = useReducer(reducer, { sightIds, initialState }, init);
   return { state, dispatch, name: 'uploads' };
 }

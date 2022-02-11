@@ -33,14 +33,11 @@ export default function Inspector({ inspectionId }) {
     const { takePictureAsync, startUploadAsync, goNextSight } = api;
 
     setTimeout(async () => {
-      const { picture } = await takePictureAsync();
-      console.log('Picture has been taken!')
+      const picture = await takePictureAsync();
       setLoading(false);
 
       goNextSight();
-
-      const uploadResult = await startUploadAsync(picture);
-      console.log('Upload has succeeded!')
+      startUploadAsync(picture);
     }, 200);
   }, []);
 

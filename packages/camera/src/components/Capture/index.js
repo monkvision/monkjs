@@ -2,8 +2,8 @@ import { monkApi } from '@monkvision/corejs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import getWebFileData from 'utils/getWebFileData';
 
+import getWebFileDataAsync from '../../utils/getWebFileDataAsync';
 import log from '../../utils/log';
 
 import useSettings from '../../hooks/useSettings';
@@ -73,18 +73,18 @@ export default function Capture({
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
 
-  const settings = useSettings({ camera, initialState });
+  const settings = useSettings({ camera, initialState: initialState.settings });
 
   /**
    * @type {{dispatch: (function({}): void), name: string, state: {
    * current, ids, remainingPictures, takenPictures: {}, tour, }}|*}
    */
-  const sights = useSights({ sightIds, initialState });
+  const sights = useSights({ sightIds, initialState: initialState.sights });
 
   /**
    * @type {{dispatch: (function({}): void), name: string, state: S}|*}
    */
-  const uploads = useUploads({ sightIds, initialState });
+  const uploads = useUploads({ sightIds, initialState: initialState.uploads });
 
   const { current, tour } = sights.state;
   const overlay = current?.metadata?.overlay || '';
@@ -115,7 +115,7 @@ export default function Capture({
     sights.dispatch({ type: Actions.sights.NEXT_SIGHT });
   }, [sights]);
 
-  const startUploadAsync = useCallback(async ({ picture }) => {
+  const startUploadAsync = useCallback(async (picture) => {
     const { dispatch } = uploads;
 
     if (!inspectionId) {
@@ -131,7 +131,7 @@ export default function Capture({
         payload: { id, picture, status: 'pending', label },
       });
 
-      const data = getWebFileData(picture, sights, inspectionId);
+      const data = await getWebFileDataAsync(picture, sights, inspectionId);
       const result = await monkApi.images.addOne({ inspectionId, data });
 
       dispatch({
@@ -144,7 +144,7 @@ export default function Capture({
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, status: 'error', error: err },
+        payload: { id, status: 'rejected', error: err },
       });
 
       return err;
@@ -192,9 +192,10 @@ export default function Capture({
             containerStyle={sightsContainerStyle}
             dispatch={sights.dispatch}
             footer={footer}
-            offline={offline}
             navigationOptions={navigationOptions}
+            offline={offline}
             thumbnailStyle={thumbnailStyle}
+            uploads={uploads}
             {...sights.state}
           />
         )}
@@ -267,9 +268,9 @@ Capture.defaultProps = {
   footer: null,
   fullscreen: null,
   initialState: {
-    settings: null,
-    sights: null,
-    uploads: null,
+    settings: undefined,
+    sights: undefined,
+    uploads: undefined,
   },
   inspectionId: null,
   loading: false,
