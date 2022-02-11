@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Image, View, TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 
 import noop from 'lodash.noop';
 import PropTypes from 'prop-types';

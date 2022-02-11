@@ -1,5 +1,6 @@
 import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@monkvision/corejs';
-import { sightMasks, utils } from '@monkvision/react-native';
+import { sightMasks } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 import { spacing } from 'config/theme';

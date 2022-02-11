@@ -18,12 +18,16 @@
     "start:https": "expo start --https",
     "start:documentation": "cd website && yarn run docs:start",
     "watch:camera": "cd ./packages/camera && yarn watch",
+    "watch:visualization": "cd ./packages/visualization && yarn watch",
+    "watch:toolkit": "cd ./packages/toolkit && yarn watch",
     "watch:corejs": "cd ./packages/corejs && yarn watch",
     "watch:react-native": "cd ./packages/react-native && yarn watch",
     "watch:react-native-views": "cd ./packages/react-native-views && yarn watch",
     "watch:sights": "cd ./packages/sights && yarn watch",
-    "watch:all": "concurrently \"yarn run watch:camera\" \"yarn run watch:corejs\" \"yarn run watch:react-native\" \"yarn run watch:react-native-views\" \"yarn run watch:sights\"",
+    "watch:all": "concurrently \"yarn run watch:visualization\" \"yarn run watch:camera\" \"yarn run watch:corejs\" \"yarn run watch:react-native\" \"yarn run watch:react-native-views\" \"yarn run watch:sights\"",
     "build:camera": "cd ./packages/camera && yarn run build",
+    "build:visualization": "cd ./packages/visualization && yarn run build",
+    "build:toolkit": "cd ./packages/toolkit && yarn run build",
     "build:corejs": "cd ./packages/corejs && yarn run build",
     "build:react-native": "cd ./packages/react-native && yarn run build",
     "build:react-native-views": "cd ./packages/react-native-views && yarn run build",
@@ -134,6 +138,8 @@
     "@monkvision/corejs": "*",
     "@monkvision/react-native": "*",
     "@monkvision/react-native-views": "*",
-    "@monkvision/sights": "*"
+    "@monkvision/sights": "*",
+    "@monkvision/visualization": "*",
+    "@monkvision/toolkit": "*"
   }
 }

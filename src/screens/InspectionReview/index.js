@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import { getOneInspectionById } from '@monkvision/corejs';
-import { propTypes } from '@monkvision/react-native';
+import { propTypes } from '@monkvision/toolkit';
 import { PicturesSummaryView } from '@monkvision/react-native-views';
 
 import { DAMAGES } from 'screens/names';

@@ -5,7 +5,7 @@ import { Modal, Card, Button, Portal, useTheme } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 import noop from 'lodash.noop';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 
 const { spacing } = utils.styles;
 

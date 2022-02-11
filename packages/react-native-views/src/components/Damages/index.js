@@ -2,7 +2,7 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
 import { Text, View } from 'react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { Provider as PaperProvider } from 'react-native-paper';
 import useComputedParts from '../../hooks/useComputedParts';
 import usePartDamages from '../../hooks/usePartDamages';

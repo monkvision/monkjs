@@ -31,7 +31,7 @@ import {
   taskStatuses,
 } from '@monkvision/corejs';
 
-import { DamageHighlight, usePolygons } from '@monkvision/react-native';
+import { DamageHighlight, usePolygons } from '@monkvision/visualization';
 
 import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
 import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
@@ -45,10 +45,6 @@ const getDamageViews = (damageId, images) => {
     .filter((dmgViews) => !isEmpty(dmgViews));
   return damageViews.concat.apply([], damageViews);
 };
-
-const getDamageImages = (damageViews, images) => damageViews.map(
-  (dmgView) => images.find((img) => img.id === dmgView.image_region?.image_id),
-);
 
 const styles = StyleSheet.create({
   root: {
@@ -205,11 +201,6 @@ export default () => {
   const damageViews = useMemo(
     () => getDamageViews(damageId, inspection?.images ?? []),
     [damageId, inspection.images],
-  );
-
-  const damageImages = useMemo(
-    () => getDamageImages(damageViews, inspection?.images ?? []),
-    [damageViews, inspection.images],
   );
 
   useLayoutEffect(() => {

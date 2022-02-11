@@ -4,7 +4,7 @@ import { StyleSheet, Text } from 'react-native';
 import { DataTable, Button, List, withTheme } from 'react-native-paper';
 import { noop, startCase } from 'lodash';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import BottomSheet from '../../BottomSheet';
 
 import DamagePicturesPreview from '../DamagePicturesPreview';

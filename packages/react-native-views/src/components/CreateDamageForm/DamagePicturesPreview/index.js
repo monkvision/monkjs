@@ -4,7 +4,7 @@ import { Image, ScrollView, StyleSheet } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
 
 import Proptypes from 'prop-types';
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { damagePicturesPropType } from '../proptypes';
 
 const spacing = utils.styles.spacing;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 
 import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Provider, withTheme } from 'react-native-paper';

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 import isEmpty from 'lodash.isempty';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { spacing } from 'config/theme';
 
 import { View, StyleSheet, Platform } from 'react-native';
