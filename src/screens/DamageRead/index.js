@@ -148,6 +148,7 @@ export default () => {
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
+  const [previewPolygons, setPreviewPolygons] = useState(false);
   const [previewImage, setPreviewImage] = useState({});
   const [getImage, getPolygons] = usePolygons();
 
@@ -179,8 +180,9 @@ export default () => {
     setDeleteDialogOpen(false);
   }, []);
 
-  const openPreviewDialog = useCallback((image) => {
+  const openPreviewDialog = useCallback((image, polygon) => {
     setPreviewImage(image);
+    setPreviewPolygons(polygon);
     setPreviewDialogOpen(true);
   }, []);
 
@@ -245,20 +247,19 @@ export default () => {
           {!isEmpty(inspection.images) ? (
             <VirtualizedList
               horizontal
-              data={inspection.images}
+              data={damageImages}
               initialNumToRender={10}
               keyExtractor={(item, index) => String(index)}
               getItemCount={(d) => d?.length}
               getItem={(items, index) => items[index]}
-              renderItem={({ item: image, index }) => (
+              renderItem={({
+                item: image,
+                index,
+              }) => (
                 <View syle={styles.images}>
                   <TouchableRipple
                     key={String(index)}
-                    onPress={() => openPreviewDialog({
-                      name: image.name,
-                      path: image.path,
-                      index,
-                    })}
+                    onPress={() => openPreviewDialog(getImage(image), getPolygons(image.id, damageViews)[0])}
                   >
                     <DamageHighlight
                       image={getImage(image)}
@@ -351,6 +352,8 @@ export default () => {
         isOpen={isPreviewDialogOpen}
         images={inspection.images.map((i) => ({ url: i.path }))}
         index={previewImage.index}
+        image={previewImage}
+        polygons={previewPolygons}
         handleDismiss={handleDismissPreviewDialog}
       />
     </SafeAreaView>

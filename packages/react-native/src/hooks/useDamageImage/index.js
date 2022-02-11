@@ -2,9 +2,12 @@ import { useCallback, useMemo, useState } from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default function useImageDamage(image) {
-  const width = Math.min(Dimensions.get('window').width - 50, 400);
-  const height = image.height * (width / image.width);
+export default function useImageDamage(image, originalWidth) {
+  const computedHeight = image.height * (originalWidth / image.width);
+  const isOversize = Dimensions.get('window').width <= originalWidth || Dimensions.get('window').height <= computedHeight;
+  const ratio = isOversize ? Math.min((Dimensions.get('window').width * 0.9) / originalWidth, (Dimensions.get('window').height * 0.9) / computedHeight) : 1;
+  const width = originalWidth * ratio;
+  const height = computedHeight * ratio;
 
   const [ellipseW, setEllipseW] = useState(null);
   const [ellipseH, setEllipseH] = useState(null);
