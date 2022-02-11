@@ -91,8 +91,6 @@ export default function Sights({
     }
   }, [dispatch, navigationOptions.allowNavigate]);
 
-  console.log(uploads);
-
   return (
     <ScrollView
       endFillColor="#000"
@@ -123,6 +121,7 @@ export default function Sights({
         {Object.values(tour).map(({ id, label, overlay }) => (
           <Thumbnail
             key={`thumbnail-${id}`}
+            isCurrent={current.metadata.id === id}
             label={label}
             overlay={overlay}
             picture={takenPictures[id]}

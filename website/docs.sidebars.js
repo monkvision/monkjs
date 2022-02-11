@@ -6,9 +6,6 @@ module.exports = {
       'js/guides/setting-up',
       'js/guides/picturing',
       'js/guides/authenticating',
-      // 'js/guides/analyzing',
-      // 'js/guides/manipulating',
-      // 'js/guides/displaying',
     ],
     collapsed: false,
   }, {
@@ -22,7 +19,6 @@ module.exports = {
           'js/api/damages',
           'js/api/images',
           'js/api/inspections',
-          'js/api/sight',
           'js/api/tasks',
           'js/api/views',
         ],

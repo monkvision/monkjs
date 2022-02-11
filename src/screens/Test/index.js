@@ -33,6 +33,7 @@ export default function Test() {
         inspectionId="9d3cca7a-cfd0-8323-9d56-6805c8f693be"
         controls={controls}
         loading={loading}
+        sightIds={['0U14gFyk', '1-gwCM0m', '2RFF3Uf8', '2wVqenwP']}
       />
     </SafeAreaView>
   );
