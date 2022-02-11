@@ -20,7 +20,6 @@ const useAvailable = () => {
   useEffect(() => {
     if (!isAlwaysAvailable && !available) {
       (async () => {
-        log([Platform.OS, getOS()]);
         log([`Awaiting for camera availability...`]);
 
         const isAvailable = await ExpoCamera.isAvailableAsync();

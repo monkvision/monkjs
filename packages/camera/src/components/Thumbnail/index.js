@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import '@expo/match-media';
 import { useMediaQuery } from 'react-responsive';
-import { Image, View, StyleSheet, Text, Platform } from 'react-native';
+import { ActivityIndicator, Image, View, StyleSheet, Text } from 'react-native';
 
 import Overlay from '../Overlay';
 
@@ -13,11 +13,15 @@ const styles = StyleSheet.create({
     height: 125,
     margin: 8,
     borderRadius: 5,
-    borderWidth: 1.5,
+    borderWidth: 2,
+    shadowColor: 'white',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: '2px 2px',
     overflow: 'hidden',
-    ...Platform.select({
-      web: { cursor: 'pointer' },
-    }),
   },
   overlay: {
     height: 100,
@@ -30,6 +34,12 @@ const styles = StyleSheet.create({
     transform: [{ rotateY: '180deg' }],
     borderBottomWidth: 1.5,
     opacity: 0.5,
+  },
+  loader: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: '-50%', translateY: '-50%' }],
   },
   smRoot: {
     width: 100,
@@ -53,29 +63,29 @@ const styles = StyleSheet.create({
   },
 });
 
-const colorsVariant = (colors) => ({
-  idle: 'white',
-  rejected: colors.error,
-  pending: colors.primary,
-  fulfilled: colors.primary,
-});
-
 export default function Thumbnail({
   colors,
+  isCurrent,
   label,
   overlay,
   picture,
+  style,
   uploadStatus,
   ...passThroughProps
 }) {
   const isSmallScreen = useMediaQuery({ maxWidth: 720 });
+  const borderColor = useMemo(() => {
+    if (isCurrent) { return colors.current; }
+    return colors[uploadStatus];
+  }, [colors, isCurrent, uploadStatus]);
 
   return (
     <View
       style={[
         styles.root,
-        { borderColor: colorsVariant(colors)[uploadStatus] },
+        { borderColor },
         isSmallScreen ? styles.smRoot : undefined,
+        style,
       ]}
       {...passThroughProps}
     >
@@ -85,7 +95,7 @@ export default function Thumbnail({
           source={picture}
           style={[
             styles.picture,
-            { borderColor: colorsVariant(colors)[uploadStatus] },
+            { borderColor: colors[uploadStatus] },
             isSmallScreen ? styles.smPicture : undefined,
           ]}
         />
@@ -99,15 +109,22 @@ export default function Thumbnail({
         label={label}
       />
       <Text style={styles.text}>{label}</Text>
+      {uploadStatus === 'pending' ? (
+        <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
+      ) : null}
     </View>
   );
 }
 
 Thumbnail.propTypes = {
   colors: PropTypes.shape({
-    error: PropTypes.string,
-    primary: PropTypes.string,
+    current: PropTypes.string,
+    fulfilled: PropTypes.string,
+    idle: PropTypes.string,
+    pending: PropTypes.string,
+    rejected: PropTypes.string,
   }),
+  isCurrent: PropTypes.bool,
   label: PropTypes.string,
   overlay: PropTypes.string,
   picture: PropTypes.shape({
@@ -120,9 +137,13 @@ Thumbnail.propTypes = {
 
 Thumbnail.defaultProps = {
   colors: {
-    error: '#fa603d',
-    primary: '#274b9f',
+    current: '#ffcc66',
+    fulfilled: '#F3F7FE',
+    idle: '#F3F7FE',
+    pending: '#43494a',
+    rejected: '#fa603d',
   },
+  isCurrent: false,
   label: '',
   picture: null,
   overlay: '',

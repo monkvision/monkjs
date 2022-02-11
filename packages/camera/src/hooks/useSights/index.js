@@ -4,10 +4,12 @@ import sightsData from '@monkvision/sights/dist';
 import Actions from '../../actions';
 import log from '../../utils/log';
 
-function init(ids) {
+function init({ sightIds, initialState }) {
+  if (initialState) { return initialState; }
+
   const tour = Object.values(sightsData)
-    .filter(({ id }) => ids.includes(id))
-    .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id));
+    .filter(({ id }) => sightIds.includes(id))
+    .sort((a, b) => sightIds.indexOf(a.id) - sightIds.indexOf(b.id));
 
   const firstSight = tour[0];
 
@@ -17,8 +19,8 @@ function init(ids) {
       index: 0,
       metadata: firstSight,
     },
-    ids,
-    remainingPictures: ids.length,
+    ids: sightIds,
+    remainingPictures: sightIds.length,
     takenPictures: {},
     tour,
   });
@@ -83,6 +85,11 @@ function reducer(state, action) {
   }
 }
 
-export default function useSights(ids) {
-  return useReducer(reducer, ids, init);
+/**
+ * @param ids
+ * @return {{dispatch: ({}) => void, name: string, state: S}}
+ */
+export default function useSights({ sightIds, initialState }) {
+  const [state, dispatch] = useReducer(reducer, { sightIds, initialState }, init);
+  return { state, dispatch, name: 'sights' };
 }

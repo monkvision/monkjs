@@ -19,9 +19,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Controls({ api, containerStyle, elements, ...passThroughProps }) {
+export default function Controls({ api, containerStyle, elements, state, ...passThroughProps }) {
   const { height: windowHeight } = useWindowDimensions();
-  const handlePress = useCallback((onPress) => () => onPress(api), [api]);
+  const handlePress = useCallback(
+    (onPress) => (e) => onPress(state, api, e),
+    [api, state],
+  );
 
   return (
     <View
@@ -51,7 +54,9 @@ export default function Controls({ api, containerStyle, elements, ...passThrough
 
 Controls.propTypes = {
   api: PropTypes.shape({
+    camera: PropTypes.shape({ takePictureAsync: PropTypes.func }),
     goNextSight: PropTypes.func,
+    goPrevSight: PropTypes.func,
     startUploadAsync: PropTypes.func,
     takePictureSync: PropTypes.func,
   }),
@@ -61,12 +66,18 @@ Controls.propTypes = {
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
   })),
+  state: PropTypes.shape({
+    settings: PropTypes.objectOf(PropTypes.any),
+    sights: PropTypes.objectOf(PropTypes.any),
+    uploads: PropTypes.objectOf(PropTypes.any),
+  }),
 };
 
 Controls.defaultProps = {
   api: {},
   containerStyle: null,
   elements: [],
+  state: {},
 };
 
 Controls.CaptureButtonProps = {

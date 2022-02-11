@@ -70,31 +70,38 @@ function Gradient() {
 }
 
 export default function Sights({
-  buttonOfflineProps,
+  contentContainerStyle,
   current,
   dispatch,
   footer,
   ids,
+  navigationOptions,
+  offline,
   takenPictures,
+  thumbnailStyle,
   tour,
+  uploads,
 }) {
   const { height: windowHeight } = useWindowDimensions();
 
-  const handlePress = useCallback((id) => {
-    dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
-  }, [dispatch]);
+  const handlePress = useCallback((id, e) => {
+    if (navigationOptions.allowNavigate) {
+      e.preventDefault();
+      dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
+    }
+  }, [dispatch, navigationOptions.allowNavigate]);
 
   return (
     <ScrollView
       endFillColor="#000"
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
-      contentContainerStyle={{
+      contentContainerStyle={[{
         ...Platform.select({
           native: { maxHeight: windowHeight },
           default: { maxHeight: '100vh' },
-        }),
-      }}
+        }, contentContainerStyle),
+      }]}
     >
       <View style={styles.stickyHeader}>
         <Gradient />
@@ -103,10 +110,10 @@ export default function Sights({
             {`${current.index + 1} / ${ids.length} `}
           </Text>
         </View>
-        {buttonOfflineProps && (
+        {offline && (
           <View style={styles.switchContainer}>
-            <Switch {...buttonOfflineProps} />
-            <Text style={styles.switchText}>{buttonOfflineProps.text}</Text>
+            <Switch {...offline} />
+            <Text style={styles.switchText}>{offline.text}</Text>
           </View>
         )}
       </View>
@@ -114,11 +121,14 @@ export default function Sights({
         {Object.values(tour).map(({ id, label, overlay }) => (
           <Thumbnail
             key={`thumbnail-${id}`}
+            isCurrent={current.metadata.id === id}
             label={label}
             overlay={overlay}
             picture={takenPictures[id]}
-            onPress={() => handlePress(id)}
-            onClick={() => handlePress(id)}
+            onPress={(e) => handlePress(id, e)}
+            onClick={(e) => handlePress(id, e)}
+            style={thumbnailStyle}
+            uploadStatus={uploads.state[id]?.status || 'idle'}
           />
         ))}
         <View style={styles.footer}>{footer}</View>
@@ -128,21 +138,46 @@ export default function Sights({
 }
 
 Sights.propTypes = {
-  buttonOfflineProps: PropTypes.objectOf(PropTypes.any),
-  current: PropTypes.shape({ index: PropTypes.number }).isRequired,
+  contentContainerStyle: PropTypes.objectOf(PropTypes.any),
+  current: PropTypes.shape({
+    index: PropTypes.number.isRequired,
+    metadata: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
   dispatch: PropTypes.func.isRequired,
   footer: PropTypes.element,
   ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+  navigationOptions: PropTypes.shape({
+    allowNavigate: PropTypes.bool,
+    allowRetake: PropTypes.bool,
+    allowSkip: PropTypes.bool,
+    retakeMaxTry: PropTypes.number,
+    retakeMinTry: PropTypes.number,
+  }).isRequired,
+  offline: PropTypes.objectOf(PropTypes.any),
   takenPictures: PropTypes.objectOf(PropTypes.object),
+  thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   tour: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
     overlay: PropTypes.string,
   })).isRequired,
+  uploads: PropTypes.shape({
+    dispatch: PropTypes.func.isRequired,
+    state: PropTypes.objectOf(PropTypes.shape({
+      error: PropTypes.string,
+      picture: PropTypes.objectOf(PropTypes.any),
+      status: PropTypes.oneOf(['idle', 'pending', 'fulfilled', 'rejected']),
+      uploadCount: PropTypes.number,
+    })),
+  }).isRequired,
 };
 
 Sights.defaultProps = {
-  buttonOfflineProps: null,
+  contentContainerStyle: {},
   footer: null,
+  offline: null,
   takenPictures: {},
+  thumbnailStyle: {},
 };
