@@ -52,10 +52,8 @@ export default () => {
       (event) => setOrientation(event.orientationInfo.orientation),
     );
 
-    // return a clean up function to unsubscribe from notifications
-    return () => {
-      ScreenOrientation.removeOrientationChangeListener(subscription);
-    };
+    // return a clean up function to unsubscribe from orientation
+    return () => ScreenOrientation.removeOrientationChangeListener(subscription);
   }, [isNotSupported]);
 
   return [orientation, {

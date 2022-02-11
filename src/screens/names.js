@@ -10,6 +10,7 @@ export const DISPLAY = 'display';
 
 export const INSPECTION_IMPORT = 'importInspection';
 export const INSPECTION_CREATE = 'createInspection';
+export const INSPECTION_VIN = 'createInspectionVin';
 export const INSPECTION_REVIEW = 'reviewInspection';
 export const INSPECTION_READ = 'readInspection';
 export const INSPECTION_UPDATE = 'updateInspection';

@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     zIndex: 10,
     backgroundColor: '#333',
   },
+  vinButton: {
+    position: 'absolute',
+    bottom: 20,
+  },
 });
 
 function CameraOverlay({ activeSightId, camera, fakeActivity, onShowAdvices }) {
@@ -38,6 +42,7 @@ function CameraOverlay({ activeSightId, camera, fakeActivity, onShowAdvices }) {
   const isMobileBrowser = useMobileBrowserConfig();
 
   const overlayWidth = isMobileBrowser ? width - SIDEBAR_WIDTH : '100%';
+  const isVin = activeSightId === 'vin';
   return (
     <View style={[styles.overLaps, { width: overlayWidth }]}>
       {maskCanMount && (
@@ -52,7 +57,7 @@ function CameraOverlay({ activeSightId, camera, fakeActivity, onShowAdvices }) {
       )}
       {fakeActivity && <ActivityIndicatorView />}
       {maskCanMount && (
-        <Components.Mask id={activeSightId} resizeMode="contain" style={styles.mask} width="100%" />
+        <Components.Mask id={activeSightId} resizeMode={isVin ? 'cover' : 'contain'} style={styles.mask} width="100%" />
       )}
     </View>
   );

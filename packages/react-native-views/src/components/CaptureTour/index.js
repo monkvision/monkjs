@@ -205,7 +205,7 @@ CaptureTour.defaultProps = {
   onTakePicture: noop,
   onSuccess: noop,
   sightIdsNotUploaded: [],
-  sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)),
+  sights: Object.values(values.sights.abstract).map((s) => new Sight(...s)).filter((sight) => sight.id !== 'vin'),
 };
 
 export default withTheme(CaptureTour);

@@ -3,7 +3,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
 
-import { INSPECTION_CREATE, INSPECTION_IMPORT } from 'screens/names';
+import { INSPECTION_VIN, INSPECTION_IMPORT } from 'screens/names';
 
 const styles = StyleSheet.create({
   inspectionButton: {
@@ -30,7 +30,7 @@ export default function InspectionButton() {
   const navigation = useNavigation();
 
   const handleTakePictures = useCallback(
-    () => navigation.navigate(INSPECTION_CREATE),
+    () => navigation.navigate(INSPECTION_VIN),
     [navigation],
   );
 

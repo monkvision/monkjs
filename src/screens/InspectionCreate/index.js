@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 
 import useUpload from 'hooks/useUpload';
@@ -18,9 +18,11 @@ export default () => {
   const navigation = useNavigation();
   const screen = useScreen();
   const requests = useRequests(screen);
+  const route = useRoute();
 
-  const { inspectionId } = screen.state;
-  const trueActivity = requests.createInspection.isLoading || screen.state.isUploading;
+  const { inspectionId } = route.params;
+
+  const trueActivity = screen.state.isUploading;
   const [fakeActivity] = useFakeActivity(trueActivity);
 
   const handleSuccess = useCallback(({ camera, pictures }) => {

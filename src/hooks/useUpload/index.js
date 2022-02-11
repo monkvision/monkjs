@@ -4,13 +4,13 @@ import { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-export default ({
+export default function useUpload({
   onLoading = noop,
   onSuccess = noop,
   onError = noop,
   inspectionId,
   taskName = 'damage_detection',
-}) => {
+}) {
   const dispatch = useDispatch();
 
   return useCallback(async (uri, id) => {
@@ -49,4 +49,4 @@ export default ({
       .then((res) => onSuccess(id, uri, res))
       .catch((err) => onError(id, err));
   }, [dispatch, inspectionId, onError, onLoading, onSuccess, taskName]);
-};
+}

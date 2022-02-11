@@ -60,6 +60,12 @@ export default function Navigation() {
         />
 
         <Stack.Screen
+          name={names.INSPECTION_VIN}
+          component={Screens.InspectionVin}
+          title="Vehicle id number"
+        />
+
+        <Stack.Screen
           name={names.INSPECTION_CREATE}
           component={Screens.InspectionCreate}
           options={{ headerShown: false }}

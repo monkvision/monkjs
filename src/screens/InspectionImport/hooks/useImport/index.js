@@ -2,8 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Dimensions, Platform } from 'react-native';
 
+import { taskStatuses, updateOneTaskOfInspection } from '@monkvision/corejs';
 import { utils } from '@monkvision/react-native';
 
+import useRequest from 'hooks/useRequest';
 import useUpload from 'hooks/useUpload';
 
 const { width, height } = Dimensions.get('window');
@@ -30,12 +32,32 @@ export default ({ pictures, setPictures, inspectionId }) => {
     onError,
   });
 
+  // vin payload
+  const ocrPayload = { inspectionId, taskName: 'images_ocr', data: { status: taskStatuses.TODO } };
+
+  // start the OCR task
+  const { request: startOcr } = useRequest(updateOneTaskOfInspection(ocrPayload), {}, false);
+
+  // upload with OCR task
+  const handleUploadVinPicture = useUpload({
+    inspectionId,
+    onSuccess: (id) => { onSuccess(id); startOcr(); },
+    onLoading,
+    onError,
+    taskName: {
+      name: 'images_ocr',
+      image_details: {
+        image_type: 'VIN',
+      } },
+  });
+
   // request media library permission
   const handleRequestMediaLibraryAccess = useCallback(async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     setAccess(granted);
   }, []);
 
+  // request access to camera roll
   useEffect(() => {
     handleRequestMediaLibraryAccess();
   }, [handleRequestMediaLibraryAccess]);
@@ -66,24 +88,24 @@ export default ({ pictures, setPictures, inspectionId }) => {
             if (image.id === id) { return { ...image, uri: result.uri }; }
             return image;
           }));
-          handleUploadPicture(result.uri, id);
+          if (id === 'vin') { handleUploadVinPicture(result.uri, id); } else { handleUploadPicture(result.uri, id); }
         } else {
           setPictures((prev) => prev.map((image) => {
             if (image.id === id) { return { ...image, id, uri: result.uri }; }
             return image;
           }));
-          handleUploadPicture(result.uri, id);
+          if (id === 'vin') { handleUploadVinPicture(result.uri, id); } else { handleUploadPicture(result.uri, id); }
         }
       }
     }
-  }, [accessGranted, aspect, pictures,
-    handleRequestMediaLibraryAccess, handleUploadPicture, setPictures]);
+  }, [accessGranted, handleRequestMediaLibraryAccess, aspect, pictures,
+    setPictures, handleUploadVinPicture, handleUploadPicture]);
 
   return {
     accessGranted,
     handleOpenMediaLibrary,
     handleRequestMediaLibraryAccess,
     handleUploadPicture,
-    handlePickImage: () => null,
+    handleUploadVinPicture,
   };
 };
