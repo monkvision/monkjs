@@ -41,7 +41,7 @@
   "dependencies": {
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
-    "react-native-svg": "^12.1.1",
+    "react-native-svg": "^12.1.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
