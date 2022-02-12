@@ -9,10 +9,9 @@ import { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
 
 import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions, Platform } from 'react-native';
-import { DataTable, Button, useTheme, Text, Card, ActivityIndicator } from 'react-native-paper';
+import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
 import MonkIcon from 'components/Icons/MonkIcon';
 
-import { useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 
@@ -116,7 +115,7 @@ export default () => {
 
   const scrollListRef = useRef();
 
-  const { loading, refresh } = useRequest(getAllInspections({
+  const { refresh } = useRequest(getAllInspections({
     params: {
       limit: LIMIT,
       show_deleted: false,
@@ -234,7 +233,6 @@ export default () => {
         </Card.Content>
         <InspectionButton />
       </Card>
-      {loading && <ActivityIndicator style={styles.activityIndicator} />}
     </SafeAreaView>
   );
 };

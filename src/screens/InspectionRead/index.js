@@ -268,7 +268,7 @@ export default () => {
     }
   }, [theme.colors.text, inspection, inspectionId, menuItems, navigation]);
 
-  if (isLoading) {
+  if (isEmpty(inspection)) {
     return <ActivityIndicatorView light />;
   }
 

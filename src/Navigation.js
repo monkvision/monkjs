@@ -30,7 +30,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.TEST}>
+      <Stack.Navigator initialRouteName={names.LANDING}>
 
         {process.env.NODE_ENV !== 'production' ? (
           <Stack.Screen
@@ -98,12 +98,6 @@ export default function Navigation() {
           name={names.DAMAGES}
           component={Screens.Damages}
           title="Damaged parts"
-        />
-
-        <Stack.Screen
-          name={names.DAMAGE_CREATE}
-          component={Screens.DamageCreate}
-          title="New damage"
         />
 
         <Stack.Screen

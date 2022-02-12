@@ -45,7 +45,7 @@ export default function useUpload({
       });
     }
 
-    dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
+    await dispatch(addOneImageToInspection({ ...baseParams, data })).unwrap()
       .then((res) => onSuccess(id, uri, res))
       .catch((err) => onError(id, err));
   }, [dispatch, inspectionId, onError, onLoading, onSuccess, taskName]);
