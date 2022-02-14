@@ -109,6 +109,9 @@ Controls.CaptureButtonProps = {
     shadowColor: 'white',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },
-    shadowRadius: '4px 4px',
+    ...Platform.select({
+      native: { shadowRadius: 4 },
+      default: { shadowRadius: '4px 4px' },
+    }),
   },
 };

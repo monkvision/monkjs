@@ -1,17 +1,14 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { flushSync } from 'react-dom';
 
 import { IconButton, withTheme, Provider as PaperProvider } from 'react-native-paper';
 import noop from 'lodash.noop';
 
 import ImageViewer from '../ImageViewer';
-import useToggle from '../../hooks/useToggle';
 
 import damageMetadataList from './metadataList';
 
 import DamagesForm from './DamageForm';
-import CameraSimpleViewModal from './CameraSimpleViewModal/index';
 import useDamagesForm from './useDamagesForm';
 
 function CreateDamageForm({
@@ -24,12 +21,9 @@ function CreateDamageForm({
   isDamageValid,
   onSubmit,
   isLoading,
-  onCameraOpen,
-  onCameraClose,
   onReset,
 }) {
   const { colors } = theme;
-  const [isCameraViewOpen, openCameraView, closeCameraView] = useToggle();
   const [damagePictures, setDamagePictures] = damagePicturesState;
 
   const {
@@ -54,31 +48,6 @@ function CreateDamageForm({
   }), [closePreviewDialog, colors.error, damagePictures,
     handleRemovePicture, isLoading, isPreviewDialogOpen, previewImage.index]);
 
-  // trigger the camera open/close events
-  useEffect(() => {
-    if (isCameraViewOpen) { onCameraOpen(); } else { onCameraClose(); }
-  }, [isCameraViewOpen, onCameraClose, onCameraOpen]);
-
-  // camera view
-  if (isCameraViewOpen) {
-    return (
-      <PaperProvider theme={theme}>
-        <CameraSimpleViewModal
-          theme={theme}
-          setDamagePictures={setDamagePictures}
-          closeCameraView={closeCameraView}
-          openPreviewDialog={(val) => {
-            // close the camera synchronously and then call handleOpenPreviewDialog
-            flushSync(() => closeCameraView());
-            handleOpenPreviewDialog(val);
-          }}
-          damagePictures={damagePictures}
-          {...damagePicturesViewer}
-        />
-      </PaperProvider>
-    );
-  }
-
   return (
     <PaperProvider theme={theme}>
       <DamagesForm
@@ -93,7 +62,6 @@ function CreateDamageForm({
         damagePictures={damagePictures}
         handleOpenPreviewDialog={handleOpenPreviewDialog}
         setSelectField={setSelectField}
-        openCameraView={openCameraView}
         data={damageMetadataList[selectField] || []}
         onChange={(value) => handleUpdateDamageMetaData({ [selectField]: value })}
         selectedValue={currentDamage[selectField]}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '@expo/match-media';
 import { useMediaQuery } from 'react-responsive';
-import { ActivityIndicator, Image, View, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, Image, View, StyleSheet, Text, Platform } from 'react-native';
 
 import Overlay from '../Overlay';
 
@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowRadius: '2px 2px',
+    ...Platform.select({
+      native: { shadowRadius: 2 },
+      default: { shadowRadius: '2px 2px' },
+    }),
     overflow: 'hidden',
   },
   overlay: {

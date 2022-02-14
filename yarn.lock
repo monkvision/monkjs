@@ -5653,7 +5653,7 @@ expo-auth-session@~3.4.2:
     invariant "^2.2.4"
     qs "6.9.1"
 
-expo-camera@^12.0.3, expo-camera@^12.1.0:
+expo-camera@^12.1.0:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-12.1.1.tgz#70d5f145931c885f5513b8667764368b516e484c"
   integrity sha512-66zISzVhjd3VoZejVuKi6eicP3ZqTGoqEP+egB13eeAOVM1v1OecUjPMM4M0pXqvJq4H63KiHUGgPL8Tyn5z3A==

@@ -43,7 +43,6 @@
     "@expo/vector-icons": "^12.0.5 ",
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
-    "expo-camera": "^12.0.3",
     "expo-font": "^10.0.3",
     "expo-linear-gradient": "^10.0.3",
     "expo-screen-orientation": "^4.0.3",
