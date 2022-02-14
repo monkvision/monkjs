@@ -1,6 +1,7 @@
-import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@monkvision/corejs';
+import { createOneInspection, updateOneTaskOfInspection } from '@monkvision/corejs';
 import { utils } from '@monkvision/react-native';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { useSights } from '@monkvision/camera';
 import { useNavigation } from '@react-navigation/native';
 
 import { StatusBar } from 'expo-status-bar';
@@ -16,7 +17,7 @@ import {
 } from 'react-native';
 import { Appbar, Button, IconButton, useTheme } from 'react-native-paper';
 import { INSPECTION_READ, LANDING } from '../names';
-import useImport, { initialPictureData } from './hooks/useImport';
+import useImport, { initialPictureData, VIN_ID } from './hooks/useImport';
 import SightCard from './SightCard';
 
 const styles = StyleSheet.create({
@@ -38,16 +39,37 @@ const styles = StyleSheet.create({
   },
 });
 
+const sightIds = [
+  'sLu0CfOt', // VIN
+  'vLcBGkeh', // Front
+  'xfbBpq3Q', // Front Bumper Side Left
+  'xQKQ0bXS', // Front Wheel Left
+  'VmFL3v2A', // Front Door Left
+  'UHZkpCuK', // Rocker Panel Left
+  'OOJDJ7go', // Rear Door Left
+  '8_W2PO8L', // Rear Wheel Left
+  'j8YHvnDP', // Rear Bumper Side Left
+  'XyeyZlaU', // Rear
+  'LDRoAPnk', // Rear Bumper Side Right
+  'rN39Y3HR', // Rear Wheel Right
+  '2RFF3Uf8', // Rear Door Right
+  'B5s1CWT-', // Rocker Panel Right
+  'enHQTFae', // Front Door Right
+  'PuIw17h0', // Front Wheel Right
+  'CELBsvYD', // Front Bumper Side Right
+];
+
 // createInspection payload
 const payload = { data: { tasks: { damage_detection: { status: 'NOT_STARTED' }, images_ocr: { status: 'NOT_STARTED' } } } };
-const sightsWitoutVin = Object.values(values.sights.abstract).map((s) => new Sight(...s));
 
 export default () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
+  const { state: sights } = useSights({ sightIds });
+
   const [pictures, setPictures] = useState(
-    sightsWitoutVin.map(({ id, label }) => ({ ...initialPictureData, id, label })),
+    sights.tour.map(({ id, label, overlay }) => ({ ...initialPictureData, id, label, overlay })),
   );
   const [inspectionId, setInspectionId] = useState();
 
@@ -59,10 +81,12 @@ export default () => {
   );
 
   React.useEffect(() => navigation.addListener('focus', () => {
-    setPictures(sightsWitoutVin.map(({ id, label }) => ({ ...initialPictureData, id, label })));
+    setPictures(sights.tour.map(
+      ({ id, label, overlay }) => ({ ...initialPictureData, id, label, overlay }),
+    ));
     setInspectionId(null);
     createInspection();
-  }), [navigation, createInspection]);
+  }), [navigation, createInspection, sights.tour]);
 
   const onSuccess = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
@@ -134,7 +158,7 @@ export default () => {
               sight={sight}
               events={{
                 handleOpenMediaLibrary,
-                handleUploadPicture: sight.id === 'vin'
+                handleUploadPicture: sight.id === VIN_ID
                   ? handleUploadVinPicture
                   : handleUploadPicture,
               }}
