@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    marginVertical: 4,
+    marginVertical: spacing(1),
   },
   alignLeft: {
     justifyContent: 'flex-end',

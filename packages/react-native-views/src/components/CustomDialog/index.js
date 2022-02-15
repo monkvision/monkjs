@@ -39,13 +39,13 @@ export default function CustomDialog({
           </Dialog.Content>
         ) : null}
 
-        {children && (<>{ children }</>)}
+        {children}
 
-        { actions && (
+        {actions ? (
           <Dialog.Actions style={styles.dialogActions}>
             { actions}
           </Dialog.Actions>
-        )}
+        ) : null}
       </Dialog>
     </Portal>
   );

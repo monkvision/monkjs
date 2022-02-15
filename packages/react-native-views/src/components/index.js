@@ -8,3 +8,4 @@ export { default as PartListSection } from './Damages/PartListSection';
 export { default as PicturesSummaryView } from './PicturesSummaryView';
 export { default as Select } from './Select';
 export { default as TutorialView } from './TutorialView';
+export { default as CustomDialog } from './CustomDialog';
