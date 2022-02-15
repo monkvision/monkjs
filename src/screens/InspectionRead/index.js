@@ -62,6 +62,7 @@ import {
   DAMAGE_READ,
 } from 'screens/names';
 
+import useInterval from 'hooks/useInterval/index';
 import trash from './assets/trash.svg';
 
 const styles = StyleSheet.create({
@@ -150,14 +151,18 @@ const taskChipIcons = {
   [taskStatuses.VALIDATED]: 'check',
 };
 
+const REFRESH_INTERVAL = 3000;
+
 export default () => {
   const theme = useTheme();
   const route = useRoute();
   const navigation = useNavigation();
 
   const { inspectionId } = route.params;
+  const [isFirstRequest, setIsFirstRequest] = useState(true);
 
-  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }),
+    { onSuccess: () => setIsFirstRequest(false) });
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -197,6 +202,17 @@ export default () => {
     false,
   );
 
+  // last damage detection task in the current inspection
+  const lastDamageDetectionTask = useMemo(() => {
+    const allDamageDetectionTasks = inspection?.tasks?.filter((task) => task?.name === 'damage_detection');
+    return allDamageDetectionTasks?.find((_, i) => i === allDamageDetectionTasks?.length - 1);
+  }, [inspection]);
+
+  const taskInProgress = lastDamageDetectionTask?.status === taskStatuses.IN_PROGRESS;
+
+  const delay = taskInProgress ? REFRESH_INTERVAL : null;
+  useInterval(refresh, delay);
+
   const handleShowDamages = useCallback(() => {
     navigation.navigate(DAMAGES, { inspectionId });
   }, [inspectionId, navigation]);
@@ -234,11 +250,18 @@ export default () => {
   }, []);
 
   const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: () => { setIsFirstRequest(true); refresh(); }, icon: 'refresh', disabled: Boolean(taskInProgress) },
     { title: 'Update', onPress: handleGoToEditInspection, icon: 'file-document-edit' },
     { title: 'Export as PDF', onPress: handleExportPdf, icon: 'pdf-box', disabled: true },
     { title: 'Delete', onPress: openDeletionDialog, icon: 'trash-can', divider: true },
-  ], [fakeActivity, handleExportPdf, handleGoToEditInspection, openDeletionDialog, refresh]);
+  ], [fakeActivity, handleExportPdf, handleGoToEditInspection,
+    openDeletionDialog, refresh, taskInProgress]);
+
+  const damageButtonTitle = useMemo(() => {
+    if (taskInProgress) { return 'In progress...'; }
+    if (isEmpty(partsWithDamages)) { return 'No damage'; }
+    return `${partsWithDamages.length} damage${partsWithDamages.length > 1 ? 's' : ''}`;
+  }, [partsWithDamages, taskInProgress]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -268,7 +291,7 @@ export default () => {
     }
   }, [theme.colors.text, inspection, inspectionId, menuItems, navigation]);
 
-  if (isLoading) {
+  if (isLoading && isFirstRequest) {
     return <ActivityIndicatorView light />;
   }
 
@@ -285,11 +308,10 @@ export default () => {
                 onPress={handleShowDamages}
                 color={theme.colors.warning}
                 style={{ marginRight: spacing(1) }}
-                disabled={!partsWithDamages?.length}
+                disabled={!partsWithDamages?.length || taskInProgress}
+                loading={taskInProgress}
               >
-                {(isEmpty(partsWithDamages)) ? 'No damage' : (
-                  `${partsWithDamages.length} damage${partsWithDamages.length > 1 ? 's' : ''}`
-                )}
+                {damageButtonTitle}
               </Button>
             )}
           />
