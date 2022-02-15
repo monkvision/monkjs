@@ -259,7 +259,12 @@ export default () => {
                 <View syle={styles.images}>
                   <TouchableRipple
                     key={String(index)}
-                    onPress={() => openPreviewDialog(getImage(image), getPolygons(image.id, damageViews)[0])}
+                    onPress={() => {
+                      openPreviewDialog(
+                        getImage(image),
+                        getPolygons(image.id,damageViews)[0],
+                      );
+                    }}
                   >
                     <DamageHighlight
                       image={getImage(image)}

@@ -33,8 +33,10 @@ const styles = StyleSheet.create({
     bottom: 8,
   },
   hidden: {
-    visibility: 'hidden',
-    opacity: 0,
+    ...Platform.select({
+      native: { opacity: 0 },
+      default: { visibility: 'hidden', opacity: 0 },
+    }),
   },
   right: {
     maxWidth: 141,

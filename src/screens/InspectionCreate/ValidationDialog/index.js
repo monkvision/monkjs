@@ -6,23 +6,9 @@ import { View } from 'react-native';
 import { Button, Dialog, Paragraph, Portal, useTheme } from 'react-native-paper';
 import Drawing from 'components/Drawing';
 
-import { INSPECTION_IMPORT, INSPECTION_READ } from 'screens/names';
+import { INSPECTION_READ } from 'screens/names';
 import styles from 'screens/InspectionCreate/styles';
 import uploaded from 'screens/InspectionCreate/assets/undraw_order_confirmed_re_g0if.svg';
-import notUploaded from 'screens/InspectionCreate/assets/undraw_notify_re_65on.svg';
-
-const UploadHasFailed = () => (
-  <>
-    <Dialog.Title style={styles.dialogContent}>
-      Not all pictures were upload
-    </Dialog.Title>
-    <Dialog.Content>
-      <Paragraph style={styles.dialogContent}>
-        We recommend to store them in your device, then import it later.
-      </Paragraph>
-    </Dialog.Content>
-  </>
-);
 
 export default function ValidationDialog({ screen, requests, inspectionId }) {
   const theme = useTheme();
@@ -32,24 +18,17 @@ export default function ValidationDialog({ screen, requests, inspectionId }) {
     isVisibleDialog,
     isCompleted,
     isUploading,
-    isTaskUpdated,
-    uploadHasFailed,
   } = screen.state;
 
-  const { savePictures, updateTask } = requests;
+  const { savePictures } = requests;
 
   const handleDismiss = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
   }, [inspectionId, navigation]);
 
-  const handleUpdateTask = useCallback(() => {
-    updateTask.request();
-  }, [updateTask]);
-
   const handleSavePictures = useCallback(() => {
     savePictures.saveToDevice();
-    navigation.navigate(INSPECTION_IMPORT);
-  }, [navigation, savePictures]);
+  }, [savePictures]);
 
   return (
     <Portal>
@@ -59,20 +38,16 @@ export default function ValidationDialog({ screen, requests, inspectionId }) {
         onDismiss={handleDismiss}
       >
         <View style={styles.dialogDrawing}>
-          <Drawing xml={uploadHasFailed ? notUploaded : uploaded} height="75" />
+          <Drawing xml={uploaded} height="75" />
         </View>
-        {uploadHasFailed ? <UploadHasFailed /> : (
-          <>
-            <Dialog.Title style={styles.dialogContent}>
-              All images are uploaded
-            </Dialog.Title>
-            <Dialog.Content>
-              <Paragraph style={styles.dialogContent}>
-                Would you like to start the analyze ?
-              </Paragraph>
-            </Dialog.Content>
-          </>
-        )}
+        <Dialog.Title style={styles.dialogContent}>
+          All images are uploaded
+        </Dialog.Title>
+        <Dialog.Content>
+          <Paragraph style={styles.dialogContent}>
+            Do you want to save pictures in your device before seeing the inspection?
+          </Paragraph>
+        </Dialog.Content>
         <Dialog.Actions style={styles.dialogActions}>
           <Button
             icon={savePictures.isLoading || (savePictures.isSaved ? undefined : 'download')}
@@ -82,32 +57,17 @@ export default function ValidationDialog({ screen, requests, inspectionId }) {
             mode="outlined"
             style={styles.button}
           >
-            { savePictures.isSaved ? 'Photos Saved !' : 'Save in device' }
+            {savePictures.isSaved ? 'Photos Saved !' : 'Save in device'}
           </Button>
-          {!uploadHasFailed && (isTaskUpdated ? (
-            <Button
-              onPress={screen.handleNext}
-              mode="contained"
-              labelStyle={{ color: 'white' }}
-              color={theme.colors.success}
-              style={styles.button}
-            >
-              See inspection
-            </Button>
-          ) : (
-            <Button
-              icon={updateTask.isLoading ? undefined : 'eye-circle-outline'}
-              onPress={handleUpdateTask}
-              loading={updateTask.isLoading}
-              disabled={updateTask.isLoading}
-              mode="contained"
-              labelStyle={{ color: 'white' }}
-              color={theme.colors.success}
-              style={styles.button}
-            >
-              Analyze with AI
-            </Button>
-          ))}
+          <Button
+            onPress={screen.handleNext}
+            mode="contained"
+            labelStyle={{ color: 'white' }}
+            color={theme.colors.success}
+            style={styles.button}
+          >
+            See inspection
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>

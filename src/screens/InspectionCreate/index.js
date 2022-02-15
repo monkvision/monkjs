@@ -1,29 +1,18 @@
-import React, { useCallback, useMemo } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useTheme } from 'react-native-paper';
+import React, { useCallback, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
 
-import useUpload from 'hooks/useUpload';
-import UploadFailureDialog from 'screens/InspectionCreate/UploadFailureDialog';
 import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Platform } from 'react-native';
-import { CameraView, useFakeActivity } from '@monkvision/react-native-views';
+import { Capture, Controls } from '@monkvision/camera';
 import ValidationDialog from 'screens/InspectionCreate/ValidationDialog';
 
-import { LANDING } from 'screens/names';
-
 export default () => {
-  const theme = useTheme();
-  const navigation = useNavigation();
-  const screen = useScreen();
-  const requests = useRequests(screen);
   const route = useRoute();
-
   const { inspectionId } = route.params;
 
-  const trueActivity = screen.state.isUploading;
-  const [fakeActivity] = useFakeActivity(trueActivity);
+  const screen = useScreen(inspectionId);
+  const requests = useRequests(screen);
 
   const handleSuccess = useCallback(({ camera, pictures }) => {
     camera.pausePreview();
@@ -32,67 +21,69 @@ export default () => {
     requests.savePictures.preparePictures(pictures);
   }, [requests.savePictures, screen]);
 
-  const handleClose = useCallback(() => {
-    navigation.navigate(LANDING);
-  }, [navigation]);
+  const [loading, setLoading] = useState();
 
-  const handleTakePicture = useUpload({
-    inspectionId,
-    onSuccess: (id, uri) => {
-      screen.setUploading(false);
-      screen.setPicturesNotUploaded((prevState) => prevState.filter((pic) => {
-        if (Platform.OS === 'web') {
-          return pic.source.base64 !== uri;
-        }
-        return pic.source.uri !== uri;
-      }));
-    },
-    onLoading: () => screen.setUploading(true),
-    onError: () => {
-      screen.setUploading(false);
-      screen.setUploadHasFailed(true);
-    },
-  });
+  const handleCapture = useCallback(async (state, api, event) => {
+    event.preventDefault();
+    setLoading(true);
 
-  const handleRefreshUpload = useCallback(() => {
-    screen.setUploadHasFailed(false);
-    screen.state.picturesNotUploaded.forEach((picture) => {
-      handleTakePicture(
-        Platform.OS === 'web'
-          ? picture.source.base64
-          : picture.source.uri,
-        inspectionId,
-      );
-    });
-  }, [handleTakePicture, inspectionId, screen]);
+    const { takePictureAsync, startUploadAsync, goNextSight } = api;
 
-  const sightIds = useMemo(() => (
-    screen.state.picturesNotUploaded.map((pic) => pic.sight.id)
-  ), [screen.state.picturesNotUploaded]);
+    setTimeout(async () => {
+      const picture = await takePictureAsync();
+      const { sights } = state;
+      const { camera } = api;
+      const { current, ids, takenPictures } = sights.state;
+
+      if (current.index === ids.length - 1) {
+        await startUploadAsync(picture);
+        setLoading(false);
+        requests.updateTask.request();
+        handleSuccess({ camera, pictures: takenPictures });
+      } else {
+        setLoading(false);
+        startUploadAsync(picture);
+        goNextSight();
+      }
+    }, 200);
+  }, [handleSuccess, requests.updateTask]);
+
+  const controls = [{
+    disabled: loading,
+    onPress: handleCapture,
+    ...Controls.CaptureButtonProps,
+  }];
 
   return (
     <>
-      <CameraView
-        isLoading={fakeActivity}
-        onTakePicture={(pic) => {
-          screen.setPicturesNotUploaded((prevState) => [...prevState, pic]);
-          if (!screen.state.uploadHasFailed) {
-            handleTakePicture(
-              Platform.OS === 'web'
-                ? pic.source.base64
-                : pic.source.uri,
-              inspectionId,
-            );
-          }
-        }}
-        onSuccess={handleSuccess}
-        onRefreshUpload={handleRefreshUpload}
-        onCloseCamera={handleClose}
-        sightIdsNotUploaded={sightIds}
-        theme={theme}
+      <Capture
+        inspectionId={inspectionId}
+        controls={controls}
+        loading={loading}
+        sightIds={[
+          'vLcBGkeh', // Front
+          'xfbBpq3Q', // Front Bumper Side Left
+          'xQKQ0bXS', // Front Wheel Left
+          'VmFL3v2A', // Front Door Left
+          'UHZkpCuK', // Rocker Panel Left
+          'OOJDJ7go', // Rear Door Left
+          '8_W2PO8L', // Rear Wheel Left
+          'j8YHvnDP', // Rear Bumper Side Left
+          'XyeyZlaU', // Rear
+          'LDRoAPnk', // Rear Bumper Side Right
+          'rN39Y3HR', // Rear Wheel Right
+          '2RFF3Uf8', // Rear Door Right
+          'B5s1CWT-', // Rocker Panel Right
+          'enHQTFae', // Front Door Right
+          'PuIw17h0', // Front Wheel Right
+          'CELBsvYD', // Front Bumper Side Right
+        ]}
       />
-      <ValidationDialog requests={requests} screen={screen} inspectionId={inspectionId} />
-      <UploadFailureDialog isVisible={screen.state.uploadHasFailed} />
+      <ValidationDialog
+        requests={requests}
+        screen={screen}
+        inspectionId={inspectionId}
+      />
     </>
   );
 };

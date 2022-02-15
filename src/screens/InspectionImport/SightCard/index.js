@@ -13,7 +13,7 @@ import {
 import { ActivityIndicator, IconButton, useTheme } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 
-import { sightMasks } from '@monkvision/react-native';
+import { Overlay } from '@monkvision/camera';
 
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -24,20 +24,22 @@ const styles = StyleSheet.create({
     marginVertical: spacing(1),
     borderRadius: 22,
     position: 'relative',
+    overflow: 'hidden',
     borderWidth: 1.2,
     margin: 4,
+    backgroundColor: 'black',
     ...Platform.select({
       web: {
-        maxWidth: 170,
-        maxHeight: 170,
+        width: 170,
+        height: 170,
       },
       native: {
         maxWidth: (width * 0.4) + 14,
         maxHeight: (width * 0.4) + 14,
+        width: '100%',
+        height: '100%',
       },
     }),
-    width: '100%',
-    height: '100%',
   },
   picture: {
     width: '100%',
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     position: 'absolute',
     zIndex: 0,
-    opacity: 0.2,
+    opacity: 0.4,
   },
   reloadButtonLayout: { position: 'absolute', display: 'flex', flexDirection: 'row', zIndex: 11 },
   reloadButton: { backgroundColor: '#FFF', alignSelf: 'center' },
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     color: '#FFF',
+    zIndex: 20,
     paddingVertical: spacing(1),
     paddingHorizontal: spacing(0.4),
     borderBottomLeftRadius: 22,
@@ -66,75 +69,70 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: Platform.OS === 'android' ? 'normal' : '500',
   },
+  overlay: {
+    height: '100%',
+    width: '100%',
+  },
 });
-
-const SightMask = ({ id, ...props }) => (sightMasks?.[id] ? sightMasks[id](props) : null);
 
 export default function SightCard({ sight, events }) {
   const { colors } = useTheme();
 
-  const { id, label, uri, isLoading, isFailed } = sight;
+  const { id, label, uri, isLoading, isFailed, overlay } = sight;
 
   return (
     <TouchableOpacity
-      style={[styles.sightCard, {
-        borderColor: isFailed ? colors.error : colors.primary,
-        borderStyle: uri ? 'solid' : 'dashed',
-      }]}
+      style={[styles.sightCard, { borderColor: isFailed ? colors.error : colors.primary }]}
       onPress={() => events.handleOpenMediaLibrary(id)}
       disabled={uri}
       accessibilityLabel={label}
     >
 
       {/* sight label */}
-      <View style={styles.sightLabel}>
-        <Text style={[styles.sightLabelText, { color: colors.primary }]}>
+      <View style={[styles.sightLabel, { backgroundColor: colors.primary }]}>
+        <Text style={[styles.sightLabelText]}>
           {startCase(label)}
         </Text>
       </View>
 
-      {/* overlay button */}
-      {!isLoading && isFailed ? (
+      {!uri || (!isLoading && isFailed) ? (
         <View style={styles.reloadButtonLayout}>
-          <IconButton
-            icon="reload"
-            size={24}
-            onPress={() => events.handleUploadPicture(uri, id)}
-            style={styles.reloadButton}
-            color={colors.error}
-          />
-        </View>
-      ) : null}
+          {/* retry button */}
+          {!isLoading && isFailed ? (
+            <IconButton
+              icon="reload"
+              size={24}
+              onPress={() => events.handleUploadPicture(uri, id)}
+              style={styles.reloadButton}
+              color={colors.error}
+            />
+          ) : null}
 
-      {/* overlay button */}
-      {!uri ? (
-        <View style={styles.reloadButtonLayout}>
+          {/* add picture button */}
           <IconButton
             icon="plus"
             size={24}
             onPress={() => events.handleOpenMediaLibrary(id)}
-            style={[styles.reloadButton, { backgroundColor: colors.primary }]}
-            color="white"
+            style={styles.reloadButton}
+            color={colors.primary}
           />
         </View>
       ) : null}
 
       {/* sight mask */}
       {!isLoading ? (
-        <View style={{ transform: [{ scale: 0.28 }], zIndex: 2, height: 400 }}>
-          {id !== 'vin'
-            ? <SightMask id={id.charAt(0).toUpperCase() + id.slice(1)} height="400" width="500" color={colors.primary} />
-            : null}
-        </View>
+        <Overlay
+          svg={overlay}
+          style={[styles.overlay, { fill: '#000' }]}
+          label={label}
+        />
       ) : null}
 
       {/* we can try implementing the new Img conponent here for a smooth image rendering */}
-      {uri
-        ? <Image source={{ uri }} style={styles.picture} />
-        : null}
+      {uri ? <Image source={{ uri }} style={styles.picture} /> : null}
 
       {/* loading */}
-      {isLoading ? <ActivityIndicator color={isFailed ? colors.error : colors.primary} /> : null}
+      {isLoading ? <ActivityIndicator color="#fff" /> : null}
 
     </TouchableOpacity>
   );
@@ -151,6 +149,7 @@ SightCard.propTypes = {
     isLoading: PropTypes.bool,
     isUploaded: PropTypes.bool,
     label: PropTypes.string,
+    overlay: PropTypes.string,
     uri: PropTypes.string,
   }).isRequired,
 };

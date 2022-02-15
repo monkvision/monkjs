@@ -16,7 +16,14 @@ import { useSelector } from 'react-redux';
 const REFRESH_DELAY = 3000;
 
 // createInspection payload
-const payload = { data: { tasks: { damage_detection: { status: 'NOT_STARTED' }, images_ocr: { status: 'NOT_STARTED' } } } };
+const payload = {
+  data: {
+    tasks: {
+      damage_detection: { status: 'NOT_STARTED' },
+      images_ocr: { status: 'NOT_STARTED' },
+    },
+  },
+};
 
 export default function useVin({ vinSight }) {
   const navigation = useNavigation();
@@ -68,7 +75,7 @@ export default function useVin({ vinSight }) {
     return allOcrTasks?.find((_, i) => i === allOcrTasks?.length - 1);
   }, [inspection]);
 
-  // if only the status of the OCR task is done and the vinPicture is oresent
+  // if only the status of the OCR task is done and the vinPicture is present
   // then we hit the refresh after 3sec
   const delay = useMemo(() => {
     if (lastOcrTask?.status !== taskStatuses.DONE && vinPicture) { return REFRESH_DELAY; }
@@ -85,7 +92,7 @@ export default function useVin({ vinSight }) {
     { onSuccess: refresh, onError: handleOpenErrorSnackbar }, false);
 
   // we clear the current vinPicture and we proceed to camera to take another one
-  // by hidding the navigation header
+  // by hiding the navigation header
   const handleOpenVinCameraOrRetake = useCallback(() => {
     if (vinPicture) { setVinPicture(null); }
     navigation?.setOptions({ headerShown: false });
@@ -99,10 +106,11 @@ export default function useVin({ vinSight }) {
   }, [navigation, toggleOffCamera]);
 
   /**
- * on start the upload we toggle on the uploading state
- * on success we start the ocr task, toggle off the uploading state and we display the vin picture
- * on error we toggle off the uploading state andwe open the error snackbar
- */
+   * on start the upload we toggle on the uploading state
+   * on success we start the ocr task, toggle off the uploading state,
+   * and we display the vin picture
+   * on error we toggle off the uploading state, and we open the error snackbar
+   */
   const upload = useUpload({
     inspectionId,
     onSuccess: (_, uri) => { startOcr(); toggleOffUploading(); setVinPicture(uri); },
@@ -115,8 +123,8 @@ export default function useVin({ vinSight }) {
       } },
   });
 
-  const handleUploadVin = useCallback((pic) => {
-    upload(Platform.OS === 'web' ? pic.source.base64 : pic.source.uri, vinSight[0].id);
+  const handleUploadVin = useCallback(async (pic) => {
+    await upload(Platform.OS === 'web' ? pic.base64 : pic.uri, vinSight[0].id);
   }, [upload, vinSight]);
 
   const [inspectionIsLoading] = useFakeActivity(isLoading);

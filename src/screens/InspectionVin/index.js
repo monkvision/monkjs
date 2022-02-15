@@ -1,10 +1,11 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-import { ActivityIndicatorView, CameraView } from '@monkvision/react-native-views';
+import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { Sight, values as sightValues } from '@monkvision/corejs';
+import { Capture, Controls } from '@monkvision/camera';
 
 import useVin from './hooks/useVin';
 import VinForm from './VinForm';
@@ -25,7 +26,9 @@ const styles = StyleSheet.create({
 });
 
 // picking the vin sight
-const vinSight = Object.values(sightValues.sights.abstract).map((s) => new Sight(...s)).filter((item) => item.id === 'vin');
+const vinSight = Object.values(sightValues.sights.abstract)
+  .map((s) => new Sight(...s))
+  .filter((item) => item.id === 'vin');
 
 export default () => {
   const theme = useTheme();
@@ -49,15 +52,34 @@ export default () => {
     errorSnackbar,
   } = useVin({ vinSight });
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setInspectionId(null);
-      vin.setPicture(null);
-      createInspection();
-    });
+  const [loading, setLoading] = useState();
 
-    return unsubscribe;
-  }, [createInspection, navigation, setInspectionId, vin]);
+  const handleCapture = useCallback(async (state, api, event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    const { takePictureAsync } = api;
+
+    setTimeout(async () => {
+      const picture = await takePictureAsync();
+      await handleUploadVin(picture);
+
+      setLoading(false);
+      handleCloseVinCamera();
+    }, 200);
+  }, [handleCloseVinCamera, handleUploadVin]);
+
+  const controls = [{
+    disabled: loading,
+    onPress: handleCapture,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  useEffect(() => navigation.addListener('focus', () => {
+    setInspectionId(null);
+    vin.setPicture(null);
+    createInspection();
+  }), [createInspection, navigation, setInspectionId, vin]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -71,13 +93,11 @@ export default () => {
 
   if (camera.value) {
     return (
-      <CameraView
-        sights={vinSight}
-        isLoading={inspectionIsLoading}
-        onTakePicture={(pic) => handleUploadVin(pic)}
-        onSuccess={handleCloseVinCamera}
-        onCloseCamera={camera.handleToggleOff}
-        theme={theme}
+      <Capture
+        inspectionId={inspectionId}
+        sightIds={['sLu0CfOt']}
+        loading={loading}
+        controls={controls}
       />
     );
   }

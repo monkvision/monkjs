@@ -223,15 +223,13 @@ export default () => {
   const { isLoading: starting, request: startTask } = useRequest(
     updateOneTaskOfInspection({
       inspectionId,
-      taskName: 'damage_detection',
+      taskName,
       data: { status: taskStatuses.TODO },
     }), { onSuccess: () => { handleDismissDialog(); refresh(); } },
     false,
   );
   const shouldNotStart = (task.status !== taskStatuses.NOT_STARTED
-    && task.status !== taskStatuses.ABORTED
-    && task.status !== taskStatuses.ERROR)
-    || starting;
+ && task.status !== taskStatuses.ABORTED) || starting;
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },

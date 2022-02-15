@@ -10,6 +10,7 @@ import useUpload from 'hooks/useUpload';
 
 const { width, height } = Dimensions.get('window');
 export const initialPictureData = { isLoading: false, isFailed: false, isUploaded: false, id: '', label: '', uri: null };
+export const VIN_ID = 'sLu0CfOt';
 
 export default ({ pictures, setPictures, inspectionId }) => {
   const [accessGranted, setAccess] = useState(false);
@@ -41,8 +42,8 @@ export default ({ pictures, setPictures, inspectionId }) => {
   // upload with OCR task
   const handleUploadVinPicture = useUpload({
     inspectionId,
-    onSuccess: (id) => { onSuccess(id); startOcr(); },
-    onLoading,
+    onSuccess: (id) => { onSuccess(id); startOcr(); console.log('vin pic'); },
+    onLoading: () => console.log('loading vin'),
     onError,
     taskName: {
       name: 'images_ocr',
@@ -88,13 +89,21 @@ export default ({ pictures, setPictures, inspectionId }) => {
             if (image.id === id) { return { ...image, uri: result.uri }; }
             return image;
           }));
-          if (id === 'vin') { handleUploadVinPicture(result.uri, id); } else { handleUploadPicture(result.uri, id); }
+
+          // upload on select
+          if (id === VIN_ID) {
+            handleUploadVinPicture(result.uri, id);
+          } else { handleUploadPicture(result.uri, id); }
         } else {
           setPictures((prev) => prev.map((image) => {
             if (image.id === id) { return { ...image, id, uri: result.uri }; }
             return image;
           }));
-          if (id === 'vin') { handleUploadVinPicture(result.uri, id); } else { handleUploadPicture(result.uri, id); }
+
+          // upload on select
+          if (id === VIN_ID) {
+            handleUploadVinPicture(result.uri, id);
+          } else { handleUploadPicture(result.uri, id); }
         }
       }
     }

@@ -4,10 +4,10 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import { Platform } from 'react-native';
 import { INSPECTION_READ } from 'screens/names';
 
-export default function useScreen() {
+export default function useScreen(initialInspectionId) {
   const navigation = useNavigation();
 
-  const [inspectionId, setInspectionId] = useState();
+  const [inspectionId, setInspectionId] = useState(initialInspectionId);
 
   const [isUploading, setUploading] = useState(false);
   const [uploadHasFailed, setUploadHasFailed] = useState(false);
