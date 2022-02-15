@@ -14,8 +14,7 @@ const styles = StyleSheet.create({
 });
 
 export default function CustomDialog({
-  isOpen, handDismiss, title, content,
-  icon, actions, children,
+  isOpen, handDismiss, title, content, actions, children, illustration,
 }) {
   return (
     <Portal>
@@ -24,19 +23,21 @@ export default function CustomDialog({
         onDismiss={handDismiss}
         style={styles.dialog}
       >
-        {title && (
-        <Dialog.Title style={styles.dialogContent}>
-          {icon && icon}
-          {title}
-        </Dialog.Title>
-        )}
-        {content && (
-        <Dialog.Content>
-          <Paragraph style={styles.dialogContent}>
-            {content}
-          </Paragraph>
-        </Dialog.Content>
-        )}
+        {illustration}
+
+        {title ? (
+          <Dialog.Title style={styles.dialogContent}>
+            {title}
+          </Dialog.Title>
+        ) : null}
+
+        {content ? (
+          <Dialog.Content>
+            <Paragraph style={styles.dialogContent}>
+              {content}
+            </Paragraph>
+          </Dialog.Content>
+        ) : null}
 
         {children && (<>{ children }</>)}
 
@@ -55,7 +56,7 @@ CustomDialog.propTypes = {
   children: PropTypes.element,
   content: PropTypes.string,
   handDismiss: PropTypes.func.isRequired,
-  icon: PropTypes.element,
+  illustration: PropTypes.element,
   isOpen: PropTypes.bool,
   title: PropTypes.string,
 };
@@ -64,7 +65,7 @@ CustomDialog.defaultProps = {
   actions: null,
   children: null,
   content: undefined,
-  icon: null,
+  illustration: null,
   isOpen: false,
   title: undefined,
 };
