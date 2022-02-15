@@ -165,7 +165,7 @@ function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
       actions={(
         <>
           <Button
-            style={styles.button}
+            style={[styles.button, { width: '100%' }]}
             onPress={request}
             mode="contained"
             disabled={isLoading}
@@ -173,7 +173,7 @@ function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
           >
             Confirm
           </Button>
-          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
+          <Button onPress={handleDismissDialog} style={[styles.button, { width: '100%' }]} mode="outlined">
             Cancel
           </Button>
         </>
@@ -288,7 +288,7 @@ export default () => {
         <Card.Actions style={styles.actions}>
           <Button
             accessibilityLabel="Validate"
-            style={styles.button}
+            style={[styles.button, { marginHorizontal: spacing(1) }]}
             labelStyle={styles.buttonLabel}
             color={colors.success}
             icon="send"
@@ -300,7 +300,7 @@ export default () => {
           </Button>
           <Button
             accessibilityLabel="Start task"
-            style={styles.button}
+            style={[styles.button, { marginHorizontal: spacing(1) }]}
             labelStyle={styles.buttonLabel}
             color={colors.primary}
             icon="rocket-launch-outline"
