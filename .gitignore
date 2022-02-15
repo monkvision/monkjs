@@ -76,4 +76,4 @@ buck-out/
 /ios/Pods/
 
 # @end expo-cli
-!/demo.yml
+demo.dev.monk.yml
