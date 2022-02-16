@@ -29,12 +29,10 @@ import {
   vehiclesEntity,
 } from '@monkvision/corejs';
 
-import Drawing from 'components/Drawing';
 import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  View,
   Platform,
   VirtualizedList,
 } from 'react-native';
@@ -63,7 +61,6 @@ import {
 } from 'screens/names';
 
 import useInterval from 'hooks/useInterval/index';
-import trash from './assets/trash.svg';
 
 const styles = StyleSheet.create({
   root: {
@@ -372,9 +369,6 @@ export default () => {
           onDismiss={handleDismissDialog}
           style={styles.dialog}
         >
-          <View style={styles.dialogDrawing}>
-            <Drawing xml={trash} width="200" height="120" />
-          </View>
           <Dialog.Title style={styles.dialogContent}>
             Are you sure?
           </Dialog.Title>
