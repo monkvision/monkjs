@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 const SPACING_BASE = 8;
 const nativeSpacing = (spacingFactor = 1) => SPACING_BASE * spacingFactor;
@@ -11,10 +10,8 @@ export const spacing = Platform.select({
 });
 
 const theme = {
-  ...DefaultTheme,
   dark: false,
   colors: {
-    ...DefaultTheme.colors,
     primary: '#274b9f',
 
     '--ifm-color-primary': '#274b9f',

@@ -39,9 +39,8 @@
     "release": "release-it"
   },
   "dependencies": {
-    "react-native-paper": "^4.10.1",
-    "expo-font": "^10.0.3",
     "@expo/vector-icons": "^12.0.5",
+    "expo-font": "^10.0.3",
     "lodash.isempty": "^4.4.0"
   },
   "devDependencies": {
