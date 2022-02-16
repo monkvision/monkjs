@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    marginVertical: 4,
+    marginVertical: spacing(1),
   },
   alignLeft: {
     justifyContent: 'flex-end',
@@ -262,7 +262,7 @@ export default () => {
                     onPress={() => {
                       openPreviewDialog(
                         getImage(image),
-                        getPolygons(image.id,damageViews)[0],
+                        getPolygons(image.id, damageViews)[0],
                       );
                     }}
                   >
@@ -330,14 +330,10 @@ export default () => {
       <CustomDialog
         isOpen={isDeleteDialogOpen}
         handleDismiss={handleDismissDeleteDialog}
-        icon={<Button icon="alert" size={36} color={colors.warning} />}
         title="Confirm damage deletion"
         content="Are you sure that you really really want to DELETE this damage ?"
         actions={(
           <>
-            <Button onPress={handleDismissDeleteDialog} style={styles.button} mode="outlined">
-              Cancel
-            </Button>
             <Button
               color={colors.error}
               style={styles.button}
@@ -349,6 +345,9 @@ export default () => {
               disabled={isDeleteLoading}
             >
               Delete
+            </Button>
+            <Button onPress={handleDismissDeleteDialog} style={styles.button} mode="outlined">
+              Cancel
             </Button>
           </>
         )}

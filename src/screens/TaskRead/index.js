@@ -3,7 +3,7 @@ import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, SafeAreaView, Platform, View, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Card, Title, Button, useTheme, ActivityIndicator, Dialog, Paragraph, Portal } from 'react-native-paper';
+import { Card, Title, Button, useTheme, ActivityIndicator } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 import moment from 'moment';
 import * as Clipboard from 'expo-clipboard';
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 
 import { getOneInspectionTask, selectTaskById, updateOneTaskOfInspection, taskStatuses } from '@monkvision/corejs';
 import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
+import CustomDialog from 'components/CustomDialog';
 
 import useRequest from 'hooks/useRequest';
 import useTimeout from 'hooks/useTimeout';
@@ -19,7 +20,6 @@ import Drawing from 'components/Drawing';
 import ActionMenu from 'components/ActionMenu';
 import useToggle from 'hooks/useToggle/index';
 
-import submitDrawing from 'assets/submit.svg';
 import notStarted from './assets/notStarted.svg';
 import todo from './assets/todo.svg';
 import inProgress from './assets/inProgress.svg';
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: spacing(1),
-    marginHorizontal: spacing(1),
     ...Platform.select({
       web: { width: 140 },
       default: { width: '100%' },
@@ -158,27 +157,15 @@ function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
     false,
   );
   return (
-    <Portal>
-      <Dialog
-        visible={Boolean(isDialogOpen)}
-        onDismiss={handleDismissDialog}
-        style={styles.dialog}
-      >
-        <View style={styles.dialogDrawing}>
-          <Drawing xml={submitDrawing} width="200" height="120" />
-        </View>
-        <Dialog.Title style={styles.dialogContent}>
-          Are you sure?
-        </Dialog.Title>
-
-        <Dialog.Content>
-          <Paragraph style={styles.dialogContent}>
-            Please confirm your damage validation
-          </Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions style={styles.dialogActions}>
+    <CustomDialog
+      isOpen={Boolean(isDialogOpen)}
+      handleDismiss={handleDismissDialog}
+      title="Are you sure?"
+      content="Please confirm your task validation"
+      actions={(
+        <>
           <Button
-            style={styles.button}
+            style={[styles.button, { width: '100%' }]}
             onPress={request}
             mode="contained"
             disabled={isLoading}
@@ -186,12 +173,13 @@ function DialogModal({ isDialogOpen, handleDismissDialog, handleRefresh }) {
           >
             Confirm
           </Button>
-          <Button onPress={handleDismissDialog} style={styles.button} mode="outlined">
+          <Button onPress={handleDismissDialog} style={[styles.button, { width: '100%' }]} mode="outlined">
             Cancel
           </Button>
-        </Dialog.Actions>
-      </Dialog>
-    </Portal>
+        </>
+      )}
+    />
+
   );
 }
 
@@ -300,7 +288,7 @@ export default () => {
         <Card.Actions style={styles.actions}>
           <Button
             accessibilityLabel="Validate"
-            style={styles.button}
+            style={[styles.button, { marginHorizontal: spacing(1) }]}
             labelStyle={styles.buttonLabel}
             color={colors.success}
             icon="send"
@@ -312,7 +300,7 @@ export default () => {
           </Button>
           <Button
             accessibilityLabel="Start task"
-            style={styles.button}
+            style={[styles.button, { marginHorizontal: spacing(1) }]}
             labelStyle={styles.buttonLabel}
             color={colors.primary}
             icon="rocket-launch-outline"
