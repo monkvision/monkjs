@@ -186,7 +186,7 @@ export default () => {
     vehicles: vehiclesEntities,
   });
 
-  const partsWithDamages = usePartDamages(inspection.damages, inspection.parts);
+  const partsWithDamages = usePartDamages(inspection?.damages, inspection?.parts);
 
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -267,14 +267,14 @@ export default () => {
     if (navigation) {
       navigation?.setOptions({
         title: isEmpty(inspection) ? `Inspection #${inspectionId.split('-')[0]}` : (
-          `${inspection.vehicle?.brand || 'Brand'} ${inspection?.vehicle?.model || 'Model'} ${moment(inspection.createdAt).format('lll')}`
+          `${inspection?.vehicle?.brand || 'Brand'} ${inspection?.vehicle?.model || 'Model'} ${moment(inspection?.createdAt).format('lll')}`
         ),
         headerTitle: () => (
           <Appbar.Content
             color={theme.colors.text}
             style={{ justifyContent: 'center' }}
-            title={`${inspection.vehicle?.brand || 'Brand'} ${inspection.vehicle?.model || 'Model'}`}
-            subtitle={moment(inspection.createdAt).format('lll')}
+            title={`${inspection?.vehicle?.brand || 'Brand'} ${inspection?.vehicle?.model || 'Model'}`}
+            subtitle={moment(inspection?.createdAt).format('lll')}
           />
         ),
         headerBackVisible: false,
@@ -322,9 +322,9 @@ export default () => {
               {...part}
             />
           ))}
-          {!isEmpty(inspection.tasks) && (
+          {!isEmpty(inspection?.tasks) && (
             <ScrollView horizontal>
-              {inspection.tasks.map(({ createdAt, doneAt, id, name, status }) => (
+              {inspection?.tasks.map(({ createdAt, doneAt, id, name, status }) => (
                 <Chip
                   key={`taskChip-${id}`}
                   icon={taskChipIcons[status]}
@@ -338,10 +338,10 @@ export default () => {
               ))}
             </ScrollView>
           )}
-          {!isEmpty(inspection.images) ? (
+          {!isEmpty(inspection?.images) ? (
             <VirtualizedList
               horizontal
-              data={inspection.images}
+              data={inspection?.images}
               initialNumToRender={10}
               keyExtractor={(item, index) => String(index)}
               getItemCount={(d) => d?.length}
@@ -406,10 +406,10 @@ export default () => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      {!isEmpty(inspection.images) && (
+      {!isEmpty(inspection?.images) && (
         <ImageViewer
           isOpen={isPreviewDialogOpen}
-          images={inspection.images.map((i) => ({ url: i.path }))}
+          images={inspection?.images.map((i) => ({ url: i.path }))}
           index={previewImage.index}
           handleDismiss={handleDismissPreviewDialog}
         />
