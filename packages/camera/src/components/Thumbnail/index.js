@@ -81,7 +81,7 @@ export default function Thumbnail({
     if (isCurrent) { return colors.current; }
     return colors[uploadStatus];
   }, [colors, isCurrent, uploadStatus]);
-
+  console.log(picture);
   return (
     <View
       style={[
@@ -98,7 +98,7 @@ export default function Thumbnail({
           source={picture}
           style={[
             styles.picture,
-            { borderColor: colors[uploadStatus] },
+            { borderColor: colors[uploadStatus], transform: [{ rotateY: picture?.type === 'front' ? 180 : 0 }] },
             isSmallScreen ? styles.smPicture : undefined,
           ]}
         />
@@ -131,9 +131,17 @@ Thumbnail.propTypes = {
   label: PropTypes.string,
   overlay: PropTypes.string,
   picture: PropTypes.shape({
+    base64: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    exif: PropTypes.any,
     height: PropTypes.number,
+    pictureSizes: PropTypes.arrayOf(PropTypes.string),
+    ratio: PropTypes.string,
     source: PropTypes.string,
+    type: PropTypes.string,
+    uri: PropTypes.string,
     width: PropTypes.number,
+    zoom: PropTypes.number,
   }),
   uploadStatus: PropTypes.oneOf(['idle', 'pending', 'fulfilled', 'rejected']),
 };
