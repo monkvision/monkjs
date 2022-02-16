@@ -6,6 +6,7 @@ import { Platform } from 'react-native';
  * @param picture
  * @param sights
  * @param inspectionId
+ * @param settings
  * @return {Promise<FormData>}
  */
 export default async function getWebFileData(picture, sights, inspectionId, settings) {

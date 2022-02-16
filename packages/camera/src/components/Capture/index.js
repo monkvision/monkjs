@@ -142,7 +142,7 @@ export default function Capture({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera, current, sights });
+  const takePictureAsync = useTakePictureAsync({ camera, current, settings, sights });
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads });
   const checkComplianceAsync = useCheckComplianceAsync({ compliance, inspectionId });
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });

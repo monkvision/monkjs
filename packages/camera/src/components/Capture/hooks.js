@@ -25,20 +25,21 @@ export function useTitle({ current }) {
 /**
  * @param camera
  * @param current
+ * @param settings
  * @param sights
  * @return {function(): Promise<picture>}
  */
-export function useTakePictureAsync({ camera, current, sights }) {
+export function useTakePictureAsync({ camera, current, settings, sights }) {
   return useCallback(async () => {
     log([`Awaiting picture to be taken...`]);
     const picture = await camera.takePictureAsync();
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
-    const payload = { id: current.id, picture };
+    const payload = { id: current.id, picture: { ...settings, ...picture } };
     sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
 
     return picture;
-  }, [camera, current.id, sights]);
+  }, [camera, current.id, settings, sights]);
 }
 
 /**
