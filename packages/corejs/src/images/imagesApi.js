@@ -15,7 +15,6 @@ import config from '../config';
  *
  * @returns {Promise}
  */
-// eslint-disable-next-line import/prefer-default-export
 export function addOne({ inspectionId, data, ...customReqConfig }) {
   const http = axios.create(config.axiosConfig);
 
@@ -23,6 +22,30 @@ export function addOne({ inspectionId, data, ...customReqConfig }) {
     method: 'post',
     url: `/inspections/${inspectionId}/images`,
     data,
+    ...customReqConfig,
+  });
+}
+
+/**
+ * @name getOneImageById
+ * Permissions to access resources owned by user:
+ * monk_core_api:inspections:read
+ * Permissions to access resources whose owner share the user's organization:
+ * monk_core_api:inspections:read_organization
+ *
+ *
+ * @param {string} inspectionId
+ * @param {string} imageId
+ * @param {Object} [customReqConfig]
+ *
+ * @returns {Promise}
+ */
+export function getOne({ inspectionId, imageId, ...customReqConfig }) {
+  const http = axios.create(config.axiosConfig);
+
+  return http.request({
+    method: 'get',
+    url: `/inspections/${inspectionId}/images/${imageId}`,
     ...customReqConfig,
   });
 }

@@ -6,6 +6,7 @@ import { Platform } from 'react-native';
  * @param picture
  * @param sights
  * @param inspectionId
+ * @param settings
  * @return {Promise<FormData>}
  */
 export default async function getWebFileData(picture, sights, inspectionId, settings) {
@@ -21,6 +22,7 @@ export default async function getWebFileData(picture, sights, inspectionId, sett
 
   const json = JSON.stringify({
     acquisition: { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image },
+    compliances: { iqc_compliance: {} },
     tasks: ['damage_detection'],
     additional_data: {
       ...sights.state.current.metadata,
