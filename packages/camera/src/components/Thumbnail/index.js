@@ -81,7 +81,7 @@ export default function Thumbnail({
     if (isCurrent) { return colors.current; }
     return colors[uploadStatus];
   }, [colors, isCurrent, uploadStatus]);
-  console.log(picture);
+
   return (
     <View
       style={[
