@@ -102,11 +102,11 @@ export default function Capture({
     const picture = await camera.takePictureAsync();
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
-    const payload = { id: current.id, picture };
+    const payload = { id: current.id, picture: { ...settings, ...picture } };
     sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
 
     return picture;
-  }, [camera, current.id, sights]);
+  }, [camera, current.id, settings, sights]);
 
   const goPrevSight = useCallback(() => {
     sights.dispatch({ type: Actions.sights.PREVIOUS_SIGHT });
@@ -132,7 +132,7 @@ export default function Capture({
         payload: { id, picture, status: 'pending', label },
       });
 
-      const data = await getWebFileDataAsync(picture, sights, inspectionId);
+      const data = await getWebFileDataAsync(picture, sights, inspectionId, settings);
       const result = await monkApi.images.addOne({ inspectionId, data });
 
       dispatch({
@@ -150,7 +150,7 @@ export default function Capture({
 
       return err;
     }
-  }, [inspectionId, sights, uploads]);
+  }, [inspectionId, settings, sights, uploads]);
 
   const state = useMemo(() => ({
     isReady,

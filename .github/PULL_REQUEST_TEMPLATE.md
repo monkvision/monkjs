@@ -10,13 +10,9 @@ ALL CONTRIBUTIONS WILL BE REVIEWED BY AT LEAST ONE OF OUR FRONTEND TEAM MEMBERS.
 <!--- Describe your changes technically in detail -->
 
 ## Related to
-<!--- If the your changes are related to an open PR, issue or Jira ticket -->
-<!--- please link it with it's title. -->
+<!--- Link the PR to an issue or a board ticket. -->
 
 This PR is related to [Name your issue](https://github.com/monkvision)
-
-## Context and Motivation 
-<!--- In a few words, describe why your changes are mandatory? -->
 
 ## About Tests
 
@@ -27,7 +23,7 @@ Tested on the following devices
 -
 -
 
-<!--- Steps in details to reproduce the solved issue usecases and to test the solution -->
+<!--- Steps in details to reproduce the solved issue use cases and to test the solution -->
 Steps to reproduce
 
 1. 
@@ -35,8 +31,6 @@ Steps to reproduce
 3. 
 4. 
 
-<!--- Include details of your testing environment, to see how your change -->
-<!--- affects other areas of the code... -->
 
 ## Screenshots (optional):
 
