@@ -87,7 +87,11 @@ function reducer(state, action) {
 
 /**
  * @param ids
- * @return {{dispatch: ({}) => void, name: string, state: S}}
+ * @return {{
+   * dispatch: (function({}): void),
+   * name: string,
+   * state: {current, ids, remainingPictures, takenPictures: {}, tour, },
+ * }}
  */
 export default function useSights({ sightIds, initialState }) {
   const [state, dispatch] = useReducer(reducer, { sightIds, initialState }, init);

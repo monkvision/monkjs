@@ -1,12 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import PropTypes from 'prop-types';
 
-import { monkApi } from '@monkvision/corejs';
-
-import getWebFileDataAsync from '../../utils/getWebFileDataAsync';
-import log from '../../utils/log';
-
+import useCompliance from '../../hooks/useCompliance';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 import useUploads from '../../hooks/useUploads';
@@ -17,12 +13,19 @@ import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 
-import Actions from '../../actions';
-import Constants from '../../const';
+import log from '../../utils/log';
+
+import {
+  useCheckComplianceAsync,
+  useCreateDamageDetectionAsync,
+  useNavigationBetweenSights,
+  useStartUploadAsync,
+  useTakePictureAsync,
+  useTitle,
+} from './hooks';
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  overlay: { flex: 1 },
   loading: {
     flex: 1,
     alignItems: 'center',
@@ -31,6 +34,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
+  overlay: { flex: 1 },
 });
 
 /**
@@ -71,111 +75,117 @@ export default function Capture({
   style,
   thumbnailStyle,
 }) {
+  // STATES //
+
   const [camera, setCamera] = useState();
   const [isReady, setReady] = useState(false);
 
+  const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
   const settings = useSettings({ camera, initialState: initialState.settings });
-
-  /**
-   * @type {{dispatch: (function({}): void), name: string, state: {
-   * current, ids, remainingPictures, takenPictures: {}, tour, }}|*}
-   */
   const sights = useSights({ sightIds, initialState: initialState.sights });
-
-  /**
-   * @type {{dispatch: (function({}): void), name: string, state: S}|*}
-   */
   const uploads = useUploads({ sightIds, initialState: initialState.uploads });
 
   const { current, tour } = sights.state;
   const overlay = current?.metadata?.overlay || '';
+  const title = useTitle({ current });
 
-  const title = useMemo(() => {
-    if (!current.metadata) { return ''; }
-    const { label, id } = current.metadata;
-    if (Constants.PRODUCTION) { return label; }
-    return `${label} - ${id}`;
-  }, [current]);
-
-  const takePictureAsync = useCallback(async () => {
-    log([`Awaiting picture to be taken...`]);
-    const picture = await camera.takePictureAsync();
-    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
-
-    const payload = { id: current.id, picture };
-    sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
-
-    return picture;
-  }, [camera, current.id, sights]);
-
-  const goPrevSight = useCallback(() => {
-    sights.dispatch({ type: Actions.sights.PREVIOUS_SIGHT });
-  }, [sights]);
-
-  const goNextSight = useCallback(() => {
-    sights.dispatch({ type: Actions.sights.NEXT_SIGHT });
-  }, [sights]);
-
-  const startUploadAsync = useCallback(async (picture) => {
-    const { dispatch } = uploads;
-
-    if (!inspectionId) {
-      throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
-    }
-
-    const { id, label } = sights.state.current.metadata;
-
-    try {
-      dispatch({
-        type: Actions.uploads.UPDATE_UPLOAD,
-        increment: true,
-        payload: { id, picture, status: 'pending', label },
-      });
-
-      const data = await getWebFileDataAsync(picture, sights, inspectionId);
-      const result = await monkApi.images.addOne({ inspectionId, data });
-
-      dispatch({
-        type: Actions.uploads.UPDATE_UPLOAD,
-        payload: { id, status: 'fulfilled' },
-      });
-
-      return result;
-    } catch (err) {
-      dispatch({
-        type: Actions.uploads.UPDATE_UPLOAD,
-        increment: true,
-        payload: { id, status: 'rejected', error: err },
-      });
-
-      return err;
-    }
-  }, [inspectionId, sights, uploads]);
-
-  const state = useMemo(() => ({
+  /**
+   * @type {{
+     * settings: {zoom: number, ratio: string},
+     * sights: {
+       * dispatch: (function({}): void),
+       * name: string,
+       * state: {current, ids, remainingPictures, takenPictures: {}, tour},
+     * },
+     * compliance: {
+       * dispatch: (function({}): void),
+       * name: string,
+       * state: {
+         * status: string,
+         * error,
+         * requestCount:
+         * number,
+         * result: {
+           * binary_size: number,
+             * compliances: {
+               * iqc_compliance: {
+                 * is_compliant: boolean,
+                 * reason: string,
+                 * status: string,
+               * },
+             * },
+           * id: string,
+           * image_height: number,
+           * image_width: number,
+           * name: string,
+           * path: string,
+         * },
+       * },
+     * },
+     * isReady: boolean,
+     * uploads: {
+       * dispatch: (function({}): void),
+       * name: string,
+       * state: {picture, status: string, error: null, uploadCount: number},
+     * }
+   * }}
+   */
+  const states = useMemo(() => ({
+    compliance,
     isReady,
     settings,
     sights,
     uploads,
-  }), [isReady, settings, sights, uploads]);
+  }), [compliance, isReady, settings, sights, uploads]);
 
+  // END STATES //
+  // METHODS //
+
+  const createDamageDetectionAsync = useCreateDamageDetectionAsync();
+  const takePictureAsync = useTakePictureAsync({ camera, current, sights });
+  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads });
+  const checkComplianceAsync = useCheckComplianceAsync({ compliance, inspectionId });
+  const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
+
+  /**
+   * @type {{
+     * createDamageDetectionAsync: function(tasks=, data.compliances=): Promise<data>,
+     * startUploadAsync: (function({inspectionId, sights, uploads}): Promise<result|error>)|*,
+     * goPrevSight: (function(): void)|*,
+     * takePictureAsync: function(): Promise<picture>,
+     * camera: undefined,
+     * checkComplianceAsync: (function(string): Promise<result|error>)|*,
+     * goNextSight: (function(): void)|*,
+   * }}
+   */
   const api = useMemo(() => ({
     camera,
+    checkComplianceAsync,
+    createDamageDetectionAsync,
     goPrevSight,
     goNextSight,
     startUploadAsync,
     takePictureAsync,
-  }), [camera, goNextSight, goPrevSight, startUploadAsync, takePictureAsync]);
+  }), [
+    camera, checkComplianceAsync, createDamageDetectionAsync,
+    goNextSight, goPrevSight, startUploadAsync, takePictureAsync,
+  ]);
+
+  // END METHODS //
+  // HANDLERS //
 
   const handleCameraReady = useCallback(() => {
     setReady(true);
     log([`Camera preview has been set`]);
-    onReady(state, api);
-  }, [api, onReady, state]);
+    onReady(states, api);
+  }, [api, onReady, states]);
+
+  // END HANDLERS //
+  // EFFECTS //
 
   useEffect(() => {
-    onChange(state, api);
-  }, [api, onChange, state]);
+    onChange(states, api);
+  }, [api, onChange, states]);
 
   useEffect(() => {
     if (sightIds) {
@@ -184,30 +194,62 @@ export default function Capture({
     }
   }, [tour, sightIds]);
 
+  // END EFFECTS //
+  // RENDERING //
+
+  const left = useMemo(() => (
+    <Sights
+      containerStyle={sightsContainerStyle}
+      dispatch={sights.dispatch}
+      footer={footer}
+      navigationOptions={navigationOptions}
+      offline={offline}
+      thumbnailStyle={thumbnailStyle}
+      uploads={uploads}
+      {...sights.state}
+    />
+  ), [
+    footer, navigationOptions, offline, sights.dispatch,
+    sights.state, sightsContainerStyle, thumbnailStyle, uploads,
+  ]);
+
+  const right = useMemo(() => (
+    <Controls
+      api={api}
+      containerStyle={controlsContainerStyle}
+      elements={controls}
+      state={states}
+    />
+  ), [api, controls, controlsContainerStyle, states]);
+
+  const children = useMemo(() => (
+    <>
+      {(isReady && overlay && loading === false) ? (
+        <Overlay
+          svg={overlay}
+          style={styles.overlay}
+        />
+      ) : null}
+      {loading === true ? (
+        <View style={styles.loading}>
+          <ActivityIndicator
+            size="large"
+            color={primaryColor}
+          />
+        </View>
+      ) : null}
+    </>
+  ), [isReady, loading, overlay, primaryColor]);
+
   return (
-    <View accessibilityLabel="Capture component" style={[styles.container, style]}>
+    <View
+      accessibilityLabel="Capture component"
+      style={[styles.container, style]}
+    >
       <Layout
         fullscreen={fullscreen}
-        left={(
-          <Sights
-            containerStyle={sightsContainerStyle}
-            dispatch={sights.dispatch}
-            footer={footer}
-            navigationOptions={navigationOptions}
-            offline={offline}
-            thumbnailStyle={thumbnailStyle}
-            uploads={uploads}
-            {...sights.state}
-          />
-        )}
-        right={(
-          <Controls
-            api={api}
-            containerStyle={controlsContainerStyle}
-            elements={controls}
-            state={state}
-          />
-        )}
+        left={left}
+        right={right}
       >
         <Camera
           onRef={setCamera}
@@ -215,20 +257,13 @@ export default function Capture({
           title={title}
           {...settings}
         >
-          <>
-            {(isReady && overlay && loading === false) ? (
-              <Overlay svg={overlay} style={styles.overlay} />
-            ) : null}
-            {loading === true ? (
-              <View style={styles.loading}>
-                <ActivityIndicator size="large" color={primaryColor} />
-              </View>
-            ) : null}
-          </>
+          {children}
         </Camera>
       </Layout>
     </View>
   );
+
+  // END RENDERING //
 }
 
 Capture.propTypes = {
@@ -241,6 +276,7 @@ Capture.propTypes = {
   footer: PropTypes.element,
   fullscreen: PropTypes.objectOf(PropTypes.any),
   initialState: PropTypes.shape({
+    compliance: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),
@@ -269,6 +305,7 @@ Capture.defaultProps = {
   footer: null,
   fullscreen: null,
   initialState: {
+    compliance: undefined,
     settings: undefined,
     sights: undefined,
     uploads: undefined,
@@ -286,7 +323,20 @@ Capture.defaultProps = {
   onChange: () => {},
   onReady: () => {},
   primaryColor: '#FFF',
-  sightIds: ['vLcBGkeh', 'sLu0CfOt'],
+  sightIds: [
+    'vLcBGkeh', // Front
+    'xfbBpq3Q', // Front Bumper Side Left
+    'VmFL3v2A', // Front Door Left
+    'UHZkpCuK', // Rocker Panel Left
+    'OOJDJ7go', // Rear Door Left
+    'j8YHvnDP', // Rear Bumper Side Left
+    'XyeyZlaU', // Rear
+    'LDRoAPnk', // Rear Bumper Side Right
+    '2RFF3Uf8', // Rear Door Right
+    'B5s1CWT-', // Rocker Panel Right
+    'enHQTFae', // Front Door Right
+    'CELBsvYD', // Front Bumper Side Right
+  ],
   sightsContainerStyle: {},
   thumbnailStyle: {},
 };

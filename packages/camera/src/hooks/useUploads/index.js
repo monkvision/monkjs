@@ -46,7 +46,11 @@ function reducer(state, action) {
 
 /**
  * @param ids
- * @return {{dispatch: ({}) => void, name: string, state: S}}
+ * @return {{
+   * dispatch: (function({}): void),
+   * name: string,
+   * state: { picture, status: string, error: null, uploadCount: number }
+ * }}
  */
 export default function useUploads({ sightIds, initialState }) {
   const [state, dispatch] = useReducer(reducer, { sightIds, initialState }, init);
