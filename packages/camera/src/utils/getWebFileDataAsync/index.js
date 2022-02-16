@@ -8,7 +8,7 @@ import { Platform } from 'react-native';
  * @param inspectionId
  * @return {Promise<FormData>}
  */
-export default async function getWebFileData(picture, sights, inspectionId) {
+export default async function getWebFileData(picture, sights, inspectionId, settings) {
   if (Platform.OS !== 'web') {
     throw Error('`getWebFileData()` is only available on the browser');
   }
@@ -29,6 +29,7 @@ export default async function getWebFileData(picture, sights, inspectionId) {
       height: picture.height,
       exif: picture.exif,
       overlay: undefined,
+      ...settings,
     },
   });
 
