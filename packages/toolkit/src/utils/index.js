@@ -67,6 +67,8 @@ const spacing = Platform.select({
   default: defaultSpacing,
 });
 
+const useNativeDriver = Platform.OS !== 'web';
+
 export default {
   styles: {
     spacing,
@@ -75,4 +77,5 @@ export default {
   },
   makeRatio,
   getOS,
+  useNativeDriver,
 };
