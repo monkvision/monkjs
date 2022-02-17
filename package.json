@@ -135,6 +135,7 @@
     "@monkvision/react-native-views": "*",
     "@monkvision/sights": "*",
     "@monkvision/toolkit": "*",
-    "@monkvision/visualization": "*"
+    "@monkvision/visualization": "*",
+    "@monkvision/ui": "*"
   }
 }
