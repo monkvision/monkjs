@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, Platform, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { DamageHighlight } from '@monkvision/react-native';
+import { DamageHighlight } from '@monkvision/visualization';
 
 const {
   width,

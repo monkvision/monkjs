@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform, View } from 'react-native';
-import { Button, Card } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
+
 import { Circle, ClipPath, Defs, Ellipse, Svg } from 'react-native-svg';
+
 import useImageDamage from '../../hooks/useDamageImage';
 import DamageImage from '../DamageImage';
 
@@ -12,8 +13,8 @@ export default function DamageAnnotations({
   ellipseProps,
   image,
   onAdd,
-  onRemove,
-  onValidate,
+  // onRemove,
+  // onValidate,
 }) {
   const [isPointAdded, setIsPointAdded] = useState(false);
   const [ellipse, setEllipse] = useState(null);
@@ -21,7 +22,7 @@ export default function DamageAnnotations({
     state,
     setter,
     getSvgRatio,
-    saveEllipse,
+    // saveEllipse,
   } = useImageDamage(image);
 
   const [RATIO_X, RATIO_Y] = getSvgRatio;
@@ -110,17 +111,17 @@ export default function DamageAnnotations({
     }
   }, [state.dragX, state.dragY, state.dragLocation, setter, RATIO_X, RATIO_Y]);
 
-  const handleValidate = useCallback(() => {
-    if (state.location && updatedWidth !== 0 && updatedHeight !== 0) {
-      const newEllipse = saveEllipse(updatedWidth, updatedHeight);
-      onValidate(newEllipse);
-    }
-  }, [state.location, updatedWidth, updatedHeight, saveEllipse, onValidate]);
-
-  const handleRemove = useCallback(() => {
-    onRemove(ellipse);
-    setEllipse(null);
-  }, [ellipse, onRemove]);
+  // const handleValidate = useCallback(() => {
+  //   if (state.location && updatedWidth !== 0 && updatedHeight !== 0) {
+  //     const newEllipse = saveEllipse(updatedWidth, updatedHeight);
+  //     onValidate(newEllipse);
+  //   }
+  // }, [state.location, updatedWidth, updatedHeight, saveEllipse, onValidate]);
+  //
+  // const handleRemove = useCallback(() => {
+  //   onRemove(ellipse);
+  //   setEllipse(null);
+  // }, [ellipse, onRemove]);
 
   useEffect(() => {
     if (!ellipse) {
@@ -155,91 +156,66 @@ export default function DamageAnnotations({
 
   if (!ellipse) {
     return (
-      <Card>
-        <Card.Content>
-          <Svg
-            width={state.width}
-            height={state.height}
-            viewBox={`0 0 ${image.width} ${image.height}`}
-            onPress={handleAddPoint}
-            onClick={handleAddPoint}
-          >
-            <DamageImage name={image.id} source={image.source} />
-          </Svg>
-        </Card.Content>
-        <Card.Actions>
-          <Button onPress={handleRemove}>Remove</Button>
-          <Button onPress={handleValidate} mode="contained">
-            Finish
-          </Button>
-        </Card.Actions>
-      </Card>
+      <Svg
+        width={state.width}
+        height={state.height}
+        viewBox={`0 0 ${image.width} ${image.height}`}
+        onPress={handleAddPoint}
+        onClick={handleAddPoint}
+      >
+        <DamageImage name={image.id} source={image.source} />
+      </Svg>
     );
   }
 
   return (
-    <Card>
-      <Card.Content>
-        <Svg
-          width={state.width}
-          height={state.height}
-          viewBox={`0 0 ${image.width} ${image.height}`}
-          onPress={handleAddPoint}
-          onMouseMove={handleDrag}
-          onTouchMove={handleDrag}
-          onMouseUp={handleMouseUp}
-          onTouchEnd={handleMouseUp}
-        >
-          <Defs>
-            <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
-          </Defs>
-          {/* Show background image with a low opacity */}
-          <DamageImage name={image.id} source={image.source} opacity={backgroundOpacity} />
-          {/* Show Damages Polygon */}
-          <DamageImage name={image.id} source={image.source} clip opacity={ellipseProps.opacity} />
-          {polygon}
-          {
-            ellipse && (
-              <>
-                <Circle
-                  r={RADIUS_INIT}
-                  cy={updatedHeight}
-                  cx={state.location ? state.location?.cx : ellipse.cx}
-                  fill="mediumseagreen"
-                  onMouseDown={() => setter.setDragY(true)}
-                  onPressIn={() => setter.setDragY(true)}
-                />
-                <Circle
-                  r={RADIUS_INIT}
-                  cx={updatedWidth}
-                  cy={state.location ? state.location?.cy : ellipse.cy}
-                  fill="red"
-                  onMouseDown={() => setter.setDragX(true)}
-                  onPressIn={() => setter.setDragX(true)}
-                />
-                <Circle
-                  r={RADIUS_INIT}
-                  cy={state.location ? state.location?.cy : ellipse.cy}
-                  cx={state.location ? state.location?.cx : ellipse.cx}
-                  fill="orange"
-                  onMouseDown={() => setter.setDragLocation(true)}
-                  onPressIn={() => setter.setDragLocation(true)}
-                />
-              </>
-            )
-          }
-        </Svg>
-      </Card.Content>
-      <Card.Actions>
-        <Button onPress={handleRemove}>Remove</Button>
-        <Button
-          onPress={handleValidate}
-          mode="contained"
-        >
-          Finish
-        </Button>
-      </Card.Actions>
-    </Card>
+    <Svg
+      width={state.width}
+      height={state.height}
+      viewBox={`0 0 ${image.width} ${image.height}`}
+      onPress={handleAddPoint}
+      onMouseMove={handleDrag}
+      onTouchMove={handleDrag}
+      onMouseUp={handleMouseUp}
+      onTouchEnd={handleMouseUp}
+    >
+      <Defs>
+        <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
+      </Defs>
+      {/* Show background image with a low opacity */}
+      <DamageImage name={image.id} source={image.source} opacity={backgroundOpacity} />
+      {/* Show Damages Polygon */}
+      <DamageImage name={image.id} source={image.source} clip opacity={ellipseProps.opacity} />
+      {polygon}
+      {ellipse && (
+      <>
+        <Circle
+          r={RADIUS_INIT}
+          cy={updatedHeight}
+          cx={state.location ? state.location?.cx : ellipse.cx}
+          fill="mediumseagreen"
+          onMouseDown={() => setter.setDragY(true)}
+          onPressIn={() => setter.setDragY(true)}
+        />
+        <Circle
+          r={RADIUS_INIT}
+          cx={updatedWidth}
+          cy={state.location ? state.location?.cy : ellipse.cy}
+          fill="red"
+          onMouseDown={() => setter.setDragX(true)}
+          onPressIn={() => setter.setDragX(true)}
+        />
+        <Circle
+          r={RADIUS_INIT}
+          cy={state.location ? state.location?.cy : ellipse.cy}
+          cx={state.location ? state.location?.cx : ellipse.cx}
+          fill="orange"
+          onMouseDown={() => setter.setDragLocation(true)}
+          onPressIn={() => setter.setDragLocation(true)}
+        />
+      </>
+      )}
+    </Svg>
   );
 }
 
@@ -261,8 +237,8 @@ DamageAnnotations.propTypes = {
     width: PropTypes.number, // original size of the image
   }),
   onAdd: PropTypes.func,
-  onRemove: PropTypes.func,
-  onValidate: PropTypes.func,
+  // onRemove: PropTypes.func,
+  // onValidate: PropTypes.func,
 };
 
 DamageAnnotations.defaultProps = {
@@ -276,6 +252,6 @@ DamageAnnotations.defaultProps = {
   },
   image: null,
   onAdd: noop,
-  onRemove: noop,
-  onValidate: noop,
+  // onRemove: noop,
+  // onValidate: noop,
 };

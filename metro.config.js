@@ -13,6 +13,8 @@ config.resolver = {
     '@monkvision/react-native',
     '@monkvision/react-native-views',
     '@monkvision/sights',
+    '@monkvision/toolkit',
+    '@monkvision/visualization',
   ],
 };
 

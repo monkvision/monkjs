@@ -16,10 +16,11 @@
         "@monkvision/corejs": "./packages/corejs",
         "@monkvision/react-native": "./packages/react-native",
         "@monkvision/react-native-views": "./packages/react-native-views",
-        "@monkvision/sights": "./packages/sights"
+        "@monkvision/sights": "./packages/sights",
+        "@monkvision/toolkit": "./packages/toolkit",
+        "@monkvision/visualization": "./packages/visualization"
       }
     }],
-    ["babel-plugin-inline-import", { "extensions": [".svg"] }],
-    "react-native-reanimated/plugin"
+    ["babel-plugin-inline-import", { "extensions": [".svg"] }]
   ]
 }

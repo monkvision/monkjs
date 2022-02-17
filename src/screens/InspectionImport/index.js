@@ -1,7 +1,12 @@
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+
 import { createOneInspection, updateOneTaskOfInspection } from '@monkvision/corejs';
-import { utils } from '@monkvision/react-native';
-import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@monkvision/corejs';
-import { sightMasks } from '@monkvision/react-native';
 import { utils } from '@monkvision/toolkit';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { useSights } from '@monkvision/camera';
@@ -11,13 +16,6 @@ import { StatusBar } from 'expo-status-bar';
 
 import useRequest from 'hooks/useRequest/index';
 
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
 import { Appbar, Button, IconButton, useTheme } from 'react-native-paper';
 import { INSPECTION_READ, LANDING } from '../names';
 import useImport, { initialPictureData, VIN_ID } from './hooks/useImport';
