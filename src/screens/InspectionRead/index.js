@@ -7,7 +7,7 @@ import moment from 'moment';
 import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
 
-import { ActivityIndicatorView, PartListSection, useFakeActivity, usePartDamages } from '@monkvision/react-native-views';
+import { PartListSection, useFakeActivity, usePartDamages } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
 import Img from 'components/Img';
 import { spacing } from 'config/theme';
@@ -28,6 +28,8 @@ import {
   taskStatuses,
   vehiclesEntity,
 } from '@monkvision/corejs';
+
+import { Loader } from '@monkvision/ui';
 
 import {
   StyleSheet,
@@ -156,10 +158,8 @@ export default () => {
   const navigation = useNavigation();
 
   const { inspectionId } = route.params;
-  const [isFirstRequest, setIsFirstRequest] = useState(true);
 
-  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }),
-    { onSuccess: () => setIsFirstRequest(false) });
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -247,7 +247,7 @@ export default () => {
   }, []);
 
   const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: () => { setIsFirstRequest(true); refresh(); }, icon: 'refresh', disabled: Boolean(taskInProgress) },
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh', disabled: Boolean(taskInProgress) },
     { title: 'Update', onPress: handleGoToEditInspection, icon: 'file-document-edit' },
     { title: 'Export as PDF', onPress: handleExportPdf, icon: 'pdf-box', disabled: true },
     { title: 'Delete', onPress: openDeletionDialog, icon: 'trash-can', divider: true },
@@ -288,8 +288,12 @@ export default () => {
     }
   }, [theme.colors.text, inspection, inspectionId, menuItems, navigation]);
 
-  if (isLoading && isFirstRequest) {
-    return <ActivityIndicatorView light />;
+  if (isLoading) {
+    return <Loader texts={['Loading the inspection...', 'Swapping time and space...', 'Just count to 10...']} />;
+  }
+
+  if (taskInProgress) {
+    return <Loader texts={['Calling AI...', 'Ai is warming up...', 'Reading damages...', 'Don\'t break your screen yet...', 'Something is coming...']} />;
   }
 
   return (
