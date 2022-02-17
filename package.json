@@ -25,7 +25,7 @@
     "watch:react-native": "cd ./packages/react-native && yarn watch",
     "watch:react-native-views": "cd ./packages/react-native-views && yarn watch",
     "watch:sights": "cd ./packages/sights && yarn watch",
-    "watch:all": "concurrently \"yarn run watch:ui\" \"yarn run watch:visualization\" \"yarn run watch:camera\" \"yarn run watch:corejs\" \"yarn run watch:react-native\" \"yarn run watch:react-native-views\" \"yarn run watch:sights\"",
+    "watch:all": "concurrently \"yarn run watch:ui\" \"yarn run watch:toolkit\" \"yarn run watch:visualization\" \"yarn run watch:camera\" \"yarn run watch:corejs\" \"yarn run watch:react-native\" \"yarn run watch:react-native-views\" \"yarn run watch:sights\"",
     "build:ui": "cd ./packages/ui && yarn run build",
     "build:camera": "cd ./packages/camera && yarn run build",
     "build:visualization": "cd ./packages/visualization && yarn run build",
