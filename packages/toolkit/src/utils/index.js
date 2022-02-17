@@ -1,39 +1,8 @@
-import isEmpty from 'lodash.isempty';
-import { Dimensions, Platform } from 'react-native';
+import { Platform } from 'react-native';
+import * as styles from './styles';
 
-const flex = {
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  ...Platform.select({
-    native: { flex: 1 },
-    default: { display: 'flex', flexGrow: 1, height: '100vh' },
-  }),
-};
 const RATIO_FACTOR = 240;
 const makeRatio = (width, height) => `${width / RATIO_FACTOR}:${height / RATIO_FACTOR}`;
-
-function getContainedSizes(ratio) {
-  if (isEmpty(ratio)) { return {}; }
-  const windowHeight = Dimensions.get('window').height;
-  const windowWidth = Dimensions.get('window').width;
-
-  const [a, b] = ratio.split(':').sort((c, d) => (c + d));
-  const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
-
-  return {
-    ...Platform.select({
-      native: {
-        height: longest,
-        width: longest * (a / b),
-      },
-      default: {
-        height: '100vh',
-        width: `${Math.floor(100 * (a / b))}vh`,
-      },
-    }),
-  };
-}
 
 function getOS() {
   const userAgent = window.navigator.userAgent;
@@ -58,23 +27,10 @@ function getOS() {
   return os;
 }
 
-const SPACING_BASE = 8;
-const nativeSpacing = (spacingFactor = 1) => SPACING_BASE * spacingFactor;
-const defaultSpacing = (spacingFactor) => `${nativeSpacing(spacingFactor)}px`;
-
-const spacing = Platform.select({
-  native: nativeSpacing,
-  default: defaultSpacing,
-});
-
 const useNativeDriver = Platform.OS !== 'web';
 
 export default {
-  styles: {
-    spacing,
-    flex,
-    getContainedSizes,
-  },
+  styles,
   makeRatio,
   getOS,
   useNativeDriver,
