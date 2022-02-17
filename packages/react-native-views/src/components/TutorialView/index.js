@@ -14,7 +14,7 @@ import {
   Portal,
   Provider as PaperProvider } from 'react-native-paper';
 import { SvgXml } from 'react-native-svg';
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import drawing from './drawing';
 import AdvicesView from '../AdvicesView';
 

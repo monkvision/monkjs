@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
 import noop from 'lodash.noop';
 
-import { Vehicle } from '@monkvision/react-native';
+import { Vehicle } from '@monkvision/visualization';
 import vehicleViews from '../../assets/vehicle';
 
 export default function DamagedPartsView({ partsWithDamages, viewType, pressAble, onPress,

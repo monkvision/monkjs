@@ -1,5 +1,8 @@
 import { createOneInspection, updateOneTaskOfInspection } from '@monkvision/corejs';
 import { utils } from '@monkvision/react-native';
+import { createOneInspection, Sight, updateOneTaskOfInspection, values } from '@monkvision/corejs';
+import { sightMasks } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
 import { useSights } from '@monkvision/camera';
 import { useNavigation } from '@react-navigation/native';
@@ -43,19 +46,15 @@ const sightIds = [
   'sLu0CfOt', // VIN
   'vLcBGkeh', // Front
   'xfbBpq3Q', // Front Bumper Side Left
-  'xQKQ0bXS', // Front Wheel Left
   'VmFL3v2A', // Front Door Left
   'UHZkpCuK', // Rocker Panel Left
   'OOJDJ7go', // Rear Door Left
-  '8_W2PO8L', // Rear Wheel Left
   'j8YHvnDP', // Rear Bumper Side Left
   'XyeyZlaU', // Rear
   'LDRoAPnk', // Rear Bumper Side Right
-  'rN39Y3HR', // Rear Wheel Right
   '2RFF3Uf8', // Rear Door Right
   'B5s1CWT-', // Rocker Panel Right
   'enHQTFae', // Front Door Right
-  'PuIw17h0', // Front Wheel Right
   'CELBsvYD', // Front Bumper Side Right
 ];
 

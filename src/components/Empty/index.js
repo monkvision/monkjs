@@ -4,7 +4,7 @@ import noop from 'lodash.noop';
 
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Title, useTheme } from 'react-native-paper';
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 
 import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';

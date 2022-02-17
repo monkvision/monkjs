@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { propTypes } from '@monkvision/react-native';
+import { propTypes } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

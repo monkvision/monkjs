@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import camelCase from 'lodash.camelcase';
 
-import { vehiclePartsNames } from '@monkvision/react-native';
+import { vehiclePartsNames } from '@monkvision/visualization';
 
 export default function useComputedParts(partsWithDamages) {
   const activeParts = useMemo(

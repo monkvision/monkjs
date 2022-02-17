@@ -5,7 +5,7 @@ import { Button, Portal, Modal, Card } from 'react-native-paper';
 import { startCase } from 'lodash';
 import { Picker } from '@react-native-picker/picker';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { Platform, StyleSheet } from 'react-native';
 
 const spacing = utils.styles.spacing;

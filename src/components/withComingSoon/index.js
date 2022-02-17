@@ -3,7 +3,7 @@ import { View, useWindowDimensions, StyleSheet, Text, Platform } from 'react-nat
 import { Portal, Button, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 
 import Drawing from '../Drawing';
 import com from './assets/construction.svg';

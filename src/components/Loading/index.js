@@ -5,7 +5,7 @@ import isEmpty from 'lodash.isempty';
 import { spacing } from 'config/theme';
 
 import { StyleSheet, View } from 'react-native';
-import { utils } from '@monkvision/react-native';
+import { utils } from '@monkvision/toolkit';
 import { Text } from 'react-native-paper';
 
 import Loader from 'components/Loader';
