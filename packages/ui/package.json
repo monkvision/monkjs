@@ -38,7 +38,10 @@
     "build": "bob build",
     "release": "release-it"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-native-paper": "^4.10.1",
+    "lodash.noop": "^3.0.1"
+  },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^15.0.0",

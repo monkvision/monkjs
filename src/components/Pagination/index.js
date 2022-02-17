@@ -5,12 +5,12 @@ import noop from 'lodash.noop';
 import isEmpty from 'lodash.isempty';
 
 import { utils } from '@monkvision/toolkit';
-import { spacing } from 'config/theme';
 
 import { View, StyleSheet, Platform } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   root: {
     ...utils.styles.flex,

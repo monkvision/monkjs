@@ -1,4 +1,3 @@
-import { spacing } from 'config/theme';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -14,8 +13,11 @@ import { ActivityIndicator, IconButton, useTheme } from 'react-native-paper';
 import startCase from 'lodash.startcase';
 
 import { Overlay } from '@monkvision/camera';
+import { utils } from '@monkvision/toolkit';
 
+const { spacing } = utils.styles;
 const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   sightCard: {
     display: 'flex',

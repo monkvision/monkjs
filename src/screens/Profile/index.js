@@ -8,17 +8,16 @@ import { useNavigation } from '@react-navigation/native';
 
 import { getUserSignature } from '@monkvision/corejs';
 import { ActivityIndicatorView } from '@monkvision/react-native-views';
-
-import { spacing } from 'config/theme';
+import { useToggle, utils } from '@monkvision/toolkit';
 
 import { useMediaQuery } from 'react-responsive';
 import SignOut from 'screens/Authentication/SignOut';
 
 import withComingSoon from 'components/withComingSoon';
-import useToggle from 'hooks/useToggle/index';
 import EditSignatureForm from './EditSignatureForm';
 import useSignature from './useSignature';
 
+const { spacing } = utils.styles;
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({

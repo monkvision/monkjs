@@ -10,15 +10,13 @@ import * as Clipboard from 'expo-clipboard';
 import PropTypes from 'prop-types';
 
 import { getOneInspectionTask, selectTaskById, updateOneTaskOfInspection, taskStatuses } from '@monkvision/corejs';
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
-import CustomDialog from 'components/CustomDialog';
+import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { useToggle, useTimeout, useFakeActivity, utils } from '@monkvision/toolkit';
 
 import useRequest from 'hooks/useRequest';
-import useTimeout from 'hooks/useTimeout';
-import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing';
 import ActionMenu from 'components/ActionMenu';
-import useToggle from 'hooks/useToggle/index';
+import CustomDialog from 'components/CustomDialog';
 
 import notStarted from './assets/notStarted.svg';
 import todo from './assets/todo.svg';
@@ -27,6 +25,8 @@ import done from './assets/done.svg';
 import error from './assets/error.svg';
 import aborted from './assets/aborted.svg';
 import validated from './assets/validated.svg';
+
+const { spacing } = utils.styles;
 
 const styles = StyleSheet.create({
   root: {

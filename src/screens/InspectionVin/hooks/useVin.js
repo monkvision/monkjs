@@ -1,17 +1,18 @@
+import { useCallback, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
+import { denormalize } from 'normalizr';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
 import {
   createOneInspection, getOneInspectionById, inspectionsEntity, selectInspectionEntities,
   selectTaskEntities, selectVehicleEntities, tasksEntity,
   taskStatuses, updateOneTaskOfInspection, vehiclesEntity,
 } from '@monkvision/corejs';
-import { useFakeActivity, useToggle } from '@monkvision/react-native-views';
-import { useNavigation } from '@react-navigation/native';
-import useInterval from 'hooks/useInterval';
+import { useInterval, useFakeActivity, useToggle } from '@monkvision/toolkit';
+
 import useRequest from 'hooks/useRequest';
 import useUpload from 'hooks/useUpload';
-import { denormalize } from 'normalizr';
-import { useCallback, useMemo, useState } from 'react';
-import { Platform } from 'react-native';
-import { useSelector } from 'react-redux';
 
 const REFRESH_DELAY = 3000;
 

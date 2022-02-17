@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, TextInput, Title } from 'react-native-paper';
 import PropTypes from 'prop-types';
-
-import Signature from 'components/Signature';
-import { spacing } from 'config/theme';
-
-import { BottomSheet } from '@monkvision/react-native-views';
 import noop from 'lodash.noop';
 
+import { BottomSheet } from '@monkvision/ui';
+import { utils } from '@monkvision/toolkit';
+
+import Signature from 'components/Signature';
+
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: spacing(2),

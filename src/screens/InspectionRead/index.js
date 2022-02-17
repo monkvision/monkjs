@@ -1,16 +1,12 @@
 import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, Platform, VirtualizedList } from 'react-native';
+import { Appbar, Card, Button, Dialog, Paragraph, Portal, useTheme, Chip, TouchableRipple } from 'react-native-paper';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
-
 import moment from 'moment';
 import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
-
-import { PartListSection, useFakeActivity, usePartDamages } from '@monkvision/react-native-views';
-import useRequest from 'hooks/useRequest';
-import Img from 'components/Img';
-import { spacing } from 'config/theme';
 
 import {
   damagesEntity,
@@ -28,42 +24,19 @@ import {
   taskStatuses,
   vehiclesEntity,
 } from '@monkvision/corejs';
-
+import { PartListSection, usePartDamages } from '@monkvision/react-native-views';
+import { utils, useFakeActivity, useInterval } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Platform,
-  VirtualizedList,
-} from 'react-native';
-
-import {
-  Appbar,
-  Card,
-  Button,
-  Dialog,
-  Paragraph,
-  Portal,
-  useTheme,
-  Chip,
-  TouchableRipple,
-} from 'react-native-paper';
+import useRequest from 'hooks/useRequest';
+import Img from 'components/Img';
 
 import ActionMenu from 'components/ActionMenu';
 import ImageViewer from 'components/ImageViewer';
 
-import {
-  DAMAGES,
-  LANDING,
-  TASK_READ,
-  INSPECTION_UPDATE,
-  DAMAGE_READ,
-} from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE, DAMAGE_READ } from 'screens/names';
 
-import useInterval from 'hooks/useInterval/index';
-
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
@@ -288,7 +261,7 @@ export default () => {
     }
   }, [theme.colors.text, inspection, inspectionId, menuItems, navigation]);
 
-  if (isLoading) {
+  if (fakeActivity) {
     return <Loader texts={['Loading the inspection...', 'Swapping time and space...', 'Just count to 10...']} />;
   }
 

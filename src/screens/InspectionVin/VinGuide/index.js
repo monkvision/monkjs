@@ -4,14 +4,15 @@ import { Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { BottomSheet } from '@monkvision/react-native-views';
+import { BottomSheet } from '@monkvision/ui';
+import { utils } from '@monkvision/toolkit';
 
-import { spacing } from 'config/theme';
 import Drawing from 'components/Drawing/index';
 import texts from './text';
 import vinLocations from '../assets/vinLocations.svg';
 import vinFormat from '../assets/vinFormat.svg';
 
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   content: {
     marginVertical: spacing(2),

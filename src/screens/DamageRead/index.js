@@ -1,16 +1,13 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
+import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import moment from 'moment';
 import isEmpty from 'lodash.isempty';
 import startCase from 'lodash.startcase';
-
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
-import useRequest from 'hooks/useRequest';
-
-import { spacing } from 'config/theme';
 
 import {
   damagesEntity,
@@ -30,21 +27,26 @@ import {
   tasksEntity,
   taskStatuses,
 } from '@monkvision/corejs';
-
+import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { utils, useFakeActivity } from '@monkvision/toolkit';
 import { DamageHighlight, usePolygons } from '@monkvision/visualization';
-
-import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
-import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
 
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
 import ImageViewer from 'components/ImageViewer';
+import useRequest from 'hooks/useRequest';
+
+const { spacing } = utils.styles;
 
 const getDamageViews = (damageId, images) => {
   const damageViews = images.map((img) => img.views?.filter((v) => v.element_id === damageId))
     .filter((dmgViews) => !isEmpty(dmgViews));
   return damageViews.concat.apply([], damageViews);
 };
+
+const getDamageImages = (damageViews, images) => damageViews.map(
+  (dmgView) => images.find((img) => img.id === dmgView.image_region?.image_id),
+);
 
 const styles = StyleSheet.create({
   root: {
@@ -203,6 +205,11 @@ export default () => {
   const damageViews = useMemo(
     () => getDamageViews(damageId, inspection?.images ?? []),
     [damageId, inspection.images],
+  );
+
+  const damageImages = useMemo(
+    () => getDamageImages(damageViews, inspection?.images ?? []),
+    [damageViews, inspection.images],
   );
 
   useLayoutEffect(() => {

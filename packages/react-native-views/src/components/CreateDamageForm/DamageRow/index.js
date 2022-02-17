@@ -5,7 +5,7 @@ import { IconButton, DataTable } from 'react-native-paper';
 import { startCase, noop } from 'lodash';
 import { useMediaQuery } from 'react-responsive';
 
-import Select from '../../Select';
+import { Select } from '@monkvision/ui';
 
 const styles = StyleSheet.create({
   cell: {

@@ -2,9 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import isEmpty from 'lodash.isempty';
 
 import { useDispatch } from 'react-redux';
-import { useFakeActivity } from '@monkvision/react-native-views';
 import useRequest from 'hooks/useRequest';
-import useToggle from 'hooks/useToggle';
+import { useToggle, useFakeActivity } from '@monkvision/toolkit';
 
 import { createOneDamage, addOneViewToInspection, config } from '@monkvision/corejs';
 import { Platform } from 'react-native';

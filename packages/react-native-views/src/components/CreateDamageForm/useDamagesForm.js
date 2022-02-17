@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import useToggle from '../../hooks/useToggle';
+
+import { useToggle } from '@monkvision/toolkit';
 
 export default function useDamagesForm({ onChangeCurrentDamage, setDamagePictures }) {
   const [isPreviewDialogOpen, openPreviewDialog, closePreviewDialog] = useToggle();
