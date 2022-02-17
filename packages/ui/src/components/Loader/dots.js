@@ -14,6 +14,15 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * @param dots
+ * @param colors
+ * @param dotSize
+ * @param bounceHeight
+ * @param borderRadius
+ * @return {JSX.Element}
+ * @constructor
+ */
 export default function Dots({ dots, colors, dotSize, bounceHeight, borderRadius }) {
   const [animations, setAnimations] = useState([]);
 
@@ -57,7 +66,7 @@ export default function Dots({ dots, colors, dotSize, bounceHeight, borderRadius
   }, [animations, handleOpacityAnimation, handleParallelAnimation]);
 
   return (
-    <Animated.View style={[styles.loading, { opacity }]}>
+    <Animated.View style={[styles.loading, { opacity, height: bounceHeight * 3 }]}>
       {animations.map((animation, index) => (
         <Animated.View
           // eslint-disable-next-line react/no-array-index-key

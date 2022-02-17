@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Proptypes from 'prop-types';
 
 import Dots from './dots';
+import Texts from './texts';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,10 +16,11 @@ const styles = StyleSheet.create({
   contentLayout: { width: '60%' },
 });
 
-function Loader(props) {
+function Loader({ texts, ...props }) {
   return (
     <View style={styles.container}>
       <View style={styles.contentLayout}>
+        {texts ? <Texts texts={texts} /> : null}
         <Dots {...props} />
       </View>
     </View>
@@ -26,6 +28,7 @@ function Loader(props) {
 }
 
 Loader.Dots = Dots;
+Loader.Texts = Texts;
 
 Loader.propTypes = {
   borderRadius: Proptypes.number,
@@ -33,6 +36,8 @@ Loader.propTypes = {
   colors: Proptypes.arrayOf(Proptypes.string),
   dots: Proptypes.number,
   dotSize: Proptypes.number,
+  texts: Proptypes.arrayOf(Proptypes.string),
+
 };
 Loader.defaultProps = {
   dots: 4,
@@ -40,6 +45,7 @@ Loader.defaultProps = {
   dotSize: 20,
   bounceHeight: 20,
   borderRadius: null,
+  texts: null,
 };
 
 export default Loader;
