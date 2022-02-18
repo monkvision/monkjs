@@ -1,11 +1,20 @@
 import { useCallback, useMemo } from 'react';
 import { monkApi } from '@monkvision/corejs';
+import { Platform } from 'react-native';
 
 import Constants from '../../const';
 import Actions from '../../actions';
 
 import getWebFileDataAsync from '../../utils/getWebFileDataAsync';
 import log from '../../utils/log';
+
+function blobToBase64(blob) {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
 
 /**
  * @param current
@@ -27,18 +36,43 @@ export function useTitle({ current }) {
  * @param current
  * @param settings
  * @param sights
- * @return {function(): Promise<picture>}
+ * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
 export function useTakePictureAsync({ camera, current, settings, sights }) {
-  return useCallback(async () => {
+  return useCallback(async (options = {
+    quality: 1,
+    base64: true,
+    exif: true,
+  }) => {
+    let blob;
+    let picture = { uri: '' };
+
     log([`Awaiting picture to be taken...`]);
-    const picture = await camera.takePictureAsync();
+
+    if (Platform.OS === 'web') {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
+
+      const track = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(track);
+
+      blob = await imageCapture.takePhoto();
+
+      // const photoBitmap = await createImageBitmap(blob);
+      // console.log(photoBitmap);
+
+      picture.uri = await blobToBase64(blob);
+    } else {
+      picture = await camera.takePictureAsync(options);
+    }
+
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
     const payload = { id: current.id, picture: { ...settings, ...picture } };
     sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
 
-    return picture;
+    return Platform.select({ native: picture, default: blob });
   }, [camera, current.id, settings, sights]);
 }
 

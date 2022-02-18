@@ -5638,24 +5638,14 @@ expo-auth-session@~3.4.2:
     invariant "^2.2.4"
     qs "6.9.1"
 
-expo-camera@^12.1.0:
-  version "12.1.1"
-  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-12.1.1.tgz#70d5f145931c885f5513b8667764368b516e484c"
-  integrity sha512-66zISzVhjd3VoZejVuKi6eicP3ZqTGoqEP+egB13eeAOVM1v1OecUjPMM4M0pXqvJq4H63KiHUGgPL8Tyn5z3A==
+expo-camera@^12.1.2:
+  version "12.1.2"
+  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-12.1.2.tgz#b549a8054ce5778fbf37a45b5d41003f36f5bb3c"
+  integrity sha512-Rr0Evj1V3LGiZE5/YBuuVimuU9uSTwVoqtSBsZ8QoK11+g9vnu2NgBjFMb938yjWD5tqJiXRH8lVTM2mvzSmIQ==
   dependencies:
     "@expo/config-plugins" "^4.0.2"
     "@koale/useworker" "^4.0.2"
     invariant "^2.2.4"
-
-expo-camera@~12.0.3:
-  version "12.0.3"
-  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-12.0.3.tgz#9afc38c12b973f385d38c7393627f0e2eb3d49a9"
-  integrity sha512-0u0e7ia3+GrJtmpxDQxQ8kp2hSw3eTN0Qt2+w9d6GxLsGaEZY+1/wFp906KGbRXmvJqg6YsjIv/pDoV+BQpwgg==
-  dependencies:
-    "@expo/config-plugins" "^4.0.2"
-    "@koale/useworker" "^4.0.2"
-    expo-modules-core "~0.4.4"
-    invariant "2.2.4"
 
 expo-clipboard@^2.0.3:
   version "2.1.1"

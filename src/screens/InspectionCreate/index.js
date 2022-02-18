@@ -34,27 +34,26 @@ export default () => {
       goNextSight,
     } = api;
 
-    setTimeout(async () => {
-      const picture = await takePictureAsync();
-      const { sights } = state;
-      const { camera } = api;
-      const { current, ids, takenPictures } = sights.state;
+    const picture = await takePictureAsync();
 
-      if (current.index === ids.length - 1) {
-        const upload = await startUploadAsync(picture);
-        await checkComplianceAsync(upload.data.id);
+    const { sights } = state;
+    const { camera } = api;
+    const { current, ids, takenPictures } = sights.state;
 
-        setLoading(false);
-        requests.updateTask.request();
-        handleSuccess({ camera, pictures: takenPictures });
-      } else {
-        setLoading(false);
-        goNextSight();
+    if (current.index === ids.length - 1) {
+      const upload = await startUploadAsync(picture);
+      await checkComplianceAsync(upload.data.id);
 
-        const upload = await startUploadAsync(picture);
-        checkComplianceAsync(upload.data.id);
-      }
-    }, 200);
+      setLoading(false);
+      requests.updateTask.request();
+      handleSuccess({ camera, pictures: takenPictures });
+    } else {
+      setLoading(false);
+      goNextSight();
+
+      const upload = await startUploadAsync(picture);
+      checkComplianceAsync(upload.data.id);
+    }
   }, [handleSuccess, requests.updateTask]);
 
   const controls = [{
