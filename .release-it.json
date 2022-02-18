@@ -1,6 +1,7 @@
 {
   "hooks": {
     "after:bump": [
+      "npm run build:ui",
       "npm run build:toolkit",
       "npm run build:sights",
       "npm run build:corejs",

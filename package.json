@@ -34,7 +34,7 @@
     "build:react-native": "cd ./packages/react-native && yarn run build",
     "build:react-native-views": "cd ./packages/react-native-views && yarn run build",
     "build:sights": "cd ./packages/sights && yarn run build",
-    "build:all": "yarn run build:camera && yarn run build:corejs && yarn run build:react-native && yarn run build:react-native-views && yarn run build:sights",
+    "build:all": "concurrently \"yarn run build:ui\" \"yarn run build:toolkit\" \"yarn run build:visualization\" \"yarn run build:camera\" \"yarn run build:corejs\" \"yarn run build:react-native\" \"yarn run build:react-native-views\" \"yarn run build:sights\"",
     "build:android": "expo build:android",
     "build:ios": "expo build:ios",
     "eject": "expo eject",
