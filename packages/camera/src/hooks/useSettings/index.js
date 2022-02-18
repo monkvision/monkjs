@@ -3,7 +3,12 @@ import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import log from '../../utils/log';
 
-export default function useSettings({ camera, initialState = { ratio: '4:3', zoom: 0 } }) {
+export default function useSettings({ camera, initialState = {
+  quality: 1,
+  ratio: '4:3',
+  skipProcessing: false,
+  zoom: 0,
+} }) {
   const [settings, setSettings] = useState(initialState);
 
   useEffect(() => {
@@ -49,6 +54,7 @@ export default function useSettings({ camera, initialState = { ratio: '4:3', zoo
 
         const pictureSizes = await camera.getAvailablePictureSizesAsync(settings.ratio);
         newSettings.pictureSizes = pictureSizes;
+        newSettings.pictureSize = pictureSizes[0];
 
         log([`Available picture sizes are:`, pictureSizes]);
       }
