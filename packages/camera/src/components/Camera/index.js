@@ -1,31 +1,16 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
+import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
 import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
-export function getSize(ratio, { windowHeight, windowWidth }) {
-  const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // [4:3] || [3:4]
-  const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
-
-  return {
-    ...Platform.select({
-      native: {
-        height: longest,
-        width: longest * (a / b),
-      },
-      default: {
-        height: '100vh',
-        width: `${Math.floor(100 * (a / b))}vh`,
-      },
-    }),
-  };
-}
+const { getSize } = utils.styles;
 
 const styles = StyleSheet.create({
   title: {

@@ -4,7 +4,7 @@ import { denormalize } from 'normalizr';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { DamagesView, useFakeActivity, CreateDamageForm } from '@monkvision/react-native-views';
+import { DamagesView, CreateDamageForm } from '@monkvision/react-native-views';
 import { DAMAGE_READ } from 'screens/names';
 import {
   damagesEntity,
@@ -20,10 +20,10 @@ import {
   taskNames,
   taskStatuses,
 } from '@monkvision/corejs';
+import { useToggle, useFakeActivity } from '@monkvision/toolkit';
 
 import useRequest from 'hooks/useRequest/index';
 import ActionMenu from 'components/ActionMenu';
-import useToggle from 'hooks/useToggle/index';
 import { useTheme, Portal } from 'react-native-paper';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import useDamages from './useDamages';

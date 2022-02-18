@@ -5,7 +5,7 @@ import { DataTable, Button, List, withTheme } from 'react-native-paper';
 import { noop, startCase } from 'lodash';
 
 import { utils } from '@monkvision/toolkit';
-import BottomSheet from '../../BottomSheet';
+import { BottomSheet } from '@monkvision/ui';
 
 import DamagePicturesPreview from '../DamagePicturesPreview';
 import DamageRow from '../DamageRow';

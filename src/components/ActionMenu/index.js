@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Menu, Divider, IconButton } from 'react-native-paper';
 
-import useToggle from 'hooks/useToggle';
+import { useToggle } from '@monkvision/toolkit';
 
 export default function ActionsMenu({ menuItems }) {
   const [isMenuOpen, handleOpenMenu, handleDismissMenu] = useToggle();

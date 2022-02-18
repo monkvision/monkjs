@@ -5,8 +5,9 @@ import noop from 'lodash.noop';
 import { RefreshControl, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useTheme } from 'react-native-paper';
-import { spacing } from 'config/theme';
+import { utils } from '@monkvision/toolkit';
 
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   root: {
     flex: 1,

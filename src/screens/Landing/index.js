@@ -1,21 +1,12 @@
 import useRequest from 'hooks/useRequest';
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
-
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
-
-import { PROFILE, INSPECTION_READ } from 'screens/names';
-import { spacing } from 'config/theme';
 import { StatusBar } from 'expo-status-bar';
-
 import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions, Platform } from 'react-native';
 import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
-import MonkIcon from 'components/Icons/MonkIcon';
-
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-
-import InspectionButton from 'screens/Landing/InspectionButton';
 
 import {
   damagesEntity,
@@ -32,7 +23,13 @@ import {
   tasksEntity,
   vehiclesEntity,
 } from '@monkvision/corejs';
+import { utils } from '@monkvision/toolkit';
 
+import { PROFILE, INSPECTION_READ } from 'screens/names';
+import MonkIcon from 'components/Icons/MonkIcon';
+import InspectionButton from 'screens/Landing/InspectionButton';
+
+const { spacing } = utils.styles;
 const LIMIT = 25;
 
 const styles = StyleSheet.create({

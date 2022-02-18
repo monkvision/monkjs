@@ -4,14 +4,14 @@ import { Avatar, Button, Card, TextInput, useTheme } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Formik } from 'formik';
-
-import { updateOneInspectionAdditionalData } from '@monkvision/corejs';
-
-import { spacing } from 'config/theme';
-import useRequest from 'hooks/useRequest';
-
 import noop from 'lodash.noop';
 
+import { updateOneInspectionAdditionalData } from '@monkvision/corejs';
+import { utils } from '@monkvision/toolkit';
+
+import useRequest from 'hooks/useRequest';
+
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: spacing(2),

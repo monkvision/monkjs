@@ -19,8 +19,9 @@ import {
   tasksEntity,
   vehiclesEntity,
 } from '@monkvision/corejs';
+import { useFakeActivity } from '@monkvision/toolkit';
+import { Loader } from '@monkvision/ui';
 
-import { ActivityIndicatorView, useFakeActivity } from '@monkvision/react-native-views';
 import { useNavigation } from '@react-navigation/native';
 import useRequest from 'hooks/useRequest';
 
@@ -152,7 +153,7 @@ export default () => {
 
   // loading
   if (isLoading) {
-    return <ActivityIndicatorView light />;
+    return <Loader texts={['Loading all useful inspections...', 'Waking up the minions...', 'Loading...']} />;
   }
 
   return (

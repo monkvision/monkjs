@@ -7,12 +7,12 @@ import { useFormik } from 'formik';
 import { TextInputMask } from 'react-native-masked-text';
 
 import { updateOneInspectionVehicle } from '@monkvision/corejs';
+import { useToggle, utils } from '@monkvision/toolkit';
 
-import { spacing } from 'config/theme';
-import useToggle from 'hooks/useToggle/index';
 import handleStatuses from './statuses';
 import useVinForm from '../hooks/useVinForm';
 
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   card: {
     height: '100%',

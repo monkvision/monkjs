@@ -1,6 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
-import { spacing } from 'config/theme';
+import { utils } from '@monkvision/toolkit';
 
+const { spacing } = utils.styles;
 export default StyleSheet.create({
   root: {
     flexDirection: 'column',

@@ -4,8 +4,9 @@ import { Dimensions, PanResponder, Platform, StyleSheet, View } from 'react-nati
 import Canvas from 'react-native-canvas';
 import { Button, useTheme } from 'react-native-paper';
 
-import { spacing } from 'config/theme';
+import { utils } from '@monkvision/toolkit';
 
+const { spacing } = utils.styles;
 const color = '#000';
 const margin = 0.8;
 

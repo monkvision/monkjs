@@ -4,11 +4,9 @@ import { Card, Portal } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
-import { utils } from '@monkvision/toolkit';
+import { utils, useOrientation, useToggle } from '@monkvision/toolkit';
 
-import useOrientation from '../../hooks/useOrientation';
 import usePanResponder from './usePanResponder';
-import useToggle from '../../hooks/useToggle';
 
 const { spacing } = utils.styles;
 

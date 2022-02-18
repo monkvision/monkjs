@@ -7,18 +7,17 @@ import { useDispatch, useStore } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import { getUserSignature } from '@monkvision/corejs';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
-
-import { spacing } from 'config/theme';
+import { Loader } from '@monkvision/ui';
+import { useToggle, utils } from '@monkvision/toolkit';
 
 import { useMediaQuery } from 'react-responsive';
 import SignOut from 'screens/Authentication/SignOut';
 
 import withComingSoon from 'components/withComingSoon';
-import useToggle from 'hooks/useToggle/index';
 import EditSignatureForm from './EditSignatureForm';
 import useSignature from './useSignature';
 
+const { spacing } = utils.styles;
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -105,6 +104,8 @@ function Profile() {
     dispatch(getUserSignature({ id, params: { return_image: true } }));
   }, [dispatch, store]);
 
+  if (signature?.isLoading) { return <Loader texts={['Loading your signature...', 'Still loading it...', 'Loading...']} />; }
+
   return (
     <SafeAreaView>
       <Portal.Host>
@@ -140,8 +141,6 @@ function Profile() {
                       )
                       : null }
 
-                    {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
-                      : null }
                   </Surface>
 
                 </View>

@@ -1,16 +1,12 @@
 import React, { useCallback, useLayoutEffect, useState, useMemo } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, Platform, VirtualizedList } from 'react-native';
+import { Appbar, Card, Button, Dialog, Paragraph, Portal, useTheme, Chip, TouchableRipple } from 'react-native-paper';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
-
 import moment from 'moment';
 import startCase from 'lodash.startcase';
 import isEmpty from 'lodash.isempty';
-
-import { ActivityIndicatorView, PartListSection, useFakeActivity, usePartDamages } from '@monkvision/react-native-views';
-import useRequest from 'hooks/useRequest';
-import Img from 'components/Img';
-import { spacing } from 'config/theme';
 
 import {
   damagesEntity,
@@ -28,40 +24,19 @@ import {
   taskStatuses,
   vehiclesEntity,
 } from '@monkvision/corejs';
+import { PartListSection, usePartDamages } from '@monkvision/react-native-views';
+import { utils, useFakeActivity, useInterval } from '@monkvision/toolkit';
+import { Loader } from '@monkvision/ui';
 
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Platform,
-  VirtualizedList,
-} from 'react-native';
-
-import {
-  Appbar,
-  Card,
-  Button,
-  Dialog,
-  Paragraph,
-  Portal,
-  useTheme,
-  Chip,
-  TouchableRipple,
-} from 'react-native-paper';
+import useRequest from 'hooks/useRequest';
+import Img from 'components/Img';
 
 import ActionMenu from 'components/ActionMenu';
 import ImageViewer from 'components/ImageViewer';
 
-import {
-  DAMAGES,
-  LANDING,
-  TASK_READ,
-  INSPECTION_UPDATE,
-  DAMAGE_READ,
-} from 'screens/names';
+import { DAMAGES, LANDING, TASK_READ, INSPECTION_UPDATE, DAMAGE_READ } from 'screens/names';
 
-import useInterval from 'hooks/useInterval/index';
-
+const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
@@ -156,10 +131,8 @@ export default () => {
   const navigation = useNavigation();
 
   const { inspectionId } = route.params;
-  const [isFirstRequest, setIsFirstRequest] = useState(true);
 
-  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }),
-    { onSuccess: () => setIsFirstRequest(false) });
+  const { isLoading, refresh } = useRequest(getOneInspectionById({ id: inspectionId }));
 
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -247,7 +220,7 @@ export default () => {
   }, []);
 
   const menuItems = useMemo(() => [
-    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: () => { setIsFirstRequest(true); refresh(); }, icon: 'refresh', disabled: Boolean(taskInProgress) },
+    { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh', disabled: Boolean(taskInProgress) },
     { title: 'Update', onPress: handleGoToEditInspection, icon: 'file-document-edit' },
     { title: 'Export as PDF', onPress: handleExportPdf, icon: 'pdf-box', disabled: true },
     { title: 'Delete', onPress: openDeletionDialog, icon: 'trash-can', divider: true },
@@ -288,8 +261,12 @@ export default () => {
     }
   }, [theme.colors.text, inspection, inspectionId, menuItems, navigation]);
 
-  if (isLoading && isFirstRequest) {
-    return <ActivityIndicatorView light />;
+  if (fakeActivity) {
+    return <Loader texts={['Loading the inspection...', 'Swapping time and space...', 'Just count to 10...']} />;
+  }
+
+  if (taskInProgress) {
+    return <Loader texts={['Calling AI...', 'AI is warming up...', 'Reading damages...', 'Don\'t break your screen yet...', 'Something is coming...']} />;
   }
 
   return (

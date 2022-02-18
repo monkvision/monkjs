@@ -16,7 +16,7 @@ import {
 
 import { Appbar, IconButton, useTheme } from 'react-native-paper';
 import { ScrollView, SafeAreaView, View, StyleSheet } from 'react-native';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 
 import { INSPECTION_READ } from 'screens/names';
 import VehicleForm from './VehicleForm/index';
@@ -88,7 +88,7 @@ export default () => {
   }, [colors.primary, colors.text, handleGoBack, inspection.createdAt, inspectionId, navigation]);
 
   if (isLoading) {
-    return <ActivityIndicatorView light />;
+    return <Loader texts={['Getting the latest updates...', 'Loading the inspection...', 'Loading...']} />;
   }
   if (!inspection?.vehicle) { return null; }
 

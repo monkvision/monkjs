@@ -10,11 +10,13 @@ import { TextInputMask } from 'react-native-masked-text';
 import { Formik } from 'formik';
 
 import { updateOneInspectionVehicle } from '@monkvision/corejs';
-import { Select } from '@monkvision/react-native-views';
+import { Select } from '@monkvision/ui';
+import { utils } from '@monkvision/toolkit';
 
-import { spacing } from 'config/theme';
 import useRequest from 'hooks/useRequest';
 import vehicleValidationSchema from './validation';
+
+const { spacing } = utils.styles;
 
 function renameKeys(obj, newKeys, callback = null) {
   const keyValues = Object.keys(obj).map((key) => {
