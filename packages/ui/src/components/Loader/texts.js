@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 const DELAY = 3000;
+
 /**
  * @param texts
  * @return {JSX.Element}
@@ -30,12 +31,14 @@ const DELAY = 3000;
 export default function Texts({ texts }) {
   const [currentText, setCurrentText] = useState(texts[0]);
 
-  const nextText = useMemo(() => {
+  const [nextText, delay] = useMemo(() => {
     const currentIndex = texts.indexOf(currentText);
-    return texts[currentIndex + 1];
-  }, [currentText, texts]);
 
-  const delay = nextText ? DELAY : null;
+    const nextLoadingText = texts[currentIndex + 1];
+    const textDelay = nextLoadingText ? DELAY : null;
+
+    return [nextLoadingText, textDelay];
+  }, [currentText, texts]);
 
   const handleGetNextText = useCallback(() => setCurrentText(nextText), [nextText]);
 

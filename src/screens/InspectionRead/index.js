@@ -266,7 +266,7 @@ export default () => {
   }
 
   if (taskInProgress) {
-    return <Loader texts={['Calling AI...', 'Ai is warming up...', 'Reading damages...', 'Don\'t break your screen yet...', 'Something is coming...']} />;
+    return <Loader texts={['Calling AI...', 'AI is warming up...', 'Reading damages...', 'Don\'t break your screen yet...', 'Something is coming...']} />;
   }
 
   return (

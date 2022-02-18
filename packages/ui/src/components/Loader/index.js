@@ -16,6 +16,17 @@ const styles = StyleSheet.create({
   contentLayout: { width: '60%' },
 });
 
+/**
+ * @param dots
+ * @param colors
+ * @param dotSize
+ * @param bounceHeight
+ * @param borderRadius
+ * @param texts
+ * @return {JSX.Element}
+ * @constructor
+ */
+
 function Loader({ texts, ...props }) {
   return (
     <View style={styles.container}>

@@ -1,5 +1,4 @@
-import { Dimensions, Platform } from 'react-native';
-import isEmpty from 'lodash.isempty';
+import { Platform } from 'react-native';
 
 export const shadow = (elevation = 5, opacity = 0.2) => Platform.select({
   web: {
@@ -36,12 +35,8 @@ export const flex = {
   }),
 };
 
-export function getContainedSizes(ratio) {
-  if (isEmpty(ratio)) { return {}; }
-  const windowHeight = Dimensions.get('window').height;
-  const windowWidth = Dimensions.get('window').width;
-
-  const [a, b] = ratio.split(':').sort((c, d) => (c + d));
+export function getSize(ratio, { windowHeight, windowWidth }) {
+  const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // [4:3] || [3:4]
   const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
 
   return {

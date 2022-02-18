@@ -30,8 +30,7 @@ export default function Dots({ dots, colors, dotSize, bounceHeight, borderRadius
 
   useEffect(() => {
     const dotAnimations = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < dots; i++) {
+    for (let i = 0; i < dots; i += 1) {
       dotAnimations.push(new Animated.Value(0));
     }
     setAnimations(dotAnimations);
