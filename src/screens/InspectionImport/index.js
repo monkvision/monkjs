@@ -8,7 +8,7 @@ import {
 
 import { createOneInspection, updateOneTaskOfInspection } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 import { useSights } from '@monkvision/camera';
 import { useNavigation } from '@react-navigation/native';
 
@@ -131,7 +131,7 @@ export default () => {
   }, [canGoNext, colors.primary, isUpdating, navigation, updateTask]);
 
   // loading
-  if (isLoading) { return <ActivityIndicatorView light />; }
+  if (isLoading) { return <Loader texts={['Preparing an inspection...', 'We\'re working very Hard...', 'Almost there...', 'Loading...']} />; }
 
   // no permission given
   if (!accessGranted) {

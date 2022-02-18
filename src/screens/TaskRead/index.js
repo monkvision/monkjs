@@ -10,7 +10,7 @@ import * as Clipboard from 'expo-clipboard';
 import PropTypes from 'prop-types';
 
 import { getOneInspectionTask, selectTaskById, updateOneTaskOfInspection, taskStatuses } from '@monkvision/corejs';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 import { useToggle, useTimeout, useFakeActivity, utils } from '@monkvision/toolkit';
 
 import useRequest from 'hooks/useRequest';
@@ -240,7 +240,7 @@ export default () => {
   }, [fakeActivity, handleCancel, handleRerun, menuItems, navigation, refresh, taskId]);
 
   if (isLoading) {
-    return <ActivityIndicatorView light />;
+    return <Loader texts={['Reading the task...', 'Loading task data...', 'Loading...']} />;
   }
   return (
     <SafeAreaView contentContainerStyle={styles.root}>

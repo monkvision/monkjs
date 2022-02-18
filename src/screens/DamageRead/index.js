@@ -27,7 +27,7 @@ import {
   tasksEntity,
   taskStatuses,
 } from '@monkvision/corejs';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 import { utils, useFakeActivity } from '@monkvision/toolkit';
 import { DamageHighlight, usePolygons } from '@monkvision/visualization';
 
@@ -223,7 +223,7 @@ export default () => {
   }, [navigation, damageId, menuItems]);
 
   if (isLoading) {
-    return <ActivityIndicatorView light />;
+    return <Loader texts={['Reading damages...', 'Loading damage images...', 'Loading...']} />;
   }
 
   return !isEmpty(currentDamage) && (

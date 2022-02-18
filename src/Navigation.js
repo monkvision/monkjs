@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 
 import useAuth from 'hooks/useAuth';
 import useLoading from 'hooks/useLoading';
@@ -16,7 +16,7 @@ export default function Navigation() {
   const { isAuthenticated, isSignedOut } = useAuth();
 
   if (isLoading) {
-    return <ActivityIndicatorView light />;
+    return <Loader texts={['Redistributing your screens...', 'Cleaning all screens with a glass cleaner...', 'Loading...']} />;
   }
 
   if (isSignedOut) {

@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 import { Sight, values as sightValues } from '@monkvision/corejs';
 import { Capture, Controls } from '@monkvision/camera';
 
@@ -89,7 +89,7 @@ export default () => {
     }
   }, [navigation]);
 
-  if (inspectionIsLoading) { return <ActivityIndicatorView light />; }
+  if (inspectionIsLoading) { return <Loader texts={['Creating a new inspection...', 'Getting AI ready for it...', 'Loading...']} />; }
 
   if (camera.value) {
     return (

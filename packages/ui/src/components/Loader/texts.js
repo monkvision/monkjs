@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: spacing(2),
-    margin: spacing(2),
+    marginVertical: spacing(2),
+    marginHorizontal: spacing(1),
     color: '#A0A3A6',
   },
   playgraound: {

@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 import React, { useImperativeHandle, forwardRef } from 'react';
 import { Text, View } from 'react-native';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
-import { utils } from '@monkvision/toolkit';
 import { Provider as PaperProvider } from 'react-native-paper';
+
+import { Loader } from '@monkvision/ui';
+import { utils } from '@monkvision/toolkit';
+
 import useComputedParts from '../../hooks/useComputedParts';
 import usePartDamages from '../../hooks/usePartDamages';
 import useLayout from './useLayout';
-
 import Navigation from './Navigation';
 import ValidateDialog from './ValidateDialog';
-
 import styles from './styles';
 
 function Damages({
@@ -53,30 +53,32 @@ function Damages({
   return (
     <View style={styles.root}>
       <PaperProvider theme={theme}>
-        {isLoading ? <ActivityIndicatorView light /> : (
-          <>
-            <ValidateDialog
-              isDialogOpen={isDialogOpen}
-              handleDismissDialog={handleDismissDialog}
-              onValidate={onValidate}
-              isValidating={isValidating}
-              inspectionId={inspection.id}
-            />
-            <Navigation
-              partsWithDamages={partsWithDamages}
-              computedParts={computedParts}
-              damagedPartsCount={partsWithDamages.length}
-              handleOpenDialog={handleOpenDialog}
-              isValidated={isValidated}
-              onDeleteDamage={onDeleteDamage}
-              onSelectDamage={onSelectDamage}
-              isDeleting={isDeleting}
-              isVehiclePressAble={isVehiclePressAble && !isValidated}
-              onPressPart={onPressPart}
-              selectedId={selectedId}
-            />
-          </>
-        )}
+        {isLoading
+          ? <Loader texts={['Loading damaged parts...', 'Feeding unicorns...', 'Work, work...']} />
+          : (
+            <>
+              <ValidateDialog
+                isDialogOpen={isDialogOpen}
+                handleDismissDialog={handleDismissDialog}
+                onValidate={onValidate}
+                isValidating={isValidating}
+                inspectionId={inspection.id}
+              />
+              <Navigation
+                partsWithDamages={partsWithDamages}
+                computedParts={computedParts}
+                damagedPartsCount={partsWithDamages.length}
+                handleOpenDialog={handleOpenDialog}
+                isValidated={isValidated}
+                onDeleteDamage={onDeleteDamage}
+                onSelectDamage={onSelectDamage}
+                isDeleting={isDeleting}
+                isVehiclePressAble={isVehiclePressAble && !isValidated}
+                onPressPart={onPressPart}
+                selectedId={selectedId}
+              />
+            </>
+          )}
       </PaperProvider>
     </View>
   );

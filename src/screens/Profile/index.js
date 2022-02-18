@@ -7,7 +7,7 @@ import { useDispatch, useStore } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import { getUserSignature } from '@monkvision/corejs';
-import { ActivityIndicatorView } from '@monkvision/react-native-views';
+import { Loader } from '@monkvision/ui';
 import { useToggle, utils } from '@monkvision/toolkit';
 
 import { useMediaQuery } from 'react-responsive';
@@ -104,6 +104,8 @@ function Profile() {
     dispatch(getUserSignature({ id, params: { return_image: true } }));
   }, [dispatch, store]);
 
+  if (signature?.isLoading) { return <Loader texts={['Loading your signature...', 'Still loading it...', 'Loading...']} />; }
+
   return (
     <SafeAreaView>
       <Portal.Host>
@@ -139,8 +141,6 @@ function Profile() {
                       )
                       : null }
 
-                    {signature?.isLoading ? <ActivityIndicatorView color={colors.primary} light />
-                      : null }
                   </Surface>
 
                 </View>
