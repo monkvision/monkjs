@@ -19,6 +19,7 @@ import {
   useCheckComplianceAsync,
   useCreateDamageDetectionAsync,
   useNavigationBetweenSights,
+  useSetPictureAsync,
   useStartUploadAsync,
   useTakePictureAsync,
   useTitle,
@@ -142,18 +143,20 @@ export default function Capture({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera, current, settings, sights });
+  const takePictureAsync = useTakePictureAsync({ camera });
+  const setPictureAsync = useSetPictureAsync({ current, settings, sights });
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads });
   const checkComplianceAsync = useCheckComplianceAsync({ compliance, inspectionId });
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
   /**
    * @type {{
-     * createDamageDetectionAsync: function(tasks=, data.compliances=): Promise<data>,
+     * createDamageDetectionAsync: function(tasks=, compliances=): Promise<data>,
+     * setPictureAsync: (function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void,
      * startUploadAsync: (function({inspectionId, sights, uploads}): Promise<result|error>)|*,
      * goPrevSight: (function(): void)|*,
      * takePictureAsync: function(): Promise<picture>,
-     * camera: undefined,
+     * camera: {takePictureAsync: (function(options=): Promise<picture>)},
      * checkComplianceAsync: (function(string): Promise<result|error>)|*,
      * goNextSight: (function(): void)|*,
    * }}
@@ -164,11 +167,13 @@ export default function Capture({
     createDamageDetectionAsync,
     goPrevSight,
     goNextSight,
+    setPictureAsync,
     startUploadAsync,
     takePictureAsync,
   }), [
     camera, checkComplianceAsync, createDamageDetectionAsync,
-    goNextSight, goPrevSight, startUploadAsync, takePictureAsync,
+    goNextSight, goPrevSight,
+    setPictureAsync, startUploadAsync, takePictureAsync,
   ]);
 
   // END METHODS //
