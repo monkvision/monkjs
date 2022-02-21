@@ -29,7 +29,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={names.LANDING}>
+      <Stack.Navigator initialRouteName={names.UPLOAD_CENTER}>
 
         {process.env.NODE_ENV !== 'production' ? (
           <Stack.Screen
@@ -91,6 +91,12 @@ export default function Navigation() {
           name={names.INSPECTION_UPDATE}
           component={Screens.InspectionUpdate}
           title="Update inspection"
+        />
+
+        <Stack.Screen
+          name={names.UPLOAD_CENTER}
+          component={Screens.UploadCenter}
+          title="Upload Center"
         />
 
         <Stack.Screen

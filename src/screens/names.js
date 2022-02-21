@@ -15,6 +15,7 @@ export const INSPECTION_REVIEW = 'reviewInspection';
 export const INSPECTION_READ = 'readInspection';
 export const INSPECTION_UPDATE = 'updateInspection';
 export const INSPECTIONS = 'listInspections';
+export const UPLOAD_CENTER = 'uploadCenter';
 
 export const DAMAGE_CREATE = 'createDamage';
 export const DAMAGE_READ = 'readDamage';
