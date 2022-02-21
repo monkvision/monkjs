@@ -4,7 +4,8 @@ import { useRoute } from '@react-navigation/native';
 import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls } from '@monkvision/camera';
+import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
+
 import ValidationDialog from 'screens/InspectionCreate/ValidationDialog';
 
 export default () => {
@@ -37,8 +38,7 @@ export default () => {
     setTimeout(async () => {
       const picture = await takePictureAsync();
       const { sights } = state;
-      const { camera } = api;
-      const { current, ids, takenPictures } = sights.state;
+      const { current, ids } = sights.state;
 
       if (current.index === ids.length - 1) {
         const upload = await startUploadAsync(picture);
@@ -46,7 +46,6 @@ export default () => {
 
         setLoading(false);
         requests.updateTask.request();
-        handleSuccess({ camera, pictures: takenPictures });
       } else {
         setLoading(false);
         goNextSight();
@@ -55,7 +54,7 @@ export default () => {
         checkComplianceAsync(upload.data.id);
       }
     }, 200);
-  }, [handleSuccess, requests.updateTask]);
+  }, [requests.updateTask]);
 
   const controls = [{
     disabled: loading,
@@ -63,12 +62,17 @@ export default () => {
     ...Controls.CaptureButtonProps,
   }];
 
+  const uploads = useUploads({ sightIds: Capture.defaultSightIds });
+
   return (
     <>
       <Capture
         inspectionId={inspectionId}
         controls={controls}
         loading={loading}
+        uploads={uploads}
+        renderOnFinish={UploadCenter}
+        onSuccess={handleSuccess}
       />
       <ValidationDialog
         requests={requests}
