@@ -173,6 +173,11 @@ export default function Capture({
     goNextSight, goPrevSight, startUploadAsync, takePictureAsync,
   ]);
 
+  const handleSubmit = useCallback(
+    () => onSuccess({ camera: api.camera, pictures: states.sights.state.takenPictures }),
+    [api.camera, onSuccess, states.sights.state.takenPictures],
+  );
+
   // END METHODS //
   // CONTANTS //
 
@@ -258,9 +263,7 @@ export default function Capture({
     return (
       <RenderOnFinish
         {...states}
-        onSubmit={() => onSuccess({
-          camera: api.camera,
-          pictures: states.sights.state.takenPictures })}
+        onSubmit={handleSubmit}
       />
     );
   }
