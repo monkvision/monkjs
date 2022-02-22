@@ -1,12 +1,5 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { key } from '../entity';
-
-export const entityAdapter = createEntityAdapter({});
-
-export default createSlice({
-  name: key,
-  initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
-  reducers: {
+export default function createEntityReducer(key, entityAdapter) {
+  return {
     [`${key}/gotOne`]: (state, action) => {
       const { entities, result } = action.payload;
       const entity = entities[key][result];
@@ -34,5 +27,5 @@ export default createSlice({
       entityAdapter.removeMany(state, result[key]);
     },
     [`${key}/reset`]: (state) => entityAdapter.removeAll(state),
-  },
-});
+  };
+}
