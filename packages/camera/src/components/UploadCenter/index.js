@@ -49,19 +49,55 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function UploadCenter({ uploads, sights, onSubmit }) {
-  const { hasPending, uploadsList } = useMemo(() => {
-    const list = Object.values(uploads.state);
-    const hasLoading = list.some((upload) => upload.status === 'pending');
+export default function UploadCenter({ uploads, sights, compliance, onSubmit }) {
+  /**
+   * @type {{
+    * compliancesList:[{
+      * status: string,
+      * error,
+      * requestCount:
+      * number,
+      * result: {
+        * binary_size: number,
+        * compliances: {
+          * iqa_compliance: {
+          * is_compliant: boolean,
+          * parameters: {}
+          * reasons: [string],
+          * status: string,
+          * },
+        * },
+      * id: string,
+      * image_height: number,
+      * image_width: number,
+      * name: string,
+      * path: string,
+    * }}],
+    * },
+    * hasPending: boolean,
+    * uploadsList: [{picture, status: string, error: null, uploadCount: number}]
+  * }
+  */
+  const states = useMemo(() => {
+    const compliancesList = Object.values(compliance.state).filter((upload) => upload.status === 'fulfilled');
 
-    return { uploadsList: list, hasPending: hasLoading };
-  }, [uploads.state]);
+    const uploadsList = Object.values(uploads.state);
+    const hasPending = uploadsList.some((upload) => upload.status === 'pending');
+
+    return { uploadsList, compliancesList, hasPending };
+  }, [compliance.state, uploads.state]);
+
+  const { uploadsList, compliancesList, hasPending } = states;
 
   const handleRetake = useCallback((id) => {
     uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload: { id, status: 'idle', picture: null } });
     sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, payload: { id } });
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [sights, uploads]);
+
+  const getComplianceById = useCallback((id) => compliancesList.find((item) => item.sightId === id)
+    ?.result?.data?.compliances?.iqa_compliance,
+  [compliancesList]);
 
   return (
     <SafeAreaView>
@@ -81,6 +117,7 @@ export default function UploadCenter({ uploads, sights, onSubmit }) {
                 id={id}
                 status={status}
                 onRetake={handleRetake}
+                iqaCompliance={getComplianceById(id)}
               />
             ))}
             <TouchableOpacity
@@ -98,12 +135,14 @@ export default function UploadCenter({ uploads, sights, onSubmit }) {
 }
 
 UploadCenter.propTypes = {
+  compliance: PropTypes.objectOf(PropTypes.any),
   onSubmit: PropTypes.func,
   sights: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.objectOf(PropTypes.any),
 };
 
 UploadCenter.defaultProps = {
+  compliance: {},
   onSubmit: () => {},
   sights: {},
   uploads: {},

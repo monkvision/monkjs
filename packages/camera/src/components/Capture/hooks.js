@@ -120,7 +120,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
  * @param inspectionId
  * @return {(function(pictureId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId }) {
+export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
   return useCallback(async (pictureId) => {
     const { dispatch } = compliance;
     const id = pictureId;
@@ -133,14 +133,14 @@ export function useCheckComplianceAsync({ compliance, inspectionId }) {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
         increment: true,
-        payload: { id, status: 'pending' },
+        payload: { id, status: 'pending', sightId },
       });
 
       const result = await monkApi.images.getOne({ inspectionId, imageId: id });
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id, status: 'fulfilled', result },
+        payload: { id, status: 'fulfilled', sightId, result },
       });
 
       return result;
@@ -153,5 +153,5 @@ export function useCheckComplianceAsync({ compliance, inspectionId }) {
 
       return err;
     }
-  }, [compliance, inspectionId]);
+  }, [compliance, inspectionId, sightId]);
 }

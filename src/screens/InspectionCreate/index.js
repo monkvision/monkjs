@@ -45,7 +45,7 @@ export default () => {
 
       if (current.index === ids.length - 1) {
         const upload = await startUploadAsync(picture);
-        await checkComplianceAsync(upload.data.id);
+        if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
 
         setLoading(false);
       } else {
@@ -53,7 +53,7 @@ export default () => {
         goNextSight();
 
         const upload = await startUploadAsync(picture);
-        checkComplianceAsync(upload.data.id);
+        if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
       }
     }, 200);
   }, []);

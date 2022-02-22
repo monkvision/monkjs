@@ -110,7 +110,7 @@ export default function Capture({
          * result: {
            * binary_size: number,
              * compliances: {
-               * iqc_compliance: {
+               * iqa_compliance: {
                  * is_compliant: boolean,
                  * reason: string,
                  * status: string,
@@ -146,7 +146,11 @@ export default function Capture({
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera, current, settings, sights });
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads });
-  const checkComplianceAsync = useCheckComplianceAsync({ compliance, inspectionId });
+  const checkComplianceAsync = useCheckComplianceAsync({
+    compliance,
+    inspectionId,
+    sightId: current.id,
+  });
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
   /**
@@ -298,7 +302,7 @@ export default function Capture({
 
   // END RENDERING //
 }
-
+// VmFL3v2A, xfbBpq3Q, OOJDJ7go, j8YHvnDP, LDRoAPnk, 2RFF3Uf8, enHQTFae, CELBsvYD
 Capture.defaultSightIds = [
   'vLcBGkeh', // Front
   'xfbBpq3Q', // Front Bumper Side Left
@@ -351,11 +355,9 @@ Capture.propTypes = {
     dispatch: PropTypes.func,
     name: PropTypes.string,
     state: PropTypes.objectOf(PropTypes.shape({
-      // eslint-disable-next-line react/forbid-prop-types
-      error: PropTypes.any,
+      error: PropTypes.objectOf(PropTypes.any),
       id: PropTypes.string,
-      // eslint-disable-next-line react/forbid-prop-types
-      picture: PropTypes.any,
+      picture: PropTypes.objectOf(PropTypes.any),
       status: PropTypes.string,
       uploadCount: PropTypes.number,
     })),

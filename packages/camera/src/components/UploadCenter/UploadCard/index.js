@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } fr
 import PropTypes from 'prop-types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import isEmpty from 'lodash.isempty';
 import { utils } from '@monkvision/toolkit';
 
 const { spacing } = utils.styles;
@@ -41,9 +42,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
   },
-  text: {
+  textsLayout: {
     flexGrow: 1,
     flex: 1,
+  },
+  subtitle: {
+    color: 'gray',
+    fontWeight: '500',
+    fontSize: 12,
+    marginVertical: spacing(0.6),
   },
   activityIndicator: {
     position: 'absolute',
@@ -52,14 +59,32 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function UploadCard({ uri, status, onRetake, id }) {
-  const { error, isLoading, fulfilled } = useMemo(() => ({ error: status === 'declined', isLoading: status === 'pending', fulfilled: status === 'fulfilled' }), [status]);
+const reasonsVariants = {
+  blurriness: 'blurry',
+  overexposure: 'overexposed',
+  underexposure: 'underexposed',
+};
+export default function UploadCard({ uri, status, onRetake, id, iqaCompliance }) {
+  const { error, isLoading, fulfilled } = useMemo(() => ({ error: status === 'rejected', isLoading: status === 'pending', fulfilled: status === 'fulfilled' }), [status]);
 
-  const text = useMemo(() => {
+  const title = useMemo(() => {
     if (isLoading) { return 'Uploading...'; }
     if (error) { return 'Image has not been uploaded'; }
     return 'Image has been uploaded successfully';
   }, [error, isLoading]);
+
+  const subtitle = useMemo(() => {
+    if (isLoading) { return null; }
+    if (error) { return 'Image has an error, please retake'; }
+    if (!isEmpty(iqaCompliance.reasons)) {
+      const distReasons = iqaCompliance.reasons.map((reason, index) => {
+        if (index === iqaCompliance.reasons.length - 1 && iqaCompliance.reasons.length > 1) { return `and ${reasonsVariants[reason]}`; }
+        return reasonsVariants[reason];
+      });
+      return `This image is ${distReasons}`;
+    }
+    return `This image is compliant`;
+  }, [error, iqaCompliance.reasons, isLoading]);
 
   const handleRetake = useCallback(() => onRetake(id), [id, onRetake]);
 
@@ -89,13 +114,21 @@ export default function UploadCard({ uri, status, onRetake, id }) {
         </View>
       ) : null}
 
-      <Text style={styles.text}>{text}</Text>
+      <View style={styles.textsLayout}>
+        <Text>{title}</Text>
+        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      </View>
     </View>
   );
 }
 
 UploadCard.propTypes = {
   id: PropTypes.string,
+  iqaCompliance: PropTypes.shape({
+    is_compliant: PropTypes.bool,
+    reasons: PropTypes.arrayOf(PropTypes.string),
+    status: PropTypes.string,
+  }),
   onRetake: PropTypes.func,
   status: PropTypes.string,
   uri: PropTypes.string,
@@ -104,6 +137,11 @@ UploadCard.propTypes = {
 
 UploadCard.defaultProps = {
   id: '',
+  iqaCompliance: {
+    is_compliant: true,
+    reason: [],
+    status: null,
+  },
   onRetake: () => {},
   status: '',
   uri: '',

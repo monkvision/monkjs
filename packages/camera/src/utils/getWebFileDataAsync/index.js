@@ -22,7 +22,7 @@ export default async function getWebFileData(picture, sights, inspectionId, sett
 
   const json = JSON.stringify({
     acquisition: { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image },
-    compliances: { iqc_compliance: {} },
+    compliances: { iqa_compliance: {} },
     tasks: ['damage_detection'],
     additional_data: {
       ...sights.state.current.metadata,
