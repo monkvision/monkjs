@@ -178,6 +178,12 @@ export default function Capture({
     [api.camera, onSuccess, states.sights.state.takenPictures],
   );
 
+  // const handleRetake = useCallback((id) => {
+  //   states.uploads.dispatch({ type: Actions.upload.UPDATE_UPLOAD });
+  //   states.sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, id });
+  //   states.sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, id });
+  // }, [states.uploads]);
+
   // END METHODS //
   // CONTANTS //
 

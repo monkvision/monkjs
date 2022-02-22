@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function UploadCard({ uri, status }) {
+export default function UploadCard({ uri, status, onRetake, id }) {
   const { error, isLoading, fulfilled } = useMemo(() => ({ error: status === 'declined', isLoading: status === 'pending', fulfilled: status === 'fulfilled' }), [status]);
 
   const text = useMemo(() => {
@@ -61,10 +61,12 @@ export default function UploadCard({ uri, status }) {
     return 'Image has been uploaded successfully';
   }, [error, isLoading]);
 
+  const handleRetake = useCallback(() => onRetake(id), [id, onRetake]);
+
   return (
     <View style={styles.upload}>
       {error ? (
-        <TouchableOpacity style={styles.imageLayout}>
+        <TouchableOpacity style={styles.imageLayout} onPress={handleRetake}>
           <View style={[styles.imageOverlay, { backgroundColor: 'rgba(255, 69, 0,0.4)' }]}>
             <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
           </View>
@@ -93,12 +95,16 @@ export default function UploadCard({ uri, status }) {
 }
 
 UploadCard.propTypes = {
+  id: PropTypes.string,
+  onRetake: PropTypes.func,
   status: PropTypes.string,
   uri: PropTypes.string,
 
 };
 
 UploadCard.defaultProps = {
-  uri: '',
+  id: '',
+  onRetake: () => {},
   status: '',
+  uri: '',
 };

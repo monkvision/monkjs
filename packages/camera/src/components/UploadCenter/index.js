@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ScrollView, Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
+import Actions from '../../actions';
 
 const { spacing } = utils.styles;
 
@@ -48,13 +49,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function UploadCenter({ uploads, onSubmit }) {
+export default function UploadCenter({ uploads, sights, onSubmit }) {
   const { hasPending, uploadsList } = useMemo(() => {
     const list = Object.values(uploads.state);
     const hasLoading = list.some((upload) => upload.status === 'pending');
 
     return { uploadsList: list, hasPending: hasLoading };
   }, [uploads.state]);
+
+  const handleRetake = useCallback((id) => {
+    uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload: { id, status: 'idle', picture: null } });
+    sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, payload: { id } });
+    sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
+  }, [sights, uploads]);
 
   return (
     <SafeAreaView>
@@ -67,8 +74,14 @@ export default function UploadCenter({ uploads, onSubmit }) {
         </Text>
         <View style={styles.content}>
           <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT }}>
-            {uploadsList.map(({ picture, error, id, status }) => (
-              <UploadCard uri={picture.uri} hasError={error} key={id} status={status} />
+            {uploadsList.map(({ picture, id, status }) => (
+              <UploadCard
+                uri={picture.uri}
+                key={id}
+                id={id}
+                status={status}
+                onRetake={handleRetake}
+              />
             ))}
             <TouchableOpacity
               style={[styles.button, { backgroundColor: hasPending ? '#a9a9a9' : '#274b9f' }]}
@@ -86,10 +99,12 @@ export default function UploadCenter({ uploads, onSubmit }) {
 
 UploadCenter.propTypes = {
   onSubmit: PropTypes.func,
+  sights: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.objectOf(PropTypes.any),
 };
 
 UploadCenter.defaultProps = {
-  uploads: {},
   onSubmit: () => {},
+  sights: {},
+  uploads: {},
 };
