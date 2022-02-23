@@ -3,7 +3,7 @@ import axios from 'axios';
 import camelCase from 'lodash.camelcase';
 import mapKeys from 'lodash.mapkeys';
 import snakeCase from 'lodash.snakecase';
-import normalizr, { normalize } from 'normalizr';
+import { normalize, schema as Schema } from 'normalizr';
 import config from '../config';
 import createEntityReducer from '../createEntityReducer';
 import { schema as damageArea } from '../damageAreas';
@@ -13,7 +13,7 @@ export const key = 'images';
 export const idAttribute = 'id';
 const processStrategy = (obj) => mapKeys(obj, (v, k) => camelCase(k));
 
-export const schema = new normalizr.schema.Entity(key, {
+export const schema = new Schema.Entity(key, {
   damageArea,
   views: [view],
 }, { idAttribute, processStrategy });

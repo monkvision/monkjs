@@ -3,7 +3,7 @@ import axios from 'axios';
 import camelCase from 'lodash.camelcase';
 import mapKeys from 'lodash.mapkeys';
 import snakeCase from 'lodash.snakecase';
-import normalizr, { normalize } from 'normalizr';
+import { normalize, schema as Schema } from 'normalizr';
 import config from '../config';
 import createEntityReducer from '../createEntityReducer';
 import { idAttribute as imageIdAttr, schema as image } from '../images';
@@ -24,7 +24,7 @@ const processStrategy = (obj) => {
   return processed;
 };
 
-export const schema = new normalizr.schema.Entity(key, {
+export const schema = new Schema.Entity(key, {
   images: [image],
 }, { idAttribute, processStrategy });
 
