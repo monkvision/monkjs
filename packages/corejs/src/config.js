@@ -4,7 +4,7 @@ export const baseAxiosConfig = {
 };
 
 export const baseAuthConfig = {
-  domain: 'idv.monk.ai',
+  domain: 'idp.monk.ai',
   audience: 'https://api.monk.ai/v1/',
   clientId: '',
 };

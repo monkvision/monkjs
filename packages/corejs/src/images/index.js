@@ -6,7 +6,7 @@ import snakeCase from 'lodash.snakecase';
 import normalizr, { normalize } from 'normalizr';
 import config from '../config';
 import createEntityReducer from '../createEntityReducer';
-import { schema as damageArea } from '../damageArea';
+import { schema as damageArea } from '../damageAreas';
 import { schema as view } from '../views';
 
 export const key = 'images';

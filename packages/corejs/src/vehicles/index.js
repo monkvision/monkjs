@@ -15,7 +15,6 @@ export const schema = new normalizr.schema.Entity(key, {}, { idAttribute, proces
 
 /**
  * @param {string} inspectionId
- * @param {string} name
  * @param {Object} data - body data
  * @param {string} data.brand
  * @param {string} data.model
@@ -34,7 +33,7 @@ export const schema = new normalizr.schema.Entity(key, {}, { idAttribute, proces
  * @param {string} data.mileage.unit
  * @param {Object} requestConfig
  */
-export const updateOne = async ({ inspectionId, name, data, ...requestConfig }) => {
+export const updateOne = async ({ inspectionId, data, ...requestConfig }) => {
   const axiosResponse = await axios.request({
     ...config.axiosConfig,
     method: 'patch',
@@ -64,19 +63,3 @@ export default createSlice({
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
 });
-
-export const NAMES = {
-  damageDetection: 'damage_detection',
-  repairEstimate: 'repair_estimate',
-  wheelAnalysis: 'wheel_analysis',
-};
-
-export const STATUSES = {
-  aborted: 'aborted',
-  done: 'done',
-  error: 'error',
-  inProgress: 'in_progress',
-  notStarted: 'not_started',
-  todo: 'todo',
-  validated: 'validated',
-};

@@ -1,4 +1,4 @@
-export * as damageArea from './damageArea';
+export * as damageArea from './damageAreas';
 export * as damage from './damages';
 export * as image from './images';
 export * as inspection from './inspections';

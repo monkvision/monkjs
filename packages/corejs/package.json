@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "watch": "watch 'yarn run build' src",
-    "ci": "mocha --require @babel/register --enable-source-maps --recursive ./test",
+    "ci": "mocha --require @babel/register --enable-source-maps --recursive ./src",
     "test": "yarn ci --watch --watch-extensions js ./test",
     "lint": "eslint src --cache",
     "build": "babel src --out-dir lib --source-maps"
