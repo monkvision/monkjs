@@ -14,6 +14,7 @@ const ROW_HEIGHT = 150;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
+    zIndex: 0,
   },
   title: {
     marginLeft: spacing(3),
@@ -49,6 +50,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const getComplianceById = (id, list) => list.find((item) => item.sightId === id);
+
 export default function UploadCenter({ uploads, sights, compliance, onSubmit }) {
   /**
    * @type {{
@@ -80,44 +83,61 @@ export default function UploadCenter({ uploads, sights, compliance, onSubmit }) 
   */
   const states = useMemo(() => {
     const compliancesList = Object.values(compliance.state).filter((upload) => upload.status === 'fulfilled');
+    const uploadsList = Object.values(uploads.state).filter((upload) => {
+      const iqaCompliance = compliancesList.find(({ sightId }) => sightId === upload.id);
+      if (!iqaCompliance) { return true; }
 
-    const uploadsList = Object.values(uploads.state);
+      const isPending = upload.status === 'pending' || ['pending', 'idle'].includes(iqaCompliance.status);
+
+      if (isPending) { return true; }
+
+      const isCompliant = iqaCompliance.result.data.compliances.iqa_compliance.is_compliant;
+      const hasAlreadyRetook = upload.uploadCount > 1;
+
+      return !(isCompliant || hasAlreadyRetook);
+    });
+
     const hasPending = uploadsList.some((upload) => upload.status === 'pending');
-
     return { uploadsList, compliancesList, hasPending };
   }, [compliance.state, uploads.state]);
 
   const { uploadsList, compliancesList, hasPending } = states;
 
-  const handleRetake = useCallback((id) => {
+  const handleRetake = useCallback((id, complianceId) => {
+    // reset the current compliance
+    compliance.dispatch({ type: Actions.compliance.UPDATE_COMPLIANCE, payload: { id: complianceId, status: 'idle', error: null, result: null } });
+    // empty the old picture
     uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload: { id, status: 'idle', picture: null } });
+    // remove the picture from the sight and focus on the current sight
     sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, payload: { id } });
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
-  }, [sights, uploads]);
+  }, [compliance, sights, uploads]);
 
-  const getComplianceById = useCallback((id) => compliancesList.find((item) => item.sightId === id)
-    ?.result?.data?.compliances?.iqa_compliance,
-  [compliancesList]);
+  console.log(sights);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ position: 'relative' }}>
       <View style={styles.card}>
         <Text style={styles.title}>
           All uploads
         </Text>
+        <Text style={[styles.subtitle, { marginBottom: 0 }]}>
+          Use high image quality, for an accurate result.
+        </Text>
         <Text style={styles.subtitle}>
-          Use high image quality, for an accurate result
+          NOTE: Image compliance will help you take the best image quality.
         </Text>
         <View style={styles.content}>
           <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT }}>
-            {uploadsList.map(({ picture, id, status }) => (
+            {uploadsList.map((upload) => (
               <UploadCard
-                uri={picture.uri}
-                key={id}
-                id={id}
-                status={status}
+                key={upload.id}
+                upload={upload}
                 onRetake={handleRetake}
-                iqaCompliance={getComplianceById(id)}
+                iqaCompliance={getComplianceById(upload.id, compliancesList)
+                  ?.result?.data?.compliances?.iqa_compliance}
+                iqaComplianceId={getComplianceById(upload.id, compliancesList)?.id}
+                sightLabel={sights.state.tour[upload.id].label}
               />
             ))}
             <TouchableOpacity

@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } fr
 import PropTypes from 'prop-types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import isEmpty from 'lodash.isempty';
 import { utils } from '@monkvision/toolkit';
 
 const { spacing } = utils.styles;
@@ -64,8 +63,19 @@ const reasonsVariants = {
   overexposure: 'overexposed',
   underexposure: 'underexposed',
 };
-export default function UploadCard({ uri, status, onRetake, id, iqaCompliance }) {
-  const { error, isLoading, fulfilled } = useMemo(() => ({ error: status === 'rejected', isLoading: status === 'pending', fulfilled: status === 'fulfilled' }), [status]);
+export default function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLabel }) {
+  const { picture: { uri }, status } = upload;
+  const { error, isLoading, fulfilled } = useMemo(() => ({
+    error: status === 'rejected',
+    isLoading: status === 'pending',
+    fulfilled: status === 'fulfilled',
+  }), [status]);
+
+  const { isNotCompliant, isCompliant } = useMemo(() => ({
+    isNotCompliant: iqaCompliance && iqaCompliance.is_compliant === false && iqaCompliance.status === 'DONE',
+    isCompliant: iqaCompliance && iqaCompliance.is_compliant === true && iqaCompliance.status === 'DONE',
+  }),
+  [iqaCompliance]);
 
   const title = useMemo(() => {
     if (isLoading) { return 'Uploading...'; }
@@ -76,29 +86,33 @@ export default function UploadCard({ uri, status, onRetake, id, iqaCompliance })
   const subtitle = useMemo(() => {
     if (isLoading) { return null; }
     if (error) { return 'Image has an error, please retake'; }
-    if (!isEmpty(iqaCompliance.reasons)) {
-      const distReasons = iqaCompliance.reasons.map((reason, index) => {
-        if (index === iqaCompliance.reasons.length - 1 && iqaCompliance.reasons.length > 1) { return `and ${reasonsVariants[reason]}`; }
-        return reasonsVariants[reason];
-      });
+    if (isCompliant) { return `This image is compliant`; }
+    if (isNotCompliant) {
+      const length = iqaCompliance?.reasons.length;
+      const distReasons = iqaCompliance?.reasons.map((reason, index) => ((index === length - 1 && length > 1) ? `and ${reasonsVariants[reason]}` : reasonsVariants[reason]));
       return `This image is ${distReasons}`;
     }
-    return `This image is compliant`;
-  }, [error, iqaCompliance.reasons, isLoading]);
+    return null;
+  }, [isLoading, error, isCompliant, isNotCompliant, iqaCompliance?.reasons]);
 
-  const handleRetake = useCallback(() => onRetake(id), [id, onRetake]);
+  const handleRetake = useCallback((id) => {
+    if (fulfilled) { onRetake(id, iqaComplianceId); } else { onRetake(id); }
+  }, [fulfilled, iqaComplianceId, onRetake]);
 
   return (
     <View style={styles.upload}>
-      {error ? (
-        <TouchableOpacity style={styles.imageLayout} onPress={handleRetake}>
-          <View style={[styles.imageOverlay, { backgroundColor: 'rgba(255, 69, 0,0.4)' }]}>
+
+      {/* preview image for error or non compliant images */}
+      {error || (isNotCompliant && !isLoading) ? (
+        <TouchableOpacity style={styles.imageLayout} onPress={() => handleRetake(upload.id)}>
+          <View style={[styles.imageOverlay, { backgroundColor: error ? 'rgba(255, 69, 0, 0.4)' : 'rgba(255, 152, 0, 0.4)' }]}>
             <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
           </View>
           <Image style={styles.image} source={{ uri }} />
         </TouchableOpacity>
       ) : null}
 
+      {/* preview image with a loading indicator */}
       {isLoading ? (
         <View style={styles.imageLayout}>
           <View style={[styles.imageOverlay, { backgroundColor: 'rgba(211, 211, 211, 0.4)' }]}>
@@ -108,41 +122,48 @@ export default function UploadCard({ uri, status, onRetake, id, iqaCompliance })
         </View>
       ) : null}
 
-      {fulfilled ? (
+      {/* preview image for compliant fulfilled images */}
+      {fulfilled && !isNotCompliant ? (
         <View style={styles.imageLayout}>
           <Image style={styles.image} source={{ uri }} />
         </View>
       ) : null}
 
-      <View style={styles.textsLayout}>
-        <Text>{title}</Text>
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      {/* test indicating the status of uploading and the non-compliance reasons */}
+      <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
+        <View style={styles.textsLayout}>
+          <Text>{`${title} - ${sightLabel}`}</Text>
+          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        </View>
+        {error ? <MaterialCommunityIcons name="close-circle" size={24} color="#fa603d" /> : null}
+        {isNotCompliant && fulfilled ? <MaterialCommunityIcons name="information" size={24} color="#ff9800" /> : null}
       </View>
     </View>
   );
 }
 
 UploadCard.propTypes = {
-  id: PropTypes.string,
   iqaCompliance: PropTypes.shape({
     is_compliant: PropTypes.bool,
     reasons: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.string,
   }),
+  iqaComplianceId: PropTypes.string,
   onRetake: PropTypes.func,
-  status: PropTypes.string,
-  uri: PropTypes.string,
-
+  upload: PropTypes.shape({
+    id: PropTypes.string,
+    picture: PropTypes.shape({ uri: PropTypes.string }),
+    status: PropTypes.string,
+  }),
 };
 
 UploadCard.defaultProps = {
-  id: '',
-  iqaCompliance: {
-    is_compliant: true,
-    reason: [],
-    status: null,
-  },
   onRetake: () => {},
-  status: '',
-  uri: '',
+  iqaCompliance: null,
+  iqaComplianceId: null,
+  upload: {
+    id: '',
+    status: '',
+    picture: { uri: '' },
+  },
 };

@@ -182,12 +182,6 @@ export default function Capture({
     [api.camera, onSuccess, states.sights.state.takenPictures],
   );
 
-  // const handleRetake = useCallback((id) => {
-  //   states.uploads.dispatch({ type: Actions.upload.UPDATE_UPLOAD });
-  //   states.sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, id });
-  //   states.sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, id });
-  // }, [states.uploads]);
-
   // END METHODS //
   // CONTANTS //
 
@@ -304,18 +298,24 @@ export default function Capture({
 }
 // VmFL3v2A, xfbBpq3Q, OOJDJ7go, j8YHvnDP, LDRoAPnk, 2RFF3Uf8, enHQTFae, CELBsvYD
 Capture.defaultSightIds = [
-  'vLcBGkeh', // Front
+  'xsuH1g5T', // Beauty Shot
+  'LE9h1xh0', // Front Fender Left
   'xfbBpq3Q', // Front Bumper Side Left
-  'VmFL3v2A', // Front Door Left
-  'UHZkpCuK', // Rocker Panel Left
-  'OOJDJ7go', // Rear Door Left
-  'j8YHvnDP', // Rear Bumper Side Left
+  'IVcF1dOP', // Doors Left
+  'm1rhrZ88', // Front Roof Left
+  'GvCtVnoD', // Rear Lateral Left
+  '3vKXafwc', // Rear Fender Left
   'XyeyZlaU', // Rear
-  'LDRoAPnk', // Rear Bumper Side Right
-  '2RFF3Uf8', // Rear Door Right
-  'B5s1CWT-', // Rocker Panel Right
-  'enHQTFae', // Front Door Right
-  'CELBsvYD', // Front Bumper
+  'Cce1KCd3', // Rear Fender Right
+  'AoO-nOoM', // Rear Lateral Right
+  'Pzgw0WGe', // Doors Right
+  'CELBsvYD', // Front Bumper Side Right
+  'jqJOb6Ov', // Front Fender Right
+  'vLcBGkeh', // Front
+  'IqwSM3', // Front seats
+  'rSvk2C', // Dashboard
+  'rj5mhm', // Back seats
+  'qhKA2z', // Trunk
 ];
 
 Capture.propTypes = {
