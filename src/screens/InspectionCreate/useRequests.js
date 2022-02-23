@@ -13,6 +13,7 @@ function useUpdateTaskRequest(screen) {
   const callbacks = {
     onSuccess: () => {
       screen.setTaskUpdated(true);
+      screen.handleNext();
     },
   };
 

@@ -6,7 +6,7 @@ function init({ sightIds, initialState }) {
   if (initialState) { return initialState; }
 
   const state = {};
-  const initialComplianceState = { status: 'idle', error: null, requestCount: 0, result: null };
+  const initialComplianceState = { id: '', status: 'idle', error: null, requestCount: 0, result: null };
 
   sightIds.forEach((id) => {
     state[id] = { id, ...initialComplianceState };
