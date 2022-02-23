@@ -63,7 +63,6 @@ export default function Camera({
         ref={onRef}
         ratio={ratio}
         onMountError={handleError}
-        type={ExpoCamera.Constants.Type.back}
         {...passThroughProps}
       >
         {children}

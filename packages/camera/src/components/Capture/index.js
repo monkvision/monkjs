@@ -19,6 +19,7 @@ import {
   useCheckComplianceAsync,
   useCreateDamageDetectionAsync,
   useNavigationBetweenSights,
+  useSetPictureAsync,
   useStartUploadAsync,
   useTakePictureAsync,
   useTitle,
@@ -110,7 +111,7 @@ export default function Capture({
          * result: {
            * binary_size: number,
              * compliances: {
-               * iqa_compliance: {
+               * image_quality_assessment: {
                  * is_compliant: boolean,
                  * reason: string,
                  * status: string,
@@ -144,7 +145,8 @@ export default function Capture({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera, current, settings, sights });
+  const takePictureAsync = useTakePictureAsync({ camera });
+  const setPictureAsync = useSetPictureAsync({ current, settings, sights, uploads });
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads });
   const checkComplianceAsync = useCheckComplianceAsync({
     compliance,
@@ -155,11 +157,12 @@ export default function Capture({
 
   /**
    * @type {{
-     * createDamageDetectionAsync: function(tasks=, data.compliances=): Promise<data>,
+     * createDamageDetectionAsync: function(tasks=, compliances=): Promise<data>,
+     * setPictureAsync: (function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void,
      * startUploadAsync: (function({inspectionId, sights, uploads}): Promise<result|error>)|*,
      * goPrevSight: (function(): void)|*,
      * takePictureAsync: function(): Promise<picture>,
-     * camera: undefined,
+     * camera: {takePictureAsync: (function(options=): Promise<picture>)},
      * checkComplianceAsync: (function(string): Promise<result|error>)|*,
      * goNextSight: (function(): void)|*,
    * }}
@@ -170,11 +173,13 @@ export default function Capture({
     createDamageDetectionAsync,
     goPrevSight,
     goNextSight,
+    setPictureAsync,
     startUploadAsync,
     takePictureAsync,
   }), [
     camera, checkComplianceAsync, createDamageDetectionAsync,
-    goNextSight, goPrevSight, startUploadAsync, takePictureAsync,
+    goNextSight, goPrevSight,
+    setPictureAsync, startUploadAsync, takePictureAsync,
   ]);
 
   const handleSubmit = useCallback(

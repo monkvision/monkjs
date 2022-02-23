@@ -34,28 +34,29 @@ export default () => {
     const {
       takePictureAsync,
       startUploadAsync,
-      checkComplianceAsync,
+      setPictureAsync,
       goNextSight,
+      checkComplianceAsync,
     } = api;
 
-    setTimeout(async () => {
-      const picture = await takePictureAsync();
-      const { sights } = state;
-      const { current, ids } = sights.state;
+    const picture = await takePictureAsync();
+    setPictureAsync(picture);
 
-      if (current.index === ids.length - 1) {
-        const upload = await startUploadAsync(picture);
-        if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+    const { sights } = state;
+    const { current, ids } = sights.state;
 
-        setLoading(false);
-      } else {
-        setLoading(false);
-        goNextSight();
+    if (current.index === ids.length - 1) {
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
 
-        const upload = await startUploadAsync(picture);
-        if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
-      }
-    }, 200);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      goNextSight();
+
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+    }
   }, []);
 
   const controls = [{

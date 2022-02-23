@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
   },
+  emptyStateText: {
+    marginLeft: spacing(3),
+    height: 80,
+  },
   content: {
     marginHorizontal: spacing(2),
     flexGrow: 1,
@@ -63,7 +67,7 @@ export default function UploadCenter({ uploads, sights, compliance, onSubmit }) 
       * result: {
         * binary_size: number,
         * compliances: {
-          * iqa_compliance: {
+          * image_quality_assessment: {
           * is_compliant: boolean,
           * parameters: {}
           * reasons: [string],
@@ -91,7 +95,8 @@ export default function UploadCenter({ uploads, sights, compliance, onSubmit }) 
 
       if (isPending) { return true; }
 
-      const isCompliant = iqaCompliance.result.data.compliances.iqa_compliance.is_compliant;
+      const isCompliant = iqaCompliance.result.data
+        .compliances.image_quality_assessment.is_compliant;
       const hasAlreadyRetook = upload.uploadCount > 1;
 
       return !(isCompliant || hasAlreadyRetook);
@@ -113,8 +118,6 @@ export default function UploadCenter({ uploads, sights, compliance, onSubmit }) 
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
-  console.log(sights);
-
   return (
     <SafeAreaView style={{ position: 'relative' }}>
       <View style={styles.card}>
@@ -127,27 +130,39 @@ export default function UploadCenter({ uploads, sights, compliance, onSubmit }) 
         <Text style={styles.subtitle}>
           NOTE: Image compliance will help you take the best image quality.
         </Text>
+
+        {!uploadsList?.length ? (
+          <Text style={styles.emptyStateText}>
+            Everything is ok, please start the inspection
+          </Text>
+        ) : null}
+
+        {uploadsList?.length ? (
+          <View style={styles.content}>
+            <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT, minHeight: '80%' }}>
+              {uploadsList.map((upload) => (
+                <UploadCard
+                  key={upload.id}
+                  upload={upload}
+                  onRetake={handleRetake}
+                  iqaCompliance={getComplianceById(upload.id, compliancesList)
+                    ?.result?.data?.compliances?.image_quality_assessment}
+                  iqaComplianceId={getComplianceById(upload.id, compliancesList)?.id}
+                  sightLabel={sights.state.tour.find((sight) => sight.id === upload.id).label}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        ) : null}
+
         <View style={styles.content}>
-          <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT }}>
-            {uploadsList.map((upload) => (
-              <UploadCard
-                key={upload.id}
-                upload={upload}
-                onRetake={handleRetake}
-                iqaCompliance={getComplianceById(upload.id, compliancesList)
-                  ?.result?.data?.compliances?.iqa_compliance}
-                iqaComplianceId={getComplianceById(upload.id, compliancesList)?.id}
-                sightLabel={sights.state.tour[upload.id].label}
-              />
-            ))}
-            <TouchableOpacity
-              style={[styles.button, { backgroundColor: hasPending ? '#a9a9a9' : '#274b9f' }]}
-              onPress={onSubmit}
-              disabled={hasPending}
-            >
-              <Text style={styles.labelStyle}>START INSPECTION</Text>
-            </TouchableOpacity>
-          </ScrollView>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: hasPending ? '#a9a9a9' : '#274b9f' }]}
+            onPress={onSubmit}
+            disabled={hasPending}
+          >
+            <Text style={styles.labelStyle}>START INSPECTION</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

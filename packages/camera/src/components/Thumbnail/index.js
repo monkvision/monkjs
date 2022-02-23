@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: 100,
     width: 125,
-    transform: [{ rotateY: '180deg' }],
     borderBottomWidth: 1.5,
     opacity: 0.5,
   },
@@ -98,7 +97,13 @@ export default function Thumbnail({
           source={picture}
           style={[
             styles.picture,
-            { borderColor: colors[uploadStatus], transform: [{ rotateY: picture?.type === 'front' ? 180 : 0 }] },
+            {
+              borderColor: colors[uploadStatus],
+              transform: [{ rotateY: picture?.type === 'front' ? Platform.select({
+                native: 180,
+                default: '180deg',
+              }) : 0 }],
+            },
             isSmallScreen ? styles.smPicture : undefined,
           ]}
         />

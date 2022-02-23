@@ -63,7 +63,7 @@ const reasonsVariants = {
   overexposure: 'overexposed',
   underexposure: 'underexposed',
 };
-export default function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLabel }) {
+function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLabel }) {
   const { picture: { uri }, status } = upload;
   const { error, isLoading, fulfilled } = useMemo(() => ({
     error: status === 'rejected',
@@ -132,7 +132,7 @@ export default function UploadCard({ upload, onRetake, iqaCompliance, iqaComplia
       {/* test indicating the status of uploading and the non-compliance reasons */}
       <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
         <View style={styles.textsLayout}>
-          <Text>{`${title} - ${sightLabel}`}</Text>
+          <Text>{`${sightLabel} - ${title}`}</Text>
           {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
         </View>
         {error ? <MaterialCommunityIcons name="close-circle" size={24} color="#fa603d" /> : null}
@@ -150,6 +150,7 @@ UploadCard.propTypes = {
   }),
   iqaComplianceId: PropTypes.string,
   onRetake: PropTypes.func,
+  sightLabel: PropTypes.string,
   upload: PropTypes.shape({
     id: PropTypes.string,
     picture: PropTypes.shape({ uri: PropTypes.string }),
@@ -158,12 +159,14 @@ UploadCard.propTypes = {
 };
 
 UploadCard.defaultProps = {
-  onRetake: () => {},
   iqaCompliance: null,
   iqaComplianceId: null,
+  onRetake: () => {},
+  sightLabel: '',
   upload: {
     id: '',
     status: '',
     picture: { uri: '' },
   },
 };
+export default UploadCard;

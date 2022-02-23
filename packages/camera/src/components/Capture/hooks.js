@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { monkApi } from '@monkvision/corejs';
+import { Platform } from 'react-native';
 
-import Constants from '../../const';
 import Actions from '../../actions';
+import Constants from '../../const';
 
+import blobToBase64 from '../../utils/blobToBase64';
 import getWebFileDataAsync from '../../utils/getWebFileDataAsync';
 import log from '../../utils/log';
 
@@ -24,27 +26,58 @@ export function useTitle({ current }) {
 
 /**
  * @param camera
+ * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
+ */
+export function useTakePictureAsync({ camera }) {
+  return useCallback(async (options = {
+    quality: 1,
+    base64: true,
+    exif: true,
+  }) => {
+    log([`Awaiting picture to be taken...`]);
+
+    if (Platform.OS === 'web') {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
+
+      const track = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(track);
+
+      const blob = await imageCapture.takePhoto();
+
+      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, blob]);
+
+      return blob;
+    }
+
+    const picture = await camera.takePictureAsync(options);
+
+    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
+
+    return picture;
+  }, [camera]);
+}
+
+/**
  * @param current
  * @param settings
  * @param sights
- * @return {function(): Promise<picture>}
+ * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useTakePictureAsync({ camera, current, settings, sights }) {
-  return useCallback(async () => {
-    log([`Awaiting picture to be taken...`]);
-    const picture = await camera.takePictureAsync();
-    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
+export function useSetPictureAsync({ current, settings, sights, uploads }) {
+  return useCallback(async (pictureOrBlob, isBlob = Platform.OS === 'web') => {
+    const picture = isBlob ? { uri: await blobToBase64(pictureOrBlob) } : { ...pictureOrBlob };
 
     const payload = { id: current.id, picture: { ...settings, ...picture } };
     sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
-
-    return picture;
-  }, [camera, current.id, settings, sights]);
+    uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+  }, [current.id, settings, sights, uploads]);
 }
 
 /**
  * @param sights
- * @return {((function(): void)|*)[]}
+ * @return {((function(): void))[]}
  */
 export function useNavigationBetweenSights({ sights }) {
   const goPrevSight = useCallback(() => {
@@ -91,7 +124,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, picture, status: 'pending', label },
+        payload: { id, status: 'pending', blob: Platform.OS === 'web' && picture, label },
       });
 
       const data = await getWebFileDataAsync(picture, sights, inspectionId);
