@@ -9,58 +9,12 @@ slug: /js/api/components/capture
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/camera/latest.svg)
 
 ```yarn
-yarn add @monkvision/camera
+yarn add @monkvision/corejs @monkvision/sights @monkvision/toolkit @monkvision/camera
 ```
 
 ``` javascript
 import { Capture } from '@monkvision/camera';
 ```
-
-Here an example to upload one image to an inspection on the browser with the task `damage_detection` set.
-
-```javascript
-import React, { useCallback, useState } from 'react';
-import { Capture, Controls } from '@monkvision/camera';
-import { SafeAreaView, StatusBar } from 'react-native';
-
-export default function Inspector({ inspectionId }) {
-  const [loading, setLoading] = useState();
-
-  const handleCapture = useCallback(async (state, api, event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    const { takePictureAsync, startUploadAsync, goNextSight } = api;
-
-    setTimeout(async () => {
-      const picture = await takePictureAsync();
-      setLoading(false);
-
-      goNextSight();
-      startUploadAsync(picture);
-    }, 200);
-  }, []);
-
-  const controls = [{
-    disabled: loading,
-    onPress: handleCapture,
-    ...Controls.CaptureButtonProps,
-  }];
-
-  return (
-    <SafeAreaView>
-      <StatusBar hidden />
-      <Capture
-        inspectionId={inspectionId}
-        controls={controls}
-        loading={loading}
-      />
-    </SafeAreaView>
-  );
-}
-```
-
-# Props
 
 ## controls
 `PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, disabled: PropTypes.bool, onPress: PropTypes.func }))`
@@ -173,7 +127,7 @@ See [monkjs/sights](/monkjs/sights) to choose sights you want.
 
 ----
 
-# State and Methods
+# States and Methods
 
 ## state
 ```js
@@ -199,7 +153,7 @@ console.log(uploads.state); // { sightId: { picture: null, status: 'idle', error
 
 ## api
 ```js
-console.log(API); // { camera, goPrevSight, goNextSight, startUploadAsync, takePictureAsync };
+console.log(API); // { camera, goPrevSight, goNextSight, setPictureAsync, startUploadAsync, takePictureAsync };
 ```
 
 ### camera
@@ -211,24 +165,26 @@ Dispatch action to return to the previous Sight in the `sightIds` prop order
 ### goNextSight
 Dispatch action to go to the next Sight in the `sightIds` prop order
 
-### startUploadAsync
-Call a promise starting to upload a picture to Monk API
-
-```js
-const uploadResult = await startUploadAsync(picture);
-console.log('Upload has succeed!')
-```
-
 ### takePictureAsync
 Call a promise starting to take a picture from the Native or browser camera
 
 ```js
-setLoading(true);
-const { picture } = await takePictureAsync();
+const picture = await takePictureAsync();
 console.log('Picture has been taken!')
-setLoading(false);
+```
 
-// Don't set Loading to true if you want Async uploads
+### setPictureAsync,
+Set picture in the component state
+
+```js
+const picture = await takePictureAsync();
+setPictureAsync(picture);
+```
+
+### startUploadAsync
+Call a promise starting to upload a picture to Monk API
+
+```js
 const uploadResult = await startUploadAsync(picture);
 console.log('Upload has succeed!')
 ```

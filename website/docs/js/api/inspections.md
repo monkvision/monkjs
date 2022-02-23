@@ -10,37 +10,30 @@ slug: /js/api/inspections
 yarn add @monkvision/corejs
 ```
 
-## getOneInspectionById
+## getOne()
 `GET /inspections/${id}`
 
 Returns an inspection with all its tasks.
 
 ```javascript
-import { monkApi } from '@monkvision/corejs';
-
-const handleRequest = async () => {
-  await monkApi.inspections.getOne({ id, params });
-}
+const id = 'one-valid-inspection-id'
+const res = await monkApi.inspections.getOne({ id });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_inspection)
 
-## getAllInspections
+## getMany()
 `GET /inspections`
 
 Returns all inspections created by user/organization.
 
 ```javascript
-import { monkApi } from '@monkvision/corejs';
-
-const handleRequest = async () => {
-  await monkApi.inspections.getAll({ params });
-}
+const res = await monkApi.inspections.getMany({});
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_all_inspections)
 
-## createOneInspection
+## createOne()
 `POST /inspections`
 
 An inspection contains data about the state of a vehicle at a given time. Returns a unique inspection id.
@@ -54,37 +47,28 @@ or to add more image on which you want to apply task.
 
 
 ```javascript
-import { monkApi } from '@monkvision/corejs';
-
-const handleRequest = async () => {
-  await monkApi.inspections.createOne({ data });
-}
+const data = {};
+const res = await monkApi.inspections.createOne({ data });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/post_inspection)
 
-## updateOneInspection
+## updateOne()
 `POST /inspections`
 
 ```javascript
-import { monkApi } from '@monkvision/corejs';
-
-const handleRequest = async () => {
-  await monkApi.inspections.updateOne({ data });
-}
+const data = {};
+const res = await monkApi.inspections.updateOne({ data });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/post_inspection)
 
-## deleteOneInspection
+## deleteOne()
 `DELETE /inspections/${id}`
 
 ```javascript
-import { monkApi } from '@monkvision/corejs';
-
-const handleRequest = async () => {
-  await monkApi.inspections.deleteOne({ id });
-}
+const id = 'one-valid-inspection-id'
+const res = await monkApi.inspections.updateOne({ id });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/delete_inspection)

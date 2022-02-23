@@ -4,8 +4,9 @@ module.exports = {
     label: 'Guides',
     items: [
       'js/guides/setting-up',
-      'js/guides/picturing',
       'js/guides/authenticating',
+      'js/guides/picturing',
+      'js/guides/requesting',
     ],
     collapsed: false,
   }, {
