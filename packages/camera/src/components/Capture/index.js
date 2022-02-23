@@ -50,11 +50,14 @@ const styles = StyleSheet.create({
  * @param offline
  * @param onChange
  * @param onReady
+ * @param onSuccess
  * @param primaryColor
  * @param sightIds
  * @param sightsContainerStyle
  * @param style
  * @param thumbnailStyle
+ * @param uploads
+ * @param RenderOnFinish
  * @return {JSX.Element}
  * @constructor
  */
@@ -188,7 +191,7 @@ export default function Capture({
   );
 
   // END METHODS //
-  // CONTANTS //
+  // CONSTANTS //
 
   const tourHasFinished = !Object.values(uploads.state).some((upload) => !upload.picture);
 
@@ -301,7 +304,7 @@ export default function Capture({
 
   // END RENDERING //
 }
-// VmFL3v2A, xfbBpq3Q, OOJDJ7go, j8YHvnDP, LDRoAPnk, 2RFF3Uf8, enHQTFae, CELBsvYD
+
 Capture.defaultSightIds = [
   'xsuH1g5T', // Beauty Shot
   'LE9h1xh0', // Front Fender Left
