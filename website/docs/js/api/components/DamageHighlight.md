@@ -12,11 +12,11 @@ the damage on the car.
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
 
 ```yarn
-yarn add @monkvision/react-native
+yarn add @monkvision/visualization
 ```
 
 ``` javascript
-import { DamageHighlight } from '@monkvision/react-native';
+import { DamageHighlight } from '@monkvision/visualization';
 ```
 
 ``` javascript
@@ -35,6 +35,12 @@ const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
 ```
 
 The component's properties are from the result of an inspection. Both of them are a part of `inspection.images`.
+
+#Props
+## backgroundOpacity
+`PropTypes.number`
+
+Allow to set an opacity to the background image.
 
 ## image
 
@@ -73,20 +79,45 @@ const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
 <DamageHighlight polygons={polygons}/>
 ```
 
-It is also possible to manipulate the polygons properties like its opacity, the stroke color and width
-but also the background image opacity.
-
+## polygonsProps
 ```js
-  backgroundOpacity: PropTypes.number,
-  polygonsProps: PropTypes.shape({
-    opacity: PropTypes.number,
-    stroke: PropTypes.shape({
-      color: PropTypes.string,
-      strokeWidth: PropTypes.number,
-    }),
-  }),
+polygonsProps: PropTypes.shape({
+  opacity: PropTypes.number,
+  stroke: PropTypes.shape({
+    color: PropTypes.string,
+    strokeWidth: PropTypes.number,
+  })
+})
 ```
 
+### opacity
+`PropTypes.number`
+
+Opacity of the picture of the damages inside the polygon.
+
+
+### stroke.color
+`PropTypes.string`
+
+Color of the polygon's outlines
+
+### stroke.strokeWidth
+`PropTypes.number`
+
+Polygon's outline strokes size
+
+
+## touchable
+`PropTypes.bool`
+
+A boolean that indicates if the user can move or zoom the image.
+
+## width
+`PropTypes.number`
+
+Allows to set the image's displayed width. The height will be computed afterwards.
+
+# Methods
 ## usePolygons
 
 Extract properties from an API server response

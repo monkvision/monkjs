@@ -96,6 +96,8 @@ export default function DamageAnnotations({
       },
     });
 
+    // if (x > image.width || y > image.height) {}
+
     if (state.dragX) {
       setter.setEllipseW(x * RATIO_X);
     }
@@ -188,32 +190,32 @@ export default function DamageAnnotations({
       <DamageImage name={image.id} source={image.source} clip opacity={ellipseProps.opacity} />
       {polygon}
       {ellipse && (
-      <>
-        <Circle
-          r={RADIUS_INIT}
-          cy={updatedHeight}
-          cx={state.location ? state.location?.cx : ellipse.cx}
-          fill="mediumseagreen"
-          onMouseDown={() => setter.setDragY(true)}
-          onPressIn={() => setter.setDragY(true)}
-        />
-        <Circle
-          r={RADIUS_INIT}
-          cx={updatedWidth}
-          cy={state.location ? state.location?.cy : ellipse.cy}
-          fill="red"
-          onMouseDown={() => setter.setDragX(true)}
-          onPressIn={() => setter.setDragX(true)}
-        />
-        <Circle
-          r={RADIUS_INIT}
-          cy={state.location ? state.location?.cy : ellipse.cy}
-          cx={state.location ? state.location?.cx : ellipse.cx}
-          fill="orange"
-          onMouseDown={() => setter.setDragLocation(true)}
-          onPressIn={() => setter.setDragLocation(true)}
-        />
-      </>
+        <>
+          <Circle
+            r={RADIUS_INIT}
+            cy={updatedHeight}
+            cx={state.location ? state.location?.cx : ellipse.cx}
+            fill="mediumseagreen"
+            onMouseDown={() => setter.setDragY(true)}
+            onPressIn={() => setter.setDragY(true)}
+          />
+          <Circle
+            r={RADIUS_INIT}
+            cx={updatedWidth}
+            cy={state.location ? state.location?.cy : ellipse.cy}
+            fill="red"
+            onMouseDown={() => setter.setDragX(true)}
+            onPressIn={() => setter.setDragX(true)}
+          />
+          <Circle
+            r={RADIUS_INIT}
+            cy={state.location ? state.location?.cy : ellipse.cy}
+            cx={state.location ? state.location?.cx : ellipse.cx}
+            fill="orange"
+            onMouseDown={() => setter.setDragLocation(true)}
+            onPressIn={() => setter.setDragLocation(true)}
+          />
+        </>
       )}
     </Svg>
   );

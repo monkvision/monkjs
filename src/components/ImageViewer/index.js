@@ -59,12 +59,12 @@ export default function CustomDialog({
             style={styles.footerContainer}
             image={image}
             polygons={polygons}
-            backgroundOpacity={0.4}
+            backgroundOpacity={1}
             polygonsProps={{
-              opacity: 0.1,
+              opacity: 1,
               stroke: {
                 color: '#ec00ff',
-                strokeWidth: 40,
+                strokeWidth: 2,
               },
             }}
             touchable

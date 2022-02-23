@@ -28,7 +28,7 @@ import {
   taskStatuses,
 } from '@monkvision/corejs';
 import { Loader } from '@monkvision/ui';
-import { utils, useFakeActivity } from '@monkvision/toolkit';
+import { useFakeActivity, utils } from '@monkvision/toolkit';
 import { DamageHighlight, usePolygons } from '@monkvision/visualization';
 
 import ActionMenu from 'components/ActionMenu';
@@ -148,7 +148,7 @@ export default () => {
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [previewPolygons, setPreviewPolygons] = useState(false);
   const [previewImage, setPreviewImage] = useState({});
-  const [getImage, getPolygons] = usePolygons();
+  const { getImage, getPolygons } = usePolygons();
 
   const {
     isLoading: isDeleteLoading,
@@ -267,12 +267,12 @@ export default () => {
                     <DamageHighlight
                       image={getImage(image)}
                       polygons={getPolygons(image.id, damageViews)[0]}
-                      backgroundOpacity={0.4}
+                      backgroundOpacity={1}
                       polygonsProps={{
-                        opacity: 0.1,
+                        opacity: 1,
                         stroke: {
                           color: '#ec00ff',
-                          strokeWidth: 40,
+                          strokeWidth: 2,
                         },
                       }}
                     />
