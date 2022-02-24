@@ -151,29 +151,29 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
 /**
  * @param compliance
  * @param inspectionId
+ * @param sightId
  * @return {(function(pictureId: string): Promise<result|error>)|*}
  */
 export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
-  return useCallback(async (pictureId) => {
+  return useCallback(async (imageId) => {
     const { dispatch } = compliance;
-    const id = pictureId;
 
-    if (!id) {
-      throw Error(`Please provide a valid "pictureId". Got ${id}.`);
+    if (!imageId) {
+      throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
     }
 
     try {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
         increment: true,
-        payload: { id, status: 'pending', sightId },
+        payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monkApi.images.getOne({ inspectionId, imageId: id });
+      const result = await monkApi.images.getOne({ inspectionId, imageId });
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id, status: 'fulfilled', sightId, result },
+        payload: { id: sightId, status: 'fulfilled', result, imageId },
       });
 
       return result;
@@ -181,7 +181,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, status: 'rejected', error: err, result: null },
+        payload: { id: sightId, status: 'rejected', error: err, result: null, imageId },
       });
 
       return err;

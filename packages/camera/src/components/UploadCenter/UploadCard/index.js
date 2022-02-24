@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
+import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { utils } from '@monkvision/toolkit';
@@ -63,110 +63,141 @@ const reasonsVariants = {
   overexposure: 'overexposed',
   underexposure: 'underexposed',
 };
-function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLabel }) {
-  const { picture: { uri }, status } = upload;
-  const { error, isLoading, fulfilled } = useMemo(() => ({
-    error: status === 'rejected',
-    isLoading: status === 'pending',
-    fulfilled: status === 'fulfilled',
-  }), [status]);
+function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
+  const { uri } = picture;
+  const errorColor = 'rgba(255, 69, 0, 0.4)';
+  const warningColor = 'rgba(255, 152, 0, 0.4)';
+  const loadingColor = 'rgba(211, 211, 211, 0.4)';
 
-  const { isNotCompliant, isCompliant } = useMemo(() => ({
-    isNotCompliant: iqaCompliance && iqaCompliance.is_compliant === false && iqaCompliance.status === 'DONE',
-    isCompliant: iqaCompliance && iqaCompliance.is_compliant === true && iqaCompliance.status === 'DONE',
-  }),
-  [iqaCompliance]);
+  const { isIdle, isPending, isRejected } = useMemo(() => ({
+    isIdle: upload.status === 'idle'
+      || (upload.status === 'isFulfilled' && compliance.status === 'idle'),
+    isPending: upload.status === 'pending'
+      || (upload.status === 'isFulfilled' && compliance.status === 'pending'),
+    isRejected: upload.status === 'rejected'
+      || (upload.status === 'isFulfilled' && compliance.status === 'rejected'),
+    isFulFilled: upload.status === 'isFulfilled'
+      || (upload.status === 'isFulfilled' && compliance.status === 'isFulfilled'),
+  }), [compliance, upload]);
 
   const title = useMemo(() => {
-    if (isLoading) { return 'Uploading...'; }
-    if (error) { return 'Image has not been uploaded'; }
-    return 'Image has been uploaded successfully';
-  }, [error, isLoading]);
+    if (isPending) { return '- Pending...'; }
+    if (isRejected) { return ` - ${upload.error || (compliance.error && 'Image is not compliant')}`; }
+
+    return '';
+  }, [compliance.error, isPending, isRejected, upload.error]);
 
   const subtitle = useMemo(() => {
-    if (isLoading) { return null; }
-    if (error) { return 'Image has an error, please retake'; }
-    if (isCompliant) { return `This image is compliant`; }
-    if (isNotCompliant) {
-      const length = iqaCompliance?.reasons.length;
-      const distReasons = iqaCompliance?.reasons.map((reason, index) => ((index === length - 1 && length > 1) ? `and ${reasonsVariants[reason]}` : reasonsVariants[reason]));
-      return `This image is ${distReasons}`;
-    }
-    return null;
-  }, [isLoading, error, isCompliant, isNotCompliant, iqaCompliance?.reasons]);
+    if (isPending) { return ``; }
+    if (upload.error) { return `We couldn't upload this image, please retake`; }
 
-  const handleRetake = useCallback((id) => {
-    if (fulfilled) { onRetake(id, iqaComplianceId); } else { onRetake(id); }
-  }, [fulfilled, iqaComplianceId, onRetake]);
+    if (compliance.result) {
+      const {
+        image_quality_assessment: iqa,
+        coverage_360: carCov,
+      } = compliance.result.data.compliances;
+
+      const badQuality = iqa && !iqa.is_compliant;
+      const badCoverage = carCov && !carCov.is_compliant;
+
+      const reasons = [];
+
+      if (badQuality && iqa.reasons) {
+        iqa.reasons.forEach((reason, index) => {
+          const first = index === 0;
+          const text = reasonsVariants[reason];
+          reasons.push(first ? text : `and ${text}`);
+        });
+      }
+
+      if (badCoverage && carCov.reasons) {
+        carCov.reasons.forEach((reason, index) => {
+          const first = index === 0 && !badQuality;
+          const text = reasonsVariants[reason];
+          reasons.push(first ? text : `and ${text}`);
+        });
+      }
+
+      return `This image is ${reasons.join(' ')}`;
+    }
+
+    return '';
+  }, [compliance.result, isPending, upload.error]);
+
+  const handleRetake = useCallback((e) => {
+    e.preventDefault();
+    onRetake(id);
+  }, [id, onRetake]);
 
   return (
     <View style={styles.upload}>
-
-      {/* preview image for error or non compliant images */}
-      {error || (isNotCompliant && !isLoading) ? (
-        <TouchableOpacity style={styles.imageLayout} onPress={() => handleRetake(upload.id)}>
-          <View style={[styles.imageOverlay, { backgroundColor: error ? 'rgba(255, 69, 0, 0.4)' : 'rgba(255, 152, 0, 0.4)' }]}>
-            <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
-          </View>
-          <Image style={styles.image} source={{ uri }} />
-        </TouchableOpacity>
-      ) : null}
-
       {/* preview image with a loading indicator */}
-      {isLoading ? (
+      {(isIdle || isPending) ? (
         <View style={styles.imageLayout}>
-          <View style={[styles.imageOverlay, { backgroundColor: 'rgba(211, 211, 211, 0.4)' }]}>
+          <View style={[styles.imageOverlay, { backgroundColor: loadingColor }]}>
             <ActivityIndicator style={styles.activityIndicator} color="#FFF" />
           </View>
           <Image style={styles.image} source={{ uri }} />
         </View>
-      ) : null}
-
-      {/* preview image for compliant fulfilled images */}
-      {fulfilled && !isNotCompliant ? (
-        <View style={styles.imageLayout}>
+      ) : (
+        <TouchableOpacity style={styles.imageLayout} onPress={handleRetake}>
+          <View style={[
+            styles.imageOverlay,
+            { backgroundColor: upload.error ? errorColor : warningColor },
+          ]}
+          >
+            <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
+          </View>
           <Image style={styles.image} source={{ uri }} />
-        </View>
-      ) : null}
+        </TouchableOpacity>
+      )}
 
-      {/* test indicating the status of uploading and the non-compliance reasons */}
+      {/* text indicating the status of uploading and the non-compliance reasons */}
       <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
         <View style={styles.textsLayout}>
-          <Text>{`${sightLabel} - ${title}`}</Text>
+          <Text>{`${label}${title}`}</Text>
           {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
         </View>
-        {error ? <MaterialCommunityIcons name="close-circle" size={24} color="#fa603d" /> : null}
-        {isNotCompliant && fulfilled ? <MaterialCommunityIcons name="information" size={24} color="#ff9800" /> : null}
       </View>
     </View>
   );
 }
 
 UploadCard.propTypes = {
-  iqaCompliance: PropTypes.shape({
-    is_compliant: PropTypes.bool,
-    reasons: PropTypes.arrayOf(PropTypes.string),
+  compliance: PropTypes.shape({
+    error: PropTypes.string,
+    result: PropTypes.shape({
+      data: PropTypes.shape({
+        compliances: PropTypes.shape({
+          coverage_360: PropTypes.shape({
+            is_compliant: PropTypes.bool,
+            reasons: PropTypes.arrayOf(PropTypes.string),
+            status: PropTypes.string,
+          }),
+          image_quality_assessment: PropTypes.shape({
+            is_compliant: PropTypes.bool,
+            reasons: PropTypes.arrayOf(PropTypes.string),
+            status: PropTypes.string,
+          }),
+        }),
+      }),
+    }),
     status: PropTypes.string,
-  }),
-  iqaComplianceId: PropTypes.string,
+  }).isRequired,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   onRetake: PropTypes.func,
-  sightLabel: PropTypes.string,
+  picture: PropTypes.shape({
+    uri: PropTypes.string,
+  }).isRequired,
   upload: PropTypes.shape({
-    id: PropTypes.string,
+    error: PropTypes.string,
     picture: PropTypes.shape({ uri: PropTypes.string }),
     status: PropTypes.string,
-  }),
+  }).isRequired,
 };
 
 UploadCard.defaultProps = {
-  iqaCompliance: null,
-  iqaComplianceId: null,
   onRetake: () => {},
-  sightLabel: '',
-  upload: {
-    id: '',
-    status: '',
-    picture: { uri: '' },
-  },
 };
 export default UploadCard;
