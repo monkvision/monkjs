@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
  * @param offline
  * @param onChange
  * @param onReady
- * @param onSuccess
  * @param primaryColor
  * @param sightIds
  * @param sightsContainerStyle
@@ -74,7 +73,6 @@ export default function Capture({
   offline,
   onChange,
   onReady,
-  onSuccess,
   primaryColor,
   renderOnFinish: RenderOnFinish,
   sightIds,
@@ -187,11 +185,6 @@ export default function Capture({
     goNextSight, goPrevSight,
     setPictureAsync, startUploadAsync, takePictureAsync,
   ]);
-
-  const handleSubmit = useCallback(
-    () => onSuccess({ camera: api.camera, pictures: states.sights.state.takenPictures }),
-    [api.camera, onSuccess, states.sights.state.takenPictures],
-  );
 
   // END METHODS //
   // CONSTANTS //
@@ -356,7 +349,6 @@ Capture.propTypes = {
   offline: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,
   onReady: PropTypes.func,
-  onSuccess: PropTypes.func,
   primaryColor: PropTypes.string,
   renderOnFinish: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
@@ -400,7 +392,6 @@ Capture.defaultProps = {
   offline: null,
   onChange: () => {},
   onReady: () => {},
-  onSuccess: () => {},
   primaryColor: '#FFF',
   renderOnFinish: null,
   sightIds: Capture.defaultSightIds,
