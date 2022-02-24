@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 4,
     padding: spacing(1.4),
-    marginVertical: spacing(3),
+    margin: spacing(3),
   },
   labelStyle: {
     color: '#FFF',
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
 });
 
 const getItemById = (id, array) => array.find((item) => item.id === id);
+const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 
 export default function UploadCenter({
   compliance,
@@ -61,22 +62,35 @@ export default function UploadCenter({
   submitButtonProps,
   uploads,
 }) {
+  const [submitted, submit] = useState(false);
+
+  const sortByIndex = useCallback((a, b) => {
+    const indexA = getIndexById(a.id, sights.state.tour);
+    const indexB = getIndexById(b.id, sights.state.tour);
+
+    return indexB - indexA;
+  }, [sights.state.tour]);
+
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ status }) => status === 'fulfilled'), [compliance.state]);
 
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
     .filter(({ status }) => ['pending', 'idle'].includes(status))
-    .map(({ id }) => id), [uploads.state]);
+    .sort(sortByIndex)
+    .map(({ id }) => id), [sortByIndex, uploads.state]);
 
   const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
     .filter(({ status, requestCount }) => (
       ['pending', 'idle'].includes(status)
       && requestCount <= navigationOptions.retakeMaxTry
-    )).map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry]);
+    ))
+    .sort(sortByIndex)
+    .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
 
   const uploadIdsWithError = useMemo(() => Object.values(uploads.state)
     .filter(({ status, error }) => (status === 'rejected' || error !== null))
-    .map(({ id }) => id), [uploads.state]);
+    .sort(sortByIndex)
+    .map(({ id }) => id), [sortByIndex, uploads.state]);
 
   const complianceIdsWithError = useMemo(() => Object.values(fulfilledCompliance)
     .filter((item) => {
@@ -87,7 +101,9 @@ export default function UploadCenter({
       const badCoverage = carCov && !carCov.is_compliant;
 
       return badQuality || badCoverage;
-    }).map(({ id }) => id), [fulfilledCompliance]);
+    })
+    .sort(sortByIndex)
+    .map(({ id }) => id), [fulfilledCompliance, sortByIndex]);
 
   const unionIds = useMemo(() => [...new Set([
     ...unfulfilledUploadIds,
@@ -117,6 +133,18 @@ export default function UploadCenter({
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
+  useEffect(() => {
+    if (
+      submitted === false
+      && unionIds
+      && unionIds.length === 0
+      && typeof submitButtonProps.onPress === 'function'
+    ) {
+      submitButtonProps.onPress({ compliance, sights, uploads });
+      submit(true);
+    }
+  }, [compliance, sights, submitButtonProps, submitted, unionIds, uploads]);
+
   return (
     <ScrollView style={styles.card}>
       <View>
@@ -128,7 +156,6 @@ export default function UploadCenter({
           Thank you for your comprehension.
         </Text>
       </View>
-
       <View style={styles.content}>
         {unionIds.map((id) => (
           <UploadCard
@@ -141,11 +168,10 @@ export default function UploadCenter({
             compliance={compliance.state[id]}
           />
         ))}
+        {typeof submitButtonProps.onPress === 'function' ? (
+          <Button style={styles.button} {...submitButtonProps} />
+        ) : null}
       </View>
-
-      {typeof submitButtonProps.onPress === 'function' ? (
-        <Button {...submitButtonProps} />
-      ) : null}
     </ScrollView>
   );
 }

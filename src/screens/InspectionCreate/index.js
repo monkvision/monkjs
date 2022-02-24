@@ -7,7 +7,6 @@ import useScreen from 'screens/InspectionCreate/useScreen';
 import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
 
 import ValidationDialog from 'screens/InspectionCreate/ValidationDialog';
-import { Platform } from 'react-native';
 
 export default () => {
   const route = useRoute();
@@ -16,16 +15,11 @@ export default () => {
   const screen = useScreen(inspectionId);
   const requests = useRequests(screen);
 
-  const handleSuccess = useCallback(({ camera, pictures }) => {
-    if (camera) { camera.pausePreview(); }
-    if (Platform.OS === 'web') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-    screen.setTourIsCompleted(true);
-    screen.setVisibleDialog(true);
-    requests.savePictures.preparePictures(pictures);
-  }, [requests.savePictures, screen]);
-
   const [loading, setLoading] = useState();
+
+  const handleSuccess = useCallback(() => {
+    requests.updateTask.request();
+  }, [requests]);
 
   const handleCapture = useCallback(async (state, api, event) => {
     event.preventDefault();
@@ -76,6 +70,7 @@ export default () => {
         uploads={uploads}
         renderOnFinish={UploadCenter}
         submitButtonProps={{
+          title: 'Next',
           onPress: handleSuccess,
         }}
       />

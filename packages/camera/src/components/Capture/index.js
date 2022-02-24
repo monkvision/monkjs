@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
  * @param thumbnailStyle
  * @param uploads
  * @param RenderOnFinish
+ * @param task
  * @return {JSX.Element}
  * @constructor
  */
@@ -75,13 +76,14 @@ export default function Capture({
   onReady,
   onSuccess,
   primaryColor,
+  renderOnFinish: RenderOnFinish,
   sightIds,
   sightsContainerStyle,
   style,
+  submitButtonProps,
+  task,
   thumbnailStyle,
   uploads,
-  renderOnFinish: RenderOnFinish,
-  task,
 }) {
   // STATES //
 
@@ -276,7 +278,7 @@ export default function Capture({
     return (
       <RenderOnFinish
         {...states}
-        onSubmit={handleSubmit}
+        submitButtonProps={submitButtonProps}
       />
     );
   }
@@ -359,6 +361,7 @@ Capture.propTypes = {
   renderOnFinish: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
   sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
+  submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
   task: PropTypes.oneOf([PropTypes.string, PropTypes.object]),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.shape({
@@ -399,8 +402,10 @@ Capture.defaultProps = {
   onReady: () => {},
   onSuccess: () => {},
   primaryColor: '#FFF',
+  renderOnFinish: null,
   sightIds: Capture.defaultSightIds,
   sightsContainerStyle: {},
+  submitButtonProps: {},
   task: 'damage_detection',
   thumbnailStyle: {},
   uploads: {
@@ -408,5 +413,4 @@ Capture.defaultProps = {
     name: null,
     state: {},
   },
-  renderOnFinish: null,
 };
