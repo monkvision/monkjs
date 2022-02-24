@@ -63,19 +63,22 @@ const reasonsVariants = {
   overexposure: 'overexposed',
   underexposure: 'underexposed',
 };
-function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLabel }) {
+function UploadCard({ upload, onRetake, iqaCompliance, sightLabel }) {
   const { picture: { uri }, status } = upload;
-  const { error, isLoading, fulfilled } = useMemo(() => ({
+  const iqa = iqaCompliance?.result?.data?.compliances?.image_quality_assessment;
+
+  const { error, isLoading, fulfilled, iqaLoading } = useMemo(() => ({
     error: status === 'rejected',
     isLoading: status === 'pending',
     fulfilled: status === 'fulfilled',
-  }), [status]);
+    iqaLoading: iqa?.status === 'pending',
+  }), [iqa?.status, status]);
 
   const { isNotCompliant, isCompliant } = useMemo(() => ({
-    isNotCompliant: iqaCompliance && iqaCompliance.is_compliant === false && iqaCompliance.status === 'DONE',
-    isCompliant: iqaCompliance && iqaCompliance.is_compliant === true && iqaCompliance.status === 'DONE',
+    isNotCompliant: iqa && iqa.is_compliant === false && iqa.status === 'DONE',
+    isCompliant: iqa && iqa.is_compliant === true && iqa.status === 'DONE',
   }),
-  [iqaCompliance]);
+  [iqa]);
 
   const title = useMemo(() => {
     if (isLoading) { return 'Uploading...'; }
@@ -87,17 +90,18 @@ function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLab
     if (isLoading) { return null; }
     if (error) { return 'Image has an error, please retake'; }
     if (isCompliant) { return `This image is compliant`; }
+    if (iqaLoading) { return 'Checking the image quality...'; }
     if (isNotCompliant) {
-      const length = iqaCompliance?.reasons.length;
-      const distReasons = iqaCompliance?.reasons.map((reason, index) => ((index === length - 1 && length > 1) ? `and ${reasonsVariants[reason]}` : reasonsVariants[reason]));
+      const length = iqa?.reasons.length;
+      const distReasons = iqa?.reasons.map((reason, index) => ((index === length - 1 && length > 1) ? `and ${reasonsVariants[reason]}` : reasonsVariants[reason]));
       return `This image is ${distReasons}`;
     }
     return null;
-  }, [isLoading, error, isCompliant, isNotCompliant, iqaCompliance?.reasons]);
+  }, [isLoading, error, isCompliant, iqaLoading, isNotCompliant, iqa?.reasons]);
 
   const handleRetake = useCallback((id) => {
-    if (fulfilled) { onRetake(id, iqaComplianceId); } else { onRetake(id); }
-  }, [fulfilled, iqaComplianceId, onRetake]);
+    if (fulfilled) { onRetake(id, iqaCompliance?.id); } else { onRetake(id); }
+  }, [fulfilled, iqaCompliance?.id, onRetake]);
 
   return (
     <View style={styles.upload}>
@@ -143,12 +147,18 @@ function UploadCard({ upload, onRetake, iqaCompliance, iqaComplianceId, sightLab
 }
 
 UploadCard.propTypes = {
-  iqaCompliance: PropTypes.shape({
+  iqa: PropTypes.shape({
     is_compliant: PropTypes.bool,
     reasons: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.string,
   }),
-  iqaComplianceId: PropTypes.string,
+  iqaCompliance: PropTypes.shape({
+    error: PropTypes.objectOf(PropTypes.any),
+    id: PropTypes.string,
+    requestCount: PropTypes.number,
+    result: PropTypes.objectOf(PropTypes.any),
+    status: PropTypes.string,
+  }),
   onRetake: PropTypes.func,
   sightLabel: PropTypes.string,
   upload: PropTypes.shape({
@@ -159,8 +169,8 @@ UploadCard.propTypes = {
 };
 
 UploadCard.defaultProps = {
+  iqa: null,
   iqaCompliance: null,
-  iqaComplianceId: null,
   onRetake: () => {},
   sightLabel: '',
   upload: {

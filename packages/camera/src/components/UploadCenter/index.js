@@ -9,7 +9,7 @@ import Actions from '../../actions';
 
 const { spacing } = utils.styles;
 
-const ROW_HEIGHT = 150;
+const ROW_HEIGHT = 100;
 
 const styles = StyleSheet.create({
   card: {
@@ -125,37 +125,29 @@ export default function UploadCenter({ uploads, sights, compliance, onSubmit }) 
           All uploads
         </Text>
         <Text style={[styles.subtitle, { marginBottom: 0 }]}>
-          Use high image quality, for an accurate result.
-        </Text>
-        <Text style={styles.subtitle}>
-          NOTE: Image compliance will help you take the best image quality.
+          Here you will find all pictures that do not conform or contain error.
         </Text>
 
         {!uploadsList?.length ? (
           <Text style={styles.emptyStateText}>
-            Everything is ok, please start the inspection
+            All good, please start the inspection
           </Text>
         ) : null}
 
-        {uploadsList?.length ? (
-          <View style={styles.content}>
-            <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT, minHeight: '80%' }}>
+        <View style={styles.content}>
+          {uploadsList?.length ? (
+            <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT }}>
               {uploadsList.map((upload) => (
                 <UploadCard
                   key={upload.id}
                   upload={upload}
                   onRetake={handleRetake}
-                  iqaCompliance={getComplianceById(upload.id, compliancesList)
-                    ?.result?.data?.compliances?.image_quality_assessment}
-                  iqaComplianceId={getComplianceById(upload.id, compliancesList)?.id}
+                  iqaCompliance={getComplianceById(upload.id, compliancesList)}
                   sightLabel={sights.state.tour.find((sight) => sight.id === upload.id).label}
                 />
               ))}
             </ScrollView>
-          </View>
-        ) : null}
-
-        <View style={styles.content}>
+          ) : null}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: hasPending ? '#a9a9a9' : '#274b9f' }]}
             onPress={onSubmit}
