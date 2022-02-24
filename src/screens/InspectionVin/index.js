@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -38,9 +38,8 @@ export default () => {
     vin,
     status,
     requiredFields,
-    handleUploadVin,
+    handleCapture,
     handleOpenVinCameraOrRetake,
-    handleCloseVinCamera,
     inspectionIsLoading,
     isUploading,
     ocrIsLoading,
@@ -52,25 +51,24 @@ export default () => {
     errorSnackbar,
   } = useVin({ vinSight });
 
-  const [loading, setLoading] = useState();
+  // const handleCapture = useCallback((callbacks) => async (state, api, event) => {
+  //   event.preventDefault();
+  //   const { onSuccess, onError, onLoading } = callbacks;
+  //   setLoading(true);
 
-  const handleCapture = useCallback(async (state, api, event) => {
-    event.preventDefault();
-    setLoading(true);
+  //   const { takePictureAsync, startUploadAsync } = api;
 
-    const { takePictureAsync } = api;
+  //   const picture = await takePictureAsync();
+  //   const upload = await startUploadAsync(picture);
 
-    setTimeout(async () => {
-      const picture = await takePictureAsync();
-      await handleUploadVin(picture);
+  //   if (upload) { onSuccess(upload); }
 
-      setLoading(false);
-      handleCloseVinCamera();
-    }, 200);
-  }, [handleCloseVinCamera, handleUploadVin]);
+  //   setLoading(false);
+  //   handleCloseVinCamera();
+  // }, [handleCloseVinCamera]);
 
   const controls = [{
-    disabled: loading,
+    disabled: camera.loading,
     onPress: handleCapture,
     ...Controls.CaptureButtonProps,
   }];
@@ -96,8 +94,9 @@ export default () => {
       <Capture
         inspectionId={inspectionId}
         sightIds={['sLu0CfOt']}
-        loading={loading}
+        loading={camera.loading}
         controls={controls}
+        task={{ name: 'images_ocr', image_details: { image_type: 'VIN' } }}
       />
     );
   }

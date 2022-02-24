@@ -81,6 +81,7 @@ export default function Capture({
   thumbnailStyle,
   uploads,
   renderOnFinish: RenderOnFinish,
+  task,
 }) {
   // STATES //
 
@@ -150,7 +151,7 @@ export default function Capture({
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera });
   const setPictureAsync = useSetPictureAsync({ current, settings, sights, uploads });
-  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads });
+  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
   const checkComplianceAsync = useCheckComplianceAsync({
     compliance,
     inspectionId,
@@ -358,6 +359,7 @@ Capture.propTypes = {
   renderOnFinish: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
   sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
+  task: PropTypes.oneOf([PropTypes.string, PropTypes.object]),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.shape({
     dispatch: PropTypes.func,
@@ -399,6 +401,7 @@ Capture.defaultProps = {
   primaryColor: '#FFF',
   sightIds: Capture.defaultSightIds,
   sightsContainerStyle: {},
+  task: 'damage_detection',
   thumbnailStyle: {},
   uploads: {
     dispatch: noop,
