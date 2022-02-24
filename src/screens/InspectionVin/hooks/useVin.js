@@ -75,7 +75,7 @@ export default function useVin() {
     const allOcrTasks = inspection?.tasks?.filter((task) => task?.name === 'images_ocr');
     return allOcrTasks?.find((_, i) => i === allOcrTasks?.length - 1);
   }, [inspection]);
-  console.log(lastOcrTask);
+
   // if only the status of the OCR task is done and the vinPicture is present
   // then we hit the refresh after 3sec
   const delay = useMemo(() => {
@@ -113,7 +113,6 @@ export default function useVin() {
    * and we display the vin picture
    * on error we toggle off the uploading state, and we open the error snackbar
    */
-
   const handleCapture = useCallback(async (state, api, event) => {
     event.preventDefault();
 
