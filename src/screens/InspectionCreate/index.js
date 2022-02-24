@@ -4,8 +4,10 @@ import { useRoute } from '@react-navigation/native';
 import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls } from '@monkvision/camera';
+import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
+
 import ValidationDialog from 'screens/InspectionCreate/ValidationDialog';
+import { Platform } from 'react-native';
 
 export default () => {
   const route = useRoute();
@@ -15,7 +17,9 @@ export default () => {
   const requests = useRequests(screen);
 
   const handleSuccess = useCallback(({ camera, pictures }) => {
-    camera.pausePreview();
+    if (camera) { camera.pausePreview(); }
+    if (Platform.OS === 'web') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
     screen.setTourIsCompleted(true);
     screen.setVisibleDialog(true);
     requests.savePictures.preparePictures(pictures);
@@ -32,27 +36,28 @@ export default () => {
       startUploadAsync,
       setPictureAsync,
       goNextSight,
+      checkComplianceAsync,
     } = api;
 
     const picture = await takePictureAsync();
     setPictureAsync(picture);
 
     const { sights } = state;
-    const { camera } = api;
-    const { current, ids, takenPictures } = sights.state;
+    const { current, ids } = sights.state;
 
     if (current.index === ids.length - 1) {
-      await startUploadAsync(picture);
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
 
       setLoading(false);
-      requests.updateTask.request();
-      handleSuccess({ camera, pictures: takenPictures });
     } else {
       setLoading(false);
       goNextSight();
-      startUploadAsync(picture);
+
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
     }
-  }, [handleSuccess, requests.updateTask]);
+  }, []);
 
   const controls = [{
     disabled: loading,
@@ -60,12 +65,17 @@ export default () => {
     ...Controls.CaptureButtonProps,
   }];
 
+  const uploads = useUploads({ sightIds: Capture.defaultSightIds });
+
   return (
     <>
       <Capture
         inspectionId={inspectionId}
         controls={controls}
         loading={loading}
+        uploads={uploads}
+        renderOnFinish={UploadCenter}
+        onSuccess={handleSuccess}
       />
       <ValidationDialog
         requests={requests}

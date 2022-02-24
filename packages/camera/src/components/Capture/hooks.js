@@ -65,13 +65,14 @@ export function useTakePictureAsync({ camera }) {
  * @param sights
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useSetPictureAsync({ current, settings, sights }) {
+export function useSetPictureAsync({ current, settings, sights, uploads }) {
   return useCallback(async (pictureOrBlob, isBlob = Platform.OS === 'web') => {
     const picture = isBlob ? { uri: await blobToBase64(pictureOrBlob) } : { ...pictureOrBlob };
 
     const payload = { id: current.id, picture: { ...settings, ...picture } };
     sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
-  }, [current.id, settings, sights]);
+    uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+  }, [current.id, settings, sights, uploads]);
 }
 
 /**
@@ -123,7 +124,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, picture, status: 'pending', label },
+        payload: { id, status: 'pending', blob: Platform.OS === 'web' && picture, label },
       });
 
       const data = await getWebFileDataAsync(picture, sights, inspectionId);
@@ -152,7 +153,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
  * @param inspectionId
  * @return {(function(pictureId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId }) {
+export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
   return useCallback(async (pictureId) => {
     const { dispatch } = compliance;
     const id = pictureId;
@@ -165,14 +166,14 @@ export function useCheckComplianceAsync({ compliance, inspectionId }) {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
         increment: true,
-        payload: { id, status: 'pending' },
+        payload: { id, status: 'pending', sightId },
       });
 
       const result = await monkApi.images.getOne({ inspectionId, imageId: id });
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id, status: 'fulfilled', result },
+        payload: { id, status: 'fulfilled', sightId, result },
       });
 
       return result;
@@ -185,5 +186,5 @@ export function useCheckComplianceAsync({ compliance, inspectionId }) {
 
       return err;
     }
-  }, [compliance, inspectionId]);
+  }, [compliance, inspectionId, sightId]);
 }
