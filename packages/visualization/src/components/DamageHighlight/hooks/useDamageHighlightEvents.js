@@ -79,6 +79,7 @@ export default function useDamageHighlightEvents({
 
   // press event
   const handlePress = useCallback((e, type) => {
+    e.preventDefault();
     if (!touchable) {
       return;
     }
@@ -107,6 +108,7 @@ export default function useDamageHighlightEvents({
 
   // drag event
   const handleDrag = useCallback((e) => {
+    e.preventDefault();
     if (!press || !touchable) {
       return;
     }
@@ -118,8 +120,8 @@ export default function useDamageHighlightEvents({
 
     setPosition((prev) => (Platform.select({
       default: {
-        x: prev.x - x * (e.movementX / 150),
-        y: prev.y - y * (e.movementY / 150),
+        x: prev.x - x * (e.movementX / 250),
+        y: prev.y - y * (e.movementY / 250),
       },
       native: {
         x: prev.x + ((originPosition.x - x) / 10),
@@ -132,11 +134,19 @@ export default function useDamageHighlightEvents({
   const getColor = useCallback(() => {
     ImageColors.getColors(image.source.uri, {
       key: 'unique_key',
-    }).then((res) => {
-      const baseColor = `0x${res.dominant.split('#')[1]}`;
-      const complementaryColor = (0xffffff - baseColor).toString(16);
-      setColor(`#${Array(6 - complementaryColor.length).fill(0).join('')}${complementaryColor.toString(16)}`);
-    });
+      quality: 'low',
+      pixelSpacing: 5,
+      cache: true,
+    })
+      .then((res) => {
+        const c = res.platform === 'ios' ? res.primary : res.vibrant;
+        const baseColor = `0x${c.split('#')[1]}`;
+        const complementaryColor = (0xffffff - baseColor).toString(16);
+        setColor(`#${Array(6 - complementaryColor.length)
+          .fill(0)
+          .join('')}${complementaryColor.toString(16)}`);
+      })
+      .catch((err) => console.log(err));
   }, [image.source]);
 
   return {

@@ -1,16 +1,20 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
+import noop from 'lodash.noop';
 import DamageImage from '../DamageImage';
 import useImageDamage from '../../hooks/useDamageImage';
 import useDamageHighlightEvents from './hooks/useDamageHighlightEvents';
 
-function DamageHighlight({ backgroundOpacity, image, polygons, polygonsProps, touchable, width }) {
+function DamageHighlight(
+  { backgroundOpacity, image, polygons, polygonsProps, touchable, width, savePng },
+) {
   const {
     state: { width: imageWidth, height: imageHeight },
     getSvgRatio,
+    svgToPng,
   } = useImageDamage(image, width);
 
   const [ratioX, ratioY] = getSvgRatio;
@@ -28,6 +32,12 @@ function DamageHighlight({ backgroundOpacity, image, polygons, polygonsProps, to
   const handleMouseUp = useCallback((e) => handlePress(e, 'up'), [handlePress]);
   const handleMouseDown = useCallback((e) => handlePress(e, 'down'), [handlePress]);
 
+  const ref = Platform.select({
+    native: {
+      ref: (svgRef) => svgToPng(svgRef, image.width, image.height, savePng),
+    },
+  });
+
   const polygon = useMemo(() => (
     polygons.map((p, index) => (
       <Polygon
@@ -44,32 +54,22 @@ function DamageHighlight({ backgroundOpacity, image, polygons, polygonsProps, to
     getColor();
   }, [getColor]);
 
+  useEffect(() => {
+    if (Platform.OS === 'web') { svgToPng(image, image.id, savePng); }
+  }, [image, savePng, svgToPng]);
+
   if (!image) {
     return <View />;
   }
 
-  if (isEmpty(polygons)) {
-    return (
-      <Svg
-        width={imageWidth}
-        height={imageHeight}
-        onMouseMove={handleDrag}
-        onMouseUp={handleMouseUp}
-        onMouseDown={handleMouseDown}
-        onTouchMove={handleDrag}
-        onTouchEnd={handleMouseUp}
-        onTouchStart={handleMouseDown}
-        viewBox={`${position.x} ${position.y} ${image.width * zoom} ${image.height * zoom}`}
-      >
-        <DamageImage name={image.id} source={image.source} />
-      </Svg>
-    );
-  }
-
   return (
     <Svg
+      {...ref}
+      id={image.id}
       width={imageWidth}
       height={imageHeight}
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
       onMouseMove={handleDrag}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
@@ -85,7 +85,7 @@ function DamageHighlight({ backgroundOpacity, image, polygons, polygonsProps, to
       <DamageImage
         name={image.id}
         source={image.source}
-        opacity={showPolygon ? backgroundOpacity : 1}
+        opacity={showPolygon || !isEmpty(polygons) ? backgroundOpacity : 1}
       />
       {showPolygon && (
         <>
@@ -121,6 +121,7 @@ DamageHighlight.propTypes = {
       strokeWidth: PropTypes.number,
     }),
   }),
+  savePng: PropTypes.func,
   touchable: PropTypes.bool,
   width: PropTypes.number,
 };
@@ -137,6 +138,7 @@ DamageHighlight.defaultProps = {
       strokeWidth: 2.5,
     },
   },
+  savePng: noop,
   touchable: false,
   width: 400,
 };

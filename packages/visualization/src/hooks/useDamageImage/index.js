@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default function useImageDamage(image, originalWidth) {
@@ -44,6 +44,59 @@ export default function useImageDamage(image, originalWidth) {
     return null;
   }, [getOriginalRatio, location]);
 
+  const imageToBase64 = async (img) => {
+    const response = await fetch(img.source.uri);
+    const buffer = await response.arrayBuffer();
+
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    const binary = bytes.reduce((prev, curr, i) => (
+      (i < len) ? prev + String.fromCharCode(curr) : prev
+    ), '');
+    return `data:image/png;base64,${window.btoa(binary)}`;
+  };
+
+  const svgToPngWeb = async (img, id, callback) => {
+    const serialize = new XMLSerializer().serializeToString(document.getElementById(id));
+    const b64 = await imageToBase64(img);
+    const reg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
+    const imgSrc = (`data:image/svg+xml;base64,${window.btoa(serialize.replaceAll(reg, `href="${b64}"`))}`);
+    const imageHtml = new Image();
+
+    imageHtml.crossOrigin = 'anonymous';
+
+    imageHtml.onerror = () => {
+      console.error('Picture could not load');
+    };
+
+    imageHtml.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const context = canvas.getContext('2d');
+      context.drawImage(imageHtml, 0, 0);
+      const t = canvas.toDataURL('image/png');
+      // Call the callback with the png picture
+      callback(t);
+    };
+
+    imageHtml.src = imgSrc;
+  };
+
+  const svgToPngNative = (ref, w, h, callback) => {
+    if (ref) {
+      ref?.toDataURL(
+        (base64) => callback(`data:image/png;base64,${base64}`),
+        { width: w, height: h },
+      );
+    }
+  };
+
+  const svgToPng = Platform.select({
+    web: svgToPngWeb,
+    native: svgToPngNative,
+  });
+
   return {
     state: {
       width,
@@ -66,6 +119,7 @@ export default function useImageDamage(image, originalWidth) {
     getOriginalRatio,
     getSvgRatio,
     saveEllipse,
+    svgToPng,
   };
 }
 
