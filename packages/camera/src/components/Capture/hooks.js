@@ -110,7 +110,7 @@ export function useCreateDamageDetectionAsync() {
  * @param uploads
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads }) {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
   return useCallback(async (picture) => {
     const { dispatch } = uploads;
 
@@ -127,7 +127,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
         payload: { id, status: 'pending', blob: Platform.OS === 'web' && picture, label },
       });
 
-      const data = await getWebFileDataAsync(picture, sights, inspectionId);
+      const data = await getWebFileDataAsync(picture, sights, inspectionId, {}, task);
       const result = await monkApi.images.addOne({ inspectionId, data });
 
       dispatch({
@@ -145,7 +145,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
 
       return err;
     }
-  }, [inspectionId, sights, uploads]);
+  }, [inspectionId, sights, task, uploads]);
 }
 
 /**

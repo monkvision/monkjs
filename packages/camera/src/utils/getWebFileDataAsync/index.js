@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
  * @param settings
  * @return {Promise<FormData>}
  */
-export default async function getWebFileData(blob, sights, inspectionId, settings) {
+export default async function getWebFileData(blob, sights, inspectionId, settings, task = 'damage_detection') {
   if (Platform.OS !== 'web') {
     throw Error('`getWebFileData()` is only available on the browser');
   }
@@ -22,7 +22,7 @@ export default async function getWebFileData(blob, sights, inspectionId, setting
   const json = JSON.stringify({
     acquisition: { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image },
     compliances: { image_quality_assessment: {} },
-    tasks: ['damage_detection'],
+    tasks: [task],
     additional_data: {
       ...sights.state.current.metadata,
       overlay: undefined,
