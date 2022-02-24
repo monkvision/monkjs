@@ -6,10 +6,17 @@ function init({ sightIds, initialState }) {
   if (initialState) { return initialState; }
 
   const state = {};
-  const initialComplianceState = { id: '', status: 'idle', error: null, requestCount: 0, result: null };
+  const initialComplianceState = {
+    id: '', // sight ID
+    status: 'idle',
+    error: null,
+    requestCount: 0,
+    result: null,
+    imageId: null, // returned from the API
+  };
 
   sightIds.forEach((id) => {
-    state[id] = { id, ...initialComplianceState };
+    state[id] = { ...initialComplianceState, id };
   });
 
   return state;

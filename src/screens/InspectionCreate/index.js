@@ -75,7 +75,9 @@ export default () => {
         loading={loading}
         uploads={uploads}
         renderOnFinish={UploadCenter}
-        onSuccess={handleSuccess}
+        submitButtonProps={{
+          onPress: handleSuccess,
+        }}
       />
       <ValidationDialog
         requests={requests}

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { ScrollView, Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
@@ -8,8 +8,6 @@ import UploadCard from './UploadCard';
 import Actions from '../../actions';
 
 const { spacing } = utils.styles;
-
-const ROW_HEIGHT = 150;
 
 const styles = StyleSheet.create({
   card: {
@@ -54,131 +52,121 @@ const styles = StyleSheet.create({
   },
 });
 
-const getComplianceById = (id, list) => list.find((item) => item.sightId === id);
+const getItemById = (id, array) => array.find((item) => item.id === id);
 
-export default function UploadCenter({ uploads, sights, compliance, onSubmit }) {
-  /**
-   * @type {{
-    * compliancesList:[{
-      * status: string,
-      * error,
-      * requestCount:
-      * number,
-      * result: {
-        * binary_size: number,
-        * compliances: {
-          * image_quality_assessment: {
-          * is_compliant: boolean,
-          * parameters: {}
-          * reasons: [string],
-          * status: string,
-          * },
-        * },
-      * id: string,
-      * image_height: number,
-      * image_width: number,
-      * name: string,
-      * path: string,
-    * }}],
-    * },
-    * hasPending: boolean,
-    * uploadsList: [{picture, status: string, error: null, uploadCount: number}]
-  * }
-  */
-  const states = useMemo(() => {
-    const compliancesList = Object.values(compliance.state).filter((upload) => upload.status === 'fulfilled');
-    const uploadsList = Object.values(uploads.state).filter((upload) => {
-      const iqaCompliance = compliancesList.find(({ sightId }) => sightId === upload.id);
-      if (!iqaCompliance) { return true; }
+export default function UploadCenter({
+  compliance,
+  navigationOptions,
+  sights,
+  submitButtonProps,
+  uploads,
+}) {
+  const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
+    .filter(({ status }) => status === 'fulfilled'), [compliance.state]);
 
-      const isPending = upload.status === 'pending' || ['pending', 'idle'].includes(iqaCompliance.status);
+  const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
+    .filter(({ status }) => ['pending', 'idle'].includes(status))
+    .map(({ id }) => id), [uploads.state]);
 
-      if (isPending) { return true; }
+  const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
+    .filter(({ status, requestCount }) => (
+      ['pending', 'idle'].includes(status)
+      && requestCount <= navigationOptions.retakeMaxTry
+    )).map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry]);
 
-      const isCompliant = iqaCompliance.result.data
-        .compliances.image_quality_assessment.is_compliant;
-      const hasAlreadyRetook = upload.uploadCount > 1;
+  const uploadIdsWithError = useMemo(() => Object.values(uploads.state)
+    .filter(({ status, error }) => (status === 'rejected' || error !== null))
+    .map(({ id }) => id), [uploads.state]);
 
-      return !(isCompliant || hasAlreadyRetook);
+  const complianceIdsWithError = useMemo(() => Object.values(fulfilledCompliance)
+    .filter((item) => {
+      if (item.status !== 'fulfilled') { return false; }
+
+      const { image_quality_assessment: iqa, coverage_360: carCov } = item.result.data.compliances;
+      const badQuality = iqa && !iqa.is_compliant;
+      const badCoverage = carCov && !carCov.is_compliant;
+
+      return badQuality || badCoverage;
+    }).map(({ id }) => id), [fulfilledCompliance]);
+
+  const unionIds = useMemo(() => [...new Set([
+    ...unfulfilledUploadIds,
+    ...unfulfilledComplianceIds,
+    ...uploadIdsWithError,
+    ...complianceIdsWithError,
+  ])], [
+    complianceIdsWithError,
+    unfulfilledComplianceIds,
+    unfulfilledUploadIds,
+    uploadIdsWithError,
+  ]);
+
+  const handleRetake = useCallback((id) => {
+    // reset upload and compliance info
+    compliance.dispatch({
+      type: Actions.compliance.UPDATE_COMPLIANCE,
+      payload: { id, status: 'idle', error: null, result: null, imageId: null },
+    });
+    uploads.dispatch({
+      type: Actions.uploads.UPDATE_UPLOAD,
+      payload: { id, status: 'idle', picture: null },
     });
 
-    const hasPending = uploadsList.some((upload) => upload.status === 'pending');
-    return { uploadsList, compliancesList, hasPending };
-  }, [compliance.state, uploads.state]);
-
-  const { uploadsList, compliancesList, hasPending } = states;
-
-  const handleRetake = useCallback((id, complianceId) => {
-    // reset the current compliance
-    compliance.dispatch({ type: Actions.compliance.UPDATE_COMPLIANCE, payload: { id: complianceId, status: 'idle', error: null, result: null } });
-    // empty the old picture
-    uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload: { id, status: 'idle', picture: null } });
     // remove the picture from the sight and focus on the current sight
     sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, payload: { id } });
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
   return (
-    <SafeAreaView style={{ position: 'relative' }}>
-      <View style={styles.card}>
+    <ScrollView style={styles.card}>
+      <View>
         <Text style={styles.title}>
-          All uploads
+          🏎️ Upload statuses and compliance results
         </Text>
         <Text style={[styles.subtitle, { marginBottom: 0 }]}>
-          Use high image quality, for an accurate result.
+          Improve image compliance will result to a better AI inspection.
+          Thank you for your comprehension.
         </Text>
-        <Text style={styles.subtitle}>
-          NOTE: Image compliance will help you take the best image quality.
-        </Text>
-
-        {!uploadsList?.length ? (
-          <Text style={styles.emptyStateText}>
-            Everything is ok, please start the inspection
-          </Text>
-        ) : null}
-
-        {uploadsList?.length ? (
-          <View style={styles.content}>
-            <ScrollView style={{ height: 'auto' }} contentContainerStyle={{ height: uploadsList.length * ROW_HEIGHT, minHeight: '80%' }}>
-              {uploadsList.map((upload) => (
-                <UploadCard
-                  key={upload.id}
-                  upload={upload}
-                  onRetake={handleRetake}
-                  iqaCompliance={getComplianceById(upload.id, compliancesList)
-                    ?.result?.data?.compliances?.image_quality_assessment}
-                  iqaComplianceId={getComplianceById(upload.id, compliancesList)?.id}
-                  sightLabel={sights.state.tour.find((sight) => sight.id === upload.id).label}
-                />
-              ))}
-            </ScrollView>
-          </View>
-        ) : null}
-
-        <View style={styles.content}>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: hasPending ? '#a9a9a9' : '#274b9f' }]}
-            onPress={onSubmit}
-            disabled={hasPending}
-          >
-            <Text style={styles.labelStyle}>START INSPECTION</Text>
-          </TouchableOpacity>
-        </View>
       </View>
-    </SafeAreaView>
+
+      <View style={styles.content}>
+        {unionIds.map((id) => (
+          <UploadCard
+            key={`uploadCard-${id}`}
+            onRetake={handleRetake}
+            id={id}
+            label={getItemById(id, sights.state.tour).label}
+            picture={sights.state.takenPictures[id]}
+            upload={uploads.state[id]}
+            compliance={compliance.state[id]}
+          />
+        ))}
+      </View>
+
+      {typeof submitButtonProps.onPress === 'function' ? (
+        <Button {...submitButtonProps} />
+      ) : null}
+    </ScrollView>
   );
 }
 
 UploadCenter.propTypes = {
-  compliance: PropTypes.objectOf(PropTypes.any),
-  onSubmit: PropTypes.func,
-  sights: PropTypes.objectOf(PropTypes.any),
-  uploads: PropTypes.objectOf(PropTypes.any),
+  compliance: PropTypes.objectOf(PropTypes.any).isRequired,
+  navigationOptions: PropTypes.shape({
+    allowNavigate: PropTypes.bool,
+    allowRetake: PropTypes.bool,
+    allowSkip: PropTypes.bool,
+    retakeMaxTry: PropTypes.number,
+    retakeMinTry: PropTypes.number,
+  }),
+  sights: PropTypes.objectOf(PropTypes.any).isRequired,
+  submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
+  uploads: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UploadCenter.defaultProps = {
-  compliance: {},
-  onSubmit: () => {},
-  sights: {},
-  uploads: {},
+  navigationOptions: {
+    retakeMaxTry: 1,
+  },
+  submitButtonProps: { title: 'Next', onPress: null },
 };
