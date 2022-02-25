@@ -153,9 +153,9 @@ Thumbnail.propTypes = {
 Thumbnail.defaultProps = {
   colors: {
     current: '#ffcc66',
-    fulfilled: '#F3F7FE',
+    fulfilled: '#36b0c2',
     idle: '#F3F7FE',
-    pending: '#43494a',
+    pending: '#F3F7FE',
     rejected: '#fa603d',
   },
   isCurrent: false,

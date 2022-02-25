@@ -43,18 +43,8 @@ export function useTakePictureAsync({ camera }) {
     log([`Awaiting picture to be taken...`]);
 
     if (Platform.OS === 'web') {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-      });
-
-      const track = mediaStream.getVideoTracks()[0];
-      const imageCapture = new ImageCapture(track);
-
-      const blob = await imageCapture.takePhoto();
-
-      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, blob]);
-
-      return blob;
+      const uri = await camera.current.getScreenshot()
+      return { uri };
     }
 
     const picture = await camera.takePictureAsync(options);
@@ -74,8 +64,7 @@ export function useTakePictureAsync({ camera }) {
  */
 export function useSetPictureAsync({ current, sights, uploads }) {
   return useCallback(async (picture) => {
-    const isBlob = Platform.OS === 'web';
-    const uri = isBlob ? URL.createObjectURL(picture) : (picture.localUri || picture.uri);
+    const uri = picture.localUri || picture.uri;
 
     const actions = [{ resize: { width: 133 } }];
     const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
@@ -145,8 +134,9 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         payload: { id, status: 'pending', label },
       });
 
-      const filename = `${id}-${inspectionId}.jpg`;
-      const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
+      const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
+      const filename = `${id}-${inspectionId}.${fileType}`;
+      const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
 
       const json = JSON.stringify({
         acquisition: {
@@ -170,8 +160,11 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
       data.append(multiPartKeys.json, json);
 
       if (Platform.OS === 'web') {
+        const res = await fetch(picture.uri);
+        const blob = await res.blob();
+
         const file = await new File(
-          [picture],
+          [blob],
           multiPartKeys.filename,
           { type: multiPartKeys.type },
         );

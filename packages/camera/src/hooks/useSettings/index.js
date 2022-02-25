@@ -32,34 +32,21 @@ export default function useSettings({ camera, initialState = {
       const newSettings = {};
 
       if (Platform.OS === 'android') {
-        log([`Awaiting for supported ratios on Android...`]);
+        log([`Awaiting for supported ratios and sizes on Android...`]);
 
         const ratios = await camera.getSupportedRatiosAsync();
+        const pictureSizes = await camera.getAvailablePictureSizesAsync(ratios[0]);
+
         newSettings.ratio = ratios[0];
+        newSettings.pictureSize = pictureSizes[0];
 
         log([`Supported ratios are:`, ratios]);
+        log([`Supported sizes are:`, pictureSizes]);
       }
 
       setSettings((oldSettings) => ({ ...oldSettings, ...newSettings }));
     })();
   }, [camera]);
-
-  useEffect(() => {
-    (async () => {
-      const newSettings = {};
-
-      if (camera) {
-        log([`Awaiting for available picture sizes....`]);
-
-        const pictureSizes = await camera.getAvailablePictureSizesAsync(settings.ratio);
-        newSettings.pictureSize = pictureSizes[0];
-
-        log([`Available picture sizes are:`, pictureSizes]);
-      }
-
-      setSettings((oldSettings) => ({ ...oldSettings, ...newSettings }));
-    })();
-  }, [camera, settings.ratio]);
 
   return settings;
 }

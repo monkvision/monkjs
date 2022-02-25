@@ -46,7 +46,8 @@
     "expo-image-manipulator": "^10.2.1",
     "expo-screen-orientation": "^4.1.1",
     "react-native-svg": "^12.1.1",
-    "react-responsive": "^9.0.0-beta.6"
+    "react-responsive": "^9.0.0-beta.6",
+    "react-webcam": "^6.0.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

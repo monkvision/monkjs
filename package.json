@@ -104,6 +104,7 @@
     "react-native-webview": "^11.17.2",
     "react-redux": "^7.2.6",
     "react-responsive": "^9.0.0-beta.6",
+    "react-webcam": "^6.0.1",
     "release-it": "^14.11.8",
     "yup": "^0.32.11"
   },

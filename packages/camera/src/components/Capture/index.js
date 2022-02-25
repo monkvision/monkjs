@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
@@ -7,6 +7,7 @@ import useCompliance from '../../hooks/useCompliance';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 
+// eslint-disable-next-line import/namespace,import/no-named-as-default-member
 import Camera from '../Camera';
 import Controls from '../Controls';
 import Layout from '../Layout';
@@ -291,7 +292,8 @@ export default function Capture({
           onRef={setCamera}
           onCameraReady={handleCameraReady}
           title={title}
-          {...settings}
+          ratio="4:3"
+          {...Platform.select({ native: settings, default: {} })}
         >
           {children}
         </Camera>
