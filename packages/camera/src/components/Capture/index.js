@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
  * @param thumbnailStyle
  * @param uploads
  * @param RenderOnFinish
+ * @param submitButtonProps
  * @param task
  * @return {JSX.Element}
  * @constructor
@@ -150,7 +151,7 @@ export default function Capture({
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera });
-  const setPictureAsync = useSetPictureAsync({ current, settings, sights, uploads });
+  const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
   const checkComplianceAsync = useCheckComplianceAsync({
     compliance,

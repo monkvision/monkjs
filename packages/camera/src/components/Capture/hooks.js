@@ -1,13 +1,19 @@
 import { useCallback, useMemo } from 'react';
 import { monkApi } from '@monkvision/corejs';
 import { Platform } from 'react-native';
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import Actions from '../../actions';
 import Constants from '../../const';
 
-import blobToBase64 from '../../utils/blobToBase64';
-import getWebFileDataAsync from '../../utils/getWebFileDataAsync';
 import log from '../../utils/log';
+
+const COVERAGE_360_WHITELIST = [
+  'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
+  'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
+  'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
+  'AoO-nOoM', 'B5s1CWT-',
+];
 
 /**
  * @param current
@@ -63,16 +69,27 @@ export function useTakePictureAsync({ camera }) {
  * @param current
  * @param settings
  * @param sights
+ * @param uploads
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useSetPictureAsync({ current, settings, sights, uploads }) {
-  return useCallback(async (pictureOrBlob, isBlob = Platform.OS === 'web') => {
-    const picture = isBlob ? { uri: await blobToBase64(pictureOrBlob) } : { ...pictureOrBlob };
+export function useSetPictureAsync({ current, sights, uploads }) {
+  return useCallback(async (picture) => {
+    const isBlob = Platform.OS === 'web';
+    const uri = isBlob ? URL.createObjectURL(picture) : (picture.localUri || picture.uri);
 
-    const payload = { id: current.id, picture: { ...settings, ...picture } };
+    const actions = [{ resize: { width: 133 } }];
+    const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
+    const saveOptions = { compress: 1, format: saveFormat };
+    const imageResult = await manipulateAsync(uri, actions, saveOptions);
+
+    const payload = {
+      id: current.id,
+      picture: { uri: imageResult.uri },
+    };
+
     sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
     uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
-  }, [current.id, settings, sights, uploads]);
+  }, [current.id, sights, uploads]);
 }
 
 /**
@@ -92,14 +109,13 @@ export function useNavigationBetweenSights({ sights }) {
 }
 
 /**
- * @return {function(tasks=, compliances=): Promise<data>}
+ * @return {function(*=): Promise<*>}
  */
 export function useCreateDamageDetectionAsync() {
   return useCallback(async (
     tasks = { damage_detection: { status: 'NOT_STARTED' } },
-    compliances = { iqc_compliance: {} },
   ) => {
-    const result = await monkApi.inspections.createOne({ data: { tasks, compliances } });
+    const result = await monkApi.inspections.createOne({ data: { tasks } });
     return result.data;
   }, []);
 }
@@ -108,6 +124,7 @@ export function useCreateDamageDetectionAsync() {
  * @param inspectionId
  * @param sights
  * @param uploads
+ * @param task
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
@@ -118,16 +135,50 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { id, label } = sights.state.current.metadata;
+    const { metadata } = sights.state.current;
+    const { id, label } = metadata;
 
     try {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, status: 'pending', blob: Platform.OS === 'web' && picture, label },
+        payload: { id, status: 'pending', label },
       });
 
-      const data = await getWebFileDataAsync(picture, sights, inspectionId, {}, task);
+      const filename = `${id}-${inspectionId}.jpg`;
+      const multiPartKeys = { image: 'image', json: 'json', filename, type: 'image/jpg' };
+
+      const json = JSON.stringify({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: multiPartKeys.image,
+        },
+        compliances: {
+          image_quality_assessment: {},
+          coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+            sight_id: id,
+          } : undefined,
+        },
+        tasks: [task],
+        additional_data: {
+          ...metadata,
+          overlay: undefined,
+        },
+      });
+
+      const data = new FormData();
+      data.append(multiPartKeys.json, json);
+
+      if (Platform.OS === 'web') {
+        const file = await new File(
+          [picture],
+          multiPartKeys.filename,
+          { type: multiPartKeys.type },
+        );
+
+        data.append(multiPartKeys.image, file);
+      }
+
       const result = await monkApi.images.addOne({ inspectionId, data });
 
       dispatch({

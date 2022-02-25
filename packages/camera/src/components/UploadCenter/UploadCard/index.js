@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flex: 1,
   },
+  title: {
+    textTransform: 'capitalize',
+  },
   subtitle: {
     color: 'gray',
     fontWeight: '500',
@@ -58,34 +61,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const reasonsVariants = {
-  blurriness: 'blurry',
-  overexposure: 'overexposed',
-  underexposure: 'underexposed',
-};
 function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
   const { uri } = picture;
   const errorColor = 'rgba(255, 69, 0, 0.4)';
   const warningColor = 'rgba(255, 152, 0, 0.4)';
   const loadingColor = 'rgba(211, 211, 211, 0.4)';
 
-  const { isIdle, isPending, isRejected } = useMemo(() => ({
-    isIdle: upload.status === 'idle'
-      || (upload.status === 'isFulfilled' && compliance.status === 'idle'),
-    isPending: upload.status === 'pending'
-      || (upload.status === 'isFulfilled' && compliance.status === 'pending'),
-    isRejected: upload.status === 'rejected'
-      || (upload.status === 'isFulfilled' && compliance.status === 'rejected'),
-    isFulFilled: upload.status === 'isFulfilled'
-      || (upload.status === 'isFulfilled' && compliance.status === 'isFulfilled'),
-  }), [compliance, upload]);
+  const isPending = useMemo(() => (
+    upload.status === 'pending'
+    || (upload.status === 'fulfilled' && compliance.status === 'pending')
+  ), [compliance, upload]);
 
-  const title = useMemo(() => {
-    if (isPending) { return '- Pending...'; }
-    if (isRejected) { return ` - ${upload.error || (compliance.error && 'Image is not compliant')}`; }
-
-    return '';
-  }, [compliance.error, isPending, isRejected, upload.error]);
+  const title = useMemo(() => (isPending ? ' - Pending...' : ''), [isPending]);
 
   const subtitle = useMemo(() => {
     if (isPending) { return ``; }
@@ -105,20 +92,20 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
       if (badQuality && iqa.reasons) {
         iqa.reasons.forEach((reason, index) => {
           const first = index === 0;
-          const text = reasonsVariants[reason];
-          reasons.push(first ? text : `and ${text}`);
+          reasons.push(first ? reason : `and ${reason}`);
         });
       }
 
       if (badCoverage && carCov.reasons) {
         carCov.reasons.forEach((reason, index) => {
           const first = index === 0 && !badQuality;
-          const text = reasonsVariants[reason];
-          reasons.push(first ? text : `and ${text}`);
+          reasons.push(first ? reason : `and ${reason}`);
         });
       }
 
-      return `This image is ${reasons.join(' ')}`;
+      if (reasons.length > 0) {
+        return `This image has ${reasons.join(' ')}`;
+      }
     }
 
     return '';
@@ -132,7 +119,7 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
   return (
     <View style={styles.upload}>
       {/* preview image with a loading indicator */}
-      {(isIdle || isPending) ? (
+      {isPending ? (
         <View style={styles.imageLayout}>
           <View style={[styles.imageOverlay, { backgroundColor: loadingColor }]}>
             <ActivityIndicator style={styles.activityIndicator} color="#FFF" />
@@ -155,7 +142,7 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
       {/* text indicating the status of uploading and the non-compliance reasons */}
       <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
         <View style={styles.textsLayout}>
-          <Text>{`${label}${title}`}</Text>
+          <Text style={styles.title}>{`${label}${title}`}</Text>
           {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
         </View>
       </View>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
+import { ScrollView, Text, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
@@ -13,42 +13,27 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
     zIndex: 0,
+    paddingVertical: spacing(2),
+  },
+  container: {
+    paddingHorizontal: spacing(2),
   },
   title: {
-    marginLeft: spacing(3),
     marginBottom: spacing(0.3),
-    marginTop: spacing(2),
     fontWeight: '500',
     fontSize: 20,
   },
   subtitle: {
-    marginLeft: spacing(3),
     marginBottom: spacing(2),
     marginTop: spacing(0.6),
     color: 'gray',
     fontWeight: '500',
     fontSize: 12,
   },
-  emptyStateText: {
-    marginLeft: spacing(3),
-    height: 80,
-  },
-  content: {
-    marginHorizontal: spacing(2),
-    flexGrow: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-  },
   button: {
     width: '100%',
     borderRadius: 4,
     padding: spacing(1.4),
-    margin: spacing(3),
-  },
-  labelStyle: {
-    color: '#FFF',
-    fontSize: 15,
-    textAlign: 'center',
   },
 });
 
@@ -146,32 +131,28 @@ export default function UploadCenter({
   }, [compliance, sights, submitButtonProps, submitted, unionIds, uploads]);
 
   return (
-    <ScrollView style={styles.card}>
-      <View>
-        <Text style={styles.title}>
-          🏎️ Upload statuses and compliance results
-        </Text>
-        <Text style={[styles.subtitle, { marginBottom: 0 }]}>
-          Improve image compliance will result to a better AI inspection.
-          Thank you for your comprehension.
-        </Text>
-      </View>
-      <View style={styles.content}>
-        {unionIds.map((id) => (
-          <UploadCard
-            key={`uploadCard-${id}`}
-            onRetake={handleRetake}
-            id={id}
-            label={getItemById(id, sights.state.tour).label}
-            picture={sights.state.takenPictures[id]}
-            upload={uploads.state[id]}
-            compliance={compliance.state[id]}
-          />
-        ))}
-        {typeof submitButtonProps.onPress === 'function' ? (
-          <Button style={styles.button} {...submitButtonProps} />
-        ) : null}
-      </View>
+    <ScrollView style={styles.card} contentContainerStyle={styles.container}>
+      <Text style={styles.title}>
+        🏎️ Upload statuses and compliance results
+      </Text>
+      <Text style={styles.subtitle}>
+        Improve image compliance will result to a better AI inspection.
+        Thank you for your comprehension.
+      </Text>
+      {unionIds.map((id) => (
+        <UploadCard
+          key={`uploadCard-${id}`}
+          onRetake={handleRetake}
+          id={id}
+          label={getItemById(id, sights.state.tour).label}
+          picture={sights.state.takenPictures[id]}
+          upload={uploads.state[id]}
+          compliance={compliance.state[id]}
+        />
+      ))}
+      {typeof submitButtonProps.onPress === 'function' ? (
+        <Button style={styles.button} {...submitButtonProps} />
+      ) : null}
     </ScrollView>
   );
 }
