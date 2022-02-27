@@ -6,8 +6,6 @@ import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
 
-import ValidationDialog from 'screens/InspectionCreate/ValidationDialog';
-
 export default () => {
   const route = useRoute();
   const { inspectionId } = route.params;
@@ -62,23 +60,16 @@ export default () => {
   const uploads = useUploads({ sightIds: Capture.defaultSightIds });
 
   return (
-    <>
-      <Capture
-        inspectionId={inspectionId}
-        controls={controls}
-        loading={loading}
-        uploads={uploads}
-        renderOnFinish={UploadCenter}
-        submitButtonProps={{
-          title: 'Next',
-          onPress: handleSuccess,
-        }}
-      />
-      <ValidationDialog
-        requests={requests}
-        screen={screen}
-        inspectionId={inspectionId}
-      />
-    </>
+    <Capture
+      inspectionId={inspectionId}
+      controls={controls}
+      loading={loading}
+      uploads={uploads}
+      renderOnFinish={UploadCenter}
+      submitButtonProps={{
+        title: 'Next',
+        onPress: handleSuccess,
+      }}
+    />
   );
 };
