@@ -166,7 +166,7 @@ Sights.propTypes = {
   uploads: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
     state: PropTypes.objectOf(PropTypes.shape({
-      error: PropTypes.string,
+      error: PropTypes.objectOf(PropTypes.any),
       picture: PropTypes.objectOf(PropTypes.any),
       status: PropTypes.oneOf(['idle', 'pending', 'fulfilled', 'rejected']),
       uploadCount: PropTypes.number,

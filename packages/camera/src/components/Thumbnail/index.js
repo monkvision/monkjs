@@ -9,12 +9,11 @@ import Overlay from '../Overlay';
 
 const styles = StyleSheet.create({
   root: {
-    width: 125,
-    height: 125,
+    width: 133,
+    height: 133,
     margin: 8,
     borderRadius: 5,
     borderWidth: 2,
-    shadowColor: 'white',
     shadowOpacity: 0.5,
     shadowOffset: {
       width: 0,
@@ -28,14 +27,13 @@ const styles = StyleSheet.create({
   },
   overlay: {
     height: 100,
-    width: 125,
+    width: 133,
   },
   picture: {
     position: 'absolute',
     height: 100,
-    width: 125,
+    width: 133,
     borderBottomWidth: 1.5,
-    opacity: 0.5,
   },
   loader: {
     position: 'absolute',
@@ -98,6 +96,7 @@ export default function Thumbnail({
           style={[
             styles.picture,
             {
+              shadowColor: colors[uploadStatus],
               borderColor: colors[uploadStatus],
               transform: [{ rotateY: picture?.type === 'front' ? Platform.select({
                 native: 180,
@@ -154,9 +153,9 @@ Thumbnail.propTypes = {
 Thumbnail.defaultProps = {
   colors: {
     current: '#ffcc66',
-    fulfilled: '#F3F7FE',
+    fulfilled: '#36b0c2',
     idle: '#F3F7FE',
-    pending: '#43494a',
+    pending: '#F3F7FE',
     rejected: '#fa603d',
   },
   isCurrent: false,
