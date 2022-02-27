@@ -43,7 +43,7 @@ export function useTakePictureAsync({ camera }) {
     log([`Awaiting picture to be taken...`]);
 
     if (Platform.OS === 'web') {
-      const uri = await camera.current.getScreenshot()
+      const uri = await camera.current.getScreenshot();
       return { uri };
     }
 
