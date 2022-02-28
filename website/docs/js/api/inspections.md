@@ -1,6 +1,6 @@
 ---
 id: inspections
-title: "Inspections"
+title: "Inspection"
 slug: /js/api/inspections
 ---
 
@@ -10,7 +10,7 @@ slug: /js/api/inspections
 yarn add @monkvision/corejs
 ```
 
-## getOne()
+## getOne({ id, params })
 `GET /inspections/${id}`
 
 Returns an inspection with all its tasks.
@@ -22,7 +22,15 @@ const res = await monkApi.inspections.getOne({ id });
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_inspection)
 
-## getMany()
+### Query params
+| **name**             | **type** | **default** |
+|----------------------|----------|-------------|
+| `showDeletedObjects` | boolean  | false       |
+
+### Response schema
+
+
+## getMany({ params })
 `GET /inspections`
 
 Returns all inspections created by user/organization.
@@ -33,7 +41,18 @@ const res = await monkApi.inspections.getMany({});
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_all_inspections)
 
-## createOne()
+### Query params
+| **name**                       | **type**        | **default** |
+|--------------------------------|-----------------|-------------|
+| `before`                       | $uuid: {string} |             |
+| `after`                        | $uuid: {string} |             |
+| `paginationOrder`              | "asc" or "desc" | desc        |
+| `allInspections`               | boolean         | false       |
+| `allInspectionsInOrganization` | boolean         | false       |
+
+### Response schema
+
+## createOne({ data })
 `POST /inspections`
 
 An inspection contains data about the state of a vehicle at a given time. Returns a unique inspection id.
@@ -47,23 +66,37 @@ or to add more image on which you want to apply task.
 
 
 ```javascript
-const data = {};
+const data = { tasks, images, vehicle, damageAreas };
 const res = await monkApi.inspections.createOne({ data });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/post_inspection)
 
-## updateOne()
+### Body data
+| **name**                 | **type**   | **default** |
+|--------------------------|------------|-------------|
+| `tasks`                  | Object     |             |
+| `tasks.damage_detection` | Object     |             |
+| `tasks.wheel_analysis`   | Object     |             |
+| `tasks.damage_detection` | Object     |             |
+| `tasks.images_ocr`       | Object     |             |
+| `images`                 | \[Object\] |             |
+| `vehicle`                | Object     |             |
+| `damageAreas`            | \[Object\] |             |
+
+### Response schema
+
+## updateOne({ data })
 `POST /inspections`
 
 ```javascript
-const data = {};
+const data = { id, tasks, images, vehicle, damageAreas };
 const res = await monkApi.inspections.updateOne({ data });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/post_inspection)
 
-## deleteOne()
+## deleteOne({ id )
 `DELETE /inspections/${id}`
 
 ```javascript

@@ -6,9 +6,7 @@
       "npm run build:sights",
       "npm run build:corejs",
       "npm run build:camera",
-      "npm run build:visualization",
-      "npm run build:react-native",
-      "npm run build:react-native-views"
+      "npm run build:visualization"
     ],
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
   },

@@ -102,6 +102,7 @@ export const createOne = async ({ data, ...requestConfig }) => {
 
 /**
  * @param {Object} data - body data
+ * @param {string} data.id
  * @param {Object} data.tasks - task entity
  * @param {Object} [data.tasks.damage_detection]
  * @param {Object} [data.tasks.wheel_analysis]

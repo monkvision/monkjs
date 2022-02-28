@@ -31,15 +31,6 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={names.LANDING}>
 
-        {process.env.NODE_ENV !== 'production' ? (
-          <Stack.Screen
-            name={names.TEST}
-            component={Screens.Test}
-            options={{ headerShown: false }}
-            title="Test"
-          />
-        ) : null}
-
         <Stack.Screen
           name={names.GETTING_STARTED}
           component={Screens.GettingStarted}
@@ -50,12 +41,6 @@ export default function Navigation() {
           name={names.LANDING}
           component={Screens.Landing}
           title="Home"
-        />
-
-        <Stack.Screen
-          name={names.INSPECTIONS}
-          component={Screens.Inspections}
-          title="Inspections"
         />
 
         <Stack.Screen
@@ -76,12 +61,6 @@ export default function Navigation() {
         />
 
         <Stack.Screen
-          name={names.INSPECTION_REVIEW}
-          component={Screens.InspectionReview}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
           name={names.INSPECTION_READ}
           component={Screens.InspectionRead}
           title="Inspection"
@@ -91,24 +70,6 @@ export default function Navigation() {
           name={names.INSPECTION_UPDATE}
           component={Screens.InspectionUpdate}
           title="Update inspection"
-        />
-
-        <Stack.Screen
-          name={names.DAMAGES}
-          component={Screens.Damages}
-          title="Damaged parts"
-        />
-
-        <Stack.Screen
-          name={names.DAMAGE_READ}
-          component={Screens.DamageRead}
-          title="Damage"
-        />
-
-        <Stack.Screen
-          name={names.DAMAGE_UPDATE}
-          component={Screens.DamageUpdate}
-          title="Update damage"
         />
 
         <Stack.Screen

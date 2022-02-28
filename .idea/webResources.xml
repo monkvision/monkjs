@@ -7,8 +7,8 @@
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/src" />
             <path value="file://$PROJECT_DIR$/packages/react-native/src" />
-            <path value="file://$PROJECT_DIR$/packages/corejs/src" />
             <path value="file://$PROJECT_DIR$/packages/camera/src" />
+            <path value="file://$PROJECT_DIR$/packages/corejs/src" />
           </resourceRoots>
         </entryData>
       </entry>

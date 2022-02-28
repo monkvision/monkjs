@@ -134,4 +134,5 @@ yarn add expo-camera react-native-svg
 
 ## What's next?
 
-You are ready to implement the Capture view and take pictures for analysis.
+You are ready to authenticate before implementing
+the `<Capture />` component and take pictures for analysis.
