@@ -113,7 +113,7 @@ export const createOne = async ({ data, ...requestConfig }) => {
  * @param {[Object]} data.damageAreas - damageArea entity
  * @param {Object} requestConfig
  */
-export const updateOne = async ({ data, ...requestConfig }) => {
+export const upsertOne = async ({ data, ...requestConfig }) => {
   const axiosResponse = await axios.request({
     ...config.axiosConfig,
     method: 'post',

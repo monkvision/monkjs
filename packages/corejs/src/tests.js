@@ -72,7 +72,7 @@ describe('inspection', () => {
   describe('#updateOne()', () => {
     it('is successful', async () => {
       const data = {};
-      const res = await inspection.updateOne({ data });
+      const res = await inspection.upsertOne({ data });
       assert.equal(res.axiosResponse.statusText, 'OK');
     });
   });
