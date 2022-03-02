@@ -335,7 +335,7 @@ const handleRequest = async () => {
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/edit_task)
 
-### Query params
+### Body data
 | **name**             | **type** | **default** |
 |----------------------|----------|-------------|
 | `inspectionId`       | string   |             |
