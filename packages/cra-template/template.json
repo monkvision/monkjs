@@ -9,6 +9,8 @@
       "@monkvision/camera": "^1.*",
       "@monkvision/corejs": "^1.*",
       "@monkvision/sights": "^1.*",
+      "@monkvision/toolkit": "^1.*",
+      "@monkvision/ui": "^1.*",
       "@mui/icons-material": "^5.2.5",
       "@mui/material": "^5.2.7",
       "@reduxjs/toolkit": "^1.7.1",

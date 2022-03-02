@@ -72,4 +72,94 @@ export default () => {
       }}
     />
   );
+      goNextSight,
+      checkComplianceAsync,
+    } = api;
+
+    const picture = await takePictureAsync();
+    setPictureAsync(picture);
+
+    const { sights } = state;
+    const { current, ids } = sights.state;
+
+    if (current.index === ids.length - 1) {
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+
+      setLoading(false);
+    } else {
+      setLoading(false);
+      goNextSight();
+
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+    }
+  }, []);
+
+  const controls = [{
+    disabled: loading,
+    onPress: handleCapture,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  const uploads = useUploads({ sightIds: Capture.defaultSightIds });
+
+  return (
+    <Capture
+      inspectionId={inspectionId}
+      controls={controls}
+      loading={loading}
+      uploads={uploads}
+      renderOnFinish={UploadCenter}
+      submitButtonProps={{
+        title: 'Next',
+        onPress: handleSuccess,
+      }}
+    />
+  );
+      goNextSight,
+      checkComplianceAsync,
+    } = api;
+
+    const picture = await takePictureAsync();
+    setPictureAsync(picture);
+
+    const { sights } = state;
+    const { current, ids } = sights.state;
+
+    if (current.index === ids.length - 1) {
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+
+      setLoading(false);
+    } else {
+      setLoading(false);
+      goNextSight();
+
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+    }
+  }, []);
+
+  const controls = [{
+    disabled: loading,
+    onPress: handleCapture,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  const uploads = useUploads({ sightIds: Capture.defaultSightIds });
+
+  return (
+    <Capture
+      inspectionId={inspectionId}
+      controls={controls}
+      loading={loading}
+      uploads={uploads}
+      renderOnFinish={UploadCenter}
+      submitButtonProps={{
+        title: 'Next',
+        onPress: handleSuccess,
+      }}
+    />
+  );
 };
