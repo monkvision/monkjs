@@ -6,7 +6,7 @@ import { Button, Platform, StyleSheet, View, useWindowDimensions } from 'react-n
 import getOS from '../../utils/getOS';
 import useOrientation from '../../hooks/useOrientation';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
-import PortraitOrientationBlocker from './PortraitOrientationBlocker/index';
+import PortraitOrientationBlocker from './PortraitOrientationBlocker';
 
 export const SIDE_WIDTH = 116;
 
