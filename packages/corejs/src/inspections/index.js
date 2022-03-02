@@ -50,8 +50,10 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
  * @param {$uuid: {string}} [params.before]
  * @param {$uuid: {string}} [params.after]
  * @param {"asc"|"desc"} [params.paginationOrder="desc"]
+ * @param {string} [params.inspectionStatus]
  * @param {boolean} [params.allInspections=false]
  * @param {boolean} [params.allInspectionsInOrganization=false]
+ * @param {number} [params.verbose=0]
  * @param {Object} [requestConfig]
  */
 export const getMany = async ({ params, ...requestConfig }) => {
@@ -113,7 +115,7 @@ export const createOne = async ({ data, ...requestConfig }) => {
  * @param {[Object]} data.damageAreas - damageArea entity
  * @param {Object} requestConfig
  */
-export const updateOne = async ({ data, ...requestConfig }) => {
+export const upsertOne = async ({ data, ...requestConfig }) => {
   const axiosResponse = await axios.request({
     ...config.axiosConfig,
     method: 'post',
