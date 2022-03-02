@@ -7,7 +7,7 @@ export default function ignoreLogs(supressedWarnings, severity = 'error') {
   const backup = console[severity];
   console[severity] = function filterWarnings(msg) {
     if (!supressedWarnings.some((entry) => msg.includes(entry))) {
-      backup.apply(console);
+      backup.apply(console, [msg]);
     }
   };
 }
