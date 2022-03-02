@@ -2,18 +2,23 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import '@expo/match-media';
-import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Image, View, StyleSheet, Text, Platform } from 'react-native';
 
+import { SIDE_WIDTH } from '../Layout';
 import Overlay from '../Overlay';
+
+const MARGIN = 8;
+const BORDER_WIDTH = 2;
+const DEFAULT_RATIO = 3 / 4;
+const LENGTH = SIDE_WIDTH - (MARGIN * 2) - BORDER_WIDTH;
 
 const styles = StyleSheet.create({
   root: {
-    width: 133,
-    height: 133,
-    margin: 8,
+    width: LENGTH,
+    height: LENGTH,
+    margin: MARGIN,
     borderRadius: 5,
-    borderWidth: 2,
+    borderWidth: BORDER_WIDTH,
     shadowOpacity: 0.5,
     shadowOffset: {
       width: 0,
@@ -26,13 +31,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   overlay: {
-    height: 100,
-    width: 133,
+    height: LENGTH * DEFAULT_RATIO,
+    width: LENGTH,
   },
   picture: {
     position: 'absolute',
-    height: 100,
-    width: 133,
+    height: LENGTH * DEFAULT_RATIO,
+    width: LENGTH,
     borderBottomWidth: 1.5,
   },
   loader: {
@@ -40,18 +45,6 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '50%',
     transform: [{ translateX: '-50%', translateY: '-50%' }],
-  },
-  smRoot: {
-    width: 100,
-    height: 100,
-  },
-  smOverlay: {
-    height: 75,
-    width: 100,
-  },
-  smPicture: {
-    height: 75,
-    width: 100,
   },
   text: {
     color: 'white',
@@ -73,7 +66,6 @@ export default function Thumbnail({
   uploadStatus,
   ...passThroughProps
 }) {
-  const isSmallScreen = useMediaQuery({ maxWidth: 720 });
   const borderColor = useMemo(() => {
     if (isCurrent) { return colors.current; }
     return colors[uploadStatus];
@@ -81,12 +73,7 @@ export default function Thumbnail({
 
   return (
     <View
-      style={[
-        styles.root,
-        { borderColor },
-        isSmallScreen ? styles.smRoot : undefined,
-        style,
-      ]}
+      style={[styles.root, { borderColor }, style]}
       {...passThroughProps}
     >
       {picture !== null && (
@@ -103,16 +90,12 @@ export default function Thumbnail({
                 default: '180deg',
               }) : 0 }],
             },
-            isSmallScreen ? styles.smPicture : undefined,
           ]}
         />
       )}
       <Overlay
         svg={overlay}
-        style={[
-          styles.overlay,
-          isSmallScreen ? styles.smOverlay : undefined,
-        ]}
+        style={styles.overlay}
         label={label}
       />
       <Text style={styles.text}>{label}</Text>

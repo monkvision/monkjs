@@ -1,12 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Platform, StyleSheet, ScrollView, Text, Switch, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
-import { useMediaQuery } from 'react-responsive';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
+import { SIDE_WIDTH } from '../Layout';
 import Thumbnail from '../Thumbnail';
 import Actions from '../../actions';
 
@@ -49,15 +49,8 @@ const styles = StyleSheet.create({
 });
 
 function Gradient() {
-  const isSmallScreen = useMediaQuery({ maxWidth: 720 });
-
-  const size = useMemo(() => {
-    if (isSmallScreen) { return { height: 75, width: 100 }; }
-    return { height: 75, width: 125 };
-  }, [isSmallScreen]);
-
   return (
-    <Svg {...size} xmlns="http://www.w3.org/2000/svg" style={styles.gradient}>
+    <Svg height={75} width={SIDE_WIDTH} xmlns="http://www.w3.org/2000/svg" style={styles.gradient}>
       <Defs>
         <LinearGradient id="stickyHeaderGradient" x1="0" x2="0" y1="0" y2="1">
           <Stop offset="5%" stopColor="black" />
