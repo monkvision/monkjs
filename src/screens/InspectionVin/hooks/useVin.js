@@ -11,7 +11,7 @@ import {
 import { useInterval, useFakeActivity, useToggle } from '@monkvision/toolkit';
 
 import useRequest from 'hooks/useRequest';
-import { Platform } from 'react-native';
+import { LANDING } from 'screens/names';
 
 const REFRESH_DELAY = 3000;
 
@@ -35,12 +35,30 @@ export default function useVin() {
   const [cameraLoading, toggleOnCameraLoading, toggleOffCameraLoading] = useToggle();
   const [uploading, toggleOnUploading, toggleOffUploading] = useToggle();
   const [guideIsOpen, handleOpenGuide, handleCloseGuide] = useToggle();
-  const [snackbarIsvVisible, handleOpenErrorSnackbar, handleDismissErrorSnackbar] = useToggle();
+  const [errorSnackbar, setErrorSnackbar] = useState([]);
+
+  // add error
+  const handleAddErrorSnackbar = useCallback(
+    (err) => setErrorSnackbar((prev) => [...prev, err]), [],
+  );
+  // remove error
+  const handleRemoveErrorSnackbar = useCallback(
+    (index) => setErrorSnackbar((prev) => prev.filter((_, preIndex) => preIndex !== index)), [],
+  );
+  // error action
+  const handleCloseErrorSnackbar = useCallback(
+    (error, index) => {
+      handleRemoveErrorSnackbar(index);
+      error?.callback?.();
+    }, [handleRemoveErrorSnackbar],
+  );
 
   // createInspection callbacks
   const callbacks = {
     onSuccess: ({ result }) => setInspectionId(result),
-    onError: handleOpenErrorSnackbar,
+    onError: () => handleAddErrorSnackbar({
+      title: 'Failed to create the inspection, please go back and try again',
+      callback: () => navigation.navigate(LANDING) }),
   };
 
   const {
@@ -91,7 +109,8 @@ export default function useVin() {
     request: startOcr,
     isLoading: ocrLoading,
   } = useRequest(updateOneTaskOfInspection(ocrPayload),
-    { onSuccess: refresh, onError: handleOpenErrorSnackbar }, false);
+    { onSuccess: refresh,
+      onError: () => handleAddErrorSnackbar({ title: 'Failed to start OCR task, please try retake the vin picture' }) }, false);
 
   // we clear the current vinPicture and we proceed to camera to take another one
   // by hiding the navigation header
@@ -121,23 +140,22 @@ export default function useVin() {
     const picture = await takePictureAsync();
     toggleOnUploading();
 
-    startUploadAsync(picture)
-      .then(() => {
-        handleCloseVinCamera();
-        toggleOffCameraLoading();
-        toggleOffUploading();
+    try {
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) {
         startOcr();
-        if (Platform.OS === 'web') {
-          const objectURL = URL.createObjectURL(picture);
-          setVinPicture(objectURL);
-        } else { setVinPicture(picture); }
-      })
-      .catch(() => {
-        toggleOffCameraLoading();
-        toggleOffUploading();
-        handleOpenErrorSnackbar();
-      });
-  }, [handleCloseVinCamera, handleOpenErrorSnackbar, startOcr,
+        setVinPicture(picture.uri);
+      }
+      handleCloseVinCamera();
+      toggleOffCameraLoading();
+      toggleOffUploading();
+    } catch (error) {
+      handleCloseVinCamera();
+      toggleOffCameraLoading();
+      toggleOffUploading();
+      handleAddErrorSnackbar({ title: 'Failed to upload the picture, please try again' });
+    }
+  }, [handleCloseVinCamera, handleAddErrorSnackbar, startOcr,
     toggleOffCameraLoading, toggleOffUploading, toggleOnCameraLoading, toggleOnUploading]);
 
   const [inspectionIsLoading] = useFakeActivity(isLoading);
@@ -174,9 +192,10 @@ export default function useVin() {
       handleToggleOff: toggleOffUploading,
     },
     errorSnackbar: {
-      value: snackbarIsvVisible,
-      handleToggleOn: handleOpenErrorSnackbar,
-      handleToggleOff: handleDismissErrorSnackbar,
+      value: errorSnackbar,
+      handleAddErrorSnackbar,
+      handleRemoveErrorSnackbar,
+      handleCloseErrorSnackbar,
     },
   };
 }
