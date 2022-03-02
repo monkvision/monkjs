@@ -5,7 +5,7 @@ slug: /js/api/components/damage-highlight
 ---
 
 **Polygons on a vehicle picture.**
-Damages are highlighted by the property `clipPath` while the opacity of the rest of the image is reduced to localized
+Damages are highlighted by the property `clipPath` while the opacity of the rest of the image is reduced to localize
 the damage on the car.
 [Try it with Expo Snack.](https://snack.expo.dev/@alexandre-em-monk/damagehighlight-component)
 
@@ -110,21 +110,65 @@ Polygon's outline strokes size
 `PropType.func`
 
 Callback to convert the svg to a png image which is stored temporarily on the ram of the device.
-
-## touchable
-`PropTypes.bool`
-
-A boolean that indicates if the user can move or zoom the image.
+The `generated image` is the only argument of the callback function on base64 format
 
 ## width
 `PropTypes.number`
 
-Allows to set the image's displayed width. The height will be computed afterwards.
+Allows to set the image's displayed width. The height will be computed afterwards
 
 # Methods
+## useDamageImage
+### svgToPng
+
+Convert the svg to a png image. Depending on the device, the function can have different arguments
+
+#### Web
+
+> For the web version, the svg must have an id linked to it, to be able to retrieve it
+
+| Name       | Type   | Props        | Description                                                |
+|------------|--------|--------------|------------------------------------------------------------|
+| `image`    | Image  |              | Current image without polygons or labels                   |
+| `id`       | String |              | id of the current image                                    |
+| `callback` | Views  | (base64, id) | Callback that allows to manipulate the generated png image |
+
+
+#### Native
+
+> For the native version, the svg must have a reference linked to it to be able to retrieve it
+
+| Name       | Type   | Props        | Description                                                |
+|------------|--------|--------------|------------------------------------------------------------|
+| `ref`      | Ref    |              | reference of the svg with the image                        |
+| `width`    | String |              | width of the image                                         |
+| `height`   | String |              | height of the image                                        |
+| `id`       | String |              | id of the current image                                    |
+| `callback` | Views  | (base64, id) | Callback that allows to manipulate the generated png image |
+
+
 ## usePolygons
 
 Extract properties from an API server response
+
+### getPolygons
+`PropTypes.func`
+
+Get all polygons linked to an image and return a [list of polygons](#polygons)
+
+| Name                          | Type     | Description                                            |
+|-------------------------------|----------|--------------------------------------------------------|
+| `imageId`                     | String   | Id of the current image                                |
+| `views`                       | Views    | Contains all coordinates of all polygons of an `image` |
+
+### getImage
+`PropTypes.func`
+
+Format an `image` to a classical [image](#image) object
+
+| Name    | Type     | Description             |
+|---------|----------|-------------------------|
+| `image` | Image    | Inspection image object |
 
 ### Example
 ``` javascript

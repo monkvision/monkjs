@@ -56,7 +56,7 @@ export default function useImageDamage(image, originalWidth) {
     return `data:image/png;base64,${window.btoa(binary)}`;
   };
 
-  const svgToPngWeb = async (img, w, h, id, callback) => {
+  const svgToPngWeb = async (img, id, callback) => {
     const serialize = new XMLSerializer().serializeToString(document.getElementById(`svg-${id}`));
     const b64 = await imageToBase64(img);
     const hrefReg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
@@ -86,7 +86,7 @@ export default function useImageDamage(image, originalWidth) {
     imageHtml.src = imgSrc;
   };
 
-  const svgToPngNative = (ref, w, h, callback, id) => {
+  const svgToPngNative = (ref, w, h, id, callback) => {
     if (ref) {
       ref?.toDataURL(
         (base64) => callback(`data:image/png;base64,${base64}`, id),

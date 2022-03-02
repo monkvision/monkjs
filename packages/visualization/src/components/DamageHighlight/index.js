@@ -34,7 +34,7 @@ function DamageHighlight(
 
   const ref = Platform.select({
     native: {
-      ref: (svgRef) => svgToPng(svgRef, image.width, image.height, savePng, image.id),
+      ref: (svgRef) => svgToPng(svgRef, image.width, image.height, image.id, savePng),
     },
   });
 
@@ -65,8 +65,8 @@ function DamageHighlight(
   // }, []);
 
   useEffect(() => {
-    if (Platform.OS === 'web') { svgToPng(image, imageWidth, imageHeight, image.id, savePng); }
-  }, [image, imageHeight, imageWidth, savePng, svgToPng, color]);
+    if (Platform.OS === 'web') { svgToPng(image, image.id, savePng); }
+  }, [image, savePng, svgToPng, color]);
 
   if (!image) {
     return <View />;
