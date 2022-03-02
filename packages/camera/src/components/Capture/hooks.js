@@ -119,7 +119,6 @@ export function useCreateDamageDetectionAsync() {
 export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
   return useCallback(async (picture) => {
     const { dispatch } = uploads;
-
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
@@ -187,7 +186,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         payload: { id, status: 'rejected', error: err },
       });
 
-      return err;
+      throw err;
     }
   }, [inspectionId, sights, task, uploads]);
 }

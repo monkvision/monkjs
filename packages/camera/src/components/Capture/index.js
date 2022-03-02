@@ -308,8 +308,8 @@ export default function Capture({
 
 Capture.defaultSightIds = [
   'xsuH1g5T', // Beauty Shot
-  'LE9h1xh0', // Front Fender Left
   'xfbBpq3Q', // Front Bumper Side Left
+  'LE9h1xh0', // Front Fender Left
   'IVcF1dOP', // Doors Left
   'm1rhrZ88', // Front Roof Left
   'GvCtVnoD', // Rear Lateral Left
@@ -318,8 +318,8 @@ Capture.defaultSightIds = [
   'Cce1KCd3', // Rear Fender Right
   'AoO-nOoM', // Rear Lateral Right
   'Pzgw0WGe', // Doors Right
-  'CELBsvYD', // Front Bumper Side Right
   'jqJOb6Ov', // Front Fender Right
+  'CELBsvYD', // Front Bumper Side Right
   'vLcBGkeh', // Front
   'IqwSM3', // Front seats
   'rSvk2C', // Dashboard

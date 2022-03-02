@@ -11,6 +11,8 @@ import useVin from './hooks/useVin';
 import VinForm from './VinForm';
 import VinGuide from './VinGuide';
 
+const SNACKBAR_HEIGHT = 50;
+
 const styles = StyleSheet.create({
   root: {
     position: 'relative',
@@ -18,7 +20,6 @@ const styles = StyleSheet.create({
   },
   snackbar: {
     position: 'absolute',
-    bottom: 0,
   },
   snackbarButton: {
     color: '#FFF',
@@ -50,22 +51,6 @@ export default () => {
     camera,
     errorSnackbar,
   } = useVin({ vinSight });
-
-  // const handleCapture = useCallback((callbacks) => async (state, api, event) => {
-  //   event.preventDefault();
-  //   const { onSuccess, onError, onLoading } = callbacks;
-  //   setLoading(true);
-
-  //   const { takePictureAsync, startUploadAsync } = api;
-
-  //   const picture = await takePictureAsync();
-  //   const upload = await startUploadAsync(picture);
-
-  //   if (upload) { onSuccess(upload); }
-
-  //   setLoading(false);
-  //   handleCloseVinCamera();
-  // }, [handleCloseVinCamera]);
 
   const controls = [{
     disabled: camera.loading,
@@ -114,17 +99,25 @@ export default () => {
         isUploading={!!isUploading}
         onOpenGuide={guide.handleToggleOn}
         onOpenCamera={handleOpenVinCameraOrRetake}
-        onOpenErrorSnackbar={errorSnackbar.handleToggleOn}
+        onAddErrorSnackbar={errorSnackbar.handleAddErrorSnackbar}
         onRenitializeInspection={createInspection}
       />
-      <Snackbar
-        visible={errorSnackbar.value}
-        onDismiss={errorSnackbar.handleToggleOff}
-        style={[{ backgroundColor: theme.colors.error }, styles.snackbar]}
-        action={{ label: 'Ok', onPress: errorSnackbar.handleToggleOff, labelStyle: styles.snackbarButton }}
-      >
-        Request failed, please try again.
-      </Snackbar>
+
+      {errorSnackbar.value?.length ? errorSnackbar.value.map((error, index) => (
+        <Snackbar
+          key={error.title}
+          visible={errorSnackbar.value}
+          onDismiss={() => errorSnackbar.handleCloseErrorSnackbar(error, index)}
+          style={[
+            { backgroundColor: theme.colors.error, bottom: index * SNACKBAR_HEIGHT },
+            styles.snackbar]}
+          action={{ label: 'Ok',
+            onPress: () => errorSnackbar.handleCloseErrorSnackbar(error, index),
+            labelStyle: styles.snackbarButton }}
+        >
+          {error.title}
+        </Snackbar>
+      )) : null}
     </SafeAreaView>
   );
 };

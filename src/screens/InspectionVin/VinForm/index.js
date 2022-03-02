@@ -90,7 +90,7 @@ export default function VinForm({
   vin,
   onOpenGuide,
   onOpenCamera,
-  onOpenErrorSnackbar,
+  onAddErrorSnackbar,
   onRenitializeInspection,
   vinPicture,
   ocrIsLoading,
@@ -115,7 +115,9 @@ export default function VinForm({
     onSubmit: (vals) => {
       submitVehicleInfo(updateOneInspectionVehicle({ inspectionId,
         data: { vin: vals.vin, ...requiredPayload } }),
-      { onSuccess: handleTakePictures, onError: onOpenErrorSnackbar });
+      { onSuccess: handleTakePictures,
+        onError: () => onAddErrorSnackbar({ title: 'Failed to submit, you can always skip this step or submit again' }),
+      });
     },
   });
 
@@ -186,7 +188,7 @@ export default function VinForm({
 
           <Text style={styles.orText}>OR</Text>
 
-          <IconButton style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenVinCameraOrRetake} />
+          <IconButton style={[styles.captureVinButton, { backgroundColor: theme.colors.primary }]} disabled={!inspectionId} mode="contained" color="#FFF" icon={vinPicture ? 'reload' : 'camera'} onPress={handleOpenVinCameraOrRetake} />
         </Card.Content>
 
         <Card.Actions style={styles.actions}>
@@ -207,8 +209,8 @@ VinForm.propTypes = {
   inspectionId: PropTypes.string,
   isUploading: PropTypes.bool.isRequired,
   ocrIsLoading: PropTypes.bool.isRequired,
+  onAddErrorSnackbar: PropTypes.func,
   onOpenCamera: PropTypes.func,
-  onOpenErrorSnackbar: PropTypes.func,
   onOpenGuide: PropTypes.func,
   onRenitializeInspection: PropTypes.func,
   requiredFields: PropTypes.shape({
@@ -229,7 +231,7 @@ VinForm.propTypes = {
 VinForm.defaultProps = {
   onOpenCamera: noop,
   onOpenGuide: noop,
-  onOpenErrorSnackbar: noop,
+  onAddErrorSnackbar: noop,
   onRenitializeInspection: noop,
   inspectionId: null,
   vinPicture: null,
