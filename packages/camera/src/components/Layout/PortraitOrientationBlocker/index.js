@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PortraitOrientationBlocker = ({ grantLandscape, isPortrait }) => (
+const PortraitOrientationBlocker = ({ grantLandscape, isPortrait, title }) => (
   <View style={styles.container}>
     <Text style={styles.text}>
       For a better experience please rotate your device to landscape.
@@ -38,7 +38,7 @@ const PortraitOrientationBlocker = ({ grantLandscape, isPortrait }) => (
     {!isPortrait ? (
       <Button
         onPress={grantLandscape}
-        title="It's Done"
+        title={title}
       />
     ) : null}
   </View>
@@ -47,11 +47,11 @@ const PortraitOrientationBlocker = ({ grantLandscape, isPortrait }) => (
 PortraitOrientationBlocker.propTypes = {
   grantLandscape: Proptypes.func,
   isPortrait: Proptypes.bool,
+  title: Proptypes.string,
 };
 
 PortraitOrientationBlocker.defaultProps = {
   isPortrait: false,
   grantLandscape: () => {},
+  title: 'Ready',
 };
-
-export default PortraitOrientationBlocker;

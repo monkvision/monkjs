@@ -104,6 +104,7 @@ function Layout({
   children,
   containerStyle,
   left,
+  orientationBlockerProps,
   right,
   sectionStyle,
 }) {
@@ -129,6 +130,7 @@ function Layout({
       <PortraitOrientationBlocker
         grantLandscape={grantLandscape}
         isPortrait={mobileBrowserIsPortrait}
+        {...orientationBlockerProps}
       />
     );
   }
@@ -176,6 +178,7 @@ Layout.propTypes = {
   centerRatio: PropTypes.number,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
+  orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   right: PropTypes.element,
   sectionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
@@ -185,6 +188,7 @@ Layout.defaultProps = {
   centerRatio: 4 / 3,
   containerStyle: null,
   left: null,
+  orientationBlockerProps: null,
   right: null,
   sectionStyle: null,
 };

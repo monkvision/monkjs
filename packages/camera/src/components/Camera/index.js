@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View } from 'react-native';
+import { Text, View, useWindowDimensions } from 'react-native';
 import Webcam from 'react-webcam';
 
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
 import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 import styles from './styles';
 
@@ -32,7 +31,7 @@ export default function Camera({
   const available = useAvailable();
   const permissions = usePermissions();
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
-  const size = getSize(ratio, { windowHeight, windowWidth });
+  const size = getSize(ratio, { windowHeight, windowWidth }, 'native');
 
   const handleUserMedia = useCallback(() => {
     onRef(webcamRef);
@@ -58,6 +57,7 @@ export default function Camera({
     >
       <Webcam
         audio={false}
+        forceScreenshotSourceSize
         imageSmoothing={false}
         ref={webcamRef}
         onUserMedia={handleUserMedia}

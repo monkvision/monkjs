@@ -75,6 +75,7 @@ export default function Capture({
   offline,
   onChange,
   onReady,
+  orientationBlockerProps,
   primaryColor,
   renderOnFinish: RenderOnFinish,
   sightIds,
@@ -286,6 +287,7 @@ export default function Capture({
       <Layout
         fullscreen={fullscreen}
         left={left}
+        orientationBlockerProps={orientationBlockerProps}
         right={right}
       >
         <Camera
@@ -352,6 +354,7 @@ Capture.propTypes = {
   offline: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,
   onReady: PropTypes.func,
+  orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
   renderOnFinish: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
@@ -395,6 +398,7 @@ Capture.defaultProps = {
   offline: null,
   onChange: () => {},
   onReady: () => {},
+  orientationBlockerProps: null,
   primaryColor: '#FFF',
   renderOnFinish: null,
   sightIds: Capture.defaultSightIds,

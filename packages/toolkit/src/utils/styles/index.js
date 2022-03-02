@@ -35,20 +35,36 @@ export const flex = {
   }),
 };
 
-export function getSize(ratio, { windowHeight, windowWidth }) {
-  const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // [4:3] || [3:4]
+/**
+ * @param {string} ratio="4:3"
+ * @param {number} windowHeight
+ * @param {number} windowWidth
+ * @param {"native"||"default"} [platform]
+ * @return {height: string||number, width: string||number}
+ */
+export function getSize(ratio = '4:3', { windowHeight, windowWidth }, platform) {
+  const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // 4:3 || 3:4
   const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
+
+  const sizesByPlatform = {
+    native: {
+      height: longest,
+      width: longest * (a / b),
+    },
+    default: {
+      height: '100vh',
+      width: `${Math.floor(100 * (a / b))}vh`,
+    },
+  };
+
+  if (platform === 'native' || platform === 'default') {
+    return sizesByPlatform[platform];
+  }
 
   return {
     ...Platform.select({
-      native: {
-        height: longest,
-        width: longest * (a / b),
-      },
-      default: {
-        height: '100vh',
-        width: `${Math.floor(100 * (a / b))}vh`,
-      },
+      native: sizesByPlatform.native,
+      default: sizesByPlatform.default,
     }),
   };
 }
