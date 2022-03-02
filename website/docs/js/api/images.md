@@ -129,10 +129,8 @@ const handleRequest = async () => {
 | `data.compliances`   | Object   |             |
 | `data.compliances.iqa_compliance`   | Object |             |
 | `data.compliances.coverage_360`     | Object |             |
-| `data.compliances.coverage_360.sight_id`     | string |             |
+| `data.compliances.coverage_360.sight_id`     | string |    |
 | `requestConfig`     | Object    |             |
-
-
 
 ### Response schema
 ```json

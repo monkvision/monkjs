@@ -10,14 +10,14 @@ slug: /js/api/inspections
 yarn add @monkvision/corejs
 ```
 
-## getOne({ id, params })
+## getOne
 `GET /inspections/${id}`
 
 Returns an inspection with all its tasks.
 
 ```javascript
 const id = 'one-valid-inspection-id'
-const res = await monkApi.inspections.getOne({ id });
+const res = await monkApi.inspections.getOne({ id, params });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_inspection)
@@ -25,6 +25,7 @@ const res = await monkApi.inspections.getOne({ id });
 ### Query params
 | **name**             | **type** | **default** |
 |----------------------|----------|-------------|
+| `id`                 | string   |             |
 | `params`             | Object   |             |
 | `params.showDeletedObjects` | boolean  | false       |
 | `requestConfig`      | Object   |             |
@@ -520,13 +521,13 @@ const res = await monkApi.inspections.getOne({ id });
 }
 ```
 
-## getMany({ params })
+## getMany
 `GET /inspections`
 
 Returns all inspections created by user/organization.
 
 ```javascript
-const res = await monkApi.inspections.getMany({});
+const res = await monkApi.inspections.getMany({ params });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_all_inspections)
@@ -544,6 +545,7 @@ const res = await monkApi.inspections.getMany({});
 | `params.allInspections`        | boolean         | false       |
 | `params.allInspectionsInOrganization` | boolean  | false       |
 | `params.verbose`               | number          | 0           |
+| `requestConfig`                | Object          |             |
 
 ### Response schema
 ```json
@@ -647,7 +649,7 @@ const res = await monkApi.inspections.getMany({});
   }
 }
 ```
-## createOne({ data })
+## createOne
 `POST /inspections`
 
 An inspection contains data about the state of a vehicle at a given time. Returns a unique inspection id.
@@ -677,7 +679,7 @@ const res = await monkApi.inspections.createOne({ data });
 | `data.tasks.images_ocr`       | Object    |             |
 | `data.images`                 | \[Object\] |             |
 | `data.vehicle`                | Object     |             |
-| `damageAreas`            | \[Object\] |             |
+| `data.damageAreas`            | \[Object\] |             |
 | `requestConfig`          | Object     |             |
 
 ### Response schema
@@ -797,7 +799,7 @@ const res = await monkApi.inspections.createOne({ data });
 }
 ```
 
-## upsertOne({ data })
+## upsertOne
 `POST /inspections`
 
 > Please keep in mind that the **id** is mandatory in the **data** param, otherwise it will be considered as `createOne.
@@ -940,13 +942,13 @@ const res = await monkApi.inspections.upsertOne({ data });
 }
 ```
 
-## addAdditionalDataToOne({ id, data })
+## addAdditionalDataToOne
 `PATCH /inspections/${id}/pdf_data`
 
 ```javascript
 const data = { mileage: { value, unit }, marketValue :{ value, unit } agentFirstName, agentLastName, agentCompany, agentCompanyCity, vehicleOwnerFirstName, vehicleOwnerLastName, vehicleOwnerAddress, vehicleOwnerPhone, vehicleOwnerEmail, dateOfStart, dateOfValidation, vinOrRegistering, comment };
 
-const res = await monkApi.inspections.addAdditionalDataToOne({ data });
+const res = await monkApi.inspections.addAdditionalDataToOne({ id, data });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/edit_inspection_pdf_data)
@@ -1113,7 +1115,7 @@ const res = await monkApi.inspections.addAdditionalDataToOne({ data });
 }
 ```
 
-## deleteOne({ id })
+## deleteOne
 `DELETE /inspections/${id}`
 
 ```javascript

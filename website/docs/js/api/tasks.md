@@ -30,7 +30,7 @@ const handleRequest = async () => {
 | **name**             | **type** | **default** |
 |----------------------|----------|-------------|
 | `inspectionId`       | string   |             |
-| `id`                 | string   |             |
+| `name`               | string   |             |
 | `requestConfig`      | Object   |             |
 
 ### Response schema
@@ -172,7 +172,7 @@ Get all tasks from an inspection
 import { monkApi } from '@monkvision/corejs';
 
 const handleRequest = async () => {
-  await monkApi.tasks.getAll({ inspectionId });
+  await monkApi.tasks.getMany({ inspectionId });
 }
 ```
 
