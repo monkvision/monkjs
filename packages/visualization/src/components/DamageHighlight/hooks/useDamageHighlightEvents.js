@@ -139,15 +139,16 @@ export default function useDamageHighlightEvents({
       cache: true,
     })
       .then((res) => {
-        const c = res.platform === 'ios' ? res.primary : res.vibrant;
+        const c = res.lightVibrant;
         const baseColor = `0x${c.split('#')[1]}`;
         const complementaryColor = (0xffffff - baseColor).toString(16);
         setColor(`#${Array(6 - complementaryColor.length)
           .fill(0)
           .join('')}${complementaryColor.toString(16)}`);
+        // setColor(c);
       })
       .catch((err) => console.log(err));
-  }, [image.source]);
+  }, [image]);
 
   return {
     handleDrag,

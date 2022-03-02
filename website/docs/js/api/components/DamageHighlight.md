@@ -106,6 +106,10 @@ Color of the polygon's outlines
 
 Polygon's outline strokes size
 
+## savePng
+`PropType.func`
+
+Callback to convert the svg to a png image which is stored temporarily on the ram of the device.
 
 ## touchable
 `PropTypes.bool`
@@ -122,6 +126,7 @@ Allows to set the image's displayed width. The height will be computed afterward
 
 Extract properties from an API server response
 
+### Example
 ``` javascript
 import { usePolygons } from '@monkvision/react-native';
 ```

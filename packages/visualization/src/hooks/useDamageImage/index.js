@@ -56,11 +56,14 @@ export default function useImageDamage(image, originalWidth) {
     return `data:image/png;base64,${window.btoa(binary)}`;
   };
 
-  const svgToPngWeb = async (img, id, callback) => {
-    const serialize = new XMLSerializer().serializeToString(document.getElementById(id));
+  const svgToPngWeb = async (img, w, h, id, callback) => {
+    const serialize = new XMLSerializer().serializeToString(document.getElementById(`svg-${id}`));
     const b64 = await imageToBase64(img);
-    const reg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
-    const imgSrc = (`data:image/svg+xml;base64,${window.btoa(serialize.replaceAll(reg, `href="${b64}"`))}`);
+    const hrefReg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
+    const widthReg = /width=(["'])(?:(?=(\\?))\2.)*?\1/;
+    const heightReg = /height=(["'])(?:(?=(\\?))\2.)*?\1/;
+    const svgSerialized = serialize.replaceAll(hrefReg, `href="${b64}"`).replace(widthReg, `width="${img.width}"`).replace(heightReg, `height="${img.height}"`);
+    const imgSrc = (`data:image/svg+xml;base64,${window.btoa(svgSerialized)}`);
     const imageHtml = new Image();
 
     imageHtml.crossOrigin = 'anonymous';
@@ -77,16 +80,16 @@ export default function useImageDamage(image, originalWidth) {
       context.drawImage(imageHtml, 0, 0);
       const t = canvas.toDataURL('image/png');
       // Call the callback with the png picture
-      callback(t);
+      callback(t, id);
     };
 
     imageHtml.src = imgSrc;
   };
 
-  const svgToPngNative = (ref, w, h, callback) => {
+  const svgToPngNative = (ref, w, h, callback, id) => {
     if (ref) {
       ref?.toDataURL(
-        (base64) => callback(`data:image/png;base64,${base64}`),
+        (base64) => callback(`data:image/png;base64,${base64}`, id),
         { width: w, height: h },
       );
     }

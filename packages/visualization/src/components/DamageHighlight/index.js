@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Platform, View } from 'react-native';
-import { ClipPath, Defs, Polygon, Svg } from 'react-native-svg';
+import { ClipPath, Defs, Polygon, Svg, Text } from 'react-native-svg';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import noop from 'lodash.noop';
@@ -9,7 +9,7 @@ import useImageDamage from '../../hooks/useDamageImage';
 import useDamageHighlightEvents from './hooks/useDamageHighlightEvents';
 
 function DamageHighlight(
-  { backgroundOpacity, image, polygons, polygonsProps, touchable, width, savePng },
+  { backgroundOpacity, image, polygons, polygonsProps, touchable, width, savePng, damage },
 ) {
   const {
     state: { width: imageWidth, height: imageHeight },
@@ -34,7 +34,7 @@ function DamageHighlight(
 
   const ref = Platform.select({
     native: {
-      ref: (svgRef) => svgToPng(svgRef, image.width, image.height, savePng),
+      ref: (svgRef) => svgToPng(svgRef, image.width, image.height, savePng, image.id),
     },
   });
 
@@ -46,17 +46,27 @@ function DamageHighlight(
         stroke={color}
         fillOpacity={0} // On the web, by default it is fill in black
         strokeWidth={Math.max(polygonsProps.stroke.strokeWidth, image.width * 0.0005)}
+        strokeDasharray={damage.damageType === 'dent' ? '5, 5' : ''}
       />
     ))
-  ), [color, polygons, image.id, image.width, polygonsProps.stroke]);
+  ), [damage, color, polygons, image.id, image.width, polygonsProps.stroke]);
+
+  const tagPos = useMemo(() => ({
+    x: polygons.reduce((prev, curr) => (
+      Math.min(prev, curr.reduce((p, c) => (
+        Math.min(p, c[0])), Number.MAX_VALUE))), Number.MAX_VALUE),
+    y: polygons.reduce((prev, curr) => (
+      Math.min(prev, curr.reduce((p, c) => (
+        Math.min(p, c[1])), Number.MAX_VALUE))), Number.MAX_VALUE),
+  }), [polygons]);
+
+  // useEffect(() => {
+  //   getColor();
+  // }, []);
 
   useEffect(() => {
-    getColor();
-  }, [getColor]);
-
-  useEffect(() => {
-    if (Platform.OS === 'web') { svgToPng(image, image.id, savePng); }
-  }, [image, savePng, svgToPng]);
+    if (Platform.OS === 'web') { svgToPng(image, imageWidth, imageHeight, image.id, savePng); }
+  }, [image, imageHeight, imageWidth, savePng, svgToPng, color]);
 
   if (!image) {
     return <View />;
@@ -65,17 +75,11 @@ function DamageHighlight(
   return (
     <Svg
       {...ref}
-      id={image.id}
+      id={`svg-${image.id}`}
       width={imageWidth}
       height={imageHeight}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      onMouseMove={handleDrag}
-      onMouseUp={handleMouseUp}
-      onMouseDown={handleMouseDown}
-      onTouchMove={handleDrag}
-      onTouchEnd={handleMouseUp}
-      onTouchStart={handleMouseDown}
       viewBox={`${position.x} ${position.y} ${image.width * zoom} ${image.height * zoom}`}
     >
       <Defs>
@@ -87,6 +91,7 @@ function DamageHighlight(
         source={image.source}
         opacity={showPolygon || !isEmpty(polygons) ? backgroundOpacity : 1}
       />
+      <Text paintOrder="stroke" stroke="black" strokeWidth={5} fill="white" fontSize={image.width * 0.02} x={tagPos.x} y={tagPos.y - image.height * 0.02} textAnchor="start">{damage.damageType.charAt(0).toUpperCase() + damage.damageType.slice(1).replace(/[-_]/g, ' ')}</Text>
       {showPolygon && (
         <>
           {/* Show Damages Polygon */}
@@ -100,6 +105,7 @@ function DamageHighlight(
 
 DamageHighlight.propTypes = {
   backgroundOpacity: PropTypes.number,
+  damage: PropTypes.string,
   height: PropTypes.number,
   image: PropTypes.shape({
     height: PropTypes.number,
@@ -128,6 +134,7 @@ DamageHighlight.propTypes = {
 
 DamageHighlight.defaultProps = {
   backgroundOpacity: 0.35,
+  damage: '',
   height: 300,
   image: null,
   polygons: [],

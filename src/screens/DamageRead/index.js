@@ -146,7 +146,7 @@ export default () => {
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
-  const [previewPolygons, setPreviewPolygons] = useState(false);
+  const [previewImages, setPreviewImages] = useState([]);
   const [previewImage, setPreviewImage] = useState({});
   const { getImage, getPolygons } = usePolygons();
 
@@ -178,9 +178,8 @@ export default () => {
     setDeleteDialogOpen(false);
   }, []);
 
-  const openPreviewDialog = useCallback((image, polygon) => {
+  const openPreviewDialog = useCallback((image) => {
     setPreviewImage(image);
-    setPreviewPolygons(polygon);
     setPreviewDialogOpen(true);
   }, []);
 
@@ -211,6 +210,21 @@ export default () => {
     () => getDamageImages(damageViews, inspection?.images ?? []),
     [damageViews, inspection.images],
   );
+
+  const handleZoom = useCallback((image, id) => {
+    const newImage = { url: image, id };
+
+    setPreviewImages((prevState) => {
+      const pngImage = prevState.filter((img) => img.id === id);
+
+      if (pngImage.length <= 0) {
+        return [...prevState, newImage];
+      }
+      const tmp = prevState;
+      tmp[prevState.indexOf(pngImage[0])] = newImage;
+      return tmp;
+    });
+  }, []);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -257,12 +271,11 @@ export default () => {
                 <View syle={styles.images}>
                   <TouchableRipple
                     key={String(index)}
-                    onPress={() => {
-                      openPreviewDialog(
-                        getImage(image),
-                        getPolygons(image.id, damageViews)[0],
-                      );
-                    }}
+                    onPress={() => openPreviewDialog({
+                      name: image.name,
+                      path: image.path,
+                      index: previewImages.map((img) => img.id).indexOf(image.id),
+                    })}
                   >
                     <DamageHighlight
                       image={getImage(image)}
@@ -275,6 +288,10 @@ export default () => {
                           strokeWidth: 2,
                         },
                       }}
+                      savePng={handleZoom}
+                      damage={inspection?.damages.reduce(
+                        (prev, dmg) => (dmg.id === damageId ? dmg : prev), null,
+                      )}
                     />
                   </TouchableRipple>
                 </View>
@@ -352,10 +369,8 @@ export default () => {
       />
       <ImageViewer
         isOpen={isPreviewDialogOpen}
-        images={inspection.images.map((i) => ({ url: i.path }))}
+        images={previewImages}
         index={previewImage.index}
-        image={previewImage}
-        polygons={previewPolygons}
         handleDismiss={handleDismissPreviewDialog}
       />
     </SafeAreaView>
