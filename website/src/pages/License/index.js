@@ -5,9 +5,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Layout from '@theme/Layout';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
-function Sights() {
+function License() {
   const context = useDocusaurusContext();
   const { siteConfig: { customFields = {}, tagline } = {} } = context;
 
@@ -20,7 +19,7 @@ function Sights() {
   return (
     <ThemeProvider theme={darkTheme}>
       <Layout title={tagline} description={customFields.description}>
-        <Container maxWidth="md">
+        <Container maxWidth={false}>
           <Typography p component="h2" variant="h3">
             The Clear BSD License
           </Typography>
@@ -29,27 +28,25 @@ function Sights() {
             {new Date().getFullYear()}
             Monk All rights reserved.
           </Typography>
-          <Box component="p">
-            <Typography>
-              Redistribution and use in source and binary forms, with or without
-              modification, are permitted (subject to the limitations in the disclaimer
-              below) provided that the following conditions are met:
-            </Typography>
-            <Typography>
-              * Redistributions of source code must retain the above copyright notice,
-              this list of conditions and the following disclaimer.
-            </Typography>
-            <Typography>
-              * Redistributions in binary form must reproduce the above copyright
-              notice, this list of conditions and the following disclaimer in the
-              documentation and/or other materials provided with the distribution.
-            </Typography>
-            <Typography>
-              * Neither the name of the copyright holder nor the names of its
-              contributors may be used to endorse or promote products derived from this
-              software without specific prior written permission.
-            </Typography>
-          </Box>
+          <Typography p>
+            Redistribution and use in source and binary forms, with or without
+            modification, are permitted (subject to the limitations in the disclaimer
+            below) provided that the following conditions are met:
+          </Typography>
+          <Typography p>
+            * Redistributions of source code must retain the above copyright notice,
+            this list of conditions and the following disclaimer.
+          </Typography>
+          <Typography p>
+            * Redistributions in binary form must reproduce the above copyright
+            notice, this list of conditions and the following disclaimer in the
+            documentation and/or other materials provided with the distribution.
+          </Typography>
+          <Typography p>
+            * Neither the name of the copyright holder nor the names of its
+            contributors may be used to endorse or promote products derived from this
+            software without specific prior written permission.
+          </Typography>
           <Typography p variant="body2">
             NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY
             THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
@@ -70,4 +67,4 @@ function Sights() {
   );
 }
 
-export default Sights;
+export default License;

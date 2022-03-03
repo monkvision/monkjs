@@ -62,14 +62,7 @@ describe('inspection', () => {
       assert.equal(res.axiosResponse.statusText, 'OK');
     });
   });
-  describe('#createOne()', () => {
-    it('is successful', async () => {
-      const data = {};
-      const res = await inspection.createOne({ data });
-      assert.equal(res.axiosResponse.statusText, 'OK');
-    });
-  });
-  describe('#updateOne()', () => {
+  describe('#upsertOne()', () => {
     it('is successful', async () => {
       const data = {};
       const res = await inspection.upsertOne({ data });

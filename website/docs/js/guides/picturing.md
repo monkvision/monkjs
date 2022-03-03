@@ -29,7 +29,6 @@ In the browser, we use the UserMedia API provide by the browser.
 Quality isn't limited at all, but performance or compatibility can be
 since we use another layer between us and the machine.
 
-
 [More details on Expo documentation](https://docs.expo.dev/versions/latest/sdk/camera/)
 
 ### What should I choose ?
@@ -53,12 +52,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import isEmpty from 'lodash.isempty';
 
+import monk from '@monkvision/corejs';
 import { Loader } from '@monkvision/ui';
-
-// You can also import already transpiled file.
-// import { inspection, task } from '@monkvision/corejs';
-import * as inspection from '@monkvision/corejs/src/inspections';
-import * as task from '@monkvision/corejs/src/tasks';
 
 export default () => {
   const route = useRoute();
@@ -75,7 +70,7 @@ export default () => {
       const tasks = { [task.NAMES.damageDetection]: { status: task.STATUSES.notStarted } };
       const data = { tasks };
 
-      const { result } = await inspection.createOne({ data });
+      const { result } = await monk.entity.inspection.upsertOne({ data });
       setInspectionId(result);
     }
   }, [inspectionId]);
@@ -236,7 +231,7 @@ const handleSuccess = useCallback(async () => {
 
   // Here we use the corejs API to update one task of an inspection.
   // @see https://monkvision.github.io/monkjs/docs/js/api/task#updateone
-  await task.updateOne({ inspectionId, name, data });
+  await monk.entity.task.updateOne({ inspectionId, name, data });
 
   setLoading(false);
 }, [inspectionId]);
@@ -267,13 +262,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import isEmpty from 'lodash.isempty';
 
-import { Capture, Controls, UploadCenter } from '@monkvision/camera';
+import monk from '@monkvision/corejs';
 import { Loader } from '@monkvision/ui';
-
-// You can also import already transpiled file.
-// import { inspection, task } from '@monkvision/corejs';
-import * as inspection from '@monkvision/corejs/src/inspections';
-import * as task from '@monkvision/corejs/src/tasks';
+import { Capture, Controls, UploadCenter } from '@monkvision/camera';
 
 export default () => {
   const route = useRoute();
@@ -290,7 +281,7 @@ export default () => {
       const tasks = { [task.NAMES.damageDetection]: { status: task.STATUSES.notStarted } };
       const data = { tasks };
 
-      const { result } = await inspection.createOne({ data });
+      const { result } = await monk.entity.inspection.upsertOne({ data });
       setInspectionId(result);
     }
   }, [inspectionId]);
@@ -304,7 +295,7 @@ export default () => {
 
     // Here we use the corejs API to update one task of an inspection.
     // @see https://monkvision.github.io/monkjs/docs/js/api/task#updateone
-    await task.updateOne({ inspectionId, name, data });
+    await monk.entity.task.updateOne({ inspectionId, name, data });
 
     setLoading(false);
   }, [inspectionId]);

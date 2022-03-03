@@ -22,7 +22,7 @@ module.exports = {
         { to: 'docs', label: 'Docs', position: 'left' },
         { to: 'sights', label: 'Sights', position: 'left' },
         { to: 'blog', label: 'Blog', position: 'left' },
-        { to: 'licence', label: 'License', position: 'left' },
+        { to: 'license', label: 'License', position: 'left' },
       ],
     },
     footer: {

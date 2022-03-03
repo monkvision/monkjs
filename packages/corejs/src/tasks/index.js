@@ -9,7 +9,7 @@ import createEntityReducer from '../createEntityReducer';
 import { idAttribute as imageIdAttr, schema as image } from '../images';
 
 export const key = 'tasks';
-export const idAttribute = 'name';
+export const idAttribute = 'id';
 const processStrategy = (obj) => {
   /** @type {{ inspectionId: string, images: Object, parts: Object }} */
   const processed = mapKeys(obj, (v, k) => camelCase(k));

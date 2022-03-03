@@ -59,7 +59,7 @@ For Monk related questions/support please use the [Support Center](https://suppo
 
 ## ⚖️ License
 
-This project is licensed under the Clear BSD license. See the [LICENSE](LICENSE) file for more info.
+This project is licensed under the Clear BSD license. See the [LICENSE](/monkjs/license) file for more info.
 
 
 ## What's next?

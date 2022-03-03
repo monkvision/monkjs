@@ -17,11 +17,11 @@ module.exports = {
         type: 'category',
         label: 'JavaScript',
         items: [
-          'js/api/damages',
-          'js/api/images',
-          'js/api/inspections',
-          'js/api/tasks',
-          'js/api/views',
+          'js/api/damage',
+          'js/api/image',
+          'js/api/inspection',
+          'js/api/task',
+          'js/api/view',
         ],
       },
       {

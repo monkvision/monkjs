@@ -73,37 +73,6 @@ export const getMany = async ({ params, ...requestConfig }) => {
 
 /**
  * @param {Object} data - body data
- * @param {Object} data.tasks - task entity
- * @param {Object} [data.tasks.damage_detection]
- * @param {Object} [data.tasks.wheel_analysis]
- * @param {Object} [data.tasks.damage_detection]
- * @param {Object} [data.tasks.images_ocr]
- * @param {[Object]} data.images - image entity
- * @param {Object} data.vehicle - vehicle entity
- * @param {[Object]} data.damageAreas - damageArea entity
- * @param {Object} requestConfig
- */
-export const createOne = async ({ data, ...requestConfig }) => {
-  const axiosResponse = await axios.request({
-    ...config.axiosConfig,
-    method: 'post',
-    url: `/inspections`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
-    ...requestConfig,
-  });
-
-  const id = axiosResponse.data[idAttribute];
-  const entity = { ...data, [idAttribute]: id };
-
-  return ({
-    axiosResponse,
-    [idAttribute]: id,
-    ...normalize(entity, schema),
-  });
-};
-
-/**
- * @param {Object} data - body data
  * @param {string} data.id
  * @param {Object} data.tasks - task entity
  * @param {Object} [data.tasks.damage_detection]
