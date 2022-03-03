@@ -64,6 +64,7 @@
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "lodash.camelcase": "^4.3.0",
+    "lodash.foreach": "^4.5.0",
     "lodash.identity": "^3.0.0",
     "lodash.isarray": "^4.0.0",
     "lodash.isempty": "^4.4.0",

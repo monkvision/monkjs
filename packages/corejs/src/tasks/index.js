@@ -90,6 +90,8 @@ export default createSlice({
   reducers: entityReducer,
 });
 
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
+
 export const NAMES = {
   damageDetection: 'damage_detection',
   repairEstimate: 'repair_estimate',

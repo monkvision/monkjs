@@ -13,6 +13,8 @@ export default createSlice({
   reducers: entityReducer,
 });
 
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
+
 export const TYPES = {
   ignore: '  ignore',
   background: 'background',

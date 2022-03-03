@@ -48,3 +48,5 @@ export default createSlice({
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
 });
+
+export const selectors = entityAdapter.getSelectors((state) => state[key]);

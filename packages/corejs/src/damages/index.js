@@ -1,6 +1,7 @@
 import axios from 'axios';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
+import isEmpty from 'lodash.isempty';
 
 import { normalize } from 'normalizr';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
@@ -66,6 +67,14 @@ export default createSlice({
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
 });
+
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
+
+entityReducer[`inspections/gotOne`] = (state, action) => {
+  const { entities } = action.payload;
+  const damages = entities[key];
+  if (!isEmpty(damages)) { entityAdapter.upsertMany(state, damages); }
+};
 
 export const TYPES = {
   bodyCrack: 'body_crack',
