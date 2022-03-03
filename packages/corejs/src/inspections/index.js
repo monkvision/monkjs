@@ -1,26 +1,14 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import camelCase from 'lodash.camelcase';
-import mapKeys from 'lodash.mapkeys';
+import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
-import { normalize, schema as Schema } from 'normalizr';
-import config from '../config';
+
+import { normalize } from 'normalizr';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import createEntityReducer from '../createEntityReducer';
-import { schema as damage } from '../damages';
-import { schema as image } from '../images';
-import { schema as task } from '../tasks';
-import { schema as vehicle } from '../vehicles';
 
-export const key = 'inspections';
-export const idAttribute = 'id';
-const processStrategy = (obj) => mapKeys(obj, (v, k) => camelCase(k));
-
-export const schema = new Schema.Entity(key, {
-  images: [image],
-  damages: [damage],
-  vehicle,
-  tasks: [task],
-}, { idAttribute, processStrategy });
+import schema, { idAttribute, key } from './schema';
+import config from '../config';
 
 /**
  * @param {string} id
@@ -33,7 +21,7 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...config.axiosConfig,
     method: 'get',
     url: `/inspections/${id}`,
-    params: mapKeys(params, (v, k) => snakeCase(k)),
+    params: mapKeysDeep(params, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 
@@ -61,7 +49,7 @@ export const getMany = async ({ params, ...requestConfig }) => {
     ...config.axiosConfig,
     method: 'get',
     url: `/inspections`,
-    params: mapKeys(params, (v, k) => snakeCase(k)),
+    params: mapKeysDeep(params, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 
@@ -75,10 +63,10 @@ export const getMany = async ({ params, ...requestConfig }) => {
  * @param {Object} data - body data
  * @param {string} data.id
  * @param {Object} data.tasks - task entity
- * @param {Object} [data.tasks.damage_detection]
- * @param {Object} [data.tasks.wheel_analysis]
- * @param {Object} [data.tasks.damage_detection]
- * @param {Object} [data.tasks.images_ocr]
+ * @param {Object} [data.tasks.damageDetection]
+ * @param {Object} [data.tasks.wheelAnalysis]
+ * @param {Object} [data.tasks.damageDetection]
+ * @param {Object} [data.tasks.imagesOcr]
  * @param {[Object]} data.images - image entity
  * @param {Object} data.vehicle - vehicle entity
  * @param {[Object]} data.damageAreas - damageArea entity
@@ -89,7 +77,7 @@ export const upsertOne = async ({ data, ...requestConfig }) => {
     ...config.axiosConfig,
     method: 'post',
     url: `/inspections`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
+    data: mapKeysDeep(data, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 
@@ -132,7 +120,7 @@ export const addAdditionalDataToOne = async ({ id, data, ...requestConfig }) => 
     ...config.axiosConfig,
     method: 'patch',
     url: `/inspections/${id}/pdf_data`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
+    data: mapKeysDeep(data, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 

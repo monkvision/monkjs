@@ -110,16 +110,16 @@ await monkApi.inspections.createOne({ data });
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/post_inspection)
 
-| **name**                      | **type**   | **default** |
-|-------------------------------|------------|-------------|
-| `data`                        | Object     |             |
-| `data.tasks`                  | array      |             |
-| `data.tasks.damage_detection` | Object     |             |
-| `data.tasks.wheel_analysis`   | Object     |             |
-| `data.tasks.images_ocr`       | Object     |             |
-| `data.images`                 | \[Object\] |             |
-| `data.vehicle`                | Object     |             |
-| `data.damageAreas`            | \[Object\] |             |
+| **name**                     | **type**   | **default** |
+|------------------------------|------------|-------------|
+| `data`                       | Object     |             |
+| `data.tasks`                 | array      |             |
+| `data.tasks.damageDetection` | Object     |             |
+| `data.tasks.wheelAnalysis`   | Object     |             |
+| `data.tasks.imagesOcr`       | Object     |             |
+| `data.images`                | \[Object\] |             |
+| `data.vehicle`               | Object     |             |
+| `data.damageAreas`           | \[Object\] |             |
 
 ```json
 {

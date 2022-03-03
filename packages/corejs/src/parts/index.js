@@ -1,14 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import camelCase from 'lodash.camelcase';
-import mapKeys from 'lodash.mapkeys';
-import { schema as Schema } from 'normalizr';
+
 import createEntityReducer from '../createEntityReducer';
 
-export const key = 'parts';
-export const idAttribute = 'id';
-const processStrategy = (obj) => mapKeys(obj, (v, k) => camelCase(k));
-
-export const schema = new Schema.Entity(key, {}, { idAttribute, processStrategy });
+import { key } from './schema';
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);

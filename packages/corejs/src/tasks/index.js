@@ -1,32 +1,14 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import camelCase from 'lodash.camelcase';
-import mapKeys from 'lodash.mapkeys';
+import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
-import { normalize, schema as Schema } from 'normalizr';
-import config from '../config';
+
+import { normalize } from 'normalizr';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import createEntityReducer from '../createEntityReducer';
-import { idAttribute as imageIdAttr, schema as image } from '../images';
 
-export const key = 'tasks';
-export const idAttribute = 'id';
-const processStrategy = (obj) => {
-  /** @type {{ inspectionId: string, images: Object, parts: Object }} */
-  const processed = mapKeys(obj, (v, k) => camelCase(k));
-
-  const { images } = processed;
-  processed.images = {};
-
-  images.forEach(({ image_id: imageId }) => {
-    processed.parts = { ...processed.images, [imageIdAttr]: imageId };
-  });
-
-  return processed;
-};
-
-export const schema = new Schema.Entity(key, {
-  images: [image],
-}, { idAttribute, processStrategy });
+import schema, { idAttribute, key } from './schema';
+import config from '../config';
 
 /**
  * @param {string} inspectionId
@@ -85,7 +67,7 @@ export const updateOne = async ({
     ...config.axiosConfig,
     method: 'patch',
     url: `/inspections/${inspectionId}/tasks/${name}`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
+    data: mapKeysDeep(data, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 

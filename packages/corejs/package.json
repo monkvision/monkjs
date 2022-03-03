@@ -42,6 +42,7 @@
     "lodash.isplainobject": "^4.0.6",
     "lodash.mapkeys": "^4.6.0",
     "lodash.snakecase": "^4.1.1",
+    "map-keys-deep-lodash": "^1.2.4",
     "normalizr": "^3.6.1"
   },
   "devDependencies": {

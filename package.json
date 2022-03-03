@@ -78,6 +78,7 @@
     "lodash.snakecase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
     "lodash.upperfirst": "^4.3.1",
+    "map-keys-deep-lodash": "^1.2.4",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "normalizr": "^3.6.1",

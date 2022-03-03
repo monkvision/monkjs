@@ -1,17 +1,14 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import camelCase from 'lodash.camelcase';
-import mapKeys from 'lodash.mapkeys';
+import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
-import { normalize, schema as Schema } from 'normalizr';
-import config from '../config';
+
+import { normalize } from 'normalizr';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import createEntityReducer from '../createEntityReducer';
 
-export const key = 'views';
-export const idAttribute = 'id';
-const processStrategy = (obj) => mapKeys(obj, (v, k) => camelCase(k));
-
-export const schema = new Schema.Entity(key, {}, { idAttribute, processStrategy });
+import schema, { idAttribute, key } from './schema';
+import config from '../config';
 
 /**
  * @param {string} inspectionId
@@ -24,7 +21,7 @@ export const schema = new Schema.Entity(key, {}, { idAttribute, processStrategy 
  * @param {number} [data.boundingBox.height]
  * @param {Object} [data.newImage]
  * @param {string} [data.newImage.name]
- * @param {string} [data.newImage.rotate_image_before_upload]
+ * @param {string} [data.newImage.rotateImageBeforeUpload]
  * @param {Object} requestConfig
  */
 export const createOne = async ({ inspectionId, data, ...requestConfig }) => {
@@ -32,7 +29,7 @@ export const createOne = async ({ inspectionId, data, ...requestConfig }) => {
     ...config.axiosConfig,
     method: 'post',
     url: `/inspections/${inspectionId}/views`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
+    data: mapKeysDeep(data, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 

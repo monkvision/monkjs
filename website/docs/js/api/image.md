@@ -74,22 +74,22 @@ await monk.image.createOne({ inspectionId, data });
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Image/add_image_to_inspection)
 
 ### Body data
-| **name**                                 | **type**   | **default** |
-|------------------------------------------|------------|-------------|
-| `inspectionId`                           | string     |             |
-| `data`                                   | Object     |             |
-| `data.name`                              | string     |             |
-| `data.acquisition`                       | Object     |             |
-| `data.acquisition.strategy`              | string     |             |
-| `data.acquisition.fileKey`               | string     |             |
-| `data.acquisition.url`                   | string     |             |
-| `data.tasks`                             | \[Object\] |             |
-| `data.damageArea`                        | Object     |             |
-| `data.additionalData`                    | Object     |             |
-| `data.compliances`                       | Object     |             |
-| `data.compliances.iqa_compliance`        | Object     |             |
-| `data.compliances.coverage_360`          | Object     |             |
-| `data.compliances.coverage_360.sight_id` | string     |             |
+| **name**                               | **type**   | **default** |
+|----------------------------------------|------------|-------------|
+| `inspectionId`                         | string     |             |
+| `data`                                 | Object     |             |
+| `data.name`                            | string     |             |
+| `data.acquisition`                     | Object     |             |
+| `data.acquisition.strategy`            | string     |             |
+| `data.acquisition.fileKey`             | string     |             |
+| `data.acquisition.url`                 | string     |             |
+| `data.tasks`                           | \[Object\] |             |
+| `data.damageArea`                      | Object     |             |
+| `data.additionalData`                  | Object     |             |
+| `data.compliances`                     | Object     |             |
+| `data.compliances.iqaCompliance`       | Object     |             |
+| `data.compliances.coverage360`         | Object     |             |
+| `data.compliances.coverage360.sightId` | string     |             |
 
 ```json
 {

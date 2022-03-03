@@ -1,17 +1,14 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import camelCase from 'lodash.camelcase';
-import mapKeys from 'lodash.mapkeys';
+import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
-import { normalize, schema as Schema } from 'normalizr';
-import config from '../config';
+
+import { normalize } from 'normalizr';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import createEntityReducer from '../createEntityReducer';
 
-export const key = 'damageAreas';
-export const idAttribute = 'id';
-const processStrategy = (obj) => mapKeys(obj, (v, k) => camelCase(k));
-
-export const schema = new Schema.Entity(key, {}, { idAttribute, processStrategy });
+import schema, { idAttribute, key } from './schema';
+import config from '../config';
 
 /**
  * @param {string} inspectionId
@@ -26,7 +23,7 @@ export const upsertOne = async ({ inspectionId, imageId, data, ...requestConfig 
     ...config.axiosConfig,
     method: 'post',
     url: `inspections/${inspectionId}/images/${imageId}/damage_areas`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
+    data: mapKeysDeep(data, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 

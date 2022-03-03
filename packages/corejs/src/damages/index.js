@@ -1,29 +1,14 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import camelCase from 'lodash.camelcase';
-import mapKeys from 'lodash.mapkeys';
+import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
-import { normalize, schema as Schema } from 'normalizr';
-import config from '../config';
+
+import { normalize } from 'normalizr';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import createEntityReducer from '../createEntityReducer';
-import { idAttribute as partIdAttr, schema as part } from '../parts';
 
-export const key = 'damages';
-export const idAttribute = 'id';
-const processStrategy = (obj) => {
-  /** @type {{ inspectionId: string, partIds: [string], parts: Object }} */
-  const processed = mapKeys(obj, (v, k) => camelCase(k));
-  processed.parts = {};
-  processed.partIds.forEach((id) => {
-    processed.parts = { ...processed.parts, [partIdAttr]: id };
-  });
-
-  return processed;
-};
-
-export const schema = new Schema.Entity(key, {
-  parts: [part],
-}, { idAttribute, processStrategy });
+import schema, { idAttribute, key } from './schema';
+import config from '../config';
 
 /**
  * @param {string} inspectionId
@@ -37,7 +22,7 @@ export const createOne = async ({ inspectionId, data, ...requestConfig }) => {
     ...config.axiosConfig,
     method: 'post',
     url: `/inspections/${inspectionId}/damages`,
-    data: mapKeys(data, (v, k) => snakeCase(k)),
+    data: mapKeysDeep(data, (v, k) => snakeCase(k)),
     ...requestConfig,
   });
 
