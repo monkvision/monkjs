@@ -116,15 +116,15 @@ export function useCreateDamageDetectionAsync() {
  * @param task
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {
   return useCallback(async (picture) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { metadata } = sights.state.current;
-    const { id, label } = metadata;
+    const { current, ids } = sights.state;
+    const { id, label } = current.metadata;
 
     try {
       dispatch({
@@ -132,6 +132,9 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         increment: true,
         payload: { id, status: 'pending', label },
       });
+
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
@@ -150,7 +153,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         },
         tasks: [task],
         additional_data: {
-          ...metadata,
+          ...current.metadata,
           overlay: undefined,
         },
       });
@@ -188,7 +191,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
 
       throw err;
     }
-  }, [inspectionId, sights, task, uploads]);
+  }, [inspectionId, sights, task, uploads, onFinish]);
 }
 
 /**
