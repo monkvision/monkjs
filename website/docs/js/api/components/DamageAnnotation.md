@@ -11,11 +11,11 @@ by moving and resizing it to match a damage.
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/react-native/latest.svg)
 
 ```yarn
-yarn add @monkvision/react-native
+yarn add @monkvision/visualization
 ```
 
 ``` javascript
-import { DamageAnnotation } from '@monkvision/react-native';
+import { DamageAnnotation } from '@monkvision/visualization';
 ```
 
 ``` javascript

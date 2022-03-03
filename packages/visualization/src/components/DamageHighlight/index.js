@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Platform, View } from 'react-native';
 import { ClipPath, Defs, Polygon, Svg, Text } from 'react-native-svg';
 import PropTypes from 'prop-types';
@@ -20,8 +20,6 @@ function DamageHighlight(
   const [ratioX, ratioY] = getSvgRatio;
 
   const {
-    handleDrag,
-    handlePress,
     position,
     zoom,
     showPolygon,
@@ -29,9 +27,6 @@ function DamageHighlight(
     getColor,
     measureText,
   } = useDamageHighlightEvents({ image, touchable, ratioX, ratioY });
-
-  const handleMouseUp = useCallback((e) => handlePress(e, 'up'), [handlePress]);
-  const handleMouseDown = useCallback((e) => handlePress(e, 'down'), [handlePress]);
 
   const ref = Platform.select({
     native: {
@@ -47,13 +42,13 @@ function DamageHighlight(
       <Polygon
         key={`${image.id}-polygon-${String(index)}`}
         points={p.map((card) => `${(card[0])},${(card[1])}`).join(' ')}
-        stroke={color}
+        stroke={polygonsProps.stroke.color}
         fillOpacity={0} // On the web, by default it is fill in black
         strokeWidth={Math.max(polygonsProps.stroke.strokeWidth, image.width * 0.0005)}
         strokeDasharray={damage.damageType === 'dent' ? '5, 5' : ''}
       />
     ))
-  ), [damage, color, polygons, image.id, image.width, polygonsProps.stroke]);
+  ), [damage, polygons, image.id, image.width, polygonsProps.stroke]);
 
   const tagPos = useMemo(() => ({
     x: polygons.reduce((prev, curr) => (

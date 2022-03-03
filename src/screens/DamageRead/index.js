@@ -280,12 +280,12 @@ export default () => {
                     <DamageHighlight
                       image={getImage(image)}
                       polygons={getPolygons(image.id, damageViews)[0]}
-                      backgroundOpacity={1}
+                      backgroundOpacity={0.1}
                       polygonsProps={{
                         opacity: 1,
                         stroke: {
                           color: '#ec00ff',
-                          strokeWidth: 2,
+                          strokeWidth: 2.5,
                         },
                       }}
                       savePng={handleZoom}

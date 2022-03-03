@@ -62,7 +62,10 @@ export default function useImageDamage(image, originalWidth) {
     const hrefReg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
     const widthReg = /width=(["'])(?:(?=(\\?))\2.)*?\1/;
     const heightReg = /height=(["'])(?:(?=(\\?))\2.)*?\1/;
-    const svgSerialized = serialize.replaceAll(hrefReg, `href="${b64}"`).replace(widthReg, `width="${img.width}"`).replace(heightReg, `height="${img.height}"`);
+    const svgSerialized = serialize
+      .replaceAll(hrefReg, `href="${b64}"`)
+      .replace(widthReg, `width="${img.width}"`)
+      .replace(heightReg, `height="${img.height}"`);
     const imgSrc = (`data:image/svg+xml;base64,${window.btoa(svgSerialized)}`);
 
     return new Promise((resolve, reject) => {
@@ -81,7 +84,7 @@ export default function useImageDamage(image, originalWidth) {
         const context = canvas.getContext('2d');
         context.drawImage(imageHtml, 0, 0);
         const url = canvas.toDataURL('image/png');
-        // Call the callback with the png picture
+
         resolve(url);
       };
 
@@ -89,14 +92,13 @@ export default function useImageDamage(image, originalWidth) {
     });
   };
 
-  const svgToPngNative = (ref, w, h, id) => new Promise((resolve, reject) => {
+  const svgToPngNative = (ref, w, h) => new Promise((resolve) => {
     if (ref) {
       ref?.toDataURL(
         (base64) => resolve(`data:image/png;base64,${base64}`),
         { width: w, height: h },
       );
     }
-    reject(new Error('Picture could not be loaded'));
   });
 
   /**

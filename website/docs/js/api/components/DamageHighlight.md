@@ -36,7 +36,9 @@ const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
 
 The component's properties are from the result of an inspection. Both of them are a part of `inspection.images`.
 
-#Props
+---
+
+# Props
 ## backgroundOpacity
 `PropTypes.number`
 
@@ -117,35 +119,49 @@ The `generated image` is the only argument of the callback function on base64 fo
 
 Allows to set the image's displayed width. The height will be computed afterwards
 
+---
 # Methods
 ## useDamageImage
 ### svgToPng
 
-Convert the svg to a png image. Depending on the device, the function can have different arguments
+Convert the svg to a png image. Depending on the device, the function can have different arguments, and it returns a Promise of the url of the generated png image
+
+```js
+const { svgToPng } = useDamageImage(image, width);
+```
 
 #### Web
 
 > For the web version, the svg must have an id linked to it, to be able to retrieve it
 
-| Name       | Type   | Props        | Description                                                |
-|------------|--------|--------------|------------------------------------------------------------|
-| `image`    | Image  |              | Current image without polygons or labels                   |
-| `id`       | String |              | id of the current image                                    |
-| `callback` | Views  | (base64, id) | Callback that allows to manipulate the generated png image |
+| Name       | Type            | Description                                                 |
+|------------|-----------------|-------------------------------------------------------------|
+| `image`    | [Image](#image) | Current image without polygons or labels                    |
+| `id`       | String          | id of the current image                                     |
 
+**Example:**
+```js
+  const url = await saveSvg(image, id);
+
+  <Svg id={id}>(...)</Svg>
+```
 
 #### Native
 
 > For the native version, the svg must have a reference linked to it to be able to retrieve it
 
-| Name       | Type   | Props        | Description                                                |
-|------------|--------|--------------|------------------------------------------------------------|
-| `ref`      | Ref    |              | reference of the svg with the image                        |
-| `width`    | String |              | width of the image                                         |
-| `height`   | String |              | height of the image                                        |
-| `id`       | String |              | id of the current image                                    |
-| `callback` | Views  | (base64, id) | Callback that allows to manipulate the generated png image |
+| Name       | Type   | Description                         |
+|------------|--------|-------------------------------------|
+| `ref`      | Ref    | reference of the svg with the image |
+| `width`    | Number | original width of the image         |
+| `height`   | Number | original height of the image        |
 
+**Example:**
+```js
+  const url = await saveSvg(svgRef, width, height);
+
+  <Svg ref={(ref) => setSvgRef(ref)}>(...)</Svg>
+```
 
 ## usePolygons
 
@@ -166,9 +182,9 @@ Get all polygons linked to an image and return a [list of polygons](#polygons)
 
 Format an `image` to a classical [image](#image) object
 
-| Name    | Type     | Description             |
-|---------|----------|-------------------------|
-| `image` | Image    | Inspection image object |
+| Name    | Type            | Description             |
+|---------|-----------------|-------------------------|
+| `image` | [Image](#image) | Inspection image object |
 
 ### Example
 ``` javascript
