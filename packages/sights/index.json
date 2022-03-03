@@ -1,4 +1,28 @@
 {
+  "IqwSM3": {
+    "category": "interior",
+    "id": "IqwSM3",
+    "label": "front seats",
+    "vehicleType": "undefined"
+  },
+  "rSvk2C": {
+    "category": "interior",
+    "id": "rSvk2C",
+    "label": "dashboard",
+    "vehicleType": "undefined"
+  },
+  "rj5mhm": {
+    "category": "interior",
+    "id": "rj5mhm",
+    "label": "back seats",
+    "vehicleType": "undefined"
+  },
+  "qhKA2z": {
+    "category": "interior",
+    "id": "qhKA2z",
+    "label": "trunk",
+    "vehicleType": "undefined"
+  },
   "sLu0CfOt": {
     "category": "misc",
     "centerParts": [],

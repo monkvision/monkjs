@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
 import { utils } from '@monkvision/toolkit';
@@ -10,23 +10,9 @@ import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
-const { getSize } = utils.styles;
+import styles from './styles';
 
-const styles = StyleSheet.create({
-  title: {
-    alignSelf: 'center',
-    backgroundColor: 'rgba(0,0,0,0.75)',
-    borderRadius: 18,
-    color: 'white',
-    fontFamily: 'monospace',
-    fontSize: 14,
-    lineHeight: 9,
-    marginTop: 4,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    position: 'absolute',
-  },
-});
+const { getSize } = utils.styles;
 
 export default function Camera({
   children,

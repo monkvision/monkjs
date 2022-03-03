@@ -1,20 +1,21 @@
+import axios from 'axios';
 import { useCallback, useMemo } from 'react';
 import { monkApi } from '@monkvision/corejs';
 import { Platform } from 'react-native';
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
-import Constants from '../../const';
 import Actions from '../../actions';
+import Constants from '../../const';
 
-import getWebFileDataAsync from '../../utils/getWebFileDataAsync';
 import log from '../../utils/log';
+import getOS from '../../utils/getOS';
 
-function blobToBase64(blob) {
-  return new Promise((resolve, _) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.readAsDataURL(blob);
-  });
-}
+const COVERAGE_360_WHITELIST = [
+  'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
+  'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
+  'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
+  'AoO-nOoM', 'B5s1CWT-',
+];
 
 /**
  * @param current
@@ -33,23 +34,17 @@ export function useTitle({ current }) {
 
 /**
  * @param camera
- * @param current
- * @param settings
- * @param sights
  * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
-export function useTakePictureAsync({ camera, current, settings, sights }) {
+export function useTakePictureAsync({ camera }) {
   return useCallback(async (options = {
     quality: 1,
     base64: true,
     exif: true,
   }) => {
-    let blob;
-    let picture = { uri: '' };
-
     log([`Awaiting picture to be taken...`]);
 
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' && getOS() !== 'iOS') {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' },
       });
@@ -57,28 +52,51 @@ export function useTakePictureAsync({ camera, current, settings, sights }) {
       const track = mediaStream.getVideoTracks()[0];
       const imageCapture = new ImageCapture(track);
 
-      blob = await imageCapture.takePhoto();
+      const blob = await imageCapture.takePhoto();
+      const uri = URL.createObjectURL(blob);
 
-      // const photoBitmap = await createImageBitmap(blob);
-      // console.log(photoBitmap);
+      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, uri]);
 
-      picture.uri = await blobToBase64(blob);
-    } else {
-      picture = await camera.takePictureAsync(options);
+      return { uri };
     }
+
+    const picture = await camera.takePictureAsync(options);
 
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
-    const payload = { id: current.id, picture: { ...settings, ...picture } };
-    sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
+    return picture;
+  }, [camera]);
+}
 
-    return Platform.select({ native: picture, default: blob });
-  }, [camera, current.id, settings, sights]);
+/**
+ * @param current
+ * @param settings
+ * @param sights
+ * @param uploads
+ * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
+ */
+export function useSetPictureAsync({ current, sights, uploads }) {
+  return useCallback(async (picture) => {
+    const uri = picture.localUri || picture.uri;
+
+    const actions = [{ resize: { width: 133 } }];
+    const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
+    const saveOptions = { compress: 1, format: saveFormat };
+    const imageResult = await manipulateAsync(uri, actions, saveOptions);
+
+    const payload = {
+      id: current.id,
+      picture: { uri: imageResult.uri },
+    };
+
+    sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
+    uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+  }, [current.id, sights, uploads]);
 }
 
 /**
  * @param sights
- * @return {((function(): void)|*)[]}
+ * @return {((function(): void))[]}
  */
 export function useNavigationBetweenSights({ sights }) {
   const goPrevSight = useCallback(() => {
@@ -93,14 +111,13 @@ export function useNavigationBetweenSights({ sights }) {
 }
 
 /**
- * @return {function(tasks=, compliances=): Promise<data>}
+ * @return {function(*=): Promise<*>}
  */
 export function useCreateDamageDetectionAsync() {
   return useCallback(async (
     tasks = { damage_detection: { status: 'NOT_STARTED' } },
-    compliances = { iqc_compliance: {} },
   ) => {
-    const result = await monkApi.inspections.createOne({ data: { tasks, compliances } });
+    const result = await monkApi.inspections.createOne({ data: { tasks } });
     return result.data;
   }, []);
 }
@@ -109,26 +126,64 @@ export function useCreateDamageDetectionAsync() {
  * @param inspectionId
  * @param sights
  * @param uploads
+ * @param task
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads }) {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {
   return useCallback(async (picture) => {
     const { dispatch } = uploads;
-
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { id, label } = sights.state.current.metadata;
+    const { current, ids } = sights.state;
+    const { id, label } = current.metadata;
 
     try {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, picture, status: 'pending', label },
+        payload: { id, status: 'pending', label },
       });
 
-      const data = await getWebFileDataAsync(picture, sights, inspectionId);
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); }
+
+      const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
+      const filename = `${id}-${inspectionId}.${fileType}`;
+      const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
+
+      const json = JSON.stringify({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: multiPartKeys.image,
+        },
+        compliances: {
+          image_quality_assessment: {},
+          coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+            sight_id: id,
+          } : undefined,
+        },
+        tasks: [task],
+        additional_data: {
+          ...current.metadata,
+          overlay: undefined,
+        },
+      });
+
+      const data = new FormData();
+      data.append(multiPartKeys.json, json);
+
+      const res = await axios.get(picture.uri, { responseType: 'blob' });
+
+      const file = await new File(
+        [res.data],
+        multiPartKeys.filename,
+        { type: multiPartKeys.type },
+      );
+
+      data.append(multiPartKeys.image, file);
+
       const result = await monkApi.images.addOne({ inspectionId, data });
 
       dispatch({
@@ -144,37 +199,37 @@ export function useStartUploadAsync({ inspectionId, sights, uploads }) {
         payload: { id, status: 'rejected', error: err },
       });
 
-      return err;
+      throw err;
     }
-  }, [inspectionId, sights, uploads]);
+  }, [inspectionId, sights, task, uploads, onFinish]);
 }
 
 /**
  * @param compliance
  * @param inspectionId
+ * @param sightId
  * @return {(function(pictureId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId }) {
-  return useCallback(async (pictureId) => {
+export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
+  return useCallback(async (imageId) => {
     const { dispatch } = compliance;
-    const id = pictureId;
 
-    if (!id) {
-      throw Error(`Please provide a valid "pictureId". Got ${id}.`);
+    if (!imageId) {
+      throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
     }
 
     try {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
         increment: true,
-        payload: { id, status: 'pending' },
+        payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monkApi.images.getOne({ inspectionId, imageId: id });
+      const result = await monkApi.images.getOne({ inspectionId, imageId });
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id, status: 'fulfilled', result },
+        payload: { id: sightId, status: 'fulfilled', result, imageId },
       });
 
       return result;
@@ -182,10 +237,10 @@ export function useCheckComplianceAsync({ compliance, inspectionId }) {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, status: 'rejected', error: err, result: null },
+        payload: { id: sightId, status: 'rejected', error: err, result: null, imageId },
       });
 
       return err;
     }
-  }, [compliance, inspectionId]);
+  }, [compliance, inspectionId, sightId]);
 }

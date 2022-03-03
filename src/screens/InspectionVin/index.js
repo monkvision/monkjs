@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,8 @@ import useVin from './hooks/useVin';
 import VinForm from './VinForm';
 import VinGuide from './VinGuide';
 
+const SNACKBAR_HEIGHT = 50;
+
 const styles = StyleSheet.create({
   root: {
     position: 'relative',
@@ -18,7 +20,6 @@ const styles = StyleSheet.create({
   },
   snackbar: {
     position: 'absolute',
-    bottom: 0,
   },
   snackbarButton: {
     color: '#FFF',
@@ -38,9 +39,8 @@ export default () => {
     vin,
     status,
     requiredFields,
-    handleUploadVin,
+    handleCapture,
     handleOpenVinCameraOrRetake,
-    handleCloseVinCamera,
     inspectionIsLoading,
     isUploading,
     ocrIsLoading,
@@ -52,25 +52,8 @@ export default () => {
     errorSnackbar,
   } = useVin({ vinSight });
 
-  const [loading, setLoading] = useState();
-
-  const handleCapture = useCallback(async (state, api, event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    const { takePictureAsync } = api;
-
-    setTimeout(async () => {
-      const picture = await takePictureAsync();
-      await handleUploadVin(picture);
-
-      setLoading(false);
-      handleCloseVinCamera();
-    }, 200);
-  }, [handleCloseVinCamera, handleUploadVin]);
-
   const controls = [{
-    disabled: loading,
+    disabled: camera.loading,
     onPress: handleCapture,
     ...Controls.CaptureButtonProps,
   }];
@@ -96,8 +79,9 @@ export default () => {
       <Capture
         inspectionId={inspectionId}
         sightIds={['sLu0CfOt']}
-        loading={loading}
+        loading={camera.loading}
         controls={controls}
+        task={{ name: 'images_ocr', image_details: { image_type: 'VIN' } }}
       />
     );
   }
@@ -115,17 +99,25 @@ export default () => {
         isUploading={!!isUploading}
         onOpenGuide={guide.handleToggleOn}
         onOpenCamera={handleOpenVinCameraOrRetake}
-        onOpenErrorSnackbar={errorSnackbar.handleToggleOn}
+        onAddErrorSnackbar={errorSnackbar.handleAddErrorSnackbar}
         onRenitializeInspection={createInspection}
       />
-      <Snackbar
-        visible={errorSnackbar.value}
-        onDismiss={errorSnackbar.handleToggleOff}
-        style={[{ backgroundColor: theme.colors.error }, styles.snackbar]}
-        action={{ label: 'Ok', onPress: errorSnackbar.handleToggleOff, labelStyle: styles.snackbarButton }}
-      >
-        Request failed, please try again.
-      </Snackbar>
+
+      {errorSnackbar.value?.length ? errorSnackbar.value.map((error, index) => (
+        <Snackbar
+          key={error.title}
+          visible={errorSnackbar.value}
+          onDismiss={() => errorSnackbar.handleCloseErrorSnackbar(error, index)}
+          style={[
+            { backgroundColor: theme.colors.error, bottom: index * SNACKBAR_HEIGHT },
+            styles.snackbar]}
+          action={{ label: 'Ok',
+            onPress: () => errorSnackbar.handleCloseErrorSnackbar(error, index),
+            labelStyle: styles.snackbarButton }}
+        >
+          {error.title}
+        </Snackbar>
+      )) : null}
     </SafeAreaView>
   );
 };

@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Platform } from 'react-native';
 import { denormalize } from 'normalizr';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -12,7 +11,7 @@ import {
 import { useInterval, useFakeActivity, useToggle } from '@monkvision/toolkit';
 
 import useRequest from 'hooks/useRequest';
-import useUpload from 'hooks/useUpload';
+import { LANDING } from 'screens/names';
 
 const REFRESH_DELAY = 3000;
 
@@ -26,21 +25,40 @@ const payload = {
   },
 };
 
-export default function useVin({ vinSight }) {
+export default function useVin() {
   const navigation = useNavigation();
 
   const [inspectionId, setInspectionId] = useState(null);
   const [vinPicture, setVinPicture] = useState();
 
   const [camera, toggleOnCamera, toggleOffCamera] = useToggle();
+  const [cameraLoading, toggleOnCameraLoading, toggleOffCameraLoading] = useToggle();
   const [uploading, toggleOnUploading, toggleOffUploading] = useToggle();
   const [guideIsOpen, handleOpenGuide, handleCloseGuide] = useToggle();
-  const [snackbarIsvVisible, handleOpenErrorSnackbar, handleDismissErrorSnackbar] = useToggle();
+  const [errorSnackbar, setErrorSnackbar] = useState([]);
+
+  // add error
+  const handleAddErrorSnackbar = useCallback(
+    (err) => setErrorSnackbar((prev) => [...prev, err]), [],
+  );
+  // remove error
+  const handleRemoveErrorSnackbar = useCallback(
+    (index) => setErrorSnackbar((prev) => prev.filter((_, preIndex) => preIndex !== index)), [],
+  );
+  // error action
+  const handleCloseErrorSnackbar = useCallback(
+    (error, index) => {
+      handleRemoveErrorSnackbar(index);
+      error?.callback?.();
+    }, [handleRemoveErrorSnackbar],
+  );
 
   // createInspection callbacks
   const callbacks = {
     onSuccess: ({ result }) => setInspectionId(result),
-    onError: handleOpenErrorSnackbar,
+    onError: () => handleAddErrorSnackbar({
+      title: 'Failed to create the inspection, please go back and try again',
+      callback: () => navigation.navigate(LANDING) }),
   };
 
   const {
@@ -82,6 +100,7 @@ export default function useVin({ vinSight }) {
     if (lastOcrTask?.status !== taskStatuses.DONE && vinPicture) { return REFRESH_DELAY; }
     return null;
   }, [lastOcrTask, vinPicture]);
+
   useInterval(refresh, delay);
 
   // ocr payload
@@ -90,7 +109,8 @@ export default function useVin({ vinSight }) {
     request: startOcr,
     isLoading: ocrLoading,
   } = useRequest(updateOneTaskOfInspection(ocrPayload),
-    { onSuccess: refresh, onError: handleOpenErrorSnackbar }, false);
+    { onSuccess: refresh,
+      onError: () => handleAddErrorSnackbar({ title: 'Failed to start OCR task, please try retake the vin picture' }) }, false);
 
   // we clear the current vinPicture and we proceed to camera to take another one
   // by hiding the navigation header
@@ -112,21 +132,31 @@ export default function useVin({ vinSight }) {
    * and we display the vin picture
    * on error we toggle off the uploading state, and we open the error snackbar
    */
-  const upload = useUpload({
-    inspectionId,
-    onSuccess: (_, uri) => { startOcr(); toggleOffUploading(); setVinPicture(uri); },
-    onLoading: toggleOnUploading,
-    onError: () => { toggleOffUploading(); handleOpenErrorSnackbar(); },
-    taskName: {
-      name: 'images_ocr',
-      image_details: {
-        image_type: 'VIN',
-      } },
-  });
+  const handleCapture = useCallback(async (state, api, event) => {
+    event.preventDefault();
 
-  const handleUploadVin = useCallback(async (pic) => {
-    await upload(Platform.OS === 'web' ? pic.base64 : pic.uri, vinSight[0].id);
-  }, [upload, vinSight]);
+    const { takePictureAsync, startUploadAsync } = api;
+    toggleOnCameraLoading();
+    const picture = await takePictureAsync();
+    toggleOnUploading();
+
+    try {
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) {
+        startOcr();
+        setVinPicture(picture.uri);
+      }
+      handleCloseVinCamera();
+      toggleOffCameraLoading();
+      toggleOffUploading();
+    } catch (error) {
+      handleCloseVinCamera();
+      toggleOffCameraLoading();
+      toggleOffUploading();
+      handleAddErrorSnackbar({ title: 'Failed to upload the picture, please try again' });
+    }
+  }, [handleCloseVinCamera, handleAddErrorSnackbar, startOcr,
+    toggleOffCameraLoading, toggleOffUploading, toggleOnCameraLoading, toggleOnUploading]);
 
   const [inspectionIsLoading] = useFakeActivity(isLoading);
   const [isUploading] = useFakeActivity(uploading);
@@ -136,7 +166,7 @@ export default function useVin({ vinSight }) {
     status: lastOcrTask?.status,
     vin: { value: vin, picture: vinPicture, setPicture: setVinPicture },
     requiredFields: updateVehicleRequiredFields,
-    handleUploadVin,
+    handleCapture,
     handleOpenVinCameraOrRetake,
     handleCloseVinCamera,
     inspectionIsLoading,
@@ -154,6 +184,7 @@ export default function useVin({ vinSight }) {
       value: camera,
       handleToggleOn: toggleOnCamera,
       handleToggleOff: toggleOffCamera,
+      loading: cameraLoading,
     },
     uploading: {
       value: uploading,
@@ -161,9 +192,10 @@ export default function useVin({ vinSight }) {
       handleToggleOff: toggleOffUploading,
     },
     errorSnackbar: {
-      value: snackbarIsvVisible,
-      handleToggleOn: handleOpenErrorSnackbar,
-      handleToggleOff: handleDismissErrorSnackbar,
+      value: errorSnackbar,
+      handleAddErrorSnackbar,
+      handleRemoveErrorSnackbar,
+      handleCloseErrorSnackbar,
     },
   };
 }

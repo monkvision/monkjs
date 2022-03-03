@@ -20,7 +20,7 @@ export default function ValidationDialog({ screen, requests, inspectionId }) {
     isUploading,
   } = screen.state;
 
-  const { savePictures } = requests;
+  const { savePictures, updateTask } = requests;
 
   const handleDismiss = useCallback(() => {
     navigation.navigate(INSPECTION_READ, { inspectionId });
@@ -60,13 +60,13 @@ export default function ValidationDialog({ screen, requests, inspectionId }) {
             {savePictures.isSaved ? 'Photos Saved !' : 'Save in device'}
           </Button>
           <Button
-            onPress={screen.handleNext}
+            onPress={() => updateTask.request()}
             mode="contained"
             labelStyle={{ color: 'white' }}
             color={theme.colors.success}
             style={styles.button}
           >
-            See inspection
+            Start inspection
           </Button>
         </Dialog.Actions>
       </Dialog>
