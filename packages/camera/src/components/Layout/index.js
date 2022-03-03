@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'black',
+    overflow: 'hidden',
   },
   section: {
     ...Platform.select({

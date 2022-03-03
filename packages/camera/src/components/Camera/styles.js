@@ -9,10 +9,10 @@ export default StyleSheet.create({
     fontFamily: 'monospace',
     fontSize: 14,
     lineHeight: 9,
-    marginTop: 4,
     paddingHorizontal: 16,
     paddingVertical: 6,
     position: 'absolute',
+    top: 10,
   },
   overCamera: {
     position: 'absolute',

@@ -53,7 +53,7 @@ export default function Camera({
   return (
     <View
       accessibilityLabel="Camera container"
-      style={[containerStyle, size]}
+      style={[containerStyle, { height: '100%' }]}
     >
       <Webcam
         audio={false}
@@ -65,13 +65,18 @@ export default function Camera({
         screenshotFormat="image/webp"
         screenshotQuality={1}
         videoConstraints={videoConstraints}
-        style={size}
+        style={{ ...size, height: '100%' }}
         {...passThroughProps}
       />
       <View style={[styles.overCamera, size]}>
         {children}
       </View>
-      {title !== '' && <Text style={styles.title}>{title}</Text>}
+      {title !== '' && (
+      <Text style={styles.title}>
+        {title}
+        pooop
+      </Text>
+      )}
     </View>
   );
 }
