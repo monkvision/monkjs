@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { monkApi } from '@monkvision/corejs';
+import monk from '@monkvision/corejs/src';
 import { Platform } from 'react-native';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
@@ -104,7 +104,7 @@ export function useCreateDamageDetectionAsync() {
   return useCallback(async (
     tasks = { damage_detection: { status: 'NOT_STARTED' } },
   ) => {
-    const result = await monkApi.inspections.createOne({ data: { tasks } });
+    const result = await monk.entity.inspection.upsertOne({ data: { tasks } });
     return result.data;
   }, []);
 }
@@ -171,7 +171,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         data.append(multiPartKeys.image, file);
       }
 
-      const result = await monkApi.images.addOne({ inspectionId, data });
+      const result = await monk.entity.image.addOne({ inspectionId, data });
 
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
@@ -212,7 +212,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monkApi.images.getOne({ inspectionId, imageId });
+      const result = await monk.entity.image.getOne({ inspectionId, imageId });
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
