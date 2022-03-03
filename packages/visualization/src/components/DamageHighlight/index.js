@@ -27,6 +27,7 @@ function DamageHighlight(
     showPolygon,
     color,
     getColor,
+    measureText,
   } = useDamageHighlightEvents({ image, touchable, ratioX, ratioY });
 
   const handleMouseUp = useCallback((e) => handlePress(e, 'up'), [handlePress]);
@@ -34,7 +35,10 @@ function DamageHighlight(
 
   const ref = Platform.select({
     native: {
-      ref: (svgRef) => svgToPng(svgRef, image.width, image.height, image.id, savePng),
+      ref: (svgRef) => {
+        svgToPng(svgRef, image.width, image.height, image.id)
+          .then((url) => savePng(url, image.id));
+      },
     },
   });
 
@@ -58,14 +62,21 @@ function DamageHighlight(
     y: polygons.reduce((prev, curr) => (
       Math.min(prev, curr.reduce((p, c) => (
         Math.min(p, c[1])), Number.MAX_VALUE))), Number.MAX_VALUE),
-  }), [polygons]);
+    maxY: polygons.reduce((prev, curr) => (
+      Math.max(prev, curr.reduce((p, c) => (
+        Math.max(p, c[1])), Number.MIN_VALUE))), Number.MIN_VALUE) + image.height * 0.02,
+  }), [image.height, polygons]);
 
   // useEffect(() => {
   //   getColor();
   // }, []);
 
   useEffect(() => {
-    if (Platform.OS === 'web') { svgToPng(image, image.id, savePng); }
+    if (Platform.OS === 'web') {
+      svgToPng(image, image.id).then((url) => {
+        savePng(url, image.id);
+      });
+    }
   }, [image, savePng, svgToPng, color]);
 
   if (!image) {
@@ -91,7 +102,7 @@ function DamageHighlight(
         source={image.source}
         opacity={showPolygon || !isEmpty(polygons) ? backgroundOpacity : 1}
       />
-      <Text paintOrder="stroke" stroke="black" strokeWidth={5} fill="white" fontSize={image.width * 0.02} x={tagPos.x} y={tagPos.y - image.height * 0.02} textAnchor="start">{damage.damageType.charAt(0).toUpperCase() + damage.damageType.slice(1).replace(/[-_]/g, ' ')}</Text>
+      <Text paintOrder="stroke" stroke="black" strokeWidth={5} fill="white" fontSize={image.width * 0.02} x={tagPos.x} y={(tagPos.y - image.height * 0.02) <= 0 ? tagPos.maxY : tagPos.y} textAnchor={(tagPos.x + measureText(damage.damageType, image.width * 0.02)) >= image.width ? 'end' : 'start'}>{damage.damageType.charAt(0).toUpperCase() + damage.damageType.slice(1).replace(/[-_]/g, ' ')}</Text>
       {showPolygon && (
         <>
           {/* Show Damages Polygon */}

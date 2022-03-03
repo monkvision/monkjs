@@ -56,7 +56,7 @@ export default function useImageDamage(image, originalWidth) {
     return `data:image/png;base64,${window.btoa(binary)}`;
   };
 
-  const svgToPngWeb = async (img, id, callback) => {
+  const svgToPngWeb = async (img, id) => {
     const serialize = new XMLSerializer().serializeToString(document.getElementById(`svg-${id}`));
     const b64 = await imageToBase64(img);
     const hrefReg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
@@ -64,37 +64,44 @@ export default function useImageDamage(image, originalWidth) {
     const heightReg = /height=(["'])(?:(?=(\\?))\2.)*?\1/;
     const svgSerialized = serialize.replaceAll(hrefReg, `href="${b64}"`).replace(widthReg, `width="${img.width}"`).replace(heightReg, `height="${img.height}"`);
     const imgSrc = (`data:image/svg+xml;base64,${window.btoa(svgSerialized)}`);
-    const imageHtml = new Image();
 
-    imageHtml.crossOrigin = 'anonymous';
+    return new Promise((resolve, reject) => {
+      const imageHtml = new Image();
 
-    imageHtml.onerror = () => {
-      console.error('Picture could not load');
-    };
+      imageHtml.crossOrigin = 'anonymous';
 
-    imageHtml.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const context = canvas.getContext('2d');
-      context.drawImage(imageHtml, 0, 0);
-      const t = canvas.toDataURL('image/png');
-      // Call the callback with the png picture
-      callback(t, id);
-    };
+      imageHtml.onerror = () => {
+        reject(new Error('Picture could not be loaded'));
+      };
 
-    imageHtml.src = imgSrc;
+      imageHtml.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const context = canvas.getContext('2d');
+        context.drawImage(imageHtml, 0, 0);
+        const url = canvas.toDataURL('image/png');
+        // Call the callback with the png picture
+        resolve(url);
+      };
+
+      imageHtml.src = imgSrc;
+    });
   };
 
-  const svgToPngNative = (ref, w, h, id, callback) => {
+  const svgToPngNative = (ref, w, h, id) => new Promise((resolve, reject) => {
     if (ref) {
       ref?.toDataURL(
-        (base64) => callback(`data:image/png;base64,${base64}`, id),
+        (base64) => resolve(`data:image/png;base64,${base64}`),
         { width: w, height: h },
       );
     }
-  };
+    reject(new Error('Picture could not be loaded'));
+  });
 
+  /**
+   * @type {function(*, *, *, *): Promise<unknown> | Promise.Promise}
+   */
   const svgToPng = Platform.select({
     web: svgToPngWeb,
     native: svgToPngNative,
