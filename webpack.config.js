@@ -1,6 +1,5 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
 const path = require('path');
-const webpack = require('webpack');
 
 // Expo CLI will await this method so you can optionally return a promise.
 // eslint-disable-next-line func-names
@@ -29,12 +28,6 @@ module.exports = async function (env, argv) {
   if (config.mode === 'production') {
     config.optimization.minimize = true;
   }
-
-  const ImageCapture = new webpack.ProvidePlugin({
-    imageCapturePolyfill: 'image-capture',
-  });
-
-  config.plugins.push(ImageCapture);
 
   return config;
 };

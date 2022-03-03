@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
       default: { height: '100vh' },
     }),
     alignItems: 'center',
+    overflow: 'hidden',
   },
   fullScreenButtonContainer: {
     justifyContent: 'center',
@@ -118,11 +119,13 @@ function Layout({
   const mobileBrowserIsPortrait = useMobileBrowserConfig();
   const orientation = useOrientation('landscape');
   const [grantedLandscape, grantLandscape] = useState(false);
+
   const showOrientationBLocker = useMemo(() => (
-    !['Mac OS', 'Windows', 'Linux'].includes(getOS())
+    Platform.OS === 'web'
+    && (!['Mac OS', 'Windows', 'Linux'].includes(getOS())
     && (!grantedLandscape
     || mobileBrowserIsPortrait
-    || (isNative && orientation.isNotLandscape))
+    || (isNative && orientation.isNotLandscape)))
   ), [grantedLandscape, isNative, mobileBrowserIsPortrait, orientation.isNotLandscape]);
 
   if (showOrientationBLocker) {

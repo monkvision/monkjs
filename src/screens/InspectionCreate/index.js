@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native';
 
 import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
@@ -60,16 +61,18 @@ export default () => {
   const uploads = useUploads({ sightIds: Capture.defaultSightIds });
 
   return (
-    <Capture
-      inspectionId={inspectionId}
-      controls={controls}
-      loading={loading}
-      uploads={uploads}
-      renderOnFinish={UploadCenter}
-      submitButtonProps={{
-        title: 'Next',
-        onPress: handleSuccess,
-      }}
-    />
+    <SafeAreaView>
+      <Capture
+        inspectionId={inspectionId}
+        controls={controls}
+        loading={loading}
+        uploads={uploads}
+        renderOnFinish={UploadCenter}
+        submitButtonProps={{
+          title: 'Next',
+          onPress: handleSuccess,
+        }}
+      />
+    </SafeAreaView>
   );
 };

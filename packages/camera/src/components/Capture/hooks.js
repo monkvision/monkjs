@@ -1,4 +1,4 @@
-import { ImageCapture } from 'image-capture';
+import axios from 'axios';
 import { useCallback, useMemo } from 'react';
 import { monkApi } from '@monkvision/corejs';
 import { Platform } from 'react-native';
@@ -8,6 +8,7 @@ import Actions from '../../actions';
 import Constants from '../../const';
 
 import log from '../../utils/log';
+import getOS from '../../utils/getOS';
 
 const COVERAGE_360_WHITELIST = [
   'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
@@ -43,7 +44,7 @@ export function useTakePictureAsync({ camera }) {
   }) => {
     log([`Awaiting picture to be taken...`]);
 
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' && getOS() !== 'iOS') {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' },
       });
@@ -173,18 +174,15 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
       const data = new FormData();
       data.append(multiPartKeys.json, json);
 
-      if (Platform.OS === 'web') {
-        const res = await fetch(picture.uri);
-        const blob = await res.blob();
+      const res = await axios.get(picture.uri, { responseType: 'blob' });
 
-        const file = await new File(
-          [blob],
-          multiPartKeys.filename,
-          { type: multiPartKeys.type },
-        );
+      const file = await new File(
+        [res.data],
+        multiPartKeys.filename,
+        { type: multiPartKeys.type },
+      );
 
-        data.append(multiPartKeys.image, file);
-      }
+      data.append(multiPartKeys.image, file);
 
       const result = await monkApi.images.addOne({ inspectionId, data });
 
