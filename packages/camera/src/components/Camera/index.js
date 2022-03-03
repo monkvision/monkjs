@@ -1,42 +1,32 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, useWindowDimensions } from 'react-native';
-import Webcam from 'react-webcam';
+
+import { Text, View } from 'react-native';
+import { Camera as ExpoCamera } from 'expo-camera';
 
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
 import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 import styles from './styles';
 
 const { getSize } = utils.styles;
 
-const videoConstraints = {
-  facingMode: 'environment',
-};
-
 export default function Camera({
   children,
   containerStyle,
-  onCameraReady,
   onRef,
   ratio,
   style,
   title,
   ...passThroughProps
 }) {
-  const webcamRef = React.useRef(null);
-
   const available = useAvailable();
   const permissions = usePermissions();
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
-  const size = getSize(ratio, { windowHeight, windowWidth }, 'native');
-
-  const handleUserMedia = useCallback(() => {
-    onRef(webcamRef);
-    onCameraReady(webcamRef);
-  }, [onCameraReady, onRef]);
+  const size = getSize(ratio, { windowHeight, windowWidth });
 
   const handleError = useCallback((error) => {
     log([error], 'error');
@@ -55,22 +45,14 @@ export default function Camera({
       accessibilityLabel="Camera container"
       style={[containerStyle, size]}
     >
-      <Webcam
-        audio={false}
-        forceScreenshotSourceSize
-        imageSmoothing={false}
-        ref={webcamRef}
-        onUserMedia={handleUserMedia}
-        onUserMediaError={handleError}
-        screenshotFormat="image/webp"
-        screenshotQuality={1}
-        videoConstraints={videoConstraints}
-        style={size}
+      <ExpoCamera
+        ref={onRef}
+        ratio={ratio}
+        onMountError={handleError}
         {...passThroughProps}
-      />
-      <View style={[styles.overCamera, size]}>
+      >
         {children}
-      </View>
+      </ExpoCamera>
       {title !== '' && <Text style={styles.title}>{title}</Text>}
     </View>
   );
@@ -79,7 +61,6 @@ export default function Camera({
 Camera.propTypes = {
   children: PropTypes.element,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onCameraReady: PropTypes.func.isRequired,
   onRef: PropTypes.func.isRequired,
   ratio: PropTypes.string.isRequired,
   title: PropTypes.string,

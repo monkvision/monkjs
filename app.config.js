@@ -46,5 +46,9 @@ export default {
     AUTH_AUDIENCE: 'https://api.monk.ai/v1/',
     AUTH_CLIENT_ID: 'DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L',
     AUTH_DOMAIN: 'idp.staging.monk.ai',
+    // API_DOMAIN: 'api.preview.monk.ai/v1',
+    // AUTH_AUDIENCE: 'https://api.monk.ai/v1/',
+    // AUTH_CLIENT_ID: 'soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn',
+    // AUTH_DOMAIN: 'idp.preview.monk.ai',
   },
 };

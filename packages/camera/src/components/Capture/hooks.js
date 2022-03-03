@@ -1,3 +1,4 @@
+import { ImageCapture } from 'image-capture';
 import { useCallback, useMemo } from 'react';
 import { monkApi } from '@monkvision/corejs';
 import { Platform } from 'react-native';
@@ -43,7 +44,18 @@ export function useTakePictureAsync({ camera }) {
     log([`Awaiting picture to be taken...`]);
 
     if (Platform.OS === 'web') {
-      const uri = await camera.current.getScreenshot();
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
+
+      const track = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(track);
+
+      const blob = await imageCapture.takePhoto();
+      const uri = URL.createObjectURL(blob);
+
+      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, uri]);
+
       return { uri };
     }
 
