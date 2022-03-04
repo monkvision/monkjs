@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native';
 
@@ -6,6 +6,8 @@ import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
+import { useToggle, useTimeout } from '@monkvision/toolkit';
+import { Loader } from '@monkvision/ui';
 
 const sightIds = [
   'WKJlxkiF', // Beauty Shot
@@ -35,7 +37,16 @@ export default () => {
   const screen = useScreen(inspectionId);
   const requests = useRequests(screen);
 
-  const [loading, setLoading] = useState();
+  const [cameraloading, setCameraLoading] = useState();
+  const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
+  const [, setSightIdsForRetake] = useState(sightIds);
+
+  // for now we can get the all sights ids of pictures to retale
+  // TODO: reset uploads state `onRetaleAll` so we can open the camera with only the bad sights ids
+
+  // refresh camera (Useful for retake)
+  const delay = useMemo(() => (loading ? 300 : null), [loading]);
+  useTimeout(toggleOffLoading, delay);
 
   const handleSuccess = useCallback(() => {
     requests.updateTask.request();
@@ -43,7 +54,7 @@ export default () => {
 
   const handleCapture = useCallback(async (state, api, event) => {
     event.preventDefault();
-    setLoading(true);
+    setCameraLoading(true);
 
     const {
       takePictureAsync,
@@ -63,9 +74,9 @@ export default () => {
       const upload = await startUploadAsync(picture);
       if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
 
-      setLoading(false);
+      setCameraLoading(false);
     } else {
-      setLoading(false);
+      setCameraLoading(false);
       goNextSight();
 
       const upload = await startUploadAsync(picture);
@@ -74,12 +85,14 @@ export default () => {
   }, []);
 
   const controls = [{
-    disabled: loading,
+    disabled: cameraloading,
     onPress: handleCapture,
     ...Controls.CaptureButtonProps,
   }];
 
   const uploads = useUploads({ sightIds });
+
+  if (loading) { return <Loader />; }
 
   return (
     <SafeAreaView>
@@ -87,9 +100,17 @@ export default () => {
         sightIds={sightIds}
         inspectionId={inspectionId}
         controls={controls}
-        loading={loading}
+        loading={cameraloading}
         uploads={uploads}
-        renderOnFinish={UploadCenter}
+        renderOnFinish={(props) => (
+          <UploadCenter
+            {...props}
+            onRetakeAll={(sightsIdsToRetake) => {
+              toggleOnLoading();
+              setSightIdsForRetake(sightsIdsToRetake);
+            }}
+          />
+        )}
         submitButtonProps={{
           title: 'Skip Retaking',
           onPress: handleSuccess,
