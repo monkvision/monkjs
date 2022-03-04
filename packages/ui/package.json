@@ -2,7 +2,7 @@
   "name": "@monkvision/ui",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "private": false,
   "description": "AI-powered vehicle damage detection for React Native",
   "homepage": "https://github.com/monkvision/monkjs/packages/ui/#readme",
@@ -51,7 +51,7 @@
     "release-it": "*"
   },
   "peerDependencies": {
-    "@monkvision/toolkit": "1.4.1",
+    "@monkvision/toolkit": "1.4.2",
     "react": "*",
     "react-native": "*"
   },
