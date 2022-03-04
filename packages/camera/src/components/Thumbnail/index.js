@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import '@expo/match-media';
@@ -64,12 +64,17 @@ export default function Thumbnail({
   picture,
   style,
   uploadStatus,
+  onFocus,
   ...passThroughProps
 }) {
   const borderColor = useMemo(() => {
     if (isCurrent) { return colors.current; }
     return colors[uploadStatus];
   }, [colors, isCurrent, uploadStatus]);
+
+  useEffect(() => {
+    if (isCurrent) { onFocus(SIDE_WIDTH); }
+  }, [onFocus, isCurrent]);
 
   return (
     <View
@@ -116,6 +121,7 @@ Thumbnail.propTypes = {
   }),
   isCurrent: PropTypes.bool,
   label: PropTypes.string,
+  onFocus: PropTypes.func,
   overlay: PropTypes.string,
   picture: PropTypes.shape({
     base64: PropTypes.string,
@@ -141,6 +147,7 @@ Thumbnail.defaultProps = {
     pending: '#F3F7FE',
     rejected: '#fa603d',
   },
+  onFocus: () => {},
   isCurrent: false,
   label: '',
   picture: null,
