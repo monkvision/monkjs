@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Button } from 'react-native';
+import { ScrollView, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 4,
     padding: spacing(1.4),
+    marginVertical: spacing(0.6),
   },
 });
 
@@ -46,6 +47,7 @@ export default function UploadCenter({
   sights,
   submitButtonProps,
   uploads,
+  onRetakeAll,
 }) {
   const [submitted, submit] = useState(false);
 
@@ -150,8 +152,15 @@ export default function UploadCenter({
           compliance={compliance.state[id]}
         />
       ))}
+
       {typeof submitButtonProps.onPress === 'function' ? (
         <Button style={styles.button} {...submitButtonProps} />
+      ) : null}
+
+      {unfulfilledUploadIds.length === 0 ? (
+        <TouchableOpacity onPress={() => onRetakeAll(unionIds)} style={styles.button}>
+          <Text style={{ textAlign: 'center', color: '#274B9F' }}>RETAKE ALL</Text>
+        </TouchableOpacity>
       ) : null}
     </ScrollView>
   );
@@ -166,12 +175,16 @@ UploadCenter.propTypes = {
     retakeMaxTry: PropTypes.number,
     retakeMinTry: PropTypes.number,
   }),
+  onRetakeAll: PropTypes.func,
+  onUploadsFinish: PropTypes.func,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
   submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UploadCenter.defaultProps = {
+  onRetakeAll: () => {},
+  onUploadsFinish: () => {},
   navigationOptions: {
     retakeMaxTry: 1,
   },
