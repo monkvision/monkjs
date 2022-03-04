@@ -137,7 +137,7 @@ export default function UploadCenter({
       </Text>
       <Text style={styles.subtitle}>
         Improve image compliance will result to a better AI inspection.
-        Thank you for your comprehension.
+        Thank you for your understanding.
       </Text>
       {unionIds.map((id) => (
         <UploadCard
@@ -175,5 +175,5 @@ UploadCenter.defaultProps = {
   navigationOptions: {
     retakeMaxTry: 1,
   },
-  submitButtonProps: { title: 'Next', onPress: null },
+  submitButtonProps: { title: 'Skip Retaking', onPress: null },
 };

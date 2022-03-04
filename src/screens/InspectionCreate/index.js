@@ -7,6 +7,27 @@ import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
 
+const sightIds = [
+  'WKJlxkiF', // Beauty Shot
+  'vxRr9chD', // Front Bumper Side Left
+  'cDe2q69X', // Front Fender Left
+  'R_f4g8MN', // Doors Left
+  'vedHBC2n', // Front Roof Left
+  'McR3TJK0', // Rear Lateral Left
+  '7bTC-nGS', // Rear Fender Left
+  'hhCBI9oZ', // Rear
+  'e_QIW30o', // Rear Fender Right
+  'fDo5M0Fp', // Rear Lateral Right
+  'fDKWkHHp', // Doors Right
+  '5CFsFvj7', // Front Fender Right
+  'g30kyiVH', // Front Bumper Side Right
+  'I0cOpT1e', // Front
+  'IqwSM3', // Front seats
+  'rSvk2C', // Dashboard
+  'rj5mhm', // Back seats
+  'qhKA2z', // Trunk
+];
+
 export default () => {
   const route = useRoute();
   const { inspectionId } = route.params;
@@ -58,18 +79,19 @@ export default () => {
     ...Controls.CaptureButtonProps,
   }];
 
-  const uploads = useUploads({ sightIds: Capture.defaultSightIds });
+  const uploads = useUploads({ sightIds });
 
   return (
     <SafeAreaView>
       <Capture
+        sightIds={sightIds}
         inspectionId={inspectionId}
         controls={controls}
         loading={loading}
         uploads={uploads}
         renderOnFinish={UploadCenter}
         submitButtonProps={{
-          title: 'Next',
+          title: 'Skip Retaking',
           onPress: handleSuccess,
         }}
       />
