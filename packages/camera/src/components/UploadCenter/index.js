@@ -165,8 +165,7 @@ export default function UploadCenter({
       {unfulfilledUploadIds.length === 0 ? (
         <TouchableOpacity onPress={handldeRetakeAll} style={styles.button}>
           <Text style={{ textAlign: 'center', color: '#274B9F' }}>
-            RETAKE ALL
-            {` (${unionIds.length})`}
+            {`RETAKE ALL (${unionIds.length})`}
           </Text>
         </TouchableOpacity>
       ) : null}
