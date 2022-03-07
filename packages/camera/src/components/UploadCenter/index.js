@@ -48,6 +48,7 @@ export default function UploadCenter({
   submitButtonProps,
   uploads,
   onRetakeAll,
+  isSubmitting,
 }) {
   const [submitted, submit] = useState(false);
 
@@ -104,6 +105,10 @@ export default function UploadCenter({
     uploadIdsWithError,
   ]);
 
+  // retake only the rejected/non-compliant pictures
+  const handldeRetakeAll = useCallback(() => onRetakeAll(unionIds), [onRetakeAll, unionIds]);
+
+  // retake one picture
   const handleRetake = useCallback((id) => {
     // reset upload and compliance info
     compliance.dispatch({
@@ -154,12 +159,15 @@ export default function UploadCenter({
       ))}
 
       {typeof submitButtonProps.onPress === 'function' ? (
-        <Button style={styles.button} {...submitButtonProps} />
+        <Button style={styles.button} {...submitButtonProps} disabled={isSubmitting} />
       ) : null}
 
       {unfulfilledUploadIds.length === 0 ? (
-        <TouchableOpacity onPress={() => onRetakeAll(unionIds)} style={styles.button}>
-          <Text style={{ textAlign: 'center', color: '#274B9F' }}>RETAKE ALL</Text>
+        <TouchableOpacity onPress={handldeRetakeAll} style={styles.button}>
+          <Text style={{ textAlign: 'center', color: '#274B9F' }}>
+            RETAKE ALL
+            {` (${unionIds.length})`}
+          </Text>
         </TouchableOpacity>
       ) : null}
     </ScrollView>
@@ -168,6 +176,7 @@ export default function UploadCenter({
 
 UploadCenter.propTypes = {
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
+  isSubmitting: PropTypes.bool,
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
@@ -184,6 +193,7 @@ UploadCenter.propTypes = {
 
 UploadCenter.defaultProps = {
   onRetakeAll: () => {},
+  isSubmitting: false,
   onUploadsFinish: () => {},
   navigationOptions: {
     retakeMaxTry: 1,
