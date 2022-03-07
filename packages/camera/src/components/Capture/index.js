@@ -363,7 +363,7 @@ Capture.propTypes = {
   sightIds: PropTypes.arrayOf(PropTypes.string),
   sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
   submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
-  task: PropTypes.oneOf([PropTypes.string, PropTypes.object]),
+  task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.shape({
     dispatch: PropTypes.func,
