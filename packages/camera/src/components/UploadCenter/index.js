@@ -83,14 +83,11 @@ export default function UploadCenter({
       // if no carcov reasons, we change nothing
       if (!carCov?.reasons) { return { result }; }
 
-      // if the only reason is UNKOWN_SIGHT, return an empty array instead and mark it as compliant
-      if (carCov.reasons.length === 1 && carCov.reasons[0] === UNKNOWN_SIGHT_REASON) {
-        return handleChangeReasons(compliant);
-      }
-
       // remove the UNKNOWN_SIGHT from the carCov reasons array
       const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
-      return handleChangeReasons({ reasons: newCarCovReasons });
+      return handleChangeReasons({
+        coverage_360: { reasons: newCarCovReasons, is_compliant: !newCarCovReasons.length },
+      });
     }), [compliance]);
 
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)

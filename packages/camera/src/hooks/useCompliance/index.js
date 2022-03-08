@@ -23,7 +23,6 @@ function init({ sightIds, initialState }) {
 }
 
 function reducer(state, action) {
-  console.log({ state, action });
   if (action.type === Actions.compliance.RESET_COMPLIANCE) {
     return init(action.ids);
   }
