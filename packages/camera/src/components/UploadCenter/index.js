@@ -72,9 +72,10 @@ export default function UploadCenter({
       const handleChangeReasons = (compliances) => ({
         ...item,
         result: { ...result,
-          data: { compliances: { ...result.data.compliances, ...compliances } } } });
+          data: {
+            ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      // if status is TODO, mark it as compliant (ignore)
+      // TEMPORARY FIX: if status is TODO, mark it as compliant (ignore)
       if (carCov?.status === 'TODO' || iqa?.status === 'TODO') {
         return handleChangeReasons({
           coverage_360: { ...carCov, ...compliant },
