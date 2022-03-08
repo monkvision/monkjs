@@ -69,6 +69,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
+
 function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
   const { uri } = picture;
   const errorColor = 'rgba(255, 69, 0, 0.4)';
@@ -107,7 +109,8 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
       if (badCoverage && carCov.reasons) {
         carCov.reasons.forEach((reason, index) => {
           const first = index === 0 && !badQuality;
-          reasons.push(first ? texts[reason] : `and ${texts[reason]}`);
+          // display all reasons expect `UNKNOWN_SIGHT`
+          if (reason !== UNKNOWN_SIGHT_REASON) { reasons.push(first ? texts[reason] : `and ${texts[reason]}`); }
         });
       }
 
