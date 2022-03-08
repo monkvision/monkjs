@@ -56,6 +56,9 @@ export default function UploadCenter({
     return indexB - indexA;
   }, [sights.state.tour]);
 
+  const fulfilledUploads = useMemo(() => Object.values(uploads.state)
+    .filter(({ status }) => status === 'fulfilled'), [uploads.state]);
+
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ status }) => status === 'fulfilled'), [compliance.state]);
 
@@ -81,6 +84,10 @@ export default function UploadCenter({
     .filter((item) => {
       if (item.status !== 'fulfilled') { return false; }
 
+      // temporary solution !!!
+      const currentUpload = fulfilledUploads.find(({ id }) => id === item.id);
+      if (currentUpload.uploadCount > navigationOptions.retakeMaxTry) { return false; }
+
       const { image_quality_assessment: iqa, coverage_360: carCov } = item.result.data.compliances;
       const badQuality = iqa && !iqa.is_compliant;
       const badCoverage = carCov && !carCov.is_compliant;
@@ -88,7 +95,8 @@ export default function UploadCenter({
       return badQuality || badCoverage;
     })
     .sort(sortByIndex)
-    .map(({ id }) => id), [fulfilledCompliance, sortByIndex]);
+    .map(({ id }) => id),
+  [fulfilledCompliance, fulfilledUploads, navigationOptions.retakeMaxTry, sortByIndex]);
 
   const unionIds = useMemo(() => [...new Set([
     ...unfulfilledUploadIds,

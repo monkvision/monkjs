@@ -10,4 +10,5 @@ export default {
   'MISSING_PARTS--missing some parts': 'is missing important car parts',
   'HIDDEN_PARTS--some parts not visible enough': 'has some car parts not visible enough',
   'NO_CAR_BODY--no car body detected': 'has no car in it',
+  'UNKNOWN_SIGHT--unknown sight': 'has an unknown guide',
 };
