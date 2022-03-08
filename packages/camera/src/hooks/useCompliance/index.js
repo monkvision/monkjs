@@ -23,6 +23,7 @@ function init({ sightIds, initialState }) {
 }
 
 function reducer(state, action) {
+  console.log({ state, action });
   if (action.type === Actions.compliance.RESET_COMPLIANCE) {
     return init(action.ids);
   }
@@ -30,12 +31,9 @@ function reducer(state, action) {
   const { id } = action.payload;
   const prevCompliance = state[id];
 
-  let requestCount = 0;
+  let requestCount = prevCompliance ? prevCompliance.requestCount : 0;
 
   if (action.increment) {
-    if (prevCompliance) {
-      requestCount = prevCompliance.requestCount;
-    }
     requestCount += 1;
   }
 
