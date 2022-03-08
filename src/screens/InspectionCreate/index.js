@@ -52,7 +52,7 @@ export default () => {
 
   const uploads = useUploads({ sightIds });
 
-  const handleRetake = useCallback((sightsIdsToRetake) => {
+  const handleRetakeAll = useCallback((sightsIdsToRetake) => {
     // reset uploads state with the new incoming ones
     uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: sightsIdsToRetake } });
 
@@ -114,7 +114,7 @@ export default () => {
         renderOnFinish={(props) => (
           <UploadCenter
             {...props}
-            onRetakeAll={handleRetake}
+            onRetakeAll={handleRetakeAll}
             isSubmitting={requests.updateTask.isLoading}
           />
         )}

@@ -106,7 +106,10 @@ export default function UploadCenter({
   ]);
 
   // retake only the rejected/non-compliant pictures
-  const handldeRetakeAll = useCallback(() => onRetakeAll(unionIds), [onRetakeAll, unionIds]);
+  const handldeRetakeAll = useCallback(
+    () => onRetakeAll({ sightsIdsToRetake: unionIds, states: { compliance, uploads, sights } }),
+    [compliance, onRetakeAll, sights, unionIds, uploads],
+  );
 
   // retake one picture
   const handleRetake = useCallback((id) => {
