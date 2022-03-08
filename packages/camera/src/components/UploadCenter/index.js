@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 
 const getItemById = (id, array) => array.find((item) => item.id === id);
 const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
+const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
 export default function UploadCenter({
   compliance,
@@ -60,7 +61,29 @@ export default function UploadCenter({
     .filter(({ status }) => status === 'fulfilled'), [uploads.state]);
 
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
-    .filter(({ status }) => status === 'fulfilled'), [compliance.state]);
+    .filter(({ status }) => status === 'fulfilled')
+    .map(({ result, ...item }) => {
+      const carCov = result.data.compliances.coverage_360;
+
+      // if no carcov reasons, we change nothing
+      if (!carCov?.reasons) { return { result }; }
+
+      // change the carcov reasons
+      const handleChangeReasons = (reasons) => ({
+        ...item,
+        result: { ...result,
+          data: { compliances: { ...result.data.compliances,
+            coverage_360: { ...carCov, is_compliant: true, reasons } } } } });
+
+      // if the only reason is UNKOWN_SIGHT, return an empty array instead and mark it as compliant
+      if (carCov.reasons.length === 1 && carCov.reasons[0] === UNKNOWN_SIGHT_REASON) {
+        return handleChangeReasons([]);
+      }
+
+      // remove the UNKNOWN_SIGHT from the carCov reasons array
+      const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
+      return handleChangeReasons(newCarCovReasons);
+    }), [compliance]);
 
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
     .filter(({ status }) => ['pending', 'idle'].includes(status))
