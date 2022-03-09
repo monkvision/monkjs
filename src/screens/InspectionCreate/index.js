@@ -40,7 +40,7 @@ export default () => {
 
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
-  const [sightIds, setSightIdsForRetake] = useState(defaultSightIds);
+  const [allSights, setAllSights] = useState({ ids: defaultSightIds, initialState: {} });
 
   // refresh camera loading (Useful for a smooth retake all)
   const delay = useMemo(() => (loading ? CAMERA_REFRESH_DELAY : null), [loading]);
@@ -50,9 +50,14 @@ export default () => {
   const handleSuccess = useCallback(() => requests.updateTask.request(),
     [requests]);
 
-  const uploads = useUploads({ sightIds });
+  const uploads = useUploads({ sightIds: allSights.ids });
 
   const handleRetakeAll = useCallback((sightsIdsToRetake) => {
+    // adding an initialState that will hold new compliances with `requestCount = 1`
+    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    const complianceState = {};
+    sightsIdsToRetake.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
+
     // reset uploads state with the new incoming ones
     uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: sightsIdsToRetake } });
 
@@ -60,7 +65,7 @@ export default () => {
     toggleOnLoading();
 
     // update sightsIds state
-    setSightIdsForRetake(sightsIdsToRetake);
+    setAllSights({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
   }, [toggleOnLoading, uploads]);
 
   const handleCapture = useCallback(async (state, api, event) => {
@@ -106,7 +111,8 @@ export default () => {
   return (
     <SafeAreaView>
       <Capture
-        sightIds={sightIds}
+        sightIds={allSights.ids}
+        initialState={allSights.initialState}
         inspectionId={inspectionId}
         controls={controls}
         loading={cameraloading}
