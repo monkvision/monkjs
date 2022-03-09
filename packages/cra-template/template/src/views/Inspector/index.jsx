@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Capture, Controls } from '@monkvision/camera';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,12 +8,12 @@ import View from 'components/View';
 
 export default function Inspector({ inspectionId }) {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState();
 
   const id = location.state?.inspectionId || inspectionId;
 
-  const handleGoToInspectionPage = useCallback(() => history.push('/'), [history]);
+  const handleGoToInspectionPage = useCallback(() => navigate('/'), [navigate]);
 
   const handleCapture = useCallback(async (state, api, event) => {
     event.preventDefault();
