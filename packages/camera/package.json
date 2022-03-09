@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@expo/match-media": "^0.3.0",
+    "@monkvision/toolkit": "^1.4.2",
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
     "axios": "^0.24.0",
