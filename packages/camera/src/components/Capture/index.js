@@ -194,7 +194,9 @@ export default function Capture({
   // END METHODS //
   // CONSTANTS //
 
-  const tourHasFinished = !Object.values(uploads.state).some((upload) => !upload.picture);
+  const tourHasFinished = useMemo(
+    () => !Object.values(uploads.state).some((upload) => !upload.picture), [uploads.state],
+  );
 
   // END CONSTANTS //
   // HANDLERS //

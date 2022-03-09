@@ -84,7 +84,7 @@ export default function UploadCenter({
       }
 
       // if no carcov reasons, we change nothing
-      if (!carCov?.reasons) { return { result }; }
+      if (!carCov?.reasons) { return { ...item, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
       const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
@@ -136,11 +136,8 @@ export default function UploadCenter({
     uploadIdsWithError,
   ]);
 
-  // retake only the rejected/non-compliant pictures
-  const handldeRetakeAll = useCallback(
-    () => onRetakeAll({ sightsIdsToRetake: unionIds, states: { compliance, uploads, sights } }),
-    [compliance, onRetakeAll, sights, unionIds, uploads],
-  );
+  // retake all rejected/non-compliant pictures at once
+  const handldeRetakeAll = useCallback(() => onRetakeAll(unionIds), [onRetakeAll, unionIds]);
 
   // retake one picture
   const handleRetake = useCallback((id) => {
