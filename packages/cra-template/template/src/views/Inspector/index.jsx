@@ -17,15 +17,33 @@ export default function Inspector({ inspectionId }) {
 
   const handleCapture = useCallback(async (state, api, event) => {
     event.preventDefault();
-
-    const { takePictureAsync, startUploadAsync, goNextSight } = api;
-
     setLoading(true);
+
+    const {
+      takePictureAsync,
+      startUploadAsync,
+      setPictureAsync,
+      goNextSight,
+      checkComplianceAsync,
+    } = api;
+
     const picture = await takePictureAsync();
-    if (picture) {
+    setPictureAsync(picture);
+
+    const { sights } = state;
+    const { current, ids } = sights.state;
+
+    if (current.index === ids.length - 1) {
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+
+      setLoading(false);
+    } else {
       setLoading(false);
       goNextSight();
-      startUploadAsync(picture);
+
+      const upload = await startUploadAsync(picture);
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
     }
   }, []);
 
