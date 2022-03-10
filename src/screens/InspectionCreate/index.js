@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native';
 
-import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, useUploads, UploadCenter, Actions } from '@monkvision/camera';
@@ -32,11 +30,7 @@ const defaultSightIds = [
 ];
 
 export default () => {
-  const route = useRoute();
-  const { inspectionId } = route.params;
-
-  const screen = useScreen(inspectionId);
-  const requests = useRequests(screen);
+  const { request, isLoading, requestCount, inspectionId } = useScreen();
 
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
@@ -47,8 +41,8 @@ export default () => {
   useTimeout(toggleOffLoading, delay);
 
   // start the damage detection task
-  const handleSuccess = useCallback(() => requests.updateTask.request(),
-    [requests]);
+  const handleSuccess = useCallback(() => { if (requestCount === 0) { request(); } },
+    [request, requestCount]);
 
   const uploads = useUploads({ sightIds: allSights.ids });
 
@@ -121,7 +115,7 @@ export default () => {
           <UploadCenter
             {...props}
             onRetakeAll={handleRetakeAll}
-            isSubmitting={requests.updateTask.isLoading}
+            isSubmitting={isLoading}
           />
         )}
         submitButtonProps={{ title: 'Skip Retaking', onPress: handleSuccess }}
