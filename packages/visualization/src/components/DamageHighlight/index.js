@@ -1,118 +1,177 @@
-import React, { useEffect, useMemo } from 'react';
-import { Platform, View } from 'react-native';
-import { ClipPath, Defs, Polygon, Svg, Text } from 'react-native-svg';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
-import noop from 'lodash.noop';
+import { ClipPath, Defs, Polygon, Svg, Text } from 'react-native-svg';
+
+import { Platform } from 'react-native';
 import DamageImage from '../DamageImage';
-import useImageDamage from '../../hooks/useDamageImage';
-import useDamageHighlightEvents from './hooks/useDamageHighlightEvents';
 
-function DamageHighlight(
-  { backgroundOpacity, image, polygons, polygonsProps, touchable, width, savePng, damage },
-) {
-  const {
-    state: { width: imageWidth, height: imageHeight },
-    getSvgRatio,
-    svgToPng,
-  } = useImageDamage(image, width);
-
-  const [ratioX, ratioY] = getSvgRatio;
-
-  const {
-    position,
-    zoom,
-    showPolygon,
-    color,
-    getColor,
-    measureText,
-  } = useDamageHighlightEvents({ image, touchable, ratioX, ratioY });
-
-  const ref = Platform.select({
-    native: {
-      ref: (svgRef) => {
-        svgToPng(svgRef, image.width, image.height, image.id)
-          .then((url) => savePng(url, image.id));
-      },
+export const DEFAULT_OPTIONS = {
+  background: {
+    opacity: 0.35,
+  },
+  label: {
+    fontSize: 5,
+  },
+  polygons: {
+    opacity: 1,
+    stroke: {
+      strokeWidth: 2.5,
     },
-  });
+  },
+};
 
-  const polygon = useMemo(() => (
-    polygons.map((p, index) => (
-      <Polygon
-        key={`${image.id}-polygon-${String(index)}`}
-        points={p.map((card) => `${(card[0])},${(card[1])}`).join(' ')}
-        stroke={polygonsProps.stroke.color}
-        fillOpacity={0} // On the web, by default it is fill in black
-        strokeWidth={Math.max(polygonsProps.stroke.strokeWidth, image.width * 0.0005)}
-        strokeDasharray={damage.damageType === 'dent' ? '5, 5' : ''}
-      />
-    ))
-  ), [damage, polygons, image.id, image.width, polygonsProps.stroke]);
+export default function DamageHighlight({
+  damages,
+  image,
+  options,
+  views,
+  onSavePicture,
+  ...passThroughProps
+}) {
+  const [ref, setRef] = useState(null);
 
-  const tagPos = useMemo(() => ({
-    x: polygons.reduce((prev, curr) => (
-      Math.min(prev, curr.reduce((p, c) => (
-        Math.min(p, c[0])), Number.MAX_VALUE))), Number.MAX_VALUE),
-    y: polygons.reduce((prev, curr) => (
-      Math.min(prev, curr.reduce((p, c) => (
-        Math.min(p, c[1])), Number.MAX_VALUE))), Number.MAX_VALUE),
-    maxY: polygons.reduce((prev, curr) => (
-      Math.max(prev, curr.reduce((p, c) => (
-        Math.max(p, c[1])), Number.MIN_VALUE))), Number.MIN_VALUE) + image.height * 0.02,
-  }), [image.height, polygons]);
+  const handlePress = useCallback(() => (
+    Platform.OS === 'native' ? onSavePicture(ref, image.width, image.height) : onSavePicture(image)
+  ), [image, onSavePicture, ref]);
 
-  // useEffect(() => {
-  //   getColor();
-  // }, []);
+  const measureText = useCallback((str, fontSize) => {
+    // eslint-disable-next-line max-len
+    const widths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.2796875, 0.2765625, 0.3546875, 0.5546875, 0.5546875, 0.8890625, 0.665625, 0.190625, 0.3328125, 0.3328125, 0.3890625, 0.5828125, 0.2765625, 0.3328125, 0.2765625, 0.3015625, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.2765625, 0.2765625, 0.584375, 0.5828125, 0.584375, 0.5546875, 1.0140625, 0.665625, 0.665625, 0.721875, 0.721875, 0.665625, 0.609375, 0.7765625, 0.721875, 0.2765625, 0.5, 0.665625, 0.5546875, 0.8328125, 0.721875, 0.7765625, 0.665625, 0.7765625, 0.721875, 0.665625, 0.609375, 0.721875, 0.665625, 0.94375, 0.665625, 0.665625, 0.609375, 0.2765625, 0.3546875, 0.2765625, 0.4765625, 0.5546875, 0.3328125, 0.5546875, 0.5546875, 0.5, 0.5546875, 0.5546875, 0.2765625, 0.5546875, 0.5546875, 0.221875, 0.240625, 0.5, 0.221875, 0.8328125, 0.5546875, 0.5546875, 0.5546875, 0.5546875, 0.3328125, 0.5, 0.2765625, 0.5546875, 0.5, 0.721875, 0.5, 0.5, 0.5, 0.3546875, 0.259375, 0.353125, 0.5890625];
+    const avg = 0.5279276315789471;
+    return str
+      .split('')
+      .map((c) => (c.charCodeAt(0) < widths.length ? widths[c.charCodeAt(0)] : avg))
+      .reduce((cur, acc) => acc + cur) * fontSize;
+  }, []);
 
-  useEffect(() => {
-    if (Platform.OS === 'web') {
-      svgToPng(image, image.id).then((url) => {
-        savePng(url, image.id);
-      });
+  const checkCollisions = (lb1, lb2) => {
+    if (lb1.x + lb1.width >= lb2.x
+      && lb1.x + lb1.width <= lb2.x + lb2.width
+      && lb1.y + lb1.height >= lb2.y
+      && lb1.y + lb1.height <= lb2.y + lb2.height) {
+      return true;
     }
-  }, [image, savePng, svgToPng, color]);
 
-  if (!image) {
-    return <View />;
-  }
+    return (lb1.x >= lb2.x
+      && lb1.x <= lb2.x + lb2.width
+      && lb1.y >= lb2.y
+      && lb1.y <= lb2.y + lb2.height);
+  };
+
+  const renderPolygons = useCallback(() => {
+    const polygons = [];
+    const labels = [];
+    const polygonsLabel = [];
+
+    views.forEach((view) => {
+      // eslint-disable-next-line camelcase
+      const { polygons: viewPolygons, bounding_box } = view.image_region.specification;
+
+      viewPolygons.forEach((polygon, index) => {
+        const damage = damages.find((d) => d.id === view.element_id);
+        if (damage) {
+          const points = polygon.map((coordinates) => `${(coordinates[0])},${(coordinates[1])}`)
+            .join(' ');
+
+          const { polygons: polygonsStyle, label } = options;
+
+          const strokes = {
+            stroke: polygonsStyle.stroke.color,
+            strokeDasharray: damage?.damageType === 'dent' ? '5, 5' : '',
+            strokeWidth: polygonsStyle.stroke.strokeWidth,
+          };
+
+          const labelPosition = {
+            x: bounding_box.xmin,
+            y: ((bounding_box.ymin - label.fontSize) <= 0
+              ? (bounding_box.ymin + bounding_box.height)
+              : bounding_box.ymin) - label.fontSize / 2,
+            textAnchor:
+              (bounding_box.xmin + measureText(damage.damageType, label.fontSize)) >= image.width
+                ? 'end'
+                : 'start',
+          };
+
+          const color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
+          const labelInfo = { ...labelPosition, width: measureText(damage.damageType, label.fontSize), height: label.fontSize, damageType: damage.damageType, color };
+          const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
+
+          const t = (collision.map((c) => c.damageType === damage.damageType).reduce((prev, curr) => prev || curr, false)) === false;
+
+          if ((collision.length <= 0) || t) {
+            while (polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb)).length > 0) {
+              labelPosition.y -= label.fontSize;
+              labelInfo.y -= label.fontSize;
+            }
+            polygonsLabel.push(labelInfo);
+
+            labels.push(
+              <Text
+                paintOrder="stroke"
+                stroke={color}
+                strokeWidth={5}
+                fill="white"
+                fontSize={label.fontSize}
+                {...labelPosition}
+              >
+                {damage.damageType.charAt(0)
+                  .toUpperCase() + damage.damageType.slice(1)
+                  .replace(/[-_]/g, ' ')}
+              </Text>,
+            );
+          }
+
+          polygons.push(
+            <Polygon
+              key={`image-${image.id}-view-${view.id}-polygon-${String(index)}`}
+              fillOpacity={0} // On the web, by default it is fill in black
+              points={points}
+              {...strokes}
+              stroke={collision.length > 0 ? collision[0].color : color}
+            />,
+          );
+        }
+      });
+    });
+
+    return [polygons, labels];
+  }, [damages, image.id, image.width, measureText, options, views]);
+
+  const [Polygons, Labels] = renderPolygons();
 
   return (
     <Svg
-      {...ref}
       id={`svg-${image.id}`}
-      width={imageWidth}
-      height={imageHeight}
+      ref={(rf) => setRef(rf)}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox={`${position.x} ${position.y} ${image.width * zoom} ${image.height * zoom}`}
+      viewBox={`0 0 ${image.width} ${image.height}`}
+      onPress={handlePress}
+      onClick={handlePress}
+      {...passThroughProps}
     >
       <Defs>
-        <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
+        <ClipPath id={`clip${image.id}`}>{Polygons}</ClipPath>
       </Defs>
       {/* Show background image with a low opacity */}
       <DamageImage
         name={image.id}
         source={image.source}
-        opacity={showPolygon || !isEmpty(polygons) ? backgroundOpacity : 1}
+        opacity={isEmpty(Polygons) ? 1 : options.background.opacity}
       />
-      <Text paintOrder="stroke" stroke="black" strokeWidth={5} fill="white" fontSize={image.width * 0.02} x={tagPos.x} y={(tagPos.y - image.height * 0.02) <= 0 ? tagPos.maxY : tagPos.y} textAnchor={(tagPos.x + measureText(damage.damageType, image.width * 0.02)) >= image.width ? 'end' : 'start'}>{damage.damageType.charAt(0).toUpperCase() + damage.damageType.slice(1).replace(/[-_]/g, ' ')}</Text>
-      {showPolygon && (
-        <>
-          {/* Show Damages Polygon */}
-          <DamageImage name={image.id} source={image.source} clip opacity={polygonsProps.opacity} />
-          {polygon}
-        </>
-      )}
+      {Labels}
+      <DamageImage name={image.id} source={image.source} clip opacity={options.polygons.opacity} />
+      {Polygons}
     </Svg>
   );
 }
 
 DamageHighlight.propTypes = {
-  backgroundOpacity: PropTypes.number,
-  damage: PropTypes.string,
-  height: PropTypes.number,
+  damages: PropTypes.arrayOf(PropTypes.shape({
+    damageType: PropTypes.string,
+    id: PropTypes.string,
+  })),
   image: PropTypes.shape({
     height: PropTypes.number,
     id: PropTypes.string,
@@ -120,39 +179,46 @@ DamageHighlight.propTypes = {
       uri: PropTypes.string,
     }),
     width: PropTypes.number,
-  }),
-  polygons: PropTypes.arrayOf(
-    PropTypes.arrayOf(
-      PropTypes.arrayOf(PropTypes.number),
-    ),
-  ),
-  polygonsProps: PropTypes.shape({
-    opacity: PropTypes.number,
-    stroke: PropTypes.shape({
-      color: PropTypes.string,
-      strokeWidth: PropTypes.number,
+  }).isRequired,
+  onSavePicture: PropTypes.func,
+  options: PropTypes.shape({
+    background: PropTypes.shape({
+      opacity: PropTypes.number,
+    }),
+    label: {
+      fontSize: PropTypes.number,
+    },
+    polygons: PropTypes.shape({
+      opacity: PropTypes.number,
+      stroke: PropTypes.shape({
+        color: PropTypes.string,
+        strokeWidth: PropTypes.number,
+      }),
     }),
   }),
-  savePng: PropTypes.func,
-  touchable: PropTypes.bool,
-  width: PropTypes.number,
+  views: PropTypes.arrayOf(PropTypes.shape({
+    element_id: PropTypes.string.isRequired,
+    image_region: PropTypes.shape({
+      specification: PropTypes.shape({
+        bounding_box: PropTypes.shape({
+          height: PropTypes.number,
+          width: PropTypes.number,
+          xmin: PropTypes.number,
+          ymin: PropTypes.number,
+        }),
+        polygons: PropTypes.arrayOf(
+          PropTypes.arrayOf(
+            PropTypes.arrayOf(PropTypes.number),
+          ),
+        ),
+      }),
+    }),
+  })),
 };
 
 DamageHighlight.defaultProps = {
-  backgroundOpacity: 0.35,
-  damage: '',
-  height: 300,
-  image: null,
-  polygons: [],
-  polygonsProps: {
-    opacity: 1,
-    stroke: {
-      color: 'yellow',
-      strokeWidth: 2.5,
-    },
-  },
-  savePng: noop,
-  touchable: false,
-  width: 400,
+  damages: [],
+  onSavePicture: null,
+  options: DEFAULT_OPTIONS,
+  views: [],
 };
-export default DamageHighlight;

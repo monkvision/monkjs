@@ -148,7 +148,7 @@ export default () => {
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
   const [previewImage, setPreviewImage] = useState({});
-  const { getImage, getPolygons } = usePolygons();
+  const { getImage, svgToPng } = usePolygons();
 
   const {
     isLoading: isDeleteLoading,
@@ -211,20 +211,18 @@ export default () => {
     [damageViews, inspection.images],
   );
 
-  const handleZoom = useCallback((image, id) => {
-    const newImage = { url: image, id };
+  const handleZoomWeb = useCallback((image) => {
+    svgToPng(image)
+      .then((base64) => {
+        console.log(base64);
+        const newImage = { url: base64, id: image.id };
 
-    setPreviewImages((prevState) => {
-      const pngImage = prevState.filter((img) => img.id === id);
-
-      if (pngImage.length <= 0) {
-        return [...prevState, newImage];
-      }
-      const tmp = prevState;
-      tmp[prevState.indexOf(pngImage[0])] = newImage;
-      return tmp;
-    });
-  }, []);
+        setPreviewImages((prevState) => (
+          prevState.filter((img) => img.id === image.id).length <= 0
+            ? [...prevState, newImage]
+            : prevState));
+      });
+  }, [svgToPng]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -235,6 +233,15 @@ export default () => {
       });
     }
   }, [navigation, damageId, menuItems]);
+
+  const sorts = (a, b) => {
+    const { width: aWidth, height: aHeight } = a.image_region.specification.bounding_box;
+    const { width: bWidth, height: bHeight } = b.image_region.specification.bounding_box;
+
+    return (bWidth * bHeight) - (aWidth * aHeight);
+  };
+
+  const foo = (views) => ([...views].sort(sorts));
 
   if (isLoading) {
     return <Loader texts={['Reading damages...', 'Loading damage images...', 'Loading...']} />;
@@ -268,7 +275,7 @@ export default () => {
                 item: image,
                 index,
               }) => (
-                <View syle={styles.images}>
+                <View style={styles.images}>
                   <TouchableRipple
                     key={String(index)}
                     onPress={() => openPreviewDialog({
@@ -278,20 +285,27 @@ export default () => {
                     })}
                   >
                     <DamageHighlight
+                      // damages={inspection?.damages.filter((dmg) => dmg.id === damageId)}
+                      damages={inspection?.damages}
                       image={getImage(image)}
-                      polygons={getPolygons(image.id, damageViews)[0]}
-                      backgroundOpacity={0.1}
-                      polygonsProps={{
-                        opacity: 1,
-                        stroke: {
-                          color: '#ec00ff',
-                          strokeWidth: 2.5,
+                      onSavePicture={handleZoomWeb}
+                      options={{
+                        background: {
+                          opacity: 1,
+                        },
+                        label: {
+                          fontSize: 25,
+                        },
+                        polygons: {
+                          opacity: 1,
+                          stroke: {
+                            strokeWidth: 2.5,
+                          },
                         },
                       }}
-                      savePng={handleZoom}
-                      damage={inspection?.damages.reduce(
-                        (prev, dmg) => (dmg.id === damageId ? dmg : prev), null,
-                      )}
+                      views={foo(inspection?.images?.find((img) => img.id === image.id).views)}
+                      width={400}
+                      height={image.image_height * (400 / image.image_width)}
                     />
                   </TouchableRipple>
                 </View>

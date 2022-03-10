@@ -39,10 +39,6 @@ The component's properties are from the result of an inspection. Both of them ar
 ---
 
 # Props
-## backgroundOpacity
-`PropTypes.number`
-
-Allow to set an opacity to the background image.
 
 ## image
 
@@ -64,8 +60,12 @@ const image = { id: 'uuid', width: 0, height: 0, source: {
 
 <DamageHighlight image={image}/>
 ```
+## views
 
-## polygons
+Contains all polygons of damages/parts of the vehicle linked to the picture.
+It can be found on the result
+
+### image_region.specification.polygons
 
 `PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayO(PropTypes.number)))`
 
@@ -75,15 +75,21 @@ Polygons are 3 levels depth matrix and come from `inspection.images[i].views.ima
 2. list all `points` of a single `polygon`
 3. is the `position` of a `point` in the plane (basically `x` and `y`)
 
-```js
-const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
+## options
 
-<DamageHighlight polygons={polygons}/>
-```
+### background.opacity
+`PropTypes.number`
 
-## polygonsProps
+Allow setting background image's opacity.
+
+### label.fontSize
+`PropTypes.number`
+
+Allow setting the damage type label's font size.
+
+### polygons
 ```js
-polygonsProps: PropTypes.shape({
+polygons: PropTypes.shape({
   opacity: PropTypes.number,
   stroke: PropTypes.shape({
     color: PropTypes.string,
@@ -92,23 +98,7 @@ polygonsProps: PropTypes.shape({
 })
 ```
 
-### opacity
-`PropTypes.number`
-
-Opacity of the picture of the damages inside the polygon.
-
-
-### stroke.color
-`PropTypes.string`
-
-Color of the polygon's outlines
-
-### stroke.strokeWidth
-`PropTypes.number`
-
-Polygon's outline strokes size
-
-## savePng
+## onSavePicture
 `PropType.func`
 
 Callback to convert the svg to a png image which is stored temporarily on the ram of the device.
@@ -125,10 +115,6 @@ Allows to set the image's displayed width. The height will be computed afterward
 ### svgToPng
 
 Convert the svg to a png image. Depending on the device, the function can have different arguments, and it returns a Promise of the url of the generated png image
-
-```js
-const { svgToPng } = useDamageImage(image, width);
-```
 
 #### Web
 
@@ -188,26 +174,35 @@ Format an `image` to a classical [image](#image) object
 
 ### Example
 ``` javascript
-import { usePolygons } from '@monkvision/react-native';
+import { usePolygons } from '@monkvision/visualization';
 ```
 
 ``` javascript
 const oneImage = inspection.images[0]; // result from API
 
-const [getImage, getPolygons] = usePolygons();
+const [getImage] = usePolygons();
+const options = {
+  polygons: {
+    opacity: 0.5,
+    stroke: {
+      color: 'green',
+      strokeWidth: 50,
+    }
+  },
+  label: {
+    fontSize: 20,
+  },
+  background: {
+    opacity: 0.35,
+  },
+}
 
 <DamageHighlight
   image={getImage(oneImage)}
-  polygons={getPolygons(oneImage.id, damage.views)[0]}
-  polygonsProps={{
-    opacity: 0.75,
-    polygonsProps={{
-      opacity: 0.5,
-      stroke: {
-        color: 'green',
-        strokeWidth: 50,
-      }
-    }}
-  }}
+  damages={inspection.damages}
+  views={oneImage.views}
+  options={options}
+  width={400}
+  height={180}
 />
 ```

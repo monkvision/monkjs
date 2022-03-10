@@ -6,7 +6,6 @@ const DELAY_TAP = 300;
 
 export default function useDamageHighlightEvents({
   image,
-  touchable,
   ratioX,
   ratioY,
 }) {
@@ -80,9 +79,6 @@ export default function useDamageHighlightEvents({
   // press event
   const handlePress = useCallback((e, type) => {
     e.preventDefault();
-    if (!touchable) {
-      return;
-    }
 
     const {
       x,
@@ -104,12 +100,12 @@ export default function useDamageHighlightEvents({
       });
     }
   },
-  [touchable, getBoundaries, handleTouchUp, handleTouchDown]);
+  [getBoundaries, handleTouchUp, handleTouchDown]);
 
   // drag event
   const handleDrag = useCallback((e) => {
     e.preventDefault();
-    if (!press || !touchable) {
+    if (!press) {
       return;
     }
 
@@ -129,7 +125,7 @@ export default function useDamageHighlightEvents({
       },
     })));
   },
-  [getBoundaries, originPosition.x, originPosition.y, press, touchable]);
+  [getBoundaries, originPosition.x, originPosition.y, press]);
 
   const getColor = useCallback(() => {
     ImageColors.getColors(image.source.uri, {
