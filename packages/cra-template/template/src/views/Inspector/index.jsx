@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// we can import UploadCenter from `@monkvision/camera`
 import { Capture, Controls } from '@monkvision/camera';
 import CssBaseline from '@mui/material/CssBaseline';
 import View from 'components/View';
@@ -24,7 +25,9 @@ export default function Inspector({ inspectionId }) {
       startUploadAsync,
       setPictureAsync,
       goNextSight,
-      checkComplianceAsync,
+      /** --- With upload center ---
+        checkComplianceAsync,
+       */
     } = api;
 
     const picture = await takePictureAsync();
@@ -34,16 +37,29 @@ export default function Inspector({ inspectionId }) {
     const { current, ids } = sights.state;
 
     if (current.index === ids.length - 1) {
+      /** --- With upload center ---
       const upload = await startUploadAsync(picture);
       if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+
+      --- Without upload center ---
+      await startUploadAsync(picture);
+       */
+      await startUploadAsync(picture);
 
       setLoading(false);
     } else {
       setLoading(false);
       goNextSight();
 
+      /** --- With upload center ---
       const upload = await startUploadAsync(picture);
       if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+
+      --- Without upload center ---
+      await startUploadAsync(picture);
+       */
+
+      await startUploadAsync(picture);
     }
   }, []);
 
@@ -62,6 +78,14 @@ export default function Inspector({ inspectionId }) {
         loading={loading}
         onFinish={handleGoToInspectionPage}
         primaryColor={process.env.REACT_APP_PRIMARY_COLOR_DARK}
+
+        /** --- With UploadCenter ---
+         * renderOnFinish={UploadCenter}
+         * submitButtonProps={{ title: "Skip Retaking", onPress: handleGoToInspectionPage }}
+         *
+         * --- Without UploadCenter ---
+         * onFinish={handleGoToInspectionPage}
+         */
       />
     </View>
   );
