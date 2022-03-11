@@ -6,6 +6,7 @@ import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
 import Actions from '../../actions';
+import { useStartUploadAsync } from '../Capture/hooks';
 
 const { spacing } = utils.styles;
 
@@ -51,9 +52,13 @@ export default function UploadCenter({
   submitButtonProps,
   uploads,
   onRetakeAll,
+  checkComplianceAsync,
   isSubmitting,
+  inspectionId,
+  task,
 }) {
   const [submitted, submit] = useState(false);
+  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
 
   const sortByIndex = useCallback((a, b) => {
     const indexA = getIndexById(a.id, sights.state.tour);
@@ -156,6 +161,14 @@ export default function UploadCenter({
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
+  // reupload each picture on its own
+  const handleReupload = useCallback(async (id, picture) => {
+    const current = { metadata: { id, label: getItemById(id, sights.state.tour).label } };
+
+    const upload = await startUploadAsync(picture, current);
+    if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+  }, [checkComplianceAsync, sights, startUploadAsync]);
+
   useEffect(() => {
     if (
       submitted === false
@@ -181,6 +194,7 @@ export default function UploadCenter({
         <UploadCard
           key={`uploadCard-${id}`}
           onRetake={handleRetake}
+          onReupload={handleReupload}
           id={id}
           label={getItemById(id, sights.state.tour).label}
           picture={sights.state.takenPictures[id]}
@@ -205,7 +219,9 @@ export default function UploadCenter({
 }
 
 UploadCenter.propTypes = {
+  checkComplianceAsync: PropTypes.func,
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
+  inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
@@ -218,15 +234,19 @@ UploadCenter.propTypes = {
   onUploadsFinish: PropTypes.func,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
   submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
+  task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UploadCenter.defaultProps = {
+  checkComplianceAsync: () => {},
   onRetakeAll: () => {},
+  inspectionId: null,
   isSubmitting: false,
   onUploadsFinish: () => {},
   navigationOptions: {
     retakeMaxTry: 1,
   },
+  task: 'damage_detection',
   submitButtonProps: { title: 'Skip Retaking', onPress: null },
 };

@@ -144,15 +144,17 @@ export function useCreateDamageDetectionAsync() {
  * @param task
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {
-  return useCallback(async (picture) => {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
+  return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { current, ids } = sights.state;
-    const { id, label } = current.metadata;
+    const { ids } = sights.state;
+    // for a custom use, we can the sight we want
+    const current = currentSight || sights.state.current;
+    const { id, label } = currentSight?.metadata || current.metadata;
 
     try {
       dispatch({
@@ -203,7 +205,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
-        payload: { id, status: 'fulfilled' },
+        payload: { id, status: 'fulfilled', error: null },
       });
 
       return result;

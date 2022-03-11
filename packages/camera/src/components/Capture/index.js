@@ -279,6 +279,9 @@ export default function Capture({
       <RenderOnFinish
         {...states}
         submitButtonProps={submitButtonProps}
+        task={task}
+        inspectionId={inspectionId}
+        checkComplianceAsync={checkComplianceAsync}
       />
     );
   }
