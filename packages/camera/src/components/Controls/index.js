@@ -2,6 +2,7 @@
 import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import useHandlers from './hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,11 +20,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Controls({ api, containerStyle, elements, state, ...passThroughProps }) {
+export default function Controls({
+  api, containerStyle, elements, state, enableComplianceCheck, ...passThroughProps }) {
   const { height: windowHeight } = useWindowDimensions();
+
+  const handlers = useHandlers();
   const handlePress = useCallback(
-    (onPress) => (e) => onPress(state, api, e),
-    [api, state],
+    ({ onPress, onStartUpload, onFinishUpload }) => (e) => {
+      if (typeof onPress === 'function') {
+        onPress(state, api, e);
+      } else {
+        handlers.capture({ onStartUpload, onFinishUpload, enableComplianceCheck })(state, api, e);
+      }
+    },
+    [api, handlers, state, enableComplianceCheck],
   );
 
   return (
@@ -42,7 +52,7 @@ export default function Controls({ api, containerStyle, elements, state, ...pass
       }, i) => (
         createElement(component, {
           key: `camera-control-${i}`,
-          onPress: handlePress(onPress),
+          onPress: handlePress({ onPress, ...rest }),
           style: StyleSheet.flatten([styles.button]),
           ...rest,
           ...passThroughProps,
@@ -66,6 +76,7 @@ Controls.propTypes = {
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
   })),
+  enableComplianceCheck: PropTypes.bool,
   state: PropTypes.shape({
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
@@ -77,6 +88,7 @@ Controls.defaultProps = {
   api: {},
   containerStyle: null,
   elements: [],
+  enableComplianceCheck: false,
   state: {},
 };
 

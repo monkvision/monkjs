@@ -162,7 +162,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
       });
 
       // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); }
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;

@@ -6,6 +6,7 @@ import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
 import Actions from '../../actions';
+import log from '../../utils/log';
 
 const { spacing } = utils.styles;
 
@@ -48,12 +49,16 @@ export default function UploadCenter({
   compliance,
   navigationOptions,
   sights,
-  submitButtonProps,
   uploads,
-  onRetakeAll,
   isSubmitting,
+  onComplianceCheckFinish,
+  onComplianceCheckStart,
+  onRetakeAll,
+  submitButtonLabel,
 }) {
   const [submitted, submit] = useState(false);
+
+  // METHODS //
 
   const sortByIndex = useCallback((a, b) => {
     const indexA = getIndexById(a.id, sights.state.tour);
@@ -156,17 +161,24 @@ export default function UploadCenter({
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
+  // END METHODS //
+  // EFFECTS //
+
   useEffect(() => {
-    if (
-      submitted === false
-      && unionIds
-      && unionIds.length === 0
-      && typeof submitButtonProps.onPress === 'function'
-    ) {
-      submitButtonProps.onPress({ compliance, sights, uploads });
+    if (submitted === false && unionIds && unionIds.length === 0) {
+      onComplianceCheckFinish({ compliance, sights, uploads });
+      log([`Conpliance check has been finished`]);
       submit(true);
     }
-  }, [compliance, sights, submitButtonProps, submitted, unionIds, uploads]);
+  }, [compliance, sights, onComplianceCheckFinish, submitted, unionIds, uploads]);
+
+  useEffect(() => {
+    onComplianceCheckStart();
+    log([`Conpliance check has been started`]);
+  }, [onComplianceCheckStart]);
+
+  // END EFFECTS //
+  // RENDERING //
 
   return (
     <ScrollView style={styles.card} contentContainerStyle={styles.container}>
@@ -189,9 +201,12 @@ export default function UploadCenter({
         />
       ))}
 
-      {typeof submitButtonProps.onPress === 'function' ? (
-        <Button style={styles.button} {...submitButtonProps} disabled={isSubmitting} />
-      ) : null}
+      <Button
+        style={styles.button}
+        title={submitButtonLabel}
+        onPress={onComplianceCheckFinish}
+        disabled={isSubmitting}
+      />
 
       {unfulfilledUploadIds.length === 0 ? (
         <TouchableOpacity onPress={handldeRetakeAll} style={styles.button}>
@@ -202,6 +217,8 @@ export default function UploadCenter({
       ) : null}
     </ScrollView>
   );
+
+  // END RENDERING //
 }
 
 UploadCenter.propTypes = {
@@ -214,19 +231,21 @@ UploadCenter.propTypes = {
     retakeMaxTry: PropTypes.number,
     retakeMinTry: PropTypes.number,
   }),
+  onComplianceCheckFinish: PropTypes.func,
+  onComplianceCheckStart: PropTypes.func,
   onRetakeAll: PropTypes.func,
-  onUploadsFinish: PropTypes.func,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
-  submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
+  submitButtonLabel: PropTypes.string,
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UploadCenter.defaultProps = {
+  onComplianceCheckFinish: () => {},
+  onComplianceCheckStart: () => {},
+  submitButtonLabel: 'Skip retaking',
   onRetakeAll: () => {},
   isSubmitting: false,
-  onUploadsFinish: () => {},
   navigationOptions: {
     retakeMaxTry: 1,
   },
-  submitButtonProps: { title: 'Skip Retaking', onPress: null },
 };

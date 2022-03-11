@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls, useUploads, UploadCenter, Actions } from '@monkvision/camera';
+import { Capture, Controls, useUploads, Actions } from '@monkvision/camera';
 import { useToggle, useTimeout } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 
@@ -62,41 +62,10 @@ export default () => {
     setAllSights({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
   }, [toggleOnLoading, uploads]);
 
-  const handleCapture = useCallback(async (state, api, event) => {
-    event.preventDefault();
-    setCameraLoading(true);
-
-    const {
-      takePictureAsync,
-      startUploadAsync,
-      setPictureAsync,
-      goNextSight,
-      checkComplianceAsync,
-    } = api;
-
-    const picture = await takePictureAsync();
-    setPictureAsync(picture);
-
-    const { sights } = state;
-    const { current, ids } = sights.state;
-
-    if (current.index === ids.length - 1) {
-      const upload = await startUploadAsync(picture);
-      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
-
-      setCameraLoading(false);
-    } else {
-      setCameraLoading(false);
-      goNextSight();
-
-      const upload = await startUploadAsync(picture);
-      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
-    }
-  }, []);
-
   const controls = [{
     disabled: cameraloading,
-    onPress: handleCapture,
+    onStartUpload: () => setCameraLoading(true),
+    onFinishUpload: () => setCameraLoading(false),
     ...Controls.CaptureButtonProps,
   }];
 
@@ -111,14 +80,21 @@ export default () => {
         controls={controls}
         loading={cameraloading}
         uploads={uploads}
-        renderOnFinish={(props) => (
-          <UploadCenter
-            {...props}
-            onRetakeAll={handleRetakeAll}
-            isSubmitting={isLoading}
-          />
-        )}
-        submitButtonProps={{ title: 'Skip Retaking', onPress: handleSuccess }}
+        enableComplianceCheck
+        onComplianceCheckFinish={handleSuccess}
+        onRetakeAll={handleRetakeAll}
+        isSubmitting={isLoading}
+
+        /** --- With upload center
+         * enableComplianceCheck={true}
+         * onComplianceCheckStart={() => {...}}
+         * onComplianceCheckFinish={() => {...}}
+         * onRetakeAll={() => {...}}
+         *
+         * --- Without upload center
+         * onCaptureTourStart={() => {...}}
+         * onCaptureTourFinish={() => {...}}
+         */
       />
     </SafeAreaView>
   );
