@@ -66,11 +66,15 @@ export default () => {
     disabled: cameraloading,
     onStartUpload: () => { setCameraLoading(true); },
     onFinishUpload: () => setCameraLoading(false),
-    /** We can always use a custom capture handler and override the built-in one
-     * (will also override `onStartUpload` and `onFinishUpload`)
-     * onPress: handleCapture,
-     */
     ...Controls.CaptureButtonProps,
+
+    /** --- With custom capture handler ---
+     * onPress: handleCapture,
+
+     *  --- With our built-in capture handler ---
+     * onStartUpload: () => { setCameraLoading(true); },
+     * onFinishUpload: () => setCameraLoading(false),
+    */
   }];
 
   if (loading) { return <Loader />; }
