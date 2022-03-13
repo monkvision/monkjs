@@ -30,12 +30,9 @@ function reducer(state, action) {
   const { id } = action.payload;
   const prevCompliance = state[id];
 
-  let requestCount = 0;
+  let requestCount = prevCompliance ? prevCompliance.requestCount : 0;
 
   if (action.increment) {
-    if (prevCompliance) {
-      requestCount = prevCompliance.requestCount;
-    }
     requestCount += 1;
   }
 

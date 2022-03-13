@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
 const getItemById = (id, array) => array.find((item) => item.id === id);
 const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 
+const compliant = { is_compliant: true, reasons: [] };
+const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
+
 export default function UploadCenter({
   compliance,
   navigationOptions,
@@ -57,7 +60,35 @@ export default function UploadCenter({
   }, [sights.state.tour]);
 
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
-    .filter(({ status }) => status === 'fulfilled'), [compliance.state]);
+    .filter(({ status }) => status === 'fulfilled')
+    .map(({ result, ...item }) => {
+      const carCov = result.data.compliances.coverage_360;
+      const iqa = result.data.compliances.image_quality_assessment;
+
+      // `handleChangeReasons` returns the full result object with the given compliances
+      const handleChangeReasons = (compliances) => ({
+        ...item,
+        result: { ...result,
+          data: {
+            ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
+
+      // TEMPORARY FIX: if status is TODO, mark it as compliant (ignore)
+      if (carCov?.status === 'TODO' || iqa?.status === 'TODO') {
+        return handleChangeReasons({
+          coverage_360: { ...carCov, ...compliant },
+          image_quality_assessment: { ...iqa, ...compliant },
+        });
+      }
+
+      // if no carcov reasons, we change nothing
+      if (!carCov?.reasons) { return { result }; }
+
+      // remove the UNKNOWN_SIGHT from the carCov reasons array
+      const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
+      return handleChangeReasons({
+        coverage_360: { reasons: newCarCovReasons, is_compliant: !newCarCovReasons.length },
+      });
+    }), [compliance]);
 
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
     .filter(({ status }) => ['pending', 'idle'].includes(status))
@@ -79,7 +110,7 @@ export default function UploadCenter({
 
   const complianceIdsWithError = useMemo(() => Object.values(fulfilledCompliance)
     .filter((item) => {
-      if (item.status !== 'fulfilled') { return false; }
+      if (item.requestCount > navigationOptions.retakeMaxTry || item.status !== 'fulfilled') { return false; }
 
       const { image_quality_assessment: iqa, coverage_360: carCov } = item.result.data.compliances;
       const badQuality = iqa && !iqa.is_compliant;
@@ -88,7 +119,7 @@ export default function UploadCenter({
       return badQuality || badCoverage;
     })
     .sort(sortByIndex)
-    .map(({ id }) => id), [fulfilledCompliance, sortByIndex]);
+    .map(({ id }) => id), [fulfilledCompliance, navigationOptions.retakeMaxTry, sortByIndex]);
 
   const unionIds = useMemo(() => [...new Set([
     ...unfulfilledUploadIds,
@@ -137,7 +168,7 @@ export default function UploadCenter({
       </Text>
       <Text style={styles.subtitle}>
         Improve image compliance will result to a better AI inspection.
-        Thank you for your comprehension.
+        Thank you for your understanding.
       </Text>
       {unionIds.map((id) => (
         <UploadCard
@@ -175,5 +206,5 @@ UploadCenter.defaultProps = {
   navigationOptions: {
     retakeMaxTry: 1,
   },
-  submitButtonProps: { title: 'Next', onPress: null },
+  submitButtonProps: { title: 'Skip Retaking', onPress: null },
 };

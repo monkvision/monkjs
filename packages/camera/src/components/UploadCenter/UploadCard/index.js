@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } fr
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { utils } from '@monkvision/toolkit';
+import texts from './texts';
 
 const { spacing } = utils.styles;
 
@@ -59,7 +60,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     zIndex: 10,
   },
+  retakeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
 });
+
+const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
 function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
   const { uri } = picture;
@@ -92,19 +102,20 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
       if (badQuality && iqa.reasons) {
         iqa.reasons.forEach((reason, index) => {
           const first = index === 0;
-          reasons.push(first ? reason : `and ${reason}`);
+          reasons.push(first ? texts[reason] : `and ${texts[reason]}`);
         });
       }
 
       if (badCoverage && carCov.reasons) {
         carCov.reasons.forEach((reason, index) => {
           const first = index === 0 && !badQuality;
-          reasons.push(first ? reason : `and ${reason}`);
+          // display all reasons expect `UNKNOWN_SIGHT`
+          if (reason !== UNKNOWN_SIGHT_REASON) { reasons.push(first ? texts[reason] : `and ${texts[reason]}`); }
         });
       }
 
       if (reasons.length > 0) {
-        return `This image has ${reasons.join(' ')}`;
+        return `This image ${reasons.join(' ')}`;
       }
     }
 
@@ -134,6 +145,7 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
           ]}
           >
             <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
+            <Text style={styles.retakeText}>Retake picture</Text>
           </View>
           <Image style={styles.image} source={{ uri }} />
         </TouchableOpacity>

@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
  * @param offline
  * @param onChange
  * @param onReady
+ * @param onFinish
  * @param primaryColor
  * @param sightIds
  * @param sightsContainerStyle
@@ -75,6 +76,7 @@ export default function Capture({
   offline,
   onChange,
   onReady,
+  onFinish,
   orientationBlockerProps,
   primaryColor,
   renderOnFinish: RenderOnFinish,
@@ -154,7 +156,7 @@ export default function Capture({
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
-  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
+  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish });
   const checkComplianceAsync = useCheckComplianceAsync({
     compliance,
     inspectionId,
@@ -221,7 +223,7 @@ export default function Capture({
     if (tourHasFinished) {
       log([`Capture tour has been finished`]);
     }
-  }, [camera, tourHasFinished]);
+  }, [camera, tourHasFinished, onFinish]);
 
   // END EFFECTS //
   // RENDERING //
@@ -353,6 +355,7 @@ Capture.propTypes = {
   }),
   offline: PropTypes.objectOf(PropTypes.any),
   onChange: PropTypes.func,
+  onFinish: PropTypes.func,
   onReady: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
@@ -397,6 +400,7 @@ Capture.defaultProps = {
   },
   offline: null,
   onChange: () => {},
+  onFinish: () => {},
   onReady: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',

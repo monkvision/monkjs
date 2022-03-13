@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useCallback, useMemo } from 'react';
 import monk from '@monkvision/corejs/src';
 import { Platform } from 'react-native';
@@ -7,12 +8,28 @@ import Actions from '../../actions';
 import Constants from '../../const';
 
 import log from '../../utils/log';
+import getOS from '../../utils/getOS';
 
 const COVERAGE_360_WHITELIST = [
+  // T-ROCK
   'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
   'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
   'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
   'AoO-nOoM', 'B5s1CWT-',
+  // AUDI A7
+  'vxRr9chD', // Front Bumper Side Left
+  'cDe2q69X', // Front Fender Left
+  'R_f4g8MN', // Doors Left
+  'vedHBC2n', // Front Roof Left
+  'McR3TJK0', // Rear Lateral Left
+  '7bTC-nGS', // Rear Fender Left
+  'hhCBI9oZ', // Rear
+  'e_QIW30o', // Rear Fender Right
+  'fDo5M0Fp', // Rear Lateral Right
+  'fDKWkHHp', // Doors Right
+  '5CFsFvj7', // Front Fender Right
+  'g30kyiVH', // Front Bumper Side Right
+  'I0cOpT1e', // Front
 ];
 
 /**
@@ -42,8 +59,19 @@ export function useTakePictureAsync({ camera }) {
   }) => {
     log([`Awaiting picture to be taken...`]);
 
-    if (Platform.OS === 'web') {
-      const uri = await camera.current.getScreenshot();
+    if (Platform.OS === 'web' && getOS() !== 'iOS') {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
+
+      const track = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(track);
+
+      const blob = await imageCapture.takePhoto();
+      const uri = URL.createObjectURL(blob);
+
+      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, uri]);
+
       return { uri };
     }
 
@@ -116,15 +144,15 @@ export function useCreateDamageDetectionAsync() {
  * @param task
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {
   return useCallback(async (picture) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { metadata } = sights.state.current;
-    const { id, label } = metadata;
+    const { current, ids } = sights.state;
+    const { id, label } = current.metadata;
 
     try {
       dispatch({
@@ -132,6 +160,9 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         increment: true,
         payload: { id, status: 'pending', label },
       });
+
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
@@ -150,7 +181,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
         },
         tasks: [task],
         additional_data: {
-          ...metadata,
+          ...current.metadata,
           overlay: undefined,
         },
       });
@@ -158,18 +189,15 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
       const data = new FormData();
       data.append(multiPartKeys.json, json);
 
-      if (Platform.OS === 'web') {
-        const res = await fetch(picture.uri);
-        const blob = await res.blob();
+      const res = await axios.get(picture.uri, { responseType: 'blob' });
 
-        const file = await new File(
-          [blob],
-          multiPartKeys.filename,
-          { type: multiPartKeys.type },
-        );
+      const file = await new File(
+        [res.data],
+        multiPartKeys.filename,
+        { type: multiPartKeys.type },
+      );
 
-        data.append(multiPartKeys.image, file);
-      }
+      data.append(multiPartKeys.image, file);
 
       const result = await monk.entity.image.addOne({ inspectionId, data });
 
@@ -188,7 +216,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task }) {
 
       throw err;
     }
-  }, [inspectionId, sights, task, uploads]);
+  }, [inspectionId, sights, task, uploads, onFinish]);
 }
 
 /**
