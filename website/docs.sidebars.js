@@ -7,6 +7,7 @@ module.exports = {
       'js/guides/authenticating',
       'js/guides/picturing',
       'js/guides/requesting',
+      'js/guides/visualizing',
     ],
     collapsed: false,
   }, {

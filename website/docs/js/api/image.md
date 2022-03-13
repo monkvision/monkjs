@@ -73,7 +73,6 @@ await monk.image.createOne({ inspectionId, data });
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Image/add_image_to_inspection)
 
-### Body data
 | **name**                               | **type**   | **default** |
 |----------------------------------------|------------|-------------|
 | `inspectionId`                         | string     |             |

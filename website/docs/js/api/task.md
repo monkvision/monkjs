@@ -66,7 +66,6 @@ await monk.task.getMany({ inspectionId });
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_tasks_of_inspection)
 
-### Query params
 | **name**             | **type** | **default** |
 |----------------------|----------|-------------|
 | `inspectionId`       | string   |             |
