@@ -1,23 +1,17 @@
-import { damages, images, inspections, parts, tasks, vehicles, users, views } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
+import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
+
 import logger from 'redux-logger';
 import auth from './slices/auth';
 
 const devTools = process.env.NODE_ENV !== 'production';
 
+const rootReducer = combineReducers({ ...monk.reducers, auth });
+
 const store = configureStore({
   devTools,
-  reducer: {
-    auth,
-    images,
-    inspections,
-    tasks,
-    damages,
-    parts,
-    vehicles,
-    users,
-    views,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware();
 
@@ -30,4 +24,5 @@ const store = configureStore({
 });
 
 export default store;
+
 export * from './slices/auth';

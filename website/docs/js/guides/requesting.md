@@ -35,7 +35,7 @@ const {
   axiosResponse, // https://axios-http.com/docs/res_schema
   entities, // https://github.com/paularmstrong/normalizr
   result,
-} = await monk.entity.inspection.getOne({ id: 'one-valid-inspection-id' })
+} = await monk.entity.inspection.getOne({ id: 'one-valid-inspection-id' });
 ```
 
 ## Go further
@@ -98,9 +98,56 @@ const store = configureStore({
 export default store;
 ```
 
-#### Actions
+#### Selectors & Actions
 
-#### Selectors
+```javascript
+import React, { useCallback, useEffect, useState } from 'react';
+import monk from '@monkvision/corejs';
+import { useDispatch } from 'react-redux';
+
+const { entity } = monk;
+
+function Inspection({ id = 'one-valid-inspection-id' }) {
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const catchLoadingError = useCallback((e) => {
+    setLoading(false);
+    setError(e);
+  }, [setLoading, setError])
+
+  const getOneInspection = useCallback(async (requestParams) => {
+    if (!loading) {
+      setLoading(true);
+
+      try {
+        const response = await entity.inspection.getOne(requestParams);
+        dispatch({ type: `${entity.inspection.name}/gotOne`, payload: response });
+        setLoading(false);
+      } catch (e) {
+        catchLoadingError(e);
+      }
+    }
+  }, [loading]);
+
+  const inspection = entity.inspection.selectors.selectById(id);
+
+  useEffect(() => {
+    getOneInspection({ id });
+  }, [getOneInspection, id]);
+
+  if (loading) {
+    return 'Loading...';
+  }
+
+  return (
+    <>
+      ...
+    </>
+  );
+}
+```
 
 ## What's next?
 

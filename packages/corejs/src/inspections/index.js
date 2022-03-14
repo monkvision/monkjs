@@ -10,6 +10,8 @@ import createEntityReducer from '../createEntityReducer';
 import schema, { idAttribute, key } from './schema';
 import config from '../config';
 
+export const name = key;
+
 /**
  * @param {string} id
  * @param {Object} [params]

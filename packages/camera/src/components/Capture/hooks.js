@@ -142,6 +142,7 @@ export function useCreateDamageDetectionAsync() {
  * @param sights
  * @param uploads
  * @param task
+ * @param onFinish
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {

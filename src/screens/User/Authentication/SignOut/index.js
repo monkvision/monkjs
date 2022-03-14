@@ -4,7 +4,7 @@ import { Button } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 
-import { config } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 import discoveries from 'config/discoveries';
 import useAuth from 'hooks/useAuth';
 
@@ -18,7 +18,7 @@ const returnTo = makeRedirectUri({
 });
 
 export default function SignOut(props) {
-  const params = `?client_id=${config.authConfig.clientId}&returnTo=${returnTo}`;
+  const params = `?client_id=${monk.config.authConfig.clientId}&returnTo=${returnTo}`;
   const { signOut } = useAuth();
 
   const handleOpenWithWebBrowser = () => {

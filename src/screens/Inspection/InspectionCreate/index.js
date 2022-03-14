@@ -5,10 +5,9 @@ import isEmpty from 'lodash.isempty';
 import { Capture, Controls, UploadCenter } from '@monkvision/camera';
 import { Loader } from '@monkvision/ui';
 
-// You can also import already transpiled file.
-// import { inspection, task } from '@monkvision/corejs';
-import * as inspection from '@monkvision/corejs/src/inspections';
-import * as task from '@monkvision/corejs/src/tasks';
+import monk from '@monkvision/corejs';
+
+const { inspection, task } = monk.entity;
 
 export default () => {
   const route = useRoute();

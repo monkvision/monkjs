@@ -11,7 +11,7 @@ import { Loader } from '@monkvision/ui';
 import { useToggle, utils } from '@monkvision/toolkit';
 
 import { useMediaQuery } from 'react-responsive';
-import SignOut from 'screens/Authentication/SignOut';
+import SignOut from 'screens/User/Authentication/SignOut';
 
 import withComingSoon from 'components/withComingSoon';
 import EditSignatureForm from './EditSignatureForm';

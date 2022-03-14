@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { config } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 import discoveries from 'config/discoveries';
 
 import { revokeAsync } from 'expo-auth-session';
@@ -21,7 +21,7 @@ export default function useAuth() {
     setLoggingOut(true);
     try {
       await revokeAsync({
-        clientId: config.authConfig.clientId,
+        clientId: monk.config.authConfig.clientId,
         token: accessToken,
         tokenTypeHint: tokenType,
       }, discoveries);

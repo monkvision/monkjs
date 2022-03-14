@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { config } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 
 const axiosConfig = {
   baseURL: `https://${Constants.manifest.extra.API_DOMAIN}`,
@@ -12,5 +12,5 @@ const authConfig = {
   clientId: Constants.manifest.extra.AUTH_CLIENT_ID,
 };
 
-config.axiosConfig = axiosConfig;
-config.authConfig = authConfig;
+monk.config.axiosConfig = axiosConfig;
+monk.config.authConfig = authConfig;

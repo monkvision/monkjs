@@ -50,9 +50,9 @@ The must important is to have **a valid** `inspectionId`.
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
+import monk from '@monkvision/corejs';
 import isEmpty from 'lodash.isempty';
 
-import monk from '@monkvision/corejs';
 import { Loader } from '@monkvision/ui';
 
 export default () => {
