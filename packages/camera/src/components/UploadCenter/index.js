@@ -166,7 +166,14 @@ export default function UploadCenter({
     const current = { metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
     const upload = await startUploadAsync(picture, current);
-    if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+    if (upload.data?.id) {
+      // we add a timeout due to some cases when we pull the compliance data,
+      // while it is not yet ready in the backend
+      setTimeout(async () => {
+        await checkComplianceAsync(upload.data.id, current.metadata.id);
+      },
+      1000);
+    }
   }, [checkComplianceAsync, sights, startUploadAsync]);
 
   useEffect(() => {

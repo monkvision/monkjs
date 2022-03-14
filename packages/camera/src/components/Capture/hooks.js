@@ -142,7 +142,8 @@ export function useCreateDamageDetectionAsync() {
  * @param sights
  * @param uploads
  * @param task
- * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
+ * @param onFinish
+ * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
   return useCallback(async (picture, currentSight = null) => {
@@ -225,11 +226,12 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
  * @param compliance
  * @param inspectionId
  * @param sightId
- * @return {(function(pictureId: string): Promise<result|error>)|*}
+ * @return {(function(pictureId: string, customSightId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
-  return useCallback(async (imageId) => {
+export function useCheckComplianceAsync({ compliance, inspectionId, sightId: currentSighId }) {
+  return useCallback(async (imageId, customSightId) => {
     const { dispatch } = compliance;
+    const sightId = customSightId || currentSighId;
 
     if (!imageId) {
       throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
@@ -259,5 +261,5 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
 
       return err;
     }
-  }, [compliance, inspectionId, sightId]);
+  }, [compliance, inspectionId, currentSighId]);
 }
