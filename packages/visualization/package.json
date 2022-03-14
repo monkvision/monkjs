@@ -41,8 +41,8 @@
   "dependencies": {
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
-    "react-native-image-colors": "^1.5.0",
-    "react-native-svg": "^12.1.1"
+    "react-native-svg": "12.3.0",
+    "react-native-gesture-handler": "~1.10.2"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

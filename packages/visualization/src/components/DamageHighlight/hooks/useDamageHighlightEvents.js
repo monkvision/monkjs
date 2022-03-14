@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { Platform } from 'react-native';
-import ImageColors from 'react-native-image-colors';
 
 const DELAY_TAP = 300;
 

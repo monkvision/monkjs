@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
-import { ClipPath, Defs, Polygon, Svg, Text } from 'react-native-svg';
+import { ClipPath, Defs, Ellipse, Polygon, Svg, Text } from 'react-native-svg';
 
 import { Platform } from 'react-native';
 import DamageImage from '../DamageImage';
@@ -14,6 +14,12 @@ export const DEFAULT_OPTIONS = {
     fontSize: 5,
   },
   polygons: {
+    opacity: 1,
+    stroke: {
+      strokeWidth: 2.5,
+    },
+  },
+  ellipses: {
     opacity: 1,
     stroke: {
       strokeWidth: 2.5,
@@ -61,6 +67,7 @@ export default function DamageHighlight({
 
   const renderPolygons = useCallback(() => {
     const polygons = [];
+    const ellipse = [];
     const labels = [];
     const polygonsLabel = [];
 
@@ -74,12 +81,14 @@ export default function DamageHighlight({
           const points = polygon.map((coordinates) => `${(coordinates[0])},${(coordinates[1])}`)
             .join(' ');
 
-          const { polygons: polygonsStyle, label } = options;
+          const { ellipses: ellipsesStyle, polygons: polygonsStyle, label } = options;
+
+          const strokeType = (damage.created_by === 'algo' ? polygonsStyle : ellipsesStyle);
 
           const strokes = {
-            stroke: polygonsStyle.stroke.color,
+            stroke: strokeType.stroke.color,
             strokeDasharray: damage?.damageType === 'dent' ? '5, 5' : '',
-            strokeWidth: polygonsStyle.stroke.strokeWidth,
+            strokeWidth: strokeType.stroke.strokeWidth,
           };
 
           const labelPosition = {
@@ -94,10 +103,18 @@ export default function DamageHighlight({
           };
 
           const color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
-          const labelInfo = { ...labelPosition, width: measureText(damage.damageType, label.fontSize), height: label.fontSize, damageType: damage.damageType, color };
+          const labelInfo = {
+            ...labelPosition,
+            width: measureText(damage.damageType, label.fontSize),
+            height: label.fontSize,
+            damageType: damage.damageType,
+            color,
+          };
           const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
 
-          const t = (collision.map((c) => c.damageType === damage.damageType).reduce((prev, curr) => prev || curr, false)) === false;
+          const t = (collision
+            .map((c) => c.damageType === damage.damageType)
+            .reduce((prev, curr) => prev || curr, false)) === false;
 
           if ((collision.length <= 0) || t) {
             while (polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb)).length > 0) {
@@ -115,22 +132,35 @@ export default function DamageHighlight({
                 fontSize={label.fontSize}
                 {...labelPosition}
               >
-                {damage.damageType.charAt(0)
+                {`${damage.damageType.charAt(0)
                   .toUpperCase() + damage.damageType.slice(1)
-                  .replace(/[-_]/g, ' ')}
+                  .replaceAll('_', ' ')} ${index}`}
               </Text>,
             );
           }
 
-          polygons.push(
-            <Polygon
+          if (damage.created_by === 'algo') {
+            polygons.push(
+              <Polygon
+                key={`image-${image.id}-view-${view.id}-polygon-${String(index)}`}
+                fillOpacity={0} // On the web, by default it is fill in black
+                points={points}
+                {...strokes}
+                stroke={collision.length > 0 ? collision[0].color : color}
+              />,
+            );
+          } else {
+            ellipse.push(<Ellipse
               key={`image-${image.id}-view-${view.id}-polygon-${String(index)}`}
-              fillOpacity={0} // On the web, by default it is fill in black
-              points={points}
+              fillOpacity={0}
+              cx={bounding_box.xmin}
+              cy={bounding_box.ymin}
+              rx={bounding_box.width / 2}
+              ry={bounding_box.height / 2}
               {...strokes}
               stroke={collision.length > 0 ? collision[0].color : color}
-            />,
-          );
+            />);
+          }
         }
       });
     });
@@ -184,6 +214,13 @@ DamageHighlight.propTypes = {
   options: PropTypes.shape({
     background: PropTypes.shape({
       opacity: PropTypes.number,
+    }),
+    ellipses: PropTypes.shape({
+      opacity: PropTypes.number,
+      stroke: PropTypes.shape({
+        color: PropTypes.string,
+        strokeWidth: PropTypes.number,
+      }),
     }),
     label: {
       fontSize: PropTypes.number,

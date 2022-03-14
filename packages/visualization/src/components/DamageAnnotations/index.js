@@ -24,6 +24,7 @@ const DEFAULT_OPTIONS = {
 export default function DamageHighlight({
   image,
   onAdd,
+  onUpdate,
   options,
   clip,
   renderOptions,
@@ -92,7 +93,8 @@ export default function DamageHighlight({
         cy: y * RATIO_Y,
       });
     }
-  }, [dragY, dragX, dragPos, RATIO_X, RATIO_Y]);
+    onUpdate(ellipse);
+  }, [dragX, dragY, dragPos, onUpdate, ellipse, RATIO_X, RATIO_Y]);
 
   const handleAddPoint = useCallback((event) => {
     if (!isPointAdded) {
@@ -107,12 +109,13 @@ export default function DamageHighlight({
         cx = event?.nativeEvent?.locationX * ratioX;
         cy = event?.nativeEvent?.locationY * ratioY;
       }
-      const newEllipse = { cx, cy, rx: 100, ry: 100 };
+      const { rx, ry } = renderOptions.ellipse;
+      const newEllipse = { cx, cy, rx, ry };
       setIsPointAdded(true);
       setEllipse(newEllipse);
       onAdd(ellipse);
     }
-  }, [renderOptions.width, renderOptions.height, onAdd, isPointAdded, image, ellipse]);
+  }, [isPointAdded, image.width, image.height, renderOptions, onAdd, ellipse]);
 
   const handlePinchGesture = useCallback((nativeEvent) => {
     const { scale } = nativeEvent;
@@ -220,6 +223,7 @@ DamageHighlight.propTypes = {
     width: PropTypes.number, // original size
   }).isRequired,
   onAdd: PropTypes.func,
+  onUpdate: PropTypes.func,
   options: PropTypes.shape({
     backgroundOpacity: PropTypes.number,
     ellipse: {
@@ -244,6 +248,10 @@ DamageHighlight.propTypes = {
     },
   }),
   renderOptions: PropTypes.shape({
+    ellipse: PropTypes.shape({
+      rx: PropTypes.number,
+      ry: PropTypes.number,
+    }),
     height: PropTypes.number,
     width: PropTypes.number,
   }).isRequired,
@@ -252,5 +260,6 @@ DamageHighlight.propTypes = {
 DamageHighlight.defaultProps = {
   clip: true,
   onAdd: null,
+  onUpdate: null,
   options: DEFAULT_OPTIONS,
 };
