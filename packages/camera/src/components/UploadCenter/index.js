@@ -172,7 +172,7 @@ export default function UploadCenter({
       * - if yes we re run recursively the compliance check after 500ms
       * - if no it will be considered as compliant to not block the user
       * */
-    const verifyComplianceStatus = async (pictureId, compliances) => {
+    const verifyComplianceStatus = (pictureId, compliances) => {
       const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
       if (current.requestCount <= 3 && hasTodo) {
         setTimeout(async () => {
