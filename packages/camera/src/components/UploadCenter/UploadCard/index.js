@@ -199,7 +199,7 @@ UploadCard.propTypes = {
     uri: PropTypes.string,
   }).isRequired,
   upload: PropTypes.shape({
-    error: PropTypes.string,
+    error: PropTypes.objectOf(PropTypes.any),
     picture: PropTypes.shape({ uri: PropTypes.string }),
     status: PropTypes.string,
   }).isRequired,

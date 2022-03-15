@@ -55,8 +55,9 @@ export default () => {
     // reset uploads state with the new incoming ones
     uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: sightsIdsToRetake } });
 
-    // making it smooth with a 500ms loading
+    // making it smooth with a 500ms loading and toggle off the camera loading
     toggleOnLoading();
+    setCameraLoading(false);
 
     // update sightsIds state
     setAllSights({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
@@ -80,9 +81,28 @@ export default () => {
     const { sights } = state;
     const { current, ids } = sights.state;
 
+    /**
+      * here we verify if there is any campliances with status TODO (not yet ready from BE)
+      * with less than 3 `requestCount`:
+      * - if yes we re run recursively the compliance check after 500ms
+      * - if no it will be considered as compliant to not block the user
+      * */
+    const verifyComplianceStatus = async (id, compliances) => {
+      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
+      if (current.requestCount <= 3 && hasTodo) {
+        setTimeout(async () => {
+          const result = await checkComplianceAsync(id);
+          verifyComplianceStatus(id, result.data.compliances);
+        }, 500);
+      }
+    };
+
     if (current.index === ids.length - 1) {
       const upload = await startUploadAsync(picture);
-      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+      if (upload.data?.id) {
+        const result = await checkComplianceAsync(upload.data.id);
+        verifyComplianceStatus(upload.data.id, result.data.compliances);
+      }
 
       setCameraLoading(false);
     } else {
@@ -90,7 +110,10 @@ export default () => {
       goNextSight();
 
       const upload = await startUploadAsync(picture);
-      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+      if (upload.data?.id) {
+        const result = await checkComplianceAsync(upload.data.id);
+        verifyComplianceStatus(upload.data.id, result.data.compliances);
+      }
     }
   }, []);
 

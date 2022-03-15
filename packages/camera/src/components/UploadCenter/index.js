@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, StyleSheet, Button, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
@@ -59,6 +59,7 @@ export default function UploadCenter({
 }) {
   const [submitted, submit] = useState(false);
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
+  const { height } = useWindowDimensions();
 
   const sortByIndex = useCallback((a, b) => {
     const indexA = getIndexById(a.id, sights.state.tour);
@@ -165,14 +166,26 @@ export default function UploadCenter({
   const handleReupload = useCallback(async (id, picture) => {
     const current = { metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
+    /**
+      * here we verify if there is any campliances with status TODO (not yet ready from BE)
+      * with less than 3 `requestCount`:
+      * - if yes we re run recursively the compliance check after 500ms
+      * - if no it will be considered as compliant to not block the user
+      * */
+    const verifyComplianceStatus = async (pictureId, compliances) => {
+      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
+      if (current.requestCount <= 3 && hasTodo) {
+        setTimeout(async () => {
+          const result = await checkComplianceAsync(id, current.metadata.id);
+          verifyComplianceStatus(pictureId, result.data.compliances);
+        }, 500);
+      }
+    };
+
     const upload = await startUploadAsync(picture, current);
     if (upload.data?.id) {
-      // we add a timeout due to some cases when we pull the compliance data,
-      // while it is not yet ready in the backend
-      setTimeout(async () => {
-        await checkComplianceAsync(upload.data.id, current.metadata.id);
-      },
-      1000);
+      const result = await checkComplianceAsync(upload.data.id);
+      verifyComplianceStatus(upload.data.id, result.data.compliances);
     }
   }, [checkComplianceAsync, sights, startUploadAsync]);
 
@@ -189,26 +202,31 @@ export default function UploadCenter({
   }, [compliance, sights, submitButtonProps, submitted, unionIds, uploads]);
 
   return (
-    <ScrollView style={styles.card} contentContainerStyle={styles.container}>
-      <Text style={styles.title}>
-        🏎️ Upload statuses and compliance results
-      </Text>
-      <Text style={styles.subtitle}>
-        Improve image compliance will result to a better AI inspection.
-        Thank you for your understanding.
-      </Text>
-      {unionIds.map((id) => (
-        <UploadCard
-          key={`uploadCard-${id}`}
-          onRetake={handleRetake}
-          onReupload={handleReupload}
-          id={id}
-          label={getItemById(id, sights.state.tour).label}
-          picture={sights.state.takenPictures[id]}
-          upload={uploads.state[id]}
-          compliance={compliance.state[id]}
-        />
-      ))}
+    <ScrollView
+      style={styles.card}
+      contentContainerStyle={styles.container}
+    >
+      <View style={{ minHeight: height - height * 0.2 }}>
+        <Text style={styles.title}>
+          🏎️ Upload statuses and compliance results
+        </Text>
+        <Text style={styles.subtitle}>
+          Improve image compliance will result to a better AI inspection.
+          Thank you for your understanding.
+        </Text>
+        {unionIds.map((id) => (
+          <UploadCard
+            key={`uploadCard-${id}`}
+            onRetake={handleRetake}
+            onReupload={handleReupload}
+            id={id}
+            label={getItemById(id, sights.state.tour).label}
+            picture={sights.state.takenPictures[id]}
+            upload={uploads.state[id]}
+            compliance={compliance.state[id]}
+          />
+        ))}
+      </View>
 
       {typeof submitButtonProps.onPress === 'function' ? (
         <Button style={styles.button} {...submitButtonProps} disabled={isSubmitting} />
