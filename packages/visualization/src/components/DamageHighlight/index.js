@@ -31,8 +31,6 @@ export default function DamageHighlight({
   damages,
   image,
   options,
-  views,
-  onSavePicture,
   ...passThroughProps
 }) {
   const [ref, setRef] = useState(null);
@@ -65,110 +63,115 @@ export default function DamageHighlight({
       && lb1.y <= lb2.y + lb2.height);
   };
 
-  const renderPolygons = useCallback(() => {
-    const polygons = [];
-    const ellipse = [];
+  const renderDamages = useCallback(() => {
+    const damageFigures = [];
     const labels = [];
     const polygonsLabel = [];
 
-    views.forEach((view) => {
-      // eslint-disable-next-line camelcase
-      const { polygons: viewPolygons, bounding_box } = view.image_region.specification;
+    damages.forEach((damage) => {
+      const { ellipse, damageType, polygons } = damage;
+      const { ellipses: ellipsesStyle, polygons: polygonsStyle, label } = options;
 
-      viewPolygons.forEach((polygon, index) => {
-        const damage = damages.find((d) => d.id === view.element_id);
-        if (damage) {
-          const points = polygon.map((coordinates) => `${(coordinates[0])},${(coordinates[1])}`)
-            .join(' ');
+      const strokeType = (polygons ? polygonsStyle : ellipsesStyle);
 
-          const { ellipses: ellipsesStyle, polygons: polygonsStyle, label } = options;
+      const strokes = {
+        stroke: strokeType.stroke.color,
+        strokeDasharray: damageType === 'dent' ? '5, 5' : '',
+        strokeWidth: strokeType.stroke.strokeWidth,
+      };
 
-          const strokeType = (damage.created_by === 'algo' ? polygonsStyle : ellipsesStyle);
+      const boundingBox = {
+        xMin: ellipse ? (ellipse.cx - ellipse.rx) : polygons.reduce((polygon, xMinPolygon) => (
+          Math.min(polygon.reduce((points, xMin) => (
+            Math.min(points[0], xMin)
+          ), Number.MAX_VALUE), xMinPolygon)), Number.MAX_VALUE),
+        yMin: ellipse ? (ellipse.cy - ellipse.ry) : polygons.reduce((polygon, yMinPolygon) => (
+          Math.min(polygon.reduce((points, yMin) => (
+            Math.min(points[1], yMin)
+          ), Number.MAX_VALUE), yMinPolygon)), Number.MAX_VALUE),
+        yMax: ellipse ? (ellipse.cy - ellipse.ry) : polygons.reduce((polygon, yMaxPolygon) => (
+          Math.max(polygon.reduce((points, yMax) => (
+            Math.max(points[1], yMax)
+          ), 0), yMaxPolygon)), 0),
+      };
 
-          const strokes = {
-            stroke: strokeType.stroke.color,
-            strokeDasharray: damage?.damageType === 'dent' ? '5, 5' : '',
-            strokeWidth: strokeType.stroke.strokeWidth,
-          };
+      const labelPosition = {
+        x: boundingBox.xMin,
+        y: ((boundingBox.yMin - label.fontSize) <= 0
+          ? boundingBox.yMax
+          : boundingBox.yMin) - label.fontSize / 2,
+        textAnchor:
+          (boundingBox.xMin + measureText(damage.damageType, label.fontSize)) >= image.width
+            ? 'end'
+            : 'start',
+      };
 
-          const labelPosition = {
-            x: bounding_box.xmin,
-            y: ((bounding_box.ymin - label.fontSize) <= 0
-              ? (bounding_box.ymin + bounding_box.height)
-              : bounding_box.ymin) - label.fontSize / 2,
-            textAnchor:
-              (bounding_box.xmin + measureText(damage.damageType, label.fontSize)) >= image.width
-                ? 'end'
-                : 'start',
-          };
+      const color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
 
-          const color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
-          const labelInfo = {
-            ...labelPosition,
-            width: measureText(damage.damageType, label.fontSize),
-            height: label.fontSize,
-            damageType: damage.damageType,
-            color,
-          };
-          const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
+      const labelInfo = {
+        ...labelPosition,
+        width: measureText(damageType, label.fontSize),
+        height: label.fontSize,
+        damageType,
+        color,
+      };
 
-          const t = (collision
-            .map((c) => c.damageType === damage.damageType)
-            .reduce((prev, curr) => prev || curr, false)) === false;
+      const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
 
-          if ((collision.length <= 0) || t) {
-            while (polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb)).length > 0) {
-              labelPosition.y -= label.fontSize;
-              labelInfo.y -= label.fontSize;
-            }
-            polygonsLabel.push(labelInfo);
+      const t = (collision
+        .map((c) => c.damageType === damageType)
+        .reduce((prev, curr) => prev || curr, false)) === false;
 
-            labels.push(
-              <Text
-                paintOrder="stroke"
-                stroke={color}
-                strokeWidth={5}
-                fill="white"
-                fontSize={label.fontSize}
-                {...labelPosition}
-              >
-                {`${damage.damageType.charAt(0)
-                  .toUpperCase() + damage.damageType.slice(1)
-                  .replaceAll('_', ' ')} ${index}`}
-              </Text>,
-            );
-          }
-
-          if (damage.created_by === 'algo') {
-            polygons.push(
-              <Polygon
-                key={`image-${image.id}-view-${view.id}-polygon-${String(index)}`}
-                fillOpacity={0} // On the web, by default it is fill in black
-                points={points}
-                {...strokes}
-                stroke={collision.length > 0 ? collision[0].color : color}
-              />,
-            );
-          } else {
-            ellipse.push(<Ellipse
-              key={`image-${image.id}-view-${view.id}-polygon-${String(index)}`}
-              fillOpacity={0}
-              cx={bounding_box.xmin}
-              cy={bounding_box.ymin}
-              rx={bounding_box.width / 2}
-              ry={bounding_box.height / 2}
-              {...strokes}
-              stroke={collision.length > 0 ? collision[0].color : color}
-            />);
-          }
+      if ((collision.length <= 0) || t) {
+        while (polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb)).length > 0) {
+          labelPosition.y -= label.fontSize;
+          labelInfo.y -= label.fontSize;
         }
-      });
+        polygonsLabel.push(labelInfo);
+
+        labels.push(
+          <Text
+            paintOrder="stroke"
+            stroke={color}
+            strokeWidth={5}
+            fill="white"
+            fontSize={label.fontSize}
+            {...labelPosition}
+          >
+            {`${damage.damageType.charAt(0)
+              .toUpperCase() + damage.damageType.slice(1)
+              .replaceAll('_', ' ')}`}
+          </Text>,
+        );
+      }
+
+      if (polygons) {
+        damageFigures.concat(polygons.map((p, index) => (
+          <Polygon
+            key={`image-${image.id}-polygon-${String(index)}`}
+            fillOpacity={0}
+            points={p.map((card) => `${card[0]},${card[1]}`).join(' ')}
+            {...strokes}
+            stroke={collision.length > 0 ? collision[0].color : color}
+          />
+        )));
+      }
+
+      if (ellipse) {
+        damageFigures.push(<Ellipse
+          key={`image-${image.id}-damage-${damage.id}-ellipse`}
+          fillOpacity={0}
+          {...ellipse}
+          {...strokes}
+          stroke={collision.length > 0 ? collision[0].color : color}
+        />);
+      }
     });
 
-    return [polygons, labels];
-  }, [damages, image.id, image.width, measureText, options, views]);
+    return [damageFigures, labels];
+  }, [damages, image.id, image.width, measureText, options]);
 
-  const [Polygons, Labels] = renderPolygons();
+  const [Polygons, Labels] = renderDamages();
 
   return (
     <Svg
@@ -200,7 +203,14 @@ export default function DamageHighlight({
 DamageHighlight.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.shape({
     damageType: PropTypes.string,
+    ellipse: PropTypes.shape({
+      cx: PropTypes.number,
+      cy: PropTypes.number,
+      rx: PropTypes.number,
+      ry: PropTypes.number,
+    }),
     id: PropTypes.string,
+    polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
   })),
   image: PropTypes.shape({
     height: PropTypes.number,
@@ -210,7 +220,6 @@ DamageHighlight.propTypes = {
     }),
     width: PropTypes.number,
   }).isRequired,
-  onSavePicture: PropTypes.func,
   options: PropTypes.shape({
     background: PropTypes.shape({
       opacity: PropTypes.number,
@@ -233,29 +242,9 @@ DamageHighlight.propTypes = {
       }),
     }),
   }),
-  views: PropTypes.arrayOf(PropTypes.shape({
-    element_id: PropTypes.string.isRequired,
-    image_region: PropTypes.shape({
-      specification: PropTypes.shape({
-        bounding_box: PropTypes.shape({
-          height: PropTypes.number,
-          width: PropTypes.number,
-          xmin: PropTypes.number,
-          ymin: PropTypes.number,
-        }),
-        polygons: PropTypes.arrayOf(
-          PropTypes.arrayOf(
-            PropTypes.arrayOf(PropTypes.number),
-          ),
-        ),
-      }),
-    }),
-  })),
 };
 
 DamageHighlight.defaultProps = {
   damages: [],
-  onSavePicture: null,
   options: DEFAULT_OPTIONS,
-  views: [],
 };
