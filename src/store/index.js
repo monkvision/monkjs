@@ -15,7 +15,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware();
 
-    if (!devTools) {
+    if (devTools) {
       middleware.push(logger);
     }
 
