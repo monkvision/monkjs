@@ -81,7 +81,7 @@ export default function UploadCenter({
 
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ status }) => status === 'fulfilled')
-    .map(({ result, ...item }) => {
+    .map(({ result, requestCount, ...item }) => {
       const carCov = result.data.compliances.coverage_360;
       const iqa = result.data.compliances.image_quality_assessment;
 
@@ -92,8 +92,16 @@ export default function UploadCenter({
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      // if no carcov reasons, or compliance ius still in TODO, we change nothing
-      if (!carCov?.reasons || carCov?.status === 'TODO' || iqa?.status === 'TODO') { return { ...item, result }; }
+      // TEMPORARY FIX: if status is TODO, mark it as compliant (ignore)
+      if (requestCount > 3 && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
+        return handleChangeReasons({
+          coverage_360: { ...carCov, ...compliant },
+          image_quality_assessment: { ...iqa, ...compliant },
+        });
+      }
+
+      // if no carcov reasons, we change nothing
+      if (!carCov?.reasons) { return { ...item, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
       const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
