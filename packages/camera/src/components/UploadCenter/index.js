@@ -111,8 +111,17 @@ export default function UploadCenter({
       });
     }), [compliance]);
 
+  // TODO: test the `hasNotReadyCompliances && requestCount <= 3` condition
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
-    .filter(({ status }) => ['pending', 'idle'].includes(status))
+    .filter(({ status, result, requestCount }) => {
+      const currentCompliance = result?.data?.compliances;
+      const hasNotReadyCompliances = result && Object.values(currentCompliance).some(
+        (c) => c.is_compliant === null,
+      );
+
+      if (['pending', 'idle'].includes(status) || (hasNotReadyCompliances && requestCount <= 3)) { return true; }
+      return false;
+    })
     .sort(sortByIndex)
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
