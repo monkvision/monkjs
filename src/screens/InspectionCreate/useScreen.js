@@ -44,5 +44,6 @@ export default function useScreen() {
     isLoading,
     inspectionId,
     savePictures: useMediaGallery(),
+    navigation,
   };
 }
