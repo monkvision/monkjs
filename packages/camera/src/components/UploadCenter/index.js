@@ -164,7 +164,7 @@ export default function UploadCenter({
 
   // reupload each picture on its own
   const handleReupload = useCallback(async (id, picture) => {
-    const current = { metadata: { id, label: getItemById(id, sights.state.tour).label } };
+    const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
     /**
       * here we verify if there is any campliances with status TODO (not yet ready from BE)
@@ -184,7 +184,7 @@ export default function UploadCenter({
 
     const upload = await startUploadAsync(picture, current);
     if (upload.data?.id) {
-      const result = await checkComplianceAsync(upload.data.id);
+      const result = await checkComplianceAsync(upload.data.id, current.metadata.id);
       verifyComplianceStatus(upload.data.id, result.data.compliances);
     }
   }, [checkComplianceAsync, sights, startUploadAsync]);
