@@ -1,13 +1,12 @@
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, useUploads, UploadCenter, Actions } from '@monkvision/camera';
-import { Appbar } from 'react-native-paper';
+
 import { useToggle, useTimeout } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
-import { LANDING } from 'screens/names';
 
 const CAMERA_REFRESH_DELAY = 500;
 const defaultSightIds = [
@@ -32,18 +31,11 @@ const defaultSightIds = [
 ];
 
 export default () => {
-  const {
-    request,
-    isLoading,
-    requestCount: updateTaskRequestCount,
-    inspectionId,
-    navigation,
-  } = useScreen();
+  const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
   const [allSights, setAllSights] = useState({ ids: defaultSightIds, initialState: {} });
-  const [tourHasFinished, finishTour] = useToggle();
 
   // refresh camera loading (Useful for a smooth retake all)
   const delay = useMemo(() => (loading ? CAMERA_REFRESH_DELAY : null), [loading]);
@@ -136,22 +128,6 @@ export default () => {
     ...Controls.CaptureButtonProps,
   }];
 
-  useLayoutEffect(() => {
-    if (navigation) {
-      navigation?.setOptions({
-        title: 'Capture tour',
-        headerShown: tourHasFinished,
-        headerBackVisible: false,
-        headerLeft: () => (
-          <Appbar.BackAction
-            accessibilityLabel="Return to inspection"
-            onPress={() => navigation.navigate(LANDING)}
-          />
-        ),
-      });
-    }
-  }, [inspectionId, navigation, tourHasFinished]);
-
   if (loading) { return <Loader />; }
 
   return (
@@ -164,7 +140,6 @@ export default () => {
         loading={cameraloading}
         uploads={uploads}
         onReady={() => setCameraLoading(false)}
-        onFinish={finishTour}
         renderOnFinish={(props) => (
           <UploadCenter
             {...props}
