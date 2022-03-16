@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 import { ClipPath, Defs, Ellipse, Polygon, Svg, Text } from 'react-native-svg';
-
 import { Platform } from 'react-native';
 import DamageImage from '../DamageImage';
+import useSvgToImage from '../../hooks/useSvgToImage';
 
 export const DEFAULT_OPTIONS = {
   background: {
@@ -27,17 +27,15 @@ export const DEFAULT_OPTIONS = {
   },
 };
 
-export default function DamageHighlight({
+const DamageHighlight = forwardRef(({
   damages,
   image,
   options,
+  onPressDamage,
   ...passThroughProps
-}) {
-  const [ref, setRef] = useState(null);
-
-  const handlePress = useCallback(() => (
-    Platform.OS === 'native' ? onSavePicture(ref, image.width, image.height) : onSavePicture(image)
-  ), [image, onSavePicture, ref]);
+}, ref) => {
+  const [svgRef, setSvgRef] = useState(null);
+  const toImage = useSvgToImage();
 
   const measureText = useCallback((str, fontSize) => {
     // eslint-disable-next-line max-len
@@ -81,16 +79,16 @@ export default function DamageHighlight({
       };
 
       const boundingBox = {
-        xMin: ellipse ? (ellipse.cx - ellipse.rx) : polygons.reduce((polygon, xMinPolygon) => (
-          Math.min(polygon.reduce((points, xMin) => (
+        xMin: !polygons ? (ellipse.cx - ellipse.rx) : polygons.reduce((xMinPolygon, p) => (
+          Math.min(p.reduce((xMin, points) => (
             Math.min(points[0], xMin)
           ), Number.MAX_VALUE), xMinPolygon)), Number.MAX_VALUE),
-        yMin: ellipse ? (ellipse.cy - ellipse.ry) : polygons.reduce((polygon, yMinPolygon) => (
-          Math.min(polygon.reduce((points, yMin) => (
+        yMin: !polygons ? (ellipse.cy - ellipse.ry) : polygons.reduce((yMinPolygon, p) => (
+          Math.min(p.reduce((yMin, points) => (
             Math.min(points[1], yMin)
           ), Number.MAX_VALUE), yMinPolygon)), Number.MAX_VALUE),
-        yMax: ellipse ? (ellipse.cy - ellipse.ry) : polygons.reduce((polygon, yMaxPolygon) => (
-          Math.max(polygon.reduce((points, yMax) => (
+        yMax: !polygons ? (ellipse.cy - ellipse.ry) : polygons.reduce((yMaxPolygon, p) => (
+          Math.max(p.reduce((yMax, points) => (
             Math.max(points[1], yMax)
           ), 0), yMaxPolygon)), 0),
       };
@@ -101,19 +99,17 @@ export default function DamageHighlight({
           ? boundingBox.yMax
           : boundingBox.yMin) - label.fontSize / 2,
         textAnchor:
-          (boundingBox.xMin + measureText(damage.damageType, label.fontSize)) >= image.width
+          (boundingBox.xMin + measureText(damageType, label.fontSize)) >= image.width
             ? 'end'
             : 'start',
       };
-
-      const color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
 
       const labelInfo = {
         ...labelPosition,
         width: measureText(damageType, label.fontSize),
         height: label.fontSize,
         damageType,
-        color,
+        color: label.color,
       };
 
       const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
@@ -132,56 +128,65 @@ export default function DamageHighlight({
         labels.push(
           <Text
             paintOrder="stroke"
-            stroke={color}
+            stroke={label.color}
             strokeWidth={5}
             fill="white"
             fontSize={label.fontSize}
             {...labelPosition}
           >
-            {`${damage.damageType.charAt(0)
-              .toUpperCase() + damage.damageType.slice(1)
+            {`${damageType.charAt(0)
+              .toUpperCase() + damageType.slice(1)
               .replaceAll('_', ' ')}`}
           </Text>,
         );
       }
 
       if (polygons) {
-        damageFigures.concat(polygons.map((p, index) => (
-          <Polygon
-            key={`image-${image.id}-polygon-${String(index)}`}
-            fillOpacity={0}
-            points={p.map((card) => `${card[0]},${card[1]}`).join(' ')}
-            {...strokes}
-            stroke={collision.length > 0 ? collision[0].color : color}
-          />
-        )));
+        polygons.forEach((p, index) => {
+          damageFigures.push(
+            <Polygon
+              {...strokes}
+              key={`image-${image.id}-polygon-${String(index)}`}
+              fillOpacity={0}
+              points={p.map((card) => `${card[0]},${card[1]}`).join(' ')}
+              onClick={() => onPressDamage(damage)}
+              onPress={() => onPressDamage(damage)}
+            />,
+          );
+        });
       }
 
       if (ellipse) {
         damageFigures.push(<Ellipse
-          key={`image-${image.id}-damage-${damage.id}-ellipse`}
-          fillOpacity={0}
           {...ellipse}
           {...strokes}
-          stroke={collision.length > 0 ? collision[0].color : color}
+          key={`image-${image.id}-damage-${damage.id}-ellipse`}
+          fillOpacity={0}
+          onClick={() => onPressDamage(damage)}
+          onPress={() => onPressDamage(damage)}
         />);
       }
     });
 
     return [damageFigures, labels];
-  }, [damages, image.id, image.width, measureText, options]);
+  }, [damages, image.id, image.width, measureText, onPressDamage, options]);
 
   const [Polygons, Labels] = renderDamages();
+
+  useImperativeHandle(ref, () => ({
+    toImage: () => (
+      Platform.OS === 'native'
+        ? toImage(svgRef, image.width, image.height)
+        : toImage(image)),
+  }));
 
   return (
     <Svg
       id={`svg-${image.id}`}
-      ref={(rf) => setRef(rf)}
+      ref={(rf) => setSvgRef(rf)}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox={`0 0 ${image.width} ${image.height}`}
-      onPress={handlePress}
-      onClick={handlePress}
       {...passThroughProps}
     >
       <Defs>
@@ -198,7 +203,7 @@ export default function DamageHighlight({
       {Polygons}
     </Svg>
   );
-}
+});
 
 DamageHighlight.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.shape({
@@ -220,6 +225,7 @@ DamageHighlight.propTypes = {
     }),
     width: PropTypes.number,
   }).isRequired,
+  onPressDamage: PropTypes.func,
   options: PropTypes.shape({
     background: PropTypes.shape({
       opacity: PropTypes.number,
@@ -247,4 +253,7 @@ DamageHighlight.propTypes = {
 DamageHighlight.defaultProps = {
   damages: [],
   options: DEFAULT_OPTIONS,
+  onPressDamage: null,
 };
+
+export default DamageHighlight;

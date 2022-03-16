@@ -1,20 +1,26 @@
-import { useCallback } from 'react';
 import { Platform } from 'react-native';
 
-export default function usePolygons() {
-  const getPolygons = useCallback((imageId, views) => {
-    const dmgViews = views?.filter((view) => view.image_region?.image_id === imageId);
-    const specifications = dmgViews?.filter((v) => v.image_region)
-      ?.map((v) => v.image_region?.specification)
-      ?.map((spec) => spec.polygons);
-    return specifications ?? null;
-  }, []);
+/**
+ * @typedef imageSource
+ * @property {string} uri
+ */
 
-  const getImage = useCallback((oneImage) => {
-    const { id, imageHeight: height, imageWidth: width, path } = oneImage;
-    return { id, height, width, source: { uri: path } };
-  }, []);
+/**
+ * @typedef image
+ * @property {string} id - id of the image
+ * @property {number} width - image's original width
+ * @property {number} height - image's original height
+ * @property {imageSource} source - image path
+ */
 
+/**
+ * @returns {function(*, number, number): Promise<*> | Promise.Promise}
+ */
+export default () => {
+  /**
+   * @param {image} img
+   * @returns {Promise<string>}
+   */
   const imageToBase64 = async (img) => {
     const response = await fetch(img.source.uri);
     const buffer = await response.arrayBuffer();
@@ -27,7 +33,11 @@ export default function usePolygons() {
     return `data:image/png;base64,${window.btoa(binary)}`;
   };
 
-  const svgToPngWeb = async (img) => {
+  /**
+   * @param {image} img
+   * @returns {Promise<Promise<unknown> | Promise.Promise>}
+   */
+  const svgToWebp = async (img) => {
     const serialize = new XMLSerializer().serializeToString(document.getElementById(`svg-${img.id}`));
     const b64 = await imageToBase64(img);
     const hrefReg = /href=(["'])(?:(?=(\\?))\2.)*?\1/g;
@@ -54,7 +64,7 @@ export default function usePolygons() {
         canvas.height = img.height;
         const context = canvas.getContext('2d');
         context.drawImage(imageHtml, 0, 0);
-        const url = canvas.toDataURL('image/png');
+        const url = canvas.toDataURL('image/webp');
 
         resolve(url);
       };
@@ -63,6 +73,12 @@ export default function usePolygons() {
     });
   };
 
+  /**
+   * @param ref - Reference of the svg
+   * @param {number} w - image's original width
+   * @param {number} h - image's original height
+   * @returns {Promise<unknown> | Promise.Promise}
+   */
   const svgToPngNative = (ref, w, h) => new Promise((resolve) => {
     if (ref) {
       ref?.toDataURL(
@@ -72,13 +88,8 @@ export default function usePolygons() {
     }
   });
 
-  /**
-   * @type {function(*, *, *, *): Promise<unknown> | Promise.Promise}
-   */
-  const svgToPng = Platform.select({
-    web: svgToPngWeb,
+  return Platform.select({
+    web: svgToWebp,
     native: svgToPngNative,
   });
-
-  return { getImage, getPolygons, svgToPng };
-}
+};

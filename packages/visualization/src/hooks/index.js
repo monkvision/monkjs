@@ -1,2 +1,2 @@
-export { default as useDamageImage } from './useDamageImage';
-export { default as usePolygons } from './usePolygons';
+export { default as useSvgToImage } from './useSvgToImage';
+export { default as useProps } from './useProps';

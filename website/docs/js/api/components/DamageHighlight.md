@@ -60,20 +60,29 @@ const image = { id: 'uuid', width: 0, height: 0, source: {
 
 <DamageHighlight image={image}/>
 ```
-## views
+> `image.id` is mandatory for usage on web
+## damages
+`PropTypes.arrayOf({ polygons, ellipse, damageType, id })`
 
-Contains all polygons of damages/parts of the vehicle linked to the picture.
-It can be found on the result
+Contains all damages information related to the picture:
 
-### image_region.specification.polygons
+* **polygons** : Polygons are 3 levels depth matrix and come from `inspection.images[i].views[j].image_region.polygons`
+  1. list all polygons of a `damage` on the current `image`
+  2. list all `points` of a single `polygon`
+  3. list of 2 number which is the position of a `point` in the plane (basically `x` and `y`)
+* **ellipse** : Contains all information related to the ellipse
+  * `rx`, `ry` are the radius of the ellipse on axis `x` and `y`
+  * `cx`, `cy` are the position of the center of the ellipse
+* **id** : id of the damage
+* **damageType** : type of the damage that will be display with the polygon/ellipse
 
-`PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayO(PropTypes.number)))`
+## onPressDamage
+`PropTypes.func`
 
-Polygons are 3 levels depth matrix and come from `inspection.images[i].views.image_region.polygons`.
+Callback that allows to add an action at the on press event on a polygon or an ellipse. And allows to have the information of the selected damage.
 
-1. list all polygons of a `damage` on the current `image`
-2. list all `points` of a single `polygon`
-3. is the `position` of a `point` in the plane (basically `x` and `y`)
+### Arguments
+* damage `PropTypes.shape({ damageType, ellipse, id, polygons })` - Is the selected damage
 
 ## options
 
@@ -87,9 +96,9 @@ Allow setting background image's opacity.
 
 Allow setting the damage type label's font size.
 
-### polygons
+### polygons / ellipse
 ```js
-polygons: PropTypes.shape({
+ellipse: PropTypes.shape({
   opacity: PropTypes.number,
   stroke: PropTypes.shape({
     color: PropTypes.string,
@@ -97,12 +106,7 @@ polygons: PropTypes.shape({
   })
 })
 ```
-
-## onSavePicture
-`PropType.func`
-
-Callback to convert the svg to a png image which is stored temporarily on the ram of the device.
-The `generated image` is the only argument of the callback function on base64 format
+Allow to style the polygons or the ellipse
 
 ## width
 `PropTypes.number`
@@ -111,68 +115,50 @@ Allows to set the image's displayed width. The height will be computed afterward
 
 ---
 # Methods
-## useDamageImage
-### svgToPng
-
-Convert the svg to a png image. Depending on the device, the function can have different arguments, and it returns a Promise of the url of the generated png image
-
-#### Web
-
-> For the web version, the svg must have an id linked to it, to be able to retrieve it
-
-| Name       | Type            | Description                                                 |
-|------------|-----------------|-------------------------------------------------------------|
-| `image`    | [Image](#image) | Current image without polygons or labels                    |
-| `id`       | String          | id of the current image                                     |
-
-**Example:**
-```js
-  const url = await saveSvg(image, id);
-
-  <Svg id={id}>(...)</Svg>
-```
-
-#### Native
-
-> For the native version, the svg must have a reference linked to it to be able to retrieve it
-
-| Name       | Type   | Description                         |
-|------------|--------|-------------------------------------|
-| `ref`      | Ref    | reference of the svg with the image |
-| `width`    | Number | original width of the image         |
-| `height`   | Number | original height of the image        |
-
-**Example:**
-```js
-  const url = await saveSvg(svgRef, width, height);
-
-  <Svg ref={(ref) => setSvgRef(ref)}>(...)</Svg>
-```
-
-## usePolygons
-
-Extract properties from an API server response
-
-### getPolygons
+To use methods that `DamageHighlight` exposes one has to create a component `ref` and invoke them using it.
+## toImage()
 `PropTypes.func`
 
-Get all polygons linked to an image and return a [list of polygons](#polygons)
+It returns a Promise of the base64 image
 
-| Name                          | Type     | Description                                            |
-|-------------------------------|----------|--------------------------------------------------------|
-| `imageId`                     | String   | Id of the current image                                |
-| `views`                       | Views    | Contains all coordinates of all polygons of an `image` |
+```js
+// ...
+const damageHighlightRef = useRef(null);
 
-### getImage
+const saveImage = useCallback(async () => {
+  const base64 = await damageHighlightRef.current.toImage();
+}, [damageHighlightRef]);
+
+// ...
+<DamageHighlight ref={damageHighlightRef} />
+```
+
+---
+# Hooks
+## useProps
+
+Extract properties from an API server response and convert it to fit with `DamageHighlight` component props.
+
+### getDamages(image, damages)
 `PropTypes.func`
 
-Format an `image` to a classical [image](#image) object
+Format a `damages` list to DamageHighlight `damages` prop (cf. [example](#Example))
 
-| Name    | Type            | Description             |
-|---------|-----------------|-------------------------|
-| `image` | [Image](#image) | Inspection image object |
+| Name      | Type            | Description                      |
+|-----------|-----------------|----------------------------------|
+| `image`   | [Image](#image) | A single inspection image object |
+| `damages` | [Damage]        | List of damage from api result   |
 
-### Example
+### getImage(image)
+`PropTypes.func`
+
+Format an `image` to a classical [image](#image) object (cf. [example](#Example))
+
+| Name    | Type            | Description                      |
+|---------|-----------------|----------------------------------|
+| `image` | [Image](#image) | A single inspection image object |
+
+# Example
 ``` javascript
 import { usePolygons } from '@monkvision/visualization';
 ```
@@ -180,7 +166,8 @@ import { usePolygons } from '@monkvision/visualization';
 ``` javascript
 const oneImage = inspection.images[0]; // result from API
 
-const [getImage] = usePolygons();
+const ref = useRef(null);
+const { getDamages, getImage } = usePolygons();
 const options = {
   polygons: {
     opacity: 0.5,
@@ -197,12 +184,22 @@ const options = {
   },
 }
 
+const handleSaveImage = useCallback(async () => {
+  const base64 = await ref.current.toImage();
+  save(base64);
+}, [ref]);
+
+const handlePressDamage = (damage) => {
+  console.log(damage);
+}
+
 <DamageHighlight
   image={getImage(oneImage)}
-  damages={inspection.damages}
-  views={oneImage.views}
+  damages={getDamages(oneImage, inspection.damages)}
   options={options}
   width={400}
   height={180}
+  onPressDamage={console.log}
+  ref={ref}
 />
 ```

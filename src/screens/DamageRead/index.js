@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
@@ -29,7 +29,7 @@ import {
 } from '@monkvision/corejs';
 import { Loader } from '@monkvision/ui';
 import { useFakeActivity, utils } from '@monkvision/toolkit';
-import { DamageHighlight, usePolygons } from '@monkvision/visualization';
+import { DamageHighlight, useProps } from '@monkvision/visualization';
 
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
@@ -113,6 +113,8 @@ export default () => {
     refresh,
   } = useRequest(getOneInspectionById({ id: inspectionId }));
 
+  const damageHighlightRef = useRef();
+
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
   const damagesEntities = useSelector(selectDamageEntities);
@@ -148,7 +150,7 @@ export default () => {
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
   const [previewImage, setPreviewImage] = useState({});
-  const { getImage, svgToPng } = usePolygons();
+  const { getDamages, getImage } = useProps();
 
   const {
     isLoading: isDeleteLoading,
@@ -181,6 +183,7 @@ export default () => {
   const openPreviewDialog = useCallback((image) => {
     setPreviewImage(image);
     setPreviewDialogOpen(true);
+    damageHighlightRef.current.toImage().then(console.log);
   }, []);
 
   const handleDismissPreviewDialog = useCallback(() => {
@@ -211,19 +214,6 @@ export default () => {
     [damageViews, inspection.images],
   );
 
-  const handleZoomWeb = useCallback((image) => {
-    svgToPng(image)
-      .then((base64) => {
-        console.log(base64);
-        const newImage = { url: base64, id: image.id };
-
-        setPreviewImages((prevState) => (
-          prevState.filter((img) => img.id === image.id).length <= 0
-            ? [...prevState, newImage]
-            : prevState));
-      });
-  }, [svgToPng]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -233,15 +223,6 @@ export default () => {
       });
     }
   }, [navigation, damageId, menuItems]);
-
-  const sorts = (a, b) => {
-    const { width: aWidth, height: aHeight } = a.image_region.specification.bounding_box;
-    const { width: bWidth, height: bHeight } = b.image_region.specification.bounding_box;
-
-    return (bWidth * bHeight) - (aWidth * aHeight);
-  };
-
-  const foo = (views) => ([...views].sort(sorts));
 
   if (isLoading) {
     return <Loader texts={['Reading damages...', 'Loading damage images...', 'Loading...']} />;
@@ -285,27 +266,35 @@ export default () => {
                     })}
                   >
                     <DamageHighlight
-                      // damages={inspection?.damages.filter((dmg) => dmg.id === damageId)}
-                      damages={inspection?.damages}
+                      damages={getDamages(image, inspection?.damages)}
                       image={getImage(image)}
-                      onSavePicture={handleZoomWeb}
                       options={{
                         background: {
                           opacity: 1,
                         },
                         label: {
                           fontSize: 25,
+                          color: 'black',
                         },
                         polygons: {
                           opacity: 1,
                           stroke: {
+                            color: 'magenta',
+                            strokeWidth: 2.5,
+                          },
+                        },
+                        ellipses: {
+                          opacity: 1,
+                          stroke: {
+                            color: 'magenta',
                             strokeWidth: 2.5,
                           },
                         },
                       }}
-                      views={foo(inspection?.images?.find((img) => img.id === image.id).views)}
                       width={400}
-                      height={image.image_height * (400 / image.image_width)}
+                      height={image.imageHeight * (400 / image.imageWidth)}
+                      ref={damageHighlightRef}
+                      onPressDamage={console.log}
                     />
                   </TouchableRipple>
                 </View>
