@@ -68,6 +68,17 @@ export default function UploadCenter({
     return indexB - indexA;
   }, [sights.state.tour]);
 
+  const pendingCompliance = useMemo(() => Object.values(compliance.state)
+    .some(({ result, requestCount }) => {
+      if (!result) { return true; }
+      const currentCompliance = result.data.compliances;
+      const hasNotReadyCompliances = Object.values(currentCompliance).some(
+        (c) => c.is_compliant === null,
+      );
+
+      return hasNotReadyCompliances && requestCount <= 3;
+    }), [compliance.state]);
+
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ status }) => status === 'fulfilled')
     .map(({ result, ...item }) => {
@@ -81,16 +92,8 @@ export default function UploadCenter({
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      // TEMPORARY FIX: if status is TODO, mark it as compliant (ignore)
-      if (carCov?.status === 'TODO' || iqa?.status === 'TODO') {
-        return handleChangeReasons({
-          coverage_360: { ...carCov, ...compliant },
-          image_quality_assessment: { ...iqa, ...compliant },
-        });
-      }
-
-      // if no carcov reasons, we change nothing
-      if (!carCov?.reasons) { return { ...item, result }; }
+      // if no carcov reasons, or compliance ius still in TODO, we change nothing
+      if (!carCov?.reasons || carCov?.status === 'TODO' || iqa?.status === 'TODO') { return { ...item, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
       const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
@@ -172,9 +175,13 @@ export default function UploadCenter({
       * - if yes we re run recursively the compliance check after 500ms
       * - if no it will be considered as compliant to not block the user
       * */
+    let requestCount = 0;
     const verifyComplianceStatus = (pictureId, compliances) => {
       const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      if (current.requestCount <= 3 && hasTodo) {
+      const hasNotReachedMaxRetries = requestCount <= 3;
+
+      if (hasNotReachedMaxRetries && hasTodo) {
+        requestCount += 1;
         setTimeout(async () => {
           const result = await checkComplianceAsync(id, current.metadata.id);
           verifyComplianceStatus(pictureId, result.data.compliances);
@@ -191,7 +198,8 @@ export default function UploadCenter({
 
   useEffect(() => {
     if (
-      submitted === false
+      !pendingCompliance
+      && submitted === false
       && unionIds
       && unionIds.length === 0
       && typeof submitButtonProps.onPress === 'function'
@@ -199,7 +207,7 @@ export default function UploadCenter({
       submitButtonProps.onPress({ compliance, sights, uploads });
       submit(true);
     }
-  }, [compliance, sights, submitButtonProps, submitted, unionIds, uploads]);
+  }, [compliance, pendingCompliance, sights, submitButtonProps, submitted, unionIds, uploads]);
 
   return (
     <ScrollView

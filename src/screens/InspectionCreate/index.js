@@ -30,7 +30,7 @@ const defaultSightIds = [
 ];
 
 export default () => {
-  const { request, isLoading, requestCount, inspectionId } = useScreen();
+  const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
@@ -41,8 +41,8 @@ export default () => {
   useTimeout(toggleOffLoading, delay);
 
   // start the damage detection task
-  const handleSuccess = useCallback(() => { if (requestCount === 0) { request(); } },
-    [request, requestCount]);
+  const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
+    [request, updateTaskRequestCount]);
 
   const uploads = useUploads({ sightIds: allSights.ids });
 
@@ -87,9 +87,13 @@ export default () => {
       * - if yes we re run recursively the compliance check after 500ms
       * - if no it will be considered as compliant to not block the user
       * */
+    let requestCount = 0;
     const verifyComplianceStatus = (id, compliances) => {
       const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      if (current.requestCount <= 3 && hasTodo) {
+      const hasNotReachedMaxRetries = requestCount <= 3;
+
+      if (hasNotReachedMaxRetries && hasTodo) {
+        requestCount += 1;
         setTimeout(async () => {
           const result = await checkComplianceAsync(id);
           verifyComplianceStatus(id, result.data.compliances);
@@ -134,6 +138,7 @@ export default () => {
         controls={controls}
         loading={cameraloading}
         uploads={uploads}
+        onReady={() => setCameraLoading(false)}
         renderOnFinish={(props) => (
           <UploadCenter
             {...props}
