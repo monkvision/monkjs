@@ -44,7 +44,7 @@ const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 
 const compliant = { is_compliant: true, reasons: [] };
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
-
+const MAX_FAILED_COMPLIANCE_RETRIES = 3;
 export default function UploadCenter({
   compliance,
   navigationOptions,
@@ -76,7 +76,7 @@ export default function UploadCenter({
         (c) => c.is_compliant === null,
       );
 
-      return hasNotReadyCompliances && requestCount <= 3;
+      return hasNotReadyCompliances && requestCount <= MAX_FAILED_COMPLIANCE_RETRIES;
     }), [compliance.state]);
 
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
@@ -93,8 +93,7 @@ export default function UploadCenter({
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      // TEMPORARY FIX: if status is TODO, mark it as compliant (ignore)
-      if (requestCount > 3 && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
+      if (requestCount > MAX_FAILED_COMPLIANCE_RETRIES && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
         return handleChangeReasons({
           coverage_360: { ...carCov, ...compliant },
           image_quality_assessment: { ...iqa, ...compliant },
@@ -111,25 +110,24 @@ export default function UploadCenter({
       });
     }), [compliance]);
 
-  // TODO: test the `hasNotReadyCompliances && requestCount <= 3` condition
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
-    .filter(({ status, result, requestCount }) => {
+    .filter(({ status }) => ['pending', 'idle'].includes(status))
+    .sort(sortByIndex)
+    .map(({ id }) => id), [sortByIndex, uploads.state]);
+
+  // TODO: test the `hasNotReadyCompliances && requestCount <= MAX_FAILED_COMPLIANCE_RETRIES`
+  const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
+    .filter(({ status, requestCount, result }) => {
       const currentCompliance = result?.data?.compliances;
       const hasNotReadyCompliances = result && Object.values(currentCompliance).some(
         (c) => c.is_compliant === null,
       );
 
-      if (['pending', 'idle'].includes(status) || (hasNotReadyCompliances && requestCount <= 3)) { return true; }
+      if ((['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry)
+      || (hasNotReadyCompliances && requestCount <= MAX_FAILED_COMPLIANCE_RETRIES)) { return true; }
+
       return false;
     })
-    .sort(sortByIndex)
-    .map(({ id }) => id), [sortByIndex, uploads.state]);
-
-  const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
-    .filter(({ status, requestCount }) => (
-      ['pending', 'idle'].includes(status)
-      && requestCount <= navigationOptions.retakeMaxTry
-    ))
     .sort(sortByIndex)
     .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
 
@@ -196,7 +194,7 @@ export default function UploadCenter({
     let requestCount = 0;
     const verifyComplianceStatus = (pictureId, compliances) => {
       const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      const hasNotReachedMaxRetries = requestCount <= 3;
+      const hasNotReachedMaxRetries = requestCount <= MAX_FAILED_COMPLIANCE_RETRIES;
 
       if (hasNotReachedMaxRetries && hasTodo) {
         requestCount += 1;

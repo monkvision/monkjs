@@ -9,6 +9,7 @@ import { useToggle, useTimeout } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 
 const CAMERA_REFRESH_DELAY = 500;
+const MAX_FAILED_COMPLIANCE_RETRIES = 3;
 const defaultSightIds = [
   'WKJlxkiF', // Beauty Shot
   'vxRr9chD', // Front Bumper Side Left
@@ -91,7 +92,7 @@ export default () => {
     let requestCount = 0;
     const verifyComplianceStatus = (id, compliances) => {
       const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      const hasNotReachedMaxRetries = requestCount <= 3;
+      const hasNotReachedMaxRetries = requestCount <= MAX_FAILED_COMPLIANCE_RETRIES;
 
       if (hasNotReachedMaxRetries && hasTodo) {
         requestCount += 1;
