@@ -43,7 +43,7 @@ export default () => {
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
   const [allSights, setAllSights] = useState({ ids: defaultSightIds, initialState: {} });
-  const [tourHasFinished, finishTour] = useToggle();
+  const [tourHasFinished, finishTour, startTour] = useToggle();
 
   // refresh camera loading (Useful for a smooth retake all)
   const delay = useMemo(() => (loading ? CAMERA_REFRESH_DELAY : null), [loading]);

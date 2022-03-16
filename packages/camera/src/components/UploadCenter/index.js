@@ -88,6 +88,7 @@ export default function UploadCenter({
       // `handleChangeReasons` returns the full result object with the given compliances
       const handleChangeReasons = (compliances) => ({
         ...item,
+        requestCount,
         result: { ...result,
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
@@ -101,7 +102,7 @@ export default function UploadCenter({
       }
 
       // if no carcov reasons, we change nothing
-      if (!carCov?.reasons) { return { ...item, result }; }
+      if (!carCov?.reasons) { return { ...item, requestCount, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
       const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
