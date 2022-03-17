@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
     padding: spacing(1.4),
     marginVertical: spacing(0.6),
   },
+  loadingText: {
+    marginVertical: spacing(0.6),
+    color: 'gray',
+    fontWeight: '500',
+    fontSize: 12,
+  },
 });
 
 const getItemById = (id, array) => array.find((item) => item.id === id);
@@ -44,7 +50,7 @@ const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 
 const compliant = { is_compliant: true, reasons: [] };
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
-const MAX_FAILED_COMPLIANCE_RETRIES = 1;
+
 export default function UploadCenter({
   compliance,
   navigationOptions,
@@ -68,7 +74,9 @@ export default function UploadCenter({
     return indexB - indexA;
   }, [sights.state.tour]);
 
-  const pendingCompliance = useMemo(() => Object.values(compliance.state)
+  const sightslength = useMemo(() => sights.state.tour.length, [sights.state.tour]);
+
+  const hasPendingCompliance = useMemo(() => Object.values(compliance.state)
     .some(({ result, requestCount }) => {
       if (!result) { return true; }
       const currentCompliance = result.data.compliances;
@@ -76,7 +84,18 @@ export default function UploadCenter({
         (c) => c.is_compliant === null,
       );
 
-      return hasNotReadyCompliances && requestCount < MAX_FAILED_COMPLIANCE_RETRIES;
+      return hasNotReadyCompliances && requestCount < 2;
+    }), [compliance.state]);
+
+  const notReadyCompliance = useMemo(() => Object.values(compliance.state)
+    .filter(({ result }) => {
+      if (!result) { return false; }
+      const currentCompliance = result.data.compliances;
+      const hasNotReadyCompliances = Object.values(currentCompliance).some(
+        (c) => c.is_compliant === null,
+      );
+
+      return hasNotReadyCompliances;
     }), [compliance.state]);
 
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
@@ -93,7 +112,8 @@ export default function UploadCenter({
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      if (requestCount >= MAX_FAILED_COMPLIANCE_RETRIES && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
+      // Mark as compliant compliances with status TODO and a request count >=2
+      if (requestCount >= 2 && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
         return handleChangeReasons({
           coverage_360: carCov?.status === 'TODO' ? { ...carCov, ...compliant } : carCov,
           image_quality_assessment: iqa?.status === 'TODO' ? { ...iqa, ...compliant } : iqa,
@@ -115,16 +135,15 @@ export default function UploadCenter({
     .sort(sortByIndex)
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
-  // TODO: test the `hasNotReadyCompliances && requestCount < MAX_FAILED_COMPLIANCE_RETRIES`
   const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
     .filter(({ status, requestCount, result }) => {
       const currentCompliance = result?.data?.compliances;
       const hasNotReadyCompliances = result && Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
+        (c) => c.status === 'TODO' || c.is_compliant === null,
       );
 
       if ((['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry)
-      || (hasNotReadyCompliances && requestCount < MAX_FAILED_COMPLIANCE_RETRIES)) { return true; }
+      || (hasNotReadyCompliances && requestCount < 2)) { return true; }
 
       return false;
     })
@@ -208,7 +227,7 @@ export default function UploadCenter({
 
   useEffect(() => {
     if (
-      !pendingCompliance
+      !hasPendingCompliance
       && submitted === false
       && unionIds
       && unionIds.length === 0
@@ -217,7 +236,7 @@ export default function UploadCenter({
       submitButtonProps.onPress({ compliance, sights, uploads });
       submit(true);
     }
-  }, [compliance, pendingCompliance, sights, submitButtonProps, submitted, unionIds, uploads]);
+  }, [compliance, hasPendingCompliance, sights, submitButtonProps, submitted, unionIds, uploads]);
 
   return (
     <ScrollView
@@ -228,10 +247,25 @@ export default function UploadCenter({
         <Text style={styles.title}>
           🏎️ Upload statuses and compliance results
         </Text>
+
         <Text style={styles.subtitle}>
           Improve image compliance will result to a better AI inspection.
           Thank you for your understanding.
         </Text>
+
+        {(hasPendingCompliance
+         || unfulfilledComplianceIds?.length) && !uploadIdsWithError?.length ? (
+           <Text style={styles.loadingText}>
+             Verifying the pictures compliance...
+           </Text>
+          ) : null}
+
+        {notReadyCompliance?.length > sightslength * 0.2 ? (
+          <Text style={[styles.loadingText, { color: 'orange' }]}>
+            {'We couldn\'t check all pictures compliance, you can always continue'}
+          </Text>
+        ) : null}
+
         {unionIds.map((id) => (
           <UploadCard
             key={`uploadCard-${id}`}
@@ -244,6 +278,7 @@ export default function UploadCenter({
             compliance={compliance.state[id]}
           />
         ))}
+
       </View>
 
       {typeof submitButtonProps.onPress === 'function' ? (
