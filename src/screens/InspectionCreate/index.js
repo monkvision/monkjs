@@ -31,7 +31,7 @@ const defaultSightIds = [
 ];
 
 export default () => {
-  const { request, isLoading, requestCount, inspectionId } = useScreen();
+  const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
@@ -42,8 +42,8 @@ export default () => {
   useTimeout(toggleOffLoading, delay);
 
   // start the damage detection task
-  const handleSuccess = useCallback(() => { if (requestCount === 0) { request(); } },
-    [request, requestCount]);
+  const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
+    [request, updateTaskRequestCount]);
 
   const uploads = useUploads({ sightIds: allSights.ids });
 
@@ -83,17 +83,15 @@ export default () => {
     const { current, ids } = sights.state;
 
     /**
-      * here we verify if there is any campliances with status TODO (not yet ready from BE)
-      * with less than 3 `requestCount`:
-      * - if yes we re run recursively the compliance check after 500ms
-      * - if no it will be considered as compliant to not block the user
+      * Note(Ilyass): We removed the recursive function solution, because it takes up too much time,
+      * instead we re-run the compliance one more time after 1sec of getting the first response
       * */
-    const verifyComplianceStatus = async (id, compliances) => {
-      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      if (current.requestCount <= 3 && hasTodo) {
+    const verifyComplianceStatus = (pictureId, compliances) => {
+      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
+
+      if (hasTodo) {
         setTimeout(async () => {
-          const result = await checkComplianceAsync(id);
-          verifyComplianceStatus(id, result.data.compliances);
+          await checkComplianceAsync(pictureId, current.metadata.id);
         }, 500);
       }
     };
@@ -135,6 +133,7 @@ export default () => {
         controls={controls}
         loading={cameraloading}
         uploads={uploads}
+        onReady={() => setCameraLoading(false)}
         renderOnFinish={(props) => (
           <UploadCenter
             {...props}

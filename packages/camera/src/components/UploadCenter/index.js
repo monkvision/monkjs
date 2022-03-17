@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
     padding: spacing(1.4),
     marginVertical: spacing(0.6),
   },
+  loadingText: {
+    marginVertical: spacing(0.6),
+    color: 'gray',
+    fontWeight: '500',
+    fontSize: 12,
+  },
 });
 
 const getItemById = (id, array) => array.find((item) => item.id === id);
@@ -68,29 +74,54 @@ export default function UploadCenter({
     return indexB - indexA;
   }, [sights.state.tour]);
 
+  const sightslength = useMemo(() => sights.state.tour.length, [sights.state.tour]);
+
+  const hasPendingCompliance = useMemo(() => Object.values(compliance.state)
+    .some(({ result, requestCount }) => {
+      if (!result) { return true; }
+      const currentCompliance = result.data.compliances;
+      const hasNotReadyCompliances = Object.values(currentCompliance).some(
+        (c) => c.is_compliant === null,
+      );
+
+      return hasNotReadyCompliances && requestCount < 2;
+    }), [compliance.state]);
+
+  const notReadyCompliance = useMemo(() => Object.values(compliance.state)
+    .filter(({ result }) => {
+      if (!result) { return false; }
+      const currentCompliance = result.data.compliances;
+      const hasNotReadyCompliances = Object.values(currentCompliance).some(
+        (c) => c.is_compliant === null,
+      );
+
+      return hasNotReadyCompliances;
+    }), [compliance.state]);
+
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ status }) => status === 'fulfilled')
-    .map(({ result, ...item }) => {
+    .map(({ result, requestCount, ...item }) => {
       const carCov = result.data.compliances.coverage_360;
       const iqa = result.data.compliances.image_quality_assessment;
 
       // `handleChangeReasons` returns the full result object with the given compliances
       const handleChangeReasons = (compliances) => ({
         ...item,
+        requestCount,
         result: { ...result,
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      // TEMPORARY FIX: if status is TODO, mark it as compliant (ignore)
-      if (carCov?.status === 'TODO' || iqa?.status === 'TODO') {
+      // Mark as compliant compliances with status TODO and a request count >=2
+      if (requestCount >= 2 && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
         return handleChangeReasons({
-          coverage_360: { ...carCov, ...compliant },
-          image_quality_assessment: { ...iqa, ...compliant },
+          coverage_360: carCov?.status === 'TODO' ? { ...carCov, ...compliant } : carCov,
+          image_quality_assessment: iqa?.status === 'TODO' ? { ...iqa, ...compliant } : iqa,
         });
       }
 
       // if no carcov reasons, we change nothing
-      if (!carCov?.reasons) { return { ...item, result }; }
+      if (!carCov?.reasons) { return { ...item, requestCount, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
       const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
@@ -105,10 +136,17 @@ export default function UploadCenter({
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
   const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
-    .filter(({ status, requestCount }) => (
-      ['pending', 'idle'].includes(status)
-      && requestCount <= navigationOptions.retakeMaxTry
-    ))
+    .filter(({ status, requestCount, result }) => {
+      const currentCompliance = result?.data?.compliances;
+      const hasNotReadyCompliances = result && Object.values(currentCompliance).some(
+        (c) => c.status === 'TODO' || c.is_compliant === null,
+      );
+
+      if ((['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry)
+      || (hasNotReadyCompliances && requestCount < 2)) { return true; }
+
+      return false;
+    })
     .sort(sortByIndex)
     .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
 
@@ -167,17 +205,15 @@ export default function UploadCenter({
     const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
     /**
-      * here we verify if there is any campliances with status TODO (not yet ready from BE)
-      * with less than 3 `requestCount`:
-      * - if yes we re run recursively the compliance check after 500ms
-      * - if no it will be considered as compliant to not block the user
+      * Note(Ilyass): We removed the recursive function solution, because it takes up too much time,
+      * instead we re-run the compliance one more time after 1sec of getting the first response
       * */
     const verifyComplianceStatus = (pictureId, compliances) => {
-      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      if (current.requestCount <= 3 && hasTodo) {
+      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
+
+      if (hasTodo) {
         setTimeout(async () => {
-          const result = await checkComplianceAsync(id, current.metadata.id);
-          verifyComplianceStatus(pictureId, result.data.compliances);
+          await checkComplianceAsync(pictureId, current.metadata.id);
         }, 500);
       }
     };
@@ -191,7 +227,8 @@ export default function UploadCenter({
 
   useEffect(() => {
     if (
-      submitted === false
+      !hasPendingCompliance
+      && submitted === false
       && unionIds
       && unionIds.length === 0
       && typeof submitButtonProps.onPress === 'function'
@@ -199,7 +236,7 @@ export default function UploadCenter({
       submitButtonProps.onPress({ compliance, sights, uploads });
       submit(true);
     }
-  }, [compliance, sights, submitButtonProps, submitted, unionIds, uploads]);
+  }, [compliance, hasPendingCompliance, sights, submitButtonProps, submitted, unionIds, uploads]);
 
   return (
     <ScrollView
@@ -210,10 +247,25 @@ export default function UploadCenter({
         <Text style={styles.title}>
           🏎️ Upload statuses and compliance results
         </Text>
+
         <Text style={styles.subtitle}>
           Improve image compliance will result to a better AI inspection.
           Thank you for your understanding.
         </Text>
+
+        {(hasPendingCompliance
+         || unfulfilledComplianceIds?.length) && !uploadIdsWithError?.length ? (
+           <Text style={styles.loadingText}>
+             Verifying the pictures compliance...
+           </Text>
+          ) : null}
+
+        {notReadyCompliance?.length > sightslength * 0.2 ? (
+          <Text style={[styles.loadingText, { color: 'orange' }]}>
+            {'We couldn\'t check all pictures compliance, you can always continue'}
+          </Text>
+        ) : null}
+
         {unionIds.map((id) => (
           <UploadCard
             key={`uploadCard-${id}`}
@@ -226,6 +278,7 @@ export default function UploadCenter({
             compliance={compliance.state[id]}
           />
         ))}
+
       </View>
 
       {typeof submitButtonProps.onPress === 'function' ? (
