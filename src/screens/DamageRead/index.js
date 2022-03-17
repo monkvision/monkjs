@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
@@ -148,8 +148,7 @@ export default () => {
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
-  const [previewImages, setPreviewImages] = useState([]);
-  const [previewImage, setPreviewImage] = useState({});
+  const [previewImages, setPreviewImages] = useState(null);
   const { getDamages, getImage } = useProps();
 
   const {
@@ -180,13 +179,15 @@ export default () => {
     setDeleteDialogOpen(false);
   }, []);
 
-  const openPreviewDialog = useCallback((image) => {
-    setPreviewImage(image);
-    setPreviewDialogOpen(true);
-    damageHighlightRef.current.toImage().then(console.log);
+  const openPreviewDialog = useCallback(() => {
+    damageHighlightRef.current.toImage()
+      .then((img) => {
+        setPreviewImages([{ url: img }]);
+      });
   }, []);
 
   const handleDismissPreviewDialog = useCallback(() => {
+    setPreviewImages(null);
     setPreviewDialogOpen(false);
   }, []);
 
@@ -213,6 +214,12 @@ export default () => {
     () => getDamageImages(damageViews, inspection?.images ?? []),
     [damageViews, inspection.images],
   );
+
+  useEffect(() => {
+    if (previewImages) {
+      setPreviewDialogOpen(true);
+    }
+  }, [previewImages]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -259,11 +266,7 @@ export default () => {
                 <View style={styles.images}>
                   <TouchableRipple
                     key={String(index)}
-                    onPress={() => openPreviewDialog({
-                      name: image.name,
-                      path: image.path,
-                      index: previewImages.map((img) => img.id).indexOf(image.id),
-                    })}
+                    onPress={openPreviewDialog}
                   >
                     <DamageHighlight
                       damages={getDamages(image, inspection?.damages)}
@@ -294,7 +297,6 @@ export default () => {
                       width={400}
                       height={image.imageHeight * (400 / image.imageWidth)}
                       ref={damageHighlightRef}
-                      onPressDamage={console.log}
                     />
                   </TouchableRipple>
                 </View>
@@ -373,7 +375,7 @@ export default () => {
       <ImageViewer
         isOpen={isPreviewDialogOpen}
         images={previewImages}
-        index={previewImage.index}
+        index={0}
         handleDismiss={handleDismissPreviewDialog}
       />
     </SafeAreaView>
