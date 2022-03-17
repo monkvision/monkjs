@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
  * @param onChange
  * @param onReady
  * @param onFinish
+ * @param orientationBlockerProps
  * @param primaryColor
  * @param sightIds
  * @param sightsContainerStyle
@@ -296,8 +297,8 @@ export default function Capture({
           onRef={setCamera}
           onCameraReady={handleCameraReady}
           title={title}
-          ratio="4:3"
-          {...Platform.select({ native: settings, default: {} })}
+          ratio={settings.ratio}
+          pictureSize={settings.pictureSize}
         >
           {children}
         </Camera>

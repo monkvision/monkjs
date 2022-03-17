@@ -59,21 +59,28 @@ export function useTakePictureAsync({ camera }) {
   }) => {
     log([`Awaiting picture to be taken...`]);
 
-    if (Platform.OS === 'web' && getOS() !== 'iOS') {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-      });
+    // if (Platform.OS === 'web') {
+    //   const mediaStream = await navigator.mediaDevices.getUserMedia({
+    //     video: {
+    //       facingMode: 'environment',
+    //       width,
+    //       height,
+    //     },
+    //   });
+    //
+    //   const track = mediaStream.getVideoTracks()[0];
+    //
+    //   const imageCapture = new ImageCapture(track);
+    //
+    //   const blob = await imageCapture.takePhoto();
+    //   const uri = URL.createObjectURL(blob);
+    //
+    //   log([`ImageCapture 'takePhoto' has fulfilled with blob:`, uri]);
+    //
+    //   return { uri };
+    // }
 
-      const track = mediaStream.getVideoTracks()[0];
-      const imageCapture = new ImageCapture(track);
-
-      const blob = await imageCapture.takePhoto();
-      const uri = URL.createObjectURL(blob);
-
-      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, uri]);
-
-      return { uri };
-    }
+    console.log(camera);
 
     const picture = await camera.takePictureAsync(options);
 
