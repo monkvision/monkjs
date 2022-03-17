@@ -30,8 +30,9 @@ const image = {
 };
 
 const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
+const damages = [{ damageType: "Scratch", polygons, id }];
 
-<DamageHighlight image={image} polygons={polygons} />;
+<DamageHighlight image={image} damages={damages} />;
 ```
 
 The component's properties are from the result of an inspection. Both of them are a part of `inspection.images`.
@@ -160,46 +161,52 @@ Format an `image` to a classical [image](#image) object (cf. [example](#Example)
 
 # Example
 ``` javascript
-import { usePolygons } from '@monkvision/visualization';
-```
+import React, { useState, useEffect } from 'react';
+import { DamageHighlight, useProps } from '@monkvision/visualization';
 
-``` javascript
-const oneImage = inspection.images[0]; // result from API
+export default function App() {
+  const oneImage = inspection.images[0]; // result from API
 
-const ref = useRef(null);
-const { getDamages, getImage } = usePolygons();
-const options = {
-  polygons: {
-    opacity: 0.5,
-    stroke: {
-      color: 'green',
-      strokeWidth: 50,
-    }
-  },
-  label: {
-    fontSize: 20,
-  },
-  background: {
-    opacity: 0.35,
-  },
+  const ref = useRef(null);
+  const { getDamages, getImage } = useProps();
+  const options = {
+    polygons: {
+      opacity: 0.5,
+      stroke: {
+        color: 'green',
+        strokeWidth: 50,
+      }
+    },
+    label: {
+      fontSize: 20,
+    },
+    background: {
+      opacity: 0.35,
+    },
+  }
+
+  const handleSaveImage = useCallback(async () => {
+    const base64 = await ref.current.toImage();
+    save(base64);
+  }, [ref]);
+
+  const handlePressDamage = (damage) => {
+    console.log(damage);
+  }
+
+  return (
+    <View>
+      <DamageHighlight
+        image={getImage(oneImage)}
+        damages={getDamages(oneImage, inspection.damages)}
+        options={options}
+        width={400}
+        height={180}
+        onPressDamage={console.log}
+        ref={ref}
+      />
+    </View>
+  )
 }
 
-const handleSaveImage = useCallback(async () => {
-  const base64 = await ref.current.toImage();
-  save(base64);
-}, [ref]);
-
-const handlePressDamage = (damage) => {
-  console.log(damage);
-}
-
-<DamageHighlight
-  image={getImage(oneImage)}
-  damages={getDamages(oneImage, inspection.damages)}
-  options={options}
-  width={400}
-  height={180}
-  onPressDamage={console.log}
-  ref={ref}
-/>
 ```
