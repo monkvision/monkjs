@@ -44,7 +44,7 @@ const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 
 const compliant = { is_compliant: true, reasons: [] };
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
-const MAX_FAILED_COMPLIANCE_RETRIES = 3;
+const MAX_FAILED_COMPLIANCE_RETRIES = 1;
 export default function UploadCenter({
   compliance,
   navigationOptions,
@@ -76,7 +76,7 @@ export default function UploadCenter({
         (c) => c.is_compliant === null,
       );
 
-      return hasNotReadyCompliances && requestCount <= MAX_FAILED_COMPLIANCE_RETRIES;
+      return hasNotReadyCompliances && requestCount < MAX_FAILED_COMPLIANCE_RETRIES;
     }), [compliance.state]);
 
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
@@ -93,10 +93,10 @@ export default function UploadCenter({
           data: {
             ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
 
-      if (requestCount > MAX_FAILED_COMPLIANCE_RETRIES && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
+      if (requestCount >= MAX_FAILED_COMPLIANCE_RETRIES && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
         return handleChangeReasons({
-          coverage_360: { ...carCov, ...compliant },
-          image_quality_assessment: { ...iqa, ...compliant },
+          coverage_360: carCov?.status === 'TODO' ? { ...carCov, ...compliant } : carCov,
+          image_quality_assessment: iqa?.status === 'TODO' ? { ...iqa, ...compliant } : iqa,
         });
       }
 
@@ -115,7 +115,7 @@ export default function UploadCenter({
     .sort(sortByIndex)
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
-  // TODO: test the `hasNotReadyCompliances && requestCount <= MAX_FAILED_COMPLIANCE_RETRIES`
+  // TODO: test the `hasNotReadyCompliances && requestCount < MAX_FAILED_COMPLIANCE_RETRIES`
   const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
     .filter(({ status, requestCount, result }) => {
       const currentCompliance = result?.data?.compliances;
@@ -124,7 +124,7 @@ export default function UploadCenter({
       );
 
       if ((['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry)
-      || (hasNotReadyCompliances && requestCount <= MAX_FAILED_COMPLIANCE_RETRIES)) { return true; }
+      || (hasNotReadyCompliances && requestCount < MAX_FAILED_COMPLIANCE_RETRIES)) { return true; }
 
       return false;
     })
@@ -186,21 +186,15 @@ export default function UploadCenter({
     const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
     /**
-      * here we verify if there is any campliances with status TODO (not yet ready from BE)
-      * with less than 3 `requestCount`:
-      * - if yes we re run recursively the compliance check after 500ms
-      * - if no it will be considered as compliant to not block the user
+      * Note(Ilyass): We removed the recursive fucntion solution, because it takes up too much time,
+      * instead we re-run the compliance one more time after 1sec of getting the first response
       * */
-    let requestCount = 0;
     const verifyComplianceStatus = (pictureId, compliances) => {
-      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      const hasNotReachedMaxRetries = requestCount <= MAX_FAILED_COMPLIANCE_RETRIES;
+      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
 
-      if (hasNotReachedMaxRetries && hasTodo) {
-        requestCount += 1;
+      if (hasTodo) {
         setTimeout(async () => {
-          const result = await checkComplianceAsync(id, current.metadata.id);
-          verifyComplianceStatus(pictureId, result.data.compliances);
+          await checkComplianceAsync(pictureId, current.metadata.id);
         }, 500);
       }
     };

@@ -9,7 +9,6 @@ import { useToggle, useTimeout } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 
 const CAMERA_REFRESH_DELAY = 500;
-const MAX_FAILED_COMPLIANCE_RETRIES = 3;
 const defaultSightIds = [
   'WKJlxkiF', // Beauty Shot
   'vxRr9chD', // Front Bumper Side Left
@@ -84,21 +83,15 @@ export default () => {
     const { current, ids } = sights.state;
 
     /**
-      * here we verify if there is any campliances with status TODO (not yet ready from BE)
-      * with less than 3 `requestCount`:
-      * - if yes we re run recursively the compliance check after 500ms
-      * - if no it will be considered as compliant to not block the user
+      * Note(Ilyass): We removed the recursive fucntion solution, because it takes up too much time,
+      * instead we re-run the compliance one more time after 1sec of getting the first response
       * */
-    let requestCount = 0;
-    const verifyComplianceStatus = (id, compliances) => {
-      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO');
-      const hasNotReachedMaxRetries = requestCount <= MAX_FAILED_COMPLIANCE_RETRIES;
+    const verifyComplianceStatus = (pictureId, compliances) => {
+      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
 
-      if (hasNotReachedMaxRetries && hasTodo) {
-        requestCount += 1;
+      if (hasTodo) {
         setTimeout(async () => {
-          const result = await checkComplianceAsync(id);
-          verifyComplianceStatus(id, result.data.compliances);
+          await checkComplianceAsync(pictureId, current.metadata.id);
         }, 500);
       }
     };
