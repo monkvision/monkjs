@@ -83,7 +83,7 @@ export default () => {
     const { current, ids } = sights.state;
 
     /**
-      * Note(Ilyass): We removed the recursive fucntion solution, because it takes up too much time,
+      * Note(Ilyass): We removed the recursive function solution, because it takes up too much time,
       * instead we re-run the compliance one more time after 1sec of getting the first response
       * */
     const verifyComplianceStatus = (pictureId, compliances) => {
