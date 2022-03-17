@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, StyleSheet, Button, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
-import Actions from '../../actions';
-import { useStartUploadAsync } from '../Capture/hooks';
+import { useComplianceIds, useHandlers } from './hooks';
 
 const { spacing } = utils.styles;
 
@@ -25,8 +24,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   subtitle: {
-    marginBottom: spacing(2),
-    marginTop: spacing(0.6),
+    marginVertical: spacing(0.6),
     color: 'gray',
     fontWeight: '500',
     fontSize: 12,
@@ -37,19 +35,18 @@ const styles = StyleSheet.create({
     padding: spacing(1.4),
     marginVertical: spacing(0.6),
   },
-  loadingText: {
-    marginVertical: spacing(0.6),
-    color: 'gray',
-    fontWeight: '500',
-    fontSize: 12,
+  loadingLayout: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardsLayout: {
+    marginTop: spacing(2),
   },
 });
 
 const getItemById = (id, array) => array.find((item) => item.id === id);
-const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
-
-const compliant = { is_compliant: true, reasons: [] };
-const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
 export default function UploadCenter({
   compliance,
@@ -64,179 +61,48 @@ export default function UploadCenter({
   task,
 }) {
   const [submitted, submit] = useState(false);
-  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
   const { height } = useWindowDimensions();
 
-  const sortByIndex = useCallback((a, b) => {
-    const indexA = getIndexById(a.id, sights.state.tour);
-    const indexB = getIndexById(b.id, sights.state.tour);
+  const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
-    return indexB - indexA;
-  }, [sights.state.tour]);
+  const { ids, state } = useComplianceIds({ navigationOptions, ...states });
+  const { handldeRetakeAll, handleRetake, handleReupload } = useHandlers({
+    inspectionId,
+    task,
+    onRetakeAll,
+    checkComplianceAsync,
+    ids,
+    ...states,
+  });
 
-  const sightslength = useMemo(() => sights.state.tour.length, [sights.state.tour]);
+  const hasPendingComplianceAndNoRejectedUploads = useMemo(() => (state.hasPendingCompliance
+    || state.unfulfilledComplianceIds?.length) && !state.uploadIdsWithError?.length,
+  [state.hasPendingCompliance, state.unfulfilledComplianceIds, state.uploadIdsWithError]);
 
-  const hasPendingCompliance = useMemo(() => Object.values(compliance.state)
-    .some(({ result, requestCount }) => {
-      if (!result) { return true; }
-      const currentCompliance = result.data.compliances;
-      const hasNotReadyCompliances = Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
-      );
+  const hasTooMuchTodoCompliances = useMemo(
+    () => state.notReadyCompliance?.length > sights.state.tour.length * 0.2,
+    [sights.state.tour, state.notReadyCompliance],
+  );
 
-      return hasNotReadyCompliances && requestCount < 2;
-    }), [compliance.state]);
+  const hasFulfilledAllUploads = useMemo(() => state.unfulfilledUploadIds.length === 0,
+    [state.unfulfilledUploadIds]);
 
-  const notReadyCompliance = useMemo(() => Object.values(compliance.state)
-    .filter(({ result }) => {
-      if (!result) { return false; }
-      const currentCompliance = result.data.compliances;
-      const hasNotReadyCompliances = Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
-      );
+  const hasSubmitButton = useMemo(() => typeof submitButtonProps.onPress === 'function',
+    [submitButtonProps.onPress]);
 
-      return hasNotReadyCompliances;
-    }), [compliance.state]);
+  const hasNoCompliancesLeft = useMemo(() => !state.hasPendingCompliance && ids && ids.length === 0,
+    [ids, state.hasPendingCompliance]);
 
-  const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
-    .filter(({ status }) => status === 'fulfilled')
-    .map(({ result, requestCount, ...item }) => {
-      const carCov = result.data.compliances.coverage_360;
-      const iqa = result.data.compliances.image_quality_assessment;
-
-      // `handleChangeReasons` returns the full result object with the given compliances
-      const handleChangeReasons = (compliances) => ({
-        ...item,
-        requestCount,
-        result: { ...result,
-          data: {
-            ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
-
-      // Mark as compliant compliances with status TODO and a request count >=2
-      if (requestCount >= 2 && (carCov?.status === 'TODO' || iqa?.status === 'TODO')) {
-        return handleChangeReasons({
-          coverage_360: carCov?.status === 'TODO' ? { ...carCov, ...compliant } : carCov,
-          image_quality_assessment: iqa?.status === 'TODO' ? { ...iqa, ...compliant } : iqa,
-        });
-      }
-
-      // if no carcov reasons, we change nothing
-      if (!carCov?.reasons) { return { ...item, requestCount, result }; }
-
-      // remove the UNKNOWN_SIGHT from the carCov reasons array
-      const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
-      return handleChangeReasons({
-        coverage_360: { reasons: newCarCovReasons, is_compliant: !newCarCovReasons.length },
-      });
-    }), [compliance]);
-
-  const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
-    .filter(({ status }) => ['pending', 'idle'].includes(status))
-    .sort(sortByIndex)
-    .map(({ id }) => id), [sortByIndex, uploads.state]);
-
-  const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
-    .filter(({ status, requestCount, result }) => {
-      const currentCompliance = result?.data?.compliances;
-      const hasNotReadyCompliances = result && Object.values(currentCompliance).some(
-        (c) => c.status === 'TODO' || c.is_compliant === null,
-      );
-
-      if ((['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry)
-      || (hasNotReadyCompliances && requestCount < 2)) { return true; }
-
-      return false;
-    })
-    .sort(sortByIndex)
-    .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
-
-  const uploadIdsWithError = useMemo(() => Object.values(uploads.state)
-    .filter(({ status, error }) => (status === 'rejected' || error !== null))
-    .sort(sortByIndex)
-    .map(({ id }) => id), [sortByIndex, uploads.state]);
-
-  const complianceIdsWithError = useMemo(() => Object.values(fulfilledCompliance)
-    .filter((item) => {
-      if (item.requestCount > navigationOptions.retakeMaxTry || item.status !== 'fulfilled') { return false; }
-
-      const { image_quality_assessment: iqa, coverage_360: carCov } = item.result.data.compliances;
-      const badQuality = iqa && !iqa.is_compliant;
-      const badCoverage = carCov && !carCov.is_compliant;
-
-      return badQuality || badCoverage;
-    })
-    .sort(sortByIndex)
-    .map(({ id }) => id), [fulfilledCompliance, navigationOptions.retakeMaxTry, sortByIndex]);
-
-  const unionIds = useMemo(() => [...new Set([
-    ...unfulfilledUploadIds,
-    ...unfulfilledComplianceIds,
-    ...uploadIdsWithError,
-    ...complianceIdsWithError,
-  ])], [
-    complianceIdsWithError,
-    unfulfilledComplianceIds,
-    unfulfilledUploadIds,
-    uploadIdsWithError,
-  ]);
-
-  // retake all rejected/non-compliant pictures at once
-  const handldeRetakeAll = useCallback(() => onRetakeAll(unionIds), [onRetakeAll, unionIds]);
-
-  // retake one picture
-  const handleRetake = useCallback((id) => {
-    // reset upload and compliance info
-    compliance.dispatch({
-      type: Actions.compliance.UPDATE_COMPLIANCE,
-      payload: { id, status: 'idle', error: null, result: null, imageId: null },
-    });
-    uploads.dispatch({
-      type: Actions.uploads.UPDATE_UPLOAD,
-      payload: { id, status: 'idle', picture: null },
-    });
-
-    // remove the picture from the sight and focus on the current sight
-    sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, payload: { id } });
-    sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
-  }, [compliance, sights, uploads]);
-
-  // reupload each picture on its own
-  const handleReupload = useCallback(async (id, picture) => {
-    const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
-
-    /**
-      * Note(Ilyass): We removed the recursive function solution, because it takes up too much time,
-      * instead we re-run the compliance one more time after 1sec of getting the first response
-      * */
-    const verifyComplianceStatus = (pictureId, compliances) => {
-      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
-
-      if (hasTodo) {
-        setTimeout(async () => {
-          await checkComplianceAsync(pictureId, current.metadata.id);
-        }, 500);
-      }
-    };
-
-    const upload = await startUploadAsync(picture, current);
-    if (upload.data?.id) {
-      const result = await checkComplianceAsync(upload.data.id, current.metadata.id);
-      verifyComplianceStatus(upload.data.id, result.data.compliances);
-    }
-  }, [checkComplianceAsync, sights, startUploadAsync]);
+  const hasRejectedAll = useMemo(() => state.uploadIdsWithError.length === sights.state.tour.length,
+    [sights.state.tour, state.uploadIdsWithError]);
 
   useEffect(() => {
-    if (
-      !hasPendingCompliance
-      && submitted === false
-      && unionIds
-      && unionIds.length === 0
-      && typeof submitButtonProps.onPress === 'function'
-    ) {
-      submitButtonProps.onPress({ compliance, sights, uploads });
+    if (submitted === false && hasNoCompliancesLeft && hasSubmitButton) {
+      submitButtonProps.onPress(states);
       submit(true);
     }
-  }, [compliance, hasPendingCompliance, sights, submitButtonProps, submitted, unionIds, uploads]);
+  }, [submitButtonProps, submitted, ids, state.hasPendingCompliance,
+    hasSubmitButton, hasNoCompliancesLeft, states]);
 
   return (
     <ScrollView
@@ -244,6 +110,7 @@ export default function UploadCenter({
       contentContainerStyle={styles.container}
     >
       <View style={{ minHeight: height - height * 0.2 }}>
+        {/* content */}
         <Text style={styles.title}>
           🏎️ Upload statuses and compliance results
         </Text>
@@ -253,42 +120,61 @@ export default function UploadCenter({
           Thank you for your understanding.
         </Text>
 
-        {(hasPendingCompliance
-         || unfulfilledComplianceIds?.length) && !uploadIdsWithError?.length ? (
-           <Text style={styles.loadingText}>
-             Verifying the pictures compliance...
-           </Text>
-          ) : null}
-
-        {notReadyCompliance?.length > sightslength * 0.2 ? (
-          <Text style={[styles.loadingText, { color: 'orange' }]}>
-            {'We couldn\'t check all pictures compliance, you can always continue'}
+        {hasPendingComplianceAndNoRejectedUploads ? (
+          <Text style={styles.subtitle}>
+            Verifying the pictures compliance...
           </Text>
         ) : null}
 
-        {unionIds.map((id) => (
-          <UploadCard
-            key={`uploadCard-${id}`}
-            onRetake={handleRetake}
-            onReupload={handleReupload}
-            id={id}
-            label={getItemById(id, sights.state.tour).label}
-            picture={sights.state.takenPictures[id]}
-            upload={uploads.state[id]}
-            compliance={compliance.state[id]}
-          />
-        ))}
+        {hasTooMuchTodoCompliances ? (
+          <Text style={[styles.subtitle, { color: '#ff9800' }]}>
+            {'We couldn\'t check all pictures compliance, this might affect the result accuracy'}
+          </Text>
+        ) : null}
 
+        {hasRejectedAll ? (
+          <Text style={[styles.subtitle, { color: '#fa603d' }]}>
+            {'We couldn\'t upload any picture, please re-upload'}
+          </Text>
+        ) : null}
+
+        {/* loading */}
+        {hasNoCompliancesLeft ? (
+          <View style={styles.loadingLayout}>
+            <Text style={[styles.subtitle, { textAlign: 'center' }]}>Loading...</Text>
+          </View>
+        ) : null}
+
+        {/* upload cards */}
+        <View style={styles.cardsLayout}>
+          {ids.map((id) => (
+            <UploadCard
+              key={`uploadCard-${id}`}
+              onRetake={handleRetake}
+              onReupload={handleReupload}
+              id={id}
+              label={getItemById(id, sights.state.tour).label}
+              picture={sights.state.takenPictures[id]}
+              upload={uploads.state[id]}
+              compliance={compliance.state[id]}
+            />
+          ))}
+        </View>
       </View>
 
-      {typeof submitButtonProps.onPress === 'function' ? (
-        <Button style={styles.button} {...submitButtonProps} disabled={isSubmitting} />
+      {/* actions */}
+      {hasSubmitButton ? (
+        <Button
+          style={styles.button}
+          disabled={isSubmitting || hasRejectedAll}
+          {...submitButtonProps}
+        />
       ) : null}
 
-      {unfulfilledUploadIds.length === 0 ? (
+      {hasFulfilledAllUploads ? (
         <TouchableOpacity onPress={handldeRetakeAll} style={styles.button}>
           <Text style={{ textAlign: 'center', color: '#274B9F' }}>
-            {`RETAKE ALL (${unionIds.length})`}
+            {`RETAKE ALL (${ids.length})`}
           </Text>
         </TouchableOpacity>
       ) : null}
