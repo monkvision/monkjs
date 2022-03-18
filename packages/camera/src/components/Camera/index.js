@@ -1,78 +1,83 @@
-import { utils } from '@monkvision/toolkit';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import adapter from 'webrtc-adapter';
 import PropTypes from 'prop-types';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-
 import { Text, useWindowDimensions, View } from 'react-native';
-import adapter from 'webrtc-adapter';
+import { utils } from '@monkvision/toolkit';
 
 import styles from './styles';
 
 const { getSize } = utils.styles;
 
 const tests = [{
-  label: '4K(UHD)',
+  label: '4K(UHD) 4:3',
   width: 3840,
   height: 2880,
   ratio: '4:3',
 }, {
-  label: 'FHD',
+  label: '4K(UHD) 16:9',
+  width: 3840,
+  height: 2160,
+  ratio: '16:9',
+}, {
+  label: 'FHD 4:3',
   width: 1920,
   height: 1440,
   ratio: '4:3',
-},
-{
+}, {
+  label: 'FHD 16:9',
+  width: 1920,
+  height: 1080,
+  ratio: '16:9',
+}, {
   label: 'UXGA',
   width: 1600,
   height: 1200,
   ratio: '4:3',
-},
-{
+}, {
+  label: 'HD(720p)',
+  width: 1280,
+  height: 720,
+  ratio: '16:9',
+}, {
   label: 'SVGA',
   width: 800,
   height: 600,
   ratio: '4:3',
-},
-{
+}, {
   label: 'VGA',
   width: 640,
   height: 480,
   ratio: '4:3',
-},
-{
+}, {
   label: 'CIF',
   width: 352,
   height: 288,
   ratio: '4:3',
-},
-{
+}, {
   label: 'QVGA',
   width: 320,
   height: 240,
   ratio: '4:3',
-},
-{
+}, {
   label: 'QCIF',
   width: 176,
   height: 144,
   ratio: '4:3',
-},
-{
+}, {
   label: 'QQVGA',
   width: 160,
   height: 120,
   ratio: '4:3',
-},
+}];
 
-];
+const { getUserMedia } = navigator.mediaDevices || navigator.mozGetUserMedia;
 
 export default function Camera({ containerStyle, onRef, title }) {
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
-  const size = getSize(
-    '4:3',
-    { windowHeight, windowWidth },
-    'native',
-  );
+  const [ratio, setRatio] = useState('4:3');
+
+  const size = getSize(ratio, { windowHeight, windowWidth }, 'number');
 
   const videoEl = useRef();
   const canvasEl = useRef();
@@ -85,10 +90,13 @@ export default function Camera({ containerStyle, onRef, title }) {
       });
     }
 
+    const OS = utils.getOS();
+    const facingMode = ['iOS', 'Android'].includes(OS) ? { exact: 'environment' } : 'environment';
+
     const constraints = {
       audio: false,
       video: {
-        facingMode: 'environment',
+        facingMode,
         deviceId: device.deviceId ? { exact: device.deviceId } : undefined,
         width: { exact: test.width },
         height: { exact: test.height },
@@ -98,25 +106,29 @@ export default function Camera({ containerStyle, onRef, title }) {
     let result;
 
     try {
-      result = await navigator.mediaDevices.getUserMedia(constraints);
+      result = await getUserMedia(constraints);
     } catch (error) {
       result = { error };
     }
 
-    return [test, result, constraints];
+    return [test, result, constraints, device];
   }, []);
 
-  const findBestCandidate = useCallback(async (bestDevice) => {
-    const testResults = tests.map(async (test) => gum(test, bestDevice));
+  const findBestCandidate = useCallback(async (devices) => {
+    const testResults = devices
+      .map((device) => tests.map(async (test) => gum(test, device)))
+      .flat();
 
-    const [test, stream, constraint] = await testResults.reduce(async (resultA, resultB) => {
-      const [testA, streamA] = await resultA;
-      const [testB] = await resultB;
+    const [test, stream, constraint] = await testResults
+      .reduce(async (resultA, resultB) => {
+        const [testA, streamA] = await resultA;
+        const [testB, streamB] = await resultB;
 
-      if (streamA.error) { return resultB; }
+        if (streamA.error) { return resultB; }
+        if (streamB.error) { return resultA; }
 
-      return testA.width > testB.width ? resultA : resultB;
-    });
+        return testA.width > testB.width ? resultA : resultB;
+      });
 
     return {
       test,
@@ -129,38 +141,33 @@ export default function Camera({ containerStyle, onRef, title }) {
   }, [gum, size.height, size.width]);
 
   const findDevices = useCallback(async () => {
-    const devices = [];
     const constraints = {
       audio: false,
-      video: {
-        facingMode: 'environment',
-        width: { exact: 640 },
-        height: { exact: 480 },
-      },
+      video: { facingMode: 'environment' },
     };
 
-    window.stream = await navigator.mediaDevices.getUserMedia(constraints);
+    window.stream = await getUserMedia(constraints);
     const mediaDevices = await navigator.mediaDevices.enumerateDevices();
 
-    mediaDevices.forEach((device) => {
-      if (device.kind === 'videoinput') {
-        devices.push(device);
-      }
-    });
-
-    return devices;
+    return mediaDevices.filter(({ kind }) => kind === 'videoinput');
   }, []);
 
   useEffect(() => {
     (async () => {
       const video = videoEl.current;
-      const canvas = canvasEl.current;
-
-      if (video) {
+      if (video && !camera.video) {
+        const canvas = canvasEl.current;
         const devices = await findDevices();
-        const bestCandidate = await findBestCandidate(devices[0]);
+        const bestCandidate = await findBestCandidate(devices);
 
-        video.srcObject = bestCandidate.stream;
+        setRatio(bestCandidate.test.ratio);
+
+        if ('srcObject' in video) {
+          video.srcObject = bestCandidate.stream;
+        } else {
+          video.src = window.URL.createObjectURL(bestCandidate.stream);
+        }
+
         video.onloadedmetadata = () => {
           video.play();
         };
@@ -180,7 +187,7 @@ export default function Camera({ containerStyle, onRef, title }) {
         });
       }
     })();
-  }, [findBestCandidate, findDevices]);
+  }, [camera, findBestCandidate, findDevices]);
 
   useEffect(() => {
     if (typeof onRef === 'function') {
