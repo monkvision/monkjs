@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
       default: { shadowRadius: '2px 2px' },
     }),
     overflow: 'hidden',
+    backgroundColor: 'rgba(0,0,0,0.9)',
   },
   overlay: {
     height: LENGTH * DEFAULT_RATIO,

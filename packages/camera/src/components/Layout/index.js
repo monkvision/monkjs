@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import screenfull from 'screenfull';
-import { Button, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Button, Platform, StyleSheet, View } from 'react-native';
 
 import getOS from '../../utils/getOS';
 import useOrientation from '../../hooks/useOrientation';
@@ -46,20 +46,22 @@ const styles = StyleSheet.create({
   },
   side: {
     display: 'flex',
+    position: 'absolute',
     width: SIDE_WIDTH,
     zIndex: 10,
   },
-  leftAlt: {
-    position: 'absolute',
+  left: {
     top: 0,
     left: 0,
-    backgroundColor: '#000',
   },
-  rightAlt: {
-    position: 'absolute',
+  right: {
     top: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  center: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
   },
 });
 
@@ -101,7 +103,6 @@ FullScreenButton.defaultProps = {
 
 function Layout({
   buttonFullScreenProps,
-  centerRatio,
   children,
   containerStyle,
   left,
@@ -110,11 +111,6 @@ function Layout({
   sectionStyle,
 }) {
   const isNative = Platform.select({ native: true, default: false });
-
-  const { width, height } = useWindowDimensions();
-
-  const isLeftAlt = width - (height * centerRatio) - SIDE_WIDTH < 0;
-  const isRightAlt = width - (height * centerRatio) - (2 * SIDE_WIDTH) < 0;
 
   const mobileBrowserIsPortrait = useMobileBrowserConfig();
   const orientation = useOrientation('landscape');
@@ -145,30 +141,20 @@ function Layout({
     >
       <View
         accessibilityLabel="Side left"
-        style={[
-          styles.section,
-          styles.side,
-          isLeftAlt ? styles.leftAlt : styles.left,
-          sectionStyle,
-        ]}
+        style={[styles.section, styles.side, styles.left, sectionStyle]}
       >
         {left}
       </View>
       <View
         accessibilityLabel="Center"
-        style={[styles.section, sectionStyle, { marginLeft: isLeftAlt ? 'auto' : 0 }]}
+        style={[styles.section, sectionStyle, styles.center]}
       >
         {children}
         <FullScreenButton {...buttonFullScreenProps} />
       </View>
       <View
         accessibilityLabel="Side right"
-        style={[
-          styles.section,
-          styles.side,
-          isRightAlt ? styles.rightAlt : styles.right,
-          sectionStyle,
-        ]}
+        style={[styles.section, styles.side, styles.right, sectionStyle]}
       >
         {right}
       </View>
@@ -178,7 +164,6 @@ function Layout({
 
 Layout.propTypes = {
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
-  centerRatio: PropTypes.number,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
@@ -188,7 +173,6 @@ Layout.propTypes = {
 
 Layout.defaultProps = {
   buttonFullScreenProps: {},
-  centerRatio: 4 / 3,
   containerStyle: null,
   left: null,
   orientationBlockerProps: null,

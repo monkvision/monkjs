@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 
@@ -7,7 +8,6 @@ import useCompliance from '../../hooks/useCompliance';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 
-// eslint-disable-next-line import/namespace,import/no-named-as-default-member
 import Camera from '../Camera';
 import Controls from '../Controls';
 import Layout from '../Layout';
@@ -36,7 +36,11 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  overlay: { flex: 1 },
+  overlay: {
+    flex: 1,
+    position: 'absolute',
+    justifyContent: 'center',
+  },
 });
 
 /**
@@ -158,11 +162,8 @@ export default function Capture({
   const takePictureAsync = useTakePictureAsync({ camera });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish });
-  const checkComplianceAsync = useCheckComplianceAsync({
-    compliance,
-    inspectionId,
-    sightId: current.id,
-  });
+  const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
+  const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
   /**
@@ -195,7 +196,12 @@ export default function Capture({
   // END METHODS //
   // CONSTANTS //
 
+  const windowDimensions = useWindowDimensions();
   const tourHasFinished = !Object.values(uploads.state).some((upload) => !upload.picture);
+  const overlaySize = useMemo(
+    () => utils.styles.getSize('4:3', windowDimensions, 'number'),
+    [windowDimensions],
+  );
 
   // END CONSTANTS //
   // HANDLERS //
@@ -259,7 +265,7 @@ export default function Capture({
       {(isReady && overlay && loading === false) ? (
         <Overlay
           svg={overlay}
-          style={styles.overlay}
+          style={[styles.overlay, overlaySize]}
         />
       ) : null}
       {loading === true ? (
@@ -271,7 +277,7 @@ export default function Capture({
         </View>
       ) : null}
     </>
-  ), [isReady, loading, overlay, primaryColor]);
+  ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
   if (tourHasFinished && RenderOnFinish) {
     return (
