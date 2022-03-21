@@ -306,6 +306,10 @@ export default function Capture({
         onComplianceCheckStart={onComplianceCheckStart}
         onRetakeAll={onRetakeAll}
         submitButtonLabel={submitButtonLabel}
+        task={task}
+        inspectionId={inspectionId}
+        checkComplianceAsync={checkComplianceAsync}
+        navigationOptions={navigationOptions}
       />
     );
   }

@@ -30,7 +30,7 @@ const defaultSightIds = [
 ];
 
 export default () => {
-  const { request, isLoading, requestCount, inspectionId } = useScreen();
+  const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
   const [cameraloading, setCameraLoading] = useState();
   const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
@@ -41,8 +41,8 @@ export default () => {
   useTimeout(toggleOffLoading, delay);
 
   // start the damage detection task
-  const handleSuccess = useCallback(() => { if (requestCount === 0) { request(); } },
-    [request, requestCount]);
+  const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
+    [request, updateTaskRequestCount]);
 
   const uploads = useUploads({ sightIds: allSights.ids });
 
@@ -55,8 +55,9 @@ export default () => {
     // reset uploads state with the new incoming ones
     uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: sightsIdsToRetake } });
 
-    // making it smooth with a 500ms loading
+    // making it smooth with a 500ms loading and toggle off the camera loading
     toggleOnLoading();
+    setCameraLoading(false);
 
     // update sightsIds state
     setAllSights({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
@@ -64,7 +65,7 @@ export default () => {
 
   const controls = [{
     disabled: cameraloading,
-    onStartUpload: () => { setCameraLoading(true); },
+    onStartUpload: () => setCameraLoading(true),
     onFinishUpload: () => setCameraLoading(false),
     ...Controls.CaptureButtonProps,
 
@@ -92,6 +93,7 @@ export default () => {
         onComplianceCheckFinish={handleSuccess}
         onRetakeAll={handleRetakeAll}
         isSubmitting={isLoading}
+        onReady={() => setCameraLoading(false)}
 
         /** --- With upload center
          * enableComplianceCheck={true}

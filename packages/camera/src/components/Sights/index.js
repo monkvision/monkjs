@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Platform, StyleSheet, ScrollView, Text, Switch, View } from 'react-native';
@@ -84,9 +84,16 @@ export default function Sights({
     }
   }, [dispatch, navigationOptions.allowNavigate]);
 
+  const scrollViewRef = useRef(null);
+  const handleScrollToNext = (i, rowHeight) => scrollViewRef.current.scrollTo({
+    y: rowHeight * i,
+    animated: true,
+  });
+
   return (
     <ScrollView
       endFillColor="#000"
+      ref={scrollViewRef}
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
       contentContainerStyle={[{
@@ -111,7 +118,7 @@ export default function Sights({
         )}
       </View>
       <View>
-        {Object.values(tour).map(({ id, label, overlay }) => (
+        {Object.values(tour).map(({ id, label, overlay }, index) => (
           <Thumbnail
             key={`thumbnail-${id}`}
             isCurrent={current.metadata.id === id}
@@ -120,6 +127,7 @@ export default function Sights({
             picture={takenPictures[id]}
             onPress={(e) => handlePress(id, e)}
             onClick={(e) => handlePress(id, e)}
+            onFocus={(rowHeight) => handleScrollToNext(index, rowHeight)}
             style={thumbnailStyle}
             uploadStatus={uploads.state[id]?.status || 'idle'}
           />

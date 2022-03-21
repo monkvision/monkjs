@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
-function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
+function UploadCard({ compliance, id, label, onRetake, onReupload, picture, upload }) {
   const { uri } = picture;
   const errorColor = 'rgba(255, 69, 0, 0.4)';
   const warningColor = 'rgba(255, 152, 0, 0.4)';
@@ -127,6 +127,11 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
     onRetake(id);
   }, [id, onRetake]);
 
+  const handleReupload = useCallback((e) => {
+    e.preventDefault();
+    onReupload(id, picture);
+  }, [id, onReupload, picture]);
+
   return (
     <View style={styles.upload}>
       {/* preview image with a loading indicator */}
@@ -138,14 +143,17 @@ function UploadCard({ compliance, id, label, onRetake, picture, upload }) {
           <Image style={styles.image} source={{ uri }} />
         </View>
       ) : (
-        <TouchableOpacity style={styles.imageLayout} onPress={handleRetake}>
+        <TouchableOpacity
+          style={styles.imageLayout}
+          onPress={upload.error ? handleReupload : handleRetake}
+        >
           <View style={[
             styles.imageOverlay,
             { backgroundColor: upload.error ? errorColor : warningColor },
           ]}
           >
             <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
-            <Text style={styles.retakeText}>Retake picture</Text>
+            <Text style={styles.retakeText}>{upload.error ? 'Reupload picture' : 'Retake picture'}</Text>
           </View>
           <Image style={styles.image} source={{ uri }} />
         </TouchableOpacity>
@@ -186,11 +194,12 @@ UploadCard.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onRetake: PropTypes.func,
+  onReupload: PropTypes.func,
   picture: PropTypes.shape({
     uri: PropTypes.string,
   }).isRequired,
   upload: PropTypes.shape({
-    error: PropTypes.string,
+    error: PropTypes.objectOf(PropTypes.any),
     picture: PropTypes.shape({ uri: PropTypes.string }),
     status: PropTypes.string,
   }).isRequired,
@@ -198,5 +207,6 @@ UploadCard.propTypes = {
 
 UploadCard.defaultProps = {
   onRetake: () => {},
+  onReupload: () => {},
 };
 export default UploadCard;
