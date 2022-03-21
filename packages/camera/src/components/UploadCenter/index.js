@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
-import { useComplianceIds, useHandlers } from './hooks';
+import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 
 const { spacing } = utils.styles;
 
@@ -66,6 +66,7 @@ export default function UploadCenter({
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
+
   const { handldeRetakeAll, handleRetake, handleReupload } = useHandlers({
     inspectionId,
     task,
@@ -75,26 +76,18 @@ export default function UploadCenter({
     ...states,
   });
 
-  const hasPendingComplianceAndNoRejectedUploads = useMemo(() => (state.hasPendingCompliance
-    || state.unfulfilledComplianceIds?.length) && !state.uploadIdsWithError?.length,
-  [state.hasPendingCompliance, state.unfulfilledComplianceIds, state.uploadIdsWithError]);
-
-  const hasTooMuchTodoCompliances = useMemo(
-    () => state.notReadyCompliance?.length > sights.state.tour.length * 0.2,
-    [sights.state.tour, state.notReadyCompliance],
-  );
-
-  const hasFulfilledAllUploads = useMemo(() => state.unfulfilledUploadIds.length === 0,
-    [state.unfulfilledUploadIds]);
-
-  const hasSubmitButton = useMemo(() => typeof submitButtonProps.onPress === 'function',
-    [submitButtonProps.onPress]);
-
-  const hasNoCompliancesLeft = useMemo(() => !state.hasPendingCompliance && ids && ids.length === 0,
-    [ids, state.hasPendingCompliance]);
-
-  const hasRejectedAll = useMemo(() => state.uploadIdsWithError.length === sights.state.tour.length,
-    [sights.state.tour, state.uploadIdsWithError]);
+  /**
+   * NOTE(Ilyass): For a better readability I made the `useMixedStates` hook that holds a well
+   * named states variables to be used inside JSX
+   *  */
+  const {
+    hasPendingComplianceAndNoRejectedUploads,
+    hasTooMuchTodoCompliances,
+    hasFulfilledAllUploads,
+    hasSubmitButton,
+    hasNoCompliancesLeft,
+    hasAllRejected,
+  } = useMixedStates({ state, sights, submitButtonProps, ids });
 
   useEffect(() => {
     if (submitted === false && hasNoCompliancesLeft && hasSubmitButton) {
@@ -132,7 +125,7 @@ export default function UploadCenter({
           </Text>
         ) : null}
 
-        {hasRejectedAll ? (
+        {hasAllRejected ? (
           <Text style={[styles.subtitle, { color: '#fa603d' }]}>
             {'We couldn\'t upload any picture, please re-upload'}
           </Text>
@@ -166,7 +159,7 @@ export default function UploadCenter({
       {hasSubmitButton ? (
         <Button
           style={styles.button}
-          disabled={isSubmitting || hasRejectedAll}
+          disabled={isSubmitting || hasAllRejected}
           {...submitButtonProps}
         />
       ) : null}
