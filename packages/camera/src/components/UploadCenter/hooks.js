@@ -130,7 +130,19 @@ export const useHandlers = ({
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
 
   // retake all rejected/non-compliant pictures at once
-  const handldeRetakeAll = useCallback(() => onRetakeAll(ids), [onRetakeAll, ids]);
+  const handldeRetakeAll = useCallback(() => {
+    // adding an initialState that will hold new compliances with `requestCount = 1`
+    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    const complianceState = {};
+    ids.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
+
+    // reset uploads state with the new incoming ones
+    uploads.dispatch({
+      type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: ids } });
+
+    // update sightsIds state
+    onRetakeAll({ ids, initialState: { compliance: complianceState } });
+  }, [ids, onRetakeAll, uploads]);
 
   // retake one picture
   const handleRetake = useCallback((id) => {

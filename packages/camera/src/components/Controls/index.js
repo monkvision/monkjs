@@ -21,20 +21,26 @@ const styles = StyleSheet.create({
 });
 
 export default function Controls({
-  api, containerStyle, elements, state, enableComplianceCheck, ...passThroughProps }) {
+  api,
+  containerStyle,
+  elements,
+  state,
+  enableComplianceCheck,
+  onStartUploadPicture,
+  onFinishUploadPicture,
+  ...passThroughProps
+}) {
   const { height: windowHeight } = useWindowDimensions();
 
-  const handlers = useHandlers();
-  const handlePress = useCallback(
-    ({ onPress, onStartUpload, onFinishUpload }) => (e) => {
-      if (typeof onPress === 'function') {
-        onPress(state, api, e);
-      } else {
-        handlers.capture({ onStartUpload, onFinishUpload, enableComplianceCheck })(state, api, e);
-      }
-    },
-    [api, handlers, state, enableComplianceCheck],
-  );
+  const handlers = useHandlers({
+    onStartUploadPicture,
+    onFinishUploadPicture,
+    enableComplianceCheck,
+  });
+
+  const handlePress = useCallback(({ onPress }) => (e) => {
+    if (typeof onPress === 'function') { onPress(state, api, e); } else { handlers.capture(state, api, e); }
+  }, [api, handlers, state]);
 
   return (
     <View
@@ -77,6 +83,8 @@ Controls.propTypes = {
     onPress: PropTypes.func,
   })),
   enableComplianceCheck: PropTypes.bool,
+  onFinishUploadPicture: PropTypes.func,
+  onStartUploadPicture: PropTypes.func,
   state: PropTypes.shape({
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
@@ -90,6 +98,8 @@ Controls.defaultProps = {
   elements: [],
   enableComplianceCheck: false,
   state: {},
+  onStartUploadPicture: () => {},
+  onFinishUploadPicture: () => {},
 };
 
 Controls.CaptureButtonProps = {

@@ -3,30 +3,30 @@ import { SafeAreaView } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls, useUploads, Actions } from '@monkvision/camera';
+import { Capture, Controls, useUploads } from '@monkvision/camera';
 import { useToggle, useTimeout } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 
 const CAMERA_REFRESH_DELAY = 500;
 const defaultSightIds = [
-  'WKJlxkiF', // Beauty Shot
-  'vxRr9chD', // Front Bumper Side Left
-  'cDe2q69X', // Front Fender Left
-  'R_f4g8MN', // Doors Left
-  'vedHBC2n', // Front Roof Left
-  'McR3TJK0', // Rear Lateral Left
-  '7bTC-nGS', // Rear Fender Left
-  'hhCBI9oZ', // Rear
+  // 'WKJlxkiF', // Beauty Shot
+  // 'vxRr9chD', // Front Bumper Side Left
+  // 'cDe2q69X', // Front Fender Left
+  // 'R_f4g8MN', // Doors Left
+  // 'vedHBC2n', // Front Roof Left
+  // 'McR3TJK0', // Rear Lateral Left
+  // '7bTC-nGS', // Rear Fender Left
+  // 'hhCBI9oZ', // Rear
   'e_QIW30o', // Rear Fender Right
   'fDo5M0Fp', // Rear Lateral Right
   'fDKWkHHp', // Doors Right
   '5CFsFvj7', // Front Fender Right
   'g30kyiVH', // Front Bumper Side Right
   'I0cOpT1e', // Front
-  'IqwSM3', // Front seats
-  'rSvk2C', // Dashboard
-  'rj5mhm', // Back seats
-  'qhKA2z', // Trunk
+  // 'IqwSM3', // Front seats
+  // 'rSvk2C', // Dashboard
+  // 'rj5mhm', // Back seats
+  // 'qhKA2z', // Trunk
 ];
 
 export default () => {
@@ -46,38 +46,29 @@ export default () => {
 
   const uploads = useUploads({ sightIds: allSights.ids });
 
-  const handleRetakeAll = useCallback((sightsIdsToRetake) => {
-    // adding an initialState that will hold new compliances with `requestCount = 1`
-    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
-    const complianceState = {};
-    sightsIdsToRetake.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
-
-    // reset uploads state with the new incoming ones
-    uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: sightsIdsToRetake } });
-
+  const handleRetakeAll = useCallback((payload) => {
     // making it smooth with a 500ms loading and toggle off the camera loading
     toggleOnLoading();
     setCameraLoading(false);
 
     // update sightsIds state
-    setAllSights({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
-  }, [toggleOnLoading, uploads]);
+    setAllSights(payload);
+  }, [toggleOnLoading]);
 
   const controls = [{
     disabled: cameraloading,
-    onStartUpload: () => setCameraLoading(true),
-    onFinishUpload: () => setCameraLoading(false),
     ...Controls.CaptureButtonProps,
 
     /** --- With custom capture handler ---
      * onPress: handleCapture,
-
-     *  --- With our built-in capture handler ---
-     * onStartUpload: () => { setCameraLoading(true); },
-     * onFinishUpload: () => setCameraLoading(false),
     */
   }];
 
+  /**
+   * NOTE(Ilyass): it is mandatory to remove the camera from the dom and render it
+   * again (reload) when we hit retake, so we get the ids to retake as the initial
+   * state of the uploads
+   */
   if (loading) { return <Loader />; }
 
   return (
@@ -89,11 +80,13 @@ export default () => {
         controls={controls}
         loading={cameraloading}
         uploads={uploads}
+        isSubmitting={isLoading}
         enableComplianceCheck
         onComplianceCheckFinish={handleSuccess}
         onRetakeAll={handleRetakeAll}
-        isSubmitting={isLoading}
         onReady={() => setCameraLoading(false)}
+        onStartUploadPicture={() => setCameraLoading(true)}
+        onFinishUploadPicture={() => setCameraLoading(false)}
 
         /** --- With upload center
          * enableComplianceCheck={true}

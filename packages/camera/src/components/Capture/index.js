@@ -91,6 +91,8 @@ export default function Capture({
   onComplianceCheckStart,
   onReady,
   onRetakeAll,
+  onStartUploadPicture,
+  onFinishUploadPicture,
   orientationBlockerProps,
   primaryColor,
   sightIds,
@@ -275,8 +277,11 @@ export default function Capture({
       elements={controls}
       state={states}
       enableComplianceCheck={enableComplianceCheck}
+      onStartUploadPicture={onStartUploadPicture}
+      onFinishUploadPicture={onFinishUploadPicture}
     />
-  ), [api, controls, controlsContainerStyle, states, enableComplianceCheck]);
+  ), [api, controlsContainerStyle, controls, states, enableComplianceCheck,
+    onStartUploadPicture, onFinishUploadPicture]);
 
   const children = useMemo(() => (
     <>
@@ -395,8 +400,10 @@ Capture.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onFinish: PropTypes.func,
+  onFinishUploadPicture: PropTypes.func,
   onReady: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  onStartUploadPicture: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
   renderOnFinish: PropTypes.func,
@@ -445,7 +452,9 @@ Capture.defaultProps = {
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
   onFinish: () => {},
+  onFinishUploadPicture: () => {},
   onReady: () => {},
+  onStartUploadPicture: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   renderOnFinish: null,
