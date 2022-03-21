@@ -142,17 +142,20 @@ export function useCreateDamageDetectionAsync() {
  * @param sights
  * @param uploads
  * @param task
- * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
+ * @param onFinish
+ * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {
-  return useCallback(async (picture) => {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
+  return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { current, ids } = sights.state;
-    const { id, label } = current.metadata;
+    const { ids } = sights.state;
+    // for a custom use, we can the sight we want
+    const current = currentSight || sights.state.current;
+    const { id, label } = currentSight?.metadata || current.metadata;
 
     try {
       dispatch({
@@ -203,7 +206,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
-        payload: { id, status: 'fulfilled' },
+        payload: { id, status: 'fulfilled', error: null },
       });
 
       return result;
@@ -223,11 +226,12 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
  * @param compliance
  * @param inspectionId
  * @param sightId
- * @return {(function(pictureId: string): Promise<result|error>)|*}
+ * @return {(function(pictureId: string, customSightId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
-  return useCallback(async (imageId) => {
+export function useCheckComplianceAsync({ compliance, inspectionId, sightId: currentSighId }) {
+  return useCallback(async (imageId, customSightId) => {
     const { dispatch } = compliance;
+    const sightId = customSightId || currentSighId;
 
     if (!imageId) {
       throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
@@ -257,5 +261,5 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
 
       return err;
     }
-  }, [compliance, inspectionId, sightId]);
+  }, [compliance, inspectionId, currentSighId]);
 }

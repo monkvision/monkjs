@@ -194,7 +194,9 @@ export default function Capture({
   // END METHODS //
   // CONSTANTS //
 
-  const tourHasFinished = !Object.values(uploads.state).some((upload) => !upload.picture);
+  const tourHasFinished = useMemo(
+    () => !Object.values(uploads.state).some((upload) => !upload.picture), [uploads.state],
+  );
 
   // END CONSTANTS //
   // HANDLERS //
@@ -277,6 +279,9 @@ export default function Capture({
       <RenderOnFinish
         {...states}
         submitButtonProps={submitButtonProps}
+        task={task}
+        inspectionId={inspectionId}
+        checkComplianceAsync={checkComplianceAsync}
       />
     );
   }
@@ -363,7 +368,7 @@ Capture.propTypes = {
   sightIds: PropTypes.arrayOf(PropTypes.string),
   sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
   submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
-  task: PropTypes.oneOf([PropTypes.string, PropTypes.object]),
+  task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.shape({
     dispatch: PropTypes.func,
