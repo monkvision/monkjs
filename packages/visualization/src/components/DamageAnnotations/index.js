@@ -1,167 +1,183 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Platform, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
-import noop from 'lodash.noop';
 
 import { Circle, ClipPath, Defs, Ellipse, Svg } from 'react-native-svg';
-
-import useImageDamage from '../../hooks/useDamageImage';
+import { PinchGestureHandler } from 'react-native-gesture-handler';
 import DamageImage from '../DamageImage';
 
-export default function DamageAnnotations({
-  backgroundOpacity,
-  ellipseProps,
+const DEFAULT_OPTIONS = {
+  backgroundOpacity: 0.33,
+  ellipse: {
+    stroke: {
+      color: 'white',
+      strokeWidth: 2.5,
+    },
+    anchor: {
+      x: { radius: 15 },
+      y: { radius: 15 },
+      o: { radius: 15 },
+    },
+  },
+};
+
+export default function DamageHighlight({
   image,
   onAdd,
-  // onRemove,
-  // onValidate,
+  onUpdate,
+  options,
+  clip,
+  renderOptions,
 }) {
   const [isPointAdded, setIsPointAdded] = useState(false);
   const [ellipse, setEllipse] = useState(null);
-  const {
-    state,
-    setter,
-    getSvgRatio,
-    // saveEllipse,
-  } = useImageDamage(image);
+  const [ellWidth, setEllWidth] = useState(null);
+  const [ellHeight, setEllHeight] = useState(null);
+  const [pos, setPos] = useState(null);
+  const [dragX, setDragX] = useState(false);
+  const [dragY, setDragY] = useState(false);
+  const [dragPos, setDragPos] = useState(false);
 
-  const [RATIO_X, RATIO_Y] = getSvgRatio;
-  const RADIUS_INIT = useMemo(() => Math.max(15, image.width * 0.025), [image.width]);
+  const RATIO_X = image.width / renderOptions.width;
+  const RATIO_Y = image.height / renderOptions.height;
 
+  /**
+   * @type {number}
+   */
   const updatedWidth = useMemo(() => {
     if (ellipse) {
-      const newWidth = (state.location?.cx ? state.location.cx - ellipse.cx : 0) + state.ellipseW;
-      const originalWidth = (state.location?.cx ? state.location.cx : ellipse.cx) + ellipse.rx;
-
-      return state.ellipseW ? newWidth : originalWidth;
+      return ellWidth
+        ? (pos ? pos.cx - ellipse.cx : 0) + ellWidth
+        : (pos ? pos.cx : ellipse.cx) + ellipse?.rx;
     }
-    setter.setLocation(null);
-    setter.setEllipseW(null);
-
+    setPos(null);
+    setEllWidth(null);
     return 0;
-    // eslint-disable-next-line
-  }, [ellipse, state.ellipseW, state.location]);
+  }, [ellipse, pos, ellWidth]);
 
+  /**
+   * @type {number}
+   */
   const updatedHeight = useMemo(() => {
     if (ellipse) {
-      const newHeight = (state.location?.cy ? state.location.cy - ellipse.cy : 0) + state.ellipseH;
-      const originalHeight = (state.location?.cy ? state.location.cy : ellipse.cy) - ellipse.ry;
-
-      return state.ellipseH ? newHeight : originalHeight;
+      return ellHeight
+        ? (pos ? pos.cy - ellipse.cy : 0) + ellHeight
+        : (pos ? pos.cy : ellipse.cy) - ellipse.ry;
     }
-    setter.setLocation(null);
-    setter.setEllipseH(null);
-
+    setPos(null);
+    setEllHeight(null);
     return 0;
-    // eslint-disable-next-line
-  }, [ellipse, state.ellipseH, state.location]);
-
-  const handleAddPoint = useCallback((event) => {
-    if (!isPointAdded) {
-      const prefixKey = Platform.select({
-        native: 'location',
-        default: 'layer',
-      });
-      const cx = event.nativeEvent[`${prefixKey}X`] * RATIO_X;
-      const cy = event.nativeEvent[`${prefixKey}Y`] * RATIO_Y;
-      setIsPointAdded(true);
-      setEllipse({
-        cx,
-        cy,
-        rx: 100 * RATIO_X,
-        ry: 100 * RATIO_Y,
-      });
-    }
-    onAdd();
-  }, [RATIO_X, RATIO_Y, isPointAdded, onAdd]);
+  }, [ellipse, pos, ellHeight]);
 
   const handleMouseUp = useCallback(() => {
-    setter.setDragX(false);
-    setter.setDragY(false);
-    setter.setDragLocation(false);
-  }, [setter]);
+    setDragX(false);
+    setDragY(false);
+    setDragPos(false);
+  }, []);
 
   const handleDrag = useCallback((e) => {
-    const {
-      x,
-      y,
-    } = Platform.select({
-      native: {
-        x: e.nativeEvent.locationX,
-        y: e.nativeEvent.locationY,
-      },
-      default: {
-        x: e.nativeEvent.layerX,
-        y: e.nativeEvent.layerY,
-      },
-    });
+    const x = Platform.OS === 'web' ? e.nativeEvent.layerX : e.nativeEvent.locationX;
+    const y = Platform.OS === 'web' ? e.nativeEvent.layerY : e.nativeEvent.locationY;
 
-    if (state.dragX) {
-      setter.setEllipseW(x * RATIO_X);
-    }
-    if (state.dragY) {
-      setter.setEllipseH(y * RATIO_Y);
+    if (dragX) {
+      setEllWidth(x * RATIO_X);
     }
 
-    if (state.dragLocation) {
-      setter.setLocation({
+    if (dragY) {
+      setEllHeight(y * RATIO_Y);
+    }
+
+    if (dragPos) {
+      setPos({
         cx: x * RATIO_X,
         cy: y * RATIO_Y,
       });
     }
-  }, [state.dragX, state.dragY, state.dragLocation, setter, RATIO_X, RATIO_Y]);
+    onUpdate(ellipse);
+  }, [dragX, dragY, dragPos, onUpdate, ellipse, RATIO_X, RATIO_Y]);
 
-  // const handleValidate = useCallback(() => {
-  //   if (state.location && updatedWidth !== 0 && updatedHeight !== 0) {
-  //     const newEllipse = saveEllipse(updatedWidth, updatedHeight);
-  //     onValidate(newEllipse);
-  //   }
-  // }, [state.location, updatedWidth, updatedHeight, saveEllipse, onValidate]);
-  //
-  // const handleRemove = useCallback(() => {
-  //   onRemove(ellipse);
-  //   setEllipse(null);
-  // }, [ellipse, onRemove]);
-
-  useEffect(() => {
-    if (!ellipse) {
-      setIsPointAdded(false);
-    } else {
+  const handleAddPoint = useCallback((event) => {
+    if (!isPointAdded) {
+      const ratioX = image.width / renderOptions.width;
+      const ratioY = image.height / renderOptions.height;
+      let cx; let
+        cy;
+      if (Platform.OS === 'web') {
+        cx = event?.nativeEvent?.layerX * ratioX;
+        cy = event?.nativeEvent?.layerY * ratioY;
+      } else {
+        cx = event?.nativeEvent?.locationX * ratioX;
+        cy = event?.nativeEvent?.locationY * ratioY;
+      }
+      const { rx, ry } = renderOptions.ellipse;
+      const newEllipse = { cx, cy, rx, ry };
+      setIsPointAdded(true);
+      setEllipse(newEllipse);
       onAdd(ellipse);
     }
-  }, [ellipse, onAdd]);
+  }, [isPointAdded, image.width, image.height, renderOptions, onAdd, ellipse]);
 
-  const polygon = useMemo(() => {
-    const {
-      location,
-      ellipseW,
-      ellipseH,
-    } = state;
-    return ellipse && (
+  const handlePinchGesture = useCallback((nativeEvent) => {
+    const { scale } = nativeEvent;
+    setEllWidth(ellipse?.rx / scale);
+    setEllHeight(ellipse?.ry / scale);
+  }, [ellipse]);
+
+  const polygon = useMemo(() => (
+    <>
+      {ellipse && (
       <Ellipse
-        cx={location?.cx ? location.cx : ellipse.cx}
-        cy={location?.cy ? location.cy : ellipse.cy}
-        rx={ellipseW ? Math.abs(ellipseW - ellipse.cx) : ellipse.rx}
-        ry={ellipseH ? Math.abs(ellipseH - ellipse.cy) : ellipse.ry}
-        stroke={ellipseProps.stroke.color}
+        cx={pos ? pos.cx : ellipse.cx}
+        cy={pos ? pos.cy : ellipse.cy}
+        rx={ellWidth ? Math.abs(ellWidth - ellipse.cx) : ellipse?.rx}
+        ry={ellHeight ? Math.abs(ellHeight - ellipse.cy) : ellipse.ry}
+        stroke={options?.ellipse?.stroke?.color}
         fillOpacity={0} // On the web, by default it is fill in black
-        strokeWidth={Math.max(ellipseProps.stroke.strokeWidth, image.width * 0.005)}
+        strokeWidth={options?.ellipse?.stroke?.strokeWidth}
+        onMouseDown={() => setDragPos(true)}
+        onPressIn={() => setDragPos(true)}
       />
-    );
-  }, [state, ellipse, ellipseProps.stroke, image.width]);
+      )}
+    </>
+  ), [options.ellipse.stroke, pos, ellipse, ellWidth, ellHeight]);
 
-  if (!image) {
-    return <View />;
-  }
+  const anchor = useMemo(() => (
+    ellipse && (
+      <>
+        <Circle
+          r={options?.ellipse?.anchor?.y?.radius ?? DEFAULT_OPTIONS.ellipse.anchor.y.radius}
+          cy={updatedHeight}
+          cx={pos ? pos.cx : ellipse.cx}
+          fill={options?.ellipse?.anchor?.y?.color ?? DEFAULT_OPTIONS.ellipse.stroke.color}
+          onMouseDown={() => setDragY(true)}
+          onPressIn={() => setDragY(true)}
+        />
+        <Circle
+          r={options?.ellipse?.anchor?.x?.radius ?? DEFAULT_OPTIONS.ellipse.anchor.x.radius}
+          cx={updatedWidth}
+          cy={pos ? pos.cy : ellipse.cy}
+          fill={options?.ellipse?.anchor?.x?.color ?? DEFAULT_OPTIONS.ellipse.stroke.color}
+          onMouseDown={() => setDragX(true)}
+          onPressIn={() => setDragX(true)}
+        />
+        <Circle
+          r={options?.ellipse?.anchor?.o?.radius ?? DEFAULT_OPTIONS.ellipse.anchor.o.radius}
+          cy={pos ? pos.cy : ellipse.cy}
+          cx={pos ? pos.cx : ellipse.cx}
+          fill={options?.ellipse?.anchor?.o?.color ?? DEFAULT_OPTIONS.ellipse.stroke.color}
+          onMouseDown={() => setDragPos(true)}
+          onPressIn={() => setDragPos(true)}
+        />
+      </>
+    )), [ellipse, options.ellipse.anchor, pos, updatedHeight, updatedWidth]);
 
   if (!ellipse) {
     return (
       <Svg
-        width={state.width}
-        height={state.height}
         viewBox={`0 0 ${image.width} ${image.height}`}
         onPress={handleAddPoint}
         onClick={handleAddPoint}
+        {...renderOptions}
       >
         <DamageImage name={image.id} source={image.source} />
       </Svg>
@@ -169,89 +185,81 @@ export default function DamageAnnotations({
   }
 
   return (
-    <Svg
-      width={state.width}
-      height={state.height}
-      viewBox={`0 0 ${image.width} ${image.height}`}
-      onPress={handleAddPoint}
-      onMouseMove={handleDrag}
-      onTouchMove={handleDrag}
-      onMouseUp={handleMouseUp}
-      onTouchEnd={handleMouseUp}
-    >
-      <Defs>
-        <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
-      </Defs>
-      {/* Show background image with a low opacity */}
-      <DamageImage name={image.id} source={image.source} opacity={backgroundOpacity} />
-      {/* Show Damages Polygon */}
-      <DamageImage name={image.id} source={image.source} clip opacity={ellipseProps.opacity} />
-      {polygon}
-      {ellipse && (
-      <>
-        <Circle
-          r={RADIUS_INIT}
-          cy={updatedHeight}
-          cx={state.location ? state.location?.cx : ellipse.cx}
-          fill="mediumseagreen"
-          onMouseDown={() => setter.setDragY(true)}
-          onPressIn={() => setter.setDragY(true)}
+    <PinchGestureHandler onGestureEvent={(p) => handlePinchGesture(p.nativeEvent)}>
+      <Svg
+        viewBox={`0 0 ${image.width} ${image.height}`}
+        onMouseMove={handleDrag}
+        onTouchMove={handleDrag}
+        onMouseUp={handleMouseUp}
+        onTouchEnd={handleMouseUp}
+        {...renderOptions}
+      >
+        <Defs>
+          <ClipPath id={`clip${image.id}`}>{polygon}</ClipPath>
+        </Defs>
+        {/* Show background image with a low opacity */}
+        <DamageImage
+          name={image.id}
+          source={image.source}
+          opacity={options?.backgroundOpacity ?? DEFAULT_OPTIONS.backgroundOpacity}
         />
-        <Circle
-          r={RADIUS_INIT}
-          cx={updatedWidth}
-          cy={state.location ? state.location?.cy : ellipse.cy}
-          fill="red"
-          onMouseDown={() => setter.setDragX(true)}
-          onPressIn={() => setter.setDragX(true)}
-        />
-        <Circle
-          r={RADIUS_INIT}
-          cy={state.location ? state.location?.cy : ellipse.cy}
-          cx={state.location ? state.location?.cx : ellipse.cx}
-          fill="orange"
-          onMouseDown={() => setter.setDragLocation(true)}
-          onPressIn={() => setter.setDragLocation(true)}
-        />
-      </>
-      )}
-    </Svg>
+        {/* Show Damages Polygon */}
+        <DamageImage name={image.id} source={image.source} clip={clip} />
+        {polygon}
+        {anchor}
+      </Svg>
+    </PinchGestureHandler>
   );
 }
 
-DamageAnnotations.propTypes = {
-  backgroundOpacity: PropTypes.number,
-  ellipseProps: PropTypes.shape({
-    opacity: PropTypes.number,
-    stroke: PropTypes.shape({
-      color: PropTypes.string,
-      strokeWidth: PropTypes.number,
-    }),
-  }),
+DamageHighlight.propTypes = {
+  clip: PropTypes.bool,
   image: PropTypes.shape({
     height: PropTypes.number,
     id: PropTypes.string, // image's uuid
     source: PropTypes.shape({
       uri: PropTypes.string, // "https://my_image_path.monk.ai"
     }),
-    width: PropTypes.number, // original size of the image
-  }),
+    width: PropTypes.number, // original size
+  }).isRequired,
   onAdd: PropTypes.func,
-  // onRemove: PropTypes.func,
-  // onValidate: PropTypes.func,
+  onUpdate: PropTypes.func,
+  options: PropTypes.shape({
+    backgroundOpacity: PropTypes.number,
+    ellipse: {
+      stroke: PropTypes.shape({
+        color: PropTypes.string,
+        strokeWidth: PropTypes.number,
+      }),
+      anchor: PropTypes.shape({
+        o: PropTypes.shape({
+          color: PropTypes.string,
+          radius: PropTypes.number,
+        }),
+        x: PropTypes.shape({
+          color: PropTypes.string,
+          radius: PropTypes.number,
+        }),
+        y: PropTypes.shape({
+          color: PropTypes.string,
+          radius: PropTypes.number,
+        }),
+      }),
+    },
+  }),
+  renderOptions: PropTypes.shape({
+    ellipse: PropTypes.shape({
+      rx: PropTypes.number,
+      ry: PropTypes.number,
+    }),
+    height: PropTypes.number,
+    width: PropTypes.number,
+  }).isRequired,
 };
 
-DamageAnnotations.defaultProps = {
-  backgroundOpacity: 0.35,
-  ellipseProps: {
-    opacity: 1,
-    stroke: {
-      color: 'yellow',
-      strokeWidth: 2.5,
-    },
-  },
-  image: null,
-  onAdd: noop,
-  // onRemove: noop,
-  // onValidate: noop,
+DamageHighlight.defaultProps = {
+  clip: true,
+  onAdd: null,
+  onUpdate: null,
+  options: DEFAULT_OPTIONS,
 };

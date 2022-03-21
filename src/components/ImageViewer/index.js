@@ -1,19 +1,14 @@
 import React from 'react';
-import { Dimensions, Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, Dialog, Portal } from 'react-native-paper';
-import { DamageHighlight } from '@monkvision/visualization';
-
-const {
-  width,
-} = Dimensions.get('window');
+import { Dialog, IconButton, Portal } from 'react-native-paper';
+import ImageView from 'react-native-image-zoom-viewer-fixed';
 
 const styles = StyleSheet.create({
   dialog: {
     backgroundColor: 'black',
-  },
-  content: {
-    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 999,
   },
   footerContainer: {
     ...Platform.select({
@@ -28,21 +23,34 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
+  buttonLayout: {
+    width: 40,
+    height: 40,
+    borderRadius: 999,
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 99,
+  },
+  closeButtonLayout: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    right: 20,
+    top: 20,
+  },
+  deleteButtonLayout: {
+    backgroundColor: '#FFF',
+    bottom: 20,
+    alignSelf: 'center',
+  },
   closeButton: {
     borderColor: 'white',
     alignSelf: 'center',
   },
 });
 
-export default function CustomDialog({
-  handleDismiss,
-  image,
-  isOpen,
-  polygons,
-}) {
-  if (!image || !polygons) {
-    return null;
-  }
+export default function CustomDialog({ deleteButton, handleDismiss, images, index, isOpen }) {
+  if (!images?.length) { return null; }
 
   return (
     <Portal>
@@ -50,46 +58,40 @@ export default function CustomDialog({
         visible={Boolean(isOpen)}
         onDismiss={handleDismiss}
         styles={styles.dialog}
-      >
-        <Dialog.Actions>
-          <Button icon="close" onPress={handleDismiss} />
-        </Dialog.Actions>
-        <Dialog.Content style={styles.content}>
-          <DamageHighlight
-            style={styles.footerContainer}
-            image={image}
-            polygons={polygons}
-            backgroundOpacity={0.4}
-            polygonsProps={{
-              opacity: 0.1,
-              stroke: {
-                color: '#ec00ff',
-                strokeWidth: 40,
-              },
-            }}
-            touchable
-            width={width * 0.8}
+      />
+
+      {isOpen ? (
+        <>
+          <View style={[styles.buttonLayout, styles.closeButtonLayout]}>
+            <IconButton size={28} color="white" style={styles.closeButton} icon="close" onPress={handleDismiss} />
+          </View>
+
+          <ImageView
+            enableImageZoom
+            enableSwipeDown={false}
+            imageUrls={images}
+            index={index}
+            onRequestClose={handleDismiss}
+            // renderFooter={() => deleteButton || null}
+            footerContainerStyle={styles.footerContainer}
           />
-        </Dialog.Content>
-      </Dialog>
+
+        </>
+      ) : null}
     </Portal>
   );
 }
 
 CustomDialog.propTypes = {
+  deleteButton: PropTypes.element,
   handleDismiss: PropTypes.func.isRequired,
-  image: PropTypes.shape({ url: PropTypes.string }).isRequired,
+  images: PropTypes.arrayOf(PropTypes.shape({ url: PropTypes.string })).isRequired,
+  index: PropTypes.number,
   isOpen: PropTypes.bool,
-  polygons: PropTypes.shape({
-    opacity: PropTypes.number,
-    stroke: PropTypes.shape({
-      color: PropTypes.string,
-      strokeWidth: PropTypes.number,
-    }),
-  }),
 };
 
 CustomDialog.defaultProps = {
+  index: 0,
   isOpen: false,
-  polygons: [],
+  deleteButton: null,
 };
