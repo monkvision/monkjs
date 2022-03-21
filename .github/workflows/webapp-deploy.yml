@@ -1,0 +1,34 @@
+name: webapp
+
+on:
+  pull_request:
+    branches: [main, automate_webapp_deploy]
+  push:
+    branches:
+      - "main"
+      - "automate_webapp_deploy"
+
+jobs:
+  dev-build:
+    runs-on: self-hosted #ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+          cache: yarn
+      - name: 🏗 Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+      - name: Build
+        run: |
+          if [ -e yarn.lock ]; then
+            yarn install
+          elif [ -e package-lock.json ]; then
+            npm ci
+          else
+            npm i
+          fi
+          pwd
+          expo build:web
