@@ -9,24 +9,24 @@ import { Loader } from '@monkvision/ui';
 
 const CAMERA_REFRESH_DELAY = 500;
 const defaultSightIds = [
-  // 'WKJlxkiF', // Beauty Shot
-  // 'vxRr9chD', // Front Bumper Side Left
-  // 'cDe2q69X', // Front Fender Left
-  // 'R_f4g8MN', // Doors Left
-  // 'vedHBC2n', // Front Roof Left
-  // 'McR3TJK0', // Rear Lateral Left
-  // '7bTC-nGS', // Rear Fender Left
-  // 'hhCBI9oZ', // Rear
+  'WKJlxkiF', // Beauty Shot
+  'vxRr9chD', // Front Bumper Side Left
+  'cDe2q69X', // Front Fender Left
+  'R_f4g8MN', // Doors Left
+  'vedHBC2n', // Front Roof Left
+  'McR3TJK0', // Rear Lateral Left
+  '7bTC-nGS', // Rear Fender Left
+  'hhCBI9oZ', // Rear
   'e_QIW30o', // Rear Fender Right
   'fDo5M0Fp', // Rear Lateral Right
   'fDKWkHHp', // Doors Right
   '5CFsFvj7', // Front Fender Right
   'g30kyiVH', // Front Bumper Side Right
   'I0cOpT1e', // Front
-  // 'IqwSM3', // Front seats
-  // 'rSvk2C', // Dashboard
-  // 'rj5mhm', // Back seats
-  // 'qhKA2z', // Trunk
+  'IqwSM3', // Front seats
+  'rSvk2C', // Dashboard
+  'rj5mhm', // Back seats
+  'qhKA2z', // Trunk
 ];
 
 export default () => {
