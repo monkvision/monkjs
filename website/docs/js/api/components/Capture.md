@@ -107,6 +107,11 @@ A boolean showing an ActivityIndicator and disabling controls if true
 
 A boolean disabling the submit button if true, inside Upload Center (picture quality check screen).
 
+## submitButtonLabel
+`PropTypes.string`
+
+The label of the submit button, by default is `Skip retaking`.
+
 ## navigationOptions
 ```js
 PropTypes.shape({
