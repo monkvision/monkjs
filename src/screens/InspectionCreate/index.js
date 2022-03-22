@@ -1,14 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, useUploads } from '@monkvision/camera';
-import { useToggle, useTimeout } from '@monkvision/toolkit';
-import { Loader } from '@monkvision/ui';
 
-const CAMERA_REFRESH_DELAY = 500;
-const defaultSightIds = [
+const sightIds = [
   'WKJlxkiF', // Beauty Shot
   'vxRr9chD', // Front Bumper Side Left
   'cDe2q69X', // Front Fender Left
@@ -33,27 +30,12 @@ export default () => {
   const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
   const [cameraloading, setCameraLoading] = useState();
-  const [loading, toggleOnLoading, toggleOffLoading] = useToggle(false);
-  const [allSights, setAllSights] = useState({ ids: defaultSightIds, initialState: {} });
-
-  // refresh camera loading (Useful for a smooth retake all)
-  const delay = useMemo(() => (loading ? CAMERA_REFRESH_DELAY : null), [loading]);
-  useTimeout(toggleOffLoading, delay);
 
   // start the damage detection task
   const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
     [request, updateTaskRequestCount]);
 
-  const uploads = useUploads({ sightIds: allSights.ids });
-
-  const handleRetakeAll = useCallback((payload) => {
-    // making it smooth with a 500ms loading and toggle off the camera loading
-    toggleOnLoading();
-    setCameraLoading(false);
-
-    // update sightsIds state
-    setAllSights(payload);
-  }, [toggleOnLoading]);
+  const uploads = useUploads({ sightIds });
 
   const controls = [{
     disabled: cameraloading,
@@ -64,18 +46,10 @@ export default () => {
     */
   }];
 
-  /**
-   * NOTE(Ilyass): it is mandatory to remove the camera from the dom and render it
-   * again (reload) when we hit retake, so we get the ids to retake as the initial
-   * state of the uploads
-   */
-  if (loading) { return <Loader />; }
-
   return (
     <SafeAreaView>
       <Capture
-        sightIds={allSights.ids}
-        initialState={allSights.initialState}
+        sightIds={sightIds}
         inspectionId={inspectionId}
         controls={controls}
         loading={cameraloading}
@@ -83,7 +57,6 @@ export default () => {
         isSubmitting={isLoading}
         enableComplianceCheck
         onComplianceCheckFinish={handleSuccess}
-        onRetakeAll={handleRetakeAll}
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
