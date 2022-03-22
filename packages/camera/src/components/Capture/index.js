@@ -15,6 +15,7 @@ import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
 
+import Constants from '../../const';
 import log from '../../utils/log';
 
 import {
@@ -346,26 +347,7 @@ export default function Capture({
   // END RENDERING //
 }
 
-Capture.defaultSightIds = [
-  'xsuH1g5T', // Beauty Shot
-  'xfbBpq3Q', // Front Bumper Side Left
-  'LE9h1xh0', // Front Fender Left
-  'IVcF1dOP', // Doors Left
-  'm1rhrZ88', // Front Roof Left
-  'GvCtVnoD', // Rear Lateral Left
-  '3vKXafwc', // Rear Fender Left
-  'XyeyZlaU', // Rear
-  'Cce1KCd3', // Rear Fender Right
-  'AoO-nOoM', // Rear Lateral Right
-  'Pzgw0WGe', // Doors Right
-  'jqJOb6Ov', // Front Fender Right
-  'CELBsvYD', // Front Bumper Side Right
-  'vLcBGkeh', // Front
-  'IqwSM3', // Front seats
-  'rSvk2C', // Dashboard
-  'rj5mhm', // Back seats
-  'qhKA2z', // Trunk
-];
+Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
   controls: PropTypes.arrayOf(PropTypes.shape({

@@ -3,28 +3,7 @@ import { SafeAreaView } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls, useUploads } from '@monkvision/camera';
-
-const sightIds = [
-  'WKJlxkiF', // Beauty Shot
-  'vxRr9chD', // Front Bumper Side Left
-  'cDe2q69X', // Front Fender Left
-  'R_f4g8MN', // Doors Left
-  'vedHBC2n', // Front Roof Left
-  'McR3TJK0', // Rear Lateral Left
-  '7bTC-nGS', // Rear Fender Left
-  'hhCBI9oZ', // Rear
-  'e_QIW30o', // Rear Fender Right
-  'fDo5M0Fp', // Rear Lateral Right
-  'fDKWkHHp', // Doors Right
-  '5CFsFvj7', // Front Fender Right
-  'g30kyiVH', // Front Bumper Side Right
-  'I0cOpT1e', // Front
-  'IqwSM3', // Front seats
-  'rSvk2C', // Dashboard
-  'rj5mhm', // Back seats
-  'qhKA2z', // Trunk
-];
+import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
 
 export default () => {
   const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
@@ -35,7 +14,7 @@ export default () => {
   const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
     [request, updateTaskRequestCount]);
 
-  const uploads = useUploads({ sightIds });
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
 
   const controls = [{
     disabled: cameraloading,
@@ -49,7 +28,7 @@ export default () => {
   return (
     <SafeAreaView>
       <Capture
-        sightIds={sightIds}
+        sightIds={Constants.defaultSightIds}
         inspectionId={inspectionId}
         controls={controls}
         loading={cameraloading}
