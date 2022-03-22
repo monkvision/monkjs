@@ -4,7 +4,7 @@ import Actions from '../../actions';
 const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableComplianceCheck }) => {
   const capture = useCallback(async (state, api, event) => {
     event.preventDefault();
-    onStartUploadPicture();
+    onStartUploadPicture(state, api);
 
     const {
       takePictureAsync,
@@ -41,9 +41,9 @@ const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableCompli
         verifyComplianceStatus(upload.data.id, result.data.compliances);
       }
 
-      onFinishUploadPicture();
+      onFinishUploadPicture(state, api);
     } else {
-      onFinishUploadPicture();
+      onFinishUploadPicture(state, api);
       goNextSight();
 
       const upload = await startUploadAsync(picture);

@@ -54,11 +54,13 @@ const styles = StyleSheet.create({
  * @param navigationOptions
  * @param offline
  * @param onChange
+ * @param onReady
  * @param onCaptureTourFinish
  * @param onCaptureTourStart
  * @param onComplianceCheckFinish
  * @param onComplianceCheckStart
- * @param onReady
+ * @param onStartUploadPicture
+ * @param onFinishUploadPicture
  * @param onRetakeAll
  * @param onFinish
  * @param primaryColor
@@ -437,6 +439,7 @@ Capture.defaultProps = {
   onFinishUploadPicture: () => {},
   onReady: () => {},
   onStartUploadPicture: () => {},
+  onRetakeAll: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   renderOnFinish: null,
@@ -444,7 +447,6 @@ Capture.defaultProps = {
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,
-  onRetakeAll: () => {},
   submitButtonLabel: 'Skip retaking',
   task: 'damage_detection',
   thumbnailStyle: {},
