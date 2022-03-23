@@ -127,17 +127,20 @@ export function useCreateDamageDetectionAsync() {
  * @param sights
  * @param uploads
  * @param task
- * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
+ * @param onFinish
+ * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish }) {
-  return useCallback(async (picture) => {
+export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
+  return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { current, ids } = sights.state;
-    const { id, label } = current.metadata;
+    const { ids } = sights.state;
+    // for a custom use, we can the sight we want
+    const current = currentSight || sights.state.current;
+    const { id, label } = currentSight?.metadata || current.metadata;
 
     try {
       dispatch({
@@ -147,7 +150,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
       });
 
       // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); }
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
@@ -186,13 +189,19 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       const result = await monkApi.images.addOne({ inspectionId, data });
 
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
-        payload: { id, status: 'fulfilled' },
+        payload: { id, status: 'fulfilled', error: null },
       });
 
       return result;
     } catch (err) {
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
@@ -208,11 +217,12 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
  * @param compliance
  * @param inspectionId
  * @param sightId
- * @return {(function(pictureId: string): Promise<result|error>)|*}
+ * @return {(function(pictureId: string, customSightId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
-  return useCallback(async (imageId) => {
+export function useCheckComplianceAsync({ compliance, inspectionId, sightId: currentSighId }) {
+  return useCallback(async (imageId, customSightId) => {
     const { dispatch } = compliance;
+    const sightId = customSightId || currentSighId;
 
     if (!imageId) {
       throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
@@ -242,5 +252,5 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId }) {
 
       return err;
     }
-  }, [compliance, inspectionId, sightId]);
+  }, [compliance, inspectionId, currentSighId]);
 }

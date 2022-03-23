@@ -13,7 +13,9 @@ import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
+import UploadCenter from '../UploadCenter';
 
+import Constants from '../../const';
 import log from '../../utils/log';
 
 import {
@@ -46,24 +48,33 @@ const styles = StyleSheet.create({
 /**
  * @param controls
  * @param controlsContainerStyle
+ * @param enableComplianceCheck
  * @param footer
  * @param fullscreen
  * @param initialState
  * @param inspectionId
+ * @param isSubmitting
  * @param loading
  * @param navigationOptions
  * @param offline
  * @param onChange
  * @param onReady
+ * @param onCaptureTourFinish
+ * @param onCaptureTourStart
+ * @param onComplianceCheckFinish
+ * @param onComplianceCheckStart
+ * @param onStartUploadPicture
+ * @param onFinishUploadPicture
+ * @param onRetakeAll
  * @param onFinish
  * @param orientationBlockerProps
  * @param primaryColor
  * @param sightIds
  * @param sightsContainerStyle
  * @param style
+ * @param submitButtonLabel
  * @param thumbnailStyle
  * @param uploads
- * @param RenderOnFinish
  * @param submitButtonProps
  * @param task
  * @return {JSX.Element}
@@ -72,23 +83,30 @@ const styles = StyleSheet.create({
 export default function Capture({
   controls,
   controlsContainerStyle,
+  enableComplianceCheck,
   footer,
   fullscreen,
   initialState,
   inspectionId,
+  isSubmitting,
   loading,
   navigationOptions,
   offline,
   onChange,
+  onCaptureTourFinish,
+  onCaptureTourStart,
+  onComplianceCheckFinish,
+  onComplianceCheckStart,
   onReady,
-  onFinish,
+  onRetakeAll,
+  onStartUploadPicture,
+  onFinishUploadPicture,
   orientationBlockerProps,
   primaryColor,
-  renderOnFinish: RenderOnFinish,
   sightIds,
   sightsContainerStyle,
   style,
-  submitButtonProps,
+  submitButtonLabel,
   task,
   thumbnailStyle,
   uploads,
@@ -161,9 +179,10 @@ export default function Capture({
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
-  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish });
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
+  const startUploadAsyncParams = { inspectionId, sights, uploads, task, onFinish: onCaptureTourFinish };
+  const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
   /**
@@ -197,7 +216,10 @@ export default function Capture({
   // CONSTANTS //
 
   const windowDimensions = useWindowDimensions();
-  const tourHasFinished = !Object.values(uploads.state).some((upload) => !upload.picture);
+  const tourHasFinished = useMemo(
+    () => !Object.values(uploads.state).some((upload) => !upload.picture),
+    [uploads.state],
+  );
   const overlaySize = useMemo(
     () => utils.styles.getSize('4:3', windowDimensions, 'number'),
     [windowDimensions],
@@ -227,10 +249,13 @@ export default function Capture({
   }, [tour, sightIds]);
 
   useEffect(() => {
-    if (tourHasFinished) {
-      log([`Capture tour has been finished`]);
-    }
-  }, [camera, tourHasFinished, onFinish]);
+    if (enableComplianceCheck) { log([`Compliance check is enabled`]); }
+  }, [enableComplianceCheck]);
+
+  useEffect(() => {
+    log([`Capture tour has been started`]);
+    onCaptureTourStart();
+  }, [onCaptureTourStart]);
 
   // END EFFECTS //
   // RENDERING //
@@ -257,8 +282,12 @@ export default function Capture({
       containerStyle={controlsContainerStyle}
       elements={controls}
       state={states}
+      enableComplianceCheck={enableComplianceCheck}
+      onStartUploadPicture={onStartUploadPicture}
+      onFinishUploadPicture={onFinishUploadPicture}
     />
-  ), [api, controls, controlsContainerStyle, states]);
+  ), [api, controlsContainerStyle, controls, states, enableComplianceCheck,
+    onStartUploadPicture, onFinishUploadPicture]);
 
   const children = useMemo(() => (
     <>
@@ -279,11 +308,19 @@ export default function Capture({
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
-  if (tourHasFinished && RenderOnFinish) {
+  if (enableComplianceCheck && tourHasFinished) {
     return (
-      <RenderOnFinish
+      <UploadCenter
         {...states}
-        submitButtonProps={submitButtonProps}
+        isSubmitting={isSubmitting}
+        onComplianceCheckFinish={onComplianceCheckFinish}
+        onComplianceCheckStart={onComplianceCheckStart}
+        onRetakeAll={onRetakeAll}
+        submitButtonLabel={submitButtonLabel}
+        task={task}
+        inspectionId={inspectionId}
+        checkComplianceAsync={checkComplianceAsync}
+        navigationOptions={navigationOptions}
       />
     );
   }
@@ -315,26 +352,7 @@ export default function Capture({
   // END RENDERING //
 }
 
-Capture.defaultSightIds = [
-  'xsuH1g5T', // Beauty Shot
-  'xfbBpq3Q', // Front Bumper Side Left
-  'LE9h1xh0', // Front Fender Left
-  'IVcF1dOP', // Doors Left
-  'm1rhrZ88', // Front Roof Left
-  'GvCtVnoD', // Rear Lateral Left
-  '3vKXafwc', // Rear Fender Left
-  'XyeyZlaU', // Rear
-  'Cce1KCd3', // Rear Fender Right
-  'AoO-nOoM', // Rear Lateral Right
-  'Pzgw0WGe', // Doors Right
-  'jqJOb6Ov', // Front Fender Right
-  'CELBsvYD', // Front Bumper Side Right
-  'vLcBGkeh', // Front
-  'IqwSM3', // Front seats
-  'rSvk2C', // Dashboard
-  'rj5mhm', // Back seats
-  'qhKA2z', // Trunk
-];
+Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
   controls: PropTypes.arrayOf(PropTypes.shape({
@@ -343,6 +361,7 @@ Capture.propTypes = {
     onPress: PropTypes.func,
   })),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
+  enableComplianceCheck: PropTypes.bool,
   footer: PropTypes.element,
   fullscreen: PropTypes.objectOf(PropTypes.any),
   initialState: PropTypes.shape({
@@ -352,6 +371,7 @@ Capture.propTypes = {
     uploads: PropTypes.objectOf(PropTypes.any),
   }),
   inspectionId: PropTypes.string,
+  isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
@@ -361,16 +381,23 @@ Capture.propTypes = {
     retakeMinTry: PropTypes.number,
   }),
   offline: PropTypes.objectOf(PropTypes.any),
+  onCaptureTourFinish: PropTypes.func,
+  onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
+  onComplianceCheckFinish: PropTypes.func,
+  onComplianceCheckStart: PropTypes.func,
   onFinish: PropTypes.func,
+  onFinishUploadPicture: PropTypes.func,
   onReady: PropTypes.func,
+  onRetakeAll: PropTypes.func,
+  onStartUploadPicture: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
   renderOnFinish: PropTypes.func,
   sightIds: PropTypes.arrayOf(PropTypes.string),
   sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
-  submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
-  task: PropTypes.oneOf([PropTypes.string, PropTypes.object]),
+  submitButtonLabel: PropTypes.string,
+  task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.shape({
     dispatch: PropTypes.func,
@@ -406,15 +433,24 @@ Capture.defaultProps = {
     retakeMinTry: 1,
   },
   offline: null,
+  onCaptureTourFinish: () => {},
+  onCaptureTourStart: () => {},
   onChange: () => {},
+  onComplianceCheckFinish: () => {},
+  onComplianceCheckStart: () => {},
   onFinish: () => {},
+  onFinishUploadPicture: () => {},
   onReady: () => {},
+  onStartUploadPicture: () => {},
+  onRetakeAll: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   renderOnFinish: null,
   sightIds: Capture.defaultSightIds,
   sightsContainerStyle: {},
-  submitButtonProps: {},
+  enableComplianceCheck: false,
+  isSubmitting: false,
+  submitButtonLabel: 'Skip retaking',
   task: 'damage_detection',
   thumbnailStyle: {},
   uploads: {

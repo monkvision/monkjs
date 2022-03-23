@@ -102,6 +102,16 @@ ID of an inspection if you want to use component's API like [`startUploadAsync`]
 
 A boolean showing an ActivityIndicator and disabling controls if true
 
+## isSubmitting
+`PropTypes.bool`
+
+A boolean disabling the submit button if true, inside Upload Center (picture quality check screen).
+
+## submitButtonLabel
+`PropTypes.string`
+
+The label of the submit button, by default is `Skip retaking`.
+
 ## navigationOptions
 ```js
 PropTypes.shape({
@@ -131,12 +141,12 @@ A boolean allowing user to skip a sight if he is not capable of taking it. Defau
 ### retakeMaxTry
 `PropTypes.number`
 
-A number setting the max limit of retake trys. Default is `1`.
+A number setting the max limit of retake tries. Default is `1`.
 
 ### retakeMinTry
 `PropTypes.number`
 
-A number setting the min limit of retake trys. Default is `1`.
+A number setting the min limit of retake tries. Default is `1`.
 
 > Current scenario is user has to retake at least 1 (`retakeMinTry`) picture,
 > but can retake only 1 (`retakeMaxTry`) before being redirected to the next stage,
@@ -145,7 +155,7 @@ A number setting the min limit of retake trys. Default is `1`.
 ## onChange
 `PropTypes.func`
 
-Will call a function when Component state has changed.
+Will call a function when the Component state has changed.
 
 ```js
 const handleChange = (state, api) => console.log(state);
@@ -154,10 +164,73 @@ const handleChange = (state, api) => console.log(state);
 ## onReady
 `PropTypes.func`
 
-Will call a function when Component camera is ready to be used.
+Will call a function when the Component camera is ready to be used.
 
 ```js
 const handleReady = (state, api) => console.log(state);
+```
+
+## onCaptureTourStart
+`PropTypes.func`
+
+Will call a function when the Capture tour starts.
+
+```js
+const handleCaptureTourStart = () => console.log('Capture tour has started');
+```
+
+## onCaptureTourFinish
+`PropTypes.func`
+
+Will call a function when the Capture tour finishes.
+
+```js
+const handleCaptureTourFinish = () => console.log('Capture tour has finished');
+```
+
+## onComplianceCheckStart
+`PropTypes.func`
+
+Will call a function when the picture qualty check starts.
+
+```js
+const handleComplianceCheckStart = () => console.log('Picture quality check has started');
+```
+
+## onComplianceCheckFinish
+`PropTypes.func`
+
+Will call a function when the picture qualty check finishes.
+
+```js
+const handleComplianceCheckFinish = () => console.log('Picture quality check has finished');
+```
+
+## onRetakeAll
+`PropTypes.func`
+
+Will call a function when pressing `retakeAll` button inside the Upload Center (picture quality check screen).
+
+```js
+const handleRetakeAll = () => console.log('Retaking all...');
+```
+
+## onStartUploadPicture
+`PropTypes.func`
+
+Will call a function when start uploading every picture.
+
+```js
+const handleStartUploadPicture = (state, api) => console.log('Started uploading a picture');
+```
+
+## onFinishUploadPicture
+`PropTypes.func`
+
+Will call a function when the uploading is finished for every picture.
+
+```js
+const handleFinishUploadPicture = (state, api) => console.log('Finished uploading a picture');
 ```
 
 ## primaryColor
@@ -185,16 +258,23 @@ See [Expo Camera Props](https://docs.expo.dev/versions/latest/sdk/camera/#props)
 
 ### sights
 ````js
-const sights = useSights(sightIds);
+const sights = useSights({ sightIds });
 console.log(sights); // { state, distpatch }
 console.log(sights.state); // {current: { id, index, metadata }, ids, remainingPictures, takenPictures, tour }
 ````
 
 ### uploads
 ````js
-const uploads = useSights(sightIds);
+const uploads = useUploads({ sightIds });
 console.log(uploads); // { state, distpatch }
 console.log(uploads.state); // { sightId: { picture: null, status: 'idle', error: null, uploadCount: 0 } }
+````
+
+### compliance
+````js
+const compliance = useCompliance({ sightIds });
+console.log(compliance); // { state, distpatch }
+console.log(compliance.state); // { sightId: { id: '', status: 'idle', error: null, requestCount: 0, result: null, imageId: null } }
 ````
 
 ## api

@@ -1,99 +1,55 @@
 import React, { useCallback, useState } from 'react';
-import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native';
 
-import useRequests from 'screens/InspectionCreate/useRequests';
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls, useUploads, UploadCenter } from '@monkvision/camera';
-
-const sightIds = [
-  'WKJlxkiF', // Beauty Shot
-  'vxRr9chD', // Front Bumper Side Left
-  'cDe2q69X', // Front Fender Left
-  'R_f4g8MN', // Doors Left
-  'vedHBC2n', // Front Roof Left
-  'McR3TJK0', // Rear Lateral Left
-  '7bTC-nGS', // Rear Fender Left
-  'hhCBI9oZ', // Rear
-  'e_QIW30o', // Rear Fender Right
-  'fDo5M0Fp', // Rear Lateral Right
-  'fDKWkHHp', // Doors Right
-  '5CFsFvj7', // Front Fender Right
-  'g30kyiVH', // Front Bumper Side Right
-  'I0cOpT1e', // Front
-  'IqwSM3', // Front seats
-  'rSvk2C', // Dashboard
-  'rj5mhm', // Back seats
-  'qhKA2z', // Trunk
-];
+import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
 
 export default () => {
-  const route = useRoute();
-  const { inspectionId } = route.params;
+  const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
-  const screen = useScreen(inspectionId);
-  const requests = useRequests(screen);
+  const [cameraloading, setCameraLoading] = useState();
 
-  const [loading, setLoading] = useState();
+  // start the damage detection task
+  const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
+    [request, updateTaskRequestCount]);
 
-  const handleSuccess = useCallback(() => {
-    requests.updateTask.request();
-  }, [requests]);
-
-  const handleCapture = useCallback(async (state, api, event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    const {
-      takePictureAsync,
-      startUploadAsync,
-      setPictureAsync,
-      goNextSight,
-      checkComplianceAsync,
-    } = api;
-
-    const picture = await takePictureAsync();
-    setPictureAsync(picture);
-
-    const { sights } = state;
-    const { current, ids } = sights.state;
-
-    if (current.index === ids.length - 1) {
-      const upload = await startUploadAsync(picture);
-      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
-
-      setLoading(false);
-    } else {
-      setLoading(false);
-      goNextSight();
-
-      const upload = await startUploadAsync(picture);
-      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
-    }
-  }, []);
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
 
   const controls = [{
-    disabled: loading,
-    onPress: handleCapture,
+    disabled: cameraloading,
     ...Controls.CaptureButtonProps,
-  }];
 
-  const uploads = useUploads({ sightIds });
+    /** --- With custom capture handler ---
+     * onPress: handleCapture,
+    */
+  }];
 
   return (
     <SafeAreaView>
       <Capture
-        sightIds={sightIds}
+        sightIds={Constants.defaultSightIds}
         inspectionId={inspectionId}
         controls={controls}
-        loading={loading}
+        loading={cameraloading}
         uploads={uploads}
-        renderOnFinish={UploadCenter}
-        submitButtonProps={{
-          title: 'Skip Retaking',
-          onPress: handleSuccess,
-        }}
+        isSubmitting={isLoading}
+        enableComplianceCheck
+        onComplianceCheckFinish={handleSuccess}
+        onReady={() => setCameraLoading(false)}
+        onStartUploadPicture={() => setCameraLoading(true)}
+        onFinishUploadPicture={() => setCameraLoading(false)}
+
+        /** --- With upload center
+         * enableComplianceCheck={true}
+         * onComplianceCheckStart={() => {...}}
+         * onComplianceCheckFinish={() => {...}}
+         * onRetakeAll={() => {...}}
+         *
+         * --- Without upload center
+         * onCaptureTourStart={() => {...}}
+         * onCaptureTourFinish={() => {...}}
+         */
       />
     </SafeAreaView>
   );

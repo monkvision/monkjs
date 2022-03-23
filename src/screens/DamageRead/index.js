@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View, VirtualizedList } from 'react-native';
 import CardContent from 'react-native-paper/src/components/Card/CardContent';
 import { Button, Card, DataTable, List, TouchableRipple, useTheme } from 'react-native-paper';
@@ -28,8 +28,8 @@ import {
   taskStatuses,
 } from '@monkvision/corejs';
 import { Loader } from '@monkvision/ui';
-import { utils, useFakeActivity } from '@monkvision/toolkit';
-import { DamageHighlight, usePolygons } from '@monkvision/visualization';
+import { useFakeActivity, utils } from '@monkvision/toolkit';
+import { DamageHighlight, useProps } from '@monkvision/visualization';
 
 import ActionMenu from 'components/ActionMenu';
 import CustomDialog from 'components/CustomDialog';
@@ -113,6 +113,8 @@ export default () => {
     refresh,
   } = useRequest(getOneInspectionById({ id: inspectionId }));
 
+  const damageHighlightRef = useRef();
+
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
   const damagesEntities = useSelector(selectDamageEntities);
@@ -146,9 +148,8 @@ export default () => {
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
-  const [previewPolygons, setPreviewPolygons] = useState(false);
-  const [previewImage, setPreviewImage] = useState({});
-  const [getImage, getPolygons] = usePolygons();
+  const [previewImages, setPreviewImages] = useState(null);
+  const { getDamages, getImage } = useProps();
 
   const {
     isLoading: isDeleteLoading,
@@ -178,13 +179,15 @@ export default () => {
     setDeleteDialogOpen(false);
   }, []);
 
-  const openPreviewDialog = useCallback((image, polygon) => {
-    setPreviewImage(image);
-    setPreviewPolygons(polygon);
-    setPreviewDialogOpen(true);
+  const openPreviewDialog = useCallback(() => {
+    damageHighlightRef.current.toImage()
+      .then((img) => {
+        setPreviewImages([{ url: img }]);
+      });
   }, []);
 
   const handleDismissPreviewDialog = useCallback(() => {
+    setPreviewImages(null);
     setPreviewDialogOpen(false);
   }, []);
 
@@ -211,6 +214,12 @@ export default () => {
     () => getDamageImages(damageViews, inspection?.images ?? []),
     [damageViews, inspection.images],
   );
+
+  useEffect(() => {
+    if (previewImages) {
+      setPreviewDialogOpen(true);
+    }
+  }, [previewImages]);
 
   useLayoutEffect(() => {
     if (navigation) {
@@ -254,27 +263,40 @@ export default () => {
                 item: image,
                 index,
               }) => (
-                <View syle={styles.images}>
+                <View style={styles.images}>
                   <TouchableRipple
                     key={String(index)}
-                    onPress={() => {
-                      openPreviewDialog(
-                        getImage(image),
-                        getPolygons(image.id, damageViews)[0],
-                      );
-                    }}
+                    onPress={openPreviewDialog}
                   >
                     <DamageHighlight
+                      damages={getDamages(image, inspection?.damages)}
                       image={getImage(image)}
-                      polygons={getPolygons(image.id, damageViews)[0]}
-                      backgroundOpacity={0.4}
-                      polygonsProps={{
-                        opacity: 0.1,
-                        stroke: {
-                          color: '#ec00ff',
-                          strokeWidth: 40,
+                      options={{
+                        background: {
+                          opacity: 1,
+                        },
+                        label: {
+                          fontSize: 25,
+                          color: 'black',
+                        },
+                        polygons: {
+                          opacity: 1,
+                          stroke: {
+                            color: 'magenta',
+                            strokeWidth: 2.5,
+                          },
+                        },
+                        ellipses: {
+                          opacity: 1,
+                          stroke: {
+                            color: 'magenta',
+                            strokeWidth: 2.5,
+                          },
                         },
                       }}
+                      width={400}
+                      height={image.imageHeight * (400 / image.imageWidth)}
+                      ref={damageHighlightRef}
                     />
                   </TouchableRipple>
                 </View>
@@ -352,10 +374,8 @@ export default () => {
       />
       <ImageViewer
         isOpen={isPreviewDialogOpen}
-        images={inspection.images.map((i) => ({ url: i.path }))}
-        index={previewImage.index}
-        image={previewImage}
-        polygons={previewPolygons}
+        images={previewImages}
+        index={0}
         handleDismiss={handleDismissPreviewDialog}
       />
     </SafeAreaView>

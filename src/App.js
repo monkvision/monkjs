@@ -10,9 +10,6 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import Navigation from 'Navigation';
 
 import 'config/corejs';
-import ignoreLogs from 'config/ignoreLogs';
-
-ignoreLogs(['EventEmitter.addListener'], 'error');
 
 const theme = {
   ...DefaultTheme,
