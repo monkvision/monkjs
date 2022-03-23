@@ -8,7 +8,6 @@ import Actions from '../../actions';
 import Constants from '../../const';
 
 import log from '../../utils/log';
-import getOS from '../../utils/getOS';
 
 const COVERAGE_360_WHITELIST = [
   // T-ROCK
@@ -59,23 +58,9 @@ export function useTakePictureAsync({ camera }) {
   }) => {
     log([`Awaiting picture to be taken...`]);
 
-    if (Platform.OS === 'web' && getOS() !== 'iOS') {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-      });
-
-      const track = mediaStream.getVideoTracks()[0];
-      const imageCapture = new ImageCapture(track);
-
-      const blob = await imageCapture.takePhoto();
-      const uri = URL.createObjectURL(blob);
-
-      log([`ImageCapture 'takePhoto' has fulfilled with blob:`, uri]);
-
-      return { uri };
-    }
-
-    const picture = await camera.takePictureAsync(options);
+    const picture = Platform.OS === 'web'
+      ? await camera.current.takePicture()
+      : await camera.takePictureAsync(options);
 
     log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
 
