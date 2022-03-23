@@ -181,7 +181,9 @@ export default function Capture({
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
-  const startUploadAsyncParams = { inspectionId, sights, uploads, task, onFinish: onCaptureTourFinish };
+  const startUploadAsyncParams = {
+    inspectionId, sights, uploads, task, onFinish: onCaptureTourFinish,
+  };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 

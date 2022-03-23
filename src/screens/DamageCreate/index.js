@@ -10,7 +10,9 @@
 // import { createOneDamage, addOneViewToInspection, config } from '@monkvision/corejs';
 //
 // import { Image, StyleSheet, SafeAreaView, ScrollView, FlatList, Platform } from 'react-native';
-// import { ActivityIndicatorView, CameraSimpleView, useFakeActivity } from '@monkvision/react-native-views';
+// import {
+// ActivityIndicatorView, CameraSimpleView, useFakeActivity
+// } from '@monkvision/react-native-views';
 //
 // import CustomDialog from 'components/CustomDialog';
 // import ImageViewer from 'components/ImageViewer';
@@ -122,7 +124,9 @@
 //     const headers = { ...config.axiosConfig, 'Content-Type': 'multipart/form-data' };
 //     const baseParams = { inspectionId, headers };
 //
-//     const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
+//     const acquisition = {
+//     strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image,
+//     };
 //     const json = JSON.stringify({
 //       ...viewPicture.viewData,
 //       new_image: { name: multiPartKeys.filename, acquisition },
@@ -271,7 +275,10 @@
 //       <ScrollView contentContainerStyle={styles.root}>
 //         <Card style={styles.card}>
 //           <Card.Title
-//             title={`Add photos for ${startCase(currentDamage.damage_type ?? 'damage')} on the ${startCase(currentDamage.part_type ?? 'part')}`}
+//             title={`
+//             Add photos for ${startCase(currentDamage.damage_type ?? 'damage')}
+//             on the ${startCase(currentDamage.part_type ?? 'part')}
+//             `}
 //             titleStyle={styles.cardTitle}
 //             onClick={() => {}}
 //             left={(props) => <List.Icon {...props} icon="shape-square-plus" />}
