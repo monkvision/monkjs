@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function CustomDialog({ deleteButton, handleDismiss, images, index, isOpen }) {
+export default function CustomDialog({ handleDismiss, images, index, isOpen }) {
   if (!images?.length) { return null; }
 
   return (
@@ -83,7 +83,6 @@ export default function CustomDialog({ deleteButton, handleDismiss, images, inde
 }
 
 CustomDialog.propTypes = {
-  deleteButton: PropTypes.element,
   handleDismiss: PropTypes.func.isRequired,
   images: PropTypes.arrayOf(PropTypes.shape({ url: PropTypes.string })).isRequired,
   index: PropTypes.number,
@@ -93,5 +92,4 @@ CustomDialog.propTypes = {
 CustomDialog.defaultProps = {
   index: 0,
   isOpen: false,
-  deleteButton: null,
 };

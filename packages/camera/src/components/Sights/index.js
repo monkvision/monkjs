@@ -2,11 +2,9 @@ import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Platform, StyleSheet, ScrollView, Text, Switch, View } from 'react-native';
-import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
-import { SIDE_WIDTH } from '../Layout';
 import Thumbnail from '../Thumbnail';
 import Actions from '../../actions';
 
@@ -17,8 +15,13 @@ const styles = StyleSheet.create({
     height: 68,
   },
   text: {
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    borderRadius: 18,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
     alignSelf: 'center',
     color: 'white',
+    fontFamily: 'monospace',
     textAlign: 'center',
     lineHeight: 20,
   },
@@ -47,20 +50,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 });
-
-function Gradient() {
-  return (
-    <Svg height={75} width={SIDE_WIDTH} xmlns="http://www.w3.org/2000/svg" style={styles.gradient}>
-      <Defs>
-        <LinearGradient id="stickyHeaderGradient" x1="0" x2="0" y1="0" y2="1">
-          <Stop offset="5%" stopColor="black" />
-          <Stop offset="95%" stopColor="transparent" />
-        </LinearGradient>
-      </Defs>
-      <Rect fill="url(#stickyHeaderGradient)" x="0" y="0" width="100%" height="100%" />
-    </Svg>
-  );
-}
 
 export default function Sights({
   contentContainerStyle,
@@ -104,10 +93,9 @@ export default function Sights({
       }]}
     >
       <View style={styles.stickyHeader}>
-        <Gradient />
         <View style={styles.textContainer}>
           <Text style={styles.text}>
-            {`${current.index + 1} / ${ids.length} `}
+            {`${current.index + 1} / ${ids.length}`}
           </Text>
         </View>
         {offline && (
