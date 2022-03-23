@@ -1,14 +1,16 @@
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import createElement from 'react-native-web/dist/exports/createElement';
 import adapter from 'webrtc-adapter';
 import PropTypes from 'prop-types';
 
 import { Text, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
-import isEmpty from 'lodash.isempty';
 
 import styles from './styles';
 
 const { getSize } = utils.styles;
+
+const Video = React.forwardRef((props, ref) => createElement('video', { ...props, ref }));
 
 const tests = [
 //   {
@@ -76,19 +78,17 @@ const tests = [
 
 const { getUserMedia } = navigator.mediaDevices || navigator.mozGetUserMedia;
 
-export default function Camera({ children, containerStyle, onCameraReady, onRef, title }) {
+const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
   const windowDimensions = useWindowDimensions();
-  const [ratio, setRatio] = useState();
-
   const videoEl = useRef();
   const canvasEl = useRef();
-  const [camera, setCamera] = useState({});
+  const [candidate, setCandidate] = useState();
   const [loading, setLoading] = useState(false);
 
   const { width: videoWith, height: videoHeight } = useMemo(() => {
-    if (!ratio) { return { width: 0, height: 0 }; }
-    return getSize(ratio, windowDimensions, 'number');
-  }, [ratio, windowDimensions]);
+    if (!candidate) { return { width: 0, height: 0 }; }
+    return getSize(candidate.test.ratio, windowDimensions, 'number');
+  }, [candidate, windowDimensions]);
 
   const gum = useCallback(async (test, device) => {
     if (window.stream) { window.stream.getTracks().forEach((track) => track.stop()); }
@@ -147,17 +147,50 @@ export default function Camera({ children, containerStyle, onCameraReady, onRef,
     return mediaDevices.filter(({ kind }) => kind === 'videoinput');
   }, []);
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      async takePicture() {
+        if (!videoEl.current || videoEl.current?.readyState !== videoEl.current?.HAVE_ENOUGH_DATA) {
+          throw new Error(
+            'ERR_CAMERA_NOT_READY',
+            'HTMLVideoElement does not have enough camera data to construct an image yet.',
+          );
+        }
+
+        canvasEl.current
+          .getContext('2d')
+          .drawImage(videoEl.current, 0, 0, canvasEl.current.width, canvasEl.current.height);
+
+        const imageType = utils.getOS() === 'ios' ? 'image/png' : 'image/webp';
+        return { uri: canvasEl.current.toDataURL(imageType) };
+      },
+      async resumePreview() {
+        if (videoEl.current) {
+          videoEl.current.play();
+        }
+      },
+      async pausePreview() {
+        if (videoEl.current) {
+          videoEl.current.pause();
+        }
+      },
+    }),
+    [videoEl],
+  );
+
   useLayoutEffect(() => {
     (async () => {
-      if (isEmpty(camera) && !loading) {
+      if (videoEl && !candidate && !loading) {
         const video = videoEl.current;
+
         setLoading(true);
 
         const canvas = canvasEl.current;
         const devices = await findDevices();
         const bestCandidate = await findBestCandidate(devices);
 
-        setRatio(bestCandidate.test.ratio);
+        setCandidate(bestCandidate);
 
         if ('srcObject' in video) {
           video.srcObject = bestCandidate.stream;
@@ -170,51 +203,41 @@ export default function Camera({ children, containerStyle, onCameraReady, onRef,
         canvas.width = bestCandidate.test.width;
         canvas.height = bestCandidate.test.height;
 
-        const takePictureAsync = () => {
-          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageType = utils.getOS() === 'ios' ? 'image/png' : 'image/webp';
-          return { uri: canvasEl.current.toDataURL(imageType) };
-        };
-
-        const cameraRef = { takePictureAsync, canvas, video };
-        if (typeof onRef === 'function') { onRef(cameraRef); }
-
-        setCamera(cameraRef);
-        if (typeof onCameraReady === 'function') { onCameraReady(); }
-
         setLoading(false);
+        onCameraReady();
       }
     })();
-  }, [camera, findBestCandidate, findDevices, loading, onCameraReady, onRef]);
+  }, [candidate, findBestCandidate, findDevices, loading, onCameraReady, videoEl]);
 
   return (
     <View
       accessibilityLabel="Camera container"
-      style={[styles.container, containerStyle, { width: videoWith, height: videoHeight }]}
+      style={[styles.container, containerStyle]}
     >
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video
-        autoPlay={utils.getOS() === 'ios'}
+      <Video
+        autoPlay
+        playsInline
+        ref={videoEl}
         width={videoWith}
         height={videoHeight}
-        ref={videoEl}
       />
       <canvas ref={canvasEl} />
       {children}
-      {(title !== '' && ratio) && <Text style={styles.title}>{title}</Text>}
+      {(title !== '' && candidate) && <Text style={styles.title}>{title}</Text>}
     </View>
   );
-}
+};
+
+export default forwardRef(Camera);
 
 Camera.propTypes = {
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onCameraReady: PropTypes.func,
-  onRef: PropTypes.func.isRequired,
+  onCameraReady: PropTypes.func.isRequired,
   title: PropTypes.string,
 };
 
 Camera.defaultProps = {
-  onCameraReady: () => {},
   containerStyle: null,
   title: '',
 };

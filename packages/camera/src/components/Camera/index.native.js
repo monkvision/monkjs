@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Text, View } from 'react-native';
@@ -14,15 +14,14 @@ import styles from './styles';
 
 const { getSize } = utils.styles;
 
-export default function Camera({
+function Camera({
   children,
   containerStyle,
-  onRef,
   ratio,
   style,
   title,
   ...passThroughProps
-}) {
+}, ref) {
   const available = useAvailable();
   const permissions = usePermissions();
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
@@ -46,7 +45,7 @@ export default function Camera({
       style={[containerStyle, size]}
     >
       <ExpoCamera
-        ref={onRef}
+        ref={ref}
         ratio={ratio}
         onMountError={handleError}
         {...passThroughProps}
@@ -58,10 +57,11 @@ export default function Camera({
   );
 }
 
+export default forwardRef(Camera);
+
 Camera.propTypes = {
   children: PropTypes.element,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onRef: PropTypes.func.isRequired,
   ratio: PropTypes.string.isRequired,
   title: PropTypes.string,
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
@@ -95,7 +95,7 @@ export default function Capture({
 }) {
   // STATES //
 
-  const [camera, setCamera] = useState();
+  const camera = useRef();
   const [isReady, setReady] = useState(false);
 
   const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
@@ -300,7 +300,7 @@ export default function Capture({
         right={right}
       >
         <Camera
-          onRef={setCamera}
+          ref={camera}
           onCameraReady={handleCameraReady}
           title={title}
           ratio={settings.ratio}
