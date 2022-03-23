@@ -126,11 +126,32 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
 };
 
 export const useHandlers = ({
-  inspectionId, compliance, sights, uploads, task, onRetakeAll, checkComplianceAsync, ids }) => {
+  inspectionId,
+  task,
+  onRetakeAll,
+  checkComplianceAsync,
+  ids,
+  ...states
+}) => {
+  const { sights, compliance, uploads } = states;
   const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, task });
 
   // retake all rejected/non-compliant pictures at once
-  const handldeRetakeAll = useCallback(() => onRetakeAll(ids), [onRetakeAll, ids]);
+  const handldeRetakeAll = useCallback(() => {
+    // adding an initialState that will hold new compliances with `requestCount = 1`
+    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    const complianceState = {};
+    ids.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
+
+    // reset uploads state with the new incoming ones
+    uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: ids } });
+
+    // reset sightrs state with the new incoming ones
+    sights.dispatch({ type: Actions.sights.RESET_TOUR, payload: { sightIds: ids } });
+
+    // run a custom callback at the retake all time
+    onRetakeAll();
+  }, [ids, onRetakeAll, sights, uploads]);
 
   // retake one picture
   const handleRetake = useCallback((id) => {
@@ -177,7 +198,7 @@ export const useHandlers = ({
   return { handleReupload, handldeRetakeAll, handleRetake };
 };
 
-export const useMixedStates = ({ state, sights, submitButtonProps, ids }) => {
+export const useMixedStates = ({ state, sights, ids }) => {
   const hasPendingComplianceAndNoRejectedUploads = useMemo(() => (state.hasPendingCompliance
     || state.unfulfilledComplianceIds?.length) && !state.uploadIdsWithError?.length,
   [state.hasPendingCompliance, state.unfulfilledComplianceIds, state.uploadIdsWithError]);
@@ -190,9 +211,6 @@ export const useMixedStates = ({ state, sights, submitButtonProps, ids }) => {
   const hasFulfilledAllUploads = useMemo(() => state.unfulfilledUploadIds.length === 0,
     [state.unfulfilledUploadIds]);
 
-  const hasSubmitButton = useMemo(() => typeof submitButtonProps.onPress === 'function',
-    [submitButtonProps.onPress]);
-
   const hasNoCompliancesLeft = useMemo(() => !state.hasPendingCompliance && ids && ids.length === 0,
     [ids, state.hasPendingCompliance]);
 
@@ -203,7 +221,6 @@ export const useMixedStates = ({ state, sights, submitButtonProps, ids }) => {
     hasPendingComplianceAndNoRejectedUploads,
     hasTooMuchTodoCompliances,
     hasFulfilledAllUploads,
-    hasSubmitButton,
     hasNoCompliancesLeft,
     hasAllRejected,
   };

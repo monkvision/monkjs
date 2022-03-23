@@ -165,7 +165,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
       });
 
       // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); }
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
@@ -204,6 +204,9 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       const result = await monkApi.images.addOne({ inspectionId, data });
 
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         payload: { id, status: 'fulfilled', error: null },
@@ -211,6 +214,9 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       return result;
     } catch (err) {
+      // call onFinish callback when capturing the last picture
+      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,

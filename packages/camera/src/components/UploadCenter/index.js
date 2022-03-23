@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
+import log from '../../utils/log';
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 
 const { spacing } = utils.styles;
@@ -52,11 +53,13 @@ export default function UploadCenter({
   compliance,
   navigationOptions,
   sights,
-  submitButtonProps,
   uploads,
-  onRetakeAll,
-  checkComplianceAsync,
   isSubmitting,
+  onComplianceCheckFinish,
+  onComplianceCheckStart,
+  onRetakeAll,
+  submitButtonLabel,
+  checkComplianceAsync,
   inspectionId,
   task,
 }) {
@@ -84,18 +87,29 @@ export default function UploadCenter({
     hasPendingComplianceAndNoRejectedUploads,
     hasTooMuchTodoCompliances,
     hasFulfilledAllUploads,
-    hasSubmitButton,
     hasNoCompliancesLeft,
     hasAllRejected,
-  } = useMixedStates({ state, sights, submitButtonProps, ids });
+  } = useMixedStates({ state, sights, ids });
+
+  // END METHODS //
+  // EFFECTS //
 
   useEffect(() => {
-    if (submitted === false && hasNoCompliancesLeft && hasSubmitButton) {
-      submitButtonProps.onPress(states);
+    if (submitted === false && hasNoCompliancesLeft) {
+      onComplianceCheckFinish(states);
+      log([`Image quality check has been finished`]);
       submit(true);
     }
-  }, [submitButtonProps, submitted, ids, state.hasPendingCompliance,
-    hasSubmitButton, hasNoCompliancesLeft, states]);
+  }, [submitted, ids, state.hasPendingCompliance,
+    hasNoCompliancesLeft, states, onComplianceCheckFinish]);
+
+  useEffect(() => {
+    onComplianceCheckStart();
+    log([`Conpliance check has been started`]);
+  }, [onComplianceCheckStart]);
+
+  // END EFFECTS //
+  // RENDERING //
 
   return (
     <ScrollView
@@ -156,23 +170,27 @@ export default function UploadCenter({
       </View>
 
       {/* actions */}
-      {hasSubmitButton ? (
-        <Button
-          style={styles.button}
-          disabled={isSubmitting || hasAllRejected}
-          {...submitButtonProps}
-        />
-      ) : null}
+      <Button
+        style={styles.button}
+        title={submitButtonLabel}
+        onPress={onComplianceCheckFinish}
+        disabled={isSubmitting || hasAllRejected}
+      />
 
-      {hasFulfilledAllUploads ? (
-        <TouchableOpacity onPress={handldeRetakeAll} style={styles.button}>
-          <Text style={{ textAlign: 'center', color: '#274B9F' }}>
-            {`RETAKE ALL (${ids.length})`}
-          </Text>
-        </TouchableOpacity>
-      ) : null}
+      <TouchableOpacity
+        onPress={handldeRetakeAll}
+        style={styles.button}
+        disabled={!hasFulfilledAllUploads}
+      >
+        <Text style={{ textAlign: 'center', color: '#274B9F' }}>
+          {`RETAKE ALL (${ids.length})`}
+        </Text>
+      </TouchableOpacity>
+
     </ScrollView>
   );
+
+  // END RENDERING //
 }
 
 UploadCenter.propTypes = {
@@ -187,23 +205,25 @@ UploadCenter.propTypes = {
     retakeMaxTry: PropTypes.number,
     retakeMinTry: PropTypes.number,
   }),
+  onComplianceCheckFinish: PropTypes.func,
+  onComplianceCheckStart: PropTypes.func,
   onRetakeAll: PropTypes.func,
-  onUploadsFinish: PropTypes.func,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
-  submitButtonProps: PropTypes.shape({ onPress: PropTypes.func.isRequired }),
+  submitButtonLabel: PropTypes.string,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UploadCenter.defaultProps = {
+  onComplianceCheckFinish: () => {},
+  onComplianceCheckStart: () => {},
+  submitButtonLabel: 'Skip retaking',
   checkComplianceAsync: () => {},
   onRetakeAll: () => {},
   inspectionId: null,
   isSubmitting: false,
-  onUploadsFinish: () => {},
   navigationOptions: {
     retakeMaxTry: 1,
   },
   task: 'damage_detection',
-  submitButtonProps: { title: 'Skip Retaking', onPress: null },
 };
