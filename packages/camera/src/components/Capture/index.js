@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
  * @param uploads
  * @param submitButtonProps
  * @param task
+ * @param mapTasks
  * @return {JSX.Element}
  * @constructor
  */
@@ -103,6 +104,7 @@ export default function Capture({
   style,
   submitButtonLabel,
   task,
+  mapTasks,
   thumbnailStyle,
   uploads,
 }) {
@@ -179,6 +181,7 @@ export default function Capture({
     sights,
     uploads,
     task,
+    mapTasks,
     onFinish: onCaptureTourFinish,
   });
   const checkComplianceAsync = useCheckComplianceAsync({
@@ -315,6 +318,7 @@ export default function Capture({
         onRetakeAll={onRetakeAll}
         submitButtonLabel={submitButtonLabel}
         task={task}
+        mapTasks={mapTasks}
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
         navigationOptions={navigationOptions}
@@ -370,6 +374,12 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
+  mapTasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      tasks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    }),
+  ),
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
@@ -422,6 +432,7 @@ Capture.defaultProps = {
   },
   inspectionId: null,
   loading: false,
+  mapTasks: [],
   navigationOptions: {
     allowNavigate: false,
     allowRetake: true,

@@ -277,6 +277,38 @@ console.log(compliance); // { state, distpatch }
 console.log(compliance.state); // { sightId: { id: '', status: 'idle', error: null, requestCount: 0, result: null, imageId: null } }
 ````
 
+## task
+`PropTypes.oneOfType([PropTypes.string, PropTypes.object])`
+
+A string or object specifying the task that will be used in all sights, by default it's `damage_detection` 
+
+```js
+task="wheel_analysis"
+// or
+task={{ name: 'images_ocr', image_details: { image_type: 'VIN' } }}
+```
+
+## mapTasks
+`PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      tasks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    }),
+  )`
+
+An array of objects contaning the `id` of a sight and an array of `tasks`, useful in case we want to run multiple tasks on one image.
+
+
+> Every image will run the task coming from the `task` prop by default, unless you specify its `id` using `mapTasks`.
+
+```js
+[
+  { id: 'sLu0CfOt', tasks: [{ name: 'images_ocr', image_details: { image_type: 'VIN' } }] },
+  { id: 'WKJlxkiF', tasks: ['damage_detection'] },
+  { id: 'cDe2q69X', tasks: ['damage_detection', 'wheel_analysis'] },
+]
+```
+
 ## api
 ```js
 console.log(API); // { camera, goPrevSight, goNextSight, startUploadAsync, takePictureAsync };

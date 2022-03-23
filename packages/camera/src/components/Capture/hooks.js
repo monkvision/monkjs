@@ -142,10 +142,12 @@ export function useCreateDamageDetectionAsync() {
  * @param sights
  * @param uploads
  * @param task
+ * @param mapTasks
  * @param onFinish
  * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
-export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
+export function useStartUploadAsync({
+  inspectionId, sights, uploads, task, mapTasks = [], onFinish = () => {} }) {
   return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
@@ -156,6 +158,8 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
     // for a custom use, we can the sight we want
     const current = currentSight || sights.state.current;
     const { id, label } = currentSight?.metadata || current.metadata;
+
+    const tasksToMap = mapTasks.find((item) => item.id === id)?.tasks;
 
     try {
       dispatch({
@@ -182,7 +186,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
             sight_id: id,
           } : undefined,
         },
-        tasks: [task],
+        tasks: tasksToMap || [task],
         additional_data: {
           ...current.metadata,
           overlay: undefined,
@@ -225,7 +229,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       throw err;
     }
-  }, [inspectionId, sights, task, uploads, onFinish]);
+  }, [uploads, inspectionId, sights.state, mapTasks, task, onFinish]);
 }
 
 /**
