@@ -16,11 +16,54 @@ yarn add @monkvision/camera
 import { Capture } from '@monkvision/camera';
 ```
 
-Here an example to upload one image to an inspection on the browser with the task `damage_detection` set.
+# Baisc usage
+
+Here is an example of uploading one image to an inspection on the browser with the task `damage_detection` set.
 
 ```javascript
 import React, { useCallback, useState } from 'react';
-import { Capture, Controls } from '@monkvision/camera';
+import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
+import { SafeAreaView, StatusBar } from 'react-native';
+
+export default function Inspector({ inspectionId }) {
+  const [loading, setLoading] = useState();
+
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
+
+  const controls = [{
+    disabled: loading,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  return (
+    <SafeAreaView>
+      <StatusBar hidden />
+      <Capture
+        sightIds={Constants.defaultSightIds}
+        inspectionId={inspectionId}
+        controls={controls}
+        uploads={uploads}
+        loading={loading}
+        onReady={() => setLoading(false)}
+        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+
+        /** --- With picture quality check
+         * enableComplianceCheck={true}
+         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
+         */
+      />
+    </SafeAreaView>
+  );
+}
+```
+
+# Advanced usage
+
+This is the same example but using a **custom capture handler** function, which will override the built-in one.
+
+```javascript
+import React, { useCallback, useState } from 'react';
+import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
 import { SafeAreaView, StatusBar } from 'react-native';
 
 export default function Inspector({ inspectionId }) {
@@ -41,6 +84,8 @@ export default function Inspector({ inspectionId }) {
     }, 200);
   }, []);
 
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
+
   const controls = [{
     disabled: loading,
     onPress: handleCapture,
@@ -51,9 +96,18 @@ export default function Inspector({ inspectionId }) {
     <SafeAreaView>
       <StatusBar hidden />
       <Capture
+        sightIds={Constants.defaultSightIds}
         inspectionId={inspectionId}
         controls={controls}
+        uploads={uploads}
         loading={loading}
+        onReady={() => setLoading(false)}
+        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+
+        /** --- With picture quality check
+         * enableComplianceCheck={true}
+         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
+         */
       />
     </SafeAreaView>
   );
@@ -66,6 +120,7 @@ export default function Inspector({ inspectionId }) {
 `PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, disabled: PropTypes.bool, onPress: PropTypes.func }))`
 
 An array of props inherited from `TouchableOpacity|*`
+> If we pass the `onPress` callback the built-in capture handler will not be used.
 
 ```js
 const controls = [{
