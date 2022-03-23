@@ -31,6 +31,7 @@ module.exports = {
         items: [
           'js/api/components/capture',
           'js/api/components/damage-highlight',
+          'js/api/components/damage-annotation',
         ],
       },
     ],

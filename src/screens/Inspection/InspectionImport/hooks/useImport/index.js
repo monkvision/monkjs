@@ -42,8 +42,7 @@ export default ({ pictures, setPictures, inspectionId }) => {
   // upload with OCR task
   const handleUploadVinPicture = useUpload({
     inspectionId,
-    onSuccess: (id) => { onSuccess(id); startOcr(); console.log('vin pic'); },
-    onLoading: () => console.log('loading vin'),
+    onSuccess: (id) => { onSuccess(id); startOcr(); },
     onError,
     taskName: {
       name: 'images_ocr',

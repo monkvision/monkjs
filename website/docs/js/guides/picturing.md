@@ -347,8 +347,9 @@ export default () => {
     // If the upload went well, we check the quality
     // and the compliance of the picture.
     const upload = await startUploadAsync(picture);
-    const uploadId = upload.data?.id;
-    if (uploadId) { await checkComplianceAsync(uploadId); }
+    /** --- With picture quality check ---
+      if (upload.data?.id) { await checkComplianceAsync(upload.data.id); }
+     */
 
     // Now we took the last picture of the list.
     if (lastIndex) {
@@ -357,6 +358,8 @@ export default () => {
       // or use the renderOnFinish `<Capture />` prop.
     }
   }, []);
+
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
 
   // We define one Control button,
   // and we spread `Controls.CaptureButtonProps` to it.
@@ -387,19 +390,25 @@ export default () => {
 
   // Here we render the `<Capture />` component.
   return (
-    <Capture
-      inspectionId={inspectionId}
-      controls={controls}
-      loading={loading}
-      renderOnFinish={UploadCenter}
-      submitButtonProps={{
-        title: 'Next',
-        disabled: loading,
-        onPress: handleSuccess,
-      }}
-    />
+    <SafeAreaView>
+      <StatusBar hidden />
+       <Capture
+        sightIds={Constants.defaultSightIds}
+        inspectionId={inspectionId}
+        controls={controls}
+        uploads={uploads}
+        loading={loading}
+        onReady={() => setLoading(false)}
+        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+
+        /** --- With picture quality check
+         * enableComplianceCheck={true}
+         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
+         */
+      />
+    </SafeAreaView>
   );
-};
+}
 ```
 
 **See the [Capture API](/docs/js/api/components/capture) to more details.**

@@ -37,19 +37,24 @@ export const flex = {
 
 /**
  * @param {string} ratio="4:3"
+ * @param height
+ * @param width
  * @param {number} windowHeight
  * @param {number} windowWidth
- * @param {"native"||"default"} [platform]
+ * @param {"native"||"number"} [returnType]
  * @return {height: string||number, width: string||number}
  */
-export function getSize(ratio = '4:3', { windowHeight, windowWidth }, platform) {
+export function getSize(ratio = '4:3', { height, width, windowHeight, windowWidth }, returnType) {
   const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // 4:3 || 3:4
-  const longest = windowHeight <= windowWidth ? windowHeight : windowWidth;
+  const w = Math.floor(parseInt(width || windowWidth, 10));
+  const h = Math.floor(parseInt(height || windowHeight, 10));
+
+  const longest = h <= w ? h : w;
 
   const sizesByPlatform = {
     native: {
       height: longest,
-      width: longest * (a / b),
+      width: Math.floor(longest * (a / b)),
     },
     default: {
       height: '100vh',
@@ -57,8 +62,8 @@ export function getSize(ratio = '4:3', { windowHeight, windowWidth }, platform) 
     },
   };
 
-  if (platform === 'native' || platform === 'default') {
-    return sizesByPlatform[platform];
+  if (returnType === 'number' || returnType === 'native') {
+    return sizesByPlatform.native;
   }
 
   return {

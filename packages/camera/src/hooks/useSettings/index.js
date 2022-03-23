@@ -1,52 +1,54 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { Camera } from 'expo-camera';
-import log from '../../utils/log';
+import getOS from '../../utils/getOS';
 
-export default function useSettings({ camera, initialState = {
+const initialState = {
   ratio: '4:3',
   zoom: 0,
   type: Camera.Constants.Type.back,
-} }) {
+};
+
+export default function useSettings({ camera }) {
   const [settings, setSettings] = useState(initialState);
 
-  useEffect(() => {
-    (async () => {
-      const newSettings = {};
+  const getSettings = useCallback(async (prevSettings) => {
+    const newSettings = { ...prevSettings };
 
-      if (Platform.OS === 'web') {
-        log([`Awaiting for available camera types...`]);
-
-        const types = await Camera.getAvailableCameraTypesAsync();
-        newSettings.type = types.find((e) => e === 'back') ? 'back' : types[0];
-
-        log([`Available camera types are:`, types]);
-      }
-
-      setSettings((oldSettings) => ({ ...oldSettings, ...newSettings }));
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const newSettings = {};
-
+    if (camera && Platform.OS !== 'web') {
       if (Platform.OS === 'android') {
-        log([`Awaiting for supported ratios and sizes on Android...`]);
-
         const ratios = await camera.getSupportedRatiosAsync();
-        const pictureSizes = await camera.getAvailablePictureSizesAsync(ratios[0]);
 
-        newSettings.ratio = ratios[0];
-        newSettings.pictureSize = pictureSizes[0];
+        newSettings.ratio = ratios[0].reduce((prev, current) => {
+          const ideal = 4 / 3;
+          const getNumber = (ratio) => (ratio.split(':').reduce((a, b) => (a / b)));
 
-        log([`Supported ratios are:`, ratios]);
-        log([`Supported sizes are:`, pictureSizes]);
+          return Math.abs(getNumber(prev) - ideal) < Math.abs(getNumber(current) - ideal)
+            ? prev : current;
+        });
       }
 
-      setSettings((oldSettings) => ({ ...oldSettings, ...newSettings }));
-    })();
+      if (getOS() !== 'ios') {
+        const pictureSizes = await camera.getAvailablePictureSizesAsync(newSettings.ratio);
+
+        newSettings.pictureSize = pictureSizes.reduce((prev, current) => {
+          const [prevWidth] = prev.split('x');
+          const [currentWidth] = current.split('x');
+
+          return parseInt(prevWidth, 10) > parseInt(currentWidth, 10) ? prev : current;
+        });
+      }
+    }
+
+    return newSettings;
   }, [camera]);
+
+  useEffect(() => {
+    (async () => {
+      const newSettings = await getSettings(initialState);
+      setSettings(newSettings);
+    })();
+  }, [getSettings]);
 
   return settings;
 }
