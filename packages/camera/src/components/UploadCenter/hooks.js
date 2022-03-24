@@ -131,11 +131,11 @@ export const useHandlers = ({
   onRetakeAll,
   checkComplianceAsync,
   ids,
-  mapTasks,
+  mapTasksToSights,
   ...states
 }) => {
   const { sights, compliance, uploads } = states;
-  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, mapTasks, task });
+  const startUploadAsync = useStartUploadAsync({ inspectionId, sights, uploads, mapTasksToSights, task });
 
   // retake all rejected/non-compliant pictures at once
   const handldeRetakeAll = useCallback(() => {

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
  * @param uploads
  * @param submitButtonProps
  * @param task
- * @param mapTasks
+ * @param mapTasksToSights
  * @return {JSX.Element}
  * @constructor
  */
@@ -109,7 +109,7 @@ export default function Capture({
   style,
   submitButtonLabel,
   task,
-  mapTasks,
+  mapTasksToSights,
   thumbnailStyle,
   uploads,
 }) {
@@ -185,7 +185,7 @@ export default function Capture({
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const startUploadAsyncParams = {
-    inspectionId, sights, uploads, task, mapTasks, onFinish: onCaptureTourFinish,
+    inspectionId, sights, uploads, task, mapTasksToSights, onFinish: onCaptureTourFinish,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -324,7 +324,7 @@ export default function Capture({
         onRetakeAll={onRetakeAll}
         submitButtonLabel={submitButtonLabel}
         task={task}
-        mapTasks={mapTasks}
+        mapTasksToSights={mapTasksToSights}
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
         navigationOptions={navigationOptions}
@@ -380,7 +380,7 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
-  mapTasks: PropTypes.arrayOf(
+  mapTasksToSights: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       tasks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
@@ -438,7 +438,7 @@ Capture.defaultProps = {
   },
   inspectionId: null,
   loading: false,
-  mapTasks: [],
+  mapTasksToSights: [],
   navigationOptions: {
     allowNavigate: false,
     allowRetake: true,

@@ -39,19 +39,13 @@ export default () => {
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
-        mapTasks={[
+        mapTasksToSights={[
           { id: 'WKJlxkiF', tasks: ['damage_detection'] },
           { id: 'cDe2q69X', tasks: ['damage_detection', 'wheel_analysis'] },
         ]}
-        /** --- With upload center
-         * enableComplianceCheck={true}
-         * onComplianceCheckStart={() => {...}}
-         * onComplianceCheckFinish={() => {...}}
-         * onRetakeAll={() => {...}}
-         *
-         * --- Without upload center
-         * onCaptureTourStart={() => {...}}
-         * onCaptureTourFinish={() => {...}}
+
+        /** --- Without picture quality check
+         * onCaptureTourFinish={handleSuccess}
          */
       />
     </SafeAreaView>
