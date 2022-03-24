@@ -76,7 +76,30 @@ const tests = [
     ratio: '4:3',
   }];
 
-const { getUserMedia } = navigator.mediaDevices || navigator.mozGetUserMedia;
+function getUserMedia(constraints) {
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    return navigator.mediaDevices.getUserMedia(constraints);
+  }
+
+  // Some browsers partially implement mediaDevices. We can't just assign an object
+  // with getUserMedia as it would overwrite existing properties.
+  // Here, we will just add the getUserMedia property if it's missing.
+
+  // First get hold of the legacy getUserMedia, if present
+  const get = navigator.getUserMedia
+    || navigator.webkitGetUserMedia
+    || navigator.mozGetUserMedia
+    || (() => {
+      const error = new Error('Permission unimplemented');
+      error.code = 0;
+      error.name = 'NotAllowedError';
+      throw error;
+    });
+
+  return new Promise((resolve, reject) => {
+    get.call(navigator, constraints, resolve, reject);
+  });
+}
 
 const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
   const windowDimensions = useWindowDimensions();
@@ -85,7 +108,7 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
   const [candidate, setCandidate] = useState();
   const [loading, setLoading] = useState(false);
 
-  const { width: videoWith, height: videoHeight } = useMemo(() => {
+  const { width: videoWidth, height: videoHeight } = useMemo(() => {
     if (!candidate) { return { width: 0, height: 0 }; }
     return getSize(candidate.test.ratio, windowDimensions, 'number');
   }, [candidate, windowDimensions]);
@@ -163,7 +186,9 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
           .drawImage(videoEl.current, 0, 0, canvasEl.current.width, canvasEl.current.height);
 
         const imageType = utils.getOS() === 'ios' ? 'image/png' : 'image/webp';
-        return { uri: canvasEl.current.toDataURL(imageType) };
+        const uri = canvasEl.current.toDataURL(imageType);
+
+        return { uri };
       },
       async resumePreview() {
         if (videoEl.current) {
@@ -194,14 +219,15 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
 
         if ('srcObject' in video) {
           video.srcObject = bestCandidate.stream;
+          video.play();
         } else {
           video.src = window.URL.createObjectURL(bestCandidate.stream);
         }
 
-        video.onloadedmetadata = () => { video.play(); };
-
         canvas.width = bestCandidate.test.width;
         canvas.height = bestCandidate.test.height;
+
+        video.onloadedmetadata = () => { video.play(); };
 
         setLoading(false);
         onCameraReady();
@@ -211,6 +237,7 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
 
   return (
     <View
+      pointerEvents="box-none"
       accessibilityLabel="Camera container"
       style={[styles.container, containerStyle]}
     >
@@ -219,7 +246,7 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
         autoPlay
         playsInline
         ref={videoEl}
-        width={videoWith}
+        width={videoWidth}
         height={videoHeight}
       />
       <canvas ref={canvasEl} />

@@ -29,7 +29,9 @@ import {
 } from './hooks';
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+  },
   loading: {
     flex: 1,
     alignItems: 'center',
@@ -75,7 +77,6 @@ const styles = StyleSheet.create({
  * @param submitButtonLabel
  * @param thumbnailStyle
  * @param uploads
- * @param submitButtonProps
  * @param task
  * @return {JSX.Element}
  * @constructor

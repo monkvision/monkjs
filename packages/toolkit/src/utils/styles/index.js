@@ -46,19 +46,19 @@ export const flex = {
  */
 export function getSize(ratio = '4:3', { height, width, windowHeight, windowWidth }, returnType) {
   const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // 4:3 || 3:4
-  const w = Math.floor(parseInt(width || windowWidth, 10));
-  const h = Math.floor(parseInt(height || windowHeight, 10));
+  const w = Math.round(parseInt(width || windowWidth, 10));
+  const h = Math.round(parseInt(height || windowHeight, 10));
 
   const longest = h <= w ? h : w;
 
   const sizesByPlatform = {
     native: {
       height: longest,
-      width: Math.floor(longest * (a / b)),
+      width: Math.round(longest * (a / b)),
     },
     default: {
       height: '100vh',
-      width: `${Math.floor(100 * (a / b))}vh`,
+      width: `${Math.round(100 * (a / b))}vh`,
     },
   };
 
