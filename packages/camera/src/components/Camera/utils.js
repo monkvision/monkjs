@@ -2,6 +2,11 @@ import 'webrtc-adapter';
 import { utils } from '@monkvision/toolkit';
 
 export const whitelist = [{
+  label: '2K',
+  width: 2560,
+  height: 1440,
+  ratio: '16:9',
+}, {
   label: 'FHD 4:3',
   width: 1920,
   height: 1440,
@@ -21,16 +26,6 @@ export const whitelist = [{
   width: 1280,
   height: 720,
   ratio: '16:9',
-}, {
-  label: 'SVGA',
-  width: 800,
-  height: 600,
-  ratio: '4:3',
-}, {
-  label: 'VGA',
-  width: 640,
-  height: 480,
-  ratio: '4:3',
 }];
 
 export function captureImageContext(video, { width, height }) {
