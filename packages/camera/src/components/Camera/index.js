@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { Text, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
+import Webcam from 'react-webcam';
 
 import { findDevices, findBestCandidate, setVideoSource } from './utils';
-import getOS from '../../utils/getOS';
 import styles from './styles';
 
 const { getSize } = utils.styles;
@@ -20,7 +20,6 @@ const Video = React.forwardRef(
 
 const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
   const videoRef = useRef();
-  const expoCameraRef = useRef();
   const windowDimensions = useWindowDimensions();
 
   const [camera, setCamera] = useState({
@@ -29,6 +28,7 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
     height: 0,
     ratio: '4:3',
     pictureSize: '',
+    constraints: {},
   });
 
   const [loading, setLoading] = useState(false);
@@ -41,9 +41,15 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
   useImperativeHandle(ref, () => ({
     async takePicture() {
       if (!videoRef.current) { throw new Error('Camera is not ready!'); }
+
+      if (utils.getOS() === 'iOS') {
+        const uri = videoRef.current.getScreenshot();
+        return { uri };
+      }
+
       const { width, height, stream } = camera;
 
-      if (ImageCapture && getOS() !== 'ios') {
+      if (ImageCapture && utils.getOS() !== 'iOS') {
         const track = stream.getVideoTracks()[0];
         const imageCapture = new ImageCapture(track);
 
@@ -64,7 +70,7 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
       canvas.getContext('2d')
         .drawImage(videoRef.current, 0, 0, width, height);
 
-      const imageType = utils.getOS() === 'ios' ? 'image/png' : 'image/webp';
+      const imageType = utils.getOS() === 'iOS' ? 'image/png' : 'image/webp';
       const uri = canvas.toDataURL(imageType);
 
       return { uri };
@@ -90,7 +96,9 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
         const devices = await findDevices();
         const bestCandidate = await findBestCandidate(devices);
 
-        setVideoSource(videoRef.current, bestCandidate.stream);
+        if (utils.getOS() !== 'iOS') {
+          setVideoSource(videoRef.current, bestCandidate.stream);
+        }
 
         setCamera(bestCandidate);
         setLoading(false);
@@ -106,13 +114,27 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
       accessibilityLabel="Camera container"
       style={[styles.container, containerStyle]}
     >
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <Video
-        autoPlay
-        playsInline
-        ref={videoRef}
-        {...videoSize}
-      />
+
+      {utils.getOS() === 'iOS' ? (
+        <Webcam
+          ref={videoRef}
+          screenshotQuality={1}
+          videoConstraints={camera.constraints.video}
+          audioConstraints={camera.constraints.audio}
+          minScreenshotHeight={camera.height}
+          minScreenshotWidth={camera.width}
+          style={videoSize}
+          {...videoSize}
+        />
+      ) : (
+        /* eslint-disable-next-line jsx-a11y/media-has-caption */
+        <Video
+          autoPlay
+          playsInline
+          ref={videoRef}
+          {...videoSize}
+        />
+      )}
       {children}
       <Text style={styles.title}>{title}</Text>
     </View>

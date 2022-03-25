@@ -1,14 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
 import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
 
+const styles = StyleSheet.create({
+  safeArea: { backgroundColor: '#000' },
+});
+
 export default () => {
   const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
 
-  const [cameraloading, setCameraLoading] = useState();
+  const [cameraLoading, setCameraLoading] = useState();
 
   // start the damage detection task
   const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
@@ -17,7 +21,7 @@ export default () => {
   const uploads = useUploads({ sightIds: Constants.defaultSightIds });
 
   const controls = [{
-    disabled: cameraloading,
+    disabled: cameraLoading,
     ...Controls.CaptureButtonProps,
 
     /** --- With custom capture handler ---
@@ -26,12 +30,12 @@ export default () => {
   }];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
       <Capture
         sightIds={Constants.defaultSightIds}
         inspectionId={inspectionId}
         controls={controls}
-        loading={cameraloading}
+        loading={cameraLoading}
         uploads={uploads}
         isSubmitting={isLoading}
         enableComplianceCheck

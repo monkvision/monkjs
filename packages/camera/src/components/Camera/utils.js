@@ -2,16 +2,6 @@ import 'webrtc-adapter';
 import { utils } from '@monkvision/toolkit';
 
 export const whitelist = [{
-  label: '4K(UHD) 4:3',
-  width: 3840,
-  height: 2880,
-  ratio: '4:3',
-}, {
-  label: '4K(UHD) 16:9',
-  width: 3840,
-  height: 2160,
-  ratio: '16:9',
-}, {
   label: 'FHD 4:3',
   width: 1920,
   height: 1440,
@@ -40,26 +30,6 @@ export const whitelist = [{
   label: 'VGA',
   width: 640,
   height: 480,
-  ratio: '4:3',
-}, {
-  label: 'CIF',
-  width: 352,
-  height: 288,
-  ratio: '4:3',
-}, {
-  label: 'QVGA',
-  width: 320,
-  height: 240,
-  ratio: '4:3',
-}, {
-  label: 'QCIF',
-  width: 176,
-  height: 144,
-  ratio: '4:3',
-}, {
-  label: 'QQVGA',
-  width: 160,
-  height: 120,
   ratio: '4:3',
 }];
 

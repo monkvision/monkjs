@@ -85,9 +85,9 @@ Controls.propTypes = {
     onPress: PropTypes.func,
   })),
   enableComplianceCheck: PropTypes.bool,
+  loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
-  loading: PropTypes.bool,
   state: PropTypes.shape({
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
