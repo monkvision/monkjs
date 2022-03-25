@@ -8,7 +8,7 @@ import config from '../config';
  *  - monk_core_api:inspections:read
  *  - monk_core_api:inspections:read_organization
  *
- * @link https://api.preview.monk.ai/v1/apidocs/#/Inspection/get_inspection
+ * @link https://api.monk.ai/v1/apidocs/#/Inspection/get_inspection
  *
  * @param {$uuid: {string}} id
  * @param {Object} [params]
@@ -32,7 +32,7 @@ export function getOne({ id, params, ...customReqConfig }) {
  * @name getAllInspections
  * Returns all the inspections created by the client / organization.
  *
- * @link https://api.preview.monk.ai/v1/apidocs/#/Inspection/get_all_inspections
+ * @link https://api.monk.ai/v1/apidocs/#/Inspection/get_all_inspections
  *
  *
  * @param {Object} params - query params
@@ -69,7 +69,7 @@ export function getAll({ params, ...customReqConfig }) {
  * or to add more image on which you want to apply task.
  * The method returns a unique inspection id.
  *
- * @link https://api.preview.monk.ai/v1/apidocs/#/Inspection/get_all_inspections
+ * @link https://api..monk.ai/v1/apidocs/#/Inspection/get_all_inspections
  *
  * @param {Object} data - body data
  * @param {Object} [customReqConfig]

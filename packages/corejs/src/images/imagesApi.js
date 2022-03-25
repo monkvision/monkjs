@@ -7,7 +7,7 @@ import config from '../config';
  * You must provide the id of the concerned inspection
  * The method returns a unique image id.
  *
- * @link https://api.preview.monk.ai/v1/apidocs/#/Image/add_image_to_inspection
+ * @link https://api.monk.ai/v1/apidocs/#/Image/add_image_to_inspection
  *
  * @param {string} inspectionId
  * @param {Object} data - body data

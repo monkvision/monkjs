@@ -8,7 +8,7 @@ import config from '../config';
  * You can add some damages manually
  * The method returns a unique damage id.
  *
- * @link https://api.staging.monk.ai/v1/apidocs/#/Damage/post_damage
+ * @link https://api.monk.ai/v1/apidocs/#/Damage/post_damage
  *
  * @param {$uuid: {string}} inspectionId
  * @param {Object} data - body data
