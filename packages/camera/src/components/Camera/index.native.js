@@ -1,14 +1,13 @@
 import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Text, View } from 'react-native';
+import { Text, View, useWindowDimensions } from 'react-native';
 import { Camera as ExpoCamera } from 'expo-camera';
 
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
 import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 import styles from './styles';
 

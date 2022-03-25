@@ -1,8 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 
 import { useMediaQuery } from 'react-responsive';
-import useWindowDimensions from '../useWindowDimensions';
 
 import log from '../../utils/log';
 

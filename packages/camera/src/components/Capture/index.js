@@ -34,8 +34,9 @@ const styles = StyleSheet.create({
   },
   loading: {
     flex: 1,
-    alignItems: 'center',
+    position: 'absolute',
     justifyContent: 'center',
+    alignItems: 'center',
     height: '100%',
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -284,13 +285,17 @@ export default function Capture({
       api={api}
       containerStyle={controlsContainerStyle}
       elements={controls}
+      loading={loading}
       state={states}
       enableComplianceCheck={enableComplianceCheck}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
     />
-  ), [api, controlsContainerStyle, controls, states, enableComplianceCheck,
-    onStartUploadPicture, onFinishUploadPicture]);
+  ), [
+    api, controlsContainerStyle, controls, loading,
+    states, enableComplianceCheck, onStartUploadPicture,
+    onFinishUploadPicture,
+  ]);
 
   const children = useMemo(() => (
     <>
@@ -341,6 +346,7 @@ export default function Capture({
       >
         <Camera
           ref={camera}
+          loding={loading}
           onCameraReady={handleCameraReady}
           title={title}
           ratio={settings.ratio}
