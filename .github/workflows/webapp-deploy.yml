@@ -23,7 +23,7 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "::set-output name=env_name::staging"
-          elif [ "${{ github.ref }}" == "refs/tags/*" ]; then
+          elif [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
             echo "::set-output name=env_name::preview"
           else
             echo "::set-output name=env_name::development"
