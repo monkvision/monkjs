@@ -7,6 +7,7 @@ import { entityCollection as parts } from '../parts/partsEntity';
 import { entity as vehicle } from '../vehicles/vehiclesEntity';
 import { entityCollection as documents } from '../documents/documentsEntity';
 import { entityCollection as tasks } from '../tasks/tasksEntity';
+import { entityCollection as wheelAnalysis } from '../wheelAnalysis/wheelAnalysisEntity';
 
 export const KEY = 'inspections';
 export const entity = new schema.Entity(KEY, {
@@ -16,6 +17,7 @@ export const entity = new schema.Entity(KEY, {
   vehicle,
   documents,
   tasks,
+  wheelAnalysis,
 }, entities.options);
 
 export const entityCollection = [entity];

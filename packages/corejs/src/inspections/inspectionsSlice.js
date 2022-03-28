@@ -5,12 +5,15 @@ import * as api from './inspectionsApi';
 import { entity, entityCollection } from './inspectionsEntity';
 
 export { default as inspectionStatuses } from './constants';
+const mockInspection = require('./inspectionMock.json');
+
 export const inspectionsAdapter = createEntityAdapter();
 
 export const getOneInspectionById = createAsyncThunk(
   'inspections/getOne',
   async (arg) => {
     const { data } = await api.getOne({ ...arg });
+    console.log({ nr: normalize(mockInspection, entity) });
     return normalize(data, entity);
   },
 );
