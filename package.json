@@ -1,6 +1,6 @@
 {
   "name": "monk",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "private": true,
@@ -104,7 +104,8 @@
     "react-native-webview": "^11.17.2",
     "react-redux": "^7.2.6",
     "react-responsive": "^9.0.0-beta.6",
-    "release-it": "^14.12.5",
+    "react-webcam": "^7.0.0",
+    "release-it": "^14.13.1",
     "screenfull": "^5.2.0",
     "webrtc-adapter": "^8.1.1",
     "yup": "^0.32.11"

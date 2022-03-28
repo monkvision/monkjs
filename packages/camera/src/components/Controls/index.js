@@ -24,6 +24,7 @@ export default function Controls({
   api,
   containerStyle,
   elements,
+  loading,
   state,
   enableComplianceCheck,
   onStartUploadPicture,
@@ -58,6 +59,7 @@ export default function Controls({
       }, i) => (
         createElement(component, {
           key: `camera-control-${i}`,
+          disabled: loading,
           onPress: handlePress({ onPress, ...rest }),
           style: StyleSheet.flatten([styles.button]),
           ...rest,
@@ -83,6 +85,7 @@ Controls.propTypes = {
     onPress: PropTypes.func,
   })),
   enableComplianceCheck: PropTypes.bool,
+  loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   state: PropTypes.shape({
@@ -97,6 +100,7 @@ Controls.defaultProps = {
   containerStyle: null,
   elements: [],
   enableComplianceCheck: false,
+  loading: false,
   state: {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
