@@ -5,7 +5,7 @@ import * as api from './inspectionsApi';
 import { entity, entityCollection } from './inspectionsEntity';
 
 export { default as inspectionStatuses } from './constants';
-const mockInspection = require('./inspectionMock.json');
+const mockInspection = require('./getOneInspectionMock.json');
 
 export const inspectionsAdapter = createEntityAdapter();
 
