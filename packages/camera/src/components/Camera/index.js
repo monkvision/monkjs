@@ -9,6 +9,8 @@ import Webcam from 'react-webcam';
 import { findDevices, findBestCandidate, setVideoSource } from './utils';
 import styles from './styles';
 
+const devTools = process.env.NODE_ENV !== 'production';
+
 const { getSize } = utils.styles;
 
 const Video = React.forwardRef(
@@ -44,6 +46,16 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
 
       if (utils.getOS() === 'iOS') {
         const uri = videoRef.current.getScreenshot();
+
+        // FOR TESTING
+        if (devTools) {
+          const img = document.createElement('img');
+          img.src = uri;
+          img.onload = () => {
+            alert(`${img.width}x${img.height}`);
+          };
+        }
+
         return { uri };
       }
 

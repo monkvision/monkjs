@@ -8,12 +8,18 @@ export const whitelist = [
 //   height: 1440,
 //   ratio: '16:9',
 // },
-  // {
-  //   label: 'FHD 4:3',
-  //   width: 1920,
-  //   height: 1440,
-  //   ratio: '4:3',
-  // },
+  {
+    label: 'QXGA',
+    width: 2048,
+    height: 1536,
+    ratio: '4:3',
+  },
+  {
+    label: 'FHD 4:3',
+    width: 1920,
+    height: 1440,
+    ratio: '4:3',
+  },
   {
     label: 'FHD 16:9',
     width: 1920,
