@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import screenfull from 'screenfull';
-import { Button, Platform, StyleSheet, View } from 'react-native';
+import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import getOS from '../../utils/getOS';
 import useOrientation from '../../hooks/useOrientation';
@@ -19,10 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   section: {
-    ...Platform.select({
-      native: { height: '100%' },
-      default: { height: '100vh' },
-    }),
     alignItems: 'center',
     overflow: 'hidden',
   },
@@ -73,10 +69,31 @@ function FullScreenButton({ hidden, ...rest }) {
     [isOn],
   );
 
-  const toggleFullScreen = useCallback(() => {
-    screenfull.toggle(undefined, { navigationUI: 'hide' });
-    setOn((prevState) => !prevState);
+  const toggleFullScreen = useCallback((on) => {
+    const params = [undefined, { navigationUI: 'hide' }];
+
+    if (on === true) {
+      screenfull.request(params);
+      setOn(true);
+    } else if (on === false) {
+      screenfull.exit();
+      setOn(false);
+    } else {
+      screenfull.toggle(...params);
+      setOn((prevState) => !prevState);
+    }
   }, [setOn]);
+
+  useEffect(() => {
+    if (screenfull.isEnabled && document) {
+      document.querySelector('body').style = 'background-color: #000;';
+    }
+
+    return () => {
+      if (document) { document.querySelector('body').style = undefined; }
+      toggleFullScreen(false);
+    };
+  }, [toggleFullScreen]);
 
   return (Platform.OS === 'web' && screenfull.isEnabled) ? (
     <View style={[styles.fullScreenButtonContainer, isFullScreenStyle]}>
@@ -111,6 +128,7 @@ function Layout({
   sectionStyle,
 }) {
   const isNative = Platform.select({ native: true, default: false });
+  const { height } = useWindowDimensions();
 
   const mobileBrowserIsPortrait = useMobileBrowserConfig();
   const orientation = useOrientation('landscape');
@@ -141,20 +159,20 @@ function Layout({
     >
       <View
         accessibilityLabel="Side left"
-        style={[styles.section, styles.side, styles.left, sectionStyle]}
+        style={[styles.section, styles.side, styles.left, sectionStyle, { height }]}
       >
         {left}
       </View>
       <View
         accessibilityLabel="Center"
-        style={[styles.section, sectionStyle, styles.center]}
+        style={[styles.section, sectionStyle, styles.center, { height }]}
       >
         {children}
         <FullScreenButton {...buttonFullScreenProps} />
       </View>
       <View
         accessibilityLabel="Side right"
-        style={[styles.section, styles.side, styles.right, sectionStyle]}
+        style={[styles.section, styles.side, styles.right, sectionStyle, { height }]}
       >
         {right}
       </View>

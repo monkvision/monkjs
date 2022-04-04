@@ -35,7 +35,7 @@ export default function Inspector({ inspectionId }) {
         onReady={() => setLoading(false)}
         onStartUploadPicture={() => setLoading(true)}
         onFinishUploadPicture={() => setLoading(false)}
-        onCaptureTourStart={handleGoToInspectionPage}
+        onCaptureTourFinish={handleGoToInspectionPage}
 
         /** --- With picture quality check
          * enableComplianceCheck={true}

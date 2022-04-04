@@ -1,9 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { Platform, StyleSheet, ScrollView, Text, Switch, View } from 'react-native';
-
-import useWindowDimensions from '../../hooks/useWindowDimensions';
+import { StyleSheet, ScrollView, Text, Switch, View, useWindowDimensions } from 'react-native';
 
 import Thumbnail from '../Thumbnail';
 import Actions from '../../actions';
@@ -74,10 +72,10 @@ export default function Sights({
   }, [dispatch, navigationOptions.allowNavigate]);
 
   const scrollViewRef = useRef(null);
-  const handleScrollToNext = (i, rowHeight) => scrollViewRef.current.scrollTo({
-    y: rowHeight * i,
-    animated: true,
-  });
+  // const handleScrollToNext = (i, rowHeight) => scrollViewRef.current.scrollTo({
+  //   y: rowHeight * i,
+  //   animated: true,
+  // });
 
   return (
     <ScrollView
@@ -85,12 +83,7 @@ export default function Sights({
       ref={scrollViewRef}
       showsHorizontalScrollIndicator={false}
       stickyHeaderIndices={[0]}
-      contentContainerStyle={[{
-        ...Platform.select({
-          native: { maxHeight: windowHeight },
-          default: { maxHeight: '100vh' },
-        }, contentContainerStyle),
-      }]}
+      contentContainerStyle={[contentContainerStyle, { maxHeight: windowHeight }]}
     >
       <View style={styles.stickyHeader}>
         <View style={styles.textContainer}>
@@ -106,20 +99,22 @@ export default function Sights({
         )}
       </View>
       <View>
-        {Object.values(tour).map(({ id, label, overlay }, index) => (
-          <Thumbnail
-            key={`thumbnail-${id}`}
-            isCurrent={current.metadata.id === id}
-            label={label}
-            overlay={overlay}
-            picture={takenPictures[id]}
-            onPress={(e) => handlePress(id, e)}
-            onClick={(e) => handlePress(id, e)}
-            onFocus={(rowHeight) => handleScrollToNext(index, rowHeight)}
-            style={thumbnailStyle}
-            uploadStatus={uploads.state[id]?.status || 'idle'}
-          />
-        ))}
+        {Object.values(tour)
+          .splice(0, current.index + 1)
+          .reverse()
+          .map(({ id, label, overlay }) => (
+            <Thumbnail
+              key={`thumbnail-${id}`}
+              isCurrent={current.metadata.id === id}
+              label={label}
+              overlay={overlay}
+              picture={takenPictures[id]}
+              onPress={(e) => handlePress(id, e)}
+              onClick={(e) => handlePress(id, e)}
+              style={thumbnailStyle}
+              uploadStatus={uploads.state[id]?.status || 'idle'}
+            />
+          ))}
         <View style={styles.footer}>{footer}</View>
       </View>
     </ScrollView>

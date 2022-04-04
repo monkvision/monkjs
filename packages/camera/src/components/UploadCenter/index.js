@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Button, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, StyleSheet, Button, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
@@ -13,7 +13,7 @@ const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
-    zIndex: 0,
+    zIndex: 1,
     paddingVertical: spacing(2),
   },
   container: {
@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   button: {
-    width: '100%',
+    margin: spacing(1),
     borderRadius: 4,
     padding: spacing(1.4),
-    marginVertical: spacing(0.6),
   },
   loadingLayout: {
     width: '100%',
@@ -44,6 +43,11 @@ const styles = StyleSheet.create({
   },
   cardsLayout: {
     marginTop: spacing(2),
+  },
+  actions: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 });
 
@@ -70,7 +74,7 @@ export default function UploadCenter({
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
 
-  const { handldeRetakeAll, handleRetake, handleReupload } = useHandlers({
+  const { handleRetakeAll, handleRetake, handleReUpload } = useHandlers({
     inspectionId,
     task,
     onRetakeAll,
@@ -158,7 +162,7 @@ export default function UploadCenter({
             <UploadCard
               key={`uploadCard-${id}`}
               onRetake={handleRetake}
-              onReupload={handleReupload}
+              onReupload={handleReUpload}
               id={id}
               label={getItemById(id, sights.state.tour).label}
               picture={sights.state.takenPictures[id]}
@@ -170,23 +174,22 @@ export default function UploadCenter({
       </View>
 
       {/* actions */}
-      <Button
-        style={styles.button}
-        title={submitButtonLabel}
-        onPress={onComplianceCheckFinish}
-        disabled={isSubmitting || hasAllRejected}
-      />
-
-      <TouchableOpacity
-        onPress={handldeRetakeAll}
-        style={styles.button}
-        disabled={!hasFulfilledAllUploads}
-      >
-        <Text style={{ textAlign: 'center', color: '#274B9F' }}>
-          {`RETAKE ALL (${ids.length})`}
-        </Text>
-      </TouchableOpacity>
-
+      <View style={styles.actions}>
+        <Button
+          color="#36b0c2"
+          style={styles.button}
+          title={submitButtonLabel}
+          onPress={onComplianceCheckFinish}
+          disabled={isSubmitting || hasAllRejected || !hasFulfilledAllUploads}
+        />
+        <Button
+          color="#274B9F"
+          onPress={handleRetakeAll}
+          style={styles.button}
+          disabled={!hasFulfilledAllUploads}
+          title={`Retake all (${ids.length})`}
+        />
+      </View>
     </ScrollView>
   );
 

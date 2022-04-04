@@ -10369,6 +10369,29 @@ react-responsive@^9.0.0-beta.6:
     prop-types "^15.6.1"
     shallow-equal "^1.2.1"
 
+react-shallow-renderer@^16.13.1:
+  version "16.14.1"
+  resolved "https://registry.yarnpkg.com/react-shallow-renderer/-/react-shallow-renderer-16.14.1.tgz#bf0d02df8a519a558fd9b8215442efa5c840e124"
+  integrity sha512-rkIMcQi01/+kxiTE9D3fdS959U1g7gs+/rborw++42m1O9FAQiNI/UNRZExVUoAOprn4umcXf+pFRou8i4zuBg==
+  dependencies:
+    object-assign "^4.1.1"
+    react-is "^16.12.0 || ^17.0.0"
+
+react-test-renderer@^17.0.2, react-test-renderer@~17.0.1:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-17.0.2.tgz#4cd4ae5ef1ad5670fc0ef776e8cc7e1231d9866c"
+  integrity sha512-yaQ9cB89c17PUb0x6UfWRs7kQCorVdHlutU1boVPEsB8IDZH6n9tHxMacc3y0JoXOJUsZb/t/Mb8FUWMKaM7iQ==
+  dependencies:
+    object-assign "^4.1.1"
+    react-is "^17.0.2"
+    react-shallow-renderer "^16.13.1"
+    scheduler "^0.20.2"
+
+react-webcam@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-webcam/-/react-webcam-7.0.0.tgz#11635a771d876d897dc54e642c758c0f6ba4987b"
+  integrity sha512-HKFiYyLhSCQCUYilzhgkJlDrUCxN60kB97i5OLSjjJ5HJyVQVkEsp8rAFyZZDiZK2fRauvUmaZHac94U4OhVhg==
+
 react@17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
@@ -10614,10 +10637,10 @@ release-it@*, release-it@^14.11.5:
     yaml "1.10.2"
     yargs-parser "20.2.9"
 
-release-it@^14.12.5:
-  version "14.12.5"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.12.5.tgz#aaf9802545717f299e14d1dbf025afa7bf956668"
-  integrity sha512-mGFbbX8eEKMOhfjq5mZAgGppT8CME1T+vj6xA5tAPYSCuPpcNEDjqiG1tJfPy/XImZI4uS3U6pNP5KyDpy9etg==
+release-it@^14.13.1:
+  version "14.13.1"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.13.1.tgz#d87bb2dc488904ea0d39eddf0b354081c645381f"
+  integrity sha512-mrng5bqZDFMr/7oCH3kuflwjKpKki4dUp6yYGxs20scYCvvd8rHAI5pdQOJHwI5BKHAC/pad0UjAEycMWQnEIw==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "18.12.0"
@@ -10645,6 +10668,7 @@ release-it@^14.12.5:
     update-notifier "5.1.0"
     url-join "4.0.1"
     uuid "8.3.2"
+    wildcard-match "5.1.2"
     yaml "1.10.2"
     yargs-parser "20.2.9"
 
@@ -12455,6 +12479,11 @@ widest-line@^3.1.0:
   integrity sha512-NsmoXalsWVDMGupxZ5R08ka9flZjjiLvHVAWYOKtiKM8ujtZWr9cRffak+uSE48+Ob8ObalXpwyeUiyDD6QFgg==
   dependencies:
     string-width "^4.0.0"
+
+wildcard-match@5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/wildcard-match/-/wildcard-match-5.1.2.tgz#66b438001391674d8599b45da051e0bd9f33cd2a"
+  integrity sha512-qNXwI591Z88c8bWxp+yjV60Ch4F8Riawe3iGxbzquhy8Xs9m+0+SLFBGb/0yCTIDElawtaImC37fYZ+dr32KqQ==
 
 windows-release@^4.0.0:
   version "4.0.0"
