@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useMemo } from 'react';
-import { monkApi } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 import { Platform } from 'react-native';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 

@@ -39,11 +39,12 @@
     "release": "release-it"
   },
   "dependencies": {
-    "react-native-paper": "^4.10.1",
+    "react-native-paper": "^4.12.0",
+    "react-native-svg": "^12.3.0",
     "lodash.noop": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
+    "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "prop-types": "^15.8.1",

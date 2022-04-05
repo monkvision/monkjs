@@ -1,70 +1,71 @@
 import { utils } from '@monkvision/toolkit';
-import { Platform, StyleSheet } from 'react-native';
-
-const { spacing } = utils.styles;
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   root: {
-    display: 'flex',
     flex: 1,
+    display: 'flex',
     overflow: 'hidden',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
-  id: {
-    fontFamily: 'monospace',
-  },
-  card: {
-    borderTopStartRadius: 0,
-  },
-  cardContent: {
-    paddingTop: 0,
-    paddingHorizontal: 0,
-    margin: 0,
-  },
-  cardActions: {
+  top: {
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
+    paddingVertical: utils.styles.spacing(2),
   },
-  button: {
-    marginLeft: spacing(2),
-  },
-  statusDot: {
-    width: 12,
-    maxWidth: 12,
-    height: 12,
-    borderRadius: 999,
-    marginHorizontal: spacing(1),
-  },
-  statusLayout: {
+  topRight: {
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'flex-end',
-    maxWidth: 75,
+    flexGrow: 1,
   },
-  dateLayout: {
+  mid: {
     display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 47,
+    minHeight: 150,
   },
-  rowOdd: {
-    backgroundColor: '#f6f6f6',
+  title: {
+    marginBottom: utils.styles.spacing(2),
+    fontWeight: 'normal',
   },
-  headerRight: {
+  titleAccent: {
+    marginLeft: utils.styles.spacing(1),
+    paddingHorizontal: utils.styles.spacing(1),
+    paddingVertical: utils.styles.spacing(0.5),
+    fontWeight: 'bold',
+    backgroundColor: '#274b9f',
+  },
+  bottom: {
     display: 'flex',
-    flexWrap: 'nowrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: utils.styles.spacing(2),
+  },
+  bottomAlt: {
+    justifyContent: 'flex-end',
+  },
+  textInput: {
+    width: '100%',
+    maxWidth: 320,
+    margin: 'auto',
+  },
+  helperText: {
+    width: '100%',
+    maxWidth: 320,
+    margin: 'auto',
+    paddingHorizontal: 0,
+    textAlign: 'center',
+  },
+  switchContainer: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
-  scrollListContainer: {
-    height: Platform.select({
-      native: '100%',
-      default: '100vh',
-    }),
-  },
-  scrollList: {
-    paddingBottom: 132,
-  },
-  activityIndicator: {
-    position: 'absolute',
-    alignSelf: 'center',
-    top: 150,
+  switch: {
+    marginRight: utils.styles.spacing(1),
   },
 });

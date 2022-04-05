@@ -1,4 +1,5 @@
 import axios from 'axios';
+import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -9,6 +10,22 @@ import createEntityReducer from '../createEntityReducer';
 
 import schema, { idAttribute, key } from './schema';
 import config from '../config';
+
+export const NAMES = {
+  damageDetection: 'damage_detection',
+  repairEstimate: 'repair_estimate',
+  wheelAnalysis: 'wheel_analysis',
+};
+
+export const STATUSES = {
+  aborted: 'ABORTED',
+  done: 'DONE',
+  error: 'ERROR',
+  inProgress: 'IN_PROGRESS',
+  notStarted: 'NOT_STARTED',
+  todo: 'TODO',
+  validated: 'VALIDATED',
+};
 
 /**
  * @param {string} inspectionId
@@ -83,27 +100,10 @@ export const updateOne = async ({
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
 
 export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
 });
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);
-
-export const NAMES = {
-  damageDetection: 'damage_detection',
-  repairEstimate: 'repair_estimate',
-  wheelAnalysis: 'wheel_analysis',
-};
-
-export const STATUSES = {
-  aborted: 'ABORTED',
-  done: 'DONE',
-  error: 'ERROR',
-  inProgress: 'IN_PROGRESS',
-  notStarted: 'NOT_STARTED',
-  todo: 'TODO',
-  validated: 'VALIDATED',
-};

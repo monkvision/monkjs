@@ -1,4 +1,5 @@
 import axios from 'axios';
+import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -42,11 +43,33 @@ export const upsertOne = async ({ inspectionId, imageId, data, ...requestConfig 
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
 
 export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
+  extraReducers: (builder) => {
+    builder
+      .addCase(`images/gotOne`, (state, action) => {
+        const { entities } = action.payload;
+        const damageArea = entities[key];
+        if (damageArea) { entityAdapter.upsertOne(state, damageArea); }
+      })
+      .addCase(`images/gotMany`, (state, action) => {
+        const { entities } = action.payload;
+        const damageAreas = entities[key];
+        if (!isEmpty(damageAreas)) { entityAdapter.upsertMany(state, damageAreas); }
+      })
+      .addCase(`inspections/gotOne`, (state, action) => {
+        const { entities } = action.payload;
+        const damageAreas = entities[key];
+        if (!isEmpty(damageAreas)) { entityAdapter.upsertMany(state, damageAreas); }
+      })
+      .addCase(`inspections/gotMany`, (state, action) => {
+        const { entities } = action.payload;
+        const damageAreas = entities[key];
+        if (!isEmpty(damageAreas)) { entityAdapter.upsertMany(state, damageAreas); }
+      });
+  },
 });
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);

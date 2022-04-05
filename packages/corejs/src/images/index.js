@@ -1,4 +1,5 @@
 import axios from 'axios';
+import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -52,7 +53,7 @@ export const getMany = async ({ inspectionId, params, ...requestConfig }) => {
  * @param {string} [data.compliances.coverage360.sightId]
  * @param {Object} requestConfig
  */
-export const createOne = async ({ inspectionId, data, ...requestConfig }) => {
+export const addOne = async ({ inspectionId, data, ...requestConfig }) => {
   const axiosResponse = await axios.request({
     ...config.axiosConfig,
     method: 'post',
@@ -74,11 +75,23 @@ export const createOne = async ({ inspectionId, data, ...requestConfig }) => {
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
 
 export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
+  extraReducers: (builder) => {
+    builder
+      .addCase(`inspections/gotOne`, (state, action) => {
+        const { entities } = action.payload;
+        const images = entities[key];
+        if (!isEmpty(images)) { entityAdapter.upsertMany(state, images); }
+      })
+      .addCase(`inspections/gotMany`, (state, action) => {
+        const { entities } = action.payload;
+        const images = entities[key];
+        if (!isEmpty(images)) { entityAdapter.upsertMany(state, images); }
+      });
+  },
 });
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);

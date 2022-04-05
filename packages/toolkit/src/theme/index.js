@@ -10,7 +10,6 @@ export const spacing = Platform.select({
 });
 
 const theme = {
-  dark: false,
   colors: {
     primary: '#274b9f',
 

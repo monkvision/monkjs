@@ -11,6 +11,26 @@ import createEntityReducer from '../createEntityReducer';
 import schema, { idAttribute, key } from './schema';
 import config from '../config';
 
+export const TYPES = {
+  bodyCrack: 'body_crack',
+  brokenGlass: 'broken_glass',
+  brokenLight: 'broken_light',
+  dent: 'dent',
+  dirt: 'dirt',
+  hubcapScratch: 'hubcap_scratch',
+  misshape: 'misshape',
+  missingHubcap: 'missing_hubcap',
+  missingPiece: 'missing_piece',
+  paintPeeling: 'paint_peeling',
+  rustiness: 'rustiness',
+  scatteredScratches: 'scattered_scratches',
+  scratch: 'scratch',
+  smash: 'smash',
+  lightReflection: 'light_reflection',
+  shadow: 'shadow',
+  carCurve: 'car_curve',
+};
+
 /**
  * @param {string} inspectionId
  * @param {Object} data - body data
@@ -61,37 +81,23 @@ export const deleteOne = async ({ inspectionId, id, ...requestConfig }) => {
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
 
 export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
+  extraReducers: (builder) => {
+    builder
+      .addCase(`inspections/gotOne`, (state, action) => {
+        const { entities } = action.payload;
+        const damages = entities[key];
+        if (!isEmpty(damages)) { entityAdapter.upsertMany(state, damages); }
+      })
+      .addCase(`inspections/gotMany`, (state, action) => {
+        const { entities } = action.payload;
+        const damages = entities[key];
+        if (!isEmpty(damages)) { entityAdapter.upsertMany(state, damages); }
+      });
+  },
 });
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);
-
-entityReducer[`inspections/gotOne`] = (state, action) => {
-  const { entities } = action.payload;
-  const damages = entities[key];
-  if (!isEmpty(damages)) { entityAdapter.upsertMany(state, damages); }
-};
-
-export const TYPES = {
-  bodyCrack: 'body_crack',
-  brokenGlass: 'broken_glass',
-  brokenLight: 'broken_light',
-  dent: 'dent',
-  dirt: 'dirt',
-  hubcapScratch: 'hubcap_scratch',
-  misshape: 'misshape',
-  missingHubcap: 'missing_hubcap',
-  missingPiece: 'missing_piece',
-  paintPeeling: 'paint_peeling',
-  rustiness: 'rustiness',
-  scatteredScratches: 'scattered_scratches',
-  scratch: 'scratch',
-  smash: 'smash',
-  lightReflection: 'light_reflection',
-  shadow: 'shadow',
-  carCurve: 'car_curve',
-};

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 function defaultShouldFetch({ loading, count, updatedAt }) {
   return !loading && count === 0 && updatedAt === null;
@@ -29,7 +29,11 @@ export default function useRequestState(
     setPaging(response.axiosResponse.data?.paging);
   }, [setLoading, setError]);
 
-  const requestState = { loading, error, paging, updatedAt, count };
+  const requestState = useMemo(
+    () => ({ loading, error, paging, updatedAt, count }),
+    [count, error, loading, paging, updatedAt],
+  );
+
   const requestSetState = {
     setLoading,
     setError,
@@ -51,9 +55,13 @@ export default function useRequestState(
       if (typeof onRequestSuccess === 'function') {
         onRequestSuccess(response);
       }
+
+      return response;
     } catch (e) {
       catchLoadingError(e);
     }
+
+    return null;
   }, [catchLoadingError, onRequestSuccess, request, setSuccess]);
 
   useEffect(() => {

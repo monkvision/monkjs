@@ -83,7 +83,7 @@ export const upsertOne = async ({ data, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  const id = data[idAttribute];
+  const id = axiosResponse.data[idAttribute];
   const entity = { ...data, [idAttribute]: id };
 
   return ({
@@ -158,11 +158,10 @@ export const deleteOne = async ({ id, ...requestConfig }) => {
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
 
 export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
 });
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);

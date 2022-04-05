@@ -1,4 +1,5 @@
 import axios from 'axios';
+import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -54,11 +55,23 @@ export const updateOne = async ({ inspectionId, data, ...requestConfig }) => {
 
 export const entityAdapter = createEntityAdapter({});
 export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
 
 export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
+  extraReducers: (builder) => {
+    builder
+      .addCase(`inspections/gotOne`, (state, action) => {
+        const { entities } = action.payload;
+        const vehicle = entities[key];
+        if (vehicle) { entityAdapter.upsertOne(state, vehicle); }
+      })
+      .addCase(`inspections/gotMany`, (state, action) => {
+        const { entities } = action.payload;
+        const vehicles = entities[key];
+        if (!isEmpty(vehicles)) { entityAdapter.upsertMany(state, vehicles); }
+      });
+  },
 });
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Proptypes from 'prop-types';
+import { useTheme } from 'react-native-paper';
 
 import Dots from './dots';
 import Texts from './texts';
@@ -11,28 +12,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    backgroundColor: '#fff',
   },
-  contentLayout: { width: '60%' },
+  contentLayout: {
+    maxWidth: 320,
+    width: '60%',
+  },
 });
 
 /**
  * @param dots
- * @param colors
- * @param dotSize
- * @param bounceHeight
- * @param borderRadius
  * @param texts
  * @return {JSX.Element}
  * @constructor
  */
 
 function Loader({ texts, ...props }) {
+  const { loaderDotsColors } = useTheme();
+
   return (
     <View style={styles.container}>
       <View style={styles.contentLayout}>
         {texts ? <Texts texts={texts} /> : null}
-        <Dots {...props} />
+        <Dots {...props} colors={loaderDotsColors || props.colors} />
       </View>
     </View>
   );

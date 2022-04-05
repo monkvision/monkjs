@@ -1,21 +1,3 @@
-export const AUTHENTICATION = 'authentication';
-export const OUTED = 'outed';
-
-export const GETTING_STARTED = 'gettingStarted';
-
-export const INSPECTION_IMPORT = 'importInspection';
-export const INSPECTION_CREATE = 'createInspection';
-export const INSPECTION_VIN = 'createInspectionVin';
-export const INSPECTION_READ = 'readInspection';
-export const INSPECTION_UPDATE = 'updateInspection';
-
-export const DAMAGE_CREATE = 'createDamage';
-export const DAMAGE_READ = 'readDamage';
-export const DAMAGE_UPDATE = 'updateDamage';
-export const DAMAGES = 'listDamages';
-
-export const TASK_READ = 'taskRead';
-
-export const PROFILE = 'profile';
-
+export const INSPECTION_CAPTURE = 'inspectionCapture';
+export const INSPECTION_LIST = 'inspectionList';
 export const LANDING = 'landing';

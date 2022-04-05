@@ -4,17 +4,6 @@ import createEntityReducer from '../createEntityReducer';
 
 import { key } from './schema';
 
-export const entityAdapter = createEntityAdapter({});
-export const entityReducer = createEntityReducer(key, entityAdapter);
-
-export default createSlice({
-  name: key,
-  initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
-  reducers: entityReducer,
-});
-
-export const selectors = entityAdapter.getSelectors((state) => state[key]);
-
 export const TYPES = {
   ignore: '  ignore',
   background: 'background',
@@ -91,3 +80,13 @@ export const TYPES = {
   wiperFront: 'wiper_front',
   wheel: 'wheel',
 };
+
+export const entityAdapter = createEntityAdapter({});
+export const entityReducer = createEntityReducer(key, entityAdapter);
+export const selectors = entityAdapter.getSelectors((state) => state[key]);
+
+export default createSlice({
+  name: key,
+  initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
+  reducers: entityReducer,
+});
