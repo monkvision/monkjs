@@ -23,6 +23,8 @@ import {
   tasksEntity,
   taskStatuses,
   vehiclesEntity,
+  selectWheelAnalysisEntities,
+  wheelAnalysisEntity,
 } from '@monkvision/corejs';
 import { PartListSection, usePartDamages } from '@monkvision/react-native-views';
 import { utils, useFakeActivity, useInterval } from '@monkvision/toolkit';
@@ -140,6 +142,7 @@ export default () => {
   const partsEntities = useSelector(selectPartEntities);
   const tasksEntities = useSelector(selectTaskEntities);
   const vehiclesEntities = useSelector(selectVehicleEntities);
+  const wheelAnalysisEntities = useSelector(selectWheelAnalysisEntities);
 
   const { inspection } = denormalize({ inspection: inspectionId }, {
     inspection: inspectionsEntity,
@@ -147,6 +150,7 @@ export default () => {
     damages: [damagesEntity],
     tasks: [tasksEntity],
     vehicles: [vehiclesEntity],
+    wheelAnalysis: [wheelAnalysisEntity],
   }, {
     inspections: inspectionEntities,
     images: imagesEntities,
@@ -154,8 +158,9 @@ export default () => {
     parts: partsEntities,
     tasks: tasksEntities,
     vehicles: vehiclesEntities,
+    wheelAnalysis: wheelAnalysisEntities,
   });
-
+  console.log({ wheelAnalysisEntities });
   const partsWithDamages = usePartDamages(inspection?.damages, inspection?.parts);
 
   const [fakeActivity] = useFakeActivity(isLoading);

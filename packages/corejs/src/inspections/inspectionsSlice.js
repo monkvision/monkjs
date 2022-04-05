@@ -12,9 +12,19 @@ export const inspectionsAdapter = createEntityAdapter();
 export const getOneInspectionById = createAsyncThunk(
   'inspections/getOne',
   async (arg) => {
+    console.warn('Wheel analysis is using mock data');
     const { data } = await api.getOne({ ...arg });
-    console.log({ nr: normalize(mockInspection, entity) });
-    return normalize(data, entity);
+    const dataWithMock = {
+      ...data,
+      wheel_analysis: [...mockInspection.wheel_analysis],
+      images: data.images?.length ? data.images.map((img, i) => {
+        if (i < mockInspection.images.length) {
+          return { ...img, wheel_analysis: mockInspection.images[i].wheel_analysis };
+        }
+        return img;
+      }) : [] };
+
+    return normalize(dataWithMock, entity);
   },
 );
 

@@ -6,7 +6,9 @@ import * as tasksSlice from './tasks/tasksSlice';
 import * as vehiclesSlice from './vehicles/vehiclesSlice';
 import * as usersSlice from './users/usersSlice';
 import * as viewsSlice from './views/viewsSlice';
+import * as wheelAnalysisSlice from './wheelAnalysis/wheelAnalysisSlice';
 
+export { default as wheelAnalysisEntity } from './wheelAnalysis/wheelAnalysisEntity';
 export { default as damagesEntity } from './damages/damagesEntity';
 export { default as imagesEntity } from './images/imagesEntity';
 export { default as partsEntity } from './parts/partsEntity';
@@ -75,6 +77,21 @@ export const {
   selectAll: selectAllDamages,
   selectTotal: selectTotalDamages,
 } = damagesAdapter.getSelectors((state) => state.damages);
+
+// WHEELS ANALYTICS
+
+export const {
+  default: wheelAnalysis,
+  wheelAnalysisAdapter,
+} = wheelAnalysisSlice;
+
+export const {
+  selectById: selectWheelAnalysisById,
+  selectIds: selectWheelAnalysisIds,
+  selectEntities: selectWheelAnalysisEntities,
+  selectAll: selectAllWheelAnalysis,
+  selectTotal: selectTotalWheelAnalysis,
+} = wheelAnalysisAdapter.getSelectors((state) => state.wheelAnalysis);
 
 // PARTS
 

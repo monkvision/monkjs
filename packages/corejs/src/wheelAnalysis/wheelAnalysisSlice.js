@@ -1,18 +1,18 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { getOneInspectionById } from '../asyncThunks';
 
-export const partsAdapter = createEntityAdapter();
+export const wheelAnalysisAdapter = createEntityAdapter();
 
 function upsertReducer(state, action) {
-  const { parts } = action.payload.entities;
-  if (parts) {
-    partsAdapter.upsertMany(state, parts);
+  const { wheelAnalysis } = action.payload.entities;
+  if (wheelAnalysis) {
+    wheelAnalysisAdapter.upsertMany(state, wheelAnalysis);
   }
 }
 
 export const slice = createSlice({
   name: 'wheelAnalysis',
-  initialState: partsAdapter.getInitialState({
+  initialState: wheelAnalysisAdapter.getInitialState({
     entities: {},
     ids: [],
   }),
