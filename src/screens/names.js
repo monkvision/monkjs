@@ -8,6 +8,7 @@ export const ANALYZE = 'analyze';
 export const MANIPULATE = 'manipulate';
 export const DISPLAY = 'display';
 
+export const INSPECTION_WHEEL_ANALYSIS = 'inspectionWheelAnalysis';
 export const INSPECTION_IMPORT = 'importInspection';
 export const INSPECTION_CREATE = 'createInspection';
 export const INSPECTION_VIN = 'createInspectionVin';

@@ -94,6 +94,12 @@ export default function Navigation() {
         />
 
         <Stack.Screen
+          name={names.INSPECTION_WHEEL_ANALYSIS}
+          component={Screens.InspectionWheelAnalysis}
+          title="Wheel analysis"
+        />
+
+        <Stack.Screen
           name={names.DAMAGES}
           component={Screens.Damages}
           title="Damaged parts"
