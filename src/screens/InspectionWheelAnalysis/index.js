@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Image, Platform, View } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Platform, View } from 'react-native';
 import { Title, Card, useTheme, Chip, TouchableRipple } from 'react-native-paper';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,6 @@ import {
   getOneInspectionById,
   selectInspectionEntities,
   selectImageEntities,
-  selectImageById,
   selectTaskEntities,
   imagesEntity,
   inspectionsEntity,
@@ -29,8 +28,6 @@ import useRequest from 'hooks/useRequest';
 import ActionMenu from 'components/ActionMenu';
 import Img from 'components/Img';
 import ImageViewer from 'components/ImageViewer';
-
-import { LANDING } from 'screens/names';
 
 const { spacing } = utils.styles;
 const styles = StyleSheet.create({
@@ -67,6 +64,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 225,
     marginHorizontal: spacing(0),
+    marginVertical: spacing(1),
   },
   previewImage: {
     flex: 1,
@@ -126,9 +124,6 @@ export default () => {
   const currentWheelAnalysis = useSelector(
     (state) => selectWheelAnalysisById(state, wheelAnalysisId),
   );
-  const currentImage = useSelector(
-    (state) => selectImageById(state, '9ae339ff-c042-3609-9a89-9b80c7642470'),
-  );
 
   const { inspection } = denormalize({ inspection: inspectionId }, {
     inspection: inspectionsEntity,
@@ -141,18 +136,29 @@ export default () => {
     tasks: tasksEntities,
     wheelAnalysis: wheelAnalysisEntities,
   });
-  console.log({ currentWheelAnalysis, currentImage });
 
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState({});
 
-  const openPreviewDialog = useCallback(() => {
+  const openPreviewDialog = useCallback((image) => {
+    setPreviewImage(image);
     setPreviewDialogOpen(true);
   }, []);
 
   const handleDismissPreviewDialog = useCallback(() => {
     setPreviewDialogOpen(false);
   }, []);
+
+  const currentWheelsAnalysisImages = useMemo(() => {
+    const allWheelAnalysisImages = Object.values(imagesEntities).filter(
+      (image) => image?.wheelAnalysis,
+    );
+    const currentImages = allWheelAnalysisImages.filter(
+      (image) => image.wheelAnalysis.id === wheelAnalysisId,
+    );
+    return currentImages;
+  }, [imagesEntities, wheelAnalysisId]);
 
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
@@ -232,27 +238,36 @@ export default () => {
               </View>
             </View>
 
-            <TouchableRipple
-              onPress={() => openPreviewDialog({
-                name: currentImage.name,
-                path: currentImage.path,
-                index: 0,
-              })}
-            >
-              <Img
-                style={styles.image}
-                skeletonStyle={styles.image}
-                source={{ uri: currentImage.path }}
-              />
-            </TouchableRipple>
+            {/* images */}
+            <View style={{ marginVertical: spacing(2) }}>
+              <Title>
+                Photos of part
+              </Title>
+              {currentWheelsAnalysisImages.map((image, index) => (
+                <TouchableRipple
+                  key={image.id}
+                  onPress={() => openPreviewDialog({
+                    name: image.name,
+                    path: image.path,
+                    index,
+                  })}
+                >
+                  <Img
+                    style={styles.image}
+                    skeletonStyle={styles.image}
+                    source={{ uri: image.path }}
+                  />
+                </TouchableRipple>
+              ))}
+            </View>
           </Card.Content>
-
         </Card>
       </ScrollView>
+
       <ImageViewer
         isOpen={isPreviewDialogOpen}
-        images={[{ uri: currentImage.path }]}
-        index={0}
+        images={currentWheelsAnalysisImages.map((image) => ({ uri: image.path }))}
+        index={previewImage.index}
         handleDismiss={handleDismissPreviewDialog}
       />
     </SafeAreaView>
