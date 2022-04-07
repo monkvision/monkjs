@@ -1,10 +1,10 @@
 import useRequest from 'hooks/useRequest';
-import React, { useCallback, useLayoutEffect, useRef } from 'react';
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions, Platform } from 'react-native';
-import { DataTable, Button, useTheme, Text, Card } from 'react-native-paper';
+import { DataTable, Button, useTheme, Text, Card, Dialog, Paragraph, ProgressBar, Portal } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 
@@ -119,6 +119,10 @@ export default () => {
     },
   }));
 
+  const [showLoadModelDialog, setShowLoadModelDialog] = useState(true);
+  const [loadedModel, setLoadedModel] = useState(null);
+  const [downloadProgress, setDownloadProgress] = useState(0);
+
   const ids = useSelector(selectInspectionIds);
   const inspectionEntities = useSelector(selectInspectionEntities);
   const imagesEntities = useSelector(selectImageEntities);
@@ -200,9 +204,40 @@ export default () => {
     </DataTable.Row>
   ), [canRenderStatus, colors.success, handlePress]);
 
+  const handleDownloadModel = useCallback(async () => {
+    if (!loadedModel) {
+      await new Promise((resolve) => {
+        const starttime = new Date();
+        setTimeout(resolve, 10000);
+        setInterval(() => {
+          if ((new Date() - starttime) < 10000) {
+            setDownloadProgress((new Date() - starttime) / 10000);
+          }
+        });
+      });
+    }
+
+    setShowLoadModelDialog(false);
+  }, [loadedModel]);
+
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar style="dark" />
+      <Portal>
+        <Dialog visible={showLoadModelDialog} onDismiss={() => setShowLoadModelDialog(false)}>
+          <Dialog.Title>Download model</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>Download and save models on device</Paragraph>
+            {Platform.OS === 'web' && (
+            <input type="file" onChange={(e) => setLoadedModel(e.target.files[0])} />)}
+            {downloadProgress > 0 && <ProgressBar progress={downloadProgress} />}
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button mode="contained" onPress={handleDownloadModel}>{loadedModel ? 'Load' : 'Download'}</Button>
+            <Button mode="outlined" onPress={() => setShowLoadModelDialog(false)}>Use API</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
       <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
           <DataTable>

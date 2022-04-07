@@ -168,28 +168,28 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
           strategy: 'upload_multipart_form_keys',
           file_key: multiPartKeys.image,
         },
-        compliances: {
-          image_quality_assessment: {},
-          coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-            sight_id: id,
-          } : undefined,
-        },
         // compliances: {
-        //   image_quality_assessment: {
-        //     parameters: {},
-        //     is_compliant: true,
-        //     reasons: [],
-        //     status: 'DONE',
-        //   },
+        //   image_quality_assessment: {},
         //   coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-        //     parameters: {
-        //       sight_id: id,
-        //     },
-        //     is_compliant: true,
-        //     reasons: [],
-        //     status: 'DONE',
+        //     sight_id: id,
         //   } : undefined,
         // },
+        compliances: {
+          image_quality_assessment: {
+            parameters: {},
+            is_compliant: Boolean(Math.round(Math.random(2))),
+            reasons: [],
+            status: 'DONE',
+          },
+          coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+            parameters: {
+              sight_id: id,
+            },
+            is_compliant: Boolean(Math.round(Math.random(2))),
+            reasons: [],
+            status: 'DONE',
+          } : undefined,
+        },
         tasks: [task],
         additional_data: {
           ...current.metadata,
@@ -231,7 +231,7 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       throw err;
     }
-  }, [inspectionId, sights, task, uploads, onFinish]);
+  }, [uploads, inspectionId, sights.state, getParts, task, onFinish]);
 }
 
 /**

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
@@ -45,6 +45,10 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     justifyContent: 'center',
+  },
+  text: {
+    color: '#fff',
+    fontSize: '20pt',
   },
 });
 
@@ -117,6 +121,7 @@ export default function Capture({
 
   const camera = useRef();
   const [isReady, setReady] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
 
   const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
   const settings = useSettings({ camera, initialState: initialState.settings });
@@ -253,7 +258,15 @@ export default function Capture({
   }, [tour, sightIds]);
 
   useEffect(() => {
-    if (enableComplianceCheck) { log([`Compliance check is enabled`]); }
+    if (enableComplianceCheck) {
+      log([`Compliance check is enabled`, `Loading models...`]);
+      (async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        setModelLoaded(true);
+      })();
+    }
+
+    return () => setModelLoaded(false);
   }, [enableComplianceCheck]);
 
   useEffect(() => {
@@ -299,22 +312,23 @@ export default function Capture({
 
   const children = useMemo(() => (
     <>
-      {(isReady && overlay && loading === false) ? (
+      {(modelLoaded && isReady && overlay && loading === false) ? (
         <Overlay
           svg={overlay}
           style={[styles.overlay, overlaySize]}
         />
       ) : null}
-      {loading === true ? (
+      {!modelLoaded || loading === true ? (
         <View style={styles.loading}>
           <ActivityIndicator
             size="large"
             color={primaryColor}
           />
+          {!modelLoaded && <Text style={styles.text}>Loading models...</Text>}
         </View>
       ) : null}
     </>
-  ), [isReady, loading, overlay, overlaySize, primaryColor]);
+  ), [modelLoaded, isReady, loading, overlay, overlaySize, primaryColor]);
 
   if (enableComplianceCheck && tourHasFinished) {
     return (
