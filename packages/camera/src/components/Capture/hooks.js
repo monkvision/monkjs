@@ -8,6 +8,7 @@ import Actions from '../../actions';
 import Constants from '../../const';
 
 import log from '../../utils/log';
+import usePredictions from '../../hooks/usePredictions';
 
 const COVERAGE_360_WHITELIST = [
   // T-ROCK
@@ -131,6 +132,8 @@ export function useCreateDamageDetectionAsync() {
  * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
+  const [getParts] = usePredictions(null);
+
   return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
@@ -156,6 +159,10 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
       const filename = `${id}-${inspectionId}.${fileType}`;
       const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
 
+      const res = await axios.get(picture.uri, { responseType: 'blob' });
+
+      getParts(res);
+
       const json = JSON.stringify({
         acquisition: {
           strategy: 'upload_multipart_form_keys',
@@ -167,6 +174,22 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
             sight_id: id,
           } : undefined,
         },
+        // compliances: {
+        //   image_quality_assessment: {
+        //     parameters: {},
+        //     is_compliant: true,
+        //     reasons: [],
+        //     status: 'DONE',
+        //   },
+        //   coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+        //     parameters: {
+        //       sight_id: id,
+        //     },
+        //     is_compliant: true,
+        //     reasons: [],
+        //     status: 'DONE',
+        //   } : undefined,
+        // },
         tasks: [task],
         additional_data: {
           ...current.metadata,
@@ -176,8 +199,6 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       const data = new FormData();
       data.append(multiPartKeys.json, json);
-
-      const res = await axios.get(picture.uri, { responseType: 'blob' });
 
       const file = await new File(
         [res.data],
