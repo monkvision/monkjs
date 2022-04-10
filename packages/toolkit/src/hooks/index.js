@@ -4,4 +4,4 @@ export { default as useInterval } from './useInterval';
 export { default as useOrientation } from './useOrientation';
 export { default as useTimeout } from './useTimeout';
 export { default as useFakeActivity } from './useFakeActivity';
-export { default as useRequestState } from './useRequestState';
+export { default as useRequest } from './useRequest';

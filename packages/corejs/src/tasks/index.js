@@ -1,5 +1,4 @@
 import axios from 'axios';
-import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -88,12 +87,13 @@ export const updateOne = async ({
     ...requestConfig,
   });
 
-  const id = data[idAttribute];
-  const entity = { ...data, [idAttribute]: id };
+  const id = axiosResponse.data[idAttribute];
+  const entity = { ...data, [idAttribute]: id, name };
 
   return ({
     axiosResponse,
     [idAttribute]: id,
+    inspectionId,
     ...normalize(entity, schema),
   });
 };

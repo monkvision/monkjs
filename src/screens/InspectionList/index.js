@@ -1,31 +1,44 @@
-import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
+import isEmpty from 'lodash.isempty';
+import * as WebBrowser from 'expo-web-browser';
+import Constants from 'expo-constants';
+import useAuth from 'hooks/useAuth';
 
-import { Loader, ScreenView } from '@monkvision/ui';
-import { useRequestState } from '@monkvision/toolkit';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Loader } from '@monkvision/ui';
+import { useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
 
-export default function InspectionList() {
+import { List, Paragraph, Title } from 'react-native-paper';
+
+import ListItem from './ListItem';
+
+const styles = StyleSheet.create({
+  empty: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+});
+
+export default function InspectionList({ listItemProps, scrollViewProps, ...props }) {
   const dispatch = useDispatch();
-  const [inspectionIds, setInspectionIds] = useState([]);
+  const { isAuthenticated } = useAuth();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     params: {
-      limit: 10,
+      limit: 5,
       inspectionStatus: 'DONE',
       showDeleted: false,
     },
   }), []);
 
-  const handleRequestSuccess = useCallback(({ entities, result }) => {
-    setInspectionIds(result);
-    dispatch(monk.actions.gotManyInspections({ entities, result }));
-  }, [dispatch]);
-
-  const [manyInspections] = useRequestState(getManyInspections, handleRequestSuccess);
-
   const inspectionEntities = useSelector(monk.entity.inspection.selectors.selectEntities);
+  const inspectionIds = useSelector(monk.entity.inspection.selectors.selectIds);
   const imageEntities = useSelector(monk.entity.image.selectors.selectEntities);
 
   const { inspections } = denormalize(
@@ -34,14 +47,59 @@ export default function InspectionList() {
     { inspections: inspectionEntities, images: imageEntities },
   );
 
-  // eslint-disable-next-line no-console
-  console.log(inspections);
+  const handleRequestSuccess = useCallback(({ entities, result }) => {
+    dispatch(monk.actions.gotManyInspections({ entities, result }));
+  }, [dispatch]);
+
+  const shouldFetch = useCallback(
+    (requestState) => isAuthenticated && !requestState.loading && requestState.count === 0,
+    [isAuthenticated],
+  );
+
+  const request = useRequest(getManyInspections, handleRequestSuccess, shouldFetch);
+  const manyInspections = request.state;
+
+  const handlePress = useCallback((id) => {
+    const url = `https://${Constants.manifest.extra.ORGANIZATION_DOMAIN}/inspection/${id}`;
+    WebBrowser.openBrowserAsync(url);
+  }, []);
 
   if (manyInspections.loading) {
     return <Loader />;
   }
 
+  if (isEmpty(inspections)) {
+    return (
+      <View style={styles.empty}>
+        <Title>Empty inspection list</Title>
+        <Paragraph>Add new inspection and it will show up here.</Paragraph>
+      </View>
+    );
+  }
+
   return (
-    <ScreenView />
+    <List.Section {...props}>
+      <ScrollView {...scrollViewProps}>
+        {inspections.map((inspection, index) => (!isEmpty(inspection) && (
+          <ListItem
+            key={`inspection-${inspection.id}`}
+            {...inspection}
+            index={index}
+            onPress={() => handlePress(inspection.id)}
+            {...listItemProps}
+          />
+        )))}
+      </ScrollView>
+    </List.Section>
   );
 }
+
+InspectionList.propTypes = {
+  listItemProps: PropTypes.shape({ onPress: PropTypes.func }),
+  scrollViewProps: PropTypes.shape({ onScroll: PropTypes.func }),
+};
+
+InspectionList.defaultProps = {
+  listItemProps: {},
+  scrollViewProps: {},
+};

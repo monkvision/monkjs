@@ -5,67 +5,48 @@ export default StyleSheet.create({
   root: {
     flex: 1,
     display: 'flex',
-    overflow: 'hidden',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-  },
-  top: {
-    display: 'flex',
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+  },
+  background: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  left: {
+    flex: 0.8,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: utils.styles.spacing(2),
   },
-  topRight: {
+  right: {
+    flex: 1.2,
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    flexGrow: 1,
-  },
-  mid: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    minHeight: 150,
+    paddingVertical: utils.styles.spacing(2),
+    paddingLeft: utils.styles.spacing(2),
   },
   title: {
-    marginBottom: utils.styles.spacing(2),
+    marginTop: 0,
+    marginBottom: utils.styles.spacing(1),
     fontWeight: 'normal',
   },
-  titleAccent: {
-    marginLeft: utils.styles.spacing(1),
-    paddingHorizontal: utils.styles.spacing(1),
-    paddingVertical: utils.styles.spacing(0.5),
-    fontWeight: 'bold',
-    backgroundColor: '#274b9f',
+  card: {
+    flexGrow: 1,
   },
-  bottom: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: utils.styles.spacing(2),
+  cardContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 0,
   },
-  bottomAlt: {
+  cardAction: {
     justifyContent: 'flex-end',
   },
-  textInput: {
+  list: {
+    height: '100%',
     width: '100%',
-    maxWidth: 320,
-    margin: 'auto',
-  },
-  helperText: {
-    width: '100%',
-    maxWidth: 320,
-    margin: 'auto',
-    paddingHorizontal: 0,
-    textAlign: 'center',
-  },
-  switchContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  switch: {
-    marginRight: utils.styles.spacing(1),
   },
 });

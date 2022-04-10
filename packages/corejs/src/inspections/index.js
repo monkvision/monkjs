@@ -1,4 +1,6 @@
 import axios from 'axios';
+import camelCase from 'lodash.camelcase';
+import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -83,8 +85,10 @@ export const upsertOne = async ({ data, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  const id = axiosResponse.data[idAttribute];
-  const entity = { ...data, [idAttribute]: id };
+  const inspection = axiosResponse.data;
+  const id = inspection[idAttribute];
+  const createdAt = inspection.createdAt || Date.now();
+  const entity = { ...data, [idAttribute]: id, createdAt };
 
   return ({
     axiosResponse,
@@ -164,4 +168,23 @@ export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
+  extraReducers: (builder) => {
+    builder
+      .addCase(`tasks/gotOne`, (state, action) => {
+        const { entities, result, inspectionId } = action.payload;
+        const task = entities.tasks[result];
+
+        if (inspectionId && !isEmpty(task)) {
+          const inspection = state.entities[inspectionId] || { [key]: inspectionId, tasks: {} };
+
+          entityAdapter.upsertOne(state, {
+            ...inspection,
+            tasks: {
+              ...inspection.tasks,
+              [camelCase(task.name)]: task,
+            },
+          });
+        }
+      });
+  },
 });

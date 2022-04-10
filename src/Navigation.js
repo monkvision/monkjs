@@ -19,7 +19,22 @@ export default function Navigation() {
         <Stack.Screen
           name={names.INSPECTION_CAPTURE}
           component={Screens.InspectionCapture}
-          title="Monk - Inspection"
+          title="Monk - Inspection Capture"
+        />
+        <Stack.Screen
+          name={names.INSPECTION_CREATE}
+          component={Screens.InspectionCreate}
+          title="Monk - Inspection Create"
+        />
+        <Stack.Screen
+          name={names.INSPECTION_LIST}
+          component={Screens.InspectionList}
+          title="Monk - Inspection List"
+        />
+        <Stack.Screen
+          name={names.VIN}
+          component={Screens.VIN}
+          title="Monk - VIN"
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -4,6 +4,7 @@
       "releaseChannel": "production",
       "env": {
         "ENV": "production",
+        "ORGANIZATION_DOMAIN": "prod.monk.ai",
         "API_DOMAIN": "api.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
@@ -15,6 +16,7 @@
       "extends": "production",
       "env": {
         "ENV": "staging",
+        "ORGANIZATION_DOMAIN": "preview.monk.ai",
         "API_DOMAIN": "api.staging.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
@@ -26,6 +28,7 @@
       "distribution": "internal",
       "env": {
         "ENV": "development",
+        "ORGANIZATION_DOMAIN": "localhost:3000",
         "API_DOMAIN": "api.staging.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",

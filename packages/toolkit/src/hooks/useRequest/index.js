@@ -5,7 +5,7 @@ function defaultShouldFetch({ loading, count, updatedAt }) {
   return !loading && count === 0 && updatedAt === null;
 }
 
-export default function useRequestState(
+export default function useRequest(
   request,
   onRequestSuccess,
   shouldFetch = defaultShouldFetch,
@@ -70,5 +70,5 @@ export default function useRequestState(
     }
   }, [request, requestState, shouldFetch, startRequest]);
 
-  return [requestState, requestSetState, startRequest];
+  return { state: requestState, start: request, setters: requestSetState };
 }
