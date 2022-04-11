@@ -66,6 +66,7 @@ export default function UploadCenter({
   checkComplianceAsync,
   inspectionId,
   task,
+  mapTasksToSights,
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
@@ -77,6 +78,7 @@ export default function UploadCenter({
   const { handleRetakeAll, handleRetake, handleReUpload } = useHandlers({
     inspectionId,
     task,
+    mapTasksToSights,
     onRetakeAll,
     checkComplianceAsync,
     ids,
@@ -201,6 +203,12 @@ UploadCenter.propTypes = {
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
+  mapTasksToSights: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      tasks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    }),
+  ),
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
@@ -225,6 +233,7 @@ UploadCenter.defaultProps = {
   onRetakeAll: () => {},
   inspectionId: null,
   isSubmitting: false,
+  mapTasksToSights: [],
   navigationOptions: {
     retakeMaxTry: 1,
   },

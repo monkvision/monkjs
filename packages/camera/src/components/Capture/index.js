@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
  * @param thumbnailStyle
  * @param uploads
  * @param task
+ * @param mapTasksToSights
  * @return {JSX.Element}
  * @constructor
  */
@@ -110,6 +111,7 @@ export default function Capture({
   style,
   submitButtonLabel,
   task,
+  mapTasksToSights,
   thumbnailStyle,
   uploads,
 }) {
@@ -181,12 +183,14 @@ export default function Capture({
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
+
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const startUploadAsyncParams = {
-    inspectionId, sights, uploads, task, onFinish: onCaptureTourFinish,
+    inspectionId, sights, uploads, task, mapTasksToSights, onFinish: onCaptureTourFinish,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
+
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
   /**
@@ -326,6 +330,7 @@ export default function Capture({
         onRetakeAll={onRetakeAll}
         submitButtonLabel={submitButtonLabel}
         task={task}
+        mapTasksToSights={mapTasksToSights}
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
         navigationOptions={navigationOptions}
@@ -382,6 +387,12 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
+  mapTasksToSights: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      tasks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    }),
+  ),
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
@@ -433,6 +444,7 @@ Capture.defaultProps = {
   },
   inspectionId: null,
   loading: false,
+  mapTasksToSights: [],
   navigationOptions: {
     allowNavigate: false,
     allowRetake: true,

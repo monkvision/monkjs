@@ -16,10 +16,111 @@ yarn add @monkvision/corejs @monkvision/sights @monkvision/toolkit @monkvision/c
 import { Capture } from '@monkvision/camera';
 ```
 
+# Basic usage
+
+Here is an example of uploading one image to an inspection on the browser with the task `damage_detection` set.
+
+```javascript
+import React, { useCallback, useState } from 'react';
+import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
+import { SafeAreaView, StatusBar } from 'react-native';
+
+export default function Inspector({ inspectionId }) {
+  const [loading, setLoading] = useState();
+
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
+
+  const controls = [{
+    disabled: loading,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  return (
+    <SafeAreaView>
+      <StatusBar hidden />
+      <Capture
+        sightIds={Constants.defaultSightIds}
+        inspectionId={inspectionId}
+        controls={controls}
+        uploads={uploads}
+        loading={loading}
+        onReady={() => setLoading(false)}
+        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+
+        /** --- With picture quality check
+         * enableComplianceCheck={true}
+         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
+         */
+      />
+    </SafeAreaView>
+  );
+}
+```
+
+# Advanced usage
+
+This is the same example but using a **custom capture handler** function, which will override the built-in one.
+
+```javascript
+import React, { useCallback, useState } from 'react';
+import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
+import { SafeAreaView, StatusBar } from 'react-native';
+
+export default function Inspector({ inspectionId }) {
+  const [loading, setLoading] = useState();
+
+  const handleCapture = useCallback(async (state, api, event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    const { takePictureAsync, startUploadAsync, goNextSight } = api;
+
+    const picture = await takePictureAsync();
+    setLoading(false);
+
+    goNextSight();
+    startUploadAsync(picture);
+
+    // Add success condition...
+  }, []);
+
+  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
+
+  const controls = [{
+    disabled: loading,
+    onPress: handleCapture,
+    ...Controls.CaptureButtonProps,
+  }];
+
+  return (
+    <SafeAreaView>
+      <StatusBar hidden />
+      <Capture
+        sightIds={Constants.defaultSightIds}
+        inspectionId={inspectionId}
+        controls={controls}
+        uploads={uploads}
+        loading={loading}
+        onReady={() => setLoading(false)}
+        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+
+        /** --- With picture quality check
+         * enableComplianceCheck={true}
+         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
+         */
+      />
+    </SafeAreaView>
+  );
+}
+```
+
+# Props
+
 ## controls
 `PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, disabled: PropTypes.bool, onPress: PropTypes.func }))`
 
 An array of props inherited from `TouchableOpacity|*`
+> If we pass the `onPress` callback the built-in capture handler will not be used.
 
 ```js
 const controls = [{
@@ -198,6 +299,39 @@ Custom color for better user experience (default is white)
 List of sights in order you want theme to be displayed.
 See [monkjs/sights](/monkjs/sights) to choose sights you want.
 
+
+## task
+`PropTypes.oneOfType([PropTypes.string, PropTypes.object])`
+
+A string or object specifying the task that will be used in all sights, by default it's `damage_detection`
+
+```js
+<Capture task="wheel_analysis" />
+// or
+<Capture task={{ name: 'images_ocr', image_details: { image_type: 'VIN' } }} />
+```
+
+## mapTasksToSights
+`PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      tasks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    }),
+  )`
+
+An array of objects containing the `id` of a sight and an array of `tasks`, useful in case we want to run multiple tasks on one image.
+
+
+> Every image will run the task coming from the `task` prop by default, unless you specify its `id` using `mapTasksToSights`.
+
+```js
+[
+  { id: 'sLu0CfOt', tasks: [{ name: 'images_ocr', image_details: { image_type: 'VIN' } }] },
+  { id: 'WKJlxkiF', tasks: ['damage_detection'] },
+  { id: 'cDe2q69X', tasks: ['damage_detection', 'wheel_analysis'] },
+]
+```
+
 ----
 
 # States and Methods
@@ -245,12 +379,26 @@ Dispatch action to return to the previous Sight in the `sightIds` prop order
 ### goNextSight
 Dispatch action to go to the next Sight in the `sightIds` prop order
 
+### startUploadAsync
+Call a promise starting to upload a picture to Monk API
+
+```js
+const uploadResult = await startUploadAsync(picture);
+console.log('Upload has succeed!')
+```
+
 ### takePictureAsync
 Call a promise starting to take a picture from the Native or browser camera
 
 ```js
+setLoading(true);
 const picture = await takePictureAsync();
 console.log('Picture has been taken!')
+setLoading(false);
+
+// Don't set Loading to true if you want Async uploads
+const uploadResult = await startUploadAsync(picture);
+console.log('Upload has succeed!')
 ```
 
 ### setPictureAsync,

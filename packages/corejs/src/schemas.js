@@ -6,3 +6,4 @@ export { default as part } from './parts/schema';
 export { default as task } from './tasks/schema';
 export { default as vehicle } from './vehicles/schema';
 export { default as view } from './views/schema';
+export { default as wheelAnalysis } from './wheelAnalysis/schema';
