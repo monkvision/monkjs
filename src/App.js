@@ -20,7 +20,7 @@ const theme = {
     success: '#19A4B1',
     accent: '#FFB821',
     background: '#181829',
-    gradient: '#1B1BB3',
+    gradient: '#21218f',
     surface: '#313240',
     text: '#fafafa',
     placeholder: '#dadada',
