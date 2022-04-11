@@ -13,7 +13,7 @@ const { spacing } = utils.styles;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
-    zIndex: 0,
+    zIndex: 1,
     paddingVertical: spacing(2),
   },
   container: {

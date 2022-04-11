@@ -85,12 +85,18 @@ function FullScreenButton({ hidden, ...rest }) {
   }, [setOn]);
 
   useEffect(() => {
-    if (screenfull.isEnabled && document) {
-      document.querySelector('body').style = 'background-color: #000;';
-    }
+    if (!screenfull.isEnabled || !document) { return; }
 
+    // initial backroundColor
+    const backgroundColor = document.body.style.backgroundColor;
+
+    // change the backgroundColor
+    document.body.style.backgroundColor = '#000;';
+
+    // eslint-disable-next-line consistent-return
     return () => {
-      if (document) { document.querySelector('body').style = undefined; }
+    // reset the backroundColor
+      document.body.style.backgroundColor = backgroundColor;
       toggleFullScreen(false);
     };
   }, [toggleFullScreen]);
