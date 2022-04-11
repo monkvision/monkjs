@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import { Platform } from 'react-native';
 
@@ -9,7 +10,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 
 import discoveries from 'config/discoveries';
 
@@ -26,8 +27,13 @@ const redirectUri = makeRedirectUri({
   useProxy,
 });
 
-export default function SignIn() {
+function Icon(props) {
+  return <MaterialCommunityIcons name="account-circle" {...props} />;
+}
+
+export default function SignIn({ children, onError, onStart, onSuccess, ...props }) {
   const dispatch = useDispatch();
+  const { colors } = useTheme();
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -43,8 +49,9 @@ export default function SignIn() {
   );
 
   const handlePress = useCallback(() => {
+    onStart();
     promptAsync({ useProxy });
-  }, [promptAsync]);
+  }, [onStart, promptAsync]);
 
   useEffect(() => {
     if (response?.type === 'success' && response.authentication?.accessToken) {
@@ -56,19 +63,37 @@ export default function SignIn() {
         isLoading: false,
         isSignedOut: false,
       }));
+
+      onSuccess(response);
+    } else {
+      onError(response);
     }
-  }, [dispatch, request, response]);
+  }, [dispatch, onSuccess, request, response]);
 
   return (
     <Button
-      icon={(props) => <MaterialCommunityIcons name="account-circle" {...props} />}
+      icon={Icon}
       size="large"
       mode="contained"
       disabled={!request}
       onPress={handlePress}
       style={styles.signIn}
+      color={colors.success}
+      {...props}
     >
-      Sign In
+      {children || 'Sign In'}
     </Button>
   );
 }
+
+SignIn.propTypes = {
+  onStart: PropTypes.func,
+  onSuccess: PropTypes.func,
+  onError: PropTypes.func,
+};
+
+SignIn.defaultProps = {
+  onStart: () => {},
+  onSuccess: () => {},
+  onError: () => {},
+};
