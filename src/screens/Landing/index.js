@@ -144,8 +144,8 @@ export default () => {
 
   const handlePress = useCallback(
     (inspectionId) => {
-      navigation.navigate(INSPECTION_READ, { inspectionId });
-      // navigation.navigate(INSPECTION_WHEEL_ANALYSIS, { inspectionId, wheelAnalysisId: '3fa85f64-5717-4562-b3fc-2c963f66afa2' });
+      // navigation.navigate(INSPECTION_READ, { inspectionId });
+      navigation.navigate(INSPECTION_WHEEL_ANALYSIS, { inspectionId, wheelAnalysisId: '3fa85f64-5717-4562-b3fc-2c963f66afa2' });
     },
     [navigation],
   );

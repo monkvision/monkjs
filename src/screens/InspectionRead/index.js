@@ -160,7 +160,7 @@ export default () => {
     vehicles: vehiclesEntities,
     wheelAnalysis: wheelAnalysisEntities,
   });
-  console.log({ wheelAnalysisEntities });
+
   const partsWithDamages = usePartDamages(inspection?.damages, inspection?.parts);
 
   const [fakeActivity] = useFakeActivity(isLoading);

@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Platform, View } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import { Title, Card, useTheme, Chip, TouchableRipple } from 'react-native-paper';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -28,6 +28,7 @@ import useRequest from 'hooks/useRequest';
 import ActionMenu from 'components/ActionMenu';
 import Img from 'components/Img';
 import ImageViewer from 'components/ImageViewer';
+import isEmpty from 'lodash.isempty';
 
 const { spacing } = utils.styles;
 const styles = StyleSheet.create({
@@ -42,68 +43,21 @@ const styles = StyleSheet.create({
     marginVertical: spacing(1),
     overflow: 'hidden',
   },
-  cardActions: {
-    justifyContent: 'flex-end',
-  },
-  images: {
-    display: 'flex',
-    flexBasis: 'auto',
-    flexDirection: 'row',
-    flexShrink: 0,
-    flexWrap: 'nowrap',
-  },
-  tasks: {
-    display: 'flex',
-    flexBasis: 'auto',
-    flexDirection: 'row',
-    flexShrink: 0,
-    flexWrap: 'nowrap',
-    marginBottom: spacing(2),
-  },
   image: {
     width: 300,
     height: 225,
     marginHorizontal: spacing(0),
     marginVertical: spacing(1),
   },
-  previewImage: {
-    flex: 1,
-    width: 400,
-    height: 400,
-    marginHorizontal: spacing(0),
+  chip: {
+    marginVertical: spacing(2),
   },
-  dialog: {
-    maxWidth: 450,
-    alignSelf: 'center',
-    padding: 12,
-  },
-  dialogDrawing: { display: 'flex', alignItems: 'center' },
-  dialogContent: { textAlign: 'center' },
-  dialogActions: { flexWrap: 'wrap' },
-  button: { width: '100%', marginVertical: 4 },
-  actionButton: { marginLeft: spacing(1) },
-
-  process: {
-    ...Platform.select({
-      native: { flex: 1 },
-      default: { display: 'flex', flexGrow: 1, minHeight: 'calc(100vh - 64px)' },
-    }),
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    textAlign: 'center',
-    margin: spacing(2),
-  },
-  processButton: {
-    margin: spacing(1),
-  },
-  actions: {
+  chipLayout: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+  },
+  section: {
+    marginVertical: spacing(2),
   },
 });
 
@@ -136,7 +90,6 @@ export default () => {
     tasks: tasksEntities,
     wheelAnalysis: wheelAnalysisEntities,
   });
-
   const [fakeActivity] = useFakeActivity(isLoading);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState({});
@@ -160,10 +113,14 @@ export default () => {
     return currentImages;
   }, [imagesEntities, wheelAnalysisId]);
 
+  console.log({ currentWheelsAnalysisImages, currentWheelAnalysis, previewImage });
+  const isDamaged = true;
+  const rimMaterial = 'aluminium';
+  const severity = 0;
+
   const menuItems = useMemo(() => [
     { title: 'Refresh', loading: Boolean(fakeActivity), onPress: refresh, icon: 'refresh' },
   ], [fakeActivity, refresh]);
-
   useLayoutEffect(() => {
     if (navigation) {
       navigation?.setOptions({
@@ -188,88 +145,95 @@ export default () => {
         <Card style={styles.card}>
           <Card.Content>
             {/* damage state */}
-            <View style={{ marginVertical: spacing(2) }}>
+            <View style={styles.section}>
               <Title>
                 Damages detected by AI
               </Title>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <Chip style={{ marginVertical: spacing(2) }} selected>
+              <View style={styles.chipLayout}>
+                <Chip style={styles.chip} selected={isDamaged}>
                   Damaged
                 </Chip>
-                <Chip style={{ marginLeft: spacing(1), marginVertical: spacing(2) }}>
+                <Chip
+                  style={[styles.chip, { marginLeft: spacing(1) }]}
+                  selected={!isDamaged}
+                >
                   Not damaged
                 </Chip>
               </View>
             </View>
 
             {/* rim/hubcap material */}
-            <View style={{ marginVertical: spacing(2) }}>
+            <View style={styles.section}>
               <Title>
                 Rim/Hubcap material
               </Title>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <Chip style={{ marginVertical: spacing(2) }}>
+              <View style={styles.chipLayout}>
+                <Chip style={styles.chip} selected={rimMaterial === 'steel'}>
                   Steel
                 </Chip>
-                <Chip style={{ marginLeft: spacing(1), marginVertical: spacing(2) }} selected>
+                <Chip style={[styles.chip, { marginLeft: spacing(1) }]} selected={rimMaterial === 'aluminium'}>
                   Aluminium
                 </Chip>
-                <Chip style={{ marginLeft: spacing(1), marginVertical: spacing(2) }}>
+                <Chip style={[styles.chip, { marginLeft: spacing(1) }]} selected={rimMaterial === 'embellisher'}>
                   Emb
                 </Chip>
               </View>
             </View>
 
             {/* severity */}
-            <View style={{ marginVertical: spacing(2) }}>
+            <View style={styles.section}>
               <Title>
                 Severity
               </Title>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <Chip style={{ marginVertical: spacing(2) }}>
+              <View style={styles.chipLayout}>
+                <Chip style={styles.chip} selected={severity === 0}>
                   Minor
                 </Chip>
-                <Chip style={{ marginLeft: spacing(1), marginVertical: spacing(2) }} selected>
+                <Chip style={[styles.chip, { marginLeft: spacing(1) }]} selected={severity === 1}>
                   Moderate
                 </Chip>
-                <Chip style={{ marginLeft: spacing(1), marginVertical: spacing(2) }}>
+                <Chip style={[styles.chip, { marginLeft: spacing(1) }]} selected={severity === 3}>
                   Major
                 </Chip>
               </View>
             </View>
 
             {/* images */}
-            <View style={{ marginVertical: spacing(2) }}>
-              <Title>
-                Photos of part
-              </Title>
-              {currentWheelsAnalysisImages.map((image, index) => (
-                <TouchableRipple
-                  key={image.id}
-                  onPress={() => openPreviewDialog({
-                    name: image.name,
-                    path: image.path,
-                    index,
-                  })}
-                >
-                  <Img
-                    style={styles.image}
-                    skeletonStyle={styles.image}
-                    source={{ uri: image.path }}
-                  />
-                </TouchableRipple>
-              ))}
-            </View>
+            {!isEmpty(currentWheelsAnalysisImages) ? (
+              <View style={styles.section}>
+                <Title>
+                  Photos of part
+                </Title>
+                {currentWheelsAnalysisImages.map((image, index) => (
+                  <TouchableRipple
+                    key={image.id}
+                    onPress={() => openPreviewDialog({
+                      name: image.name,
+                      path: image.path,
+                      index,
+                    })}
+                  >
+                    <Img
+                      style={styles.image}
+                      skeletonStyle={styles.image}
+                      source={{ uri: image.path }}
+                    />
+                  </TouchableRipple>
+                ))}
+              </View>
+            ) : null}
           </Card.Content>
         </Card>
       </ScrollView>
 
-      <ImageViewer
-        isOpen={isPreviewDialogOpen}
-        images={currentWheelsAnalysisImages.map((image) => ({ uri: image.path }))}
-        index={previewImage.index}
-        handleDismiss={handleDismissPreviewDialog}
-      />
+      {!isEmpty(currentWheelsAnalysisImages) ? (
+        <ImageViewer
+          isOpen={isPreviewDialogOpen}
+          images={currentWheelsAnalysisImages.map((image) => ({ url: image.path }))}
+          index={previewImage.index}
+          handleDismiss={handleDismissPreviewDialog}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };
