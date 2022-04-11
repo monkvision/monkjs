@@ -1,0 +1,77 @@
+{
+  "name": "inspection-report",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.jsx",
+  "dependencies": {
+    "@auth0/auth0-react": "^1.9.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.5",
+    "@monkvision/camera": "*",
+    "@monkvision/corejs": "*",
+    "@monkvision/sights": "*",
+    "@monkvision/toolkit": "*",
+    "@mui/icons-material": "^5.6.0",
+    "@mui/material": "^5.6.0",
+    "@reduxjs/toolkit": "^1.8.1",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^14.1.0",
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "expo-modules-core": "^0.6.5",
+    "lodash.identity": "^3.0.0",
+    "lodash.isempty": "^4.4.0",
+    "lodash.isplainobject": "^4.0.6",
+    "lodash.noop": "^3.0.1",
+    "notistack": "^2.0.4$",
+    "prop-types": "^15.8.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-native": "^0.68.0",
+    "react-native-web": "^0.17.7",
+    "react-redux": "^7.2.8",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.0",
+    "release-it": "^14.14.1"
+  },
+  "scripts": {
+    "start": "HTTPS=true react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "serve": "serve -s build",
+    "build-and-serve": "yarn build && yarn run serve"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.7",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.7",
+    "@babel/plugin-syntax-jsx": "^7.16.7",
+    "@babel/plugin-transform-react-display-name": "^7.16.7",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@babel/plugin-transform-typescript": "^7.16.8",
+    "@testing-library/dom": "^8.13.0",
+    "customize-cra": "^1.0.0",
+    "eslint": "^8.12.0",
+    "eslint-config-react-app": "^7.0.0",
+    "react-app-rewired": "^2.2.1",
+    "redux-logger": "^3.0.6",
+    "serve": "^13.0.2",
+    "typescript": "^4.6.3",
+    "web-vitals": "^2.1.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
