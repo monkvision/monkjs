@@ -13,10 +13,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -113,6 +115,10 @@ export default function ResponsiveAppBar() {
             </Button>
             <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
               Customers
+            </Button>
+            {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
+            <Button onClick={()=>navigate('/wheelAnalysis')} sx={{ my: 2, color: 'white', display: 'block' }}>
+              Wheel analysis
             </Button>
           </Box>
 

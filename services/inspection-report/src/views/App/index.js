@@ -8,9 +8,11 @@ import useLoading from 'hooks/useLoading';
 import Home from 'views/Home';
 import Auth from 'views/Auth';
 import Loading from 'views/Loading';
+import WheelAnalysis from 'views/WheelAnalysis';
 
 export const ROUTE_PATHS = {
   home: '/',
+  wheelAnalysis:'/wheelAnalysis'
 };
 
 export default function App() {
@@ -44,6 +46,7 @@ export default function App() {
     return (
       <Routes>
         <Route exact path={ROUTE_PATHS.home} element={<Home />} />
+        <Route path={ROUTE_PATHS.wheelAnalysis} element={<WheelAnalysis />} />
       </Routes>
     );
   }
