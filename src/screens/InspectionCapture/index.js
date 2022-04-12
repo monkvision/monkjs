@@ -1,11 +1,12 @@
-import * as WebBrowser from 'expo-web-browser';
-import ExpoConstants from 'expo-constants';
+// import * as WebBrowser from 'expo-web-browser';
+// import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScreenView } from '@monkvision/ui';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Capture, Controls, useUploads, Constants } from '@monkvision/camera';
+import { Capture, Controls, useUploads } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useDispatch } from 'react-redux';
+// import useAuth from 'hooks/useAuth';
 import * as names from 'screens/names';
 
 import styles from './styles';
@@ -14,11 +15,12 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { inspectionId } = route.params;
+  // const { accessToken } = useAuth();
+  const { inspectionId, sightIds, taskName } = route.params;
 
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
-  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
+  const uploads = useUploads({ sightIds });
 
   const handleNavigate = useCallback(() => {
     navigation.navigate(names.LANDING, { inspectionId });
@@ -29,24 +31,25 @@ export default function InspectionCapture() {
       setCameraLoading(true);
 
       try {
-        const params = { inspectionId, name: 'damage_detection', data: { status: 'TODO' } };
+        const params = { inspectionId, name: taskName, data: { status: 'TODO' } };
         const payload = await monk.entity.task.updateOne(params);
         const { entities, result } = payload;
 
         dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
         setCameraLoading(false);
 
-        const base = `https://${ExpoConstants.manifest.extra.ORGANIZATION_DOMAIN}`;
-        const path = `/inspection/${inspectionId}`;
-        const url = `${base}${path}`;
-        WebBrowser.openBrowserAsync(url);
+        // const base = `https://${ExpoConstants.manifest.extra.ORGANIZATION_DOMAIN}`;
+        // const path = `/inspection/${inspectionId}`;
+        // const queryParams = `?access_token=${accessToken}`;
+        // const url = `${base}${path}${queryParams}`;
+        // WebBrowser.openBrowserAsync(url);
 
         handleNavigate();
       } catch (e) {
         setCameraLoading(false);
       }
     }
-  }, [dispatch, handleNavigate, inspectionId, success]);
+  }, [dispatch, handleNavigate, inspectionId, success, taskName]);
 
   const handleChange = useCallback((state) => {
     if (!success) {
@@ -79,7 +82,7 @@ export default function InspectionCapture() {
   return (
     <ScreenView style={styles.safeArea}>
       <Capture
-        sightIds={Constants.defaultSightIds}
+        sightIds={sightIds}
         inspectionId={inspectionId}
         controls={controls}
         loading={cameraLoading}

@@ -15,7 +15,7 @@ export default StyleSheet.create({
     right: 0,
   },
   left: {
-    flex: 0.8,
+    flex: 0.75,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -23,30 +23,13 @@ export default StyleSheet.create({
     paddingVertical: utils.styles.spacing(2),
   },
   right: {
-    flex: 1.2,
+    flex: 1.25,
     display: 'flex',
-    paddingVertical: utils.styles.spacing(2),
-    paddingLeft: utils.styles.spacing(2),
   },
-  title: {
-    marginTop: 0,
-    marginBottom: utils.styles.spacing(1),
-    fontWeight: 'normal',
+  evenListItem: {
+    elevation: 4,
   },
-  card: {
-    flexGrow: 1,
-  },
-  cardContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 0,
-  },
-  cardAction: {
-    justifyContent: 'flex-end',
-  },
-  list: {
-    height: '100%',
-    width: '100%',
+  oddListItem: {
+    elevation: 1,
   },
 });

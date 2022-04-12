@@ -1,40 +1,65 @@
-import useAuth from 'hooks/useAuth';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { View, useWindowDimensions, SafeAreaView } from 'react-native';
-import { Container, Drawing } from '@monkvision/ui';
-import { Button, Card, Divider, Searchbar, Title, useTheme } from 'react-native-paper';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
+import { Container } from '@monkvision/ui';
+import { List, Surface, useTheme } from 'react-native-paper';
+import { ScrollView } from 'react-native-web';
+import Artwork from 'screens/Landing/Artwork';
 
-import InspectionList from 'screens/InspectionList';
-import SignIn from 'screens/Authentication/SignIn';
 import * as names from 'screens/names';
-import useSignIn from './useSignIn';
-import artwork from './artwork.svg';
-import monk from './monk.svg';
 import styles from './styles';
+
+const LIST_ITEMS = [{
+  value: 'vinNumber',
+  title: 'VIN number',
+  icon: 'car-info',
+}, {
+  value: 'car360',
+  title: 'Car 360°',
+  icon: 'axis-z-rotate-counterclockwise',
+}, {
+  value: 'wheels',
+  title: 'Wheels',
+  icon: 'circle-double',
+}, {
+  value: 'classic',
+  title: 'Classic flow',
+  description: 'Car 360° + wheels + interior pictures',
+  icon: 'car-side',
+}];
 
 export default function Landing() {
   const { colors } = useTheme();
   const navigation = useNavigation();
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = (query) => setSearchQuery(query);
-
-  const handleStart = useCallback(async () => {
-    navigation.navigate(names.INSPECTION_CREATE);
-  }, [navigation]);
-
   const { height } = useWindowDimensions();
 
-  const signIn = useSignIn();
-  const { isAuthenticated } = useAuth();
-  const handleSignInStart = useCallback(() => signIn.start(), [signIn]);
-  const handleSignInError = useCallback(() => signIn.stop(), [signIn]);
+  const route = useRoute();
+  const { inspectionId } = route.params || {};
 
-  useEffect(() => navigation.addListener('focus', () => {
-    signIn.stop();
-  }), [navigation, signIn]);
+  const handleListItemPress = useCallback((value) => {
+    navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value });
+  }, [navigation]);
+
+  const renderListItem = useCallback(({ item, index }) => {
+    const { title, icon, value, description } = item;
+
+    const left = () => <List.Icon icon={icon} />;
+    const right = () => <List.Icon icon="chevron-right" />;
+    const handlePress = () => handleListItemPress(value);
+
+    return (
+      <Surface style={(index % 2 === 0) ? styles.evenListItem : styles.oddListItem}>
+        <List.Item
+          title={title}
+          description={description}
+          left={left}
+          right={right}
+          onPress={handlePress}
+        />
+      </Surface>
+    );
+  }, [handleListItemPress]);
 
   return (
     <SafeAreaView>
@@ -44,50 +69,20 @@ export default function Landing() {
       />
       <Container style={styles.root}>
         <View style={[styles.left, { height }]}>
-          <Drawing xml={artwork} alt="artwork" width={250} height={183} />
-          <Title style={styles.title}>Inspect your car with</Title>
-          <Drawing xml={monk} alt="artwork" width={120} height={32} />
+          <Artwork />
         </View>
-        <View style={styles.right}>
-          <Card style={styles.card}>
-            <Card.Content>
-              <Searchbar
-                placeholder="Search"
-                onChangeText={onChangeSearch}
-                value={searchQuery}
+        <Surface style={styles.right}>
+          <ScrollView contentContainerStyle={{ height }}>
+            <List.Section>
+              <List.Subheader>What do you want to inspect?</List.Subheader>
+              <FlatList
+                data={LIST_ITEMS}
+                renderItem={renderListItem}
+                keyExtractor={(item) => item.value}
               />
-            </Card.Content>
-            <Card.Content style={[styles.cardContent, { height: height - 116 - 32 }]}>
-              <InspectionList style={styles.list} />
-            </Card.Content>
-            <Divider />
-            <Card.Actions style={styles.cardAction}>
-              {isAuthenticated ? (
-                <Button
-                  color={colors.primary}
-                  icon="login-variant"
-                  mode="contained"
-                  onPress={handleStart}
-                  size="large"
-                >
-                  Start inspection
-                </Button>
-              ) : (
-                <SignIn
-                  color={colors.primary}
-                  disabled={signIn.isLoading}
-                  icon="login-variant"
-                  onStart={handleSignInStart}
-                  onError={handleSignInError}
-                  onSuccess={handleStart}
-                  size="large"
-                >
-                  Start inspection
-                </SignIn>
-              )}
-            </Card.Actions>
-          </Card>
-        </View>
+            </List.Section>
+          </ScrollView>
+        </Surface>
       </Container>
     </SafeAreaView>
   );

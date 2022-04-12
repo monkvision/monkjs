@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import monk from '@monkvision/corejs';
 
 import useLoading from 'hooks/useLoading';
@@ -14,16 +14,24 @@ export const ROUTE_PATHS = {
 };
 
 export default function App() {
+  const { search } = useLocation();
+  const queryParams = useMemo(() => new URLSearchParams(search), [search]);
+
   const { isAuthenticated, isLoading: authenticating, getAccessTokenSilently } = useAuth0();
   const [isGettingToken, setIsGettingToken] = useState(false);
   const [hasToken, setHasToken] = useState(false);
 
   const loading = useLoading(authenticating && isGettingToken);
 
-  const handleToken = useCallback(async () => {
+  const handleToken = useCallback(async (token) => {
     setIsGettingToken(true);
+
     try {
-      monk.config.accessToken = await getAccessTokenSilently();
+      if (token !== undefined ) {
+        monk.config.accessToken = token
+      } else {
+        monk.config.accessToken = await getAccessTokenSilently();
+      }
 
       setHasToken(true);
       setIsGettingToken(false);
@@ -31,6 +39,11 @@ export default function App() {
       setIsGettingToken(false);
     }
   }, [getAccessTokenSilently]);
+
+  useEffect(() => {
+    console.log(queryParams);
+    handleToken(queryParams.get('access_token'));
+  }, [handleToken, queryParams]);
 
   useEffect(() => {
     if (isAuthenticated) { handleToken(); }

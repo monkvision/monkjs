@@ -13,7 +13,7 @@ const theme = {
   ...initialTheme,
   dark: true,
   mode: 'adaptive',
-  loaderDotsColors: ['#1039A8', '#2B52BE', '#4B6DC9', '#718DD8'],
+  loaderDotsColors: ['#3064F3', '#658BF3', '#A0B7F6', '#F4F6FE'],
   colors: {
     ...initialTheme.colors,
     primary: '#2B52BE',
