@@ -3,27 +3,24 @@ import { useDispatch } from 'react-redux';
 import { useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
 
-const TASKS_BY_MOD = {
-  car360: 'damage_detection',
-  wheelAnalysis: 'wheel_analysis',
-  repairEstimate: 'repair_estimate',
-  imagesOCR: 'images_ocr',
-  video: 'video',
+export const TASKS_BY_MOD = {
+  vinNumber: ['images_ocr'],
+  car360: ['damage_detection'],
+  wheels: ['damage_detection', 'wheel_analysis'],
+  classic: ['damage_detection', 'wheel_analysis'],
 };
 
 export default function useCreateInspection() {
   const dispatch = useDispatch();
   const [inspectionId, setInspectionId] = useState();
 
-  const axiosRequest = useCallback(async ({ captureMod }) => {
-    const data = {
-      tasks: {
-        [TASKS_BY_MOD[captureMod]]: { status: 'NOT_STARTED' },
-        [TASKS_BY_MOD.imagesOCR]: { status: 'NOT_STARTED' },
-      },
-    };
+  const axiosRequest = useCallback(async () => {
+    const tasks = {};
+    Object.values(TASKS_BY_MOD)
+      .forEach((modTasks) => modTasks
+        .forEach((taskName) => { tasks[taskName] = { status: 'NOT_STARTED' }; }));
 
-    return monk.entity.inspection.upsertOne({ data });
+    return monk.entity.inspection.upsertOne({ data: { tasks } });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {

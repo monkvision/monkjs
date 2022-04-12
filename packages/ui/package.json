@@ -44,9 +44,6 @@
     "lodash.noop": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.12.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
     "prop-types": "^15.8.1",
     "react-native-builder-bob": "^0.18.2",
     "release-it": "*"

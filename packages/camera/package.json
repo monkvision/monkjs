@@ -54,7 +54,6 @@
     "webrtc-adapter": "^8.1.1"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
     "prop-types": "^15.8.1",
     "react-native-builder-bob": "^0.18.2",
     "release-it": "*"

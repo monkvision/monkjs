@@ -31,11 +31,6 @@ export default function Navigation() {
           component={Screens.InspectionList}
           title="Monk - Inspection List"
         />
-        <Stack.Screen
-          name={names.VIN}
-          component={Screens.VIN}
-          title="Monk - VIN"
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );

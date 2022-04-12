@@ -36,9 +36,6 @@
     "trace": "node scripts/trace.mjs",
     "lint": "eslint ./"
   },
-  "devDependencies": {
-    "eslint": "^7.32.0"
-  },
   "publishConfig": {
     "access": "public"
   }
