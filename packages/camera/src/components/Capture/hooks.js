@@ -8,29 +8,6 @@ import Actions from '../../actions';
 import Constants from '../../const';
 
 import log from '../../utils/log';
-import usePredictions from '../../hooks/usePredictions';
-
-const COVERAGE_360_WHITELIST = [
-  // T-ROCK
-  'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
-  'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
-  'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
-  'AoO-nOoM', 'B5s1CWT-',
-  // AUDI A7
-  'vxRr9chD', // Front Bumper Side Left
-  'cDe2q69X', // Front Fender Left
-  'R_f4g8MN', // Doors Left
-  'vedHBC2n', // Front Roof Left
-  'McR3TJK0', // Rear Lateral Left
-  '7bTC-nGS', // Rear Fender Left
-  'hhCBI9oZ', // Rear
-  'e_QIW30o', // Rear Fender Right
-  'fDo5M0Fp', // Rear Lateral Right
-  'fDKWkHHp', // Doors Right
-  '5CFsFvj7', // Front Fender Right
-  'g30kyiVH', // Front Bumper Side Right
-  'I0cOpT1e', // Front
-];
 
 /**
  * @param current
@@ -132,8 +109,6 @@ export function useCreateDamageDetectionAsync() {
  * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
-  const [getParts] = usePredictions(null);
-
   return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
@@ -149,46 +124,44 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
-        payload: { id, status: 'pending', label },
+        payload: {
+          id,
+          status: 'pending',
+          label,
+        },
       });
 
       // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+      if (ids[ids.length - 1] === id) {
+        onFinish();
+        log([`Capture tour has been finished`]);
+      }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
-      const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
+      const multiPartKeys = {
+        image: 'image',
+        json: 'json',
+        filename,
+        type: `image/${fileType}`,
+      };
 
       const res = await axios.get(picture.uri, { responseType: 'blob' });
 
-      getParts(res);
+      const compliances = {
+        compliances: {
+          image_quality_assessment: {},
+          coverage_360: Constants.COVERAGE_360_WHITELIST.includes(id) ? {
+            sight_id: id,
+          } : undefined,
+        },
+      };
 
       const json = JSON.stringify({
+        ...compliances,
         acquisition: {
           strategy: 'upload_multipart_form_keys',
           file_key: multiPartKeys.image,
-        },
-        // compliances: {
-        //   image_quality_assessment: {},
-        //   coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-        //     sight_id: id,
-        //   } : undefined,
-        // },
-        compliances: {
-          image_quality_assessment: {
-            parameters: {},
-            is_compliant: Boolean(Math.round(Math.random(2))),
-            reasons: [],
-            status: 'DONE',
-          },
-          coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-            parameters: {
-              sight_id: id,
-            },
-            is_compliant: Boolean(Math.round(Math.random(2))),
-            reasons: [],
-            status: 'DONE',
-          } : undefined,
         },
         tasks: [task],
         additional_data: {
@@ -231,7 +204,53 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       throw err;
     }
-  }, [uploads, inspectionId, sights.state, getParts, task, onFinish]);
+  }, [uploads, inspectionId, sights.state, task, onFinish]);
+}
+
+/**
+ *
+ * @param compliance - Contains dispatch and compliance's state
+ * @param currentSightId - id of the current sight
+ * @returns {(function(string, string): Promise<void>)|*} - a function that will call the model
+ * to predict locally whether if the picture is compliant or not
+ */
+export function useStartComplianceAsync({ compliance, sightId: currentSightId }) {
+  return useCallback(async (pictureId, customSightId) => {
+    if (!pictureId) {
+      throw Error(`Start Compliance Please provide a valid "pictureId". Got ${pictureId}.`);
+    }
+
+    const complianceResult = {
+      compliances: {
+        image_quality_assessment: {
+          parameters: {},
+          is_compliant: Boolean(Math.round((Math.random() * 100) % 3)),
+          reasons: [],
+          status: 'DONE',
+        },
+        coverage_360: {
+          parameters: {
+            sight_id: customSightId || currentSightId,
+          },
+          is_compliant: Boolean(Math.round((Math.random() * 100) % 3)),
+          reasons: [],
+          status: 'DONE',
+        },
+      },
+    };
+
+    await (new Promise((resolve) => setTimeout(resolve, 1000)));
+    log([`Result of compliance ${pictureId}`, complianceResult]);
+    compliance.dispatch({
+      type: Actions.compliance.UPDATE_COMPLIANCE,
+      payload: {
+        id: customSightId || currentSightId,
+        result: { data: complianceResult, ...complianceResult },
+        status: 'fulfilled',
+        pictureId,
+      },
+    });
+  }, [compliance, currentSightId]);
 }
 
 /**

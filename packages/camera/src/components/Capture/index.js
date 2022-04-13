@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
-
 import useCompliance from '../../hooks/useCompliance';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
@@ -23,10 +22,12 @@ import {
   useCreateDamageDetectionAsync,
   useNavigationBetweenSights,
   useSetPictureAsync,
+  useStartComplianceAsync,
   useStartUploadAsync,
   useTakePictureAsync,
   useTitle,
 } from './hooks';
+import usePredictions from '../../hooks/usePredictions';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
  * @param inspectionId
  * @param isSubmitting
  * @param loading
+ * @param model
  * @param navigationOptions
  * @param offline
  * @param onChange
@@ -96,6 +98,7 @@ export default function Capture({
   inspectionId,
   isSubmitting,
   loading,
+  model,
   navigationOptions,
   offline,
   onChange,
@@ -126,6 +129,7 @@ export default function Capture({
   const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
   const settings = useSettings({ camera, initialState: initialState.settings });
   const sights = useSights({ sightIds, initialState: initialState.sights });
+  const { useApi, loadModel, predictions } = usePredictions();
 
   const { current, tour } = sights.state;
   const overlay = current?.metadata?.overlay || '';
@@ -149,6 +153,7 @@ export default function Capture({
          * number,
          * result: {
            * binary_size: number,
+           * data: {
              * compliances: {
                * image_quality_assessment: {
                  * is_compliant: boolean,
@@ -156,6 +161,7 @@ export default function Capture({
                  * status: string,
                * },
              * },
+           * },
            * id: string,
            * image_height: number,
            * image_width: number,
@@ -188,6 +194,7 @@ export default function Capture({
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
+  const startComplianceAsync = useStartComplianceAsync({ compliance, sightId: current.id });
   const startUploadAsyncParams = {
     inspectionId, sights, uploads, task, onFinish: onCaptureTourFinish,
   };
@@ -214,11 +221,12 @@ export default function Capture({
     goNextSight,
     setPictureAsync,
     startUploadAsync,
+    startComplianceAsync,
     takePictureAsync,
   }), [
-    camera, checkComplianceAsync, createDamageDetectionAsync,
-    goNextSight, goPrevSight,
-    setPictureAsync, startUploadAsync, takePictureAsync,
+    checkComplianceAsync, createDamageDetectionAsync, goNextSight,
+    goPrevSight, setPictureAsync, startComplianceAsync,
+    startUploadAsync, takePictureAsync,
   ]);
 
   // END METHODS //
@@ -258,16 +266,24 @@ export default function Capture({
   }, [tour, sightIds]);
 
   useEffect(() => {
-    if (enableComplianceCheck) {
-      log([`Compliance check is enabled`, `Loading models...`]);
+    if (enableComplianceCheck && model) {
+      log([`Compliance check is enabled`]);
       (async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2500));
-        setModelLoaded(true);
+        try {
+          log(['Loading models...']);
+          await loadModel(model.partDetector);
+          log(['Model loaded ', model]);
+          setModelLoaded(true);
+        } catch (e) {
+          log(['Failed to load model', e]);
+        }
       })();
     }
 
     return () => setModelLoaded(false);
-  }, [enableComplianceCheck]);
+    // Do not add loadModel to dependencies list, because this will be called infinitely
+    // eslint-disable-next-line
+  }, [enableComplianceCheck, model]);
 
   useEffect(() => {
     log([`Capture tour has been started`]);
@@ -303,12 +319,12 @@ export default function Capture({
       enableComplianceCheck={enableComplianceCheck}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
+      useApi={useApi}
     />
   ), [
-    api, controlsContainerStyle, controls, loading,
-    states, enableComplianceCheck, onStartUploadPicture,
-    onFinishUploadPicture,
-  ]);
+    api, controlsContainerStyle, controls,
+    loading, states, enableComplianceCheck,
+    onStartUploadPicture, onFinishUploadPicture, useApi]);
 
   const children = useMemo(() => (
     <>
@@ -342,6 +358,7 @@ export default function Capture({
         task={task}
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
+        startComplianceAsync={startComplianceAsync}
         navigationOptions={navigationOptions}
       />
     );
@@ -396,6 +413,7 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
+  model: PropTypes.arrayOf(PropTypes.string),
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
@@ -448,6 +466,7 @@ Capture.defaultProps = {
   },
   inspectionId: null,
   loading: false,
+  model: null,
   navigationOptions: {
     allowNavigate: false,
     allowRetake: true,

@@ -3,7 +3,8 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 
 import useScreen from 'screens/InspectionCreate/useScreen';
 
-import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
+import { Capture, Constants, Controls, useUploads } from '@monkvision/camera';
+import useIndexedDb from '../../hooks/useIndexedDb';
 
 const styles = StyleSheet.create({
   safeArea: { backgroundColor: '#000' },
@@ -11,8 +12,16 @@ const styles = StyleSheet.create({
 
 export default () => {
   const { request, isLoading, requestCount: updateTaskRequestCount, inspectionId } = useScreen();
+  const getModels = useIndexedDb();
 
   const [cameraLoading, setCameraLoading] = useState();
+  const [model, setModel] = useState();
+
+  React.useEffect(() => {
+    getModels(null).then((res) => {
+      setModel(res);
+    });
+  }, [getModels]);
 
   // start the damage detection task
   const handleSuccess = useCallback(() => { if (updateTaskRequestCount === 0) { request(); } },
@@ -43,6 +52,7 @@ export default () => {
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
+        model={model}
 
         /** --- With upload center
          * enableComplianceCheck={true}

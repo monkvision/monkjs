@@ -1,7 +1,12 @@
 import { useCallback } from 'react';
 import Actions from '../../actions';
 
-const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableComplianceCheck }) => {
+const useHandlers = ({
+  onStartUploadPicture,
+  onFinishUploadPicture,
+  enableComplianceCheck,
+  useApi,
+}) => {
   const capture = useCallback(async (state, api, event) => {
     event.preventDefault();
     onStartUploadPicture(state, api);
@@ -12,6 +17,7 @@ const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableCompli
       setPictureAsync,
       goNextSight,
       checkComplianceAsync,
+      startComplianceAsync,
     } = api;
 
     const picture = await takePictureAsync();
@@ -36,9 +42,13 @@ const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableCompli
 
     if (current.index === ids.length - 1) {
       const upload = await startUploadAsync(picture);
-      if (enableComplianceCheck && upload.data?.id) {
-        const result = await checkComplianceAsync(upload.data.id);
-        verifyComplianceStatus(upload.data.id, result.data.compliances);
+      if (enableComplianceCheck && upload?.data?.id) {
+        if (!useApi) {
+          await startComplianceAsync(upload.data.id, current.metadata.id);
+        } else {
+          const result = await checkComplianceAsync(upload.data.id);
+          verifyComplianceStatus(upload.data.id, result.data.compliances);
+        }
       }
 
       onFinishUploadPicture(state, api);
@@ -47,12 +57,16 @@ const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableCompli
       goNextSight();
 
       const upload = await startUploadAsync(picture);
-      if (enableComplianceCheck && upload.data?.id) {
-        const result = await checkComplianceAsync(upload.data.id);
-        verifyComplianceStatus(upload.data.id, result.data.compliances);
+      if (enableComplianceCheck && upload?.data?.id) {
+        if (!useApi) {
+          await startComplianceAsync(upload.data.id, current.metadata.id);
+        } else {
+          const result = await checkComplianceAsync(upload.data.id);
+          verifyComplianceStatus(upload.data.id, result.data.compliances);
+        }
       }
     }
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture]);
+  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, useApi]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     // adding an initialState that will hold new compliances with `requestCount = 1`

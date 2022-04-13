@@ -1,33 +1,56 @@
 import useRequest from 'hooks/useRequest';
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, SafeAreaView, VirtualizedList, RefreshControl, View, useWindowDimensions, Platform } from 'react-native';
-import { DataTable, Button, useTheme, Text, Card, Dialog, Paragraph, ProgressBar, Portal } from 'react-native-paper';
+import {
+  Platform,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+  VirtualizedList,
+} from 'react-native';
+import {
+  Button,
+  Card,
+  DataTable,
+  Dialog,
+  Paragraph,
+  Portal,
+  ProgressBar,
+  Text,
+  useTheme,
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
+import axios from 'axios';
 
 import {
   damagesEntity,
   getAllInspections,
+  imagesEntity,
+  inspectionsEntity,
   selectDamageEntities,
+  selectImageEntities,
   selectInspectionEntities,
   selectInspectionIds,
-  selectImageEntities,
   selectPartEntities,
   selectTaskEntities,
   selectVehicleEntities,
-  imagesEntity,
-  inspectionsEntity,
   tasksEntity,
   vehiclesEntity,
 } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
-import { PROFILE, INSPECTION_READ } from 'screens/names';
+import { INSPECTION_READ, PROFILE } from 'screens/names';
 import MonkIcon from 'components/Icons/MonkIcon';
 import InspectionButton from 'screens/Landing/InspectionButton';
+import useIndexedDb from '../../hooks/useIndexedDb';
+
+// TODO: Replace/Delete once the model will be available on the bucket
+const url = 'https://tfhub.dev/tensorflow/lite-model/ssd_mobilenet_v1/1/metadata/2?lite-format=tflite';
 
 const { spacing } = utils.styles;
 const LIMIT = 25;
@@ -119,9 +142,10 @@ export default () => {
     },
   }));
 
-  const [showLoadModelDialog, setShowLoadModelDialog] = useState(true);
-  const [loadedModel, setLoadedModel] = useState(null);
+  const [showLoadModelDialog, setShowLoadModelDialog] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
+
+  const startDb = useIndexedDb();
 
   const ids = useSelector(selectInspectionIds);
   const inspectionEntities = useSelector(selectInspectionEntities);
@@ -204,21 +228,22 @@ export default () => {
     </DataTable.Row>
   ), [canRenderStatus, colors.success, handlePress]);
 
-  const handleDownloadModel = useCallback(async () => {
-    if (!loadedModel) {
-      await new Promise((resolve) => {
-        const starttime = new Date();
-        setTimeout(resolve, 10000);
-        setInterval(() => {
-          if ((new Date() - starttime) < 10000) {
-            setDownloadProgress((new Date() - starttime) / 10000);
-          }
-        });
-      });
-    }
+  useEffect(() => {
+    startDb(null)
+      .then((res) => setShowLoadModelDialog(Object.keys(res).length === 0));
+  }, [startDb]);
 
+  const handleDownloadModel = useCallback(async () => {
+    const blob = await axios.get(url, {
+      responseType: 'arraybuffer',
+      onDownloadProgress: (progressEvent) => {
+        const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+        setDownloadProgress(percentCompleted);
+      },
+    });
+    await startDb(blob);
     setShowLoadModelDialog(false);
-  }, [loadedModel]);
+  }, [startDb]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -228,12 +253,10 @@ export default () => {
           <Dialog.Title>Download model</Dialog.Title>
           <Dialog.Content>
             <Paragraph>Download and save models on device</Paragraph>
-            {Platform.OS === 'web' && (
-            <input type="file" onChange={(e) => setLoadedModel(e.target.files[0])} />)}
             {downloadProgress > 0 && <ProgressBar progress={downloadProgress} />}
           </Dialog.Content>
           <Dialog.Actions>
-            <Button mode="contained" onPress={handleDownloadModel}>{loadedModel ? 'Load' : 'Download'}</Button>
+            <Button mode="contained" onPress={handleDownloadModel}>Download</Button>
             <Button mode="outlined" onPress={() => setShowLoadModelDialog(false)}>Use API</Button>
           </Dialog.Actions>
         </Dialog>

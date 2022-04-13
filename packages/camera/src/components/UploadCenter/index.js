@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Button, useWindowDimensions, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
@@ -64,7 +64,9 @@ export default function UploadCenter({
   onRetakeAll,
   submitButtonLabel,
   checkComplianceAsync,
+  startComplianceAsync,
   inspectionId,
+  useApi,
   task,
 }) {
   const [submitted, submit] = useState(false);
@@ -79,7 +81,9 @@ export default function UploadCenter({
     task,
     onRetakeAll,
     checkComplianceAsync,
+    startComplianceAsync,
     ids,
+    useApi,
     ...states,
   });
 
@@ -212,9 +216,11 @@ UploadCenter.propTypes = {
   onComplianceCheckStart: PropTypes.func,
   onRetakeAll: PropTypes.func,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
+  startComplianceAsync: PropTypes.func,
   submitButtonLabel: PropTypes.string,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
+  useApi: PropTypes.bool,
 };
 
 UploadCenter.defaultProps = {
@@ -228,5 +234,7 @@ UploadCenter.defaultProps = {
   navigationOptions: {
     retakeMaxTry: 1,
   },
+  startComplianceAsync: () => {},
   task: 'damage_detection',
+  useApi: true,
 };

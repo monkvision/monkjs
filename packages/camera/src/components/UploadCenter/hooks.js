@@ -79,8 +79,8 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
       if (item.requestCount > navigationOptions.retakeMaxTry || item.status !== 'fulfilled') { return false; }
 
       const { image_quality_assessment: iqa, coverage_360: carCov } = item.result.data.compliances;
-      const badQuality = iqa && !iqa.is_compliant;
-      const badCoverage = carCov && !carCov.is_compliant;
+      const badQuality = iqa && !iqa?.is_compliant;
+      const badCoverage = carCov && !carCov?.is_compliant;
 
       return badQuality || badCoverage;
     })
@@ -92,7 +92,7 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
       if (!result) { return true; }
       const currentCompliance = result.data.compliances;
       const hasNotReadyCompliances = Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
+        (c) => c?.is_compliant === null,
       );
 
       return hasNotReadyCompliances && requestCount < 2;
@@ -103,7 +103,7 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
       if (!result) { return false; }
       const currentCompliance = result.data.compliances;
       const hasNotReadyCompliances = Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
+        (c) => c?.is_compliant === null,
       );
 
       return hasNotReadyCompliances;
@@ -130,7 +130,9 @@ export const useHandlers = ({
   task,
   onRetakeAll,
   checkComplianceAsync,
+  startComplianceAsync,
   ids,
+  useApi,
   ...states
 }) => {
   const { sights, compliance, uploads } = states;
@@ -189,11 +191,15 @@ export const useHandlers = ({
     };
 
     const upload = await startUploadAsync(picture, current);
-    if (upload.data?.id) {
-      const result = await checkComplianceAsync(upload.data.id, current.metadata.id);
-      verifyComplianceStatus(upload.data.id, result.data.compliances);
+    if (upload?.data?.id) {
+      if (!useApi) {
+        await startComplianceAsync(upload?.data?.id, current.metadata.id);
+      } else {
+        const result = await checkComplianceAsync(upload.data.id, current.metadata.id);
+        verifyComplianceStatus(upload.data.id, result.data.compliances);
+      }
     }
-  }, [checkComplianceAsync, sights, startUploadAsync]);
+  }, [checkComplianceAsync, sights.state.tour, startComplianceAsync, startUploadAsync, useApi]);
 
   return { handleReupload, handldeRetakeAll, handleRetake };
 };

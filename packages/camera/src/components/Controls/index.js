@@ -1,7 +1,14 @@
 /* eslint-disable react/no-array-index-key */
 import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import useHandlers from './hooks';
 
 const styles = StyleSheet.create({
@@ -29,6 +36,7 @@ export default function Controls({
   enableComplianceCheck,
   onStartUploadPicture,
   onFinishUploadPicture,
+  useApi,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
@@ -37,6 +45,7 @@ export default function Controls({
     onStartUploadPicture,
     onFinishUploadPicture,
     enableComplianceCheck,
+    useApi,
   });
 
   const handlePress = useCallback(({ onPress }) => (e) => {
@@ -93,6 +102,7 @@ Controls.propTypes = {
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),
   }),
+  useApi: PropTypes.bool,
 };
 
 Controls.defaultProps = {
@@ -104,6 +114,7 @@ Controls.defaultProps = {
   state: {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
+  useApi: true,
 };
 
 Controls.CaptureButtonProps = {
