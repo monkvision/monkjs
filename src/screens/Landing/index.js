@@ -74,7 +74,7 @@ export default function Landing() {
         <Surface style={styles.right}>
           <ScrollView contentContainerStyle={{ height }}>
             <List.Section>
-              <List.Subheader>What do you want to inspect?</List.Subheader>
+               <List.Subheader>What do you want to inspect?</List.Subheader>
               <FlatList
                 data={LIST_ITEMS}
                 renderItem={renderListItem}

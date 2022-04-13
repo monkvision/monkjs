@@ -29,10 +29,10 @@
       "env": {
         "ENV": "development",
         "ORGANIZATION_DOMAIN": "localhost:3000",
-        "API_DOMAIN": "api.staging.monk.ai/v1",
+        "API_DOMAIN": "api.dev.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
-        "AUTH_DOMAIN": "idp.staging.monk.ai"
+        "AUTH_CLIENT_ID": "QNo7pxwM12UJbpmNs13EBOiAhi5evndz",
+        "AUTH_DOMAIN": "idp.dev.monk.ai"
       }
     }
   },

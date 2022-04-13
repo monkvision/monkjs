@@ -12,7 +12,7 @@ import WheelAnalysis from 'views/WheelAnalysis';
 
 export const ROUTE_PATHS = {
   home: '/',
-  wheelAnalysis:'/wheelAnalysis'
+  wheelAnalysis: '/wheelAnalysis/:inspectionId/:wheelAnalysisId',
 };
 
 export default function App() {
@@ -29,8 +29,8 @@ export default function App() {
     setIsGettingToken(true);
 
     try {
-      if (token !== undefined ) {
-        monk.config.accessToken = token
+      if (token !== undefined) {
+        monk.config.accessToken = token;
       } else {
         monk.config.accessToken = await getAccessTokenSilently();
       }

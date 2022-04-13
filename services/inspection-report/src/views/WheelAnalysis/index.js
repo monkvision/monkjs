@@ -4,12 +4,17 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import { styled } from '@mui/material/styles';
+import { useParams } from 'react-router-dom';
 
 import { ResponsiveAppBar, ScrollToTop, View } from 'components';
-const url =
-  'https://images.unsplash.com/photo-1621712151262-60bd142ba19f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d2hlZWwlMjBjYXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60';
+
+const url = 'https://images.unsplash.com/photo-1621712151262-60bd142ba19f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d2hlZWwlMjBjYXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60';
+
 export default function WheelAnalysis() {
+  const { inspectionId: id, wheelAnalysisId } = useParams();
+
+  console.log({ id, wheelAnalysisId });
+
   return (
     <View viewName="wheelAnalysis" title={process.env.REACT_APP_BRAND}>
       <CssBaseline />
@@ -51,12 +56,11 @@ export default function WheelAnalysis() {
           {/* images */}
           <Stack spacing={1}>
             <Typography variant="h6">Photos of part</Typography>
-            <img src={url} alt="Part image" />
-            <img src={url} alt="Part image" />
+            <img src={url} alt="Part image1" />
+            <img src={url} alt="Part imag2" />
           </Stack>
         </Stack>
       </Container>
     </View>
   );
 }
-

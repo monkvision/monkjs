@@ -29,6 +29,19 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
+  console.warn('Wheel analysis is using mock data', { axiosResponse });
+
+  // const dataWithMock = {
+  //   ...data,
+  //   wheel_analysis: [...mockInspection.wheel_analysis],
+  //   images: data.images?.length ? data.images.map((img, i) => {
+  //     if (i < mockInspection.images.length) {
+  //       return { ...img, wheel_analysis: mockInspection.images[i].wheel_analysis };
+  //     }
+  //     return img;
+  //   }) : [] };
+
+
   return ({
     axiosResponse,
     [idAttribute]: id,

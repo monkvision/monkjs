@@ -1,0 +1,23 @@
+{
+    "files.autoSave": "afterDelay",
+    "workbench.colorTheme": "Panda Syntax",
+    "auto-rename-tag.activationOnLanguage": ["*"],
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.codeActionsOnSave": [      "source.fixAll.eslint"    ],
+    "javascript.updateImportsOnFileMove.enabled": "never",
+    "prettier.requireConfig": true,
+    "eslint.validate": ["javascript"],
+    "eslint.format.enable": true,
+    "eslint.workingDirectories": [
+      { 
+          "directory": "services/inspection-report", 
+          "changeProcessCWD": true
+      },
+      { 
+          "directory": ".", 
+          "changeProcessCWD": true
+      },
+  ]
+  }
+  

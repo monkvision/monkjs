@@ -1,6 +1,6 @@
 import { any, arrayOf, func, instanceOf, objectOf, oneOfType, shape, string } from 'prop-types';
 
-import { Sight } from '@monkvision/corejs';
+// import { Sight } from '@monkvision/corejs';
 
 /* ALIASES */
 
@@ -10,7 +10,7 @@ const onSuccess = callback;
 
 /* PROPS */
 
-const sight = instanceOf(Sight);
+const sight = instanceOf({});
 const sights = arrayOf(sight);
 
 const source = shape({ uri: string.isRequired });
