@@ -1,4 +1,5 @@
 import axios from 'axios';
+import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
 
@@ -106,4 +107,17 @@ export default createSlice({
   name: key,
   initialState: entityAdapter.getInitialState({ entities: {}, ids: [] }),
   reducers: entityReducer,
+  extraReducers: (builder) => {
+    builder
+      .addCase(`inspections/gotOne`, (state, action) => {
+        const { entities } = action.payload;
+        const tasks = entities[key];
+        if (!isEmpty(tasks)) { entityAdapter.upsertMany(state, tasks); }
+      })
+      .addCase(`inspections/gotMany`, (state, action) => {
+        const { entities } = action.payload;
+        const tasks = entities[key];
+        if (!isEmpty(tasks)) { entityAdapter.upsertMany(state, tasks); }
+      });
+  },
 });

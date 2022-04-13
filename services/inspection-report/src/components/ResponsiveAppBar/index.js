@@ -18,8 +18,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,6 +44,11 @@ export default function ResponsiveAppBar() {
       callback();
     }
   }, []);
+
+  const navigateToInspections = () => {
+    handleCloseNavMenu();
+    navigate('/inspections');
+  };
 
   return (
     <AppBar position="static">
@@ -87,7 +92,7 @@ export default function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem onClick={handleCloseNavMenu()}>
+              <MenuItem onClick={navigateToInspections}>
                 <Typography textAlign="center">Inspections</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu()}>
@@ -107,7 +112,7 @@ export default function ResponsiveAppBar() {
             {process.env.REACT_APP_BRAND}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button onClick={navigateToInspections} sx={{ my: 2, color: 'white', display: 'block' }}>
               Inspections
             </Button>
             <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
@@ -117,7 +122,7 @@ export default function ResponsiveAppBar() {
               Customers
             </Button>
             {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
-            <Button onClick={() => navigate('/wheelAnalysis/0e78ae83-b132-912d-0eab-f388b8dc826f/3fa85f64-5717-4562-b3fc-2c963f66afa2')} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button onClick={() => navigate('/wheelAnalysis/72722c13-4c3e-df26-72a1-711845d0cc64/3fa85f64-5717-4562-b3fc-2c963f66afa2')} sx={{ my: 2, color: 'white', display: 'block' }}>
               Wheel analysis
             </Button>
           </Box>

@@ -6,20 +6,21 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import { useParams } from 'react-router-dom';
 
-import { ResponsiveAppBar, ScrollToTop, View } from 'components';
+import { ScrollToTop, View } from 'components';
+import useGetInspection from 'hooks/useGetInspection';
 
 const url = 'https://images.unsplash.com/photo-1621712151262-60bd142ba19f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d2hlZWwlMjBjYXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60';
 
 export default function WheelAnalysis() {
   const { inspectionId: id, wheelAnalysisId } = useParams();
 
-  console.log({ id, wheelAnalysisId });
+  const { denormalizedInspections } = useGetInspection(id);
+  console.log({ id, wheelAnalysisId, denormalizedInspections });
 
   return (
     <View viewName="wheelAnalysis" title={process.env.REACT_APP_BRAND}>
       <CssBaseline />
       <ScrollToTop />
-      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Stack spacing={4} mt={4}>
           <Typography variant="h4">Front right wheel</Typography>

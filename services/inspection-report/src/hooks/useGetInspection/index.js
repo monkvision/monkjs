@@ -1,5 +1,4 @@
 import { useRequest } from '@monkvision/toolkit';
-import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
 import { denormalize } from 'normalizr';
 import { useCallback } from 'react';
@@ -8,7 +7,6 @@ import monk from '@monkvision/corejs';
 
 export default function useGetInspection(id) {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useAuth();
 
   const axiosRequest = useCallback(
     async () => monk.entity.inspection.getOne({ id }),
@@ -45,10 +43,9 @@ export default function useGetInspection(id) {
 
   const shouldFetch = useCallback(
     (requestState) => !isEmpty(id)
-      && isAuthenticated
       && !requestState.loading
       && requestState.count === 0,
-    [id, isAuthenticated],
+    [id],
   );
 
   const request = useRequest(

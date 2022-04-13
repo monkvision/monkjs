@@ -103,8 +103,10 @@ function BottomSheet({ isOpen, children, onClose, onOpen, lock, overlay: Overlay
 
   // animate the bottomsheet to the bottom, and when the animation finish,
   // then hide the bottomsheet from the viewport
-  const handleClosePopup = useCallback(() => animate.hidden(() => { hide(); }),
-    [animate, hide]);
+  const handleClosePopup = useCallback(
+    () => animate.hidden(() => { hide(); }),
+    [animate, hide],
+  );
 
   useEffect(() => {
     // trigger open bottomsheet
@@ -181,7 +183,7 @@ BottomSheet.defaultProps = {
   onClose: noop,
   onOpen: noop,
   lock: false,
-  overlay: () => <></>,
+  overlay: () => null,
 };
 
 export default BottomSheet;

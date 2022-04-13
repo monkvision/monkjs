@@ -1,4 +1,12 @@
 node_modules/
 build/
 lib/
+lib/
+module/
+commonjs/
+dist/
+assets/
+cra-template/
+
 services/
+*.md

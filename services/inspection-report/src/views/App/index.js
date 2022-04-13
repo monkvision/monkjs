@@ -10,10 +10,20 @@ import Auth from 'views/Auth';
 import Loading from 'views/Loading';
 import WheelAnalysis from 'views/WheelAnalysis';
 
+import Inspections from 'views/Inspections';
+import ResponsiveAppBar from 'components/ResponsiveAppBar';
+
 export const ROUTE_PATHS = {
   home: '/',
   wheelAnalysis: '/wheelAnalysis/:inspectionId/:wheelAnalysisId',
+  inspections: '/inspections',
 };
+
+// Ajoutez ça dans votre fichier de composant
+require('react-dom');
+window.React2 = require('react');
+
+console.log(window.React1 === window.React2);
 
 export default function App() {
   const { search } = useLocation();
@@ -57,10 +67,14 @@ export default function App() {
 
   if (hasToken) {
     return (
-      <Routes>
-        <Route exact path={ROUTE_PATHS.home} element={<Home />} />
-        <Route path={ROUTE_PATHS.wheelAnalysis} element={<WheelAnalysis />} />
-      </Routes>
+      <div>
+        <ResponsiveAppBar />
+        <Routes>
+          <Route exact path={ROUTE_PATHS.home} element={<Home />} />
+          <Route exact path={ROUTE_PATHS.inspections} element={<Inspections />} />
+          <Route path={ROUTE_PATHS.wheelAnalysis} element={<WheelAnalysis />} />
+        </Routes>
+      </div>
     );
   }
 

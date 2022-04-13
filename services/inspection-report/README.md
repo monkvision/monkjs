@@ -1,6 +1,6 @@
 # my-awesome-project
 
-Copy environment empty variables to `.env`
+Copy environment empty variables to `.env`.
 ```bash
 cp env.txt .env
 ```

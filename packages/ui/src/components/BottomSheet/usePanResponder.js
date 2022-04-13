@@ -17,8 +17,10 @@ const usePanResponder = ({ onClose = noop, lock }) => {
   );
 
   const hidden = useCallback(
-    (onFinish = noop) => Animated.timing(pan, { toValue: ANIMATED.HIDDEN, ...config })
-      .start(onFinish), [ANIMATED.HIDDEN, pan],
+    (onFinish = noop) => Animated
+      .timing(pan, { toValue: ANIMATED.HIDDEN, ...config })
+      .start(onFinish),
+    [ANIMATED.HIDDEN, pan],
   );
 
   // respond to a touch move only if the distance between the original touch value and the

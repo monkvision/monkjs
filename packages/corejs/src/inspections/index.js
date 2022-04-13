@@ -1,5 +1,4 @@
 import axios from 'axios';
-import camelCase from 'lodash.camelcase';
 import isEmpty from 'lodash.isempty';
 import mapKeysDeep from 'map-keys-deep-lodash';
 import snakeCase from 'lodash.snakecase';
@@ -188,14 +187,15 @@ export default createSlice({
         const task = entities.tasks[result];
 
         if (inspectionId && !isEmpty(task)) {
-          const inspection = state.entities[inspectionId] || { [key]: inspectionId, tasks: {} };
+          const inspection = state.entities[inspectionId]
+            || { [idAttribute]: inspectionId, tasks: [] };
 
           entityAdapter.upsertOne(state, {
             ...inspection,
-            tasks: {
+            tasks: [
               ...inspection.tasks,
-              [camelCase(task.name)]: task,
-            },
+              task,
+            ],
           });
         }
       });

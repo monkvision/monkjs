@@ -15,10 +15,6 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@fontsource/roboto": "^4.5.5",
-    "@monkvision/camera": "^1.5.1",
-    "@monkvision/corejs": "^1.5.1",
-    "@monkvision/sights": "^1.5.1",
-    "@monkvision/toolkit": "^1.5.1",
     "@mui/icons-material": "^5.6.0",
     "@mui/material": "^5.6.0",
     "@reduxjs/toolkit": "^1.8.1",
@@ -34,8 +30,6 @@
     "lodash.noop": "^3.0.1",
     "notistack": "^3.0.0-alpha.2",
     "prop-types": "^15.8.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "react-native": "^0.68.0",
     "react-native-web": "^0.17.7",
     "react-redux": "^7.2.8",
@@ -63,6 +57,14 @@
     "serve": "^13.0.2",
     "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@monkvision/camera": "*",
+    "@monkvision/corejs": "*",
+    "@monkvision/sights": "*",
+    "@monkvision/toolkit": "*"
   },
   "browserslist": {
     "production": [
