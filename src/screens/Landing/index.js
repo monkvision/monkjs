@@ -1,11 +1,15 @@
-import React, { useCallback } from 'react';
+import isEmpty from 'lodash.isempty';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
-import { List, Surface, useTheme } from 'react-native-paper';
+import { Card, List, Paragraph, Surface, Title, useTheme } from 'react-native-paper';
 import { ScrollView } from 'react-native-web';
 import Artwork from 'screens/Landing/Artwork';
+import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
 import styles from './styles';
@@ -29,6 +33,24 @@ const LIST_ITEMS = [{
   icon: 'car-side',
 }];
 
+function Inspection({ createdAt, id }) {
+  const paragraph = useMemo(() => moment(createdAt).format('LLL'), [createdAt]);
+
+  return (
+    <Card style={{ display: 'flex', flex: 1 }}>
+      <Card.Content>
+        <Title>{`Inspection ${id.split('-')[0]}`}</Title>
+        <Paragraph>{paragraph}</Paragraph>
+      </Card.Content>
+    </Card>
+  );
+}
+
+Inspection.propTypes = {
+  createdAt: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+};
+
 export default function Landing() {
   const { colors } = useTheme();
   const navigation = useNavigation();
@@ -37,8 +59,7 @@ export default function Landing() {
   const route = useRoute();
   const { inspectionId } = route.params || {};
 
-  // eslint-disable-next-line no-console
-  console.log('inspectionId', inspectionId);
+  const { denormalizedEntities } = useGetInspection(inspectionId);
 
   const handleListItemPress = useCallback((value) => {
     navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value });
@@ -72,7 +93,8 @@ export default function Landing() {
       />
       <Container style={styles.root}>
         <View style={[styles.left, { height }]}>
-          <Artwork />
+          {isEmpty(denormalizedEntities) ? <Artwork /> : (
+            denormalizedEntities.map((i) => <Inspection {...i} />))}
         </View>
         <Surface style={styles.right}>
           <ScrollView contentContainerStyle={{ height }}>
