@@ -21,6 +21,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: utils.styles.spacing(2),
+    paddingRight: utils.styles.spacing(2),
   },
   right: {
     flex: 1.25,

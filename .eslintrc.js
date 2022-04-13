@@ -19,6 +19,7 @@ module.exports = {
     'prefer-destructuring': 'off', // Destructuring harm grep potential.
     'react/no-danger': 'error',
     'react/no-direct-mutation-state': 'error',
+    'react/forbid-prop-types': 'off',
     'react/sort-prop-types': 'error',
     'react/jsx-props-no-spreading': 'off',
     'react/style-prop-object': 'off',

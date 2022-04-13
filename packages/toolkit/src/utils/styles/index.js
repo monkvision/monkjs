@@ -44,8 +44,8 @@ export const flex = {
  * @param {"native"||"number"} [returnType]
  * @return {height: string||number, width: string||number}
  */
-export function getSize(ratio = '4:3', { height, width, windowHeight, windowWidth }, returnType) {
-  const [a, b] = ratio.split(':').sort((c, d) => (d - c)); // 4:3 || 3:4
+export function getSize(ratio, { height, width, windowHeight, windowWidth }, returnType) {
+  const [a, b] = (ratio || '4:3').split(':').sort((c, d) => (d - c)); // 4:3 || 3:4
   const w = Math.round(parseInt(width || windowWidth, 10));
   const h = Math.round(parseInt(height || windowHeight, 10));
 

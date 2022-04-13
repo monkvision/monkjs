@@ -15,24 +15,26 @@ export default function useGetInspection(id) {
     [id],
   );
 
-  const inspectionEntity = useSelector((state) => monk.entity.inspections.selectors
+  const inspectionEntity = useSelector((state) => monk.entity.inspection.selectors
     .selectById(state, id));
+
+  const vehicleEntity = useSelector((state) => monk.entity.vehicle.selectors
+    .selectById(state, inspectionEntity ? inspectionEntity.vehicle : ''));
 
   const imageEntities = useSelector(monk.entity.image.selectors.selectEntities);
   const taskEntities = useSelector(monk.entity.task.selectors.selectEntities);
   const damagesEntities = useSelector(monk.entity.damage.selectors.selectEntities);
-  const vehicleEntities = useSelector(monk.entity.vehicle.selectors.selectEntities);
   const wheelAnalysisEntities = useSelector(monk.entity.wheelAnalysis.selectors.selectEntities);
 
-  const { inspection } = denormalize(
-    { inspection: id },
-    { inspection: monk.schemas.inspection },
+  const { inspections } = denormalize(
+    { inspections: [id] },
+    { inspections: [monk.schemas.inspection] },
     {
-      inspection: inspectionEntity,
+      inspections: { [id]: inspectionEntity },
       images: imageEntities,
       tasks: taskEntities,
       damages: damagesEntities,
-      vehicle: vehicleEntities,
+      vehicle: vehicleEntity,
       wheelAnalysis: wheelAnalysisEntities,
     },
   );
@@ -55,5 +57,9 @@ export default function useGetInspection(id) {
     shouldFetch,
   );
 
-  return { ...request, inspectionId: id };
+  return {
+    ...request,
+    inspectionId: id,
+    denormalizedEntities: inspections.filter((i) => i),
+  };
 }

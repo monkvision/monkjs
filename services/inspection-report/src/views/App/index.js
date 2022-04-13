@@ -1,12 +1,12 @@
-import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Routes, Route, useLocation } from 'react-router-dom';
 import monk from '@monkvision/corejs';
 
 import useLoading from 'hooks/useLoading';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import Auth from 'views/Auth';
 
 import Home from 'views/Home';
-import Auth from 'views/Auth';
 import Loading from 'views/Loading';
 import WheelAnalysis from 'views/WheelAnalysis';
 
@@ -43,7 +43,6 @@ export default function App() {
   }, [getAccessTokenSilently]);
 
   useEffect(() => {
-    console.log(queryParams);
     handleToken(queryParams.get('access_token'));
   }, [handleToken, queryParams]);
 

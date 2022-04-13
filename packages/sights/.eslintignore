@@ -1,2 +1,4 @@
+assets/
+dist/
 node_modules/
-README.md
+*.md

@@ -21,7 +21,7 @@ function Select({
   data = ['Not given'],
   onChange = noop,
   label = (item) => item,
-  anchor = () => <></>,
+  anchor = () => null,
   itemKey = (item) => item,
   onOpen = noop,
   disabled = false,

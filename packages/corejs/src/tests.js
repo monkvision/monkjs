@@ -31,11 +31,11 @@ describe('damage', () => {
 });
 
 describe('image', () => {
-  describe('#createOne()', () => {
+  describe('#addOne()', () => {
     it('is successful', async () => {
       const inspectionId = '';
       const data = {};
-      const res = await image.createOne({ inspectionId, data });
+      const res = await image.addOne({ inspectionId, data });
       assert.equal(res.axiosResponse.statusText, 'OK');
     });
   });

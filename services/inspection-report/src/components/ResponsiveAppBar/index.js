@@ -1,20 +1,21 @@
-import Divider from '@mui/material/Divider';
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { useAuth0 } from '@auth0/auth0-react';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
+import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import { useNavigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
@@ -89,12 +90,6 @@ export default function ResponsiveAppBar() {
             >
               <MenuItem onClick={handleCloseNavMenu()}>
                 <Typography textAlign="center">Inspections</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu()}>
-                <Typography textAlign="center">Vehicles</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu()}>
-                <Typography textAlign="center">Customers</Typography>
               </MenuItem>
             </Menu>
           </Box>
