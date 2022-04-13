@@ -1,21 +1,25 @@
 import React from 'react';
+import startCase from 'lodash.startcase';
+import isEmpty from 'lodash.isempty';
+import { useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import { useParams } from 'react-router-dom';
 
 import { ScrollToTop, View } from 'components';
-import useGetInspection from 'hooks/useGetInspection';
-
-const url = 'https://images.unsplash.com/photo-1621712151262-60bd142ba19f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d2hlZWwlMjBjYXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60';
+import useGetInspection from './useGetInspection';
+import useGetWheelAnalysis from './useGetWheelAnalysis';
 
 export default function WheelAnalysis() {
   const { inspectionId: id, wheelAnalysisId } = useParams();
 
-  const { denormalizedInspections } = useGetInspection(id);
-  console.log({ id, wheelAnalysisId, denormalizedInspections });
+  const { imageEntities, inspection } = useGetInspection(id);
+
+  const { wheelAnalysis, images } = useGetWheelAnalysis(imageEntities, wheelAnalysisId);
+
+  console.log({ images, wheelAnalysis, inspection, wheelAnalysisId });
 
   return (
     <View viewName="wheelAnalysis" title={process.env.REACT_APP_BRAND}>
@@ -23,7 +27,7 @@ export default function WheelAnalysis() {
       <ScrollToTop />
       <Container maxWidth="xl">
         <Stack spacing={4} mt={4}>
-          <Typography variant="h4">Front right wheel</Typography>
+          <Typography variant="h4">{startCase(wheelAnalysis?.wheelName)}</Typography>
 
           {/* damage */}
           <Stack spacing={1}>
@@ -55,11 +59,14 @@ export default function WheelAnalysis() {
           </Stack>
 
           {/* images */}
-          <Stack spacing={1}>
-            <Typography variant="h6">Photos of part</Typography>
-            <img src={url} alt="Part image1" />
-            <img src={url} alt="Part imag2" />
-          </Stack>
+          {!isEmpty(images) ? (
+            <Stack spacing={1}>
+              <Typography variant="h6">Photos of part</Typography>
+              {images.map((image) => (
+                <img src={image.path} alt="Part image1" key={image.id} />
+              ))}
+            </Stack>
+          ) : null}
         </Stack>
       </Container>
     </View>

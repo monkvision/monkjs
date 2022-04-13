@@ -8,27 +8,28 @@ import monk from '@monkvision/corejs';
 export default function useGetInspection(id) {
   const dispatch = useDispatch();
 
-  const axiosRequest = useCallback(
-    async () => monk.entity.inspection.getOne({ id }),
-    [id],
-  );
-
   const inspectionEntity = useSelector((state) => monk.entity.inspection.selectors
     .selectById(state, id));
 
   const vehicleEntity = useSelector((state) => monk.entity.vehicle.selectors
     .selectById(state, inspectionEntity ? inspectionEntity.vehicle : ''));
 
+  const inspectionEntities = useSelector(monk.entity.inspection.selectors.selectEntities);
   const imageEntities = useSelector(monk.entity.image.selectors.selectEntities);
   const taskEntities = useSelector(monk.entity.task.selectors.selectEntities);
   const damagesEntities = useSelector(monk.entity.damage.selectors.selectEntities);
   const wheelAnalysisEntities = useSelector(monk.entity.wheelAnalysis.selectors.selectEntities);
 
-  const { inspections } = denormalize(
-    { inspections: [id] },
-    { inspections: [monk.schemas.inspection] },
+  const { inspection } = denormalize(
+    { inspection: id },
     {
-      inspections: { [id]: inspectionEntity },
+      inspection: monk.schemas.inspection,
+      wheelAnalysis: [monk.schemas.wheelAnalysis],
+      tasks: [monk.schemas.task],
+      images: [monk.schemas.images],
+    },
+    {
+      inspections: inspectionEntities,
       images: imageEntities,
       tasks: taskEntities,
       damages: damagesEntities,
@@ -48,6 +49,8 @@ export default function useGetInspection(id) {
     [id],
   );
 
+  const axiosRequest = useCallback(async () => monk.entity.inspection.getOne({ id }), [id]);
+
   const request = useRequest(
     axiosRequest,
     handleRequestSuccess,
@@ -57,6 +60,7 @@ export default function useGetInspection(id) {
   return {
     ...request,
     inspectionId: id,
-    denormalizedEntities: inspections.filter((i) => i),
+    imageEntities,
+    inspection,
   };
 }

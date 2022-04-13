@@ -12,6 +12,7 @@ import schema, { idAttribute, key } from './schema';
 import config from '../config';
 
 export const name = key;
+const mockInspection = require('./getOneInspection.json');
 
 /**
  * @param {string} id
@@ -28,23 +29,22 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  console.warn('Wheel analysis is using mock data', { axiosResponse });
+  console.warn('Wheel analysis is using mock data');
 
-  // const dataWithMock = {
-  //   ...data,
-  //   wheel_analysis: [...mockInspection.wheel_analysis],
-  //   images: data.images?.length ? data.images.map((img, i) => {
-  //     if (i < mockInspection.images.length) {
-  //       return { ...img, wheel_analysis: mockInspection.images[i].wheel_analysis };
-  //     }
-  //     return img;
-  //   }) : [] };
-
+  const dataWithMock = {
+    ...axiosResponse.data,
+    wheel_analysis: [...mockInspection.wheel_analysis],
+    images: axiosResponse.data.images?.length ? axiosResponse.data.images.map((img, i) => {
+      if (i < mockInspection.images.length) {
+        return { ...img, wheel_analysis: mockInspection.images[i].wheel_analysis };
+      }
+      return img;
+    }) : [] };
 
   return ({
     axiosResponse,
     [idAttribute]: id,
-    ...normalize(axiosResponse.data, schema),
+    ...normalize(dataWithMock, schema),
   });
 };
 
