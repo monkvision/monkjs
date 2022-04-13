@@ -1,22 +1,25 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import MenuIcon from '@mui/icons-material/Menu';
-import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
 
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -41,6 +44,11 @@ export default function ResponsiveAppBar() {
       callback();
     }
   }, []);
+
+  const navigateToInspections = () => {
+    handleCloseNavMenu();
+    navigate('/inspections');
+  };
 
   return (
     <AppBar position="static">
@@ -84,8 +92,14 @@ export default function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem onClick={handleCloseNavMenu()}>
+              <MenuItem onClick={navigateToInspections}>
                 <Typography textAlign="center">Inspections</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu()}>
+                <Typography textAlign="center">Vehicles</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu()}>
+                <Typography textAlign="center">Customers</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -98,8 +112,14 @@ export default function ResponsiveAppBar() {
             {process.env.REACT_APP_BRAND}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button onClick={navigateToInspections} sx={{ my: 2, color: 'white', display: 'block' }}>
               Inspections
+            </Button>
+            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
+              Vehicles
+            </Button>
+            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
+              Customers
             </Button>
           </Box>
 
