@@ -6,23 +6,27 @@ export default function useProps() {
       .filter((view) => damages?.find((dmg) => dmg.id === view?.element_id));
 
     return views.map((view) => {
-      const { xmin, ymin, height, width } = view?.image_region?.specification?.bounding_box;
-      const [rx, ry] = [width / 2, height / 2];
+      if (view?.image_region?.specification?.bounding_box) {
+        const { xmin, ymin, height, width } = view.image_region.specification.bounding_box;
+        const [rx, ry] = [width / 2, height / 2];
 
-      return ({
-        damageType: damages?.find((dmg) => dmg.id === view?.element_id).damageType,
-        id: view?.element_id,
-        ellipse: view?.created_by === 'algo' ? null : ({
-          cx: xmin + rx,
-          cy: ymin + ry,
-          rx,
-          ry,
-        }),
-        polygons: view?.created_by === 'algo'
-          ? (view?.image_region?.specification?.polygons)
-          : null,
-      });
-    });
+        return ({
+          damageType: damages?.find((dmg) => dmg.id === view?.element_id).damageType,
+          id: view?.element_id,
+          ellipse: view?.created_by === 'algo' ? null : ({
+            cx: xmin + rx,
+            cy: ymin + ry,
+            rx,
+            ry,
+          }),
+          polygons: view?.created_by === 'algo'
+            ? (view?.image_region?.specification?.polygons)
+            : null,
+        });
+      }
+
+      return null;
+    }).filter((damage) => damage);
   }, []);
 
   const getPolygons = useCallback((imageId, views) => {

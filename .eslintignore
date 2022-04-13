@@ -7,7 +7,6 @@ commonjs/
 dist/
 assets/
 cra-template/
-visualization/
 
 services/
 *.md

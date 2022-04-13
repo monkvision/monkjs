@@ -48,7 +48,7 @@ export default function DamageHighlight({
     if (ellipse) {
       return ellWidth
         ? (pos ? pos.cx - ellipse.cx : 0) + ellWidth
-        : (pos ? pos.cx : ellipse.cx) + ellipse?.rx;
+        : (pos ? pos.cx : ellipse.cx) + ellipse.rx;
     }
     setPos(null);
     setEllWidth(null);
@@ -97,17 +97,17 @@ export default function DamageHighlight({
   }, [dragX, dragY, dragPos, onUpdate, ellipse, RATIO_X, RATIO_Y]);
 
   const handleAddPoint = useCallback((event) => {
-    if (!isPointAdded) {
+    if (!isPointAdded && event?.nativeEvent) {
       const ratioX = image.width / renderOptions.width;
       const ratioY = image.height / renderOptions.height;
       let cx; let
         cy;
       if (Platform.OS === 'web') {
-        cx = event?.nativeEvent?.layerX * ratioX;
-        cy = event?.nativeEvent?.layerY * ratioY;
+        cx = event.nativeEvent.layerX * ratioX;
+        cy = event.nativeEvent.layerY * ratioY;
       } else {
-        cx = event?.nativeEvent?.locationX * ratioX;
-        cy = event?.nativeEvent?.locationY * ratioY;
+        cx = event.nativeEvent.locationX * ratioX;
+        cy = event.nativeEvent.locationY * ratioY;
       }
       const { rx, ry } = renderOptions.ellipse;
       const newEllipse = { cx, cy, rx, ry };
@@ -119,13 +119,14 @@ export default function DamageHighlight({
 
   const handlePinchGesture = useCallback((nativeEvent) => {
     const { scale } = nativeEvent;
-    setEllWidth(ellipse?.rx / scale);
-    setEllHeight(ellipse?.ry / scale);
+    if (ellipse) {
+      setEllWidth(ellipse.rx / scale);
+      setEllHeight(ellipse.ry / scale);
+    }
   }, [ellipse]);
 
   const polygon = useMemo(() => (
-    <>
-      {ellipse && (
+    ellipse && (
       <Ellipse
         cx={pos ? pos.cx : ellipse.cx}
         cy={pos ? pos.cy : ellipse.cy}
@@ -137,8 +138,7 @@ export default function DamageHighlight({
         onMouseDown={() => setDragPos(true)}
         onPressIn={() => setDragPos(true)}
       />
-      )}
-    </>
+    )
   ), [options.ellipse.stroke, pos, ellipse, ellWidth, ellHeight]);
 
   const anchor = useMemo(() => (
