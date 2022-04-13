@@ -37,6 +37,9 @@ export default function Landing() {
   const route = useRoute();
   const { inspectionId } = route.params || {};
 
+  // eslint-disable-next-line no-console
+  console.log('inspectionId', inspectionId);
+
   const handleListItemPress = useCallback((value) => {
     navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value });
   }, [navigation]);

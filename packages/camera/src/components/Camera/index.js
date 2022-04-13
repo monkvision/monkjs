@@ -18,7 +18,7 @@ const Video = React.forwardRef(
   ),
 );
 
-const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
+function Camera({ children, containerStyle, onCameraReady, title }, ref) {
   const videoRef = useRef();
   const windowDimensions = useWindowDimensions();
 
@@ -38,55 +38,58 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
     [camera, windowDimensions],
   );
 
-  useImperativeHandle(ref, () => ({
-    async takePicture() {
-      if (!videoRef.current) { throw new Error('Camera is not ready!'); }
+  useImperativeHandle(
+    ref,
+    () => ({
+      async takePicture() {
+        if (!videoRef.current) { throw new Error('Camera is not ready!'); }
 
-      if (utils.getOS() === 'iOS') {
-        const uri = videoRef.current.getScreenshot();
+        if (utils.getOS() === 'iOS') {
+          const uri = videoRef.current.getScreenshot();
+          return { uri };
+        }
+
+        const { width, height, stream } = camera;
+
+        if (ImageCapture && utils.getOS() !== 'iOS') {
+          const track = stream.getVideoTracks()[0];
+          const imageCapture = new ImageCapture(track);
+
+          const blob = await imageCapture.takePhoto({
+            imageWidth: width,
+            imageHeight: height,
+          });
+
+          const uri = URL.createObjectURL(blob);
+
+          return { uri };
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        canvas.getContext('2d')
+          .drawImage(videoRef.current, 0, 0, width, height);
+
+        const imageType = utils.getOS() === 'iOS' ? 'image/png' : 'image/webp';
+        const uri = canvas.toDataURL(imageType);
+
         return { uri };
-      }
-
-      const { width, height, stream } = camera;
-
-      if (ImageCapture && utils.getOS() !== 'iOS') {
-        const track = stream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(track);
-
-        const blob = await imageCapture.takePhoto({
-          imageWidth: width,
-          imageHeight: height,
-        });
-
-        const uri = URL.createObjectURL(blob);
-
-        return { uri };
-      }
-
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-
-      canvas.getContext('2d')
-        .drawImage(videoRef.current, 0, 0, width, height);
-
-      const imageType = utils.getOS() === 'iOS' ? 'image/png' : 'image/webp';
-      const uri = canvas.toDataURL(imageType);
-
-      return { uri };
-    },
-    async resumePreview() {
-      if (videoRef.current) {
-        videoRef.current.play();
-      }
-    },
-    async pausePreview() {
-      if (videoRef.current) {
-        videoRef.current.pause();
-      }
-    },
-  }),
-  [camera]);
+      },
+      async resumePreview() {
+        if (videoRef.current) {
+          videoRef.current.play();
+        }
+      },
+      async pausePreview() {
+        if (videoRef.current) {
+          videoRef.current.pause();
+        }
+      },
+    }),
+    [camera],
+  );
 
   useLayoutEffect(() => {
     (async () => {
@@ -139,7 +142,7 @@ const Camera = ({ children, containerStyle, onCameraReady, title }, ref) => {
       <Text style={styles.title}>{title}</Text>
     </View>
   );
-};
+}
 
 export default forwardRef(Camera);
 

@@ -37,6 +37,9 @@ export default function useGetInspection(id) {
     },
   );
 
+  // eslint-disable-next-line no-console
+  console.log('inspection', inspection);
+
   const handleRequestSuccess = useCallback(({ entities, result }) => {
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);

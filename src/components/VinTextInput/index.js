@@ -2,6 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { View } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { HelperText, TextInput } from 'react-native-paper';
 import styles from 'screens/InspectionCreate/styles';
