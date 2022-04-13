@@ -16,6 +16,11 @@ export const ROUTE_PATHS = {
   inspections: '/inspections',
 };
 
+// Ajoutez ça dans votre fichier de composant
+require('react-dom');
+window.React2 = require('react');
+console.log(window.React1 === window.React2);
+
 export default function App() {
   const { search } = useLocation();
   const queryParams = useMemo(() => new URLSearchParams(search), [search]);
