@@ -162,9 +162,6 @@ export function useStartUploadAsync({
         payload: { id, status: 'pending', label },
       });
 
-      // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
-
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
       const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
