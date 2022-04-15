@@ -4,10 +4,10 @@ import { useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
 
 export const TASKS_BY_MOD = {
-  vinNumber: ['images_ocr'],
-  car360: ['damage_detection'],
-  wheels: ['damage_detection', 'wheel_analysis'],
-  classic: ['damage_detection', 'wheel_analysis'],
+  vinNumber: 'images_ocr',
+  car360: 'damage_detection',
+  wheels: 'wheel_analysis',
+  classic: 'damage_detection',
 };
 
 export default function useCreateInspection() {
@@ -16,9 +16,12 @@ export default function useCreateInspection() {
 
   const axiosRequest = useCallback(async () => {
     const tasks = {};
-    Object.values(TASKS_BY_MOD)
-      .forEach((modTasks) => modTasks
-        .forEach((taskName) => { tasks[taskName] = { status: 'NOT_STARTED' }; }));
+    ['images_ocr', 'damage_detection', 'wheel_analysis']
+      .forEach((taskName) => {
+        tasks[taskName] = {
+          status: 'NOT_STARTED',
+        };
+      });
 
     return monk.entity.inspection.upsertOne({ data: { tasks } });
   }, []);

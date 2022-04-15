@@ -198,6 +198,13 @@ export default createSlice({
             ],
           });
         }
+      })
+      .addCase(`images/gotOne`, (state, action) => {
+        const { entities, result } = action.payload;
+        const image = entities[result];
+        const inspection = state.entities[image.inspection] || { images: [] };
+        const newInspection = { ...inspection, images: [...inspection.images, result] };
+        if (!isEmpty(inspection)) { entityAdapter.upsertOne(state, newInspection); }
       });
   },
 });

@@ -1,13 +1,12 @@
 import isEmpty from 'lodash.isempty';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
-import { Card, List, Paragraph, Surface, Title, useTheme } from 'react-native-paper';
+import { List, Surface, useTheme } from 'react-native-paper';
 import { ScrollView } from 'react-native-web';
+import Inspection from 'components/Inspection';
 import Artwork from 'screens/Landing/Artwork';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
@@ -17,39 +16,24 @@ import styles from './styles';
 const LIST_ITEMS = [{
   value: 'vinNumber',
   title: 'VIN number',
+  description: 'Vehicle info obtained from OCR',
   icon: 'car-info',
 }, {
   value: 'car360',
   title: 'Car 360°',
+  description: 'Vehicle tour in 14 pictures',
   icon: 'axis-z-rotate-counterclockwise',
 }, {
   value: 'wheels',
   title: 'Wheels',
+  description: 'Details about rim condition',
   icon: 'circle-double',
 }, {
   value: 'classic',
   title: 'Classic flow',
-  description: 'Car 360° + wheels + interior pictures',
+  description: 'Recommended for damage detection',
   icon: 'car-side',
 }];
-
-function Inspection({ createdAt, id }) {
-  const paragraph = useMemo(() => moment(createdAt).format('LLL'), [createdAt]);
-
-  return (
-    <Card style={{ display: 'flex', flex: 1 }}>
-      <Card.Content>
-        <Title>{`Inspection ${id.split('-')[0]}`}</Title>
-        <Paragraph>{paragraph}</Paragraph>
-      </Card.Content>
-    </Card>
-  );
-}
-
-Inspection.propTypes = {
-  createdAt: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-};
 
 export default function Landing() {
   const { colors } = useTheme();
@@ -59,11 +43,11 @@ export default function Landing() {
   const route = useRoute();
   const { inspectionId } = route.params || {};
 
-  const { denormalizedEntities } = useGetInspection(inspectionId);
+  const getInspection = useGetInspection(inspectionId);
 
   const handleListItemPress = useCallback((value) => {
-    navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value });
-  }, [navigation]);
+    navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value, inspectionId });
+  }, [inspectionId, navigation]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -85,6 +69,12 @@ export default function Landing() {
     );
   }, [handleListItemPress]);
 
+  useEffect(() => navigation.addListener('focus', () => {
+    if (inspectionId && getInspection.state.loading !== true) {
+      getInspection.start();
+    }
+  }), [navigation]);
+
   return (
     <SafeAreaView>
       <LinearGradient
@@ -93,8 +83,8 @@ export default function Landing() {
       />
       <Container style={styles.root}>
         <View style={[styles.left, { height }]}>
-          {isEmpty(denormalizedEntities) ? <Artwork /> : (
-            denormalizedEntities.map((i) => <Inspection {...i} />))}
+          {isEmpty(getInspection.denormalizedEntities) ? <Artwork /> : (
+            getInspection.denormalizedEntities.map((i) => <Inspection {...i} />))}
         </View>
         <Surface style={styles.right}>
           <ScrollView contentContainerStyle={{ height }}>

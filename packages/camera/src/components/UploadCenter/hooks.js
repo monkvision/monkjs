@@ -140,7 +140,7 @@ export const useHandlers = ({
   const startUploadAsync = useStartUploadAsync(uploadParams);
 
   // retake all rejected/non-compliant pictures at once
-  const handldeRetakeAll = useCallback(() => {
+  const handleRetakeAll = useCallback(() => {
     // adding an initialState that will hold new compliances with `requestCount = 1`
     const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
     const complianceState = {};
@@ -198,7 +198,7 @@ export const useHandlers = ({
     }
   }, [checkComplianceAsync, sights, startUploadAsync]);
 
-  return { handleReupload, handldeRetakeAll, handleRetake };
+  return { handleReupload, handleRetakeAll, handleRetake };
 };
 
 export const useMixedStates = ({ state, sights, ids }) => {
