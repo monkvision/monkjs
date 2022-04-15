@@ -1,21 +1,44 @@
-// import * as WebBrowser from 'expo-web-browser';
-// import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScreenView } from '@monkvision/ui';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Capture, Controls, useUploads } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useDispatch } from 'react-redux';
-// import useAuth from 'hooks/useAuth';
 import * as names from 'screens/names';
 
 import styles from './styles';
+
+const mapTasksToSights = [{
+  id: 'sLu0CfOt',
+  task: {
+    name: 'images_ocr',
+    image_details: {
+      image_type: 'VIN',
+    },
+  },
+}, {
+  id: 'xQKQ0bXS',
+  task: 'wheel_analysis',
+  payload: {},
+}, {
+  id: '8_W2PO8L',
+  task: 'wheel_analysis',
+  payload: {},
+}, {
+  id: 'rN39Y3HR',
+  task: 'wheel_analysis',
+  payload: {},
+}, {
+  id: 'PuIw17h0',
+  task: 'wheel_analysis',
+  payload: {},
+}];
 
 export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  // const { accessToken } = useAuth();
+
   const { inspectionId, sightIds, taskName } = route.params;
 
   const [success, setSuccess] = useState(false);
@@ -37,12 +60,6 @@ export default function InspectionCapture() {
 
         dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
         setCameraLoading(false);
-
-        // const base = `https://${ExpoConstants.manifest.extra.ORGANIZATION_DOMAIN}`;
-        // const path = `/inspection/${inspectionId}`;
-        // const queryParams = `?access_token=${accessToken}`;
-        // const url = `${base}${path}${queryParams}`;
-        // WebBrowser.openBrowserAsync(url);
 
         handleNavigate();
       } catch (e) {
@@ -77,11 +94,13 @@ export default function InspectionCapture() {
     ...Controls.CaptureButtonProps,
   }];
 
-  useEffect(handleSuccess, [handleSuccess, success]);
+  useEffect(() => { handleSuccess(); }, [handleSuccess, success]);
 
   return (
     <ScreenView style={styles.safeArea}>
       <Capture
+        task={taskName}
+        mapTasksToSights={mapTasksToSights}
         sightIds={sightIds}
         inspectionId={inspectionId}
         controls={controls}

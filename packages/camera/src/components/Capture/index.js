@@ -100,6 +100,7 @@ export default function Capture({
   onCaptureTourStart,
   onComplianceCheckFinish,
   onComplianceCheckStart,
+  onPictureUploaded,
   onReady,
   onRetakeAll,
   onStartUploadPicture,
@@ -187,7 +188,13 @@ export default function Capture({
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const startUploadAsyncParams = {
-    inspectionId, sights, uploads, task, mapTasksToSights, onFinish: onCaptureTourFinish,
+    inspectionId,
+    sights,
+    uploads,
+    task,
+    mapTasksToSights,
+    onFinish: onCaptureTourFinish,
+    onPictureUploaded,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -407,6 +414,7 @@ Capture.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
+  onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
   onRetakeAll: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
@@ -453,6 +461,7 @@ Capture.defaultProps = {
     retakeMinTry: 1,
   },
   offline: null,
+  onPictureUploaded: () => {},
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},

@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { useCallback, useMemo } from 'react';
+import isEmpty from 'lodash.isempty';
 import monk from '@monkvision/corejs';
 import { Platform } from 'react-native';
+import { useCallback, useMemo } from 'react';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import Actions from '../../actions';
 import Constants from '../../const';
-
 import log from '../../utils/log';
 
 const COVERAGE_360_WHITELIST = [
@@ -129,10 +129,18 @@ export function useCreateDamageDetectionAsync() {
  * @param task
  * @param mapTasksToSights
  * @param onFinish
+ * @param onPictureUploaded
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({
-  inspectionId, sights, uploads, task, mapTasksToSights = [], onFinish = () => {} }) {
+  inspectionId,
+  sights,
+  uploads,
+  task,
+  mapTasksToSights = [],
+  onFinish = () => {},
+  onPictureUploaded = () => {},
+}) {
   return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
@@ -144,7 +152,8 @@ export function useStartUploadAsync({
     const current = currentSight || sights.state.current;
     const { id, label } = currentSight?.metadata || current.metadata;
 
-    const tasksToMap = mapTasksToSights.find((item) => item.id === id)?.tasks;
+    const currentItem = mapTasksToSights.find((item) => item.id === id);
+    const tasksToMap = currentItem.tasks || [currentItem.task];
 
     try {
       dispatch({
@@ -171,7 +180,7 @@ export function useStartUploadAsync({
             sight_id: id,
           } : undefined,
         },
-        tasks: tasksToMap || [task],
+        tasks: isEmpty(tasksToMap) ? [task] : tasksToMap,
         additional_data: {
           ...current.metadata,
           overlay: undefined,
@@ -183,6 +192,10 @@ export function useStartUploadAsync({
 
       const res = await axios.get(picture.uri, { responseType: 'blob' });
 
+      if (Platform.OS === 'web') {
+        URL.revokeObjectURL(picture.uri);
+      }
+
       const file = await new File(
         [res.data],
         multiPartKeys.filename,
@@ -192,9 +205,13 @@ export function useStartUploadAsync({
       data.append(multiPartKeys.image, file);
 
       const result = await monk.entity.image.addOne({ inspectionId, data });
+      onPictureUploaded({ result, picture, inspectionId });
 
       // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+      if (ids[ids.length - 1] === id) {
+        onFinish();
+        log([`Capture tour has been finished`]);
+      }
 
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
@@ -204,7 +221,10 @@ export function useStartUploadAsync({
       return result;
     } catch (err) {
       // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
+      if (ids[ids.length - 1] === id) {
+        onFinish();
+        log([`Capture tour has been finished`]);
+      }
 
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
