@@ -82,15 +82,22 @@ export default function InspectionCreate() {
 
     if (isEmpty(params.inspectionId)) {
       const response = await createInspection.start(selectedMod);
-      params.inspectionId = response.result;
+      if (response !== null) { params.inspectionId = response.result; }
     }
 
     navigation.navigate(names.INSPECTION_CAPTURE, params);
   }, [createInspection, idFromParams, navigation, selectedMod]);
 
   useEffect(() => {
-    if (isAuthenticated && !createInspection.state.loading) { handleStart(); }
-  }, [createInspection.state.loading, handleStart, isAuthenticated]);
+    if (isAuthenticated && createInspection.state.count === 0 && !createInspection.loading) {
+      handleStart();
+    }
+  }, [isAuthenticated, createInspection, handleStart]);
+
+  useEffect(
+    () => navigation.addListener('focus', handleStart),
+    [navigation, handleStart],
+  );
 
   useEffect(() => {
     if (!isAuthenticated && !isSigningIn) { signIn(); }

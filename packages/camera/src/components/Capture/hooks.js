@@ -153,7 +153,9 @@ export function useStartUploadAsync({
     const { id, label } = currentSight?.metadata || current.metadata;
 
     const currentItem = mapTasksToSights.find((item) => item.id === id);
-    const tasksToMap = currentItem.tasks || [currentItem.task];
+    const tasksToMap = (!isEmpty(currentItem?.tasks) ? currentItem.tasks : null)
+      || [currentItem?.task]
+      || 'damage_detection';
 
     try {
       dispatch({

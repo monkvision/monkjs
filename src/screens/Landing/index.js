@@ -1,3 +1,4 @@
+import { useInterval } from '@monkvision/toolkit';
 import isEmpty from 'lodash.isempty';
 import React, { useCallback, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -69,11 +70,15 @@ export default function Landing() {
     );
   }, [handleListItemPress]);
 
-  useEffect(() => navigation.addListener('focus', () => {
+  const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
       getInspection.start();
     }
-  }), [navigation]);
+  }, [inspectionId, getInspection]);
+
+  useInterval(start, 20000);
+
+  useEffect(() => navigation.addListener('focus', start), [navigation, start]);
 
   return (
     <SafeAreaView>

@@ -15,8 +15,7 @@ _Bulk CLI adding all of our packages_
 
 ### [@monkvision/corejs](https://monkvision.github.io/monkjs/docs/js/api/inspections)
 Pure JS API implementing schema's and reducers ready to be imported in your app.
-Uses [Axios](https://axios-http.com/docs/res_schema)
-, [Redux](https://redux-toolkit.js.org/api/createEntityAdapter#selector-functions)
+Uses [Axios](https://axios-http.com/docs/res_schema), [Redux](https://redux-toolkit.js.org/api/createEntityAdapter#selector-functions)
 & [Normalizr](https://github.com/paularmstrong/normalizr/blob/master/docs/api.md#denormalizeinput-schema-entities)
 for an optimized and state control.
 Can also be used only to make requests directing our

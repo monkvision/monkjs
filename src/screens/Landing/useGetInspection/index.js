@@ -43,19 +43,16 @@ export default function useGetInspection(id) {
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);
 
-  const shouldFetch = useCallback(
-    (requestState) => !isEmpty(id)
-      && isAuthenticated
-      && !requestState.loading
-      && requestState.count === 0,
+  const canRequest = useCallback(
+    () => !isEmpty(id) && isAuthenticated,
     [id, isAuthenticated],
   );
 
-  const request = useRequest(
-    axiosRequest,
-    handleRequestSuccess,
-    shouldFetch,
-  );
+  const request = useRequest({
+    request: axiosRequest,
+    onRequestSuccess: handleRequestSuccess,
+    canRequest,
+  });
 
   return {
     ...request,

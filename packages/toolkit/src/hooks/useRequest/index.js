@@ -1,15 +1,36 @@
 import moment from 'moment';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-function defaultShouldFetch({ loading, count, updatedAt }) {
-  return !loading && count === 0 && updatedAt === null;
-}
+export function defaultCanRequest({ loading }) { return !loading; }
 
-export default function useRequest(
+/**
+ * @param request
+ * @param onRequestSuccess
+ * @param canRequest
+ * @return {{
+ * start: ((function(*): Promise<null|*>)|*),
+ * setters: {
+ * catchLoadingError: ((function(*): void)|*),
+ * setSuccess: ((function(*): void)|*),
+ * setLoading: (value: (((prevState: boolean) => boolean) | boolean)) => void,
+ * setError: (value: unknown) => void,
+ * setPaging: (value: (((prevState: {cursors: {}}) => {cursors: {}}) | {cursors: {}})) => void,
+ * setUpdatedAt: (value: unknown) => void,
+ * setCount: (value: (((prevState: number) => number) | number)) => void
+ * },
+ * state: {
+ * count: number,
+ * paging: {cursors: {}},
+ * loading: boolean,
+ * error: unknown,
+ * updatedAt: unknown
+ * }}}
+ */
+export default function useRequest({
   request,
   onRequestSuccess,
-  shouldFetch = defaultShouldFetch,
-) {
+  canRequest = defaultCanRequest,
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [paging, setPaging] = useState({ cursors: {} });
@@ -44,16 +65,18 @@ export default function useRequest(
     setCount,
   };
 
-  const startRequest = useCallback(async () => {
+  const startRequest = useCallback(async (params) => {
+    if (loading || !canRequest(requestState)) { return null; }
+
     setLoading(true);
     setCount((prevCount) => prevCount + 1);
 
     try {
-      const response = await request();
+      const response = await request(params);
       setSuccess(response);
 
       if (typeof onRequestSuccess === 'function') {
-        onRequestSuccess(response);
+        onRequestSuccess(response, params);
       }
 
       return response;
@@ -62,13 +85,7 @@ export default function useRequest(
     }
 
     return null;
-  }, [catchLoadingError, onRequestSuccess, request, setSuccess]);
+  }, [catchLoadingError, onRequestSuccess, request, requestState, setSuccess, canRequest]);
 
-  useEffect(() => {
-    if (typeof request === 'function' && shouldFetch(requestState)) {
-      startRequest();
-    }
-  }, [request, requestState, shouldFetch, startRequest]);
-
-  return { state: requestState, start: request, setters: requestSetState };
+  return { state: requestState, start: startRequest, setters: requestSetState };
 }

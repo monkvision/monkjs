@@ -1,3 +1,4 @@
+import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRequest } from '@monkvision/toolkit';
@@ -12,6 +13,7 @@ export const TASKS_BY_MOD = {
 
 export default function useCreateInspection() {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useAuth();
   const [inspectionId, setInspectionId] = useState();
 
   const axiosRequest = useCallback(async () => {
@@ -31,11 +33,13 @@ export default function useCreateInspection() {
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);
 
-  const request = useRequest(
-    axiosRequest,
-    handleRequestSuccess,
-    () => false,
-  );
+  const canRequest = useCallback(() => isAuthenticated, [isAuthenticated]);
+
+  const request = useRequest({
+    request: axiosRequest,
+    onRequestSuccess: handleRequestSuccess,
+    canRequest,
+  });
 
   return { ...request, inspectionId };
 }
