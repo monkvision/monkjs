@@ -43,11 +43,12 @@ import {
   vehiclesEntity,
 } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
+import useEmbeddedModel from '@monkvision/camera/src/hooks/useEmbeddedModel';
 
 import { INSPECTION_READ, PROFILE } from 'screens/names';
 import MonkIcon from 'components/Icons/MonkIcon';
 import InspectionButton from 'screens/Landing/InspectionButton';
-import useIndexedDb from '../../hooks/useIndexedDb';
+import useIndexedDb from 'hooks/useLoadModel';
 
 // TODO: Replace/Delete once the model will be available on the bucket
 const url = 'https://tfhub.dev/tensorflow/lite-model/ssd_mobilenet_v1/1/metadata/2?lite-format=tflite';
@@ -146,6 +147,7 @@ export default () => {
   const [downloadProgress, setDownloadProgress] = useState(0);
 
   const startDb = useIndexedDb();
+  const em = useEmbeddedModel();
 
   const ids = useSelector(selectInspectionIds);
   const inspectionEntities = useSelector(selectInspectionEntities);
@@ -229,21 +231,34 @@ export default () => {
   ), [canRenderStatus, colors.success, handlePress]);
 
   useEffect(() => {
-    startDb(null)
-      .then((res) => setShowLoadModelDialog(Object.keys(res).length === 0));
-  }, [startDb]);
+    if (Platform.OS === 'web') {
+      if (startDb) {
+        startDb(null)
+          .then((res) => setShowLoadModelDialog(Object.keys(res).length === 0));
+      }
+    } else if (em && typeof em.isModelInStorage === 'function') {
+      const models = em.constants.MODELS;
+      setShowLoadModelDialog(models.filter(em.isModelInStorage).length !== models.length);
+    }
+  }, [em, startDb]);
 
   const handleDownloadModel = useCallback(async () => {
-    const blob = await axios.get(url, {
-      responseType: 'arraybuffer',
-      onDownloadProgress: (progressEvent) => {
-        const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
-        setDownloadProgress(percentCompleted);
-      },
-    });
-    await startDb(blob);
+    if (Platform.OS === 'web') {
+      const blob = await axios.get(url, {
+        responseType: 'arraybuffer',
+        onDownloadProgress: (progressEvent) => {
+          const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+          setDownloadProgress(percentCompleted);
+        },
+      });
+      await startDb(blob);
+    } else if (em && typeof em.downloadThenSaveModelNative === 'function') {
+      em.constants.MODELS.forEach(async (name, index) => {
+        await em.downloadThenSaveModelNative(name, em.constants.MODEL_URIS[index]);
+      });
+    }
     setShowLoadModelDialog(false);
-  }, [startDb]);
+  }, [em, startDb]);
 
   return (
     <SafeAreaView style={styles.root}>

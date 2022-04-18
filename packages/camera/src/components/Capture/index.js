@@ -27,7 +27,7 @@ import {
   useTakePictureAsync,
   useTitle,
 } from './hooks';
-import usePredictions from '../../hooks/usePredictions';
+import useEmbeddedModel from '../../hooks/useEmbeddedModel';
 
 const styles = StyleSheet.create({
   container: {
@@ -129,7 +129,7 @@ export default function Capture({
   const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
   const settings = useSettings({ camera, initialState: initialState.settings });
   const sights = useSights({ sightIds, initialState: initialState.sights });
-  const { useApi, loadModel, predictions } = usePredictions();
+  const { useApi, loadModel } = useEmbeddedModel();
 
   const { current, tour } = sights.state;
   const overlay = current?.metadata?.overlay || '';
@@ -266,13 +266,14 @@ export default function Capture({
   }, [tour, sightIds]);
 
   useEffect(() => {
+    console.log(model);
     if (enableComplianceCheck && model) {
-      log([`Compliance check is enabled`]);
+      // log([`Compliance check is enabled`]);
       (async () => {
         try {
           log(['Loading models...']);
           await loadModel(model.partDetector);
-          log(['Model loaded ', model]);
+          // log(['Model loaded ', model]);
           setModelLoaded(true);
         } catch (e) {
           log(['Failed to load model', e]);

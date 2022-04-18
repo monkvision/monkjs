@@ -6,7 +6,7 @@ import { partDetectorPreProcess } from './common';
 
 tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/');
 
-export default function usePredictions() {
+export default function useEmbeddedModel() {
   const [useApi, setUseApi] = useState(true);
   const [partDetector, setPartDetector] = useState(null);
 

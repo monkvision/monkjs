@@ -5,7 +5,6 @@ export default function useIndexedDb() {
     const dbconnect = indexedDB.open('internalModels', 1);
 
     dbconnect.onupgradeneeded = (ev) => {
-      console.log('Upgrade DB');
       const db = ev.target.result;
       const store = db.createObjectStore('model', { keyPath: 'Type' });
       store.createIndex('Type', 'Type', { unique: true });
@@ -13,7 +12,6 @@ export default function useIndexedDb() {
     };
 
     dbconnect.onsuccess = (dbEv) => {
-      console.log('Success upgrading DB');
       const db = dbEv.target.result;
       const transaction = db.transaction('model', 'readwrite');
       const dbStore = transaction.objectStore('model');
@@ -26,28 +24,25 @@ export default function useIndexedDb() {
       }
 
       transaction.onerror = (errorEv) => {
-        console.error('An error occurred !', errorEv.target.error.message);
+        throw new Error(`An error occurred : ${errorEv.target.error.message}`);
       };
 
       transaction.oncomplete = () => {
-        console.log('Les données ont été ajoutées avec succès !');
         const transactionStore = db.transaction('model', 'readonly').objectStore('model');
         const query = transactionStore.openCursor();
 
         query.onerror = (errorEv) => {
-          console.error('Echec de la requête !', errorEv.target.error.message);
+          throw new Error(`Request failed: ${errorEv.target.error.message}`);
         };
 
         const payload = {};
         query.onsuccess = (queryEv) => {
           const cursor = queryEv.target.result;
           if (cursor) {
-            console.log(cursor.key, cursor.value.Type, cursor.value.Buffer);
             payload[cursor.value.Type] = cursor.value.Buffer;
             // dispatch(modelsSlice.actions.update(payload));
             cursor.continue();
           } else {
-            console.log('Plus d’entrées disponibles');
             resolve(payload);
           }
         };
