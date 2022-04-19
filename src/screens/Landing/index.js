@@ -89,7 +89,9 @@ export default function Landing() {
       <Container style={styles.root}>
         <View style={[styles.left, { height }]}>
           {isEmpty(getInspection.denormalizedEntities) ? <Artwork /> : (
-            getInspection.denormalizedEntities.map((i) => <Inspection {...i} />))}
+            getInspection.denormalizedEntities.map((i) => (
+              <Inspection {...i} key={`landing-inspection-${i.id}`} />
+            )))}
         </View>
         <Surface style={styles.right}>
           <ScrollView contentContainerStyle={{ height }}>

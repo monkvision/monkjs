@@ -179,10 +179,11 @@ export function useStartUploadAsync({
             sight_id: id,
           } : undefined,
         },
-        tasks: isEmpty(tasksToMap) ? [task] : tasksToMap,
+        tasks: (isEmpty(tasksToMap) ? [task] : tasksToMap) || ['damage_detection'],
         additional_data: {
           ...current.metadata,
           overlay: undefined,
+          createdAt: new Date(),
         },
       });
 

@@ -26,7 +26,7 @@ const theme = {
     placeholder: '#dadada',
     disabled: '#bbbdbf',
     onSurface: '#1D1F30',
-    notification: '#19A4B1',
+    notification: '#000000',
     boneColor: '#1D1F30',
     highlightBoneColor: '#51536A',
   },
