@@ -1,13 +1,14 @@
 import { useInterval } from '@monkvision/toolkit';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
-import { List, Surface, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import { ScrollView } from 'react-native-web';
 import Inspection from 'components/Inspection';
+import { TASKS_BY_MOD } from 'screens/InspectionCreate/useCreateInspection';
 import Artwork from 'screens/Landing/Artwork';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
@@ -16,25 +17,34 @@ import styles from './styles';
 
 const LIST_ITEMS = [{
   value: 'vinNumber',
-  title: 'VIN number',
+  title: 'VIN recognition',
   description: 'Vehicle info obtained from OCR',
   icon: 'car-info',
 }, {
   value: 'car360',
-  title: 'Car 360°',
-  description: 'Vehicle tour in 14 pictures',
+  title: 'Damage detection',
+  description: 'Vehicle tour (exterior and interior)',
   icon: 'axis-z-rotate-counterclockwise',
 }, {
   value: 'wheels',
-  title: 'Wheels',
-  description: 'Details about rim condition',
+  title: 'Wheels analysis',
+  description: 'Details about rims condition',
   icon: 'circle-double',
-}, {
-  value: 'classic',
-  title: 'Classic flow',
-  description: 'Recommended for damage detection',
-  icon: 'car-side',
 }];
+
+const STATUSES = {
+  NOT_STARTED: 'Waiting to be started',
+  TODO: 'In progress...',
+  IN_PROGRESS: 'In progress...',
+  DONE: 'Has finished!',
+  ERROR: 'Failed!',
+};
+
+const ICON_BY_STATUS = {
+  NOT_STARTED: 'chevron-right',
+  DONE: 'check-bold',
+  ERROR: 'alert-octagon',
+};
 
 export default function Landing() {
   const { colors } = useTheme();
@@ -45,6 +55,14 @@ export default function Landing() {
   const { inspectionId } = route.params || {};
 
   const getInspection = useGetInspection(inspectionId);
+  const inspection = useMemo(
+    () => getInspection?.denormalizedEntities[0],
+    [getInspection],
+  );
+
+  const handleReset = useCallback(() => {
+    navigation.navigate(names.LANDING);
+  }, [navigation]);
 
   const handleListItemPress = useCallback((value) => {
     navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value, inspectionId });
@@ -52,23 +70,31 @@ export default function Landing() {
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
+    const taskName = TASKS_BY_MOD[value];
+    const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
+    const disabled = ['TODO', 'IN_PROGRESS', 'DONE', 'ERROR'].includes(task?.status);
 
     const left = () => <List.Icon icon={icon} />;
-    const right = () => <List.Icon icon="chevron-right" />;
+    const right = () => (['TODO', 'IN_PROGRESS'].includes(task?.status)
+      ? <ActivityIndicator color="white" size={16} style={styles.listLoading} />
+      : <List.Icon icon={ICON_BY_STATUS[task?.status] || 'chevron-right'} />);
+
     const handlePress = () => handleListItemPress(value);
+    const status = task?.status ? STATUSES[task.status] : description;
 
     return (
       <Surface style={(index % 2 === 0) ? styles.evenListItem : styles.oddListItem}>
         <List.Item
           title={title}
-          description={description}
+          description={status}
           left={left}
           right={right}
           onPress={handlePress}
+          disabled={disabled}
         />
       </Surface>
     );
-  }, [handleListItemPress]);
+  }, [handleListItemPress, inspection]);
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
@@ -76,9 +102,12 @@ export default function Landing() {
     }
   }, [inspectionId, getInspection]);
 
-  useInterval(start, 1000);
+  const intervalId = useInterval(start, 1000);
 
-  useEffect(() => navigation.addListener('focus', start), [navigation, start]);
+  useFocusEffect(useCallback(() => {
+    start();
+    return () => clearInterval(intervalId);
+  }, [navigation, start, intervalId]));
 
   return (
     <SafeAreaView>
@@ -93,10 +122,10 @@ export default function Landing() {
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
         </View>
-        <Surface style={styles.right}>
-          <ScrollView contentContainerStyle={{ height }}>
+        <Card style={styles.right}>
+          <ScrollView contentContainerStyle={{ height: height - 51 }}>
             <List.Section>
-              <List.Subheader>What do you want to inspect?</List.Subheader>
+              <List.Subheader>Click to run a new inspection</List.Subheader>
               <FlatList
                 data={LIST_ITEMS}
                 renderItem={renderListItem}
@@ -104,7 +133,12 @@ export default function Landing() {
               />
             </List.Section>
           </ScrollView>
-        </Surface>
+          {!isEmpty(inspection) && (
+            <Card.Actions style={styles.actions}>
+              <Button color={colors.text} onPress={handleReset}>Reset inspection</Button>
+            </Card.Actions>
+          )}
+        </Card>
       </Container>
     </SafeAreaView>
   );

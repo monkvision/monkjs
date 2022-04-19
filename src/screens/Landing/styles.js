@@ -33,4 +33,10 @@ export default StyleSheet.create({
   oddListItem: {
     elevation: 1,
   },
+  actions: {
+    justifyContent: 'flex-end',
+  },
+  listLoading: {
+    marginHorizontal: utils.styles.spacing(2),
+  },
 });
