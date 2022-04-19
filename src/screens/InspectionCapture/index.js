@@ -18,19 +18,19 @@ const mapTasksToSights = [{
   },
 }, {
   id: 'xQKQ0bXS',
-  task: 'wheel_analysis',
+  tasks: ['wheel_analysis', 'damage_detection'],
   payload: {},
 }, {
   id: '8_W2PO8L',
-  task: 'wheel_analysis',
+  tasks: ['wheel_analysis', 'damage_detection'],
   payload: {},
 }, {
   id: 'rN39Y3HR',
-  task: 'wheel_analysis',
+  tasks: ['wheel_analysis', 'damage_detection'],
   payload: {},
 }, {
   id: 'PuIw17h0',
-  task: 'wheel_analysis',
+  tasks: ['wheel_analysis', 'damage_detection'],
   payload: {},
 }];
 

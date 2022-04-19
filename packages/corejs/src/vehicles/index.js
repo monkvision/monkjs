@@ -65,8 +65,8 @@ export default createSlice({
     builder
       .addCase(`inspections/gotOne`, (state, action) => {
         const { entities } = action.payload;
-        const vehicle = entities[key];
-        if (vehicle) { entityAdapter.upsertOne(state, vehicle); }
+        const vehicles = entities[key];
+        if (!isEmpty(vehicles)) { entityAdapter.upsertOne(state, Object.values(vehicles)[0]); }
       })
       .addCase(`inspections/gotMany`, (state, action) => {
         const { entities } = action.payload;

@@ -153,9 +153,7 @@ export function useStartUploadAsync({
     const { id, label } = currentSight?.metadata || current.metadata;
 
     const currentItem = mapTasksToSights.find((item) => item.id === id);
-    const tasksToMap = (!isEmpty(currentItem?.tasks) ? currentItem.tasks : null)
-      || [currentItem?.task]
-      || 'damage_detection';
+    const tasksToMap = currentItem ? (currentItem?.tasks || [currentItem?.task]) : [task];
 
     try {
       dispatch({
@@ -179,7 +177,7 @@ export function useStartUploadAsync({
             sight_id: id,
           } : undefined,
         },
-        tasks: (isEmpty(tasksToMap) ? [task] : tasksToMap) || ['damage_detection'],
+        tasks: tasksToMap,
         additional_data: {
           ...current.metadata,
           overlay: undefined,

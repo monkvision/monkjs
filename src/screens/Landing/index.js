@@ -76,7 +76,7 @@ export default function Landing() {
     }
   }, [inspectionId, getInspection]);
 
-  useInterval(start, 20000);
+  useInterval(start, 1000);
 
   useEffect(() => navigation.addListener('focus', start), [navigation, start]);
 
