@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScreenView } from '@monkvision/ui';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Capture, Controls, useUploads } from '@monkvision/camera';
+import { Capture, Controls } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useDispatch } from 'react-redux';
 import * as names from 'screens/names';
@@ -43,7 +43,6 @@ export default function InspectionCapture() {
 
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
-  const uploads = useUploads({ sightIds });
 
   const handleNavigate = useCallback(() => {
     navigation.navigate(names.LANDING, { inspectionId });
@@ -105,7 +104,6 @@ export default function InspectionCapture() {
         inspectionId={inspectionId}
         controls={controls}
         loading={cameraLoading}
-        uploads={uploads}
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
