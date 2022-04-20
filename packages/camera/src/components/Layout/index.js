@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import screenfull from 'screenfull';
 import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import getOS from '../../utils/getOS';
-import useOrientation from '../../hooks/useOrientation';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
-import PortraitOrientationBlocker from './PortraitOrientationBlocker';
+import useOrientation from '../../hooks/useOrientation';
+
+if (Platform.OS === 'web') {
+  // eslint-disable-next-line global-require
+  require('./layout.css');
+}
 
 export const SIDE_WIDTH = 116;
 
@@ -87,7 +90,7 @@ function FullScreenButton({ hidden, ...rest }) {
   useEffect(() => {
     if (!screenfull.isEnabled || !document) { return; }
 
-    // initial backroundColor
+    // initial backgroundColor
     const backgroundColor = document.body.style.backgroundColor;
 
     // change the backgroundColor
@@ -95,7 +98,7 @@ function FullScreenButton({ hidden, ...rest }) {
 
     // eslint-disable-next-line consistent-return
     return () => {
-    // reset the backroundColor
+    // reset the backgroundColor
       document.body.style.backgroundColor = backgroundColor;
       toggleFullScreen(false);
     };
@@ -129,34 +132,13 @@ function Layout({
   children,
   containerStyle,
   left,
-  orientationBlockerProps,
   right,
   sectionStyle,
 }) {
-  const isNative = Platform.select({ native: true, default: false });
   const { height } = useWindowDimensions();
 
-  const mobileBrowserIsPortrait = useMobileBrowserConfig();
-  const orientation = useOrientation('landscape');
-  const [grantedLandscape, grantLandscape] = useState(false);
-
-  const showOrientationBLocker = useMemo(() => (
-    Platform.OS === 'web'
-    && (!['Mac OS', 'Windows', 'Linux'].includes(getOS())
-    && (!grantedLandscape
-    || mobileBrowserIsPortrait
-    || (isNative && orientation.isNotLandscape)))
-  ), [grantedLandscape, isNative, mobileBrowserIsPortrait, orientation.isNotLandscape]);
-
-  if (showOrientationBLocker) {
-    return (
-      <PortraitOrientationBlocker
-        grantLandscape={grantLandscape}
-        isPortrait={mobileBrowserIsPortrait}
-        {...orientationBlockerProps}
-      />
-    );
-  }
+  useMobileBrowserConfig();
+  useOrientation('landscape');
 
   return (
     <View
@@ -190,7 +172,6 @@ Layout.propTypes = {
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
-  orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   right: PropTypes.element,
   sectionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
@@ -199,7 +180,6 @@ Layout.defaultProps = {
   buttonFullScreenProps: {},
   containerStyle: null,
   left: null,
-  orientationBlockerProps: null,
   right: null,
   sectionStyle: null,
 };
