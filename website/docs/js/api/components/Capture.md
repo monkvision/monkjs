@@ -28,8 +28,6 @@ import { SafeAreaView, StatusBar } from 'react-native';
 export default function Inspector({ inspectionId }) {
   const [loading, setLoading] = useState();
 
-  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
-
   const controls = [{
     disabled: loading,
     ...Controls.CaptureButtonProps,
@@ -42,7 +40,6 @@ export default function Inspector({ inspectionId }) {
         sightIds={Constants.defaultSightIds}
         inspectionId={inspectionId}
         controls={controls}
-        uploads={uploads}
         loading={loading}
         onReady={() => setLoading(false)}
         onCaptureTourStart={() => console.log('Capture tour process has finished')}
@@ -84,7 +81,6 @@ export default function Inspector({ inspectionId }) {
     // Add success condition...
   }, []);
 
-  const uploads = useUploads({ sightIds: Constants.defaultSightIds });
 
   const controls = [{
     disabled: loading,
@@ -99,7 +95,6 @@ export default function Inspector({ inspectionId }) {
         sightIds={Constants.defaultSightIds}
         inspectionId={inspectionId}
         controls={controls}
-        uploads={uploads}
         loading={loading}
         onReady={() => setLoading(false)}
         onCaptureTourStart={() => console.log('Capture tour process has finished')}
@@ -115,6 +110,20 @@ export default function Inspector({ inspectionId }) {
 ```
 
 # Props
+
+The Capture component is based on 4 principal states `uploads`, `compliance`, `sights` and `settings`, and can be used as a controlled component by providing these states as props (optional), see the format in the [**state section**](#state)
+
+## ref
+
+By passing a ref to the Capture component, we can access a set of methods, including the camera element, see the [api section](#api).
+
+```jsx
+  const captureRef = useRef();
+  console.log(captureRef.current); 
+  // { camera, checkComplianceAsync, createDamageDetectionAsync, setPictureAsync, startUploadAsync, takePictureAync, goNextSigh, goPrevSight }
+
+  <Capture ref={captureRef} {...otherProps} />
+```
 
 ## controls
 `PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, disabled: PropTypes.bool, onPress: PropTypes.func }))`
@@ -338,7 +347,7 @@ An array of objects containing the `id` of a sight and an array of `tasks`, usef
 
 ## state
 ```js
-console.log(state); // { isReady, settings, sights, uploads };
+console.log(state); // { isReady, settings, sights, uploads, compliance };
 ```
 
 ### settings
