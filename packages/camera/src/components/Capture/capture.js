@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
  * @param navigationOptions
  * @param offline
  * @param onChange
+ * @param onComplianceChange
+ * @param onSettingsChange
+ * @param onSightsChange
+ * @param onUploadsChange
  * @param onReady
  * @param onCaptureTourFinish
  * @param onCaptureTourStart
@@ -92,6 +96,10 @@ const Capture = forwardRef(({
   navigationOptions,
   offline,
   onChange,
+  onComplianceChange,
+  onSettingsChange,
+  onSightsChange,
+  onUploadsChange,
   onCaptureTourFinish,
   onCaptureTourStart,
   onComplianceCheckFinish,
@@ -278,6 +286,14 @@ const Capture = forwardRef(({
     onCaptureTourStart();
   }, [onCaptureTourStart]);
 
+  useEffect(() => { onUploadsChange(states, api); }, [uploads]);
+
+  useEffect(() => { onComplianceChange(states, api); }, [compliance]);
+
+  useEffect(() => { onSightsChange(states, api); }, [sights]);
+
+  useEffect(() => { onSettingsChange(states, api); }, [settings]);
+
   // END EFFECTS //
   // RENDERING //
 
@@ -429,13 +445,17 @@ Capture.propTypes = {
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
+  onComplianceChange: PropTypes.func,
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  onSettingsChange: PropTypes.func,
+  onSightsChange: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
+  onUploadsChange: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
   settings: PropTypes.shape({
@@ -517,6 +537,10 @@ Capture.defaultProps = {
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},
+  onComplianceChange: () => {},
+  onSettingsChange: () => {},
+  onSightsChange: () => {},
+  onUploadsChange: () => {},
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
   onFinishUploadPicture: () => {},
