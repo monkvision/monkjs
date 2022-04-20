@@ -2,6 +2,7 @@
 import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Dimensions,
   Platform,
   StyleSheet,
   Text,
@@ -36,6 +37,7 @@ export default function Controls({
   enableComplianceCheck,
   onStartUploadPicture,
   onFinishUploadPicture,
+  predictions,
   useApi,
   ...passThroughProps
 }) {
@@ -46,6 +48,7 @@ export default function Controls({
     onFinishUploadPicture,
     enableComplianceCheck,
     useApi,
+    predictions,
   });
 
   const handlePress = useCallback(({ onPress }) => (e) => {
@@ -56,7 +59,7 @@ export default function Controls({
     <View
       acccessibilityLabel="Controls"
       style={[styles.container, containerStyle, Platform.select({
-        native: { maxHeight: '100vh' },
+        native: { maxHeight: Dimensions.get('window').height },
         default: { maxHeight: windowHeight },
       })]}
     >
@@ -97,6 +100,10 @@ Controls.propTypes = {
   loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
+  predictions: PropTypes.shape({
+    partDetector: PropTypes.func,
+    qualityCheck: PropTypes.func,
+  }),
   state: PropTypes.shape({
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
@@ -114,6 +121,7 @@ Controls.defaultProps = {
   state: {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
+  predictions: null,
   useApi: true,
 };
 

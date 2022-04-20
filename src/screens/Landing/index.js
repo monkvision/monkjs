@@ -26,6 +26,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import axios from 'axios';
+import Constants from 'expo-constants';
 
 import {
   damagesEntity,
@@ -51,7 +52,6 @@ import InspectionButton from 'screens/Landing/InspectionButton';
 import useIndexedDb from 'hooks/useLoadModel';
 
 // TODO: Replace/Delete once the model will be available on the bucket
-const url = 'https://tfhub.dev/tensorflow/lite-model/ssd_mobilenet_v1/1/metadata/2?lite-format=tflite';
 
 const { spacing } = utils.styles;
 const LIMIT = 25;
@@ -135,6 +135,7 @@ export default () => {
   );
 
   const scrollListRef = useRef();
+  const url = Constants.manifest.extra.MODEL_TFLITE_URL;
 
   const { refresh } = useRequest(getAllInspections({
     params: {
@@ -156,6 +157,7 @@ export default () => {
   const partsEntities = useSelector(selectPartEntities);
   const tasksEntities = useSelector(selectTaskEntities);
   const vehiclesEntities = useSelector(selectVehicleEntities);
+  const auth = useSelector((state) => state.auth);
 
   const { inspections: doneInspections } = denormalize({ inspections: ids }, {
     inspections: [inspectionsEntity],
@@ -236,29 +238,39 @@ export default () => {
         startDb(null)
           .then((res) => setShowLoadModelDialog(Object.keys(res).length === 0));
       }
-    } else if (em && typeof em.isModelInStorage === 'function') {
-      const models = em.constants.MODELS;
-      setShowLoadModelDialog(models.filter(em.isModelInStorage).length !== models.length);
     }
   }, [em, startDb]);
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') {
+      if (em && typeof em.isModelInStorage === 'function') {
+        const models = em.constants.MODELS;
+        setShowLoadModelDialog(models.filter(em.isModelInStorage).length !== models.length);
+      }
+    }
+  }, [em]);
 
   const handleDownloadModel = useCallback(async () => {
     if (Platform.OS === 'web') {
       const blob = await axios.get(url, {
         responseType: 'arraybuffer',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
         onDownloadProgress: (progressEvent) => {
           const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
           setDownloadProgress(percentCompleted);
         },
       });
-      await startDb(blob);
+      await startDb(blob.data, 'imageQualityCheck');
     } else if (em && typeof em.downloadThenSaveModelNative === 'function') {
       em.constants.MODELS.forEach(async (name, index) => {
         await em.downloadThenSaveModelNative(name, em.constants.MODEL_URIS[index]);
       });
     }
     setShowLoadModelDialog(false);
-  }, [em, startDb]);
+  }, [auth.accessToken, em, startDb, url]);
 
   return (
     <SafeAreaView style={styles.root}>

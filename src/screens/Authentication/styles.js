@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 
 const { spacing } = utils.styles;
@@ -13,7 +13,7 @@ export default StyleSheet.create({
       },
       default: {
         display: 'flex',
-        minHeight: '100vh',
+        minHeight: Dimensions.get('window').height,
       },
     }),
   },

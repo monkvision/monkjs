@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
-const modelInputWidth = 512; const modelInputHeight = 384;
+const modelInputWidth = 336; const modelInputHeight = 336;
 const MAX_RESULT = 50; const MIN_CONFIDENCE = 0.4;
 
 /**
  * It takes a Tensor image then adapt it to fit the part detector model input
  * @param tf - TensorFlow api (different from each platform)
- * @param partDetector - ML model used to do predictions
+ * @param model - ML model used to do predictions
  * @param imageTensor - a 4D tensor containing image info
  * @returns {Promise<*>} returns a promise of an array of predictions that is an array containing:
     * 0. x position of the origin of the bbox
@@ -16,7 +16,7 @@ const MAX_RESULT = 50; const MIN_CONFIDENCE = 0.4;
     * 4. prediction score of the prediction
     * 5. index of the prediction's class (located on class.js)
  */
-export const partDetectorPreProcess = async (tf, partDetector, imageTensor) => {
+export const partDetectorModelPreProcess = async (tf, model, imageTensor) => {
   // Resizing the picture to match the model requirements
   const resizedImage = tf.image.resizeBilinear(imageTensor, [modelInputHeight, modelInputWidth]);
   const imageShape = imageTensor.shape;
@@ -24,7 +24,7 @@ export const partDetectorPreProcess = async (tf, partDetector, imageTensor) => {
 
   // Expanding dimension and adapting input vector then start the prediction
   const input = tf.expandDims(tf.transpose(tf.div(resizedImage, 255), [2, 0, 1]), 0);
-  const predictions = await partDetector.predict(input);
+  const predictions = await model.predict(input);
 
   const predictionWithoutNMS = tf.reshape(predictions, [-1, 72]);
   const candidatesBbox = tf.slice(predictionWithoutNMS, [0, 0], [predictionWithoutNMS.shape[0], 4]);
@@ -56,4 +56,19 @@ export const partDetectorPreProcess = async (tf, partDetector, imageTensor) => {
   const prediction = tf.concat([predictionXCenterShift, predictionYCenterShift, predictionWidthScale, predictionHeightScale, predictionObjectScores, predictionClassIds], 1);
 
   return prediction.array();
+};
+
+export const imageQualityCheckPreprocess = async (tf, model, imageTensor) => {
+  // Resizing the picture to match the model requirements
+  const resizedImage = tf.image.resizeBilinear(imageTensor, [modelInputHeight, modelInputWidth]);
+
+  // Expanding dimension and adapting input vector then start the prediction
+  const input = tf.expandDims(tf.transpose(tf.div(resizedImage, 255), [2, 0, 1]), 0);
+  const predictions = await model.predict(input);
+
+  return {
+    overexposure: predictions['PartitionedCall:1'].arraySync()[0] < MIN_CONFIDENCE,
+    underexposure: predictions['PartitionedCall:2'].arraySync()[0] < MIN_CONFIDENCE,
+    blurriness: predictions['PartitionedCall:0'].arraySync()[0] < MIN_CONFIDENCE,
+  };
 };

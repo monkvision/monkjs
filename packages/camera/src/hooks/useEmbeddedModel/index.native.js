@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

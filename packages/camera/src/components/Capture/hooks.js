@@ -109,7 +109,7 @@ export function useCreateDamageDetectionAsync() {
  * @return {(function({ inspectionId, sights, uploads, task, onFinish }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFinish = () => {} }) {
-  return useCallback(async (picture, currentSight = null) => {
+  return useCallback(async (picture, currentSight = null, sendCompliance) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
@@ -148,14 +148,14 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
 
       const res = await axios.get(picture.uri, { responseType: 'blob' });
 
-      const compliances = {
+      const compliances = sendCompliance ? {
         compliances: {
           image_quality_assessment: {},
           coverage_360: Constants.COVERAGE_360_WHITELIST.includes(id) ? {
             sight_id: id,
           } : undefined,
         },
-      };
+      } : {};
 
       const json = JSON.stringify({
         ...compliances,
@@ -211,11 +211,12 @@ export function useStartUploadAsync({ inspectionId, sights, uploads, task, onFin
  *
  * @param compliance - Contains dispatch and compliance's state
  * @param currentSightId - id of the current sight
+ * @param result - result of the model's compliance predictions
  * @returns {(function(string, string): Promise<void>)|*} - a function that will call the model
  * to predict locally whether if the picture is compliant or not
  */
 export function useStartComplianceAsync({ compliance, sightId: currentSightId }) {
-  return useCallback(async (pictureId, customSightId) => {
+  return useCallback(async (pictureId, customSightId, result) => {
     if (!pictureId) {
       throw Error(`Start Compliance Please provide a valid "pictureId". Got ${pictureId}.`);
     }
@@ -240,12 +241,12 @@ export function useStartComplianceAsync({ compliance, sightId: currentSightId })
     };
 
     await (new Promise((resolve) => setTimeout(resolve, 1000)));
-    log([`Result of compliance ${pictureId}`, complianceResult]);
+    log([`Result of compliance ${pictureId}`, result]);
     compliance.dispatch({
       type: Actions.compliance.UPDATE_COMPLIANCE,
       payload: {
         id: customSightId || currentSightId,
-        result: { data: complianceResult, ...complianceResult },
+        result: { data: result },
         status: 'fulfilled',
         pictureId,
       },

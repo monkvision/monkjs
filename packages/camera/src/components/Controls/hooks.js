@@ -6,6 +6,7 @@ const useHandlers = ({
   onFinishUploadPicture,
   enableComplianceCheck,
   useApi,
+  predictions,
 }) => {
   const capture = useCallback(async (state, api, event) => {
     event.preventDefault();
@@ -40,11 +41,37 @@ const useHandlers = ({
       }
     };
 
+    // TODO: Add sightId args
+    const formatResult = (result) => ({
+      compliances: {
+        image_quality_assessment: {
+          parameters: {},
+          is_compliant: Object.values(result).reduce((prev, curr) => (prev && curr), true),
+          reasons: Object.keys(result).filter((v) => !result[v]),
+          status: 'DONE',
+        },
+        // coverage_360: {
+        //   parameters: {
+        //     sight_id: sightId,
+        //   },
+        //   is_compliant: Boolean(Math.round((Math.random() * 100) % 3)),
+        //   reasons: [],
+        //   status: 'DONE',
+        // },
+      },
+    });
+
     if (current.index === ids.length - 1) {
       const upload = await startUploadAsync(picture);
       if (enableComplianceCheck && upload?.data?.id) {
+        console.log(predictions);
+        console.log(useApi);
         if (!useApi) {
-          await startComplianceAsync(upload.data.id, current.metadata.id);
+          console.log('Begin predictions');
+          const predictionsResult = await predictions.imageQualityCheck(picture);
+          console.log(predictionsResult);
+          const result = formatResult(predictionsResult, current.metadata.id);
+          await startComplianceAsync(upload.data.id, current.metadata.id, result);
         } else {
           const result = await checkComplianceAsync(upload.data.id);
           verifyComplianceStatus(upload.data.id, result.data.compliances);
@@ -58,15 +85,20 @@ const useHandlers = ({
 
       const upload = await startUploadAsync(picture);
       if (enableComplianceCheck && upload?.data?.id) {
+        console.log(predictions);
         if (!useApi) {
-          await startComplianceAsync(upload.data.id, current.metadata.id);
+          console.log('Begin predictions');
+          const predictionsResult = await predictions.imageQualityCheck(picture);
+          console.log(predictionsResult);
+          const result = formatResult(predictionsResult, current.metadata.id);
+          await startComplianceAsync(upload.data.id, current.metadata.id, result);
         } else {
           const result = await checkComplianceAsync(upload.data.id);
           verifyComplianceStatus(upload.data.id, result.data.compliances);
         }
       }
     }
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, useApi]);
+  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, predictions, useApi]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     // adding an initialState that will hold new compliances with `requestCount = 1`

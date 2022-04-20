@@ -4,6 +4,7 @@ import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import noop from 'lodash.noop';
 import useCompliance from '../../hooks/useCompliance';
+import useEmbeddedModel from '../../hooks/useEmbeddedModel';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 
@@ -27,7 +28,6 @@ import {
   useTakePictureAsync,
   useTitle,
 } from './hooks';
-import useEmbeddedModel from '../../hooks/useEmbeddedModel';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontSize: '20pt',
+    fontSize: 20,
   },
 });
 
@@ -129,7 +129,7 @@ export default function Capture({
   const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
   const settings = useSettings({ camera, initialState: initialState.settings });
   const sights = useSights({ sightIds, initialState: initialState.sights });
-  const { useApi, loadModel } = useEmbeddedModel();
+  const { useApi, loadModel, predictions } = useEmbeddedModel();
 
   const { current, tour } = sights.state;
   const overlay = current?.metadata?.overlay || '';
@@ -266,14 +266,13 @@ export default function Capture({
   }, [tour, sightIds]);
 
   useEffect(() => {
-    console.log(model);
     if (enableComplianceCheck && model) {
-      // log([`Compliance check is enabled`]);
+      log([`Compliance check is enabled`]);
       (async () => {
         try {
           log(['Loading models...']);
-          await loadModel(model.partDetector);
-          // log(['Model loaded ', model]);
+          await loadModel(model.imageQualityCheck, 'imageQualityCheck');
+          log(['Model loaded ', model]);
           setModelLoaded(true);
         } catch (e) {
           log(['Failed to load model', e]);
@@ -321,10 +320,11 @@ export default function Capture({
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
       useApi={useApi}
+      predictions={predictions}
     />
   ), [
     api, controlsContainerStyle, controls,
-    loading, states, enableComplianceCheck,
+    loading, states, enableComplianceCheck, predictions,
     onStartUploadPicture, onFinishUploadPicture, useApi]);
 
   const children = useMemo(() => (
@@ -414,7 +414,10 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
-  model: PropTypes.arrayOf(PropTypes.string),
+  model: PropTypes.shape({
+    imageQualityCheck: PropTypes.string || PropTypes.array,
+    partDetector: PropTypes.string || PropTypes.array,
+  }),
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
