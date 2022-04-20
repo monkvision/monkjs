@@ -1,18 +1,16 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMediaQuery } from 'react-responsive';
 import screenfull from 'screenfull';
 import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import getOS from '../../utils/getOS';
-import useOrientation from '../../hooks/useOrientation';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
-import PortraitOrientationBlocker from './PortraitOrientationBlocker';
+import useOrientation from '../../hooks/useOrientation';
 
 export const SIDE_WIDTH = 116;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -87,7 +85,7 @@ function FullScreenButton({ hidden, ...rest }) {
   useEffect(() => {
     if (!screenfull.isEnabled || !document) { return; }
 
-    // initial backroundColor
+    // initial backgroundColor
     const backgroundColor = document.body.style.backgroundColor;
 
     // change the backgroundColor
@@ -95,7 +93,7 @@ function FullScreenButton({ hidden, ...rest }) {
 
     // eslint-disable-next-line consistent-return
     return () => {
-    // reset the backroundColor
+    // reset the backgroundColor
       document.body.style.backgroundColor = backgroundColor;
       toggleFullScreen(false);
     };
@@ -129,56 +127,56 @@ function Layout({
   children,
   containerStyle,
   left,
-  orientationBlockerProps,
   right,
   sectionStyle,
 }) {
-  const isNative = Platform.select({ native: true, default: false });
   const { height } = useWindowDimensions();
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
-  const mobileBrowserIsPortrait = useMobileBrowserConfig();
-  const orientation = useOrientation('landscape');
-  const [grantedLandscape, grantLandscape] = useState(false);
-
-  const showOrientationBLocker = useMemo(() => (
-    Platform.OS === 'web'
-    && (!['Mac OS', 'Windows', 'Linux'].includes(getOS())
-    && (!grantedLandscape
-    || mobileBrowserIsPortrait
-    || (isNative && orientation.isNotLandscape)))
-  ), [grantedLandscape, isNative, mobileBrowserIsPortrait, orientation.isNotLandscape]);
-
-  if (showOrientationBLocker) {
-    return (
-      <PortraitOrientationBlocker
-        grantLandscape={grantLandscape}
-        isPortrait={mobileBrowserIsPortrait}
-        {...orientationBlockerProps}
-      />
-    );
-  }
+  useMobileBrowserConfig();
+  useOrientation('landscape');
 
   return (
     <View
       accessibilityLabel="Layout"
-      style={[styles.container, containerStyle]}
+      style={[styles.container, containerStyle, isPortrait ? styles.portrait : {}]}
     >
       <View
         accessibilityLabel="Side left"
-        style={[styles.section, styles.side, styles.left, sectionStyle, { height }]}
+        style={[
+          styles.section,
+          styles.side,
+          styles.left,
+          isPortrait ? styles.leftPortrait : {},
+          sectionStyle,
+          { height: isPortrait ? height / 2 : height },
+        ]}
       >
         {left}
       </View>
       <View
         accessibilityLabel="Center"
-        style={[styles.section, sectionStyle, styles.center, { height }]}
+        style={[
+          styles.section,
+          sectionStyle,
+          styles.center,
+          isPortrait ? styles.centerPortrait : {},
+          { height },
+        ]}
       >
         {children}
         <FullScreenButton {...buttonFullScreenProps} />
       </View>
       <View
         accessibilityLabel="Side right"
-        style={[styles.section, styles.side, styles.right, sectionStyle, { height }]}
+        style={[
+          styles.section,
+          styles.side,
+          styles.right,
+          isPortrait ? styles.rightPortrait : {},
+          sectionStyle,
+          { height: isPortrait ? height / 2 : height },
+        ]}
       >
         {right}
       </View>
@@ -190,7 +188,6 @@ Layout.propTypes = {
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
-  orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   right: PropTypes.element,
   sectionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
@@ -199,7 +196,6 @@ Layout.defaultProps = {
   buttonFullScreenProps: {},
   containerStyle: null,
   left: null,
-  orientationBlockerProps: null,
   right: null,
   sectionStyle: null,
 };

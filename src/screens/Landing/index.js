@@ -1,10 +1,11 @@
 import { useInterval } from '@monkvision/toolkit';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
+import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import { ScrollView } from 'react-native-web';
 import Inspection from 'components/Inspection';
@@ -50,6 +51,8 @@ export default function Landing() {
   const { colors } = useTheme();
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
+
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
   const { inspectionId } = route.params || {};
@@ -110,20 +113,20 @@ export default function Landing() {
   }, [navigation, start, intervalId]));
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ height }}>
       <LinearGradient
         colors={[colors.background, colors.gradient]}
         style={[styles.background, { height }]}
       />
-      <Container style={styles.root}>
-        <View style={[styles.left, { height }]}>
+      <Container style={[styles.root, isPortrait ? styles.portrait : {}]}>
+        <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
           {isEmpty(getInspection.denormalizedEntities) ? <Artwork /> : (
             getInspection.denormalizedEntities.map((i) => (
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
         </View>
-        <Card style={styles.right}>
-          <ScrollView contentContainerStyle={{ height: height - 51 }}>
+        <Card style={[styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          <ScrollView contentContainerStyle={{ height: isPortrait ? undefined : height - 51 }}>
             <List.Section>
               <List.Subheader>Click to run a new inspection</List.Subheader>
               <FlatList

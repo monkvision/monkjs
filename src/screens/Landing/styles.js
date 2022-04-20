@@ -8,6 +8,12 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
+  portrait: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+  },
   background: {
     position: 'fixed',
     top: 0,
@@ -23,9 +29,16 @@ export default StyleSheet.create({
     paddingVertical: utils.styles.spacing(2),
     paddingRight: utils.styles.spacing(2),
   },
+  leftPortrait: {
+    flex: 1,
+    paddingRight: utils.styles.spacing(0),
+  },
   right: {
     flex: 1.25,
     display: 'flex',
+  },
+  rightPortrait: {
+    flex: 1,
   },
   evenListItem: {
     elevation: 4,
