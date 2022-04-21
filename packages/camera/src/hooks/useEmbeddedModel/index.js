@@ -2,9 +2,10 @@ import '@tensorflow/tfjs-backend-cpu';
 import { useState } from 'react';
 import * as tf from '@tensorflow/tfjs-core';
 import * as tflite from '@tensorflow/tfjs-tflite';
-
 import axios from 'axios';
+
 import { imageQualityCheckPreprocess, partDetectorModelPreProcess } from './common';
+import log from '../../utils/log';
 
 tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/');
 
@@ -15,7 +16,7 @@ export default function useEmbeddedModel() {
 
   const loadModel = (model, type, callback) => {
     if (!model) {
-      console.log('set UseApi to true');
+      log(['set UseApi to true']);
       setUseApi(true);
       return null;
     }
@@ -29,7 +30,7 @@ export default function useEmbeddedModel() {
           setPartDetectorModel(res);
           break;
       }
-      console.log('set UseApi to false');
+      log(['set UseApi to false']);
       setUseApi(false);
       callback();
     });
@@ -40,14 +41,14 @@ export default function useEmbeddedModel() {
   const getParts = async (image, customModel) => {
     try {
       const model = customModel ?? partDetectorModel;
-      console.log('Start prediction');
+      log(['Start prediction']);
       // Transform the picture to Binary then create a 4D Tensor
       // TODO: Manage for each platform the transformation of the picture to a 4D Tensor
       const imageTensor = null;
 
       return await partDetectorModelPreProcess(tf, model, imageTensor);
     } catch (e) {
-      console.log(e);
+      log([e]);
       return null;
     }
   };
@@ -82,11 +83,11 @@ export default function useEmbeddedModel() {
 
       const results = await imageQualityCheckPreprocess(tf, model, imageTensor);
 
-      console.log(`time: ${new Date() - time} ms`);
+      log([`time: ${new Date() - time} ms`]);
 
       return results;
     } catch (e) {
-      console.log(e);
+      log([e]);
       return null;
     }
   };

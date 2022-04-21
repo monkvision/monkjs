@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import Actions from '../../actions';
+import log from '../../utils/log';
 
 const useHandlers = ({
   onStartUploadPicture,
@@ -64,12 +65,12 @@ const useHandlers = ({
     if (current.index === ids.length - 1) {
       const upload = await startUploadAsync(picture);
       if (enableComplianceCheck && upload?.data?.id) {
-        console.log(predictions);
-        console.log(useApi);
+        log([predictions]);
+        log([useApi]);
         if (!useApi) {
-          console.log('Begin predictions');
+          log(['Begin predictions']);
           const predictionsResult = await predictions.imageQualityCheck(picture);
-          console.log(predictionsResult);
+          log([predictionsResult]);
           const result = formatResult(predictionsResult, current.metadata.id);
           await startComplianceAsync(upload.data.id, current.metadata.id, result);
         } else {
@@ -85,11 +86,11 @@ const useHandlers = ({
 
       const upload = await startUploadAsync(picture);
       if (enableComplianceCheck && upload?.data?.id) {
-        console.log(predictions);
+        log([predictions]);
         if (!useApi) {
-          console.log('Begin predictions');
+          log(['Begin predictions']);
           const predictionsResult = await predictions.imageQualityCheck(picture);
-          console.log(predictionsResult);
+          log([predictionsResult]);
           const result = formatResult(predictionsResult, current.metadata.id);
           await startComplianceAsync(upload.data.id, current.metadata.id, result);
         } else {

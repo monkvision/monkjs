@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -6,8 +5,8 @@ import { asyncStorageIO } from './FileSystemIO';
 import * as constants from './const';
 
 export default function useEmbeddedModel() {
-  const [useApi, setUseApi] = useState(true);
-  const [partDetector, setPartDetector] = useState(null);
+  // const [useApi, setUseApi] = useState(true);
+  // const [partDetector, setPartDetector] = useState(null);
 
   const isModelInStorage = async (name) => {
     const keys = await AsyncStorage.getAllKeys();
@@ -18,14 +17,14 @@ export default function useEmbeddedModel() {
 
   const loadModel = (name) => {
     if (!name) {
-      setUseApi(true);
+      // setUseApi(true);
       return null;
     }
 
     const partDetectorModel = tf.loadGraphModel(asyncStorageIO(name));
-    partDetectorModel.then((res) => {
-      setPartDetector(res);
-      setUseApi(false);
+    partDetectorModel.then(() => {
+      // setPartDetector(res);
+      // setUseApi(false);
     });
 
     return partDetectorModel;

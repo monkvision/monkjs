@@ -221,25 +221,6 @@ export function useStartComplianceAsync({ compliance, sightId: currentSightId })
       throw Error(`Start Compliance Please provide a valid "pictureId". Got ${pictureId}.`);
     }
 
-    const complianceResult = {
-      compliances: {
-        image_quality_assessment: {
-          parameters: {},
-          is_compliant: Boolean(Math.round((Math.random() * 100) % 3)),
-          reasons: [],
-          status: 'DONE',
-        },
-        coverage_360: {
-          parameters: {
-            sight_id: customSightId || currentSightId,
-          },
-          is_compliant: Boolean(Math.round((Math.random() * 100) % 3)),
-          reasons: [],
-          status: 'DONE',
-        },
-      },
-    };
-
     await (new Promise((resolve) => setTimeout(resolve, 1000)));
     log([`Result of compliance ${pictureId}`, result]);
     compliance.dispatch({
