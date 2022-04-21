@@ -259,7 +259,7 @@ export default () => {
           Authorization: `Bearer ${auth.accessToken}`,
         },
         onDownloadProgress: (progressEvent) => {
-          const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+          const percentCompleted = (progressEvent.loaded / progressEvent.total);
           setDownloadProgress(percentCompleted);
         },
       });
