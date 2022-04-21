@@ -12,7 +12,6 @@ import schema, { idAttribute, key } from './schema';
 import config from '../config';
 
 export const name = key;
-const mockInspection = require('./getOneInspection.json');
 
 /**
  * @param {string} id
@@ -29,22 +28,18 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  console.warn('Wheel analysis is using mock data');
+  console.warn('Wheel analysis is getting data from images (avoiding wheel_analysis getting a null value), this will not give us the name of the wheel');
 
-  const dataWithMock = {
+  const data = {
     ...axiosResponse.data,
-    wheel_analysis: [...mockInspection.wheel_analysis],
-    images: axiosResponse.data.images?.length ? axiosResponse.data.images.map((img, i) => {
-      if (i < mockInspection.images.length) {
-        return { ...img, wheel_analysis: mockInspection.images[i].wheel_analysis };
-      }
-      return img;
-    }) : [] };
+    wheel_analysis: axiosResponse.data.images?.filter((img) => img?.wheel_analysis)
+      .map((img) => img.wheel_analysis),
+  };
 
   return ({
     axiosResponse,
     [idAttribute]: id,
-    ...normalize(dataWithMock, schema),
+    ...normalize(data, schema),
   });
 };
 
