@@ -1,12 +1,17 @@
 import React from 'react';
 import store from 'store';
 import { Provider } from 'react-redux';
-import { useWindowDimensions, View, StyleSheet } from 'react-native';
+import { useWindowDimensions, View, StyleSheet, Platform } from 'react-native';
 import { theme as initialTheme, useIcons } from '@monkvision/toolkit';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 
 import Navigation from 'Navigation';
 import 'config/corejs';
+
+if (Platform.OS === 'web') {
+  // eslint-disable-next-line global-require
+  require('./app.css');
+}
 
 const theme = {
   ...DefaultTheme,
