@@ -271,9 +271,9 @@ export default function Capture({
       (async () => {
         try {
           log(['Loading models...']);
-          await loadModel(model.imageQualityCheck, 'imageQualityCheck');
+          const callback = () => setModelLoaded(true);
+          await loadModel(model.imageQualityCheck, 'imageQualityCheck', callback);
           log(['Model loaded ', model]);
-          setModelLoaded(true);
         } catch (e) {
           log(['Failed to load model', e]);
         }

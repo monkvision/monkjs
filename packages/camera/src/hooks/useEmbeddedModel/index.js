@@ -13,7 +13,7 @@ export default function useEmbeddedModel() {
   const [partDetectorModel, setPartDetectorModel] = useState(null);
   const [qualityCheckModel, setQualityCheckModel] = useState(null);
 
-  const loadModel = (model, type) => {
+  const loadModel = (model, type, callback) => {
     if (!model) {
       console.log('set UseApi to true');
       setUseApi(true);
@@ -31,6 +31,7 @@ export default function useEmbeddedModel() {
       }
       console.log('set UseApi to false');
       setUseApi(false);
+      callback();
     });
 
     return partDetectorModel;
