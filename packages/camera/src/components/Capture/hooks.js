@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Buffer } from 'buffer';
 import monk from '@monkvision/corejs';
 import { Platform } from 'react-native';
 import { useCallback, useMemo } from 'react';
@@ -187,14 +188,19 @@ export function useStartUploadAsync({
       const data = new FormData();
       data.append(multiPartKeys.json, json);
 
-      const res = await axios.get(picture.uri, { responseType: 'blob' });
+      let fileBits;
 
       if (Platform.OS === 'web') {
+        const res = await axios.get(picture.uri, { responseType: 'blob' });
         URL.revokeObjectURL(picture.uri);
+        fileBits = [res.data];
+      } else {
+        const buffer = Buffer.from(picture.uri, 'base64');
+        fileBits = new Blob([buffer], { type: 'png' });
       }
 
       const file = await new File(
-        [res.data],
+        fileBits,
         multiPartKeys.filename,
         { type: multiPartKeys.type },
       );

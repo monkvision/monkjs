@@ -3,11 +3,10 @@ import isEmpty from 'lodash.isempty';
 import React, { useCallback, useMemo } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
+import { View, useWindowDimensions, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
 import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
-import { ScrollView } from 'react-native-web';
 import Inspection from 'components/Inspection';
 import { TASKS_BY_MOD } from 'screens/InspectionCreate/useCreateInspection';
 import Artwork from 'screens/Landing/Artwork';
@@ -113,9 +112,9 @@ export default function Landing() {
   }, [navigation, start, intervalId]));
 
   return (
-    <SafeAreaView style={{ height }}>
+    <View style={{ minHeight: height, backgroundColor: colors.background }}>
       <LinearGradient
-        colors={[colors.background, colors.gradient]}
+        colors={[colors.gradient, colors.background]}
         style={[styles.background, { height }]}
       />
       <Container style={[styles.root, isPortrait ? styles.portrait : {}]}>
@@ -126,23 +125,21 @@ export default function Landing() {
             )))}
         </View>
         <Card style={[styles.right, isPortrait ? styles.rightPortrait : {}]}>
-          <ScrollView contentContainerStyle={{ height: isPortrait ? undefined : height - 51 }}>
-            <List.Section>
-              <List.Subheader>Click to run a new inspection</List.Subheader>
-              <FlatList
-                data={LIST_ITEMS}
-                renderItem={renderListItem}
-                keyExtractor={(item) => item.value}
-              />
-            </List.Section>
-          </ScrollView>
-          {!isEmpty(inspection) && (
+          <List.Section>
+            <List.Subheader>Click to run a new inspection</List.Subheader>
+            <FlatList
+              data={LIST_ITEMS}
+              renderItem={renderListItem}
+              keyExtractor={(item) => item.value}
+            />
+          </List.Section>
+          {!isEmpty(inspection) ? (
             <Card.Actions style={styles.actions}>
               <Button color={colors.text} onPress={handleReset}>Reset inspection</Button>
             </Card.Actions>
-          )}
+          ) : null}
         </Card>
       </Container>
-    </SafeAreaView>
+    </View>
   );
 }

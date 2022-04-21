@@ -8,11 +8,13 @@ export default {
   slug: 'mca',
   scheme: 'monk',
   owner: 'monkvision',
+  entryPoint: './index.js',
 
   primaryColor: '#2B52BE',
   backgroundColor: '#181829',
   orientation: 'landscape',
   icon: './assets/icon.png',
+  userInterfaceStyle: 'dark',
 
   splash: {
     image: './assets/splash.png',
@@ -37,6 +39,15 @@ export default {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#181829',
     },
+  },
+
+  androidStatusBar: {
+    barStyle: 'light-content',
+  },
+
+  androidNavigationBar: {
+    visible: 'immersive',
+    barStyle: 'light-content',
   },
 
   web: {
