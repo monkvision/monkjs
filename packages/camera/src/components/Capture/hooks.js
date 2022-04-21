@@ -147,7 +147,7 @@ export function useStartUploadAsync({
     }
 
     const { ids } = sights.state;
-    // for a custom use, we can the sight we want
+    // for some cases, we can pass the sight we want and override the current one
     const current = currentSight || sights.state.current;
     const { id, label } = currentSight?.metadata || current.metadata;
 

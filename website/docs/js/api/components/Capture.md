@@ -22,7 +22,7 @@ Here is an example of uploading one image to an inspection on the browser with t
 
 ```javascript
 import React, { useCallback, useState } from 'react';
-import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
+import { Capture, Controls, Constants } from '@monkvision/camera';
 import { SafeAreaView, StatusBar } from 'react-native';
 
 export default function Inspector({ inspectionId }) {
@@ -60,7 +60,7 @@ This is the same example but using a **custom capture handler** function, which 
 
 ```javascript
 import React, { useCallback, useState } from 'react';
-import { Capture, Controls, Constants, useUploads } from '@monkvision/camera';
+import { Capture, Controls, Constants } from '@monkvision/camera';
 import { SafeAreaView, StatusBar } from 'react-native';
 
 export default function Inspector({ inspectionId }) {
