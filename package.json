@@ -16,7 +16,7 @@
   "scripts": {
     "start": "expo start --https",
     "start:documentation": "cd website && yarn run docs:start",
-    "start:visualization": "cd services/inspection-report && yarn run start",
+    "start:report": "cd services/inspection-report && yarn run start",
     "watch:ui": "cd ./packages/ui && yarn watch",
     "watch:camera": "cd ./packages/camera && yarn watch",
     "watch:visualization": "cd ./packages/visualization && yarn watch",

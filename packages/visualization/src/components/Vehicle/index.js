@@ -13,6 +13,7 @@ import camelCase from 'lodash.camelcase';
 import isPropValid from '@emotion/is-prop-valid';
 import xml2js from 'react-native-xml2js';
 import tinycolor from 'tinycolor2';
+import vehicleViews from './assets/vehicle';
 
 function SVGComponent({
   elementTag, getFillColor, selectedId, onPress, parsedSVG, ...passThroughProps
@@ -109,6 +110,7 @@ export default function Vehicle({
   xml,
   initialActiveParts,
   activeParts,
+  side,
   ...passThroughProps
 }) {
   const [parsedSvg, setParsedSvg] = useState();
@@ -135,9 +137,14 @@ export default function Vehicle({
       : defaultColor;
   }, [activeMixedColor, activeParts, controlledActiveParts]);
 
+  const pickedXml = useMemo(() => {
+    if (side === 'front' || side === 'back' || side === 'interior') { return vehicleViews[side]; }
+    return xml;
+  }, [xml, side]);
+
   useEffect(() => {
-    xml2js.parseString(xml, (e, result) => {
-      setParsedSvg(result.svg);
+    xml2js.parseString(pickedXml, (e, result) => {
+      setParsedSvg(result?.svg);
     });
   }, [xml]);
 
@@ -159,7 +166,8 @@ Vehicle.propTypes = {
   initialActiveParts: PropTypes.objectOf(PropTypes.bool),
   onPress: PropTypes.func,
   pressAble: PropTypes.bool,
-  xml: PropTypes.string.isRequired,
+  side: PropTypes.string,
+  xml: PropTypes.string,
 };
 
 Vehicle.defaultProps = {
@@ -168,5 +176,7 @@ Vehicle.defaultProps = {
   initialActiveParts: {},
   onPress: noop,
   pressAble: false,
+  side: null,
+  xml: null,
 };
 export { default as vehiclePartsNames } from './vehiclePartsNames';
