@@ -64,7 +64,8 @@
     "@monkvision/camera": "*",
     "@monkvision/corejs": "*",
     "@monkvision/sights": "*",
-    "@monkvision/toolkit": "*"
+    "@monkvision/toolkit": "*",
+    "@monkvision/visualization": "*"
   },
   "browserslist": {
     "production": [

@@ -122,7 +122,7 @@ export default function ResponsiveAppBar() {
               Customers
             </Button>
             {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
-            <Button onClick={() => navigate('/wheelAnalysis/943817b1-a223-42f0-94eb-4abaabcd5167/82272da6-57f2-8577-82f4-70ad5e1c96e0')} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button onClick={() => navigate('/wheelAnalysis/9ace7abf-2cb1-cb5d-9a1d-27b4255fd8ca/95cc6a15-fe05-4838-951f-371ef7eb5ba0')} sx={{ my: 2, color: 'white', display: 'block' }}>
               Wheel analysis
             </Button>
           </Box>

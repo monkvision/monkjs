@@ -61,6 +61,7 @@ export default function useGetInspection(id) {
     ...request,
     inspectionId: id,
     imageEntities,
+    taskEntities,
     inspection,
   };
 }

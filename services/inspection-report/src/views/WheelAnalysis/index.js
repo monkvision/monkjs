@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import startCase from 'lodash.startcase';
-import isEmpty from 'lodash.isempty';
 import { useParams } from 'react-router-dom';
+import { capitalize, isEmpty, startCase } from 'lodash';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -11,10 +11,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
+import { styled, useTheme } from '@mui/system';
+
+import { Vehicle } from '@monkvision/visualization';
 
 import { ScrollToTop, View } from 'components';
-import { capitalize } from 'lodash';
-import { styled } from '@mui/system';
+import moment from 'moment';
 import useGetInspection from './useGetInspection';
 import useGetWheelAnalysis from './useGetWheelAnalysis';
 
@@ -38,18 +41,64 @@ const chipProps = (data, name) => {
   }
 };
 
+const getVehicleSideByWheelName = (wheelName) => {
+  switch (wheelName) {
+    case 'wheelFrontRight':
+    case 'wheelBackRight':
+      return 'back';
+
+    case 'wheelFrontLeft':
+    case 'wheelBackLeft':
+    default:
+      return 'front';
+  }
+};
+
+const getActivePartsByVehicleSide = (wheelName) => {
+  switch (wheelName) {
+    case 'wheelFrontRight':
+      return { wheelFrontRight: true, hubcapFrontRight: true };
+    case 'wheelBackRight':
+      return { wheelBackRight: true, hubcapBackRight: true };
+    case 'wheelBackLeft':
+      return { wheelBackLeft: true, hubcapBackLeft: true };
+    case 'wheelFrontLeft':
+    default:
+      return { wheelFrontLeft: true, hubcapFrontLeft: true };
+  }
+};
+
+const isInvalidPrediction = (prediction) => prediction === 'NOT_APPLICABLE' || prediction === 'RIM_ONLY' || prediction === 'UNKNOWN';
+
 export default function WheelAnalysis() {
   const { inspectionId: id, wheelAnalysisId } = useParams();
+  const { palette } = useTheme();
 
-  const { imageEntities, inspection } = useGetInspection(id);
-
+  const { imageEntities, taskEntities, state } = useGetInspection(id);
   const { wheelAnalysis, images } = useGetWheelAnalysis(imageEntities, wheelAnalysisId);
+  console.log({ wheelAnalysis, images });
+  const currentTask = useMemo(
+    () => Object.values(taskEntities).find((task) => task.name === 'wheel_analysis'),
+    [taskEntities],
+  );
 
-  const noHubcapDetected = useMemo(() => wheelAnalysis?.hubcapOverRim?.prediction === 'NOT_APPLICABLE'
-  || wheelAnalysis?.hubcapOverRim?.prediction === 'RIM_ONLY'
-  || wheelAnalysis?.hubcapOverRim?.prediction === 'UNKNOWN', [wheelAnalysis?.hubcapOverRim]);
+  const vehicleSide = useMemo(
+    () => getVehicleSideByWheelName(wheelAnalysis?.wheelName),
+    [wheelAnalysis],
+  );
 
-  console.log({ images, wheelAnalysis, inspection, wheelAnalysisId, noHubcapDetected });
+  const noHubcapDetected = useMemo(
+    () => isInvalidPrediction(wheelAnalysis?.hubcapOverRim?.prediction),
+    [wheelAnalysis],
+  );
+
+  if (state.loading) {
+    return (
+      <Stack alignItems="center" mt="50vh">
+        <CircularProgress />
+      </Stack>
+    );
+  }
 
   return (
     <View viewName="wheelAnalysis" title={process.env.REACT_APP_BRAND}>
@@ -57,10 +106,30 @@ export default function WheelAnalysis() {
       <ScrollToTop />
       <Container maxWidth="xl">
         <Stack spacing={4} mt={4}>
-          <Typography variant="h4">{startCase(wheelAnalysis?.wheelName)}</Typography>
+          {/* wheel name */}
+          <Stack spacing={1}>
+            <Typography variant="h4">{startCase(wheelAnalysis?.wheelName)}</Typography>
+            <Stack spacing={1} direction="row">
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>AI Feature</Typography>
+              <Typography variant="subtitle1" color="gray">{moment(currentTask?.createdAt).format('DD/MM/YYYY LT')}</Typography>
+            </Stack>
+          </Stack>
+
+          {/* vehicle 2D */}
+          <Grid container direction="column" alignItems="center" justifyContent="center">
+            <Grid item xs={1}>
+              <Vehicle
+                side={vehicleSide}
+                activeParts={getActivePartsByVehicleSide(wheelAnalysis?.wheelName)}
+                readOnly
+                width="100%"
+                height="100%"
+              />
+            </Grid>
+          </Grid>
 
           {/* rim description */}
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
             <CardContent>
               <Stack spacing={1}>
                 <Typography variant="overline" color="gray">Rim description</Typography>
@@ -87,7 +156,7 @@ export default function WheelAnalysis() {
 
           {/* hubcap description (hubcap present) */}
           {!noHubcapDetected && (
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
             <CardContent>
               <Stack spacing={1}>
                 <Typography variant="overline" color="gray">Hubcap description</Typography>
@@ -115,7 +184,7 @@ export default function WheelAnalysis() {
 
           {/* hubcap description (no hubcap) */}
           {noHubcapDetected && (
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
             <CardContent>
               <Stack spacing={1}>
                 <Typography variant="overline" color="gray">Hubcap description</Typography>
@@ -132,20 +201,9 @@ export default function WheelAnalysis() {
               <div>
                 <Grid container columns={12} spacing={1}>
                   {images.map((image) => (
-                    <>
-                      <Grid item xs={4}>
-                        <Img src={image.path} alt="Part image1" key={image.id} />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Img src={image.path} alt="Part image1" key={image.id} />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Img src={image.path} alt="Part image1" key={image.id} />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Img src={image.path} alt="Part image1" key={image.id} />
-                      </Grid>
-                    </>
+                    <Grid item xs={4} key={image.id}>
+                      <Img src={image.path} alt="Part image1" />
+                    </Grid>
                   ))}
                 </Grid>
               </div>
