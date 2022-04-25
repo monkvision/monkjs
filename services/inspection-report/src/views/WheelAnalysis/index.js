@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { capitalize, isEmpty, startCase } from 'lodash';
+import moment from 'moment';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -17,7 +18,6 @@ import { styled, useTheme } from '@mui/system';
 import { Vehicle } from '@monkvision/visualization';
 
 import { ScrollToTop, View } from 'components';
-import moment from 'moment';
 import useGetInspection from './useGetInspection';
 import useGetWheelAnalysis from './useGetWheelAnalysis';
 
@@ -54,7 +54,7 @@ const getVehicleSideByWheelName = (wheelName) => {
   }
 };
 
-const getActivePartsByVehicleSide = (wheelName) => {
+const getActivePartsByWheelName = (wheelName) => {
   switch (wheelName) {
     case 'wheelFrontRight':
       return { wheelFrontRight: true, hubcapFrontRight: true };
@@ -76,7 +76,7 @@ export default function WheelAnalysis() {
 
   const { imageEntities, taskEntities, state } = useGetInspection(id);
   const { wheelAnalysis, images } = useGetWheelAnalysis(imageEntities, wheelAnalysisId);
-  console.log({ wheelAnalysis, images });
+
   const currentTask = useMemo(
     () => Object.values(taskEntities).find((task) => task.name === 'wheel_analysis'),
     [taskEntities],
@@ -104,6 +104,7 @@ export default function WheelAnalysis() {
     <View viewName="wheelAnalysis" title={process.env.REACT_APP_BRAND}>
       <CssBaseline />
       <ScrollToTop />
+
       <Container maxWidth="xl">
         <Stack spacing={4} mt={4}>
           {/* wheel name */}
@@ -120,7 +121,7 @@ export default function WheelAnalysis() {
             <Grid item xs={1}>
               <Vehicle
                 side={vehicleSide}
-                activeParts={getActivePartsByVehicleSide(wheelAnalysis?.wheelName)}
+                activeParts={getActivePartsByWheelName(wheelAnalysis?.wheelName)}
                 readOnly
                 width="100%"
                 height="100%"
