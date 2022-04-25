@@ -68,7 +68,7 @@ const getActivePartsByWheelName = (wheelName) => {
   }
 };
 
-const isInvalidPrediction = (prediction) => prediction === 'NOT_APPLICABLE' || prediction === 'RIM_ONLY' || prediction === 'UNKNOWN';
+const hasNoHubcapp = (prediction) => prediction === 'NOT_APPLICABLE' || prediction === 'RIM_ONLY' || prediction === 'UNKNOWN';
 
 export default function WheelAnalysis() {
   const { inspectionId: id, wheelAnalysisId } = useParams();
@@ -88,7 +88,7 @@ export default function WheelAnalysis() {
   );
 
   const noHubcapDetected = useMemo(
-    () => isInvalidPrediction(wheelAnalysis?.hubcapOverRim?.prediction),
+    () => hasNoHubcapp(wheelAnalysis?.hubcapOverRim?.prediction),
     [wheelAnalysis],
   );
 
