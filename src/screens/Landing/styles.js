@@ -29,16 +29,9 @@ export default StyleSheet.create({
     paddingVertical: utils.styles.spacing(2),
     paddingRight: utils.styles.spacing(2),
   },
-  leftPortrait: {
-    flex: 1,
-    paddingRight: utils.styles.spacing(0),
-  },
   right: {
     flex: 1.25,
     display: 'flex',
-  },
-  rightPortrait: {
-    flex: 1,
   },
   evenListItem: {
     elevation: 4,

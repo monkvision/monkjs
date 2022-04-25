@@ -107,20 +107,18 @@ export default function InspectionCapture() {
   }
 
   return (
-    <ScreenView style={styles.safeArea}>
-      <Capture
-        task={taskName}
-        mapTasksToSights={mapTasksToSights}
-        sightIds={sightIds}
-        inspectionId={inspectionId}
-        controls={controls}
-        loading={cameraLoading}
-        uploads={uploads}
-        onReady={() => setCameraLoading(false)}
-        onStartUploadPicture={() => setCameraLoading(true)}
-        onFinishUploadPicture={() => setCameraLoading(false)}
-        onChange={handleChange}
-      />
-    </ScreenView>
+    <Capture
+      task={taskName}
+      mapTasksToSights={mapTasksToSights}
+      sightIds={sightIds}
+      inspectionId={inspectionId}
+      controls={controls}
+      loading={cameraLoading}
+      uploads={uploads}
+      onReady={() => setCameraLoading(false)}
+      onStartUploadPicture={() => setCameraLoading(true)}
+      onFinishUploadPicture={() => setCameraLoading(false)}
+      onChange={handleChange}
+    />
   );
 }
