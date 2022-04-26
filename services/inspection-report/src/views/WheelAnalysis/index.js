@@ -129,6 +129,7 @@ export default function WheelAnalysis() {
             </Grid>
           </Grid>
 
+          {/* rim & hubcap */}
           <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
             <CardContent>
               <Stack spacing={4}>
