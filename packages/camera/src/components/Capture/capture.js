@@ -43,47 +43,6 @@ const styles = StyleSheet.create({
   },
 });
 
-/**
- * @param compliance
- * @param controls
- * @param controlsContainerStyle
- * @param enableComplianceCheck
- * @param footer
- * @param fullscreen
- * @param inspectionId
- * @param isSubmitting
- * @param loading
- * @param navigationOptions
- * @param offline
- * @param onChange
- * @param onComplianceChange
- * @param onSettingsChange
- * @param onSightsChange
- * @param onUploadsChange
- * @param onReady
- * @param onCaptureTourFinish
- * @param onCaptureTourStart
- * @param onComplianceCheckFinish
- * @param onComplianceCheckStart
- * @param onStartUploadPicture
- * @param onFinishUploadPicture
- * @param onRetakeAll
- * @param onFinish
- * @param orientationBlockerProps
- * @param primaryColor
- * @param settings
- * @param sightIds
- * @param sights
- * @param sightsContainerStyle
- * @param style
- * @param submitButtonLabel
- * @param thumbnailStyle
- * @param uploads
- * @param task
- * @param mapTasksToSights
- * @return {JSX.Element}
- * @constructor
- */
 const Capture = forwardRef(({
   controls,
   controlsContainerStyle,
@@ -101,7 +60,6 @@ const Capture = forwardRef(({
   onSightsChange,
   onUploadsChange,
   onCaptureTourFinish,
-  onCaptureTourStart,
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onPictureUploaded,
@@ -111,7 +69,6 @@ const Capture = forwardRef(({
   onFinishUploadPicture,
   orientationBlockerProps,
   primaryColor,
-  sightIds,
   sightsContainerStyle,
   style,
   submitButtonLabel,
@@ -127,7 +84,7 @@ const Capture = forwardRef(({
   const [isReady, setReady] = useState(false);
 
   const { camera, ref } = combinedRefs.current;
-  const { current, tour } = sights.state;
+  const { current } = sights.state;
 
   const overlay = current?.metadata?.overlay || '';
   const title = useTitle({ current });
@@ -203,18 +160,6 @@ const Capture = forwardRef(({
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
-  /**
-   * @type {{
-     * createDamageDetectionAsync: function(tasks=, compliances=): Promise<data>,
-     * setPictureAsync: (function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void,
-     * startUploadAsync: (function({inspectionId, sights, uploads}): Promise<result|error>)|*,
-     * goPrevSight: (function(): void)|*,
-     * takePictureAsync: function(): Promise<picture>,
-     * camera: {takePictureAsync: (function(options=): Promise<picture>)},
-     * checkComplianceAsync: (function(string): Promise<result|error>)|*,
-     * goNextSight: (function(): void)|*,
-   * }}
-   */
   const api = useMemo(() => ({
     camera,
     checkComplianceAsync,
@@ -258,40 +203,30 @@ const Capture = forwardRef(({
   // HANDLERS //
 
   const handleCameraReady = useCallback(() => {
-    setReady(true);
-    log([`Camera preview has been set`]);
-    onReady(states, api);
+    try {
+      setReady(true);
+      onReady(states, api);
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`onReady()\`: ${err}`], 'error');
+      throw err;
+    }
   }, [api, onReady, states]);
 
   // END HANDLERS //
   // EFFECTS //
 
   useEffect(() => {
-    onChange(states, api);
+    try {
+      onChange(states, api);
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`onChange()\`: ${err}`], 'error');
+      throw err;
+    }
   }, [api, onChange, states]);
 
-  useEffect(() => {
-    if (sightIds) {
-      log([`Capture workflow initialized with sights`, tour]);
-      log([`See https://monkvision.github.io/monkjs/sights?q=${sightIds.join(',')}`]);
-    }
-  }, [tour, sightIds]);
-
-  useEffect(() => {
-    if (enableComplianceCheck) { log([`Compliance check is enabled`]); }
-  }, [enableComplianceCheck]);
-
-  useEffect(() => {
-    log([`Capture tour has been started`]);
-    onCaptureTourStart();
-  }, [onCaptureTourStart]);
-
   useEffect(() => { onUploadsChange(states, api); }, [uploads]);
-
   useEffect(() => { onComplianceChange(states, api); }, [compliance]);
-
   useEffect(() => { onSightsChange(states, api); }, [sights]);
-
   useEffect(() => { onSettingsChange(states, api); }, [settings]);
 
   // END EFFECTS //

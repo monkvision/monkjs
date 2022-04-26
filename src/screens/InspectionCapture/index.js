@@ -3,6 +3,8 @@ import { Loader, ScreenView } from '@monkvision/ui';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Capture, Controls } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
+import { utils } from '@monkvision/toolkit';
+import { useWindowDimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
@@ -39,6 +41,8 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { height } = useWindowDimensions();
+
   const { isAuthenticated } = useAuth();
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -63,7 +67,8 @@ export default function InspectionCapture() {
         setCameraLoading(false);
 
         handleNavigate();
-      } catch (e) {
+      } catch (err) {
+        utils.log([`Error after taking picture: ${err}`], 'error');
         setCameraLoading(false);
       }
     }
@@ -71,21 +76,26 @@ export default function InspectionCapture() {
 
   const handleChange = useCallback((state) => {
     if (!success) {
-      const { takenPictures, tour } = state.sights.state;
-      const totalPictures = Object.keys(tour).length;
-      const uploadState = Object.values(state.uploads.state);
+      try {
+        const { takenPictures, tour } = state.sights.state;
+        const totalPictures = Object.keys(tour).length;
+        const uploadState = Object.values(state.uploads.state);
 
-      const fulfilledUploads = uploadState.filter(({ status }) => status === 'fulfilled').length;
-      const retriedUploads = uploadState.filter(({ requestCount }) => requestCount > 1).length;
+        const fulfilledUploads = uploadState.filter(({ status }) => status === 'fulfilled').length;
+        const retriedUploads = uploadState.filter(({ requestCount }) => requestCount > 1).length;
 
-      const hasPictures = Object.keys(takenPictures).length === totalPictures;
-      const hasBeenUploaded = (
-        fulfilledUploads === totalPictures
-       || retriedUploads >= totalPictures - fulfilledUploads
-      );
+        const hasPictures = Object.keys(takenPictures).length === totalPictures;
+        const hasBeenUploaded = (
+          fulfilledUploads === totalPictures
+          || retriedUploads >= totalPictures - fulfilledUploads
+        );
 
-      if (hasPictures && hasBeenUploaded) {
-        setSuccess(true);
+        if (hasPictures && hasBeenUploaded) {
+          setSuccess(true);
+        }
+      } catch (err) {
+        utils.log([`Error handling Capture state change: ${err}`], 'error');
+        throw err;
       }
     }
   }, [success]);
@@ -99,8 +109,8 @@ export default function InspectionCapture() {
 
   if (!isAuthenticated) {
     return (
-      <ScreenView style={styles.safeArea}>
-        <Loader />
+      <ScreenView style={[styles.safeArea, { height }]}>
+        <Loader texts={['authenticating', 'checking you are not a robot']} />
       </ScreenView>
     );
   }

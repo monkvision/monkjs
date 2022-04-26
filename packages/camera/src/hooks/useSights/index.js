@@ -1,8 +1,6 @@
 import { useReducer } from 'react';
 import sightsData from '@monkvision/sights/dist';
-
 import Actions from '../../actions';
-import log from '../../utils/log';
 
 function init({ sightIds, initialState }) {
   if (initialState) { return initialState; }
@@ -42,8 +40,6 @@ function reducer(state, action) {
       };
 
     case Actions.sights.REMOVE_PICTURE:
-      log([`Remove picture for #${id} sight`]);
-
       return {
         ...state,
         takenPictures: {
@@ -57,16 +53,12 @@ function reducer(state, action) {
     case Actions.sights.SET_CURRENT_SIGHT:
       if (action.type === Actions.sights.PREVIOUS_SIGHT) {
         if (state.current.index === 0) { return state; }
-        log([`Going previous sight #${previousSight}`]);
         id = previousSight;
       }
       if (action.type === Actions.sights.NEXT_SIGHT) {
         if (state.current.index === state.ids.length - 1) { return state; }
-        log([`Going next sight #${nextSight}`]);
         id = nextSight;
       }
-
-      log([`Set current sight to #${id}`]);
 
       return {
         ...state,

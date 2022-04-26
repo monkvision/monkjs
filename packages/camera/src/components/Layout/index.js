@@ -137,7 +137,6 @@ function Layout({
   const { height, width } = useWindowDimensions();
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
-  useMobileBrowserConfig();
   useOrientation('landscape');
 
   const size = StyleSheet.create({

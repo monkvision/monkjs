@@ -1,8 +1,8 @@
 import { Constants } from '@monkvision/camera';
 import React, { useCallback, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { View, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { View, StyleSheet, useWindowDimensions } from 'react-native';
+import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
 import isEmpty from 'lodash.isempty';
 
@@ -68,13 +68,19 @@ const styles = StyleSheet.create({
 
 export default function InspectionCreate() {
   const navigation = useNavigation();
+  const { height } = useWindowDimensions();
   const { colors } = useTheme();
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod } = route.params || {};
 
   const { isAuthenticated } = useAuth();
-  const [signIn, isSigningIn] = useSignIn();
+  const [signIn, isSigningIn, authError] = useSignIn();
+
+  const handleGoBack = useCallback(
+    () => navigation.navigate(names.LANDING),
+    [navigation],
+  );
 
   const createInspection = useCreateInspection();
 
@@ -108,19 +114,25 @@ export default function InspectionCreate() {
     if (!isAuthenticated && !isSigningIn) { signIn(); }
   }, [isAuthenticated, isSigningIn, signIn]);
 
+  if (authError) {
+    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+      <Title>Sorry 😞</Title>
+      <Paragraph>An error occured will authenticating, please try again in a minute.</Paragraph>
+      <Button onPress={handleGoBack}>Go back to home page</Button>
+    </View>;
+  }
+
   if (isSigningIn) {
     return (
-      <View style={[styles.root, { backgroundColor: colors.background }]}>
-        <Loader
-          texts={[`Signing in`, `Authenticating`, `Checking you're not a decepticon`]}
-        />
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a decepticon`]} />
       </View>
     );
   }
 
   if (createInspection.state.loading) {
     return (
-      <View style={[styles.root, { backgroundColor: colors.background }]}>
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
         <Loader texts={[`Creating inspection`, `Waking up the AI`]} />
       </View>
     );
