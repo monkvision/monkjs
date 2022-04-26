@@ -52,8 +52,7 @@ export default function InspectionCapture() {
       setCameraLoading(true);
 
       try {
-        const params = { inspectionId, name: taskName, data: { status: 'TODO' } };
-        const payload = await monk.entity.task.updateOne(params);
+        const payload = await monk.entity.task.updateOne(inspectionId, taskName, { status: 'TODO' });
         const { entities, result } = payload;
 
         dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));

@@ -1,14 +1,22 @@
 module.exports = {
   root: false,
+  extends: [
+    'airbnb-typescript/base',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:promise/recommended',
+  ],
   env: {
     es6: true,
     node: true,
-    mocha: true,
+    jest: true,
   },
-  plugins: ['mocha'],
+  plugins: ['jest'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
+    project: ['./tsconfig.eslint.json'],
   },
   rules: {
     curly: ['error', 'all'],
@@ -23,25 +31,28 @@ module.exports = {
     'object-curly-newline': 'off',
     'no-underscore-dangle': 'off',
     'no-param-reassign': ['error', { props: false }],
+    'max-len': ['warn', { code: 120 }],
+    'import/prefer-default-export': 'off',
   },
   overrides: [
     {
       files: [
-        '**/test-utils/**/*.js',
+        'test/**/*.{ts,tsx}',
         // matching the pattern of the test runner
         '*.test.js',
         '*.int-test.js',
       ],
       env: {
         node: true,
-        mocha: true,
+        jest: true,
       },
       rules: {
-        // does not work with wildcard imports. Mistakes will throw at runtime anyway
-        'import/named': 0,
-        // for expect style assertions
-        'no-unused-expressions': 'off',
-        'import/extensions': 0,
+        'import/first': 'off'
+        // // does not work with wildcard imports. Mistakes will throw at runtime anyway
+        // 'import/named': 0,
+        // // for expect style assertions
+        // 'no-unused-expressions': 'off',
+        // 'import/extensions': 0,
       },
     },
     {

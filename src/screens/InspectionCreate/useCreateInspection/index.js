@@ -25,7 +25,7 @@ export default function useCreateInspection() {
         };
       });
 
-    return monk.entity.inspection.upsertOne({ data: { tasks } });
+    return monk.entity.inspection.createOne({ tasks });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {

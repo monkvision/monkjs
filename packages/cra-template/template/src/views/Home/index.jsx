@@ -21,11 +21,11 @@ export default function Home() {
   const handleNewInspection = useCallback(() => {
     const createOneInspection = createAsyncThunk(
       'inspections/createOne',
-      async (arg) => {
+      async (data) => {
         setLoading();
-        const { entities, result } = await monk.entity.inspection.upsertOne({ ...arg });
+        const { entities, result } = await monk.entity.inspection.createOne(data);
         unsetLoading();
-        setInspectionId(result);
+        setInspectionId(result.id);
 
         return entities;
       },
@@ -33,7 +33,7 @@ export default function Home() {
 
     try {
       const tasks = { damage_detection: { status: 'NOT_STARTED' } };
-      dispatch(createOneInspection({ data: { tasks } }));
+      dispatch(createOneInspection({ tasks }));
     } catch (e) {
       unsetLoading();
       enqueueSnackbar(

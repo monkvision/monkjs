@@ -35,7 +35,7 @@ const {
   axiosResponse, // https://axios-http.com/docs/res_schema
   entities, // https://github.com/paularmstrong/normalizr
   result,
-} = await monk.entity.inspection.getOne({ id: 'one-valid-inspection-id' });
+} = await monk.entity.inspection.getOne('one-valid-inspection-id');
 ```
 
 ## Go further
@@ -117,12 +117,12 @@ function Inspection({ id = 'one-valid-inspection-id' }) {
     setError(e);
   }, [setLoading, setError])
 
-  const getOneInspection = useCallback(async (requestParams) => {
+  const getOneInspection = useCallback(async (id, showDeletedObjects) => {
     if (!loading) {
       setLoading(true);
 
       try {
-        const response = await entity.inspection.getOne(requestParams);
+        const response = await entity.inspection.getOne(id, { showDeletedObjects });
         dispatch({ type: `${entity.inspection.name}/gotOne`, payload: response });
         setLoading(false);
       } catch (e) {
@@ -134,7 +134,7 @@ function Inspection({ id = 'one-valid-inspection-id' }) {
   const inspection = entity.inspection.selectors.selectById(id);
 
   useEffect(() => {
-    getOneInspection({ id });
+    getOneInspection(id, false);
   }, [getOneInspection, id]);
 
   if (loading) {
