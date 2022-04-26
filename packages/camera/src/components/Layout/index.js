@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive';
 import screenfull from 'screenfull';
 import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
 import useOrientation from '../../hooks/useOrientation';
 
 const SIDE = 116;
