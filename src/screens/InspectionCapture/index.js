@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Loader, ScreenView } from '@monkvision/ui';
+import { View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Capture, Controls } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
-import { useWindowDimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
-
-import styles from './styles';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -21,19 +18,19 @@ const mapTasksToSights = [{
   },
 }, {
   id: 'xQKQ0bXS',
-  tasks: ['wheel_analysis', 'damage_detection'],
+  tasks: ['wheel_analysis'],
   payload: {},
 }, {
   id: '8_W2PO8L',
-  tasks: ['wheel_analysis', 'damage_detection'],
+  tasks: ['wheel_analysis'],
   payload: {},
 }, {
   id: 'rN39Y3HR',
-  tasks: ['wheel_analysis', 'damage_detection'],
+  tasks: ['wheel_analysis'],
   payload: {},
 }, {
   id: 'PuIw17h0',
-  tasks: ['wheel_analysis', 'damage_detection'],
+  tasks: ['wheel_analysis'],
   payload: {},
 }];
 
@@ -41,7 +38,6 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { height } = useWindowDimensions();
 
   const { isAuthenticated } = useAuth();
 
@@ -108,11 +104,7 @@ export default function InspectionCapture() {
   useEffect(() => { handleSuccess(); }, [handleSuccess, success]);
 
   if (!isAuthenticated) {
-    return (
-      <ScreenView style={[styles.safeArea, { height }]}>
-        <Loader texts={['authenticating', 'checking you are not a robot']} />
-      </ScreenView>
-    );
+    return <View />;
   }
 
   return (

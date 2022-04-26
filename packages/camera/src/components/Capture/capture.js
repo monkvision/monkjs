@@ -399,7 +399,6 @@ Capture.propTypes = {
     type: PropTypes.string,
     zoom: PropTypes.number,
   }).isRequired,
-  sightIds: PropTypes.arrayOf(PropTypes.string),
   sights: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -484,7 +483,6 @@ Capture.defaultProps = {
   onRetakeAll: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
-  sightIds: Capture.defaultSightIds,
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,
@@ -494,7 +492,7 @@ Capture.defaultProps = {
 };
 
 /**
- * Note(Ilyass): While using `forwaredRef` with PropTypes, the component loses its displayName
+ * Note(Ilyass): While using `forwardRef` with PropTypes, the component loses its displayName
  * which is important for debugging with devtools
  *  */
 Capture.displayName = 'Capture';

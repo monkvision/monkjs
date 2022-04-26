@@ -109,7 +109,7 @@ CaptureHOC.defaultProps = {
 };
 
 /**
- * Note(Ilyass): While using forwaredRef with PropTypes, the component loses its displayName
+ * Note(Ilyass): While using forwardRef with PropTypes, the component loses its displayName
  * which is important for debugging with devtools
  *  */
 CaptureHOC.displayName = 'CaptureHOC';

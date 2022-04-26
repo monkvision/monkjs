@@ -1,10 +1,10 @@
-import { Constants } from '@monkvision/camera';
-import React, { useCallback, useEffect } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
 import isEmpty from 'lodash.isempty';
+import { Constants } from '@monkvision/camera';
 
 import * as names from 'screens/names';
 
@@ -68,59 +68,53 @@ const styles = StyleSheet.create({
 
 export default function InspectionCreate() {
   const navigation = useNavigation();
+  const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod } = route.params || {};
+  const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
-  const { isAuthenticated } = useAuth();
-  const [signIn, isSigningIn, authError] = useSignIn();
+  const [authError, setAuthError] = useState(false);
+  const [signIn, isSigningIn] = useSignIn({
+    onError: () => setAuthError(true),
+  });
+
+  const createInspection = useCreateInspection();
+  const handleCreate = useCallback(async () => {
+    if (isEmpty(inspectionId) && isAuthenticated) {
+      const response = await createInspection.start(selectedMod);
+      if (response !== null) { setInspectionId(response.result); }
+    }
+  }, [inspectionId, isAuthenticated, createInspection]);
 
   const handleGoBack = useCallback(
     () => navigation.navigate(names.LANDING),
     [navigation],
   );
 
-  const createInspection = useCreateInspection();
-
-  const handleStart = useCallback(async () => {
-    const params = {
-      inspectionId: idFromParams || '',
-      sightIds: SIGHTS_IDS_BY_MOD[selectedMod],
-      taskName: TASKS_BY_MOD[selectedMod],
-    };
-
-    if (isEmpty(params.inspectionId)) {
-      const response = await createInspection.start(selectedMod);
-      if (response !== null) { params.inspectionId = response.result; }
-    }
-
-    navigation.navigate(names.INSPECTION_CAPTURE, params);
-  }, [createInspection, idFromParams, navigation, selectedMod]);
-
   useEffect(() => {
-    if (isAuthenticated && createInspection.state.count === 0 && !createInspection.loading) {
-      handleStart();
+    if (isAuthenticated && !isEmpty(inspectionId)) {
+      const params = {
+        inspectionId,
+        sightIds: SIGHTS_IDS_BY_MOD[selectedMod],
+        taskName: TASKS_BY_MOD[selectedMod],
+      };
+
+      navigation.navigate(names.INSPECTION_CAPTURE, params);
     }
-  }, [isAuthenticated, createInspection, handleStart]);
+  }, [isAuthenticated, navigation, selectedMod, inspectionId]);
 
-  useEffect(
-    () => navigation.addListener('focus', handleStart),
-    [navigation, handleStart],
-  );
-
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     if (!isAuthenticated && !isSigningIn) { signIn(); }
-  }, [isAuthenticated, isSigningIn, signIn]);
+  }, [isAuthenticated, isSigningIn, signIn]));
 
-  if (authError) {
-    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Title>Sorry 😞</Title>
-      <Paragraph>An error occured will authenticating, please try again in a minute.</Paragraph>
-      <Button onPress={handleGoBack}>Go back to home page</Button>
-    </View>;
-  }
+  useEffect(useCallback(() => {
+    if (isAuthenticated && isEmpty(inspectionId && !createInspection.state.loading)) {
+      handleCreate();
+    }
+  }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
 
   if (isSigningIn) {
     return (
@@ -128,6 +122,14 @@ export default function InspectionCreate() {
         <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a decepticon`]} />
       </View>
     );
+  }
+
+  if (authError === true) {
+    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+      <Title>Sorry 😞</Title>
+      <Paragraph>An error occurred will authenticating, please try again in a minute.</Paragraph>
+      <Button onPress={handleGoBack}>Go back to home page</Button>
+    </View>;
   }
 
   if (createInspection.state.loading) {
@@ -138,7 +140,21 @@ export default function InspectionCreate() {
     );
   }
 
+  if (createInspection.state.error) {
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Title>Sorry 😞</Title>
+        <Paragraph>
+          An error occurred will creating the inspection, please try again in a minute.
+        </Paragraph>
+        <Button onPress={handleGoBack}>Go back to home page</Button>
+      </View>
+    );
+  }
+
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]} />
+    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+      <Loader texts={[`Processing...`]} />
+    </View>
   );
 }

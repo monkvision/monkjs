@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
 
 import monk from '@monkvision/corejs';
-import { utils } from '@monkvision/toolkit';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
 
@@ -28,7 +27,6 @@ export default function useSignIn(callbacks = {}) {
   const { onStart, onError, onSuccess } = callbacks;
 
   const dispatch = useDispatch();
-  const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
@@ -47,45 +45,39 @@ export default function useSignIn(callbacks = {}) {
   );
 
   const handleStart = useCallback(() => {
-    try {
-      if (request) {
-        promptAsync({ useProxy });
-        start();
-        if (typeof onStart === 'function') { onStart(); }
-      }
-    } catch (err) {
-      utils.log([`Error signing in: ${err}`], 'error');
-      stop();
+    if (request) {
+      start();
+      promptAsync({ useProxy });
+      if (typeof onStart === 'function') { onStart(); }
     }
   }, [onStart, promptAsync, request]);
 
   useEffect(() => {
-    try {
-      if (response?.type === 'success' && response.authentication?.accessToken) {
-        const { accessToken } = response.authentication;
-        monk.config.accessToken = accessToken;
+    if (response?.type === 'success' && response.authentication?.accessToken) {
+      stop();
 
-        dispatch(authSlice.actions.update({
-          ...response.authentication,
-          isLoading: false,
-          isSignedOut: false,
-        }));
+      const { accessToken } = response.authentication;
+      monk.config.accessToken = accessToken;
 
-        if (typeof onSuccess === 'function') {
-          stop();
-          onSuccess(response);
-        }
-      } else if (typeof onError === 'function') {
-        stop();
-        setError(response);
-        onError();
-      }
-    } catch (err) {
-      setError(err);
-      utils.log([`Error signing in: ${err}`], 'error');
-      throw err;
+      dispatch(authSlice.actions.update({
+        ...response.authentication,
+        isLoading: false,
+        isSignedOut: false,
+      }));
+
+      if (typeof onSuccess === 'function') { onSuccess(response); }
     }
-  }, [dispatch, onError, onSuccess, request, response]);
+  }, [dispatch, onSuccess, request, response]);
 
-  return [handleStart, isLoading, error];
+  useEffect(() => {
+    if (response?.type === 'error') {
+      stop();
+
+      if (typeof onError === 'function') {
+        onError(response);
+      } else { throw Error('Error while signing in'); }
+    }
+  }, [onError, request, response]);
+
+  return [handleStart, isLoading];
 }
