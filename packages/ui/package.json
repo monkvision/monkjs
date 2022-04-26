@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "react-native-paper": "^4.12.0",
-    "react-native-svg": "^12.3.0",
     "lodash.noop": "^3.0.1"
   },
   "devDependencies": {
@@ -51,7 +50,8 @@
   "peerDependencies": {
     "@monkvision/toolkit": "2.0.0-0",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "*"
   },
   "publishConfig": {
     "access": "public"

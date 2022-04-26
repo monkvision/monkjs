@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ScreenView } from '@monkvision/ui';
+import { Loader, ScreenView } from '@monkvision/ui';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Capture, Controls } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useDispatch } from 'react-redux';
 import * as names from 'screens/names';
+import useAuth from 'hooks/useAuth';
 
 import styles from './styles';
 
@@ -38,6 +39,7 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { isAuthenticated } = useAuth();
 
   const { inspectionId, sightIds, taskName } = route.params;
 
@@ -95,20 +97,26 @@ export default function InspectionCapture() {
 
   useEffect(() => { handleSuccess(); }, [handleSuccess, success]);
 
+  if (!isAuthenticated) {
+    return (
+      <ScreenView style={styles.safeArea}>
+        <Loader />
+      </ScreenView>
+    );
+  }
+
   return (
-    <ScreenView style={styles.safeArea}>
-      <Capture
-        task={taskName}
-        mapTasksToSights={mapTasksToSights}
-        sightIds={sightIds}
-        inspectionId={inspectionId}
-        controls={controls}
-        loading={cameraLoading}
-        onReady={() => setCameraLoading(false)}
-        onStartUploadPicture={() => setCameraLoading(true)}
-        onFinishUploadPicture={() => setCameraLoading(false)}
-        onChange={handleChange}
-      />
-    </ScreenView>
+    <Capture
+      task={taskName}
+      mapTasksToSights={mapTasksToSights}
+      sightIds={sightIds}
+      inspectionId={inspectionId}
+      controls={controls}
+      loading={cameraLoading}
+      onReady={() => setCameraLoading(false)}
+      onStartUploadPicture={() => setCameraLoading(true)}
+      onFinishUploadPicture={() => setCameraLoading(false)}
+      onChange={handleChange}
+    />
   );
 }

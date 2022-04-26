@@ -1,26 +1,33 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMediaQuery } from 'react-responsive';
 import screenfull from 'screenfull';
 import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import getOS from '../../utils/getOS';
-import useOrientation from '../../hooks/useOrientation';
 import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
-import PortraitOrientationBlocker from './PortraitOrientationBlocker';
+import useOrientation from '../../hooks/useOrientation';
 
-export const SIDE_WIDTH = 116;
+const SIDE = 116;
+export const SIDE_WIDTH = SIDE;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: 'black',
+    overflow: 'hidden',
+  },
+  portrait: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   section: {
     alignItems: 'center',
-    overflow: 'hidden',
+  },
+  sectionPortrait: {
+    transform: [{ rotate: '90deg' }],
   },
   fullScreenButtonContainer: {
     justifyContent: 'center',
@@ -42,21 +49,18 @@ const styles = StyleSheet.create({
   },
   side: {
     display: 'flex',
-    position: 'absolute',
-    width: SIDE_WIDTH,
     zIndex: 10,
+    width: SIDE,
+    overflow: 'hidden',
   },
-  left: {
-    top: 0,
-    left: 0,
+  leftPortrait: {
+    transform: [{ matrix: [0, 1, -1, 0, -120, 85] }],
   },
-  right: {
-    top: 0,
-    right: 0,
+  rightPortrait: {
+    transform: [{ matrix: [0, 1, -1, 0, -120, -84] }],
   },
   center: {
     display: 'flex',
-    width: '100%',
     justifyContent: 'center',
   },
 });
@@ -87,7 +91,7 @@ function FullScreenButton({ hidden, ...rest }) {
   useEffect(() => {
     if (!screenfull.isEnabled || !document) { return; }
 
-    // initial backroundColor
+    // initial backgroundColor
     const backgroundColor = document.body.style.backgroundColor;
 
     // change the backgroundColor
@@ -95,7 +99,7 @@ function FullScreenButton({ hidden, ...rest }) {
 
     // eslint-disable-next-line consistent-return
     return () => {
-    // reset the backroundColor
+    // reset the backgroundColor
       document.body.style.backgroundColor = backgroundColor;
       toggleFullScreen(false);
     };
@@ -127,81 +131,72 @@ FullScreenButton.defaultProps = {
 function Layout({
   buttonFullScreenProps,
   children,
-  containerStyle,
   left,
-  orientationBlockerProps,
   right,
-  sectionStyle,
 }) {
-  const isNative = Platform.select({ native: true, default: false });
-  const { height } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
-  const mobileBrowserIsPortrait = useMobileBrowserConfig();
-  const orientation = useOrientation('landscape');
-  const [grantedLandscape, grantLandscape] = useState(false);
+  useMobileBrowserConfig();
+  useOrientation('landscape');
 
-  const showOrientationBLocker = useMemo(() => (
-    Platform.OS === 'web'
-    && (!['Mac OS', 'Windows', 'Linux'].includes(getOS())
-    && (!grantedLandscape
-    || mobileBrowserIsPortrait
-    || (isNative && orientation.isNotLandscape)))
-  ), [grantedLandscape, isNative, mobileBrowserIsPortrait, orientation.isNotLandscape]);
+  const size = StyleSheet.create({
+    height: isPortrait ? width : height,
+    width: isPortrait ? height : width,
+  });
 
-  if (showOrientationBLocker) {
-    return (
-      <PortraitOrientationBlocker
-        grantLandscape={grantLandscape}
-        isPortrait={mobileBrowserIsPortrait}
-        {...orientationBlockerProps}
-      />
-    );
-  }
+  const containerStyle = StyleSheet.compose(
+    styles.container,
+    isPortrait && styles.portrait,
+  );
+
+  const sectionStyle = StyleSheet.compose(
+    styles.section,
+    isPortrait && styles.sectionPortrait,
+  );
+
+  const sideStyle = StyleSheet.compose(
+    styles.side,
+    isPortrait && styles.sidePortrait,
+  );
+
+  const leftStyle = StyleSheet.compose(
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    isPortrait && styles.leftPortrait,
+  );
+
+  const rightStyle = StyleSheet.compose(
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    isPortrait && styles.rightPortrait,
+  );
 
   return (
-    <View
-      accessibilityLabel="Layout"
-      style={[styles.container, containerStyle]}
-    >
-      <View
-        accessibilityLabel="Side left"
-        style={[styles.section, styles.side, styles.left, sectionStyle, { height }]}
-      >
-        {left}
-      </View>
+    <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, containerStyle]}>
+      <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
-        style={[styles.section, sectionStyle, styles.center, { height }]}
+        style={[size, sectionStyle, styles.center, {
+          maxWidth: (isPortrait ? height : width) - (2 * SIDE),
+        }]}
       >
         {children}
         <FullScreenButton {...buttonFullScreenProps} />
       </View>
-      <View
-        accessibilityLabel="Side right"
-        style={[styles.section, styles.side, styles.right, sectionStyle, { height }]}
-      >
-        {right}
-      </View>
+      <View accessibilityLabel="Side right" style={rightStyle}>{right}</View>
     </View>
   );
 }
 
 Layout.propTypes = {
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
-  orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   right: PropTypes.element,
-  sectionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Layout.defaultProps = {
   buttonFullScreenProps: {},
-  containerStyle: null,
   left: null,
-  orientationBlockerProps: null,
   right: null,
-  sectionStyle: null,
 };
 
 export default Layout;

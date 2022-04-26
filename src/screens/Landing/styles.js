@@ -8,8 +8,14 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
+  portrait: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+  },
   background: {
-    position: 'fixed',
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -32,5 +38,11 @@ export default StyleSheet.create({
   },
   oddListItem: {
     elevation: 1,
+  },
+  actions: {
+    justifyContent: 'flex-end',
+  },
+  listLoading: {
+    marginHorizontal: utils.styles.spacing(2),
   },
 });

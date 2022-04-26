@@ -31,6 +31,11 @@ export const SIGHTS_IDS_BY_MOD = {
     '5CFsFvj7', // Front Fender Right
     'g30kyiVH', // Front Bumper Side Right
     'I0cOpT1e', // Front
+
+    'IqwSM3', // Front seats
+    'rj5mhm', // Back seats
+    'qhKA2z', // Trunk
+    'rSvk2C', // Dashboard
   ],
   wheels: [
     'xQKQ0bXS', // Front wheel left

@@ -41,7 +41,6 @@
   "dependencies": {
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
-    "react-native-svg": "12.3.0",
     "react-native-gesture-handler": "~1.10.2"
   },
   "devDependencies": {
@@ -51,7 +50,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "*"
   },
   "publishConfig": {
     "access": "public"

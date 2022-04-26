@@ -39,8 +39,12 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  useIcons();
+  const wait = useIcons();
   const { height: minHeight } = useWindowDimensions();
+
+  if (wait) {
+    return <View />;
+  }
 
   return (
     <Provider store={store}>
