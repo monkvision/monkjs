@@ -129,76 +129,70 @@ export default function WheelAnalysis() {
             </Grid>
           </Grid>
 
-          {/* rim description */}
           <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
             <CardContent>
-              <Stack spacing={1}>
-                <Typography variant="overline" color="gray">Rim description</Typography>
-                <Stack spacing={2}>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">Rim condition</Typography>
-                    <Chip {...chipProps(wheelAnalysis?.rimCondition, 'NOT_DAMAGED')} />
-                    <Chip {...chipProps(wheelAnalysis?.rimCondition, 'DAMAGED')} />
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">Rim material</Typography>
-                    <Chip {...chipProps(wheelAnalysis?.rimMaterial, 'STEEL')} />
-                    <Chip {...chipProps(wheelAnalysis?.rimMaterial, 'ALU')} />
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">Rim visual aspect</Typography>
-                    <Chip {...chipProps(wheelAnalysis?.rimVisualAspect, 'BICOLOR')} />
-                    <Chip {...chipProps(wheelAnalysis?.rimVisualAspect, 'CLASSIC')} />
+              <Stack spacing={4}>
+                {/* rim description */}
+                <Stack spacing={1}>
+                  <Typography variant="overline" color="gray">Rim description</Typography>
+                  <Stack spacing={2}>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="subtitle1">Rim condition</Typography>
+                      <Chip {...chipProps(wheelAnalysis?.rimCondition, 'NOT_DAMAGED')} />
+                      <Chip {...chipProps(wheelAnalysis?.rimCondition, 'DAMAGED')} />
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="subtitle1">Rim material</Typography>
+                      <Chip {...chipProps(wheelAnalysis?.rimMaterial, 'STEEL')} />
+                      <Chip {...chipProps(wheelAnalysis?.rimMaterial, 'ALU')} />
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="subtitle1">Rim visual aspect</Typography>
+                      <Chip {...chipProps(wheelAnalysis?.rimVisualAspect, 'BICOLOR')} />
+                      <Chip {...chipProps(wheelAnalysis?.rimVisualAspect, 'CLASSIC')} />
+                    </Stack>
                   </Stack>
                 </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
 
-          {/* hubcap description (hubcap present) */}
-          {!noHubcapDetected && (
-          <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
-            <CardContent>
-              <Stack spacing={1}>
-                <Typography variant="overline" color="gray">Hubcap description</Typography>
-                <Stack spacing={2}>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">Hubcap condition</Typography>
-                    <Chip {...chipProps(wheelAnalysis?.hubcapCondition, 'NOT_DAMAGED')} />
-                    <Chip {...chipProps(wheelAnalysis?.hubcapCondition, 'DAMAGED')} />
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">Hubcap over rim</Typography>
-                    <Chip {...chipProps(wheelAnalysis?.hubcapOverRim, 'HUBCAP_OVER_RIM')} />
-                    <Chip {...chipProps(wheelAnalysis?.hubcapOverRim, 'RIM_ONLY')} />
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">Hubcap visual aspect</Typography>
-                    <Chip {...chipProps(wheelAnalysis?.hubcapVisualAspect, 'BICOLOR')} />
-                    <Chip {...chipProps(wheelAnalysis?.hubcapVisualAspect, 'CLASSIC')} />
+                {/* hubcap description (hubcap present) */}
+                {!noHubcapDetected && (
+                <Stack spacing={1}>
+                  <Typography variant="overline" color="gray">Hubcap description</Typography>
+                  <Stack spacing={2}>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="subtitle1">Hubcap condition</Typography>
+                      <Chip {...chipProps(wheelAnalysis?.hubcapCondition, 'NOT_DAMAGED')} />
+                      <Chip {...chipProps(wheelAnalysis?.hubcapCondition, 'DAMAGED')} />
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="subtitle1">Hubcap over rim</Typography>
+                      <Chip {...chipProps(wheelAnalysis?.hubcapOverRim, 'HUBCAP_OVER_RIM')} />
+                      <Chip {...chipProps(wheelAnalysis?.hubcapOverRim, 'RIM_ONLY')} />
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="subtitle1">Hubcap visual aspect</Typography>
+                      <Chip {...chipProps(wheelAnalysis?.hubcapVisualAspect, 'BICOLOR')} />
+                      <Chip {...chipProps(wheelAnalysis?.hubcapVisualAspect, 'CLASSIC')} />
+                    </Stack>
                   </Stack>
                 </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-          )}
+                )}
 
-          {/* hubcap description (no hubcap) */}
-          {noHubcapDetected && (
-          <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
-            <CardContent>
-              <Stack spacing={1}>
-                <Typography variant="overline" color="gray">Hubcap description</Typography>
-                <Typography variant="body1">No hubcap detected</Typography>
+                {/* hubcap description (no hubcap) */}
+                {noHubcapDetected && (
+                <Stack spacing={1}>
+                  <Typography variant="overline" color="gray">Hubcap description</Typography>
+                  <Typography variant="body1">No hubcap detected</Typography>
+                </Stack>
+                )}
               </Stack>
             </CardContent>
           </Card>
-          )}
 
           {/* images */}
           {!isEmpty(images) ? (
             <Stack spacing={1}>
-              <Typography variant="overline" color="gray">Damages photos</Typography>
+              <Typography variant="overline" color="gray">Pictures</Typography>
               <div>
                 <Grid container columns={12} spacing={1}>
                   {images.map((image) => (
