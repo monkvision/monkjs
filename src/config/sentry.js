@@ -7,7 +7,7 @@ const dsn = Constants.manifest.extra.SENTRY_DSN_REACT;
 
 if (!isEmpty(dsn)) {
   SentryReact.init({
-    dsn: Constants.manifest.extra.SENTRY,
+    dsn,
     integrations: [new BrowserTracing()],
 
     // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
