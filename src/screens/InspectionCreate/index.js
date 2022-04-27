@@ -1,3 +1,4 @@
+import { utils } from '@monkvision/toolkit';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
@@ -64,6 +65,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  p: {
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: utils.styles.spacing(2),
+  },
 });
 
 export default function InspectionCreate() {
@@ -127,8 +134,10 @@ export default function InspectionCreate() {
   if (authError === true) {
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
       <Title>Sorry 😞</Title>
-      <Paragraph>An error occurred will authenticating, please try again in a minute.</Paragraph>
-      <Button onPress={handleGoBack}>Go back to home page</Button>
+      <Paragraph style={styles.p}>
+        An error occurred will authenticating, please try again in a minute.
+      </Paragraph>
+      <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
     </View>;
   }
 
@@ -144,10 +153,10 @@ export default function InspectionCreate() {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
         <Title>Sorry 😞</Title>
-        <Paragraph>
+        <Paragraph style={styles.p}>
           An error occurred will creating the inspection, please try again in a minute.
         </Paragraph>
-        <Button onPress={handleGoBack}>Go back to home page</Button>
+        <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
       </View>
     );
   }

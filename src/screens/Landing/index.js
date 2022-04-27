@@ -1,4 +1,5 @@
-import { useInterval } from '@monkvision/toolkit';
+import { useInterval, utils } from '@monkvision/toolkit';
+import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
 import React, { useCallback, useMemo } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -49,6 +50,7 @@ const ICON_BY_STATUS = {
 export default function Landing() {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -67,8 +69,11 @@ export default function Landing() {
   }, [navigation]);
 
   const handleListItemPress = useCallback((value) => {
-    navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value, inspectionId });
-  }, [inspectionId, navigation]);
+    // const shouldSignIn = utils.getOS() === 'ios' && !isAuthenticated;
+    const shouldSignIn = !isAuthenticated;
+    const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
+    navigation.navigate(to, { selectedMod: value, inspectionId });
+  }, [inspectionId, navigation, isAuthenticated]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;

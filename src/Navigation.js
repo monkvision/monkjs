@@ -17,6 +17,11 @@ export default function Navigation() {
           title="Monk Capture App"
         />
         <Stack.Screen
+          name={names.SIGN_IN}
+          component={Screens.SignIn}
+          title="Monk - Sign In"
+        />
+        <Stack.Screen
           name={names.INSPECTION_CAPTURE}
           component={Screens.InspectionCapture}
           title="Monk - Inspection Capture"
