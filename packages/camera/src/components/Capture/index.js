@@ -124,7 +124,7 @@ export default function Capture({
 
   const camera = useRef();
   const [isReady, setReady] = useState(false);
-  const [modelLoaded, setModelLoaded] = useState(false);
+  const [isModelLoading, setIsModelLoading] = useState(false);
 
   const compliance = useCompliance({ sightIds, initialState: initialState.compliance });
   const settings = useSettings({ camera, initialState: initialState.settings });
@@ -242,6 +242,8 @@ export default function Capture({
     [windowDimensions],
   );
 
+  const isVinCapture = useMemo(() => sightIds && sightIds?.length === 1 && sightIds[0] === 'sLu0CfOt', [sightIds]);
+
   // END CONSTANTS //
   // HANDLERS //
 
@@ -266,12 +268,13 @@ export default function Capture({
   }, [tour, sightIds]);
 
   useEffect(() => {
-    if (enableComplianceCheck && model) {
+    if (enableComplianceCheck && model && !isVinCapture) {
       log([`Compliance check is enabled`]);
       (async () => {
         try {
           log(['Loading models...']);
-          const callback = () => setModelLoaded(true);
+          setIsModelLoading(true);
+          const callback = () => setIsModelLoading(false);
           await loadModel(model.imageQualityCheck, 'imageQualityCheck', callback);
           log(['Model loaded ', model]);
         } catch (e) {
@@ -280,10 +283,10 @@ export default function Capture({
       })();
     }
 
-    return () => setModelLoaded(false);
+    return () => setIsModelLoading(false);
     // Do not add loadModel to dependencies list, because this will be called infinitely
     // eslint-disable-next-line
-  }, [enableComplianceCheck, model]);
+  }, [enableComplianceCheck, model, isVinCapture]);
 
   useEffect(() => {
     log([`Capture tour has been started`]);
@@ -329,23 +332,23 @@ export default function Capture({
 
   const children = useMemo(() => (
     <>
-      {(modelLoaded && isReady && overlay && loading === false) ? (
+      {(!isModelLoading && isReady && overlay && loading === false) ? (
         <Overlay
           svg={overlay}
           style={[styles.overlay, overlaySize]}
         />
       ) : null}
-      {!modelLoaded || loading === true ? (
+      {isModelLoading || loading === true ? (
         <View style={styles.loading}>
           <ActivityIndicator
             size="large"
             color={primaryColor}
           />
-          {!modelLoaded && <Text style={styles.text}>Loading models...</Text>}
+          {isModelLoading && <Text style={styles.text}>Loading models...</Text>}
         </View>
       ) : null}
     </>
-  ), [modelLoaded, isReady, loading, overlay, overlaySize, primaryColor]);
+  ), [isModelLoading, isReady, loading, overlay, overlaySize, primaryColor]);
 
   if (enableComplianceCheck && tourHasFinished) {
     return (

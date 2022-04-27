@@ -4,7 +4,11 @@ import * as tf from '@tensorflow/tfjs-core';
 import * as tflite from '@tensorflow/tfjs-tflite';
 import axios from 'axios';
 
-import { imageQualityCheckPreprocess, partDetectorModelPreProcess } from './common';
+import {
+  imagePreprocessing,
+  imageQualityCheckPrediction,
+  partDetectorModelPrediction,
+} from './common';
 import log from '../../utils/log';
 
 tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/');
@@ -14,28 +18,28 @@ export default function useEmbeddedModel() {
   const [partDetectorModel, setPartDetectorModel] = useState(null);
   const [qualityCheckModel, setQualityCheckModel] = useState(null);
 
-  const loadModel = (model, type, callback) => {
+  const loadModel = async (model, type, callback) => {
     if (!model) {
       log(['set UseApi to true']);
       setUseApi(true);
-      return null;
+      return;
     }
-    const loadedModel = tflite.loadTFLiteModel(model);
-    loadedModel.then((res) => {
-      switch (type) {
-        case 'imageQualityCheck':
-          setQualityCheckModel(res);
-          break;
-        default:
-          setPartDetectorModel(res);
-          break;
-      }
-      log(['set UseApi to false']);
-      setUseApi(false);
-      callback();
-    });
 
-    return partDetectorModel;
+    const loadedModel = await tflite.loadTFLiteModel(model);
+
+    log(['Model: ']);
+
+    switch (type) {
+      case 'imageQualityCheck':
+        setQualityCheckModel(loadedModel);
+        break;
+      default:
+        setPartDetectorModel(loadedModel);
+        break;
+    }
+    log(['set UseApi to false']);
+    setUseApi(false);
+    callback();
   };
 
   const getParts = async (image, customModel) => {
@@ -46,7 +50,7 @@ export default function useEmbeddedModel() {
       // TODO: Manage for each platform the transformation of the picture to a 4D Tensor
       const imageTensor = null;
 
-      return await partDetectorModelPreProcess(tf, model, imageTensor);
+      return await partDetectorModelPrediction(tf, model, imageTensor);
     } catch (e) {
       log([e]);
       return null;
@@ -54,16 +58,18 @@ export default function useEmbeddedModel() {
   };
 
   const predictQualityCheck = async (image, customModel) => {
-    const time = new Date();
     try {
       if (!image) {
         return null;
       }
 
+      const time2 = new Date();
       const blob = await axios.get(image.uri, {
         responseType: 'blob',
       });
+      log([`time get image blob from url: ${new Date() - time2} ms`]);
 
+      const time3 = new Date();
       const img = await new Promise((resolve) => {
         const reader = new FileReader();
         reader.readAsDataURL(blob.data);
@@ -76,14 +82,23 @@ export default function useEmbeddedModel() {
           imageData.src = base64data;
         };
       });
+      log([`time transformation to HTML element: ${new Date() - time3} ms`]);
 
+      log([`time total image adaptation: ${new Date() - time2} ms`]);
+
+      const time4 = new Date();
       const model = customModel ?? qualityCheckModel;
 
       const imageTensor = tf.browser.fromPixels(img);
+      log([`time transformation to tensor: ${new Date() - time4} ms`]);
+      const [width, height] = imageTensor.shape;
 
-      const results = await imageQualityCheckPreprocess(tf, model, imageTensor);
+      const imagePreprocessed = imagePreprocessing(tf, imageTensor, width, height);
 
-      log([`time: ${new Date() - time} ms`]);
+      const time = new Date();
+      const results = await imageQualityCheckPrediction(tf, model, imagePreprocessed);
+
+      log([`time prediction: ${new Date() - time} ms`]);
 
       return results;
     } catch (e) {
