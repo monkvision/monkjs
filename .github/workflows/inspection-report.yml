@@ -1,0 +1,100 @@
+name: webapp
+
+on:
+  push:
+    branches:
+      - "main"
+  create:
+    tags:
+      - "*"
+  workflow_dispatch:
+    branches:
+      - "*"
+    tags:
+      - "*"
+
+jobs:
+  check_env:
+    runs-on: ubuntu-latest
+    container: alpine:latest
+    steps:
+      - id: ref_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=env_name::staging"
+          elif [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
+            echo "::set-output name=env_name::preview"
+          else
+            echo "::set-output name=env_name::development"
+          fi
+    outputs:
+      env_name: ${{ steps.ref_check.outputs.env_name }}
+  build:
+    needs: [check_env]
+    container:
+      image: node:14-slim
+    runs-on: ubuntu-latest
+    environment: ${{ needs.check_env.outputs.env_name }}
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+      - name: setup env
+        shell: bash
+        env:
+          API_DOMAIN: ${{ secrets.API_DOMAIN }}
+          AUTH_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
+          AUTH_CLIENT_ID: ${{ secrets.AUTH_CLIENT_ID }}
+          AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+        run: |
+          sed -i "s%API_DOMAIN: .*%API_DOMAIN: "'"${{ secrets.API_DOMAIN }}"'",%" app.config.js
+          sed -i "s%AUTH_AUDIENCE: .*%AUTH_AUDIENCE: "'"${{ secrets.AUTH_AUDIENCE }}"'",%" app.config.js
+          sed -i "s%AUTH_CLIENT_ID: .*%AUTH_CLIENT_ID: "'"${{ secrets.AUTH_CLIENT_ID }}"'",%" app.config.js
+          sed -i "s%AUTH_DOMAIN: .*%AUTH_DOMAIN: "'"${{ secrets.AUTH_DOMAIN }}"'",%" app.config.js
+      - name: Setup Nodejs with yarn caching
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: yarn
+      - name: Setup Expo
+        run: |
+          yarn global add expo-cli
+      - name: Build
+        run: |
+          cd services/inspection-report
+          yarn install
+          expo build:web
+      - name: Archive build
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ needs.check_env.outputs.env_name }}
+          path: web-build
+  deploy:
+    container:
+      image: dtzar/helm-kubectl:3.6.3
+    environment: ${{ needs.check_env.outputs.env_name }}
+    runs-on: ubuntu-latest
+    needs:
+      - check_env
+      - build
+    steps:
+      # Setup gcloud CLI
+      - name: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GKE_SA_KEY }}"
+      # Get the GKE credentials so we can deploy to the cluster
+      - uses: google-github-actions/get-gke-credentials@v0.7.0
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_ZONE }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+      - name: Download the build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-${{ needs.check_env.outputs.env_name }}
+          path: inspection-report-${{ needs.check_env.outputs.env_name }}
+      # Deploy to the GKE cluster
+      - name: Deploy
+        run: |-
+          kubectl -n poc cp inspection-report-${{ needs.check_env.outputs.env_name }} poc/$(kubectl get pods -n poc -l app.kubernetes.io/instance=poc-spa --no-headers | grep Running | awk '{print $1}'):/app/
