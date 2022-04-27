@@ -3,7 +3,13 @@
 import log from '../../utils/log';
 
 const modelInputWidth = 336; const modelInputHeight = 336;
-const MAX_RESULT = 50; const MIN_CONFIDENCE = 0.4;
+const MAX_RESULT = 50;
+const MIN_CONFIDENCE = {
+  blurriness: 0.4,
+  overexposure: 0.8,
+  underexposure: 0.4,
+  partDetector: 0.4,
+};
 
 /**
  * Resize then normalize an RGB picture
@@ -55,7 +61,7 @@ export const partDetectorModelPrediction = async (tf, model, imageTensor) => {
   const predictionWithoutNMS = tf.reshape(predictions, [-1, 72]);
   const candidatesBbox = tf.slice(predictionWithoutNMS, [0, 0], [predictionWithoutNMS.shape[0], 4]);
   const candidatesObjectScore = tf.reshape(tf.slice(predictionWithoutNMS, [0, 4], [predictionWithoutNMS.shape[0], 1]), [-1]);
-  const indexOfPredictionWithNMS = await tf.image.nonMaxSuppressionAsync(candidatesBbox, candidatesObjectScore, MAX_RESULT, 0.4, MIN_CONFIDENCE);
+  const indexOfPredictionWithNMS = await tf.image.nonMaxSuppressionAsync(candidatesBbox, candidatesObjectScore, MAX_RESULT, 0.4, MIN_CONFIDENCE.partDetector);
   const predictionWithNMS = tf.gather(predictionWithoutNMS, indexOfPredictionWithNMS);
   const predictionClassScores = tf.slice(predictionWithNMS, [0, 5], [predictionWithNMS.shape[0], predictionWithNMS.shape[1] - 5]);
   const predictionObjectScores = tf.slice(predictionWithNMS, [0, 4], [predictionWithNMS.shape[0], 1]);
@@ -107,8 +113,8 @@ export const imageQualityCheckPrediction = async (tf, model, imagePreprocessed) 
   console.log(predictions['PartitionedCall:0'].arraySync()[0], predictions['PartitionedCall:1'].arraySync()[0], predictions['PartitionedCall:2'].arraySync()[0]);
 
   return {
-    blurriness: predictions['PartitionedCall:0'].arraySync()[0] < MIN_CONFIDENCE,
-    overexposure: predictions['PartitionedCall:1'].arraySync()[0] < MIN_CONFIDENCE,
-    underexposure: predictions['PartitionedCall:2'].arraySync()[0] < MIN_CONFIDENCE,
+    blurriness: predictions['PartitionedCall:0'].arraySync()[0] < MIN_CONFIDENCE.blurriness,
+    overexposure: predictions['PartitionedCall:1'].arraySync()[0] < MIN_CONFIDENCE.overexposure,
+    underexposure: predictions['PartitionedCall:2'].arraySync()[0] < MIN_CONFIDENCE.underexposure,
   };
 };
