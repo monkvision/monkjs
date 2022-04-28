@@ -1,7 +1,7 @@
 import React from 'react';
 import store from 'store';
 import { Provider } from 'react-redux';
-import { useWindowDimensions, View, StyleSheet } from 'react-native';
+import { useWindowDimensions, View, StyleSheet, Text } from 'react-native';
 import { theme as initialTheme, useIcons } from '@monkvision/toolkit';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 
@@ -48,7 +48,7 @@ export default function App() {
   }
 
   return (
-    <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>} showDialog>
+    <Sentry.ErrorBoundary fallback={<Text>An error has occurred</Text>} showDialog>
       <Provider store={store}>
         <PaperProvider theme={theme}>
           <View style={[styles.layout, { minHeight }]}>
