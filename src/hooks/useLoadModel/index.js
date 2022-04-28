@@ -17,7 +17,7 @@ export default function useIndexedDb() {
       const dbStore = transaction.objectStore('model');
 
       if (download) {
-        dbStore.add({
+        dbStore.put({
           Type: type,
           Buffer: download,
         });

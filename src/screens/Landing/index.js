@@ -1,5 +1,5 @@
 import useRequest from 'hooks/useRequest';
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import { StatusBar } from 'expo-status-bar';
@@ -181,33 +181,81 @@ export default () => {
     [navigation],
   );
 
-  useLayoutEffect(() => {
-    if (navigation) {
-      navigation?.setOptions({
-        title: 'Home',
-        headerTitle: () => (
-          <MonkIcon
-            width={135}
-            height={34}
-            color={colors.primary}
-            style={styles.logo}
-            alt="Monk logo"
-          />
-        ),
-        headerRight: () => (
-          <View style={styles.headerRight}>
-            <Button
-              onPress={handleSignOut}
-              icon="account"
-              accessibilityLabel="Account"
-            >
-              Account
-            </Button>
-          </View>
-        ),
+  const downloadModel = useCallback((config = {}) => axios.get(url, {
+    responseType: 'arraybuffer',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    ...config,
+  }), [auth.accessToken, url]);
+
+  const handleDownloadModel = useCallback(async () => {
+    setShowLoadModelDialog(true);
+    if (Platform.OS === 'web') {
+      const config = {
+        onDownloadProgress: (progressEvent) => {
+          const percentCompleted = (progressEvent.loaded / progressEvent.total);
+          setDownloadProgress(percentCompleted);
+        },
+      };
+      const rawData = await downloadModel(config);
+      await startDb(rawData.data, 'imageQualityCheck');
+    } else if (em && typeof em.downloadThenSaveModelNative === 'function') {
+      em.constants.MODELS.forEach(async (name, index) => {
+        await em.downloadThenSaveModelNative(name, em.constants.MODEL_URIS[index]);
       });
     }
-  }, [colors.primary, handleSignOut, navigation]);
+    console.log('Model saved');
+    setShowLoadModelDialog(false);
+  }, [downloadModel, em, startDb]);
+
+  const isUpdated = useMemo(async () => {
+    const rawData = new Uint8Array(await downloadModel().data);
+    const storedData = new Uint8Array(await startDb());
+
+    return (rawData.length === storedData.length
+      && rawData.every((value, index) => value === storedData[index]));
+  }, [downloadModel, startDb]);
+
+  useLayoutEffect(() => {
+    isUpdated.then((res) => {
+      if (navigation) {
+        navigation?.setOptions({
+          title: 'Home',
+          headerTitle: () => (
+            <MonkIcon
+              width={135}
+              height={34}
+              color={colors.primary}
+              style={styles.logo}
+              alt="Monk logo"
+            />
+          ),
+          headerRight: () => (
+            <View style={styles.headerRight}>
+              <Button
+                onPress={handleDownloadModel}
+                accessibilityLabel="Account"
+                disabled={res}
+                color="#FFC300"
+                mode={res ? 'text' : 'contained'}
+              >
+                {res ? 'Model is up-to-date' : 'Model need to be updated'}
+              </Button>
+              <Button
+                onPress={handleSignOut}
+                icon="account"
+                accessibilityLabel="Account"
+              >
+                Account
+              </Button>
+            </View>
+          ),
+        });
+      }
+    });
+  }, [colors.primary, handleDownloadModel, handleSignOut, isUpdated, navigation]);
 
   const renderItem = useCallback(({ item: { id, createdAt, vehicle }, index }) => (
     <DataTable.Row
@@ -249,28 +297,6 @@ export default () => {
       }
     }
   }, [em]);
-
-  const handleDownloadModel = useCallback(async () => {
-    if (Platform.OS === 'web') {
-      const blob = await axios.get(url, {
-        responseType: 'arraybuffer',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-        onDownloadProgress: (progressEvent) => {
-          const percentCompleted = (progressEvent.loaded / progressEvent.total);
-          setDownloadProgress(percentCompleted);
-        },
-      });
-      await startDb(blob.data, 'imageQualityCheck');
-    } else if (em && typeof em.downloadThenSaveModelNative === 'function') {
-      em.constants.MODELS.forEach(async (name, index) => {
-        await em.downloadThenSaveModelNative(name, em.constants.MODEL_URIS[index]);
-      });
-    }
-    setShowLoadModelDialog(false);
-  }, [auth.accessToken, em, startDb, url]);
 
   return (
     <SafeAreaView style={styles.root}>
