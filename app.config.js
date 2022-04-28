@@ -62,19 +62,5 @@ export default {
     description: 'Monk Capture Application enables high level car inspections with helpers and specific user interfaces.',
   },
 
-  hooks: {
-    postPublish: [
-      {
-        file: 'sentry-expo/upload-sourcemaps',
-        config: {
-          organization: 'monkvision',
-          project: 'mca-reactnative',
-          // authToken needs to be set
-          authToken: 'your auth token here',
-        },
-      },
-    ],
-  },
-
   extra: eas.build.development.env,
 };
