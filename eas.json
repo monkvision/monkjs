@@ -33,10 +33,10 @@
       "env": {
         "ENV": "development",
         "ORGANIZATION_DOMAIN": "localhost:3000",
-        "API_DOMAIN": "api.dev.monk.ai/v1",
+        "API_DOMAIN": "api.staging.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "QNo7pxwM12UJbpmNs13EBOiAhi5evndz",
-        "AUTH_DOMAIN": "idp.dev.monk.ai"
+        "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
+        "AUTH_DOMAIN": "idp.staging.monk.ai",
         "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
         "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
       }
