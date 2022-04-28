@@ -9,8 +9,8 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
         "AUTH_DOMAIN": "idp.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://995e750ba9a84cf5bbbd3809fd20c7d5@o1220345.ingest.sentry.io/6363252",
-        "SENTRY_DSN_REACT": "https://faab2349deed4c51bc12985ff847d659@o1220345.ingest.sentry.io/6363354"
+        "SENTRY_DSN_REACT_NATIVE": "",
+        "SENTRY_DSN_REACT": ""
       }
     },
     "preview": {
@@ -23,8 +23,8 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
         "AUTH_DOMAIN": "idp.staging.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://20f613f50f23427e88ab607492915a3c@o1220345.ingest.sentry.io/6363421",
-        "SENTRY_DSN_REACT": "https://9b8f27c02e224b118a6beace37600218@o1220345.ingest.sentry.io/6363407"
+        "SENTRY_DSN_REACT_NATIVE": "https://bcf7fc69c95f48c68269d941605c6f3e@sentry.dev.monk.ai/3",
+        "SENTRY_DSN_REACT": "https://bcf7fc69c95f48c68269d941605c6f3e@sentry.dev.monk.ai/3"
       }
     },
     "development": {
@@ -37,8 +37,8 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
         "AUTH_DOMAIN": "idp.staging.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://20f613f50f23427e88ab607492915a3c@o1220345.ingest.sentry.io/6363421",
-        "SENTRY_DSN_REACT": "https://9b8f27c02e224b118a6beace37600218@o1220345.ingest.sentry.io/6363407"
+        "SENTRY_DSN_REACT_NATIVE": "https://bcf7fc69c95f48c68269d941605c6f3e@sentry.dev.monk.ai/3",
+        "SENTRY_DSN_REACT": "https://bcf7fc69c95f48c68269d941605c6f3e@sentry.dev.monk.ai/3"
       }
     }
   },
