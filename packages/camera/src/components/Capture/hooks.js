@@ -1,9 +1,9 @@
-import axios from 'axios';
-import isEmpty from 'lodash.isempty';
 import monk from '@monkvision/corejs';
-import { Platform } from 'react-native';
-import { useCallback, useMemo } from 'react';
+import axios from 'axios';
+import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import { useCallback, useMemo } from 'react';
+import { Platform } from 'react-native';
 
 import Actions from '../../actions';
 import Constants from '../../const';
@@ -56,15 +56,14 @@ export function useTakePictureAsync({ camera }) {
     base64: true,
     exif: true,
   }) => {
-    log([`Awaiting picture to be taken...`]);
-
-    const picture = Platform.OS === 'web'
-      ? await camera.current.takePicture()
-      : await camera.takePictureAsync(options);
-
-    log([`Camera 'takePictureAsync' has fulfilled with picture:`, picture]);
-
-    return picture;
+    try {
+      return Platform.OS === 'web'
+        ? await camera.current.takePicture()
+        : await camera.takePictureAsync(options);
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`useTakePictureAsync()\`: ${err}`], 'error');
+      return err;
+    }
   }, [camera]);
 }
 
@@ -77,20 +76,24 @@ export function useTakePictureAsync({ camera }) {
  */
 export function useSetPictureAsync({ current, sights, uploads }) {
   return useCallback(async (picture) => {
-    const uri = picture.localUri || picture.uri;
+    try {
+      const uri = picture.localUri || picture.uri;
 
-    const actions = [{ resize: { width: 133 } }];
-    const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
-    const saveOptions = { compress: 1, format: saveFormat };
-    const imageResult = await manipulateAsync(uri, actions, saveOptions);
+      const actions = [{ resize: { width: 133 } }];
+      const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
+      const saveOptions = { compress: 1, format: saveFormat };
+      const imageResult = await manipulateAsync(uri, actions, saveOptions);
 
-    const payload = {
-      id: current.id,
-      picture: { uri: imageResult.uri },
-    };
+      const payload = {
+        id: current.id,
+        picture: { uri: imageResult.uri },
+      };
 
-    sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
-    uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+      sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
+      uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
+    }
   }, [current.id, sights, uploads]);
 }
 
@@ -147,13 +150,12 @@ export function useStartUploadAsync({
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
 
-    const { ids } = sights.state;
-    // for a custom use, we can the sight we want
+    // for some cases, we can pass the sight we want and override the current one
     const current = currentSight || sights.state.current;
     const { id, label } = currentSight?.metadata || current.metadata;
 
     const currentItem = mapTasksToSights.find((item) => item.id === id);
-    const tasksToMap = currentItem.tasks || [currentItem.task];
+    const tasksToMap = currentItem ? (currentItem?.tasks || [currentItem?.task]) : [task];
 
     try {
       dispatch({
@@ -161,9 +163,6 @@ export function useStartUploadAsync({
         increment: true,
         payload: { id, status: 'pending', label },
       });
-
-      // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) { onFinish(); log([`Capture tour has been finished`]); }
 
       const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
       const filename = `${id}-${inspectionId}.${fileType}`;
@@ -180,24 +179,30 @@ export function useStartUploadAsync({
             sight_id: id,
           } : undefined,
         },
-        tasks: isEmpty(tasksToMap) ? [task] : tasksToMap,
+        tasks: tasksToMap,
         additional_data: {
           ...current.metadata,
           overlay: undefined,
+          createdAt: new Date(),
         },
       });
 
       const data = new FormData();
       data.append(multiPartKeys.json, json);
 
-      const res = await axios.get(picture.uri, { responseType: 'blob' });
+      let fileBits;
 
       if (Platform.OS === 'web') {
+        const res = await axios.get(picture.uri, { responseType: 'blob' });
         URL.revokeObjectURL(picture.uri);
+        fileBits = [res.data];
+      } else {
+        const buffer = Buffer.from(picture.uri, 'base64');
+        fileBits = new Blob([buffer], { type: 'png' });
       }
 
       const file = await new File(
-        [res.data],
+        fileBits,
         multiPartKeys.filename,
         { type: multiPartKeys.type },
       );
@@ -207,12 +212,6 @@ export function useStartUploadAsync({
       const result = await monk.entity.image.addOne({ inspectionId, data });
       onPictureUploaded({ result, picture, inspectionId });
 
-      // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) {
-        onFinish();
-        log([`Capture tour has been finished`]);
-      }
-
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         payload: { id, status: 'fulfilled', error: null },
@@ -220,17 +219,13 @@ export function useStartUploadAsync({
 
       return result;
     } catch (err) {
-      // call onFinish callback when capturing the last picture
-      if (ids[ids.length - 1] === id) {
-        onFinish();
-        log([`Capture tour has been finished`]);
-      }
-
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
         increment: true,
         payload: { id, status: 'rejected', error: err },
       });
+
+      log([`Error in \`<Capture />\` \`startUploadAsync()\`: ${err}`], 'error');
 
       throw err;
     }
@@ -274,7 +269,9 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'rejected', error: err, result: null, imageId },
       });
 
-      return err;
+      log([`Error in \`<Capture />\` \`checkComplianceAsync()\`: ${err}`], 'error');
+
+      throw err;
     }
   }, [compliance, inspectionId, currentSighId]);
 }

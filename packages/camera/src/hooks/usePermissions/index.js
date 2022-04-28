@@ -12,15 +12,16 @@ export default function usePermissions() {
 
   useEffect(() => {
     (async () => {
-      if (Platform !== 'web') {
-        setState({ status: 'granted', isGranted: true });
-      } else {
-        log(['Awaiting camera permissions...']);
-
-        const { status } = await ExpoCamera.requestCameraPermissionsAsync();
-        setState({ status, isGranted: status === 'granted' });
-
-        log([`Camera permission set to ${status}`]);
+      try {
+        if (Platform !== 'web') {
+          setState({ status: 'granted', isGranted: true });
+        } else {
+          const { status } = await ExpoCamera.requestCameraPermissionsAsync();
+          setState({ status, isGranted: status === 'granted' });
+        }
+      } catch (err) {
+        log([`Error in \`usePermissions()\`: ${err}`], 'error');
+        throw err;
       }
     })();
   }, []);

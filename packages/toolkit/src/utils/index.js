@@ -29,8 +29,18 @@ function getOS() {
 
 const useNativeDriver = Platform.OS !== 'web';
 
+/**
+ * @param params {[*]}
+ * @param severity {'log'|'warn'|'error'}
+ */
+function log(params = [], severity = 'log') {
+  // eslint-disable-next-line no-console
+  console[severity](...params);
+}
+
 export default {
   styles,
+  log,
   makeRatio,
   getOS,
   useNativeDriver,

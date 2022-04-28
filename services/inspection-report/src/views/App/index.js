@@ -1,29 +1,22 @@
-import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Routes, Route, useLocation } from 'react-router-dom';
 import monk from '@monkvision/corejs';
 
 import useLoading from 'hooks/useLoading';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import Auth from 'views/Auth';
 
 import Home from 'views/Home';
-import Auth from 'views/Auth';
+import Inspections from 'views/Inspections';
 import Loading from 'views/Loading';
 import WheelAnalysis from 'views/WheelAnalysis';
-
-import Inspections from 'views/Inspections';
-import ResponsiveAppBar from 'components/ResponsiveAppBar';
+import { ResponsiveAppBar } from '../../components';
 
 export const ROUTE_PATHS = {
   home: '/',
   wheelAnalysis: '/wheelAnalysis/:inspectionId/:wheelAnalysisId',
   inspections: '/inspections',
 };
-
-// Ajoutez ça dans votre fichier de composant
-require('react-dom');
-window.React2 = require('react');
-
-console.log(window.React1 === window.React2);
 
 export default function App() {
   const { search } = useLocation();

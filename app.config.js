@@ -8,15 +8,18 @@ export default {
   slug: 'mca',
   scheme: 'monk',
   owner: 'monkvision',
+  entryPoint: './index.js',
 
-  primaryColor: '#274b9f',
+  primaryColor: '#2B52BE',
+  backgroundColor: '#181829',
   orientation: 'landscape',
   icon: './assets/icon.png',
+  userInterfaceStyle: 'dark',
 
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#202020',
+    backgroundColor: '#181829',
   },
 
   ios: {
@@ -34,12 +37,29 @@ export default {
     versionCode: buildNumber,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#202020',
+      backgroundColor: '#181829',
     },
+  },
+
+  androidStatusBar: {
+    barStyle: 'light-content',
+  },
+
+  androidNavigationBar: {
+    visible: 'immersive',
+    barStyle: 'light-content',
   },
 
   web: {
     favicon: './assets/favicon.png',
+    backgroundColor: '#181829',
+    display: 'fullscreen',
+    orientation: 'landscape',
+    lang: 'en-US',
+    name: 'Monk Capture Application',
+    shortName: 'MCA',
+    themeColor: '#2B52BE',
+    description: 'Monk Capture Application enables high level car inspections with helpers and specific user interfaces.',
   },
 
   extra: eas.build.development.env,

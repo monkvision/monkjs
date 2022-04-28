@@ -6,6 +6,7 @@ import { theme as initialTheme, useIcons } from '@monkvision/toolkit';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 
 import Navigation from 'Navigation';
+import Sentry from 'config/sentry';
 import 'config/corejs';
 
 const theme = {
@@ -26,7 +27,7 @@ const theme = {
     placeholder: '#dadada',
     disabled: '#bbbdbf',
     onSurface: '#1D1F30',
-    notification: '#19A4B1',
+    notification: '#000000',
     boneColor: '#1D1F30',
     highlightBoneColor: '#51536A',
   },
@@ -39,16 +40,22 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  useIcons();
+  const wait = useIcons();
   const { height: minHeight } = useWindowDimensions();
 
+  if (wait) {
+    return <View />;
+  }
+
   return (
-    <Provider store={store}>
-      <PaperProvider theme={theme}>
-        <View style={[styles.layout, { minHeight }]}>
-          <Navigation />
-        </View>
-      </PaperProvider>
-    </Provider>
+    <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>} showDialog>
+      <Provider store={store}>
+        <PaperProvider theme={theme}>
+          <View style={[styles.layout, { minHeight }]}>
+            <Navigation />
+          </View>
+        </PaperProvider>
+      </Provider>
+    </Sentry.ErrorBoundary>
   );
 }

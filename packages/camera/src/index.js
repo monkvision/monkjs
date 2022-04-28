@@ -14,6 +14,7 @@ export { default as useSettings } from './hooks/useSettings';
 export { default as useSights } from './hooks/useSights';
 export { default as useToggle } from './hooks/useToggle';
 export { default as useUploads } from './hooks/useUploads';
+export { default as useCompliance } from './hooks/useCompliance';
 
 export { default as Actions } from './actions';
 export { default as Constants } from './const';

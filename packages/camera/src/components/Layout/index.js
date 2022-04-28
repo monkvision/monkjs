@@ -1,26 +1,32 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMediaQuery } from 'react-responsive';
 import screenfull from 'screenfull';
-import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Button, Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 
-import getOS from '../../utils/getOS';
 import useOrientation from '../../hooks/useOrientation';
-import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
-import PortraitOrientationBlocker from './PortraitOrientationBlocker';
 
-export const SIDE_WIDTH = 116;
+const SIDE = 116;
+export const SIDE_WIDTH = SIDE;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: 'black',
+    overflow: 'hidden',
+  },
+  portrait: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   section: {
     alignItems: 'center',
-    overflow: 'hidden',
+  },
+  sectionPortrait: {
+    transform: [{ rotate: '90deg' }],
   },
   fullScreenButtonContainer: {
     justifyContent: 'center',
@@ -42,22 +48,49 @@ const styles = StyleSheet.create({
   },
   side: {
     display: 'flex',
-    position: 'absolute',
-    width: SIDE_WIDTH,
     zIndex: 10,
+    width: SIDE,
+    overflow: 'hidden',
   },
-  left: {
-    top: 0,
-    left: 0,
+  leftPortrait: {
+    transform: [{ matrix: [0, 1, -1, 0, -120, 85] }],
   },
-  right: {
-    top: 0,
-    right: 0,
+  rightPortrait: {
+    transform: [{ matrix: [0, 1, -1, 0, -120, -84] }],
   },
   center: {
     display: 'flex',
-    width: '100%',
     justifyContent: 'center',
+  },
+  rotate: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rotateContent: {
+    transform: [{ rotate: '90deg' }],
+  },
+  title: {
+    color: 'rgba(250, 250, 250, 0.87)',
+    textAlign: 'center',
+    fontWeight: 500,
+    lineHeight: 30,
+    letterSpacing: 0.15,
+    fontSize: 20,
+    marginVertical: 2,
+  },
+  p: {
+    color: 'rgba(250, 250, 250, 0.87)',
+    textAlign: 'center',
+    fontWeight: 400,
+    lineHeight: 30,
+    letterSpacing: 0.15,
+    fontSize: 14,
+    marginVertical: 2,
   },
 });
 
@@ -87,7 +120,7 @@ function FullScreenButton({ hidden, ...rest }) {
   useEffect(() => {
     if (!screenfull.isEnabled || !document) { return; }
 
-    // initial backroundColor
+    // initial backgroundColor
     const backgroundColor = document.body.style.backgroundColor;
 
     // change the backgroundColor
@@ -95,7 +128,7 @@ function FullScreenButton({ hidden, ...rest }) {
 
     // eslint-disable-next-line consistent-return
     return () => {
-    // reset the backroundColor
+    // reset the backgroundColor
       document.body.style.backgroundColor = backgroundColor;
       toggleFullScreen(false);
     };
@@ -124,84 +157,82 @@ FullScreenButton.defaultProps = {
   hidden: false,
 };
 
-function Layout({
-  buttonFullScreenProps,
-  children,
-  containerStyle,
-  left,
-  orientationBlockerProps,
-  right,
-  sectionStyle,
-}) {
-  const isNative = Platform.select({ native: true, default: false });
-  const { height } = useWindowDimensions();
+function Layout({ buttonFullScreenProps, children, left, right }) {
+  useOrientation('landscape');
+  const { height, width } = useWindowDimensions();
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' }) || height > width;
 
-  const mobileBrowserIsPortrait = useMobileBrowserConfig();
-  const orientation = useOrientation('landscape');
-  const [grantedLandscape, grantLandscape] = useState(false);
+  const size = StyleSheet.create({
+    height: isPortrait ? width : height,
+    width: isPortrait ? height : width,
+  });
 
-  const showOrientationBLocker = useMemo(() => (
-    Platform.OS === 'web'
-    && (!['Mac OS', 'Windows', 'Linux'].includes(getOS())
-    && (!grantedLandscape
-    || mobileBrowserIsPortrait
-    || (isNative && orientation.isNotLandscape)))
-  ), [grantedLandscape, isNative, mobileBrowserIsPortrait, orientation.isNotLandscape]);
+  const containerStyle = StyleSheet.compose(
+    styles.container,
+    isPortrait && styles.portrait,
+  );
 
-  if (showOrientationBLocker) {
+  const sectionStyle = StyleSheet.compose(
+    styles.section,
+    isPortrait && styles.sectionPortrait,
+  );
+
+  const sideStyle = StyleSheet.compose(
+    styles.side,
+    isPortrait && styles.sidePortrait,
+  );
+
+  const leftStyle = StyleSheet.compose(
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    isPortrait && styles.leftPortrait,
+  );
+
+  const rightStyle = StyleSheet.compose(
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    isPortrait && styles.rightPortrait,
+  );
+
+  if (isPortrait) {
     return (
-      <PortraitOrientationBlocker
-        grantLandscape={grantLandscape}
-        isPortrait={mobileBrowserIsPortrait}
-        {...orientationBlockerProps}
-      />
+      <View style={[styles.rotate, { backgroundColor: '#000', height }]}>
+        <View style={styles.rotateContent}>
+          <Text style={styles.title}>Please rotate your device ↪️</Text>
+          <Text style={styles.p}>
+            To go through the all experience,
+            you must turn you device in landscape mode.
+          </Text>
+        </View>
+      </View>
     );
   }
 
   return (
-    <View
-      accessibilityLabel="Layout"
-      style={[styles.container, containerStyle]}
-    >
-      <View
-        accessibilityLabel="Side left"
-        style={[styles.section, styles.side, styles.left, sectionStyle, { height }]}
-      >
-        {left}
-      </View>
+    <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, containerStyle]}>
+      <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
-        style={[styles.section, sectionStyle, styles.center, { height }]}
+        style={[size, sectionStyle, styles.center, {
+          maxWidth: (isPortrait ? height : width) - (2 * SIDE),
+        }]}
       >
         {children}
         <FullScreenButton {...buttonFullScreenProps} />
       </View>
-      <View
-        accessibilityLabel="Side right"
-        style={[styles.section, styles.side, styles.right, sectionStyle, { height }]}
-      >
-        {right}
-      </View>
+      <View accessibilityLabel="Side right" style={rightStyle}>{right}</View>
     </View>
   );
 }
 
 Layout.propTypes = {
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
-  orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   right: PropTypes.element,
-  sectionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Layout.defaultProps = {
   buttonFullScreenProps: {},
-  containerStyle: null,
   left: null,
-  orientationBlockerProps: null,
   right: null,
-  sectionStyle: null,
 };
 
 export default Layout;

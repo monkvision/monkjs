@@ -1,12 +1,15 @@
+import { useInterval } from '@monkvision/toolkit';
+import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { View, useWindowDimensions, SafeAreaView, FlatList } from 'react-native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { View, useWindowDimensions, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
-import { List, Surface, useTheme } from 'react-native-paper';
-import { ScrollView } from 'react-native-web';
+import { useMediaQuery } from 'react-responsive';
+import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
+import { TASKS_BY_MOD } from 'screens/InspectionCreate/useCreateInspection';
 import Artwork from 'screens/Landing/Artwork';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
@@ -15,90 +18,133 @@ import styles from './styles';
 
 const LIST_ITEMS = [{
   value: 'vinNumber',
-  title: 'VIN number',
+  title: 'VIN recognition',
   description: 'Vehicle info obtained from OCR',
   icon: 'car-info',
 }, {
   value: 'car360',
-  title: 'Car 360°',
-  description: 'Vehicle tour in 14 pictures',
+  title: 'Damage detection',
+  description: 'Vehicle tour (exterior and interior)',
   icon: 'axis-z-rotate-counterclockwise',
 }, {
   value: 'wheels',
-  title: 'Wheels',
-  description: 'Details about rim condition',
+  title: 'Wheels analysis',
+  description: 'Details about rims condition',
   icon: 'circle-double',
-}, {
-  value: 'classic',
-  title: 'Classic flow',
-  description: 'Recommended for damage detection',
-  icon: 'car-side',
 }];
+
+const STATUSES = {
+  NOT_STARTED: 'Waiting to be started',
+  TODO: 'In progress...',
+  IN_PROGRESS: 'In progress...',
+  DONE: 'Has finished!',
+  ERROR: 'Failed!',
+};
+
+const ICON_BY_STATUS = {
+  NOT_STARTED: 'chevron-right',
+  DONE: 'check-bold',
+  ERROR: 'alert-octagon',
+};
 
 export default function Landing() {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
+
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
   const { inspectionId } = route.params || {};
 
   const getInspection = useGetInspection(inspectionId);
+  const inspection = useMemo(
+    () => getInspection?.denormalizedEntities[0],
+    [getInspection],
+  );
+
+  const handleReset = useCallback(() => {
+    navigation.navigate(names.LANDING);
+  }, [navigation]);
 
   const handleListItemPress = useCallback((value) => {
-    navigation.navigate(names.INSPECTION_CREATE, { selectedMod: value, inspectionId });
-  }, [inspectionId, navigation]);
+    // const shouldSignIn = utils.getOS() === 'ios' && !isAuthenticated;
+    const shouldSignIn = !isAuthenticated;
+    const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
+    navigation.navigate(to, { selectedMod: value, inspectionId });
+  }, [inspectionId, navigation, isAuthenticated]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
+    const taskName = TASKS_BY_MOD[value];
+    const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
+    const disabled = ['TODO', 'IN_PROGRESS', 'DONE', 'ERROR'].includes(task?.status);
 
     const left = () => <List.Icon icon={icon} />;
-    const right = () => <List.Icon icon="chevron-right" />;
+    const right = () => (['TODO', 'IN_PROGRESS'].includes(task?.status)
+      ? <ActivityIndicator color="white" size={16} style={styles.listLoading} />
+      : <List.Icon icon={ICON_BY_STATUS[task?.status] || 'chevron-right'} />);
+
     const handlePress = () => handleListItemPress(value);
+    const status = task?.status ? STATUSES[task.status] : description;
 
     return (
       <Surface style={(index % 2 === 0) ? styles.evenListItem : styles.oddListItem}>
         <List.Item
           title={title}
-          description={description}
+          description={status}
           left={left}
           right={right}
           onPress={handlePress}
+          disabled={disabled}
         />
       </Surface>
     );
-  }, [handleListItemPress]);
+  }, [handleListItemPress, inspection]);
 
-  useEffect(() => navigation.addListener('focus', () => {
+  const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
       getInspection.start();
     }
-  }), [navigation]);
+  }, [inspectionId, getInspection]);
+
+  const intervalId = useInterval(start, 1000);
+
+  useFocusEffect(useCallback(() => {
+    start();
+    return () => clearInterval(intervalId);
+  }, [navigation, start, intervalId]));
 
   return (
-    <SafeAreaView>
+    <View style={{ minHeight: height, backgroundColor: colors.background }}>
       <LinearGradient
-        colors={[colors.background, colors.gradient]}
+        colors={[colors.gradient, colors.background]}
         style={[styles.background, { height }]}
       />
-      <Container style={styles.root}>
-        <View style={[styles.left, { height }]}>
+      <Container style={[styles.root, isPortrait ? styles.portrait : {}]}>
+        <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
           {isEmpty(getInspection.denormalizedEntities) ? <Artwork /> : (
-            getInspection.denormalizedEntities.map((i) => <Inspection {...i} />))}
+            getInspection.denormalizedEntities.map((i) => (
+              <Inspection {...i} key={`landing-inspection-${i.id}`} />
+            )))}
         </View>
-        <Surface style={styles.right}>
-          <ScrollView contentContainerStyle={{ height }}>
-            <List.Section>
-               <List.Subheader>What do you want to inspect?</List.Subheader>
-              <FlatList
-                data={LIST_ITEMS}
-                renderItem={renderListItem}
-                keyExtractor={(item) => item.value}
-              />
-            </List.Section>
-          </ScrollView>
-        </Surface>
+        <Card style={[styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          <List.Section>
+            <List.Subheader>Click to run a new inspection</List.Subheader>
+            <FlatList
+              data={LIST_ITEMS}
+              renderItem={renderListItem}
+              keyExtractor={(item) => item.value}
+            />
+          </List.Section>
+          {!isEmpty(inspection) ? (
+            <Card.Actions style={styles.actions}>
+              <Button color={colors.text} onPress={handleReset}>Reset inspection</Button>
+            </Card.Actions>
+          ) : null}
+        </Card>
       </Container>
-    </SafeAreaView>
+    </View>
   );
 }

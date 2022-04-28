@@ -46,14 +46,16 @@ export default function useSignIn(callbacks = {}) {
 
   const handleStart = useCallback(() => {
     if (request) {
-      promptAsync({ useProxy });
       start();
+      promptAsync({ useProxy });
       if (typeof onStart === 'function') { onStart(); }
     }
   }, [onStart, promptAsync, request]);
 
   useEffect(() => {
     if (response?.type === 'success' && response.authentication?.accessToken) {
+      stop();
+
       const { accessToken } = response.authentication;
       monk.config.accessToken = accessToken;
 
@@ -63,15 +65,19 @@ export default function useSignIn(callbacks = {}) {
         isSignedOut: false,
       }));
 
-      if (typeof onSuccess === 'function') {
-        stop();
-        onSuccess(response);
-      }
-    } else if (typeof onError === 'function') {
-      stop();
-      onError();
+      if (typeof onSuccess === 'function') { onSuccess(response); }
     }
-  }, [dispatch, onError, onSuccess, request, response]);
+  }, [dispatch, onSuccess, request, response]);
+
+  useEffect(() => {
+    if (response?.type === 'error') {
+      stop();
+
+      if (typeof onError === 'function') {
+        onError(response);
+      } else { throw Error('Error while signing in'); }
+    }
+  }, [onError, request, response]);
 
   return [handleStart, isLoading];
 }

@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import isEmpty from 'lodash.isempty';
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
 
 export default function InspectionList({ listItemProps, scrollViewProps, ...props }) {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
@@ -51,18 +53,27 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
     dispatch(monk.actions.gotManyInspections({ entities, result }));
   }, [dispatch]);
 
-  const shouldFetch = useCallback(
-    (requestState) => isAuthenticated && !requestState.loading && requestState.count === 0,
+  const canRequest = useCallback(
+    () => isAuthenticated,
     [isAuthenticated],
   );
 
-  const request = useRequest(getManyInspections, handleRequestSuccess, shouldFetch);
+  const request = useRequest({
+    request: getManyInspections,
+    onRequestSuccess: handleRequestSuccess,
+    canRequest,
+  });
   const manyInspections = request.state;
 
   const handlePress = useCallback((id) => {
     const url = `https://${Constants.manifest.extra.ORGANIZATION_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url);
   }, []);
+
+  useEffect(
+    () => navigation.addListener('focus', getManyInspections.start),
+    [navigation, getManyInspections.start],
+  );
 
   if (manyInspections.loading) {
     return <Loader />;

@@ -19,6 +19,14 @@ const getNativeOrientationOrFallbackToDimensions = (o) => {
 const isNative = Platform.select({ native: true, default: false });
 
 export default (initialOrientationLock = null) => {
+  if (Platform.OS === 'web') {
+    return {
+      isNotLandscape: false,
+      isNotSupported: false,
+      value: 'landscape',
+    };
+  }
+
   const [value, setValue] = useState();
 
   const rotateToLandscape = useCallback((onSuccess) => ScreenOrientation.lockAsync(
