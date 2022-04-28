@@ -30,6 +30,7 @@ const useHandlers = ({
           const result = await checkComplianceAsync(pictureId);
           verifyComplianceStatus(pictureId, result.data.compliances, index);
           setComplianceToCheck((prev) => prev.slice(1));
+          onFinishUploadPicture();
         }
       })();
     }
@@ -57,10 +58,7 @@ const useHandlers = ({
 
     if (current.index === ids.length - 1) {
       await startUploadAsync(picture);
-
-      onFinishUploadPicture(usedState, api);
     } else {
-      onFinishUploadPicture(usedState, api);
       goNextSight();
 
       await startUploadAsync(picture);
