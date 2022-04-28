@@ -13,6 +13,34 @@ import config from '../config';
 
 /**
  * @param {string} inspectionId
+ * @param {string} imageId
+ * @param {Object} params - query params
+ * @param {number} [params.limit=100]
+ * @param {$uuid: {string}} [params.before]
+ * @param {$uuid: {string}} [params.after]
+ * @param {"asc"|"desc"} [params.paginationOrder="desc"]
+ * @param {Object} [requestConfig]
+ */
+export const getOne = async ({ inspectionId, imageId, params, ...requestConfig }) => {
+  const axiosResponse = await axios.request({
+    ...config.axiosConfig,
+    method: 'get',
+    url: `/inspections/${inspectionId}/images/${imageId}`,
+    params: mapKeysDeep(params, (v, k) => snakeCase(k)),
+    ...requestConfig,
+  });
+
+  return ({
+    axiosResponse,
+    inspectionId,
+    imageId,
+    result: axiosResponse.data.compliances,
+    ...normalize(axiosResponse.data, schema),
+  });
+};
+
+/**
+ * @param {string} inspectionId
  * @param {Object} params - query params
  * @param {number} [params.limit=100]
  * @param {$uuid: {string}} [params.before]

@@ -1,56 +1,69 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Actions from '../../actions';
 
-const useHandlers = ({ onStartUploadPicture, onFinishUploadPicture, enableComplianceCheck }) => {
-  const capture = useCallback(async (state, api, event) => {
+const useHandlers = ({
+  onStartUploadPicture, onFinishUploadPicture, checkComplianceAsync,
+  enableComplianceCheck, state,
+}) => {
+  const [complianceToCheck, setComplianceToCheck] = useState([]);
+  /**
+   * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
+   * instead we re-run the compliance one more time after 1sec of getting the first response
+   * */
+  const verifyComplianceStatus = (pictureId, compliances, currentId) => {
+    const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
+
+    if (hasTodo) {
+      setTimeout(async () => {
+        await checkComplianceAsync(pictureId, currentId);
+      }, 500);
+    }
+  };
+
+  useEffect(() => {
+    const index = complianceToCheck[0];
+
+    if (index && state.uploads.state[index].status === 'fulfilled') {
+      const pictureId = state.uploads.state[index].pictureId;
+      (async () => {
+        if (enableComplianceCheck) {
+          const result = await checkComplianceAsync(pictureId);
+          verifyComplianceStatus(pictureId, result.data.compliances, index);
+          setComplianceToCheck((prev) => prev.slice(1));
+        }
+      })();
+    }
+  }, [complianceToCheck, state.uploads.state]);
+
+  const capture = useCallback(async (customState, api, event) => {
+    const usedState = customState || state;
     event.preventDefault();
-    onStartUploadPicture(state, api);
+    onStartUploadPicture(usedState, api);
 
     const {
       takePictureAsync,
       startUploadAsync,
       setPictureAsync,
       goNextSight,
-      checkComplianceAsync,
     } = api;
 
     const picture = await takePictureAsync();
     setPictureAsync(picture);
 
-    const { sights } = state;
+    const { sights } = usedState;
     const { current, ids } = sights.state;
 
-    /**
-        * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
-        * instead we re-run the compliance one more time after 1sec of getting the first response
-        * */
-    const verifyComplianceStatus = (pictureId, compliances) => {
-      const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
-
-      if (hasTodo) {
-        setTimeout(async () => {
-          await checkComplianceAsync(pictureId, current.metadata.id);
-        }, 500);
-      }
-    };
+    setComplianceToCheck((prev) => prev.concat(current.metadata.id));
 
     if (current.index === ids.length - 1) {
-      const upload = await startUploadAsync(picture);
-      if (enableComplianceCheck && upload.data?.id) {
-        const result = await checkComplianceAsync(upload.data.id);
-        verifyComplianceStatus(upload.data.id, result.data.compliances);
-      }
+      await startUploadAsync(picture);
 
-      onFinishUploadPicture(state, api);
+      onFinishUploadPicture(usedState, api);
     } else {
-      onFinishUploadPicture(state, api);
+      onFinishUploadPicture(usedState, api);
       goNextSight();
 
-      const upload = await startUploadAsync(picture);
-      if (enableComplianceCheck && upload.data?.id) {
-        const result = await checkComplianceAsync(upload.data.id);
-        verifyComplianceStatus(upload.data.id, result.data.compliances);
-      }
+      await startUploadAsync(picture);
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture]);
 

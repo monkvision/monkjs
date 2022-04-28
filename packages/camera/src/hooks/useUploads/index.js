@@ -6,7 +6,7 @@ function init({ sightIds, initialState }) {
   if (initialState) { return initialState; }
 
   const state = {};
-  const initialUploadState = { picture: null, status: 'idle', error: null, uploadCount: 0 };
+  const initialUploadState = { picture: null, status: 'idle', pictureId: null, error: null, uploadCount: 0 };
 
   sightIds.forEach((id) => {
     state[id] = { id, ...initialUploadState };
@@ -49,7 +49,7 @@ function reducer(state, action) {
  * @return {{
    * dispatch: (function({}): void),
    * name: string,
-   * state: { picture, status: string, error: null, uploadCount: number }
+   * state: { picture, status: string, pictureId: string, error: null, uploadCount: number }
  * }}
  */
 export default function useUploads({ sightIds, initialState }) {

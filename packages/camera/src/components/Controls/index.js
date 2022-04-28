@@ -1,7 +1,14 @@
 /* eslint-disable react/no-array-index-key */
 import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import useHandlers from './hooks';
 
 const styles = StyleSheet.create({
@@ -34,6 +41,8 @@ export default function Controls({
   const { height: windowHeight } = useWindowDimensions();
 
   const handlers = useHandlers({
+    state,
+    checkComplianceAsync: api.checkComplianceAsync,
     onStartUploadPicture,
     onFinishUploadPicture,
     enableComplianceCheck,
@@ -73,6 +82,7 @@ export default function Controls({
 Controls.propTypes = {
   api: PropTypes.shape({
     camera: PropTypes.shape({ takePictureAsync: PropTypes.func }),
+    checkComplianceAsync: PropTypes.func,
     goNextSight: PropTypes.func,
     goPrevSight: PropTypes.func,
     startUploadAsync: PropTypes.func,

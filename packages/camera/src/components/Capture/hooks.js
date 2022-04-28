@@ -149,14 +149,12 @@ export function useStartUploadAsync({
   }, []);
 
   const runQuery = useCallback(async () => {
-    console.log('call startUploadSSync');
     const { ids } = sights.state;
     const { dispatch } = uploads;
 
     if (!isRunning && queue.length > 0) {
       isRunning = true;
       const queryParams = queue.shift();
-      console.log(queue);
       if (queryParams) {
         const {
           id,
@@ -165,7 +163,6 @@ export function useStartUploadAsync({
           json,
           file,
         } = queryParams;
-        console.log(`Uploading image ${id}`);
 
         const data = new FormData();
         data.append(multiPartKeys.json, json);
@@ -193,12 +190,12 @@ export function useStartUploadAsync({
         dispatch({
           type: Actions.uploads.UPDATE_UPLOAD,
           payload: {
+            pictureId: result.id,
             id,
             status: 'fulfilled',
             error: null,
           },
         });
-        console.log(`Finish uploading image ${id}`);
       }
       isRunning = false;
     }
@@ -206,8 +203,6 @@ export function useStartUploadAsync({
 
   useEffect(() => {
     if (!isRunning && queue.length > 0) {
-      console.log('useEffect startUploadSSync');
-      console.log(queue);
       (async () => {
         await runQuery();
       })();
@@ -219,9 +214,6 @@ export function useStartUploadAsync({
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
     }
-
-    log(['uploads: ']);
-    log([uploads]);
 
     const { ids } = sights.state;
     // for a custom use, we can the sight we want
@@ -280,8 +272,6 @@ export function useStartUploadAsync({
 
       // const result = await monk.entity.image.addOne({ inspectionId, data });
       addElement({ multiPartKeys, json, file, id, picture });
-
-      return uploads;
     } catch (err) {
       // call onFinish callback when capturing the last picture
       if (ids[ids.length - 1] === id) {
@@ -322,7 +312,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne({ inspectionId, imageId });
+      const result = (await monk.entity.image.getOne({ inspectionId, imageId })).axiosResponse;
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,

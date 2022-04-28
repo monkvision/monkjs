@@ -74,18 +74,28 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
     .sort(sortByIndex)
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
-  const complianceIdsWithError = useMemo(() => Object.values(fulfilledCompliance)
-    .filter((item) => {
-      if (item.requestCount > navigationOptions.retakeMaxTry || item.status !== 'fulfilled') { return false; }
+  const complianceIdsWithError = useMemo(() => {
+    if (fulfilledCompliance) {
+      return Object.values(fulfilledCompliance)
+        .filter((item) => {
+          if (item.requestCount > navigationOptions.retakeMaxTry || item.status !== 'fulfilled') {
+            return false;
+          }
 
-      const { image_quality_assessment: iqa, coverage_360: carCov } = item.result.data.compliances;
-      const badQuality = iqa && !iqa.is_compliant;
-      const badCoverage = carCov && !carCov.is_compliant;
+          const {
+            image_quality_assessment: iqa,
+            coverage_360: carCov,
+          } = item.result.data.compliances;
+          const badQuality = iqa && !iqa.is_compliant;
+          const badCoverage = carCov && !carCov.is_compliant;
 
-      return badQuality || badCoverage;
-    })
-    .sort(sortByIndex)
-    .map(({ id }) => id), [fulfilledCompliance, navigationOptions.retakeMaxTry, sortByIndex]);
+          return badQuality || badCoverage;
+        })
+        .sort(sortByIndex)
+        .map(({ id }) => id);
+    }
+    return [];
+  }, [fulfilledCompliance, navigationOptions.retakeMaxTry, sortByIndex]);
 
   const hasPendingCompliance = useMemo(() => Object.values(compliance.state)
     .some(({ result, requestCount }) => {
