@@ -1,39 +1,76 @@
-import React from 'react';
+import { makeStyles } from '@mui/styles';
+import React, { useCallback } from 'react';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import './styles.css';
 import { Loader } from '../../../components';
 
+const useStyles = makeStyles((theme) => ({
+  item: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(2),
+    height: '100%',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#dddddd !important',
+    },
+  },
+}));
+
+function ListItem({ item, tabIndex, isLoader, isEvenItem, style }) {
+  const navigate = useNavigate();
+  const styles = useStyles();
+  const navigateToDetails = () => {
+    if (!isLoader) {
+      navigate(`/inspections/${item.id}`);
+    }
+  };
+
+  return (
+    <div
+      className={styles.item}
+      role="link"
+      onClick={navigateToDetails}
+      onKeyDown={navigateToDetails}
+      tabIndex={tabIndex}
+      style={{
+        ...style,
+        backgroundColor: isEvenItem ? '#ffffff' : '#ebebeb',
+        justifyContent: isLoader ? 'center' : 'start',
+      }}
+    >
+      {isLoader ? <Loader width={50} height={50} /> : item.label}
+    </div>
+  );
+}
+
+ListItem.propTypes = {
+  isEvenItem: PropTypes.bool.isRequired,
+  isLoader: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  style: PropTypes.object.isRequired,
+  tabIndex: PropTypes.number.isRequired,
+};
+
 export default function InspectionList({ items, loadMore, hasNextPage }) {
-  // eslint-disable-next-line react/prop-types,react/no-unstable-nested-components
-  function Item({ index, style }) {
-    const navigate = useNavigate();
-    const navigateToDetails = () => {
-      if (index < items.length) {
-        navigate(`/inspections/${items[index].id}`);
-      }
-    };
+  const Item = useCallback(({ index, style }) => {
+    const item = items[index];
+    const isLoader = index === items.length;
+    const isEvenItem = index % 2 === 0;
 
     return (
-      <div
-        className="item"
-        role="link"
-        onClick={navigateToDetails}
-        onKeyDown={navigateToDetails}
+      <ListItem
+        item={item}
         tabIndex={index}
-        style={{
-          ...style,
-          backgroundColor: index % 2 === 0 ? '#ffffff' : '#ebebeb',
-          justifyContent: index === items.length ? 'center' : 'start',
-        }}
-      >
-        {index === items.length ? <Loader width={50} height={50} /> : items[index].label}
-      </div>
+        isLoader={isLoader}
+        isEvenItem={isEvenItem}
+        style={style}
+      />
     );
-  }
+  }, [items]);
 
   const isItemLoaded = (itemsCount) => (index) => index + 1 < itemsCount;
   const itemCount = hasNextPage ? items.length + 1 : items.length;
@@ -70,7 +107,6 @@ export default function InspectionList({ items, loadMore, hasNextPage }) {
 
 InspectionList.propTypes = {
   hasNextPage: PropTypes.bool.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   loadMore: PropTypes.func.isRequired,
 };

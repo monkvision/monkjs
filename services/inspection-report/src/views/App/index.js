@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import monk from '@monkvision/corejs';
+import { View } from 'components';
 
 import useLoading from 'hooks/useLoading';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -59,14 +60,14 @@ export default function App() {
 
   if (hasToken) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <View style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }} viewName="app">
         <ResponsiveAppBar />
         <Routes>
           <Route exact path={ROUTE_PATHS.home} element={<Home />} />
           <Route exact path={ROUTE_PATHS.inspections} element={<Inspections />} />
           <Route exact path={ROUTE_PATHS.inspectionDetails} element={<InspectionDetails />} />
         </Routes>
-      </div>
+      </View>
     );
   }
 

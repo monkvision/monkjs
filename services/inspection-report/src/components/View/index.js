@@ -9,8 +9,7 @@ import ScrollToTop from 'components/ScrollToTop';
  * @param description {string}
  * @param title {string}
  * @param viewName {string}
- * @param style {CSSProperties}
- * @param className {string}
+ * @param passthroughprops {object}
  * @returns {JSX.Element}
  * @constructor
  */
@@ -19,13 +18,12 @@ export default function View({
   description,
   title,
   viewName,
-  style,
-  className,
+  ...passthroughprops
 }) {
   useViewMeta(viewName, description, title);
 
   return (
-    <div style={style} className={className}>
+    <div {...passthroughprops}>
       <ScrollToTop />
       {children}
     </div>
@@ -33,17 +31,14 @@ export default function View({
 }
 
 View.propTypes = {
-  className: PropTypes.string,
   description: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.object,
+  passthroughprops: PropTypes.object,
   title: PropTypes.string,
   viewName: PropTypes.string.isRequired,
 };
 
 View.defaultProps = {
   description: '',
+  passthroughprops: {},
   title: '',
-  style: {},
-  className: undefined,
 };

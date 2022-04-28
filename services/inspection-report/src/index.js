@@ -1,19 +1,20 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-
 import { Provider } from 'react-redux';
+
 import store from 'store';
-
 import { Auth0Provider } from '@auth0/auth0-react';
-import { authConfig } from 'config/corejs';
 
+import { authConfig } from 'config/corejs';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { SnackbarProvider } from 'notistack';
 
 import '@fontsource/roboto';
+
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/styles';
 import theme from 'config/theme';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import App from 'views/App';
 

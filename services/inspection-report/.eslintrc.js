@@ -28,6 +28,7 @@ module.exports = {
     }],
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-as-default': 'off',
+    'react/forbid-prop-types': 'off',
     'import/no-unresolved': [0],
     'import/namespace': ['error', { allowComputed: true }],
   },

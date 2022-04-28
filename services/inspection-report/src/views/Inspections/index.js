@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import React, { useCallback, useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
@@ -10,7 +11,15 @@ import Paper from '@mui/material/Paper';
 import InspectionList from './InspectionList';
 import { Loader } from '../../components';
 import ListControls from './ListControls';
-import './styles.css';
+
+const useStyles = makeStyles(() => ({
+  view: {
+    display: 'flex',
+    flexGrow: 1,
+    overflow: 'hidden',
+    flexDirection: 'column',
+  },
+}));
 
 const extractNextCursor = (axiosResponse) => {
   if (!axiosResponse.data.paging?.cursors?.next) {
@@ -41,6 +50,22 @@ function Loading() {
   );
 }
 
+function ListDisplay({ isLoading, isEmpty, items, loadNextPage, hasNextPage }) {
+  if (isLoading) {
+    return <Loading />;
+  } else if (isEmpty) {
+    return <Empty />;
+  } else {
+    return (
+      <InspectionList
+        items={items}
+        loadMore={loadNextPage}
+        hasNextPage={hasNextPage}
+      />
+    );
+  }
+}
+
 export default function Inspections() {
   const dispatch = useDispatch();
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -48,16 +73,16 @@ export default function Inspections() {
   const [inspectionIds, setInspectionIds] = useState([]);
   const [showDeleted, setShowDeleted] = useState(false);
   const [fetchFirstPage, setFetchFirstPage] = useState(false);
+  const styles = useStyles();
 
   const inspections = useSelector(monk.entity.inspection.selectors.selectEntities);
-  // const inspectionIds = useSelector(monk.entity.inspection.selectors.selectIds);
 
   const makeNextRequest = () => monk.entity.inspection.getMany({
     params: {
       limit: 20,
       inspectionStatus: 'DONE',
       showDeleted,
-      ...(nextCursor !== null && { [nextCursor.param]: nextCursor.value }),
+      ...(nextCursor !== null && {[nextCursor.param]: nextCursor.value}),
     },
   });
 
@@ -77,22 +102,20 @@ export default function Inspections() {
     dispatch(monk.actions.gotManyInspections({ entities, result }));
   };
 
-  const loadNextPage = () => (
-    hasNextPage ? makeNextRequest().then(onFetchSuccess) : Promise.resolve()
-  );
+  const loadNextPage = () => hasNextPage ? makeNextRequest().then(onFetchSuccess) : Promise.resolve();
 
   const onFetchSuccessMemoized = useCallback(onFetchSuccess, []);
 
-  const shouldFetch = useCallback(
+  const canRequest = useCallback(
     (requestState) => !requestState.loading && (requestState.count === 0 || fetchFirstPage),
     [fetchFirstPage],
   );
 
-  const firstRequest = useRequest(
-    makeNextRequestMemoized,
-    onFetchSuccessMemoized,
-    shouldFetch,
-  );
+  const firstRequest = useRequest({
+    request: makeNextRequestMemoized,
+    onRequestSuccess: onFetchSuccessMemoized,
+    canRequest,
+  });
 
   const items = inspectionIds.map((id) => inspections[id])
     .map((inspection) => {
@@ -110,26 +133,21 @@ export default function Inspections() {
     setFetchFirstPage(true);
   };
 
-  let viewContent;
-  if (firstRequest.state.loading) {
-    viewContent = <Loading />;
-  } else if (isEmpty(inspections)) {
-    viewContent = <Empty />;
-  } else {
-    viewContent = (
-      <InspectionList
-        items={items}
-        loadMore={loadNextPage}
-        hasNextPage={hasNextPage}
-      />
-    );
-  }
+  useEffect(() => {
+    firstRequest.start();
+  }, [firstRequest]);
 
   return (
-    <View viewName="inspections" title="My Inspections" className="view">
+    <View viewName="inspections" title="My Inspections" className={styles.view}>
       <CssBaseline />
       <ListControls onShowDeletedChange={onShowDeletedChange} />
-      {viewContent}
+      <ListDisplay
+        isLoading={firstRequest.state.loading}
+        isEmpty={isEmpty(inspections)}
+        items={items}
+        loadNextPage={loadNextPage}
+        hasNextPage={hasNextPage}
+      />
     </View>
   );
 }
