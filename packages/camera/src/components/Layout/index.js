@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 import screenfull from 'screenfull';
-import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Button, Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
 
@@ -61,6 +61,36 @@ const styles = StyleSheet.create({
   center: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  rotate: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rotateContent: {
+    transform: [{ rotate: '90deg' }],
+  },
+  title: {
+    color: 'rgba(250, 250, 250, 0.87)',
+    textAlign: 'center',
+    fontWeight: 500,
+    lineHeight: 30,
+    letterSpacing: 0.15,
+    fontSize: 20,
+    marginVertical: 2,
+  },
+  p: {
+    color: 'rgba(250, 250, 250, 0.87)',
+    textAlign: 'center',
+    fontWeight: 400,
+    lineHeight: 30,
+    letterSpacing: 0.15,
+    fontSize: 14,
+    marginVertical: 2,
   },
 });
 
@@ -127,16 +157,10 @@ FullScreenButton.defaultProps = {
   hidden: false,
 };
 
-function Layout({
-  buttonFullScreenProps,
-  children,
-  left,
-  right,
-}) {
-  const { height, width } = useWindowDimensions();
-  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
-
+function Layout({ buttonFullScreenProps, children, left, right }) {
   useOrientation('landscape');
+  const { height, width } = useWindowDimensions();
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' }) || height > width;
 
   const size = StyleSheet.create({
     height: isPortrait ? width : height,
@@ -167,6 +191,20 @@ function Layout({
     [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
     isPortrait && styles.rightPortrait,
   );
+
+  if (isPortrait) {
+    return (
+      <View style={[styles.rotate, { backgroundColor: '#000', height }]}>
+        <View style={styles.rotateContent}>
+          <Text style={styles.title}>Please rotate your device ↪️</Text>
+          <Text style={styles.p}>
+            To go through the all experience,
+            you must turn you device in landscape mode.
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, containerStyle]}>
