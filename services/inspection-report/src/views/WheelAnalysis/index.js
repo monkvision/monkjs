@@ -13,7 +13,7 @@ import CardContent from '@mui/material/CardContent';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
-import { styled, useTheme } from '@mui/system';
+import { styled } from '@mui/system';
 
 import { Vehicle } from '@monkvision/visualization';
 
@@ -72,7 +72,6 @@ const hasNoHubcapp = (prediction) => prediction === 'NOT_APPLICABLE' || predicti
 
 export default function WheelAnalysis() {
   const { inspectionId: id, wheelAnalysisId } = useParams();
-  const { palette } = useTheme();
 
   const { imageEntities, taskEntities, state } = useGetInspection(id);
   const { wheelAnalysis, images } = useGetWheelAnalysis(imageEntities, wheelAnalysisId);
@@ -130,7 +129,7 @@ export default function WheelAnalysis() {
           </Grid>
 
           {/* rim & hubcap */}
-          <Card variant="outlined" sx={{ backgroundColor: palette.grey['50'] }}>
+          <Card variant="outlined" sx={{ backgroundColor: '#fafafa' }}>
             <CardContent>
               <Stack spacing={4}>
                 {/* rim description */}

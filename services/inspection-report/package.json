@@ -17,17 +17,21 @@
     "@fontsource/roboto": "^4.5.5",
     "@mui/icons-material": "^5.6.0",
     "@mui/material": "^5.6.0",
+    "@mui/styles": "^5.6.2",
+    "@mui/x-data-grid": "^5.9.0",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^14.1.0",
     "axios": "^0.26.1",
+    "dayjs": "^1.11.1",
     "dotenv": "^16.0.0",
     "expo-modules-core": "^0.6.5",
     "lodash.identity": "^3.0.0",
     "lodash.isempty": "^4.4.0",
     "lodash.isplainobject": "^4.0.6",
     "lodash.noop": "^3.0.1",
+    "normalizr": "^3.6.2",
     "notistack": "^3.0.0-alpha.2",
     "prop-types": "^15.8.1",
     "react-native": "^0.68.0",
@@ -36,6 +40,9 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0",
+    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-window": "^1.8.6",
+    "react-window-infinite-loader": "^1.0.7",
     "release-it": "^14.14.1"
   },
   "devDependencies": {
@@ -59,13 +66,13 @@
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "@monkvision/camera": "*",
     "@monkvision/corejs": "*",
     "@monkvision/sights": "*",
     "@monkvision/toolkit": "*",
-    "@monkvision/visualization": "*"
+    "@monkvision/visualization": "*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "browserslist": {
     "production": [
