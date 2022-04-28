@@ -193,7 +193,7 @@ export default function WheelAnalysis() {
           {/* images */}
           {!isEmpty(images) ? (
             <Stack spacing={1}>
-              <Typography variant="overline" color="gray">Pictures</Typography>
+              <Typography variant="overline" color="gray">Wheel picture</Typography>
               <div>
                 <Grid container columns={12} spacing={1}>
                   {images.map((image) => (

@@ -1,7 +1,7 @@
 import { useRequest } from '@monkvision/toolkit';
 import isEmpty from 'lodash.isempty';
 import { denormalize } from 'normalizr';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import monk from '@monkvision/corejs';
 
@@ -38,11 +38,11 @@ export default function useGetInspection(id) {
     },
   );
 
-  const handleRequestSuccess = useCallback(({ entities, result }) => {
+  const onRequestSuccess = useCallback(({ entities, result }) => {
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);
 
-  const shouldFetch = useCallback(
+  const canRequest = useCallback(
     (requestState) => !isEmpty(id)
       && !requestState.loading
       && requestState.count === 0,
@@ -51,17 +51,18 @@ export default function useGetInspection(id) {
 
   const axiosRequest = useCallback(async () => monk.entity.inspection.getOne({ id }), [id]);
 
-  const request = useRequest(
-    axiosRequest,
-    handleRequestSuccess,
-    shouldFetch,
-  );
+  const request = useRequest({ request: axiosRequest, onRequestSuccess, canRequest });
+
+  const getInspection = useCallback(async () => request.start(), []);
+
+  useEffect(() => { getInspection(); }, []);
 
   return {
     ...request,
     inspectionId: id,
     imageEntities,
     taskEntities,
+    wheelAnalysisEntities,
     inspection,
   };
 }
