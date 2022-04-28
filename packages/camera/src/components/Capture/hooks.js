@@ -310,7 +310,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne({ inspectionId, imageId });
+      const result = (await monk.entity.image.getOne({ inspectionId, imageId })).axiosResponse;
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
