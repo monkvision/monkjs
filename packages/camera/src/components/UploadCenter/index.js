@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
-import log from '../../utils/log';
+
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 
 const { spacing } = utils.styles;
@@ -103,7 +103,6 @@ export default function UploadCenter({
   useEffect(() => {
     if (submitted === false && hasNoCompliancesLeft) {
       onComplianceCheckFinish(states);
-      log([`Image quality check has been finished`]);
       submit(true);
     }
   }, [submitted, ids, state.hasPendingCompliance,
@@ -111,7 +110,6 @@ export default function UploadCenter({
 
   useEffect(() => {
     onComplianceCheckStart();
-    log([`Conpliance check has been started`]);
   }, [onComplianceCheckStart]);
 
   // END EFFECTS //

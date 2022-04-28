@@ -4,21 +4,29 @@ import { useMediaQuery } from 'react-responsive';
 import screenfull from 'screenfull';
 import { Button, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
 import useOrientation from '../../hooks/useOrientation';
 
-export const SIDE_WIDTH = 116;
+const SIDE = 116;
+export const SIDE_WIDTH = SIDE;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: 'black',
+    overflow: 'hidden',
+  },
+  portrait: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   section: {
     alignItems: 'center',
-    overflow: 'hidden',
+  },
+  sectionPortrait: {
+    transform: [{ rotate: '90deg' }],
   },
   fullScreenButtonContainer: {
     justifyContent: 'center',
@@ -40,21 +48,18 @@ const styles = StyleSheet.create({
   },
   side: {
     display: 'flex',
-    position: 'absolute',
-    width: SIDE_WIDTH,
     zIndex: 10,
+    width: SIDE,
+    overflow: 'hidden',
   },
-  left: {
-    top: 0,
-    left: 0,
+  leftPortrait: {
+    transform: [{ matrix: [0, 1, -1, 0, -120, 85] }],
   },
-  right: {
-    top: 0,
-    right: 0,
+  rightPortrait: {
+    transform: [{ matrix: [0, 1, -1, 0, -120, -84] }],
   },
   center: {
     display: 'flex',
-    width: '100%',
     justifyContent: 'center',
   },
 });
@@ -125,79 +130,71 @@ FullScreenButton.defaultProps = {
 function Layout({
   buttonFullScreenProps,
   children,
-  containerStyle,
   left,
   right,
-  sectionStyle,
 }) {
-  const { height } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
-  useMobileBrowserConfig();
   useOrientation('landscape');
 
+  const size = StyleSheet.create({
+    height: isPortrait ? width : height,
+    width: isPortrait ? height : width,
+  });
+
+  const containerStyle = StyleSheet.compose(
+    styles.container,
+    isPortrait && styles.portrait,
+  );
+
+  const sectionStyle = StyleSheet.compose(
+    styles.section,
+    isPortrait && styles.sectionPortrait,
+  );
+
+  const sideStyle = StyleSheet.compose(
+    styles.side,
+    isPortrait && styles.sidePortrait,
+  );
+
+  const leftStyle = StyleSheet.compose(
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    isPortrait && styles.leftPortrait,
+  );
+
+  const rightStyle = StyleSheet.compose(
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    isPortrait && styles.rightPortrait,
+  );
+
   return (
-    <View
-      accessibilityLabel="Layout"
-      style={[styles.container, containerStyle, isPortrait ? styles.portrait : {}]}
-    >
-      <View
-        accessibilityLabel="Side left"
-        style={[
-          styles.section,
-          styles.side,
-          styles.left,
-          isPortrait ? styles.leftPortrait : {},
-          sectionStyle,
-          { height: isPortrait ? height / 2 : height },
-        ]}
-      >
-        {left}
-      </View>
+    <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, containerStyle]}>
+      <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
-        style={[
-          styles.section,
-          sectionStyle,
-          styles.center,
-          isPortrait ? styles.centerPortrait : {},
-          { height },
-        ]}
+        style={[size, sectionStyle, styles.center, {
+          maxWidth: (isPortrait ? height : width) - (2 * SIDE),
+        }]}
       >
         {children}
         <FullScreenButton {...buttonFullScreenProps} />
       </View>
-      <View
-        accessibilityLabel="Side right"
-        style={[
-          styles.section,
-          styles.side,
-          styles.right,
-          isPortrait ? styles.rightPortrait : {},
-          sectionStyle,
-          { height: isPortrait ? height / 2 : height },
-        ]}
-      >
-        {right}
-      </View>
+      <View accessibilityLabel="Side right" style={rightStyle}>{right}</View>
     </View>
   );
 }
 
 Layout.propTypes = {
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   left: PropTypes.element,
   right: PropTypes.element,
-  sectionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Layout.defaultProps = {
   buttonFullScreenProps: {},
-  containerStyle: null,
   left: null,
   right: null,
-  sectionStyle: null,
 };
 
 export default Layout;

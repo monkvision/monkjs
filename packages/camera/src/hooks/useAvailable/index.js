@@ -20,21 +20,16 @@ const useAvailable = () => {
   useEffect(() => {
     if (!isAlwaysAvailable && !available) {
       (async () => {
-        log([`Awaiting for camera availability...`]);
-
         const isAvailable = await ExpoCamera.isAvailableAsync();
 
         if (isAvailable) {
           setAvailable(true);
-          log([`Camera is available!`]);
         } else {
           setAvailable(false);
-          // eslint-disable-next-line no-console
-          console.error(`Camera is not available!`);
+          log([`Error in \`useAvailable()\`: Camera is not available`], 'error');
         }
       })();
     } else if (!available) {
-      log([`Camera is always available`]);
       setAvailable(true);
     }
   }, [available, isAlwaysAvailable]);

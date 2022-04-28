@@ -3,11 +3,9 @@ import { Platform, useWindowDimensions } from 'react-native';
 
 import { useMediaQuery } from 'react-responsive';
 
-import log from '../../utils/log';
-
 /**
  * Let's assign `DEFAULT_MATCH_MEDIA_OBJECT` object to `window.mathMedia`
- * just to handle platforms that doesn't support this method.
+ * just to handle platforms that don't support this method.
  * NOTE: This won't work using `Platform.select`.
  *  */
 
@@ -46,8 +44,6 @@ const useMobileBrowserConfig = (onRotateToPortrait) => {
    */
   useEffect(() => {
     if (isMobileBrowserUserAgent && isMobileSize && isPortrait && Boolean(onRotateToPortrait)) {
-      log([`Screen orientation rotating to portrait...`]);
-
       onRotateToPortrait();
     }
   }, [isMobileSize, isPortrait, onRotateToPortrait]);
