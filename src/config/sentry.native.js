@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 import isEmpty from 'lodash.isempty';
 
 const dsn = Constants.manifest.extra.SENTRY_DSN_REACT_NATIVE;
-console.log({ dsn });
+
 if (!isEmpty(dsn)) {
   SentryReactNative.init({
     dsn,
