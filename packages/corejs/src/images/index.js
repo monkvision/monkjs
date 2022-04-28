@@ -34,7 +34,6 @@ export const getOne = async ({ inspectionId, imageId, params, ...requestConfig }
     axiosResponse,
     inspectionId,
     imageId,
-    result: axiosResponse.data.compliances,
     ...normalize(axiosResponse.data, schema),
   });
 };

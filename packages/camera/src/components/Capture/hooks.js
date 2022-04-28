@@ -188,8 +188,6 @@ export function useStartUploadAsync({
           log([`Capture tour has been finished`]);
         }
 
-        log([result]);
-
         dispatch({
           type: Actions.uploads.UPDATE_UPLOAD,
           payload: {
@@ -272,7 +270,6 @@ export function useStartUploadAsync({
         { type: multiPartKeys.type },
       );
 
-      // const result = await monk.entity.image.addOne({ inspectionId, data });
       addElement({ multiPartKeys, json, file, id, picture });
     } catch (err) {
       dispatch({
@@ -310,7 +307,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = (await monk.entity.image.getOne({ inspectionId, imageId })).axiosResponse;
+      const result = await monk.entity.image.getOne({ inspectionId, imageId });
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,

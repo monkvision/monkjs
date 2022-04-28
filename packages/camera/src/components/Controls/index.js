@@ -1,14 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { createElement, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import useHandlers from './hooks';
 
 const styles = StyleSheet.create({
@@ -41,7 +34,7 @@ export default function Controls({
   const { height: windowHeight } = useWindowDimensions();
 
   const handlers = useHandlers({
-    state,
+    unControlledState: state,
     checkComplianceAsync: api.checkComplianceAsync,
     onStartUploadPicture,
     onFinishUploadPicture,

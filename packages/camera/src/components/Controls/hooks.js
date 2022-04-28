@@ -3,7 +3,7 @@ import Actions from '../../actions';
 
 const useHandlers = ({
   onStartUploadPicture, onFinishUploadPicture, checkComplianceAsync,
-  enableComplianceCheck, state,
+  enableComplianceCheck, unControlledState,
 }) => {
   const [complianceToCheck, setComplianceToCheck] = useState([]);
   /**
@@ -22,24 +22,30 @@ const useHandlers = ({
 
   useEffect(() => {
     const index = complianceToCheck[0];
+    const currentUploadState = unControlledState.uploads.state[index];
 
-    if (index && state.uploads.state[index].status === 'fulfilled') {
-      const pictureId = state.uploads.state[index].pictureId;
+    if (index && currentUploadState.status === 'fulfilled') {
+      const pictureId = currentUploadState.pictureId;
       (async () => {
         if (enableComplianceCheck) {
           const result = await checkComplianceAsync(pictureId);
-          verifyComplianceStatus(pictureId, result.data.compliances, index);
+          verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
           setComplianceToCheck((prev) => prev.slice(1));
           onFinishUploadPicture();
         }
       })();
     }
-  }, [complianceToCheck, state.uploads.state]);
+  }, [complianceToCheck, unControlledState.uploads.state]);
 
-  const capture = useCallback(async (customState, api, event) => {
-    const usedState = customState || state;
+  const capture = useCallback(async (controlledState, api, event) => {
+    /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
+     *  need state updates
+     * `unControlledState` is the updated state, so it will be used for function that depends on
+     * state updates (checkCompliance in this case that need to know when the picture is uploaded)
+     */
+    const state = controlledState || unControlledState;
     event.preventDefault();
-    onStartUploadPicture(usedState, api);
+    onStartUploadPicture(state, api);
 
     const {
       takePictureAsync,
@@ -51,7 +57,7 @@ const useHandlers = ({
     const picture = await takePictureAsync();
     setPictureAsync(picture);
 
-    const { sights } = usedState;
+    const { sights } = state;
     const { current, ids } = sights.state;
 
     setComplianceToCheck((prev) => prev.concat(current.metadata.id));
@@ -59,6 +65,7 @@ const useHandlers = ({
     if (current.index === ids.length - 1) {
       await startUploadAsync(picture);
     } else {
+      onFinishUploadPicture(state, api);
       goNextSight();
 
       await startUploadAsync(picture);
