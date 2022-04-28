@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import monk from '@monkvision/corejs';
+import { View } from 'components';
 
 import useLoading from 'hooks/useLoading';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -8,12 +9,14 @@ import Auth from 'views/Auth';
 
 import Home from 'views/Home';
 import Inspections from 'views/Inspections';
+import InspectionDetails from 'views/InspectionDetails';
 import Loading from 'views/Loading';
 import { ResponsiveAppBar } from '../../components';
 
 export const ROUTE_PATHS = {
   home: '/',
   inspections: '/inspections',
+  inspectionDetails: '/inspections/:id',
 };
 
 export default function App() {
@@ -44,7 +47,6 @@ export default function App() {
   }, [getAccessTokenSilently]);
 
   useEffect(() => {
-    console.log(queryParams);
     handleToken(queryParams.get('access_token'));
   }, [handleToken, queryParams]);
 
@@ -58,13 +60,14 @@ export default function App() {
 
   if (hasToken) {
     return (
-      <div>
+      <View style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }} viewName="app">
         <ResponsiveAppBar />
         <Routes>
           <Route exact path={ROUTE_PATHS.home} element={<Home />} />
           <Route exact path={ROUTE_PATHS.inspections} element={<Inspections />} />
+          <Route exact path={ROUTE_PATHS.inspectionDetails} element={<InspectionDetails />} />
         </Routes>
-      </div>
+      </View>
     );
   }
 

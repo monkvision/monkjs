@@ -9,14 +9,21 @@ import ScrollToTop from 'components/ScrollToTop';
  * @param description {string}
  * @param title {string}
  * @param viewName {string}
+ * @param passthroughprops {object}
  * @returns {JSX.Element}
  * @constructor
  */
-export default function View({ children, description, title, viewName }) {
+export default function View({
+  children,
+  description,
+  title,
+  viewName,
+  ...passthroughprops
+}) {
   useViewMeta(viewName, description, title);
 
   return (
-    <div>
+    <div {...passthroughprops}>
       <ScrollToTop />
       {children}
     </div>
@@ -25,11 +32,13 @@ export default function View({ children, description, title, viewName }) {
 
 View.propTypes = {
   description: PropTypes.string,
+  passthroughprops: PropTypes.object,
   title: PropTypes.string,
   viewName: PropTypes.string.isRequired,
 };
 
 View.defaultProps = {
   description: '',
+  passthroughprops: {},
   title: '',
 };
