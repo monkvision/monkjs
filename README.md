@@ -1,7 +1,5 @@
 # @monkvision/monkjs ![npm latest package](https://img.shields.io/npm/v/@monkvision/camera/latest.svg)
 
-![Monk banner](assets/banner.png)
-
 **Get a fully automated damage report classified by type, car parts, position and severity.**
 
 ###### See full documentation on [monkvision.github.io/monkjs](https://monkvision.github.io/monkjs)
