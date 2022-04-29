@@ -7,11 +7,11 @@ on:
   create:
     tags:
       - "*"
-  workflow_dispatch:
-    branches:
-      - "*"
-    tags:
-      - "*"
+  # workflow_dispatch:
+  #   branches:
+  #     - "*"
+  #   tags:
+  #     - "*"
 
 jobs:
   check_env:
