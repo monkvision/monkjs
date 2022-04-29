@@ -81,9 +81,8 @@ ShareButton.propTypes = {
 
 export default function Inspection({ createdAt, id, images }) {
   const { accessToken } = useAuth();
-  const path = `/inspection/${id}`;
-  const queryParams = `?access_token=${accessToken}`;
-  const linkTo = `${base}${path}${queryParams}`;
+  const path = `/inspections/${id}`;
+  const linkTo = `${base}${path}`;
 
   const caption = useMemo(() => moment(createdAt).format('LLL'), [createdAt]);
   const message = useMemo(() => `Inspection Report - ${linkTo}`, [linkTo]);
@@ -93,9 +92,9 @@ export default function Inspection({ createdAt, id, images }) {
   );
 
   const handlePress = useCallback(({ id: imageId }) => {
-    const url = `${linkTo}&image_id=${imageId}`;
+    const url = `${linkTo}?access_token=${accessToken}&image_id=${imageId}`;
     WebBrowser.openBrowserAsync(url);
-  }, [path, queryParams]);
+  }, [path, accessToken]);
 
   return (
     <Card style={styles.root}>
