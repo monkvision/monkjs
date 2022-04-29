@@ -4,7 +4,7 @@
       "releaseChannel": "production",
       "env": {
         "ENV": "production",
-        "ORGANIZATION_DOMAIN": "prod.monk.ai",
+        "ORGANIZATION_DOMAIN": "inspection-report.monk.ai",
         "API_DOMAIN": "api.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
@@ -14,11 +14,25 @@
       }
     },
     "preview": {
-      "releaseChannel": "staging",
+      "releaseChannel": "preview",
       "extends": "production",
       "env": {
+        "ENV": "preview",
+        "ORGANIZATION_DOMAIN": "inspection-report.preview.monk.ai",
+        "API_DOMAIN": "api.preview.monk.ai/v1",
+        "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
+        "AUTH_CLIENT_ID": "soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn",
+        "AUTH_DOMAIN": "idp.preview.monk.ai",
+        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+      }
+    },
+    "staging": {
+      "extends": "production",
+      "distribution": "internal",
+      "env": {
         "ENV": "staging",
-        "ORGANIZATION_DOMAIN": "preview.monk.ai",
+        "ORGANIZATION_DOMAIN": "inspection-report-staging.dev.monk.ai",
         "API_DOMAIN": "api.staging.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
@@ -32,11 +46,25 @@
       "distribution": "internal",
       "env": {
         "ENV": "development",
-        "ORGANIZATION_DOMAIN": "localhost:3000",
-        "API_DOMAIN": "api.staging.monk.ai/v1",
+        "ORGANIZATION_DOMAIN": "inspection-report.dev.monk.ai",
+        "API_DOMAIN": "api.dev.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
-        "AUTH_DOMAIN": "idp.staging.monk.ai",
+        "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
+        "AUTH_DOMAIN": "idp.dev.monk.ai",
+        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+      }
+    },
+    "local": {
+      "extends": "production",
+      "distribution": "internal",
+      "env": {
+        "ENV": "local",
+        "ORGANIZATION_DOMAIN": "localhost:3000",
+        "API_DOMAIN": "api.dev.monk.ai/v1",
+        "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
+        "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
+        "AUTH_DOMAIN": "idp.dev.monk.ai",
         "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
         "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
       }
