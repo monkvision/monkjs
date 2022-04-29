@@ -69,35 +69,46 @@ const useHandlers = ({
         log([useApi]);
         if (!useApi) {
           log(['Begin predictions']);
-          const predictionsResult = await predictions.imageQualityCheck(picture);
-          log([predictionsResult]);
-          const result = formatResult(predictionsResult, current.metadata.id);
-          await startComplianceAsync(upload.data.id, current.metadata.id, result);
+          predictions.imageQualityCheck(picture)
+            .then((predictionsResult) => {
+              const result = formatResult(predictionsResult, current.metadata.id);
+              log([predictionsResult]);
+              startComplianceAsync(upload.data.id, current.metadata.id, result)
+                .then(() => {
+                  onFinishUploadPicture(state, api);
+                });
+            });
         } else {
           const result = await checkComplianceAsync(upload.data.id);
           verifyComplianceStatus(upload.data.id, result.data.compliances);
+          onFinishUploadPicture(state, api);
         }
       }
-
-      onFinishUploadPicture(state, api);
     } else {
       onFinishUploadPicture(state, api);
       goNextSight();
 
-      const upload = await startUploadAsync(picture);
-      if (enableComplianceCheck && upload?.data?.id) {
-        log([predictions]);
-        if (!useApi) {
-          log(['Begin predictions']);
-          const predictionsResult = await predictions.imageQualityCheck(picture);
-          log([predictionsResult]);
-          const result = formatResult(predictionsResult, current.metadata.id);
-          await startComplianceAsync(upload.data.id, current.metadata.id, result);
-        } else {
-          const result = await checkComplianceAsync(upload.data.id);
-          verifyComplianceStatus(upload.data.id, result.data.compliances);
+      startUploadAsync(picture).then((upload) => {
+        if (enableComplianceCheck && upload?.data?.id) {
+          log([predictions]);
+          if (!useApi) {
+            log(['Begin predictions']);
+            predictions.imageQualityCheck(picture)
+              .then((predictionsResult) => {
+                const result = formatResult(predictionsResult, current.metadata.id);
+                log([predictionsResult]);
+                startComplianceAsync(upload.data.id, current.metadata.id, result)
+                  .then(() => {
+                    onFinishUploadPicture(state, api);
+                  });
+              });
+          } else {
+            checkComplianceAsync(upload.data.id).then((result) => {
+              verifyComplianceStatus(upload.data.id, result.data.compliances);
+            });
+          }
         }
-      }
+      });
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, predictions, useApi]);
 
