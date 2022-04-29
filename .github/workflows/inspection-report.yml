@@ -56,7 +56,6 @@ jobs:
           REACT_APP_FAVICON: "%PUBLIC_URL%/favicon.png"
           REACT_APP_PRIMARY_COLOR_LIGHT: "#274B9F"
           REACT_APP_PRIMARY_COLOR_DARK: "#2B52BE"
-
         run: |
           yarn install
           cd services/inspection-report
@@ -66,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-${{ needs.check_env.outputs.env_name }}
-          path: build
+          path: services/inspection-report/build
   deploy:
     container:
       image: dtzar/helm-kubectl:3.6.3
