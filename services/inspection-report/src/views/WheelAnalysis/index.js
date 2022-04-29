@@ -1,23 +1,22 @@
-import React, { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { capitalize, isEmpty, startCase } from 'lodash';
-import moment from 'moment';
-
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
+import { Vehicle } from '@monkvision/visualization';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
-import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 
-import { Vehicle } from '@monkvision/visualization';
-
 import { ScrollToTop, View } from 'components';
+import { capitalize, isEmpty, startCase } from 'lodash';
+import moment from 'moment';
+import React, { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import useGetInspection from './useGetInspection';
 import useGetWheelAnalysis from './useGetWheelAnalysis';
 
@@ -68,7 +67,11 @@ const getActivePartsByWheelName = (wheelName) => {
   }
 };
 
-const hasNoHubcapp = (prediction) => prediction === 'NOT_APPLICABLE' || prediction === 'RIM_ONLY' || prediction === 'UNKNOWN';
+const hasNoHubcapp = (prediction) => (
+  prediction === 'NOT_APPLICABLE'
+  || prediction === 'RIM_ONLY'
+  || prediction
+) === 'UNKNOWN';
 
 export default function WheelAnalysis() {
   const { inspectionId: id, wheelAnalysisId } = useParams();

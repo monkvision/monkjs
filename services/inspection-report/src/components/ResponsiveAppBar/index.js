@@ -16,6 +16,8 @@ import * as React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+const wheelAnalysisPath = '/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7';
+
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
 
@@ -96,9 +98,9 @@ export default function ResponsiveAppBar() {
                 <Typography textAlign="center">Inspections</Typography>
               </MenuItem>
               {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
-              <Button onClick={() => navigate('/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7')} sx={{ my: 2, color: 'white', display: 'block' }}>
-                Wheel analysis Demo
-              </Button>
+              <MenuItem onClick={() => navigate(wheelAnalysisPath)}>
+                <Typography textAlign="center">Wheel analysis Demo</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -114,44 +116,49 @@ export default function ResponsiveAppBar() {
               Inspections
             </Button>
             {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
-            <Button onClick={() => navigate('/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7')} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={() => navigate(wheelAnalysisPath)}
+            >
               Wheel analysis Demo
             </Button>
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open user menu">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user.name} src={user.picture} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu()}
-            >
-              <MenuItem onClick={handleCloseUserMenu()}>
-                <Typography textAlign="center">User info</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu()}>
-                <Typography textAlign="center">Settings</Typography>
-              </MenuItem>
-              <Divider />
-              <MenuItem onClick={handleCloseUserMenu(logout)}>
-                <Typography textAlign="center">Sign Out</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
+          {user ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open user menu">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt={user.name} src={user.picture} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu()}
+              >
+                <MenuItem onClick={handleCloseUserMenu()}>
+                  <Typography textAlign="center">User info</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu()}>
+                  <Typography textAlign="center">Settings</Typography>
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleCloseUserMenu(logout)}>
+                  <Typography textAlign="center">Sign Out</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : null}
         </Toolbar>
       </Container>
     </AppBar>
