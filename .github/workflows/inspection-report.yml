@@ -1,4 +1,4 @@
-name: webapp
+name: inspection-report
 
 on:
   push:
