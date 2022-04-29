@@ -2,7 +2,7 @@ import monk from '@monkvision/corejs';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
 import Actions from '../../actions';
@@ -144,6 +144,72 @@ export function useStartUploadAsync({
   onFinish = () => {},
   onPictureUploaded = () => {},
 }) {
+  const [queue, setQueue] = useState([]);
+  let isRunning = false;
+
+  const addElement = useCallback((element) => {
+    setQueue((prevState) => [...prevState, element]);
+  }, []);
+
+  const runQuery = useCallback(async () => {
+    const { ids } = sights.state;
+    const { dispatch } = uploads;
+
+    if (!isRunning && queue.length > 0) {
+      isRunning = true;
+      const queryParams = queue.shift();
+      if (queryParams) {
+        const {
+          id,
+          picture,
+          multiPartKeys,
+          json,
+          file,
+        } = queryParams;
+
+        const data = new FormData();
+        data.append(multiPartKeys.json, json);
+
+        data.append(multiPartKeys.image, file);
+
+        const result = await monk.entity.image.addOne({
+          inspectionId,
+          data,
+        });
+        onPictureUploaded({
+          result,
+          picture,
+          inspectionId,
+        });
+
+        // call onFinish callback when capturing the last picture
+        if (ids[ids.length - 1] === id) {
+          onFinish();
+          log([`Capture tour has been finished`]);
+        }
+
+        dispatch({
+          type: Actions.uploads.UPDATE_UPLOAD,
+          payload: {
+            pictureId: result.id,
+            id,
+            status: 'fulfilled',
+            error: null,
+          },
+        });
+      }
+      isRunning = false;
+    }
+  }, [isRunning, queue, sights.state, uploads]);
+
+  useEffect(() => {
+    if (!isRunning && queue.length > 0) {
+      (async () => {
+        await runQuery();
+      })();
+    }
+  }, [isRunning, queue]);
+
   return useCallback(async (picture, currentSight = null) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
@@ -187,9 +253,6 @@ export function useStartUploadAsync({
         },
       });
 
-      const data = new FormData();
-      data.append(multiPartKeys.json, json);
-
       let fileBits;
 
       if (Platform.OS === 'web') {
@@ -207,17 +270,7 @@ export function useStartUploadAsync({
         { type: multiPartKeys.type },
       );
 
-      data.append(multiPartKeys.image, file);
-
-      const result = await monk.entity.image.addOne({ inspectionId, data });
-      onPictureUploaded({ result, picture, inspectionId });
-
-      dispatch({
-        type: Actions.uploads.UPDATE_UPLOAD,
-        payload: { id, status: 'fulfilled', error: null },
-      });
-
-      return result;
+      addElement({ multiPartKeys, json, file, id, picture });
     } catch (err) {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,

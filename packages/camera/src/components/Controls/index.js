@@ -34,6 +34,8 @@ export default function Controls({
   const { height: windowHeight } = useWindowDimensions();
 
   const handlers = useHandlers({
+    unControlledState: state,
+    checkComplianceAsync: api.checkComplianceAsync,
     onStartUploadPicture,
     onFinishUploadPicture,
     enableComplianceCheck,
@@ -73,6 +75,7 @@ export default function Controls({
 Controls.propTypes = {
   api: PropTypes.shape({
     camera: PropTypes.shape({ takePictureAsync: PropTypes.func }),
+    checkComplianceAsync: PropTypes.func,
     goNextSight: PropTypes.func,
     goPrevSight: PropTypes.func,
     startUploadAsync: PropTypes.func,
