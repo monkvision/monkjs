@@ -39,24 +39,24 @@ jobs:
     steps:
       - name: Setup repo
         uses: actions/checkout@v3
-      - name: setup env
-        shell: bash
-        env:
-          API_DOMAIN: ${{ secrets.API_DOMAIN }}
-          AUTH_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
-          AUTH_CLIENT_ID: ${{ secrets.AUTH_CLIENT_ID }}
-          AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
-        run: |
-          sed -i "s%API_DOMAIN: .*%API_DOMAIN: "'"${{ secrets.API_DOMAIN }}"'",%" app.config.js
-          sed -i "s%AUTH_AUDIENCE: .*%AUTH_AUDIENCE: "'"${{ secrets.AUTH_AUDIENCE }}"'",%" app.config.js
-          sed -i "s%AUTH_CLIENT_ID: .*%AUTH_CLIENT_ID: "'"${{ secrets.AUTH_CLIENT_ID }}"'",%" app.config.js
-          sed -i "s%AUTH_DOMAIN: .*%AUTH_DOMAIN: "'"${{ secrets.AUTH_DOMAIN }}"'",%" app.config.js
       - name: Setup Nodejs with yarn caching
         uses: actions/setup-node@v2
         with:
           node-version: "14"
           cache: yarn
       - name: Build
+        shell: bash
+        env:
+          REACT_APP_API_DOMAIN: ${{ secrets.API_DOMAIN }}
+          REACT_APP_AUTH_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
+          REACT_APP_AUTH_CLIENT_ID: ${{ secrets.AUTH_CLIENT_ID }}
+          REACT_APP_AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+          REACT_APP_BRAND: Monk
+          REACT_APP_LOGO: https://avatars.githubusercontent.com/u/56727645
+          REACT_APP_FAVICON: "%PUBLIC_URL%/favicon.png"
+          REACT_APP_PRIMARY_COLOR_LIGHT: "#274B9F"
+          REACT_APP_PRIMARY_COLOR_DARK: "#2B52BE"
+
         run: |
           yarn install
           cd services/inspection-report
