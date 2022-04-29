@@ -58,6 +58,7 @@ jobs:
           cache: yarn
       - name: Build
         run: |
+          yarn install
           cd services/inspection-report
           yarn install
           yarn run build
