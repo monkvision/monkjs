@@ -1,20 +1,20 @@
-import Divider from '@mui/material/Divider';
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { useAuth0 } from '@auth0/auth0-react';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
+import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
@@ -95,12 +95,10 @@ export default function ResponsiveAppBar() {
               <MenuItem onClick={navigateToInspections}>
                 <Typography textAlign="center">Inspections</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu()}>
-                <Typography textAlign="center">Vehicles</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu()}>
-                <Typography textAlign="center">Customers</Typography>
-              </MenuItem>
+              {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
+              <Button onClick={() => navigate('/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7')} sx={{ my: 2, color: 'white', display: 'block' }}>
+                Wheel analysis Demo
+              </Button>
             </Menu>
           </Box>
           <Typography
@@ -115,15 +113,9 @@ export default function ResponsiveAppBar() {
             <Button onClick={navigateToInspections} sx={{ my: 2, color: 'white', display: 'block' }}>
               Inspections
             </Button>
-            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
-              Vehicles
-            </Button>
-            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
-              Customers
-            </Button>
             {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
             <Button onClick={() => navigate('/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7')} sx={{ my: 2, color: 'white', display: 'block' }}>
-              Wheel analysis
+              Wheel analysis Demo
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>

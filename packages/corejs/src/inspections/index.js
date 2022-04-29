@@ -28,7 +28,11 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  console.warn('Wheel analysis is getting data from images (avoiding wheel_analysis getting a null value), this will not give us the name of the wheel');
+  // eslint-disable-next-line no-console
+  console.warn(`
+    Wheel analysis is getting data from images (avoiding wheel_analysis getting a null value),
+    this will not give us the name of the wheel
+  `);
 
   const data = {
     ...axiosResponse.data,
