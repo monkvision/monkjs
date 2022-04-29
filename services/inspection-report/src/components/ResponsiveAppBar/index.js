@@ -121,8 +121,11 @@ export default function ResponsiveAppBar() {
             <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
               Customers
             </Button>
+            {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
+            <Button onClick={() => navigate('/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7')} sx={{ my: 2, color: 'white', display: 'block' }}>
+              Wheel analysis
+            </Button>
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open user menu">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

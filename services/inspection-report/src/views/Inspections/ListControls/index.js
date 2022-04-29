@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 import { FormControlLabel, FormGroup, Switch } from '@mui/material';
-import { makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   container: {

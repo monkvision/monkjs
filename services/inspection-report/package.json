@@ -70,6 +70,7 @@
     "@monkvision/corejs": "*",
     "@monkvision/sights": "*",
     "@monkvision/toolkit": "*",
+    "@monkvision/visualization": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

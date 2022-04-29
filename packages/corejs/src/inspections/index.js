@@ -28,10 +28,18 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
+  console.warn('Wheel analysis is getting data from images (avoiding wheel_analysis getting a null value), this will not give us the name of the wheel');
+
+  const data = {
+    ...axiosResponse.data,
+    wheel_analysis: axiosResponse.data.images?.filter((img) => img?.wheel_analysis)
+      .map((img) => ({ wheel_name: 'wheelFrontLeft', ...img.wheel_analysis })),
+  };
+
   return ({
     axiosResponse,
     [idAttribute]: id,
-    ...normalize(axiosResponse.data, schema),
+    ...normalize(data, schema),
   });
 };
 
