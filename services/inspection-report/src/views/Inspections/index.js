@@ -1,15 +1,15 @@
-import { makeStyles } from '@mui/styles';
-import React, { useCallback, useEffect, useState } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import { useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
-import { View } from 'components';
-import { useDispatch, useSelector } from 'react-redux';
-import isEmpty from 'lodash.isempty';
-import * as dayjs from 'dayjs';
+import { useRequest } from '@monkvision/toolkit';
+import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
-import InspectionList from './InspectionList';
+import { makeStyles } from '@mui/styles';
+import { View } from 'components';
+import * as dayjs from 'dayjs';
+import isEmpty from 'lodash.isempty';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../../components';
+import InspectionList from './InspectionList';
 import ListControls from './ListControls';
 
 const useStyles = makeStyles(() => ({
@@ -50,20 +50,21 @@ function Loading() {
   );
 }
 
-function ListDisplay({ isLoading, isEmpty, items, loadNextPage, hasNextPage }) {
+// eslint-disable-next-line react/prop-types
+function ListDisplay({ isLoading, isEmpty: listIsEmpty, items, loadNextPage, hasNextPage }) {
   if (isLoading) {
     return <Loading />;
-  } else if (isEmpty) {
+  } if (listIsEmpty) {
     return <Empty />;
-  } else {
-    return (
-      <InspectionList
-        items={items}
-        loadMore={loadNextPage}
-        hasNextPage={hasNextPage}
-      />
-    );
   }
+
+  return (
+    <InspectionList
+      items={items}
+      loadMore={loadNextPage}
+      hasNextPage={hasNextPage}
+    />
+  );
 }
 
 export default function Inspections() {
@@ -82,7 +83,7 @@ export default function Inspections() {
       limit: 20,
       inspectionStatus: 'DONE',
       showDeleted,
-      ...(nextCursor !== null && {[nextCursor.param]: nextCursor.value}),
+      ...(nextCursor !== null && { [nextCursor.param]: nextCursor.value }),
     },
   });
 
@@ -102,7 +103,10 @@ export default function Inspections() {
     dispatch(monk.actions.gotManyInspections({ entities, result }));
   };
 
-  const loadNextPage = () => hasNextPage ? makeNextRequest().then(onFetchSuccess) : Promise.resolve();
+  const loadNextPage = () => (hasNextPage
+    ? makeNextRequest().then(onFetchSuccess)
+    : Promise.resolve()
+  );
 
   const onFetchSuccessMemoized = useCallback(onFetchSuccess, []);
 
