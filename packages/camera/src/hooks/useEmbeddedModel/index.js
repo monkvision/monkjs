@@ -98,7 +98,8 @@ export default function useEmbeddedModel() {
       const time = new Date();
       const results = await imageQualityCheckPrediction(tf, model, imagePreprocessed);
 
-      log([`time prediction: ${new Date() - time} ms`]);
+      // eslint-disable-next-line no-console
+      console.log(`time prediction: ${new Date() - time} ms`);
 
       return results;
     } catch (e) {
