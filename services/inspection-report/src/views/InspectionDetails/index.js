@@ -3,14 +3,21 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import { ScrollToTop, View } from 'components';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
 import ImageList from 'views/InspectionDetails/ImageList';
 import useGetInspection from './useGetInspection';
 
 export default function InspectionDetails() {
   const { id } = useParams();
-  const { state, images } = useGetInspection(id);
+  const { state, images, damages } = useGetInspection(id);
+
+  const imageItems = useMemo(() => {
+    if (!images) { return []; }
+    return images.map((image) => (
+      { ...image, damages: damages.filter(({ imageRegion }) => imageRegion.imageId === image.id) }
+    ));
+  }, [images]);
 
   if (state.loading) {
     return (
@@ -26,7 +33,7 @@ export default function InspectionDetails() {
       <ScrollToTop />
 
       <Container maxWidth="xl">
-        <ImageList itemData={images} />
+        <ImageList itemData={imageItems} />
       </Container>
     </View>
   );
