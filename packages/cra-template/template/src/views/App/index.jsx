@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Routes, Route } from 'react-router-dom';
-import { config as corejs } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 
 import useLoading from 'hooks/useLoading';
 
@@ -25,7 +25,7 @@ export default function App() {
   const handleToken = useCallback(async () => {
     setIsGettingToken(true);
     try {
-      corejs.accessToken = await getAccessTokenSilently();
+      monk.config.accessToken = await getAccessTokenSilently();
 
       setHasToken(true);
       setIsGettingToken(false);
