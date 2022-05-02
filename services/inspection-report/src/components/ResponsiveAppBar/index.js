@@ -16,7 +16,7 @@ import * as React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-const wheelAnalysisPath = '/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7';
+const wheelAnalysisPath = '/wheelAnalysis/908f3a47-6f48-c573-905c-674c66a6d698/144300ec-19b0-fe7f-1490-5de7105eea75';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();

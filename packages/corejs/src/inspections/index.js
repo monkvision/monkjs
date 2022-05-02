@@ -28,16 +28,18 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  // eslint-disable-next-line no-console
-  console.warn(`
-    Wheel analysis is getting data from images (avoiding wheel_analysis getting a null value),
-    this will not give us the name of the wheel
-  `);
+  /**
+   * Note(Ilyass): Since there is still a bug from BE, which is wheel_analysis property
+   * is always null, as a workaround we are pulling wheel_analysis from images, the only
+   * issue here is that we can't access wheelName, which means no vehicle model
+  *  */
+  const wheelAnalysisFromImages = axiosResponse.data.images
+    ?.filter((img) => img?.wheel_analysis)
+    .map((img) => (img?.wheel_analysis));
 
   const data = {
     ...axiosResponse.data,
-    wheel_analysis: axiosResponse.data.images?.filter((img) => img?.wheel_analysis)
-      .map((img) => ({ wheel_name: 'wheelFrontLeft', ...img.wheel_analysis })),
+    wheel_analysis: axiosResponse.data.wheelAnalysis ?? wheelAnalysisFromImages,
   };
 
   return ({
