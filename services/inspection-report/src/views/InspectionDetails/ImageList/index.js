@@ -12,8 +12,8 @@ export default function ImageList({ itemData }) {
     <MUIImageList>
       {itemData.map((item) => {
         const polygonsProps = item?.damages?.length > 0 ? { damages:
-            item.damages.map(({ imageRegion, damageType }) => (
-              { damageType, polygons: imageRegion.specification.polygons }
+            item.damages.map(({ imageRegion, damageType, elementId }) => (
+              { damageType, polygons: imageRegion.specification.polygons, id: elementId }
             )) } : {};
 
         return (item ? (
@@ -26,17 +26,8 @@ export default function ImageList({ itemData }) {
                 id: item.id,
               }}
               options={{
-                background: {
-                  opacity: 1,
-                },
-                polygons: {
-                  stroke: {
-                    color: 'yellow',
-                    strokeWidth: 5,
-                  },
-                },
                 label: {
-                  fontSize: 5,
+                  fontSize: 12,
                 },
               }}
               {...polygonsProps}

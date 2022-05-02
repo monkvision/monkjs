@@ -8,7 +8,7 @@ import useSvgToImage from '../../hooks/useSvgToImage';
 
 export const DEFAULT_OPTIONS = {
   background: {
-    opacity: 0.35,
+    opacity: 1,
   },
   label: {
     fontSize: 5,
@@ -16,12 +16,14 @@ export const DEFAULT_OPTIONS = {
   polygons: {
     opacity: 1,
     stroke: {
+      color: 'yellow',
       strokeWidth: 2.5,
     },
   },
   ellipses: {
     opacity: 1,
     stroke: {
+      color: 'yellow',
       strokeWidth: 2.5,
     },
   },
@@ -36,6 +38,7 @@ const DamageHighlight = forwardRef(({
 }, ref) => {
   const [svgRef, setSvgRef] = useState(null);
   const toImage = useSvgToImage();
+  const completedOptions = { ...DEFAULT_OPTIONS, ...options };
 
   const measureText = useCallback((str, fontSize) => {
     // eslint-disable-next-line max-len
@@ -67,8 +70,8 @@ const DamageHighlight = forwardRef(({
     const polygonsLabel = [];
 
     damages.forEach((damage) => {
-      const { ellipse, damageType, polygons } = damage;
-      const { ellipses: ellipsesStyle, polygons: polygonsStyle, label } = options;
+      const { ellipse, id, damageType, polygons } = damage;
+      const { ellipses: ellipsesStyle, polygons: polygonsStyle, label } = completedOptions;
 
       const strokeType = (polygons ? polygonsStyle : ellipsesStyle);
 
@@ -93,52 +96,54 @@ const DamageHighlight = forwardRef(({
           ), 0), yMaxPolygon)), 0),
       };
 
-      const labelPosition = {
-        x: boundingBox.xMin,
-        y: ((boundingBox.yMin - label.fontSize) <= 0
-          ? boundingBox.yMax
-          : boundingBox.yMin) - label.fontSize / 2,
-        textAnchor:
-          (boundingBox.xMin + measureText(damageType, label.fontSize)) >= image.width
-            ? 'end'
-            : 'start',
-      };
+      if (damageType) {
+        const labelPosition = {
+          x: boundingBox.xMin,
+          y: ((boundingBox.yMin - label.fontSize) <= 0
+            ? boundingBox.yMax
+            : boundingBox.yMin) - label.fontSize / 2,
+          textAnchor:
+            (boundingBox.xMin + measureText(damageType, label.fontSize)) >= image.width
+              ? 'end'
+              : 'start',
+        };
 
-      const labelInfo = {
-        ...labelPosition,
-        width: measureText(damageType, label.fontSize),
-        height: label.fontSize,
-        damageType,
-        color: label.color,
-      };
+        const labelInfo = {
+          ...labelPosition,
+          width: measureText(damageType, label.fontSize),
+          height: label.fontSize,
+          damageType,
+          color: label.color,
+        };
 
-      const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
+        const collision = polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb));
 
-      const t = (collision
-        .map((c) => c.damageType === damageType)
-        .reduce((prev, curr) => prev || curr, false)) === false;
+        const t = (collision
+          .map((c) => c.damageType === damageType)
+          .reduce((prev, curr) => prev || curr, false)) === false;
 
-      if ((collision.length <= 0) || t) {
-        while (polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb)).length > 0) {
-          labelPosition.y -= label.fontSize;
-          labelInfo.y -= label.fontSize;
+        if ((collision.length <= 0) || t) {
+          while (polygonsLabel.filter((lb) => checkCollisions(labelInfo, lb)).length > 0) {
+            labelPosition.y -= label.fontSize;
+            labelInfo.y -= label.fontSize;
+          }
+          polygonsLabel.push(labelInfo);
+
+          labels.push(
+            <Text
+              paintOrder="stroke"
+              stroke={label.color}
+              strokeWidth={5}
+              fill="white"
+              fontSize={label.fontSize}
+              {...labelPosition}
+            >
+              {`${damageType.charAt(0)
+                .toUpperCase() + damageType.slice(1)
+                .replaceAll('_', ' ')}`}
+            </Text>,
+          );
         }
-        polygonsLabel.push(labelInfo);
-
-        labels.push(
-          <Text
-            paintOrder="stroke"
-            stroke={label.color}
-            strokeWidth={5}
-            fill="white"
-            fontSize={label.fontSize}
-            {...labelPosition}
-          >
-            {`${damageType.charAt(0)
-              .toUpperCase() + damageType.slice(1)
-              .replaceAll('_', ' ')}`}
-          </Text>,
-        );
       }
 
       if (polygons) {
@@ -146,7 +151,7 @@ const DamageHighlight = forwardRef(({
           damageFigures.push(
             <Polygon
               {...strokes}
-              key={`image-${image.id}-polygon-${String(index)}`}
+              key={`image-${image.id}-polygon-${id}-${String(index)}`}
               fillOpacity={0}
               points={p.map((card) => `${card[0]},${card[1]}`).join(' ')}
               onClick={() => onPressDamage(damage)}
@@ -169,7 +174,7 @@ const DamageHighlight = forwardRef(({
     });
 
     return [damageFigures, labels];
-  }, [damages, image.id, image.width, measureText, onPressDamage, options]);
+  }, [damages, image.id, image.width, measureText, onPressDamage, completedOptions]);
 
   const [Polygons, Labels] = renderDamages();
 
@@ -196,10 +201,15 @@ const DamageHighlight = forwardRef(({
       <DamageImage
         name={image.id}
         source={image.source}
-        opacity={isEmpty(Polygons) ? 1 : options.background.opacity}
+        opacity={isEmpty(Polygons) ? 1 : completedOptions.background.opacity}
       />
       {Labels}
-      <DamageImage name={image.id} source={image.source} clip opacity={options.polygons.opacity} />
+      <DamageImage
+        name={image.id}
+        source={image.source}
+        clip
+        opacity={completedOptions.polygons.opacity}
+      />
       {Polygons}
     </Svg>
   );
@@ -214,7 +224,7 @@ DamageHighlight.propTypes = {
       rx: PropTypes.number,
       ry: PropTypes.number,
     }),
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
     polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
   })),
   image: PropTypes.shape({
