@@ -166,37 +166,44 @@ export function useStartUploadAsync({
           json,
           file,
         } = queryParams;
+        try {
+          const data = new FormData();
+          data.append(multiPartKeys.json, json);
 
-        const data = new FormData();
-        data.append(multiPartKeys.json, json);
+          data.append(multiPartKeys.image, file);
 
-        data.append(multiPartKeys.image, file);
+          const result = await monk.entity.image.addOne({
+            inspectionId,
+            data,
+          });
+          onPictureUploaded({
+            result,
+            picture,
+            inspectionId,
+          });
 
-        const result = await monk.entity.image.addOne({
-          inspectionId,
-          data,
-        });
-        onPictureUploaded({
-          result,
-          picture,
-          inspectionId,
-        });
+          // call onFinish callback when capturing the last picture
+          if (ids[ids.length - 1] === id) {
+            onFinish();
+            log([`Capture tour has been finished`]);
+          }
 
-        // call onFinish callback when capturing the last picture
-        if (ids[ids.length - 1] === id) {
-          onFinish();
-          log([`Capture tour has been finished`]);
+          dispatch({
+            type: Actions.uploads.UPDATE_UPLOAD,
+            payload: {
+              pictureId: result.id,
+              id,
+              status: 'fulfilled',
+              error: null,
+            },
+          });
+        } catch (err) {
+          dispatch({
+            type: Actions.uploads.UPDATE_UPLOAD,
+            increment: true,
+            payload: { id, status: 'rejected', error: err },
+          });
         }
-
-        dispatch({
-          type: Actions.uploads.UPDATE_UPLOAD,
-          payload: {
-            pictureId: result.id,
-            id,
-            status: 'fulfilled',
-            error: null,
-          },
-        });
       }
       isRunning = false;
     }
