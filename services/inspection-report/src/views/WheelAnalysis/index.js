@@ -42,12 +42,12 @@ const chipProps = (data, name) => {
 
 const getVehicleSideByWheelName = (wheelName) => {
   switch (wheelName) {
-    case 'wheelFrontRight':
-    case 'wheelBackRight':
+    case 'wheel_front_right':
+    case 'wheel_back_right':
       return 'back';
 
-    case 'wheelFrontLeft':
-    case 'wheelBackLeft':
+    case 'wheel_front_left':
+    case 'wheel_back_left':
     default:
       return 'front';
   }
@@ -55,13 +55,13 @@ const getVehicleSideByWheelName = (wheelName) => {
 
 const getActivePartsByWheelName = (wheelName) => {
   switch (wheelName) {
-    case 'wheelFrontRight':
+    case 'wheel_front_right':
       return { wheelFrontRight: true, hubcapFrontRight: true };
-    case 'wheelBackRight':
+    case 'wheel_back_right':
       return { wheelBackRight: true, hubcapBackRight: true };
-    case 'wheelBackLeft':
+    case 'wheel_back_left':
       return { wheelBackLeft: true, hubcapBackLeft: true };
-    case 'wheelFrontLeft':
+    case 'wheel_front_left':
     default:
       return { wheelFrontLeft: true, hubcapFrontLeft: true };
   }

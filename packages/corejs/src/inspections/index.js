@@ -30,12 +30,18 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
 
   /**
    * Note(Ilyass): Since there is still a bug from BE, which is wheel_analysis property
-   * is always null, as a workaround we are pulling wheel_analysis from images, the only
-   * issue here is that we can't access wheelName, which means no vehicle model
+   * is always null, as a workaround we are pulling wheel_analysis from images, and wheelName
+   * from tasks.images.details.wheel_name
   *  */
+  const wheelAnalysisTask = axiosResponse.data.tasks.find((task) => task.name === 'wheel_analysis');
+  const getTaskImageById = (imageId) => wheelAnalysisTask.images.find(
+    (img) => img.image_id === imageId,
+  );
+  const wheelName = (imageId) => getTaskImageById(imageId)?.details?.wheel_name;
+
   const wheelAnalysisFromImages = axiosResponse.data.images
     ?.filter((img) => img?.wheel_analysis)
-    .map((img) => (img?.wheel_analysis));
+    .map((img) => ({ ...img?.wheel_analysis, wheel_name: wheelName(img.id) }));
 
   const data = {
     ...axiosResponse.data,
