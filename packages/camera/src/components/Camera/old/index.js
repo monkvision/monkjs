@@ -7,7 +7,7 @@ import { utils } from '@monkvision/toolkit';
 import Webcam from 'react-webcam';
 
 import { findDevices, findBestCandidate, setVideoSource } from './utils';
-import styles from './styles';
+import styles from '../styles';
 
 const { getSize } = utils.styles;
 
