@@ -10,12 +10,7 @@ import useAuth from 'hooks/useAuth';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
-  task: {
-    name: 'images_ocr',
-    image_details: {
-      image_type: 'VIN',
-    },
-  },
+  task: { name: 'images_ocr', image_details: { image_type: 'VIN' } },
 }, {
   id: 'xQKQ0bXS',
   task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_front_left' } },
