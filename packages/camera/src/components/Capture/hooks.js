@@ -318,7 +318,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
 
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id: sightId, status: 'fulfilled', result, imageId },
+        payload: { id: sightId, status: 'fulfilled', result: result.axiosResponse, imageId },
       });
 
       return result;

@@ -184,7 +184,7 @@ export const useHandlers = ({
   }, [compliance, sights, uploads]);
 
   // reupload each picture on its own
-  const handleReupload = useCallback(async (id, picture) => {
+  const handleReUpload = useCallback(async (id, picture) => {
     const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
     /**
@@ -208,7 +208,7 @@ export const useHandlers = ({
     }
   }, [checkComplianceAsync, sights, startUploadAsync]);
 
-  return { handleReupload, handleRetakeAll, handleRetake };
+  return { handleReUpload, handleRetakeAll, handleRetake };
 };
 
 export const useMixedStates = ({ state, sights, ids }) => {
