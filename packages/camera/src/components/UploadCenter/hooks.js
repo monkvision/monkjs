@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useStartUploadAsync } from '../Capture/hooks';
 import Actions from '../../actions';
 
@@ -145,6 +145,7 @@ export const useHandlers = ({
   ...states
 }) => {
   const { sights, compliance, uploads } = states;
+  const [complianceToCheck, setComplianceToCheck] = useState([]);
 
   const uploadParams = { inspectionId, sights, uploads, mapTasksToSights, task };
   const startUploadAsync = useStartUploadAsync(uploadParams);
@@ -187,26 +188,38 @@ export const useHandlers = ({
   const handleReUpload = useCallback(async (id, picture) => {
     const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
 
-    /**
-     * Note(Ilyass): We removed the recursive function solution, because it takes up too much time,
-     * instead we re-run the compliance one more time after 1sec of getting the first response
-     * */
-    const verifyComplianceStatus = (pictureId, compliances) => {
-      const hasTodoCompliances = Object.values(compliances).some((c) => hasTodo(c));
+    setComplianceToCheck((prev) => prev.concat(current.metadata.id));
 
-      if (hasTodoCompliances) {
-        setTimeout(async () => {
-          await checkComplianceAsync(pictureId, current.metadata.id);
-        }, 500);
-      }
-    };
-
-    const upload = await startUploadAsync(picture, current);
-    if (upload.data?.id) {
-      const result = await checkComplianceAsync(upload.data.id, current.metadata.id);
-      verifyComplianceStatus(upload.data.id, result.data.compliances);
-    }
+    await startUploadAsync(picture, current);
   }, [checkComplianceAsync, sights, startUploadAsync]);
+
+  /**
+   * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
+   * instead we re-run the compliance one more time after 1sec of getting the first response
+   * */
+  const verifyComplianceStatus = (pictureId, compliances, currentId) => {
+    const hasTodoCompliances = Object.values(compliances).some((c) => hasTodo(c));
+
+    if (hasTodoCompliances) {
+      setTimeout(async () => {
+        await checkComplianceAsync(pictureId, currentId);
+      }, 500);
+    }
+  };
+
+  useEffect(() => {
+    const index = complianceToCheck[0];
+    const currentUploadState = uploads.state[index];
+
+    if (index && currentUploadState.status === 'fulfilled') {
+      const pictureId = currentUploadState.pictureId;
+      (async () => {
+        const result = await checkComplianceAsync(pictureId);
+        verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
+        setComplianceToCheck((prev) => prev.slice(1));
+      })();
+    }
+  }, [complianceToCheck, uploads.state]);
 
   return { handleReUpload, handleRetakeAll, handleRetake };
 };
