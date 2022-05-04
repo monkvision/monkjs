@@ -9,7 +9,7 @@ function useUserMedia(constraints = { audio: false, video: false }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (stream) { return undefined; }
+    if (stream) { return () => {}; }
 
     let didCancel = false;
 
