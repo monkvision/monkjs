@@ -4,11 +4,10 @@ import { utils } from '@monkvision/toolkit';
 import useUserMedia from './useUserMedia';
 
 /**
- * Note(Ilyass): As long as I tested, when we use a canvas (which called `baseCanvas`) and a video
- * constraints of 2560x1440 resolution, the app crashes, and as a solution I increased the
- * `baseCanvas` and the video constraints resolution to 2561x1441 and created another canvas called
- * `croppedCanvas` based on `baseCanvas` (not based on the `video.current`) which
- * will hold a resolution of 2560x1440, so that now we can draw images from it, without any issue.
+ * Note(Ilyass): As a solution I increased the `baseCanvas` and the video constraints resolution
+ * to `2561x1441` and created another canvas called `croppedCanvas` which will be taking picture
+ * based on `baseCanvas` (not on the `video.current`) while holding a resolution of
+ * `2560x1440`, that why we added the `diff`.
  */
 const diff = 1;
 
