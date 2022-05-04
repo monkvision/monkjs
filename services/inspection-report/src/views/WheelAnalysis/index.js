@@ -62,8 +62,9 @@ const getActivePartsByWheelName = (wheelName) => {
     case 'wheel_back_left':
       return { wheelBackLeft: true, hubcapBackLeft: true };
     case 'wheel_front_left':
-    default:
       return { wheelFrontLeft: true, hubcapFrontLeft: true };
+    default:
+      return { wheelFrontLeft: false, hubcapFrontLeft: false };
   }
 };
 
@@ -111,7 +112,7 @@ export default function WheelAnalysis() {
         <Stack spacing={4} mt={4}>
           {/* wheel name */}
           <Stack spacing={1}>
-            <Typography variant="h4">{startCase(wheelAnalysis?.wheelName)}</Typography>
+            <Typography variant="h4">{startCase(wheelAnalysis?.wheelName) || 'Unknown wheel name'}</Typography>
             <Stack spacing={1} direction="row">
               <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>AI Feature</Typography>
               <Typography variant="subtitle1" color="gray">{moment(currentTask?.createdAt).format('DD/MM/YYYY LT')}</Typography>
