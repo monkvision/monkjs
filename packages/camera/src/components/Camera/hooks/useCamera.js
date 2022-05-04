@@ -36,14 +36,23 @@ export default function useCamera({ width, height }, options) {
   const takePicture = async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
+    // canvas's resolution: 2561x1441
     const canvas = document.createElement('canvas');
+
+    // croppedCanvas's resolution: 2560x1440
+    const croppedCanvas = document.createElement('canvas');
+
     canvas.width = width + diff;
     canvas.height = height + diff;
 
+    croppedCanvas.width = width;
+    croppedCanvas.height = height;
+
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
+    croppedCanvas.getContext('2d').drawImage(canvas, 0, 0, width, height);
 
     const imageType = utils.getOS() === 'iOS' ? 'image/png' : 'image/webp';
-    const uri = canvas.toDataURL(imageType);
+    const uri = croppedCanvas.toDataURL(imageType);
 
     return { uri };
   };
