@@ -4,10 +4,11 @@ import { utils } from '@monkvision/toolkit';
 import useUserMedia from './useUserMedia';
 
 /**
- * Note(Ilyass): As long as I tested, the dimensions of the `drawImage` methode, should always be
- * less than the dimensions provided to the canvas itself and to the video constraints.
- * As a workaround I added a value of 0.2px to the dimensions of the canvas and to the
- * video constraints (1 was the smaller working value, smaller values crashes the camera).
+ * Note(Ilyass): As long as I tested, when we use a canvas (which called `baseCanvas`) and a video
+ * constraints of 2560x1440 resolution, the app crashes, and as a solution I increased the
+ * `baseCanvas` and the video constraints resolution to 2561x1441 and created another canvas called
+ * `croppedCanvas` based on `baseCanvas` (not based on the `video.current`) which
+ * will hold a resolution of 2560x1440, so that now we can draw images from it, without any issue.
  */
 const diff = 1;
 
@@ -36,20 +37,20 @@ export default function useCamera({ width, height }, options) {
   const takePicture = async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
-    // canvas's resolution: 2561x1441
-    const canvas = document.createElement('canvas');
+    // baseCanvas's resolution: 2561x1441
+    const baseCanvas = document.createElement('canvas');
 
     // croppedCanvas's resolution: 2560x1440
     const croppedCanvas = document.createElement('canvas');
 
-    canvas.width = width + diff;
-    canvas.height = height + diff;
+    baseCanvas.width = width + diff;
+    baseCanvas.height = height + diff;
 
     croppedCanvas.width = width;
     croppedCanvas.height = height;
 
-    canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
-    croppedCanvas.getContext('2d').drawImage(canvas, 0, 0, width, height);
+    baseCanvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
+    croppedCanvas.getContext('2d').drawImage(baseCanvas, 0, 0, width, height);
 
     const imageType = utils.getOS() === 'iOS' ? 'image/png' : 'image/webp';
     const uri = croppedCanvas.toDataURL(imageType);
