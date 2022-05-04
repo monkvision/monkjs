@@ -37,14 +37,29 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
   const getTaskImageById = (imageId) => wheelAnalysisTask.images.find(
     (img) => img.image_id === imageId,
   );
-  const wheelName = (imageId) => getTaskImageById(imageId)?.details?.wheel_name;
 
+  const mapViewpointsToWheelsNames = {
+    front_left: 'wheel_front_left',
+    front_right: 'wheel_front_right',
+    back_left: 'wheel_back_left',
+    back_right: 'wheel_bacl_right',
+  };
+  const getWheelName = (image) => {
+    // we try to get the wheelname from tasks (will be present only if we pass
+    // them while creating the task)
+    const wheelNameFromTasks = getTaskImageById(image.id)?.details?.wheel_name;
+    if (wheelNameFromTasks) { return wheelNameFromTasks; }
+
+    // if always no wheelName we try to predict a wheelName from the viewpoint
+    return mapViewpointsToWheelsNames[image?.viewpoint?.prediction] || '';
+  };
   const wheelAnalysisFromImages = axiosResponse.data.images
     ?.filter((img) => img?.wheel_analysis)
-    .map((img) => ({ ...img?.wheel_analysis, wheel_name: wheelName(img.id) }));
+    .map((img) => ({ ...img?.wheel_analysis, wheel_name: getWheelName(img), image_id: img.id }));
 
   const data = {
     ...axiosResponse.data,
+    // we try to get the WA from the root of the inspection, if can't we get it from images
     wheel_analysis: axiosResponse.data.wheelAnalysis ?? wheelAnalysisFromImages,
   };
 
