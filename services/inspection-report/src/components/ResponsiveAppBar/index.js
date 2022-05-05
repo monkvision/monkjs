@@ -16,8 +16,6 @@ import * as React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-const wheelAnalysisPath = '/wheelAnalysis/c008320a-5b77-38d2-c062-90755c512b32/a4cf8b99-0156-5f55-a4a5-29e606704cb7';
-
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
 
@@ -97,10 +95,6 @@ export default function ResponsiveAppBar() {
               <MenuItem onClick={navigateToInspections}>
                 <Typography textAlign="center">Inspections</Typography>
               </MenuItem>
-              {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
-              <MenuItem onClick={() => navigate(wheelAnalysisPath)}>
-                <Typography textAlign="center">Wheel analysis Demo</Typography>
-              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -114,13 +108,6 @@ export default function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button onClick={navigateToInspections} sx={{ my: 2, color: 'white', display: 'block' }}>
               Inspections
-            </Button>
-            {/* NOTE(Ilyass): this link should be removed, it is used only for dev */}
-            <Button
-              sx={{ my: 2, color: 'white', display: 'block' }}
-              onClick={() => navigate(wheelAnalysisPath)}
-            >
-              Wheel analysis Demo
             </Button>
           </Box>
           {user ? (
