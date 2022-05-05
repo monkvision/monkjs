@@ -23,8 +23,9 @@ const useHandlers = ({
   useEffect(() => {
     const index = complianceToCheck[0];
     const currentUploadState = unControlledState.uploads.state[index];
+    const currentComplianceState = unControlledState.compliance.state[index];
 
-    if (index && currentUploadState.status === 'fulfilled') {
+    if (index && currentUploadState.status === 'fulfilled' && currentComplianceState.requestCount < 2) {
       const pictureId = currentUploadState.pictureId;
       (async () => {
         if (enableComplianceCheck) {

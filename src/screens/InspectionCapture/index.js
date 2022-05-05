@@ -34,6 +34,8 @@ const mapTasksToSights = [{
   payload: {},
 }];
 
+const enableComplianceCheck = true;
+
 export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
@@ -81,7 +83,7 @@ export default function InspectionCapture() {
         const fulfilledUploads = uploadState.filter(({ status }) => status === 'fulfilled').length;
         const retriedUploads = uploadState.filter(({ requestCount }) => requestCount > 1).length;
 
-        const hasAllFulfilledAndCompliant = complianceState
+        const hasAllFulfilledAndCompliant = enableComplianceCheck && complianceState
           .every(({ result, status }) => status === 'fulfilled' && result && Object.values(result?.data?.compliances)
             .every((e) => e.is_compliant === true || e.is_compliant === null));
 
@@ -124,7 +126,7 @@ export default function InspectionCapture() {
       onStartUploadPicture={() => setCameraLoading(true)}
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
-      enableComplianceCheck
+      enableComplianceCheck={enableComplianceCheck}
     />
   );
 }
