@@ -51,7 +51,7 @@ export default function useCamera({ width, height }, options) {
     baseCanvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
     croppedCanvas.getContext('2d').drawImage(baseCanvas, 0, 0, width, height);
 
-    const imageType = utils.getOS() === 'iOS' ? 'image/png' : 'image/webp';
+    const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
     const uri = croppedCanvas.toDataURL(imageType);
 
     return { uri };
