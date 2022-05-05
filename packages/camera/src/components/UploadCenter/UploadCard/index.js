@@ -85,7 +85,7 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
   const isUnknown = useMemo(() => {
     const allCompliancesAreUnkown = compliance.result
     && Object.values(compliance.result?.data?.compliances).every((c) => c.is_compliant === null);
-    console.log(compliance.result?.data?.compliances);
+
     return !isPending && allCompliancesAreUnkown;
   }, [compliance, isPending]);
 
