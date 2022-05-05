@@ -195,7 +195,7 @@ const Capture = forwardRef(({
     [uploads.state],
   );
   // this will block the user from going to upload center, until we fix the queue
-  
+
   const complianceHasFulfilledAll = useMemo(
     () => Object.values(compliance.state).every(({ status }) => status !== 'idle' && status !== 'pending'),
     [compliance.state],
