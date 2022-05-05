@@ -119,6 +119,7 @@ export default function InspectionCapture() {
       onStartUploadPicture={() => setCameraLoading(true)}
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
+      enableComplianceCheck
     />
   );
 }

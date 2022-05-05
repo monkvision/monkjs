@@ -202,7 +202,7 @@ export const useHandlers = ({
     };
 
     const upload = await startUploadAsync(picture, current);
-    if (upload.data?.id) {
+    if (upload?.data?.id) {
       const result = await checkComplianceAsync(upload.data.id, current.metadata.id);
       verifyComplianceStatus(upload.data.id, result.data.compliances);
     }

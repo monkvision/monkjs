@@ -147,9 +147,7 @@ export function useStartUploadAsync({
   const [queue, setQueue] = useState([]);
   let isRunning = false;
 
-  const addElement = useCallback((element) => {
-    setQueue((prevState) => [...prevState, element]);
-  }, []);
+  const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
 
   const runQuery = useCallback(async () => {
     const { ids } = sights.state;
@@ -157,30 +155,18 @@ export function useStartUploadAsync({
 
     if (!isRunning && queue.length > 0) {
       isRunning = true;
+
       const queryParams = queue.shift();
       if (queryParams) {
-        const {
-          id,
-          picture,
-          multiPartKeys,
-          json,
-          file,
-        } = queryParams;
+        const { id, picture, multiPartKeys, json, file } = queryParams;
         try {
           const data = new FormData();
           data.append(multiPartKeys.json, json);
 
           data.append(multiPartKeys.image, file);
 
-          const result = await monk.entity.image.addOne({
-            inspectionId,
-            data,
-          });
-          onPictureUploaded({
-            result,
-            picture,
-            inspectionId,
-          });
+          const result = await monk.entity.image.addOne({ inspectionId, data });
+          onPictureUploaded({ result, picture, inspectionId });
 
           // call onFinish callback when capturing the last picture
           if (ids[ids.length - 1] === id) {
@@ -190,12 +176,7 @@ export function useStartUploadAsync({
 
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
-            payload: {
-              pictureId: result.id,
-              id,
-              status: 'fulfilled',
-              error: null,
-            },
+            payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
           dispatch({
@@ -210,11 +191,7 @@ export function useStartUploadAsync({
   }, [isRunning, queue, sights.state, uploads]);
 
   useEffect(() => {
-    if (!isRunning && queue.length > 0) {
-      (async () => {
-        await runQuery();
-      })();
-    }
+    if (!isRunning && queue.length > 0) { (async () => { await runQuery(); })(); }
   }, [isRunning, queue]);
 
   return useCallback(async (picture, currentSight = null) => {
