@@ -65,10 +65,10 @@ const useHandlers = ({
     if (current.index === ids.length - 1) {
       await startUploadAsync(picture);
     } else {
+      await startUploadAsync(picture);
+
       onFinishUploadPicture(state, api);
       goNextSight();
-
-      await startUploadAsync(picture);
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture]);
 
