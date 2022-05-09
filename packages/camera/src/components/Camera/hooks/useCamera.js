@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
@@ -67,6 +67,11 @@ export default function useCamera({ width, height }, options) {
       videoRef.current.pause();
     }
   };
+  const stopStream = useCallback(() => {
+    if (stream?.getTracks) { stream.getTracks().forEach((track) => track.stop()); }
+    if (stream?.getAudioTracks) { stream.getAudioTracks().map((track) => track.stop()); }
+    if (stream?.stop) { stream.stop(); }
+  }, [stream]);
 
-  return { videoRef, takePicture, resumePreview, pausePreview };
+  return { videoRef, takePicture, resumePreview, pausePreview, stopStream };
 }
