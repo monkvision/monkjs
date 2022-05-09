@@ -82,6 +82,7 @@ export default function InspectionCapture() {
 
         const fulfilledUploads = uploadState.filter(({ status }) => status === 'fulfilled').length;
         const retriedUploads = uploadState.filter(({ requestCount }) => requestCount > 1).length;
+        const failedUploads = uploadState.filter(({ status }) => status === 'rejected').length;
 
         const hasAllFulfilledAndCompliant = enableComplianceCheck && complianceState
           .every(({ result, status }) => status === 'fulfilled' && result && Object.values(result?.data?.compliances)
@@ -92,8 +93,11 @@ export default function InspectionCapture() {
           fulfilledUploads === totalPictures
           || retriedUploads >= totalPictures - fulfilledUploads
         );
+        const hasFailedUploadButNoCheck = !enableComplianceCheck
+          && ((failedUploads + fulfilledUploads) === totalPictures);
 
-        if (hasPictures && hasBeenUploaded && state && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
+        if (hasPictures && (hasBeenUploaded || hasFailedUploadButNoCheck) && state
+          && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
           setSuccess(true);
         }
       } catch (err) {
