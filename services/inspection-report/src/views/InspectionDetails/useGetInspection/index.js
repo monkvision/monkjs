@@ -10,6 +10,8 @@ export default function useGetInspection(inspectionId) {
   const inspectionEntities = useSelector(monk.entity.inspection.selectors.selectEntities);
   const imageEntities = useSelector(monk.entity.image.selectors.selectEntities);
   const taskEntities = useSelector(monk.entity.task.selectors.selectEntities);
+  const viewsEntities = useSelector(monk.entity.view.selectors.selectEntities);
+  const damagesEntities = useSelector(monk.entity.damage.selectors.selectEntities);
 
   const inspection = inspectionEntities[inspectionId];
   const images = inspection
@@ -17,6 +19,16 @@ export default function useGetInspection(inspectionId) {
     : [];
   const tasks = inspection
     ? Object.values(taskEntities).filter(({ id }) => inspection?.tasks?.includes(id))
+    : [];
+  const views = inspection
+    ? Object
+      .values(viewsEntities)
+      .filter(({ imageRegion }) => inspection?.images?.includes(imageRegion.imageId))
+    : [];
+  const damages = views
+    ? views
+      .filter(({ elementId }) => inspection?.damages?.includes(elementId))
+      .map((view) => ({ ...view, damageType: damagesEntities[view.elementId].damageType }))
     : [];
 
   const onRequestSuccess = useCallback(({ entities, result }) => {
@@ -43,6 +55,7 @@ export default function useGetInspection(inspectionId) {
 
   return {
     ...request,
+    damages,
     inspectionId,
     inspection,
     images,
