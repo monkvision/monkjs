@@ -34,7 +34,7 @@ const mapTasksToSights = [{
   payload: {},
 }];
 
-const enableComplianceCheck = true;
+const enableComplianceCheck = false;
 
 export default function InspectionCapture() {
   const route = useRoute();
@@ -93,7 +93,7 @@ export default function InspectionCapture() {
           || retriedUploads >= totalPictures - fulfilledUploads
         );
 
-        if (hasPictures && hasBeenUploaded && state && hasAllFulfilledAndCompliant) {
+        if (hasPictures && hasBeenUploaded && state && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
           setSuccess(true);
         }
       } catch (err) {
@@ -126,7 +126,10 @@ export default function InspectionCapture() {
       onStartUploadPicture={() => setCameraLoading(true)}
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
-      enableComplianceCheck={enableComplianceCheck}
+
+      // Case with Upload Center (enableComplianceCheck set to `true`)
+      // enableComplianceCheck={enableComplianceCheck}
+      // onComplianceCheckFinish={() => setSuccess(true)}
     />
   );
 }
