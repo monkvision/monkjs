@@ -191,13 +191,13 @@ const Capture = forwardRef(({
 
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
-    () => !Object.values(uploads.state).some((upload) => !upload.picture),
+    () => !Object.values(uploads.state).some(({ status }) => status === 'pending' || status === 'idle'),
     [uploads.state],
   );
   // this will block the user from going to upload center, until we fix the queue
 
   const complianceHasFulfilledAll = useMemo(
-    () => Object.values(compliance.state).every(({ status }) => status !== 'idle' && status !== 'pending'),
+    () => Object.values(compliance.state).every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected'),
     [compliance.state],
   );
   const overlaySize = useMemo(

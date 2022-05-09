@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import Actions from '../../actions';
 
 const useHandlers = ({
   onStartUploadPicture, onFinishUploadPicture, checkComplianceAsync,
   enableComplianceCheck, unControlledState,
 }) => {
-  const [complianceToCheck, setComplianceToCheck] = useState([]);
   /**
    * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
    * instead we re-run the compliance one more time after 1sec of getting the first response
@@ -20,23 +19,28 @@ const useHandlers = ({
     }
   };
 
-  useEffect(() => {
-    const index = complianceToCheck[0];
-    const currentUploadState = unControlledState.uploads.state[index];
-    const currentComplianceState = unControlledState.compliance.state[index];
+  const pictureComplianceToCheck = useMemo(() => {
+    const uploadsState = unControlledState.uploads.state;
+    const complianceState = unControlledState.compliance.state;
 
-    if (index && currentUploadState.status === 'fulfilled' && currentComplianceState.requestCount < 2) {
-      const pictureId = currentUploadState.pictureId;
-      (async () => {
-        if (enableComplianceCheck) {
-          const result = await checkComplianceAsync(pictureId);
+    return Object.values(uploadsState).find((uploadedImage) => uploadedImage.status === 'fulfilled' && complianceState[uploadedImage.id].status !== 'fulfilled');
+  }, [unControlledState.uploads, unControlledState.compliance]);
+
+  useEffect(() => {
+    if (pictureComplianceToCheck && enableComplianceCheck) {
+      const index = pictureComplianceToCheck.id;
+      const currentComplianceState = unControlledState.compliance.state[index];
+
+      if (currentComplianceState.requestCount < 2) {
+        const pictureId = pictureComplianceToCheck.pictureId;
+        (async () => {
+          const result = await checkComplianceAsync(pictureId, index);
           verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
-          setComplianceToCheck((prev) => prev.slice(1));
           onFinishUploadPicture();
-        }
-      })();
+        })();
+      }
     }
-  }, [complianceToCheck, unControlledState.uploads.state]);
+  }, [pictureComplianceToCheck]);
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
@@ -60,8 +64,6 @@ const useHandlers = ({
 
     const { sights } = state;
     const { current, ids } = sights.state;
-
-    setComplianceToCheck((prev) => prev.concat(current.metadata.id));
 
     if (current.index === ids.length - 1) {
       await startUploadAsync(picture);

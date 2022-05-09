@@ -293,10 +293,15 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
 
       const result = await monk.entity.image.getOne({ inspectionId, imageId });
 
-      dispatch({
-        type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id: sightId, status: 'fulfilled', result: result.axiosResponse, imageId },
-      });
+      const carCov = result.axiosResponse.data.compliances.coverage_360;
+      const iqa = result.axiosResponse.data.compliances.image_quality_assessment;
+
+      if ((!COVERAGE_360_WHITELIST.includes(sightId) || carCov.status === 'DONE') && (iqa.status === 'DONE')) {
+        dispatch({
+          type: Actions.compliance.UPDATE_COMPLIANCE,
+          payload: { id: sightId, status: 'fulfilled', result: result.axiosResponse, imageId },
+        });
+      }
 
       return result;
     } catch (err) {

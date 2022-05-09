@@ -26,17 +26,17 @@ export const SIGHTS_IDS_BY_MOD = {
     'McR3TJK0', // Rear Lateral Left
     '7bTC-nGS', // Rear Fender Left
     'hhCBI9oZ', // Rear
-    'e_QIW30o', // Rear Fender Right
-    'fDo5M0Fp', // Rear Lateral Right
-    'fDKWkHHp', // Doors Right
-    '5CFsFvj7', // Front Fender Right
-    'g30kyiVH', // Front Bumper Side Right
-    'I0cOpT1e', // Front
-
-    'IqwSM3', // Front seats
-    'rj5mhm', // Back seats
-    'qhKA2z', // Trunk
-    'rSvk2C', // Dashboard
+    // 'e_QIW30o', // Rear Fender Right
+    // 'fDo5M0Fp', // Rear Lateral Right
+    // 'fDKWkHHp', // Doors Right
+    // '5CFsFvj7', // Front Fender Right
+    // 'g30kyiVH', // Front Bumper Side Right
+    // 'I0cOpT1e', // Front
+    //
+    // 'IqwSM3', // Front seats
+    // 'rj5mhm', // Back seats
+    // 'qhKA2z', // Trunk
+    // 'rSvk2C', // Dashboard
   ],
   wheels: [
     'xQKQ0bXS', // Front wheel left
