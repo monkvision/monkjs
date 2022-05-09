@@ -82,3 +82,12 @@ export enum WheelType {
    */
   WHEEL_BACK_RIGHT = 'wheel_back_right',
 }
+
+export type WheelTypePrediction = 'front_left' | 'front_right' | 'back_left' | 'back_right';
+
+export const WheelTypeByPrediction = {
+  front_left: WheelType.WHEEL_FRONT_LEFT,
+  front_right: WheelType.WHEEL_FRONT_RIGHT,
+  back_left: WheelType.WHEEL_BACK_LEFT,
+  back_right: WheelType.WHEEL_BACK_RIGHT,
+};

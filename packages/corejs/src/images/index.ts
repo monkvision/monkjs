@@ -14,13 +14,41 @@ import {
   CreatedImage,
   CreateImage,
   GetManyImagesOptions,
-  GetManyImagesResponse,
+  GetManyImagesResponse, GetOneImageOptions, GetOneImageResponse,
   ImageDetails,
 } from './apiTypes';
 import { NormalizedImage } from './entityTypes';
 import { ImagePayloadTypes } from './reduxTypes';
 
 import schema, { idAttribute, key } from './schema';
+
+/**
+ * Get the details of an image.
+ *
+ * @param {string} inspectionId The ID of the inspection.
+ * @param {string} imageId The ID of the image.
+ * @param {GetOneImageOptions} [options] The optional query options.
+ */
+export async function getOne(
+  inspectionId: string,
+  imageId: string,
+  options?: GetOneImageOptions,
+): Promise<GetOneImageResponse> {
+  const params = mapKeysDeep(options, (v, k) => snakeCase(k));
+  const axiosResponse = await axios.request({
+    ...config.axiosConfig,
+    method: 'get',
+    url: `/inspections/${inspectionId}/images/${imageId}`,
+    params: omitBy(params, isNil),
+  });
+
+  return ({
+    axiosResponse,
+    inspectionId,
+    [idAttribute]: imageId,
+    ...normalize(axiosResponse.data, schema),
+  });
+}
 
 /**
  * Get a page of images of an inspection.

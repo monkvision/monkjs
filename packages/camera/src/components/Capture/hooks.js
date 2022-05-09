@@ -291,7 +291,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne({ inspectionId, imageId });
+      const result = await monk.entity.image.getOne(inspectionId, imageId);
 
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;

@@ -13,12 +13,7 @@ import {
   TaskName,
   WheelAnalysisDetails,
 } from '../tasks/entityTypes';
-import { Image } from './entityTypes';
-
-/**
- * Options used when fetching multiple images.
- */
-export type GetManyImagesOptions = PaginationParams;
+import { Image, NormalizedImage } from './entityTypes';
 
 /**
  * The details of an image when fetching it by its id.
@@ -27,8 +22,29 @@ export type GetManyImagesOptions = PaginationParams;
  */
 export type ImageDetails = Pick<
 Image,
-'id' | 'path' | 'name' | 'imageHeight' | 'imageWidth' | 'binarySize' | 'mimetype'
+'id' | 'path' | 'name' | 'imageHeight' | 'imageWidth' | 'binarySize' | 'mimetype' | 'compliances'
 >;
+
+/**
+ * Options used when fetching a single image.
+ */
+export interface GetOneImageOptions extends PaginationParams {
+  /**
+   * Set to `true` to include deleted data about the image.
+   * @default false
+   */
+  showDeletedObjects?: boolean;
+}
+
+/**
+ * The type returned by the getOneImage method.
+ */
+export type GetOneImageResponse = CoreJsResponseWithId<ImageDetails, NormalizedImage, 'id'> & ReponseWithInspectionId;
+
+/**
+ * Options used when fetching multiple images.
+ */
+export type GetManyImagesOptions = PaginationParams;
 
 /**
  * The type returned by the getManyImages method.

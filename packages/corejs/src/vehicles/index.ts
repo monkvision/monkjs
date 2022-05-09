@@ -31,10 +31,10 @@ function mapUpdatedVehicle(id: string, updateVehicle: CreateUpdateVehicle): Upda
     interiorCleanliness: updateVehicle.interiorCleanliness,
     dateOfCirculation: updateVehicle.dateOfCirculation,
     ownerInfo: updateVehicle.ownerInfo,
-    mileageUnit: updateVehicle.mileage.unit,
-    mileageValue: updateVehicle.mileage.value,
-    marketValueUnit: updateVehicle.marketValue.unit,
-    marketValueValue: updateVehicle.marketValue.value,
+    mileageUnit: updateVehicle.mileage?.unit,
+    mileageValue: updateVehicle.mileage?.value,
+    marketValueUnit: updateVehicle.marketValue?.unit,
+    marketValueValue: updateVehicle.marketValue?.value,
   };
 }
 

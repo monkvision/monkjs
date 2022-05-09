@@ -7,9 +7,12 @@ import { normalize } from 'normalizr';
 import config from '../config';
 
 import createEntityReducer from '../createEntityReducer';
-import { GotOneImagePayload } from '../images/reduxTypes';
+import { GetOneImageResponse } from '../images/apiTypes';
+import { Image } from '../images/entityTypes';
 import { IdResponse, RootState } from '../sharedTypes';
 import { GetOneTaskResponse } from '../tasks/apiTypes';
+import { TaskName, WheelAnalysisDetails } from '../tasks/entityTypes';
+import { WheelAnalysis, WheelTypeByPrediction, WheelTypePrediction } from '../wheelAnalysis/entityTypes';
 import {
   AddAdditionalInfoResponse,
   AdditionalInfoAddedToInspection,
@@ -43,6 +46,35 @@ function mapCreatedInspection(id: string, createInspection: CreateInspection, cr
 }
 
 /**
+ * Note(Ilyass): Since there is still a bug from BE, which is wheel_analysis property
+ * is always null, as a workaround we are pulling wheel_analysis from images, and wheelName
+ * from tasks.images.details.wheel_name
+ */
+function getWheelAnalysis(inspection: Inspection): WheelAnalysis[] {
+  const wheelAnalysisTask = inspection.tasks.find((task) => task.name === TaskName.WHEEL_ANALYSIS);
+  const getTaskImageById = (imageId: string) => wheelAnalysisTask.images.find((img) => img.imageId === imageId);
+
+  const getWheelName = (image: Image) => {
+    // we try to get the wheelname from tasks (will be present only if we pass
+    // them while creating the task)
+    const taskDetails = getTaskImageById(image.id)?.details as WheelAnalysisDetails | undefined;
+    if (taskDetails.wheelName) { return taskDetails.wheelName; }
+
+    // if always no wheelName we try to predict a wheelName from the viewpoint
+    return WheelTypeByPrediction[image?.viewpoint?.prediction as WheelTypePrediction] ?? '';
+  };
+  const wheelAnalysisFromImages = inspection.images?.filter((img) => img?.wheelAnalsis)
+    .map((img) => ({
+      ...img.wheelAnalsis,
+      wheelName: getWheelName(img),
+      imageId: img.id,
+    }) as WheelAnalysis);
+
+  // we try to get the WA from the root of the inspection, if can't we get it from images
+  return inspection.wheelAnalysis ?? wheelAnalysisFromImages;
+}
+
+/**
  * Get one inspection by ID.
  *
  * @param {string} id The uuid of the inspection to get.
@@ -57,10 +89,20 @@ export async function getOne(id: string, options?: GetOneInspectionOptions): Pro
     params: omitBy(params, isNil),
   });
 
+  const inspection = mapKeysDeep(
+    axiosResponse.data,
+    (v, k) => camelCase(k),
+  ) as unknown as Inspection;
+  const wheelAnalysis = getWheelAnalysis(inspection);
+  const inspectionWithWheelAnalysis = {
+    ...inspection,
+    wheelAnalysis,
+  };
+
   return {
     axiosResponse,
     [idAttribute]: id,
-    ...normalize(mapKeysDeep(axiosResponse.data, (v, k) => camelCase(k)), schema),
+    ...normalize(inspectionWithWheelAnalysis, schema),
   };
 }
 
@@ -195,7 +237,7 @@ export default createSlice({
       }
     }).addCase('images/gotOne', (
       state: EntityState<NormalizedInspection>,
-      action: PayloadAction<GotOneImagePayload, 'images/gotOne'>,
+      action: PayloadAction<GetOneImageResponse, 'images/gotOne'>,
     ) => {
       const { result, inspectionId } = action.payload;
 

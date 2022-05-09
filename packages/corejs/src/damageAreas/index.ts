@@ -7,7 +7,7 @@ import { normalize } from 'normalizr';
 import config from '../config';
 
 import createEntityReducer, { GotManyEntitiesPayload } from '../createEntityReducer';
-import { GotOneImagePayload } from '../images/reduxTypes';
+import { GetOneImageResponse } from '../images/apiTypes';
 import { InspectionPayloadTypes } from '../inspections/reduxTypes';
 import { RootState } from '../sharedTypes';
 import { UpsertDamageArea, UpsertOneDamageAreaResponse } from './apiTypes';
@@ -53,7 +53,7 @@ export default createSlice({
   extraReducers: (builder) => {
     builder.addCase('images/gotOne', (
       state: EntityState<NormalizedDamageArea>,
-      action: PayloadAction<GotOneImagePayload, 'images/gotOne'>,
+      action: PayloadAction<GetOneImageResponse, 'images/gotOne'>,
     ) => {
       const { entities, result } = action.payload;
       const damageArea = result.damageArea;

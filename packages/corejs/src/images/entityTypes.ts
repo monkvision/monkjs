@@ -1,6 +1,7 @@
 import { DamageArea } from '../damageAreas/entityTypes';
 import { ProgressStatus } from '../sharedTypes/progressStatus';
-import { View } from '../views/entityTypes';
+import { RenderedOutput, View } from '../views/entityTypes';
+import { LabelPrediction, WheelAnalysis } from '../wheelAnalysis/entityTypes';
 
 interface ImageEntityWithoutRelations {
   /**
@@ -35,6 +36,27 @@ interface ImageEntityWithoutRelations {
    * The result of the compliance test made to verify if the image respects certain rules like blurriness etc...
    */
   compliances?: ComplianceResults;
+  /**
+   * The view point prediction of the image.
+   */
+  viewpoint?: LabelPrediction;
+  /**
+   * The rendered outputs of the image.
+   */
+  renderedOutputs?: RenderedOutput[];
+  /**
+   * Boolean indicating whether this image has a vehicle in it or not.
+   */
+  hasVehicle?: boolean;
+  /**
+   * The wheel analysis of the image if there is one.
+   * Note : This is NOT a relation stored in the redux state.
+   */
+  wheelAnalsis?: WheelAnalysis;
+  /**
+   * Additional data attached to the image.
+   */
+  additionalData?: unknown;
 }
 
 /**
