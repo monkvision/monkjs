@@ -1,4 +1,4 @@
-import { config as corejs } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 
 export const axiosConfig = {
   baseURL: `https://${process.env.REACT_APP_API_DOMAIN}`,
@@ -11,5 +11,5 @@ export const authConfig = {
   clientId: process.env.REACT_APP_AUTH_CLIENT_ID,
 };
 
-corejs.axiosConfig = axiosConfig;
-corejs.authConfig = authConfig;
+monk.config.axiosConfig = axiosConfig;
+monk.config.authConfig = authConfig;

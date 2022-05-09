@@ -1,4 +1,3 @@
-import Divider from '@mui/material/Divider';
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -70,29 +69,15 @@ export default function ResponsiveAppBar() {
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu()}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+              sx={{ display: { xs: 'block', md: 'none' } }}
             >
               <MenuItem onClick={handleCloseNavMenu()}>
                 <Typography textAlign="center">Inspections</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu()}>
-                <Typography textAlign="center">Vehicles</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu()}>
-                <Typography textAlign="center">Customers</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -107,12 +92,6 @@ export default function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
               Inspections
-            </Button>
-            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
-              Vehicles
-            </Button>
-            <Button onClick={handleCloseNavMenu()} sx={{ my: 2, color: 'white', display: 'block' }}>
-              Customers
             </Button>
           </Box>
 
@@ -138,13 +117,6 @@ export default function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu()}
             >
-              <MenuItem onClick={handleCloseUserMenu()}>
-                <Typography textAlign="center">User info</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu()}>
-                <Typography textAlign="center">Settings</Typography>
-              </MenuItem>
-              <Divider />
               <MenuItem onClick={handleCloseUserMenu(logout)}>
                 <Typography textAlign="center">Sign Out</Typography>
               </MenuItem>

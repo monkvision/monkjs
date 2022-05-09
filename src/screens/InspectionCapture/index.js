@@ -10,27 +10,22 @@ import useAuth from 'hooks/useAuth';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
-  task: {
-    name: 'images_ocr',
-    image_details: {
-      image_type: 'VIN',
-    },
-  },
+  task: { name: 'images_ocr', image_details: { image_type: 'VIN' } },
 }, {
   id: 'xQKQ0bXS',
-  tasks: ['wheel_analysis'],
+  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_front_left' } },
   payload: {},
 }, {
   id: '8_W2PO8L',
-  tasks: ['wheel_analysis'],
+  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_back_left' } },
   payload: {},
 }, {
   id: 'rN39Y3HR',
-  tasks: ['wheel_analysis'],
+  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_back_right' } },
   payload: {},
 }, {
   id: 'PuIw17h0',
-  tasks: ['wheel_analysis'],
+  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_front_right' } },
   payload: {},
 }];
 

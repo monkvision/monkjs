@@ -28,16 +28,39 @@ export const getOne = async ({ id, params, ...requestConfig }) => {
     ...requestConfig,
   });
 
-  // eslint-disable-next-line no-console
-  console.warn(`
-    Wheel analysis is getting data from images (avoiding wheel_analysis getting a null value),
-    this will not give us the name of the wheel
-  `);
+  /**
+   * Note(Ilyass): Since there is still a bug from BE, which is wheel_analysis property
+   * is always null, as a workaround we are pulling wheel_analysis from images, and wheelName
+   * from tasks.images.details.wheel_name
+  *  */
+  const wheelAnalysisTask = axiosResponse.data.tasks.find((task) => task.name === 'wheel_analysis');
+  const getTaskImageById = (imageId) => wheelAnalysisTask.images.find(
+    (img) => img.image_id === imageId,
+  );
+
+  const mapViewpointsToWheelsNames = {
+    front_left: 'wheel_front_left',
+    front_right: 'wheel_front_right',
+    back_left: 'wheel_back_left',
+    back_right: 'wheel_bacl_right',
+  };
+  const getWheelName = (image) => {
+    // we try to get the wheelname from tasks (will be present only if we pass
+    // them while creating the task)
+    const wheelNameFromTasks = getTaskImageById(image.id)?.details?.wheel_name;
+    if (wheelNameFromTasks) { return wheelNameFromTasks; }
+
+    // if always no wheelName we try to predict a wheelName from the viewpoint
+    return mapViewpointsToWheelsNames[image?.viewpoint?.prediction] || '';
+  };
+  const wheelAnalysisFromImages = axiosResponse.data.images
+    ?.filter((img) => img?.wheel_analysis)
+    .map((img) => ({ ...img?.wheel_analysis, wheel_name: getWheelName(img), image_id: img.id }));
 
   const data = {
     ...axiosResponse.data,
-    wheel_analysis: axiosResponse.data.images?.filter((img) => img?.wheel_analysis)
-      .map((img) => ({ wheel_name: 'wheelFrontLeft', ...img.wheel_analysis })),
+    // we try to get the WA from the root of the inspection, if can't we get it from images
+    wheel_analysis: axiosResponse.data.wheelAnalysis ?? wheelAnalysisFromImages,
   };
 
   return ({
