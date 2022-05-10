@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   title: {
     color: 'rgba(250, 250, 250, 0.87)',
     textAlign: 'center',
-    fontWeight: 500,
+    fontWeight: '500',
     lineHeight: 30,
     letterSpacing: 0.15,
     fontSize: 20,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   p: {
     color: 'rgba(250, 250, 250, 0.87)',
     textAlign: 'center',
-    fontWeight: 400,
+    fontWeight: '400',
     lineHeight: 30,
     letterSpacing: 0.15,
     fontSize: 14,

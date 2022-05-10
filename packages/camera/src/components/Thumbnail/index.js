@@ -15,7 +15,7 @@ const LENGTH = SIDE_WIDTH - (MARGIN * 2) - BORDER_WIDTH;
 const styles = StyleSheet.create({
   root: {
     width: LENGTH,
-    height: LENGTH,
+    minHeight: LENGTH,
     margin: MARGIN,
     borderRadius: 5,
     borderWidth: BORDER_WIDTH,
