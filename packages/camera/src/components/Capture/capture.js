@@ -194,12 +194,6 @@ const Capture = forwardRef(({
     () => !Object.values(uploads.state).some(({ status }) => status === 'pending' || status === 'idle'),
     [uploads.state],
   );
-  // this will block the user from going to upload center, until we fix the queue
-
-  const complianceHasFulfilledAll = useMemo(
-    () => Object.values(compliance.state).every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected'),
-    [compliance.state],
-  );
   const overlaySize = useMemo(
     () => utils.styles.getSize('4:3', windowDimensions, 'number'),
     [windowDimensions],
@@ -290,7 +284,7 @@ const Capture = forwardRef(({
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
-  if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
+  if (enableComplianceCheck && tourHasFinished) {
     return (
       <UploadCenter
         {...states}
