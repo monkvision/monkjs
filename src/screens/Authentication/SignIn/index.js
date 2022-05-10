@@ -70,7 +70,7 @@ export default function SignIn() {
   if (isSigningIn) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a decepticon`]} />
+        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`, `Loading`]} />
       </View>
     );
   }
@@ -79,7 +79,7 @@ export default function SignIn() {
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
       <Title>Sorry 😞</Title>
       <Paragraph style={styles.p}>
-        An error occurred will authenticating, please try again in a minute.
+        An error occurred while authenticating, please try again in a minute.
       </Paragraph>
       <Button style={styles.button} onPress={handleGoBack}>
         Go back to home page
