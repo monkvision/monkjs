@@ -27,12 +27,13 @@ function Camera({ children, containerStyle, onCameraReady, title }, ref) {
     resumePreview,
     pausePreview,
     stopStream,
+    stream,
   } = useCamera(canvasResolution, {
     onCameraReady,
     video: { facingMode, width: canvasResolution.width, height: canvasResolution.height },
   });
 
-  useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview }));
+  useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
 
   // stopping the stream when the comopnent unmount
   useEffect(() => stopStream, [stopStream]);

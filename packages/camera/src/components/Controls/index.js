@@ -39,6 +39,7 @@ export default function Controls({
     onStartUploadPicture,
     onFinishUploadPicture,
     enableComplianceCheck,
+    stream: api.camera.current?.stream,
   });
 
   const handlePress = useCallback(({ onPress }) => (e) => {
@@ -74,7 +75,10 @@ export default function Controls({
 
 Controls.propTypes = {
   api: PropTypes.shape({
-    camera: PropTypes.shape({ takePictureAsync: PropTypes.func }),
+    camera: PropTypes.shape({
+      current: PropTypes.objectOf(PropTypes.any),
+      takePictureAsync: PropTypes.func,
+    }),
     checkComplianceAsync: PropTypes.func,
     goNextSight: PropTypes.func,
     goPrevSight: PropTypes.func,

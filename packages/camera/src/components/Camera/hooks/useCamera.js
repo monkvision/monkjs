@@ -73,5 +73,5 @@ export default function useCamera({ width, height }, options) {
     if (stream?.stop) { stream.stop(); }
   }, [stream]);
 
-  return { videoRef, takePicture, resumePreview, pausePreview, stopStream };
+  return { videoRef, takePicture, resumePreview, pausePreview, stopStream, stream };
 }
