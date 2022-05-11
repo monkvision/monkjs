@@ -28,3 +28,4 @@ jobs:
       - run: cd packages/corejs && yarn install
       - run: cd packages/corejs && yarn lint
       - run: cd packages/corejs && yarn run build
+      - run: cd packages/corejs && yarn test
