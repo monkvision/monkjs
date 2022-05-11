@@ -15,7 +15,7 @@ const useHandlers = ({
     if (hasTodo) {
       setTimeout(async () => {
         await checkComplianceAsync(pictureId, currentId);
-      }, 500);
+      }, 1000);
     }
   };
 

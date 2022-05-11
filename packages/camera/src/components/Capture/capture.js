@@ -198,6 +198,10 @@ const Capture = forwardRef(({
     () => utils.styles.getSize('4:3', windowDimensions, 'number'),
     [windowDimensions],
   );
+  const complianceHasFulfilledAll = useMemo(
+    () => Object.values(compliance.state).every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected'),
+    [compliance.state, uploads.state],
+  );
 
   // END CONSTANTS //
   // HANDLERS //
@@ -284,7 +288,7 @@ const Capture = forwardRef(({
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
-  if (enableComplianceCheck && tourHasFinished) {
+  if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
     return (
       <UploadCenter
         {...states}
