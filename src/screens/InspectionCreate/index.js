@@ -118,7 +118,8 @@ export default function InspectionCreate() {
   }, [isAuthenticated, isSigningIn, signIn]));
 
   useEffect(useCallback(() => {
-    if (isAuthenticated && isEmpty(inspectionId && !createInspection.state.loading)) {
+    if (isAuthenticated && isEmpty(inspectionId
+      && !createInspection.state.loading) && !createInspection.state.error) {
       handleCreate();
     }
   }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
@@ -126,7 +127,7 @@ export default function InspectionCreate() {
   if (isSigningIn) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a decepticon`]} />
+        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`]} />
       </View>
     );
   }
@@ -135,7 +136,7 @@ export default function InspectionCreate() {
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
       <Title>Sorry 😞</Title>
       <Paragraph style={styles.p}>
-        An error occurred will authenticating, please try again in a minute.
+        An error occurred while authenticating, please try again in a minute.
       </Paragraph>
       <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
     </View>;
@@ -154,7 +155,7 @@ export default function InspectionCreate() {
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
         <Title>Sorry 😞</Title>
         <Paragraph style={styles.p}>
-          An error occurred will creating the inspection, please try again in a minute.
+          An error occurred while creating the inspection, please try again in a minute.
         </Paragraph>
         <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
       </View>
