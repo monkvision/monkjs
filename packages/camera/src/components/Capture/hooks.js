@@ -147,9 +147,7 @@ export function useStartUploadAsync({
   const [queue, setQueue] = useState([]);
   let isRunning = false;
 
-  const addElement = useCallback((element) => {
-    setQueue((prevState) => [...prevState, element]);
-  }, []);
+  const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
 
   const runQuery = useCallback(async () => {
     const { ids } = sights.state;
@@ -157,57 +155,43 @@ export function useStartUploadAsync({
 
     if (!isRunning && queue.length > 0) {
       isRunning = true;
+
       const queryParams = queue.shift();
       if (queryParams) {
-        const {
-          id,
-          picture,
-          multiPartKeys,
-          json,
-          file,
-        } = queryParams;
+        const { id, picture, multiPartKeys, json, file } = queryParams;
+        try {
+          const data = new FormData();
+          data.append(multiPartKeys.json, json);
 
-        const data = new FormData();
-        data.append(multiPartKeys.json, json);
+          data.append(multiPartKeys.image, file);
 
-        data.append(multiPartKeys.image, file);
+          const result = await monk.entity.image.addOne({ inspectionId, data });
+          onPictureUploaded({ result, picture, inspectionId });
 
-        const result = await monk.entity.image.addOne({
-          inspectionId,
-          data,
-        });
-        onPictureUploaded({
-          result,
-          picture,
-          inspectionId,
-        });
+          // call onFinish callback when capturing the last picture
+          if (ids[ids.length - 1] === id) {
+            onFinish();
+            log([`Capture tour has been finished`]);
+          }
 
-        // call onFinish callback when capturing the last picture
-        if (ids[ids.length - 1] === id) {
-          onFinish();
-          log([`Capture tour has been finished`]);
+          dispatch({
+            type: Actions.uploads.UPDATE_UPLOAD,
+            payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
+          });
+        } catch (err) {
+          dispatch({
+            type: Actions.uploads.UPDATE_UPLOAD,
+            increment: true,
+            payload: { id, status: 'rejected', error: err },
+          });
         }
-
-        dispatch({
-          type: Actions.uploads.UPDATE_UPLOAD,
-          payload: {
-            pictureId: result.id,
-            id,
-            status: 'fulfilled',
-            error: null,
-          },
-        });
       }
       isRunning = false;
     }
   }, [isRunning, queue, sights.state, uploads]);
 
   useEffect(() => {
-    if (!isRunning && queue.length > 0) {
-      (async () => {
-        await runQuery();
-      })();
-    }
+    if (!isRunning && queue.length > 0) { (async () => { await runQuery(); })(); }
   }, [isRunning, queue]);
 
   return useCallback(async (picture, currentSight = null) => {
@@ -309,10 +293,15 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
 
       const result = await monk.entity.image.getOne({ inspectionId, imageId });
 
-      dispatch({
-        type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id: sightId, status: 'fulfilled', result, imageId },
-      });
+      const carCov = result.axiosResponse.data.compliances.coverage_360;
+      const iqa = result.axiosResponse.data.compliances.image_quality_assessment;
+
+      if ((!COVERAGE_360_WHITELIST.includes(sightId) || carCov.status === 'DONE') && (iqa.status === 'DONE')) {
+        dispatch({
+          type: Actions.compliance.UPDATE_COMPLIANCE,
+          payload: { id: sightId, status: 'fulfilled', result: result.axiosResponse, imageId },
+        });
+      }
 
       return result;
     } catch (err) {

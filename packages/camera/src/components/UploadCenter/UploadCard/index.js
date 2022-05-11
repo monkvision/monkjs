@@ -82,9 +82,17 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
     || (upload.status === 'fulfilled' && compliance.status === 'pending')
   ), [compliance, upload]);
 
+  const isUnknown = useMemo(() => {
+    const allCompliancesAreUnkown = compliance.result
+    && Object.values(compliance.result?.data?.compliances).every((c) => c.is_compliant === null);
+
+    return !isPending && allCompliancesAreUnkown;
+  }, [compliance, isPending]);
+
   const title = useMemo(() => (isPending ? ' - Pending...' : ''), [isPending]);
 
   const subtitle = useMemo(() => {
+    if (isUnknown) { return ' - Couldn\'t check the image quality'; }
     if (isPending) { return ``; }
     if (upload.error) { return `We couldn't upload this image, please retake`; }
 
@@ -120,7 +128,7 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
     }
 
     return '';
-  }, [compliance.result, isPending, upload.error]);
+  }, [compliance.result, isPending, upload.error, isUnknown]);
 
   const handleRetake = useCallback((e) => {
     e.preventDefault();

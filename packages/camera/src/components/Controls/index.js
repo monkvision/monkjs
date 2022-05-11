@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { createElement, useCallback } from 'react';
+import React, { createElement, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import useHandlers from './hooks';
@@ -42,6 +42,11 @@ export default function Controls({
     stream: api.camera.current?.stream,
   });
 
+  const hasNoIdle = useMemo(
+    () => Object.values(state.uploads.state).every(({ status }) => status !== 'idle'),
+    [state.uploads],
+  );
+
   const handlePress = useCallback(({ onPress }) => (e) => {
     if (typeof onPress === 'function') { onPress(state, api, e); } else { handlers.capture(state, api, e); }
   }, [api, handlers, state]);
@@ -62,7 +67,7 @@ export default function Controls({
       }, i) => (
         createElement(component, {
           key: `camera-control-${i}`,
-          disabled: loading,
+          disabled: loading || hasNoIdle,
           onPress: handlePress({ onPress, ...rest }),
           style: StyleSheet.flatten([styles.button]),
           ...rest,
@@ -96,6 +101,7 @@ Controls.propTypes = {
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   state: PropTypes.shape({
+    compliance: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),

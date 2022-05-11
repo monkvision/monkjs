@@ -191,7 +191,7 @@ const Capture = forwardRef(({
 
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
-    () => !Object.values(uploads.state).some((upload) => !upload.picture),
+    () => !Object.values(uploads.state).some(({ status }) => status === 'pending' || status === 'idle'),
     [uploads.state],
   );
   const overlaySize = useMemo(

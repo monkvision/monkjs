@@ -29,6 +29,8 @@ const mapTasksToSights = [{
   payload: {},
 }];
 
+const enableComplianceCheck = false;
+
 export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
@@ -71,17 +73,26 @@ export default function InspectionCapture() {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
         const uploadState = Object.values(state.uploads.state);
+        const complianceState = Object.values(state.compliance.state);
 
         const fulfilledUploads = uploadState.filter(({ status }) => status === 'fulfilled').length;
         const retriedUploads = uploadState.filter(({ requestCount }) => requestCount > 1).length;
+        const failedUploads = uploadState.filter(({ status }) => status === 'rejected').length;
+
+        const hasAllFulfilledAndCompliant = enableComplianceCheck && complianceState
+          .every(({ result, status, id }) => state.uploads.state[id].status === 'rejected' || (status === 'fulfilled' && result && Object.values(result?.data?.compliances)
+            .every((e) => e.is_compliant === true || e.is_compliant === null)));
 
         const hasPictures = Object.keys(takenPictures).length === totalPictures;
         const hasBeenUploaded = (
           fulfilledUploads === totalPictures
           || retriedUploads >= totalPictures - fulfilledUploads
         );
+        const hasFailedUploadButNoCheck = !enableComplianceCheck
+          && ((failedUploads + fulfilledUploads) === totalPictures);
 
-        if (hasPictures && hasBeenUploaded) {
+        if (hasPictures && (hasBeenUploaded || hasFailedUploadButNoCheck) && state
+          && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
           setSuccess(true);
         }
       } catch (err) {
@@ -96,7 +107,7 @@ export default function InspectionCapture() {
     ...Controls.CaptureButtonProps,
   }];
 
-  useEffect(() => { handleSuccess(); }, [handleSuccess, success]);
+  useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
   if (!isAuthenticated) {
     return <View />;
@@ -114,6 +125,10 @@ export default function InspectionCapture() {
       onStartUploadPicture={() => setCameraLoading(true)}
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
+
+      // Case with Upload Center (enableComplianceCheck set to `true`)
+      // enableComplianceCheck={enableComplianceCheck}
+      // onComplianceCheckFinish={() => setSuccess(true)}
     />
   );
 }
