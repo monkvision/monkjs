@@ -3,6 +3,11 @@ import { utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
 
+// get url from canvas blob, because `canvas.toDataUrl` can't be revoked programmatically
+const toBlob = (canvasElement, type, quality = 1) => new Promise((resolve) => {
+  canvasElement.toBlob((blob) => resolve(URL.createObjectURL(blob)), type, quality);
+});
+
 /**
  * Note(Ilyass): As a solution I increased the `baseCanvas` and the video constraints resolution
  * to `2561x1441` and created another canvas called `croppedCanvas` which will be taking picture
@@ -10,6 +15,9 @@ import useUserMedia from './useUserMedia';
  * `2560x1440`, that why we added the `diff`.
  */
 const diff = 1;
+const baseCanvas = document.createElement('canvas');
+const croppedCanvas = document.createElement('canvas');
+const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
 
 /**
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
@@ -33,26 +41,22 @@ export default function useCamera({ width, height }, options) {
     }
   }, [stream, error]);
 
-  const takePicture = async () => {
-    if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
-
-    // baseCanvas's resolution: 2561x1441
-    const baseCanvas = document.createElement('canvas');
-
-    // croppedCanvas's resolution: 2560x1440
-    const croppedCanvas = document.createElement('canvas');
-
+  // we can set the canvas dimensions one time rather than on every time we press capture
+  useEffect(() => {
     baseCanvas.width = width + diff;
     baseCanvas.height = height + diff;
 
     croppedCanvas.width = width;
     croppedCanvas.height = height;
+  }, []);
+
+  const takePicture = async () => {
+    if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
     baseCanvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
     croppedCanvas.getContext('2d').drawImage(baseCanvas, 0, 0, width, height);
 
-    const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
-    const uri = croppedCanvas.toDataURL(imageType);
+    const uri = await toBlob(croppedCanvas, imageType);
 
     return { uri };
   };
