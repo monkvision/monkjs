@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 
@@ -21,16 +21,22 @@ const getLandscapeScreenDimentions = () => {
 };
 
 function Camera({ children, containerStyle, onCameraReady, title }, ref) {
-  const { videoRef, takePicture, resumePreview, pausePreview } = useCamera(canvasResolution, {
+  const {
+    videoRef,
+    takePicture,
+    resumePreview,
+    pausePreview,
+    stopStream,
+    stream,
+  } = useCamera(canvasResolution, {
     onCameraReady,
-    video: {
-      facingMode,
-      width: canvasResolution.width,
-      height: canvasResolution.height,
-    },
+    video: { facingMode, width: canvasResolution.width, height: canvasResolution.height },
   });
 
-  useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview }));
+  useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
+
+  // stopping the stream when the comopnent unmount
+  useEffect(() => stopStream, [stopStream]);
 
   return (
     <View

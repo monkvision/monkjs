@@ -3,7 +3,7 @@ import Actions from '../../actions';
 
 const useHandlers = ({
   onStartUploadPicture, onFinishUploadPicture, checkComplianceAsync,
-  enableComplianceCheck, unControlledState,
+  enableComplianceCheck, unControlledState, stream,
 }) => {
   const [complianceToCheck, setComplianceToCheck] = useState([]);
   /**
@@ -38,6 +38,9 @@ const useHandlers = ({
   }, [complianceToCheck, unControlledState.uploads.state]);
 
   const capture = useCallback(async (controlledState, api, event) => {
+    /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
+    if (!stream) { return; }
+
     /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
      *  need state updates
      * `unControlledState` is the updated state, so it will be used for function that depends on
@@ -70,7 +73,7 @@ const useHandlers = ({
       onFinishUploadPicture(state, api);
       goNextSight();
     }
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture]);
+  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     // adding an initialState that will hold new compliances with `requestCount = 1`

@@ -24,18 +24,9 @@ function useUserMedia(constraints = { audio: false, video: false }) {
 
     getUserMedia();
 
-    return () => {
-      didCancel = true;
+    if (!stream) { return () => {}; }
 
-      if (!stream) { return; }
-
-      // stopping video and audio trackers
-      if (stream.getVideoTracks) { stream.getVideoTracks().map((track) => track.stop()); }
-      if (stream.getAudioTracks) { stream.getAudioTracks().map((track) => track.stop()); }
-
-      // stopping the stream
-      if (stream.stop) { stream.stop(); }
-    };
+    return () => { didCancel = true; };
   }, [constraints, stream, error]);
 
   return { stream, error };
