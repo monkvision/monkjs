@@ -54,10 +54,7 @@ export default function Controls({
   return (
     <View
       acccessibilityLabel="Controls"
-      style={[styles.container, containerStyle, Platform.select({
-        native: { maxHeight: '100vh' },
-        default: { maxHeight: windowHeight },
-      })]}
+      style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
     >
       {elements.map(({
         children,

@@ -160,7 +160,8 @@ FullScreenButton.defaultProps = {
 function Layout({ buttonFullScreenProps, children, left, right }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
-  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' }) || height > width;
+  const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
+  const isPortrait = portraitMediaQuery || height > width;
 
   const size = StyleSheet.create({
     height: isPortrait ? width : height,
@@ -198,8 +199,7 @@ function Layout({ buttonFullScreenProps, children, left, right }) {
         <View style={styles.rotateContent}>
           <Text style={styles.title}>Please rotate your device ↪️</Text>
           <Text style={styles.p}>
-            To go through the all experience,
-            you must turn you device in landscape mode.
+            You may need to unlock portrait mode through phone settings
           </Text>
         </View>
       </View>

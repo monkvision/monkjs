@@ -11,14 +11,14 @@ import getOS from '../../utils/getOS';
  * Beware of obscure behavior on iOS mobile browsers
  */
 const useAvailable = () => {
-  const [available, setAvailable] = useState(false);
+  const [available, setAvailable] = useState(Platform.OS !== 'web');
 
   const isAlwaysAvailable = useMemo(() => (
     Platform.OS !== 'web' && getOS() !== 'iOS'
   ), []);
 
   useEffect(() => {
-    if (!isAlwaysAvailable && !available) {
+    if (!isAlwaysAvailable && !available && Platform.OS === 'web') {
       (async () => {
         const isAvailable = await ExpoCamera.isAvailableAsync();
 
@@ -29,8 +29,6 @@ const useAvailable = () => {
           log([`Error in \`useAvailable()\`: Camera is not available`], 'error');
         }
       })();
-    } else if (!available) {
-      setAvailable(true);
     }
   }, [available, isAlwaysAvailable]);
 
