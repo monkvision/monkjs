@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
-import { Camera } from 'expo-camera';
+import { Camera, CameraType } from 'expo-camera';
 import getOS from '../../utils/getOS';
 
 const initialState = {
   ratio: '4:3',
   zoom: 0,
-  type: Camera.Constants.Type.back,
+  type: CameraType.back,
 };
 
 export default function useSettings({ camera }) {
@@ -14,22 +14,25 @@ export default function useSettings({ camera }) {
 
   const getSettings = useCallback(async (prevSettings) => {
     const newSettings = { ...prevSettings };
+    const permissions = await Camera.getCameraPermissionsAsync();
 
-    if (camera && Platform.OS !== 'web') {
+    if (camera?.current && permissions.granted && Platform.OS !== 'web') {
       if (Platform.OS === 'android') {
-        const ratios = await camera.getSupportedRatiosAsync();
+        const ratios = await camera.current.getSupportedRatiosAsync();
 
-        newSettings.ratio = ratios[0].reduce((prev, current) => {
-          const ideal = 4 / 3;
-          const getNumber = (ratio) => (ratio.split(':').reduce((a, b) => (a / b)));
+        if (ratios?.length > 0) {
+          newSettings.ratio = ratios.reduce((prev, current) => {
+            const ideal = 4 / 3;
+            const getNumber = (ratio) => (ratio.split(':').reduce((a, b) => (a / b)));
 
-          return Math.abs(getNumber(prev) - ideal) < Math.abs(getNumber(current) - ideal)
-            ? prev : current;
-        });
+            return Math.abs(getNumber(prev) - ideal) < Math.abs(getNumber(current) - ideal)
+              ? prev : current;
+          });
+        }
       }
 
       if (getOS() !== 'ios') {
-        const pictureSizes = await camera.getAvailablePictureSizesAsync(newSettings.ratio);
+        const pictureSizes = await camera.current.getAvailablePictureSizesAsync(newSettings.ratio);
 
         newSettings.pictureSize = pictureSizes.reduce((prev, current) => {
           const [prevWidth] = prev.split('x');

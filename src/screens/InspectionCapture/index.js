@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { Capture, Controls } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
@@ -40,6 +40,7 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName } = route.params;
 
+  const [shouldRender, setShouldRender] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
 
@@ -111,7 +112,12 @@ export default function InspectionCapture() {
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
-  if (!isAuthenticated) {
+  useFocusEffect(() => {
+    setShouldRender(true);
+    return () => setShouldRender(false);
+  });
+
+  if (!isAuthenticated || !shouldRender) {
     return <View />;
   }
 

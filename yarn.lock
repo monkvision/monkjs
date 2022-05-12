@@ -12120,7 +12120,7 @@ release-it-yarn-workspaces@^2.0.1:
     validate-peer-dependencies "^1.0.0"
     walk-sync "^2.0.2"
 
-release-it@*:
+release-it@*, release-it@^15.0.0:
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.0.0.tgz#82be33b3d483b2832b6a43faf765fdb82af6bc2a"
   integrity sha512-Dnio6p+1O88UdQZmPjdXqq+Nrrn5t0USZyOctTPK5M36kOOfQTdp8V1Wlagz9QYIYr93NwovEZ+f4wK0P/kHbw==
@@ -12152,7 +12152,7 @@ release-it@*:
     wildcard-match "5.1.2"
     yargs-parser "21.0.1"
 
-release-it@^14.11.5, release-it@^14.14.0:
+release-it@^14.11.5:
   version "14.14.3"
   resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.14.3.tgz#f398030bc07d91bf3616b680dcb4140e1023dd9c"
   integrity sha512-CU3ySDOzkcdpaJmzKG7QXhimWVOkh9dVqVMr5tBWXhAd5oWvUdH8Lo4Tq37eYOhcVLxoukRR2vrY8mt7wSULSw==

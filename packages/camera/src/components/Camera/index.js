@@ -44,7 +44,6 @@ function Camera({ children, containerStyle, onCameraReady, title }, ref) {
       accessibilityLabel="Camera container"
       style={[styles.container, containerStyle]}
     >
-
       <Video
         autoPlay
         playsInline
