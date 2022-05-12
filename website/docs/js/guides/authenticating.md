@@ -23,7 +23,7 @@ Create a `config.js` file where you can set your environment variables
 to the Monk config singleton. Here an example for production:
 
 ```js
-import { config } from '@monkvision/corejs'; // Singleton
+import monk from '@monkvision/corejs'; // Singleton
 import dotenv from 'dotenv'
 
 // Use the env config tool that fit your own project
@@ -48,8 +48,8 @@ const authConfig = {
   clientId: env.AUTH_CLIENT_ID, // your own client id given by our team
 };
 
-corejs.axiosConfig = axiosConfig;
-corejs.authConfig = authConfig;
+monk.config.axiosConfig = axiosConfig;
+monk.config.authConfig = authConfig;
 ```
 
 After authenticating with the workflow you've chosen,
@@ -58,7 +58,7 @@ you can set your access token to Monk config singleton.
 ```js
 import { config } from '@monkvision/corejs';
 
-config.accessToken = myOwnAccessToken;
+monk.config.accessToken = myOwnAccessToken;
 ```
 
 ## How to get an access token ?
