@@ -80,8 +80,10 @@ export default function InspectionCapture() {
         const failedUploads = uploadState.filter(({ status }) => status === 'rejected').length;
 
         const hasAllFulfilledAndCompliant = enableComplianceCheck && complianceState
-          .every(({ result, status, id }) => state.uploads.state[id].status === 'rejected' || (status === 'fulfilled' && result && Object.values(result?.data?.compliances)
-            .every((e) => e.is_compliant === true || e.is_compliant === null)));
+          .every(({ result, status, id }) => (
+            state.uploads.state[id].status === 'rejected'
+            || (status === 'fulfilled' && result && Object.values(result?.data?.compliances)
+              .every((e) => e.is_compliant === true || e.is_compliant === null))));
 
         const hasPictures = Object.keys(takenPictures).length === totalPictures;
         const hasBeenUploaded = (

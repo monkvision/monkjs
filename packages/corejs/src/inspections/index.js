@@ -122,7 +122,7 @@ export const upsertOne = async ({ data, ...requestConfig }) => {
   const inspection = axiosResponse.data;
   const id = inspection[idAttribute];
   const createdAt = inspection.createdAt || Date.now();
-  const entity = { ...data, [idAttribute]: id, createdAt };
+  const entity = { ...data, [idAttribute]: id, createdAt, tasks: inspection.tasks || [] };
 
   return ({
     axiosResponse,

@@ -4,11 +4,11 @@ import store from 'store';
 import { Provider } from 'react-redux';
 import { useWindowDimensions, View, StyleSheet } from 'react-native';
 import { theme as initialTheme } from '@monkvision/toolkit';
+import { Loader } from '@monkvision/ui';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import * as SplashScreen from 'expo-splash-screen';
-import * as Font from 'expo-font';
 
 import Navigation from 'Navigation';
 import 'config/corejs';
@@ -48,13 +48,24 @@ export default function App() {
 
   const [appIsReady, setAppIsReady] = useState(false);
 
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
   useEffect(() => {
     async function prepare() {
       try {
         // Keep the splash screen visible while we fetch resources
         await SplashScreen.preventAutoHideAsync();
         // Preload fonts, make any API calls you need to do here
-        await Font.loadAsync(MaterialCommunityIcons.font);
+        await MaterialCommunityIcons.loadFont();
         // Artificially delay for two seconds to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });
@@ -70,19 +81,12 @@ export default function App() {
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
   if (!appIsReady) {
-    return null;
+    return (
+      <View style={[styles.layout, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+        <Loader texts={['Launching the App...']} />
+      </View>
+    );
   }
 
   return (
