@@ -1,12 +1,12 @@
 import eas from './eas.json';
 
-const buildNumber = 44;
+const buildNumber = 1;
 
 export default {
-  version: '2.0.0',
-  name: 'Monk Capture App',
-  slug: 'mca',
-  scheme: 'monk',
+  version: '2.1.0',
+  name: 'Monk Capture Native App',
+  slug: 'cna',
+  scheme: 'monk-cna',
   owner: 'monkvision',
   entryPoint: './index.js',
 
@@ -16,6 +16,8 @@ export default {
   icon: './assets/icon.png',
   userInterfaceStyle: 'dark',
 
+  plugins: ['sentry-expo'],
+
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
@@ -23,7 +25,7 @@ export default {
   },
 
   ios: {
-    bundleIdentifier: 'com.monkvision.adrian',
+    bundleIdentifier: 'ai.monk.cna',
     supportsTablet: true,
     requireFullScreen: true,
     buildNumber: `${buildNumber}`,
@@ -33,7 +35,7 @@ export default {
   },
 
   android: {
-    package: 'com.monkvision.adrian',
+    package: 'ai.monk.cna',
     versionCode: buildNumber,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
@@ -56,10 +58,10 @@ export default {
     display: 'fullscreen',
     orientation: 'landscape',
     lang: 'en-US',
-    name: 'Monk Capture Application',
-    shortName: 'MCA',
+    name: 'Monk Capture Web App',
+    shortName: 'MCWA',
     themeColor: '#2B52BE',
-    description: 'Monk Capture Application enables high level car inspections with helpers and specific user interfaces.',
+    description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
   },
 
   extra: eas.build.development.env,

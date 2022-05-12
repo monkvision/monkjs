@@ -11,5 +11,5 @@ if (Platform.OS === 'web') {
   const root = createRoot(container);
   root.render(<App />);
 } else {
-  registerRootComponent(Sentry.wrap(App));
+  registerRootComponent(Sentry.Native.wrap(App));
 }

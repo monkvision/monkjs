@@ -9,8 +9,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
         "AUTH_DOMAIN": "idp.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
-        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }
     },
     "preview": {
@@ -23,8 +22,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn",
         "AUTH_DOMAIN": "idp.preview.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
-        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }
     },
     "staging": {
@@ -37,8 +35,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
         "AUTH_DOMAIN": "idp.staging.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
-        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }
     },
     "development": {
@@ -51,8 +48,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
         "AUTH_DOMAIN": "idp.dev.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
-        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }
     },
     "local": {
@@ -65,8 +61,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
         "AUTH_DOMAIN": "idp.dev.monk.ai",
-        "SENTRY_DSN_REACT_NATIVE": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
-        "SENTRY_DSN_REACT": "https://7f7d405df36742f08a16b70898930376@sentry.dev.monk.ai/2"
+        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }
     }
   },

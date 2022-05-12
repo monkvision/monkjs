@@ -15,7 +15,7 @@ const canvasResolution = { width: 2560, height: 1440 };
 
 const Video = React.forwardRef((props, ref) => createElement('video', { ...props, ref }));
 
-const getLandscapeScreenDimentions = () => {
+const getLandscapeScreenDimensions = () => {
   const { width, height } = window.screen;
   return { height: Math.min(width, height), width: Math.max(width, height) };
 };
@@ -35,7 +35,7 @@ function Camera({ children, containerStyle, onCameraReady, title }, ref) {
 
   useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
 
-  // stopping the stream when the comopnent unmount
+  // stopping the stream when the component unmount
   useEffect(() => stopStream, [stopStream]);
 
   return (
@@ -49,8 +49,8 @@ function Camera({ children, containerStyle, onCameraReady, title }, ref) {
         autoPlay
         playsInline
         ref={videoRef}
-        width={getLandscapeScreenDimentions().width}
-        height={getLandscapeScreenDimentions().height}
+        width={getLandscapeScreenDimensions().width}
+        height={getLandscapeScreenDimensions().height}
         controls={false}
       />
 

@@ -1,12 +1,16 @@
-import React from 'react';
+/* eslint-disable global-require */
+import React, { useState, useEffect, useCallback } from 'react';
 import store from 'store';
 import { Provider } from 'react-redux';
-import { useWindowDimensions, View, StyleSheet, Text } from 'react-native';
-import { theme as initialTheme, useIcons } from '@monkvision/toolkit';
+import { useWindowDimensions, View, StyleSheet } from 'react-native';
+import { theme as initialTheme } from '@monkvision/toolkit';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
 
 import Navigation from 'Navigation';
-import Sentry from 'config/sentry';
 import 'config/corejs';
 
 const theme = {
@@ -40,22 +44,54 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const wait = useIcons();
   const { height: minHeight } = useWindowDimensions();
 
-  if (wait) {
-    return <View />;
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Keep the splash screen visible while we fetch resources
+        await SplashScreen.preventAutoHideAsync();
+        // Preload fonts, make any API calls you need to do here
+        await Font.loadAsync(MaterialCommunityIcons.font);
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Please remove this if you copy and paste the code!
+        await new Promise((resolve) => { setTimeout(resolve, 2000); });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
   }
 
   return (
-    <Sentry.ErrorBoundary fallback={<Text>An error has occurred</Text>} showDialog>
-      <Provider store={store}>
-        <PaperProvider theme={theme}>
-          <View style={[styles.layout, { minHeight }]}>
-            <Navigation />
-          </View>
-        </PaperProvider>
-      </Provider>
-    </Sentry.ErrorBoundary>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <View style={[styles.layout, { minHeight }]} onLayout={onLayoutRootView}>
+          <Navigation />
+        </View>
+      </PaperProvider>
+    </Provider>
   );
 }
