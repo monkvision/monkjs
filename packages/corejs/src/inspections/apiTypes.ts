@@ -332,9 +332,15 @@ export type CreateOneInspectionResponse = CoreJsResponseWithId<IdResponse<'id'>,
 /**
  * The details of an inspection returned after creating it.
  */
-export type CreatedInspection = Pick<
-Inspection,
-'id' | 'createdAt' | 'inspectionType' | 'accidentNature' | 'relatedInspectionId' | 'additionalData' | 'usageDuration'
+export type CreatedInspection = Pick<Inspection,
+'id'
+| 'createdAt'
+| 'inspectionType'
+| 'accidentNature'
+| 'relatedInspectionId'
+| 'additionalData'
+| 'usageDuration'
+| 'tasks'
 >;
 
 /**

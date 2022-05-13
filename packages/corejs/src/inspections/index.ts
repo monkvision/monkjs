@@ -42,6 +42,7 @@ function mapCreatedInspection(id: string, createInspection: CreateInspection, cr
     relatedInspectionId: createInspection.relatedInspectionId,
     additionalData: createInspection.additionalData,
     usageDuration: createInspection.usageDuration,
+    tasks: [],
   };
 }
 
