@@ -191,7 +191,7 @@ const Capture = forwardRef(({
 
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
-    () => !Object.values(uploads.state).some(({ status }) => status === 'pending' || status === 'idle'),
+    () => !Object.values(uploads.state).some(({ status, uploadCount }) => ((status === 'pending' || status === 'idle') && uploadCount < 1)),
     [uploads.state],
   );
   const overlaySize = useMemo(
@@ -199,7 +199,9 @@ const Capture = forwardRef(({
     [windowDimensions],
   );
   const complianceHasFulfilledAll = useMemo(
-    () => Object.values(compliance.state).every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected'),
+    () => Object
+      .values(compliance.state)
+      .every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected' || uploads.state[id].uploadCount > 1),
     [compliance.state, uploads.state],
   );
 
