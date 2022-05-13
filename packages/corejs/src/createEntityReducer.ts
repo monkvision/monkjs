@@ -1,9 +1,9 @@
 import { EntityAdapter, EntityState, PayloadAction } from '@reduxjs/toolkit';
-import { EntityKey, IdResponse, NormalizedEntities, NormalizedEntity } from './sharedTypes';
+import { EntityKey, NormalizedEntities, NormalizedEntity } from './sharedTypes';
 
 export default function createEntityReducer<
   T extends NormalizedEntity,
-  PayloadTypes extends EntityReducerPayloadTypes<T>,
+  PayloadTypes extends EntityReducerPayloadTypes,
 >(
   key: EntityKey,
   entityAdapter: EntityAdapter<T>,
@@ -11,7 +11,7 @@ export default function createEntityReducer<
   return {
     gotOne: (state: EntityState<T>, action: PayloadAction<PayloadTypes['GotOne']>) => {
       const { entities, result } = action.payload;
-      const entity = entities[key][result.id];
+      const entity = entities[key][result];
       entityAdapter.upsertOne(state, entity as T);
     },
     gotMany: (state: EntityState<T>, action: PayloadAction<PayloadTypes['GotMany']>) => {
@@ -19,10 +19,10 @@ export default function createEntityReducer<
       entityAdapter.upsertMany(state, entities[key] as Record<string, T>);
     },
     updatedOne: (state: EntityState<T>, action: PayloadAction<PayloadTypes['UpdatedOne']>) => {
-      const { result } = action.payload;
+      const { entities, result } = action.payload;
       entityAdapter.updateOne(state, {
-        id: result.id,
-        changes: result,
+        id: result,
+        changes: entities[key][result] as Partial<T>,
       });
     },
     updatedMany: (state: EntityState<T>, action: PayloadAction<PayloadTypes['UpdatedMany']>) => {
@@ -31,7 +31,7 @@ export default function createEntityReducer<
     },
     deletedOne: (state: EntityState<T>, action: PayloadAction<PayloadTypes['DeletedOne']>) => {
       const { result } = action.payload;
-      entityAdapter.removeOne(state, result.id);
+      entityAdapter.removeOne(state, result);
     },
     deleteMany: (state: EntityState<T>, action: PayloadAction<PayloadTypes['DeletedMany']>) => {
       const { result } = action.payload;
@@ -45,11 +45,11 @@ export default function createEntityReducer<
  * This interface is a generic type-mapping interface that only serves as a template to define the payload types for
  * basic entity adapter reducers.
  */
-export interface EntityReducerPayloadTypes<T extends NormalizedEntity> {
+export interface EntityReducerPayloadTypes {
   /**
    * The payload type for a GotOne payload.
    */
-  GotOne: GotOneEntityPayload<T>,
+  GotOne: GotOneEntityPayload,
   /**
    * The payload type for a GotMany payload.
    */
@@ -57,7 +57,7 @@ export interface EntityReducerPayloadTypes<T extends NormalizedEntity> {
   /**
    * The payload type for an UpdatedOne payload.
    */
-  UpdatedOne: UpdatedOneEntityPayload<T>,
+  UpdatedOne: UpdatedOneEntityPayload,
   /**
    * The payload type for an UpdatedMany payload.
    */
@@ -74,18 +74,16 @@ export interface EntityReducerPayloadTypes<T extends NormalizedEntity> {
 
 /**
  * The structure of the payload of a GotOne entity action.
- *
- * *T* - The normalized type of the entity.
  */
-export interface GotOneEntityPayload<T extends NormalizedEntity> {
+export interface GotOneEntityPayload {
   /**
    * The lookup table mapping entity IDs to the corresponding entity objects.
    */
   entities: NormalizedEntities,
   /**
-   * The entity retreived.
+   * The id of the entity retreived.
    */
-  result: T,
+  result: string,
 }
 
 /**
@@ -107,15 +105,15 @@ export interface GotManyEntitiesPayload {
  *
  * *T* - The normalized type of the entity.
  */
-export interface UpdatedOneEntityPayload<T extends NormalizedEntity> {
+export interface UpdatedOneEntityPayload {
   /**
    * The lookup table mapping entity IDs to the corresponding entity objects.
    */
   entities: NormalizedEntities,
   /**
-   * The data updated in the entity.
+   * The id of the updated entity.
    */
-  result: Partial<T>,
+  result: string,
 }
 
 /**
@@ -143,7 +141,7 @@ export interface DeletedOneEntityPayload {
   /**
    * The id of the entity deleted.
    */
-  result: IdResponse<'id'>,
+  result: string,
 }
 
 /**

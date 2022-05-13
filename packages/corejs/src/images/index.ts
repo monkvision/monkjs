@@ -17,7 +17,7 @@ import {
   GetManyImagesResponse, GetOneImageOptions, GetOneImageResponse,
   ImageDetails,
 } from './apiTypes';
-import { NormalizedImage } from './entityTypes';
+import { Image, NormalizedImage } from './entityTypes';
 import { ImagePayloadTypes } from './reduxTypes';
 
 import schema, { idAttribute, key } from './schema';
@@ -35,7 +35,7 @@ export async function getOne(
   options?: GetOneImageOptions,
 ): Promise<GetOneImageResponse> {
   const params = mapKeysDeep(options, (v, k) => snakeCase(k));
-  const axiosResponse = await axios.request({
+  const axiosResponse = await axios.request<Image>({
     ...config.axiosConfig,
     method: 'get',
     url: `/inspections/${inspectionId}/images/${imageId}`,

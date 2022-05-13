@@ -33,6 +33,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'max-len': ['warn', { code: 120 }],
     'import/prefer-default-export': 'off',
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
   overrides: [
     {

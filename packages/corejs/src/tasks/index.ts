@@ -38,7 +38,7 @@ export async function getOne(inspectionId: string, name: TaskName): Promise<GetO
   return {
     axiosResponse,
     inspectionId,
-    [idAttribute]: name,
+    [idAttribute]: axiosResponse.data.id,
     ...normalize(mapKeysDeep(axiosResponse.data, (v, k) => camelCase(k)), schema),
   };
 }

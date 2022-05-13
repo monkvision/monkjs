@@ -1,11 +1,10 @@
 import { EntityReducerPayloadTypes } from '../createEntityReducer';
 import { CreateOneDamageResponse, DeleteOneDamageResponse } from './apiTypes';
-import { NormalizedDamage } from './entityTypes';
 
 /**
  * A type-mapping interface that defines the types of the action payload related to the image entity.
  */
-export interface DamagePayloadTypes extends EntityReducerPayloadTypes<NormalizedDamage> {
+export interface DamagePayloadTypes extends EntityReducerPayloadTypes {
   /**
    * The payload type for the damages/updatedOne action.
    */

@@ -9,7 +9,7 @@ import config from '../config';
 import createEntityReducer, { GotManyEntitiesPayload } from '../createEntityReducer';
 import { GetOneImageResponse } from '../images/apiTypes';
 import { InspectionPayloadTypes } from '../inspections/reduxTypes';
-import { RootState } from '../sharedTypes';
+import { EntityKey, RootState } from '../sharedTypes';
 import { UpsertDamageArea, UpsertOneDamageAreaResponse } from './apiTypes';
 import { DamageArea, NormalizedDamageArea } from './entityTypes';
 import { DamageAreaPayloadTypes } from './reduxTypes';
@@ -56,7 +56,7 @@ export default createSlice({
       action: PayloadAction<GetOneImageResponse, 'images/gotOne'>,
     ) => {
       const { entities, result } = action.payload;
-      const damageArea = result.damageArea;
+      const damageArea = entities[EntityKey.IMAGES][result].damageArea;
       if (damageArea) { entityAdapter.upsertOne(state, entities[key][damageArea]); }
     }).addCase('images/gotMany', (
       state: EntityState<NormalizedDamageArea>,

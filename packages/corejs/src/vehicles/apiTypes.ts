@@ -58,4 +58,4 @@ export type UpdatedVehicle = Pick<Vehicle,
 /**
  * The type returned by the updateOneVehicle method.
  */
-export type UpdateOneVehicleResponse = CoreJsResponseWithId<IdResponse<'id'>, UpdatedVehicle, 'id'>;
+export type UpdateOneVehicleResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;

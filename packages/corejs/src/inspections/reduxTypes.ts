@@ -5,12 +5,11 @@ import {
   GetManyInspectionsResponse,
   GetOneInspectionResponse,
 } from './apiTypes';
-import { NormalizedInspection } from './entityTypes';
 
 /**
  * A type-mapping interface that defines the types of the action payload related to the inspection entity.
  */
-export interface InspectionPayloadTypes extends EntityReducerPayloadTypes<NormalizedInspection> {
+export interface InspectionPayloadTypes extends EntityReducerPayloadTypes {
   /**
    * The payload type for the inspections/gotOne action.
    */

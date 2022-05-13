@@ -26,9 +26,9 @@ export type CreatedDamage = Pick<Damage, 'id' | 'damageType'>;
 /**
  * The type returned by the createOneDamage method.
  */
-export type CreateOneDamageResponse = CoreJsResponseWithId<IdResponse<'id'>, CreatedDamage, 'id'>;
+export type CreateOneDamageResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;
 
 /**
  * The type returned by the deleteOneDamage method.
  */
-export type DeleteOneDamageResponse = CoreJsResponseWithId<IdResponse<'id'>, IdResponse<'id'>, 'id'>;
+export type DeleteOneDamageResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;

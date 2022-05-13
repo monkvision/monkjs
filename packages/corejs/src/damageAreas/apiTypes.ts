@@ -1,5 +1,5 @@
 import { CoreJsResponseWithId } from '../sharedTypes';
-import { DamageArea, NormalizedDamageArea } from './entityTypes';
+import { DamageArea } from './entityTypes';
 
 /**
  * The information given to the API when upserting a damage area entity.
@@ -11,4 +11,4 @@ export type UpsertDamageArea = Partial<DamageArea>;
 /**
  * The type returned by the upsertOneDamageArea method.
  */
-export type UpsertOneDamageAreaResponse = CoreJsResponseWithId<DamageArea, NormalizedDamageArea, 'id'>;
+export type UpsertOneDamageAreaResponse = CoreJsResponseWithId<DamageArea, string, 'id'>;

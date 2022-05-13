@@ -13,7 +13,7 @@ import {
   TaskName,
   WheelAnalysisDetails,
 } from '../tasks/entityTypes';
-import { Image, NormalizedImage } from './entityTypes';
+import { Image } from './entityTypes';
 
 /**
  * The details of an image when fetching it by its id.
@@ -28,7 +28,7 @@ Image,
 /**
  * Options used when fetching a single image.
  */
-export interface GetOneImageOptions extends PaginationParams {
+export interface GetOneImageOptions {
   /**
    * Set to `true` to include deleted data about the image.
    * @default false
@@ -39,7 +39,7 @@ export interface GetOneImageOptions extends PaginationParams {
 /**
  * The type returned by the getOneImage method.
  */
-export type GetOneImageResponse = CoreJsResponseWithId<ImageDetails, NormalizedImage, 'id'> & ReponseWithInspectionId;
+export type GetOneImageResponse = CoreJsResponseWithId<ImageDetails, string, 'id'> & ReponseWithInspectionId;
 
 /**
  * Options used when fetching multiple images.
@@ -59,7 +59,7 @@ export type CreatedImage = Pick<Image, 'id' | 'name'>;
 /**
  * The type returned by the addOneImage method.
  */
-export type AddOneImageResponse = CoreJsResponseWithId<IdResponse<'id'>, CreatedImage, 'id'> & ReponseWithInspectionId;
+export type AddOneImageResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'> & ReponseWithInspectionId;
 
 /**
  * The model used to create a new image, whether it is at the creation of the inspection or later, by adding an new

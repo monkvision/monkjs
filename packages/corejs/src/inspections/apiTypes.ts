@@ -11,13 +11,7 @@ import {
   ProgressStatusUpdate,
 } from '../sharedTypes';
 import { CreateUpdateVehicle } from '../vehicles/apiTypes';
-import {
-  Inspection,
-  InspectionAdditionalData,
-  InspectionStatus,
-  InspectionType,
-  NormalizedInspection,
-} from './entityTypes';
+import { Inspection, InspectionAdditionalData, InspectionStatus, InspectionType } from './entityTypes';
 
 /**
  * Options used when fetching one inspection.
@@ -33,7 +27,7 @@ export interface GetOneInspectionOptions {
 /**
  * The type returned by the getOneInspection method.
  */
-export type GetOneInspectionResponse = CoreJsResponseWithId<Inspection, NormalizedInspection, 'id'>;
+export type GetOneInspectionResponse = CoreJsResponseWithId<Inspection, string, 'id'>;
 
 /**
  * Options used when fetching multiple inspections.
@@ -333,7 +327,7 @@ export interface DamageSeverity {
 /**
  * The type returned by the createOneInspection method.
  */
-export type CreateOneInspectionResponse = CoreJsResponseWithId<IdResponse<'id'>, CreatedInspection, 'id'>;
+export type CreateOneInspectionResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;
 
 /**
  * The details of an inspection returned after creating it.
@@ -346,11 +340,7 @@ Inspection,
 /**
  * The type returned by the addAdditionalDataToOneInspection method.
  */
-export type AddAdditionalInfoResponse = CoreJsResponseWithId<
-IdResponse<'id'>,
-AdditionalInfoAddedToInspection,
-'id'
->;
+export type AddAdditionalInfoResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;
 
 /**
  * The details of an inspection returned after adding additional data to it.
@@ -360,4 +350,4 @@ export type AdditionalInfoAddedToInspection = Pick<Inspection, 'id' | 'additiona
 /**
  * The type returned by the deleteOneInspection method.
  */
-export type DeleteOneInspectionResponse = CoreJsResponseWithId<IdResponse<'id'>, IdResponse<'id'>, 'id'>;
+export type DeleteOneInspectionResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;

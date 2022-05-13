@@ -51,6 +51,9 @@ function mapCreatedInspection(id: string, createInspection: CreateInspection, cr
  * from tasks.images.details.wheel_name
  */
 function getWheelAnalysis(inspection: Inspection): WheelAnalysis[] {
+  // we try to get the WA from the root of the inspection, if we can't, we get it from images
+  if (inspection.wheelAnalysis) { return inspection.wheelAnalysis; }
+
   const wheelAnalysisTask = inspection.tasks.find((task) => task.name === TaskName.WHEEL_ANALYSIS);
   const getTaskImageById = (imageId: string) => wheelAnalysisTask.images.find((img) => img.imageId === imageId);
 
@@ -58,20 +61,18 @@ function getWheelAnalysis(inspection: Inspection): WheelAnalysis[] {
     // we try to get the wheelname from tasks (will be present only if we pass
     // them while creating the task)
     const taskDetails = getTaskImageById(image.id)?.details as WheelAnalysisDetails | undefined;
-    if (taskDetails.wheelName) { return taskDetails.wheelName; }
+    if (taskDetails?.wheelName) { return taskDetails.wheelName; }
 
     // if always no wheelName we try to predict a wheelName from the viewpoint
     return WheelTypeByPrediction[image?.viewpoint?.prediction as WheelTypePrediction] ?? '';
   };
-  const wheelAnalysisFromImages = inspection.images?.filter((img) => img?.wheelAnalsis)
+
+  return inspection.images?.filter((img) => img?.wheelAnalsis)
     .map((img) => ({
       ...img.wheelAnalsis,
-      wheelName: getWheelName(img),
+      wheelName: getWheelName(img) || img.wheelAnalsis.wheelName,
       imageId: img.id,
     }) as WheelAnalysis);
-
-  // we try to get the WA from the root of the inspection, if can't we get it from images
-  return inspection.wheelAnalysis ?? wheelAnalysisFromImages;
 }
 
 /**
@@ -232,7 +233,7 @@ export default createSlice({
 
         entityAdapter.upsertOne(state, {
           ...inspection,
-          tasks: Array.from(new Set([...inspection.tasks, result.id])),
+          tasks: Array.from(new Set([...inspection.tasks, result])),
         });
       }
     }).addCase('images/gotOne', (
@@ -246,7 +247,7 @@ export default createSlice({
 
         entityAdapter.upsertOne(state, {
           ...inspection,
-          images: Array.from(new Set([...inspection.images, result.id])),
+          images: Array.from(new Set([...inspection.images, result])),
         });
       }
     });

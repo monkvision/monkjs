@@ -5,12 +5,12 @@ import {
   ProgressStatusUpdate,
   ReponseWithInspectionId,
 } from '../sharedTypes';
-import { NormalizedTask, Task } from './entityTypes';
+import { Task } from './entityTypes';
 
 /**
  * The type returned byt the getOneTask method.
  */
-export type GetOneTaskResponse = CoreJsResponseWithId<Task, NormalizedTask, 'id'> & ReponseWithInspectionId;
+export type GetOneTaskResponse = CoreJsResponseWithId<Task, string, 'id'> & ReponseWithInspectionId;
 
 /**
  * The details of the tasks of an inspection.
@@ -65,4 +65,4 @@ export type UpdatedTask = Pick<Task, 'id' | 'name' | 'status' | 'arguments'>;
 /**
  * The type returned byt the getManyTasks method.
  */
-export type UpdateOneTaskResponse = CoreJsResponseWithId<IdResponse<'id'>, UpdatedTask, 'id'> & ReponseWithInspectionId;
+export type UpdateOneTaskResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'> & ReponseWithInspectionId;

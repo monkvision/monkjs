@@ -62,10 +62,9 @@ export type CreatedView = Pick<View, 'id' | 'createdAt' | 'imageRegion'>;
 /**
  * The type returned by the createOneView method.
  */
-export type CreateOneViewResponse = CoreJsResponseWithId<IdResponse<'id'>, CreatedView, 'id'>;
+export type CreateOneViewResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;
 
 /**
  * The type returned by the createOneView method.
  */
-export type DeleteOneViewResponse = CoreJsResponseWithId<IdResponse<'id'>, IdResponse<'id'>, 'id'>
-& ReponseWithInspectionId;
+export type DeleteOneViewResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'> & ReponseWithInspectionId;
