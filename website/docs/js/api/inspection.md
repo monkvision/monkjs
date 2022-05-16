@@ -22,16 +22,15 @@ const { getOne, getMany, upsertOne, addAdditionalDataToOne, deleteOne } = monk.e
 Returns an inspection with all its tasks.
 
 ```javascript
-await monk.entity.inspection.getOne({ id, params });
+await monk.entity.inspection.getOne(id, { showDeletedObjects });
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_inspection)
 
-| **name**                    | **type** | **default** |
-|-----------------------------|----------|-------------|
-| `id`                        | string   |             |
-| `params`                    | Object   |             |
-| `params.showDeletedObjects` | boolean  | false       |
+| **name**  | **type**                | **default** |
+|-----------|-------------------------|-------------|
+| `id`      | string                  |             |
+| `options` | GetOneInspectionOptions |             |
 
 ## getMany
 `GET /inspections`
@@ -39,23 +38,14 @@ await monk.entity.inspection.getOne({ id, params });
 Returns all inspections created by user/organization.
 
 ```javascript
-await monk.entity.inspection.getMany({ params });
+await monk.entity.inspection.getMany(options);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_all_inspections)
 
-| **name**                              | **type**        | **default** |
-|---------------------------------------|-----------------|-------------|
-| `params`                              | Object          |             |
-| `params.limit`                        | number          | 100         |
-| `params.before`                       | $uuid: {string} |             |
-| `params.after`                        | $uuid: {string} |             |
-| `params.paginationOrder`              | "asc" or "desc" | `desc`      |
-| `params.onwershipFilter`              | string          |             |
-| `params.inspectionStatus`             | string          |             |
-| `params.allInspections`               | boolean         | false       |
-| `params.allInspectionsInOrganization` | boolean         | false       |
-| `params.verbose`                      | number          | 0           |
+| **name**  | **type**                 | **default** |
+|-----------|--------------------------|-------------|
+| `options` | GetManyInspectionsOptions |             |
 
 ```json
 {
@@ -90,7 +80,7 @@ await monk.entity.inspection.getMany({ params });
 }
 ```
 
-## upsertOne
+## createOne
 `POST /inspections`
 
 An inspection contains data about the state of a vehicle at a given time.
@@ -105,21 +95,14 @@ or to add more image on which you want to apply task.
 
 
 ```javascript
-await monkApi.inspections.createOne({ data });
+await monkApi.inspections.createOne(data);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/post_inspection)
 
-| **name**                     | **type**   | **default** |
-|------------------------------|------------|-------------|
-| `data`                       | Object     |             |
-| `data.tasks`                 | array      |             |
-| `data.tasks.damageDetection` | Object     |             |
-| `data.tasks.wheelAnalysis`   | Object     |             |
-| `data.tasks.imagesOcr`       | Object     |             |
-| `data.images`                | \[Object\] |             |
-| `data.vehicle`               | Object     |             |
-| `data.damageAreas`           | \[Object\] |             |
+| **name** | **type**         | **default** |
+|----------|------------------|-------------|
+| `data`   | CreateInspection |             |
 
 ```json
 {
@@ -183,7 +166,7 @@ await monkApi.inspections.createOne({ data });
 `PATCH /inspections/${id}/pdf_data`
 
 ```javascript
-await monk.entity.inspection.addAdditionalDataToOne({ id, data });
+await monk.entity.inspection.addAdditionalDataToOne(id, data);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/edit_inspection_pdf_data)
@@ -228,7 +211,7 @@ await monk.entity.inspection.addAdditionalDataToOne({ id, data });
 `DELETE /inspections/${id}`
 
 ```javascript
-await monk.entity.inspection.deleteOne({ id });
+await monk.entity.inspection.deleteOne(id);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/delete_inspection)

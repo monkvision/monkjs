@@ -20,23 +20,15 @@ const { createOne, deleteOne } = monk.entity.view;
 `POST /inspections/${inspectionId}/views`
 
 ```javascript
-await monk.view.createOne({ inspectionId, data });
+await monk.view.createOne(inspectionId, data);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/View/post_view)
 
-| **name**                                   | **type**        | **default** |
-|--------------------------------------------|-----------------|-------------|
-| `inspectionId`                             | string          |             |
-| `data`                                     | Object          |             |
-| `data.imageId`                             | string          |             |
-| `data.damageId`                            | string          |             |
-| `data.polygons`                            | \[\[\[number]]] |             |
-| `data.boundingBox`                         | Object          |             |
-| `data.boundingBox.width`                   | Object          |             |
-| `data.boundingBox.height`                  | Object          |             |
-| `data.newImage`                            | Object          |             |
-| `data.newImage.name`                       | Object          |             |
+| **name**       | **type**   | **default** |
+|----------------|------------|-------------|
+| `inspectionId` | string     |             |
+| `data`         | CreateView |             |
 
 ```json
 {
@@ -65,7 +57,7 @@ await monk.view.createOne({ inspectionId, data });
 `DELETE /inspections/${inspectionId}/views/${id}`
 
 ```javascript
-await monk.view.deleteOne({ id, inspectionId });
+await monk.view.deleteOne(id, inspectionId);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/View/delete_view)

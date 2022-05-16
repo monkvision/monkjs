@@ -120,7 +120,7 @@ export function useCreateDamageDetectionAsync() {
   return useCallback(async (
     tasks = { damage_detection: { status: 'NOT_STARTED' } },
   ) => {
-    const result = await monk.entity.inspection.upsertOne({ data: { tasks } });
+    const result = await monk.entity.inspection.createOne({ tasks });
     return result.data;
   }, []);
 }
@@ -165,7 +165,7 @@ export function useStartUploadAsync({
 
           data.append(multiPartKeys.image, file);
 
-          const result = await monk.entity.image.addOne({ inspectionId, data });
+          const result = await monk.entity.image.addOne(inspectionId, data);
           onPictureUploaded({ result, picture, inspectionId });
 
           // call onFinish callback when capturing the last picture
@@ -291,7 +291,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne({ inspectionId, imageId });
+      const result = await monk.entity.image.getOne(inspectionId, imageId);
 
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;

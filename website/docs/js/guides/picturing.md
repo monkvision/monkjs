@@ -70,7 +70,7 @@ export default () => {
       const tasks = { [task.NAMES.damageDetection]: { status: task.STATUSES.notStarted } };
       const data = { tasks };
 
-      const { result } = await monk.entity.inspection.upsertOne({ data });
+      const { result } = await monk.entity.inspection.createOne(data);
       setInspectionId(result);
     }
   }, [inspectionId]);
@@ -281,7 +281,7 @@ export default () => {
       const tasks = { [task.NAMES.damageDetection]: { status: task.STATUSES.notStarted } };
       const data = { tasks };
 
-      const { result } = await monk.entity.inspection.upsertOne({ data });
+      const { result } = await monk.entity.inspection.createOne(data);
       setInspectionId(result);
     }
   }, [inspectionId]);
@@ -295,7 +295,7 @@ export default () => {
 
     // Here we use the corejs API to update one task of an inspection.
     // @see https://monkvision.github.io/monkjs/docs/js/api/task#updateone
-    await monk.entity.task.updateOne({ inspectionId, name, data });
+    await monk.entity.task.updateOne(inspectionId, name, data);
 
     setLoading(false);
   }, [inspectionId]);

@@ -1,0 +1,13 @@
+src/
+test/
+temp/
+coverage/
+.eslintcache
+.eslintignore
+.eslintrc.json
+.gitignore
+.npmignore
+jest.config.js
+README.md
+tsconfig.json
+tsconfig.eslint.json

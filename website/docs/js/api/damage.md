@@ -22,17 +22,15 @@ const { createOne, deleteOne } = monk.entity.damage;
 Add damage to an inspection.
 
 ```javascript
-await monk.entity.damage.createOne({ inspectionId, data });
+await monk.entity.damage.createOne(inspectionId, data);
 ```
 
 [Try it on api.monk.ai documentation](https://api.monk.ai/v1/apidocs/#/Damage/post_damage)
 
-| **name**             | **type** | **default** |
-|----------------------|----------|-------------|
-| `inspectionId`       | string   |             |
-| `data`               | Object   |             |
-| `data.damageType`    | string   |             |
-| `data.partType`      | Object   |             |
+| **name**       | **type**     | **default** |
+|----------------|--------------|-------------|
+| `inspectionId` | string       |             |
+| `data`         | CreateDamage |             |
 
 ```json
 {
@@ -57,7 +55,7 @@ await monk.entity.damage.createOne({ inspectionId, data });
 Remove damage from an inspection.
 
 ```javascript
-await monk.entity.damage.deleteOne({ id, inspectionId });
+await monk.entity.damage.deleteOne(id, inspectionId);
 ```
 
 [Try it on api.monk.ai documentation](https://api.monk.ai/v1/apidocs/#/Damage/delete_damage)

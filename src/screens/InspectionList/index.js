@@ -32,11 +32,9 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const { isAuthenticated } = useAuth();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
-    params: {
-      limit: 5,
-      inspectionStatus: 'DONE',
-      showDeleted: false,
-    },
+    limit: 5,
+    inspectionStatus: 'DONE',
+    showDeleted: false,
   }), []);
 
   const inspectionEntities = useSelector(monk.entity.inspection.selectors.selectEntities);

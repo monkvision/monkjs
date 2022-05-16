@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:promise/recommended"
+  ],
+  "plugins": ["jest", "import"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.eslint.json"]
+  },
+  "rules": {
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
+    "no-plusplus" : ["error", { "allowForLoopAfterthoughts": true }],
+    "max-len": [
+      "off" ,
+      {
+        "code": 180,
+        "comments": 180,
+        "tabWidth": 2
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.{ts,tsx}"],
+      "rules": {
+        "import/first": "off"
+      }
+    }
+  ]
+}
