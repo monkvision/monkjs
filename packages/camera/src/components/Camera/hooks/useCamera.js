@@ -48,9 +48,9 @@ export default function useCamera({ width, height }, options) {
 
     croppedCanvas.width = width;
     croppedCanvas.height = height;
-  }, []);
+  }, [width, height]);
 
-  const takePicture = async () => {
+  const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
     baseCanvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
@@ -59,7 +59,7 @@ export default function useCamera({ width, height }, options) {
     const uri = await toBlob(croppedCanvas, imageType);
 
     return { uri };
-  };
+  }, [width, height, stream]);
 
   const resumePreview = async () => {
     if (videoRef.current) {
@@ -72,8 +72,7 @@ export default function useCamera({ width, height }, options) {
     }
   };
   const stopStream = useCallback(() => {
-    if (stream?.getTracks) { stream.getTracks().forEach((track) => track.stop()); }
-    if (stream?.getAudioTracks) { stream.getAudioTracks().map((track) => track.stop()); }
+    if (stream?.getTracks) { stream.getTracks().forEach((track) => track.stop()); return; }
     if (stream?.stop) { stream.stop(); }
   }, [stream]);
 

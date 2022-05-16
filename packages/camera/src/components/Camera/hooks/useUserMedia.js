@@ -9,8 +9,11 @@ function useUserMedia(constraints = { audio: false, video: false }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (stream) { return () => {}; }
-
+    if (stream) {
+      // if the stream already exist and we get a value change, we apply these constraints
+      stream.getTracks().forEach((track) => track.applyConstraints(constraints[track.kind]));
+      return () => {};
+    }
     let didCancel = false;
 
     const getUserMedia = async () => {
