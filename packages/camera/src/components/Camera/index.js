@@ -15,7 +15,7 @@ const MAX_DURATION_FOR_FHD_PICTURE = 250; // in ms
 
 const isMobile = ['iOS', 'Android'].includes(utils.getOS());
 const facingMode = isMobile ? { exact: 'environment' } : 'environment';
-const canvasResolution = { qhd: { width: 2560, height: 1440 }, fhd: { width: 1920, height: 1440 } };
+const canvasResolution = { qhd: { width: 2560, height: 1440 }, fhd: { width: 1920, height: 1080 } };
 const Video = React.forwardRef((props, ref) => createElement('video', { ...props, ref }));
 
 const getLandscapeScreenDimensions = () => {
@@ -53,7 +53,7 @@ function Camera({ children, containerStyle, onCameraReady, title }, ref) {
     const picture = takePicture(); URL.revokeObjectURL(picture.uri);
     performance.mark(MARK_END);
 
-    const { duration } = performance.measure('Measuring `takePicture()` exection time', MARK_START, MARK_END);
+    const { duration } = performance.measure('Measuring `takePicture()` execution time', MARK_START, MARK_END);
 
     if (duration < MAX_DURATION_FOR_FHD_PICTURE) {
       setResolution(canvasResolution.qhd);
