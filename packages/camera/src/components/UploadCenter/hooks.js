@@ -153,30 +153,33 @@ export const useHandlers = ({
   // retake all rejected/non-compliant pictures at once
   const handleRetakeAll = useCallback(() => {
     // adding an initialState that will hold new compliances with `requestCount = 1`
-    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 0, result: null, imageId: null };
     const complianceState = {};
     ids.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
 
     // reset uploads state with the new incoming ones
     uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: ids } });
 
+    // reset compliance state with the new incoming ones
+    compliance.dispatch({ type: Actions.compliance.RESET_COMPLIANCE, ids: { sightIds: ids } });
+
     // reset sightrs state with the new incoming ones
     sights.dispatch({ type: Actions.sights.RESET_TOUR, payload: { sightIds: ids } });
 
     // run a custom callback at the retake all time
     onRetakeAll();
-  }, [ids, onRetakeAll, sights, uploads]);
+  }, [ids, onRetakeAll, sights, uploads, compliance]);
 
   // retake one picture
   const handleRetake = useCallback((id) => {
     // reset upload and compliance info
     compliance.dispatch({
       type: Actions.compliance.UPDATE_COMPLIANCE,
-      payload: { id, status: 'idle', error: null, result: null, imageId: null },
+      payload: { id, status: 'idle', error: null, result: null, imageId: null, requestCount: 0 },
     });
     uploads.dispatch({
       type: Actions.uploads.UPDATE_UPLOAD,
-      payload: { id, status: 'idle', picture: null },
+      payload: { id, status: 'idle', picture: null, uploadCount: 0 },
     });
 
     // remove the picture from the sight and focus on the current sight

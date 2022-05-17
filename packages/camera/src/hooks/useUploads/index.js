@@ -36,7 +36,7 @@ function reducer(state, action) {
     case Actions.uploads.UPDATE_UPLOAD:
       return ({
         ...state,
-        [id]: { ...prevUpload, ...action.payload, uploadCount },
+        [id]: { ...prevUpload, uploadCount, ...action.payload },
       });
 
     default:

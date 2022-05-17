@@ -40,7 +40,7 @@ function reducer(state, action) {
     case Actions.compliance.UPDATE_COMPLIANCE:
       return ({
         ...state,
-        [id]: { ...prevCompliance, ...action.payload, requestCount },
+        [id]: { ...prevCompliance, requestCount, ...action.payload },
       });
 
     default:
