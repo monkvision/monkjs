@@ -5,9 +5,20 @@ import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
+import { compressAccurately } from 'image-conversion';
 import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
+
+const handleCompress = async (uri) => {
+  if (Platform.OS !== 'web') { return undefined; }
+
+  const res = await axios.get(uri, { responseType: 'blob' });
+  const compressed = await compressAccurately(res.data, 4000);
+  URL.revokeObjectURL(uri);
+
+  return compressed || res.data;
+};
 
 const COVERAGE_360_WHITELIST = [
   // T-ROCK
@@ -120,7 +131,7 @@ export function useCreateDamageDetectionAsync() {
   return useCallback(async (
     tasks = { damage_detection: { status: 'NOT_STARTED' } },
   ) => {
-    const result = await monk.entity.inspection.createOne({ tasks });
+    const result = await monk.entity.inspection.upsertOne({ data: { tasks } });
     return result.data;
   }, []);
 }
@@ -240,9 +251,9 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const res = await axios.get(picture.uri, { responseType: 'blob' });
-        URL.revokeObjectURL(picture.uri);
-        fileBits = [res.data];
+        const file = await handleCompress(picture.uri);
+
+        fileBits = [file];
       } else {
         const buffer = Buffer.from(picture.uri, 'base64');
         fileBits = new Blob([buffer], { type: 'png' });
@@ -291,7 +302,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne(inspectionId, imageId);
+      const result = await monk.entity.image.getOne({ inspectionId, imageId });
 
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;
