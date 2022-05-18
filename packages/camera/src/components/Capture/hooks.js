@@ -5,9 +5,20 @@ import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
+import { compressAccurately } from 'image-conversion';
 import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
+
+const handleCompress = async (uri) => {
+  if (Platform.OS !== 'web') { return undefined; }
+
+  const res = await axios.get(uri, { responseType: 'blob' });
+  const compressed = await compressAccurately(res.data, 4000);
+  URL.revokeObjectURL(uri);
+
+  return compressed || res.data;
+};
 
 const COVERAGE_360_WHITELIST = [
   // T-ROCK
@@ -165,7 +176,7 @@ export function useStartUploadAsync({
 
           data.append(multiPartKeys.image, file);
 
-          const result = await monk.entity.image.addOne({ inspectionId, data });
+          const result = await monk.entity.image.addOne(inspectionId, data);
           onPictureUploaded({ result, picture, inspectionId });
 
           // call onFinish callback when capturing the last picture
@@ -240,9 +251,9 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const res = await axios.get(picture.uri, { responseType: 'blob' });
-        URL.revokeObjectURL(picture.uri);
-        fileBits = [res.data];
+        const file = await handleCompress(picture.uri);
+
+        fileBits = [file];
       } else {
         const buffer = Buffer.from(picture.uri, 'base64');
         fileBits = new Blob([buffer], { type: 'png' });
@@ -296,7 +307,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;
 
-      if ((!COVERAGE_360_WHITELIST.includes(sightId) || carCov.status === 'DONE') && (iqa.status === 'DONE')) {
+      if ((!carCov || carCov.status === 'DONE') && (iqa.status === 'DONE')) {
         dispatch({
           type: Actions.compliance.UPDATE_COMPLIANCE,
           payload: { id: sightId, status: 'fulfilled', result: result.axiosResponse, imageId },

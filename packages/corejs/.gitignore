@@ -6,6 +6,7 @@ module/
 commonjs/
 typescript/
 web-build/
+coverage/
 
 # deploy
 .env*

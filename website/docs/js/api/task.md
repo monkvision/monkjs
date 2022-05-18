@@ -22,15 +22,15 @@ const { getOne, getMany, updateOne } = monk.entity.task;
 Get one task of an inspection.
 
 ```javascript
-await monk.task.getOne({ inspectionId, name });
+await monk.task.getOne(inspectionId, name);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_task_of_inspection)
 
-| **name**             | **type** | **default** |
-|----------------------|----------|-------------|
-| `inspectionId`       | string   |             |
-| `name`               | string   |             |
+| **name**       | **type** | **default** |
+|----------------|----------|-------------|
+| `inspectionId` | string   |             |
+| `name`         | TaskName |             |
 
 ```json
 {
@@ -61,7 +61,7 @@ await monk.task.getOne({ inspectionId, name });
 Get all tasks of an inspection.
 
 ```javascript
-await monk.task.getMany({ inspectionId });
+await monk.task.getMany(inspectionId);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_tasks_of_inspection)
@@ -108,17 +108,16 @@ await monk.task.getMany({ inspectionId });
 Update one task of an inspection.
 
 ```javascript
-await monk.task.updateOne({ inspectionId, name , data});
+await monk.task.updateOne(inspectionId, name , data);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/edit_task)
 
-| **name**             | **type** | **default** |
-|----------------------|----------|-------------|
-| `inspectionId`       | string   |             |
-| `name`               | string   |             |
-| `data`               | Object   |             |
-| `data.status`        | string   |             |
+| **name**       | **type**   | **default** |
+|----------------|------------|-------------|
+| `inspectionId` | string     |             |
+| `name`         | string     |             |
+| `data`         | UpdateTask |             |
 
 ```json
 {

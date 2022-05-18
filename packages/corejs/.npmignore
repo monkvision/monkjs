@@ -1,0 +1,14 @@
+src/
+spec/
+coverage/
+.eslintcache
+.eslintignore
+.eslintrc.js
+.gitattributes
+.gitignore
+.editorconfig
+.npmignore
+.npmrc
+jest.config.ts
+README.md
+tsconfig.eslint.json

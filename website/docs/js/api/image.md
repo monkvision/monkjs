@@ -22,19 +22,15 @@ const { getMany, createOne } = monk.entity.image;
 Get all images from an inspection.
 
 ```javascript
-await monk.image.getMany({ inspectionId, params });
+await monk.image.getMany(inspectionId, options);
 ```
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Image/get_images_of_inspection)
 
-| **name**                 | **type**        | **default** |
-|--------------------------|-----------------|-------------|
-| `inspectionId`           | string          |             |
-| `params`                 | Object          |             |
-| `params.limit`           | number          | 100         |
-| `params.before`          | $uuid: {string} |             |
-| `params.after`           | $uuid: {string} |             |
-| `params.paginationOrder` | "asc" or "desc" | desc        |
+| **name**       | **type**             | **default** |
+|----------------|----------------------|-------------|
+| `inspectionId` | string               |             |
+| `options`      | GetManyImagesOptions |             |
 
 ```json
 {

@@ -11,7 +11,7 @@ export default function useGetInspection(id) {
   const { isAuthenticated } = useAuth();
 
   const axiosRequest = useCallback(
-    async () => monk.entity.inspection.getOne({ id }),
+    async () => monk.entity.inspection.getOne(id),
     [id],
   );
 

@@ -191,13 +191,13 @@ export const useHandlers = ({
     setComplianceToCheck((prev) => prev.concat(current.metadata.id));
 
     await startUploadAsync(picture, current);
-  }, [checkComplianceAsync, sights, startUploadAsync]);
+  }, [sights, startUploadAsync]);
 
   /**
    * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
    * instead we re-run the compliance one more time after 1sec of getting the first response
    * */
-  const verifyComplianceStatus = (pictureId, compliances, currentId) => {
+  const verifyComplianceStatus = useCallback((pictureId, compliances, currentId) => {
     const hasTodoCompliances = Object.values(compliances).some((c) => hasTodo(c));
 
     if (hasTodoCompliances) {
@@ -205,19 +205,22 @@ export const useHandlers = ({
         await checkComplianceAsync(pictureId, currentId);
       }, 500);
     }
-  };
+  }, [compliance.state]);
 
   useEffect(() => {
-    const index = complianceToCheck[0];
-    const currentUploadState = uploads.state[index];
+    const index = complianceToCheck.shift();
 
-    if (index && currentUploadState.status === 'fulfilled') {
-      const pictureId = currentUploadState.pictureId;
-      (async () => {
-        const result = await checkComplianceAsync(pictureId);
-        verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
-        setComplianceToCheck((prev) => prev.slice(1));
-      })();
+    const currentUploadState = uploads.state[index];
+    if (index && currentUploadState) {
+      if (currentUploadState.status === 'fulfilled') {
+        const pictureId = currentUploadState.pictureId;
+        (async () => {
+          const result = await checkComplianceAsync(pictureId, index);
+          verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
+        })();
+      } else if (currentUploadState.status !== 'rejected') {
+        setComplianceToCheck((prev) => prev.concat(index));
+      }
     }
   }, [complianceToCheck, uploads.state]);
 
