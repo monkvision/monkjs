@@ -142,6 +142,10 @@ export default function InspectionCapture() {
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
       settings={settings}
+
+      // Case with Upload Center (enableComplianceCheck set to `true`)
+      // enableComplianceCheck={enableComplianceCheck}
+      // onComplianceCheckFinish={() => setSuccess(true)}
     />
   );
 }
