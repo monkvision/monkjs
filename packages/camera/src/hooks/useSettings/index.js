@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera } from 'expo-camera';
 import getOS from '../../utils/getOS';
 
 const initialState = {
   ratio: '4:3',
   zoom: 0,
-  type: CameraType.back,
+  type: Camera.Constants.Type.back,
 };
 
 export default function useSettings({ camera }) {

@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Text, View, useWindowDimensions } from 'react-native';
-import { Camera as ExpoCamera, CameraType, PermissionStatus } from 'expo-camera';
+import { Camera as ExpoCamera, PermissionStatus } from 'expo-camera';
 
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
@@ -67,5 +67,5 @@ Camera.defaultProps = {
   containerStyle: null,
   ratio: '4:3',
   title: '',
-  type: CameraType.back,
+  type: Camera.Constants.Type.back,
 };
