@@ -4,7 +4,7 @@
       "releaseChannel": "production",
       "env": {
         "ENV": "production",
-        "ORGANIZATION_DOMAIN": "inspection-report.monk.ai",
+        "ORGANIZATION_DOMAIN": "ira.monk.ai",
         "API_DOMAIN": "api.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
@@ -17,7 +17,7 @@
       "extends": "production",
       "env": {
         "ENV": "preview",
-        "ORGANIZATION_DOMAIN": "inspection-report.preview.monk.ai",
+        "ORGANIZATION_DOMAIN": "ira.preview.monk.ai",
         "API_DOMAIN": "api.preview.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn",
@@ -30,7 +30,7 @@
       "distribution": "internal",
       "env": {
         "ENV": "staging",
-        "ORGANIZATION_DOMAIN": "inspection-report-staging.dev.monk.ai",
+        "ORGANIZATION_DOMAIN": "ira-staging.dev.monk.ai",
         "API_DOMAIN": "api.staging.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
@@ -43,10 +43,10 @@
       "distribution": "internal",
       "env": {
         "ENV": "development",
-        "ORGANIZATION_DOMAIN": "inspection-report.dev.monk.ai",
+        "ORGANIZATION_DOMAIN": "ira.dev.monk.ai",
         "API_DOMAIN": "api.dev.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
+        "AUTH_CLIENT_ID": "ZH7GK6zgjyVDiHN0A6kY98PBWVeJfKvX",
         "AUTH_DOMAIN": "idp.dev.monk.ai",
         "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }
@@ -59,7 +59,7 @@
         "ORGANIZATION_DOMAIN": "localhost:3000",
         "API_DOMAIN": "api.dev.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
+        "AUTH_CLIENT_ID": "ZH7GK6zgjyVDiHN0A6kY98PBWVeJfKvX",
         "AUTH_DOMAIN": "idp.dev.monk.ai",
         "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3"
       }

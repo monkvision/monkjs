@@ -58,7 +58,7 @@ export default {
     display: 'fullscreen',
     orientation: 'landscape',
     lang: 'en-US',
-    name: 'Monk Capture Web App',
+    name: 'Monk Capture Web Application',
     shortName: 'MCWA',
     themeColor: '#2B52BE',
     description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
