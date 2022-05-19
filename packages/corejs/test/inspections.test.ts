@@ -306,6 +306,35 @@ describe('inspections', () => {
       }));
     });
 
+    it('should NOT map the callbacks headers keys to snake case', async () => {
+      const { axiosResponse } = givenParams();
+      const createInspection: CreateInspection = {
+        tasks: {
+          wheelAnalysis: {
+            status: ProgressStatusUpdate.TODO,
+            callbacks: [
+              {
+                url: 'url',
+                headers: {
+                  'User-Agent': 'Mozilla/5.0',
+                  'Content-Type': 'application/json',
+                },
+              },
+            ],
+          },
+        },
+      };
+      const { spy } = mockAxiosRequest(axiosResponse);
+
+      await inspections.createOne(createInspection);
+
+      expect(spy).toHaveBeenCalledWith(deepObjectMatcher({
+        data: {
+          tasks: { wheel_analysis: createInspection.tasks.wheelAnalysis },
+        },
+      }));
+    });
+
     it('should return a correct corejs response with a normalized inspection entity', async () => {
       const { createInspection, axiosResponse } = givenParams();
       const { response } = mockAxiosRequest(axiosResponse);
