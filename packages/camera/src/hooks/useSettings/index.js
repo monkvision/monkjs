@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer  useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { Platform } from 'react-native';
 
 import { Camera } from 'expo-camera';

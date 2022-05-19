@@ -1,7 +1,7 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
 const path = require('path');
 
-// Expo CLI will await this method so you can optionally return a promise.
+// Expo CLI will await this method, so you can optionally return a promise.
 // eslint-disable-next-line func-names
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
