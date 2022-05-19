@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { Capture, Controls } from '@monkvision/camera';
+import { useDispatch } from 'react-redux';
+import { Chip } from 'react-native-paper';
+
+import { Capture, Controls, useSettings, Actions } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
-import { useDispatch } from 'react-redux';
+
 import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
 
@@ -104,10 +107,21 @@ export default function InspectionCapture() {
     }
   }, [success]);
 
-  const controls = [{
-    disabled: cameraLoading,
-    ...Controls.CaptureButtonProps,
-  }];
+  const captureRef = useRef();
+  const settings = useSettings({ camera: captureRef.current?.camera });
+  const resolution = useMemo(() => (settings.state.resolution === 'FHD' ? 'QHD' : 'FHD'), [settings.state.resolution]);
+  const setSettings = useCallback(
+    () => settings.dispatch({ type: Actions.settings.UPDATE_SETTINGS, payload: { resolution } }),
+    [resolution],
+  );
+  const resolutionChildren = useMemo(() => (<Chip onPress={setSettings}>{resolution}</Chip>
+  ), [settings, resolution]);
+
+  const controls = [
+    { onPress: () => {}, style: {}, children: resolutionChildren },
+    { disabled: cameraLoading, ...Controls.CaptureButtonProps },
+    { disabled: true, style: {} },
+  ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
@@ -122,6 +136,7 @@ export default function InspectionCapture() {
 
   return (
     <Capture
+      ref={captureRef}
       task={taskName}
       mapTasksToSights={mapTasksToSights}
       sightIds={sightIds}
@@ -132,6 +147,7 @@ export default function InspectionCapture() {
       onStartUploadPicture={() => setCameraLoading(true)}
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
+      settings={settings}
 
       // Case with Upload Center (enableComplianceCheck set to `true`)
       // enableComplianceCheck={enableComplianceCheck}

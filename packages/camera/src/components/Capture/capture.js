@@ -326,6 +326,7 @@ const Capture = forwardRef(({
           title={title}
           ratio={settings.ratio}
           pictureSize={settings.pictureSize}
+          settings={settings}
         >
           {children}
         </Camera>

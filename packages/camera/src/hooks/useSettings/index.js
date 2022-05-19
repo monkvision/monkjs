@@ -1,18 +1,54 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer  useState } from 'react';
 import { Platform } from 'react-native';
+
 import { Camera } from 'expo-camera';
 import getOS from '../../utils/getOS';
 
-const initialState = {
+import Actions from '../../actions';
+
+const initialSettingsState = {
+  resolution: 'FHD',
   ratio: '4:3',
   zoom: 0,
   type: Camera.Constants.Type.back,
 };
 
-export default function useSettings({ camera }) {
-  const [settings, setSettings] = useState(initialState);
+function init({ initialState }) {
+  if (initialState) { return initialState; }
+  return initialSettingsState;
+}
+
+function reducer(state, action) {
+  if (action.type === Actions.settings.RESET_SETTINGS) {
+    return init(action);
+  }
+
+  switch (action.type) {
+    case Actions.settings.UPDATE_SETTINGS:
+      return ({
+        ...state,
+        ...action.payload,
+      });
+
+    default:
+      throw new Error();
+  }
+}
+
+/**
+ * @param ids
+ * @return {{
+   * dispatch: (function({}): void),
+   * name: string,
+   * state: { resolution: string, ratio: string, zoom: string, type: string }
+ * }}
+ */
+export default function useSettings({ initialState = initialSettingsState, camera }) {
+  const [state, dispatch] = useReducer(reducer, { initialState }, init);
 
   const getSettings = useCallback(async (prevSettings) => {
+    if (!camera || Platform.OS === 'web') { return prevSettings; }
+
     const newSettings = { ...prevSettings };
     const permissions = await Camera.getCameraPermissionsAsync();
 
@@ -44,14 +80,14 @@ export default function useSettings({ camera }) {
     }
 
     return newSettings;
-  }, [camera]);
+  }, [camera, initialState]);
 
   useEffect(() => {
     (async () => {
-      const newSettings = await getSettings(initialState);
-      setSettings(newSettings);
+      const payload = await getSettings(initialState);
+      dispatch({ type: Actions.settings.UPDATE_SETTINGS, payload });
     })();
   }, [getSettings]);
 
-  return settings;
+  return { state, dispatch, name: 'settings' };
 }
