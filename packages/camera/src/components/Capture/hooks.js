@@ -14,6 +14,10 @@ const handleCompress = async (uri) => {
   if (Platform.OS !== 'web') { return undefined; }
 
   const res = await axios.get(uri, { responseType: 'blob' });
+
+  // no need to compress images under 3mb
+  if (res.data.size / 1024 < 3000) { URL.revokeObjectURL(uri); return res.data; }
+
   const compressed = await compressAccurately(res.data, 4000);
   URL.revokeObjectURL(uri);
 
