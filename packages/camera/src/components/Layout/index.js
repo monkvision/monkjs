@@ -157,7 +157,7 @@ FullScreenButton.defaultProps = {
   hidden: false,
 };
 
-function Layout({ buttonFullScreenProps, children, left, right }) {
+function Layout({ backgroundColor, buttonFullScreenProps, children, left, right }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
   const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
@@ -207,7 +207,14 @@ function Layout({ buttonFullScreenProps, children, left, right }) {
   }
 
   return (
-    <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, containerStyle]}>
+    <View
+      accessibilityLabel="Layout"
+      style={[
+        { height, width },
+        containerStyle,
+        { backgroundColor },
+      ]}
+    >
       <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
@@ -224,6 +231,7 @@ function Layout({ buttonFullScreenProps, children, left, right }) {
 }
 
 Layout.propTypes = {
+  backgroundColor: PropTypes.string.isRequired,
   buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
   left: PropTypes.element,
   right: PropTypes.element,

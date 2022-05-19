@@ -10,7 +10,7 @@ export default {
   owner: 'monkvision',
 
   primaryColor: '#2B52BE',
-  backgroundColor: '#181829',
+  backgroundColor: '#000000',
   orientation: 'landscape',
   icon: './assets/icon.png',
   userInterfaceStyle: 'dark',

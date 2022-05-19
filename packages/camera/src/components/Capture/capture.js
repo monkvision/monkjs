@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 });
 
 const Capture = forwardRef(({
+  backgroundColor,
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
@@ -314,6 +315,7 @@ const Capture = forwardRef(({
       style={[styles.container, style]}
     >
       <Layout
+        backgroundColor={backgroundColor}
         fullscreen={fullscreen}
         left={left}
         orientationBlockerProps={orientationBlockerProps}
@@ -340,6 +342,7 @@ const Capture = forwardRef(({
 Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
+  backgroundColor: PropTypes.string,
   compliance: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -453,6 +456,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
+  backgroundColor: '#000',
   controls: [],
   controlsContainerStyle: {},
   footer: null,

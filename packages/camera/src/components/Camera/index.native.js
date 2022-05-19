@@ -31,17 +31,16 @@ function Camera({
 
   if (permissions.granted && permissions.status === PermissionStatus.GRANTED) {
     return (
-      <View accessibilityLabel="Camera container" style={[containerStyle, size]}>
-        <ExpoCamera
-          ref={ref}
-          ratio={ratio}
-          onMountError={handleError}
-          {...passThroughProps}
-        >
-          {children}
-        </ExpoCamera>
+      <ExpoCamera
+        ref={ref}
+        ratio={ratio}
+        onMountError={handleError}
+        {...passThroughProps}
+        style={[containerStyle, size]}
+      >
+        {children}
         {title !== '' && <Text style={styles.title}>{title}</Text>}
-      </View>
+      </ExpoCamera>
     );
   }
 

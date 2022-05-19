@@ -108,10 +108,16 @@ export default function InspectionCapture() {
   }, [success]);
 
   const captureRef = useRef();
+
   const settings = useSettings({ camera: captureRef.current?.camera });
-  const resolution = useMemo(() => (settings.state.resolution === 'FHD' ? 'QHD' : 'FHD'), [settings.state.resolution]);
+  const resolution = useMemo(
+    () => (settings.state.resolution === 'FHD' ? 'QHD' : 'FHD'),
+    [settings.state.resolution],
+  );
   const setSettings = useCallback(
-    () => settings.dispatch({ type: Actions.settings.UPDATE_SETTINGS, payload: { resolution } }),
+    () => settings.dispatch({
+      type: Actions.settings.UPDATE_SETTINGS,
+      payload: { resolution } }),
     [resolution],
   );
   const resolutionChildren = useMemo(() => (<Chip onPress={setSettings}>{resolution}</Chip>
@@ -148,10 +154,6 @@ export default function InspectionCapture() {
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
       settings={settings}
-
-      // Case with Upload Center (enableComplianceCheck set to `true`)
-      // enableComplianceCheck={enableComplianceCheck}
-      // onComplianceCheckFinish={() => setSuccess(true)}
     />
   );
 }
