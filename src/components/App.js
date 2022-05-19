@@ -10,7 +10,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import * as SplashScreen from 'expo-splash-screen';
 
-import Navigation from 'Navigation';
+import Navigation from 'config/Navigation';
 import 'config/corejs';
 
 const theme = {

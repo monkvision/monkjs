@@ -8,7 +8,6 @@ export default {
   slug: 'cna',
   scheme: 'monk-cna',
   owner: 'monkvision',
-  entryPoint: './index.js',
 
   primaryColor: '#2B52BE',
   backgroundColor: '#181829',

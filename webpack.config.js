@@ -13,7 +13,6 @@ module.exports = async function (env, argv) {
   config.resolve.alias.hooks = path.resolve(__dirname, './src/hooks');
   config.resolve.alias.screens = path.resolve(__dirname, './src/screens');
   config.resolve.alias.store = path.resolve(__dirname, './src/store');
-  config.resolve.alias.Navigation = path.resolve(__dirname, './src/Navigation');
 
   config.resolve.alias['@monkvision/ui'] = path.resolve(__dirname, './packages/ui');
   config.resolve.alias['@monkvision/camera'] = path.resolve(__dirname, './packages/camera');

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { Platform } from 'react-native';
 
-import { Camera } from 'expo-camera';
+import { Camera, CameraType } from 'expo-camera';
 import getOS from '../../utils/getOS';
 
 import Actions from '../../actions';
@@ -10,7 +10,7 @@ const initialSettingsState = {
   resolution: 'FHD',
   ratio: '4:3',
   zoom: 0,
-  type: Camera.Constants.Type.back,
+  type: CameraType.back,
 };
 
 function init({ initialState }) {
