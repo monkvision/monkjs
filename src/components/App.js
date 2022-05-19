@@ -6,7 +6,7 @@ import { useWindowDimensions, View, StyleSheet } from 'react-native';
 import { theme as initialTheme } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import * as Font from 'expo-font';
 
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -43,6 +43,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const customFonts = {
+  MaterialCommunityIcons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
+  'Material Design Icons': require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
+};
+
 export default function App() {
   const { height: minHeight } = useWindowDimensions();
 
@@ -65,7 +70,7 @@ export default function App() {
         // Keep the splash screen visible while we fetch resources
         await SplashScreen.preventAutoHideAsync();
         // Preload fonts, make any API calls you need to do here
-        await MaterialCommunityIcons.loadFont();
+        await Font.loadAsync(customFonts);
         // Artificially delay for two seconds to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });
