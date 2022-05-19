@@ -79,5 +79,11 @@ export default function useSignIn(callbacks = {}) {
     }
   }, [onError, request, response]);
 
+  useEffect(() => {
+    if (response?.type === 'dismiss') {
+      stop();
+    }
+  }, [request, response]);
+
   return [handleStart, isLoading];
 }

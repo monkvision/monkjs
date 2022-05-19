@@ -10,7 +10,7 @@ import useAuth from 'hooks/useAuth';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Loader } from '@monkvision/ui';
-import { useRequest } from '@monkvision/toolkit';
+import { useError, useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
 
 import { List, Paragraph, Title } from 'react-native-paper';
@@ -30,6 +30,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
+  const errorHanlder = useError();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     limit: 5,
@@ -75,6 +76,18 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
 
   if (manyInspections.loading) {
     return <Loader />;
+  }
+
+  if (manyInspections.error) {
+    errorHanlder(manyInspections.error);
+    return (
+      <View style={styles.empty}>
+        <Title>An error occurred</Title>
+        <Paragraph>
+          An unexpected error occurred when fetching the inspections. Please try again later.
+        </Paragraph>
+      </View>
+    );
   }
 
   if (isEmpty(inspections)) {
