@@ -70,14 +70,19 @@ export function useTakePictureAsync({ camera }) {
     quality: 1,
     base64: true,
     exif: true,
+    skipProcessing: true,
   }) => {
     try {
-      return Platform.OS === 'web'
+      console.log('camera', camera.current.takePictureAsync);
+      const picture = Platform.OS === 'web'
         ? await camera.current.takePicture()
-        : await camera.takePictureAsync(options);
+        : await camera.current.takePictureAsync(options);
+
+      console.log('picture', picture);
+      return picture;
     } catch (err) {
       log([`Error in \`<Capture />\` \`useTakePictureAsync()\`: ${err}`], 'error');
-      return err;
+      throw err;
     }
   }, [camera]);
 }

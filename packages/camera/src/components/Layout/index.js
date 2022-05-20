@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Layout({ backgroundColor, buttonFullScreenProps, children, left, right }) {
+function Layout({ backgroundColor, children, left, right }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
   const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
@@ -155,13 +155,11 @@ function Layout({ backgroundColor, buttonFullScreenProps, children, left, right 
 
 Layout.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
-  buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
   left: PropTypes.element,
   right: PropTypes.element,
 };
 
 Layout.defaultProps = {
-  buttonFullScreenProps: {},
   left: null,
   right: null,
 };

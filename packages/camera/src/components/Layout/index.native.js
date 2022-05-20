@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Layout({ backgroundColor, children, left, right }) {
+function Layout({ backgroundColor, children, isReady, left, right }) {
   const { height, width } = useWindowDimensions();
 
   const size = StyleSheet.create({ height, width });
@@ -51,7 +51,7 @@ function Layout({ backgroundColor, children, left, right }) {
         { backgroundColor },
       ]}
     >
-      <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
+      <View accessibilityLabel="Side left" style={leftStyle}>{isReady && left}</View>
       <View
         accessibilityLabel="Center"
         style={[size, styles.section, styles.center, {
@@ -60,18 +60,20 @@ function Layout({ backgroundColor, children, left, right }) {
       >
         {children}
       </View>
-      <View accessibilityLabel="Side right" style={rightStyle}>{right}</View>
+      <View accessibilityLabel="Side right" style={rightStyle}>{isReady && right}</View>
     </View>
   );
 }
 
 Layout.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
+  isReady: PropTypes.bool,
   left: PropTypes.element,
   right: PropTypes.element,
 };
 
 Layout.defaultProps = {
+  isReady: false,
   left: null,
   right: null,
 };

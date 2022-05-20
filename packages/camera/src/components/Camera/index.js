@@ -94,11 +94,9 @@ Camera.propTypes = {
     dispatch: PropTypes.func,
     state: PropTypes.shape({ resolution: PropTypes.string }),
   }),
-  title: PropTypes.string,
 };
 
 Camera.defaultProps = {
   containerStyle: null,
   settings: { state: { resolution: 'FHD' }, dispatch: () => {} },
-  title: '',
 };

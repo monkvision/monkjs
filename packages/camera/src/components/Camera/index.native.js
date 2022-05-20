@@ -15,7 +15,6 @@ function Camera({
   containerStyle,
   ratio,
   style,
-  title,
   ...passThroughProps
 }, ref) {
   const permissions = usePermissions();
@@ -54,7 +53,6 @@ Camera.propTypes = {
   children: PropTypes.element,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   ratio: PropTypes.string,
-  title: PropTypes.string,
   type: PropTypes.string,
 };
 
@@ -62,6 +60,5 @@ Camera.defaultProps = {
   children: null,
   containerStyle: null,
   ratio: '4:3',
-  title: '',
   type: CameraType.back,
 };

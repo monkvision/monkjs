@@ -315,6 +315,7 @@ const Capture = forwardRef(({
       style={[styles.container, style]}
     >
       <Layout
+        isReady={isReady}
         backgroundColor={backgroundColor}
         fullscreen={fullscreen}
         left={left}

@@ -47,8 +47,10 @@ export default function Controls({
     [state.uploads],
   );
 
-  const handlePress = useCallback(({ onPress }) => (e) => {
-    if (typeof onPress === 'function') { onPress(state, api, e); } else { handlers.capture(state, api, e); }
+  const handlePress = useCallback((e, { onPress }) => {
+    if (typeof onPress === 'function') {
+      onPress(state, api, e);
+    } else { handlers.capture(state, api, e); }
   }, [api, handlers, state]);
 
   return (
@@ -65,7 +67,7 @@ export default function Controls({
         createElement(component, {
           key: `camera-control-${i}`,
           disabled: loading || hasNoIdle,
-          onPress: handlePress({ onPress, ...rest }),
+          onPress: (e) => handlePress(e, { onPress, ...rest }),
           style: StyleSheet.flatten([styles.button]),
           ...rest,
           ...passThroughProps,
