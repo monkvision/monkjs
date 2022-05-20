@@ -18,14 +18,13 @@ import {
   AdditionalInfoAddedToInspection,
   CreatedInspection,
   CreateInspection,
-  CreateInspectionTasksOptions,
-  CreateOneInspectionResponse, DamageDetectionTaskOptions,
+  CreateOneInspectionResponse,
   DeleteOneInspectionResponse,
   GetManyInspectionsOptions,
   GetManyInspectionsResponse,
   GetOneInspectionOptions,
-  GetOneInspectionResponse, ImagesOCRTaskOptions,
-  InspectionPaginatedResponse, RepairEstimateTaskOptions, WheelAnalysisTaskOptions,
+  GetOneInspectionResponse,
+  InspectionPaginatedResponse,
 } from './apiTypes';
 import { Inspection, NormalizedInspection, PdfInputData } from './entityTypes';
 import { InspectionPayloadTypes } from './reduxTypes';
@@ -61,6 +60,7 @@ function mapCreateInspectionKeysToSnakeCase(createInspection: CreateInspection):
       result.tasks[snakeCaseTask].callbacks = callbacks;
     }
   });
+
   return result;
 }
 
