@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { utils, useTimeout } from '@monkvision/toolkit';
 import Actions from '../../actions';
@@ -24,7 +24,7 @@ const getLandscapeScreenDimensions = () => {
   return { height: Math.min(width, height), width: Math.max(width, height) };
 };
 
-function Camera({ children, containerStyle, onCameraReady, title, settings }, ref) {
+function Camera({ children, containerStyle, onCameraReady, settings }, ref) {
   const resolution = useMemo(() => canvasResolution[settings.state.resolution], [settings]);
 
   const setSettings = useCallback(
@@ -80,9 +80,7 @@ function Camera({ children, containerStyle, onCameraReady, title, settings }, re
         height={getLandscapeScreenDimensions().height}
         controls={false}
       />
-
       {children}
-      <Text style={styles.title}>{title}</Text>
     </View>
   );
 }

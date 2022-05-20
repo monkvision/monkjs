@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Platform, View } from 'react-native';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Chip } from 'react-native-paper';
 
-import { Capture, Controls, useSettings, Actions } from '@monkvision/camera';
+import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
@@ -110,23 +109,12 @@ export default function InspectionCapture() {
   const captureRef = useRef();
 
   const settings = useSettings({ camera: captureRef.current?.camera });
-  const resolution = useMemo(
-    () => (settings.state.resolution === 'FHD' ? 'QHD' : 'FHD'),
-    [settings.state.resolution],
-  );
-  const setSettings = useCallback(
-    () => settings.dispatch({
-      type: Actions.settings.UPDATE_SETTINGS,
-      payload: { resolution } }),
-    [resolution],
-  );
-  const resolutionChildren = useMemo(() => (<Chip onPress={setSettings}>{resolution}</Chip>
-  ), [settings, resolution]);
 
   const controls = [
-    { onPress: () => {}, style: {}, children: resolutionChildren },
+    { disabled: cameraLoading, ...Controls.SettingsButtonProps },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
-    { disabled: true, style: {} },
+    { disabled: cameraLoading,
+      ...(Platform.OS === 'web' ? Controls.FullscreenButtonProps : Controls.GoBackButtonProps) },
   ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);

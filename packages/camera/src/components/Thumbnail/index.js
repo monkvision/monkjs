@@ -15,37 +15,24 @@ const LENGTH = SIDE_WIDTH - (MARGIN * 2) - BORDER_WIDTH;
 const styles = StyleSheet.create({
   root: {
     width: LENGTH,
-    minHeight: LENGTH,
+    height: LENGTH,
     margin: MARGIN,
     borderRadius: 5,
-    borderWidth: BORDER_WIDTH,
-    shadowOpacity: 0.5,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    ...Platform.select({
-      native: { shadowRadius: 2 },
-      default: { shadowRadius: '2px 2px' },
-    }),
-    overflow: 'hidden',
-    backgroundColor: 'rgba(0,0,0,0.9)',
+    borderWidth: BORDER_WIDTH
   },
   overlay: {
     height: LENGTH * DEFAULT_RATIO,
     width: LENGTH,
+    flex: 1,
   },
   picture: {
-    position: 'absolute',
     height: LENGTH * DEFAULT_RATIO,
     width: LENGTH,
-    borderBottomWidth: 1.5,
   },
   loader: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: [{ translateX: '-50%', translateY: '-50%' }],
+    display: 'flex',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   text: {
     color: 'white',
@@ -54,6 +41,9 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
     textAlign: 'center',
     maxWidth: '100%',
+    textShadowColor: '#000',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 0,
   },
 });
 
@@ -78,42 +68,36 @@ export default function Thumbnail({
   }, [onFocus, isCurrent]);
 
   return (
-    <View
-      style={[styles.root, { borderColor }, style]}
-      {...passThroughProps}
-    >
-      {picture !== null && (
-        <Image
-          alt={`Picture of ${label} sight`}
-          source={picture}
-          style={[
-            styles.picture,
-            {
-              shadowColor: colors[uploadStatus],
-              borderColor: colors[uploadStatus],
-              transform: [{ rotateY: picture?.type === 'front' ? Platform.select({
-                native: 180,
-                default: '180deg',
-              }) : 0 }],
-            },
-          ]}
+    <View>
+      <View
+        style={[styles.root, { borderColor, backgroundColor: colors.background }, style]}
+        {...passThroughProps}
+      >
+        {picture !== null && (
+          <Image
+            alt={`Picture of ${label} sight`}
+            source={picture}
+            style={styles.picture}
+          />
+        )}
+        <Overlay
+          svg={overlay}
+          style={styles.overlay}
+          label={label}
         />
-      )}
-      <Overlay
-        svg={overlay}
-        style={styles.overlay}
-        label={label}
-      />
+        {uploadStatus === 'pending' ? (
+          <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
+        ) : null}
+      </View>
+
       <Text style={styles.text}>{label}</Text>
-      {uploadStatus === 'pending' ? (
-        <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
-      ) : null}
     </View>
   );
 }
 
 Thumbnail.propTypes = {
   colors: PropTypes.shape({
+    background: PropTypes.string,
     current: PropTypes.string,
     fulfilled: PropTypes.string,
     idle: PropTypes.string,
@@ -142,6 +126,7 @@ Thumbnail.propTypes = {
 
 Thumbnail.defaultProps = {
   colors: {
+    background: '#181829',
     current: '#ffcc66',
     fulfilled: '#36b0c2',
     idle: '#F3F7FE',

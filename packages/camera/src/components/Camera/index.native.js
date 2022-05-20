@@ -8,8 +8,6 @@ import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
 import usePermissions from '../../hooks/usePermissions';
 
-import styles from './styles';
-
 const { getSize } = utils.styles;
 
 function Camera({
@@ -39,7 +37,6 @@ function Camera({
         style={[containerStyle, size]}
       >
         {children}
-        {title !== '' && <Text style={styles.title}>{title}</Text>}
       </ExpoCamera>
     );
   }
