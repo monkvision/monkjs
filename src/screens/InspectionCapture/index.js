@@ -13,7 +13,10 @@ import useAuth from 'hooks/useAuth';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
-  task: { name: monk.types.TaskName.IMAGES_OCR, image_details: { image_type: 'VIN' } },
+  task: {
+    name: monk.types.TaskName.IMAGES_OCR,
+    image_details: { image_type: monk.types.ImageOcrType.VIN },
+  },
 }, {
   id: 'xQKQ0bXS',
   task: {

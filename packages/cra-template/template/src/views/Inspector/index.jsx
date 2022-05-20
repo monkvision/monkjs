@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import monk from '@monkvision/corejs';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -12,26 +13,26 @@ import View from 'components/View';
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
   task: {
-    name: 'images_ocr',
+    name: monk.types.TaskName.IMAGES_OCR,
     image_details: {
-      image_type: 'VIN',
+      image_type: monk.types.ImageOcrType.VIN,
     },
   },
 }, {
   id: 'xQKQ0bXS',
-  tasks: ['wheel_analysis'],
+  tasks: [monk.types.TaskName.WHEEL_ANALYSIS],
   payload: {},
 }, {
   id: '8_W2PO8L',
-  tasks: ['wheel_analysis'],
+  tasks: [monk.types.TaskName.WHEEL_ANALYSIS],
   payload: {},
 }, {
   id: 'rN39Y3HR',
-  tasks: ['wheel_analysis'],
+  tasks: [monk.types.TaskName.WHEEL_ANALYSIS],
   payload: {},
 }, {
   id: 'PuIw17h0',
-  tasks: ['wheel_analysis'],
+  tasks: [monk.types.TaskName.WHEEL_ANALYSIS],
   payload: {},
 }];
 

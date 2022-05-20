@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { monkApi } from '@monkvision/corejs';
+import monk from '@monkvision/corejs';
 
 import actions from '../../config/actions';
 
@@ -70,7 +70,7 @@ export async function handleUpload(payload, state, dispatch, callback) {
     const acquisition = { strategy: 'upload_multipart_form_keys', file_key: multiPartKeys.image };
     const json = JSON.stringify({
       acquisition,
-      tasks: ['damage_detection'],
+      tasks: [monk.types.TaskName.DAMAGE_DETECTION],
       additional_data: {
         ...sights.current.metadata,
         width: picture.width,
@@ -93,7 +93,7 @@ export async function handleUpload(payload, state, dispatch, callback) {
 
     data.append(multiPartKeys.image, file);
 
-    await monkApi.images.addOne({ inspectionId, data });
+    await monk.entity.image.addOne(inspectionId, data);
 
     dispatch({
       type: actions.uploads.UPDATE,
