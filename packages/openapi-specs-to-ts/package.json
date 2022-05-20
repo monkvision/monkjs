@@ -1,5 +1,5 @@
 {
-  "name": "openapi-specs-to-ts",
+  "name": "@monkvision/openapi-specs-to-ts",
   "version": "2.0.7",
   "description": "A Node script that automatically creates TypeScript type definitions based on the JSON Schema defined in an openapi specification file.",
   "main": "dist/index.js",
