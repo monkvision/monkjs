@@ -13,22 +13,34 @@ import useAuth from 'hooks/useAuth';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
-  task: { name: 'images_ocr', image_details: { image_type: 'VIN' } },
+  task: { name: monk.types.TaskName.IMAGES_OCR, image_details: { image_type: 'VIN' } },
 }, {
   id: 'xQKQ0bXS',
-  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_front_left' } },
+  task: {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_LEFT },
+  },
   payload: {},
 }, {
   id: '8_W2PO8L',
-  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_back_left' } },
+  task: {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_LEFT },
+  },
   payload: {},
 }, {
   id: 'rN39Y3HR',
-  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_back_right' } },
+  task: {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_RIGHT },
+  },
   payload: {},
 }, {
   id: 'PuIw17h0',
-  task: { name: 'wheel_analysis', image_details: { wheel_name: 'wheel_front_right' } },
+  task: {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
+  },
   payload: {},
 }];
 
@@ -55,8 +67,9 @@ export default function InspectionCapture() {
       setCameraLoading(true);
 
       try {
-        const payload = await monk.entity.task.updateOne(inspectionId, taskName, { status: 'TODO' });
-        const { entities, result } = payload;
+        const { entities, result } = await monk.entity.task.updateOne(inspectionId, taskName, {
+          status: monk.types.ProgressStatusUpdate.TODO,
+        });
 
         dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
         setCameraLoading(false);
