@@ -2,7 +2,7 @@
   "name": "@monkvision/camera",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "private": false,
   "description": "AI-powered vehicle damage detection for React Native",
   "homepage": "https://github.com/monkvision/monkjs/packages/camera/#readme",
@@ -60,9 +60,9 @@
     "release-it": "*"
   },
   "peerDependencies": {
-    "@monkvision/corejs": "2.0.7",
-    "@monkvision/sights": "2.0.7",
-    "@monkvision/toolkit": "2.0.7",
+    "@monkvision/corejs": "2.0.8",
+    "@monkvision/sights": "2.0.8",
+    "@monkvision/toolkit": "2.0.8",
     "react": "*",
     "react-native": "*"
   },
