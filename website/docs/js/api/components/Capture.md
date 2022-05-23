@@ -149,6 +149,11 @@ A rendered element to be display has footer of the Sights scroll list
 
 Props inherited from `Button`
 
+## enableQHDWhenSupported
+`PropTypes.bool`
+
+Automatically enable `QHD` resolution, by default it's `true` (for web only).
+
 ## initialState
 `PropTypes.state`
 
@@ -351,13 +356,18 @@ console.log(state); // { isReady, settings, sights, uploads, compliance };
 ```
 
 ### settings
+````js
+const settings = useSettings({ camera, initialState });
+console.log(settings); // { state, distpatch }
+console.log(settings.state); // {current: { id, index, metadata }, ids, remainingPictures, takenPictures, tour }
+````
 See [Expo Camera Props](https://docs.expo.dev/versions/latest/sdk/camera/#props)
 
 ### sights
 ````js
 const sights = useSights({ sightIds });
 console.log(sights); // { state, distpatch }
-console.log(sights.state); // {current: { id, index, metadata }, ids, remainingPictures, takenPictures, tour }
+console.log(sights.state); // { resolution, ratio, zoom, type }
 ````
 
 ### uploads

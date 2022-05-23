@@ -47,6 +47,7 @@ const Capture = forwardRef(({
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
+  enableQHDWhenSupported,
   footer,
   fullscreen,
   inspectionId,
@@ -327,6 +328,7 @@ const Capture = forwardRef(({
           ratio={settings.ratio}
           pictureSize={settings.pictureSize}
           settings={settings}
+          enableQHDWhenSupported={enableQHDWhenSupported}
         >
           {children}
         </Camera>
@@ -359,6 +361,7 @@ Capture.propTypes = {
   })),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
   enableComplianceCheck: PropTypes.bool,
+  enableQHDWhenSupported: PropTypes.bool,
   footer: PropTypes.element,
   fullscreen: PropTypes.objectOf(PropTypes.any),
   initialState: PropTypes.shape({
@@ -455,6 +458,7 @@ Capture.propTypes = {
 Capture.defaultProps = {
   controls: [],
   controlsContainerStyle: {},
+  enableQHDWhenSupported: true,
   footer: null,
   fullscreen: null,
   initialState: {
