@@ -1,8 +1,8 @@
+import monk from '@monkvision/corejs';
+import { useRequest } from '@monkvision/toolkit';
 import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRequest } from '@monkvision/toolkit';
-import monk from '@monkvision/corejs';
 
 export const TASKS_BY_MOD = {
   vinNumber: 'images_ocr',
@@ -17,13 +17,12 @@ export default function useCreateInspection() {
   const [inspectionId, setInspectionId] = useState();
 
   const axiosRequest = useCallback(async () => {
-    const tasks = {};
-    ['images_ocr', 'damage_detection', 'wheel_analysis']
-      .forEach((taskName) => {
-        tasks[taskName] = {
-          status: 'NOT_STARTED',
-        };
-      });
+    const taskOptions = { status: monk.types.ProgressStatusUpdate.NOT_STARTED };
+    const tasks = {
+      wheelAnalysis: taskOptions,
+      imagesOcr: taskOptions,
+      damageDetection: taskOptions,
+    };
 
     return monk.entity.inspection.createOne({ tasks });
   }, []);

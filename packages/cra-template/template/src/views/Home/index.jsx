@@ -15,7 +15,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [inspectionId, setInspectionId] = useState();
+  const [inspectionId, setInspectionId] = useState('');
   const [loading, setLoading, unsetLoading] = useToggle();
 
   const handleNewInspection = useCallback(() => {
@@ -25,14 +25,14 @@ export default function Home() {
         setLoading();
         const { entities, result } = await monk.entity.inspection.createOne(data);
         unsetLoading();
-        setInspectionId(result.id);
+        setInspectionId(result);
 
         return entities;
       },
     );
 
     try {
-      const tasks = { damage_detection: { status: 'NOT_STARTED' } };
+      const tasks = { damageDetection: { status: monk.types.ProgressStatusUpdate.NOT_STARTED } };
       dispatch(createOneInspection({ tasks }));
     } catch (e) {
       unsetLoading();

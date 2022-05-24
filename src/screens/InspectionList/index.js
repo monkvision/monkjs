@@ -33,7 +33,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     limit: 5,
-    inspectionStatus: 'DONE',
+    inspectionStatus: monk.types.InspectionStatus.DONE,
     showDeleted: false,
   }), []);
 

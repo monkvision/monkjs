@@ -9,7 +9,7 @@ import config from '../config';
 import createEntityReducer from '../createEntityReducer';
 import { GetOneImageResponse } from '../images/apiTypes';
 import { Image } from '../images/entityTypes';
-import { IdResponse, RootState } from '../sharedTypes';
+import { Callback, IdResponse, RootState } from '../sharedTypes';
 import { GetOneTaskResponse } from '../tasks/apiTypes';
 import { TaskName, WheelAnalysisDetails } from '../tasks/entityTypes';
 import { WheelAnalysis, WheelTypeByPrediction, WheelTypePrediction } from '../wheelAnalysis/entityTypes';
@@ -44,6 +44,24 @@ function mapCreatedInspection(id: string, createInspection: CreateInspection, cr
     usageDuration: createInspection.usageDuration,
     tasks: [],
   };
+}
+
+function mapCreateInspectionKeysToSnakeCase(createInspection: CreateInspection): unknown {
+  const taskCallbacks = new Map<string, Callback[] | undefined>();
+  taskCallbacks.set('wheel_analysis', createInspection.tasks.wheelAnalysis?.callbacks);
+  taskCallbacks.set('repair_estimate', createInspection.tasks.repairEstimate?.callbacks);
+  taskCallbacks.set('images_ocr', createInspection.tasks.imagesOcr?.callbacks);
+  taskCallbacks.set('damage_detection', createInspection.tasks.damageDetection?.callbacks);
+
+  const result = mapKeysDeep(createInspection, (v, k) => snakeCase(k));
+  taskCallbacks.forEach((callbacks, snakeCaseTask) => {
+    if (callbacks) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      result.tasks[snakeCaseTask].callbacks = callbacks;
+    }
+  });
+
+  return result;
 }
 
 /**
@@ -138,7 +156,7 @@ export async function createOne(createInspection: CreateInspection): Promise<Cre
     ...config.axiosConfig,
     method: 'post',
     url: '/inspections',
-    data: mapKeysDeep(createInspection, (v, k) => snakeCase(k)),
+    data: mapCreateInspectionKeysToSnakeCase(createInspection),
   });
   const id = axiosResponse.data[idAttribute];
   const createdEntity = mapCreatedInspection(id, createInspection, new Date().toISOString());

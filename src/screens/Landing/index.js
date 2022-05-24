@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
+import monk from '@monkvision/corejs';
 import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
@@ -79,10 +80,18 @@ export default function Landing() {
     const { title, icon, value, description } = item;
     const taskName = TASKS_BY_MOD[value];
     const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
-    const disabled = ['TODO', 'IN_PROGRESS', 'DONE', 'ERROR'].includes(task?.status);
+    const disabled = [
+      monk.types.ProgressStatus.TODO,
+      monk.types.ProgressStatus.IN_PROGRESS,
+      monk.types.ProgressStatus.DONE,
+      monk.types.ProgressStatus.ERROR,
+    ].includes(task?.status);
 
     const left = () => <List.Icon icon={icon} />;
-    const right = () => (['TODO', 'IN_PROGRESS'].includes(task?.status)
+    const right = () => ([
+      monk.types.ProgressStatus.TODO,
+      monk.types.ProgressStatus.IN_PROGRESS,
+    ].includes(task?.status)
       ? <ActivityIndicator color="white" size={16} style={styles.listLoading} />
       : <List.Icon icon={ICON_BY_STATUS[task?.status] || 'chevron-right'} />);
 
