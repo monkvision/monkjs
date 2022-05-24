@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
 import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 
@@ -28,13 +28,16 @@ function Camera({
   settings,
   enableQHDWhenSupported,
 }, ref) {
-  const resolution = useMemo(() => canvasResolution[settings.state.resolution], [settings]);
+  const [resolution, setResolution] = useMemo(() => {
+    const cameraResolution = canvasResolution[settings.state.resolution]; // FHD or QHD
+    const updateResolution = (r) => settings.dispatch({
+      type: Actions.settings.UPDATE_SETTINGS,
+      payload: { resolution: r },
+    });
 
-  const setSettings = useCallback(
-    (r) => settings.dispatch({
-      type: Actions.settings.UPDATE_SETTINGS, payload: { resolution: r } }),
-    [resolution],
-  );
+    return [cameraResolution, updateResolution];
+  }, [settings]);
+
   const {
     videoRef,
     takePicture,
@@ -58,7 +61,7 @@ function Camera({
 
   useTimeout(() => {
     const supportsQHD = utils.inaccuratelyCheckQHDSupport(takePicture);
-    if (supportsQHD) { setSettings('QHD'); } else { setSettings('FHD'); }
+    if (supportsQHD) { setResolution('QHD'); } else { setResolution('FHD'); }
   }, delay);
 
   return (
