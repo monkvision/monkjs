@@ -18,7 +18,7 @@ const handleCompress = async (uri) => {
   // no need to compress images under 3mb
   if (res.data.size / 1024 < 3000) { URL.revokeObjectURL(uri); return res.data; }
 
-  const compressed = await compressAccurately(res.data, 4000);
+  const compressed = await compressAccurately(res.data, 3000);
   URL.revokeObjectURL(uri);
 
   return compressed || res.data;
