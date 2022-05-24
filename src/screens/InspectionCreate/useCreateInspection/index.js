@@ -5,10 +5,10 @@ import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 export const TASKS_BY_MOD = {
-  vinNumber: 'images_ocr',
-  car360: 'damage_detection',
-  wheels: 'wheel_analysis',
-  classic: 'damage_detection',
+  vinNumber: monk.types.TaskName.IMAGES_OCR,
+  car360: monk.types.TaskName.DAMAGE_DETECTION,
+  wheels: monk.types.TaskName.WHEEL_ANALYSIS,
+  classic: monk.types.TaskName.DAMAGE_DETECTION,
 };
 
 export default function useCreateInspection() {

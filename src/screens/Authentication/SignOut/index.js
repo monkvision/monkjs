@@ -1,3 +1,4 @@
+import { useError } from '@monkvision/toolkit';
 import React from 'react';
 import { Platform } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -20,9 +21,10 @@ const returnTo = makeRedirectUri({
 export default function SignOut(props) {
   const params = `?client_id=${monk.config.authConfig.clientId}&returnTo=${returnTo}`;
   const { signOut } = useAuth();
+  const errorHandler = useError();
 
   const handleOpenWithWebBrowser = () => {
-    WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`);
+    WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`).catch((err) => errorHandler(err));
     signOut();
   };
 

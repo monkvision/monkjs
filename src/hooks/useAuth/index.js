@@ -1,3 +1,4 @@
+import { useError } from '@monkvision/toolkit';
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,6 +14,7 @@ export default function useAuth() {
   const auth = useSelector((state) => state.auth);
   const { accessToken, tokenType } = auth;
   const isAuthenticated = useMemo(() => Boolean(accessToken), [accessToken]);
+  const errorHandler = useError();
 
   // signOut
   const [isLoggingOut, setLoggingOut] = useState(false);
@@ -28,6 +30,7 @@ export default function useAuth() {
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (e) {
+      errorHandler(e);
       setLoggingOut(false);
     }
   }, [accessToken, dispatch, tokenType]);

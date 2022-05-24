@@ -30,7 +30,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
-  const errorHanlder = useError();
+  const errorHandler = useError();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     limit: 5,
@@ -66,7 +66,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
 
   const handlePress = useCallback((id) => {
     const url = `https://${Constants.manifest.extra.ORGANIZATION_DOMAIN}/inspection/${id}`;
-    WebBrowser.openBrowserAsync(url);
+    WebBrowser.openBrowserAsync(url).catch((err) => errorHandler(err));
   }, []);
 
   useEffect(
@@ -74,12 +74,17 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
     [navigation, getManyInspections.start],
   );
 
+  useEffect(() => {
+    if (manyInspections.error) {
+      errorHandler(manyInspections.error);
+    }
+  }, [manyInspections.error]);
+
   if (manyInspections.loading) {
     return <Loader />;
   }
 
   if (manyInspections.error) {
-    errorHanlder(manyInspections.error);
     return (
       <View style={styles.empty}>
         <Title>An error occurred</Title>

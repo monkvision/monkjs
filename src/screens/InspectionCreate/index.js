@@ -1,4 +1,4 @@
-import { utils } from '@monkvision/toolkit';
+import { useError, utils } from '@monkvision/toolkit';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
@@ -78,6 +78,7 @@ export default function InspectionCreate() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
+  const errorHandler = useError();
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod } = route.params || {};
@@ -85,7 +86,10 @@ export default function InspectionCreate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: () => setAuthError(true),
+    onError: (err) => {
+      errorHandler(err);
+      setAuthError(true);
+    },
   });
 
   const createInspection = useCreateInspection();
@@ -124,6 +128,12 @@ export default function InspectionCreate() {
     }
   }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
 
+  useEffect(() => {
+    if (createInspection.state.error) {
+      errorHandler(createInspection.state.error);
+    }
+  }, [createInspection.state.error]);
+
   if (isSigningIn) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
@@ -133,13 +143,15 @@ export default function InspectionCreate() {
   }
 
   if (authError === true) {
-    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Title>Sorry 😞</Title>
-      <Paragraph style={styles.p}>
-        An error occurred while authenticating, please try again in a minute.
-      </Paragraph>
-      <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
-    </View>;
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Title>Sorry 😞</Title>
+        <Paragraph style={styles.p}>
+          An error occurred while authenticating, please try again in a minute.
+        </Paragraph>
+        <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
+      </View>
+    );
   }
 
   if (createInspection.state.loading) {
