@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 
@@ -51,6 +51,7 @@ const Capture = forwardRef(({
   footer,
   fullscreen,
   inspectionId,
+  isFocused,
   isSubmitting,
   loading,
   navigationOptions,
@@ -143,7 +144,7 @@ const Capture = forwardRef(({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera });
+  const takePictureAsync = useTakePictureAsync({ camera, isFocused });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
 
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
@@ -372,6 +373,7 @@ Capture.propTypes = {
     uploads: PropTypes.objectOf(PropTypes.any),
   }),
   inspectionId: PropTypes.string,
+  isFocused: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
@@ -469,6 +471,7 @@ Capture.defaultProps = {
     uploads: undefined,
   },
   inspectionId: null,
+  isFocused: Platform.OS === 'web',
   loading: false,
   mapTasksToSights: [],
   navigationOptions: {

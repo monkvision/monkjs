@@ -2,10 +2,10 @@ import monk from '@monkvision/corejs';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Platform } from 'react-native';
 
 import { compressAccurately } from 'image-conversion';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
@@ -63,6 +63,7 @@ export function useTitle({ current }) {
 
 /**
  * @param camera
+ * @param isFocused
  * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
 export function useTakePictureAsync({ camera }) {
@@ -73,17 +74,14 @@ export function useTakePictureAsync({ camera }) {
     skipProcessing: true,
   }) => {
     try {
-      console.log('camera', camera.current.takePictureAsync);
-      const picture = Platform.OS === 'web'
+      return Platform.OS === 'web'
         ? await camera.current.takePicture()
         : await camera.current.takePictureAsync(options);
-
-      console.log('picture', picture);
-      return picture;
     } catch (err) {
       log([`Error in \`<Capture />\` \`useTakePictureAsync()\`: ${err}`], 'error');
-      throw err;
     }
+
+    return null;
   }, [camera]);
 }
 

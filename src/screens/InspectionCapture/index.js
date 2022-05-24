@@ -57,7 +57,7 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName } = route.params;
 
-  const [shouldRender, setShouldRender] = useState(false);
+  const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
 
@@ -66,7 +66,7 @@ export default function InspectionCapture() {
   }, [inspectionId, navigation]);
 
   const handleSuccess = useCallback(async () => {
-    if (success) {
+    if (success && isFocused) {
       setCameraLoading(true);
 
       try {
@@ -83,10 +83,10 @@ export default function InspectionCapture() {
         setCameraLoading(false);
       }
     }
-  }, [dispatch, handleNavigate, inspectionId, success, taskName]);
+  }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    if (!success) {
+    if (!success && isFocused) {
       try {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
@@ -120,7 +120,7 @@ export default function InspectionCapture() {
         throw err;
       }
     }
-  }, [success]);
+  }, [success, isFocused]);
 
   const captureRef = useRef();
 
@@ -136,11 +136,11 @@ export default function InspectionCapture() {
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
   useFocusEffect(() => {
-    setShouldRender(true);
-    return () => setShouldRender(false);
+    setFocused(true);
+    return () => setFocused(false);
   });
 
-  if (!isAuthenticated || !shouldRender) {
+  if (!isAuthenticated || !isFocused) {
     return <View />;
   }
 
@@ -151,6 +151,7 @@ export default function InspectionCapture() {
       mapTasksToSights={mapTasksToSights}
       sightIds={sightIds}
       inspectionId={inspectionId}
+      isFocused={isFocused}
       controls={controls}
       loading={cameraLoading}
       onReady={() => setCameraLoading(false)}
