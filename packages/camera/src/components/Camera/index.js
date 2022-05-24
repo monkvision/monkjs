@@ -29,7 +29,7 @@ function Camera({
   enableQHDWhenSupported,
 }, ref) {
   const [resolution, setResolution] = useMemo(() => {
-    const cameraResolution = canvasResolution[settings.state.resolution]; // FHD or QHD
+    const cameraResolution = canvasResolution[settings.state.resolution];
     const updateResolution = (r) => settings.dispatch({
       type: Actions.settings.UPDATE_SETTINGS,
       payload: { resolution: r },
