@@ -13,6 +13,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import Navigation from 'config/Navigation';
 import 'config/corejs';
+import { Profiler } from 'config/sentryPlatform';
 
 const theme = {
   ...DefaultTheme,
@@ -31,7 +32,7 @@ const customFonts = {
   'Material Design Icons': require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
 };
 
-export default function App() {
+function App() {
   const { height: minHeight } = useWindowDimensions();
 
   const [appIsReady, setAppIsReady] = useState(false);
@@ -87,3 +88,5 @@ export default function App() {
     </Provider>
   );
 }
+
+export default Profiler(App);
