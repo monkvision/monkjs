@@ -9,7 +9,7 @@ const useHandlers = ({
   stream,
 }) => {
   const capture = useCallback(async (controlledState, api, event) => {
-    /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
+    // if the stream is not ready, we should not proceed to the capture callback, it will crash
     if (!stream) { return; }
 
     /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
