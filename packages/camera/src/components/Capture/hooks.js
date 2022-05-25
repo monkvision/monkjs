@@ -66,23 +66,33 @@ export function useTitle({ current }) {
  * @param isFocused
  * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
-export function useTakePictureAsync({ camera }) {
+export function useTakePictureAsync({ camera, isFocused }) {
+  useEffect(() => {
+    if (isFocused) {
+      camera?.current?.resumePreview();
+    } else {
+      camera?.current?.pausePreview();
+    }
+
+    return () => camera?.current?.pausePreview();
+  }, [camera.current, isFocused]);
+
   return useCallback(async (options = {
     quality: 1,
     base64: true,
     exif: true,
     skipProcessing: true,
   }) => {
-    try {
-      return Platform.OS === 'web'
-        ? await camera.current.takePicture()
-        : await camera.current.takePictureAsync(options);
-    } catch (err) {
-      log([`Error in \`<Capture />\` \`useTakePictureAsync()\`: ${err}`], 'error');
+    const funcName = Platform.OS === 'web' ? 'takePicture' : 'takePictureAsync';
+    const takePicture = camera?.current[funcName];
+    const takePictureOptions = Platform.OS === 'web' ? undefined : options;
+
+    if (takePictureOptions) {
+      return takePicture(takePictureOptions);
     }
 
-    return null;
-  }, [camera]);
+    return takePicture();
+  }, [camera, isFocused]);
 }
 
 /**
@@ -177,6 +187,7 @@ export function useStartUploadAsync({
       const queryParams = queue.shift();
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
+
         try {
           const data = new FormData();
           data.append(multiPartKeys.json, json);
@@ -212,7 +223,7 @@ export function useStartUploadAsync({
     if (!isRunning && queue.length > 0) { (async () => { await runQuery(); })(); }
   }, [isRunning, queue]);
 
-  return useCallback(async (picture, currentSight = null) => {
+  return useCallback(async (picture, currentSight) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);

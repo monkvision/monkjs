@@ -65,24 +65,33 @@ const useHandlers = ({
     } = api;
 
     const picture = await takePictureAsync();
-    setPictureAsync(picture);
 
-    const { sights } = state;
-    const { current, ids } = sights.state;
+    if (picture) {
+      setPictureAsync(picture);
 
-    if (current.index === ids.length - 1) {
-      await startUploadAsync(picture);
-    } else {
-      await startUploadAsync(picture);
+      const { sights } = state;
+      const { current, ids } = sights.state;
 
-      onFinishUploadPicture(state, api);
-      goNextSight();
+      if (current.index === ids.length - 1) {
+        await startUploadAsync(picture);
+      } else {
+        await startUploadAsync(picture);
+
+        onFinishUploadPicture(state, api);
+        goNextSight();
+      }
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
-    // adding an initialState that will hold new compliances with `requestCount = 1`
-    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    // adding an initialState that will hold new compliance with `requestCount = 1`
+    const complianceInitialState = {
+      id: '',
+      status: 'idle',
+      error: null,
+      requestCount: 1,
+      result: null,
+      imageId: null };
     const complianceState = {};
     sightsIdsToRetake.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
 
