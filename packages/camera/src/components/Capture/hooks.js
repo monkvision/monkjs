@@ -17,16 +17,11 @@ const handleCompress = async (picture) => {
 
   // no need to compress images under 3mb
   if (res.data.size / 1024 < 3000) {
-    // eslint-disable-next-line no-console
-    console.log(`An image has been taken, with size: ${res.data.size / 1024 / 1024}Mo, and resolution: ${picture.width}x${picture.height}`);
     URL.revokeObjectURL(picture.uri);
     return res.data;
   }
 
-  const compressed = await compressAccurately(res.data, 4000);
-  // eslint-disable-next-line no-console
-  console.log(`An image has been taken, with size: ${res.data.size / 1024 / 1024}Mo, optimized to ${compressed.size / 1024 / 1024}Mo, and resolution: ${picture.width}x${picture.height}`);
-
+  const compressed = await compressAccurately(res.data, 3000);
   URL.revokeObjectURL(picture.uri);
 
   return compressed || res.data;
