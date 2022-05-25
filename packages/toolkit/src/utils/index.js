@@ -47,6 +47,25 @@ function supportsWebP() {
   return false;
 }
 
+/**
+ * Inaccurately checking if the device supports taking QHD images on the web
+ * @param {func} takePicture
+ * @returns {bool}
+ */
+function inaccuratelyCheckQHDSupport(takePicture) {
+  const MARK_START = 'mark_start';
+  const MARK_END = 'mark_end';
+  const MAX_DURATION_FOR_FHD_PICTURE = 250; // in ms
+
+  performance.mark(MARK_START);
+  const picture = takePicture(); URL.revokeObjectURL(picture.uri);
+  performance.mark(MARK_END);
+
+  const { duration } = performance.measure('Measuring `takePicture()` execution time', MARK_START, MARK_END);
+
+  return duration < MAX_DURATION_FOR_FHD_PICTURE;
+}
+
 export default {
   styles,
   log,
@@ -54,4 +73,5 @@ export default {
   getOS,
   useNativeDriver,
   supportsWebP,
+  inaccuratelyCheckQHDSupport,
 };

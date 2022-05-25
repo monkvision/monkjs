@@ -10,16 +10,19 @@ import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-const handleCompress = async (uri) => {
+const handleCompress = async (picture) => {
   if (Platform.OS !== 'web') { return undefined; }
 
-  const res = await axios.get(uri, { responseType: 'blob' });
+  const res = await axios.get(picture.uri, { responseType: 'blob' });
 
   // no need to compress images under 3mb
-  if (res.data.size / 1024 < 3000) { URL.revokeObjectURL(uri); return res.data; }
+  if (res.data.size / 1024 < 3000) {
+    URL.revokeObjectURL(picture.uri);
+    return res.data;
+  }
 
-  const compressed = await compressAccurately(res.data, 4000);
-  URL.revokeObjectURL(uri);
+  const compressed = await compressAccurately(res.data, 3000);
+  URL.revokeObjectURL(picture.uri);
 
   return compressed || res.data;
 };
@@ -269,7 +272,7 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const file = await handleCompress(picture.uri);
+        const file = await handleCompress(picture);
 
         fileBits = [file];
       } else {
