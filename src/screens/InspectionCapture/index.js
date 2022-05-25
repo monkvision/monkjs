@@ -47,7 +47,7 @@ const mapTasksToSights = [{
   payload: {},
 }];
 
-const enableComplianceCheck = false;
+const enableComplianceCheck = true;
 
 export default function InspectionCapture() {
   const route = useRoute();
@@ -86,7 +86,7 @@ export default function InspectionCapture() {
   }, [dispatch, handleNavigate, inspectionId, success, taskName]);
 
   const handleChange = useCallback((state) => {
-    if (!success) {
+    if (!success && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
@@ -108,11 +108,10 @@ export default function InspectionCapture() {
           fulfilledUploads === totalPictures
           || retriedUploads >= totalPictures - fulfilledUploads
         );
-        const hasFailedUploadButNoCheck = !enableComplianceCheck
-          && ((failedUploads + fulfilledUploads) === totalPictures);
+        const hasFailedUploadButNoCheck = ((failedUploads + fulfilledUploads) === totalPictures);
 
         if (hasPictures && (hasBeenUploaded || hasFailedUploadButNoCheck) && state
-          && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
+        && hasAllFulfilledAndCompliant) {
           setSuccess(true);
         }
       } catch (err) {
@@ -158,10 +157,9 @@ export default function InspectionCapture() {
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
       settings={settings}
-
       // Case with Upload Center (enableComplianceCheck set to `true`)
-      // enableComplianceCheck={enableComplianceCheck}
-      // onComplianceCheckFinish={() => setSuccess(true)}
+      enableComplianceCheck={enableComplianceCheck}
+      onComplianceCheckFinish={() => setSuccess(true)}
     />
   );
 }

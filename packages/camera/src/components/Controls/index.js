@@ -26,7 +26,6 @@ export default function Controls({
   elements,
   loading,
   state,
-  enableComplianceCheck,
   onStartUploadPicture,
   onFinishUploadPicture,
   ...passThroughProps
@@ -35,10 +34,8 @@ export default function Controls({
 
   const handlers = useHandlers({
     unControlledState: state,
-    checkComplianceAsync: api.checkComplianceAsync,
     onStartUploadPicture,
     onFinishUploadPicture,
-    enableComplianceCheck,
     stream: api.camera.current?.stream,
   });
 
@@ -81,7 +78,6 @@ Controls.propTypes = {
       current: PropTypes.objectOf(PropTypes.any),
       takePictureAsync: PropTypes.func,
     }),
-    checkComplianceAsync: PropTypes.func,
     goNextSight: PropTypes.func,
     goPrevSight: PropTypes.func,
     startUploadAsync: PropTypes.func,
@@ -93,7 +89,6 @@ Controls.propTypes = {
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
   })),
-  enableComplianceCheck: PropTypes.bool,
   loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
@@ -109,7 +104,6 @@ Controls.defaultProps = {
   api: {},
   containerStyle: null,
   elements: [],
-  enableComplianceCheck: false,
   loading: false,
   state: {},
   onStartUploadPicture: () => {},

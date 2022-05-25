@@ -180,7 +180,6 @@ export const useHandlers = ({
     });
 
     // remove the picture from the sight and focus on the current sight
-    sights.dispatch({ type: Actions.sights.REMOVE_PICTURE, payload: { id } });
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
@@ -208,21 +207,32 @@ export const useHandlers = ({
   }, [compliance.state]);
 
   useEffect(() => {
-    const index = complianceToCheck.shift();
+    const uploadsState = uploads.state;
+    const complianceState = compliance.state;
+    const toCheck = Object.values(uploadsState).find((uploadedImage) => uploadedImage.status === 'fulfilled' && complianceState[uploadedImage.id].status !== 'fulfilled');
 
+    if (!toCheck) { return; }
+    if (complianceState[toCheck?.id]?.requestCount > 1) { return; }
+
+    setComplianceToCheck((prev) => prev.concat(toCheck.id));
+  }, [uploads.state, compliance.state]);
+
+  useEffect(() => {
+    const index = complianceToCheck.shift();
     const currentUploadState = uploads.state[index];
-    if (index && currentUploadState) {
-      if (currentUploadState.status === 'fulfilled') {
-        const pictureId = currentUploadState.pictureId;
-        (async () => {
-          const result = await checkComplianceAsync(pictureId, index);
-          verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
-        })();
-      } else if (currentUploadState.status !== 'rejected') {
-        setComplianceToCheck((prev) => prev.concat(index));
-      }
-    }
-  }, [complianceToCheck, uploads.state]);
+    const currentComplianceState = compliance.state[index];
+
+    if (!index || !currentUploadState || !currentComplianceState) { return; }
+
+    if (currentUploadState.status !== 'fulfilled') { return; }
+    if (currentComplianceState.status !== 'idle') { return; }
+
+    const pictureId = currentUploadState.pictureId;
+    (async () => {
+      const result = await checkComplianceAsync(pictureId, index);
+      verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
+    })();
+  }, [complianceToCheck, uploads.state, compliance.state]);
 
   return { handleReUpload, handleRetakeAll, handleRetake };
 };

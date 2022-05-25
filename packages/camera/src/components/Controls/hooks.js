@@ -1,47 +1,13 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback } from 'react';
 import Actions from '../../actions';
 
 const useHandlers = ({
-  onStartUploadPicture, onFinishUploadPicture, checkComplianceAsync,
-  enableComplianceCheck, unControlledState, stream,
+  onStartUploadPicture,
+  onFinishUploadPicture,
+  enableComplianceCheck,
+  unControlledState,
+  stream,
 }) => {
-  /**
-   * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
-   * instead we re-run the compliance one more time after 1sec of getting the first response
-   * */
-  const verifyComplianceStatus = (pictureId, compliances, currentId) => {
-    const hasTodo = Object.values(compliances).some((c) => c.status === 'TODO' || c.is_compliant === null);
-
-    if (hasTodo) {
-      setTimeout(async () => {
-        await checkComplianceAsync(pictureId, currentId);
-      }, 500);
-    }
-  };
-
-  const pictureComplianceToCheck = useMemo(() => {
-    const uploadsState = unControlledState.uploads.state;
-    const complianceState = unControlledState.compliance.state;
-
-    return Object.values(uploadsState).find((uploadedImage) => uploadedImage.status === 'fulfilled' && complianceState[uploadedImage.id].status !== 'fulfilled');
-  }, [unControlledState.uploads, unControlledState.compliance]);
-
-  useEffect(() => {
-    if (pictureComplianceToCheck && enableComplianceCheck) {
-      const index = pictureComplianceToCheck.id;
-      const currentComplianceState = unControlledState.compliance.state[index];
-
-      if (currentComplianceState.requestCount < 2) {
-        const pictureId = pictureComplianceToCheck.pictureId;
-        (async () => {
-          const result = await checkComplianceAsync(pictureId, index);
-          verifyComplianceStatus(pictureId, result.axiosResponse.data.compliances, index);
-          onFinishUploadPicture();
-        })();
-      }
-    }
-  }, [pictureComplianceToCheck]);
-
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
     if (!stream) { return; }
