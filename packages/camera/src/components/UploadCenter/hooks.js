@@ -98,14 +98,16 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
   }, [fulfilledCompliance, navigationOptions.retakeMaxTry, sortByIndex]);
 
   const hasPendingCompliance = useMemo(() => Object.values(compliance.state)
-    .some(({ result, requestCount }) => {
-      if (!result) { return true; }
+    .some(({ status, result, requestCount }) => {
+      if (status === 'pending') { return true; }
+      if (status !== 'fulfilled') { return false; }
+
       const currentCompliance = result.data.compliances;
       const hasNotReadyCompliances = Object.values(currentCompliance).some(
         (c) => c.is_compliant === null,
       );
 
-      return hasNotReadyCompliances && requestCount < 2;
+      return hasNotReadyCompliances && requestCount <= 1;
     }), [compliance.state]);
 
   const notReadyCompliance = useMemo(() => Object.values(compliance.state)
@@ -153,12 +155,15 @@ export const useHandlers = ({
   // retake all rejected/non-compliant pictures at once
   const handleRetakeAll = useCallback(() => {
     // adding an initialState that will hold new compliances with `requestCount = 1`
-    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 2, result: null, imageId: null };
     const complianceState = {};
     ids.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
 
     // reset uploads state with the new incoming ones
     uploads.dispatch({ type: Actions.uploads.RESET_UPLOADS, ids: { sightIds: ids } });
+
+    compliance.dispatch({ type: Actions.compliance.RESET_COMPLIANCE,
+      ids: { initialState: complianceState } });
 
     // reset sightrs state with the new incoming ones
     sights.dispatch({ type: Actions.sights.RESET_TOUR, payload: { sightIds: ids } });
