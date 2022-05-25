@@ -16,6 +16,7 @@ import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
 import styles from './styles';
+import Sentry from '../../config/sentry';
 
 const LIST_ITEMS = [{
   value: 'vinNumber',
@@ -66,6 +67,7 @@ export default function Landing() {
   );
 
   const handleReset = useCallback(() => {
+    Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
   }, [navigation]);
 
