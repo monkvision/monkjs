@@ -1,167 +1,49 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { utils } from '@monkvision/toolkit';
-import texts from './texts';
+import styles from './styles';
+import useSubtitle from './hooks/useSubtitle';
+import useStatus from './hooks/useStatus';
 
-const { spacing } = utils.styles;
-
-const styles = StyleSheet.create({
-  upload: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    height: 100,
-    padding: spacing(1),
-    marginVertical: spacing(0.4),
-    borderRadius: 4,
-  },
-  image: {
-    width: 80,
-    height: 80,
-    borderRadius: 4,
-    position: 'absolute',
-  },
-  imageLayout: {
-    width: 80,
-    height: 80,
-    borderRadius: 4,
-    marginRight: spacing(2),
-    position: 'relative',
-    justifyContent: 'center',
-  },
-  imageOverlay: {
-    width: 80,
-    height: 80,
-    position: 'absolute',
-    zIndex: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-  },
-  textsLayout: {
-    flexGrow: 1,
-    flex: 1,
-  },
-  title: {
-    textTransform: 'capitalize',
-  },
-  subtitle: {
-    color: 'gray',
-    fontWeight: '500',
-    fontSize: 12,
-    marginVertical: spacing(0.6),
-  },
-  activityIndicator: {
-    position: 'absolute',
-    alignSelf: 'center',
-    zIndex: 10,
-  },
-  retakeText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
-});
-
-const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
+const errorColor = 'rgba(255, 69, 0, 0.4)';
+const warningColor = 'rgba(255, 152, 0, 0.4)';
+const neutralColor = 'rgba(211, 211, 211, 0.4)';
 
 function UploadCard({ compliance, id, label, onRetake, onReupload, picture, upload }) {
   const { uri } = picture;
-  const errorColor = 'rgba(255, 69, 0, 0.4)';
-  const warningColor = 'rgba(255, 152, 0, 0.4)';
-  const loadingColor = 'rgba(211, 211, 211, 0.4)';
 
-  const isPending = useMemo(() => (
-    upload.status === 'pending'
-    || (upload.status === 'fulfilled' && compliance.status === 'pending')
-  ), [compliance, upload]);
+  const { isPending, isUnknown, isFailure } = useStatus({ compliance, upload });
+  const subtitle = useSubtitle({ isUnknown, isPending, isFailure, compliance });
 
-  const isUnknown = useMemo(() => {
-    const allCompliancesAreUnkown = compliance.result
-    && Object.values(compliance.result?.data?.compliances).every((c) => c.is_compliant === null);
+  const statusColor = useMemo(() => {
+    if (isFailure) { return errorColor; } if (isPending) { return neutralColor; }
+    return warningColor;
+  }, [upload.error, isPending]);
 
-    return !isPending && allCompliancesAreUnkown;
-  }, [compliance, isPending]);
-
-  const title = useMemo(() => (isPending ? ' - Pending...' : ''), [isPending]);
-
-  const subtitle = useMemo(() => {
-    if (isUnknown) { return ' - Couldn\'t check the image quality'; }
-    if (isPending) { return ``; }
-    if (upload.error) { return `We couldn't upload this image, please retake`; }
-
-    if (compliance.result) {
-      const {
-        image_quality_assessment: iqa,
-        coverage_360: carCov,
-      } = compliance.result.data.compliances;
-
-      const badQuality = iqa && !iqa.is_compliant;
-      const badCoverage = carCov && !carCov.is_compliant;
-
-      const reasons = [];
-
-      if (badQuality && iqa.reasons) {
-        iqa.reasons.forEach((reason, index) => {
-          const first = index === 0;
-          reasons.push(first ? texts[reason] : `and ${texts[reason]}`);
-        });
-      }
-
-      if (badCoverage && carCov.reasons) {
-        carCov.reasons.forEach((reason, index) => {
-          const first = index === 0 && !badQuality;
-          // display all reasons expect `UNKNOWN_SIGHT`
-          if (reason !== UNKNOWN_SIGHT_REASON) { reasons.push(first ? texts[reason] : `and ${texts[reason]}`); }
-        });
-      }
-
-      if (reasons.length > 0) {
-        return `This image ${reasons.join(' ')}`;
-      }
-    }
-
-    return '';
-  }, [compliance.result, isPending, upload.error, isUnknown]);
-
-  const handleRetake = useCallback((e) => {
+  const handlePress = useCallback((e) => {
     e.preventDefault();
-    onRetake(id);
-  }, [id, onRetake]);
-
-  const handleReupload = useCallback((e) => {
-    e.preventDefault();
-    onReupload(id, picture);
-  }, [id, onReupload, picture]);
+    if (isFailure) { onReupload(id, picture); } else { onRetake(id); }
+  }, [isFailure, id, onReupload, onRetake, picture]);
 
   return (
     <View style={styles.upload}>
       {/* preview image with a loading indicator */}
-      {isPending ? (
+      {isPending && (
         <View style={styles.imageLayout}>
-          <View style={[styles.imageOverlay, { backgroundColor: loadingColor }]}>
+          <View style={[styles.imageOverlay, { backgroundColor: neutralColor }]}>
             <ActivityIndicator style={styles.activityIndicator} color="#FFF" />
           </View>
           <Image style={styles.image} source={{ uri }} />
         </View>
-      ) : (
-        <TouchableOpacity
-          style={styles.imageLayout}
-          onPress={upload.error ? handleReupload : handleRetake}
-        >
-          <View style={[
-            styles.imageOverlay,
-            { backgroundColor: upload.error ? errorColor : warningColor },
-          ]}
-          >
+      )}
+
+      {!isPending && (
+        <TouchableOpacity style={styles.imageLayout} onPress={handlePress}>
+          <View style={[styles.imageOverlay, { backgroundColor: statusColor }]}>
             <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
-            <Text style={styles.retakeText}>{upload.error ? 'Reupload picture' : 'Retake picture'}</Text>
+            <Text style={styles.retakeText}>{isFailure ? 'Reupload picture' : 'Retake picture'}</Text>
           </View>
           <Image style={styles.image} source={{ uri }} />
         </TouchableOpacity>
@@ -170,7 +52,7 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
       {/* text indicating the status of uploading and the non-compliance reasons */}
       <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
         <View style={styles.textsLayout}>
-          <Text style={styles.title}>{`${label}${title}`}</Text>
+          <Text style={styles.title}>{label}</Text>
           {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
         </View>
       </View>

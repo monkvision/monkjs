@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
-
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 
 const { spacing } = utils.styles;
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   button: {
-    margin: spacing(1),
+    margin: spacing(1.4),
     borderRadius: 4,
     padding: spacing(1.4),
   },
@@ -48,6 +47,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    paddingVertical: spacing(2),
   },
 });
 
@@ -123,18 +123,15 @@ export default function UploadCenter({
       <View style={{ minHeight: height - height * 0.2 }}>
         {/* content */}
         <Text style={styles.title}>
-          🏎️ Upload statuses and compliance results
+          Image quality check
         </Text>
 
         <Text style={styles.subtitle}>
-          Improve image compliance will result to a better AI inspection.
-          Thank you for your understanding.
+          The better images quality, the more accurate result we can provide
         </Text>
 
         {hasPendingComplianceAndNoRejectedUploads ? (
-          <Text style={styles.subtitle}>
-            Verifying the pictures compliance...
-          </Text>
+          <Text style={styles.subtitle}>Verifying...</Text>
         ) : null}
 
         {hasTooMuchTodoCompliances ? (
