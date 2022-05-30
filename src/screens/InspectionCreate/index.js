@@ -12,6 +12,7 @@ import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import useCreateInspection, { TASKS_BY_MOD } from './useCreateInspection';
+import Sentry from '../../config/sentry';
 
 export const SIGHTS_IDS_BY_MOD = {
   vinNumber: [
@@ -92,7 +93,10 @@ export default function InspectionCreate() {
   const handleCreate = useCallback(async () => {
     if (isEmpty(inspectionId) && isAuthenticated) {
       const response = await createInspection.start(selectedMod);
-      if (response !== null) { setInspectionId(response.result); }
+      if (response !== null) {
+        Sentry.Browser.setTag('inspection_id', response.result);
+        setInspectionId(response.result);
+      }
     }
   }, [inspectionId, isAuthenticated, createInspection]);
 
