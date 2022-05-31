@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const base = `https://${ExpoConstants.manifest.extra.ORGANIZATION_DOMAIN}`;
+const base = `https://${ExpoConstants.manifest.extra.IRA_DOMAIN}`;
 
 function ShareButton({ message, ...props }) {
   const handlePress = useCallback(async () => {
