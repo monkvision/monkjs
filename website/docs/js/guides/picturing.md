@@ -36,8 +36,6 @@ Our module works in both environment. Choose what is easier to implement for now
 in your current project application.
 
 
-### Uploading
-By default, after taking an image, it will be compressed (using [image-compression](https://www.npmjs.com/package/image-conversion)), and then added to a queue to be uploaded to the backend API. However, only images larger than 3MB in size are supposed to be compressed to a maximum size of 3MB or less (web only).
 ## Examples
 
 You can follow this steps by steps tutorial

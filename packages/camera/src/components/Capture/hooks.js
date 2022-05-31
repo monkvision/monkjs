@@ -10,13 +10,13 @@ import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-const handleCompress = async (picture) => {
+const handleCompress = async (picture, enableCompression) => {
   if (Platform.OS !== 'web') { return undefined; }
 
   const res = await axios.get(picture.uri, { responseType: 'blob' });
 
   // no need to compress images under 3mb
-  if (res.data.size / 1024 < 3000) {
+  if (res.data.size / 1024 < 3000 || !enableCompression) {
     URL.revokeObjectURL(picture.uri);
     return res.data;
   }
@@ -161,6 +161,7 @@ export function useStartUploadAsync({
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
+  enableCompression,
 }) {
   const [queue, setQueue] = useState([]);
   let isRunning = false;
@@ -258,7 +259,7 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const file = await handleCompress(picture);
+        const file = await handleCompress(picture, enableCompression);
 
         fileBits = [file];
       } else {

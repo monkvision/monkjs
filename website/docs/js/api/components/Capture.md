@@ -153,6 +153,10 @@ Props inherited from `Button`
 `PropTypes.bool`
 
 Automatically enable `QHD` resolution, by default it's `true` (for web only).
+## enableCompression
+`PropTypes.bool`
+
+If true, images will be compressed (using [image-compression](https://www.npmjs.com/package/image-conversion)), and then added to a queue to be uploaded to the backend API. However, only images larger than 3MB in size are supposed to be compressed to a maximum size of 3MB or less, by default it's `false` (for web only).
 
 ## initialState
 `PropTypes.state`
