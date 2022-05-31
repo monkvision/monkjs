@@ -40,7 +40,7 @@ export default function useSubtitle({ isUnknown, isPending, isFailure, complianc
       }
     }
 
-    return '';
+    return 'Loading...';
   }, [compliance.result, isPending, isFailure, isUnknown]);
 
   return subtitle;

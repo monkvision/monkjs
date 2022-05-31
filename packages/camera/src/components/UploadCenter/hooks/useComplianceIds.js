@@ -125,6 +125,8 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
     ...complianceIdsWithError,
   ])],
   state: {
+    uploads,
+    compliance,
     unfulfilledUploadIds,
     unfulfilledComplianceIds,
     uploadIdsWithError,

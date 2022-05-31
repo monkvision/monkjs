@@ -7,8 +7,14 @@ export default function useMixedStates({ state, sights, ids }) {
     [state.hasPendingCompliance, state.unfulfilledComplianceIds, state.uploadIdsWithError],
   );
 
+  const fulfilled = useMemo(() => ({
+    uploads: Object.values(state.uploads.state).filter(({ status }) => status === 'fulfilled'),
+    compliance: Object.values(state.compliance.state).filter(({ status }) => status === 'fulfilled'),
+  }), [state.uploads, state.compliance]);
+
   const hasTooMuchTodoCompliances = useMemo(
-    () => state.notReadyCompliance?.length > sights.state.tour.length * 0.2,
+    () => fulfilled.uploads.length === fulfilled.compliance.length
+     && state.notReadyCompliance?.length > sights.state.tour.length * 0.2,
     [sights.state.tour, state.notReadyCompliance],
   );
 
