@@ -10,19 +10,21 @@ import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-const handleCompress = async (picture) => {
+const handleCompress = async (picture, enableCompression) => {
   if (Platform.OS !== 'web') { return undefined; }
 
   const res = await axios.get(picture.uri, { responseType: 'blob' });
 
   // no need to compress images under 3mb
-  if (res.data.size / 1024 < 3000) {
+  if (res.data.size / 1024 < 3000 || !enableCompression) {
     URL.revokeObjectURL(picture.uri);
+    log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
     return res.data;
   }
 
   const compressed = await compressAccurately(res.data, 3000);
   URL.revokeObjectURL(picture.uri);
+  log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
 
   return compressed || res.data;
 };
@@ -174,6 +176,7 @@ export function useStartUploadAsync({
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
+  enableCompression,
 }) {
   const [queue, setQueue] = useState([]);
   let isRunning = false;
@@ -272,7 +275,7 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const file = await handleCompress(picture);
+        const file = await handleCompress(picture, enableCompression);
 
         fileBits = [file];
       } else {
@@ -323,7 +326,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne({ inspectionId, imageId });
+      const result = await monk.entity.image.getOne(inspectionId, imageId);
 
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;

@@ -48,6 +48,7 @@ const Capture = forwardRef(({
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
+  enableCompression,
   enableQHDWhenSupported,
   footer,
   fullscreen,
@@ -158,6 +159,7 @@ const Capture = forwardRef(({
     mapTasksToSights,
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
+    enableCompression,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -366,6 +368,7 @@ Capture.propTypes = {
   })),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
   enableComplianceCheck: PropTypes.bool,
+  enableCompression: PropTypes.bool,
   enableQHDWhenSupported: PropTypes.bool,
   footer: PropTypes.element,
   fullscreen: PropTypes.objectOf(PropTypes.any),
@@ -466,6 +469,7 @@ Capture.defaultProps = {
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
+  enableCompression: false,
   footer: null,
   fullscreen: null,
   initialState: {
