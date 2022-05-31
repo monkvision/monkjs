@@ -117,13 +117,16 @@ export default function Landing() {
         style={[styles.background, { height }]}
       />
       <Container style={[styles.root, isPortrait ? styles.portrait : {}]}>
-        <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
-          {isEmpty(getInspection.denormalizedEntities) ? <Artwork /> : (
+        {isEmpty(getInspection.denormalizedEntities) && (
+          <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
+            <Artwork />
+          </View>
+        )}
+        <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          {!isEmpty(getInspection.denormalizedEntities) && (
             getInspection.denormalizedEntities.map((i) => (
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
-        </View>
-        <Card style={[styles.right, isPortrait ? styles.rightPortrait : {}]}>
           <List.Section>
             <List.Subheader>Click to run a new inspection</List.Subheader>
             <FlatList

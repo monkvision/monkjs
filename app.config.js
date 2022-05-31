@@ -1,11 +1,12 @@
 import eas from './eas.json';
+import theme from './themes/monk-theme.json';
 
 const buildNumber = 1;
 
 const app = {
   name: 'Monk Capture Web Application',
   shortName: 'MCWA',
-  themeColor: '#2B52BE',
+  themeColor: theme['color-primary-500'],
   description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
 };
 const backgroundColor = '#181829';
@@ -138,8 +139,35 @@ export default {
     ...app,
   },
   extra: {
-    backgroundColor,
     options,
+    theme: {
+      dark: true,
+      mode: 'adaptive',
+      loaderDotsColors: [
+        theme['color-primary-400'],
+        theme['color-primary-300'],
+        theme['color-primary-200'],
+        theme['color-primary-100'],
+      ],
+      colors: {
+        primary: app.themeColor,
+        success: theme['color-success-500'],
+        accent: theme['color-info-400'],
+        info: theme['color-info-500'],
+        warning: theme['color-warning-500'],
+        danger: theme['color-danger-500'],
+        background: backgroundColor,
+        gradient: theme['color-primary-900'],
+        surface: '#313240',
+        text: '#fafafa',
+        placeholder: '#dadada',
+        disabled: '#bbbdbf',
+        onSurface: '#1D1F30',
+        notification: '#000000',
+        boneColor: '#1D1F30',
+        highlightBoneColor: '#51536A',
+      },
+    },
     ...eas.build.development.env,
   },
 };

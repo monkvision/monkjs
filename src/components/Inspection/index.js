@@ -97,7 +97,7 @@ export default function Inspection({ createdAt, id, images }) {
   }, [path, accessToken]);
 
   return (
-    <Card style={styles.root}>
+    <View style={styles.root}>
       <Card.Title
         title="Last inspection"
         subtitle={caption}
@@ -119,7 +119,7 @@ export default function Inspection({ createdAt, id, images }) {
           </View>
         ))}
       </ScrollView>
-    </Card>
+    </View>
   );
 }
 

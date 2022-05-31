@@ -126,14 +126,10 @@ export default function InspectionCapture() {
 
   const settings = useSettings({ camera: captureRef.current?.camera });
 
-  const lastControl = Platform.OS === 'web'
-    ? Controls.FullscreenButtonProps
-    : Controls.GoBackButtonProps;
-
   const controls = [
     { disabled: cameraLoading, ...Controls.SettingsButtonProps },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
-    { disabled: cameraLoading, onPress: handleNavigate, ...lastControl },
+    { disabled: cameraLoading, onPress: handleNavigate, ...Controls.GoBackButtonProps },
   ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
