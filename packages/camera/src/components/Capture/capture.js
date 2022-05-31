@@ -43,11 +43,22 @@ const styles = StyleSheet.create({
   },
 });
 
+const initialColors = {
+  background: '#fff',
+  text: '#000',
+  warning: '#ff9800',
+  error: '#fa603d',
+  neutral: 'gray',
+  subtitle: 'gray',
+  actions: { primary: '#36b0c2', secondary: '#274B9F' },
+};
+
 const Capture = forwardRef(({
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
   enableQHDWhenSupported,
+  colors,
   footer,
   fullscreen,
   inspectionId,
@@ -304,6 +315,7 @@ const Capture = forwardRef(({
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
         navigationOptions={navigationOptions}
+        colors={{ ...initialColors, ...colors }}
       />
     );
   }
@@ -341,6 +353,20 @@ const Capture = forwardRef(({
 Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
+  colors: PropTypes.shape({
+    actions: PropTypes.shape({
+      disabled: PropTypes.string,
+      primary: PropTypes.string,
+      secondary: PropTypes.string,
+    }),
+    background: PropTypes.string,
+    error: PropTypes.string,
+    loader: PropTypes.string,
+    neutral: PropTypes.string,
+    subtitle: PropTypes.string,
+    text: PropTypes.string,
+    warning: PropTypes.string,
+  }),
   compliance: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -455,6 +481,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
+  colors: initialColors,
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,

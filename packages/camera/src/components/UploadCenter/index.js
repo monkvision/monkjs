@@ -1,17 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Button, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
+import Button from './button';
 
 const { spacing } = utils.styles;
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFF',
     zIndex: 1,
     paddingVertical: spacing(2),
   },
@@ -28,11 +28,6 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontWeight: '500',
     fontSize: 12,
-  },
-  button: {
-    margin: spacing(1.4),
-    borderRadius: 4,
-    padding: spacing(1.4),
   },
   loadingLayout: {
     width: '100%',
@@ -67,6 +62,7 @@ export default function UploadCenter({
   inspectionId,
   task,
   mapTasksToSights,
+  colors,
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
@@ -117,31 +113,31 @@ export default function UploadCenter({
 
   return (
     <ScrollView
-      style={styles.card}
+      style={[styles.card, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.container}
     >
       <View style={{ minHeight: height - height * 0.2 }}>
         {/* content */}
-        <Text style={styles.title}>
+        <Text style={[styles.title, { color: colors.text }]}>
           Image quality check
         </Text>
 
-        <Text style={styles.subtitle}>
+        <Text style={[styles.subtitle, { color: colors.subtitle }]}>
           The better images quality, the more accurate result we can provide
         </Text>
 
         {hasPendingComplianceAndNoRejectedUploads ? (
-          <Text style={styles.subtitle}>Verifying...</Text>
+          <Text style={[styles.subtitle, { color: colors.subtitle }]}>Verifying...</Text>
         ) : null}
 
         {hasTooMuchTodoCompliances ? (
-          <Text style={[styles.subtitle, { color: '#ff9800' }]}>
+          <Text style={[styles.subtitle, { color: colors.warning }]}>
             {'We couldn\'t check all pictures compliance, this might affect the result accuracy'}
           </Text>
         ) : null}
 
         {hasAllRejected ? (
-          <Text style={[styles.subtitle, { color: '#fa603d' }]}>
+          <Text style={[styles.subtitle, { color: colors.error }]}>
             {'We couldn\'t upload any picture, please re-upload'}
           </Text>
         ) : null}
@@ -149,7 +145,7 @@ export default function UploadCenter({
         {/* loading */}
         {hasNoCompliancesLeft ? (
           <View style={styles.loadingLayout}>
-            <Text style={[styles.subtitle, { textAlign: 'center' }]}>Loading...</Text>
+            <Text style={[styles.subtitle, { textAlign: 'center', color: colors.subtitle }]}>Loading...</Text>
           </View>
         ) : null}
 
@@ -165,6 +161,7 @@ export default function UploadCenter({
               picture={sights.state.takenPictures[id]}
               upload={uploads.state[id]}
               compliance={compliance.state[id]}
+              colors={colors}
             />
           ))}
         </View>
@@ -173,19 +170,21 @@ export default function UploadCenter({
       {/* actions */}
       <View style={styles.actions}>
         <Button
-          color="#36b0c2"
-          style={styles.button}
-          title={submitButtonLabel}
+          onPress={handleRetakeAll}
+          colors={colors}
+          color={colors.actions.primary}
+          disabled={!hasFulfilledAllUploads}
+        >
+          <Text style={{ color: colors.text }}>{`Retake all ${ids.length ? `(${ids.length})` : ''}`}</Text>
+        </Button>
+        <Button
+          colors={colors}
+          color={colors.actions.secondary}
           onPress={onComplianceCheckFinish}
           disabled={isSubmitting || hasAllRejected || !hasFulfilledAllUploads}
-        />
-        <Button
-          color="#274B9F"
-          onPress={handleRetakeAll}
-          style={styles.button}
-          disabled={!hasFulfilledAllUploads}
-          title={`Retake all (${ids.length})`}
-        />
+        >
+          <Text style={{ color: colors.text }}>{submitButtonLabel}</Text>
+        </Button>
       </View>
     </ScrollView>
   );
@@ -195,6 +194,20 @@ export default function UploadCenter({
 
 UploadCenter.propTypes = {
   checkComplianceAsync: PropTypes.func,
+  colors: PropTypes.shape({
+    actions: PropTypes.shape({
+      disabled: PropTypes.string,
+      primary: PropTypes.string,
+      secondary: PropTypes.string,
+    }),
+    background: PropTypes.string,
+    error: PropTypes.string,
+    loader: PropTypes.string,
+    neutral: PropTypes.string,
+    subtitle: PropTypes.string,
+    text: PropTypes.string,
+    warning: PropTypes.string,
+  }).isRequired,
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,

@@ -7,19 +7,25 @@ import styles from './styles';
 import useSubtitle from './hooks/useSubtitle';
 import useStatus from './hooks/useStatus';
 
-const errorColor = 'rgba(255, 69, 0, 0.4)';
-const warningColor = 'rgba(255, 152, 0, 0.4)';
-const neutralColor = 'rgba(211, 211, 211, 0.4)';
-
-function UploadCard({ compliance, id, label, onRetake, onReupload, picture, upload }) {
+function UploadCard({
+  compliance,
+  id,
+  label,
+  onRetake,
+  onReupload,
+  picture,
+  upload,
+  colors,
+}) {
   const { uri } = picture;
 
   const { isPending, isUnknown, isFailure } = useStatus({ compliance, upload });
   const subtitle = useSubtitle({ isUnknown, isPending, isFailure, compliance });
 
   const statusColor = useMemo(() => {
-    if (isFailure) { return errorColor; } if (isPending) { return neutralColor; }
-    return warningColor;
+    if (isFailure) { return colors.error; }
+    if (isPending) { return colors.neutral; }
+    return colors.warning;
   }, [upload.error, isPending]);
 
   const handlePress = useCallback((e) => {
@@ -32,8 +38,8 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
       {/* preview image with a loading indicator */}
       {isPending && (
         <View style={styles.imageLayout}>
-          <View style={[styles.imageOverlay, { backgroundColor: neutralColor }]}>
-            <ActivityIndicator style={styles.activityIndicator} color="#FFF" />
+          <View style={[styles.imageOverlay, { backgroundColor: `${colors.neutral}64` }]}>
+            <ActivityIndicator style={styles.activityIndicator} color={colors.loader} />
           </View>
           <Image style={styles.image} source={{ uri }} />
         </View>
@@ -41,9 +47,9 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
 
       {!isPending && (
         <TouchableOpacity style={styles.imageLayout} onPress={handlePress}>
-          <View style={[styles.imageOverlay, { backgroundColor: statusColor }]}>
-            <MaterialCommunityIcons name="camera-retake" size={24} color="#FFF" />
-            <Text style={styles.retakeText}>{isFailure ? 'Reupload picture' : 'Retake picture'}</Text>
+          <View style={[styles.imageOverlay, { backgroundColor: `${statusColor}64` }]}>
+            <MaterialCommunityIcons name="camera-retake" size={24} color={colors.background} />
+            <Text style={[styles.retakeText, { color: colors.background }]}>{isFailure ? 'Reupload picture' : 'Retake picture'}</Text>
           </View>
           <Image style={styles.image} source={{ uri }} />
         </TouchableOpacity>
@@ -52,8 +58,12 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
       {/* text indicating the status of uploading and the non-compliance reasons */}
       <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
         <View style={styles.textsLayout}>
-          <Text style={styles.title}>{label}</Text>
-          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+          <Text style={[styles.title, { color: colors.text }]}>{label}</Text>
+          {subtitle ? (
+            <Text style={[styles.subtitle, { color: colors.subtitle }]}>
+              {subtitle}
+            </Text>
+          ) : null}
         </View>
       </View>
     </View>
@@ -61,6 +71,20 @@ function UploadCard({ compliance, id, label, onRetake, onReupload, picture, uplo
 }
 
 UploadCard.propTypes = {
+  colors: PropTypes.shape({
+    actions: PropTypes.shape({
+      disabled: PropTypes.string,
+      primary: PropTypes.string,
+      secondary: PropTypes.string,
+    }),
+    background: PropTypes.string,
+    error: PropTypes.string,
+    loader: PropTypes.string,
+    neutral: PropTypes.string,
+    subtitle: PropTypes.string,
+    text: PropTypes.string,
+    warning: PropTypes.string,
+  }).isRequired,
   compliance: PropTypes.shape({
     error: PropTypes.string,
     result: PropTypes.shape({

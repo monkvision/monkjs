@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Chip } from 'react-native-paper';
+import { Chip, useTheme } from 'react-native-paper';
 
 import { Capture, Controls, useSettings, Actions } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
@@ -53,6 +53,7 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { colors, loaderDotsColors } = useTheme();
 
   const { isAuthenticated } = useAuth();
 
@@ -157,9 +158,22 @@ export default function InspectionCapture() {
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
       settings={settings}
-      // Case with Upload Center (enableComplianceCheck set to `true`)
       enableComplianceCheck={enableComplianceCheck}
       onComplianceCheckFinish={() => setSuccess(true)}
+      colors={{
+        background: colors.background,
+        subtitle: colors.placeholder,
+        text: colors.text,
+        error: colors.error,
+        warning: colors.accent,
+        neutral: colors.highlightBoneColor,
+        loader: loaderDotsColors[3],
+        actions: {
+          disabled: colors.disabled,
+          primary: colors.primary,
+          secondary: colors.background,
+        },
+      }}
     />
   );
 }
