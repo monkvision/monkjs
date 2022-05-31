@@ -123,7 +123,7 @@ export default function UploadCenter({
         </Text>
 
         <Text style={[styles.subtitle, { color: colors.subtitle }]}>
-          The better images quality, the more accurate result we can provide
+          The better image quality, the more accurate result we can provide
         </Text>
 
         {hasPendingComplianceAndNoRejectedUploads ? (
