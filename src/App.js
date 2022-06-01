@@ -34,6 +34,10 @@ const theme = {
     notification: '#000000',
     boneColor: '#1D1F30',
     highlightBoneColor: '#51536A',
+    actions: {
+      primary: { background: '#2B52BE', text: '#fff' },
+      secondary: { text: '#fff', disabled: 'transparent' },
+    },
   },
 };
 

@@ -24,8 +24,8 @@ function UploadCard({
 
   const statusColor = useMemo(() => {
     if (isFailure) { return colors.error; }
-    if (isPending) { return colors.neutral; }
-    return colors.warning;
+    if (isPending) { return colors.placeholder; }
+    return colors.accent;
   }, [upload.error, isPending]);
 
   const handlePress = useCallback((e) => {
@@ -38,8 +38,8 @@ function UploadCard({
       {/* preview image with a loading indicator */}
       {isPending && (
         <View style={styles.imageLayout}>
-          <View style={[styles.imageOverlay, { backgroundColor: `${colors.neutral}64` }]}>
-            <ActivityIndicator style={styles.activityIndicator} color={colors.loader} />
+          <View style={[styles.imageOverlay, { backgroundColor: `${colors.placeholder}64` }]}>
+            <ActivityIndicator style={styles.activityIndicator} color={colors.background} />
           </View>
           <Image style={styles.image} source={{ uri }} />
         </View>
@@ -60,7 +60,7 @@ function UploadCard({
         <View style={styles.textsLayout}>
           <Text style={[styles.title, { color: colors.text }]}>{label}</Text>
           {subtitle ? (
-            <Text style={[styles.subtitle, { color: colors.subtitle }]}>
+            <Text style={[styles.subtitle, { color: colors.placeholder }]}>
               {subtitle}
             </Text>
           ) : null}
@@ -72,18 +72,29 @@ function UploadCard({
 
 UploadCard.propTypes = {
   colors: PropTypes.shape({
+    accent: PropTypes.string,
     actions: PropTypes.shape({
-      disabled: PropTypes.string,
-      primary: PropTypes.string,
-      secondary: PropTypes.string,
+      primary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
+      secondary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
     }),
     background: PropTypes.string,
+    boneColor: PropTypes.string,
+    disabled: PropTypes.string,
     error: PropTypes.string,
-    loader: PropTypes.string,
-    neutral: PropTypes.string,
-    subtitle: PropTypes.string,
+    highlightBoneColor: PropTypes.string,
+    notification: PropTypes.string,
+    onSurface: PropTypes.string,
+    placeholder: PropTypes.string,
+    primary: PropTypes.string,
+    success: PropTypes.string,
+    surface: PropTypes.string,
     text: PropTypes.string,
-    warning: PropTypes.string,
   }).isRequired,
   compliance: PropTypes.shape({
     error: PropTypes.string,

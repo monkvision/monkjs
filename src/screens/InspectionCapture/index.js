@@ -53,7 +53,7 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { colors, loaderDotsColors } = useTheme();
+  const { colors } = useTheme();
 
   const { isAuthenticated } = useAuth();
 
@@ -160,20 +160,7 @@ export default function InspectionCapture() {
       settings={settings}
       enableComplianceCheck={enableComplianceCheck}
       onComplianceCheckFinish={() => setSuccess(true)}
-      colors={{
-        background: colors.background,
-        subtitle: colors.placeholder,
-        text: colors.text,
-        error: colors.error,
-        warning: colors.accent,
-        neutral: colors.highlightBoneColor,
-        loader: loaderDotsColors[3],
-        actions: {
-          disabled: colors.disabled,
-          primary: colors.primary,
-          secondary: colors.background,
-        },
-      }}
+      colors={colors}
     />
   );
 }

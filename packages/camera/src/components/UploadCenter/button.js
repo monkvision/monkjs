@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -15,11 +15,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Button({ colors, children, ...props }) {
+export default function Button({ colors, children, color, ...props }) {
+  const composedStyles = useMemo(() => {
+    const disabledColor = color.disabled || colors.disabled;
+    const backgroundColor = color.background || colors.background;
+    return {
+      backgroundColor: props.disabled ? disabledColor : backgroundColor,
+      opacity: props.disabled ? 0.8 : 1,
+    };
+  }, [color, colors, props.disabled]);
+
   return (
     <TouchableOpacity
-      style={[styles.button,
-        { backgroundColor: props.disabled ? colors.actions.disabled : props.color }]}
+      style={[styles.button, composedStyles]}
       {...props}
     >
       {children}
@@ -28,20 +36,10 @@ export default function Button({ colors, children, ...props }) {
 }
 Button.propTypes = {
   children: PropTypes.element.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.objectOf(PropTypes.string).isRequired,
   colors: PropTypes.shape({
-    actions: PropTypes.shape({
-      disabled: PropTypes.string,
-      primary: PropTypes.string,
-      secondary: PropTypes.string,
-    }),
     background: PropTypes.string,
-    error: PropTypes.string,
-    loader: PropTypes.string,
-    neutral: PropTypes.string,
-    subtitle: PropTypes.string,
-    text: PropTypes.string,
-    warning: PropTypes.string,
+    disabled: PropTypes.string,
   }).isRequired,
   disabled: PropTypes.bool,
 };

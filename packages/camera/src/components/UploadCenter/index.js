@@ -122,16 +122,16 @@ export default function UploadCenter({
           Image quality check
         </Text>
 
-        <Text style={[styles.subtitle, { color: colors.subtitle }]}>
+        <Text style={[styles.subtitle, { color: colors.placeholder }]}>
           The better image quality, the more accurate result we can provide
         </Text>
 
         {hasPendingComplianceAndNoRejectedUploads ? (
-          <Text style={[styles.subtitle, { color: colors.subtitle }]}>Verifying...</Text>
+          <Text style={[styles.subtitle, { color: colors.placeholder }]}>Verifying...</Text>
         ) : null}
 
         {hasTooMuchTodoCompliances ? (
-          <Text style={[styles.subtitle, { color: colors.warning }]}>
+          <Text style={[styles.subtitle, { color: colors.accent }]}>
             {'We couldn\'t check all pictures compliance, this might affect the result accuracy'}
           </Text>
         ) : null}
@@ -145,7 +145,7 @@ export default function UploadCenter({
         {/* loading */}
         {hasNoCompliancesLeft ? (
           <View style={styles.loadingLayout}>
-            <Text style={[styles.subtitle, { textAlign: 'center', color: colors.subtitle }]}>Loading...</Text>
+            <Text style={[styles.subtitle, { textAlign: 'center', color: colors.placeholder }]}>Loading...</Text>
           </View>
         ) : null}
 
@@ -175,7 +175,9 @@ export default function UploadCenter({
           color={colors.actions.primary}
           disabled={!hasFulfilledAllUploads}
         >
-          <Text style={{ color: colors.text }}>{`Retake all ${ids.length ? `(${ids.length})` : ''}`}</Text>
+          <Text style={{ color: colors.actions.primary.text || colors.text }}>
+            {`Retake all ${ids.length ? `(${ids.length})` : ''}`}
+          </Text>
         </Button>
         <Button
           colors={colors}
@@ -183,7 +185,9 @@ export default function UploadCenter({
           onPress={onComplianceCheckFinish}
           disabled={isSubmitting || hasAllRejected || !hasFulfilledAllUploads}
         >
-          <Text style={{ color: colors.text }}>{submitButtonLabel}</Text>
+          <Text style={{ color: colors.actions.secondary.text || colors.text }}>
+            {submitButtonLabel}
+          </Text>
         </Button>
       </View>
     </ScrollView>
@@ -195,18 +199,29 @@ export default function UploadCenter({
 UploadCenter.propTypes = {
   checkComplianceAsync: PropTypes.func,
   colors: PropTypes.shape({
+    accent: PropTypes.string,
     actions: PropTypes.shape({
-      disabled: PropTypes.string,
-      primary: PropTypes.string,
-      secondary: PropTypes.string,
+      primary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
+      secondary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
     }),
     background: PropTypes.string,
+    boneColor: PropTypes.string,
+    disabled: PropTypes.string,
     error: PropTypes.string,
-    loader: PropTypes.string,
-    neutral: PropTypes.string,
-    subtitle: PropTypes.string,
+    highlightBoneColor: PropTypes.string,
+    notification: PropTypes.string,
+    onSurface: PropTypes.string,
+    placeholder: PropTypes.string,
+    primary: PropTypes.string,
+    success: PropTypes.string,
+    surface: PropTypes.string,
     text: PropTypes.string,
-    warning: PropTypes.string,
   }).isRequired,
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
   inspectionId: PropTypes.string,
