@@ -38,9 +38,12 @@ function UploadCard({
       {/* preview image with a loading indicator */}
       {isPending && (
         <View style={styles.imageLayout}>
-          <View style={[styles.imageOverlay, { backgroundColor: `${colors.placeholder}64` }]}>
+          <View style={styles.imageOverlay}>
             <ActivityIndicator style={styles.activityIndicator} color={colors.background} />
           </View>
+          <View style={[styles.imageOverlay,
+            { backgroundColor: colors.placeholder, opacity: 0.4, zIndex: 1 }]}
+          />
           <Image style={styles.image} source={{ uri }} />
         </View>
       )}
