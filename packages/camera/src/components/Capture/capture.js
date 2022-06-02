@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 
@@ -26,6 +26,17 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    ...Platform.select({
+      web: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        flex: '1 1 0%',
+        display: 'flex',
+      },
+    }),
   },
   loading: {
     flex: 1,
