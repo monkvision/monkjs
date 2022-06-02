@@ -19,9 +19,10 @@ export default function Button({ colors, children, color, ...props }) {
   const composedStyles = useMemo(() => {
     const disabledColor = color.disabled || colors.disabled;
     const backgroundColor = color.background || colors.background;
+
     return {
       backgroundColor: props.disabled ? disabledColor : backgroundColor,
-      opacity: props.disabled ? 0.8 : 1,
+      opacity: props.disabled ? 0.4 : 1,
     };
   }, [color, colors, props.disabled]);
 
@@ -34,6 +35,7 @@ export default function Button({ colors, children, color, ...props }) {
     </TouchableOpacity>
   );
 }
+
 Button.propTypes = {
   children: PropTypes.element.isRequired,
   color: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -43,6 +45,7 @@ Button.propTypes = {
   }).isRequired,
   disabled: PropTypes.bool,
 };
+
 Button.defaultProps = {
   disabled: true,
 };
