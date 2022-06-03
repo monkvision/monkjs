@@ -324,14 +324,13 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
       return result;
     } catch (err) {
       dispatch({
-        type: Actions.uploads.UPDATE_UPLOAD,
+        type: Actions.compliance.UPDATE_COMPLIANCE,
         increment: true,
         payload: { id: sightId, status: 'rejected', error: err, result: null, imageId },
       });
 
       log([`Error in \`<Capture />\` \`checkComplianceAsync()\`: ${err}`], 'error');
-
-      throw err;
+      return undefined;
     }
   }, [compliance, inspectionId, currentSighId]);
 }

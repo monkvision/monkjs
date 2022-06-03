@@ -61,6 +61,11 @@ export default function useHandlers({
     setTimeout(async () => { await checkComplianceAsync(pictureId, currentId); }, 500);
   }, [compliance.state]);
 
+  const handleRecheck = useCallback((id) => {
+    const payload = { id, status: 'idle', error: null, result: null, imageId: null, requestCount: 0 };
+    compliance.dispatch({ type: Actions.compliance.UPDATE_COMPLIANCE, payload });
+  }, [compliance]);
+
   useEffect(() => {
     // update the compliance queue
     const uploadsState = uploads.state;
@@ -91,5 +96,5 @@ export default function useHandlers({
     })();
   }, [complianceToCheck, uploads.state, compliance.state]);
 
-  return { handleReUpload, handleRetakeAll, handleRetake };
+  return { handleReUpload, handleRetakeAll, handleRetake, handleRecheck };
 }

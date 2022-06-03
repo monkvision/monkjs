@@ -13,25 +13,63 @@ function UploadCard({
   label,
   onRetake,
   onReupload,
+  onRecheck,
   picture,
   upload,
   colors,
 }) {
   const { uri } = picture;
 
-  const { isPending, isUnknown, isFailure } = useStatus({ compliance, upload });
-  const subtitle = useSubtitle({ isUnknown, isPending, isFailure, compliance });
+  const {
+    isPending, isUploadFailed, isComplianceIdle, isComplianceFailed, isComplianceUnknown,
+  } = useStatus({ compliance, upload });
+
+  const subtitle = useSubtitle({
+    isComplianceUnknown, isComplianceIdle, isPending, isUploadFailed, compliance });
 
   const statusColor = useMemo(() => {
-    if (isFailure) { return colors.error; }
+    if (isUploadFailed) { return colors.error; }
     if (isPending) { return colors.placeholder; }
+    if (isComplianceFailed || isComplianceIdle) { return colors.disabled; }
     return colors.accent;
-  }, [upload.error, isPending]);
+  }, [isComplianceFailed, isComplianceIdle, isPending, isUploadFailed]);
 
-  const handlePress = useCallback((e) => {
-    e.preventDefault();
-    if (isFailure) { onReupload(id, picture); } else { onRetake(id); }
-  }, [isFailure, id, onReupload, onRetake, picture]);
+  const handleReupload = useCallback(() => onReupload(id, picture), [id, picture, onReupload]);
+  const handleRecheck = useCallback(() => onRecheck(id), [onRecheck, id]);
+  const handleRetake = useCallback(() => onRetake(id), [onRetake, id]);
+
+  const thumbnail = useMemo(() => {
+    if (isUploadFailed) {
+      return {
+        label: 'Reupload picture',
+        icon: 'refresh-circle',
+        callback: handleReupload,
+        sublable: 'Press here to reupload...',
+      };
+    }
+    if (isComplianceIdle) {
+      return {
+        label: 'In queue',
+        icon: 'clock',
+        callback: null,
+      };
+    }
+    if (isComplianceFailed) {
+      return {
+        label: 'Recheck picture',
+        icon: 'alert-circle',
+        callback: handleRecheck,
+        sublable: 'Press here to recheck...',
+      };
+    }
+
+    return { label: 'Retake picture',
+      icon: 'camera-retake',
+      callback: handleRetake,
+      sublable: 'Press here to retake...',
+    };
+  }, [isComplianceFailed, isComplianceIdle, isUploadFailed,
+    handleReupload, handleRecheck, handleRetake]);
 
   return (
     <View style={styles.upload}>
@@ -41,19 +79,30 @@ function UploadCard({
           <View style={styles.imageOverlay}>
             <ActivityIndicator style={styles.activityIndicator} color={colors.background} />
           </View>
-          <View style={[styles.imageOverlay,
-            { backgroundColor: colors.placeholder, opacity: 0.4, zIndex: 1 }]}
+          <View style={[
+            styles.imageOverlay,
+            styles.opacityOverlay,
+            { backgroundColor: colors.placeholder }]}
           />
           <Image style={styles.image} source={{ uri }} />
         </View>
       )}
 
       {!isPending && (
-        <TouchableOpacity style={styles.imageLayout} onPress={handlePress}>
-          <View style={[styles.imageOverlay, { backgroundColor: `${statusColor}64` }]}>
-            <MaterialCommunityIcons name="camera-retake" size={24} color={colors.background} />
-            <Text style={[styles.retakeText, { color: colors.background }]}>{isFailure ? 'Reupload picture' : 'Retake picture'}</Text>
+        <TouchableOpacity
+          style={styles.imageLayout}
+          onPress={thumbnail.callback}
+          disabled={isComplianceIdle}
+        >
+          <View style={styles.imageOverlay}>
+            <MaterialCommunityIcons name={thumbnail.icon} size={24} color={colors.background} />
+            <Text style={[styles.retakeText, { color: colors.background }]}>{thumbnail.label}</Text>
           </View>
+          <View style={[
+            styles.imageOverlay,
+            styles.opacityOverlay,
+            { backgroundColor: statusColor }]}
+          />
           <Image style={styles.image} source={{ uri }} />
         </TouchableOpacity>
       )}
@@ -65,6 +114,13 @@ function UploadCard({
           {subtitle ? (
             <Text style={[styles.subtitle, { color: colors.placeholder }]}>
               {subtitle}
+              {thumbnail.callback
+                ? (
+                  <TouchableOpacity onPress={thumbnail.callback}>
+                    <Text style={{ fontWeight: 'bold' }}>{`, ${thumbnail.sublable}`}</Text>
+                  </TouchableOpacity>
+                )
+                : null}
             </Text>
           ) : null}
         </View>
@@ -121,6 +177,7 @@ UploadCard.propTypes = {
   }).isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  onRecheck: PropTypes.func,
   onRetake: PropTypes.func,
   onReupload: PropTypes.func,
   picture: PropTypes.shape({
@@ -136,5 +193,6 @@ UploadCard.propTypes = {
 UploadCard.defaultProps = {
   onRetake: () => {},
   onReupload: () => {},
+  onRecheck: () => {},
 };
 export default UploadCard;

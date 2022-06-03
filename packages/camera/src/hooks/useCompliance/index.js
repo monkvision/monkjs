@@ -40,11 +40,11 @@ function reducer(state, action) {
     case Actions.compliance.UPDATE_COMPLIANCE:
       return ({
         ...state,
-        [id]: { ...prevCompliance, ...action.payload, requestCount },
+        [id]: { ...prevCompliance, requestCount, ...action.payload },
       });
 
     default:
-      throw new Error();
+      throw new Error('Received an nnknown action type, in "useCompliance"');
   }
 }
 

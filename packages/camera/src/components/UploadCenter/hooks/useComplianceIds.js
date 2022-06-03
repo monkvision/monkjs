@@ -60,8 +60,10 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
 
       const hasTodoCompliancesAndNotReachedMaxRetries = hasNullCompliances && requestCount < 2;
       const isPendingAndHasNotReachedMaxRetries = ['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry;
+      const unfulfilled = status === 'rejected';
 
-      return isPendingAndHasNotReachedMaxRetries || hasTodoCompliancesAndNotReachedMaxRetries;
+      return isPendingAndHasNotReachedMaxRetries || hasTodoCompliancesAndNotReachedMaxRetries
+      || unfulfilled;
     })
     .sort(sortByIndex)
     .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
