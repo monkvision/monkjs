@@ -183,7 +183,8 @@ export default function UploadCenter({
           colors={colors}
           color={colors.actions.secondary}
           onPress={onComplianceCheckFinish}
-          disabled={isSubmitting || hasAllRejected || !hasFulfilledAllUploads}
+          disabled={isSubmitting || hasAllRejected
+             || !hasFulfilledAllUploads || !navigationOptions.allowSkip}
         >
           <Text style={{ color: colors.actions.secondary.text || colors.text }}>
             {submitButtonLabel}
@@ -259,6 +260,7 @@ UploadCenter.defaultProps = {
   mapTasksToSights: [],
   navigationOptions: {
     retakeMaxTry: 1,
+    allowSkip: true,
   },
   task: 'damage_detection',
 };
