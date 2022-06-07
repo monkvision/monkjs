@@ -39,12 +39,13 @@ function UploadCard({
   const handleRetake = useCallback(() => onRetake(id), [onRetake, id]);
 
   const thumbnail = useMemo(() => {
+    if (isPending) { return { callback: null }; }
     if (isUploadFailed) {
       return {
         label: 'Reupload picture',
         icon: 'refresh-circle',
         callback: handleReupload,
-        sublable: 'Press here to reupload...',
+        sublable: 'press here to reupload...',
       };
     }
     if (isComplianceIdle) {
@@ -59,14 +60,14 @@ function UploadCard({
         label: 'Recheck picture',
         icon: 'alert-circle',
         callback: handleRecheck,
-        sublable: 'Press here to recheck...',
+        sublable: 'press here to recheck...',
       };
     }
 
     return { label: 'Retake picture',
       icon: 'camera-retake',
       callback: handleRetake,
-      sublable: 'Press here to retake...',
+      sublable: 'press here to retake...',
     };
   }, [isComplianceFailed, isComplianceIdle, isUploadFailed,
     handleReupload, handleRecheck, handleRetake]);
@@ -92,7 +93,7 @@ function UploadCard({
         <TouchableOpacity
           style={styles.imageLayout}
           onPress={thumbnail.callback}
-          disabled={isComplianceIdle}
+          disabled={!thumbnail.callback}
         >
           <View style={styles.imageOverlay}>
             <MaterialCommunityIcons name={thumbnail.icon} size={24} color={colors.background} />
@@ -114,7 +115,7 @@ function UploadCard({
           {subtitle ? (
             <Text style={[styles.subtitle, { color: colors.placeholder }]}>
               {subtitle}
-              {thumbnail.callback
+              {thumbnail?.callback
                 ? (
                   <TouchableOpacity onPress={thumbnail.callback}>
                     <Text style={{ fontWeight: 'bold' }}>{`, ${thumbnail.sublable}`}</Text>
