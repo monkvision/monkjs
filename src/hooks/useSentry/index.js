@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import Sentry from '../../config/sentry';
-import { transaction } from '../../config/sentryPlatform';
 
 export default function useSentry() {
   const Constants = {
@@ -13,7 +12,8 @@ export default function useSentry() {
 
   class Span {
     constructor(name, op) {
-      const t = transaction(name);
+      const t = Platform.select({ web: Sentry.Browser, native: Sentry.Native })
+        .startTransaction({ name });
       this.transaction = t;
       this.span = t.startChild({ op });
     }

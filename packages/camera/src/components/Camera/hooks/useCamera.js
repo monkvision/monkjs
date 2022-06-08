@@ -41,8 +41,10 @@ export default function useCamera({ width, height }, options) {
   const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
+    const webCaptureTracing = new Span('web-capture', 'func');
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
     const uri = await toBlob(canvas, imageType);
+    webCaptureTracing.finish();
 
     return { uri, width, height };
   }, [width, height, stream]);

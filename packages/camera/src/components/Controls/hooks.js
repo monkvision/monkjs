@@ -28,6 +28,7 @@ const useHandlers = ({
   }, [unControlledState.uploads, unControlledState.compliance]);
 
   useEffect(() => {
+    const complianceCheckTracing = new Span('compliance-check', 'func');
     if (pictureComplianceToCheck && enableComplianceCheck) {
       const index = pictureComplianceToCheck.id;
       const currentComplianceState = unControlledState.compliance.state[index];
@@ -41,6 +42,7 @@ const useHandlers = ({
         })();
       }
     }
+    complianceCheckTracing.finish();
   }, [pictureComplianceToCheck]);
 
   const capture = useCallback(async (controlledState, api, event) => {
@@ -52,6 +54,7 @@ const useHandlers = ({
      * `unControlledState` is the updated state, so it will be used for function that depends on
      * state updates (checkCompliance in this case that need to know when the picture is uploaded)
      */
+    const captureButtonTracing = new Span('image-capture-button', 'user-action');
     const state = controlledState || unControlledState;
     event.preventDefault();
 
@@ -81,6 +84,7 @@ const useHandlers = ({
         goNextSight();
       }
     }
+    captureButtonTracing.finish();
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {

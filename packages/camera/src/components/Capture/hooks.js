@@ -13,6 +13,7 @@ import log from '../../utils/log';
 const handleCompress = async (picture, enableCompression) => {
   if (Platform.OS !== 'web') { return undefined; }
 
+  const compressionTracing = new Span('image-compression', 'func');
   const res = await axios.get(picture.uri, { responseType: 'blob' });
 
   // no need to compress images under 3mb
@@ -25,7 +26,7 @@ const handleCompress = async (picture, enableCompression) => {
   const compressed = await compressAccurately(res.data, 3000);
   URL.revokeObjectURL(picture.uri);
   log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
-
+  compressionTracing.finish();
   return compressed || res.data;
 };
 
@@ -193,6 +194,7 @@ export function useStartUploadAsync({
       const queryParams = queue.shift();
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
+        const uploadTracing = new Span('upload-tracing', 'http');
 
         try {
           const data = new FormData();
@@ -219,6 +221,8 @@ export function useStartUploadAsync({
             increment: true,
             payload: { id, status: 'rejected', error: err },
           });
+        } finally {
+          uploadTracing.finish();
         }
       }
       isRunning = false;
@@ -319,6 +323,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
       throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
     }
 
+    const checkComplianceHttpTracing = new Span('get-one-inspection', 'http');
     try {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
@@ -349,6 +354,8 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
       log([`Error in \`<Capture />\` \`checkComplianceAsync()\`: ${err}`], 'error');
 
       throw err;
+    } finally {
+      checkComplianceHttpTracing.finish();
     }
   }, [compliance, inspectionId, currentSighId]);
 }

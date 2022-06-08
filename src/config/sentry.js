@@ -18,11 +18,6 @@ Sentry.init({
     },
   }),
   tracesSampleRate: Constants.manifest.extra.ENV !== 'production' ? 1.0 : 0.2,
-  beforeSend(event) {
-    console.log(event);
-
-    return event;
-  },
   integrations: [
     new Tracing({
       tracingOrigins,
