@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useCallback } from 'react';
 
 export default function useError() {
