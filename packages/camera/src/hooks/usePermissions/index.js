@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Camera as ExpoCamera } from 'expo-camera';
-import { Platform } from 'react-native';
+import { Camera as ExpoCamera, PermissionStatus } from 'expo-camera';
 import log from '../../utils/log';
 
 /**
@@ -8,21 +7,24 @@ import log from '../../utils/log';
  * @return {{isGranted: null, status: null}}
  */
 export default function usePermissions() {
-  const [state, setState] = useState({ status: null, isGranted: null });
+  const [state, setState] = useState({
+    granted: false,
+    status: PermissionStatus.UNDETERMINED,
+  });
 
   useEffect(() => {
     (async () => {
-      try {
-        if (Platform !== 'web') {
-          setState({ status: 'granted', isGranted: true });
-        } else {
-          const { status } = await ExpoCamera.requestCameraPermissionsAsync();
-          setState({ status, isGranted: status === 'granted' });
+      let permissions = await ExpoCamera.getCameraPermissionsAsync();
+      if (permissions.canAskAgain && !permissions.granted) {
+        try {
+          permissions = await ExpoCamera.requestCameraPermissionsAsync();
+        } catch (err) {
+          log([`Error in \`usePermissions()\`: ${err}`], 'error');
+          throw err;
         }
-      } catch (err) {
-        log([`Error in \`usePermissions()\`: ${err}`], 'error');
-        throw err;
       }
+
+      setState(permissions);
     })();
   }, []);
 

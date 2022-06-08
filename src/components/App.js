@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+import ExpoConstants from 'expo-constants';
 import React, { useState, useEffect, useCallback } from 'react';
 import store from 'store';
 import { Provider } from 'react-redux';
@@ -6,35 +7,17 @@ import { useWindowDimensions, View, StyleSheet } from 'react-native';
 import { theme as initialTheme } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import * as Font from 'expo-font';
 
 import * as SplashScreen from 'expo-splash-screen';
 
-import Navigation from 'Navigation';
+import Navigation from 'config/Navigation';
 import 'config/corejs';
 
 const theme = {
   ...DefaultTheme,
   ...initialTheme,
-  dark: true,
-  mode: 'adaptive',
-  loaderDotsColors: ['#3064F3', '#658BF3', '#A0B7F6', '#F4F6FE'],
-  colors: {
-    ...initialTheme.colors,
-    primary: '#2B52BE',
-    success: '#19A4B1',
-    accent: '#FFB821',
-    background: '#181829',
-    gradient: '#21218f',
-    surface: '#313240',
-    text: '#fafafa',
-    placeholder: '#dadada',
-    disabled: '#bbbdbf',
-    onSurface: '#1D1F30',
-    notification: '#000000',
-    boneColor: '#1D1F30',
-    highlightBoneColor: '#51536A',
-  },
+  ...ExpoConstants.manifest.extra.theme,
 };
 
 const styles = StyleSheet.create({
@@ -42,6 +25,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
 });
+
+const customFonts = {
+  MaterialCommunityIcons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
+  'Material Design Icons': require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
+};
 
 export default function App() {
   const { height: minHeight } = useWindowDimensions();
@@ -65,7 +53,7 @@ export default function App() {
         // Keep the splash screen visible while we fetch resources
         await SplashScreen.preventAutoHideAsync();
         // Preload fonts, make any API calls you need to do here
-        await MaterialCommunityIcons.loadFont();
+        await Font.loadAsync(customFonts);
         // Artificially delay for two seconds to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });

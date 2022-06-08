@@ -45,4 +45,7 @@ export default StyleSheet.create({
   listLoading: {
     marginHorizontal: utils.styles.spacing(2),
   },
+  card: {
+    borderRadius: 0,
+  },
 });

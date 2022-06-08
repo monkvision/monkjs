@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
 });
 
 const Capture = forwardRef(({
+  backgroundColor,
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
@@ -63,6 +64,7 @@ const Capture = forwardRef(({
   footer,
   fullscreen,
   inspectionId,
+  isFocused,
   isSubmitting,
   loading,
   navigationOptions,
@@ -155,7 +157,7 @@ const Capture = forwardRef(({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera });
+  const takePictureAsync = useTakePictureAsync({ camera, isFocused });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
 
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
@@ -328,6 +330,8 @@ const Capture = forwardRef(({
       style={[styles.container, style]}
     >
       <Layout
+        isReady={isReady}
+        backgroundColor={backgroundColor}
         fullscreen={fullscreen}
         left={left}
         orientationBlockerProps={orientationBlockerProps}
@@ -355,6 +359,7 @@ const Capture = forwardRef(({
 Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
+  backgroundColor: PropTypes.string,
   compliance: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -385,6 +390,7 @@ Capture.propTypes = {
     uploads: PropTypes.objectOf(PropTypes.any),
   }),
   inspectionId: PropTypes.string,
+  isFocused: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
@@ -470,6 +476,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
+  backgroundColor: '#000',
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
@@ -483,6 +490,7 @@ Capture.defaultProps = {
     uploads: undefined,
   },
   inspectionId: null,
+  isFocused: Platform.OS === 'web',
   loading: false,
   mapTasksToSights: [],
   navigationOptions: {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useStartUploadAsync } from '../Capture/hooks';
 import Actions from '../../actions';
+import { useStartUploadAsync } from '../Capture/hooks';
 
 const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 const getItemById = (id, array) => array.find((item) => item.id === id);
@@ -112,11 +112,9 @@ export const useComplianceIds = ({ sights, compliance, uploads, navigationOption
     .filter(({ result }) => {
       if (!result) { return false; }
       const currentCompliance = result.data.compliances;
-      const hasNotReadyCompliances = Object.values(currentCompliance).some(
+      return Object.values(currentCompliance).some(
         (c) => c.is_compliant === null,
       );
-
-      return hasNotReadyCompliances;
     }), [compliance.state]);
 
   return { ids: [...new Set([

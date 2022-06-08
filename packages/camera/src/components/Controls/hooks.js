@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { Platform } from 'react-native';
 import Actions from '../../actions';
 
 const useHandlers = ({
@@ -44,7 +45,7 @@ const useHandlers = ({
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
-    if (!stream) { return; }
+    if (!stream && Platform.OS === 'web') { return; }
 
     /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
      *  need state updates
@@ -53,6 +54,7 @@ const useHandlers = ({
      */
     const state = controlledState || unControlledState;
     event.preventDefault();
+
     onStartUploadPicture(state, api);
 
     const {
@@ -63,24 +65,33 @@ const useHandlers = ({
     } = api;
 
     const picture = await takePictureAsync();
-    setPictureAsync(picture);
 
-    const { sights } = state;
-    const { current, ids } = sights.state;
+    if (picture) {
+      setPictureAsync(picture);
 
-    if (current.index === ids.length - 1) {
-      await startUploadAsync(picture);
-    } else {
-      await startUploadAsync(picture);
+      const { sights } = state;
+      const { current, ids } = sights.state;
 
-      onFinishUploadPicture(state, api);
-      goNextSight();
+      if (current.index === ids.length - 1) {
+        await startUploadAsync(picture);
+      } else {
+        await startUploadAsync(picture);
+
+        onFinishUploadPicture(state, api);
+        goNextSight();
+      }
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
-    // adding an initialState that will hold new compliances with `requestCount = 1`
-    const complianceInitialState = { id: '', status: 'idle', error: null, requestCount: 1, result: null, imageId: null };
+    // adding an initialState that will hold new compliance with `requestCount = 1`
+    const complianceInitialState = {
+      id: '',
+      status: 'idle',
+      error: null,
+      requestCount: 1,
+      result: null,
+      imageId: null };
     const complianceState = {};
     sightsIdsToRetake.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
 

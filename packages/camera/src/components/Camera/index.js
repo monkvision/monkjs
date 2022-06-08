@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
 import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { utils, useTimeout } from '@monkvision/toolkit';
 
@@ -24,7 +24,6 @@ function Camera({
   children,
   containerStyle,
   onCameraReady,
-  title,
   settings,
   enableQHDWhenSupported,
 }, ref) {
@@ -70,7 +69,6 @@ function Camera({
       accessibilityLabel="Camera container"
       style={[styles.container, containerStyle]}
     >
-
       <Video
         autoPlay
         playsInline
@@ -79,9 +77,7 @@ function Camera({
         height={getLandscapeScreenDimensions().height}
         controls={false}
       />
-
       {children}
-      <Text style={styles.title}>{title}</Text>
     </View>
   );
 }
@@ -96,12 +92,10 @@ Camera.propTypes = {
     dispatch: PropTypes.func,
     state: PropTypes.shape({ resolution: PropTypes.string }),
   }),
-  title: PropTypes.string,
 };
 
 Camera.defaultProps = {
   containerStyle: null,
   enableQHDWhenSupported: true,
   settings: { state: { resolution: 'FHD' }, dispatch: () => {} },
-  title: '',
 };

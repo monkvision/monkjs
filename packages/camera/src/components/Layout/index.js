@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
-import screenfull from 'screenfull';
-import { Button, Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
+import { Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
 
@@ -27,18 +26,6 @@ const styles = StyleSheet.create({
   },
   sectionPortrait: {
     transform: [{ rotate: '90deg' }],
-  },
-  fullScreenButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    position: 'absolute',
-  },
-  isNotFullscreen: {
-    top: 32,
-  },
-  isFullscreen: {
-    bottom: 8,
   },
   hidden: {
     ...Platform.select({
@@ -94,70 +81,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function FullScreenButton({ hidden, ...rest }) {
-  const [isOn, setOn] = useState(screenfull.isFullscreen);
-  const title = useMemo(() => (isOn ? 'Escape Fullscreen' : 'Fullscreen'), [isOn]);
-  const isFullScreenStyle = useMemo(
-    () => (isOn ? styles.isFullscreen : styles.isNotFullscreen),
-    [isOn],
-  );
-
-  const toggleFullScreen = useCallback((on) => {
-    const params = [undefined, { navigationUI: 'hide' }];
-
-    if (on === true) {
-      screenfull.request(params);
-      setOn(true);
-    } else if (on === false) {
-      screenfull.exit();
-      setOn(false);
-    } else {
-      screenfull.toggle(...params);
-      setOn((prevState) => !prevState);
-    }
-  }, [setOn]);
-
-  useEffect(() => {
-    if (!screenfull.isEnabled || !document) { return; }
-
-    // initial backgroundColor
-    const backgroundColor = document.body.style.backgroundColor;
-
-    // change the backgroundColor
-    document.body.style.backgroundColor = '#000;';
-
-    // eslint-disable-next-line consistent-return
-    return () => {
-    // reset the backgroundColor
-      document.body.style.backgroundColor = backgroundColor;
-      toggleFullScreen(false);
-    };
-  }, [toggleFullScreen]);
-
-  return (Platform.OS === 'web' && screenfull.isEnabled) ? (
-    <View style={[styles.fullScreenButtonContainer, isFullScreenStyle]}>
-      <Button
-        color="rgba(0,0,0,0.75)"
-        acccessibilityLabel="Toggle FullScreen"
-        onPress={toggleFullScreen}
-        title={title}
-        disabled={hidden}
-        style={[hidden ? styles.hidden : {}]}
-        {...rest}
-      />
-    </View>
-  ) : null;
-}
-
-FullScreenButton.propTypes = {
-  hidden: PropTypes.bool,
-};
-
-FullScreenButton.defaultProps = {
-  hidden: false,
-};
-
-function Layout({ buttonFullScreenProps, children, left, right }) {
+function Layout({ backgroundColor, children, left, right }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
   const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
@@ -207,7 +131,14 @@ function Layout({ buttonFullScreenProps, children, left, right }) {
   }
 
   return (
-    <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, containerStyle]}>
+    <View
+      accessibilityLabel="Layout"
+      style={[
+        { height, width },
+        containerStyle,
+        { backgroundColor },
+      ]}
+    >
       <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
@@ -216,7 +147,6 @@ function Layout({ buttonFullScreenProps, children, left, right }) {
         }]}
       >
         {children}
-        <FullScreenButton {...buttonFullScreenProps} />
       </View>
       <View accessibilityLabel="Side right" style={rightStyle}>{right}</View>
     </View>
@@ -224,13 +154,12 @@ function Layout({ buttonFullScreenProps, children, left, right }) {
 }
 
 Layout.propTypes = {
-  buttonFullScreenProps: PropTypes.objectOf(PropTypes.any),
+  backgroundColor: PropTypes.string.isRequired,
   left: PropTypes.element,
   right: PropTypes.element,
 };
 
 Layout.defaultProps = {
-  buttonFullScreenProps: {},
   left: null,
   right: null,
 };

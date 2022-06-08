@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { Platform } from 'react-native';
 
-import { Camera } from 'expo-camera';
+import { Camera, CameraType } from 'expo-camera';
 import getOS from '../../utils/getOS';
 
 import Actions from '../../actions';
@@ -10,7 +10,7 @@ const initialSettingsState = {
   resolution: 'FHD',
   ratio: '4:3',
   zoom: 0,
-  type: Camera.Constants.Type.back,
+  type: CameraType.back,
 };
 
 function init({ initialState }) {
@@ -50,27 +50,33 @@ export default function useSettings({ initialState = initialSettingsState, camer
     if (!camera || Platform.OS === 'web') { return prevSettings; }
 
     const newSettings = { ...prevSettings };
-    if (Platform.OS === 'android') {
-      const ratios = await camera.getSupportedRatiosAsync();
+    const permissions = await Camera.getCameraPermissionsAsync();
 
-      newSettings.ratio = ratios[0].reduce((prev, current) => {
-        const ideal = 4 / 3;
-        const getNumber = (ratio) => (ratio.split(':').reduce((a, b) => (a / b)));
+    if (camera?.current && permissions.granted && Platform.OS !== 'web') {
+      if (Platform.OS === 'android') {
+        const ratios = await camera.current.getSupportedRatiosAsync();
 
-        return Math.abs(getNumber(prev) - ideal) < Math.abs(getNumber(current) - ideal)
-          ? prev : current;
-      });
-    }
+        if (ratios?.length > 0) {
+          newSettings.ratio = ratios.reduce((prev, current) => {
+            const ideal = 4 / 3;
+            const getNumber = (ratio) => (ratio.split(':').reduce((a, b) => (a / b)));
 
-    if (getOS() !== 'ios') {
-      const pictureSizes = await camera.getAvailablePictureSizesAsync(newSettings.ratio);
+            return Math.abs(getNumber(prev) - ideal) < Math.abs(getNumber(current) - ideal)
+              ? prev : current;
+          });
+        }
+      }
 
-      newSettings.pictureSize = pictureSizes.reduce((prev, current) => {
-        const [prevWidth] = prev.split('x');
-        const [currentWidth] = current.split('x');
+      if (getOS() !== 'ios') {
+        const pictureSizes = await camera.current.getAvailablePictureSizesAsync(newSettings.ratio);
 
-        return parseInt(prevWidth, 10) > parseInt(currentWidth, 10) ? prev : current;
-      });
+        newSettings.pictureSize = pictureSizes.reduce((prev, current) => {
+          const [prevWidth] = prev.split('x');
+          const [currentWidth] = current.split('x');
+
+          return parseInt(prevWidth, 10) > parseInt(currentWidth, 10) ? prev : current;
+        });
+      }
     }
 
     return newSettings;
