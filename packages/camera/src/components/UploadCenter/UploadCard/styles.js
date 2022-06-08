@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
   },
+  opacityOverlay: {
+    opacity: 0.7,
+    zIndex: 1,
+  },
   textsLayout: {
     flexGrow: 1,
     flex: 1,

@@ -5,9 +5,14 @@ export default function useStatus({ compliance, upload }) {
     upload.status === 'pending' || (upload.status === 'fulfilled' && compliance.status === 'pending')
   ), [compliance, upload]);
 
-  const isFailure = useMemo(() => upload.error, [upload]);
+  const isUploadFailed = useMemo(() => upload.error, [upload.error]);
 
-  const isUnknown = useMemo(() => {
+  const { isComplianceIdle, isComplianceFailed } = useMemo(() => ({
+    isComplianceFailed: compliance.status === 'rejected',
+    isComplianceIdle: compliance.status === 'idle',
+  }), [compliance.status]);
+
+  const isComplianceUnknown = useMemo(() => {
     const allCompliancesAreUnkown = compliance.result
         && Object.values(compliance.result?.data?.compliances).every(
           (c) => c.is_compliant === null,
@@ -16,5 +21,5 @@ export default function useStatus({ compliance, upload }) {
     return !isPending && allCompliancesAreUnkown;
   }, [compliance, isPending]);
 
-  return { isPending, isFailure, isUnknown };
+  return { isPending, isUploadFailed, isComplianceIdle, isComplianceFailed, isComplianceUnknown };
 }

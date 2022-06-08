@@ -71,7 +71,7 @@ export default function UploadCenter({
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
 
-  const { handleRetakeAll, handleRetake, handleReUpload } = useHandlers({
+  const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
     inspectionId,
     task,
     mapTasksToSights,
@@ -151,7 +151,7 @@ export default function UploadCenter({
 
         {/* upload cards */}
         <View style={styles.cardsLayout}>
-          {ids.map((id) => (
+          {ids.reverse().map((id) => (
             <UploadCard
               key={`uploadCard-${id}`}
               onRetake={handleRetake}
@@ -162,6 +162,7 @@ export default function UploadCenter({
               upload={uploads.state[id]}
               compliance={compliance.state[id]}
               colors={colors}
+              onRecheck={handleRecheck}
             />
           ))}
         </View>

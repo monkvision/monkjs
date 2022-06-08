@@ -3,11 +3,13 @@ import texts from '../texts';
 
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
-export default function useSubtitle({ isUnknown, isPending, isFailure, compliance }) {
-  const subtitle = useMemo(() => {
-    if (isUnknown) { return ' - Couldn\'t check the image quality'; }
+export default function useSubtitle({
+  isComplianceUnknown, isComplianceIdle, isPending, isUploadFailed, compliance }) {
+  return useMemo(() => {
+    if (isComplianceUnknown) { return 'Couldn\'t check the image quality'; }
     if (isPending) { return `Loading...`; }
-    if (isFailure) { return `We couldn't upload this image, please retake`; }
+    if (isUploadFailed) { return `We couldn't upload this image, please reupload`; }
+    if (isComplianceIdle) { return 'In the image quality check queue...'; }
 
     if (compliance.result) {
       const {
@@ -40,8 +42,6 @@ export default function useSubtitle({ isUnknown, isPending, isFailure, complianc
       }
     }
 
-    return 'Loading...';
-  }, [compliance.result, isPending, isFailure, isUnknown]);
-
-  return subtitle;
+    return 'We couldn\'t check the image quality (queue blocked)';
+  }, [compliance.result, isPending, isUploadFailed, isComplianceIdle, isComplianceUnknown]);
 }
