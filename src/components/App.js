@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import store from 'store';
 import { Provider } from 'react-redux';
 import { useWindowDimensions, View, StyleSheet } from 'react-native';
-import { theme as initialTheme } from '@monkvision/toolkit';
+import { theme as initialTheme, useError } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import * as Font from 'expo-font';
@@ -34,6 +34,7 @@ const customFonts = {
 
 function App() {
   const { height: minHeight } = useWindowDimensions();
+  const errorHandler = useError();
 
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -44,7 +45,11 @@ function App() {
       // loading its initial state and rendering its first pixels. So instead,
       // we hide the splash screen once we know the root view has already
       // performed layout.
-      await SplashScreen.hideAsync();
+      try {
+        await SplashScreen.hideAsync();
+      } catch (err) {
+        errorHandler(err);
+      }
     }
   }, [appIsReady]);
 
@@ -58,9 +63,8 @@ function App() {
         // Artificially delay for two seconds to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e);
+      } catch (err) {
+        errorHandler(err);
       } finally {
         // Tell the application to render
         setAppIsReady(true);
