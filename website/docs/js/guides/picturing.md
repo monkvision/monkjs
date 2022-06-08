@@ -25,7 +25,7 @@ The constraints are only the one set by the operating system (Android, iOS).
 [More details on Expo documentation](https://docs.expo.dev/versions/latest/sdk/camera/)
 
 ### Browser
-In the browser, we use the UserMedia API provide by the browser.
+In the browser, we use the UserMedia API provided by the browser.
 Quality isn't limited at all, but performance or compatibility can be
 since we use another layer between us and the machine.
 
@@ -34,6 +34,7 @@ since we use another layer between us and the machine.
 ### What should I choose ?
 Our module works in both environment. Choose what is easier to implement for now
 in your current project application.
+
 
 ## Examples
 

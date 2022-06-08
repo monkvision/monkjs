@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Platform, View } from 'react-native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Chip } from 'react-native-paper';
 
-import { Capture, Controls, useSettings, Actions } from '@monkvision/camera';
+import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useError, utils } from '@monkvision/toolkit';
 
@@ -59,6 +58,7 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName } = route.params;
 
+  const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
 
@@ -67,7 +67,7 @@ export default function InspectionCapture() {
   }, [inspectionId, navigation]);
 
   const handleSuccess = useCallback(async () => {
-    if (success) {
+    if (success && isFocused) {
       setCameraLoading(true);
 
       try {
@@ -84,10 +84,10 @@ export default function InspectionCapture() {
         setCameraLoading(false);
       }
     }
-  }, [dispatch, handleNavigate, inspectionId, success, taskName]);
+  }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    if (!success) {
+    if (!success && isFocused) {
       try {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
@@ -121,29 +121,24 @@ export default function InspectionCapture() {
         throw err;
       }
     }
-  }, [success]);
+  }, [success, isFocused]);
 
   const captureRef = useRef();
+
   const settings = useSettings({ camera: captureRef.current?.camera });
-  const resolution = useMemo(() => (settings.state.resolution === 'FHD' ? 'QHD' : 'FHD'), [settings.state.resolution]);
-  const setSettings = useCallback(
-    () => settings.dispatch({ type: Actions.settings.UPDATE_SETTINGS, payload: { resolution } }),
-    [resolution],
-  );
-  const resolutionChildren = useMemo(() => (<Chip onPress={setSettings}>{resolution}</Chip>
-  ), [settings, resolution]);
 
   const controls = [
-    { onPress: () => {}, style: {}, children: resolutionChildren },
+    { disabled: cameraLoading, ...Controls.SettingsButtonProps },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
-    { disabled: true, style: {} },
+    { disabled: cameraLoading, onPress: handleNavigate, ...Controls.GoBackButtonProps },
   ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
-  if (!isAuthenticated) {
-    return <View />;
-  }
+  useFocusEffect(() => {
+    setFocused(true);
+    return () => setFocused(false);
+  });
 
   return (
     <Capture
@@ -152,6 +147,7 @@ export default function InspectionCapture() {
       mapTasksToSights={mapTasksToSights}
       sightIds={sightIds}
       inspectionId={inspectionId}
+      isFocused={isFocused}
       controls={controls}
       loading={cameraLoading}
       onReady={() => setCameraLoading(false)}
@@ -159,10 +155,6 @@ export default function InspectionCapture() {
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
       settings={settings}
-
-      // Case with Upload Center (enableComplianceCheck set to `true`)
-      // enableComplianceCheck={enableComplianceCheck}
-      // onComplianceCheckFinish={() => setSuccess(true)}
     />
   );
 }

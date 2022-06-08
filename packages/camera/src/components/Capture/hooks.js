@@ -2,24 +2,29 @@ import monk from '@monkvision/corejs';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Platform } from 'react-native';
 
 import { compressAccurately } from 'image-conversion';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-const handleCompress = async (uri) => {
+const handleCompress = async (picture, enableCompression) => {
   if (Platform.OS !== 'web') { return undefined; }
 
-  const res = await axios.get(uri, { responseType: 'blob' });
+  const res = await axios.get(picture.uri, { responseType: 'blob' });
 
   // no need to compress images under 3mb
-  if (res.data.size / 1024 < 3000) { URL.revokeObjectURL(uri); return res.data; }
+  if (res.data.size / 1024 < 3000 || !enableCompression) {
+    URL.revokeObjectURL(picture.uri);
+    log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
+    return res.data;
+  }
 
-  const compressed = await compressAccurately(res.data, 4000);
-  URL.revokeObjectURL(uri);
+  const compressed = await compressAccurately(res.data, 3000);
+  URL.revokeObjectURL(picture.uri);
+  log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
 
   return compressed || res.data;
 };
@@ -63,23 +68,36 @@ export function useTitle({ current }) {
 
 /**
  * @param camera
+ * @param isFocused
  * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
-export function useTakePictureAsync({ camera }) {
+export function useTakePictureAsync({ camera, isFocused }) {
+  useEffect(() => {
+    if (isFocused) {
+      camera?.current?.resumePreview();
+    } else {
+      camera?.current?.pausePreview();
+    }
+
+    return () => camera?.current?.pausePreview();
+  }, [camera.current, isFocused]);
+
   return useCallback(async (options = {
     quality: 1,
     base64: true,
     exif: true,
+    skipProcessing: true,
   }) => {
-    try {
-      return Platform.OS === 'web'
-        ? await camera.current.takePicture()
-        : await camera.takePictureAsync(options);
-    } catch (err) {
-      log([`Error in \`<Capture />\` \`useTakePictureAsync()\`: ${err}`], 'error');
-      return err;
+    const funcName = Platform.OS === 'web' ? 'takePicture' : 'takePictureAsync';
+    const takePicture = camera?.current[funcName];
+    const takePictureOptions = Platform.OS === 'web' ? undefined : options;
+
+    if (takePictureOptions) {
+      return takePicture(takePictureOptions);
     }
-  }, [camera]);
+
+    return takePicture();
+  }, [camera, isFocused]);
 }
 
 /**
@@ -158,6 +176,7 @@ export function useStartUploadAsync({
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
+  enableCompression,
 }) {
   const [queue, setQueue] = useState([]);
   let isRunning = false;
@@ -174,6 +193,7 @@ export function useStartUploadAsync({
       const queryParams = queue.shift();
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
+
         try {
           const data = new FormData();
           data.append(multiPartKeys.json, json);
@@ -209,7 +229,7 @@ export function useStartUploadAsync({
     if (!isRunning && queue.length > 0) { (async () => { await runQuery(); })(); }
   }, [isRunning, queue]);
 
-  return useCallback(async (picture, currentSight = null) => {
+  return useCallback(async (picture, currentSight) => {
     const { dispatch } = uploads;
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
@@ -255,7 +275,7 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const file = await handleCompress(picture.uri);
+        const file = await handleCompress(picture, enableCompression);
 
         fileBits = [file];
       } else {
@@ -306,7 +326,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
         payload: { id: sightId, status: 'pending', imageId },
       });
 
-      const result = await monk.entity.image.getOne({ inspectionId, imageId });
+      const result = await monk.entity.image.getOne(inspectionId, imageId);
 
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;

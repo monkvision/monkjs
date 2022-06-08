@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   side: {
-    display: 'flex',
     zIndex: 10,
     width: SIDE,
     overflow: 'hidden',
@@ -28,24 +27,31 @@ const styles = StyleSheet.create({
   },
 });
 
-function Layout({ children, left, right }) {
+function Layout({ backgroundColor, children, isReady, left, right }) {
   const { height, width } = useWindowDimensions();
 
   const size = StyleSheet.create({ height, width });
 
   const leftStyle = StyleSheet.compose(
-    [size, styles.section, styles.side, { height, width: SIDE }],
+    [size, styles.section, styles.side, { width: SIDE }],
     styles.leftPortrait,
   );
 
   const rightStyle = StyleSheet.compose(
-    [size, styles.section, styles.side, { height, width: SIDE }],
+    [size, styles.section, styles.side, { width: SIDE }],
     styles.rightPortrait,
   );
 
   return (
-    <View accessibilityLabel="Layout" style={[{ height, width }, styles.container, styles.container]}>
-      <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
+    <View
+      accessibilityLabel="Layout"
+      style={[
+        { height, width },
+        styles.container,
+        { backgroundColor },
+      ]}
+    >
+      <View accessibilityLabel="Side left" style={leftStyle}>{isReady && left}</View>
       <View
         accessibilityLabel="Center"
         style={[size, styles.section, styles.center, {
@@ -54,17 +60,20 @@ function Layout({ children, left, right }) {
       >
         {children}
       </View>
-      <View accessibilityLabel="Side right" style={rightStyle}>{right}</View>
+      <View accessibilityLabel="Side right" style={rightStyle}>{isReady && right}</View>
     </View>
   );
 }
 
 Layout.propTypes = {
+  backgroundColor: PropTypes.string.isRequired,
+  isReady: PropTypes.bool,
   left: PropTypes.element,
   right: PropTypes.element,
 };
 
 Layout.defaultProps = {
+  isReady: false,
   left: null,
   right: null,
 };

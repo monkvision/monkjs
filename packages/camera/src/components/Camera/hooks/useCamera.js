@@ -44,7 +44,7 @@ export default function useCamera({ width, height }, options) {
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
     const uri = await toBlob(canvas, imageType);
 
-    return { uri };
+    return { uri, width, height };
   }, [width, height, stream]);
 
   const resumePreview = async () => {

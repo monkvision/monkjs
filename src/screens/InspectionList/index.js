@@ -65,7 +65,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const manyInspections = request.state;
 
   const handlePress = useCallback((id) => {
-    const url = `https://${Constants.manifest.extra.ORGANIZATION_DOMAIN}/inspection/${id}`;
+    const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url).catch((err) => errorHandler(err));
   }, []);
 

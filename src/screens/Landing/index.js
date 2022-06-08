@@ -1,4 +1,5 @@
 import { useError, useInterval } from '@monkvision/toolkit';
+import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
 import React, { useCallback, useMemo } from 'react';
@@ -10,29 +11,12 @@ import monk from '@monkvision/corejs';
 import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
-import { TASKS_BY_MOD } from 'screens/InspectionCreate/useCreateInspection';
 import Artwork from 'screens/Landing/Artwork';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
 import styles from './styles';
-
-const LIST_ITEMS = [{
-  value: 'vinNumber',
-  title: 'VIN recognition',
-  description: 'Vehicle info obtained from OCR',
-  icon: 'car-info',
-}, {
-  value: 'car360',
-  title: 'Damage detection',
-  description: 'Vehicle tour (exterior and interior)',
-  icon: 'axis-z-rotate-counterclockwise',
-}, {
-  value: 'wheels',
-  title: 'Wheels analysis',
-  description: 'Details about rims condition',
-  icon: 'circle-double',
-}];
+import Sentry from '../../config/sentry';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -67,6 +51,7 @@ export default function Landing() {
   );
 
   const handleReset = useCallback(() => {
+    Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
   }, [navigation]);
 
@@ -79,7 +64,7 @@ export default function Landing() {
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
-    const taskName = TASKS_BY_MOD[value];
+    const taskName = ExpoConstants.manifest.extra.options.find((o) => o.value === value)?.taskName;
     const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
     const disabled = [
       monk.types.ProgressStatus.TODO,
@@ -133,17 +118,20 @@ export default function Landing() {
         style={[styles.background, { height }]}
       />
       <Container style={[styles.root, isPortrait ? styles.portrait : {}]}>
-        <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
-          {isEmpty(getInspection.denormalizedEntities) ? <Artwork /> : (
+        {isEmpty(getInspection.denormalizedEntities) && (
+          <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
+            <Artwork />
+          </View>
+        )}
+        <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          {!isEmpty(getInspection.denormalizedEntities) && (
             getInspection.denormalizedEntities.map((i) => (
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
-        </View>
-        <Card style={[styles.right, isPortrait ? styles.rightPortrait : {}]}>
           <List.Section>
             <List.Subheader>Click to run a new inspection</List.Subheader>
             <FlatList
-              data={LIST_ITEMS}
+              data={ExpoConstants.manifest.extra.options}
               renderItem={renderListItem}
               keyExtractor={(item) => item.value}
             />
