@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { utils } from '@monkvision/toolkit';
+import { useError, utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
@@ -52,6 +52,7 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const errorHandler = useError();
 
   const { isAuthenticated } = useAuth();
 
@@ -79,7 +80,7 @@ export default function InspectionCapture() {
 
         handleNavigate();
       } catch (err) {
-        utils.log([`Error after taking picture: ${err}`], 'error');
+        errorHandler(err);
         setCameraLoading(false);
       }
     }
@@ -116,7 +117,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        utils.log([`Error handling Capture state change: ${err}`], 'error');
+        errorHandler(err);
         throw err;
       }
     }

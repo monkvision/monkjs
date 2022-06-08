@@ -1,3 +1,4 @@
+import { useError } from '@monkvision/toolkit/src';
 import React, { useCallback, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
@@ -34,13 +35,17 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
+  const errorHandler = useError();
 
   const route = useRoute();
   const { inspectionId, selectedMod } = route.params || {};
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: () => setAuthError(true),
+    onError: (error) => {
+      setAuthError(true);
+      errorHandler(error);
+    },
   });
 
   const handleGoBack = useCallback(

@@ -1,3 +1,4 @@
+import { useError, utils } from '@monkvision/toolkit';
 import { utils } from '@monkvision/toolkit';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -37,6 +38,7 @@ export default function InspectionCreate() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
+  const errorHandler = useError();
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod: selected } = route.params || {};
@@ -44,7 +46,10 @@ export default function InspectionCreate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: () => setAuthError(true),
+    onError: (err) => {
+      errorHandler(err);
+      setAuthError(true);
+    },
   });
 
   const createInspection = useCreateInspection();
@@ -87,6 +92,12 @@ export default function InspectionCreate() {
       handleCreate();
     }
   }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
+
+  useEffect(() => {
+    if (createInspection.state.error) {
+      errorHandler(createInspection.state.error);
+    }
+  }, [createInspection.state.error]);
 
   if (isSigningIn) {
     return (
