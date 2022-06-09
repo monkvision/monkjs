@@ -34,7 +34,7 @@ export default function SignIn() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { colors } = useTheme();
+  const { colors, loaderDotsColors } = useTheme();
   const errorHandler = useError();
 
   const route = useRoute();
@@ -75,7 +75,10 @@ export default function SignIn() {
   if (isSigningIn) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`, `Loading`]} />
+        <Loader
+          texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`, `Loading`]}
+          colors={loaderDotsColors}
+        />
       </View>
     );
   }

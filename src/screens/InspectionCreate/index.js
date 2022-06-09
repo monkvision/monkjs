@@ -36,7 +36,7 @@ export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { colors } = useTheme();
+  const { colors, loaderDotsColors } = useTheme();
   const errorHandler = useError();
 
   const route = useRoute();
@@ -138,7 +138,7 @@ export default function InspectionCreate() {
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Loader texts={[`Processing...`]} />
+      <Loader texts={[`Processing...`]} colors={loaderDotsColors} />
     </View>
   );
 }

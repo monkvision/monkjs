@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
@@ -47,12 +48,14 @@ const mapTasksToSights = [{
   payload: {},
 }];
 
-const enableComplianceCheck = false;
+const enableComplianceCheck = true;
 
 export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { colors } = useTheme();
+
   const errorHandler = useError();
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -105,7 +108,7 @@ export default function InspectionCapture() {
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    if (!success && isFocused) {
+    if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
@@ -127,11 +130,10 @@ export default function InspectionCapture() {
           fulfilledUploads === totalPictures
           || retriedUploads >= totalPictures - fulfilledUploads
         );
-        const hasFailedUploadButNoCheck = !enableComplianceCheck
-          && ((failedUploads + fulfilledUploads) === totalPictures);
+        const hasFailedUploadButNoCheck = ((failedUploads + fulfilledUploads) === totalPictures);
 
         if (hasPictures && (hasBeenUploaded || hasFailedUploadButNoCheck) && state
-          && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
+        && hasAllFulfilledAndCompliant) {
           setSuccess(true);
         }
       } catch (err) {
@@ -177,6 +179,9 @@ export default function InspectionCapture() {
         onFinishUploadPicture={() => setCameraLoading(false)}
         onChange={handleChange}
         settings={settings}
+        enableComplianceCheck={enableComplianceCheck}
+        onComplianceCheckFinish={() => setSuccess(true)}
+        colors={colors}
       />
     </View>
   );
