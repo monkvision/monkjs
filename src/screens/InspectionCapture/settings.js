@@ -29,7 +29,6 @@ const Settings = forwardRef(({ settings }, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    select: handleSelect,
     open: () => handleSelect('default'),
   }));
 
