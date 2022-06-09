@@ -9,6 +9,10 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
 
 import discoveries from 'config/discoveries';
+import axios from 'axios';
+import ExpoConstants from 'expo-constants';
+import Sentry from '../../config/sentry';
+import { setTag } from '../../config/sentryPlatform';
 
 if (Platform.OS === 'web') { WebBrowser.maybeCompleteAuthSession(); }
 
@@ -58,6 +62,8 @@ export default function useSignIn(callbacks = {}) {
 
       const { accessToken } = response.authentication;
       monk.config.accessToken = accessToken;
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
+        .then(({ data }) => setTag({ user_id: data.sub }));
 
       dispatch(authSlice.actions.update({
         ...response.authentication,

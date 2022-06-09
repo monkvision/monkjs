@@ -126,6 +126,7 @@ export function useSetPictureAsync({ current, sights, uploads }) {
       sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
     } catch (err) {
+      captureException(err, 'camera', { picture });
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
     }
   }, [current.id, sights, uploads]);
@@ -216,6 +217,7 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
+          captureException(err, 'upload', { json, file });
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,
