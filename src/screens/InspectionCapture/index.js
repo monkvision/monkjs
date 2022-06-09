@@ -52,8 +52,6 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const errorHandler = useError();
-
   const { errorHandler, Constants } = useError(Sentry);
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -78,7 +76,14 @@ export default function InspectionCapture() {
           style: 'cancel',
         }, {
           text: 'OK',
-          onPress: () => navigation.navigate(names.LANDING, { inspectionId }),
+          onPress: () => {
+            try {
+              throw new Error('User quit the inspection...');
+            } catch (err) {
+              errorHandler(err, Constants.type.APP);
+            }
+            navigation.navigate(names.LANDING, { inspectionId });
+          },
         }],
         { cancelable: true },
       );
