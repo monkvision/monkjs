@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { Alert, Platform } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
@@ -51,6 +52,8 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const errorHandler = useError();
+
   const { errorHandler, Constants } = useError(Sentry);
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -59,8 +62,27 @@ export default function InspectionCapture() {
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
 
-  const handleNavigate = useCallback(() => {
-    navigation.navigate(names.LANDING, { inspectionId });
+  const handleNavigate = useCallback((confirm = false) => {
+    if (confirm) {
+      if (Platform.OS === 'web') {
+        // eslint-disable-next-line no-alert
+        const ok = window.confirm('You are going to quit capture. Is it OK?');
+        if (ok) { navigation.navigate(names.LANDING, { inspectionId }); }
+      }
+
+      Alert.alert(
+        'Are you sure you want to quit?',
+        'Your taken pictures will be lost for that task.',
+        [{
+          text: 'Cancel',
+          style: 'cancel',
+        }, {
+          text: 'OK',
+          onPress: () => navigation.navigate(names.LANDING, { inspectionId }),
+        }],
+        { cancelable: true },
+      );
+    } else { navigation.navigate(names.LANDING, { inspectionId }); }
   }, [inspectionId, navigation]);
 
   const handleSuccess = useCallback(async () => {
@@ -116,7 +138,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        errorHandler(err, 'app', state);
+        errorHandler(err, Constants.type.APP, state);
         throw err;
       }
     }
@@ -129,7 +151,7 @@ export default function InspectionCapture() {
   const controls = [
     { disabled: cameraLoading, ...Controls.SettingsButtonProps },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
-    { disabled: cameraLoading, onPress: handleNavigate, ...Controls.GoBackButtonProps },
+    { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);

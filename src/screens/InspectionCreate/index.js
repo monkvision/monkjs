@@ -83,9 +83,6 @@ export default function InspectionCreate() {
     }
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
-  console.log('CREATING INSPECTION');
-  console.log(isAuthenticated);
-
   useFocusEffect(useCallback(() => {
     if (!isAuthenticated && !isSigningIn) { signIn(); }
   }, [isAuthenticated, isSigningIn, signIn]));
