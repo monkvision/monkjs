@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 
@@ -26,6 +26,17 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    ...Platform.select({
+      web: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        flex: '1 1 0%',
+        display: 'flex',
+      },
+    }),
   },
   loading: {
     flex: 1,
@@ -44,14 +55,17 @@ const styles = StyleSheet.create({
 });
 
 const Capture = forwardRef(({
+  backgroundColor,
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
+  enableCompression,
   enableQHDWhenSupported,
   colors,
   footer,
   fullscreen,
   inspectionId,
+  isFocused,
   isSubmitting,
   loading,
   navigationOptions,
@@ -144,7 +158,7 @@ const Capture = forwardRef(({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera });
+  const takePictureAsync = useTakePictureAsync({ camera, isFocused });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
 
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
@@ -157,6 +171,7 @@ const Capture = forwardRef(({
     mapTasksToSights,
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
+    enableCompression,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -316,6 +331,8 @@ const Capture = forwardRef(({
       style={[styles.container, style]}
     >
       <Layout
+        isReady={isReady}
+        backgroundColor={backgroundColor}
         fullscreen={fullscreen}
         left={left}
         orientationBlockerProps={orientationBlockerProps}
@@ -343,6 +360,7 @@ const Capture = forwardRef(({
 Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
+  backgroundColor: PropTypes.string,
   colors: PropTypes.shape({
     accent: PropTypes.string,
     actions: PropTypes.shape({
@@ -387,6 +405,7 @@ Capture.propTypes = {
   })),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
   enableComplianceCheck: PropTypes.bool,
+  enableCompression: PropTypes.bool,
   enableQHDWhenSupported: PropTypes.bool,
   footer: PropTypes.element,
   fullscreen: PropTypes.objectOf(PropTypes.any),
@@ -397,6 +416,7 @@ Capture.propTypes = {
     uploads: PropTypes.objectOf(PropTypes.any),
   }),
   inspectionId: PropTypes.string,
+  isFocused: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
@@ -482,9 +502,11 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
+  backgroundColor: '#000',
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
+  enableCompression: false,
   footer: null,
   fullscreen: null,
   initialState: {
@@ -494,6 +516,7 @@ Capture.defaultProps = {
     uploads: undefined,
   },
   inspectionId: null,
+  isFocused: Platform.OS === 'web',
   loading: false,
   mapTasksToSights: [],
   navigationOptions: {

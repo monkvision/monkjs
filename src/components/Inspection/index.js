@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const base = `https://${ExpoConstants.manifest.extra.ORGANIZATION_DOMAIN}`;
+const base = `https://${ExpoConstants.manifest.extra.IRA_DOMAIN}`;
 
 function ShareButton({ message, ...props }) {
   const handlePress = useCallback(async () => {
@@ -97,7 +97,7 @@ export default function Inspection({ createdAt, id, images }) {
   }, [path, accessToken]);
 
   return (
-    <Card style={styles.root}>
+    <View style={styles.root}>
       <Card.Title
         title="Last inspection"
         subtitle={caption}
@@ -119,7 +119,7 @@ export default function Inspection({ createdAt, id, images }) {
           </View>
         ))}
       </ScrollView>
-    </Card>
+    </View>
   );
 }
 

@@ -1,18 +1,18 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
 import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
-
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { utils, useTimeout } from '@monkvision/toolkit';
-import Actions from '../../actions';
-import styles from './styles';
 
+import Actions from '../../actions';
+import Constants from '../../const';
+
+import styles from './styles';
 import useCamera from './hooks/useCamera';
 
 const isMobile = ['iOS', 'Android'].includes(utils.getOS());
 const facingMode = isMobile ? { exact: 'environment' } : 'environment';
-const canvasResolution = { QHD: { width: 2560, height: 1440 }, FHD: { width: 1920, height: 1080 } };
 const Video = React.forwardRef((props, ref) => createElement('video', { ...props, ref }));
 
 const getLandscapeScreenDimensions = () => {
@@ -24,12 +24,11 @@ function Camera({
   children,
   containerStyle,
   onCameraReady,
-  title,
   settings,
   enableQHDWhenSupported,
 }, ref) {
   const [resolution, setResolution] = useMemo(() => {
-    const cameraResolution = canvasResolution[settings.state.resolution];
+    const cameraResolution = Constants.resolution[settings.state.resolution];
     const updateResolution = (r) => settings.dispatch({
       type: Actions.settings.UPDATE_SETTINGS,
       payload: { resolution: r },
@@ -70,7 +69,6 @@ function Camera({
       accessibilityLabel="Camera container"
       style={[styles.container, containerStyle]}
     >
-
       <Video
         autoPlay
         playsInline
@@ -79,9 +77,7 @@ function Camera({
         height={getLandscapeScreenDimensions().height}
         controls={false}
       />
-
       {children}
-      <Text style={styles.title}>{title}</Text>
     </View>
   );
 }
@@ -96,12 +92,10 @@ Camera.propTypes = {
     dispatch: PropTypes.func,
     state: PropTypes.shape({ resolution: PropTypes.string }),
   }),
-  title: PropTypes.string,
 };
 
 Camera.defaultProps = {
   containerStyle: null,
   enableQHDWhenSupported: true,
   settings: { state: { resolution: 'FHD' }, dispatch: () => {} },
-  title: '',
 };

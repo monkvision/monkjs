@@ -2,58 +2,49 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import '@expo/match-media';
-import { ActivityIndicator, Image, View, StyleSheet, Text, Platform } from 'react-native';
+import { ActivityIndicator, ImageBackground, View, StyleSheet, Text } from 'react-native';
 
 import { SIDE_WIDTH } from '../Layout';
 import Overlay from '../Overlay';
 
 const MARGIN = 8;
 const BORDER_WIDTH = 2;
-const DEFAULT_RATIO = 3 / 4;
 const LENGTH = SIDE_WIDTH - (MARGIN * 2) - BORDER_WIDTH;
 
 const styles = StyleSheet.create({
   root: {
+    display: 'flex',
+    justifyContent: 'center',
     width: LENGTH,
-    minHeight: LENGTH,
+    height: LENGTH,
     margin: MARGIN,
     borderRadius: 5,
     borderWidth: BORDER_WIDTH,
-    shadowOpacity: 0.5,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    ...Platform.select({
-      native: { shadowRadius: 2 },
-      default: { shadowRadius: '2px 2px' },
-    }),
     overflow: 'hidden',
-    backgroundColor: 'rgba(0,0,0,0.9)',
   },
   overlay: {
-    height: LENGTH * DEFAULT_RATIO,
-    width: LENGTH,
-  },
-  picture: {
-    position: 'absolute',
-    height: LENGTH * DEFAULT_RATIO,
-    width: LENGTH,
-    borderBottomWidth: 1.5,
+    height: LENGTH * 0.75,
+    width: '100%',
+    flex: 1,
   },
   loader: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: [{ translateX: '-50%', translateY: '-50%' }],
+    flexGrow: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   text: {
+    backgroundColor: 'rgba(0,0,0,0.25)',
     color: 'white',
-    lineHeight: 16,
+    lineHeight: 10,
     fontSize: 10,
     fontFamily: 'monospace',
     textAlign: 'center',
     maxWidth: '100%',
+    paddingVertical: 2,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
 });
 
@@ -78,42 +69,38 @@ export default function Thumbnail({
   }, [onFocus, isCurrent]);
 
   return (
-    <View
-      style={[styles.root, { borderColor }, style]}
-      {...passThroughProps}
-    >
-      {picture !== null && (
-        <Image
-          alt={`Picture of ${label} sight`}
+    <View>
+      <View
+        style={[
+          styles.root,
+          { borderColor, backgroundColor: colors.background },
+          style,
+        ]}
+        {...passThroughProps}
+      >
+        <ImageBackground
           source={picture}
-          style={[
-            styles.picture,
-            {
-              shadowColor: colors[uploadStatus],
-              borderColor: colors[uploadStatus],
-              transform: [{ rotateY: picture?.type === 'front' ? Platform.select({
-                native: 180,
-                default: '180deg',
-              }) : 0 }],
-            },
-          ]}
-        />
-      )}
-      <Overlay
-        svg={overlay}
-        style={styles.overlay}
-        label={label}
-      />
-      <Text style={styles.text}>{label}</Text>
-      {uploadStatus === 'pending' ? (
-        <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
-      ) : null}
+          resizeMode="cover"
+          style={[styles.image, {
+            justifyContent: picture && uploadStatus !== 'pending' ? 'flex-end' : 'space-between',
+          }]}
+        >
+          {uploadStatus === 'pending' && (
+          <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
+          )}
+          {(!picture && uploadStatus !== 'pending') && (
+          <Overlay svg={overlay} style={styles.overlay} label={label} />
+          )}
+          <Text style={styles.text}>{label}</Text>
+        </ImageBackground>
+      </View>
     </View>
   );
 }
 
 Thumbnail.propTypes = {
   colors: PropTypes.shape({
+    background: PropTypes.string,
     current: PropTypes.string,
     fulfilled: PropTypes.string,
     idle: PropTypes.string,
@@ -142,6 +129,7 @@ Thumbnail.propTypes = {
 
 Thumbnail.defaultProps = {
   colors: {
+    background: '#181829',
     current: '#ffcc66',
     fulfilled: '#36b0c2',
     idle: '#F3F7FE',

@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Chip, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
+import { Alert, Platform } from 'react-native';
 
-import { Capture, Controls, useSettings, Actions } from '@monkvision/camera';
+import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { utils } from '@monkvision/toolkit';
+import { useError } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
-import useAuth from 'hooks/useAuth';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -55,19 +54,39 @@ export default function InspectionCapture() {
   const dispatch = useDispatch();
   const { colors } = useTheme();
 
-  const { isAuthenticated } = useAuth();
+  const errorHandler = useError();
 
   const { inspectionId, sightIds, taskName } = route.params;
 
+  const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
 
-  const handleNavigate = useCallback(() => {
-    navigation.navigate(names.LANDING, { inspectionId });
+  const handleNavigate = useCallback((confirm = false) => {
+    if (confirm) {
+      if (Platform.OS === 'web') {
+        // eslint-disable-next-line no-alert
+        const ok = window.confirm('You are going to quit capture. Is it OK?');
+        if (ok) { navigation.navigate(names.LANDING, { inspectionId }); }
+      }
+
+      Alert.alert(
+        'Are you sure you want to quit?',
+        'Your taken pictures will be lost for that task.',
+        [{
+          text: 'Cancel',
+          style: 'cancel',
+        }, {
+          text: 'OK',
+          onPress: () => navigation.navigate(names.LANDING, { inspectionId }),
+        }],
+        { cancelable: true },
+      );
+    } else { navigation.navigate(names.LANDING, { inspectionId }); }
   }, [inspectionId, navigation]);
 
   const handleSuccess = useCallback(async () => {
-    if (success) {
+    if (success && isFocused) {
       setCameraLoading(true);
 
       try {
@@ -80,14 +99,14 @@ export default function InspectionCapture() {
 
         handleNavigate();
       } catch (err) {
-        utils.log([`Error after taking picture: ${err}`], 'error');
+        errorHandler(err);
         setCameraLoading(false);
       }
     }
-  }, [dispatch, handleNavigate, inspectionId, success, taskName]);
+  }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    if (!success && !enableComplianceCheck) {
+    if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
@@ -116,33 +135,28 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        utils.log([`Error handling Capture state change: ${err}`], 'error');
+        errorHandler(err);
         throw err;
       }
     }
-  }, [success]);
+  }, [success, isFocused]);
 
   const captureRef = useRef();
+
   const settings = useSettings({ camera: captureRef.current?.camera });
-  const resolution = useMemo(() => (settings.state.resolution === 'FHD' ? 'QHD' : 'FHD'), [settings.state.resolution]);
-  const setSettings = useCallback(
-    () => settings.dispatch({ type: Actions.settings.UPDATE_SETTINGS, payload: { resolution } }),
-    [resolution],
-  );
-  const resolutionChildren = useMemo(() => (<Chip onPress={setSettings}>{resolution}</Chip>
-  ), [settings, resolution]);
 
   const controls = [
-    { onPress: () => {}, style: {}, children: resolutionChildren },
+    { disabled: cameraLoading, ...Controls.SettingsButtonProps },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
-    { disabled: true, style: {} },
+    { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
-  if (!isAuthenticated) {
-    return <View />;
-  }
+  useFocusEffect(() => {
+    setFocused(true);
+    return () => setFocused(false);
+  });
 
   return (
     <Capture
@@ -151,6 +165,7 @@ export default function InspectionCapture() {
       mapTasksToSights={mapTasksToSights}
       sightIds={sightIds}
       inspectionId={inspectionId}
+      isFocused={isFocused}
       controls={controls}
       loading={cameraLoading}
       onReady={() => setCameraLoading(false)}

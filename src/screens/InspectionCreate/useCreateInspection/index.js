@@ -4,13 +4,6 @@ import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export const TASKS_BY_MOD = {
-  vinNumber: 'images_ocr',
-  car360: 'damage_detection',
-  wheels: 'wheel_analysis',
-  classic: 'damage_detection',
-};
-
 export default function useCreateInspection() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth();

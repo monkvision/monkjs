@@ -2,14 +2,11 @@ import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Text, View, useWindowDimensions } from 'react-native';
-import { Camera as ExpoCamera } from 'expo-camera';
+import { Camera as ExpoCamera, PermissionStatus, CameraType } from 'expo-camera';
 
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
-import useAvailable from '../../hooks/useAvailable';
 import usePermissions from '../../hooks/usePermissions';
-
-import styles from './styles';
 
 const { getSize } = utils.styles;
 
@@ -18,11 +15,10 @@ function Camera({
   containerStyle,
   ratio,
   style,
-  title,
   ...passThroughProps
 }, ref) {
-  const available = useAvailable();
   const permissions = usePermissions();
+
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
   const size = getSize(ratio, { windowHeight, windowWidth });
 
@@ -30,30 +26,25 @@ function Camera({
     log([error], 'error');
   }, []);
 
-  if (permissions.isGranted === null) {
-    return <View />;
-  }
-
-  if (permissions.isGranted === false || !available) {
-    return <Text>No access to camera</Text>;
-  }
-
-  return (
-    <View
-      accessibilityLabel="Camera container"
-      style={[containerStyle, size]}
-    >
+  if (permissions.granted && permissions.status === PermissionStatus.GRANTED) {
+    return (
       <ExpoCamera
         ref={ref}
         ratio={ratio}
         onMountError={handleError}
         {...passThroughProps}
+        style={[containerStyle, size]}
       >
         {children}
       </ExpoCamera>
-      {title !== '' && <Text style={styles.title}>{title}</Text>}
-    </View>
-  );
+    );
+  }
+
+  if (permissions.status === PermissionStatus.DENIED) {
+    return <Text>No access to camera. Permission denied!</Text>;
+  }
+
+  return <View />;
 }
 
 export default forwardRef(Camera);
@@ -61,12 +52,13 @@ export default forwardRef(Camera);
 Camera.propTypes = {
   children: PropTypes.element,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  ratio: PropTypes.string.isRequired,
-  title: PropTypes.string,
+  ratio: PropTypes.string,
+  type: PropTypes.string,
 };
 
 Camera.defaultProps = {
   children: null,
   containerStyle: null,
-  title: '',
+  ratio: '4:3',
+  type: CameraType.back,
 };

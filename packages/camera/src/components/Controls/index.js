@@ -44,8 +44,10 @@ export default function Controls({
     [state.uploads],
   );
 
-  const handlePress = useCallback(({ onPress }) => (e) => {
-    if (typeof onPress === 'function') { onPress(state, api, e); } else { handlers.capture(state, api, e); }
+  const handlePress = useCallback((e, { onPress }) => {
+    if (typeof onPress === 'function') {
+      onPress(state, api, e);
+    } else { handlers.capture(state, api, e); }
   }, [api, handlers, state]);
 
   return (
@@ -62,7 +64,7 @@ export default function Controls({
         createElement(component, {
           key: `camera-control-${i}`,
           disabled: loading || hasNoIdle,
-          onPress: handlePress({ onPress, ...rest }),
+          onPress: (e) => handlePress(e, { onPress, ...rest }),
           style: StyleSheet.flatten([styles.button]),
           ...rest,
           ...passThroughProps,
@@ -113,14 +115,14 @@ Controls.defaultProps = {
 Controls.CaptureButtonProps = {
   accessibilityLabel: 'Take picture',
   children: (
-    <Text style={{
-      display: 'flex',
-      alignItems: 'center',
-      textAlign: 'center',
-      height: '100%',
-      fontSize: 10,
-      textTransform: 'uppercase',
-    }}
+    <Text
+      style={{
+        display: 'flex',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 10,
+        textTransform: 'uppercase',
+      }}
     >
       Take picture
     </Text>
@@ -142,6 +144,117 @@ Controls.CaptureButtonProps = {
     ...Platform.select({
       native: { shadowRadius: 4 },
       default: { shadowRadius: '4px 4px' },
+    }),
+  },
+};
+
+Controls.FullscreenButtonProps = {
+  accessibilityLabel: 'Full Screen',
+  children: (
+    <Text
+      style={{
+        color: '#FFF',
+        display: 'flex',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 10,
+        textTransform: 'uppercase',
+      }}
+    >
+      Full Screen
+    </Text>
+  ),
+  style: {
+    maxWidth: '100%',
+    backgroundColor: '#181829',
+    width: 65,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 65,
+    borderColor: '#181829',
+    borderWidth: 2,
+    shadowColor: '#181829',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0 },
+    ...Platform.select({
+      native: { shadowRadius: 2 },
+      default: { shadowRadius: '2px 2px' },
+    }),
+  },
+};
+
+Controls.SettingsButtonProps = {
+  accessibilityLabel: 'Settings',
+  children: (
+    <Text
+      style={{
+        color: '#FFF',
+        display: 'flex',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 10,
+        textTransform: 'uppercase',
+      }}
+    >
+      Settings
+    </Text>
+  ),
+  style: {
+    maxWidth: '100%',
+    backgroundColor: '#181829',
+    width: 65,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 65,
+    borderColor: '#181829',
+    borderWidth: 2,
+    shadowColor: '#181829',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0 },
+    ...Platform.select({
+      native: { shadowRadius: 2 },
+      default: { shadowRadius: '2px 2px' },
+    }),
+  },
+};
+
+Controls.GoBackButtonProps = {
+  accessibilityLabel: 'Quit',
+  children: (
+    <Text
+      style={{
+        color: '#FFF',
+        display: 'flex',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 10,
+        textTransform: 'uppercase',
+      }}
+    >
+      Quit
+    </Text>
+  ),
+  style: {
+    maxWidth: '100%',
+    backgroundColor: '#fa603d',
+    width: 65,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 65,
+    borderColor: '#fa603d',
+    borderWidth: 2,
+    shadowColor: '#fa603d',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0 },
+    ...Platform.select({
+      native: { shadowRadius: 2 },
+      default: { shadowRadius: '2px 2px' },
     }),
   },
 };
