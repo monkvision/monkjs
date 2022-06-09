@@ -1,4 +1,11 @@
 {
+  "color-background": "#181829",
+  "color-surface": "#313240",
+  "color-onSurface": "#1D1F30",
+  "color-text": "#fafafa",
+  "color-placeholder": "#dadada",
+  "color-disabled": "#bbbdbf",
+  "color-notification": "#000000",
   "color-primary-100": "#D4E3FB",
   "color-primary-200": "#ABC6F8",
   "color-primary-300": "#7EA1EB",

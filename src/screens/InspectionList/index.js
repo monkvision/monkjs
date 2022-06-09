@@ -13,7 +13,7 @@ import { Loader } from '@monkvision/ui';
 import { useError, useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
 
-import { List, Paragraph, Title } from 'react-native-paper';
+import { List, Paragraph, Title, useTheme } from 'react-native-paper';
 
 import ListItem from './ListItem';
 
@@ -30,6 +30,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
+  const { loaderDotsColors } = useTheme();
   const errorHandler = useError();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
@@ -81,7 +82,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   }, [manyInspections.error]);
 
   if (manyInspections.loading) {
-    return <Loader />;
+    return <Loader colors={loaderDotsColors} />;
   }
 
   if (manyInspections.error) {

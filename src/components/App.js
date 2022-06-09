@@ -76,7 +76,7 @@ export default function App() {
   if (!appIsReady) {
     return (
       <View style={[styles.layout, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-        <Loader texts={['Launching the App...']} />
+        <Loader texts={['Launching the App...']} colors={theme.loaderDotsColors} />
       </View>
     );
   }

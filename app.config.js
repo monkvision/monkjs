@@ -1,15 +1,23 @@
 import eas from './eas.json';
-import theme from './themes/monk-theme.json';
+import palette from './palettes/monk-theme.json';
 
 const buildNumber = 1;
 
 const app = {
   name: 'Monk Capture Web Application',
   shortName: 'MCWA',
-  themeColor: theme['color-primary-500'],
+  companyName: 'Monk',
+  logo: {
+    source: {
+      uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
+      // uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
+    },
+    width: 160,
+    height: 71,
+  },
+  themeColor: palette['color-primary-500'],
   description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
 };
-const backgroundColor = '#181829';
 
 const options = [{
   value: 'vinNumber',
@@ -89,7 +97,7 @@ export default {
   owner: 'monkvision',
 
   primaryColor: app.themeColor,
-  backgroundColor: '#000000',
+  backgroundColor: palette['color-background'],
   orientation: 'landscape',
   icon: './assets/icon.png',
   userInterfaceStyle: 'dark',
@@ -99,7 +107,7 @@ export default {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor,
+    backgroundColor: palette['color-background'],
   },
 
   ios: {
@@ -117,7 +125,7 @@ export default {
     versionCode: buildNumber,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor,
+      backgroundColor: palette['color-background'],
     },
   },
 
@@ -132,7 +140,7 @@ export default {
 
   web: {
     favicon: './assets/favicon.png',
-    backgroundColor,
+    backgroundColor: palette['color-background'],
     display: 'fullscreen',
     orientation: 'landscape',
     lang: 'en-US',
@@ -144,30 +152,30 @@ export default {
       dark: true,
       mode: 'adaptive',
       loaderDotsColors: [
-        theme['color-primary-400'],
-        theme['color-primary-300'],
-        theme['color-primary-200'],
-        theme['color-primary-100'],
+        palette['color-primary-400'],
+        palette['color-primary-300'],
+        palette['color-primary-200'],
+        palette['color-primary-100'],
       ],
       colors: {
         primary: app.themeColor,
-        success: theme['color-success-500'],
-        accent: theme['color-info-400'],
-        info: theme['color-info-500'],
-        warning: theme['color-warning-500'],
-        danger: theme['color-danger-500'],
-        background: backgroundColor,
-        gradient: theme['color-primary-900'],
-        surface: '#313240',
-        text: '#fafafa',
-        placeholder: '#dadada',
-        disabled: '#bbbdbf',
-        onSurface: '#1D1F30',
-        notification: '#000000',
-        boneColor: '#1D1F30',
-        highlightBoneColor: '#51536A',
+        success: palette['color-success-500'],
+        accent: palette['color-info-400'],
+        info: palette['color-info-500'],
+        warning: palette['color-warning-500'],
+        danger: palette['color-danger-500'],
+        gradient: palette['color-primary-900'],
+        background: palette['color-background'],
+        surface: palette['color-surface'],
+        onSurface: palette['color-onSurface'],
+        text: palette['color-text'],
+        placeholder: palette['color-placeholder'],
+        disabled: palette['color-disabled'],
+        notification: palette['color-notification'],
       },
+      palette,
     },
+    ...app,
     ...eas.build.development.env,
   },
 };
