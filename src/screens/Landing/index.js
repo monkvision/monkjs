@@ -17,7 +17,6 @@ import useGetInspection from 'screens/Landing/useGetInspection';
 import * as names from 'screens/names';
 import styles from './styles';
 import Sentry from '../../config/sentry';
-// import useSentry from '../../hooks/useSentry';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -38,7 +37,6 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  // const { captureException } = useSentry();
   const { errorHandler, Constants } = useError(Sentry);
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -83,13 +81,6 @@ export default function Landing() {
       ? <ActivityIndicator color="white" size={16} style={styles.listLoading} />
       : <List.Icon icon={ICON_BY_STATUS[task?.status] || 'chevron-right'} />);
 
-    // const handlePress = () => {
-    //   try {
-    //     throw new Error('Dummy Error');
-    //   } catch (e) {
-    //     captureException(e, 'upload');
-    //   }
-    // };
     const handlePress = () => handleListItemPress(value);
     const status = task?.status ? STATUSES[task.status] : description;
 

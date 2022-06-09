@@ -12,13 +12,9 @@ Sentry.init({
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
   enableInExpoDevelopment: true,
-  ...Platform.select({
-    web: {
-      integrations: [new CaptureConsole({ levels: ['log'] })],
-    },
-  }),
   tracesSampleRate: Constants.manifest.extra.ENV !== 'production' ? 1.0 : 0.2,
   integrations: [
+    ...(Platform.select({ web: [new CaptureConsole({ levels: ['log'] })], native: [] })),
     new Tracing({
       tracingOrigins,
     }),

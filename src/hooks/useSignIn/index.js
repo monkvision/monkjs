@@ -62,8 +62,6 @@ export default function useSignIn(callbacks = {}) {
 
       const { accessToken } = response.authentication;
       monk.config.accessToken = accessToken;
-      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
-        .then(({ data }) => setTag({ user_id: data.sub }));
 
       dispatch(authSlice.actions.update({
         ...response.authentication,

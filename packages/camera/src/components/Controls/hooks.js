@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
+import { useError } from '@monkvision/toolkit';
 import Actions from '../../actions';
 
 const useHandlers = ({
   onStartUploadPicture, onFinishUploadPicture, checkComplianceAsync,
-  enableComplianceCheck, unControlledState, stream,
+  enableComplianceCheck, unControlledState, stream, Sentry,
 }) => {
+  const { Span, Constants: SentryConstants } = useError(Sentry);
+
   /**
    * Note(Ilyass): We removed the recursive function solution, because it takes too much time,
    * instead we re-run the compliance one more time after 1sec of getting the first response
@@ -28,7 +31,8 @@ const useHandlers = ({
   }, [unControlledState.uploads, unControlledState.compliance]);
 
   useEffect(() => {
-    const complianceCheckTracing = new Span('compliance-check', 'func');
+    let complianceCheckTracing;
+    if (Sentry) { complianceCheckTracing = new Span('compliance-check', SentryConstants.operation.FUNC); }
     if (pictureComplianceToCheck && enableComplianceCheck) {
       const index = pictureComplianceToCheck.id;
       const currentComplianceState = unControlledState.compliance.state[index];
@@ -42,7 +46,7 @@ const useHandlers = ({
         })();
       }
     }
-    complianceCheckTracing.finish();
+    complianceCheckTracing?.finish();
   }, [pictureComplianceToCheck]);
 
   const capture = useCallback(async (controlledState, api, event) => {
@@ -54,7 +58,10 @@ const useHandlers = ({
      * `unControlledState` is the updated state, so it will be used for function that depends on
      * state updates (checkCompliance in this case that need to know when the picture is uploaded)
      */
-    const captureButtonTracing = new Span('image-capture-button', 'user-action');
+    let captureButtonTracing;
+    if (Sentry) {
+      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_ACTION);
+    }
     const state = controlledState || unControlledState;
     event.preventDefault();
 
@@ -84,7 +91,7 @@ const useHandlers = ({
         goNextSight();
       }
     }
-    captureButtonTracing.finish();
+    captureButtonTracing?.finish();
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {

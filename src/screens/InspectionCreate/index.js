@@ -1,4 +1,5 @@
 import { useError, utils } from '@monkvision/toolkit';
+import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -13,6 +14,7 @@ import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import useCreateInspection from './useCreateInspection';
 import Sentry from '../../config/sentry';
+import { setTag } from '../../config/sentryPlatform';
 
 const styles = StyleSheet.create({
   root: {
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
 
 export default function InspectionCreate() {
   const navigation = useNavigation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
   const { errorHandler, Constants } = useError(Sentry);
@@ -81,9 +83,21 @@ export default function InspectionCreate() {
     }
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
+  console.log('CREATING INSPECTION');
+  console.log(isAuthenticated);
+
   useFocusEffect(useCallback(() => {
     if (!isAuthenticated && !isSigningIn) { signIn(); }
   }, [isAuthenticated, isSigningIn, signIn]));
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
+        .then(({ data }) => {
+          setTag('user_id', data.sub);
+        });
+    }
+  }, [isAuthenticated]);
 
   useEffect(useCallback(() => {
     if (isAuthenticated && isEmpty(inspectionId

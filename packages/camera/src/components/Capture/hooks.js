@@ -1,4 +1,5 @@
 import monk from '@monkvision/corejs';
+import { useError } from '@monkvision/toolkit';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
@@ -10,10 +11,11 @@ import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-const handleCompress = async (picture, enableCompression) => {
+const handleCompress = async (picture, enableCompression, Span) => {
   if (Platform.OS !== 'web') { return undefined; }
 
-  const compressionTracing = new Span('image-compression', 'func');
+  let compressionTracing;
+  if (Span) { compressionTracing = new Span('image-compression', 'func'); }
   const res = await axios.get(picture.uri, { responseType: 'blob' });
 
   // no need to compress images under 3mb
@@ -26,7 +28,7 @@ const handleCompress = async (picture, enableCompression) => {
   const compressed = await compressAccurately(res.data, 3000);
   URL.revokeObjectURL(picture.uri);
   log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
-  compressionTracing.finish();
+  compressionTracing?.finish();
   return compressed || res.data;
 };
 
@@ -106,9 +108,12 @@ export function useTakePictureAsync({ camera, isFocused }) {
  * @param settings
  * @param sights
  * @param uploads
+ * @param Sentry
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useSetPictureAsync({ current, sights, uploads }) {
+export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
+  const { errorHandler, Constants: ErrorConstants } = useError(Sentry);
+
   return useCallback(async (picture) => {
     try {
       const uri = picture.localUri || picture.uri;
@@ -126,7 +131,7 @@ export function useSetPictureAsync({ current, sights, uploads }) {
       sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
     } catch (err) {
-      captureException(err, 'camera', { picture });
+      errorHandler(err, ErrorConstants.type.CAMERA, { picture });
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
     }
   }, [current.id, sights, uploads]);
@@ -168,6 +173,8 @@ export function useCreateDamageDetectionAsync() {
  * @param mapTasksToSights
  * @param onFinish
  * @param onPictureUploaded
+ * @param enableCompression
+ * @param Sentry
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({
@@ -179,8 +186,10 @@ export function useStartUploadAsync({
   onFinish = () => {},
   onPictureUploaded = () => {},
   enableCompression,
+  Sentry,
 }) {
   const [queue, setQueue] = useState([]);
+  const { Constants: SentryConstants, errorHandler, Span } = useError(Sentry);
   let isRunning = false;
 
   const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
@@ -195,7 +204,8 @@ export function useStartUploadAsync({
       const queryParams = queue.shift();
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
-        const uploadTracing = new Span('upload-tracing', 'http');
+        let uploadTracing;
+        if (Sentry) { uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP); }
 
         try {
           const data = new FormData();
@@ -217,14 +227,14 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          captureException(err, 'upload', { json, file });
+          errorHandler(err, SentryConstants.type.UPLOAD, { json, file });
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,
             payload: { id, status: 'rejected', error: err },
           });
         } finally {
-          uploadTracing.finish();
+          uploadTracing?.finish();
         }
       }
       isRunning = false;
@@ -281,7 +291,7 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const file = await handleCompress(picture, enableCompression);
+        const file = await handleCompress(picture, enableCompression, Sentry ? Span : null);
 
         fileBits = [file];
       } else {
@@ -314,9 +324,14 @@ export function useStartUploadAsync({
  * @param compliance
  * @param inspectionId
  * @param sightId
+ * @param Sentry
  * @return {(function(pictureId: string, customSightId: string): Promise<result|error>)|*}
  */
-export function useCheckComplianceAsync({ compliance, inspectionId, sightId: currentSighId }) {
+export function useCheckComplianceAsync({
+  compliance, inspectionId, sightId: currentSighId, Sentry,
+}) {
+  const { Span, Constants: SentryConstants } = useError(Sentry);
+
   return useCallback(async (imageId, customSightId) => {
     const { dispatch } = compliance;
     const sightId = customSightId || currentSighId;
@@ -325,7 +340,11 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
       throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
     }
 
-    const checkComplianceHttpTracing = new Span('get-one-inspection', 'http');
+    let checkComplianceHttpTracing;
+    if (Sentry) {
+      checkComplianceHttpTracing = new Span('get-one-inspection', SentryConstants.operation.HTTP);
+    }
+
     try {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
@@ -357,7 +376,7 @@ export function useCheckComplianceAsync({ compliance, inspectionId, sightId: cur
 
       throw err;
     } finally {
-      checkComplianceHttpTracing.finish();
+      checkComplianceHttpTracing?.finish();
     }
   }, [compliance, inspectionId, currentSighId]);
 }

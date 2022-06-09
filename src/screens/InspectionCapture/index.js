@@ -154,6 +154,7 @@ export default function InspectionCapture() {
       onFinishUploadPicture={() => setCameraLoading(false)}
       onChange={handleChange}
       settings={settings}
+      Sentry={Sentry}
     />
   );
 }

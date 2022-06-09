@@ -29,6 +29,7 @@ export default function Controls({
   enableComplianceCheck,
   onStartUploadPicture,
   onFinishUploadPicture,
+  Sentry,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
@@ -40,6 +41,7 @@ export default function Controls({
     onFinishUploadPicture,
     enableComplianceCheck,
     stream: api.camera.current?.stream,
+    Sentry,
   });
 
   const hasNoIdle = useMemo(
@@ -99,6 +101,7 @@ Controls.propTypes = {
   loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
+  Sentry: PropTypes.any,
   state: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
@@ -116,6 +119,7 @@ Controls.defaultProps = {
   state: {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
+  Sentry: null,
 };
 
 Controls.CaptureButtonProps = {

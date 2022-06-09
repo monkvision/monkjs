@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { utils } from '@monkvision/toolkit';
+import { useError, utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
 
@@ -20,8 +20,9 @@ const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
  *  and an object `options`, containing getUserMedia constraints and `onCameraReady`.
  */
-export default function useCamera({ width, height }, options) {
+export default function useCamera({ width, height }, options, Sentry) {
   const { video, onCameraReady } = options;
+  const { Span } = useError(Sentry);
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
   const { stream, error } = useUserMedia({ video: videoConstraints });
@@ -41,10 +42,11 @@ export default function useCamera({ width, height }, options) {
   const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
-    const webCaptureTracing = new Span('web-capture', 'func');
+    let webCaptureTracing;
+    if (Sentry) { webCaptureTracing = new Span('web-capture', 'func'); }
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
     const uri = await toBlob(canvas, imageType);
-    webCaptureTracing.finish();
+    webCaptureTracing?.finish();
 
     return { uri, width, height };
   }, [width, height, stream]);
