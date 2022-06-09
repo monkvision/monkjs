@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useError } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
+import Settings from './settings';
+import styles from './styles';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -142,9 +144,11 @@ export default function InspectionCapture() {
   const captureRef = useRef();
 
   const settings = useSettings({ camera: captureRef.current?.camera });
+  const settingsRef = useRef();
+  const openSettings = settingsRef.current?.open;
 
   const controls = [
-    { disabled: cameraLoading, ...Controls.SettingsButtonProps },
+    { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
@@ -157,20 +161,23 @@ export default function InspectionCapture() {
   });
 
   return (
-    <Capture
-      ref={captureRef}
-      task={taskName}
-      mapTasksToSights={mapTasksToSights}
-      sightIds={sightIds}
-      inspectionId={inspectionId}
-      isFocused={isFocused}
-      controls={controls}
-      loading={cameraLoading}
-      onReady={() => setCameraLoading(false)}
-      onStartUploadPicture={() => setCameraLoading(true)}
-      onFinishUploadPicture={() => setCameraLoading(false)}
-      onChange={handleChange}
-      settings={settings}
-    />
+    <View style={styles.root}>
+      <Settings ref={settingsRef} settings={settings} />
+      <Capture
+        ref={captureRef}
+        task={taskName}
+        mapTasksToSights={mapTasksToSights}
+        sightIds={sightIds}
+        inspectionId={inspectionId}
+        isFocused={isFocused}
+        controls={controls}
+        loading={cameraLoading}
+        onReady={() => setCameraLoading(false)}
+        onStartUploadPicture={() => setCameraLoading(true)}
+        onFinishUploadPicture={() => setCameraLoading(false)}
+        onChange={handleChange}
+        settings={settings}
+      />
+    </View>
   );
 }
