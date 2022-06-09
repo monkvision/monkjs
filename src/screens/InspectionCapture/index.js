@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Platform, View } from 'react-native';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { useError, utils } from '@monkvision/toolkit';
+import { useError } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
-import useAuth from 'hooks/useAuth';
+import Sentry from '../../config/sentry';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -52,9 +51,7 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const errorHandler = useError();
-
-  const { isAuthenticated } = useAuth();
+  const { errorHandler, Constants } = useError(Sentry);
 
   const { inspectionId, sightIds, taskName } = route.params;
 
@@ -80,7 +77,9 @@ export default function InspectionCapture() {
 
         handleNavigate();
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, Constants.type.HTTP, {
+          inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
+        });
         setCameraLoading(false);
       }
     }
@@ -117,7 +116,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, 'app', state);
         throw err;
       }
     }

@@ -39,7 +39,7 @@ export default function Landing() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   // const { captureException } = useSentry();
-  const errorHandler = useError();
+  const { errorHandler, Constants } = useError(Sentry);
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
@@ -109,7 +109,7 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err));
+      getInspection.start().catch((err) => errorHandler(err, Constants.type.APP));
     }
   }, [inspectionId, getInspection]);
 

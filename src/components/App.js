@@ -14,6 +14,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import Navigation from 'config/Navigation';
 import 'config/corejs';
 import { Profiler } from 'config/sentryPlatform';
+import Sentry from '../config/sentry';
 
 const theme = {
   ...DefaultTheme,
@@ -34,7 +35,7 @@ const customFonts = {
 
 function App() {
   const { height: minHeight } = useWindowDimensions();
-  const errorHandler = useError();
+  const { errorHandler, Constants } = useError(Sentry);
 
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -48,7 +49,7 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, Constants.type.APP);
       }
     }
   }, [appIsReady]);

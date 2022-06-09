@@ -1,5 +1,4 @@
 import { useError, utils } from '@monkvision/toolkit';
-import { utils } from '@monkvision/toolkit';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -38,7 +37,7 @@ export default function InspectionCreate() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
-  const errorHandler = useError();
+  const { errorHandler, Constants } = useError(Sentry);
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod: selected } = route.params || {};
@@ -46,8 +45,8 @@ export default function InspectionCreate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: (err) => {
-      errorHandler(err);
+    onError: (err, request) => {
+      errorHandler(err, Constants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -95,7 +94,7 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (createInspection.state.error) {
-      errorHandler(createInspection.state.error);
+      errorHandler(createInspection.state.error, Constants.type.APP, createInspection.state);
     }
   }, [createInspection.state.error]);
 

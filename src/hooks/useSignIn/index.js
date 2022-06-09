@@ -74,7 +74,7 @@ export default function useSignIn(callbacks = {}) {
       stop();
 
       if (typeof onError === 'function') {
-        onError(response);
+        onError(response, request);
       } else { throw Error('Error while signing in'); }
     }
   }, [onError, request, response]);
