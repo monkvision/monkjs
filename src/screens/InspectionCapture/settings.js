@@ -1,25 +1,45 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { Pressable, View } from 'react-native';
-import { useTheme, Menu } from 'react-native-paper';
+import { Pressable, useWindowDimensions, View } from 'react-native';
+import { useTheme, Menu, List } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 import { Actions } from '@monkvision/camera';
 
 import styles from './styles';
 
+const requestScreenful = () => {
+  document.fullscreenEnabled = document.fullscreenEnabled
+   || document.mozFullScreenEnabled || document.documentElement.webkitRequestFullScreen;
+
+  function requestFullscreen(element) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullScreen) {
+      element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  }
+
+  if (document.fullscreenEnabled) {
+    requestFullscreen(document.documentElement);
+  }
+};
+
 const modals = {
-  default: [{ title: 'Resolution', value: 'resolution' }, { title: 'Ratio', value: 'ratio' }],
+  default: [{ title: 'Resolution', value: 'resolution' }, { title: 'Fullscreen', value: 'fullscreen' }],
   resolution: [{ title: 'FHD', value: 'FHD' }, { title: 'QHD', value: 'QHD' }],
-  ratio: [{ title: '4:3', value: '4:3' }, { title: '16:9', value: '16:9' }],
 };
 
 const Settings = forwardRef(({ settings }, ref) => {
   const { colors } = useTheme();
+  const { width, height } = useWindowDimensions();
   const [modal, setModal] = useState({ visible: false, name: null });
   const handleClose = () => setModal({ visible: false, name: null });
 
   const handleSelect = (name) => {
     // select only value that are not one of the `modals` keys
+    if (name === 'fullscreen') { requestScreenful(); return; }
     if (Object.keys(modals).includes(name)) { setModal({ visible: true, name }); return; }
 
     settings.dispatch({
@@ -36,6 +56,7 @@ const Settings = forwardRef(({ settings }, ref) => {
   return (
     <>
       <View style={[styles.settings, { backgroundColor: colors.background }]}>
+        <List.Subheader>Settings</List.Subheader>
         {modals[modal.name].map((item) => (
           <Menu.Item
             onPress={() => handleSelect(item.value)}
@@ -49,7 +70,7 @@ const Settings = forwardRef(({ settings }, ref) => {
         ))}
       </View>
       <Pressable
-        style={[styles.pressOutside, { backgroundColor: colors.background }]}
+        style={[styles.pressOutside, { width, height, backgroundColor: colors.background }]}
         onPress={handleClose}
       />
     </>
