@@ -176,6 +176,6 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.development.env,
+    ...eas.build.local.env,
   },
 };
