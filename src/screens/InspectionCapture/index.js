@@ -65,7 +65,10 @@ export default function InspectionCapture() {
       if (Platform.OS === 'web') {
         // eslint-disable-next-line no-alert
         const ok = window.confirm('You are going to quit capture. Is it OK?');
-        if (ok) { navigation.navigate(names.LANDING, { inspectionId }); }
+        if (ok) {
+          errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+          navigation.navigate(names.LANDING, { inspectionId });
+        }
       }
 
       Alert.alert(
@@ -77,11 +80,7 @@ export default function InspectionCapture() {
         }, {
           text: 'OK',
           onPress: () => {
-            try {
-              throw new Error('User quit the inspection...');
-            } catch (err) {
-              errorHandler(err, Constants.type.APP);
-            }
+            errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],

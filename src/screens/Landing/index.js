@@ -2,7 +2,8 @@ import { useError, useInterval } from '@monkvision/toolkit';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
+import * as Device from 'expo-device';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, FlatList } from 'react-native';
@@ -17,6 +18,7 @@ import useGetInspection from 'screens/Landing/useGetInspection';
 import * as names from 'screens/names';
 import styles from './styles';
 import Sentry from '../../config/sentry';
+import { setTag } from '../../config/sentryPlatform';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -110,6 +112,10 @@ export default function Landing() {
     start();
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
+
+  useEffect(() => {
+    setTag('device_model', Device.modelName);
+  }, []);
 
   return (
     <View style={{ minHeight: height, backgroundColor: colors.background }}>

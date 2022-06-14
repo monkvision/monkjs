@@ -130,6 +130,21 @@ export default {
     barStyle: 'light-content',
   },
 
+  hooks: {
+    postPublish: [
+      {
+        file: 'sentry-expo/upload-sourcemaps',
+        config: {
+          organization: 'monk',
+          project: 'app-native',
+          authToken: 'bd32270ed42749aca5996f4a7793506bd7216a9ed9384cb688677a60f2b9c9ab',
+          setCommits: true,
+          url: 'https://sentry.dev.monk.ai',
+        },
+      },
+    ],
+  },
+
   web: {
     favicon: './assets/favicon.png',
     backgroundColor,

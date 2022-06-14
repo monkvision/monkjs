@@ -14,7 +14,7 @@ import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import useCreateInspection from './useCreateInspection';
 import Sentry from '../../config/sentry';
-import { setTag } from '../../config/sentryPlatform';
+import { setUser } from '../../config/sentryPlatform';
 
 const styles = StyleSheet.create({
   root: {
@@ -91,7 +91,7 @@ export default function InspectionCreate() {
     if (isAuthenticated) {
       axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
         .then(({ data }) => {
-          setTag('user_id', data.sub);
+          setUser(data.sub);
         });
     }
   }, [isAuthenticated]);

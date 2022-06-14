@@ -22,11 +22,20 @@ export default function useError(Sentry) {
       const t = Platform.select({ web: Sentry.Browser, native: Sentry.Native })
         .startTransaction({ name });
       this.transaction = t;
-      this.span = t.startChild({ op });
+      this.spans = {};
+      this.spans[op] = t.startChild({ op });
+    }
+
+    addSpanToTransaction(op) {
+      this.spans[op] = this.transaction.startChild({ op });
+    }
+
+    finishSpan(op) {
+      this.spans[op].finish();
     }
 
     finish() {
-      this.span.finish();
+      Object.values((span) => { span.finish(); });
       this.transaction.finish();
     }
   }
