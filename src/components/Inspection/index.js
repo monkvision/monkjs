@@ -19,8 +19,15 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     width: '100%',
     flexGrow: 1,
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: utils.styles.spacing(2),
+
   },
   carHeader: {
+    width: '100%',
     marginBottom: utils.styles.spacing(2),
   },
   subHeading: {
@@ -31,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardCover: {
-    marginBottom: utils.styles.spacing(2),
+    width: '50%',
   },
   caption: {
     marginLeft: utils.styles.spacing(1),
@@ -103,7 +110,7 @@ export default function Inspection({ createdAt, id, images }) {
         subtitle={caption}
         right={titleRight}
       />
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView style={{ width: '100%' }} contentContainerStyle={styles.contentContainerStyle}>
         {images.filter((i) => !isEmpty(i)).sort((a, b) => (
           new Date(b.additionalData.createdAt) - new Date(a.additionalData.createdAt)
         )).map((image) => (
