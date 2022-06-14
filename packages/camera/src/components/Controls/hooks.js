@@ -32,20 +32,22 @@ const useHandlers = ({
 
     const picture = await takePictureAsync();
 
-    if (picture) {
-      setPictureAsync(picture);
+    if (!picture) { return; }
 
-      const { sights } = state;
-      const { current, ids } = sights.state;
+    setPictureAsync(picture);
 
-      if (current.index === ids.length - 1) {
-        await startUploadAsync(picture);
-      } else {
-        await startUploadAsync(picture);
+    const { sights } = state;
+    const { current, ids } = sights.state;
 
+    if (current.index === ids.length - 1) {
+      await startUploadAsync(picture);
+    } else {
+      await startUploadAsync(picture);
+
+      setTimeout(() => {
         onFinishUploadPicture(state, api);
         goNextSight();
-      }
+      }, 500);
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
