@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Alert, Platform } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { useError } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
+import Settings from './settings';
+import styles from './styles';
 import Sentry from '../../config/sentry';
 
 const mapTasksToSights = [{
@@ -46,13 +49,14 @@ const mapTasksToSights = [{
   payload: {},
 }];
 
-const enableComplianceCheck = false;
+const enableComplianceCheck = true;
 
 export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { errorHandler, Constants } = useError(Sentry);
+  const { colors } = useTheme();
 
   const { inspectionId, sightIds, taskName } = route.params;
 
@@ -112,7 +116,7 @@ export default function InspectionCapture() {
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    if (!success && isFocused) {
+    if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
         const totalPictures = Object.keys(tour).length;
@@ -134,11 +138,10 @@ export default function InspectionCapture() {
           fulfilledUploads === totalPictures
           || retriedUploads >= totalPictures - fulfilledUploads
         );
-        const hasFailedUploadButNoCheck = !enableComplianceCheck
-          && ((failedUploads + fulfilledUploads) === totalPictures);
+        const hasFailedUploadButNoCheck = ((failedUploads + fulfilledUploads) === totalPictures);
 
         if (hasPictures && (hasBeenUploaded || hasFailedUploadButNoCheck) && state
-          && (!enableComplianceCheck || hasAllFulfilledAndCompliant)) {
+        && hasAllFulfilledAndCompliant) {
           setSuccess(true);
         }
       } catch (err) {
@@ -151,9 +154,11 @@ export default function InspectionCapture() {
   const captureRef = useRef();
 
   const settings = useSettings({ camera: captureRef.current?.camera });
+  const settingsRef = useRef();
+  const openSettings = settingsRef.current?.open;
 
   const controls = [
-    { disabled: cameraLoading, ...Controls.SettingsButtonProps },
+    { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
     { disabled: cameraLoading, ...Controls.CaptureButtonProps },
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
@@ -166,21 +171,27 @@ export default function InspectionCapture() {
   });
 
   return (
-    <Capture
-      ref={captureRef}
-      task={taskName}
-      mapTasksToSights={mapTasksToSights}
-      sightIds={sightIds}
-      inspectionId={inspectionId}
-      isFocused={isFocused}
-      controls={controls}
-      loading={cameraLoading}
-      onReady={() => setCameraLoading(false)}
-      onStartUploadPicture={() => setCameraLoading(true)}
-      onFinishUploadPicture={() => setCameraLoading(false)}
-      onChange={handleChange}
-      settings={settings}
-      Sentry={Sentry}
-    />
+    <View style={styles.root}>
+      <Settings ref={settingsRef} settings={settings} />
+      <Capture
+        ref={captureRef}
+        task={taskName}
+        mapTasksToSights={mapTasksToSights}
+        sightIds={sightIds}
+        inspectionId={inspectionId}
+        isFocused={isFocused}
+        controls={controls}
+        loading={cameraLoading}
+        onReady={() => setCameraLoading(false)}
+        onStartUploadPicture={() => setCameraLoading(true)}
+        onFinishUploadPicture={() => setCameraLoading(false)}
+        onChange={handleChange}
+        settings={settings}
+        enableComplianceCheck={enableComplianceCheck}
+        onComplianceCheckFinish={() => setSuccess(true)}
+        colors={colors}
+        Sentry={Sentry}
+      />
+    </View>
   );
 }

@@ -367,14 +367,13 @@ export function useCheckComplianceAsync({
       return result;
     } catch (err) {
       dispatch({
-        type: Actions.uploads.UPDATE_UPLOAD,
+        type: Actions.compliance.UPDATE_COMPLIANCE,
         increment: true,
         payload: { id: sightId, status: 'rejected', error: err, result: null, imageId },
       });
 
       log([`Error in \`<Capture />\` \`checkComplianceAsync()\`: ${err}`], 'error');
-
-      throw err;
+      return undefined;
     } finally {
       checkComplianceHttpTracing?.finish();
     }

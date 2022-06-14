@@ -38,8 +38,8 @@ export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { colors } = useTheme();
   const { errorHandler, Constants } = useError(Sentry);
+  const { colors, loaderDotsColors } = useTheme();
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod: selected } = route.params || {};
@@ -149,7 +149,7 @@ export default function InspectionCreate() {
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Loader texts={[`Processing...`]} />
+      <Loader texts={[`Processing...`]} colors={loaderDotsColors} />
     </View>
   );
 }

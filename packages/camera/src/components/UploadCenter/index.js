@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Button, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { utils } from '@monkvision/toolkit';
 
 import UploadCard from './UploadCard';
-
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
+import Button from './button';
 
 const { spacing } = utils.styles;
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFF',
     zIndex: 1,
     paddingVertical: spacing(2),
   },
@@ -30,11 +29,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
   },
-  button: {
-    margin: spacing(1),
-    borderRadius: 4,
-    padding: spacing(1.4),
-  },
   loadingLayout: {
     width: '100%',
     height: '100%',
@@ -48,6 +42,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    paddingVertical: spacing(2),
   },
 });
 
@@ -67,6 +62,7 @@ export default function UploadCenter({
   inspectionId,
   task,
   mapTasksToSights,
+  colors,
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
@@ -75,7 +71,7 @@ export default function UploadCenter({
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
 
-  const { handleRetakeAll, handleRetake, handleReUpload } = useHandlers({
+  const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
     inspectionId,
     task,
     mapTasksToSights,
@@ -117,34 +113,31 @@ export default function UploadCenter({
 
   return (
     <ScrollView
-      style={styles.card}
+      style={[styles.card, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.container}
     >
       <View style={{ minHeight: height - height * 0.2 }}>
         {/* content */}
-        <Text style={styles.title}>
-          🏎️ Upload statuses and compliance results
+        <Text style={[styles.title, { color: colors.text }]}>
+          Image quality check
         </Text>
 
-        <Text style={styles.subtitle}>
-          Improve image compliance will result to a better AI inspection.
-          Thank you for your understanding.
+        <Text style={[styles.subtitle, { color: colors.placeholder }]}>
+          The better image quality, the more accurate result we can provide
         </Text>
 
         {hasPendingComplianceAndNoRejectedUploads ? (
-          <Text style={styles.subtitle}>
-            Verifying the pictures compliance...
-          </Text>
+          <Text style={[styles.subtitle, { color: colors.placeholder }]}>Verifying...</Text>
         ) : null}
 
         {hasTooMuchTodoCompliances ? (
-          <Text style={[styles.subtitle, { color: '#ff9800' }]}>
+          <Text style={[styles.subtitle, { color: colors.accent }]}>
             {'We couldn\'t check all pictures compliance, this might affect the result accuracy'}
           </Text>
         ) : null}
 
         {hasAllRejected ? (
-          <Text style={[styles.subtitle, { color: '#fa603d' }]}>
+          <Text style={[styles.subtitle, { color: colors.error }]}>
             {'We couldn\'t upload any picture, please re-upload'}
           </Text>
         ) : null}
@@ -152,13 +145,13 @@ export default function UploadCenter({
         {/* loading */}
         {hasNoCompliancesLeft ? (
           <View style={styles.loadingLayout}>
-            <Text style={[styles.subtitle, { textAlign: 'center' }]}>Loading...</Text>
+            <Text style={[styles.subtitle, { textAlign: 'center', color: colors.placeholder }]}>Loading...</Text>
           </View>
         ) : null}
 
         {/* upload cards */}
         <View style={styles.cardsLayout}>
-          {ids.map((id) => (
+          {ids.reverse().map((id) => (
             <UploadCard
               key={`uploadCard-${id}`}
               onRetake={handleRetake}
@@ -168,6 +161,8 @@ export default function UploadCenter({
               picture={sights.state.takenPictures[id]}
               upload={uploads.state[id]}
               compliance={compliance.state[id]}
+              colors={colors}
+              onRecheck={handleRecheck}
             />
           ))}
         </View>
@@ -176,19 +171,26 @@ export default function UploadCenter({
       {/* actions */}
       <View style={styles.actions}>
         <Button
-          color="#36b0c2"
-          style={styles.button}
-          title={submitButtonLabel}
-          onPress={onComplianceCheckFinish}
-          disabled={isSubmitting || hasAllRejected || !hasFulfilledAllUploads}
-        />
-        <Button
-          color="#274B9F"
           onPress={handleRetakeAll}
-          style={styles.button}
+          colors={colors}
+          color={colors.actions.primary}
           disabled={!hasFulfilledAllUploads}
-          title={`Retake all (${ids.length})`}
-        />
+        >
+          <Text style={{ color: colors.actions.primary.text || colors.text }}>
+            {`Retake all ${ids.length ? `(${ids.length})` : ''}`}
+          </Text>
+        </Button>
+        <Button
+          colors={colors}
+          color={colors.actions.secondary}
+          onPress={onComplianceCheckFinish}
+          disabled={isSubmitting || hasAllRejected
+             || !hasFulfilledAllUploads || !navigationOptions.allowSkip}
+        >
+          <Text style={{ color: colors.actions.secondary.text || colors.text }}>
+            {submitButtonLabel}
+          </Text>
+        </Button>
       </View>
     </ScrollView>
   );
@@ -198,6 +200,31 @@ export default function UploadCenter({
 
 UploadCenter.propTypes = {
   checkComplianceAsync: PropTypes.func,
+  colors: PropTypes.shape({
+    accent: PropTypes.string,
+    actions: PropTypes.shape({
+      primary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
+      secondary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
+    }),
+    background: PropTypes.string,
+    boneColor: PropTypes.string,
+    disabled: PropTypes.string,
+    error: PropTypes.string,
+    highlightBoneColor: PropTypes.string,
+    notification: PropTypes.string,
+    onSurface: PropTypes.string,
+    placeholder: PropTypes.string,
+    primary: PropTypes.string,
+    success: PropTypes.string,
+    surface: PropTypes.string,
+    text: PropTypes.string,
+  }).isRequired,
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
@@ -234,6 +261,7 @@ UploadCenter.defaultProps = {
   mapTasksToSights: [],
   navigationOptions: {
     retakeMaxTry: 1,
+    allowSkip: true,
   },
   task: 'damage_detection',
 };

@@ -7,7 +7,20 @@ import useSights from '../../hooks/useSights';
 import useUploads from '../../hooks/useUploads';
 import Capture from './capture';
 
-const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, ...rest }, ref) => {
+const initialColors = {
+  accent: '#ff9800',
+  background: '#fff',
+  disabled: 'gray',
+  text: '#000',
+  error: '#fa603d',
+  placeholder: 'gray',
+  actions: {
+    primary: { background: '#274B9F', text: '#fff' },
+    secondary: { background: '#fff', text: '#000', disabled: '#fff' },
+  },
+};
+
+const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, ...rest }, ref) => {
   const camera = useRef();
   const combinedRefs = useRef({ camera, ref });
 
@@ -24,12 +37,29 @@ const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, ...rest 
       sights={sights || unControlledSights}
       settings={settings || unControlledSettings}
       ref={combinedRefs}
+      colors={{ ...initialColors, ...colors }}
       {...rest}
     />
   );
 });
 
 CaptureHOC.propTypes = {
+  colors: PropTypes.shape({
+    accent: PropTypes.string,
+    actions: PropTypes.objectOf(PropTypes.any),
+    background: PropTypes.string,
+    boneColor: PropTypes.string,
+    disabled: PropTypes.string,
+    error: PropTypes.string,
+    highlightBoneColor: PropTypes.string,
+    notification: PropTypes.string,
+    onSurface: PropTypes.string,
+    placeholder: PropTypes.string,
+    primary: PropTypes.string,
+    success: PropTypes.string,
+    surface: PropTypes.string,
+    text: PropTypes.string,
+  }),
   compliance: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -96,6 +126,7 @@ CaptureHOC.propTypes = {
 };
 
 CaptureHOC.defaultProps = {
+  colors: initialColors,
   compliance: undefined,
   initialState: {
     compliance: undefined,

@@ -61,6 +61,7 @@ const Capture = forwardRef(({
   enableComplianceCheck,
   enableCompression,
   enableQHDWhenSupported,
+  colors,
   footer,
   fullscreen,
   inspectionId,
@@ -209,7 +210,7 @@ const Capture = forwardRef(({
 
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
-    () => !Object.values(uploads.state).some(({ status, uploadCount }) => ((status === 'pending' || status === 'idle') && uploadCount < 1)),
+    () => Object.values(uploads.state).every(({ status, picture, uploadCount }) => (picture || status === 'rejected') && uploadCount >= 1),
     [uploads.state],
   );
   const overlaySize = useMemo(
@@ -219,7 +220,7 @@ const Capture = forwardRef(({
   const complianceHasFulfilledAll = useMemo(
     () => Object
       .values(compliance.state)
-      .every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected' || uploads.state[id].uploadCount > 1),
+      .every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected' || uploads.state[id].uploadCount >= 1),
     [compliance.state, uploads.state],
   );
 
@@ -279,7 +280,6 @@ const Capture = forwardRef(({
       elements={controls}
       loading={loading}
       state={states}
-      enableComplianceCheck={enableComplianceCheck}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
       Sentry={Sentry}
@@ -323,6 +323,7 @@ const Capture = forwardRef(({
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
         navigationOptions={navigationOptions}
+        colors={colors}
       />
     );
   }
@@ -363,6 +364,31 @@ Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
   backgroundColor: PropTypes.string,
+  colors: PropTypes.shape({
+    accent: PropTypes.string,
+    actions: PropTypes.shape({
+      primary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
+      secondary: PropTypes.shape({
+        background: PropTypes.string,
+        text: PropTypes.string,
+      }),
+    }),
+    background: PropTypes.string,
+    boneColor: PropTypes.string,
+    disabled: PropTypes.string,
+    error: PropTypes.string,
+    highlightBoneColor: PropTypes.string,
+    notification: PropTypes.string,
+    onSurface: PropTypes.string,
+    placeholder: PropTypes.string,
+    primary: PropTypes.string,
+    success: PropTypes.string,
+    surface: PropTypes.string,
+    text: PropTypes.string,
+  }).isRequired,
   compliance: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
