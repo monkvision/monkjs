@@ -104,6 +104,7 @@ const Capture = forwardRef(({
   compliance,
   sights,
   settings,
+  Sentry,
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
@@ -168,9 +169,9 @@ const Capture = forwardRef(({
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera, isFocused });
-  const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
+  const setPictureAsync = useSetPictureAsync({ current, sights, uploads, Sentry });
 
-  const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
+  const checkComplianceParams = { compliance, inspectionId, sightId: current.id, Sentry };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const startUploadAsyncParams = {
     inspectionId,
@@ -181,6 +182,7 @@ const Capture = forwardRef(({
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
     enableCompression,
+    Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -289,6 +291,7 @@ const Capture = forwardRef(({
       state={states}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
+      Sentry={Sentry}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -459,6 +462,7 @@ Capture.propTypes = {
   onUploadsChange: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
+  Sentry: PropTypes.any,
   settings: PropTypes.shape({
     pictureSize: PropTypes.string,
     ratio: PropTypes.string,
@@ -550,6 +554,7 @@ Capture.defaultProps = {
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,
+  Sentry: null,
   submitButtonLabel: 'Skip retaking',
   task: 'damage_detection',
   thumbnailStyle: {},

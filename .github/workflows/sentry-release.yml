@@ -1,0 +1,39 @@
+name: sentryRelease
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  check_env:
+    runs-on: ubuntu-latest
+    container: alpine:latest
+    steps:
+      - id: ref_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=env_name::staging"
+          elif [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
+            echo "::set-output name=env_name::preview"
+          else
+            echo "::set-output name=env_name::development"
+          fi
+    outputs:
+      env_name: ${{ steps.ref_check.outputs.env_name }}
+  release_sentry:
+    needs: [check_env]
+    environment: ${{ needs.check_env.outputs.env_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create a Sentry release
+        uses: tclindner/sentry-releases-action@v1.2.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: monk
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_URL: ${{ secrets.SENTRY_URL }}
+        with:
+          tagName: ${{ github.ref }}
+          environment: ${{ needs.check_env.outputs.env_name }}
+          releaseNamePrefix: monkApp-

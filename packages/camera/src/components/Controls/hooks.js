@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
+import { useError } from '@monkvision/toolkit';
 import Actions from '../../actions';
 
 const useHandlers = ({
@@ -8,7 +9,10 @@ const useHandlers = ({
   enableComplianceCheck,
   unControlledState,
   stream,
+  Sentry,
 }) => {
+  const { Span, Constants: SentryConstants } = useError(Sentry);
+
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
     if (!stream && Platform.OS === 'web') { return; }
@@ -18,6 +22,10 @@ const useHandlers = ({
      * `unControlledState` is the updated state, so it will be used for function that depends on
      * state updates (checkCompliance in this case that need to know when the picture is uploaded)
      */
+    let captureButtonTracing;
+    if (Sentry) {
+      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_ACTION);
+    }
     const state = controlledState || unControlledState;
     event.preventDefault();
 
@@ -49,6 +57,7 @@ const useHandlers = ({
         goNextSight();
       }, 500);
     }
+    captureButtonTracing?.finish();
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
