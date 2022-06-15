@@ -20,6 +20,7 @@ import {
   CreateInspection,
   CreateOneInspectionResponse,
   DeleteOneInspectionResponse,
+  GetInspectionReportPdf,
   GetManyInspectionsOptions,
   GetManyInspectionsResponse,
   GetOneInspectionOptions,
@@ -166,6 +167,31 @@ export async function createOne(createInspection: CreateInspection): Promise<Cre
     [idAttribute]: id,
     ...normalize(createdEntity, schema),
   };
+}
+
+/**
+ * Add additional information to an inspection.
+ *
+ * @param {string} id - The id of the inspection.
+ */
+export async function getInspectionReportPdf(id: string): Promise<GetInspectionReportPdf> {
+  const axiosResponse = await axios.request<IdResponse<'url'>>({
+    ...config.axiosConfig,
+    method: 'get',
+    url: `/inspections/${id}/pdf`,
+  });
+
+  const entity: IdResponse<'id'>= {
+    [idAttribute]: id,
+  };
+
+  return {
+    axiosResponse,
+    [idAttribute]: id,
+    ...normalize(entity, schema),
+  };
+
+ 
 }
 
 /**

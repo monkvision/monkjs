@@ -59,11 +59,11 @@ export default function ImageList({ itemData }) {
                   source: { uri: item.path },
                   id: item.id,
                 }}
-                options={{
-                  label: {
-                    fontSize: 12,
-                  },
-                }}
+                // options={{
+                //   label: {
+                //     fontSize: 12,
+                //   },
+                // }}
                 {...polygonsProps}
               />
               <ImageListItemBar

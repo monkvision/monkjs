@@ -50,7 +50,7 @@
     "@sentry/react-native": "^3.4.2",
     "@sentry/tracing": "^6.19.7",
     "axios": "^0.26.1",
-    "expo": "^45.0.4",
+    "expo": "^44.0.6",
     "expo-application": "~4.1.0",
     "expo-auth-session": "~3.6.1",
     "expo-camera": "~12.2.0",

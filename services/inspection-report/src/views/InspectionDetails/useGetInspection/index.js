@@ -43,7 +43,7 @@ export default function useGetInspection(inspectionId) {
   );
 
   const axiosRequest = useCallback(
-    async () => monk.entity.inspection.getOne({ id: inspectionId }),
+    async () => monk.entity.inspection.getOne(inspectionId),
     [inspectionId],
   );
 

@@ -9,6 +9,7 @@ import {
   PaginatedResponse,
   PaginationParams,
   ProgressStatusUpdate,
+  ReponseWithInspectionId,
 } from '../sharedTypes';
 import { CreateUpdateVehicle } from '../vehicles/apiTypes';
 import { Inspection, InspectionAdditionalData, InspectionStatus, InspectionType } from './entityTypes';
@@ -351,7 +352,13 @@ export type AddAdditionalInfoResponse = CoreJsResponseWithId<IdResponse<'id'>, s
 /**
  * The details of an inspection returned after adding additional data to it.
  */
-export type AdditionalInfoAddedToInspection = Pick<Inspection, 'id' | 'additionalData'>;
+export type GetInspectionReportPdf =  CoreJsResponseWithId<IdResponse<'url'>, string, 'id'>;
+// CoreJsResponseWithId<IdResponse<'url'>, string, 'url'>;
+
+/**
+ * The type returned by the addAdditionalDataToOneInspection method.
+ */
+ export type AdditionalInfoAddedToInspection = Pick<Inspection, 'id' | 'additionalData'>;
 
 /**
  * The type returned by the deleteOneInspection method.

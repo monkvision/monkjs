@@ -7,10 +7,13 @@ import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
 import ImageList from 'views/InspectionDetails/ImageList';
 import useGetInspection from './useGetInspection';
+import useGetPdfReport from './useGetPdfReport';
 
 export default function InspectionDetails() {
   const { id } = useParams();
   const { state, images, damages } = useGetInspection(id);
+
+  useGetPdfReport(id);
 
   const imageItems = useMemo(() => {
     if (!images) { return []; }
