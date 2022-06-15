@@ -54,6 +54,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const defaultNavigationOptions = {
+  allowNavigate: false,
+  allowRetake: true,
+  allowSkip: false,
+  allowSkipImageQualityCheck: true,
+  retakeMaxTry: 1,
+  retakeMinTry: 1,
+};
+
 const Capture = forwardRef(({
   backgroundColor,
   controls,
@@ -319,7 +328,7 @@ const Capture = forwardRef(({
         mapTasksToSights={mapTasksToSights}
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
-        navigationOptions={navigationOptions}
+        navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
         colors={colors}
       />
     );
@@ -429,6 +438,7 @@ Capture.propTypes = {
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
     allowSkip: PropTypes.bool,
+    allowSkipImageQualityCheck: PropTypes.bool,
     retakeMaxTry: PropTypes.number,
     retakeMinTry: PropTypes.number,
   }),
@@ -519,13 +529,7 @@ Capture.defaultProps = {
   isFocused: Platform.OS === 'web',
   loading: false,
   mapTasksToSights: [],
-  navigationOptions: {
-    allowNavigate: false,
-    allowRetake: true,
-    allowSkip: false,
-    retakeMaxTry: 1,
-    retakeMinTry: 1,
-  },
+  navigationOptions: defaultNavigationOptions,
   offline: null,
   onPictureUploaded: () => {},
   onCaptureTourFinish: () => {},
