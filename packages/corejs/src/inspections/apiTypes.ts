@@ -353,7 +353,6 @@ export type AddAdditionalInfoResponse = CoreJsResponseWithId<IdResponse<'id'>, s
  * The details of an inspection returned after adding additional data to it.
  */
 export type GetInspectionReportPdf =  CoreJsResponseWithId<IdResponse<'url'>, string, 'id'>;
-// CoreJsResponseWithId<IdResponse<'url'>, string, 'url'>;
 
 /**
  * The type returned by the addAdditionalDataToOneInspection method.
