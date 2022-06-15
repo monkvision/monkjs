@@ -113,7 +113,7 @@ export default function UploadCenter({
 
   return (
     <ScrollView
-      style={[styles.card, { backgroundColor: colors.background }]}
+      style={[styles.card, { backgroundColor: colors.background, height }]}
       contentContainerStyle={styles.container}
     >
       <View style={{ minHeight: height - height * 0.2 }}>

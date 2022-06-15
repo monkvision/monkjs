@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from './styles';
 import useSubtitle from './hooks/useSubtitle';
 import useStatus from './hooks/useStatus';
+import Motion from '../motion/index';
 
 function UploadCard({
   compliance,
@@ -70,62 +71,56 @@ function UploadCard({
       sublable: 'press here to retake...',
     };
   }, [isComplianceFailed, isComplianceIdle, isUploadFailed,
-    handleReupload, handleRecheck, handleRetake]);
+    handleReupload, handleRecheck, handleRetake, isPending]);
 
   return (
     <View style={styles.upload}>
-      {/* preview image with a loading indicator */}
-      {isPending && (
-        <View style={styles.imageLayout}>
-          <View style={styles.imageOverlay}>
-            <ActivityIndicator style={styles.activityIndicator} color={colors.background} />
-          </View>
-          <View style={[
-            styles.imageOverlay,
-            styles.opacityOverlay,
-            { backgroundColor: colors.placeholder }]}
-          />
-          <Image style={styles.image} source={{ uri }} />
-        </View>
-      )}
-
-      {!isPending && (
-        <TouchableOpacity
-          style={styles.imageLayout}
-          onPress={thumbnail.callback}
-          disabled={!thumbnail.callback}
+      {/* thumbnail */}
+      <TouchableOpacity
+        style={styles.imageLayout}
+        onPress={thumbnail.callback}
+        disabled={!thumbnail.callback || isPending}
+      >
+        <Motion.Initiator
+          style={styles.imageOverlay}
+          extraData={[isPending, thumbnail.icon]}
+          minOpacity={0}
         >
-          <View style={styles.imageOverlay}>
-            <MaterialCommunityIcons name={thumbnail.icon} size={24} color={colors.background} />
-            <Text style={[styles.retakeText, { color: colors.background }]}>{thumbnail.label}</Text>
-          </View>
-          <View style={[
-            styles.imageOverlay,
-            styles.opacityOverlay,
-            { backgroundColor: statusColor }]}
-          />
-          <Image style={styles.image} source={{ uri }} />
-        </TouchableOpacity>
-      )}
+          {isPending
+            ? <ActivityIndicator style={styles.activityIndicator} color={colors.background} />
+            : <MaterialCommunityIcons name={thumbnail.icon} size={24} color={colors.background} />}
+          <Text style={[styles.retakeText, { color: colors.background }]}>{thumbnail.label}</Text>
+        </Motion.Initiator>
+        <Motion.Initiator
+          maxOpacity={0.7}
+          minOpacity={0.4}
+          style={[
+            styles.imageOverlay, styles.opacityOverlay, { backgroundColor: statusColor }]}
+          extraData={[statusColor]}
+        />
+        <Image style={styles.image} source={{ uri }} />
+      </TouchableOpacity>
 
-      {/* text indicating the status of uploading and the non-compliance reasons */}
-      <View style={[styles.textsLayout, { flexDirection: 'row' }]}>
+      {/* text */}
+      <Motion.Initiator
+        minOpacity={0}
+        style={[styles.textsLayout, { flexDirection: 'row' }]}
+        extraData={[subtitle]}
+      >
         <View style={styles.textsLayout}>
           <Text style={[styles.title, { color: colors.text }]}>{label}</Text>
-          {subtitle ? (
-            <Text style={[styles.subtitle, { color: colors.placeholder }]}>
-              {subtitle}
-              {thumbnail?.callback
-                ? (
-                  <TouchableOpacity onPress={thumbnail.callback}>
-                    <Text style={{ fontWeight: 'bold' }}>{`, ${thumbnail.sublable}`}</Text>
-                  </TouchableOpacity>
-                )
-                : null}
-            </Text>
-          ) : null}
+          <Text style={[styles.subtitle, { color: colors.placeholder }]}>
+            {subtitle}
+            {thumbnail?.callback
+              ? (
+                <TouchableOpacity onPress={thumbnail.callback}>
+                  <Text style={{ fontWeight: 'bold' }}>{`, ${thumbnail.sublable}`}</Text>
+                </TouchableOpacity>
+              )
+              : null}
+          </Text>
         </View>
-      </View>
+      </Motion.Initiator>
     </View>
   );
 }
