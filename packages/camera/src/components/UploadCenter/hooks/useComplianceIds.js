@@ -54,16 +54,11 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
   const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
-    .filter(({ status, requestCount, result }) => {
-      const currentCompliance = result?.data?.compliances;
-      const hasNullCompliances = result && Object.values(currentCompliance).some((c) => hasTodo(c));
-
-      const hasTodoCompliancesAndNotReachedMaxRetries = hasNullCompliances && requestCount < 2;
+    .filter(({ status, requestCount }) => {
       const isPendingAndHasNotReachedMaxRetries = ['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry;
       const unfulfilled = status === 'rejected';
 
-      return isPendingAndHasNotReachedMaxRetries || hasTodoCompliancesAndNotReachedMaxRetries
-      || unfulfilled;
+      return isPendingAndHasNotReachedMaxRetries || unfulfilled;
     })
     .sort(sortByIndex)
     .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
