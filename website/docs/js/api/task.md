@@ -113,11 +113,13 @@ await monk.task.updateOne(inspectionId, name , data);
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/edit_task)
 
-| **name**       | **type**   | **default** |
-|----------------|------------|-------------|
-| `inspectionId` | string     |             |
-| `name`         | string     |             |
-| `data`         | UpdateTask |             |
+| **name**           | **type**             | **default** |
+|--------------------|----------------------|-------------|
+| `inspectionId`     | string               |             |
+| `name`             | string               |             |
+| `data`             | UpdateTask           |             |
+| - `data.status`    | ProgressStatusUpdate |             |
+| - `data.arguments` |                      |             |
 
 ```json
 {
@@ -128,5 +130,17 @@ await monk.task.updateOne(inspectionId, name , data);
     }
   },
   "result": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+```
+
+## Enums
+### TaskName
+`string`
+```ts
+enum TaskName {
+  DAMAGE_DETECTION = 'damage_detection',
+  WHEEL_ANALYSIS = 'wheel_analysis',
+  REPAIR_ESTIMATE = 'repair_estimate',
+  IMAGES_OCR = 'images_ocr',
 }
 ```

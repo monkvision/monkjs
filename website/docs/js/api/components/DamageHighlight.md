@@ -120,7 +120,7 @@ To use methods that `DamageHighlight` exposes one has to create a component `ref
 ## toImage()
 `PropTypes.func`
 
-It returns a Promise of the base64 image
+It returns a Promise of the base64 image. The image `id` must be defined (Web only).
 
 ```js
 // ...

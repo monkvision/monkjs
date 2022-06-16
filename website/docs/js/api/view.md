@@ -25,10 +25,15 @@ await monk.view.createOne(inspectionId, data);
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/View/post_view)
 
-| **name**       | **type**   | **default** |
-|----------------|------------|-------------|
-| `inspectionId` | string     |             |
-| `data`         | CreateView |             |
+| **name**                      | **type**           | **default** |
+|-------------------------------|--------------------|-------------|
+| `inspectionId`                | string             |             |
+| `data`                        | CreateView         |             |
+| - `data.imageId`              | string             |             |
+| - `data.newImage`             | CreateViewImage    |             |
+| - `data.damageId`             | string             |             |
+| - `data.polygons`             | number\[\]\[\]\[\] |             |
+| - `data.boundingBox`          | BoundingBox        |             |
 
 ```json
 {

@@ -202,8 +202,10 @@ Now that we can get pictures, we want to treat them before starting a task.
 
 Using the `UploadCenter` component is the best way to see statuses
 and to be able to retake low quality pictures.
+It can be displayed after the photo taking process by passing the props `enableComplianceCheck`and the callback
+`onComplianceCheckFinish`.
 ```js
-import { Capture, Controls, UploadCenter } from '@monkvision/camera';
+import { Capture, Controls } from '@monkvision/camera';
 ```
 
 ```js
@@ -212,7 +214,8 @@ return (
     inspectionId={inspectionId}
     controls={controls}
     loading={loading}
-    renderOnFinish={UploadCenter}
+    enableComplianceCheck={true}
+    onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
   />
 );
 ```
@@ -238,21 +241,6 @@ const handleSuccess = useCallback(async () => {
 }, [inspectionId]);
 ```
 
-Then we set the `submitButtonProps` to the `<Capture />` component.
-```js
-<Capture
-  inspectionId={inspectionId}
-  controls={controls}
-  loading={loading}
-  renderOnFinish={UploadCenter}
-  submitButtonProps={{
-    title: 'Submit',
-    disabled: loading,
-    onPress: handleSuccess,
-  }}
-/>
-```
-
 Now we are done! You are able to take picture and send them for analysis.
 
 ### Full example
@@ -271,6 +259,7 @@ export default () => {
   const route = useRoute();
   // Use a loading state to have better control over your components.
   const [loading, setLoading] = useState();
+  const [success, setSuccess] = useState(false);
 
   // Here we're getting an inspectionId from a route param.
   const [inspectionId, setInspectionId] = useState(route.params.inspectionId);
@@ -355,8 +344,8 @@ export default () => {
     // Now we took the last picture of the list.
     if (lastIndex) {
       setLoading(false);
+      setSuccess(true);
       // Do something here at the end
-      // or use the renderOnFinish `<Capture />` prop.
     }
   }, []);
 
@@ -374,6 +363,14 @@ export default () => {
   useEffect(() => {
     createNewInspection();
   }, [createNewInspection]);
+
+  // Once the photo taking process is finished, we call the `handleSuccess` function
+  // to start the damage detection task
+  useEffect(() => {
+    if (success) {
+      handleSuccess();
+    }
+  }, [success, handleSuccess]);
 
   // Showing the `<Loader />` when the inspection
   // hasn't been created yet.
@@ -404,7 +401,7 @@ export default () => {
 
         /** --- With picture quality check
          * enableComplianceCheck={true}
-         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
+         * onComplianceCheckFinish={() => setSuccess(true)}
          */
       />
     </SafeAreaView>
