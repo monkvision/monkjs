@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 
 import { ScrollToTop, View } from 'components';
 import ImageList from 'views/InspectionDetails/ImageList';
+import moment from 'moment';
 import useGetInspection from './useGetInspection';
 import useGetPdfReport from './useGetPdfReport';
 import IdField from './IdField';
@@ -40,7 +41,7 @@ export default function InspectionDetails() {
 
       <Container maxWidth="xl">
         <Stack spacing={4} mt={4}>
-          <Typography variant="h4">Inspection details</Typography>
+          <Typography variant="h4">{`Inspection ${moment(inspection?.createdAt).format('L')}`}</Typography>
           <Stack spacing={2}>
             {/* general */}
             <Stack spacing={1.6}>
