@@ -181,7 +181,7 @@ export async function getInspectionReportPdf(id: string): Promise<GetInspectionR
     url: `/inspections/${id}/pdf`,
   });
 
-  const entity: IdResponse<'id'>= {
+  const entity: IdResponse<'id'> = {
     [idAttribute]: id,
   };
 
@@ -190,8 +190,6 @@ export async function getInspectionReportPdf(id: string): Promise<GetInspectionR
     [idAttribute]: id,
     ...normalize(entity, schema),
   };
-
- 
 }
 
 /**
