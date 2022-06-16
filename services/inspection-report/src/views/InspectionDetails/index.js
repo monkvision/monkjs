@@ -1,3 +1,4 @@
+import { Button, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,9 +12,9 @@ import useGetPdfReport from './useGetPdfReport';
 
 export default function InspectionDetails() {
   const { id } = useParams();
-  const { state, images, damages } = useGetInspection(id);
 
-  useGetPdfReport(id);
+  const { state, images, damages } = useGetInspection(id);
+  const { pdfUrl, handleDownLoad } = useGetPdfReport(id);
 
   const imageItems = useMemo(() => {
     if (!images) { return []; }
@@ -36,7 +37,33 @@ export default function InspectionDetails() {
       <ScrollToTop />
 
       <Container maxWidth="xl">
-        <ImageList itemData={imageItems} />
+        <Stack spacing={4} mt={4}>
+          <Typography variant="h4">Inspection details</Typography>
+          <Stack spacing={2}>
+            {/* report */}
+            <Stack spacing={1.6}>
+              <Typography variant="h5">Report</Typography>
+              <Typography variant="body1">
+                A PDF report file, containing all the insights about your inspection.
+              </Typography>
+              {!pdfUrl ? (
+                <Typography variant="subtitle2" color="info">
+                  Your report is not available yet
+                </Typography>
+              ) : null}
+              <Button variant="outlined" disabled={!pdfUrl} onClick={handleDownLoad}>Download report</Button>
+            </Stack>
+
+            {/* images */}
+            <Stack spacing={1.6}>
+              <Typography variant="h5">Images</Typography>
+              <Typography variant="body1">
+                All inspection images
+              </Typography>
+              <ImageList itemData={imageItems} />
+            </Stack>
+          </Stack>
+        </Stack>
       </Container>
     </View>
   );
