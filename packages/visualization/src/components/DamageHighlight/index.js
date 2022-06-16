@@ -247,9 +247,9 @@ DamageHighlight.propTypes = {
         strokeWidth: PropTypes.number,
       }),
     }),
-    label: {
+    label: PropTypes.shape({
       fontSize: PropTypes.number,
-    },
+    }),
     polygons: PropTypes.shape({
       opacity: PropTypes.number,
       stroke: PropTypes.shape({
