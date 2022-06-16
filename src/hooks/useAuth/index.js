@@ -7,6 +7,7 @@ import discoveries from 'config/discoveries';
 
 import { revokeAsync } from 'expo-auth-session';
 import { authSlice } from 'store/slices/auth';
+import Sentry from '../../config/sentry';
 
 export default function useAuth() {
   const dispatch = useDispatch();
@@ -14,23 +15,24 @@ export default function useAuth() {
   const auth = useSelector((state) => state.auth);
   const { accessToken, tokenType } = auth;
   const isAuthenticated = useMemo(() => Boolean(accessToken), [accessToken]);
-  const errorHandler = useError();
+  const { errorHandler, Constants } = useError(Sentry);
 
   // signOut
   const [isLoggingOut, setLoggingOut] = useState(false);
 
   const signOut = useCallback(async () => {
     setLoggingOut(true);
+    const config = {
+      clientId: monk.config.authConfig.clientId,
+      token: accessToken,
+      tokenTypeHint: tokenType,
+    };
     try {
-      await revokeAsync({
-        clientId: monk.config.authConfig.clientId,
-        token: accessToken,
-        tokenTypeHint: tokenType,
-      }, discoveries);
+      await revokeAsync(config, discoveries);
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (e) {
-      errorHandler(e);
+      errorHandler(e, Constants.type.FUNC, config);
       setLoggingOut(false);
     }
   }, [accessToken, dispatch, tokenType]);

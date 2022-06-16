@@ -11,6 +11,7 @@ import { useError } from '@monkvision/toolkit';
 import * as names from 'screens/names';
 import Settings from './settings';
 import styles from './styles';
+import Sentry from '../../config/sentry';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -54,9 +55,8 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { errorHandler, Constants } = useError(Sentry);
   const { colors } = useTheme();
-
-  const errorHandler = useError();
 
   const { inspectionId, sightIds, taskName } = route.params;
 
@@ -69,7 +69,10 @@ export default function InspectionCapture() {
       if (Platform.OS === 'web') {
         // eslint-disable-next-line no-alert
         const ok = window.confirm('You are going to quit capture. Is it OK?');
-        if (ok) { navigation.navigate(names.LANDING, { inspectionId }); }
+        if (ok) {
+          errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+          navigation.navigate(names.LANDING, { inspectionId });
+        }
       }
 
       Alert.alert(
@@ -80,7 +83,10 @@ export default function InspectionCapture() {
           style: 'cancel',
         }, {
           text: 'OK',
-          onPress: () => navigation.navigate(names.LANDING, { inspectionId }),
+          onPress: () => {
+            errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+            navigation.navigate(names.LANDING, { inspectionId });
+          },
         }],
         { cancelable: true },
       );
@@ -101,7 +107,9 @@ export default function InspectionCapture() {
 
         handleNavigate();
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, Constants.type.HTTP, {
+          inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
+        });
         setCameraLoading(false);
       }
     }
@@ -137,7 +145,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, Constants.type.APP, state);
         throw err;
       }
     }
@@ -182,6 +190,7 @@ export default function InspectionCapture() {
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
+        Sentry={Sentry}
       />
     </View>
   );
