@@ -1,10 +1,10 @@
 import { useError } from '@monkvision/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sentry from 'config/sentry';
 import { TokenResponse } from 'expo-auth-session/src/TokenRequest';
 import { ASYNC_STORAGE_AUTH_KEY, onAuthenticationSuccess } from 'hooks/useSignIn';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import * as LocalStorage from 'config/localStorage';
 
 export default function SilentAuth() {
   const [hasBeenDone, setHasBeenDone] = useState(false);
@@ -13,7 +13,7 @@ export default function SilentAuth() {
 
   useEffect(() => {
     if (!hasBeenDone) {
-      AsyncStorage.getItem(ASYNC_STORAGE_AUTH_KEY).then((value) => {
+      LocalStorage.getItem(ASYNC_STORAGE_AUTH_KEY).then((value) => {
         if (value != null) {
           const authentication = JSON.parse(value);
           authentication.issuedAt = Number(authentication.issuedAt);
@@ -21,7 +21,7 @@ export default function SilentAuth() {
           if (TokenResponse.isTokenFresh(authentication) && !!authentication.accessToken) {
             onAuthenticationSuccess(authentication, dispatch);
           } else {
-            AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
+            LocalStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
               .catch((err) => errorHandler(err, Constants.type.APP));
           }
           setHasBeenDone(true);

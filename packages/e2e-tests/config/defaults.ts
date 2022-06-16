@@ -1,0 +1,17 @@
+export enum EnvVar {
+  TEST_ENV = 'TEST_ENV',
+  REACT_APP_AUTH0_DOMAIN = 'REACT_APP_AUTH0_DOMAIN',
+  REACT_APP_AUTH0_AUDIENCE = 'REACT_APP_AUTH0_AUDIENCE',
+  REACT_APP_AUTH0_SCOPE = 'REACT_APP_AUTH0_SCOPE',
+  REACT_APP_AUTH0_CLIENTID = 'REACT_APP_AUTH0_CLIENTID',
+  AUTH0_CLIENT_SECRET = 'AUTH0_CLIENT_SECRET',
+  AUTH0_USERNAME = 'AUTH0_USERNAME',
+  AUTH0_PASSWORD = 'AUTH0_PASSWORD',
+}
+
+export const defaults: { [key in EnvVar]?: string } = {
+  [EnvVar.TEST_ENV]: 'local',
+  [EnvVar.REACT_APP_AUTH0_DOMAIN]: 'idp.dev.monk.ai',
+  [EnvVar.REACT_APP_AUTH0_AUDIENCE]: 'https://api.monk.ai/v1/',
+  [EnvVar.REACT_APP_AUTH0_SCOPE]: 'openid profile email',
+};

@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:promise/recommended",
+    "plugin:cypress/recommended"
+  ],
+  "plugins": ["import", "cypress"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "promise/catch-or-return": "off",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
+    "no-plusplus" : ["error", { "allowForLoopAfterthoughts": true }],
+    "max-len": [
+      "off" ,
+      {
+        "code": 180,
+        "comments": 180,
+        "tabWidth": 2
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.{ts,tsx}"],
+      "rules": {
+        "import/first": "off"
+      }
+    }
+  ],
+  "globals": {
+    "cy": true
+  }
+}

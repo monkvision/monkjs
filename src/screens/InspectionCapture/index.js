@@ -188,6 +188,7 @@ export default function InspectionCapture() {
         onChange={handleChange}
         settings={settings}
         enableComplianceCheck={enableComplianceCheck}
+        enableQHDWhenSupported={false}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         Sentry={Sentry}

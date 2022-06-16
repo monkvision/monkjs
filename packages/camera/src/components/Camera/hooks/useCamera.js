@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { Platform } from 'react-native';
-
 import { useError, utils } from '@monkvision/toolkit';
+import { Platform } from 'react-native';
 
 import useUserMedia from './useUserMedia';
 import useCompression from './useCompression';
@@ -26,7 +25,7 @@ const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
  */
 export default function useCamera({ width, height }, options, enableCompression, Sentry) {
   const { video, onCameraReady } = options;
-  const { Span } = useError(Sentry);
+  const { errorHandler, Span, Constants } = useError(Sentry);
   const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
@@ -34,10 +33,19 @@ export default function useCamera({ width, height }, options, enableCompression,
 
   const videoRef = useRef(null);
 
+  let playPromise = null;
+
   useEffect(() => {
     if (stream) {
       videoRef.current.srcObject = stream;
-      videoRef.current.onloadedmetadata = () => { videoRef.current.play(); onCameraReady(); };
+      videoRef.current.onloadedmetadata = () => {
+        if (playPromise === null) {
+          playPromise = videoRef.current.play().then(() => {
+            onCameraReady();
+            playPromise = null;
+          });
+        }
+      };
     }
   }, [stream, error]);
 
@@ -77,10 +85,25 @@ export default function useCamera({ width, height }, options, enableCompression,
   }, [width, height, stream]);
 
   const resumePreview = async () => {
-    if (videoRef.current) { videoRef.current.play(); }
+    if (videoRef.current) {
+      if (playPromise === null) {
+        playPromise = videoRef.current.play().then(() => {
+          playPromise = null;
+        }).catch((err) => errorHandler(err, Constants.type.CAMERA));
+      }
+    }
   };
   const pausePreview = async () => {
-    if (videoRef.current) { videoRef.current.pause(); }
+    // if (Platform.OS !== 'web' && videoRef.current) {
+    if (videoRef.current) {
+      if (playPromise === null) {
+        videoRef.current.pause();
+      } else {
+        playPromise.then(() => {
+          videoRef.current.pause();
+        });
+      }
+    }
   };
   const stopStream = useCallback(() => {
     if (stream?.getTracks) { stream.getTracks().forEach((track) => track.stop()); return; }

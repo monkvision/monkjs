@@ -1,6 +1,5 @@
 import monk from '@monkvision/corejs';
 import { useError } from '@monkvision/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import discoveries from 'config/discoveries';
 import Sentry from 'config/sentry';
@@ -11,8 +10,11 @@ import { Platform } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
+import * as LocalStorage from 'config/localStorage';
 
-if (Platform.OS === 'web') { WebBrowser.maybeCompleteAuthSession(); }
+if (Platform.OS === 'web') {
+  WebBrowser.maybeCompleteAuthSession();
+}
 
 const useProxy = Platform.select({
   native: true,
@@ -83,7 +85,7 @@ export default function useSignIn(callbacks = {}) {
       onAuthenticationSuccess(response.authentication, dispatch);
 
       const dataToStore = JSON.stringify(response.authentication);
-      AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
+      LocalStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
         if (typeof onSuccess === 'function') { onSuccess(response); }
       }).catch((err) => {
         errorHandler(err, Constants.type.APP);

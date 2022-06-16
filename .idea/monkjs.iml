@@ -10,6 +10,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/react-native/commonjs" />
       <excludeFolder url="file://$MODULE_DIR$/packages/react-native/module" />
       <excludeFolder url="file://$MODULE_DIR$/.expo" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/camera/commonjs" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/camera/module" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

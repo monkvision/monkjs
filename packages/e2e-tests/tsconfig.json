@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -8,8 +8,10 @@
     "declaration": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "lib": [ "es2015" ]
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "./cypress/support"],
+    "allowJs": true
   },
-  "include": ["src", "test"],
+  "include": ["cypress/**/*", "config/**/*"],
   "exclude": ["node_modules"]
 }
