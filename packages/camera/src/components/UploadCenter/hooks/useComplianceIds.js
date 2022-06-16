@@ -68,6 +68,11 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
     .sort(sortByIndex)
     .map(({ id }) => id), [sortByIndex, uploads.state]);
 
+  const unsatisfiedCompliances = useMemo(() => Object.values(compliance.state)
+    .filter(({ status }) => status === 'unsatisfied')
+    .sort(sortByIndex)
+    .map(({ id }) => id), [sortByIndex, compliance.state]);
+
   const complianceIdsWithError = useMemo(() => {
     if (fulfilledCompliance) {
       return Object.values(fulfilledCompliance)
@@ -120,6 +125,7 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
     ...unfulfilledComplianceIds,
     ...uploadIdsWithError,
     ...complianceIdsWithError,
+    ...unsatisfiedCompliances,
   ])],
   state: {
     uploads,
