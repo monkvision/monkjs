@@ -119,7 +119,7 @@ function Layout({ backgroundColor, children, left, right }) {
 
   if (isPortrait) {
     return (
-      <View style={[styles.rotate, { backgroundColor: '#000', height }]}>
+      <View style={[styles.rotate, { backgroundColor, height }]}>
         <View style={styles.rotateContent}>
           <Text style={styles.title}>Please rotate your device ↪️</Text>
           <Text style={styles.p}>
