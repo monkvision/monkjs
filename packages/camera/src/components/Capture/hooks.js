@@ -357,6 +357,13 @@ export function useCheckComplianceAsync({
       const carCov = result.axiosResponse.data.compliances.coverage_360;
       const iqa = result.axiosResponse.data.compliances.image_quality_assessment;
 
+      if ((!carCov || carCov.status === 'TODO') || iqa.status === 'TODO') {
+        dispatch({
+          type: Actions.compliance.UPDATE_COMPLIANCE,
+          payload: { id: sightId, status: 'unsatisfied', result: result.axiosResponse, imageId },
+        });
+      }
+
       if ((!carCov || carCov.status === 'DONE') && (iqa.status === 'DONE')) {
         dispatch({
           type: Actions.compliance.UPDATE_COMPLIANCE,

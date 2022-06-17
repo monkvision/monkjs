@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import styles from './styles';
 import useSubtitle from './hooks/useSubtitle';
 import useStatus from './hooks/useStatus';
 import Motion from '../motion/index';
+import useVariant from './hooks/useVariant';
 
 function UploadCard({
   compliance,
@@ -22,81 +23,56 @@ function UploadCard({
   const { uri } = picture;
 
   const {
-    isPending, isUploadFailed, isComplianceIdle, isComplianceFailed, isComplianceUnknown,
+    isPending,
+    isUploadFailed,
+    isComplianceIdle,
+    isComplianceFailed,
+    isComplianceUnknown,
   } = useStatus({ compliance, upload });
 
   const subtitle = useSubtitle({
     isComplianceUnknown, isComplianceIdle, isPending, isUploadFailed, compliance });
 
-  const statusColor = useMemo(() => {
-    if (isUploadFailed) { return colors.error; }
-    if (isPending) { return colors.placeholder; }
-    if (isComplianceFailed || isComplianceIdle) { return colors.disabled; }
-    return colors.accent;
-  }, [isComplianceFailed, isComplianceIdle, isPending, isUploadFailed]);
-
   const handleReupload = useCallback(() => onReupload(id, picture), [id, picture, onReupload]);
   const handleRecheck = useCallback(() => onRecheck(id), [onRecheck, id]);
   const handleRetake = useCallback(() => onRetake(id), [onRetake, id]);
 
-  const thumbnail = useMemo(() => {
-    if (isPending) { return { callback: null }; }
-    if (isUploadFailed) {
-      return {
-        label: 'Reupload picture',
-        icon: 'refresh-circle',
-        callback: handleReupload,
-        sublable: 'press here to reupload...',
-      };
-    }
-    if (isComplianceIdle) {
-      return {
-        label: 'In queue',
-        icon: 'clock',
-        callback: null,
-      };
-    }
-    if (isComplianceFailed) {
-      return {
-        label: 'Recheck picture',
-        icon: 'alert-circle',
-        callback: handleRecheck,
-        sublable: 'press here to recheck...',
-      };
-    }
-
-    return { label: 'Retake picture',
-      icon: 'camera-retake',
-      callback: handleRetake,
-      sublable: 'press here to retake...',
-    };
-  }, [isComplianceFailed, isComplianceIdle, isUploadFailed,
-    handleReupload, handleRecheck, handleRetake, isPending]);
+  const variant = useVariant({
+    colors,
+    isPending,
+    isComplianceFailed,
+    isComplianceIdle,
+    isComplianceUnknown,
+    isUploadFailed,
+    handleReupload,
+    handleRecheck,
+    handleRetake,
+  });
 
   return (
     <View style={styles.upload}>
-      {/* thumbnail */}
+      {/* variant */}
       <TouchableOpacity
         style={styles.imageLayout}
-        onPress={thumbnail.callback}
-        disabled={!thumbnail.callback || isPending}
+        onPress={variant.callback}
+        disabled={!variant.callback || isPending}
       >
         <Motion.Initiator
           style={styles.imageOverlay}
-          extraData={[isPending, thumbnail.icon]}
+          extraData={[isPending, variant.icon]}
           minOpacity={0}
         >
           {isPending
             ? <ActivityIndicator style={styles.activityIndicator} color={colors.background} />
-            : <MaterialCommunityIcons name={thumbnail.icon} size={24} color={colors.background} />}
-          <Text style={[styles.retakeText, { color: colors.background }]}>{thumbnail.label}</Text>
+            : <MaterialCommunityIcons name={variant.icon} size={24} color={colors.background} />}
+          <Text style={[styles.retakeText, { color: colors.background }]}>{variant.label}</Text>
         </Motion.Initiator>
         <Motion.Initiator
           maxOpacity={0.7}
           minOpacity={0.4}
           style={[
-            styles.imageOverlay, styles.opacityOverlay, { backgroundColor: statusColor }]}
-          extraData={[statusColor]}
+            styles.imageOverlay, styles.opacityOverlay, { backgroundColor: variant.color }]}
+          extraData={[variant.color]}
         />
         <Image style={styles.image} source={{ uri }} />
       </TouchableOpacity>
@@ -111,10 +87,10 @@ function UploadCard({
           <Text style={[styles.title, { color: colors.text }]}>{label}</Text>
           <Text style={[styles.subtitle, { color: colors.placeholder }]}>
             {subtitle}
-            {thumbnail?.callback
+            {variant?.callback
               ? (
-                <TouchableOpacity onPress={thumbnail.callback}>
-                  <Text style={{ fontWeight: 'bold' }}>{`, ${thumbnail.sublable}`}</Text>
+                <TouchableOpacity onPress={variant.callback}>
+                  <Text style={{ fontWeight: 'bold' }}>{`, ${variant.sublable}`}</Text>
                 </TouchableOpacity>
               )
               : null}
@@ -152,7 +128,7 @@ UploadCard.propTypes = {
     text: PropTypes.string,
   }).isRequired,
   compliance: PropTypes.shape({
-    error: PropTypes.string,
+    error: PropTypes.objectOf(PropTypes.any),
     result: PropTypes.shape({
       data: PropTypes.shape({
         compliances: PropTypes.shape({
