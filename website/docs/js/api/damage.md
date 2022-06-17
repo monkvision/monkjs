@@ -27,10 +27,13 @@ await monk.entity.damage.createOne(inspectionId, data);
 
 [Try it on api.monk.ai documentation](https://api.monk.ai/v1/apidocs/#/Damage/post_damage)
 
-| **name**       | **type**     | **default** |
-|----------------|--------------|-------------|
-| `inspectionId` | string       |             |
-| `data`         | CreateDamage |             |
+| **name**            | **type**                  | **default** |
+|---------------------|---------------------------|-------------|
+| `inspectionId`      | string                    |             |
+| `data`              | CreateDamage              |             |
+| - `data.damageType` | [DamageType](#damagetype) |             |
+| - `data.partType`   | PartType                  |             |
+
 
 ```json
 {
@@ -78,5 +81,30 @@ await monk.entity.damage.deleteOne(id, inspectionId);
     }
   },
   "result": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+```
+
+## Enums
+### DamageType
+`string`
+```ts
+enum DamageType {
+  BODY_CRACK = 'body_crack',
+  BROKEN_GLASS = 'broken_glass',
+  BROKEN_LIGHT = 'broken_light',
+  DENT = 'dent',
+  DIRT = 'dirt',
+  HUBCAP_SCRATCH = 'hubcap_scratch',
+  MISSHAPE = 'misshape',
+  MISSING_HUBCAP = 'missing_hubcap',
+  MISSING_PIECE = 'missing_piece',
+  PAINT_PEELING = 'paint_peeling',
+  RUSTINESS = 'rustiness',
+  SCATTERED_SCRATCHES = 'scattered_scratches',
+  SCRATCH = 'scratch',
+  SMASH = 'smash',
+  LIGHT_REFLECTION = 'light_reflection',
+  SHADOW = 'shadow',
+  CAR_CURVE = 'car_curve',
 }
 ```

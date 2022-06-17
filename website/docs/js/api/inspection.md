@@ -27,10 +27,11 @@ await monk.entity.inspection.getOne(id, { showDeletedObjects });
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_inspection)
 
-| **name**  | **type**                | **default** |
-|-----------|-------------------------|-------------|
-| `id`      | string                  |             |
-| `options` | GetOneInspectionOptions |             |
+| **name**                       | **type**                | **default** |
+|--------------------------------|-------------------------|-------------|
+| `id`                           | string                  |             |
+| `options`                      | GetOneInspectionOptions |             |
+| - `options.showDeletedObjects` | boolean                 | false       |
 
 ## getMany
 `GET /inspections`
@@ -43,9 +44,13 @@ await monk.entity.inspection.getMany(options);
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/get_all_inspections)
 
-| **name**  | **type**                 | **default** |
-|-----------|--------------------------|-------------|
-| `options` | GetManyInspectionsOptions |             |
+| **name**                   | **type**                              | **default**     |
+|----------------------------|---------------------------------------|-----------------|
+| `options`                  | GetManyInspectionsOptions             |                 |
+| `options.ownershipFilter`  | [OwnershipFilter](#ownershipfilter)   | "own_resources" |
+| `options.inspectionStatus` | [InspectionStatus](#inspectionstatus) |                 |
+| `options.showDeleted`      | boolean                               | true            |
+| `options.verbose`          | number                                | 0               |
 
 ```json
 {
@@ -103,6 +108,20 @@ await monkApi.inspections.createOne(data);
 | **name** | **type**         | **default** |
 |----------|------------------|-------------|
 | `data`   | CreateInspection |             |
+
+### CreateInspection
+
+| **name**              | **type**                          | **default** |
+|-----------------------|-----------------------------------|-------------|
+| `tasks`               | CreateInspectionTaskOptions       |             |
+| `vehicle`             | CreateUpdateVehicle               |             |
+| `images`              | \[CreateImage\]                   |             |
+| `damageAreas`         | \[DamageArea\]                    |             |
+| `inspectionType`      | [InspectionType](#inspectiontype) |             |
+| `additionalData`      | InspectionAdditionalData          |             |
+| `accidentNature`      | string                            |             |
+| `relatedInspectionId` | string                            |             |
+| `usageDuration`       | number                            |             |
 
 ```json
 {
@@ -171,29 +190,29 @@ await monk.entity.inspection.addAdditionalDataToOne(id, data);
 
 [Try it on api.monk.ai](https://api.monk.ai/v1/apidocs/#/Inspection/edit_inspection_pdf_data)
 
-| **name**                     | **type** | **default** |
-|------------------------------|----------|-------------|
-| `id`                         | string   |             |
-| `data`                       | Object   |             |
-| `data.mileage`               | Object   |             |
-| `data.mileage.value`         | number   |             |
-| `data.mileage.unit`          | string   |             |
-| `data.marketValue`           | number   |             |
-| `data.marketValue.value`     | number   |             |
-| `data.marketValue.unit`      | string   |             |
-| `data.agentFirstName`        | string   |             |
-| `data.agentLastName`         | string   |             |
-| `data.agentCompany`          | string   |             |
-| `data.agentCompanyCity`      | string   |             |
-| `data.vehicleOwnerFirstName` | string   |             |
-| `data.vehicleOwnerLastName`  | string   |             |
-| `data.vehicleOwnerAddress`   | string   |             |
-| `data.vehicleOwnerPhone`     | string   |             |
-| `data.vehicleOwnerEmail`     | string   |             |
-| `data.dateOfStart`           | string   |             |
-| `data.dateOfValidation`      | string   |             |
-| `data.vinOrRegistering`      | string   |             |
-| `data.comment`               | string   |             |
+| **name**                       | **type**     | **default** |
+|--------------------------------|--------------|-------------|
+| `id`                           | string       |             |
+| `data`                         | PdfInputData |             |
+| - `data.mileage`               | Mileage      |             |
+| - - `data.mileage.value`       | number       |             |
+| - - `data.mileage.unit`        | string       |             |
+| - `data.marketValue`           | number       |             |
+| - - `data.marketValue.value`   | number       |             |
+| - - `data.marketValue.unit`    | string       |             |
+| - `data.agentFirstName`        | string       |             |
+| - `data.agentLastName`         | string       |             |
+| - `data.agentCompany`          | string       |             |
+| - `data.agentCompanyCity`      | string       |             |
+| - `data.vehicleOwnerFirstName` | string       |             |
+| - `data.vehicleOwnerLastName`  | string       |             |
+| - `data.vehicleOwnerAddress`   | string       |             |
+| - `data.vehicleOwnerPhone`     | string       |             |
+| - `data.vehicleOwnerEmail`     | string       |             |
+| - `data.dateOfStart`           | string       |             |
+| - `data.dateOfValidation`      | string       |             |
+| - `data.vinOrRegistering`      | string       |             |
+| - `data.comment`               | string       |             |
 
 ```json
 {
@@ -233,5 +252,48 @@ await monk.entity.inspection.deleteOne(id);
     }
   },
   "result": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+```
+
+## Enums
+### OwnershipFilter
+`string`
+```ts
+enum OwnershipFilter {
+  OWN_RESOURCES = 'own_resources',
+  ORGANIZATION_RESOURCES = 'organization_resources',
+  ALL_RESOURCES = 'all_resources',
+}
+```
+
+### InspectionStatus
+`string`
+```ts
+enum InspectionStatus {
+  NOT_STARTED = 'NOT_STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+  ERROR = 'ERROR',
+  VALIDATED = 'VALIDATED',
+}
+```
+
+### InspectionType
+`string`
+```ts
+enum InspectionType {
+  CLAIM = 'claim',
+  CHECK_IN_CHECK_OUT = 'check_in_check_out',
+}
+```
+
+### ProgressStatusUpdate
+`string`
+```ts
+enum ProgressStatusUpdate {
+  NOT_STARTED = 'NOT_STARTED',
+  TODO = 'TODO',
+  DONE = 'DONE',
+  VALIDATED = 'VALIDATED',
 }
 ```
