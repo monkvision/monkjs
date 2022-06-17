@@ -64,7 +64,6 @@ const defaultNavigationOptions = {
 };
 
 const Capture = forwardRef(({
-  backgroundColor,
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
@@ -344,7 +343,7 @@ const Capture = forwardRef(({
     >
       <Layout
         isReady={isReady}
-        backgroundColor={backgroundColor}
+        backgroundColor={colors.background}
         fullscreen={fullscreen}
         left={left}
         orientationBlockerProps={orientationBlockerProps}
@@ -372,7 +371,6 @@ const Capture = forwardRef(({
 Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
-  backgroundColor: PropTypes.string,
   colors: PropTypes.shape({
     accent: PropTypes.string,
     actions: PropTypes.shape({
@@ -516,7 +514,6 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
-  backgroundColor: '#000',
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
