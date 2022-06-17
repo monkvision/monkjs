@@ -12,8 +12,7 @@ import { SnackbarProvider } from 'notistack';
 
 import '@fontsource/roboto';
 
-import { createTheme } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import theme from 'config/theme';
 
 import App from 'views/App';
