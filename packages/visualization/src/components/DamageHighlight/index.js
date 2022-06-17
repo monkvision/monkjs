@@ -50,6 +50,10 @@ const DamageHighlight = forwardRef(({
       .reduce((cur, acc) => acc + cur) * fontSize;
   }, []);
 
+  const handlePress = useCallback((damage) => {
+    if (onPressDamage && (typeof onPressDamage === 'function')) { onPressDamage(damage); }
+  }, [onPressDamage]);
+
   const checkCollisions = (lb1, lb2) => {
     if (lb1.x + lb1.width >= lb2.x
       && lb1.x + lb1.width <= lb2.x + lb2.width
@@ -77,7 +81,7 @@ const DamageHighlight = forwardRef(({
 
       const strokes = {
         stroke: strokeType.stroke.color,
-        strokeDasharray: damageType === 'dent' ? '5, 5' : '',
+        // strokeDasharray: damageType === 'dent' ? '5, 5' : '',
         strokeWidth: strokeType.stroke.strokeWidth,
       };
 
@@ -154,8 +158,9 @@ const DamageHighlight = forwardRef(({
               key={`image-${image.id}-polygon-${id}-${String(index)}`}
               fillOpacity={0}
               points={p.map((card) => `${card[0]},${card[1]}`).join(' ')}
-              onClick={() => onPressDamage(damage)}
-              onPress={() => onPressDamage(damage)}
+              onClick={() => handlePress(damage)}
+              onPress={() => handlePress(damage)}
+              {...damage.damageStyle ?? {}}
             />,
           );
         });
@@ -167,14 +172,15 @@ const DamageHighlight = forwardRef(({
           {...strokes}
           key={`image-${image.id}-damage-${damage.id}-ellipse`}
           fillOpacity={0}
-          onClick={() => onPressDamage(damage)}
-          onPress={() => onPressDamage(damage)}
+          onClick={() => handlePress(damage)}
+          onPress={() => handlePress(damage)}
+          {...damage.damageStyle ?? {}}
         />);
       }
     });
 
     return [damageFigures, labels];
-  }, [damages, image.id, image.width, measureText, onPressDamage, completedOptions]);
+  }, [damages, image.id, image.width, measureText, completedOptions]);
 
   const [Polygons, Labels] = renderDamages();
 
@@ -217,6 +223,7 @@ const DamageHighlight = forwardRef(({
 
 DamageHighlight.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.shape({
+    damageStyle: PropTypes.any,
     damageType: PropTypes.string,
     ellipse: PropTypes.shape({
       cx: PropTypes.number,
@@ -247,9 +254,9 @@ DamageHighlight.propTypes = {
         strokeWidth: PropTypes.number,
       }),
     }),
-    label: {
+    label: PropTypes.shape({
       fontSize: PropTypes.number,
-    },
+    }),
     polygons: PropTypes.shape({
       opacity: PropTypes.number,
       stroke: PropTypes.shape({
