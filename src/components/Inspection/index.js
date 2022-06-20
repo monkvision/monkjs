@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Badge, Card, IconButton } from 'react-native-paper';
-import { ScrollView, Share, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, Share, StyleSheet, View } from 'react-native';
 
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -60,6 +60,8 @@ const base = `https://${ExpoConstants.manifest.extra.IRA_DOMAIN}`;
 
 function ShareButton({ message, ...props }) {
   const handlePress = useCallback(async () => {
+    if (Platform.OS === 'web') { navigator.clipboard.writeText(message); return; }
+
     try {
       const result = await Share.share({
         message,
@@ -79,7 +81,7 @@ function ShareButton({ message, ...props }) {
     }
   }, []);
 
-  return <IconButton {...props} icon="share-variant" onPress={handlePress} />;
+  return <IconButton {...props} icon={Platform.select({ web: 'content-copy', default: 'share-variant' })} onPress={handlePress} />;
 }
 
 ShareButton.propTypes = {
@@ -92,7 +94,7 @@ export default function Inspection({ createdAt, id, images }) {
   const linkTo = `${base}${path}`;
 
   const caption = useMemo(() => moment(createdAt).format('LLL'), [createdAt]);
-  const message = useMemo(() => `Inspection Report - ${linkTo}`, [linkTo]);
+  const message = useMemo(() => (Platform.OS === 'web' ? linkTo : `Inspection Report - ${linkTo}`), [linkTo]);
   const titleRight = useCallback(
     (props) => <ShareButton {...props} message={message} />,
     [message],
