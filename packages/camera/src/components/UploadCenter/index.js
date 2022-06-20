@@ -113,7 +113,7 @@ export default function UploadCenter({
 
   return (
     <ScrollView
-      style={[styles.card, { backgroundColor: colors.background }]}
+      style={[styles.card, { backgroundColor: colors.background, height }]}
       contentContainerStyle={styles.container}
     >
       <View style={{ minHeight: height - height * 0.2 }}>
@@ -185,7 +185,7 @@ export default function UploadCenter({
           color={colors.actions.secondary}
           onPress={onComplianceCheckFinish}
           disabled={isSubmitting || hasAllRejected
-             || !hasFulfilledAllUploads || !navigationOptions.allowSkip}
+             || !hasFulfilledAllUploads || !navigationOptions.allowSkipImageQualityCheck}
         >
           <Text style={{ color: colors.actions.secondary.text || colors.text }}>
             {submitButtonLabel}
@@ -237,7 +237,7 @@ UploadCenter.propTypes = {
   navigationOptions: PropTypes.shape({
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
-    allowSkip: PropTypes.bool,
+    allowSkipImageQualityCheck: PropTypes.bool,
     retakeMaxTry: PropTypes.number,
     retakeMinTry: PropTypes.number,
   }),
@@ -261,7 +261,7 @@ UploadCenter.defaultProps = {
   mapTasksToSights: [],
   navigationOptions: {
     retakeMaxTry: 1,
-    allowSkip: true,
+    allowSkipImageQualityCheck: true,
   },
   task: 'damage_detection',
 };

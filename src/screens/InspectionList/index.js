@@ -16,6 +16,7 @@ import monk from '@monkvision/corejs';
 import { List, Paragraph, Title, useTheme } from 'react-native-paper';
 
 import ListItem from './ListItem';
+import Sentry from '../../config/sentry';
 
 const styles = StyleSheet.create({
   empty: {
@@ -31,7 +32,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { loaderDotsColors } = useTheme();
-  const errorHandler = useError();
+  const { errorHandler, Constants: ErrorConstant } = useError(Sentry);
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     limit: 5,
@@ -67,7 +68,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
 
   const handlePress = useCallback((id) => {
     const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
-    WebBrowser.openBrowserAsync(url).catch((err) => errorHandler(err));
+    WebBrowser.openBrowserAsync(url).catch((err) => errorHandler(err, ErrorConstant.type.APP, id));
   }, []);
 
   useEffect(
@@ -77,7 +78,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
 
   useEffect(() => {
     if (manyInspections.error) {
-      errorHandler(manyInspections.error);
+      errorHandler(manyInspections.error, ErrorConstant.type.APP);
     }
   }, [manyInspections.error]);
 

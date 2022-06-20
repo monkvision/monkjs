@@ -191,6 +191,7 @@ PropTypes.shape({
   allowNavigate: PropTypes.bool,
   allowRetake: PropTypes.bool,
   allowSkip: PropTypes.bool,
+  allowSkipImageQualityCheck: PropTypes.bool,
   retakeMaxTry: PropTypes.number,
   retakeMinTry: PropTypes.number,
 })
@@ -199,27 +200,31 @@ PropTypes.shape({
 ### allowNavigate
 `PropTypes.bool`
 
-A boolean allowing user to navigate between sight. Default is `false`.
+A boolean allowing user to navigate between sight. Default value is `false`.
 
 ### allowRetake
 `PropTypes.bool`
 
-A boolean allowing user to retake a picture if not compliant. Default is `true`.
+A boolean allowing user to retake a picture if not compliant. Default value uis `true`.
 
 ### allowSkip
 `PropTypes.bool`
 
-A boolean allowing user to skip a sight if he is not capable of taking it. Default is `false`.
+A boolean allowing user to skip a sight if he is not capable of taking it. Default value is `false`.
+### allowSkipImageQualityCheck
+`PropTypes.bool`
+
+A boolean allowing user to skip the compliance check (image quality check). Default value is `true`.
 
 ### retakeMaxTry
 `PropTypes.number`
 
-A number setting the max limit of retake tries. Default is `1`.
+A number setting the max limit of retake tries. Default value is `1`.
 
 ### retakeMinTry
 `PropTypes.number`
 
-A number setting the min limit of retake tries. Default is `1`.
+A number setting the min limit of retake tries. Default value is `1`.
 
 > Current scenario is user has to retake at least 1 (`retakeMinTry`) picture,
 > but can retake only 1 (`retakeMaxTry`) before being redirected to the next stage,

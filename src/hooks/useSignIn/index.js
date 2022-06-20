@@ -9,6 +9,10 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
 
 import discoveries from 'config/discoveries';
+import axios from 'axios';
+import ExpoConstants from 'expo-constants';
+import Sentry from '../../config/sentry';
+import { setTag } from '../../config/sentryPlatform';
 
 if (Platform.OS === 'web') { WebBrowser.maybeCompleteAuthSession(); }
 
@@ -74,7 +78,7 @@ export default function useSignIn(callbacks = {}) {
       stop();
 
       if (typeof onError === 'function') {
-        onError(response);
+        onError(response, request);
       } else { throw Error('Error while signing in'); }
     }
   }, [onError, request, response]);

@@ -54,6 +54,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const defaultNavigationOptions = {
+  allowNavigate: false,
+  allowRetake: true,
+  allowSkip: false,
+  allowSkipImageQualityCheck: true,
+  retakeMaxTry: 1,
+  retakeMinTry: 1,
+};
+
 const Capture = forwardRef(({
   backgroundColor,
   controls,
@@ -95,6 +104,7 @@ const Capture = forwardRef(({
   compliance,
   sights,
   settings,
+  Sentry,
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
@@ -159,9 +169,9 @@ const Capture = forwardRef(({
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera, isFocused });
-  const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
+  const setPictureAsync = useSetPictureAsync({ current, sights, uploads, Sentry });
 
-  const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
+  const checkComplianceParams = { compliance, inspectionId, sightId: current.id, Sentry };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const startUploadAsyncParams = {
     inspectionId,
@@ -172,6 +182,7 @@ const Capture = forwardRef(({
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
     enableCompression,
+    Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -280,6 +291,7 @@ const Capture = forwardRef(({
       state={states}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
+      Sentry={Sentry}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -319,7 +331,7 @@ const Capture = forwardRef(({
         mapTasksToSights={mapTasksToSights}
         inspectionId={inspectionId}
         checkComplianceAsync={checkComplianceAsync}
-        navigationOptions={navigationOptions}
+        navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
         colors={colors}
       />
     );
@@ -429,6 +441,7 @@ Capture.propTypes = {
     allowNavigate: PropTypes.bool,
     allowRetake: PropTypes.bool,
     allowSkip: PropTypes.bool,
+    allowSkipImageQualityCheck: PropTypes.bool,
     retakeMaxTry: PropTypes.number,
     retakeMinTry: PropTypes.number,
   }),
@@ -449,6 +462,7 @@ Capture.propTypes = {
   onUploadsChange: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
+  Sentry: PropTypes.any,
   settings: PropTypes.shape({
     pictureSize: PropTypes.string,
     ratio: PropTypes.string,
@@ -519,13 +533,7 @@ Capture.defaultProps = {
   isFocused: Platform.OS === 'web',
   loading: false,
   mapTasksToSights: [],
-  navigationOptions: {
-    allowNavigate: false,
-    allowRetake: true,
-    allowSkip: false,
-    retakeMaxTry: 1,
-    retakeMinTry: 1,
-  },
+  navigationOptions: defaultNavigationOptions,
   offline: null,
   onPictureUploaded: () => {},
   onCaptureTourFinish: () => {},
@@ -546,6 +554,7 @@ Capture.defaultProps = {
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,
+  Sentry: null,
   submitButtonLabel: 'Skip retaking',
   task: 'damage_detection',
   thumbnailStyle: {},

@@ -1,4 +1,5 @@
 import { useError, utils } from '@monkvision/toolkit';
+import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -13,6 +14,7 @@ import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import useCreateInspection from './useCreateInspection';
 import Sentry from '../../config/sentry';
+import { setUser } from '../../config/sentryPlatform';
 
 const styles = StyleSheet.create({
   root: {
@@ -34,10 +36,10 @@ const styles = StyleSheet.create({
 
 export default function InspectionCreate() {
   const navigation = useNavigation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
+  const { errorHandler, Constants } = useError(Sentry);
   const { colors, loaderDotsColors } = useTheme();
-  const errorHandler = useError();
 
   const route = useRoute();
   const { inspectionId: idFromParams, selectedMod: selected } = route.params || {};
@@ -45,8 +47,8 @@ export default function InspectionCreate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: (err) => {
-      errorHandler(err);
+    onError: (err, request) => {
+      errorHandler(err, Constants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -85,6 +87,15 @@ export default function InspectionCreate() {
     if (!isAuthenticated && !isSigningIn) { signIn(); }
   }, [isAuthenticated, isSigningIn, signIn]));
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
+        .then(({ data }) => {
+          setUser(data.sub);
+        });
+    }
+  }, [isAuthenticated]);
+
   useEffect(useCallback(() => {
     if (isAuthenticated && isEmpty(inspectionId
       && !createInspection.state.loading) && !createInspection.state.error) {
@@ -94,7 +105,7 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (createInspection.state.error) {
-      errorHandler(createInspection.state.error);
+      errorHandler(createInspection.state.error, Constants.type.APP, createInspection.state);
     }
   }, [createInspection.state.error]);
 

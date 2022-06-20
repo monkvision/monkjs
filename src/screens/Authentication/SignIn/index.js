@@ -10,6 +10,7 @@ import * as names from 'screens/names';
 
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
+import Sentry from '../../../config/sentry';
 
 const styles = StyleSheet.create({
   root: {
@@ -35,16 +36,16 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
-  const errorHandler = useError();
+  const { errorHandler, Constants } = useError(Sentry);
 
   const route = useRoute();
   const { inspectionId, selectedMod } = route.params || {};
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: (error) => {
+    onError: (error, request) => {
       setAuthError(true);
-      errorHandler(error);
+      errorHandler(error, Constants.type.APP, request);
     },
   });
 
