@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import noop from 'lodash.noop';
 
 const MIN_LOADING_TIME = 850; // in ms
 
@@ -9,7 +8,7 @@ const MIN_LOADING_TIME = 850; // in ms
 function useFakeActivity(trueActivity) {
   const [fakeActivity, setFakeActivity] = useState(null);
 
-  const handleFakeActivity = useCallback((onEnd = noop) => {
+  const handleFakeActivity = useCallback((onEnd = () => undefined) => {
     const fakeActivityId = setTimeout(() => {
       setFakeActivity(null);
       onEnd();

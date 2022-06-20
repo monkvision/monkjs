@@ -11,7 +11,9 @@ Sentry.init({
   dsn: Constants.manifest.extra.SENTRY_DSN,
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
+  enableAutoSessionTracking: true,
   enableInExpoDevelopment: true,
+  sessionTrackingIntervalMillis: 10000,
   tracesSampleRate: Constants.manifest.extra.ENV !== 'production' ? 1.0 : 0.2,
   integrations: [
     ...(Platform.select({ web: [new CaptureConsole({ levels: ['log'] })], native: [] })),
