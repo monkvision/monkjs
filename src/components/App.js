@@ -1,19 +1,20 @@
 /* eslint-disable global-require */
-import ExpoConstants from 'expo-constants';
-import React, { useState, useEffect, useCallback } from 'react';
-import store from 'store';
-import { Provider } from 'react-redux';
-import { useWindowDimensions, View, StyleSheet } from 'react-native';
 import { theme as initialTheme, useError } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import 'config/corejs';
+import SilentAuth from 'components/SilentAuth';
+
+import Navigation from 'config/Navigation';
+import { Profiler } from 'config/sentryPlatform';
+import ExpoConstants from 'expo-constants';
 import * as Font from 'expo-font';
 
 import * as SplashScreen from 'expo-splash-screen';
-
-import Navigation from 'config/Navigation';
-import 'config/corejs';
-import { Profiler } from 'config/sentryPlatform';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Provider } from 'react-redux';
+import store from 'store';
 import Sentry from '../config/sentry';
 
 const theme = {
@@ -63,7 +64,7 @@ function App() {
         await Font.loadAsync(customFonts);
         // Artificially delay for two seconds to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
-        await new Promise((resolve) => { setTimeout(resolve, 2000); });
+        // await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
         errorHandler(err);
       } finally {
@@ -85,6 +86,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <SilentAuth />
       <PaperProvider theme={theme}>
         <View style={[styles.layout, { minHeight }]} onLayout={onLayoutRootView}>
           <Navigation />
