@@ -39,7 +39,7 @@ export default function SignIn() {
   const { errorHandler, Constants } = useError(Sentry);
 
   const route = useRoute();
-  const { inspectionId, selectedMod } = route.params || {};
+  const { inspectionId, selectedMod, to = null } = route.params || {};
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
@@ -55,7 +55,7 @@ export default function SignIn() {
   );
 
   const handleNext = useCallback(
-    () => navigation.navigate(names.INSPECTION_CREATE, { inspectionId, selectedMod }),
+    () => navigation.navigate(to || names.INSPECTION_CREATE, { inspectionId, selectedMod }),
     [navigation, inspectionId, selectedMod],
   );
 

@@ -1,5 +1,7 @@
 import { utils } from '@monkvision/toolkit';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
   root: {
@@ -47,5 +49,28 @@ export default StyleSheet.create({
   },
   card: {
     borderRadius: 0,
+  },
+  // vin
+  optionsModal: {
+    alignSelf: 'center',
+    zIndex: 10,
+    borderRadius: 8,
+    width: 200,
+    height: 'auto',
+    padding: 4,
+  },
+  option: {
+    borderRadius: 4,
+  },
+  pressOutside: {
+    zIndex: 1,
+    opacity: 0.8,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  blur: {
+    width,
+    height,
   },
 });

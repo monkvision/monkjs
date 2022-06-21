@@ -26,6 +26,7 @@ const options = [
     title: 'VIN recognition',
     description: 'Vehicle info obtained from OCR',
     icon: 'car-info',
+    mode: ['automatic', 'manually'], // default to automatic
     sightIds: [
       'sLu0CfOt', // Vin number
     ],

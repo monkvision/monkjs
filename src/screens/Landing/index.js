@@ -2,7 +2,7 @@ import { useError, useInterval } from '@monkvision/toolkit';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo, useEffect } from 'react';
+import React, { useCallback, useMemo, useEffect, useRef } from 'react';
 import * as Device from 'expo-device';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -19,6 +19,8 @@ import * as names from 'screens/names';
 import styles from './styles';
 import Sentry from '../../config/sentry';
 import { setTag } from '../../config/sentryPlatform';
+import VinOptions from './vinOptions';
+import usePostVin from './usePostVin';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -45,7 +47,9 @@ export default function Landing() {
 
   const route = useRoute();
   const { inspectionId } = route.params || {};
+  const vinOptionsRef = useRef();
 
+  usePostVin({ params: route.params });
   const getInspection = useGetInspection(inspectionId);
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
@@ -58,7 +62,11 @@ export default function Landing() {
   }, [navigation]);
 
   const handleListItemPress = useCallback((value) => {
-    // const shouldSignIn = utils.getOS() === 'ios' && !isAuthenticated;
+    const vin = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
+    if (value === 'vinNumber' && vin?.mode.includes('manually')) {
+      vinOptionsRef.current?.open(); return;
+    }
+
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
     navigation.navigate(to, { selectedMod: value, inspectionId });
@@ -118,7 +126,12 @@ export default function Landing() {
   }, []);
 
   return (
-    <View style={{ minHeight: height, backgroundColor: colors.background }}>
+    <View style={{ minHeight: height, backgroundColor: colors.background, position: 'relative' }}>
+      <VinOptions
+        ref={vinOptionsRef}
+        inspectionId={inspectionId}
+        isAuthenticated={isAuthenticated}
+      />
       <LinearGradient
         colors={[colors.gradient, colors.background]}
         style={[styles.background, { height }]}
