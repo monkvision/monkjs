@@ -1,18 +1,16 @@
+import monk from '@monkvision/corejs';
+import { useError } from '@monkvision/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import discoveries from 'config/discoveries';
+import Sentry from 'config/sentry';
+import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
-
-import monk from '@monkvision/corejs';
-import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
-
-import discoveries from 'config/discoveries';
-import axios from 'axios';
-import ExpoConstants from 'expo-constants';
-import Sentry from '../../config/sentry';
-import { setTag } from '../../config/sentryPlatform';
 
 if (Platform.OS === 'web') { WebBrowser.maybeCompleteAuthSession(); }
 
@@ -27,6 +25,27 @@ const redirectUri = makeRedirectUri({
 
 const scopes = ['openid', 'email', 'profile', 'read:current_user', 'update:current_user_metadata'];
 
+export const ASYNC_STORAGE_AUTH_KEY = '@auth_Storage';
+
+export function dispatchSignOut(dispatch) {
+  dispatch(authSlice.actions.update({
+    accessToken: null,
+    isLoading: false,
+    isSignedOut: true,
+  }));
+}
+
+export function onAuthenticationSuccess(authentication, dispatch) {
+  const { accessToken } = authentication;
+  monk.config.accessToken = accessToken;
+
+  dispatch(authSlice.actions.update({
+    ...authentication,
+    isLoading: false,
+    isSignedOut: false,
+  }));
+}
+
 export default function useSignIn(callbacks = {}) {
   const { onStart, onError, onSuccess } = callbacks;
 
@@ -34,6 +53,7 @@ export default function useSignIn(callbacks = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
+  const { errorHandler, Constants } = useError(Sentry);
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -60,16 +80,15 @@ export default function useSignIn(callbacks = {}) {
     if (response?.type === 'success' && response.authentication?.accessToken) {
       stop();
 
-      const { accessToken } = response.authentication;
-      monk.config.accessToken = accessToken;
+      onAuthenticationSuccess(response.authentication, dispatch);
 
-      dispatch(authSlice.actions.update({
-        ...response.authentication,
-        isLoading: false,
-        isSignedOut: false,
-      }));
-
-      if (typeof onSuccess === 'function') { onSuccess(response); }
+      const dataToStore = JSON.stringify(response.authentication);
+      AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
+        if (typeof onSuccess === 'function') { onSuccess(response); }
+      }).catch((err) => {
+        errorHandler(err, Constants.type.APP);
+        if (typeof onSuccess === 'function') { onSuccess(response); }
+      });
     }
   }, [dispatch, onSuccess, request, response]);
 

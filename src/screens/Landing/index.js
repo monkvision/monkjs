@@ -13,6 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
 import Artwork from 'screens/Landing/Artwork';
+import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
@@ -135,6 +136,7 @@ export default function Landing() {
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
           <List.Section>
+            {isAuthenticated && <SignOut />}
             <List.Subheader>Click to run a new inspection</List.Subheader>
             <FlatList
               data={ExpoConstants.manifest.extra.options}

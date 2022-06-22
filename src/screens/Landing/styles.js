@@ -7,6 +7,7 @@ export default StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'row',
+    position: 'relative',
   },
   portrait: {
     flex: 1,
