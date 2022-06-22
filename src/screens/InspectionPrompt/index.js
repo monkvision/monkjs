@@ -1,9 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { Button, Card, useTheme } from 'react-native-paper';
+import { useTimeout } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
+import Alert from '../../components/Alert';
 
 const styles = StyleSheet.create({
   root: {
@@ -16,23 +18,42 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    margin: 10,
+  },
 });
 
 export default function InspectionPrompt() {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { inspectionId, options, to } = route.params || {};
+  const { key, ...rest } = options;
+
+  const [value, callback] = useState(null);
+
+  const handleGoBack = useCallback(
+    () => navigation.navigate(names.LANDING, { inspectionId }),
+    [inspectionId, navigation],
+  );
+
+  useTimeout(() => { Alert.prompt({ ...rest, callback }); }, 100);
 
   useEffect(() => {
-    // Alert.prompt('Vin', 'Please enter the vin number', (v) => console.log(v));
-
-    // eslint-disable-next-line no-alert
-    const vin = prompt('Vin', 'Please enter the vin number');
-    if (vin) { navigation.navigate(names.LANDING, { vin }); }
-  }, []);
+    if (value) {
+      navigation.navigate(to || names.LANDING, { [key]: value, inspectionId, ...route.params });
+    }
+  }, [value]);
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
-      <Text style={{ color: colors.text }}>Please fill the needed content on the prompt</Text>
+      <Text style={[styles.title, { color: colors.text }]}>
+        Please fill the needed content on the prompt
+      </Text>
+      <Card.Actions style={styles.actions}>
+        <Button mode="contained" color={colors.text} onPress={handleGoBack}>Go back</Button>
+      </Card.Actions>
     </View>
   );
 }

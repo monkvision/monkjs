@@ -4,7 +4,7 @@ import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export default function useCreateInspection() {
+export default function useCreateInspection(vin) {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth();
   const [inspectionId, setInspectionId] = useState();
@@ -17,7 +17,7 @@ export default function useCreateInspection() {
       damageDetection: taskOptions,
     };
 
-    return monk.entity.inspection.createOne({ tasks });
+    return monk.entity.inspection.createOne({ tasks, vehicle: { vin } });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {

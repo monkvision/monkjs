@@ -5,6 +5,9 @@ const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
   root: {
+    position: 'relative',
+  },
+  container: {
     flex: 1,
     display: 'flex',
     justifyContent: 'space-around',
@@ -50,8 +53,24 @@ export default StyleSheet.create({
   card: {
     borderRadius: 0,
   },
-  // vin
-  optionsModal: {
+  // modal
+  modalRoot: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    width: '100%',
+    height: '100%',
+  },
+  modalContainer: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  modalPlayground: {
     alignSelf: 'center',
     zIndex: 10,
     borderRadius: 8,
@@ -59,7 +78,7 @@ export default StyleSheet.create({
     height: 'auto',
     padding: 4,
   },
-  option: {
+  modalItem: {
     borderRadius: 4,
   },
   pressOutside: {

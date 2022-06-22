@@ -16,11 +16,11 @@ import Artwork from 'screens/Landing/Artwork';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
+import Modal from 'components/Modal';
 import styles from './styles';
 import Sentry from '../../config/sentry';
 import { setTag } from '../../config/sentryPlatform';
-import VinOptions from './vinOptions';
-import usePostVin from './usePostVin';
+import useVinModal from './useVinModal';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -49,12 +49,14 @@ export default function Landing() {
   const { inspectionId } = route.params || {};
   const vinOptionsRef = useRef();
 
-  usePostVin({ params: route.params });
   const getInspection = useGetInspection(inspectionId);
+
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
     [getInspection],
   );
+
+  const selectors = useVinModal({ isAuthenticated, inspectionId });
 
   const handleReset = useCallback(() => {
     Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
@@ -62,10 +64,9 @@ export default function Landing() {
   }, [navigation]);
 
   const handleListItemPress = useCallback((value) => {
-    const vin = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
-    if (value === 'vinNumber' && vin?.mode.includes('manually')) {
-      vinOptionsRef.current?.open(); return;
-    }
+    const isVin = value === 'vinNumber';
+    const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
+    if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
 
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
@@ -74,14 +75,19 @@ export default function Landing() {
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
+    const isVin = value === 'vinNumber';
+    const vin = inspection?.vehicle?.vin;
+
     const taskName = ExpoConstants.manifest.extra.options.find((o) => o.value === value)?.taskName;
     const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
-    const disabled = [
+    const taskStatus = isVin && vin ? monk.types.ProgressStatus.DONE : task?.status;
+    const disabledTaskStatuses = [
       monk.types.ProgressStatus.TODO,
       monk.types.ProgressStatus.IN_PROGRESS,
       monk.types.ProgressStatus.DONE,
       monk.types.ProgressStatus.ERROR,
     ].includes(task?.status);
+    const disabled = disabledTaskStatuses && !isVin;
 
     const left = () => <List.Icon icon={icon} />;
     const right = () => ([
@@ -89,10 +95,11 @@ export default function Landing() {
       monk.types.ProgressStatus.IN_PROGRESS,
     ].includes(task?.status)
       ? <ActivityIndicator color="white" size={16} style={styles.listLoading} />
-      : <List.Icon icon={ICON_BY_STATUS[task?.status] || 'chevron-right'} />);
+      : <List.Icon icon={ICON_BY_STATUS[taskStatus] || 'chevron-right'} />);
 
     const handlePress = () => handleListItemPress(value);
-    const status = task?.status ? STATUSES[task.status] : description;
+
+    const status = task?.status ? STATUSES[taskStatus] : description;
 
     return (
       <Surface style={(index % 2 === 0) ? styles.evenListItem : styles.oddListItem}>
@@ -125,18 +132,31 @@ export default function Landing() {
     setTag('device_model', Device.modelName);
   }, []);
 
+  const vinModalItems = useMemo(() => {
+    const vinTask = Object.values(inspection?.tasks || {}).find((t) => t?.name === 'images_ocr');
+    const disabled = [
+      monk.types.ProgressStatus.TODO, monk.types.ProgressStatus.IN_PROGRESS,
+      monk.types.ProgressStatus.DONE, monk.types.ProgressStatus.ERROR]
+      .includes(vinTask?.status);
+
+    return [
+      { title: 'Detect with camera', value: 'automatic', disabled, icon: 'camera' },
+      { title: 'Type it manually', value: 'manually', icon: 'file-edit' },
+    ];
+  }, [inspection]);
+
   return (
-    <View style={{ minHeight: height, backgroundColor: colors.background, position: 'relative' }}>
-      <VinOptions
+    <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
+      <Modal
+        items={vinModalItems}
         ref={vinOptionsRef}
-        inspectionId={inspectionId}
-        isAuthenticated={isAuthenticated}
+        {...selectors.vin}
       />
       <LinearGradient
         colors={[colors.gradient, colors.background]}
         style={[styles.background, { height }]}
       />
-      <Container style={[styles.root, isPortrait ? styles.portrait : {}]}>
+      <Container style={[styles.container, isPortrait ? styles.portrait : {}]}>
         {isEmpty(getInspection.denormalizedEntities) && (
           <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
             <Artwork />

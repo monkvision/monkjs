@@ -32,6 +32,11 @@ export default function Navigation() {
           title="Monk - Inspection Create"
         />
         <Stack.Screen
+          name={names.INSPECTION_VEHICLE_UPDATE}
+          component={Screens.InspectionVehicleUpdate}
+          title="Monk - Inspection Vehicle Update"
+        />
+        <Stack.Screen
           name={names.INSPECTION_LIST}
           component={Screens.InspectionList}
           title="Monk - Inspection List"
