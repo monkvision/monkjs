@@ -40,10 +40,9 @@ export default function SignOut() {
       anchor={(
         <List.Subheader style={styles.subheader}>
           <IconButton icon="account-circle" onPress={openMenu} size={32} />
-          You are connectedsq
+          You are connected
         </List.Subheader>
       )}
-      style={{ zIndex: 999 }}
     >
       <Menu.Item icon="logout" title="Sign Out" onPress={signout} />
     </Menu>
