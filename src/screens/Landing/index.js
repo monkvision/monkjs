@@ -81,7 +81,7 @@ export default function Landing() {
 
     const taskName = ExpoConstants.manifest.extra.options.find((o) => o.value === value)?.taskName;
     const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
-    const taskStatus = isVin && vin ? monk.types.ProgressStatus.DONE : task?.status;
+
     const disabledTaskStatuses = [
       monk.types.ProgressStatus.TODO,
       monk.types.ProgressStatus.IN_PROGRESS,
@@ -90,23 +90,37 @@ export default function Landing() {
     ].includes(task?.status);
     const disabled = disabledTaskStatuses && !isVin;
 
+    const composeStatus = () => {
+      if (isVin && vin) {
+        return {
+          status: vin,
+          icon: ICON_BY_STATUS[monk.types.ProgressStatus.DONE],
+        };
+      }
+      if (task?.status) {
+        return {
+          status: STATUSES[task.status],
+          icon: ICON_BY_STATUS[task.status],
+        };
+      }
+      return { status: description, icon: 'chevron-right' };
+    };
+
     const left = () => <List.Icon icon={icon} />;
     const right = () => ([
       monk.types.ProgressStatus.TODO,
       monk.types.ProgressStatus.IN_PROGRESS,
     ].includes(task?.status)
       ? <ActivityIndicator color="white" size={16} style={styles.listLoading} />
-      : <List.Icon icon={ICON_BY_STATUS[taskStatus] || 'chevron-right'} />);
+      : <List.Icon icon={composeStatus().icon} />);
 
     const handlePress = () => handleListItemPress(value);
-
-    const status = task?.status ? STATUSES[taskStatus] : description;
 
     return (
       <Surface style={(index % 2 === 0) ? styles.evenListItem : styles.oddListItem}>
         <List.Item
           title={title}
-          description={status}
+          description={composeStatus().status}
           left={left}
           right={right}
           onPress={handlePress}
