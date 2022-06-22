@@ -13,7 +13,7 @@ import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import Sentry from '../../config/sentry';
 import { setUser } from '../../config/sentryPlatform';
-import useUpdateInspectionVehicle from './useupdateInspectionVehicle';
+import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
 const styles = StyleSheet.create({
   root: {
