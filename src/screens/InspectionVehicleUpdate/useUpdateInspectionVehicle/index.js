@@ -13,7 +13,7 @@ export default function useUpdateInspectionVehicle(id, vin) {
   const axiosRequest = useCallback(async () => monk.entity.vehicle.updateOne(id, { vin }), []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
-    dispatch(monk.actions.gotOneVehicle({ entities, result }));
+    dispatch(monk.actions.updatedOneVehicle({ entities, result }));
   }, [dispatch]);
 
   const canRequest = useCallback(() => isAuthenticated, [isAuthenticated]);
