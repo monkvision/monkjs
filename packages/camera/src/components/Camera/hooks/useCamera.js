@@ -4,24 +4,8 @@ import { Platform } from 'react-native';
 import { useError, utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
-import compress from './compress';
+import useCompression from './useCompression';
 import log from '../../../utils/log';
-
-const handleCompress = async (data, resolution, enableCompression, Span) => {
-  if (Platform.OS !== 'web') { return undefined; }
-
-  let compressionTracing;
-  if (Span) { compressionTracing = new Span('image-compression', 'func'); }
-
-  const compressed = await compress(data, resolution.width, resolution.height);
-
-  if (compressed) {
-    log([`An image has been taken, with size: ${(data.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${resolution.width}x${resolution.height}`]);
-  }
-
-  compressionTracing?.finish();
-  return compressed || data;
-};
 
 // get url from canvas blob, because `canvas.toDataUrl` can't be revoked programmatically
 const toBlob = (canvasElement, type) => new Promise((resolve) => {
@@ -43,6 +27,7 @@ const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
 export default function useCamera({ width, height }, options, enableCompression, Sentry) {
   const { video, onCameraReady } = options;
   const { Span } = useError(Sentry);
+  const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
   const { stream, error } = useUserMedia({ video: videoConstraints });
@@ -67,10 +52,21 @@ export default function useCamera({ width, height }, options, enableCompression,
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
 
     let uri;
-    if (enableCompression && !utils.supportsWebP) {
+    if (enableCompression && !utils.supportsWebP()) {
+      if (Platform.OS !== 'web') { return undefined; }
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
-      const blob = await handleCompress(arrayBuffer, { width, height }, Sentry ? Span : null);
-      uri = URL.createObjectURL(blob);
+
+      let compressionTracing;
+      if (Span) { compressionTracing = new Span('image-compression', 'func'); }
+
+      const compressed = await compress(arrayBuffer, width, height);
+
+      if (compressed) {
+        log([`An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
+      }
+
+      compressionTracing?.finish();
+      uri = URL.createObjectURL(compressed);
     } else {
       uri = await toBlob(canvas, imageType);
     }
