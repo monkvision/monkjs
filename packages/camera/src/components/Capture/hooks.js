@@ -205,7 +205,12 @@ export function useStartUploadAsync({
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
         let uploadTracing;
-        if (Sentry) { uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP); }
+        if (Sentry) {
+          uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP);
+          uploadTracing.addDataToSpan('upload-tracing', 'file_size', file.size / 1024);
+          uploadTracing.addDataToSpan('upload-tracing', 'picture_width', picture.width);
+          uploadTracing.addDataToSpan('upload-tracing', 'picture_height', picture.height);
+        }
 
         try {
           const data = new FormData();

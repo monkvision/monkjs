@@ -23,5 +23,5 @@ export default function useVinModal({ isAuthenticated, inspectionId }) {
     navigation.navigate(to, { selectedMod: 'vinNumber', inspectionId });
   }, [isAuthenticated, inspectionId, navigation]);
 
-  return { vin: { onSelect: handleVinSelect, title: 'Vin' } };
+  return { vin: { onSelect: handleVinSelect, title: 'How to set VIN number?' } };
 }

@@ -183,7 +183,6 @@ export default function Landing() {
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
           <List.Section>
-            {isAuthenticated && <SignOut />}
             <List.Subheader>Click to run a new inspection</List.Subheader>
             <FlatList
               data={ExpoConstants.manifest.extra.options}
@@ -191,11 +190,14 @@ export default function Landing() {
               keyExtractor={(item) => item.value}
             />
           </List.Section>
-          {!isEmpty(inspection) ? (
+          {isAuthenticated && (
             <Card.Actions style={styles.actions}>
-              <Button color={colors.text} onPress={handleReset}>Reset inspection</Button>
+              {!isEmpty(inspection) ? (
+                <Button color={colors.text} onPress={handleReset}>Reset inspection</Button>
+              ) : null}
+              <SignOut onSuccess={handleReset} />
             </Card.Actions>
-          ) : null}
+          )}
         </Card>
       </Container>
     </View>
