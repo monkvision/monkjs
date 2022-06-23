@@ -41,7 +41,7 @@ We are going to add loaders so that Babel can handle modern JS
 such as [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining).
 
 1. First, we install the necessary loaders in dev dependencies.
-2. Then, the modules that will allow us to customiz and rewired the App.
+2. Then, the modules that will allow us to customize and rewired the App.
 
 ```yarn
 yarn add -D @babel/plugin-proposal-optional-chaining @babel/plugin-proposal-nullish-coalescing-operator @babel/plugin-proposal-class-properties @babel/plugin-syntax-jsx @babel/plugin-transform-react-jsx @babel/plugin-transform-react-display-name && yarn add -D customize-cra react-app-rewired
@@ -77,6 +77,45 @@ Finally, we change scripts in the `package.json` to run the project with a `yarn
   "test": "react-app-rewired test",
 },
 ```
+
+### Possible errors linked to the usage of the camera package
+#### Module not found: Error Can't resolve 'buffer'
+```
+Module not found: Error: Can't resolve 'buffer' in
+BREAKING CHANGE: webpack  5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+If you want to include a polyfill, you need to:
+- add a fallback 'resolve.fallback: { "buffer": require.resolve("buffer/") }'
+- install 'buffer'
+  If you don't want to include a polyfill, you can use an empty module like this:
+  resolve.fallback: { "buffer": false }
+```
+
+You might encounter this error or a similar error, while launching your app containing the monk's camera package.
+As it is written, you will have to first create a `webpack.config.js` file at the root of your app project and fill it with:
+
+```js
+module.exports = {
+  resolve: {
+    fallback: {
+      buffer: require.resolve("buffer/"), // replace the module if different from buffer
+    }
+  }
+}
+```
+
+The last step will be to install the missing module `buffer`:
+```shell
+  yarn add buffer
+```
+
+#### expo-modules-core
+You might also encounter this error if you are using the monk's camera package, because it needs the core system of the expo package.
+So you if you have this error:
+```shell
+  yarn add expo-modules-core
+```
+
 
 ## Create Expo App
 

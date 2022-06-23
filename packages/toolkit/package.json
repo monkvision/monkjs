@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.5",
-    "expo-font": "^10.0.3"
+    "expo-font": "^10.0.3",
+    "moment": "^2.29.3"
   },
   "devDependencies": {
     "prop-types": "^15.8.1",
