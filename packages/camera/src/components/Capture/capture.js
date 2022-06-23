@@ -180,7 +180,6 @@ const Capture = forwardRef(({
     mapTasksToSights,
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
-    enableCompression,
     Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
@@ -358,6 +357,8 @@ const Capture = forwardRef(({
           pictureSize={settings.pictureSize}
           settings={settings}
           enableQHDWhenSupported={enableQHDWhenSupported}
+          enableCompression={enableCompression}
+          Sentry={Sentry}
         >
           {children}
         </Camera>
@@ -517,7 +518,7 @@ Capture.defaultProps = {
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
-  enableCompression: false,
+  enableCompression: true,
   footer: null,
   fullscreen: null,
   initialState: {

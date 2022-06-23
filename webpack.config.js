@@ -29,5 +29,12 @@ module.exports = async function (env, argv) {
     config.optimization.minimize = true;
   }
 
+  const rules = config.module.rules || [];
+  rules.push({
+    test: /\.js$/,
+    loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+  });
+  config.module.rules = rules;
+
   return config;
 };
