@@ -62,7 +62,7 @@ export default function InspectionVehicleUpdate() {
   }, [updateInspectionVehicle.start]);
 
   const handleGoBack = useCallback(
-    () => navigation.navigate(names.LANDING),
+    () => navigation.navigate(names.LANDING, route.params),
     [navigation],
   );
 
