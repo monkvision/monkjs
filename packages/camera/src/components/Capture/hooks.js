@@ -4,33 +4,11 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
-import { compressAccurately } from 'image-conversion';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
-
-const handleCompress = async (picture, enableCompression, Span) => {
-  if (Platform.OS !== 'web') { return undefined; }
-
-  let compressionTracing;
-  if (Span) { compressionTracing = new Span('image-compression', 'func'); }
-  const res = await axios.get(picture.uri, { responseType: 'blob' });
-
-  // no need to compress images under 3mb
-  if (res.data.size / 1024 < 3000 || !enableCompression) {
-    URL.revokeObjectURL(picture.uri);
-    log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
-    return res.data;
-  }
-
-  const compressed = await compressAccurately(res.data, 3000);
-  URL.revokeObjectURL(picture.uri);
-  log([`An image has been taken, with size: ${(res.data.size / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${picture.width}x${picture.height}`]);
-  compressionTracing?.finish();
-  return compressed || res.data;
-};
 
 const COVERAGE_360_WHITELIST = [
   // T-ROCK
@@ -173,7 +151,6 @@ export function useCreateDamageDetectionAsync() {
  * @param mapTasksToSights
  * @param onFinish
  * @param onPictureUploaded
- * @param enableCompression
  * @param Sentry
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
@@ -185,7 +162,6 @@ export function useStartUploadAsync({
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
-  enableCompression,
   Sentry,
 }) {
   const [queue, setQueue] = useState([]);
@@ -239,6 +215,7 @@ export function useStartUploadAsync({
             payload: { id, status: 'rejected', error: err },
           });
         } finally {
+          URL.revokeObjectURL(picture.uri);
           uploadTracing?.finish();
         }
       }
@@ -296,7 +273,8 @@ export function useStartUploadAsync({
       let fileBits;
 
       if (Platform.OS === 'web') {
-        const file = await handleCompress(picture, enableCompression, Sentry ? Span : null);
+        const res = await axios.get(picture.uri, { responseType: 'blob' });
+        const file = res.data;
 
         fileBits = [file];
       } else {

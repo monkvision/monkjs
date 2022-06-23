@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { Platform } from 'react-native';
+
 import { useError, utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
+import useCompression from './useCompression';
+import log from '../../../utils/log';
 
 // get url from canvas blob, because `canvas.toDataUrl` can't be revoked programmatically
 const toBlob = (canvasElement, type) => new Promise((resolve) => {
@@ -20,9 +24,10 @@ const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
  *  and an object `options`, containing getUserMedia constraints and `onCameraReady`.
  */
-export default function useCamera({ width, height }, options, Sentry) {
+export default function useCamera({ width, height }, options, enableCompression, Sentry) {
   const { video, onCameraReady } = options;
   const { Span } = useError(Sentry);
+  const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
   const { stream, error } = useUserMedia({ video: videoConstraints });
@@ -45,7 +50,27 @@ export default function useCamera({ width, height }, options, Sentry) {
     let webCaptureTracing;
     if (Sentry) { webCaptureTracing = new Span('web-capture', 'func'); }
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
-    const uri = await toBlob(canvas, imageType);
+
+    let uri;
+    if (enableCompression && !utils.supportsWebP()) {
+      if (Platform.OS !== 'web') { return undefined; }
+      const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
+
+      let compressionTracing;
+      if (Span) { compressionTracing = new Span('image-compression', 'func'); }
+
+      const compressed = await compress(arrayBuffer, width, height);
+
+      if (compressed) {
+        log([`An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
+      }
+
+      compressionTracing?.finish();
+      uri = URL.createObjectURL(compressed);
+    } else {
+      uri = await toBlob(canvas, imageType);
+    }
+
     webCaptureTracing?.finish();
 
     return { uri, width, height };
