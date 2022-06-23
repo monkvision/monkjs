@@ -6,15 +6,14 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
-import isEmpty from 'lodash.isempty';
 
 import * as names from 'screens/names';
 
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
-import useCreateInspection from './useCreateInspection';
 import Sentry from '../../config/sentry';
 import { setUser } from '../../config/sentryPlatform';
+import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
 const styles = StyleSheet.create({
   root: {
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function InspectionCreate() {
+export default function InspectionVehicleUpdate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
@@ -43,8 +42,7 @@ export default function InspectionCreate() {
 
   const route = useRoute();
 
-  const { inspectionId: idFromParams, selectedMod: selected, vin, mode } = route.params || {};
-  const [inspectionId, setInspectionId] = useState(idFromParams || '');
+  const { inspectionId, vin } = route.params || {};
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
@@ -54,31 +52,19 @@ export default function InspectionCreate() {
     },
   });
 
-  const createInspection = useCreateInspection(vin);
-  const handleCreate = useCallback(async () => {
-    if (isEmpty(inspectionId) && isAuthenticated) {
-      const response = await createInspection.start(selected);
-      if (response !== null) {
-        Sentry.Browser.setTag('inspection_id', response.result);
-        setInspectionId(response.result);
-      }
+  const updateInspectionVehicle = useUpdateInspectionVehicle(inspectionId, vin);
+  const handleUpdate = useCallback(async () => {
+    const response = await updateInspectionVehicle.start();
+    if (response !== null) {
+      Sentry.Browser.setTag('inspection_id', response.result);
+      navigation.navigate(names.LANDING, route.params);
     }
-  }, [inspectionId, isAuthenticated, createInspection]);
+  }, [updateInspectionVehicle.start]);
 
   const handleGoBack = useCallback(
     () => navigation.navigate(names.LANDING),
     [navigation],
   );
-
-  useEffect(() => {
-    const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
-    if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
-
-    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
-
-    const params = { inspectionId, sightIds: option.sightIds, taskName: option.taskName };
-    navigation.navigate(names.INSPECTION_CAPTURE, params);
-  }, [isAuthenticated, navigation, selected, inspectionId]);
 
   useFocusEffect(useCallback(() => {
     if (!isAuthenticated && !isSigningIn) { signIn(); }
@@ -94,17 +80,14 @@ export default function InspectionCreate() {
   }, [isAuthenticated]);
 
   useEffect(useCallback(() => {
-    if (isAuthenticated && isEmpty(inspectionId
-      && !createInspection.state.loading) && !createInspection.state.error) {
-      handleCreate();
-    }
-  }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
+    const { loading, error } = updateInspectionVehicle.state;
+    if (isAuthenticated && !loading && !error) { handleUpdate(); }
+  }, [isAuthenticated, handleUpdate, updateInspectionVehicle]));
 
   useEffect(() => {
-    if (createInspection.state.error) {
-      errorHandler(createInspection.state.error, Constants.type.APP, createInspection.state);
-    }
-  }, [createInspection.state.error]);
+    const { state } = updateInspectionVehicle;
+    if (state.error) { errorHandler(state.error, Constants.type.APP, state); }
+  }, [updateInspectionVehicle.state.error]);
 
   if (isSigningIn) {
     return (
@@ -124,20 +107,20 @@ export default function InspectionCreate() {
     </View>;
   }
 
-  if (createInspection.state.loading) {
+  if (updateInspectionVehicle.state.loading) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Creating inspection`, `Waking up the AI`]} />
+        <Loader texts={[`Updating the inspection`, `Waking up the AI`]} />
       </View>
     );
   }
 
-  if (createInspection.state.error) {
+  if (updateInspectionVehicle.state.error) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
         <Title>Sorry 😞</Title>
         <Paragraph style={styles.p}>
-          An error occurred while creating the inspection, please try again in a minute.
+          An error occurred while updating the inspection, please try again in a minute.
         </Paragraph>
         <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
       </View>

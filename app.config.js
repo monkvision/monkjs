@@ -23,9 +23,10 @@ const app = {
 const options = [
   {
     value: 'vinNumber',
-    title: 'VIN recognition',
-    description: 'Vehicle info obtained from OCR',
+    title: 'Vehicle identification number',
+    description: 'Detect with camera or type it manually',
     icon: 'car-info',
+    mode: ['automatic', 'manually'], // default to automatic
     sightIds: [
       'sLu0CfOt', // Vin number
     ],
