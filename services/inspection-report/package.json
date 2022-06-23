@@ -35,6 +35,7 @@
     "normalizr": "^3.6.2",
     "notistack": "^3.0.0-alpha.2",
     "prop-types": "^15.8.1",
+    "react-input-mask": "^2.0.4",
     "react-native": "^0.68.0",
     "react-native-web": "^0.17.7",
     "react-redux": "^7.2.8",

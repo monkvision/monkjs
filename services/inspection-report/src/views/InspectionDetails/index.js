@@ -11,12 +11,13 @@ import ImageList from 'views/InspectionDetails/ImageList';
 import moment from 'moment';
 import useGetInspection from './useGetInspection';
 import useGetPdfReport from './useGetPdfReport';
-import IdField from './IdField';
+import Field from './Field';
+import VinForm from './VinForm';
 
 export default function InspectionDetails() {
   const { id } = useParams();
 
-  const { state, images, damages, inspection } = useGetInspection(id);
+  const { state, images, damages, vehicle, inspection } = useGetInspection(id);
   const { pdfUrl, handleDownLoad } = useGetPdfReport(id);
 
   const imageItems = useMemo(() => {
@@ -46,8 +47,9 @@ export default function InspectionDetails() {
             {/* general */}
             <Stack spacing={1.6}>
               <Typography variant="h5">Details</Typography>
-              <IdField label="Inspection ID" id={id} />
-              <IdField label="Creator ID" id={inspection?.creatorId || ''} />
+              <VinForm label="Vin" vin={vehicle?.vin} inspectionId={id} />
+              <Field label="Inspection ID" value={id} readOnly />
+              <Field label="Creator ID" value={inspection?.creatorId || ''} readOnly />
             </Stack>
 
             {/* report */}

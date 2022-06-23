@@ -12,6 +12,7 @@ export default function useGetInspection(inspectionId) {
   const taskEntities = useSelector(monk.entity.task.selectors.selectEntities);
   const viewsEntities = useSelector(monk.entity.view.selectors.selectEntities);
   const damagesEntities = useSelector(monk.entity.damage.selectors.selectEntities);
+  const vehicleEntities = useSelector(monk.entity.vehicle.selectors.selectEntities);
 
   const inspection = inspectionEntities[inspectionId];
   const images = inspection
@@ -60,5 +61,6 @@ export default function useGetInspection(inspectionId) {
     inspection,
     images,
     tasks,
+    vehicle: vehicleEntities[inspection?.vehicle],
   };
 }
