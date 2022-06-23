@@ -50,7 +50,7 @@ export default function Field({ label, value, readOnly, loading, mask, onChange,
     return (
       <InputMask
         mask={mask}
-        maskChar=" "
+        maskChar=""
         {...commonFieldProps}
       >
         {(inputProps) => (<TextField {...inputProps} />)}
