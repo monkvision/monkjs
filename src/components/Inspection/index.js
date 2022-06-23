@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Badge, Card, IconButton } from 'react-native-paper';
-import { ScrollView, Share, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, Share, StyleSheet, View } from 'react-native';
 
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
-import { utils } from '@monkvision/toolkit';
+import { utils, useTimeout } from '@monkvision/toolkit';
 import * as WebBrowser from 'expo-web-browser';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
@@ -58,8 +58,20 @@ const styles = StyleSheet.create({
 
 const base = `https://${ExpoConstants.manifest.extra.IRA_DOMAIN}`;
 
+const COPY_ICON = 'content-copy';
+const COPIED_ICON = 'clipboard-check-outline';
+const SHARE_ICON = 'share-variant';
+
 function ShareButton({ message, ...props }) {
+  const initialIcon = Platform.OS === 'web' ? COPY_ICON : SHARE_ICON;
+  const [icon, setIcon] = useState(initialIcon);
+
+  const delay = useMemo(() => (icon === COPIED_ICON ? 1000 : null), [icon]);
+  useTimeout(() => { setIcon(COPY_ICON); }, delay);
+
   const handlePress = useCallback(async () => {
+    if (Platform.OS === 'web') { navigator.clipboard.writeText(message); setIcon(COPIED_ICON); return; }
+
     try {
       const result = await Share.share({
         message,
@@ -79,7 +91,7 @@ function ShareButton({ message, ...props }) {
     }
   }, []);
 
-  return <IconButton {...props} icon="share-variant" onPress={handlePress} />;
+  return <IconButton {...props} icon={icon} onPress={handlePress} />;
 }
 
 ShareButton.propTypes = {
@@ -92,7 +104,7 @@ export default function Inspection({ createdAt, id, images }) {
   const linkTo = `${base}${path}`;
 
   const caption = useMemo(() => moment(createdAt).format('LLL'), [createdAt]);
-  const message = useMemo(() => `Inspection Report - ${linkTo}`, [linkTo]);
+  const message = useMemo(() => (Platform.OS === 'web' ? linkTo : `Inspection Report - ${linkTo}`), [linkTo]);
   const titleRight = useCallback(
     (props) => <ShareButton {...props} message={message} />,
     [message],

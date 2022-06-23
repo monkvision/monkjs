@@ -1,12 +1,18 @@
 import { utils } from '@monkvision/toolkit';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
   root: {
+    position: 'relative',
+  },
+  container: {
     flex: 1,
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'row',
+    position: 'relative',
   },
   portrait: {
     flex: 1,
@@ -47,5 +53,44 @@ export default StyleSheet.create({
   },
   card: {
     borderRadius: 0,
+  },
+  // modal
+  modalRoot: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    width: '100%',
+    height: '100%',
+  },
+  modalContainer: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  modalPlayground: {
+    alignSelf: 'center',
+    zIndex: 10,
+    borderRadius: 8,
+    width: 200,
+    height: 'auto',
+    padding: 4,
+  },
+  modalItem: {
+    borderRadius: 4,
+  },
+  pressOutside: {
+    zIndex: 1,
+    opacity: 0.8,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  blur: {
+    width,
+    height,
   },
 });

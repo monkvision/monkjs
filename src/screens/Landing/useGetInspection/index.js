@@ -34,7 +34,7 @@ export default function useGetInspection(id) {
       images: imageEntities,
       tasks: taskEntities,
       damages: damagesEntities,
-      vehicle: vehicleEntity,
+      vehicles: { [inspectionEntity?.vehicle]: vehicleEntity },
       wheelAnalysis: wheelAnalysisEntities,
     },
   );
