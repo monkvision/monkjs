@@ -66,13 +66,14 @@ Field.propTypes = {
   label: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   mask: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   readOnly: PropTypes.bool,
   value: PropTypes.string.isRequired,
 };
 
 Field.defaultProps = {
   loading: false,
+  onChange: () => {},
   readOnly: false,
   mask: '',
 };
