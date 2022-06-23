@@ -12,6 +12,7 @@ const { spacing } = utils.styles;
 
 const styles = StyleSheet.create({
   card: {
+    width: '100%',
     zIndex: 1,
     paddingVertical: spacing(2),
   },
