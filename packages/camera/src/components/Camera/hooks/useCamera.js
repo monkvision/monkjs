@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { useError, utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
-import useCompression from './useCompression';
+import useCompression, { fileType } from './useCompression';
 import log from '../../../utils/log';
 
 // get url from canvas blob, because `canvas.toDataUrl` can't be revoked programmatically
@@ -27,7 +27,7 @@ const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
 export default function useCamera({ width, height }, options, enableCompression, Sentry) {
   const { video, onCameraReady } = options;
   const { Span } = useError(Sentry);
-  const compress = useCompression();
+  const compress = useCompression({ type: fileType.WEBP });
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
   const { stream, error } = useUserMedia({ video: videoConstraints });
@@ -52,7 +52,7 @@ export default function useCamera({ width, height }, options, enableCompression,
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
 
     let uri;
-    if (enableCompression && !utils.supportsWebP()) {
+    if (enableCompression) {
       if (Platform.OS !== 'web') { return undefined; }
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
 
