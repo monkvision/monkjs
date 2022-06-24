@@ -11,6 +11,7 @@ const initialSettingsState = {
   ratio: '4:3',
   zoom: 0,
   type: CameraType.back,
+  compression: true,
 };
 
 function init({ initialState }) {
