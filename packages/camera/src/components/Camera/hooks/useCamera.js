@@ -52,7 +52,7 @@ export default function useCamera({ width, height }, options, enableCompression,
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
 
     let uri;
-    if (enableCompression) {
+    if (enableCompression && !utils.supportsWebP()) {
       if (Platform.OS !== 'web') { return undefined; }
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
 
