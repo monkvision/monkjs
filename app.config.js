@@ -53,34 +53,34 @@ const options = [
       'g30kyiVH', // Front Bumper Side Right
       'I0cOpT1e', // Front
 
-      'IqwSM3', // Front seats
-      'rj5mhm', // Back seats
-      'qhKA2z', // Trunk
-      'rSvk2C', // Dashboard
+      // 'IqwSM3', // Front seats
+      // 'rj5mhm', // Back seats
+      // 'qhKA2z', // Trunk
+      // 'rSvk2C', // Dashboard
     ],
     taskName: 'damage_detection',
   },
-  {
-    value: 'commando',
-    title: 'Data collection',
-    description: '52 pictures to obtain max observation and result',
-    icon: 'database',
-    sightIds: [
-      'sLu0CfOt',
-      'PLh198NC', 'xsuH1g5T', 'xfbBpq3Q', 'm1rhrZ88', 'LE9h1xh0',
-      'IVcF1dOP', 'xQKQ0bXS', 'T24v9XS8', 'VmFL3v2A', 'eOkUJUBk',
-      'zjAIjUgU', 'GOQq1-nN', 'UHZkpCuK', '1-gwCM0m', 'ClEZSucK',
-      'GvCtVnoD', '8_W2PO8L', 'dQOmxo13', 'OOJDJ7go', 'D4r9OKHt',
-      '3vKXafwc', 'GHbWVnMB', 'j8YHvnDP', 'XyeyZlaU', 'LDRoAPnk',
-      'j3E2UHFc', 'Cce1KCd3', '36qmcrgr', 'TDLex8-D', '2RFF3Uf8',
-      'eWZsEThb', 'AoO-nOoM', 'QqBpHiVP', '6MR5C13s', 'rN39Y3HR',
-      'B5s1CWT-', 'QJ_yOnBl', '0U14gFyk', 'WWZsroCu', 'enHQTFae',
-      '2wVqenwP', 'PuIw17h0', 'Pzgw0WGe', 'jqJOb6Ov', 'CELBsvYD',
-      'jgB-cu5G', 'EqLDVYj3', 'vLcBGkeh', 'Fh972HlF', 'RMeCZRbd',
-      'oIk8RQ3w',
-    ],
-    taskName: 'damage_detection',
-  },
+  // {
+  //   value: 'commando',
+  //   title: 'Data collection',
+  //   description: '52 pictures to obtain max observation and result',
+  //   icon: 'database',
+  //   sightIds: [
+  //     'sLu0CfOt',
+  //     'PLh198NC', 'xsuH1g5T', 'xfbBpq3Q', 'm1rhrZ88', 'LE9h1xh0',
+  //     'IVcF1dOP', 'xQKQ0bXS', 'T24v9XS8', 'VmFL3v2A', 'eOkUJUBk',
+  //     'zjAIjUgU', 'GOQq1-nN', 'UHZkpCuK', '1-gwCM0m', 'ClEZSucK',
+  //     'GvCtVnoD', '8_W2PO8L', 'dQOmxo13', 'OOJDJ7go', 'D4r9OKHt',
+  //     '3vKXafwc', 'GHbWVnMB', 'j8YHvnDP', 'XyeyZlaU', 'LDRoAPnk',
+  //     'j3E2UHFc', 'Cce1KCd3', '36qmcrgr', 'TDLex8-D', '2RFF3Uf8',
+  //     'eWZsEThb', 'AoO-nOoM', 'QqBpHiVP', '6MR5C13s', 'rN39Y3HR',
+  //     'B5s1CWT-', 'QJ_yOnBl', '0U14gFyk', 'WWZsroCu', 'enHQTFae',
+  //     '2wVqenwP', 'PuIw17h0', 'Pzgw0WGe', 'jqJOb6Ov', 'CELBsvYD',
+  //     'jgB-cu5G', 'EqLDVYj3', 'vLcBGkeh', 'Fh972HlF', 'RMeCZRbd',
+  //     'oIk8RQ3w',
+  //   ],
+  //   taskName: 'damage_detection',
+  // },
   {
     value: 'wheels',
     title: 'Wheels analysis',
