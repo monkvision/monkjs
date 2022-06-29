@@ -8,6 +8,15 @@ import { Actions } from '@monkvision/camera';
 import styles from './styles';
 import useFullscreen from './useFullscreen';
 
+const settingsOptions = {
+  RESOLUTION: 'resolution',
+  COMPRESSION: 'compression',
+  FULLSCREEN: 'fullscreen',
+  DEFAULT: 'default',
+  FHD: 'FHD',
+  QHD: 'QHD',
+};
+
 const Settings = forwardRef(({ settings }, ref) => {
   const { colors } = useTheme();
   const { width, height } = useWindowDimensions();
@@ -17,22 +26,50 @@ const Settings = forwardRef(({ settings }, ref) => {
   const { isFullscreen, requestFullscreen } = useFullscreen();
 
   const modals = useMemo(() => ({
-    default: [{ title: 'Resolution', value: 'resolution' }, { hidden: Platform.OS !== 'web', title: isFullscreen ? 'Exit fullscreen' : 'Fullscreen', value: 'fullscreen', selected: isFullscreen }],
-    resolution: [{ title: 'FHD', value: 'FHD' }, { title: 'QHD', value: 'QHD' }],
+    [settingsOptions.DEFAULT]: [
+      { title: 'Resolution', value: settingsOptions.RESOLUTION },
+      { title: 'Image compression', value: settingsOptions.COMPRESSION },
+      { hidden: Platform.OS !== 'web', title: isFullscreen ? 'Exit fullscreen' : 'Fullscreen', value: settingsOptions.FULLSCREEN, selected: isFullscreen },
+    ],
+    [settingsOptions.RESOLUTION]: [{ title: settingsOptions.FHD, value: settingsOptions.FHD },
+      { title: settingsOptions.QHD, value: settingsOptions.QHD }],
+    [settingsOptions.COMPRESSION]: [{ title: 'On', value: true }, { title: 'Off', value: false }],
   }), [isFullscreen]);
 
   const handleSelect = useCallback((name) => {
     // select only value that are not one of the `modals` keys
-    if (name === 'fullscreen') { requestFullscreen(); return; }
-    if (Object.keys(modals).includes(name)) { setModal({ visible: true, name }); return; }
 
+    // fulscreen
+    if (name === settingsOptions.FULLSCREEN) {
+      requestFullscreen();
+      return;
+    }
+
+    // compressions
+    if (modal.name === settingsOptions.COMPRESSION && typeof name === 'boolean') {
+      settings.dispatch({
+        type: Actions.settings.UPDATE_SETTINGS,
+        payload: { [modal.name]: name },
+      });
+      return;
+    }
+
+    // sub settings
+    if (Object.keys(modals).includes(name)) {
+      setModal({ visible: true, name });
+      return;
+    }
+
+    // default
     settings.dispatch({
       type: Actions.settings.UPDATE_SETTINGS,
       payload: { [modal.name]: name },
     });
   }, [modals, requestFullscreen, modal.name]);
 
-  useImperativeHandle(ref, () => ({ open: () => handleSelect('default') }));
+  useImperativeHandle(ref, () => ({
+    open: () => handleSelect(settingsOptions.FULLSCREEN.DEFAULT),
+  }));
 
   if (!modal.visible) { return null; }
   return (

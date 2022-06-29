@@ -67,7 +67,6 @@ const Capture = forwardRef(({
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
-  enableCompression,
   enableQHDWhenSupported,
   colors,
   footer,
@@ -357,7 +356,6 @@ const Capture = forwardRef(({
           pictureSize={settings.pictureSize}
           settings={settings}
           enableQHDWhenSupported={enableQHDWhenSupported}
-          enableCompression={enableCompression}
           Sentry={Sentry}
         >
           {children}
@@ -463,6 +461,7 @@ Capture.propTypes = {
   primaryColor: PropTypes.string,
   Sentry: PropTypes.any,
   settings: PropTypes.shape({
+    compression: PropTypes.bool,
     pictureSize: PropTypes.string,
     ratio: PropTypes.string,
     type: PropTypes.string,

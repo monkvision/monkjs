@@ -153,11 +153,6 @@ Props inherited from `Button`
 `PropTypes.bool`
 
 Automatically enable `QHD` resolution, by default it's `true` (for web only).
-## enableCompression
-`PropTypes.bool`
-
-If true, images will be compressed (using [image-compression](https://www.npmjs.com/package/image-conversion)), and then added to a queue to be uploaded to the backend API. However, only images larger than 3MB in size are supposed to be compressed to a maximum size of 3MB or less, by default it's `false` (for web only).
-
 ## initialState
 `PropTypes.state`
 
@@ -368,7 +363,7 @@ console.log(state); // { isReady, settings, sights, uploads, compliance };
 ````js
 const settings = useSettings({ camera, initialState });
 console.log(settings); // { state, distpatch }
-console.log(settings.state); // { resolution, ratio, zoom, type }
+console.log(settings.state); // { resolution, compression, ratio, zoom, type }
 ````
 See [Expo Camera Props](https://docs.expo.dev/versions/latest/sdk/camera/#props)
 
