@@ -1,23 +1,23 @@
 import eas from './eas.json';
-import palette from './palettes/monk-theme.json';
+import palette from './palettes/emr-theme.json';
 
 const buildNumber = 1;
 
 const app = {
-  name: 'Monk Capture Web Application',
-  shortName: 'MCWA',
-  companyName: 'Monk',
+  name: 'EMR Capture Web Application',
+  shortName: 'ECWA',
+  companyName: 'EMR',
   logo: {
     source: {
-      uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
-      // uri: 'https://www.pinclipart.com/picdir/middle/381-3818109_emr-group-emr-recycling-clipart.png',
+      // uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
+      uri: 'https://seeklogo.com/images/E/european-metal-recycling-logo-FAA2F2892B-seeklogo.com.png',
       // uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
     },
     width: 160,
     height: 71,
   },
   themeColor: palette['color-primary-500'],
-  description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
+  description: 'EMR Capture App enables high level car inspections with helpers and specific user interfaces.',
 };
 
 const options = [
@@ -52,6 +52,8 @@ const options = [
       '5CFsFvj7', // Front Fender Right
       'g30kyiVH', // Front Bumper Side Right
       'I0cOpT1e', // Front
+      'engine-bay-sight',
+      'key-sight',
 
       // 'IqwSM3', // Front seats
       // 'rj5mhm', // Back seats
@@ -141,6 +143,7 @@ export default {
   },
 
   androidNavigationBar: {
+
     visible: 'immersive',
     barStyle: 'light-content',
   },
@@ -198,6 +201,12 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.development.env,
+    ENV: 'preview',
+    IRA_DOMAIN: 'ira.preview.monk.ai',
+    API_DOMAIN: 'api.preview.monk.ai/v1',
+    AUTH_AUDIENCE: 'https://api.preview.monk.ai/v1/',
+    AUTH_CLIENT_ID: 'soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn',
+    AUTH_DOMAIN: 'idp.preview.monk.ai',
+    SENTRY_DSN: 'https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3',
   },
 };
