@@ -68,7 +68,7 @@ const Settings = forwardRef(({ settings }, ref) => {
   }, [modals, requestFullscreen, modal.name]);
 
   useImperativeHandle(ref, () => ({
-    open: () => handleSelect(settingsOptions.FULLSCREEN.DEFAULT),
+    open: () => handleSelect(settingsOptions.DEFAULT),
   }));
 
   if (!modal.visible) { return null; }
