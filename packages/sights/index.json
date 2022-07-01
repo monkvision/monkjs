@@ -1,4 +1,16 @@
 {
+  "key-sight": {
+    "category": "interior",
+    "id": "key-sight",
+    "label": "key",
+    "vehicleType": "undefined"
+  },
+  "engine-bay-sight": {
+    "category": "interior",
+    "id": "engine-bay-sight",
+    "label": "engine bay",
+    "vehicleType": "undefined"
+  },
   "IqwSM3": {
     "category": "interior",
     "id": "IqwSM3",
