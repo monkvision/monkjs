@@ -201,12 +201,6 @@ export default {
       palette,
     },
     ...app,
-    ENV: 'preview',
-    IRA_DOMAIN: 'ira.preview.monk.ai',
-    API_DOMAIN: 'api.preview.monk.ai/v1',
-    AUTH_AUDIENCE: 'https://api.preview.monk.ai/v1/',
-    AUTH_CLIENT_ID: 'soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn',
-    AUTH_DOMAIN: 'idp.preview.monk.ai',
-    SENTRY_DSN: 'https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3',
+    ...eas.build.preview.env,
   },
 };
