@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { Actions } from '@monkvision/camera';
 
+import { useMediaQuery } from 'react-responsive';
 import styles from './styles';
 import useFullscreen from './useFullscreen';
 
@@ -18,6 +19,8 @@ const settingsOptions = {
 };
 
 const Settings = forwardRef(({ settings }, ref) => {
+  const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
+
   const { colors } = useTheme();
   const { width, height } = useWindowDimensions();
   const [modal, setModal] = useState({ visible: false, name: null });
@@ -71,7 +74,8 @@ const Settings = forwardRef(({ settings }, ref) => {
     open: () => handleSelect(settingsOptions.DEFAULT),
   }));
 
-  if (!modal.visible) { return null; }
+  if (!modal.visible || portraitMediaQuery) { return null; }
+
   return (
     <>
       <View style={[styles.settings, { backgroundColor: colors.background }]}>
