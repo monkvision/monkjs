@@ -86,6 +86,7 @@ const Capture = forwardRef(({
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onPictureUploaded,
+  onWarningMessage,
   onReady,
   onRetakeAll,
   onStartUploadPicture,
@@ -179,6 +180,7 @@ const Capture = forwardRef(({
     mapTasksToSights,
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
+    onWarningMessage,
     Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
@@ -351,6 +353,7 @@ const Capture = forwardRef(({
           ref={camera}
           loding={loading}
           onCameraReady={handleCameraReady}
+          onWarningMessage={onWarningMessage}
           title={title}
           ratio={settings.ratio}
           pictureSize={settings.pictureSize}
@@ -457,6 +460,7 @@ Capture.propTypes = {
   onSightsChange: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   onUploadsChange: PropTypes.func,
+  onWarningMessage: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
   Sentry: PropTypes.any,
@@ -543,6 +547,7 @@ Capture.defaultProps = {
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
   onFinishUploadPicture: () => {},
+  onWarningMessage: () => {},
   onReady: () => {},
   onStartUploadPicture: () => {},
   onRetakeAll: () => {},
