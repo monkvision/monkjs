@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { Snackbar, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
@@ -12,6 +12,7 @@ import * as names from 'screens/names';
 import Settings from './settings';
 import styles from './styles';
 import Sentry from '../../config/sentry';
+import useSnackbar from '../../hooks/useSnackbar';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -62,8 +63,8 @@ export default function InspectionCapture() {
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [showMessage, setShowMessage] = useState(null);
   const [cameraLoading, setCameraLoading] = useState(false);
+  const { setShowMessage, Notice } = useSnackbar();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -194,12 +195,7 @@ export default function InspectionCapture() {
         colors={colors}
         Sentry={Sentry}
       />
-      <Snackbar
-        visible={showMessage !== null}
-        theme={{ colors: { surface: '#fff' } }}
-      >
-        {showMessage}
-      </Snackbar>
+      <Notice />
     </View>
   );
 }
