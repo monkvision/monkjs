@@ -24,7 +24,13 @@ const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
  *  and an object `options`, containing getUserMedia constraints and `onCameraReady`.
  */
-export default function useCamera({ width, height }, options, enableCompression, Sentry) {
+export default function useCamera(
+  { width, height },
+  options,
+  enableCompression,
+  Sentry,
+  onWarningMessage,
+) {
   const { video, onCameraReady } = options;
   const { Span } = useError(Sentry);
   const compress = useCompression();
@@ -59,7 +65,9 @@ export default function useCamera({ width, height }, options, enableCompression,
       let compressionTracing;
       if (Span) { compressionTracing = new Span('image-compression', 'func'); }
 
+      if (onWarningMessage) { onWarningMessage('Compressing an image...'); }
       const compressed = await compress(arrayBuffer, width, height);
+      if (onWarningMessage) { onWarningMessage(null); }
 
       if (compressed) {
         log([`An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);

@@ -12,6 +12,7 @@ import * as names from 'screens/names';
 import Settings from './settings';
 import styles from './styles';
 import Sentry from '../../config/sentry';
+import useSnackbar from '../../hooks/useSnackbar';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -63,6 +64,7 @@ export default function InspectionCapture() {
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
+  const { setShowMessage, Notice } = useSnackbar();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -185,6 +187,7 @@ export default function InspectionCapture() {
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
+        onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
         settings={settings}
         enableComplianceCheck={enableComplianceCheck}
@@ -192,6 +195,7 @@ export default function InspectionCapture() {
         colors={colors}
         Sentry={Sentry}
       />
+      <Notice />
     </View>
   );
 }

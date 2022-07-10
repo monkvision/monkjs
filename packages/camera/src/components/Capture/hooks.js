@@ -151,6 +151,7 @@ export function useCreateDamageDetectionAsync() {
  * @param mapTasksToSights
  * @param onFinish
  * @param onPictureUploaded
+ * @param onPushWarningMessaqe
  * @param Sentry
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
@@ -162,6 +163,7 @@ export function useStartUploadAsync({
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
+  onWarningMessage = () => {},
   Sentry,
 }) {
   const [queue, setQueue] = useState([]);
@@ -180,6 +182,7 @@ export function useStartUploadAsync({
       const queryParams = queue.shift();
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
+        onWarningMessage('Uploading an image...');
         let uploadTracing;
         if (Sentry) {
           uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP);
@@ -216,6 +219,7 @@ export function useStartUploadAsync({
           });
         } finally {
           URL.revokeObjectURL(picture.uri);
+          onWarningMessage(null);
           uploadTracing?.finish();
         }
       }
