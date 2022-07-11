@@ -6,7 +6,7 @@ import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { useError } from '@monkvision/toolkit';
+import { useError, utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 import Settings from './settings';
@@ -72,7 +72,7 @@ export default function InspectionCapture() {
         // eslint-disable-next-line no-alert
         const ok = window.confirm('You are going to quit capture. Is it OK?');
         if (ok) {
-          errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+          utils.log(['[Click]', 'User suddenly quit the inspection']);
           navigation.navigate(names.LANDING, { inspectionId });
         }
       }
@@ -86,7 +86,7 @@ export default function InspectionCapture() {
         }, {
           text: 'OK',
           onPress: () => {
-            errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+            utils.log(['[Click]', 'User suddenly quit the inspection']);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],

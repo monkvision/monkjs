@@ -1,4 +1,4 @@
-import { useError, useInterval } from '@monkvision/toolkit';
+import { useError, useInterval, utils } from '@monkvision/toolkit';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
@@ -60,11 +60,13 @@ export default function Landing() {
   const selectors = useVinModal({ isAuthenticated, inspectionId });
 
   const handleReset = useCallback(() => {
+    utils.log(['[Click]', 'Resetting the inspection: ', inspectionId]);
     Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
-  }, [navigation]);
+  }, [navigation, inspectionId]);
 
   const handleListItemPress = useCallback((value) => {
+    utils.log(['[Click]', 'Landing page task selection: ', value]);
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }

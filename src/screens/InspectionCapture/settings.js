@@ -4,6 +4,7 @@ import { useTheme, Menu, List } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 import { Actions } from '@monkvision/camera';
+import { utils } from '@monkvision/toolkit';
 
 import { useMediaQuery } from 'react-responsive';
 import styles from './styles';
@@ -42,14 +43,16 @@ const Settings = forwardRef(({ settings }, ref) => {
   const handleSelect = useCallback((name) => {
     // select only value that are not one of the `modals` keys
 
-    // fulscreen
+    // fullscreen
     if (name === settingsOptions.FULLSCREEN) {
+      utils.log(['[Click] Camera setting: ', 'Fullscreen ', 'on']);
       requestFullscreen();
       return;
     }
 
     // compressions
     if (modal.name === settingsOptions.COMPRESSION && typeof name === 'boolean') {
+      utils.log(['[Click] Camera setting: ', 'Compression ', name ? 'on' : 'off']);
       settings.dispatch({
         type: Actions.settings.UPDATE_SETTINGS,
         payload: { [modal.name]: name },
@@ -64,6 +67,7 @@ const Settings = forwardRef(({ settings }, ref) => {
     }
 
     // default
+    utils.log(['[Click] Camera setting: ', modal.name, name]);
     settings.dispatch({
       type: Actions.settings.UPDATE_SETTINGS,
       payload: { [modal.name]: name },
