@@ -43,8 +43,10 @@ export default function SignIn() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
+    onStart: () => { utils.log(['[Click] Signing in']); },
     onError: (error, request) => {
       setAuthError(true);
+      utils.log(['[Event] Sign in failed']);
       errorHandler(error, Constants.type.APP, request);
     },
   });

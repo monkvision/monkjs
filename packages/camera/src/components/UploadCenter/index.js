@@ -8,6 +8,7 @@ import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import UploadCard from './UploadCard';
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 import Button from './button';
+import log from '../../utils/log';
 
 const { spacing } = utils.styles;
 
@@ -101,6 +102,7 @@ export default function UploadCenter({
   // EFFECTS //
 
   useEffect(() => {
+    log(['[Event] Entering the Upload center']);
     if (Sentry) {
       const transaction = new Span('upload-center-user-time', SpanConstants.operation.USER_TIME);
 
@@ -197,7 +199,10 @@ export default function UploadCenter({
         <Button
           colors={colors}
           color={colors.actions.secondary}
-          onPress={onComplianceCheckFinish}
+          onPress={(e) => {
+            log(['[Click] Skip retaking photo']);
+            onComplianceCheckFinish(e);
+          }}
           disabled={isSubmitting || hasAllRejected
              || !hasFulfilledAllUploads || !navigationOptions.allowSkipImageQualityCheck}
         >

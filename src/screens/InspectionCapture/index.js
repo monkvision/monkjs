@@ -107,6 +107,7 @@ export default function InspectionCapture() {
         dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
         setCameraLoading(false);
 
+        utils.log(['[Event] Back to landing page with photo taken']);
         handleNavigate();
       } catch (err) {
         errorHandler(err, Constants.type.HTTP, {

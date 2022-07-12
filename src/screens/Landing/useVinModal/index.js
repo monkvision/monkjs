@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import * as names from 'screens/names';
 import { useNavigation } from '@react-navigation/native';
+import { utils } from '@monkvision/toolkit';
 
 export default function useVinModal({ isAuthenticated, inspectionId }) {
   const navigation = useNavigation();
@@ -11,6 +12,7 @@ export default function useVinModal({ isAuthenticated, inspectionId }) {
 
     // select only value that are not one of the `modals` keys
     if (name === 'manually') {
+      utils.log(['[Click] Entering VIN manually']);
       const options = { title: 'Vehicle identification number', message: 'Please enter the VIN', key: 'vin' };
       const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_PROMPT;
       const redirect = inspectionId ? names.INSPECTION_VEHICLE_UPDATE : names.INSPECTION_CREATE;
@@ -19,6 +21,7 @@ export default function useVinModal({ isAuthenticated, inspectionId }) {
       return;
     }
 
+    utils.log(['[Click] Detecting VIN by taking a photo']);
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
     navigation.navigate(to, { selectedMod: 'vinNumber', inspectionId });
   }, [isAuthenticated, inspectionId, navigation]);

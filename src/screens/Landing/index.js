@@ -3,8 +3,7 @@ import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo, useEffect, useRef } from 'react';
-import * as Device from 'expo-device';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { View, useWindowDimensions, FlatList } from 'react-native';
@@ -21,7 +20,6 @@ import * as names from 'screens/names';
 import Modal from 'components/Modal';
 import styles from './styles';
 import Sentry from '../../config/sentry';
-import { setTag } from '../../config/sentryPlatform';
 import useVinModal from './useVinModal';
 
 const STATUSES = {
@@ -61,13 +59,13 @@ export default function Landing() {
   const selectors = useVinModal({ isAuthenticated, inspectionId });
 
   const handleReset = useCallback(() => {
-    utils.log(['[Click]', 'Resetting the inspection: ', inspectionId]);
+    utils.log(['[Click] Resetting the inspection: ', inspectionId]);
     Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
   }, [navigation, inspectionId]);
 
   const handleListItemPress = useCallback((value) => {
-    utils.log(['[Click]', 'Landing page task selection: ', value]);
+    utils.log(['[Click] Inspection task chosen: ', value]);
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
@@ -145,10 +143,6 @@ export default function Landing() {
     start();
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
-
-  useEffect(() => {
-    setTag('device_model', Device.modelName);
-  }, []);
 
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((t) => t?.name === 'images_ocr');

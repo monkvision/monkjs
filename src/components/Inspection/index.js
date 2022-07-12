@@ -70,9 +70,15 @@ function ShareButton({ message, ...props }) {
   useTimeout(() => { setIcon(COPY_ICON); }, delay);
 
   const handlePress = useCallback(async () => {
-    if (Platform.OS === 'web') { navigator.clipboard.writeText(message); setIcon(COPIED_ICON); return; }
+    if (Platform.OS === 'web') {
+      utils.log(['[Click] Inspection Id copied']);
+      navigator.clipboard.writeText(message);
+      setIcon(COPIED_ICON);
+      return;
+    }
 
     try {
+      utils.log(['[Click] Sharing the inspection']);
       const result = await Share.share({
         message,
       });
@@ -111,6 +117,7 @@ export default function Inspection({ createdAt, id, images }) {
   );
 
   const handlePress = useCallback(({ id: imageId }) => {
+    utils.log(['[Click] View inspection image']);
     const url = `${linkTo}?access_token=${accessToken}&image_id=${imageId}`;
     WebBrowser.openBrowserAsync(url);
   }, [path, accessToken]);

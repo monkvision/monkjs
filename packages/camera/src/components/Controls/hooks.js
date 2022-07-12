@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import { useError } from '@monkvision/toolkit';
 import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import Actions from '../../actions';
+import log from '../../utils/log';
 
 const useHandlers = ({
   onStartUploadPicture,
@@ -39,6 +40,7 @@ const useHandlers = ({
       goNextSight,
     } = api;
 
+    log(['[Click] Taking a photo']);
     const picture = await takePictureAsync();
 
     if (!picture) { return; }
@@ -62,6 +64,7 @@ const useHandlers = ({
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
+    log(['[Click] Retake all photos']);
     // adding an initialState that will hold new compliance with `requestCount = 1`
     const complianceInitialState = {
       id: '',
