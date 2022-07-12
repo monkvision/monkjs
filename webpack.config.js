@@ -17,6 +17,7 @@ module.exports = async function (env, argv) {
   config.resolve.alias['@monkvision/ui'] = path.resolve(__dirname, './packages/ui');
   config.resolve.alias['@monkvision/camera'] = path.resolve(__dirname, './packages/camera');
   config.resolve.alias['@monkvision/corejs'] = path.resolve(__dirname, './packages/corejs');
+  config.resolve.alias['@monkvision/record'] = path.resolve(__dirname, './packages/record');
   config.resolve.alias['@monkvision/sights'] = path.resolve(__dirname, './packages/sights');
   config.resolve.alias['@monkvision/toolkit'] = path.resolve(__dirname, './packages/toolkit');
   config.resolve.alias['@monkvision/visualization'] = path.resolve(__dirname, './packages/visualization');

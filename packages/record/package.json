@@ -1,0 +1,57 @@
+{
+  "name": "@monkvision/record",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "version": "2.4.1",
+  "private": false,
+  "description": "AI-powered vehicle damage detection for React Native",
+  "homepage": "https://github.com/monkvision/monkjs/packages/record/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/record"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "keywords": [
+    "react native",
+    "record",
+    "native components",
+    "vehicle damage detection"
+  ],
+  "main": "commonjs/index.js",
+  "module": "module/index.js",
+  "react-native": "src/index.js",
+  "files": [
+    "commonjs",
+    "module",
+    "src",
+    ".editorconfig",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "watch": "watch 'yarn run build' src",
+    "lint": "eslint src --cache",
+    "build": "bob build",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "expo-image-manipulator": "^10.2.1"
+  },
+  "devDependencies": {
+    "prop-types": "^15.8.1",
+    "react-native-builder-bob": "^0.18.2"
+  },
+  "peerDependencies": {
+    "expo-camera": "^12.1.2",
+    "@monkvision/toolkit": "2.4.1",
+    "react": "*",
+    "react-native": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

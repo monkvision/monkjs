@@ -15,6 +15,7 @@
         "@monkvision/ui": "./packages/ui",
         "@monkvision/camera": "./packages/camera",
         "@monkvision/corejs": "./packages/corejs",
+        "@monkvision/record": "./packages/record",
         "@monkvision/sights": "./packages/sights",
         "@monkvision/toolkit": "./packages/toolkit",
         "@monkvision/visualization": "./packages/visualization"

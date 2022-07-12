@@ -9,6 +9,7 @@ config.resolver = {
     '@monkvision/ui',
     '@monkvision/camera',
     '@monkvision/corejs',
+    '@monkvision/record',
     '@monkvision/sights',
     '@monkvision/toolkit',
     '@monkvision/visualization',

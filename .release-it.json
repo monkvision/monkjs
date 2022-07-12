@@ -6,6 +6,7 @@
       "npm run build:sights",
       "npm run build:corejs",
       "npm run build:camera",
+      "npm run build:record",
       "npm run build:visualization"
     ],
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."

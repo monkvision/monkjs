@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { CameraRecord } from '@monkvision/camera';
 import * as Screens from 'screens';
 import * as names from 'screens/names';
 
@@ -11,9 +11,10 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={names.LANDING} screenOptions={{ headerShown: false }}>
+
         <Stack.Screen
           name={names.LANDING}
-          component={Screens.Landing}
+          component={CameraRecord}
           title="Monk Capture App"
         />
         <Stack.Screen
