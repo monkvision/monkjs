@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Svg, { ClipPath, G, Path, Defs, LinearGradient } from 'react-native-svg';
+import Svg, { Circle, ClipPath, G, Path, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 export default function Vehicle({ black, palette, white }) {
   return (
@@ -36,22 +36,22 @@ export default function Vehicle({ black, palette, white }) {
         <Path stroke="#fff" strokeMiterlimit="10" strokeWidth=".252" d="m94.98 112.923-4.61 31.763 38.513-.843 6.323-30.781-40.225-.139Z" opacity=".2" />
         <Path fill={palette['color-primary-600']} d="M166.534 146.234c-.556.251-1.868.916-2.057 1.961H78.488l-1.761-.016a18.2 18.2 0 0 0 1.006-1.948l88.801.003Z" opacity=".5" />
         <Path fill={black} d="M124.224 125.77c-.266.376-.509.768-.728 1.173-1.636 3.119-5.441-1.951-4.125-3.703l.909-.848c-.333 4.023 2.942 3.595 3.944 3.378Zm6.289 7.097h-.088s2.895-.78.088 0Zm23.929 14.576v.428a.938.938 0 0 1 0-.428Z" opacity=".1" />
-        <circle cx="50.36" cy="78.023" r="7.802" fill="url(#d)" />
-        <circle cx="208.89" cy="57.099" r="3.901" fill="url(#e)" />
-        <circle cx="148.243" cy="24.825" r="2.128" fill="url(#f)" />
+        <Circle cx="50.36" cy="78.023" r="7.802" fill="url(#d)" />
+        <Circle cx="208.89" cy="57.099" r="3.901" fill="url(#e)" />
+        <Circle cx="148.243" cy="24.825" r="2.128" fill="url(#f)" />
       </G>
       <Defs>
         <LinearGradient id="d" x1="50.36" x2="50.36" y1="70.221" y2="85.826" gradientUnits="userSpaceOnUse">
-          <stop stopColor={palette['color-primary-100']} />
-          <stop offset="1" stopColor={palette['color-primary-100']} stopOpacity="0" />
+          <Stop stopColor={palette['color-primary-100']} />
+          <Stop offset="1" stopColor={palette['color-primary-100']} stopOpacity="0" />
         </LinearGradient>
         <LinearGradient id="e" x1="208.89" x2="208.89" y1="53.198" y2="61" gradientUnits="userSpaceOnUse">
-          <stop stopColor={palette['color-primary-500']} />
-          <stop offset="1" stopColor={palette['color-primary-500']} stopOpacity="0" />
+          <Stop stopColor={palette['color-primary-500']} />
+          <Stop offset="1" stopColor={palette['color-primary-500']} stopOpacity="0" />
         </LinearGradient>
         <LinearGradient id="f" x1="148.243" x2="148.243" y1="22.697" y2="26.953" gradientUnits="userSpaceOnUse">
-          <stop stopColor={palette['color-primary-200']} />
-          <stop offset="1" stopColor={palette['color-primary-200']} stopOpacity="0" />
+          <Stop stopColor={palette['color-primary-200']} />
+          <Stop offset="1" stopColor={palette['color-primary-200']} stopOpacity="0" />
         </LinearGradient>
         <ClipPath id="a">
           <Path fill={white} d="M0 0h249.272v183H0z" />
