@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { useError } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import Actions from '../../actions';
 
 const useHandlers = ({
@@ -11,7 +12,7 @@ const useHandlers = ({
   stream,
   Sentry,
 }) => {
-  const { Span, Constants: SentryConstants } = useError(Sentry);
+  const { Span } = useError(Sentry);
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
@@ -24,7 +25,7 @@ const useHandlers = ({
      */
     let captureButtonTracing;
     if (Sentry) {
-      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_ACTION);
+      captureButtonTracing = new Span('image-capture-button', SpanConstants.operation.USER_ACTION);
     }
     const state = controlledState || unControlledState;
     event.preventDefault();

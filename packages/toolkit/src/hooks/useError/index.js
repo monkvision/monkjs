@@ -1,26 +1,30 @@
 import { Platform } from 'react-native';
 
-export default function useError(Sentry) {
-  const Constants = {
-    type: {
-      UPLOAD: 'upload', // logs linked to the upload
-      CAMERA: 'camera', // logs linked to the camera
-      FUNC: 'func', // logs linked to a function
-      APP: 'app', // logs linked to the application
-      HTTP: 'http', // logs linked to the api
-    },
-    operation: {
-      HTTP: 'http',
-      USER_ACTION: 'user-action',
-      FUNC: 'func',
-    },
-  };
+export const SpanConstants = {
+  type: {
+    UPLOAD: 'upload', // logs linked to the upload
+    CAMERA: 'camera', // logs linked to the camera
+    FUNC: 'func', // logs linked to a function
+    APP: 'app', // logs linked to the application
+    HTTP: 'http', // logs linked to the api
+  },
+  operation: {
+    HTTP: 'http',
+    USER_TIME: 'user-time-per-action',
+    USER_CAMERA_TIME: 'user-camera-time',
+    USER_UPLOAD_CENTER_TIME: 'user-upload-center-time',
+    USER_ACTION: 'user-action',
+    RESPONSE_TIME: 'response-time',
+    FUNC: 'func',
+  },
+};
 
+export default function useError(Sentry) {
   class Span {
     constructor(name, op) {
       if (!Sentry) { throw new Error('Sentry is null'); }
       const t = Platform.select({ web: Sentry.Browser, native: Sentry.Native })
-        .startTransaction({ name });
+        .startTransaction({ name, op });
       this.transaction = t;
       this.spans = {};
       this.spans[op] = t.startChild({ op });
@@ -65,5 +69,5 @@ export default function useError(Sentry) {
       });
   };
 
-  return { errorHandler, Constants, Span };
+  return { errorHandler, Span };
 }

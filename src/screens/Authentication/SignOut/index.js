@@ -6,6 +6,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 
 import monk from '@monkvision/corejs';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import discoveries from 'config/discoveries';
 import useAuth from 'hooks/useAuth';
 import Sentry from '../../../config/sentry';
@@ -22,10 +23,10 @@ const returnTo = makeRedirectUri({
 export default function SignOut(props) {
   const params = `?client_id=${monk.config.authConfig.clientId}&returnTo=${returnTo}`;
   const { signOut } = useAuth();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
 
   const handleOpenWithWebBrowser = () => {
-    WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`).catch((err) => errorHandler(err, Constants.type.APP, { returnTo }));
+    WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`).catch((err) => errorHandler(err, SpanConstants.type.APP, { returnTo }));
     signOut();
   };
 

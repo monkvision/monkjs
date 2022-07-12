@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 import { theme as initialTheme, useError } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import { Loader } from '@monkvision/ui';
 import 'config/corejs';
 import SilentAuth from 'components/SilentAuth';
@@ -36,7 +37,7 @@ const customFonts = {
 
 function App() {
   const { height: minHeight } = useWindowDimensions();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
 
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -50,7 +51,7 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        errorHandler(err, Constants.type.APP);
+        errorHandler(err, SpanConstants.type.APP);
       }
     }
   }, [appIsReady]);

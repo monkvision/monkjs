@@ -6,6 +6,7 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import isEmpty from 'lodash.isempty';
 
 import * as names from 'screens/names';
@@ -38,7 +39,7 @@ export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
   const { colors, loaderDotsColors } = useTheme();
 
   const route = useRoute();
@@ -49,7 +50,7 @@ export default function InspectionCreate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: (err, request) => {
-      errorHandler(err, Constants.type.APP, request);
+      errorHandler(err, SpanConstants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -102,7 +103,7 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (createInspection.state.error) {
-      errorHandler(createInspection.state.error, Constants.type.APP, createInspection.state);
+      errorHandler(createInspection.state.error, SpanConstants.type.APP, createInspection.state);
     }
   }, [createInspection.state.error]);
 

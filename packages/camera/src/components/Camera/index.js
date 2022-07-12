@@ -3,7 +3,8 @@ import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import { utils, useTimeout } from '@monkvision/toolkit';
+import { utils, useTimeout, useError } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 
 import Actions from '../../actions';
 import Constants from '../../const';
@@ -51,11 +52,23 @@ function Camera({
     video: { facingMode, width: resolution.width, height: resolution.height },
   }, settings.state.compression, Sentry, onWarningMessage);
 
+  const { Span } = useError(Sentry);
+
   useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
   const delay = useMemo(
     () => (enableQHDWhenSupported && stream && videoRef.current ? 500 : null),
     [stream],
   );
+
+  useEffect(() => {
+    if (Sentry) {
+      const transaction = new Span('camera-user-time', SpanConstants.operation.USER_TIME);
+
+      return () => transaction.finish();
+    }
+
+    return () => undefined;
+  }, []);
 
   // stopping the stream when the component unmount
   useEffect(() => stopStream, [stopStream]);

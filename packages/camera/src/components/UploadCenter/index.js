@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { utils } from '@monkvision/toolkit';
+import { useError, utils } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 
 import UploadCard from './UploadCard';
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
@@ -64,6 +65,7 @@ export default function UploadCenter({
   task,
   mapTasksToSights,
   colors,
+  Sentry,
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
@@ -71,6 +73,7 @@ export default function UploadCenter({
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
+  const { Span } = useError(Sentry);
 
   const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
     inspectionId,
@@ -96,6 +99,16 @@ export default function UploadCenter({
 
   // END METHODS //
   // EFFECTS //
+
+  useEffect(() => {
+    if (Sentry) {
+      const transaction = new Span('upload-center-user-time', SpanConstants.operation.USER_TIME);
+
+      return () => transaction.finish();
+    }
+
+    return () => undefined;
+  }, []);
 
   useEffect(() => {
     if (submitted === false && hasNoCompliancesLeft) {
@@ -245,6 +258,7 @@ UploadCenter.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  Sentry: PropTypes.any,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
   submitButtonLabel: PropTypes.string,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -264,5 +278,6 @@ UploadCenter.defaultProps = {
     retakeMaxTry: 1,
     allowSkipImageQualityCheck: true,
   },
+  Sentry: null,
   task: 'damage_detection',
 };

@@ -1,4 +1,5 @@
 import { useError, useInterval, utils } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
@@ -42,7 +43,7 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
@@ -134,7 +135,7 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err, Constants.type.APP));
+      getInspection.start().catch((err) => errorHandler(err, SpanConstants.type.APP));
     }
   }, [inspectionId, getInspection]);
 
