@@ -4,6 +4,7 @@ import Sentry from 'config/sentry';
 import { ASYNC_STORAGE_AUTH_KEY, dispatchSignOut } from 'hooks/useSignIn';
 import Proptypes from 'prop-types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
@@ -11,6 +12,7 @@ export default function SignOut({ onSuccess }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const { errorHandler, Constants } = useError(Sentry);
+  const { t } = useTranslation();
 
   const signOut = () => {
     AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
@@ -21,7 +23,7 @@ export default function SignOut({ onSuccess }) {
   };
 
   return (
-    <Button color={colors.text} onPress={signOut}>Sign out</Button>
+    <Button color={colors.text} onPress={signOut}>{t('landing.signOut')}</Button>
   );
 }
 
