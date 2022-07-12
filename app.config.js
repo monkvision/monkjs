@@ -4,8 +4,8 @@ import palette from './palettes/monk-theme.json';
 const buildNumber = 1;
 
 const app = {
-  name: 'Monk Capture Web Application',
-  shortName: 'MCWA',
+  name: 'Monk Capture Application',
+  shortName: 'MCA',
   companyName: 'Monk',
   logo: {
     source: {
