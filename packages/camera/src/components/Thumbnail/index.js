@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-
 import '@expo/match-media';
-import { ActivityIndicator, ImageBackground, View, StyleSheet, Text } from 'react-native';
+import PropTypes from 'prop-types';
+import React, { useEffect, useMemo } from 'react';
+import { ActivityIndicator, ImageBackground, StyleSheet, Text, View } from 'react-native';
 
 import { SIDE_WIDTH } from '../Layout';
 import Overlay from '../Overlay';

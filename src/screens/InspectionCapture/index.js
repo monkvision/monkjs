@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
@@ -57,6 +58,7 @@ export default function InspectionCapture() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { errorHandler, Constants } = useError(Sentry);
+  const { t } = useTranslation();
   const { colors } = useTheme();
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -70,7 +72,7 @@ export default function InspectionCapture() {
     if (confirm) {
       if (Platform.OS === 'web') {
         // eslint-disable-next-line no-alert
-        const ok = window.confirm('You are going to quit capture. Is it OK?');
+        const ok = window.confirm(t('capture.quit.title'));
         if (ok) {
           errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
           navigation.navigate(names.LANDING, { inspectionId });
@@ -78,13 +80,13 @@ export default function InspectionCapture() {
       }
 
       Alert.alert(
-        'Are you sure you want to quit?',
-        'Your taken pictures will be lost for that task.',
+        t('capture.quit.title'),
+        t('capture.quit.message'),
         [{
-          text: 'Cancel',
+          text: t('capture.quit.cancel'),
           style: 'cancel',
         }, {
-          text: 'OK',
+          text: t('capture.quit.ok'),
           onPress: () => {
             errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
             navigation.navigate(names.LANDING, { inspectionId });

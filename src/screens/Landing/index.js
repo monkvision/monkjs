@@ -6,6 +6,7 @@ import React, { useCallback, useMemo, useEffect, useRef } from 'react';
 import * as Device from 'expo-device';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { View, useWindowDimensions, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
 import monk from '@monkvision/corejs';
@@ -13,6 +14,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
 import Artwork from 'screens/Landing/Artwork';
+import LanguageSwitch from 'screens/Landing/LanguageSwitch';
 import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
@@ -43,6 +45,7 @@ export default function Landing() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { errorHandler, Constants } = useError(Sentry);
+  const { t, i18n } = useTranslation();
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
@@ -80,7 +83,8 @@ export default function Landing() {
     const vin = inspection?.vehicle?.vin;
 
     const taskName = ExpoConstants.manifest.extra.options.find((o) => o.value === value)?.taskName;
-    const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
+    const task = Object.values(inspection?.tasks || {})
+      .find((taskObj) => taskObj?.name === taskName);
 
     const disabledTaskStatuses = [
       monk.types.ProgressStatus.TODO,
@@ -99,11 +103,11 @@ export default function Landing() {
       }
       if (task?.status) {
         return {
-          status: STATUSES[task.status],
+          status: t(`inspection.status.${task.status}`),
           icon: ICON_BY_STATUS[task.status],
         };
       }
-      return { status: description, icon: 'chevron-right' };
+      return { status: t(description), icon: 'chevron-right' };
     };
 
     const left = () => <List.Icon icon={icon} />;
@@ -119,7 +123,7 @@ export default function Landing() {
     return (
       <Surface style={(index % 2 === 0) ? styles.evenListItem : styles.oddListItem}>
         <List.Item
-          title={title}
+          title={t(title)}
           description={composeStatus().status}
           left={left}
           right={right}
@@ -148,17 +152,17 @@ export default function Landing() {
   }, []);
 
   const vinModalItems = useMemo(() => {
-    const vinTask = Object.values(inspection?.tasks || {}).find((t) => t?.name === 'images_ocr');
+    const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');
     const disabled = [
       monk.types.ProgressStatus.TODO, monk.types.ProgressStatus.IN_PROGRESS,
       monk.types.ProgressStatus.DONE, monk.types.ProgressStatus.ERROR]
       .includes(vinTask?.status);
 
     return [
-      { title: 'Detect with camera', value: 'automatic', disabled, icon: 'camera' },
-      { title: 'Type it manually', value: 'manually', icon: 'file-edit' },
+      { title: t('vinModal.camera'), value: 'automatic', disabled, icon: 'camera' },
+      { title: t('vinModal.manual'), value: 'manually', icon: 'file-edit' },
     ];
-  }, [inspection]);
+  }, [inspection, i18n.language]);
 
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
@@ -183,21 +187,22 @@ export default function Landing() {
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
           <List.Section>
-            <List.Subheader>Click to run a new inspection</List.Subheader>
+            <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <FlatList
               data={ExpoConstants.manifest.extra.options}
               renderItem={renderListItem}
               keyExtractor={(item) => item.value}
             />
           </List.Section>
-          {isAuthenticated && (
-            <Card.Actions style={styles.actions}>
-              {!isEmpty(inspection) ? (
-                <Button color={colors.text} onPress={handleReset}>Reset inspection</Button>
-              ) : null}
-              <SignOut onSuccess={handleReset} />
-            </Card.Actions>
-          )}
+          <Card.Actions style={styles.actions}>
+            {!isEmpty(inspection) ? (
+              <Button color={colors.text} onPress={handleReset}>{t('landing.resetInspection')}</Button>
+            ) : null}
+            <LanguageSwitch />
+            {isAuthenticated && (
+            <SignOut onSuccess={handleReset} />
+            )}
+          </Card.Actions>
         </Card>
       </Container>
     </View>

@@ -1,4 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
@@ -12,6 +13,7 @@ import UploadCenter from '../UploadCenter';
 
 import Constants from '../../const';
 import log from '../../utils/log';
+import i18next from '../../i18n';
 
 import {
   useCheckComplianceAsync,
@@ -22,6 +24,8 @@ import {
   useTakePictureAsync,
   useTitle,
 } from './hooks';
+
+const i18n = i18next;
 
 const styles = StyleSheet.create({
   container: {
@@ -95,7 +99,6 @@ const Capture = forwardRef(({
   primaryColor,
   sightsContainerStyle,
   style,
-  submitButtonLabel,
   task,
   mapTasksToSights,
   thumbnailStyle,
@@ -319,52 +322,55 @@ const Capture = forwardRef(({
 
   if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
     return (
-      <UploadCenter
-        {...states}
-        isSubmitting={isSubmitting}
-        onComplianceCheckFinish={onComplianceCheckFinish}
-        onComplianceCheckStart={onComplianceCheckStart}
-        onRetakeAll={onRetakeAll}
-        submitButtonLabel={submitButtonLabel}
-        task={task}
-        mapTasksToSights={mapTasksToSights}
-        inspectionId={inspectionId}
-        checkComplianceAsync={checkComplianceAsync}
-        navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
-        colors={colors}
-      />
+      <I18nextProvider i18n={i18n}>
+        <UploadCenter
+          {...states}
+          isSubmitting={isSubmitting}
+          onComplianceCheckFinish={onComplianceCheckFinish}
+          onComplianceCheckStart={onComplianceCheckStart}
+          onRetakeAll={onRetakeAll}
+          task={task}
+          mapTasksToSights={mapTasksToSights}
+          inspectionId={inspectionId}
+          checkComplianceAsync={checkComplianceAsync}
+          navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
+          colors={colors}
+        />
+      </I18nextProvider>
     );
   }
 
   return (
-    <View
-      accessibilityLabel="Capture component"
-      style={[styles.container, style]}
-    >
-      <Layout
-        isReady={isReady}
-        backgroundColor={colors.background}
-        fullscreen={fullscreen}
-        left={left}
-        orientationBlockerProps={orientationBlockerProps}
-        right={right}
+    <I18nextProvider i18n={i18n}>
+      <View
+        accessibilityLabel="Capture component"
+        style={[styles.container, style]}
       >
-        <Camera
-          ref={camera}
-          loding={loading}
-          onCameraReady={handleCameraReady}
-          onWarningMessage={onWarningMessage}
-          title={title}
-          ratio={settings.ratio}
-          pictureSize={settings.pictureSize}
-          settings={settings}
-          enableQHDWhenSupported={enableQHDWhenSupported}
-          Sentry={Sentry}
+        <Layout
+          isReady={isReady}
+          backgroundColor={colors.background}
+          fullscreen={fullscreen}
+          left={left}
+          orientationBlockerProps={orientationBlockerProps}
+          right={right}
         >
-          {children}
-        </Camera>
-      </Layout>
-    </View>
+          <Camera
+            ref={camera}
+            loding={loading}
+            onCameraReady={handleCameraReady}
+            onWarningMessage={onWarningMessage}
+            title={title}
+            ratio={settings.ratio}
+            pictureSize={settings.pictureSize}
+            settings={settings}
+            enableQHDWhenSupported={enableQHDWhenSupported}
+            Sentry={Sentry}
+          >
+            {children}
+          </Camera>
+        </Layout>
+      </View>
+    </I18nextProvider>
   );
 
   // END RENDERING //
@@ -481,7 +487,10 @@ Capture.propTypes = {
         metadata: PropTypes.shape({
           category: PropTypes.string,
           id: PropTypes.string,
-          label: PropTypes.string,
+          label: PropTypes.shape({
+            en: PropTypes.string,
+            fr: PropTypes.string,
+          }),
           overlay: PropTypes.string,
           vehicleType: PropTypes.string,
         }),
@@ -493,7 +502,10 @@ Capture.propTypes = {
         PropTypes.shape({
           category: PropTypes.string,
           id: PropTypes.string,
-          label: PropTypes.string,
+          label: PropTypes.shape({
+            en: PropTypes.string,
+            fr: PropTypes.string,
+          }),
           overlay: PropTypes.string,
           vehicleType: PropTypes.string,
         }),
@@ -501,7 +513,6 @@ Capture.propTypes = {
     }),
   }).isRequired,
   sightsContainerStyle: PropTypes.objectOf(PropTypes.any),
-  submitButtonLabel: PropTypes.string,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   uploads: PropTypes.shape({
@@ -557,7 +568,6 @@ Capture.defaultProps = {
   enableComplianceCheck: false,
   isSubmitting: false,
   Sentry: null,
-  submitButtonLabel: 'Skip retaking',
   task: 'damage_detection',
   thumbnailStyle: {},
 };

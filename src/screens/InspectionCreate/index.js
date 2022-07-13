@@ -3,6 +3,7 @@ import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
@@ -39,6 +40,7 @@ export default function InspectionCreate() {
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
   const { errorHandler, Constants } = useError(Sentry);
+  const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
 
   const route = useRoute();
@@ -109,19 +111,28 @@ export default function InspectionCreate() {
   if (isSigningIn) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`]} />
+        <Loader texts={[
+          t('signin.loader.signingIn'),
+          t('signin.loader.authenticating'),
+          t('signin.loader.robot'),
+        ]}
+        />
       </View>
     );
   }
 
   if (authError === true) {
-    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Title>Sorry 😞</Title>
-      <Paragraph style={styles.p}>
-        An error occurred while authenticating, please try again in a minute.
-      </Paragraph>
-      <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
-    </View>;
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Title>{t('signin.error.title')}</Title>
+        <Paragraph style={styles.p}>
+          {t('signin.error.message')}
+        </Paragraph>
+        <Button style={styles.button} onPress={handleGoBack}>
+          {t('signin.error.button')}
+        </Button>
+      </View>
+    );
   }
 
   if (createInspection.state.loading) {
@@ -135,11 +146,11 @@ export default function InspectionCreate() {
   if (createInspection.state.error) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Title>Sorry 😞</Title>
+        <Title>{t('createInspection.error.title')}</Title>
         <Paragraph style={styles.p}>
-          An error occurred while creating the inspection, please try again in a minute.
+          {t('createInspection.error.message')}
         </Paragraph>
-        <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
+        <Button style={styles.button} onPress={handleGoBack}>{t('createInspection.error.button')}</Button>
       </View>
     );
   }

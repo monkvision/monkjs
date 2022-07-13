@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -20,6 +21,7 @@ function UploadCard({
   upload,
   colors,
 }) {
+  const { i18n } = useTranslation();
   const { uri } = picture;
 
   const {
@@ -33,7 +35,10 @@ function UploadCard({
   const subtitle = useSubtitle({
     isComplianceUnknown, isComplianceIdle, isPending, isUploadFailed, compliance });
 
-  const handleReupload = useCallback(() => onReupload(id, picture), [id, picture, onReupload]);
+  const handleReupload = useCallback(
+    () => onReupload(id, picture, i18n.language),
+    [id, picture, onReupload, i18n.language],
+  );
   const handleRecheck = useCallback(() => onRecheck(id), [onRecheck, id]);
   const handleRetake = useCallback(() => onRetake(id), [onRetake, id]);
 
