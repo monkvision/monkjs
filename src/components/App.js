@@ -3,6 +3,7 @@ import { theme as initialTheme, useError } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import 'config/corejs';
 import SilentAuth from 'components/SilentAuth';
+import SilentLang from 'components/SilentLang';
 
 import Navigation from 'config/Navigation';
 import { Profiler } from 'config/sentryPlatform';
@@ -11,6 +12,7 @@ import * as Font from 'expo-font';
 
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
@@ -37,6 +39,7 @@ const customFonts = {
 function App() {
   const { height: minHeight } = useWindowDimensions();
   const { errorHandler, Constants } = useError(Sentry);
+  const { t } = useTranslation();
 
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -79,7 +82,7 @@ function App() {
   if (!appIsReady) {
     return (
       <View style={[styles.layout, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-        <Loader texts={['Launching the App...']} colors={theme.loaderDotsColors} />
+        <Loader texts={[t('appLoading')]} colors={theme.loaderDotsColors} />
       </View>
     );
   }
@@ -87,6 +90,7 @@ function App() {
   return (
     <Provider store={store}>
       <SilentAuth />
+      <SilentLang />
       <PaperProvider theme={theme}>
         <View style={[styles.layout, { minHeight }]} onLayout={onLayoutRootView}>
           <Navigation />
