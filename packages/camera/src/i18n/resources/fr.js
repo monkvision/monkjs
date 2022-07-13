@@ -1,7 +1,7 @@
 const fr = {
   translation: {
     camera: {
-      permissionDenied: 'Unable to access camera : permission denied.',
+      permissionDenied: 'Impossible d\'accéder à la caméra : permission refusée.',
     },
     controls: {
       takePicture: 'Prendre La Photo',
@@ -18,7 +18,7 @@ const fr = {
         title: 'Vérification de la qualité des images',
         subtitle: 'Plus la qualité est élevée, plus les résultats de l\'inspection seront précis',
         verifying: 'Vérification en cours...',
-        tooMuchTodo: 'Impossible de erifier toutes les images, cela pourrait affecter la précision des résultats',
+        tooMuchTodo: 'Impossible de vérifier toutes les images, cela pourrait affecter la précision des résultats',
         allRejected: 'Impossible d\'upload les images, veuillez réessayer',
         loading: 'Chargement...',
         retakeAll: 'Recommencer tout',

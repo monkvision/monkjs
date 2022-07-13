@@ -66,13 +66,14 @@ export default function Controls({
         style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
       >
         {elements.map(({
+          id,
           children,
           component = TouchableOpacity,
           onPress,
           ...rest
-        }, i) => (
+        }) => (
           createElement(component, {
-            key: `camera-control-${i}`,
+            key: `camera-control-${id}`,
             disabled: loading || hasNoIdle,
             onPress: (e) => handlePress(e, { onPress, ...rest }),
             style: StyleSheet.flatten([styles.button]),
@@ -126,6 +127,7 @@ Controls.defaultProps = {
 };
 
 Controls.CaptureButtonProps = {
+  id: 'take-picture',
   accessibilityLabel: 'Take picture',
   children: <TakePictureButton />,
   style: {
@@ -150,6 +152,7 @@ Controls.CaptureButtonProps = {
 };
 
 Controls.FullscreenButtonProps = {
+  id: 'full-screen',
   accessibilityLabel: 'Full Screen',
   children: <FullScreenButton />,
   style: {
@@ -174,6 +177,7 @@ Controls.FullscreenButtonProps = {
 };
 
 Controls.SettingsButtonProps = {
+  id: 'settings',
   accessibilityLabel: 'Settings',
   children: <SettingsButton />,
   style: {
@@ -198,6 +202,7 @@ Controls.SettingsButtonProps = {
 };
 
 Controls.GoBackButtonProps = {
+  id: 'go-back',
   accessibilityLabel: 'Quit',
   children: <QuitButton />,
   style: {

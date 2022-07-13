@@ -1,7 +1,7 @@
 const en = {
   translation: {
     camera: {
-      permissionDenied: 'Impossible d\'accéder à la caméra : permission refusée.',
+      permissionDenied: 'Unable to access camera : permission denied.',
     },
     controls: {
       takePicture: 'Take Picture',
