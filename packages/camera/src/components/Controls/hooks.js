@@ -26,7 +26,7 @@ const useHandlers = ({
      */
     let captureButtonTracing;
     if (Sentry) {
-      captureButtonTracing = new Span('image-capture-button', SpanConstants.operation.USER_ACTION);
+      captureButtonTracing = new Span('image-capture-button', SpanConstants.operation.USER_TIME);
     }
     const state = controlledState || unControlledState;
     event.preventDefault();
