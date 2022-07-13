@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
+import moment from 'moment';
 import { Button, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
@@ -8,7 +9,7 @@ import Stack from '@mui/material/Stack';
 
 import { ScrollToTop, View } from 'components';
 import ImageList from 'views/InspectionDetails/ImageList';
-import moment from 'moment';
+
 import useGetInspection from './useGetInspection';
 import useGetPdfReport from './useGetPdfReport';
 import Field from './Field';
@@ -18,7 +19,7 @@ export default function InspectionDetails() {
   const { id } = useParams();
 
   const { state, images, damages, vehicle, inspection } = useGetInspection(id);
-  const { pdfUrl, handleDownLoad } = useGetPdfReport(id);
+  const { reportUrl, handleDownLoad, loading: getPdfLoading } = useGetPdfReport(id);
 
   const imageItems = useMemo(() => {
     if (!images) { return []; }
@@ -58,12 +59,17 @@ export default function InspectionDetails() {
               <Typography variant="body1">
                 A PDF report file, containing all the insights about your inspection.
               </Typography>
-              {!pdfUrl ? (
+              {getPdfLoading ? (
                 <Typography variant="subtitle2" color="info">
-                  Your report is not available yet
+                  Requesting the pdf...
                 </Typography>
               ) : null}
-              <Button variant="outlined" disabled={!pdfUrl} onClick={handleDownLoad}>Download report</Button>
+              {!reportUrl && !getPdfLoading ? (
+                <Typography variant="subtitle2" color="info">
+                  Your report is not available yet, try refresh after a minute
+                </Typography>
+              ) : null}
+              <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>Download report</Button>
             </Stack>
 
             {/* images */}

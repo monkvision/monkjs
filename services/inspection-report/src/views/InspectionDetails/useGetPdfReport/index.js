@@ -1,6 +1,7 @@
 import monk from '@monkvision/corejs';
 import { useRequest } from '@monkvision/toolkit';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import useRequestPdfReport from '../useRequestPdfReport';
 
 const download = (url) => {
   const link = document.createElement('a');
@@ -14,6 +15,12 @@ const download = (url) => {
 export default function useGetPdfReport(inspectionId) {
   const [reportUrl, setReportUrl] = useState(null);
 
+  const {
+    requestReport,
+    reportUrl: reportUrlAfterRequesting,
+    loading: requestPdfLoading,
+  } = useRequestPdfReport(inspectionId);
+
   const handleDownLoad = useCallback(() => download(reportUrl), [reportUrl]);
 
   const axiosRequest = useCallback(
@@ -24,11 +31,17 @@ export default function useGetPdfReport(inspectionId) {
   const request = useRequest({
     request: axiosRequest,
     onRequestSuccess: (res) => setReportUrl(res.data.url),
+    onRequestFailure: requestReport,
   });
 
-  const getReport = useCallback(async () => request.start(), []);
+  const getReport = useCallback(() => request.start(), []);
+
+  const loading = useMemo(
+    () => requestPdfLoading || request.state.loading,
+    [request, requestPdfLoading],
+  );
 
   useEffect(() => { getReport(); }, []);
 
-  return { reportUrl, handleDownLoad };
+  return { reportUrl: reportUrl || reportUrlAfterRequesting, handleDownLoad, loading };
 }
