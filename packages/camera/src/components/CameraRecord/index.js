@@ -2,10 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { Camera as ExpoCamera } from 'expo-camera';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import processCut from './mock';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
   },
   camera: {
     flex: 1,
@@ -36,12 +38,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
+  feedback: {
+    position: 'absolute',
+    bottom: 20,
+    zIndex: 9,
+    right: 20,
+    padding: 8,
+    backgroundColor: 'grey',
+    minWidth: 200,
+    minHeight: 40,
+    borderRadius: 4,
+  },
+  feedbackText: {
+    color: 'white',
+  },
 });
 
 export default function CameraRecord() {
   const [hasPermission, setHasPermission] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [cuts, setCuts] = useState([]);
+  const [processedCuts, setProcessedCuts] = useState([]);
+  const [snackbar, setSnackbar] = useState(null);
   const cameraRef = useRef();
 
   const handleStartRecord = useCallback(async (length = 0) => {
@@ -50,6 +68,9 @@ export default function CameraRecord() {
     setIsRecording(true);
     const src = await cameraRef.current?.recordAsync({ maxDuration: 3, quality: '2160p' });
     setCuts((prev) => [...prev, { src }]);
+    processCut({ src })
+      .then((res) => setProcessedCuts((prev) => [...prev, res]))
+      .catch((err) => console.log({ err }));
     await handleStartRecord(length + 1);
   }, [cuts]);
 
@@ -58,6 +79,12 @@ export default function CameraRecord() {
     setCuts((prev) => [...prev, { src }]);
     setIsRecording(false);
   }, []);
+
+  useEffect(() => {
+    if (!processedCuts.length) { return; }
+    const { feedback } = processedCuts[processedCuts.length - 1];
+    setSnackbar(feedback);
+  }, [processedCuts]);
 
   useEffect(() => {
     (async () => {
@@ -76,6 +103,11 @@ export default function CameraRecord() {
 
   return (
     <View style={styles.container}>
+      {snackbar ? (
+        <View style={styles.feedback}>
+          <Text style={styles.feedbackText}>{snackbar}</Text>
+        </View>
+      ) : null}
       <ExpoCamera style={styles.camera} ref={cameraRef}>
         <View style={styles.buttonContainer}>
           <View style={[styles.buttonBorder, { borderColor: isRecording ? 'red' : 'transparent' }]}>
