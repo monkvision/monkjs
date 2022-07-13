@@ -47,8 +47,11 @@ export default function useHandlers({
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
   }, [compliance, sights, uploads]);
 
-  const handleReUpload = useCallback(async (id, picture) => {
-    const current = { id, metadata: { id, label: getItemById(id, sights.state.tour).label } };
+  const handleReUpload = useCallback(async (id, picture, language) => {
+    const current = {
+      id,
+      metadata: { id, label: getItemById(id, sights.state.tour).label[language] },
+    };
     // add sight id to the compliance queue and start uploading the image
     setComplianceToCheck((prev) => prev.concat(current.metadata.id));
     await startUploadAsync(picture, current);

@@ -133,7 +133,7 @@ export default function Inspection({ createdAt, id, images }) {
         )).map((image) => (
           <View key={`image-${image.id}`} style={styles.cardCover}>
             <Card.Cover source={{ uri: image.path }} />
-            <Badge style={styles.label}>{image.additionalData.label}</Badge>
+            <Badge style={styles.label}>{image.additionalData.label[i18n.language]}</Badge>
             <IconButton
               icon="eye"
               accessibilityLabel="See details of the image"

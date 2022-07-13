@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
 import { Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
+import i18next from '../../i18n';
 
+const i18n = i18next;
 const SIDE = 116;
 export const SIDE_WIDTH = SIDE;
 
@@ -84,6 +87,7 @@ const styles = StyleSheet.create({
 function Layout({ backgroundColor, children, left, right }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
+  const { t } = useTranslation();
   const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
   const isPortrait = portraitMediaQuery || height > width;
 
@@ -119,14 +123,18 @@ function Layout({ backgroundColor, children, left, right }) {
 
   if (isPortrait) {
     return (
-      <View style={[styles.rotate, { backgroundColor, height }]}>
-        <View style={styles.rotateContent}>
-          <Text style={styles.title}>Please rotate your device ↪️</Text>
-          <Text style={styles.p}>
-            You may need to unlock portrait mode through phone settings
-          </Text>
+      <I18nextProvider i18n={i18n}>
+        <View style={[styles.rotate, { backgroundColor, height }]}>
+          <View style={styles.rotateContent}>
+            <Text style={styles.title}>
+              {t('layout.rotateDevice')}
+            </Text>
+            <Text style={styles.p}>
+              {t('layout.unlockPortraitMode')}
+            </Text>
+          </View>
         </View>
-      </View>
+      </I18nextProvider>
     );
   }
 

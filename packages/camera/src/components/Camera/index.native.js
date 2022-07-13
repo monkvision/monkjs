@@ -1,5 +1,6 @@
 import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 
 import { Text, View, useWindowDimensions } from 'react-native';
 import { Camera as ExpoCamera, PermissionStatus, CameraType } from 'expo-camera';
@@ -7,7 +8,9 @@ import { Camera as ExpoCamera, PermissionStatus, CameraType } from 'expo-camera'
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';
 import usePermissions from '../../hooks/usePermissions';
+import i18next from '../../i18n';
 
+const i18n = i18next;
 const { getSize } = utils.styles;
 
 function Camera({
@@ -17,6 +20,7 @@ function Camera({
   style,
   ...passThroughProps
 }, ref) {
+  const { t } = useTranslation();
   const permissions = usePermissions();
 
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
@@ -41,7 +45,11 @@ function Camera({
   }
 
   if (permissions.status === PermissionStatus.DENIED) {
-    return <Text>No access to camera. Permission denied!</Text>;
+    return (
+      <I18nextProvider i18n={i18n}>
+        <Text>{t('camera.permissionDenied')}</Text>
+      </I18nextProvider>
+    );
   }
 
   return <View />;

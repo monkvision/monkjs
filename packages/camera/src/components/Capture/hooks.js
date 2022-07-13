@@ -182,7 +182,7 @@ export function useStartUploadAsync({
       const queryParams = queue.shift();
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
-        onWarningMessage('Uploading an image...');
+        onWarningMessage('Upload...');
         let uploadTracing;
         if (Sentry) {
           uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP);

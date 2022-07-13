@@ -93,7 +93,10 @@ CaptureHOC.propTypes = {
         metadata: PropTypes.shape({
           category: PropTypes.string,
           id: PropTypes.string,
-          label: PropTypes.string,
+          label: PropTypes.shape({
+            en: PropTypes.string,
+            fr: PropTypes.string,
+          }),
           overlay: PropTypes.string,
           vehicleType: PropTypes.string,
         }),
@@ -105,7 +108,10 @@ CaptureHOC.propTypes = {
         PropTypes.shape({
           category: PropTypes.string,
           id: PropTypes.string,
-          label: PropTypes.string,
+          label: PropTypes.shape({
+            en: PropTypes.string,
+            fr: PropTypes.string,
+          }),
           overlay: PropTypes.string,
           vehicleType: PropTypes.string,
         }),

@@ -1,8 +1,15 @@
-/* eslint-disable react/no-array-index-key */
 import React, { createElement, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { I18nextProvider } from 'react-i18next';
+import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import QuitButton from './QuitButton';
+import SettingsButton from './SettingsButton';
+import FullScreenButton from './FullScreenButton';
+import TakePictureButton from './TakePictureButton';
 import useHandlers from './hooks';
+import i18next from '../../i18n';
+
+const i18n = i18next;
 
 const styles = StyleSheet.create({
   container: {
@@ -53,26 +60,28 @@ export default function Controls({
   }, [api, handlers, state]);
 
   return (
-    <View
-      acccessibilityLabel="Controls"
-      style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
-    >
-      {elements.map(({
-        children,
-        component = TouchableOpacity,
-        onPress,
-        ...rest
-      }, i) => (
-        createElement(component, {
-          key: `camera-control-${i}`,
-          disabled: loading || hasNoIdle,
-          onPress: (e) => handlePress(e, { onPress, ...rest }),
-          style: StyleSheet.flatten([styles.button]),
-          ...rest,
-          ...passThroughProps,
-        }, children)
-      ))}
-    </View>
+    <I18nextProvider i18n={i18n}>
+      <View
+        acccessibilityLabel="Controls"
+        style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
+      >
+        {elements.map(({
+          children,
+          component = TouchableOpacity,
+          onPress,
+          ...rest
+        }, i) => (
+          createElement(component, {
+            key: `camera-control-${i}`,
+            disabled: loading || hasNoIdle,
+            onPress: (e) => handlePress(e, { onPress, ...rest }),
+            style: StyleSheet.flatten([styles.button]),
+            ...rest,
+            ...passThroughProps,
+          }, children)
+        ))}
+      </View>
+    </I18nextProvider>
   );
 }
 
@@ -118,19 +127,7 @@ Controls.defaultProps = {
 
 Controls.CaptureButtonProps = {
   accessibilityLabel: 'Take picture',
-  children: (
-    <Text
-      style={{
-        display: 'flex',
-        alignSelf: 'center',
-        textAlign: 'center',
-        fontSize: 10,
-        textTransform: 'uppercase',
-      }}
-    >
-      Take picture
-    </Text>
-  ),
+  children: <TakePictureButton />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#fff',
@@ -154,20 +151,7 @@ Controls.CaptureButtonProps = {
 
 Controls.FullscreenButtonProps = {
   accessibilityLabel: 'Full Screen',
-  children: (
-    <Text
-      style={{
-        color: '#FFF',
-        display: 'flex',
-        alignSelf: 'center',
-        textAlign: 'center',
-        fontSize: 10,
-        textTransform: 'uppercase',
-      }}
-    >
-      Full Screen
-    </Text>
-  ),
+  children: <FullScreenButton />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#181829',
@@ -191,20 +175,7 @@ Controls.FullscreenButtonProps = {
 
 Controls.SettingsButtonProps = {
   accessibilityLabel: 'Settings',
-  children: (
-    <Text
-      style={{
-        color: '#FFF',
-        display: 'flex',
-        alignSelf: 'center',
-        textAlign: 'center',
-        fontSize: 10,
-        textTransform: 'uppercase',
-      }}
-    >
-      Settings
-    </Text>
-  ),
+  children: <SettingsButton />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#181829',
@@ -228,20 +199,7 @@ Controls.SettingsButtonProps = {
 
 Controls.GoBackButtonProps = {
   accessibilityLabel: 'Quit',
-  children: (
-    <Text
-      style={{
-        color: '#FFF',
-        display: 'flex',
-        alignSelf: 'center',
-        textAlign: 'center',
-        fontSize: 10,
-        textTransform: 'uppercase',
-      }}
-    >
-      Quit
-    </Text>
-  ),
+  children: <QuitButton />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#fa603d',
