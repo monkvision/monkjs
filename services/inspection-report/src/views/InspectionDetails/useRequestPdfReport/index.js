@@ -2,7 +2,7 @@ import monk from '@monkvision/corejs';
 import { useRequest } from '@monkvision/toolkit';
 import { useCallback, useMemo, useState } from 'react';
 
-const payload = { pricing: true, customer: 'emr', client_name: 'Emr' };
+const payload = { pricing: true, customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=', client_name: 'monk' };
 
 export default function useRequestPdfReport(inspectionId) {
   const [reportUrl, setReportUrl] = useState(null);
