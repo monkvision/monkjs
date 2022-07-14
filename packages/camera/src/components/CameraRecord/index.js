@@ -1,8 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { Camera as ExpoCamera } from 'expo-camera';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import processCut from './mock';
+import initiateProcessCut from './mock';
+import Snackbar from './snackbar';
+import useRecord from './hooks/useRecord';
+import usePermission from './hooks/usePermission';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,6 +17,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    alignSelf: 'flex-end',
     backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
@@ -38,29 +42,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
-  feedback: {
-    position: 'absolute',
-    bottom: 20,
-    zIndex: 9,
-    right: 20,
-    padding: 8,
-    backgroundColor: 'grey',
-    minWidth: 200,
-    minHeight: 40,
+  timer: {
+    backgroundColor: 'red',
     borderRadius: 4,
-  },
-  feedbackText: {
-    color: 'white',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 2,
+    marginTop: 12,
   },
 });
 
+const SCORE_ACCEPTANCE = 3; // the max number of non-compliant frames allowed
+const flatten = (value) => (Array.isArray(value) ? [].concat(...value.map(flatten)) : value);
+const secToMinSec = (sec) => new Date(sec * 1000).toUTCString().split(' ')[4]; // seconds to hh:mm:ss
 export default function CameraRecord() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [isRecording, setIsRecording] = useState(false);
+  const { setIsRecording, ref: cameraRef, isRecording, timer } = useRecord();
+  const hasPermission = usePermission();
+
+  const processCut = () => initiateProcessCut(); // to generate a new random every time
   const [cuts, setCuts] = useState([]);
   const [processedCuts, setProcessedCuts] = useState([]);
-  const [snackbar, setSnackbar] = useState(null);
-  const cameraRef = useRef();
+
+  const feedback = useMemo(
+    () => processedCuts[processedCuts.length - 1]?.feedback,
+    [processedCuts],
+  );
 
   const handleStartRecord = useCallback(async (length = 0) => {
     if (length >= 3) { setIsRecording(false); return; }
@@ -68,30 +75,24 @@ export default function CameraRecord() {
     setIsRecording(true);
     const src = await cameraRef.current?.recordAsync({ maxDuration: 3, quality: '2160p' });
     setCuts((prev) => [...prev, { src }]);
-    processCut({ src })
-      .then((res) => setProcessedCuts((prev) => [...prev, res]))
-      .catch((err) => console.log({ err }));
+    processCut({ src }).then((res) => setProcessedCuts((prev) => [...prev, res]));
+
     await handleStartRecord(length + 1);
-  }, [cuts]);
+  }, [cuts, isRecording]);
 
   const handleStopRecord = useCallback(async () => {
     const src = await cameraRef.current?.stopRecording();
+    setIsRecording(null);
     setCuts((prev) => [...prev, { src }]);
-    setIsRecording(false);
+    // TODO quit the video capture
   }, []);
 
   useEffect(() => {
-    if (!processedCuts.length) { return; }
-    const { feedback } = processedCuts[processedCuts.length - 1];
-    setSnackbar(feedback);
+    const allFeedbacks = processedCuts.map((p) => p.feedback);
+    const allFeedbacksLength = flatten(allFeedbacks);
+
+    if (allFeedbacksLength.length <= SCORE_ACCEPTANCE) { console.log('All good'); } // submit
   }, [processedCuts]);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await ExpoCamera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
 
   if (hasPermission === null) {
     return <View />;
@@ -103,17 +104,16 @@ export default function CameraRecord() {
 
   return (
     <View style={styles.container}>
-      {snackbar ? (
-        <View style={styles.feedback}>
-          <Text style={styles.feedbackText}>{snackbar}</Text>
-        </View>
-      ) : null}
+      <Snackbar feedback={feedback} show={isRecording} />
       <ExpoCamera style={styles.camera} ref={cameraRef}>
+        <View style={styles.timer}>
+          <Text style={styles.text}>{secToMinSec(timer)}</Text>
+        </View>
         <View style={styles.buttonContainer}>
           <View style={[styles.buttonBorder, { borderColor: isRecording ? 'red' : 'transparent' }]}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => (isRecording ? handleStopRecord() : handleStartRecord())}
+              onPress={() => (isRecording ? handleStopRecord() : handleStartRecord(0, isRecording))}
             />
           </View>
         </View>

@@ -5,11 +5,13 @@ const { HANDLE_FRONT_LEFT, DOOR_FRONT_LEFT, WHEEL_FRONT_RIGHT } = monk.types.Par
 const frames = [{ src: '' }];
 const responses = [
   { frames, feedback: ['blurriness', 'underexposure'], coverage: [HANDLE_FRONT_LEFT, DOOR_FRONT_LEFT] },
-  { frames, feedback: ['blurriness'], coverage: [WHEEL_FRONT_RIGHT] },
+  { frames, feedback: ['blurriness', 'TOO_ZOOMED--too zoomed'], coverage: [WHEEL_FRONT_RIGHT] },
+  { frames, feedback: ['underexposure', 'NO_CAR_BODY--no car body detected'], coverage: [WHEEL_FRONT_RIGHT] },
+  { frames, feedback: ['MISSING_PARTS--missing some parts'], coverage: [WHEEL_FRONT_RIGHT] },
 ];
 
 // the ml feature shall process the cut
-const processCut = async () => new Promise((resolve) => {
+const initiateProcessCut = async () => new Promise((resolve) => {
   setTimeout(() => {
     const index = Math.floor(Math.random() * (responses.length - 1));
     const response = responses[index];
@@ -17,4 +19,4 @@ const processCut = async () => new Promise((resolve) => {
   }, 1000);
 });
 
-export default processCut;
+export default initiateProcessCut;
