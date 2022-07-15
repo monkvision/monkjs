@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-// import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Camera as ExpoCamera } from 'expo-camera';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Controls from './Controls';
 import initiateProcessCut from './mock';
 import Snackbar from './snackbar';
 import useRecord from './hooks/useRecord';
 import usePermission from './hooks/usePermission';
+import useTimer from './hooks/useTimer';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,34 +17,12 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  buttonContainer: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 20,
-  },
-  buttonBorder: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 100,
-    height: 100,
-    borderRadius: 999,
-    borderWidth: 4,
-    borderStyle: 'solid',
-  },
-  button: {
-    backgroundColor: 'red',
-    width: 80,
-    height: 80,
-    borderRadius: 999,
-  },
   text: {
     fontSize: 18,
     color: 'white',
   },
   timer: {
+    position: 'absolute',
     backgroundColor: 'red',
     borderRadius: 4,
     alignSelf: 'center',
@@ -54,12 +34,19 @@ const styles = StyleSheet.create({
 });
 
 const SCORE_ACCEPTANCE = 3; // the max number of non-compliant frames allowed
+const TOTAL_CUTS = 3; // number of cuts
+const DURATION = 3;
+
 const flatten = (value) => (Array.isArray(value) ? [].concat(...value.map(flatten)) : value);
 const secToMinSec = (sec) => new Date(sec * 1000).toUTCString().split(' ')[4]; // seconds to hh:mm:ss
-export default function CameraRecord() {
-  const { setIsRecording, ref: cameraRef, isRecording, timer } = useRecord();
+export default function CameraRecord({ onQuit }) {
   const hasPermission = usePermission();
+  const { status, start, reset, cancel, finish, cut, ready } = useRecord();
+  const { pending, todo, cutting } = status;
 
+  const timer = useTimer(status);
+
+  const cameraRef = useRef();
   const processCut = () => initiateProcessCut(); // to generate a new random every time
   const [cuts, setCuts] = useState([]);
   const [processedCuts, setProcessedCuts] = useState([]);
@@ -69,23 +56,26 @@ export default function CameraRecord() {
     [processedCuts],
   );
 
-  const handleStartRecord = useCallback(async (length = 0) => {
-    if (length >= 3) { setIsRecording(false); return; }
+  const record = useCallback(async () => {
+    start();
+    const src = await cameraRef.current?.recordAsync({ maxDuration: DURATION, quality: '2160p' });
+    cut();
 
-    setIsRecording(true);
-    const src = await cameraRef.current?.recordAsync({ maxDuration: 3, quality: '2160p' });
     setCuts((prev) => [...prev, { src }]);
     processCut({ src }).then((res) => setProcessedCuts((prev) => [...prev, res]));
+  }, [cuts]);
 
-    await handleStartRecord(length + 1);
-  }, [cuts, isRecording]);
-
-  const handleStopRecord = useCallback(async () => {
+  const stop = useCallback(async () => {
     const src = await cameraRef.current?.stopRecording();
-    setIsRecording(null);
+    cancel();
     setCuts((prev) => [...prev, { src }]);
-    // TODO quit the video capture
   }, []);
+
+  useEffect(() => {
+    const hasRecordedAllCuts = cuts.length >= TOTAL_CUTS;
+    if (!hasRecordedAllCuts && (todo || cutting)) { record(); }
+    if (hasRecordedAllCuts) { finish(); }
+  }, [record, cuts, todo]);
 
   useEffect(() => {
     const allFeedbacks = processedCuts.map((p) => p.feedback);
@@ -104,24 +94,28 @@ export default function CameraRecord() {
 
   return (
     <View style={styles.container}>
-      <Snackbar feedback={feedback} show={isRecording} />
+      <Snackbar feedback={feedback} show={pending} />
+
       <ExpoCamera style={styles.camera} ref={cameraRef}>
         <View style={styles.timer}>
           <Text style={styles.text}>{secToMinSec(timer)}</Text>
         </View>
-        <View style={styles.buttonContainer}>
-          <View style={[styles.buttonBorder, { borderColor: isRecording ? 'red' : 'transparent' }]}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => (isRecording ? handleStopRecord() : handleStartRecord(0, isRecording))}
-            />
-          </View>
-        </View>
+
+        <Controls
+          onQuit={onQuit}
+          onStart={ready}
+          onStop={stop}
+          onReset={() => { setCuts([]); setProcessedCuts([]); reset(); }}
+          onPause={() => console.log('pause')}
+          status={status}
+        />
       </ExpoCamera>
     </View>
   );
 }
 
-CameraRecord.propTypes = {};
+CameraRecord.propTypes = {
+  onQuit: PropTypes.func.isRequired,
+};
 
 CameraRecord.defaultProps = {};

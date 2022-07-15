@@ -3,7 +3,7 @@ import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { View, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, useWindowDimensions, Platform } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
 import isEmpty from 'lodash.isempty';
@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     marginTop: utils.styles.spacing(2),
   },
 });
+
+const { extra } = ExpoConstants.manifest;
+const options = Platform.OS === 'web' ? extra.options : extra.nativeOptions;
 
 export default function InspectionCreate() {
   const navigation = useNavigation();
@@ -71,13 +74,13 @@ export default function InspectionCreate() {
   );
 
   useEffect(() => {
-    const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
+    const option = options.find((o) => o.value === selected);
     if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
 
     const params = { inspectionId, sightIds: option.sightIds, taskName: option.taskName };
-    navigation.navigate(names.INSPECTION_CAPTURE, params);
+    navigation.navigate(option.cameraScreen, params);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
   useFocusEffect(useCallback(() => {

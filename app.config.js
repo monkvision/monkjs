@@ -1,10 +1,13 @@
 import eas from './eas.json';
 import palette from './palettes/monk-theme.json';
 
+const INSPECTION_CAPTURE = 'inspectionCapture';
+const INSPECTION_RECORD = 'inspectionRecord';
+
 const buildNumber = 1;
 
 const app = {
-  name: 'Monk Capture Web Application',
+  name: 'Monk Capture Application',
   shortName: 'MCWA',
   companyName: 'Monk',
   logo: {
@@ -20,8 +23,19 @@ const app = {
   description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
 };
 
+const nativeOptions = [
+  {
+    cameraScreen: INSPECTION_RECORD,
+    value: 'videoTour',
+    title: 'Damage detection',
+    description: 'Vehicle video tour',
+    icon: 'video',
+    taskName: 'damage_detection',
+  },
+];
 const options = [
   {
+    cameraScreen: INSPECTION_CAPTURE,
     value: 'vinNumber',
     title: 'Vehicle identification number',
     description: 'Detect with camera or type it manually',
@@ -33,6 +47,7 @@ const options = [
     taskName: 'images_ocr',
   },
   {
+    cameraScreen: INSPECTION_CAPTURE,
     value: 'car360',
     title: 'Damage detection',
     description: 'Vehicle tour (exterior and interior)',
@@ -82,6 +97,7 @@ const options = [
   //   taskName: 'damage_detection',
   // },
   {
+    cameraScreen: INSPECTION_CAPTURE,
     value: 'wheels',
     title: 'Wheels analysis',
     description: 'Details about rims condition',
@@ -170,6 +186,7 @@ export default {
   },
   extra: {
     options,
+    nativeOptions,
     theme: {
       dark: true,
       mode: 'adaptive',

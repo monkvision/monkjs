@@ -6,7 +6,7 @@ import React, { useCallback, useMemo, useEffect, useRef } from 'react';
 import * as Device from 'expo-device';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { View, useWindowDimensions, FlatList } from 'react-native';
+import { View, useWindowDimensions, FlatList, Platform } from 'react-native';
 import { Container } from '@monkvision/ui';
 import monk from '@monkvision/corejs';
 import { useMediaQuery } from 'react-responsive';
@@ -37,6 +37,9 @@ const ICON_BY_STATUS = {
   ERROR: 'alert-octagon',
 };
 
+const { extra } = ExpoConstants.manifest;
+const options = Platform.OS === 'web' ? extra.options : extra.nativeOptions;
+
 export default function Landing() {
   const { colors } = useTheme();
   const navigation = useNavigation();
@@ -66,7 +69,7 @@ export default function Landing() {
 
   const handleListItemPress = useCallback((value) => {
     const isVin = value === 'vinNumber';
-    const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
+    const vinOption = options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
 
     const shouldSignIn = !isAuthenticated;
@@ -79,7 +82,7 @@ export default function Landing() {
     const isVin = value === 'vinNumber';
     const vin = inspection?.vehicle?.vin;
 
-    const taskName = ExpoConstants.manifest.extra.options.find((o) => o.value === value)?.taskName;
+    const taskName = options.find((o) => o.value === value)?.taskName;
     const task = Object.values(inspection?.tasks || {}).find((t) => t?.name === taskName);
 
     const disabledTaskStatuses = [
@@ -185,7 +188,7 @@ export default function Landing() {
           <List.Section>
             <List.Subheader>Click to run a new inspection</List.Subheader>
             <FlatList
-              data={ExpoConstants.manifest.extra.options}
+              data={options}
               renderItem={renderListItem}
               keyExtractor={(item) => item.value}
             />

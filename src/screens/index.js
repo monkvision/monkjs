@@ -1,4 +1,5 @@
 export { default as InspectionCapture } from './InspectionCapture';
+export { default as InspectionRecord } from './InspectionRecord';
 export { default as InspectionCreate } from './InspectionCreate';
 export { default as InspectionVehicleUpdate } from './InspectionVehicleUpdate';
 export { default as InspectionList } from './InspectionList';
