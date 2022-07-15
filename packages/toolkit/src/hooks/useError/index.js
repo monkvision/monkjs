@@ -31,7 +31,7 @@ export default function useError(Sentry) {
     }
 
     addDataToSpan(op, type, data) {
-      this.spans[op]?.setData(type, data);
+      this.transaction.setData(type, data);
     }
 
     addSpanToTransaction(op) {

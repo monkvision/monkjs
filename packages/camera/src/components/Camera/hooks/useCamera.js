@@ -59,6 +59,7 @@ export default function useCamera(
 
     let uri;
     if (enableCompression && !utils.supportsWebP()) {
+      log(['[Event] Compressing an image']);
       if (Platform.OS !== 'web') { return undefined; }
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
 
@@ -70,7 +71,7 @@ export default function useCamera(
       if (onWarningMessage) { onWarningMessage(null); }
 
       if (compressed) {
-        log([`An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
+        log([`[Event] An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
       }
 
       compressionTracing?.finish();

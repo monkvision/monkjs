@@ -13,6 +13,7 @@ import Settings from './settings';
 import styles from './styles';
 import Sentry from '../../config/sentry';
 import useSnackbar from '../../hooks/useSnackbar';
+import { setTag } from '../../config/sentryPlatform';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -108,6 +109,7 @@ export default function InspectionCapture() {
         setCameraLoading(false);
 
         utils.log(['[Event] Back to landing page with photo taken']);
+        setTag('currentSight', null);
         handleNavigate();
       } catch (err) {
         errorHandler(err, Constants.type.HTTP, {
@@ -119,6 +121,10 @@ export default function InspectionCapture() {
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
+    if (isFocused && enableComplianceCheck) {
+      const { current } = state.sights.state;
+      setTag('currentSight', current.id);
+    }
     if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
