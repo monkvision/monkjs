@@ -18,3 +18,5 @@ export { default as useCompliance } from './hooks/useCompliance';
 
 export { default as Actions } from './actions';
 export { default as Constants } from './const';
+
+export { default as i18nCamera } from './i18n';

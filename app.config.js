@@ -4,8 +4,8 @@ import palette from './palettes/monk-theme.json';
 const buildNumber = 1;
 
 const app = {
-  name: 'Monk Capture Web Application',
-  shortName: 'MCWA',
+  name: 'Monk Capture Application',
+  shortName: 'MCA',
   companyName: 'Monk',
   logo: {
     source: {
@@ -23,8 +23,8 @@ const app = {
 const options = [
   {
     value: 'vinNumber',
-    title: 'Vehicle identification number',
-    description: 'Detect with camera or type it manually',
+    title: 'inspection.vinNumber.title',
+    description: 'inspection.vinNumber.description',
     icon: 'car-info',
     mode: ['automatic', 'manually'], // default to automatic
     sightIds: [
@@ -34,8 +34,8 @@ const options = [
   },
   {
     value: 'car360',
-    title: 'Damage detection',
-    description: 'Vehicle tour (exterior and interior)',
+    title: 'inspection.damageDetection.title',
+    description: 'inspection.damageDetection.description',
     icon: 'axis-z-rotate-counterclockwise',
     sightIds: [
       'WKJlxkiF', // Beauty Shot
@@ -83,8 +83,8 @@ const options = [
   // },
   {
     value: 'wheels',
-    title: 'Wheels analysis',
-    description: 'Details about rims condition',
+    title: 'inspection.wheelsAnalysis.title',
+    description: 'inspection.wheelsAnalysis.description',
     icon: 'circle-double',
     sightIds: [
       'xQKQ0bXS', // Front wheel left

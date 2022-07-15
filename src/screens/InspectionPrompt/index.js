@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Card, useTheme } from 'react-native-paper';
 import { useError, useTimeout } from '@monkvision/toolkit';
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
 
 export default function InspectionPrompt() {
   const { colors } = useTheme();
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute();
   const { Span } = useError(Sentry);
@@ -58,10 +60,10 @@ export default function InspectionPrompt() {
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>
-        Please fill the needed content on the prompt
+        {t('vinModal.prompt.backgroundMessage')}
       </Text>
       <Card.Actions style={styles.actions}>
-        <Button mode="contained" color={colors.text} onPress={handleGoBack}>Go back</Button>
+        <Button mode="contained" color={colors.text} onPress={handleGoBack}>{t('vinModal.prompt.backgroundGoBack')}</Button>
       </Card.Actions>
     </View>
   );

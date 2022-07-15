@@ -1,15 +1,22 @@
 import { useMemo } from 'react';
-import texts from '../texts';
+import { useTranslation } from 'react-i18next';
 
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
 export default function useSubtitle({
-  isComplianceUnknown, isComplianceIdle, isPending, isUploadFailed, compliance }) {
+  isComplianceUnknown,
+  isComplianceIdle,
+  isPending,
+  isUploadFailed,
+  compliance,
+}) {
+  const { t } = useTranslation();
+
   return useMemo(() => {
-    if (isComplianceUnknown) { return 'Couldn\'t check the image quality'; }
-    if (isPending) { return `Loading...`; }
-    if (isUploadFailed) { return `We couldn't upload this image, please reupload`; }
-    if (isComplianceIdle) { return 'In the image quality check queue...'; }
+    if (isComplianceUnknown) { return t('uploadCenter.subtitle.unknown'); }
+    if (isPending) { return t('uploadCenter.subtitle.pending'); }
+    if (isUploadFailed) { return t('uploadCenter.subtitle.failed'); }
+    if (isComplianceIdle) { return t('uploadCenter.subtitle.idle'); }
 
     if (compliance.result) {
       const {
@@ -25,7 +32,8 @@ export default function useSubtitle({
       if (badQuality && iqa.reasons) {
         iqa.reasons.forEach((reason, index) => {
           const first = index === 0;
-          reasons.push(first ? texts[reason] : `and ${texts[reason]}`);
+          reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
+            : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
         });
       }
 
@@ -33,15 +41,18 @@ export default function useSubtitle({
         carCov.reasons.forEach((reason, index) => {
           const first = index === 0 && !badQuality;
           // display all reasons expect `UNKNOWN_SIGHT`
-          if (reason !== UNKNOWN_SIGHT_REASON) { reasons.push(first ? texts[reason] : `and ${texts[reason]}`); }
+          if (reason !== UNKNOWN_SIGHT_REASON) {
+            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
+              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
+          }
         });
       }
 
       if (reasons.length > 0) {
-        return `This image ${reasons.join(' ')}`;
+        return `${t('uploadCenter.subtitle.reasonsStart')} ${reasons.join(' ')}`;
       }
     }
 
-    return 'We couldn\'t check the image quality (queue blocked)';
+    return t('uploadCenter.subtitle.queueBlocked');
   }, [compliance.result, isPending, isUploadFailed, isComplianceIdle, isComplianceUnknown]);
 }

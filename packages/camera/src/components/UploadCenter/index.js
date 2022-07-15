@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -60,7 +61,6 @@ export default function UploadCenter({
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onRetakeAll,
-  submitButtonLabel,
   checkComplianceAsync,
   inspectionId,
   task,
@@ -70,6 +70,7 @@ export default function UploadCenter({
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
+  const { t, i18n } = useTranslation();
 
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
@@ -135,33 +136,35 @@ export default function UploadCenter({
       <View style={{ minHeight: height - height * 0.2 }}>
         {/* content */}
         <Text style={[styles.title, { color: colors.text }]}>
-          Image quality check
+          {t('uploadCenter.view.title')}
         </Text>
 
         <Text style={[styles.subtitle, { color: colors.placeholder }]}>
-          The better image quality, the more accurate result we can provide
+          {t('uploadCenter.view.subtitle')}
         </Text>
 
         {hasPendingComplianceAndNoRejectedUploads ? (
-          <Text style={[styles.subtitle, { color: colors.placeholder }]}>Verifying...</Text>
+          <Text style={[styles.subtitle, { color: colors.placeholder }]}>{t('uploadCenter.view.verifying')}</Text>
         ) : null}
 
         {hasTooMuchTodoCompliances ? (
           <Text style={[styles.subtitle, { color: colors.accent }]}>
-            {'We couldn\'t check all pictures compliance, this might affect the result accuracy'}
+            {t('uploadCenter.view.tooMuchTodo')}
           </Text>
         ) : null}
 
         {hasAllRejected ? (
           <Text style={[styles.subtitle, { color: colors.error }]}>
-            {'We couldn\'t upload any picture, please re-upload'}
+            {t('uploadCenter.view.allRejected')}
           </Text>
         ) : null}
 
         {/* loading */}
         {hasNoCompliancesLeft ? (
           <View style={styles.loadingLayout}>
-            <Text style={[styles.subtitle, { textAlign: 'center', color: colors.placeholder }]}>Loading...</Text>
+            <Text style={[styles.subtitle, { textAlign: 'center', color: colors.placeholder }]}>
+              {t('uploadCenter.view.loading')}
+            </Text>
           </View>
         ) : null}
 
@@ -173,7 +176,7 @@ export default function UploadCenter({
               onRetake={handleRetake}
               onReupload={handleReUpload}
               id={id}
-              label={getItemById(id, sights.state.tour).label}
+              label={getItemById(id, sights.state.tour).label[i18n.language]}
               picture={sights.state.takenPictures[id]}
               upload={uploads.state[id]}
               compliance={compliance.state[id]}
@@ -193,7 +196,7 @@ export default function UploadCenter({
           disabled={!hasFulfilledAllUploads}
         >
           <Text style={{ color: colors.actions.primary.text || colors.text }}>
-            {`Retake all ${ids.length ? `(${ids.length})` : ''}`}
+            {`${t('uploadCenter.view.retakeAll')} ${ids.length ? `(${ids.length})` : ''}`}
           </Text>
         </Button>
         <Button
@@ -207,7 +210,7 @@ export default function UploadCenter({
              || !hasFulfilledAllUploads || !navigationOptions.allowSkipImageQualityCheck}
         >
           <Text style={{ color: colors.actions.secondary.text || colors.text }}>
-            {submitButtonLabel}
+            {t('uploadCenter.view.submit')}
           </Text>
         </Button>
       </View>
@@ -265,7 +268,6 @@ UploadCenter.propTypes = {
   onRetakeAll: PropTypes.func,
   Sentry: PropTypes.any,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
-  submitButtonLabel: PropTypes.string,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
 };
@@ -273,7 +275,6 @@ UploadCenter.propTypes = {
 UploadCenter.defaultProps = {
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
-  submitButtonLabel: 'Skip retaking',
   checkComplianceAsync: () => {},
   onRetakeAll: () => {},
   inspectionId: null,

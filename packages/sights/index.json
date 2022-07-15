@@ -2,32 +2,47 @@
   "IqwSM3": {
     "category": "interior",
     "id": "IqwSM3",
-    "label": "front seats",
+    "label": {
+      "en": "Front Seats",
+      "fr": "Sièges avant"
+    },
     "vehicleType": "undefined"
   },
   "rSvk2C": {
     "category": "interior",
     "id": "rSvk2C",
-    "label": "dashboard",
+    "label": {
+      "en": "Dashboard",
+      "fr": "Panneau de bord"
+    },
     "vehicleType": "undefined"
   },
   "rj5mhm": {
     "category": "interior",
     "id": "rj5mhm",
-    "label": "back seats",
+    "label": {
+      "en": "Back Seats",
+      "fr": "Sièges arrière"
+    },
     "vehicleType": "undefined"
   },
   "qhKA2z": {
     "category": "interior",
     "id": "qhKA2z",
-    "label": "trunk",
+    "label": {
+      "en": "Trunk",
+      "fr": "Coffre"
+    },
     "vehicleType": "undefined"
   },
   "sLu0CfOt": {
     "category": "misc",
     "centerParts": [],
     "id": "sLu0CfOt",
-    "label": "VIN",
+    "label": {
+      "en": "VIN",
+      "fr": "VIN"
+    },
     "template": {
       "cameraCoordinates": [],
       "renderingImage": ""
@@ -37,7 +52,10 @@
   },
   "xsuH1g5T": {
     "id": "xsuH1g5T",
-    "label": "Front Fender Left",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -55,7 +73,10 @@
   },
   "IzMR_OzQ": {
     "id": "IzMR_OzQ",
-    "label": "Front Fender Left",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -73,7 +94,10 @@
   },
   "AEc967h1": {
     "id": "AEc967h1",
-    "label": "Doors Left",
+    "label": {
+      "en": "Doors Left",
+      "fr":  "Portières gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -91,7 +115,10 @@
   },
   "3vKXafwc": {
     "id": "3vKXafwc",
-    "label": "Rear Fender Left",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr":  "Garde-boue arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -109,7 +136,10 @@
   },
   "3a3OheoD": {
     "id": "3a3OheoD",
-    "label": "Rear Fender Left",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr":  "Garde-boue arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -127,7 +157,10 @@
   },
   "ClEZSucK": {
     "id": "ClEZSucK",
-    "label": "Rear Lateral Left",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -145,7 +178,10 @@
   },
   "zjAIjUgU": {
     "id": "zjAIjUgU",
-    "label": "Front Lateral Left",
+    "label": {
+      "en": "Front Lateral Left",
+      "fr":  "Avant gauche latéral"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -165,7 +201,10 @@
   },
   "vLcBGkeh": {
     "id": "vLcBGkeh",
-    "label": "Front",
+    "label": {
+      "en": "Front",
+      "fr":  "Avant"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -183,7 +222,10 @@
   },
   "PLh198NC": {
     "id": "PLh198NC",
-    "label": "Front Fender Left",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -201,7 +243,10 @@
   },
   "LE9h1xh0": {
     "id": "LE9h1xh0",
-    "label": "Front Fender Left",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -219,7 +264,10 @@
   },
   "IVcF1dOP": {
     "id": "IVcF1dOP",
-    "label": "Doors Left",
+    "label": {
+      "en": "Doors Left",
+      "fr":  "Portières gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -237,7 +285,10 @@
   },
   "GvCtVnoD": {
     "id": "GvCtVnoD",
-    "label": "Rear Lateral Left",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -255,7 +306,10 @@
   },
   "GHbWVnMB": {
     "id": "GHbWVnMB",
-    "label": "Rear Fender Left",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr":  "Garde-boue arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -273,7 +327,10 @@
   },
   "XyeyZlaU": {
     "id": "XyeyZlaU",
-    "label": "Rear",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -291,7 +348,10 @@
   },
   "oIk8RQ3w": {
     "id": "oIk8RQ3w",
-    "label": "Windshield",
+    "label": {
+      "en": "Windshield",
+      "fr":  "Pare-brise"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -311,7 +371,10 @@
   },
   "m1rhrZ88": {
     "id": "m1rhrZ88",
-    "label": "Front Roof Left",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -331,7 +394,10 @@
   },
   "36qmcrgr": {
     "id": "36qmcrgr",
-    "label": "Rear Roof Right",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr":  "Toit arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -351,7 +417,10 @@
   },
   "eOkUJUBk": {
     "id": "eOkUJUBk",
-    "label": "Frame Rail Left",
+    "label": {
+      "en": "Frame Rail Left",
+      "fr":  "Longeron gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -371,7 +440,10 @@
   },
   "RMeCZRbd": {
     "id": "RMeCZRbd",
-    "label": "Hood Windshield",
+    "label": {
+      "en": "Hood Windshield",
+      "fr":  "Capot pare-brise"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -391,7 +463,10 @@
   },
   "dQOmxo13": {
     "id": "dQOmxo13",
-    "label": "Frame Rail Rear Left",
+    "label": {
+      "en": "Frame Rail Rear Left",
+      "fr":  "Longeron arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -409,7 +484,10 @@
   },
   "xfbBpq3Q": {
     "id": "xfbBpq3Q",
-    "label": "Front Bumper Side Left",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -429,7 +507,10 @@
   },
   "j8YHvnDP": {
     "id": "j8YHvnDP",
-    "label": "Rear Bumper Side Left",
+    "label": {
+      "en": "Rear Bumper Side Left",
+      "fr":  "Pare-chocs arrière côté gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -447,7 +528,10 @@
   },
   "8_W2PO8L": {
     "id": "8_W2PO8L",
-    "label": "Rear Wheel Left",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr":  "Roue arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -467,7 +551,10 @@
   },
   "xQKQ0bXS": {
     "id": "xQKQ0bXS",
-    "label": "Front Wheel Left",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr":  "Roue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -487,7 +574,10 @@
   },
   "UHZkpCuK": {
     "id": "UHZkpCuK",
-    "label": "Rocker Panel Left",
+    "label": {
+      "en": "Rocker Panel Left",
+      "fr":  "Bas de caisse gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -505,7 +595,10 @@
   },
   "VmFL3v2A": {
     "id": "VmFL3v2A",
-    "label": "Front Door Left",
+    "label": {
+      "en": "Front Door Left",
+      "fr":  "Portière avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -523,7 +616,10 @@
   },
   "1-gwCM0m": {
     "id": "1-gwCM0m",
-    "label": "Rear Door Left",
+    "label": {
+      "en": "Rear Door Left",
+      "fr":  "Portière arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -541,7 +637,10 @@
   },
   "T24v9XS8": {
     "id": "T24v9XS8",
-    "label": "Front Door Left",
+    "label": {
+      "en": "Front Door Left",
+      "fr":  "Portière avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -559,7 +658,10 @@
   },
   "GOQq1-nN": {
     "id": "GOQq1-nN",
-    "label": "Front Door Left",
+    "label": {
+      "en": "Front Door Left",
+      "fr":  "Portière avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -577,7 +679,10 @@
   },
   "D4r9OKHt": {
     "id": "D4r9OKHt",
-    "label": "Rear Door Left",
+    "label": {
+      "en": "Rear Door Left",
+      "fr":  "Portière avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -595,7 +700,10 @@
   },
   "OOJDJ7go": {
     "id": "OOJDJ7go",
-    "label": "Rear Door Left",
+    "label": {
+      "en": "Rear Door Left",
+      "fr":  "Portière avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -613,7 +721,10 @@
   },
   "Fh972HlF": {
     "id": "Fh972HlF",
-    "label": "Front Undercarriage",
+    "label": {
+      "en": "Front Undercarriage",
+      "fr":  "Châssis avant"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -631,7 +742,10 @@
   },
   "jgB-cu5G": {
     "id": "jgB-cu5G",
-    "label": "Front Fender Right",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -649,7 +763,10 @@
   },
   "0U14gFyk": {
     "id": "0U14gFyk",
-    "label": "Front Lateral Right",
+    "label": {
+      "en": "Front Lateral Right",
+      "fr":  "Avant latéral droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -669,7 +786,10 @@
   },
   "Cce1KCd3": {
     "id": "Cce1KCd3",
-    "label": "Rear Fender Right",
+    "label": {
+      "en": "Rear Fender Right",
+      "fr":  "Garde-boue arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -687,7 +807,10 @@
   },
   "QqBpHiVP": {
     "id": "QqBpHiVP",
-    "label": "Rear Lateral Right",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -707,7 +830,10 @@
   },
   "Pzgw0WGe": {
     "id": "Pzgw0WGe",
-    "label": "Doors Right",
+    "label": {
+      "en": "Doors Right",
+      "fr":  "Portières droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -725,7 +851,10 @@
   },
   "jqJOb6Ov": {
     "id": "jqJOb6Ov",
-    "label": "Front Fender Right",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -743,7 +872,10 @@
   },
   "EqLDVYj3": {
     "id": "EqLDVYj3",
-    "label": "Front Fender Right",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -761,7 +893,10 @@
   },
   "j3E2UHFc": {
     "id": "j3E2UHFc",
-    "label": "Rear Fender Right",
+    "label": {
+      "en": "Rear Fender Right",
+      "fr":  "Garde-boue arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -779,7 +914,10 @@
   },
   "AoO-nOoM": {
     "id": "AoO-nOoM",
-    "label": "Rear Lateral Right",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -797,7 +935,10 @@
   },
   "WWZsroCu": {
     "id": "WWZsroCu",
-    "label": "Frame Rail Right",
+    "label": {
+      "en": "Frame Rail Right",
+      "fr":  "Longeron droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -817,7 +958,10 @@
   },
   "CELBsvYD": {
     "id": "CELBsvYD",
-    "label": "Front Bumper Side Right",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -837,7 +981,10 @@
   },
   "PuIw17h0": {
     "id": "PuIw17h0",
-    "label": "Front Wheel Right",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr":  "Roue avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -857,7 +1004,10 @@
   },
   "LDRoAPnk": {
     "id": "LDRoAPnk",
-    "label": "Rear Bumper Side Right",
+    "label": {
+      "en": "Rear Bumper Side Right",
+      "fr":  "Pare-chocs arrière côté droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -875,7 +1025,10 @@
   },
   "rN39Y3HR": {
     "id": "rN39Y3HR",
-    "label": "Rear Wheel Right",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr":  "Roue arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -895,7 +1048,10 @@
   },
   "B5s1CWT-": {
     "id": "B5s1CWT-",
-    "label": "Rocker Panel Right",
+    "label": {
+      "en": "Rocker Panel Right",
+      "fr":  "Bas de caisse droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -913,7 +1069,10 @@
   },
   "eWZsEThb": {
     "id": "eWZsEThb",
-    "label": "Frame Rail Rear Right",
+    "label": {
+      "en": "Frame Rail Rear Right",
+      "fr":  "Longeron arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -933,7 +1092,10 @@
   },
   "au5yyzOT": {
     "id": "au5yyzOT",
-    "label": "VIN",
+    "label": {
+      "en": "VIN",
+      "fr":  "VIN"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -951,7 +1113,10 @@
   },
   "2RFF3Uf8": {
     "id": "2RFF3Uf8",
-    "label": "Rear Door Right",
+    "label": {
+      "en": "Rear Door Right",
+      "fr":  "Portière arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -969,7 +1134,10 @@
   },
   "TDLex8-D": {
     "id": "TDLex8-D",
-    "label": "Rear Door Right",
+    "label": {
+      "en": "Rear Door Right",
+      "fr":  "Portière arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -987,7 +1155,10 @@
   },
   "6MR5C13s": {
     "id": "6MR5C13s",
-    "label": "Rear Door Right",
+    "label": {
+      "en": "Rear Door Right",
+      "fr":  "Portière arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -1005,7 +1176,10 @@
   },
   "QJ_yOnBl": {
     "id": "QJ_yOnBl",
-    "label": "Front Door Right",
+    "label": {
+      "en": "Front Door Right",
+      "fr":  "Portière avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -1023,7 +1197,10 @@
   },
   "2wVqenwP": {
     "id": "2wVqenwP",
-    "label": "Front Door Right",
+    "label": {
+      "en": "Front Door Right",
+      "fr":  "Portière avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -1041,7 +1218,10 @@
   },
   "enHQTFae": {
     "id": "enHQTFae",
-    "label": "Front Door Right",
+    "label": {
+      "en": "Front Door Right",
+      "fr":  "Portière avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -1059,7 +1239,10 @@
   },
   "vxRr9chD": {
     "id": "vxRr9chD",
-    "label": "Front Bumper Side Left",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1086,7 +1269,10 @@
   },
   "g30kyiVH": {
     "id": "g30kyiVH",
-    "label": "Front Bumper Side Right",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1113,7 +1299,10 @@
   },
   "cDe2q69X": {
     "id": "cDe2q69X",
-    "label": "Front Fender Left",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1140,7 +1329,10 @@
   },
   "WKJlxkiF": {
     "id": "WKJlxkiF",
-    "label": "Front Fender Left",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1167,7 +1359,10 @@
   },
   "5CFsFvj7": {
     "id": "5CFsFvj7",
-    "label": "Front Fender Right",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1194,7 +1389,10 @@
   },
   "I0cOpT1e": {
     "id": "I0cOpT1e",
-    "label": "Front",
+    "label": {
+      "en": "Front",
+      "fr":  "Avant"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1221,7 +1419,10 @@
   },
   "R_f4g8MN": {
     "id": "R_f4g8MN",
-    "label": "Doors Left",
+    "label": {
+      "en": "Doors Left",
+      "fr":  "Porières gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1248,7 +1449,10 @@
   },
   "fDKWkHHp": {
     "id": "fDKWkHHp",
-    "label": "Doors Right",
+    "label": {
+      "en": "Doors Right",
+      "fr":  "Portières droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1275,7 +1479,10 @@
   },
   "vedHBC2n": {
     "id": "vedHBC2n",
-    "label": "Front Roof Left",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1302,7 +1509,10 @@
   },
   "7bTC-nGS": {
     "id": "7bTC-nGS",
-    "label": "Rear Fender Left",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr":  "Garde-boue arrière gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1329,7 +1539,10 @@
   },
   "hhCBI9oZ": {
     "id": "hhCBI9oZ",
-    "label": "Rear",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1356,7 +1569,10 @@
   },
   "e_QIW30o": {
     "id": "e_QIW30o",
-    "label": "Rear Fender Right",
+    "label": {
+      "en": "Rear Fender Right",
+      "fr":  "Garde-boue arrière droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1383,7 +1599,10 @@
   },
   "McR3TJK0": {
     "id": "McR3TJK0",
-    "label": "Rear Lateral Left",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière latéral gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",
@@ -1410,7 +1629,10 @@
   },
   "fDo5M0Fp": {
     "id": "fDo5M0Fp",
-    "label": "Rear Lateral Right",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droite"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "",

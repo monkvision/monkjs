@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Badge, Card, IconButton } from 'react-native-paper';
 import { Platform, ScrollView, Share, StyleSheet, View } from 'react-native';
 
@@ -106,10 +107,14 @@ ShareButton.propTypes = {
 
 export default function Inspection({ createdAt, id, images }) {
   const { accessToken } = useAuth();
+  const { t, i18n } = useTranslation();
   const path = `/inspections/${id}`;
   const linkTo = `${base}${path}`;
 
-  const caption = useMemo(() => moment(createdAt).format('LLL'), [createdAt]);
+  const caption = useMemo(
+    () => moment(createdAt).locale(i18n.language ?? 'en').format('LLL'),
+    [createdAt, i18n.language],
+  );
   const message = useMemo(() => (Platform.OS === 'web' ? linkTo : `Inspection Report - ${linkTo}`), [linkTo]);
   const titleRight = useCallback(
     (props) => <ShareButton {...props} message={message} />,
@@ -125,7 +130,7 @@ export default function Inspection({ createdAt, id, images }) {
   return (
     <View style={styles.root}>
       <Card.Title
-        title="Last inspection"
+        title={t('landing.lastInspection')}
         subtitle={caption}
         right={titleRight}
       />
@@ -135,7 +140,7 @@ export default function Inspection({ createdAt, id, images }) {
         )).map((image) => (
           <View key={`image-${image.id}`} style={styles.cardCover}>
             <Card.Cover source={{ uri: image.path }} />
-            <Badge style={styles.label}>{image.additionalData.label}</Badge>
+            <Badge style={styles.label}>{image.additionalData.label[i18n.language]}</Badge>
             <IconButton
               icon="eye"
               accessibilityLabel="See details of the image"
