@@ -1,4 +1,5 @@
 import { useError } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sentry from 'config/sentry';
 import React, { useCallback, useState } from 'react';
@@ -10,7 +11,7 @@ export const ASYNC_STORAGE_LANG_KEY = '@lang_Storage';
 export default function LanguageSwitch() {
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = React.useState(false);
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
   const { i18n } = useTranslation();
 
   const openMenu = () => setVisible(true);
@@ -24,7 +25,7 @@ export default function LanguageSwitch() {
       .then(() => setIsLoading(false))
       .catch((err) => {
         setIsLoading(false);
-        errorHandler(err, Constants.type.APP);
+        errorHandler(err, SpanConstants.type.APP);
       });
   };
 

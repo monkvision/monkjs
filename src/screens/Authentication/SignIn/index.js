@@ -1,11 +1,11 @@
-import { useError } from '@monkvision/toolkit/src';
+import { useError, utils } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import React, { useCallback, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
-import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 
@@ -37,7 +37,7 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
   const { t } = useTranslation();
 
   const route = useRoute();
@@ -49,7 +49,7 @@ export default function SignIn() {
     onError: (error, request) => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      errorHandler(error, Constants.type.APP, request);
+      errorHandler(error, SpanConstants.type.APP, request);
     },
   });
 

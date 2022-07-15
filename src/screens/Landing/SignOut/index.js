@@ -1,4 +1,5 @@
 import { useError, utils } from '@monkvision/toolkit';
+import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sentry from 'config/sentry';
 import { ASYNC_STORAGE_AUTH_KEY, dispatchSignOut } from 'hooks/useSignIn';
@@ -12,14 +13,14 @@ import { setUser } from '../../../config/sentryPlatform';
 export default function SignOut({ onSuccess }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useError(Sentry);
   const { t } = useTranslation();
 
   const signOut = () => {
     utils.log(['[Click]', 'Sign-out user']);
     setUser(null);
     AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
-      .catch((err) => errorHandler(err, Constants.type.APP));
+      .catch((err) => errorHandler(err, SpanConstants.type.APP));
     dispatchSignOut(dispatch);
 
     onSuccess();
