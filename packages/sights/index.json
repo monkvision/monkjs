@@ -396,7 +396,7 @@
     "id": "36qmcrgr",
     "label": {
       "en": "Rear Roof Right",
-      "fr":  "Toit arrière droite"
+      "fr":  "Toit arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -744,7 +744,7 @@
     "id": "jgB-cu5G",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droite"
+      "fr":  "Garde-boue avant droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -765,7 +765,7 @@
     "id": "0U14gFyk",
     "label": {
       "en": "Front Lateral Right",
-      "fr":  "Avant latéral droite"
+      "fr":  "Avant latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -788,7 +788,7 @@
     "id": "Cce1KCd3",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Garde-boue arrière droite"
+      "fr":  "Garde-boue arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -809,7 +809,7 @@
     "id": "QqBpHiVP",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -832,7 +832,7 @@
     "id": "Pzgw0WGe",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droite"
+      "fr":  "Portières droites"
     },
     "category": "exterior",
     "vehicle": {
@@ -853,7 +853,7 @@
     "id": "jqJOb6Ov",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droite"
+      "fr":  "Garde-boue avant droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -874,7 +874,7 @@
     "id": "EqLDVYj3",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droite"
+      "fr":  "Garde-boue avant droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -895,7 +895,7 @@
     "id": "j3E2UHFc",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Garde-boue arrière droite"
+      "fr":  "Garde-boue arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -916,7 +916,7 @@
     "id": "AoO-nOoM",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -937,7 +937,7 @@
     "id": "WWZsroCu",
     "label": {
       "en": "Frame Rail Right",
-      "fr":  "Longeron droite"
+      "fr":  "Longeron droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -960,7 +960,7 @@
     "id": "CELBsvYD",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droite"
+      "fr":  "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1006,7 +1006,7 @@
     "id": "LDRoAPnk",
     "label": {
       "en": "Rear Bumper Side Right",
-      "fr":  "Pare-chocs arrière côté droite"
+      "fr":  "Pare-chocs arrière côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1050,7 +1050,7 @@
     "id": "B5s1CWT-",
     "label": {
       "en": "Rocker Panel Right",
-      "fr":  "Bas de caisse droite"
+      "fr":  "Bas de caisse droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1071,7 +1071,7 @@
     "id": "eWZsEThb",
     "label": {
       "en": "Frame Rail Rear Right",
-      "fr":  "Longeron arrière droite"
+      "fr":  "Longeron arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1271,7 +1271,7 @@
     "id": "g30kyiVH",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droite"
+      "fr":  "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1361,7 +1361,7 @@
     "id": "5CFsFvj7",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droite"
+      "fr":  "Garde-boue avant droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1451,7 +1451,7 @@
     "id": "fDKWkHHp",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droite"
+      "fr":  "Portières droites"
     },
     "category": "exterior",
     "vehicle": {
@@ -1571,7 +1571,7 @@
     "id": "e_QIW30o",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Garde-boue arrière droite"
+      "fr":  "Garde-boue arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1631,7 +1631,7 @@
     "id": "fDo5M0Fp",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1656,5 +1656,3494 @@
       "focal_length": 26.0
     },
     "template_image": "fDo5M0Fp.opengl.png"
+  },
+  "fesc20-LTe3X2bg": {
+    "id": "fesc20-LTe3X2bg",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "26 front bumper side left z45 0.8m",
+      "location_xyz": [
+        1.3,
+        -2.65,
+        0.8
+      ],
+      "rotation_xyz_rad": [
+        1.3962633609771729,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-LTe3X2bg.opengl.png"
+  },
+  "fesc20-bD8CBhYZ": {
+    "id": "fesc20-bD8CBhYZ",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "34 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "location_xyz": [
+        1.85,
+        -2.7,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.2042770385742188,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-bD8CBhYZ.opengl.png"
+  },
+  "fesc20-GdIxD-_N": {
+    "id": "fesc20-GdIxD-_N",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "42 front fender left z57 1.4m",
+      "location_xyz": [
+        2.0,
+        -2.25,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2217304706573486,
+        -0.0,
+        0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-GdIxD-_N.opengl.png"
+  },
+  "fesc20-6GPUkfYn": {
+    "id": "fesc20-6GPUkfYn",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "68 front roof IGNORE_MIRROR left z50 1.8m",
+      "location_xyz": [
+        1.0,
+        -0.4,
+        1.8
+      ],
+      "rotation_xyz_rad": [
+        1.0821040868759155,
+        -0.0,
+        0.8726646304130554
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-6GPUkfYn.opengl.png"
+  },
+  "fesc20-iUN0g_Zn": {
+    "id": "fesc20-iUN0g_Zn",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "93 lateral left z90 1.4m",
+      "location_xyz": [
+        2.55,
+        0.15,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2915436029434204,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-iUN0g_Zn.opengl.png"
+  },
+  "fesc20-P470Q-jm": {
+    "id": "fesc20-P470Q-jm",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "128 rear lateral left z110 1.4m",
+      "location_xyz": [
+        2.25,
+        1.75,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-P470Q-jm.opengl.png"
+  },
+  "fesc20-dfICsfSV": {
+    "id": "fesc20-dfICsfSV",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "153 rear left z135 1m",
+      "location_xyz": [
+        1.3,
+        2.6,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-dfICsfSV.opengl.png"
+  },
+  "fesc20-X8k7UFGf": {
+    "id": "fesc20-X8k7UFGf",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.5m",
+      "location_xyz": [
+        0.0,
+        3.3,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.2042771577835083,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-X8k7UFGf.opengl.png"
+  },
+  "fesc20-Wzdtgqqz": {
+    "id": "fesc20-Wzdtgqqz",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "334 front bumper side right z-45 0.8m",
+      "location_xyz": [
+        -1.3,
+        -2.65,
+        0.8
+      ],
+      "rotation_xyz_rad": [
+        1.3962633609771729,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-Wzdtgqqz.opengl.png"
+  },
+  "fesc20-CEGtqHkk": {
+    "id": "fesc20-CEGtqHkk",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "318 front fender right z-57 1.4m",
+      "location_xyz": [
+        -2.0,
+        -2.25,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2217304706573486,
+        -0.0,
+        -0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-CEGtqHkk.opengl.png"
+  },
+  "fesc20-xDFQNR3C": {
+    "id": "fesc20-xDFQNR3C",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "267 lateral right z-90 1.4m",
+      "location_xyz": [
+        -2.55,
+        0.15,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2915436029434204,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-xDFQNR3C.opengl.png"
+  },
+  "fesc20-r_UeXQRO": {
+    "id": "fesc20-r_UeXQRO",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "232 rear lateral right z-110 1.4m",
+      "location_xyz": [
+        -2.25,
+        1.75,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        -1.9198620319366455
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-r_UeXQRO.opengl.png"
+  },
+  "fesc20-LZc7p2kK": {
+    "id": "fesc20-LZc7p2kK",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "207 rear right z-135 1m",
+      "location_xyz": [
+        -1.3,
+        2.6,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        -2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-LZc7p2kK.opengl.png"
+  },
+  "fesc20-H1dfdfvH": {
+    "id": "fesc20-H1dfdfvH",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1.1m",
+      "location_xyz": [
+        0.0,
+        -3.25,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-H1dfdfvH.opengl.png"
+  },
+  "fesc20-WMUaKDp1": {
+    "id": "fesc20-WMUaKDp1",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.1500000953674316,
+        4.599999904632568,
+        1.6699999570846558
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.6m",
+      "location_xyz": [
+        0.0,
+        -2.8,
+        1.6
+      ],
+      "rotation_xyz_rad": [
+        1.1519173383712769,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "fesc20-WMUaKDp1.opengl.png"
+  },
+  "ff150-7UI3m9B3": {
+    "id": "ff150-7UI3m9B3",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "36 beauty shot IGNORE_MIRROR left z45 1.6m",
+      "location_xyz": [
+        2.3,
+        -3.2,
+        1.6
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        2.0124076105641645e-16,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-7UI3m9B3.opengl.png"
+  },
+  "ff150-KgHVkQBW": {
+    "id": "ff150-KgHVkQBW",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "24 front bumper side left z45 1.1m",
+      "location_xyz": [
+        1.4,
+        -3.1,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.2915436029434204,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-KgHVkQBW.opengl.png"
+  },
+  "ff150-wO_fJ3DL": {
+    "id": "ff150-wO_fJ3DL",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "40 front fender left z57 1.4m",
+      "location_xyz": [
+        2.3,
+        -2.7,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-wO_fJ3DL.opengl.png"
+  },
+  "ff150-Ttsc7q6V": {
+    "id": "ff150-Ttsc7q6V",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "48 front roof IGNORE_MIRROR left z50 2m",
+      "location_xyz": [
+        1.0,
+        -0.9,
+        2.0
+      ],
+      "rotation_xyz_rad": [
+        1.0821040868759155,
+        -0.0,
+        0.8726646900177002
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-Ttsc7q6V.opengl.png"
+  },
+  "ff150-xbOhu7nK": {
+    "id": "ff150-xbOhu7nK",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "129 rear lateral left z110 1.5m",
+      "location_xyz": [
+        3.0,
+        2.45,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3439035415649414,
+        -0.0,
+        1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-xbOhu7nK.opengl.png"
+  },
+  "ff150-nF_oFvhI": {
+    "id": "ff150-nF_oFvhI",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.4m",
+      "location_xyz": [
+        0.0,
+        4.249999,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-nF_oFvhI.opengl.png"
+  },
+  "ff150-gFp78fQO": {
+    "id": "ff150-gFp78fQO",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "336 front bumper side right z-45 1.1m",
+      "location_xyz": [
+        -1.4,
+        -3.1,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.2915436029434204,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-gFp78fQO.opengl.png"
+  },
+  "ff150-OviO2DlY": {
+    "id": "ff150-OviO2DlY",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "320 front fender right z-57 1.4m",
+      "location_xyz": [
+        -2.3,
+        -2.7,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        -0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-OviO2DlY.opengl.png"
+  },
+  "ff150-2WUJ179s": {
+    "id": "ff150-2WUJ179s",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "231 rear lateral right z-110 1.5m",
+      "location_xyz": [
+        -3.0,
+        2.45,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3439035415649414,
+        -0.0,
+        -1.9198620319366455
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-2WUJ179s.opengl.png"
+  },
+  "ff150-_AoeFdVO": {
+    "id": "ff150-_AoeFdVO",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "88 lateral left z90 1.5m",
+      "location_xyz": [
+        2.8,
+        -0.1,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3613568544387817,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-_AoeFdVO.opengl.png"
+  },
+  "ff150--xPZZd83": {
+    "id": "ff150--xPZZd83",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "159 rear left z140 1.2m",
+      "location_xyz": [
+        1.4,
+        3.65,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.378810167312622,
+        -0.0,
+        2.4434609413146973
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150--xPZZd83.opengl.png"
+  },
+  "ff150-o8MiTw8u": {
+    "id": "ff150-o8MiTw8u",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "272 lateral right z-90 1.5m",
+      "location_xyz": [
+        -2.8,
+        -0.1,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3613568544387817,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-o8MiTw8u.opengl.png"
+  },
+  "ff150-t3KBMPeD": {
+    "id": "ff150-t3KBMPeD",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "201 rear right z-140 1.2m",
+      "location_xyz": [
+        -1.4,
+        3.65,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.3788100481033325,
+        -0.0,
+        -2.4434609413146973
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-t3KBMPeD.opengl.png"
+  },
+  "ff150-zXbg0l3z": {
+    "id": "ff150-zXbg0l3z",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1.1m",
+      "location_xyz": [
+        0.0,
+        -3.8,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.378810167312622,
+        2.0124076105641645e-16,
+        1.2820449814646714e-16
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-zXbg0l3z.opengl.png"
+  },
+  "ff150-3he9UOwy": {
+    "id": "ff150-3he9UOwy",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.4800000190734863,
+        5.800000190734863,
+        1.9299999475479126
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.7m",
+      "location_xyz": [
+        0.0,
+        -3.3,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.2042771577835083,
+        2.0124076105641645e-16,
+        1.2820449814646714e-16
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ff150-3he9UOwy.opengl.png"
+  },
+  "ffocus18-43ljK5xC": {
+    "id": "ffocus18-43ljK5xC",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "25 front bumper side left z45 0.8m",
+      "location_xyz": [
+        1.2,
+        -2.6,
+        0.8
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-43ljK5xC.opengl.png"
+  },
+  "ffocus18-GgOSpLl6": {
+    "id": "ffocus18-GgOSpLl6",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "location_xyz": [
+        1.8,
+        -2.6,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.1519173383712769,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-GgOSpLl6.opengl.png"
+  },
+  "ffocus18-GiTxaJUq": {
+    "id": "ffocus18-GiTxaJUq",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "42 front fender left z57 1.4m",
+      "location_xyz": [
+        2.0,
+        -2.2,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.186823844909668,
+        -0.0,
+        0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-GiTxaJUq.opengl.png"
+  },
+  "ffocus18-ZXKOomlv": {
+    "id": "ffocus18-ZXKOomlv",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "63 front roof IGNORE_MIRROR left z50 1.7m",
+      "location_xyz": [
+        0.9,
+        -0.45,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.0471975803375244,
+        -0.0,
+        0.8726646304130554
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-ZXKOomlv.opengl.png"
+  },
+  "ffocus18-L_oZ0LyK": {
+    "id": "ffocus18-L_oZ0LyK",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "95 lateral left z90 1.4m",
+      "location_xyz": [
+        2.5,
+        0.2,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.239183783531189,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-L_oZ0LyK.opengl.png"
+  },
+  "ffocus18-lRDlWiwR": {
+    "id": "ffocus18-lRDlWiwR",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "335 front bumper side right z-45 0.8m",
+      "location_xyz": [
+        -1.2,
+        -2.6,
+        0.8
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-lRDlWiwR.opengl.png"
+  },
+  "ffocus18-zgLKB-Do": {
+    "id": "ffocus18-zgLKB-Do",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "318 front fender right z-57 1.4m",
+      "location_xyz": [
+        -2.0,
+        -2.2,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.186823844909668,
+        -0.0,
+        -0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-zgLKB-Do.opengl.png"
+  },
+  "ffocus18-D_QaaCTd": {
+    "id": "ffocus18-D_QaaCTd",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "265 lateral right z-90 1.4m",
+      "location_xyz": [
+        -2.5,
+        0.2,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.239183783531189,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-D_QaaCTd.opengl.png"
+  },
+  "ffocus18-vFR9PKjB": {
+    "id": "ffocus18-vFR9PKjB",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "126 rear lateral left z110 1.4m",
+      "location_xyz": [
+        2.2,
+        1.6,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.186823844909668,
+        -0.0,
+        1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-vFR9PKjB.opengl.png"
+  },
+  "ffocus18-9MeSIqp7": {
+    "id": "ffocus18-9MeSIqp7",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "151 rear left z135 1m",
+      "location_xyz": [
+        1.4,
+        2.5,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-9MeSIqp7.opengl.png"
+  },
+  "ffocus18-X2LDjCvr": {
+    "id": "ffocus18-X2LDjCvr",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.4m",
+      "location_xyz": [
+        0.0,
+        3.1,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.1693706512451172,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-X2LDjCvr.opengl.png"
+  },
+  "ffocus18-Wo8PkcLF": {
+    "id": "ffocus18-Wo8PkcLF",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "234 rear lateral right z-110 1.4m",
+      "location_xyz": [
+        -2.2,
+        1.6,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.186823844909668,
+        -0.0,
+        -1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-Wo8PkcLF.opengl.png"
+  },
+  "ffocus18-jWOq2CNN": {
+    "id": "ffocus18-jWOq2CNN",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "209 rear right z-135 1m",
+      "location_xyz": [
+        -1.4,
+        2.5,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        -2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-jWOq2CNN.opengl.png"
+  },
+  "ffocus18-XlfgjQb9": {
+    "id": "ffocus18-XlfgjQb9",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1m",
+      "location_xyz": [
+        0.0,
+        -3.15,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.2740904092788696,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-XlfgjQb9.opengl.png"
+  },
+  "ffocus18-3TiCVAaN": {
+    "id": "ffocus18-3TiCVAaN",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.9800000190734863,
+        4.420000076293945,
+        1.4600000381469727
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.6m",
+      "location_xyz": [
+        0.0,
+        -2.8,
+        1.6
+      ],
+      "rotation_xyz_rad": [
+        1.0821040868759155,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ffocus18-3TiCVAaN.opengl.png"
+  },
+  "ftransit18-wyXf7MTv": {
+    "id": "ftransit18-wyXf7MTv",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1.2m",
+      "location_xyz": [
+        0.0,
+        -4.050001,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.3613568544387817,
+        2.0124076105641645e-16,
+        1.2820449814646714e-16
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-wyXf7MTv.opengl.png"
+  },
+  "ftransit18-UNAZWJ-r": {
+    "id": "ftransit18-UNAZWJ-r",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.7m",
+      "location_xyz": [
+        0.0,
+        -3.8,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.3788100481033325,
+        2.0124076105641645e-16,
+        1.2820449814646714e-16
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-UNAZWJ-r.opengl.png"
+  },
+  "ftransit18-5SiNC94w": {
+    "id": "ftransit18-5SiNC94w",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "24 front bumper side left z45 1.1m",
+      "location_xyz": [
+        1.5,
+        -3.4,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.3439035415649414,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-5SiNC94w.opengl.png"
+  },
+  "ftransit18-ffghVsNz": {
+    "id": "ftransit18-ffghVsNz",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "35 beauty shot IGNORE_MIRROR left z45 1.6m",
+      "location_xyz": [
+        2.5,
+        -3.6,
+        1.6
+      ],
+      "rotation_xyz_rad": [
+        1.3788100481033325,
+        2.0124076105641645e-16,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-ffghVsNz.opengl.png"
+  },
+  "ftransit18-pd2Q_O9P": {
+    "id": "ftransit18-pd2Q_O9P",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "89 lateral left z90 1.5m",
+      "location_xyz": [
+        3.9,
+        -0.05,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.5009831190109253,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-pd2Q_O9P.opengl.png"
+  },
+  "ftransit18-NwBMLo3Z": {
+    "id": "ftransit18-NwBMLo3Z",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.7m",
+      "location_xyz": [
+        0.0,
+        5.1,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.4748032093048096,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-NwBMLo3Z.opengl.png"
+  },
+  "ftransit18-aA2K898S": {
+    "id": "ftransit18-aA2K898S",
+    "label": "Rear Up Left",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "155 rear up left z135 1.7m",
+      "location_xyz": [
+        1.7,
+        3.7,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.6406095027923584,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-aA2K898S.opengl.png"
+  },
+  "ftransit18-klUp8BS4": {
+    "id": "ftransit18-klUp8BS4",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "122 rear lateral left z100 1.5m",
+      "location_xyz": [
+        3.15,
+        1.95,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.5446163415908813,
+        -0.0,
+        1.7453292608261108
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-klUp8BS4.opengl.png"
+  },
+  "ftransit18-6X8IAjy0": {
+    "id": "ftransit18-6X8IAjy0",
+    "label": {
+      "en": "Front Lateral Left",
+      "fr":  "Avant gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "60 front lateral left z80 1.5m",
+      "location_xyz": [
+        3.1,
+        -1.8,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.483529806137085,
+        -0.0,
+        1.3962633609771729
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-6X8IAjy0.opengl.png"
+  },
+  "ftransit18-iu1Vj2Oa": {
+    "id": "ftransit18-iu1Vj2Oa",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "155 rear left z135 1.2m",
+      "location_xyz": [
+        1.7,
+        3.7,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.4311699867248535,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-iu1Vj2Oa.opengl.png"
+  },
+  "ftransit18-IIVI_pnX": {
+    "id": "ftransit18-IIVI_pnX",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "336 front bumper side right z-45 1.1m",
+      "location_xyz": [
+        -1.5,
+        -3.4,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.3439035415649414,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-IIVI_pnX.opengl.png"
+  },
+  "ftransit18-sLAPXyG8": {
+    "id": "ftransit18-sLAPXyG8",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "271 lateral right z-90 1.5m",
+      "location_xyz": [
+        -3.9,
+        -0.05,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.5009831190109253,
+        -3.256752214337731e-16,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-sLAPXyG8.opengl.png"
+  },
+  "ftransit18-qmLP7A-b": {
+    "id": "ftransit18-qmLP7A-b",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "238 rear lateral right z-100 1.5m",
+      "location_xyz": [
+        -3.15,
+        1.95,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.5446163415908813,
+        -4.585868351725253e-10,
+        -1.7453292608261108
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-qmLP7A-b.opengl.png"
+  },
+  "ftransit18-E7DAv47J": {
+    "id": "ftransit18-E7DAv47J",
+    "label": "Front Lateral Right",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "300 front lateral right z-80 1.5m",
+      "location_xyz": [
+        -3.1,
+        -1.8,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.483529806137085,
+        9.171736703450506e-10,
+        -1.3962633609771729
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-E7DAv47J.opengl.png"
+  },
+  "ftransit18-FFP5b34o": {
+    "id": "ftransit18-FFP5b34o",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "205 rear right z-135 1.2m",
+      "location_xyz": [
+        -1.7,
+        3.7,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.4311699867248535,
+        -0.0,
+        -2.356194257736206
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-FFP5b34o.opengl.png"
+  },
+  "ftransit18-cf0e-pcB": {
+    "id": "ftransit18-cf0e-pcB",
+    "label": "Rear Up Right",
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "205 rear up right z-135 1.7m",
+      "location_xyz": [
+        -1.7,
+        3.7,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.6406095027923584,
+        -0.0,
+        -2.356194257736206
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "ftransit18-cf0e-pcB.opengl.png"
+  },
+  "haccord-8YjMcu0D": {
+    "id": "haccord-8YjMcu0D",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1m",
+      "location_xyz": [
+        0.0,
+        -3.25,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.2915436029434204,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-8YjMcu0D.opengl.png"
+  },
+  "haccord-DUPnw5jj": {
+    "id": "haccord-DUPnw5jj",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.6m",
+      "location_xyz": [
+        0.0,
+        -2.9,
+        1.6
+      ],
+      "rotation_xyz_rad": [
+        1.0995573997497559,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-DUPnw5jj.opengl.png"
+  },
+  "haccord-hsCc_Nct": {
+    "id": "haccord-hsCc_Nct",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "25 front bumper side left z45 0.8m",
+      "location_xyz": [
+        1.25,
+        -2.65,
+        0.8
+      ],
+      "rotation_xyz_rad": [
+        1.3439035415649414,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-hsCc_Nct.opengl.png"
+  },
+  "haccord-huAZfQJA": {
+    "id": "haccord-huAZfQJA",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "location_xyz": [
+        1.9,
+        -2.7,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.1693706512451172,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-huAZfQJA.opengl.png"
+  },
+  "haccord-2a8VfA8m": {
+    "id": "haccord-2a8VfA8m",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "42 front fender left z57 1.4m",
+      "location_xyz": [
+        2.05,
+        -2.3,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2042771577835083,
+        -0.0,
+        0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-2a8VfA8m.opengl.png"
+  },
+  "haccord-oiY_yPTR": {
+    "id": "haccord-oiY_yPTR",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "61 front roof IGNORE_MIRROR left z50 1.7m",
+      "location_xyz": [
+        0.9,
+        -0.5,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.0122909545898438,
+        -0.0,
+        0.8726646304130554
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-oiY_yPTR.opengl.png"
+  },
+  "haccord-bg-RFHl_": {
+    "id": "haccord-bg-RFHl_",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "94 lateral left z90 1.4m",
+      "location_xyz": [
+        2.55,
+        0.2,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.239183783531189,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-bg-RFHl_.opengl.png"
+  },
+  "haccord-Qel0qUky": {
+    "id": "haccord-Qel0qUky",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "130 rear lateral left z110 1.4m",
+      "location_xyz": [
+        2.3,
+        1.95,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2217304706573486,
+        -0.0,
+        1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-Qel0qUky.opengl.png"
+  },
+  "haccord-GdWvsqrm": {
+    "id": "haccord-GdWvsqrm",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "155 rear left z135 1m",
+      "location_xyz": [
+        1.3,
+        2.85,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-GdWvsqrm.opengl.png"
+  },
+  "haccord-ps7cWy6K": {
+    "id": "haccord-ps7cWy6K",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.4m",
+      "location_xyz": [
+        0.0,
+        3.45,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.1519173383712769,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-ps7cWy6K.opengl.png"
+  },
+  "haccord-Z84erkMb": {
+    "id": "haccord-Z84erkMb",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "335 front bumper side right z-45 0.8m",
+      "location_xyz": [
+        -1.25,
+        -2.65,
+        0.8
+      ],
+      "rotation_xyz_rad": [
+        1.3439035415649414,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-Z84erkMb.opengl.png"
+  },
+  "haccord-EfRIciFr": {
+    "id": "haccord-EfRIciFr",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "318 front fender right z-57 1.4m",
+      "location_xyz": [
+        -2.05,
+        -2.3,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2042771577835083,
+        -0.0,
+        -0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-EfRIciFr.opengl.png"
+  },
+  "haccord-d3VJTvYw": {
+    "id": "haccord-d3VJTvYw",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "266 lateral right z-90 1.4m",
+      "location_xyz": [
+        -2.55,
+        0.2,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.239183783531189,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-d3VJTvYw.opengl.png"
+  },
+  "haccord-sorgeRJ7": {
+    "id": "haccord-sorgeRJ7",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "230 rear lateral right z-110 1.4m",
+      "location_xyz": [
+        -2.3,
+        1.95,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2217304706573486,
+        -0.0,
+        -1.9198620319366455
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-sorgeRJ7.opengl.png"
+  },
+  "haccord-Jq65fyD4": {
+    "id": "haccord-Jq65fyD4",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.140000104904175,
+        4.880000114440918,
+        1.440000057220459
+      ]
+    },
+    "camera": {
+      "name": "205 rear right z-135 1m",
+      "location_xyz": [
+        -1.3,
+        2.85,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        -2.356194257736206
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "haccord-Jq65fyD4.opengl.png"
+  },
+  "jgc21-VHq_6BM-": {
+    "id": "jgc21-VHq_6BM-",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "36 beauty shot IGNORE_MIRROR left z45 1.6m",
+      "location_xyz": [
+        2.1,
+        -2.9,
+        1.6
+      ],
+      "rotation_xyz_rad": [
+        1.239183783531189,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-VHq_6BM-.opengl.png"
+  },
+  "jgc21-imomJ2V0": {
+    "id": "jgc21-imomJ2V0",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "66 front roof IGNORE_MIRROR left z50 2m",
+      "location_xyz": [
+        0.9,
+        -0.4,
+        2.0
+      ],
+      "rotation_xyz_rad": [
+        1.0821040868759155,
+        -0.0,
+        0.8726646900177002
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-imomJ2V0.opengl.png"
+  },
+  "jgc21-tbF2Ax8v": {
+    "id": "jgc21-tbF2Ax8v",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.4m",
+      "location_xyz": [
+        0.0,
+        3.9,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.3613568544387817,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-tbF2Ax8v.opengl.png"
+  },
+  "jgc21-QIkcNhc_": {
+    "id": "jgc21-QIkcNhc_",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "43 front fender left z57 1.4m",
+      "location_xyz": [
+        2.2,
+        -2.4,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2740904092788696,
+        -0.0,
+        0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-QIkcNhc_.opengl.png"
+  },
+  "jgc21-zCrDwYWE": {
+    "id": "jgc21-zCrDwYWE",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "25 front bumper side left z45 1m",
+      "location_xyz": [
+        1.3,
+        -2.8,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-zCrDwYWE.opengl.png"
+  },
+  "jgc21-QwNQX0Cr": {
+    "id": "jgc21-QwNQX0Cr",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "317 front fender right z-57 1.4m",
+      "location_xyz": [
+        -2.2,
+        -2.4,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2740904092788696,
+        -8.115753402648807e-09,
+        -0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-QwNQX0Cr.opengl.png"
+  },
+  "jgc21-__JKllz9": {
+    "id": "jgc21-__JKllz9",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "335 front bumper side right z-45 1m",
+      "location_xyz": [
+        -1.3,
+        -2.8,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-__JKllz9.opengl.png"
+  },
+  "jgc21-5lovhZgA": {
+    "id": "jgc21-5lovhZgA",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "94 lateral left z90 1.5m",
+      "location_xyz": [
+        2.7,
+        0.2,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-5lovhZgA.opengl.png"
+  },
+  "jgc21-ezXzTRkj": {
+    "id": "jgc21-ezXzTRkj",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "155 rear left z135 1.2m",
+      "location_xyz": [
+        1.5,
+        3.2,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.3613568544387817,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-ezXzTRkj.opengl.png"
+  },
+  "jgc21-ESc0HCzy": {
+    "id": "jgc21-ESc0HCzy",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "130 rear lateral left z110 1.5m",
+      "location_xyz": [
+        2.6,
+        2.2,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-ESc0HCzy.opengl.png"
+  },
+  "jgc21-0QM-q8k5": {
+    "id": "jgc21-0QM-q8k5",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "266 lateral right z-90 1.5m",
+      "location_xyz": [
+        -2.7,
+        0.2,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-0QM-q8k5.opengl.png"
+  },
+  "jgc21-JerG7oW5": {
+    "id": "jgc21-JerG7oW5",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "230 rear lateral right z-110 1.5m",
+      "location_xyz": [
+        -2.6,
+        2.2,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        -1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-JerG7oW5.opengl.png"
+  },
+  "jgc21-3JJvM7_B": {
+    "id": "jgc21-3JJvM7_B",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "205 rear right z-135 1.2m",
+      "location_xyz": [
+        -1.5,
+        3.2,
+        1.2
+      ],
+      "rotation_xyz_rad": [
+        1.3613568544387817,
+        -0.0,
+        -2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-3JJvM7_B.opengl.png"
+  },
+  "jgc21-QIvfeg0X": {
+    "id": "jgc21-QIvfeg0X",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1.1m",
+      "location_xyz": [
+        0.0,
+        -3.5,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.3788100481033325,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-QIvfeg0X.opengl.png"
+  },
+  "jgc21-KyUUVU2P": {
+    "id": "jgc21-KyUUVU2P",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.190000057220459,
+        5.179999828338623,
+        1.8799999952316284
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.7m",
+      "location_xyz": [
+        0.0,
+        -3.0,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.1693706512451172,
+        -0.0,
+        0.0
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "jgc21-KyUUVU2P.opengl.png"
+  },
+  "tsienna20-jY3cR5vy": {
+    "id": "tsienna20-jY3cR5vy",
+    "label": {
+      "en": "Beauty Shot Left",
+      "fr":  "Présentation gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "location_xyz": [
+        2.1,
+        -3.0,
+        1.5
+      ],
+      "rotation_xyz_rad": [
+        1.2217304706573486,
+        2.0124076105641645e-16,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-jY3cR5vy.opengl.png"
+  },
+  "tsienna20-TI4TVvT9": {
+    "id": "tsienna20-TI4TVvT9",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr":  "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "26 front bumper side left z45 1m",
+      "location_xyz": [
+        1.45,
+        -2.95,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-TI4TVvT9.opengl.png"
+  },
+  "tsienna20-gkvZE2c7": {
+    "id": "tsienna20-gkvZE2c7",
+    "label": {
+      "en": "Front Fender Left",
+      "fr":  "Garde-boue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "41 front fender left z57 1.4m",
+      "location_xyz": [
+        2.25,
+        -2.55,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        0.994837760925293
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-gkvZE2c7.opengl.png"
+  },
+  "tsienna20-is1tpnqR": {
+    "id": "tsienna20-is1tpnqR",
+    "label": {
+      "en": "Front Roof Left",
+      "fr":  "Toit avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "54 front roof IGNORE_MIRROR left z50 1.9m",
+      "location_xyz": [
+        1.1,
+        -0.8,
+        1.9
+      ],
+      "rotation_xyz_rad": [
+        1.0995573997497559,
+        -0.0,
+        0.8726646900177002
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-is1tpnqR.opengl.png"
+  },
+  "tsienna20-ouPvuX-j": {
+    "id": "tsienna20-ouPvuX-j",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr":  "Arrière gauche latéral"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "128 rear lateral left z110 1.4m",
+      "location_xyz": [
+        2.65,
+        2.05,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        1.919862151145935
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-ouPvuX-j.opengl.png"
+  },
+  "tsienna20-qA3aAUUq": {
+    "id": "tsienna20-qA3aAUUq",
+    "label": {
+      "en": "Rear",
+      "fr":  "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.4m",
+      "location_xyz": [
+        0.0,
+        3.8,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.3089969158172607,
+        -0.0,
+        -3.141592502593994
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-qA3aAUUq.opengl.png"
+  },
+  "tsienna20-D6pPBrXx": {
+    "id": "tsienna20-D6pPBrXx",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "90 lateral left z90 1.4m",
+      "location_xyz": [
+        2.8,
+        0.0,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-D6pPBrXx.opengl.png"
+  },
+  "tsienna20-1n_z8bYy": {
+    "id": "tsienna20-1n_z8bYy",
+    "label": {
+      "en": "Rear Left",
+      "fr":  "Arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "155 rear left z135 1m",
+      "location_xyz": [
+        1.45,
+        3.05,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.378810167312622,
+        -0.0,
+        2.356194496154785
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-1n_z8bYy.opengl.png"
+  },
+  "tsienna20-YwrRNr9n": {
+    "id": "tsienna20-YwrRNr9n",
+    "label": {
+      "en": "Front Low",
+      "fr":  "Avant bas"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "0 front low 1.1m",
+      "location_xyz": [
+        0.0,
+        -3.7,
+        1.1
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        2.0124076105641645e-16,
+        1.2820449814646714e-16
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-YwrRNr9n.opengl.png"
+  },
+  "tsienna20-HykkFbXf": {
+    "id": "tsienna20-HykkFbXf",
+    "label": {
+      "en": "Hood",
+      "fr":  "Capot"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "0 hood 1.7m",
+      "location_xyz": [
+        0.0,
+        -3.4,
+        1.7
+      ],
+      "rotation_xyz_rad": [
+        1.1519173383712769,
+        2.0124076105641645e-16,
+        1.2820449814646714e-16
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-HykkFbXf.opengl.png"
+  },
+  "tsienna20-KHB_Cd9k": {
+    "id": "tsienna20-KHB_Cd9k",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr":  "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "334 front bumper side right z-45 1m",
+      "location_xyz": [
+        -1.45,
+        -2.95,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.2566370964050293,
+        -0.0,
+        -0.7853981852531433
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-KHB_Cd9k.opengl.png"
+  },
+  "tsienna20-xtDcn3GS": {
+    "id": "tsienna20-xtDcn3GS",
+    "label": {
+      "en": "Front Fender Right",
+      "fr":  "Garde-boue avant droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "319 front fender right z-57 1.4m",
+      "location_xyz": [
+        -2.25,
+        -2.55,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.2566369771957397,
+        4.381412122000938e-09,
+        -0.9948376417160034
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-xtDcn3GS.opengl.png"
+  },
+  "tsienna20-QIMXlb0L": {
+    "id": "tsienna20-QIMXlb0L",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr":  "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "232 rear lateral right z-110 1.4m",
+      "location_xyz": [
+        -2.65,
+        2.05,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        -1.9198620319366455
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-QIMXlb0L.opengl.png"
+  },
+  "tsienna20-g2uWI1l8": {
+    "id": "tsienna20-g2uWI1l8",
+    "label": {
+      "en": "Lateral Left",
+      "fr":  "Latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "270 lateral right z-90 1.4m",
+      "location_xyz": [
+        -2.8,
+        0.0,
+        1.4
+      ],
+      "rotation_xyz_rad": [
+        1.326450228691101,
+        -0.0,
+        -1.5707963705062866
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20-g2uWI1l8.opengl.png"
+  },
+  "tsienna20--a2RmRcs": {
+    "id": "tsienna20--a2RmRcs",
+    "label": {
+      "en": "Rear Right",
+      "fr":  "Arrière droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "205 rear right z-135 1m",
+      "location_xyz": [
+        -1.45,
+        3.05,
+        1.0
+      ],
+      "rotation_xyz_rad": [
+        1.378810167312622,
+        -0.0,
+        -2.356194257736206
+      ],
+      "focal_length": 26.0
+    },
+    "template_image": "tsienna20--a2RmRcs.opengl.png"
   }
 }
