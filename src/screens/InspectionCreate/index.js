@@ -60,9 +60,10 @@ export default function InspectionCreate() {
   const createInspection = useCreateInspection(vin);
   const handleCreate = useCallback(async () => {
     if (isEmpty(inspectionId) && isAuthenticated) {
+      utils.log(['[Click] Inspection task chosen: ', selected]);
       const response = await createInspection.start(selected);
       if (response !== null) {
-        Sentry.Browser.setTag('inspection_id', response.result);
+        setTag('inspection_id', response.result);
         setInspectionId(response.result);
       }
     }

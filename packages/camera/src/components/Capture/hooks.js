@@ -122,7 +122,7 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
       sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
     } catch (err) {
-      errorHandler(err, SentryConstants.type.CAMERA, { picture });
+      errorHandler(err, SentryConstants.type.CAMERA, { id: current.id, picture });
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
     }
   }, [current.id, sights, uploads]);
@@ -224,7 +224,7 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          errorHandler(err, SentryConstants.type.UPLOAD, { json, file });
+          errorHandler(err, SentryConstants.type.UPLOAD, { json, file, message: err.message });
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,

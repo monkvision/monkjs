@@ -23,6 +23,7 @@ import Modal from 'components/Modal';
 import styles from './styles';
 import Sentry from '../../config/sentry';
 import useVinModal from './useVinModal';
+import { setTag } from '../../config/sentryPlatform';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -63,12 +64,11 @@ export default function Landing() {
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
-    Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
+    setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
   }, [navigation, inspectionId]);
 
   const handleListItemPress = useCallback((value) => {
-    utils.log(['[Click] Inspection task chosen: ', value]);
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }

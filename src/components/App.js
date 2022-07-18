@@ -70,7 +70,7 @@ function App() {
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, SentryConstants.type.APP);
       } finally {
         // Tell the application to render
         setAppIsReady(true);
