@@ -63,7 +63,7 @@ export default function useCamera(
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
 
       let compressionTracing;
-      if (Span) { compressionTracing = new Span('image-compression', 'func'); }
+      if (Sentry && Span) { compressionTracing = new Span('image-compression', 'func'); }
 
       if (onWarningMessage) { onWarningMessage('Compressing an image...'); }
       const compressed = await compress(arrayBuffer, width, height);
