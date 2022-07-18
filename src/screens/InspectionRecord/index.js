@@ -40,6 +40,6 @@ export default function InspectionRecord() {
   }, [inspectionId, navigation]);
 
   return (
-    <CameraRecord colors={colors} onQuit={handleNavigate} />
+    <CameraRecord colors={colors} onQuit={handleNavigate} onValidate={handleNavigate} />
   );
 }

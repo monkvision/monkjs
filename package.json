@@ -14,7 +14,7 @@
     ]
   },
   "scripts": {
-    "start": "expo start --https",
+    "start": "expo start --https -c",
     "start:documentation": "cd website && yarn run docs:start",
     "start:report": "cd services/inspection-report && yarn run start",
     "watch:ui": "cd ./packages/ui && yarn watch",

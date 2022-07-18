@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Camera as ExpoCamera } from 'expo-camera';
 import { StyleSheet, Text, View } from 'react-native';
-import Controls from './Controls';
-import initiateProcessCut from './mock';
-import Snackbar from './snackbar';
+
+import initiateProcessCut from './Feedback/mock';
 import useRecord from './hooks/useRecord';
 import usePermission from './hooks/usePermission';
-import useTimer from './hooks/useTimer';
+import Feedback from './Feedback';
+import Controls from './Controls';
+import Timer from './Timer/index';
+import Blocker from './Blocker/index';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,15 +23,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
-  timer: {
-    position: 'absolute',
-    backgroundColor: 'red',
-    borderRadius: 4,
+  header: {
+    width: 110,
     alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 2,
     marginTop: 12,
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });
 
@@ -37,17 +38,15 @@ const SCORE_ACCEPTANCE = 3; // the max number of non-compliant frames allowed
 const TOTAL_CUTS = 3; // number of cuts
 const DURATION = 3;
 
+const removeDuplication = (arr) => [...new Set([...arr])];
 const flatten = (value) => (Array.isArray(value) ? [].concat(...value.map(flatten)) : value);
-const secToMinSec = (sec) => new Date(sec * 1000).toUTCString().split(' ')[4]; // seconds to hh:mm:ss
-export default function CameraRecord({ onQuit }) {
+export default function CameraRecord({ onQuit, onValidate }) {
   const hasPermission = usePermission();
-  const { status, start, reset, cancel, finish, cut, ready } = useRecord();
-  const { pending, todo, cutting } = status;
-
-  const timer = useTimer(status);
+  const { status, start, reset, cancel, finish, cut, ready, pause, resume } = useRecord();
+  const { pending, todo, cutting, canceled } = status;
 
   const cameraRef = useRef();
-  const processCut = () => initiateProcessCut(); // to generate a new random every time
+  const processCut = () => initiateProcessCut(); // to generate a new random number every time
   const [cuts, setCuts] = useState([]);
   const [processedCuts, setProcessedCuts] = useState([]);
 
@@ -55,34 +54,69 @@ export default function CameraRecord({ onQuit }) {
     () => processedCuts[processedCuts.length - 1]?.feedback,
     [processedCuts],
   );
+  const allRecorded = useMemo(
+    () => cuts.length >= TOTAL_CUTS,
+    [cuts],
+  );
+  const allProcessed = useMemo(
+    () => processedCuts.length === cuts.length,
+    [cuts, processedCuts],
+  );
+  const processing = useMemo(
+    () => !allRecorded || processedCuts.length < cuts.length,
+    [processedCuts, allRecorded, cuts],
+  );
+  const compliant = useMemo(() => {
+    const allFeedbacks = processedCuts.map((p) => p.feedback);
+    const accepted = removeDuplication(flatten(allFeedbacks)).length < SCORE_ACCEPTANCE;
 
-  const record = useCallback(async () => {
+    return allProcessed && allRecorded && accepted;
+  }, [allRecorded, allProcessed, processedCuts]);
+
+  const handleRecord = useCallback(async () => {
     start();
     const src = await cameraRef.current?.recordAsync({ maxDuration: DURATION, quality: '2160p' });
     cut();
 
     setCuts((prev) => [...prev, { src }]);
     processCut({ src }).then((res) => setProcessedCuts((prev) => [...prev, res]));
-  }, [cuts]);
+  }, [cuts, allRecorded]);
 
-  const stop = useCallback(async () => {
+  const handleStop = useCallback(async () => {
     const src = await cameraRef.current?.stopRecording();
-    cancel();
-    setCuts((prev) => [...prev, { src }]);
+    if (src) { setCuts((prev) => [...prev, { src }]); }
   }, []);
 
-  useEffect(() => {
-    const hasRecordedAllCuts = cuts.length >= TOTAL_CUTS;
-    if (!hasRecordedAllCuts && (todo || cutting)) { record(); }
-    if (hasRecordedAllCuts) { finish(); }
-  }, [record, cuts, todo]);
+  const handleReset = useCallback(async () => {
+    setCuts([]);
+    setProcessedCuts([]);
+    reset();
+  }, [reset]);
 
+  // cancel the video
   useEffect(() => {
-    const allFeedbacks = processedCuts.map((p) => p.feedback);
-    const allFeedbacksLength = flatten(allFeedbacks);
+    if (canceled) { handleStop(); }
+  }, [canceled, handleStop]);
 
-    if (allFeedbacksLength.length <= SCORE_ACCEPTANCE) { console.log('All good'); } // submit
-  }, [processedCuts]);
+  // start video
+  useEffect(() => {
+    if (!allRecorded && todo) { handleRecord(); }
+  }, [handleRecord, allRecorded, todo]);
+
+  // start a new cut
+  useEffect(() => {
+    if (!allRecorded && cutting) { handleRecord(); }
+  }, [handleRecord, allRecorded, cutting]);
+
+  // finish recording (got all cuts)
+  useEffect(() => {
+    if (allRecorded) { finish(); }
+  }, [allRecorded, finish]);
+
+  // feedback stisfaction
+  useEffect(() => {
+    if (compliant) { onValidate(); }
+  }, [compliant]);
 
   if (hasPermission === null) {
     return <View />;
@@ -94,20 +128,28 @@ export default function CameraRecord({ onQuit }) {
 
   return (
     <View style={styles.container}>
-      <Snackbar feedback={feedback} show={pending} />
+      <Blocker
+        onReset={handleReset}
+        allRecorded={allRecorded}
+        allProcessed={allProcessed}
+        compliant={compliant}
+      />
+
+      <Feedback feedback={feedback} show={pending} />
 
       <ExpoCamera style={styles.camera} ref={cameraRef}>
-        <View style={styles.timer}>
-          <Text style={styles.text}>{secToMinSec(timer)}</Text>
+        <View style={styles.header}>
+          <Timer status={status} />
         </View>
 
         <Controls
           onQuit={onQuit}
           onStart={ready}
-          onStop={stop}
-          onReset={() => { setCuts([]); setProcessedCuts([]); reset(); }}
-          onPause={() => console.log('pause')}
-          status={status}
+          onStop={cancel}
+          onReset={handleReset}
+          onPause={pause}
+          onResume={resume}
+          status={{ ...status, processing }}
         />
       </ExpoCamera>
     </View>
@@ -116,6 +158,7 @@ export default function CameraRecord({ onQuit }) {
 
 CameraRecord.propTypes = {
   onQuit: PropTypes.func.isRequired,
+  onValidate: PropTypes.func.isRequired,
 };
 
 CameraRecord.defaultProps = {};

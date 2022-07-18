@@ -58,44 +58,60 @@ const composeFeedback = (fb) => {
   return feedback.toString().replace(',', ', ');
 };
 
-export default function Snackbar({ feedback, show }) {
+export default function Feedback({ feedback, show }) {
   const [persistedFeedback, setPersistedFeedback] = useState();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  const fadeIn = () => Animated.spring(fadeAnim, { toValue: 1,
+  const textAnim = useRef(new Animated.Value(0)).current;
+  const layoutAnim = useRef(new Animated.Value(0)).current;
+
+  const textFadeIn = () => Animated.spring(textAnim, { toValue: 1,
     useNativeDriver: true,
     friction: 20,
     tension: 160 }).start();
-  const fadeOut = (onComplete) => Animated.spring(fadeAnim, { toValue: 0,
+
+  const textFadeOut = (onComplete = () => {}) => Animated.spring(textAnim, { toValue: 0,
+    useNativeDriver: true }).start(onComplete);
+
+  const layoutFadeIn = () => Animated.timing(layoutAnim, {
+    toValue: 1,
     useNativeDriver: true,
-    friction: 20,
-    tension: 160 })
-    .start(onComplete);
+  }).start();
+
+  const layoutFadeOut = (onComplete = () => {}) => Animated.timing(layoutAnim, {
+    toValue: 0,
+    useNativeDriver: true,
+  }).start(onComplete);
 
   useEffect(() => {
     if (!feedback) { return; }
-    fadeOut(() => { setPersistedFeedback(feedback); fadeIn(); });
+
+    textFadeOut(() => { setPersistedFeedback(feedback); textFadeIn(); });
   }, [feedback]);
+
+  useEffect(() => {
+    if (!persistedFeedback || !show) { layoutFadeOut(); return; }
+    layoutFadeIn();
+  }, [show, persistedFeedback]);
 
   if (!persistedFeedback || !show) { return null; }
 
   return (
-    <View style={styles.root}>
+    <Animated.View style={[styles.root, { opacity: layoutAnim }]}>
       <View style={styles.titleLayout}>
         <Text style={styles.title}>Realtime feedback</Text>
         <View style={styles.realtimeIndicator} />
       </View>
-      <Animated.Text style={[styles.feedbackText, { opacity: fadeAnim }]}>{`The video ${composeFeedback(persistedFeedback)}`}</Animated.Text>
-    </View>
+      <Text style={styles.feedbackText}>{`The video ${composeFeedback(persistedFeedback)}`}</Text>
+    </Animated.View>
   );
 }
 
-Snackbar.propTypes = {
+Feedback.propTypes = {
   feedback: PropTypes.arrayOf(PropTypes.string),
   show: PropTypes.bool,
 };
 
-Snackbar.defaultProps = {
+Feedback.defaultProps = {
   feedback: null,
   show: false,
 };
