@@ -1703,10 +1703,10 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@monkvision/sights@^1.4.4":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@monkvision/sights/-/sights-1.5.1.tgz#1b3b88e137c0415b76639e4e777cf599675fca8d"
-  integrity sha512-/edrxdSnW4JXTvlIgW63T/zCGXBOHgGu7lArsG3nDk44/nNamWlN7HA9JfCLlFUuCqkx3BH8s2gxTJ81y+tOKg==
+"@monkvision/sights@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@monkvision/sights/-/sights-3.1.0.tgz#0b4baa98a23455e1fff6b90464f4bf959ce121c9"
+  integrity sha512-q/7utlQMGwGwl3tAnYBYrwkg6Llm3XNlNFie3824/0yA/j3fN2E6uvo2W1Eexkwgi+3htx7ycMQ2SrWjc6VUng==
 
 "@mui/base@5.0.0-alpha.67":
   version "5.0.0-alpha.67"
