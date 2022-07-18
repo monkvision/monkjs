@@ -19,7 +19,7 @@ export const SpanConstants = {
   },
 };
 
-export default function useError(Sentry) {
+export default function useSentry(Sentry) {
   class Span {
     constructor(name, op) {
       if (!Sentry) { throw new Error('Sentry is null'); }
