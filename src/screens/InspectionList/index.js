@@ -11,8 +11,8 @@ import useAuth from 'hooks/useAuth';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Loader } from '@monkvision/ui';
-import { useError, useRequest } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry, useRequest } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import monk from '@monkvision/corejs';
 
 import { List, Paragraph, Title, useTheme } from 'react-native-paper';
@@ -34,7 +34,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { loaderDotsColors } = useTheme();
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({

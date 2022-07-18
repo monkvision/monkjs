@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-export const SpanConstants = {
+export const SentryConstants = {
   type: {
     UPLOAD: 'upload', // logs linked to the upload
     CAMERA: 'camera', // logs linked to the camera

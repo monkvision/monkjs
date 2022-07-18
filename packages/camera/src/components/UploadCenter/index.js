@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { useError, utils } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
 import UploadCard from './UploadCard';
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
@@ -75,7 +75,7 @@ export default function UploadCenter({
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
-  const { Span } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
 
   const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
     inspectionId,
@@ -105,7 +105,7 @@ export default function UploadCenter({
   useEffect(() => {
     log(['[Event] Entering the Upload center']);
     if (Sentry) {
-      const transaction = new Span('upload-center-user-time', SpanConstants.operation.USER_TIME);
+      const transaction = new Span('upload-center-user-time', SentryConstants.operation.USER_TIME);
 
       return () => transaction.finish();
     }

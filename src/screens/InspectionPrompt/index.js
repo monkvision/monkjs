@@ -3,8 +3,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Card, useTheme } from 'react-native-paper';
-import { useError, useTimeout } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry, useTimeout } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
 import * as names from 'screens/names';
 import Alert from '../../components/Alert';
@@ -31,7 +31,7 @@ export default function InspectionPrompt() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute();
-  const { Span } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
 
   const { inspectionId, options, to } = route.params || {};
   const { key, ...rest } = options;
@@ -47,7 +47,7 @@ export default function InspectionPrompt() {
   useTimeout(() => { Alert.prompt({ ...rest, callback }); }, 100);
 
   useEffect(() => {
-    if (!transaction) { setTransaction(new Span('manual-vin-insertion', SpanConstants.operation.USER_TIME)); }
+    if (!transaction) { setTransaction(new Span('manual-vin-insertion', SentryConstants.operation.USER_TIME)); }
   }, [transaction]);
 
   useEffect(() => {

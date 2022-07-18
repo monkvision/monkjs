@@ -1,5 +1,5 @@
-import { useError, utils } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import React, { useCallback, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,7 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
 
   const route = useRoute();
@@ -49,7 +49,7 @@ export default function SignIn() {
     onError: (error, request) => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      errorHandler(error, SpanConstants.type.APP, request);
+      errorHandler(error, SentryConstants.type.APP, request);
     },
   });
 

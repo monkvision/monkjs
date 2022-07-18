@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as names from 'screens/names';
-import { useNavigation } from '@react-navigation/native';
 import { utils } from '@monkvision/toolkit';
 
 export default function useVinModal({ isAuthenticated, inspectionId }) {

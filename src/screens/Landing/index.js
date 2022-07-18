@@ -1,5 +1,5 @@
-import { useError, useInterval, utils } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry, useInterval, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
@@ -43,7 +43,7 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -137,7 +137,7 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err, SpanConstants.type.APP));
+      getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
     }
   }, [inspectionId, getInspection]);
 

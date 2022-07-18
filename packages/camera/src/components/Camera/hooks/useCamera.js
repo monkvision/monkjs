@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 
-import { useError, utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
 import useCompression from './useCompression';
@@ -32,7 +32,7 @@ export default function useCamera(
   onWarningMessage,
 ) {
   const { video, onCameraReady } = options;
-  const { Span } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
   const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };

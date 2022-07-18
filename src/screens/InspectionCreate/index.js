@@ -1,4 +1,4 @@
-import { useError, utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import isEmpty from 'lodash.isempty';
 
 import * as names from 'screens/names';
@@ -40,7 +40,7 @@ export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
 
@@ -52,7 +52,7 @@ export default function InspectionCreate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: (err, request) => {
-      errorHandler(err, SpanConstants.type.APP, request);
+      errorHandler(err, SentryConstants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -106,7 +106,7 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (createInspection.state.error) {
-      errorHandler(createInspection.state.error, SpanConstants.type.APP, createInspection.state);
+      errorHandler(createInspection.state.error, SentryConstants.type.APP, createInspection.state);
     }
   }, [createInspection.state.error]);
 

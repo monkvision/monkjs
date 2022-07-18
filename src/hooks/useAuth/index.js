@@ -1,9 +1,9 @@
-import { useError } from '@monkvision/toolkit';
+import { useSentry } from '@monkvision/toolkit';
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import monk from '@monkvision/corejs';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import discoveries from 'config/discoveries';
 
 import { revokeAsync } from 'expo-auth-session';
@@ -16,7 +16,7 @@ export default function useAuth() {
   const auth = useSelector((state) => state.auth);
   const { accessToken, tokenType } = auth;
   const isAuthenticated = useMemo(() => Boolean(accessToken), [accessToken]);
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
 
   // signOut
   const [isLoggingOut, setLoggingOut] = useState(false);
@@ -33,7 +33,7 @@ export default function useAuth() {
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (e) {
-      errorHandler(e, SpanConstants.type.FUNC, config);
+      errorHandler(e, SentryConstants.type.FUNC, config);
       setLoggingOut(false);
     }
   }, [accessToken, dispatch, tokenType]);

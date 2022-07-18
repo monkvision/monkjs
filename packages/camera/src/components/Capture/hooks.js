@@ -1,6 +1,6 @@
 import monk from '@monkvision/corejs';
-import { useError } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
@@ -55,15 +55,15 @@ export function useTitle({ current }) {
  * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
 export function useTakePictureAsync({ camera, isFocused, Sentry }) {
-  const { Span } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
   const [transaction, setTransaction] = useState(Sentry
-    ? new Span('user-time-per-sight', SpanConstants.operation.USER_TIME) : null);
+    ? new Span('user-time-per-sight', SentryConstants.operation.USER_TIME) : null);
 
   useEffect(() => {
     if (isFocused) {
       camera?.current?.resumePreview();
       if (Sentry && !transaction) {
-        setTransaction(new Span('user-time-per-sight', SpanConstants.operation.USER_TIME));
+        setTransaction(new Span('user-time-per-sight', SentryConstants.operation.USER_TIME));
       }
     } else {
       camera?.current?.pausePreview();
@@ -103,7 +103,7 @@ export function useTakePictureAsync({ camera, isFocused, Sentry }) {
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
 export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
 
   return useCallback(async (picture) => {
     try {
@@ -122,7 +122,7 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
       sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
     } catch (err) {
-      errorHandler(err, SpanConstants.type.CAMERA, { picture });
+      errorHandler(err, SentryConstants.type.CAMERA, { picture });
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
     }
   }, [current.id, sights, uploads]);
@@ -180,7 +180,7 @@ export function useStartUploadAsync({
   Sentry,
 }) {
   const [queue, setQueue] = useState([]);
-  const { errorHandler, Span } = useError(Sentry);
+  const { errorHandler, Span } = useSentry(Sentry);
   let isRunning = false;
 
   const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
@@ -198,7 +198,7 @@ export function useStartUploadAsync({
         onWarningMessage('Upload...');
         let uploadTracing;
         if (Sentry) {
-          uploadTracing = new Span('upload-tracing', SpanConstants.operation.HTTP);
+          uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP);
           uploadTracing.addDataToSpan('upload-tracing', 'file_size', file.size / 1024);
           uploadTracing.addDataToSpan('upload-tracing', 'picture_width', picture.width);
           uploadTracing.addDataToSpan('upload-tracing', 'picture_height', picture.height);
@@ -224,7 +224,7 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          errorHandler(err, SpanConstants.type.UPLOAD, { json, file });
+          errorHandler(err, SentryConstants.type.UPLOAD, { json, file });
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,
@@ -330,7 +330,7 @@ export function useStartUploadAsync({
 export function useCheckComplianceAsync({
   compliance, inspectionId, sightId: currentSighId, Sentry,
 }) {
-  const { Span } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
 
   return useCallback(async (imageId, customSightId) => {
     const { dispatch } = compliance;
@@ -342,7 +342,7 @@ export function useCheckComplianceAsync({
 
     let checkComplianceHttpTracing;
     if (Sentry) {
-      checkComplianceHttpTracing = new Span('get-one-inspection', SpanConstants.operation.HTTP);
+      checkComplianceHttpTracing = new Span('get-one-inspection', SentryConstants.operation.HTTP);
     }
 
     try {

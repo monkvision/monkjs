@@ -7,8 +7,8 @@ import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { useError, utils } from '@monkvision/toolkit';
-import { SpanConstants } from '@monkvision/toolkit/src/hooks/useError';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
 import * as names from 'screens/names';
 import Settings from './settings';
@@ -59,7 +59,7 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { errorHandler } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { colors } = useTheme();
 
@@ -115,7 +115,7 @@ export default function InspectionCapture() {
         setTag('currentSight', null);
         handleNavigate();
       } catch (err) {
-        errorHandler(err, SpanConstants.type.HTTP, {
+        errorHandler(err, SentryConstants.type.HTTP, {
           inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
         });
         setCameraLoading(false);
@@ -157,7 +157,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        errorHandler(err, SpanConstants.type.APP, state);
+        errorHandler(err, SentryConstants.type.APP, state);
         throw err;
       }
     }
