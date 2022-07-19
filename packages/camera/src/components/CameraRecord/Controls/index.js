@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
+import CircularProgress from '../ProgressBar/index';
 
 const styles = StyleSheet.create({
   root: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 80,
     height: 80,
-    borderRadius: 999,
+    borderRadius: 99,
     borderWidth: 4,
     borderStyle: 'solid',
   },
@@ -24,15 +25,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     width: 60,
     height: 60,
-    borderRadius: 999,
+    borderRadius: 90,
     alignItems: 'center',
     justifyContent: 'center',
   },
   resetButton: {
     backgroundColor: 'white',
+    width: 28,
+    height: 28,
+    borderRadius: 4,
+    position: 'absolute',
+    zIndex: 99,
+  },
+  resetButtonLayout: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 40,
     height: 40,
-    borderRadius: 8,
   },
   verticalDash: {
     backgroundColor: 'white',
@@ -58,7 +67,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Controls({ onQuit, onStart, onStop, onReset, status }) {
+export default function Controls({ onQuit, onStart, onStop, onReset, status, duration }) {
   const { pending, idle, finished, canceled, processing } = status;
 
   const handlePress = useCallback(() => {
@@ -76,17 +85,20 @@ export default function Controls({ onQuit, onStart, onStop, onReset, status }) {
       </View>
 
       <View style={styles.buttonLayout}>
-        {pending
-          ? <TouchableOpacity style={styles.resetButton} onPress={onStop} />
-          : (
-            <TouchableOpacity
-              style={styles.recordButton}
-              onPress={handlePress}
-              disabled={processing && finished}
-            >
-              {processing && finished ? <ActivityIndicator color="#FFF" /> : null}
-            </TouchableOpacity>
-          )}
+        {pending ? (
+          <View style={styles.resetButtonLayout}>
+            <TouchableOpacity style={styles.resetButton} onPress={onStop} />
+            <CircularProgress radius={30} color="#FFF" duration={duration} />
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={styles.recordButton}
+            onPress={handlePress}
+            disabled={processing && finished}
+          >
+            {processing && finished ? <ActivityIndicator color="#FFF" /> : null}
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.buttonLayout}>
@@ -102,6 +114,7 @@ export default function Controls({ onQuit, onStart, onStop, onReset, status }) {
 }
 
 Controls.propTypes = {
+  duration: PropTypes.number.isRequired,
   onQuit: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
   onStart: PropTypes.func.isRequired,

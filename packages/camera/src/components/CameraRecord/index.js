@@ -32,11 +32,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  overlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    zIndex: 999,
+  },
 });
 
 const SCORE_ACCEPTANCE = 3; // the max number of non-compliant frames allowed
-const TOTAL_CUTS = 3; // number of cuts
-const DURATION = 3;
+const TOTAL_CUTS = 2; // number of cuts
+const DURATION = 5;
 
 const removeDuplication = (arr) => [...new Set([...arr])];
 const flatten = (value) => (Array.isArray(value) ? [].concat(...value.map(flatten)) : value);
@@ -150,6 +156,7 @@ export default function CameraRecord({ onQuit, onValidate }) {
           onPause={pause}
           onResume={resume}
           status={{ ...status, processing }}
+          duration={DURATION * 1000} // in seconds
         />
       </ExpoCamera>
     </View>
