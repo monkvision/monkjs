@@ -40,6 +40,12 @@
   },
   "dependencies": {
     "@expo/match-media": "^0.3.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@tensorflow/tfjs": "^3.18.0",
+    "@tensorflow/tfjs-backend-cpu": "^3.18.0",
+    "@tensorflow/tfjs-core": "^3.18.0",
+    "@tensorflow/tfjs-react-native": "^0.8.0",
+    "@tensorflow/tfjs-tflite": "^0.0.1-alpha.8",
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
     "axios": "^0.24.0",
