@@ -13,7 +13,7 @@
     "id": "rSvk2C",
     "label": {
       "en": "Dashboard",
-      "fr": "Panneau de bord"
+      "fr": "Tableau de bord"
     },
     "vehicleType": "undefined"
   },
@@ -54,7 +54,7 @@
     "id": "xsuH1g5T",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -75,7 +75,7 @@
     "id": "IzMR_OzQ",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -117,7 +117,7 @@
     "id": "3vKXafwc",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Garde-boue arrière gauche"
+      "fr":  "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -138,7 +138,7 @@
     "id": "3a3OheoD",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Garde-boue arrière gauche"
+      "fr":  "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -159,7 +159,7 @@
     "id": "ClEZSucK",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -180,7 +180,7 @@
     "id": "zjAIjUgU",
     "label": {
       "en": "Front Lateral Left",
-      "fr":  "Avant gauche latéral"
+      "fr":  "Avant latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -224,7 +224,7 @@
     "id": "PLh198NC",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -245,7 +245,7 @@
     "id": "LE9h1xh0",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -287,7 +287,7 @@
     "id": "GvCtVnoD",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -308,7 +308,7 @@
     "id": "GHbWVnMB",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Garde-boue arrière gauche"
+      "fr":  "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -373,7 +373,7 @@
     "id": "m1rhrZ88",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -396,7 +396,7 @@
     "id": "36qmcrgr",
     "label": {
       "en": "Rear Roof Right",
-      "fr":  "Toit arrière droit"
+      "fr":  "Toit (arrière droit)"
     },
     "category": "exterior",
     "vehicle": {
@@ -418,8 +418,8 @@
   "eOkUJUBk": {
     "id": "eOkUJUBk",
     "label": {
-      "en": "Frame Rail Left",
-      "fr":  "Longeron gauche"
+      "en": "Rocker Panel Left",
+      "fr":  "Bas de caisse gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -441,8 +441,8 @@
   "RMeCZRbd": {
     "id": "RMeCZRbd",
     "label": {
-      "en": "Hood Windshield",
-      "fr":  "Capot pare-brise"
+      "en": "Hood / Windshield",
+      "fr":  "Capot / pare-brise"
     },
     "category": "exterior",
     "vehicle": {
@@ -464,8 +464,8 @@
   "dQOmxo13": {
     "id": "dQOmxo13",
     "label": {
-      "en": "Frame Rail Rear Left",
-      "fr":  "Longeron arrière gauche"
+      "en": "Rocker Panel Left (Rear)",
+      "fr":  "Bas de caisse gauche (arrière)"
     },
     "category": "exterior",
     "vehicle": {
@@ -744,7 +744,7 @@
     "id": "jgB-cu5G",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -765,7 +765,7 @@
     "id": "0U14gFyk",
     "label": {
       "en": "Front Lateral Right",
-      "fr":  "Avant latéral droit"
+      "fr":  "Avant latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -788,7 +788,7 @@
     "id": "Cce1KCd3",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Garde-boue arrière droit"
+      "fr":  "Aile arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -809,7 +809,7 @@
     "id": "QqBpHiVP",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -832,7 +832,7 @@
     "id": "Pzgw0WGe",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droites"
+      "fr":  "Portières droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -853,7 +853,7 @@
     "id": "jqJOb6Ov",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -874,7 +874,7 @@
     "id": "EqLDVYj3",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -895,7 +895,7 @@
     "id": "j3E2UHFc",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Garde-boue arrière droit"
+      "fr":  "Aile arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -916,7 +916,7 @@
     "id": "AoO-nOoM",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -936,8 +936,8 @@
   "WWZsroCu": {
     "id": "WWZsroCu",
     "label": {
-      "en": "Frame Rail Right",
-      "fr":  "Longeron droit"
+      "en": "Rocker Panel Right",
+      "fr":  "Bas de caisse droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1050,7 +1050,7 @@
     "id": "B5s1CWT-",
     "label": {
       "en": "Rocker Panel Right",
-      "fr":  "Bas de caisse droit"
+      "fr":  "Bas de caisse droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1070,8 +1070,8 @@
   "eWZsEThb": {
     "id": "eWZsEThb",
     "label": {
-      "en": "Frame Rail Rear Right",
-      "fr":  "Longeron arrière droit"
+      "en": "Rocker Panel Right (Rear)",
+      "fr":  "Bas de caisse droite (arrière)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1301,7 +1301,7 @@
     "id": "cDe2q69X",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1331,7 +1331,7 @@
     "id": "WKJlxkiF",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1361,7 +1361,7 @@
     "id": "5CFsFvj7",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1451,7 +1451,7 @@
     "id": "fDKWkHHp",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droites"
+      "fr":  "Portières droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1481,7 +1481,7 @@
     "id": "vedHBC2n",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1511,7 +1511,7 @@
     "id": "7bTC-nGS",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Garde-boue arrière gauche"
+      "fr":  "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1571,7 +1571,7 @@
     "id": "e_QIW30o",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Garde-boue arrière droit"
+      "fr":  "Aile arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1631,7 +1631,7 @@
     "id": "fDo5M0Fp",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1694,7 +1694,7 @@
     "id": "fesc20-bD8CBhYZ",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1727,7 +1727,7 @@
     "id": "fesc20-GdIxD-_N",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1760,7 +1760,7 @@
     "id": "fesc20-6GPUkfYn",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1826,7 +1826,7 @@
     "id": "fesc20-P470Q-jm",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1958,7 +1958,7 @@
     "id": "fesc20-CEGtqHkk",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2024,7 +2024,7 @@
     "id": "fesc20-r_UeXQRO",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2057,7 +2057,7 @@
     "id": "fesc20-LZc7p2kK",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2090,7 +2090,7 @@
     "id": "fesc20-H1dfdfvH",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2156,7 +2156,7 @@
     "id": "ff150-7UI3m9B3",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2222,7 +2222,7 @@
     "id": "ff150-wO_fJ3DL",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2255,7 +2255,7 @@
     "id": "ff150-Ttsc7q6V",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2288,7 +2288,7 @@
     "id": "ff150-xbOhu7nK",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2387,7 +2387,7 @@
     "id": "ff150-OviO2DlY",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2420,7 +2420,7 @@
     "id": "ff150-2WUJ179s",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2552,7 +2552,7 @@
     "id": "ff150-t3KBMPeD",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2585,7 +2585,7 @@
     "id": "ff150-zXbg0l3z",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2684,7 +2684,7 @@
     "id": "ffocus18-GgOSpLl6",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2717,7 +2717,7 @@
     "id": "ffocus18-GiTxaJUq",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2750,7 +2750,7 @@
     "id": "ffocus18-ZXKOomlv",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2849,7 +2849,7 @@
     "id": "ffocus18-zgLKB-Do",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2915,7 +2915,7 @@
     "id": "ffocus18-vFR9PKjB",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3014,7 +3014,7 @@
     "id": "ffocus18-Wo8PkcLF",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -3047,7 +3047,7 @@
     "id": "ffocus18-jWOq2CNN",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -3080,7 +3080,7 @@
     "id": "ffocus18-XlfgjQb9",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -3146,7 +3146,7 @@
     "id": "ftransit18-wyXf7MTv",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -3245,7 +3245,7 @@
     "id": "ftransit18-ffghVsNz",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3374,7 +3374,7 @@
     "id": "ftransit18-klUp8BS4",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3407,7 +3407,7 @@
     "id": "ftransit18-6X8IAjy0",
     "label": {
       "en": "Front Lateral Left",
-      "fr":  "Avant gauche latéral"
+      "fr":  "Avant latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3539,7 +3539,7 @@
     "id": "ftransit18-qmLP7A-b",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -3602,7 +3602,7 @@
     "id": "ftransit18-FFP5b34o",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -3665,7 +3665,7 @@
     "id": "haccord-8YjMcu0D",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -3764,7 +3764,7 @@
     "id": "haccord-huAZfQJA",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3797,7 +3797,7 @@
     "id": "haccord-2a8VfA8m",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3830,7 +3830,7 @@
     "id": "haccord-oiY_yPTR",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -3896,7 +3896,7 @@
     "id": "haccord-Qel0qUky",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4028,7 +4028,7 @@
     "id": "haccord-EfRIciFr",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4094,7 +4094,7 @@
     "id": "haccord-sorgeRJ7",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4127,7 +4127,7 @@
     "id": "haccord-Jq65fyD4",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4160,7 +4160,7 @@
     "id": "jgc21-VHq_6BM-",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4193,7 +4193,7 @@
     "id": "jgc21-imomJ2V0",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -4259,7 +4259,7 @@
     "id": "jgc21-QIkcNhc_",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4325,7 +4325,7 @@
     "id": "jgc21-QwNQX0Cr",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4457,7 +4457,7 @@
     "id": "jgc21-ESc0HCzy",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4523,7 +4523,7 @@
     "id": "jgc21-JerG7oW5",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4556,7 +4556,7 @@
     "id": "jgc21-3JJvM7_B",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4589,7 +4589,7 @@
     "id": "jgc21-QIvfeg0X",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -4655,7 +4655,7 @@
     "id": "tsienna20-jY3cR5vy",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Présentation gauche"
+      "fr":  "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4721,7 +4721,7 @@
     "id": "tsienna20-gkvZE2c7",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Garde-boue avant gauche"
+      "fr":  "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4754,7 +4754,7 @@
     "id": "tsienna20-is1tpnqR",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit avant gauche"
+      "fr":  "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -4787,7 +4787,7 @@
     "id": "tsienna20-ouPvuX-j",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière gauche latéral"
+      "fr":  "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4919,7 +4919,7 @@
     "id": "tsienna20-YwrRNr9n",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant bas"
+      "fr":  "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -5018,7 +5018,7 @@
     "id": "tsienna20-xtDcn3GS",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Garde-boue avant droit"
+      "fr":  "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -5051,7 +5051,7 @@
     "id": "tsienna20-QIMXlb0L",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr":  "Arrière latéral droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -5117,7 +5117,7 @@
     "id": "tsienna20--a2RmRcs",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière droite"
     },
     "category": "exterior",
     "vehicle": {
