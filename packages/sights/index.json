@@ -96,7 +96,7 @@
     "id": "AEc967h1",
     "label": {
       "en": "Doors Left",
-      "fr":  "Portières gauche"
+      "fr":  "Portières gauches"
     },
     "category": "exterior",
     "vehicle": {
@@ -266,7 +266,7 @@
     "id": "IVcF1dOP",
     "label": {
       "en": "Doors Left",
-      "fr":  "Portières gauche"
+      "fr":  "Portières gauches"
     },
     "category": "exterior",
     "vehicle": {
@@ -765,7 +765,7 @@
     "id": "0U14gFyk",
     "label": {
       "en": "Front Lateral Right",
-      "fr":  "Avant latéral droite"
+      "fr":  "Avant latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -809,7 +809,7 @@
     "id": "QqBpHiVP",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -832,7 +832,7 @@
     "id": "Pzgw0WGe",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droite"
+      "fr":  "Portières droites"
     },
     "category": "exterior",
     "vehicle": {
@@ -916,7 +916,7 @@
     "id": "AoO-nOoM",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -937,7 +937,7 @@
     "id": "WWZsroCu",
     "label": {
       "en": "Rocker Panel Right",
-      "fr":  "Bas de caisse droite"
+      "fr":  "Bas de caisse droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1050,7 +1050,7 @@
     "id": "B5s1CWT-",
     "label": {
       "en": "Rocker Panel Right",
-      "fr":  "Bas de caisse droite"
+      "fr":  "Bas de caisse droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1071,7 +1071,7 @@
     "id": "eWZsEThb",
     "label": {
       "en": "Rocker Panel Right (Rear)",
-      "fr":  "Bas de caisse droite (arrière)"
+      "fr":  "Bas de caisse droit (arrière)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1421,7 +1421,7 @@
     "id": "R_f4g8MN",
     "label": {
       "en": "Doors Left",
-      "fr":  "Porières gauche"
+      "fr":  "Portières gauches"
     },
     "category": "exterior",
     "vehicle": {
@@ -1451,7 +1451,7 @@
     "id": "fDKWkHHp",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droite"
+      "fr":  "Portières droites"
     },
     "category": "exterior",
     "vehicle": {
@@ -1631,7 +1631,7 @@
     "id": "fDo5M0Fp",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2024,7 +2024,7 @@
     "id": "fesc20-r_UeXQRO",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2057,7 +2057,7 @@
     "id": "fesc20-LZc7p2kK",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2420,7 +2420,7 @@
     "id": "ff150-2WUJ179s",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2552,7 +2552,7 @@
     "id": "ff150-t3KBMPeD",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3014,7 +3014,7 @@
     "id": "ffocus18-Wo8PkcLF",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3047,7 +3047,7 @@
     "id": "ffocus18-jWOq2CNN",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3539,7 +3539,7 @@
     "id": "ftransit18-qmLP7A-b",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3602,7 +3602,7 @@
     "id": "ftransit18-FFP5b34o",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4094,7 +4094,7 @@
     "id": "haccord-sorgeRJ7",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4127,7 +4127,7 @@
     "id": "haccord-Jq65fyD4",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4523,7 +4523,7 @@
     "id": "jgc21-JerG7oW5",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4556,7 +4556,7 @@
     "id": "jgc21-3JJvM7_B",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5051,7 +5051,7 @@
     "id": "tsienna20-QIMXlb0L",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droite"
+      "fr":  "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5117,7 +5117,7 @@
     "id": "tsienna20--a2RmRcs",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droite"
+      "fr":  "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
