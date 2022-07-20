@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
 import UploadCard from './UploadCard';
 import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 import Button from './button';
+import log from '../../utils/log';
 
 const { spacing } = utils.styles;
 
@@ -64,6 +66,7 @@ export default function UploadCenter({
   task,
   mapTasksToSights,
   colors,
+  Sentry,
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
@@ -72,6 +75,7 @@ export default function UploadCenter({
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states });
+  const { Span } = useSentry(Sentry);
 
   const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
     inspectionId,
@@ -97,6 +101,17 @@ export default function UploadCenter({
 
   // END METHODS //
   // EFFECTS //
+
+  useEffect(() => {
+    log(['[Event] Entering the Upload center']);
+    if (Sentry) {
+      const transaction = new Span('upload-center-user-time', SentryConstants.operation.USER_TIME);
+
+      return () => transaction.finish();
+    }
+
+    return () => undefined;
+  }, []);
 
   useEffect(() => {
     if (submitted === false && hasNoCompliancesLeft) {
@@ -187,7 +202,10 @@ export default function UploadCenter({
         <Button
           colors={colors}
           color={colors.actions.secondary}
-          onPress={onComplianceCheckFinish}
+          onPress={(e) => {
+            log(['[Click] Skip retaking photo']);
+            onComplianceCheckFinish(e);
+          }}
           disabled={isSubmitting || hasAllRejected
              || !hasFulfilledAllUploads || !navigationOptions.allowSkipImageQualityCheck}
         >
@@ -248,6 +266,7 @@ UploadCenter.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  Sentry: PropTypes.any,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -265,5 +284,6 @@ UploadCenter.defaultProps = {
     retakeMaxTry: 1,
     allowSkipImageQualityCheck: true,
   },
+  Sentry: null,
   task: 'damage_detection',
 };

@@ -1,11 +1,11 @@
-import { useError } from '@monkvision/toolkit/src';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import React, { useCallback, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
-import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 
@@ -37,7 +37,7 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
 
   const route = useRoute();
@@ -45,9 +45,11 @@ export default function SignIn() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
+    onStart: () => { utils.log(['[Click] Signing in']); },
     onError: (error, request) => {
       setAuthError(true);
-      errorHandler(error, Constants.type.APP, request);
+      utils.log(['[Event] Sign in failed']);
+      errorHandler(error, SentryConstants.type.APP, request);
     },
   });
 

@@ -1,9 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
+import log from '../../utils/log';
 
 export default function Overlay({ label, svg, ...passThoughProps }) {
   const base64 = useMemo(() => btoa(unescape(encodeURIComponent(svg))), [svg]);
+
+  useEffect(() => {
+    log(['[Event] Loading sight', label]);
+  }, [label]);
 
   return (
     <Image

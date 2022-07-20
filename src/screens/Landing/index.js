@@ -1,9 +1,9 @@
-import { useError, useInterval } from '@monkvision/toolkit';
+import { useSentry, useInterval, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo, useEffect, useRef } from 'react';
-import * as Device from 'expo-device';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -22,8 +22,8 @@ import * as names from 'screens/names';
 import Modal from 'components/Modal';
 import styles from './styles';
 import Sentry from '../../config/sentry';
-import { setTag } from '../../config/sentryPlatform';
 import useVinModal from './useVinModal';
+import { setTag } from '../../config/sentryPlatform';
 
 const STATUSES = {
   NOT_STARTED: 'Waiting to be started',
@@ -44,7 +44,7 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -63,9 +63,10 @@ export default function Landing() {
   const selectors = useVinModal({ isAuthenticated, inspectionId });
 
   const handleReset = useCallback(() => {
-    Sentry.Browser.setTag('inspection_id', undefined); // unset the tag `inspection_id`
+    utils.log(['[Click] Resetting the inspection: ', inspectionId]);
+    setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
-  }, [navigation]);
+  }, [navigation, inspectionId]);
 
   const handleListItemPress = useCallback((value) => {
     const isVin = value === 'vinNumber';
@@ -136,7 +137,7 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err, Constants.type.APP));
+      getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
     }
   }, [inspectionId, getInspection]);
 
@@ -146,10 +147,6 @@ export default function Landing() {
     start();
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
-
-  useEffect(() => {
-    setTag('device_model', Device.modelName);
-  }, []);
 
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');

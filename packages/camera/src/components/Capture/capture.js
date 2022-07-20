@@ -170,7 +170,7 @@ const Capture = forwardRef(({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera, isFocused });
+  const takePictureAsync = useTakePictureAsync({ camera, isFocused, Sentry });
   const setPictureAsync = useSetPictureAsync({ current, sights, uploads, Sentry });
 
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id, Sentry };
@@ -335,6 +335,7 @@ const Capture = forwardRef(({
           checkComplianceAsync={checkComplianceAsync}
           navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
           colors={colors}
+          Sentry={Sentry}
         />
       </I18nextProvider>
     );
