@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {},
   message: {
     fontSize: 18,
   },
@@ -52,8 +51,13 @@ export default function ComplianceCheck({ imageUri, compliance, colors }) {
           backgroundColor: colors.background,
         }]}
     >
-      <Image source={imageUri} style={styles.image} />
-      <Text style={[styles.message, colors.text]}>{complianceMessage}</Text>
+      <Image
+        height={height * 0.4}
+        source={imageUri}
+        style={{ width: width * 0.4, height: height * 0.4 }}
+        width={width * 0.4}
+      />
+      <Text style={[styles.message, { color: colors.text }]}>{complianceMessage}</Text>
       <View style={styles.buttonContainer}>
         <Button
           title={t('embeddedModels.retry')}
@@ -72,7 +76,7 @@ export default function ComplianceCheck({ imageUri, compliance, colors }) {
 }
 
 ComplianceCheck.defaultProps = {
-  imageUri: '',
+  imageUri: { uri: '' },
 };
 
 ComplianceCheck.propTypes = {
@@ -106,5 +110,7 @@ ComplianceCheck.propTypes = {
     overexposure: PropTypes.bool,
     underexposure: PropTypes.bool,
   }).isRequired,
-  imageUri: PropTypes.string,
+  imageUri: PropTypes.shape({
+    uri: PropTypes.string,
+  }),
 };
