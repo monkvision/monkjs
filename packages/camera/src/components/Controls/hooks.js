@@ -20,11 +20,10 @@ const useHandlers = ({
   const [iqaModel, setIQAModel] = useState(null);
 
   useEffect(() => {
-    loadModel(Models.imageQualityCheck).then((model) => {
-      console.log('IQA Model loaded.');
-      setIQAModel(model);
+    loadModel(Models.imageQualityCheck.name).then((loadedModel) => {
+      setIQAModel(loadedModel);
     }).catch((err) => console.error(err));
-  });
+  }, []);
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
@@ -59,7 +58,7 @@ const useHandlers = ({
     if (iqaModel) {
       predictions[Models.imageQualityCheck.name](picture)
         .then((results) => console.log('IQA Results : ', results))
-        .catch((err) => console.error(err));
+        .catch((err) => console.error('Error when running model : ', err));
     }
 
     setPictureAsync(picture);
@@ -78,7 +77,7 @@ const useHandlers = ({
       }, 500);
     }
     captureButtonTracing?.finish();
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
+  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream, iqaModel]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     log(['[Click] Retake all photos']);

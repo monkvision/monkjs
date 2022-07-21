@@ -12,8 +12,7 @@ import log from '../../utils/log';
 tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/');
 
 export default function useEmbeddedModel() {
-  const [useApi, setUseApi] = useState(true);
-  const [models, setModels] = useState(null);
+  const [models, setModels] = useState({});
 
   const startDb = useIndexedDb();
 
@@ -31,11 +30,6 @@ export default function useEmbeddedModel() {
   };
 
   const loadModel = async (name) => {
-    if (models[name] !== null) {
-      setUseApi(false);
-      return;
-    }
-
     const storedModels = await startDb(null, name);
     const model = storedModels[name];
 
@@ -43,15 +37,13 @@ export default function useEmbeddedModel() {
     log([name, 'Model buffer:', model, 'loaded from indexedDB.']);
 
     if (!model) {
-      log(['set UseApi to true']);
-      setUseApi(true);
-      return;
+      throw new Error(`Unable to find model ${name} in storage.`);
     }
 
     const loadedModel = await tflite.loadTFLiteModel(model);
-    addModel(loadedModel, name);
-    log(['set UseApi to false']);
-    setUseApi(false);
+    addModel(name, loadedModel);
+
+    return loadedModel;
   };
 
   const downloadThenSaveModelAsync = async (name, uri, options = {}) => {
@@ -69,7 +61,9 @@ export default function useEmbeddedModel() {
     try {
       const model = customModel ?? models[Models.imageQualityCheck.name];
 
-      if (!image || !model) { return null; }
+      if (!image || !model) {
+        return null;
+      }
 
       const blob = await axios.get(image.uri, {
         responseType: 'blob',
@@ -102,7 +96,6 @@ export default function useEmbeddedModel() {
 
   return {
     models,
-    useApi,
     isModelStored,
     loadModel,
     downloadThenSaveModelAsync,
