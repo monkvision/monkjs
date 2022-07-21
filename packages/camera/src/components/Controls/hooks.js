@@ -27,7 +27,7 @@ const useHandlers = ({
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
-    if (!stream && Platform.OS === 'web') { return; }
+    if (!stream && Platform.OS === 'web') { return null; }
 
     /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
      *  need state updates
@@ -53,20 +53,57 @@ const useHandlers = ({
     log(['[Click] Taking a photo']);
     const picture = await takePictureAsync();
 
-    if (!picture) { return; }
-
-    if (iqaModel) {
-      predictions[Models.imageQualityCheck.name](picture)
-        .then((results) => console.log('IQA Results : ', results))
-        .catch((err) => console.error('Error when running model : ', err));
-    }
-
-    setPictureAsync(picture);
+    if (!picture) { return null; }
 
     const { sights } = state;
     const { current, ids } = sights.state;
 
-    if (current.index === ids.length - 1) {
+    const compliance = {
+      blurriness: false,
+      overexposure: false,
+      underexposure: false,
+    };
+
+    state.compliance.dispatch({
+      type: Actions.compliance.UPDATE_COMPLIANCE,
+      increment: true,
+      payload: { id: current.id, status: 'pending' },
+    });
+
+    try {
+      const details = await predictions[Models.imageQualityCheck.name](picture);
+      const result = {
+        details,
+        is_compliant: details.blurriness_score < Models.imageQualityCheck.minConfidence.blurriness
+          && details.overexposure_score < Models.imageQualityCheck.minConfidence.overexposure
+          && details.underexposure_score < Models.imageQualityCheck.minConfidence.underexposure,
+        parameters: {},
+        reasons: [],
+        status: 'DONE',
+      };
+      state.compliance.dispatch({
+        type: Actions.compliance.UPDATE_COMPLIANCE,
+        payload: { id: current.id, result, status: 'fulfilled' },
+      });
+      compliance.blurriness = details.blurriness_score < Models
+        .imageQualityCheck.minConfidence.blurriness;
+      compliance.overexposure = details.overexposure_score < Models
+        .imageQualityCheck.minConfidence.overexposure;
+      compliance.underexposure = details.underexposure_score < Models
+        .imageQualityCheck.minConfidence.underexposure;
+    } catch (err) {
+      console.error('An error occurred when doing the complianbce check :', err);
+    }
+
+    setPictureAsync(picture);
+
+    const isCompliant = compliance.blurriness
+      && compliance.overexposure
+      && compliance.underexposure;
+
+    if (!isCompliant) {
+      onFinishUploadPicture(state, api);
+    } else if (current.index === ids.length - 1) {
       await startUploadAsync(picture);
     } else {
       await startUploadAsync(picture);
@@ -77,6 +114,7 @@ const useHandlers = ({
       }, 500);
     }
     captureButtonTracing?.finish();
+    return compliance;
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream, iqaModel]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
