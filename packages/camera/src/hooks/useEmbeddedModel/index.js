@@ -5,7 +5,7 @@ import * as tflite from '@tensorflow/tfjs-tflite';
 import axios from 'axios';
 
 import { imagePreprocessing, imageQualityCheckPrediction } from './common';
-import { MODEL_NAMES } from './const';
+import Models from './const';
 import useIndexedDb from './useIndexedDb';
 import log from '../../utils/log';
 
@@ -27,7 +27,7 @@ export default function useEmbeddedModel() {
     const storedModels = await startDb(null, name);
     const model = storedModels[name];
 
-    return model !== null;
+    return !!model;
   };
 
   const loadModel = async (name) => {
@@ -67,7 +67,7 @@ export default function useEmbeddedModel() {
 
   const predictQualityCheck = async (image, customModel) => {
     try {
-      const model = customModel ?? models[MODEL_NAMES.IMAGE_QUALITY_CHECK];
+      const model = customModel ?? models[Models.imageQualityCheck.name];
 
       if (!image || !model) { return null; }
 
@@ -107,7 +107,7 @@ export default function useEmbeddedModel() {
     loadModel,
     downloadThenSaveModelAsync,
     predictions: {
-      [MODEL_NAMES.IMAGE_QUALITY_CHECK]: predictQualityCheck,
+      [Models.imageQualityCheck.name]: predictQualityCheck,
     },
   };
 }

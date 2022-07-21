@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "commonjs",
+    "skipLibCheck": true,
     "lib": [ "es2015" ]
   },
   "include": ["src"],

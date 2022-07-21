@@ -6,7 +6,7 @@ export default function useThumbnail({
   isPending, isComplianceFailed, isComplianceIdle, isComplianceUnknown, isUploadFailed,
   handleReupload, handleRecheck, handleRetake,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return useMemo(() => {
     if (isPending) { return { callback: null, color: colors.placeholder }; }
@@ -45,5 +45,5 @@ export default function useThumbnail({
       color: colors.accent,
     };
   }, [isPending, isComplianceFailed, isComplianceIdle, isUploadFailed,
-    handleReupload, handleRecheck, handleRetake, colors]);
+    handleReupload, handleRecheck, handleRetake, colors, i18n.language]);
 }

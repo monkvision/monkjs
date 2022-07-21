@@ -1,5 +1,11 @@
 const en = {
   translation: {
+    embeddedModels: {
+      error: {
+        message: 'An unexpected error occurred during the download of the models.',
+        retry: 'Retry',
+      },
+    },
     camera: {
       permissionDenied: 'Unable to access camera : permission denied.',
     },

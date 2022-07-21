@@ -5,11 +5,14 @@ import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 
 import Camera from '../Camera';
+import ModelManager from '../ModelManager';
 import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
+import useEmbeddedModel from '../../hooks/useEmbeddedModel';
+import Models from '../../hooks/useEmbeddedModel/const';
 
 import Constants from '../../const';
 import log from '../../utils/log';
@@ -110,6 +113,7 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
+  const [haveAllModelsBeenStored, setHaveAllModelsBeenStored] = useState(false);
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
@@ -216,9 +220,12 @@ const Capture = forwardRef(({
     takePictureAsync,
   }));
 
+  const { isModelStored } = useEmbeddedModel();
+
   // END METHODS //
   // CONSTANTS //
 
+  const embeddedModels = [Models.imageQualityCheck];
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
     () => Object.values(uploads.state).every(({ status, picture, uploadCount }) => (picture || status === 'rejected') && uploadCount >= 1),
@@ -264,6 +271,16 @@ const Capture = forwardRef(({
   useEffect(() => { onComplianceChange(states, api); }, [compliance]);
   useEffect(() => { onSightsChange(states, api); }, [sights]);
   useEffect(() => { onSettingsChange(states, api); }, [settings]);
+  useEffect(() => {
+    if (!haveAllModelsBeenStored) {
+      Promise.all(embeddedModels.map((model) => model.name).map((name) => isModelStored(name)))
+        .then((results) => {
+          if (results.every((modelIsStored) => modelIsStored)) {
+            setHaveAllModelsBeenStored(true);
+          }
+        }).catch((err) => console.error(err));
+    }
+  });
 
   // END EFFECTS //
   // RENDERING //
@@ -319,6 +336,14 @@ const Capture = forwardRef(({
       ) : null}
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
+
+  if (!haveAllModelsBeenStored) {
+    return (
+      <I18nextProvider i18n={i18n}>
+        <ModelManager backgroundColor={colors.background} />
+      </I18nextProvider>
+    );
+  }
 
   if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
     return (

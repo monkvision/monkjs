@@ -5,7 +5,7 @@ import { decodeJpeg, fetch } from '@tensorflow/tfjs-react-native';
 
 import { asyncStorageIO } from './FileSystemIO';
 import { imagePreprocessing, imageQualityCheckPrediction } from './common';
-import { MODEL_NAMES } from './const';
+import Models from './const';
 import log from '../../utils/log';
 
 export default function useEmbeddedModel() {
@@ -57,7 +57,7 @@ export default function useEmbeddedModel() {
 
   const predictQualityCheck = async (image, customModel) => {
     try {
-      const model = customModel ?? models[MODEL_NAMES.IMAGE_QUALITY_CHECK];
+      const model = customModel ?? models[Models.imageQualityCheck.name];
 
       if (!image || !model) { return null; }
 
@@ -85,7 +85,7 @@ export default function useEmbeddedModel() {
     loadModel,
     downloadThenSaveModelAsync,
     predictions: {
-      [MODEL_NAMES.IMAGE_QUALITY_CHECK]: predictQualityCheck,
+      [Models.imageQualityCheck.name]: predictQualityCheck,
     },
   };
 }
