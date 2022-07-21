@@ -64,14 +64,10 @@ const useHandlers = ({
       underexposure: false,
     };
 
-    state.compliance.dispatch({
-      type: Actions.compliance.UPDATE_COMPLIANCE,
-      increment: true,
-      payload: { id: current.id, status: 'pending' },
-    });
-
     try {
-      const details = await predictions[Models.imageQualityCheck.name](picture);
+      const unloadModel = iqaModel ?? await loadModel(Models.imageQualityCheck.name);
+      if (!iqaModel) { setIQAModel(unloadModel); }
+      const details = await predictions[Models.imageQualityCheck.name](picture, unloadModel);
       const result = {
         details,
         is_compliant: details.blurriness_score < Models.imageQualityCheck.minConfidence.blurriness

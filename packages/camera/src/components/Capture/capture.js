@@ -250,29 +250,21 @@ const Capture = forwardRef(({
     [compliance.state, sights.state.current.id],
   );
 
-  console.warn('currentCompliance', currentCompliance);
-
   const complianceAlert = useMemo(() => {
-    if (currentCompliance) {
-      return currentCompliance?.result?.is_compliant === false;
+    if (sights.state.current.id) {
+      const currentComp = Object.values(compliance.state)
+        .find((comp) => comp.id === sights.state.current.id);
+      return currentComp?.result?.is_compliant === false;
     }
     return false;
-  }, [currentCompliance]);
+  }, [compliance.state, sights.state.current.id]);
 
   const takenPicture = useMemo(() => {
     if (sights.state.current.id) {
-      const currentSight = Object.values(sights.state.takenPictures)
-        .find((comp) => comp.id === sights.state.current.id);
-      console.warn('CurrentSight : ', currentSight);
-      console.warn('sights.state.takenPictures : ', sights.state.takenPictures);
-      return currentSight?.uri;
+      return uploads.state[sights.state.current.id].picture;
     }
     return null;
-  }, [sights.state.current.id, sights.state.takenPictures]);
-
-  console.warn('takenPicture', takenPicture);
-  console.warn('sights :', sights);
-  console.warn('uploads', uploads);
+  }, [sights.state.current.id, uploads.state]);
 
   // END CONSTANTS //
   // HANDLERS //
