@@ -57,7 +57,7 @@ export default function useEmbeddedModel() {
     return buffer.data;
   };
 
-  const predictQualityCheck = async (image, customModel) => {
+  const predictQualityCheck = useCallback(async (image, customModel) => {
     try {
       const model = customModel ?? models[Models.imageQualityCheck.name];
 
@@ -92,7 +92,7 @@ export default function useEmbeddedModel() {
       log([e]);
       return null;
     }
-  };
+  }, [models]);
 
   return {
     models,
