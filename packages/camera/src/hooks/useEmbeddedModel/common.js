@@ -98,19 +98,9 @@ export const partDetectorModelPrediction = async (tf, model, imageTensor) => {
  * @returns {Promise<{blurriness: boolean, overexposure: boolean, underexposure: boolean}>}
  */
 export const imageQualityCheckPrediction = async (tf, model, imagePreprocessed) => {
-  const time3 = new Date();
-  // Resizing the picture to match the model requirements
-  log([`time resize: ${new Date() - time3} ms`]);
-
   // Expanding dimension and adapting input vector then start the prediction
-  const time2 = new Date();
   const input = tf.expandDims(tf.transpose(tf.div(imagePreprocessed, 255), [2, 0, 1]), 0);
-  log([`time transpose: ${new Date() - time2} ms`]);
-  const time = new Date();
   const predictions = await model.predict(input);
-  log([`time predict: ${new Date() - time} ms`]);
-  // eslint-disable-next-line no-console
-  console.log(predictions['PartitionedCall:0'].arraySync()[0], predictions['PartitionedCall:1'].arraySync()[0], predictions['PartitionedCall:2'].arraySync()[0]);
 
   return {
     blurriness: predictions['PartitionedCall:0'].arraySync()[0] < MIN_CONFIDENCE.blurriness,

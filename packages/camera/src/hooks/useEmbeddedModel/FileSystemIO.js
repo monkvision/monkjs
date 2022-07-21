@@ -105,10 +105,10 @@ class AsyncStorageHandler {
         const infoUri = await saveFile(this.keys.info, JSON.stringify(modelArtifactsInfo));
         this.asyncStorage.setItem(this.keys.info, infoUri);
 
-        const artifactWithoutWeights = await saveFile(
-          this.keys.modelArtifactsWithoutWeights, JSON.stringify(modelArtifactsWithoutWeights),
-        );
-        this.asyncStorage.setItem(this.keys.modelArtifactsWithoutWeights, artifactWithoutWeights);
+        const modelAWWKey = this.keys.modelArtifactsWithoutWeights;
+        const modelAWWStringify = JSON.stringify(modelArtifactsWithoutWeights);
+        const artifactWithoutWeights = await saveFile(modelAWWKey, modelAWWStringify);
+        this.asyncStorage.setItem(modelAWWKey, artifactWithoutWeights);
 
         const ter = fromByteArray(new Uint8Array(weightData));
         const weightDataUri = await saveFile(this.keys.weightData, ter);
