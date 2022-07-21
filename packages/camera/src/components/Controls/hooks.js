@@ -1,7 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { useError } from '@monkvision/toolkit';
 import Actions from '../../actions';
+import useEmbeddedModel from '../../hooks/useEmbeddedModel';
+import Models from '../../hooks/useEmbeddedModel/const';
 
 const useHandlers = ({
   onStartUploadPicture,
@@ -12,6 +14,15 @@ const useHandlers = ({
   Sentry,
 }) => {
   const { Span, Constants: SentryConstants } = useError(Sentry);
+  const { loadModel, predictions } = useEmbeddedModel();
+  const [iqaModel, setIQAModel] = useState(null);
+
+  useEffect(() => {
+    loadModel(Models.imageQualityCheck).then((model) => {
+      console.log('IQA Model loaded.');
+      setIQAModel(model);
+    }).catch((err) => console.error(err));
+  });
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
@@ -41,6 +52,12 @@ const useHandlers = ({
     const picture = await takePictureAsync();
 
     if (!picture) { return; }
+
+    if (iqaModel) {
+      predictions[Models.imageQualityCheck.name](picture)
+        .then((results) => console.log('IQA Results : ', results))
+        .catch((err) => console.error(err));
+    }
 
     setPictureAsync(picture);
 
