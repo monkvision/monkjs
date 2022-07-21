@@ -103,8 +103,8 @@ export const imageQualityCheckPrediction = async (tf, model, imagePreprocessed) 
   const predictions = await model.predict(input);
 
   return {
-    blurriness: predictions['PartitionedCall:0'].arraySync()[0] < MIN_CONFIDENCE.blurriness,
-    overexposure: predictions['PartitionedCall:1'].arraySync()[0] < MIN_CONFIDENCE.overexposure,
-    underexposure: predictions['PartitionedCall:2'].arraySync()[0] < MIN_CONFIDENCE.underexposure,
+    blurriness_score: predictions['PartitionedCall:0'].arraySync()[0],
+    overexposure_score: predictions['PartitionedCall:1'].arraySync()[0],
+    underexposure_score: predictions['PartitionedCall:2'].arraySync()[0],
   };
 };
