@@ -43,7 +43,7 @@ export default function ModelManager({ backgroundColor }) {
         setHasModelsBeenProcessed(true);
         setLoading(false);
       }).catch((err) => {
-        console.error(err);
+        console.errir(err);
         setHasModelsBeenProcessed(false);
         setError(true);
         setLoading(false);
