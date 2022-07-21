@@ -1,4 +1,4 @@
-import React, { createElement, useCallback, useMemo } from 'react';
+import React, { createElement, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
@@ -38,6 +38,7 @@ export default function Controls({
   Sentry,
   ...passThroughProps
 }) {
+  const [compliance, setCompliance] = useState(null);
   const { height: windowHeight } = useWindowDimensions();
 
   const handlers = useHandlers({
@@ -56,7 +57,11 @@ export default function Controls({
   const handlePress = useCallback((e, { onPress }) => {
     if (typeof onPress === 'function') {
       onPress(state, api, e);
-    } else { handlers.capture(state, api, e); }
+    } else {
+      handlers.capture(state, api, e)
+        .then((comp) => setCompliance(comp))
+        .catch((err) => console.error(err));
+    }
   }, [api, handlers, state]);
 
   return (
@@ -82,6 +87,7 @@ export default function Controls({
           }, children)
         ))}
       </View>
+      )
     </I18nextProvider>
   );
 }

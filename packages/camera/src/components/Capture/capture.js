@@ -3,8 +3,8 @@ import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
-
 import Camera from '../Camera';
+
 import ModelManager from '../ModelManager';
 import Controls from '../Controls';
 import Layout from '../Layout';
@@ -12,6 +12,7 @@ import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
 import useEmbeddedModel from '../../hooks/useEmbeddedModel';
+import ComplianceCheck from '../ComplianceCheck';
 import Models from '../../hooks/useEmbeddedModel/const';
 
 import Constants from '../../const';
@@ -242,6 +243,37 @@ const Capture = forwardRef(({
     [compliance.state, uploads.state],
   );
 
+  const currentCompliance = useMemo(
+    () => (
+      Object.values(compliance.state)
+        .find((comp) => comp.id === sights.state.current.id)),
+    [compliance.state, sights.state.current.id],
+  );
+
+  console.warn('currentCompliance', currentCompliance);
+
+  const complianceAlert = useMemo(() => {
+    if (currentCompliance) {
+      return currentCompliance?.result?.is_compliant === false;
+    }
+    return false;
+  }, [currentCompliance]);
+
+  const takenPicture = useMemo(() => {
+    if (sights.state.current.id) {
+      const currentSight = Object.values(sights.state.takenPictures)
+        .find((comp) => comp.id === sights.state.current.id);
+      console.warn('CurrentSight : ', currentSight);
+      console.warn('sights.state.takenPictures : ', sights.state.takenPictures);
+      return currentSight?.uri;
+    }
+    return null;
+  }, [sights.state.current.id, sights.state.takenPictures]);
+
+  console.warn('takenPicture', takenPicture);
+  console.warn('sights :', sights);
+  console.warn('uploads', uploads);
+
   // END CONSTANTS //
   // HANDLERS //
 
@@ -341,6 +373,18 @@ const Capture = forwardRef(({
     return (
       <I18nextProvider i18n={i18n}>
         <ModelManager backgroundColor={colors.background} />
+      </I18nextProvider>
+    );
+  }
+
+  if (complianceAlert) {
+    return (
+      <I18nextProvider i18n={i18n}>
+        <ComplianceCheck
+          imageUri={takenPicture}
+          compliance={currentCompliance}
+          colors={colors}
+        />
       </I18nextProvider>
     );
   }
