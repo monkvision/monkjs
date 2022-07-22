@@ -41,7 +41,7 @@ export default function useGetPdfReport(inspectionId) {
 
   const request = useRequest({
     request: axiosRequest,
-    onRequestSuccess: () => setTimeout(getPdfRequest.start, 1000),
+    onRequestSuccess: () => setTimeout(getPdfRequest.start, 2000),
   });
 
   const loading = useMemo(

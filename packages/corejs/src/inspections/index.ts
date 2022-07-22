@@ -180,12 +180,15 @@ export async function createOne(createInspection: CreateInspection): Promise<Cre
  * @param {boolean} data.client_name - The report client name.
  * @param {boolean} data.vin - The report vin.
  */
-export async function requestInspectionReportPdf(id: string, data: RequestInspectionReportPdfParams): Promise<RequestInspectionReportPdf> {
+export async function requestInspectionReportPdf(
+  id: string,
+  data: RequestInspectionReportPdfParams,
+): Promise<RequestInspectionReportPdf> {
   const axiosResponse = await axios.request<IdResponse<'id'>>({
     ...config.axiosConfig,
     method: 'post',
     url: `/inspections/${id}/pdf`,
-    data
+    data,
   });
 
   const entity: IdResponse<'id'> = {
