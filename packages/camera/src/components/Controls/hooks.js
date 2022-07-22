@@ -55,6 +55,9 @@ const useHandlers = ({
 
     if (!picture) { return null; }
 
+    state.lastTakenPicture
+      .dispatch({ type: Actions.lastTakenPicture.SET_PICTURE, payload: picture });
+
     const { sights } = state;
     const { current, ids } = sights.state;
 
@@ -63,6 +66,7 @@ const useHandlers = ({
       overexposure: false,
       underexposure: false,
     };
+    let isComplianceInError = false;
 
     try {
       const unloadModel = iqaModel ?? await loadModel(Models.imageQualityCheck.name);
@@ -70,9 +74,10 @@ const useHandlers = ({
       const details = await predictions[Models.imageQualityCheck.name](picture, unloadModel);
       const result = {
         details,
-        is_compliant: details.blurriness_score < Models.imageQualityCheck.minConfidence.blurriness
-          && details.overexposure_score < Models.imageQualityCheck.minConfidence.overexposure
-          && details.underexposure_score < Models.imageQualityCheck.minConfidence.underexposure,
+        is_compliant:
+          details.blurriness_score[0] < Models.imageQualityCheck.minConfidence.blurriness
+          && details.overexposure_score[0] < Models.imageQualityCheck.minConfidence.overexposure
+          && details.underexposure_score[0] < Models.imageQualityCheck.minConfidence.underexposure,
         parameters: {},
         reasons: [],
         status: 'DONE',
@@ -89,6 +94,7 @@ const useHandlers = ({
         .imageQualityCheck.minConfidence.underexposure;
     } catch (err) {
       console.error('An error occurred when doing the complianbce check :', err);
+      isComplianceInError = true;
     }
 
     setPictureAsync(picture);
@@ -97,7 +103,7 @@ const useHandlers = ({
       && compliance.overexposure
       && compliance.underexposure;
 
-    if (!isCompliant) {
+    if (!isCompliant && !isComplianceInError) {
       onFinishUploadPicture(state, api);
     } else if (current.index === ids.length - 1) {
       await startUploadAsync(picture);

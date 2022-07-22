@@ -4,8 +4,8 @@ import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } fr
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import Camera from '../Camera';
-
 import ModelManager from '../ModelManager';
+
 import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
@@ -14,6 +14,7 @@ import UploadCenter from '../UploadCenter';
 import useEmbeddedModel from '../../hooks/useEmbeddedModel';
 import ComplianceCheck from '../ComplianceCheck';
 import Models from '../../hooks/useEmbeddedModel/const';
+import Actions from '../../actions';
 
 import Constants from '../../const';
 import log from '../../utils/log';
@@ -110,6 +111,7 @@ const Capture = forwardRef(({
   compliance,
   sights,
   settings,
+  lastTakenPicture,
   Sentry,
 }, combinedRefs) => {
   // STATES //
@@ -169,7 +171,8 @@ const Capture = forwardRef(({
     settings,
     sights,
     uploads,
-  }), [compliance, isReady, settings, sights, uploads]);
+    lastTakenPicture,
+  }), [compliance, isReady, settings, sights, uploads, lastTakenPicture]);
 
   // END STATES //
   // METHODS //
@@ -223,6 +226,26 @@ const Capture = forwardRef(({
 
   const { isModelStored } = useEmbeddedModel();
 
+  const handleRetakePicture = useCallback(() => {
+    states.compliance.dispatch({
+      type: Actions.compliance.UPDATE_COMPLIANCE,
+      payload: { id: current.id, result: null, status: 'idle' },
+    });
+  }, [states.compliance, current]);
+
+  const handleSkipCompliance = useCallback(async () => {
+    if (current.index === sights.state.ids.length - 1) {
+      await startUploadAsync(states.lastTakenPicture.state);
+    } else {
+      await startUploadAsync(states.lastTakenPicture.state);
+
+      setTimeout(() => {
+        onFinishUploadPicture(states, api);
+        goNextSight();
+      }, 500);
+    }
+  }, [current, states.lastTakenPicture.state, sights.state.ids]);
+
   // END METHODS //
   // CONSTANTS //
 
@@ -258,13 +281,6 @@ const Capture = forwardRef(({
     }
     return false;
   }, [compliance.state, sights.state.current.id]);
-
-  const takenPicture = useMemo(() => {
-    if (sights.state.current.id) {
-      return uploads.state[sights.state.current.id].picture;
-    }
-    return null;
-  }, [sights.state.current.id, uploads.state]);
 
   // END CONSTANTS //
   // HANDLERS //
@@ -373,9 +389,11 @@ const Capture = forwardRef(({
     return (
       <I18nextProvider i18n={i18n}>
         <ComplianceCheck
-          imageUri={takenPicture}
+          image={lastTakenPicture?.state}
           compliance={currentCompliance}
           colors={colors}
+          onRetakePicture={handleRetakePicture}
+          onSkipCompliance={handleSkipCompliance}
         />
       </I18nextProvider>
     );
@@ -491,6 +509,7 @@ Capture.propTypes = {
   fullscreen: PropTypes.objectOf(PropTypes.any),
   initialState: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
+    lastTakenPicture: PropTypes.any,
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),
@@ -498,6 +517,11 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isFocused: PropTypes.bool,
   isSubmitting: PropTypes.bool,
+  lastTakenPicture: PropTypes.shape({
+    dispatch: PropTypes.func,
+    name: PropTypes.string,
+    state: PropTypes.any,
+  }).isRequired,
   loading: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
     PropTypes.shape({
@@ -599,6 +623,7 @@ Capture.defaultProps = {
   fullscreen: null,
   initialState: {
     compliance: undefined,
+    lastTakenPicture: undefined,
     settings: undefined,
     sights: undefined,
     uploads: undefined,
