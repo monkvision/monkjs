@@ -1,8 +1,10 @@
-import monk from '@monkvision/corejs';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Button, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import monk from '@monkvision/corejs';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import useEmbeddedModel from '../../hooks/useEmbeddedModel';
 import Models from '../../hooks/useEmbeddedModel/const';
 
@@ -23,12 +25,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ModelManager({ backgroundColor }) {
+export default function ModelManager({ backgroundColor, Sentry }) {
   const [hasModelsBeenProcessed, setHasModelsBeenProcessed] = useState(false);
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const { downloadThenSaveModelAsync } = useEmbeddedModel();
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { height, width } = useWindowDimensions();
 
@@ -43,7 +46,8 @@ export default function ModelManager({ backgroundColor }) {
         setHasModelsBeenProcessed(true);
         setLoading(false);
       }).catch((err) => {
-        console.errir(err);
+        const additionalTags = { model: Models.imageQualityCheck };
+        errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
         setHasModelsBeenProcessed(false);
         setError(true);
         setLoading(false);
@@ -90,7 +94,9 @@ export default function ModelManager({ backgroundColor }) {
 
 ModelManager.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
+  Sentry: PropTypes.any,
 };
 
 ModelManager.defaultProps = {
+  Sentry: null,
 };

@@ -1,7 +1,8 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import PropTypes from 'prop-types';
 import Camera from '../Camera';
 import ModelManager from '../ModelManager';
@@ -225,6 +226,7 @@ const Capture = forwardRef(({
   }));
 
   const { isModelStored } = useEmbeddedModel();
+  const { errorHandler } = useSentry(Sentry);
 
   const handleRetakePicture = useCallback(() => {
     states.compliance.dispatch({
@@ -318,7 +320,10 @@ const Capture = forwardRef(({
           if (results.every((modelIsStored) => modelIsStored)) {
             setHaveAllModelsBeenStored(true);
           }
-        }).catch((err) => console.error(err));
+        }).catch((err) => {
+          const additionalTags = { models: embeddedModels };
+          errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+        });
     }
   });
 
@@ -380,7 +385,7 @@ const Capture = forwardRef(({
   if (!haveAllModelsBeenStored) {
     return (
       <I18nextProvider i18n={i18n}>
-        <ModelManager backgroundColor={colors.background} />
+        <ModelManager backgroundColor={colors.background} Sentry={Sentry} />
       </I18nextProvider>
     );
   }

@@ -1,7 +1,10 @@
-import React, { createElement, useCallback, useMemo, useState } from 'react';
+import React, { createElement, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+
 import QuitButton from './QuitButton';
 import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
@@ -47,6 +50,7 @@ export default function Controls({
     stream: api.camera.current?.stream,
     Sentry,
   });
+  const { errorHandler } = useSentry(Sentry);
 
   const hasNoIdle = useMemo(
     () => Object.values(state.uploads.state).every(({ status }) => status !== 'idle'),
@@ -57,7 +61,8 @@ export default function Controls({
     if (typeof onPress === 'function') {
       onPress(state, api, e);
     } else {
-      handlers.capture(state, api, e).catch((err) => console.error(err));
+      handlers.capture(state, api, e)
+        .catch((err) => errorHandler(err, SentryConstants.type.COMPLIANCE));
     }
   }, [api, handlers, state]);
 

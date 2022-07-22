@@ -15,14 +15,17 @@ const useHandlers = ({
   stream,
   Sentry,
 }) => {
-  const { Span } = useSentry(Sentry);
+  const { Span, errorHandler } = useSentry(Sentry);
   const { loadModel, predictions } = useEmbeddedModel();
   const [iqaModel, setIQAModel] = useState(null);
 
   useEffect(() => {
     loadModel(Models.imageQualityCheck.name).then((loadedModel) => {
       setIQAModel(loadedModel);
-    }).catch((err) => console.error(err));
+    }).catch((err) => {
+      const additionalTags = { modelName: Models.imageQualityCheck.name };
+      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+    });
   }, []);
 
   const capture = useCallback(async (controlledState, api, event) => {
@@ -69,6 +72,7 @@ const useHandlers = ({
     let isComplianceInError = false;
 
     try {
+      const complianceSpan = new Span('embedded-compliance-time', SentryConstants.operation.FUNC);
       const unloadModel = iqaModel ?? await loadModel(Models.imageQualityCheck.name);
       if (!iqaModel) { setIQAModel(unloadModel); }
       const details = await predictions[Models.imageQualityCheck.name](picture, unloadModel);
@@ -82,6 +86,7 @@ const useHandlers = ({
         reasons: [],
         status: 'DONE',
       };
+      complianceSpan.addDataToSpan(result);
       state.compliance.dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
         payload: { id: current.id, result, status: 'fulfilled' },
@@ -92,8 +97,11 @@ const useHandlers = ({
         .imageQualityCheck.minConfidence.overexposure;
       compliance.underexposure = details.underexposure_score < Models
         .imageQualityCheck.minConfidence.underexposure;
+
+      complianceSpan.finish();
     } catch (err) {
-      console.error('An error occurred when doing the complianbce check :', err);
+      const additionalTags = { sightId: current.id };
+      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
       isComplianceInError = true;
     }
 

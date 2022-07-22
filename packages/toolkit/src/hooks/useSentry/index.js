@@ -4,6 +4,7 @@ export const SentryConstants = {
   type: {
     UPLOAD: 'upload', // logs linked to the upload
     CAMERA: 'camera', // logs linked to the camera
+    COMPLIANCE: 'compliance', // logs linked to the compliance embedded model
     FUNC: 'func', // logs linked to a function
     APP: 'app', // logs linked to the application
     HTTP: 'http', // logs linked to the api
