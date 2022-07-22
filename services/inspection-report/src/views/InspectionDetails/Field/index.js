@@ -9,13 +9,23 @@ import InputMask from 'react-input-mask';
 
 const DELAY_TO_RESET_COPY_STATE = 2000; // 2sec
 
-export default function Field({ label, value, readOnly, loading, mask, onChange, ...rest }) {
+export default function Field({
+  label,
+  value,
+  readOnly,
+  loading,
+  mask,
+  onChange,
+  hideAdornement,
+  ...rest }) {
   const [copied, setCopy] = useState(false);
 
   const delay = copied ? DELAY_TO_RESET_COPY_STATE : null;
   useTimeout(() => setCopy(false), delay);
 
   const copyButton = useMemo(() => {
+    if (hideAdornement) { return null; }
+
     const copy = () => { navigator.clipboard.writeText(value); setCopy(true); };
     return (
       <InputAdornment position="end">
@@ -28,7 +38,7 @@ export default function Field({ label, value, readOnly, loading, mask, onChange,
         </IconButton>
       </InputAdornment>
     );
-  }, [copied, value]);
+  }, [copied, value, hideAdornement]);
 
   const commonFieldProps = useMemo(
     () => ({
@@ -63,6 +73,7 @@ export default function Field({ label, value, readOnly, loading, mask, onChange,
 }
 
 Field.propTypes = {
+  hideAdornement: PropTypes.bool,
   label: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   mask: PropTypes.string,
@@ -72,6 +83,7 @@ Field.propTypes = {
 };
 
 Field.defaultProps = {
+  hideAdornement: false,
   loading: false,
   onChange: () => {},
   readOnly: false,

@@ -11,11 +11,12 @@ const download = (url) => {
   link.click();
   document.body.removeChild(link);
 };
+
 const payload = {
   pricing: true,
-  customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
   client_name: 'Monk',
   language: 'fr',
+  customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
 };
 
 export default function useGetPdfReport(inspectionId) {
