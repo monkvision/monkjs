@@ -12,6 +12,7 @@ import ImageList from 'views/InspectionDetails/ImageList';
 
 import useGetInspection from './useGetInspection';
 import useGetPdfReport from './useGetPdfReport';
+
 import Field from './Field';
 import VinForm from './VinForm';
 
@@ -69,7 +70,9 @@ export default function InspectionDetails() {
                   Your report is not available yet, try refresh after a minute
                 </Typography>
               ) : null}
-              <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>Download report</Button>
+              <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>
+                {getPdfLoading ? 'Loading...' : 'Download report'}
+              </Button>
             </Stack>
 
             {/* images */}
