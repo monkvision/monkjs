@@ -33,8 +33,7 @@ export default function useEmbeddedModel() {
     const storedModels = await startDb(null, name);
     const model = storedModels[name];
 
-    log(['Content of storedModels', Object.keys(storedModels)]);
-    log([name, 'Model buffer:', model, 'loaded from indexedDB.']);
+    log(['[Event] Model :', name, 'loaded from indexedDB.']);
 
     if (!model) {
       throw new Error(`Unable to find model ${name} in storage.`);
@@ -60,8 +59,10 @@ export default function useEmbeddedModel() {
   const predictQualityCheck = useCallback(async (image, customModel) => {
     try {
       const model = customModel ?? models[Models.imageQualityCheck.name];
+      log([`[Event] Using ${customModel ? 'a custom ' : 'loaded'} model`]);
 
       if (!image || !model) {
+        log([`[Event] ${!image ? 'image' : ''}, ${!model ? 'model' : ''} missing`]);
         return null;
       }
 
