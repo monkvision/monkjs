@@ -1,8 +1,10 @@
-import { useError, utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
@@ -37,7 +39,8 @@ export default function InspectionVehicleUpdate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
+  const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
 
   const route = useRoute();
@@ -47,7 +50,7 @@ export default function InspectionVehicleUpdate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: (err, request) => {
-      errorHandler(err, Constants.type.APP, request);
+      errorHandler(err, SentryConstants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -86,31 +89,44 @@ export default function InspectionVehicleUpdate() {
 
   useEffect(() => {
     const { state } = updateInspectionVehicle;
-    if (state.error) { errorHandler(state.error, Constants.type.APP, state); }
+    if (state.error) { errorHandler(state.error, SentryConstants.type.APP, state); }
   }, [updateInspectionVehicle.state.error]);
 
   if (isSigningIn) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`]} />
+        <Loader texts={[
+          t('signin.loader.signingIn'),
+          t('signin.loader.authenticating'),
+          t('signin.loader.robot'),
+        ]}
+        />
       </View>
     );
   }
 
   if (authError === true) {
-    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Title>Sorry 😞</Title>
-      <Paragraph style={styles.p}>
-        An error occurred while authenticating, please try again in a minute.
-      </Paragraph>
-      <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
-    </View>;
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Title>{t('signin.error.title')}</Title>
+        <Paragraph style={styles.p}>
+          {t('signin.error.message')}
+        </Paragraph>
+        <Button style={styles.button} onPress={handleGoBack}>
+          {t('signin.error.button')}
+        </Button>
+      </View>
+    );
   }
 
   if (updateInspectionVehicle.state.loading) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[`Updating the inspection`, `Waking up the AI`]} />
+        <Loader texts={[
+          t('updateInspection.loader.updating'),
+          t('updateInspection.loader.waking'),
+        ]}
+        />
       </View>
     );
   }
@@ -118,18 +134,18 @@ export default function InspectionVehicleUpdate() {
   if (updateInspectionVehicle.state.error) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Title>Sorry 😞</Title>
+        <Title>{t('updateInspection.error.title')}</Title>
         <Paragraph style={styles.p}>
-          An error occurred while updating the inspection, please try again in a minute.
+          {t('updateInspection.error.message')}
         </Paragraph>
-        <Button style={styles.button} onPress={handleGoBack}>Go back to home page</Button>
+        <Button style={styles.button} onPress={handleGoBack}>{t('updateInspection.error.button')}</Button>
       </View>
     );
   }
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Loader texts={[`Processing...`]} colors={loaderDotsColors} />
+      <Loader texts={[t('updateInspection.loader.processing')]} colors={loaderDotsColors} />
     </View>
   );
 }

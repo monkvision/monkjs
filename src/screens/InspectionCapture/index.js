@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { useError } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
 import * as names from 'screens/names';
 import Settings from './settings';
 import styles from './styles';
 import Sentry from '../../config/sentry';
 import useSnackbar from '../../hooks/useSnackbar';
+import { setTag } from '../../config/sentryPlatform';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -56,7 +59,8 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
+  const { t } = useTranslation();
   const { colors } = useTheme();
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -70,23 +74,23 @@ export default function InspectionCapture() {
     if (confirm) {
       if (Platform.OS === 'web') {
         // eslint-disable-next-line no-alert
-        const ok = window.confirm('You are going to quit capture. Is it OK?');
+        const ok = window.confirm(t('capture.quit.title'));
         if (ok) {
-          errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+          utils.log(['[Click]', 'User suddenly quit the inspection']);
           navigation.navigate(names.LANDING, { inspectionId });
         }
       }
 
       Alert.alert(
-        'Are you sure you want to quit?',
-        'Your taken pictures will be lost for that task.',
+        t('capture.quit.title'),
+        t('capture.quit.message'),
         [{
-          text: 'Cancel',
+          text: t('capture.quit.cancel'),
           style: 'cancel',
         }, {
-          text: 'OK',
+          text: t('capture.quit.ok'),
           onPress: () => {
-            errorHandler(new Error('User suddenly quit the inspection'), Constants.type.APP);
+            utils.log(['[Click]', 'User suddenly quit the inspection']);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],
@@ -107,9 +111,11 @@ export default function InspectionCapture() {
         dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
         setCameraLoading(false);
 
+        utils.log(['[Event] Back to landing page with photo taken']);
+        setTag('currentSight', null);
         handleNavigate();
       } catch (err) {
-        errorHandler(err, Constants.type.HTTP, {
+        errorHandler(err, SentryConstants.type.HTTP, {
           inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
         });
         setCameraLoading(false);
@@ -118,6 +124,10 @@ export default function InspectionCapture() {
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
+    if (isFocused && enableComplianceCheck) {
+      const { current } = state.sights.state;
+      setTag('currentSight', current.id);
+    }
     if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
@@ -147,7 +157,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        errorHandler(err, Constants.type.APP, state);
+        errorHandler(err, SentryConstants.type.APP, state);
         throw err;
       }
     }
