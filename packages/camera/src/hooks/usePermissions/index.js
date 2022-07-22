@@ -24,6 +24,7 @@ export default function usePermissions() {
         }
       }
 
+      log(['[Event] Permission is', !permissions.granted ? 'not granted' : 'granted']);
       setState(permissions);
     })();
   }, []);

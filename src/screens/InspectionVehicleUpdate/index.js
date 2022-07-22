@@ -1,4 +1,5 @@
-import { useError, utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -38,7 +39,7 @@ export default function InspectionVehicleUpdate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
 
@@ -49,7 +50,7 @@ export default function InspectionVehicleUpdate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: (err, request) => {
-      errorHandler(err, Constants.type.APP, request);
+      errorHandler(err, SentryConstants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -88,7 +89,7 @@ export default function InspectionVehicleUpdate() {
 
   useEffect(() => {
     const { state } = updateInspectionVehicle;
-    if (state.error) { errorHandler(state.error, Constants.type.APP, state); }
+    if (state.error) { errorHandler(state.error, SentryConstants.type.APP, state); }
   }, [updateInspectionVehicle.state.error]);
 
   if (isSigningIn) {

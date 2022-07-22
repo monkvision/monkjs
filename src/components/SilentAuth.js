@@ -1,4 +1,4 @@
-import { useError } from '@monkvision/toolkit';
+import { useSentry } from '@monkvision/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sentry from 'config/sentry';
 import { TokenResponse } from 'expo-auth-session/src/TokenRequest';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 export default function SilentAuth() {
   const [hasBeenDone, setHasBeenDone] = useState(false);
   const dispatch = useDispatch();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler, Constants } = useSentry(Sentry);
 
   useEffect(() => {
     if (!hasBeenDone) {

@@ -1,9 +1,12 @@
-import { useError } from '@monkvision/toolkit';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+
 import Actions from '../../actions';
 import useEmbeddedModel from '../../hooks/useEmbeddedModel';
 import Models from '../../hooks/useEmbeddedModel/const';
+import log from '../../utils/log';
 
 const useHandlers = ({
   onStartUploadPicture,
@@ -13,7 +16,7 @@ const useHandlers = ({
   stream,
   Sentry,
 }) => {
-  const { Span, Constants: SentryConstants } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
   const { loadModel, predictions } = useEmbeddedModel();
   const [iqaModel, setIQAModel] = useState(null);
 
@@ -34,7 +37,7 @@ const useHandlers = ({
      */
     let captureButtonTracing;
     if (Sentry) {
-      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_ACTION);
+      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_TIME);
     }
     const state = controlledState || unControlledState;
     event.preventDefault();
@@ -48,6 +51,7 @@ const useHandlers = ({
       goNextSight,
     } = api;
 
+    log(['[Click] Taking a photo']);
     const picture = await takePictureAsync();
 
     if (!picture) { return null; }
@@ -113,10 +117,12 @@ const useHandlers = ({
       }, 500);
     }
     captureButtonTracing?.finish();
+
     return compliance;
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream, iqaModel]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
+    log(['[Click] Retake all photos']);
     // adding an initialState that will hold new compliance with `requestCount = 1`
     const complianceInitialState = {
       id: '',
