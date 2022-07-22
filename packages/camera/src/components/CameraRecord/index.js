@@ -43,6 +43,11 @@ const styles = StyleSheet.create({
 const SCORE_ACCEPTANCE = 3; // the max number of non-compliant frames allowed
 const TOTAL_CUTS = 2; // number of cuts
 const DURATION = 5;
+const recordOptions = {
+  maxDuration: DURATION,
+  quality: '2160p',
+  mite: true,
+};
 
 const removeDuplication = (arr) => [...new Set([...arr])];
 const flatten = (value) => (Array.isArray(value) ? [].concat(...value.map(flatten)) : value);
@@ -81,7 +86,7 @@ export default function CameraRecord({ onQuit, onValidate }) {
 
   const handleRecord = useCallback(async () => {
     start();
-    const src = await cameraRef.current?.recordAsync({ maxDuration: DURATION, quality: '2160p' });
+    const src = await cameraRef.current?.recordAsync(recordOptions);
     cut();
 
     setCuts((prev) => [...prev, { src }]);
