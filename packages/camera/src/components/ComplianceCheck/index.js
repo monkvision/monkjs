@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import Button from '../UploadCenter/button';
+import Models from '../../hooks/useEmbeddedModel/const';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,35 +12,53 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  image: {
+    marginBottom: 15,
+  },
   message: {
     fontSize: 18,
+    marginBottom: 15,
   },
   buttonContainer: {
     display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  rightBtn: {
-    marginLeft: 10,
-  },
 });
 
-export default function ComplianceCheck({ imageUri, compliance, colors }) {
+export default function ComplianceCheck({
+  image,
+  compliance,
+  colors,
+  onRetakePicture,
+  onSkipCompliance,
+}) {
   const { width, height } = useWindowDimensions();
   const { t, i18n } = useTranslation();
+  const imageRatio = 0.6;
+
+  const complianceErrors = {
+    blurriness: compliance.result.details.blurriness_score[0] < Models
+      .imageQualityCheck.minConfidence.blurriness,
+    overexposure: compliance.result.details.overexposure_score[0] < Models
+      .imageQualityCheck.minConfidence.overexposure,
+    underexposure: compliance.result.details.underexposure_score[0] < Models
+      .imageQualityCheck.minConfidence.underexposure,
+  };
 
   const complianceMessage = useMemo(() => {
     const reasonsStart = t('uploadCenter.subtitle.reasonsStart');
     let message = reasonsStart;
-    Object.entries(compliance)
+    Object.entries(complianceErrors)
       .filter(([, isCompliant]) => !isCompliant)
-      .forEach(([criteria]) => {
+      .forEach(([reason]) => {
         if (message !== reasonsStart) {
           message = `${message} ${t('uploadCenter.subtitle.reasonsJoin')}`;
         }
-        message = `${message} ${t(`uploadCenter.subtitle.reasons.${criteria}`)}`;
+        message = `${message} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`;
       });
-    return message;
+    return `${message}.`;
   }, [compliance, i18n.language]);
 
   return (
@@ -52,31 +72,41 @@ export default function ComplianceCheck({ imageUri, compliance, colors }) {
         }]}
     >
       <Image
-        height={height * 0.4}
-        source={imageUri}
-        style={{ width: width * 0.4, height: height * 0.4 }}
-        width={width * 0.4}
+        source={image}
+        style={[
+          styles.image,
+          { width: width * imageRatio, height: height * imageRatio },
+        ]}
       />
       <Text style={[styles.message, { color: colors.text }]}>{complianceMessage}</Text>
       <View style={styles.buttonContainer}>
         <Button
-          title={t('embeddedModels.retry')}
           colors={colors}
           color={colors.actions.primary}
-        />
+          disabled={false}
+          onPress={onRetakePicture}
+        >
+          <Text style={{ color: colors.actions.primary.text ?? colors.text }}>
+            {t('embeddedModels.retry')}
+          </Text>
+        </Button>
         <Button
-          title={t('embeddedModels.skip')}
           colors={colors}
           color={colors.actions.secondary}
-          style={styles.rightBtn}
-        />
+          disabled={false}
+          onPress={onSkipCompliance}
+        >
+          <Text style={{ color: colors.actions.secondary.text ?? colors.text }}>
+            {t('embeddedModels.skip')}
+          </Text>
+        </Button>
       </View>
     </View>
   );
 }
 
 ComplianceCheck.defaultProps = {
-  imageUri: { uri: '' },
+  image: undefined,
 };
 
 ComplianceCheck.propTypes = {
@@ -106,11 +136,15 @@ ComplianceCheck.propTypes = {
     text: PropTypes.string,
   }).isRequired,
   compliance: PropTypes.shape({
-    blurriness: PropTypes.bool,
-    overexposure: PropTypes.bool,
-    underexposure: PropTypes.bool,
+    result: PropTypes.shape({
+      details: PropTypes.shape({
+        blurriness_score: PropTypes.array.isRequired,
+        overexposure_score: PropTypes.array.isRequired,
+        underexposure_score: PropTypes.array.isRequired,
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
-  imageUri: PropTypes.shape({
-    uri: PropTypes.string,
-  }),
+  image: PropTypes.any,
+  onRetakePicture: PropTypes.func.isRequired,
+  onSkipCompliance: PropTypes.func.isRequired,
 };

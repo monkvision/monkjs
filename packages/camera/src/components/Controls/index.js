@@ -38,7 +38,6 @@ export default function Controls({
   Sentry,
   ...passThroughProps
 }) {
-  const [compliance, setCompliance] = useState(null);
   const { height: windowHeight } = useWindowDimensions();
 
   const handlers = useHandlers({
@@ -58,9 +57,7 @@ export default function Controls({
     if (typeof onPress === 'function') {
       onPress(state, api, e);
     } else {
-      handlers.capture(state, api, e)
-        .then((comp) => setCompliance(comp))
-        .catch((err) => console.error(err));
+      handlers.capture(state, api, e).catch((err) => console.error(err));
     }
   }, [api, handlers, state]);
 
@@ -115,6 +112,7 @@ Controls.propTypes = {
   Sentry: PropTypes.any,
   state: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
+    lastTakenPicture: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),
