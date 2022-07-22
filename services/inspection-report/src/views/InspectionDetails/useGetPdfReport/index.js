@@ -1,14 +1,22 @@
 import monk from '@monkvision/corejs';
 import { useRequest } from '@monkvision/toolkit';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const download = (url) => {
   const link = document.createElement('a');
   link.href = url;
+  link.target = '_blanc';
   link.download = 'Download';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+};
+
+const payload = {
+  pricing: true,
+  client_name: 'Monk',
+  language: 'fr',
+  customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
 };
 
 export default function useGetPdfReport(inspectionId) {
@@ -16,19 +24,34 @@ export default function useGetPdfReport(inspectionId) {
 
   const handleDownLoad = useCallback(() => download(reportUrl), [reportUrl]);
 
-  const axiosRequest = useCallback(
+  const getPdfAxiosRequest = useCallback(
     async () => monk.entity.inspection.getInspectionReportPdf(inspectionId),
+    [inspectionId],
+  );
+
+  const getPdfRequest = useRequest({
+    request: getPdfAxiosRequest,
+    onRequestSuccess: (res) => setReportUrl(res.axiosResponse.data.pdf_url),
+  });
+
+  const axiosRequest = useCallback(
+    async () => monk.entity.inspection.requestInspectionReportPdf(inspectionId, payload),
     [inspectionId],
   );
 
   const request = useRequest({
     request: axiosRequest,
-    onRequestSuccess: (res) => setReportUrl(res.data.url),
+    onRequestSuccess: () => setTimeout(getPdfRequest.start, 2000),
   });
 
-  const getReport = useCallback(async () => request.start(), []);
+  const loading = useMemo(
+    () => getPdfRequest.state.loading || request.state.loading,
+    [request, getPdfRequest],
+  );
 
-  useEffect(() => { getReport(); }, []);
+  const requestReport = useCallback(async () => request.start(), []);
 
-  return { reportUrl, handleDownLoad };
+  useEffect(() => { requestReport(); }, [requestReport]);
+
+  return { handleDownLoad, reportUrl, loading };
 }

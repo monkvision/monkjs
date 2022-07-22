@@ -6,6 +6,7 @@ export function defaultCanRequest({ loading }) { return !loading; }
 /**
  * @param request
  * @param onRequestSuccess
+ * @param onRequestFailure
  * @param canRequest
  * @return {{
  * start: ((function(*): Promise<null|*>)|*),
@@ -29,6 +30,7 @@ export function defaultCanRequest({ loading }) { return !loading; }
 export default function useRequest({
   request,
   onRequestSuccess,
+  onRequestFailure,
   canRequest = defaultCanRequest,
 }) {
   const [loading, setLoading] = useState(false);
@@ -81,6 +83,10 @@ export default function useRequest({
 
       return response;
     } catch (e) {
+      if (typeof onRequestFailure === 'function') {
+        onRequestFailure(e);
+      }
+
       catchLoadingError(e);
     }
 

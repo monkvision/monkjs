@@ -40,6 +40,7 @@ export default function VinForm({ inspectionId, vin: initialVinValue }) {
           mask="*** ****** ********"
           placeholder="VFX XXXXX XXXXXXXX"
           onBlur={handleUpdate}
+          hideAdornement={!vin}
         />
       </Stack>
     </Stack>
