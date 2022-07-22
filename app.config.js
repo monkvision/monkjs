@@ -40,17 +40,21 @@ const options = [
     sightIds: [
       'vLcBGkeh', // Front
       'xfbBpq3Q', // Front Bumper Side Left
+      'xQKQ0bXS', // Front wheel left (Wheels analysis)
       'zjAIjUgU', // Front Lateral Left
       'T24v9XS8', // Front Door Left
       'UHZkpCuK', // Rocker panel left
       'ClEZSucK', // Rear Lateral Left
+      'PuIw17h0', // Front wheel right (Wheels analysis)
       'j8YHvnDP', // Rear Bumper Side Left
       'XyeyZlaU', // Rear
       'LDRoAPnk', // Rear Bumper Side Right
+      'rN39Y3HR', // Rear wheel right (Wheels analysis)
       'QqBpHiVP', // Rear Lateral Right
       'B5s1CWT-', // Rocker panel right
       '2wVqenwP', // Front Door Right
       '0U14gFyk', // Front Lateral Right
+      '8_W2PO8L', // Rear wheel left (Wheels analysis)
       'CELBsvYD', // Front Bumper Side Right
     ],
     taskName: 'damage_detection',
@@ -76,19 +80,19 @@ const options = [
   //   ],
   //   taskName: 'damage_detection',
   // },
-  {
-    value: 'wheels',
-    title: 'inspection.wheelsAnalysis.title',
-    description: 'inspection.wheelsAnalysis.description',
-    icon: 'circle-double',
-    sightIds: [
-      'xQKQ0bXS', // Front wheel left
-      '8_W2PO8L', // Rear wheel left
-      'rN39Y3HR', // Rear wheel right
-      'PuIw17h0', // Front wheel right
-    ],
-    taskName: 'wheel_analysis',
-  },
+  // {
+  //   value: 'wheels',
+  //   title: 'inspection.wheelsAnalysis.title',
+  //   description: 'inspection.wheelsAnalysis.description',
+  //   icon: 'circle-double',
+  //   sightIds: [
+  //     'xQKQ0bXS', // Front wheel left
+  //     '8_W2PO8L', // Rear wheel left
+  //     'rN39Y3HR', // Rear wheel right
+  //     'PuIw17h0', // Front wheel right
+  //   ],
+  //   taskName: 'wheel_analysis',
+  // },
 ];
 
 export default {

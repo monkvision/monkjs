@@ -33,7 +33,13 @@ export default function LanguageSwitch() {
     if (isLoading) {
       return <ActivityIndicator animating />;
     }
-    return i18n.language === 'fr' ? '🇫🇷 ▼' : '🇬🇧 ▼';
+    const en = '🇬🇧 ▼';
+    const fr = '🇫🇷 ▼';
+    if (!i18n.language) {
+      setLanguage('en');
+      return en;
+    }
+    return i18n.language === 'fr' ? fr : en;
   }, [isLoading, i18n.language]);
 
   return (
