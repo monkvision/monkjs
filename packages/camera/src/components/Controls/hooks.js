@@ -1,8 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { useSentry } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+
 import Actions from '../../actions';
+import useEmbeddedModel from '../../hooks/useEmbeddedModel';
+import Models from '../../hooks/useEmbeddedModel/const';
 import log from '../../utils/log';
 
 const useHandlers = ({
@@ -13,11 +16,22 @@ const useHandlers = ({
   stream,
   Sentry,
 }) => {
-  const { Span } = useSentry(Sentry);
+  const { Span, errorHandler } = useSentry(Sentry);
+  const { loadModel, predictions } = useEmbeddedModel();
+  const [iqaModel, setIQAModel] = useState(null);
+
+  useEffect(() => {
+    loadModel(Models.imageQualityCheck.name).then((loadedModel) => {
+      setIQAModel(loadedModel);
+    }).catch((err) => {
+      const additionalTags = { modelName: Models.imageQualityCheck.name };
+      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+    });
+  }, []);
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
-    if (!stream && Platform.OS === 'web') { return; }
+    if (!stream && Platform.OS === 'web') { return null; }
 
     /** `controlledState` is the state at a moment `t`, so it will be used for function that doesn't
      *  need state updates
@@ -43,14 +57,64 @@ const useHandlers = ({
     log(['[Click] Taking a photo']);
     const picture = await takePictureAsync();
 
-    if (!picture) { return; }
+    if (!picture) { return null; }
 
-    setPictureAsync(picture);
+    state.lastTakenPicture
+      .dispatch({ type: Actions.lastTakenPicture.SET_PICTURE, payload: picture });
 
     const { sights } = state;
     const { current, ids } = sights.state;
 
-    if (current.index === ids.length - 1) {
+    const compliance = {
+      blurriness: false,
+      overexposure: false,
+      underexposure: false,
+    };
+    let isComplianceInError = false;
+
+    try {
+      const complianceSpan = new Span('embedded-compliance-time', SentryConstants.operation.FUNC);
+      const unloadModel = iqaModel ?? await loadModel(Models.imageQualityCheck.name);
+      if (!iqaModel) { setIQAModel(unloadModel); }
+      const details = await predictions[Models.imageQualityCheck.name](picture, unloadModel);
+      const result = {
+        details,
+        is_compliant:
+          details.blurriness_score[0] < Models.imageQualityCheck.minConfidence.blurriness
+          && details.overexposure_score[0] < Models.imageQualityCheck.minConfidence.overexposure
+          && details.underexposure_score[0] < Models.imageQualityCheck.minConfidence.underexposure,
+        parameters: {},
+        reasons: [],
+        status: 'DONE',
+      };
+      complianceSpan.addDataToSpan(result);
+      state.compliance.dispatch({
+        type: Actions.compliance.UPDATE_COMPLIANCE,
+        payload: { id: current.id, result, status: 'fulfilled' },
+      });
+      compliance.blurriness = details.blurriness_score < Models
+        .imageQualityCheck.minConfidence.blurriness;
+      compliance.overexposure = details.overexposure_score < Models
+        .imageQualityCheck.minConfidence.overexposure;
+      compliance.underexposure = details.underexposure_score < Models
+        .imageQualityCheck.minConfidence.underexposure;
+
+      complianceSpan.finish();
+    } catch (err) {
+      const additionalTags = { sightId: current.id };
+      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+      isComplianceInError = true;
+    }
+
+    setPictureAsync(picture);
+
+    const isCompliant = compliance.blurriness
+      && compliance.overexposure
+      && compliance.underexposure;
+
+    if (!isCompliant && !isComplianceInError) {
+      onFinishUploadPicture(state, api);
+    } else if (current.index === ids.length - 1) {
       await startUploadAsync(picture);
     } else {
       await startUploadAsync(picture);
@@ -61,7 +125,9 @@ const useHandlers = ({
       }, 500);
     }
     captureButtonTracing?.finish();
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
+
+    return compliance;
+  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream, iqaModel]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     log(['[Click] Retake all photos']);

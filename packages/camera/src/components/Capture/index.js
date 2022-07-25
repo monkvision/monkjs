@@ -1,10 +1,11 @@
 import React, { forwardRef, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import useCompliance from '../../hooks/useCompliance';
+
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 import useUploads from '../../hooks/useUploads';
+import useLastTakenPicture from '../../hooks/useLastTakenPicture';
 import Capture from './capture';
 
 const initialColors = {
@@ -29,10 +30,12 @@ const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, 
   const unControlledUploads = useUploads({ sightIds, initialState: initialState.uploads });
   const unControlledSights = useSights({ sightIds, initialState: initialState.sights });
   const unControlledSettings = useSettings({ camera, initialState: initialState.settings });
+  const unControlledLastTakenPicture = useLastTakenPicture();
 
   return (
     <Capture
       compliance={compliance || unControlledCompliance}
+      lastTakenPicture={unControlledLastTakenPicture}
       uploads={uploads || unControlledUploads}
       sights={sights || unControlledSights}
       settings={settings || unControlledSettings}
@@ -103,7 +106,6 @@ CaptureHOC.propTypes = {
       }),
       ids: PropTypes.arrayOf(PropTypes.string),
       remainingPictures: PropTypes.number,
-      takenPictures: PropTypes.object,
       tour: PropTypes.arrayOf(
         PropTypes.shape({
           category: PropTypes.string,

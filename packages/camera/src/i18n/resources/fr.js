@@ -1,5 +1,13 @@
 const fr = {
   translation: {
+    embeddedModels: {
+      error: {
+        message: 'Une erreur inattendue est survenue lors du téléchargement des modèles.',
+        retry: 'Réessayer',
+      },
+      retry: 'Réessayer',
+      skip: 'Passer',
+    },
     camera: {
       permissionDenied: 'Impossible d\'accéder à la caméra : permission refusée.',
     },

@@ -1,15 +1,21 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import PropTypes from 'prop-types';
-
 import Camera from '../Camera';
+import ModelManager from '../ModelManager';
+
 import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
+import useEmbeddedModel from '../../hooks/useEmbeddedModel';
+import ComplianceCheck from '../ComplianceCheck';
+import Models from '../../hooks/useEmbeddedModel/const';
+import Actions from '../../actions';
 
 import Constants from '../../const';
 import log from '../../utils/log';
@@ -106,10 +112,12 @@ const Capture = forwardRef(({
   compliance,
   sights,
   settings,
+  lastTakenPicture,
   Sentry,
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
+  const [haveAllModelsBeenStored, setHaveAllModelsBeenStored] = useState(false);
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
@@ -164,7 +172,8 @@ const Capture = forwardRef(({
     settings,
     sights,
     uploads,
-  }), [compliance, isReady, settings, sights, uploads]);
+    lastTakenPicture,
+  }), [compliance, isReady, settings, sights, uploads, lastTakenPicture]);
 
   // END STATES //
   // METHODS //
@@ -216,9 +225,33 @@ const Capture = forwardRef(({
     takePictureAsync,
   }));
 
+  const { isModelStored } = useEmbeddedModel();
+  const { errorHandler } = useSentry(Sentry);
+
+  const handleRetakePicture = useCallback(() => {
+    states.compliance.dispatch({
+      type: Actions.compliance.UPDATE_COMPLIANCE,
+      payload: { id: current.id, result: null, status: 'idle' },
+    });
+  }, [states.compliance, current]);
+
+  const handleSkipCompliance = useCallback(async () => {
+    if (current.index === sights.state.ids.length - 1) {
+      await startUploadAsync(states.lastTakenPicture.state);
+    } else {
+      await startUploadAsync(states.lastTakenPicture.state);
+
+      setTimeout(() => {
+        onFinishUploadPicture(states, api);
+        goNextSight();
+      }, 500);
+    }
+  }, [current, states.lastTakenPicture.state, sights.state.ids]);
+
   // END METHODS //
   // CONSTANTS //
 
+  const embeddedModels = [Models.imageQualityCheck];
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
     () => Object.values(uploads.state).every(({ status, picture, uploadCount }) => (picture || status === 'rejected') && uploadCount >= 1),
@@ -234,6 +267,22 @@ const Capture = forwardRef(({
       .every(({ status, id }) => status === 'fulfilled' || uploads.state[id].status === 'rejected' || uploads.state[id].uploadCount >= 1),
     [compliance.state, uploads.state],
   );
+
+  const currentCompliance = useMemo(
+    () => (
+      Object.values(compliance.state)
+        .find((comp) => comp.id === sights.state.current.id)),
+    [compliance.state, sights.state.current.id],
+  );
+
+  const complianceAlert = useMemo(() => {
+    if (sights.state.current.id) {
+      const currentComp = Object.values(compliance.state)
+        .find((comp) => comp.id === sights.state.current.id);
+      return currentComp?.result?.is_compliant === false;
+    }
+    return false;
+  }, [compliance.state, sights.state.current.id]);
 
   // END CONSTANTS //
   // HANDLERS //
@@ -264,6 +313,19 @@ const Capture = forwardRef(({
   useEffect(() => { onComplianceChange(states, api); }, [compliance]);
   useEffect(() => { onSightsChange(states, api); }, [sights]);
   useEffect(() => { onSettingsChange(states, api); }, [settings]);
+  useEffect(() => {
+    if (!haveAllModelsBeenStored) {
+      Promise.all(embeddedModels.map((model) => model.name).map((name) => isModelStored(name)))
+        .then((results) => {
+          if (results.every((modelIsStored) => modelIsStored)) {
+            setHaveAllModelsBeenStored(true);
+          }
+        }).catch((err) => {
+          const additionalTags = { models: embeddedModels };
+          errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+        });
+    }
+  });
 
   // END EFFECTS //
   // RENDERING //
@@ -319,6 +381,28 @@ const Capture = forwardRef(({
       ) : null}
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
+
+  if (!haveAllModelsBeenStored) {
+    return (
+      <I18nextProvider i18n={i18n}>
+        <ModelManager backgroundColor={colors.background} Sentry={Sentry} />
+      </I18nextProvider>
+    );
+  }
+
+  if (complianceAlert) {
+    return (
+      <I18nextProvider i18n={i18n}>
+        <ComplianceCheck
+          image={lastTakenPicture?.state}
+          compliance={currentCompliance}
+          colors={colors}
+          onRetakePicture={handleRetakePicture}
+          onSkipCompliance={handleSkipCompliance}
+        />
+      </I18nextProvider>
+    );
+  }
 
   if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
     return (
@@ -430,6 +514,7 @@ Capture.propTypes = {
   fullscreen: PropTypes.objectOf(PropTypes.any),
   initialState: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
+    lastTakenPicture: PropTypes.any,
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),
@@ -437,6 +522,11 @@ Capture.propTypes = {
   inspectionId: PropTypes.string,
   isFocused: PropTypes.bool,
   isSubmitting: PropTypes.bool,
+  lastTakenPicture: PropTypes.shape({
+    dispatch: PropTypes.func,
+    name: PropTypes.string,
+    state: PropTypes.any,
+  }).isRequired,
   loading: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
     PropTypes.shape({
@@ -538,6 +628,7 @@ Capture.defaultProps = {
   fullscreen: null,
   initialState: {
     compliance: undefined,
+    lastTakenPicture: undefined,
     settings: undefined,
     sights: undefined,
     uploads: undefined,

@@ -2,6 +2,9 @@ import React, { createElement, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+
 import QuitButton from './QuitButton';
 import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
@@ -47,6 +50,7 @@ export default function Controls({
     stream: api.camera.current?.stream,
     Sentry,
   });
+  const { errorHandler } = useSentry(Sentry);
 
   const hasNoIdle = useMemo(
     () => Object.values(state.uploads.state).every(({ status }) => status !== 'idle'),
@@ -56,7 +60,10 @@ export default function Controls({
   const handlePress = useCallback((e, { onPress }) => {
     if (typeof onPress === 'function') {
       onPress(state, api, e);
-    } else { handlers.capture(state, api, e); }
+    } else {
+      handlers.capture(state, api, e)
+        .catch((err) => errorHandler(err, SentryConstants.type.COMPLIANCE));
+    }
   }, [api, handlers, state]);
 
   return (
@@ -82,6 +89,7 @@ export default function Controls({
           }, children)
         ))}
       </View>
+      )
     </I18nextProvider>
   );
 }
@@ -109,6 +117,7 @@ Controls.propTypes = {
   Sentry: PropTypes.any,
   state: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
+    lastTakenPicture: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),
