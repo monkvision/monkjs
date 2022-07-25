@@ -4,8 +4,11 @@ import { Camera as ExpoCamera } from 'expo-camera';
 import { StyleSheet, Text, View } from 'react-native';
 
 import initiateProcessCut from './Feedback/mock';
+
 import useRecord from './hooks/useRecord';
 import usePermission from './hooks/usePermission';
+import useSensors from './hooks/useSensors';
+
 import Feedback from './Feedback';
 import Controls from './Controls';
 import Timer from './Timer/index';
@@ -56,8 +59,11 @@ export default function CameraRecord({ onQuit, onValidate }) {
   const { status, start, reset, cancel, finish, cut, ready, pause, resume } = useRecord();
   const { pending, todo, cutting, canceled } = status;
 
+  const sensors = useSensors();
+
   const cameraRef = useRef();
-  const processCut = () => initiateProcessCut(); // to generate a new random number every time
+  // to generate a new random number every time
+  const processCut = () => initiateProcessCut(sensors);
   const [cuts, setCuts] = useState([]);
   const [processedCuts, setProcessedCuts] = useState([]);
 

@@ -46,6 +46,7 @@
     "expo-camera": "^12.1.2",
     "expo-image-manipulator": "^10.2.1",
     "expo-screen-orientation": "^4.1.1",
+    "expo-sensors": "^11.3.0",
     "image-conversion": "^2.1.1",
     "react-native-canvas": "^0.1.38",
     "react-native-svg": "^12.1.1",
