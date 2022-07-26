@@ -20,7 +20,11 @@ export default function InspectionDetails() {
   const { id } = useParams();
 
   const { state, images, damages, vehicle, inspection } = useGetInspection(id);
-  const { reportUrl, handleDownLoad, loading: getPdfLoading } = useGetPdfReport(id);
+  const {
+    reportUrl,
+    // handleDownLoad,
+    loading: getPdfLoading,
+  } = useGetPdfReport(id);
 
   const imageItems = useMemo(() => {
     if (!images) { return []; }
