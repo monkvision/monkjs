@@ -43,7 +43,6 @@
     "@unimodules/react-native-adapter": "^6.3.9",
     "lodash.isboolean": "^3.0.3",
     "react-native-gesture-handler": "~1.10.2",
-    "react-native-svg": "12.3.0",
     "react-native-xml2js": "^1.0.3",
     "tinycolor2": "^1.4.2"
   },
