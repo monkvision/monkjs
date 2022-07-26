@@ -19,10 +19,17 @@ import VinForm from './VinForm';
 export default function InspectionDetails() {
   const { id } = useParams();
 
-  const { state, images, damages, tasks, vehicle, inspection } = useGetInspection(id);
+  const {
+    state,
+    images,
+    damages,
+    tasks,
+    vehicle,
+    inspection,
+  } = useGetInspection(id);
   const {
     reportUrl,
-    handleDownLoad,
+    // handleDownLoad,
     loading: getPdfLoading,
   } = useGetPdfReport(id);
 
