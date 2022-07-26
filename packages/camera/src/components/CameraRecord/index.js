@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Camera as ExpoCamera } from 'expo-camera';
 import { StyleSheet, Text, View } from 'react-native';
 
-import initiateProcessCut from './Feedback/mock';
+import { initiateProcessCut } from './Mocks';
 
 import useRecord from './hooks/useRecord';
 import usePermission from './hooks/usePermission';
@@ -13,6 +13,7 @@ import Feedback from './Feedback';
 import Controls from './Controls';
 import Timer from './Timer/index';
 import Blocker from './Blocker/index';
+import usePostFrames from './hooks/usePostFrames';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,21 +47,18 @@ const styles = StyleSheet.create({
 const SCORE_ACCEPTANCE = 3; // the max number of non-compliant frames allowed
 const TOTAL_CUTS = 2; // number of cuts
 const DURATION = 5;
-const recordOptions = {
-  maxDuration: DURATION,
-  quality: '2160p',
-  mite: true,
-};
+const recordOptions = { maxDuration: DURATION, quality: '2160p', mute: true };
 
 const removeDuplication = (arr) => [...new Set([...arr])];
 const flatten = (value) => (Array.isArray(value) ? [].concat(...value.map(flatten)) : value);
-export default function CameraRecord({ onQuit, onValidate }) {
+export default function CameraRecord({ onQuit, onValidate, inspectionId }) {
   const hasPermission = usePermission();
   const { status, start, reset, cancel, finish, cut, ready, pause, resume } = useRecord();
   const { pending, todo, cutting, canceled } = status;
 
   const sensors = useSensors();
-
+  const { uploading } = usePostFrames(inspectionId);
+  console.log({ uploading });
   const cameraRef = useRef();
   // to generate a new random number every time
   const processCut = () => initiateProcessCut(sensors);
@@ -175,6 +173,7 @@ export default function CameraRecord({ onQuit, onValidate }) {
 }
 
 CameraRecord.propTypes = {
+  inspectionId: PropTypes.string.isRequired,
   onQuit: PropTypes.func.isRequired,
   onValidate: PropTypes.func.isRequired,
 };
