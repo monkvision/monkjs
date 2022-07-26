@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import { Alert } from 'react-native';
 
-import { CameraRecord } from '@monkvision/camera';
+import { TensorsCamera } from '@monkvision/camera';
 
 import { useError } from '@monkvision/toolkit';
 
@@ -40,6 +40,6 @@ export default function InspectionRecord() {
   }, [inspectionId, navigation]);
 
   return (
-    <CameraRecord colors={colors} onQuit={handleNavigate} onValidate={handleNavigate} />
+    <TensorsCamera colors={colors} onQuit={handleNavigate} onValidate={handleNavigate} />
   );
 }

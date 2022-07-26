@@ -4,6 +4,7 @@ export { default as Controls } from './components/Controls';
 export { default as Layout } from './components/Layout';
 export { default as Overlay } from './components/Overlay';
 export { default as CameraRecord } from './components/CameraRecord';
+export { default as TensorsCamera } from './components/TensorsCamera';
 export { default as Sights } from './components/Sights';
 export { default as Thumbnail } from './components/Thumbnail';
 export { default as UploadCenter } from './components/UploadCenter';
