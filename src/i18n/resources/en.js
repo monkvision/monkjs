@@ -7,8 +7,12 @@ const en = {
         description: 'Detect it with your camera or type it manually',
       },
       damageDetection: {
-        title: 'Damage Detection',
-        description: 'Vehicle tour (exterior and interior)',
+        title: 'Vehicle tour (exterior)',
+        description: 'Damage detection',
+      },
+      interior: {
+        title: 'Vehicle tour (interior)',
+        description: 'Damage detection',
       },
       wheelsAnalysis: {
         title: 'Wheels Analysis',
