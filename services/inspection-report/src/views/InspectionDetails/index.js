@@ -70,7 +70,8 @@ export default function InspectionDetails() {
                   Your report is not available yet, try refresh after a minute
                 </Typography>
               ) : null}
-              <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>
+              {/* <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}> */}
+              <Button variant="outlined" disabled onClick={() => {}}>
                 {getPdfLoading ? 'Loading...' : 'Download report'}
               </Button>
             </Stack>

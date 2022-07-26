@@ -7,8 +7,12 @@ const fr = {
         description: 'Détectez-le avec votre caméra ou rentrez-le manuellement',
       },
       damageDetection: {
-        title: 'Détection de dégâts',
-        description: 'Tour de véhicule (extérieur et intérieur)',
+        title: 'Tour de véhicule extérieur',
+        description: 'Détection de dégâts',
+      },
+      interior: {
+        title: 'Tour de véhicule intérieur',
+        description: 'Détection de dégâts',
       },
       wheelsAnalysis: {
         title: 'Analyse des roues',
