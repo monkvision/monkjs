@@ -75,7 +75,8 @@
     "expo-camera": "^12.3.0",
     "react": "*",
     "react-native": "*",
-    "react-native-svg": "*"
+    "react-native-svg": "*",
+    "expo-camera": "*"
   },
   "publishConfig": {
     "access": "public"

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 
 import { Text, View, useWindowDimensions } from 'react-native';
-import { Camera as ExpoCamera, PermissionStatus, CameraType } from 'expo-camera';
+import { Camera as ExpoCamera, PermissionStatus } from 'expo-camera';
+import { CameraType } from 'expo-camera/build/Camera.types';
 
 import { utils } from '@monkvision/toolkit';
 import log from '../../utils/log';

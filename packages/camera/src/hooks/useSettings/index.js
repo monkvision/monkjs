@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { Platform } from 'react-native';
 
-import { Camera, CameraType } from 'expo-camera';
+import { Camera } from 'expo-camera';
+import { CameraType } from 'expo-camera/build/Camera.types';
 import getOS from '../../utils/getOS';
 
 import Actions from '../../actions';
