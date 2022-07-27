@@ -8,7 +8,7 @@ const buildNumber = 1;
 
 const app = {
   name: 'Monk Capture Application',
-  shortName: 'MCWA',
+  shortName: 'MCA',
   companyName: 'Monk',
   logo: {
     source: {
@@ -33,12 +33,13 @@ const nativeOptions = [
     taskName: 'damage_detection',
   },
 ];
+
 const options = [
   {
     cameraScreen: INSPECTION_CAPTURE,
     value: 'vinNumber',
-    title: 'Vehicle identification number',
-    description: 'Detect with camera or type it manually',
+    title: 'inspection.vinNumber.title',
+    description: 'inspection.vinNumber.description',
     icon: 'car-info',
     mode: ['automatic', 'manually'], // default to automatic
     sightIds: [
@@ -49,29 +50,37 @@ const options = [
   {
     cameraScreen: INSPECTION_CAPTURE,
     value: 'car360',
-    title: 'Damage detection',
-    description: 'Vehicle tour (exterior and interior)',
+    title: 'inspection.damageDetection.title',
+    description: 'inspection.damageDetection.description',
     icon: 'axis-z-rotate-counterclockwise',
     sightIds: [
-      'WKJlxkiF', // Beauty Shot
-      'vxRr9chD', // Front Bumper Side Left
-      'cDe2q69X', // Front Fender Left
-      'R_f4g8MN', // Doors Left
-      'vedHBC2n', // Front Roof Left
-      'McR3TJK0', // Rear Lateral Left
-      '7bTC-nGS', // Rear Fender Left
-      'hhCBI9oZ', // Rear
-      'e_QIW30o', // Rear Fender Right
-      'fDo5M0Fp', // Rear Lateral Right
-      'fDKWkHHp', // Doors Right
-      '5CFsFvj7', // Front Fender Right
-      'g30kyiVH', // Front Bumper Side Right
-      'I0cOpT1e', // Front
-
-      // 'IqwSM3', // Front seats
-      // 'rj5mhm', // Back seats
-      // 'qhKA2z', // Trunk
-      // 'rSvk2C', // Dashboard
+      'vLcBGkeh', // Front
+      'xfbBpq3Q', // Front Bumper Side Left
+      'zjAIjUgU', // Front Lateral Left
+      'T24v9XS8', // Front Door Left
+      'UHZkpCuK', // Rocker panel left
+      'ClEZSucK', // Rear Lateral Left
+      'j8YHvnDP', // Rear Bumper Side Left
+      'XyeyZlaU', // Rear
+      'LDRoAPnk', // Rear Bumper Side Right
+      'QqBpHiVP', // Rear Lateral Right
+      'B5s1CWT-', // Rocker panel right
+      '2wVqenwP', // Front Door Right
+      '0U14gFyk', // Front Lateral Right
+      'CELBsvYD', // Front Bumper Side Right
+    ],
+    taskName: 'damage_detection',
+  },
+  {
+    value: 'interior',
+    title: 'inspection.interior.title',
+    description: 'inspection.interior.description',
+    icon: 'car-seat',
+    sightIds: [
+      'IqwSM3', // Front seats
+      'rj5mhm', // Back seats
+      'qhKA2z', // Trunk
+      'rSvk2C', // Dashboard
     ],
     taskName: 'damage_detection',
   },
@@ -99,8 +108,8 @@ const options = [
   {
     cameraScreen: INSPECTION_CAPTURE,
     value: 'wheels',
-    title: 'Wheels analysis',
-    description: 'Details about rims condition',
+    title: 'inspection.wheelsAnalysis.title',
+    description: 'inspection.wheelsAnalysis.description',
     icon: 'circle-double',
     sightIds: [
       'xQKQ0bXS', // Front wheel left

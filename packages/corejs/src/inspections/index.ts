@@ -26,6 +26,8 @@ import {
   GetOneInspectionOptions,
   GetOneInspectionResponse,
   InspectionPaginatedResponse,
+  RequestInspectionReportPdf,
+  RequestInspectionReportPdfParams,
 } from './apiTypes';
 import { Inspection, NormalizedInspection, PdfInputData } from './entityTypes';
 import { InspectionPayloadTypes } from './reduxTypes';
@@ -166,6 +168,37 @@ export async function createOne(createInspection: CreateInspection): Promise<Cre
     axiosResponse,
     [idAttribute]: id,
     ...normalize(createdEntity, schema),
+  };
+}
+
+/**
+ * Add additional information to an inspection.
+ *
+ * @param {string} id - The id of the inspection.
+ * @param {boolean} data.pricing - The report pricing.
+ * @param {boolean} data.customer - The report customer.
+ * @param {boolean} data.client_name - The report client name.
+ * @param {boolean} data.vin - The report vin.
+ */
+export async function requestInspectionReportPdf(
+  id: string,
+  data: RequestInspectionReportPdfParams,
+): Promise<RequestInspectionReportPdf> {
+  const axiosResponse = await axios.request<IdResponse<'id'>>({
+    ...config.axiosConfig,
+    method: 'post',
+    url: `/inspections/${id}/pdf`,
+    data,
+  });
+
+  const entity: IdResponse<'id'> = {
+    [idAttribute]: id,
+  };
+
+  return {
+    axiosResponse,
+    [idAttribute]: id,
+    ...normalize(entity, schema),
   };
 }
 

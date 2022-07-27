@@ -1,10 +1,11 @@
-import { useError } from '@monkvision/toolkit/src';
+import { useSentry, utils } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import React, { useCallback, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
-import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 
@@ -36,16 +37,19 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
+  const { t } = useTranslation();
 
   const route = useRoute();
   const { inspectionId, afterSignin, ...rest } = route.params || {};
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
+    onStart: () => { utils.log(['[Click] Signing in']); },
     onError: (error, request) => {
       setAuthError(true);
-      errorHandler(error, Constants.type.APP, request);
+      utils.log(['[Event] Sign in failed']);
+      errorHandler(error, SentryConstants.type.APP, request);
     },
   });
 
@@ -62,12 +66,12 @@ export default function SignIn() {
   if (isAuthenticated) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Title>Authenticated!</Title>
+        <Title>{t('signin.success.title')}</Title>
         <Paragraph style={styles.p}>
-          You are logged in! Now you can start a new inspection.
+          {t('signin.success.message')}
         </Paragraph>
         <Button mode="contained" color={colors.success} style={styles.button} onPress={handleNext}>
-          Start inspection
+          {t('signin.success.button')}
         </Button>
       </View>
     );
@@ -77,7 +81,12 @@ export default function SignIn() {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
         <Loader
-          texts={[`Signing in`, `Authenticating`, `Checking you're not a robot`, `Loading`]}
+          texts={[
+            t('signin.loader.signingIn'),
+            t('signin.loader.authenticating'),
+            t('signin.loader.robot'),
+            t('signin.loader.loading'),
+          ]}
           colors={loaderDotsColors}
         />
       </View>
@@ -85,24 +94,26 @@ export default function SignIn() {
   }
 
   if (authError === true) {
-    <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Title>Sorry 😞</Title>
-      <Paragraph style={styles.p}>
-        An error occurred while authenticating, please try again in a minute.
-      </Paragraph>
-      <Button style={styles.button} onPress={handleGoBack}>
-        Go back to home page
-      </Button>
-    </View>;
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Title>{t('signin.error.title')}</Title>
+        <Paragraph style={styles.p}>
+          {t('signin.error.message')}
+        </Paragraph>
+        <Button style={styles.button} onPress={handleGoBack}>
+          {t('signin.error.button')}
+        </Button>
+      </View>
+    );
   }
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-      <Title>Authentication requested.</Title>
+      <Title>{t('signin.authRequested.title')}</Title>
       <Paragraph style={styles.p}>
-        Please sign in to start an inspection.
+        {t('signin.authRequested.message')}
       </Paragraph>
-      <Button mode="contained" style={styles.button} onPress={signIn}>Sign In</Button>
+      <Button mode="contained" style={styles.button} onPress={signIn}>{t('signin.authRequested.button')}</Button>
     </View>
   );
 }

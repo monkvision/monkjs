@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
-import { useError } from '@monkvision/toolkit';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import Actions from '../../actions';
+import log from '../../utils/log';
 
 const useHandlers = ({
   onStartUploadPicture,
@@ -11,7 +13,7 @@ const useHandlers = ({
   stream,
   Sentry,
 }) => {
-  const { Span, Constants: SentryConstants } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
 
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
@@ -24,7 +26,7 @@ const useHandlers = ({
      */
     let captureButtonTracing;
     if (Sentry) {
-      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_ACTION);
+      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_TIME);
     }
     const state = controlledState || unControlledState;
     event.preventDefault();
@@ -38,6 +40,7 @@ const useHandlers = ({
       goNextSight,
     } = api;
 
+    log(['[Click] Taking a photo']);
     const picture = await takePictureAsync();
 
     if (!picture) { return; }
@@ -61,6 +64,7 @@ const useHandlers = ({
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
+    log(['[Click] Retake all photos']);
     // adding an initialState that will hold new compliance with `requestCount = 1`
     const complianceInitialState = {
       id: '',

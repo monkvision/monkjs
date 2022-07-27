@@ -4,6 +4,7 @@ import { registerRootComponent } from 'expo';
 import { Platform } from 'react-native';
 import Sentry from 'config/sentry';
 import App from 'components/App';
+import './i18n';
 
 if (Platform.OS === 'web') {
   const container = document.getElementById('root');

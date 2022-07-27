@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Card, useTheme } from 'react-native-paper';
-import { useTimeout } from '@monkvision/toolkit';
+import { useSentry, useTimeout } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
 import * as names from 'screens/names';
 import Alert from '../../components/Alert';
+import Sentry from '../../config/sentry';
 
 const styles = StyleSheet.create({
   root: {
@@ -25,13 +28,16 @@ const styles = StyleSheet.create({
 
 export default function InspectionPrompt() {
   const { colors } = useTheme();
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute();
+  const { Span } = useSentry(Sentry);
 
   const { inspectionId, options, to } = route.params || {};
   const { key, ...rest } = options;
 
   const [value, callback] = useState(null);
+  const [transaction, setTransaction] = useState(null);
 
   const handleGoBack = useCallback(
     () => navigation.navigate(names.LANDING, { inspectionId }),
@@ -41,18 +47,23 @@ export default function InspectionPrompt() {
   useTimeout(() => { Alert.prompt({ ...rest, callback }); }, 100);
 
   useEffect(() => {
+    if (!transaction) { setTransaction(new Span('manual-vin-insertion', SentryConstants.operation.USER_TIME)); }
+  }, [transaction]);
+
+  useEffect(() => {
     if (value) {
+      if (transaction) { transaction.finish(); }
       navigation.navigate(to || names.LANDING, { [key]: value, inspectionId, ...route.params });
     }
-  }, [value]);
+  }, [value, transaction]);
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>
-        Please fill the needed content on the prompt
+        {t('vinModal.prompt.backgroundMessage')}
       </Text>
       <Card.Actions style={styles.actions}>
-        <Button mode="contained" color={colors.text} onPress={handleGoBack}>Go back</Button>
+        <Button mode="contained" color={colors.text} onPress={handleGoBack}>{t('vinModal.prompt.backgroundGoBack')}</Button>
       </Card.Actions>
     </View>
   );
