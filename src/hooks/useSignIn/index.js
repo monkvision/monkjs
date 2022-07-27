@@ -1,5 +1,5 @@
 import monk from '@monkvision/corejs';
-import { useError } from '@monkvision/toolkit';
+import { useSentry } from '@monkvision/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import discoveries from 'config/discoveries';
@@ -53,7 +53,7 @@ export default function useSignIn(callbacks = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler, Constants } = useSentry(Sentry);
 
   const [request, response, promptAsync] = useAuthRequest(
     {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 
-import { useError, utils } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
 import useCompression from './useCompression';
@@ -32,7 +32,7 @@ export default function useCamera(
   onWarningMessage,
 ) {
   const { video, onCameraReady } = options;
-  const { Span } = useError(Sentry);
+  const { Span } = useSentry(Sentry);
   const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
@@ -59,18 +59,19 @@ export default function useCamera(
 
     let uri;
     if (enableCompression && !utils.supportsWebP()) {
+      log(['[Event] Compressing an image']);
       if (Platform.OS !== 'web') { return undefined; }
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
 
       let compressionTracing;
-      if (Span) { compressionTracing = new Span('image-compression', 'func'); }
+      if (Sentry && Span) { compressionTracing = new Span('image-compression', 'func'); }
 
       if (onWarningMessage) { onWarningMessage('Compressing an image...'); }
       const compressed = await compress(arrayBuffer, width, height);
       if (onWarningMessage) { onWarningMessage(null); }
 
       if (compressed) {
-        log([`An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
+        log([`[Event] An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
       }
 
       compressionTracing?.finish();

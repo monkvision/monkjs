@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import { StyleSheet, ScrollView, Text, Switch, View, useWindowDimensions } from 'react-native';
 
@@ -62,6 +63,7 @@ export default function Sights({
   tour,
   uploads,
 }) {
+  const { i18n } = useTranslation();
   const { height: windowHeight } = useWindowDimensions();
 
   const handlePress = useCallback((id, e) => {
@@ -106,7 +108,7 @@ export default function Sights({
             <Thumbnail
               key={`thumbnail-${id}`}
               isCurrent={current.metadata.id === id}
-              label={label}
+              label={label[i18n.language]}
               overlay={overlay}
               picture={takenPictures[id]}
               onPress={(e) => handlePress(id, e)}
@@ -144,7 +146,10 @@ Sights.propTypes = {
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   tour: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.shape({
+      en: PropTypes.string,
+      fr: PropTypes.string,
+    }),
     overlay: PropTypes.string,
   })).isRequired,
   uploads: PropTypes.shape({

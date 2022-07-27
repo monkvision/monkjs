@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
 import isEmpty from 'lodash.isempty';
@@ -10,7 +11,8 @@ import useAuth from 'hooks/useAuth';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Loader } from '@monkvision/ui';
-import { useError, useRequest } from '@monkvision/toolkit';
+import { useSentry, useRequest } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import monk from '@monkvision/corejs';
 
 import { List, Paragraph, Title, useTheme } from 'react-native-paper';
@@ -32,7 +34,8 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { loaderDotsColors } = useTheme();
-  const { errorHandler, Constants: ErrorConstant } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
+  const { t } = useTranslation();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     limit: 5,
@@ -89,10 +92,8 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   if (manyInspections.error) {
     return (
       <View style={styles.empty}>
-        <Title>An error occurred</Title>
-        <Paragraph>
-          An unexpected error occurred when fetching the inspections. Please try again later.
-        </Paragraph>
+        <Title>{t('inspectionList.error.title')}</Title>
+        <Paragraph>{t('inspectionList.error.message')}</Paragraph>
       </View>
     );
   }
@@ -100,8 +101,8 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   if (isEmpty(inspections)) {
     return (
       <View style={styles.empty}>
-        <Title>Empty inspection list</Title>
-        <Paragraph>Add new inspection and it will show up here.</Paragraph>
+        <Title>{t('inspectionList.empty.title')}</Title>
+        <Paragraph>{t('inspectionList.empty.message')}</Paragraph>
       </View>
     );
   }

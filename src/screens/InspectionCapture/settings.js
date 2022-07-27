@@ -1,9 +1,11 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, useWindowDimensions, View } from 'react-native';
 import { useTheme, Menu, List } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 import { Actions } from '@monkvision/camera';
+import { utils } from '@monkvision/toolkit';
 
 import { useMediaQuery } from 'react-responsive';
 import styles from './styles';
@@ -22,6 +24,7 @@ const Settings = forwardRef(({ settings }, ref) => {
   const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
 
   const { colors } = useTheme();
+  const { t, i18n } = useTranslation();
   const { width, height } = useWindowDimensions();
   const [modal, setModal] = useState({ visible: false, name: null });
   const handleClose = () => setModal({ visible: false, name: null });
@@ -30,26 +33,35 @@ const Settings = forwardRef(({ settings }, ref) => {
 
   const modals = useMemo(() => ({
     [settingsOptions.DEFAULT]: [
-      { title: 'Resolution', value: settingsOptions.RESOLUTION },
-      { title: 'Image compression', value: settingsOptions.COMPRESSION },
-      { hidden: Platform.OS !== 'web', title: isFullscreen ? 'Exit fullscreen' : 'Fullscreen', value: settingsOptions.FULLSCREEN, selected: isFullscreen },
+      { title: t('capture.settings.resolution'), value: settingsOptions.RESOLUTION },
+      { title: t('capture.settings.compression'), value: settingsOptions.COMPRESSION },
+      {
+        hidden: Platform.OS !== 'web',
+        title: isFullscreen ? t('capture.settings.exitFullscreen') : t('capture.settings.fullscreen'),
+        value: settingsOptions.FULLSCREEN,
+        selected: isFullscreen },
     ],
     [settingsOptions.RESOLUTION]: [{ title: settingsOptions.FHD, value: settingsOptions.FHD },
       { title: settingsOptions.QHD, value: settingsOptions.QHD }],
-    [settingsOptions.COMPRESSION]: [{ title: 'On', value: true }, { title: 'Off', value: false }],
-  }), [isFullscreen]);
+    [settingsOptions.COMPRESSION]: [
+      { title: t('capture.settings.on'), value: true },
+      { title: t('capture.settings.off'), value: false },
+    ],
+  }), [isFullscreen, i18n.language]);
 
   const handleSelect = useCallback((name) => {
     // select only value that are not one of the `modals` keys
 
-    // fulscreen
+    // fullscreen
     if (name === settingsOptions.FULLSCREEN) {
+      utils.log(['[Click] Camera setting: ', 'Fullscreen ', 'on']);
       requestFullscreen();
       return;
     }
 
     // compressions
     if (modal.name === settingsOptions.COMPRESSION && typeof name === 'boolean') {
+      utils.log(['[Click] Camera setting: ', 'Compression ', name ? 'on' : 'off']);
       settings.dispatch({
         type: Actions.settings.UPDATE_SETTINGS,
         payload: { [modal.name]: name },
@@ -64,6 +76,7 @@ const Settings = forwardRef(({ settings }, ref) => {
     }
 
     // default
+    utils.log(['[Click] Camera setting: ', modal.name, name]);
     settings.dispatch({
       type: Actions.settings.UPDATE_SETTINGS,
       payload: { [modal.name]: name },
@@ -79,7 +92,7 @@ const Settings = forwardRef(({ settings }, ref) => {
   return (
     <>
       <View style={[styles.settings, { backgroundColor: colors.background }]}>
-        <List.Subheader>Settings</List.Subheader>
+        <List.Subheader>{t('capture.settings.title')}</List.Subheader>
         {modals[modal.name].map((item) => !item.hidden && (
           <Menu.Item
             onPress={() => handleSelect(item.value)}

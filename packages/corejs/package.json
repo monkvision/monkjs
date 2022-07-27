@@ -2,7 +2,7 @@
   "name": "@monkvision/corejs",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "2.4.1",
+  "version": "3.2.1",
   "private": false,
   "description": "AI-powered vehicle damage detection for JavaScript",
   "homepage": "https://github.com/monkvision/monkjs/packages/corejs/#readme",

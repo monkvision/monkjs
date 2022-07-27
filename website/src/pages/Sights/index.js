@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -12,12 +12,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Autocomplete from '@mui/material/Autocomplete';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 
 import sightsData from '@monkvision/sights/dist';
-import SelectForm from './SelectForm';
+
+console.log(sightsData);
 
 // eslint-disable-next-line react/prop-types
 function SightCard({ id, label, category, vehicleType, overlay }) {
@@ -47,7 +45,7 @@ function SightCard({ id, label, category, vehicleType, overlay }) {
           }}
         >
           {/* eslint-disable-next-line react/prop-types */}
-          {label.charAt(0).toUpperCase() + label.slice(1)}
+          {label.en ? label.en.charAt(0).toUpperCase() + label.en.slice(1) : 'No label'}
           <Chip label={id} />
         </Typography>
       </CardContent>
@@ -59,12 +57,6 @@ function SightCard({ id, label, category, vehicleType, overlay }) {
 }
 
 function Sights() {
-  const [searchInput, setSearchInput] = useState('');
-  const [searchKeyword, setSearchKeyword] = useState([]);
-  const [vehicleType, setVehicleType] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [sortBy, setSortBy] = useState('id');
-  const [sightResult, setSightResult] = useState(Object.values(sightsData));
   const context = useDocusaurusContext();
   const { siteConfig: { customFields = {}, tagline } = {} } = context;
 
@@ -74,140 +66,9 @@ function Sights() {
     },
   });
 
-  const handleChange = (event, setter) => {
-    if (event?.target?.value) {
-      setter(event.target.value);
-    }
-  };
-
-  const handleAddWord = (event) => {
-    if (event && event.keyCode === 32) {
-      event.preventDefault();
-      const keyword = event.target.value.substring(0, event.target.value.length - 1);
-      setSearchKeyword((prevState) => [...prevState, keyword]);
-      setSearchInput('');
-    }
-
-    return event?.keyCode !== 32;
-  };
-
-  const handleDelete = useCallback((indice) => {
-    if (searchKeyword) {
-      setSearchKeyword((prevState) => prevState.filter((_, i) => i !== indice));
-    }
-  }, [searchKeyword]);
-
-  const getSuggestion = useMemo(() => {
-    const labels = Object.values(sightsData)
-      .flatMap((sight) => sight.label.split(' '))
-      .filter((label, index, self) => (
-        self.indexOf(label) === index && !searchKeyword.includes(label)
-      ));
-
-    return labels.concat(Object.keys(sightsData));
-  }, [searchKeyword]);
-
-  const getFilterList = (key) => Object.values(sightsData)
-    .map((sight) => sight[key])
-    .filter((item, index, self) => self.indexOf(item) === index)
-    .concat(['all']);
-
-  useEffect(() => {
-    setSightResult(() => {
-      const categoryFilter = Object.values(sightsData)
-        .filter((sight) => (category && category !== 'all') && sight.category === category);
-
-      const typeFilter = categoryFilter
-        .filter((sight) => (vehicleType && category !== 'all') && sight.vehicleType === vehicleType);
-
-      const searchFilter = Object.values(sightsData)
-        .filter((sight) => (searchKeyword.length > 0) && (searchKeyword.includes(sight.id)
-          || sight.label
-            .split(' ')
-            .map((label) => searchKeyword.includes(label))
-            .reduce((prev, curr) => curr || prev, false)));
-
-      const newResult = categoryFilter
-        .concat(typeFilter, searchFilter)
-        .filter((item, index, self) => self.indexOf(item) === index);
-
-      return ((newResult.length <= 0) ? Object.values(sightsData) : newResult)
-        .sort((a, b) => {
-          if (a[sortBy].toLocaleLowerCase() < b[sortBy].toLocaleLowerCase()) {
-            return -1;
-          }
-          if (a[sortBy].toLocaleLowerCase() > b[sortBy].toLocaleLowerCase()) {
-            return 1;
-          }
-          return 0;
-        });
-    });
-  }, [category, vehicleType, searchKeyword, sortBy]);
-
   return (
     <ThemeProvider theme={darkTheme}>
       <Layout title={tagline} description={customFields.description}>
-        <Stack
-          direction="row"
-          spacing={1}
-          flexWrap="wrap"
-          justifyContent="center"
-          style={{ margin: '15px 0' }}
-        >
-          <Autocomplete
-            style={{
-              width: 'calc(97% - 450px)',
-              minWidth: 150,
-            }}
-            inputValue={searchInput}
-            onInputChange={(e) => handleChange(e, setSearchInput)}
-            onChange={(event, newKeyword) => {
-              setSearchKeyword((prevState) => [...prevState, newKeyword]);
-            }}
-            options={getSuggestion}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                onKeyUp={handleAddWord}
-                label="Search"
-              />
-            )}
-          />
-          <SelectForm
-            name="Category"
-            value={category}
-            items={getFilterList('category')}
-            onChange={handleChange}
-            setter={setCategory}
-          />
-          <SelectForm
-            name="Vehicle type"
-            value={vehicleType}
-            items={getFilterList('vehicleType')}
-            onChange={handleChange}
-            setter={setVehicleType}
-          />
-          <SelectForm
-            name="Sort by"
-            value={sortBy}
-            items={Object.keys(Object.values(sightsData)[0])}
-            onChange={handleChange}
-            setter={setSortBy}
-          />
-
-        </Stack>
-        <Stack direction="row" spacing={1} style={{ margin: '0 10px' }}>
-          {searchKeyword.map((keyword, i) => (
-            <Chip
-              key={keyword}
-              label={keyword}
-              onDelete={() => {
-                handleDelete(i);
-              }}
-            />
-          ))}
-        </Stack>
-
         <Container
           sx={{
             display: 'flex',
@@ -220,7 +81,7 @@ function Sights() {
           disableGutters
         >
           <CssBaseline />
-          {sightResult
+          {Object.values(sightsData)
             .filter((sight) => !!sight.overlay)
             .map((sight) => (
               <BrowserOnly>
