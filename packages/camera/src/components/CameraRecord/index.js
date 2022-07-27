@@ -14,6 +14,7 @@ import Controls from './Controls';
 import Timer from './Timer/index';
 import Blocker from './Blocker/index';
 import usePostFrames from './hooks/usePostFrames';
+import ActivityIndicator from './ActivityIndicator/index';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,15 +27,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: 'white',
-  },
-  header: {
-    width: 110,
-    alignSelf: 'center',
-    marginTop: 12,
-    position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
   },
   overlay: {
     position: 'absolute',
@@ -57,11 +49,11 @@ export default function CameraRecord({ onQuit, onValidate, inspectionId }) {
   const { pending, todo, cutting, canceled } = status;
 
   const sensors = useSensors();
-  const { uploading } = usePostFrames(inspectionId);
-  console.log({ uploading });
+  const { uploading } = usePostFrames(inspectionId, sensors);
+
   const cameraRef = useRef();
-  // to generate a new random number every time
-  const processCut = () => initiateProcessCut(sensors);
+
+  const processCut = () => initiateProcessCut();
   const [cuts, setCuts] = useState([]);
   const [processedCuts, setProcessedCuts] = useState([]);
 
@@ -152,11 +144,11 @@ export default function CameraRecord({ onQuit, onValidate, inspectionId }) {
 
       <Feedback feedback={feedback} show={pending} />
 
-      <ExpoCamera style={styles.camera} ref={cameraRef}>
-        <View style={styles.header}>
-          <Timer status={status} />
-        </View>
+      <Timer status={status} />
 
+      <ActivityIndicator show={uploading} />
+
+      <ExpoCamera style={styles.camera} ref={cameraRef}>
         <Controls
           onQuit={onQuit}
           onStart={ready}

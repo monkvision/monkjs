@@ -4,6 +4,16 @@ import { useInterval } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
+  root: {
+    width: 110,
+    alignSelf: 'center',
+    marginTop: 20,
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    zIndex: 99,
+  },
   text: {
     fontSize: 18,
     color: 'white',
@@ -15,7 +25,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 2,
   },
-
 });
 
 const ONE_SECOND = 1000;
@@ -31,8 +40,10 @@ export default function Timer({ status }) {
   useEffect(() => { if (todo || idle) { setTimer(0); } }, [todo, idle]);
 
   return (
-    <View style={styles.timer}>
-      <Text style={styles.text}>{secToMinSec(timer)}</Text>
+    <View style={styles.root}>
+      <View style={styles.timer}>
+        <Text style={styles.text}>{secToMinSec(timer)}</Text>
+      </View>
     </View>
   );
 }
