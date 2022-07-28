@@ -13,10 +13,10 @@ const download = (url) => {
 };
 
 const payload = {
-  pricing: true,
+  pricing: false,
+  customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
   client_name: 'Monk',
   language: 'fr',
-  customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
 };
 
 export default function useGetPdfReport(inspectionId) {
