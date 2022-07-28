@@ -39,15 +39,17 @@
     "release": "release-it"
   },
   "dependencies": {
-    "expo-image-manipulator": "^10.2.1"
+    "@config-plugins/ffmpeg-kit-react-native": "^2.0.0",
+    "expo-image-manipulator": "^10.2.1",
+    "ffmpeg-kit-react-native": "^4.5.2"
   },
   "devDependencies": {
     "prop-types": "^15.8.1",
     "react-native-builder-bob": "^0.18.2"
   },
   "peerDependencies": {
-    "expo-camera": "^12.1.2",
     "@monkvision/toolkit": "2.4.1",
+    "expo-camera": "^12.1.2",
     "react": "*",
     "react-native": "*"
   },

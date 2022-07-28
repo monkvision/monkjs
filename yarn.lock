@@ -2134,6 +2134,14 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@config-plugins/ffmpeg-kit-react-native@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@config-plugins/ffmpeg-kit-react-native/-/ffmpeg-kit-react-native-2.0.0.tgz#f228275ef37499c22ac0d143cc7d5a2269db77f2"
+  integrity sha512-43wQi/TXDztKtsSQjOZlSphg8PSgCFjtvYHY/sGRhxQ10oA9L4Ln4JKTgHew8DeIAFF6qdCDZ2n00B0VRg2B/g==
+  dependencies:
+    "@expo/config-plugins" "~4.1.4"
+    semver "^7.3.5"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -8302,6 +8310,11 @@ fetch-blob@^3.1.2, fetch-blob@^3.1.4:
   dependencies:
     node-domexception "^1.0.0"
     web-streams-polyfill "^3.0.3"
+
+ffmpeg-kit-react-native@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/ffmpeg-kit-react-native/-/ffmpeg-kit-react-native-4.5.2.tgz#bc99ffb0a3c3d075cad10978e1e65bb856776083"
+  integrity sha512-eB0rvBtkSnwpCL9wh/gzv2HU/RA1SKsBQn8gwnWEuVPLiPxFayTI72n7apKeTyvM+OpNnIERhmhqzZxEq9ulCg==
 
 figgy-pudding@^3.5.1:
   version "3.5.2"
@@ -14598,12 +14611,13 @@ react-webcam@^7.0.0:
   resolved "https://registry.yarnpkg.com/react-webcam/-/react-webcam-7.0.1.tgz#8249e1d621eb4bba7e3f52135f562439d0528df3"
   integrity sha512-8E/Eb/7ksKwn5QdLn67tOR7+TdP9BZdu6E5/DSt20v8yfW/s0VGBigE6VA7R4278mBuBUowovAB3DkCfVmSPvA==
 
-react@^18.0.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+react@17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
+  integrity sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==
   dependencies:
     loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 read-env@^1.3.0:
   version "1.3.0"

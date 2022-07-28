@@ -14,7 +14,7 @@
     ]
   },
   "scripts": {
-    "start": "expo start --https",
+    "start": "expo start --dev-client",
     "start:documentation": "cd website && yarn run docs:start",
     "start:report": "cd services/inspection-report && yarn run start",
     "watch:ui": "cd ./packages/ui && yarn watch",
@@ -39,7 +39,9 @@
     "licenses": "lic",
     "clear:modules": "rm -rf 'node_modules, package-lock.json, yarn.lock'",
     "clear": "yarn run clear:modules && yarn cache clean && yarn install",
-    "postinstall": "yarn run build:all"
+    "postinstall": "yarn run build:all",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo/match-media": "^0.3.0",
@@ -96,7 +98,7 @@
     "path": "^0.12.7",
     "prop-types": "^15.8.1",
     "raw-loader": "^4.0.2",
-    "react": "^18.0.0",
+    "react": "17.0.1",
     "react-dom": "^18.0.0",
     "react-i18next": "^11.18.0",
     "react-native": "0.64.3",

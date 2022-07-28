@@ -134,7 +134,7 @@ export default {
   icon: './assets/icon.png',
   userInterfaceStyle: 'dark',
 
-  plugins: ['sentry-expo'],
+  plugins: ['sentry-expo', '@config-plugins/ffmpeg-kit-react-native'],
 
   splash: {
     image: './assets/splash.png',
