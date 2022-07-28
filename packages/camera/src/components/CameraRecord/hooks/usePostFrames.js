@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { manipulateAsync } from 'expo-image-manipulator';
+import { Buffer } from 'buffer';
 
 import monk from '@monkvision/corejs';
 import { frames } from '../Mocks';
 
 export default function usePostFrames(inspectionId, sensors) {
   const [uploading, setUploading] = useState(false);
-  // upload each one
 
   const handleUpload = useCallback(async (uri, index) => {
     const fileType = 'jpg';
@@ -31,13 +31,13 @@ export default function usePostFrames(inspectionId, sensors) {
       },
     });
 
+    const buffer = Buffer.from(uri, 'base64');
+    const fileBits = new Blob([buffer], { type: 'jpg' });
+    const file = await new File(fileBits, multiPartKeys.filename, { type: multiPartKeys.type });
+
     const data = new FormData();
     data.append(multiPartKeys.json, json);
-    data.append(multiPartKeys.image, {
-      uri,
-      name: multiPartKeys.filename,
-      type: multiPartKeys.type,
-    });
+    data.append(multiPartKeys.image, file);
 
     setUploading(true);
     await monk.entity.image.addOne(inspectionId, data);
@@ -46,12 +46,14 @@ export default function usePostFrames(inspectionId, sensors) {
 
   const handleCompress = useCallback(async ({ src }, index) => {
     const compressedFile = await manipulateAsync(src, [], { compress: 0.7 });
-    handleUpload(compressedFile.uri, {}, index);
-    return compressedFile.uri;
+    return { uri: compressedFile.uri, index };
   }, []);
 
   useEffect(() => {
-    frames.forEach((frame, index) => handleCompress(frame, index));
+    frames.forEach(async (frame, index) => {
+      const result = await handleCompress(frame, index);
+      await handleUpload(result.uri, result.index);
+    });
   }, [handleCompress]);
 
   return { handleCompress, handleUpload, uploading };

@@ -1,3 +1,4 @@
+export * from './useSentry';
 export { default as useSentry } from './useSentry';
 export { default as useIcons } from './useIcons';
 export { default as useToggle } from './useToggle';

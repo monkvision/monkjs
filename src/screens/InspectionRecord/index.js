@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 
 import { CameraRecord } from '@monkvision/camera';
 
-import { useError } from '@monkvision/toolkit';
+import { useSentry, SentryConstants } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 
@@ -14,7 +14,7 @@ import Sentry from '../../config/sentry';
 export default function InspectionRecord() {
   const route = useRoute();
   const navigation = useNavigation();
-  const { errorHandler, Constants } = useError(Sentry);
+  const { errorHandler } = useSentry(Sentry);
   const { colors } = useTheme();
 
   const { inspectionId } = route.params;
@@ -30,7 +30,7 @@ export default function InspectionRecord() {
         }, {
           text: 'OK',
           onPress: () => {
-            errorHandler(new Error('User suddenly quit the record'), Constants.type.APP);
+            errorHandler(new Error('User suddenly quit the record'), SentryConstants.type.APP);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],

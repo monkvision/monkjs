@@ -1,5 +1,4 @@
-import { useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { useSentry, SentryConstants } from '@monkvision/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sentry from 'config/sentry';
 import { useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-import { useSentry } from '@monkvision/toolkit';
+import { useSentry, SentryConstants } from '@monkvision/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sentry from 'config/sentry';
 import { TokenResponse } from 'expo-auth-session/src/TokenRequest';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 export default function SilentAuth() {
   const [hasBeenDone, setHasBeenDone] = useState(false);
   const dispatch = useDispatch();
-  const { errorHandler, Constants } = useSentry(Sentry);
+  const { errorHandler } = useSentry(Sentry);
 
   useEffect(() => {
     if (!hasBeenDone) {
@@ -22,11 +22,11 @@ export default function SilentAuth() {
             onAuthenticationSuccess(authentication, dispatch);
           } else {
             AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
-              .catch((err) => errorHandler(err, Constants.type.APP));
+              .catch((err) => errorHandler(err, SentryConstants.type.APP));
           }
           setHasBeenDone(true);
         }
-      }).catch((err) => errorHandler(err, Constants.type.APP));
+      }).catch((err) => errorHandler(err, SentryConstants.type.APP));
     }
   }, []);
 
