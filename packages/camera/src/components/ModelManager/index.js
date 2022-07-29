@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Button, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import monk from '@monkvision/corejs';
@@ -34,8 +34,9 @@ export default function ModelManager({ backgroundColor, Sentry }) {
   const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { height, width } = useWindowDimensions();
+  const uriKey = Platform.OS === 'web' ? 'web' : 'native';
 
-  const downloadAndProcessModel = (model) => downloadThenSaveModelAsync(model.name, model.uri, {
+  const downloadAndProcessModel = (model) => downloadThenSaveModelAsync(model.name, model[uriKey], {
     headers: monk.config.axiosConfig.headers,
   });
   const tryDownloading = () => {
