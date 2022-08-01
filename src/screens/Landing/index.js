@@ -3,7 +3,7 @@ import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -24,14 +24,8 @@ import styles from './styles';
 import Sentry from '../../config/sentry';
 import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
-
-const STATUSES = {
-  NOT_STARTED: 'Waiting to be started',
-  TODO: 'In progress...',
-  IN_PROGRESS: 'In progress...',
-  DONE: 'Has finished!',
-  ERROR: 'Failed!',
-};
+import VehicleType from './VehicleType';
+import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -47,6 +41,7 @@ export default function Landing() {
   const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
 
+  const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
@@ -60,7 +55,12 @@ export default function Landing() {
     [getInspection],
   );
 
-  const selectors = useVinModal({ isAuthenticated, inspectionId });
+  const selectors = useVinModal({ isAuthenticated, inspectionId, vehicle: { vehicleType } });
+
+  const updateInspectionVehicle = useUpdateInspectionVehicle(
+    inspectionId,
+    { vehicleType, vin: inspection?.vehicle?.vin },
+  );
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
@@ -75,8 +75,8 @@ export default function Landing() {
 
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
-    navigation.navigate(to, { selectedMod: value, inspectionId });
-  }, [inspectionId, navigation, isAuthenticated]);
+    navigation.navigate(to, { selectedMod: value, inspectionId, vehicle: { vehicleType } });
+  }, [inspectionId, navigation, isAuthenticated, vehicleType]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -161,6 +161,18 @@ export default function Landing() {
     ];
   }, [inspection, i18n.language]);
 
+  useEffect(() => {
+    if (!vehicleType || vehicleType === inspection?.vehicle?.vehicleType) { return; }
+
+    (async () => {
+      const response = await updateInspectionVehicle.start();
+      if (response !== null) {
+        Sentry.Browser.setTag('inspection_id', response.result);
+        navigation.navigate(names.LANDING, route.params);
+      }
+    })();
+  }, [vehicleType]);
+
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
       <Modal
@@ -185,6 +197,11 @@ export default function Landing() {
             )))}
           <List.Section>
             <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
+            <VehicleType
+              selected={inspection?.vehicle?.vehicleType || vehicleType}
+              onSelect={(value) => setVehicleType(value)}
+              colors={colors}
+            />
             <FlatList
               data={ExpoConstants.manifest.extra.options}
               renderItem={renderListItem}

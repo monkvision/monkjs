@@ -46,7 +46,9 @@ export default function InspectionCreate() {
 
   const route = useRoute();
 
-  const { inspectionId: idFromParams, selectedMod: selected, vin, mode } = route.params || {};
+  const {
+    inspectionId: idFromParams, selectedMod: selected, vin, vehicle, mode,
+  } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
   const [authError, setAuthError] = useState(false);
@@ -57,7 +59,7 @@ export default function InspectionCreate() {
     },
   });
 
-  const createInspection = useCreateInspection(vin);
+  const createInspection = useCreateInspection({ ...vehicle, vin });
   const handleCreate = useCallback(async () => {
     if (isEmpty(inspectionId) && isAuthenticated) {
       utils.log(['[Click] Inspection task chosen: ', selected]);
