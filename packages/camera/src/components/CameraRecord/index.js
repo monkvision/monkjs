@@ -49,9 +49,9 @@ export default function CameraRecord({ onQuit, onValidate, inspectionId }) {
   const { pending, todo, cutting, canceled } = status;
 
   const sensors = useSensors();
-  const { uploading } = usePostFrames(inspectionId, sensors);
 
   const cameraRef = useRef();
+  const { uploading, handleUpload } = usePostFrames(inspectionId, sensors, cameraRef);
 
   const processCut = () => initiateProcessCut();
   const [cuts, setCuts] = useState([]);
@@ -148,7 +148,15 @@ export default function CameraRecord({ onQuit, onValidate, inspectionId }) {
 
       <ActivityIndicator show={uploading} />
 
-      <ExpoCamera style={styles.camera} ref={cameraRef}>
+      <ExpoCamera
+        style={styles.camera}
+        ref={cameraRef}
+        onCameraReady={async () => {
+          // this is a temporary implementation of the upload just to test on native
+          const file = await cameraRef.current?.takePictureAsync();
+          handleUpload(file.uri, 0);
+        }}
+      >
         <Controls
           onQuit={onQuit}
           onStart={ready}
