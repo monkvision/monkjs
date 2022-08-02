@@ -85,8 +85,8 @@ export default function InspectionCreate() {
     const params = { inspectionId, sightIds: option.sightIds, taskName: option.taskName };
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
+
     if (option.value === CAR_360) {
-      console.log({ option });
       const vehicleType = vehicle.vehicleType || 'cuv';
       navigation.navigate(
         names.INSPECTION_CAPTURE,
