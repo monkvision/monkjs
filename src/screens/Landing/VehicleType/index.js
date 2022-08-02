@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Chip } from 'react-native-paper';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import iconsDictionary from './icons';
 
@@ -12,11 +12,19 @@ const styles = StyleSheet.create({
   },
   vehicleTypeChip: {
     marginRight: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 33,
   },
   layout: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    ...Platform.select({
+      native: {
+        paddingTop: 6,
+      },
+    }),
   },
   text: {
     marginRight: 6,
@@ -51,7 +59,7 @@ export default function VehicleType({ selected, onSelect, loading, locallySelect
           disabled={loading}
         >
           <View style={styles.layout}>
-            <Text style={styles.text}>
+            <Text style={[styles.text, { color: colors.text }]}>
               {icons[key].name}
             </Text>
             {icons[key].icon}
@@ -69,7 +77,7 @@ VehicleType.propTypes = {
     surface: PropTypes.string,
     text: PropTypes.string,
   }).isRequired,
-  loading: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
   locallySelected: PropTypes.string,
   onSelect: PropTypes.func,
   selected: PropTypes.string,
