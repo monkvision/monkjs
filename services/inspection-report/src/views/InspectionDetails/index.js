@@ -22,7 +22,7 @@ export default function InspectionDetails() {
   const { state, images, damages, vehicle, inspection } = useGetInspection(id);
   const {
     reportUrl,
-    // handleDownLoad,
+    handleDownLoad,
     loading: getPdfLoading,
   } = useGetPdfReport(id);
 
@@ -74,8 +74,7 @@ export default function InspectionDetails() {
                   Your report is not available yet, try refresh after a minute
                 </Typography>
               ) : null}
-              {/* <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}> */}
-              <Button variant="outlined" disabled onClick={() => {}}>
+              <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>
                 {getPdfLoading ? 'Loading...' : 'Download report'}
               </Button>
             </Stack>
