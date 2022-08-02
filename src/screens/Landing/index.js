@@ -171,7 +171,7 @@ export default function Landing() {
         navigation.navigate(names.LANDING, route.params);
       }
     })();
-  }, [vehicleType]);
+  }, [vehicleType, inspection?.vehicle?.vehicleType]);
 
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
@@ -201,6 +201,8 @@ export default function Landing() {
               selected={inspection?.vehicle?.vehicleType || vehicleType}
               onSelect={(value) => setVehicleType(value)}
               colors={colors}
+              locallySelected={vehicleType}
+              loading={updateInspectionVehicle.state.loading}
             />
             <FlatList
               data={ExpoConstants.manifest.extra.options}

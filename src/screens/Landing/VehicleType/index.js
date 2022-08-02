@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Chip } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
+import iconsDictionary from './icons';
 
 const styles = StyleSheet.create({
   vehicleTypeLayout: {
@@ -12,56 +13,49 @@ const styles = StyleSheet.create({
   vehicleTypeChip: {
     marginRight: 12,
   },
+  layout: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  text: {
+    marginRight: 6,
+  },
 });
 
-const VEHICLE_TYPES = [
-  {
-    name: 'Full-Size SUV',
-    icon: '',
-  },
-  {
-    name: 'Crossover SUV',
-    icon: '',
-  },
-  {
-    name: 'Mid-Size Car',
-    icon: '',
-  },
-  {
-    name: 'Compact Car',
-    icon: 'car-hatchback',
-  },
-  {
-    name: 'Full-Size Van',
-    icon: 'van-utility',
-  },
-  {
-    name: 'Minivan',
-    icon: '',
-  },
-  {
-    name: 'Pickup',
-    icon: 'car-pickup',
-  },
-];
+export default function VehicleType({ selected, onSelect, loading, locallySelected, colors }) {
+  const icons = useMemo(
+    () => iconsDictionary(colors.text),
+    [colors.text],
+  );
 
-export default function VehicleType({ selected, onSelect, colors }) {
+  const updating = useMemo(
+    () => locallySelected !== selected && loading,
+    [locallySelected, loading],
+  );
+
+  const composeColor = useCallback((key) => {
+    if (key === selected) { return colors.onSurface; }
+    return colors.surface;
+  }, [selected, updating, locallySelected]);
+
   return (
     <ScrollView contentContainerStyle={styles.vehicleTypeLayout} horizontal>
-      {VEHICLE_TYPES.map((item) => (
+      {Object.keys(icons).map((key) => (
         <Chip
-          key={item.name}
-          selected={selected === item.name}
-          onPress={() => onSelect(item.name)}
-          style={[
-            styles.vehicleTypeChip,
-            { backgroundColor: selected === item.name
-              ? colors.onSurface : colors.surface },
-          ]}
+          key={key}
+          selected={key === selected}
+          onPress={() => onSelect(key)}
+          style={[styles.vehicleTypeChip, { backgroundColor: composeColor(key) }]}
           mode="outlined"
-          icon={item.icon || 'car-hatchback'}
+          disabled={loading}
         >
-          {item.name}
+          <View style={styles.layout}>
+            <Text style={styles.text}>
+              {icons[key].name}
+            </Text>
+            {icons[key].icon}
+          </View>
         </Chip>
       ))}
     </ScrollView>
@@ -70,14 +64,19 @@ export default function VehicleType({ selected, onSelect, colors }) {
 
 VehicleType.propTypes = {
   colors: PropTypes.shape({
+    disabled: PropTypes.string,
     onSurface: PropTypes.string,
     surface: PropTypes.string,
+    text: PropTypes.string,
   }).isRequired,
+  loading: PropTypes.string.isRequired,
+  locallySelected: PropTypes.string,
   onSelect: PropTypes.func,
   selected: PropTypes.string,
 };
 
 VehicleType.defaultProps = {
   onSelect: () => {},
+  locallySelected: null,
   selected: null,
 };
