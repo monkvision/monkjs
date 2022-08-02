@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const CAR_360 = 'car360';
+
 export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
@@ -80,9 +82,19 @@ export default function InspectionCreate() {
     const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
     if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
 
-    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
-
     const params = { inspectionId, sightIds: option.sightIds, taskName: option.taskName };
+
+    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
+    if (option.value === CAR_360) {
+      console.log({ option });
+      const vehicleType = vehicle.vehicleType || 'cuv';
+      navigation.navigate(
+        names.INSPECTION_CAPTURE,
+        { ...params, sightIds: option.sightIds[vehicleType], pop: 'popo' },
+      );
+      return;
+    }
+
     navigation.navigate(names.INSPECTION_CAPTURE, params);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
