@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Chip } from 'react-native-paper';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
@@ -10,18 +11,10 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   vehicleTypeChip: {
-    margin: 2,
     marginRight: 12,
     alignItems: 'center',
     justifyContent: 'center',
     height: 33,
-  },
-  noscrollLayout: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 12,
-    marginLeft: 12,
   },
   layout: {
     display: 'flex',
@@ -55,7 +48,7 @@ export default function VehicleType({ selected, onSelect, loading, locallySelect
   }, [selected, updating, locallySelected]);
 
   return (
-    <View contentContainerStyle={styles.vehicleTypeLayout} style={styles.noscrollLayout}>
+    <ScrollView contentContainerStyle={styles.vehicleTypeLayout} horizontal>
       {Object.keys(icons).map((key) => (
         <Chip
           key={key}
@@ -73,7 +66,7 @@ export default function VehicleType({ selected, onSelect, loading, locallySelect
           </View>
         </Chip>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 

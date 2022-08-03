@@ -198,6 +198,7 @@ export default function Landing() {
             )))}
           <List.Section>
             <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
+            <List.Subheader>Select vehicle type</List.Subheader>
             <VehicleType
               selected={inspection?.vehicle?.vehicleType || vehicleType}
               onSelect={(value) => setVehicleType(value)}
