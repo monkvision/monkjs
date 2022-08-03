@@ -162,7 +162,8 @@ export default function Landing() {
   }, [inspection, i18n.language]);
 
   useEffect(() => {
-    if (!vehicleType || vehicleType === inspection?.vehicle?.vehicleType) { return; }
+    if (!vehicleType || vehicleType === inspection?.vehicle?.vehicleType
+      || !inspectionId) { return; }
 
     (async () => {
       const response = await updateInspectionVehicle.start();
@@ -171,7 +172,7 @@ export default function Landing() {
         navigation.navigate(names.LANDING, route.params);
       }
     })();
-  }, [vehicleType, inspection?.vehicle?.vehicleType]);
+  }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId]);
 
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
