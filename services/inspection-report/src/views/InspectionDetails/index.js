@@ -19,7 +19,7 @@ import VinForm from './VinForm';
 export default function InspectionDetails() {
   const { id } = useParams();
 
-  const { state, images, damages, vehicle, inspection } = useGetInspection(id);
+  const { state, images, damages, tasks, vehicle, inspection } = useGetInspection(id);
   const {
     reportUrl,
     handleDownLoad,
@@ -32,6 +32,8 @@ export default function InspectionDetails() {
       { ...image, damages: damages.filter(({ imageRegion }) => imageRegion.imageId === image.id) }
     ));
   }, [images]);
+
+  const inspectionIsNotCompleted = useMemo(() => tasks.some((t) => t.status !== 'DONE'), [tasks]);
 
   if (state.loading) {
     return (
@@ -69,9 +71,15 @@ export default function InspectionDetails() {
                   Requesting the pdf...
                 </Typography>
               ) : null}
-              {!reportUrl && !getPdfLoading ? (
+              {!reportUrl && !getPdfLoading && !inspectionIsNotCompleted ? (
                 <Typography variant="subtitle2" color="info">
                   Your report is not available yet, try refresh after a minute
+                </Typography>
+              ) : null}
+              {!reportUrl && !getPdfLoading && inspectionIsNotCompleted ? (
+                <Typography variant="subtitle2" color="info">
+                  In order to generate a pdf, it is mandatory to have all the inspection
+                  tasks completed, please finish it first.
                 </Typography>
               ) : null}
               <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>
