@@ -78,8 +78,8 @@ export default function InspectionDetails() {
               ) : null}
               {!reportUrl && !getPdfLoading && inspectionIsNotCompleted ? (
                 <Typography variant="subtitle2" color="info">
-                  In order to generate a pdf, it is mandatory to have all the inspection
-                  tasks completed, please finish it first.
+                  Please make sure that all the inspection tasks are done in order to generate
+                  the report
                 </Typography>
               ) : null}
               <Button variant="outlined" disabled={!reportUrl} onClick={handleDownLoad}>
