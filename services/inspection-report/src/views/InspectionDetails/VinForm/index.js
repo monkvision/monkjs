@@ -33,7 +33,7 @@ export default function VinForm({ inspectionId, vin: initialVinValue }) {
       </Stack>
       <Stack spacing={0.6}>
         <Field
-          value={vin}
+          value={vin || ''}
           label="Vehicle identification number"
           loading={loading}
           onChange={handleChange}

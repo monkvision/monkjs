@@ -67,7 +67,7 @@ export default function ImageList({ itemData }) {
                 {...polygonsProps}
               />
               <ImageListItemBar
-                title={item?.additionalData?.label}
+                title={item?.additionalData?.label?.en}
                 actionIcon={(
                   <IconButton
                     onClick={(e) => handleClick(e, item.id)}
@@ -90,7 +90,7 @@ export default function ImageList({ itemData }) {
 ImageList.propTypes = {
   itemData: PropTypes.arrayOf(PropTypes.shape({
     additionalData: PropTypes.shape({
-      label: PropTypes.string.isRequired,
+      label: PropTypes.objectOf(PropTypes.string).isRequired,
     }),
     damages: PropTypes.arrayOf(PropTypes.shape({
       damageType: PropTypes.string,
