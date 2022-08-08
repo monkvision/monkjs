@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Button({ colors, children, color, ...props }) {
+export default function Button({ colors, children, color, extraStyle, ...props }) {
+  const extraButtonStyle = Array.isArray(extraStyle) ? extraStyle : [extraStyle ?? {}];
   const composedStyles = useMemo(() => {
     const disabledColor = color.disabled || colors.disabled;
     const backgroundColor = color.background || colors.background;
@@ -28,7 +29,7 @@ export default function Button({ colors, children, color, ...props }) {
 
   return (
     <TouchableOpacity
-      style={[styles.button, composedStyles]}
+      style={[styles.button, composedStyles, ...extraButtonStyle]}
       {...props}
     >
       {children}
@@ -44,8 +45,10 @@ Button.propTypes = {
     disabled: PropTypes.string,
   }).isRequired,
   disabled: PropTypes.bool,
+  extraStyle: PropTypes.any,
 };
 
 Button.defaultProps = {
   disabled: true,
+  extraStyle: {},
 };

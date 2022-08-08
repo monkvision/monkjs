@@ -39,6 +39,8 @@ export default function Controls({
   onStartUploadPicture,
   onFinishUploadPicture,
   Sentry,
+  disableAll,
+  connectionMode,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
@@ -48,6 +50,7 @@ export default function Controls({
     onStartUploadPicture,
     onFinishUploadPicture,
     stream: api.camera.current?.stream,
+    connectionMode,
     Sentry,
   });
   const { errorHandler } = useSentry(Sentry);
@@ -81,7 +84,7 @@ export default function Controls({
         }) => (
           createElement(component, {
             key: `camera-control-${id}`,
-            disabled: loading || hasNoIdle,
+            disabled: disableAll || loading || hasNoIdle,
             onPress: (e) => handlePress(e, { onPress, ...rest }),
             style: StyleSheet.flatten([styles.button]),
             ...rest,
@@ -104,7 +107,9 @@ Controls.propTypes = {
     startUploadAsync: PropTypes.func,
     takePictureSync: PropTypes.func,
   }),
+  connectionMode: PropTypes.oneOf(['online', 'semi-offline', 'offline']).isRequired,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  disableAll: PropTypes.bool,
   elements: PropTypes.arrayOf(PropTypes.shape({
     component: PropTypes.element,
     disabled: PropTypes.bool,
@@ -116,6 +121,7 @@ Controls.propTypes = {
   Sentry: PropTypes.any,
   state: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
+    embeddedCompliance: PropTypes.objectOf(PropTypes.any),
     lastTakenPicture: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
@@ -126,6 +132,7 @@ Controls.propTypes = {
 Controls.defaultProps = {
   api: {},
   containerStyle: null,
+  disableAll: false,
   elements: [],
   loading: false,
   state: {},

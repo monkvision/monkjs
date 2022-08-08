@@ -63,7 +63,7 @@ export default function InspectionCapture() {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
-  const { inspectionId, sightIds, taskName } = route.params;
+  const { inspectionId, sightIds, taskName, connectionMode } = route.params;
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -204,6 +204,7 @@ export default function InspectionCapture() {
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         Sentry={Sentry}
+        connectionMode={connectionMode}
       />
       <Notice />
     </View>

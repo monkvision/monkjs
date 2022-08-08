@@ -7,13 +7,13 @@ import PropTypes from 'prop-types';
 import Camera from '../Camera';
 import ModelManager from '../ModelManager';
 
+import ComplianceNotification from '../ComplianceNotification';
 import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
 import useEmbeddedModel from '../../hooks/useEmbeddedModel';
-import ComplianceCheck from '../ComplianceCheck';
 import Models from '../../hooks/useEmbeddedModel/const';
 import Actions from '../../actions';
 
@@ -79,6 +79,7 @@ const Capture = forwardRef(({
   enableComplianceCheck,
   enableQHDWhenSupported,
   colors,
+  connectionMode,
   footer,
   fullscreen,
   inspectionId,
@@ -110,6 +111,7 @@ const Capture = forwardRef(({
   thumbnailStyle,
   uploads,
   compliance,
+  embeddedCompliance,
   sights,
   settings,
   lastTakenPicture,
@@ -158,6 +160,27 @@ const Capture = forwardRef(({
          * },
        * },
      * },
+     * embeddedCompliance: {
+       * dispatch: (function({}): void),
+       * name: string,
+       * state: {
+         * result: {
+           * binary_size: number,
+           * compliances: {
+             * image_quality_assessment: {
+               * is_compliant: boolean,
+               * reason: string,
+               * status: string,
+             * },
+           * },
+           * id: string,
+           * image_height: number,
+           * image_width: number,
+           * name: string,
+           * path: string,
+         * },
+       * },
+     * },
      * isReady: boolean,
      * uploads: {
        * dispatch: (function({}): void),
@@ -168,12 +191,13 @@ const Capture = forwardRef(({
    */
   const states = useMemo(() => ({
     compliance,
+    embeddedCompliance,
     isReady,
     settings,
     sights,
     uploads,
     lastTakenPicture,
-  }), [compliance, isReady, settings, sights, uploads, lastTakenPicture]);
+  }), [compliance, embeddedCompliance, isReady, settings, sights, uploads, lastTakenPicture]);
 
   // END STATES //
   // METHODS //
@@ -229,25 +253,25 @@ const Capture = forwardRef(({
 
   const { errorHandler } = useSentry(Sentry);
 
-  const handleRetakePicture = useCallback(() => {
-    states.compliance.dispatch({
-      type: Actions.compliance.UPDATE_COMPLIANCE,
-      payload: { id: current.id, result: null, status: 'idle' },
+  const handleCloseComplianceNotification = useCallback(() => {
+    states.embeddedCompliance.dispatch({
+      type: Actions.embeddedCompliance.UPDATE_EMBEDDED_COMPLIANCE,
+      payload: { id: current.id, result: null },
     });
-  }, [states.compliance, current]);
+  }, [states.embeddedCompliance, current]);
 
   const handleSkipCompliance = useCallback(async () => {
     if (current.index === sights.state.ids.length - 1) {
-      await startUploadAsync(states.lastTakenPicture.state);
+      await startUploadAsync(states.lastTakenPicture.state.picture);
     } else {
-      await startUploadAsync(states.lastTakenPicture.state);
+      await startUploadAsync(states.lastTakenPicture.state.picture);
 
       setTimeout(() => {
         onFinishUploadPicture(states, api);
         goNextSight();
       }, 500);
     }
-  }, [current, states.lastTakenPicture.state, sights.state.ids]);
+  }, [current, states.lastTakenPicture.state.picture, sights.state.ids]);
 
   // END METHODS //
   // CONSTANTS //
@@ -269,21 +293,21 @@ const Capture = forwardRef(({
     [compliance.state, uploads.state],
   );
 
-  const currentCompliance = useMemo(
+  const currentEmbeddedCompliance = useMemo(
     () => (
-      Object.values(compliance.state)
+      Object.values(embeddedCompliance.state)
         .find((comp) => comp.id === sights.state.current.id)),
-    [compliance.state, sights.state.current.id],
+    [embeddedCompliance.state, sights.state.current.id],
   );
 
   const complianceAlert = useMemo(() => {
     if (sights.state.current.id) {
-      const currentComp = Object.values(compliance.state)
+      const currentComp = Object.values(embeddedCompliance.state)
         .find((comp) => comp.id === sights.state.current.id);
       return currentComp?.result?.is_compliant === false;
     }
     return false;
-  }, [compliance.state, sights.state.current.id]);
+  }, [embeddedCompliance.state, sights.state.current.id]);
 
   const predictionsHasLoaded = useMemo(() => (
     Object.keys(Models).every((modelKey) => Object.keys(predictions).includes(modelKey))
@@ -371,6 +395,8 @@ const Capture = forwardRef(({
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
       Sentry={Sentry}
+      disableAll={complianceAlert}
+      connectionMode={connectionMode}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -400,20 +426,10 @@ const Capture = forwardRef(({
   if (!haveAllModelsBeenStored || !predictionsHasLoaded) {
     return (
       <I18nextProvider i18n={i18n}>
-        <ModelManager backgroundColor={colors.background} Sentry={Sentry} />
-      </I18nextProvider>
-    );
-  }
-
-  if (complianceAlert) {
-    return (
-      <I18nextProvider i18n={i18n}>
-        <ComplianceCheck
-          image={lastTakenPicture?.state}
-          compliance={currentCompliance}
-          colors={colors}
-          onRetakePicture={handleRetakePicture}
-          onSkipCompliance={handleSkipCompliance}
+        <ModelManager
+          backgroundColor={colors.background}
+          onSuccess={() => setHaveAllModelsBeenStored(true)}
+          Sentry={Sentry}
         />
       </I18nextProvider>
     );
@@ -469,6 +485,15 @@ const Capture = forwardRef(({
             {children}
           </Camera>
         </Layout>
+        {complianceAlert ? (
+          <ComplianceNotification
+            image={lastTakenPicture?.state.picture}
+            compliance={currentEmbeddedCompliance}
+            colors={colors}
+            onCloseNotification={handleCloseComplianceNotification}
+            onSkipCompliance={handleSkipCompliance}
+          />
+        ) : null}
       </View>
     </I18nextProvider>
   );
@@ -516,12 +541,14 @@ Capture.propTypes = {
       status: PropTypes.string,
     })),
   }).isRequired,
+  connectionMode: PropTypes.oneOf(['online', 'semi-offline', 'offline']).isRequired,
   controls: PropTypes.arrayOf(PropTypes.shape({
     component: PropTypes.element,
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
   })),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
+  embeddedCompliance: PropTypes.objectOf(PropTypes.any).isRequired,
   enableComplianceCheck: PropTypes.bool,
   enableCompression: PropTypes.bool,
   enableQHDWhenSupported: PropTypes.bool,
@@ -529,7 +556,7 @@ Capture.propTypes = {
   fullscreen: PropTypes.objectOf(PropTypes.any),
   initialState: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
-    lastTakenPicture: PropTypes.any,
+    lastTakenPicture: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
     uploads: PropTypes.objectOf(PropTypes.any),

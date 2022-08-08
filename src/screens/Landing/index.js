@@ -3,7 +3,7 @@ import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
 import Artwork from 'screens/Landing/Artwork';
+import ConnectionModeSwitch from 'screens/Landing/ConnectionModeSwitch';
 import LanguageSwitch from 'screens/Landing/LanguageSwitch';
 import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
@@ -24,14 +25,6 @@ import styles from './styles';
 import Sentry from '../../config/sentry';
 import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
-
-const STATUSES = {
-  NOT_STARTED: 'Waiting to be started',
-  TODO: 'In progress...',
-  IN_PROGRESS: 'In progress...',
-  DONE: 'Has finished!',
-  ERROR: 'Failed!',
-};
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -54,13 +47,18 @@ export default function Landing() {
   const vinOptionsRef = useRef();
 
   const getInspection = useGetInspection(inspectionId);
+  const [connectionMode, setConnectionMode] = useState('online');
 
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
     [getInspection],
   );
 
-  const selectors = useVinModal({ isAuthenticated, inspectionId });
+  const selectors = useVinModal({ isAuthenticated, inspectionId, connectionMode });
+
+  const handleConnectionModeChange = useCallback((mode) => {
+    setConnectionMode(mode);
+  }, [setConnectionMode]);
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
@@ -75,8 +73,8 @@ export default function Landing() {
 
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
-    navigation.navigate(to, { selectedMod: value, inspectionId });
-  }, [inspectionId, navigation, isAuthenticated]);
+    navigation.navigate(to, { selectedMod: value, inspectionId, connectionMode });
+  }, [inspectionId, navigation, isAuthenticated, connectionMode]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -196,6 +194,10 @@ export default function Landing() {
               <Button color={colors.text} onPress={handleReset}>{t('landing.resetInspection')}</Button>
             ) : null}
             <LanguageSwitch />
+            <ConnectionModeSwitch
+              initialMode={connectionMode}
+              onModeSwitch={handleConnectionModeChange}
+            />
             {isAuthenticated && (
             <SignOut onSuccess={handleReset} />
             )}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -25,52 +25,61 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ModelManager({ backgroundColor, Sentry }) {
+export default function ModelManager({ backgroundColor, onSuccess, Sentry }) {
   const [hasModelsBeenProcessed, setHasModelsBeenProcessed] = useState(false);
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const { downloadThenSaveModelAsync } = useEmbeddedModel();
-  const { errorHandler } = useSentry(Sentry);
+  const { Span, errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { height, width } = useWindowDimensions();
   const uriKey = Platform.OS === 'web' ? 'web' : 'native';
 
-  const tryDownloading = async () => {
+  const downloadAndProcessModel = (model) => downloadThenSaveModelAsync(
+    model.name,
+    model.uri[uriKey],
+    {
+      headers: monk.config.axiosConfig.headers,
+    },
+  );
+  const tryDownloading = () => {
     setLoading(true);
     setError(false);
-    try {
-      const model = Models.imageQualityCheck;
-      await downloadThenSaveModelAsync(model.name, model.uri[uriKey], {
-        headers: monk.config.axiosConfig.headers,
-      });
-
-      return () => {
+    const downloadSpan = new Span('embedded-models-download-time', SentryConstants.operation.HTTP);
+    downloadAndProcessModel(Models.imageQualityCheck)
+      .then(() => {
+        downloadSpan.addDataToSpan('embedded-models-download-time', 'imageQualityCheck', 'success');
         setHasModelsBeenProcessed(true);
         setLoading(false);
-      };
-    } catch (err) {
-      const additionalTags = { model: Models.imageQualityCheck };
-      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
-
-      return () => {
+        onSuccess();
+      }).catch((err) => {
+        downloadSpan.addDataToSpan('embedded-models-download-time', 'imageQualityCheck', 'error');
+        const additionalTags = { model: Models.imageQualityCheck };
+        errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+        setHasModelsBeenProcessed(false);
         setError(true);
         setLoading(false);
-      };
-    }
+      }).finally(() => {
+        downloadSpan.finish();
+      });
   };
 
   useEffect(() => {
-    (async () => {
-      await tryDownloading();
-    })();
-  }, []);
-
-  const handleRetry = useCallback(() => {
-    if (!hasModelsBeenProcessed && !isLoading) {
+    if (!hasModelsBeenProcessed && !isError && !isLoading) {
       tryDownloading();
     }
-  }, [hasModelsBeenProcessed, isLoading]);
+  }, [hasModelsBeenProcessed, isError, isLoading]);
+
+  const handleRetry = () => {
+    if (!hasModelsBeenProcessed) {
+      tryDownloading();
+    }
+  };
+
+  if (hasModelsBeenProcessed) {
+    return null;
+  }
 
   if (isError) {
     return (
@@ -96,6 +105,7 @@ export default function ModelManager({ backgroundColor, Sentry }) {
 
 ModelManager.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func.isRequired,
   Sentry: PropTypes.any,
 };
 

@@ -5,8 +5,7 @@ const en = {
         message: 'An unexpected error occurred during the download of the models.',
         retry: 'Retry',
       },
-      retry: 'Retry',
-      skip: 'Skip',
+      skip: 'Validate Anyway',
     },
     camera: {
       permissionDenied: 'Unable to access camera : permission denied.',

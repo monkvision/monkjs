@@ -44,7 +44,7 @@ function reducer(state, action) {
       });
 
     default:
-      throw new Error('Received an nnknown action type, in "useCompliance"');
+      throw new Error('Received an unknown action type, in "useCompliance"');
   }
 }
 

@@ -14,10 +14,10 @@ export default function LanguageSwitch() {
   const { errorHandler } = useSentry(Sentry);
   const { i18n } = useTranslation();
 
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+  const openMenu = useCallback(() => setVisible(true), [setVisible]);
+  const closeMenu = useCallback(() => setVisible(false), [setVisible]);
 
-  const setLanguage = (lng) => {
+  const setLanguage = useCallback((lng) => {
     setIsLoading(true);
     closeMenu();
     i18n.changeLanguage(lng)
@@ -27,7 +27,7 @@ export default function LanguageSwitch() {
         setIsLoading(false);
         errorHandler(err, SentryConstants.type.APP);
       });
-  };
+  }, [setIsLoading, closeMenu, i18n, errorHandler]);
 
   const getButtonContent = useCallback(() => {
     if (isLoading) {

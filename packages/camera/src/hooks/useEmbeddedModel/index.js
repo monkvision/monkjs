@@ -50,7 +50,6 @@ export default function useEmbeddedModel() {
       ...options,
       responseType: 'arraybuffer',
     });
-
     await startDb(buffer.data, name);
 
     return buffer.data;

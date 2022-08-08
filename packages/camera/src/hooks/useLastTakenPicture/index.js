@@ -2,7 +2,10 @@ import { useReducer } from 'react';
 import Actions from '../../actions';
 
 function init() {
-  return null;
+  return {
+    picture: undefined,
+    sightId: undefined,
+  };
 }
 
 function reducer(state, action) {

@@ -17,16 +17,24 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
   const fulfilledCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ status }) => status === 'fulfilled')
     .map(({ result, requestCount, ...item }) => {
-      const carCov = result.data.compliances.coverage_360;
-      const iqa = result.data.compliances.image_quality_assessment;
+      const carCov = result.data?.compliances?.coverage_360;
+      const iqa = result.data?.compliances?.image_quality_assessment;
 
       // `handleChangeReasons` returns the full result object with the given compliances
       const handleChangeReasons = (compliances) => ({
         ...item,
         requestCount,
-        result: { ...result,
+        result: {
+          ...result,
           data: {
-            ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
+            ...result.data,
+            compliances: {
+              ...result.data.compliances,
+              ...compliances,
+            },
+          },
+        },
+      });
 
       const hasReachedMaxRetries = requestCount >= 2;
 
@@ -42,9 +50,12 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
       if (!carCov?.reasons) { return { ...item, requestCount, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
-      const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
+      const newCarCovReasons = carCov?.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
       return handleChangeReasons({
-        coverage_360: { reasons: newCarCovReasons, is_compliant: !newCarCovReasons.length },
+        coverage_360: {
+          reasons: newCarCovReasons,
+          is_compliant: newCarCovReasons && !newCarCovReasons.length,
+        },
       });
     }), [compliance]);
 
@@ -84,7 +95,7 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
           const {
             image_quality_assessment: iqa,
             coverage_360: carCov,
-          } = item.result.data.compliances;
+          } = item.result.data?.compliances ?? {};
           const badQuality = iqa && !iqa.is_compliant;
           const badCoverage = carCov && !carCov.is_compliant;
 
@@ -101,9 +112,9 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
       if (status === 'pending') { return true; }
       if (status !== 'fulfilled') { return false; }
 
-      const currentCompliance = result.data.compliances;
-      const hasNotReadyCompliances = Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
+      const currentCompliance = result.data?.compliances;
+      const hasNotReadyCompliances = currentCompliance && Object.values(currentCompliance).some(
+        (c) => c?.is_compliant === null,
       );
 
       return hasNotReadyCompliances && requestCount <= 1;
@@ -112,12 +123,10 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
   const notReadyCompliance = useMemo(() => Object.values(compliance.state)
     .filter(({ result }) => {
       if (!result) { return false; }
-      const currentCompliance = result.data.compliances;
-      const hasNotReadyCompliances = Object.values(currentCompliance).some(
-        (c) => c.is_compliant === null,
+      const currentCompliance = result.data?.compliances;
+      return currentCompliance && Object.values(currentCompliance).some(
+        (c) => c?.is_compliant === null,
       );
-
-      return hasNotReadyCompliances;
     }), [compliance.state]);
 
   return { ids: [...new Set([

@@ -32,6 +32,11 @@ const en = {
       resetInspection: 'Reset Inspection',
       lastInspection: 'Last inspection',
       signOut: 'Sign Out',
+      connectionMode: {
+        online: 'Online',
+        'semi-offline': 'Semi-Offline',
+        offline: 'Offline',
+      },
     },
     vinModal: {
       title: 'How to set VIN number?',

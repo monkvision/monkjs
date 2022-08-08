@@ -12,6 +12,7 @@ const useHandlers = ({
   enableComplianceCheck,
   unControlledState,
   stream,
+  connectionMode,
   Sentry,
 }) => {
   const { Span, errorHandler } = useSentry(Sentry);
@@ -41,86 +42,97 @@ const useHandlers = ({
       predictions,
       goNextSight,
     } = api;
-    const { sights } = state;
-    const { current, ids } = sights.state;
-    let isComplianceInError = false;
 
     log(['[Click] Taking a photo']);
+    const picture = await takePictureAsync();
 
-    try {
-      const picture = await takePictureAsync();
+    if (!picture) { return null; }
 
-      if (!picture) { return null; }
+    const { sights } = state;
+    const { current, ids } = sights.state;
+    const isFirstCaptureAtSight = state.lastTakenPicture.state.sightId !== current.id;
 
-      state.lastTakenPicture
-        .dispatch({ type: Actions.lastTakenPicture.SET_PICTURE, payload: picture });
+    state.lastTakenPicture.dispatch({
+      type: Actions.lastTakenPicture.SET_PICTURE,
+      payload: { picture, sightId: current.id },
+    });
 
-      const compliance = {
-        blurriness: false,
-        overexposure: false,
-        underexposure: false,
-      };
+    const compliance = {
+      blurriness: false,
+      overexposure: false,
+      underexposure: false,
+    };
+    let isComplianceInError = false;
 
-      let complianceSpan;
-      if (Sentry) {
-        complianceSpan = new Span('embedded-compliance-time', SentryConstants.operation.FUNC);
+    if (isFirstCaptureAtSight && ['semi-offline', 'offline'].includes(connectionMode)) {
+      try {
+        let complianceSpan;
+        if (Sentry) {
+          complianceSpan = new Span('embedded-compliance-time', SentryConstants.operation.FUNC);
+        }
+        const details = await predictions[Models.imageQualityCheck.name](picture);
+        const result = {
+          details,
+          is_compliant:
+            details.blurriness_score[0] < Models.imageQualityCheck.minConfidence.blurriness
+            && details.overexposure_score[0] < Models.imageQualityCheck.minConfidence.overexposure
+            && details.underexposure_score[0] < Models
+              .imageQualityCheck.minConfidence.underexposure,
+          parameters: {},
+          reasons: [],
+          status: 'DONE',
+        };
+        complianceSpan?.addDataToSpan(result);
+        state.embeddedCompliance.dispatch({
+          type: Actions.embeddedCompliance.UPDATE_EMBEDDED_COMPLIANCE,
+          payload: { id: current.id, result },
+        });
+        compliance.blurriness = details.blurriness_score < Models
+          .imageQualityCheck.minConfidence.blurriness;
+        compliance.overexposure = details.overexposure_score < Models
+          .imageQualityCheck.minConfidence.overexposure;
+        compliance.underexposure = details.underexposure_score < Models
+          .imageQualityCheck.minConfidence.underexposure;
+
+        complianceSpan?.finish();
+      } catch (err) {
+        const additionalTags = { sightId: current.id };
+        errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+        isComplianceInError = true;
       }
-      const details = await predictions[Models.imageQualityCheck.name](picture);
-
-      if (!details) { throw new Error('Compliance failed, couldn\'t check the picture'); }
-
-      const result = {
-        details,
-        is_compliant:
-        details.blurriness_score[0] < Models.imageQualityCheck.minConfidence.blurriness
-        && details.overexposure_score[0] < Models.imageQualityCheck.minConfidence.overexposure
-        && details.underexposure_score[0] < Models.imageQualityCheck.minConfidence.underexposure,
-        parameters: {},
-        reasons: [],
-        status: 'DONE',
-      };
-      complianceSpan?.addDataToSpan(result);
-      state.compliance.dispatch({
-        type: Actions.compliance.UPDATE_COMPLIANCE,
-        payload: { id: current.id, result, status: 'fulfilled' },
-      });
-      compliance.blurriness = details.blurriness_score < Models
-        .imageQualityCheck.minConfidence.blurriness;
-      compliance.overexposure = details.overexposure_score < Models
-        .imageQualityCheck.minConfidence.overexposure;
-      compliance.underexposure = details.underexposure_score < Models
-        .imageQualityCheck.minConfidence.underexposure;
-
-      complianceSpan?.finish();
-
-      setPictureAsync(picture);
-
-      const isCompliant = compliance.blurriness
-        && compliance.overexposure
-        && compliance.underexposure;
-
-      if (!isCompliant && !isComplianceInError) {
-        onFinishUploadPicture(state, api);
-      } else if (current.index === ids.length - 1) {
-        await startUploadAsync(picture);
-      } else {
-        await startUploadAsync(picture);
-
-        setTimeout(() => {
-          onFinishUploadPicture(state, api);
-          goNextSight();
-        }, 500);
-      }
-      captureButtonTracing?.finish();
-      return compliance;
-    } catch (err) {
-      console.warn(err);
-      const additionalTags = { sightId: current.id };
-      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
-      isComplianceInError = true;
-      return null;
     }
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
+
+    setPictureAsync(picture);
+
+    const isCompliant = compliance.blurriness
+      && compliance.overexposure
+      && compliance.underexposure;
+
+    if (!isCompliant
+      && !isComplianceInError
+      && isFirstCaptureAtSight
+      && ['semi-offline', 'offline'].includes(connectionMode)
+    ) {
+      onFinishUploadPicture(state, api);
+    } else if (current.index === ids.length - 1) {
+      await startUploadAsync(picture);
+    } else {
+      await startUploadAsync(picture);
+
+      setTimeout(() => {
+        onFinishUploadPicture(state, api);
+        goNextSight();
+      }, 500);
+    }
+    captureButtonTracing?.finish();
+    return compliance;
+  }, [
+    enableComplianceCheck,
+    onFinishUploadPicture,
+    onStartUploadPicture,
+    stream,
+    connectionMode,
+  ]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     log(['[Click] Retake all photos']);
@@ -131,7 +143,8 @@ const useHandlers = ({
       error: null,
       requestCount: 1,
       result: null,
-      imageId: null };
+      imageId: null,
+    };
     const complianceState = {};
     sightsIdsToRetake.forEach((id) => { complianceState[id] = { ...complianceInitialState, id }; });
 

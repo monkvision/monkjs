@@ -1,10 +1,11 @@
 import React, { forwardRef, useRef } from 'react';
 import PropTypes from 'prop-types';
-import useCompliance from '../../hooks/useCompliance';
 
+import useCompliance from '../../hooks/useCompliance';
 import useSettings from '../../hooks/useSettings';
 import useSights from '../../hooks/useSights';
 import useUploads from '../../hooks/useUploads';
+import useEmbeddedCompliance from '../../hooks/useEmbeddedCompliance';
 import useLastTakenPicture from '../../hooks/useLastTakenPicture';
 import Capture from './capture';
 
@@ -21,7 +22,15 @@ const initialColors = {
   },
 };
 
-const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, ...rest }, ref) => {
+const CaptureHOC = forwardRef(({
+  compliance,
+  settings,
+  sights,
+  uploads,
+  colors,
+  connectionMode,
+  ...rest
+}, ref) => {
   const camera = useRef();
   const combinedRefs = useRef({ camera, ref });
 
@@ -30,16 +39,19 @@ const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, 
   const unControlledUploads = useUploads({ sightIds, initialState: initialState.uploads });
   const unControlledSights = useSights({ sightIds, initialState: initialState.sights });
   const unControlledSettings = useSettings({ camera, initialState: initialState.settings });
+  const unControlledEmbeddedCompliance = useEmbeddedCompliance({ sightIds });
   const unControlledLastTakenPicture = useLastTakenPicture();
 
   return (
     <Capture
       compliance={compliance || unControlledCompliance}
+      embeddedCompliance={unControlledEmbeddedCompliance}
       lastTakenPicture={unControlledLastTakenPicture}
       uploads={uploads || unControlledUploads}
       sights={sights || unControlledSights}
       settings={settings || unControlledSettings}
       ref={combinedRefs}
+      connectionMode={connectionMode}
       colors={{ ...initialColors, ...colors }}
       {...rest}
     />
@@ -75,6 +87,7 @@ CaptureHOC.propTypes = {
       status: PropTypes.string,
     })),
   }),
+  connectionMode: PropTypes.oneOf(['online', 'semi-offline', 'offline']),
   initialState: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
@@ -136,6 +149,7 @@ CaptureHOC.propTypes = {
 CaptureHOC.defaultProps = {
   colors: initialColors,
   compliance: undefined,
+  connectionMode: 'online',
   initialState: {
     compliance: undefined,
     settings: undefined,

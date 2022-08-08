@@ -32,6 +32,11 @@ const fr = {
       resetInspection: 'Recommencer l\'inspection',
       lastInspection: 'Dernière inspection',
       signOut: 'Se Déconnecter',
+      connectionMode: {
+        online: 'En Ligne',
+        'semi-offline': 'Semi Hors Ligne',
+        offline: 'Hors Ligne',
+      },
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',

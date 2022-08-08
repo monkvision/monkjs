@@ -5,8 +5,7 @@ const fr = {
         message: 'Une erreur inattendue est survenue lors du téléchargement des modèles.',
         retry: 'Réessayer',
       },
-      retry: 'Réessayer',
-      skip: 'Passer',
+      skip: 'Valider quand même',
     },
     camera: {
       permissionDenied: 'Impossible d\'accéder à la caméra : permission refusée.',

@@ -278,6 +278,7 @@ export function useStartUploadAsync({
           file_key: multiPartKeys.image,
         },
         compliances: {
+          image_quality_assessment: {},
           coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
             sight_id: id,
           } : undefined,
