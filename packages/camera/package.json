@@ -63,7 +63,7 @@
     "@monkvision/corejs": "3.2.1",
     "@monkvision/sights": "3.2.1",
     "@monkvision/toolkit": "3.2.1",
-    "expo-camera": "*",
+    "expo-camera": "^12.3.0",
     "react": "*",
     "react-native": "*",
     "react-native-svg": "*"
