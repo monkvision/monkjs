@@ -43,7 +43,6 @@
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
     "axios": "^0.24.0",
-    "expo-camera": "^12.1.2",
     "expo-image-manipulator": "^10.2.1",
     "expo-screen-orientation": "^4.1.1",
     "i18next": "^21.8.13",
@@ -64,6 +63,7 @@
     "@monkvision/corejs": "3.2.1",
     "@monkvision/sights": "3.2.1",
     "@monkvision/toolkit": "3.2.1",
+    "expo-camera": "^12.3.0",
     "react": "*",
     "react-native": "*",
     "react-native-svg": "*"
