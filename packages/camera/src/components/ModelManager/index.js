@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Button, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -36,40 +36,41 @@ export default function ModelManager({ backgroundColor, Sentry }) {
   const { height, width } = useWindowDimensions();
   const uriKey = Platform.OS === 'web' ? 'web' : 'native';
 
-  const downloadAndProcessModel = (model) => downloadThenSaveModelAsync(model.name, model[uriKey], {
-    headers: monk.config.axiosConfig.headers,
-  });
-  const tryDownloading = () => {
+  const tryDownloading = async () => {
     setLoading(true);
     setError(false);
-    downloadAndProcessModel(Models.imageQualityCheck)
-      .then(() => {
+    try {
+      const model = Models.imageQualityCheck;
+      await downloadThenSaveModelAsync(model.name, model.uri[uriKey], {
+        headers: monk.config.axiosConfig.headers,
+      });
+
+      return () => {
         setHasModelsBeenProcessed(true);
         setLoading(false);
-      }).catch((err) => {
-        const additionalTags = { model: Models.imageQualityCheck };
-        errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
-        setHasModelsBeenProcessed(false);
+      };
+    } catch (err) {
+      const additionalTags = { model: Models.imageQualityCheck };
+      errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+
+      return () => {
         setError(true);
         setLoading(false);
-      });
+      };
+    }
   };
 
   useEffect(() => {
-    if (!hasModelsBeenProcessed && !isError && !isLoading) {
+    (async () => {
+      await tryDownloading();
+    })();
+  }, []);
+
+  const handleRetry = useCallback(() => {
+    if (!hasModelsBeenProcessed && !isLoading) {
       tryDownloading();
     }
-  }, [hasModelsBeenProcessed, isError, isLoading]);
-
-  const handleRetry = () => {
-    if (!hasModelsBeenProcessed) {
-      tryDownloading();
-    }
-  };
-
-  if (hasModelsBeenProcessed) {
-    return null;
-  }
+  }, [hasModelsBeenProcessed, isLoading]);
 
   if (isError) {
     return (

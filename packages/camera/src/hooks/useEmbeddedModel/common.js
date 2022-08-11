@@ -95,16 +95,10 @@ export const partDetectorModelPrediction = async (tf, model, imageTensor) => {
  * @param tf - TensorFlow api (different from each platform)
  * @param model - ML model used to do predictions (tf or tflite model)
  * @param imagePreprocessed {Tensor4D | import("@tensorflow/tfjs-core/dist/tensor").Tensor<import("@tensorflow/tfjs-core/dist/types").Rank.R4>} - a 4D tensor containing image info
- * @returns {Promise<{blurriness: boolean, overexposure: boolean, underexposure: boolean}>}
+ * @returns {Tensor4D | Tensor4D[] | import("@tensorflow/tfjs-core/dist/tensor").Tensor<import("@tensorflow/tfjs-core/dist/types").Rank.R4>}
  */
-export const imageQualityCheckPrediction = async (tf, model, imagePreprocessed) => {
+export const imageQualityCheckPrediction = (tf, model, imagePreprocessed) => {
   // Expanding dimension and adapting input vector then start the prediction
   const input = tf.expandDims(tf.transpose(tf.div(imagePreprocessed, 255), [2, 0, 1]), 0);
-  const predictions = await model.predict(input);
-
-  return {
-    blurriness_score: predictions['PartitionedCall:0'].arraySync()[0],
-    overexposure_score: predictions['PartitionedCall:1'].arraySync()[0],
-    underexposure_score: predictions['PartitionedCall:2'].arraySync()[0],
-  };
+  return model.predict(input);
 };

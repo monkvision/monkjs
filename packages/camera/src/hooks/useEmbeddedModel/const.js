@@ -11,12 +11,6 @@ const Models = {
       underexposure: 0.4,
     },
   },
-  partDetectorModel: {
-    name: 'partDetector',
-    minConfidence: {
-      partDetector: 0.4,
-    },
-  },
 };
 
 export default Models;

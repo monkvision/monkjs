@@ -70,26 +70,29 @@ export function useTakePictureAsync({ camera, isFocused, Sentry }) {
     }
 
     return () => {
+      if (transaction) {
+        transaction?.finish();
+        setTransaction(null);
+      }
       camera?.current?.pausePreview();
     };
   }, [camera.current, isFocused, transaction]);
 
-  return useCallback(async (options = {
+  return useCallback((options = {
     quality: 1,
     base64: true,
     exif: true,
     skipProcessing: true,
   }) => {
-    const funcName = Platform.OS === 'web' ? 'takePicture' : 'takePictureAsync';
-    const takePicture = camera?.current[funcName];
+    const takePicture = camera.current?.(Platform.OS === 'web' ? 'takePicture' : 'takePictureAsync');
     const takePictureOptions = Platform.OS === 'web' ? undefined : options;
-
-    if (takePictureOptions) {
-      return takePicture(takePictureOptions);
-    }
 
     transaction?.finish();
     setTransaction(null);
+    if (takePictureOptions) {
+      return takePicture(options);
+    }
+
     return takePicture();
   }, [camera, isFocused, transaction]);
 }
@@ -107,7 +110,7 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
 
   return useCallback(async (picture) => {
     try {
-      const uri = picture.localUri || picture.uri;
+      const uri = `${Platform.OS === 'web' ? '' : 'data:image/jpeg;base64,'}${picture.localUri || picture.uri}`;
 
       const actions = [{ resize: { width: 133 } }];
       const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
@@ -224,7 +227,8 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          errorHandler(err, SentryConstants.type.UPLOAD, { json, file, message: err.message });
+          console.error(err);
+          errorHandler(err, SentryConstants.type.UPLOAD, { file, error: err.response });
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,
@@ -295,10 +299,10 @@ export function useStartUploadAsync({
         fileBits = [file];
       } else {
         const buffer = Buffer.from(picture.uri, 'base64');
-        fileBits = new Blob([buffer], { type: 'png' });
+        fileBits = new Blob([buffer], { type: 'image/png' });
       }
 
-      const file = await new File(
+      const file = new File(
         fileBits,
         multiPartKeys.filename,
         { type: multiPartKeys.type },
@@ -312,7 +316,7 @@ export function useStartUploadAsync({
         payload: { id, status: 'rejected', error: err },
       });
 
-      log([`Error in \`<Capture />\` \`startUploadAsync()\`: ${err}`], 'error');
+      console.error(`Error in \`<Capture />\` \`startUploadAsync()\`:`, err);
 
       throw err;
     }

@@ -39,6 +39,7 @@ function Camera({
         onMountError={handleError}
         {...passThroughProps}
         style={[containerStyle, size]}
+        useCamera2Api
       >
         {children}
       </ExpoCamera>

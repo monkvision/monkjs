@@ -196,6 +196,7 @@ const Capture = forwardRef(({
     Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
+  const { models, isModelStored, loadModel, predictions } = useEmbeddedModel();
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
@@ -205,12 +206,13 @@ const Capture = forwardRef(({
     createDamageDetectionAsync,
     goPrevSight,
     goNextSight,
+    predictions,
     setPictureAsync,
     startUploadAsync,
     takePictureAsync,
   }), [
     camera, checkComplianceAsync, createDamageDetectionAsync,
-    goNextSight, goPrevSight,
+    goNextSight, goPrevSight, predictions,
     setPictureAsync, startUploadAsync, takePictureAsync,
   ]);
 
@@ -225,7 +227,6 @@ const Capture = forwardRef(({
     takePictureAsync,
   }));
 
-  const { isModelStored } = useEmbeddedModel();
   const { errorHandler } = useSentry(Sentry);
 
   const handleRetakePicture = useCallback(() => {
@@ -284,6 +285,10 @@ const Capture = forwardRef(({
     return false;
   }, [compliance.state, sights.state.current.id]);
 
+  const predictionsHasLoaded = useMemo(() => (
+    Object.keys(Models).every((modelKey) => Object.keys(predictions).includes(modelKey))
+  ), [predictions]);
+
   // END CONSTANTS //
   // HANDLERS //
 
@@ -309,6 +314,16 @@ const Capture = forwardRef(({
     }
   }, [api, onChange, states]);
 
+  useEffect(() => {
+    if (haveAllModelsBeenStored) {
+      Object.keys(Models).forEach(async (modelKey) => {
+        if (!models[Models[modelKey].name]) {
+          await loadModel(Models[modelKey].name);
+        }
+      });
+    }
+  }, [haveAllModelsBeenStored, models]);
+
   useEffect(() => { onUploadsChange(states, api); }, [uploads]);
   useEffect(() => { onComplianceChange(states, api); }, [compliance]);
   useEffect(() => { onSightsChange(states, api); }, [sights]);
@@ -325,7 +340,7 @@ const Capture = forwardRef(({
           errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
         });
     }
-  });
+  }, []);
 
   // END EFFECTS //
   // RENDERING //
@@ -382,7 +397,7 @@ const Capture = forwardRef(({
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
-  if (!haveAllModelsBeenStored) {
+  if (!haveAllModelsBeenStored || !predictionsHasLoaded) {
     return (
       <I18nextProvider i18n={i18n}>
         <ModelManager backgroundColor={colors.background} Sentry={Sentry} />

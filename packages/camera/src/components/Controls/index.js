@@ -89,7 +89,6 @@ export default function Controls({
           }, children)
         ))}
       </View>
-      )
     </I18nextProvider>
   );
 }

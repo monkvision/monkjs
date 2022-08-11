@@ -17,7 +17,7 @@ export default function useEmbeddedModel() {
   const startDb = useIndexedDb();
 
   const addModel = useCallback((name, model) => {
-    if (typeof name === 'string') {
+    if (typeof name === 'string' && (models && !!models[name])) {
       setModels((prevState) => ({ ...prevState, [name]: model }));
     }
   }, [models]);
@@ -45,7 +45,7 @@ export default function useEmbeddedModel() {
     return loadedModel;
   };
 
-  const downloadThenSaveModelAsync = async (name, uri, options = {}) => {
+  const downloadThenSaveModelAsync = useCallback(async (name, uri, options = {}) => {
     const buffer = await axios.get(uri, {
       ...options,
       responseType: 'arraybuffer',
@@ -54,12 +54,12 @@ export default function useEmbeddedModel() {
     await startDb(buffer.data, name);
 
     return buffer.data;
-  };
+  }, []);
 
-  const predictQualityCheck = useCallback(async (image, customModel) => {
+  const predictQualityCheck = useCallback(async (image) => {
     try {
-      const model = customModel ?? models[Models.imageQualityCheck.name];
-      log([`[Event] Using ${customModel ? 'a custom ' : 'loaded'} model`]);
+      const { imageQualityCheck } = Models;
+      const model = models[imageQualityCheck.name] ?? await loadModel(imageQualityCheck.name);
 
       if (!image || !model) {
         log([`[Event] ${!image ? 'image' : ''}, ${!model ? 'model' : ''} missing`]);
@@ -88,7 +88,13 @@ export default function useEmbeddedModel() {
 
       const imagePreprocessed = imagePreprocessing(tf, imageTensor, width, height);
 
-      return imageQualityCheckPrediction(tf, model, imagePreprocessed);
+      const predictions = await imageQualityCheckPrediction(tf, model, imagePreprocessed);
+
+      return {
+        blurriness_score: predictions['PartitionedCall:0'].arraySync()[0],
+        overexposure_score: predictions['PartitionedCall:1'].arraySync()[0],
+        underexposure_score: predictions['PartitionedCall:2'].arraySync()[0],
+      };
     } catch (e) {
       log([e]);
       return null;

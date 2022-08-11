@@ -1,19 +1,17 @@
 import { useCallback, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as tf from '@tensorflow/tfjs';
-import { decodeJpeg, fetch } from '@tensorflow/tfjs-react-native';
+import { decodeJpeg } from '@tensorflow/tfjs-react-native';
 
 import { asyncStorageIO } from './FileSystemIO';
 import { imagePreprocessing, imageQualityCheckPrediction } from './common';
 import Models from './const';
-import log from '../../utils/log';
 
 export default function useEmbeddedModel() {
-  const [useApi, setUseApi] = useState(true);
   const [models, setModels] = useState({});
 
   const addModel = useCallback((name, model) => {
-    if (typeof name === 'string') {
+    if (typeof name === 'string' && (models && !!models[name])) {
       setModels((prevState) => ({ ...prevState, [name]: model }));
     }
   }, [models]);
@@ -22,65 +20,66 @@ export default function useEmbeddedModel() {
     const keys = await AsyncStorage.getAllKeys();
     const storageKeyOccurence = keys.filter((k) => k.includes(name)).length;
 
-    return storageKeyOccurence !== 3;
+    return storageKeyOccurence === 3;
   };
 
   const loadModel = async (name) => {
-    if (models[name] !== null) {
-      setUseApi(false);
-      return;
-    }
-
     const keys = await AsyncStorage.getAllKeys();
     const storageKeyOccurence = keys.filter((k) => k.includes(name)).length;
 
     if (!name || storageKeyOccurence !== 3) {
-      log(['set UseApi to true']);
-      setUseApi(true);
-      return;
+      throw new Error(`Unable to find model ${name} in storage`);
     }
 
     await tf.ready();
 
     const loadedModel = await tf.loadGraphModel(asyncStorageIO(name));
     addModel(name, loadedModel);
-    log(['set useApi to false']);
-    setUseApi(false);
+
+    return loadedModel;
   };
 
-  const downloadThenSaveModelAsync = async (name, uri, options = {}) => {
-    const model = await tf.loadGraphModel(uri, options);
+  const downloadThenSaveModelAsync = useCallback(async (name, uri, options = {}) => {
+    await tf.ready();
+    const model = await tf.loadGraphModel(uri, { requestInit: options });
     await model.save(asyncStorageIO(name));
 
     return model;
-  };
+  }, []);
 
-  const predictQualityCheck = async (image, customModel) => {
+  /**
+   * @param {string} image.uri base64 string
+   * @param {number} image.height image height
+   * @param {number} image.width image width
+   * @return {Promise<Tensor4D[]> | import("@tensorflow/tfjs-core/dist/tensor").Tensor<import("@tensorflow/tfjs-core/dist/types").Rank.R4>} - a 4D tensor containing image info
+   */
+  const predictQualityCheck = useCallback(async (image) => {
     try {
-      const model = customModel ?? models[Models.imageQualityCheck.name];
+      const { imageQualityCheck } = Models;
+      const model = models[imageQualityCheck.name] ?? await loadModel(imageQualityCheck.name);
 
       if (!image || !model) { return null; }
 
-      const binaryImage = await fetch(image, {}, { isBinary: true });
-
-      const rawImageData = await binaryImage.arrayBuffer();
-      const buffer = new Uint8Array(rawImageData);
+      const buffer = Buffer.from(image.base64, 'base64');
       const imageTensor = decodeJpeg(buffer);
 
-      const [width, height] = imageTensor.shape;
+      const imagePreprocessed = imagePreprocessing(tf, imageTensor, image.width, image.height);
 
-      const imagePreprocessed = imagePreprocessing(tf, imageTensor, width, height);
+      const predictions = await imageQualityCheckPrediction(tf, model, imagePreprocessed);
 
-      return imageQualityCheckPrediction(tf, model, imagePreprocessed);
+      return {
+        blurriness_score: predictions[0].arraySync()[0],
+        overexposure_score: predictions[1].arraySync()[0],
+        underexposure_score: predictions[2].arraySync()[0],
+      };
     } catch (e) {
-      log([e]);
+      console.error(e);
       return null;
     }
-  };
+  }, [models]);
 
   return {
     models,
-    useApi,
     isModelStored,
     loadModel,
     downloadThenSaveModelAsync,
