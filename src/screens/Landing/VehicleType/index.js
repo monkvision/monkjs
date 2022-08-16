@@ -2,6 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import { Chip } from 'react-native-paper';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+
 import iconsDictionary from './icons';
 
 const styles = StyleSheet.create({
@@ -11,7 +13,8 @@ const styles = StyleSheet.create({
   },
   vehicleTypeChip: {
     margin: 2,
-    marginRight: 12,
+    marginBottom: 4,
+    marginRight: 4,
     alignItems: 'center',
     justifyContent: 'center',
     height: 33,
@@ -39,6 +42,8 @@ const styles = StyleSheet.create({
 });
 
 export default function VehicleType({ selected, onSelect, loading, locallySelected, colors }) {
+  const { t } = useTranslation();
+
   const icons = useMemo(
     () => iconsDictionary(colors.text),
     [colors.text],
@@ -67,7 +72,7 @@ export default function VehicleType({ selected, onSelect, loading, locallySelect
         >
           <View style={styles.layout}>
             <Text style={[styles.text, { color: colors.text }]}>
-              {icons[key].name}
+              {t(icons[key].name)}
             </Text>
             {icons[key].icon}
           </View>

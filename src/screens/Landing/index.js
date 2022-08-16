@@ -197,7 +197,6 @@ export default function Landing() {
               <Inspection {...i} key={`landing-inspection-${i.id}`} />
             )))}
           <List.Section>
-            <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <List.Subheader>Select vehicle type</List.Subheader>
             <VehicleType
               selected={inspection?.vehicle?.vehicleType || vehicleType}
@@ -206,6 +205,7 @@ export default function Landing() {
               locallySelected={vehicleType}
               loading={updateInspectionVehicle.state.loading}
             />
+            <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <FlatList
               data={ExpoConstants.manifest.extra.options}
               renderItem={renderListItem}

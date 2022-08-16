@@ -25,6 +25,17 @@ const fr = {
         DONE: 'Terminé !',
         ERROR: 'Erreur !',
       },
+      vehicle: {
+        type: {
+          cuv: 'Multisegment',
+          hatchback: 'Véhicule à hayon',
+          minivan: 'Fourgonnette',
+          pickup: 'Pickup',
+          sedan: 'Berline',
+          suv: 'Véhicule de sport',
+          van: 'Camionnette',
+        },
+      },
     },
     landing: {
       logoDescription: 'Inspectez votre voiture avec',

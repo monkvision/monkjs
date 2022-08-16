@@ -25,6 +25,17 @@ const en = {
         DONE: 'Has finished!',
         ERROR: 'Failed!',
       },
+      vehicle: {
+        type: {
+          cuv: 'Crossover',
+          hatchback: 'City',
+          minivan: 'Minivan',
+          pickup: 'Pickup',
+          sedan: 'Sedan',
+          suv: 'Large SUV',
+          van: 'Van',
+        },
+      },
     },
     landing: {
       logoDescription: 'Inspect your car with',
