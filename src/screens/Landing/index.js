@@ -79,7 +79,7 @@ export default function Landing() {
   }, [inspectionId, navigation, isAuthenticated, vehicleType]);
 
   const renderListItem = useCallback(({ item, index }) => {
-    const { title, icon, value, description } = item;
+    const { title, icon, value } = item;
     const isVin = value === 'vinNumber';
     const vin = inspection?.vehicle?.vin;
 
@@ -108,7 +108,7 @@ export default function Landing() {
           icon: ICON_BY_STATUS[task.status],
         };
       }
-      return { status: t(description), icon: 'chevron-right' };
+      return { status: null, icon: 'chevron-right' };
     };
 
     const left = () => <List.Icon icon={icon} />;

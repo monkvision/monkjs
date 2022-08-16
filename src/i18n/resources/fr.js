@@ -3,19 +3,19 @@ const fr = {
     appLoading: 'Lancement de l\'app...',
     inspection: {
       vinNumber: {
-        title: 'Numéro VIN (Vehicle Identification Number)',
+        title: 'Lecture du VIN (vehicle identification number)',
         description: 'Détectez-le avec votre caméra ou rentrez-le manuellement',
       },
       damageDetection: {
-        title: 'Tour de véhicule extérieur',
+        title: 'Détection de dégats sur la carrosserie',
         description: 'Détection de dégâts',
       },
       interior: {
-        title: 'Tour de véhicule intérieur',
+        title: 'État des lieux de l’intérieur',
         description: 'Détection de dégâts',
       },
       wheelsAnalysis: {
-        title: 'Analyse des roues',
+        title: 'Analyses des roues (jantes et enjoliveurs)',
         description: 'Détails à propos de l\'état des jantes',
       },
       status: {
@@ -27,13 +27,13 @@ const fr = {
       },
       vehicle: {
         type: {
-          cuv: 'Multisegment',
-          hatchback: 'Véhicule à hayon',
-          minivan: 'Fourgonnette',
-          pickup: 'Pickup',
+          cuv: 'Crossover',
+          hatchback: 'Citadine',
+          minivan: 'Familiale',
+          pickup: 'Pick-up',
           sedan: 'Berline',
-          suv: 'Véhicule de sport',
-          van: 'Camionnette',
+          suv: 'SUV',
+          van: 'Utilitaire',
         },
       },
     },
