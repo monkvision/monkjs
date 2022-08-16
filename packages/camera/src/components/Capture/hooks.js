@@ -84,15 +84,16 @@ export function useTakePictureAsync({ camera, isFocused, Sentry }) {
     exif: true,
     skipProcessing: true,
   }) => {
-    const takePicture = camera.current?.(Platform.OS === 'web' ? 'takePicture' : 'takePictureAsync');
+    const funcName = Platform.OS === 'web' ? 'takePicture' : 'takePictureAsync';
+    const takePicture = camera?.current[funcName];
     const takePictureOptions = Platform.OS === 'web' ? undefined : options;
 
     transaction?.finish();
     setTransaction(null);
-    if (takePictureOptions) {
-      return takePicture(options);
-    }
 
+    if (takePictureOptions) {
+      return takePicture(takePictureOptions);
+    }
     return takePicture();
   }, [camera, isFocused, transaction]);
 }

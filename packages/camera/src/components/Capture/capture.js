@@ -339,14 +339,14 @@ const Capture = forwardRef(({
   }, [api, onChange, states]);
 
   useEffect(() => {
-    if (haveAllModelsBeenStored) {
+    if (['offline', 'semi-offline'].includes(connectionMode) && haveAllModelsBeenStored) {
       Object.keys(Models).forEach(async (modelKey) => {
         if (!models[Models[modelKey].name]) {
           await loadModel(Models[modelKey].name);
         }
       });
     }
-  }, [haveAllModelsBeenStored, models]);
+  }, [connectionMode, haveAllModelsBeenStored, models]);
 
   useEffect(() => { onUploadsChange(states, api); }, [uploads]);
   useEffect(() => { onComplianceChange(states, api); }, [compliance]);
@@ -423,7 +423,7 @@ const Capture = forwardRef(({
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
-  if (!haveAllModelsBeenStored || !predictionsHasLoaded) {
+  if (['offline', 'semi-offline'].includes(connectionMode) && (!haveAllModelsBeenStored || !predictionsHasLoaded)) {
     return (
       <I18nextProvider i18n={i18n}>
         <ModelManager
