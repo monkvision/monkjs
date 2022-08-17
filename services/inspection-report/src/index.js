@@ -18,6 +18,7 @@ import theme from 'config/theme';
 import App from 'views/App';
 
 import reportWebVitals from './reportWebVitals';
+import './i18n';
 
 function Root() {
   return (
