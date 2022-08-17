@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 import { useNavigate } from 'react-router-dom';
-// import LanguageSwitch from './LanguageSwitch';
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useAuth0();
@@ -111,10 +110,6 @@ export default function ResponsiveAppBar() {
               Inspections
             </Button>
           </Box>
-
-          {/* langauge switch */}
-          {/* <LanguageSwitch /> */}
-
           {user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open user menu">
