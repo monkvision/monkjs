@@ -40,6 +40,7 @@
     "postinstall": "yarn run build:all"
   },
   "dependencies": {
+    "@babel/helper-string-parser": "^7.18.10",
     "@expo/match-media": "^0.3.0",
     "@expo/vector-icons": "^12.0.0",
     "@expo/webpack-config": "^0.16.19",

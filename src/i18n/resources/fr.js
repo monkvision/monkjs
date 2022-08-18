@@ -1,6 +1,9 @@
 const fr = {
   translation: {
     appLoading: 'Lancement de l\'app...',
+    snackbar: {
+      dismiss: 'Fermer',
+    },
     inspection: {
       vinNumber: {
         title: 'Numéro VIN (Vehicle Identification Number)',
@@ -32,6 +35,7 @@ const fr = {
       resetInspection: 'Recommencer l\'inspection',
       lastInspection: 'Dernière inspection',
       signOut: 'Se Déconnecter',
+      workflowReminder: 'Veuillez compléter toutes les tâches afin de pouvoir générer votre rapport PDF.',
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',

@@ -55,19 +55,6 @@ const options = [
     ],
     taskName: 'damage_detection',
   },
-  {
-    value: 'interior',
-    title: 'inspection.interior.title',
-    description: 'inspection.interior.description',
-    icon: 'car-seat',
-    sightIds: [
-      'IqwSM3', // Front seats
-      'rj5mhm', // Back seats
-      'qhKA2z', // Trunk
-      'rSvk2C', // Dashboard
-    ],
-    taskName: 'damage_detection',
-  },
   // {
   //   value: 'commando',
   //   title: 'Data collection',
