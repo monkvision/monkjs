@@ -46,7 +46,13 @@ export default function InspectionCreate() {
 
   const route = useRoute();
 
-  const { inspectionId: idFromParams, selectedMod: selected, vin, mode } = route.params || {};
+  const {
+    inspectionId: idFromParams,
+    selectedMod: selected,
+    vin,
+    mode,
+    ...params
+  } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
   const [authError, setAuthError] = useState(false);
@@ -80,14 +86,15 @@ export default function InspectionCreate() {
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
 
-    const params = {
+    const args = {
       inspectionId,
       sightIds: option.sightIds,
       taskName: option.taskName,
       selectedMode: selected,
+      ...params,
     };
 
-    navigation.navigate(names.INSPECTION_CAPTURE, params);
+    navigation.navigate(names.INSPECTION_CAPTURE, args);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
   useFocusEffect(useCallback(() => {
