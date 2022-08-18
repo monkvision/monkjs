@@ -3,6 +3,5 @@ export { default as InspectionCreate } from './InspectionCreate';
 export { default as InspectionVehicleUpdate } from './InspectionVehicleUpdate';
 export { default as InspectionList } from './InspectionList';
 export { default as InspectionPrompt } from './InspectionPrompt';
-export { default as InspectionRedirect } from './InspectionRedirect';
 export { default as Landing } from './Landing';
 export { default as SignIn } from './Authentication/SignIn';
