@@ -16,6 +16,7 @@ import styles from './styles';
 import Sentry from '../../config/sentry';
 import useSnackbar from '../../hooks/useSnackbar';
 import { setTag } from '../../config/sentryPlatform';
+import DamageDetectionTooltip from './damageDetectionTooltip';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -63,12 +64,14 @@ export default function InspectionCapture() {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
-  const { inspectionId, sightIds, taskName } = route.params;
+  const { inspectionId, sightIds, taskName, selectedMode } = route.params;
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
+
+  const damageDetectionTooltipRef = useRef();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -173,6 +176,15 @@ export default function InspectionCapture() {
     }
   }, [success, isFocused]);
 
+  const handleProceed = useCallback(() => {
+    if (selectedMode === 'car360') {
+      navigation.navigate(names.INSPECTION_CAPTURE, { selectedMod: 'interior', inspectionId });
+    }
+    if (selectedMode === 'interior') {
+      navigation.navigate(names.INSPECTION_CAPTURE, { selectedMod: 'car360', inspectionId });
+    }
+  }, [selectedMode, inspectionId]);
+
   const captureRef = useRef();
 
   const settings = useSettings({ camera: captureRef.current?.camera });
@@ -194,6 +206,11 @@ export default function InspectionCapture() {
 
   return (
     <View style={styles.root}>
+      <DamageDetectionTooltip
+        ref={damageDetectionTooltipRef}
+        onFinish={() => setSuccess(true)}
+        onContinue={handleProceed}
+      />
       <Settings ref={settingsRef} settings={settings} />
       <Capture
         ref={captureRef}
@@ -211,7 +228,7 @@ export default function InspectionCapture() {
         onChange={handleChange}
         settings={settings}
         enableComplianceCheck={enableComplianceCheck}
-        onComplianceCheckFinish={() => setSuccess(true)}
+        onComplianceCheckFinish={damageDetectionTooltipRef.current?.open}
         colors={colors}
         Sentry={Sentry}
 

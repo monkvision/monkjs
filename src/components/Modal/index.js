@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 
-const Modal = forwardRef(({ onSelect, title, items }, ref) => {
+const Modal = forwardRef(({ onSelect, title, items, children }, ref) => {
   const { colors } = useTheme();
   const [modal, setModal] = useState(false);
 
@@ -16,19 +16,34 @@ const Modal = forwardRef(({ onSelect, title, items }, ref) => {
 
   if (!modal) { return null; }
 
+  if (children) {
+    return (
+      <View style={styles.root}>
+        <View style={styles.container}>
+          <View style={[styles.playground, { backgroundColor: colors.background }]}>
+            {children }
+          </View>
+          <Pressable
+            style={[styles.pressOutside, { backgroundColor: colors.surface }]}
+            onPress={close}
+          />
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={styles.root}>
       <View style={styles.container}>
         <View style={[styles.playground, { backgroundColor: colors.background }]}>
           <List.Subheader>{title}</List.Subheader>
           {items.map((item) => !item.hidden && (
-          <Menu.Item
-            onPress={() => { onSelect(item.value); close(); }}
-            title={item.title}
-            key={item.value}
-            style={styles.item}
-            {...item}
-          />
+            <Menu.Item
+              onPress={() => { onSelect(item.value); close(); }}
+              title={item.title}
+              key={item.value}
+              style={styles.item}
+              {...item}
+            />
           ))}
         </View>
         <Pressable
@@ -41,14 +56,24 @@ const Modal = forwardRef(({ onSelect, title, items }, ref) => {
 });
 
 Modal.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string, value: PropTypes.string,
     }),
-  ).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-
+  ),
+  onSelect: PropTypes.func,
+  title: PropTypes.string,
 };
 
+Modal.defaultProps = {
+  children: null,
+  items: [],
+  onSelect: () => {},
+  title: '',
+
+};
 export default Modal;

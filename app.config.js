@@ -1,5 +1,5 @@
 import eas from './eas.json';
-import palette from './palettes/monk-theme.json';
+import palette from './palettes/acv-theme.json';
 
 const buildNumber = 1;
 
@@ -9,9 +9,9 @@ const app = {
   companyName: 'Monk',
   logo: {
     source: {
-      uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
+      // uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
       // uri: 'https://www.pinclipart.com/picdir/middle/381-3818109_emr-group-emr-recycling-clipart.png',
-      // uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
+      uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
     },
     width: 160,
     height: 71,
@@ -161,6 +161,19 @@ const options = [
     },
     taskName: 'damage_detection',
   },
+  {
+    value: 'interior',
+    title: 'inspection.interior.title',
+    description: 'inspection.interior.description',
+    icon: 'car-seat',
+    sightIds: [
+      'IqwSM3', // Front seats
+      'rj5mhm', // Back seats
+      'qhKA2z', // Trunk
+      'rSvk2C', // Dashboard
+    ],
+    taskName: 'damage_detection',
+  },
   // {
   //   value: 'commando',
   //   title: 'Data collection',
@@ -182,19 +195,19 @@ const options = [
   //   ],
   //   taskName: 'damage_detection',
   // },
-  // {
-  //   value: 'wheels',
-  //   title: 'inspection.wheelsAnalysis.title',
-  //   description: 'inspection.wheelsAnalysis.description',
-  //   icon: 'circle-double',
-  //   sightIds: [
-  //     'xQKQ0bXS', // Front wheel left
-  //     '8_W2PO8L', // Rear wheel left
-  //     'rN39Y3HR', // Rear wheel right
-  //     'PuIw17h0', // Front wheel right
-  //   ],
-  //   taskName: 'wheel_analysis',
-  // },
+  {
+    value: 'wheels',
+    title: 'inspection.wheelsAnalysis.title',
+    description: 'inspection.wheelsAnalysis.description',
+    icon: 'circle-double',
+    sightIds: [
+      'xQKQ0bXS', // Front wheel left
+      '8_W2PO8L', // Rear wheel left
+      'rN39Y3HR', // Rear wheel right
+      'PuIw17h0', // Front wheel right
+    ],
+    taskName: 'wheel_analysis',
+  },
 ];
 
 export default {
