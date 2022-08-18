@@ -49,7 +49,12 @@ export default function InspectionCreate() {
   const route = useRoute();
 
   const {
-    inspectionId: idFromParams, selectedMod: selected, vin, vehicle, mode,
+    inspectionId: idFromParams,
+    selectedMod: selected,
+    vin,
+    mode,
+    vehicle,
+    ...params
   } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
@@ -82,25 +87,26 @@ export default function InspectionCreate() {
     const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
     if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
 
-    const params = {
+    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
+
+    const args = {
       inspectionId,
       sightIds: option.sightIds,
       taskName: option.taskName,
       selectedMode: selected,
+      ...params,
     };
-
-    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
 
     if (option.value === CAR_360) {
       const vehicleType = vehicle.vehicleType || 'cuv';
       navigation.navigate(
         names.INSPECTION_CAPTURE,
-        { ...params, sightIds: option.sightIds[vehicleType], pop: 'popo' },
+        { ...args, sightIds: option.sightIds[vehicleType], pop: 'popo' },
       );
       return;
     }
 
-    navigation.navigate(names.INSPECTION_CAPTURE, params);
+    navigation.navigate(names.INSPECTION_CAPTURE, args);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
   useFocusEffect(useCallback(() => {

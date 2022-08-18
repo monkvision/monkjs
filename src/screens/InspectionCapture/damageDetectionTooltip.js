@@ -17,15 +17,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const DamageDetectionTooltip = forwardRef(({ onFinish, onContinue }, ref) => {
+const getModeTarget = (selectedMode) => (selectedMode === 'car360' ? 'interior' : 'exterior');
+
+const DamageDetectionTooltip = forwardRef(({ onFinish, onContinue, selectedMode }, ref) => {
   const { colors } = useTheme();
   return (
     <Modal ref={ref}>
-      <Card.Title title="Would you like to inspect the vehicle interior?" />
+      <Card.Title title={`Would you like to inspect the car from ${getModeTarget(selectedMode)}?`} />
       <Card.Content>
         <Paragraph style={{ color: colors.text }}>
-          If you skip this step, you wont be able to inspect the car from inside after going back
-          tho the inspection page
+          If you press FINISH DAMAGE DETECTION,
+          both exterior and interior modes will be inaccessible
         </Paragraph>
       </Card.Content>
       <Card.Actions style={styles.actions}>
@@ -45,10 +47,12 @@ const DamageDetectionTooltip = forwardRef(({ onFinish, onContinue }, ref) => {
 DamageDetectionTooltip.propTypes = {
   onContinue: PropTypes.func,
   onFinish: PropTypes.func,
+  selectedMode: PropTypes.string,
 };
 DamageDetectionTooltip.defaultProps = {
   onContinue: () => {},
   onFinish: () => {},
+  selectedMode: '',
 };
 
 export default DamageDetectionTooltip;
