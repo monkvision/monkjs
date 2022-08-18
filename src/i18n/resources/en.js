@@ -1,6 +1,9 @@
 const en = {
   translation: {
     appLoading: 'Launching the App...',
+    snackbar: {
+      dismiss: 'Dismiss',
+    },
     inspection: {
       vinNumber: {
         title: 'VIN (Vehicle Identification Number)',
@@ -32,6 +35,7 @@ const en = {
       resetInspection: 'Reset Inspection',
       lastInspection: 'Last inspection',
       signOut: 'Sign Out',
+      workflowReminder: 'Complete all the tasks before to be able to generate your PDF report.',
     },
     vinModal: {
       title: 'How to set VIN number?',

@@ -2,8 +2,9 @@ import { useSentry, useInterval, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
+import useSnackbar from 'hooks/useSnackbar';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -25,14 +26,6 @@ import Sentry from '../../config/sentry';
 import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
 
-const STATUSES = {
-  NOT_STARTED: 'Waiting to be started',
-  TODO: 'In progress...',
-  IN_PROGRESS: 'In progress...',
-  DONE: 'Has finished!',
-  ERROR: 'Failed!',
-};
-
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
   DONE: 'check-bold',
@@ -46,6 +39,7 @@ export default function Landing() {
   const { height } = useWindowDimensions();
   const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
+  const { setShowTranslatedMessage, Notice } = useSnackbar(true);
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
@@ -143,10 +137,25 @@ export default function Landing() {
 
   const intervalId = useInterval(start, 1000);
 
+  const numberOfInspectionsNotStarted = useMemo(() => ExpoConstants.manifest.extra.options
+    .filter(({ value }) => {
+      const taskName = ExpoConstants.manifest.extra.options
+        .find((o) => o.value === value)?.taskName;
+      const task = Object.values(inspection?.tasks || {})
+        .find((taskObj) => taskObj?.name === taskName);
+      return task?.status === monk.types.ProgressStatus.NOT_STARTED;
+    }).length, [inspection]);
+
   useFocusEffect(useCallback(() => {
     start();
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
+
+  useEffect(() => {
+    if (numberOfInspectionsNotStarted > 0) {
+      setShowTranslatedMessage('landing.workflowReminder');
+    }
+  }, [numberOfInspectionsNotStarted]);
 
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');
@@ -202,6 +211,7 @@ export default function Landing() {
           </Card.Actions>
         </Card>
       </Container>
+      <Notice />
     </View>
   );
 }
