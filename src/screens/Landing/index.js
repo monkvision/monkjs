@@ -25,6 +25,8 @@ import styles from './styles';
 import Sentry from '../../config/sentry';
 import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
+import useGetPdfReport from './useGetPdfReport';
+import useUpdateOneTask from './useUpdateOneTask';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -53,8 +55,25 @@ export default function Landing() {
     () => getInspection?.denormalizedEntities[0],
     [getInspection],
   );
-
   const selectors = useVinModal({ isAuthenticated, inspectionId });
+
+  const allTasksAreCompleted = useMemo(
+    () => inspection?.tasks?.length && inspection?.tasks.every(({ status }) => status === 'DONE'),
+    [inspection?.tasks],
+  );
+
+  const shouldUpdateOcr = useMemo(() => inspection?.vehicle?.vin && inspection?.tasks?.find(
+    (item) => item.name === 'images_ocr',
+  ), [inspection?.vehicle?.vin, inspection?.tasks]);
+  // NOTE(Ilyass):We update the ocr once the vin got changed manually,
+  // so that the user can generate the pdf
+  useUpdateOneTask(inspectionId, 'images_ocr', shouldUpdateOcr);
+
+  const {
+    handleDownLoad,
+    reportUrl,
+    loading: pdfLoading,
+  } = useGetPdfReport(inspectionId, allTasksAreCompleted);
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
@@ -137,25 +156,16 @@ export default function Landing() {
 
   const intervalId = useInterval(start, 1000);
 
-  const numberOfInspectionsNotStarted = useMemo(() => ExpoConstants.manifest.extra.options
-    .filter(({ value }) => {
-      const taskName = ExpoConstants.manifest.extra.options
-        .find((o) => o.value === value)?.taskName;
-      const task = Object.values(inspection?.tasks || {})
-        .find((taskObj) => taskObj?.name === taskName);
-      return task?.status === monk.types.ProgressStatus.NOT_STARTED;
-    }).length, [inspection]);
-
   useFocusEffect(useCallback(() => {
     start();
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
 
   useEffect(() => {
-    if (numberOfInspectionsNotStarted > 0) {
+    if (inspectionId && !allTasksAreCompleted) {
       setShowTranslatedMessage('landing.workflowReminder');
-    }
-  }, [numberOfInspectionsNotStarted]);
+    } else { setShowTranslatedMessage(null); }
+  }, [allTasksAreCompleted, inspectionId]);
 
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');
@@ -204,6 +214,14 @@ export default function Landing() {
             {!isEmpty(inspection) ? (
               <Button color={colors.text} onPress={handleReset}>{t('landing.resetInspection')}</Button>
             ) : null}
+            <Button
+              color={colors.text}
+              onPress={handleDownLoad}
+              disabled={!allTasksAreCompleted || !reportUrl}
+              loading={pdfLoading}
+            >
+              {t('Download pdf')}
+            </Button>
             <LanguageSwitch />
             {isAuthenticated && (
             <SignOut onSuccess={handleReset} />
