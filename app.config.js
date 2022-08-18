@@ -1,5 +1,5 @@
 import eas from './eas.json';
-import palette from './palettes/monk-theme.json';
+import palette from './palettes/acv-theme.json';
 
 const buildNumber = 1;
 
@@ -9,9 +9,9 @@ const app = {
   companyName: 'Monk',
   logo: {
     source: {
-      uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
+      // uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
       // uri: 'https://www.pinclipart.com/picdir/middle/381-3818109_emr-group-emr-recycling-clipart.png',
-      // uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
+      uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
     },
     width: 160,
     height: 71,
@@ -38,20 +38,30 @@ const options = [
     description: 'inspection.damageDetection.description',
     icon: 'axis-z-rotate-counterclockwise',
     sightIds: [
-      'vLcBGkeh', // Front
-      'xfbBpq3Q', // Front Bumper Side Left
-      'zjAIjUgU', // Front Lateral Left
-      'T24v9XS8', // Front Door Left
-      'UHZkpCuK', // Rocker panel left
-      'ClEZSucK', // Rear Lateral Left
-      'j8YHvnDP', // Rear Bumper Side Left
-      'XyeyZlaU', // Rear
-      'LDRoAPnk', // Rear Bumper Side Right
-      'QqBpHiVP', // Rear Lateral Right
-      'B5s1CWT-', // Rocker panel right
-      '2wVqenwP', // Front Door Right
-      '0U14gFyk', // Front Lateral Right
-      'CELBsvYD', // Front Bumper Side Right
+      'ffocus18-XlfgjQb9',
+      // 'ffocus18-3TiCVAaN',
+      // 'ffocus18-43ljK5xC',
+      // 'ffocus18-GgOSpLl6',
+      // 'ffocus18-x_1SE7X-',
+      // 'ffocus18-ZXKOomlv',
+      // 'ffocus18-yo9eBDW6',
+      // 'ffocus18-6FX31ty1',
+      // 'ffocus18-S3kgFOBb',
+      // 'ffocus18-IoqRrmlA',
+      // 'ffocus18-9MeSIqp7',
+      // 'ffocus18-e5netaNs',
+      // 'ffocus18-L2UM_68Q',
+      // 'ffocus18-UBB7HoxF',
+      // 'ffocus18-D0wktScm',
+      // 'ffocus18-iQvwc6wa',
+      // 'ffocus18-jWOq2CNN',
+      // 'ffocus18-8WjvbtMD',
+      // 'ffocus18-P2jFq1Ea',
+      // 'ffocus18-FdsQDaTW',
+      // 'ffocus18-ts3buSD1',
+      // 'ffocus18-KkeGvT-F',
+      // 'ffocus18-seOy3jwd',
+      // 'ffocus18-lRDlWiwR',
     ],
     taskName: 'damage_detection',
   },

@@ -80,7 +80,13 @@ export default function InspectionCreate() {
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
 
-    const params = { inspectionId, sightIds: option.sightIds, taskName: option.taskName };
+    const params = {
+      inspectionId,
+      sightIds: option.sightIds,
+      taskName: option.taskName,
+      selectedMode: selected,
+    };
+
     navigation.navigate(names.INSPECTION_CAPTURE, params);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 

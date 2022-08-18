@@ -25,14 +25,6 @@ import Sentry from '../../config/sentry';
 import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
 
-const STATUSES = {
-  NOT_STARTED: 'Waiting to be started',
-  TODO: 'In progress...',
-  IN_PROGRESS: 'In progress...',
-  DONE: 'Has finished!',
-  ERROR: 'Failed!',
-};
-
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
   DONE: 'check-bold',
