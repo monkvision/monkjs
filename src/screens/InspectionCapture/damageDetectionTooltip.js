@@ -17,17 +17,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const getModeTarget = (selectedMode) => (selectedMode === 'car360' ? 'interior' : 'exterior');
+const getModeTarget = (selectedMode) => (selectedMode === 'car360'
+  ? { title: 'interior', p: 'inside' } : { title: 'exterior', p: 'outside' });
 
 const DamageDetectionTooltip = forwardRef(({ onFinish, onContinue, selectedMode }, ref) => {
   const { colors } = useTheme();
   return (
     <Modal ref={ref}>
-      <Card.Title title={`Would you like to inspect the car from ${getModeTarget(selectedMode)}?`} />
+      <Card.Title title={`Would you like to inspect the vehicle ${getModeTarget(selectedMode).title} now?`} />
       <Card.Content>
         <Paragraph style={{ color: colors.text }}>
-          If you press FINISH DAMAGE DETECTION,
-          both exterior and interior modes will be inaccessible
+          {`If you skip this step, you will not be able to inspect the ${getModeTarget(selectedMode).p} of the vehicle from the homepage later on`}
         </Paragraph>
       </Card.Content>
       <Card.Actions style={styles.actions}>
@@ -38,7 +38,7 @@ const DamageDetectionTooltip = forwardRef(({ onFinish, onContinue, selectedMode 
         >
           Proceed to interior
         </Button>
-        <Button mode="text" onPress={onFinish}>Finish damage detection</Button>
+        <Button mode="text" onPress={onFinish}>Finish vehicle tour</Button>
       </Card.Actions>
     </Modal>
   );

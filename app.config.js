@@ -275,7 +275,7 @@ export default {
   },
 
   web: {
-    favicon: './assets/favicon.png',
+    favicon: './assets/acv-favicon.png',
     backgroundColor: palette['color-background'],
     display: 'fullscreen',
     orientation: 'landscape',
