@@ -12,42 +12,35 @@ import log from '../../utils/log';
 tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/');
 
 export default function useEmbeddedModel() {
-  const [models, setModels] = useState({});
-
   const startDb = useIndexedDb();
 
-  const addModel = useCallback((name, model) => {
-    if (typeof name === 'string' && (models && !!models[name])) {
-      setModels((prevState) => ({ ...prevState, [name]: model }));
-    }
-  }, [models]);
-
-  const isModelStored = async (name) => {
+  const isModelStored = useCallback(async (name) => {
     const storedModels = await startDb(null, name);
     const model = storedModels[name];
 
     return !!model;
-  };
+  }, []);
 
-  const loadModel = async (name) => {
-    const storedModels = await startDb(null, name);
-    const model = storedModels[name];
-
-    log(['[Event] Model :', name, 'loaded from indexedDB.']);
+  const loadModel = useCallback(async (name) => {
+  //  const storedModels = await startDb(null, name);
+//    const model = storedModels[name];
+    const model = require('./model.tflite');
 
     if (!model) {
       throw new Error(`Unable to find model ${name} in storage.`);
     }
 
+    log(['[Event] Model :', name, 'loaded from indexedDB.']);
+
     const loadedModel = await tflite.loadTFLiteModel(model);
-    addModel(name, loadedModel);
+
+    log(['[Event] Model :', name, 'tf model loaded.']);
 
     return loadedModel;
-  };
+  }, []);
 
   const downloadThenSaveModelAsync = useCallback(async (name, uri, options = {}) => {
     const buffer = await axios.get(uri, {
-      ...options,
       responseType: 'arraybuffer',
     });
     await startDb(buffer.data, name);
@@ -55,14 +48,11 @@ export default function useEmbeddedModel() {
     return buffer.data;
   }, []);
 
-  const predictQualityCheck = useCallback(async (image) => {
+  const predictQualityCheck = useCallback(async (image, model) => {
     try {
-      const { imageQualityCheck } = Models;
-      const model = models[imageQualityCheck.name] ?? await loadModel(imageQualityCheck.name);
-
       if (!image || !model) {
         log([`[Event] ${!image ? 'image' : ''}, ${!model ? 'model' : ''} missing`]);
-        return null;
+        throw new Error('No model');
       }
 
       const blob = await axios.get(image.uri, {
@@ -98,10 +88,9 @@ export default function useEmbeddedModel() {
       log([e]);
       return null;
     }
-  }, [models]);
+  }, []);
 
   return {
-    models,
     isModelStored,
     loadModel,
     downloadThenSaveModelAsync,

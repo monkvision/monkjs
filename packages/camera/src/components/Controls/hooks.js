@@ -70,7 +70,7 @@ const useHandlers = ({
         if (Sentry) {
           complianceSpan = new Span('embedded-compliance-time', SentryConstants.operation.FUNC);
         }
-        const details = await predictions[Models.imageQualityCheck.name](picture);
+        const details = await predictions[Models.imageQualityCheck.name](picture, state.models);
         const result = {
           details,
           is_compliant:

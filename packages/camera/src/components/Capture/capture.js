@@ -119,7 +119,8 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
-  const [haveAllModelsBeenStored, setHaveAllModelsBeenStored] = useState(false);
+  const [haveAllModelsBeenStored, setHaveAllModelsBeenStored] = useState(true);
+  const [models, setModels] = useState(null);
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
@@ -190,6 +191,7 @@ const Capture = forwardRef(({
    * }}
    */
   const states = useMemo(() => ({
+    models,
     compliance,
     embeddedCompliance,
     isReady,
@@ -197,7 +199,8 @@ const Capture = forwardRef(({
     sights,
     uploads,
     lastTakenPicture,
-  }), [compliance, embeddedCompliance, isReady, settings, sights, uploads, lastTakenPicture]);
+  }), [models, compliance, embeddedCompliance,
+    isReady, settings, sights, uploads, lastTakenPicture]);
 
   // END STATES //
   // METHODS //
@@ -220,7 +223,7 @@ const Capture = forwardRef(({
     Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
-  const { models, isModelStored, loadModel, predictions } = useEmbeddedModel();
+  const { loadModel, predictions } = useEmbeddedModel();
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
@@ -251,8 +254,6 @@ const Capture = forwardRef(({
     takePictureAsync,
   }));
 
-  const { errorHandler } = useSentry(Sentry);
-
   const handleCloseComplianceNotification = useCallback(() => {
     states.embeddedCompliance.dispatch({
       type: Actions.embeddedCompliance.UPDATE_EMBEDDED_COMPLIANCE,
@@ -276,7 +277,6 @@ const Capture = forwardRef(({
   // END METHODS //
   // CONSTANTS //
 
-  const embeddedModels = [Models.imageQualityCheck];
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
     () => Object.values(uploads.state).every(({ status, picture, uploadCount }) => (picture || status === 'rejected') && uploadCount >= 1),
@@ -309,10 +309,6 @@ const Capture = forwardRef(({
     return false;
   }, [embeddedCompliance.state, sights.state.current.id]);
 
-  const predictionsHasLoaded = useMemo(() => (
-    Object.keys(Models).every((modelKey) => Object.keys(predictions).includes(modelKey))
-  ), [predictions]);
-
   // END CONSTANTS //
   // HANDLERS //
 
@@ -338,33 +334,23 @@ const Capture = forwardRef(({
     }
   }, [api, onChange, states]);
 
-  useEffect(() => {
-    if (['offline', 'semi-offline'].includes(connectionMode) && haveAllModelsBeenStored) {
-      Object.keys(Models).forEach(async (modelKey) => {
-        if (!models[Models[modelKey].name]) {
-          await loadModel(Models[modelKey].name);
-        }
-      });
-    }
-  }, [connectionMode, haveAllModelsBeenStored, models]);
-
   useEffect(() => { onUploadsChange(states, api); }, [uploads]);
   useEffect(() => { onComplianceChange(states, api); }, [compliance]);
   useEffect(() => { onSightsChange(states, api); }, [sights]);
   useEffect(() => { onSettingsChange(states, api); }, [settings]);
+
   useEffect(() => {
-    if (!haveAllModelsBeenStored) {
-      Promise.all(embeddedModels.map((model) => model.name).map((name) => isModelStored(name)))
-        .then((results) => {
-          if (results.every((modelIsStored) => modelIsStored)) {
-            setHaveAllModelsBeenStored(true);
-          }
-        }).catch((err) => {
-          const additionalTags = { models: embeddedModels };
-          errorHandler(err, SentryConstants.type.COMPLIANCE, null, additionalTags);
+    if (['offline', 'semi-offline'].includes(connectionMode) && !models && haveAllModelsBeenStored) {
+      console.log('Loading model from capture count');
+      loadModel(Models.imageQualityCheck.name)
+        .then((model) => {
+          setModels(model);
+        })
+        .catch((err) => {
+          console.log('[Error] cannot load model', err);
         });
     }
-  }, []);
+  }, [haveAllModelsBeenStored, models]);
 
   // END EFFECTS //
   // RENDERING //
@@ -412,7 +398,7 @@ const Capture = forwardRef(({
           style={[styles.overlay, overlaySize]}
         />
       ) : null}
-      {loading === true ? (
+      {loading === true || (['offline', 'semi-offline'].includes(connectionMode) && models === null) ? (
         <View style={styles.loading}>
           <ActivityIndicator
             size="large"
@@ -421,9 +407,10 @@ const Capture = forwardRef(({
         </View>
       ) : null}
     </>
-  ), [isReady, loading, overlay, overlaySize, primaryColor]);
+  ), [isReady, loading, overlay, overlaySize, models, connectionMode, primaryColor]);
 
-  if (['offline', 'semi-offline'].includes(connectionMode) && (!haveAllModelsBeenStored || !predictionsHasLoaded)) {
+  /*
+  if (['offline', 'semi-offline'].includes(connectionMode) && (!haveAllModelsBeenStored && !models)) {
     return (
       <I18nextProvider i18n={i18n}>
         <ModelManager
@@ -434,6 +421,7 @@ const Capture = forwardRef(({
       </I18nextProvider>
     );
   }
+  */
 
   if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
     return (

@@ -47,7 +47,7 @@ export default function Landing() {
   const vinOptionsRef = useRef();
 
   const getInspection = useGetInspection(inspectionId);
-  const [connectionMode, setConnectionMode] = useState('online');
+  const [connectionMode, setConnectionMode] = useState('semi-offline');
 
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
