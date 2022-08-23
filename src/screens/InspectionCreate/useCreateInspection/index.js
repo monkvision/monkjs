@@ -14,12 +14,12 @@ export default function useCreateInspection(vin) {
     const taskOptions = { status: monk.types.ProgressStatusUpdate.NOT_STARTED };
     const tasks = {
       wheelAnalysis: { ...taskOptions, useLongshots: true },
-      imagesOcr: taskOptions,
       damageDetection: taskOptions,
+      ...(vin ? {} : { imagesOcr: taskOptions }),
     };
 
     return monk.entity.inspection.createOne({ tasks, vehicle: { vin } });
-  }, []);
+  }, [vin]);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
     setInspectionId(result);
