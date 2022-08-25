@@ -1090,27 +1090,6 @@
     },
     "templateImage": "eWZsEThb.opengl.png"
   },
-  "au5yyzOT": {
-    "id": "au5yyzOT",
-    "label": {
-      "en": "VIN",
-      "fr":  "VIN"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensionsXyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "vin 1m",
-      "locationXyz": [0.0, 5.0, 1.0],
-      "rotationXyzRad": [0.0, -0.0, 0.0],
-      "focalLength": 26.0
-    },
-    "templateImage": "au5yyzOT.opengl.png"
-  },
   "2RFF3Uf8": {
     "id": "2RFF3Uf8",
     "label": {
@@ -2750,7 +2729,7 @@
     "id": "ffocus18-ZXKOomlv",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit Avant Gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2758,9 +2737,9 @@
       "make": "Ford",
       "model": "Focus",
       "dimensions_xyz": [
-        1.9800000190734863,
-        4.420000076293945,
-        1.4600000381469727
+        1.98,
+        4.42,
+        1.46
       ]
     },
     "camera": {
@@ -2770,13 +2749,14 @@
         -0.45,
         1.7
       ],
-      "rotation_xyz_rad": [
-        1.0471975803375244,
+      "rotation_xyz_deg": [
+        60.0,
         -0.0,
-        0.8726646304130554
+        50.0
       ],
       "focal_length": 26.0
     },
+    "angle_order": 63.43496,
     "template_image": "ffocus18-ZXKOomlv.opengl.png"
   },
   "ffocus18-L_oZ0LyK": {
@@ -2816,7 +2796,7 @@
     "id": "ffocus18-lRDlWiwR",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr":  "Pare-chocs Avant Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2824,25 +2804,26 @@
       "make": "Ford",
       "model": "Focus",
       "dimensions_xyz": [
-        1.9800000190734863,
-        4.420000076293945,
-        1.4600000381469727
+        1.98,
+        4.42,
+        1.46
       ]
     },
     "camera": {
-      "name": "335 front bumper side right z-45 0.8m",
+      "name": "335 front bumper right z-45 0.8m",
       "location_xyz": [
         -1.2,
         -2.6,
         0.8
       ],
-      "rotation_xyz_rad": [
-        1.326450228691101,
+      "rotation_xyz_deg": [
+        76.0,
         -0.0,
-        -0.7853981852531433
+        -45.0
       ],
       "focal_length": 26.0
     },
+    "angle_order": 335.22486,
     "template_image": "ffocus18-lRDlWiwR.opengl.png"
   },
   "ffocus18-zgLKB-Do": {
@@ -2948,7 +2929,7 @@
     "id": "ffocus18-9MeSIqp7",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière Gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2956,9 +2937,9 @@
       "make": "Ford",
       "model": "Focus",
       "dimensions_xyz": [
-        1.9800000190734863,
-        4.420000076293945,
-        1.4600000381469727
+        1.98,
+        4.42,
+        1.46
       ]
     },
     "camera": {
@@ -2968,13 +2949,14 @@
         2.5,
         1.0
       ],
-      "rotation_xyz_rad": [
-        1.3089969158172607,
+      "rotation_xyz_deg": [
+        75.0,
         -0.0,
-        2.356194496154785
+        135.0
       ],
       "focal_length": 26.0
     },
+    "angle_order": 150.75118,
     "template_image": "ffocus18-9MeSIqp7.opengl.png"
   },
   "ffocus18-X2LDjCvr": {
@@ -2989,25 +2971,26 @@
       "make": "Ford",
       "model": "Focus",
       "dimensions_xyz": [
-        1.9800000190734863,
-        4.420000076293945,
-        1.4600000381469727
+        1.98,
+        4.42,
+        1.46
       ]
     },
     "camera": {
-      "name": "180 rear z-180 1.4m",
+      "name": "180 rear old z-180 1.4m",
       "location_xyz": [
         0.0,
         3.1,
         1.4
       ],
-      "rotation_xyz_rad": [
-        1.1693706512451172,
+      "rotation_xyz_deg": [
+        67.0,
         -0.0,
-        -3.141592502593994
+        -180.0
       ],
       "focal_length": 26.0
     },
+    "angle_order": 180.0,
     "template_image": "ffocus18-X2LDjCvr.opengl.png"
   },
   "ffocus18-Wo8PkcLF": {
@@ -3047,7 +3030,7 @@
     "id": "ffocus18-jWOq2CNN",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr":  "Arrière Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3055,9 +3038,9 @@
       "make": "Ford",
       "model": "Focus",
       "dimensions_xyz": [
-        1.9800000190734863,
-        4.420000076293945,
-        1.4600000381469727
+        1.98,
+        4.42,
+        1.46
       ]
     },
     "camera": {
@@ -3067,13 +3050,14 @@
         2.5,
         1.0
       ],
-      "rotation_xyz_rad": [
-        1.3089969158172607,
+      "rotation_xyz_deg": [
+        75.0,
         -0.0,
-        -2.356194496154785
+        -135.0
       ],
       "focal_length": 26.0
     },
+    "angle_order": 209.24883,
     "template_image": "ffocus18-jWOq2CNN.opengl.png"
   },
   "ffocus18-XlfgjQb9": {
@@ -3141,6 +3125,482 @@
       "focal_length": 26.0
     },
     "template_image": "ffocus18-3TiCVAaN.opengl.png"
+  },
+  "ffocus18-x_1SE7X-": {
+    "id": "ffocus18-x_1SE7X-",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "54 front lateral low left z80 0.85m",
+      "location_xyz": [
+        2.05,
+        -1.5,
+        0.85
+      ],
+      "rotation_xyz_deg": [
+        80.0,
+        -0.0,
+        80.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 53.80679,
+    "template_image": "ffocus18-x_1SE7X-.opengl.png"
+  },
+  "ffocus18-yo9eBDW6": {
+    "id": "ffocus18-yo9eBDW6",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "90 lateral low left z90 0.8m",
+      "location_xyz": [
+        2.5,
+        0.0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90.0,
+        -0.0,
+        90.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 90.0,
+    "template_image": "ffocus18-yo9eBDW6.opengl.png"
+  },
+  "ffocus18-6FX31ty1": {
+    "id": "ffocus18-6FX31ty1",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "89 lateral full left z90 1.6m",
+      "location_xyz": [
+        3.7,
+        -0.05,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        75.0,
+        -0.0,
+        90.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 89.22578,
+    "template_image": "ffocus18-6FX31ty1.opengl.png"
+  },
+  "ffocus18-S3kgFOBb": {
+    "id": "ffocus18-S3kgFOBb",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "124 rear lateral low left z100 0.88m",
+      "location_xyz": [
+        2.1,
+        1.4,
+        0.88
+      ],
+      "rotation_xyz_deg": [
+        80.0,
+        -0.0,
+        100.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 123.69007,
+    "template_image": "ffocus18-S3kgFOBb.opengl.png"
+  },
+  "ffocus18-IoqRrmlA": {
+    "id": "ffocus18-IoqRrmlA",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "144 rear full left z135 1.5m",
+      "location_xyz": [
+        1.75,
+        2.45,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        66.0,
+        -0.0,
+        135.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 144.46232,
+    "template_image": "ffocus18-IoqRrmlA.opengl.png"
+  },
+  "ffocus18-L2UM_68Q": {
+    "id": "ffocus18-L2UM_68Q",
+    "label": {
+      "en": "Rear Low",
+      "fr":  "Arrière - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "180 rear low z-180 0.75m",
+      "location_xyz": [
+        0.0,
+        3.15,
+        0.75
+      ],
+      "rotation_xyz_deg": [
+        90.0,
+        -0.0,
+        -180.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 180.0,
+    "template_image": "ffocus18-L2UM_68Q.opengl.png"
+  },
+  "ffocus18-p6mBZGcW": {
+    "id": "ffocus18-p6mBZGcW",
+    "label": {
+      "en": "Rear Roof",
+      "fr":  "Toit Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "180 rear roof z-180 1.7m",
+      "location_xyz": [
+        0.0,
+        2.4,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        59.0,
+        -0.0,
+        -180.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 180.0,
+    "template_image": "ffocus18-p6mBZGcW.opengl.png"
+  },
+  "ffocus18-iQvwc6wa": {
+    "id": "ffocus18-iQvwc6wa",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr":  "Toit Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "201 rear roof IGNORE_MIRROR right z-140 1.7m",
+      "location_xyz": [
+        -0.8,
+        2.05,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        58.0,
+        -0.0,
+        -140.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 201.31791,
+    "template_image": "ffocus18-iQvwc6wa.opengl.png"
+  },
+  "ffocus18-8WjvbtMD": {
+    "id": "ffocus18-8WjvbtMD",
+    "label": {
+      "en": "Rear Full Right",
+      "fr":  "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "216 rear full right z-135 1.5m",
+      "location_xyz": [
+        -1.75,
+        2.45,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        66.0,
+        -0.0,
+        -135.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 215.53768,
+    "template_image": "ffocus18-8WjvbtMD.opengl.png"
+  },
+  "ffocus18-P2jFq1Ea": {
+    "id": "ffocus18-P2jFq1Ea",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr":  "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "236 rear lateral low right z-100 0.88m",
+      "location_xyz": [
+        -2.1,
+        1.4,
+        0.88
+      ],
+      "rotation_xyz_deg": [
+        80.0,
+        -0.0,
+        -100.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 236.30993,
+    "template_image": "ffocus18-P2jFq1Ea.opengl.png"
+  },
+  "ffocus18-FdsQDaTW": {
+    "id": "ffocus18-FdsQDaTW",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr":  "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "271 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -3.7,
+        -0.05,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        75.0,
+        -0.0,
+        -90.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 270.77422,
+    "template_image": "ffocus18-FdsQDaTW.opengl.png"
+  },
+  "ffocus18-ts3buSD1": {
+    "id": "ffocus18-ts3buSD1",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr":  "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "270 lateral low right z-90 0.8m",
+      "location_xyz": [
+        -2.5,
+        0.0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90.0,
+        -0.0,
+        -90.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 270.0,
+    "template_image": "ffocus18-ts3buSD1.opengl.png"
+  },
+  "ffocus18-KkeGvT-F": {
+    "id": "ffocus18-KkeGvT-F",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr":  "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "306 front lateral low right z-80 0.85m",
+      "location_xyz": [
+        -2.05,
+        -1.5,
+        0.85
+      ],
+      "rotation_xyz_deg": [
+        80.0,
+        -0.0,
+        -80.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 306.19321,
+    "template_image": "ffocus18-KkeGvT-F.opengl.png"
+  },
+  "ffocus18-seOy3jwd": {
+    "id": "ffocus18-seOy3jwd",
+    "label": {
+      "en": "Front Full Right",
+      "fr":  "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "325 front full right z-45 1.5m",
+      "location_xyz": [
+        -1.8,
+        -2.6,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        66.0,
+        -0.0,
+        -45.0
+      ],
+      "focal_length": 26.0
+    },
+    "angle_order": 325.30485,
+    "template_image": "ffocus18-seOy3jwd.opengl.png"
   },
   "ftransit18-wyXf7MTv": {
     "id": "ftransit18-wyXf7MTv",
