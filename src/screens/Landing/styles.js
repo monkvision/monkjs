@@ -47,6 +47,7 @@ export default StyleSheet.create({
   },
   actions: {
     justifyContent: 'flex-end',
+    flexWrap: 'wrap',
   },
   listLoading: {
     marginHorizontal: utils.styles.spacing(2),

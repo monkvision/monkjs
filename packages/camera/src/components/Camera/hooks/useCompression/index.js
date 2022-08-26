@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import webEnc from './webp_enc';
 
 const defaultOptions = {
-  quality: 85,
+  quality: 90,
   baseline: false,
   arithmetic: false,
   progressive: true,
@@ -18,7 +18,7 @@ const defaultOptions = {
   auto_subsample: true,
   chroma_subsample: 2,
   separate_chroma_quality: false,
-  chroma_quality: 85,
+  chroma_quality: 90,
 };
 
 export default function useCompression() {
