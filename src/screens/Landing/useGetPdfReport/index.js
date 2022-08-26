@@ -1,5 +1,6 @@
 import monk from '@monkvision/corejs';
 import { useRequest } from '@monkvision/toolkit';
+import ExpoConstants from 'expo-constants';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
@@ -25,12 +26,12 @@ const download = Platform.OS === 'web' ? webDownload : nativeDownload;
 
 const payload = {
   pricing: false,
-  customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
-  client_name: 'Monk',
+  customer: ExpoConstants.manifest.extra.PDF_REPORT_CUSTOMER,
+  client_name: ExpoConstants.manifest.extra.PDF_REPORT_CLIENT_NAME,
   language: 'fr',
 };
 
-export default function useGetPdfReport(inspectionId, when) {
+export default function useGetPdfReport(inspectionId) {
   const [reportUrl, setReportUrl] = useState(null);
 
   // this ref is used to run the get pdf request by itself (before its declaration) in line 38
@@ -39,19 +40,19 @@ export default function useGetPdfReport(inspectionId, when) {
   const handleDownLoad = useCallback(() => download(reportUrl, inspectionId), [reportUrl]);
 
   const getPdfAxiosRequest = useCallback(
-    async () => monk.entity.inspection.getInspectionReportPdf(inspectionId),
+    () => monk.entity.inspection.getInspectionReportPdf(inspectionId),
     [inspectionId],
   );
 
   const getPdfRequest = useRequest({
     request: getPdfAxiosRequest,
     onRequestSuccess: (res) => setReportUrl(res.axiosResponse.data.pdf_url),
-    onRequestFailure: () => ref.current.state.count <= 1 && setTimeout(ref.current?.getReport, 2000)
-    ,
+    onRequestFailure: () => ref.current.state.count <= 1
+      && setTimeout(ref.current?.getReport, 2000),
   });
 
   const axiosRequest = useCallback(
-    async () => monk.entity.inspection.requestInspectionReportPdf(inspectionId, payload),
+    () => monk.entity.inspection.requestInspectionReportPdf(inspectionId, payload),
     [inspectionId],
   );
 
@@ -66,16 +67,12 @@ export default function useGetPdfReport(inspectionId, when) {
   );
 
   const requestReport = useCallback(
-    async () => request.state.count < 1 && request.start(),
+    () => request.state.count < 1 && request.start(),
     [request],
   );
-  const getReport = useCallback(async () => getPdfRequest.start(), []);
+  const getReport = useCallback(() => getPdfRequest.start(), []);
 
   ref.current = { getReport, ...getPdfRequest };
 
-  useEffect(() => {
-    if (when) { requestReport(); }
-  }, [requestReport, when]);
-
-  return { handleDownLoad, reportUrl, loading };
+  return { requestReport, handleDownLoad, reportUrl, loading };
 }
