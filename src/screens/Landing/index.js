@@ -171,10 +171,6 @@ export default function Landing() {
           </View>
         )}
         <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
-          {!isEmpty(getInspection.denormalizedEntities) && (
-            getInspection.denormalizedEntities.map((i) => (
-              <Inspection {...i} key={`landing-inspection-${i.id}`} />
-            )))}
           <List.Section>
             <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <FlatList
@@ -192,6 +188,10 @@ export default function Landing() {
             <SignOut onSuccess={handleReset} />
             )}
           </Card.Actions>
+          {!isEmpty(getInspection.denormalizedEntities) && (
+            getInspection.denormalizedEntities.map((i) => (
+              <Inspection {...i} key={`landing-inspection-${i.id}`} />
+            )))}
         </Card>
       </Container>
     </View>
