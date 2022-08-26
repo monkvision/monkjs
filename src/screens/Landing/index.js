@@ -58,22 +58,34 @@ export default function Landing() {
   const selectors = useVinModal({ isAuthenticated, inspectionId });
 
   const allTasksAreCompleted = useMemo(
-    () => inspection?.tasks?.length && inspection?.tasks.every(({ status }) => status === 'DONE'),
+    () => inspection?.tasks?.length && inspection?.tasks
+      .every(({ status }) => status === monk.types.ProgressStatus.DONE),
     [inspection?.tasks],
   );
 
-  const shouldUpdateOcr = useMemo(() => inspection?.vehicle?.vin && inspection?.tasks?.find(
-    (item) => item.name === 'images_ocr',
-  ), [inspection?.vehicle?.vin, inspection?.tasks]);
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
-  useUpdateOneTask(inspectionId, 'images_ocr', shouldUpdateOcr);
+  const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
 
   const {
+    requestReport,
     handleDownLoad,
     reportUrl,
     loading: pdfLoading,
-  } = useGetPdfReport(inspectionId, allTasksAreCompleted);
+  } = useGetPdfReport(inspectionId);
+
+  useEffect(() => {
+    if (allTasksAreCompleted) {
+      requestReport();
+    }
+  }, [allTasksAreCompleted]);
+
+  useEffect(() => {
+    if (inspection?.vehicle?.vin
+      && inspection?.tasks?.find((item) => item.name === monk.types.TaskName.IMAGES_OCR)) {
+      startUpdateOneTask();
+    }
+  }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import monk from '@monkvision/corejs';
@@ -6,11 +6,11 @@ import { useRequest } from '@monkvision/toolkit';
 
 import useAuth from 'hooks/useAuth';
 
-export default function useUpdateOneTask(id, taskName, when) {
+export default function useUpdateOneTask(id, taskName) {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth();
 
-  const axiosRequest = useCallback(async () => monk.entity.task.updateOne(id, taskName, {
+  const axiosRequest = useCallback(() => monk.entity.task.updateOne(id, taskName, {
     status: monk.types.ProgressStatus.TODO,
   }), [id, taskName]);
 
@@ -26,7 +26,9 @@ export default function useUpdateOneTask(id, taskName, when) {
     canRequest,
   });
 
-  useEffect(() => {
-    if (when && request.state.count < 1) { request.start(); }
-  }, [when, request.start]);
+  const startUpdateOneTask = useCallback(() => {
+    if (request.state.count < 1) { request.start(); }
+  }, [request.start]);
+
+  return { startUpdateOneTask };
 }

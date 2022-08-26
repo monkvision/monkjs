@@ -44,28 +44,29 @@ export default function ImageList({ itemData }) {
         open={!!anchorEl}
       />
       <MUIImageList>
-        {itemData.map((item) => {
-          const polygonsProps = item?.damages?.length > 0 ? { damages:
-              item.damages.map(({ imageRegion, damageType, elementId }) => (
-                { damageType, polygons: imageRegion.specification.polygons, id: elementId }
-              )) } : {};
+        {itemData.map((item) =>
+        // const polygonsProps = item?.damages?.length > 0 ? { damages:
+        //     item.damages.map(({ imageRegion, damageType, elementId }) => (
+        //       { damageType, polygons: imageRegion.specification.polygons, id: elementId }
+        //     )) } : {};
 
-          return (item ? (
+          // eslint-disable-next-line implicit-arrow-linebreak
+          (item ? (
             <ImageListItem key={item.path}>
-              <DamageHighlight
-                image={{
-                  height: item.imageHeight,
-                  width: item.imageWidth,
-                  source: { uri: item.path },
-                  id: item.id,
-                }}
-                // options={{
-                //   label: {
-                //     fontSize: 12,
-                //   },
-                // }}
-                {...polygonsProps}
-              />
+              {/* <DamageHighlight */}
+              {/*  image={{ */}
+              {/*    height: item.imageHeight, */}
+              {/*    width: item.imageWidth, */}
+              {/*    source: { uri: item.path }, */}
+              {/*    id: item.id, */}
+              {/*  }} */}
+              {/*  // options={{ */}
+              {/*  //   label: { */}
+              {/*  //     fontSize: 12, */}
+              {/*  //   }, */}
+              {/*  // }} */}
+              {/*  {...polygonsProps} */}
+              {/* /> */}
               <ImageListItemBar
                 title={item?.additionalData?.label?.en}
                 actionIcon={(
@@ -80,8 +81,7 @@ export default function ImageList({ itemData }) {
                 )}
               />
             </ImageListItem>
-          ) : null);
-        })}
+          ) : null))}
       </MUIImageList>
     </>
   );
