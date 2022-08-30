@@ -11,7 +11,6 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 import { Menu } from 'components';
-import { DamageHighlight } from '@monkvision/visualization';
 
 export default function ImageList({ itemData }) {
   const navigate = useNavigate();
