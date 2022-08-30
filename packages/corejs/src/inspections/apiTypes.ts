@@ -349,9 +349,23 @@ export type CreatedInspection = Pick<Inspection,
 export type AddAdditionalInfoResponse = CoreJsResponseWithId<IdResponse<'id'>, string, 'id'>;
 
 /**
+ * The API response when fetching a PDF report URL.
+ */
+export type InspectionPdfResponse = {
+  /**
+   * The ID of the inspection.
+   */
+  id: string,
+  /**
+   * The URL at which the PDF can be downloaded.
+   */
+  pdfUrl: string,
+};
+
+/**
  * Get the inspection report pdf
  */
-export type GetInspectionReportPdf = CoreJsResponseWithId<IdResponse<'url'>, string, 'id'>;
+export type GetInspectionReportPdf = CoreJsResponseWithId<InspectionPdfResponse, string, 'id'>;
 
 /**
  * Request the inspection report pdf
@@ -361,7 +375,13 @@ export type RequestInspectionReportPdf = CoreJsResponseWithId<IdResponse<'id'>, 
 /**
  * The inspection report pdf params
  */
-export type RequestInspectionReportPdfParams = { pricing: false, customer: string, client_name: string, vin: string };
+export type RequestInspectionReportPdfParams = {
+  pricing: false,
+  customer: string,
+  clientName: string,
+  vin?: string,
+  language?: 'fr' | 'en';
+};
 
 /**
  * The type returned by the addAdditionalDataToOneInspection method.

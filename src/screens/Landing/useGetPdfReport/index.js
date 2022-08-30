@@ -1,9 +1,8 @@
 import monk from '@monkvision/corejs';
-import { useRequest } from '@monkvision/toolkit';
 import ExpoConstants from 'expo-constants';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
+import { useCallback, useState } from 'react';
+import { Platform } from 'react-native';
 
 const webDownload = (url, inspectionId) => {
   const link = document.createElement('a');
@@ -24,55 +23,60 @@ const nativeDownload = async (url, inspectionId) => {
 
 const download = Platform.OS === 'web' ? webDownload : nativeDownload;
 
-const payload = {
+const requestPdfPayload = {
   pricing: false,
   customer: ExpoConstants.manifest.extra.PDF_REPORT_CUSTOMER,
-  client_name: ExpoConstants.manifest.extra.PDF_REPORT_CLIENT_NAME,
+  clientName: ExpoConstants.manifest.extra.PDF_REPORT_CLIENT_NAME,
   language: 'fr',
 };
 
-export default function useGetPdfReport(inspectionId) {
+export default function useGetPdfReport(inspectionId, onError) {
   const [reportUrl, setReportUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // this ref is used to run the get pdf request by itself (before its declaration) in line 38
-  const ref = useRef({});
+  const timeout = useCallback((ms) => new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  }), []);
 
   const handleDownLoad = useCallback(() => download(reportUrl, inspectionId), [reportUrl]);
 
-  const getPdfAxiosRequest = useCallback(
+  const requestPdfReport = useCallback(
+    () => monk.entity.inspection.requestInspectionReportPdf(inspectionId, requestPdfPayload),
+    [inspectionId, requestPdfPayload],
+  );
+
+  const getPdfUrl = useCallback(
     () => monk.entity.inspection.getInspectionReportPdf(inspectionId),
     [inspectionId],
   );
 
-  const getPdfRequest = useRequest({
-    request: getPdfAxiosRequest,
-    onRequestSuccess: (res) => setReportUrl(res.axiosResponse.data.pdf_url),
-    onRequestFailure: () => ref.current.state.count <= 1
-      && setTimeout(ref.current?.getReport, 2000),
-  });
-
-  const axiosRequest = useCallback(
-    () => monk.entity.inspection.requestInspectionReportPdf(inspectionId, payload),
-    [inspectionId],
+  const preparePdf = useCallback(
+    async () => {
+      setLoading(true);
+      await requestPdfReport();
+      let done = false;
+      while (!done) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await timeout(2000);
+          // eslint-disable-next-line no-await-in-loop
+          const res = await getPdfUrl();
+          if (res.axiosResponse?.data?.pdfUrl) {
+            setReportUrl(res.axiosResponse.data.pdfUrl);
+            done = true;
+            setLoading(false);
+          }
+        } catch (err) {
+          if (err.status !== 422) {
+            console.error('Error while trying to fetch the pdf url :', err);
+            done = true;
+            setLoading(false);
+            if (onError) { onError(err); }
+          }
+        }
+      }
+    },
+    [inspectionId, requestPdfReport, getPdfUrl, setReportUrl, setLoading],
   );
-
-  const request = useRequest({
-    request: axiosRequest,
-    onRequestSuccess: () => setTimeout(getPdfRequest.start, 2000),
-  });
-
-  const loading = useMemo(
-    () => getPdfRequest.state.loading || request.state.loading,
-    [request, getPdfRequest],
-  );
-
-  const requestReport = useCallback(
-    () => request.state.count < 1 && request.start(),
-    [request],
-  );
-  const getReport = useCallback(() => getPdfRequest.start(), []);
-
-  ref.current = { getReport, ...getPdfRequest };
-
-  return { requestReport, handleDownLoad, reportUrl, loading };
+  return { preparePdf, handleDownLoad, loading, reportUrl };
 }
