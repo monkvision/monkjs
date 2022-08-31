@@ -26,6 +26,7 @@ import {
   GetOneInspectionOptions,
   GetOneInspectionResponse,
   InspectionPaginatedResponse,
+  InspectionPdfResponse,
   RequestInspectionReportPdf,
   RequestInspectionReportPdfParams,
 } from './apiTypes';
@@ -175,15 +176,13 @@ export async function createOne(createInspection: CreateInspection): Promise<Cre
  * Add additional information to an inspection.
  *
  * @param {string} id - The id of the inspection.
- * @param {boolean} data.pricing - The report pricing.
- * @param {boolean} data.customer - The report customer.
- * @param {boolean} data.client_name - The report client name.
- * @param {boolean} data.vin - The report vin.
+ * @param {RequestInspectionReportPdfParams} payload - The payload of the request.
  */
 export async function requestInspectionReportPdf(
   id: string,
-  data: RequestInspectionReportPdfParams,
+  payload: RequestInspectionReportPdfParams,
 ): Promise<RequestInspectionReportPdf> {
+  const data = mapKeysDeep(payload, (v, k) => snakeCase(k));
   const axiosResponse = await axios.request<IdResponse<'id'>>({
     ...config.axiosConfig,
     method: 'post',
@@ -208,11 +207,15 @@ export async function requestInspectionReportPdf(
  * @param {string} id - The id of the inspection.
  */
 export async function getInspectionReportPdf(id: string): Promise<GetInspectionReportPdf> {
-  const axiosResponse = await axios.request<IdResponse<'url'>>({
+  const axiosResponse = await axios.request<InspectionPdfResponse>({
     ...config.axiosConfig,
     method: 'get',
     url: `/inspections/${id}/pdf`,
   });
+  axiosResponse.data = mapKeysDeep(
+    axiosResponse.data,
+    (v, k) => camelCase(k),
+  ) as unknown as InspectionPdfResponse;
 
   const entity: IdResponse<'id'> = {
     [idAttribute]: id,

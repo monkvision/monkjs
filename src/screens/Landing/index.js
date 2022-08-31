@@ -68,7 +68,7 @@ export default function Landing() {
   const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
 
   const {
-    requestReport,
+    preparePdf,
     handleDownLoad,
     reportUrl,
     loading: pdfLoading,
@@ -76,7 +76,7 @@ export default function Landing() {
 
   useEffect(() => {
     if (allTasksAreCompleted) {
-      requestReport();
+      preparePdf();
     }
   }, [allTasksAreCompleted]);
 

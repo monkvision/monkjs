@@ -15,7 +15,7 @@ const download = (url) => {
 const payload = {
   pricing: false,
   customer: 'monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=',
-  client_name: 'Monk',
+  clientName: 'Monk',
   language: 'fr',
 };
 
@@ -34,7 +34,7 @@ export default function useGetPdfReport(inspectionId) {
 
   const getPdfRequest = useRequest({
     request: getPdfAxiosRequest,
-    onRequestSuccess: (res) => setReportUrl(res.axiosResponse.data.pdf_url),
+    onRequestSuccess: (res) => setReportUrl(res.axiosResponse.data.pdfUrl),
     onRequestFailure: () => ref.current.state.count <= 1 && setTimeout(ref.current?.getReport, 2000)
     ,
   });
