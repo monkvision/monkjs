@@ -69,8 +69,6 @@ export default function useGetPdfReport(inspectionId, onError) {
         } catch (err) {
           if (err.status !== 422) {
             console.error('Error while trying to fetch the pdf url :', err);
-            done = true;
-            setLoading(false);
             if (onError) { onError(err); }
           }
         }
