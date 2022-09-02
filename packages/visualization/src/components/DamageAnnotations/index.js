@@ -1,9 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { Platform } from 'react-native';
-import PropTypes from 'prop-types';
-
 import { Circle, ClipPath, Defs, Ellipse, Svg } from 'react-native-svg';
 import { PinchGestureHandler } from 'react-native-gesture-handler';
+import PropTypes from 'prop-types';
+
+import monk from '@monkvision/corejs';
+
 import DamageImage from '../DamageImage';
 
 const DEFAULT_OPTIONS = {
@@ -21,14 +23,15 @@ const DEFAULT_OPTIONS = {
   },
 };
 
-export default function DamageHighlight({
+const DamageAnnotations = forwardRef(({
   image,
+  inspectionId,
   onAdd,
   onUpdate,
   options,
   clip,
   renderOptions,
-}) {
+}, ref) => {
   const [isPointAdded, setIsPointAdded] = useState(false);
   const [ellipse, setEllipse] = useState(null);
   const [ellWidth, setEllWidth] = useState(null);
@@ -125,6 +128,31 @@ export default function DamageHighlight({
     }
   }, [ellipse]);
 
+  useImperativeHandle(ref, () => ({
+    createDamageView: async (damageType, partType) => {
+      if (!pos.cx || !pos.cy || !ellHeight || !ellWidth) {
+        throw new Error(`${pos.cx ? '' : 'cx'}, ${pos.cy ? '' : 'cy'}, ${ellHeight ? '' : 'ry'}, ${ellWidth ? '' : 'rx'} is/are null`);
+      }
+
+      const rx = Math.abs(ellWidth - ellipse.cx);
+      const ry = Math.abs(ellHeight - ellipse.cy);
+
+      const newDamage = await monk.entity.damage.createOne(inspectionId, { damageType, partType });
+      const viewCreateProp = {
+        imageId: image.id,
+        damageId: newDamage.id,
+        boundingBox: {
+          xmin: pos.cx - rx,
+          ymin: pos.cy - ry,
+          width: rx * 2,
+          height: ry * 2,
+        },
+      };
+
+      return monk.entity.view.createOne(inspectionId, viewCreateProp);
+    },
+  }));
+
   const polygon = useMemo(() => (
     ellipse && (
       <Ellipse
@@ -132,9 +160,10 @@ export default function DamageHighlight({
         cy={pos ? pos.cy : ellipse.cy}
         rx={ellWidth ? Math.abs(ellWidth - ellipse.cx) : ellipse?.rx}
         ry={ellHeight ? Math.abs(ellHeight - ellipse.cy) : ellipse.ry}
-        stroke={options?.ellipse?.stroke?.color}
+        stroke={options?.ellipse?.stroke?.color ?? DEFAULT_OPTIONS.ellipse.stroke.color}
         fillOpacity={0} // On the web, by default it is fill in black
-        strokeWidth={options?.ellipse?.stroke?.strokeWidth}
+        strokeWidth={options?.ellipse?.stroke?.strokeWidth
+          ?? DEFAULT_OPTIONS.ellipse.stroke.strokeWidth}
         onMouseDown={() => setDragPos(true)}
         onPressIn={() => setDragPos(true)}
       />
@@ -210,9 +239,9 @@ export default function DamageHighlight({
       </Svg>
     </PinchGestureHandler>
   );
-}
+});
 
-DamageHighlight.propTypes = {
+DamageAnnotations.propTypes = {
   clip: PropTypes.bool,
   image: PropTypes.shape({
     height: PropTypes.number,
@@ -222,6 +251,7 @@ DamageHighlight.propTypes = {
     }),
     width: PropTypes.number, // original size
   }).isRequired,
+  inspectionId: PropTypes.string.isRequired,
   onAdd: PropTypes.func,
   onUpdate: PropTypes.func,
   options: PropTypes.shape({
@@ -257,7 +287,7 @@ DamageHighlight.propTypes = {
   }).isRequired,
 };
 
-DamageHighlight.defaultProps = {
+DamageAnnotations.defaultProps = {
   clip: true,
   onAdd: null,
   onUpdate: null,
