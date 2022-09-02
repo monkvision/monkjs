@@ -20,62 +20,70 @@ import { DamageHighlight } from '@monkvision/visualization';
 ```
 
 ``` javascript
-const image = {
-  id: "uuid", // image's uuid
-  width: 0, // original size of the image
-  height: 0,
-  source: {
-    uri: "https://my_image_path.monk.ai"
-  },
-};
-
-const polygons = [[[0, 0], [1, 0], [0, 1]], [[2, 0], [1, 1], [0, 2]]];
-const damages = [{ damageType: "Scratch", polygons, id }];
-
-<DamageHighlight image={image} damages={damages} />;
+<DamageHighlight images={inspection.images} damages={inspection.damages} />;
 ```
 
-The component's properties are from the result of an inspection. Both of them are a part of `inspection.images`.
+The component's properties are from the result of an inspection.
 
 ---
 
 # Props
 
 ## image
+> Contains all images information related to a single inspection. This can be retrieved on the `GET /inspections/:id` method
 
-``` javascript
-PropTypes.shape({
-  height: PropTypes.number,
-  id: PropTypes.string, // image's uuid
-  source: PropTypes.shape({
-    uri: PropTypes.string, // "https://my_image_path.monk.ai"
-  }),
-  width: PropTypes.number, // original size of the image
-})
+```js
+  images: PropTypes.arrayOf(PropTypes.shape({
+    additionalData: PropTypes.shape({
+      label: PropTypes.objectOf(PropTypes.string).isRequired,
+    }),
+    id: PropTypes.string.isRequired,
+    imageHeight: PropTypes.number.isRequired,
+    imageWidth: PropTypes.number.isRequired,
+    views: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      imageRegion: PropTypes.shape({
+        specification: PropTypes.shape({
+          boundingBox: PropTypes.shape({
+            height: PropTypes.number,
+            width: PropTypes.number,
+            xmin: PropTypes.number,
+            ymin: PropTypes.number,
+          }).isRequired,
+          polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
+        }),
+      }),
+    })),
+    path: PropTypes.string.isRequired,
+  })),
 ```
-
-``` javascript
-const image = { id: 'uuid', width: 0, height: 0, source: {
-  uri: 'https://my_image_path.monk.ai'
-}};
-
-<DamageHighlight image={image}/>
-```
-> `image.id` is mandatory for usage on web
-## damages
-`PropTypes.arrayOf({ polygons, ellipse, damageType, id })`
-
-Contains all damages information related to the picture:
 
 * **polygons** : Polygons are 3 levels depth matrix and come from `inspection.images[i].views[j].image_region.polygons`
   1. list all polygons of a `damage` on the current `image`
   2. list all `points` of a single `polygon`
   3. list of 2 number which is the position of a `point` in the plane (basically `x` and `y`)
-* **ellipse** : Contains all information related to the ellipse
-  * `rx`, `ry` are the radius of the ellipse on axis `x` and `y`
-  * `cx`, `cy` are the position of the center of the ellipse
-* **id** : id of the damage
-* **damageType** : type of the damage that will be display with the polygon/ellipse
+* **ellipse**: Ellipses are all damages added by the user and are displayed basing on the bounding box given when created on `DamageAnnotation` for example
+## damages
+
+> Contains all damages information related to a single inspection. This can be retrieved on the `GET /inspections/:id` method
+```js
+  damages: PropTypes.arrayOf(PropTypes.shape({
+    createdBy: PropTypes.string,
+    damageType: PropTypes.string,
+    deletedAt: PropTypes.string,
+    id: PropTypes.string,
+    inspectionId: PropTypes.string,
+  })),
+```
+
+## damageStyle
+`PropTypes.func`
+
+Callback that allows to customize the style of a polygon/ellipse depending on the damage. For instance:
+
+```js
+  <DamageHighlight damageStyle={(damage) => ({ stroke: damage.id === 'aaa' ? 'green' : 'yellow' } })} >
+```
 
 ## onPressDamage
 `PropTypes.func`
@@ -83,7 +91,11 @@ Contains all damages information related to the picture:
 Callback that allows to add an action at the on press event on a polygon or an ellipse. And allows to have the information of the selected damage.
 
 ### Arguments
-* damage `PropTypes.shape({ damageType, ellipse, id, polygons })` - Is the selected damage
+* damage : Is the selected damage
+
+```js
+  <DamageHighlight onPressDamage={(damage) => showDamageLabel(damage.damageType)} >
+```
 
 ## options
 
@@ -112,7 +124,12 @@ Allow to style the polygons or the ellipse
 ## width
 `PropTypes.number`
 
-Allows to set the image's displayed width. The height will be computed afterwards
+Allows to set the image's displayed width
+
+## height
+`PropTypes.number`
+
+Allows to set the image's displayed height
 
 ---
 # Methods
@@ -134,41 +151,15 @@ const saveImage = useCallback(async () => {
 <DamageHighlight ref={damageHighlightRef} />
 ```
 
----
-# Hooks
-## useProps
-
-Extract properties from an API server response and convert it to fit with `DamageHighlight` component props.
-
-### getDamages(image, damages)
-`PropTypes.func`
-
-Format a `damages` list to DamageHighlight `damages` prop (cf. [example](#Example))
-
-| Name      | Type            | Description                      |
-|-----------|-----------------|----------------------------------|
-| `image`   | [Image](#image) | A single inspection image object |
-| `damages` | [Damage]        | List of damage from api result   |
-
-### getImage(image)
-`PropTypes.func`
-
-Format an `image` to a classical [image](#image) object (cf. [example](#Example))
-
-| Name    | Type            | Description                      |
-|---------|-----------------|----------------------------------|
-| `image` | [Image](#image) | A single inspection image object |
-
 # Example
 ``` javascript
-import React, { useState, useEffect } from 'react';
-import { DamageHighlight, useProps } from '@monkvision/visualization';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import monk from '@monkvision/corejs';
+import { DamageHighlight } from '@monkvision/visualization';
 
 export default function App() {
-  const oneImage = inspection.images[0]; // result from API
-
   const ref = useRef(null);
-  const { getDamages, getImage } = useProps();
+  const [inspection, setInspection] = useState(null);
   const options = {
     polygons: {
       opacity: 0.5,
@@ -194,17 +185,26 @@ export default function App() {
     console.log(damage);
   }
 
+  useEffect(() => {
+    monk.entity.inspection.getOne(id)
+      .then(setInspection)
+      .catch(console.error)
+  }, [])
+
   return (
     <View>
-      <DamageHighlight
-        image={getImage(oneImage)}
-        damages={getDamages(oneImage, inspection.damages)}
-        options={options}
-        width={400}
-        height={180}
-        onPressDamage={console.log}
-        ref={ref}
-      />
+      {inspection.images.map((image) => (
+        <DamageHighlight
+          damages={damages}
+          damageStyle={(damage) => (damage.damageType === 'dent' ? { stroke: 'red', strokeDasharray: '5, 5' } : {})}
+          image={item}
+          onPressDamage={handlePressDamage}
+          options={options}
+          width={400}
+          height={180}
+          ref={ref}
+        />
+      ))}
     </View>
   )
 }
