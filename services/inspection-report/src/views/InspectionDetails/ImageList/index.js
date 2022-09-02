@@ -10,6 +10,8 @@ import MUIImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 
+import { DamageHighlight } from '@monkvision/visualization';
+
 import { Menu } from 'components';
 
 export default function ImageList({ itemData }) {
@@ -24,7 +26,7 @@ export default function ImageList({ itemData }) {
 
   // the selected wheel analysis if present
   const selectedWheelAnalysis = useMemo(
-    () => itemData.find((item) => item.id === imageId)?.wheelAnalysis,
+    () => itemData.images?.find((item) => item.id === imageId)?.wheelAnalysis,
     [itemData, imageId],
   );
 
@@ -43,29 +45,15 @@ export default function ImageList({ itemData }) {
         open={!!anchorEl}
       />
       <MUIImageList>
-        {itemData.map((item) =>
-        // const polygonsProps = item?.damages?.length > 0 ? { damages:
-        //     item.damages.map(({ imageRegion, damageType, elementId }) => (
-        //       { damageType, polygons: imageRegion.specification.polygons, id: elementId }
-        //     )) } : {};
-
-          // eslint-disable-next-line implicit-arrow-linebreak
+        {itemData.images.map((item, i) =>
           (item ? (
-            <ImageListItem key={item.path}>
-              {/* <DamageHighlight */}
-              {/*  image={{ */}
-              {/*    height: item.imageHeight, */}
-              {/*    width: item.imageWidth, */}
-              {/*    source: { uri: item.path }, */}
-              {/*    id: item.id, */}
-              {/*  }} */}
-              {/*  // options={{ */}
-              {/*  //   label: { */}
-              {/*  //     fontSize: 12, */}
-              {/*  //   }, */}
-              {/*  // }} */}
-              {/*  {...polygonsProps} */}
-              {/* /> */}
+            <ImageListItem key={`${item.path}-${i}`}>
+              {/* <DamageHighlight
+                damages={itemData.damages}
+                damageStyle={(damage) => (damage.damageType === 'dent' ? { stroke: 'red', strokeDasharray: '5, 5' } : {})}
+                image={item}
+                onPressDamage={(damage) => { console.log(damage); }}
+              /> */}
               <ImageListItemBar
                 title={item?.additionalData?.label?.en}
                 actionIcon={(
@@ -87,23 +75,40 @@ export default function ImageList({ itemData }) {
 }
 
 ImageList.propTypes = {
-  itemData: PropTypes.arrayOf(PropTypes.shape({
-    additionalData: PropTypes.shape({
-      label: PropTypes.objectOf(PropTypes.string).isRequired,
-    }),
-    damages: PropTypes.arrayOf(PropTypes.shape({
-      damageType: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      imageRegion: PropTypes.shape({
-        specification: PropTypes.shape({
-          polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
-        }),
+  itemData: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.shape({
+      additionalData: PropTypes.shape({
+        label: PropTypes.objectOf(PropTypes.string).isRequired,
       }),
+      id: PropTypes.string.isRequired,
+      imageHeight: PropTypes.number.isRequired,
+      imageWidth: PropTypes.number.isRequired,
+      views: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        imageRegion: PropTypes.shape({
+          specification: PropTypes.shape({
+            boundingBox: PropTypes.shape({
+              height: PropTypes.number,
+              width: PropTypes.number,
+              xmin: PropTypes.number,
+              ymin: PropTypes.number,
+            }).isRequired,
+            polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
+          }),
+        }),
+      })),
+      path: PropTypes.string.isRequired,
     })),
-    path: PropTypes.string.isRequired,
-  })),
+    damages: PropTypes.arrayOf(PropTypes.shape({
+      createdBy: PropTypes.string,
+      damageType: PropTypes.string,
+      deletedAt: PropTypes.string,
+      id: PropTypes.string,
+      inspectionId: PropTypes.string,
+    })),
+  }),
 };
 
 ImageList.defaultProps = {
-  itemData: [],
+  itemData: {},
 };
