@@ -141,6 +141,10 @@ To use methods that `DamageHighlight` exposes one has to create a component `ref
 `PropTypes.func`
 
 Create a damage containing a `damageType: PropTypes.string` and a `partType: PropTypes.string` then create a new view on the current image of the inspection with the bounding box calculated from the ellipse.
+## reset()
+`PropTypes.func`
+
+Clear the image from the created ellipse.
 
 ```js
 // ...

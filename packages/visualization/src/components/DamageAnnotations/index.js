@@ -26,8 +26,6 @@ const DEFAULT_OPTIONS = {
 const DamageAnnotations = forwardRef(({
   image,
   inspectionId,
-  onAdd,
-  onUpdate,
   options,
   clip,
   renderOptions,
@@ -96,11 +94,10 @@ const DamageAnnotations = forwardRef(({
         cy: y * RATIO_Y,
       });
     }
-    onUpdate(ellipse);
-  }, [dragX, dragY, dragPos, onUpdate, ellipse, RATIO_X, RATIO_Y]);
+  }, [dragX, dragY, dragPos, RATIO_X, RATIO_Y]);
 
   const handleAddPoint = useCallback((event) => {
-    if (!isPointAdded && event?.nativeEvent) {
+    if (!isPointAdded) {
       const ratioX = image.width / renderOptions.width;
       const ratioY = image.height / renderOptions.height;
       let cx; let
@@ -113,12 +110,11 @@ const DamageAnnotations = forwardRef(({
         cy = event.nativeEvent.locationY * ratioY;
       }
       const { rx, ry } = renderOptions.ellipse;
-      const newEllipse = { cx, cy, rx, ry };
+      const newEllipse = { cx, cy, rx: rx ?? 100, ry: ry ?? 100 };
       setIsPointAdded(true);
       setEllipse(newEllipse);
-      onAdd(ellipse);
     }
-  }, [isPointAdded, image.width, image.height, renderOptions, onAdd, ellipse]);
+  }, [isPointAdded, image.width, image.height, renderOptions]);
 
   const handlePinchGesture = useCallback((nativeEvent) => {
     const { scale } = nativeEvent;
@@ -128,28 +124,43 @@ const DamageAnnotations = forwardRef(({
     }
   }, [ellipse]);
 
+  const createDamageView = useCallback(async (damageType, partType) => {
+    if (((!pos?.cx || !pos?.cy) && (!ellipse?.cx || !ellipse?.cy))
+    && ((!ellHeight || !ellWidth) && (!ellipse?.rx || !ellipse?.ry))) {
+      throw new Error(`${pos?.cx && ellipse?.cx ? '' : 'cx'}, ${pos?.cy && ellipse?.cy ? '' : 'cy'}, ${ellHeight ? '' : 'ry'}, ${ellWidth ? '' : 'rx'} is/are null`);
+    }
+
+    const rx = Math.abs(ellWidth - ellipse.cx);
+    const ry = Math.abs(ellHeight - ellipse.cy);
+
+    const viewCreateProp = {
+      imageId: image.id,
+      boundingBox: {
+        xmin: (pos?.cx ?? ellipse.cy) - rx,
+        ymin: (pos?.cy ?? ellipse.cy) - ry,
+        width: rx * 2,
+        height: ry * 2,
+      },
+    };
+
+    const newDamage = await monk.entity.damage.createOne(inspectionId, { damageType, partType });
+
+    viewCreateProp.damageId = newDamage.id;
+
+    return monk.entity.view.createOne(inspectionId, viewCreateProp);
+  }, [pos, ellHeight, ellWidth, ellipse, image?.id, inspectionId]);
+
   useImperativeHandle(ref, () => ({
-    createDamageView: async (damageType, partType) => {
-      if (!pos.cx || !pos.cy || !ellHeight || !ellWidth) {
-        throw new Error(`${pos.cx ? '' : 'cx'}, ${pos.cy ? '' : 'cy'}, ${ellHeight ? '' : 'ry'}, ${ellWidth ? '' : 'rx'} is/are null`);
-      }
-
-      const rx = Math.abs(ellWidth - ellipse.cx);
-      const ry = Math.abs(ellHeight - ellipse.cy);
-
-      const newDamage = await monk.entity.damage.createOne(inspectionId, { damageType, partType });
-      const viewCreateProp = {
-        imageId: image.id,
-        damageId: newDamage.id,
-        boundingBox: {
-          xmin: pos.cx - rx,
-          ymin: pos.cy - ry,
-          width: rx * 2,
-          height: ry * 2,
-        },
-      };
-
-      return monk.entity.view.createOne(inspectionId, viewCreateProp);
+    createDamageView,
+    reset: () => {
+      setIsPointAdded(false);
+      setEllipse(null);
+      setEllWidth(null);
+      setEllHeight(null);
+      setPos(null);
+      setDragX(null);
+      setDragY(null);
+      setDragPos(null);
     },
   }));
 
@@ -240,6 +251,8 @@ const DamageAnnotations = forwardRef(({
     </PinchGestureHandler>
   );
 });
+
+export default DamageAnnotations;
 
 DamageAnnotations.propTypes = {
   clip: PropTypes.bool,
