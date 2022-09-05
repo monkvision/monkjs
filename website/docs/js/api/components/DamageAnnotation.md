@@ -52,7 +52,7 @@ Set the clip path property to show separate the polygons of the picture.
 ``` javascript
 PropTypes.shape({
   height: PropTypes.number,
-  id: PropTypes.string, // image's uuid
+  id: PropTypes.string, // image's uuid if existant, null if a new picture
   source: PropTypes.shape({
     uri: PropTypes.string, // "https://my_image_path.monk.ai"
   }),
@@ -140,7 +140,7 @@ To use methods that `DamageHighlight` exposes one has to create a component `ref
 ## createDamageView(damageType, partType)
 `PropTypes.func`
 
-Create a damage containing a `damageType: PropTypes.string` and a `partType: PropTypes.string` then create a new view on the current image of the inspection with the bounding box calculated from the ellipse.
+Create a damage containing a `damageType: PropTypes.string` and a `partType: PropTypes.string` then create a new view on the current image (a freshly taken image or an already taken image) of the inspection with the bounding box calculated from the ellipse.
 ## reset()
 `PropTypes.func`
 
