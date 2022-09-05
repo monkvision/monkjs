@@ -50,7 +50,7 @@ const DamageHighlight = forwardRef(({
         elementStyle: damageStyle(damage),
         elementType: damages.find(({ id }) => id === view.elementId)?.damageType,
         id: view.id,
-        ellipses: ({ cx: xmin + rx, cy: ymin + ry, rx, ry }),
+        ellipse: ({ cx: xmin + rx, cy: ymin + ry, rx, ry }),
       };
     });
 

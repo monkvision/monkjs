@@ -45,7 +45,7 @@ const ElementHighlight = forwardRef(({
     const labels = [];
 
     elements.forEach((element) => {
-      const { ellipses, id, polygons } = element;
+      const { ellipse, id, polygons } = element;
       const { ellipses: ellipsesStyle, polygons: polygonsStyle } = completedOptions;
 
       const strokeType = (polygons ? polygonsStyle : ellipsesStyle);
@@ -76,17 +76,15 @@ const ElementHighlight = forwardRef(({
         });
       }
 
-      if (ellipses && ellipses.length > 0) {
-        ellipses.forEach((ellipse) => {
-          damageFigures.push(<Ellipse
-            {...ellipse}
-            {...strokes}
-            {...onPressEvent}
-            key={`image-${image.id}-damage-${element.id}-ellipse`}
-            fillOpacity={0}
-            {...element.damageStyle ?? {}}
-          />);
-        });
+      if (ellipse) {
+        damageFigures.push(<Ellipse
+          {...ellipse}
+          {...strokes}
+          {...onPressEvent}
+          key={`image-${image.id}-damage-${element.id}-ellipse`}
+          fillOpacity={0}
+          {...element.damageStyle ?? {}}
+        />);
       }
     });
 
@@ -140,12 +138,12 @@ ElementHighlight.propTypes = {
       strokeWidth: PropTypes.number,
     }),
     elementType: PropTypes.string,
-    ellipses: PropTypes.arrayOf(PropTypes.shape({
+    ellipse: PropTypes.shape({
       cx: PropTypes.number,
       cy: PropTypes.number,
       rx: PropTypes.number,
       ry: PropTypes.number,
-    })),
+    }),
     id: PropTypes.string.isRequired,
     polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
   })),
