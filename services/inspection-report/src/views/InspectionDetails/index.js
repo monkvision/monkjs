@@ -27,11 +27,9 @@ export default function InspectionDetails() {
   } = useGetPdfReport(id);
 
   const imageItems = useMemo(() => {
-    if (!images) { return []; }
-    return images.map((image) => (
-      { ...image, damages: damages.filter(({ imageRegion }) => imageRegion.imageId === image.id) }
-    ));
-  }, [images]);
+    if (!images) { return {}; }
+    return { images, damages };
+  }, [images, damages]);
 
   const inspectionIsNotCompleted = useMemo(() => tasks.some((t) => t.status !== 'DONE'), [tasks]);
 
