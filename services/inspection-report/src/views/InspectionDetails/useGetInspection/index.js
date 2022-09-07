@@ -24,7 +24,10 @@ export default function useGetInspection(inspectionId) {
     ? Object
       .values(imageEntities)
       .filter(({ id }) => inspection?.images?.includes(id))
-      .map((image) => ({ ...image, views: image.views?.map((view) => views.find(({ id }) => id === view)) }))
+      .map((image) => ({
+        ...image,
+        views: image.views?.map((view) => views.find(({ id }) => id === view)),
+      }))
     : [];
   const tasks = inspection
     ? Object.values(taskEntities).filter(({ id }) => inspection?.tasks?.includes(id))
