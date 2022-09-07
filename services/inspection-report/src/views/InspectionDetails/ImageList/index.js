@@ -10,7 +10,7 @@ import MUIImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 
-import { DamageHighlight } from '@monkvision/visualization';
+// import { DamageHighlight } from '@monkvision/visualization';
 
 import { Menu } from 'components';
 
@@ -45,30 +45,31 @@ export default function ImageList({ itemData }) {
         open={!!anchorEl}
       />
       <MUIImageList>
-        {itemData.images.map((item, i) =>
-          (item ? (
-            <ImageListItem key={`${item.path}-${i}`}>
-              {/* <DamageHighlight
+        {itemData.images.map((item, i) => (item ? (
+          // eslint-disable-next-line react/no-array-index-key
+          <ImageListItem key={`${item.path}-${i}`}>
+            {/* <DamageHighlight
                 damages={itemData.damages}
-                damageStyle={(damage) => (damage.damageType === 'dent' ? { stroke: 'red', strokeDasharray: '5, 5' } : {})}
+                damageStyle={(damage) => (damage.damageType === 'dent' ?
+                { stroke: 'red', strokeDasharray: '5, 5' } : {})}
                 image={item}
                 onPressDamage={(damage) => { console.log(damage); }}
               /> */}
-              <ImageListItemBar
-                title={item?.additionalData?.label?.en}
-                actionIcon={(
-                  <IconButton
-                    onClick={(e) => handleClick(e, item.id)}
-                    id="info-button"
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${item?.additionalData?.label}`}
-                  >
-                    <InfoIcon />
-                  </IconButton>
+            <ImageListItemBar
+              title={item?.additionalData?.label?.en}
+              actionIcon={(
+                <IconButton
+                  onClick={(e) => handleClick(e, item.id)}
+                  id="info-button"
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  aria-label={`info about ${item?.additionalData?.label}`}
+                >
+                  <InfoIcon />
+                </IconButton>
                 )}
-              />
-            </ImageListItem>
-          ) : null))}
+            />
+          </ImageListItem>
+        ) : null))}
       </MUIImageList>
     </>
   );
@@ -76,6 +77,13 @@ export default function ImageList({ itemData }) {
 
 ImageList.propTypes = {
   itemData: PropTypes.shape({
+    damages: PropTypes.arrayOf(PropTypes.shape({
+      createdBy: PropTypes.string,
+      damageType: PropTypes.string,
+      deletedAt: PropTypes.string,
+      id: PropTypes.string,
+      inspectionId: PropTypes.string,
+    })),
     images: PropTypes.arrayOf(PropTypes.shape({
       additionalData: PropTypes.shape({
         label: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -83,6 +91,7 @@ ImageList.propTypes = {
       id: PropTypes.string.isRequired,
       imageHeight: PropTypes.number.isRequired,
       imageWidth: PropTypes.number.isRequired,
+      path: PropTypes.string.isRequired,
       views: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         imageRegion: PropTypes.shape({
@@ -97,14 +106,6 @@ ImageList.propTypes = {
           }),
         }),
       })),
-      path: PropTypes.string.isRequired,
-    })),
-    damages: PropTypes.arrayOf(PropTypes.shape({
-      createdBy: PropTypes.string,
-      damageType: PropTypes.string,
-      deletedAt: PropTypes.string,
-      id: PropTypes.string,
-      inspectionId: PropTypes.string,
     })),
   }),
 };
