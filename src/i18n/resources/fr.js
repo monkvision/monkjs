@@ -10,16 +10,8 @@ const fr = {
         description: 'Détectez-le avec votre caméra ou rentrez-le manuellement',
       },
       damageDetection: {
-        title: 'Tour de véhicule extérieur',
-        description: 'Détection de dégâts',
-      },
-      interior: {
-        title: 'Tour de véhicule intérieur',
-        description: 'Détection de dégâts',
-      },
-      wheelsAnalysis: {
-        title: 'Analyse des roues',
-        description: 'Détails à propos de l\'état des jantes',
+        title: 'Détection de dégâts',
+        description: 'Carrosserie et jantes / enjoliveurs',
       },
       status: {
         NOT_STARTED: 'En attente de lancement',
@@ -36,6 +28,8 @@ const fr = {
       lastInspection: 'Dernière inspection',
       signOut: 'Se Déconnecter',
       workflowReminder: 'Veuillez compléter toutes les tâches afin de pouvoir générer votre rapport PDF.',
+      downloadPdf: 'Télécharger le PDF',
+      downloadPdfDescription: 'Disponible lorsque toutes les tâches sont terminées',
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',

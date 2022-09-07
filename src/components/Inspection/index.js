@@ -160,7 +160,13 @@ Inspection.propTypes = {
   images: PropTypes.arrayOf(PropTypes.shape({
     additionalData: PropTypes.shape({
       createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      label: PropTypes.string.isRequired,
+      label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          en: PropTypes.string,
+          fr: PropTypes.string,
+        }),
+      ]).isRequired,
     }),
     id: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,

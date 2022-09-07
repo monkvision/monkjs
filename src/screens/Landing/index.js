@@ -12,7 +12,7 @@ import { View, useWindowDimensions, FlatList } from 'react-native';
 import { Container } from '@monkvision/ui';
 import monk from '@monkvision/corejs';
 import { useMediaQuery } from 'react-responsive';
-import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Button, Card, Colors, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
 import Artwork from 'screens/Landing/Artwork';
 import LanguageSwitch from 'screens/Landing/LanguageSwitch';
@@ -69,7 +69,7 @@ export default function Landing() {
 
   const {
     preparePdf,
-    handleDownLoad,
+    handleDownload,
     reportUrl,
     loading: pdfLoading,
   } = useGetPdfReport(inspectionId);
@@ -183,14 +183,26 @@ export default function Landing() {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');
     const disabled = [
       monk.types.ProgressStatus.TODO, monk.types.ProgressStatus.IN_PROGRESS,
-      monk.types.ProgressStatus.DONE, monk.types.ProgressStatus.ERROR]
-      .includes(vinTask?.status);
+      monk.types.ProgressStatus.DONE, monk.types.ProgressStatus.ERROR,
+    ].includes(vinTask?.status);
 
     return [
       { title: t('vinModal.camera'), value: 'automatic', disabled, icon: 'camera' },
       { title: t('vinModal.manual'), value: 'manually', icon: 'file-edit' },
     ];
   }, [inspection, i18n.language]);
+
+  const isPdfDisabled = useMemo(
+    () => !allTasksAreCompleted || !reportUrl,
+    [allTasksAreCompleted, reportUrl],
+  );
+
+  const pdfDownloadLeft = useCallback(
+    () => (pdfLoading
+      ? <ActivityIndicator />
+      : <List.Icon icon="file-pdf-box" color={isPdfDisabled ? '#8d8d8dde' : undefined} />),
+    [pdfLoading, isPdfDisabled],
+  );
 
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
@@ -210,10 +222,6 @@ export default function Landing() {
           </View>
         )}
         <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
-          {!isEmpty(getInspection.denormalizedEntities) && (
-            getInspection.denormalizedEntities.map((i) => (
-              <Inspection {...i} key={`landing-inspection-${i.id}`} />
-            )))}
           <List.Section>
             <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <FlatList
@@ -222,23 +230,32 @@ export default function Landing() {
               keyExtractor={(item) => item.value}
             />
           </List.Section>
+          <List.Section>
+            <List.Item
+              title={t('landing.downloadPdf')}
+              description={t('landing.downloadPdfDescription')}
+              left={pdfDownloadLeft}
+              onPress={handleDownload}
+              disabled={isPdfDisabled}
+              titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}
+              descriptionStyle={isPdfDisabled ? { color: '#8686868a' } : undefined}
+            />
+          </List.Section>
+          <Card.Actions style={styles.actions}>
+            <LanguageSwitch />
+            {isAuthenticated && (
+              <SignOut onSuccess={handleReset} />
+            )}
+          </Card.Actions>
           <Card.Actions style={styles.actions}>
             {!isEmpty(inspection) ? (
               <Button color={colors.text} onPress={handleReset}>{t('landing.resetInspection')}</Button>
             ) : null}
-            <Button
-              color={colors.text}
-              onPress={handleDownLoad}
-              disabled={!allTasksAreCompleted || !reportUrl}
-              loading={pdfLoading}
-            >
-              {t('Download pdf')}
-            </Button>
-            <LanguageSwitch />
-            {isAuthenticated && (
-            <SignOut onSuccess={handleReset} />
-            )}
           </Card.Actions>
+          {!isEmpty(getInspection.denormalizedEntities) && (
+            getInspection.denormalizedEntities.map((i) => (
+              <Inspection {...i} key={`landing-inspection-${i.id}`} />
+            )))}
         </Card>
       </Container>
       <Notice />
