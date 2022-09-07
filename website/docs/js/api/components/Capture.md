@@ -16,6 +16,8 @@ yarn add @monkvision/corejs @monkvision/sights @monkvision/toolkit @monkvision/c
 import { Capture } from '@monkvision/camera';
 ```
 
+This package is also using the compression JPEG encoder `libjpeg-turbo` compiled on WebAssembly binary. It is necessary to download [this wasm](https://github.com/GoogleChromeLabs/squoosh/raw/dev/codecs/mozjpeg/enc/mozjpeg_enc.wasm) binary to make this package work, then move it to the static folder of your project, for ReactJs it is the `public` folder and for expo, you will have to create a `web` folder from the root of the project. It is a temporary solution until we can host it.
+
 # Basic usage
 
 Here is an example of uploading one image to an inspection on the browser with the task `damage_detection` set.
