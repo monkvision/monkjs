@@ -28,6 +28,8 @@ function Camera({
   settings,
   enableQHDWhenSupported,
   onWarningMessage,
+  resolutionOptions,
+  compressionOptions,
   Sentry,
 }, ref) {
   const [resolution, setResolution] = useMemo(() => {
@@ -50,13 +52,14 @@ function Camera({
   } = useCamera(resolution, {
     onCameraReady,
     video: { facingMode, width: resolution.width, height: resolution.height },
-  }, settings.state.compression, Sentry, onWarningMessage);
+  }, settings.state.compression, Sentry, onWarningMessage, compressionOptions);
 
   const { Span } = useSentry(Sentry);
 
   useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
   const delay = useMemo(
-    () => (enableQHDWhenSupported && stream && videoRef.current ? 500 : null),
+    () => (enableQHDWhenSupported && stream && videoRef.current
+      ? resolutionOptions?.QHDDelay ?? 500 : null),
     [stream],
   );
 
@@ -100,10 +103,16 @@ function Camera({
 export default forwardRef(Camera);
 
 Camera.propTypes = {
+  compressionOptions: PropTypes.shape({
+    quality: PropTypes.number,
+  }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   enableQHDWhenSupported: PropTypes.bool,
   onCameraReady: PropTypes.func.isRequired,
   onWarningMessage: PropTypes.func,
+  resolutionOptions: PropTypes.shape({
+    QHDDelay: PropTypes.number,
+  }),
   Sentry: PropTypes.any,
   settings: PropTypes.shape({
     dispatch: PropTypes.func,
@@ -115,9 +124,11 @@ Camera.propTypes = {
 };
 
 Camera.defaultProps = {
+  compressionOptions: undefined,
   containerStyle: null,
   enableQHDWhenSupported: true,
   onWarningMessage: () => {},
+  resolutionOptions: undefined,
   Sentry: null,
   settings: { state: { resolution: 'FHD' }, dispatch: () => {} },
 };
