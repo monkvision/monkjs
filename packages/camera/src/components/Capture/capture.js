@@ -106,6 +106,8 @@ const Capture = forwardRef(({
   compliance,
   sights,
   settings,
+  compressionOptions,
+  resolutionOptions,
   Sentry,
 }, combinedRefs) => {
   // STATES //
@@ -365,6 +367,8 @@ const Capture = forwardRef(({
             pictureSize={settings.pictureSize}
             settings={settings}
             enableQHDWhenSupported={enableQHDWhenSupported}
+            compressionOptions={compressionOptions}
+            resolutionOptions={resolutionOptions}
             Sentry={Sentry}
           >
             {children}
@@ -417,6 +421,9 @@ Capture.propTypes = {
       status: PropTypes.string,
     })),
   }).isRequired,
+  compressionOptions: PropTypes.shape({
+    quality: PropTypes.number,
+  }),
   controls: PropTypes.arrayOf(PropTypes.shape({
     component: PropTypes.element,
     disabled: PropTypes.bool,
@@ -470,6 +477,9 @@ Capture.propTypes = {
   onWarningMessage: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
+  resolutionOptions: PropTypes.shape({
+    QHDDelay: PropTypes.number,
+  }),
   Sentry: PropTypes.any,
   settings: PropTypes.shape({
     compression: PropTypes.bool,
@@ -530,6 +540,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
+  compressionOptions: undefined,
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
@@ -565,6 +576,7 @@ Capture.defaultProps = {
   onRetakeAll: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
+  resolutionOptions: undefined,
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,
