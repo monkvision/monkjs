@@ -243,6 +243,7 @@ export default function InspectionCapture() {
         onChange={handleChange}
         settings={settings}
         enableComplianceCheck={enableComplianceCheck}
+        enableCompression={false}
         onComplianceCheckFinish={handleComplianceCheckFinish}
         colors={colors}
         Sentry={Sentry}
