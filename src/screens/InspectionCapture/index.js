@@ -53,6 +53,34 @@ const mapTasksToSights = [{
     image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
   },
   payload: {},
+}, {
+  id: 'ffocus18-x_1SE7X-',
+  tasks: ['damage_detection', {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
+  }],
+  payload: {},
+}, {
+  id: 'ffocus18-S3kgFOBb',
+  tasks: ['damage_detection', {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
+  }],
+  payload: {},
+}, {
+  id: 'ffocus18-P2jFq1Ea',
+  tasks: ['damage_detection', {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
+  }],
+  payload: {},
+}, {
+  id: 'ffocus18-KkeGvT-F',
+  tasks: ['damage_detection', {
+    name: monk.types.TaskName.WHEEL_ANALYSIS,
+    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
+  }],
+  payload: {},
 }];
 
 const enableComplianceCheck = true;
