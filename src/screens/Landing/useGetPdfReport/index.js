@@ -33,7 +33,7 @@ export default function useGetPdfReport(inspectionId, onError) {
     pricing: false,
     customer: ExpoConstants.manifest.extra.PDF_REPORT_CUSTOMER,
     clientName: ExpoConstants.manifest.extra.PDF_REPORT_CLIENT_NAME,
-    language: i18n.language,
+    language: i18n.language?.substring(0, 2) ?? 'en',
   }), [i18n.language]);
 
   const timeout = useCallback((ms) => new Promise((resolve) => {

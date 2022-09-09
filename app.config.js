@@ -45,7 +45,7 @@ const options = [
       'T24v9XS8', // Front Door Left
       'UHZkpCuK', // Rocker panel left
       'ClEZSucK', // Rear Lateral Left
-      'PuIw17h0', // Front wheel right (Wheels analysis)
+      '8_W2PO8L', // Rear wheel left (Wheels analysis)
       'j8YHvnDP', // Rear Bumper Side Left
       'XyeyZlaU', // Rear
       'LDRoAPnk', // Rear Bumper Side Right
@@ -54,7 +54,7 @@ const options = [
       'B5s1CWT-', // Rocker panel right
       '2wVqenwP', // Front Door Right
       '0U14gFyk', // Front Lateral Right
-      '8_W2PO8L', // Rear wheel left (Wheels analysis)
+      'PuIw17h0', // Front wheel right (Wheels analysis)
       'CELBsvYD', // Front Bumper Side Right
     ],
     taskName: 'damage_detection',
@@ -197,6 +197,6 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.staging.env,
+    ...eas.build.development.env,
   },
 };

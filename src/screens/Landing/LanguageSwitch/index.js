@@ -39,14 +39,14 @@ export default function LanguageSwitch() {
       setLanguage('en');
       return en;
     }
-    return i18n.language === 'fr' ? fr : en;
+    return i18n.language.startsWith('fr') ? fr : en;
   }, [isLoading, i18n.language]);
 
   return (
     <Menu
       visible={visible}
       onDismiss={closeMenu}
-      anchor={<Button onPress={openMenu} disabled={isLoading}>{getButtonContent()}</Button>}
+      anchor={<Button color="white" onPress={openMenu} disabled={isLoading}>{getButtonContent()}</Button>}
     >
       <Menu.Item onPress={() => setLanguage('en')} title="🇬🇧 English" />
       <Menu.Item onPress={() => setLanguage('fr')} title="🇫🇷 Français" />

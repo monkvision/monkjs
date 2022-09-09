@@ -1,32 +1,32 @@
-import { useSentry, useInterval, utils } from '@monkvision/toolkit';
+import monk from '@monkvision/corejs';
+import { useInterval, useSentry, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { Container } from '@monkvision/ui';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import Inspection from 'components/Inspection';
+import Modal from 'components/Modal';
 import ExpoConstants from 'expo-constants';
+import { LinearGradient } from 'expo-linear-gradient';
 import useAuth from 'hooks/useAuth';
 import useSnackbar from 'hooks/useSnackbar';
 import isEmpty from 'lodash.isempty';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { View, useWindowDimensions, FlatList } from 'react-native';
-import { Container } from '@monkvision/ui';
-import monk from '@monkvision/corejs';
+import { FlatList, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import { useMediaQuery } from 'react-responsive';
-import { ActivityIndicator, Button, Card, Colors, List, Surface, useTheme } from 'react-native-paper';
-import Inspection from 'components/Inspection';
 import Artwork from 'screens/Landing/Artwork';
 import LanguageSwitch from 'screens/Landing/LanguageSwitch';
 import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
-import Modal from 'components/Modal';
-import styles from './styles';
 import Sentry from '../../config/sentry';
-import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
+import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
+import useVinModal from './useVinModal';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
