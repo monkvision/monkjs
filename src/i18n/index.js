@@ -12,6 +12,8 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
   resources,
+  supportedLngs: ['en', 'fr'],
+  nonExplicitSupportedLngs: true,
 });
 
 i18n.on(
