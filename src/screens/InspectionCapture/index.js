@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
-import ExpoConstants from 'expo-constants';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
@@ -17,7 +16,6 @@ import styles from './styles';
 import Sentry from '../../config/sentry';
 import useSnackbar from '../../hooks/useSnackbar';
 import { setTag } from '../../config/sentryPlatform';
-import DamageDetectionTooltip from './damageDetectionTooltip';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -84,7 +82,6 @@ const mapTasksToSights = [{
 }];
 
 const enableComplianceCheck = true;
-const getMode = (name) => ExpoConstants.manifest.extra.options.find(({ value }) => value === name);
 
 export default function InspectionCapture() {
   const route = useRoute();
@@ -94,14 +91,12 @@ export default function InspectionCapture() {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
-  const { inspectionId, sightIds, taskName, selectedMode, from = null } = route.params;
+  const { inspectionId, sightIds, taskName } = route.params;
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
-
-  const damageDetectionTooltipRef = useRef();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -132,6 +127,14 @@ export default function InspectionCapture() {
     } else { navigation.navigate(names.LANDING, { inspectionId }); }
   }, [inspectionId, navigation]);
 
+  const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
+
+  const mapTaskBySightToTasknames = useCallback((taskBySight) => {
+    const task = getTaskName(taskBySight.task);
+    const tasks = taskBySight.tasks ? taskBySight.tasks.map(getTaskName) : [];
+    return [...tasks, task].filter((name) => !!name);
+  }, []);
+
   const handleSuccess = useCallback(async () => {
     if (success && isFocused) {
       setCameraLoading(true);
@@ -139,8 +142,8 @@ export default function InspectionCapture() {
       try {
         const promises = Object.values(mapTasksToSights)
           .filter(((taskBySight) => sightIds.includes(taskBySight.id)))
-          .map((taskBySight) => taskBySight.task.name)
-          .concat([taskName])
+          .map(mapTaskBySightToTasknames)
+          .flat()
           .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
           .map((name) => new Promise((resolve) => {
             monk.entity.task.updateOne(inspectionId, name, {
@@ -206,30 +209,9 @@ export default function InspectionCapture() {
     }
   }, [success, isFocused]);
 
-  const handleComplianceCheckFinish = useCallback(() => {
-    if ((selectedMode !== 'car360' && selectedMode !== 'interior') || from) { setSuccess(true); return; }
-    damageDetectionTooltipRef.current?.open();
-  }, [from]);
-
-  const handleProceed = useCallback(() => {
-    const params = { inspectionId, taskName };
-    if (selectedMode === 'car360') {
-      const mode = 'interior';
-      const ids = getMode(mode).sightIds;
-
-      navigation.navigate(names.INSPECTION_CREATE, { selectedMod: 'interior', from: 'car360', sightIds: ids, ...params });
-    }
-    if (selectedMode === 'interior') {
-      const mode = 'car360';
-      const ids = getMode(mode).sightIds;
-
-      navigation.navigate(names.INSPECTION_CREATE, { selectedMod: 'car360', from: 'interior', sightIds: ids, ...params });
-    }
-  }, [selectedMode, inspectionId, taskName]);
-
   const captureRef = useRef();
 
-  const settings = useSettings({ camera: captureRef.current?.camera });
+  const settings = useSettings({ camera: captureRef.current?.camera, resolution: 'UHD' });
   const settingsRef = useRef();
   const openSettings = settingsRef.current?.open;
 
@@ -248,12 +230,6 @@ export default function InspectionCapture() {
 
   return (
     <View style={styles.root}>
-      <DamageDetectionTooltip
-        ref={damageDetectionTooltipRef}
-        onFinish={() => setSuccess(true)}
-        onContinue={handleProceed}
-        selectedMode={selectedMode}
-      />
       <Settings ref={settingsRef} settings={settings} />
       <Capture
         ref={captureRef}
@@ -272,10 +248,9 @@ export default function InspectionCapture() {
         settings={settings}
         enableComplianceCheck={enableComplianceCheck}
         enableCompression={false}
-        onComplianceCheckFinish={handleComplianceCheckFinish}
+        onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         Sentry={Sentry}
-
       />
       <Notice />
     </View>

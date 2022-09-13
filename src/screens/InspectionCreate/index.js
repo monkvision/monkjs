@@ -54,7 +54,6 @@ export default function InspectionCreate() {
     vin,
     mode,
     vehicle,
-    ...params
   } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
@@ -94,7 +93,6 @@ export default function InspectionCreate() {
       sightIds: option.sightIds,
       taskName: option.taskName,
       selectedMode: selected,
-      ...params,
     };
 
     if (option.value === CAR_360) {

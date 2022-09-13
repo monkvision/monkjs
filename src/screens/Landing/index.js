@@ -24,7 +24,6 @@ import * as names from 'screens/names';
 import Sentry from '../../config/sentry';
 import { setTag } from '../../config/sentryPlatform';
 import styles from './styles';
-import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
 import VehicleType from './VehicleType';
@@ -75,19 +74,6 @@ export default function Landing() {
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
   const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
-
-  const {
-    preparePdf,
-    handleDownload,
-    reportUrl,
-    loading: pdfLoading,
-  } = useGetPdfReport(inspectionId);
-
-  useEffect(() => {
-    if (allTasksAreCompleted) {
-      preparePdf();
-    }
-  }, [allTasksAreCompleted]);
 
   useEffect(() => {
     if (inspection?.vehicle?.vin
@@ -214,18 +200,6 @@ export default function Landing() {
     })();
   }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId]);
 
-  const isPdfDisabled = useMemo(
-    () => !allTasksAreCompleted || !reportUrl,
-    [allTasksAreCompleted, reportUrl],
-  );
-
-  const pdfDownloadLeft = useCallback(
-    () => (pdfLoading
-      ? <ActivityIndicator />
-      : <List.Icon icon="file-pdf-box" color={isPdfDisabled ? '#8d8d8dde' : undefined} />),
-    [pdfLoading, isPdfDisabled],
-  );
-
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
       <Modal
@@ -258,17 +232,6 @@ export default function Landing() {
               data={ExpoConstants.manifest.extra.options}
               renderItem={renderListItem}
               keyExtractor={(item) => item.value}
-            />
-          </List.Section>
-          <List.Section>
-            <List.Item
-              title={t('landing.downloadPdf')}
-              description={t('landing.downloadPdfDescription')}
-              left={pdfDownloadLeft}
-              onPress={handleDownload}
-              disabled={isPdfDisabled}
-              titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}
-              descriptionStyle={isPdfDisabled ? { color: '#8686868a' } : undefined}
             />
           </List.Section>
           <Card.Actions style={styles.actions}>
