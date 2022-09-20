@@ -1,8 +1,12 @@
+import { utils } from '@monkvision/toolkit';
+import PropTypes from 'prop-types';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { utils } from '@monkvision/toolkit';
-import PropTypes from 'prop-types';
+
+import Constants from '../../const';
+import i18next from '../../i18n';
+import log from '../../utils/log';
 
 import Camera from '../Camera';
 import Controls from '../Controls';
@@ -10,10 +14,6 @@ import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
-
-import Constants from '../../const';
-import log from '../../utils/log';
-import i18next from '../../i18n';
 
 import {
   useCheckComplianceAsync,
@@ -424,11 +424,20 @@ Capture.propTypes = {
   compressionOptions: PropTypes.shape({
     quality: PropTypes.number,
   }),
-  controls: PropTypes.arrayOf(PropTypes.shape({
-    component: PropTypes.element,
-    disabled: PropTypes.bool,
-    onPress: PropTypes.func,
-  })),
+  controls: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.shape({
+      component: PropTypes.element,
+      disabled: PropTypes.bool,
+      onCustomTakePicture: PropTypes.func,
+      onPress: PropTypes.func,
+    }),
+    PropTypes.arrayOf(PropTypes.shape({
+      component: PropTypes.element,
+      disabled: PropTypes.bool,
+      onCustomTakePicture: PropTypes.func,
+      onPress: PropTypes.func,
+    })),
+  ])),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
   enableComplianceCheck: PropTypes.bool,
   enableCompression: PropTypes.bool,

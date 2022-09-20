@@ -110,6 +110,7 @@ const fr = {
         on: 'Activer',
         off: 'Désactiver',
       },
+      custom: '+',
     },
   },
 };

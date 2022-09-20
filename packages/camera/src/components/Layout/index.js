@@ -117,7 +117,7 @@ function Layout({ backgroundColor, children, left, right }) {
   );
 
   const rightStyle = StyleSheet.compose(
-    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
+    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }, { position: 'static' }],
     isPortrait && styles.rightPortrait,
   );
 

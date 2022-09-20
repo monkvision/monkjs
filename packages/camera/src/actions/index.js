@@ -19,4 +19,8 @@ export default {
     UPDATE_SETTINGS: 'UPDATE_SETTINGS',
     RESET_SETTINGS: 'RESET_SETTINGS',
   },
+  customPictureTaking: {
+    UPDATE_SETTINGS: 'UPDATE_SETTINGS',
+    RESET_SETTINGS: 'RESET_SETTINGS',
+  },
 };

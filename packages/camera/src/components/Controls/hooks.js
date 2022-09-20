@@ -63,6 +63,21 @@ const useHandlers = ({
     captureButtonTracing?.finish();
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
+  const customCapture = useCallback(async (api, event) => {
+    if (!stream && Platform.OS === 'web') { return null; }
+
+    const captureButtonTracing = Sentry
+      ? new Span('image-custom-capture-button', SentryConstants.operation.USER_TIME)
+      : undefined;
+    event.preventDefault();
+
+    log(['[Click] Taking a custom photo']);
+    const picture = await api.takePictureAsync();
+    captureButtonTracing?.finish();
+
+    return picture ?? null;
+  }, [stream]);
+
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     log(['[Click] Retake all photos']);
     // adding an initialState that will hold new compliance with `requestCount = 1`
@@ -83,6 +98,6 @@ const useHandlers = ({
     // update sightsIds state
     setSightsIds({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
   }, []);
-  return { capture, retakeAll };
+  return { customCapture, capture, retakeAll };
 };
 export default useHandlers;

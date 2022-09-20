@@ -1,11 +1,15 @@
-import React, { createElement, useCallback, useMemo } from 'react';
+import { useSentry } from '@monkvision/toolkit';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import React, { createElement, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import CustomCaptureButton from './CustomCaptureButton';
 import QuitButton from './QuitButton';
 import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
 import TakePictureButton from './TakePictureButton';
+import PartSelector from './PartSelector';
 import useHandlers from './hooks';
 import i18next from '../../i18n';
 
@@ -18,6 +22,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  controlArray: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'end',
+  },
+  controlArraySpacer: {
+    height: 20,
+  },
   button: {
     maxWidth: '100%',
     borderRadius: 150,
@@ -26,6 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+const insertBetween = (array, element) => [].concat(...array.map((n) => [n, element])).slice(0, -1);
 
 export default function Controls({
   api,
@@ -39,6 +54,9 @@ export default function Controls({
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
+  const { errorHandler } = useSentry(Sentry);
+  const [customPictureTaken, setCustomPictureTaken] = useState(null);
+  const [customPictureCallback, setCustomPictureCallback] = useState(null);
 
   const handlers = useHandlers({
     unControlledState: state,
@@ -53,11 +71,57 @@ export default function Controls({
     [state.uploads],
   );
 
-  const handlePress = useCallback((e, { onPress }) => {
+  const handlePress = useCallback((e, { onPress, onCustomTakePicture }) => {
     if (typeof onPress === 'function') {
       onPress(state, api, e);
+    } else if (typeof onCustomTakePicture === 'function') {
+      handlers.customCapture(api, e)
+        .then((picture) => {
+          setCustomPictureTaken(picture);
+          setCustomPictureCallback(() => onCustomTakePicture);
+        }).catch((err) => errorHandler(err, SentryConstants.type.APP));
     } else { handlers.capture(state, api, e); }
-  }, [api, handlers, state]);
+  }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback]);
+
+  const handleClosePartSelector = useCallback(() => {
+    setCustomPictureTaken(null);
+    setCustomPictureCallback(null);
+  }, [setCustomPictureTaken, setCustomPictureCallback]);
+
+  const handlePartSelected = useCallback((part) => {
+    customPictureCallback({
+      part,
+      picture: customPictureTaken,
+    });
+    setCustomPictureTaken(null);
+    setCustomPictureCallback(null);
+  }, [customPictureTaken, customPictureCallback, setCustomPictureTaken, setCustomPictureCallback]);
+
+  const createControlElement = useCallback(({
+    id,
+    children,
+    component = TouchableOpacity,
+    onPress,
+    ...rest
+  }) => createElement(component, {
+    key: `camera-control-${id}`,
+    disabled: loading || hasNoIdle,
+    onPress: (e) => handlePress(e, { onPress, ...rest }),
+    style: StyleSheet.flatten([styles.button]),
+    ...rest,
+    ...passThroughProps,
+  }, children), [loading, hasNoIdle, handlePress, passThroughProps]);
+
+  const createControlArray = useCallback((array) => (
+    <View
+      style={[styles.controlArray]}
+    >
+      {insertBetween(
+        array.map((control) => createControlElement(control)),
+        (<View style={[styles.controlArraySpacer]} />),
+      )}
+    </View>
+  ), [createControlElement]);
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -65,23 +129,14 @@ export default function Controls({
         acccessibilityLabel="Controls"
         style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
       >
-        {elements.map(({
-          id,
-          children,
-          component = TouchableOpacity,
-          onPress,
-          ...rest
-        }) => (
-          createElement(component, {
-            key: `camera-control-${id}`,
-            disabled: loading || hasNoIdle,
-            onPress: (e) => handlePress(e, { onPress, ...rest }),
-            style: StyleSheet.flatten([styles.button]),
-            ...rest,
-            ...passThroughProps,
-          }, children)
-        ))}
+        {elements.map((e) => (Array.isArray(e) ? createControlArray(e) : createControlElement(e)))}
       </View>
+      {customPictureTaken === null ? null : (
+        <PartSelector
+          onClose={handleClosePartSelector}
+          onSelectPart={handlePartSelected}
+        />
+      )}
     </I18nextProvider>
   );
 }
@@ -98,11 +153,20 @@ Controls.propTypes = {
     takePictureSync: PropTypes.func,
   }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  elements: PropTypes.arrayOf(PropTypes.shape({
-    component: PropTypes.element,
-    disabled: PropTypes.bool,
-    onPress: PropTypes.func,
-  })),
+  elements: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.shape({
+      component: PropTypes.element,
+      disabled: PropTypes.bool,
+      onCustomTakePicture: PropTypes.func,
+      onPress: PropTypes.func,
+    }),
+    PropTypes.arrayOf(PropTypes.shape({
+      component: PropTypes.element,
+      disabled: PropTypes.bool,
+      onCustomTakePicture: PropTypes.func,
+      onPress: PropTypes.func,
+    })),
+  ])),
   loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
@@ -142,6 +206,31 @@ Controls.CaptureButtonProps = {
     borderColor: 'white',
     borderWidth: 4,
     shadowColor: 'white',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0 },
+    ...Platform.select({
+      native: { shadowRadius: 4 },
+      default: { shadowRadius: '4px 4px' },
+    }),
+  },
+};
+
+Controls.CustomCaptureButtonProps = {
+  id: 'custom-capture',
+  accessibilityLabel: 'Custom Capture',
+  children: <CustomCaptureButton label="Custom" />,
+  style: {
+    maxWidth: '100%',
+    backgroundColor: '#6187e3',
+    width: 65,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 65,
+    borderColor: '#6187e3',
+    borderWidth: 4,
+    shadowColor: '#6187e3',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },
     ...Platform.select({
