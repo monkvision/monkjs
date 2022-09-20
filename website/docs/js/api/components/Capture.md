@@ -111,6 +111,51 @@ export default function Inspector({ inspectionId }) {
 }
 ```
 
+# Using custom capture taking
+
+Here is an example on how to add a custom picture taking component to bypass the normal capture workflow and upload the
+pictures to your own API.
+
+```javascript
+import React, { useCallback, useState } from 'react';
+import { SafeAreaView, StatusBar } from 'react-native';
+import { Capture, Controls, Constants } from '@monkvision/camera';
+import CustomCaptureButton from '@monkvision/camera/src/components/Controls/CustomCaptureButton';
+
+export default function Inspector({ inspectionId }) {
+  const [loading, setLoading] = useState();
+
+  const controls = [[ // Note the double array here, it allows us to create a group of controls
+    {
+      disabled: loading,
+      ...Controls.CaptureButtonProps,
+    },
+    {
+      disabled: loading,
+      // Resulting picture will be a blob
+      onCustomTakePicture:
+        (result) => console.log(`Custom picture taken for car part ${result.part} :`, result.picture),
+      ...Controls.CustomCaptureButtonProps,
+      children: <CustomCaptureButton label="Custom Label" customStyle={{ fontSize: 16 }} />,
+    },
+  ]];
+
+  return (
+    <SafeAreaView>
+      <StatusBar hidden />
+      <Capture
+        sightIds={Constants.defaultSightIds}
+        inspectionId={inspectionId}
+        controls={controls}
+        loading={loading}
+        onReady={() => setLoading(false)}
+        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+      />
+    </SafeAreaView>
+  );
+}
+```
+
 # Props
 
 The Capture component is based on 4 principal states `uploads`, `compliance`, `sights` and `settings`, and can be used as a controlled component by providing these states as props (optional), see the format in the [**state section**](#state)
@@ -121,17 +166,39 @@ By passing a ref to the Capture component, we can access a set of methods, inclu
 
 ```jsx
   const captureRef = useRef();
-  console.log(captureRef.current); 
+  console.log(captureRef.current);
   // { camera, checkComplianceAsync, createDamageDetectionAsync, setPictureAsync, startUploadAsync, takePictureAync, goNextSigh, goPrevSight }
 
   <Capture ref={captureRef} {...otherProps} />
 ```
 
 ## controls
-`PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, disabled: PropTypes.bool, onPress: PropTypes.func }))`
+```javascript
+PropTypes.arrayOf(PropTypes.oneOfType([
+  PropTypes.shape({
+    component: PropTypes.element,
+    disabled: PropTypes.bool,
+    onCustomTakePicture: PropTypes.func,
+    onPress: PropTypes.func,
+  }),
+  PropTypes.arrayOf(PropTypes.shape({
+    component: PropTypes.element,
+    disabled: PropTypes.bool,
+    onCustomTakePicture: PropTypes.func,
+    onPress: PropTypes.func,
+  })),
+]))
+```
+An array of either :
+- control elements
+- arrays of control elements
 
-An array of props inherited from `TouchableOpacity|*`
-> If we pass the `onPress` callback the built-in capture handler will not be used.
+If given a control element, the control element will be rendered in its own control group. If given an array of control
+elements, the control elements will be rendered in the same control group.
+
+> If given an `onCustomTakePicture` method, it will bypass the built-in capture handler and simply take a picture for you
+
+> If given an `onPress` method, it will bypass the built-in capture handler and the optional `onCustomTakePicture` method
 
 ```js
 const controls = [{

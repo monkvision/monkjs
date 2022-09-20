@@ -110,6 +110,7 @@ const en = {
         on: 'On',
         off: 'Off',
       },
+      custom: '+',
     },
   },
 };
