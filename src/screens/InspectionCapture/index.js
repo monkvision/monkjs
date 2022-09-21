@@ -7,7 +7,6 @@ import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import CustomCaptureButton from '@monkvision/camera/src/components/Controls/CustomCaptureButton';
 import { useSentry, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 
@@ -61,7 +60,7 @@ export default function InspectionCapture() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { errorHandler } = useSentry(Sentry);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { colors } = useTheme();
 
   const { inspectionId, sightIds, taskName } = route.params;
@@ -174,10 +173,6 @@ export default function InspectionCapture() {
     }
   }, [success, isFocused]);
 
-  const customCaptureButton = useCallback(() => (
-    <CustomCaptureButton label={t('capture.custom')} customStyle={{ fontSize: 30 }} />
-  ), [i18n.language]);
-
   const captureRef = useRef();
 
   const settings = useSettings({ camera: captureRef.current?.camera });
@@ -186,15 +181,7 @@ export default function InspectionCapture() {
 
   const controls = [
     { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
-    [
-      { disabled: cameraLoading, ...Controls.CaptureButtonProps },
-      {
-        disabled: cameraLoading,
-        onCustomTakePicture: (picture) => console.warn('Custom picture just taken :', picture),
-        ...Controls.CustomCaptureButtonProps,
-        children: customCaptureButton(),
-      },
-    ],
+    { disabled: cameraLoading, ...Controls.CaptureButtonProps },
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 
