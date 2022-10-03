@@ -54,7 +54,7 @@
     "id": "xsuH1g5T",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -65,9 +65,17 @@
     },
     "camera": {
       "name": "front fender left x67 z45 1.5m",
-      "locationXyz": [1.7549424171447754, -2.4460859298706055, 1.5],
-      "rotationXyzRad": [1.1693706512451172, -0.0, 0.7853981852531433],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.7549424171447754,
+        -2.4460859298706055,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1693706512451172,
+        0,
+        0.7853981852531433
+      ],
+      "focalLength": 26
     },
     "templateImage": "xsuH1g5T.opengl.png"
   },
@@ -75,7 +83,7 @@
     "id": "IzMR_OzQ",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -86,9 +94,17 @@
     },
     "camera": {
       "name": "front fender left x65.5 z40 1.5m",
-      "locationXyz": [1.4488260746002197, -2.5688226222991943, 1.5],
-      "rotationXyzRad": [1.143190622329712, -0.0, 0.6981316804885864],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.4488260746002197,
+        -2.5688226222991943,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.143190622329712,
+        0,
+        0.6981316804885864
+      ],
+      "focalLength": 26
     },
     "templateImage": "IzMR_OzQ.opengl.png"
   },
@@ -96,7 +112,7 @@
     "id": "AEc967h1",
     "label": {
       "en": "Doors Left",
-      "fr":  "Portières gauches"
+      "fr": "Portières gauches"
     },
     "category": "exterior",
     "vehicle": {
@@ -107,9 +123,17 @@
     },
     "camera": {
       "name": "doors left x70 z70 1.5m",
-      "locationXyz": [2.5270965099334717, -0.4450318217277527, 1.5],
-      "rotationXyzRad": [1.2217304706573486, -0.0, 1.2217304706573486],
-      "focalLength": 26.0
+      "locationXyz": [
+        2.5270965099334717,
+        -0.4450318217277527,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.2217304706573486,
+        0,
+        1.2217304706573486
+      ],
+      "focalLength": 26
     },
     "templateImage": "AEc967h1.opengl.png"
   },
@@ -117,7 +141,7 @@
     "id": "3vKXafwc",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Aile arrière gauche"
+      "fr": "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -128,9 +152,17 @@
     },
     "camera": {
       "name": "rear fender left x66 z130 1.5m",
-      "locationXyz": [1.767639398574829, 2.285799741744995, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, 2.268928050994873],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.767639398574829,
+        2.285799741744995,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        2.268928050994873
+      ],
+      "focalLength": 26
     },
     "templateImage": "3vKXafwc.opengl.png"
   },
@@ -138,7 +170,7 @@
     "id": "3a3OheoD",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Aile arrière gauche"
+      "fr": "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -149,9 +181,17 @@
     },
     "camera": {
       "name": "rear fender left x65 z150 1.5m",
-      "locationXyz": [0.9878284335136414, 2.840301752090454, 1.5],
-      "rotationXyzRad": [1.1344640254974365, -0.0, 2.6179938316345215],
-      "focalLength": 26.0
+      "locationXyz": [
+        0.9878284335136414,
+        2.840301752090454,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1344640254974365,
+        0,
+        2.6179938316345215
+      ],
+      "focalLength": 26
     },
     "templateImage": "3a3OheoD.opengl.png"
   },
@@ -159,7 +199,7 @@
     "id": "ClEZSucK",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -170,9 +210,17 @@
     },
     "camera": {
       "name": "rear lateral left x80 z95 0.9m",
-      "locationXyz": [2.140855073928833, 1.229339838027954, 0.8999999761581421],
-      "rotationXyzRad": [1.3962633609771729, -0.0, 1.6580628156661987],
-      "focalLength": 26.0
+      "locationXyz": [
+        2.140855073928833,
+        1.229339838027954,
+        0.8999999761581421
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        1.6580628156661987
+      ],
+      "focalLength": 26
     },
     "templateImage": "ClEZSucK.opengl.png"
   },
@@ -180,7 +228,7 @@
     "id": "zjAIjUgU",
     "label": {
       "en": "Front Lateral Left",
-      "fr":  "Avant latéral gauche"
+      "fr": "Avant latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -192,10 +240,16 @@
     "camera": {
       "name": "front lateral left x79 z75 0.9m",
       "locationXyz": [
-        2.171881675720215, -1.1752331256866455, 0.8999999761581421
+        2.171881675720215,
+        -1.1752331256866455,
+        0.8999999761581421
       ],
-      "rotationXyzRad": [1.378810167312622, -0.0, 1.3089969158172607],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.378810167312622,
+        0,
+        1.3089969158172607
+      ],
+      "focalLength": 26
     },
     "templateImage": "zjAIjUgU.opengl.png"
   },
@@ -203,7 +257,7 @@
     "id": "vLcBGkeh",
     "label": {
       "en": "Front",
-      "fr":  "Avant"
+      "fr": "Avant"
     },
     "category": "exterior",
     "vehicle": {
@@ -214,9 +268,17 @@
     },
     "camera": {
       "name": "front x66 1.5m",
-      "locationXyz": [0.0, -3.0999999046325684, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, 0.0],
-      "focalLength": 26.0
+      "locationXyz": [
+        0,
+        -3.0999999046325684,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        0
+      ],
+      "focalLength": 26
     },
     "templateImage": "vLcBGkeh.opengl.png"
   },
@@ -224,7 +286,7 @@
     "id": "PLh198NC",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -235,9 +297,17 @@
     },
     "camera": {
       "name": "front fender left x66 z30 1.5m",
-      "locationXyz": [1.0768440961837769, -2.856078624725342, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, 0.5235987901687622],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.0768440961837769,
+        -2.856078624725342,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        0.5235987901687622
+      ],
+      "focalLength": 26
     },
     "templateImage": "PLh198NC.opengl.png"
   },
@@ -245,7 +315,7 @@
     "id": "LE9h1xh0",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -256,9 +326,17 @@
     },
     "camera": {
       "name": "front fender left x65 z57 1.5m",
-      "locationXyz": [1.9203107357025146, -2.0104517936706543, 1.5],
-      "rotationXyzRad": [1.1344640254974365, -0.0, 0.9948377013206482],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.9203107357025146,
+        -2.0104517936706543,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1344640254974365,
+        0,
+        0.9948377013206482
+      ],
+      "focalLength": 26
     },
     "templateImage": "LE9h1xh0.opengl.png"
   },
@@ -266,7 +344,7 @@
     "id": "IVcF1dOP",
     "label": {
       "en": "Doors Left",
-      "fr":  "Portières gauches"
+      "fr": "Portières gauches"
     },
     "category": "exterior",
     "vehicle": {
@@ -277,9 +355,17 @@
     },
     "camera": {
       "name": "doors left x67 z60 1.5m",
-      "locationXyz": [2.112504243850708, -0.7950102090835571, 1.5],
-      "rotationXyzRad": [1.1693706512451172, -0.0, 1.0471975803375244],
-      "focalLength": 26.0
+      "locationXyz": [
+        2.112504243850708,
+        -0.7950102090835571,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1693706512451172,
+        0,
+        1.0471975803375244
+      ],
+      "focalLength": 26
     },
     "templateImage": "IVcF1dOP.opengl.png"
   },
@@ -287,7 +373,7 @@
     "id": "GvCtVnoD",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -298,9 +384,17 @@
     },
     "camera": {
       "name": "rear lateral left x66 z95 1.5m",
-      "locationXyz": [2.172027349472046, 1.09205961227417, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, 1.6580628156661987],
-      "focalLength": 26.0
+      "locationXyz": [
+        2.172027349472046,
+        1.09205961227417,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        1.6580628156661987
+      ],
+      "focalLength": 26
     },
     "templateImage": "GvCtVnoD.opengl.png"
   },
@@ -308,7 +402,7 @@
     "id": "GHbWVnMB",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Aile arrière gauche"
+      "fr": "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -319,9 +413,17 @@
     },
     "camera": {
       "name": "rear fender left x65 z140 1.5m",
-      "locationXyz": [1.399125337600708, 2.5577476024627686, 1.5],
-      "rotationXyzRad": [1.1344640254974365, -0.0, 2.4434609413146973],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.399125337600708,
+        2.5577476024627686,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1344640254974365,
+        0,
+        2.4434609413146973
+      ],
+      "focalLength": 26
     },
     "templateImage": "GHbWVnMB.opengl.png"
   },
@@ -329,7 +431,7 @@
     "id": "XyeyZlaU",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -340,9 +442,17 @@
     },
     "camera": {
       "name": "rear x66 z180 1.5m",
-      "locationXyz": [0.0, 3.0399999618530273, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, 3.141592502593994],
-      "focalLength": 26.0
+      "locationXyz": [
+        0,
+        3.0399999618530273,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        3.141592502593994
+      ],
+      "focalLength": 26
     },
     "templateImage": "XyeyZlaU.opengl.png"
   },
@@ -350,7 +460,7 @@
     "id": "oIk8RQ3w",
     "label": {
       "en": "Windshield",
-      "fr":  "Pare-brise"
+      "fr": "Pare-brise"
     },
     "category": "exterior",
     "vehicle": {
@@ -361,11 +471,17 @@
     },
     "camera": {
       "name": "windshield x58 1.9m",
-      "locationXyz": [0.0, -1.6620965003967285, 1.899999976158142],
-      "rotationXyzRad": [
-        1.0122909545898438, 5.9797477915596346e-18, 8.053430443816277e-20
+      "locationXyz": [
+        0,
+        -1.6620965003967285,
+        1.899999976158142
       ],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.0122909545898438,
+        5.9797477915596346e-18,
+        8.053430443816277e-20
+      ],
+      "focalLength": 26
     },
     "templateImage": "oIk8RQ3w.opengl.png"
   },
@@ -373,7 +489,7 @@
     "id": "m1rhrZ88",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -385,10 +501,16 @@
     "camera": {
       "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
       "locationXyz": [
-        1.0691311359405518, -0.39549964666366577, 1.7999999523162842
+        1.0691311359405518,
+        -0.39549964666366577,
+        1.7999999523162842
       ],
-      "rotationXyzRad": [1.3089969158172607, -0.0, 0.9250245094299316],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.3089969158172607,
+        0,
+        0.9250245094299316
+      ],
+      "focalLength": 26
     },
     "templateImage": "m1rhrZ88.opengl.png"
   },
@@ -396,7 +518,7 @@
     "id": "36qmcrgr",
     "label": {
       "en": "Rear Roof Right",
-      "fr":  "Toit (arrière droit)"
+      "fr": "Toit (arrière droit)"
     },
     "category": "exterior",
     "vehicle": {
@@ -408,10 +530,16 @@
     "camera": {
       "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
       "locationXyz": [
-        -0.8915903568267822, 1.6373134851455688, 1.7999999523162842
+        -0.8915903568267822,
+        1.6373134851455688,
+        1.7999999523162842
       ],
-      "rotationXyzRad": [1.3089969158172607, -0.0, 3.944444179534912],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.3089969158172607,
+        0,
+        3.944444179534912
+      ],
+      "focalLength": 26
     },
     "templateImage": "36qmcrgr.opengl.png"
   },
@@ -419,7 +547,7 @@
     "id": "eOkUJUBk",
     "label": {
       "en": "Rocker Panel Left",
-      "fr":  "Bas de caisse gauche"
+      "fr": "Bas de caisse gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -431,10 +559,16 @@
     "camera": {
       "name": "frame rail left x115 z41 0.1m",
       "locationXyz": [
-        1.0736500024795532, -1.0054600238800049, 0.10000000894069672
+        1.0736500024795532,
+        -1.0054600238800049,
+        0.10000000894069672
       ],
-      "rotationXyzRad": [2.0071287155151367, -0.0, 0.7155849933624268],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        2.0071287155151367,
+        0,
+        0.7155849933624268
+      ],
+      "focalLength": 26
     },
     "templateImage": "eOkUJUBk.opengl.png"
   },
@@ -442,7 +576,7 @@
     "id": "RMeCZRbd",
     "label": {
       "en": "Hood / Windshield",
-      "fr":  "Capot / pare-brise"
+      "fr": "Capot / pare-brise"
     },
     "category": "exterior",
     "vehicle": {
@@ -453,11 +587,17 @@
     },
     "camera": {
       "name": "hood windshield x60 1.7m",
-      "locationXyz": [0.0, -2.6243207454681396, 1.7000000476837158],
-      "rotationXyzRad": [
-        1.0471975803375244, -5.0674301934860153e-17, 9.836880648136746e-18
+      "locationXyz": [
+        0,
+        -2.6243207454681396,
+        1.7000000476837158
       ],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.0471975803375244,
+        -5.0674301934860153e-17,
+        9.836880648136746e-18
+      ],
+      "focalLength": 26
     },
     "templateImage": "RMeCZRbd.opengl.png"
   },
@@ -465,7 +605,7 @@
     "id": "dQOmxo13",
     "label": {
       "en": "Rocker Panel Left (Rear)",
-      "fr":  "Bas de caisse gauche (arrière)"
+      "fr": "Bas de caisse gauche (arrière)"
     },
     "category": "exterior",
     "vehicle": {
@@ -476,9 +616,17 @@
     },
     "camera": {
       "name": "frame rail rear left x115 z139 0.1m",
-      "locationXyz": [1.11472487449646, 0.963828444480896, 0.10000000894069672],
-      "rotationXyzRad": [2.0071287155151367, -0.0, 2.4260077476501465],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.11472487449646,
+        0.963828444480896,
+        0.10000000894069672
+      ],
+      "rotationXyzRad": [
+        2.0071287155151367,
+        0,
+        2.4260077476501465
+      ],
+      "focalLength": 26
     },
     "templateImage": "dQOmxo13.opengl.png"
   },
@@ -486,7 +634,7 @@
     "id": "xfbBpq3Q",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -498,10 +646,16 @@
     "camera": {
       "name": "front bumper side left x73 z45 0.9m",
       "locationXyz": [
-        1.1992995738983154, -2.4210193157196045, 0.8999999761581421
+        1.1992995738983154,
+        -2.4210193157196045,
+        0.8999999761581421
       ],
-      "rotationXyzRad": [1.2740904092788696, -0.0, 0.7853981852531433],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.2740904092788696,
+        0,
+        0.7853981852531433
+      ],
+      "focalLength": 26
     },
     "templateImage": "xfbBpq3Q.opengl.png"
   },
@@ -509,7 +663,7 @@
     "id": "j8YHvnDP",
     "label": {
       "en": "Rear Bumper Side Left",
-      "fr":  "Pare-chocs arrière côté gauche"
+      "fr": "Pare-chocs arrière côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -520,9 +674,17 @@
     },
     "camera": {
       "name": "rear bumper side left x74 z140 1m",
-      "locationXyz": [1.1293162107467651, 2.5584888458251953, 1.0],
-      "rotationXyzRad": [1.2915436029434204, -0.0, 2.4434609413146973],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.1293162107467651,
+        2.5584888458251953,
+        1
+      ],
+      "rotationXyzRad": [
+        1.2915436029434204,
+        0,
+        2.4434609413146973
+      ],
+      "focalLength": 26
     },
     "templateImage": "j8YHvnDP.opengl.png"
   },
@@ -530,7 +692,7 @@
     "id": "8_W2PO8L",
     "label": {
       "en": "Rear Wheel Left",
-      "fr":  "Roue arrière gauche"
+      "fr": "Roue arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -542,10 +704,16 @@
     "camera": {
       "name": "rear wheel left x85 z90 0.6m",
       "locationXyz": [
-        1.8515325784683228, 1.2667466402053833, 0.6000000238418579
+        1.8515325784683228,
+        1.2667466402053833,
+        0.6000000238418579
       ],
-      "rotationXyzRad": [1.483529806137085, -0.0, 1.5707963705062866],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.483529806137085,
+        0,
+        1.5707963705062866
+      ],
+      "focalLength": 26
     },
     "templateImage": "8_W2PO8L.opengl.png"
   },
@@ -553,7 +721,7 @@
     "id": "xQKQ0bXS",
     "label": {
       "en": "Front Wheel Left",
-      "fr":  "Roue avant gauche"
+      "fr": "Roue avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -565,10 +733,16 @@
     "camera": {
       "name": "front wheel left x85 z90 0.6m",
       "locationXyz": [
-        1.857212781906128, -1.1906272172927856, 0.6000000238418579
+        1.857212781906128,
+        -1.1906272172927856,
+        0.6000000238418579
       ],
-      "rotationXyzRad": [1.483529806137085, -0.0, 1.5707963705062866],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.483529806137085,
+        0,
+        1.5707963705062866
+      ],
+      "focalLength": 26
     },
     "templateImage": "xQKQ0bXS.opengl.png"
   },
@@ -576,7 +750,7 @@
     "id": "UHZkpCuK",
     "label": {
       "en": "Rocker Panel Left",
-      "fr":  "Bas de caisse gauche"
+      "fr": "Bas de caisse gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -587,9 +761,17 @@
     },
     "camera": {
       "name": "rocker panel left x95 z90 0.6m",
-      "locationXyz": [2.345973014831543, 0.0, 0.6000000238418579],
-      "rotationXyzRad": [1.6580628156661987, -0.0, 1.5707963705062866],
-      "focalLength": 26.0
+      "locationXyz": [
+        2.345973014831543,
+        0,
+        0.6000000238418579
+      ],
+      "rotationXyzRad": [
+        1.6580628156661987,
+        0,
+        1.5707963705062866
+      ],
+      "focalLength": 26
     },
     "templateImage": "UHZkpCuK.opengl.png"
   },
@@ -597,7 +779,7 @@
     "id": "VmFL3v2A",
     "label": {
       "en": "Front Door Left",
-      "fr":  "Portière avant gauche"
+      "fr": "Portière avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -608,9 +790,17 @@
     },
     "camera": {
       "name": "front door left x80 z70 1m",
-      "locationXyz": [1.8842357397079468, -0.7803248167037964, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, 1.2217304706573486],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.8842357397079468,
+        -0.7803248167037964,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        1.2217304706573486
+      ],
+      "focalLength": 26
     },
     "templateImage": "VmFL3v2A.opengl.png"
   },
@@ -618,7 +808,7 @@
     "id": "1-gwCM0m",
     "label": {
       "en": "Rear Door Left",
-      "fr":  "Portière arrière gauche"
+      "fr": "Portière arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -629,9 +819,17 @@
     },
     "camera": {
       "name": "rear door left x80 z70 1m",
-      "locationXyz": [1.8402453660964966, 0.29878973960876465, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, 1.2217304706573486],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.8402453660964966,
+        0.29878973960876465,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        1.2217304706573486
+      ],
+      "focalLength": 26
     },
     "templateImage": "1-gwCM0m.opengl.png"
   },
@@ -639,7 +837,7 @@
     "id": "T24v9XS8",
     "label": {
       "en": "Front Door Left",
-      "fr":  "Portière avant gauche"
+      "fr": "Portière avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -650,9 +848,17 @@
     },
     "camera": {
       "name": "front door left x80 z60 1m",
-      "locationXyz": [1.7169437408447266, -0.9741133451461792, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, 1.0471975803375244],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.7169437408447266,
+        -0.9741133451461792,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        1.0471975803375244
+      ],
+      "focalLength": 26
     },
     "templateImage": "T24v9XS8.opengl.png"
   },
@@ -660,7 +866,7 @@
     "id": "GOQq1-nN",
     "label": {
       "en": "Front Door Left",
-      "fr":  "Portière avant gauche"
+      "fr": "Portière avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -671,9 +877,17 @@
     },
     "camera": {
       "name": "front door left x85 z110 1m",
-      "locationXyz": [1.9469342231750488, 0.2433021515607834, 1.0],
-      "rotationXyzRad": [1.483529806137085, 0.0, 1.9198622703552246],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.9469342231750488,
+        0.2433021515607834,
+        1
+      ],
+      "rotationXyzRad": [
+        1.483529806137085,
+        0,
+        1.9198622703552246
+      ],
+      "focalLength": 26
     },
     "templateImage": "GOQq1-nN.opengl.png"
   },
@@ -681,7 +895,7 @@
     "id": "D4r9OKHt",
     "label": {
       "en": "Rear Door Left",
-      "fr":  "Portière avant gauche"
+      "fr": "Portière avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -692,9 +906,17 @@
     },
     "camera": {
       "name": "rear door left x80 z110 1m",
-      "locationXyz": [1.8319326639175415, 1.1923993825912476, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, 1.919862151145935],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.8319326639175415,
+        1.1923993825912476,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        1.919862151145935
+      ],
+      "focalLength": 26
     },
     "templateImage": "D4r9OKHt.opengl.png"
   },
@@ -702,7 +924,7 @@
     "id": "OOJDJ7go",
     "label": {
       "en": "Rear Door Left",
-      "fr":  "Portière avant gauche"
+      "fr": "Portière avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -713,9 +935,17 @@
     },
     "camera": {
       "name": "rear door left x80 z120 1m",
-      "locationXyz": [1.6542497873306274, 1.35085928440094, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, 2.094395160675049],
-      "focalLength": 26.0
+      "locationXyz": [
+        1.6542497873306274,
+        1.35085928440094,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        2.094395160675049
+      ],
+      "focalLength": 26
     },
     "templateImage": "OOJDJ7go.opengl.png"
   },
@@ -723,7 +953,7 @@
     "id": "Fh972HlF",
     "label": {
       "en": "Front Undercarriage",
-      "fr":  "Châssis avant"
+      "fr": "Châssis avant"
     },
     "category": "exterior",
     "vehicle": {
@@ -734,9 +964,17 @@
     },
     "camera": {
       "name": "front undercarriage x115 0.1m",
-      "locationXyz": [0.0, -2.485210418701172, 0.10000000149011612],
-      "rotationXyzRad": [2.0071287155151367, 0.0, 0.0],
-      "focalLength": 26.0
+      "locationXyz": [
+        0,
+        -2.485210418701172,
+        0.10000000149011612
+      ],
+      "rotationXyzRad": [
+        2.0071287155151367,
+        0,
+        0
+      ],
+      "focalLength": 26
     },
     "templateImage": "Fh972HlF.opengl.png"
   },
@@ -744,7 +982,7 @@
     "id": "jgB-cu5G",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -755,9 +993,17 @@
     },
     "camera": {
       "name": "front fender right x67 z-45 1.5m",
-      "locationXyz": [-1.7549400329589844, -2.4460859298706055, 1.5],
-      "rotationXyzRad": [1.1693706512451172, -0.0, -0.7853981852531433],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.7549400329589844,
+        -2.4460859298706055,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1693706512451172,
+        0,
+        -0.7853981852531433
+      ],
+      "focalLength": 26
     },
     "templateImage": "jgB-cu5G.opengl.png"
   },
@@ -765,7 +1011,7 @@
     "id": "0U14gFyk",
     "label": {
       "en": "Front Lateral Right",
-      "fr":  "Avant latéral droit"
+      "fr": "Avant latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -777,10 +1023,16 @@
     "camera": {
       "name": "front lateral right x79 z-75 0.9m",
       "locationXyz": [
-        -2.171880006790161, -1.1752331256866455, 0.8999999761581421
+        -2.171880006790161,
+        -1.1752331256866455,
+        0.8999999761581421
       ],
-      "rotationXyzRad": [1.378810167312622, -0.0, -1.3089969158172607],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.378810167312622,
+        0,
+        -1.3089969158172607
+      ],
+      "focalLength": 26
     },
     "templateImage": "0U14gFyk.opengl.png"
   },
@@ -788,7 +1040,7 @@
     "id": "Cce1KCd3",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Aile arrière droite"
+      "fr": "Aile arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -799,9 +1051,17 @@
     },
     "camera": {
       "name": "rear fender right x66 z-130 1.5m",
-      "locationXyz": [-1.7676399946212769, 2.285799741744995, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, -2.268928050994873],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.7676399946212769,
+        2.285799741744995,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        -2.268928050994873
+      ],
+      "focalLength": 26
     },
     "templateImage": "Cce1KCd3.opengl.png"
   },
@@ -809,7 +1069,7 @@
     "id": "QqBpHiVP",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -821,10 +1081,16 @@
     "camera": {
       "name": "rear lateral right x80 z-95 0.9m",
       "locationXyz": [
-        -2.140860080718994, 1.229339838027954, 0.8999999761581421
+        -2.140860080718994,
+        1.229339838027954,
+        0.8999999761581421
       ],
-      "rotationXyzRad": [1.3962633609771729, -0.0, -1.6580628156661987],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        -1.6580628156661987
+      ],
+      "focalLength": 26
     },
     "templateImage": "QqBpHiVP.opengl.png"
   },
@@ -832,7 +1098,7 @@
     "id": "Pzgw0WGe",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droites"
+      "fr": "Portières droites"
     },
     "category": "exterior",
     "vehicle": {
@@ -843,9 +1109,17 @@
     },
     "camera": {
       "name": "doors right x67 z-60 1.5m",
-      "locationXyz": [-2.112499952316284, -0.795009970664978, 1.5],
-      "rotationXyzRad": [1.1693706512451172, 0.0, -1.0471975803375244],
-      "focalLength": 26.0
+      "locationXyz": [
+        -2.112499952316284,
+        -0.795009970664978,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1693706512451172,
+        0,
+        -1.0471975803375244
+      ],
+      "focalLength": 26
     },
     "templateImage": "Pzgw0WGe.opengl.png"
   },
@@ -853,7 +1127,7 @@
     "id": "jqJOb6Ov",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -864,9 +1138,17 @@
     },
     "camera": {
       "name": "front fender right x65 z-57 1.5m",
-      "locationXyz": [-1.9203100204467773, -2.0104517936706543, 1.5],
-      "rotationXyzRad": [1.1344640254974365, -0.0, -0.9948377013206482],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.9203100204467773,
+        -2.0104517936706543,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1344640254974365,
+        0,
+        -0.9948377013206482
+      ],
+      "focalLength": 26
     },
     "templateImage": "jqJOb6Ov.opengl.png"
   },
@@ -874,7 +1156,7 @@
     "id": "EqLDVYj3",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -885,9 +1167,17 @@
     },
     "camera": {
       "name": "front fender right x66 z-30 1.5m",
-      "locationXyz": [-1.0768400430679321, -2.856078624725342, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, -0.5235987901687622],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.0768400430679321,
+        -2.856078624725342,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        -0.5235987901687622
+      ],
+      "focalLength": 26
     },
     "templateImage": "EqLDVYj3.opengl.png"
   },
@@ -895,7 +1185,7 @@
     "id": "j3E2UHFc",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Aile arrière droite"
+      "fr": "Aile arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -906,9 +1196,17 @@
     },
     "camera": {
       "name": "rear fender right x65 z-140 1.5m",
-      "locationXyz": [-1.3991299867630005, 2.5577476024627686, 1.5],
-      "rotationXyzRad": [1.1344640254974365, -0.0, -2.4434609413146973],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.3991299867630005,
+        2.5577476024627686,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1344640254974365,
+        0,
+        -2.4434609413146973
+      ],
+      "focalLength": 26
     },
     "templateImage": "j3E2UHFc.opengl.png"
   },
@@ -916,7 +1214,7 @@
     "id": "AoO-nOoM",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -927,9 +1225,17 @@
     },
     "camera": {
       "name": "rear lateral right x66 z-95 1.5m",
-      "locationXyz": [-2.172029972076416, 1.09205961227417, 1.5],
-      "rotationXyzRad": [1.1519173383712769, -0.0, -1.6580628156661987],
-      "focalLength": 26.0
+      "locationXyz": [
+        -2.172029972076416,
+        1.09205961227417,
+        1.5
+      ],
+      "rotationXyzRad": [
+        1.1519173383712769,
+        0,
+        -1.6580628156661987
+      ],
+      "focalLength": 26
     },
     "templateImage": "AoO-nOoM.opengl.png"
   },
@@ -937,7 +1243,7 @@
     "id": "WWZsroCu",
     "label": {
       "en": "Rocker Panel Right",
-      "fr":  "Bas de caisse droit"
+      "fr": "Bas de caisse droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -949,10 +1255,16 @@
     "camera": {
       "name": "frame rail right x115 z-41 0.1m",
       "locationXyz": [
-        -1.0736500024795532, -1.0054600238800049, 0.10000000894069672
+        -1.0736500024795532,
+        -1.0054600238800049,
+        0.10000000894069672
       ],
-      "rotationXyzRad": [2.0071287155151367, -0.0, -0.7155849933624268],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        2.0071287155151367,
+        0,
+        -0.7155849933624268
+      ],
+      "focalLength": 26
     },
     "templateImage": "WWZsroCu.opengl.png"
   },
@@ -960,7 +1272,7 @@
     "id": "CELBsvYD",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -972,10 +1284,16 @@
     "camera": {
       "name": "front bumper side right x73 z-45 0.9m",
       "locationXyz": [
-        -1.1993000507354736, -2.4210193157196045, 0.8999999761581421
+        -1.1993000507354736,
+        -2.4210193157196045,
+        0.8999999761581421
       ],
-      "rotationXyzRad": [1.2740904092788696, -0.0, -0.7853981852531433],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.2740904092788696,
+        0,
+        -0.7853981852531433
+      ],
+      "focalLength": 26
     },
     "templateImage": "CELBsvYD.opengl.png"
   },
@@ -983,7 +1301,7 @@
     "id": "PuIw17h0",
     "label": {
       "en": "Front Wheel Right",
-      "fr":  "Roue avant droite"
+      "fr": "Roue avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -995,10 +1313,16 @@
     "camera": {
       "name": "front wheel right x85 z-90 0.6m",
       "locationXyz": [
-        -1.8572100400924683, -1.1906272172927856, 0.6000000238418579
+        -1.8572100400924683,
+        -1.1906272172927856,
+        0.6000000238418579
       ],
-      "rotationXyzRad": [1.483529806137085, -0.0, -1.5707963705062866],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.483529806137085,
+        0,
+        -1.5707963705062866
+      ],
+      "focalLength": 26
     },
     "templateImage": "PuIw17h0.opengl.png"
   },
@@ -1006,7 +1330,7 @@
     "id": "LDRoAPnk",
     "label": {
       "en": "Rear Bumper Side Right",
-      "fr":  "Pare-chocs arrière côté droit"
+      "fr": "Pare-chocs arrière côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1017,9 +1341,17 @@
     },
     "camera": {
       "name": "rear bumper side right x74 z-140 1m",
-      "locationXyz": [-1.1293200254440308, 2.5584888458251953, 1.0],
-      "rotationXyzRad": [1.2915436029434204, -0.0, -2.4434609413146973],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.1293200254440308,
+        2.5584888458251953,
+        1
+      ],
+      "rotationXyzRad": [
+        1.2915436029434204,
+        0,
+        -2.4434609413146973
+      ],
+      "focalLength": 26
     },
     "templateImage": "LDRoAPnk.opengl.png"
   },
@@ -1027,7 +1359,7 @@
     "id": "rN39Y3HR",
     "label": {
       "en": "Rear Wheel Right",
-      "fr":  "Roue arrière droite"
+      "fr": "Roue arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1039,10 +1371,16 @@
     "camera": {
       "name": "rear wheel right x85 z-90 0.6m",
       "locationXyz": [
-        -1.8515299558639526, 1.2667466402053833, 0.6000000238418579
+        -1.8515299558639526,
+        1.2667466402053833,
+        0.6000000238418579
       ],
-      "rotationXyzRad": [1.483529806137085, -0.0, -1.5707963705062866],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        1.483529806137085,
+        0,
+        -1.5707963705062866
+      ],
+      "focalLength": 26
     },
     "templateImage": "rN39Y3HR.opengl.png"
   },
@@ -1050,7 +1388,7 @@
     "id": "B5s1CWT-",
     "label": {
       "en": "Rocker Panel Right",
-      "fr":  "Bas de caisse droit"
+      "fr": "Bas de caisse droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1061,9 +1399,17 @@
     },
     "camera": {
       "name": "rocker panel right x95 z-90 0.6m",
-      "locationXyz": [-2.3459699153900146, 0.0, 0.6000000238418579],
-      "rotationXyzRad": [1.6580628156661987, -0.0, -1.5707963705062866],
-      "focalLength": 26.0
+      "locationXyz": [
+        -2.3459699153900146,
+        0,
+        0.6000000238418579
+      ],
+      "rotationXyzRad": [
+        1.6580628156661987,
+        0,
+        -1.5707963705062866
+      ],
+      "focalLength": 26
     },
     "templateImage": "B5s1CWT-.opengl.png"
   },
@@ -1071,7 +1417,7 @@
     "id": "eWZsEThb",
     "label": {
       "en": "Rocker Panel Right (Rear)",
-      "fr":  "Bas de caisse droit (arrière)"
+      "fr": "Bas de caisse droit (arrière)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1083,10 +1429,16 @@
     "camera": {
       "name": "frame rail rear right x115 z-139 0.1m",
       "locationXyz": [
-        -1.1147199869155884, 0.963828444480896, 0.10000000894069672
+        -1.1147199869155884,
+        0.963828444480896,
+        0.10000000894069672
       ],
-      "rotationXyzRad": [2.0071287155151367, -0.0, -2.4260077476501465],
-      "focalLength": 26.0
+      "rotationXyzRad": [
+        2.0071287155151367,
+        0,
+        -2.4260077476501465
+      ],
+      "focalLength": 26
     },
     "templateImage": "eWZsEThb.opengl.png"
   },
@@ -1094,7 +1446,7 @@
     "id": "2RFF3Uf8",
     "label": {
       "en": "Rear Door Right",
-      "fr":  "Portière arrière droite"
+      "fr": "Portière arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1105,9 +1457,17 @@
     },
     "camera": {
       "name": "rear door right x80 z-120 1m",
-      "locationXyz": [-1.6542500257492065, 1.35085928440094, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, -2.094395160675049],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.6542500257492065,
+        1.35085928440094,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        -2.094395160675049
+      ],
+      "focalLength": 26
     },
     "templateImage": "2RFF3Uf8.opengl.png"
   },
@@ -1115,7 +1475,7 @@
     "id": "TDLex8-D",
     "label": {
       "en": "Rear Door Right",
-      "fr":  "Portière arrière droite"
+      "fr": "Portière arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1126,9 +1486,17 @@
     },
     "camera": {
       "name": "rear door right x80 z-110 1m",
-      "locationXyz": [-1.8319300413131714, 1.1923993825912476, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, -1.919862151145935],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.8319300413131714,
+        1.1923993825912476,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        -1.919862151145935
+      ],
+      "focalLength": 26
     },
     "templateImage": "TDLex8-D.opengl.png"
   },
@@ -1136,7 +1504,7 @@
     "id": "6MR5C13s",
     "label": {
       "en": "Rear Door Right",
-      "fr":  "Portière arrière droite"
+      "fr": "Portière arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1147,9 +1515,17 @@
     },
     "camera": {
       "name": "rear door right x80 z-70 1m",
-      "locationXyz": [-1.840250015258789, 0.29879000782966614, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, -1.2217304706573486],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.840250015258789,
+        0.29879000782966614,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        -1.2217304706573486
+      ],
+      "focalLength": 26
     },
     "templateImage": "6MR5C13s.opengl.png"
   },
@@ -1157,7 +1533,7 @@
     "id": "QJ_yOnBl",
     "label": {
       "en": "Front Door Right",
-      "fr":  "Portière avant droite"
+      "fr": "Portière avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1168,9 +1544,17 @@
     },
     "camera": {
       "name": "front door right x85 z-110 1m",
-      "locationXyz": [-1.9469300508499146, 0.2433021515607834, 1.0],
-      "rotationXyzRad": [1.483529806137085, 0.0, -1.919862151145935],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.9469300508499146,
+        0.2433021515607834,
+        1
+      ],
+      "rotationXyzRad": [
+        1.483529806137085,
+        0,
+        -1.919862151145935
+      ],
+      "focalLength": 26
     },
     "templateImage": "QJ_yOnBl.opengl.png"
   },
@@ -1178,7 +1562,7 @@
     "id": "2wVqenwP",
     "label": {
       "en": "Front Door Right",
-      "fr":  "Portière avant droite"
+      "fr": "Portière avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1189,9 +1573,17 @@
     },
     "camera": {
       "name": "front door right x80 z-60 1m",
-      "locationXyz": [-1.7169400453567505, -0.9741129875183105, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, -1.0471975803375244],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.7169400453567505,
+        -0.9741129875183105,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        -1.0471975803375244
+      ],
+      "focalLength": 26
     },
     "templateImage": "2wVqenwP.opengl.png"
   },
@@ -1199,7 +1591,7 @@
     "id": "enHQTFae",
     "label": {
       "en": "Front Door Right",
-      "fr":  "Portière avant droite"
+      "fr": "Portière avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1210,9 +1602,17 @@
     },
     "camera": {
       "name": "front door right x80 z-70 1m",
-      "locationXyz": [-1.8842400312423706, -0.7803249955177307, 1.0],
-      "rotationXyzRad": [1.3962633609771729, 0.0, -1.2217304706573486],
-      "focalLength": 26.0
+      "locationXyz": [
+        -1.8842400312423706,
+        -0.7803249955177307,
+        1
+      ],
+      "rotationXyzRad": [
+        1.3962633609771729,
+        0,
+        -1.2217304706573486
+      ],
+      "focalLength": 26
     },
     "templateImage": "enHQTFae.opengl.png"
   },
@@ -1220,7 +1620,7 @@
     "id": "vxRr9chD",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1239,10 +1639,10 @@
       ],
       "rotation_xyz_rad": [
         1.2740905284881592,
-        -0.0,
+        0,
         0.7853983044624329
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "vxRr9chD.opengl.png"
   },
@@ -1250,7 +1650,7 @@
     "id": "g30kyiVH",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1269,10 +1669,10 @@
       ],
       "rotation_xyz_rad": [
         1.2740905284881592,
-        5.90050008852927e-09,
+        5.90050008852927e-9,
         -0.7853983044624329
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "g30kyiVH.opengl.png"
   },
@@ -1280,7 +1680,7 @@
     "id": "cDe2q69X",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1299,10 +1699,10 @@
       ],
       "rotation_xyz_rad": [
         1.1693706512451172,
-        -0.0,
+        0,
         0.9948376417160034
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "cDe2q69X.opengl.png"
   },
@@ -1310,7 +1710,7 @@
     "id": "WKJlxkiF",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1329,10 +1729,10 @@
       ],
       "rotation_xyz_rad": [
         1.1519173383712769,
-        -0.0,
+        0,
         0.7853982448577881
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "WKJlxkiF.opengl.png"
   },
@@ -1340,7 +1740,7 @@
     "id": "5CFsFvj7",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1359,10 +1759,10 @@
       ],
       "rotation_xyz_rad": [
         1.1693706512451172,
-        -0.0,
+        0,
         -0.9948376417160034
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "5CFsFvj7.opengl.png"
   },
@@ -1370,7 +1770,7 @@
     "id": "I0cOpT1e",
     "label": {
       "en": "Front",
-      "fr":  "Avant"
+      "fr": "Avant"
     },
     "category": "exterior",
     "vehicle": {
@@ -1383,16 +1783,16 @@
     "camera": {
       "name": "front x65 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         -3.371039628982544,
         1.399999976158142
       ],
       "rotation_xyz_rad": [
         1.1344640254974365,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "I0cOpT1e.opengl.png"
   },
@@ -1400,7 +1800,7 @@
     "id": "R_f4g8MN",
     "label": {
       "en": "Doors Left",
-      "fr":  "Portières gauches"
+      "fr": "Portières gauches"
     },
     "category": "exterior",
     "vehicle": {
@@ -1419,10 +1819,10 @@
       ],
       "rotation_xyz_rad": [
         1.1693706512451172,
-        -0.0,
+        0,
         1.0471975803375244
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "R_f4g8MN.opengl.png"
   },
@@ -1430,7 +1830,7 @@
     "id": "fDKWkHHp",
     "label": {
       "en": "Doors Right",
-      "fr":  "Portières droites"
+      "fr": "Portières droites"
     },
     "category": "exterior",
     "vehicle": {
@@ -1449,10 +1849,10 @@
       ],
       "rotation_xyz_rad": [
         1.1693706512451172,
-        -0.0,
+        0,
         -1.0471975803375244
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fDKWkHHp.opengl.png"
   },
@@ -1460,7 +1860,7 @@
     "id": "vedHBC2n",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1479,10 +1879,10 @@
       ],
       "rotation_xyz_rad": [
         1.0471975803375244,
-        -0.0,
+        0,
         1.0471975803375244
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "vedHBC2n.opengl.png"
   },
@@ -1490,7 +1890,7 @@
     "id": "7bTC-nGS",
     "label": {
       "en": "Rear Fender Left",
-      "fr":  "Aile arrière gauche"
+      "fr": "Aile arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1509,10 +1909,10 @@
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         2.286381244659424
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "7bTC-nGS.opengl.png"
   },
@@ -1520,7 +1920,7 @@
     "id": "hhCBI9oZ",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -1533,16 +1933,16 @@
     "camera": {
       "name": "rear x66 z-180 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         3.490000009536743,
         1.399999976158142
       ],
       "rotation_xyz_rad": [
         1.1519173383712769,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "hhCBI9oZ.opengl.png"
   },
@@ -1550,7 +1950,7 @@
     "id": "e_QIW30o",
     "label": {
       "en": "Rear Fender Right",
-      "fr":  "Aile arrière droite"
+      "fr": "Aile arrière droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1569,10 +1969,10 @@
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        3.636411838314757e-09,
+        3.636411838314757e-9,
         -2.286381244659424
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "e_QIW30o.opengl.png"
   },
@@ -1580,7 +1980,7 @@
     "id": "McR3TJK0",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1599,10 +1999,10 @@
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         1.7453292608261108
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "McR3TJK0.opengl.png"
   },
@@ -1610,7 +2010,7 @@
     "id": "fDo5M0Fp",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1629,10 +2029,10 @@
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         -1.7453292608261108
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fDo5M0Fp.opengl.png"
   },
@@ -1640,7 +2040,7 @@
     "id": "fesc20-LTe3X2bg",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1662,10 +2062,10 @@
       ],
       "rotation_xyz_rad": [
         1.3962633609771729,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-LTe3X2bg.opengl.png"
   },
@@ -1673,7 +2073,7 @@
     "id": "fesc20-bD8CBhYZ",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1695,10 +2095,10 @@
       ],
       "rotation_xyz_rad": [
         1.2042770385742188,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-bD8CBhYZ.opengl.png"
   },
@@ -1706,7 +2106,7 @@
     "id": "fesc20-GdIxD-_N",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1722,16 +2122,16 @@
     "camera": {
       "name": "42 front fender left z57 1.4m",
       "location_xyz": [
-        2.0,
+        2,
         -2.25,
         1.4
       ],
       "rotation_xyz_rad": [
         1.2217304706573486,
-        -0.0,
+        0,
         0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-GdIxD-_N.opengl.png"
   },
@@ -1739,7 +2139,7 @@
     "id": "fesc20-6GPUkfYn",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -1755,16 +2155,16 @@
     "camera": {
       "name": "68 front roof IGNORE_MIRROR left z50 1.8m",
       "location_xyz": [
-        1.0,
+        1,
         -0.4,
         1.8
       ],
       "rotation_xyz_rad": [
         1.0821040868759155,
-        -0.0,
+        0,
         0.8726646304130554
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-6GPUkfYn.opengl.png"
   },
@@ -1772,7 +2172,7 @@
     "id": "fesc20-iUN0g_Zn",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1794,10 +2194,10 @@
       ],
       "rotation_xyz_rad": [
         1.2915436029434204,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-iUN0g_Zn.opengl.png"
   },
@@ -1805,7 +2205,7 @@
     "id": "fesc20-P470Q-jm",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1827,10 +2227,10 @@
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-P470Q-jm.opengl.png"
   },
@@ -1838,7 +2238,7 @@
     "id": "fesc20-dfICsfSV",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1856,14 +2256,14 @@
       "location_xyz": [
         1.3,
         2.6,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-dfICsfSV.opengl.png"
   },
@@ -1871,7 +2271,7 @@
     "id": "fesc20-X8k7UFGf",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -1887,16 +2287,16 @@
     "camera": {
       "name": "180 rear z-180 1.5m",
       "location_xyz": [
-        0.0,
+        0,
         3.3,
         1.5
       ],
       "rotation_xyz_rad": [
         1.2042771577835083,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-X8k7UFGf.opengl.png"
   },
@@ -1904,7 +2304,7 @@
     "id": "fesc20-Wzdtgqqz",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -1926,10 +2326,10 @@
       ],
       "rotation_xyz_rad": [
         1.3962633609771729,
-        -0.0,
+        0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-Wzdtgqqz.opengl.png"
   },
@@ -1937,7 +2337,7 @@
     "id": "fesc20-CEGtqHkk",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -1953,16 +2353,16 @@
     "camera": {
       "name": "318 front fender right z-57 1.4m",
       "location_xyz": [
-        -2.0,
+        -2,
         -2.25,
         1.4
       ],
       "rotation_xyz_rad": [
         1.2217304706573486,
-        -0.0,
+        0,
         -0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-CEGtqHkk.opengl.png"
   },
@@ -1970,7 +2370,7 @@
     "id": "fesc20-xDFQNR3C",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -1992,10 +2392,10 @@
       ],
       "rotation_xyz_rad": [
         1.2915436029434204,
-        -0.0,
+        0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-xDFQNR3C.opengl.png"
   },
@@ -2003,7 +2403,7 @@
     "id": "fesc20-r_UeXQRO",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2025,10 +2425,10 @@
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         -1.9198620319366455
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-r_UeXQRO.opengl.png"
   },
@@ -2036,7 +2436,7 @@
     "id": "fesc20-LZc7p2kK",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr": "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2054,14 +2454,14 @@
       "location_xyz": [
         -1.3,
         2.6,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         -2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-LZc7p2kK.opengl.png"
   },
@@ -2069,7 +2469,7 @@
     "id": "fesc20-H1dfdfvH",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2085,16 +2485,16 @@
     "camera": {
       "name": "0 front low 1.1m",
       "location_xyz": [
-        0.0,
+        0,
         -3.25,
         1.1
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-H1dfdfvH.opengl.png"
   },
@@ -2102,7 +2502,7 @@
     "id": "fesc20-WMUaKDp1",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -2118,24 +2518,564 @@
     "camera": {
       "name": "0 hood 1.6m",
       "location_xyz": [
-        0.0,
+        0,
         -2.8,
         1.6
       ],
       "rotation_xyz_rad": [
         1.1519173383712769,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "fesc20-WMUaKDp1.opengl.png"
+  },
+  "fesc20-UjtbRtJS": {
+    "id": "fesc20-UjtbRtJS",
+    "label": {
+      "en": "Rear",
+      "fr": "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.6m",
+      "location_xyz": [
+        0,
+        3.2,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        67,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "fesc20-UjtbRtJS.opengl.png",
+    "overlay": "fesc20-UjtbRtJS.svg",
+    "mirror_sight": null
+  },
+  "fesc20-fOt832UV": {
+    "id": "fesc20-fOt832UV",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "90 lateral low left z90 0.8m",
+      "location_xyz": [
+        2.4,
+        0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90,
+    "template_image": "fesc20-fOt832UV.opengl.png",
+    "overlay": "fesc20-fOt832UV.svg",
+    "mirror_sight": "fesc20-P0oSEh8p"
+  },
+  "fesc20-26n47kaO": {
+    "id": "fesc20-26n47kaO",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "90 lateral full left z90 1.6m",
+      "location_xyz": [
+        3.9,
+        0,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        78,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90,
+    "template_image": "fesc20-26n47kaO.opengl.png",
+    "overlay": "fesc20-26n47kaO.svg",
+    "mirror_sight": "fesc20-HYz5ziHi"
+  },
+  "fesc20-xBFiEy-_": {
+    "id": "fesc20-xBFiEy-_",
+    "label": {
+      "en": "Rear Low",
+      "fr": "Arrière - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "180 rear low z-180 0.85m",
+      "location_xyz": [
+        0,
+        3.3,
+        0.85
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "fesc20-xBFiEy-_.opengl.png",
+    "overlay": "fesc20-xBFiEy-_.svg",
+    "mirror_sight": null
+  },
+  "fesc20-4Wqx52oU": {
+    "id": "fesc20-4Wqx52oU",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "126 rear lateral low left z100 0.9m",
+      "location_xyz": [
+        2.1,
+        1.55,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 126.43086,
+    "template_image": "fesc20-4Wqx52oU.opengl.png",
+    "overlay": "fesc20-4Wqx52oU.svg",
+    "mirror_sight": "fesc20-5Ts1UkPT"
+  },
+  "fesc20-WIQsf_gX": {
+    "id": "fesc20-WIQsf_gX",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "56 front lateral low left z80 0.95m",
+      "location_xyz": [
+        2.2,
+        -1.5,
+        0.95
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 55.71312,
+    "template_image": "fesc20-WIQsf_gX.opengl.png",
+    "overlay": "fesc20-WIQsf_gX.svg",
+    "mirror_sight": "fesc20-dKVLig1i"
+  },
+  "fesc20-P0oSEh8p": {
+    "id": "fesc20-P0oSEh8p",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "270 lateral low right z-90 0.8m",
+      "location_xyz": [
+        -2.4,
+        0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 270,
+    "template_image": "fesc20-P0oSEh8p.opengl.png",
+    "overlay": "fesc20-P0oSEh8p.svg",
+    "mirror_sight": "fesc20-fOt832UV"
+  },
+  "fesc20-HYz5ziHi": {
+    "id": "fesc20-HYz5ziHi",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "270 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -3.9,
+        0,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        78,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 270,
+    "template_image": "fesc20-HYz5ziHi.opengl.png",
+    "overlay": "fesc20-HYz5ziHi.svg",
+    "mirror_sight": "fesc20-26n47kaO"
+  },
+  "fesc20-5Ts1UkPT": {
+    "id": "fesc20-5Ts1UkPT",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "234 rear lateral low right z-100 0.9m",
+      "location_xyz": [
+        -2.1,
+        1.55,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 233.56914,
+    "template_image": "fesc20-5Ts1UkPT.opengl.png",
+    "overlay": "fesc20-5Ts1UkPT.svg",
+    "mirror_sight": "fesc20-4Wqx52oU"
+  },
+  "fesc20-dKVLig1i": {
+    "id": "fesc20-dKVLig1i",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "304 front lateral low right z-80 0.95m",
+      "location_xyz": [
+        -2.2,
+        -1.5,
+        0.95
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 304.28688,
+    "template_image": "fesc20-dKVLig1i.opengl.png",
+    "overlay": "fesc20-dKVLig1i.svg",
+    "mirror_sight": "fesc20-WIQsf_gX"
+  },
+  "fesc20-0mJeXBDf": {
+    "id": "fesc20-0mJeXBDf",
+    "label": {
+      "en": "Front Full Right",
+      "fr": "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "326 front full right z-45 1.5m",
+      "location_xyz": [
+        -1.85,
+        -2.7,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        69,
+        0,
+        -45
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 325.58163,
+    "template_image": "fesc20-0mJeXBDf.opengl.png",
+    "overlay": "fesc20-0mJeXBDf.svg",
+    "mirror_sight": "fesc20-bD8CBhYZ"
+  },
+  "fesc20-T4dIGLgy": {
+    "id": "fesc20-T4dIGLgy",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "145 rear full left z135 1.5m",
+      "location_xyz": [
+        1.85,
+        2.65,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        70,
+        0,
+        135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 145.0806,
+    "template_image": "fesc20-T4dIGLgy.opengl.png",
+    "overlay": "fesc20-T4dIGLgy.svg",
+    "mirror_sight": "fesc20-EJ0tXYBW"
+  },
+  "fesc20-EJ0tXYBW": {
+    "id": "fesc20-EJ0tXYBW",
+    "label": {
+      "en": "Rear Full Right",
+      "fr": "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "215 rear full right z-135 1.5m",
+      "location_xyz": [
+        -1.85,
+        2.65,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        70,
+        0,
+        -135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 214.9194,
+    "template_image": "fesc20-EJ0tXYBW.opengl.png",
+    "overlay": "fesc20-EJ0tXYBW.svg",
+    "mirror_sight": "fesc20-T4dIGLgy"
+  },
+  "fesc20-2bLRuhEQ": {
+    "id": "fesc20-2bLRuhEQ",
+    "label": {
+      "en": "Rear Roof",
+      "fr": "Toit Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "180 rear roof z-180 1.8m",
+      "location_xyz": [
+        0,
+        2.57,
+        1.8
+      ],
+      "rotation_xyz_deg": [
+        61,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "fesc20-2bLRuhEQ.opengl.png",
+    "overlay": "fesc20-2bLRuhEQ.svg",
+    "mirror_sight": null
+  },
+  "fesc20-DBLpo-52": {
+    "id": "fesc20-DBLpo-52",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr": "Toit (arrière droit)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [
+        2.15,
+        4.6,
+        1.67
+      ]
+    },
+    "camera": {
+      "name": "203 rear roof IGNORE_MIRROR right z-140 1.8m",
+      "location_xyz": [
+        -0.95,
+        2.25,
+        1.8
+      ],
+      "rotation_xyz_deg": [
+        62,
+        0,
+        -140
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 202.89055,
+    "template_image": "fesc20-DBLpo-52.opengl.png",
+    "overlay": "fesc20-DBLpo-52.svg",
+    "mirror_sight": null
   },
   "ff150-7UI3m9B3": {
     "id": "ff150-7UI3m9B3",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2160,7 +3100,7 @@
         2.0124076105641645e-16,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-7UI3m9B3.opengl.png"
   },
@@ -2168,7 +3108,7 @@
     "id": "ff150-KgHVkQBW",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2190,10 +3130,10 @@
       ],
       "rotation_xyz_rad": [
         1.2915436029434204,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-KgHVkQBW.opengl.png"
   },
@@ -2201,7 +3141,7 @@
     "id": "ff150-wO_fJ3DL",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2223,10 +3163,10 @@
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-wO_fJ3DL.opengl.png"
   },
@@ -2234,7 +3174,7 @@
     "id": "ff150-Ttsc7q6V",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2250,16 +3190,16 @@
     "camera": {
       "name": "48 front roof IGNORE_MIRROR left z50 2m",
       "location_xyz": [
-        1.0,
+        1,
         -0.9,
-        2.0
+        2
       ],
       "rotation_xyz_rad": [
         1.0821040868759155,
-        -0.0,
+        0,
         0.8726646900177002
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-Ttsc7q6V.opengl.png"
   },
@@ -2267,7 +3207,7 @@
     "id": "ff150-xbOhu7nK",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2283,16 +3223,16 @@
     "camera": {
       "name": "129 rear lateral left z110 1.5m",
       "location_xyz": [
-        3.0,
+        3,
         2.45,
         1.5
       ],
       "rotation_xyz_rad": [
         1.3439035415649414,
-        -0.0,
+        0,
         1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-xbOhu7nK.opengl.png"
   },
@@ -2300,7 +3240,7 @@
     "id": "ff150-nF_oFvhI",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -2316,16 +3256,16 @@
     "camera": {
       "name": "180 rear z-180 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         4.249999,
         1.4
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-nF_oFvhI.opengl.png"
   },
@@ -2333,7 +3273,7 @@
     "id": "ff150-gFp78fQO",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2355,10 +3295,10 @@
       ],
       "rotation_xyz_rad": [
         1.2915436029434204,
-        -0.0,
+        0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-gFp78fQO.opengl.png"
   },
@@ -2366,7 +3306,7 @@
     "id": "ff150-OviO2DlY",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2388,10 +3328,10 @@
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         -0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-OviO2DlY.opengl.png"
   },
@@ -2399,7 +3339,7 @@
     "id": "ff150-2WUJ179s",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2415,16 +3355,16 @@
     "camera": {
       "name": "231 rear lateral right z-110 1.5m",
       "location_xyz": [
-        -3.0,
+        -3,
         2.45,
         1.5
       ],
       "rotation_xyz_rad": [
         1.3439035415649414,
-        -0.0,
+        0,
         -1.9198620319366455
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-2WUJ179s.opengl.png"
   },
@@ -2432,7 +3372,7 @@
     "id": "ff150-_AoeFdVO",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2454,10 +3394,10 @@
       ],
       "rotation_xyz_rad": [
         1.3613568544387817,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-_AoeFdVO.opengl.png"
   },
@@ -2465,7 +3405,7 @@
     "id": "ff150--xPZZd83",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2487,10 +3427,10 @@
       ],
       "rotation_xyz_rad": [
         1.378810167312622,
-        -0.0,
+        0,
         2.4434609413146973
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150--xPZZd83.opengl.png"
   },
@@ -2498,7 +3438,7 @@
     "id": "ff150-o8MiTw8u",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2520,10 +3460,10 @@
       ],
       "rotation_xyz_rad": [
         1.3613568544387817,
-        -0.0,
+        0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-o8MiTw8u.opengl.png"
   },
@@ -2531,7 +3471,7 @@
     "id": "ff150-t3KBMPeD",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr": "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2553,10 +3493,10 @@
       ],
       "rotation_xyz_rad": [
         1.3788100481033325,
-        -0.0,
+        0,
         -2.4434609413146973
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-t3KBMPeD.opengl.png"
   },
@@ -2564,7 +3504,7 @@
     "id": "ff150-zXbg0l3z",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -2580,7 +3520,7 @@
     "camera": {
       "name": "0 front low 1.1m",
       "location_xyz": [
-        0.0,
+        0,
         -3.8,
         1.1
       ],
@@ -2589,7 +3529,7 @@
         2.0124076105641645e-16,
         1.2820449814646714e-16
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-zXbg0l3z.opengl.png"
   },
@@ -2597,7 +3537,7 @@
     "id": "ff150-3he9UOwy",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -2613,7 +3553,7 @@
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [
-        0.0,
+        0,
         -3.3,
         1.7
       ],
@@ -2622,15 +3562,483 @@
         2.0124076105641645e-16,
         1.2820449814646714e-16
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ff150-3he9UOwy.opengl.png"
+  },
+  "ff150-3lKZIoxw": {
+    "id": "ff150-3lKZIoxw",
+    "label": {
+      "en": "Front Full Right",
+      "fr": "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "324 front full right z-45 1.6m",
+      "location_xyz": [
+        -2.3,
+        -3.2,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        72,
+        0,
+        -45
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 324.29331,
+    "template_image": "ff150-3lKZIoxw.opengl.png",
+    "overlay": "ff150-3lKZIoxw.svg",
+    "mirror_sight": "ff150-7UI3m9B3"
+  },
+  "ff150-FqbrFVr2": {
+    "id": "ff150-FqbrFVr2",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "53 front lateral low left z80 1.05m",
+      "location_xyz": [
+        2.45,
+        -1.85,
+        1.05
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 52.94347,
+    "template_image": "ff150-FqbrFVr2.opengl.png",
+    "overlay": "ff150-FqbrFVr2.svg",
+    "mirror_sight": "ff150-7nvlys8r"
+  },
+  "ff150-7nvlys8r": {
+    "id": "ff150-7nvlys8r",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "307 front lateral low right z-80 1.05m",
+      "location_xyz": [
+        -2.45,
+        -1.85,
+        1.05
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 307.05653,
+    "template_image": "ff150-7nvlys8r.opengl.png",
+    "overlay": "ff150-7nvlys8r.svg",
+    "mirror_sight": "ff150-FqbrFVr2"
+  },
+  "ff150-vwE3yqdh": {
+    "id": "ff150-vwE3yqdh",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "90 lateral low left z90 0.8m",
+      "location_xyz": [
+        3.1,
+        0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90,
+    "template_image": "ff150-vwE3yqdh.opengl.png",
+    "overlay": "ff150-vwE3yqdh.svg",
+    "mirror_sight": "ff150-18YVVN-G"
+  },
+  "ff150-GOx2s_9L": {
+    "id": "ff150-GOx2s_9L",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "93 lateral full left z90 1.6m",
+      "location_xyz": [
+        5.05,
+        0.25,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        83,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 92.83411,
+    "template_image": "ff150-GOx2s_9L.opengl.png",
+    "overlay": "ff150-GOx2s_9L.svg",
+    "mirror_sight": "ff150-_UIadfVL"
+  },
+  "ff150-ouGGtRnf": {
+    "id": "ff150-ouGGtRnf",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "135 rear lateral low left z100 1m",
+      "location_xyz": [
+        2.35,
+        2.35,
+        1
+      ],
+      "rotation_xyz_deg": [
+        81,
+        0,
+        100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 135,
+    "template_image": "ff150-ouGGtRnf.opengl.png",
+    "overlay": "ff150-ouGGtRnf.svg",
+    "mirror_sight": "ff150-3rM9XB0Z"
+  },
+  "ff150-3dkU10af": {
+    "id": "ff150-3dkU10af",
+    "label": {
+      "en": "Rear Low",
+      "fr": "Arrière - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "180 rear low z-180 0.9m",
+      "location_xyz": [
+        0,
+        4.35,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "ff150-3dkU10af.opengl.png",
+    "overlay": "ff150-3dkU10af.svg",
+    "mirror_sight": null
+  },
+  "ff150-k4kh7Vra": {
+    "id": "ff150-k4kh7Vra",
+    "label": {
+      "en": "Rear",
+      "fr": "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.7m",
+      "location_xyz": [
+        0,
+        4.2,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        69,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "ff150-k4kh7Vra.opengl.png",
+    "overlay": "ff150-k4kh7Vra.svg",
+    "mirror_sight": null
+  },
+  "ff150-18YVVN-G": {
+    "id": "ff150-18YVVN-G",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "270 lateral low right z-90 0.8m",
+      "location_xyz": [
+        -3.1,
+        0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 270,
+    "template_image": "ff150-18YVVN-G.opengl.png",
+    "overlay": "ff150-18YVVN-G.svg",
+    "mirror_sight": "ff150-vwE3yqdh"
+  },
+  "ff150-_UIadfVL": {
+    "id": "ff150-_UIadfVL",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "267 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -5.05,
+        0.25,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        83,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 267.16589,
+    "template_image": "ff150-_UIadfVL.opengl.png",
+    "overlay": "ff150-_UIadfVL.svg",
+    "mirror_sight": "ff150-GOx2s_9L"
+  },
+  "ff150-3rM9XB0Z": {
+    "id": "ff150-3rM9XB0Z",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "225 rear lateral low right z-100 1m",
+      "location_xyz": [
+        -2.35,
+        2.35,
+        1
+      ],
+      "rotation_xyz_deg": [
+        81,
+        0,
+        -100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 225,
+    "template_image": "ff150-3rM9XB0Z.opengl.png",
+    "overlay": "ff150-3rM9XB0Z.svg",
+    "mirror_sight": "ff150-ouGGtRnf"
+  },
+  "ff150-phbX7Bef": {
+    "id": "ff150-phbX7Bef",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "148 rear full left z135 1.6m",
+      "location_xyz": [
+        2.25,
+        3.6,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        75,
+        0,
+        135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 147.99462,
+    "template_image": "ff150-phbX7Bef.opengl.png",
+    "overlay": "ff150-phbX7Bef.svg",
+    "mirror_sight": "ff150-tT8sqplK"
+  },
+  "ff150-tT8sqplK": {
+    "id": "ff150-tT8sqplK",
+    "label": {
+      "en": "Rear Full Right",
+      "fr": "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [
+        2.48,
+        5.8,
+        1.93
+      ]
+    },
+    "camera": {
+      "name": "212 rear full right z-135 1.6m",
+      "location_xyz": [
+        -2.25,
+        3.6,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        75,
+        0,
+        -135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 212.00538,
+    "template_image": "ff150-tT8sqplK.opengl.png",
+    "overlay": "ff150-tT8sqplK.svg",
+    "mirror_sight": "ff150-phbX7Bef"
   },
   "ffocus18-43ljK5xC": {
     "id": "ffocus18-43ljK5xC",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2652,10 +4060,10 @@
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-43ljK5xC.opengl.png"
   },
@@ -2663,7 +4071,7 @@
     "id": "ffocus18-GgOSpLl6",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2685,10 +4093,10 @@
       ],
       "rotation_xyz_rad": [
         1.1519173383712769,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-GgOSpLl6.opengl.png"
   },
@@ -2696,7 +4104,7 @@
     "id": "ffocus18-GiTxaJUq",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2712,16 +4120,16 @@
     "camera": {
       "name": "42 front fender left z57 1.4m",
       "location_xyz": [
-        2.0,
+        2,
         -2.2,
         1.4
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-GiTxaJUq.opengl.png"
   },
@@ -2750,11 +4158,11 @@
         1.7
       ],
       "rotation_xyz_deg": [
-        60.0,
-        -0.0,
-        50.0
+        60,
+        0,
+        50
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 63.43496,
     "template_image": "ffocus18-ZXKOomlv.opengl.png"
@@ -2763,7 +4171,7 @@
     "id": "ffocus18-L_oZ0LyK",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2785,10 +4193,10 @@
       ],
       "rotation_xyz_rad": [
         1.239183783531189,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-L_oZ0LyK.opengl.png"
   },
@@ -2796,7 +4204,7 @@
     "id": "ffocus18-lRDlWiwR",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs Avant Droit"
+      "fr": "Pare-chocs Avant Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -2817,11 +4225,11 @@
         0.8
       ],
       "rotation_xyz_deg": [
-        76.0,
-        -0.0,
-        -45.0
+        76,
+        0,
+        -45
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 335.22486,
     "template_image": "ffocus18-lRDlWiwR.opengl.png"
@@ -2830,7 +4238,7 @@
     "id": "ffocus18-zgLKB-Do",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -2846,16 +4254,16 @@
     "camera": {
       "name": "318 front fender right z-57 1.4m",
       "location_xyz": [
-        -2.0,
+        -2,
         -2.2,
         1.4
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         -0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-zgLKB-Do.opengl.png"
   },
@@ -2863,7 +4271,7 @@
     "id": "ffocus18-D_QaaCTd",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2885,10 +4293,10 @@
       ],
       "rotation_xyz_rad": [
         1.239183783531189,
-        -0.0,
+        0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-D_QaaCTd.opengl.png"
   },
@@ -2896,7 +4304,7 @@
     "id": "ffocus18-vFR9PKjB",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -2918,10 +4326,10 @@
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-vFR9PKjB.opengl.png"
   },
@@ -2947,14 +4355,14 @@
       "location_xyz": [
         1.4,
         2.5,
-        1.0
+        1
       ],
       "rotation_xyz_deg": [
-        75.0,
-        -0.0,
-        135.0
+        75,
+        0,
+        135
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 150.75118,
     "template_image": "ffocus18-9MeSIqp7.opengl.png"
@@ -2963,7 +4371,7 @@
     "id": "ffocus18-X2LDjCvr",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -2979,25 +4387,25 @@
     "camera": {
       "name": "180 rear old z-180 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         3.1,
         1.4
       ],
       "rotation_xyz_deg": [
-        67.0,
-        -0.0,
-        -180.0
+        67,
+        0,
+        -180
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
-    "angle_order": 180.0,
+    "angle_order": 180,
     "template_image": "ffocus18-X2LDjCvr.opengl.png"
   },
   "ffocus18-Wo8PkcLF": {
     "id": "ffocus18-Wo8PkcLF",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3019,10 +4427,10 @@
       ],
       "rotation_xyz_rad": [
         1.186823844909668,
-        -0.0,
+        0,
         -1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-Wo8PkcLF.opengl.png"
   },
@@ -3030,7 +4438,7 @@
     "id": "ffocus18-jWOq2CNN",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière Droit"
+      "fr": "Arrière Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3048,14 +4456,14 @@
       "location_xyz": [
         -1.4,
         2.5,
-        1.0
+        1
       ],
       "rotation_xyz_deg": [
-        75.0,
-        -0.0,
-        -135.0
+        75,
+        0,
+        -135
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 209.24883,
     "template_image": "ffocus18-jWOq2CNN.opengl.png"
@@ -3064,7 +4472,7 @@
     "id": "ffocus18-XlfgjQb9",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -3080,16 +4488,16 @@
     "camera": {
       "name": "0 front low 1m",
       "location_xyz": [
-        0.0,
+        0,
         -3.15,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.2740904092788696,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-XlfgjQb9.opengl.png"
   },
@@ -3097,7 +4505,7 @@
     "id": "ffocus18-3TiCVAaN",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -3113,16 +4521,16 @@
     "camera": {
       "name": "0 hood 1.6m",
       "location_xyz": [
-        0.0,
+        0,
         -2.8,
         1.6
       ],
       "rotation_xyz_rad": [
         1.0821040868759155,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ffocus18-3TiCVAaN.opengl.png"
   },
@@ -3151,11 +4559,11 @@
         0.85
       ],
       "rotation_xyz_deg": [
-        80.0,
-        -0.0,
-        80.0
+        80,
+        0,
+        80
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 53.80679,
     "template_image": "ffocus18-x_1SE7X-.opengl.png"
@@ -3181,17 +4589,17 @@
       "name": "90 lateral low left z90 0.8m",
       "location_xyz": [
         2.5,
-        0.0,
+        0,
         0.8
       ],
       "rotation_xyz_deg": [
-        90.0,
-        -0.0,
-        90.0
+        90,
+        0,
+        90
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
-    "angle_order": 90.0,
+    "angle_order": 90,
     "template_image": "ffocus18-yo9eBDW6.opengl.png"
   },
   "ffocus18-6FX31ty1": {
@@ -3219,11 +4627,11 @@
         1.6
       ],
       "rotation_xyz_deg": [
-        75.0,
-        -0.0,
-        90.0
+        75,
+        0,
+        90
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 89.22578,
     "template_image": "ffocus18-6FX31ty1.opengl.png"
@@ -3253,11 +4661,11 @@
         0.88
       ],
       "rotation_xyz_deg": [
-        80.0,
-        -0.0,
-        100.0
+        80,
+        0,
+        100
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 123.69007,
     "template_image": "ffocus18-S3kgFOBb.opengl.png"
@@ -3287,11 +4695,11 @@
         1.5
       ],
       "rotation_xyz_deg": [
-        66.0,
-        -0.0,
-        135.0
+        66,
+        0,
+        135
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 144.46232,
     "template_image": "ffocus18-IoqRrmlA.opengl.png"
@@ -3300,7 +4708,7 @@
     "id": "ffocus18-L2UM_68Q",
     "label": {
       "en": "Rear Low",
-      "fr":  "Arrière - vue basse"
+      "fr": "Arrière - vue basse"
     },
     "category": "exterior",
     "vehicle": {
@@ -3316,25 +4724,25 @@
     "camera": {
       "name": "180 rear low z-180 0.75m",
       "location_xyz": [
-        0.0,
+        0,
         3.15,
         0.75
       ],
       "rotation_xyz_deg": [
-        90.0,
-        -0.0,
-        -180.0
+        90,
+        0,
+        -180
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
-    "angle_order": 180.0,
+    "angle_order": 180,
     "template_image": "ffocus18-L2UM_68Q.opengl.png"
   },
   "ffocus18-p6mBZGcW": {
     "id": "ffocus18-p6mBZGcW",
     "label": {
       "en": "Rear Roof",
-      "fr":  "Toit Arrière"
+      "fr": "Toit Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -3350,25 +4758,25 @@
     "camera": {
       "name": "180 rear roof z-180 1.7m",
       "location_xyz": [
-        0.0,
+        0,
         2.4,
         1.7
       ],
       "rotation_xyz_deg": [
-        59.0,
-        -0.0,
-        -180.0
+        59,
+        0,
+        -180
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
-    "angle_order": 180.0,
+    "angle_order": 180,
     "template_image": "ffocus18-p6mBZGcW.opengl.png"
   },
   "ffocus18-iQvwc6wa": {
     "id": "ffocus18-iQvwc6wa",
     "label": {
       "en": "Rear Roof Right",
-      "fr":  "Toit Arrière Droit"
+      "fr": "Toit Arrière Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3389,11 +4797,11 @@
         1.7
       ],
       "rotation_xyz_deg": [
-        58.0,
-        -0.0,
-        -140.0
+        58,
+        0,
+        -140
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 201.31791,
     "template_image": "ffocus18-iQvwc6wa.opengl.png"
@@ -3402,7 +4810,7 @@
     "id": "ffocus18-8WjvbtMD",
     "label": {
       "en": "Rear Full Right",
-      "fr":  "Arrière Droit"
+      "fr": "Arrière Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3423,11 +4831,11 @@
         1.5
       ],
       "rotation_xyz_deg": [
-        66.0,
-        -0.0,
-        -135.0
+        66,
+        0,
+        -135
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 215.53768,
     "template_image": "ffocus18-8WjvbtMD.opengl.png"
@@ -3436,7 +4844,7 @@
     "id": "ffocus18-P2jFq1Ea",
     "label": {
       "en": "Rear Lateral Low Right",
-      "fr":  "Arrière Droit Latéral - vue basse"
+      "fr": "Arrière Droit Latéral - vue basse"
     },
     "category": "exterior",
     "vehicle": {
@@ -3457,11 +4865,11 @@
         0.88
       ],
       "rotation_xyz_deg": [
-        80.0,
-        -0.0,
-        -100.0
+        80,
+        0,
+        -100
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 236.30993,
     "template_image": "ffocus18-P2jFq1Ea.opengl.png"
@@ -3470,7 +4878,7 @@
     "id": "ffocus18-FdsQDaTW",
     "label": {
       "en": "Lateral Full Right",
-      "fr":  "Latéral Droit"
+      "fr": "Latéral Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3491,11 +4899,11 @@
         1.6
       ],
       "rotation_xyz_deg": [
-        75.0,
-        -0.0,
-        -90.0
+        75,
+        0,
+        -90
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 270.77422,
     "template_image": "ffocus18-FdsQDaTW.opengl.png"
@@ -3504,7 +4912,7 @@
     "id": "ffocus18-ts3buSD1",
     "label": {
       "en": "Lateral Low Right",
-      "fr":  "Latéral Droit"
+      "fr": "Latéral Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3521,24 +4929,24 @@
       "name": "270 lateral low right z-90 0.8m",
       "location_xyz": [
         -2.5,
-        0.0,
+        0,
         0.8
       ],
       "rotation_xyz_deg": [
-        90.0,
-        -0.0,
-        -90.0
+        90,
+        0,
+        -90
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
-    "angle_order": 270.0,
+    "angle_order": 270,
     "template_image": "ffocus18-ts3buSD1.opengl.png"
   },
   "ffocus18-KkeGvT-F": {
     "id": "ffocus18-KkeGvT-F",
     "label": {
       "en": "Front Lateral Low Right",
-      "fr":  "Avant Droit Latéral - vue basse"
+      "fr": "Avant Droit Latéral - vue basse"
     },
     "category": "exterior",
     "vehicle": {
@@ -3559,11 +4967,11 @@
         0.85
       ],
       "rotation_xyz_deg": [
-        80.0,
-        -0.0,
-        -80.0
+        80,
+        0,
+        -80
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 306.19321,
     "template_image": "ffocus18-KkeGvT-F.opengl.png"
@@ -3572,7 +4980,7 @@
     "id": "ffocus18-seOy3jwd",
     "label": {
       "en": "Front Full Right",
-      "fr":  "Avant Droit"
+      "fr": "Avant Droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3593,20 +5001,92 @@
         1.5
       ],
       "rotation_xyz_deg": [
-        66.0,
-        -0.0,
-        -45.0
+        66,
+        0,
+        -45
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "angle_order": 325.30485,
     "template_image": "ffocus18-seOy3jwd.opengl.png"
+  },
+  "ffocus18-UBB7HoxF": {
+    "id": "ffocus18-UBB7HoxF",
+    "label": {
+      "en": "Rear Zoomed",
+      "fr": "Arrière zoomé"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "180 rear zoomed z-180 1.4m",
+      "location_xyz": [
+        0,
+        2.95,
+        1.4
+      ],
+      "rotation_xyz_deg": [
+        66,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "ffocus18-UBB7HoxF.opengl.png",
+    "overlay": "ffocus18-UBB7HoxF.svg",
+    "mirror_sight": null
+  },
+  "ffocus18-e5netaNs": {
+    "id": "ffocus18-e5netaNs",
+    "label": {
+      "en": "Rear",
+      "fr": "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [
+        1.98,
+        4.42,
+        1.46
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.5m",
+      "location_xyz": [
+        0,
+        3.05,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        64,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "ffocus18-e5netaNs.opengl.png",
+    "overlay": "ffocus18-e5netaNs.svg",
+    "mirror_sight": null
   },
   "ftransit18-wyXf7MTv": {
     "id": "ftransit18-wyXf7MTv",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -3622,7 +5102,7 @@
     "camera": {
       "name": "0 front low 1.2m",
       "location_xyz": [
-        0.0,
+        0,
         -4.050001,
         1.2
       ],
@@ -3631,7 +5111,7 @@
         2.0124076105641645e-16,
         1.2820449814646714e-16
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-wyXf7MTv.opengl.png"
   },
@@ -3639,7 +5119,7 @@
     "id": "ftransit18-UNAZWJ-r",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -3655,7 +5135,7 @@
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [
-        0.0,
+        0,
         -3.8,
         1.7
       ],
@@ -3664,7 +5144,7 @@
         2.0124076105641645e-16,
         1.2820449814646714e-16
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-UNAZWJ-r.opengl.png"
   },
@@ -3672,7 +5152,7 @@
     "id": "ftransit18-5SiNC94w",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3694,10 +5174,10 @@
       ],
       "rotation_xyz_rad": [
         1.3439035415649414,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-5SiNC94w.opengl.png"
   },
@@ -3705,7 +5185,7 @@
     "id": "ftransit18-ffghVsNz",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3730,7 +5210,7 @@
         2.0124076105641645e-16,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-ffghVsNz.opengl.png"
   },
@@ -3738,7 +5218,7 @@
     "id": "ftransit18-pd2Q_O9P",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3760,10 +5240,10 @@
       ],
       "rotation_xyz_rad": [
         1.5009831190109253,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-pd2Q_O9P.opengl.png"
   },
@@ -3771,7 +5251,7 @@
     "id": "ftransit18-NwBMLo3Z",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -3787,22 +5267,25 @@
     "camera": {
       "name": "180 rear z-180 1.7m",
       "location_xyz": [
-        0.0,
+        0,
         5.1,
         1.7
       ],
       "rotation_xyz_rad": [
         1.4748032093048096,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-NwBMLo3Z.opengl.png"
   },
   "ftransit18-aA2K898S": {
     "id": "ftransit18-aA2K898S",
-    "label": "Rear Up Left",
+    "label": {
+      "en": "Rear Up Left",
+      "fr": "Arrière haut gauche"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Van",
@@ -3823,10 +5306,10 @@
       ],
       "rotation_xyz_rad": [
         1.6406095027923584,
-        -0.0,
+        0,
         2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-aA2K898S.opengl.png"
   },
@@ -3834,7 +5317,7 @@
     "id": "ftransit18-klUp8BS4",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3856,10 +5339,10 @@
       ],
       "rotation_xyz_rad": [
         1.5446163415908813,
-        -0.0,
+        0,
         1.7453292608261108
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-klUp8BS4.opengl.png"
   },
@@ -3867,7 +5350,7 @@
     "id": "ftransit18-6X8IAjy0",
     "label": {
       "en": "Front Lateral Left",
-      "fr":  "Avant latéral gauche"
+      "fr": "Avant latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3889,10 +5372,10 @@
       ],
       "rotation_xyz_rad": [
         1.483529806137085,
-        -0.0,
+        0,
         1.3962633609771729
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-6X8IAjy0.opengl.png"
   },
@@ -3900,7 +5383,7 @@
     "id": "ftransit18-iu1Vj2Oa",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3922,10 +5405,10 @@
       ],
       "rotation_xyz_rad": [
         1.4311699867248535,
-        -0.0,
+        0,
         2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-iu1Vj2Oa.opengl.png"
   },
@@ -3933,7 +5416,7 @@
     "id": "ftransit18-IIVI_pnX",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -3955,10 +5438,10 @@
       ],
       "rotation_xyz_rad": [
         1.3439035415649414,
-        -0.0,
+        0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-IIVI_pnX.opengl.png"
   },
@@ -3966,7 +5449,7 @@
     "id": "ftransit18-sLAPXyG8",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -3991,7 +5474,7 @@
         -3.256752214337731e-16,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-sLAPXyG8.opengl.png"
   },
@@ -3999,7 +5482,7 @@
     "id": "ftransit18-qmLP7A-b",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4024,13 +5507,16 @@
         -4.585868351725253e-10,
         -1.7453292608261108
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-qmLP7A-b.opengl.png"
   },
   "ftransit18-E7DAv47J": {
     "id": "ftransit18-E7DAv47J",
-    "label": "Front Lateral Right",
+    "label": {
+      "en": "Front Lateral Right",
+      "fr": "Avant latéral droit"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Van",
@@ -4054,7 +5540,7 @@
         9.171736703450506e-10,
         -1.3962633609771729
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-E7DAv47J.opengl.png"
   },
@@ -4062,7 +5548,7 @@
     "id": "ftransit18-FFP5b34o",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr": "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4084,16 +5570,19 @@
       ],
       "rotation_xyz_rad": [
         1.4311699867248535,
-        -0.0,
+        0,
         -2.356194257736206
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-FFP5b34o.opengl.png"
   },
   "ftransit18-cf0e-pcB": {
     "id": "ftransit18-cf0e-pcB",
-    "label": "Rear Up Right",
+    "label": {
+      "en": "Rear Up Right",
+      "fr": "Arrière haut droit"
+    },
     "category": "exterior",
     "vehicle": {
       "type": "Van",
@@ -4114,18 +5603,450 @@
       ],
       "rotation_xyz_rad": [
         1.6406095027923584,
-        -0.0,
+        0,
         -2.356194257736206
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "ftransit18-cf0e-pcB.opengl.png"
+  },
+  "ftransit18--w_ir_yH": {
+    "id": "ftransit18--w_ir_yH",
+    "label": {
+      "en": "Front Full Right",
+      "fr": "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "325 front full right z-45 1.6m",
+      "location_xyz": [
+        -2.5,
+        -3.6,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        79,
+        0,
+        -45
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 325.22217,
+    "template_image": "ftransit18--w_ir_yH.opengl.png",
+    "overlay": "ftransit18--w_ir_yH.svg",
+    "mirror_sight": "ftransit18-ffghVsNz"
+  },
+  "ftransit18-3dkU10af": {
+    "id": "ftransit18-3dkU10af",
+    "label": {
+      "en": "Rear Low",
+      "fr": "Arrière - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "180 rear low z-180 0.9m",
+      "location_xyz": [
+        0,
+        4.35,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "ftransit18-3dkU10af.opengl.png",
+    "overlay": "ftransit18-3dkU10af.svg",
+    "mirror_sight": null
+  },
+  "ftransit18-Y0vPhBVF": {
+    "id": "ftransit18-Y0vPhBVF",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "44 front lateral low left z80 0.95m",
+      "location_xyz": [
+        2.2,
+        -2.25,
+        0.95
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 44.35625,
+    "template_image": "ftransit18-Y0vPhBVF.opengl.png",
+    "overlay": "ftransit18-Y0vPhBVF.svg",
+    "mirror_sight": "ftransit18-4NMPqEV6"
+  },
+  "ftransit18-4NMPqEV6": {
+    "id": "ftransit18-4NMPqEV6",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "316 front lateral low right z-80 0.95m",
+      "location_xyz": [
+        -2.2,
+        -2.25,
+        0.95
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 315.64375,
+    "template_image": "ftransit18-4NMPqEV6.opengl.png",
+    "overlay": "ftransit18-4NMPqEV6.svg",
+    "mirror_sight": "ftransit18-Y0vPhBVF"
+  },
+  "ftransit18-rsXWUN8X": {
+    "id": "ftransit18-rsXWUN8X",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "91 lateral full left z90 1.6m",
+      "location_xyz": [
+        5.3,
+        0.05,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        88,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90.54051,
+    "template_image": "ftransit18-rsXWUN8X.opengl.png",
+    "overlay": "ftransit18-rsXWUN8X.svg",
+    "mirror_sight": "ftransit18-G24AdP6r"
+  },
+  "ftransit18-6khKhof0": {
+    "id": "ftransit18-6khKhof0",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "88 lateral low left z90 0.8m",
+      "location_xyz": [
+        3.3,
+        -0.1,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        100,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 88.2643,
+    "template_image": "ftransit18-6khKhof0.opengl.png",
+    "overlay": "ftransit18-6khKhof0.svg",
+    "mirror_sight": "ftransit18-eztNpSRX"
+  },
+  "ftransit18-3Sbfx_KZ": {
+    "id": "ftransit18-3Sbfx_KZ",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "137 rear lateral low left z100 0.95m",
+      "location_xyz": [
+        2.2,
+        2.35,
+        0.95
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 136.88819,
+    "template_image": "ftransit18-3Sbfx_KZ.opengl.png",
+    "overlay": "ftransit18-3Sbfx_KZ.svg",
+    "mirror_sight": "ftransit18-RJ2D7DNz"
+  },
+  "ftransit18-G24AdP6r": {
+    "id": "ftransit18-G24AdP6r",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "269 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -5.3,
+        0.05,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        88,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 269.45949,
+    "template_image": "ftransit18-G24AdP6r.opengl.png",
+    "overlay": "ftransit18-G24AdP6r.svg",
+    "mirror_sight": "ftransit18-rsXWUN8X"
+  },
+  "ftransit18-RJ2D7DNz": {
+    "id": "ftransit18-RJ2D7DNz",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "223 rear lateral low right z-100 0.95m",
+      "location_xyz": [
+        -2.2,
+        2.35,
+        0.95
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 223.11181,
+    "template_image": "ftransit18-RJ2D7DNz.opengl.png",
+    "overlay": "ftransit18-RJ2D7DNz.svg",
+    "mirror_sight": "ftransit18-3Sbfx_KZ"
+  },
+  "ftransit18-eztNpSRX": {
+    "id": "ftransit18-eztNpSRX",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "272 lateral low right z-90 0.8m",
+      "location_xyz": [
+        -3.3,
+        -0.1,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        100,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 271.7357,
+    "template_image": "ftransit18-eztNpSRX.opengl.png",
+    "overlay": "ftransit18-eztNpSRX.svg",
+    "mirror_sight": "ftransit18-6khKhof0"
+  },
+  "ftransit18-y_wTc7ED": {
+    "id": "ftransit18-y_wTc7ED",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "145 rear full left z135 1.7m",
+      "location_xyz": [
+        2.75,
+        3.9,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        83.5,
+        0,
+        135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 144.81126,
+    "template_image": "ftransit18-y_wTc7ED.opengl.png",
+    "overlay": "ftransit18-y_wTc7ED.svg",
+    "mirror_sight": "ftransit18-f2W6pHaR"
+  },
+  "ftransit18-f2W6pHaR": {
+    "id": "ftransit18-f2W6pHaR",
+    "label": {
+      "en": "Rear Full Right",
+      "fr": "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [
+        2.49,
+        6.01,
+        2.76
+      ]
+    },
+    "camera": {
+      "name": "215 rear full right z-135 1.7m",
+      "location_xyz": [
+        -2.75,
+        3.9,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        83.5,
+        0,
+        -135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 215.18874,
+    "template_image": "ftransit18-f2W6pHaR.opengl.png",
+    "overlay": "ftransit18-f2W6pHaR.svg",
+    "mirror_sight": "ftransit18-y_wTc7ED"
   },
   "haccord-8YjMcu0D": {
     "id": "haccord-8YjMcu0D",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -4141,16 +6062,16 @@
     "camera": {
       "name": "0 front low 1m",
       "location_xyz": [
-        0.0,
+        0,
         -3.25,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.2915436029434204,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-8YjMcu0D.opengl.png"
   },
@@ -4158,7 +6079,7 @@
     "id": "haccord-DUPnw5jj",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -4174,16 +6095,16 @@
     "camera": {
       "name": "0 hood 1.6m",
       "location_xyz": [
-        0.0,
+        0,
         -2.9,
         1.6
       ],
       "rotation_xyz_rad": [
         1.0995573997497559,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-DUPnw5jj.opengl.png"
   },
@@ -4191,7 +6112,7 @@
     "id": "haccord-hsCc_Nct",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4213,10 +6134,10 @@
       ],
       "rotation_xyz_rad": [
         1.3439035415649414,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-hsCc_Nct.opengl.png"
   },
@@ -4224,7 +6145,7 @@
     "id": "haccord-huAZfQJA",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4246,10 +6167,10 @@
       ],
       "rotation_xyz_rad": [
         1.1693706512451172,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-huAZfQJA.opengl.png"
   },
@@ -4257,7 +6178,7 @@
     "id": "haccord-2a8VfA8m",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4279,10 +6200,10 @@
       ],
       "rotation_xyz_rad": [
         1.2042771577835083,
-        -0.0,
+        0,
         0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-2a8VfA8m.opengl.png"
   },
@@ -4290,7 +6211,7 @@
     "id": "haccord-oiY_yPTR",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -4312,10 +6233,10 @@
       ],
       "rotation_xyz_rad": [
         1.0122909545898438,
-        -0.0,
+        0,
         0.8726646304130554
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-oiY_yPTR.opengl.png"
   },
@@ -4323,7 +6244,7 @@
     "id": "haccord-bg-RFHl_",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4345,10 +6266,10 @@
       ],
       "rotation_xyz_rad": [
         1.239183783531189,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-bg-RFHl_.opengl.png"
   },
@@ -4356,7 +6277,7 @@
     "id": "haccord-Qel0qUky",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4378,10 +6299,10 @@
       ],
       "rotation_xyz_rad": [
         1.2217304706573486,
-        -0.0,
+        0,
         1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-Qel0qUky.opengl.png"
   },
@@ -4389,7 +6310,7 @@
     "id": "haccord-GdWvsqrm",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4407,14 +6328,14 @@
       "location_xyz": [
         1.3,
         2.85,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-GdWvsqrm.opengl.png"
   },
@@ -4422,7 +6343,7 @@
     "id": "haccord-ps7cWy6K",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -4438,16 +6359,16 @@
     "camera": {
       "name": "180 rear z-180 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         3.45,
         1.4
       ],
       "rotation_xyz_rad": [
         1.1519173383712769,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-ps7cWy6K.opengl.png"
   },
@@ -4455,7 +6376,7 @@
     "id": "haccord-Z84erkMb",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4477,10 +6398,10 @@
       ],
       "rotation_xyz_rad": [
         1.3439035415649414,
-        -0.0,
+        0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-Z84erkMb.opengl.png"
   },
@@ -4488,7 +6409,7 @@
     "id": "haccord-EfRIciFr",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4510,10 +6431,10 @@
       ],
       "rotation_xyz_rad": [
         1.2042771577835083,
-        -0.0,
+        0,
         -0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-EfRIciFr.opengl.png"
   },
@@ -4521,7 +6442,7 @@
     "id": "haccord-d3VJTvYw",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4543,10 +6464,10 @@
       ],
       "rotation_xyz_rad": [
         1.239183783531189,
-        -0.0,
+        0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-d3VJTvYw.opengl.png"
   },
@@ -4554,7 +6475,7 @@
     "id": "haccord-sorgeRJ7",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4576,10 +6497,10 @@
       ],
       "rotation_xyz_rad": [
         1.2217304706573486,
-        -0.0,
+        0,
         -1.9198620319366455
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-sorgeRJ7.opengl.png"
   },
@@ -4587,7 +6508,7 @@
     "id": "haccord-Jq65fyD4",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr": "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4605,22 +6526,562 @@
       "location_xyz": [
         -1.3,
         2.85,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         -2.356194257736206
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "haccord-Jq65fyD4.opengl.png"
+  },
+  "haccord-t5sLlmfv": {
+    "id": "haccord-t5sLlmfv",
+    "label": {
+      "en": "Rear",
+      "fr": "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "180 rear z-180 1.4m",
+      "location_xyz": [
+        0,
+        3.4,
+        1.4
+      ],
+      "rotation_xyz_deg": [
+        66,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "haccord-t5sLlmfv.opengl.png",
+    "overlay": "haccord-t5sLlmfv.svg",
+    "mirror_sight": null
+  },
+  "haccord-KvP-pm8L": {
+    "id": "haccord-KvP-pm8L",
+    "label": {
+      "en": "Front Full Right",
+      "fr": "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "325 front full right z-45 1.5m",
+      "location_xyz": [
+        -1.9,
+        -2.7,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        67,
+        0,
+        -45
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 324.86581,
+    "template_image": "haccord-KvP-pm8L.opengl.png",
+    "overlay": "haccord-KvP-pm8L.svg",
+    "mirror_sight": "haccord-huAZfQJA"
+  },
+  "haccord-6kYUBv_e": {
+    "id": "haccord-6kYUBv_e",
+    "label": {
+      "en": "Rear Low",
+      "fr": "Arrière - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "180 rear low z-180 0.75m",
+      "location_xyz": [
+        0,
+        3.55,
+        0.75
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "haccord-6kYUBv_e.opengl.png",
+    "overlay": "haccord-6kYUBv_e.svg",
+    "mirror_sight": null
+  },
+  "haccord-W-Bn3bU1": {
+    "id": "haccord-W-Bn3bU1",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "131 rear lateral low left z100 0.9m",
+      "location_xyz": [
+        2.1,
+        1.8,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 130.6013,
+    "template_image": "haccord-W-Bn3bU1.opengl.png",
+    "overlay": "haccord-W-Bn3bU1.svg",
+    "mirror_sight": "haccord-OXYy5gET"
+  },
+  "haccord-OXYy5gET": {
+    "id": "haccord-OXYy5gET",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "229 rear lateral low right z-100 0.9m",
+      "location_xyz": [
+        -2.1,
+        1.8,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 229.3987,
+    "template_image": "haccord-OXYy5gET.opengl.png",
+    "overlay": "haccord-OXYy5gET.svg",
+    "mirror_sight": "haccord-W-Bn3bU1"
+  },
+  "haccord-mdZ7optI": {
+    "id": "haccord-mdZ7optI",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "90 lateral low left z90 0.8m",
+      "location_xyz": [
+        2.55,
+        0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90,
+    "template_image": "haccord-mdZ7optI.opengl.png",
+    "overlay": "haccord-mdZ7optI.svg",
+    "mirror_sight": "haccord-Gtt0JNQl"
+  },
+  "haccord-Gtt0JNQl": {
+    "id": "haccord-Gtt0JNQl",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "270 lateral low right z-90 0.8m",
+      "location_xyz": [
+        -2.55,
+        0,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 270,
+    "template_image": "haccord-Gtt0JNQl.opengl.png",
+    "overlay": "haccord-Gtt0JNQl.svg",
+    "mirror_sight": "haccord-mdZ7optI"
+  },
+  "haccord-_YnTubBA": {
+    "id": "haccord-_YnTubBA",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "92 lateral full left z90 1.6m",
+      "location_xyz": [
+        4.15,
+        0.13,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        77,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 91.79422,
+    "template_image": "haccord-_YnTubBA.opengl.png",
+    "overlay": "haccord-_YnTubBA.svg",
+    "mirror_sight": "haccord-PGr3RzzP"
+  },
+  "haccord-GQcZz48C": {
+    "id": "haccord-GQcZz48C",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "56 front lateral low left z80 0.9m",
+      "location_xyz": [
+        2.25,
+        -1.5,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        81,
+        0,
+        80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 56.30993,
+    "template_image": "haccord-GQcZz48C.opengl.png",
+    "overlay": "haccord-GQcZz48C.svg",
+    "mirror_sight": "haccord-KN23XXkX"
+  },
+  "haccord-KN23XXkX": {
+    "id": "haccord-KN23XXkX",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "304 front lateral low right z-80 0.9m",
+      "location_xyz": [
+        -2.25,
+        -1.5,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        81,
+        0,
+        -80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 303.69007,
+    "template_image": "haccord-KN23XXkX.opengl.png",
+    "overlay": "haccord-KN23XXkX.svg",
+    "mirror_sight": "haccord-GQcZz48C"
+  },
+  "haccord-PGr3RzzP": {
+    "id": "haccord-PGr3RzzP",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "268 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -4.15,
+        0.13,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        77,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 268.20578,
+    "template_image": "haccord-PGr3RzzP.opengl.png",
+    "overlay": "haccord-PGr3RzzP.svg",
+    "mirror_sight": "haccord-_YnTubBA"
+  },
+  "haccord-k6MiX2MR": {
+    "id": "haccord-k6MiX2MR",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "147 rear full left z135 1.5m",
+      "location_xyz": [
+        1.9,
+        2.9,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        68,
+        0,
+        135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 146.76829,
+    "template_image": "haccord-k6MiX2MR.opengl.png",
+    "overlay": "haccord-k6MiX2MR.svg",
+    "mirror_sight": "haccord-zNA0vVT0"
+  },
+  "haccord-zNA0vVT0": {
+    "id": "haccord-zNA0vVT0",
+    "label": {
+      "en": "Rear Full Right",
+      "fr": "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "213 rear full right z-135 1.5m",
+      "location_xyz": [
+        -1.9,
+        2.9,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        68,
+        0,
+        -135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 213.23171,
+    "template_image": "haccord-zNA0vVT0.opengl.png",
+    "overlay": "haccord-zNA0vVT0.svg",
+    "mirror_sight": "haccord-k6MiX2MR"
+  },
+  "haccord-pplCo6sV": {
+    "id": "haccord-pplCo6sV",
+    "label": {
+      "en": "Rear Roof",
+      "fr": "Toit Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "180 rear roof z-180 1.7m",
+      "location_xyz": [
+        0,
+        2.1,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        58,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "haccord-pplCo6sV.opengl.png",
+    "overlay": "haccord-pplCo6sV.svg",
+    "mirror_sight": null
+  },
+  "haccord-d_u3qyQ-": {
+    "id": "haccord-d_u3qyQ-",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr": "Toit (arrière droit)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [
+        2.14,
+        4.88,
+        1.44
+      ]
+    },
+    "camera": {
+      "name": "205 rear roof IGNORE_MIRROR right z-140 1.7m",
+      "location_xyz": [
+        -0.8,
+        1.7,
+        1.7
+      ],
+      "rotation_xyz_deg": [
+        57,
+        0,
+        -140
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 205.20112,
+    "template_image": "haccord-d_u3qyQ-.opengl.png",
+    "overlay": "haccord-d_u3qyQ-.svg",
+    "mirror_sight": null
   },
   "jgc21-VHq_6BM-": {
     "id": "jgc21-VHq_6BM-",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4642,10 +7103,10 @@
       ],
       "rotation_xyz_rad": [
         1.239183783531189,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-VHq_6BM-.opengl.png"
   },
@@ -4653,7 +7114,7 @@
     "id": "jgc21-imomJ2V0",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -4671,14 +7132,14 @@
       "location_xyz": [
         0.9,
         -0.4,
-        2.0
+        2
       ],
       "rotation_xyz_rad": [
         1.0821040868759155,
-        -0.0,
+        0,
         0.8726646900177002
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-imomJ2V0.opengl.png"
   },
@@ -4686,7 +7147,7 @@
     "id": "jgc21-tbF2Ax8v",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -4702,16 +7163,16 @@
     "camera": {
       "name": "180 rear z-180 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         3.9,
         1.4
       ],
       "rotation_xyz_rad": [
         1.3613568544387817,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-tbF2Ax8v.opengl.png"
   },
@@ -4719,7 +7180,7 @@
     "id": "jgc21-QIkcNhc_",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4741,10 +7202,10 @@
       ],
       "rotation_xyz_rad": [
         1.2740904092788696,
-        -0.0,
+        0,
         0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-QIkcNhc_.opengl.png"
   },
@@ -4752,7 +7213,7 @@
     "id": "jgc21-zCrDwYWE",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4770,14 +7231,14 @@
       "location_xyz": [
         1.3,
         -2.8,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-zCrDwYWE.opengl.png"
   },
@@ -4785,7 +7246,7 @@
     "id": "jgc21-QwNQX0Cr",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -4807,10 +7268,10 @@
       ],
       "rotation_xyz_rad": [
         1.2740904092788696,
-        -8.115753402648807e-09,
+        -8.115753402648807e-9,
         -0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-QwNQX0Cr.opengl.png"
   },
@@ -4818,7 +7279,7 @@
     "id": "jgc21-__JKllz9",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -4836,14 +7297,14 @@
       "location_xyz": [
         -1.3,
         -2.8,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-__JKllz9.opengl.png"
   },
@@ -4851,7 +7312,7 @@
     "id": "jgc21-5lovhZgA",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4873,10 +7334,10 @@
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-5lovhZgA.opengl.png"
   },
@@ -4884,7 +7345,7 @@
     "id": "jgc21-ezXzTRkj",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4906,10 +7367,10 @@
       ],
       "rotation_xyz_rad": [
         1.3613568544387817,
-        -0.0,
+        0,
         2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-ezXzTRkj.opengl.png"
   },
@@ -4917,7 +7378,7 @@
     "id": "jgc21-ESc0HCzy",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4939,10 +7400,10 @@
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-ESc0HCzy.opengl.png"
   },
@@ -4950,7 +7411,7 @@
     "id": "jgc21-0QM-q8k5",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -4972,10 +7433,10 @@
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-0QM-q8k5.opengl.png"
   },
@@ -4983,7 +7444,7 @@
     "id": "jgc21-JerG7oW5",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5005,10 +7466,10 @@
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         -1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-JerG7oW5.opengl.png"
   },
@@ -5016,7 +7477,7 @@
     "id": "jgc21-3JJvM7_B",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr": "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5038,10 +7499,10 @@
       ],
       "rotation_xyz_rad": [
         1.3613568544387817,
-        -0.0,
+        0,
         -2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-3JJvM7_B.opengl.png"
   },
@@ -5049,7 +7510,7 @@
     "id": "jgc21-QIvfeg0X",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -5065,16 +7526,16 @@
     "camera": {
       "name": "0 front low 1.1m",
       "location_xyz": [
-        0.0,
+        0,
         -3.5,
         1.1
       ],
       "rotation_xyz_rad": [
         1.3788100481033325,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-QIvfeg0X.opengl.png"
   },
@@ -5082,7 +7543,7 @@
     "id": "jgc21-KyUUVU2P",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -5098,24 +7559,528 @@
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [
-        0.0,
-        -3.0,
+        0,
+        -3,
         1.7
       ],
       "rotation_xyz_rad": [
         1.1693706512451172,
-        -0.0,
-        0.0
+        0,
+        0
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "jgc21-KyUUVU2P.opengl.png"
+  },
+  "jgc21-zkvFMHnS": {
+    "id": "jgc21-zkvFMHnS",
+    "label": {
+      "en": "Front Full Right",
+      "fr": "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "324 front full right z-45 1.6m",
+      "location_xyz": [
+        -2.1,
+        -2.9,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        71,
+        0,
+        -45
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 324.09028,
+    "template_image": "jgc21-zkvFMHnS.opengl.png",
+    "overlay": "jgc21-zkvFMHnS.svg",
+    "mirror_sight": "jgc21-VHq_6BM-"
+  },
+  "jgc21-z15ZdJL6": {
+    "id": "jgc21-z15ZdJL6",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "56 front lateral low left z80 1m",
+      "location_xyz": [
+        2.4,
+        -1.6,
+        1
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 56.30993,
+    "template_image": "jgc21-z15ZdJL6.opengl.png",
+    "overlay": "jgc21-z15ZdJL6.svg",
+    "mirror_sight": "jgc21-s7WDTRmE"
+  },
+  "jgc21-s7WDTRmE": {
+    "id": "jgc21-s7WDTRmE",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "304 front lateral low right z-80 1m",
+      "location_xyz": [
+        -2.4,
+        -1.6,
+        1
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 303.69007,
+    "template_image": "jgc21-s7WDTRmE.opengl.png",
+    "overlay": "jgc21-s7WDTRmE.svg",
+    "mirror_sight": "jgc21-z15ZdJL6"
+  },
+  "jgc21-omlus7Ui": {
+    "id": "jgc21-omlus7Ui",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "90 lateral low left z90 0.85m",
+      "location_xyz": [
+        2.7,
+        0,
+        0.85
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90,
+    "template_image": "jgc21-omlus7Ui.opengl.png",
+    "overlay": "jgc21-omlus7Ui.svg",
+    "mirror_sight": "jgc21-XXh8GWm8"
+  },
+  "jgc21-XXh8GWm8": {
+    "id": "jgc21-XXh8GWm8",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "270 lateral low right z-90 0.85m",
+      "location_xyz": [
+        -2.7,
+        0,
+        0.85
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 270,
+    "template_image": "jgc21-XXh8GWm8.opengl.png",
+    "overlay": "jgc21-XXh8GWm8.svg",
+    "mirror_sight": "jgc21-omlus7Ui"
+  },
+  "jgc21-TEoi50Ff": {
+    "id": "jgc21-TEoi50Ff",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "92 lateral full left z90 1.6m",
+      "location_xyz": [
+        4.5,
+        0.15,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        83,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 91.90915,
+    "template_image": "jgc21-TEoi50Ff.opengl.png",
+    "overlay": "jgc21-TEoi50Ff.svg",
+    "mirror_sight": "jgc21-1j-oTPag"
+  },
+  "jgc21-1j-oTPag": {
+    "id": "jgc21-1j-oTPag",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "268 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -4.5,
+        0.15,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        83,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 268.09085,
+    "template_image": "jgc21-1j-oTPag.opengl.png",
+    "overlay": "jgc21-1j-oTPag.svg",
+    "mirror_sight": "jgc21-TEoi50Ff"
+  },
+  "jgc21-3gjMwvQG": {
+    "id": "jgc21-3gjMwvQG",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "128 rear lateral low left z100 1m",
+      "location_xyz": [
+        2.4,
+        1.9,
+        1
+      ],
+      "rotation_xyz_deg": [
+        82,
+        0,
+        100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 128.36748,
+    "template_image": "jgc21-3gjMwvQG.opengl.png",
+    "overlay": "jgc21-3gjMwvQG.svg",
+    "mirror_sight": "jgc21-RAVpqaE4"
+  },
+  "jgc21-RAVpqaE4": {
+    "id": "jgc21-RAVpqaE4",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "232 rear lateral low right z-100 1m",
+      "location_xyz": [
+        -2.4,
+        1.9,
+        1
+      ],
+      "rotation_xyz_deg": [
+        82,
+        0,
+        -100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 231.63252,
+    "template_image": "jgc21-RAVpqaE4.opengl.png",
+    "overlay": "jgc21-RAVpqaE4.svg",
+    "mirror_sight": "jgc21-3gjMwvQG"
+  },
+  "jgc21-Emzc8jJA": {
+    "id": "jgc21-Emzc8jJA",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "147 rear full left z135 1.6m",
+      "location_xyz": [
+        2.1,
+        3.2,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        74,
+        0,
+        135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 146.72511,
+    "template_image": "jgc21-Emzc8jJA.opengl.png",
+    "overlay": "jgc21-Emzc8jJA.svg",
+    "mirror_sight": "jgc21-2_5eHL-F"
+  },
+  "jgc21-2_5eHL-F": {
+    "id": "jgc21-2_5eHL-F",
+    "label": {
+      "en": "Rear Full Right",
+      "fr": "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "213 rear full right z-135 1.6m",
+      "location_xyz": [
+        -2.1,
+        3.2,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        74,
+        0,
+        -135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 213.27489,
+    "template_image": "jgc21-2_5eHL-F.opengl.png",
+    "overlay": "jgc21-2_5eHL-F.svg",
+    "mirror_sight": "jgc21-Emzc8jJA"
+  },
+  "jgc21-TyJPUs8E": {
+    "id": "jgc21-TyJPUs8E",
+    "label": {
+      "en": "Rear Low",
+      "fr": "Arrière - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "180 rear low z-180 1.05m",
+      "location_xyz": [
+        0,
+        3.9,
+        1.05
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "jgc21-TyJPUs8E.opengl.png",
+    "overlay": "jgc21-TyJPUs8E.svg",
+    "mirror_sight": null
+  },
+  "jgc21-J1Ezdyar": {
+    "id": "jgc21-J1Ezdyar",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr": "Toit (arrière droit)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "201 rear roof IGNORE_MIRROR right z-140 2m",
+      "location_xyz": [
+        -1.1,
+        2.9,
+        2
+      ],
+      "rotation_xyz_deg": [
+        62,
+        0,
+        -140
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 200.77225,
+    "template_image": "jgc21-J1Ezdyar.opengl.png",
+    "overlay": "jgc21-J1Ezdyar.svg",
+    "mirror_sight": null
+  },
+  "jgc21-ZubJ48-U": {
+    "id": "jgc21-ZubJ48-U",
+    "label": {
+      "en": "Rear Roof",
+      "fr": "Toit Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [
+        2.19,
+        5.18,
+        1.88
+      ]
+    },
+    "camera": {
+      "name": "180 rear roof z-180 2m",
+      "location_xyz": [
+        0,
+        3.22,
+        2
+      ],
+      "rotation_xyz_deg": [
+        62,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "jgc21-ZubJ48-U.opengl.png",
+    "overlay": "jgc21-ZubJ48-U.svg",
+    "mirror_sight": null
   },
   "tsienna20-jY3cR5vy": {
     "id": "tsienna20-jY3cR5vy",
     "label": {
       "en": "Beauty Shot Left",
-      "fr":  "Vue entière gauche"
+      "fr": "Vue entière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5132,7 +8097,7 @@
       "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
       "location_xyz": [
         2.1,
-        -3.0,
+        -3,
         1.5
       ],
       "rotation_xyz_rad": [
@@ -5140,7 +8105,7 @@
         2.0124076105641645e-16,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-jY3cR5vy.opengl.png"
   },
@@ -5148,7 +8113,7 @@
     "id": "tsienna20-TI4TVvT9",
     "label": {
       "en": "Front Bumper Side Left",
-      "fr":  "Pare-chocs avant côté gauche"
+      "fr": "Pare-chocs avant côté gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5166,14 +8131,14 @@
       "location_xyz": [
         1.45,
         -2.95,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-TI4TVvT9.opengl.png"
   },
@@ -5181,7 +8146,7 @@
     "id": "tsienna20-gkvZE2c7",
     "label": {
       "en": "Front Fender Left",
-      "fr":  "Aile avant gauche"
+      "fr": "Aile avant gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5203,10 +8168,10 @@
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         0.994837760925293
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-gkvZE2c7.opengl.png"
   },
@@ -5214,7 +8179,7 @@
     "id": "tsienna20-is1tpnqR",
     "label": {
       "en": "Front Roof Left",
-      "fr":  "Toit (avant gauche)"
+      "fr": "Toit (avant gauche)"
     },
     "category": "exterior",
     "vehicle": {
@@ -5236,10 +8201,10 @@
       ],
       "rotation_xyz_rad": [
         1.0995573997497559,
-        -0.0,
+        0,
         0.8726646900177002
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-is1tpnqR.opengl.png"
   },
@@ -5247,7 +8212,7 @@
     "id": "tsienna20-ouPvuX-j",
     "label": {
       "en": "Rear Lateral Left",
-      "fr":  "Arrière latéral gauche"
+      "fr": "Arrière latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5269,10 +8234,10 @@
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         1.919862151145935
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-ouPvuX-j.opengl.png"
   },
@@ -5280,7 +8245,7 @@
     "id": "tsienna20-qA3aAUUq",
     "label": {
       "en": "Rear",
-      "fr":  "Arrière"
+      "fr": "Arrière"
     },
     "category": "exterior",
     "vehicle": {
@@ -5296,16 +8261,16 @@
     "camera": {
       "name": "180 rear z-180 1.4m",
       "location_xyz": [
-        0.0,
+        0,
         3.8,
         1.4
       ],
       "rotation_xyz_rad": [
         1.3089969158172607,
-        -0.0,
+        0,
         -3.141592502593994
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-qA3aAUUq.opengl.png"
   },
@@ -5313,7 +8278,7 @@
     "id": "tsienna20-D6pPBrXx",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5330,15 +8295,15 @@
       "name": "90 lateral left z90 1.4m",
       "location_xyz": [
         2.8,
-        0.0,
+        0,
         1.4
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-D6pPBrXx.opengl.png"
   },
@@ -5346,7 +8311,7 @@
     "id": "tsienna20-1n_z8bYy",
     "label": {
       "en": "Rear Left",
-      "fr":  "Arrière gauche"
+      "fr": "Arrière gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5364,14 +8329,14 @@
       "location_xyz": [
         1.45,
         3.05,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.378810167312622,
-        -0.0,
+        0,
         2.356194496154785
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-1n_z8bYy.opengl.png"
   },
@@ -5379,7 +8344,7 @@
     "id": "tsienna20-YwrRNr9n",
     "label": {
       "en": "Front Low",
-      "fr":  "Avant (position basse)"
+      "fr": "Avant (position basse)"
     },
     "category": "exterior",
     "vehicle": {
@@ -5395,7 +8360,7 @@
     "camera": {
       "name": "0 front low 1.1m",
       "location_xyz": [
-        0.0,
+        0,
         -3.7,
         1.1
       ],
@@ -5404,7 +8369,7 @@
         2.0124076105641645e-16,
         1.2820449814646714e-16
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-YwrRNr9n.opengl.png"
   },
@@ -5412,7 +8377,7 @@
     "id": "tsienna20-HykkFbXf",
     "label": {
       "en": "Hood",
-      "fr":  "Capot"
+      "fr": "Capot"
     },
     "category": "exterior",
     "vehicle": {
@@ -5428,7 +8393,7 @@
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [
-        0.0,
+        0,
         -3.4,
         1.7
       ],
@@ -5437,7 +8402,7 @@
         2.0124076105641645e-16,
         1.2820449814646714e-16
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-HykkFbXf.opengl.png"
   },
@@ -5445,7 +8410,7 @@
     "id": "tsienna20-KHB_Cd9k",
     "label": {
       "en": "Front Bumper Side Right",
-      "fr":  "Pare-chocs avant côté droit"
+      "fr": "Pare-chocs avant côté droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5463,14 +8428,14 @@
       "location_xyz": [
         -1.45,
         -2.95,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.2566370964050293,
-        -0.0,
+        0,
         -0.7853981852531433
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-KHB_Cd9k.opengl.png"
   },
@@ -5478,7 +8443,7 @@
     "id": "tsienna20-xtDcn3GS",
     "label": {
       "en": "Front Fender Right",
-      "fr":  "Aile avant droite"
+      "fr": "Aile avant droite"
     },
     "category": "exterior",
     "vehicle": {
@@ -5500,10 +8465,10 @@
       ],
       "rotation_xyz_rad": [
         1.2566369771957397,
-        4.381412122000938e-09,
+        4.381412122000938e-9,
         -0.9948376417160034
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-xtDcn3GS.opengl.png"
   },
@@ -5511,7 +8476,7 @@
     "id": "tsienna20-QIMXlb0L",
     "label": {
       "en": "Rear Lateral Right",
-      "fr":  "Arrière latéral droit"
+      "fr": "Arrière latéral droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5533,10 +8498,10 @@
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         -1.9198620319366455
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-QIMXlb0L.opengl.png"
   },
@@ -5544,7 +8509,7 @@
     "id": "tsienna20-g2uWI1l8",
     "label": {
       "en": "Lateral Left",
-      "fr":  "Latéral gauche"
+      "fr": "Latéral gauche"
     },
     "category": "exterior",
     "vehicle": {
@@ -5561,15 +8526,15 @@
       "name": "270 lateral right z-90 1.4m",
       "location_xyz": [
         -2.8,
-        0.0,
+        0,
         1.4
       ],
       "rotation_xyz_rad": [
         1.326450228691101,
-        -0.0,
+        0,
         -1.5707963705062866
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20-g2uWI1l8.opengl.png"
   },
@@ -5577,7 +8542,7 @@
     "id": "tsienna20--a2RmRcs",
     "label": {
       "en": "Rear Right",
-      "fr":  "Arrière droit"
+      "fr": "Arrière droit"
     },
     "category": "exterior",
     "vehicle": {
@@ -5595,15 +8560,483 @@
       "location_xyz": [
         -1.45,
         3.05,
-        1.0
+        1
       ],
       "rotation_xyz_rad": [
         1.378810167312622,
-        -0.0,
+        0,
         -2.356194257736206
       ],
-      "focal_length": 26.0
+      "focal_length": 26
     },
     "template_image": "tsienna20--a2RmRcs.opengl.png"
+  },
+  "tsienna20-MPCqHzeH": {
+    "id": "tsienna20-MPCqHzeH",
+    "label": {
+      "en": "Front Full Right",
+      "fr": "Avant Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "325 front full right z-45 1.5m",
+      "location_xyz": [
+        -2.1,
+        -3,
+        1.5
+      ],
+      "rotation_xyz_deg": [
+        70,
+        0,
+        -45
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 325.00798,
+    "template_image": "tsienna20-MPCqHzeH.opengl.png",
+    "overlay": "tsienna20-MPCqHzeH.svg",
+    "mirror_sight": "tsienna20-jY3cR5vy"
+  },
+  "tsienna20-65mfPdRD": {
+    "id": "tsienna20-65mfPdRD",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "52 front lateral low left z80 0.92m",
+      "location_xyz": [
+        2.25,
+        -1.77,
+        0.92
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 51.80905,
+    "template_image": "tsienna20-65mfPdRD.opengl.png",
+    "overlay": "tsienna20-65mfPdRD.svg",
+    "mirror_sight": "tsienna20-cI285Gon"
+  },
+  "tsienna20-cI285Gon": {
+    "id": "tsienna20-cI285Gon",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "308 front lateral low right z-80 0.92m",
+      "location_xyz": [
+        -2.25,
+        -1.77,
+        0.92
+      ],
+      "rotation_xyz_deg": [
+        80,
+        0,
+        -80
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 308.19095,
+    "template_image": "tsienna20-cI285Gon.opengl.png",
+    "overlay": "tsienna20-cI285Gon.svg",
+    "mirror_sight": "tsienna20-65mfPdRD"
+  },
+  "tsienna20-1LNxhgCR": {
+    "id": "tsienna20-1LNxhgCR",
+    "label": {
+      "en": "Lateral Low Left",
+      "fr": "Latéral Gauche - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "88 lateral low left z90 0.8m",
+      "location_xyz": [
+        2.8,
+        -0.1,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 87.95459,
+    "template_image": "tsienna20-1LNxhgCR.opengl.png",
+    "overlay": "tsienna20-1LNxhgCR.svg",
+    "mirror_sight": "tsienna20-Rw0Gtt7O"
+  },
+  "tsienna20-Rw0Gtt7O": {
+    "id": "tsienna20-Rw0Gtt7O",
+    "label": {
+      "en": "Lateral Low Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "272 lateral low right z-90 0.8m",
+      "location_xyz": [
+        -2.8,
+        -0.1,
+        0.8
+      ],
+      "rotation_xyz_deg": [
+        90,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 272.04541,
+    "template_image": "tsienna20-Rw0Gtt7O.opengl.png",
+    "overlay": "tsienna20-Rw0Gtt7O.svg",
+    "mirror_sight": "tsienna20-1LNxhgCR"
+  },
+  "tsienna20-4ihRwDkS": {
+    "id": "tsienna20-4ihRwDkS",
+    "label": {
+      "en": "Lateral Full Left",
+      "fr": "Latéral Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "91 lateral full left z90 1.6m",
+      "location_xyz": [
+        4.45,
+        0.05,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        81,
+        0,
+        90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 90.64375,
+    "template_image": "tsienna20-4ihRwDkS.opengl.png",
+    "overlay": "tsienna20-4ihRwDkS.svg",
+    "mirror_sight": "tsienna20-uIHdpQ9y"
+  },
+  "tsienna20-uIHdpQ9y": {
+    "id": "tsienna20-uIHdpQ9y",
+    "label": {
+      "en": "Lateral Full Right",
+      "fr": "Latéral Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "269 lateral full right z-90 1.6m",
+      "location_xyz": [
+        -4.45,
+        0.05,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        81,
+        0,
+        -90
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 269.35625,
+    "template_image": "tsienna20-uIHdpQ9y.opengl.png",
+    "overlay": "tsienna20-uIHdpQ9y.svg",
+    "mirror_sight": "tsienna20-4ihRwDkS"
+  },
+  "tsienna20-670P2H2V": {
+    "id": "tsienna20-670P2H2V",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "129 rear lateral low left z100 0.9m",
+      "location_xyz": [
+        2.25,
+        1.85,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        82,
+        0,
+        100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 129.4278,
+    "template_image": "tsienna20-670P2H2V.opengl.png",
+    "overlay": "tsienna20-670P2H2V.svg",
+    "mirror_sight": "tsienna20-SebsoqJm"
+  },
+  "tsienna20-SebsoqJm": {
+    "id": "tsienna20-SebsoqJm",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "231 rear lateral low right z-100 0.9m",
+      "location_xyz": [
+        -2.25,
+        1.85,
+        0.9
+      ],
+      "rotation_xyz_deg": [
+        82,
+        0,
+        -100
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 230.5722,
+    "template_image": "tsienna20-SebsoqJm.opengl.png",
+    "overlay": "tsienna20-SebsoqJm.svg",
+    "mirror_sight": "tsienna20-670P2H2V"
+  },
+  "tsienna20-OxFWgEPk": {
+    "id": "tsienna20-OxFWgEPk",
+    "label": {
+      "en": "Rear Roof",
+      "fr": "Toit Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "180 rear roof z-180 2m",
+      "location_xyz": [
+        0,
+        3.05,
+        2
+      ],
+      "rotation_xyz_deg": [
+        60,
+        0,
+        -180
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 180,
+    "template_image": "tsienna20-OxFWgEPk.opengl.png",
+    "overlay": "tsienna20-OxFWgEPk.svg",
+    "mirror_sight": null
+  },
+  "tsienna20-V2jVo2wV": {
+    "id": "tsienna20-V2jVo2wV",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr": "Toit (arrière droit)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "200 rear roof IGNORE_MIRROR right z-140 2m",
+      "location_xyz": [
+        -1,
+        2.7,
+        2
+      ],
+      "rotation_xyz_deg": [
+        60,
+        0,
+        -140
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 200.32314,
+    "template_image": "tsienna20-V2jVo2wV.opengl.png",
+    "overlay": "tsienna20-V2jVo2wV.svg",
+    "mirror_sight": null
+  },
+  "tsienna20-ZlRQXL-j": {
+    "id": "tsienna20-ZlRQXL-j",
+    "label": {
+      "en": "Rear Full Left",
+      "fr": "Arrière Gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "146 rear full left z135 1.6m",
+      "location_xyz": [
+        2.1,
+        3.1,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        72,
+        0,
+        135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 145.88553,
+    "template_image": "tsienna20-ZlRQXL-j.opengl.png",
+    "overlay": "tsienna20-ZlRQXL-j.svg",
+    "mirror_sight": "tsienna20-wlbzVAxz"
+  },
+  "tsienna20-wlbzVAxz": {
+    "id": "tsienna20-wlbzVAxz",
+    "label": {
+      "en": "Rear Full Right",
+      "fr": "Arrière Droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [
+        2.43,
+        5.24,
+        1.77
+      ]
+    },
+    "camera": {
+      "name": "214 rear full right z-135 1.6m",
+      "location_xyz": [
+        -2.1,
+        3.1,
+        1.6
+      ],
+      "rotation_xyz_deg": [
+        72,
+        0,
+        -135
+      ],
+      "focal_length": 26
+    },
+    "angle_order": 214.11447,
+    "template_image": "tsienna20-wlbzVAxz.opengl.png",
+    "overlay": "tsienna20-wlbzVAxz.svg",
+    "mirror_sight": "tsienna20-ZlRQXL-j"
   }
 }
