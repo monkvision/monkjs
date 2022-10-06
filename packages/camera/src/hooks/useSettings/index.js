@@ -15,8 +15,7 @@ const initialSettingsState = {
 };
 
 function init({ initialState }) {
-  if (initialState) { return initialState; }
-  return initialSettingsState;
+  return { ...initialSettingsState, ...initialState };
 }
 
 function reducer(state, action) {
@@ -44,7 +43,7 @@ function reducer(state, action) {
    * state: { resolution: string, ratio: string, zoom: string, type: string }
  * }}
  */
-export default function useSettings({ initialState = initialSettingsState, camera }) {
+export default function useSettings({ initialState, camera }) {
   const [state, dispatch] = useReducer(reducer, { initialState }, init);
 
   const getSettings = useCallback(async (prevSettings) => {
@@ -81,11 +80,11 @@ export default function useSettings({ initialState = initialSettingsState, camer
     }
 
     return newSettings;
-  }, [camera, initialState]);
+  }, [camera]);
 
   useEffect(() => {
     (async () => {
-      const payload = await getSettings(initialState);
+      const payload = await getSettings();
       dispatch({ type: Actions.settings.UPDATE_SETTINGS, payload });
     })();
   }, [getSettings]);

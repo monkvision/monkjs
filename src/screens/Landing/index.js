@@ -42,7 +42,7 @@ export default function Landing() {
   const { height } = useWindowDimensions();
   const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
-  const { setShowTranslatedMessage, Notice } = useSnackbar(true);
+  const { /* setShowTranslatedMessage , */ Notice } = useSnackbar(true);
 
   const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -65,11 +65,11 @@ export default function Landing() {
     { vehicleType, vin: inspection?.vehicle?.vin },
   );
 
-  const allTasksAreCompleted = useMemo(
-    () => inspection?.tasks?.length && inspection?.tasks
-      .every(({ status }) => status === monk.types.ProgressStatus.DONE),
-    [inspection?.tasks],
-  );
+  // const allTasksAreCompleted = useMemo(
+  //   () => inspection?.tasks?.length && inspection?.tasks
+  //     .every(({ status }) => status === monk.types.ProgressStatus.DONE),
+  //   [inspection?.tasks],
+  // );
 
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
@@ -168,11 +168,11 @@ export default function Landing() {
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
 
-  useEffect(() => {
-    if (inspectionId && !allTasksAreCompleted) {
-      setShowTranslatedMessage('landing.workflowReminder');
-    } else { setShowTranslatedMessage(null); }
-  }, [allTasksAreCompleted, inspectionId]);
+  // useEffect(() => {
+  //   if (inspectionId && !allTasksAreCompleted) {
+  //     setShowTranslatedMessage('landing.workflowReminder');
+  //   } else { setShowTranslatedMessage(null); }
+  // }, [allTasksAreCompleted, inspectionId]);
 
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');

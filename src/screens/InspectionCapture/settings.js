@@ -18,6 +18,7 @@ const settingsOptions = {
   DEFAULT: 'default',
   FHD: 'FHD',
   QHD: 'QHD',
+  UHD: 'UHD',
 };
 
 const Settings = forwardRef(({ settings }, ref) => {
@@ -41,8 +42,11 @@ const Settings = forwardRef(({ settings }, ref) => {
         value: settingsOptions.FULLSCREEN,
         selected: isFullscreen },
     ],
-    [settingsOptions.RESOLUTION]: [{ title: settingsOptions.FHD, value: settingsOptions.FHD },
-      { title: settingsOptions.QHD, value: settingsOptions.QHD }],
+    [settingsOptions.RESOLUTION]: [
+      { title: settingsOptions.FHD, value: settingsOptions.FHD },
+      { title: settingsOptions.QHD, value: settingsOptions.QHD },
+      // { title: settingsOptions.UHD, value: settingsOptions.UHD },
+    ],
     [settingsOptions.COMPRESSION]: [
       { title: t('capture.settings.on'), value: true },
       { title: t('capture.settings.off'), value: false },

@@ -211,7 +211,11 @@ export default function InspectionCapture() {
 
   const captureRef = useRef();
 
-  const settings = useSettings({ camera: captureRef.current?.camera, resolution: 'UHD' });
+  const settings = useSettings({
+    camera: captureRef.current?.camera,
+    initialState: { resolution: 'FHD' },
+  });
+
   const settingsRef = useRef();
   const openSettings = settingsRef.current?.open;
 
