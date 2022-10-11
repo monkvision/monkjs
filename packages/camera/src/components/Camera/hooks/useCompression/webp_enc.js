@@ -5,7 +5,7 @@ var Module;
 
 if (Platform.OS === 'web') {
   Module = (function() {
-    var _scriptDir = import.meta.url;
+    var _scriptDir = process.env.PUBLIC_URL;
 
     return (
       function(Module) {
