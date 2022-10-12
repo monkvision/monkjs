@@ -5,7 +5,7 @@ var Module;
 
 if (Platform.OS === 'web') {
   Module = (function() {
-    var _scriptDir = process.env.PUBLIC_URL;
+    var _scriptDir = import.meta.url;
 
     return (
       function(Module) {
@@ -50,10 +50,7 @@ if (Platform.OS === 'web') {
             scriptDirectory = _scriptDir
           }
           if (scriptDirectory.indexOf("blob:") !== 0) {
-            // Samy : This line was changed to try a fix for HGREG
-            // 11/10/22
-            // scriptDirectory = scriptDirectory.substr(0, scriptDirectory.lastIndexOf("/") + 1)
-            scriptDirectory = scriptDirectory.split('/', 3).join('/');
+            scriptDirectory = scriptDirectory.substr(0, scriptDirectory.lastIndexOf("/") + 1)
           } else {
             scriptDirectory = ""
           } {
@@ -397,7 +394,9 @@ if (Platform.OS === 'web') {
             wasmBinaryFile = locateFile(wasmBinaryFile)
           }
         } else {
-          var wasmBinaryFile = new URL("mozjpeg_enc.wasm", window.location.href).toString()
+          // Replaced window.location.href by window.location.origin + _scriptDir
+          // Samy 12/10/22
+          var wasmBinaryFile = new URL("mozjpeg_enc.wasm", window.location.origin).toString()
         }
 
         function getBinary(file) {
