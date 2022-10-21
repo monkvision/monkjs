@@ -30,6 +30,7 @@ export default function useCamera(
   enableCompression,
   Sentry,
   onWarningMessage,
+  compressionOptions,
 ) {
   const { video, onCameraReady } = options;
   const { Span } = useSentry(Sentry);
@@ -67,7 +68,7 @@ export default function useCamera(
       if (Sentry && Span) { compressionTracing = new Span('image-compression', 'func'); }
 
       if (onWarningMessage) { onWarningMessage('Compressing an image...'); }
-      const compressed = await compress(arrayBuffer, width, height);
+      const compressed = await compress(arrayBuffer, width, height, compressionOptions);
       if (onWarningMessage) { onWarningMessage(null); }
 
       if (compressed) {

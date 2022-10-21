@@ -10,8 +10,9 @@ import MUIImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 
+// import { DamageHighlight } from '@monkvision/visualization';
+
 import { Menu } from 'components';
-import { DamageHighlight } from '@monkvision/visualization';
 
 export default function ImageList({ itemData }) {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function ImageList({ itemData }) {
 
   // the selected wheel analysis if present
   const selectedWheelAnalysis = useMemo(
-    () => itemData.find((item) => item.id === imageId)?.wheelAnalysis,
+    () => itemData.images?.find((item) => item.id === imageId)?.wheelAnalysis,
     [itemData, imageId],
   );
 
@@ -44,67 +45,71 @@ export default function ImageList({ itemData }) {
         open={!!anchorEl}
       />
       <MUIImageList>
-        {itemData.map((item) => {
-          const polygonsProps = item?.damages?.length > 0 ? { damages:
-              item.damages.map(({ imageRegion, damageType, elementId }) => (
-                { damageType, polygons: imageRegion.specification.polygons, id: elementId }
-              )) } : {};
-
-          return (item ? (
-            <ImageListItem key={item.path}>
-              <DamageHighlight
-                image={{
-                  height: item.imageHeight,
-                  width: item.imageWidth,
-                  source: { uri: item.path },
-                  id: item.id,
-                }}
-                // options={{
-                //   label: {
-                //     fontSize: 12,
-                //   },
-                // }}
-                {...polygonsProps}
-              />
-              <ImageListItemBar
-                title={item?.additionalData?.label}
-                actionIcon={(
-                  <IconButton
-                    onClick={(e) => handleClick(e, item.id)}
-                    id="info-button"
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${item?.additionalData?.label}`}
-                  >
-                    <InfoIcon />
-                  </IconButton>
+        {itemData.images.map((item, i) => (item ? (
+          // eslint-disable-next-line react/no-array-index-key
+          <ImageListItem key={`${item.path}-${i}`}>
+            {/* <DamageHighlight
+                damages={itemData.damages}
+                damageStyle={(damage) => (damage.damageType === 'dent' ?
+                { stroke: 'red', strokeDasharray: '5, 5' } : {})}
+                image={item}
+                onPressDamage={(damage) => { console.log(damage); }}
+              /> */}
+            <ImageListItemBar
+              title={item?.additionalData?.label?.en}
+              actionIcon={(
+                <IconButton
+                  onClick={(e) => handleClick(e, item.id)}
+                  id="info-button"
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  aria-label={`info about ${item?.additionalData?.label}`}
+                >
+                  <InfoIcon />
+                </IconButton>
                 )}
-              />
-            </ImageListItem>
-          ) : null);
-        })}
+            />
+          </ImageListItem>
+        ) : null))}
       </MUIImageList>
     </>
   );
 }
 
 ImageList.propTypes = {
-  itemData: PropTypes.arrayOf(PropTypes.shape({
-    additionalData: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-    }),
+  itemData: PropTypes.shape({
     damages: PropTypes.arrayOf(PropTypes.shape({
+      createdBy: PropTypes.string,
       damageType: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      imageRegion: PropTypes.shape({
-        specification: PropTypes.shape({
-          polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
-        }),
-      }),
+      deletedAt: PropTypes.string,
+      id: PropTypes.string,
+      inspectionId: PropTypes.string,
     })),
-    path: PropTypes.string.isRequired,
-  })),
+    images: PropTypes.arrayOf(PropTypes.shape({
+      additionalData: PropTypes.shape({
+        label: PropTypes.objectOf(PropTypes.string).isRequired,
+      }),
+      id: PropTypes.string.isRequired,
+      imageHeight: PropTypes.number.isRequired,
+      imageWidth: PropTypes.number.isRequired,
+      path: PropTypes.string.isRequired,
+      views: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        imageRegion: PropTypes.shape({
+          specification: PropTypes.shape({
+            boundingBox: PropTypes.shape({
+              height: PropTypes.number,
+              width: PropTypes.number,
+              xmin: PropTypes.number,
+              ymin: PropTypes.number,
+            }).isRequired,
+            polygons: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
+          }),
+        }),
+      })),
+    })),
+  }),
 };
 
 ImageList.defaultProps = {
-  itemData: [],
+  itemData: {},
 };

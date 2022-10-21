@@ -1,8 +1,12 @@
+import { utils } from '@monkvision/toolkit';
+import PropTypes from 'prop-types';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { utils } from '@monkvision/toolkit';
-import PropTypes from 'prop-types';
+
+import Constants from '../../const';
+import i18next from '../../i18n';
+import log from '../../utils/log';
 
 import Camera from '../Camera';
 import Controls from '../Controls';
@@ -10,10 +14,6 @@ import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
-
-import Constants from '../../const';
-import log from '../../utils/log';
-import i18next from '../../i18n';
 
 import {
   useCheckComplianceAsync,
@@ -106,6 +106,8 @@ const Capture = forwardRef(({
   compliance,
   sights,
   settings,
+  compressionOptions,
+  resolutionOptions,
   Sentry,
 }, combinedRefs) => {
   // STATES //
@@ -365,6 +367,8 @@ const Capture = forwardRef(({
             pictureSize={settings.pictureSize}
             settings={settings}
             enableQHDWhenSupported={enableQHDWhenSupported}
+            compressionOptions={compressionOptions}
+            resolutionOptions={resolutionOptions}
             Sentry={Sentry}
           >
             {children}
@@ -417,11 +421,23 @@ Capture.propTypes = {
       status: PropTypes.string,
     })),
   }).isRequired,
-  controls: PropTypes.arrayOf(PropTypes.shape({
-    component: PropTypes.element,
-    disabled: PropTypes.bool,
-    onPress: PropTypes.func,
-  })),
+  compressionOptions: PropTypes.shape({
+    quality: PropTypes.number,
+  }),
+  controls: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.shape({
+      component: PropTypes.element,
+      disabled: PropTypes.bool,
+      onCustomTakePicture: PropTypes.func,
+      onPress: PropTypes.func,
+    }),
+    PropTypes.arrayOf(PropTypes.shape({
+      component: PropTypes.element,
+      disabled: PropTypes.bool,
+      onCustomTakePicture: PropTypes.func,
+      onPress: PropTypes.func,
+    })),
+  ])),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
   enableComplianceCheck: PropTypes.bool,
   enableCompression: PropTypes.bool,
@@ -470,6 +486,9 @@ Capture.propTypes = {
   onWarningMessage: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
   primaryColor: PropTypes.string,
+  resolutionOptions: PropTypes.shape({
+    QHDDelay: PropTypes.number,
+  }),
   Sentry: PropTypes.any,
   settings: PropTypes.shape({
     compression: PropTypes.bool,
@@ -530,6 +549,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
+  compressionOptions: undefined,
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
@@ -565,6 +585,7 @@ Capture.defaultProps = {
   onRetakeAll: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
+  resolutionOptions: undefined,
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,

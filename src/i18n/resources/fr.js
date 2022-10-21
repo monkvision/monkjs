@@ -1,22 +1,17 @@
 const fr = {
   translation: {
     appLoading: 'Lancement de l\'app...',
+    snackbar: {
+      dismiss: 'Fermer',
+    },
     inspection: {
       vinNumber: {
         title: 'Lecture du VIN (vehicle identification number)',
         description: 'Détectez-le avec votre caméra ou rentrez-le manuellement',
       },
       damageDetection: {
-        title: 'Détection de dégats sur la carrosserie',
-        description: 'Détection de dégâts',
-      },
-      interior: {
-        title: 'État des lieux de l’intérieur',
-        description: 'Détection de dégâts',
-      },
-      wheelsAnalysis: {
-        title: 'Analyses des roues (jantes et enjoliveurs)',
-        description: 'Détails à propos de l\'état des jantes',
+        title: 'Détection de dégâts',
+        description: 'Carrosserie et jantes / enjoliveurs',
       },
       status: {
         NOT_STARTED: 'En attente de lancement',
@@ -43,6 +38,9 @@ const fr = {
       resetInspection: 'Recommencer l\'inspection',
       lastInspection: 'Dernière inspection',
       signOut: 'Se Déconnecter',
+      workflowReminder: 'Veuillez compléter toutes les tâches afin de pouvoir générer votre rapport PDF.',
+      downloadPdf: 'Télécharger le PDF',
+      downloadPdfDescription: 'Disponible lorsque toutes les tâches sont terminées',
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',
@@ -123,6 +121,7 @@ const fr = {
         on: 'Activer',
         off: 'Désactiver',
       },
+      custom: '+',
     },
   },
 };

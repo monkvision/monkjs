@@ -1,15 +1,17 @@
-import { useSentry, useInterval, utils } from '@monkvision/toolkit';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import monk from '@monkvision/corejs';
+import { useInterval, useSentry, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { Container } from '@monkvision/ui';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import Modal from 'components/Modal';
 import ExpoConstants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
+import useSnackbar from 'hooks/useSnackbar';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { View, useWindowDimensions, FlatList } from 'react-native';
-import { Container } from '@monkvision/ui';
-import monk from '@monkvision/corejs';
+import { FlatList, useWindowDimensions, View } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
 import Inspection from 'components/Inspection';
@@ -19,11 +21,12 @@ import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
-import Modal from 'components/Modal';
-import styles from './styles';
 import Sentry from '../../config/sentry';
-import useVinModal from './useVinModal';
 import { setTag } from '../../config/sentryPlatform';
+import styles from './styles';
+import useGetPdfReport from './useGetPdfReport';
+import useUpdateOneTask from './useUpdateOneTask';
+import useVinModal from './useVinModal';
 import VehicleType from './VehicleType';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
@@ -40,6 +43,7 @@ export default function Landing() {
   const { height } = useWindowDimensions();
   const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
+  const { setShowTranslatedMessage, Notice } = useSnackbar(true);
 
   const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -61,6 +65,36 @@ export default function Landing() {
     inspectionId,
     { vehicleType, vin: inspection?.vehicle?.vin },
   );
+
+  const allTasksAreCompleted = useMemo(
+    () => inspection?.tasks?.length && inspection?.tasks
+      .every(({ status }) => status === monk.types.ProgressStatus.DONE),
+    [inspection?.tasks],
+  );
+
+  // NOTE(Ilyass):We update the ocr once the vin got changed manually,
+  // so that the user can generate the pdf
+  const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
+
+  const {
+    preparePdf,
+    handleDownload,
+    reportUrl,
+    loading: pdfLoading,
+  } = useGetPdfReport(inspectionId);
+
+  useEffect(() => {
+    if (allTasksAreCompleted) {
+      preparePdf();
+    }
+  }, [allTasksAreCompleted]);
+
+  useEffect(() => {
+    if (inspection?.vehicle?.vin
+      && inspection?.tasks?.find((item) => item.name === monk.types.TaskName.IMAGES_OCR)) {
+      startUpdateOneTask();
+    }
+  }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
@@ -148,12 +182,18 @@ export default function Landing() {
     return () => clearInterval(intervalId);
   }, [navigation, start, intervalId]));
 
+  useEffect(() => {
+    if (inspectionId && !allTasksAreCompleted) {
+      setShowTranslatedMessage('landing.workflowReminder');
+    } else { setShowTranslatedMessage(null); }
+  }, [allTasksAreCompleted, inspectionId]);
+
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');
     const disabled = [
       monk.types.ProgressStatus.TODO, monk.types.ProgressStatus.IN_PROGRESS,
-      monk.types.ProgressStatus.DONE, monk.types.ProgressStatus.ERROR]
-      .includes(vinTask?.status);
+      monk.types.ProgressStatus.DONE, monk.types.ProgressStatus.ERROR,
+    ].includes(vinTask?.status);
 
     return [
       { title: t('vinModal.camera'), value: 'automatic', disabled, icon: 'camera' },
@@ -174,6 +214,18 @@ export default function Landing() {
     })();
   }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId]);
 
+  const isPdfDisabled = useMemo(
+    () => !allTasksAreCompleted || !reportUrl,
+    [allTasksAreCompleted, reportUrl],
+  );
+
+  const pdfDownloadLeft = useCallback(
+    () => (pdfLoading
+      ? <ActivityIndicator />
+      : <List.Icon icon="file-pdf-box" color={isPdfDisabled ? '#8d8d8dde' : undefined} />),
+    [pdfLoading, isPdfDisabled],
+  );
+
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
       <Modal
@@ -192,10 +244,6 @@ export default function Landing() {
           </View>
         )}
         <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
-          {!isEmpty(getInspection.denormalizedEntities) && (
-            getInspection.denormalizedEntities.map((i) => (
-              <Inspection {...i} key={`landing-inspection-${i.id}`} />
-            )))}
           <List.Section>
             <List.Subheader>Select vehicle type</List.Subheader>
             <VehicleType
@@ -212,17 +260,35 @@ export default function Landing() {
               keyExtractor={(item) => item.value}
             />
           </List.Section>
+          <List.Section>
+            <List.Item
+              title={t('landing.downloadPdf')}
+              description={t('landing.downloadPdfDescription')}
+              left={pdfDownloadLeft}
+              onPress={handleDownload}
+              disabled={isPdfDisabled}
+              titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}
+              descriptionStyle={isPdfDisabled ? { color: '#8686868a' } : undefined}
+            />
+          </List.Section>
+          <Card.Actions style={styles.actions}>
+            <LanguageSwitch />
+            {isAuthenticated && (
+              <SignOut onSuccess={handleReset} />
+            )}
+          </Card.Actions>
           <Card.Actions style={styles.actions}>
             {!isEmpty(inspection) ? (
               <Button color={colors.text} onPress={handleReset}>{t('landing.resetInspection')}</Button>
             ) : null}
-            <LanguageSwitch />
-            {isAuthenticated && (
-            <SignOut onSuccess={handleReset} />
-            )}
           </Card.Actions>
+          {!isEmpty(getInspection.denormalizedEntities) && (
+            getInspection.denormalizedEntities.map((i) => (
+              <Inspection {...i} key={`landing-inspection-${i.id}`} />
+            )))}
         </Card>
       </Container>
+      <Notice />
     </View>
   );
 }

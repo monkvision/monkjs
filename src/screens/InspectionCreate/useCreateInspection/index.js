@@ -13,9 +13,9 @@ export default function useCreateInspection(vehicle) {
   const axiosRequest = useCallback(async () => {
     const taskOptions = { status: monk.types.ProgressStatusUpdate.NOT_STARTED };
     const tasks = {
-      wheelAnalysis: taskOptions,
-      imagesOcr: taskOptions,
+      wheelAnalysis: { ...taskOptions, useLongshots: true },
       damageDetection: taskOptions,
+      ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
     return monk.entity.inspection.createOne({ tasks, vehicle });

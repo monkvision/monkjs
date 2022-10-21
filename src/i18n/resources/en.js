@@ -1,22 +1,17 @@
 const en = {
   translation: {
     appLoading: 'Launching the App...',
+    snackbar: {
+      dismiss: 'Dismiss',
+    },
     inspection: {
       vinNumber: {
         title: 'VIN (Vehicle Identification Number)',
         description: 'Detect it with your camera or type it manually',
       },
       damageDetection: {
-        title: 'Vehicle tour (exterior)',
-        description: 'Damage detection',
-      },
-      interior: {
-        title: 'Vehicle tour (interior)',
-        description: 'Damage detection',
-      },
-      wheelsAnalysis: {
-        title: 'Wheels Analysis',
-        description: 'Details about rims conditions',
+        title: 'Damage detection',
+        description: 'Body and rims / hubcaps',
       },
       status: {
         NOT_STARTED: 'Waiting to be started',
@@ -43,6 +38,9 @@ const en = {
       resetInspection: 'Reset Inspection',
       lastInspection: 'Last inspection',
       signOut: 'Sign Out',
+      workflowReminder: 'Complete all the tasks before to be able to generate your PDF report.',
+      downloadPdf: 'Download PDF',
+      downloadPdfDescription: 'Available when all stasks are completed',
     },
     vinModal: {
       title: 'How to set VIN number?',
@@ -123,6 +121,7 @@ const en = {
         on: 'On',
         off: 'Off',
       },
+      custom: '+',
     },
   },
 };

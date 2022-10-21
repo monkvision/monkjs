@@ -104,11 +104,21 @@ export default function InspectionCapture() {
       setCameraLoading(true);
 
       try {
-        const { entities, result } = await monk.entity.task.updateOne(inspectionId, taskName, {
-          status: monk.types.ProgressStatusUpdate.TODO,
-        });
+        const promises = Object.values(mapTasksToSights)
+          .filter(((taskBySight) => sightIds.includes(taskBySight.id)))
+          .map((taskBySight) => taskBySight.task.name)
+          .concat([taskName])
+          .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
+          .map((name) => new Promise((resolve) => {
+            monk.entity.task.updateOne(inspectionId, name, {
+              status: monk.types.ProgressStatusUpdate.TODO,
+            }).then(({ entities, result }) => {
+              dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
+              resolve(name);
+            });
+          }));
 
-        dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
+        await Promise.all(promises);
         setCameraLoading(false);
 
         utils.log(['[Event] Back to landing page with photo taken']);
@@ -204,6 +214,7 @@ export default function InspectionCapture() {
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         Sentry={Sentry}
+
       />
       <Notice />
     </View>

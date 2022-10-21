@@ -1,6 +1,6 @@
 {
   "name": "monk",
-  "version": "3.2.1",
+  "version": "3.4.4",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "private": true,
@@ -40,6 +40,7 @@
     "postinstall": "yarn run build:all"
   },
   "dependencies": {
+    "@babel/helper-string-parser": "^7.18.10",
     "@expo/match-media": "^0.3.0",
     "@expo/vector-icons": "^12.0.0",
     "@expo/webpack-config": "^0.16.19",
@@ -55,7 +56,7 @@
     "expo": "^44.0.6",
     "expo-application": "~4.0.1",
     "expo-auth-session": "~3.5.0",
-    "expo-camera": "~12.1.2",
+    "expo-camera": "^12.3.0",
     "expo-constants": "~13.0.1",
     "expo-device": "~4.1.0",
     "expo-file-system": "~13.1.4",
@@ -114,6 +115,7 @@
     "screenfull": "^6.0.1",
     "sentry-expo": "^4.0.0",
     "webrtc-adapter": "^8.1.1",
+    "xmldom": "^0.6.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

@@ -161,19 +161,6 @@ const options = [
     },
     taskName: 'damage_detection',
   },
-  {
-    value: 'interior',
-    title: 'inspection.interior.title',
-    description: 'inspection.interior.description',
-    icon: 'car-seat',
-    sightIds: [
-      'IqwSM3', // Front seats
-      'rj5mhm', // Back seats
-      'qhKA2z', // Trunk
-      'rSvk2C', // Dashboard
-    ],
-    taskName: 'damage_detection',
-  },
   // {
   //   value: 'commando',
   //   title: 'Data collection',
@@ -195,19 +182,19 @@ const options = [
   //   ],
   //   taskName: 'damage_detection',
   // },
-  {
-    value: 'wheels',
-    title: 'inspection.wheelsAnalysis.title',
-    description: 'inspection.wheelsAnalysis.description',
-    icon: 'circle-double',
-    sightIds: [
-      'xQKQ0bXS', // Front wheel left
-      '8_W2PO8L', // Rear wheel left
-      'rN39Y3HR', // Rear wheel right
-      'PuIw17h0', // Front wheel right
-    ],
-    taskName: 'wheel_analysis',
-  },
+  // {
+  //   value: 'wheels',
+  //   title: 'inspection.wheelsAnalysis.title',
+  //   description: 'inspection.wheelsAnalysis.description',
+  //   icon: 'circle-double',
+  //   sightIds: [
+  //     'xQKQ0bXS', // Front wheel left
+  //     '8_W2PO8L', // Rear wheel left
+  //     'rN39Y3HR', // Rear wheel right
+  //     'PuIw17h0', // Front wheel right
+  //   ],
+  //   taskName: 'wheel_analysis',
+  // },
 ];
 
 export default {

@@ -79,12 +79,10 @@ export default function Inspections() {
   const inspections = useSelector(monk.entity.inspection.selectors.selectEntities);
 
   const makeNextRequest = () => monk.entity.inspection.getMany({
-    params: {
-      limit: 20,
-      inspectionStatus: 'DONE',
-      showDeleted,
-      ...(nextCursor !== null && { [nextCursor.param]: nextCursor.value }),
-    },
+    limit: 20,
+    inspectionStatus: monk.types.InspectionStatus.DONE,
+    showDeleted,
+    ...(nextCursor !== null && { [nextCursor.param]: nextCursor.value }),
   });
 
   const makeNextRequestMemoized = useCallback(async () => makeNextRequest(), []);

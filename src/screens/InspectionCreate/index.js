@@ -63,7 +63,7 @@ export default function InspectionCreate() {
 
   const createInspection = useCreateInspection({ ...vehicle, vin });
   const handleCreate = useCallback(async () => {
-    if (isEmpty(inspectionId) && isAuthenticated) {
+    if (isEmpty(inspectionId) && isAuthenticated && createInspection.state.count < 1) {
       utils.log(['[Click] Inspection task chosen: ', selected]);
       const response = await createInspection.start(selected);
       if (response !== null) {
