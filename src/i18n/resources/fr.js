@@ -48,7 +48,6 @@ const fr = {
       manual: 'Le rentrer manuellement',
       prompt: {
         title: 'Numéro VIN (Vehicle Identification Number)',
-        message: 'Veuillez indiquer le numéro VIN',
         backgroundMessage: 'Veuillez renseigner le contenu demandé dans la fenêtre',
         backgroundGoBack: 'Retour',
       },

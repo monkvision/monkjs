@@ -4,6 +4,7 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import { I18nextProvider } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
+import SightInfoPills from './SightInfoPills';
 import Constants from '../../const';
 import i18next from '../../i18n';
 import log from '../../utils/log';
@@ -68,6 +69,7 @@ const defaultNavigationOptions = {
 };
 
 const Capture = forwardRef(({
+  showOverlays,
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
@@ -305,11 +307,14 @@ const Capture = forwardRef(({
 
   const children = useMemo(() => (
     <>
-      {(isReady && overlay && loading === false) ? (
-        <Overlay
-          svg={overlay}
-          style={[styles.overlay, overlaySize]}
-        />
+      {(isReady && overlay && loading === false && showOverlays) ? (
+        <>
+          <Overlay
+            svg={overlay}
+            style={[styles.overlay, overlaySize]}
+          />
+          <SightInfoPills metadata={sights.state.current.metadata} />
+        </>
       ) : null}
       {loading === true ? (
         <View style={styles.loading}>
@@ -320,7 +325,15 @@ const Capture = forwardRef(({
         </View>
       ) : null}
     </>
-  ), [isReady, loading, overlay, overlaySize, primaryColor]);
+  ), [
+    isReady,
+    loading,
+    overlay,
+    overlaySize,
+    primaryColor,
+    showOverlays,
+    sights.state.current.metadata.angle,
+  ]);
 
   if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
     return (
@@ -497,6 +510,7 @@ Capture.propTypes = {
     type: PropTypes.string,
     zoom: PropTypes.number,
   }).isRequired,
+  showOverlays: PropTypes.bool,
   sights: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -505,6 +519,7 @@ Capture.propTypes = {
         id: PropTypes.string,
         index: PropTypes.number,
         metadata: PropTypes.shape({
+          angle: PropTypes.string,
           category: PropTypes.string,
           id: PropTypes.string,
           label: PropTypes.shape({
@@ -586,6 +601,7 @@ Capture.defaultProps = {
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   resolutionOptions: undefined,
+  showOverlays: true,
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,

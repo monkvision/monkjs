@@ -15,7 +15,7 @@ export default function useVinModal({ isAuthenticated, inspectionId, vehicle }) 
     // select only value that are not one of the `modals` keys
     if (name === 'manually') {
       utils.log(['[Click] Entering VIN manually']);
-      const options = { title: t('vinModal.prompt.title'), message: t('vinModal.prompt.message'), key: 'vin' };
+      const options = { title: t('vinModal.prompt.title'), key: 'vin' };
       const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_PROMPT;
       const redirect = inspectionId ? names.INSPECTION_VEHICLE_UPDATE : names.INSPECTION_CREATE;
 

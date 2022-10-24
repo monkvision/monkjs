@@ -8,10 +8,16 @@ const fr = {
       fullScreen: 'Plein Écran',
       settings: 'Paramètres',
       quit: 'Quitter',
+      toggleOverlays: 'Affichage Mire',
     },
     layout: {
       rotateDevice: 'Veuillez tourner votre appreil ↪',
       unlockPortraitMode: 'Vous avez peut-être besoin de déverouiller le mode portrait depuis les paramètres de votre appareil',
+      anglePill: {
+        low: 'BAS',
+        mid: 'MILIEU',
+        high: 'HAUT',
+      },
     },
     uploadCenter: {
       view: {

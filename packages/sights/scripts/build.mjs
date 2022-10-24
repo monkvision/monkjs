@@ -18,6 +18,8 @@ function start() {
           newItems[key] = {
             id: item.id,
             label: item.label,
+            angle: item.angle,
+            pointsOfInterest: item.pointsOfInterest,
             category: item.category,
             vehicleType: item.vehicleType,
             overlay: data.replace(/^\s+|\s+$/gm, ''),

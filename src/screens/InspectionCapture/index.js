@@ -84,6 +84,7 @@ const mapTasksToSights = [{
 const enableComplianceCheck = true;
 
 export default function InspectionCapture() {
+  const [showOverlays, setShowOverlays] = useState(true);
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -97,6 +98,10 @@ export default function InspectionCapture() {
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
+
+  const handleToggleShowOverlays = useCallback(() => {
+    setShowOverlays(!showOverlays);
+  }, [setShowOverlays, showOverlays]);
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -221,7 +226,10 @@ export default function InspectionCapture() {
 
   const controls = [
     { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
-    { disabled: cameraLoading, ...Controls.CaptureButtonProps },
+    [
+      { disabled: cameraLoading, ...Controls.CaptureButtonProps },
+      { onPress: handleToggleShowOverlays, ...Controls.OverlaysToggleButtonProps },
+    ],
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 
@@ -237,6 +245,7 @@ export default function InspectionCapture() {
       <Settings ref={settingsRef} settings={settings} />
       <Capture
         ref={captureRef}
+        showOverlays={showOverlays}
         task={taskName}
         mapTasksToSights={mapTasksToSights}
         sightIds={sightIds}

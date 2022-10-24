@@ -1,5 +1,5 @@
-import React, { forwardRef, useRef } from 'react';
 import PropTypes from 'prop-types';
+import React, { forwardRef, useRef } from 'react';
 
 import useCompliance from '../../hooks/useCompliance';
 import useSettings from '../../hooks/useSettings';
@@ -20,7 +20,15 @@ const initialColors = {
   },
 };
 
-const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, ...rest }, ref) => {
+const CaptureHOC = forwardRef(({
+  showOverlays,
+  compliance,
+  settings,
+  sights,
+  uploads,
+  colors,
+  ...rest
+}, ref) => {
   const camera = useRef();
   const combinedRefs = useRef({ camera, ref });
 
@@ -38,6 +46,7 @@ const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, 
       settings={settings || unControlledSettings}
       ref={combinedRefs}
       colors={{ ...initialColors, ...colors }}
+      showOverlays={showOverlays}
       {...rest}
     />
   );
@@ -83,6 +92,7 @@ CaptureHOC.propTypes = {
     type: PropTypes.string,
     zoom: PropTypes.number,
   }),
+  showOverlays: PropTypes.bool,
   sights: PropTypes.shape({
     dispatch: PropTypes.func,
     name: PropTypes.string,
@@ -142,6 +152,7 @@ CaptureHOC.defaultProps = {
   },
   settings: undefined,
   sights: undefined,
+  showOverlays: true,
   uploads: undefined,
 };
 

@@ -9,6 +9,7 @@ import QuitButton from './QuitButton';
 import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
 import TakePictureButton from './TakePictureButton';
+import OverlaysToggleButton from './OverlaysToggleButton';
 import PartSelector from './PartSelector';
 import useHandlers from './hooks';
 import i18next from '../../i18n';
@@ -256,6 +257,31 @@ Controls.FullscreenButtonProps = {
     borderColor: '#181829',
     borderWidth: 2,
     shadowColor: '#181829',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0 },
+    ...Platform.select({
+      native: { shadowRadius: 2 },
+      default: { shadowRadius: '2px 2px' },
+    }),
+  },
+};
+
+Controls.OverlaysToggleButtonProps = {
+  id: 'overlay-toggle',
+  accessibilityLabel: 'Overlay Toggle',
+  children: <OverlaysToggleButton />,
+  style: {
+    maxWidth: '100%',
+    backgroundColor: '#490505',
+    width: 70,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 65,
+    borderColor: '#490505',
+    borderWidth: 2,
+    shadowColor: '#490505',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },
     ...Platform.select({

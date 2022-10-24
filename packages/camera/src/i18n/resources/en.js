@@ -8,10 +8,16 @@ const en = {
       fullScreen: 'Fullscreen',
       settings: 'Settings',
       quit: 'Quit',
+      toggleOverlays: 'Toggle Overlays',
     },
     layout: {
       rotateDevice: 'Please rotate your device ↪',
       unlockPortraitMode: 'You may need to unlock portrait mode through phone settings',
+      anglePill: {
+        low: 'LOW',
+        mid: 'MID',
+        high: 'HIGH',
+      },
     },
     uploadCenter: {
       view: {

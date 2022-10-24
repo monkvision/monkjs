@@ -2067,7 +2067,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-LTe3X2bg.opengl.png"
+    "template_image": "fesc20-LTe3X2bg.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "fesc20-bD8CBhYZ": {
     "id": "fesc20-bD8CBhYZ",
@@ -2100,7 +2111,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-bD8CBhYZ.opengl.png"
+    "template_image": "fesc20-bD8CBhYZ.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-GdIxD-_N": {
     "id": "fesc20-GdIxD-_N",
@@ -2166,7 +2184,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-6GPUkfYn.opengl.png"
+    "template_image": "fesc20-6GPUkfYn.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "fesc20-iUN0g_Zn": {
     "id": "fesc20-iUN0g_Zn",
@@ -2265,7 +2290,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-dfICsfSV.opengl.png"
+    "template_image": "fesc20-dfICsfSV.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "fesc20-X8k7UFGf": {
     "id": "fesc20-X8k7UFGf",
@@ -2331,7 +2367,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-Wzdtgqqz.opengl.png"
+    "template_image": "fesc20-Wzdtgqqz.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "fesc20-CEGtqHkk": {
     "id": "fesc20-CEGtqHkk",
@@ -2463,7 +2510,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-LZc7p2kK.opengl.png"
+    "template_image": "fesc20-LZc7p2kK.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "fesc20-H1dfdfvH": {
     "id": "fesc20-H1dfdfvH",
@@ -2496,7 +2554,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-H1dfdfvH.opengl.png"
+    "template_image": "fesc20-H1dfdfvH.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "fesc20-WMUaKDp1": {
     "id": "fesc20-WMUaKDp1",
@@ -2529,7 +2594,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "fesc20-WMUaKDp1.opengl.png"
+    "template_image": "fesc20-WMUaKDp1.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "fesc20-UjtbRtJS": {
     "id": "fesc20-UjtbRtJS",
@@ -2565,7 +2637,14 @@
     "angle_order": 180,
     "template_image": "fesc20-UjtbRtJS.opengl.png",
     "overlay": "fesc20-UjtbRtJS.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-fOt832UV": {
     "id": "fesc20-fOt832UV",
@@ -2601,7 +2680,14 @@
     "angle_order": 90,
     "template_image": "fesc20-fOt832UV.opengl.png",
     "overlay": "fesc20-fOt832UV.svg",
-    "mirror_sight": "fesc20-P0oSEh8p"
+    "mirror_sight": "fesc20-P0oSEh8p",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "fesc20-26n47kaO": {
     "id": "fesc20-26n47kaO",
@@ -2637,7 +2723,14 @@
     "angle_order": 90,
     "template_image": "fesc20-26n47kaO.opengl.png",
     "overlay": "fesc20-26n47kaO.svg",
-    "mirror_sight": "fesc20-HYz5ziHi"
+    "mirror_sight": "fesc20-HYz5ziHi",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-xBFiEy-_": {
     "id": "fesc20-xBFiEy-_",
@@ -2673,7 +2766,14 @@
     "angle_order": 180,
     "template_image": "fesc20-xBFiEy-_.opengl.png",
     "overlay": "fesc20-xBFiEy-_.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      }
+    ]
   },
   "fesc20-4Wqx52oU": {
     "id": "fesc20-4Wqx52oU",
@@ -2709,7 +2809,18 @@
     "angle_order": 126.43086,
     "template_image": "fesc20-4Wqx52oU.opengl.png",
     "overlay": "fesc20-4Wqx52oU.svg",
-    "mirror_sight": "fesc20-5Ts1UkPT"
+    "mirror_sight": "fesc20-5Ts1UkPT",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "fesc20-WIQsf_gX": {
     "id": "fesc20-WIQsf_gX",
@@ -2745,7 +2856,18 @@
     "angle_order": 55.71312,
     "template_image": "fesc20-WIQsf_gX.opengl.png",
     "overlay": "fesc20-WIQsf_gX.svg",
-    "mirror_sight": "fesc20-dKVLig1i"
+    "mirror_sight": "fesc20-dKVLig1i",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "fesc20-P0oSEh8p": {
     "id": "fesc20-P0oSEh8p",
@@ -2781,7 +2903,14 @@
     "angle_order": 270,
     "template_image": "fesc20-P0oSEh8p.opengl.png",
     "overlay": "fesc20-P0oSEh8p.svg",
-    "mirror_sight": "fesc20-fOt832UV"
+    "mirror_sight": "fesc20-fOt832UV",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "fesc20-HYz5ziHi": {
     "id": "fesc20-HYz5ziHi",
@@ -2817,7 +2946,14 @@
     "angle_order": 270,
     "template_image": "fesc20-HYz5ziHi.opengl.png",
     "overlay": "fesc20-HYz5ziHi.svg",
-    "mirror_sight": "fesc20-26n47kaO"
+    "mirror_sight": "fesc20-26n47kaO",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-5Ts1UkPT": {
     "id": "fesc20-5Ts1UkPT",
@@ -2853,7 +2989,18 @@
     "angle_order": 233.56914,
     "template_image": "fesc20-5Ts1UkPT.opengl.png",
     "overlay": "fesc20-5Ts1UkPT.svg",
-    "mirror_sight": "fesc20-4Wqx52oU"
+    "mirror_sight": "fesc20-4Wqx52oU",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "fesc20-dKVLig1i": {
     "id": "fesc20-dKVLig1i",
@@ -2889,7 +3036,18 @@
     "angle_order": 304.28688,
     "template_image": "fesc20-dKVLig1i.opengl.png",
     "overlay": "fesc20-dKVLig1i.svg",
-    "mirror_sight": "fesc20-WIQsf_gX"
+    "mirror_sight": "fesc20-WIQsf_gX",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "fesc20-0mJeXBDf": {
     "id": "fesc20-0mJeXBDf",
@@ -2925,7 +3083,14 @@
     "angle_order": 325.58163,
     "template_image": "fesc20-0mJeXBDf.opengl.png",
     "overlay": "fesc20-0mJeXBDf.svg",
-    "mirror_sight": "fesc20-bD8CBhYZ"
+    "mirror_sight": "fesc20-bD8CBhYZ",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-T4dIGLgy": {
     "id": "fesc20-T4dIGLgy",
@@ -2961,7 +3126,14 @@
     "angle_order": 145.0806,
     "template_image": "fesc20-T4dIGLgy.opengl.png",
     "overlay": "fesc20-T4dIGLgy.svg",
-    "mirror_sight": "fesc20-EJ0tXYBW"
+    "mirror_sight": "fesc20-EJ0tXYBW",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-EJ0tXYBW": {
     "id": "fesc20-EJ0tXYBW",
@@ -2997,7 +3169,14 @@
     "angle_order": 214.9194,
     "template_image": "fesc20-EJ0tXYBW.opengl.png",
     "overlay": "fesc20-EJ0tXYBW.svg",
-    "mirror_sight": "fesc20-T4dIGLgy"
+    "mirror_sight": "fesc20-T4dIGLgy",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "fesc20-2bLRuhEQ": {
     "id": "fesc20-2bLRuhEQ",
@@ -3033,7 +3212,14 @@
     "angle_order": 180,
     "template_image": "fesc20-2bLRuhEQ.opengl.png",
     "overlay": "fesc20-2bLRuhEQ.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "fesc20-DBLpo-52": {
     "id": "fesc20-DBLpo-52",
@@ -3069,7 +3255,14 @@
     "angle_order": 202.89055,
     "template_image": "fesc20-DBLpo-52.opengl.png",
     "overlay": "fesc20-DBLpo-52.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "ff150-7UI3m9B3": {
     "id": "ff150-7UI3m9B3",
@@ -3102,7 +3295,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-7UI3m9B3.opengl.png"
+    "template_image": "ff150-7UI3m9B3.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ff150-KgHVkQBW": {
     "id": "ff150-KgHVkQBW",
@@ -3135,7 +3335,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-KgHVkQBW.opengl.png"
+    "template_image": "ff150-KgHVkQBW.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ff150-wO_fJ3DL": {
     "id": "ff150-wO_fJ3DL",
@@ -3201,7 +3412,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-Ttsc7q6V.opengl.png"
+    "template_image": "ff150-Ttsc7q6V.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "ff150-xbOhu7nK": {
     "id": "ff150-xbOhu7nK",
@@ -3300,7 +3518,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-gFp78fQO.opengl.png"
+    "template_image": "ff150-gFp78fQO.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ff150-OviO2DlY": {
     "id": "ff150-OviO2DlY",
@@ -3432,7 +3661,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150--xPZZd83.opengl.png"
+    "template_image": "ff150--xPZZd83.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ff150-o8MiTw8u": {
     "id": "ff150-o8MiTw8u",
@@ -3498,7 +3738,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-t3KBMPeD.opengl.png"
+    "template_image": "ff150-t3KBMPeD.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ff150-zXbg0l3z": {
     "id": "ff150-zXbg0l3z",
@@ -3531,7 +3782,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-zXbg0l3z.opengl.png"
+    "template_image": "ff150-zXbg0l3z.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "ff150-3he9UOwy": {
     "id": "ff150-3he9UOwy",
@@ -3564,7 +3822,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ff150-3he9UOwy.opengl.png"
+    "template_image": "ff150-3he9UOwy.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "ff150-3lKZIoxw": {
     "id": "ff150-3lKZIoxw",
@@ -3600,7 +3865,14 @@
     "angle_order": 324.29331,
     "template_image": "ff150-3lKZIoxw.opengl.png",
     "overlay": "ff150-3lKZIoxw.svg",
-    "mirror_sight": "ff150-7UI3m9B3"
+    "mirror_sight": "ff150-7UI3m9B3",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ff150-FqbrFVr2": {
     "id": "ff150-FqbrFVr2",
@@ -3636,7 +3908,18 @@
     "angle_order": 52.94347,
     "template_image": "ff150-FqbrFVr2.opengl.png",
     "overlay": "ff150-FqbrFVr2.svg",
-    "mirror_sight": "ff150-7nvlys8r"
+    "mirror_sight": "ff150-7nvlys8r",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ff150-7nvlys8r": {
     "id": "ff150-7nvlys8r",
@@ -3672,7 +3955,18 @@
     "angle_order": 307.05653,
     "template_image": "ff150-7nvlys8r.opengl.png",
     "overlay": "ff150-7nvlys8r.svg",
-    "mirror_sight": "ff150-FqbrFVr2"
+    "mirror_sight": "ff150-FqbrFVr2",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ff150-vwE3yqdh": {
     "id": "ff150-vwE3yqdh",
@@ -3708,7 +4002,14 @@
     "angle_order": 90,
     "template_image": "ff150-vwE3yqdh.opengl.png",
     "overlay": "ff150-vwE3yqdh.svg",
-    "mirror_sight": "ff150-18YVVN-G"
+    "mirror_sight": "ff150-18YVVN-G",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "ff150-GOx2s_9L": {
     "id": "ff150-GOx2s_9L",
@@ -3744,7 +4045,14 @@
     "angle_order": 92.83411,
     "template_image": "ff150-GOx2s_9L.opengl.png",
     "overlay": "ff150-GOx2s_9L.svg",
-    "mirror_sight": "ff150-_UIadfVL"
+    "mirror_sight": "ff150-_UIadfVL",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ff150-ouGGtRnf": {
     "id": "ff150-ouGGtRnf",
@@ -3780,7 +4088,18 @@
     "angle_order": 135,
     "template_image": "ff150-ouGGtRnf.opengl.png",
     "overlay": "ff150-ouGGtRnf.svg",
-    "mirror_sight": "ff150-3rM9XB0Z"
+    "mirror_sight": "ff150-3rM9XB0Z",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ff150-3dkU10af": {
     "id": "ff150-3dkU10af",
@@ -3816,7 +4135,14 @@
     "angle_order": 180,
     "template_image": "ff150-3dkU10af.opengl.png",
     "overlay": "ff150-3dkU10af.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      }
+    ]
   },
   "ff150-k4kh7Vra": {
     "id": "ff150-k4kh7Vra",
@@ -3852,7 +4178,14 @@
     "angle_order": 180,
     "template_image": "ff150-k4kh7Vra.opengl.png",
     "overlay": "ff150-k4kh7Vra.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ff150-18YVVN-G": {
     "id": "ff150-18YVVN-G",
@@ -3888,7 +4221,14 @@
     "angle_order": 270,
     "template_image": "ff150-18YVVN-G.opengl.png",
     "overlay": "ff150-18YVVN-G.svg",
-    "mirror_sight": "ff150-vwE3yqdh"
+    "mirror_sight": "ff150-vwE3yqdh",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "ff150-_UIadfVL": {
     "id": "ff150-_UIadfVL",
@@ -3924,7 +4264,14 @@
     "angle_order": 267.16589,
     "template_image": "ff150-_UIadfVL.opengl.png",
     "overlay": "ff150-_UIadfVL.svg",
-    "mirror_sight": "ff150-GOx2s_9L"
+    "mirror_sight": "ff150-GOx2s_9L",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ff150-3rM9XB0Z": {
     "id": "ff150-3rM9XB0Z",
@@ -3960,7 +4307,18 @@
     "angle_order": 225,
     "template_image": "ff150-3rM9XB0Z.opengl.png",
     "overlay": "ff150-3rM9XB0Z.svg",
-    "mirror_sight": "ff150-ouGGtRnf"
+    "mirror_sight": "ff150-ouGGtRnf",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ff150-phbX7Bef": {
     "id": "ff150-phbX7Bef",
@@ -3996,7 +4354,14 @@
     "angle_order": 147.99462,
     "template_image": "ff150-phbX7Bef.opengl.png",
     "overlay": "ff150-phbX7Bef.svg",
-    "mirror_sight": "ff150-tT8sqplK"
+    "mirror_sight": "ff150-tT8sqplK",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ff150-tT8sqplK": {
     "id": "ff150-tT8sqplK",
@@ -4032,7 +4397,14 @@
     "angle_order": 212.00538,
     "template_image": "ff150-tT8sqplK.opengl.png",
     "overlay": "ff150-tT8sqplK.svg",
-    "mirror_sight": "ff150-phbX7Bef"
+    "mirror_sight": "ff150-phbX7Bef",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-43ljK5xC": {
     "id": "ffocus18-43ljK5xC",
@@ -4065,7 +4437,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ffocus18-43ljK5xC.opengl.png"
+    "template_image": "ffocus18-43ljK5xC.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ffocus18-GgOSpLl6": {
     "id": "ffocus18-GgOSpLl6",
@@ -4098,7 +4481,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ffocus18-GgOSpLl6.opengl.png"
+    "template_image": "ffocus18-GgOSpLl6.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-GiTxaJUq": {
     "id": "ffocus18-GiTxaJUq",
@@ -4165,7 +4555,14 @@
       "focal_length": 26
     },
     "angle_order": 63.43496,
-    "template_image": "ffocus18-ZXKOomlv.opengl.png"
+    "template_image": "ffocus18-ZXKOomlv.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "ffocus18-L_oZ0LyK": {
     "id": "ffocus18-L_oZ0LyK",
@@ -4232,7 +4629,18 @@
       "focal_length": 26
     },
     "angle_order": 335.22486,
-    "template_image": "ffocus18-lRDlWiwR.opengl.png"
+    "template_image": "ffocus18-lRDlWiwR.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ffocus18-zgLKB-Do": {
     "id": "ffocus18-zgLKB-Do",
@@ -4365,7 +4773,18 @@
       "focal_length": 26
     },
     "angle_order": 150.75118,
-    "template_image": "ffocus18-9MeSIqp7.opengl.png"
+    "template_image": "ffocus18-9MeSIqp7.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ffocus18-X2LDjCvr": {
     "id": "ffocus18-X2LDjCvr",
@@ -4466,7 +4885,18 @@
       "focal_length": 26
     },
     "angle_order": 209.24883,
-    "template_image": "ffocus18-jWOq2CNN.opengl.png"
+    "template_image": "ffocus18-jWOq2CNN.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ffocus18-XlfgjQb9": {
     "id": "ffocus18-XlfgjQb9",
@@ -4499,7 +4929,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ffocus18-XlfgjQb9.opengl.png"
+    "template_image": "ffocus18-XlfgjQb9.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "ffocus18-3TiCVAaN": {
     "id": "ffocus18-3TiCVAaN",
@@ -4532,7 +4969,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ffocus18-3TiCVAaN.opengl.png"
+    "template_image": "ffocus18-3TiCVAaN.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "ffocus18-x_1SE7X-": {
     "id": "ffocus18-x_1SE7X-",
@@ -4566,7 +5010,18 @@
       "focal_length": 26
     },
     "angle_order": 53.80679,
-    "template_image": "ffocus18-x_1SE7X-.opengl.png"
+    "template_image": "ffocus18-x_1SE7X-.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ffocus18-yo9eBDW6": {
     "id": "ffocus18-yo9eBDW6",
@@ -4600,7 +5055,14 @@
       "focal_length": 26
     },
     "angle_order": 90,
-    "template_image": "ffocus18-yo9eBDW6.opengl.png"
+    "template_image": "ffocus18-yo9eBDW6.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "ffocus18-6FX31ty1": {
     "id": "ffocus18-6FX31ty1",
@@ -4634,7 +5096,14 @@
       "focal_length": 26
     },
     "angle_order": 89.22578,
-    "template_image": "ffocus18-6FX31ty1.opengl.png"
+    "template_image": "ffocus18-6FX31ty1.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-S3kgFOBb": {
     "id": "ffocus18-S3kgFOBb",
@@ -4668,7 +5137,18 @@
       "focal_length": 26
     },
     "angle_order": 123.69007,
-    "template_image": "ffocus18-S3kgFOBb.opengl.png"
+    "template_image": "ffocus18-S3kgFOBb.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ffocus18-IoqRrmlA": {
     "id": "ffocus18-IoqRrmlA",
@@ -4702,7 +5182,14 @@
       "focal_length": 26
     },
     "angle_order": 144.46232,
-    "template_image": "ffocus18-IoqRrmlA.opengl.png"
+    "template_image": "ffocus18-IoqRrmlA.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-L2UM_68Q": {
     "id": "ffocus18-L2UM_68Q",
@@ -4736,7 +5223,14 @@
       "focal_length": 26
     },
     "angle_order": 180,
-    "template_image": "ffocus18-L2UM_68Q.opengl.png"
+    "template_image": "ffocus18-L2UM_68Q.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      }
+    ]
   },
   "ffocus18-p6mBZGcW": {
     "id": "ffocus18-p6mBZGcW",
@@ -4770,7 +5264,14 @@
       "focal_length": 26
     },
     "angle_order": 180,
-    "template_image": "ffocus18-p6mBZGcW.opengl.png"
+    "template_image": "ffocus18-p6mBZGcW.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "ffocus18-iQvwc6wa": {
     "id": "ffocus18-iQvwc6wa",
@@ -4804,7 +5305,14 @@
       "focal_length": 26
     },
     "angle_order": 201.31791,
-    "template_image": "ffocus18-iQvwc6wa.opengl.png"
+    "template_image": "ffocus18-iQvwc6wa.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "ffocus18-8WjvbtMD": {
     "id": "ffocus18-8WjvbtMD",
@@ -4838,7 +5346,14 @@
       "focal_length": 26
     },
     "angle_order": 215.53768,
-    "template_image": "ffocus18-8WjvbtMD.opengl.png"
+    "template_image": "ffocus18-8WjvbtMD.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-P2jFq1Ea": {
     "id": "ffocus18-P2jFq1Ea",
@@ -4872,7 +5387,18 @@
       "focal_length": 26
     },
     "angle_order": 236.30993,
-    "template_image": "ffocus18-P2jFq1Ea.opengl.png"
+    "template_image": "ffocus18-P2jFq1Ea.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ffocus18-FdsQDaTW": {
     "id": "ffocus18-FdsQDaTW",
@@ -4906,7 +5432,14 @@
       "focal_length": 26
     },
     "angle_order": 270.77422,
-    "template_image": "ffocus18-FdsQDaTW.opengl.png"
+    "template_image": "ffocus18-FdsQDaTW.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-ts3buSD1": {
     "id": "ffocus18-ts3buSD1",
@@ -4940,7 +5473,14 @@
       "focal_length": 26
     },
     "angle_order": 270,
-    "template_image": "ffocus18-ts3buSD1.opengl.png"
+    "template_image": "ffocus18-ts3buSD1.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "ffocus18-KkeGvT-F": {
     "id": "ffocus18-KkeGvT-F",
@@ -4974,7 +5514,18 @@
       "focal_length": 26
     },
     "angle_order": 306.19321,
-    "template_image": "ffocus18-KkeGvT-F.opengl.png"
+    "template_image": "ffocus18-KkeGvT-F.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ffocus18-seOy3jwd": {
     "id": "ffocus18-seOy3jwd",
@@ -5008,7 +5559,14 @@
       "focal_length": 26
     },
     "angle_order": 325.30485,
-    "template_image": "ffocus18-seOy3jwd.opengl.png"
+    "template_image": "ffocus18-seOy3jwd.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ffocus18-UBB7HoxF": {
     "id": "ffocus18-UBB7HoxF",
@@ -5044,7 +5602,14 @@
     "angle_order": 180,
     "template_image": "ffocus18-UBB7HoxF.opengl.png",
     "overlay": "ffocus18-UBB7HoxF.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Rear",
+        "fr": "Arrière"
+      }
+    ]
   },
   "ffocus18-e5netaNs": {
     "id": "ffocus18-e5netaNs",
@@ -5080,7 +5645,14 @@
     "angle_order": 180,
     "template_image": "ffocus18-e5netaNs.opengl.png",
     "overlay": "ffocus18-e5netaNs.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-wyXf7MTv": {
     "id": "ftransit18-wyXf7MTv",
@@ -5113,7 +5685,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-wyXf7MTv.opengl.png"
+    "template_image": "ftransit18-wyXf7MTv.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "ftransit18-UNAZWJ-r": {
     "id": "ftransit18-UNAZWJ-r",
@@ -5146,7 +5725,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-UNAZWJ-r.opengl.png"
+    "template_image": "ftransit18-UNAZWJ-r.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "ftransit18-5SiNC94w": {
     "id": "ftransit18-5SiNC94w",
@@ -5179,7 +5765,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-5SiNC94w.opengl.png"
+    "template_image": "ftransit18-5SiNC94w.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ftransit18-ffghVsNz": {
     "id": "ftransit18-ffghVsNz",
@@ -5212,7 +5809,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-ffghVsNz.opengl.png"
+    "template_image": "ftransit18-ffghVsNz.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-pd2Q_O9P": {
     "id": "ftransit18-pd2Q_O9P",
@@ -5278,7 +5882,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-NwBMLo3Z.opengl.png"
+    "template_image": "ftransit18-NwBMLo3Z.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-aA2K898S": {
     "id": "ftransit18-aA2K898S",
@@ -5311,7 +5922,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-aA2K898S.opengl.png"
+    "template_image": "ftransit18-aA2K898S.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Top Part",
+        "fr": "Partie arrière haute"
+      }
+    ]
   },
   "ftransit18-klUp8BS4": {
     "id": "ftransit18-klUp8BS4",
@@ -5410,7 +6028,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-iu1Vj2Oa.opengl.png"
+    "template_image": "ftransit18-iu1Vj2Oa.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ftransit18-IIVI_pnX": {
     "id": "ftransit18-IIVI_pnX",
@@ -5443,7 +6072,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-IIVI_pnX.opengl.png"
+    "template_image": "ftransit18-IIVI_pnX.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ftransit18-sLAPXyG8": {
     "id": "ftransit18-sLAPXyG8",
@@ -5575,7 +6215,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-FFP5b34o.opengl.png"
+    "template_image": "ftransit18-FFP5b34o.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ftransit18-cf0e-pcB": {
     "id": "ftransit18-cf0e-pcB",
@@ -5608,7 +6259,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "ftransit18-cf0e-pcB.opengl.png"
+    "template_image": "ftransit18-cf0e-pcB.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Top Part",
+        "fr": "Partie arrière haute"
+      }
+    ]
   },
   "ftransit18--w_ir_yH": {
     "id": "ftransit18--w_ir_yH",
@@ -5644,7 +6302,14 @@
     "angle_order": 325.22217,
     "template_image": "ftransit18--w_ir_yH.opengl.png",
     "overlay": "ftransit18--w_ir_yH.svg",
-    "mirror_sight": "ftransit18-ffghVsNz"
+    "mirror_sight": "ftransit18-ffghVsNz",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-3dkU10af": {
     "id": "ftransit18-3dkU10af",
@@ -5680,7 +6345,14 @@
     "angle_order": 180,
     "template_image": "ftransit18-3dkU10af.opengl.png",
     "overlay": "ftransit18-3dkU10af.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      }
+    ]
   },
   "ftransit18-Y0vPhBVF": {
     "id": "ftransit18-Y0vPhBVF",
@@ -5716,7 +6388,18 @@
     "angle_order": 44.35625,
     "template_image": "ftransit18-Y0vPhBVF.opengl.png",
     "overlay": "ftransit18-Y0vPhBVF.svg",
-    "mirror_sight": "ftransit18-4NMPqEV6"
+    "mirror_sight": "ftransit18-4NMPqEV6",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ftransit18-4NMPqEV6": {
     "id": "ftransit18-4NMPqEV6",
@@ -5752,7 +6435,18 @@
     "angle_order": 315.64375,
     "template_image": "ftransit18-4NMPqEV6.opengl.png",
     "overlay": "ftransit18-4NMPqEV6.svg",
-    "mirror_sight": "ftransit18-Y0vPhBVF"
+    "mirror_sight": "ftransit18-Y0vPhBVF",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "ftransit18-rsXWUN8X": {
     "id": "ftransit18-rsXWUN8X",
@@ -5788,7 +6482,14 @@
     "angle_order": 90.54051,
     "template_image": "ftransit18-rsXWUN8X.opengl.png",
     "overlay": "ftransit18-rsXWUN8X.svg",
-    "mirror_sight": "ftransit18-G24AdP6r"
+    "mirror_sight": "ftransit18-G24AdP6r",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-6khKhof0": {
     "id": "ftransit18-6khKhof0",
@@ -5824,7 +6525,14 @@
     "angle_order": 88.2643,
     "template_image": "ftransit18-6khKhof0.opengl.png",
     "overlay": "ftransit18-6khKhof0.svg",
-    "mirror_sight": "ftransit18-eztNpSRX"
+    "mirror_sight": "ftransit18-eztNpSRX",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "ftransit18-3Sbfx_KZ": {
     "id": "ftransit18-3Sbfx_KZ",
@@ -5860,7 +6568,18 @@
     "angle_order": 136.88819,
     "template_image": "ftransit18-3Sbfx_KZ.opengl.png",
     "overlay": "ftransit18-3Sbfx_KZ.svg",
-    "mirror_sight": "ftransit18-RJ2D7DNz"
+    "mirror_sight": "ftransit18-RJ2D7DNz",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ftransit18-G24AdP6r": {
     "id": "ftransit18-G24AdP6r",
@@ -5896,7 +6615,14 @@
     "angle_order": 269.45949,
     "template_image": "ftransit18-G24AdP6r.opengl.png",
     "overlay": "ftransit18-G24AdP6r.svg",
-    "mirror_sight": "ftransit18-rsXWUN8X"
+    "mirror_sight": "ftransit18-rsXWUN8X",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-RJ2D7DNz": {
     "id": "ftransit18-RJ2D7DNz",
@@ -5932,7 +6658,18 @@
     "angle_order": 223.11181,
     "template_image": "ftransit18-RJ2D7DNz.opengl.png",
     "overlay": "ftransit18-RJ2D7DNz.svg",
-    "mirror_sight": "ftransit18-3Sbfx_KZ"
+    "mirror_sight": "ftransit18-3Sbfx_KZ",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "ftransit18-eztNpSRX": {
     "id": "ftransit18-eztNpSRX",
@@ -5968,7 +6705,14 @@
     "angle_order": 271.7357,
     "template_image": "ftransit18-eztNpSRX.opengl.png",
     "overlay": "ftransit18-eztNpSRX.svg",
-    "mirror_sight": "ftransit18-6khKhof0"
+    "mirror_sight": "ftransit18-6khKhof0",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "ftransit18-y_wTc7ED": {
     "id": "ftransit18-y_wTc7ED",
@@ -6004,7 +6748,14 @@
     "angle_order": 144.81126,
     "template_image": "ftransit18-y_wTc7ED.opengl.png",
     "overlay": "ftransit18-y_wTc7ED.svg",
-    "mirror_sight": "ftransit18-f2W6pHaR"
+    "mirror_sight": "ftransit18-f2W6pHaR",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "ftransit18-f2W6pHaR": {
     "id": "ftransit18-f2W6pHaR",
@@ -6040,7 +6791,14 @@
     "angle_order": 215.18874,
     "template_image": "ftransit18-f2W6pHaR.opengl.png",
     "overlay": "ftransit18-f2W6pHaR.svg",
-    "mirror_sight": "ftransit18-y_wTc7ED"
+    "mirror_sight": "ftransit18-y_wTc7ED",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-8YjMcu0D": {
     "id": "haccord-8YjMcu0D",
@@ -6073,7 +6831,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-8YjMcu0D.opengl.png"
+    "template_image": "haccord-8YjMcu0D.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "haccord-DUPnw5jj": {
     "id": "haccord-DUPnw5jj",
@@ -6106,7 +6871,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-DUPnw5jj.opengl.png"
+    "template_image": "haccord-DUPnw5jj.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "haccord-hsCc_Nct": {
     "id": "haccord-hsCc_Nct",
@@ -6139,7 +6911,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-hsCc_Nct.opengl.png"
+    "template_image": "haccord-hsCc_Nct.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "haccord-huAZfQJA": {
     "id": "haccord-huAZfQJA",
@@ -6172,7 +6955,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-huAZfQJA.opengl.png"
+    "template_image": "haccord-huAZfQJA.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-2a8VfA8m": {
     "id": "haccord-2a8VfA8m",
@@ -6238,7 +7028,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-oiY_yPTR.opengl.png"
+    "template_image": "haccord-oiY_yPTR.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "haccord-bg-RFHl_": {
     "id": "haccord-bg-RFHl_",
@@ -6337,7 +7134,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-GdWvsqrm.opengl.png"
+    "template_image": "haccord-GdWvsqrm.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "haccord-ps7cWy6K": {
     "id": "haccord-ps7cWy6K",
@@ -6403,7 +7211,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-Z84erkMb.opengl.png"
+    "template_image": "haccord-Z84erkMb.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "haccord-EfRIciFr": {
     "id": "haccord-EfRIciFr",
@@ -6535,7 +7354,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "haccord-Jq65fyD4.opengl.png"
+    "template_image": "haccord-Jq65fyD4.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "haccord-t5sLlmfv": {
     "id": "haccord-t5sLlmfv",
@@ -6571,7 +7401,14 @@
     "angle_order": 180,
     "template_image": "haccord-t5sLlmfv.opengl.png",
     "overlay": "haccord-t5sLlmfv.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-KvP-pm8L": {
     "id": "haccord-KvP-pm8L",
@@ -6607,7 +7444,14 @@
     "angle_order": 324.86581,
     "template_image": "haccord-KvP-pm8L.opengl.png",
     "overlay": "haccord-KvP-pm8L.svg",
-    "mirror_sight": "haccord-huAZfQJA"
+    "mirror_sight": "haccord-huAZfQJA",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-6kYUBv_e": {
     "id": "haccord-6kYUBv_e",
@@ -6643,7 +7487,14 @@
     "angle_order": 180,
     "template_image": "haccord-6kYUBv_e.opengl.png",
     "overlay": "haccord-6kYUBv_e.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      }
+    ]
   },
   "haccord-W-Bn3bU1": {
     "id": "haccord-W-Bn3bU1",
@@ -6679,7 +7530,18 @@
     "angle_order": 130.6013,
     "template_image": "haccord-W-Bn3bU1.opengl.png",
     "overlay": "haccord-W-Bn3bU1.svg",
-    "mirror_sight": "haccord-OXYy5gET"
+    "mirror_sight": "haccord-OXYy5gET",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "haccord-OXYy5gET": {
     "id": "haccord-OXYy5gET",
@@ -6715,7 +7577,18 @@
     "angle_order": 229.3987,
     "template_image": "haccord-OXYy5gET.opengl.png",
     "overlay": "haccord-OXYy5gET.svg",
-    "mirror_sight": "haccord-W-Bn3bU1"
+    "mirror_sight": "haccord-W-Bn3bU1",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "haccord-mdZ7optI": {
     "id": "haccord-mdZ7optI",
@@ -6751,7 +7624,14 @@
     "angle_order": 90,
     "template_image": "haccord-mdZ7optI.opengl.png",
     "overlay": "haccord-mdZ7optI.svg",
-    "mirror_sight": "haccord-Gtt0JNQl"
+    "mirror_sight": "haccord-Gtt0JNQl",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "haccord-Gtt0JNQl": {
     "id": "haccord-Gtt0JNQl",
@@ -6787,7 +7667,14 @@
     "angle_order": 270,
     "template_image": "haccord-Gtt0JNQl.opengl.png",
     "overlay": "haccord-Gtt0JNQl.svg",
-    "mirror_sight": "haccord-mdZ7optI"
+    "mirror_sight": "haccord-mdZ7optI",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "haccord-_YnTubBA": {
     "id": "haccord-_YnTubBA",
@@ -6823,7 +7710,14 @@
     "angle_order": 91.79422,
     "template_image": "haccord-_YnTubBA.opengl.png",
     "overlay": "haccord-_YnTubBA.svg",
-    "mirror_sight": "haccord-PGr3RzzP"
+    "mirror_sight": "haccord-PGr3RzzP",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-GQcZz48C": {
     "id": "haccord-GQcZz48C",
@@ -6859,7 +7753,18 @@
     "angle_order": 56.30993,
     "template_image": "haccord-GQcZz48C.opengl.png",
     "overlay": "haccord-GQcZz48C.svg",
-    "mirror_sight": "haccord-KN23XXkX"
+    "mirror_sight": "haccord-KN23XXkX",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "haccord-KN23XXkX": {
     "id": "haccord-KN23XXkX",
@@ -6895,7 +7800,18 @@
     "angle_order": 303.69007,
     "template_image": "haccord-KN23XXkX.opengl.png",
     "overlay": "haccord-KN23XXkX.svg",
-    "mirror_sight": "haccord-GQcZz48C"
+    "mirror_sight": "haccord-GQcZz48C",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "haccord-PGr3RzzP": {
     "id": "haccord-PGr3RzzP",
@@ -6931,7 +7847,14 @@
     "angle_order": 268.20578,
     "template_image": "haccord-PGr3RzzP.opengl.png",
     "overlay": "haccord-PGr3RzzP.svg",
-    "mirror_sight": "haccord-_YnTubBA"
+    "mirror_sight": "haccord-_YnTubBA",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-k6MiX2MR": {
     "id": "haccord-k6MiX2MR",
@@ -6967,7 +7890,14 @@
     "angle_order": 146.76829,
     "template_image": "haccord-k6MiX2MR.opengl.png",
     "overlay": "haccord-k6MiX2MR.svg",
-    "mirror_sight": "haccord-zNA0vVT0"
+    "mirror_sight": "haccord-zNA0vVT0",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-zNA0vVT0": {
     "id": "haccord-zNA0vVT0",
@@ -7003,7 +7933,14 @@
     "angle_order": 213.23171,
     "template_image": "haccord-zNA0vVT0.opengl.png",
     "overlay": "haccord-zNA0vVT0.svg",
-    "mirror_sight": "haccord-k6MiX2MR"
+    "mirror_sight": "haccord-k6MiX2MR",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "haccord-pplCo6sV": {
     "id": "haccord-pplCo6sV",
@@ -7039,7 +7976,14 @@
     "angle_order": 180,
     "template_image": "haccord-pplCo6sV.opengl.png",
     "overlay": "haccord-pplCo6sV.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "haccord-d_u3qyQ-": {
     "id": "haccord-d_u3qyQ-",
@@ -7075,7 +8019,14 @@
     "angle_order": 205.20112,
     "template_image": "haccord-d_u3qyQ-.opengl.png",
     "overlay": "haccord-d_u3qyQ-.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "jgc21-VHq_6BM-": {
     "id": "jgc21-VHq_6BM-",
@@ -7108,7 +8059,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-VHq_6BM-.opengl.png"
+    "template_image": "jgc21-VHq_6BM-.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-imomJ2V0": {
     "id": "jgc21-imomJ2V0",
@@ -7141,7 +8099,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-imomJ2V0.opengl.png"
+    "template_image": "jgc21-imomJ2V0.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "jgc21-tbF2Ax8v": {
     "id": "jgc21-tbF2Ax8v",
@@ -7174,7 +8139,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-tbF2Ax8v.opengl.png"
+    "template_image": "jgc21-tbF2Ax8v.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-QIkcNhc_": {
     "id": "jgc21-QIkcNhc_",
@@ -7240,7 +8212,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-zCrDwYWE.opengl.png"
+    "template_image": "jgc21-zCrDwYWE.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "jgc21-QwNQX0Cr": {
     "id": "jgc21-QwNQX0Cr",
@@ -7306,7 +8289,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-__JKllz9.opengl.png"
+    "template_image": "jgc21-__JKllz9.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "jgc21-5lovhZgA": {
     "id": "jgc21-5lovhZgA",
@@ -7372,7 +8366,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-ezXzTRkj.opengl.png"
+    "template_image": "jgc21-ezXzTRkj.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "jgc21-ESc0HCzy": {
     "id": "jgc21-ESc0HCzy",
@@ -7504,7 +8509,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-3JJvM7_B.opengl.png"
+    "template_image": "jgc21-3JJvM7_B.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "jgc21-QIvfeg0X": {
     "id": "jgc21-QIvfeg0X",
@@ -7537,7 +8553,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-QIvfeg0X.opengl.png"
+    "template_image": "jgc21-QIvfeg0X.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "jgc21-KyUUVU2P": {
     "id": "jgc21-KyUUVU2P",
@@ -7570,7 +8593,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "jgc21-KyUUVU2P.opengl.png"
+    "template_image": "jgc21-KyUUVU2P.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "jgc21-zkvFMHnS": {
     "id": "jgc21-zkvFMHnS",
@@ -7606,7 +8636,14 @@
     "angle_order": 324.09028,
     "template_image": "jgc21-zkvFMHnS.opengl.png",
     "overlay": "jgc21-zkvFMHnS.svg",
-    "mirror_sight": "jgc21-VHq_6BM-"
+    "mirror_sight": "jgc21-VHq_6BM-",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-z15ZdJL6": {
     "id": "jgc21-z15ZdJL6",
@@ -7642,7 +8679,18 @@
     "angle_order": 56.30993,
     "template_image": "jgc21-z15ZdJL6.opengl.png",
     "overlay": "jgc21-z15ZdJL6.svg",
-    "mirror_sight": "jgc21-s7WDTRmE"
+    "mirror_sight": "jgc21-s7WDTRmE",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "jgc21-s7WDTRmE": {
     "id": "jgc21-s7WDTRmE",
@@ -7678,7 +8726,18 @@
     "angle_order": 303.69007,
     "template_image": "jgc21-s7WDTRmE.opengl.png",
     "overlay": "jgc21-s7WDTRmE.svg",
-    "mirror_sight": "jgc21-z15ZdJL6"
+    "mirror_sight": "jgc21-z15ZdJL6",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "jgc21-omlus7Ui": {
     "id": "jgc21-omlus7Ui",
@@ -7714,7 +8773,14 @@
     "angle_order": 90,
     "template_image": "jgc21-omlus7Ui.opengl.png",
     "overlay": "jgc21-omlus7Ui.svg",
-    "mirror_sight": "jgc21-XXh8GWm8"
+    "mirror_sight": "jgc21-XXh8GWm8",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "jgc21-XXh8GWm8": {
     "id": "jgc21-XXh8GWm8",
@@ -7750,7 +8816,14 @@
     "angle_order": 270,
     "template_image": "jgc21-XXh8GWm8.opengl.png",
     "overlay": "jgc21-XXh8GWm8.svg",
-    "mirror_sight": "jgc21-omlus7Ui"
+    "mirror_sight": "jgc21-omlus7Ui",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "jgc21-TEoi50Ff": {
     "id": "jgc21-TEoi50Ff",
@@ -7786,7 +8859,14 @@
     "angle_order": 91.90915,
     "template_image": "jgc21-TEoi50Ff.opengl.png",
     "overlay": "jgc21-TEoi50Ff.svg",
-    "mirror_sight": "jgc21-1j-oTPag"
+    "mirror_sight": "jgc21-1j-oTPag",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-1j-oTPag": {
     "id": "jgc21-1j-oTPag",
@@ -7822,7 +8902,14 @@
     "angle_order": 268.09085,
     "template_image": "jgc21-1j-oTPag.opengl.png",
     "overlay": "jgc21-1j-oTPag.svg",
-    "mirror_sight": "jgc21-TEoi50Ff"
+    "mirror_sight": "jgc21-TEoi50Ff",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-3gjMwvQG": {
     "id": "jgc21-3gjMwvQG",
@@ -7858,7 +8945,18 @@
     "angle_order": 128.36748,
     "template_image": "jgc21-3gjMwvQG.opengl.png",
     "overlay": "jgc21-3gjMwvQG.svg",
-    "mirror_sight": "jgc21-RAVpqaE4"
+    "mirror_sight": "jgc21-RAVpqaE4",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "jgc21-RAVpqaE4": {
     "id": "jgc21-RAVpqaE4",
@@ -7894,7 +8992,18 @@
     "angle_order": 231.63252,
     "template_image": "jgc21-RAVpqaE4.opengl.png",
     "overlay": "jgc21-RAVpqaE4.svg",
-    "mirror_sight": "jgc21-3gjMwvQG"
+    "mirror_sight": "jgc21-3gjMwvQG",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "jgc21-Emzc8jJA": {
     "id": "jgc21-Emzc8jJA",
@@ -7930,7 +9039,14 @@
     "angle_order": 146.72511,
     "template_image": "jgc21-Emzc8jJA.opengl.png",
     "overlay": "jgc21-Emzc8jJA.svg",
-    "mirror_sight": "jgc21-2_5eHL-F"
+    "mirror_sight": "jgc21-2_5eHL-F",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-2_5eHL-F": {
     "id": "jgc21-2_5eHL-F",
@@ -7966,7 +9082,14 @@
     "angle_order": 213.27489,
     "template_image": "jgc21-2_5eHL-F.opengl.png",
     "overlay": "jgc21-2_5eHL-F.svg",
-    "mirror_sight": "jgc21-Emzc8jJA"
+    "mirror_sight": "jgc21-Emzc8jJA",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "jgc21-TyJPUs8E": {
     "id": "jgc21-TyJPUs8E",
@@ -8002,7 +9125,14 @@
     "angle_order": 180,
     "template_image": "jgc21-TyJPUs8E.opengl.png",
     "overlay": "jgc21-TyJPUs8E.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      }
+    ]
   },
   "jgc21-J1Ezdyar": {
     "id": "jgc21-J1Ezdyar",
@@ -8038,7 +9168,14 @@
     "angle_order": 200.77225,
     "template_image": "jgc21-J1Ezdyar.opengl.png",
     "overlay": "jgc21-J1Ezdyar.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "jgc21-ZubJ48-U": {
     "id": "jgc21-ZubJ48-U",
@@ -8074,7 +9211,14 @@
     "angle_order": 180,
     "template_image": "jgc21-ZubJ48-U.opengl.png",
     "overlay": "jgc21-ZubJ48-U.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "tsienna20-jY3cR5vy": {
     "id": "tsienna20-jY3cR5vy",
@@ -8107,7 +9251,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-jY3cR5vy.opengl.png"
+    "template_image": "tsienna20-jY3cR5vy.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "tsienna20-TI4TVvT9": {
     "id": "tsienna20-TI4TVvT9",
@@ -8140,7 +9291,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-TI4TVvT9.opengl.png"
+    "template_image": "tsienna20-TI4TVvT9.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "tsienna20-gkvZE2c7": {
     "id": "tsienna20-gkvZE2c7",
@@ -8206,7 +9368,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-is1tpnqR.opengl.png"
+    "template_image": "tsienna20-is1tpnqR.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "tsienna20-ouPvuX-j": {
     "id": "tsienna20-ouPvuX-j",
@@ -8272,7 +9441,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-qA3aAUUq.opengl.png"
+    "template_image": "tsienna20-qA3aAUUq.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "tsienna20-D6pPBrXx": {
     "id": "tsienna20-D6pPBrXx",
@@ -8338,7 +9514,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-1n_z8bYy.opengl.png"
+    "template_image": "tsienna20-1n_z8bYy.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "tsienna20-YwrRNr9n": {
     "id": "tsienna20-YwrRNr9n",
@@ -8371,7 +9558,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-YwrRNr9n.opengl.png"
+    "template_image": "tsienna20-YwrRNr9n.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      }
+    ]
   },
   "tsienna20-HykkFbXf": {
     "id": "tsienna20-HykkFbXf",
@@ -8404,7 +9598,14 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-HykkFbXf.opengl.png"
+    "template_image": "tsienna20-HykkFbXf.opengl.png",
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Hood",
+        "fr": "Capot"
+      }
+    ]
   },
   "tsienna20-KHB_Cd9k": {
     "id": "tsienna20-KHB_Cd9k",
@@ -8437,7 +9638,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20-KHB_Cd9k.opengl.png"
+    "template_image": "tsienna20-KHB_Cd9k.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Front Bumper",
+        "fr": "Pare-chocs avant"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "tsienna20-xtDcn3GS": {
     "id": "tsienna20-xtDcn3GS",
@@ -8569,7 +9781,18 @@
       ],
       "focal_length": 26
     },
-    "template_image": "tsienna20--a2RmRcs.opengl.png"
+    "template_image": "tsienna20--a2RmRcs.opengl.png",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rear Bumper",
+        "fr": "Pare-chocs arrière"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "tsienna20-MPCqHzeH": {
     "id": "tsienna20-MPCqHzeH",
@@ -8605,7 +9828,14 @@
     "angle_order": 325.00798,
     "template_image": "tsienna20-MPCqHzeH.opengl.png",
     "overlay": "tsienna20-MPCqHzeH.svg",
-    "mirror_sight": "tsienna20-jY3cR5vy"
+    "mirror_sight": "tsienna20-jY3cR5vy",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "tsienna20-65mfPdRD": {
     "id": "tsienna20-65mfPdRD",
@@ -8641,7 +9871,18 @@
     "angle_order": 51.80905,
     "template_image": "tsienna20-65mfPdRD.opengl.png",
     "overlay": "tsienna20-65mfPdRD.svg",
-    "mirror_sight": "tsienna20-cI285Gon"
+    "mirror_sight": "tsienna20-cI285Gon",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "tsienna20-cI285Gon": {
     "id": "tsienna20-cI285Gon",
@@ -8677,7 +9918,18 @@
     "angle_order": 308.19095,
     "template_image": "tsienna20-cI285Gon.opengl.png",
     "overlay": "tsienna20-cI285Gon.svg",
-    "mirror_sight": "tsienna20-65mfPdRD"
+    "mirror_sight": "tsienna20-65mfPdRD",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Front Fender",
+        "fr": "Aile avant"
+      }
+    ]
   },
   "tsienna20-1LNxhgCR": {
     "id": "tsienna20-1LNxhgCR",
@@ -8713,7 +9965,14 @@
     "angle_order": 87.95459,
     "template_image": "tsienna20-1LNxhgCR.opengl.png",
     "overlay": "tsienna20-1LNxhgCR.svg",
-    "mirror_sight": "tsienna20-Rw0Gtt7O"
+    "mirror_sight": "tsienna20-Rw0Gtt7O",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "tsienna20-Rw0Gtt7O": {
     "id": "tsienna20-Rw0Gtt7O",
@@ -8749,7 +10008,14 @@
     "angle_order": 272.04541,
     "template_image": "tsienna20-Rw0Gtt7O.opengl.png",
     "overlay": "tsienna20-Rw0Gtt7O.svg",
-    "mirror_sight": "tsienna20-1LNxhgCR"
+    "mirror_sight": "tsienna20-1LNxhgCR",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Rocker Panel",
+        "fr": "Bas de caisse"
+      }
+    ]
   },
   "tsienna20-4ihRwDkS": {
     "id": "tsienna20-4ihRwDkS",
@@ -8785,7 +10051,14 @@
     "angle_order": 90.64375,
     "template_image": "tsienna20-4ihRwDkS.opengl.png",
     "overlay": "tsienna20-4ihRwDkS.svg",
-    "mirror_sight": "tsienna20-uIHdpQ9y"
+    "mirror_sight": "tsienna20-uIHdpQ9y",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "tsienna20-uIHdpQ9y": {
     "id": "tsienna20-uIHdpQ9y",
@@ -8821,7 +10094,14 @@
     "angle_order": 269.35625,
     "template_image": "tsienna20-uIHdpQ9y.opengl.png",
     "overlay": "tsienna20-uIHdpQ9y.svg",
-    "mirror_sight": "tsienna20-4ihRwDkS"
+    "mirror_sight": "tsienna20-4ihRwDkS",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "tsienna20-670P2H2V": {
     "id": "tsienna20-670P2H2V",
@@ -8857,7 +10137,18 @@
     "angle_order": 129.4278,
     "template_image": "tsienna20-670P2H2V.opengl.png",
     "overlay": "tsienna20-670P2H2V.svg",
-    "mirror_sight": "tsienna20-SebsoqJm"
+    "mirror_sight": "tsienna20-SebsoqJm",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "tsienna20-SebsoqJm": {
     "id": "tsienna20-SebsoqJm",
@@ -8893,7 +10184,18 @@
     "angle_order": 230.5722,
     "template_image": "tsienna20-SebsoqJm.opengl.png",
     "overlay": "tsienna20-SebsoqJm.svg",
-    "mirror_sight": "tsienna20-670P2H2V"
+    "mirror_sight": "tsienna20-670P2H2V",
+    "angle": "low",
+    "pointsOfInterest": [
+      {
+        "en": "Wheel",
+        "fr": "Roue"
+      },
+      {
+        "en": "Rear Fender",
+        "fr": "Aile arrière"
+      }
+    ]
   },
   "tsienna20-OxFWgEPk": {
     "id": "tsienna20-OxFWgEPk",
@@ -8929,7 +10231,14 @@
     "angle_order": 180,
     "template_image": "tsienna20-OxFWgEPk.opengl.png",
     "overlay": "tsienna20-OxFWgEPk.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "tsienna20-V2jVo2wV": {
     "id": "tsienna20-V2jVo2wV",
@@ -8965,7 +10274,14 @@
     "angle_order": 200.32314,
     "template_image": "tsienna20-V2jVo2wV.opengl.png",
     "overlay": "tsienna20-V2jVo2wV.svg",
-    "mirror_sight": null
+    "mirror_sight": null,
+    "angle": "high",
+    "pointsOfInterest": [
+      {
+        "en": "Roof",
+        "fr": "Toit"
+      }
+    ]
   },
   "tsienna20-ZlRQXL-j": {
     "id": "tsienna20-ZlRQXL-j",
@@ -9001,7 +10317,14 @@
     "angle_order": 145.88553,
     "template_image": "tsienna20-ZlRQXL-j.opengl.png",
     "overlay": "tsienna20-ZlRQXL-j.svg",
-    "mirror_sight": "tsienna20-wlbzVAxz"
+    "mirror_sight": "tsienna20-wlbzVAxz",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   },
   "tsienna20-wlbzVAxz": {
     "id": "tsienna20-wlbzVAxz",
@@ -9037,6 +10360,13 @@
     "angle_order": 214.11447,
     "template_image": "tsienna20-wlbzVAxz.opengl.png",
     "overlay": "tsienna20-wlbzVAxz.svg",
-    "mirror_sight": "tsienna20-ZlRQXL-j"
+    "mirror_sight": "tsienna20-ZlRQXL-j",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Full Vehicle",
+        "fr": "Véhicule complet"
+      }
+    ]
   }
 }
