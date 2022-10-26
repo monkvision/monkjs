@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2066e8',
   },
   pointOfInterest: {
-    backgroundColor: '#626262',
+    backgroundColor: '#626262B2',
   },
 });
 
