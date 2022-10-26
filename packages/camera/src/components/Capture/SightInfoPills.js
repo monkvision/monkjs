@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   low: {
-    backgroundColor: '#e82020',
+    backgroundColor: '#ec3c6c',
   },
   mid: {
-    backgroundColor: '#31a41f',
+    backgroundColor: '#9acfcb',
   },
   high: {
-    backgroundColor: '#2066e8',
+    backgroundColor: '#aa5cac',
   },
   pointOfInterest: {
     backgroundColor: '#626262B2',
