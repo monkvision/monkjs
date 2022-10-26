@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#aa5cac',
   },
   pointOfInterest: {
-    backgroundColor: '#626262B2',
+    backgroundColor: '#62626280',
   },
 });
 
