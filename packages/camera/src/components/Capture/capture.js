@@ -93,6 +93,8 @@ const Capture = forwardRef(({
   onWarningMessage,
   onReady,
   onRetakeAll,
+  onRetakeNeeded,
+  onSkipRetake,
   onStartUploadPicture,
   onFinishUploadPicture,
   orientationBlockerProps,
@@ -331,6 +333,8 @@ const Capture = forwardRef(({
           onComplianceCheckFinish={onComplianceCheckFinish}
           onComplianceCheckStart={onComplianceCheckStart}
           onRetakeAll={onRetakeAll}
+          onSkipRetake={onSkipRetake}
+          onRetakeNeeded={onRetakeNeeded}
           task={task}
           mapTasksToSights={mapTasksToSights}
           inspectionId={inspectionId}
@@ -479,8 +483,10 @@ Capture.propTypes = {
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  onRetakeNeeded: PropTypes.func,
   onSettingsChange: PropTypes.func,
   onSightsChange: PropTypes.func,
+  onSkipRetake: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   onUploadsChange: PropTypes.func,
   onWarningMessage: PropTypes.func,
@@ -575,6 +581,7 @@ Capture.defaultProps = {
   onComplianceChange: () => {},
   onSettingsChange: () => {},
   onSightsChange: () => {},
+  onSkipRetake: () => {},
   onUploadsChange: () => {},
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
@@ -583,6 +590,7 @@ Capture.defaultProps = {
   onReady: () => {},
   onStartUploadPicture: () => {},
   onRetakeAll: () => {},
+  onRetakeNeeded: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   resolutionOptions: undefined,
