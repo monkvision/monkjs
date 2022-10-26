@@ -214,7 +214,6 @@ export default function InspectionCapture() {
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         Sentry={Sentry}
-
       />
       <Notice />
     </View>

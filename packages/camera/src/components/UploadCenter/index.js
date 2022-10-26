@@ -61,6 +61,8 @@ export default function UploadCenter({
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onRetakeAll,
+  onRetakeNeeded,
+  onSkipRetake,
   checkComplianceAsync,
   inspectionId,
   task,
@@ -124,6 +126,37 @@ export default function UploadCenter({
   useEffect(() => {
     onComplianceCheckStart();
   }, [onComplianceCheckStart]);
+
+  const statEventsData = useMemo(() => ({
+    retakesNeeded: ids.length,
+    compliances: Object.entries(compliance.state)
+      .filter(([key]) => ids.includes(key))
+      .map(([, value]) => ({
+        sightId: value?.id,
+        error: value?.error,
+        result: {
+          coverage360: {
+            isCompliant: value?.result?.data?.compliances?.coverage_360?.is_compliant,
+            reasons: value?.result?.data?.compliances?.coverage_360?.reasons,
+            status: value?.result?.data?.compliances?.coverage_360?.status,
+          },
+          image_quality_assessment: {
+            isCompliant: value?.result?.data?.compliances?.image_quality_assessment?.is_compliant,
+            reasons: value?.result?.data?.compliances?.image_quality_assessment?.reasons,
+            status: value?.result?.data?.compliances?.image_quality_assessment?.status,
+          },
+          zoom_level: {
+            isCompliant: value?.result?.data?.compliances?.zoom_level?.is_compliant,
+            reasons: value?.result?.data?.compliances?.zoom_level?.reasons,
+            status: value?.result?.data?.compliances?.zoom_level?.status,
+          },
+        },
+      })),
+  }), [ids, compliance.state]);
+
+  useEffect(() => {
+    onRetakeNeeded(statEventsData);
+  }, [ids.length, onRetakeNeeded]);
 
   // END EFFECTS //
   // RENDERING //
@@ -204,6 +237,7 @@ export default function UploadCenter({
           color={colors.actions.secondary}
           onPress={(e) => {
             log(['[Click] Skip retaking photo']);
+            onSkipRetake(statEventsData);
             onComplianceCheckFinish(e);
           }}
           disabled={isSubmitting || hasAllRejected
@@ -266,6 +300,8 @@ UploadCenter.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  onRetakeNeeded: PropTypes.func,
+  onSkipRetake: PropTypes.func,
   Sentry: PropTypes.any,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -277,6 +313,8 @@ UploadCenter.defaultProps = {
   onComplianceCheckStart: () => {},
   checkComplianceAsync: () => {},
   onRetakeAll: () => {},
+  onRetakeNeeded: () => {},
+  onSkipRetake: () => {},
   inspectionId: null,
   isSubmitting: false,
   mapTasksToSights: [],
