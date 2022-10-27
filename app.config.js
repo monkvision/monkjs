@@ -364,6 +364,6 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.staging.env,
+    ...eas.build.preview.env,
   },
 };
