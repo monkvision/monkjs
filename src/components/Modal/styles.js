@@ -14,11 +14,10 @@ export default StyleSheet.create({
   container: {
     position: 'relative',
     display: 'flex',
-    justifyContent: 'start',
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    paddingTop: 100,
     flexWrap: 'wrap',
   },
   playground: {

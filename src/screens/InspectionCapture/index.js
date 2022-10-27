@@ -16,70 +16,7 @@ import styles from './styles';
 import Sentry from '../../config/sentry';
 import useSnackbar from '../../hooks/useSnackbar';
 import { setTag } from '../../config/sentryPlatform';
-
-const mapTasksToSights = [{
-  id: 'sLu0CfOt',
-  task: {
-    name: monk.types.TaskName.IMAGES_OCR,
-    image_details: { image_type: monk.types.ImageOcrType.VIN },
-  },
-}, {
-  id: 'xQKQ0bXS',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_LEFT },
-  },
-  payload: {},
-}, {
-  id: '8_W2PO8L',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_LEFT },
-  },
-  payload: {},
-}, {
-  id: 'rN39Y3HR',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_RIGHT },
-  },
-  payload: {},
-}, {
-  id: 'PuIw17h0',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  },
-  payload: {},
-}, {
-  id: 'ffocus18-x_1SE7X-',
-  tasks: ['damage_detection', {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  }],
-  payload: {},
-}, {
-  id: 'ffocus18-S3kgFOBb',
-  tasks: ['damage_detection', {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  }],
-  payload: {},
-}, {
-  id: 'ffocus18-P2jFq1Ea',
-  tasks: ['damage_detection', {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  }],
-  payload: {},
-}, {
-  id: 'ffocus18-KkeGvT-F',
-  tasks: ['damage_detection', {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  }],
-  payload: {},
-}];
+import mapTasksToSights from './mapTasksToSights';
 
 const enableComplianceCheck = true;
 
@@ -149,6 +86,7 @@ export default function InspectionCapture() {
           .filter(((taskBySight) => sightIds.includes(taskBySight.id)))
           .map(mapTaskBySightToTasknames)
           .flat()
+          .concat([taskName])
           .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
           .map((name) => new Promise((resolve) => {
             monk.entity.task.updateOne(inspectionId, name, {

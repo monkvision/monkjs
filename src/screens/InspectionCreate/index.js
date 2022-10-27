@@ -55,6 +55,7 @@ export default function InspectionCreate() {
     mode,
     vehicle,
   } = route.params || {};
+
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
   const [authError, setAuthError] = useState(false);
@@ -88,21 +89,15 @@ export default function InspectionCreate() {
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
 
+    const vehicleType = vehicle.vehicleType || 'cuv';
+    const sightIds = option.value === CAR_360 ? option.sightIds[vehicleType] : option.sightIds;
+
     const args = {
       inspectionId,
-      sightIds: option.sightIds,
+      sightIds,
       taskName: option.taskName,
       selectedMode: selected,
     };
-
-    if (option.value === CAR_360) {
-      const vehicleType = vehicle.vehicleType || 'cuv';
-      navigation.navigate(
-        names.INSPECTION_CAPTURE,
-        { ...args, sightIds: option.sightIds[vehicleType], pop: 'popo' },
-      );
-      return;
-    }
 
     navigation.navigate(names.INSPECTION_CAPTURE, args);
   }, [isAuthenticated, navigation, selected, inspectionId]);
