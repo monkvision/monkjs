@@ -30,6 +30,7 @@ function Camera({
   onWarningMessage,
   resolutionOptions,
   compressionOptions,
+  isDisplayed,
   Sentry,
 }, ref) {
   const [resolution, setResolution] = useMemo(() => {
@@ -85,7 +86,7 @@ function Camera({
     <View
       pointerEvents="box-none"
       accessibilityLabel="Camera container"
-      style={[styles.container, containerStyle]}
+      style={[styles.container, containerStyle, isDisplayed ? null : { display: 'none' }]}
     >
       <Video
         autoPlay
@@ -108,6 +109,7 @@ Camera.propTypes = {
   }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   enableQHDWhenSupported: PropTypes.bool,
+  isDisplayed: PropTypes.bool,
   onCameraReady: PropTypes.func.isRequired,
   onWarningMessage: PropTypes.func,
   resolutionOptions: PropTypes.shape({
@@ -127,6 +129,7 @@ Camera.defaultProps = {
   compressionOptions: undefined,
   containerStyle: null,
   enableQHDWhenSupported: true,
+  isDisplayed: true,
   onWarningMessage: () => {},
   resolutionOptions: undefined,
   Sentry: null,
