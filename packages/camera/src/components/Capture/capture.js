@@ -114,6 +114,7 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
+  const [isPartSelectorDisplayed, setPartSelectorDisplayed] = useState(false);
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
@@ -239,6 +240,14 @@ const Capture = forwardRef(({
     [compliance.state, uploads.state],
   );
 
+  // Very ugly temporary hack, we have to use this for now - Samy
+  // eslint-disable-next-line no-undef, func-names
+  const isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === '[object SafariRemoteNotification]'; }(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification)));
+  const isCameraDisplayed = useMemo(
+    () => !isPartSelectorDisplayed || !isSafari,
+    [isPartSelectorDisplayed, isSafari],
+  );
+
   // END CONSTANTS //
   // HANDLERS //
 
@@ -251,6 +260,10 @@ const Capture = forwardRef(({
       throw err;
     }
   }, [api, onReady, states]);
+
+  const handleTogglePartSelector = useCallback((isDisplayed) => {
+    setPartSelectorDisplayed(isDisplayed);
+  }, [setPartSelectorDisplayed]);
 
   // END HANDLERS //
   // EFFECTS //
@@ -297,6 +310,7 @@ const Capture = forwardRef(({
       state={states}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
+      onTogglePartSelector={handleTogglePartSelector}
       Sentry={Sentry}
     />
   ), [
@@ -373,6 +387,7 @@ const Capture = forwardRef(({
             enableQHDWhenSupported={enableQHDWhenSupported}
             compressionOptions={compressionOptions}
             resolutionOptions={resolutionOptions}
+            isDisplayed={isCameraDisplayed}
             Sentry={Sentry}
           >
             {children}

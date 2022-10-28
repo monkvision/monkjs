@@ -1,6 +1,6 @@
 import { useSentry } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
-import React, { createElement, useCallback, useMemo, useState } from 'react';
+import React, { createElement, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
@@ -50,6 +50,7 @@ export default function Controls({
   state,
   onStartUploadPicture,
   onFinishUploadPicture,
+  onTogglePartSelector,
   Sentry,
   ...passThroughProps
 }) {
@@ -123,6 +124,10 @@ export default function Controls({
     </View>
   ), [createControlElement]);
 
+  useEffect(() => {
+    onTogglePartSelector(customPictureTaken !== null);
+  }, [customPictureTaken]);
+
   return (
     <I18nextProvider i18n={i18n}>
       <View
@@ -170,6 +175,7 @@ Controls.propTypes = {
   loading: PropTypes.bool,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
+  onTogglePartSelector: PropTypes.func,
   Sentry: PropTypes.any,
   state: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
@@ -187,6 +193,7 @@ Controls.defaultProps = {
   state: {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
+  onTogglePartSelector: () => {},
   Sentry: null,
 };
 
