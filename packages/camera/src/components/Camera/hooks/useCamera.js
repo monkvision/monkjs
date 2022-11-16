@@ -18,7 +18,8 @@ const toBlob = (canvasElement, type) => new Promise((resolve) => {
  */
 const diff = 1;
 const canvas = document.createElement('canvas');
-const imageType = utils.supportsWebP ? 'image/webp' : 'image/png';
+const imageType = utils.supportsWebP ? 'image/webp' : 'image/jpeg';
+const imageFilenameExtension = imageType.substring('image/'.length);
 
 /**
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
@@ -83,7 +84,7 @@ export default function useCamera(
 
     webCaptureTracing?.finish();
 
-    return { uri, width, height };
+    return { uri, width, height, imageType, imageFilenameExtension };
   }, [width, height, stream]);
 
   const resumePreview = async () => {

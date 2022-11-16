@@ -1,5 +1,5 @@
 import monk from '@monkvision/corejs';
-import { useSentry } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import axios from 'axios';
 import { Buffer } from 'buffer';
@@ -110,7 +110,7 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
       const uri = picture.localUri || picture.uri;
 
       const actions = [{ resize: { width: 133 } }];
-      const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
+      const saveFormat = (Platform.OS === 'web' && utils.supportsWebP()) ? SaveFormat.WEBP : SaveFormat.JPEG;
       const saveOptions = { compress: 1, format: saveFormat };
       const imageResult = await manipulateAsync(uri, actions, saveOptions);
 
@@ -264,9 +264,14 @@ export function useStartUploadAsync({
         payload: { id, status: 'pending', label },
       });
 
-      const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
-      const filename = `${id}-${inspectionId}.${fileType}`;
-      const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
+      const fileType = picture.fileType;
+      const filename = `${id}-${inspectionId}.${picture.imageFilenameExtension}`;
+      const multiPartKeys = {
+        image: 'image',
+        json: 'json',
+        type: fileType,
+        filename,
+      };
 
       const json = JSON.stringify({
         acquisition: {
@@ -296,7 +301,7 @@ export function useStartUploadAsync({
         fileBits = [file];
       } else {
         const buffer = Buffer.from(picture.uri, 'base64');
-        fileBits = new Blob([buffer], { type: 'png' });
+        fileBits = new Blob([buffer], { type: picture.imageFilenameExtension });
       }
 
       const file = await new File(
