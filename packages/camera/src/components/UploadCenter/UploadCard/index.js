@@ -22,7 +22,7 @@ function UploadCard({
   colors,
 }) {
   const { i18n } = useTranslation();
-  const { uri } = picture;
+  const uri = picture?.uri;
 
   const {
     isPending,
@@ -159,7 +159,7 @@ UploadCard.propTypes = {
   onReupload: PropTypes.func,
   picture: PropTypes.shape({
     uri: PropTypes.string,
-  }).isRequired,
+  }),
   upload: PropTypes.shape({
     error: PropTypes.objectOf(PropTypes.any),
     picture: PropTypes.shape({ uri: PropTypes.string }),
@@ -171,5 +171,6 @@ UploadCard.defaultProps = {
   onRetake: () => {},
   onReupload: () => {},
   onRecheck: () => {},
+  picture: undefined,
 };
 export default UploadCard;
