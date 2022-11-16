@@ -1,4 +1,14 @@
 {
+  "87539411": {
+    "id": "87539411",
+    "label": {
+      "en": "Front Seats",
+      "fr": "Sièges Avant"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "87539411.svg"
+  },
   "IqwSM3": {
     "category": "interior",
     "id": "IqwSM3",
@@ -9038,5 +9048,175 @@
     "template_image": "tsienna20-wlbzVAxz.opengl.png",
     "overlay": "tsienna20-wlbzVAxz.svg",
     "mirror_sight": "tsienna20-ZlRQXL-j"
+  },
+  "ad16621c": {
+    "id": "ad16621c",
+    "label": {
+      "en": "Interior Roof",
+      "fr": "Pavillon Intérieur"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "ad16621c.svg"
+  },
+  "e7663823": {
+    "id": "e7663823",
+    "label": {
+      "en": "Front Seats",
+      "fr": "Sièges Avant"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "e7663823.svg"
+  },
+  "6f747948": {
+    "id": "6f747948",
+    "label": {
+      "en": "Front Seats",
+      "fr": "Sièges Avant"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "6f747948.svg"
+  },
+  "ff87ff59": {
+    "id": "ff87ff59",
+    "label": {
+      "en": "Front Seats",
+      "fr": "Sièges Avant"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "ff87ff59.svg"
+  },
+  "96fee1d8": {
+    "id": "96fee1d8",
+    "label": {
+      "en": "Trunk Left Side",
+      "fr": "Coffre Gauche"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "96fee1d8.svg"
+  },
+  "76822eac": {
+    "id": "76822eac",
+    "label": {
+      "en": "Trunk Right Side",
+      "fr": "Coffre Droite"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "76822eac.svg"
+  },
+  "98d26745": {
+    "id": "98d26745",
+    "label": {
+      "en": "Engine Left Side",
+      "fr": "Moteur Gauche"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "98d26745.svg"
+  },
+  "526bc540": {
+    "id": "526bc540",
+    "label": {
+      "en": "Engine Right Side",
+      "fr": "Moteur Droite"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "526bc540.svg"
+  },
+  "35104fb6": {
+    "id": "35104fb6",
+    "label": {
+      "en": "Left Front Door",
+      "fr": "Porte Avant Gauche"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "35104fb6.svg"
+  },
+  "9c2d7b19": {
+    "id": "9c2d7b19",
+    "label": {
+      "en": "Open Trunk",
+      "fr": "Coffre Ouvert"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "9c2d7b19.svg"
+  },
+  "545d81e5": {
+    "id": "545d81e5",
+    "label": {
+      "en": "Dashboard from Back Seat",
+      "fr": "Tableau de bord depuis Siège Arrière"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "545d81e5.svg"
+  },
+  "7af3fb1f": {
+    "id": "7af3fb1f",
+    "label": {
+      "en": "Dashboard",
+      "fr": "Tableau de bord"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "7af3fb1f.svg"
+  },
+  "ed8a75b6": {
+    "id": "ed8a75b6",
+    "label": {
+      "en": "Dashboard from Driver Seat",
+      "fr": "Tableau de bord du siège conducteur"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "ed8a75b6.svg"
+  },
+  "602375f5": {
+    "id": "602375f5",
+    "label": {
+      "en": "Dashboard from Driver Seat",
+      "fr": "Tableau de bord du siège conducteur"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "602375f5.svg"
+  },
+  "356a10ca": {
+    "id": "356a10ca",
+    "label": {
+      "en": "Dashboard from Driver Seat",
+      "fr": "Tableau de bord du siège conducteur"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "356a10ca.svg"
+  },
+  "1c89235c": {
+    "id": "1c89235c",
+    "label": {
+      "en": "Rear Seats",
+      "fr": "Sièges Arrière"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "1c89235c.svg"
+  },
+  "50eebfb7": {
+    "id": "50eebfb7",
+    "label": {
+      "en": "Rear Seats",
+      "fr": "Sièges Arrière"
+    },
+    "category": "interior",
+    "vehicleType": "undefined",
+    "overlay": "50eebfb7.svg"
   }
 }
