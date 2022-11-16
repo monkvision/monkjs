@@ -157,5 +157,6 @@
     "@types/react": "~17.0.21",
     "@types/node": "~14.0.0"
   },
-  "test": "deza"
+  "test": "deza",
+  "packageManager": "yarn@1.18.0"
 }
