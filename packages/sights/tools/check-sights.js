@@ -47,7 +47,7 @@ const result = {
 const isAllGood = Object.values(result).every((sightsIds) => sightsIds.length === 0);
 
 if (!isAllGood) {
-  writeFileSync(ERROR_LOG, JSON.stringify(result), { encoding: 'utf-8' });
+  writeFileSync(ERROR_LOG, JSON.stringify(result, null, 2), { encoding: 'utf-8' });
 }
 
 console.log(`Done in ${Date.now() - startTs}ms ⚡️`);
@@ -60,5 +60,5 @@ console.log(`  ${icon(result.missingInfo)} ${result.missingInfo.length} overlay(
 if (isAllGood) {
   console.log('\nEverything seems to be good 🎉');
 } else {
-  console.log(`\nThere seems to be some errors. An JSON file containing error details has been generated at : ${ERROR_LOG}`);
+  console.log(`\nThere seems to be some errors. A JSON file containing error details has been generated at : ${ERROR_LOG}`);
 }

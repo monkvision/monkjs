@@ -9182,8 +9182,8 @@
   "602375f5": {
     "id": "602375f5",
     "label": {
-      "en": "Dashboard from Driver Seat",
-      "fr": "Tableau de bord du siège conducteur"
+      "en": "Dashboard from Back Seat",
+      "fr": "Tableau de bord du Siège Arrière"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9192,8 +9192,8 @@
   "356a10ca": {
     "id": "356a10ca",
     "label": {
-      "en": "Dashboard from Driver Seat",
-      "fr": "Tableau de bord du siège conducteur"
+      "en": "Dashboard from Back Seat",
+      "fr": "Tableau de bord du Siège Arrière"
     },
     "category": "interior",
     "vehicleType": "undefined",
