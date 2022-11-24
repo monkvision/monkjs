@@ -31,12 +31,15 @@
     "README.md"
   ],
   "scripts": {
-    "prepare": "yarn run lint && yarn run build",
+    "prepare": "npm run lint && npm run build",
     "build": "node scripts/build.mjs",
     "trace": "node scripts/trace.mjs",
     "lint": "eslint ./"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.0"
   }
 }
