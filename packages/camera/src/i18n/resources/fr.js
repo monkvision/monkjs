@@ -27,7 +27,7 @@ const fr = {
       subtitle: {
         unknown: 'Impossible de vérifier la qualité de l\'image',
         pending: 'Chargement...',
-        failed: 'Impossible d\'upload l\'image, veuillez réessayer',
+        failed: 'Impossible d\'upload l\'image',
         idle: 'Dans la file d\'attente.',
         queueBlocked: 'Impossible de vérifier la qualité de l\'image (file d\'attente bloquée)',
         reasonsStart: 'Cette image',

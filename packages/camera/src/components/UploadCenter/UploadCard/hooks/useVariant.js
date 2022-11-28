@@ -12,10 +12,10 @@ export default function useThumbnail({
     if (isPending) { return { callback: null, color: colors.placeholder }; }
     if (isUploadFailed) {
       return {
-        label: t('uploadCenter.variant.reupload.label'),
-        icon: 'refresh-circle',
-        callback: handleReupload,
-        sublable: t('uploadCenter.variant.reupload.sublabel'),
+        label: t('uploadCenter.variant.retake.label'),
+        icon: 'camera-retake',
+        callback: handleRetake,
+        sublable: t('uploadCenter.variant.retake.sublabel'),
         color: colors.error,
       };
     }

@@ -27,7 +27,7 @@ const en = {
       subtitle: {
         unknown: 'Couldn\'t check the image quality',
         pending: 'Loading...',
-        failed: 'We couldn\'t upload this image, please reupload',
+        failed: 'We couldn\'t upload this image',
         idle: 'In the image quality check queue...',
         queueBlocked: 'We couldn\'t check the image quality (queue blocked)',
         reasonsStart: 'This image',
