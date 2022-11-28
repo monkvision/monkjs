@@ -570,7 +570,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
-  compressionOptions: undefined,
+  compressionOptions: { quality: 0.8 },
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
