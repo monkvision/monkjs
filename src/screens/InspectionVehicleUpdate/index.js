@@ -1,5 +1,6 @@
-import { useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+// import { useSentry, utils } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
+// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -13,8 +14,8 @@ import * as names from 'screens/names';
 
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
-import Sentry from '../../config/sentry';
-import { setUser } from '../../config/sentryPlatform';
+// import Sentry from '../../config/sentry';
+// import { setUser } from '../../config/sentryPlatform';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
 const styles = StyleSheet.create({
@@ -39,7 +40,7 @@ export default function InspectionVehicleUpdate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
+  // const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
 
@@ -49,8 +50,9 @@ export default function InspectionVehicleUpdate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: (err, request) => {
-      errorHandler(err, SentryConstants.type.APP, request);
+    // onError: (err, request) => {
+    onError: () => {
+      // errorHandler(err, SentryConstants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -59,7 +61,7 @@ export default function InspectionVehicleUpdate() {
   const handleUpdate = useCallback(async () => {
     const response = await updateInspectionVehicle.start();
     if (response !== null) {
-      Sentry.Browser.setTag('inspection_id', response.result);
+      // Sentry.Browser.setTag('inspection_id', response.result);
       navigation.navigate(names.LANDING, route.params);
     }
   }, [updateInspectionVehicle.start]);
@@ -75,10 +77,10 @@ export default function InspectionVehicleUpdate() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
-        .then(({ data }) => {
-          setUser(data.sub);
-        });
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`);
+      // .then(({ data }) => {
+      //   setUser(data.sub);
+      // });
     }
   }, [isAuthenticated]);
 
@@ -87,10 +89,10 @@ export default function InspectionVehicleUpdate() {
     if (isAuthenticated && !loading && !error) { handleUpdate(); }
   }, [isAuthenticated, handleUpdate, updateInspectionVehicle]));
 
-  useEffect(() => {
-    const { state } = updateInspectionVehicle;
-    if (state.error) { errorHandler(state.error, SentryConstants.type.APP, state); }
-  }, [updateInspectionVehicle.state.error]);
+  // useEffect(() => {
+  //   const { state } = updateInspectionVehicle;
+  //   if (state.error) { errorHandler(state.error, SentryConstants.type.APP, state); }
+  // }, [updateInspectionVehicle.state.error]);
 
   if (isSigningIn) {
     return (

@@ -1,9 +1,9 @@
 import monk from '@monkvision/corejs';
-import { useSentry } from '@monkvision/toolkit';
+// import { useSentry } from '@monkvision/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import discoveries from 'config/discoveries';
-import Sentry from 'config/sentry';
+// import Sentry from 'config/sentry';
 import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { useCallback, useEffect, useState } from 'react';
@@ -53,7 +53,7 @@ export default function useSignIn(callbacks = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
-  const { errorHandler, Constants } = useSentry(Sentry);
+  // const { errorHandler, Constants } = useSentry(Sentry);
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -85,8 +85,8 @@ export default function useSignIn(callbacks = {}) {
       const dataToStore = JSON.stringify(response.authentication);
       AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
         if (typeof onSuccess === 'function') { onSuccess(response); }
-      }).catch((err) => {
-        errorHandler(err, Constants.type.APP);
+      }).catch(() => {
+        // errorHandler(err, Constants.type.APP);
         if (typeof onSuccess === 'function') { onSuccess(response); }
       });
     }

@@ -1,4 +1,5 @@
-import { useSentry, utils } from '@monkvision/toolkit';
+// import { useSentry, utils } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import isEmpty from 'lodash.isempty';
 
 import * as names from 'screens/names';
@@ -15,8 +16,8 @@ import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import useCreateInspection from './useCreateInspection';
-import Sentry from '../../config/sentry';
-import { setTag, setUser } from '../../config/sentryPlatform';
+// import Sentry from '../../config/sentry';
+// import { setTag, setUser } from '../../config/sentryPlatform';
 
 const styles = StyleSheet.create({
   root: {
@@ -40,7 +41,7 @@ export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
+  // const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
 
@@ -51,8 +52,9 @@ export default function InspectionCreate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: (err, request) => {
-      errorHandler(err, SentryConstants.type.APP, request);
+    // onError: (err, request) => {
+    onError: () => {
+      // errorHandler(err, SentryConstants.type.APP, request);
       setAuthError(true);
     },
   });
@@ -63,7 +65,7 @@ export default function InspectionCreate() {
       utils.log(['[Click] Inspection task chosen: ', selected]);
       const response = await createInspection.start(selected);
       if (response !== null) {
-        setTag('inspection_id', response.result);
+        // setTag('inspection_id', response.result);
         setInspectionId(response.result);
       }
     }
@@ -90,11 +92,11 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`)
-        .then(({ data }) => {
-          if (data.email) { setTag('company', data.email.split('@')[1].split('.')[0]); }
-          setUser(data.sub);
-        });
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`);
+      // .then(({ data }) => {
+      //   if (data.email) { setTag('company', data.email.split('@')[1].split('.')[0]); }
+      //   setUser(data.sub);
+      // });
     }
   }, [isAuthenticated]);
 
@@ -105,11 +107,12 @@ export default function InspectionCreate() {
     }
   }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
 
-  useEffect(() => {
-    if (createInspection.state.error) {
-      errorHandler(createInspection.state.error, SentryConstants.type.APP, createInspection.state);
-    }
-  }, [createInspection.state.error]);
+  // useEffect(() => {
+  //   if (createInspection.state.error) {
+  //     errorHandler(createInspection.state.error, SentryConstants.type.APP,
+  //     createInspection.state);
+  //   }
+  // }, [createInspection.state.error]);
 
   if (isSigningIn) {
     return (
