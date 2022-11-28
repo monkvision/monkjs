@@ -1,6 +1,7 @@
 import monk from '@monkvision/corejs';
-import { useInterval, useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+// import { useInterval, useSentry, utils } from '@monkvision/toolkit';
+import { useInterval, utils } from '@monkvision/toolkit';
+// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import { Container } from '@monkvision/ui';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import Inspection from 'components/Inspection';
@@ -21,8 +22,8 @@ import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
-import Sentry from '../../config/sentry';
-import { setTag } from '../../config/sentryPlatform';
+// import Sentry from '../../config/sentry';
+// import { setTag } from '../../config/sentryPlatform';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
@@ -39,7 +40,7 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
+  // const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
 
@@ -89,7 +90,7 @@ export default function Landing() {
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
-    setTag('inspection_id', undefined); // unset the tag `inspection_id`
+    // setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
   }, [navigation, inspectionId]);
 
@@ -162,7 +163,8 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
+      getInspection.start().catch(() => {});
+      // getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
     }
   }, [inspectionId, getInspection]);
 

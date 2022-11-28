@@ -17,7 +17,8 @@ const facingMode = isMobile ? { exact: 'environment' } : 'environment';
 const Video = React.forwardRef((props, ref) => createElement('video', { ...props, ref }));
 
 const getLandscapeScreenDimensions = () => {
-  const { width, height } = window.screen;
+  const width = document.documentElement.clientWidth;
+  const height = document.documentElement.clientHeight;
   return { height: Math.min(width, height), width: Math.max(width, height) };
 };
 

@@ -1,5 +1,6 @@
-import { useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+// import { useSentry, utils } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
+// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import React, { useCallback, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,7 @@ import * as names from 'screens/names';
 
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
-import Sentry from '../../../config/sentry';
+// import Sentry from '../../../config/sentry';
 
 const styles = StyleSheet.create({
   root: {
@@ -37,7 +38,7 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
-  const { errorHandler } = useSentry(Sentry);
+  // const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
 
   const route = useRoute();
@@ -46,10 +47,11 @@ export default function SignIn() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onStart: () => { utils.log(['[Click] Signing in']); },
-    onError: (error, request) => {
+    // onError: (error, request) => {
+    onError: () => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      errorHandler(error, SentryConstants.type.APP, request);
+      // errorHandler(error, SentryConstants.type.APP, request);
     },
   });
 
