@@ -30,6 +30,7 @@ const en = {
       workflowReminder: 'Complete all the tasks before to be able to generate your PDF report.',
       downloadPdf: 'Download PDF',
       downloadPdfDescription: 'Available when all stasks are completed',
+      appVersion: 'App Version',
     },
     vinModal: {
       title: 'How to set VIN number?',
