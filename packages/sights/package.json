@@ -33,9 +33,12 @@
   "scripts": {
     "prepare": "yarn run lint && yarn run build",
     "build": "node scripts/build.mjs",
-    "lint": "eslint ./"
+    "lint": "prettier --write index.json"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.0"
   }
 }
