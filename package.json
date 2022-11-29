@@ -64,6 +64,7 @@
     "expo-image-manipulator": "~10.2.0",
     "expo-linear-gradient": "~11.0.3",
     "expo-localization": "~12.0.0",
+    "expo-modules-core": "0.6.3",
     "expo-random": "~12.1.1",
     "expo-screen-orientation": "~4.1.1",
     "expo-splash-screen": "~0.14.1",
@@ -114,6 +115,7 @@
     "react-webcam": "^7.0.0",
     "screenfull": "^6.0.1",
     "sentry-expo": "^4.0.0",
+    "webpack": "5.0.0",
     "webrtc-adapter": "^8.1.1",
     "xmldom": "^0.6.0",
     "yup": "^0.32.11"
