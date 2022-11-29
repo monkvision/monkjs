@@ -2259,6 +2259,102 @@
     "overlay": "fesc20-DBLpo-52.svg",
     "mirror_sight": null
   },
+  "fesc20-hp3Tk53x": {
+    "id": "fesc20-hp3Tk53x",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "camera": {
+      "name": "57 front door left z70 1.5m",
+      "location_xyz": [2, -1.3, 1.5],
+      "rotation_xyz_deg": [69.5, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 56.97613,
+    "template_image": "fesc20-hp3Tk53x.opengl.png",
+    "overlay": "fesc20-hp3Tk53x.svg",
+    "mirror_sight": "fesc20-j3H8Z415"
+  },
+  "fesc20-NLdqASzl": {
+    "id": "fesc20-NLdqASzl",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "camera": {
+      "name": "128 rear door left z110 1.5m",
+      "location_xyz": [1.9, 1.5, 1.5],
+      "rotation_xyz_deg": [69.5, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 128.29016,
+    "template_image": "fesc20-NLdqASzl.opengl.png",
+    "overlay": "fesc20-NLdqASzl.svg",
+    "mirror_sight": "fesc20-gg1Xyrpu"
+  },
+  "fesc20-j3H8Z415": {
+    "id": "fesc20-j3H8Z415",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "camera": {
+      "name": "303 front door right z-70 1.5m",
+      "location_xyz": [-2, -1.3, 1.5],
+      "rotation_xyz_deg": [69.5, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 303.02387,
+    "template_image": "fesc20-j3H8Z415.opengl.png",
+    "overlay": "fesc20-j3H8Z415.svg",
+    "mirror_sight": "fesc20-hp3Tk53x"
+  },
+  "fesc20-gg1Xyrpu": {
+    "id": "fesc20-gg1Xyrpu",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "camera": {
+      "name": "232 rear door right z-110 1.5m",
+      "location_xyz": [-1.9, 1.5, 1.5],
+      "rotation_xyz_deg": [69.5, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 231.70984,
+    "template_image": "fesc20-gg1Xyrpu.opengl.png",
+    "overlay": "fesc20-gg1Xyrpu.svg",
+    "mirror_sight": "fesc20-NLdqASzl"
+  },
   "ff150-7UI3m9B3": {
     "id": "ff150-7UI3m9B3",
     "label": {
@@ -2921,6 +3017,102 @@
     "template_image": "ff150-tT8sqplK.opengl.png",
     "overlay": "ff150-tT8sqplK.svg",
     "mirror_sight": "ff150-phbX7Bef"
+  },
+  "ff150-g_xBOOS2": {
+    "id": "ff150-g_xBOOS2",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "camera": {
+      "name": "55 front door left z70 1.6m",
+      "location_xyz": [2.3, -1.6, 1.6],
+      "rotation_xyz_deg": [72.5, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 55.17551,
+    "template_image": "ff150-g_xBOOS2.opengl.png",
+    "overlay": "ff150-g_xBOOS2.svg",
+    "mirror_sight": "ff150-BmXfb-qD"
+  },
+  "ff150-V-xzfWsx": {
+    "id": "ff150-V-xzfWsx",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "camera": {
+      "name": "126 rear door left z110 1.6m",
+      "location_xyz": [2.3, 1.65, 1.6],
+      "rotation_xyz_deg": [73, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 125.65533,
+    "template_image": "ff150-V-xzfWsx.opengl.png",
+    "overlay": "ff150-V-xzfWsx.svg",
+    "mirror_sight": "ff150-eOjyMInj"
+  },
+  "ff150-eOjyMInj": {
+    "id": "ff150-eOjyMInj",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "camera": {
+      "name": "234 rear door right z-110 1.6m",
+      "location_xyz": [-2.3, 1.65, 1.6],
+      "rotation_xyz_deg": [73, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 234.34467,
+    "template_image": "ff150-eOjyMInj.opengl.png",
+    "overlay": "ff150-eOjyMInj.svg",
+    "mirror_sight": "ff150-V-xzfWsx"
+  },
+  "ff150-BmXfb-qD": {
+    "id": "ff150-BmXfb-qD",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "camera": {
+      "name": "305 front door right z-70 1.6m",
+      "location_xyz": [-2.3, -1.6, 1.6],
+      "rotation_xyz_deg": [72.5, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 304.82449,
+    "template_image": "ff150-BmXfb-qD.opengl.png",
+    "overlay": "ff150-BmXfb-qD.svg",
+    "mirror_sight": "ff150-g_xBOOS2"
   },
   "ffocus18-43ljK5xC": {
     "id": "ffocus18-43ljK5xC",
@@ -3618,6 +3810,102 @@
     "overlay": "ffocus18-e5netaNs.svg",
     "mirror_sight": null
   },
+  "ffocus18-QKfhXU7o": {
+    "id": "ffocus18-QKfhXU7o",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "camera": {
+      "name": "57 front door left z70 1.5m",
+      "location_xyz": [2, -1.3, 1.5],
+      "rotation_xyz_deg": [65, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 56.97613,
+    "template_image": "ffocus18-QKfhXU7o.opengl.png",
+    "overlay": "ffocus18-QKfhXU7o.svg",
+    "mirror_sight": "ffocus18-cXSAj2ez"
+  },
+  "ffocus18-cPUyM28L": {
+    "id": "ffocus18-cPUyM28L",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "camera": {
+      "name": "130 rear door left z110 1.5m",
+      "location_xyz": [1.8, 1.5, 1.5],
+      "rotation_xyz_deg": [64, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 129.80557,
+    "template_image": "ffocus18-cPUyM28L.opengl.png",
+    "overlay": "ffocus18-cPUyM28L.svg",
+    "mirror_sight": "ffocus18-U3Bcfc2Q"
+  },
+  "ffocus18-U3Bcfc2Q": {
+    "id": "ffocus18-U3Bcfc2Q",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "camera": {
+      "name": "230 rear door right z-110 1.5m",
+      "location_xyz": [-1.8, 1.5, 1.5],
+      "rotation_xyz_deg": [64, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 230.19443,
+    "template_image": "ffocus18-U3Bcfc2Q.opengl.png",
+    "overlay": "ffocus18-U3Bcfc2Q.svg",
+    "mirror_sight": "ffocus18-cPUyM28L"
+  },
+  "ffocus18-cXSAj2ez": {
+    "id": "ffocus18-cXSAj2ez",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "camera": {
+      "name": "303 front door right z-70 1.5m",
+      "location_xyz": [-2, -1.3, 1.5],
+      "rotation_xyz_deg": [65, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 303.02387,
+    "template_image": "ffocus18-cXSAj2ez.opengl.png",
+    "overlay": "ffocus18-cXSAj2ez.svg",
+    "mirror_sight": "ffocus18-QKfhXU7o"
+  },
   "ftransit18-wyXf7MTv": {
     "id": "ftransit18-wyXf7MTv",
     "label": {
@@ -4253,6 +4541,102 @@
     "template_image": "ftransit18-f2W6pHaR.opengl.png",
     "overlay": "ftransit18-f2W6pHaR.svg",
     "mirror_sight": "ftransit18-y_wTc7ED"
+  },
+  "ftransit18-xyp1rU0h": {
+    "id": "ftransit18-xyp1rU0h",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "camera": {
+      "name": "58 front door left z70 1.6m",
+      "location_xyz": [2.9, -1.8, 1.6],
+      "rotation_xyz_deg": [83, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 58.17255,
+    "template_image": "ftransit18-xyp1rU0h.opengl.png",
+    "overlay": "ftransit18-xyp1rU0h.svg",
+    "mirror_sight": "ftransit18-TkXihCj4"
+  },
+  "ftransit18-eXJDDYmE": {
+    "id": "ftransit18-eXJDDYmE",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "camera": {
+      "name": "122 rear door left z110 1.6m",
+      "location_xyz": [3, 1.9, 1.6],
+      "rotation_xyz_deg": [85.5, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 122.34744,
+    "template_image": "ftransit18-eXJDDYmE.opengl.png",
+    "overlay": "ftransit18-eXJDDYmE.svg",
+    "mirror_sight": "ftransit18-3fnjrISV"
+  },
+  "ftransit18-3fnjrISV": {
+    "id": "ftransit18-3fnjrISV",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "camera": {
+      "name": "238 rear door right z-110 1.6m",
+      "location_xyz": [-3, 1.9, 1.6],
+      "rotation_xyz_deg": [85.5, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 237.65256,
+    "template_image": "ftransit18-3fnjrISV.opengl.png",
+    "overlay": "ftransit18-3fnjrISV.svg",
+    "mirror_sight": "ftransit18-eXJDDYmE"
+  },
+  "ftransit18-TkXihCj4": {
+    "id": "ftransit18-TkXihCj4",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "camera": {
+      "name": "302 front door right z-70 1.6m",
+      "location_xyz": [-2.9, -1.8, 1.6],
+      "rotation_xyz_deg": [83, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 301.82745,
+    "template_image": "ftransit18-TkXihCj4.opengl.png",
+    "overlay": "ftransit18-TkXihCj4.svg",
+    "mirror_sight": "ftransit18-xyp1rU0h"
   },
   "haccord-8YjMcu0D": {
     "id": "haccord-8YjMcu0D",
@@ -4959,6 +5343,102 @@
     "overlay": "haccord-d_u3qyQ-.svg",
     "mirror_sight": null
   },
+  "haccord-QKfhXU7o": {
+    "id": "haccord-QKfhXU7o",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "camera": {
+      "name": "57 front door left z70 1.5m",
+      "location_xyz": [2, -1.3, 1.5],
+      "rotation_xyz_deg": [65, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 56.97613,
+    "template_image": "haccord-QKfhXU7o.opengl.png",
+    "overlay": "haccord-QKfhXU7o.svg",
+    "mirror_sight": "haccord-cXSAj2ez"
+  },
+  "haccord-cXSAj2ez": {
+    "id": "haccord-cXSAj2ez",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "camera": {
+      "name": "303 front door right z-70 1.5m",
+      "location_xyz": [-2, -1.3, 1.5],
+      "rotation_xyz_deg": [65, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 303.02387,
+    "template_image": "haccord-cXSAj2ez.opengl.png",
+    "overlay": "haccord-cXSAj2ez.svg",
+    "mirror_sight": "haccord-QKfhXU7o"
+  },
+  "haccord-bSAv3Hrj": {
+    "id": "haccord-bSAv3Hrj",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "camera": {
+      "name": "130 rear door left z110 1.5m",
+      "location_xyz": [1.9, 1.6, 1.5],
+      "rotation_xyz_deg": [65, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 130.10091,
+    "template_image": "haccord-bSAv3Hrj.opengl.png",
+    "overlay": "haccord-bSAv3Hrj.svg",
+    "mirror_sight": "haccord-5LlCuIfL"
+  },
+  "haccord-5LlCuIfL": {
+    "id": "haccord-5LlCuIfL",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "camera": {
+      "name": "230 rear door right z-110 1.5m",
+      "location_xyz": [-1.9, 1.6, 1.5],
+      "rotation_xyz_deg": [65, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 229.89909,
+    "template_image": "haccord-5LlCuIfL.opengl.png",
+    "overlay": "haccord-5LlCuIfL.svg",
+    "mirror_sight": "haccord-bSAv3Hrj"
+  },
   "jgc21-VHq_6BM-": {
     "id": "jgc21-VHq_6BM-",
     "label": {
@@ -5642,6 +6122,102 @@
     "overlay": "jgc21-ZubJ48-U.svg",
     "mirror_sight": null
   },
+  "jgc21-RE3li6rE": {
+    "id": "jgc21-RE3li6rE",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "camera": {
+      "name": "58 front door left z70 1.6m",
+      "location_xyz": [2.2, -1.4, 1.6],
+      "rotation_xyz_deg": [72, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 57.52881,
+    "template_image": "jgc21-RE3li6rE.opengl.png",
+    "overlay": "jgc21-RE3li6rE.svg",
+    "mirror_sight": "jgc21-TRN9Des4"
+  },
+  "jgc21-F-PPd4qN": {
+    "id": "jgc21-F-PPd4qN",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "camera": {
+      "name": "230 rear door right z-110 1.6m",
+      "location_xyz": [-2.15, 1.8, 1.6],
+      "rotation_xyz_deg": [74, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 230.06362,
+    "template_image": "jgc21-F-PPd4qN.opengl.png",
+    "overlay": "jgc21-F-PPd4qN.svg",
+    "mirror_sight": "jgc21-m2dDoMup"
+  },
+  "jgc21-TRN9Des4": {
+    "id": "jgc21-TRN9Des4",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "camera": {
+      "name": "302 front door right z-70 1.6m",
+      "location_xyz": [-2.2, -1.4, 1.6],
+      "rotation_xyz_deg": [72, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 302.47119,
+    "template_image": "jgc21-TRN9Des4.opengl.png",
+    "overlay": "jgc21-TRN9Des4.svg",
+    "mirror_sight": "jgc21-RE3li6rE"
+  },
+  "jgc21-m2dDoMup": {
+    "id": "jgc21-m2dDoMup",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "camera": {
+      "name": "130 rear door left z110 1.6m",
+      "location_xyz": [2.15, 1.8, 1.6],
+      "rotation_xyz_deg": [74, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 129.93638,
+    "template_image": "jgc21-m2dDoMup.opengl.png",
+    "overlay": "jgc21-m2dDoMup.svg",
+    "mirror_sight": "jgc21-F-PPd4qN"
+  },
   "tsienna20-jY3cR5vy": {
     "id": "tsienna20-jY3cR5vy",
     "label": {
@@ -6276,6 +6852,102 @@
     "template_image": "tsienna20-wlbzVAxz.opengl.png",
     "overlay": "tsienna20-wlbzVAxz.svg",
     "mirror_sight": "tsienna20-ZlRQXL-j"
+  },
+  "tsienna20-Ia0SGJ6z": {
+    "id": "tsienna20-Ia0SGJ6z",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "camera": {
+      "name": "55 front door left z70 1.5m",
+      "location_xyz": [2.25, -1.6, 1.5],
+      "rotation_xyz_deg": [71, 0, 70],
+      "focal_length": 26
+    },
+    "angle_order": 54.58294,
+    "template_image": "tsienna20-Ia0SGJ6z.opengl.png",
+    "overlay": "tsienna20-Ia0SGJ6z.svg",
+    "mirror_sight": "tsienna20-TibS83Qr"
+  },
+  "tsienna20-U_FqYq-a": {
+    "id": "tsienna20-U_FqYq-a",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "camera": {
+      "name": "125 rear door left z110 1.5m",
+      "location_xyz": [2.25, 1.6, 1.5],
+      "rotation_xyz_deg": [73, 0, 110],
+      "focal_length": 26
+    },
+    "angle_order": 125.41706,
+    "template_image": "tsienna20-U_FqYq-a.opengl.png",
+    "overlay": "tsienna20-U_FqYq-a.svg",
+    "mirror_sight": "tsienna20-u57qDaN_"
+  },
+  "tsienna20-u57qDaN_": {
+    "id": "tsienna20-u57qDaN_",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "camera": {
+      "name": "235 rear door right z-110 1.5m",
+      "location_xyz": [-2.25, 1.6, 1.5],
+      "rotation_xyz_deg": [73, 0, -110],
+      "focal_length": 26
+    },
+    "angle_order": 234.58294,
+    "template_image": "tsienna20-u57qDaN_.opengl.png",
+    "overlay": "tsienna20-u57qDaN_.svg",
+    "mirror_sight": "tsienna20-U_FqYq-a"
+  },
+  "tsienna20-TibS83Qr": {
+    "id": "tsienna20-TibS83Qr",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "camera": {
+      "name": "305 front door right z-70 1.5m",
+      "location_xyz": [-2.25, -1.6, 1.5],
+      "rotation_xyz_deg": [71, 0, -70],
+      "focal_length": 26
+    },
+    "angle_order": 305.41706,
+    "template_image": "tsienna20-TibS83Qr.opengl.png",
+    "overlay": "tsienna20-TibS83Qr.svg",
+    "mirror_sight": "tsienna20-Ia0SGJ6z"
   },
   "ad16621c": {
     "id": "ad16621c",
