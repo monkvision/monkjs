@@ -22,6 +22,7 @@ import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
+import { version } from '@package/json';
 // import Sentry from '../../config/sentry';
 // import { setTag } from '../../config/sentryPlatform';
 import styles from './styles';
@@ -224,6 +225,13 @@ export default function Landing() {
           </View>
         )}
         <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          <List.Section style={styles.textAlignRight}>
+            <List.Subheader>
+              {t('landing.appVersion')}
+              {': '}
+              {version}
+            </List.Subheader>
+          </List.Section>
           <List.Section>
             <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <FlatList
