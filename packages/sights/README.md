@@ -5,7 +5,7 @@
 yarn add @monkvision/sights
 ```
 
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+This project is licensed under the Clear BSD license. See the [LICENSE](LICENSE) file for more info.
 
 ----
 ![Monk banner](https://raw.githubusercontent.com/monkvision/monkjs/main/assets/banner.png)
