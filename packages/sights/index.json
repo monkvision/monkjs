@@ -5,12 +5,12 @@
       "en": "Front Seats",
       "fr": "Sièges Avant"
     },
-    "category": "interior",
+    "category": "exterior",
     "vehicleType": "undefined",
     "overlay": "87539411.svg"
   },
   "IqwSM3": {
-    "category": "interior",
+    "category": "exterior",
     "id": "IqwSM3",
     "label": {
       "en": "Front Seats",
