@@ -357,6 +357,44 @@ Will call a function when pressing `retakeAll` button inside the Upload Center (
 const handleRetakeAll = () => console.log('Retaking all...');
 ```
 
+## onRetakeNeeded and onSkipRetake
+`PropTypes.func`
+
+onRetakeNeeded : Will call a function when the number of pictures to be retaken changes inside the Upload Center (picture quality check screen).
+onSkipRetake : Will call a function when pressing the skip retake button inside the Upload Center (picture quality check screen).
+
+```js
+const onRetakeNeeded = (result) => console.log(result);
+const onSkipRetake = (result) => console.log(result);
+/**
+ * Result :
+ * {
+ *   retakesNeeded, // The number of pictures to be retaken
+ *   compliances: [{ // Array of compliance results
+ *     sightId, // The id of the picture sight
+ *     error, // The error if there is one
+ *     result: { // The result of the compliance check
+ *       coverage360: { // Compliance result for the car coverage check
+ *         isCompliant, // Is it compliant
+ *         reasons, // Array of reasons is it is not compliant
+ *         status, // Status of the compliance check
+ *       },
+ *       image_quality_assessment: { // Compliance result for the image quality check
+ *         isCompliant, // Is it compliant
+ *         reasons, // Array of reasons is it is not compliant
+ *         status, // Status of the compliance check
+ *       },
+ *       zoom_level: {  // Compliance result for the zoom level check
+ *         isCompliant, // Is it compliant
+ *         reasons, // Array of reasons is it is not compliant
+ *         status, // Status of the compliance check
+ *       },
+ *     },
+ *   }],
+ * }
+ */
+```
+
 ## onStartUploadPicture
 `PropTypes.func`
 

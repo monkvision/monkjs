@@ -41,6 +41,7 @@ const fr = {
       workflowReminder: 'Veuillez compléter toutes les tâches afin de pouvoir générer votre rapport PDF.',
       downloadPdf: 'Télécharger le PDF',
       downloadPdfDescription: 'Disponible lorsque toutes les tâches sont terminées',
+      appVersion: 'Version de l\'application',
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',

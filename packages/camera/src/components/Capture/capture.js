@@ -95,6 +95,8 @@ const Capture = forwardRef(({
   onWarningMessage,
   onReady,
   onRetakeAll,
+  onRetakeNeeded,
+  onSkipRetake,
   onStartUploadPicture,
   onFinishUploadPicture,
   orientationBlockerProps,
@@ -114,6 +116,7 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
+  const [isPartSelectorDisplayed, setPartSelectorDisplayed] = useState(false);
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
@@ -239,6 +242,14 @@ const Capture = forwardRef(({
     [compliance.state, uploads.state],
   );
 
+  // Very ugly temporary hack, we have to use this for now - Samy
+  // eslint-disable-next-line no-undef, func-names
+  const isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === '[object SafariRemoteNotification]'; }(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification)));
+  const isCameraDisplayed = useMemo(
+    () => !isPartSelectorDisplayed || !isSafari,
+    [isPartSelectorDisplayed, isSafari],
+  );
+
   // END CONSTANTS //
   // HANDLERS //
 
@@ -251,6 +262,10 @@ const Capture = forwardRef(({
       throw err;
     }
   }, [api, onReady, states]);
+
+  const handleTogglePartSelector = useCallback((isDisplayed) => {
+    setPartSelectorDisplayed(isDisplayed);
+  }, [setPartSelectorDisplayed]);
 
   // END HANDLERS //
   // EFFECTS //
@@ -297,6 +312,7 @@ const Capture = forwardRef(({
       state={states}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
+      onTogglePartSelector={handleTogglePartSelector}
       Sentry={Sentry}
     />
   ), [
@@ -344,6 +360,8 @@ const Capture = forwardRef(({
           onComplianceCheckFinish={onComplianceCheckFinish}
           onComplianceCheckStart={onComplianceCheckStart}
           onRetakeAll={onRetakeAll}
+          onSkipRetake={onSkipRetake}
+          onRetakeNeeded={onRetakeNeeded}
           task={task}
           mapTasksToSights={mapTasksToSights}
           inspectionId={inspectionId}
@@ -382,6 +400,7 @@ const Capture = forwardRef(({
             enableQHDWhenSupported={enableQHDWhenSupported}
             compressionOptions={compressionOptions}
             resolutionOptions={resolutionOptions}
+            isDisplayed={isCameraDisplayed}
             Sentry={Sentry}
           >
             {children}
@@ -492,8 +511,10 @@ Capture.propTypes = {
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
   onRetakeAll: PropTypes.func,
+  onRetakeNeeded: PropTypes.func,
   onSettingsChange: PropTypes.func,
   onSightsChange: PropTypes.func,
+  onSkipRetake: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   onUploadsChange: PropTypes.func,
   onWarningMessage: PropTypes.func,
@@ -564,7 +585,7 @@ Capture.propTypes = {
 };
 
 Capture.defaultProps = {
-  compressionOptions: undefined,
+  compressionOptions: { quality: 0.8 },
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
@@ -590,6 +611,7 @@ Capture.defaultProps = {
   onComplianceChange: () => {},
   onSettingsChange: () => {},
   onSightsChange: () => {},
+  onSkipRetake: () => {},
   onUploadsChange: () => {},
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
@@ -598,6 +620,7 @@ Capture.defaultProps = {
   onReady: () => {},
   onStartUploadPicture: () => {},
   onRetakeAll: () => {},
+  onRetakeNeeded: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   resolutionOptions: undefined,

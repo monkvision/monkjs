@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import monk from '@monkvision/corejs';
-import { useInterval, useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+// import { useInterval, useSentry, utils } from '@monkvision/toolkit';
+import { useInterval, utils } from '@monkvision/toolkit';
+// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import { Container } from '@monkvision/ui';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import Modal from 'components/Modal';
@@ -21,8 +22,9 @@ import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
-import Sentry from '../../config/sentry';
-import { setTag } from '../../config/sentryPlatform';
+import { version } from '@package/json';
+// import Sentry from '../../config/sentry';
+// import { setTag } from '../../config/sentryPlatform';
 import styles from './styles';
 import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
@@ -40,7 +42,7 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
+  // const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
   const { /* setShowTranslatedMessage , */ Notice } = useSnackbar(true);
 
@@ -84,7 +86,7 @@ export default function Landing() {
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
-    setTag('inspection_id', undefined); // unset the tag `inspection_id`
+    // setTag('inspection_id', undefined); // unset the tag `inspection_id`
     navigation.navigate(names.LANDING);
   }, [navigation, inspectionId]);
 
@@ -157,7 +159,8 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
+      getInspection.start().catch(() => {});
+      // getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
     }
   }, [inspectionId, getInspection]);
 
@@ -218,6 +221,13 @@ export default function Landing() {
           </View>
         )}
         <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          <List.Section style={styles.textAlignRight}>
+            <List.Subheader>
+              {t('landing.appVersion')}
+              {': '}
+              {version}
+            </List.Subheader>
+          </List.Section>
           <List.Section>
             <List.Subheader>Select vehicle type</List.Subheader>
             <VehicleType

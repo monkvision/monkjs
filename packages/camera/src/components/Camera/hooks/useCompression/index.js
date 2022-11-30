@@ -37,11 +37,16 @@ export default function useCompression() {
    * @returns {Blob} - the compressed picture on webp format
    */
   return useCallback((data, width, height, options = {}) => {
+    const tweakedOptions = {
+      ...options,
+      quality: options.quality && options.quality <= 1 ? options.quality * 100 : options.quality,
+    };
+
     if (module) {
       return new Promise((resolve) => {
-        const result = module.encode(data, width, height, { ...defaultOptions, ...options });
+        const result = module.encode(data, width, height, { ...defaultOptions, ...tweakedOptions });
 
-        resolve(new Blob([result, { type: 'image/jpeg' }]));
+        resolve(new Blob([result], { type: 'image/jpeg' }));
       });
     }
 
@@ -49,7 +54,12 @@ export default function useCompression() {
       webEnc()
         .then((newModule) => {
           setModule(newModule);
-          const result = newModule.encode(data, width, height, { ...defaultOptions, options });
+          const result = newModule.encode(
+            data,
+            width,
+            height,
+            { ...defaultOptions, tweakedOptions },
+          );
 
           resolve(new Blob([result], { type: 'image/jpeg' }));
         })

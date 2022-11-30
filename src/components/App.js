@@ -1,13 +1,14 @@
 /* eslint-disable global-require */
-import { theme as initialTheme, useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+// import { theme as initialTheme, useSentry } from '@monkvision/toolkit';
+import { theme as initialTheme } from '@monkvision/toolkit';
+// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import { Loader } from '@monkvision/ui';
 import 'config/corejs';
 import SilentAuth from 'components/SilentAuth';
 import SilentLang from 'components/SilentLang';
 
 import Navigation from 'config/Navigation';
-import { Profiler } from 'config/sentryPlatform';
+// import { Profiler } from 'config/sentryPlatform';
 import ExpoConstants from 'expo-constants';
 import * as Font from 'expo-font';
 
@@ -18,7 +19,7 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store from 'store';
-import Sentry from '../config/sentry';
+// import Sentry from '../config/sentry';
 
 const theme = {
   ...DefaultTheme,
@@ -39,7 +40,7 @@ const customFonts = {
 
 function App() {
   const { height: minHeight } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
+  // const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
 
   const [appIsReady, setAppIsReady] = useState(false);
@@ -54,7 +55,7 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        errorHandler(err, SentryConstants.type.APP);
+        // errorHandler(err, SentryConstants.type.APP);
       }
     }
   }, [appIsReady]);
@@ -70,7 +71,7 @@ function App() {
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
-        errorHandler(err, SentryConstants.type.APP);
+        // errorHandler(err, SentryConstants.type.APP);
       } finally {
         // Tell the application to render
         setAppIsReady(true);
@@ -101,4 +102,5 @@ function App() {
   );
 }
 
-export default Profiler(App);
+// export default Profiler(App);
+export default App;

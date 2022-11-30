@@ -2,7 +2,7 @@
   "name": "@monkvision/sights",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "3.4.4",
+  "version": "3.4.11",
   "main": "dist/index.json",
   "private": false,
   "description": "Vehicle sights assets for AI-powered damage detection",
@@ -33,10 +33,12 @@
   "scripts": {
     "prepare": "yarn run lint && yarn run build",
     "build": "node scripts/build.mjs",
-    "trace": "node scripts/trace.mjs",
-    "lint": "eslint ./"
+    "lint": "prettier --write index.json"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.0"
   }
 }

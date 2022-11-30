@@ -94,4 +94,7 @@ export default StyleSheet.create({
     width,
     height,
   },
+  textAlignRight: {
+    alignItems: 'flex-end',
+  },
 });

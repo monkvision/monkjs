@@ -1,5 +1,5 @@
 import monk from '@monkvision/corejs';
-import { useSentry } from '@monkvision/toolkit';
+import { useSentry, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import axios from 'axios';
 import { Buffer } from 'buffer';
@@ -11,27 +11,27 @@ import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-const COVERAGE_360_WHITELIST = [
-  // T-ROCK
-  'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
-  'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
-  'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
-  'AoO-nOoM', 'B5s1CWT-',
-  // AUDI A7
-  'vxRr9chD', // Front Bumper Side Left
-  'cDe2q69X', // Front Fender Left
-  'R_f4g8MN', // Doors Left
-  'vedHBC2n', // Front Roof Left
-  'McR3TJK0', // Rear Lateral Left
-  '7bTC-nGS', // Rear Fender Left
-  'hhCBI9oZ', // Rear
-  'e_QIW30o', // Rear Fender Right
-  'fDo5M0Fp', // Rear Lateral Right
-  'fDKWkHHp', // Doors Right
-  '5CFsFvj7', // Front Fender Right
-  'g30kyiVH', // Front Bumper Side Right
-  'I0cOpT1e', // Front
-];
+// const COVERAGE_360_WHITELIST = [
+//   // T-ROCK
+//   'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
+//   'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
+//   'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
+//   'AoO-nOoM', 'B5s1CWT-',
+//   // AUDI A7
+//   'vxRr9chD', // Front Bumper Side Left
+//   'cDe2q69X', // Front Fender Left
+//   'R_f4g8MN', // Doors Left
+//   'vedHBC2n', // Front Roof Left
+//   'McR3TJK0', // Rear Lateral Left
+//   '7bTC-nGS', // Rear Fender Left
+//   'hhCBI9oZ', // Rear
+//   'e_QIW30o', // Rear Fender Right
+//   'fDo5M0Fp', // Rear Lateral Right
+//   'fDKWkHHp', // Doors Right
+//   '5CFsFvj7', // Front Fender Right
+//   'g30kyiVH', // Front Bumper Side Right
+//   'I0cOpT1e', // Front
+// ];
 
 /**
  * @param current
@@ -110,7 +110,7 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
       const uri = picture.localUri || picture.uri;
 
       const actions = [{ resize: { width: 133 } }];
-      const saveFormat = Platform.OS === 'web' ? SaveFormat.WEBP : SaveFormat.JPEG;
+      const saveFormat = (Platform.OS === 'web' && utils.supportsWebP()) ? SaveFormat.WEBP : SaveFormat.JPEG;
       const saveOptions = { compress: 1, format: saveFormat };
       const imageResult = await manipulateAsync(uri, actions, saveOptions);
 
@@ -264,9 +264,14 @@ export function useStartUploadAsync({
         payload: { id, status: 'pending', label },
       });
 
-      const fileType = Platform.OS === 'web' ? 'webp' : 'jpg';
-      const filename = `${id}-${inspectionId}.${fileType}`;
-      const multiPartKeys = { image: 'image', json: 'json', filename, type: `image/${fileType}` };
+      const fileType = picture.fileType;
+      const filename = `${id}-${inspectionId}.${picture.imageFilenameExtension}`;
+      const multiPartKeys = {
+        image: 'image',
+        json: 'json',
+        type: fileType,
+        filename,
+      };
 
       const json = JSON.stringify({
         acquisition: {
@@ -275,9 +280,10 @@ export function useStartUploadAsync({
         },
         compliances: {
           image_quality_assessment: {},
-          coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-            sight_id: id,
-          } : undefined,
+          coverage_360: { sight_id: id },
+          // coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+          //   sight_id: id,
+          // } : undefined,
         },
         tasks: tasksToMap,
         additional_data: {
@@ -296,7 +302,7 @@ export function useStartUploadAsync({
         fileBits = [file];
       } else {
         const buffer = Buffer.from(picture.uri, 'base64');
-        fileBits = new Blob([buffer], { type: 'png' });
+        fileBits = new Blob([buffer], { type: picture.imageFilenameExtension });
       }
 
       const file = await new File(
