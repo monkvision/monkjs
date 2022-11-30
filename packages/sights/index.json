@@ -1772,7 +1772,14 @@
       "rotation_xyz_rad": [1.2042771577835083, 0, -3.141592502593994],
       "focal_length": 26
     },
-    "template_image": "fesc20-X8k7UFGf.opengl.png"
+    "template_image": "fesc20-X8k7UFGf.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Rear",
+        "fr": "Arrière"
+      }
+    ]
   },
   "fesc20-Wzdtgqqz": {
     "id": "fesc20-Wzdtgqqz",
@@ -2474,7 +2481,18 @@
     "angle_order": 56.97613,
     "template_image": "fesc20-hp3Tk53x.opengl.png",
     "overlay": "fesc20-hp3Tk53x.svg",
-    "mirror_sight": "fesc20-j3H8Z415"
+    "mirror_sight": "fesc20-j3H8Z415",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "fesc20-NLdqASzl": {
     "id": "fesc20-NLdqASzl",
@@ -2498,7 +2516,18 @@
     "angle_order": 128.29016,
     "template_image": "fesc20-NLdqASzl.opengl.png",
     "overlay": "fesc20-NLdqASzl.svg",
-    "mirror_sight": "fesc20-gg1Xyrpu"
+    "mirror_sight": "fesc20-gg1Xyrpu",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "fesc20-j3H8Z415": {
     "id": "fesc20-j3H8Z415",
@@ -2522,7 +2551,18 @@
     "angle_order": 303.02387,
     "template_image": "fesc20-j3H8Z415.opengl.png",
     "overlay": "fesc20-j3H8Z415.svg",
-    "mirror_sight": "fesc20-hp3Tk53x"
+    "mirror_sight": "fesc20-hp3Tk53x",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "fesc20-gg1Xyrpu": {
     "id": "fesc20-gg1Xyrpu",
@@ -2546,7 +2586,18 @@
     "angle_order": 231.70984,
     "template_image": "fesc20-gg1Xyrpu.opengl.png",
     "overlay": "fesc20-gg1Xyrpu.svg",
-    "mirror_sight": "fesc20-NLdqASzl"
+    "mirror_sight": "fesc20-NLdqASzl",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ff150-7UI3m9B3": {
     "id": "ff150-7UI3m9B3",
@@ -2711,7 +2762,14 @@
       "rotation_xyz_rad": [1.326450228691101, 0, -3.141592502593994],
       "focal_length": 26
     },
-    "template_image": "ff150-nF_oFvhI.opengl.png"
+    "template_image": "ff150-nF_oFvhI.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Rear",
+        "fr": "Arrière"
+      }
+    ]
   },
   "ff150-gFp78fQO": {
     "id": "ff150-gFp78fQO",
@@ -3412,7 +3470,18 @@
     "angle_order": 55.17551,
     "template_image": "ff150-g_xBOOS2.opengl.png",
     "overlay": "ff150-g_xBOOS2.svg",
-    "mirror_sight": "ff150-BmXfb-qD"
+    "mirror_sight": "ff150-BmXfb-qD",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ff150-V-xzfWsx": {
     "id": "ff150-V-xzfWsx",
@@ -3436,7 +3505,18 @@
     "angle_order": 125.65533,
     "template_image": "ff150-V-xzfWsx.opengl.png",
     "overlay": "ff150-V-xzfWsx.svg",
-    "mirror_sight": "ff150-eOjyMInj"
+    "mirror_sight": "ff150-eOjyMInj",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ff150-eOjyMInj": {
     "id": "ff150-eOjyMInj",
@@ -3460,7 +3540,18 @@
     "angle_order": 234.34467,
     "template_image": "ff150-eOjyMInj.opengl.png",
     "overlay": "ff150-eOjyMInj.svg",
-    "mirror_sight": "ff150-V-xzfWsx"
+    "mirror_sight": "ff150-V-xzfWsx",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ff150-BmXfb-qD": {
     "id": "ff150-BmXfb-qD",
@@ -3484,7 +3575,18 @@
     "angle_order": 304.82449,
     "template_image": "ff150-BmXfb-qD.opengl.png",
     "overlay": "ff150-BmXfb-qD.svg",
-    "mirror_sight": "ff150-g_xBOOS2"
+    "mirror_sight": "ff150-g_xBOOS2",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ffocus18-43ljK5xC": {
     "id": "ffocus18-43ljK5xC",
@@ -3780,7 +3882,14 @@
       "focal_length": 26
     },
     "angle_order": 180,
-    "template_image": "ffocus18-X2LDjCvr.opengl.png"
+    "template_image": "ffocus18-X2LDjCvr.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Rear",
+        "fr": "Arrière"
+      }
+    ]
   },
   "ffocus18-Wo8PkcLF": {
     "id": "ffocus18-Wo8PkcLF",
@@ -4404,7 +4513,18 @@
     "angle_order": 56.97613,
     "template_image": "ffocus18-QKfhXU7o.opengl.png",
     "overlay": "ffocus18-QKfhXU7o.svg",
-    "mirror_sight": "ffocus18-cXSAj2ez"
+    "mirror_sight": "ffocus18-cXSAj2ez",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ffocus18-cPUyM28L": {
     "id": "ffocus18-cPUyM28L",
@@ -4428,7 +4548,18 @@
     "angle_order": 129.80557,
     "template_image": "ffocus18-cPUyM28L.opengl.png",
     "overlay": "ffocus18-cPUyM28L.svg",
-    "mirror_sight": "ffocus18-U3Bcfc2Q"
+    "mirror_sight": "ffocus18-U3Bcfc2Q",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ffocus18-U3Bcfc2Q": {
     "id": "ffocus18-U3Bcfc2Q",
@@ -4452,7 +4583,18 @@
     "angle_order": 230.19443,
     "template_image": "ffocus18-U3Bcfc2Q.opengl.png",
     "overlay": "ffocus18-U3Bcfc2Q.svg",
-    "mirror_sight": "ffocus18-cPUyM28L"
+    "mirror_sight": "ffocus18-cPUyM28L",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ffocus18-cXSAj2ez": {
     "id": "ffocus18-cXSAj2ez",
@@ -4476,7 +4618,18 @@
     "angle_order": 303.02387,
     "template_image": "ffocus18-cXSAj2ez.opengl.png",
     "overlay": "ffocus18-cXSAj2ez.svg",
-    "mirror_sight": "ffocus18-QKfhXU7o"
+    "mirror_sight": "ffocus18-QKfhXU7o",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ftransit18-wyXf7MTv": {
     "id": "ftransit18-wyXf7MTv",
@@ -5322,7 +5475,18 @@
     "angle_order": 58.17255,
     "template_image": "ftransit18-xyp1rU0h.opengl.png",
     "overlay": "ftransit18-xyp1rU0h.svg",
-    "mirror_sight": "ftransit18-TkXihCj4"
+    "mirror_sight": "ftransit18-TkXihCj4",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ftransit18-eXJDDYmE": {
     "id": "ftransit18-eXJDDYmE",
@@ -5346,7 +5510,18 @@
     "angle_order": 122.34744,
     "template_image": "ftransit18-eXJDDYmE.opengl.png",
     "overlay": "ftransit18-eXJDDYmE.svg",
-    "mirror_sight": "ftransit18-3fnjrISV"
+    "mirror_sight": "ftransit18-3fnjrISV",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ftransit18-3fnjrISV": {
     "id": "ftransit18-3fnjrISV",
@@ -5370,7 +5545,18 @@
     "angle_order": 237.65256,
     "template_image": "ftransit18-3fnjrISV.opengl.png",
     "overlay": "ftransit18-3fnjrISV.svg",
-    "mirror_sight": "ftransit18-eXJDDYmE"
+    "mirror_sight": "ftransit18-eXJDDYmE",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ftransit18-TkXihCj4": {
     "id": "ftransit18-TkXihCj4",
@@ -5394,7 +5580,18 @@
     "angle_order": 301.82745,
     "template_image": "ftransit18-TkXihCj4.opengl.png",
     "overlay": "ftransit18-TkXihCj4.svg",
-    "mirror_sight": "ftransit18-xyp1rU0h"
+    "mirror_sight": "ftransit18-xyp1rU0h",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "haccord-8YjMcu0D": {
     "id": "haccord-8YjMcu0D",
@@ -5674,7 +5871,14 @@
       "rotation_xyz_rad": [1.1519173383712769, 0, -3.141592502593994],
       "focal_length": 26
     },
-    "template_image": "haccord-ps7cWy6K.opengl.png"
+    "template_image": "haccord-ps7cWy6K.opengl.png",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Rear",
+        "fr": "Arrière"
+      }
+    ]
   },
   "haccord-Z84erkMb": {
     "id": "haccord-Z84erkMb",
@@ -6316,7 +6520,18 @@
     "angle_order": 56.97613,
     "template_image": "haccord-QKfhXU7o.opengl.png",
     "overlay": "haccord-QKfhXU7o.svg",
-    "mirror_sight": "haccord-cXSAj2ez"
+    "mirror_sight": "haccord-cXSAj2ez",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "haccord-cXSAj2ez": {
     "id": "haccord-cXSAj2ez",
@@ -6340,7 +6555,18 @@
     "angle_order": 303.02387,
     "template_image": "haccord-cXSAj2ez.opengl.png",
     "overlay": "haccord-cXSAj2ez.svg",
-    "mirror_sight": "haccord-QKfhXU7o"
+    "mirror_sight": "haccord-QKfhXU7o",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "haccord-bSAv3Hrj": {
     "id": "haccord-bSAv3Hrj",
@@ -6364,7 +6590,18 @@
     "angle_order": 130.10091,
     "template_image": "haccord-bSAv3Hrj.opengl.png",
     "overlay": "haccord-bSAv3Hrj.svg",
-    "mirror_sight": "haccord-5LlCuIfL"
+    "mirror_sight": "haccord-5LlCuIfL",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "haccord-5LlCuIfL": {
     "id": "haccord-5LlCuIfL",
@@ -6388,7 +6625,18 @@
     "angle_order": 229.89909,
     "template_image": "haccord-5LlCuIfL.opengl.png",
     "overlay": "haccord-5LlCuIfL.svg",
-    "mirror_sight": "haccord-bSAv3Hrj"
+    "mirror_sight": "haccord-bSAv3Hrj",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "jgc21-VHq_6BM-": {
     "id": "jgc21-VHq_6BM-",
@@ -7288,7 +7536,18 @@
     "angle_order": 57.52881,
     "template_image": "jgc21-RE3li6rE.opengl.png",
     "overlay": "jgc21-RE3li6rE.svg",
-    "mirror_sight": "jgc21-TRN9Des4"
+    "mirror_sight": "jgc21-TRN9Des4",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "jgc21-F-PPd4qN": {
     "id": "jgc21-F-PPd4qN",
@@ -7312,7 +7571,18 @@
     "angle_order": 230.06362,
     "template_image": "jgc21-F-PPd4qN.opengl.png",
     "overlay": "jgc21-F-PPd4qN.svg",
-    "mirror_sight": "jgc21-m2dDoMup"
+    "mirror_sight": "jgc21-m2dDoMup",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "jgc21-TRN9Des4": {
     "id": "jgc21-TRN9Des4",
@@ -7336,7 +7606,18 @@
     "angle_order": 302.47119,
     "template_image": "jgc21-TRN9Des4.opengl.png",
     "overlay": "jgc21-TRN9Des4.svg",
-    "mirror_sight": "jgc21-RE3li6rE"
+    "mirror_sight": "jgc21-RE3li6rE",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "jgc21-m2dDoMup": {
     "id": "jgc21-m2dDoMup",
@@ -7360,7 +7641,18 @@
     "angle_order": 129.93638,
     "template_image": "jgc21-m2dDoMup.opengl.png",
     "overlay": "jgc21-m2dDoMup.svg",
-    "mirror_sight": "jgc21-F-PPd4qN"
+    "mirror_sight": "jgc21-F-PPd4qN",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "tsienna20-jY3cR5vy": {
     "id": "tsienna20-jY3cR5vy",
@@ -8205,7 +8497,18 @@
     "angle_order": 54.58294,
     "template_image": "tsienna20-Ia0SGJ6z.opengl.png",
     "overlay": "tsienna20-Ia0SGJ6z.svg",
-    "mirror_sight": "tsienna20-TibS83Qr"
+    "mirror_sight": "tsienna20-TibS83Qr",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "tsienna20-U_FqYq-a": {
     "id": "tsienna20-U_FqYq-a",
@@ -8229,7 +8532,18 @@
     "angle_order": 125.41706,
     "template_image": "tsienna20-U_FqYq-a.opengl.png",
     "overlay": "tsienna20-U_FqYq-a.svg",
-    "mirror_sight": "tsienna20-u57qDaN_"
+    "mirror_sight": "tsienna20-u57qDaN_",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "tsienna20-u57qDaN_": {
     "id": "tsienna20-u57qDaN_",
@@ -8253,7 +8567,18 @@
     "angle_order": 234.58294,
     "template_image": "tsienna20-u57qDaN_.opengl.png",
     "overlay": "tsienna20-u57qDaN_.svg",
-    "mirror_sight": "tsienna20-U_FqYq-a"
+    "mirror_sight": "tsienna20-U_FqYq-a",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "tsienna20-TibS83Qr": {
     "id": "tsienna20-TibS83Qr",
@@ -8277,7 +8602,18 @@
     "angle_order": 305.41706,
     "template_image": "tsienna20-TibS83Qr.opengl.png",
     "overlay": "tsienna20-TibS83Qr.svg",
-    "mirror_sight": "tsienna20-Ia0SGJ6z"
+    "mirror_sight": "tsienna20-Ia0SGJ6z",
+    "angle": "mid",
+    "pointsOfInterest": [
+      {
+        "en": "Fender",
+        "fr": "Aile"
+      },
+      {
+        "en": "Door",
+        "fr": "Portière"
+      }
+    ]
   },
   "ad16621c": {
     "id": "ad16621c",

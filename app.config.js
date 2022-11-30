@@ -41,174 +41,133 @@ const options = [
       suv: [
         'jgc21-QIvfeg0X', // Front Low
         'jgc21-KyUUVU2P', // Hood
-        'jgc21-zCrDwYWE', // Front Bumper Left
         'jgc21-VHq_6BM-', // Front Full Left
-        'jgc21-z15ZdJL6', // Front Lateral Low Left
+        'jgc21-RE3li6rE', // Front Lateral Left (updated)
         'jgc21-imomJ2V0', // Front Roof Left
         'jgc21-omlus7Ui', // Lateral Low Left
         'jgc21-TEoi50Ff', // Lateral Full Left
-        'jgc21-3gjMwvQG', // Rear Lateral Low Left
+        'jgc21-m2dDoMup', // Rear Lateral Left (updated)
         'jgc21-Emzc8jJA', // Rear Full Left
-        'jgc21-ezXzTRkj', // Rear Left
         'jgc21-tbF2Ax8v', // Rear
-        'jgc21-TyJPUs8E', // Rear Low
         'jgc21-ZubJ48-U', // Rear Roof
-        'jgc21-J1Ezdyar', // Rear Roof Right
-        'jgc21-3JJvM7_B', // Rear Right
         'jgc21-2_5eHL-F', // Rear Full Right
-        'jgc21-RAVpqaE4', // Rear Lateral Low Right
+        'jgc21-F-PPd4qN', // Rear Lateral Right (updated)
         'jgc21-1j-oTPag', // Lateral Full Right
         'jgc21-XXh8GWm8', // Lateral Low Right
-        'jgc21-s7WDTRmE', // Front Lateral Low Right
+        'jgc21-TRN9Des4', // Front Lateral Right (updated)
         'jgc21-zkvFMHnS', // Front Full Right
-        'jgc21-__JKllz9', // Front Bumper Right
       ],
       cuv: [
         'fesc20-H1dfdfvH', // Front Low
         'fesc20-WMUaKDp1', // Hood
-        'fesc20-LTe3X2bg', // Front Bumper Left
         'fesc20-bD8CBhYZ', // Front Full Left
-        'fesc20-WIQsf_gX', // Front Lateral Low Left
+        'fesc20-hp3Tk53x', // Front Lateral Left (updated)
         'fesc20-6GPUkfYn', // Front Roof Left
         'fesc20-fOt832UV', // Lateral Low Left
         'fesc20-26n47kaO', // Lateral Full Left
-        'fesc20-4Wqx52oU', // Rear Lateral Low Left
+        'fesc20-NLdqASzl', // Rear Lateral Left (updated)
         'fesc20-T4dIGLgy', // Rear Full Left
-        'fesc20-dfICsfSV', // Rear Left
-        'fesc20-UjtbRtJS', // Rear
-        'fesc20-xBFiEy-_', // Rear Low
+        'fesc20-X8k7UFGf', // Rear (updated ?)
         'fesc20-2bLRuhEQ', // Rear Roof
-        'fesc20-DBLpo-52', // Rear Roof Right
-        'fesc20-LZc7p2kK', // Rear Right
         'fesc20-EJ0tXYBW', // Rear Full Right
-        'fesc20-5Ts1UkPT', // Rear Lateral Low Right
+        'fesc20-gg1Xyrpu', // Rear Lateral Right (updated)
         'fesc20-HYz5ziHi', // Lateral Full Right
         'fesc20-P0oSEh8p', // Lateral Low Right
-        'fesc20-dKVLig1i', // Front Lateral Low Right
+        'fesc20-j3H8Z415', // Front Lateral Right (updated)
         'fesc20-0mJeXBDf', // Front Full Right
-        'fesc20-Wzdtgqqz', // Front Bumper Right
       ],
       sedan: [
         'haccord-8YjMcu0D', // Front Low
         'haccord-DUPnw5jj', // Hood
-        'haccord-hsCc_Nct', // Front Bumper Left
         'haccord-huAZfQJA', // Front Full Left
-        'haccord-GQcZz48C', // Front Lateral Low Left
+        'haccord-QKfhXU7o', // Front Lateral Left (updated)
         'haccord-oiY_yPTR', // Front Roof Left
         'haccord-mdZ7optI', // Lateral Low Left
         'haccord-_YnTubBA', // Lateral Full Left
-        'haccord-W-Bn3bU1', // Rear Lateral Low Left
+        'haccord-bSAv3Hrj', // Rear Lateral Left (updated)
         'haccord-k6MiX2MR', // Rear Full Left
-        'haccord-GdWvsqrm', // Rear Left
-        'haccord-t5sLlmfv', // Rear
-        'haccord-6kYUBv_e', // Rear Low
+        'haccord-ps7cWy6K', // Rear (updated ?)
         'haccord-pplCo6sV', // Rear Roof
-        'haccord-d_u3qyQ-', // Rear Roof Right
-        'haccord-Jq65fyD4', // Rear Right
         'haccord-zNA0vVT0', // Rear Full Right
-        'haccord-OXYy5gET', // Rear Lateral Low Right
+        'haccord-5LlCuIfL', // Rear Lateral Right (updated)
         'haccord-PGr3RzzP', // Lateral Full Right
         'haccord-Gtt0JNQl', // Lateral Low Right
-        'haccord-KN23XXkX', // Front Lateral Low Right
+        'haccord-cXSAj2ez', // Front Lateral Right (updated)
         'haccord-KvP-pm8L', // Front Full Right
-        'haccord-Z84erkMb', // Front Bumper Right
       ],
       hatchback: [
         'ffocus18-XlfgjQb9', // Front Low
         'ffocus18-3TiCVAaN', // Hood
-        'ffocus18-43ljK5xC', // Front Bumper Left
         'ffocus18-GgOSpLl6', // Front Full Left
-        'ffocus18-x_1SE7X-', // Front Lateral Low Left
+        'ffocus18-QKfhXU7o', // Front Lateral Left (updated)
         'ffocus18-ZXKOomlv', // Front Roof Left
         'ffocus18-yo9eBDW6', // Lateral Low Left
         'ffocus18-6FX31ty1', // Lateral Full Left
-        'ffocus18-S3kgFOBb', // Rear Lateral Low Left
+        'ffocus18-cPUyM28L', // Rear Lateral Left (updated)
         'ffocus18-IoqRrmlA', // Rear Full Left
-        'ffocus18-9MeSIqp7', // Rear Left
-        'ffocus18-e5netaNs', // Rear
-        'ffocus18-L2UM_68Q', // Rear Low
+        'ffocus18-X2LDjCvr', // Rear (updated ?)
         'ffocus18-p6mBZGcW', // Rear Roof
-        'ffocus18-UBB7HoxF', // Rear Zoomed
-        'ffocus18-iQvwc6wa', // Rear Roof Right
-        'ffocus18-jWOq2CNN', // Rear Right
         'ffocus18-8WjvbtMD', // Rear Full Right
-        'ffocus18-P2jFq1Ea', // Rear Lateral Low Right
+        'ffocus18-U3Bcfc2Q', // Rear Lateral Right (updated)
         'ffocus18-FdsQDaTW', // Lateral Full Right
         'ffocus18-ts3buSD1', // Lateral Low Right
-        'ffocus18-KkeGvT-F', // Front Lateral Low Right
+        'ffocus18-cXSAj2ez', // Front Lateral Right (updated)
         'ffocus18-seOy3jwd', // Front Full Right
-        'ffocus18-lRDlWiwR', // Front Bumper Right
       ],
       van: [
         'ftransit18-wyXf7MTv', // Front Low
         'ftransit18-UNAZWJ-r', // Hood
-        'ftransit18-5SiNC94w', // Front Bumper Left
         'ftransit18-ffghVsNz', // Front Full Left
-        'ftransit18-Y0vPhBVF', // Front Lateral Low Left
+        'ftransit18-xyp1rU0h', // Front Lateral Left (updated)
         'ftransit18-6khKhof0', // Lateral Low Left
         'ftransit18-rsXWUN8X', // Lateral Full Left
-        'ftransit18-3Sbfx_KZ', // Rear Lateral Low Left
+        'ftransit18-eXJDDYmE', // Rear Lateral Left (updated)
         'ftransit18-y_wTc7ED', // Rear Full Left
-        'ftransit18-iu1Vj2Oa', // Rear Left
-        'ftransit18-aA2K898S', // Rear Up Left
         'ftransit18-NwBMLo3Z', // Rear
-        'ftransit18-3dkU10af', // Rear Low
         'ftransit18-cf0e-pcB', // Rear Up Right
-        'ftransit18-FFP5b34o', // Rear Right
         'ftransit18-f2W6pHaR', // Rear Full Right
-        'ftransit18-RJ2D7DNz', // Rear Lateral Low Right
+        'ftransit18-3fnjrISV', // Rear Lateral Right (updated)
         'ftransit18-G24AdP6r', // Lateral Full Right
         'ftransit18-eztNpSRX', // Lateral Low Right
-        'ftransit18-4NMPqEV6', // Front Lateral Low Right
+        'ftransit18-TkXihCj4', // Front Lateral Right (updated)
         'ftransit18--w_ir_yH', // Front Full Right
-        'ftransit18-IIVI_pnX', // Front Bumper Right
       ],
       minivan: [
         'tsienna20-YwrRNr9n', // Front Low
         'tsienna20-HykkFbXf', // Hood
-        'tsienna20-TI4TVvT9', // Front Bumper Left
         'tsienna20-jY3cR5vy', // Front Full Left
-        'tsienna20-65mfPdRD', // Front Lateral Low Left
+        'tsienna20-Ia0SGJ6z', // Front Lateral Left (updated)
         'tsienna20-is1tpnqR', // Front Roof Left
         'tsienna20-1LNxhgCR', // Lateral Low Left
         'tsienna20-4ihRwDkS', // Lateral Full Left
-        'tsienna20-670P2H2V', // Rear Lateral Low Left
+        'tsienna20-U_FqYq-a', // Rear Lateral Left (updated)
         'tsienna20-ZlRQXL-j', // Rear Full Left
-        'tsienna20-1n_z8bYy', // Rear Left
         'tsienna20-qA3aAUUq', // Rear
         'tsienna20-OxFWgEPk', // Rear Roof
-        'tsienna20-V2jVo2wV', // Rear Roof Right
-        'tsienna20--a2RmRcs', // Rear Right
         'tsienna20-wlbzVAxz', // Rear Full Right
-        'tsienna20-SebsoqJm', // Rear Lateral Low Right
+        'tsienna20-u57qDaN_', // Rear Lateral Right (updated)
         'tsienna20-uIHdpQ9y', // Lateral Full Right
         'tsienna20-Rw0Gtt7O', // Lateral Low Right
-        'tsienna20-cI285Gon', // Front Lateral Low Right
+        'tsienna20-TibS83Qr', // Front Lateral Right (updated)
         'tsienna20-MPCqHzeH', // Front Full Right
-        'tsienna20-KHB_Cd9k', // Front Bumper Right
       ],
       pickup: [
         'ff150-zXbg0l3z', // Front Low
         'ff150-3he9UOwy', // Hood
-        'ff150-KgHVkQBW', // Front Bumper Left
         'ff150-7UI3m9B3', // Front Full Left
-        'ff150-FqbrFVr2', // Front Lateral Low Left
+        'ff150-g_xBOOS2', // Front Lateral Left (updated)
         'ff150-Ttsc7q6V', // Front Roof Left
         'ff150-vwE3yqdh', // Lateral Low Left
         'ff150-GOx2s_9L', // Lateral Full Left
-        'ff150-ouGGtRnf', // Rear Lateral Low Left
+        'ff150-V-xzfWsx', // Rear Lateral Left (updated)
         'ff150-phbX7Bef', // Rear Full Left
-        'ff150--xPZZd83', // Rear Left
-        'ff150-k4kh7Vra', // Rear
-        'ff150-3dkU10af', // Rear Low
-        'ff150-t3KBMPeD', // Rear Right
+        'ff150-nF_oFvhI', // Rear (updated ?)
         'ff150-tT8sqplK', // Rear Full Right
-        'ff150-3rM9XB0Z', // Rear Lateral Low Right
+        'ff150-eOjyMInj', // Rear Lateral Right (updated)
         'ff150-_UIadfVL', // Lateral Full Right
         'ff150-18YVVN-G', // Lateral Low Right
-        'ff150-7nvlys8r', // Front Lateral Low Right
+        'ff150-BmXfb-qD', // Front Lateral Right (updated)
         'ff150-3lKZIoxw', // Front Full Right
-        'ff150-gFp78fQO', // Front Bumper Right
       ],
     },
     taskName: 'damage_detection',
