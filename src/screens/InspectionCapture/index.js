@@ -19,42 +19,6 @@ import useSnackbar from '../../hooks/useSnackbar';
 // import { setTag } from '../../config/sentryPlatform';
 import mapTasksToSights from './mapTasksToSights';
 
-const mapTasksToSights = [{
-  id: 'sLu0CfOt',
-  task: {
-    name: monk.types.TaskName.IMAGES_OCR,
-    image_details: { image_type: monk.types.ImageOcrType.VIN },
-  },
-}, {
-  id: 'xQKQ0bXS',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_LEFT },
-  },
-  payload: {},
-}, {
-  id: '8_W2PO8L',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_LEFT },
-  },
-  payload: {},
-}, {
-  id: 'rN39Y3HR',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_RIGHT },
-  },
-  payload: {},
-}, {
-  id: 'PuIw17h0',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  },
-  payload: {},
-}];
-
 const enableComplianceCheck = true;
 
 export default function InspectionCapture() {
