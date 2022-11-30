@@ -15,6 +15,7 @@ import Layout from '../Layout';
 import Overlay from '../Overlay';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
+import zoomedSights from './zoomedSights';
 
 import {
   useCheckComplianceAsync,
@@ -328,6 +329,7 @@ const Capture = forwardRef(({
           <Overlay
             svg={overlay}
             style={[styles.overlay, overlaySize]}
+            scale={zoomedSights[sights.state.current.id]}
           />
           <SightInfoPills metadata={sights.state.current.metadata} />
         </>
