@@ -124,7 +124,6 @@ const options = [
         'ftransit18-eXJDDYmE', // Rear Lateral Left
         'ftransit18-y_wTc7ED', // Rear Full Left
         'ftransit18-NwBMLo3Z', // Rear
-        'ftransit18-cf0e-pcB', // Rear Up Right
         'ftransit18-f2W6pHaR', // Rear Full Right
         'ftransit18-3fnjrISV', // Rear Lateral Right
         'ftransit18-G24AdP6r', // Lateral Full Right
