@@ -6,6 +6,7 @@ const SVG_DIR = join(__dirname, '..', 'assets', 'overlays');
 const ERROR_LOG = join(__dirname, 'errors.json');
 const SVG_DIMENSION_REGEXP = /<svg[^>]+viewBox="(\d+\.?\d*) *,? *(\d+\.?\d*) *,? *(\d+\.?\d*) *,? *(\d+\.?\d*)"[^>]*>/;
 const SVG_ROOT_GROUP_REGEXP = /<g([^>]*)>/ig;
+const SVG_ROOT_PATH_REGEXP = /<path([^>]*)\/>/ig;
 
 const MirrorDirection = {
   HORIZONTAL: 'horizontal',
@@ -44,7 +45,10 @@ function getMirrorTransform(direction, dimensions) {
 function mirror(direction, filePath, svg) {
   const dimensions = getSvgDimensions(filePath, svg);
   const transform = getMirrorTransform(direction, dimensions);
-  return svg.replace(SVG_ROOT_GROUP_REGEXP, `<g\$1 ${transform}>`);
+  if (svg.includes('<g')) {
+    return svg.replace(SVG_ROOT_GROUP_REGEXP, `<g\$1 ${transform}>`);
+  }
+  return svg.replace(SVG_ROOT_PATH_REGEXP, `<path\$1 ${transform}\/>`);
 }
 
 function icon(results) {
