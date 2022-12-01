@@ -3,6 +3,14 @@
  * and scoped locally.
  */
 
+.filtersBand {
+    position: fixed;
+    top: unset;
+    right: 16px;
+    padding-top: 16px;
+    background-color: #121212;
+}
+
 .heroBanner {
     padding: 4rem 0;
     text-align: center;
