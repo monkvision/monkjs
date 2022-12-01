@@ -606,7 +606,7 @@
   "VmFL3v2A": {
     "id": "VmFL3v2A",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -627,7 +627,7 @@
   "1-gwCM0m": {
     "id": "1-gwCM0m",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -648,7 +648,7 @@
   "T24v9XS8": {
     "id": "T24v9XS8",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -669,7 +669,7 @@
   "GOQq1-nN": {
     "id": "GOQq1-nN",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -690,7 +690,7 @@
   "D4r9OKHt": {
     "id": "D4r9OKHt",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -711,7 +711,7 @@
   "OOJDJ7go": {
     "id": "OOJDJ7go",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -1103,7 +1103,7 @@
   "2RFF3Uf8": {
     "id": "2RFF3Uf8",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -1124,7 +1124,7 @@
   "TDLex8-D": {
     "id": "TDLex8-D",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -1145,7 +1145,7 @@
   "6MR5C13s": {
     "id": "6MR5C13s",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -1166,7 +1166,7 @@
   "QJ_yOnBl": {
     "id": "QJ_yOnBl",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -1187,7 +1187,7 @@
   "2wVqenwP": {
     "id": "2wVqenwP",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -1208,7 +1208,7 @@
   "enHQTFae": {
     "id": "enHQTFae",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -2462,7 +2462,7 @@
   "fesc20-hp3Tk53x": {
     "id": "fesc20-hp3Tk53x",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -2497,7 +2497,7 @@
   "fesc20-NLdqASzl": {
     "id": "fesc20-NLdqASzl",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -2532,7 +2532,7 @@
   "fesc20-j3H8Z415": {
     "id": "fesc20-j3H8Z415",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -2567,7 +2567,7 @@
   "fesc20-gg1Xyrpu": {
     "id": "fesc20-gg1Xyrpu",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -3451,7 +3451,7 @@
   "ff150-g_xBOOS2": {
     "id": "ff150-g_xBOOS2",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -3486,7 +3486,7 @@
   "ff150-V-xzfWsx": {
     "id": "ff150-V-xzfWsx",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -3521,7 +3521,7 @@
   "ff150-eOjyMInj": {
     "id": "ff150-eOjyMInj",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -3556,7 +3556,7 @@
   "ff150-BmXfb-qD": {
     "id": "ff150-BmXfb-qD",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -4494,7 +4494,7 @@
   "ffocus18-QKfhXU7o": {
     "id": "ffocus18-QKfhXU7o",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -4529,7 +4529,7 @@
   "ffocus18-cPUyM28L": {
     "id": "ffocus18-cPUyM28L",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -4564,7 +4564,7 @@
   "ffocus18-U3Bcfc2Q": {
     "id": "ffocus18-U3Bcfc2Q",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -4599,7 +4599,7 @@
   "ffocus18-cXSAj2ez": {
     "id": "ffocus18-cXSAj2ez",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -5456,7 +5456,7 @@
   "ftransit18-xyp1rU0h": {
     "id": "ftransit18-xyp1rU0h",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -5491,7 +5491,7 @@
   "ftransit18-eXJDDYmE": {
     "id": "ftransit18-eXJDDYmE",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -5526,7 +5526,7 @@
   "ftransit18-3fnjrISV": {
     "id": "ftransit18-3fnjrISV",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -5561,7 +5561,7 @@
   "ftransit18-TkXihCj4": {
     "id": "ftransit18-TkXihCj4",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -6501,7 +6501,7 @@
   "haccord-QKfhXU7o": {
     "id": "haccord-QKfhXU7o",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -6536,7 +6536,7 @@
   "haccord-cXSAj2ez": {
     "id": "haccord-cXSAj2ez",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -6571,7 +6571,7 @@
   "haccord-bSAv3Hrj": {
     "id": "haccord-bSAv3Hrj",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -6606,7 +6606,7 @@
   "haccord-5LlCuIfL": {
     "id": "haccord-5LlCuIfL",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -7517,7 +7517,7 @@
   "jgc21-RE3li6rE": {
     "id": "jgc21-RE3li6rE",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -7552,7 +7552,7 @@
   "jgc21-F-PPd4qN": {
     "id": "jgc21-F-PPd4qN",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -7587,7 +7587,7 @@
   "jgc21-TRN9Des4": {
     "id": "jgc21-TRN9Des4",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
@@ -7622,7 +7622,7 @@
   "jgc21-m2dDoMup": {
     "id": "jgc21-m2dDoMup",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -8478,7 +8478,7 @@
   "tsienna20-Ia0SGJ6z": {
     "id": "tsienna20-Ia0SGJ6z",
     "label": {
-      "en": "Front Door Left",
+      "en": "Front Lateral Left",
       "fr": "Portière avant gauche"
     },
     "category": "exterior",
@@ -8513,7 +8513,7 @@
   "tsienna20-U_FqYq-a": {
     "id": "tsienna20-U_FqYq-a",
     "label": {
-      "en": "Rear Door Left",
+      "en": "Rear Lateral Left",
       "fr": "Portière arrière gauche"
     },
     "category": "exterior",
@@ -8548,7 +8548,7 @@
   "tsienna20-u57qDaN_": {
     "id": "tsienna20-u57qDaN_",
     "label": {
-      "en": "Rear Door Right",
+      "en": "Rear Lateral Right",
       "fr": "Portière arrière droite"
     },
     "category": "exterior",
@@ -8583,7 +8583,7 @@
   "tsienna20-TibS83Qr": {
     "id": "tsienna20-TibS83Qr",
     "label": {
-      "en": "Front Door Right",
+      "en": "Front Lateral Right",
       "fr": "Portière avant droite"
     },
     "category": "exterior",
