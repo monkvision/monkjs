@@ -13,11 +13,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    // transform: [{ scale: 1 }],
   },
 });
 
-export default function Overlay({ label, svg, scale, ...passThoughProps }) {
+export default function Overlay({ label, svg, transform, ...passThoughProps }) {
   const base64 = useMemo(() => btoa(unescape(encodeURIComponent(svg))), [svg]);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function Overlay({ label, svg, scale, ...passThoughProps }) {
   }, [label]);
 
   return (
-    <View style={[styles.container, { transform: [{ scale }] }]}>
+    <View style={[styles.container, transform ? { transform } : undefined]}>
       <Image
         accessibilityLabel={`Overlay wow ${label}`}
         source={{ uri: `data:image/svg+xml;base64,${base64}` }}
@@ -39,11 +38,11 @@ export default function Overlay({ label, svg, scale, ...passThoughProps }) {
 
 Overlay.propTypes = {
   label: PropTypes.string,
-  scale: PropTypes.number,
   svg: PropTypes.string.isRequired,
+  transform: PropTypes.object,
 };
 
 Overlay.defaultProps = {
   label: '',
-  scale: 1,
+  transform: undefined,
 };
