@@ -7,7 +7,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container, CssBaseline } from '@mui/material';
 
 import sightsData from '@monkvision/sights/dist';
-// import sightsData from '../../../../packages/sights';
 import SightCard from './SightCard';
 import FiltersForm from './FiltersForm';
 import styles from '../styles.module.css';
