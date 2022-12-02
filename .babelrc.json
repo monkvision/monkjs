@@ -17,6 +17,7 @@
         "@monkvision/camera": "./packages/camera",
         "@monkvision/corejs": "./packages/corejs",
         "@monkvision/sights": "./packages/sights",
+        "@monkvision/sights/dist": "./packages/sights/dist",
         "@monkvision/toolkit": "./packages/toolkit",
         "@monkvision/visualization": "./packages/visualization"
       }
