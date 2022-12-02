@@ -16,6 +16,7 @@ function Sights() {
   const context = useDocusaurusContext();
   const { siteConfig: { customFields = {}, tagline } = {} } = context;
   const [sights, setSights] = useState(Object.values(sightsData));
+  const [categoryOptions, setCategoryOptions] = useState([]);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
 
@@ -35,6 +36,12 @@ function Sights() {
     setSights(filteredSights);
   }, [search, category]);
 
+  useEffect(() => {
+    const categoryArr = sights.map((sight) => sight.category);
+    const categories = categoryArr.filter((item, index) => categoryArr.indexOf(item) === index);
+    setCategoryOptions(categories);
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Layout title={tagline} description={customFields.description}>
@@ -50,7 +57,11 @@ function Sights() {
           maxWidth={false}
           disableGutters
         >
-          <FiltersForm onCategoryChange={setCategory} onSearchChange={setSearch} />
+          <FiltersForm
+            categoryOptions={categoryOptions}
+            onCategoryChange={setCategory}
+            onSearchChange={setSearch}
+          />
         </Container>
         <Container
           sx={{

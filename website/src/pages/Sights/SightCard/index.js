@@ -45,7 +45,7 @@ export default function SightCard({ id, label, category, vehicleType, overlay })
       </Box>
     </Card>
   );
-};
+}
 
 SightCard.propTypes = {
   category: propTypes.string,

@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, MenuItem, Select } from '@mui/material';
 import noop from '@docusaurus/core/lib/client/exports/Noop';
 
-export default function FiltersForm({ onCategoryChange, onSearchChange }) {
+export default function FiltersForm({ categoryOptions, onCategoryChange, onSearchChange }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
 
@@ -27,14 +27,22 @@ export default function FiltersForm({ onCategoryChange, onSearchChange }) {
       <FormControl sx={{ minWidth: 120 }} size="small">
         <InputLabel>Category</InputLabel>
         <Select
+          label="Category"
+          autoWidth={false}
           value={category}
           onChange={handleCategory}
-          autoWidth={false}
-          label="Category"
+          sx={{ textTransform: 'capitalize' }}
         >
           <MenuItem value="">None</MenuItem>
-          <MenuItem value="interior">Interior</MenuItem>
-          <MenuItem value="exterior">Exterior</MenuItem>
+          {categoryOptions.map((option) => (
+            <MenuItem
+              key={option}
+              value={option}
+              sx={{ textTransform: 'capitalize' }}
+            >
+              {option}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <FormControl sx={{ marginLeft: 1, minWidth: 120 }} variant="outlined">
@@ -47,17 +55,6 @@ export default function FiltersForm({ onCategoryChange, onSearchChange }) {
           value={search}
           size="small"
           onChange={handleSearch}
-          endAdornment={
-            (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => {}}
-                  onMouseDown={() => {}}
-                  edge="end"
-                />
-              </InputAdornment>
-            )
-          }
         />
       </FormControl>
     </>
@@ -65,11 +62,13 @@ export default function FiltersForm({ onCategoryChange, onSearchChange }) {
 }
 
 FiltersForm.propTypes = {
+  categoryOptions: propTypes.arrayOf(propTypes.string),
   onCategoryChange: propTypes.func,
   onSearchChange: propTypes.func,
 };
 
 FiltersForm.defaultProps = {
+  categoryOptions: [],
   onCategoryChange: noop,
   onSearchChange: noop,
 };
