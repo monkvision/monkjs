@@ -46,7 +46,6 @@ function SightCard({ id, label, category, vehicleType, overlay }) {
             justifyContent: 'space-between',
           }}
         >
-          {/* eslint-disable-next-line react/prop-types */}
           {label.en ? label.en.charAt(0).toUpperCase() + label.en.slice(1) : 'No label'}
           <Chip label={id} />
         </Typography>
@@ -88,10 +87,10 @@ function Sights() {
 
   useEffect(() => {
     const filteredSights = Object.values(sightsData)
-      .filter((sight) => (category === '' || category === sight.category))
+      .filter((sight) => (category === '' || category === sight?.category))
       .filter((sight) => {
         const value = JSON.stringify(sight).toLocaleLowerCase();
-        return typeof value === 'string' && value.includes(search.toLocaleLowerCase());
+        return value.includes(search.toLocaleLowerCase());
       });
     setSights(filteredSights);
   }, [search, category]);

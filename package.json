@@ -6,7 +6,8 @@
   "private": true,
   "main": "src/main.js",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "website"
   ],
   "jest": {
     "setupFiles": [
