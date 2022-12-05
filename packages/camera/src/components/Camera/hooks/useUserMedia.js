@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import useStreamGuard from './useStreamGuard';
 
 /**
  * `useUserMedia` is a hook that takes an objects `constraints`, and returns an object
@@ -7,6 +8,13 @@ import { useState, useEffect } from 'react';
 function useUserMedia(constraints = { audio: false, video: false }) {
   const [stream, setStream] = useState(null);
   const [error, setError] = useState(null);
+
+  useStreamGuard(stream, useCallback(() => {
+    console.warn('@monkvision/camera\'s stream has been unexpectedly ended. '
+      + 'This can happen if mediaDevices.getUserMedia was called after the camera component was initialized. '
+      + 'Restarting the stream right now...');
+    setStream(null);
+  }, [setStream]));
 
   useEffect(() => {
     if (stream) {

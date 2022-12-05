@@ -111,6 +111,16 @@ export default function Inspector({ inspectionId }) {
 }
 ```
 
+# Calling `mediaDevices.getUserMedia()`
+
+On Safari, calling `mediaDevices.getUserMedia()` to get a video stream causes previous streams created this way to be
+closed, and since this package gets its camera preview from this method, if this `mediaDevices.getUserMedia()` is called
+another time *after* Monk's stream has been created, the camera preview will not be able to be rendered.
+
+Monk's camera package contains a safeguard that should restart the stream if it has been closed previously, but this
+behaviour is to be avoided if possible. This is why we recommended avoiding calling `mediaDevices.getUserMedia()`
+*after* the Camera component is rendered.
+
 # Using custom capture taking
 
 Here is an example on how to add a custom picture taking component to bypass the normal capture workflow and upload the
