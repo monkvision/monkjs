@@ -81,7 +81,7 @@ export default function useSettings({ initialState = initialSettingsState, camer
     }
 
     return newSettings;
-  }, [camera, initialState]);
+  }, [camera]);
 
   useEffect(() => {
     (async () => {
