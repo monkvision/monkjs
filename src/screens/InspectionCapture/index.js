@@ -215,6 +215,11 @@ export default function InspectionCapture() {
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
+        onCameraPermissionSuccess={(aaa) => console.log('### SUCCESS', aaa)}
+        onCameraPermissionError={(aaa) => {
+          console.log('### ERROR :', aaa);
+          console.log('### ERROR name :', aaa.name);
+        }}
         // Sentry={Sentry}
       />
       <Notice />

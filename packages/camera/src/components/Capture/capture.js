@@ -87,6 +87,8 @@ const Capture = forwardRef(({
   onSightsChange,
   onUploadsChange,
   onCaptureTourFinish,
+  onCameraPermissionError,
+  onCameraPermissionSuccess,
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onPictureUploaded,
@@ -388,6 +390,8 @@ const Capture = forwardRef(({
             compressionOptions={compressionOptions}
             resolutionOptions={resolutionOptions}
             isDisplayed={isCameraDisplayed}
+            onCameraPermissionError={onCameraPermissionError}
+            onCameraPermissionSuccess={onCameraPermissionSuccess}
             Sentry={Sentry}
           >
             {children}
@@ -488,6 +492,8 @@ Capture.propTypes = {
     retakeMinTry: PropTypes.number,
   }),
   offline: PropTypes.objectOf(PropTypes.any),
+  onCameraPermissionError: PropTypes.func,
+  onCameraPermissionSuccess: PropTypes.func,
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
@@ -590,6 +596,8 @@ Capture.defaultProps = {
   navigationOptions: defaultNavigationOptions,
   offline: null,
   onPictureUploaded: () => {},
+  onCameraPermissionError: () => {},
+  onCameraPermissionSuccess: () => {},
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},
