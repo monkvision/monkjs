@@ -25,20 +25,27 @@ const imageFilenameExtension = imageType.substring('image/'.length);
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
  *  and an object `options`, containing getUserMedia constraints and `onCameraReady`.
  */
-export default function useCamera(
-  { width, height },
-  options,
+export default function useCamera({
+  resolution,
   enableCompression,
-  Sentry,
-  onWarningMessage,
   compressionOptions,
-) {
-  const { video, onCameraReady } = options;
+  video,
+  onCameraReady,
+  onCameraPermissionError,
+  onCameraPermissionSuccess,
+  onWarningMessage,
+  Sentry,
+}) {
+  const { width, height } = resolution;
   const { Span } = useSentry(Sentry);
   const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
-  const { stream, error } = useUserMedia({ video: videoConstraints });
+  const { stream, error } = useUserMedia({
+    constraints: { video: videoConstraints },
+    onCameraPermissionError,
+    onCameraPermissionSuccess,
+  });
 
   const videoRef = useRef(null);
 

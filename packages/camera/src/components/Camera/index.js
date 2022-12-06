@@ -31,6 +31,8 @@ function Camera({
   onWarningMessage,
   resolutionOptions,
   compressionOptions,
+  onCameraPermissionError,
+  onCameraPermissionSuccess,
   isDisplayed,
   Sentry,
 }, ref) {
@@ -51,10 +53,17 @@ function Camera({
     pausePreview,
     stopStream,
     stream,
-  } = useCamera(resolution, {
-    onCameraReady,
+  } = useCamera({
+    resolution,
+    enableCompression: settings.state.compression,
+    compressionOptions,
     video: { facingMode, width: resolution.width, height: resolution.height },
-  }, settings.state.compression, Sentry, onWarningMessage, compressionOptions);
+    onCameraReady,
+    onCameraPermissionError,
+    onCameraPermissionSuccess,
+    onWarningMessage,
+    Sentry,
+  });
 
   const { Span } = useSentry(Sentry);
 
@@ -111,6 +120,8 @@ Camera.propTypes = {
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   enableQHDWhenSupported: PropTypes.bool,
   isDisplayed: PropTypes.bool,
+  onCameraPermissionError: PropTypes.func,
+  onCameraPermissionSuccess: PropTypes.func,
   onCameraReady: PropTypes.func.isRequired,
   onWarningMessage: PropTypes.func,
   resolutionOptions: PropTypes.shape({
@@ -131,6 +142,8 @@ Camera.defaultProps = {
   containerStyle: null,
   enableQHDWhenSupported: true,
   isDisplayed: true,
+  onCameraPermissionError: () => {},
+  onCameraPermissionSuccess: () => {},
   onWarningMessage: () => {},
   resolutionOptions: undefined,
   Sentry: null,

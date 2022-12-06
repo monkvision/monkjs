@@ -9,7 +9,7 @@ const STREAM_GUARD_ACTIONS = {
 };
 
 /**
- * In Safari, calling `navigator.mediaDevices.getUserMedia()` closes previous streams created
+ * In iOS, calling `navigator.mediaDevices.getUserMedia()` closes previous streams created
  * by this method. Because of this, if someone using this package calls this method *after*
  * we created our stream, our stream will be cut off. To prevent this, we added a warning
  * about this behaviour in our documentation, and we created this hook, that periodically
