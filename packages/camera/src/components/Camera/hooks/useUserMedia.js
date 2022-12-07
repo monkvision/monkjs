@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useStreamGuard from './useStreamGuard';
 
 /**
@@ -7,17 +7,12 @@ import useStreamGuard from './useStreamGuard';
  */
 function useUserMedia({
   constraints = { audio: false, video: false },
-  onCameraPermissionError,
   onCameraPermissionSuccess,
+  onCameraPermissionError,
 }) {
 // function useUserMedia(constraints = { audio: false, video: false }) {
   const [stream, setStream] = useState(null);
   const [error, setError] = useState(null);
-
-  const handleCameraPermissionError = useMemo(() => (typeof onCameraPermissionError === 'function'
-    ? onCameraPermissionError : () => {}), [onCameraPermissionError]);
-  const handleCameraPermissionSuccess = useMemo(() => (typeof onCameraPermissionSuccess === 'function'
-    ? onCameraPermissionSuccess : () => {}), [onCameraPermissionSuccess]);
 
   useStreamGuard(stream, useCallback(() => {
     console.warn('@monkvision/camera\'s stream has been unexpectedly ended. '
@@ -36,10 +31,15 @@ function useUserMedia({
 
     const getUserMedia = async () => {
       try {
-        const str = await navigator.mediaDevices.getUserMedia(constraints)
-          .then(handleCameraPermissionSuccess, handleCameraPermissionError);
+        const str = await navigator.mediaDevices.getUserMedia(constraints);
+        if (typeof onCameraPermissionSuccess === 'function') {
+          onCameraPermissionSuccess(str);
+        }
         if (!didCancel) { setStream(str); }
       } catch (err) {
+        if (typeof onCameraPermissionError === 'function') {
+          onCameraPermissionError(err);
+        }
         if (!didCancel) { setError(err); }
       }
     };
