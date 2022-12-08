@@ -50,2046 +50,6 @@
     "vehicleType": "default",
     "visiblePars": []
   },
-  "xsuH1g5T": {
-    "id": "xsuH1g5T",
-    "label": {
-      "en": "Front Fender Left",
-      "fr": "Aile avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender left x67 z45 1.5m",
-      "location_xyz": [
-        1.7549424171447754,
-        -2.4460859298706055,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        45.0
-      ]
-    },
-    "template_image": "xsuH1g5T.opengl.png",
-    "mirror_sight": "jgB-cu5G"
-  },
-  "IzMR_OzQ": {
-    "id": "IzMR_OzQ",
-    "label": {
-      "en": "Front Fender Left",
-      "fr": "Aile avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender left x65.5 z40 1.5m",
-      "location_xyz": [
-        1.4488260746002197,
-        -2.5688226222991943,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.5,
-        0.0,
-        40.0
-      ]
-    },
-    "template_image": "IzMR_OzQ.opengl.png"
-  },
-  "AEc967h1": {
-    "id": "AEc967h1",
-    "label": {
-      "en": "Doors Left",
-      "fr": "Portières gauches"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "doors left x70 z70 1.5m",
-      "location_xyz": [
-        2.5270965099334717,
-        -0.4450318217277527,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        70.0,
-        0.0,
-        70.0
-      ]
-    },
-    "template_image": "AEc967h1.opengl.png"
-  },
-  "3vKXafwc": {
-    "id": "3vKXafwc",
-    "label": {
-      "en": "Rear Fender Left",
-      "fr": "Aile arrière gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear fender left x66 z130 1.5m",
-      "location_xyz": [
-        1.767639398574829,
-        2.285799741744995,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        130.0
-      ]
-    },
-    "template_image": "3vKXafwc.opengl.png",
-    "mirror_sight": "Cce1KCd3"
-  },
-  "3a3OheoD": {
-    "id": "3a3OheoD",
-    "label": {
-      "en": "Rear Fender Left",
-      "fr": "Aile arrière gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear fender left x65 z150 1.5m",
-      "location_xyz": [
-        0.9878284335136414,
-        2.840301752090454,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.0,
-        0.0,
-        150.0
-      ]
-    },
-    "template_image": "3a3OheoD.opengl.png"
-  },
-  "ClEZSucK": {
-    "id": "ClEZSucK",
-    "label": {
-      "en": "Rear Lateral Left",
-      "fr": "Arrière latéral gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear lateral left x80 z95 0.9m",
-      "location_xyz": [
-        2.140855073928833,
-        1.229339838027954,
-        0.8999999761581421
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        95.0
-      ]
-    },
-    "template_image": "ClEZSucK.opengl.png",
-    "mirror_sight": "QqBpHiVP"
-  },
-  "zjAIjUgU": {
-    "id": "zjAIjUgU",
-    "label": {
-      "en": "Front Lateral Left",
-      "fr": "Avant latéral gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front lateral left x79 z75 0.9m",
-      "location_xyz": [
-        2.171881675720215,
-        -1.1752331256866455,
-        0.8999999761581421
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        79.0,
-        0.0,
-        75.0
-      ]
-    },
-    "template_image": "zjAIjUgU.opengl.png",
-    "mirror_sight": "0U14gFyk"
-  },
-  "vLcBGkeh": {
-    "id": "vLcBGkeh",
-    "label": {
-      "en": "Front",
-      "fr": "Avant"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front x66 1.5m",
-      "location_xyz": [
-        0,
-        -3.0999999046325684,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        0.0
-      ]
-    },
-    "template_image": "vLcBGkeh.opengl.png"
-  },
-  "PLh198NC": {
-    "id": "PLh198NC",
-    "label": {
-      "en": "Front Fender Left",
-      "fr": "Aile avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender left x66 z30 1.5m",
-      "location_xyz": [
-        1.0768440961837769,
-        -2.856078624725342,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        30.0
-      ]
-    },
-    "template_image": "PLh198NC.opengl.png",
-    "mirror_sight": "EqLDVYj3"
-  },
-  "LE9h1xh0": {
-    "id": "LE9h1xh0",
-    "label": {
-      "en": "Front Fender Left",
-      "fr": "Aile avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender left x65 z57 1.5m",
-      "location_xyz": [
-        1.9203107357025146,
-        -2.0104517936706543,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.0,
-        0.0,
-        57.0
-      ]
-    },
-    "template_image": "LE9h1xh0.opengl.png",
-    "mirror_sight": "jqJOb6Ov"
-  },
-  "IVcF1dOP": {
-    "id": "IVcF1dOP",
-    "label": {
-      "en": "Doors Left",
-      "fr": "Portières gauches"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "doors left x67 z60 1.5m",
-      "location_xyz": [
-        2.112504243850708,
-        -0.7950102090835571,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        60.0
-      ]
-    },
-    "template_image": "IVcF1dOP.opengl.png",
-    "mirror_sight": "Pzgw0WGe"
-  },
-  "GvCtVnoD": {
-    "id": "GvCtVnoD",
-    "label": {
-      "en": "Rear Lateral Left",
-      "fr": "Arrière latéral gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear lateral left x66 z95 1.5m",
-      "location_xyz": [
-        2.172027349472046,
-        1.09205961227417,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        95.0
-      ]
-    },
-    "template_image": "GvCtVnoD.opengl.png",
-    "mirror_sight": "AoO-nOoM"
-  },
-  "GHbWVnMB": {
-    "id": "GHbWVnMB",
-    "label": {
-      "en": "Rear Fender Left",
-      "fr": "Aile arrière gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear fender left x65 z140 1.5m",
-      "location_xyz": [
-        1.399125337600708,
-        2.5577476024627686,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.0,
-        0.0,
-        140.0
-      ]
-    },
-    "template_image": "GHbWVnMB.opengl.png",
-    "mirror_sight": "j3E2UHFc"
-  },
-  "XyeyZlaU": {
-    "id": "XyeyZlaU",
-    "label": {
-      "en": "Rear",
-      "fr": "Arrière"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear x66 z180 1.5m",
-      "location_xyz": [
-        0,
-        3.0399999618530273,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        180.0
-      ]
-    },
-    "template_image": "XyeyZlaU.opengl.png"
-  },
-  "oIk8RQ3w": {
-    "id": "oIk8RQ3w",
-    "label": {
-      "en": "Windshield",
-      "fr": "Pare-brise"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "windshield x58 1.9m",
-      "location_xyz": [
-        0,
-        -1.6620965003967285,
-        1.899999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        58.0,
-        0.0,
-        0.0
-      ]
-    },
-    "template_image": "oIk8RQ3w.opengl.png"
-  },
-  "m1rhrZ88": {
-    "id": "m1rhrZ88",
-    "label": {
-      "en": "Front Roof Left",
-      "fr": "Toit (avant gauche)"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
-      "location_xyz": [
-        1.0691311359405518,
-        -0.39549964666366577,
-        1.7999999523162842
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        75.0,
-        0.0,
-        53.0
-      ]
-    },
-    "template_image": "m1rhrZ88.opengl.png"
-  },
-  "36qmcrgr": {
-    "id": "36qmcrgr",
-    "label": {
-      "en": "Rear Roof Right",
-      "fr": "Toit (arrière droit)"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
-      "location_xyz": [
-        -0.8915903568267822,
-        1.6373134851455688,
-        1.7999999523162842
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        75.0,
-        0.0,
-        226.0
-      ]
-    },
-    "template_image": "36qmcrgr.opengl.png"
-  },
-  "eOkUJUBk": {
-    "id": "eOkUJUBk",
-    "label": {
-      "en": "Rocker Panel Left",
-      "fr": "Bas de caisse gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "frame rail left x115 z41 0.1m",
-      "location_xyz": [
-        1.0736500024795532,
-        -1.0054600238800049,
-        0.10000000894069672
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        115.0,
-        0.0,
-        41.0
-      ]
-    },
-    "template_image": "eOkUJUBk.opengl.png",
-    "mirror_sight": "WWZsroCu"
-  },
-  "RMeCZRbd": {
-    "id": "RMeCZRbd",
-    "label": {
-      "en": "Hood / Windshield",
-      "fr": "Capot / pare-brise"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "hood windshield x60 1.7m",
-      "location_xyz": [
-        0,
-        -2.6243207454681396,
-        1.7000000476837158
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        60.0,
-        -0.0,
-        0.0
-      ]
-    },
-    "template_image": "RMeCZRbd.opengl.png"
-  },
-  "dQOmxo13": {
-    "id": "dQOmxo13",
-    "label": {
-      "en": "Rocker Panel Left (Rear)",
-      "fr": "Bas de caisse gauche (arrière)"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "frame rail rear left x115 z139 0.1m",
-      "location_xyz": [
-        1.11472487449646,
-        0.963828444480896,
-        0.10000000894069672
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        115.0,
-        0.0,
-        139.0
-      ]
-    },
-    "template_image": "dQOmxo13.opengl.png",
-    "mirror_sight": "eWZsEThb"
-  },
-  "xfbBpq3Q": {
-    "id": "xfbBpq3Q",
-    "label": {
-      "en": "Front Bumper Side Left",
-      "fr": "Pare-chocs avant côté gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front bumper side left x73 z45 0.9m",
-      "location_xyz": [
-        1.1992995738983154,
-        -2.4210193157196045,
-        0.8999999761581421
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        73.0,
-        0.0,
-        45.0
-      ]
-    },
-    "template_image": "xfbBpq3Q.opengl.png",
-    "mirror_sight": "CELBsvYD"
-  },
-  "j8YHvnDP": {
-    "id": "j8YHvnDP",
-    "label": {
-      "en": "Rear Bumper Side Left",
-      "fr": "Pare-chocs arrière côté gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear bumper side left x74 z140 1m",
-      "location_xyz": [
-        1.1293162107467651,
-        2.5584888458251953,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        74.0,
-        0.0,
-        140.0
-      ]
-    },
-    "template_image": "j8YHvnDP.opengl.png",
-    "mirror_sight": "LDRoAPnk"
-  },
-  "8_W2PO8L": {
-    "id": "8_W2PO8L",
-    "label": {
-      "en": "Rear Wheel Left",
-      "fr": "Roue arrière gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear wheel left x85 z90 0.6m",
-      "location_xyz": [
-        1.8515325784683228,
-        1.2667466402053833,
-        0.6000000238418579
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        85.0,
-        0.0,
-        90.0
-      ]
-    },
-    "template_image": "8_W2PO8L.opengl.png",
-    "mirror_sight": "rN39Y3HR"
-  },
-  "xQKQ0bXS": {
-    "id": "xQKQ0bXS",
-    "label": {
-      "en": "Front Wheel Left",
-      "fr": "Roue avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front wheel left x85 z90 0.6m",
-      "location_xyz": [
-        1.857212781906128,
-        -1.1906272172927856,
-        0.6000000238418579
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        85.0,
-        0.0,
-        90.0
-      ]
-    },
-    "template_image": "xQKQ0bXS.opengl.png",
-    "mirror_sight": "PuIw17h0"
-  },
-  "UHZkpCuK": {
-    "id": "UHZkpCuK",
-    "label": {
-      "en": "Rocker Panel Left",
-      "fr": "Bas de caisse gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rocker panel left x95 z90 0.6m",
-      "location_xyz": [
-        2.345973014831543,
-        0,
-        0.6000000238418579
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        95.0,
-        0.0,
-        90.0
-      ]
-    },
-    "template_image": "UHZkpCuK.opengl.png",
-    "mirror_sight": "B5s1CWT-"
-  },
-  "VmFL3v2A": {
-    "id": "VmFL3v2A",
-    "label": {
-      "en": "Front Door Left",
-      "fr": "Portière avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front door left x80 z70 1m",
-      "location_xyz": [
-        1.8842357397079468,
-        -0.7803248167037964,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        70.0
-      ]
-    },
-    "template_image": "VmFL3v2A.opengl.png",
-    "mirror_sight": "enHQTFae"
-  },
-  "1-gwCM0m": {
-    "id": "1-gwCM0m",
-    "label": {
-      "en": "Rear Door Left",
-      "fr": "Portière arrière gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear door left x80 z70 1m",
-      "location_xyz": [
-        1.8402453660964966,
-        0.29878973960876465,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        70.0
-      ]
-    },
-    "template_image": "1-gwCM0m.opengl.png",
-    "mirror_sight": "6MR5C13s"
-  },
-  "T24v9XS8": {
-    "id": "T24v9XS8",
-    "label": {
-      "en": "Front Door Left",
-      "fr": "Portière avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front door left x80 z60 1m",
-      "location_xyz": [
-        1.7169437408447266,
-        -0.9741133451461792,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        60.0
-      ]
-    },
-    "template_image": "T24v9XS8.opengl.png",
-    "mirror_sight": "2wVqenwP"
-  },
-  "GOQq1-nN": {
-    "id": "GOQq1-nN",
-    "label": {
-      "en": "Front Door Left",
-      "fr": "Portière avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front door left x85 z110 1m",
-      "location_xyz": [
-        1.9469342231750488,
-        0.2433021515607834,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        85.0,
-        0.0,
-        110.0
-      ]
-    },
-    "template_image": "GOQq1-nN.opengl.png",
-    "mirror_sight": "QJ_yOnBl"
-  },
-  "D4r9OKHt": {
-    "id": "D4r9OKHt",
-    "label": {
-      "en": "Rear Door Left",
-      "fr": "Portière avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear door left x80 z110 1m",
-      "location_xyz": [
-        1.8319326639175415,
-        1.1923993825912476,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        110.0
-      ]
-    },
-    "template_image": "D4r9OKHt.opengl.png",
-    "mirror_sight": "TDLex8-D"
-  },
-  "OOJDJ7go": {
-    "id": "OOJDJ7go",
-    "label": {
-      "en": "Rear Door Left",
-      "fr": "Portière avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear door left x80 z120 1m",
-      "location_xyz": [
-        1.6542497873306274,
-        1.35085928440094,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        120.0
-      ]
-    },
-    "template_image": "OOJDJ7go.opengl.png",
-    "mirror_sight": "2RFF3Uf8"
-  },
-  "Fh972HlF": {
-    "id": "Fh972HlF",
-    "label": {
-      "en": "Front Undercarriage",
-      "fr": "Châssis avant"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front undercarriage x115 0.1m",
-      "location_xyz": [
-        0,
-        -2.485210418701172,
-        0.10000000149011612
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        115.0,
-        0.0,
-        0.0
-      ]
-    },
-    "template_image": "Fh972HlF.opengl.png"
-  },
-  "jgB-cu5G": {
-    "id": "jgB-cu5G",
-    "label": {
-      "en": "Front Fender Right",
-      "fr": "Aile avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender right x67 z-45 1.5m",
-      "location_xyz": [
-        -1.7549400329589844,
-        -2.4460859298706055,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        -45.0
-      ]
-    },
-    "template_image": "jgB-cu5G.opengl.png",
-    "mirror_sight": "xsuH1g5T"
-  },
-  "0U14gFyk": {
-    "id": "0U14gFyk",
-    "label": {
-      "en": "Front Lateral Right",
-      "fr": "Avant latéral droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front lateral right x79 z-75 0.9m",
-      "location_xyz": [
-        -2.171880006790161,
-        -1.1752331256866455,
-        0.8999999761581421
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        79.0,
-        0.0,
-        -75.0
-      ]
-    },
-    "template_image": "0U14gFyk.opengl.png",
-    "mirror_sight": "zjAIjUgU"
-  },
-  "Cce1KCd3": {
-    "id": "Cce1KCd3",
-    "label": {
-      "en": "Rear Fender Right",
-      "fr": "Aile arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear fender right x66 z-130 1.5m",
-      "location_xyz": [
-        -1.7676399946212769,
-        2.285799741744995,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        -130.0
-      ]
-    },
-    "template_image": "Cce1KCd3.opengl.png",
-    "mirror_sight": "3vKXafwc"
-  },
-  "QqBpHiVP": {
-    "id": "QqBpHiVP",
-    "label": {
-      "en": "Rear Lateral Right",
-      "fr": "Arrière latéral droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear lateral right x80 z-95 0.9m",
-      "location_xyz": [
-        -2.140860080718994,
-        1.229339838027954,
-        0.8999999761581421
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        -95.0
-      ]
-    },
-    "template_image": "QqBpHiVP.opengl.png",
-    "mirror_sight": "ClEZSucK"
-  },
-  "Pzgw0WGe": {
-    "id": "Pzgw0WGe",
-    "label": {
-      "en": "Doors Right",
-      "fr": "Portières droites"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "doors right x67 z-60 1.5m",
-      "location_xyz": [
-        -2.112499952316284,
-        -0.795009970664978,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        -60.0
-      ]
-    },
-    "template_image": "Pzgw0WGe.opengl.png",
-    "mirror_sight": "IVcF1dOP"
-  },
-  "jqJOb6Ov": {
-    "id": "jqJOb6Ov",
-    "label": {
-      "en": "Front Fender Right",
-      "fr": "Aile avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender right x65 z-57 1.5m",
-      "location_xyz": [
-        -1.9203100204467773,
-        -2.0104517936706543,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.0,
-        0.0,
-        -57.0
-      ]
-    },
-    "template_image": "jqJOb6Ov.opengl.png",
-    "mirror_sight": "LE9h1xh0"
-  },
-  "EqLDVYj3": {
-    "id": "EqLDVYj3",
-    "label": {
-      "en": "Front Fender Right",
-      "fr": "Aile avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front fender right x66 z-30 1.5m",
-      "location_xyz": [
-        -1.0768400430679321,
-        -2.856078624725342,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        -30.0
-      ]
-    },
-    "template_image": "EqLDVYj3.opengl.png",
-    "mirror_sight": "PLh198NC"
-  },
-  "j3E2UHFc": {
-    "id": "j3E2UHFc",
-    "label": {
-      "en": "Rear Fender Right",
-      "fr": "Aile arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear fender right x65 z-140 1.5m",
-      "location_xyz": [
-        -1.3991299867630005,
-        2.5577476024627686,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.0,
-        0.0,
-        -140.0
-      ]
-    },
-    "template_image": "j3E2UHFc.opengl.png",
-    "mirror_sight": "GHbWVnMB"
-  },
-  "AoO-nOoM": {
-    "id": "AoO-nOoM",
-    "label": {
-      "en": "Rear Lateral Right",
-      "fr": "Arrière latéral droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear lateral right x66 z-95 1.5m",
-      "location_xyz": [
-        -2.172029972076416,
-        1.09205961227417,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        -95.0
-      ]
-    },
-    "template_image": "AoO-nOoM.opengl.png",
-    "mirror_sight": "GvCtVnoD"
-  },
-  "WWZsroCu": {
-    "id": "WWZsroCu",
-    "label": {
-      "en": "Rocker Panel Right",
-      "fr": "Bas de caisse droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "frame rail right x115 z-41 0.1m",
-      "location_xyz": [
-        -1.0736500024795532,
-        -1.0054600238800049,
-        0.10000000894069672
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        115.0,
-        0.0,
-        -41.0
-      ]
-    },
-    "template_image": "WWZsroCu.opengl.png",
-    "mirror_sight": "eOkUJUBk"
-  },
-  "CELBsvYD": {
-    "id": "CELBsvYD",
-    "label": {
-      "en": "Front Bumper Side Right",
-      "fr": "Pare-chocs avant côté droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front bumper side right x73 z-45 0.9m",
-      "location_xyz": [
-        -1.1993000507354736,
-        -2.4210193157196045,
-        0.8999999761581421
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        73.0,
-        0.0,
-        -45.0
-      ]
-    },
-    "template_image": "CELBsvYD.opengl.png",
-    "mirror_sight": "xfbBpq3Q"
-  },
-  "PuIw17h0": {
-    "id": "PuIw17h0",
-    "label": {
-      "en": "Front Wheel Right",
-      "fr": "Roue avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front wheel right x85 z-90 0.6m",
-      "location_xyz": [
-        -1.8572100400924683,
-        -1.1906272172927856,
-        0.6000000238418579
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        85.0,
-        0.0,
-        -90.0
-      ]
-    },
-    "template_image": "PuIw17h0.opengl.png",
-    "mirror_sight": "xQKQ0bXS"
-  },
-  "LDRoAPnk": {
-    "id": "LDRoAPnk",
-    "label": {
-      "en": "Rear Bumper Side Right",
-      "fr": "Pare-chocs arrière côté droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear bumper side right x74 z-140 1m",
-      "location_xyz": [
-        -1.1293200254440308,
-        2.5584888458251953,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        74.0,
-        0.0,
-        -140.0
-      ]
-    },
-    "template_image": "LDRoAPnk.opengl.png",
-    "mirror_sight": "j8YHvnDP"
-  },
-  "rN39Y3HR": {
-    "id": "rN39Y3HR",
-    "label": {
-      "en": "Rear Wheel Right",
-      "fr": "Roue arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear wheel right x85 z-90 0.6m",
-      "location_xyz": [
-        -1.8515299558639526,
-        1.2667466402053833,
-        0.6000000238418579
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        85.0,
-        0.0,
-        -90.0
-      ]
-    },
-    "template_image": "rN39Y3HR.opengl.png",
-    "mirror_sight": "8_W2PO8L"
-  },
-  "B5s1CWT-": {
-    "id": "B5s1CWT-",
-    "label": {
-      "en": "Rocker Panel Right",
-      "fr": "Bas de caisse droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rocker panel right x95 z-90 0.6m",
-      "location_xyz": [
-        -2.3459699153900146,
-        0,
-        0.6000000238418579
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        95.0,
-        0.0,
-        -90.0
-      ]
-    },
-    "template_image": "B5s1CWT-.opengl.png",
-    "mirror_sight": "UHZkpCuK"
-  },
-  "eWZsEThb": {
-    "id": "eWZsEThb",
-    "label": {
-      "en": "Rocker Panel Right (Rear)",
-      "fr": "Bas de caisse droit (arrière)"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "frame rail rear right x115 z-139 0.1m",
-      "location_xyz": [
-        -1.1147199869155884,
-        0.963828444480896,
-        0.10000000894069672
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        115.0,
-        0.0,
-        -139.0
-      ]
-    },
-    "template_image": "eWZsEThb.opengl.png",
-    "mirror_sight": "dQOmxo13"
-  },
-  "2RFF3Uf8": {
-    "id": "2RFF3Uf8",
-    "label": {
-      "en": "Rear Door Right",
-      "fr": "Portière arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear door right x80 z-120 1m",
-      "location_xyz": [
-        -1.6542500257492065,
-        1.35085928440094,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        -120.0
-      ]
-    },
-    "template_image": "2RFF3Uf8.opengl.png",
-    "mirror_sight": "OOJDJ7go"
-  },
-  "TDLex8-D": {
-    "id": "TDLex8-D",
-    "label": {
-      "en": "Rear Door Right",
-      "fr": "Portière arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear door right x80 z-110 1m",
-      "location_xyz": [
-        -1.8319300413131714,
-        1.1923993825912476,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        -110.0
-      ]
-    },
-    "template_image": "TDLex8-D.opengl.png",
-    "mirror_sight": "D4r9OKHt"
-  },
-  "6MR5C13s": {
-    "id": "6MR5C13s",
-    "label": {
-      "en": "Rear Door Right",
-      "fr": "Portière arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "rear door right x80 z-70 1m",
-      "location_xyz": [
-        -1.840250015258789,
-        0.29879000782966614,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        -70.0
-      ]
-    },
-    "template_image": "6MR5C13s.opengl.png",
-    "mirror_sight": "1-gwCM0m"
-  },
-  "QJ_yOnBl": {
-    "id": "QJ_yOnBl",
-    "label": {
-      "en": "Front Door Right",
-      "fr": "Portière avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front door right x85 z-110 1m",
-      "location_xyz": [
-        -1.9469300508499146,
-        0.2433021515607834,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        85.0,
-        0.0,
-        -110.0
-      ]
-    },
-    "template_image": "QJ_yOnBl.opengl.png",
-    "mirror_sight": "GOQq1-nN"
-  },
-  "2wVqenwP": {
-    "id": "2wVqenwP",
-    "label": {
-      "en": "Front Door Right",
-      "fr": "Portière avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front door right x80 z-60 1m",
-      "location_xyz": [
-        -1.7169400453567505,
-        -0.9741129875183105,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        -60.0
-      ]
-    },
-    "template_image": "2wVqenwP.opengl.png",
-    "mirror_sight": "T24v9XS8"
-  },
-  "enHQTFae": {
-    "id": "enHQTFae",
-    "label": {
-      "en": "Front Door Right",
-      "fr": "Portière avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "Small Crossover/SUV",
-      "dimensions_xyz": null,
-      "make": "Volkswagen",
-      "model": "T-Roc"
-    },
-    "camera": {
-      "name": "front door right x80 z-70 1m",
-      "location_xyz": [
-        -1.8842400312423706,
-        -0.7803249955177307,
-        1
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        80.0,
-        0.0,
-        -70.0
-      ]
-    },
-    "template_image": "enHQTFae.opengl.png",
-    "mirror_sight": "VmFL3v2A"
-  },
-  "vxRr9chD": {
-    "id": "vxRr9chD",
-    "label": {
-      "en": "Front Bumper Side Left",
-      "fr": "Pare-chocs avant côté gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front bumper side left x73 z45 0.8m",
-      "location_xyz": [
-        1.2992995977401733,
-        -2.69205904006958,
-        0.800000011920929
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        73.0,
-        0.0,
-        45.0
-      ]
-    },
-    "template_image": "vxRr9chD.opengl.png",
-    "mirror_sight": "g30kyiVH"
-  },
-  "g30kyiVH": {
-    "id": "g30kyiVH",
-    "label": {
-      "en": "Front Bumper Side Right",
-      "fr": "Pare-chocs avant côté droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front bumper side right x73 z-45 0.8m",
-      "location_xyz": [
-        -1.2993000745773315,
-        -2.69205904006958,
-        0.800000011920929
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        73.0,
-        0.0,
-        -45.0
-      ]
-    },
-    "template_image": "g30kyiVH.opengl.png",
-    "mirror_sight": "vxRr9chD"
-  },
-  "cDe2q69X": {
-    "id": "cDe2q69X",
-    "label": {
-      "en": "Front Fender Left",
-      "fr": "Aile avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front fender left x67 z57 1.4m",
-      "location_xyz": [
-        2.020310640335083,
-        -2.28149151802063,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        57.0
-      ]
-    },
-    "template_image": "cDe2q69X.opengl.png",
-    "mirror_sight": "5CFsFvj7"
-  },
-  "WKJlxkiF": {
-    "id": "WKJlxkiF",
-    "label": {
-      "en": "Front Fender Left",
-      "fr": "Aile avant gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front fender left IGNORE_MIRROR left x66 z45 1.5m",
-      "location_xyz": [
-        1.9049423933029175,
-        -2.717125654220581,
-        1.5
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        45.0
-      ]
-    },
-    "template_image": "WKJlxkiF.opengl.png"
-  },
-  "5CFsFvj7": {
-    "id": "5CFsFvj7",
-    "label": {
-      "en": "Front Fender Right",
-      "fr": "Aile avant droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front fender right x67 z-57 1.4m",
-      "location_xyz": [
-        -2.0203099250793457,
-        -2.28149151802063,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        -57.0
-      ]
-    },
-    "template_image": "5CFsFvj7.opengl.png",
-    "mirror_sight": "cDe2q69X"
-  },
-  "I0cOpT1e": {
-    "id": "I0cOpT1e",
-    "label": {
-      "en": "Front",
-      "fr": "Avant"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front x65 1.4m",
-      "location_xyz": [
-        0,
-        -3.371039628982544,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        65.0,
-        0.0,
-        0.0
-      ]
-    },
-    "template_image": "I0cOpT1e.opengl.png"
-  },
-  "R_f4g8MN": {
-    "id": "R_f4g8MN",
-    "label": {
-      "en": "Doors Left",
-      "fr": "Portières gauches"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "doors left x67 z60 1.4m",
-      "location_xyz": [
-        2.2125041484832764,
-        -0.895010232925415,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        60.0
-      ]
-    },
-    "template_image": "R_f4g8MN.opengl.png",
-    "mirror_sight": "fDKWkHHp"
-  },
-  "fDKWkHHp": {
-    "id": "fDKWkHHp",
-    "label": {
-      "en": "Doors Right",
-      "fr": "Portières droites"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "doors right x67 z-60 1.4m",
-      "location_xyz": [
-        -2.2124998569488525,
-        -0.895010232925415,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        67.0,
-        0.0,
-        -60.0
-      ]
-    },
-    "template_image": "fDKWkHHp.opengl.png",
-    "mirror_sight": "R_f4g8MN"
-  },
-  "vedHBC2n": {
-    "id": "vedHBC2n",
-    "label": {
-      "en": "Front Roof Left",
-      "fr": "Toit (avant gauche)"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "front roof IGNORE_MIRROR left x60 z60 1.8m",
-      "location_xyz": [
-        1.0488500595092773,
-        -0.19268780946731567,
-        1.7999999523162842
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        60.0,
-        0.0,
-        60.0
-      ]
-    },
-    "template_image": "vedHBC2n.opengl.png"
-  },
-  "7bTC-nGS": {
-    "id": "7bTC-nGS",
-    "label": {
-      "en": "Rear Fender Left",
-      "fr": "Aile arrière gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "rear fender left x68 z131 1.4m",
-      "location_xyz": [
-        1.867639422416687,
-        2.735799789428711,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        68.0,
-        0.0,
-        131.0
-      ]
-    },
-    "template_image": "7bTC-nGS.opengl.png",
-    "mirror_sight": "e_QIW30o"
-  },
-  "hhCBI9oZ": {
-    "id": "hhCBI9oZ",
-    "label": {
-      "en": "Rear",
-      "fr": "Arrière"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "rear x66 z-180 1.4m",
-      "location_xyz": [
-        0,
-        3.490000009536743,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        66.0,
-        0.0,
-        -180.0
-      ]
-    },
-    "template_image": "hhCBI9oZ.opengl.png"
-  },
-  "e_QIW30o": {
-    "id": "e_QIW30o",
-    "label": {
-      "en": "Rear Fender Right",
-      "fr": "Aile arrière droite"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "rear fender right x68 z-131 1.4m",
-      "location_xyz": [
-        -1.8676400184631348,
-        2.735799551010132,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        68.0,
-        0.0,
-        -131.0
-      ]
-    },
-    "template_image": "e_QIW30o.opengl.png",
-    "mirror_sight": "7bTC-nGS"
-  },
-  "McR3TJK0": {
-    "id": "McR3TJK0",
-    "label": {
-      "en": "Rear Lateral Left",
-      "fr": "Arrière latéral gauche"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "rear lateral left x68 z100 1.4m",
-      "location_xyz": [
-        2.299999952316284,
-        1.619999885559082,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        68.0,
-        0.0,
-        100.0
-      ]
-    },
-    "template_image": "McR3TJK0.opengl.png",
-    "mirror_sight": "fDo5M0Fp"
-  },
-  "fDo5M0Fp": {
-    "id": "fDo5M0Fp",
-    "label": {
-      "en": "Rear Lateral Right",
-      "fr": "Arrière latéral droit"
-    },
-    "category": "exterior",
-    "vehicle": {
-      "type": "",
-      "dimensions_xyz": null,
-      "make": "Audi",
-      "model": "A7",
-      "id_prefix": "audia7-"
-    },
-    "camera": {
-      "name": "rear lateral right x68 z-100 1.4m",
-      "location_xyz": [
-        -2.299999952316284,
-        1.619999885559082,
-        1.399999976158142
-      ],
-      "focal_length": 26,
-      "rotation_xyz_deg": [
-        68.0,
-        0.0,
-        -100.0
-      ]
-    },
-    "template_image": "fDo5M0Fp.opengl.png",
-    "mirror_sight": "McR3TJK0"
-  },
   "fesc20-LTe3X2bg": {
     "id": "fesc20-LTe3X2bg",
     "label": {
@@ -10326,5 +8286,2031 @@
     "category": "interior",
     "vehicleType": "undefined",
     "overlay": "50eebfb7.svg"
+  },
+  "vwtroc-xsuH1g5T": {
+    "id": "vwtroc-xsuH1g5T",
+    "label": {
+      "en": "Front Fender Left",
+      "fr": "Aile avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender left x67 z45 1.5m",
+      "location_xyz": [
+        1.7549424171447754,
+        -2.4460859298706055,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        45.0
+      ]
+    },
+    "template_image": "vwtroc-xsuH1g5T.opengl.png",
+    "mirror_sight": "vwtroc-jgB-cu5G"
+  },
+  "vwtroc-IzMR_OzQ": {
+    "id": "vwtroc-IzMR_OzQ",
+    "label": {
+      "en": "Front Fender Left",
+      "fr": "Aile avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender left x65.5 z40 1.5m",
+      "location_xyz": [
+        1.4488260746002197,
+        -2.5688226222991943,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.5,
+        0.0,
+        40.0
+      ]
+    },
+    "template_image": "vwtroc-IzMR_OzQ.opengl.png"
+  },
+  "vwtroc-AEc967h1": {
+    "id": "vwtroc-AEc967h1",
+    "label": {
+      "en": "Doors Left",
+      "fr": "Portières gauches"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "doors left x70 z70 1.5m",
+      "location_xyz": [
+        2.5270965099334717,
+        -0.4450318217277527,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        70.0,
+        0.0,
+        70.0
+      ]
+    },
+    "template_image": "vwtroc-AEc967h1.opengl.png"
+  },
+  "vwtroc-3vKXafwc": {
+    "id": "vwtroc-3vKXafwc",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr": "Aile arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear fender left x66 z130 1.5m",
+      "location_xyz": [
+        1.767639398574829,
+        2.285799741744995,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        130.0
+      ]
+    },
+    "template_image": "vwtroc-3vKXafwc.opengl.png",
+    "mirror_sight": "vwtroc-Cce1KCd3"
+  },
+  "vwtroc-3a3OheoD": {
+    "id": "vwtroc-3a3OheoD",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr": "Aile arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear fender left x65 z150 1.5m",
+      "location_xyz": [
+        0.9878284335136414,
+        2.840301752090454,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.0,
+        0.0,
+        150.0
+      ]
+    },
+    "template_image": "vwtroc-3a3OheoD.opengl.png"
+  },
+  "vwtroc-ClEZSucK": {
+    "id": "vwtroc-ClEZSucK",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr": "Arrière latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear lateral left x80 z95 0.9m",
+      "location_xyz": [
+        2.140855073928833,
+        1.229339838027954,
+        0.8999999761581421
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        95.0
+      ]
+    },
+    "template_image": "vwtroc-ClEZSucK.opengl.png",
+    "mirror_sight": "vwtroc-QqBpHiVP"
+  },
+  "vwtroc-zjAIjUgU": {
+    "id": "vwtroc-zjAIjUgU",
+    "label": {
+      "en": "Front Lateral Left",
+      "fr": "Avant latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front lateral left x79 z75 0.9m",
+      "location_xyz": [
+        2.171881675720215,
+        -1.1752331256866455,
+        0.8999999761581421
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        79.0,
+        0.0,
+        75.0
+      ]
+    },
+    "template_image": "vwtroc-zjAIjUgU.opengl.png",
+    "mirror_sight": "vwtroc-0U14gFyk"
+  },
+  "vwtroc-vLcBGkeh": {
+    "id": "vwtroc-vLcBGkeh",
+    "label": {
+      "en": "Front",
+      "fr": "Avant"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front x66 1.5m",
+      "location_xyz": [
+        0,
+        -3.0999999046325684,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        0.0
+      ]
+    },
+    "template_image": "vwtroc-vLcBGkeh.opengl.png"
+  },
+  "vwtroc-PLh198NC": {
+    "id": "vwtroc-PLh198NC",
+    "label": {
+      "en": "Front Fender Left",
+      "fr": "Aile avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender left x66 z30 1.5m",
+      "location_xyz": [
+        1.0768440961837769,
+        -2.856078624725342,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        30.0
+      ]
+    },
+    "template_image": "vwtroc-PLh198NC.opengl.png",
+    "mirror_sight": "vwtroc-EqLDVYj3"
+  },
+  "vwtroc-LE9h1xh0": {
+    "id": "vwtroc-LE9h1xh0",
+    "label": {
+      "en": "Front Fender Left",
+      "fr": "Aile avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender left x65 z57 1.5m",
+      "location_xyz": [
+        1.9203107357025146,
+        -2.0104517936706543,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.0,
+        0.0,
+        57.0
+      ]
+    },
+    "template_image": "vwtroc-LE9h1xh0.opengl.png",
+    "mirror_sight": "vwtroc-jqJOb6Ov"
+  },
+  "vwtroc-IVcF1dOP": {
+    "id": "vwtroc-IVcF1dOP",
+    "label": {
+      "en": "Doors Left",
+      "fr": "Portières gauches"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "doors left x67 z60 1.5m",
+      "location_xyz": [
+        2.112504243850708,
+        -0.7950102090835571,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        60.0
+      ]
+    },
+    "template_image": "vwtroc-IVcF1dOP.opengl.png",
+    "mirror_sight": "vwtroc-Pzgw0WGe"
+  },
+  "vwtroc-GvCtVnoD": {
+    "id": "vwtroc-GvCtVnoD",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr": "Arrière latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear lateral left x66 z95 1.5m",
+      "location_xyz": [
+        2.172027349472046,
+        1.09205961227417,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        95.0
+      ]
+    },
+    "template_image": "vwtroc-GvCtVnoD.opengl.png",
+    "mirror_sight": "vwtroc-AoO-nOoM"
+  },
+  "vwtroc-GHbWVnMB": {
+    "id": "vwtroc-GHbWVnMB",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr": "Aile arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear fender left x65 z140 1.5m",
+      "location_xyz": [
+        1.399125337600708,
+        2.5577476024627686,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.0,
+        0.0,
+        140.0
+      ]
+    },
+    "template_image": "vwtroc-GHbWVnMB.opengl.png",
+    "mirror_sight": "vwtroc-j3E2UHFc"
+  },
+  "vwtroc-XyeyZlaU": {
+    "id": "vwtroc-XyeyZlaU",
+    "label": {
+      "en": "Rear",
+      "fr": "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear x66 z180 1.5m",
+      "location_xyz": [
+        0,
+        3.0399999618530273,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        180.0
+      ]
+    },
+    "template_image": "vwtroc-XyeyZlaU.opengl.png"
+  },
+  "vwtroc-oIk8RQ3w": {
+    "id": "vwtroc-oIk8RQ3w",
+    "label": {
+      "en": "Windshield",
+      "fr": "Pare-brise"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "windshield x58 1.9m",
+      "location_xyz": [
+        0,
+        -1.6620965003967285,
+        1.899999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        58.0,
+        0.0,
+        0.0
+      ]
+    },
+    "template_image": "vwtroc-oIk8RQ3w.opengl.png"
+  },
+  "vwtroc-m1rhrZ88": {
+    "id": "vwtroc-m1rhrZ88",
+    "label": {
+      "en": "Front Roof Left",
+      "fr": "Toit (avant gauche)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
+      "location_xyz": [
+        1.0691311359405518,
+        -0.39549964666366577,
+        1.7999999523162842
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        75.0,
+        0.0,
+        53.0
+      ]
+    },
+    "template_image": "vwtroc-m1rhrZ88.opengl.png"
+  },
+  "vwtroc-36qmcrgr": {
+    "id": "vwtroc-36qmcrgr",
+    "label": {
+      "en": "Rear Roof Right",
+      "fr": "Toit (arrière droit)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
+      "location_xyz": [
+        -0.8915903568267822,
+        1.6373134851455688,
+        1.7999999523162842
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        75.0,
+        0.0,
+        226.0
+      ]
+    },
+    "template_image": "vwtroc-36qmcrgr.opengl.png"
+  },
+  "vwtroc-eOkUJUBk": {
+    "id": "vwtroc-eOkUJUBk",
+    "label": {
+      "en": "Rocker Panel Left",
+      "fr": "Bas de caisse gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "frame rail left x115 z41 0.1m",
+      "location_xyz": [
+        1.0736500024795532,
+        -1.0054600238800049,
+        0.10000000894069672
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        115.0,
+        0.0,
+        41.0
+      ]
+    },
+    "template_image": "vwtroc-eOkUJUBk.opengl.png",
+    "mirror_sight": "vwtroc-WWZsroCu"
+  },
+  "vwtroc-RMeCZRbd": {
+    "id": "vwtroc-RMeCZRbd",
+    "label": {
+      "en": "Hood / Windshield",
+      "fr": "Capot / pare-brise"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "hood windshield x60 1.7m",
+      "location_xyz": [
+        0,
+        -2.6243207454681396,
+        1.7000000476837158
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        60.0,
+        -0.0,
+        0.0
+      ]
+    },
+    "template_image": "vwtroc-RMeCZRbd.opengl.png"
+  },
+  "vwtroc-dQOmxo13": {
+    "id": "vwtroc-dQOmxo13",
+    "label": {
+      "en": "Rocker Panel Left (Rear)",
+      "fr": "Bas de caisse gauche (arrière)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "frame rail rear left x115 z139 0.1m",
+      "location_xyz": [
+        1.11472487449646,
+        0.963828444480896,
+        0.10000000894069672
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        115.0,
+        0.0,
+        139.0
+      ]
+    },
+    "template_image": "vwtroc-dQOmxo13.opengl.png",
+    "mirror_sight": "vwtroc-eWZsEThb"
+  },
+  "vwtroc-xfbBpq3Q": {
+    "id": "vwtroc-xfbBpq3Q",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr": "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front bumper side left x73 z45 0.9m",
+      "location_xyz": [
+        1.1992995738983154,
+        -2.4210193157196045,
+        0.8999999761581421
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        73.0,
+        0.0,
+        45.0
+      ]
+    },
+    "template_image": "vwtroc-xfbBpq3Q.opengl.png",
+    "mirror_sight": "vwtroc-CELBsvYD"
+  },
+  "vwtroc-j8YHvnDP": {
+    "id": "vwtroc-j8YHvnDP",
+    "label": {
+      "en": "Rear Bumper Side Left",
+      "fr": "Pare-chocs arrière côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear bumper side left x74 z140 1m",
+      "location_xyz": [
+        1.1293162107467651,
+        2.5584888458251953,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        74.0,
+        0.0,
+        140.0
+      ]
+    },
+    "template_image": "vwtroc-j8YHvnDP.opengl.png",
+    "mirror_sight": "vwtroc-LDRoAPnk"
+  },
+  "vwtroc-8_W2PO8L": {
+    "id": "vwtroc-8_W2PO8L",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear wheel left x85 z90 0.6m",
+      "location_xyz": [
+        1.8515325784683228,
+        1.2667466402053833,
+        0.6000000238418579
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        85.0,
+        0.0,
+        90.0
+      ]
+    },
+    "template_image": "vwtroc-8_W2PO8L.opengl.png",
+    "mirror_sight": "vwtroc-rN39Y3HR"
+  },
+  "vwtroc-xQKQ0bXS": {
+    "id": "vwtroc-xQKQ0bXS",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front wheel left x85 z90 0.6m",
+      "location_xyz": [
+        1.857212781906128,
+        -1.1906272172927856,
+        0.6000000238418579
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        85.0,
+        0.0,
+        90.0
+      ]
+    },
+    "template_image": "vwtroc-xQKQ0bXS.opengl.png",
+    "mirror_sight": "vwtroc-PuIw17h0"
+  },
+  "vwtroc-UHZkpCuK": {
+    "id": "vwtroc-UHZkpCuK",
+    "label": {
+      "en": "Rocker Panel Left",
+      "fr": "Bas de caisse gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rocker panel left x95 z90 0.6m",
+      "location_xyz": [
+        2.345973014831543,
+        0,
+        0.6000000238418579
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        95.0,
+        0.0,
+        90.0
+      ]
+    },
+    "template_image": "vwtroc-UHZkpCuK.opengl.png",
+    "mirror_sight": "vwtroc-B5s1CWT-"
+  },
+  "vwtroc-VmFL3v2A": {
+    "id": "vwtroc-VmFL3v2A",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door left x80 z70 1m",
+      "location_xyz": [
+        1.8842357397079468,
+        -0.7803248167037964,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        70.0
+      ]
+    },
+    "template_image": "vwtroc-VmFL3v2A.opengl.png",
+    "mirror_sight": "vwtroc-enHQTFae"
+  },
+  "vwtroc-1-gwCM0m": {
+    "id": "vwtroc-1-gwCM0m",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door left x80 z70 1m",
+      "location_xyz": [
+        1.8402453660964966,
+        0.29878973960876465,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        70.0
+      ]
+    },
+    "template_image": "vwtroc-1-gwCM0m.opengl.png",
+    "mirror_sight": "vwtroc-6MR5C13s"
+  },
+  "vwtroc-T24v9XS8": {
+    "id": "vwtroc-T24v9XS8",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door left x80 z60 1m",
+      "location_xyz": [
+        1.7169437408447266,
+        -0.9741133451461792,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        60.0
+      ]
+    },
+    "template_image": "vwtroc-T24v9XS8.opengl.png",
+    "mirror_sight": "vwtroc-2wVqenwP"
+  },
+  "vwtroc-GOQq1-nN": {
+    "id": "vwtroc-GOQq1-nN",
+    "label": {
+      "en": "Front Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door left x85 z110 1m",
+      "location_xyz": [
+        1.9469342231750488,
+        0.2433021515607834,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        85.0,
+        0.0,
+        110.0
+      ]
+    },
+    "template_image": "vwtroc-GOQq1-nN.opengl.png",
+    "mirror_sight": "vwtroc-QJ_yOnBl"
+  },
+  "vwtroc-D4r9OKHt": {
+    "id": "vwtroc-D4r9OKHt",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door left x80 z110 1m",
+      "location_xyz": [
+        1.8319326639175415,
+        1.1923993825912476,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        110.0
+      ]
+    },
+    "template_image": "vwtroc-D4r9OKHt.opengl.png",
+    "mirror_sight": "vwtroc-TDLex8-D"
+  },
+  "vwtroc-OOJDJ7go": {
+    "id": "vwtroc-OOJDJ7go",
+    "label": {
+      "en": "Rear Door Left",
+      "fr": "Portière avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door left x80 z120 1m",
+      "location_xyz": [
+        1.6542497873306274,
+        1.35085928440094,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        120.0
+      ]
+    },
+    "template_image": "vwtroc-OOJDJ7go.opengl.png",
+    "mirror_sight": "vwtroc-2RFF3Uf8"
+  },
+  "vwtroc-Fh972HlF": {
+    "id": "vwtroc-Fh972HlF",
+    "label": {
+      "en": "Front Undercarriage",
+      "fr": "Châssis avant"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front undercarriage x115 0.1m",
+      "location_xyz": [
+        0,
+        -2.485210418701172,
+        0.10000000149011612
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        115.0,
+        0.0,
+        0.0
+      ]
+    },
+    "template_image": "vwtroc-Fh972HlF.opengl.png"
+  },
+  "vwtroc-jgB-cu5G": {
+    "id": "vwtroc-jgB-cu5G",
+    "label": {
+      "en": "Front Fender Right",
+      "fr": "Aile avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender right x67 z-45 1.5m",
+      "location_xyz": [
+        -1.7549400329589844,
+        -2.4460859298706055,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        -45.0
+      ]
+    },
+    "template_image": "vwtroc-jgB-cu5G.opengl.png",
+    "mirror_sight": "vwtroc-xsuH1g5T"
+  },
+  "vwtroc-0U14gFyk": {
+    "id": "vwtroc-0U14gFyk",
+    "label": {
+      "en": "Front Lateral Right",
+      "fr": "Avant latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front lateral right x79 z-75 0.9m",
+      "location_xyz": [
+        -2.171880006790161,
+        -1.1752331256866455,
+        0.8999999761581421
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        79.0,
+        0.0,
+        -75.0
+      ]
+    },
+    "template_image": "vwtroc-0U14gFyk.opengl.png",
+    "mirror_sight": "vwtroc-zjAIjUgU"
+  },
+  "vwtroc-Cce1KCd3": {
+    "id": "vwtroc-Cce1KCd3",
+    "label": {
+      "en": "Rear Fender Right",
+      "fr": "Aile arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear fender right x66 z-130 1.5m",
+      "location_xyz": [
+        -1.7676399946212769,
+        2.285799741744995,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        -130.0
+      ]
+    },
+    "template_image": "vwtroc-Cce1KCd3.opengl.png",
+    "mirror_sight": "vwtroc-3vKXafwc"
+  },
+  "vwtroc-QqBpHiVP": {
+    "id": "vwtroc-QqBpHiVP",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr": "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear lateral right x80 z-95 0.9m",
+      "location_xyz": [
+        -2.140860080718994,
+        1.229339838027954,
+        0.8999999761581421
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        -95.0
+      ]
+    },
+    "template_image": "vwtroc-QqBpHiVP.opengl.png",
+    "mirror_sight": "vwtroc-ClEZSucK"
+  },
+  "vwtroc-Pzgw0WGe": {
+    "id": "vwtroc-Pzgw0WGe",
+    "label": {
+      "en": "Doors Right",
+      "fr": "Portières droites"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "doors right x67 z-60 1.5m",
+      "location_xyz": [
+        -2.112499952316284,
+        -0.795009970664978,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        -60.0
+      ]
+    },
+    "template_image": "vwtroc-Pzgw0WGe.opengl.png",
+    "mirror_sight": "vwtroc-IVcF1dOP"
+  },
+  "vwtroc-jqJOb6Ov": {
+    "id": "vwtroc-jqJOb6Ov",
+    "label": {
+      "en": "Front Fender Right",
+      "fr": "Aile avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender right x65 z-57 1.5m",
+      "location_xyz": [
+        -1.9203100204467773,
+        -2.0104517936706543,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.0,
+        0.0,
+        -57.0
+      ]
+    },
+    "template_image": "vwtroc-jqJOb6Ov.opengl.png",
+    "mirror_sight": "vwtroc-LE9h1xh0"
+  },
+  "vwtroc-EqLDVYj3": {
+    "id": "vwtroc-EqLDVYj3",
+    "label": {
+      "en": "Front Fender Right",
+      "fr": "Aile avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front fender right x66 z-30 1.5m",
+      "location_xyz": [
+        -1.0768400430679321,
+        -2.856078624725342,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        -30.0
+      ]
+    },
+    "template_image": "vwtroc-EqLDVYj3.opengl.png",
+    "mirror_sight": "vwtroc-PLh198NC"
+  },
+  "vwtroc-j3E2UHFc": {
+    "id": "vwtroc-j3E2UHFc",
+    "label": {
+      "en": "Rear Fender Right",
+      "fr": "Aile arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear fender right x65 z-140 1.5m",
+      "location_xyz": [
+        -1.3991299867630005,
+        2.5577476024627686,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.0,
+        0.0,
+        -140.0
+      ]
+    },
+    "template_image": "vwtroc-j3E2UHFc.opengl.png",
+    "mirror_sight": "vwtroc-GHbWVnMB"
+  },
+  "vwtroc-AoO-nOoM": {
+    "id": "vwtroc-AoO-nOoM",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr": "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear lateral right x66 z-95 1.5m",
+      "location_xyz": [
+        -2.172029972076416,
+        1.09205961227417,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        -95.0
+      ]
+    },
+    "template_image": "vwtroc-AoO-nOoM.opengl.png",
+    "mirror_sight": "vwtroc-GvCtVnoD"
+  },
+  "vwtroc-WWZsroCu": {
+    "id": "vwtroc-WWZsroCu",
+    "label": {
+      "en": "Rocker Panel Right",
+      "fr": "Bas de caisse droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "frame rail right x115 z-41 0.1m",
+      "location_xyz": [
+        -1.0736500024795532,
+        -1.0054600238800049,
+        0.10000000894069672
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        115.0,
+        0.0,
+        -41.0
+      ]
+    },
+    "template_image": "vwtroc-WWZsroCu.opengl.png",
+    "mirror_sight": "vwtroc-eOkUJUBk"
+  },
+  "vwtroc-CELBsvYD": {
+    "id": "vwtroc-CELBsvYD",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr": "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front bumper side right x73 z-45 0.9m",
+      "location_xyz": [
+        -1.1993000507354736,
+        -2.4210193157196045,
+        0.8999999761581421
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        73.0,
+        0.0,
+        -45.0
+      ]
+    },
+    "template_image": "vwtroc-CELBsvYD.opengl.png",
+    "mirror_sight": "vwtroc-xfbBpq3Q"
+  },
+  "vwtroc-PuIw17h0": {
+    "id": "vwtroc-PuIw17h0",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front wheel right x85 z-90 0.6m",
+      "location_xyz": [
+        -1.8572100400924683,
+        -1.1906272172927856,
+        0.6000000238418579
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        85.0,
+        0.0,
+        -90.0
+      ]
+    },
+    "template_image": "vwtroc-PuIw17h0.opengl.png",
+    "mirror_sight": "vwtroc-xQKQ0bXS"
+  },
+  "vwtroc-LDRoAPnk": {
+    "id": "vwtroc-LDRoAPnk",
+    "label": {
+      "en": "Rear Bumper Side Right",
+      "fr": "Pare-chocs arrière côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear bumper side right x74 z-140 1m",
+      "location_xyz": [
+        -1.1293200254440308,
+        2.5584888458251953,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        74.0,
+        0.0,
+        -140.0
+      ]
+    },
+    "template_image": "vwtroc-LDRoAPnk.opengl.png",
+    "mirror_sight": "vwtroc-j8YHvnDP"
+  },
+  "vwtroc-rN39Y3HR": {
+    "id": "vwtroc-rN39Y3HR",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear wheel right x85 z-90 0.6m",
+      "location_xyz": [
+        -1.8515299558639526,
+        1.2667466402053833,
+        0.6000000238418579
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        85.0,
+        0.0,
+        -90.0
+      ]
+    },
+    "template_image": "vwtroc-rN39Y3HR.opengl.png",
+    "mirror_sight": "vwtroc-8_W2PO8L"
+  },
+  "vwtroc-B5s1CWT-": {
+    "id": "vwtroc-B5s1CWT-",
+    "label": {
+      "en": "Rocker Panel Right",
+      "fr": "Bas de caisse droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rocker panel right x95 z-90 0.6m",
+      "location_xyz": [
+        -2.3459699153900146,
+        0,
+        0.6000000238418579
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        95.0,
+        0.0,
+        -90.0
+      ]
+    },
+    "template_image": "vwtroc-B5s1CWT-.opengl.png",
+    "mirror_sight": "vwtroc-UHZkpCuK"
+  },
+  "vwtroc-eWZsEThb": {
+    "id": "vwtroc-eWZsEThb",
+    "label": {
+      "en": "Rocker Panel Right (Rear)",
+      "fr": "Bas de caisse droit (arrière)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "frame rail rear right x115 z-139 0.1m",
+      "location_xyz": [
+        -1.1147199869155884,
+        0.963828444480896,
+        0.10000000894069672
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        115.0,
+        0.0,
+        -139.0
+      ]
+    },
+    "template_image": "vwtroc-eWZsEThb.opengl.png",
+    "mirror_sight": "vwtroc-dQOmxo13"
+  },
+  "vwtroc-2RFF3Uf8": {
+    "id": "vwtroc-2RFF3Uf8",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door right x80 z-120 1m",
+      "location_xyz": [
+        -1.6542500257492065,
+        1.35085928440094,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        -120.0
+      ]
+    },
+    "template_image": "vwtroc-2RFF3Uf8.opengl.png",
+    "mirror_sight": "vwtroc-OOJDJ7go"
+  },
+  "vwtroc-TDLex8-D": {
+    "id": "vwtroc-TDLex8-D",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door right x80 z-110 1m",
+      "location_xyz": [
+        -1.8319300413131714,
+        1.1923993825912476,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        -110.0
+      ]
+    },
+    "template_image": "vwtroc-TDLex8-D.opengl.png",
+    "mirror_sight": "vwtroc-D4r9OKHt"
+  },
+  "vwtroc-6MR5C13s": {
+    "id": "vwtroc-6MR5C13s",
+    "label": {
+      "en": "Rear Door Right",
+      "fr": "Portière arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "rear door right x80 z-70 1m",
+      "location_xyz": [
+        -1.840250015258789,
+        0.29879000782966614,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        -70.0
+      ]
+    },
+    "template_image": "vwtroc-6MR5C13s.opengl.png",
+    "mirror_sight": "vwtroc-1-gwCM0m"
+  },
+  "vwtroc-QJ_yOnBl": {
+    "id": "vwtroc-QJ_yOnBl",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door right x85 z-110 1m",
+      "location_xyz": [
+        -1.9469300508499146,
+        0.2433021515607834,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        85.0,
+        0.0,
+        -110.0
+      ]
+    },
+    "template_image": "vwtroc-QJ_yOnBl.opengl.png",
+    "mirror_sight": "vwtroc-GOQq1-nN"
+  },
+  "vwtroc-2wVqenwP": {
+    "id": "vwtroc-2wVqenwP",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door right x80 z-60 1m",
+      "location_xyz": [
+        -1.7169400453567505,
+        -0.9741129875183105,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        -60.0
+      ]
+    },
+    "template_image": "vwtroc-2wVqenwP.opengl.png",
+    "mirror_sight": "vwtroc-T24v9XS8"
+  },
+  "vwtroc-enHQTFae": {
+    "id": "vwtroc-enHQTFae",
+    "label": {
+      "en": "Front Door Right",
+      "fr": "Portière avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Small Crossover/SUV",
+      "dimensions_xyz": null,
+      "make": "Volkswagen",
+      "model": "T-Roc"
+    },
+    "camera": {
+      "name": "front door right x80 z-70 1m",
+      "location_xyz": [
+        -1.8842400312423706,
+        -0.7803249955177307,
+        1
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        80.0,
+        0.0,
+        -70.0
+      ]
+    },
+    "template_image": "vwtroc-enHQTFae.opengl.png",
+    "mirror_sight": "vwtroc-VmFL3v2A"
+  },
+  "audia7-vxRr9chD": {
+    "id": "audia7-vxRr9chD",
+    "label": {
+      "en": "Front Bumper Side Left",
+      "fr": "Pare-chocs avant côté gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front bumper side left x73 z45 0.8m",
+      "location_xyz": [
+        1.2992995977401733,
+        -2.69205904006958,
+        0.800000011920929
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        73.0,
+        0.0,
+        45.0
+      ]
+    },
+    "template_image": "audia7-vxRr9chD.opengl.png",
+    "mirror_sight": "audia7-g30kyiVH"
+  },
+  "audia7-g30kyiVH": {
+    "id": "audia7-g30kyiVH",
+    "label": {
+      "en": "Front Bumper Side Right",
+      "fr": "Pare-chocs avant côté droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front bumper side right x73 z-45 0.8m",
+      "location_xyz": [
+        -1.2993000745773315,
+        -2.69205904006958,
+        0.800000011920929
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        73.0,
+        0.0,
+        -45.0
+      ]
+    },
+    "template_image": "audia7-g30kyiVH.opengl.png",
+    "mirror_sight": "audia7-vxRr9chD"
+  },
+  "audia7-cDe2q69X": {
+    "id": "audia7-cDe2q69X",
+    "label": {
+      "en": "Front Fender Left",
+      "fr": "Aile avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front fender left x67 z57 1.4m",
+      "location_xyz": [
+        2.020310640335083,
+        -2.28149151802063,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        57.0
+      ]
+    },
+    "template_image": "audia7-cDe2q69X.opengl.png",
+    "mirror_sight": "audia7-5CFsFvj7"
+  },
+  "audia7-WKJlxkiF": {
+    "id": "audia7-WKJlxkiF",
+    "label": {
+      "en": "Front Fender Left",
+      "fr": "Aile avant gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front fender left IGNORE_MIRROR left x66 z45 1.5m",
+      "location_xyz": [
+        1.9049423933029175,
+        -2.717125654220581,
+        1.5
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        45.0
+      ]
+    },
+    "template_image": "audia7-WKJlxkiF.opengl.png"
+  },
+  "audia7-5CFsFvj7": {
+    "id": "audia7-5CFsFvj7",
+    "label": {
+      "en": "Front Fender Right",
+      "fr": "Aile avant droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front fender right x67 z-57 1.4m",
+      "location_xyz": [
+        -2.0203099250793457,
+        -2.28149151802063,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        -57.0
+      ]
+    },
+    "template_image": "audia7-5CFsFvj7.opengl.png",
+    "mirror_sight": "audia7-cDe2q69X"
+  },
+  "audia7-I0cOpT1e": {
+    "id": "audia7-I0cOpT1e",
+    "label": {
+      "en": "Front",
+      "fr": "Avant"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front x65 1.4m",
+      "location_xyz": [
+        0,
+        -3.371039628982544,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        65.0,
+        0.0,
+        0.0
+      ]
+    },
+    "template_image": "audia7-I0cOpT1e.opengl.png"
+  },
+  "audia7-R_f4g8MN": {
+    "id": "audia7-R_f4g8MN",
+    "label": {
+      "en": "Doors Left",
+      "fr": "Portières gauches"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "doors left x67 z60 1.4m",
+      "location_xyz": [
+        2.2125041484832764,
+        -0.895010232925415,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        60.0
+      ]
+    },
+    "template_image": "audia7-R_f4g8MN.opengl.png",
+    "mirror_sight": "audia7-fDKWkHHp"
+  },
+  "audia7-fDKWkHHp": {
+    "id": "audia7-fDKWkHHp",
+    "label": {
+      "en": "Doors Right",
+      "fr": "Portières droites"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "doors right x67 z-60 1.4m",
+      "location_xyz": [
+        -2.2124998569488525,
+        -0.895010232925415,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        67.0,
+        0.0,
+        -60.0
+      ]
+    },
+    "template_image": "audia7-fDKWkHHp.opengl.png",
+    "mirror_sight": "audia7-R_f4g8MN"
+  },
+  "audia7-vedHBC2n": {
+    "id": "audia7-vedHBC2n",
+    "label": {
+      "en": "Front Roof Left",
+      "fr": "Toit (avant gauche)"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "front roof IGNORE_MIRROR left x60 z60 1.8m",
+      "location_xyz": [
+        1.0488500595092773,
+        -0.19268780946731567,
+        1.7999999523162842
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        60.0,
+        0.0,
+        60.0
+      ]
+    },
+    "template_image": "audia7-vedHBC2n.opengl.png"
+  },
+  "audia7-7bTC-nGS": {
+    "id": "audia7-7bTC-nGS",
+    "label": {
+      "en": "Rear Fender Left",
+      "fr": "Aile arrière gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "rear fender left x68 z131 1.4m",
+      "location_xyz": [
+        1.867639422416687,
+        2.735799789428711,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        68.0,
+        0.0,
+        131.0
+      ]
+    },
+    "template_image": "audia7-7bTC-nGS.opengl.png",
+    "mirror_sight": "audia7-e_QIW30o"
+  },
+  "audia7-hhCBI9oZ": {
+    "id": "audia7-hhCBI9oZ",
+    "label": {
+      "en": "Rear",
+      "fr": "Arrière"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "rear x66 z-180 1.4m",
+      "location_xyz": [
+        0,
+        3.490000009536743,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        66.0,
+        0.0,
+        -180.0
+      ]
+    },
+    "template_image": "audia7-hhCBI9oZ.opengl.png"
+  },
+  "audia7-e_QIW30o": {
+    "id": "audia7-e_QIW30o",
+    "label": {
+      "en": "Rear Fender Right",
+      "fr": "Aile arrière droite"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "rear fender right x68 z-131 1.4m",
+      "location_xyz": [
+        -1.8676400184631348,
+        2.735799551010132,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        68.0,
+        0.0,
+        -131.0
+      ]
+    },
+    "template_image": "audia7-e_QIW30o.opengl.png",
+    "mirror_sight": "audia7-7bTC-nGS"
+  },
+  "audia7-McR3TJK0": {
+    "id": "audia7-McR3TJK0",
+    "label": {
+      "en": "Rear Lateral Left",
+      "fr": "Arrière latéral gauche"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "rear lateral left x68 z100 1.4m",
+      "location_xyz": [
+        2.299999952316284,
+        1.619999885559082,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        68.0,
+        0.0,
+        100.0
+      ]
+    },
+    "template_image": "audia7-McR3TJK0.opengl.png",
+    "mirror_sight": "audia7-fDo5M0Fp"
+  },
+  "audia7-fDo5M0Fp": {
+    "id": "audia7-fDo5M0Fp",
+    "label": {
+      "en": "Rear Lateral Right",
+      "fr": "Arrière latéral droit"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "",
+      "dimensions_xyz": null,
+      "make": "Audi",
+      "model": "A7"
+    },
+    "camera": {
+      "name": "rear lateral right x68 z-100 1.4m",
+      "location_xyz": [
+        -2.299999952316284,
+        1.619999885559082,
+        1.399999976158142
+      ],
+      "focal_length": 26,
+      "rotation_xyz_deg": [
+        68.0,
+        0.0,
+        -100.0
+      ]
+    },
+    "template_image": "audia7-fDo5M0Fp.opengl.png",
+    "mirror_sight": "audia7-McR3TJK0"
   }
 }
