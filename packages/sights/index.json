@@ -1,14 +1,4 @@
 {
-  "87539411": {
-    "id": "87539411",
-    "label": {
-      "en": "Front Seats",
-      "fr": "Sièges Avant"
-    },
-    "category": "exterior",
-    "vehicleType": "undefined",
-    "overlay": "87539411.svg"
-  },
   "IqwSM3": {
     "category": "exterior",
     "id": "IqwSM3",
