@@ -172,7 +172,9 @@
     },
     "camera": {
       "name": "rear lateral left x80 z95 0.9m",
-      "location_xyz": [2.140855073928833, 1.229339838027954, 0.8999999761581421],
+      "location_xyz": [
+        2.140855073928833, 1.229339838027954, 0.8999999761581421
+      ],
       "rotation_xyz_rad": [1.3962633609771729, 0, 1.6580628156661987],
       "focal_length": 26
     },
@@ -194,7 +196,9 @@
     },
     "camera": {
       "name": "front lateral left x79 z75 0.9m",
-      "location_xyz": [2.171881675720215, -1.1752331256866455, 0.8999999761581421],
+      "location_xyz": [
+        2.171881675720215, -1.1752331256866455, 0.8999999761581421
+      ],
       "rotation_xyz_rad": [1.378810167312622, 0, 1.3089969158172607],
       "focal_length": 26
     },
@@ -369,7 +373,9 @@
     "camera": {
       "name": "windshield x58 1.9m",
       "location_xyz": [0, -1.6620965003967285, 1.899999976158142],
-      "rotation_xyz_rad": [1.0122909545898438, 5.9797477915596346e-18, 8.053430443816277e-20],
+      "rotation_xyz_rad": [
+        1.0122909545898438, 5.9797477915596346e-18, 8.053430443816277e-20
+      ],
       "focal_length": 26
     },
     "template_image": "oIk8RQ3w.opengl.png"
@@ -389,7 +395,9 @@
     },
     "camera": {
       "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
-      "location_xyz": [1.0691311359405518, -0.39549964666366577, 1.7999999523162842],
+      "location_xyz": [
+        1.0691311359405518, -0.39549964666366577, 1.7999999523162842
+      ],
       "rotation_xyz_rad": [1.3089969158172607, 0, 0.9250245094299316],
       "focal_length": 26
     },
@@ -410,7 +418,9 @@
     },
     "camera": {
       "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
-      "location_xyz": [-0.8915903568267822, 1.6373134851455688, 1.7999999523162842],
+      "location_xyz": [
+        -0.8915903568267822, 1.6373134851455688, 1.7999999523162842
+      ],
       "rotation_xyz_rad": [1.3089969158172607, 0, 3.944444179534912],
       "focal_length": 26
     },
@@ -431,7 +441,9 @@
     },
     "camera": {
       "name": "frame rail left x115 z41 0.1m",
-      "location_xyz": [1.0736500024795532, -1.0054600238800049, 0.10000000894069672],
+      "location_xyz": [
+        1.0736500024795532, -1.0054600238800049, 0.10000000894069672
+      ],
       "rotation_xyz_rad": [2.0071287155151367, 0, 0.7155849933624268],
       "focal_length": 26
     },
@@ -454,7 +466,9 @@
     "camera": {
       "name": "hood windshield x60 1.7m",
       "location_xyz": [0, -2.6243207454681396, 1.7000000476837158],
-      "rotation_xyz_rad": [1.0471975803375244, -5.0674301934860153e-17, 9.836880648136746e-18],
+      "rotation_xyz_rad": [
+        1.0471975803375244, -5.0674301934860153e-17, 9.836880648136746e-18
+      ],
       "focal_length": 26
     },
     "template_image": "RMeCZRbd.opengl.png"
@@ -474,7 +488,9 @@
     },
     "camera": {
       "name": "frame rail rear left x115 z139 0.1m",
-      "location_xyz": [1.11472487449646, 0.963828444480896, 0.10000000894069672],
+      "location_xyz": [
+        1.11472487449646, 0.963828444480896, 0.10000000894069672
+      ],
       "rotation_xyz_rad": [2.0071287155151367, 0, 2.4260077476501465],
       "focal_length": 26
     },
@@ -496,7 +512,9 @@
     },
     "camera": {
       "name": "front bumper side left x73 z45 0.9m",
-      "location_xyz": [1.1992995738983154, -2.4210193157196045, 0.8999999761581421],
+      "location_xyz": [
+        1.1992995738983154, -2.4210193157196045, 0.8999999761581421
+      ],
       "rotation_xyz_rad": [1.2740904092788696, 0, 0.7853981852531433],
       "focal_length": 26
     },
@@ -540,7 +558,9 @@
     },
     "camera": {
       "name": "rear wheel left x85 z90 0.6m",
-      "location_xyz": [1.8515325784683228, 1.2667466402053833, 0.6000000238418579],
+      "location_xyz": [
+        1.8515325784683228, 1.2667466402053833, 0.6000000238418579
+      ],
       "rotation_xyz_rad": [1.483529806137085, 0, 1.5707963705062866],
       "focal_length": 26
     },
@@ -562,7 +582,9 @@
     },
     "camera": {
       "name": "front wheel left x85 z90 0.6m",
-      "location_xyz": [1.857212781906128, -1.1906272172927856, 0.6000000238418579],
+      "location_xyz": [
+        1.857212781906128, -1.1906272172927856, 0.6000000238418579
+      ],
       "rotation_xyz_rad": [1.483529806137085, 0, 1.5707963705062866],
       "focal_length": 26
     },
@@ -781,7 +803,9 @@
     },
     "camera": {
       "name": "front lateral right x79 z-75 0.9m",
-      "location_xyz": [-2.171880006790161, -1.1752331256866455, 0.8999999761581421],
+      "location_xyz": [
+        -2.171880006790161, -1.1752331256866455, 0.8999999761581421
+      ],
       "rotation_xyz_rad": [1.378810167312622, 0, -1.3089969158172607],
       "focal_length": 26
     },
@@ -825,7 +849,9 @@
     },
     "camera": {
       "name": "rear lateral right x80 z-95 0.9m",
-      "location_xyz": [-2.140860080718994, 1.229339838027954, 0.8999999761581421],
+      "location_xyz": [
+        -2.140860080718994, 1.229339838027954, 0.8999999761581421
+      ],
       "rotation_xyz_rad": [1.3962633609771729, 0, -1.6580628156661987],
       "focal_length": 26
     },
@@ -849,9 +875,14 @@
       "name": "doors right x67 z-60 1.5m",
       "location_xyz": [-2.112499952316284, -0.795009970664978, 1.5],
       "rotation_xyz_rad": [1.1693706512451172, 0, -1.0471975803375244],
-      "focal_length": 26}, "template_image": "Pzgw0WGe.opengl.png", "mirror_sight": "IVcF1dOP"},
-  "jqJOb6Ov": {"id": "jqJOb6Ov", "label": { "en": "Front Fender Right","fr": "Aile avant droite"
+      "focal_length": 26
     },
+    "template_image": "Pzgw0WGe.opengl.png",
+    "mirror_sight": "IVcF1dOP"
+  },
+  "jqJOb6Ov": {
+    "id": "jqJOb6Ov",
+    "label": { "en": "Front Fender Right", "fr": "Aile avant droite" },
     "category": "exterior",
     "vehicle": {
       "type": "Small Crossover/SUV",
@@ -949,7 +980,9 @@
     },
     "camera": {
       "name": "frame rail right x115 z-41 0.1m",
-      "location_xyz": [-1.0736500024795532, -1.0054600238800049, 0.10000000894069672],
+      "location_xyz": [
+        -1.0736500024795532, -1.0054600238800049, 0.10000000894069672
+      ],
       "rotation_xyz_rad": [2.0071287155151367, 0, -0.7155849933624268],
       "focal_length": 26
     },
@@ -971,7 +1004,9 @@
     },
     "camera": {
       "name": "front bumper side right x73 z-45 0.9m",
-      "location_xyz": [-1.1993000507354736, -2.4210193157196045, 0.8999999761581421],
+      "location_xyz": [
+        -1.1993000507354736, -2.4210193157196045, 0.8999999761581421
+      ],
       "rotation_xyz_rad": [1.2740904092788696, 0, -0.7853981852531433],
       "focal_length": 26
     },
@@ -993,7 +1028,9 @@
     },
     "camera": {
       "name": "front wheel right x85 z-90 0.6m",
-      "location_xyz": [-1.8572100400924683, -1.1906272172927856, 0.6000000238418579],
+      "location_xyz": [
+        -1.8572100400924683, -1.1906272172927856, 0.6000000238418579
+      ],
       "rotation_xyz_rad": [1.483529806137085, 0, -1.5707963705062866],
       "focal_length": 26
     },
@@ -1037,7 +1074,9 @@
     },
     "camera": {
       "name": "rear wheel right x85 z-90 0.6m",
-      "location_xyz": [-1.8515299558639526, 1.2667466402053833, 0.6000000238418579],
+      "location_xyz": [
+        -1.8515299558639526, 1.2667466402053833, 0.6000000238418579
+      ],
       "rotation_xyz_rad": [1.483529806137085, 0, -1.5707963705062866],
       "focal_length": 26
     },
@@ -1081,7 +1120,9 @@
     },
     "camera": {
       "name": "frame rail rear right x115 z-139 0.1m",
-      "location_xyz": [-1.1147199869155884, 0.963828444480896, 0.10000000894069672],
+      "location_xyz": [
+        -1.1147199869155884, 0.963828444480896, 0.10000000894069672
+      ],
       "rotation_xyz_rad": [2.0071287155151367, 0, -2.4260077476501465],
       "focal_length": 26
     },
@@ -1236,7 +1277,9 @@
     },
     "camera": {
       "name": "front bumper side left x73 z45 0.8m",
-      "location_xyz": [1.2992995977401733, -2.69205904006958, 0.800000011920929],
+      "location_xyz": [
+        1.2992995977401733, -2.69205904006958, 0.800000011920929
+      ],
       "rotation_xyz_rad": [1.2740905284881592, 0, 0.7853983044624329],
       "focal_length": 26
     },
@@ -1259,8 +1302,12 @@
     },
     "camera": {
       "name": "front bumper side right x73 z-45 0.8m",
-      "location_xyz": [-1.2993000745773315, -2.69205904006958, 0.800000011920929],
-      "rotation_xyz_rad": [1.2740905284881592, 5.90050008852927e-09, -0.7853983044624329],
+      "location_xyz": [
+        -1.2993000745773315, -2.69205904006958, 0.800000011920929
+      ],
+      "rotation_xyz_rad": [
+        1.2740905284881592, 5.90050008852927e-9, -0.7853983044624329
+      ],
       "focal_length": 26
     },
     "template_image": "g30kyiVH.opengl.png",
@@ -1327,7 +1374,9 @@
     },
     "camera": {
       "name": "front fender right x67 z-57 1.4m",
-      "location_xyz": [-2.0203099250793457, -2.28149151802063, 1.399999976158142],
+      "location_xyz": [
+        -2.0203099250793457, -2.28149151802063, 1.399999976158142
+      ],
       "rotation_xyz_rad": [1.1693706512451172, 0, -0.9948376417160034],
       "focal_length": 26
     },
@@ -1372,7 +1421,9 @@
     },
     "camera": {
       "name": "doors left x67 z60 1.4m",
-      "location_xyz": [2.2125041484832764, -0.895010232925415, 1.399999976158142],
+      "location_xyz": [
+        2.2125041484832764, -0.895010232925415, 1.399999976158142
+      ],
       "rotation_xyz_rad": [1.1693706512451172, 0, 1.0471975803375244],
       "focal_length": 26
     },
@@ -1395,7 +1446,9 @@
     },
     "camera": {
       "name": "doors right x67 z-60 1.4m",
-      "location_xyz": [-2.2124998569488525, -0.895010232925415, 1.399999976158142],
+      "location_xyz": [
+        -2.2124998569488525, -0.895010232925415, 1.399999976158142
+      ],
       "rotation_xyz_rad": [1.1693706512451172, 0, -1.0471975803375244],
       "focal_length": 26
     },
@@ -1418,7 +1471,9 @@
     },
     "camera": {
       "name": "front roof IGNORE_MIRROR left x60 z60 1.8m",
-      "location_xyz": [1.0488500595092773, -0.19268780946731567, 1.7999999523162842],
+      "location_xyz": [
+        1.0488500595092773, -0.19268780946731567, 1.7999999523162842
+      ],
       "rotation_xyz_rad": [1.0471975803375244, 0, 1.0471975803375244],
       "focal_length": 26
     },
@@ -1485,8 +1540,12 @@
     },
     "camera": {
       "name": "rear fender right x68 z-131 1.4m",
-      "location_xyz": [-1.8676400184631348, 2.735799551010132, 1.399999976158142],
-      "rotation_xyz_rad": [1.186823844909668, 3.636411838314757e-09, -2.286381244659424],
+      "location_xyz": [
+        -1.8676400184631348, 2.735799551010132, 1.399999976158142
+      ],
+      "rotation_xyz_rad": [
+        1.186823844909668, 3.636411838314757e-9, -2.286381244659424
+      ],
       "focal_length": 26
     },
     "template_image": "e_QIW30o.opengl.png",
@@ -1531,7 +1590,9 @@
     },
     "camera": {
       "name": "rear lateral right x68 z-100 1.4m",
-      "location_xyz": [-2.299999952316284, 1.619999885559082, 1.399999976158142],
+      "location_xyz": [
+        -2.299999952316284, 1.619999885559082, 1.399999976158142
+      ],
       "rotation_xyz_rad": [1.186823844909668, 0, -1.7453292608261108],
       "focal_length": 26
     },
@@ -1549,7 +1610,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "26 front bumper side left z45 0.8m",
@@ -1571,7 +1634,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "34 beauty shot IGNORE_MIRROR left z45 1.5m",
@@ -1593,7 +1658,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "42 front fender left z57 1.4m",
@@ -1615,7 +1682,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "68 front roof IGNORE_MIRROR left z50 1.8m",
@@ -1636,7 +1705,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "93 lateral left z90 1.4m",
@@ -1657,7 +1728,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "128 rear lateral left z110 1.4m",
@@ -1679,7 +1752,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "153 rear left z135 1m",
@@ -1701,7 +1776,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "180 rear z-180 1.5m",
@@ -1722,7 +1799,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "334 front bumper side right z-45 0.8m",
@@ -1744,7 +1823,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "318 front fender right z-57 1.4m",
@@ -1766,7 +1847,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "267 lateral right z-90 1.4m",
@@ -1787,7 +1870,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "232 rear lateral right z-110 1.4m",
@@ -1809,7 +1894,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "207 rear right z-135 1m",
@@ -1831,7 +1918,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "0 front low 1.1m",
@@ -1852,7 +1941,9 @@
       "type": "Crossover",
       "make": "Ford",
       "model": "Escape SE 2020",
-      "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558]
+      "dimensions_xyz": [
+        2.1500000953674316, 4.599999904632568, 1.6699999570846558
+      ]
     },
     "camera": {
       "name": "0 hood 1.6m",
@@ -2329,12 +2420,16 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "36 beauty shot IGNORE_MIRROR left z45 1.6m",
       "location_xyz": [2.3, -3.2, 1.6],
-      "rotation_xyz_rad": [1.2566370964050293, 2.0124076105641645e-16, 0.7853981852531433],
+      "rotation_xyz_rad": [
+        1.2566370964050293, 2.0124076105641645e-16, 0.7853981852531433
+      ],
       "focal_length": 26
     },
     "template_image": "ff150-7UI3m9B3.opengl.png",
@@ -2351,7 +2446,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "24 front bumper side left z45 1.1m",
@@ -2373,7 +2470,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "40 front fender left z57 1.4m",
@@ -2395,7 +2494,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "48 front roof IGNORE_MIRROR left z50 2m",
@@ -2416,7 +2517,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "129 rear lateral left z110 1.5m",
@@ -2438,7 +2541,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "180 rear z-180 1.4m",
@@ -2459,7 +2564,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "336 front bumper side right z-45 1.1m",
@@ -2481,7 +2588,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "320 front fender right z-57 1.4m",
@@ -2503,7 +2612,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "231 rear lateral right z-110 1.5m",
@@ -2525,7 +2636,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "88 lateral left z90 1.5m",
@@ -2546,7 +2659,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "159 rear left z140 1.2m",
@@ -2568,7 +2683,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "272 lateral right z-90 1.5m",
@@ -2589,7 +2706,9 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "201 rear right z-140 1.2m",
@@ -2611,12 +2730,16 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "0 front low 1.1m",
       "location_xyz": [0, -3.8, 1.1],
-      "rotation_xyz_rad": [1.378810167312622, 2.0124076105641645e-16, 1.2820449814646714e-16],
+      "rotation_xyz_rad": [
+        1.378810167312622, 2.0124076105641645e-16, 1.2820449814646714e-16
+      ],
       "focal_length": 26
     },
     "template_image": "ff150-zXbg0l3z.opengl.png"
@@ -2632,12 +2755,16 @@
       "type": "Pickup",
       "make": "Ford",
       "model": "F-150 Super Cab XL 2014",
-      "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126]
+      "dimensions_xyz": [
+        2.4800000190734863, 5.800000190734863, 1.9299999475479126
+      ]
     },
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [0, -3.3, 1.7],
-      "rotation_xyz_rad": [1.2042771577835083, 2.0124076105641645e-16, 1.2820449814646714e-16],
+      "rotation_xyz_rad": [
+        1.2042771577835083, 2.0124076105641645e-16, 1.2820449814646714e-16
+      ],
       "focal_length": 26
     },
     "template_image": "ff150-3he9UOwy.opengl.png"
@@ -3061,7 +3188,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "25 front bumper side left z45 0.8m",
@@ -3083,7 +3212,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
@@ -3104,7 +3235,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "42 front fender left z57 1.4m",
@@ -3148,7 +3281,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "95 lateral left z90 1.4m",
@@ -3192,7 +3327,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "318 front fender right z-57 1.4m",
@@ -3214,7 +3351,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "265 lateral right z-90 1.4m",
@@ -3235,7 +3374,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "126 rear lateral left z110 1.4m",
@@ -3302,7 +3443,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "234 rear lateral right z-110 1.4m",
@@ -3347,7 +3490,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "0 front low 1m",
@@ -3368,7 +3513,9 @@
       "type": "City",
       "make": "Ford",
       "model": "Focus",
-      "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727]
+      "dimensions_xyz": [
+        1.9800000190734863, 4.420000076293945, 1.4600000381469727
+      ]
     },
     "camera": {
       "name": "0 hood 1.6m",
@@ -3856,7 +4003,9 @@
     "camera": {
       "name": "0 front low 1.2m",
       "location_xyz": [0, -4.050001, 1.2],
-      "rotation_xyz_rad": [1.3613568544387817, 2.0124076105641645e-16, 1.2820449814646714e-16],
+      "rotation_xyz_rad": [
+        1.3613568544387817, 2.0124076105641645e-16, 1.2820449814646714e-16
+      ],
       "focal_length": 26
     },
     "template_image": "ftransit18-wyXf7MTv.opengl.png"
@@ -3877,7 +4026,9 @@
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [0, -3.8, 1.7],
-      "rotation_xyz_rad": [1.3788100481033325, 2.0124076105641645e-16, 1.2820449814646714e-16],
+      "rotation_xyz_rad": [
+        1.3788100481033325, 2.0124076105641645e-16, 1.2820449814646714e-16
+      ],
       "focal_length": 26
     },
     "template_image": "ftransit18-UNAZWJ-r.opengl.png"
@@ -3920,7 +4071,9 @@
     "camera": {
       "name": "35 beauty shot IGNORE_MIRROR left z45 1.6m",
       "location_xyz": [2.5, -3.6, 1.6],
-      "rotation_xyz_rad": [1.3788100481033325, 2.0124076105641645e-16, 0.7853981852531433],
+      "rotation_xyz_rad": [
+        1.3788100481033325, 2.0124076105641645e-16, 0.7853981852531433
+      ],
       "focal_length": 26
     },
     "template_image": "ftransit18-ffghVsNz.opengl.png",
@@ -4094,7 +4247,9 @@
     "camera": {
       "name": "271 lateral right z-90 1.5m",
       "location_xyz": [-3.9, -0.05, 1.5],
-      "rotation_xyz_rad": [1.5009831190109253, -3.256752214337731e-16, -1.5707963705062866],
+      "rotation_xyz_rad": [
+        1.5009831190109253, -3.256752214337731e-16, -1.5707963705062866
+      ],
       "focal_length": 26
     },
     "template_image": "ftransit18-sLAPXyG8.opengl.png"
@@ -4115,7 +4270,9 @@
     "camera": {
       "name": "238 rear lateral right z-100 1.5m",
       "location_xyz": [-3.15, 1.95, 1.5],
-      "rotation_xyz_rad": [1.5446163415908813, -4.585868351725253e-10, -1.7453292608261108],
+      "rotation_xyz_rad": [
+        1.5446163415908813, -4.585868351725253e-10, -1.7453292608261108
+      ],
       "focal_length": 26
     },
     "template_image": "ftransit18-qmLP7A-b.opengl.png",
@@ -4137,7 +4294,9 @@
     "camera": {
       "name": "300 front lateral right z-80 1.5m",
       "location_xyz": [-3.1, -1.8, 1.5],
-      "rotation_xyz_rad": [1.483529806137085, 9.171736703450506e-10, -1.3962633609771729],
+      "rotation_xyz_rad": [
+        1.483529806137085, 9.171736703450506e-10, -1.3962633609771729
+      ],
       "focal_length": 26
     },
     "template_image": "ftransit18-E7DAv47J.opengl.png",
@@ -4582,7 +4741,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "0 front low 1m",
@@ -4603,7 +4764,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "0 hood 1.6m",
@@ -4624,7 +4787,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "25 front bumper side left z45 0.8m",
@@ -4646,7 +4811,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
@@ -4668,7 +4835,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "42 front fender left z57 1.4m",
@@ -4690,7 +4859,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "61 front roof IGNORE_MIRROR left z50 1.7m",
@@ -4711,7 +4882,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "94 lateral left z90 1.4m",
@@ -4732,7 +4905,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "130 rear lateral left z110 1.4m",
@@ -4754,7 +4929,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "155 rear left z135 1m",
@@ -4776,7 +4953,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "180 rear z-180 1.4m",
@@ -4797,7 +4976,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "335 front bumper side right z-45 0.8m",
@@ -4819,7 +5000,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "318 front fender right z-57 1.4m",
@@ -4841,7 +5024,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "266 lateral right z-90 1.4m",
@@ -4862,7 +5047,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "230 rear lateral right z-110 1.4m",
@@ -4884,7 +5071,9 @@
       "type": "Sedan",
       "make": "Honda",
       "model": "Accord Sedan Sport US spec 2018",
-      "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459]
+      "dimensions_xyz": [
+        2.140000104904175, 4.880000114440918, 1.440000057220459
+      ]
     },
     "camera": {
       "name": "205 rear right z-135 1m",
@@ -5362,7 +5551,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "36 beauty shot IGNORE_MIRROR left z45 1.6m",
@@ -5384,7 +5575,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "66 front roof IGNORE_MIRROR left z50 2m",
@@ -5405,7 +5598,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "180 rear z-180 1.4m",
@@ -5426,7 +5621,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "43 front fender left z57 1.4m",
@@ -5448,7 +5645,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "25 front bumper side left z45 1m",
@@ -5470,12 +5669,16 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "317 front fender right z-57 1.4m",
       "location_xyz": [-2.2, -2.4, 1.4],
-      "rotation_xyz_rad": [1.2740904092788696, -8.115753402648807e-09, -0.994837760925293],
+      "rotation_xyz_rad": [
+        1.2740904092788696, -8.115753402648807e-9, -0.994837760925293
+      ],
       "focal_length": 26
     },
     "template_image": "jgc21-QwNQX0Cr.opengl.png",
@@ -5492,7 +5695,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "335 front bumper side right z-45 1m",
@@ -5514,7 +5719,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "94 lateral left z90 1.5m",
@@ -5535,7 +5742,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "155 rear left z135 1.2m",
@@ -5557,7 +5766,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "130 rear lateral left z110 1.5m",
@@ -5579,7 +5790,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "266 lateral right z-90 1.5m",
@@ -5600,7 +5813,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "230 rear lateral right z-110 1.5m",
@@ -5622,7 +5837,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "205 rear right z-135 1.2m",
@@ -5644,7 +5861,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "0 front low 1.1m",
@@ -5665,7 +5884,9 @@
       "type": "Large SUV",
       "make": "Jeep",
       "model": "Grand Cherokee L Summit 2021",
-      "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284]
+      "dimensions_xyz": [
+        2.190000057220459, 5.179999828338623, 1.8799999952316284
+      ]
     },
     "camera": {
       "name": "0 hood 1.7m",
@@ -6123,7 +6344,9 @@
     "camera": {
       "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
       "location_xyz": [2.1, -3, 1.5],
-      "rotation_xyz_rad": [1.2217304706573486, 2.0124076105641645e-16, 0.7853981852531433],
+      "rotation_xyz_rad": [
+        1.2217304706573486, 2.0124076105641645e-16, 0.7853981852531433
+      ],
       "focal_length": 26
     },
     "template_image": "tsienna20-jY3cR5vy.opengl.png",
@@ -6296,7 +6519,9 @@
     "camera": {
       "name": "0 front low 1.1m",
       "location_xyz": [0, -3.7, 1.1],
-      "rotation_xyz_rad": [1.326450228691101, 2.0124076105641645e-16, 1.2820449814646714e-16],
+      "rotation_xyz_rad": [
+        1.326450228691101, 2.0124076105641645e-16, 1.2820449814646714e-16
+      ],
       "focal_length": 26
     },
     "template_image": "tsienna20-YwrRNr9n.opengl.png"
@@ -6317,7 +6542,9 @@
     "camera": {
       "name": "0 hood 1.7m",
       "location_xyz": [0, -3.4, 1.7],
-      "rotation_xyz_rad": [1.1519173383712769, 2.0124076105641645e-16, 1.2820449814646714e-16],
+      "rotation_xyz_rad": [
+        1.1519173383712769, 2.0124076105641645e-16, 1.2820449814646714e-16
+      ],
       "focal_length": 26
     },
     "template_image": "tsienna20-HykkFbXf.opengl.png"
@@ -6360,7 +6587,9 @@
     "camera": {
       "name": "319 front fender right z-57 1.4m",
       "location_xyz": [-2.25, -2.55, 1.4],
-      "rotation_xyz_rad": [1.2566369771957397, 4.381412122000938e-09, -0.9948376417160034],
+      "rotation_xyz_rad": [
+        1.2566369771957397, 4.381412122000938e-9, -0.9948376417160034
+      ],
       "focal_length": 26
     },
     "template_image": "tsienna20-xtDcn3GS.opengl.png",
@@ -6447,11 +6676,7 @@
     "camera": {
       "name": "325 front full right z-45 1.5m",
       "location_xyz": [-2.1, -3, 1.5],
-      "rotation_xyz_deg": [
-        70,
-        0,
-        -45
-      ],
+      "rotation_xyz_deg": [70, 0, -45],
       "focal_length": 26
     },
     "angle_order": 325.00798,
@@ -6475,11 +6700,7 @@
     "camera": {
       "name": "52 front lateral low left z80 0.92m",
       "location_xyz": [2.25, -1.77, 0.92],
-      "rotation_xyz_deg": [
-        80,
-        0,
-        80
-      ],
+      "rotation_xyz_deg": [80, 0, 80],
       "focal_length": 26
     },
     "angle_order": 51.80905,
@@ -6503,11 +6724,7 @@
     "camera": {
       "name": "308 front lateral low right z-80 0.92m",
       "location_xyz": [-2.25, -1.77, 0.92],
-      "rotation_xyz_deg": [
-        80,
-        0,
-        -80
-      ],
+      "rotation_xyz_deg": [80, 0, -80],
       "focal_length": 26
     },
     "angle_order": 308.19095,
@@ -6531,11 +6748,7 @@
     "camera": {
       "name": "88 lateral low left z90 0.8m",
       "location_xyz": [2.8, -0.1, 0.8],
-      "rotation_xyz_deg": [
-        90,
-        0,
-        90
-      ],
+      "rotation_xyz_deg": [90, 0, 90],
       "focal_length": 26
     },
     "angle_order": 87.95459,
@@ -6559,11 +6772,7 @@
     "camera": {
       "name": "272 lateral low right z-90 0.8m",
       "location_xyz": [-2.8, -0.1, 0.8],
-      "rotation_xyz_deg": [
-        90,
-        0,
-        -90
-      ],
+      "rotation_xyz_deg": [90, 0, -90],
       "focal_length": 26
     },
     "angle_order": 272.04541,
@@ -6587,11 +6796,7 @@
     "camera": {
       "name": "91 lateral full left z90 1.6m",
       "location_xyz": [4.45, 0.05, 1.6],
-      "rotation_xyz_deg": [
-        81,
-        0,
-        90
-      ],
+      "rotation_xyz_deg": [81, 0, 90],
       "focal_length": 26
     },
     "angle_order": 90.64375,
@@ -6615,11 +6820,7 @@
     "camera": {
       "name": "269 lateral full right z-90 1.6m",
       "location_xyz": [-4.45, 0.05, 1.6],
-      "rotation_xyz_deg": [
-        81,
-        0,
-        -90
-      ],
+      "rotation_xyz_deg": [81, 0, -90],
       "focal_length": 26
     },
     "angle_order": 269.35625,
@@ -6643,11 +6844,7 @@
     "camera": {
       "name": "129 rear lateral low left z100 0.9m",
       "location_xyz": [2.25, 1.85, 0.9],
-      "rotation_xyz_deg": [
-        82,
-        0,
-        100
-      ],
+      "rotation_xyz_deg": [82, 0, 100],
       "focal_length": 26
     },
     "angle_order": 129.4278,
@@ -6671,11 +6868,7 @@
     "camera": {
       "name": "231 rear lateral low right z-100 0.9m",
       "location_xyz": [-2.25, 1.85, 0.9],
-      "rotation_xyz_deg": [
-        82,
-        0,
-        -100
-      ],
+      "rotation_xyz_deg": [82, 0, -100],
       "focal_length": 26
     },
     "angle_order": 230.5722,
@@ -6699,11 +6892,7 @@
     "camera": {
       "name": "180 rear roof z-180 2m",
       "location_xyz": [0, 3.05, 2],
-      "rotation_xyz_deg": [
-        60,
-        0,
-        -180
-      ],
+      "rotation_xyz_deg": [60, 0, -180],
       "focal_length": 26
     },
     "angle_order": 180,
@@ -6727,11 +6916,7 @@
     "camera": {
       "name": "200 rear roof IGNORE_MIRROR right z-140 2m",
       "location_xyz": [-1, 2.7, 2],
-      "rotation_xyz_deg": [
-        60,
-        0,
-        -140
-      ],
+      "rotation_xyz_deg": [60, 0, -140],
       "focal_length": 26
     },
     "angle_order": 200.32314,
@@ -6755,11 +6940,7 @@
     "camera": {
       "name": "146 rear full left z135 1.6m",
       "location_xyz": [2.1, 3.1, 1.6],
-      "rotation_xyz_deg": [
-        72,
-        0,
-        135
-      ],
+      "rotation_xyz_deg": [72, 0, 135],
       "focal_length": 26
     },
     "angle_order": 145.88553,
@@ -6783,11 +6964,7 @@
     "camera": {
       "name": "214 rear full right z-135 1.6m",
       "location_xyz": [-2.1, 3.1, 1.6],
-      "rotation_xyz_deg": [
-        72,
-        0,
-        -135
-      ],
+      "rotation_xyz_deg": [72, 0, -135],
       "focal_length": 26
     },
     "angle_order": 214.11447,
@@ -6811,11 +6988,7 @@
     "camera": {
       "name": "55 front door left z70 1.5m",
       "location_xyz": [2.25, -1.6, 1.5],
-      "rotation_xyz_deg": [
-        71,
-        0,
-        70
-      ],
+      "rotation_xyz_deg": [71, 0, 70],
       "focal_length": 26
     },
     "angle_order": 54.58294,
@@ -6839,11 +7012,7 @@
     "camera": {
       "name": "125 rear door left z110 1.5m",
       "location_xyz": [2.25, 1.6, 1.5],
-      "rotation_xyz_deg": [
-        73,
-        0,
-        110
-      ],
+      "rotation_xyz_deg": [73, 0, 110],
       "focal_length": 26
     },
     "angle_order": 125.41706,
@@ -6867,11 +7036,7 @@
     "camera": {
       "name": "235 rear door right z-110 1.5m",
       "location_xyz": [-2.25, 1.6, 1.5],
-      "rotation_xyz_deg": [
-        73,
-        0,
-        -110
-      ],
+      "rotation_xyz_deg": [73, 0, -110],
       "focal_length": 26
     },
     "angle_order": 234.58294,
@@ -6895,11 +7060,7 @@
     "camera": {
       "name": "305 front door right z-70 1.5m",
       "location_xyz": [-2.25, -1.6, 1.5],
-      "rotation_xyz_deg": [
-        71,
-        0,
-        -70
-      ],
+      "rotation_xyz_deg": [71, 0, -70],
       "focal_length": 26
     },
     "angle_order": 305.41706,
