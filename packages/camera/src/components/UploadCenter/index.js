@@ -58,6 +58,7 @@ export default function UploadCenter({
   sights,
   uploads,
   isSubmitting,
+  enableCarCoverage,
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onRetakeAll,
@@ -85,6 +86,7 @@ export default function UploadCenter({
     mapTasksToSights,
     onRetakeAll,
     checkComplianceAsync,
+    enableCarCoverage,
     ids,
     ...states,
   });
@@ -282,6 +284,7 @@ UploadCenter.propTypes = {
     text: PropTypes.string,
   }).isRequired,
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
+  enableCarCoverage: PropTypes.bool,
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
@@ -309,6 +312,7 @@ UploadCenter.propTypes = {
 };
 
 UploadCenter.defaultProps = {
+  enableCarCoverage: false,
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
   checkComplianceAsync: () => {},
