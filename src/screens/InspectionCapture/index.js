@@ -212,6 +212,7 @@ export default function InspectionCapture() {
         onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
         settings={settings}
+        enableCarCoverage
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}

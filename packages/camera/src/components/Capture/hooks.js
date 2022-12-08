@@ -173,6 +173,7 @@ export function useStartUploadAsync({
   sights,
   uploads,
   task,
+  enableCarCoverage,
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
@@ -280,7 +281,7 @@ export function useStartUploadAsync({
         },
         compliances: {
           image_quality_assessment: {},
-          coverage_360: { sight_id: id },
+          coverage_360: enableCarCoverage ? { sight_id: id } : undefined,
           // coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
           //   sight_id: id,
           // } : undefined,

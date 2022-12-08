@@ -12,12 +12,20 @@ export default function useHandlers({
   checkComplianceAsync,
   ids,
   mapTasksToSights,
+  enableCarCoverage,
   ...states
 }) {
   const { sights, compliance, uploads } = states;
   const [complianceToCheck, setComplianceToCheck] = useState([]);
 
-  const uploadParams = { inspectionId, sights, uploads, mapTasksToSights, task };
+  const uploadParams = {
+    inspectionId,
+    sights,
+    uploads,
+    mapTasksToSights,
+    task,
+    enableCarCoverage,
+  };
   const startUploadAsync = useStartUploadAsync(uploadParams);
 
   const handleRetakeAll = useCallback(() => {
