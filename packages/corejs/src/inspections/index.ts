@@ -34,6 +34,7 @@ import { Inspection, NormalizedInspection, PdfInputData } from './entityTypes';
 import { InspectionPayloadTypes } from './reduxTypes';
 
 import schema, { idAttribute, key } from './schema';
+import { getCurrentEnvSpecs } from './utils';
 
 export const name = key;
 
@@ -156,6 +157,11 @@ export async function getMany(options?: GetManyInspectionsOptions): Promise<GetM
  * @param {CreateInspection} createInspection - The details of the inspection to create.
  */
 export async function createOne(createInspection: CreateInspection): Promise<CreateOneInspectionResponse> {
+  const environment = getCurrentEnvSpecs();
+  createInspection.additionalData = {
+    ...(createInspection.additionalData ?? {}),
+    environment,
+  };
   const axiosResponse = await axios.request<IdResponse<'id'>>({
     ...config.axiosConfig,
     method: 'post',

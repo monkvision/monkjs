@@ -1,3 +1,7 @@
+import exportVersions from './utils/exportVersions';
+
+exportVersions();
+
 export { default as Camera } from './components/Camera';
 export { default as Capture } from './components/Capture';
 export { default as Controls } from './components/Controls';
