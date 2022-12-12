@@ -111,6 +111,16 @@ export default function Inspector({ inspectionId }) {
 }
 ```
 
+# Calling `mediaDevices.getUserMedia()`
+
+On iOS, calling `mediaDevices.getUserMedia()` to get a video stream causes previous streams created this way to be
+closed, and since this package gets its camera preview from this method, if this `mediaDevices.getUserMedia()` is called
+another time *after* Monk's stream has been created, the camera preview will not be able to be rendered.
+
+Monk's camera package contains a safeguard that should restart the stream if it has been closed previously, but this
+behaviour is to be avoided if possible. This is why we recommended avoiding calling `mediaDevices.getUserMedia()`
+*after* the Camera component is rendered.
+
 # Using custom capture taking
 
 Here is an example on how to add a custom picture taking component to bypass the normal capture workflow and upload the
@@ -325,6 +335,18 @@ const handleCaptureTourStart = () => console.log('Capture tour has started');
 `PropTypes.func`
 
 Will call a function when the Capture tour finishes.
+
+## onCameraPermissionSuccess
+`PropTypes.func`
+
+Callback called when we successfully got permission from the web browser to use the camera. The argument given
+as a parameter will be the video stream created.
+
+## onCameraPermissionError
+`PropTypes.func`
+
+Callback called when we could not get the permission from the web browser to use the camera. The argument given
+as a parameter will be the error received from the browser.
 
 ```js
 const handleCaptureTourFinish = () => console.log('Capture tour has finished');

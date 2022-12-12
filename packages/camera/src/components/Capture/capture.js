@@ -71,6 +71,7 @@ const Capture = forwardRef(({
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
+  enableCarCoverage,
   enableQHDWhenSupported,
   colors,
   footer,
@@ -87,6 +88,8 @@ const Capture = forwardRef(({
   onSightsChange,
   onUploadsChange,
   onCaptureTourFinish,
+  onCameraPermissionError,
+  onCameraPermissionSuccess,
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onPictureUploaded,
@@ -186,6 +189,7 @@ const Capture = forwardRef(({
     uploads,
     task,
     mapTasksToSights,
+    enableCarCoverage,
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
     onWarningMessage,
@@ -388,6 +392,8 @@ const Capture = forwardRef(({
             compressionOptions={compressionOptions}
             resolutionOptions={resolutionOptions}
             isDisplayed={isCameraDisplayed}
+            onCameraPermissionError={onCameraPermissionError}
+            onCameraPermissionSuccess={onCameraPermissionSuccess}
             Sentry={Sentry}
           >
             {children}
@@ -458,6 +464,7 @@ Capture.propTypes = {
     })),
   ])),
   controlsContainerStyle: PropTypes.objectOf(PropTypes.any),
+  enableCarCoverage: PropTypes.bool,
   enableComplianceCheck: PropTypes.bool,
   enableCompression: PropTypes.bool,
   enableQHDWhenSupported: PropTypes.bool,
@@ -488,6 +495,8 @@ Capture.propTypes = {
     retakeMinTry: PropTypes.number,
   }),
   offline: PropTypes.objectOf(PropTypes.any),
+  onCameraPermissionError: PropTypes.func,
+  onCameraPermissionSuccess: PropTypes.func,
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
@@ -574,6 +583,7 @@ Capture.defaultProps = {
   controls: [],
   controlsContainerStyle: {},
   enableQHDWhenSupported: true,
+  enableCarCoverage: false,
   enableCompression: true,
   footer: null,
   fullscreen: null,
@@ -590,6 +600,8 @@ Capture.defaultProps = {
   navigationOptions: defaultNavigationOptions,
   offline: null,
   onPictureUploaded: () => {},
+  onCameraPermissionError: () => {},
+  onCameraPermissionSuccess: () => {},
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},
