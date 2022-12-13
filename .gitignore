@@ -80,3 +80,11 @@ demo.dev.monk.yml
 
 # vscode
 .vscode
+
+# yarn
+.yarn/cache
+.yarn/install-state.gz
+
+# refacto files
+demos
+packages/example

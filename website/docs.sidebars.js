@@ -8,6 +8,7 @@ module.exports = {
       'js/guides/picturing',
       'js/guides/requesting',
       'js/guides/visualizing',
+      'js/guides/upgrading-to-3.5',
     ],
     collapsed: false,
   }, {
