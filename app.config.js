@@ -38,24 +38,24 @@ const options = [
     description: 'inspection.damageDetection.description',
     icon: 'axis-z-rotate-counterclockwise',
     sightIds: [
-      'vLcBGkeh', // Front
-      'xfbBpq3Q', // Front Bumper Side Left
-      'xQKQ0bXS', // Front wheel left (Wheels analysis)
-      'zjAIjUgU', // Front Lateral Left
-      'T24v9XS8', // Front Door Left
-      'UHZkpCuK', // Rocker panel left
-      'ClEZSucK', // Rear Lateral Left
-      '8_W2PO8L', // Rear wheel left (Wheels analysis)
-      'j8YHvnDP', // Rear Bumper Side Left
-      'XyeyZlaU', // Rear
-      'LDRoAPnk', // Rear Bumper Side Right
-      'rN39Y3HR', // Rear wheel right (Wheels analysis)
-      'QqBpHiVP', // Rear Lateral Right
-      'B5s1CWT-', // Rocker panel right
-      '2wVqenwP', // Front Door Right
-      '0U14gFyk', // Front Lateral Right
-      'PuIw17h0', // Front wheel right (Wheels analysis)
-      'CELBsvYD', // Front Bumper Side Right
+      'vwtroc-vLcBGkeh', // Front
+      'vwtroc-xfbBpq3Q', // Front Bumper Side Left
+      'vwtroc-xQKQ0bXS', // Front wheel left (Wheels analysis)
+      'vwtroc-zjAIjUgU', // Front Lateral Left
+      'vwtroc-T24v9XS8', // Front Door Left
+      'vwtroc-UHZkpCuK', // Rocker panel left
+      'vwtroc-ClEZSucK', // Rear Lateral Left
+      'vwtroc-8_W2PO8L', // Rear wheel left (Wheels analysis)
+      'vwtroc-j8YHvnDP', // Rear Bumper Side Left
+      'vwtroc-XyeyZlaU', // Rear
+      'vwtroc-LDRoAPnk', // Rear Bumper Side Right
+      'vwtroc-rN39Y3HR', // Rear wheel right (Wheels analysis)
+      'vwtroc-QqBpHiVP', // Rear Lateral Right
+      'vwtroc-B5s1CWT-', // Rocker panel right
+      'vwtroc-2wVqenwP', // Front Door Right
+      'vwtroc-0U14gFyk', // Front Lateral Right
+      'vwtroc-PuIw17h0', // Front wheel right (Wheels analysis)
+      'vwtroc-CELBsvYD', // Front Bumper Side Right
     ],
     taskName: 'damage_detection',
   },
@@ -197,6 +197,6 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.staging.env,
+    ...eas.build.development.env,
   },
 };
