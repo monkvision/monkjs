@@ -32,6 +32,28 @@ export interface AuthConfig {
   clientId: string,
 }
 
+/**
+ * The version numbers of the Monk pacakges.
+ */
+export interface PackageVersions {
+  /**
+   * The package version of the corejs package.
+   */
+  corejs?: string,
+  /**
+   * The package version of the camera package.
+   */
+  camera?: string,
+  /**
+   * The package version of the toolkit package.
+   */
+  toolkit?: string,
+  /**
+   * The package version of the sights package.
+   */
+  sights?: string,
+}
+
 export const baseAuthConfig: AuthConfig = {
   domain: 'idp.monk.ai',
   audience: 'https://api.monk.ai/v1/',
@@ -50,6 +72,7 @@ export class Config {
   constructor(
     private _axiosConfig: AxiosRequestConfig = baseAxiosConfig,
     private _authConfig: AuthConfig = baseAuthConfig,
+    private _packageVersions: PackageVersions = {},
   ) {}
 
   get authConfig(): AuthConfig {
@@ -80,6 +103,14 @@ export class Config {
         Authorization: `Bearer ${value.replace('Bearer ', '')}`,
       },
     };
+  }
+
+  get packageVersions(): PackageVersions {
+    return this._packageVersions;
+  }
+
+  set packageVersions(value: PackageVersions) {
+    this._packageVersions = value;
   }
 
   toPlainObject(): CoreJsConfigObject {
