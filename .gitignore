@@ -84,7 +84,3 @@ demo.dev.monk.yml
 # yarn
 .yarn/cache
 .yarn/install-state.gz
-
-# refacto files
-demos
-packages/example

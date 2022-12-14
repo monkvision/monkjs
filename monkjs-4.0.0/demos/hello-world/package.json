@@ -1,0 +1,75 @@
+{
+  "name": "@monkvision/hello-world-demo",
+  "version": "1.0.0",
+  "packageManager": "yarn@3.2.4",
+  "author": "monkvision",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false  --roots test/ --testMatch '**/*.test.[jt]s?(x)'",
+    "eject": "react-scripts eject",
+    "prettier": "prettier --check ./src ./test",
+    "prettier:fix": "prettier --write ./src ./test",
+    "eslint": "eslint --format=pretty ./src ./test",
+    "eslint:fix": "eslint --fix --format=pretty ./src ./test",
+    "lint": "yarn run prettier && yarn run eslint",
+    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
+  },
+  "dependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@monkvision/eslint-config-react": "workspace:*",
+    "@monkvision/jest-config": "workspace:*",
+    "@monkvision/prettier-config": "workspace:*",
+    "@monkvision/typescript-config": "workspace:*",
+    "@testing-library/dom": "^8.19.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "@types/babel__core": "^7",
+    "@types/eslint": "^8",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^16.18.8",
+    "@types/prettier": "^2",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.6",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.3.1",
+    "prettier": "^2.8.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "prettier": "@monkvision/prettier-config"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@monkvision/prettier-config",
+  "version": "1.0.0",
+  "packageManager": "yarn@3.2.4",
+  "private": true,
+  "author": "monkvision",
+  "main": "index.js",
+  "license": "BSD-3-Clause-Clear",
+  "peerDependencies": {
+    "prettier": "^2.7.1"
+  }
+}
