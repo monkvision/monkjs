@@ -173,7 +173,7 @@ export function useStartUploadAsync({
   sights,
   uploads,
   task,
-  enableCarCoverage,
+  // enableCarCoverage,
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
