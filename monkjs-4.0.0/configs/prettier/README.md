@@ -12,7 +12,7 @@ If you are installing this package as a dev dependency in the @monkvision yarn w
 in the dev dependencies of your package.json :
 
 ```
-"@monkvision/prettier-config": "workspace:*"
+"@monkvision/prettier-config": "1.0.0"
 ```
 
 # How to use

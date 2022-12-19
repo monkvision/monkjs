@@ -4,7 +4,6 @@ lib/
 dist/
 module/
 commonjs/
-typescript/
 web-build/
 
 # deploy

@@ -1,0 +1,459 @@
+{
+  "tsienna20--a2RmRcs": {
+    "id": "tsienna20--a2RmRcs",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.45, 3.05, 1],
+      "name": "205 rear right z-135 1m",
+      "rotation_xyz_deg": [79, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "tsienna20--a2RmRcs.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-1n_z8bYy"
+  },
+  "tsienna20-1LNxhgCR": {
+    "id": "tsienna20-1LNxhgCR",
+    "angle_order": 87.95459,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.8, -0.1, 0.8],
+      "name": "88 lateral low left z90 0.8m",
+      "rotation_xyz_deg": [90, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-left",
+    "overlay": "tsienna20-1LNxhgCR.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-Rw0Gtt7O"
+  },
+  "tsienna20-1n_z8bYy": {
+    "id": "tsienna20-1n_z8bYy",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.45, 3.05, 1],
+      "name": "155 rear left z135 1m",
+      "rotation_xyz_deg": [79, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "tsienna20-1n_z8bYy.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20--a2RmRcs"
+  },
+  "tsienna20-4ihRwDkS": {
+    "id": "tsienna20-4ihRwDkS",
+    "angle_order": 90.64375,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [4.45, 0.05, 1.6],
+      "name": "91 lateral full left z90 1.6m",
+      "rotation_xyz_deg": [81, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "tsienna20-4ihRwDkS.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-uIHdpQ9y"
+  },
+  "tsienna20-65mfPdRD": {
+    "id": "tsienna20-65mfPdRD",
+    "angle_order": 51.80905,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, -1.77, 0.92],
+      "name": "52 front lateral low left z80 0.92m",
+      "rotation_xyz_deg": [80, 0, 80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "tsienna20-65mfPdRD.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-cI285Gon"
+  },
+  "tsienna20-670P2H2V": {
+    "id": "tsienna20-670P2H2V",
+    "angle_order": 129.4278,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, 1.85, 0.9],
+      "name": "129 rear lateral low left z100 0.9m",
+      "rotation_xyz_deg": [82, 0, 100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "tsienna20-670P2H2V.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-SebsoqJm"
+  },
+  "tsienna20-D6pPBrXx": {
+    "id": "tsienna20-D6pPBrXx",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.8, 0, 1.4],
+      "name": "90 lateral left z90 1.4m",
+      "rotation_xyz_deg": [76, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "tsienna20-D6pPBrXx.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-HykkFbXf": {
+    "id": "tsienna20-HykkFbXf",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.4, 1.7],
+      "name": "0 hood 1.7m",
+      "rotation_xyz_deg": [66, 0, 0]
+    },
+    "category": "exterior",
+    "label": "hood",
+    "overlay": "tsienna20-HykkFbXf.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-Ia0SGJ6z": {
+    "id": "tsienna20-Ia0SGJ6z",
+    "angle_order": 54.58294,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, -1.6, 1.5],
+      "name": "55 front door left z70 1.5m",
+      "rotation_xyz_deg": [71, 0, 70]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "tsienna20-Ia0SGJ6z.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-TibS83Qr"
+  },
+  "tsienna20-KHB_Cd9k": {
+    "id": "tsienna20-KHB_Cd9k",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.45, -2.95, 1],
+      "name": "334 front bumper side right z-45 1m",
+      "rotation_xyz_deg": [72, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "tsienna20-KHB_Cd9k.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-TI4TVvT9"
+  },
+  "tsienna20-MPCqHzeH": {
+    "id": "tsienna20-MPCqHzeH",
+    "angle_order": 325.00798,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.1, -3, 1.5],
+      "name": "325 front full right z-45 1.5m",
+      "rotation_xyz_deg": [70, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-full-right",
+    "overlay": "tsienna20-MPCqHzeH.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-jY3cR5vy"
+  },
+  "tsienna20-OxFWgEPk": {
+    "id": "tsienna20-OxFWgEPk",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.05, 2],
+      "name": "180 rear roof z-180 2m",
+      "rotation_xyz_deg": [60, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear-roof",
+    "overlay": "tsienna20-OxFWgEPk.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-QIMXlb0L": {
+    "id": "tsienna20-QIMXlb0L",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.65, 2.05, 1.4],
+      "name": "232 rear lateral right z-110 1.4m",
+      "rotation_xyz_deg": [76, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "tsienna20-QIMXlb0L.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-ouPvuX-j"
+  },
+  "tsienna20-Rw0Gtt7O": {
+    "id": "tsienna20-Rw0Gtt7O",
+    "angle_order": 272.04541,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.8, -0.1, 0.8],
+      "name": "272 lateral low right z-90 0.8m",
+      "rotation_xyz_deg": [90, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-right",
+    "overlay": "tsienna20-Rw0Gtt7O.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-1LNxhgCR"
+  },
+  "tsienna20-SebsoqJm": {
+    "id": "tsienna20-SebsoqJm",
+    "angle_order": 230.5722,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, 1.85, 0.9],
+      "name": "231 rear lateral low right z-100 0.9m",
+      "rotation_xyz_deg": [82, 0, -100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "tsienna20-SebsoqJm.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-670P2H2V"
+  },
+  "tsienna20-TI4TVvT9": {
+    "id": "tsienna20-TI4TVvT9",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.45, -2.95, 1],
+      "name": "26 front bumper side left z45 1m",
+      "rotation_xyz_deg": [72, 0, 45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "tsienna20-TI4TVvT9.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-KHB_Cd9k"
+  },
+  "tsienna20-TibS83Qr": {
+    "id": "tsienna20-TibS83Qr",
+    "angle_order": 305.41706,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, -1.6, 1.5],
+      "name": "305 front door right z-70 1.5m",
+      "rotation_xyz_deg": [71, 0, -70]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "tsienna20-TibS83Qr.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-Ia0SGJ6z"
+  },
+  "tsienna20-U_FqYq-a": {
+    "id": "tsienna20-U_FqYq-a",
+    "angle_order": 125.41706,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, 1.6, 1.5],
+      "name": "125 rear door left z110 1.5m",
+      "rotation_xyz_deg": [73, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "tsienna20-U_FqYq-a.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-u57qDaN_"
+  },
+  "tsienna20-V2jVo2wV": {
+    "id": "tsienna20-V2jVo2wV",
+    "angle_order": 200.32314,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1, 2.7, 2],
+      "name": "200 rear roof IGNORE_MIRROR right z-140 2m",
+      "rotation_xyz_deg": [60, 0, -140]
+    },
+    "category": "exterior",
+    "label": "rear-roof-right",
+    "overlay": "tsienna20-V2jVo2wV.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-YwrRNr9n": {
+    "id": "tsienna20-YwrRNr9n",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.7, 1.1],
+      "name": "0 front low 1.1m",
+      "rotation_xyz_deg": [76, 0, 0]
+    },
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "tsienna20-YwrRNr9n.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-ZlRQXL-j": {
+    "id": "tsienna20-ZlRQXL-j",
+    "angle_order": 145.88553,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.1, 3.1, 1.6],
+      "name": "146 rear full left z135 1.6m",
+      "rotation_xyz_deg": [72, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-full-left",
+    "overlay": "tsienna20-ZlRQXL-j.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-wlbzVAxz"
+  },
+  "tsienna20-cI285Gon": {
+    "id": "tsienna20-cI285Gon",
+    "angle_order": 308.19095,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, -1.77, 0.92],
+      "name": "308 front lateral low right z-80 0.92m",
+      "rotation_xyz_deg": [80, 0, -80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "tsienna20-cI285Gon.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-65mfPdRD"
+  },
+  "tsienna20-g2uWI1l8": {
+    "id": "tsienna20-g2uWI1l8",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.8, 0, 1.4],
+      "name": "270 lateral right z-90 1.4m",
+      "rotation_xyz_deg": [76, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "tsienna20-g2uWI1l8.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-gkvZE2c7": {
+    "id": "tsienna20-gkvZE2c7",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, -2.55, 1.4],
+      "name": "41 front fender left z57 1.4m",
+      "rotation_xyz_deg": [72, 0, 57]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "tsienna20-gkvZE2c7.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-xtDcn3GS"
+  },
+  "tsienna20-is1tpnqR": {
+    "id": "tsienna20-is1tpnqR",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.1, -0.8, 1.9],
+      "name": "54 front roof IGNORE_MIRROR left z50 1.9m",
+      "rotation_xyz_deg": [63, 0, 50]
+    },
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "tsienna20-is1tpnqR.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-jY3cR5vy": {
+    "id": "tsienna20-jY3cR5vy",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.1, -3, 1.5],
+      "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "rotation_xyz_deg": [70, 0, 45]
+    },
+    "category": "exterior",
+    "label": "beauty-shot-left",
+    "overlay": "tsienna20-jY3cR5vy.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-MPCqHzeH"
+  },
+  "tsienna20-ouPvuX-j": {
+    "id": "tsienna20-ouPvuX-j",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.65, 2.05, 1.4],
+      "name": "128 rear lateral left z110 1.4m",
+      "rotation_xyz_deg": [76, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "tsienna20-ouPvuX-j.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-QIMXlb0L"
+  },
+  "tsienna20-qA3aAUUq": {
+    "id": "tsienna20-qA3aAUUq",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.8, 1.4],
+      "name": "180 rear z-180 1.4m",
+      "rotation_xyz_deg": [75, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "tsienna20-qA3aAUUq.svg",
+    "vehicle_type": "tsienna20"
+  },
+  "tsienna20-u57qDaN_": {
+    "id": "tsienna20-u57qDaN_",
+    "angle_order": 234.58294,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, 1.6, 1.5],
+      "name": "235 rear door right z-110 1.5m",
+      "rotation_xyz_deg": [73, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "tsienna20-u57qDaN_.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-U_FqYq-a"
+  },
+  "tsienna20-uIHdpQ9y": {
+    "id": "tsienna20-uIHdpQ9y",
+    "angle_order": 269.35625,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-4.45, 0.05, 1.6],
+      "name": "269 lateral full right z-90 1.6m",
+      "rotation_xyz_deg": [81, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "tsienna20-uIHdpQ9y.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-4ihRwDkS"
+  },
+  "tsienna20-wlbzVAxz": {
+    "id": "tsienna20-wlbzVAxz",
+    "angle_order": 214.11447,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.1, 3.1, 1.6],
+      "name": "214 rear full right z-135 1.6m",
+      "rotation_xyz_deg": [72, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-full-right",
+    "overlay": "tsienna20-wlbzVAxz.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-ZlRQXL-j"
+  },
+  "tsienna20-xtDcn3GS": {
+    "id": "tsienna20-xtDcn3GS",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, -2.55, 1.4],
+      "name": "319 front fender right z-57 1.4m",
+      "rotation_xyz_deg": [72, 0, -57]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "tsienna20-xtDcn3GS.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-gkvZE2c7"
+  }
+}

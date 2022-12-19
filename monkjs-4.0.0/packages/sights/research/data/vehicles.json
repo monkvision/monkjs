@@ -1,0 +1,54 @@
+{
+  "audia7": {
+    "make": "Audi",
+    "model": "A7",
+    "type": "Hatchback"
+  },
+  "fesc20": {
+    "dimensions_xyz": [2.1500000953674316, 4.599999904632568, 1.6699999570846558],
+    "make": "Ford",
+    "model": "Escape SE 2020",
+    "type": "Crossover"
+  },
+  "ff150": {
+    "dimensions_xyz": [2.4800000190734863, 5.800000190734863, 1.9299999475479126],
+    "make": "Ford",
+    "model": "F-150 Super Cab XL 2014",
+    "type": "Pickup"
+  },
+  "ffocus18": {
+    "dimensions_xyz": [1.9800000190734863, 4.420000076293945, 1.4600000381469727],
+    "make": "Ford",
+    "model": "Focus",
+    "type": "City"
+  },
+  "ftransit18": {
+    "dimensions_xyz": [2.49, 6.01, 2.76],
+    "make": "Ford",
+    "model": "Transit Fourgon L3H2 Trendline 2018",
+    "type": "Van"
+  },
+  "haccord": {
+    "dimensions_xyz": [2.140000104904175, 4.880000114440918, 1.440000057220459],
+    "make": "Honda",
+    "model": "Accord Sedan Sport US spec 2018",
+    "type": "Sedan"
+  },
+  "jgc21": {
+    "dimensions_xyz": [2.190000057220459, 5.179999828338623, 1.8799999952316284],
+    "make": "Jeep",
+    "model": "Grand Cherokee L Summit 2021",
+    "type": "Large SUV"
+  },
+  "tsienna20": {
+    "dimensions_xyz": [2.43, 5.24, 1.77],
+    "make": "Toyota",
+    "model": "Sienna Limited 2020",
+    "type": "Minivan"
+  },
+  "vwtroc": {
+    "make": "Volkswagen",
+    "model": "T-Roc",
+    "type": "Small Crossover/SUV"
+  }
+}

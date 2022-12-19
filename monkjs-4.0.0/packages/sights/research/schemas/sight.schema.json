@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sight.schema",
+  "definitions": {
+    "Camera": {
+      "$ref": "subschemas/camera.schema"
+    },
+    "Category": {
+      "$ref": "subschemas/category.schema"
+    },
+    "VehicleType": {
+      "$ref": "subschemas/vehicleType.schema"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "angle_order": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "camera": {
+      "$ref": "#/definitions/Camera"
+    },
+    "category": {
+      "$ref": "#/definitions/Category"
+    },
+    "label": {
+      "type": "string",
+      "pattern": "[a-z]+(.[a-z]+)*"
+    },
+    "overlay": {
+      "type": "string"
+    },
+    "vehicle_type": {
+      "$ref": "#/definitions/VehicleType"
+    }
+  },
+  "required": ["category", "label", "overlay", "vehicle_type"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "exterior"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "required": ["camera"]
+      }
+    }
+  ]
+}

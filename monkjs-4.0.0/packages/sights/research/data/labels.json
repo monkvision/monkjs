@@ -1,0 +1,282 @@
+{
+  "back-seats": {
+    "en": "Back Seats",
+    "fr": "Sièges arrière"
+  },
+  "beauty-shot-left": {
+    "en": "Beauty Shot Left",
+    "fr": "Vue entière gauche"
+  },
+  "dashboard": {
+    "en": "Dashboard",
+    "fr": "Tableau de bord"
+  },
+  "dashboard-from-back-seat": {
+    "en": "Dashboard From Back Seat",
+    "fr": "Tableau de bord siège arrière"
+  },
+  "dashboard-from-driver-seat": {
+    "en": "Dashboard From Driver Seat",
+    "fr": "Tableau de bord siège conducteur"
+  },
+  "doors-left": {
+    "en": "Doors Left",
+    "fr": "Portières gauches"
+  },
+  "doors-right": {
+    "en": "Doors Right",
+    "fr": "Portières droites"
+  },
+  "engine-left-side": {
+    "en": "Engine Left Side",
+    "fr": "Moteur gauche"
+  },
+  "engine-right-side": {
+    "en": "Engine Right Side",
+    "fr": "Moteur droite"
+  },
+  "front": {
+    "en": "Front",
+    "fr": "Avant"
+  },
+  "front-bumper-side-left": {
+    "en": "Front Bumper Side Left",
+    "fr": "Pare-chocs avant gauche"
+  },
+  "front-bumper-side-right": {
+    "en": "Front Bumper Side Right",
+    "fr": "Pare-chocs avant droite"
+  },
+  "front-door-left": {
+    "en": "Front Door Left",
+    "fr": "Portière avant gauche"
+  },
+  "front-door-right": {
+    "en": "Front Door Right",
+    "fr": "Portière avant droite"
+  },
+  "front-fender-left": {
+    "en": "Front Fender Left",
+    "fr": "Aile avant gauche"
+  },
+  "front-fender-right": {
+    "en": "Front Fender Right",
+    "fr": "Aile avant droite"
+  },
+  "front-full-right": {
+    "en": "Front Full Right",
+    "fr": "Avant droite"
+  },
+  "front-lateral-left": {
+    "en": "Front Lateral Left",
+    "fr": "Avant latéral gauche"
+  },
+  "front-lateral-low-left": {
+    "en": "Front Lateral Low Left",
+    "fr": "Avant latéral gauche - vue basse"
+  },
+  "front-lateral-low-right": {
+    "en": "Front Lateral Low Right",
+    "fr": "Avant latéral droite - vue basse"
+  },
+  "front-lateral-right": {
+    "en": "Front Lateral Right",
+    "fr": "Avant latéral droite"
+  },
+  "front-low": {
+    "en": "Front Low",
+    "fr": "Avant - vue basse"
+  },
+  "front-roof-left": {
+    "en": "Front Roof Left",
+    "fr": "Toit avant gauche"
+  },
+  "front-seats": {
+    "en": "Front Seats",
+    "fr": "Sièges avant"
+  },
+  "front-undercarriage": {
+    "en": "Front Undercarriage",
+    "fr": "Châssis avant"
+  },
+  "front-wheel-left": {
+    "en": "Front Wheel Left",
+    "fr": "Roue avant gauche"
+  },
+  "front-wheel-right": {
+    "en": "Front Wheel Right",
+    "fr": "Roue avant droite"
+  },
+  "hood": {
+    "en": "Hood",
+    "fr": "Capot"
+  },
+  "hood-windshield": {
+    "en": "Hood / Windshield",
+    "fr": "Capot / pare-brise"
+  },
+  "interior-roof": {
+    "en": "Interior Roof",
+    "fr": "Pavillon intérieur"
+  },
+  "lateral-full-left": {
+    "en": "Lateral Full Left",
+    "fr": "Latéral gauche - vue complète"
+  },
+  "lateral-full-right": {
+    "en": "Lateral Full Right",
+    "fr": "Latéral droite - vue complète"
+  },
+  "lateral-left": {
+    "en": "Lateral Left",
+    "fr": "Latéral gauche"
+  },
+  "lateral-low-left": {
+    "en": "Lateral Low Left",
+    "fr": "Latéral gauche - vue basse"
+  },
+  "lateral-low-right": {
+    "en": "Lateral Low Right",
+    "fr": "Latéral droite - vue basse"
+  },
+  "left-front-door": {
+    "en": "Left Front Door",
+    "fr": "Porte avant gauche"
+  },
+  "open-trunk": {
+    "en": "Open Trunk",
+    "fr": "Coffre ouvert"
+  },
+  "rear": {
+    "en": "Rear",
+    "fr": "Arrière"
+  },
+  "rear-bumper-side-left": {
+    "en": "Rear Bumper Side Left",
+    "fr": "Pare-chocs arrière gauche"
+  },
+  "rear-bumper-side-right": {
+    "en": "Rear Bumper Side Right",
+    "fr": "Pare-chocs arrière droite"
+  },
+  "rear-door-left": {
+    "en": "Rear Door Left",
+    "fr": "Portière arrière gauche"
+  },
+  "rear-door-right": {
+    "en": "Rear Door Right",
+    "fr": "Portière arrière droite"
+  },
+  "rear-fender-left": {
+    "en": "Rear Fender Left",
+    "fr": "Aile arrière gauche"
+  },
+  "rear-fender-right": {
+    "en": "Rear Fender Right",
+    "fr": "Aile arrière droite"
+  },
+  "rear-full-left": {
+    "en": "Rear Full Left",
+    "fr": "Arrière gauche - vue complète"
+  },
+  "rear-full-right": {
+    "en": "Rear Full Right",
+    "fr": "Arrière droite - vue complète"
+  },
+  "rear-lateral-left": {
+    "en": "Rear Lateral Left",
+    "fr": "Arrière latéral gauche"
+  },
+  "rear-lateral-low-left": {
+    "en": "Rear Lateral Low Left",
+    "fr": "Arrière latéral gauche - vue basse"
+  },
+  "rear-lateral-low-right": {
+    "en": "Rear Lateral Low Right",
+    "fr": "Arrière latéral droite - vue basse"
+  },
+  "rear-lateral-right": {
+    "en": "Rear Lateral Right",
+    "fr": "Arrière latéral droite"
+  },
+  "rear-left": {
+    "en": "Rear Left",
+    "fr": "Arrière gauche"
+  },
+  "rear-low": {
+    "en": "Rear Low",
+    "fr": "Arrière - vue basse"
+  },
+  "rear-right": {
+    "en": "Rear Right",
+    "fr": "Arrière droite"
+  },
+  "rear-roof": {
+    "en": "Rear Roof",
+    "fr": "Toit Arrière"
+  },
+  "rear-roof-right": {
+    "en": "Rear Roof Right",
+    "fr": "Toit arrière droite"
+  },
+  "rear-seats": {
+    "en": "Rear Seats",
+    "fr": "Sièges arrière"
+  },
+  "rear-up-left": {
+    "en": "Rear Up Left",
+    "fr": "Arrière gauche - vue haute"
+  },
+  "rear-up-right": {
+    "en": "Rear Up Right",
+    "fr": "Arrière droite - vue haute"
+  },
+  "rear-wheel-left": {
+    "en": "Rear Wheel Left",
+    "fr": "Roue arrière gauche"
+  },
+  "rear-wheel-right": {
+    "en": "Rear Wheel Right",
+    "fr": "Roue arrière droite"
+  },
+  "rear-zoomed": {
+    "en": "Rear Zoomed",
+    "fr": "Arrière zoomé"
+  },
+  "rocker-panel-left": {
+    "en": "Rocker Panel Left",
+    "fr": "Bas de caisse gauche"
+  },
+  "rocker-panel-rear-left": {
+    "en": "Rocker Panel Rear Left",
+    "fr": "Bas de caisse arrière gauche"
+  },
+  "rocker-panel-right": {
+    "en": "Rocker Panel Right",
+    "fr": "Bas de caisse droite"
+  },
+  "rocker-panel-rear-right": {
+    "en": "Rocker Panel Rear Right",
+    "fr": "Bas de caisse arrière droite"
+  },
+  "trunk": {
+    "en": "Trunk",
+    "fr": "Coffre"
+  },
+  "trunk-left-side": {
+    "en": "Trunk Left Side",
+    "fr": "Coffre gauche"
+  },
+  "trunk-right-side": {
+    "en": "Trunk Right Side",
+    "fr": "Coffre droite"
+  },
+  "vin": {
+    "en": "VIN",
+    "fr": "VIN"
+  },
+  "windshield": {
+    "en": "Windshield",
+    "fr": "Pare-brise"
+  }
+}

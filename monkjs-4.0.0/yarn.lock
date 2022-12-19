@@ -2305,7 +2305,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monkvision/eslint-config-react@workspace:*, @monkvision/eslint-config-react@workspace:configs/eslint-react":
+"@monkvision/eslint-config-react@1.0.0, @monkvision/eslint-config-react@workspace:configs/eslint-react":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-react@workspace:configs/eslint-react"
   peerDependencies:
@@ -2331,7 +2331,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-typescript@workspace:*, @monkvision/eslint-config-typescript@workspace:configs/eslint-typescript":
+"@monkvision/eslint-config-typescript@1.0.0, @monkvision/eslint-config-typescript@workspace:configs/eslint-typescript":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-typescript@workspace:configs/eslint-typescript"
   peerDependencies:
@@ -2353,10 +2353,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/example@workspace:packages/example"
   dependencies:
-    "@monkvision/eslint-config-typescript": "workspace:*"
-    "@monkvision/jest-config": "workspace:*"
-    "@monkvision/prettier-config": "workspace:*"
-    "@monkvision/typescript-config": "workspace:*"
+    "@monkvision/eslint-config-typescript": 1.0.0
+    "@monkvision/jest-config": 1.0.0
+    "@monkvision/prettier-config": 1.0.0
+    "@monkvision/typescript-config": 1.0.0
     "@types/jest": ^29.2.2
     "@types/node": ^18.11.9
     "@typescript-eslint/eslint-plugin": ^5.43.0
@@ -2386,10 +2386,10 @@ __metadata:
     "@babel/core": ^7.20.5
     "@babel/plugin-syntax-flow": ^7.14.5
     "@babel/plugin-transform-react-jsx": ^7.14.9
-    "@monkvision/eslint-config-react": "workspace:*"
-    "@monkvision/jest-config": "workspace:*"
-    "@monkvision/prettier-config": "workspace:*"
-    "@monkvision/typescript-config": "workspace:*"
+    "@monkvision/eslint-config-react": 1.0.0
+    "@monkvision/jest-config": 1.0.0
+    "@monkvision/prettier-config": 1.0.0
+    "@monkvision/typescript-config": 1.0.0
     "@testing-library/dom": ^8.19.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
@@ -2426,7 +2426,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/jest-config@workspace:*, @monkvision/jest-config@workspace:configs/jest":
+"@monkvision/jest-config@1.0.0, @monkvision/jest-config@workspace:configs/jest":
   version: 0.0.0-use.local
   resolution: "@monkvision/jest-config@workspace:configs/jest"
   peerDependencies:
@@ -2436,7 +2436,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/prettier-config@workspace:*, @monkvision/prettier-config@workspace:configs/prettier":
+"@monkvision/prettier-config@1.0.0, @monkvision/prettier-config@workspace:configs/prettier":
   version: 0.0.0-use.local
   resolution: "@monkvision/prettier-config@workspace:configs/prettier"
   peerDependencies:
@@ -2444,7 +2444,38 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/typescript-config@workspace:*, @monkvision/typescript-config@workspace:configs/typescript":
+"@monkvision/sights@workspace:packages/sights":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/sights@workspace:packages/sights"
+  dependencies:
+    "@monkvision/eslint-config-typescript": 1.0.0
+    "@monkvision/jest-config": 1.0.0
+    "@monkvision/prettier-config": 1.0.0
+    "@monkvision/typescript-config": 1.0.0
+    "@types/jest": ^29.2.2
+    "@types/node": ^18.11.9
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    ajv: ^8.11.2
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-formatter-pretty: ^4.1.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^27.1.6
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    jest: ^29.3.1
+    mkdirp: ^1.0.4
+    prettier: ^2.7.1
+    rimraf: ^3.0.2
+    ts-jest: ^29.0.3
+    typescript: ^4.8.4
+  languageName: unknown
+  linkType: soft
+
+"@monkvision/typescript-config@1.0.0, @monkvision/typescript-config@workspace:configs/typescript":
   version: 0.0.0-use.local
   resolution: "@monkvision/typescript-config@workspace:configs/typescript"
   peerDependencies:
@@ -3777,7 +3808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.0.0, ajv@npm:^8.6.0, ajv@npm:^8.8.0":
+"ajv@npm:^8.0.0, ajv@npm:^8.11.2, ajv@npm:^8.6.0, ajv@npm:^8.8.0":
   version: 8.11.2
   resolution: "ajv@npm:8.11.2"
   dependencies:
@@ -9682,9 +9713,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monk@workspace:.":
+"monk4@workspace:.":
   version: 0.0.0-use.local
-  resolution: "monk@workspace:."
+  resolution: "monk4@workspace:."
   dependencies:
     rimraf: ^3.0.2
   languageName: unknown

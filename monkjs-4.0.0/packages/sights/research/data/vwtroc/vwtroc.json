@@ -1,0 +1,748 @@
+{
+  "vwtroc-0U14gFyk": {
+    "id": "vwtroc-0U14gFyk",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.171880006790161, -1.1752331256866455, 0.8999999761581421],
+      "name": "front lateral right x79 z-75 0.9m",
+      "rotation_xyz_deg": [79, 0, -75]
+    },
+    "category": "exterior",
+    "label": "front-lateral-right",
+    "overlay": "vwtroc-0U14gFyk.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-zjAIjUgU"
+  },
+  "vwtroc-1-gwCM0m": {
+    "id": "vwtroc-1-gwCM0m",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.8402453660964966, 0.29878973960876465, 1],
+      "name": "rear door left x80 z70 1m",
+      "rotation_xyz_deg": [80, 0, 70]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "vwtroc-1-gwCM0m.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-6MR5C13s"
+  },
+  "vwtroc-2RFF3Uf8": {
+    "id": "vwtroc-2RFF3Uf8",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.6542500257492065, 1.35085928440094, 1],
+      "name": "rear door right x80 z-120 1m",
+      "rotation_xyz_deg": [80, 0, -120]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "vwtroc-2RFF3Uf8.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-OOJDJ7go"
+  },
+  "vwtroc-2wVqenwP": {
+    "id": "vwtroc-2wVqenwP",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.7169400453567505, -0.9741129875183105, 1],
+      "name": "front door right x80 z-60 1m",
+      "rotation_xyz_deg": [80, 0, -60]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "vwtroc-2wVqenwP.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-T24v9XS8"
+  },
+  "vwtroc-36qmcrgr": {
+    "id": "vwtroc-36qmcrgr",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-0.8915903568267822, 1.6373134851455688, 1.7999999523162842],
+      "name": "rear roof IGNORE_MIRROR right x75 z226 1.8m",
+      "rotation_xyz_deg": [75, 0, 226]
+    },
+    "category": "exterior",
+    "label": "rear-roof-right",
+    "overlay": "vwtroc-36qmcrgr.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-3a3OheoD": {
+    "id": "vwtroc-3a3OheoD",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0.9878284335136414, 2.840301752090454, 1.5],
+      "name": "rear fender left x65 z150 1.5m",
+      "rotation_xyz_deg": [65, 0, 150]
+    },
+    "category": "exterior",
+    "label": "rear-fender-left",
+    "overlay": "vwtroc-3a3OheoD.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-3vKXafwc": {
+    "id": "vwtroc-3vKXafwc",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.767639398574829, 2.285799741744995, 1.5],
+      "name": "rear fender left x66 z130 1.5m",
+      "rotation_xyz_deg": [66, 0, 130]
+    },
+    "category": "exterior",
+    "label": "rear-fender-left",
+    "overlay": "vwtroc-3vKXafwc.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-Cce1KCd3"
+  },
+  "vwtroc-6MR5C13s": {
+    "id": "vwtroc-6MR5C13s",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.840250015258789, 0.29879000782966614, 1],
+      "name": "rear door right x80 z-70 1m",
+      "rotation_xyz_deg": [80, 0, -70]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "vwtroc-6MR5C13s.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-1-gwCM0m"
+  },
+  "vwtroc-8_W2PO8L": {
+    "id": "vwtroc-8_W2PO8L",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.8515325784683228, 1.2667466402053833, 0.6000000238418579],
+      "name": "rear wheel left x85 z90 0.6m",
+      "rotation_xyz_deg": [85, 0, 90]
+    },
+    "category": "exterior",
+    "label": "rear-wheel-left",
+    "overlay": "vwtroc-8_W2PO8L.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-rN39Y3HR"
+  },
+  "vwtroc-AEc967h1": {
+    "id": "vwtroc-AEc967h1",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.5270965099334717, -0.4450318217277527, 1.5],
+      "name": "doors left x70 z70 1.5m",
+      "rotation_xyz_deg": [70, 0, 70]
+    },
+    "category": "exterior",
+    "label": "doors-left",
+    "overlay": "vwtroc-AEc967h1.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-AoO-nOoM": {
+    "id": "vwtroc-AoO-nOoM",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.172029972076416, 1.09205961227417, 1.5],
+      "name": "rear lateral right x66 z-95 1.5m",
+      "rotation_xyz_deg": [66, 0, -95]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "vwtroc-AoO-nOoM.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-GvCtVnoD"
+  },
+  "vwtroc-B5s1CWT-": {
+    "id": "vwtroc-B5s1CWT-",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.3459699153900146, 0, 0.6000000238418579],
+      "name": "rocker panel right x95 z-90 0.6m",
+      "rotation_xyz_deg": [95, 0, -90]
+    },
+    "category": "exterior",
+    "label": "rocker-panel-right",
+    "overlay": "vwtroc-B5s1CWT-.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-UHZkpCuK"
+  },
+  "vwtroc-CELBsvYD": {
+    "id": "vwtroc-CELBsvYD",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.1993000507354736, -2.4210193157196045, 0.8999999761581421],
+      "name": "front bumper side right x73 z-45 0.9m",
+      "rotation_xyz_deg": [73, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "vwtroc-CELBsvYD.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-xfbBpq3Q"
+  },
+  "vwtroc-Cce1KCd3": {
+    "id": "vwtroc-Cce1KCd3",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.7676399946212769, 2.285799741744995, 1.5],
+      "name": "rear fender right x66 z-130 1.5m",
+      "rotation_xyz_deg": [66, 0, -130]
+    },
+    "category": "exterior",
+    "label": "rear-fender-right",
+    "overlay": "vwtroc-Cce1KCd3.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-3vKXafwc"
+  },
+  "vwtroc-ClEZSucK": {
+    "id": "vwtroc-ClEZSucK",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.140855073928833, 1.229339838027954, 0.8999999761581421],
+      "name": "rear lateral left x80 z95 0.9m",
+      "rotation_xyz_deg": [80, 0, 95]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "vwtroc-ClEZSucK.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-QqBpHiVP"
+  },
+  "vwtroc-D4r9OKHt": {
+    "id": "vwtroc-D4r9OKHt",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.8319326639175415, 1.1923993825912476, 1],
+      "name": "rear door left x80 z110 1m",
+      "rotation_xyz_deg": [80, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "vwtroc-D4r9OKHt.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-TDLex8-D"
+  },
+  "vwtroc-EqLDVYj3": {
+    "id": "vwtroc-EqLDVYj3",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.0768400430679321, -2.856078624725342, 1.5],
+      "name": "front fender right x66 z-30 1.5m",
+      "rotation_xyz_deg": [66, 0, -30]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "vwtroc-EqLDVYj3.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-PLh198NC"
+  },
+  "vwtroc-Fh972HlF": {
+    "id": "vwtroc-Fh972HlF",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -2.485210418701172, 0.10000000149011612],
+      "name": "front undercarriage x115 0.1m",
+      "rotation_xyz_deg": [115, 0, 0]
+    },
+    "category": "exterior",
+    "label": "front-undercarriage",
+    "overlay": "vwtroc-Fh972HlF.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-GHbWVnMB": {
+    "id": "vwtroc-GHbWVnMB",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.399125337600708, 2.5577476024627686, 1.5],
+      "name": "rear fender left x65 z140 1.5m",
+      "rotation_xyz_deg": [65, 0, 140]
+    },
+    "category": "exterior",
+    "label": "rear-fender-left",
+    "overlay": "vwtroc-GHbWVnMB.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-j3E2UHFc"
+  },
+  "vwtroc-GOQq1-nN": {
+    "id": "vwtroc-GOQq1-nN",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.9469342231750488, 0.2433021515607834, 1],
+      "name": "front door left x85 z110 1m",
+      "rotation_xyz_deg": [85, 0, 110]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "vwtroc-GOQq1-nN.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-QJ_yOnBl"
+  },
+  "vwtroc-GvCtVnoD": {
+    "id": "vwtroc-GvCtVnoD",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.172027349472046, 1.09205961227417, 1.5],
+      "name": "rear lateral left x66 z95 1.5m",
+      "rotation_xyz_deg": [66, 0, 95]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "vwtroc-GvCtVnoD.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-AoO-nOoM"
+  },
+  "vwtroc-IVcF1dOP": {
+    "id": "vwtroc-IVcF1dOP",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.112504243850708, -0.7950102090835571, 1.5],
+      "name": "doors left x67 z60 1.5m",
+      "rotation_xyz_deg": [67, 0, 60]
+    },
+    "category": "exterior",
+    "label": "doors-left",
+    "overlay": "vwtroc-IVcF1dOP.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-Pzgw0WGe"
+  },
+  "vwtroc-IzMR_OzQ": {
+    "id": "vwtroc-IzMR_OzQ",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.4488260746002197, -2.5688226222991943, 1.5],
+      "name": "front fender left x65.5 z40 1.5m",
+      "rotation_xyz_deg": [65.5, 0, 40]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "vwtroc-IzMR_OzQ.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-LDRoAPnk": {
+    "id": "vwtroc-LDRoAPnk",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.1293200254440308, 2.5584888458251953, 1],
+      "name": "rear bumper side right x74 z-140 1m",
+      "rotation_xyz_deg": [74, 0, -140]
+    },
+    "category": "exterior",
+    "label": "rear-bumper-side-right",
+    "overlay": "vwtroc-LDRoAPnk.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-j8YHvnDP"
+  },
+  "vwtroc-LE9h1xh0": {
+    "id": "vwtroc-LE9h1xh0",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.9203107357025146, -2.0104517936706543, 1.5],
+      "name": "front fender left x65 z57 1.5m",
+      "rotation_xyz_deg": [65, 0, 57]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "vwtroc-LE9h1xh0.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-jqJOb6Ov"
+  },
+  "vwtroc-OOJDJ7go": {
+    "id": "vwtroc-OOJDJ7go",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.6542497873306274, 1.35085928440094, 1],
+      "name": "rear door left x80 z120 1m",
+      "rotation_xyz_deg": [80, 0, 120]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "vwtroc-OOJDJ7go.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-2RFF3Uf8"
+  },
+  "vwtroc-PLh198NC": {
+    "id": "vwtroc-PLh198NC",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.0768440961837769, -2.856078624725342, 1.5],
+      "name": "front fender left x66 z30 1.5m",
+      "rotation_xyz_deg": [66, 0, 30]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "vwtroc-PLh198NC.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-EqLDVYj3"
+  },
+  "vwtroc-PuIw17h0": {
+    "id": "vwtroc-PuIw17h0",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.8572100400924683, -1.1906272172927856, 0.6000000238418579],
+      "name": "front wheel right x85 z-90 0.6m",
+      "rotation_xyz_deg": [85, 0, -90]
+    },
+    "category": "exterior",
+    "label": "front-wheel-right",
+    "overlay": "vwtroc-PuIw17h0.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-xQKQ0bXS"
+  },
+  "vwtroc-Pzgw0WGe": {
+    "id": "vwtroc-Pzgw0WGe",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.112499952316284, -0.795009970664978, 1.5],
+      "name": "doors right x67 z-60 1.5m",
+      "rotation_xyz_deg": [67, 0, -60]
+    },
+    "category": "exterior",
+    "label": "doors-right",
+    "overlay": "vwtroc-Pzgw0WGe.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-IVcF1dOP"
+  },
+  "vwtroc-QJ_yOnBl": {
+    "id": "vwtroc-QJ_yOnBl",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.9469300508499146, 0.2433021515607834, 1],
+      "name": "front door right x85 z-110 1m",
+      "rotation_xyz_deg": [85, 0, -110]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "vwtroc-QJ_yOnBl.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-GOQq1-nN"
+  },
+  "vwtroc-QqBpHiVP": {
+    "id": "vwtroc-QqBpHiVP",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.140860080718994, 1.229339838027954, 0.8999999761581421],
+      "name": "rear lateral right x80 z-95 0.9m",
+      "rotation_xyz_deg": [80, 0, -95]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "vwtroc-QqBpHiVP.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-ClEZSucK"
+  },
+  "vwtroc-RMeCZRbd": {
+    "id": "vwtroc-RMeCZRbd",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -2.6243207454681396, 1.7000000476837158],
+      "name": "hood windshield x60 1.7m",
+      "rotation_xyz_deg": [60, 0, 0]
+    },
+    "category": "exterior",
+    "label": "hood-windshield",
+    "overlay": "vwtroc-RMeCZRbd.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-T24v9XS8": {
+    "id": "vwtroc-T24v9XS8",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.7169437408447266, -0.9741133451461792, 1],
+      "name": "front door left x80 z60 1m",
+      "rotation_xyz_deg": [80, 0, 60]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "vwtroc-T24v9XS8.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-2wVqenwP"
+  },
+  "vwtroc-TDLex8-D": {
+    "id": "vwtroc-TDLex8-D",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.8319300413131714, 1.1923993825912476, 1],
+      "name": "rear door right x80 z-110 1m",
+      "rotation_xyz_deg": [80, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "vwtroc-TDLex8-D.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-D4r9OKHt"
+  },
+  "vwtroc-UHZkpCuK": {
+    "id": "vwtroc-UHZkpCuK",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.345973014831543, 0, 0.6000000238418579],
+      "name": "rocker panel left x95 z90 0.6m",
+      "rotation_xyz_deg": [95, 0, 90]
+    },
+    "category": "exterior",
+    "label": "rocker-panel-left",
+    "overlay": "vwtroc-UHZkpCuK.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-B5s1CWT-"
+  },
+  "vwtroc-VmFL3v2A": {
+    "id": "vwtroc-VmFL3v2A",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.8842357397079468, -0.7803248167037964, 1],
+      "name": "front door left x80 z70 1m",
+      "rotation_xyz_deg": [80, 0, 70]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "vwtroc-VmFL3v2A.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-enHQTFae"
+  },
+  "vwtroc-WWZsroCu": {
+    "id": "vwtroc-WWZsroCu",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.0736500024795532, -1.0054600238800049, 0.10000000894069672],
+      "name": "frame rail right x115 z-41 0.1m",
+      "rotation_xyz_deg": [115, 0, -41]
+    },
+    "category": "exterior",
+    "label": "rocker-panel-right",
+    "overlay": "vwtroc-WWZsroCu.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-eOkUJUBk"
+  },
+  "vwtroc-XyeyZlaU": {
+    "id": "vwtroc-XyeyZlaU",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.0399999618530273, 1.5],
+      "name": "rear x66 z180 1.5m",
+      "rotation_xyz_deg": [66, 0, 180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "vwtroc-XyeyZlaU.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-dQOmxo13": {
+    "id": "vwtroc-dQOmxo13",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.11472487449646, 0.963828444480896, 0.10000000894069672],
+      "name": "frame rail rear left x115 z139 0.1m",
+      "rotation_xyz_deg": [115, 0, 139]
+    },
+    "category": "exterior",
+    "label": "rocker-panel-rear-left",
+    "overlay": "vwtroc-dQOmxo13.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-eWZsEThb"
+  },
+  "vwtroc-eOkUJUBk": {
+    "id": "vwtroc-eOkUJUBk",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.0736500024795532, -1.0054600238800049, 0.10000000894069672],
+      "name": "frame rail left x115 z41 0.1m",
+      "rotation_xyz_deg": [115, 0, 41]
+    },
+    "category": "exterior",
+    "label": "rocker-panel-left",
+    "overlay": "vwtroc-eOkUJUBk.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-WWZsroCu"
+  },
+  "vwtroc-eWZsEThb": {
+    "id": "vwtroc-eWZsEThb",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.1147199869155884, 0.963828444480896, 0.10000000894069672],
+      "name": "frame rail rear right x115 z-139 0.1m",
+      "rotation_xyz_deg": [115, 0, -139]
+    },
+    "category": "exterior",
+    "label": "rocker-panel-rear-right",
+    "overlay": "vwtroc-eWZsEThb.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-dQOmxo13"
+  },
+  "vwtroc-enHQTFae": {
+    "id": "vwtroc-enHQTFae",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.8842400312423706, -0.7803249955177307, 1],
+      "name": "front door right x80 z-70 1m",
+      "rotation_xyz_deg": [80, 0, -70]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "vwtroc-enHQTFae.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-VmFL3v2A"
+  },
+  "vwtroc-j3E2UHFc": {
+    "id": "vwtroc-j3E2UHFc",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.3991299867630005, 2.5577476024627686, 1.5],
+      "name": "rear fender right x65 z-140 1.5m",
+      "rotation_xyz_deg": [65, 0, -140]
+    },
+    "category": "exterior",
+    "label": "rear-fender-right",
+    "overlay": "vwtroc-j3E2UHFc.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-GHbWVnMB"
+  },
+  "vwtroc-j8YHvnDP": {
+    "id": "vwtroc-j8YHvnDP",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.1293162107467651, 2.5584888458251953, 1],
+      "name": "rear bumper side left x74 z140 1m",
+      "rotation_xyz_deg": [74, 0, 140]
+    },
+    "category": "exterior",
+    "label": "rear-bumper-side-left",
+    "overlay": "vwtroc-j8YHvnDP.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-LDRoAPnk"
+  },
+  "vwtroc-jgB-cu5G": {
+    "id": "vwtroc-jgB-cu5G",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.7549400329589844, -2.4460859298706055, 1.5],
+      "name": "front fender right x67 z-45 1.5m",
+      "rotation_xyz_deg": [67, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "vwtroc-jgB-cu5G.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-xsuH1g5T"
+  },
+  "vwtroc-jqJOb6Ov": {
+    "id": "vwtroc-jqJOb6Ov",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.9203100204467773, -2.0104517936706543, 1.5],
+      "name": "front fender right x65 z-57 1.5m",
+      "rotation_xyz_deg": [65, 0, -57]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "vwtroc-jqJOb6Ov.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-LE9h1xh0"
+  },
+  "vwtroc-m1rhrZ88": {
+    "id": "vwtroc-m1rhrZ88",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.0691311359405518, -0.39549964666366577, 1.7999999523162842],
+      "name": "front roof IGNORE_MIRROR left x75 z53 1.8m",
+      "rotation_xyz_deg": [75, 0, 53]
+    },
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "vwtroc-m1rhrZ88.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-oIk8RQ3w": {
+    "id": "vwtroc-oIk8RQ3w",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -1.6620965003967285, 1.899999976158142],
+      "name": "windshield x58 1.9m",
+      "rotation_xyz_deg": [58, 0, 0]
+    },
+    "category": "exterior",
+    "label": "windshield",
+    "overlay": "vwtroc-oIk8RQ3w.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-rN39Y3HR": {
+    "id": "vwtroc-rN39Y3HR",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.8515299558639526, 1.2667466402053833, 0.6000000238418579],
+      "name": "rear wheel right x85 z-90 0.6m",
+      "rotation_xyz_deg": [85, 0, -90]
+    },
+    "category": "exterior",
+    "label": "rear-wheel-right",
+    "overlay": "vwtroc-rN39Y3HR.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-8_W2PO8L"
+  },
+  "vwtroc-vLcBGkeh": {
+    "id": "vwtroc-vLcBGkeh",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.0999999046325684, 1.5],
+      "name": "front x66 1.5m",
+      "rotation_xyz_deg": [66, 0, 0]
+    },
+    "category": "exterior",
+    "label": "front",
+    "overlay": "vwtroc-vLcBGkeh.svg",
+    "vehicle_type": "vwtroc"
+  },
+  "vwtroc-xQKQ0bXS": {
+    "id": "vwtroc-xQKQ0bXS",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.857212781906128, -1.1906272172927856, 0.6000000238418579],
+      "name": "front wheel left x85 z90 0.6m",
+      "rotation_xyz_deg": [85, 0, 90]
+    },
+    "category": "exterior",
+    "label": "front-wheel-left",
+    "overlay": "vwtroc-xQKQ0bXS.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-PuIw17h0"
+  },
+  "vwtroc-xfbBpq3Q": {
+    "id": "vwtroc-xfbBpq3Q",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.1992995738983154, -2.4210193157196045, 0.8999999761581421],
+      "name": "front bumper side left x73 z45 0.9m",
+      "rotation_xyz_deg": [73, 0, 45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "vwtroc-xfbBpq3Q.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-CELBsvYD"
+  },
+  "vwtroc-xsuH1g5T": {
+    "id": "vwtroc-xsuH1g5T",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.7549424171447754, -2.4460859298706055, 1.5],
+      "name": "front fender left x67 z45 1.5m",
+      "rotation_xyz_deg": [67, 0, 45]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "vwtroc-xsuH1g5T.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-jgB-cu5G"
+  },
+  "vwtroc-zjAIjUgU": {
+    "id": "vwtroc-zjAIjUgU",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.171881675720215, -1.1752331256866455, 0.8999999761581421],
+      "name": "front lateral left x79 z75 0.9m",
+      "rotation_xyz_deg": [79, 0, 75]
+    },
+    "category": "exterior",
+    "label": "front-lateral-left",
+    "overlay": "vwtroc-zjAIjUgU.svg",
+    "vehicle_type": "vwtroc",
+    "mirror_sight": "vwtroc-0U14gFyk"
+  }
+}

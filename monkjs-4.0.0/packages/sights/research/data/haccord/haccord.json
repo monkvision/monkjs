@@ -1,0 +1,487 @@
+{
+  "haccord-2a8VfA8m": {
+    "id": "haccord-2a8VfA8m",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.05, -2.3, 1.4],
+      "name": "42 front fender left z57 1.4m",
+      "rotation_xyz_deg": [69, 0, 57]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "haccord-2a8VfA8m.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-EfRIciFr"
+  },
+  "haccord-5LlCuIfL": {
+    "id": "haccord-5LlCuIfL",
+    "angle_order": 229.89909,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.9, 1.6, 1.5],
+      "name": "230 rear door right z-110 1.5m",
+      "rotation_xyz_deg": [65, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "haccord-5LlCuIfL.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-bSAv3Hrj"
+  },
+  "haccord-6kYUBv_e": {
+    "id": "haccord-6kYUBv_e",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.55, 0.75],
+      "name": "180 rear low z-180 0.75m",
+      "rotation_xyz_deg": [90, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "haccord-6kYUBv_e.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-8YjMcu0D": {
+    "id": "haccord-8YjMcu0D",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.25, 1],
+      "name": "0 front low 1m",
+      "rotation_xyz_deg": [74, 0, 0]
+    },
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "haccord-8YjMcu0D.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-DUPnw5jj": {
+    "id": "haccord-DUPnw5jj",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -2.9, 1.6],
+      "name": "0 hood 1.6m",
+      "rotation_xyz_deg": [63, 0, 0]
+    },
+    "category": "exterior",
+    "label": "hood",
+    "overlay": "haccord-DUPnw5jj.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-EfRIciFr": {
+    "id": "haccord-EfRIciFr",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.05, -2.3, 1.4],
+      "name": "318 front fender right z-57 1.4m",
+      "rotation_xyz_deg": [69, 0, -57]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "haccord-EfRIciFr.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-2a8VfA8m"
+  },
+  "haccord-GQcZz48C": {
+    "id": "haccord-GQcZz48C",
+    "angle_order": 56.30993,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, -1.5, 0.9],
+      "name": "56 front lateral low left z80 0.9m",
+      "rotation_xyz_deg": [81, 0, 80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "haccord-GQcZz48C.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-KN23XXkX"
+  },
+  "haccord-GdWvsqrm": {
+    "id": "haccord-GdWvsqrm",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.3, 2.85, 1],
+      "name": "155 rear left z135 1m",
+      "rotation_xyz_deg": [72, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "haccord-GdWvsqrm.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-Jq65fyD4"
+  },
+  "haccord-Gtt0JNQl": {
+    "id": "haccord-Gtt0JNQl",
+    "angle_order": 270,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.55, 0, 0.8],
+      "name": "270 lateral low right z-90 0.8m",
+      "rotation_xyz_deg": [90, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-right",
+    "overlay": "haccord-Gtt0JNQl.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-mdZ7optI"
+  },
+  "haccord-Jq65fyD4": {
+    "id": "haccord-Jq65fyD4",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.3, 2.85, 1],
+      "name": "205 rear right z-135 1m",
+      "rotation_xyz_deg": [72, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "haccord-Jq65fyD4.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-GdWvsqrm"
+  },
+  "haccord-KN23XXkX": {
+    "id": "haccord-KN23XXkX",
+    "angle_order": 303.69007,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, -1.5, 0.9],
+      "name": "304 front lateral low right z-80 0.9m",
+      "rotation_xyz_deg": [81, 0, -80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "haccord-KN23XXkX.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-GQcZz48C"
+  },
+  "haccord-KvP-pm8L": {
+    "id": "haccord-KvP-pm8L",
+    "angle_order": 324.86581,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.9, -2.7, 1.5],
+      "name": "325 front full right z-45 1.5m",
+      "rotation_xyz_deg": [67, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-full-right",
+    "overlay": "haccord-KvP-pm8L.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-huAZfQJA"
+  },
+  "haccord-OXYy5gET": {
+    "id": "haccord-OXYy5gET",
+    "angle_order": 229.3987,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.1, 1.8, 0.9],
+      "name": "229 rear lateral low right z-100 0.9m",
+      "rotation_xyz_deg": [80, 0, -100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "haccord-OXYy5gET.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-W-Bn3bU1"
+  },
+  "haccord-PGr3RzzP": {
+    "id": "haccord-PGr3RzzP",
+    "angle_order": 268.20578,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-4.15, 0.13, 1.6],
+      "name": "268 lateral full right z-90 1.6m",
+      "rotation_xyz_deg": [77, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "haccord-PGr3RzzP.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-_YnTubBA"
+  },
+  "haccord-QKfhXU7o": {
+    "id": "haccord-QKfhXU7o",
+    "angle_order": 56.97613,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2, -1.3, 1.5],
+      "name": "57 front door left z70 1.5m",
+      "rotation_xyz_deg": [65, 0, 70]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "haccord-QKfhXU7o.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-cXSAj2ez"
+  },
+  "haccord-Qel0qUky": {
+    "id": "haccord-Qel0qUky",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.3, 1.95, 1.4],
+      "name": "130 rear lateral left z110 1.4m",
+      "rotation_xyz_deg": [70, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "haccord-Qel0qUky.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-sorgeRJ7"
+  },
+  "haccord-W-Bn3bU1": {
+    "id": "haccord-W-Bn3bU1",
+    "angle_order": 130.6013,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.1, 1.8, 0.9],
+      "name": "131 rear lateral low left z100 0.9m",
+      "rotation_xyz_deg": [80, 0, 100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "haccord-W-Bn3bU1.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-OXYy5gET"
+  },
+  "haccord-Z84erkMb": {
+    "id": "haccord-Z84erkMb",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.25, -2.65, 0.8],
+      "name": "335 front bumper side right z-45 0.8m",
+      "rotation_xyz_deg": [77, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "haccord-Z84erkMb.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-hsCc_Nct"
+  },
+  "haccord-_YnTubBA": {
+    "id": "haccord-_YnTubBA",
+    "angle_order": 91.79422,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [4.15, 0.13, 1.6],
+      "name": "92 lateral full left z90 1.6m",
+      "rotation_xyz_deg": [77, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "haccord-_YnTubBA.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-PGr3RzzP"
+  },
+  "haccord-bSAv3Hrj": {
+    "id": "haccord-bSAv3Hrj",
+    "angle_order": 130.10091,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.9, 1.6, 1.5],
+      "name": "130 rear door left z110 1.5m",
+      "rotation_xyz_deg": [65, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "haccord-bSAv3Hrj.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-5LlCuIfL"
+  },
+  "haccord-bg-RFHl_": {
+    "id": "haccord-bg-RFHl_",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.55, 0.2, 1.4],
+      "name": "94 lateral left z90 1.4m",
+      "rotation_xyz_deg": [71, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "haccord-bg-RFHl_.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-cXSAj2ez": {
+    "id": "haccord-cXSAj2ez",
+    "angle_order": 303.02387,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2, -1.3, 1.5],
+      "name": "303 front door right z-70 1.5m",
+      "rotation_xyz_deg": [65, 0, -70]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "haccord-cXSAj2ez.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-QKfhXU7o"
+  },
+  "haccord-d3VJTvYw": {
+    "id": "haccord-d3VJTvYw",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.55, 0.2, 1.4],
+      "name": "266 lateral right z-90 1.4m",
+      "rotation_xyz_deg": [71, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "haccord-d3VJTvYw.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-d_u3qyQ-": {
+    "id": "haccord-d_u3qyQ-",
+    "angle_order": 205.20112,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-0.8, 1.7, 1.7],
+      "name": "205 rear roof IGNORE_MIRROR right z-140 1.7m",
+      "rotation_xyz_deg": [57, 0, -140]
+    },
+    "category": "exterior",
+    "label": "rear-roof-right",
+    "overlay": "haccord-d_u3qyQ-.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-hsCc_Nct": {
+    "id": "haccord-hsCc_Nct",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.25, -2.65, 0.8],
+      "name": "25 front bumper side left z45 0.8m",
+      "rotation_xyz_deg": [77, 0, 45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "haccord-hsCc_Nct.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-Z84erkMb"
+  },
+  "haccord-huAZfQJA": {
+    "id": "haccord-huAZfQJA",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.9, -2.7, 1.5],
+      "name": "35 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "rotation_xyz_deg": [67, 0, 45]
+    },
+    "category": "exterior",
+    "label": "beauty-shot-left",
+    "overlay": "haccord-huAZfQJA.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-KvP-pm8L"
+  },
+  "haccord-k6MiX2MR": {
+    "id": "haccord-k6MiX2MR",
+    "angle_order": 146.76829,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.9, 2.9, 1.5],
+      "name": "147 rear full left z135 1.5m",
+      "rotation_xyz_deg": [68, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-full-left",
+    "overlay": "haccord-k6MiX2MR.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-zNA0vVT0"
+  },
+  "haccord-mdZ7optI": {
+    "id": "haccord-mdZ7optI",
+    "angle_order": 90,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.55, 0, 0.8],
+      "name": "90 lateral low left z90 0.8m",
+      "rotation_xyz_deg": [90, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-left",
+    "overlay": "haccord-mdZ7optI.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-Gtt0JNQl"
+  },
+  "haccord-oiY_yPTR": {
+    "id": "haccord-oiY_yPTR",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0.9, -0.5, 1.7],
+      "name": "61 front roof IGNORE_MIRROR left z50 1.7m",
+      "rotation_xyz_deg": [58, 0, 50]
+    },
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "haccord-oiY_yPTR.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-pplCo6sV": {
+    "id": "haccord-pplCo6sV",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 2.1, 1.7],
+      "name": "180 rear roof z-180 1.7m",
+      "rotation_xyz_deg": [58, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear-roof",
+    "overlay": "haccord-pplCo6sV.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-ps7cWy6K": {
+    "id": "haccord-ps7cWy6K",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.45, 1.4],
+      "name": "180 rear z-180 1.4m",
+      "rotation_xyz_deg": [66, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "haccord-ps7cWy6K.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-sorgeRJ7": {
+    "id": "haccord-sorgeRJ7",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.3, 1.95, 1.4],
+      "name": "230 rear lateral right z-110 1.4m",
+      "rotation_xyz_deg": [70, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "haccord-sorgeRJ7.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-Qel0qUky"
+  },
+  "haccord-t5sLlmfv": {
+    "id": "haccord-t5sLlmfv",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.4, 1.4],
+      "name": "180 rear z-180 1.4m",
+      "rotation_xyz_deg": [66, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "haccord-t5sLlmfv.svg",
+    "vehicle_type": "haccord"
+  },
+  "haccord-zNA0vVT0": {
+    "id": "haccord-zNA0vVT0",
+    "angle_order": 213.23171,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.9, 2.9, 1.5],
+      "name": "213 rear full right z-135 1.5m",
+      "rotation_xyz_deg": [68, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-full-right",
+    "overlay": "haccord-zNA0vVT0.svg",
+    "vehicle_type": "haccord",
+    "mirror_sight": "haccord-k6MiX2MR"
+  }
+}

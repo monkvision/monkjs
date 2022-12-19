@@ -1,0 +1,12 @@
+dist
+node_modules
+coverage
+.eslintcache
+yarn-error.log
+.idea
+src/lib/**
+!src/lib/types.ts
+
+# TODO : Remove these lines when outside of old repo
+!src/lib
+!src/build
