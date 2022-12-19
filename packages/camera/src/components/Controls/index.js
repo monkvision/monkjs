@@ -1,19 +1,15 @@
-import React, { createElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createElement, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import CustomCaptureButton from './CustomCaptureButton';
+import AddDamageButton from './AddDamageButton';
 import CloseEarlyButton from './CloseEarlyButton';
 import QuitButton from './QuitButton';
 import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
 import TakePictureButton from './TakePictureButton';
-import PartSelector from './PartSelector';
 import Actions from '../../actions';
 import useHandlers from './hooks';
-import i18next from '../../i18n';
 
-const i18n = i18next;
 const MAX_LIMIT_FOR_PROCESSES = 4;
 
 const styles = StyleSheet.create({
@@ -39,6 +35,9 @@ const styles = StyleSheet.create({
     height: 68,
     backgroundColor: '#fff',
   },
+  buttonDisabled: {
+    opacity: 0.5,
+  },
 });
 
 const insertBetween = (array, element) => [].concat(...array.map((n) => [n, element])).slice(0, -1);
@@ -49,22 +48,33 @@ export default function Controls({
   elements,
   loading,
   state,
+  hideAddDamage,
+  onAddDamagePressed,
+  onAddDamageUploadPicture,
   onStartUploadPicture,
   onFinishUploadPicture,
-  onTogglePartSelector,
+  addDamageParts,
+  onResetAddDamageStatus,
   onCloseEarly,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
-  const [customPictureTaken, setCustomPictureTaken] = useState(null);
-  const [customPictureCallback, setCustomPictureCallback] = useState(null);
 
   const handlers = useHandlers({
     unControlledState: state,
     onStartUploadPicture,
     onFinishUploadPicture,
     stream: api.camera.current?.stream,
+    onResetAddDamageStatus,
   });
+
+  const isAddDamageButtonAndDisabled = useCallback(
+    (id) => id === Controls.AddDamageButtonProps.id && (
+      (addDamageParts && addDamageParts.length > 0)
+        || state.additionalPictures.state.takenPictures.length >= 10
+    ),
+    [addDamageParts, state.additionalPictures],
+  );
 
   const hasNoIdle = useMemo(
     () => Object.values(state.uploads.state).every(({ status }) => status !== 'idle'),
@@ -77,32 +87,12 @@ export default function Controls({
         confirm: rest.confirm,
         confirmationMessage: rest.confirmationMessage,
       });
+    } else if (id === Controls.AddDamageButtonProps.id) {
+      onAddDamagePressed();
     } else if (typeof onPress === 'function') {
       onPress(state, api, e);
-    } else if (typeof onCustomTakePicture === 'function') {
-      handlers.customCapture(api, e)
-        .then((picture) => {
-          setCustomPictureTaken(picture);
-          setCustomPictureCallback(() => onCustomTakePicture);
-        }).catch(() => {
-          // TODO: Add Monitoring code for error handling in MN-182
-        });
-    } else { handlers.capture(state, api, e); }
-  }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback, onCloseEarly]);
-
-  const handleClosePartSelector = useCallback(() => {
-    setCustomPictureTaken(null);
-    setCustomPictureCallback(null);
-  }, [setCustomPictureTaken, setCustomPictureCallback]);
-
-  const handlePartSelected = useCallback((part) => {
-    customPictureCallback({
-      part,
-      picture: customPictureTaken,
-    });
-    setCustomPictureTaken(null);
-    setCustomPictureCallback(null);
-  }, [customPictureTaken, customPictureCallback, setCustomPictureTaken, setCustomPictureCallback]);
+    } else { handlers.capture(state, api, e, addDamageParts); }
+  }, [api, handlers, state, onAddDamagePressed, addDamageParts, onCloseEarly]);
 
   const createControlElement = useCallback(({
     id,
@@ -110,17 +100,28 @@ export default function Controls({
     component = TouchableOpacity,
     onPress,
     ...rest
-  }) => createElement(component, {
-    key: `camera-control-${id}`,
-    onPress: (e) => handlePress(e, { id, onPress, ...rest }),
-    ...rest,
-    ...passThroughProps,
-    style: [
-      rest.style ?? {},
-      rest.disabled || loading || hasNoIdle ? { opacity: 0.6 } : {},
-    ],
-    disabled: rest.disabled || loading || hasNoIdle,
-  }, children), [loading, hasNoIdle, handlePress, passThroughProps]);
+  }) => (id === Controls.AddDamageButtonProps.id && hideAddDamage
+    ? null
+    : createElement(component, {
+      key: `camera-control-${id}`,
+      onPress: (e) => handlePress(e, { id, onPress, ...rest }),
+      ...rest,
+      ...passThroughProps,
+      style: [
+        rest.style ?? {},
+        rest.disabled || loading
+        || hasNoIdle || isAddDamageButtonAndDisabled(id) ? styles.buttonDisabled : {},
+      ],
+      disabled: rest.disabled || loading || hasNoIdle || isAddDamageButtonAndDisabled(id),
+    }, children)), [
+    loading,
+    hasNoIdle,
+    handlePress,
+    passThroughProps,
+    Controls.AddDamageButtonProps.id,
+    hideAddDamage,
+    isAddDamageButtonAndDisabled,
+  ]);
 
   const createControlArray = useCallback((array) => (
     <View
@@ -133,10 +134,6 @@ export default function Controls({
       )}
     </View>
   ), [createControlElement]);
-
-  useEffect(() => {
-    onTogglePartSelector(customPictureTaken !== null);
-  }, [customPictureTaken]);
 
   useEffect(() => {
     const { current, ids, process } = state.sights.state;
@@ -159,24 +156,18 @@ export default function Controls({
   }, [state.sights.state.process]);
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <View
-        acccessibilityLabel="Controls"
-        style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
-      >
-        {elements.map((e) => (Array.isArray(e) ? createControlArray(e) : createControlElement(e)))}
-      </View>
-      {customPictureTaken === null ? null : (
-        <PartSelector
-          onClose={handleClosePartSelector}
-          onSelectPart={handlePartSelected}
-        />
-      )}
-    </I18nextProvider>
+    <View
+      acccessibilityLabel="Controls"
+      style={[styles.container, containerStyle, { maxHeight: windowHeight }]}
+    >
+      {elements.map((e) => (Array.isArray(e) ? createControlArray(e) : createControlElement(e)))
+        .filter((e) => e !== null)}
+    </View>
   );
 }
 
 Controls.propTypes = {
+  addDamageParts: PropTypes.arrayOf(PropTypes.string),
   api: PropTypes.shape({
     camera: PropTypes.shape({
       current: PropTypes.objectOf(PropTypes.any),
@@ -202,12 +193,26 @@ Controls.propTypes = {
       onPress: PropTypes.func,
     })),
   ])),
+  hideAddDamage: PropTypes.bool,
   loading: PropTypes.bool,
+  onAddDamagePressed: PropTypes.func,
+  onAddDamageUploadPicture: PropTypes.func,
   onCloseEarly: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
+  onResetAddDamageStatus: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
-  onTogglePartSelector: PropTypes.func,
   state: PropTypes.shape({
+    additionalPictures: PropTypes.shape({
+      dispatch: PropTypes.func.isRequired,
+      name: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        takenPictures: PropTypes.arrayOf({
+          previousSight: PropTypes.string.isRequired,
+          labelKey: PropTypes.string.isRequired,
+          picture: PropTypes.any,
+        }),
+      }).isRequired,
+    }).isRequired,
     compliance: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
     sights: PropTypes.objectOf(PropTypes.any),
@@ -216,15 +221,19 @@ Controls.propTypes = {
 };
 
 Controls.defaultProps = {
+  addDamageParts: [],
   api: {},
   containerStyle: null,
   elements: [],
+  hideAddDamage: false,
   loading: false,
   state: {},
   onCloseEarly: () => {},
+  onAddDamagePressed: () => {},
+  onAddDamageUploadPicture: () => {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
-  onTogglePartSelector: () => {},
+  onResetAddDamageStatus: () => {},
 };
 
 Controls.CaptureButtonProps = {
@@ -286,22 +295,29 @@ Controls.FillerButtonProps = {
   pointerEvents: 'none',
 };
 
-Controls.CustomCaptureButtonProps = {
-  id: 'custom-capture',
-  accessibilityLabel: 'Custom Capture',
-  children: <CustomCaptureButton label="Custom" />,
+Controls.AddDamageButtonProps = {
+  id: 'add-damage',
+  accessibilityLabel: 'Add Damage',
+  children: <AddDamageButton
+    label="+"
+    customStyle={{
+      fontSize: 30,
+      color: '#020202',
+      paddingBottom: 5,
+    }}
+  />,
   style: {
     maxWidth: '100%',
-    backgroundColor: '#6187e3',
+    backgroundColor: '#eaeaea',
     width: 65,
     height: 65,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
     borderRadius: 65,
-    borderColor: '#6187e3',
-    borderWidth: 4,
-    shadowColor: '#6187e3',
+    borderColor: '#1e1e1e',
+    borderWidth: 2,
+    shadowColor: '#656565',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },
     ...Platform.select({

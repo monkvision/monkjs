@@ -3,6 +3,7 @@ import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import PropTypes from 'prop-types';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
@@ -90,7 +91,13 @@ export function useTakePictureAsync({ camera, isFocused }) {
  * @param uploads
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useSetPictureAsync({ current, sights, uploads }) {
+export function useSetPictureAsync({
+  additionalPictures,
+  addDamageParts,
+  current,
+  sights,
+  uploads,
+}) {
   return useCallback(async (picture) => {
     try {
       const uri = picture.localUri || picture.uri;
@@ -100,13 +107,25 @@ export function useSetPictureAsync({ current, sights, uploads }) {
       const saveOptions = { compress: 1, format: saveFormat };
       const imageResult = await manipulateAsync(uri, actions, saveOptions);
 
-      const payload = {
-        id: current.id,
-        picture: { uri: imageResult.uri },
-      };
+      if (addDamageParts && addDamageParts.length > 0) {
+        // The picture taken is an additional picture
+        const payload = {
+          previousSight: current.id,
+          labelKey: addDamageParts[0],
+          picture: { uri: imageResult.uri },
+        };
 
-      sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
-      uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+        additionalPictures.dispatch({ type: Actions.additionalPictures.ADD_PICTURE, payload });
+      } else {
+        // The picture taken is a normal workflow picture
+        const payload = {
+          id: current.id,
+          picture: { uri: imageResult.uri },
+        };
+
+        sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
+        uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+      }
     } catch (err) {
       const payload = { id: current.id, status: 'rejected', error: err };
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
@@ -114,7 +133,7 @@ export function useSetPictureAsync({ current, sights, uploads }) {
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
       throw err;
     }
-  }, [current.id, sights, uploads]);
+  }, [current.id, sights, uploads, additionalPictures, addDamageParts]);
 }
 
 /**
@@ -306,6 +325,25 @@ export function useStartUploadAsync({
       throw err;
     }
   }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
+}
+
+export function useUploadAdditionalDamage({
+  inspectionId,
+}) {
+  return useCallback(async ({ picture, parts }) => {
+    console.log('### Uploading additional picture :', picture);
+    console.log('### With parts :', parts);
+
+    // ❌❌❌❌❌❌❌❌❌❌❌❌
+    // L'object picture ici est EXACTEMENT le même que
+    // l'object picture dans le hook startUploadAsync
+    // Donc plutôt facile pour faire du copier / coller sur le call à l'api
+
+    // TODO : Change this to proper upload
+    await new Promise((resolve) => {
+      setTimeout(() => resolve(), 2000);
+    });
+  }, [inspectionId]);
 }
 
 /**

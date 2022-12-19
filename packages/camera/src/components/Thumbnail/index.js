@@ -87,7 +87,7 @@ export default function Thumbnail({
           {uploadStatus === 'pending' && (
           <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
           )}
-          {(!picture && uploadStatus !== 'pending') && (
+          {(!picture && uploadStatus !== 'pending' && !!overlay) && (
           <Overlay svg={overlay} style={styles.overlay} label={label} />
           )}
           <Text style={styles.text}>{label}</Text>

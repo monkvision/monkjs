@@ -149,7 +149,10 @@ export default function InspectionCapture() {
 
   const controls = [
     { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
-    { disabled: cameraLoading, ...Controls.CaptureButtonProps },
+    [
+      { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
+      { disabled: cameraLoading, ...Controls.CaptureButtonProps },
+    ],
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 

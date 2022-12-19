@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { I18nextProvider, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
 import { Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
-import i18next from '../../i18n';
 
-const i18n = i18next;
 const SIDE = 116;
 export const SIDE_WIDTH = SIDE;
 
@@ -123,18 +121,16 @@ function Layout({ backgroundColor, children, left, right }) {
 
   if (isPortrait) {
     return (
-      <I18nextProvider i18n={i18n}>
-        <View style={[styles.rotate, { backgroundColor, height }]}>
-          <View style={styles.rotateContent}>
-            <Text style={styles.title}>
-              {t('layout.rotateDevice')}
-            </Text>
-            <Text style={styles.p}>
-              {t('layout.unlockPortraitMode')}
-            </Text>
-          </View>
+      <View style={[styles.rotate, { backgroundColor, height }]}>
+        <View style={styles.rotateContent}>
+          <Text style={styles.title}>
+            {t('layout.rotateDevice')}
+          </Text>
+          <Text style={styles.p}>
+            {t('layout.unlockPortraitMode')}
+          </Text>
         </View>
-      </I18nextProvider>
+      </View>
     );
   }
 

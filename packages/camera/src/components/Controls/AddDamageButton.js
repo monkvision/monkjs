@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Text } from 'react-native';
 
-export default function CustomCaptureButton({ label, customStyle }) {
+export default function AddDamageButton({ label, customStyle }) {
   return (
     <Text
       style={[{
@@ -19,11 +19,11 @@ export default function CustomCaptureButton({ label, customStyle }) {
   );
 }
 
-CustomCaptureButton.propTypes = {
+AddDamageButton.propTypes = {
   customStyle: PropTypes.object,
   label: PropTypes.string.isRequired,
 };
 
-CustomCaptureButton.defaultProps = {
+AddDamageButton.defaultProps = {
   customStyle: {},
 };
