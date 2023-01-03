@@ -202,6 +202,11 @@ const Capture = forwardRef(({
     uploads,
   }), [additionalPictures, compliance, isReady, settings, sights, uploads]);
 
+  const hideAddDamage = useMemo(
+    () => addDamageStatus === AddDamageStatus.TAKE_PICTURE,
+    [addDamageStatus],
+  );
+
   // END STATES //
   // METHODS //
 
@@ -408,6 +413,7 @@ const Capture = forwardRef(({
       onFinishUploadPicture={onFinishUploadPicture}
       addDamageParts={addDamageParts}
       onResetAddDamageStatus={handleResetDamageStatus}
+      hideAddDamage={hideAddDamage}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
