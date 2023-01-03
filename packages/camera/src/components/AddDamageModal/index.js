@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { RotateLeft, RotateRight } from './assets';
 import { useCarOrientation, usePartSelector } from './hooks';
@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     padding: 20,
   },
+  buttonCompact: {
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+  },
   rotateButtonContainer: {
     alignSelf: 'stretch',
     display: 'flex',
@@ -86,6 +90,8 @@ export default function AddDamageModal({
   const { isPartSelected, togglePart, selectedParts } = usePartSelector();
   const { t } = useTranslation();
   const { orientation, rotateLeft, rotateRight } = useCarOrientation(currentSight);
+  const { height: windowHeight } = useWindowDimensions();
+  const isCompact = useMemo(() => (windowHeight < 370), [windowHeight]);
 
   const rotateButtonDimensions = useMemo(() => ({
     height: 37,
@@ -94,8 +100,8 @@ export default function AddDamageModal({
   const isConfirmDisabled = useMemo(() => selectedParts.length === 0, [selectedParts]);
 
   return (
-    <View style={[styles.container]}>
-      <View style={[styles.header]}>
+    <View style={[styles.container, isCompact ? { paddingVertical: 3 } : null]}>
+      <View style={[styles.header, isCompact ? { marginBottom: 0 } : null]}>
         <Text style={[styles.text, styles.title]}>
           {t('partSelector.modal.title')}
         </Text>
@@ -105,11 +111,13 @@ export default function AddDamageModal({
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={[styles.subheader]}>
-        <Text style={[styles.text]}>
-          {t('partSelector.modal.subtitle')}
-        </Text>
-      </View>
+      {isCompact ? null : (
+        <View style={[styles.subheader]}>
+          <Text style={[styles.text]}>
+            {t('partSelector.modal.subtitle')}
+          </Text>
+        </View>
+      )}
       <View style={[styles.content]}>
         <View style={[styles.rotateButtonContainer]}>
           <TouchableOpacity style={[styles.rotateButton]} onPress={rotateLeft}>
@@ -134,13 +142,16 @@ export default function AddDamageModal({
         </View>
       </View>
       <View style={[styles.footer]}>
-        <TouchableOpacity style={[styles.button]} onPress={onCancel}>
+        <TouchableOpacity
+          style={[styles.button, isCompact ? styles.buttonCompact : null]}
+          onPress={onCancel}
+        >
           <Text style={[styles.text]}>
             {t('partSelector.modal.cancel')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button]}
+          style={[styles.button, isCompact ? styles.buttonCompact : null]}
           onPress={() => onConfirm(selectedParts)}
           disabled={isConfirmDisabled}
         >
