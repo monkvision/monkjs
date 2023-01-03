@@ -542,11 +542,11 @@ Capture.propTypes = {
     dispatch: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     state: PropTypes.shape({
-      takenPictures: PropTypes.arrayOf({
-        previousSight: PropTypes.string.isRequired,
+      takenPictures: PropTypes.arrayOf(PropTypes.shape({
         labelKey: PropTypes.string.isRequired,
         picture: PropTypes.any,
-      }),
+        previousSight: PropTypes.string.isRequired,
+      })),
     }).isRequired,
   }).isRequired,
   colors: PropTypes.shape({

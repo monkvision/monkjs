@@ -331,18 +331,77 @@ export function useUploadAdditionalDamage({
   inspectionId,
 }) {
   return useCallback(async ({ picture, parts }) => {
-    console.log('### Uploading additional picture :', picture);
-    console.log('### With parts :', parts);
+    if (!inspectionId) {
+      throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
+    }
 
-    // ❌❌❌❌❌❌❌❌❌❌❌❌
-    // L'object picture ici est EXACTEMENT le même que
-    // l'object picture dans le hook startUploadAsync
-    // Donc plutôt facile pour faire du copier / coller sur le call à l'api
+    try {
+      const fileType = picture.fileType;
+      const filename = `close-up-${Date.now()}-${inspectionId}.${picture.imageFilenameExtension}`;
+      const multiPartKeys = {
+        image: 'image',
+        json: 'json',
+        type: fileType,
+        filename,
+      };
 
-    // TODO : Change this to proper upload
-    await new Promise((resolve) => {
-      setTimeout(() => resolve(), 2000);
-    });
+      const json = JSON.stringify({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: multiPartKeys.image,
+        },
+        compliances: {
+          image_quality_assessment: {},
+          // coverage_360: enableCarCoverage ? { sight_id: id } : undefined,
+          // coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+          //   sight_id: id,
+          // } : undefined,
+        },
+        detailed_viewpoint: {
+          centers_on: parts[0], // TODO : REMOVE [0]
+        },
+        tasks: ['damage_detection'],
+        image_type: 'close_up',
+        additional_data: {
+          overlay: undefined,
+          createdAt: new Date(),
+        },
+      });
+
+      let fileBits;
+
+      if (Platform.OS === 'web') {
+        const res = await axios.get(picture.uri, { responseType: 'blob' });
+        const file = res.data;
+
+        fileBits = [file];
+      } else {
+        const buffer = Buffer.from(picture.uri, 'base64');
+        fileBits = new Blob([buffer], { type: picture.imageFilenameExtension });
+      }
+
+      const file = await new File(
+        fileBits,
+        multiPartKeys.filename,
+        { type: multiPartKeys.type },
+      );
+
+      try {
+        const data = new FormData();
+        data.append(multiPartKeys.json, json);
+        data.append(multiPartKeys.image, file);
+
+        await monk.entity.image.addOne(inspectionId, data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        URL.revokeObjectURL(picture.uri);
+      }
+    } catch (err) {
+      log([`Error in close up \`<Capture />\` \`startUploadAsync()\`: ${err}`], 'error');
+
+      throw err;
+    }
   }, [inspectionId]);
 }
 

@@ -167,11 +167,11 @@ export default function Sights({
 }
 
 Sights.propTypes = {
-  additionalPictures: PropTypes.arrayOf({
-    previousSight: PropTypes.string.isRequired,
+  additionalPictures: PropTypes.arrayOf(PropTypes.shape({
     labelKey: PropTypes.string.isRequired,
     picture: PropTypes.any,
-  }),
+    previousSight: PropTypes.string.isRequired,
+  })),
   contentContainerStyle: PropTypes.objectOf(PropTypes.any),
   current: PropTypes.shape({
     index: PropTypes.number.isRequired,
