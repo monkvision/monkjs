@@ -299,18 +299,18 @@ Controls.AddDamageButtonProps = {
   id: 'add-damage',
   accessibilityLabel: 'Add Damage',
   children: <AddDamageButton
-    label="+"
+    label="Add Damage"
     customStyle={{
-      fontSize: 30,
+      fontSize: 12,
       color: '#020202',
-      paddingBottom: 5,
+      paddingBottom: 3,
     }}
   />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#eaeaea',
-    width: 65,
-    height: 65,
+    width: 84,
+    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
