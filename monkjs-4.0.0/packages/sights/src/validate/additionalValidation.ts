@@ -179,7 +179,7 @@ function printResults(results: AdditionalValidationResults): boolean {
   return containsErrors;
 }
 
-export function validateAdditionalRules(): void {
+export function validateAdditionalRules(print = true): void {
   const results: AdditionalValidationResults = {
     vehicleTypes: validateVehicleTypeFileNames(),
     mirrorSight: [],
@@ -213,7 +213,14 @@ export function validateAdditionalRules(): void {
     results.unusedOverlay = results.unusedOverlay.concat(unusedOverlay);
   });
 
-  if (printResults(results)) {
+  const containsErrors = Object.values(results).some(
+    (errors: AdditionalValidationError[]) => errors.length > 0,
+  );
+
+  if (containsErrors) {
+    if (print) {
+      printResults(results);
+    }
     throw new Error(
       'There were some errors during the additional validation steps. The error details have been logged above.',
     );

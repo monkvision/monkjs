@@ -10,3 +10,4 @@ src/lib/**
 # TODO : Remove these lines when outside of old repo
 !src/lib
 !src/build
+!test/build
