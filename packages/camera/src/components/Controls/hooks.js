@@ -31,8 +31,6 @@ const useHandlers = ({
     const state = controlledState || unControlledState;
     event.preventDefault();
 
-    onStartUploadPicture(state, api);
-
     const {
       takePictureAsync,
       startUploadAsync,
@@ -40,26 +38,26 @@ const useHandlers = ({
       goNextSight,
     } = api;
 
-    log(['[Click] Taking a photo']);
+    const { sights } = state;
+    const { current, ids } = sights.state;
+
+    onStartUploadPicture(state, api);
+
+    setTimeout(() => {
+      if (current.index !== (ids.length - 1)) {
+        onFinishUploadPicture(state, api);
+        goNextSight();
+      }
+    }, 500);
+
+    log([`[Click] Taking a photo-${current.index}`]);
     const picture = await takePictureAsync();
 
     if (!picture) { return; }
 
     setPictureAsync(picture);
 
-    const { sights } = state;
-    const { current, ids } = sights.state;
-
-    if (current.index === ids.length - 1) {
-      await startUploadAsync(picture);
-    } else {
-      await startUploadAsync(picture);
-
-      setTimeout(() => {
-        onFinishUploadPicture(state, api);
-        goNextSight();
-      }, 500);
-    }
+    await startUploadAsync(picture);
     captureButtonTracing?.finish();
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
