@@ -1,14 +1,14 @@
 import monk from '@monkvision/corejs';
-import { version as corejs } from '@monkvision/corejs/package.json';
-import { version as sights } from '@monkvision/sights/package.json';
-import { version as toolkit } from '@monkvision/toolkit/package.json';
-import { version as camera } from '../../package.json';
+import corejs from '@monkvision/corejs/package.json';
+import sights from '@monkvision/sights/package.json';
+import toolkit from '@monkvision/toolkit/package.json';
+import camera from '../../package.json';
 
 export default function exportVersions() {
   monk.config.packageVersions = {
-    camera,
-    corejs,
-    sights,
-    toolkit,
+    camera: camera.version,
+    corejs: corejs.version,
+    sights: sights.version,
+    toolkit: toolkit.version,
   };
 }
