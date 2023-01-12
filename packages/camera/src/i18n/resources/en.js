@@ -1,5 +1,9 @@
 const en = {
   translation: {
+    closeEarlyModal: {
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+    },
     camera: {
       permissionDenied: 'Unable to access camera : permission denied.',
     },

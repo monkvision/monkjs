@@ -9,6 +9,7 @@ import i18next from '../../i18n';
 import log from '../../utils/log';
 
 import Camera from '../Camera';
+import CloseEarlyConfirmModal from '../CloseEarlyConfirmModal';
 import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
@@ -118,6 +119,14 @@ const Capture = forwardRef(({
   // STATES //
   const [isReady, setReady] = useState(false);
   const [isPartSelectorDisplayed, setPartSelectorDisplayed] = useState(false);
+  const [closeEarlyModalState, setCloseEarlyModalState] = useState({
+    show: false,
+    message: {
+      en: '',
+      fr: '',
+    },
+  });
+  const [endTour, setEndTour] = useState(false);
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
@@ -193,6 +202,7 @@ const Capture = forwardRef(({
     onFinish: onCaptureTourFinish,
     onPictureUploaded,
     onWarningMessage,
+    endTour,
     Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
@@ -269,6 +279,36 @@ const Capture = forwardRef(({
     setPartSelectorDisplayed(isDisplayed);
   }, [setPartSelectorDisplayed]);
 
+  const handleCloseCaptureEarly = useCallback(() => {
+    setEndTour(true);
+  }, [setEndTour]);
+
+  const handleCloseEarlyClick = useCallback(({ confirm, confirmationMessage }) => {
+    if (confirm) {
+      setCloseEarlyModalState({
+        show: true,
+        message: confirmationMessage,
+      });
+    } else {
+      handleCloseCaptureEarly();
+    }
+  }, [handleCloseCaptureEarly, setCloseEarlyModalState]);
+
+  const handleCloseEarlyCancel = useCallback(() => {
+    setCloseEarlyModalState({
+      show: false,
+      message: '',
+    });
+  }, [setCloseEarlyModalState]);
+
+  const handleCloseEarlyConfirm = useCallback(() => {
+    setCloseEarlyModalState({
+      show: false,
+      message: '',
+    });
+    handleCloseCaptureEarly();
+  }, [setCloseEarlyModalState, handleCloseCaptureEarly]);
+
   // END HANDLERS //
   // EFFECTS //
 
@@ -312,6 +352,7 @@ const Capture = forwardRef(({
       elements={controls}
       loading={loading}
       state={states}
+      onCloseEarly={handleCloseEarlyClick}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
       onTogglePartSelector={handleTogglePartSelector}
@@ -342,7 +383,7 @@ const Capture = forwardRef(({
     </>
   ), [isReady, loading, overlay, overlaySize, primaryColor]);
 
-  if (enableComplianceCheck && tourHasFinished && complianceHasFulfilledAll) {
+  if (enableComplianceCheck && (endTour || (tourHasFinished && complianceHasFulfilledAll))) {
     return (
       <I18nextProvider i18n={i18n}>
         <UploadCenter
@@ -359,6 +400,7 @@ const Capture = forwardRef(({
           checkComplianceAsync={checkComplianceAsync}
           navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
           colors={colors}
+          endTour={endTour}
           Sentry={Sentry}
         />
       </I18nextProvider>
@@ -400,6 +442,13 @@ const Capture = forwardRef(({
           </Camera>
         </Layout>
       </View>
+      {closeEarlyModalState.show ? (
+        <CloseEarlyConfirmModal
+          confirmationMessage={closeEarlyModalState.message}
+          onCancel={handleCloseEarlyCancel}
+          onConfirm={handleCloseEarlyConfirm}
+        />
+      ) : null}
     </I18nextProvider>
   );
 

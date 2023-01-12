@@ -178,6 +178,7 @@ export function useStartUploadAsync({
   onFinish = () => {},
   onPictureUploaded = () => {},
   onWarningMessage = () => {},
+  endTour = false,
   Sentry,
 }) {
   const [queue, setQueue] = useState([]);
@@ -215,7 +216,7 @@ export function useStartUploadAsync({
           onPictureUploaded({ result, picture, inspectionId });
 
           // call onFinish callback when capturing the last picture
-          if (ids[ids.length - 1] === id) {
+          if (ids[ids.length - 1] === id || endTour) {
             onFinish();
             log([`Capture tour has been finished`]);
           }
@@ -239,11 +240,11 @@ export function useStartUploadAsync({
       }
       isRunning = false;
     }
-  }, [isRunning, queue, sights.state, uploads]);
+  }, [isRunning, queue, sights.state, uploads, endTour]);
 
   useEffect(() => {
     if (!isRunning && queue.length > 0) { (async () => { await runQuery(); })(); }
-  }, [isRunning, queue]);
+  }, [isRunning, queue, endTour]);
 
   return useCallback(async (picture, currentSight) => {
     const { dispatch } = uploads;
@@ -324,7 +325,7 @@ export function useStartUploadAsync({
 
       throw err;
     }
-  }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish]);
+  }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
 }
 
 /**
