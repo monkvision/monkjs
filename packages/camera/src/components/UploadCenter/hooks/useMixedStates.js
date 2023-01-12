@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export default function useMixedStates({ state, sights, ids }) {
+export default function useMixedStates({ state, sights, ids, endTour }) {
   const hasPendingComplianceAndNoRejectedUploads = useMemo(
     () => (state.hasPendingCompliance
       || state.unfulfilledComplianceIds?.length) && !state.uploadIdsWithError?.length,
@@ -24,7 +24,7 @@ export default function useMixedStates({ state, sights, ids }) {
   );
 
   const hasNoCompliancesLeft = useMemo(
-    () => !state.hasPendingCompliance && ids && ids.length === 0,
+    () => !state.hasPendingCompliance && ids && ids.length === 0 && !(endTour && Object.values(state.compliance.state).every((s) => s.status === 'idle')),
     [ids, state.hasPendingCompliance],
   );
 

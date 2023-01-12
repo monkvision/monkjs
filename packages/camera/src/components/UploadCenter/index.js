@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
-import PropTypes from 'prop-types';
-
 import { useSentry, utils } from '@monkvision/toolkit';
 import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import log from '../../utils/log';
+import Button from './button';
+import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
 
 import UploadCard from './UploadCard';
-import { useComplianceIds, useHandlers, useMixedStates } from './hooks';
-import Button from './button';
-import log from '../../utils/log';
 
 const { spacing } = utils.styles;
 
@@ -69,6 +68,7 @@ export default function UploadCenter({
   task,
   mapTasksToSights,
   colors,
+  endTour,
   Sentry,
 }) {
   const [submitted, submit] = useState(false);
@@ -77,7 +77,7 @@ export default function UploadCenter({
 
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
-  const { ids, state } = useComplianceIds({ navigationOptions, ...states });
+  const { ids, state } = useComplianceIds({ navigationOptions, ...states, endTour });
   const { Span } = useSentry(Sentry);
 
   const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
@@ -101,7 +101,7 @@ export default function UploadCenter({
     hasFulfilledAllUploads,
     hasNoCompliancesLeft,
     hasAllRejected,
-  } = useMixedStates({ state, sights, ids });
+  } = useMixedStates({ state, sights, ids, endTour });
 
   // END METHODS //
   // EFFECTS //
@@ -285,6 +285,7 @@ UploadCenter.propTypes = {
   }).isRequired,
   compliance: PropTypes.objectOf(PropTypes.any).isRequired,
   enableCarCoverage: PropTypes.bool,
+  endTour: PropTypes.bool,
   inspectionId: PropTypes.string,
   isSubmitting: PropTypes.bool,
   mapTasksToSights: PropTypes.arrayOf(
@@ -313,6 +314,7 @@ UploadCenter.propTypes = {
 
 UploadCenter.defaultProps = {
   enableCarCoverage: false,
+  endTour: false,
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
   checkComplianceAsync: () => {},

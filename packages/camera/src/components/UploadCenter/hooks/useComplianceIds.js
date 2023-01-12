@@ -6,7 +6,13 @@ const hasTodo = (c) => c?.is_compliant === null || c?.status === 'TODO';
 const compliant = { is_compliant: true, reasons: [] };
 const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
 
-export default function useComplianceIds({ sights, compliance, uploads, navigationOptions }) {
+export default function useComplianceIds({
+  sights,
+  compliance,
+  uploads,
+  navigationOptions,
+  endTour,
+}) {
   const sortByIndex = useCallback((a, b) => {
     const indexA = getIndexById(a.id, sights.state.tour);
     const indexB = getIndexById(b.id, sights.state.tour);
@@ -48,20 +54,38 @@ export default function useComplianceIds({ sights, compliance, uploads, navigati
       });
     }), [compliance]);
 
+  const unfulfilledStatuses = useMemo(() => {
+    const result = ['pending'];
+    if (!endTour) {
+      result.push('idle');
+    }
+    return result;
+    // return ['pending', 'idle'];
+  }, [endTour]);
+
   const unfulfilledUploadIds = useMemo(() => Object.values(uploads.state)
-    .filter(({ status }) => ['pending', 'idle'].includes(status))
+    .filter(({ status }) => unfulfilledStatuses.includes(status))
     .sort(sortByIndex)
-    .map(({ id }) => id), [sortByIndex, uploads.state]);
+    .map(({ id }) => id), [sortByIndex, uploads.state, unfulfilledStatuses]);
 
-  const unfulfilledComplianceIds = useMemo(() => Object.values(compliance.state)
-    .filter(({ status, requestCount }) => {
-      const isPendingAndHasNotReachedMaxRetries = ['pending', 'idle'].includes(status) && requestCount <= navigationOptions.retakeMaxTry;
-      const unfulfilled = status === 'rejected';
+  const unfulfilledComplianceIds = useMemo(
+    () => Object.values(compliance.state)
+      .filter(({ status, requestCount }) => {
+        const isPendingAndHasNotReachedMaxRetries = unfulfilledStatuses
+          .includes(status) && requestCount <= navigationOptions.retakeMaxTry;
+        const unfulfilled = status === 'rejected';
 
-      return isPendingAndHasNotReachedMaxRetries || unfulfilled;
-    })
-    .sort(sortByIndex)
-    .map(({ id }) => id), [compliance.state, navigationOptions.retakeMaxTry, sortByIndex]);
+        return isPendingAndHasNotReachedMaxRetries || unfulfilled;
+      })
+      .sort(sortByIndex)
+      .map(({ id }) => id),
+    [
+      compliance.state,
+      navigationOptions.retakeMaxTry,
+      sortByIndex,
+      unfulfilledStatuses,
+    ],
+  );
 
   const uploadIdsWithError = useMemo(() => Object.values(uploads.state)
     .filter(({ status, error }) => (status === 'rejected' || error !== null))

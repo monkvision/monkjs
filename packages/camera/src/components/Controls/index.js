@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import CustomCaptureButton from './CustomCaptureButton';
+import CloseEarlyButton from './CloseEarlyButton';
 import QuitButton from './QuitButton';
 import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
@@ -51,6 +52,7 @@ export default function Controls({
   onStartUploadPicture,
   onFinishUploadPicture,
   onTogglePartSelector,
+  onCloseEarly,
   Sentry,
   ...passThroughProps
 }) {
@@ -72,8 +74,13 @@ export default function Controls({
     [state.uploads],
   );
 
-  const handlePress = useCallback((e, { onPress, onCustomTakePicture }) => {
-    if (typeof onPress === 'function') {
+  const handlePress = useCallback((e, { id, onPress, onCustomTakePicture, ...rest }) => {
+    if (id === Controls.CloseEarlyButtonProps.id) {
+      onCloseEarly({
+        confirm: rest.confirm,
+        confirmationMessage: rest.confirmationMessage,
+      });
+    } else if (typeof onPress === 'function') {
       onPress(state, api, e);
     } else if (typeof onCustomTakePicture === 'function') {
       handlers.customCapture(api, e)
@@ -82,7 +89,7 @@ export default function Controls({
           setCustomPictureCallback(() => onCustomTakePicture);
         }).catch((err) => errorHandler(err, SentryConstants.type.APP));
     } else { handlers.capture(state, api, e); }
-  }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback]);
+  }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback, onCloseEarly]);
 
   const handleClosePartSelector = useCallback(() => {
     setCustomPictureTaken(null);
@@ -106,20 +113,24 @@ export default function Controls({
     ...rest
   }) => createElement(component, {
     key: `camera-control-${id}`,
-    disabled: loading || hasNoIdle,
-    onPress: (e) => handlePress(e, { onPress, ...rest }),
-    style: StyleSheet.flatten([styles.button]),
+    onPress: (e) => handlePress(e, { id, onPress, ...rest }),
     ...rest,
     ...passThroughProps,
+    style: [
+      rest.style ?? {},
+      rest.disabled || loading || hasNoIdle ? { opacity: 0.6 } : {},
+    ],
+    disabled: rest.disabled || loading || hasNoIdle,
   }, children), [loading, hasNoIdle, handlePress, passThroughProps]);
 
   const createControlArray = useCallback((array) => (
     <View
+      key={`control-array-${array.map((c) => c.id).join('-')}`}
       style={[styles.controlArray]}
     >
       {insertBetween(
         array.map((control) => createControlElement(control)),
-        (<View style={[styles.controlArraySpacer]} />),
+        (<View key="spacer" style={[styles.controlArraySpacer]} />),
       )}
     </View>
   ), [createControlElement]);
@@ -173,6 +184,7 @@ Controls.propTypes = {
     })),
   ])),
   loading: PropTypes.bool,
+  onCloseEarly: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   onTogglePartSelector: PropTypes.func,
@@ -191,6 +203,7 @@ Controls.defaultProps = {
   elements: [],
   loading: false,
   state: {},
+  onCloseEarly: () => {},
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
   onTogglePartSelector: () => {},
@@ -220,6 +233,40 @@ Controls.CaptureButtonProps = {
       default: { shadowRadius: '4px 4px' },
     }),
   },
+};
+
+Controls.CloseEarlyButtonProps = {
+  id: 'close-button',
+  accessibilityLabel: 'Close',
+  children: <CloseEarlyButton label="Custom" />,
+  style: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#e16767',
+    borderWidth: 1,
+    borderColor: '#f1f1f1',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirm: true,
+  confirmationMessage: {
+    en: 'You haven\'t taken all the required pictures. Are you sure you want to end the insepction ?',
+    fr: 'Vous n\'avez pas terminé de prendre toutes les photos nécessaires. Êtes-vous sûr(e) de vouloir terminer l\'inspection ?',
+  },
+};
+
+Controls.FillerButtonProps = {
+  id: 'filler-button',
+  accessibilityLabel: 'None',
+  children: null,
+  style: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    opacity: 0,
+  },
+  pointerEvents: 'none',
 };
 
 Controls.CustomCaptureButtonProps = {
