@@ -122,8 +122,11 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
       sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
     } catch (err) {
+      const payload = { id: current.id, status: 'rejected', error: err };
+      uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
       errorHandler(err, SentryConstants.type.CAMERA, { id: current.id, picture });
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
+      throw err;
     }
   }, [current.id, sights, uploads]);
 }

@@ -55,10 +55,14 @@ const useHandlers = ({
 
     if (!picture) { return; }
 
-    setPictureAsync(picture);
-
-    await startUploadAsync(picture);
-    captureButtonTracing?.finish();
+    try {
+      await setPictureAsync(picture);
+      await startUploadAsync(picture);
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
+    } finally {
+      captureButtonTracing?.finish();
+    }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
 
   const customCapture = useCallback(async (api, event) => {
