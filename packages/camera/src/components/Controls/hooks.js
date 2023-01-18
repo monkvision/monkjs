@@ -50,7 +50,7 @@ const useHandlers = ({
       }
     }, 500);
 
-    log([`[Click] Taking a photo-${current.index}`]);
+    log([`[Click] Taking a photo`]);
     const picture = await takePictureAsync();
 
     if (!picture) { return; }

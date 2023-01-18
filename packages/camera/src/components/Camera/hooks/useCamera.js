@@ -90,10 +90,8 @@ export default function useCamera({
       compressionTracing?.finish();
       uri = URL.createObjectURL(compressed);
     } else {
-      console.log('Start get the URL from canvas Blob');
       uri = await toBlob(canvas, imageType);
       // uri = canvas.toDataURL(imageType);
-      console.log('End get the URL from canvas Blob');
     }
 
     webCaptureTracing?.finish();
