@@ -17,7 +17,7 @@ const toBlob = (canvasElement, type) => new Promise((resolve) => {
  * and a canvas of width/height.
  */
 const diff = 1;
-const canvas = document.createElement('canvas');
+// const canvas = document.createElement('canvas');
 const imageType = utils.supportsWebP ? 'image/webp' : 'image/jpeg';
 const imageFilenameExtension = imageType.substring('image/'.length);
 
@@ -57,12 +57,16 @@ export default function useCamera({
   }, [stream, error]);
 
   // we can set the canvas dimensions one time rather than on every time we press capture
-  useEffect(() => { canvas.width = width; canvas.height = height; }, [width, height]);
+  // useEffect(() => { canvas.width = width; canvas.height = height; }, [width, height]);
 
   const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
     let webCaptureTracing;
+    // we can create and use the separate canvas for each sight pic
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
     if (Sentry) { webCaptureTracing = new Span('web-capture', 'func'); }
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
 
@@ -87,6 +91,7 @@ export default function useCamera({
       uri = URL.createObjectURL(compressed);
     } else {
       uri = await toBlob(canvas, imageType);
+      // uri = canvas.toDataURL(imageType);
     }
 
     webCaptureTracing?.finish();
