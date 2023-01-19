@@ -20,6 +20,10 @@ function init({ sightIds, initialState }) {
     ids: sightIds,
     remainingPictures: sightIds.length,
     takenPictures: {},
+    process: {
+      action: '',
+      queue: [],
+    },
     tour,
   });
 }
@@ -45,6 +49,24 @@ function reducer(state, action) {
         takenPictures: {
           ...state.takenPictures,
           [action.payload.id]: undefined,
+        },
+      };
+
+    case Actions.sights.ADD_PROCESS_TO_QUEUE:
+      return {
+        ...state,
+        process: {
+          action: Actions.sights.ADD_PROCESS_TO_QUEUE,
+          queue: [...state.process.queue, id],
+        },
+      };
+
+    case Actions.sights.REMOVE_PROCESS_FROM_QUEUE:
+      return {
+        ...state,
+        process: {
+          action: Actions.sights.REMOVE_PROCESS_FROM_QUEUE,
+          queue: state.process.queue.filter((sightId) => sightId !== id),
         },
       };
 
