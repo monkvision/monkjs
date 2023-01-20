@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "subschemas/camera.schema",
+  "definitions": {
+    "xyzArray": {
+      "$ref": "xyzArray.schema"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "focal_length": {
+      "type": "number",
+      "minimum": 0
+    },
+    "location_xyz": {
+      "$ref": "#/definitions/xyzArray"
+    },
+    "name": {
+      "type": "string"
+    },
+    "rotation_xyz_deg": {
+      "$ref": "#/definitions/xyzArray"
+    }
+  },
+  "required": ["focal_length", "location_xyz", "name", "rotation_xyz_deg"]
+}

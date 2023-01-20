@@ -1,0 +1,459 @@
+{
+  "ff150--xPZZd83": {
+    "id": "ff150--xPZZd83",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.4, 3.65, 1.2],
+      "name": "159 rear left z140 1.2m",
+      "rotation_xyz_deg": [79, 0, 140]
+    },
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "ff150--xPZZd83.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-t3KBMPeD"
+  },
+  "ff150-18YVVN-G": {
+    "id": "ff150-18YVVN-G",
+    "angle_order": 270,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-3.1, 0, 0.8],
+      "name": "270 lateral low right z-90 0.8m",
+      "rotation_xyz_deg": [90, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-right",
+    "overlay": "ff150-18YVVN-G.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-vwE3yqdh"
+  },
+  "ff150-2WUJ179s": {
+    "id": "ff150-2WUJ179s",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-3, 2.45, 1.5],
+      "name": "231 rear lateral right z-110 1.5m",
+      "rotation_xyz_deg": [77, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "ff150-2WUJ179s.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-xbOhu7nK"
+  },
+  "ff150-3dkU10af": {
+    "id": "ff150-3dkU10af",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 4.35, 0.9],
+      "name": "180 rear low z-180 0.9m",
+      "rotation_xyz_deg": [90, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "ff150-3dkU10af.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-3he9UOwy": {
+    "id": "ff150-3he9UOwy",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.3, 1.7],
+      "name": "0 hood 1.7m",
+      "rotation_xyz_deg": [69, 0, 0]
+    },
+    "category": "exterior",
+    "label": "hood",
+    "overlay": "ff150-3he9UOwy.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-3lKZIoxw": {
+    "id": "ff150-3lKZIoxw",
+    "angle_order": 324.29331,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.3, -3.2, 1.6],
+      "name": "324 front full right z-45 1.6m",
+      "rotation_xyz_deg": [72, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-full-right",
+    "overlay": "ff150-3lKZIoxw.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-7UI3m9B3"
+  },
+  "ff150-3rM9XB0Z": {
+    "id": "ff150-3rM9XB0Z",
+    "angle_order": 225,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.35, 2.35, 1],
+      "name": "225 rear lateral low right z-100 1m",
+      "rotation_xyz_deg": [81, 0, -100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "ff150-3rM9XB0Z.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-ouGGtRnf"
+  },
+  "ff150-7UI3m9B3": {
+    "id": "ff150-7UI3m9B3",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.3, -3.2, 1.6],
+      "name": "36 beauty shot IGNORE_MIRROR left z45 1.6m",
+      "rotation_xyz_deg": [72, 0, 45]
+    },
+    "category": "exterior",
+    "label": "beauty-shot-left",
+    "overlay": "ff150-7UI3m9B3.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-3lKZIoxw"
+  },
+  "ff150-7nvlys8r": {
+    "id": "ff150-7nvlys8r",
+    "angle_order": 307.05653,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.45, -1.85, 1.05],
+      "name": "307 front lateral low right z-80 1.05m",
+      "rotation_xyz_deg": [80, 0, -80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "ff150-7nvlys8r.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-FqbrFVr2"
+  },
+  "ff150-BmXfb-qD": {
+    "id": "ff150-BmXfb-qD",
+    "angle_order": 304.82449,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.3, -1.6, 1.6],
+      "name": "305 front door right z-70 1.6m",
+      "rotation_xyz_deg": [72.5, 0, -70]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "ff150-BmXfb-qD.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-g_xBOOS2"
+  },
+  "ff150-FqbrFVr2": {
+    "id": "ff150-FqbrFVr2",
+    "angle_order": 52.94347,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.45, -1.85, 1.05],
+      "name": "53 front lateral low left z80 1.05m",
+      "rotation_xyz_deg": [80, 0, 80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "ff150-FqbrFVr2.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-7nvlys8r"
+  },
+  "ff150-GOx2s_9L": {
+    "id": "ff150-GOx2s_9L",
+    "angle_order": 92.83411,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [5.05, 0.25, 1.6],
+      "name": "93 lateral full left z90 1.6m",
+      "rotation_xyz_deg": [83, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "ff150-GOx2s_9L.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-_UIadfVL"
+  },
+  "ff150-KgHVkQBW": {
+    "id": "ff150-KgHVkQBW",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.4, -3.1, 1.1],
+      "name": "24 front bumper side left z45 1.1m",
+      "rotation_xyz_deg": [74, 0, 45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "ff150-KgHVkQBW.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-gFp78fQO"
+  },
+  "ff150-OviO2DlY": {
+    "id": "ff150-OviO2DlY",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.3, -2.7, 1.4],
+      "name": "320 front fender right z-57 1.4m",
+      "rotation_xyz_deg": [75, 0, -57]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "ff150-OviO2DlY.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-wO_fJ3DL"
+  },
+  "ff150-Ttsc7q6V": {
+    "id": "ff150-Ttsc7q6V",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1, -0.9, 2],
+      "name": "48 front roof IGNORE_MIRROR left z50 2m",
+      "rotation_xyz_deg": [62, 0, 50]
+    },
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "ff150-Ttsc7q6V.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-V-xzfWsx": {
+    "id": "ff150-V-xzfWsx",
+    "angle_order": 125.65533,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.3, 1.65, 1.6],
+      "name": "126 rear door left z110 1.6m",
+      "rotation_xyz_deg": [73, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "ff150-V-xzfWsx.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-eOjyMInj"
+  },
+  "ff150-_AoeFdVO": {
+    "id": "ff150-_AoeFdVO",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.8, -0.1, 1.5],
+      "name": "88 lateral left z90 1.5m",
+      "rotation_xyz_deg": [78, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "ff150-_AoeFdVO.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-_UIadfVL": {
+    "id": "ff150-_UIadfVL",
+    "angle_order": 267.16589,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-5.05, 0.25, 1.6],
+      "name": "267 lateral full right z-90 1.6m",
+      "rotation_xyz_deg": [83, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "ff150-_UIadfVL.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-GOx2s_9L"
+  },
+  "ff150-eOjyMInj": {
+    "id": "ff150-eOjyMInj",
+    "angle_order": 234.34467,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.3, 1.65, 1.6],
+      "name": "234 rear door right z-110 1.6m",
+      "rotation_xyz_deg": [73, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "ff150-eOjyMInj.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-V-xzfWsx"
+  },
+  "ff150-gFp78fQO": {
+    "id": "ff150-gFp78fQO",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.4, -3.1, 1.1],
+      "name": "336 front bumper side right z-45 1.1m",
+      "rotation_xyz_deg": [74, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "ff150-gFp78fQO.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-KgHVkQBW"
+  },
+  "ff150-g_xBOOS2": {
+    "id": "ff150-g_xBOOS2",
+    "angle_order": 55.17551,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.3, -1.6, 1.6],
+      "name": "55 front door left z70 1.6m",
+      "rotation_xyz_deg": [72.5, 0, 70]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "ff150-g_xBOOS2.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-BmXfb-qD"
+  },
+  "ff150-k4kh7Vra": {
+    "id": "ff150-k4kh7Vra",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 4.2, 1.7],
+      "name": "180 rear z-180 1.7m",
+      "rotation_xyz_deg": [69, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "ff150-k4kh7Vra.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-nF_oFvhI": {
+    "id": "ff150-nF_oFvhI",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 4.249999, 1.4],
+      "name": "180 rear z-180 1.4m",
+      "rotation_xyz_deg": [76, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "ff150-nF_oFvhI.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-o8MiTw8u": {
+    "id": "ff150-o8MiTw8u",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.8, -0.1, 1.5],
+      "name": "272 lateral right z-90 1.5m",
+      "rotation_xyz_deg": [78, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "ff150-o8MiTw8u.svg",
+    "vehicle_type": "ff150"
+  },
+  "ff150-ouGGtRnf": {
+    "id": "ff150-ouGGtRnf",
+    "angle_order": 135,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.35, 2.35, 1],
+      "name": "135 rear lateral low left z100 1m",
+      "rotation_xyz_deg": [81, 0, 100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "ff150-ouGGtRnf.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-3rM9XB0Z"
+  },
+  "ff150-phbX7Bef": {
+    "id": "ff150-phbX7Bef",
+    "angle_order": 147.99462,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, 3.6, 1.6],
+      "name": "148 rear full left z135 1.6m",
+      "rotation_xyz_deg": [75, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-full-left",
+    "overlay": "ff150-phbX7Bef.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-tT8sqplK"
+  },
+  "ff150-t3KBMPeD": {
+    "id": "ff150-t3KBMPeD",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.4, 3.65, 1.2],
+      "name": "201 rear right z-140 1.2m",
+      "rotation_xyz_deg": [79, 0, -140]
+    },
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "ff150-t3KBMPeD.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150--xPZZd83"
+  },
+  "ff150-tT8sqplK": {
+    "id": "ff150-tT8sqplK",
+    "angle_order": 212.00538,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, 3.6, 1.6],
+      "name": "212 rear full right z-135 1.6m",
+      "rotation_xyz_deg": [75, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-full-right",
+    "overlay": "ff150-tT8sqplK.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-phbX7Bef"
+  },
+  "ff150-vwE3yqdh": {
+    "id": "ff150-vwE3yqdh",
+    "angle_order": 90,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [3.1, 0, 0.8],
+      "name": "90 lateral low left z90 0.8m",
+      "rotation_xyz_deg": [90, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-left",
+    "overlay": "ff150-vwE3yqdh.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-18YVVN-G"
+  },
+  "ff150-wO_fJ3DL": {
+    "id": "ff150-wO_fJ3DL",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.3, -2.7, 1.4],
+      "name": "40 front fender left z57 1.4m",
+      "rotation_xyz_deg": [75, 0, 57]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "ff150-wO_fJ3DL.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-OviO2DlY"
+  },
+  "ff150-xbOhu7nK": {
+    "id": "ff150-xbOhu7nK",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [3, 2.45, 1.5],
+      "name": "129 rear lateral left z110 1.5m",
+      "rotation_xyz_deg": [77, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "ff150-xbOhu7nK.svg",
+    "vehicle_type": "ff150",
+    "mirror_sight": "ff150-2WUJ179s"
+  },
+  "ff150-zXbg0l3z": {
+    "id": "ff150-zXbg0l3z",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.8, 1.1],
+      "name": "0 front low 1.1m",
+      "rotation_xyz_deg": [79, 0, 0]
+    },
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "ff150-zXbg0l3z.svg",
+    "vehicle_type": "ff150"
+  }
+}

@@ -12,7 +12,7 @@ If you are installing this package as a dev dependency in the @monkvision yarn w
 in the dev dependencies of your package.json :
 
 ```
-"@monkvision/eslint-config-react": "workspace:*"
+"@monkvision/eslint-config-react": "1.0.0"
 ```
 
 Until ESlint flat config is implemented (*see the note below*), you will also need to install the required peer

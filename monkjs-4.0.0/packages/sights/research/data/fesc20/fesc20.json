@@ -1,0 +1,487 @@
+{
+  "fesc20-0mJeXBDf": {
+    "id": "fesc20-0mJeXBDf",
+    "angle_order": 325.58163,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.85, -2.7, 1.5],
+      "name": "326 front full right z-45 1.5m",
+      "rotation_xyz_deg": [69, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-full-right",
+    "overlay": "fesc20-0mJeXBDf.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-bD8CBhYZ"
+  },
+  "fesc20-26n47kaO": {
+    "id": "fesc20-26n47kaO",
+    "angle_order": 90,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [3.9, 0, 1.6],
+      "name": "90 lateral full left z90 1.6m",
+      "rotation_xyz_deg": [78, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "fesc20-26n47kaO.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-HYz5ziHi"
+  },
+  "fesc20-2bLRuhEQ": {
+    "id": "fesc20-2bLRuhEQ",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 2.57, 1.8],
+      "name": "180 rear roof z-180 1.8m",
+      "rotation_xyz_deg": [61, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear-roof",
+    "overlay": "fesc20-2bLRuhEQ.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-4Wqx52oU": {
+    "id": "fesc20-4Wqx52oU",
+    "angle_order": 126.43086,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.1, 1.55, 0.9],
+      "name": "126 rear lateral low left z100 0.9m",
+      "rotation_xyz_deg": [80, 0, 100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "fesc20-4Wqx52oU.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-5Ts1UkPT"
+  },
+  "fesc20-5Ts1UkPT": {
+    "id": "fesc20-5Ts1UkPT",
+    "angle_order": 233.56914,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.1, 1.55, 0.9],
+      "name": "234 rear lateral low right z-100 0.9m",
+      "rotation_xyz_deg": [80, 0, -100]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "fesc20-5Ts1UkPT.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-4Wqx52oU"
+  },
+  "fesc20-6GPUkfYn": {
+    "id": "fesc20-6GPUkfYn",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1, -0.4, 1.8],
+      "name": "68 front roof IGNORE_MIRROR left z50 1.8m",
+      "rotation_xyz_deg": [62, 0, 50]
+    },
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "fesc20-6GPUkfYn.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-CEGtqHkk": {
+    "id": "fesc20-CEGtqHkk",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2, -2.25, 1.4],
+      "name": "318 front fender right z-57 1.4m",
+      "rotation_xyz_deg": [70, 0, -57]
+    },
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "fesc20-CEGtqHkk.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-GdIxD-_N"
+  },
+  "fesc20-DBLpo-52": {
+    "id": "fesc20-DBLpo-52",
+    "angle_order": 202.89055,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-0.95, 2.25, 1.8],
+      "name": "203 rear roof IGNORE_MIRROR right z-140 1.8m",
+      "rotation_xyz_deg": [62, 0, -140]
+    },
+    "category": "exterior",
+    "label": "rear-roof-right",
+    "overlay": "fesc20-DBLpo-52.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-EJ0tXYBW": {
+    "id": "fesc20-EJ0tXYBW",
+    "angle_order": 214.9194,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.85, 2.65, 1.5],
+      "name": "215 rear full right z-135 1.5m",
+      "rotation_xyz_deg": [70, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-full-right",
+    "overlay": "fesc20-EJ0tXYBW.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-T4dIGLgy"
+  },
+  "fesc20-GdIxD-_N": {
+    "id": "fesc20-GdIxD-_N",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2, -2.25, 1.4],
+      "name": "42 front fender left z57 1.4m",
+      "rotation_xyz_deg": [70, 0, 57]
+    },
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "fesc20-GdIxD-_N.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-CEGtqHkk"
+  },
+  "fesc20-H1dfdfvH": {
+    "id": "fesc20-H1dfdfvH",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -3.25, 1.1],
+      "name": "0 front low 1.1m",
+      "rotation_xyz_deg": [75, 0, 0]
+    },
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "fesc20-H1dfdfvH.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-HYz5ziHi": {
+    "id": "fesc20-HYz5ziHi",
+    "angle_order": 270,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-3.9, 0, 1.6],
+      "name": "270 lateral full right z-90 1.6m",
+      "rotation_xyz_deg": [78, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "fesc20-HYz5ziHi.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-26n47kaO"
+  },
+  "fesc20-LTe3X2bg": {
+    "id": "fesc20-LTe3X2bg",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.3, -2.65, 0.8],
+      "name": "26 front bumper side left z45 0.8m",
+      "rotation_xyz_deg": [80, 0, 45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "fesc20-LTe3X2bg.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-Wzdtgqqz"
+  },
+  "fesc20-LZc7p2kK": {
+    "id": "fesc20-LZc7p2kK",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.3, 2.6, 1],
+      "name": "207 rear right z-135 1m",
+      "rotation_xyz_deg": [76, 0, -135]
+    },
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "fesc20-LZc7p2kK.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-dfICsfSV"
+  },
+  "fesc20-NLdqASzl": {
+    "id": "fesc20-NLdqASzl",
+    "angle_order": 128.29016,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.9, 1.5, 1.5],
+      "name": "128 rear door left z110 1.5m",
+      "rotation_xyz_deg": [69.5, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-door-left",
+    "overlay": "fesc20-NLdqASzl.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-gg1Xyrpu"
+  },
+  "fesc20-P0oSEh8p": {
+    "id": "fesc20-P0oSEh8p",
+    "angle_order": 270,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.4, 0, 0.8],
+      "name": "270 lateral low right z-90 0.8m",
+      "rotation_xyz_deg": [90, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-right",
+    "overlay": "fesc20-P0oSEh8p.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-fOt832UV"
+  },
+  "fesc20-P470Q-jm": {
+    "id": "fesc20-P470Q-jm",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.25, 1.75, 1.4],
+      "name": "128 rear lateral left z110 1.4m",
+      "rotation_xyz_deg": [72, 0, 110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "fesc20-P470Q-jm.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-r_UeXQRO"
+  },
+  "fesc20-T4dIGLgy": {
+    "id": "fesc20-T4dIGLgy",
+    "angle_order": 145.0806,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.85, 2.65, 1.5],
+      "name": "145 rear full left z135 1.5m",
+      "rotation_xyz_deg": [70, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-full-left",
+    "overlay": "fesc20-T4dIGLgy.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-EJ0tXYBW"
+  },
+  "fesc20-UjtbRtJS": {
+    "id": "fesc20-UjtbRtJS",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.2, 1.6],
+      "name": "180 rear z-180 1.6m",
+      "rotation_xyz_deg": [67, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "fesc20-UjtbRtJS.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-WIQsf_gX": {
+    "id": "fesc20-WIQsf_gX",
+    "angle_order": 55.71312,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.2, -1.5, 0.95],
+      "name": "56 front lateral low left z80 0.95m",
+      "rotation_xyz_deg": [80, 0, 80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "fesc20-WIQsf_gX.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-dKVLig1i"
+  },
+  "fesc20-WMUaKDp1": {
+    "id": "fesc20-WMUaKDp1",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, -2.8, 1.6],
+      "name": "0 hood 1.6m",
+      "rotation_xyz_deg": [66, 0, 0]
+    },
+    "category": "exterior",
+    "label": "hood",
+    "overlay": "fesc20-WMUaKDp1.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-Wzdtgqqz": {
+    "id": "fesc20-Wzdtgqqz",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.3, -2.65, 0.8],
+      "name": "334 front bumper side right z-45 0.8m",
+      "rotation_xyz_deg": [80, 0, -45]
+    },
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "fesc20-Wzdtgqqz.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-LTe3X2bg"
+  },
+  "fesc20-X8k7UFGf": {
+    "id": "fesc20-X8k7UFGf",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.3, 1.5],
+      "name": "180 rear z-180 1.5m",
+      "rotation_xyz_deg": [69, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear",
+    "overlay": "fesc20-X8k7UFGf.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-bD8CBhYZ": {
+    "id": "fesc20-bD8CBhYZ",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.85, -2.7, 1.5],
+      "name": "34 beauty shot IGNORE_MIRROR left z45 1.5m",
+      "rotation_xyz_deg": [69, 0, 45]
+    },
+    "category": "exterior",
+    "label": "beauty-shot-left",
+    "overlay": "fesc20-bD8CBhYZ.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-0mJeXBDf"
+  },
+  "fesc20-dKVLig1i": {
+    "id": "fesc20-dKVLig1i",
+    "angle_order": 304.28688,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.2, -1.5, 0.95],
+      "name": "304 front lateral low right z-80 0.95m",
+      "rotation_xyz_deg": [80, 0, -80]
+    },
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "fesc20-dKVLig1i.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-WIQsf_gX"
+  },
+  "fesc20-dfICsfSV": {
+    "id": "fesc20-dfICsfSV",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [1.3, 2.6, 1],
+      "name": "153 rear left z135 1m",
+      "rotation_xyz_deg": [76, 0, 135]
+    },
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "fesc20-dfICsfSV.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-LZc7p2kK"
+  },
+  "fesc20-fOt832UV": {
+    "id": "fesc20-fOt832UV",
+    "angle_order": 90,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.4, 0, 0.8],
+      "name": "90 lateral low left z90 0.8m",
+      "rotation_xyz_deg": [90, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-low-left",
+    "overlay": "fesc20-fOt832UV.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-P0oSEh8p"
+  },
+  "fesc20-gg1Xyrpu": {
+    "id": "fesc20-gg1Xyrpu",
+    "angle_order": 231.70984,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-1.9, 1.5, 1.5],
+      "name": "232 rear door right z-110 1.5m",
+      "rotation_xyz_deg": [69.5, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-door-right",
+    "overlay": "fesc20-gg1Xyrpu.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-NLdqASzl"
+  },
+  "fesc20-hp3Tk53x": {
+    "id": "fesc20-hp3Tk53x",
+    "angle_order": 56.97613,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2, -1.3, 1.5],
+      "name": "57 front door left z70 1.5m",
+      "rotation_xyz_deg": [69.5, 0, 70]
+    },
+    "category": "exterior",
+    "label": "front-door-left",
+    "overlay": "fesc20-hp3Tk53x.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-j3H8Z415"
+  },
+  "fesc20-iUN0g_Zn": {
+    "id": "fesc20-iUN0g_Zn",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [2.55, 0.15, 1.4],
+      "name": "93 lateral left z90 1.4m",
+      "rotation_xyz_deg": [74, 0, 90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "fesc20-iUN0g_Zn.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-j3H8Z415": {
+    "id": "fesc20-j3H8Z415",
+    "angle_order": 303.02387,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2, -1.3, 1.5],
+      "name": "303 front door right z-70 1.5m",
+      "rotation_xyz_deg": [69.5, 0, -70]
+    },
+    "category": "exterior",
+    "label": "front-door-right",
+    "overlay": "fesc20-j3H8Z415.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-hp3Tk53x"
+  },
+  "fesc20-r_UeXQRO": {
+    "id": "fesc20-r_UeXQRO",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.25, 1.75, 1.4],
+      "name": "232 rear lateral right z-110 1.4m",
+      "rotation_xyz_deg": [72, 0, -110]
+    },
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "fesc20-r_UeXQRO.svg",
+    "vehicle_type": "fesc20",
+    "mirror_sight": "fesc20-P470Q-jm"
+  },
+  "fesc20-xBFiEy-_": {
+    "id": "fesc20-xBFiEy-_",
+    "angle_order": 180,
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [0, 3.3, 0.85],
+      "name": "180 rear low z-180 0.85m",
+      "rotation_xyz_deg": [90, 0, -180]
+    },
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "fesc20-xBFiEy-_.svg",
+    "vehicle_type": "fesc20"
+  },
+  "fesc20-xDFQNR3C": {
+    "id": "fesc20-xDFQNR3C",
+    "camera": {
+      "focal_length": 26,
+      "location_xyz": [-2.55, 0.15, 1.4],
+      "name": "267 lateral right z-90 1.4m",
+      "rotation_xyz_deg": [74, 0, -90]
+    },
+    "category": "exterior",
+    "label": "lateral-left",
+    "overlay": "fesc20-xDFQNR3C.svg",
+    "vehicle_type": "fesc20"
+  }
+}

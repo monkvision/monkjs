@@ -23,10 +23,10 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-typescript": "workspace:*",
-    "@monkvision/jest-config": "workspace:*",
-    "@monkvision/prettier-config": "workspace:*",
-    "@monkvision/typescript-config": "workspace:*",
+    "@monkvision/eslint-config-typescript": "1.0.0",
+    "@monkvision/jest-config": "1.0.0",
+    "@monkvision/prettier-config": "1.0.0",
+    "@monkvision/typescript-config": "1.0.0",
     "@types/jest": "^29.2.2",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
