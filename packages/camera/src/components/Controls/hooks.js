@@ -35,20 +35,18 @@ const useHandlers = ({
       takePictureAsync,
       startUploadAsync,
       setPictureAsync,
-      goNextSight,
     } = api;
 
     const { sights } = state;
-    const { current, ids } = sights.state;
+    const { current } = sights.state;
 
     onStartUploadPicture(state, api);
 
-    setTimeout(() => {
-      if (current.index !== (ids.length - 1)) {
-        onFinishUploadPicture(state, api);
-        goNextSight();
-      }
-    }, 500);
+    // add a process to queue
+    sights.dispatch({
+      type: Actions.sights.ADD_PROCESS_TO_QUEUE,
+      payload: { id: current.id },
+    });
 
     log([`[Click] Taking a photo`]);
     const picture = await takePictureAsync();
@@ -61,6 +59,11 @@ const useHandlers = ({
     } catch (err) {
       log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
     } finally {
+      // remove a process from queue
+      sights.dispatch({
+        type: Actions.sights.REMOVE_PROCESS_FROM_QUEUE,
+        payload: { id: current.id },
+      });
       captureButtonTracing?.finish();
     }
   }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);

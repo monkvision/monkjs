@@ -11,10 +11,12 @@ import SettingsButton from './SettingsButton';
 import FullScreenButton from './FullScreenButton';
 import TakePictureButton from './TakePictureButton';
 import PartSelector from './PartSelector';
+import Actions from '../../actions';
 import useHandlers from './hooks';
 import i18next from '../../i18n';
 
 const i18n = i18next;
+const MAX_LIMIT_FOR_PROCESSES = 4;
 
 const styles = StyleSheet.create({
   container: {
@@ -138,6 +140,26 @@ export default function Controls({
   useEffect(() => {
     onTogglePartSelector(customPictureTaken !== null);
   }, [customPictureTaken]);
+
+  useEffect(() => {
+    const { current, ids, process } = state.sights.state;
+    const { action, queue } = process;
+    const noOfProcesses = queue.length;
+
+    if (action === Actions.sights.ADD_PROCESS_TO_QUEUE) {
+      if (noOfProcesses < MAX_LIMIT_FOR_PROCESSES && current.index !== (ids.length - 1)) {
+        setTimeout(() => {
+          onFinishUploadPicture(state, api);
+          api.goNextSight();
+        }, 500);
+      }
+    } else if (action === Actions.sights.REMOVE_PROCESS_FROM_QUEUE) {
+      if (noOfProcesses === (MAX_LIMIT_FOR_PROCESSES - 1) && current.index !== (ids.length - 1)) {
+        onFinishUploadPicture(state, api);
+        api.goNextSight();
+      }
+    }
+  }, [state.sights.state.process]);
 
   return (
     <I18nextProvider i18n={i18n}>
