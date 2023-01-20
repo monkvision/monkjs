@@ -8,6 +8,7 @@ import Constants from '../../const';
 import log from '../../utils/log';
 
 import AddDamageModal from '../AddDamageModal';
+import AddDamageOverlay from '../AddDamageOverlay';
 
 import AddDamageHelpModal from '../AddDamageModal/AddDamageHelpModal';
 import useEventStorage from '../../hooks/useEventStorage';
@@ -430,6 +431,10 @@ const Capture = forwardRef(({
             svg={overlay}
             style={[styles.overlay, overlaySize]}
           />
+        ) : null}
+      {(isReady && overlay && loading === false
+        && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
+          <AddDamageOverlay />
         ) : null}
       {(isReady && loading === false && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
         <>
