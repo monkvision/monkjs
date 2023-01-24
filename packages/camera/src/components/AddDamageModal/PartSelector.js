@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { usePartSelectorComponents, useWireframeOffset } from './hooks';
+
+import { useWireframe, useXMLParser } from './hooks';
+import SVGComponentMapper from './SVGComponentMapper';
 
 const PART_SELECTOR_CONTAINER_WIDTH = 420;
 const PART_SELECTOR_CONTAINER_HEIGHT = 235;
@@ -15,25 +17,25 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PartSelector({ orientation, isPartSelected, togglePart }) {
-  const { offsetTop, offsetLeft } = useWireframeOffset({
-    orientation,
-    containerWidth: PART_SELECTOR_CONTAINER_WIDTH,
-  });
-  const { Wireframe, parts } = usePartSelectorComponents({ orientation });
+export default function PartSelector({ orientation, togglePart, isPartSelected }) {
+  // TODO : Replace the hard-coded vehicleType
+  const wireframeXML = useWireframe({ orientation, vehicleType: 'cuv' });
+  const doc = useXMLParser(wireframeXML);
+  const svgElement = useMemo(() => {
+    const svg = doc.children[0];
+    if (svg.tagName !== 'svg') {
+      throw new Error('Invalid part selector SVG format: expected <svg> tag as the first children of XML document');
+    }
+    return svg;
+  }, [doc]);
 
   return (
     <View style={[styles.container]}>
-      <Wireframe top={offsetTop} left={offsetLeft} />
-      {parts.map((part) => (
-        <part.Component
-          key={part.key}
-          offsetTop={offsetTop}
-          offsetLeft={offsetLeft}
-          onPress={() => togglePart(part.key)}
-          isDisplayed={isPartSelected(part.key)}
-        />
-      ))}
+      <SVGComponentMapper
+        element={svgElement}
+        togglePart={togglePart}
+        isPartSelected={isPartSelected}
+      />
     </View>
   );
 }

@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import PropTypes from 'prop-types';
 import { RotateLeft, RotateRight } from './assets';
 import { useCarOrientation, usePartSelector } from './hooks';
 import PartSelector from './PartSelector';
@@ -87,7 +87,7 @@ export default function AddDamageModal({
   onCancel,
   onConfirm,
 }) {
-  const { isPartSelected, togglePart, selectedParts } = usePartSelector();
+  const { togglePart, isPartSelected, selectedParts } = usePartSelector();
   const { t } = useTranslation();
   const { orientation, rotateLeft, rotateRight } = useCarOrientation(currentSight);
   const { height: windowHeight } = useWindowDimensions();
@@ -129,8 +129,8 @@ export default function AddDamageModal({
         </View>
         <PartSelector
           orientation={orientation}
-          isPartSelected={isPartSelected}
           togglePart={togglePart}
+          isPartSelected={isPartSelected}
         />
         <View style={[styles.rotateButtonContainer]}>
           <TouchableOpacity style={[styles.rotateButton]} onPress={rotateRight}>

@@ -5,7 +5,3 @@ export {
   RotateLeft,
   RotateRight,
 };
-export * from './frontLeft';
-export * from './frontRight';
-export * from './rearLeft';
-export * from './rearRight';

@@ -14,8 +14,8 @@ export default function usePartSelector() {
   }, [selectedParts, setSelectedParts]);
 
   return {
-    isPartSelected,
     togglePart,
+    isPartSelected,
     selectedParts,
   };
 }
