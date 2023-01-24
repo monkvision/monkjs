@@ -293,7 +293,6 @@ export function useStartUploadAsync({
           overlay: undefined,
           createdAt: new Date(),
         },
-        damage_severity: { output_format: 'toyota' },
       });
 
       let fileBits;
