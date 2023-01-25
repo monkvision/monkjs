@@ -1,6 +1,5 @@
 import monk from '@monkvision/corejs';
-import { useInterval, useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { useInterval, utils } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import Inspection from 'components/Inspection';
@@ -22,7 +21,6 @@ import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
 import { version } from '@package/json';
-import Sentry from '../../config/sentry';
 import { setTag } from '../../config/sentryPlatform';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
@@ -40,7 +38,6 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
 
@@ -163,7 +160,10 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => errorHandler(err, SentryConstants.type.APP));
+      getInspection.start().catch(() => {
+        // TODO: Add Monitoring code in MN-182
+        // errorHandler(err, SentryConstants.type.APP)
+      });
     }
   }, [inspectionId, getInspection]);
 

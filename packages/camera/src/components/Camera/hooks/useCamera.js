@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 
-import { useSentry, utils } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
 
 import useUserMedia from './useUserMedia';
 import useCompression from './useCompression';
@@ -34,10 +34,8 @@ export default function useCamera({
   onCameraPermissionError,
   onCameraPermissionSuccess,
   onWarningMessage,
-  Sentry,
 }) {
   const { width, height } = resolution;
-  const { Span } = useSentry(Sentry);
   const compress = useCompression();
 
   const videoConstraints = { ...video, width: video.width + diff, height: video.height + diff };
@@ -62,12 +60,10 @@ export default function useCamera({
   const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
-    let webCaptureTracing;
     // we can create and use the separate canvas for each sight pic
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
-    if (Sentry) { webCaptureTracing = new Span('web-capture', 'func'); }
     canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
 
     let uri;
@@ -75,9 +71,6 @@ export default function useCamera({
       log(['[Event] Compressing an image']);
       if (Platform.OS !== 'web') { return undefined; }
       const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
-
-      let compressionTracing;
-      if (Sentry && Span) { compressionTracing = new Span('image-compression', 'func'); }
 
       if (onWarningMessage) { onWarningMessage('Compressing an image...'); }
       const compressed = await compress(arrayBuffer, width, height, compressionOptions);
@@ -87,14 +80,11 @@ export default function useCamera({
         log([`[Event] An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
       }
 
-      compressionTracing?.finish();
       uri = URL.createObjectURL(compressed);
     } else {
       uri = await toBlob(canvas, imageType);
       // uri = canvas.toDataURL(imageType);
     }
-
-    webCaptureTracing?.finish();
 
     return { uri, width, height, imageType, imageFilenameExtension };
   }, [width, height, stream]);

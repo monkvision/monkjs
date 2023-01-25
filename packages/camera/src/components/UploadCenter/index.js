@@ -1,5 +1,4 @@
-import { useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -69,7 +68,6 @@ export default function UploadCenter({
   mapTasksToSights,
   colors,
   endTour,
-  Sentry,
 }) {
   const [submitted, submit] = useState(false);
   const { height } = useWindowDimensions();
@@ -78,7 +76,6 @@ export default function UploadCenter({
   const states = useMemo(() => ({ compliance, sights, uploads }), [compliance, sights, uploads]);
 
   const { ids, state } = useComplianceIds({ navigationOptions, ...states, endTour });
-  const { Span } = useSentry(Sentry);
 
   const { handleRetakeAll, handleRetake, handleReUpload, handleRecheck } = useHandlers({
     inspectionId,
@@ -105,17 +102,6 @@ export default function UploadCenter({
 
   // END METHODS //
   // EFFECTS //
-
-  useEffect(() => {
-    log(['[Event] Entering the Upload center']);
-    if (Sentry) {
-      const transaction = new Span('upload-center-user-time', SentryConstants.operation.USER_TIME);
-
-      return () => transaction.finish();
-    }
-
-    return () => undefined;
-  }, []);
 
   useEffect(() => {
     if (submitted === false && hasNoCompliancesLeft) {
@@ -306,7 +292,6 @@ UploadCenter.propTypes = {
   onRetakeAll: PropTypes.func,
   onRetakeNeeded: PropTypes.func,
   onSkipRetake: PropTypes.func,
-  Sentry: PropTypes.any,
   sights: PropTypes.objectOf(PropTypes.any).isRequired,
   task: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   uploads: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -328,6 +313,5 @@ UploadCenter.defaultProps = {
     retakeMaxTry: 1,
     allowSkipImageQualityCheck: true,
   },
-  Sentry: null,
   task: 'damage_detection',
 };

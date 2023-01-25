@@ -1,5 +1,3 @@
-import { useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import React, { createElement, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
@@ -59,7 +57,6 @@ export default function Controls({
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
   const [customPictureTaken, setCustomPictureTaken] = useState(null);
   const [customPictureCallback, setCustomPictureCallback] = useState(null);
 
@@ -89,7 +86,10 @@ export default function Controls({
         .then((picture) => {
           setCustomPictureTaken(picture);
           setCustomPictureCallback(() => onCustomTakePicture);
-        }).catch((err) => errorHandler(err, SentryConstants.type.APP));
+        }).catch(() => {
+          // TODO: Add Monitoring code in MN-182
+          // errorHandler(err, SentryConstants.type.APP);
+        });
     } else { handlers.capture(state, api, e); }
   }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback, onCloseEarly]);
 

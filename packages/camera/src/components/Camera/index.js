@@ -3,8 +3,7 @@ import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import { utils, useTimeout, useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { utils, useTimeout } from '@monkvision/toolkit';
 
 import Actions from '../../actions';
 import Constants from '../../const';
@@ -65,24 +64,12 @@ function Camera({
     Sentry,
   });
 
-  const { Span } = useSentry(Sentry);
-
   useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
   const delay = useMemo(
     () => (enableQHDWhenSupported && stream && videoRef.current
       ? resolutionOptions?.QHDDelay ?? 500 : null),
     [stream],
   );
-
-  useEffect(() => {
-    if (Sentry) {
-      const transaction = new Span('camera-user-time', SentryConstants.operation.USER_TIME);
-
-      return () => transaction.finish();
-    }
-
-    return () => undefined;
-  }, []);
 
   // stopping the stream when the component unmount
   useEffect(() => stopStream, [stopStream]);
