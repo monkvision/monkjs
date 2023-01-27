@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const CAR_360 = 'car360';
+
 export default function InspectionCreate() {
   const navigation = useNavigation();
   const { isAuthenticated, accessToken } = useAuth();
@@ -46,7 +48,13 @@ export default function InspectionCreate() {
 
   const route = useRoute();
 
-  const { inspectionId: idFromParams, selectedMod: selected, vin, mode } = route.params || {};
+  const {
+    inspectionId: idFromParams,
+    selectedMod: selected,
+    vin,
+    mode,
+    vehicle,
+  } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
   const [authError, setAuthError] = useState(false);
@@ -57,7 +65,7 @@ export default function InspectionCreate() {
     },
   });
 
-  const createInspection = useCreateInspection(vin);
+  const createInspection = useCreateInspection({ ...vehicle, vin });
   const handleCreate = useCallback(async () => {
     if (isEmpty(inspectionId) && isAuthenticated && createInspection.state.count < 1) {
       utils.log(['[Click] Inspection task chosen: ', selected]);
@@ -80,8 +88,17 @@ export default function InspectionCreate() {
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
 
-    const params = { inspectionId, sightIds: option.sightIds, taskName: option.taskName };
-    navigation.navigate(names.INSPECTION_CAPTURE, params);
+    const vehicleType = vehicle.vehicleType || 'cuv';
+    const sightIds = option.value === CAR_360 ? option.sightIds[vehicleType] : option.sightIds;
+
+    const args = {
+      inspectionId,
+      sightIds,
+      taskName: option.taskName,
+      selectedMode: selected,
+    };
+
+    navigation.navigate(names.INSPECTION_CAPTURE, args);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
   useFocusEffect(useCallback(() => {

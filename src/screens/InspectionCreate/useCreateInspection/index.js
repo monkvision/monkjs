@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setTag } from '../../../config/sentryPlatform';
 
-export default function useCreateInspection(vin) {
+export default function useCreateInspection(vehicle) {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth();
   const [inspectionId, setInspectionId] = useState();
@@ -15,11 +15,11 @@ export default function useCreateInspection(vin) {
     const tasks = {
       wheelAnalysis: { ...taskOptions, useLongshots: true },
       damageDetection: taskOptions,
-      ...(vin ? {} : { imagesOcr: taskOptions }),
+      ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
-    return monk.entity.inspection.createOne({ tasks, vehicle: { vin }, damage_severity: { output_format: 'toyota' }, });
-  }, [vin]);
+    return monk.entity.inspection.createOne({ tasks, vehicle });
+  }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
     setInspectionId(result);
