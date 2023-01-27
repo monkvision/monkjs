@@ -18,7 +18,7 @@ export default function useCreateInspection(vin) {
       ...(vin ? {} : { imagesOcr: taskOptions }),
     };
 
-    return monk.entity.inspection.createOne({ tasks, vehicle: { vin } });
+    return monk.entity.inspection.createOne({ tasks, vehicle: { vin }, damage_severity: { output_format: 'toyota' }, });
   }, [vin]);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
