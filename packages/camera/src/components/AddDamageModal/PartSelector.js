@@ -17,9 +17,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PartSelector({ orientation, togglePart, isPartSelected }) {
-  // TODO : Replace the hard-coded vehicleType
-  const wireframeXML = useWireframe({ orientation, vehicleType: 'cuv' });
+export default function PartSelector({ orientation, togglePart, isPartSelected, vehicleType }) {
+  const wireframeXML = useWireframe({ orientation, vehicleType });
   const doc = useXMLParser(wireframeXML);
   const svgElement = useMemo(() => {
     const svg = doc.children[0];
@@ -44,6 +43,7 @@ PartSelector.propTypes = {
   isPartSelected: PropTypes.func.isRequired,
   orientation: PropTypes.number.isRequired,
   togglePart: PropTypes.func.isRequired,
+  vehicleType: PropTypes.string.isRequired,
 };
 
 PartSelector.defaultProps = {};

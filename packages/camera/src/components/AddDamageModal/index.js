@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { RotateLeft, RotateRight } from './assets';
@@ -82,11 +82,22 @@ const styles = StyleSheet.create({
   },
 });
 
+const testMap = {
+  0: 'suv',
+  1: 'cuv',
+  2: 'sedan',
+  3: 'hatchback',
+  4: 'van',
+  5: 'minivan',
+  6: 'pickup',
+};
+
 export default function AddDamageModal({
   currentSight,
   onCancel,
   onConfirm,
 }) {
+  const [count, setCount] = useState(0);
   const { togglePart, isPartSelected, selectedParts } = usePartSelector();
   const { t } = useTranslation();
   const { orientation, rotateLeft, rotateRight } = useCarOrientation(currentSight);
@@ -98,6 +109,9 @@ export default function AddDamageModal({
     width: 16,
   }), []);
   const isConfirmDisabled = useMemo(() => selectedParts.length === 0, [selectedParts]);
+  const test = useCallback(() => {
+    setCount((prev) => (prev + 1 > 6 ? 0 : prev + 1));
+  }, [setCount]);
 
   return (
     <View style={[styles.container, isCompact ? { paddingVertical: 3 } : null]}>
@@ -131,6 +145,7 @@ export default function AddDamageModal({
           orientation={orientation}
           togglePart={togglePart}
           isPartSelected={isPartSelected}
+          vehicleType={testMap[count]}
         />
         <View style={[styles.rotateButtonContainer]}>
           <TouchableOpacity style={[styles.rotateButton]} onPress={rotateRight}>
@@ -142,6 +157,14 @@ export default function AddDamageModal({
         </View>
       </View>
       <View style={[styles.footer]}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#571685', borderRadius: 10 }]}
+          onPress={test}
+        >
+          <Text style={[styles.text]}>
+            Switch Vehicle
+          </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, isCompact ? styles.buttonCompact : null]}
           onPress={onCancel}
