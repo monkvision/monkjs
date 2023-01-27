@@ -114,7 +114,6 @@ const Capture = forwardRef(({
   settings,
   compressionOptions,
   resolutionOptions,
-  Sentry,
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
@@ -187,10 +186,10 @@ const Capture = forwardRef(({
   // METHODS //
 
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
-  const takePictureAsync = useTakePictureAsync({ camera, isFocused, Sentry });
-  const setPictureAsync = useSetPictureAsync({ current, sights, uploads, Sentry });
+  const takePictureAsync = useTakePictureAsync({ camera, isFocused });
+  const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
 
-  const checkComplianceParams = { compliance, inspectionId, sightId: current.id, Sentry };
+  const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
   const startUploadAsyncParams = {
     inspectionId,
@@ -203,7 +202,6 @@ const Capture = forwardRef(({
     onPictureUploaded,
     onWarningMessage,
     endTour,
-    Sentry,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
 
@@ -356,7 +354,6 @@ const Capture = forwardRef(({
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
       onTogglePartSelector={handleTogglePartSelector}
-      Sentry={Sentry}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -401,7 +398,6 @@ const Capture = forwardRef(({
           navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
           colors={colors}
           endTour={endTour}
-          Sentry={Sentry}
         />
       </I18nextProvider>
     );
@@ -436,7 +432,6 @@ const Capture = forwardRef(({
             isDisplayed={isCameraDisplayed}
             onCameraPermissionError={onCameraPermissionError}
             onCameraPermissionSuccess={onCameraPermissionSuccess}
-            Sentry={Sentry}
           >
             {children}
           </Camera>
@@ -568,7 +563,6 @@ Capture.propTypes = {
   resolutionOptions: PropTypes.shape({
     QHDDelay: PropTypes.number,
   }),
-  Sentry: PropTypes.any,
   settings: PropTypes.shape({
     compression: PropTypes.bool,
     pictureSize: PropTypes.string,
@@ -673,7 +667,6 @@ Capture.defaultProps = {
   sightsContainerStyle: {},
   enableComplianceCheck: false,
   isSubmitting: false,
-  Sentry: null,
   task: 'damage_detection',
   thumbnailStyle: {},
 };

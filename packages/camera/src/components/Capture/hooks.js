@@ -1,6 +1,5 @@
 import monk from '@monkvision/corejs';
-import { useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
@@ -51,20 +50,12 @@ export function useTitle({ current }) {
 /**
  * @param camera
  * @param isFocused
- * @param Sentry
  * @return {function({ quality: number=, base64: boolean=, exif: boolean= }): Promise<picture>}
  */
-export function useTakePictureAsync({ camera, isFocused, Sentry }) {
-  const { Span } = useSentry(Sentry);
-  const [transaction, setTransaction] = useState(Sentry
-    ? new Span('user-time-per-sight', SentryConstants.operation.USER_TIME) : null);
-
+export function useTakePictureAsync({ camera, isFocused }) {
   useEffect(() => {
     if (isFocused) {
       camera?.current?.resumePreview();
-      if (Sentry && !transaction) {
-        setTransaction(new Span('user-time-per-sight', SentryConstants.operation.USER_TIME));
-      }
     } else {
       camera?.current?.pausePreview();
     }
@@ -72,7 +63,7 @@ export function useTakePictureAsync({ camera, isFocused, Sentry }) {
     return () => {
       camera?.current?.pausePreview();
     };
-  }, [camera.current, isFocused, transaction]);
+  }, [camera.current, isFocused]);
 
   return useCallback(async (options = {
     quality: 1,
@@ -88,10 +79,8 @@ export function useTakePictureAsync({ camera, isFocused, Sentry }) {
       return takePicture(takePictureOptions);
     }
 
-    transaction?.finish();
-    setTransaction(null);
     return takePicture();
-  }, [camera, isFocused, transaction]);
+  }, [camera, isFocused]);
 }
 
 /**
@@ -99,12 +88,9 @@ export function useTakePictureAsync({ camera, isFocused, Sentry }) {
  * @param settings
  * @param sights
  * @param uploads
- * @param Sentry
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
-  const { errorHandler } = useSentry(Sentry);
-
+export function useSetPictureAsync({ current, sights, uploads }) {
   return useCallback(async (picture) => {
     try {
       const uri = picture.localUri || picture.uri;
@@ -124,7 +110,8 @@ export function useSetPictureAsync({ current, sights, uploads, Sentry }) {
     } catch (err) {
       const payload = { id: current.id, status: 'rejected', error: err };
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
-      errorHandler(err, SentryConstants.type.CAMERA, { id: current.id, picture });
+      // TODO: Add Monitoring code in MN-182
+      // errorHandler(err, SentryConstants.type.CAMERA, { id: current.id, picture });
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
       throw err;
     }
@@ -168,7 +155,6 @@ export function useCreateDamageDetectionAsync() {
  * @param onFinish
  * @param onPictureUploaded
  * @param onPushWarningMessaqe
- * @param Sentry
  * @return {(function({ inspectionId, sights, uploads }): Promise<result|error>)|*}
  */
 export function useStartUploadAsync({
@@ -182,10 +168,8 @@ export function useStartUploadAsync({
   onPictureUploaded = () => {},
   onWarningMessage = () => {},
   endTour = false,
-  Sentry,
 }) {
   const [queue, setQueue] = useState([]);
-  const { errorHandler, Span } = useSentry(Sentry);
   let isRunning = false;
 
   const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
@@ -202,12 +186,6 @@ export function useStartUploadAsync({
         const { id, picture, multiPartKeys, json, file } = queryParams;
         onWarningMessage('Upload...');
         let uploadTracing;
-        if (Sentry) {
-          uploadTracing = new Span('upload-tracing', SentryConstants.operation.HTTP);
-          uploadTracing.addDataToSpan('upload-tracing', 'file_size', file.size / 1024);
-          uploadTracing.addDataToSpan('upload-tracing', 'picture_width', picture.width);
-          uploadTracing.addDataToSpan('upload-tracing', 'picture_height', picture.height);
-        }
 
         try {
           const data = new FormData();
@@ -229,7 +207,8 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          errorHandler(err, SentryConstants.type.UPLOAD, { json, file, message: err.message });
+          // TODO: Add Monitoring code in MN-182
+          // errorHandler(err, SentryConstants.type.UPLOAD, { json, file, message: err.message });
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,
@@ -335,25 +314,17 @@ export function useStartUploadAsync({
  * @param compliance
  * @param inspectionId
  * @param sightId
- * @param Sentry
  * @return {(function(pictureId: string, customSightId: string): Promise<result|error>)|*}
  */
 export function useCheckComplianceAsync({
-  compliance, inspectionId, sightId: currentSighId, Sentry,
+  compliance, inspectionId, sightId: currentSighId,
 }) {
-  const { Span } = useSentry(Sentry);
-
   return useCallback(async (imageId, customSightId) => {
     const { dispatch } = compliance;
     const sightId = customSightId || currentSighId;
 
     if (!imageId) {
       throw Error(`Please provide a valid "pictureId". Got ${imageId}.`);
-    }
-
-    let checkComplianceHttpTracing;
-    if (Sentry) {
-      checkComplianceHttpTracing = new Span('get-one-inspection', SentryConstants.operation.HTTP);
     }
 
     try {
@@ -392,8 +363,6 @@ export function useCheckComplianceAsync({
 
       log([`Error in \`<Capture />\` \`checkComplianceAsync()\`: ${err}`], 'error');
       return undefined;
-    } finally {
-      checkComplianceHttpTracing?.finish();
     }
   }, [compliance, inspectionId, currentSighId]);
 }

@@ -7,15 +7,12 @@ import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
-import { useSentry, utils } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 import Settings from './settings';
 import styles from './styles';
-import Sentry from '../../config/sentry';
 import useSnackbar from '../../hooks/useSnackbar';
-import { setTag } from '../../config/sentryPlatform';
 
 const mapTasksToSights = [{
   id: 'sLu0CfOt',
@@ -59,7 +56,6 @@ export default function InspectionCapture() {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
   const { colors } = useTheme();
 
@@ -122,22 +118,25 @@ export default function InspectionCapture() {
         setCameraLoading(false);
 
         utils.log(['[Event] Back to landing page with photo taken']);
-        setTag('currentSight', null);
+        // TODO: Add Monitoring code in MN-182
+        // setTag('currentSight', null);
         handleNavigate();
       } catch (err) {
-        errorHandler(err, SentryConstants.type.HTTP, {
-          inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
-        });
+        // TODO: Add Monitoring code in MN-182
+        // errorHandler(err, SentryConstants.type.HTTP, {
+        //   inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
+        // });
         setCameraLoading(false);
       }
     }
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    if (isFocused && enableComplianceCheck) {
-      const { current } = state.sights.state;
-      setTag('currentSight', current.id);
-    }
+    // TODO: Add Monitoring code in MN-182
+    // if (isFocused && enableComplianceCheck) {
+    // const { current } = state.sights.state;
+    // setTag('currentSight', current.id);
+    // }
     if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
@@ -167,7 +166,8 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        errorHandler(err, SentryConstants.type.APP, state);
+        // TODO: Add Monitoring code in MN-182
+        // errorHandler(err, SentryConstants.type.APP, state);
         // eslint-disable-next-line no-console
         console.error(err);
         throw err;
@@ -216,7 +216,6 @@ export default function InspectionCapture() {
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
-        Sentry={Sentry}
       />
       <Notice />
     </View>

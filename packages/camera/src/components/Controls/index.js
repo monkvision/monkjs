@@ -1,5 +1,3 @@
-import { useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import React, { createElement, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
@@ -55,11 +53,9 @@ export default function Controls({
   onFinishUploadPicture,
   onTogglePartSelector,
   onCloseEarly,
-  Sentry,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
-  const { errorHandler } = useSentry(Sentry);
   const [customPictureTaken, setCustomPictureTaken] = useState(null);
   const [customPictureCallback, setCustomPictureCallback] = useState(null);
 
@@ -68,7 +64,6 @@ export default function Controls({
     onStartUploadPicture,
     onFinishUploadPicture,
     stream: api.camera.current?.stream,
-    Sentry,
   });
 
   const hasNoIdle = useMemo(
@@ -89,7 +84,10 @@ export default function Controls({
         .then((picture) => {
           setCustomPictureTaken(picture);
           setCustomPictureCallback(() => onCustomTakePicture);
-        }).catch((err) => errorHandler(err, SentryConstants.type.APP));
+        }).catch(() => {
+          // TODO: Add Monitoring code in MN-182
+          // errorHandler(err, SentryConstants.type.APP)
+        });
     } else { handlers.capture(state, api, e); }
   }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback, onCloseEarly]);
 
@@ -210,7 +208,6 @@ Controls.propTypes = {
   onFinishUploadPicture: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   onTogglePartSelector: PropTypes.func,
-  Sentry: PropTypes.any,
   state: PropTypes.shape({
     compliance: PropTypes.objectOf(PropTypes.any),
     settings: PropTypes.objectOf(PropTypes.any),
@@ -229,7 +226,6 @@ Controls.defaultProps = {
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
   onTogglePartSelector: () => {},
-  Sentry: null,
 };
 
 Controls.CaptureButtonProps = {
