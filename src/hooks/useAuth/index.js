@@ -1,14 +1,14 @@
-// import { useSentry } from '@monkvision/toolkit';
+import { useSentry } from '@monkvision/toolkit';
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import monk from '@monkvision/corejs';
-// import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import discoveries from 'config/discoveries';
 
 import { revokeAsync } from 'expo-auth-session';
 import { authSlice } from 'store/slices/auth';
-// import Sentry from '../../config/sentry';
+import Sentry from '../../config/sentry';
 
 export default function useAuth() {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export default function useAuth() {
   const auth = useSelector((state) => state.auth);
   const { accessToken, tokenType } = auth;
   const isAuthenticated = useMemo(() => Boolean(accessToken), [accessToken]);
-  // const { errorHandler } = useSentry(Sentry);
+  const { errorHandler } = useSentry(Sentry);
 
   // signOut
   const [isLoggingOut, setLoggingOut] = useState(false);
@@ -33,7 +33,7 @@ export default function useAuth() {
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (e) {
-      // errorHandler(e, SentryConstants.type.FUNC, config);
+      errorHandler(e, SentryConstants.type.FUNC, config);
       setLoggingOut(false);
     }
   }, [accessToken, dispatch, tokenType]);
