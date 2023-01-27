@@ -3,8 +3,7 @@ import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import { utils, useTimeout, useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { utils, useTimeout } from '@monkvision/toolkit';
 
 import Actions from '../../actions';
 import Constants from '../../const';
@@ -34,7 +33,6 @@ function Camera({
   onCameraPermissionError,
   onCameraPermissionSuccess,
   isDisplayed,
-  Sentry,
 }, ref) {
   const [resolution, setResolution] = useMemo(() => {
     const cameraResolution = Constants.resolution[settings.state.resolution];
@@ -62,10 +60,7 @@ function Camera({
     onCameraPermissionError,
     onCameraPermissionSuccess,
     onWarningMessage,
-    Sentry,
   });
-
-  const { Span } = useSentry(Sentry);
 
   useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
   const delay = useMemo(
@@ -73,16 +68,6 @@ function Camera({
       ? resolutionOptions?.QHDDelay ?? 500 : null),
     [stream],
   );
-
-  useEffect(() => {
-    if (Sentry) {
-      const transaction = new Span('camera-user-time', SentryConstants.operation.USER_TIME);
-
-      return () => transaction.finish();
-    }
-
-    return () => undefined;
-  }, []);
 
   // stopping the stream when the component unmount
   useEffect(() => stopStream, [stopStream]);
@@ -127,7 +112,6 @@ Camera.propTypes = {
   resolutionOptions: PropTypes.shape({
     QHDDelay: PropTypes.number,
   }),
-  Sentry: PropTypes.any,
   settings: PropTypes.shape({
     dispatch: PropTypes.func,
     state: PropTypes.shape({
@@ -146,6 +130,5 @@ Camera.defaultProps = {
   onCameraPermissionSuccess: () => {},
   onWarningMessage: () => {},
   resolutionOptions: undefined,
-  Sentry: null,
   settings: { state: { resolution: 'FHD' }, dispatch: () => {} },
 };

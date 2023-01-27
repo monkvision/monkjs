@@ -11,14 +11,12 @@ import useAuth from 'hooks/useAuth';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Loader } from '@monkvision/ui';
-import { useSentry, useRequest } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
+import { useRequest } from '@monkvision/toolkit';
 import monk from '@monkvision/corejs';
 
 import { List, Paragraph, Title, useTheme } from 'react-native-paper';
 
 import ListItem from './ListItem';
-import Sentry from '../../config/sentry';
 
 const styles = StyleSheet.create({
   empty: {
@@ -34,7 +32,6 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { loaderDotsColors } = useTheme();
-  const { errorHandler } = useSentry(Sentry);
   const { t } = useTranslation();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
@@ -72,7 +69,9 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const handlePress = useCallback((id) => {
     const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url)
-      .catch((err) => errorHandler(err, SentryConstants.type.APP, id));
+      .catch(() => {
+        // TODO: Add Monitoring code for error handling in MN-182
+      });
   }, []);
 
   useEffect(
@@ -81,9 +80,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   );
 
   useEffect(() => {
-    if (manyInspections.error) {
-      errorHandler(manyInspections.error, SentryConstants.type.APP);
-    }
+    // TODO: Add Monitoring code for error handling in MN-182
   }, [manyInspections.error]);
 
   if (manyInspections.loading) {

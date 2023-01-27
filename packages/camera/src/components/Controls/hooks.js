@@ -1,7 +1,5 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
-import { useSentry } from '@monkvision/toolkit';
-import { SentryConstants } from '@monkvision/toolkit/src/hooks/useSentry';
 import Actions from '../../actions';
 import log from '../../utils/log';
 
@@ -11,10 +9,7 @@ const useHandlers = ({
   enableComplianceCheck,
   unControlledState,
   stream,
-  Sentry,
 }) => {
-  const { Span } = useSentry(Sentry);
-
   const capture = useCallback(async (controlledState, api, event) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
     if (!stream && Platform.OS === 'web') { return; }
@@ -25,9 +20,6 @@ const useHandlers = ({
      * state updates (checkCompliance in this case that need to know when the picture is uploaded)
      */
     let captureButtonTracing;
-    if (Sentry) {
-      captureButtonTracing = new Span('image-capture-button', SentryConstants.operation.USER_TIME);
-    }
     const state = controlledState || unControlledState;
     event.preventDefault();
 
@@ -71,14 +63,10 @@ const useHandlers = ({
   const customCapture = useCallback(async (api, event) => {
     if (!stream && Platform.OS === 'web') { return null; }
 
-    const captureButtonTracing = Sentry
-      ? new Span('image-custom-capture-button', SentryConstants.operation.USER_TIME)
-      : undefined;
     event.preventDefault();
 
     log(['[Click] Taking a custom photo']);
     const picture = await api.takePictureAsync();
-    captureButtonTracing?.finish();
 
     return picture ?? null;
   }, [stream]);

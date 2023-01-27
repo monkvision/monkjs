@@ -3,7 +3,6 @@ import { useRequest, utils } from '@monkvision/toolkit';
 import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setTag } from '../../../config/sentryPlatform';
 
 export default function useCreateInspection(vin) {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ export default function useCreateInspection(vin) {
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
     setInspectionId(result);
-    setTag('inspection_id', result);
+    // TODO: Add Monitoring code for setTag in MN-182
     utils.log(['[Event] Starting inspection', result]);
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);
