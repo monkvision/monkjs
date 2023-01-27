@@ -70,8 +70,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
     const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url)
       .catch(() => {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.APP, id)
+        // TODO: Add Monitoring code for error handling in MN-182
       });
   }, []);
 
@@ -81,10 +80,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   );
 
   useEffect(() => {
-    // TODO: Add Monitoring code in MN-182
-    // if (manyInspections.error) {
-    //   errorHandler(manyInspections.error, SentryConstants.type.APP);
-    // }
+    // TODO: Add Monitoring code for error handling in MN-182
   }, [manyInspections.error]);
 
   if (manyInspections.loading) {

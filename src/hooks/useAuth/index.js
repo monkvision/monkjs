@@ -29,8 +29,7 @@ export default function useAuth() {
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (e) {
-      // TODO: Add Monitoring code in MN-182
-      // errorHandler(e, SentryConstants.type.FUNC, config);
+      // TODO: Add Monitoring code for error handling in MN-182
       setLoggingOut(false);
     }
   }, [accessToken, dispatch, tokenType]);

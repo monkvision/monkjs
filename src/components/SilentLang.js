@@ -13,8 +13,7 @@ export default function SilentLang() {
         .then((value) => (value !== null ? i18n.changeLanguage(value) : Promise.resolve()))
         .then(() => setHasBeenDone(true))
         .catch(() => {
-          // TODO: Add Monitoring code in MN-182
-          // errorHandler(err, SentryConstants.type.APP)
+          // TODO: Add Monitoring code for error handling in MN-182
         });
     }
   }, []);

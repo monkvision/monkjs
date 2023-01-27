@@ -46,8 +46,7 @@ export default function SignIn() {
     onError: () => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      // TODO: Add Monitoring code in MN-182
-      // errorHandler(error, SentryConstants.type.APP, request);
+      // TODO: Add Monitoring code for error handling in MN-182
     },
   });
 

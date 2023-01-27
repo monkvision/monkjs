@@ -26,8 +26,7 @@ export default function SignOut(props) {
   const handleOpenWithWebBrowser = () => {
     WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`)
       .catch(() => {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.APP, { returnTo })
+        // TODO: Add Monitoring code for error handling in MN-182
       });
     signOut();
   };

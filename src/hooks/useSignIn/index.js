@@ -83,8 +83,7 @@ export default function useSignIn(callbacks = {}) {
       AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
         if (typeof onSuccess === 'function') { onSuccess(response); }
       }).catch(() => {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, Constants.type.APP);
+        // TODO: Add Monitoring code for error handling in MN-182
         if (typeof onSuccess === 'function') { onSuccess(response); }
       });
     }

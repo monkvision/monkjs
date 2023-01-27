@@ -110,8 +110,7 @@ export function useSetPictureAsync({ current, sights, uploads }) {
     } catch (err) {
       const payload = { id: current.id, status: 'rejected', error: err };
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
-      // TODO: Add Monitoring code in MN-182
-      // errorHandler(err, SentryConstants.type.CAMERA, { id: current.id, picture });
+      // TODO: Add Monitoring code for error handling in MN-182
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
       throw err;
     }
@@ -207,8 +206,7 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          // TODO: Add Monitoring code in MN-182
-          // errorHandler(err, SentryConstants.type.UPLOAD, { json, file, message: err.message });
+          // TODO: Add Monitoring code for error handling in MN-182
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,

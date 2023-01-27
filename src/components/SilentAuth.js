@@ -20,15 +20,13 @@ export default function SilentAuth() {
           } else {
             AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
               .catch(() => {
-                // TODO: Add Monitoring code in MN-182
-                // errorHandler(err, Constants.type.APP)
+                // TODO: Add Monitoring code for error handling in MN-182
               });
           }
           setHasBeenDone(true);
         }
       }).catch(() => {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, Constants.type.APP)
+        // TODO: Add Monitoring code for error handling in MN-182
       });
     }
   }, []);

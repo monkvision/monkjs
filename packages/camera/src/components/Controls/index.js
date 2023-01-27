@@ -85,8 +85,7 @@ export default function Controls({
           setCustomPictureTaken(picture);
           setCustomPictureCallback(() => onCustomTakePicture);
         }).catch(() => {
-          // TODO: Add Monitoring code in MN-182
-          // errorHandler(err, SentryConstants.type.APP)
+          // TODO: Add Monitoring code for error handling in MN-182
         });
     } else { handlers.capture(state, api, e); }
   }, [api, handlers, state, setCustomPictureTaken, setCustomPictureCallback, onCloseEarly]);

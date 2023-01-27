@@ -48,8 +48,7 @@ export default function InspectionCreate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: () => {
-      // TODO: Add Monitoring code in MN-182
-      // errorHandler(err, SentryConstants.type.APP, request);
+      // TODO: Add Monitoring code for error handling in MN-182
       setAuthError(true);
     },
   });
@@ -60,8 +59,7 @@ export default function InspectionCreate() {
       utils.log(['[Click] Inspection task chosen: ', selected]);
       const response = await createInspection.start(selected);
       if (response !== null) {
-        // TODO: Add Monitoring code in MN-182
-        // setTag('inspection_id', response.result);
+        // TODO: Add Monitoring code for setTag in MN-182
         setInspectionId(response.result);
       }
     }
@@ -89,9 +87,7 @@ export default function InspectionCreate() {
   useEffect(() => {
     if (isAuthenticated) {
       axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => {
-        // TODO: Add Monitoring code in MN-182
-        // if (data.email) { setTag('company', data.email.split('@')[1].split('.')[0]); }
-        // setUser(data.sub);
+        // TODO: Add Monitoring code for setTag and setUser in MN-182
       });
     }
   }, [isAuthenticated]);
@@ -104,11 +100,7 @@ export default function InspectionCreate() {
   }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
 
   useEffect(() => {
-    // TODO: Add Monitoring code in MN-182
-    // if (createInspection.state.error) {
-    //   errorHandler(createInspection.state.error, SentryConstants.type.APP,
-    // createInspection.state);
-    // }
+    // TODO: Add Monitoring code for error handling in MN-182
   }, [createInspection.state.error]);
 
   if (isSigningIn) {

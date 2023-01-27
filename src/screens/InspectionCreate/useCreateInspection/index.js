@@ -22,8 +22,7 @@ export default function useCreateInspection(vin) {
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
     setInspectionId(result);
-    // TODO: Add Monitoring code in MN-182
-    // setTag('inspection_id', result);
+    // TODO: Add Monitoring code for setTag in MN-182
     utils.log(['[Event] Starting inspection', result]);
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);

@@ -118,25 +118,17 @@ export default function InspectionCapture() {
         setCameraLoading(false);
 
         utils.log(['[Event] Back to landing page with photo taken']);
-        // TODO: Add Monitoring code in MN-182
-        // setTag('currentSight', null);
+        // TODO: Add Monitoring code for setTag in MN-182
         handleNavigate();
       } catch (err) {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.HTTP, {
-        //   inspectionId, taskName, status: monk.types.ProgressStatusUpdate.TODO,
-        // });
+        // TODO: Add Monitoring code for error handling in MN-182
         setCameraLoading(false);
       }
     }
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    // TODO: Add Monitoring code in MN-182
-    // if (isFocused && enableComplianceCheck) {
-    // const { current } = state.sights.state;
-    // setTag('currentSight', current.id);
-    // }
+    // TODO: Add Monitoring code for setTag in MN-182
     if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
@@ -166,8 +158,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.APP, state);
+        // TODO: Add Monitoring code for error handling in MN-182
         // eslint-disable-next-line no-console
         console.error(err);
         throw err;

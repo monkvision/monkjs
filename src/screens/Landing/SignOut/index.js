@@ -14,12 +14,10 @@ export default function SignOut({ onSuccess }) {
 
   const signOut = () => {
     utils.log(['[Click]', 'Sign-out user']);
-    // TODO: Add Monitoring code in MN-182
-    // setUser(null);
+    // TODO: Add Monitoring code for setUser in MN-182
     AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
       .catch(() => {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.APP)
+        // TODO: Add Monitoring code for error handling in MN-182
       });
     dispatchSignOut(dispatch);
 

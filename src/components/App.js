@@ -51,8 +51,7 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.APP);
+        // TODO: Add Monitoring code for error handling in MN-182
       }
     }
   }, [appIsReady]);

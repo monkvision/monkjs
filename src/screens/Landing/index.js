@@ -86,8 +86,7 @@ export default function Landing() {
 
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
-    // TODO: Add Monitoring code in MN-182
-    // setTag('inspection_id', undefined); // unset the tag `inspection_id`
+    // TODO: Add Monitoring code for setTag in MN-182
     navigation.navigate(names.LANDING);
   }, [navigation, inspectionId]);
 
@@ -161,8 +160,7 @@ export default function Landing() {
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
       getInspection.start().catch(() => {
-        // TODO: Add Monitoring code in MN-182
-        // errorHandler(err, SentryConstants.type.APP)
+        // TODO: Add Monitoring code for error handling in MN-182
       });
     }
   }, [inspectionId, getInspection]);

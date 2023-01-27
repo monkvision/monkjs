@@ -46,8 +46,7 @@ export default function InspectionVehicleUpdate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: () => {
-      // TODO: Add Monitoring code in MN-182
-      // errorHandler(err, SentryConstants.type.APP, request);
+      // TODO: Add Monitoring code for error handling in MN-182
       setAuthError(true);
     },
   });
@@ -72,8 +71,7 @@ export default function InspectionVehicleUpdate() {
   useEffect(() => {
     if (isAuthenticated) {
       axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => {
-        // TODO: Add Monitoring code in MN-182
-        // setUser(data.sub);
+        // TODO: Add Monitoring code for setUser in MN-182
       });
     }
   }, [isAuthenticated]);
@@ -86,8 +84,7 @@ export default function InspectionVehicleUpdate() {
   useEffect(() => {
     const { state } = updateInspectionVehicle;
     if (state.error) {
-      // TODO: Add Monitoring code in MN-182
-      // errorHandler(state.error, SentryConstants.type.APP, state);
+      // TODO: Add Monitoring code for error handling in MN-182
     }
   }, [updateInspectionVehicle.state.error]);
 
