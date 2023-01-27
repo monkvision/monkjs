@@ -7,17 +7,11 @@ import useUserMedia from './useUserMedia';
 import useCompression from './useCompression';
 import log from '../../../utils/log';
 
-// get url from canvas blob, because `canvas.toDataUrl` can't be revoked programmatically
-const toBlob = (canvasElement, type) => new Promise((resolve) => {
-  canvasElement.toBlob((blob) => resolve(URL.createObjectURL(blob)), type, 1);
-});
-
 /**
  * Note(Ilyass): As a solution we are using a video constraints of width/height + `diff`
  * and a canvas of width/height.
  */
 const diff = 1;
-// const canvas = document.createElement('canvas');
 const imageType = utils.supportsWebP ? 'image/webp' : 'image/jpeg';
 const imageFilenameExtension = imageType.substring('image/'.length);
 
@@ -54,9 +48,6 @@ export default function useCamera({
     }
   }, [stream, error]);
 
-  // we can set the canvas dimensions one time rather than on every time we press capture
-  // useEffect(() => { canvas.width = width; canvas.height = height; }, [width, height]);
-
   const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
@@ -64,7 +55,7 @@ export default function useCamera({
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
-    canvas.getContext('2d').drawImage(videoRef.current, 0, 0, width, height);
+    canvas.getContext('2d', { alpha: false }).drawImage(videoRef.current, 0, 0, width, height);
 
     let uri;
     if (enableCompression && !utils.supportsWebP()) {
@@ -82,8 +73,7 @@ export default function useCamera({
 
       uri = URL.createObjectURL(compressed);
     } else {
-      uri = await toBlob(canvas, imageType);
-      // uri = canvas.toDataURL(imageType);
+      uri = canvas.toDataURL(imageType);
     }
 
     return { uri, width, height, imageType, imageFilenameExtension };
