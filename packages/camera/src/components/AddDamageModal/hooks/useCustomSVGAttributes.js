@@ -4,17 +4,28 @@ import CAR_PARTS from './carParts';
 
 const SELECTED_FILL_COLOR = '#ADE0FFB3';
 
-export default function useCustomSVGAttributes({ element, togglePart, isPartSelected }) {
+export default function useCustomSVGAttributes({ element, togglePart, isPartSelected, groupName }) {
   return useMemo(() => {
-    if (element.tagName === 'svg') {
+    if (['svg', 'g'].includes(element.tagName)) {
       return { pointerEvents: 'box-none' };
     }
 
-    if (element.tagName === 'path') {
-      const onClick = CAR_PARTS.includes(element.getAttribute('id'))
-        ? () => togglePart(element.getAttribute('id')) : undefined;
-      const style = isPartSelected(element.getAttribute('id'))
-        ? { fill: SELECTED_FILL_COLOR } : undefined;
+    const elementClass = element.getAttribute('class');
+    const elementId = element.getAttribute('id');
+    let partKey = null;
+
+    if (groupName && CAR_PARTS.includes(groupName)) {
+      partKey = groupName;
+    }
+
+    if (elementClass && elementClass.includes('selectable') && CAR_PARTS.includes(elementId)) {
+      partKey = elementId;
+    }
+
+    if (partKey) {
+      const style = isPartSelected(partKey) ? { fill: SELECTED_FILL_COLOR } : undefined;
+      const onClick = () => togglePart(partKey);
+
       return {
         pointerEvents: 'all',
         onClick,
@@ -23,5 +34,5 @@ export default function useCustomSVGAttributes({ element, togglePart, isPartSele
     }
 
     return {};
-  }, [element, togglePart, isPartSelected]);
+  }, [element, togglePart, isPartSelected, groupName]);
 }

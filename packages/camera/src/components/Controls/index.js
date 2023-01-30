@@ -1,4 +1,4 @@
-import React, { createElement, useCallback, useEffect, useMemo } from 'react';
+import React, { createElement, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import AddDamageButton from './AddDamageButton';
@@ -297,9 +297,9 @@ Controls.FillerButtonProps = {
 
 Controls.AddDamageButtonProps = {
   id: 'add-damage',
-  accessibilityLabel: 'Add Damage',
+  accessibilityLabel: 'Zoomed Damage',
   children: <AddDamageButton
-    label="Add Damage"
+    label="Zoomed Damage"
     customStyle={{
       fontSize: 12,
       color: '#020202',

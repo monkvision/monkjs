@@ -8,7 +8,7 @@ const jsxSpecialAttributes = {
   class: 'className',
 };
 
-export default function SVGComponentMapper({ element, togglePart, isPartSelected }) {
+export default function SVGComponentMapper({ element, togglePart, isPartSelected, groupName }) {
   const Tag = useMemo(() => element.tagName, [element]);
   const attributes = useMemo(() => element
     .getAttributeNames()
@@ -16,12 +16,21 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
       ...prev,
       [jsxSpecialAttributes[attr] ?? attr]: element.getAttribute(attr),
     }), {}), [element]);
-  const customAttributes = useCustomSVGAttributes({ element, togglePart, isPartSelected });
+  const customAttributes = useCustomSVGAttributes({
+    element,
+    togglePart,
+    isPartSelected,
+    groupName,
+  });
   const innerHTML = useMemo(
     () => (element.tagName === 'style' && !!element.innerHTML ? element.innerHTML : null),
     [element],
   );
   const children = useMemo(() => [...element.children], [element]);
+  const passThroughGroupName = useMemo(
+    () => (element.tagName === 'g' ? element.getAttribute('id') : null),
+    [element],
+  );
 
   return (
     <Tag {...attributes} {...customAttributes}>
@@ -32,6 +41,7 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
           element={child}
           togglePart={togglePart}
           isPartSelected={isPartSelected}
+          groupName={passThroughGroupName}
         />
       ))}
       <path style={{ fill: '#ffffff' }} />
@@ -41,8 +51,11 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
 
 SVGComponentMapper.propTypes = {
   element: PropTypes.any.isRequired,
+  groupName: PropTypes.string,
   isPartSelected: PropTypes.func.isRequired,
   togglePart: PropTypes.func.isRequired,
 };
 
-SVGComponentMapper.defaultProps = {};
+SVGComponentMapper.defaultProps = {
+  groupName: undefined,
+};
