@@ -358,7 +358,7 @@ export function useUploadAdditionalDamage({
           // } : undefined,
         },
         detailed_viewpoint: {
-          centers_on: parts[0], // TODO : REMOVE [0]
+          centers_on: parts,
         },
         tasks: ['damage_detection'],
         image_type: 'close_up',
