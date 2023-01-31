@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Button, Menu } from 'react-native-paper';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 export const ASYNC_STORAGE_LANG_KEY = '@lang_Storage';
 
@@ -9,6 +10,7 @@ export default function LanguageSwitch() {
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = React.useState(false);
   const { i18n } = useTranslation();
+  const { errorHandler } = useContext(MonitoringContext);
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -19,9 +21,9 @@ export default function LanguageSwitch() {
     i18n.changeLanguage(lng)
       .then(() => AsyncStorage.setItem(ASYNC_STORAGE_LANG_KEY, lng))
       .then(() => setIsLoading(false))
-      .catch(() => {
+      .catch((err) => {
         setIsLoading(false);
-        // TODO: Add Monitoring code for error handling in MN-182
+        errorHandler(err);
       });
   };
 

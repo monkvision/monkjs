@@ -1,10 +1,11 @@
 import { utils } from '@monkvision/toolkit';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 import * as names from 'screens/names';
 
@@ -36,6 +37,7 @@ export default function SignIn() {
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
   const { t } = useTranslation();
+  const { errorHandler } = useContext(MonitoringContext);
 
   const route = useRoute();
   const { inspectionId, afterSignin, ...rest } = route.params || {};
@@ -43,10 +45,10 @@ export default function SignIn() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onStart: () => { utils.log(['[Click] Signing in']); },
-    onError: () => {
+    onError: (err) => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      // TODO: Add Monitoring code for error handling in MN-182
+      errorHandler(err);
     },
   });
 

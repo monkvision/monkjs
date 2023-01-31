@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
@@ -65,6 +66,7 @@ export default function InspectionCapture() {
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
+  const { errorHandler } = useContext(MonitoringContext);
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -121,7 +123,7 @@ export default function InspectionCapture() {
         // TODO: Add Monitoring code for setTag in MN-182
         handleNavigate();
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        errorHandler(err);
         setCameraLoading(false);
       }
     }
@@ -158,9 +160,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
-        // eslint-disable-next-line no-console
-        console.error(err);
+        errorHandler(err);
         throw err;
       }
     }

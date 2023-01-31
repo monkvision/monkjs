@@ -4,8 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import discoveries from 'config/discoveries';
 import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 import { useDispatch } from 'react-redux';
 import { authSlice } from 'store/slices/auth';
@@ -51,6 +52,7 @@ export default function useSignIn(callbacks = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
+  const { errorHandler } = useContext(MonitoringContext);
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -82,8 +84,8 @@ export default function useSignIn(callbacks = {}) {
       const dataToStore = JSON.stringify(response.authentication);
       AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
         if (typeof onSuccess === 'function') { onSuccess(response); }
-      }).catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      }).catch((err) => {
+        errorHandler(err);
         if (typeof onSuccess === 'function') { onSuccess(response); }
       });
     }

@@ -1,10 +1,11 @@
 import monk from '@monkvision/corejs';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import Actions from '../../actions';
 import Constants from '../../const';
@@ -91,6 +92,8 @@ export function useTakePictureAsync({ camera, isFocused }) {
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
 export function useSetPictureAsync({ current, sights, uploads }) {
+  const { errorHandler } = useContext(MonitoringContext);
+
   return useCallback(async (picture) => {
     try {
       const uri = picture.localUri || picture.uri;
@@ -110,7 +113,7 @@ export function useSetPictureAsync({ current, sights, uploads }) {
     } catch (err) {
       const payload = { id: current.id, status: 'rejected', error: err };
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
-      // TODO: Add Monitoring code for error handling in MN-182
+      errorHandler(err);
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
       throw err;
     }
@@ -163,13 +166,15 @@ export function useStartUploadAsync({
   task,
   // enableCarCoverage,
   mapTasksToSights = [],
-  onFinish = () => {},
-  onPictureUploaded = () => {},
-  onWarningMessage = () => {},
+  onFinish = () => { },
+  onPictureUploaded = () => { },
+  onWarningMessage = () => { },
   endTour = false,
 }) {
   const [queue, setQueue] = useState([]);
   let isRunning = false;
+
+  const { errorHandler } = useContext(MonitoringContext);
 
   const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
 
@@ -206,7 +211,7 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          // TODO: Add Monitoring code for error handling in MN-182
+          errorHandler(err);
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,

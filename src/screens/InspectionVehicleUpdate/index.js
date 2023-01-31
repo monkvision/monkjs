@@ -1,12 +1,13 @@
 import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 import * as names from 'screens/names';
 
@@ -38,6 +39,7 @@ export default function InspectionVehicleUpdate() {
   const { height } = useWindowDimensions();
   const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
+  const { errorHandler } = useContext(MonitoringContext);
 
   const route = useRoute();
 
@@ -45,8 +47,8 @@ export default function InspectionVehicleUpdate() {
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
-    onError: () => {
-      // TODO: Add Monitoring code for error handling in MN-182
+    onError: (err) => {
+      errorHandler(err);
       setAuthError(true);
     },
   });
@@ -84,7 +86,7 @@ export default function InspectionVehicleUpdate() {
   useEffect(() => {
     const { state } = updateInspectionVehicle;
     if (state.error) {
-      // TODO: Add Monitoring code for error handling in MN-182
+      errorHandler(state.error);
     }
   }, [updateInspectionVehicle.state.error]);
 

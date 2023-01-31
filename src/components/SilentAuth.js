@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TokenResponse } from 'expo-auth-session/src/TokenRequest';
 import { ASYNC_STORAGE_AUTH_KEY, onAuthenticationSuccess } from 'hooks/useSignIn';
-import { useEffect, useState } from 'react';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 export default function SilentAuth() {
   const [hasBeenDone, setHasBeenDone] = useState(false);
   const dispatch = useDispatch();
+  const { errorHandler } = useContext(MonitoringContext);
 
   useEffect(() => {
     if (!hasBeenDone) {
@@ -19,14 +21,14 @@ export default function SilentAuth() {
             onAuthenticationSuccess(authentication, dispatch);
           } else {
             AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
-              .catch(() => {
-                // TODO: Add Monitoring code for error handling in MN-182
+              .catch((err) => {
+                errorHandler(err);
               });
           }
           setHasBeenDone(true);
         }
-      }).catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      }).catch((err) => {
+        errorHandler(err);
       });
     }
   }, []);

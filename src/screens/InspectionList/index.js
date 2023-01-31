@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { denormalize } from 'normalizr';
@@ -8,6 +8,7 @@ import isEmpty from 'lodash.isempty';
 import * as WebBrowser from 'expo-web-browser';
 import Constants from 'expo-constants';
 import useAuth from 'hooks/useAuth';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Loader } from '@monkvision/ui';
@@ -33,6 +34,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const { isAuthenticated } = useAuth();
   const { loaderDotsColors } = useTheme();
   const { t } = useTranslation();
+  const { errorHandler } = useContext(MonitoringContext);
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
     limit: 5,
@@ -69,8 +71,8 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const handlePress = useCallback((id) => {
     const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url)
-      .catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      .catch((err) => {
+        errorHandler(err);
       });
   }, []);
 
@@ -80,7 +82,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   );
 
   useEffect(() => {
-    // TODO: Add Monitoring code for error handling in MN-182
+    errorHandler(manyInspections.error);
   }, [manyInspections.error]);
 
   if (manyInspections.loading) {

@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import useAuth from 'hooks/useAuth';
 import useSnackbar from 'hooks/useSnackbar';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, useWindowDimensions, View } from 'react-native';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
@@ -18,6 +18,7 @@ import Artwork from 'screens/Landing/Artwork';
 import LanguageSwitch from 'screens/Landing/LanguageSwitch';
 import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 import * as names from 'screens/names';
 import { version } from '@package/json';
@@ -39,6 +40,7 @@ export default function Landing() {
   const { height } = useWindowDimensions();
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
+  const { errorHandler } = useContext(MonitoringContext);
 
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
@@ -159,8 +161,8 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      getInspection.start().catch((err) => {
+        errorHandler(err);
       });
     }
   }, [inspectionId, getInspection]);

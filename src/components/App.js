@@ -2,21 +2,22 @@
 import { theme as initialTheme } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import 'config/corejs';
+
 import SilentAuth from 'components/SilentAuth';
 import SilentLang from 'components/SilentLang';
 
 import Navigation from 'config/Navigation';
-import { Profiler } from 'config/sentryPlatform';
 import ExpoConstants from 'expo-constants';
 import * as Font from 'expo-font';
 
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store from 'store';
+import { MonitoringContext } from '@monkvision/corejs/src/monitoring';
 
 const theme = {
   ...DefaultTheme,
@@ -41,6 +42,8 @@ function App() {
 
   const [appIsReady, setAppIsReady] = useState(false);
 
+  const { errorHandler, initializeMonitoring } = useContext(MonitoringContext);
+
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       // This tells the splash screen to hide immediately! If we call this after
@@ -51,12 +54,13 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        errorHandler(err);
       }
     }
   }, [appIsReady]);
 
   useEffect(() => {
+    initializeMonitoring();
     async function prepare() {
       try {
         // Keep the splash screen visible while we fetch resources
@@ -67,7 +71,7 @@ function App() {
         // experience. Please remove this if you copy and paste the code!
         await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
-        // errorHandler(err, SentryConstants.type.APP);
+        errorHandler(err);
       } finally {
         // Tell the application to render
         setAppIsReady(true);
@@ -98,5 +102,4 @@ function App() {
   );
 }
 
-export default Profiler(App);
-// export default App;
+export default App;
