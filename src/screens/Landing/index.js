@@ -81,10 +81,10 @@ export default function Landing() {
   } = useGetPdfReport(inspectionId);
 
   useEffect(() => {
-    if (allTasksAreCompleted) {
+    if (allTasksAreCompleted && !reportUrl) {
       preparePdf();
     }
-  }, [allTasksAreCompleted]);
+  }, [allTasksAreCompleted, reportUrl]);
 
   useEffect(() => {
     if (inspection?.vehicle?.vin
@@ -224,6 +224,13 @@ export default function Landing() {
     [pdfLoading, isPdfDisabled],
   );
 
+  const pdfDownloadRight = useCallback(
+    () => (pdfLoading || isPdfDisabled
+      ? null
+      : <List.Icon icon="check-bold" />),
+    [pdfLoading, isPdfDisabled],
+  );
+
   return (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
       <Modal
@@ -270,6 +277,7 @@ export default function Landing() {
               title={t('landing.downloadPdf')}
               description={t('landing.downloadPdfDescription')}
               left={pdfDownloadLeft}
+              right={pdfDownloadRight}
               onPress={handleDownload}
               disabled={isPdfDisabled}
               titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}
