@@ -10,45 +10,10 @@ import monk from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
+import mapTasksToSights from './mapTasksToSights';
 import Settings from './settings';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
-
-const mapTasksToSights = [{
-  id: 'sLu0CfOt',
-  task: {
-    name: monk.types.TaskName.IMAGES_OCR,
-    image_details: { image_type: monk.types.ImageOcrType.VIN },
-  },
-}, {
-  id: 'vwtroc-xQKQ0bXS',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_LEFT },
-  },
-  payload: {},
-}, {
-  id: 'vwtroc-8_W2PO8L',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_LEFT },
-  },
-  payload: {},
-}, {
-  id: 'vwtroc-rN39Y3HR',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_BACK_RIGHT },
-  },
-  payload: {},
-}, {
-  id: 'vwtroc-PuIw17h0',
-  task: {
-    name: monk.types.TaskName.WHEEL_ANALYSIS,
-    image_details: { wheel_name: monk.types.WheelType.WHEEL_FRONT_RIGHT },
-  },
-  payload: {},
-}];
 
 const enableComplianceCheck = true;
 
@@ -95,6 +60,14 @@ export default function InspectionCapture() {
     } else { navigation.navigate(names.LANDING, { inspectionId }); }
   }, [inspectionId, navigation]);
 
+  const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
+
+  const mapTaskBySightToTasknames = useCallback((taskBySight) => {
+    const task = getTaskName(taskBySight.task);
+    const tasks = taskBySight.tasks ? taskBySight.tasks.map(getTaskName) : [];
+    return [...tasks, task].filter((name) => !!name);
+  }, [getTaskName]);
+
   const handleSuccess = useCallback(async () => {
     if (success && isFocused) {
       setCameraLoading(true);
@@ -103,6 +76,8 @@ export default function InspectionCapture() {
         const promises = Object.values(mapTasksToSights)
           .filter(((taskBySight) => sightIds.includes(taskBySight.id)))
           .map((taskBySight) => taskBySight.task.name)
+          .map(mapTaskBySightToTasknames)
+          .flat()
           .concat([taskName])
           .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
           .map((name) => new Promise((resolve) => {

@@ -6,7 +6,7 @@ const fr = {
     },
     inspection: {
       vinNumber: {
-        title: 'Numéro VIN (Vehicle Identification Number)',
+        title: 'Lecture du VIN (Vehicle Identification Number)',
         description: 'Détectez-le avec votre caméra ou rentrez-le manuellement',
       },
       damageDetection: {
@@ -19,6 +19,17 @@ const fr = {
         IN_PROGRESS: 'En cours...',
         DONE: 'Terminé !',
         ERROR: 'Erreur !',
+      },
+      vehicle: {
+        type: {
+          cuv: 'Crossover',
+          hatchback: 'Citadine',
+          minivan: 'Familiale',
+          pickup: 'Pick-up',
+          sedan: 'Berline',
+          suv: 'SUV',
+          van: 'Utilitaire',
+        },
       },
     },
     landing: {
@@ -38,7 +49,6 @@ const fr = {
       manual: 'Le rentrer manuellement',
       prompt: {
         title: 'Numéro VIN (Vehicle Identification Number)',
-        message: 'Veuillez indiquer le numéro VIN',
         backgroundMessage: 'Veuillez renseigner le contenu demandé dans la fenêtre',
         backgroundGoBack: 'Retour',
       },
