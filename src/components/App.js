@@ -42,7 +42,7 @@ function App() {
 
   const [appIsReady, setAppIsReady] = useState(false);
 
-  const { errorHandler, initializeMonitoring } = useContext(MonitoringContext);
+  const { errorHandler } = useContext(MonitoringContext);
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
@@ -60,7 +60,6 @@ function App() {
   }, [appIsReady]);
 
   useEffect(() => {
-    initializeMonitoring();
     async function prepare() {
       try {
         // Keep the splash screen visible while we fetch resources

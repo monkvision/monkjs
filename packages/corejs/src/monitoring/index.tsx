@@ -1,17 +1,13 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { Platform } from 'react-native';
 import * as Sentry from 'sentry-expo';
 import * as SentryR from '@sentry/react';
 import Constants from 'expo-constants';
 import { CaptureConsole } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
-import { MonitoringConfigType, MonitoringContextType } from './types';
+import { MonitoringContextType } from './types';
 
 const tracingOrigins = ['localhost', 'cna.dev.monk.ai', 'cna.staging.monk.ai', 'cna.preview.monk.ai', 'cna.monk.ai'];
-const defaultMonitoringConfig: MonitoringConfigType = {
-	dsn: ""
-};
-
 const MonitoringConstants = {
 	type: {
 		UPLOAD: 'upload', // logs linked to the upload
@@ -38,11 +34,8 @@ const setTag = (key, value) => SentryR.setTag(key, value);
 const setUser = (id) => SentryR.setUser({ id });
 const MonitoringContext = createContext<MonitoringContextType | null>(null);
 
-const MonitoringProvider = ({ children }) => {
-	/**
-	 * @param config - Sentry configuration dns
-	 */
-	const initializeMonitoring = (config: MonitoringConfigType = defaultMonitoringConfig) => {
+const MonitoringProvider = ({ children, config }) => {
+	useEffect(() => {
 		Sentry.init({
 			dsn: config.dsn || Constants.manifest.extra.SENTRY_DSN,
 			environment: Constants.manifest.extra.ENV,
@@ -63,7 +56,7 @@ const MonitoringProvider = ({ children }) => {
 				}),
 			],
 		});
-	};
+	}, []);
 
 	/**
 	 * @param error {Error} - Caught error to send to Sentry.io
@@ -80,7 +73,23 @@ const MonitoringProvider = ({ children }) => {
 		}).captureException(error);
 	};
 
-	return <MonitoringContext.Provider value={{ errorHandler, initializeMonitoring }}>{children}</MonitoringContext.Provider>;
+	/**
+	 * @param name {string} - Name of transaction
+	 * @param operation {string} - Operation of transaction to be performed
+	 * @param data {{[key: string]: number | string}} - Data to be added on transaction
+	 */
+	const measurePerformance = (name: string, operation: string, data: { [key: string]: number | string } | null) => {
+		const transaction = Platform.select({
+			web: Sentry.Browser,
+			native: Sentry.Native as any,
+		}).startTransaction({ name, operation, data });
+
+		return () => {
+			transaction.finish();
+		};
+	}
+
+	return <MonitoringContext.Provider value={{ errorHandler, measurePerformance }}>{children}</MonitoringContext.Provider>;
 };
 
 export default MonitoringProvider;
@@ -93,4 +102,12 @@ export {
 	Tracing,
 	transaction,
 	MonitoringConstants,
-}
+};
+
+// For Example, if user wants to measure performance of functionality,
+// const performance = measurePerformance(
+// 	MonitoringConstants.operation.USER_UPLOAD_CENTER_TIME,
+// 	MonitoringConstants.type.HTTP,
+// 	{ file_size: 1024, picture_width: 300, picture_height: 300 },
+// );
+// performance(); -> call this function to finish process of measuring

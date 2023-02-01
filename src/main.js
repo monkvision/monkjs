@@ -10,6 +10,8 @@ import MonitoringProvider from '@monkvision/corejs/src/monitoring';
 
 if (Platform.OS === 'web') {
   const container = document.getElementById('root');
+  // Customer can pass there own configuration if they want to override configuration by passing
+  // config={{ dns: '' }}
   render(<MonitoringProvider><App /></MonitoringProvider>, container);
 } else {
   registerRootComponent(Sentry.Native.wrap(App));

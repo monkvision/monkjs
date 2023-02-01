@@ -1,16 +1,4 @@
 /**
- * Monitoring configuration for setting up monitoring.
- */
-export interface MonitoringConfig {
-	/**
-	 * DNS url to use for storing logs.
-	 */
-	dsn: string;
-}
-
-export type MonitoringConfigType = MonitoringConfig;
-
-/**
  * Monitoring context interface
  */
 export interface MonitoringContext {
@@ -18,10 +6,11 @@ export interface MonitoringContext {
 	 * Store the error in the monitoring application.
 	 */
 	errorHandler: (error: any) => string;
+
 	/**
-	 * Initialize the monitoring functionality
+	 * Start Measure Performance
 	 */
-	initializeMonitoring: (config: MonitoringConfigType) => void
+	measurePerformance: (name: string, operation: string, data: { [key: string]: number | string } | null) => void
 }
 
 export type MonitoringContextType = MonitoringContext;
