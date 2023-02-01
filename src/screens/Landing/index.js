@@ -207,7 +207,7 @@ export default function Landing() {
 
   useEffect(() => {
     if (!vehicleType || vehicleType === inspection?.vehicle?.vehicleType
-      || !inspectionId) { return; }
+      || !inspectionId || !inspection?.vehicle?.vin) { return; }
     (async () => {
       const response = await updateInspectionVehicle.start();
       if (response !== null) {
@@ -215,7 +215,7 @@ export default function Landing() {
         navigation.navigate(names.LANDING, route.params);
       }
     })();
-  }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId]);
+  }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId, inspection?.vehicle?.vin]);
 
   const pdfDownloadLeft = useCallback(
     () => (pdfLoading

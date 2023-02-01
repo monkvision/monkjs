@@ -1,6 +1,6 @@
 import { PartSelectorOverlays } from '@monkvision/sights/dist/partSelectors';
 import { useMemo } from 'react';
-import { CarOrientation } from './useCarOrientation';
+import { CarOrientation } from './sightCarOrientationMap';
 
 const VEHICLE_MODEL_MAP = {
   suv: 'jgc21',
