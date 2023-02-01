@@ -53,7 +53,7 @@ const options = [
         'jgc21-RAVpqaE4', // Rear Wheel Right
         'jgc21-F-PPd4qN', // Rear Lateral Right
         'jgc21-XXh8GWm8', // Lateral Low Right
-        'jgc21-XXh8GWm8', // Front Lateral Low Right
+        'jgc21-TRN9Des4', // Front Lateral Low Right
         'jgc21-s7WDTRmE', // Front Wheel Right
         'jgc21-__JKllz9', // Front Bumper Side Right
       ],
@@ -72,7 +72,7 @@ const options = [
         'fesc20-5Ts1UkPT', // Rear Wheel Right
         'fesc20-gg1Xyrpu', // Rear Lateral Right
         'fesc20-P0oSEh8p', // Lateral Low Right
-        'fesc20-P0oSEh8p', // Front Lateral Low Right
+        'fesc20-j3H8Z415', // Front Lateral Low Right
         'fesc20-dKVLig1i', // Front Wheel Right
         'fesc20-Wzdtgqqz', // Front Bumper Side Right
       ],
@@ -91,7 +91,7 @@ const options = [
         'haccord-OXYy5gET', // Rear Wheel Right
         'haccord-5LlCuIfL', // Rear Lateral Right
         'haccord-Gtt0JNQl', // Lateral Low Right
-        'haccord-Gtt0JNQl', // Front Lateral Low Right
+        'haccord-cXSAj2ez', // Front Lateral Low Right
         'haccord-KN23XXkX', // Front Wheel Right
         'haccord-Z84erkMb', // Front Bumper Side Right
       ],
@@ -110,7 +110,7 @@ const options = [
         'ffocus18-P2jFq1Ea', // Rear Wheel Right
         'ffocus18-U3Bcfc2Q', // Rear Lateral Right
         'ffocus18-ts3buSD1', // Lateral Low Right
-        'ffocus18-ts3buSD1', // Front Lateral Low Right
+        'ffocus18-cXSAj2ez', // Front Lateral Low Right
         'ffocus18-KkeGvT-F', // Front Wheel Right
         'ffocus18-lRDlWiwR', // Front Bumper Side Right
       ],
@@ -131,7 +131,7 @@ const options = [
         'ftransit18-RJ2D7DNz', // Rear Wheel Right
         'ftransit18-3fnjrISV', // Rear Lateral Right
         'ftransit18-eztNpSRX', // Lateral Low Right
-        'ftransit18-eztNpSRX', // Front Lateral Low Right
+        'ftransit18-TkXihCj4', // Front Lateral Low Right
         'ftransit18-4NMPqEV6', // Front Wheel Right
         'ftransit18-IIVI_pnX', // Front Bumper Side Right
       ],
@@ -150,7 +150,7 @@ const options = [
         'tsienna20-SebsoqJm', // Rear Wheel Right
         'tsienna20-u57qDaN_', // Rear Lateral Right
         'tsienna20-Rw0Gtt7O', // Lateral Low Right
-        'tsienna20-Rw0Gtt7O', // Front Lateral Low Right
+        'tsienna20-TibS83Qr', // Front Lateral Low Right
         'tsienna20-cI285Gon', // Front Wheel Right
         'tsienna20-KHB_Cd9k', // Front Bumper Side Right
       ],
@@ -169,7 +169,7 @@ const options = [
         'ff150-3rM9XB0Z', // Rear Wheel Right
         'ff150-eOjyMInj', // Rear Lateral Right
         'ff150-18YVVN-G', // Lateral Low Right
-        'ff150-18YVVN-G', // Front Lateral Low Right
+        'ff150-BmXfb-qD', // Front Lateral Low Right
         'ff150-gFp78fQO', // Front Wheel Right
         'ff150-7nvlys8r', // Front Bumper Side Right
       ],

@@ -9,8 +9,9 @@ const useHandlers = ({
   enableComplianceCheck,
   unControlledState,
   stream,
+  onResetAddDamageStatus,
 }) => {
-  const capture = useCallback(async (controlledState, api, event) => {
+  const capture = useCallback(async (controlledState, api, event, addDamageParts) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
     if (!stream && Platform.OS === 'web') { return; }
 
@@ -27,6 +28,7 @@ const useHandlers = ({
       takePictureAsync,
       startUploadAsync,
       setPictureAsync,
+      uploadAdditionalDamage,
     } = api;
 
     const { sights } = state;
@@ -34,31 +36,49 @@ const useHandlers = ({
 
     onStartUploadPicture(state, api);
 
-    // add a process to queue
-    sights.dispatch({
-      type: Actions.sights.ADD_PROCESS_TO_QUEUE,
-      payload: { id: current.id },
-    });
+    if (addDamageParts && addDamageParts.length > 0) {
+      log([`[Click] Taking a photo`]);
+      const picture = await takePictureAsync();
 
-    log([`[Click] Taking a photo`]);
-    const picture = await takePictureAsync();
-
-    if (!picture) { return; }
-
-    try {
-      await setPictureAsync(picture);
-      await startUploadAsync(picture);
-    } catch (err) {
-      log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
-    } finally {
-      // remove a process from queue
+      if (!picture) { return; }
+      // The picture taken is an additional picture.
+      await uploadAdditionalDamage({ picture, parts: addDamageParts });
+      onFinishUploadPicture(state, api);
+      onResetAddDamageStatus();
+    } else {
+      // add a process to queue
       sights.dispatch({
-        type: Actions.sights.REMOVE_PROCESS_FROM_QUEUE,
+        type: Actions.sights.ADD_PROCESS_TO_QUEUE,
         payload: { id: current.id },
       });
-      captureButtonTracing?.finish();
+
+      log([`[Click] Taking a photo`]);
+      const picture = await takePictureAsync();
+
+      if (!picture) { return; }
+
+      try {
+        await setPictureAsync(picture);
+        await startUploadAsync(picture);
+      } catch (err) {
+        log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
+      } finally {
+        // remove a process from queue
+        sights.dispatch({
+          type: Actions.sights.REMOVE_PROCESS_FROM_QUEUE,
+          payload: { id: current.id },
+        });
+      }
     }
-  }, [enableComplianceCheck, onFinishUploadPicture, onStartUploadPicture, stream]);
+
+    captureButtonTracing?.finish();
+  }, [
+    enableComplianceCheck,
+    onFinishUploadPicture,
+    onStartUploadPicture,
+    stream,
+    onResetAddDamageStatus,
+  ]);
 
   const customCapture = useCallback(async (api, event) => {
     if (!stream && Platform.OS === 'web') { return null; }

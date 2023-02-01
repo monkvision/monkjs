@@ -92,6 +92,7 @@ export default function InspectionCreate() {
       sightIds,
       taskName: option.taskName,
       selectedMode: selected,
+      vehicleType,
     };
 
     navigation.navigate(names.INSPECTION_CAPTURE, args);
