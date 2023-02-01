@@ -34,7 +34,7 @@ const vehicleTypes = [
 ];
 
 const sanitizePartSelectorOverlay = (svgStr) => svgStr
-  .replaceAll('\'', '\\\'')
+  .replace(/'/g, '\\\'')
   .replace(/^\s+|\s+$/gm, '');
 
 let indexJs = 'const PartSelectorOverlays = {\n';
