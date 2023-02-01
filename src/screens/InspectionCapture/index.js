@@ -24,7 +24,7 @@ export default function InspectionCapture() {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
-  const { inspectionId, sightIds, taskName } = route.params;
+  const { inspectionId, sightIds, taskName, vehicleType } = route.params;
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -185,6 +185,7 @@ export default function InspectionCapture() {
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
+        vehicleType={vehicleType}
       />
       <Notice />
     </View>

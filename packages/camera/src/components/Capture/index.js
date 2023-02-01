@@ -138,6 +138,15 @@ CaptureHOC.propTypes = {
       uploadCount: PropTypes.number,
     })),
   }),
+  vehicleType: PropTypes.oneOf([
+    'suv',
+    'cuv',
+    'sedan',
+    'hatchback',
+    'van',
+    'minivan',
+    'pickup',
+  ]),
 };
 
 CaptureHOC.defaultProps = {
@@ -152,6 +161,7 @@ CaptureHOC.defaultProps = {
   settings: undefined,
   sights: undefined,
   uploads: undefined,
+  vehicleType: 'cuv',
 };
 
 /**

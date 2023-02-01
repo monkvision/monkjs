@@ -1,4 +1,4 @@
-import React, { createElement, useCallback, useMemo } from 'react';
+import React, { createElement, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import AddDamageButton from './AddDamageButton';

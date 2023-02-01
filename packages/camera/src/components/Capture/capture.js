@@ -128,6 +128,7 @@ const Capture = forwardRef(({
   mapTasksToSights,
   thumbnailStyle,
   uploads,
+  vehicleType,
   compliance,
   sights,
   settings,
@@ -523,6 +524,7 @@ const Capture = forwardRef(({
               currentSight={states.sights.state.current.id}
               onConfirm={handlePartSelectorConfirm}
               onCancel={handleResetDamageStatus}
+              vehicleType={vehicleType}
             />
           ) : null}
         </View>
@@ -720,6 +722,15 @@ Capture.propTypes = {
       uploadCount: PropTypes.number,
     })),
   }).isRequired,
+  vehicleType: PropTypes.oneOf([
+    'suv',
+    'cuv',
+    'sedan',
+    'hatchback',
+    'van',
+    'minivan',
+    'pickup',
+  ]),
 };
 
 Capture.defaultProps = {
@@ -770,6 +781,7 @@ Capture.defaultProps = {
   isSubmitting: false,
   task: 'damage_detection',
   thumbnailStyle: {},
+  vehicleType: 'cuv',
 };
 
 /**

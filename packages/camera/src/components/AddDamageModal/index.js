@@ -86,6 +86,7 @@ export default function AddDamageModal({
   currentSight,
   onCancel,
   onConfirm,
+  vehicleType,
 }) {
   const { togglePart, isPartSelected, selectedParts } = usePartSelector();
   const { t } = useTranslation();
@@ -131,7 +132,7 @@ export default function AddDamageModal({
           orientation={orientation}
           togglePart={togglePart}
           isPartSelected={isPartSelected}
-          vehicleType="cuv"
+          vehicleType={vehicleType}
         />
         <View style={[styles.rotateButtonContainer]}>
           <TouchableOpacity style={[styles.rotateButton]} onPress={rotateRight}>
@@ -169,9 +170,19 @@ AddDamageModal.propTypes = {
   currentSight: PropTypes.string.isRequired,
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
+  vehicleType: PropTypes.oneOf([
+    'suv',
+    'cuv',
+    'sedan',
+    'hatchback',
+    'van',
+    'minivan',
+    'pickup',
+  ]),
 };
 
 AddDamageModal.defaultProps = {
   onCancel: () => {},
   onConfirm: () => {},
+  vehicleType: 'cuv',
 };
