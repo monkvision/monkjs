@@ -1,3 +1,4 @@
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import monk from '@monkvision/corejs';
 import { useInterval, utils } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
@@ -9,7 +10,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import useAuth from 'hooks/useAuth';
 import useSnackbar from 'hooks/useSnackbar';
 import isEmpty from 'lodash.isempty';
-import React, { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, useWindowDimensions, View } from 'react-native';
 import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
@@ -26,6 +26,8 @@ import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
+import VehicleType from './VehicleType';
+import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -42,6 +44,7 @@ export default function Landing() {
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
   const { errorHandler } = useContext(MonitoringContext);
 
+  const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
@@ -54,13 +57,19 @@ export default function Landing() {
     () => getInspection?.denormalizedEntities[0],
     [getInspection],
   );
-  const selectors = useVinModal({ isAuthenticated, inspectionId });
+  const selectors = useVinModal({ isAuthenticated, inspectionId, vehicle: { vehicleType } });
+
+  const updateInspectionVehicle = useUpdateInspectionVehicle(
+    inspectionId,
+    { vehicleType, vin: inspection?.vehicle?.vin },
+  );
 
   const allTasksAreCompleted = useMemo(
     () => inspection?.tasks?.length && inspection?.tasks
       .every(({ status }) => status === monk.types.ProgressStatus.DONE),
     [inspection?.tasks],
   );
+
 
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
@@ -74,10 +83,10 @@ export default function Landing() {
   } = useGetPdfReport(inspectionId);
 
   useEffect(() => {
-    if (allTasksAreCompleted) {
+    if (allTasksAreCompleted && !reportUrl) {
       preparePdf();
     }
-  }, [allTasksAreCompleted]);
+  }, [allTasksAreCompleted, reportUrl]);
 
   useEffect(() => {
     if (inspection?.vehicle?.vin
@@ -99,8 +108,8 @@ export default function Landing() {
 
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
-    navigation.navigate(to, { selectedMod: value, inspectionId });
-  }, [inspectionId, navigation, isAuthenticated]);
+    navigation.navigate(to, { selectedMod: value, inspectionId, vehicle: { vehicleType } });
+  }, [inspectionId, navigation, isAuthenticated, vehicleType]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -198,10 +207,29 @@ export default function Landing() {
     [allTasksAreCompleted, reportUrl],
   );
 
+  useEffect(() => {
+    if (!vehicleType || vehicleType === inspection?.vehicle?.vehicleType
+      || !inspectionId) { return; }
+    (async () => {
+      const response = await updateInspectionVehicle.start();
+      if (response !== null) {
+        Sentry.Browser.setTag('inspection_id', response.result);
+        navigation.navigate(names.LANDING, route.params);
+      }
+    })();
+  }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId]);
+
   const pdfDownloadLeft = useCallback(
     () => (pdfLoading
       ? <ActivityIndicator />
       : <List.Icon icon="file-pdf-box" color={isPdfDisabled ? '#8d8d8dde' : undefined} />),
+    [pdfLoading, isPdfDisabled],
+  );
+
+  const pdfDownloadRight = useCallback(
+    () => (pdfLoading || isPdfDisabled
+      ? null
+      : <List.Icon icon="check-bold" />),
     [pdfLoading, isPdfDisabled],
   );
 
@@ -231,6 +259,14 @@ export default function Landing() {
             </List.Subheader>
           </List.Section>
           <List.Section>
+            <List.Subheader>Select vehicle type</List.Subheader>
+            <VehicleType
+              selected={inspection?.vehicle?.vehicleType || vehicleType}
+              onSelect={(value) => setVehicleType(value)}
+              colors={colors}
+              locallySelected={vehicleType}
+              loading={updateInspectionVehicle.state.loading}
+            />
             <List.Subheader>{t('landing.menuHeader')}</List.Subheader>
             <FlatList
               data={ExpoConstants.manifest.extra.options}
@@ -243,6 +279,7 @@ export default function Landing() {
               title={t('landing.downloadPdf')}
               description={t('landing.downloadPdfDescription')}
               left={pdfDownloadLeft}
+              right={pdfDownloadRight}
               onPress={handleDownload}
               disabled={isPdfDisabled}
               titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}

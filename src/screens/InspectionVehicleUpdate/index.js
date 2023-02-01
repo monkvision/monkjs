@@ -43,7 +43,7 @@ export default function InspectionVehicleUpdate() {
 
   const route = useRoute();
 
-  const { inspectionId, vin } = route.params || {};
+  const { inspectionId, vin, vehicle } = route.params || {};
 
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
@@ -53,7 +53,7 @@ export default function InspectionVehicleUpdate() {
     },
   });
 
-  const updateInspectionVehicle = useUpdateInspectionVehicle(inspectionId, vin);
+  const updateInspectionVehicle = useUpdateInspectionVehicle(inspectionId, { ...vehicle, vin });
   const handleUpdate = useCallback(async () => {
     const response = await updateInspectionVehicle.start();
     if (response !== null) {

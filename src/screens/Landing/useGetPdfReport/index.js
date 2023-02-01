@@ -78,5 +78,5 @@ export default function useGetPdfReport(inspectionId, onError) {
     },
     [inspectionId, requestPdfReport, getPdfUrl, setReportUrl, setLoading],
   );
-  return { preparePdf, handleDownload: handleDownload, loading, reportUrl };
+  return { preparePdf, handleDownload, loading, reportUrl };
 }
