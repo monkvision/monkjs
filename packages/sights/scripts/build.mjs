@@ -39,10 +39,10 @@ const sanitizePartSelectorOverlay = (svgStr) => svgStr
 
 let indexJs = 'const PartSelectorOverlays = {\n';
 vehicleTypes.forEach((type) => {
-  const frontLeft = fs.readFileSync(`./assets/part-selectors/${type}-front-left.svg`, 'utf8');
-  const frontRight = fs.readFileSync(`./assets/part-selectors/${type}-front-right.svg`, 'utf8');
-  const rearLeft = fs.readFileSync(`./assets/part-selectors/${type}-rear-left.svg`, 'utf8');
-  const rearRight = fs.readFileSync(`./assets/part-selectors/${type}-rear-right.svg`, 'utf8');
+  const frontLeft = fs.readFileSync(`./assets/part-selectors/${type}-front-left.svg`, 'utf8').toString();
+  const frontRight = fs.readFileSync(`./assets/part-selectors/${type}-front-right.svg`, 'utf8').toString();
+  const rearLeft = fs.readFileSync(`./assets/part-selectors/${type}-rear-left.svg`, 'utf8').toString();
+  const rearRight = fs.readFileSync(`./assets/part-selectors/${type}-rear-right.svg`, 'utf8').toString();
 
   indexJs += `  ${type}: {\n`;
   indexJs += `    frontLeft: '${sanitizePartSelectorOverlay(frontLeft)}',\n`;

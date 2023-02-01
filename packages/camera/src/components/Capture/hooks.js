@@ -3,7 +3,6 @@ import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
-import PropTypes from 'prop-types';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
