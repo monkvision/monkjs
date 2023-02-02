@@ -68,7 +68,6 @@ export default function Landing() {
     [inspection?.tasks],
   );
 
-
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
   const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
@@ -211,7 +210,6 @@ export default function Landing() {
     (async () => {
       const response = await updateInspectionVehicle.start();
       if (response !== null) {
-        Sentry.Browser.setTag('inspection_id', response.result);
         navigation.navigate(names.LANDING, route.params);
       }
     })();
