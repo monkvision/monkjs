@@ -11,7 +11,7 @@ export default function TakePictureButton() {
         display: 'flex',
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 10,
+        fontSize: 12,
         textTransform: 'uppercase',
       }}
     >

@@ -127,6 +127,10 @@ export default function Inspection({ createdAt, id, images }) {
     WebBrowser.openBrowserAsync(url);
   }, [path, accessToken]);
 
+  const getLabel = useCallback((image) => (
+    image.additionalData.label ? image.additionalData.label[i18n.language] : ''
+  ), [i18n.language]);
+
   return (
     <View style={styles.root}>
       <Card.Title
@@ -140,7 +144,7 @@ export default function Inspection({ createdAt, id, images }) {
         )).map((image) => (
           <View key={`image-${image.id}`} style={styles.cardCover}>
             <Card.Cover source={{ uri: image.path }} />
-            <Badge style={styles.label}>{image.additionalData.label[i18n.language]}</Badge>
+            <Badge style={styles.label}>{getLabel(image)}</Badge>
             <IconButton
               icon="eye"
               accessibilityLabel="See details of the image"
@@ -166,7 +170,7 @@ Inspection.propTypes = {
           en: PropTypes.string,
           fr: PropTypes.string,
         }),
-      ]).isRequired,
+      ]),
     }),
     id: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,

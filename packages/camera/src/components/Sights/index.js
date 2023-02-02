@@ -1,17 +1,16 @@
-import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { StyleSheet, ScrollView, Text, Switch, View, useWindowDimensions } from 'react-native';
+import { ScrollView, StyleSheet, Switch, Text, useWindowDimensions, View } from 'react-native';
+import Actions from '../../actions';
 
 import Thumbnail from '../Thumbnail';
-import Actions from '../../actions';
 
 const styles = StyleSheet.create({
   textContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 68,
   },
   text: {
     backgroundColor: 'rgba(0,0,0,0.75)',
@@ -23,6 +22,14 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
     textAlign: 'center',
     lineHeight: 20,
+    marginTop: 10,
+  },
+  textExtra: {
+    backgroundColor: '#001A83BF',
+    marginTop: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    fontSize: 12,
   },
   switchContainer: {
     width: 68,
@@ -38,9 +45,9 @@ const styles = StyleSheet.create({
   },
   stickyHeader: {
     flex: 1,
-    flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'center',
+    paddingBottom: 15,
   },
   gradient: {
     position: 'absolute',
@@ -51,6 +58,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Sights({
+  additionalPictures,
   contentContainerStyle,
   current,
   dispatch,
@@ -63,7 +71,7 @@ export default function Sights({
   tour,
   uploads,
 }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { height: windowHeight } = useWindowDimensions();
 
   const handlePress = useCallback((id, e) => {
@@ -79,6 +87,26 @@ export default function Sights({
   //   animated: true,
   // });
 
+  const thumbnails = useMemo(() => {
+    const tourElements = Object.values(tour).splice(0, current.index + 1);
+    additionalPictures.forEach((additionalPicture) => {
+      let spliceIndex = tourElements
+        .findIndex((sight) => sight.id === additionalPicture.previousSight) ?? 0;
+      while (
+        spliceIndex < tourElements.length - 2 && tourElements[spliceIndex + 1].isAdditional
+      ) {
+        spliceIndex += 1;
+      }
+      tourElements.splice(spliceIndex, 0, {
+        isAdditional: true,
+        labelKey: additionalPicture.labelKey,
+        picture: additionalPicture.picture,
+        mapKey: `thumbnail-${additionalPicture.labelKey}-${spliceIndex}`,
+      });
+    });
+    return tourElements.reverse();
+  }, [tour, current, additionalPictures]);
+
   return (
     <ScrollView
       endFillColor="#000"
@@ -93,6 +121,13 @@ export default function Sights({
             {`${current.index + 1} / ${ids.length}`}
           </Text>
         </View>
+        { additionalPictures.length > 0 && (
+          <View style={styles.textContainer}>
+            <Text style={[styles.text, styles.textExtra]}>
+              {`+ ${additionalPictures.length} / 10`}
+            </Text>
+          </View>
+        )}
         {offline && (
           <View style={styles.switchContainer}>
             <Switch {...offline} />
@@ -101,22 +136,30 @@ export default function Sights({
         )}
       </View>
       <View>
-        {Object.values(tour)
-          .splice(0, current.index + 1)
-          .reverse()
-          .map(({ id, label, overlay }) => (
+        {thumbnails.map((thumbnail) => (
+          thumbnail.isAdditional ? (
             <Thumbnail
-              key={`thumbnail-${id}`}
-              isCurrent={current.metadata.id === id}
-              label={label[i18n.language]}
-              overlay={overlay}
-              picture={takenPictures[id]}
-              onPress={(e) => handlePress(id, e)}
-              onClick={(e) => handlePress(id, e)}
+              key={thumbnail.mapKey}
+              isCurrent={false}
+              label={t(`partSelector.parts.${thumbnail.labelKey}`)}
+              picture={thumbnail.picture}
               style={thumbnailStyle}
-              uploadStatus={uploads.state[id]?.status || 'idle'}
+              // TODO : upload status
             />
-          ))}
+          ) : (
+            <Thumbnail
+              key={`thumbnail-${thumbnail.id}`}
+              isCurrent={current.metadata.id === thumbnail.id}
+              label={thumbnail.label[i18n.language]}
+              overlay={thumbnail.overlay}
+              picture={takenPictures[thumbnail.id]}
+              onPress={(e) => handlePress(thumbnail.id, e)}
+              onClick={(e) => handlePress(thumbnail.id, e)}
+              style={thumbnailStyle}
+              uploadStatus={uploads.state[thumbnail.id]?.status || 'idle'}
+            />
+          )
+        ))}
         <View style={styles.footer}>{footer}</View>
       </View>
     </ScrollView>
@@ -124,6 +167,11 @@ export default function Sights({
 }
 
 Sights.propTypes = {
+  additionalPictures: PropTypes.arrayOf(PropTypes.shape({
+    labelKey: PropTypes.string.isRequired,
+    picture: PropTypes.any,
+    previousSight: PropTypes.string.isRequired,
+  })),
   contentContainerStyle: PropTypes.objectOf(PropTypes.any),
   current: PropTypes.shape({
     index: PropTypes.number.isRequired,
@@ -164,6 +212,7 @@ Sights.propTypes = {
 };
 
 Sights.defaultProps = {
+  additionalPictures: [],
   contentContainerStyle: {},
   footer: null,
   offline: null,

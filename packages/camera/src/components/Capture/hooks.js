@@ -91,7 +91,13 @@ export function useTakePictureAsync({ camera, isFocused }) {
  * @param uploads
  * @return {(function(pictureOrBlob:*, isBlob:boolean=): Promise<void>)|void}
  */
-export function useSetPictureAsync({ current, sights, uploads }) {
+export function useSetPictureAsync({
+  additionalPictures,
+  addDamageParts,
+  current,
+  sights,
+  uploads,
+}) {
   const { errorHandler } = useContext(MonitoringContext);
 
   return useCallback(async (picture) => {
@@ -103,13 +109,25 @@ export function useSetPictureAsync({ current, sights, uploads }) {
       const saveOptions = { compress: 1, format: saveFormat };
       const imageResult = await manipulateAsync(uri, actions, saveOptions);
 
-      const payload = {
-        id: current.id,
-        picture: { uri: imageResult.uri },
-      };
+      if (addDamageParts && addDamageParts.length > 0) {
+        // The picture taken is an additional picture
+        const payload = {
+          previousSight: current.id,
+          labelKey: addDamageParts[0],
+          picture: { uri: imageResult.uri },
+        };
 
-      sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
-      uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+        additionalPictures.dispatch({ type: Actions.additionalPictures.ADD_PICTURE, payload });
+      } else {
+        // The picture taken is a normal workflow picture
+        const payload = {
+          id: current.id,
+          picture: { uri: imageResult.uri },
+        };
+
+        sights.dispatch({ type: Actions.sights.SET_PICTURE, payload });
+        uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload });
+      }
     } catch (err) {
       const payload = { id: current.id, status: 'rejected', error: err };
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
@@ -117,7 +135,7 @@ export function useSetPictureAsync({ current, sights, uploads }) {
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
       throw err;
     }
-  }, [current.id, sights, uploads]);
+  }, [current.id, sights, uploads, additionalPictures, addDamageParts]);
 }
 
 /**
@@ -311,6 +329,84 @@ export function useStartUploadAsync({
       throw err;
     }
   }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
+}
+
+export function useUploadAdditionalDamage({
+  inspectionId,
+}) {
+  return useCallback(async ({ picture, parts }) => {
+    if (!inspectionId) {
+      throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
+    }
+
+    try {
+      const fileType = picture.fileType;
+      const filename = `close-up-${Date.now()}-${inspectionId}.${picture.imageFilenameExtension}`;
+      const multiPartKeys = {
+        image: 'image',
+        json: 'json',
+        type: fileType,
+        filename,
+      };
+
+      const json = JSON.stringify({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: multiPartKeys.image,
+        },
+        compliances: {
+          image_quality_assessment: {},
+          // coverage_360: enableCarCoverage ? { sight_id: id } : undefined,
+          // coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
+          //   sight_id: id,
+          // } : undefined,
+        },
+        detailed_viewpoint: {
+          centers_on: parts,
+        },
+        tasks: ['damage_detection'],
+        image_type: 'close_up',
+        additional_data: {
+          overlay: undefined,
+          createdAt: new Date(),
+        },
+      });
+
+      let fileBits;
+
+      if (Platform.OS === 'web') {
+        const res = await axios.get(picture.uri, { responseType: 'blob' });
+        const file = res.data;
+
+        fileBits = [file];
+      } else {
+        const buffer = Buffer.from(picture.uri, 'base64');
+        fileBits = new Blob([buffer], { type: picture.imageFilenameExtension });
+      }
+
+      const file = await new File(
+        fileBits,
+        multiPartKeys.filename,
+        { type: multiPartKeys.type },
+      );
+
+      try {
+        const data = new FormData();
+        data.append(multiPartKeys.json, json);
+        data.append(multiPartKeys.image, file);
+
+        await monk.entity.image.addOne(inspectionId, data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        URL.revokeObjectURL(picture.uri);
+      }
+    } catch (err) {
+      log([`Error in close up \`<Capture />\` \`startUploadAsync()\`: ${err}`], 'error');
+
+      throw err;
+    }
+  }, [inspectionId]);
 }
 
 /**

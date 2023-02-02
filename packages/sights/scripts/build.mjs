@@ -1,39 +1,56 @@
 import fs from 'fs';
 
-function start() {
-  fs.readFile('./index.json', 'utf8', (err, items) => {
-    if (err) { return console.log(err); }
+const items = fs.readFileSync('./index.json', 'utf8');
+const newItems = { ...JSON.parse(items) };
 
-    const newItems = { ...JSON.parse(items) };
+Object.keys(newItems).forEach((key) => {
+  const path = `./assets/overlays/${key}.svg`;
 
-    Object.keys(newItems).forEach((key) => {
-      const path = `./assets/overlays/${key}.svg`;
+  if (fs.existsSync(path)) {
+    const data = fs.readFileSync(path, 'utf8');
+    const item = newItems[key];
 
-      if (fs.existsSync(path)) {
-        fs.readFile(path, 'utf8', (err, data) => {
-          if (err) { return console.log(err); }
+    newItems[key] = {
+      id: item.id,
+      label: item.label,
+      category: item.category,
+      vehicleType: item.vehicleType,
+      overlay: data.replace(/^\s+|\s+$/gm, ''),
+    };
+  }
+});
 
-          const item = newItems[key];
+fs.mkdirSync('./dist', { recursive: true });
+fs.writeFileSync('./dist/index.json', JSON.stringify(newItems, null, 0), 'utf-8');
 
-          newItems[key] = {
-            id: item.id,
-            label: item.label,
-            category: item.category,
-            vehicleType: item.vehicleType,
-            overlay: data.replace(/^\s+|\s+$/gm, ''),
-          };
+const vehicleTypes = [
+  'fesc20',
+  'ff150',
+  'ffocus18',
+  'ftransit18',
+  'haccord',
+  'jgc21',
+  'tsienna20',
+];
 
-          fs.mkdir('./dist', { recursive: true }, (err) => {
-            if (err) { return console.log(err); }
+const sanitizePartSelectorOverlay = (svgStr) => svgStr
+  .replace(/'/g, '\\\'')
+  .replace(/^\s+|\s+$/gm, '');
 
-            fs.writeFile('./dist/index.json', JSON.stringify(newItems, null, 0), (err) => {
-              if (err) { return console.log(err); }
-            });
-          });
-        });
-      }
-    });
-  });
-}
+let indexJs = 'const PartSelectorOverlays = {\n';
+vehicleTypes.forEach((type) => {
+  const frontLeft = fs.readFileSync(`./assets/part-selectors/${type}-front-left.svg`, 'utf8').toString();
+  const frontRight = fs.readFileSync(`./assets/part-selectors/${type}-front-right.svg`, 'utf8').toString();
+  const rearLeft = fs.readFileSync(`./assets/part-selectors/${type}-rear-left.svg`, 'utf8').toString();
+  const rearRight = fs.readFileSync(`./assets/part-selectors/${type}-rear-right.svg`, 'utf8').toString();
 
-start();
+  indexJs += `  ${type}: {\n`;
+  indexJs += `    frontLeft: '${sanitizePartSelectorOverlay(frontLeft)}',\n`;
+  indexJs += `    frontRight: '${sanitizePartSelectorOverlay(frontRight)}',\n`;
+  indexJs += `    rearLeft: '${sanitizePartSelectorOverlay(rearLeft)}',\n`;
+  indexJs += `    rearRight: '${sanitizePartSelectorOverlay(rearRight)}',\n`;
+  indexJs += `  },\n`;
+});
+indexJs += '};\n\nmodule.exports = {\n  PartSelectorOverlays,\n};\n';
+
+fs.writeFileSync('./dist/partSelectors.js', indexJs, 'utf-8');

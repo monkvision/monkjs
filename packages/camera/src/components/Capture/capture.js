@@ -1,18 +1,23 @@
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { ActivityIndicator, Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
+import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Constants from '../../const';
-import i18next from '../../i18n';
 import log from '../../utils/log';
 
+import AddDamageModal from '../AddDamageModal';
+import AddDamageOverlay from '../AddDamageOverlay';
+
+import AddDamageHelpModal from '../AddDamageModal/AddDamageHelpModal';
+import useEventStorage from '../../hooks/useEventStorage';
 import Camera from '../Camera';
 import CloseEarlyConfirmModal from '../CloseEarlyConfirmModal';
 import Controls from '../Controls';
 import Layout from '../Layout';
 import Overlay from '../Overlay';
+import SelectedParts from '../SelectedParts';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
 
@@ -23,10 +28,17 @@ import {
   useSetPictureAsync,
   useStartUploadAsync,
   useTakePictureAsync,
-  useTitle,
+  useTitle, useUploadAdditionalDamage,
 } from './hooks';
 
-const i18n = i18next;
+const AddDamageStatus = {
+  IDLE: 0,
+  HELP: 1,
+  PART_SELECTOR: 2,
+  TAKE_PICTURE: 3,
+};
+
+const ADD_DAMAGE_HELP_EVENT_KEY = 'ADD_DAMAGE_HELP';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,9 +47,7 @@ const styles = StyleSheet.create({
       web: {
         position: 'absolute',
         top: 0,
-        bottom: 0,
         left: 0,
-        right: 0,
         flex: '1 1 0%',
         display: 'flex',
       },
@@ -57,6 +67,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
   },
+  addDamageOverlay: {
+    fontSize: 14,
+    color: '#ffffff',
+    backgroundColor: '#000000BE',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
 });
 
 const defaultNavigationOptions = {
@@ -69,6 +87,7 @@ const defaultNavigationOptions = {
 };
 
 const Capture = forwardRef(({
+  additionalPictures,
   controls,
   controlsContainerStyle,
   enableComplianceCheck,
@@ -109,6 +128,7 @@ const Capture = forwardRef(({
   mapTasksToSights,
   thumbnailStyle,
   uploads,
+  vehicleType,
   compliance,
   sights,
   settings,
@@ -117,7 +137,8 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
-  const [isPartSelectorDisplayed, setPartSelectorDisplayed] = useState(false);
+  const [addDamageStatus, setAddDamageStatus] = useState(AddDamageStatus.IDLE);
+  const [addDamageParts, setAddDamageParts] = useState([]);
   const [closeEarlyModalState, setCloseEarlyModalState] = useState({
     show: false,
     message: {
@@ -175,19 +196,36 @@ const Capture = forwardRef(({
    * }}
    */
   const states = useMemo(() => ({
+    additionalPictures,
     compliance,
     isReady,
     settings,
     sights,
     uploads,
-  }), [compliance, isReady, settings, sights, uploads]);
+  }), [additionalPictures, compliance, isReady, settings, sights, uploads]);
+
+  const hideAddDamage = useMemo(
+    () => addDamageStatus === AddDamageStatus.TAKE_PICTURE,
+    [addDamageStatus],
+  );
 
   // END STATES //
   // METHODS //
 
+  const { t } = useTranslation();
+  const {
+    lastEventTimestamp: lastAddDamageHelpTimestamp,
+    fireEvent: fireAddDamageHelpEvent,
+  } = useEventStorage({ key: ADD_DAMAGE_HELP_EVENT_KEY });
   const createDamageDetectionAsync = useCreateDamageDetectionAsync();
   const takePictureAsync = useTakePictureAsync({ camera, isFocused });
-  const setPictureAsync = useSetPictureAsync({ current, sights, uploads });
+  const setPictureAsync = useSetPictureAsync({
+    additionalPictures,
+    addDamageParts,
+    current,
+    sights,
+    uploads,
+  });
 
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
@@ -204,6 +242,7 @@ const Capture = forwardRef(({
     endTour,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
+  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId });
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
@@ -216,10 +255,12 @@ const Capture = forwardRef(({
     setPictureAsync,
     startUploadAsync,
     takePictureAsync,
+    uploadAdditionalDamage,
   }), [
     camera, checkComplianceAsync, createDamageDetectionAsync,
     goNextSight, goPrevSight,
     setPictureAsync, startUploadAsync, takePictureAsync,
+    uploadAdditionalDamage,
   ]);
 
   useImperativeHandle(ref, () => ({
@@ -252,14 +293,6 @@ const Capture = forwardRef(({
     [compliance.state, uploads.state],
   );
 
-  // Very ugly temporary hack, we have to use this for now - Samy
-  // eslint-disable-next-line no-undef, func-names
-  const isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === '[object SafariRemoteNotification]'; }(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification)));
-  const isCameraDisplayed = useMemo(
-    () => !isPartSelectorDisplayed || !isSafari,
-    [isPartSelectorDisplayed, isSafari],
-  );
-
   // END CONSTANTS //
   // HANDLERS //
 
@@ -273,9 +306,28 @@ const Capture = forwardRef(({
     }
   }, [api, onReady, states]);
 
-  const handleTogglePartSelector = useCallback((isDisplayed) => {
-    setPartSelectorDisplayed(isDisplayed);
-  }, [setPartSelectorDisplayed]);
+  const handleAddDamagePressed = useCallback(() => {
+    if (lastAddDamageHelpTimestamp) {
+      setAddDamageStatus(AddDamageStatus.PART_SELECTOR);
+    } else {
+      setAddDamageStatus(AddDamageStatus.HELP);
+    }
+  }, [setAddDamageStatus, lastAddDamageHelpTimestamp]);
+
+  const handleResetDamageStatus = useCallback(() => {
+    setAddDamageStatus(AddDamageStatus.IDLE);
+    setAddDamageParts([]);
+  }, [setAddDamageStatus, setAddDamageParts]);
+
+  const handlePartSelectorHelpConfirm = useCallback(() => {
+    fireAddDamageHelpEvent();
+    setAddDamageStatus(AddDamageStatus.PART_SELECTOR);
+  }, [setAddDamageStatus, fireAddDamageHelpEvent]);
+
+  const handlePartSelectorConfirm = useCallback((selectedParts) => {
+    setAddDamageParts(selectedParts);
+    setAddDamageStatus(AddDamageStatus.TAKE_PICTURE);
+  }, [setAddDamageStatus]);
 
   const handleCloseCaptureEarly = useCallback(() => {
     setEndTour(true);
@@ -327,21 +379,28 @@ const Capture = forwardRef(({
   // END EFFECTS //
   // RENDERING //
 
-  const left = useMemo(() => (
-    <Sights
-      containerStyle={sightsContainerStyle}
-      dispatch={sights.dispatch}
-      footer={footer}
-      navigationOptions={navigationOptions}
-      offline={offline}
-      thumbnailStyle={thumbnailStyle}
-      uploads={uploads}
-      {...sights.state}
-    />
-  ), [
-    footer, navigationOptions, offline, sights.dispatch,
-    sights.state, sightsContainerStyle, thumbnailStyle, uploads,
-  ]);
+  const left = useMemo(
+    () => (addDamageStatus === AddDamageStatus.TAKE_PICTURE ? (
+      <SelectedParts selectedParts={addDamageParts} />
+    ) : (
+      <Sights
+        containerStyle={sightsContainerStyle}
+        dispatch={sights.dispatch}
+        footer={footer}
+        navigationOptions={navigationOptions}
+        offline={offline}
+        thumbnailStyle={thumbnailStyle}
+        uploads={uploads}
+        additionalPictures={additionalPictures.state.takenPictures}
+        {...sights.state}
+      />
+    )),
+    [
+      footer, navigationOptions, offline, sights.dispatch,
+      sights.state, sightsContainerStyle, thumbnailStyle, uploads,
+      addDamageStatus, addDamageParts, additionalPictures.state,
+    ],
+  );
 
   const right = useMemo(() => (
     <Controls
@@ -351,23 +410,42 @@ const Capture = forwardRef(({
       loading={loading}
       state={states}
       onCloseEarly={handleCloseEarlyClick}
+      onAddDamagePressed={handleAddDamagePressed}
       onStartUploadPicture={onStartUploadPicture}
       onFinishUploadPicture={onFinishUploadPicture}
-      onTogglePartSelector={handleTogglePartSelector}
+      addDamageParts={addDamageParts}
+      onResetAddDamageStatus={handleResetDamageStatus}
+      hideAddDamage={hideAddDamage}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
     states, enableComplianceCheck, onStartUploadPicture,
-    onFinishUploadPicture,
+    onFinishUploadPicture, handleAddDamagePressed, addDamageParts,
+    handleResetDamageStatus,
   ]);
 
   const children = useMemo(() => (
     <>
-      {(isReady && overlay && loading === false) ? (
-        <Overlay
-          svg={overlay}
-          style={[styles.overlay, overlaySize]}
-        />
+      {(isReady && overlay && loading === false
+        && addDamageStatus !== AddDamageStatus.TAKE_PICTURE) ? (
+          <Overlay
+            svg={overlay}
+            style={[styles.overlay, overlaySize]}
+          />
+        ) : null}
+      {(isReady && overlay && loading === false
+        && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
+          <AddDamageOverlay />
+        ) : null}
+      {(isReady && loading === false && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
+        <>
+          <Text style={[styles.overlay, styles.addDamageOverlay, { top: 16 }]}>
+            {t('partSelector.overlay.title')}
+          </Text>
+          <Text style={[styles.overlay, styles.addDamageOverlay, { bottom: 16 }]}>
+            {t('partSelector.overlay.indication')}
+          </Text>
+        </>
       ) : null}
       {loading === true ? (
         <View style={styles.loading}>
@@ -378,65 +456,79 @@ const Capture = forwardRef(({
         </View>
       ) : null}
     </>
-  ), [isReady, loading, overlay, overlaySize, primaryColor]);
+  ), [isReady, loading, overlay, overlaySize, primaryColor, addDamageStatus]);
 
   if (enableComplianceCheck && (endTour || (tourHasFinished && complianceHasFulfilledAll))) {
     return (
-      <I18nextProvider i18n={i18n}>
-        <UploadCenter
-          {...states}
-          isSubmitting={isSubmitting}
-          onComplianceCheckFinish={onComplianceCheckFinish}
-          onComplianceCheckStart={onComplianceCheckStart}
-          onRetakeAll={onRetakeAll}
-          onSkipRetake={onSkipRetake}
-          onRetakeNeeded={onRetakeNeeded}
-          task={task}
-          mapTasksToSights={mapTasksToSights}
-          inspectionId={inspectionId}
-          checkComplianceAsync={checkComplianceAsync}
-          navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
-          colors={colors}
-          endTour={endTour}
-        />
-      </I18nextProvider>
+      <UploadCenter
+        {...states}
+        isSubmitting={isSubmitting}
+        onComplianceCheckFinish={onComplianceCheckFinish}
+        onComplianceCheckStart={onComplianceCheckStart}
+        onRetakeAll={onRetakeAll}
+        onSkipRetake={onSkipRetake}
+        onRetakeNeeded={onRetakeNeeded}
+        task={task}
+        mapTasksToSights={mapTasksToSights}
+        inspectionId={inspectionId}
+        checkComplianceAsync={checkComplianceAsync}
+        navigationOptions={{ ...defaultNavigationOptions, ...navigationOptions }}
+        colors={colors}
+        endTour={endTour}
+      />
     );
   }
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <View
-        accessibilityLabel="Capture component"
-        style={[styles.container, style]}
+    <View
+      accessibilityLabel="Capture component"
+      style={[styles.container, style]}
+    >
+      <Layout
+        isReady={isReady}
+        backgroundColor={colors.background}
+        fullscreen={fullscreen}
+        left={left}
+        orientationBlockerProps={orientationBlockerProps}
+        right={right}
       >
-        <Layout
-          isReady={isReady}
-          backgroundColor={colors.background}
-          fullscreen={fullscreen}
-          left={left}
-          orientationBlockerProps={orientationBlockerProps}
-          right={right}
+        <Camera
+          ref={camera}
+          loding={loading}
+          onCameraReady={handleCameraReady}
+          onWarningMessage={onWarningMessage}
+          title={title}
+          ratio={settings.ratio}
+          pictureSize={settings.pictureSize}
+          settings={settings}
+          enableQHDWhenSupported={enableQHDWhenSupported}
+          compressionOptions={compressionOptions}
+          resolutionOptions={resolutionOptions}
+          onCameraPermissionError={onCameraPermissionError}
+          onCameraPermissionSuccess={onCameraPermissionSuccess}
+          isDisplayed
         >
-          <Camera
-            ref={camera}
-            loding={loading}
-            onCameraReady={handleCameraReady}
-            onWarningMessage={onWarningMessage}
-            title={title}
-            ratio={settings.ratio}
-            pictureSize={settings.pictureSize}
-            settings={settings}
-            enableQHDWhenSupported={enableQHDWhenSupported}
-            compressionOptions={compressionOptions}
-            resolutionOptions={resolutionOptions}
-            isDisplayed={isCameraDisplayed}
-            onCameraPermissionError={onCameraPermissionError}
-            onCameraPermissionSuccess={onCameraPermissionSuccess}
-          >
-            {children}
-          </Camera>
-        </Layout>
-      </View>
+          {children}
+        </Camera>
+      </Layout>
+      {[AddDamageStatus.HELP, AddDamageStatus.PART_SELECTOR].includes(addDamageStatus) ? (
+        <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {addDamageStatus === AddDamageStatus.HELP ? (
+            <AddDamageHelpModal
+              onConfirm={handlePartSelectorHelpConfirm}
+              onCancel={handleResetDamageStatus}
+            />
+          ) : null}
+          {addDamageStatus === AddDamageStatus.PART_SELECTOR ? (
+            <AddDamageModal
+              currentSight={states.sights.state.current.id}
+              onConfirm={handlePartSelectorConfirm}
+              onCancel={handleResetDamageStatus}
+              vehicleType={vehicleType}
+            />
+          ) : null}
+        </View>
+      ) : null}
       {closeEarlyModalState.show ? (
         <CloseEarlyConfirmModal
           confirmationMessage={closeEarlyModalState.message}
@@ -444,7 +536,7 @@ const Capture = forwardRef(({
           onConfirm={handleCloseEarlyConfirm}
         />
       ) : null}
-    </I18nextProvider>
+    </View>
   );
 
   // END RENDERING //
@@ -453,6 +545,17 @@ const Capture = forwardRef(({
 Capture.defaultSightIds = Constants.defaultSightIds;
 
 Capture.propTypes = {
+  additionalPictures: PropTypes.shape({
+    dispatch: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    state: PropTypes.shape({
+      takenPictures: PropTypes.arrayOf(PropTypes.shape({
+        labelKey: PropTypes.string.isRequired,
+        picture: PropTypes.any,
+        previousSight: PropTypes.string.isRequired,
+      })),
+    }).isRequired,
+  }).isRequired,
   colors: PropTypes.shape({
     accent: PropTypes.string,
     actions: PropTypes.shape({
@@ -619,6 +722,15 @@ Capture.propTypes = {
       uploadCount: PropTypes.number,
     })),
   }).isRequired,
+  vehicleType: PropTypes.oneOf([
+    'suv',
+    'cuv',
+    'sedan',
+    'hatchback',
+    'van',
+    'minivan',
+    'pickup',
+  ]),
 };
 
 Capture.defaultProps = {
@@ -669,6 +781,7 @@ Capture.defaultProps = {
   isSubmitting: false,
   task: 'damage_detection',
   thumbnailStyle: {},
+  vehicleType: 'cuv',
 };
 
 /**
