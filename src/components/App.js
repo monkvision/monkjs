@@ -6,7 +6,6 @@ import SilentAuth from 'components/SilentAuth';
 import SilentLang from 'components/SilentLang';
 
 import Navigation from 'config/Navigation';
-import { Profiler } from 'config/sentryPlatform';
 import ExpoConstants from 'expo-constants';
 import * as Font from 'expo-font';
 
@@ -17,6 +16,7 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store from 'store';
+// import { useMonitoring } from '@monkvision/corejs';
 
 const theme = {
   ...DefaultTheme,
@@ -39,6 +39,7 @@ function App() {
   const { height: minHeight } = useWindowDimensions();
   const { t } = useTranslation();
 
+  // const [errorHandler] = useMonitoring();
   const [appIsReady, setAppIsReady] = useState(false);
 
   const onLayoutRootView = useCallback(async () => {
@@ -51,12 +52,13 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        // errorHandler(err);
       }
     }
   }, [appIsReady]);
 
   useEffect(() => {
+    // errorHandler('Use Monitoring Error Checking');
     async function prepare() {
       try {
         // Keep the splash screen visible while we fetch resources
@@ -67,7 +69,7 @@ function App() {
         // experience. Please remove this if you copy and paste the code!
         // await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
-        // errorHandler(err, SentryConstants.type.APP);
+        // errorHandler(err);
       } finally {
         // Tell the application to render
         setAppIsReady(true);
@@ -98,5 +100,4 @@ function App() {
   );
 }
 
-export default Profiler(App);
-// export default App;
+export default App;

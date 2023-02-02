@@ -4,6 +4,7 @@ import * as entity from './entities';
 import * as schemas from './schemas';
 import * as slices from './slices';
 import * as types from './types';
+export * from './hooks';
 
 const reducers = {};
 Object.values(slices).forEach((slice) => {

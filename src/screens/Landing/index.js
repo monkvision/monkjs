@@ -211,7 +211,7 @@ export default function Landing() {
     (async () => {
       const response = await updateInspectionVehicle.start();
       if (response !== null) {
-        Sentry.Browser.setTag('inspection_id', response.result);
+        // TODO: Add Monitoring code for setTag in MN-182
         navigation.navigate(names.LANDING, route.params);
       }
     })();
