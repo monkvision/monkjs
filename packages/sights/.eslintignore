@@ -1,4 +1,10 @@
-assets/
-dist/
-node_modules/
-*.md
+dist
+node_modules
+.eslintrc.js
+jest.config.js
+dist
+lib
+src/lib/data.ts
+src/lib/index.ts.ts
+src/lib/data
+src/templates

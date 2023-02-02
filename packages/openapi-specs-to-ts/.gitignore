@@ -1,8 +1,0 @@
-coverage/
-dist/
-input/
-output/
-temp/
-node_modules/
-.eslintcache
-yarn-error.log

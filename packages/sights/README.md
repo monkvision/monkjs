@@ -1,11 +1,22 @@
-# 👁️‍🗨️ @monkvision/sights
-[![npm latest package](https://img.shields.io/npm/v/@monkvision/corejs/latest.svg)](https://www.npmjs.com/package/@monkvision/sights)
+# @monkvision/sights
+This documentation is for developers who are installing and using this package. If you are a developer contributing to
+this package, please refer to [this page](CONTRIBUTING.md).
 
-``` yarn
+This package exposes the Monkvision sights info. The exported data contains sights label translations, vehicle type
+info, sight overlays (SVG) as well as miscellaneous sight details. This package is required if you are planning on using
+the standard Monkvision Capture workflow, of simply if you ar planning on using sights at all.
+
+# Installing
+To install the package, you can run the following command :
+
+```shell
 yarn add @monkvision/sights
 ```
 
-This project is licensed under the Clear BSD license. See the [LICENSE](LICENSE) file for more info.
+If you are using TypeScript, this package comes with its type definitions integrated, so you don't need to install
+anything else !
 
-----
-![Monk banner](https://raw.githubusercontent.com/monkvision/monkjs/main/assets/banner.png)
+# Usage
+
+# Contributing
+Please refer to [this page](CONTRIBUTING.md) for more documentation if you are a developer contributing to this project.

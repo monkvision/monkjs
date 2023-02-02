@@ -1,5 +1,0 @@
-{
-  "hooks": { "after:bump": ["npm run build"] },
-  "git": { "commit": false },
-  "github": { "release": false }
-}
