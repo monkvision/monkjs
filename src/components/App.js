@@ -16,7 +16,7 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store from 'store';
-// import { useMonitoring } from '@monkvision/corejs';
+import { useMonitoring } from '@monkvision/corejs';
 
 const theme = {
   ...DefaultTheme,
@@ -39,7 +39,7 @@ function App() {
   const { height: minHeight } = useWindowDimensions();
   const { t } = useTranslation();
 
-  // const [errorHandler] = useMonitoring();
+  const { errorHandler } = useMonitoring();
   const [appIsReady, setAppIsReady] = useState(false);
 
   const onLayoutRootView = useCallback(async () => {
@@ -52,13 +52,12 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        // errorHandler(err);
+        errorHandler(err);
       }
     }
   }, [appIsReady]);
 
   useEffect(() => {
-    // errorHandler('Use Monitoring Error Checking');
     async function prepare() {
       try {
         // Keep the splash screen visible while we fetch resources
@@ -69,7 +68,7 @@ function App() {
         // experience. Please remove this if you copy and paste the code!
         // await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
-        // errorHandler(err);
+        errorHandler(err);
       } finally {
         // Tell the application to render
         setAppIsReady(true);

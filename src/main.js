@@ -5,8 +5,7 @@ import { Platform } from 'react-native';
 import * as Sentry from 'sentry-expo';
 import App from 'components/App';
 import './i18n';
-
-import MonitoringProvider from '@monkvision/corejs/src/monitoring';
+import { MonitoringProvider } from '@monkvision/corejs';
 
 if (Platform.OS === 'web') {
   const container = document.getElementById('root');
