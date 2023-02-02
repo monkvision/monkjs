@@ -14,7 +14,7 @@ export default StyleSheet.create({
   container: {
     position: 'relative',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
     height: '100%',
@@ -24,9 +24,10 @@ export default StyleSheet.create({
     alignSelf: 'center',
     zIndex: 10,
     borderRadius: 8,
-    width: '100%',
+    width: '90%',
     height: 'auto',
     padding: 4,
+    marginTop: 30,
   },
   item: {
     borderRadius: 4,
