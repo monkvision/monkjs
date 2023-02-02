@@ -18,6 +18,13 @@ module.exports = {
     sourceType: 'module',
     project: ['./tsconfig.eslint.json'],
   },
+	settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   rules: {
     curly: ['error', 'all'],
     'consistent-this': ['error', 'self'],
