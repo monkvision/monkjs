@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
 
 import { utils } from '@monkvision/toolkit';
@@ -48,27 +48,50 @@ export default function useCamera({
     }
   }, [stream, error]);
 
+  const canvasResolution = useMemo(() => {
+    let calculationRatio = 1;
+    let canvasWidth = width;
+    let canvasHeight = height;
+
+    if (videoRef.current && videoRef.current?.videoWidth && videoRef.current?.videoHeight) {
+      const { videoWidth, videoHeight } = videoRef.current;
+      const videoAspectRatio = (videoWidth / videoHeight).toFixed(2);
+      const canvasAspectRatio = (width / height).toFixed(2);
+
+      if (videoAspectRatio !== canvasAspectRatio) {
+        const widthRatio = width / videoWidth;
+        const heightRatio = height / videoHeight;
+        calculationRatio = (widthRatio < heightRatio) ? widthRatio : heightRatio;
+        canvasWidth = Math.ceil(videoWidth * calculationRatio);
+        canvasHeight = Math.ceil(videoHeight * calculationRatio);
+      }
+    }
+
+    return { canvasWidth, canvasHeight };
+  }, [width, height, stream]);
+
   const takePicture = useCallback(async () => {
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
-    // we can create and use the separate canvas for each sight pic
+    // create and use the separate canvas for each sight pic
     const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    canvas.getContext('2d', { alpha: false }).drawImage(videoRef.current, 0, 0, width, height);
+    const { canvasWidth, canvasHeight } = canvasResolution;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    canvas.getContext('2d', { alpha: false }).drawImage(videoRef.current, 0, 0, canvasWidth, canvasHeight);
 
     let uri;
     if (enableCompression && !utils.supportsWebP()) {
       log(['[Event] Compressing an image']);
       if (Platform.OS !== 'web') { return undefined; }
-      const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, width, height).data;
+      const arrayBuffer = canvas.getContext('2d').getImageData(0, 0, canvasWidth, canvasHeight).data;
 
       if (onWarningMessage) { onWarningMessage('Compressing an image...'); }
-      const compressed = await compress(arrayBuffer, width, height, compressionOptions);
+      const compressed = await compress(arrayBuffer, canvasWidth, canvasHeight, compressionOptions);
       if (onWarningMessage) { onWarningMessage(null); }
 
       if (compressed) {
-        log([`[Event] An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${width}x${height}`]);
+        log([`[Event] An image has been taken, with size: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)}Mo, optimized to ${(compressed.size / 1024 / 1024).toFixed(2)}Mo, and resolution: ${canvasWidth}x${canvasHeight}`]);
       }
 
       uri = URL.createObjectURL(compressed);
@@ -76,8 +99,8 @@ export default function useCamera({
       uri = canvas.toDataURL(imageType);
     }
 
-    return { uri, width, height, imageType, imageFilenameExtension };
-  }, [width, height, stream]);
+    return { uri, canvasWidth, canvasHeight, imageType, imageFilenameExtension };
+  }, [canvasResolution, stream]);
 
   const resumePreview = async () => {
     if (videoRef.current) { videoRef.current.play(); }
