@@ -50,7 +50,7 @@ jobs:
           cache: yarn
       - name: Setup Expo
         run: |
-          yarn global add expo-cli
+          yarn global add expo-cli@6.1.0
       - name: Build
         run: |
           yarn install
