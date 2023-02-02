@@ -9713,9 +9713,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monk4@workspace:.":
+"monk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "monk4@workspace:."
+  resolution: "monk@workspace:."
   dependencies:
     rimraf: ^3.0.2
   languageName: unknown
