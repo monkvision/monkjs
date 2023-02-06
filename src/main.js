@@ -15,7 +15,7 @@ const config = {
   enableAutoSessionTracking: true,
   enableInExpoDevelopment: true,
   sessionTrackingIntervalMillis: 10000,
-  tracesSampleRate: Constants.manifest.extra.ENV !== 'production' ? 0.1 : 0.2,
+  tracesSampleRate: 1,
   tracingOrigins: ['localhost', 'cna.dev.monk.ai', 'cna-staging.dev.monk.ai', 'cna.preview.monk.ai', 'cna.monk.ai'],
 };
 

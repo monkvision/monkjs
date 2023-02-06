@@ -6,7 +6,7 @@ import { Integrations } from '@sentry/tracing';
 import { Primitive } from '@sentry/types';
 import { Platform } from 'react-native';
 
-import { MonitoringConfigType, MonitoringContextType } from './types';
+import { MonitoringConfigType, MonitoringContextType, SentryTransactionStatus } from './types';
 
 export * from './types';
 
@@ -89,11 +89,12 @@ export function MonitoringProvider({ children, config }: MonitoringConfigType) {
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
   const measurePerformance = useCallback((name: string, operation: string, data?: { [key: string]: number | string }): Function => {
-    const transaction = platform.startTransaction({ name, data });
-    const transactionOperation = transaction.startChild({ op: operation });
-
+    const transaction = platform.startTransaction({ name, op: operation });
+    const transactionOperation = transaction.startChild({ op: operation, data });
     return () => {
+      transactionOperation.setStatus(SentryTransactionStatus);
       transactionOperation.finish();
+      transaction.setStatus(SentryTransactionStatus);
       transaction.finish();
     };
   }, []);

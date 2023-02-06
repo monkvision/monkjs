@@ -72,7 +72,7 @@ export interface MonitoringConfigType {
   config: MonitoringConfig;
 }
 
-export const enum MonitoringType {
+export const enum MonitoringOperations {
   UPLOAD = 'upload',
   CAMERA = 'camera',
   FUNC = 'func',
@@ -80,7 +80,9 @@ export const enum MonitoringType {
   HTTP = 'http',
 }
 
-export const enum MonitoringOperation {
+export const SentryTransactionStatus = 'success';
+
+export const enum MonitoringTransaction {
   HTTP = 'http',
   USER_TIME = 'user-time-per-action',
   USER_CAMERA_TIME = 'user-camera-time',
