@@ -1,26 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import monk, { useMonitoring } from '@monkvision/corejs';
-import { useInterval, utils } from '@monkvision/toolkit';
+import { useInterval } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import Inspection from 'components/Inspection';
 import Modal from 'components/Modal';
 import ExpoConstants from 'expo-constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import useAuth from 'hooks/useAuth';
 import useSnackbar from 'hooks/useSnackbar';
-import isEmpty from 'lodash.isempty';
 import { useTranslation } from 'react-i18next';
-import { FlatList, useWindowDimensions, View } from 'react-native';
-import { ActivityIndicator, Button, Card, List, Surface, useTheme } from 'react-native-paper';
+import { FlatList, Text, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Card, List, Surface, useTheme } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import Artwork from 'screens/Landing/Artwork';
 import LanguageSwitch from 'screens/Landing/LanguageSwitch';
-import SignOut from 'screens/Landing/SignOut';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
 import { version } from '@package/json';
+import { authSlice } from 'store';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
@@ -47,10 +46,49 @@ export default function Landing() {
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
-  const { inspectionId } = route.params || {};
   const vinOptionsRef = useRef();
+  const dispatch = useDispatch();
+
+  const { inspectionId, token, thema } = useMemo(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    console.log('### Landing::useMemo | inspectionId :', inspectionId);
+    console.log('### Landing::useMemo | token :', token);
+    console.log('### Landing::useMemo | thema :', thema);
+
+    return {
+      inspectionId: urlParams.get('inspection_id'),
+      token: urlParams.get('token'),
+      thema: urlParams.get('thema'),
+    };
+  }, []);
+
+  const invalidParams = useMemo(
+    () => (!inspectionId || !token || !thema),
+    [inspectionId, token, thema],
+  );
+
+  useEffect(() => {
+    console.log('### Landing::useEffect | token :', token);
+    if (token) {
+      monk.config.accessToken = token;
+
+      dispatch(authSlice.actions.update({
+        accessToken: token,
+        tokenType: 'Bearer',
+        scope: 'openid profile email',
+        isLoading: false,
+        isSignedOut: false,
+      }));
+    }
+  }, [token]);
 
   const getInspection = useGetInspection(inspectionId);
+
+  const invalidToken = useMemo(
+    () => (getInspection?.state?.error?.response?.status === 401),
+    [getInspection],
+  );
 
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
@@ -93,20 +131,15 @@ export default function Landing() {
     }
   }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
-  const handleReset = useCallback(() => {
-    utils.log(['[Click] Resetting the inspection: ', inspectionId]);
-    // TODO: Add Monitoring code for setTag in MN-182
-    navigation.navigate(names.LANDING);
-  }, [navigation, inspectionId]);
-
   const handleListItemPress = useCallback((value) => {
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
 
-    const shouldSignIn = !isAuthenticated;
-    const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
-    navigation.navigate(to, { selectedMod: value, inspectionId, vehicle: { vehicleType } });
+    navigation.navigate(
+      names.INSPECTION_CREATE,
+      { selectedMod: value, inspectionId, vehicle: { vehicleType } },
+    );
   }, [inspectionId, navigation, isAuthenticated, vehicleType]);
 
   const renderListItem = useCallback(({ item, index }) => {
@@ -167,19 +200,19 @@ export default function Landing() {
   }, [handleListItemPress, inspection]);
 
   const start = useCallback(() => {
-    if (inspectionId && getInspection.state.loading !== true) {
+    if (inspectionId && getInspection.state.loading !== true && !invalidToken) {
       getInspection.start().catch((err) => {
         errorHandler(err);
       });
     }
-  }, [inspectionId, getInspection]);
+  }, [getInspection]);
 
   const intervalId = useInterval(start, 1000);
 
   useFocusEffect(useCallback(() => {
     start();
     return () => clearInterval(intervalId);
-  }, [navigation, start, intervalId]));
+  }, [intervalId]));
 
   useEffect(() => {
     if (inspectionId && !allTasksAreCompleted) {
@@ -211,7 +244,6 @@ export default function Landing() {
     (async () => {
       const response = await updateInspectionVehicle.start();
       if (response !== null) {
-        // TODO: Add Monitoring code for setTag in MN-182
         navigation.navigate(names.LANDING, route.params);
       }
     })();
@@ -231,7 +263,15 @@ export default function Landing() {
     [pdfLoading, isPdfDisabled],
   );
 
-  return (
+  const invalidParamsContent = useMemo(() => (
+    <View style={[styles.invalidParamsContainer, { backgroundColor: colors.background }]}>
+      <Text style={[styles.invalidParamsMessage]}>
+        {t(invalidParams ? 'landing.invalidParams' : 'landing.invalidToken')}
+      </Text>
+    </View>
+  ), [invalidParams]);
+
+  return invalidParams || invalidToken ? invalidParamsContent : (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
       <Modal
         items={vinModalItems}
@@ -243,11 +283,9 @@ export default function Landing() {
         style={[styles.background, { height }]}
       />
       <Container style={[styles.container, isPortrait ? styles.portrait : {}]}>
-        {isEmpty(getInspection.denormalizedEntities) && (
-          <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
-            <Artwork />
-          </View>
-        )}
+        <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
+          <Artwork />
+        </View>
         <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
           <List.Section style={styles.textAlignRight}>
             <List.Subheader>
@@ -257,7 +295,7 @@ export default function Landing() {
             </List.Subheader>
           </List.Section>
           <List.Section>
-            <List.Subheader>Select vehicle type</List.Subheader>
+            <List.Subheader>{t('landing.selectVehicle')}</List.Subheader>
             <VehicleType
               selected={inspection?.vehicle?.vehicleType || vehicleType}
               onSelect={(value) => setVehicleType(value)}
@@ -286,19 +324,7 @@ export default function Landing() {
           </List.Section>
           <Card.Actions style={styles.actions}>
             <LanguageSwitch />
-            {isAuthenticated && (
-              <SignOut onSuccess={handleReset} />
-            )}
           </Card.Actions>
-          <Card.Actions style={styles.actions}>
-            {!isEmpty(inspection) ? (
-              <Button color={colors.text} onPress={handleReset}>{t('landing.resetInspection')}</Button>
-            ) : null}
-          </Card.Actions>
-          {!isEmpty(getInspection.denormalizedEntities) && (
-            getInspection.denormalizedEntities.map((i) => (
-              <Inspection {...i} key={`landing-inspection-${i.id}`} />
-            )))}
         </Card>
       </Container>
       <Notice />

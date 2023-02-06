@@ -2,7 +2,7 @@ import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import ExpoConstants from 'expo-constants';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
@@ -13,7 +13,6 @@ import isEmpty from 'lodash.isempty';
 import * as names from 'screens/names';
 
 import useAuth from 'hooks/useAuth';
-import useSignIn from 'hooks/useSignIn';
 import useCreateInspection from './useCreateInspection';
 
 const styles = StyleSheet.create({
@@ -55,14 +54,6 @@ export default function InspectionCreate() {
   } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
-  const [authError, setAuthError] = useState(false);
-  const [signIn, isSigningIn] = useSignIn({
-    onError: (err) => {
-      errorHandler(err);
-      setAuthError(true);
-    },
-  });
-
   const createInspection = useCreateInspection({ ...vehicle, vin });
   const handleCreate = useCallback(async () => {
     if (isEmpty(inspectionId) && isAuthenticated && createInspection.state.count < 1) {
@@ -82,6 +73,12 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
+    console.log('### inspectionCreate::useEffect | accessToken :', accessToken);
+    console.log('### inspectionCreate::useEffect | !isAuthenticated :', !isAuthenticated);
+    console.log('### inspectionCreate::useEffect | isEmpty(inspectionId) :', isEmpty(inspectionId));
+    console.log('### inspectionCreate::useEffect | !option :', !option);
+    console.log('### inspectionCreate::useEffect | inspectionId :', inspectionId);
+    console.log('### inspectionCreate::useEffect | option :', option);
     if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
@@ -100,10 +97,6 @@ export default function InspectionCreate() {
     navigation.navigate(names.INSPECTION_CAPTURE, args);
   }, [isAuthenticated, navigation, selected, inspectionId]);
 
-  useFocusEffect(useCallback(() => {
-    if (!isAuthenticated && !isSigningIn) { signIn(); }
-  }, [isAuthenticated, isSigningIn, signIn]));
-
   useEffect(() => {
     if (isAuthenticated) {
       axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => {
@@ -113,8 +106,8 @@ export default function InspectionCreate() {
   }, [isAuthenticated]);
 
   useEffect(useCallback(() => {
-    if (isAuthenticated && isEmpty(inspectionId
-      && !createInspection.state.loading) && !createInspection.state.error) {
+    if (isAuthenticated && isEmpty(inspectionId)
+      && !createInspection.state.loading && !createInspection.state.error) {
       handleCreate();
     }
   }, [isAuthenticated, inspectionId, handleCreate, createInspection]));
@@ -124,33 +117,6 @@ export default function InspectionCreate() {
       errorHandler(createInspection.state.error);
     }
   }, [createInspection.state.error]);
-
-  if (isSigningIn) {
-    return (
-      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Loader texts={[
-          t('signin.loader.signingIn'),
-          t('signin.loader.authenticating'),
-          t('signin.loader.robot'),
-        ]}
-        />
-      </View>
-    );
-  }
-
-  if (authError === true) {
-    return (
-      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
-        <Title>{t('signin.error.title')}</Title>
-        <Paragraph style={styles.p}>
-          {t('signin.error.message')}
-        </Paragraph>
-        <Button style={styles.button} onPress={handleGoBack}>
-          {t('signin.error.button')}
-        </Button>
-      </View>
-    );
-  }
 
   if (createInspection.state.loading) {
     return (

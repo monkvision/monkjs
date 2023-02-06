@@ -6,13 +6,14 @@ const buildNumber = 1;
 const app = {
   name: 'Monk Capture Application',
   shortName: 'MCA',
-  companyName: 'Monk',
+  companyName: 'Alpha Online',
   logo: {
-    source: {
-      uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
-      // uri: 'https://www.pinclipart.com/picdir/middle/381-3818109_emr-group-emr-recycling-clipart.png',
-      // uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
-    },
+    source: 'alpha-online.png',
+    // source: {
+    //   // uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',
+    //   // uri: 'https://www.pinclipart.com/picdir/middle/381-3818109_emr-group-emr-recycling-clipart.png',
+    //   // uri: 'https://assets-global.website-files.com/622762ff70941ce65ae7d712/622762ff70941ce7c2e7d850_ACVLogoGradient_DarkBKGD-p-500.png',
+    // },
     width: 160,
     height: 71,
   },

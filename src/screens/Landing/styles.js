@@ -30,10 +30,14 @@ export default StyleSheet.create({
     flex: 0.75,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingVertical: utils.styles.spacing(2),
+    paddingBottom: utils.styles.spacing(2),
     paddingRight: utils.styles.spacing(2),
+    paddingTop: utils.styles.spacing(4),
+  },
+  leftPortrait: {
+    flex: 'none',
   },
   right: {
     flex: 1.25,
@@ -96,5 +100,14 @@ export default StyleSheet.create({
   },
   textAlignRight: {
     alignItems: 'flex-end',
+  },
+  invalidParamsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  invalidParamsMessage: {
+    color: '#ffffff',
+    fontSize: 20,
   },
 });
