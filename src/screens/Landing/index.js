@@ -49,27 +49,21 @@ export default function Landing() {
   const vinOptionsRef = useRef();
   const dispatch = useDispatch();
 
-  const { inspectionId, token, thema } = useMemo(() => {
+  const { inspectionId, token } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
-
-    console.log('### Landing::useMemo | inspectionId :', inspectionId);
-    console.log('### Landing::useMemo | token :', token);
-    console.log('### Landing::useMemo | thema :', thema);
 
     return {
       inspectionId: urlParams.get('inspection_id'),
       token: urlParams.get('token'),
-      thema: urlParams.get('thema'),
     };
   }, []);
 
   const invalidParams = useMemo(
-    () => (!inspectionId || !token || !thema),
-    [inspectionId, token, thema],
+    () => (!inspectionId || !token),
+    [inspectionId, token],
   );
 
   useEffect(() => {
-    console.log('### Landing::useEffect | token :', token);
     if (token) {
       monk.config.accessToken = token;
 

@@ -73,12 +73,6 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
-    console.log('### inspectionCreate::useEffect | accessToken :', accessToken);
-    console.log('### inspectionCreate::useEffect | !isAuthenticated :', !isAuthenticated);
-    console.log('### inspectionCreate::useEffect | isEmpty(inspectionId) :', isEmpty(inspectionId));
-    console.log('### inspectionCreate::useEffect | !option :', !option);
-    console.log('### inspectionCreate::useEffect | inspectionId :', inspectionId);
-    console.log('### inspectionCreate::useEffect | option :', option);
     if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
 
     if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
