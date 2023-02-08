@@ -217,7 +217,7 @@ const Capture = forwardRef(({
 
   const hideAddDamage = useMemo(
     () => (addDamageStatus === AddDamageStatus.TAKE_PICTURE) || isPortraitModeVinLayoutView,
-    [addDamageStatus],
+    [addDamageStatus, isPortraitModeVinLayoutView],
   );
 
   // END STATES //
