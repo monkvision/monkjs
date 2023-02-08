@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     backgroundColor: 'black',
     overflow: 'hidden',
   },
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
 });
 
 function PortraitLayout({ backgroundColor, children, left, right }) {
-  useOrientation('landscape');
+  useOrientation('portrait');
   const { height, width } = useWindowDimensions();
 
   const containerStyle = StyleSheet.compose(
@@ -111,7 +111,7 @@ function PortraitLayout({ backgroundColor, children, left, right }) {
 
   const rightStyle = StyleSheet.compose(
     [sectionStyle, sideStyle, {
-      height: width - 155,
+      height: width,
       width: SIDE,
     }, { position: 'static' }],
     [styles.rightPortrait,
@@ -130,7 +130,7 @@ function PortraitLayout({ backgroundColor, children, left, right }) {
       <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
-        style={[sectionStyle, styles.center, { width, height: height / 2 }]}
+        style={[sectionStyle, styles.center, { width, height: (height - 200) / 2 }]}
       >
         {children}
       </View>

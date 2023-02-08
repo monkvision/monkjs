@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 import { Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
@@ -83,12 +82,10 @@ const styles = StyleSheet.create({
   },
 });
 
-function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayoutView }) {
+function Layout({ backgroundColor, children, left, right, isPortrait, selectedMode }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
   const { t } = useTranslation();
-  const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
-  const isPortrait = portraitMediaQuery || height > width;
 
   const size = StyleSheet.create({
     height: isPortrait ? width : height,
@@ -120,7 +117,23 @@ function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayou
     isPortrait && styles.rightPortrait,
   );
 
-  if (isPortrait && !isPortraitModeVinLayoutView) {
+  /** following block code shows view when user opens camera in
+     portrait mode in case of VIN detection mode */
+  if (isPortrait && selectedMode === 'vinNumber') {
+    return (
+      <PortraitLayout
+        backgroundColor={backgroundColor}
+        left={left}
+        right={right}
+      >
+        {children}
+      </PortraitLayout>
+    );
+  }
+
+  /** following block code shows view when user opens camera
+    in portrait mode in case  other thatn VIN detection  mode */
+  if (isPortrait) {
     return (
       <View style={[styles.rotate, styles.containerStyle, { backgroundColor, height, width }]}>
         <View style={styles.rotateContent}>
@@ -135,18 +148,7 @@ function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayou
     );
   }
 
-  if (isPortraitModeVinLayoutView) {
-    return (
-      <PortraitLayout
-        backgroundColor={backgroundColor}
-        left={left}
-        right={right}
-      >
-        {children}
-      </PortraitLayout>
-    );
-  }
-
+  /** following block code shows default view  */
   return (
     <View
       accessibilityLabel="Layout"
@@ -172,15 +174,17 @@ function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayou
 
 Layout.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
-  isPortraitModeVinLayoutView: PropTypes.bool,
+  isPortrait: PropTypes.bool,
   left: PropTypes.element,
   right: PropTypes.element,
+  selectedMode: PropTypes.string,
 };
 
 Layout.defaultProps = {
   left: null,
   right: null,
-  isPortraitModeVinLayoutView: false,
+  isPortrait: false,
+  selectedMode: '',
 };
 
 export default Layout;

@@ -21,7 +21,6 @@ import Overlay from '../Overlay';
 import SelectedParts from '../SelectedParts';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
-import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
 
 import {
   useCheckComplianceAsync,
@@ -163,9 +162,8 @@ const Capture = forwardRef(({
 
   const overlay = current?.metadata?.overlay || '';
   const title = useTitle({ current });
-  const isMobileBrowser = useMobileBrowserConfig();
   const isVinNumberSelected = selectedMode === 'vinNumber';
-  const isPortraitModeVinLayoutView = isMobileBrowser && isVinNumberSelected && isPortrait;
+  const isPortraitModeVinLayoutView = isVinNumberSelected && isPortrait;
 
   /**
    * @type {{
@@ -218,7 +216,7 @@ const Capture = forwardRef(({
   }), [additionalPictures, compliance, isReady, settings, sights, uploads]);
 
   const hideAddDamage = useMemo(
-    () => addDamageStatus === AddDamageStatus.TAKE_PICTURE,
+    () => (addDamageStatus === AddDamageStatus.TAKE_PICTURE) || isPortraitModeVinLayoutView,
     [addDamageStatus],
   );
 
@@ -428,7 +426,7 @@ const Capture = forwardRef(({
       onFinishUploadPicture={onFinishUploadPicture}
       addDamageParts={addDamageParts}
       onResetAddDamageStatus={handleResetDamageStatus}
-      hideAddDamage={hideAddDamage || isPortraitModeVinLayoutView}
+      hideAddDamage={hideAddDamage}
       isPortraitModeVinLayoutView={isPortraitModeVinLayoutView}
     />
   ), [
@@ -495,7 +493,7 @@ const Capture = forwardRef(({
   return (
     <View
       accessibilityLabel="Capture component"
-      style={[styles.container, style, isMobileBrowser && styles.removePosition]}
+      style={[styles.container, style, isPortrait && styles.removePosition]}
     >
       <Layout
         isReady={isReady}
@@ -504,7 +502,8 @@ const Capture = forwardRef(({
         left={left}
         orientationBlockerProps={orientationBlockerProps}
         right={right}
-        isPortraitModeVinLayoutView={isPortraitModeVinLayoutView}
+        isPortrait={isPortrait}
+        selectedMode={selectedMode}
       >
         <Camera
           ref={camera}
