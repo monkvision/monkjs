@@ -4,6 +4,7 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { useMediaQuery } from 'react-responsive';
 import Constants from '../../const';
 import log from '../../utils/log';
 
@@ -20,6 +21,7 @@ import Overlay from '../Overlay';
 import SelectedParts from '../SelectedParts';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
+import useMobileBrowserConfig from '../../hooks/useMobileBrowserConfig';
 
 import {
   useCheckComplianceAsync,
@@ -75,6 +77,10 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 16,
   },
+  removePosition: {
+    position: 'relative',
+  },
+
 });
 
 const defaultNavigationOptions = {
@@ -134,6 +140,7 @@ const Capture = forwardRef(({
   settings,
   compressionOptions,
   resolutionOptions,
+  selectedMode,
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
@@ -147,12 +154,18 @@ const Capture = forwardRef(({
     },
   });
   const [endTour, setEndTour] = useState(false);
+  const { height, width } = useWindowDimensions();
 
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
+  const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
+  const isPortrait = portraitMediaQuery || height > width;
 
   const overlay = current?.metadata?.overlay || '';
   const title = useTitle({ current });
+  const isMobileBrowser = useMobileBrowserConfig();
+  const isVinNumberSelected = selectedMode === 'vinNumber';
+  const isPortraitModeVinLayoutView = isMobileBrowser && isVinNumberSelected && isPortrait;
 
   /**
    * @type {{
@@ -415,7 +428,8 @@ const Capture = forwardRef(({
       onFinishUploadPicture={onFinishUploadPicture}
       addDamageParts={addDamageParts}
       onResetAddDamageStatus={handleResetDamageStatus}
-      hideAddDamage={hideAddDamage}
+      hideAddDamage={hideAddDamage || isPortraitModeVinLayoutView}
+      isPortraitModeVinLayoutView={isPortraitModeVinLayoutView}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -478,11 +492,10 @@ const Capture = forwardRef(({
       />
     );
   }
-
   return (
     <View
       accessibilityLabel="Capture component"
-      style={[styles.container, style]}
+      style={[styles.container, style, isMobileBrowser && styles.removePosition]}
     >
       <Layout
         isReady={isReady}
@@ -491,6 +504,7 @@ const Capture = forwardRef(({
         left={left}
         orientationBlockerProps={orientationBlockerProps}
         right={right}
+        isPortraitModeVinLayoutView={isPortraitModeVinLayoutView}
       >
         <Camera
           ref={camera}
@@ -666,6 +680,7 @@ Capture.propTypes = {
   resolutionOptions: PropTypes.shape({
     QHDDelay: PropTypes.number,
   }),
+  selectedMode: PropTypes.string,
   settings: PropTypes.shape({
     compression: PropTypes.bool,
     pictureSize: PropTypes.string,
@@ -782,6 +797,7 @@ Capture.defaultProps = {
   task: 'damage_detection',
   thumbnailStyle: {},
   vehicleType: 'cuv',
+  selectedMode: '',
 };
 
 /**

@@ -56,9 +56,12 @@ export default function Controls({
   addDamageParts,
   onResetAddDamageStatus,
   onCloseEarly,
+  isPortraitModeVinLayoutView,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
+  const portraitModeRotationControls = [Controls.SettingsButtonProps.id,
+    Controls.CaptureButtonProps.id, Controls.GoBackButtonProps.id];
 
   const handlers = useHandlers({
     unControlledState: state,
@@ -94,6 +97,10 @@ export default function Controls({
     } else { handlers.capture(state, api, e, addDamageParts); }
   }, [api, handlers, state, onAddDamagePressed, addDamageParts, onCloseEarly]);
 
+  const getRotationForPortraitModeStyle = (id) => isPortraitModeVinLayoutView
+    && portraitModeRotationControls.includes(id)
+    && { transform: [{ rotate: '90deg' }] };
+
   const createControlElement = useCallback(({
     id,
     children,
@@ -110,7 +117,8 @@ export default function Controls({
       style: [
         rest.style ?? {},
         rest.disabled || loading
-        || hasNoIdle || isAddDamageButtonAndDisabled(id) ? styles.buttonDisabled : {},
+          || hasNoIdle || isAddDamageButtonAndDisabled(id) ? styles.buttonDisabled : {},
+        getRotationForPortraitModeStyle(id),
       ],
       disabled: rest.disabled || loading || hasNoIdle || isAddDamageButtonAndDisabled(id),
     }, children)), [
@@ -194,6 +202,7 @@ Controls.propTypes = {
     })),
   ])),
   hideAddDamage: PropTypes.bool,
+  isPortraitModeVinLayoutView: PropTypes.bool,
   loading: PropTypes.bool,
   onAddDamagePressed: PropTypes.func,
   onAddDamageUploadPicture: PropTypes.func,
@@ -234,6 +243,7 @@ Controls.defaultProps = {
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
   onResetAddDamageStatus: () => {},
+  isPortraitModeVinLayoutView: false,
 };
 
 Controls.CaptureButtonProps = {

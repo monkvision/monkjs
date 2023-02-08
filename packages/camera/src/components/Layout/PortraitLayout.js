@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
-import { Platform, StyleSheet, useWindowDimensions, View, Text } from 'react-native';
+import { Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import useOrientation from '../../hooks/useOrientation';
-import PortraitLayout from './PortraitLayout';
 
 const SIDE = 116;
 export const SIDE_WIDTH = SIDE;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: 'black',
     overflow: 'hidden',
@@ -21,13 +18,14 @@ const styles = StyleSheet.create({
   portrait: {
     flexDirection: 'column',
     alignItems: 'flex-end',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   section: {
     alignItems: 'center',
   },
   sectionPortrait: {
-    transform: [{ rotate: '90deg' }],
+    transform: [{ rotate: '0deg' }],
+    alignSelf: 'center',
   },
   hidden: {
     ...Platform.select({
@@ -42,14 +40,16 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   leftPortrait: {
-    transform: [{ matrix: [0, 1, -1, 0, -120, 85] }],
+    transform: [],
   },
   rightPortrait: {
-    transform: [{ matrix: [0, 1, -1, 0, -120, -84] }],
+    transform: [{ rotate: '270deg' }],
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   center: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   rotate: {
     display: 'flex',
@@ -83,69 +83,40 @@ const styles = StyleSheet.create({
   },
 });
 
-function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayoutView }) {
+function PortraitLayout({ backgroundColor, children, left, right }) {
   useOrientation('landscape');
   const { height, width } = useWindowDimensions();
-  const { t } = useTranslation();
-  const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
-  const isPortrait = portraitMediaQuery || height > width;
-
-  const size = StyleSheet.create({
-    height: isPortrait ? width : height,
-    width: isPortrait ? height : width,
-  });
 
   const containerStyle = StyleSheet.compose(
     styles.container,
-    isPortrait && styles.portrait,
+    styles.portrait,
   );
 
   const sectionStyle = StyleSheet.compose(
     styles.section,
-    isPortrait && styles.sectionPortrait,
+    styles.sectionPortrait,
   );
 
   const sideStyle = StyleSheet.compose(
     styles.side,
-    isPortrait && styles.sidePortrait,
+    styles.sidePortrait,
   );
 
   const leftStyle = StyleSheet.compose(
-    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }],
-    isPortrait && styles.leftPortrait,
+    [sectionStyle, sideStyle, { // height: isPortrait ? width : height,
+      width: SIDE,
+    }],
+    styles.leftPortrait,
   );
 
   const rightStyle = StyleSheet.compose(
-    [size, sectionStyle, sideStyle, { height: isPortrait ? width : height, width: SIDE }, { position: 'static' }],
-    isPortrait && styles.rightPortrait,
+    [sectionStyle, sideStyle, {
+      height: width - 155,
+      width: SIDE,
+    }, { position: 'static' }],
+    [styles.rightPortrait,
+    ],
   );
-
-  if (isPortrait && !isPortraitModeVinLayoutView) {
-    return (
-      <View style={[styles.rotate, styles.containerStyle, { backgroundColor, height, width }]}>
-        <View style={styles.rotateContent}>
-          <Text style={styles.title}>
-            {t('layout.rotateDevice')}
-          </Text>
-          <Text style={styles.p}>
-            {t('layout.unlockPortraitMode')}
-          </Text>
-        </View>
-      </View>
-    );
-  }
-
-  if (isPortraitModeVinLayoutView) {
-    return (
-      <PortraitLayout
-        backgroundColor={backgroundColor}
-        left={left}
-        right={right}
-      >
-        {children}
-      </PortraitLayout>
-    );
-  }
 
   return (
     <View
@@ -159,9 +130,7 @@ function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayou
       <View accessibilityLabel="Side left" style={leftStyle}>{left}</View>
       <View
         accessibilityLabel="Center"
-        style={[size, sectionStyle, styles.center, {
-          maxWidth: (isPortrait ? height : width) - (2 * SIDE),
-        }]}
+        style={[sectionStyle, styles.center, { width, height: height / 2 }]}
       >
         {children}
       </View>
@@ -170,17 +139,15 @@ function Layout({ backgroundColor, children, left, right, isPortraitModeVinLayou
   );
 }
 
-Layout.propTypes = {
+PortraitLayout.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
-  isPortraitModeVinLayoutView: PropTypes.bool,
   left: PropTypes.element,
   right: PropTypes.element,
 };
 
-Layout.defaultProps = {
+PortraitLayout.defaultProps = {
   left: null,
   right: null,
-  isPortraitModeVinLayoutView: false,
 };
 
-export default Layout;
+export default PortraitLayout;
