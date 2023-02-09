@@ -101,8 +101,8 @@ export default function AddDamageModal({
   const isConfirmDisabled = useMemo(() => selectedParts.length === 0, [selectedParts]);
 
   return (
-    <View style={[styles.container, isCompact ? { paddingVertical: 3 } : null]}>
-      <View style={[styles.header, isCompact ? { marginBottom: 0 } : null]}>
+    <View style={[styles.container, isCompact ? { paddingVertical: 3 } : {}]}>
+      <View style={[styles.header, isCompact ? { marginBottom: 0 } : {}]}>
         <Text style={[styles.text, styles.title]}>
           {t('partSelector.modal.title')}
         </Text>
@@ -145,7 +145,7 @@ export default function AddDamageModal({
       </View>
       <View style={[styles.footer]}>
         <TouchableOpacity
-          style={[styles.button, isCompact ? styles.buttonCompact : null]}
+          style={[styles.button, isCompact ? styles.buttonCompact : {}]}
           onPress={onCancel}
         >
           <Text style={[styles.text]}>
@@ -153,7 +153,7 @@ export default function AddDamageModal({
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, isCompact ? styles.buttonCompact : null]}
+          style={[styles.button, isCompact ? styles.buttonCompact : {}]}
           onPress={() => onConfirm(selectedParts)}
           disabled={isConfirmDisabled}
         >
