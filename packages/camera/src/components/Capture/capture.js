@@ -216,8 +216,8 @@ const Capture = forwardRef(({
   }), [additionalPictures, compliance, isReady, settings, sights, uploads]);
 
   const hideAddDamage = useMemo(
-    () => (addDamageStatus === AddDamageStatus.TAKE_PICTURE) || isPortraitModeVinLayoutView,
-    [addDamageStatus, isPortraitModeVinLayoutView],
+    () => (addDamageStatus === AddDamageStatus.TAKE_PICTURE) || isVinNumberSelected,
+    [addDamageStatus, isVinNumberSelected],
   );
 
   // END STATES //
