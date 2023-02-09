@@ -56,6 +56,7 @@ export default function Controls({
   addDamageParts,
   onResetAddDamageStatus,
   onCloseEarly,
+  isPortraitModeVinLayoutView,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
@@ -94,11 +95,16 @@ export default function Controls({
     } else { handlers.capture(state, api, e, addDamageParts); }
   }, [api, handlers, state, onAddDamagePressed, addDamageParts, onCloseEarly]);
 
+  const getRotationForPortraitModeStyle = (id, rotateForPortrait) => isPortraitModeVinLayoutView
+    && rotateForPortrait
+    && { transform: [{ rotate: '90deg' }] };
+
   const createControlElement = useCallback(({
     id,
     children,
     component = TouchableOpacity,
     onPress,
+    rotateForPortrait,
     ...rest
   }) => (id === Controls.AddDamageButtonProps.id && hideAddDamage
     ? null
@@ -110,7 +116,8 @@ export default function Controls({
       style: [
         rest.style ?? {},
         rest.disabled || loading
-        || hasNoIdle || isAddDamageButtonAndDisabled(id) ? styles.buttonDisabled : {},
+          || hasNoIdle || isAddDamageButtonAndDisabled(id) ? styles.buttonDisabled : {},
+        getRotationForPortraitModeStyle(id, rotateForPortrait),
       ],
       disabled: rest.disabled || loading || hasNoIdle || isAddDamageButtonAndDisabled(id),
     }, children)), [
@@ -194,6 +201,7 @@ Controls.propTypes = {
     })),
   ])),
   hideAddDamage: PropTypes.bool,
+  isPortraitModeVinLayoutView: PropTypes.bool,
   loading: PropTypes.bool,
   onAddDamagePressed: PropTypes.func,
   onAddDamageUploadPicture: PropTypes.func,
@@ -234,12 +242,14 @@ Controls.defaultProps = {
   onStartUploadPicture: () => {},
   onFinishUploadPicture: () => {},
   onResetAddDamageStatus: () => {},
+  isPortraitModeVinLayoutView: false,
 };
 
 Controls.CaptureButtonProps = {
   id: 'take-picture',
   accessibilityLabel: 'Take picture',
   children: <TakePictureButton />,
+  rotateForPortrait: true,
   style: {
     maxWidth: '100%',
     backgroundColor: '#fff',
@@ -265,6 +275,7 @@ Controls.CloseEarlyButtonProps = {
   id: 'close-button',
   accessibilityLabel: 'Close',
   children: <CloseEarlyButton label="Custom" />,
+  rotateForPortrait: true,
   style: {
     width: 40,
     height: 40,
@@ -356,6 +367,7 @@ Controls.SettingsButtonProps = {
   id: 'settings',
   accessibilityLabel: 'Settings',
   children: <SettingsButton />,
+  rotateForPortrait: true,
   style: {
     maxWidth: '100%',
     backgroundColor: '#181829',
@@ -381,6 +393,7 @@ Controls.GoBackButtonProps = {
   id: 'go-back',
   accessibilityLabel: 'Quit',
   children: <QuitButton />,
+  rotateForPortrait: true,
   style: {
     maxWidth: '100%',
     backgroundColor: '#fa603d',
