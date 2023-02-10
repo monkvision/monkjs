@@ -8,11 +8,11 @@ slug: /monitoring
 
 ## Modules overview
 
-- Monitoring provides different methods to monitor mesurement of application and helps to log errors occurred in the application.
+Monitoring provides different methods to monitor mesurement of application and helps to log errors occurred in the application.
 
 ## Implementation Guild
 
- -  To implement monitoring in your application, user has to wrap entire application with ```MonitoringProvider``` as shown below.
+To implement monitoring in your application, user has to wrap entire application with ```MonitoringProvider``` as shown below.
 
 ```
 <MonitoringProvider config={config}><App /></MonitoringProvider>
@@ -21,7 +21,7 @@ slug: /monitoring
 Where config object has different configuration values which helps user to configure monitoring in your application. The config object consist of below parameters.
 
 ```
-const config = {
+export interface MonitoringConfig {
   /**
    * DSN key for sentry.io application
   */
@@ -34,18 +34,6 @@ const config = {
    * Enable debug functionality in the SDK itself
   */
   debug: boolean;
-  /**
-   * Should sessions be tracked to Sentry Health or not.
-  */
-  enableAutoSessionTracking: boolean;
-  /**
-   * Enable sentry in expo development of not.
-  */
-  enableInExpoDevelopment: boolean;
-  /**
-   * The interval to end a session if the App goes to the background.
-  */
-  sessionTrackingIntervalMillis: number;
   /**
    * Sample rate to determine trace sampling.
    *
@@ -63,9 +51,17 @@ const config = {
 }
 ```
 
-Once configured, user just has to use custom hooks ```useMonitoring()``` which exose the ```errorHandler and measurePerformance``` functions which is used for error handling and mesureing performance of functionality in the application.
+Once configured, user just has to use custom hooks ```useMonitoring()``` which exose the ```setMonitoringUser, errorHandler, measurePerformance and setMeasurement``` functions which is used for setting current user in monitoring, error handling, measuring performance of functionality and setting custom measurements in the application.
 
-Here are the details abouth both functions.
+Here are the details about both functions.
+
+**setMonitoringUser**
+
+```
+setMonitoringUser(id);
+```
+
+This function will add current user to monitoring application so that whenever users measure any performance or set a custom measurements in the monitoring, at that time we will have a all the transaction under current user. It will help us to identify the transaction based on user.
 
 **errorHandler**
 
@@ -83,3 +79,12 @@ capture()
 ```
 
 Where name is the module name for which we want to measure performance. Operation is the functionality of the module and data is optional field that needed to be send to the transaction. It will return function which is used to close the transaction at the end and will measure data and store in monitoring application.
+
+**setMeasurement**
+
+```
+const capture = setMeasurement(transactionName, name, value, unit);
+capture()
+```
+
+Where transactionName will be the name of transaction for which user wants to add measurements, name is the module name for which we want to measure data, value will be the value of the measurements in number and unit will be used as unit for the current measurement.
