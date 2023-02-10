@@ -1,82 +1,71 @@
-import * as SentryR from '@sentry/react';
-import * as Sentry from 'sentry-expo';
-import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
-import { CaptureConsole } from '@sentry/integrations';
-import { Integrations } from '@sentry/tracing';
+import * as Sentry from '@sentry/browser';
+import { BrowserTracing } from '@sentry/tracing';
+import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo } from 'react';
 import { Primitive } from '@sentry/types';
-import { Platform } from 'react-native';
 
-import { MonitoringConfigType, MonitoringContextType, SentryTransactionStatus } from './types';
+import { MonitoringContext, MonitoringProps, SentryTransactionStatus } from './types';
 
 export * from './types';
-
-const platform = Platform.select({
-  web: Sentry.Browser,
-  native: Sentry.Browser,
-});
-
-/**
- * Set key:value that will be sent as tags data with the event.
- *
- * Can also be used to unset a tag, by passing `undefined`.
- *
- * @param key String key of tag
- * @param value Value of tag
-*/
-export function setTag(key: string, value: Primitive): void {
-  SentryR.setTag(key, value);
-}
-
-/**
- * Updates user context information for future events.
- *
- * @param user User context object to be set in the current context. Pass `null` to unset the user.
-*/
-export function setUser(id: string): void {
-  SentryR.setUser({ id });
-}
 
 /**
  * Monitoring context which will create wrapper for monitoring functionality.
 */
-export const MonitoringContext = createContext<MonitoringContextType | null>(null);
+export const Context = createContext<MonitoringContext | null>(null);
 
 /**
  * Monitoring wrapper used to abstract Sentry functionality.
  *
- * @param {object} children - Provider children components that will be shared inside context provider.
- * @param {MonitoringConfig} config - Configuration for sentry to override default configuration.
+ * @param {MonitoringProps} data - Configuration for sentry to override default configuration.
+ * @return {React.ReactNode}
 */
-export function MonitoringProvider({ children, config }: MonitoringConfigType) {
+export function MonitoringProvider({ children, config }: PropsWithChildren<MonitoringProps>) {
   useEffect(() => {
     Sentry.init({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       dsn: config.dsn,
       environment: config.environment,
       debug: config.debug,
-      enableAutoSessionTracking: config.enableAutoSessionTracking,
-      enableInExpoDevelopment: config.enableInExpoDevelopment,
-      sessionTrackingIntervalMillis: config.sessionTrackingIntervalMillis,
       tracesSampleRate: config.tracesSampleRate,
       integrations: [
-        ...(Platform.select({
-          web: [new CaptureConsole({ levels: ['log'] })],
-          native: [],
-        })),
-        new Integrations.BrowserTracing({ tracingOrigins: config.tracingOrigins }),
+        new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
       ],
-    } as Sentry.SentryExpoNativeOptions);
+    });
+  }, []);
+
+  /**
+   * Updates user context information for future events.
+   *
+   * @param id {string} set user for in sentry
+   * @return {void}
+  */
+  const setMonitoringUser = useCallback((id: string): void => {
+    Sentry.setUser({ id });
+  }, []);
+
+  /**
+   * Set key:value that will be sent as tags data with the event.
+   *
+   * Can also be used to unset a tag, by passing `undefined`.
+   *
+   * @param key String key of tag
+   * @param value Value of tag
+   * @return {void}
+  */
+  const setMonitoringTag = useCallback((key: string, value: Primitive): void => {
+    Sentry.setTag(key, value);
   }, []);
 
   /**
    * Error handler function which is used to capture errors in sentry.
    *
    * @param error {Error | string} - Caught error that to be send to Sentry.io
+   * @returns {string | null}
    */
   const errorHandler = useCallback((error: Error | string): string | null => {
-    if (!Sentry || (!Sentry?.Browser && !Sentry?.Native)) { return null; }
+    if (!Sentry) {
+      return null;
+    }
 
-    return platform.captureException(error);
+    return Sentry.captureException(error);
   }, []);
 
   /**
@@ -85,29 +74,54 @@ export function MonitoringProvider({ children, config }: MonitoringConfigType) {
    *
    * @param name {string} - Name of transaction
    * @param operation {string} - Operation of transaction to be performed
-   * @param data {{[key: string]: number | string}} - Data to be added on transaction
-   */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const measurePerformance = useCallback((name: string, operation: string, data?: { [key: string]: number | string }): Function => {
-    const transaction = platform.startTransaction({ name, op: operation });
-    const transactionOperation = transaction.startChild({ op: operation, data });
+   * @param [data] {{[key: string]: number | string}} - Data to be added on transaction
+   * @returns {() => void} - Which will helps to close the transaction and complete the measurement.
+  */
+  const measurePerformance = useCallback((name: string, op: string, data?: { [key: string]: number | string }): (() => void) => {
+    // This will create a new Transaction
+    const transaction = Sentry.startTransaction({ name, data, op });
+
+    // Set transaction on scope to associate with errors and get included span instrumentation
+    // If there's currently an unfinished transaction, it may be dropped
+    Sentry.getCurrentHub().configureScope((scope) => {
+      scope.setSpan(transaction);
+    });
+
     return () => {
-      transactionOperation.setStatus(SentryTransactionStatus);
-      transactionOperation.finish();
       transaction.setStatus(SentryTransactionStatus);
       transaction.finish();
     };
   }, []);
 
+  /**
+   * Set the custom measurement on particular transaction
+   *
+   * @param transactionName Name of the transaction
+   * @param name Name of the measurement
+   * @param value Value of the measurement
+   * @param [unit] Unit of the measurement. (Defaults to an empty string)
+   * @return {void}
+   */
+  const setMeasurement = useCallback((transactionName: string, name: string, value: number, unit?: string): void => {
+    const transaction = Sentry.startTransaction({ name: transactionName, op: name });
+
+    setTimeout(() => {
+      transaction.setMeasurement(name, value, unit);
+      transaction.setMeasurement('frames_total', value, unit);
+      transaction.setStatus(SentryTransactionStatus);
+      transaction.finish();
+    }, 100);
+  }, []);
+
   const monitoringContextValue = useMemo(
-    () => ({ errorHandler, measurePerformance }),
-    [errorHandler, measurePerformance],
+    () => ({ setMonitoringUser, setMonitoringTag, errorHandler, measurePerformance, setMeasurement }),
+    [setMonitoringUser, setMonitoringTag, errorHandler, measurePerformance, setMeasurement],
   );
 
   return (
-    <MonitoringContext.Provider value={monitoringContextValue}>
+    <Context.Provider value={monitoringContextValue}>
       {children}
-    </MonitoringContext.Provider>
+    </Context.Provider>
   );
 }
 
@@ -115,5 +129,5 @@ export function MonitoringProvider({ children, config }: MonitoringConfigType) {
  * Custom hook which will provide monitoring context which will expose all the functionality.
 */
 export function useMonitoring() {
-  return useContext(MonitoringContext);
+  return useContext(Context);
 }

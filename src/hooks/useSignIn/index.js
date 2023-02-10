@@ -1,5 +1,7 @@
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring } from '@monkvision/corejs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// eslint-disable-next-line camelcase
+import jwt_decode from 'jwt-decode';
 
 import discoveries from 'config/discoveries';
 import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
@@ -51,6 +53,7 @@ export default function useSignIn(callbacks = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
+  const { setMonitoringUser } = useMonitoring();
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -76,8 +79,12 @@ export default function useSignIn(callbacks = {}) {
   useEffect(() => {
     if (response?.type === 'success' && response.authentication?.accessToken) {
       stop();
-
       onAuthenticationSuccess(response.authentication, dispatch);
+
+      const loggedInUser = jwt_decode(response.authentication.accessToken);
+      if (loggedInUser && loggedInUser.sub) {
+        setMonitoringUser(loggedInUser.sub);
+      }
 
       const dataToStore = JSON.stringify(response.authentication);
       AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {

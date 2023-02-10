@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Constants from 'expo-constants';
 import { registerRootComponent } from 'expo';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import * as Sentry from 'sentry-expo';
 import App from 'components/App';
@@ -12,9 +12,6 @@ const config = {
   dsn: Constants.manifest.extra.SENTRY_DSN,
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
-  enableAutoSessionTracking: true,
-  enableInExpoDevelopment: true,
-  sessionTrackingIntervalMillis: 10000,
   tracesSampleRate: 1,
   tracingOrigins: ['localhost', 'cna.dev.monk.ai', 'cna-staging.dev.monk.ai', 'cna.preview.monk.ai', 'cna.monk.ai'],
 };

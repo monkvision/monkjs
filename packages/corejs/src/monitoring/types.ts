@@ -15,18 +15,6 @@ export interface MonitoringConfig {
   */
   debug: boolean;
   /**
-   * Should sessions be tracked to Sentry Health or not.
-  */
-  enableAutoSessionTracking: boolean;
-  /**
-   * Enable sentry in expo development of not.
-  */
-  enableInExpoDevelopment: boolean;
-  /**
-   * The interval to end a session if the App goes to the background.
-  */
-  sessionTrackingIntervalMillis: number;
-  /**
    * Sample rate to determine trace sampling.
    *
    * 0.0 = 0% chance of a given trace being sent (send no traces) 1.0 = 100% chance of a given trace being sent (send
@@ -39,13 +27,18 @@ export interface MonitoringConfig {
   /**
    * Array of all the origin to browser trace.
   */
-  tracingOrigins: Array<string>;
+  tracingOrigins: string[];
 }
 
 /**
  * Monitoring context interface
 */
-export interface MonitoringContextType {
+export interface MonitoringContext {
+  /**
+   * Set current user for sentry.
+  */
+  setMonitoringUser: (id: string) => void;
+
   /**
    * Store the error in the monitoring application.
   */
@@ -54,40 +47,22 @@ export interface MonitoringContextType {
   /**
    * Start Measure Performance
   */
-  measurePerformance: (name: string, operation: string, data: { [key: string]: number | string } | null) => void;
+  measurePerformance: (name: string, op: string, data: { [key: string]: number | string } | null) => (() => void);
+
+  /**
+   * Set custom measurement value
+  */
+  setMeasurement: (transactionName: string, name: string, value: number, unit: string) => void;
 }
 
 /**
  * Monitoring configuration interface
 */
-export interface MonitoringConfigType {
-  /**
-   * Provider children components that will be shared inside context provider.
-  */
-  children: object;
-
+export interface MonitoringProps {
   /**
    * Configuration to initialize Sentry
   */
   config: MonitoringConfig;
 }
 
-export const enum MonitoringOperations {
-  UPLOAD = 'upload',
-  CAMERA = 'camera',
-  FUNC = 'func',
-  APP = 'app',
-  HTTP = 'http',
-}
-
 export const SentryTransactionStatus = 'success';
-
-export const enum MonitoringTransaction {
-  HTTP = 'http',
-  USER_TIME = 'user-time-per-action',
-  USER_CAMERA_TIME = 'user-camera-time',
-  USER_UPLOAD_CENTER_TIME = 'user-upload-center-time',
-  USER_ACTION = 'user-action',
-  RESPONSE_TIME = 'response-time',
-  FUNC = 'func',
-}
