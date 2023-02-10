@@ -121,33 +121,22 @@ Monk's camera package contains a safeguard that should restart the stream if it 
 behaviour is to be avoided if possible. This is why we recommended avoiding calling `mediaDevices.getUserMedia()`
 *after* the Camera component is rendered.
 
-# Using custom capture taking
+# Using the Zoomed Picture button
 
-Here is an example on how to add a custom picture taking component to bypass the normal capture workflow and upload the
-pictures to your own API.
+Here is an example on how to include the "Zoomed Picture Button" in your layout in order to activate the Zoomed Pictures
+features in the Capture workflow.
 
 ```javascript
 import React, { useCallback, useState } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Capture, Controls, Constants } from '@monkvision/camera';
-import CustomCaptureButton from '@monkvision/camera/src/components/Controls/CustomCaptureButton';
 
 export default function Inspector({ inspectionId }) {
   const [loading, setLoading] = useState();
 
   const controls = [[ // Note the double array here, it allows us to create a group of controls
-    {
-      disabled: loading,
-      ...Controls.CaptureButtonProps,
-    },
-    {
-      disabled: loading,
-      // Resulting picture will be a blob
-      onCustomTakePicture:
-        (result) => console.log(`Custom picture taken for car part ${result.part} :`, result.picture),
-      ...Controls.CustomCaptureButtonProps,
-      children: <CustomCaptureButton label="Custom Label" customStyle={{ fontSize: 16 }} />,
-    },
+    { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
+    { disabled: cameraLoading, ...Controls.CaptureButtonProps },
   ]];
 
   return (

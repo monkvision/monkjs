@@ -27,7 +27,7 @@ export default StyleSheet.create({
     width: '90%',
     height: 'auto',
     padding: 4,
-    marginTop: 30,
+    marginTop: 200,
   },
   item: {
     borderRadius: 4,
