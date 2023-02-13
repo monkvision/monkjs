@@ -75,7 +75,6 @@ export default function InspectionCapture() {
       try {
         const promises = Object.values(mapTasksToSights)
           .filter(((taskBySight) => sightIds.includes(taskBySight.id)))
-          .map((taskBySight) => taskBySight.task.name)
           .map(mapTaskBySightToTasknames)
           .flat()
           .concat([taskName])
