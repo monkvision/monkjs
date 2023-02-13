@@ -25,7 +25,7 @@ const fr = {
         tooMuchTodo: 'Impossible de vérifier toutes les images, cela pourrait affecter la précision des résultats',
         allRejected: 'Impossible d\'upload les images, veuillez réessayer',
         loading: 'Chargement...',
-        retakeAll: 'Recommencer tout',
+        retakeAll: 'Reprendre ces photos',
         submit: 'Passer',
       },
       subtitle: {
