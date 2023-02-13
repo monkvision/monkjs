@@ -24,3 +24,4 @@ export * from './views/reduxTypes';
 export * from './views/apiTypes';
 export * from './wheelAnalysis/entityTypes';
 export * from './wheelAnalysis/reduxTypes';
+export * from './monitoring/types';

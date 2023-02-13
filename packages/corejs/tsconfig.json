@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+		"jsx": "react",
     "outDir": "lib",
     "allowJs": false,
     "target": "es5",
@@ -9,8 +10,11 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "commonjs",
-    "lib": [ "es2015" ]
+    "skipLibCheck": true,
+    "lib": [ "es2015" ],
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
