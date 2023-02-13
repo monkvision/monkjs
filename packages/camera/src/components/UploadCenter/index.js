@@ -115,6 +115,14 @@ export default function UploadCenter({
     onComplianceCheckStart();
   }, [onComplianceCheckStart]);
 
+  const displayRetakeAll = useMemo(
+    () => Object.values(uploads.state).some((u) => !!u.error) || Object.values(compliance.state)
+      .some((c) => ['rejected', 'unsatisfied'].includes(c.status)
+        || c?.result?.data?.compliances?.image_quality_assessment?.is_compliant === false
+        || c?.result?.data?.compliances?.zoom_level?.is_compliant === false),
+    [compliance, uploads],
+  );
+
   const statEventsData = useMemo(() => ({
     retakesNeeded: ids.length,
     compliances: Object.entries(compliance.state)
@@ -210,16 +218,18 @@ export default function UploadCenter({
 
       {/* actions */}
       <View style={styles.actions}>
-        <Button
-          onPress={handleRetakeAll}
-          colors={colors}
-          color={colors.actions.primary}
-          disabled={!hasFulfilledAllUploads}
-        >
-          <Text style={{ color: colors.actions.primary.text || colors.text }}>
-            {`${t('uploadCenter.view.retakeAll')} ${ids.length ? `(${ids.length})` : ''}`}
-          </Text>
-        </Button>
+        {displayRetakeAll ? (
+          <Button
+            onPress={handleRetakeAll}
+            colors={colors}
+            color={colors.actions.primary}
+            disabled={!hasFulfilledAllUploads}
+          >
+            <Text style={{ color: colors.actions.primary.text || colors.text }}>
+              {`${t('uploadCenter.view.retakeAll')} ${ids.length ? `(${ids.length})` : ''}`}
+            </Text>
+          </Button>
+        ) : null}
         <Button
           colors={colors}
           color={colors.actions.secondary}
