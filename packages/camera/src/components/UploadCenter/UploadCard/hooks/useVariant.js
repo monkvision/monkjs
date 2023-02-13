@@ -15,7 +15,7 @@ export default function useThumbnail({
         label: t('uploadCenter.variant.retake.label'),
         icon: 'camera-retake',
         callback: handleRetake,
-        sublable: t('uploadCenter.variant.retake.sublabel'),
+        sublabel: t('uploadCenter.variant.retake.sublabel'),
         color: colors.error,
       };
     }
@@ -32,7 +32,7 @@ export default function useThumbnail({
         label: t('uploadCenter.variant.recheck.label'),
         icon: 'alert-circle',
         callback: handleRecheck,
-        sublable: t('uploadCenter.variant.recheck.sublabel'),
+        sublabel: t('uploadCenter.variant.recheck.sublabel'),
         color: colors.disabled,
       };
     }
@@ -41,7 +41,7 @@ export default function useThumbnail({
       label: t('uploadCenter.variant.retake.label'),
       icon: 'camera-retake',
       callback: handleRetake,
-      sublable: t('uploadCenter.variant.retake.sublabel'),
+      sublabel: t('uploadCenter.variant.retake.sublabel'),
       color: colors.accent,
     };
   }, [isPending, isComplianceFailed, isComplianceIdle, isUploadFailed,

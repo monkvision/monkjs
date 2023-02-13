@@ -95,7 +95,7 @@ function UploadCard({
             {variant?.callback
               ? (
                 <TouchableOpacity onPress={variant.callback}>
-                  <Text style={{ fontWeight: 'bold' }}>{`, ${variant.sublable}`}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>{`, ${variant.sublabel}`}</Text>
                 </TouchableOpacity>
               )
               : null}
