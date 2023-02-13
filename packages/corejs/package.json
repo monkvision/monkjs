@@ -2,7 +2,7 @@
   "name": "@monkvision/corejs",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "private": false,
   "description": "AI-powered vehicle damage detection for JavaScript",
   "homepage": "https://github.com/monkvision/monkjs/packages/corejs/#readme",
@@ -69,10 +69,10 @@
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
   },
-	"peerDependencies": {
-		"react": "*",
-		"react-native": "*"
-	},
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
   "publishConfig": {
     "access": "public"
   }
