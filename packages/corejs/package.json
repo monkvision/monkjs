@@ -48,7 +48,8 @@
     "lodash": "^4.17.21",
     "map-keys-deep-lodash": "^1.2.4",
     "normalizr": "^3.6.1",
-    "@sentry/browser": "^7.36.0"
+    "@sentry/browser": "^7.36.0",
+    "@sentry/tracing": "^7.36.0"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
