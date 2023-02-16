@@ -6,7 +6,7 @@ import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring, SentryConst } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
@@ -23,6 +23,7 @@ export default function InspectionCapture() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const { measurePerformance } = useMonitoring();
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
 
@@ -30,6 +31,7 @@ export default function InspectionCapture() {
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
+  const captureTourTransactionRef = useRef();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -91,8 +93,11 @@ export default function InspectionCapture() {
         await Promise.all(promises);
         setCameraLoading(false);
 
+        /**
+         * finish 'capture tour' transaction and navigate back to landing page
+         */
         utils.log(['[Event] Back to landing page with photo taken']);
-        // TODO: Add Monitoring code for setTag in MN-182
+        captureTourTransactionRef.current.finish();
         handleNavigate();
       } catch (err) {
         // TODO: Add Monitoring code for error handling in MN-182
@@ -156,6 +161,18 @@ export default function InspectionCapture() {
   ];
 
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
+
+  useEffect(() => {
+    /**
+     * create a new transaction named 'capture tour' to measure overall performance
+     */
+    const { OPERATION, TRANSACTION, TAG } = SentryConst;
+    const transaction = measurePerformance(TRANSACTION.pictureProcessing, OPERATION.captureTour);
+    // set tags to identify a transation and relate with an inspection
+    transaction.setTag(TAG.task, taskName);
+    transaction.setTag(TAG.inspectionId, inspectionId);
+    captureTourTransactionRef.current = transaction;
+  }, []);
 
   useFocusEffect(() => {
     setFocused(true);
