@@ -202,7 +202,6 @@ export function useStartUploadAsync({
       if (queryParams) {
         const { id, picture, multiPartKeys, json, file } = queryParams;
         onWarningMessage('Upload...');
-        let uploadTracing;
 
         try {
           const data = new FormData();
@@ -233,7 +232,6 @@ export function useStartUploadAsync({
         } finally {
           URL.revokeObjectURL(picture.uri);
           onWarningMessage(null);
-          uploadTracing?.finish();
         }
       }
       isRunning = false;
