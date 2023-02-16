@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import { BrowserTracing } from '@sentry/tracing';
 import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo } from 'react';
-import { Primitive } from '@sentry/types';
+import { Primitive, Span } from '@sentry/types';
 
-import { MonitoringContext, MonitoringProps, SentryTransactionStatus } from './types';
+import { MonitoringContext, MonitoringProps, SentryTransactionObject, SentryTransactionStatus } from './types';
 
 export * from './types';
 
@@ -75,21 +75,36 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
    * @param name {string} - Name of transaction
    * @param operation {string} - Operation of transaction to be performed
    * @param [data] {{[key: string]: number | string}} - Data to be added on transaction
-   * @returns {() => void} - Which will helps to close the transaction and complete the measurement.
+   * @returns {SentryTransactionObject} - Which will helps to close the transaction and complete the measurement.
   */
-  const measurePerformance = useCallback((name: string, op: string, data?: { [key: string]: number | string }): (() => void) => {
+  const measurePerformance = useCallback((name: string, op: string, data?: { [key: string]: number | string }): SentryTransactionObject => {
     // This will create a new Transaction
     const transaction = Sentry.startTransaction({ name, data, op });
 
     // Set transaction on scope to associate with errors and get included span instrumentation
     // If there's currently an unfinished transaction, it may be dropped
-    Sentry.getCurrentHub().configureScope((scope) => {
-      scope.setSpan(transaction);
-    });
+    Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
 
-    return () => {
-      transaction.setStatus(SentryTransactionStatus);
-      transaction.finish();
+    // Create an object to map spans for a transaction
+    const transactionSpansObj = {};
+
+    return {
+      setTag: (tagName: string, tagValue: string) => transaction.setTag(tagName, tagValue),
+      startSpan: (spanOp: string, spaneData?: { [key: string]: number | string }) => {
+        transactionSpansObj[spanOp] = transaction.startChild({ op: spanOp, data: spaneData });
+      },
+      finishSpan: (spanOp: string) => {
+        if (transactionSpansObj[spanOp]) {
+          const spanObj:Span = transactionSpansObj[spanOp] as Span;
+          spanObj.setStatus(SentryTransactionStatus);
+          spanObj.finish();
+          delete transactionSpansObj[spanOp];
+        }
+      },
+      finish: () => {
+        transaction.setStatus(SentryTransactionStatus);
+        transaction.finish();
+      },
     };
   }, []);
 

@@ -31,6 +31,31 @@ export interface MonitoringConfig {
 }
 
 /**
+ * Sentry transaction object interface
+ */
+export interface SentryTransactionObject {
+  /**
+   * Set tag in a transaction instance
+   */
+  setTag: (name: string, value: string) => void;
+
+  /**
+   * Create a span in a transaction instance to measure the performance for a sub event
+   */
+  startSpan: (op: string, data: { [key: string]: number | string } | null) => void;
+
+  /**
+   * Finish a running span in a transaction instance and complete the measurement for a sub event
+   */
+  finishSpan: (op: string) => void;
+
+  /**
+   * Finish a running transaction instance and complete the measurement for a main event
+   */
+  finish: () => void;
+}
+
+/**
  * Monitoring context interface
 */
 export interface MonitoringContext {
@@ -47,7 +72,7 @@ export interface MonitoringContext {
   /**
    * Start Measure Performance
   */
-  measurePerformance: (name: string, op: string, data: { [key: string]: number | string } | null) => (() => void);
+  measurePerformance: (name: string, op: string, data: { [key: string]: number | string } | null) => SentryTransactionObject;
 
   /**
    * Set custom measurement value
@@ -66,3 +91,25 @@ export interface MonitoringProps {
 }
 
 export const SentryTransactionStatus = 'success';
+
+export const SentryConst = {
+  TRANSACTION: {
+    pictureProcessing: 'Picture Processing',
+  },
+  OPERATION: {
+    images_ocr: 'Image OCR',
+    damage_detection: 'Damage Detection',
+    captureTour: 'Capture Tour',
+    captureSight: 'Capture Sight',
+  },
+  SPAN: {
+    takePic: 'Take Pic',
+    createThumbnail: 'Create Thumbnail',
+    uploadPic: 'Upload Pic',
+  },
+  TAG: {
+    inspectionId: 'inspectionId',
+    sightId: 'sightId',
+    task: 'task',
+  },
+};
