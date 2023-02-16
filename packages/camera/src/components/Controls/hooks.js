@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
+import { useMonitoring, SentryConst } from '@monkvision/corejs';
 import Actions from '../../actions';
 import log from '../../utils/log';
 
@@ -12,6 +13,7 @@ const useHandlers = ({
   onResetAddDamageStatus,
   onPictureTaken,
 }) => {
+  const { measurePerformance } = useMonitoring();
   const capture = useCallback(async (controlledState, api, event, addDamageParts) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
     if (!stream && Platform.OS === 'web') { return; }
@@ -21,7 +23,6 @@ const useHandlers = ({
      * `unControlledState` is the updated state, so it will be used for function that depends on
      * state updates (checkCompliance in this case that need to know when the picture is uploaded)
      */
-    let captureButtonTracing;
     const state = controlledState || unControlledState;
     event.preventDefault();
 
@@ -32,7 +33,7 @@ const useHandlers = ({
       uploadAdditionalDamage,
     } = api;
 
-    const { sights } = state;
+    const { inspectionId, sights, task } = state;
     const { current } = sights.state;
 
     onStartUploadPicture(state, api);
@@ -48,22 +49,56 @@ const useHandlers = ({
       onPictureTaken({ picture, isZoomedPicture: true, sight: null });
       onResetAddDamageStatus();
     } else {
+      /**
+       * create a new transaction names 'Capture Sight' to measure the performance
+       */
+      const { TRANSACTION, OPERATION, SPAN, TAG } = SentryConst;
+      const transaction = measurePerformance(
+        TRANSACTION.pictureProcessing,
+        OPERATION.captureSight,
+        { sightId: current.id },
+      );
+
+      /**
+       * set tags to relate multiple transactions with a single inspection
+       */
+      transaction.setTag(TAG.task, task);
+      transaction.setTag(TAG.inspectionId, inspectionId);
+
       // add a process to queue
       sights.dispatch({
         type: Actions.sights.ADD_PROCESS_TO_QUEUE,
         payload: { id: current.id },
       });
 
-      log([`[Click] Taking a photo`]);
+      /**
+       * Take a pic from canvas and measure it's performance
+       */
+      transaction.startSpan(SPAN.takePic);
+      log([`[Click] Taking a pic has started`]);
       const picture = await takePictureAsync();
+      transaction.finishSpan(SPAN.takePic);
 
       if (!picture) { return; }
 
       try {
+        /**
+         * Create a thumbnail and measure it's performance
+         */
+        transaction.startSpan(SPAN.createThumbnail);
         await setPictureAsync(picture);
+        transaction.finishSpan(SPAN.createThumbnail);
+
+        /**
+         * Upload a pic and measure it's performance
+         */
+        transaction.startSpan(SPAN.uploadPic);
         await startUploadAsync(picture);
+        transaction.finishSpan(SPAN.uploadPic);
         onPictureTaken({ picture, isZoomedPicture: false, sight: current.id });
       } catch (err) {
+        transaction.finishSpan(SPAN.createThumbnail);
+        transaction.finishSpan(SPAN.uploadPic);
         log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
       } finally {
         // remove a process from queue
@@ -71,10 +106,11 @@ const useHandlers = ({
           type: Actions.sights.REMOVE_PROCESS_FROM_QUEUE,
           payload: { id: current.id },
         });
+        // finish a running transaction
+        transaction.finish();
+        log([`[Click] Taking a pic has completed`]);
       }
     }
-
-    captureButtonTracing?.finish();
   }, [
     enableComplianceCheck,
     onFinishUploadPicture,
