@@ -1,4 +1,4 @@
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
 import { Buffer } from 'buffer';
@@ -97,6 +97,8 @@ export function useSetPictureAsync({
   sights,
   uploads,
 }) {
+  const { errorHandler } = useMonitoring();
+
   return useCallback(async (picture) => {
     try {
       const uri = picture.localUri || picture.uri;
@@ -128,7 +130,8 @@ export function useSetPictureAsync({
     } catch (err) {
       const payload = { id: current.id, status: 'rejected', error: err };
       uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, increment: true, payload });
-      // TODO: Add Monitoring code for error handling in MN-182
+      // sentry code for error capturing
+      errorHandler(err);
       log([`Error in \`<Capture />\` \`setPictureAsync()\`: ${err}`], 'error');
       throw err;
     }
@@ -187,6 +190,7 @@ export function useStartUploadAsync({
   endTour = false,
 }) {
   const [queue, setQueue] = useState([]);
+  const { errorHandler } = useMonitoring();
   let isRunning = false;
 
   const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
@@ -223,7 +227,8 @@ export function useStartUploadAsync({
             payload: { pictureId: result.id, id, status: 'fulfilled', error: null },
           });
         } catch (err) {
-          // TODO: Add Monitoring code for error handling in MN-182
+          // sentry code for error capturing
+          errorHandler(err);
           dispatch({
             type: Actions.uploads.UPDATE_UPLOAD,
             increment: true,

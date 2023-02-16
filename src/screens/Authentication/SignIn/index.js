@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { Loader } from '@monkvision/ui';
+import { useMonitoring } from '@monkvision/corejs';
 
 import * as names from 'screens/names';
 
@@ -35,6 +36,7 @@ export default function SignIn() {
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
   const { colors, loaderDotsColors } = useTheme();
+  const { errorHandler } = useMonitoring();
   const { t } = useTranslation();
 
   const route = useRoute();
@@ -43,10 +45,11 @@ export default function SignIn() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onStart: () => { utils.log(['[Click] Signing in']); },
-    onError: () => {
+    onError: (err) => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      // TODO: Add Monitoring code for error handling in MN-182
+      // sentry code for error capturing
+      errorHandler(err);
     },
   });
 

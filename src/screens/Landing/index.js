@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring } from '@monkvision/corejs';
 import { useInterval, utils } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -39,6 +39,7 @@ export default function Landing() {
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { height } = useWindowDimensions();
+  const { errorHandler } = useMonitoring();
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
 
@@ -168,8 +169,9 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      getInspection.start().catch((err) => {
+        // sentry code for error capturing
+        errorHandler(err);
       });
     }
   }, [inspectionId, getInspection]);

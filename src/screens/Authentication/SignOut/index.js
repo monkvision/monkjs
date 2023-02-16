@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri } from 'expo-auth-session';
 
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring } from '@monkvision/corejs';
 import discoveries from 'config/discoveries';
 import useAuth from 'hooks/useAuth';
 
@@ -21,12 +21,14 @@ const returnTo = makeRedirectUri({
 export default function SignOut(props) {
   const params = `?client_id=${monk.config.authConfig.clientId}&returnTo=${returnTo}`;
   const { signOut } = useAuth();
+  const { errorHandler } = useMonitoring();
   const { t } = useTranslation();
 
   const handleOpenWithWebBrowser = () => {
     WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`)
-      .catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      .catch((err) => {
+        // sentry code for error capturing
+        errorHandler(err);
       });
     signOut();
   };

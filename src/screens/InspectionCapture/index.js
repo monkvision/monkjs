@@ -23,7 +23,7 @@ export default function InspectionCapture() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const { measurePerformance } = useMonitoring();
+  const { errorHandler, measurePerformance } = useMonitoring();
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
 
@@ -100,7 +100,8 @@ export default function InspectionCapture() {
         captureTourTransactionRef.current.finish();
         handleNavigate();
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        // sentry code for error capturing
+        errorHandler(err);
         setCameraLoading(false);
       }
     }
@@ -137,7 +138,8 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        // sentry code for error capturing
+        errorHandler(err);
         // eslint-disable-next-line no-console
         console.error(err);
         throw err;
