@@ -3,7 +3,7 @@ import { BrowserTracing } from '@sentry/tracing';
 import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo } from 'react';
 import { Primitive, Span } from '@sentry/types';
 
-import { MonitoringContext, MonitoringProps, SentryTransactionObject, SentryTransactionStatus } from './types';
+import { MonitoringContext, MonitoringProps, SentryTransactionObject, MonitoringStatus } from './types';
 
 export * from './types';
 
@@ -83,7 +83,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
 
     // Set transaction on scope to associate with errors and get included span instrumentation
     // If there's currently an unfinished transaction, it may be dropped
-    Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
+    // Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
 
     // Create an object to map spans for a transaction
     const transactionSpansObj = {};
@@ -96,13 +96,13 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       finishSpan: (spanOp: string) => {
         if (transactionSpansObj[spanOp]) {
           const spanObj:Span = transactionSpansObj[spanOp] as Span;
-          spanObj.setStatus(SentryTransactionStatus);
+          spanObj.setStatus(MonitoringStatus.Ok);
           spanObj.finish();
           delete transactionSpansObj[spanOp];
         }
       },
-      finish: () => {
-        transaction.setStatus(SentryTransactionStatus);
+      finish: (status: string = MonitoringStatus.Ok) => {
+        transaction.setStatus(status);
         transaction.finish();
       },
     };
@@ -123,7 +123,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
     setTimeout(() => {
       transaction.setMeasurement(name, value, unit);
       transaction.setMeasurement('frames_total', value, unit);
-      transaction.setStatus(SentryTransactionStatus);
+      transaction.setStatus(MonitoringStatus.Ok);
       transaction.finish();
     }, 100);
   }, []);

@@ -52,7 +52,7 @@ export interface SentryTransactionObject {
   /**
    * Finish a running transaction instance and complete the measurement for a main event
    */
-  finish: () => void;
+  finish: (status: string) => void;
 }
 
 /**
@@ -90,7 +90,45 @@ export interface MonitoringProps {
   config: MonitoringConfig;
 }
 
-export const SentryTransactionStatus = 'success';
+/**
+ * The status of an Transaction/Span.
+ */
+export enum MonitoringStatus {
+  /** The operation completed successfully. */
+  Ok = "ok",
+  /** Deadline expired before operation could complete. */
+  DeadlineExceeded = "deadline_exceeded",
+  /** 401 Unauthorized (actually does mean unauthenticated according to RFC 7235) */
+  Unauthenticated = "unauthenticated",
+  /** 403 Forbidden */
+  PermissionDenied = "permission_denied",
+  /** 404 Not Found. Some requested entity (file or directory) was not found. */
+  NotFound = "not_found",
+  /** 429 Too Many Requests */
+  ResourceExhausted = "resource_exhausted",
+  /** Client specified an invalid argument. 4xx. */
+  InvalidArgument = "invalid_argument",
+  /** 501 Not Implemented */
+  Unimplemented = "unimplemented",
+  /** 503 Service Unavailable */
+  Unavailable = "unavailable",
+  /** Other/generic 5xx. */
+  InternalError = "internal_error",
+  /** Unknown. Any non-standard HTTP status code. */
+  UnknownError = "unknown_error",
+  /** The operation was cancelled (typically by the user). */
+  Cancelled = "cancelled",
+  /** Already exists (409) */
+  AlreadyExists = "already_exists",
+  /** Operation was rejected because the system is not in a state required for the operation's */
+  FailedPrecondition = "failed_precondition",
+  /** The operation was aborted, typically due to a concurrency issue. */
+  Aborted = "aborted",
+  /** Operation was attempted past the valid range. */
+  OutOfRange = "out_of_range",
+  /** Unrecoverable data loss or corruption */
+  DataLoss = "data_loss"
+}
 
 export const SentryConst = {
   TRANSACTION: {
@@ -111,5 +149,6 @@ export const SentryConst = {
     inspectionId: 'inspectionId',
     sightId: 'sightId',
     task: 'task',
+    takenPictures: 'takenPictures',
   },
 };

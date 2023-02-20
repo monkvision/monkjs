@@ -6,7 +6,7 @@ import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
-import monk, { useMonitoring, SentryConst } from '@monkvision/corejs';
+import monk, { useMonitoring, MonitoringStatus, SentryConst } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
@@ -31,7 +31,7 @@ export default function InspectionCapture() {
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
-  const captureTourTransactionRef = useRef();
+  const captureTourTransRef = useRef({});
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -39,7 +39,11 @@ export default function InspectionCapture() {
         // eslint-disable-next-line no-alert
         const ok = window.confirm(t('capture.quit.title'));
         if (ok) {
+          /**
+           * cancel 'Capture Tour' transaction and navigate back to landing page
+           */
           utils.log(['[Click]', 'User suddenly quit the inspection']);
+          captureTourTransRef.current.transaction.finish(MonitoringStatus.Cancelled);
           navigation.navigate(names.LANDING, { inspectionId });
         }
       }
@@ -53,7 +57,11 @@ export default function InspectionCapture() {
         }, {
           text: t('capture.quit.ok'),
           onPress: () => {
+            /**
+             * cancel 'Capture Tour' transaction and navigate back to landing page
+             */
             utils.log(['[Click]', 'User suddenly quit the inspection']);
+            captureTourTransRef.current.transaction.finish(MonitoringStatus.Cancelled);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],
@@ -97,7 +105,7 @@ export default function InspectionCapture() {
          * finish 'capture tour' transaction and navigate back to landing page
          */
         utils.log(['[Event] Back to landing page with photo taken']);
-        captureTourTransactionRef.current.finish();
+        captureTourTransRef.current.transaction.finish();
         handleNavigate();
       } catch (err) {
         // sentry code for error capturing
@@ -108,7 +116,16 @@ export default function InspectionCapture() {
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    // TODO: Add Monitoring code for setTag in MN-182
+    /**
+     * add takenPictures tag in "Capture Tour" transaction for a tour
+     */
+    const takenPicturesLen = Object.values(state.sights.state.takenPictures).length;
+    const refObj = captureTourTransRef.current;
+    if (takenPicturesLen && refObj.transaction && takenPicturesLen !== refObj.takenPictures) {
+      refObj.takenPictures = takenPicturesLen;
+      refObj.transaction.setTag(SentryConst.TAG.takenPictures, takenPicturesLen);
+    }
+    //
     if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
@@ -166,14 +183,15 @@ export default function InspectionCapture() {
 
   useEffect(() => {
     /**
-     * create a new transaction named 'capture tour' to measure overall performance
+     * create a new transaction with operation name 'Capture Tour' to measure tour performance
      */
     const { OPERATION, TRANSACTION, TAG } = SentryConst;
     const transaction = measurePerformance(TRANSACTION.pictureProcessing, OPERATION.captureTour);
     // set tags to identify a transation and relate with an inspection
     transaction.setTag(TAG.task, taskName);
     transaction.setTag(TAG.inspectionId, inspectionId);
-    captureTourTransactionRef.current = transaction;
+    transaction.setTag(TAG.takenPictures, 0);
+    captureTourTransRef.current = { transaction, takenPictures: 0 };
   }, []);
 
   useFocusEffect(() => {
