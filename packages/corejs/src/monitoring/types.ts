@@ -95,39 +95,39 @@ export interface MonitoringProps {
  */
 export enum MonitoringStatus {
   /** The operation completed successfully. */
-  Ok = "ok",
+  Ok = 'ok',
   /** Deadline expired before operation could complete. */
-  DeadlineExceeded = "deadline_exceeded",
+  DeadlineExceeded = 'deadline_exceeded',
   /** 401 Unauthorized (actually does mean unauthenticated according to RFC 7235) */
-  Unauthenticated = "unauthenticated",
+  Unauthenticated = 'unauthenticated',
   /** 403 Forbidden */
-  PermissionDenied = "permission_denied",
+  PermissionDenied = 'permission_denied',
   /** 404 Not Found. Some requested entity (file or directory) was not found. */
-  NotFound = "not_found",
+  NotFound = 'not_found',
   /** 429 Too Many Requests */
-  ResourceExhausted = "resource_exhausted",
+  ResourceExhausted = 'resource_exhausted',
   /** Client specified an invalid argument. 4xx. */
-  InvalidArgument = "invalid_argument",
+  InvalidArgument = 'invalid_argument',
   /** 501 Not Implemented */
-  Unimplemented = "unimplemented",
+  Unimplemented = 'unimplemented',
   /** 503 Service Unavailable */
-  Unavailable = "unavailable",
+  Unavailable = 'unavailable',
   /** Other/generic 5xx. */
-  InternalError = "internal_error",
+  InternalError = 'internal_error',
   /** Unknown. Any non-standard HTTP status code. */
-  UnknownError = "unknown_error",
+  UnknownError = 'unknown_error',
   /** The operation was cancelled (typically by the user). */
-  Cancelled = "cancelled",
+  Cancelled = 'cancelled',
   /** Already exists (409) */
-  AlreadyExists = "already_exists",
+  AlreadyExists = 'already_exists',
   /** Operation was rejected because the system is not in a state required for the operation's */
-  FailedPrecondition = "failed_precondition",
+  FailedPrecondition = 'failed_precondition',
   /** The operation was aborted, typically due to a concurrency issue. */
-  Aborted = "aborted",
+  Aborted = 'aborted',
   /** Operation was attempted past the valid range. */
-  OutOfRange = "out_of_range",
+  OutOfRange = 'out_of_range',
   /** Unrecoverable data loss or corruption */
-  DataLoss = "data_loss"
+  DataLoss = 'data_loss',
 }
 
 export const SentryConst = {
