@@ -179,6 +179,22 @@ export default function InspectionCapture() {
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 
+  const onRetakeAll = useCallback(() => {
+    captureTourTransRef.current.hasRetakeCalled = true;
+    captureTourTransRef.current.transaction.setTag(SentryConst.TAG.isRetake, 1);
+  }, []);
+  const onSkipRetake = useCallback(() => {
+    captureTourTransRef.current.transaction.setTag(SentryConst.TAG.isSkip, 1);
+  }, []);
+  const onRetakeNeeded = useCallback(({ retakesNeeded }) => {
+    if (!captureTourTransRef.current.hasRetakeCalled) {
+      const { transaction } = captureTourTransRef.current;
+      const nonCompliancePercent = ((100 * retakesNeeded) / sightIds.length);
+      transaction.setTag(SentryConst.TAG.retakenPictures, retakesNeeded);
+      transaction.setTag(SentryConst.TAG.percentOfNonCompliancePics, nonCompliancePercent);
+    }
+  }, []);
+
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
 
   useEffect(() => {
@@ -190,8 +206,15 @@ export default function InspectionCapture() {
     // set tags to identify a transation and relate with an inspection
     transaction.setTag(TAG.task, taskName);
     transaction.setTag(TAG.inspectionId, inspectionId);
+    transaction.setTag(TAG.isSkip, 0);
+    transaction.setTag(TAG.isRetake, 0);
     transaction.setTag(TAG.takenPictures, 0);
-    captureTourTransRef.current = { transaction, takenPictures: 0 };
+    transaction.setTag(TAG.retakenPictures, 0);
+    captureTourTransRef.current = {
+      transaction,
+      takenPictures: 0,
+      hasRetakeCalled: false,
+    };
   }, []);
 
   useFocusEffect(() => {
@@ -216,6 +239,9 @@ export default function InspectionCapture() {
         onFinishUploadPicture={() => setCameraLoading(false)}
         onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
+        onRetakeAll={onRetakeAll}
+        onSkipRetake={onSkipRetake}
+        onRetakeNeeded={onRetakeNeeded}
         settings={settings}
         enableCarCoverage
         enableComplianceCheck={enableComplianceCheck}

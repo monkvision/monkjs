@@ -149,6 +149,10 @@ export const SentryConst = {
     inspectionId: 'inspectionId',
     sightId: 'sightId',
     task: 'task',
+    isSkip: 'isSkip',
+    isRetake: 'isRetake',
     takenPictures: 'takenPictures',
+    retakenPictures: 'retakenPictures',
+    percentOfNonCompliancePics: 'percentOfNonCompliancePics',
   },
 };
