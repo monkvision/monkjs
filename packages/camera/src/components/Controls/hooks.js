@@ -53,16 +53,13 @@ const useHandlers = ({
        * create a new transaction names 'Capture Sight' to measure the performance
        */
       const { TRANSACTION, OPERATION, SPAN, TAG } = SentryConst;
-      const transaction = measurePerformance(
-        TRANSACTION.pictureProcessing,
-        OPERATION.captureSight,
-        { sightId: current.id },
-      );
+      const transaction = measurePerformance(TRANSACTION.pictureProcessing, OPERATION.captureSight);
 
       /**
        * set tags to relate multiple transactions with a single inspection
        */
       transaction.setTag(TAG.task, task);
+      transaction.setTag(TAG.sightId, current.id);
       transaction.setTag(TAG.inspectionId, inspectionId);
 
       // add a process to queue
