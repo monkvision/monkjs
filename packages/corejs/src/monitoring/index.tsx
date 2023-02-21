@@ -79,7 +79,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
   */
   const measurePerformance = useCallback((name: string, op: string, data?: { [key: string]: number | string }): SentryTransactionObject => {
     // This will create a new Transaction
-    const transaction = Sentry.startTransaction({ name, data, op });
+    const transaction = Sentry.startTransaction({ name, data, op, sampled: true });
 
     // Set transaction on scope to associate with errors and get included span instrumentation
     // If there's currently an unfinished transaction, it may be dropped
@@ -95,7 +95,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       },
       finishSpan: (spanOp: string) => {
         if (transactionSpansObj[spanOp]) {
-          const spanObj:Span = transactionSpansObj[spanOp] as Span;
+          const spanObj: Span = transactionSpansObj[spanOp] as Span;
           spanObj.setStatus(MonitoringStatus.Ok);
           spanObj.finish();
           delete transactionSpansObj[spanOp];
@@ -118,7 +118,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
    * @return {void}
    */
   const setMeasurement = useCallback((transactionName: string, name: string, value: number, unit?: string): void => {
-    const transaction = Sentry.startTransaction({ name: transactionName, op: name });
+    const transaction = Sentry.startTransaction({ name: transactionName, op: name, sampled: true });
 
     setTimeout(() => {
       transaction.setMeasurement(name, value, unit);
