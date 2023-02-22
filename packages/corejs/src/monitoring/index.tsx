@@ -24,7 +24,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       dsn: config.dsn,
       environment: config.environment,
       debug: config.debug,
-      tracesSampleRate: config.tracesSampleRate,
+      tracesSampleRate: config.tracesSampleRate || 0.1,
       integrations: [
         new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
       ],
