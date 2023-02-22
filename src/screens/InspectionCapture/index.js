@@ -186,12 +186,12 @@ export default function InspectionCapture() {
   const onSkipRetake = useCallback(() => {
     captureTourTransRef.current.transaction.setTag(SentryConst.TAG.isSkip, 1);
   }, []);
-  const onRetakeNeeded = useCallback(({ retakesNeeded }) => {
+  const onRetakeNeeded = useCallback(({ retakesNeeded = 0 }) => {
     if (!captureTourTransRef.current.hasRetakeCalled) {
       const { transaction } = captureTourTransRef.current;
-      const nonCompliancePercent = ((100 * retakesNeeded) / sightIds.length);
+      const percentOfNonCompliancePics = ((100 * retakesNeeded) / sightIds.length);
       transaction.setTag(SentryConst.TAG.retakenPictures, retakesNeeded);
-      transaction.setTag(SentryConst.TAG.percentOfNonCompliancePics, nonCompliancePercent);
+      transaction.setTag(SentryConst.TAG.percentOfNonCompliancePics, percentOfNonCompliancePics);
     }
   }, []);
 
