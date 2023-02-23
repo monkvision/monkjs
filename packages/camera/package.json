@@ -36,7 +36,9 @@
     "watch": "watch 'yarn run build' src",
     "lint": "eslint src --cache",
     "build": "bob build",
-    "release": "release-it"
+    "release": "release-it",
+    "test:watch": "jest --verbose --watch",
+    "test": "jest"
   },
   "dependencies": {
     "@expo/match-media": "^0.3.0",
@@ -55,6 +57,12 @@
     "webrtc-adapter": "^8.1.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/react-native": "^11.5.2",
+    "@types/jest": "^29.4.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "jest-expo": "^47.0.1",
     "prop-types": "^15.8.1",
     "react-native-builder-bob": "^0.18.2",
     "release-it": "*"

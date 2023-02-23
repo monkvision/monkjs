@@ -12,6 +12,7 @@ web-build/
 
 # modules
 node_modules/
+coverage/
 .expo/
 .docusaurus/
 
