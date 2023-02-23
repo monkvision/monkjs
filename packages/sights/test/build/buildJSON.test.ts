@@ -102,10 +102,7 @@ describe('JSON builder module', () => {
 
       expect(createDirSpy).toHaveBeenCalledTimes(2);
       expect(
-        pathsEqual(
-          createDirSpy.mock.calls[0]?.[0] as string,
-          join(__dirname, '../../src/lib/data'),
-        ),
+        pathsEqual(createDirSpy.mock.calls[0]?.[0], join(__dirname, '../../src/lib/data')),
       ).toBe(true);
     });
 

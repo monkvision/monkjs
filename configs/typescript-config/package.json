@@ -1,0 +1,31 @@
+{
+  "name": "@monkvision/typescript-config",
+  "packageManager": "yarn@3.2.4",
+  "version": "1.0.0",
+  "description": "The TSConfigs used in MonkJs TypeScript projects",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "files": [
+    "tsconfig.json",
+    "tsconfig.angular.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monkjs.git"
+  },
+  "keywords": [
+    "monkvision",
+    "config",
+    "typescript",
+    "tsconfig"
+  ],
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "homepage": "https://github.com/monkvision/monkjs"
+}

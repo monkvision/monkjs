@@ -2,13 +2,14 @@
   "name": "monk",
   "version": "4.0.0",
   "packageManager": "yarn@3.2.4",
+  "description": "Monorepo for the MonkJs project",
   "private": true,
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "workspaces": [
     "configs/*",
     "packages/*",
-    "demos/*"
+    "apps/*"
   ],
   "scripts": {
     "build": "yarn workspaces foreach -pt run build",
@@ -21,5 +22,13 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monkjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "homepage": "https://github.com/monkvision/monkjs"
 }

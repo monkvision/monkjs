@@ -1,6 +1,7 @@
-const monkConfig = require('@monkvision/jest-config');
-
 module.exports = {
-  ...monkConfig.base,
-  rootDir: './',
-}
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  testMatch: ['**/test/**/*.test.ts'],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['lcov'],
+};

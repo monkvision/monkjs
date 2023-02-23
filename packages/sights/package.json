@@ -3,6 +3,7 @@
   "version": "4.0.0",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
+  "description": "Monk sights library providing sight details and overlays",
   "author": "monkvision",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -26,7 +27,6 @@
   },
   "devDependencies": {
     "@monkvision/eslint-config-typescript": "1.0.0",
-    "@monkvision/jest-config": "1.0.0",
     "@monkvision/prettier-config": "1.0.0",
     "@monkvision/typescript-config": "1.0.0",
     "@types/jest": "^29.2.2",
@@ -50,5 +50,16 @@
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
   },
-  "prettier": "@monkvision/prettier-config"
+  "prettier": "@monkvision/prettier-config",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monkjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "homepage": "https://github.com/monkvision/monkjs"
 }

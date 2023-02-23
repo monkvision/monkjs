@@ -10,6 +10,5 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': OFF,
     'no-console': OFF,
-    'dot-notation': OFF,
   }
 }
