@@ -14,6 +14,7 @@ import mapTasksToSights from './mapTasksToSights';
 import Settings from './settings';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
+import useFullscreen from './useFullscreen';
 
 const enableComplianceCheck = true;
 
@@ -26,10 +27,12 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
 
+  const [isSettingEnabled] = useState(false);
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
+  const { isFullscreen, requestFullscreen } = useFullscreen();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -146,8 +149,22 @@ export default function InspectionCapture() {
   const settingsRef = useRef();
   const openSettings = settingsRef.current?.open;
 
+  const handleFullScreen = useCallback(() => {
+    utils.log(['[Click] Camera setting: ', 'Fullscreen ', !isFullscreen]);
+    requestFullscreen();
+  }, [isFullscreen]);
+
   const controls = [
-    { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
+    !isSettingEnabled && {
+      disabled: cameraLoading,
+      ...Controls[isFullscreen ? 'ExitFullscreenButtonProps' : 'FullscreenButtonProps'],
+      onPress: handleFullScreen,
+    },
+    isSettingEnabled && {
+      disabled: cameraLoading,
+      ...Controls.SettingsButtonProps,
+      onPress: openSettings,
+    },
     [
       { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
       { disabled: cameraLoading, ...Controls.CaptureButtonProps },

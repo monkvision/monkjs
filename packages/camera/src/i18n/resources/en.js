@@ -9,7 +9,8 @@ const en = {
     },
     controls: {
       takePicture: 'Take Picture',
-      fullScreen: 'Fullscreen',
+      fullScreen: 'Full Screen',
+      exitFullScreen: 'Exit Full Screen',
       settings: 'Settings',
       quit: 'Quit',
     },
