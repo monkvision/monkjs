@@ -31,6 +31,31 @@ export interface MonitoringConfig {
 }
 
 /**
+ * Sentry transaction object interface
+ */
+export interface SentryTransactionObject {
+  /**
+   * Set tag in a transaction instance
+   */
+  setTag: (name: string, value: string) => void;
+
+  /**
+   * Create a span in a transaction instance to measure the performance for a sub event
+   */
+  startSpan: (op: string, data: { [key: string]: number | string } | null) => void;
+
+  /**
+   * Finish a running span in a transaction instance and complete the measurement for a sub event
+   */
+  finishSpan: (op: string) => void;
+
+  /**
+   * Finish a running transaction instance and complete the measurement for a main event
+   */
+  finish: (status: string) => void;
+}
+
+/**
  * Monitoring context interface
 */
 export interface MonitoringContext {
@@ -47,7 +72,7 @@ export interface MonitoringContext {
   /**
    * Start Measure Performance
   */
-  measurePerformance: (name: string, op: string, data: { [key: string]: number | string } | null) => (() => void);
+  measurePerformance: (name: string, op: string, data: { [key: string]: number | string } | null) => SentryTransactionObject;
 
   /**
    * Set custom measurement value
@@ -65,4 +90,47 @@ export interface MonitoringProps {
   config: MonitoringConfig;
 }
 
-export const SentryTransactionStatus = 'success';
+/**
+ * The status of an Transaction/Span.
+ */
+export enum MonitoringStatus {
+  /** The operation completed successfully. */
+  OK = 'ok',
+  /** Unknown. Any non-standard HTTP status code. */
+  UNKNOWN_ERROR = 'unknown_error',
+  /** The operation was cancelled (typically by the user). */
+  CANCELLED = 'cancelled',
+  /** The operation was aborted, typically due to a concurrency issue. */
+  ABORTED = 'aborted',
+}
+
+/**
+ * The name of entities in Sentry
+ */
+export enum SentryTransaction {
+  PICTURE_PROCESSING = 'Picture Processing',
+}
+
+export enum SentryOperation {
+  IMAGES_OCR = 'Image OCR',
+  DAMAGE_DETECTION = 'Damage Detection',
+  CAPTURE_TOUR = 'Capture Tour',
+  CAPTURE_SIGHT = 'Capture Sight',
+}
+
+export enum SentrySpan {
+  TAKE_PIC = 'Take Pic',
+  CREATE_THUMBNAIL = 'Create Thumbnail',
+  UPLOAD_PIC = 'Upload Pic',
+}
+
+export enum SentryTag {
+  INSPECTION_ID = 'inspectionId',
+  SIGHT_ID = 'sightId',
+  TASK = 'task',
+  IS_SKIP = 'isSkip',
+  IS_RETAKE = 'isRetake',
+  TAKEN_PICTURES = 'takenPictures',
+  RETAKEN_PICTURES = 'retakenPictures',
+  PERCENT_OF_NON_COMPLIANCE_PICS = 'percentOfNonCompliancePics',
+}

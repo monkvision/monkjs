@@ -211,9 +211,11 @@ const Capture = forwardRef(({
     additionalPictures,
     compliance,
     isReady,
+    inspectionId,
     settings,
     sights,
     uploads,
+    task,
   }), [additionalPictures, compliance, isReady, settings, sights, uploads]);
 
   const hideAddDamage = useMemo(
