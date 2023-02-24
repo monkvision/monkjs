@@ -10,6 +10,7 @@ const useHandlers = ({
   unControlledState,
   stream,
   onResetAddDamageStatus,
+  onPictureTaken,
 }) => {
   const capture = useCallback(async (controlledState, api, event, addDamageParts) => {
     /** if the stream is not ready, we should not proceed to the capture callback, it will crash */
@@ -44,6 +45,7 @@ const useHandlers = ({
       // The picture taken is an additional picture.
       await uploadAdditionalDamage({ picture, parts: addDamageParts });
       onFinishUploadPicture(state, api);
+      onPictureTaken({ picture, isZoomedPicture: true, sight: null });
       onResetAddDamageStatus();
     } else {
       // add a process to queue
@@ -60,6 +62,7 @@ const useHandlers = ({
       try {
         await setPictureAsync(picture);
         await startUploadAsync(picture);
+        onPictureTaken({ picture, isZoomedPicture: false, sight: current.id });
       } catch (err) {
         log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
       } finally {
@@ -78,18 +81,8 @@ const useHandlers = ({
     onStartUploadPicture,
     stream,
     onResetAddDamageStatus,
+    onPictureTaken,
   ]);
-
-  const customCapture = useCallback(async (api, event) => {
-    if (!stream && Platform.OS === 'web') { return null; }
-
-    event.preventDefault();
-
-    log(['[Click] Taking a custom photo']);
-    const picture = await api.takePictureAsync();
-
-    return picture ?? null;
-  }, [stream]);
 
   const retakeAll = useCallback((sightsIdsToRetake, states, setSightsIds) => {
     log(['[Click] Retake all photos']);
@@ -111,6 +104,6 @@ const useHandlers = ({
     // update sightsIds state
     setSightsIds({ ids: sightsIdsToRetake, initialState: { compliance: complianceState } });
   }, []);
-  return { customCapture, capture, retakeAll };
+  return { capture, retakeAll };
 };
 export default useHandlers;

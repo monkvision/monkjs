@@ -118,6 +118,7 @@ const Capture = forwardRef(({
   onComplianceCheckFinish,
   onComplianceCheckStart,
   onPictureUploaded,
+  onPictureTaken,
   onWarningMessage,
   onReady,
   onRetakeAll,
@@ -428,6 +429,7 @@ const Capture = forwardRef(({
       onResetAddDamageStatus={handleResetDamageStatus}
       hideAddDamage={hideAddDamage}
       isPortraitModeVinLayoutView={isPortraitModeVinLayoutView}
+      onPictureTaken={onPictureTaken}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -664,6 +666,7 @@ Capture.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
+  onPictureTaken: PropTypes.func,
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
   onRetakeAll: PropTypes.func,
@@ -769,6 +772,7 @@ Capture.defaultProps = {
   navigationOptions: defaultNavigationOptions,
   offline: null,
   onPictureUploaded: () => {},
+  onPictureTaken: () => {},
   onCameraPermissionError: () => {},
   onCameraPermissionSuccess: () => {},
   onCaptureTourFinish: () => {},
