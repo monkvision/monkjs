@@ -57,6 +57,7 @@ export default function Controls({
   onResetAddDamageStatus,
   onCloseEarly,
   isPortraitModeVinLayoutView,
+  onPictureTaken,
   ...passThroughProps
 }) {
   const { height: windowHeight } = useWindowDimensions();
@@ -67,6 +68,7 @@ export default function Controls({
     onFinishUploadPicture,
     stream: api.camera.current?.stream,
     onResetAddDamageStatus,
+    onPictureTaken,
   });
 
   const isAddDamageButtonAndDisabled = useCallback(
@@ -207,6 +209,7 @@ Controls.propTypes = {
   onAddDamageUploadPicture: PropTypes.func,
   onCloseEarly: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
+  onPictureTaken: PropTypes.func,
   onResetAddDamageStatus: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   state: PropTypes.shape({
@@ -237,6 +240,7 @@ Controls.defaultProps = {
   loading: false,
   state: {},
   onCloseEarly: () => {},
+  onPictureTaken: () => {},
   onAddDamagePressed: () => {},
   onAddDamageUploadPicture: () => {},
   onStartUploadPicture: () => {},
