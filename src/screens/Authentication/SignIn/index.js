@@ -48,7 +48,6 @@ export default function SignIn() {
     onError: (err) => {
       setAuthError(true);
       utils.log(['[Event] Sign in failed']);
-      // sentry code for error capturing
       errorHandler(err);
     },
   });

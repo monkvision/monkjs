@@ -48,7 +48,6 @@ export default function InspectionVehicleUpdate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: (err) => {
-      // sentry code for error capturing
       errorHandler(err);
       setAuthError(true);
     },
@@ -87,7 +86,6 @@ export default function InspectionVehicleUpdate() {
   useEffect(() => {
     const { state } = updateInspectionVehicle;
     if (state.error) {
-      // sentry code for error capturing
       errorHandler(state.error);
     }
   }, [updateInspectionVehicle.state.error]);

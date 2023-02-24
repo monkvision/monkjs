@@ -108,7 +108,6 @@ export default function InspectionCapture() {
         captureTourTransRef.current.transaction.finish();
         handleNavigate();
       } catch (err) {
-        // sentry code for error capturing
         errorHandler(err);
         setCameraLoading(false);
       }
@@ -155,7 +154,6 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        // sentry code for error capturing
         errorHandler(err);
         // eslint-disable-next-line no-console
         console.error(err);

@@ -15,7 +15,6 @@ export default function SilentLang() {
         .then((value) => (value !== null ? i18n.changeLanguage(value) : Promise.resolve()))
         .then(() => setHasBeenDone(true))
         .catch((err) => {
-          // sentry code for error capturing
           errorHandler(err);
         });
     }

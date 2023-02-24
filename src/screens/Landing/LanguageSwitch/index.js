@@ -23,7 +23,6 @@ export default function LanguageSwitch() {
       .then(() => setIsLoading(false))
       .catch((err) => {
         setIsLoading(false);
-        // sentry code for error capturing
         errorHandler(err);
       });
   };

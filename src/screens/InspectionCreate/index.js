@@ -58,7 +58,6 @@ export default function InspectionCreate() {
   const [authError, setAuthError] = useState(false);
   const [signIn, isSigningIn] = useSignIn({
     onError: (err) => {
-      // sentry code for error capturing
       errorHandler(err);
       setAuthError(true);
     },
@@ -122,7 +121,6 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (createInspection.state.error) {
-      // sentry code for error capturing
       errorHandler(createInspection.state.error);
     }
   }, [createInspection.state.error]);

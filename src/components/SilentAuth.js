@@ -29,14 +29,12 @@ export default function SilentAuth() {
           } else {
             AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
               .catch((err) => {
-                // sentry code for error capturing
                 errorHandler(err);
               });
           }
           setHasBeenDone(true);
         }
       }).catch((err) => {
-        // sentry code for error capturing
         errorHandler(err);
       });
     }

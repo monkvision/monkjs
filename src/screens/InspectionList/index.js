@@ -71,7 +71,6 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
     const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url)
       .catch((err) => {
-        // sentry code for error capturing
         errorHandler(err);
       });
   }, []);
@@ -83,7 +82,6 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
 
   useEffect(() => {
     if (manyInspections.error) {
-      // sentry code for error capturing
       errorHandler(manyInspections.error);
     }
   }, [manyInspections.error]);

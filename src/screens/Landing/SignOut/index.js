@@ -19,7 +19,6 @@ export default function SignOut({ onSuccess }) {
     // TODO: Add Monitoring code for setUser in MN-182
     AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
       .catch((err) => {
-        // sentry code for error capturing
         errorHandler(err);
       });
     dispatchSignOut(dispatch);

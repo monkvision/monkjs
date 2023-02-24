@@ -27,7 +27,6 @@ export default function SignOut(props) {
   const handleOpenWithWebBrowser = () => {
     WebBrowser.openAuthSessionAsync(`${discoveries.endSessionEndpoint}${params}`)
       .catch((err) => {
-        // sentry code for error capturing
         errorHandler(err);
       });
     signOut();

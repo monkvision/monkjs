@@ -170,7 +170,6 @@ export default function Landing() {
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
       getInspection.start().catch((err) => {
-        // sentry code for error capturing
         errorHandler(err);
       });
     }

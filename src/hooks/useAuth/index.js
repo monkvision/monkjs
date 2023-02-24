@@ -30,7 +30,6 @@ export default function useAuth() {
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
     } catch (err) {
-      // sentry code for error capturing
       errorHandler(err);
       setLoggingOut(false);
     }

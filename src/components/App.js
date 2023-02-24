@@ -52,7 +52,6 @@ function App() {
       try {
         await SplashScreen.hideAsync();
       } catch (err) {
-        // sentry code for error capturing
         errorHandler(err);
       }
     }
@@ -69,7 +68,6 @@ function App() {
         // experience. Please remove this if you copy and paste the code!
         // await new Promise((resolve) => { setTimeout(resolve, 2000); });
       } catch (err) {
-        // sentry code for error capturing
         errorHandler(err);
       } finally {
         // Tell the application to render

@@ -90,7 +90,6 @@ export default function useSignIn(callbacks = {}) {
       AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
         if (typeof onSuccess === 'function') { onSuccess(response); }
       }).catch((err) => {
-        // sentry code for error capturing
         errorHandler(err);
         if (typeof onSuccess === 'function') { onSuccess(response); }
       });
