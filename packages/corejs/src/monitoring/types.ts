@@ -105,7 +105,7 @@ export enum MonitoringStatus {
 }
 
 /**
- * 
+ * The name of entities in Sentry
  */
 export enum SentryTransaction {
   PICTURE_PROCESSING = 'Picture Processing',
