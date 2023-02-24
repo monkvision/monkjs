@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { Text } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function FullScreenButton({ label }) {
-  const { t } = useTranslation();
   return (
     <Text
       style={{
@@ -16,11 +15,22 @@ export default function FullScreenButton({ label }) {
         textTransform: 'uppercase',
       }}
     >
-      {t(label)}
+      {
+        label === 'fullScreen'
+        && <MaterialCommunityIcons name="fullscreen" size={24} />
+      }
+      {
+        label === 'exitFullScreen'
+        && <MaterialCommunityIcons name="fullscreen-exit" size={24} />
+      }
     </Text>
   );
 }
 
 FullScreenButton.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+};
+
+FullScreenButton.defaultProps = {
+  label: 'fullScreen',
 };

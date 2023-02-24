@@ -341,7 +341,7 @@ Controls.AddDamageButtonProps = {
 Controls.FullscreenButtonProps = {
   id: 'full-screen',
   accessibilityLabel: 'Full Screen',
-  children: <FullScreenButton label="controls.fullScreen" />,
+  children: <FullScreenButton label="fullScreen" />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#181829',
@@ -365,7 +365,7 @@ Controls.FullscreenButtonProps = {
 
 Controls.ExitFullscreenButtonProps = {
   ...Controls.FullscreenButtonProps,
-  children: <FullScreenButton label="controls.exitFullScreen" />,
+  children: <FullScreenButton label="exitFullScreen" />,
 };
 
 Controls.SettingsButtonProps = {
