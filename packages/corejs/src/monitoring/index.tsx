@@ -24,7 +24,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       dsn: config.dsn,
       environment: config.environment,
       debug: config.debug,
-      tracesSampleRate: config.tracesSampleRate || 0.1,
+      tracesSampleRate: config.tracesSampleRate ?? 0.1,
       integrations: [
         new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
       ],
@@ -96,12 +96,12 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       finishSpan: (spanOp: string) => {
         if (transactionSpansObj[spanOp]) {
           const spanObj: Span = transactionSpansObj[spanOp] as Span;
-          spanObj.setStatus(MonitoringStatus.Ok);
+          spanObj.setStatus(MonitoringStatus.OK);
           spanObj.finish();
           delete transactionSpansObj[spanOp];
         }
       },
-      finish: (status: string = MonitoringStatus.Ok) => {
+      finish: (status: string = MonitoringStatus.OK) => {
         transaction.setStatus(status);
         transaction.finish();
       },
@@ -123,7 +123,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
     setTimeout(() => {
       transaction.setMeasurement(name, value, unit);
       transaction.setMeasurement('frames_total', value, unit);
-      transaction.setStatus(MonitoringStatus.Ok);
+      transaction.setStatus(MonitoringStatus.OK);
       transaction.finish();
     }, 100);
   }, []);

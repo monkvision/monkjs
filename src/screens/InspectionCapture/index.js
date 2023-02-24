@@ -6,7 +6,7 @@ import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
 import { Capture, Controls, useSettings } from '@monkvision/camera';
-import monk, { useMonitoring, MonitoringStatus, SentryConst } from '@monkvision/corejs';
+import monk, { useMonitoring, MonitoringStatus, SentryTransaction, SentryOperation, SentryTag } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
@@ -43,7 +43,7 @@ export default function InspectionCapture() {
            * cancel 'Capture Tour' transaction and navigate back to landing page
            */
           utils.log(['[Click]', 'User suddenly quit the inspection']);
-          captureTourTransRef.current.transaction.finish(MonitoringStatus.Cancelled);
+          captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
           navigation.navigate(names.LANDING, { inspectionId });
         }
       }
@@ -61,7 +61,7 @@ export default function InspectionCapture() {
              * cancel 'Capture Tour' transaction and navigate back to landing page
              */
             utils.log(['[Click]', 'User suddenly quit the inspection']);
-            captureTourTransRef.current.transaction.finish(MonitoringStatus.Cancelled);
+            captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],
@@ -123,7 +123,7 @@ export default function InspectionCapture() {
     const refObj = captureTourTransRef.current;
     if (takenPicturesLen && refObj.transaction && takenPicturesLen !== refObj.takenPictures) {
       refObj.takenPictures = takenPicturesLen;
-      refObj.transaction.setTag(SentryConst.TAG.takenPictures, takenPicturesLen);
+      refObj.transaction.setTag(SentryTag.TAKEN_PICTURES, takenPicturesLen);
     }
     //
     if (!success && isFocused && !enableComplianceCheck) {
@@ -181,17 +181,17 @@ export default function InspectionCapture() {
 
   const onRetakeAll = useCallback(() => {
     captureTourTransRef.current.hasRetakeCalled = true;
-    captureTourTransRef.current.transaction.setTag(SentryConst.TAG.isRetake, 1);
+    captureTourTransRef.current.transaction.setTag(SentryTag.IS_RETAKE, 1);
   }, []);
   const onSkipRetake = useCallback(() => {
-    captureTourTransRef.current.transaction.setTag(SentryConst.TAG.isSkip, 1);
+    captureTourTransRef.current.transaction.setTag(SentryTag.IS_SKIP, 1);
   }, []);
   const onRetakeNeeded = useCallback(({ retakesNeeded = 0 }) => {
     if (!captureTourTransRef.current.hasRetakeCalled) {
       const { transaction } = captureTourTransRef.current;
       const percentOfNonCompliancePics = ((100 * retakesNeeded) / sightIds.length);
-      transaction.setTag(SentryConst.TAG.retakenPictures, retakesNeeded);
-      transaction.setTag(SentryConst.TAG.percentOfNonCompliancePics, percentOfNonCompliancePics);
+      transaction.setTag(SentryTag.RETAKEN_PICTURES, retakesNeeded);
+      transaction.setTag(SentryTag.PERCENT_OF_NON_COMPLIANCE_PICS, percentOfNonCompliancePics);
     }
   }, []);
 
@@ -201,15 +201,17 @@ export default function InspectionCapture() {
     /**
      * create a new transaction with operation name 'Capture Tour' to measure tour performance
      */
-    const { OPERATION, TRANSACTION, TAG } = SentryConst;
-    const transaction = measurePerformance(TRANSACTION.pictureProcessing, OPERATION.captureTour);
+    const transaction = measurePerformance(
+      SentryTransaction.PICTURE_PROCESSING,
+      SentryOperation.CAPTURE_TOUR,
+    );
     // set tags to identify a transation and relate with an inspection
-    transaction.setTag(TAG.task, taskName);
-    transaction.setTag(TAG.inspectionId, inspectionId);
-    transaction.setTag(TAG.isSkip, 0);
-    transaction.setTag(TAG.isRetake, 0);
-    transaction.setTag(TAG.takenPictures, 0);
-    transaction.setTag(TAG.retakenPictures, 0);
+    transaction.setTag(SentryTag.TASK, taskName);
+    transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
+    transaction.setTag(SentryTag.IS_SKIP, 0);
+    transaction.setTag(SentryTag.IS_RETAKE, 0);
+    transaction.setTag(SentryTag.TAKEN_PICTURES, 0);
+    transaction.setTag(SentryTag.RETAKEN_PICTURES, 0);
     captureTourTransRef.current = {
       transaction,
       takenPictures: 0,

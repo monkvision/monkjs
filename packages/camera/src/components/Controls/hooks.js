@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
-import { useMonitoring, SentryConst } from '@monkvision/corejs';
+import { useMonitoring, SentryTransaction, SentryOperation, SentrySpan, SentryTag } from '@monkvision/corejs';
 import Actions from '../../actions';
 import log from '../../utils/log';
 
@@ -52,15 +52,17 @@ const useHandlers = ({
       /**
        * create a new transaction names 'Capture Sight' to measure the performance
        */
-      const { TRANSACTION, OPERATION, SPAN, TAG } = SentryConst;
-      const transaction = measurePerformance(TRANSACTION.pictureProcessing, OPERATION.captureSight);
+      const transaction = measurePerformance(
+        SentryTransaction.PICTURE_PROCESSING,
+        SentryOperation.CAPTURE_SIGHT,
+      );
 
       /**
        * set tags to relate multiple transactions with a single inspection
        */
-      transaction.setTag(TAG.task, task);
-      transaction.setTag(TAG.sightId, current.id);
-      transaction.setTag(TAG.inspectionId, inspectionId);
+      transaction.setTag(SentryTag.TASK, task);
+      transaction.setTag(SentryTag.SIGHT_ID, current.id);
+      transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
 
       // add a process to queue
       sights.dispatch({
@@ -71,10 +73,10 @@ const useHandlers = ({
       /**
        * Take a pic from canvas and measure it's performance
        */
-      transaction.startSpan(SPAN.takePic);
+      transaction.startSpan(SentrySpan.TAKE_PIC);
       log([`[Click] Taking a pic has started`]);
       const picture = await takePictureAsync();
-      transaction.finishSpan(SPAN.takePic);
+      transaction.finishSpan(SentrySpan.TAKE_PIC);
 
       if (!picture) { return; }
 
@@ -82,20 +84,20 @@ const useHandlers = ({
         /**
          * Create a thumbnail and measure it's performance
          */
-        transaction.startSpan(SPAN.createThumbnail);
+        transaction.startSpan(SentrySpan.CREATE_THUMBNAIL);
         await setPictureAsync(picture);
-        transaction.finishSpan(SPAN.createThumbnail);
+        transaction.finishSpan(SentrySpan.CREATE_THUMBNAIL);
 
         /**
          * Upload a pic and measure it's performance
          */
-        transaction.startSpan(SPAN.uploadPic);
+        transaction.startSpan(SentrySpan.UPLOAD_PIC);
         await startUploadAsync(picture);
-        transaction.finishSpan(SPAN.uploadPic);
+        transaction.finishSpan(SentrySpan.UPLOAD_PIC);
         onPictureTaken({ picture, isZoomedPicture: false, sight: current.id });
       } catch (err) {
-        transaction.finishSpan(SPAN.createThumbnail);
-        transaction.finishSpan(SPAN.uploadPic);
+        transaction.finishSpan(SentrySpan.CREATE_THUMBNAIL);
+        transaction.finishSpan(SentrySpan.UPLOAD_PIC);
         log([`Error in \`<Capture />\` \`set an upload PictureAsync()\`: ${err}`], 'error');
       } finally {
         // remove a process from queue

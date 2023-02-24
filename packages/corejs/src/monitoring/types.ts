@@ -95,64 +95,42 @@ export interface MonitoringProps {
  */
 export enum MonitoringStatus {
   /** The operation completed successfully. */
-  Ok = 'ok',
-  /** Deadline expired before operation could complete. */
-  DeadlineExceeded = 'deadline_exceeded',
-  /** 401 Unauthorized (actually does mean unauthenticated according to RFC 7235) */
-  Unauthenticated = 'unauthenticated',
-  /** 403 Forbidden */
-  PermissionDenied = 'permission_denied',
-  /** 404 Not Found. Some requested entity (file or directory) was not found. */
-  NotFound = 'not_found',
-  /** 429 Too Many Requests */
-  ResourceExhausted = 'resource_exhausted',
-  /** Client specified an invalid argument. 4xx. */
-  InvalidArgument = 'invalid_argument',
-  /** 501 Not Implemented */
-  Unimplemented = 'unimplemented',
-  /** 503 Service Unavailable */
-  Unavailable = 'unavailable',
-  /** Other/generic 5xx. */
-  InternalError = 'internal_error',
+  OK = 'ok',
   /** Unknown. Any non-standard HTTP status code. */
-  UnknownError = 'unknown_error',
+  UNKNOWN_ERROR = 'unknown_error',
   /** The operation was cancelled (typically by the user). */
-  Cancelled = 'cancelled',
-  /** Already exists (409) */
-  AlreadyExists = 'already_exists',
-  /** Operation was rejected because the system is not in a state required for the operation's */
-  FailedPrecondition = 'failed_precondition',
+  CANCELLED = 'cancelled',
   /** The operation was aborted, typically due to a concurrency issue. */
-  Aborted = 'aborted',
-  /** Operation was attempted past the valid range. */
-  OutOfRange = 'out_of_range',
-  /** Unrecoverable data loss or corruption */
-  DataLoss = 'data_loss',
+  ABORTED = 'aborted',
 }
 
-export const SentryConst = {
-  TRANSACTION: {
-    pictureProcessing: 'Picture Processing',
-  },
-  OPERATION: {
-    images_ocr: 'Image OCR',
-    damage_detection: 'Damage Detection',
-    captureTour: 'Capture Tour',
-    captureSight: 'Capture Sight',
-  },
-  SPAN: {
-    takePic: 'Take Pic',
-    createThumbnail: 'Create Thumbnail',
-    uploadPic: 'Upload Pic',
-  },
-  TAG: {
-    inspectionId: 'inspectionId',
-    sightId: 'sightId',
-    task: 'task',
-    isSkip: 'isSkip',
-    isRetake: 'isRetake',
-    takenPictures: 'takenPictures',
-    retakenPictures: 'retakenPictures',
-    percentOfNonCompliancePics: 'percentOfNonCompliancePics',
-  },
-};
+/**
+ * 
+ */
+export enum SentryTransaction {
+  PICTURE_PROCESSING = 'Picture Processing',
+}
+
+export enum SentryOperation {
+  IMAGES_OCR = 'Image OCR',
+  DAMAGE_DETECTION = 'Damage Detection',
+  CAPTURE_TOUR = 'Capture Tour',
+  CAPTURE_SIGHT = 'Capture Sight',
+}
+
+export enum SentrySpan {
+  TAKE_PIC = 'Take Pic',
+  CREATE_THUMBNAIL = 'Create Thumbnail',
+  UPLOAD_PIC = 'Upload Pic',
+}
+
+export enum SentryTag {
+  INSPECTION_ID = 'inspectionId',
+  SIGHT_ID = 'sightId',
+  TASK = 'task',
+  IS_SKIP = 'isSkip',
+  IS_RETAKE = 'isRetake',
+  TAKEN_PICTURES = 'takenPictures',
+  RETAKEN_PICTURES = 'retakenPictures',
+  PERCENT_OF_NON_COMPLIANCE_PICS = 'percentOfNonCompliancePics',
+}
