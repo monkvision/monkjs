@@ -22,8 +22,8 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
   useEffect(() => {
     Sentry.init({
       dsn: config.dsn,
-      environment: config.environment,
-      debug: config.debug,
+      environment: config.environment ?? 'local',
+      debug: config.debug ?? true,
       tracesSampleRate: config.tracesSampleRate ?? 0.1,
       integrations: [
         new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
