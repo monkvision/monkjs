@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
+import { isSafari } from 'react-device-detect';
 
-import { Capture, Controls, useSettings } from '@monkvision/camera';
+import { Capture, Controls } from '@monkvision/camera';
 import monk from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 import mapTasksToSights from './mapTasksToSights';
-import Settings from './settings';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
@@ -27,7 +27,6 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
 
-  const [isSettingEnabled] = useState(false);
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
@@ -145,25 +144,11 @@ export default function InspectionCapture() {
 
   const captureRef = useRef();
 
-  const settings = useSettings({ camera: captureRef.current?.camera });
-  const settingsRef = useRef();
-  const openSettings = settingsRef.current?.open;
-
-  const handleFullScreen = useCallback(() => {
-    utils.log(['[Click] Camera setting: ', 'Fullscreen ', !isFullscreen]);
-    requestFullscreen();
-  }, [isFullscreen]);
-
   const controls = [
-    !isSettingEnabled && {
+    !isSafari && {
       disabled: cameraLoading,
-      ...Controls[isFullscreen ? 'ExitFullscreenButtonProps' : 'FullscreenButtonProps'],
-      onPress: handleFullScreen,
-    },
-    isSettingEnabled && {
-      disabled: cameraLoading,
-      ...Controls.SettingsButtonProps,
-      onPress: openSettings,
+      ...Controls.getFullScreenButtonProps(isFullscreen),
+      onPress: requestFullscreen,
     },
     [
       { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
@@ -181,7 +166,6 @@ export default function InspectionCapture() {
 
   return (
     <View style={styles.root}>
-      <Settings ref={settingsRef} settings={settings} />
       <Capture
         ref={captureRef}
         task={taskName}
@@ -196,7 +180,6 @@ export default function InspectionCapture() {
         onFinishUploadPicture={() => setCameraLoading(false)}
         onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
-        settings={settings}
         enableCarCoverage
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}

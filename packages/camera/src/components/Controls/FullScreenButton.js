@@ -3,7 +3,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function FullScreenButton({ label }) {
+export default function FullScreenButton({ isInFullScreenMode }) {
   return (
     <Text
       style={{
@@ -15,22 +15,15 @@ export default function FullScreenButton({ label }) {
         textTransform: 'uppercase',
       }}
     >
-      {
-        label === 'fullScreen'
-        && <MaterialCommunityIcons name="fullscreen" size={24} />
-      }
-      {
-        label === 'exitFullScreen'
-        && <MaterialCommunityIcons name="fullscreen-exit" size={24} />
-      }
+      <MaterialCommunityIcons name={isInFullScreenMode ? 'fullscreen-exit' : 'fullscreen'} size={24} />
     </Text>
   );
 }
 
 FullScreenButton.propTypes = {
-  label: PropTypes.string,
+  isInFullScreenMode: PropTypes.bool,
 };
 
 FullScreenButton.defaultProps = {
-  label: 'fullScreen',
+  isInFullScreenMode: true,
 };
