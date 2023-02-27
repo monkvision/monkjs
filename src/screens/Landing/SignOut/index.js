@@ -6,18 +6,20 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
+import { useMonitoring } from '@monkvision/corejs';
 
 export default function SignOut({ onSuccess }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
+  const { errorHandler } = useMonitoring();
   const { t } = useTranslation();
 
   const signOut = () => {
     utils.log(['[Click]', 'Sign-out user']);
     // TODO: Add Monitoring code for setUser in MN-182
     AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
-      .catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      .catch((err) => {
+        errorHandler(err);
       });
     dispatchSignOut(dispatch);
 

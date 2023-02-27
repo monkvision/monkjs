@@ -10,7 +10,7 @@ import jwt_decode from 'jwt-decode';
 export default function SilentAuth() {
   const [hasBeenDone, setHasBeenDone] = useState(false);
   const dispatch = useDispatch();
-  const { setMonitoringUser } = useMonitoring();
+  const { errorHandler, setMonitoringUser } = useMonitoring();
 
   useEffect(() => {
     if (!hasBeenDone) {
@@ -28,14 +28,14 @@ export default function SilentAuth() {
             onAuthenticationSuccess(authentication, dispatch);
           } else {
             AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
-              .catch(() => {
-                // TODO: Add Monitoring code for error handling in MN-182
+              .catch((err) => {
+                errorHandler(err);
               });
           }
           setHasBeenDone(true);
         }
-      }).catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      }).catch((err) => {
+        errorHandler(err);
       });
     }
   }, []);

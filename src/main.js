@@ -12,7 +12,7 @@ const config = {
   dsn: Constants.manifest.extra.SENTRY_DSN,
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
-  tracesSampleRate: 1,
+  tracesSampleRate: 0.1,
   tracingOrigins: ['localhost', 'cna.dev.monk.ai', 'cna-staging.dev.monk.ai', 'cna.preview.monk.ai', 'cna.monk.ai'],
 };
 

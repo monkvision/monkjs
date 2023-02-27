@@ -7,7 +7,7 @@ import { Alert, Platform, View } from 'react-native';
 import { isSafari } from 'react-device-detect';
 
 import { Capture, Controls } from '@monkvision/camera';
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring, MonitoringStatus, SentryTransaction, SentryOperation, SentryTag } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
@@ -24,6 +24,7 @@ export default function InspectionCapture() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const { errorHandler, measurePerformance } = useMonitoring();
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
 
@@ -31,6 +32,7 @@ export default function InspectionCapture() {
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
+  const captureTourTransRef = useRef({});
   const { isFullscreen, requestFullscreen } = useFullscreen();
 
   const handleNavigate = useCallback((confirm = false) => {
@@ -39,7 +41,11 @@ export default function InspectionCapture() {
         // eslint-disable-next-line no-alert
         const ok = window.confirm(t('capture.quit.title'));
         if (ok) {
+          /**
+           * cancel 'Capture Tour' transaction and navigate back to landing page
+           */
           utils.log(['[Click]', 'User suddenly quit the inspection']);
+          captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
           navigation.navigate(names.LANDING, { inspectionId });
         }
       }
@@ -53,7 +59,11 @@ export default function InspectionCapture() {
         }, {
           text: t('capture.quit.ok'),
           onPress: () => {
+            /**
+             * cancel 'Capture Tour' transaction and navigate back to landing page
+             */
             utils.log(['[Click]', 'User suddenly quit the inspection']);
+            captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
             navigation.navigate(names.LANDING, { inspectionId });
           },
         }],
@@ -93,18 +103,30 @@ export default function InspectionCapture() {
         await Promise.all(promises);
         setCameraLoading(false);
 
+        /**
+         * finish 'capture tour' transaction and navigate back to landing page
+         */
         utils.log(['[Event] Back to landing page with photo taken']);
-        // TODO: Add Monitoring code for setTag in MN-182
+        captureTourTransRef.current.transaction.finish();
         handleNavigate();
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        errorHandler(err);
         setCameraLoading(false);
       }
     }
   }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
-    // TODO: Add Monitoring code for setTag in MN-182
+    /**
+     * add takenPictures tag in "Capture Tour" transaction for a tour
+     */
+    const takenPicturesLen = Object.values(state.sights.state.takenPictures).length;
+    const refObj = captureTourTransRef.current;
+    if (takenPicturesLen && refObj.transaction && takenPicturesLen !== refObj.takenPictures) {
+      refObj.takenPictures = takenPicturesLen;
+      refObj.transaction.setTag(SentryTag.TAKEN_PICTURES, takenPicturesLen);
+    }
+    //
     if (!success && isFocused && !enableComplianceCheck) {
       try {
         const { takenPictures, tour } = state.sights.state;
@@ -134,7 +156,7 @@ export default function InspectionCapture() {
           setSuccess(true);
         }
       } catch (err) {
-        // TODO: Add Monitoring code for error handling in MN-182
+        errorHandler(err);
         // eslint-disable-next-line no-console
         console.error(err);
         throw err;
@@ -157,7 +179,45 @@ export default function InspectionCapture() {
     { disabled: cameraLoading, onPress: () => handleNavigate(true), ...Controls.GoBackButtonProps },
   ];
 
+  const onRetakeAll = useCallback(() => {
+    captureTourTransRef.current.hasRetakeCalled = true;
+    captureTourTransRef.current.transaction.setTag(SentryTag.IS_RETAKE, 1);
+  }, []);
+  const onSkipRetake = useCallback(() => {
+    captureTourTransRef.current.transaction.setTag(SentryTag.IS_SKIP, 1);
+  }, []);
+  const onRetakeNeeded = useCallback(({ retakesNeeded = 0 }) => {
+    if (!captureTourTransRef.current.hasRetakeCalled) {
+      const { transaction } = captureTourTransRef.current;
+      const percentOfNonCompliancePics = ((100 * retakesNeeded) / sightIds.length);
+      transaction.setTag(SentryTag.RETAKEN_PICTURES, retakesNeeded);
+      transaction.setTag(SentryTag.PERCENT_OF_NON_COMPLIANCE_PICS, percentOfNonCompliancePics);
+    }
+  }, []);
+
   useEffect(() => { if (success) { handleSuccess(); } }, [handleSuccess, success]);
+
+  useEffect(() => {
+    /**
+     * create a new transaction with operation name 'Capture Tour' to measure tour performance
+     */
+    const transaction = measurePerformance(
+      SentryTransaction.PICTURE_PROCESSING,
+      SentryOperation.CAPTURE_TOUR,
+    );
+    // set tags to identify a transation and relate with an inspection
+    transaction.setTag(SentryTag.TASK, taskName);
+    transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
+    transaction.setTag(SentryTag.IS_SKIP, 0);
+    transaction.setTag(SentryTag.IS_RETAKE, 0);
+    transaction.setTag(SentryTag.TAKEN_PICTURES, 0);
+    transaction.setTag(SentryTag.RETAKEN_PICTURES, 0);
+    captureTourTransRef.current = {
+      transaction,
+      takenPictures: 0,
+      hasRetakeCalled: false,
+    };
+  }, []);
 
   useFocusEffect(() => {
     setFocused(true);
@@ -180,6 +240,9 @@ export default function InspectionCapture() {
         onFinishUploadPicture={() => setCameraLoading(false)}
         onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
+        onRetakeAll={onRetakeAll}
+        onSkipRetake={onSkipRetake}
+        onRetakeNeeded={onRetakeNeeded}
         enableCarCoverage
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}

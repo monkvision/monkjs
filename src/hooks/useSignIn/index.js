@@ -53,7 +53,7 @@ export default function useSignIn(callbacks = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const start = () => setIsLoading(true);
   const stop = () => setIsLoading(false);
-  const { setMonitoringUser } = useMonitoring();
+  const { errorHandler, setMonitoringUser } = useMonitoring();
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -89,8 +89,8 @@ export default function useSignIn(callbacks = {}) {
       const dataToStore = JSON.stringify(response.authentication);
       AsyncStorage.setItem(ASYNC_STORAGE_AUTH_KEY, dataToStore).then(() => {
         if (typeof onSuccess === 'function') { onSuccess(response); }
-      }).catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      }).catch((err) => {
+        errorHandler(err);
         if (typeof onSuccess === 'function') { onSuccess(response); }
       });
     }
