@@ -8,7 +8,8 @@
   "license": "BSD-3-Clause-Clear",
   "workspaces": [
     "configs/*",
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "build": "yarn workspaces foreach -pt run build",
