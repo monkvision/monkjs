@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring } from '@monkvision/corejs';
 import discoveries from 'config/discoveries';
 
 import { revokeAsync } from 'expo-auth-session';
@@ -13,6 +13,7 @@ export default function useAuth() {
   const auth = useSelector((state) => state.auth);
   const { accessToken, tokenType } = auth;
   const isAuthenticated = useMemo(() => Boolean(accessToken), [accessToken]);
+  const { errorHandler } = useMonitoring();
 
   // signOut
   const [isLoggingOut, setLoggingOut] = useState(false);
@@ -28,8 +29,8 @@ export default function useAuth() {
       await revokeAsync(config, discoveries);
 
       dispatch(authSlice.actions.reset({ isSignedOut: true }));
-    } catch (e) {
-      // TODO: Add Monitoring code for error handling in MN-182
+    } catch (err) {
+      errorHandler(err);
       setLoggingOut(false);
     }
   }, [accessToken, dispatch, tokenType]);

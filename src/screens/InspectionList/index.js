@@ -12,7 +12,7 @@ import useAuth from 'hooks/useAuth';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Loader } from '@monkvision/ui';
 import { useRequest } from '@monkvision/toolkit';
-import monk from '@monkvision/corejs';
+import monk, { useMonitoring } from '@monkvision/corejs';
 
 import { List, Paragraph, Title, useTheme } from 'react-native-paper';
 
@@ -32,6 +32,7 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const navigation = useNavigation();
   const { isAuthenticated } = useAuth();
   const { loaderDotsColors } = useTheme();
+  const { errorHandler } = useMonitoring();
   const { t } = useTranslation();
 
   const getManyInspections = useCallback(async () => monk.entity.inspection.getMany({
@@ -69,8 +70,8 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   const handlePress = useCallback((id) => {
     const url = `https://${Constants.manifest.extra.IRA_DOMAIN}/inspection/${id}`;
     WebBrowser.openBrowserAsync(url)
-      .catch(() => {
-        // TODO: Add Monitoring code for error handling in MN-182
+      .catch((err) => {
+        errorHandler(err);
       });
   }, []);
 
@@ -80,7 +81,9 @@ export default function InspectionList({ listItemProps, scrollViewProps, ...prop
   );
 
   useEffect(() => {
-    // TODO: Add Monitoring code for error handling in MN-182
+    if (manyInspections.error) {
+      errorHandler(manyInspections.error);
+    }
   }, [manyInspections.error]);
 
   if (manyInspections.loading) {
