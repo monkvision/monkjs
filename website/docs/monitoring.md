@@ -8,116 +8,80 @@ slug: /monitoring
 
 ## Modules overview
 
-Monitoring provides different methods to monitor mesurement of application and helps to log errors occurred in the application.
+The monitoring module provides different methods to monitor errors and measure metrics in the application.
 
 ## Implementation Guild
 
-To implement monitoring in your application, user has to wrap entire application with ```MonitoringProvider``` as shown below.
+To implement `Monk` monitoring in an application, the entire application must be wrapped with a `MonitoringProvider`.
 
-```
-<MonitoringProvider config={config}><App /></MonitoringProvider>
-```
-
-Where config object has different configuration values which helps user to configure monitoring in your application. The config object consist of below parameters.
-
-```
-export interface MonitoringConfig {
-    /**
-   * DSN key for sentry.io application
-  */
-  dsn: string;
-  /**
-   * The current environment of your application (e.g. "production")
-  */
-  environment: string;
-  /**
-   * Enable debug functionality in the SDK itself
-  */
-  debug: boolean;
-  /**
-   * Sample rate to determine trace sampling.
-   *
-   * 0.0 = 0% chance of a given trace being sent (send no traces) 1.0 = 100% chance of a given trace being sent (send
-   * all traces)
-   *
-   * Tracing is enabled if either this or `tracesSampler` is defined. If both are defined, `tracesSampleRate` is
-   * ignored. We have set tracesSampleRate to 0.1 for error events which means only 10% of error events will be sent to Sentry. 
-   * It is a number between 0 and 1, controlling the percentage chance a given transaction will be sent to Sentry.
-   * (0 represents 0% while 1 represents 100%.). Applies equally to all transactions created in the app.
-  */
-  tracesSampleRate: number;
-  /**
-   * Array of all the origin to browser trace.
-  */
-  tracingOrigins: string[];
-}
+``` javascript
+<MonitoringProvider config={config}>
+  <App />
+</MonitoringProvider>
 ```
 
-Once configured, user just has to use custom hooks ```useMonitoring()``` which exose the ```setMonitoringUser, setMonitoringTag, errorHandler, measurePerformance and setMeasurement``` functions which is used for setting current user in monitoring, error handling, measuring performance of functionality and setting custom measurements in the application.
+The configuration options are listed below :
 
-Here are the details about both functions.
+## MonitoringConfig
 
-**setMonitoringUser**
+| **Config option**        | **Required** | **Type**                    | **Description**                              |
+|--------------------------|--------------|-----------------------------|----------------------------------------------|
+| `dsn`                    |  ✓           | string                      | DSN key for sentry.io application            |
+| `environment`            |  ✓           | string                      | The current environment of your application  |
+| `debug`                  |  ✓           | boolean                     | Enable debug functionality in the SDK itself |
+| `tracesSampleRate`       |  ✓           | number                      | Sample rate to determine trace sampling      |
+| `tracingOrigins`         |  ✓           | string[]                    | Array of all the origin to browser trace     |
 
-```
-setMonitoringUser(id: string);
+Once configured, user just has to use custom hooks ```useMonitoring()``` which exposes the ```setMonitoringUser, setMonitoringTag, errorHandler, measurePerformance and setMeasurement``` functions which are used for setting current user in monitoring, error handling, measuring performance of functionality and setting custom measurements in the application.
+
+The details of these functions are listed below :
+
+### `setMonitoringUser`
+
+```typescript
+setMonitoringUser(id: string): void;
 ```
 
 This function will add current user to monitoring application so that whenever users measure any performance or set a custom measurements in the monitoring, at that time we will have a all the transaction under current user. It will help us to identify the transaction based on user.
 
-**setMonitoringTag**
+### `setMonitoringTag`
 
-```
-setMonitoringTag(key: string, value: Primitive);
+```typescript
+setMonitoringTag(key: string, value: Primitive): void;
 ```
 
 This function will allow user to add custom tags to current transaction for query. Primitive is a datatype which contains "number | string | boolean | bigint | symbol | null | undefined" value.
 
-**errorHandler**
+### `errorHandler`
 
-```
-errorHandler(err);
+```typescript
+errorHandler(err): string | null;
 ```
 
 This function will log details in monitoring application whenever it happens in the application.
 
-**measurePerformance**
+### `measurePerformance`
 
-```
-const capture = measurePerformance(name: string, op: string, data?: { [key: string]: number | string });
+```typescript
+const capture = measurePerformance(name: string, op: string, data?: { [key: string]: number | string }): SentryTransactionObject;
 ```
 
 Where name is the module name for which we want to measure performance. Operation is the functionality of the module and data is optional field that needed to be send to the transaction. It will return a object which contains different functions to use in current transaction. Here are the functions which will be return as an object.
 
-```
-export interface SentryTransactionObject {
-  /**
-   * Set tag in a transaction instance
-   */
-  setTag: (name: string, value: string) => void;
+## SentryTransactionObject
 
-  /**
-   * Create a span in a transaction instance to measure the performance for a sub event
-   */
-  startSpan: (op: string, data: { [key: string]: number | string } | null) => void;
+| **Config option**        | **Params**                                                   | **Description**                                                                              |
+|--------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| `setTag`                 | name: string, value: string                                  | Set tag in a transaction instance                                                            |
+| `startSpan`              | op: string, data: { [key: string]: number | string } | null  | Create a span in a transaction instance to measure the performance for a sub event           |
+| `finishSpan`             | op: string                                                   | Finish a running span in a transaction instance and complete the measurement for a sub event |
+| `finish`                 | status: string                                               | Finish a running transaction instance and complete the measurement for a main event          |
 
-  /**
-   * Finish a running span in a transaction instance and complete the measurement for a sub event
-   */
-  finishSpan: (op: string) => void;
+User can set tags, create new span and finish span & transaction at the end to send measured data to sentry. `capture.finish('Ok')`
 
-  /**
-   * Finish a running transaction instance and complete the measurement for a main event
-   */
-  finish: (status: string) => void;
-}
-```
+### `setMeasurement`
 
-User can set tags, create new span and finish span & transaction at the end to send measured data to sentry. ```capture.funish('Ok')```
-
-**setMeasurement**
-
-```
+```typescript
 const capture = setMeasurement(transactionName, name, value, unit);
 capture()
 ```
