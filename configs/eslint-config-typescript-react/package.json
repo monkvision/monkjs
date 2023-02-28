@@ -1,0 +1,46 @@
+{
+  "name": "@monkvision/eslint-config-typescript-react",
+  "packageManager": "yarn@3.2.4",
+  "version": "1.0.0",
+  "description": "The base ESLint config that used in MonkJs TypeScript React projects",
+  "author": "monkvision",
+  "main": "index.js",
+  "license": "BSD-3-Clause-Clear",
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@monkvision/eslint-config-base": "1.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "typescript": "^4.8.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monkjs.git"
+  },
+  "keywords": [
+    "monkvision",
+    "style guide",
+    "lint",
+    "eslint",
+    "config",
+    "es6",
+    "es2015",
+    "es2016",
+    "es2017",
+    "es2018",
+    "typescript"
+  ],
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "homepage": "https://github.com/monkvision/monkjs"
+}
