@@ -1,6 +1,8 @@
 import React, { createElement, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { isSafari } from 'react-device-detect';
+
 import AddDamageButton from './AddDamageButton';
 import CloseEarlyButton from './CloseEarlyButton';
 import QuitButton from './QuitButton';
@@ -342,10 +344,10 @@ Controls.AddDamageButtonProps = {
   },
 };
 
-Controls.FullscreenButtonProps = {
+Controls.getFullScreenButtonProps = (isFullscreen) => ({
   id: 'full-screen',
   accessibilityLabel: 'Full Screen',
-  children: <FullScreenButton />,
+  children: <FullScreenButton isInFullScreenMode={isFullscreen} />,
   style: {
     maxWidth: '100%',
     backgroundColor: '#181829',
@@ -360,12 +362,13 @@ Controls.FullscreenButtonProps = {
     shadowColor: '#181829',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },
+    visibility: isSafari ? 'hidden' : 'visible',
     ...Platform.select({
       native: { shadowRadius: 2 },
       default: { shadowRadius: '2px 2px' },
     }),
   },
-};
+});
 
 Controls.SettingsButtonProps = {
   id: 'settings',

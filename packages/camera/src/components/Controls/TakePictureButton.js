@@ -1,10 +1,8 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function TakePictureButton() {
-  const { t } = useTranslation();
-
   return (
     <Text
       style={{
@@ -15,7 +13,7 @@ export default function TakePictureButton() {
         textTransform: 'uppercase',
       }}
     >
-      {t('controls.takePicture')}
+      <MaterialCommunityIcons name="camera" size={30} />
     </Text>
   );
 }

@@ -5,15 +5,15 @@ import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
 
-import { Capture, Controls, useSettings } from '@monkvision/camera';
+import { Capture, Controls } from '@monkvision/camera';
 import monk, { useMonitoring, MonitoringStatus, SentryTransaction, SentryOperation, SentryTag } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 import mapTasksToSights from './mapTasksToSights';
-import Settings from './settings';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
+import useFullscreen from './useFullscreen';
 
 const enableComplianceCheck = true;
 
@@ -32,6 +32,7 @@ export default function InspectionCapture() {
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
   const captureTourTransRef = useRef({});
+  const { isFullscreen, requestFullscreen } = useFullscreen();
 
   const handleNavigate = useCallback((confirm = false) => {
     if (confirm) {
@@ -164,12 +165,12 @@ export default function InspectionCapture() {
 
   const captureRef = useRef();
 
-  const settings = useSettings({ camera: captureRef.current?.camera });
-  const settingsRef = useRef();
-  const openSettings = settingsRef.current?.open;
-
   const controls = [
-    { disabled: cameraLoading, ...Controls.SettingsButtonProps, onPress: openSettings },
+    {
+      disabled: cameraLoading,
+      ...Controls.getFullScreenButtonProps(isFullscreen),
+      onPress: requestFullscreen,
+    },
     [
       { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
       { disabled: cameraLoading, ...Controls.CaptureButtonProps },
@@ -224,7 +225,6 @@ export default function InspectionCapture() {
 
   return (
     <View style={styles.root}>
-      <Settings ref={settingsRef} settings={settings} />
       <Capture
         ref={captureRef}
         task={taskName}
@@ -242,7 +242,6 @@ export default function InspectionCapture() {
         onRetakeAll={onRetakeAll}
         onSkipRetake={onSkipRetake}
         onRetakeNeeded={onRetakeNeeded}
-        settings={settings}
         enableCarCoverage
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
