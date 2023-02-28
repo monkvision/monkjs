@@ -10,7 +10,7 @@ const fr = {
     controls: {
       takePicture: 'Prendre La Photo',
       fullScreen: 'Plein Écran',
-      exitFullScreen: 'Sortie Plein Écran',
+      exitFullScreen: 'Quitter Plein Écran',
       settings: 'Paramètres',
       quit: 'Quitter',
     },

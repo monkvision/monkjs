@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import { Alert, Platform, View } from 'react-native';
-import { isSafari } from 'react-device-detect';
 
 import { Capture, Controls } from '@monkvision/camera';
 import monk, { useMonitoring, MonitoringStatus, SentryTransaction, SentryOperation, SentryTag } from '@monkvision/corejs';
@@ -167,7 +166,7 @@ export default function InspectionCapture() {
   const captureRef = useRef();
 
   const controls = [
-    !isSafari && {
+    {
       disabled: cameraLoading,
       ...Controls.getFullScreenButtonProps(isFullscreen),
       onPress: requestFullscreen,
