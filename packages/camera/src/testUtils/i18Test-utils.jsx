@@ -15,7 +15,6 @@ const initiateComponent = (ui, renderOptions) => {
 
 const customRender = (ui, renderOptions) => {
   try {
-    con
     const componentTree = initiateComponent(ui, renderOptions);
     return render(componentTree);
   } catch (error) {
