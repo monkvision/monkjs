@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { render, screen } from '../../../testUtils/i18Test-utils';
 import AddDamageButton from '../AddDamageButton';
 
 describe('Add Damage Button component', () => {
