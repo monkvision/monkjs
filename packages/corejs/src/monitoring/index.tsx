@@ -24,7 +24,13 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       dsn: config.dsn,
       environment: config.environment ?? 'local',
       debug: config.debug ?? true,
-      tracesSampleRate: config.tracesSampleRate ?? 0.1,
+      tracesSampleRate: config.tracesSampleRate ?? 0.025,
+      beforeBreadcrumb(breadcrumb, hint) {
+        if (breadcrumb.category === 'xhr') {
+          return null;
+        }
+        return breadcrumb;
+      },
       integrations: [
         new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
       ],
@@ -90,8 +96,8 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
 
     return {
       setTag: (tagName: string, tagValue: string) => transaction.setTag(tagName, tagValue),
-      startSpan: (spanOp: string, spaneData?: { [key: string]: number | string }) => {
-        transactionSpansObj[spanOp] = transaction.startChild({ op: spanOp, data: spaneData });
+      startSpan: (spanOp: string, spanData?: { [key: string]: number | string }) => {
+        transactionSpansObj[spanOp] = transaction.startChild({ op: spanOp, data: spanData });
       },
       finishSpan: (spanOp: string) => {
         if (transactionSpansObj[spanOp]) {
