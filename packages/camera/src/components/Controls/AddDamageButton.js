@@ -5,6 +5,7 @@ import { Text } from 'react-native';
 export default function AddDamageButton({ label, customStyle }) {
   return (
     <Text
+      testID="addDamageButton"
       style={[{
         color: '#fff',
         display: 'flex',
