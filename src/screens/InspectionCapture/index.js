@@ -121,7 +121,11 @@ export default function InspectionCapture() {
      */
     const takenPicturesLen = Object.values(state.sights.state.takenPictures).length;
     const refObj = captureTourTransRef.current;
-    if (takenPicturesLen && refObj.transaction && takenPicturesLen !== refObj.takenPictures) {
+    if (takenPicturesLen
+      && refObj.transaction
+      && !refObj.hasRetakeCalled
+      && takenPicturesLen !== refObj.takenPictures
+    ) {
       refObj.takenPictures = takenPicturesLen;
       refObj.transaction.setTag(SentryTag.TAKEN_PICTURES, takenPicturesLen);
     }
