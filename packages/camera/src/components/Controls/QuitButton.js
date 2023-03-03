@@ -1,10 +1,8 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text } from 'react-native';
 
 export default function QuitButton() {
-  const { t } = useTranslation();
-
   return (
     <Text
       style={{
@@ -16,7 +14,7 @@ export default function QuitButton() {
         textTransform: 'uppercase',
       }}
     >
-      {t('controls.quit')}
+      <MaterialCommunityIcons name="exit-to-app" size={24} />
     </Text>
   );
 }
