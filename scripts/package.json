@@ -1,0 +1,14 @@
+{
+  "name": "@monkvision/scripts",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "extract-metrics": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {}
+}
