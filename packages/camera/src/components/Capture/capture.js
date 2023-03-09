@@ -108,6 +108,7 @@ const Capture = forwardRef(({
   navigationOptions,
   offline,
   onChange,
+  onCloseEarly,
   onComplianceChange,
   onSettingsChange,
   onSightsChange,
@@ -344,6 +345,9 @@ const Capture = forwardRef(({
   }, [setAddDamageStatus]);
 
   const handleCloseCaptureEarly = useCallback(() => {
+    if (typeof onCloseEarly === 'function') {
+      onCloseEarly();
+    }
     setEndTour(true);
   }, [setEndTour]);
 
@@ -664,6 +668,7 @@ Capture.propTypes = {
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
+  onCloseEarly: PropTypes.func,
   onComplianceChange: PropTypes.func,
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
@@ -780,6 +785,7 @@ Capture.defaultProps = {
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},
+  onCloseEarly: () => {},
   onComplianceChange: () => {},
   onSettingsChange: () => {},
   onSightsChange: () => {},
