@@ -19,7 +19,7 @@ module.exports = {
 
   preset: "@testing-library/react-native",
 
-  setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
+  setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect", "<rootDir>/src/setUpTests.js"],
 
   testEnvironment: "jsdom",
 
