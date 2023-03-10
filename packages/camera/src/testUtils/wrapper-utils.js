@@ -2,7 +2,7 @@ import React from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { render } from '@testing-library/react-native';
 
-const wrapInRouter = (component) => (
+const withI18 = (component) => (
   <I18nextProvider i18={initReactI18next()}>
     {component}
   </I18nextProvider>
@@ -11,7 +11,7 @@ const wrapInRouter = (component) => (
 const initiateComponent = (ui, renderOptions) => {
   if (!renderOptions) { return ui; }
   let component = ui;
-  if (renderOptions.withI18) { component = wrapInRouter(component, renderOptions); }
+  if (renderOptions.withI18) { component = withI18(component, renderOptions); }
   return component;
 };
 
