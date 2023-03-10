@@ -24,6 +24,7 @@ import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
+import useZlibCompression from './useZlibCompression';
 import VehicleType from './VehicleType';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 
@@ -41,6 +42,7 @@ export default function Landing() {
   const { errorHandler } = useMonitoring();
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
+  const { decompress } = useZlibCompression();
 
   const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -51,10 +53,12 @@ export default function Landing() {
 
   const { inspectionId, token } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    const compressedToken = urlParams.get('token');
+    console.warn('#### WOW :', compressedToken);
 
     return {
       inspectionId: urlParams.get('inspection_id'),
-      token: urlParams.get('token'),
+      token: compressedToken ? decompress(compressedToken) : undefined,
     };
   }, []);
 
