@@ -10,7 +10,17 @@ export * from './types';
 /**
  * Monitoring context which will create wrapper for monitoring functionality.
 */
-export const Context = createContext<MonitoringContext | null>(null);
+export const Context = createContext<MonitoringContext>({
+  setMonitoringUser: () => { },
+  errorHandler: () => '',
+  measurePerformance: () => ({
+    setTag: () => { },
+    startSpan: () => { },
+    finishSpan: () => { },
+    finish: () => { },
+  }),
+  setMeasurement: () => { },
+});
 
 /**
  * Monitoring wrapper used to abstract Sentry functionality.
