@@ -1,6 +1,7 @@
 import { utils } from '@monkvision/toolkit';
+import { useMonitoring, MonitoringStatus, SentryTransaction, SentryOperation, SentryTag } from '@monkvision/corejs';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useImperativeHandle, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
@@ -122,9 +123,6 @@ const Capture = forwardRef(({
   onPictureTaken,
   onWarningMessage,
   onReady,
-  onRetakeAll,
-  onRetakeNeeded,
-  onSkipRetake,
   onStartUploadPicture,
   onFinishUploadPicture,
   orientationBlockerProps,
@@ -156,7 +154,9 @@ const Capture = forwardRef(({
   });
   const [endTour, setEndTour] = useState(false);
   const { height, width } = useWindowDimensions();
+  const { errorHandler, measurePerformance } = useMonitoring();
 
+  const captureTourTransRef = useRef({});
   const { camera, ref } = combinedRefs.current;
   const { current } = sights.state;
   const portraitMediaQuery = useMediaQuery({ query: '(orientation: portrait)' });
@@ -244,6 +244,17 @@ const Capture = forwardRef(({
 
   const checkComplianceParams = { compliance, inspectionId, sightId: current.id };
   const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
+  const handleCaptureTourFinish = useCallback(() => {
+    /**
+     * finish 'capture tour' transaction successfully
+     * this function will be triggered when 'capture tour' ends
+     */
+    if (!enableComplianceCheck) {
+      utils.log(['[Event] Capture-Tour sentry transaction finishes']);
+      captureTourTransRef.current.transaction.finish();
+    }
+    onCaptureTourFinish();
+  }, []);
   const startUploadAsyncParams = {
     inspectionId,
     sights,
@@ -251,7 +262,7 @@ const Capture = forwardRef(({
     task,
     mapTasksToSights,
     enableCarCoverage,
-    onFinish: onCaptureTourFinish,
+    onFinish: handleCaptureTourFinish,
     onPictureUploaded,
     onWarningMessage,
     endTour,
@@ -348,6 +359,9 @@ const Capture = forwardRef(({
     if (typeof onCloseEarly === 'function') {
       onCloseEarly();
     }
+    // finish 'capture tour' transaction unsuccessfully
+    utils.log(['[Event] Capture-Tour sentry transaction cancels']);
+    captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
     setEndTour(true);
   }, [setEndTour]);
 
@@ -377,14 +391,80 @@ const Capture = forwardRef(({
     handleCloseCaptureEarly();
   }, [setCloseEarlyModalState, handleCloseCaptureEarly]);
 
+  const handleComplianceCheckFinish = useCallback(() => {
+    /**
+     * finish 'capture tour' transaction successfully
+     * this function will be triggered only when
+     *    enableComplianceCheck = true and UploadCenter component is rendered
+     */
+    utils.log(['[Event] Capture-Tour sentry transaction finishes']);
+    captureTourTransRef.current.transaction.finish();
+    onComplianceCheckFinish();
+  }, []);
+
+  const onRetakeAll = useCallback(() => {
+    captureTourTransRef.current.hasRetakeCalled = true;
+    captureTourTransRef.current.transaction.setTag(SentryTag.IS_RETAKE, 1);
+  }, []);
+
+  const onSkipRetake = useCallback(() => {
+    captureTourTransRef.current.transaction.setTag(SentryTag.IS_SKIP, 1);
+  }, []);
+
+  const onRetakeNeeded = useCallback(({ retakesNeeded = 0 }) => {
+    if (!captureTourTransRef.current.hasRetakeCalled) {
+      const { transaction } = captureTourTransRef.current;
+      const percentOfNonCompliancePics = ((100 * retakesNeeded) / states.sights.state.ids.length);
+      transaction.setTag(SentryTag.RETAKEN_PICTURES, retakesNeeded);
+      transaction.setTag(SentryTag.PERCENT_OF_NON_COMPLIANCE_PICS, percentOfNonCompliancePics);
+    }
+  }, []);
+
   // END HANDLERS //
   // EFFECTS //
 
   useEffect(() => {
+    /**
+     * create a new transaction with operation name 'Capture Tour' to measure tour performance
+     */
+    utils.log(['[Event] Capture-Tour sentry transaction starts']);
+    const transaction = measurePerformance(
+      SentryTransaction.PICTURE_PROCESSING,
+      SentryOperation.CAPTURE_TOUR,
+    );
+    // set tags to identify a transation and relate with an inspection
+    transaction.setTag(SentryTag.TASK, task);
+    transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
+    transaction.setTag(SentryTag.IS_SKIP, 0);
+    transaction.setTag(SentryTag.IS_RETAKE, 0);
+    transaction.setTag(SentryTag.TAKEN_PICTURES, 0);
+    transaction.setTag(SentryTag.RETAKEN_PICTURES, 0);
+    captureTourTransRef.current = {
+      transaction,
+      takenPictures: 0,
+      hasRetakeCalled: false,
+    };
+  }, []);
+
+  useEffect(() => {
     try {
+      /**
+       * add takenPictures tag in "Capture Tour" transaction for a tour
+       */
+      const takenPicturesLen = Object.values(states.sights.state.takenPictures).length;
+      const refObj = captureTourTransRef.current;
+      if (takenPicturesLen
+        && refObj.transaction
+        && !refObj.hasRetakeCalled
+        && takenPicturesLen !== refObj.takenPictures
+      ) {
+        refObj.takenPictures = takenPicturesLen;
+        refObj.transaction.setTag(SentryTag.TAKEN_PICTURES, takenPicturesLen);
+      }
       onChange(states, api);
     } catch (err) {
       log([`Error in \`<Capture />\` \`onChange()\`: ${err}`], 'error');
+      errorHandler(err);
       throw err;
     }
   }, [api, onChange, states]);
@@ -483,7 +563,7 @@ const Capture = forwardRef(({
       <UploadCenter
         {...states}
         isSubmitting={isSubmitting}
-        onComplianceCheckFinish={onComplianceCheckFinish}
+        onComplianceCheckFinish={handleComplianceCheckFinish}
         onComplianceCheckStart={onComplianceCheckStart}
         onRetakeAll={onRetakeAll}
         onSkipRetake={onSkipRetake}
@@ -676,11 +756,8 @@ Capture.propTypes = {
   onPictureTaken: PropTypes.func,
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
-  onRetakeAll: PropTypes.func,
-  onRetakeNeeded: PropTypes.func,
   onSettingsChange: PropTypes.func,
   onSightsChange: PropTypes.func,
-  onSkipRetake: PropTypes.func,
   onStartUploadPicture: PropTypes.func,
   onUploadsChange: PropTypes.func,
   onWarningMessage: PropTypes.func,
@@ -789,7 +866,6 @@ Capture.defaultProps = {
   onComplianceChange: () => {},
   onSettingsChange: () => {},
   onSightsChange: () => {},
-  onSkipRetake: () => {},
   onUploadsChange: () => {},
   onComplianceCheckFinish: () => {},
   onComplianceCheckStart: () => {},
@@ -797,8 +873,6 @@ Capture.defaultProps = {
   onWarningMessage: () => {},
   onReady: () => {},
   onStartUploadPicture: () => {},
-  onRetakeAll: () => {},
-  onRetakeNeeded: () => {},
   orientationBlockerProps: null,
   primaryColor: '#FFF',
   resolutionOptions: undefined,
