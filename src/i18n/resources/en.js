@@ -78,6 +78,11 @@ const en = {
       },
     },
     createInspection: {
+      authError: {
+        title: 'Sorry 😞',
+        message: 'You do not have the permissions to create a new inspection, please use a different user or contact the administrators',
+        button: 'Go back to home page',
+      },
       error: {
         title: 'Sorry 😞',
         message: 'An error occurred while creating the inspection, please try again in a minute.',
