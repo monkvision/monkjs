@@ -39,5 +39,6 @@ module.exports = {
     collapsed: false,
   },
   'troubleshooting',
+  'monitoring',
   ],
 };

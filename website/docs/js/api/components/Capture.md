@@ -36,77 +36,20 @@ export default function Inspector({ inspectionId }) {
   }];
 
   return (
-    <SafeAreaView>
-      <StatusBar hidden />
+    <View>
+      <CssBaseline />
       <Capture
-        sightIds={Constants.defaultSightIds}
-        inspectionId={inspectionId}
+        mapTasksToSights={mapTasksToSights}
+        inspectionId={id}
         controls={controls}
         loading={loading}
         onReady={() => setLoading(false)}
-        onCaptureTourStart={() => console.log('Capture tour process has finished')}
-
-        /** --- With picture quality check
-         * enableComplianceCheck={true}
-         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
-         */
-      />
-    </SafeAreaView>
-  );
-}
-```
-
-# Advanced usage
-
-This is the same example but using a **custom capture handler** function, which will override the built-in one.
-
-```javascript
-import React, { useCallback, useState } from 'react';
-import { Capture, Controls, Constants } from '@monkvision/camera';
-import { SafeAreaView, StatusBar } from 'react-native';
-
-export default function Inspector({ inspectionId }) {
-  const [loading, setLoading] = useState();
-
-  const handleCapture = useCallback(async (state, api, event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    const { takePictureAsync, startUploadAsync, goNextSight } = api;
-
-    const picture = await takePictureAsync();
-    setLoading(false);
-
-    goNextSight();
-    startUploadAsync(picture);
-
-    // Add success condition...
-  }, []);
-
-
-  const controls = [{
-    disabled: loading,
-    onPress: handleCapture,
-    ...Controls.CaptureButtonProps,
-  }];
-
-  return (
-    <SafeAreaView>
-      <StatusBar hidden />
-      <Capture
+        onStartUploadPicture={() => setLoading(true)}
+        onFinishUploadPicture={() => setLoading(false)}
+        onChange={handleChange}
         sightIds={Constants.defaultSightIds}
-        inspectionId={inspectionId}
-        controls={controls}
-        loading={loading}
-        onReady={() => setLoading(false)}
-        onCaptureTourStart={() => console.log('Capture tour process has finished')}
-
-        /** --- With picture quality check
-         * enableComplianceCheck={true}
-         * onComplianceCheckFinish={() => console.log('Picture quality check process has finished')}
-         */
       />
-    </SafeAreaView>
+    </View>
   );
 }
 ```
@@ -118,7 +61,7 @@ closed, and since this package gets its camera preview from this method, if this
 another time *after* Monk's stream has been created, the camera preview will not be able to be rendered.
 
 Monk's camera package contains a safeguard that should restart the stream if it has been closed previously, but this
-behaviour is to be avoided if possible. This is why we recommended avoiding calling `mediaDevices.getUserMedia()`
+behavior is to be avoided if possible. This is why we recommended avoiding calling `mediaDevices.getUserMedia()`
 *after* the Camera component is rendered.
 
 # Using the Zoomed Picture button
@@ -140,17 +83,20 @@ export default function Inspector({ inspectionId }) {
   ]];
 
   return (
-    <SafeAreaView>
-      <StatusBar hidden />
+    <View>
+      <CssBaseline />
       <Capture
-        sightIds={Constants.defaultSightIds}
-        inspectionId={inspectionId}
+        mapTasksToSights={mapTasksToSights}
+        inspectionId={id}
         controls={controls}
         loading={loading}
         onReady={() => setLoading(false)}
-        onCaptureTourStart={() => console.log('Capture tour process has finished')}
+        onStartUploadPicture={() => setLoading(true)}
+        onFinishUploadPicture={() => setLoading(false)}
+        onChange={handleChange}
+        sightIds={Constants.defaultSightIds}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 ```
@@ -207,6 +153,116 @@ const controls = [{
 }];
 ```
 
+## additionalPictures 
+```javascript
+PropTypes.shape({
+  dispatch: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  state: PropTypes.shape({
+    takenPictures: PropTypes.arrayOf(PropTypes.shape({
+      labelKey: PropTypes.string.isRequired,
+      picture: PropTypes.any,
+      previousSight: PropTypes.string.isRequired,
+    })),
+  }).isRequired,
+}).isRequired
+```
+
+Additional pictures to be send along with the default taken sights
+
+## compliance 
+```javascript
+PropTypes.shape({
+  dispatch: PropTypes.func,
+  name: PropTypes.string,
+  state: PropTypes.objectOf(PropTypes.shape({
+    error: PropTypes.objectOf(PropTypes.any),
+    id: PropTypes.string,
+    imageId: PropTypes.string,
+    requestCount: PropTypes.number,
+    result: PropTypes.objectOf(PropTypes.any),
+    status: PropTypes.string,
+  })),
+}).isRequired
+```
+
+## compressionOptions 
+```javascript
+PropTypes.shape({
+  quality: PropTypes.number,
+})
+```
+
+## enableCarCoverage
+`PropTypes.bool`
+
+## enableComplianceCheck
+`PropTypes.bool`
+
+it will enables the compliance checking on captured images of sights.
+
+## enableCompression
+`PropTypes.bool`
+
+it will enables the compression on captured images of sights.
+
+## isFocused
+`PropTypes.bool`
+
+## offline
+```javascript
+PropTypes.objectOf(PropTypes.any)
+```
+
+## onComplianceChange
+`PropTypes.func`
+
+```js
+const handleOnComplianceChange = () => console.log('Picture quality check has changed');
+```
+
+## onPictureTaken
+`PropTypes.func`
+
+```js
+const handleOnPictureTaken = () => console.log('Picture has been taken');
+```
+
+## onPictureUploaded
+`PropTypes.func`
+
+```js
+const handleOnPictureUploaded = () => console.log('Picture has been uploaded');
+```
+
+## onSightsChange
+`PropTypes.func`
+
+```js
+const handleOnSightsChange = () => console.log('Sights has been uploaded');
+```
+
+## onUploadsChange
+`PropTypes.func`
+
+```js
+const handleOnUploadsChange = () => console.log('Uploads has been changed');
+```
+
+## onWarningMessage
+`PropTypes.func`
+
+```js
+const handleOnWarningMessage = () => console.log('Warning messages');
+```
+
+## onSettingsChange
+`PropTypes.func`
+
+```js
+const handleOnSettingsChange = () => console.log('Settings has been changed');
+```
+
 ## footer
 `PropTypes.element`
 
@@ -221,12 +277,49 @@ Props inherited from `Button`
 `PropTypes.bool`
 
 Automatically enable `QHD` resolution, by default it's `true` (for web only).
+
 ## initialState
 `PropTypes.state`
+
+```javascript
+PropTypes.shape({
+  compliance: PropTypes.objectOf(PropTypes.any),
+  settings: PropTypes.objectOf(PropTypes.any),
+  sights: PropTypes.objectOf(PropTypes.any),
+  uploads: PropTypes.objectOf(PropTypes.any),
+})
+```
 
 InitialState to begin with. Very useful if you persist the state
 on each change from [`onChange`](#onchange) callback.
 See the [`state`](#state) section for more details.
+
+## resolutionOptions
+```javascript
+PropTypes.shape({
+  QHDDelay: PropTypes.number,
+})
+```
+
+## vehicleType
+```javascript
+PropTypes.oneOf([
+  'suv',
+  'cuv',
+  'sedan',
+  'hatchback',
+  'van',
+  'minivan',
+  'pickup',
+])
+```
+
+List of possible types of vehicles for capture tour inspection.
+
+## selectedMode
+`PropTypes.string`
+
+It's unique value for type of the operation which we want to execute.
 
 ## inspectionId
 `PropTypes.string`
@@ -242,11 +335,6 @@ A boolean showing an ActivityIndicator and disabling controls if true
 `PropTypes.bool`
 
 A boolean disabling the submit button if true, inside Upload Center (picture quality check screen).
-
-## submitButtonLabel
-`PropTypes.string`
-
-The label of the submit button, by default is `Skip retaking`.
 
 ## navigationOptions
 ```js
@@ -359,53 +447,6 @@ Will call a function when the picture qualty check finishes.
 const handleComplianceCheckFinish = () => console.log('Picture quality check has finished');
 ```
 
-## onRetakeAll
-`PropTypes.func`
-
-Will call a function when pressing `retakeAll` button inside the Upload Center (picture quality check screen).
-
-```js
-const handleRetakeAll = () => console.log('Retaking all...');
-```
-
-## onRetakeNeeded and onSkipRetake
-`PropTypes.func`
-
-onRetakeNeeded : Will call a function when the number of pictures to be retaken changes inside the Upload Center (picture quality check screen).
-onSkipRetake : Will call a function when pressing the skip retake button inside the Upload Center (picture quality check screen).
-
-```js
-const onRetakeNeeded = (result) => console.log(result);
-const onSkipRetake = (result) => console.log(result);
-/**
- * Result :
- * {
- *   retakesNeeded, // The number of pictures to be retaken
- *   compliances: [{ // Array of compliance results
- *     sightId, // The id of the picture sight
- *     error, // The error if there is one
- *     result: { // The result of the compliance check
- *       coverage360: { // Compliance result for the car coverage check
- *         isCompliant, // Is it compliant
- *         reasons, // Array of reasons is it is not compliant
- *         status, // Status of the compliance check
- *       },
- *       image_quality_assessment: { // Compliance result for the image quality check
- *         isCompliant, // Is it compliant
- *         reasons, // Array of reasons is it is not compliant
- *         status, // Status of the compliance check
- *       },
- *       zoom_level: {  // Compliance result for the zoom level check
- *         isCompliant, // Is it compliant
- *         reasons, // Array of reasons is it is not compliant
- *         status, // Status of the compliance check
- *       },
- *     },
- *   }],
- * }
- */
-```
-
 ## onStartUploadPicture
 `PropTypes.func`
 
@@ -428,13 +469,6 @@ const handleFinishUploadPicture = (state, api) => console.log('Finished uploadin
 `PropTypes.string`
 
 Custom color for better user experience (default is white)
-
-## sightIds
-`PropTypes.arrayOf(PropTypes.string)`
-
-List of sights in order you want theme to be displayed.
-See [monkjs/sights](/monkjs/sights) to choose sights you want.
-
 
 ## task
 `PropTypes.oneOfType([PropTypes.string, PropTypes.object])`
@@ -509,25 +543,30 @@ console.log(compliance.state); // { sightId: { id: '', status: 'idle', error: nu
 
 ## api
 ```js
-console.log(API); // { camera, goPrevSight, goNextSight, setPictureAsync, startUploadAsync, takePictureAsync };
+console.log(API); // { camera, checkComplianceAsync, createDamageDetectionAsync, goPrevSight, goNextSight, setPictureAsync, startUploadAsync, takePictureAsync, uploadAdditionalDamage };
 ```
 
 ### camera
 See [Expo Camera API](https://docs.expo.dev/versions/latest/sdk/camera/)
 
+### checkComplianceAsync
+Call a promise starting to check a compliance of Sight
+```js
+const checkComplianceParams = { compliance, inspectionId, sightId };
+const checkComplianceAsync = useCheckComplianceAsync(checkComplianceParams);
+```
+
 ### goPrevSight
 Dispatch action to return to the previous Sight in the `sightIds` prop order
 
+### createDamageDetectionAsync
+Call a promise starting to create damage detection of Sight
+```js
+const createDamageDetectionAsync = useCreateDamageDetectionAsync();
+```
+
 ### goNextSight
 Dispatch action to go to the next Sight in the `sightIds` prop order
-
-### startUploadAsync
-Call a promise starting to upload a picture to Monk API
-
-```js
-const uploadResult = await startUploadAsync(picture);
-console.log('Upload has succeed!')
-```
 
 ### takePictureAsync
 Call a promise starting to take a picture from the Native or browser camera
@@ -557,6 +596,14 @@ Call a promise starting to upload a picture to Monk API
 ```js
 const uploadResult = await startUploadAsync(picture);
 console.log('Upload has succeed!')
+```
+
+### uploadAdditionalDamage
+Upload additional damage to tour on the current inspection.
+
+```js
+const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId });
+console.log('Upload additional damage has succeed!')
 ```
 
 ----
