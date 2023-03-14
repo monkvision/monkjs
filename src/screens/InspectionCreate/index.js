@@ -160,6 +160,18 @@ export default function InspectionCreate() {
     );
   }
 
+  if (createInspection.state.authError) {
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background, height }]}>
+        <Title>{t('createInspection.authError.title')}</Title>
+        <Paragraph style={styles.p}>
+          {t('createInspection.authError.message')}
+        </Paragraph>
+        <Button style={styles.button} onPress={handleGoBack}>{t('createInspection.authError.button')}</Button>
+      </View>
+    );
+  }
+
   if (createInspection.state.error) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background, height }]}>
