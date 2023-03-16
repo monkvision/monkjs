@@ -763,6 +763,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/corejs@workspace:packages/corejs"
   dependencies:
+    "@monkvision/eslint-config-base": 1.0.0
     "@monkvision/eslint-config-typescript": 1.0.0
     "@monkvision/prettier-config": 1.0.0
     "@monkvision/typescript-config": 1.0.0
@@ -788,7 +789,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-base@workspace:configs/eslint-config-base":
+"@monkvision/eslint-config-base@1.0.0, @monkvision/eslint-config-base@workspace:configs/eslint-config-base":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-base@workspace:configs/eslint-config-base"
   peerDependencies:
@@ -828,6 +829,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/sights@workspace:packages/sights"
   dependencies:
+    "@monkvision/eslint-config-base": 1.0.0
     "@monkvision/eslint-config-typescript": 1.0.0
     "@monkvision/prettier-config": 1.0.0
     "@monkvision/typescript-config": 1.0.0
@@ -3995,6 +3997,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monk@workspace:."
   dependencies:
+    parse-lcov: ^1.0.4
     rimraf: ^3.0.2
   languageName: unknown
   linkType: soft
@@ -4264,6 +4267,13 @@ __metadata:
     json-parse-even-better-errors: ^2.3.0
     lines-and-columns: ^1.1.6
   checksum: 62085b17d64da57f40f6afc2ac1f4d95def18c4323577e1eced571db75d9ab59b297d1d10582920f84b15985cbfc6b6d450ccbf317644cfa176f3ed982ad87e2
+  languageName: node
+  linkType: hard
+
+"parse-lcov@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "parse-lcov@npm:1.0.4"
+  checksum: 79874227de663697d41ed9985d1f1f9eb7f244345b1d9f36a6628364171eaf12bad64921ddfcc1af38629db2e6aa72f6385aed00905d5165a826fdfbc674b3c8
   languageName: node
   linkType: hard
 

@@ -4,6 +4,7 @@
   "packageManager": "yarn@3.2.4",
   "description": "Monorepo for the MonkJs project",
   "private": true,
+  "type": "module",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "workspaces": [
@@ -11,13 +12,13 @@
     "packages/*"
   ],
   "scripts": {
+    "clean": "rimraf node_modules && yarn cache clean && yarn install",
     "build": "yarn workspaces foreach -pt run build",
-    "clear": "rimraf node_modules && yarn cache clean && yarn install",
-    "postinstall": "yarn run build",
     "test": "yarn workspaces foreach -pt run test",
     "test:coverage": "yarn workspaces foreach -pt run test:coverage",
     "lint": "yarn workspaces foreach -pt run lint",
-    "lint:fix": "yarn workspaces foreach -pt run lint:fix"
+    "lint:fix": "yarn workspaces foreach -pt run lint:fix",
+    "wow": "node scripts/lcov-ci.js"
   },
   "devDependencies": {
     "rimraf": "^3.0.2"
@@ -29,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"
   },
-  "homepage": "https://github.com/monkvision/monkjs"
+  "homepage": "https://github.com/monkvision/monkjs",
+  "dependencies": {
+    "parse-lcov": "^1.0.4"
+  }
 }

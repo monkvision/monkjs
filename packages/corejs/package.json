@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
-    "build": "yarn run clean tsc -p tsconfig.build.json",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --check ./src ./test",
@@ -25,6 +25,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "devDependencies": {
+    "@monkvision/eslint-config-base": "1.0.0",
     "@monkvision/eslint-config-typescript": "1.0.0",
     "@monkvision/prettier-config": "1.0.0",
     "@monkvision/typescript-config": "1.0.0",
