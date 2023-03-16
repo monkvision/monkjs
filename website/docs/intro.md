@@ -6,6 +6,8 @@ slug: /
 
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/camera/latest.svg)
 
+this is a test and will be removed after
+
 **Get a fully automated damage report classified by type, car parts, position and severity.**
 
 ## Modules overview
