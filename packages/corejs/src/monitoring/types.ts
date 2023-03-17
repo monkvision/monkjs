@@ -15,6 +15,10 @@ export interface MonitoringConfig {
   */
   debug: boolean;
   /**
+   * Release version of current application
+  */
+  release: string;
+  /**
    * Sample rate to determine trace sampling.
    *
    * 0.0 = 0% chance of a given trace being sent (send no traces) 1.0 = 100% chance of a given trace being sent (send
