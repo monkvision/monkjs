@@ -2,7 +2,7 @@ name: Analyze Code Base
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ refacto/main ]
 
 jobs:
   analyze:
@@ -16,10 +16,18 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node.Js with Yarn
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'yarn'
-      - run: yarn install
-      - run: yarn lint
+      - name: Printing tools versions
+        run: echo NodeJs $(node -v), NPM v$(npm -v), Yarn v$(yarn -v)
+      - name: Installing dependencies
+        run: yarn install
+      - name: Checking for lint errors
+        run: yarn lint
+      - name: Running the tests
+        run: yarn test:coverage
+

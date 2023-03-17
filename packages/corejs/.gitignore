@@ -4,5 +4,4 @@ coverage
 .eslintcache
 yarn-error.log
 .idea
-src/lib/**
-!src/lib/types.ts
+lib

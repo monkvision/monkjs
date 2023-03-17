@@ -3,10 +3,9 @@ jest.mock('../../src/io');
 
 import fs from 'fs';
 import { join, resolve } from 'path';
-import { SightCategory } from '../../lib';
+import { SightCategory, VehicleSights, VehicleType } from '../../src/lib/types';
 import { buildJSONs } from '../../src/build/buildJSONs';
 import * as io from '../../src/io';
-import { VehicleSights, VehicleType } from '../../src/lib';
 import { pathsEqual } from '../test.utils';
 
 describe('JSON builder module', () => {

@@ -3,6 +3,7 @@ const WARN = 1;
 const ERROR = 2;
 
 module.exports = {
+  root: true,
   extends: ['@monkvision/eslint-config-typescript'],
   parserOptions: {
     project: ['./tsconfig.json'],

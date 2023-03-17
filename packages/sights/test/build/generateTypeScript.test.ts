@@ -17,7 +17,7 @@ jest.mock('fs', () => {
 import fs, { readFileSync } from 'fs';
 import { join } from 'path';
 import { generateData, generateIndex } from '../../src/build/generateTypeScript';
-import { VehicleType } from '../../src/lib';
+import { VehicleType } from '../../src/lib/types';
 import { pathsEqual } from '../test.utils';
 
 describe('TypeScript generation module', () => {
