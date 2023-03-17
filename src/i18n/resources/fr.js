@@ -80,7 +80,7 @@ const fr = {
       authError: {
         title: 'Désolé 😞',
         message: 'Vous n\'avez pas les autorisations nécessaires pour créer une nouvelle inspection. Veuillez utiliser un autre utilisateur ou contacter les administrateurs',
-        button: 'Retourner à la page d\'accueil'
+        button: 'Retourner à la page d\'accueil',
       },
       error: {
         title: 'Désolé 😞',
