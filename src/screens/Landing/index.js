@@ -54,7 +54,6 @@ export default function Landing() {
   const { inspectionId, token } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const compressedToken = urlParams.get('token');
-    console.warn('#### WOW :', compressedToken);
 
     return {
       inspectionId: urlParams.get('inspection_id'),
