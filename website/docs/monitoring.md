@@ -14,7 +14,7 @@ The monitoring module provides different methods to monitor errors and measure m
 
 To implement `Monk` monitoring in an application, the entire application must be wrapped with a `MonitoringProvider`.
 
-``` javascript
+```javascript
 <MonitoringProvider config={config}>
   <App />
 </MonitoringProvider>
@@ -78,6 +78,14 @@ Where name is the module name for which we want to measure performance. Operatio
 | `finish`                 | status: string                                               | Finish a running transaction instance and complete the measurement for a main event          |
 
 User can set tags, create new span and finish span & transaction at the end to send measured data to sentry. `capture.finish('Ok')`
+
+User requires to set a delay before redirecting to another URL after the successful completion of Capture Tour. It will make sure that the transaction of "Capture Tour" is finished properly and it's data is successfully logged to Sentry.
+
+```javascript
+await new Promise((resolve) => {
+  setTimeout(resolve, 1000);
+});
+```
 
 ### `setMeasurement`
 
