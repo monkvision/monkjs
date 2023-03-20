@@ -82,7 +82,6 @@ User can set tags, create new span and finish span & transaction at the end to s
 User requires to set a delay before redirecting to another URL after the successful completion of Capture Tour. It will make sure that the transaction of "Capture Tour" is finished properly and it's data is successfully logged to Sentry.
 
 ```javascript
-// add a delay of 1 sec here before navigating to other URL in browser's window
 await new Promise((resolve) => {
   setTimeout(resolve, 1000);
 });
