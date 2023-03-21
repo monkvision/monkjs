@@ -4678,6 +4678,22 @@
     "overlay": "jgc21-z15ZdJL6.svg",
     "mirror_sight": "jgc21-s7WDTRmE"
   },
+  "jgc21-nVbhsBaQ": {
+    "id": "jgc21-nVbhsBaQ",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-nVbhsBaQ.svg",
+    "mirror_sight": "jgc21-S8sE69on"
+  },
   "jgc21-s7WDTRmE": {
     "id": "jgc21-s7WDTRmE",
     "label": {
@@ -4701,6 +4717,22 @@
     "template_image": "jgc21-s7WDTRmE.opengl.png",
     "overlay": "jgc21-s7WDTRmE.svg",
     "mirror_sight": "jgc21-z15ZdJL6"
+  },
+  "jgc21-S8sE69on": {
+    "id": "jgc21-S8sE69on",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-S8sE69on.svg",
+    "mirror_sight": "jgc21-nVbhsBaQ"
   },
   "jgc21-omlus7Ui": {
     "id": "jgc21-omlus7Ui",
@@ -4822,6 +4854,22 @@
     "overlay": "jgc21-3gjMwvQG.svg",
     "mirror_sight": "jgc21-RAVpqaE4"
   },
+  "jgc21-2bGeRS3I": {
+    "id": "jgc21-2bGeRS3I",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-2bGeRS3I.svg",
+    "mirror_sight": "jgc21-xwYV3_Hz"
+  },
   "jgc21-RAVpqaE4": {
     "id": "jgc21-RAVpqaE4",
     "label": {
@@ -4845,6 +4893,22 @@
     "template_image": "jgc21-RAVpqaE4.opengl.png",
     "overlay": "jgc21-RAVpqaE4.svg",
     "mirror_sight": "jgc21-3gjMwvQG"
+  },
+  "jgc21-xwYV3_Hz": {
+    "id": "jgc21-xwYV3_Hz",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-xwYV3_Hz.svg",
+    "mirror_sight": "jgc21-2bGeRS3I"
   },
   "jgc21-Emzc8jJA": {
     "id": "jgc21-Emzc8jJA",
