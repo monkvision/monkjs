@@ -12,7 +12,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
-  plugins: ['react', 'jest', '@typescript-eslint', 'import', 'prettier'],
+  plugins: ['jest', '@typescript-eslint', 'import', 'prettier'],
   parser: '@typescript-eslint/parser',
   settings: {
     'import/resolver': {
@@ -23,8 +23,8 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ERROR,
-    '@typescript-eslint/lines-between-class-members': OFF,
-    'no-useless-constructor': OFF,
+    'no-console': ERROR,
+    'react/function-component-definition': [ERROR, { namedComponent: 'arrow-function' }],
   },
   overrides: [
     {
@@ -42,4 +42,5 @@ module.exports = {
       },
     },
   ],
+  ignorePatterns: ['**/*.js', 'node_modules', 'dist'],
 };

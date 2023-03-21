@@ -13,10 +13,17 @@
   ],
   "peerDependencies": {
     "@monkvision/eslint-config-base": "1.0.0",
+    "@monkvision/eslint-config-typescript": "1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
+    "eslint-config-airbnb": "*",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.5",
+    "eslint-plugin-jsx-a11y": "*",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "*",
+    "eslint-plugin-react-hooks": "*",
     "typescript": "^4.8.4"
   },
   "publishConfig": {
@@ -37,7 +44,8 @@
     "es2016",
     "es2017",
     "es2018",
-    "typescript"
+    "typescript",
+    "react"
   ],
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"
