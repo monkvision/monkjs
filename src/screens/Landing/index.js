@@ -69,7 +69,6 @@ export default function Landing() {
     [inspection?.tasks],
   );
 
-
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
   const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
