@@ -16,6 +16,7 @@
     "clean": "rimraf dist lib src/lib/data src/lib/data.ts src/lib/index.ts && mkdirp dist lib",
     "compile": "yarn run clean && tsc -p tsconfig.compile.json",
     "build": "yarn run compile && node dist/index.js && tsc -p tsconfig.build.json",
+    "validate": "yarn run compile && node dist/index.js --validate-only",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --check ./src ./test ./research",

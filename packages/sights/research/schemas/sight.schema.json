@@ -25,6 +25,9 @@
     "category": {
       "$ref": "#/definitions/Category"
     },
+    "dev": {
+      "type": "boolean"
+    },
     "label": {
       "type": "string",
       "pattern": "[a-z]+(.[a-z]+)*"
@@ -41,6 +44,16 @@
     {
       "if": {
         "properties": {
+          "dev": {
+            "anyOf": [
+              {
+                "const": null
+              },
+              {
+                "const": false
+              }
+            ]
+          },
           "category": {
             "const": "exterior"
           }

@@ -29,6 +29,15 @@
     "vehicle_type": "ftransit18",
     "mirror_sight": "ftransit18-RJ2D7DNz"
   },
+  "ftransit18-yxw9gmyL": {
+    "id": "ftransit18-yxw9gmyL",
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "ftransit18-yxw9gmyL.svg",
+    "vehicle_type": "ftransit18",
+    "mirror_sight": "ftransit18-AuCXxG5o",
+    "dev": true
+  },
   "ftransit18-3dkU10af": {
     "id": "ftransit18-3dkU10af",
     "angle_order": 180,
@@ -72,6 +81,15 @@
     "overlay": "ftransit18-4NMPqEV6.svg",
     "vehicle_type": "ftransit18",
     "mirror_sight": "ftransit18-Y0vPhBVF"
+  },
+  "ftransit18-7qLSCnFP": {
+    "id": "ftransit18-7qLSCnFP",
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "ftransit18-7qLSCnFP.svg",
+    "vehicle_type": "ftransit18",
+    "mirror_sight": "ftransit18-mGSvkRHz",
+    "dev": true
   },
   "ftransit18-5SiNC94w": {
     "id": "ftransit18-5SiNC94w",
@@ -201,6 +219,15 @@
     "vehicle_type": "ftransit18",
     "mirror_sight": "ftransit18-3Sbfx_KZ"
   },
+  "ftransit18-AuCXxG5o": {
+    "id": "ftransit18-AuCXxG5o",
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "ftransit18-AuCXxG5o.svg",
+    "vehicle_type": "ftransit18",
+    "mirror_sight": "ftransit18-yxw9gmyL",
+    "dev": true
+  },
   "ftransit18-TkXihCj4": {
     "id": "ftransit18-TkXihCj4",
     "angle_order": 301.82745,
@@ -243,6 +270,15 @@
     "overlay": "ftransit18-Y0vPhBVF.svg",
     "vehicle_type": "ftransit18",
     "mirror_sight": "ftransit18-4NMPqEV6"
+  },
+  "ftransit18-mGSvkRHz": {
+    "id": "ftransit18-mGSvkRHz",
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "ftransit18-mGSvkRHz.svg",
+    "vehicle_type": "ftransit18",
+    "mirror_sight": "ftransit18-7qLSCnFP",
+    "dev": true
   },
   "ftransit18-aA2K898S": {
     "id": "ftransit18-aA2K898S",

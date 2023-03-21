@@ -72,6 +72,15 @@
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-cI285Gon"
   },
+  "tsienna20-uz29ILgw": {
+    "id": "tsienna20-uz29ILgw",
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "tsienna20-uz29ILgw.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-K0ThKmue",
+    "dev": true
+  },
   "tsienna20-670P2H2V": {
     "id": "tsienna20-670P2H2V",
     "angle_order": 129.4278,
@@ -86,6 +95,15 @@
     "overlay": "tsienna20-670P2H2V.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-SebsoqJm"
+  },
+  "tsienna20-2Zz6SEaI": {
+    "id": "tsienna20-2Zz6SEaI",
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "tsienna20-2Zz6SEaI.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-RP6TzN4w",
+    "dev": true
   },
   "tsienna20-D6pPBrXx": {
     "id": "tsienna20-D6pPBrXx",
@@ -215,6 +233,15 @@
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-670P2H2V"
   },
+  "tsienna20-RP6TzN4w": {
+    "id": "tsienna20-RP6TzN4w",
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "tsienna20-RP6TzN4w.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-2Zz6SEaI",
+    "dev": true
+  },
   "tsienna20-TI4TVvT9": {
     "id": "tsienna20-TI4TVvT9",
     "camera": {
@@ -315,6 +342,15 @@
     "overlay": "tsienna20-cI285Gon.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-65mfPdRD"
+  },
+  "tsienna20-K0ThKmue": {
+    "id": "tsienna20-K0ThKmue",
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "tsienna20-K0ThKmue.svg",
+    "vehicle_type": "tsienna20",
+    "mirror_sight": "tsienna20-uz29ILgw",
+    "dev": true
   },
   "tsienna20-g2uWI1l8": {
     "id": "tsienna20-g2uWI1l8",
