@@ -19,7 +19,9 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^25.3.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-promise": "^6.1.1"
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-utils": "^3.0.0",
+    "regexpp": "^3.2.0"
   },
   "publishConfig": {
     "access": "public"
