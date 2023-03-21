@@ -7,7 +7,7 @@ jest.mock('../../src/io');
 
 import fs from 'fs';
 import { join } from 'path';
-import { SightCategory, VehicleType } from '../../lib';
+import { SightCategory, VehicleType } from '../../src/lib/types';
 import * as io from '../../src/io';
 import { validateAdditionalRules } from '../../src/validate/additionalValidation';
 import { pathsEqual } from '../test.utils';

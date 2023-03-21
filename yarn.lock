@@ -2513,6 +2513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/corejs@workspace:packages/corejs"
   dependencies:
+    "@monkvision/eslint-config-base": 1.0.0
     "@monkvision/eslint-config-typescript": 1.0.0
     "@monkvision/prettier-config": 1.0.0
     "@monkvision/typescript-config": 1.0.0
@@ -2641,6 +2642,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/sights@workspace:packages/sights"
   dependencies:
+    "@monkvision/eslint-config-base": 1.0.0
     "@monkvision/eslint-config-typescript": 1.0.0
     "@monkvision/prettier-config": 1.0.0
     "@monkvision/typescript-config": 1.0.0

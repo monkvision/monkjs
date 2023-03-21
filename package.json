@@ -4,6 +4,7 @@
   "packageManager": "yarn@3.2.4",
   "description": "Monorepo for the MonkJs project",
   "private": true,
+  "type": "module",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "workspaces": [
@@ -12,9 +13,8 @@
     "apps/*"
   ],
   "scripts": {
+    "clean": "rimraf node_modules && yarn cache clean && yarn install",
     "build": "yarn workspaces foreach -pt run build",
-    "clear": "rimraf node_modules && yarn cache clean && yarn install",
-    "postinstall": "yarn run build",
     "test": "yarn workspaces foreach -pt run test",
     "test:coverage": "yarn workspaces foreach -pt run test:coverage",
     "lint": "yarn workspaces foreach -pt run lint",
