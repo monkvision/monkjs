@@ -45,6 +45,9 @@ const ADD_DAMAGE_HELP_EVENT_KEY = 'ADD_DAMAGE_HELP';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     ...Platform.select({
       web: {
         position: 'absolute',
@@ -353,7 +356,7 @@ const Capture = forwardRef(({
   const handlePartSelectorConfirm = useCallback((selectedParts) => {
     setAddDamageParts(selectedParts);
     setAddDamageStatus(AddDamageStatus.TAKE_PICTURE);
-  }, [setAddDamageStatus]);
+  }, [setAddDamageParts, setAddDamageStatus]);
 
   const handleCloseCaptureEarly = useCallback(() => {
     if (typeof onCloseEarly === 'function') {

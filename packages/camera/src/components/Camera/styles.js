@@ -12,7 +12,6 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.75)',
     borderRadius: 18,
     color: 'white',
-    fontFamily: 'monospace',
     fontSize: 14,
     lineHeight: 9,
     marginTop: 4,

@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     color: 'white',
     lineHeight: 10,
     fontSize: 10,
-    fontFamily: 'monospace',
     textAlign: 'center',
     maxWidth: '100%',
     paddingVertical: 2,

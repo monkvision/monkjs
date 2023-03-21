@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: CONTAINER_PADDING,
     paddingBottom: 5,
+    maxHeight: 400
   },
   header: {
     alignSelf: 'stretch',

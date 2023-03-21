@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef, useCallback, useState, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 
@@ -22,7 +22,20 @@ function Camera({
 }, ref) {
   const { t } = useTranslation();
   const permissions = usePermissions();
+  const [cameraRef, setCameraRef] = useState(null);
 
+  useImperativeHandle(ref, () => ({
+    async takePictureAsync(options) { 
+      return await cameraRef?.takePictureAsync(options);
+    },
+    resumePreview() {
+      cameraRef?.resumePreview()
+    },
+    pausePreview() {
+      cameraRef?.pausePreview()
+    }
+  }));
+  
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
   const size = getSize(ratio, { windowHeight, windowWidth });
 
@@ -33,7 +46,9 @@ function Camera({
   if (permissions.granted && permissions.status === PermissionStatus.GRANTED) {
     return (
       <ExpoCamera
-        ref={ref}
+        ref={ref => {
+          setCameraRef(ref) ;
+        }}
         ratio={ratio}
         onMountError={handleError}
         {...passThroughProps}

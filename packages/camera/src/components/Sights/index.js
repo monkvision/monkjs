@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     alignSelf: 'center',
     color: 'white',
-    fontFamily: 'monospace',
     textAlign: 'center',
     lineHeight: 20,
     marginTop: 10,

@@ -162,6 +162,35 @@ export default function UploadCenter({
       style={[styles.card, { backgroundColor: colors.background, height }]}
       contentContainerStyle={styles.container}
     >
+      <View style={styles.actions}>
+        {displayRetakeAll ? (
+          <Button
+            onPress={handleRetakeAll}
+            colors={colors}
+            color={colors.actions.primary}
+            disabled={!hasFulfilledAllUploads}
+          >
+            <Text style={{ color: colors.actions.primary.text || colors.text }}>
+              {`${t('uploadCenter.view.retakeAll')} ${ids.length ? `(${ids.length})` : ''}`}
+            </Text>
+          </Button>
+        ) : null}
+        <Button
+          colors={colors}
+          color={colors.actions.secondary}
+          onPress={(e) => {
+            log(['[Click] Skip retaking photo']);
+            onSkipRetake(statEventsData);
+            onComplianceCheckFinish(e);
+          }}
+          disabled={isSubmitting || hasAllRejected
+             || !hasFulfilledAllUploads || !navigationOptions.allowSkipImageQualityCheck}
+        >
+          <Text style={{ color: colors.actions.secondary.text || colors.text }}>
+            {t('uploadCenter.view.submit')}
+          </Text>
+        </Button>
+      </View>
       <View style={{ minHeight: height - height * 0.2 }}>
         {/* content */}
         <Text style={[styles.title, { color: colors.text }]}>
@@ -217,35 +246,6 @@ export default function UploadCenter({
       </View>
 
       {/* actions */}
-      <View style={styles.actions}>
-        {displayRetakeAll ? (
-          <Button
-            onPress={handleRetakeAll}
-            colors={colors}
-            color={colors.actions.primary}
-            disabled={!hasFulfilledAllUploads}
-          >
-            <Text style={{ color: colors.actions.primary.text || colors.text }}>
-              {`${t('uploadCenter.view.retakeAll')} ${ids.length ? `(${ids.length})` : ''}`}
-            </Text>
-          </Button>
-        ) : null}
-        <Button
-          colors={colors}
-          color={colors.actions.secondary}
-          onPress={(e) => {
-            log(['[Click] Skip retaking photo']);
-            onSkipRetake(statEventsData);
-            onComplianceCheckFinish(e);
-          }}
-          disabled={isSubmitting || hasAllRejected
-             || !hasFulfilledAllUploads || !navigationOptions.allowSkipImageQualityCheck}
-        >
-          <Text style={{ color: colors.actions.secondary.text || colors.text }}>
-            {t('uploadCenter.view.submit')}
-          </Text>
-        </Button>
-      </View>
     </ScrollView>
   );
 

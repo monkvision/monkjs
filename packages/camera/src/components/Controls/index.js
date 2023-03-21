@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'end',
+    justifyContent: 'flex-end',
   },
   controlArraySpacer: {
     height: 20,
