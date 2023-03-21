@@ -71,6 +71,15 @@
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-RAVpqaE4"
   },
+  "jgc21-2bGeRS3I": {
+    "id": "jgc21-2bGeRS3I",
+    "category": "exterior",
+    "label": "rear-lateral-low-left",
+    "overlay": "jgc21-2bGeRS3I.svg",
+    "vehicle_type": "jgc21",
+    "mirror_sight": "jgc21-xwYV3_Hz",
+    "dev": true
+  },
   "jgc21-5lovhZgA": {
     "id": "jgc21-5lovhZgA",
     "camera": {
@@ -224,6 +233,15 @@
     "overlay": "jgc21-RAVpqaE4.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-3gjMwvQG"
+  },
+  "jgc21-xwYV3_Hz": {
+    "id": "jgc21-xwYV3_Hz",
+    "category": "exterior",
+    "label": "rear-lateral-low-right",
+    "overlay": "jgc21-xwYV3_Hz.svg",
+    "vehicle_type": "jgc21",
+    "mirror_sight": "jgc21-2bGeRS3I",
+    "dev": true
   },
   "jgc21-RE3li6rE": {
     "id": "jgc21-RE3li6rE",
@@ -413,6 +431,15 @@
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-z15ZdJL6"
   },
+  "jgc21-S8sE69on": {
+    "id": "jgc21-S8sE69on",
+    "category": "exterior",
+    "label": "front-lateral-low-right",
+    "overlay": "jgc21-S8sE69on.svg",
+    "vehicle_type": "jgc21",
+    "mirror_sight": "jgc21-nVbhsBaQ",
+    "dev": true
+  },
   "jgc21-tbF2Ax8v": {
     "id": "jgc21-tbF2Ax8v",
     "camera": {
@@ -440,6 +467,15 @@
     "overlay": "jgc21-z15ZdJL6.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-s7WDTRmE"
+  },
+  "jgc21-nVbhsBaQ": {
+    "id": "jgc21-nVbhsBaQ",
+    "category": "exterior",
+    "label": "front-lateral-low-left",
+    "overlay": "jgc21-nVbhsBaQ.svg",
+    "vehicle_type": "jgc21",
+    "mirror_sight": "jgc21-S8sE69on",
+    "dev": true
   },
   "jgc21-zCrDwYWE": {
     "id": "jgc21-zCrDwYWE",
