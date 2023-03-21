@@ -5,5 +5,9 @@ import { validate } from './validate';
 import { build } from './build';
 
 validate();
-build();
+
+if (!process.argv.includes('--validate-only')) {
+  build();
+}
+
 console.log(`⚡️ Done in ${Date.now() - buildStart}ms`);
