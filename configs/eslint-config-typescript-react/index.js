@@ -5,12 +5,7 @@ const ERROR = 2;
 module.exports = {
   root: true,
   extends: [
-    '@monkvision/eslint-config-base',
     '@monkvision/eslint-config-typescript',
-    'plugin:import/typescript',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:prettier/recommended',
   ],
   plugins: ['jest', '@typescript-eslint', 'import', 'prettier'],
   parser: '@typescript-eslint/parser',
