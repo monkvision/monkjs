@@ -1,8 +1,2 @@
 dist
 node_modules
-.eslintrc.js
-jest.config.js
-dist
-./lib
-src/lib/**
-!src/lib/types.ts

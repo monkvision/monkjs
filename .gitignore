@@ -14,15 +14,14 @@
 .pnp.*
 
 # modules
-node_modules/
-.docusaurus/
-.idea/
+node_modules
+.idea
 
 # testing
 coverage/
 
 # production
-build/
+apps/monk-test-app/build/
 
 # logs
 npm-debug.*
@@ -35,10 +34,7 @@ yarn-error.log*
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
 
 # vscode
 .vscode

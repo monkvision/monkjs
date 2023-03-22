@@ -1,18 +1,5 @@
 {
-  "extends": "@monkvision/typescript-config/tsconfig.json",
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "noEmit": true,
-    "skipLibCheck": true
-  },
-  "include": ["src", "test"],
+  "extends": "@monkvision/typescript-config/tsconfig.react.json",
+  "include": ["src"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

@@ -6,6 +6,18 @@
   "description": "MonkJs test app with react and typescript",
   "author": "monkvision",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --no-watch --no-watchAll",
+    "eject": "react-scripts eject",
+    "prettier": "prettier --check ./src",
+    "prettier:fix": "prettier --write ./src",
+    "eslint": "eslint --format=pretty ./src",
+    "eslint:fix": "eslint --fix --format=pretty ./src",
+    "lint": "yarn run prettier && yarn run eslint",
+    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
+  },
   "dependencies": {
     "@testing-library/dom": "^8.20.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -49,19 +61,7 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --no-watch --no-watchAll",
-    "eject": "react-scripts eject"
-  },
   "prettier": "@monkvision/prettier-config",
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
