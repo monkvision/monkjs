@@ -13,6 +13,15 @@ const jsxSpecialAttributes = {
 };
 
 export default function SVGComponentMapper({ element, togglePart, isPartSelected, groupName }) {
+  function getAttribute(element, name) {
+    for (let i = 0; i < element.attributes.length; i++) {
+      if (element.attributes[i].name === name) {
+        return element.attributes[i].nodeValue;
+      }
+    }
+    return undefined;
+  }
+
   let names = [];
   for (let i = 0; i < element.attributes.length; i++) {
     names.push(element.attributes[i].name);
@@ -20,19 +29,11 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
 
   const attributes = useMemo(() => names.reduce((prev, attr) => ({
       ...prev,
-      [jsxSpecialAttributes[attr] ?? attr]: element.getAttribute(attr),
+      [jsxSpecialAttributes[attr] ?? attr]: getAttribute(element, attr),
     }), {}), [element]);
 
-  let elementClass;
-  let elementId;
-  for (let i = 0; i < element.attributes.length; i++) {
-    if (element.attributes[i].name === 'class') {
-      elementClass = element.attributes[i].nodeValue;
-    }
-    if (element.attributes[i].name === 'id') {
-      elementId = element.attributes[i].nodeValue;
-    }
-  }
+  const elementClass = getAttribute(element, 'class');
+  const elementId = getAttribute(element, 'id');
 
   let partKey = null;
   if (groupName && CAR_PARTS.includes(groupName)) {

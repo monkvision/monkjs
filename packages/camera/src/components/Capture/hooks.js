@@ -189,14 +189,16 @@ export function useStartUploadAsync({
 }) {
   const [queue, setQueue] = useState([]);
   const { errorHandler } = useMonitoring();
-  const [isRunning, setIsRunning] = useState(false);
+  let isRunning = false;
+
+  const addElement = useCallback((element) => setQueue((prevState) => [...prevState, element]), []);
 
   const runQuery = useCallback(async () => {
     const { ids } = sights.state;
     const { dispatch } = uploads;
 
     if (!isRunning && queue.length > 0) {
-      setIsRunning(true);
+      isRunning = true;
 
       const queryParams = queue.shift();
       if (queryParams) {
@@ -246,7 +248,7 @@ export function useStartUploadAsync({
           onWarningMessage(null);
         }
       }
-      setIsRunning(false);
+      isRunning = false;
     }
   }, [isRunning, queue, sights.state, uploads, endTour]);
 
@@ -331,8 +333,7 @@ export function useStartUploadAsync({
         }
       }
 
-      const currentQueue = queue.concat([{ multiPartKeys, json, file, id, picture }]);
-      setQueue(currentQueue);
+      addElement({ multiPartKeys, json, file, id, picture });
     } catch (err) {
       dispatch({
         type: Actions.uploads.UPDATE_UPLOAD,
@@ -344,7 +345,7 @@ export function useStartUploadAsync({
 
       throw err;
     }
-  }, [queue, uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
+  }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
 }
 
 export function useUploadAdditionalDamage({

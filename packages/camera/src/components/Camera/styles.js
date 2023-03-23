@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,6 +12,11 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.75)',
     borderRadius: 18,
     color: 'white',
+    ...Platform.select({
+      web: {
+        fontFamily: 'monospace'
+      },
+    }),
     fontSize: 14,
     lineHeight: 9,
     marginTop: 4,
