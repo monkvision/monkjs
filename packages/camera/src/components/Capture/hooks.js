@@ -212,7 +212,7 @@ export function useStartUploadAsync({
           if (Platform.OS === 'web') {
             result = await monk.entity.image.addOne(inspectionId, data);
           } else {
-            const response = await fetch(monk.config.axiosConfig.baseURL + 'inspections/' + inspectionId + '/images',{
+            const response = await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
               method: 'post',
               headers: {
                 'Content-Type': 'multipart/form-data',
@@ -425,7 +425,7 @@ export function useUploadAdditionalDamage({
         if (Platform.OS === 'web') {
           await monk.entity.image.addOne(inspectionId, data);
         } else {
-          await fetch(monk.config.axiosConfig.baseURL + 'inspections/' + inspectionId + '/images',{
+          await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
             method: 'post',
             headers: {
               'Content-Type': 'multipart/form-data',
