@@ -20,9 +20,6 @@ node_modules
 # testing
 coverage/
 
-# production
-apps/monk-test-app/build/
-
 # logs
 npm-debug.*
 npm-debug.log*

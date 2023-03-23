@@ -55,10 +55,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-utils": "^3.0.0",
     "jest": "^29.3.1",
-    "mkdirp": "^1.0.4",
     "prettier": "^2.7.1",
     "regexpp": "^3.2.0",
-    "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3"
   },
   "prettier": "@monkvision/prettier-config",
