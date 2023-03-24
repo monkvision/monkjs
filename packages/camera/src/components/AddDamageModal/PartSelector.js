@@ -32,7 +32,12 @@ export default function PartSelector({ orientation, togglePart, isPartSelected, 
     [height],
   );
   const svgElement = useMemo(() => {
-    const svg = doc.children[0];
+    let svg;
+    if (Platform.OS === 'web') {
+      svg = doc.children[0];
+    } else {
+      svg = doc.childNodes[1];
+    }
     if (svg.tagName !== 'svg') {
       throw new Error('Invalid part selector SVG format: expected <svg> tag as the first children of XML document');
     }

@@ -353,7 +353,7 @@ const Capture = forwardRef(({
   const handlePartSelectorConfirm = useCallback((selectedParts) => {
     setAddDamageParts(selectedParts);
     setAddDamageStatus(AddDamageStatus.TAKE_PICTURE);
-  }, [setAddDamageStatus]);
+  }, [setAddDamageParts, setAddDamageStatus]);
 
   const handleCloseCaptureEarly = useCallback(() => {
     if (typeof onCloseEarly === 'function') {

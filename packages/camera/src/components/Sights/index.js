@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ScrollView, StyleSheet, Switch, Text, useWindowDimensions, View } from 'react-native';
+import { ScrollView, StyleSheet, Switch, Text, useWindowDimensions, View, Platform } from 'react-native';
 import Actions from '../../actions';
 
 import Thumbnail from '../Thumbnail';
@@ -19,7 +19,11 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     alignSelf: 'center',
     color: 'white',
-    fontFamily: 'monospace',
+    ...Platform.select({
+      web: {
+        fontFamily: 'monospace'
+      },
+    }),
     textAlign: 'center',
     lineHeight: 20,
     marginTop: 10,

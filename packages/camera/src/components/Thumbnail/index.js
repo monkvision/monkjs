@@ -1,7 +1,7 @@
 import '@expo/match-media';
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo } from 'react';
-import { ActivityIndicator, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ImageBackground, StyleSheet, Text, View, Platform } from 'react-native';
 
 import { SIDE_WIDTH } from '../Layout';
 import Overlay from '../Overlay';
@@ -36,7 +36,11 @@ const styles = StyleSheet.create({
     color: 'white',
     lineHeight: 10,
     fontSize: 10,
-    fontFamily: 'monospace',
+    ...Platform.select({
+      web: {
+        fontFamily: 'monospace'
+      },
+    }),
     textAlign: 'center',
     maxWidth: '100%',
     paddingVertical: 2,

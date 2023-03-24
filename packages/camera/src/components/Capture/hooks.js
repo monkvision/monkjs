@@ -1,7 +1,6 @@
 import monk, { useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 import axios from 'axios';
-import { Buffer } from 'buffer';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -209,10 +208,22 @@ export function useStartUploadAsync({
         try {
           const data = new FormData();
           data.append(multiPartKeys.json, json);
-
           data.append(multiPartKeys.image, file);
 
-          const result = await monk.entity.image.addOne(inspectionId, data);
+          let result;
+          if (Platform.OS === 'web') {
+            result = await monk.entity.image.addOne(inspectionId, data);
+          } else {
+            const response = await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
+              method: 'post',
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': monk.config.accessToken
+              },
+              body: data
+            })
+            result = await response.json()
+          }
           onPictureUploaded({ result, picture, inspectionId });
 
           // call onFinish callback when capturing the last picture
@@ -265,10 +276,21 @@ export function useStartUploadAsync({
         payload: { id, status: 'pending', label },
       });
 
-      const fileType = picture.fileType;
-      const filename = `${id}-${inspectionId}.${picture.imageFilenameExtension}`;
+      let fileType;
+      let filename;
+      let fileKey;
+      if (Platform.OS === 'web') {
+        fileType = picture.fileType;
+        filename = `${id}-${inspectionId}.${picture.imageFilenameExtension}`;
+        fileKey = 'image';
+      } else {
+        fileType = 'image/jpeg';
+        filename = `${id}-${inspectionId}.${picture.uri.split(/[#?]/)[0].split('.').pop().trim()}`;
+        fileKey = filename;
+      }
+
       const multiPartKeys = {
-        image: 'image',
+        image: fileKey,
         json: 'json',
         type: fileType,
         filename,
@@ -277,7 +299,7 @@ export function useStartUploadAsync({
       const json = JSON.stringify({
         acquisition: {
           strategy: 'upload_multipart_form_keys',
-          file_key: multiPartKeys.image,
+          file_key: fileKey,
         },
         compliances: {
           image_quality_assessment: {},
@@ -294,23 +316,22 @@ export function useStartUploadAsync({
         },
       });
 
-      let fileBits;
-
+      let file;
       if (Platform.OS === 'web') {
         const res = await axios.get(picture.uri, { responseType: 'blob' });
-        const file = res.data;
-
-        fileBits = [file];
+        fileBits = [res.data];
+        file = await new File(
+          fileBits,
+          multiPartKeys.filename,
+          { type: multiPartKeys.type },
+        );
       } else {
-        const buffer = Buffer.from(picture.uri, 'base64');
-        fileBits = new Blob([buffer], { type: picture.imageFilenameExtension });
+        file = {
+          uri: picture.uri,
+          type: multiPartKeys.type,
+         name: multiPartKeys.filename
+        }
       }
-
-      const file = await new File(
-        fileBits,
-        multiPartKeys.filename,
-        { type: multiPartKeys.type },
-      );
 
       addElement({ multiPartKeys, json, file, id, picture });
     } catch (err) {
@@ -336,10 +357,23 @@ export function useUploadAdditionalDamage({
     }
 
     try {
-      const fileType = picture.fileType;
-      const filename = `close-up-${Date.now()}-${inspectionId}.${picture.imageFilenameExtension}`;
+
+      let fileType;
+      let filename;
+      let fileKey;
+      if (Platform.OS === 'web') {
+        fileType = picture.fileType;
+        filename = `close-up-${Date.now()}-${inspectionId}.${picture.imageFilenameExtension}`;
+        fileKey = 'image';
+      } else {
+        const fileExtension = picture.uri.split(/[#?]/)[0].split('.').pop().trim();
+        fileType = 'image/' + fileExtension;
+        filename = `close-up-${Date.now()}-${inspectionId}.${fileType}`;
+        fileKey = filename;
+      }
+
       const multiPartKeys = {
-        image: 'image',
+        image: fileKey,
         json: 'json',
         type: fileType,
         filename,
@@ -348,7 +382,7 @@ export function useUploadAdditionalDamage({
       const json = JSON.stringify({
         acquisition: {
           strategy: 'upload_multipart_form_keys',
-          file_key: multiPartKeys.image,
+          file_key: fileKey,
         },
         compliances: {
           image_quality_assessment: {},
@@ -368,30 +402,39 @@ export function useUploadAdditionalDamage({
         },
       });
 
-      let fileBits;
-
+      let file;
       if (Platform.OS === 'web') {
         const res = await axios.get(picture.uri, { responseType: 'blob' });
-        const file = res.data;
-
-        fileBits = [file];
+        fileBits = [res.data];
+        file = await new File(
+          fileBits,
+          multiPartKeys.filename,
+          { type: multiPartKeys.type },
+        );
       } else {
-        const buffer = Buffer.from(picture.uri, 'base64');
-        fileBits = new Blob([buffer], { type: picture.imageFilenameExtension });
+        file = {
+          uri: picture.uri,
+          type: multiPartKeys.type,
+         name: multiPartKeys.filename
+        }
       }
-
-      const file = await new File(
-        fileBits,
-        multiPartKeys.filename,
-        { type: multiPartKeys.type },
-      );
 
       try {
         const data = new FormData();
         data.append(multiPartKeys.json, json);
         data.append(multiPartKeys.image, file);
-
-        await monk.entity.image.addOne(inspectionId, data);
+        if (Platform.OS === 'web') {
+          await monk.entity.image.addOne(inspectionId, data);
+        } else {
+          await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
+            method: 'post',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': monk.config.accessToken
+            },
+            body: data
+          });
+        }
       } catch (err) {
         console.error(err);
       } finally {
