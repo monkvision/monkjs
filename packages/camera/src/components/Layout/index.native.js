@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View, Text } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const SIDE = 116;
 export const SIDE_WIDTH = SIDE;
 
 const styles = StyleSheet.create({
+  rotate: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -25,10 +30,20 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
   },
+  title: {
+    color: 'rgba(250, 250, 250, 0.87)',
+    textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 30,
+    letterSpacing: 0.15,
+    fontSize: 20,
+    marginVertical: 2,
+  },
 });
 
 function Layout({ backgroundColor, children, isReady, left, right }) {
   const { height, width } = useWindowDimensions();
+  const { t } = useTranslation();
 
   const size = StyleSheet.create({ height, width });
 
@@ -42,27 +57,43 @@ function Layout({ backgroundColor, children, isReady, left, right }) {
     styles.rightPortrait,
   );
 
-  return (
-    <View
-      accessibilityLabel="Layout"
-      style={[
-        { height, width },
-        styles.container,
-        { backgroundColor },
-      ]}
-    >
-      <View accessibilityLabel="Side left" style={leftStyle}>{isReady && left}</View>
+  if (width > height) {
+    return (
       <View
-        accessibilityLabel="Center"
-        style={[size, styles.section, styles.center, {
-          maxWidth: width - (2 * SIDE),
-        }]}
+        accessibilityLabel="Layout"
+        style={[
+          { height, width },
+          styles.container,
+          { backgroundColor },
+        ]}
       >
-        {children}
+        <View accessibilityLabel="Side left" style={leftStyle}>{isReady && left}</View>
+        <View
+          accessibilityLabel="Center"
+          style={[size, styles.section, styles.center, {
+            maxWidth: width - (2 * SIDE),
+          }]}
+        >
+          {children}
+        </View>
+        <View accessibilityLabel="Side right" style={rightStyle}>{isReady && right}</View>
       </View>
-      <View accessibilityLabel="Side right" style={rightStyle}>{isReady && right}</View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View
+        accessibilityLabel="Layout"
+        style={[
+          styles.rotate,
+          { width, height, backgroundColor },
+        ]}
+      >
+        <Text style={styles.title}>
+            {t('layout.rotateDevice')}
+        </Text>
+      </View>
+    );
+  }
 }
 
 Layout.propTypes = {
