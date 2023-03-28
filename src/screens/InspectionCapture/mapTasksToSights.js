@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import monk from '@monkvision/corejs';
 
-const wheelsAnalysisSights = [
+const WADDSights = [
   { id: 'jgc21-z15ZdJL6', wheel_name: monk.types.WheelType.WHEEL_FRONT_LEFT },
   { id: 'jgc21-3gjMwvQG', wheel_name: monk.types.WheelType.WHEEL_BACK_LEFT },
   { id: 'jgc21-RAVpqaE4', wheel_name: monk.types.WheelType.WHEEL_BACK_RIGHT },
@@ -46,12 +46,15 @@ const mapTasksToSights = [
       image_details: { image_type: monk.types.ImageOcrType.VIN },
     },
   },
-  ...wheelsAnalysisSights.map(({ id, wheel_name }) => ({
+  ...WADDSights.map(({ id, wheel_name }) => ({
     id,
-    task: {
-      name: monk.types.TaskName.WHEEL_ANALYSIS,
-      image_details: { wheel_name },
-    },
+    tasks: [
+      monk.types.TaskName.DAMAGE_DETECTION,
+      {
+        name: monk.types.TaskName.WHEEL_ANALYSIS,
+        image_details: { wheel_name },
+      },
+    ],
     payload: {},
   })),
 ];
