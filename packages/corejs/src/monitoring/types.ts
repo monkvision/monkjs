@@ -118,6 +118,7 @@ export enum SentryTransaction {
 export enum SentryOperation {
   IMAGES_OCR = 'Image OCR',
   DAMAGE_DETECTION = 'Damage Detection',
+  ADD_DAMAGE = 'Add Damage',
   CAPTURE_TOUR = 'Capture Tour',
   CAPTURE_SIGHT = 'Capture Sight',
 }
@@ -136,5 +137,6 @@ export enum SentryTag {
   IS_RETAKE = 'isRetake',
   TAKEN_PICTURES = 'takenPictures',
   RETAKEN_PICTURES = 'retakenPictures',
+  ADD_DAMAGES = 'addDamages',
   PERCENT_OF_NON_COMPLIANCE_PICS = 'percentOfNonCompliancePics',
 }
