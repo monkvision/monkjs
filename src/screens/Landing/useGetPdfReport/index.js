@@ -30,7 +30,7 @@ export default function useGetPdfReport(inspectionId, onError) {
   const [reportUrl, setReportUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
-  const { onSocketEvent, emitSocketEvent } = useWebSocket();
+  const { onSocketEvent } = useWebSocket();
 
   const requestPdfPayload = useMemo(() => ({
     pricing: false,
