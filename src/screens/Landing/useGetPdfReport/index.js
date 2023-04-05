@@ -5,6 +5,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
+import { useWebSocket } from '../../../context/socket';
+
 const webDownload = (url, inspectionId) => {
   const link = document.createElement('a');
   link.href = url;
@@ -28,6 +30,7 @@ export default function useGetPdfReport(inspectionId, onError) {
   const [reportUrl, setReportUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
+  const { onSocketEvent, emitSocketEvent } = useWebSocket();
 
   const requestPdfPayload = useMemo(() => ({
     pricing: false,
@@ -56,16 +59,13 @@ export default function useGetPdfReport(inspectionId, onError) {
     async () => {
       setLoading(true);
       await requestPdfReport();
-      let done = false;
-      while (!done) {
+      // Send/Listen an event from server
+      emitSocketEvent('get_inspection_pdf_url', { inspectionId });
+      onSocketEvent('ready_inspection_pdf_url', async () => {
         try {
-          // eslint-disable-next-line no-await-in-loop
-          await timeout(2000);
-          // eslint-disable-next-line no-await-in-loop
           const res = await getPdfUrl();
           if (res.axiosResponse?.data?.pdfUrl) {
             setReportUrl(res.axiosResponse.data.pdfUrl);
-            done = true;
             setLoading(false);
           }
         } catch (err) {
@@ -74,7 +74,26 @@ export default function useGetPdfReport(inspectionId, onError) {
             if (onError) { onError(err); }
           }
         }
-      }
+      });
+      // let done = false;
+      // while (!done) {
+      //   try {
+      //     // eslint-disable-next-line no-await-in-loop
+      //     await timeout(2000);
+      //     // eslint-disable-next-line no-await-in-loop
+      //     const res = await getPdfUrl();
+      //     if (res.axiosResponse?.data?.pdfUrl) {
+      //       setReportUrl(res.axiosResponse.data.pdfUrl);
+      //       done = true;
+      //       setLoading(false);
+      //     }
+      //   } catch (err) {
+      //     if (err.status !== 422) {
+      //       console.error('Error while trying to fetch the pdf url :', err);
+      //       if (onError) { onError(err); }
+      //     }
+      //   }
+      // }
     },
     [inspectionId, requestPdfReport, getPdfUrl, setReportUrl, setLoading],
   );
