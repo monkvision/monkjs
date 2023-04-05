@@ -15,6 +15,7 @@ import * as names from 'screens/names';
 import useAuth from 'hooks/useAuth';
 import useSignIn from 'hooks/useSignIn';
 import useCreateInspection from './useCreateInspection';
+import { useWebSocket } from '../../context/socket';
 
 const styles = StyleSheet.create({
   root: {
@@ -43,6 +44,7 @@ export default function InspectionCreate() {
   const { errorHandler } = useMonitoring();
   const { t } = useTranslation();
   const { colors, loaderDotsColors } = useTheme();
+  const { socketID } = useWebSocket();
 
   const route = useRoute();
 
@@ -63,7 +65,7 @@ export default function InspectionCreate() {
     },
   });
 
-  const createInspection = useCreateInspection({ ...vehicle, vin });
+  const createInspection = useCreateInspection({ ...vehicle, vin, socketID });
   const handleCreate = useCallback(async () => {
     if (isEmpty(inspectionId) && isAuthenticated && createInspection.state.count < 1) {
       utils.log(['[Click] Inspection task chosen: ', selected]);
