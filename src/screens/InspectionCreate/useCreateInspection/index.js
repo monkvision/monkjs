@@ -12,7 +12,7 @@ export default function useCreateInspection(vehicle) {
   const axiosRequest = useCallback(async () => {
     const taskOptions = {
       status: monk.types.ProgressStatusUpdate.NOT_STARTED,
-      web_socket_session_id: vehicle.socketID || null,
+      web_socket_session_id: vehicle.socketID,
     };
     const tasks = {
       wheelAnalysis: { ...taskOptions, useLongshots: true },

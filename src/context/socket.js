@@ -10,12 +10,13 @@ const socket = io('http://localhost:5000', {}); // Replace url with your server 
 
 // React context for web socket data
 const SocketContext = createContext({
+  socketID: null,
   onSocketEvent: () => {},
   emitSocketEvent: () => {},
 });
 
 function SocketProvider({ children }) {
-  const [socketID, setSocketID] = useState('');
+  const [socketID, setSocketID] = useState(null);
 
   const onSocketEvent = useCallback((event, callback) => {
     if (socket.connected) {
