@@ -58,9 +58,7 @@ export default function useGetPdfReport(inspectionId, onError) {
   const preparePdf = useCallback(
     async () => {
       setLoading(true);
-      await requestPdfReport();
       // Send/Listen an event from server
-      emitSocketEvent('get_inspection_pdf_url', { inspectionId });
       onSocketEvent('ready_inspection_pdf_url', async () => {
         try {
           const res = await getPdfUrl();
@@ -75,6 +73,8 @@ export default function useGetPdfReport(inspectionId, onError) {
           }
         }
       });
+      // api call for pdf report
+      await requestPdfReport();
       // let done = false;
       // while (!done) {
       //   try {
