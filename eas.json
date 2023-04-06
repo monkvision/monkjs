@@ -67,7 +67,7 @@
         "IRA_DOMAIN": "localhost:5000",
         "API_DOMAIN": "localhost:5000/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "WMx8ejAeCbtWN4i5woxEV45AZhWRMMUZ",
+        "AUTH_CLIENT_ID": "rq1PDCY20CYLlW0TqDUH8zAvSjyscUjf",
         "AUTH_DOMAIN": "idp.dev.monk.ai",
         "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
