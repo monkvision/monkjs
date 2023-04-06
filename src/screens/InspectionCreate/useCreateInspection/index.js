@@ -4,7 +4,7 @@ import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export default function useCreateInspection(vehicle) {
+export default function useCreateInspection({ socketID, ...vehicle }) {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth();
   const [inspectionId, setInspectionId] = useState();
