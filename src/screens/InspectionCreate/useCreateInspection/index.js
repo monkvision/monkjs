@@ -12,7 +12,6 @@ export default function useCreateInspection({ socketID, ...vehicle }) {
   const axiosRequest = useCallback(async () => {
     const taskOptions = {
       status: monk.types.ProgressStatusUpdate.NOT_STARTED,
-      web_socket_session_id: vehicle.socketID,
     };
     const tasks = {
       wheelAnalysis: { ...taskOptions, useLongshots: true },
@@ -20,7 +19,7 @@ export default function useCreateInspection({ socketID, ...vehicle }) {
       ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
-    return monk.entity.inspection.createOne({ tasks, vehicle });
+    return monk.entity.inspection.createOne({ tasks, vehicle, websocket_id: socketID });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
