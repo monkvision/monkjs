@@ -350,6 +350,7 @@ export function useStartUploadAsync({
 
 export function useUploadAdditionalDamage({
   inspectionId,
+  onPictureUploaded = () => {}
 }) {
   return useCallback(async ({ picture, parts }) => {
     if (!inspectionId) {
@@ -423,10 +424,11 @@ export function useUploadAdditionalDamage({
         const data = new FormData();
         data.append(multiPartKeys.json, json);
         data.append(multiPartKeys.image, file);
+        let result;
         if (Platform.OS === 'web') {
-          await monk.entity.image.addOne(inspectionId, data);
+          result = await monk.entity.image.addOne(inspectionId, data);
         } else {
-          await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
+          const response = await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
             method: 'post',
             headers: {
               'Content-Type': 'multipart/form-data',
@@ -434,7 +436,10 @@ export function useUploadAdditionalDamage({
             },
             body: data
           });
+          result = await response.json()
         }
+
+        onPictureUploaded({ result, picture, inspectionId });
       } catch (err) {
         console.error(err);
       } finally {
