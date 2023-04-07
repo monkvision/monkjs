@@ -75,25 +75,6 @@ export default function useGetPdfReport(inspectionId, onError) {
       });
       // api call for pdf report
       await requestPdfReport();
-      // let done = false;
-      // while (!done) {
-      //   try {
-      //     // eslint-disable-next-line no-await-in-loop
-      //     await timeout(2000);
-      //     // eslint-disable-next-line no-await-in-loop
-      //     const res = await getPdfUrl();
-      //     if (res.axiosResponse?.data?.pdfUrl) {
-      //       setReportUrl(res.axiosResponse.data.pdfUrl);
-      //       done = true;
-      //       setLoading(false);
-      //     }
-      //   } catch (err) {
-      //     if (err.status !== 422) {
-      //       console.error('Error while trying to fetch the pdf url :', err);
-      //       if (onError) { onError(err); }
-      //     }
-      //   }
-      // }
     },
     [inspectionId, requestPdfReport, getPdfUrl, setReportUrl, setLoading],
   );

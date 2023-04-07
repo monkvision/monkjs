@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import monk, { useMonitoring } from '@monkvision/corejs';
-import { useInterval, utils } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Inspection from 'components/Inspection';
 import Modal from 'components/Modal';
 import ExpoConstants from 'expo-constants';
@@ -27,6 +27,7 @@ import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
 import VehicleType from './VehicleType';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
+import { useWebSocket } from '../../context/socket';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -42,6 +43,7 @@ export default function Landing() {
   const { errorHandler } = useMonitoring();
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
+  const { onSocketEvent } = useWebSocket();
 
   const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
@@ -172,14 +174,23 @@ export default function Landing() {
         errorHandler(err);
       });
     }
-  }, [inspectionId, getInspection]);
+  }, [inspectionId]);
 
-  const intervalId = useInterval(start, 1000);
-
-  useFocusEffect(useCallback(() => {
-    start();
-    return () => clearInterval(intervalId);
-  }, [navigation, start, intervalId]));
+  useEffect(() => {
+    console.log('[Landing page] - [Use Effect]');
+    onSocketEvent('task_progress_update', (data) => {
+      console.log('[Socket] - [task_progress_update]', data);
+      if (data.inspection_id === inspectionId) {
+        console.log('[Socket] - [task_progress_update]', data.progress);
+      }
+    });
+    onSocketEvent('update_task_status', (data) => {
+      console.log('[Socket] - [update_task_status]', data);
+      if (data.inspection_id === inspectionId) {
+        start();
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (inspectionId && !allTasksAreCompleted) {
