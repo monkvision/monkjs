@@ -20,9 +20,9 @@ function SocketProvider({ children }) {
 
   const onSocketEvent = useCallback((event, callback) => {
     if (socket.connected) {
-      socket.on(event, () => {
+      socket.on(event, (data) => {
         socket.off(event);
-        callback();
+        callback(data);
       });
     }
   }, []);
