@@ -95,14 +95,6 @@ export default function Landing() {
     }
   }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
-  const start = useCallback(() => {
-    if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => {
-        errorHandler(err);
-      });
-    }
-  }, [inspectionId]);
-
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
     // TODO: Add Monitoring code for setTag in MN-182
@@ -113,20 +105,10 @@ export default function Landing() {
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
-
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
-    // Listen websocket server event to get the updated status for task
-    onSocketEvent('update_task_status', (data) => {
-      console.log('[Socket] - [update_task_status]', data);
-      console.log('[Socket] - [update_task_status]', inspectionId);
-      if (data.inspection_id === inspectionId) {
-        console.log('[Socket] - [update_task_status] in the if!');
-        start();
-      }
-    });
     navigation.navigate(to, { selectedMod: value, inspectionId, vehicle: { vehicleType } });
-  }, [inspectionId, navigation, isAuthenticated, vehicleType, start]);
+  }, [inspectionId, navigation, isAuthenticated, vehicleType]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -185,6 +167,14 @@ export default function Landing() {
     );
   }, [handleListItemPress, inspection]);
 
+  const start = useCallback(() => {
+    if (inspectionId && getInspection.state.loading !== true) {
+      getInspection.start().catch((err) => {
+        errorHandler(err);
+      });
+    }
+  }, [inspectionId]);
+
   useEffect(() => {
     console.log('[Landing page] - [Use Effect]');
     if (inspectionId) {
@@ -195,6 +185,16 @@ export default function Landing() {
         if (data.inspection_id === inspectionId) {
           console.log('[Socket] - [task_progress_update] in the if!');
           console.log('[Socket] - [task_progress_update]', data.progress);
+        }
+      }, false);
+
+      // Listen websocket server event to get the updated status for each task
+      onSocketEvent('update_task_status', (data) => {
+        console.log('[Socket] - [update_task_status]', data);
+        console.log('[Socket] - [update_task_status]', inspectionId);
+        if (data.inspection_id === inspectionId) {
+          console.log('[Socket] - [update_task_status] in the if!');
+          start();
         }
       }, false);
     }
