@@ -18,10 +18,12 @@ const SocketContext = createContext({
 function SocketProvider({ children }) {
   const [socketID, setSocketID] = useState(null);
 
-  const onSocketEvent = useCallback((event, callback) => {
+  const onSocketEvent = useCallback((event, callback, off = true) => {
     if (socket.connected) {
       socket.on(event, (data) => {
-        socket.off(event);
+        if (off) {
+          socket.off(event);
+        }
         callback(data);
       });
     }

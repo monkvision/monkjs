@@ -95,6 +95,14 @@ export default function Landing() {
     }
   }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
+  const start = useCallback(() => {
+    if (inspectionId && getInspection.state.loading !== true) {
+      getInspection.start().catch((err) => {
+        errorHandler(err);
+      });
+    }
+  }, [inspectionId]);
+
   const handleReset = useCallback(() => {
     utils.log(['[Click] Resetting the inspection: ', inspectionId]);
     // TODO: Add Monitoring code for setTag in MN-182
@@ -108,8 +116,17 @@ export default function Landing() {
 
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
+    // Listen websocket server event to get the updated status for task
+    onSocketEvent('update_task_status', (data) => {
+      console.log('[Socket] - [update_task_status]', data);
+      console.log('[Socket] - [update_task_status]', inspectionId);
+      if (data.inspection_id === inspectionId) {
+        console.log('[Socket] - [update_task_status] in the if!');
+        start();
+      }
+    });
     navigation.navigate(to, { selectedMod: value, inspectionId, vehicle: { vehicleType } });
-  }, [inspectionId, navigation, isAuthenticated, vehicleType]);
+  }, [inspectionId, navigation, isAuthenticated, vehicleType, start]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -168,29 +185,20 @@ export default function Landing() {
     );
   }, [handleListItemPress, inspection]);
 
-  const start = useCallback(() => {
-    if (inspectionId && getInspection.state.loading !== true) {
-      getInspection.start().catch((err) => {
-        errorHandler(err);
-      });
-    }
-  }, [inspectionId]);
-
   useEffect(() => {
     console.log('[Landing page] - [Use Effect]');
-    onSocketEvent('task_progress_update', (data) => {
-      console.log('[Socket] - [task_progress_update]', data);
-      if (data.inspection_id === inspectionId) {
-        console.log('[Socket] - [task_progress_update]', data.progress);
-      }
-    });
-    onSocketEvent('update_task_status', (data) => {
-      console.log('[Socket] - [update_task_status]', data);
-      if (data.inspection_id === inspectionId) {
-        start();
-      }
-    });
-  }, []);
+    if (inspectionId) {
+      // Listen websocket server event to get the updated progress for damage_detection task
+      onSocketEvent('task_progress_update', (data) => {
+        console.log('[Socket] - [task_progress_update]', data);
+        console.log('[Socket] - [task_progress_update]', inspectionId);
+        if (data.inspection_id === inspectionId) {
+          console.log('[Socket] - [task_progress_update] in the if!');
+          console.log('[Socket] - [task_progress_update]', data.progress);
+        }
+      }, false);
+    }
+  }, [inspectionId]);
 
   useEffect(() => {
     if (inspectionId && !allTasksAreCompleted) {
