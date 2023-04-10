@@ -46,6 +46,7 @@ export default function Landing() {
   const { onSocketEvent } = useWebSocket();
 
   const [vehicleType, setVehicleType] = useState('');
+  const [currentPercentage, setCurrentPercentage] = useState(0);
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
@@ -163,9 +164,12 @@ export default function Landing() {
           onPress={handlePress}
           disabled={disabled}
         />
+        {
+          item.taskName === 'damage_detection' && <View style={[{ width: `${currentPercentage}%` }, styles.progress]} />
+        }
       </Surface>
     );
-  }, [handleListItemPress, inspection]);
+  }, [handleListItemPress, currentPercentage, inspection]);
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
@@ -185,6 +189,7 @@ export default function Landing() {
         if (data.inspection_id === inspectionId) {
           console.log('[Socket] - [task_progress_update] in the if!');
           console.log('[Socket] - [task_progress_update]', data.progress);
+          setCurrentPercentage(parseFloat(data.progress) * 100);
         }
       }, false);
 

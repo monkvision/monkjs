@@ -97,4 +97,9 @@ export default StyleSheet.create({
   textAlignRight: {
     alignItems: 'flex-end',
   },
+  progress: {
+    backgroundColor: '#305ebf',
+    height: 3,
+    transition: 'width ease .4s',
+  },
 });
