@@ -12,6 +12,7 @@ config.resolver = {
     '@monkvision/sights',
     '@monkvision/toolkit',
     '@monkvision/visualization',
+    '@monkvision/inspection-report',
   ],
 };
 
