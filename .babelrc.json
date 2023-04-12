@@ -18,7 +18,8 @@
         "@monkvision/corejs": "./packages/corejs",
         "@monkvision/sights": "./packages/sights",
         "@monkvision/toolkit": "./packages/toolkit",
-        "@monkvision/visualization": "./packages/visualization"
+        "@monkvision/visualization": "./packages/visualization",
+        "@monkvision/inspection-report": "./packages/inspection-report"
       }
     }],
     ["babel-plugin-inline-import", { "extensions": [".svg"] }]
