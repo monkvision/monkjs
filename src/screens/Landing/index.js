@@ -43,7 +43,7 @@ export default function Landing() {
   const { errorHandler } = useMonitoring();
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
-  const { onSocketEvent } = useWebSocket();
+  const { onSocketEvent, emitSocketEvent } = useWebSocket();
 
   const [vehicleType, setVehicleType] = useState('');
   const [currentPercentage, setCurrentPercentage] = useState(0);
@@ -183,10 +183,11 @@ export default function Landing() {
     console.log('[Landing page] - [Use Effect]');
     if (inspectionId) {
       // Listen websocket server event to get the updated progress for damage_detection task
+      emitSocketEvent('join', {"room": inspectionId})
       onSocketEvent('task_progress_update', (data) => {
         console.log('[Socket] - [task_progress_update]', data);
         console.log('[Socket] - [task_progress_update]', inspectionId);
-        if (data.inspection_id === inspectionId) {
+        if (data.task_name === 'damage_detection') {
           console.log('[Socket] - [task_progress_update] in the if!');
           console.log('[Socket] - [task_progress_update]', data.progress);
           setCurrentPercentage(parseFloat(data.progress) * 100);
