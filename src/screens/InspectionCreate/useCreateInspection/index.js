@@ -12,12 +12,22 @@ export default function useCreateInspection(vehicle) {
   const axiosRequest = useCallback(async () => {
     const taskOptions = { status: monk.types.ProgressStatusUpdate.NOT_STARTED };
     const tasks = {
-      wheelAnalysis: { ...taskOptions, useLongshots: true },
-      damageDetection: taskOptions,
+      wheelAnalysis: {
+        ...taskOptions,
+        useLongshots: true,
+      },
+      damageDetection: {
+        ...taskOptions,
+        generate_subimages_parts: {},
+      },
       ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
-    return monk.entity.inspection.createOne({ tasks, vehicle });
+    return monk.entity.inspection.createOne({
+      tasks,
+      vehicle,
+      damage_severity: { output_format: 'toyota' },
+    });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
