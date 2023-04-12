@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import monk, { useMonitoring } from '@monkvision/corejs';
-import { useInterval, utils } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Inspection from 'components/Inspection';
 import Modal from 'components/Modal';
 import ExpoConstants from 'expo-constants';
@@ -27,6 +27,7 @@ import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
 import VehicleType from './VehicleType';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
+import { useWebSocket } from '../../context/socket';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -42,8 +43,10 @@ export default function Landing() {
   const { errorHandler } = useMonitoring();
   const { t, i18n } = useTranslation();
   const { setShowTranslatedMessage, Notice } = useSnackbar(true);
+  const { onSocketEvent, emitSocketEvent } = useWebSocket();
 
   const [vehicleType, setVehicleType] = useState('');
+  const [currentPercentage, setCurrentPercentage] = useState(0);
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const route = useRoute();
@@ -103,7 +106,6 @@ export default function Landing() {
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
     if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
-
     const shouldSignIn = !isAuthenticated;
     const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
     navigation.navigate(to, { selectedMod: value, inspectionId, vehicle: { vehicleType } });
@@ -162,9 +164,12 @@ export default function Landing() {
           onPress={handlePress}
           disabled={disabled}
         />
+        {
+          item.taskName === 'damage_detection' && <View style={[{ width: `${currentPercentage}%` }, styles.progress]} />
+        }
       </Surface>
     );
-  }, [handleListItemPress, inspection]);
+  }, [handleListItemPress, currentPercentage, inspection]);
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true) {
@@ -172,14 +177,34 @@ export default function Landing() {
         errorHandler(err);
       });
     }
-  }, [inspectionId, getInspection]);
+  }, [inspectionId]);
 
-  const intervalId = useInterval(start, 1000);
+  useEffect(() => {
+    console.log('[Landing page] - [Use Effect]');
+    if (inspectionId) {
+      // Listen websocket server event to get the updated progress for damage_detection task
+      emitSocketEvent('join', {"room": inspectionId})
+      onSocketEvent('task_progress_update', (data) => {
+        console.log('[Socket] - [task_progress_update]', data);
+        console.log('[Socket] - [task_progress_update]', inspectionId);
+        if (data.task_name === 'damage_detection') {
+          console.log('[Socket] - [task_progress_update] in the if!');
+          console.log('[Socket] - [task_progress_update]', data.progress);
+          setCurrentPercentage(parseFloat(data.progress) * 100);
+        }
+      }, false);
 
-  useFocusEffect(useCallback(() => {
-    start();
-    return () => clearInterval(intervalId);
-  }, [navigation, start, intervalId]));
+      // Listen websocket server event to get the updated status for each task
+      onSocketEvent('update_task_status', (data) => {
+        console.log('[Socket] - [update_task_status]', data);
+        console.log('[Socket] - [update_task_status]', inspectionId);
+        if (data.inspection_id === inspectionId) {
+          console.log('[Socket] - [update_task_status] in the if!');
+          start();
+        }
+      }, false);
+    }
+  }, [inspectionId]);
 
   useEffect(() => {
     if (inspectionId && !allTasksAreCompleted) {

@@ -4,20 +4,22 @@ import useAuth from 'hooks/useAuth';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export default function useCreateInspection(vehicle) {
+export default function useCreateInspection({ socketID, ...vehicle }) {
   const dispatch = useDispatch();
   const { isAuthenticated } = useAuth();
   const [inspectionId, setInspectionId] = useState();
 
   const axiosRequest = useCallback(async () => {
-    const taskOptions = { status: monk.types.ProgressStatusUpdate.NOT_STARTED };
+    const taskOptions = {
+      status: monk.types.ProgressStatusUpdate.NOT_STARTED,
+    };
     const tasks = {
       wheelAnalysis: { ...taskOptions, useLongshots: true },
       damageDetection: taskOptions,
       ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
-    return monk.entity.inspection.createOne({ tasks, vehicle });
+    return monk.entity.inspection.createOne({ tasks, vehicle, websocket_id: socketID });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {

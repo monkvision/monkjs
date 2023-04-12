@@ -112,6 +112,7 @@
     "react-webcam": "^7.0.0",
     "screenfull": "^6.0.1",
     "sentry-expo": "^4.0.0",
+    "socket.io-client": "^4.6.1",
     "webpack": "5.0.0",
     "webrtc-adapter": "^8.1.1",
     "xmldom": "^0.6.0",

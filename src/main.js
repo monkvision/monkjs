@@ -4,10 +4,12 @@ import { registerRootComponent } from 'expo';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import * as Sentry from 'sentry-expo';
+import { MonitoringProvider } from '@monkvision/corejs';
+
 import { name, version } from '@package/json';
 import App from 'components/App';
+import { SocketProvider } from './context/socket';
 import './i18n';
-import { MonitoringProvider } from '@monkvision/corejs';
 
 const config = {
   dsn: Constants.manifest.extra.SENTRY_DSN,
@@ -20,7 +22,14 @@ const config = {
 
 if (Platform.OS === 'web') {
   const container = document.getElementById('root');
-  render(<MonitoringProvider config={config}><App /></MonitoringProvider>, container);
+  render(
+    <MonitoringProvider config={config}>
+      <SocketProvider>
+        <App />
+      </SocketProvider>
+    </MonitoringProvider>,
+    container,
+  );
 } else {
   registerRootComponent(Sentry.Native.wrap(App));
 }

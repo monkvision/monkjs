@@ -5,6 +5,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
+import { useWebSocket } from '../../../context/socket';
+
 const webDownload = (url, inspectionId) => {
   const link = document.createElement('a');
   link.href = url;
@@ -28,6 +30,7 @@ export default function useGetPdfReport(inspectionId, onError) {
   const [reportUrl, setReportUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
+  const { onSocketEvent } = useWebSocket();
 
   const requestPdfPayload = useMemo(() => ({
     pricing: false,
@@ -55,17 +58,12 @@ export default function useGetPdfReport(inspectionId, onError) {
   const preparePdf = useCallback(
     async () => {
       setLoading(true);
-      await requestPdfReport();
-      let done = false;
-      while (!done) {
+      // Send/Listen an event from server
+      onSocketEvent('ready_inspection_pdf_url', async () => {
         try {
-          // eslint-disable-next-line no-await-in-loop
-          await timeout(2000);
-          // eslint-disable-next-line no-await-in-loop
           const res = await getPdfUrl();
           if (res.axiosResponse?.data?.pdfUrl) {
             setReportUrl(res.axiosResponse.data.pdfUrl);
-            done = true;
             setLoading(false);
           }
         } catch (err) {
@@ -74,7 +72,9 @@ export default function useGetPdfReport(inspectionId, onError) {
             if (onError) { onError(err); }
           }
         }
-      }
+      });
+      // api call for pdf report
+      await requestPdfReport();
     },
     [inspectionId, requestPdfReport, getPdfUrl, setReportUrl, setLoading],
   );

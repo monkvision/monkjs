@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import monk from '@monkvision/corejs';
 
 const axiosConfig = {
-  baseURL: `https://${Constants.manifest.extra.API_DOMAIN}`,
+  baseURL: `http://${Constants.manifest.extra.API_DOMAIN}`,
   headers: { 'Access-Control-Allow-Origin': '*' },
 };
 
