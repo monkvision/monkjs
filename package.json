@@ -9,7 +9,8 @@
   "license": "BSD-3-Clause-Clear",
   "workspaces": [
     "configs/*",
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "clean": "rimraf node_modules && yarn cache clean && yarn install",
