@@ -10,6 +10,9 @@
     },
     "VehicleType": {
       "$ref": "subschemas/vehicleType.schema"
+    },
+    "Task": {
+      "$ref": "subschemas/task.schema"
     }
   },
   "type": "object",
@@ -37,6 +40,9 @@
     },
     "vehicle_type": {
       "$ref": "#/definitions/VehicleType"
+    },
+    "tasks": {
+      "$ref": "#/definitions/Task"
     }
   },
   "required": ["category", "label", "overlay", "vehicle_type"],

@@ -11,7 +11,8 @@
     "label": "rear-right",
     "overlay": "tsienna20--a2RmRcs.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-1n_z8bYy"
+    "mirror_sight": "tsienna20-1n_z8bYy",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-1LNxhgCR": {
     "id": "tsienna20-1LNxhgCR",
@@ -26,7 +27,8 @@
     "label": "lateral-low-left",
     "overlay": "tsienna20-1LNxhgCR.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-Rw0Gtt7O"
+    "mirror_sight": "tsienna20-Rw0Gtt7O",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-1n_z8bYy": {
     "id": "tsienna20-1n_z8bYy",
@@ -40,7 +42,8 @@
     "label": "rear-left",
     "overlay": "tsienna20-1n_z8bYy.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20--a2RmRcs"
+    "mirror_sight": "tsienna20--a2RmRcs",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-4ihRwDkS": {
     "id": "tsienna20-4ihRwDkS",
@@ -55,7 +58,8 @@
     "label": "lateral-full-left",
     "overlay": "tsienna20-4ihRwDkS.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-uIHdpQ9y"
+    "mirror_sight": "tsienna20-uIHdpQ9y",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-65mfPdRD": {
     "id": "tsienna20-65mfPdRD",
@@ -70,7 +74,8 @@
     "label": "front-lateral-low-left",
     "overlay": "tsienna20-65mfPdRD.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-cI285Gon"
+    "mirror_sight": "tsienna20-cI285Gon",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "tsienna20-uz29ILgw": {
     "id": "tsienna20-uz29ILgw",
@@ -79,7 +84,8 @@
     "overlay": "tsienna20-uz29ILgw.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-K0ThKmue",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "tsienna20-670P2H2V": {
     "id": "tsienna20-670P2H2V",
@@ -94,7 +100,8 @@
     "label": "rear-lateral-low-left",
     "overlay": "tsienna20-670P2H2V.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-SebsoqJm"
+    "mirror_sight": "tsienna20-SebsoqJm",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "tsienna20-2Zz6SEaI": {
     "id": "tsienna20-2Zz6SEaI",
@@ -103,7 +110,8 @@
     "overlay": "tsienna20-2Zz6SEaI.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-RP6TzN4w",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "tsienna20-D6pPBrXx": {
     "id": "tsienna20-D6pPBrXx",
@@ -116,7 +124,8 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "tsienna20-D6pPBrXx.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-HykkFbXf": {
     "id": "tsienna20-HykkFbXf",
@@ -129,7 +138,8 @@
     "category": "exterior",
     "label": "hood",
     "overlay": "tsienna20-HykkFbXf.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-Ia0SGJ6z": {
     "id": "tsienna20-Ia0SGJ6z",
@@ -144,7 +154,8 @@
     "label": "front-door-left",
     "overlay": "tsienna20-Ia0SGJ6z.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-TibS83Qr"
+    "mirror_sight": "tsienna20-TibS83Qr",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-KHB_Cd9k": {
     "id": "tsienna20-KHB_Cd9k",
@@ -158,7 +169,8 @@
     "label": "front-bumper-side-right",
     "overlay": "tsienna20-KHB_Cd9k.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-TI4TVvT9"
+    "mirror_sight": "tsienna20-TI4TVvT9",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-MPCqHzeH": {
     "id": "tsienna20-MPCqHzeH",
@@ -173,7 +185,8 @@
     "label": "front-full-right",
     "overlay": "tsienna20-MPCqHzeH.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-jY3cR5vy"
+    "mirror_sight": "tsienna20-jY3cR5vy",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-OxFWgEPk": {
     "id": "tsienna20-OxFWgEPk",
@@ -187,7 +200,8 @@
     "category": "exterior",
     "label": "rear-roof",
     "overlay": "tsienna20-OxFWgEPk.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-QIMXlb0L": {
     "id": "tsienna20-QIMXlb0L",
@@ -201,7 +215,8 @@
     "label": "rear-lateral-right",
     "overlay": "tsienna20-QIMXlb0L.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-ouPvuX-j"
+    "mirror_sight": "tsienna20-ouPvuX-j",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-Rw0Gtt7O": {
     "id": "tsienna20-Rw0Gtt7O",
@@ -216,7 +231,8 @@
     "label": "lateral-low-right",
     "overlay": "tsienna20-Rw0Gtt7O.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-1LNxhgCR"
+    "mirror_sight": "tsienna20-1LNxhgCR",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-SebsoqJm": {
     "id": "tsienna20-SebsoqJm",
@@ -231,7 +247,8 @@
     "label": "rear-lateral-low-right",
     "overlay": "tsienna20-SebsoqJm.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-670P2H2V"
+    "mirror_sight": "tsienna20-670P2H2V",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "tsienna20-RP6TzN4w": {
     "id": "tsienna20-RP6TzN4w",
@@ -240,7 +257,8 @@
     "overlay": "tsienna20-RP6TzN4w.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-2Zz6SEaI",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "tsienna20-TI4TVvT9": {
     "id": "tsienna20-TI4TVvT9",
@@ -254,7 +272,8 @@
     "label": "front-bumper-side-left",
     "overlay": "tsienna20-TI4TVvT9.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-KHB_Cd9k"
+    "mirror_sight": "tsienna20-KHB_Cd9k",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-TibS83Qr": {
     "id": "tsienna20-TibS83Qr",
@@ -269,7 +288,8 @@
     "label": "front-door-right",
     "overlay": "tsienna20-TibS83Qr.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-Ia0SGJ6z"
+    "mirror_sight": "tsienna20-Ia0SGJ6z",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-U_FqYq-a": {
     "id": "tsienna20-U_FqYq-a",
@@ -284,7 +304,8 @@
     "label": "rear-door-left",
     "overlay": "tsienna20-U_FqYq-a.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-u57qDaN_"
+    "mirror_sight": "tsienna20-u57qDaN_",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-V2jVo2wV": {
     "id": "tsienna20-V2jVo2wV",
@@ -298,7 +319,8 @@
     "category": "exterior",
     "label": "rear-roof-right",
     "overlay": "tsienna20-V2jVo2wV.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-YwrRNr9n": {
     "id": "tsienna20-YwrRNr9n",
@@ -311,7 +333,8 @@
     "category": "exterior",
     "label": "front-low",
     "overlay": "tsienna20-YwrRNr9n.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-ZlRQXL-j": {
     "id": "tsienna20-ZlRQXL-j",
@@ -326,7 +349,8 @@
     "label": "rear-full-left",
     "overlay": "tsienna20-ZlRQXL-j.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-wlbzVAxz"
+    "mirror_sight": "tsienna20-wlbzVAxz",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-cI285Gon": {
     "id": "tsienna20-cI285Gon",
@@ -341,7 +365,8 @@
     "label": "front-lateral-low-right",
     "overlay": "tsienna20-cI285Gon.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-65mfPdRD"
+    "mirror_sight": "tsienna20-65mfPdRD",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "tsienna20-K0ThKmue": {
     "id": "tsienna20-K0ThKmue",
@@ -350,7 +375,8 @@
     "overlay": "tsienna20-K0ThKmue.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-uz29ILgw",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "tsienna20-g2uWI1l8": {
     "id": "tsienna20-g2uWI1l8",
@@ -363,7 +389,8 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "tsienna20-g2uWI1l8.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-gkvZE2c7": {
     "id": "tsienna20-gkvZE2c7",
@@ -377,7 +404,8 @@
     "label": "front-fender-left",
     "overlay": "tsienna20-gkvZE2c7.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-xtDcn3GS"
+    "mirror_sight": "tsienna20-xtDcn3GS",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-is1tpnqR": {
     "id": "tsienna20-is1tpnqR",
@@ -390,7 +418,8 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "tsienna20-is1tpnqR.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-jY3cR5vy": {
     "id": "tsienna20-jY3cR5vy",
@@ -404,7 +433,8 @@
     "label": "beauty-shot-left",
     "overlay": "tsienna20-jY3cR5vy.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-MPCqHzeH"
+    "mirror_sight": "tsienna20-MPCqHzeH",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-ouPvuX-j": {
     "id": "tsienna20-ouPvuX-j",
@@ -418,7 +448,8 @@
     "label": "rear-lateral-left",
     "overlay": "tsienna20-ouPvuX-j.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-QIMXlb0L"
+    "mirror_sight": "tsienna20-QIMXlb0L",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-qA3aAUUq": {
     "id": "tsienna20-qA3aAUUq",
@@ -431,7 +462,8 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "tsienna20-qA3aAUUq.svg",
-    "vehicle_type": "tsienna20"
+    "vehicle_type": "tsienna20",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-u57qDaN_": {
     "id": "tsienna20-u57qDaN_",
@@ -446,7 +478,8 @@
     "label": "rear-door-right",
     "overlay": "tsienna20-u57qDaN_.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-U_FqYq-a"
+    "mirror_sight": "tsienna20-U_FqYq-a",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-uIHdpQ9y": {
     "id": "tsienna20-uIHdpQ9y",
@@ -461,7 +494,8 @@
     "label": "lateral-full-right",
     "overlay": "tsienna20-uIHdpQ9y.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-4ihRwDkS"
+    "mirror_sight": "tsienna20-4ihRwDkS",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-wlbzVAxz": {
     "id": "tsienna20-wlbzVAxz",
@@ -476,7 +510,8 @@
     "label": "rear-full-right",
     "overlay": "tsienna20-wlbzVAxz.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-ZlRQXL-j"
+    "mirror_sight": "tsienna20-ZlRQXL-j",
+    "tasks": ["damage_detection"]
   },
   "tsienna20-xtDcn3GS": {
     "id": "tsienna20-xtDcn3GS",
@@ -490,6 +525,7 @@
     "label": "front-fender-right",
     "overlay": "tsienna20-xtDcn3GS.svg",
     "vehicle_type": "tsienna20",
-    "mirror_sight": "tsienna20-gkvZE2c7"
+    "mirror_sight": "tsienna20-gkvZE2c7",
+    "tasks": ["damage_detection"]
   }
 }

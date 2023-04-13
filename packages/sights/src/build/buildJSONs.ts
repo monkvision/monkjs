@@ -50,6 +50,7 @@ function mapSights(
         category: sight.category,
         label: sight.label,
         overlay: readOverlay(join(overlaysPath, sight.overlay)),
+        tasks: sight.tasks,
         vehicleType,
       },
     }),

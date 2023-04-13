@@ -11,7 +11,8 @@
     "label": "front-fender-left",
     "overlay": "haccord-2a8VfA8m.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-EfRIciFr"
+    "mirror_sight": "haccord-EfRIciFr",
+    "tasks": ["damage_detection"]
   },
   "haccord-5LlCuIfL": {
     "id": "haccord-5LlCuIfL",
@@ -26,7 +27,8 @@
     "label": "rear-door-right",
     "overlay": "haccord-5LlCuIfL.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-bSAv3Hrj"
+    "mirror_sight": "haccord-bSAv3Hrj",
+    "tasks": ["damage_detection"]
   },
   "haccord-6kYUBv_e": {
     "id": "haccord-6kYUBv_e",
@@ -40,7 +42,8 @@
     "category": "exterior",
     "label": "rear-low",
     "overlay": "haccord-6kYUBv_e.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-8YjMcu0D": {
     "id": "haccord-8YjMcu0D",
@@ -53,7 +56,8 @@
     "category": "exterior",
     "label": "front-low",
     "overlay": "haccord-8YjMcu0D.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-DUPnw5jj": {
     "id": "haccord-DUPnw5jj",
@@ -66,7 +70,8 @@
     "category": "exterior",
     "label": "hood",
     "overlay": "haccord-DUPnw5jj.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-EfRIciFr": {
     "id": "haccord-EfRIciFr",
@@ -80,7 +85,8 @@
     "label": "front-fender-right",
     "overlay": "haccord-EfRIciFr.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-2a8VfA8m"
+    "mirror_sight": "haccord-2a8VfA8m",
+    "tasks": ["damage_detection"]
   },
   "haccord-GQcZz48C": {
     "id": "haccord-GQcZz48C",
@@ -95,7 +101,8 @@
     "label": "front-lateral-low-left",
     "overlay": "haccord-GQcZz48C.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-KN23XXkX"
+    "mirror_sight": "haccord-KN23XXkX",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "haccord-2v-2_QD5": {
     "id": "haccord-2v-2_QD5",
@@ -104,7 +111,8 @@
     "overlay": "haccord-2v-2_QD5.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-boMeNVsC",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "haccord-GdWvsqrm": {
     "id": "haccord-GdWvsqrm",
@@ -118,7 +126,8 @@
     "label": "rear-left",
     "overlay": "haccord-GdWvsqrm.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-Jq65fyD4"
+    "mirror_sight": "haccord-Jq65fyD4",
+    "tasks": ["damage_detection"]
   },
   "haccord-Gtt0JNQl": {
     "id": "haccord-Gtt0JNQl",
@@ -133,7 +142,8 @@
     "label": "lateral-low-right",
     "overlay": "haccord-Gtt0JNQl.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-mdZ7optI"
+    "mirror_sight": "haccord-mdZ7optI",
+    "tasks": ["damage_detection"]
   },
   "haccord-Jq65fyD4": {
     "id": "haccord-Jq65fyD4",
@@ -147,7 +157,8 @@
     "label": "rear-right",
     "overlay": "haccord-Jq65fyD4.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-GdWvsqrm"
+    "mirror_sight": "haccord-GdWvsqrm",
+    "tasks": ["damage_detection"]
   },
   "haccord-KN23XXkX": {
     "id": "haccord-KN23XXkX",
@@ -162,7 +173,8 @@
     "label": "front-lateral-low-right",
     "overlay": "haccord-KN23XXkX.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-GQcZz48C"
+    "mirror_sight": "haccord-GQcZz48C",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "haccord-boMeNVsC": {
     "id": "haccord-boMeNVsC",
@@ -171,7 +183,8 @@
     "overlay": "haccord-boMeNVsC.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-2v-2_QD5",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "haccord-KvP-pm8L": {
     "id": "haccord-KvP-pm8L",
@@ -186,7 +199,8 @@
     "label": "front-full-right",
     "overlay": "haccord-KvP-pm8L.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-huAZfQJA"
+    "mirror_sight": "haccord-huAZfQJA",
+    "tasks": ["damage_detection"]
   },
   "haccord-OXYy5gET": {
     "id": "haccord-OXYy5gET",
@@ -201,7 +215,8 @@
     "label": "rear-lateral-low-right",
     "overlay": "haccord-OXYy5gET.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-W-Bn3bU1"
+    "mirror_sight": "haccord-W-Bn3bU1",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "haccord-9fxMGSs6": {
     "id": "haccord-9fxMGSs6",
@@ -210,7 +225,8 @@
     "overlay": "haccord-9fxMGSs6.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-H_eRrLBl",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "haccord-PGr3RzzP": {
     "id": "haccord-PGr3RzzP",
@@ -225,7 +241,8 @@
     "label": "lateral-full-right",
     "overlay": "haccord-PGr3RzzP.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-_YnTubBA"
+    "mirror_sight": "haccord-_YnTubBA",
+    "tasks": ["damage_detection"]
   },
   "haccord-QKfhXU7o": {
     "id": "haccord-QKfhXU7o",
@@ -240,7 +257,8 @@
     "label": "front-door-left",
     "overlay": "haccord-QKfhXU7o.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-cXSAj2ez"
+    "mirror_sight": "haccord-cXSAj2ez",
+    "tasks": ["damage_detection"]
   },
   "haccord-Qel0qUky": {
     "id": "haccord-Qel0qUky",
@@ -254,7 +272,8 @@
     "label": "rear-lateral-left",
     "overlay": "haccord-Qel0qUky.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-sorgeRJ7"
+    "mirror_sight": "haccord-sorgeRJ7",
+    "tasks": ["damage_detection"]
   },
   "haccord-W-Bn3bU1": {
     "id": "haccord-W-Bn3bU1",
@@ -269,7 +288,8 @@
     "label": "rear-lateral-low-left",
     "overlay": "haccord-W-Bn3bU1.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-OXYy5gET"
+    "mirror_sight": "haccord-OXYy5gET",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "haccord-H_eRrLBl": {
     "id": "haccord-H_eRrLBl",
@@ -278,7 +298,8 @@
     "overlay": "haccord-H_eRrLBl.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-9fxMGSs6",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "haccord-Z84erkMb": {
     "id": "haccord-Z84erkMb",
@@ -292,7 +313,8 @@
     "label": "front-bumper-side-right",
     "overlay": "haccord-Z84erkMb.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-hsCc_Nct"
+    "mirror_sight": "haccord-hsCc_Nct",
+    "tasks": ["damage_detection"]
   },
   "haccord-_YnTubBA": {
     "id": "haccord-_YnTubBA",
@@ -307,7 +329,8 @@
     "label": "lateral-full-left",
     "overlay": "haccord-_YnTubBA.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-PGr3RzzP"
+    "mirror_sight": "haccord-PGr3RzzP",
+    "tasks": ["damage_detection"]
   },
   "haccord-bSAv3Hrj": {
     "id": "haccord-bSAv3Hrj",
@@ -322,7 +345,8 @@
     "label": "rear-door-left",
     "overlay": "haccord-bSAv3Hrj.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-5LlCuIfL"
+    "mirror_sight": "haccord-5LlCuIfL",
+    "tasks": ["damage_detection"]
   },
   "haccord-bg-RFHl_": {
     "id": "haccord-bg-RFHl_",
@@ -335,7 +359,8 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "haccord-bg-RFHl_.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-cXSAj2ez": {
     "id": "haccord-cXSAj2ez",
@@ -350,7 +375,8 @@
     "label": "front-door-right",
     "overlay": "haccord-cXSAj2ez.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-QKfhXU7o"
+    "mirror_sight": "haccord-QKfhXU7o",
+    "tasks": ["damage_detection"]
   },
   "haccord-d3VJTvYw": {
     "id": "haccord-d3VJTvYw",
@@ -363,7 +389,8 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "haccord-d3VJTvYw.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-d_u3qyQ-": {
     "id": "haccord-d_u3qyQ-",
@@ -377,7 +404,8 @@
     "category": "exterior",
     "label": "rear-roof-right",
     "overlay": "haccord-d_u3qyQ-.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-hsCc_Nct": {
     "id": "haccord-hsCc_Nct",
@@ -391,7 +419,8 @@
     "label": "front-bumper-side-left",
     "overlay": "haccord-hsCc_Nct.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-Z84erkMb"
+    "mirror_sight": "haccord-Z84erkMb",
+    "tasks": ["damage_detection"]
   },
   "haccord-huAZfQJA": {
     "id": "haccord-huAZfQJA",
@@ -405,7 +434,8 @@
     "label": "beauty-shot-left",
     "overlay": "haccord-huAZfQJA.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-KvP-pm8L"
+    "mirror_sight": "haccord-KvP-pm8L",
+    "tasks": ["damage_detection"]
   },
   "haccord-k6MiX2MR": {
     "id": "haccord-k6MiX2MR",
@@ -420,7 +450,8 @@
     "label": "rear-full-left",
     "overlay": "haccord-k6MiX2MR.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-zNA0vVT0"
+    "mirror_sight": "haccord-zNA0vVT0",
+    "tasks": ["damage_detection"]
   },
   "haccord-mdZ7optI": {
     "id": "haccord-mdZ7optI",
@@ -435,7 +466,8 @@
     "label": "lateral-low-left",
     "overlay": "haccord-mdZ7optI.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-Gtt0JNQl"
+    "mirror_sight": "haccord-Gtt0JNQl",
+    "tasks": ["damage_detection"]
   },
   "haccord-oiY_yPTR": {
     "id": "haccord-oiY_yPTR",
@@ -448,7 +480,8 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "haccord-oiY_yPTR.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-pplCo6sV": {
     "id": "haccord-pplCo6sV",
@@ -462,7 +495,8 @@
     "category": "exterior",
     "label": "rear-roof",
     "overlay": "haccord-pplCo6sV.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-ps7cWy6K": {
     "id": "haccord-ps7cWy6K",
@@ -475,7 +509,8 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "haccord-ps7cWy6K.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-sorgeRJ7": {
     "id": "haccord-sorgeRJ7",
@@ -489,7 +524,8 @@
     "label": "rear-lateral-right",
     "overlay": "haccord-sorgeRJ7.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-Qel0qUky"
+    "mirror_sight": "haccord-Qel0qUky",
+    "tasks": ["damage_detection"]
   },
   "haccord-t5sLlmfv": {
     "id": "haccord-t5sLlmfv",
@@ -503,7 +539,8 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "haccord-t5sLlmfv.svg",
-    "vehicle_type": "haccord"
+    "vehicle_type": "haccord",
+    "tasks": ["damage_detection"]
   },
   "haccord-zNA0vVT0": {
     "id": "haccord-zNA0vVT0",
@@ -518,6 +555,7 @@
     "label": "rear-full-right",
     "overlay": "haccord-zNA0vVT0.svg",
     "vehicle_type": "haccord",
-    "mirror_sight": "haccord-k6MiX2MR"
+    "mirror_sight": "haccord-k6MiX2MR",
+    "tasks": ["damage_detection"]
   }
 }
