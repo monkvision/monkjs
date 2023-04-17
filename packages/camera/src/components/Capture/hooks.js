@@ -224,7 +224,7 @@ export function useStartUploadAsync({
             })
             result = await response.json()
           }
-          onPictureUploaded({ result, picture, inspectionId });
+          onPictureUploaded({ result, picture, inspectionId, id });
 
           // call onFinish callback when capturing the last picture
           if (ids[ids.length - 1] === id || endTour) {
