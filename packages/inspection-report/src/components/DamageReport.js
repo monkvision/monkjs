@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 import { IconButton, TabButton, TabGroup } from './common';
+import Gallery from './Gallery';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#121212',
     padding: 20,
-    height: '100vh',
+    minHeight: '100vh',
   },
   header: {
     alignSelf: 'stretch',
@@ -76,7 +77,7 @@ function DamageReport() {
         </View>
         <View>
           <Text style={[styles.text]}>
-            {tabIndex === 0 ? 'Overview' : 'Photos'}
+            {tabIndex === 0 ? 'Overview' : <Gallery />}
           </Text>
         </View>
       </View>
