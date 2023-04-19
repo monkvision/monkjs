@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
-export { default as DamageReport } from './components/DamageReport';
+export { default as i18nDamageReport } from './i18n';
+export { default as DamageReport } from './components';

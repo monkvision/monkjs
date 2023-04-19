@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { IconButton, TabButton, TabGroup } from './common';
 
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
 });
 
 function DamageReport() {
+  const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
@@ -54,7 +56,7 @@ function DamageReport() {
     <View style={[styles.container]}>
       <View style={[styles.header]}>
         <IconButton icon="keyboard-backspace" onPress={() => console.log('Back')} />
-        <Text style={[styles.text, styles.title]}>Damage Report</Text>
+        <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
         <IconButton icon="file-download" onPress={() => console.log('download')} />
       </View>
       <View style={[styles.content]}>
@@ -62,13 +64,13 @@ function DamageReport() {
           <TabGroup>
             <TabButton
               icon="360"
-              label="Overview"
+              label={t('damageReport.tabs.overview_tab.label')}
               selected={tabIndex === 0}
               onPress={() => onTabHandler(0)}
             />
             <TabButton
               icon="photo-library"
-              label="Photos"
+              label={t('damageReport.tabs.photos_tab.label')}
               selected={tabIndex === 1}
               onPress={() => onTabHandler(1)}
             />
