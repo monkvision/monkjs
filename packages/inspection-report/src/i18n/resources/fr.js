@@ -1,13 +1,13 @@
 const fr = {
   translation: {
     damageReport: {
-      title: 'Damage Report...',
+      title: 'Rapport de Dégâts',
       tabs: {
         overview_tab: {
-          label: 'Overview...',
+          label: 'Apperçu',
         },
         photos_tab: {
-          label: 'Photos.....',
+          label: 'Photos',
         },
       },
     },
