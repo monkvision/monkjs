@@ -11,6 +11,16 @@ const en = {
         },
       },
     },
+    damageManipulator: {
+      damages: 'Damages',
+      notDamaged: 'This part isn\'t damaged',
+      severity: 'Severity',
+      minor: 'Minor',
+      moderate: 'Moderate',
+      major: 'Major',
+      repairCost: 'Repair Cost',
+      done: 'Done',
+    },
   },
 };
 
