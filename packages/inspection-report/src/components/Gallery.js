@@ -10,9 +10,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingVertical: 15,
+  },
+  thumbnailWrapper: {
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   closeButtonWrapper: {
     display: 'flex',
@@ -32,87 +35,19 @@ const styles = StyleSheet.create({
 const pictureList = [
   {
     url: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    label: {
-      fr: 'Hood',
-      en: 'Hood',
-    },
+    label: 'hood',
   },
   {
     url: '',
-    label: {
-      fr: 'Burger',
-      en: 'Burger',
-    },
+    label: 'door_front_right',
   },
   {
     url: '',
-    label: {
-      fr: 'Front Full Left',
-      en: 'Front Full Left',
-    },
+    label: 'fender_back_left',
   },
   {
     url: '',
-    label: {
-      fr: 'Coffee',
-      en: 'Coffee',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Front Lateral Left',
-      en: 'Front Lateral Left',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Rocker Panel Left',
-      en: 'Rocker Panel Left',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Basketball',
-      en: 'Basketball',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Fern',
-      en: 'Fern',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Mushrooms',
-      en: 'Mushrooms',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Tomato basil',
-      en: 'Tomato basil',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Sea star',
-      en: 'Sea star',
-    },
-  },
-  {
-    url: '',
-    label: {
-      fr: 'Bike',
-      en: 'Bike',
-    },
+    label: 'wheel_back_left',
   },
 ];
 
@@ -132,7 +67,9 @@ export default function Gallery() {
       {
         pictureList.map((image, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <Thumbnail key={`${image.url}-${index}`} image={image} click={handleOnImageClick} />
+          <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
+            <Thumbnail image={image} click={handleOnImageClick} />
+          </View>
         ))
       }
 

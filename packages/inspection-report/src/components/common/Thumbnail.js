@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dimensions, Image, Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 const styles = StyleSheet.create({
   noImageWrapper: {
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
 });
 
 function Thumbnail({ image, click }) {
+  const { t } = useTranslation();
   const [imageSize, setImageSize] = useState(109);
   const { width } = Dimensions.get('window');
 
@@ -54,7 +56,7 @@ function Thumbnail({ image, click }) {
             />
           )
         }
-        <Text style={styles.text}>{image.label.en}</Text>
+        <Text style={styles.text}>{t(`gallery.parts.${image.label}`)}</Text>
       </View>
     </TouchableOpacity>
   );
