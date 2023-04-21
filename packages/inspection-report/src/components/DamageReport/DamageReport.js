@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View } from 'react-native';
+import { IconButton } from '../common';
 
-import { IconButton, TabButton, TabGroup } from './common';
+import TabButton from './TabButton';
+import TabGroup from './TabGroup';
 
 const styles = StyleSheet.create({
   container: {
