@@ -1,0 +1,26 @@
+{
+  "name": "@monkvision/cra-template",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "description": "Monk's create react-app template for internal or new projects.",
+  "version": "4.0.0",
+  "private": false,
+  "keywords": [
+    "react",
+    "create-react-app",
+    "template"
+  ],
+  "homepage": "https://github.com/monkvision/monkjs/packages/cra-template/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/cra-template"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ]
+}
