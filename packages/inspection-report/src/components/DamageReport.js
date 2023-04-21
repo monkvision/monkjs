@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { IconButton, TabButton, TabGroup } from './common';
 import Gallery from './Gallery';
+import { pictureList } from '../mock';
 
 const styles = StyleSheet.create({
   container: {
@@ -79,7 +80,7 @@ function DamageReport() {
         </View>
         <View>
           <Text style={[styles.text]}>
-            {tabIndex === 0 ? 'Overview' : <Gallery />}
+            {tabIndex === 0 ? 'Overview' : <Gallery pictures={pictureList} />}
           </Text>
         </View>
       </View>

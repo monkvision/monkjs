@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, Image, Text, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, Text, StyleSheet, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -19,20 +19,20 @@ const styles = StyleSheet.create({
   },
 });
 
+const responsiveImageSizes = [
+  { breakpoint: 480, width: 109 },
+  { breakpoint: 768, width: 140 },
+  { breakpoint: null, width: 109 },
+];
+
 function Thumbnail({ image, click }) {
   const { t } = useTranslation();
-  const [imageSize, setImageSize] = useState(109);
-  const { width } = Dimensions.get('window');
+  const { width } = useWindowDimensions();
 
-  useEffect(() => {
-    if (width < 480) {
-      setImageSize(109);
-    } else if (width > 480 && width < 768) {
-      setImageSize(140);
-    } else {
-      setImageSize(175);
-    }
-  }, [width]);
+  const imageSize = useMemo(
+    () => responsiveImageSizes.find((r) => (!r.breakpoint || width <= r.breakpoint)).width,
+    [width],
+  );
 
   return (
     <TouchableOpacity onPress={() => click(image)}>
@@ -65,10 +65,7 @@ function Thumbnail({ image, click }) {
 Thumbnail.propTypes = {
   click: PropTypes.func,
   image: PropTypes.shape({
-    label: PropTypes.shape({
-      en: PropTypes.string,
-      fr: PropTypes.string,
-    }),
+    label: PropTypes.string,
     url: PropTypes.string,
   }),
 };
@@ -76,10 +73,7 @@ Thumbnail.propTypes = {
 Thumbnail.defaultProps = {
   click: null,
   image: {
-    label: {
-      en: '',
-      fr: '',
-    },
+    label: '',
     url: '',
   },
 };

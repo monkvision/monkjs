@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, StyleSheet, View, Image, Pressable, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 import Thumbnail from './common/Thumbnail';
 
@@ -32,40 +34,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const pictureList = [
-  {
-    url: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    label: 'hood',
-  },
-  {
-    url: '',
-    label: 'door_front_right',
-  },
-  {
-    url: '',
-    label: 'fender_back_left',
-  },
-  {
-    url: '',
-    label: 'wheel_back_left',
-  },
-];
+function Gallery({ pictures }) {
+  const { t } = useTranslation();
+  const [focusedPhoto, setFocusedPhoto] = useState(null);
 
-export default function Gallery() {
-  const [photo, setPhoto] = useState('');
-  const [visibleImageInFullScreen, setVisibleImageInFullScreen] = useState(false);
-
-  const handleOnImageClick = useCallback((selectedImage) => {
-    if (selectedImage.url) {
-      setPhoto(selectedImage);
-      setVisibleImageInFullScreen(true);
+  const handleOnImageClick = useCallback((focusedImage) => {
+    if (focusedImage.url) {
+      setFocusedPhoto(focusedImage);
     }
-  }, [photo, visibleImageInFullScreen]);
+  }, [focusedPhoto]);
+
+  const handleUnfocusPhoto = useCallback(() => {
+    setFocusedPhoto(null);
+  }, []);
 
   return (
     <View style={styles.container}>
       {
-        pictureList.map((image, index) => (
+        pictures.map((image, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
             <Thumbnail image={image} click={handleOnImageClick} />
@@ -76,20 +62,14 @@ export default function Gallery() {
       <Modal
         animationType="slide"
         transparent
-        visible={visibleImageInFullScreen}
-        onRequestClose={() => {
-          setPhoto('');
-          setVisibleImageInFullScreen(!visibleImageInFullScreen);
-        }}
+        visible={!!focusedPhoto}
+        onRequestClose={handleUnfocusPhoto}
       >
-        <view style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <View style={styles.closeButtonWrapper}>
-            <Text style={styles.header}>{photo?.label?.en}</Text>
+            <Text style={styles.header}>{t(`gallery.parts.${focusedPhoto?.label}`)}</Text>
             <Pressable
-              onPress={() => {
-                setPhoto('');
-                setVisibleImageInFullScreen(!visibleImageInFullScreen);
-              }}
+              onPress={() => setFocusedPhoto(null)}
               style={{
                 display: 'flex',
                 justifyContent: 'flex-end',
@@ -107,11 +87,26 @@ export default function Gallery() {
             source={{
               width: '100%',
               height: '100%',
-              uri: photo.url,
+              uri: focusedPhoto?.url,
             }}
           />
-        </view>
+        </View>
       </Modal>
     </View>
   );
 }
+
+Gallery.propTypes = {
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      url: PropTypes.string,
+    }),
+  ),
+};
+
+Gallery.defaultProps = {
+  pictures: [],
+};
+
+export default Gallery;
