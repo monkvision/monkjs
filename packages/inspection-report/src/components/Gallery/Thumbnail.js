@@ -26,8 +26,9 @@ const responsiveImageSizes = [
 ];
 
 function Thumbnail({ image, click }) {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const { width } = useWindowDimensions();
+  const label = useMemo(() => (image.label ? image.label[i18n.language] : ''), [i18n]);
 
   const imageSize = useMemo(
     () => responsiveImageSizes.find((r) => (!r.breakpoint || width <= r.breakpoint)).width,
@@ -56,7 +57,7 @@ function Thumbnail({ image, click }) {
             />
           )
         }
-        <Text style={styles.text}>{t(`gallery.parts.${image.label}`)}</Text>
+        <Text style={styles.text}>{label}</Text>
       </View>
     </TouchableOpacity>
   );

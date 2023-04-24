@@ -4,7 +4,7 @@ import { Modal, StyleSheet, View, Image, Pressable, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
-import Thumbnail from './common/Thumbnail';
+import Thumbnail from './Thumbnail';
 
 const styles = StyleSheet.create({
   container: {
