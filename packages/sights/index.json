@@ -7616,5 +7616,285 @@
     },
     "template_image": "audia7-fDo5M0Fp.opengl.png",
     "mirror_sight": "audia7-McR3TJK0"
+  },
+  "fesc20-KdA8FE02": {
+    "id": "fesc20-KdA8FE02",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-KdA8FE02.svg",
+    "mirror_sight": "fesc20-b_S_-VYh"
+  },
+  "fesc20-b_S_-VYh": {
+    "id": "fesc20-b_S_-VYh",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-b_S_-VYh.svg",
+    "mirror_sight": "fesc20-KdA8FE02"
+  },
+  "fesc20-TbH6Zfk_": {
+    "id": "fesc20-TbH6Zfk_",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-TbH6Zfk_.svg",
+    "mirror_sight": "fesc20-Hvswbpuo"
+  },
+  "fesc20-Hvswbpuo": {
+    "id": "fesc20-Hvswbpuo",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-Hvswbpuo.svg",
+    "mirror_sight": "fesc20-TbH6Zfk_"
+  },
+  "ff150-Gx0zuL4H": {
+    "id": "ff150-Gx0zuL4H",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ff150-Gx0zuL4H.svg",
+    "mirror_sight": "ff150-Kx339Abo"
+  },
+  "ff150-Kx339Abo": {
+    "id": "ff150-Kx339Abo",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "ff150-Kx339Abo.svg",
+    "mirror_sight": "ff150-Gx0zuL4H"
+  },
+  "ff150-nTWv3M6S": {
+    "id": "ff150-nTWv3M6S",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ff150-nTWv3M6S.svg",
+    "mirror_sight": "ff150-3I-Bjtkv"
+  },
+  "ff150-3I-Bjtkv": {
+    "id": "ff150-3I-Bjtkv",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "ff150-3I-Bjtkv.svg",
+    "mirror_sight": "ff150-nTWv3M6S"
+  },
+  "ffocus18-h14N6xUZ": {
+    "id": "ffocus18-h14N6xUZ",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-h14N6xUZ.svg",
+    "mirror_sight": "ffocus18-dvP1kb2u"
+  },
+  "ffocus18-dvP1kb2u": {
+    "id": "ffocus18-dvP1kb2u",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-dvP1kb2u.svg",
+    "mirror_sight": "ffocus18-h14N6xUZ"
+  },
+  "ffocus18-Cupr9bjR": {
+    "id": "ffocus18-Cupr9bjR",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-Cupr9bjR.svg",
+    "mirror_sight": "ffocus18-SNN4sM20"
+  },
+  "ffocus18-SNN4sM20": {
+    "id": "ffocus18-SNN4sM20",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-SNN4sM20.svg",
+    "mirror_sight": "ffocus18-Cupr9bjR"
+  },
+  "ftransit18-EjXu4RGC": {
+    "id": "ftransit18-EjXu4RGC",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-EjXu4RGC.svg",
+    "mirror_sight": "ftransit18-biueFeY7"
+  },
+  "ftransit18-biueFeY7": {
+    "id": "ftransit18-biueFeY7",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-biueFeY7.svg",
+    "mirror_sight": "ftransit18-EjXu4RGC"
+  },
+  "ftransit18-ewzj3qTR": {
+    "id": "ftransit18-ewzj3qTR",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-ewzj3qTR.svg",
+    "mirror_sight": "ftransit18-zhgNZH_o"
+  },
+  "ftransit18-zhgNZH_o": {
+    "id": "ftransit18-zhgNZH_o",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-zhgNZH_o.svg",
+    "mirror_sight": "ftransit18-ewzj3qTR"
+  },
+  "haccord-4c2TDsRn": {
+    "id": "haccord-4c2TDsRn",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "haccord-4c2TDsRn.svg",
+    "mirror_sight": "haccord-r0uhi6dj"
+  },
+  "haccord-r0uhi6dj": {
+    "id": "haccord-r0uhi6dj",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "haccord-r0uhi6dj.svg",
+    "mirror_sight": "haccord-4c2TDsRn"
+  },
+  "haccord-g2ABR9ES": {
+    "id": "haccord-g2ABR9ES",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "haccord-g2ABR9ES.svg",
+    "mirror_sight": "haccord-SIywQdYc"
+  },
+  "haccord-SIywQdYc": {
+    "id": "haccord-SIywQdYc",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "haccord-SIywQdYc.svg",
+    "mirror_sight": "haccord-g2ABR9ES"
+  },
+  "jgc21-M7aCKaPN": {
+    "id": "jgc21-M7aCKaPN",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-M7aCKaPN.svg",
+    "mirror_sight": "jgc21-GmGZpI_0"
+  },
+  "jgc21-GmGZpI_0": {
+    "id": "jgc21-GmGZpI_0",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-GmGZpI_0.svg",
+    "mirror_sight": "jgc21-M7aCKaPN"
+  },
+  "jgc21-giQgZNoE": {
+    "id": "jgc21-giQgZNoE",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-giQgZNoE.svg",
+    "mirror_sight": "jgc21-DhGfIoS_"
+  },
+  "jgc21-DhGfIoS_": {
+    "id": "jgc21-DhGfIoS_",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-DhGfIoS_.svg",
+    "mirror_sight": "jgc21-giQgZNoE"
+  },
+  "tsienna20-pnNf2nqG": {
+    "id": "tsienna20-pnNf2nqG",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-pnNf2nqG.svg",
+    "mirror_sight": "tsienna20-dUh-eali"
+  },
+  "tsienna20-dUh-eali": {
+    "id": "tsienna20-dUh-eali",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-dUh-eali.svg",
+    "mirror_sight": "tsienna20-pnNf2nqG"
+  },
+  "tsienna20-nRXoUoCu": {
+    "id": "tsienna20-nRXoUoCu",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-nRXoUoCu.svg",
+    "mirror_sight": "tsienna20-bCkFE45R"
+  },
+  "tsienna20-bCkFE45R": {
+    "id": "tsienna20-bCkFE45R",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-bCkFE45R.svg",
+    "mirror_sight": "tsienna20-nRXoUoCu"
   }
 }
