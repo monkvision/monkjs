@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Animated,
@@ -96,24 +96,24 @@ function UpdateDamagePopUp({
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: bottomLimitY })).current;
 
-  const scrollIn = () => {
+  const scrollIn = useCallback(() => {
     const toValue = viewMode === 'full' ? topLimitY : bottomLimitY / 1.8;
     Animated.timing(pan, {
       toValue: { x: 0, y: toValue },
       duration: 200,
       useNativeDriver: true,
     }).start();
-  };
+  }, [viewMode, bottomLimitY]);
 
-  const scrollOut = () => {
+  const scrollOut = useCallback(() => {
     Animated.timing(pan, {
       toValue: { x: 0, y: bottomLimitY },
       duration: 200,
       useNativeDriver: true,
     }).start(onDismiss);
-  };
+  }, [bottomLimitY]);
 
-  const onRelease = () => {
+  const onRelease = useCallback(() => {
     if (viewMode === 'full' && gestureState.dy >= 0) {
       setViewMode('minimal');
     } else if (viewMode === 'minimal') {
@@ -123,7 +123,7 @@ function UpdateDamagePopUp({
         scrollOut();
       }
     }
-  };
+  }, [viewMode, gestureState]);
 
   const panResponder = useRef(
     PanResponder.create({
