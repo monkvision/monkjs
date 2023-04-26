@@ -11,6 +11,9 @@ const en = {
         },
       },
     },
+    parts: {
+      fog_light_left: 'Hood',
+    },
   },
 };
 

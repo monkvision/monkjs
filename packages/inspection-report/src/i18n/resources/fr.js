@@ -11,6 +11,9 @@ const fr = {
         },
       },
     },
+    parts: {
+      fog_light_left: 'Hood',
+    },
   },
 };
 
