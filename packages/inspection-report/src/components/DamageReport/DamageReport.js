@@ -54,13 +54,16 @@ const styles = StyleSheet.create({
 function DamageReport() {
   const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
-  const [isPopVisible, setIsPopVisible] = useState(false);
+  const [isPopUpVisible, setIsPopUpVisible] = useState(false);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
 
   const onPopUpDismiss = useCallback(() => {
     console.log('Popup Dismiss...');
-    setIsPopVisible(0);
+    setIsPopUpVisible(0);
+  }, []);
+  const onShowGallery = useCallback(() => {
+    console.log('Show gallery...');
   }, []);
 
   return (
@@ -95,7 +98,7 @@ function DamageReport() {
                 ? (
                   <View>
                     <Text style={[styles.text, { marginBottom: 20 }]}>Overview</Text>
-                    <TextButton label="Open Popup" onPress={() => setIsPopVisible(true)} />
+                    <TextButton label="Open Popup" onPress={() => setIsPopUpVisible(true)} />
                   </View>
                 )
                 : <Text>Photos</Text>
@@ -103,14 +106,14 @@ function DamageReport() {
           </Text>
         </View>
       </View>
-      {isPopVisible ? (
+      {isPopUpVisible ? (
         <UpdateDamagePopUp
           part="fog_light_left"
           damage={{}}
           damageMode="severity"
           imageCount={3}
           onDismiss={onPopUpDismiss}
-          onShowGallery={() => console.log('Show gallery...')}
+          onShowGallery={onShowGallery}
         />
       ) : null}
     </View>
