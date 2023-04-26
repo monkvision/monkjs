@@ -2,9 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { IconButton, TabButton, TabGroup } from './common';
-import Gallery from './../Gallery';
-import { pictureList } from './../..mock';
+import { pictureList } from '../../mock';
+import { IconButton } from '../common';
+import Gallery from '../Gallery';
+import TabButton from './TabButton';
+import TabGroup from './TabGroup';
 
 const styles = StyleSheet.create({
   container: {
