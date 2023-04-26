@@ -66,7 +66,10 @@ function Thumbnail({ image, click }) {
 Thumbnail.propTypes = {
   click: PropTypes.func,
   image: PropTypes.shape({
-    label: PropTypes.string,
+    label: PropTypes.shape({
+      en: PropTypes.string,
+      fr: PropTypes.string,
+    }),
     url: PropTypes.string,
   }),
 };
@@ -74,7 +77,10 @@ Thumbnail.propTypes = {
 Thumbnail.defaultProps = {
   click: null,
   image: {
-    label: '',
+    label: {
+      en: '',
+      fr: '',
+    },
     url: '',
   },
 };
