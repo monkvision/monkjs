@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
-import { IconButton } from '../common';
 
-import TabButton from './TabButton';
-import TabGroup from './TabGroup';
+import { IconButton, TabButton, TabGroup } from './common';
+import Gallery from './../Gallery';
+import { pictureList } from './../..mock';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#121212',
     padding: 20,
-    height: '100vh',
+    minHeight: '100vh',
   },
   header: {
     alignSelf: 'stretch',
@@ -80,7 +80,7 @@ function DamageReport() {
         </View>
         <View>
           <Text style={[styles.text]}>
-            {tabIndex === 0 ? 'Overview' : 'Photos'}
+            {tabIndex === 0 ? 'Overview' : <Gallery pictures={pictureList} />}
           </Text>
         </View>
       </View>
