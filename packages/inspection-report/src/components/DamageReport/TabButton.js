@@ -23,7 +23,11 @@ const styles = StyleSheet.create({
 
 function TabButton({ color, icon, label, selected, onPress }) {
   return (
-    <TouchableOpacity style={[styles.container]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.container]}
+      disabled={selected}
+      onPress={onPress}
+    >
       <MaterialIcons style={[styles.icon]} name={selected ? 'check' : icon} size={24} color={color} />
       <Text style={[styles.text]}>{label}</Text>
     </TouchableOpacity>
