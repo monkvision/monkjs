@@ -5,6 +5,8 @@ import { IconButton } from '../common';
 
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
+import UpdateDamagePopUp from './UpdateDamagePopUp';
+import TextButton from './UpdateDamagePopUp/TextButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +16,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#121212',
     padding: 20,
-    height: '100vh',
+    height: '100%',
+    overflow: 'hidden',
   },
   header: {
     alignSelf: 'stretch',
@@ -51,8 +54,14 @@ const styles = StyleSheet.create({
 function DamageReport() {
   const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
+  const [isPopVisible, setIsPopVisible] = useState(false);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
+
+  const onPopUpDismiss = useCallback(() => {
+    console.log('Popup Dismiss...');
+    setIsPopVisible(0);
+  }, []);
 
   return (
     <View style={[styles.container]}>
@@ -61,6 +70,7 @@ function DamageReport() {
         <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
         <IconButton icon="file-download" onPress={() => console.log('download')} />
       </View>
+
       <View style={[styles.content]}>
         <View style={[styles.tabGroup]}>
           <TabGroup>
@@ -80,10 +90,29 @@ function DamageReport() {
         </View>
         <View>
           <Text style={[styles.text]}>
-            {tabIndex === 0 ? 'Overview' : 'Photos'}
+            {
+              tabIndex === 0
+                ? (
+                  <View>
+                    <Text style={[styles.text, { marginBottom: 20 }]}>Overview</Text>
+                    <TextButton label="Open Popup" onPress={() => setIsPopVisible(true)} />
+                  </View>
+                )
+                : <Text>Photos</Text>
+            }
           </Text>
         </View>
       </View>
+      {isPopVisible ? (
+        <UpdateDamagePopUp
+          part="fog_light_left"
+          damage={{}}
+          damageMode="severity"
+          imageCount={3}
+          onDismiss={onPopUpDismiss}
+          onShowGallery={() => console.log('Show gallery...')}
+        />
+      ) : null}
     </View>
   );
 }
