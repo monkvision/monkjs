@@ -152,14 +152,14 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 upperLimit={9999}
                 step={1}
                 disabled={displayMode === 'full' && !editedDamage}
-                value={editedDamage?.pricing || 0}
+                value={editedDamage?.pricing ?? 0}
                 thumbTintColor="#8da8ff"
                 minimumTrackTintColor="#5d5e67"
                 maximumTrackTintColor="#000000"
                 onValueChange={(value) => setEditedDamage((dmg) => ({ ...dmg, pricing: value }))}
               />
               <Text>
-                {editedDamage?.pricing || 0}
+                {editedDamage?.pricing ?? 0}
                 €
               </Text>
             </View>
@@ -180,7 +180,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
 
 DamageManipulator.propTypes = {
   damage: PropTypes.shape({
-    pricing: PropTypes.string,
+    pricing: PropTypes.number,
     severity: PropTypes.string,
   }),
   damageMode: PropTypes.string,
@@ -190,7 +190,7 @@ DamageManipulator.propTypes = {
 
 DamageManipulator.defaultProps = {
   damage: {
-    pricing: '',
+    pricing: 0,
     severity: '',
   },
   damageMode: 'all',
