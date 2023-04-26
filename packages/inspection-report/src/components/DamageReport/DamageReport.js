@@ -7,6 +7,8 @@ import { IconButton } from '../common';
 import Gallery from '../Gallery';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
+import UpdateDamagePopUp from './UpdateDamagePopUp';
+import TextButton from './UpdateDamagePopUp/TextButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +18,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#121212',
     padding: 20,
-    minHeight: '100vh',
+    minHeight: '100%',
+    height: '100%',
+    overflow: 'hidden',
   },
   header: {
     alignSelf: 'stretch',
@@ -53,8 +57,17 @@ const styles = StyleSheet.create({
 function DamageReport() {
   const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
+  const [isPopUpVisible, setIsPopUpVisible] = useState(false);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
+
+  const onPopUpDismiss = useCallback(() => {
+    console.log('Popup Dismiss...');
+    setIsPopUpVisible(0);
+  }, []);
+  const onShowGallery = useCallback(() => {
+    console.log('Show gallery...');
+  }, []);
 
   return (
     <View style={[styles.container]}>
@@ -63,6 +76,7 @@ function DamageReport() {
         <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
         <IconButton icon="file-download" onPress={() => console.log('download')} />
       </View>
+
       <View style={[styles.content]}>
         <View style={[styles.tabGroup]}>
           <TabGroup>
@@ -82,10 +96,29 @@ function DamageReport() {
         </View>
         <View>
           <Text style={[styles.text]}>
-            {tabIndex === 0 ? 'Overview' : <Gallery pictures={pictureList} />}
+            {
+              tabIndex === 0
+                ? (
+                  <View>
+                    <Text style={[styles.text, { marginBottom: 20 }]}>[Overview]</Text>
+                    <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
+                  </View>
+                )
+                : <Gallery pictures={pictureList} />
+            }
           </Text>
         </View>
       </View>
+      {isPopUpVisible ? (
+        <UpdateDamagePopUp
+          part="wheel_front_right"
+          damage={{}}
+          damageMode="severity"
+          imageCount={3}
+          onDismiss={onPopUpDismiss}
+          onShowGallery={onShowGallery}
+        />
+      ) : null}
     </View>
   );
 }
