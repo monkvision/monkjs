@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 });
 
 function Gallery({ pictures }) {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
 
   const handleOnImageClick = useCallback((focusedImage) => {
@@ -67,7 +67,7 @@ function Gallery({ pictures }) {
       >
         <View style={{ flex: 1 }}>
           <View style={styles.closeButtonWrapper}>
-            <Text style={styles.header}>{t(`gallery.parts.${focusedPhoto?.label}`)}</Text>
+            <Text style={styles.header}>{(focusedPhoto && focusedPhoto.label) ? focusedPhoto?.label[i18n.language] : ''}</Text>
             <Pressable
               onPress={() => setFocusedPhoto(null)}
               style={{
@@ -99,7 +99,10 @@ function Gallery({ pictures }) {
 Gallery.propTypes = {
   pictures: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string,
+      label: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
       url: PropTypes.string,
     }),
   ),
