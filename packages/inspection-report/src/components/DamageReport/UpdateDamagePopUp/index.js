@@ -173,19 +173,19 @@ function UpdateDamagePopUp({
         </View>
 
         <View style={[styles.content]}>
-          <Text style={[styles.text, styles.title]}>{t(`parts.${part}`)}</Text>
+          <Text style={[styles.text, styles.title]}>{t(`damageReport.parts.${part}`)}</Text>
           <ImageButton imageCount={imageCount} onPress={onShowGallery} />
         </View>
 
         <View style={[styles.content]}>
           <View style={[styles.textGroup]}>
-            <Text style={[styles.text, styles.smallText]}>Display Mode</Text>
-            <Text style={[styles.text, styles.subtitle]}>{viewMode}</Text>
+            <Text style={[styles.text, styles.smallText]}>[Display Mode]</Text>
+            <Text style={[styles.text, styles.subtitle]}>{`[${viewMode}]`}</Text>
           </View>
         </View>
 
         <View style={[styles.content]}>
-          <TextButton label="Done" onPress={scrollOut} />
+          <TextButton label={t('damageReport.buttons.done')} onPress={scrollOut} />
         </View>
       </Animated.View>
     </View>

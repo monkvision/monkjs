@@ -100,8 +100,8 @@ function DamageReport() {
               tabIndex === 0
                 ? (
                   <View>
-                    <Text style={[styles.text, { marginBottom: 20 }]}>Overview</Text>
-                    <TextButton label="Open Popup" onPress={() => setIsPopUpVisible(true)} />
+                    <Text style={[styles.text, { marginBottom: 20 }]}>[Overview]</Text>
+                    <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
                   </View>
                 )
                 : <Gallery pictures={pictureList} />
@@ -111,7 +111,7 @@ function DamageReport() {
       </View>
       {isPopUpVisible ? (
         <UpdateDamagePopUp
-          part="fog_light_left"
+          part="wheel_front_right"
           damage={{}}
           damageMode="severity"
           imageCount={3}
