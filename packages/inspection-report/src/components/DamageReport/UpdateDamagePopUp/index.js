@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import ImageButton from './ImageButton';
+import DamageManipulator from '../../common/DamageManipulator';
 
 const topLimitY = 145;
 
@@ -176,12 +177,12 @@ function UpdateDamagePopUp({
           <ImageButton imageCount={imageCount} onPress={onShowGallery} />
         </View>
 
-        <View style={[styles.content]}>
-          <View style={[styles.textGroup]}>
-            <Text style={[styles.text, styles.smallText]}>[Display Mode]</Text>
-            <Text style={[styles.text, styles.subtitle]}>{`[${viewMode}]`}</Text>
-          </View>
-        </View>
+        <DamageManipulator
+          damage={damage}
+          damageMode={damageMode}
+          displayMode={viewMode}
+          onConfirm={scrollOut}
+        />
       </Animated.View>
     </View>
   );
@@ -189,7 +190,7 @@ function UpdateDamagePopUp({
 
 UpdateDamagePopUp.propTypes = {
   damage: PropTypes.shape({
-    pricing: PropTypes.string,
+    pricing: PropTypes.number,
     severity: PropTypes.string,
   }),
   damageMode: PropTypes.string,
@@ -203,7 +204,7 @@ UpdateDamagePopUp.propTypes = {
 
 UpdateDamagePopUp.defaultProps = {
   damage: {
-    pricing: '',
+    pricing: 0,
     severity: '',
   },
   damageMode: 'all',

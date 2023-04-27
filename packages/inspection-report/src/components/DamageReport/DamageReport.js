@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#121212',
     padding: 20,
-    minHeight: '100%',
     height: '100%',
+    minHeight: '100%',
     overflow: 'hidden',
   },
   header: {
@@ -99,7 +99,6 @@ function DamageReport() {
               tabIndex === 0
                 ? (
                   <View>
-                    <Text style={[styles.text, { marginBottom: 20 }]}>[Overview]</Text>
                     <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
                   </View>
                 )
@@ -111,8 +110,8 @@ function DamageReport() {
       {isPopUpVisible ? (
         <UpdateDamagePopUp
           part="wheel_front_right"
-          damage={{}}
-          damageMode="severity"
+          damage={null}
+          damageMode="all"
           imageCount={3}
           onDismiss={onPopUpDismiss}
           onShowGallery={onShowGallery}
