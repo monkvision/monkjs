@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { pictureList } from '../../mock';
-import { IconButton } from '../common';
+import { IconButton, TextButton } from '../common';
 import Gallery from '../Gallery';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
-import TextButton from './UpdateDamagePopUp/TextButton';
 
 const styles = StyleSheet.create({
   container: {

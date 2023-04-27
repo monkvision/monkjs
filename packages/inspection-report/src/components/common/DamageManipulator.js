@@ -6,11 +6,18 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import Slider from '@react-native-community/slider';
 
-import SwitchButton from './SwitchButton';
+import { SwitchButton, TextButton } from './index';
 
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 16,
   },
   severityButtonWrapper: {
     alignItems: 'center',
@@ -80,12 +87,12 @@ const initialDamage = {
 
 function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   const { t } = useTranslation();
+  const [editedDamage, setEditedDamage] = useState(() => damage);
 
-  const [editedDamage, setEditedDamage] = useState(damage);
-  const toggleSwitch = useCallback(
-    () => setEditedDamage((dmg) => (dmg ? null : initialDamage[damageMode])),
-    [damageMode],
-  );
+
+  const doneHandler = useCallback(() => {
+    onConfirm({ severity: editedDamage?.severity, pricing: editedDamage?.pricing });
+  }, [editedDamage]);
 
   return (
     <View style={styles.container}>
@@ -166,14 +173,9 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
           </View>
         )
       }
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          onConfirm({ severity: editedDamage?.severity, pricing: editedDamage?.pricing });
-        }}
-      >
-        <Text style={styles.text}>{t('damageManipulator.done')}</Text>
-      </TouchableOpacity>
+      <View style={[styles.content, { marginTop: 8 }]}>
+        <TextButton label={t('damageManipulator.done')} onPress={doneHandler} />
+      </View>
     </View>
   );
 }

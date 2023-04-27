@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import TextButton from './TextButton';
 import ImageButton from './ImageButton';
 
 const topLimitY = 145;
@@ -182,10 +181,6 @@ function UpdateDamagePopUp({
             <Text style={[styles.text, styles.smallText]}>[Display Mode]</Text>
             <Text style={[styles.text, styles.subtitle]}>{`[${viewMode}]`}</Text>
           </View>
-        </View>
-
-        <View style={[styles.content]}>
-          <TextButton label={t('damageReport.buttons.done')} onPress={scrollOut} />
         </View>
       </Animated.View>
     </View>
