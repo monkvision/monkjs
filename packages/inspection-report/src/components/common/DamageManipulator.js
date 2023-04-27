@@ -72,7 +72,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   const [editedDamage, setEditedDamage] = useState(() => damage);
 
   const toggleSwitch = useCallback(() => {
-    setEditedDamage((dmg) => (dmg ? null : { severity: '', pricing: 0 }));
+    setEditedDamage((dmg) => (dmg ? null : { severity: 'minor', pricing: 0 }));
   }, [editedDamage]);
 
   const onSliderChange = useCallback((value) => {
@@ -83,6 +83,13 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
 
   const doneHandler = useCallback(() => {
     onConfirm({ severity: editedDamage?.severity, pricing: editedDamage?.pricing });
+  }, [editedDamage]);
+
+  const getHighlightStyle = useCallback((severity) => {
+    const borderColor = editedDamage?.severity === severity ? '#ffffff' : '#5d5e67';
+    return {
+      borderColor,
+    };
   }, [editedDamage]);
 
   return (
@@ -100,7 +107,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.severity')}</Text>
             <View style={[styles.severityContent]}>
               <TouchableOpacity
-                style={styles.severityButtonWrapper}
+                style={[styles.severityButtonWrapper, getHighlightStyle('minor')]}
                 onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'minor' }))}
                 disabled={displayMode === 'full' && !editedDamage}
               >
@@ -110,7 +117,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.minor')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.severityButtonWrapper}
+                style={[styles.severityButtonWrapper, getHighlightStyle('moderate')]}
                 onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'moderate' }))}
                 disabled={displayMode === 'full' && !editedDamage}
               >
@@ -120,7 +127,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.moderate')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.severityButtonWrapper}
+                style={[styles.severityButtonWrapper, getHighlightStyle('major')]}
                 onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'major' }))}
                 disabled={displayMode === 'full' && !editedDamage}
               >
@@ -148,8 +155,8 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 disabled={displayMode === 'full' && !editedDamage}
                 value={editedDamage?.pricing ?? 0}
                 thumbTintColor="#8da8ff"
-                minimumTrackTintColor="#5d5e67"
-                maximumTrackTintColor="#000000"
+                minimumTrackTintColor="#ffffff"
+                maximumTrackTintColor="#5d5e67"
                 onValueChange={onSliderChange}
               />
               <Text style={[styles.text]}>
