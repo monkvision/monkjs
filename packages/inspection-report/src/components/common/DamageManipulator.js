@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -19,7 +19,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 16,
   },
+  columnContent: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  severityContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 8,
+  },
   severityButtonWrapper: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#5d5e67',
     borderRadius: 8,
@@ -28,67 +40,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginRight: 8,
     minHeight: 58,
-    padding: 15,
-  },
-  severityText: {
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  damageWrapper: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 14,
-    lineHeight: 20,
-    opacity: '0.72',
   },
   button: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderColor: '#5d5e67',
     borderRadius: 28,
     borderWidth: 2,
-    marginTop: 10,
     padding: 10,
   },
   text: {
     fontSize: 14,
-    textAlign: 'center',
+    color: '#ffffff',
+  },
+  subtitle: {
+    fontSize: 16,
+  },
+  smallText: {
+    opacity: 0.72,
+    marginBottom: 5,
   },
   disabled: {
     opacity: 0.5,
   },
-  moderateIconContainer: {
-    alignItems: 'flex-end',
-    backgroundColor: '#d4e157',
-    borderRadius: 24,
-    display: 'flex',
-    height: 24,
-    justifyContent: 'center',
-    paddingHorizontal: 3,
-    paddingVertical: 5,
-    width: 24,
-  },
-  moderateIcon: {
-    backgroundColor: '#000',
-    border: 5,
-    borderBottomRightRadius: 12,
-    borderTopRightRadius: 12,
-    height: 16,
-    width: 8,
-  },
 });
-
-const initialDamage = {
-  severity: { severity: 'low' },
-  pricing: { pricing: 0 },
-  all: { severity: 'low', pricing: 0 },
-};
 
 function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   const { t } = useTranslation();
   const [editedDamage, setEditedDamage] = useState(() => damage);
 
+  const toggleSwitch = useCallback(() => {
+    setEditedDamage((dmg) => (dmg ? null : { severity: '', pricing: 0 }));
+  }, [editedDamage]);
+
+  const onSliderChange = useCallback((value) => {
+    if (value) {
+      setEditedDamage((dmg) => ({ ...dmg, pricing: value }));
+    }
+  }, [editedDamage]);
 
   const doneHandler = useCallback(() => {
     onConfirm({ severity: editedDamage?.severity, pricing: editedDamage?.pricing });
@@ -96,27 +87,27 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.damageWrapper}>
+      <View style={[styles.content]}>
         <View>
-          <Text style={styles.title}>{t('damageManipulator.damages')}</Text>
-          <Text style={{ fontSize: 16, lineHeight: 24 }}>{t('damageManipulator.notDamaged')}</Text>
+          <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.damages')}</Text>
+          <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.notDamaged')}</Text>
         </View>
         <SwitchButton onPress={toggleSwitch} isEnabled={!!editedDamage} />
       </View>
       {
-        (damageMode === 'severity' || damageMode === 'all') && ((displayMode === 'minimal' && editedDamage) || displayMode === 'full') && (
-          <View style={[{ marginVertical: 15 }, (displayMode === 'full' && !editedDamage) && styles.disabled]}>
-            <Text style={styles.title}>{t('damageManipulator.severity')}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+        (damageMode === 'severity' || damageMode === 'all') && (displayMode === 'full') && (
+          <View style={[styles.content, styles.columnContent, (displayMode === 'full' && !editedDamage) && styles.disabled]}>
+            <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.severity')}</Text>
+            <View style={[styles.severityContent]}>
               <TouchableOpacity
                 style={styles.severityButtonWrapper}
                 onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'minor' }))}
                 disabled={displayMode === 'full' && !editedDamage}
               >
                 {
-                  editedDamage.severity === 'minor' && <MaterialIcons name="trip-origin" size={24} color="#64b5f6" />
+                  editedDamage?.severity === 'minor' && <MaterialIcons name="trip-origin" size={24} color="#64b5f6" style={{ marginRight: 5 }} />
                 }
-                <Text style={styles.severityText}>{t('damageManipulator.minor')}</Text>
+                <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.minor')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.severityButtonWrapper}
@@ -124,13 +115,9 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 disabled={displayMode === 'full' && !editedDamage}
               >
                 {
-                  editedDamage.severity === 'moderate' && (
-                    <View style={styles.moderateIconContainer}>
-                      <View style={styles.moderateIcon} />
-                    </View>
-                  )
+                  editedDamage?.severity === 'moderate' && <MaterialCommunityIcons name="circle-half-full" size={24} color="#d4e157" style={{ marginRight: 5 }} />
                 }
-                <Text style={styles.severityText}>{t('damageManipulator.moderate')}</Text>
+                <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.moderate')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.severityButtonWrapper}
@@ -138,19 +125,19 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 disabled={displayMode === 'full' && !editedDamage}
               >
                 {
-                  editedDamage.severity === 'major' && <MaterialIcons name="circle" size={24} color="#64b5f6" />
+                  editedDamage?.severity === 'major' && <MaterialIcons name="circle" size={24} color="#64b5f6" style={{ marginRight: 5 }} />
                 }
-                <Text style={styles.severityText}>{t('damageManipulator.major')}</Text>
+                <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.major')}</Text>
               </TouchableOpacity>
             </View>
           </View>
         )
       }
       {
-        (damageMode === 'pricing' || damageMode === 'all') && ((displayMode === 'minimal' && editedDamage) || displayMode === 'full') && (
-          <View style={[{ marginVertical: 15 }, (displayMode === 'full' && !editedDamage) && styles.disabled]}>
-            <Text style={styles.title}>{t('damageManipulator.repairCost')}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+        (damageMode === 'pricing' || damageMode === 'all') && (displayMode === 'full') && (
+          <View style={[styles.content, styles.columnContent, (displayMode === 'full' && !editedDamage) && styles.disabled]}>
+            <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.repairCost')}</Text>
+            <View style={[styles.severityContent]}>
               <Slider
                 style={{ marginRight: 15 }}
                 minimumValue={0}
@@ -163,9 +150,9 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 thumbTintColor="#8da8ff"
                 minimumTrackTintColor="#5d5e67"
                 maximumTrackTintColor="#000000"
-                onValueChange={(value) => setEditedDamage((dmg) => ({ ...dmg, pricing: value }))}
+                onValueChange={onSliderChange}
               />
-              <Text>
+              <Text style={[styles.text]}>
                 {editedDamage?.pricing ?? 0}
                 €
               </Text>
