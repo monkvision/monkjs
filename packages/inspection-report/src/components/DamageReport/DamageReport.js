@@ -61,11 +61,9 @@ function DamageReport() {
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
 
   const onPopUpDismiss = useCallback(() => {
-    console.log('Popup Dismiss...');
-    setIsPopUpVisible(0);
+    setIsPopUpVisible(false);
   }, []);
   const onShowGallery = useCallback(() => {
-    console.log('Show gallery...');
   }, []);
 
   return (
