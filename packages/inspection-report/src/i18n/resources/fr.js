@@ -1,3 +1,5 @@
+import { carPartLabels } from '../../resources';
+
 const fr = {
   translation: {
     damageReport: {
@@ -9,6 +11,12 @@ const fr = {
         photos_tab: {
           label: 'Photos',
         },
+      },
+      buttons: {
+        done: 'Done',
+      },
+      parts: {
+        ...carPartLabels.fr,
       },
     },
     damageManipulator: {
