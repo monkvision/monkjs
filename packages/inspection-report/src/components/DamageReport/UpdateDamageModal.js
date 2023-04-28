@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   header: {
+    color: '#fff',
     fontSize: 20,
     fontWeight: 600,
     paddingVertical: 10,
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function UpdateDamageModal({ part, damageMode, damage, onConfirm, images }) {
+function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, images }) {
   const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -105,12 +106,12 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, images }) {
       animationType="slide"
       transparent
       visible
-      onRequestClose={() => console.log('Close request called')}
+      onRequestClose={onDismiss}
     >
       <View style={styles.container}>
         <View style={styles.closeButtonWrapper}>
           <Pressable
-            onPress={() => console.log('Close request called')}
+            onPress={onDismiss}
             style={styles.closeIconWrapper}
           >
             <MaterialIcons
@@ -138,16 +139,16 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, images }) {
                   }}
                   style={{ resizeMode: 'cover' }}
                 />
-                <View style={styles.counterContainer}>
-                  <Text style={styles.counter}>
-                    {currentPhotoIndex + 1}
-                    /
-                    {images.length}
-                  </Text>
-                </View>
               </Animated.View>
             ))
           }
+          <View style={styles.counterContainer}>
+            <Text style={styles.counter}>
+              {currentPhotoIndex + 1}
+              /
+              {images.length}
+            </Text>
+          </View>
         </View>
         <View style={{ padding: 10 }}>
           <DamageManipulator
@@ -174,6 +175,7 @@ UpdateDamageModal.propTypes = {
     }),
   ),
   onConfirm: PropTypes.func,
+  onDismiss: PropTypes.func,
   part: PropTypes.string,
 };
 
@@ -185,6 +187,7 @@ UpdateDamageModal.defaultProps = {
   damageMode: 'all',
   images: [],
   onConfirm: () => { },
+  onDismiss: () => { },
   part: '',
 };
 

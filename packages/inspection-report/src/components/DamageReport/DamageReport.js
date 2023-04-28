@@ -2,12 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { pictureList } from '../../mock';
+import { galleryList, pictureList } from '../../mock';
 import { IconButton, TextButton } from '../common';
 import Gallery from '../Gallery';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
+import UpdateDamageModal from './UpdateDamageModal';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,13 +58,25 @@ function DamageReport() {
   const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
+  const [isBigModalPopUpVisible, setIsBigModalPopUpVisible] = useState(false);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
 
   const onPopUpDismiss = useCallback(() => {
     setIsPopUpVisible(false);
   }, []);
+
   const onShowGallery = useCallback(() => {
+    onPopUpDismiss();
+    setIsBigModalPopUpVisible(true);
+  }, []);
+
+  const onGalleryConfirm = useCallback(() => {
+    setIsBigModalPopUpVisible(false);
+  }, []);
+
+  const onGalleryDismiss = useCallback(() => {
+    setIsBigModalPopUpVisible(false);
   }, []);
 
   return (
@@ -100,21 +113,36 @@ function DamageReport() {
                     <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
                   </View>
                 )
-                : <Gallery pictures={pictureList} />
+                : <Gallery pictures={galleryList} />
             }
           </Text>
         </View>
       </View>
-      {isPopUpVisible ? (
-        <UpdateDamagePopUp
-          part="wheel_front_right"
-          damage={null}
-          damageMode="all"
-          imageCount={3}
-          onDismiss={onPopUpDismiss}
-          onShowGallery={onShowGallery}
-        />
-      ) : null}
+
+      {
+        isPopUpVisible ? (
+          <UpdateDamagePopUp
+            part="wheel_front_right"
+            damage={null}
+            damageMode="all"
+            imageCount={3}
+            onDismiss={onPopUpDismiss}
+            onShowGallery={onShowGallery}
+          />
+        ) : null
+      }
+      {
+        isBigModalPopUpVisible ? (
+          <UpdateDamageModal
+            damage={null}
+            damageMode="all"
+            images={pictureList}
+            onConfirm={onGalleryConfirm}
+            onDismiss={onGalleryDismiss}
+            part="wheel_front_right"
+          />
+        ) : null
+      }
     </View>
   );
 }
