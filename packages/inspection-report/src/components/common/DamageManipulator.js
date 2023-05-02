@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import Slider from '@react-native-community/slider';
-
-import { SwitchButton, TextButton } from './index';
+import SwitchButton from './SwitchButton';
+import TextButton from './TextButton';
 
 const styles = StyleSheet.create({
   container: {

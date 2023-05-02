@@ -2,12 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { pictureList } from '../../mock';
+import { galleryList, pictureList } from '../../mock';
 import { IconButton, TextButton } from '../common';
 import Gallery from '../Gallery';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
+import UpdateDamageModal from './UpdateDamageModal';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,13 +58,25 @@ function DamageReport() {
   const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
 
   const onPopUpDismiss = useCallback(() => {
     setIsPopUpVisible(false);
   }, []);
+
   const onShowGallery = useCallback(() => {
+    onPopUpDismiss();
+    setIsModalVisible(true);
+  }, []);
+
+  const onGalleryConfirm = useCallback(() => {
+    setIsModalVisible(false);
+  }, []);
+
+  const onGalleryDismiss = useCallback(() => {
+    setIsModalVisible(false);
   }, []);
 
   return (
@@ -92,29 +105,42 @@ function DamageReport() {
           </TabGroup>
         </View>
         <View>
-          <Text style={[styles.text]}>
-            {
-              tabIndex === 0
-                ? (
-                  <View>
-                    <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
-                  </View>
-                )
-                : <Gallery pictures={pictureList} />
-            }
-          </Text>
+          {
+            tabIndex === 0
+              ? (
+                <View>
+                  <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
+                </View>
+              )
+              : <Gallery pictures={galleryList} />
+          }
         </View>
       </View>
-      {isPopUpVisible ? (
-        <UpdateDamagePopUp
-          part="wheel_front_right"
-          damage={null}
-          damageMode="all"
-          imageCount={3}
-          onDismiss={onPopUpDismiss}
-          onShowGallery={onShowGallery}
-        />
-      ) : null}
+
+      {
+        isPopUpVisible && (
+          <UpdateDamagePopUp
+            part="wheel_front_right"
+            damage={null}
+            damageMode="all"
+            imageCount={pictureList.length}
+            onDismiss={onPopUpDismiss}
+            onShowGallery={onShowGallery}
+          />
+        )
+      }
+      {
+        isModalVisible && (
+          <UpdateDamageModal
+            damage={null}
+            damageMode="all"
+            images={pictureList}
+            onConfirm={onGalleryConfirm}
+            onDismiss={onGalleryDismiss}
+            part="wheel_front_right"
+          />
+        )
+      }
     </View>
   );
 }
