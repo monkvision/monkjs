@@ -58,7 +58,7 @@ function DamageReport() {
   const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
-  const [isBigModalPopUpVisible, setIsBigModalPopUpVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onTabHandler = useCallback((index) => setTabIndex(index), []);
 
@@ -68,15 +68,15 @@ function DamageReport() {
 
   const onShowGallery = useCallback(() => {
     onPopUpDismiss();
-    setIsBigModalPopUpVisible(true);
+    setIsModalVisible(true);
   }, []);
 
   const onGalleryConfirm = useCallback(() => {
-    setIsBigModalPopUpVisible(false);
+    setIsModalVisible(false);
   }, []);
 
   const onGalleryDismiss = useCallback(() => {
-    setIsBigModalPopUpVisible(false);
+    setIsModalVisible(false);
   }, []);
 
   return (
@@ -105,34 +105,32 @@ function DamageReport() {
           </TabGroup>
         </View>
         <View>
-          <Text style={[styles.text]}>
-            {
-              tabIndex === 0
-                ? (
-                  <View>
-                    <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
-                  </View>
-                )
-                : <Gallery pictures={galleryList} />
-            }
-          </Text>
+          {
+            tabIndex === 0
+              ? (
+                <View>
+                  <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
+                </View>
+              )
+              : <Gallery pictures={galleryList} />
+          }
         </View>
       </View>
 
       {
-        isPopUpVisible ? (
+        isPopUpVisible && (
           <UpdateDamagePopUp
             part="wheel_front_right"
             damage={null}
             damageMode="all"
-            imageCount={3}
+            imageCount={pictureList.length}
             onDismiss={onPopUpDismiss}
             onShowGallery={onShowGallery}
           />
-        ) : null
+        )
       }
       {
-        isBigModalPopUpVisible ? (
+        isModalVisible && (
           <UpdateDamageModal
             damage={null}
             damageMode="all"
@@ -141,7 +139,7 @@ function DamageReport() {
             onDismiss={onGalleryDismiss}
             part="wheel_front_right"
           />
-        ) : null
+        )
       }
     </View>
   );

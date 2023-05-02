@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 282,
     width: '100%',
+    padding: 10,
   },
   carouselCard: {
     height: '100%',
@@ -65,7 +66,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [gestureState, setGestureState] = useState({});
-  const pan = useRef(new Animated.ValueXY({ x: 0, y: width })).current;
+  const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
 
   const panResponder = useRef(
     PanResponder.create({
@@ -98,7 +99,11 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   }, [gestureState]);
 
   useEffect(() => {
-    pan.setValue({ x: -currentPhotoIndex * width, y: 0 });
+    Animated.timing(pan, {
+      toValue: { x: -currentPhotoIndex * width, y: 0 },
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
   }, [currentPhotoIndex]);
 
   return (
@@ -150,14 +155,12 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
             </Text>
           </View>
         </View>
-        <View style={{ padding: 10 }}>
-          <DamageManipulator
-            damage={damage}
-            damageMode={damageMode}
-            displayMode="full"
-            onConfirm={onConfirm}
-          />
-        </View>
+        <DamageManipulator
+          damage={damage}
+          damageMode={damageMode}
+          displayMode="full"
+          onConfirm={onConfirm}
+        />
       </View>
     </Modal>
   );
