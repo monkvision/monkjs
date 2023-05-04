@@ -1,14 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { galleryList, pictureList } from '../../mock';
-import { IconButton, TextButton } from '../common';
+import AppStateMock from '../../mock';
+import { IconButton } from '../common';
 import Gallery from '../Gallery';
+import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
-import UpdateDamagePopUp from './UpdateDamagePopUp';
-import UpdateDamageModal from './UpdateDamageModal';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,30 +53,33 @@ const styles = StyleSheet.create({
   },
 });
 
-function DamageReport() {
+const Tabs = {
+  OVERVIEW: 0,
+  GALLERY: 1,
+};
+
+export default function DamageReport() {
   const { t } = useTranslation();
-  const [tabIndex, setTabIndex] = useState(0);
-  const [isPopUpVisible, setIsPopUpVisible] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const onTabHandler = useCallback((index) => setTabIndex(index), []);
-
-  const onPopUpDismiss = useCallback(() => {
-    setIsPopUpVisible(false);
-  }, []);
-
-  const onShowGallery = useCallback(() => {
-    onPopUpDismiss();
-    setIsModalVisible(true);
-  }, []);
-
-  const onGalleryConfirm = useCallback(() => {
-    setIsModalVisible(false);
-  }, []);
-
-  const onGalleryDismiss = useCallback(() => {
-    setIsModalVisible(false);
-  }, []);
+  const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+  // const [isPopUpVisible, setIsPopUpVisible] = useState(false);
+  // const [isModalVisible, setIsModalVisible] = useState(false);
+  //
+  // const onPopUpDismiss = useCallback(() => {
+  //   setIsPopUpVisible(false);
+  // }, []);
+  //
+  // const onShowGallery = useCallback(() => {
+  //   onPopUpDismiss();
+  //   setIsModalVisible(true);
+  // }, []);
+  //
+  // const onGalleryConfirm = useCallback(() => {
+  //   setIsModalVisible(false);
+  // }, []);
+  //
+  // const onGalleryDismiss = useCallback(() => {
+  //   setIsModalVisible(false);
+  // }, []);
 
   return (
     <View style={[styles.container]}>
@@ -92,57 +94,55 @@ function DamageReport() {
           <TabGroup>
             <TabButton
               icon="360"
-              label={t('damageReport.tabs.overview_tab.label')}
-              selected={tabIndex === 0}
-              onPress={() => onTabHandler(0)}
+              label={t('damageReport.tabs.overviewTab.label')}
+              selected={currentTab === Tabs.OVERVIEW}
+              onPress={() => setCurrentTab(Tabs.OVERVIEW)}
             />
             <TabButton
               icon="photo-library"
-              label={t('damageReport.tabs.photos_tab.label')}
-              selected={tabIndex === 1}
-              onPress={() => onTabHandler(1)}
+              label={t('damageReport.tabs.photosTab.label')}
+              selected={currentTab === Tabs.GALLERY}
+              onPress={() => setCurrentTab(Tabs.GALLERY)}
             />
           </TabGroup>
         </View>
         <View>
-          {
-            tabIndex === 0
-              ? (
-                <View>
-                  <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
-                </View>
-              )
-              : <Gallery pictures={galleryList} />
-          }
+          {currentTab !== Tabs.OVERVIEW ? null : (
+            <Overview
+              damages={AppStateMock.damages}
+              damageMode={AppStateMock.damageMode}
+              vehicleType={AppStateMock.vehicleType}
+            />
+          )}
+          {currentTab !== Tabs.GALLERY ? null : (
+            <Gallery pictures={AppStateMock.gallery} />
+          )}
         </View>
       </View>
-
-      {
-        isPopUpVisible && (
-          <UpdateDamagePopUp
-            part="wheel_front_right"
-            damage={null}
-            damageMode="all"
-            imageCount={pictureList.length}
-            onDismiss={onPopUpDismiss}
-            onShowGallery={onShowGallery}
-          />
-        )
-      }
-      {
-        isModalVisible && (
-          <UpdateDamageModal
-            damage={null}
-            damageMode="all"
-            images={pictureList}
-            onConfirm={onGalleryConfirm}
-            onDismiss={onGalleryDismiss}
-            part="wheel_front_right"
-          />
-        )
-      }
+      {/*{*/}
+      {/*  isPopUpVisible && (*/}
+      {/*    <UpdateDamagePopUp*/}
+      {/*      part="wheel_front_right"*/}
+      {/*      damage={null}*/}
+      {/*      damageMode="all"*/}
+      {/*      imageCount={0}*/}
+      {/*      onDismiss={onPopUpDismiss}*/}
+      {/*      onShowGallery={onShowGallery}*/}
+      {/*    />*/}
+      {/*  )*/}
+      {/*}*/}
+      {/*{*/}
+      {/*  isModalVisible && (*/}
+      {/*    <UpdateDamageModal*/}
+      {/*      damage={null}*/}
+      {/*      damageMode="all"*/}
+      {/*      images={[]}*/}
+      {/*      onConfirm={onGalleryConfirm}*/}
+      {/*      onDismiss={onGalleryDismiss}*/}
+      {/*      part="wheel_front_right"*/}
+      {/*    />*/}
+      {/*  )*/}
+      {/*}*/}
     </View>
   );
 }
-
-export default DamageReport;

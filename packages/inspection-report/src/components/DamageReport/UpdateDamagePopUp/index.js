@@ -10,9 +10,10 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { CommonPropTypes, DamageMode, DisplayMode } from '../../../resources';
 
 import ImageButton from './ImageButton';
-import DamageManipulator from '../../common/DamageManipulator';
+import DamageManipulator from '../DamageManipulator';
 
 const topLimitY = 145;
 
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function UpdateDamagePopUp({
+export default function UpdateDamagePopUp({
   damage,
   damageMode,
   displayMode,
@@ -189,31 +190,23 @@ function UpdateDamagePopUp({
 }
 
 UpdateDamagePopUp.propTypes = {
-  damage: PropTypes.shape({
-    pricing: PropTypes.number,
-    severity: PropTypes.string,
-  }),
-  damageMode: PropTypes.string,
-  displayMode: PropTypes.string,
+  damage: CommonPropTypes.damageWithoutPart,
+  damageMode: CommonPropTypes.damageMode,
+  displayMode: CommonPropTypes.displayMode,
   imageCount: PropTypes.number,
   onDismiss: PropTypes.func,
   onShowGallery: PropTypes.func,
-  part: PropTypes.string,
+  part: CommonPropTypes.partName,
   style: PropTypes.object,
 };
 
 UpdateDamagePopUp.defaultProps = {
-  damage: {
-    pricing: 0,
-    severity: '',
-  },
-  damageMode: 'all',
-  displayMode: 'minimal',
+  damage: undefined,
+  damageMode: DamageMode.ALL,
+  displayMode: DisplayMode.MINIMAL,
   imageCount: 0,
   onDismiss: () => {},
   onShowGallery: () => {},
   part: '',
   style: {},
 };
-
-export default UpdateDamagePopUp;

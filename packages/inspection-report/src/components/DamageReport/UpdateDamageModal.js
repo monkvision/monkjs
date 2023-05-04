@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Animated, Image, Modal, PanResponder, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { DamageManipulator } from '../common';
+import { CommonPropTypes, DamageMode } from '../../resources';
+
+import DamageManipulator from './DamageManipulator';
 
 const styles = StyleSheet.create({
   container: {
@@ -167,11 +169,8 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
 }
 
 UpdateDamageModal.propTypes = {
-  damage: PropTypes.shape({
-    pricing: PropTypes.number,
-    severity: PropTypes.string,
-  }),
-  damageMode: PropTypes.string,
+  damage: CommonPropTypes.damageWithoutPart,
+  damageMode: CommonPropTypes.damageMode,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       url: PropTypes.string,
@@ -179,18 +178,15 @@ UpdateDamageModal.propTypes = {
   ),
   onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
-  part: PropTypes.string,
+  part: CommonPropTypes.partName,
 };
 
 UpdateDamageModal.defaultProps = {
-  damage: {
-    pricing: 0,
-    severity: '',
-  },
-  damageMode: 'all',
+  damage: undefined,
+  damageMode: DamageMode.ALL,
   images: [],
-  onConfirm: () => { },
-  onDismiss: () => { },
+  onConfirm: () => {},
+  onDismiss: () => {},
   part: '',
 };
 

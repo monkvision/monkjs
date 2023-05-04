@@ -5,10 +5,10 @@ const fr = {
     damageReport: {
       title: 'Rapport de Dégâts',
       tabs: {
-        overview_tab: {
+        overviewTab: {
           label: 'Apperçu',
         },
-        photos_tab: {
+        photosTab: {
           label: 'Photos',
         },
       },
@@ -28,6 +28,13 @@ const fr = {
       major: 'Majeur',
       repairCost: 'Coût de réparation',
       done: 'Fait',
+    },
+    severityLabels: {
+      pricingOnly: 'Dégâts',
+      low: 'Mineur',
+      medium: 'Modéré',
+      high: 'Majeur',
+      none: 'Inconnu',
     },
   },
 };

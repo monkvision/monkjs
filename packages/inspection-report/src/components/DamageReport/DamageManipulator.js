@@ -1,12 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import Slider from '@react-native-community/slider';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
-import Slider from '@react-native-community/slider';
-import SwitchButton from './SwitchButton';
-import TextButton from './TextButton';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { CommonPropTypes, DamageMode, DisplayMode, SeveritiesWithIcon, Severity } from '../../resources';
+import { TextButton, SwitchButton } from '../common';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,13 +66,19 @@ const styles = StyleSheet.create({
   },
 });
 
+const initialDamageMap = {
+  [DamageMode.PRICING]: { pricing: 0 },
+  [DamageMode.SEVERITY]: { severity: Severity.LOW },
+  [DamageMode.ALL]: { pricing: 0, severity: Severity.LOW },
+};
+
 function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   const { t } = useTranslation();
-  const [editedDamage, setEditedDamage] = useState(() => damage);
+  const [editedDamage, setEditedDamage] = useState(damage);
 
   const toggleSwitch = useCallback(() => {
-    setEditedDamage((dmg) => (dmg ? null : { severity: 'minor', pricing: 0 }));
-  }, [editedDamage]);
+    setEditedDamage((dmg) => (dmg ? null : initialDamageMap[damageMode]));
+  }, [editedDamage, damageMode]);
 
   const onSliderChange = useCallback((value) => {
     if (value) {
@@ -102,47 +107,42 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
         <SwitchButton onPress={toggleSwitch} isEnabled={!!editedDamage} />
       </View>
       {
-        (damageMode === 'severity' || damageMode === 'all') && (displayMode === 'full') && (
-          <View style={[styles.content, styles.columnContent, (displayMode === 'full' && !editedDamage) && styles.disabled]}>
+        ([DamageMode.SEVERITY, DamageMode.ALL].includes(damageMode)
+        && displayMode === DisplayMode.FULL) && (
+          <View style={[
+            styles.content,
+            styles.columnContent,
+            (displayMode === DisplayMode.FULL && !editedDamage) && styles.disabled,
+          ]}
+          >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.severity')}</Text>
             <View style={[styles.severityContent]}>
-              <TouchableOpacity
-                style={[styles.severityButtonWrapper, getHighlightStyle('minor')]}
-                onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'minor' }))}
-                disabled={displayMode === 'full' && !editedDamage}
-              >
-                {
-                  editedDamage?.severity === 'minor' && <MaterialIcons name="trip-origin" size={24} color="#64b5f6" style={{ marginRight: 5 }} />
-                }
-                <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.minor')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.severityButtonWrapper, getHighlightStyle('moderate')]}
-                onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'moderate' }))}
-                disabled={displayMode === 'full' && !editedDamage}
-              >
-                {
-                  editedDamage?.severity === 'moderate' && <MaterialCommunityIcons name="circle-half-full" size={24} color="#d4e157" style={{ marginRight: 5 }} />
-                }
-                <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.moderate')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.severityButtonWrapper, getHighlightStyle('major')]}
-                onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: 'major' }))}
-                disabled={displayMode === 'full' && !editedDamage}
-              >
-                {
-                  editedDamage?.severity === 'major' && <MaterialIcons name="circle" size={24} color="#64b5f6" style={{ marginRight: 5 }} />
-                }
-                <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.major')}</Text>
-              </TouchableOpacity>
+              {Object.values(SeveritiesWithIcon).map((severity) => (
+                <TouchableOpacity
+                  key={severity.key}
+                  style={[styles.severityButtonWrapper, getHighlightStyle(severity.key)]}
+                  onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: severity.key }))}
+                  disabled={displayMode === DisplayMode.FULL && !editedDamage}
+                >
+                  {editedDamage?.severity === severity.key && (
+                    <severity.Icon style={{ marginRight: 5 }} />
+                  )}
+                  <Text style={[styles.text, styles.subtitle]}>{t(`severityLabels.${severity}`)}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
         )
       }
       {
-        (damageMode === 'pricing' || damageMode === 'all') && (displayMode === 'full') && (
-          <View style={[styles.content, styles.columnContent, (displayMode === 'full' && !editedDamage) && styles.disabled]}>
+        ([DamageMode.PRICING, DamageMode.ALL].includes(damageMode)
+        && displayMode === DisplayMode.FULL) && (
+          <View style={[
+            styles.content,
+            styles.columnContent,
+            (displayMode === DisplayMode.FULL && !editedDamage) && styles.disabled,
+          ]}
+          >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.repairCost')}</Text>
             <View style={[styles.severityContent]}>
               <Slider
@@ -152,7 +152,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                 lowerLimit={0}
                 upperLimit={9999}
                 step={1}
-                disabled={displayMode === 'full' && !editedDamage}
+                disabled={displayMode === DisplayMode.FULL && !editedDamage}
                 value={editedDamage?.pricing ?? 0}
                 thumbTintColor="#8da8ff"
                 minimumTrackTintColor="#ffffff"
@@ -175,23 +175,17 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
 }
 
 DamageManipulator.propTypes = {
-  damage: PropTypes.shape({
-    pricing: PropTypes.number,
-    severity: PropTypes.string,
-  }),
-  damageMode: PropTypes.string,
-  displayMode: PropTypes.string,
+  damage: CommonPropTypes.damageWithoutPart,
+  damageMode: CommonPropTypes.damageMode,
+  displayMode: PropTypes.oneOf(Object.values(DisplayMode)),
   onConfirm: PropTypes.func,
 };
 
 DamageManipulator.defaultProps = {
-  damage: {
-    pricing: 0,
-    severity: '',
-  },
-  damageMode: 'all',
-  displayMode: 'minimal',
-  onConfirm: () => { },
+  damage: undefined,
+  damageMode: DamageMode.ALL,
+  displayMode: DisplayMode.MINIMAL,
+  onConfirm: () => {},
 };
 
 export default DamageManipulator;
