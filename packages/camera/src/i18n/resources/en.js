@@ -49,6 +49,7 @@ const en = {
           'MISSING_PARTS--missing some parts': 'is missing important car parts',
           'HIDDEN_PARTS--some parts not visible enough': 'has some car parts not visible enough',
           'NO_CAR_BODY--no car body detected': 'doesn\'t have a clear vehicle',
+          'NO_CAR_BODY--No car body was detected. Car parts prediction is `None`.': 'no car was detected',
         },
       },
       variant: {

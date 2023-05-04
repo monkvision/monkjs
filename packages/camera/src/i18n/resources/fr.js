@@ -49,6 +49,7 @@ const fr = {
           'MISSING_PARTS--missing some parts': 'ne contient pas les bonnes parties de la voiture',
           'HIDDEN_PARTS--some parts not visible enough': 'contient certaines parties de voiture qui ne sont pas assez visibles',
           'NO_CAR_BODY--no car body detected': 'n\'a pas de véhicule clair',
+          'NO_CAR_BODY--No car body was detected. Car parts prediction is `None`.': 'aucune voiture n\'a été détéctée',
         },
       },
       variant: {
