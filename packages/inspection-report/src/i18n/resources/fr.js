@@ -21,13 +21,14 @@ const fr = {
     },
     damageManipulator: {
       damages: 'Dégâts',
-      notDamaged: 'Cette fête n\'est pas endommagée',
-      severity: 'Gravité',
+      damaged: 'Cette partie est endommagée',
+      notDamaged: 'Cette partie n\'est pas endommagée',
+      severity: 'Sévérité',
       minor: 'Mineure',
       moderate: 'Modéré',
       major: 'Majeur',
       repairCost: 'Coût de réparation',
-      done: 'Fait',
+      done: 'Terminé',
     },
     severityLabels: {
       pricingOnly: 'Dégâts',

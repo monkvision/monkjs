@@ -7,7 +7,7 @@ import {
   PanResponder,
   StyleSheet,
   TouchableWithoutFeedback,
-  useWindowDimensions,
+  useWindowDimensions, Platform,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { CommonPropTypes, DamageMode, DisplayMode } from '../../../resources';
@@ -88,6 +88,7 @@ export default function UpdateDamagePopUp({
   imageCount,
   part,
   onDismiss,
+  onConfirm,
   onShowGallery,
   style = {},
 }) {
@@ -102,7 +103,7 @@ export default function UpdateDamagePopUp({
     Animated.timing(pan, {
       toValue: { x: 0, y: toValue },
       duration: 200,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     }).start();
   }, [viewMode, bottomLimitY]);
 
@@ -110,7 +111,7 @@ export default function UpdateDamagePopUp({
     Animated.timing(pan, {
       toValue: { x: 0, y: bottomLimitY },
       duration: 200,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     }).start(onDismiss);
   }, [bottomLimitY]);
 
@@ -126,6 +127,11 @@ export default function UpdateDamagePopUp({
     }
   }, [viewMode, gestureState]);
 
+  const handleConfirm = useCallback((dmg) => {
+    onConfirm(dmg);
+    scrollOut();
+  }, [onConfirm, scrollOut]);
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -138,7 +144,10 @@ export default function UpdateDamagePopUp({
         } else if (gestureStat.moveY >= bottomLimitY) {
           pan.setValue({ x: 0, y: bottomLimitY });
         } else {
-          Animated.event([null, { moveX: pan.x, moveY: pan.y }])(event, gestureStat);
+          Animated.event(
+            [null, { moveX: pan.x, moveY: pan.y }],
+            { useNativeDriver: Platform.OS !== 'web' },
+          )(event, gestureStat);
         }
       },
       onPanResponderRelease: (event, gestureStat) => {
@@ -182,7 +191,7 @@ export default function UpdateDamagePopUp({
           damage={damage}
           damageMode={damageMode}
           displayMode={viewMode}
-          onConfirm={scrollOut}
+          onConfirm={handleConfirm}
         />
       </Animated.View>
     </View>
@@ -194,6 +203,7 @@ UpdateDamagePopUp.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   displayMode: CommonPropTypes.displayMode,
   imageCount: PropTypes.number,
+  onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
   onShowGallery: PropTypes.func,
   part: CommonPropTypes.partName,
@@ -205,6 +215,7 @@ UpdateDamagePopUp.defaultProps = {
   damageMode: DamageMode.ALL,
   displayMode: DisplayMode.MINIMAL,
   imageCount: 0,
+  onConfirm: () => {},
   onDismiss: () => {},
   onShowGallery: () => {},
   part: '',

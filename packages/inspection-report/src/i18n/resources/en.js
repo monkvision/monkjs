@@ -21,6 +21,7 @@ const en = {
     },
     damageManipulator: {
       damages: 'Damages',
+      damaged: 'This part is damaged',
       notDamaged: 'This part isn\'t damaged',
       severity: 'Severity',
       minor: 'Minor',

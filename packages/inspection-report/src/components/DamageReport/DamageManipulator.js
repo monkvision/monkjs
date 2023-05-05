@@ -72,7 +72,7 @@ const initialDamageMap = {
   [DamageMode.ALL]: { pricing: 0, severity: Severity.LOW },
 };
 
-function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
+export default function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   const { t } = useTranslation();
   const [editedDamage, setEditedDamage] = useState(damage);
 
@@ -87,7 +87,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   }, [editedDamage]);
 
   const doneHandler = useCallback(() => {
-    onConfirm({ severity: editedDamage?.severity, pricing: editedDamage?.pricing });
+    onConfirm(editedDamage);
   }, [editedDamage]);
 
   const getHighlightStyle = useCallback((severity) => {
@@ -102,7 +102,9 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
       <View style={[styles.content]}>
         <View>
           <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.damages')}</Text>
-          <Text style={[styles.text, styles.subtitle]}>{t('damageManipulator.notDamaged')}</Text>
+          <Text style={[styles.text, styles.subtitle]}>
+            {t(`damageManipulator.${editedDamage ? 'damaged' : 'notDamaged'}`)}
+          </Text>
         </View>
         <SwitchButton onPress={toggleSwitch} isEnabled={!!editedDamage} />
       </View>
@@ -127,7 +129,7 @@ function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
                   {editedDamage?.severity === severity.key && (
                     <severity.Icon style={{ marginRight: 5 }} />
                   )}
-                  <Text style={[styles.text, styles.subtitle]}>{t(`severityLabels.${severity}`)}</Text>
+                  <Text style={[styles.text, styles.subtitle]}>{t(`severityLabels.${severity.key}`)}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -187,5 +189,3 @@ DamageManipulator.defaultProps = {
   displayMode: DisplayMode.MINIMAL,
   onConfirm: () => {},
 };
-
-export default DamageManipulator;

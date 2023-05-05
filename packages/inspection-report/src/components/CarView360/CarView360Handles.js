@@ -61,6 +61,7 @@ export default function CarView360Handles({
       <View style={[styles.dotContainer]}>
         {dotOrientations.map((dotOrientation) => (
           <TouchableOpacity
+            key={dotOrientation}
             style={[
               styles.dot,
               orientation === dotOrientation ? styles.selectedDot : null,

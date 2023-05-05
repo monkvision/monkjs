@@ -29,6 +29,8 @@ export default function Overview({
   damages,
   damageMode,
   vehicleType,
+  onPressPart,
+  onPressPill,
 }) {
   const { width } = useWindowDimensions();
   const {
@@ -48,9 +50,9 @@ export default function Overview({
             damages={damages}
             vehicleType={vehicleType}
             orientation={orientation}
-            width={width - 20}
-            onPressPart={() => {}}
-            onPressPill={() => {}}
+            width={width - 40}
+            onPressPart={onPressPart}
+            onPressPill={onPressPill}
           />
         </View>
         <CarView360Handles
@@ -67,11 +69,15 @@ export default function Overview({
 Overview.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   damages: PropTypes.arrayOf(CommonPropTypes.damage),
+  onPressPart: PropTypes.func,
+  onPressPill: PropTypes.func,
   vehicleType: CommonPropTypes.vehicleType,
 };
 
 Overview.defaultProps = {
   damageMode: DamageMode.ALL,
   damages: [],
+  onPressPart: () => {},
+  onPressPill: () => {},
   vehicleType: VehicleType.CUV,
 };

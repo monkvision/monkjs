@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   severityCount: {
     fontWeight: 'medium',
     fontSize: 12,
+    color: '#FFFFFF',
   },
 });
 
@@ -49,10 +50,10 @@ export default function DamageCounts({ damageMode, counts }) {
   );
 
   return damageMode === DamageMode.PRICING ? (
-    <View style={[styles.container]}>
+    <View style={[styles.container, styles.pricingContainer]}>
       <IconSeverityNone />
       <Text style={[styles.severityLabel, styles.pricingLabel]}>
-        {`${total} ${t('overview.severityLabels.pricingOnly')}`}
+        {`${total} ${t('severityLabels.pricingOnly')}`}
       </Text>
     </View>
   ) : (
