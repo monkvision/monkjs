@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 282,
     width: '100%',
-    padding: 10,
   },
   carouselCard: {
     height: '100%',
@@ -58,6 +57,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+  damageManipulatorWrapper: {
+    padding: 10,
   },
 });
 
@@ -155,12 +157,14 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
             </Text>
           </View>
         </View>
-        <DamageManipulator
-          damage={damage}
-          damageMode={damageMode}
-          displayMode="full"
-          onConfirm={onConfirm}
-        />
+        <View style={styles.damageManipulatorWrapper}>
+          <DamageManipulator
+            damage={damage}
+            damageMode={damageMode}
+            displayMode="full"
+            onConfirm={onConfirm}
+          />
+        </View>
       </View>
     </Modal>
   );
