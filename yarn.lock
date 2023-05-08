@@ -2364,6 +2364,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/cra-template@workspace:packages/cra-template":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/cra-template@workspace:packages/cra-template"
+  languageName: unknown
+  linkType: soft
+
 "@monkvision/eslint-config-base@1.0.0, @monkvision/eslint-config-base@workspace:configs/eslint-config-base":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-base@workspace:configs/eslint-config-base"
