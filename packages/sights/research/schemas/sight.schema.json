@@ -45,7 +45,7 @@
       "$ref": "#/definitions/Task"
     }
   },
-  "required": ["category", "label", "overlay", "vehicle_type"],
+  "required": ["category", "label", "overlay", "vehicle_type", "tasks"],
   "allOf": [
     {
       "if": {

@@ -65,7 +65,6 @@ export enum VehicleType {
 /**
  * Names of the tasks that can be executed during an inspection.
  *
- * *Swagger Schema Reference :* `TaskName`
  */
 export enum TaskName {
   /**
@@ -113,7 +112,7 @@ export interface Sight {
    */
   vehicleType: VehicleType;
   /**
-   * The name of the task.
+   * The list of tasks that must be run on this sight.
    */
   tasks: TaskName[];
 }

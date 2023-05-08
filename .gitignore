@@ -35,3 +35,5 @@ yarn-error.log*
 
 # vscode
 .vscode
+
+apps/monk-test-app/build
