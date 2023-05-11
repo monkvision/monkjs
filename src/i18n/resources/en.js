@@ -42,6 +42,9 @@ const en = {
       downloadPdf: 'Download PDF',
       downloadPdfDescription: 'Available when all stasks are completed',
       appVersion: 'App Version',
+      invalidParams: 'Oops ! The URL you are trying to access is invalid 😔 Please try again with another URL.',
+      invalidToken: 'Oops ! The URL you are trying to access is expired 😔 Please try again with another URL.',
+      selectVehicle: 'Select vehicle type',
     },
     vinModal: {
       title: 'How to set VIN number?',
