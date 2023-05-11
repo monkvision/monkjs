@@ -6,7 +6,7 @@ const buildNumber = 1;
 const app = {
   name: 'Monk Capture Application',
   shortName: 'MCA',
-  companyName: 'Monk',
+  companyName: 'Fastback',
   logo: {
     source: {
       uri: 'https://i0.wp.com/monk.ai/wp/wp-content/uploads/2020/06/monk-logo-white-2x.png',

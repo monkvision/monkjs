@@ -10,22 +10,21 @@ export default function useVinModal({ isAuthenticated, inspectionId, vehicle }) 
 
   // VIN
   const handleVinSelect = useCallback((name) => {
-    const shouldSignIn = !isAuthenticated;
-
     // select only value that are not one of the `modals` keys
     if (name === 'manually') {
       utils.log(['[Click] Entering VIN manually']);
       const options = { title: t('vinModal.prompt.title'), key: 'vin' };
-      const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_PROMPT;
       const redirect = inspectionId ? names.INSPECTION_VEHICLE_UPDATE : names.INSPECTION_CREATE;
 
-      navigation.navigate(to, { selectedMod: 'vinNumber', mode: 'manually', vehicle, afterSignin: names.INSPECTION_PROMPT, to: redirect, inspectionId, options });
+      navigation.navigate(
+        names.INSPECTION_PROMPT,
+        { selectedMod: 'vinNumber', mode: 'manually', vehicle, afterSignin: names.INSPECTION_PROMPT, to: redirect, inspectionId, options },
+      );
       return;
     }
 
     utils.log(['[Click] Detecting VIN by taking a photo']);
-    const to = shouldSignIn ? names.SIGN_IN : names.INSPECTION_CREATE;
-    navigation.navigate(to, { selectedMod: 'vinNumber', vehicle, inspectionId });
+    navigation.navigate(names.INSPECTION_CREATE, { selectedMod: 'vinNumber', vehicle, inspectionId });
   }, [isAuthenticated, inspectionId, navigation, vehicle]);
 
   return { vin: { onSelect: handleVinSelect, title: t('vinModal.title') } };
