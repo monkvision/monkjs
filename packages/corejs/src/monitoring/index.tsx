@@ -46,6 +46,10 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
         new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
       ],
     });
+
+    if (config.customTags) {
+      Sentry.setTags(config.customTags);
+    }
   }, []);
 
   /**

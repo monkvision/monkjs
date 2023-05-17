@@ -32,6 +32,10 @@ export interface MonitoringConfig {
    * Array of all the origin to browser trace.
   */
   tracingOrigins: string[];
+  /**
+   * Custom tags to add in all transaction.
+  */
+  customTags?: { [tag: string]: string };
 }
 
 /**
