@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, StyleSheet, View, Image, Pressable, Text } from 'react-native';
+import { Modal, StyleSheet, View, Image, Pressable, Text, ImageBackground, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -12,8 +12,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     paddingVertical: 15,
+    overflowY: 'scroll',
   },
   thumbnailWrapper: {
     marginHorizontal: 10,
@@ -28,9 +29,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 5,
     backgroundColor: '#121212',
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
   header: {
-    fontSize: 20,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    paddingVertical: 20,
+    backgroundColor: '#00000080',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 99,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  closeBtn: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 999,
   },
 });
 
@@ -50,46 +76,36 @@ function Gallery({ pictures }) {
 
   return (
     <View style={styles.container}>
-      {
-        pictures.map((image, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
-            <Thumbnail image={image} click={handleOnImageClick} />
-          </View>
-        ))
-      }
-
+        {
+          pictures.map((image, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
+              <Thumbnail image={image} click={handleOnImageClick} />
+            </View>
+          ))
+        }
       <Modal
         animationType="slide"
         transparent
         visible={!!focusedPhoto}
         onRequestClose={handleUnfocusPhoto}
       >
-        <View style={{ flex: 1 }}>
-          <View style={styles.closeButtonWrapper}>
-            <Text style={styles.header}>{(focusedPhoto && focusedPhoto.label) ? focusedPhoto?.label[i18n.language] : ''}</Text>
-            <Pressable
-              onPress={() => setFocusedPhoto(null)}
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <MaterialIcons
-                name="close"
-                size={32}
-                color="#757575"
-                style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
-              />
-            </Pressable>
+        <View style={{ flex: 1, backgroundColor: '#000000', position: 'relative' }}>
+          <View style={[styles.header]}>
+            <Text style={[styles.title]}>{(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''}</Text>
           </View>
-          <Image
-            source={{
-              width: '100%',
-              height: '100%',
-              uri: focusedPhoto?.url,
-            }}
-          />
+          <Pressable
+            onPress={() => setFocusedPhoto(null)}
+            style={styles.closeBtn}
+          >
+            <MaterialIcons
+              name="close"
+              size={32}
+              color="#FFFFFF"
+              style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+            />
+          </Pressable>
+          <ImageBackground source={{ uri: focusedPhoto?.url }} resizeMode="contain" style={{ flex: 1 }} />
         </View>
       </Modal>
     </View>

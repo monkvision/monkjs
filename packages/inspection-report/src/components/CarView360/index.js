@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { CarOrientation, useCarView360Wireframe, useXMLParser, VehicleType } from './hooks';
 
+import { CarOrientation, VehicleType } from '../../resources';
+import { useCarView360Wireframe, useXMLParser } from './hooks';
 import SVGElementMapper from './SVGElementMapper';
 
 const styles = StyleSheet.create({

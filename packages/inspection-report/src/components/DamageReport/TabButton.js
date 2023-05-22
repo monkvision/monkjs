@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     width: 170,
   },
+  selectedContainer: {
+    backgroundColor: '#414659',
+  },
   text: {
     color: '#ffffff',
     fontSize: 14,
@@ -19,12 +22,20 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 5,
   },
+  left: {
+    borderTopLeftRadius: 18,
+    borderBottomLeftRadius: 18,
+  },
+  right: {
+    borderTopRightRadius: 18,
+    borderBottomRightRadius: 18,
+  },
 });
 
-function TabButton({ color, icon, label, selected, onPress }) {
+function TabButton({ color, icon, label, selected, onPress, position }) {
   return (
     <TouchableOpacity
-      style={[styles.container]}
+      style={[styles.container, styles[position], selected ? styles.selectedContainer : null]}
       disabled={selected}
       onPress={onPress}
     >
@@ -39,6 +50,7 @@ TabButton.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string,
   onPress: PropTypes.func,
+  position: PropTypes.oneOf(['left', 'center', 'right']),
   selected: PropTypes.bool,
 };
 TabButton.defaultProps = {
@@ -46,6 +58,7 @@ TabButton.defaultProps = {
   icon: '',
   label: '',
   onPress: () => {},
+  position: 'center',
   selected: false,
 };
 
