@@ -63,6 +63,31 @@ export enum VehicleType {
 }
 
 /**
+ * Names of the tasks that can be executed during an inspection.
+ *
+ */
+export enum TaskName {
+  /**
+   * Detection of damages on different parts of the car (except the wheels).
+   */
+  DAMAGE_DETECTION = 'damage_detection',
+  /**
+   * Inspection of the condition of the wheels.
+   */
+  WHEEL_ANALYSIS = 'wheels_analysis',
+  /**
+   * Estimation of the repair operations (and their cost) that has to be done to fix the damages detected by the
+   * damage detection task.
+   */
+  REPAIR_ESTIMATE = 'repair_estimate',
+  /**
+   * Optical character recognition  : this task is used to automatically "scan" some text like the VIN number for
+   * instance.
+   */
+  IMAGES_OCR = 'images_ocr',
+}
+
+/**
  * Details of a sight with its overlay as an SVG string.
  */
 export interface Sight {
@@ -86,6 +111,10 @@ export interface Sight {
    * The vehicle type used in the sight overlay.
    */
   vehicleType: VehicleType;
+  /**
+   * The list of tasks that must be run on this sight.
+   */
+  tasks: TaskName[];
 }
 
 /**

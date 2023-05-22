@@ -10,7 +10,8 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "jgc21-0QM-q8k5.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-1j-oTPag": {
     "id": "jgc21-1j-oTPag",
@@ -25,7 +26,8 @@
     "label": "lateral-full-right",
     "overlay": "jgc21-1j-oTPag.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-TEoi50Ff"
+    "mirror_sight": "jgc21-TEoi50Ff",
+    "tasks": ["damage_detection"]
   },
   "jgc21-2_5eHL-F": {
     "id": "jgc21-2_5eHL-F",
@@ -40,7 +42,8 @@
     "label": "rear-full-right",
     "overlay": "jgc21-2_5eHL-F.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-Emzc8jJA"
+    "mirror_sight": "jgc21-Emzc8jJA",
+    "tasks": ["damage_detection"]
   },
   "jgc21-3JJvM7_B": {
     "id": "jgc21-3JJvM7_B",
@@ -54,7 +57,8 @@
     "label": "rear-right",
     "overlay": "jgc21-3JJvM7_B.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-ezXzTRkj"
+    "mirror_sight": "jgc21-ezXzTRkj",
+    "tasks": ["damage_detection"]
   },
   "jgc21-3gjMwvQG": {
     "id": "jgc21-3gjMwvQG",
@@ -69,7 +73,8 @@
     "label": "rear-lateral-low-left",
     "overlay": "jgc21-3gjMwvQG.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-RAVpqaE4"
+    "mirror_sight": "jgc21-RAVpqaE4",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "jgc21-2bGeRS3I": {
     "id": "jgc21-2bGeRS3I",
@@ -78,7 +83,8 @@
     "overlay": "jgc21-2bGeRS3I.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-xwYV3_Hz",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "jgc21-5lovhZgA": {
     "id": "jgc21-5lovhZgA",
@@ -91,7 +97,8 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "jgc21-5lovhZgA.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-ESc0HCzy": {
     "id": "jgc21-ESc0HCzy",
@@ -105,7 +112,8 @@
     "label": "rear-lateral-left",
     "overlay": "jgc21-ESc0HCzy.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-JerG7oW5"
+    "mirror_sight": "jgc21-JerG7oW5",
+    "tasks": ["damage_detection"]
   },
   "jgc21-Emzc8jJA": {
     "id": "jgc21-Emzc8jJA",
@@ -120,7 +128,8 @@
     "label": "rear-full-left",
     "overlay": "jgc21-Emzc8jJA.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-2_5eHL-F"
+    "mirror_sight": "jgc21-2_5eHL-F",
+    "tasks": ["damage_detection"]
   },
   "jgc21-F-PPd4qN": {
     "id": "jgc21-F-PPd4qN",
@@ -135,7 +144,8 @@
     "label": "rear-door-right",
     "overlay": "jgc21-F-PPd4qN.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-m2dDoMup"
+    "mirror_sight": "jgc21-m2dDoMup",
+    "tasks": ["damage_detection"]
   },
   "jgc21-J1Ezdyar": {
     "id": "jgc21-J1Ezdyar",
@@ -149,7 +159,8 @@
     "category": "exterior",
     "label": "rear-roof-right",
     "overlay": "jgc21-J1Ezdyar.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-JerG7oW5": {
     "id": "jgc21-JerG7oW5",
@@ -163,7 +174,8 @@
     "label": "rear-lateral-right",
     "overlay": "jgc21-JerG7oW5.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-ESc0HCzy"
+    "mirror_sight": "jgc21-ESc0HCzy",
+    "tasks": ["damage_detection"]
   },
   "jgc21-KyUUVU2P": {
     "id": "jgc21-KyUUVU2P",
@@ -176,7 +188,8 @@
     "category": "exterior",
     "label": "hood",
     "overlay": "jgc21-KyUUVU2P.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-QIkcNhc_": {
     "id": "jgc21-QIkcNhc_",
@@ -190,7 +203,8 @@
     "label": "front-fender-left",
     "overlay": "jgc21-QIkcNhc_.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-QwNQX0Cr"
+    "mirror_sight": "jgc21-QwNQX0Cr",
+    "tasks": ["damage_detection"]
   },
   "jgc21-QIvfeg0X": {
     "id": "jgc21-QIvfeg0X",
@@ -203,7 +217,8 @@
     "category": "exterior",
     "label": "front-low",
     "overlay": "jgc21-QIvfeg0X.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-QwNQX0Cr": {
     "id": "jgc21-QwNQX0Cr",
@@ -217,7 +232,8 @@
     "label": "front-fender-right",
     "overlay": "jgc21-QwNQX0Cr.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-QIkcNhc_"
+    "mirror_sight": "jgc21-QIkcNhc_",
+    "tasks": ["damage_detection"]
   },
   "jgc21-RAVpqaE4": {
     "id": "jgc21-RAVpqaE4",
@@ -232,7 +248,8 @@
     "label": "rear-lateral-low-right",
     "overlay": "jgc21-RAVpqaE4.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-3gjMwvQG"
+    "mirror_sight": "jgc21-3gjMwvQG",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "jgc21-xwYV3_Hz": {
     "id": "jgc21-xwYV3_Hz",
@@ -241,7 +258,8 @@
     "overlay": "jgc21-xwYV3_Hz.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-2bGeRS3I",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "jgc21-RE3li6rE": {
     "id": "jgc21-RE3li6rE",
@@ -256,7 +274,8 @@
     "label": "front-door-left",
     "overlay": "jgc21-RE3li6rE.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-TRN9Des4"
+    "mirror_sight": "jgc21-TRN9Des4",
+    "tasks": ["damage_detection"]
   },
   "jgc21-TEoi50Ff": {
     "id": "jgc21-TEoi50Ff",
@@ -271,7 +290,8 @@
     "label": "lateral-full-left",
     "overlay": "jgc21-TEoi50Ff.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-1j-oTPag"
+    "mirror_sight": "jgc21-1j-oTPag",
+    "tasks": ["damage_detection"]
   },
   "jgc21-TRN9Des4": {
     "id": "jgc21-TRN9Des4",
@@ -286,7 +306,8 @@
     "label": "front-door-right",
     "overlay": "jgc21-TRN9Des4.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-RE3li6rE"
+    "mirror_sight": "jgc21-RE3li6rE",
+    "tasks": ["damage_detection"]
   },
   "jgc21-TyJPUs8E": {
     "id": "jgc21-TyJPUs8E",
@@ -300,7 +321,8 @@
     "category": "exterior",
     "label": "rear-low",
     "overlay": "jgc21-TyJPUs8E.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-VHq_6BM-": {
     "id": "jgc21-VHq_6BM-",
@@ -314,7 +336,8 @@
     "label": "beauty-shot-left",
     "overlay": "jgc21-VHq_6BM-.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-zkvFMHnS"
+    "mirror_sight": "jgc21-zkvFMHnS",
+    "tasks": ["damage_detection"]
   },
   "jgc21-XXh8GWm8": {
     "id": "jgc21-XXh8GWm8",
@@ -329,7 +352,8 @@
     "label": "lateral-low-right",
     "overlay": "jgc21-XXh8GWm8.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-omlus7Ui"
+    "mirror_sight": "jgc21-omlus7Ui",
+    "tasks": ["damage_detection"]
   },
   "jgc21-ZubJ48-U": {
     "id": "jgc21-ZubJ48-U",
@@ -343,7 +367,8 @@
     "category": "exterior",
     "label": "rear-roof",
     "overlay": "jgc21-ZubJ48-U.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-__JKllz9": {
     "id": "jgc21-__JKllz9",
@@ -357,7 +382,8 @@
     "label": "front-bumper-side-right",
     "overlay": "jgc21-__JKllz9.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-zCrDwYWE"
+    "mirror_sight": "jgc21-zCrDwYWE",
+    "tasks": ["damage_detection"]
   },
   "jgc21-ezXzTRkj": {
     "id": "jgc21-ezXzTRkj",
@@ -371,7 +397,8 @@
     "label": "rear-left",
     "overlay": "jgc21-ezXzTRkj.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-3JJvM7_B"
+    "mirror_sight": "jgc21-3JJvM7_B",
+    "tasks": ["damage_detection"]
   },
   "jgc21-imomJ2V0": {
     "id": "jgc21-imomJ2V0",
@@ -384,7 +411,8 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "jgc21-imomJ2V0.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-m2dDoMup": {
     "id": "jgc21-m2dDoMup",
@@ -399,7 +427,8 @@
     "label": "rear-door-left",
     "overlay": "jgc21-m2dDoMup.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-F-PPd4qN"
+    "mirror_sight": "jgc21-F-PPd4qN",
+    "tasks": ["damage_detection"]
   },
   "jgc21-omlus7Ui": {
     "id": "jgc21-omlus7Ui",
@@ -414,7 +443,8 @@
     "label": "lateral-low-left",
     "overlay": "jgc21-omlus7Ui.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-XXh8GWm8"
+    "mirror_sight": "jgc21-XXh8GWm8",
+    "tasks": ["damage_detection"]
   },
   "jgc21-s7WDTRmE": {
     "id": "jgc21-s7WDTRmE",
@@ -429,7 +459,8 @@
     "label": "front-lateral-low-right",
     "overlay": "jgc21-s7WDTRmE.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-z15ZdJL6"
+    "mirror_sight": "jgc21-z15ZdJL6",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "jgc21-S8sE69on": {
     "id": "jgc21-S8sE69on",
@@ -438,7 +469,8 @@
     "overlay": "jgc21-S8sE69on.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-nVbhsBaQ",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "jgc21-tbF2Ax8v": {
     "id": "jgc21-tbF2Ax8v",
@@ -451,7 +483,8 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "jgc21-tbF2Ax8v.svg",
-    "vehicle_type": "jgc21"
+    "vehicle_type": "jgc21",
+    "tasks": ["damage_detection"]
   },
   "jgc21-z15ZdJL6": {
     "id": "jgc21-z15ZdJL6",
@@ -466,7 +499,8 @@
     "label": "front-lateral-low-left",
     "overlay": "jgc21-z15ZdJL6.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-s7WDTRmE"
+    "mirror_sight": "jgc21-s7WDTRmE",
+    "tasks": ["damage_detection", "wheels_analysis"]
   },
   "jgc21-nVbhsBaQ": {
     "id": "jgc21-nVbhsBaQ",
@@ -475,7 +509,8 @@
     "overlay": "jgc21-nVbhsBaQ.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-S8sE69on",
-    "dev": true
+    "dev": true,
+    "tasks": ["wheels_analysis"]
   },
   "jgc21-zCrDwYWE": {
     "id": "jgc21-zCrDwYWE",
@@ -489,7 +524,8 @@
     "label": "front-bumper-side-left",
     "overlay": "jgc21-zCrDwYWE.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-__JKllz9"
+    "mirror_sight": "jgc21-__JKllz9",
+    "tasks": ["damage_detection"]
   },
   "jgc21-zkvFMHnS": {
     "id": "jgc21-zkvFMHnS",
@@ -504,6 +540,7 @@
     "label": "front-full-right",
     "overlay": "jgc21-zkvFMHnS.svg",
     "vehicle_type": "jgc21",
-    "mirror_sight": "jgc21-VHq_6BM-"
+    "mirror_sight": "jgc21-VHq_6BM-",
+    "tasks": ["damage_detection"]
   }
 }

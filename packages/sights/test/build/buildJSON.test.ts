@@ -171,6 +171,7 @@ describe('JSON builder module', () => {
                 id: sightValue.id,
                 category: sightValue.category,
                 label: sightValue.label,
+                tasks: sightValue.tasks,
                 overlay: resolve(
                   join(__dirname, `../../research/data/${key}/overlays/${sightValue.overlay}`),
                 ),

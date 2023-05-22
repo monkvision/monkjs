@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "subschemas/task.schema",
+  "type": "array",
+  "items": {
+    "type": "string",
+    "enum": ["damage_detection", "wheels_analysis", "repair_estimate", "images_ocr"]
+  },
+  "minItems": 1,
+  "maxItems": 4
+}
