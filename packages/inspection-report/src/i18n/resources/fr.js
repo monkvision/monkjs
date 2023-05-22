@@ -18,6 +18,15 @@ const fr = {
       parts: {
         ...carPartLabels.fr,
       },
+      error: {
+        message: 'Une erreur inattendue est survenue lors de la récupération des résultats de l\'inspection.',
+        retry: 'Réessayer',
+      },
+      loading: 'Récupération des résultats...',
+      notReady: 'Inspection en cours...',
+    },
+    gallery: {
+      empty: 'Cette inspection n\'a pas encore de photo.',
     },
     damageManipulator: {
       damages: 'Dégâts',

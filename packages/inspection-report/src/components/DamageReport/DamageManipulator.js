@@ -66,18 +66,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const initialDamageMap = {
-  [DamageMode.PRICING]: { pricing: 0 },
-  [DamageMode.SEVERITY]: { severity: Severity.LOW },
-  [DamageMode.ALL]: { pricing: 0, severity: Severity.LOW },
-};
+const initialDamage = { pricing: 1, severity: Severity.LOW };
 
 export default function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
   const { t } = useTranslation();
   const [editedDamage, setEditedDamage] = useState(damage);
 
   const toggleSwitch = useCallback(() => {
-    setEditedDamage((dmg) => (dmg ? null : initialDamageMap[damageMode]));
+    setEditedDamage((dmg) => (dmg ? null : initialDamage));
   }, [editedDamage, damageMode]);
 
   const onSliderChange = useCallback((value) => {
