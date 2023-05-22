@@ -1,9 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Image, Modal, PanResponder, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import {
+  Animated,
+  Image,
+  Modal,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+  Platform,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { DamageManipulator } from '../common';
+import { CommonPropTypes, DamageMode } from '../../resources';
+
+import DamageManipulator from './DamageManipulator';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +53,7 @@ const styles = StyleSheet.create({
   counterContainer: {
     backgroundColor: '#181a1ba3',
     borderRadius: 8,
-    bottom: 10,
+    bottom: 20,
     paddingHorizontal: 8,
     paddingVertical: 2,
     position: 'absolute',
@@ -58,6 +71,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+  damageManipulatorContainer: {
+    paddingHorizontal: 20,
   },
 });
 
@@ -102,7 +118,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
     Animated.timing(pan, {
       toValue: { x: -currentPhotoIndex * width, y: 0 },
       duration: 200,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     }).start();
   }, [currentPhotoIndex]);
 
@@ -135,7 +151,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
           {
             images.map((image, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <Animated.View style={[styles.carouselCard, { left: pan.x }]} key={`${image.url}-${index}`}>
+              <Animated.View style={[styles.carouselCard, { left: pan.x, width }]} key={`${image.url}-${index}`}>
                 <Image
                   source={{
                     width: '100%',
@@ -155,23 +171,22 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
             </Text>
           </View>
         </View>
-        <DamageManipulator
-          damage={damage}
-          damageMode={damageMode}
-          displayMode="full"
-          onConfirm={onConfirm}
-        />
+        <View style={[styles.damageManipulatorContainer]}>
+          <DamageManipulator
+            damage={damage}
+            damageMode={damageMode}
+            displayMode="full"
+            onConfirm={onConfirm}
+          />
+        </View>
       </View>
     </Modal>
   );
 }
 
 UpdateDamageModal.propTypes = {
-  damage: PropTypes.shape({
-    pricing: PropTypes.number,
-    severity: PropTypes.string,
-  }),
-  damageMode: PropTypes.string,
+  damage: CommonPropTypes.damageWithoutPart,
+  damageMode: CommonPropTypes.damageMode,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       url: PropTypes.string,
@@ -179,18 +194,15 @@ UpdateDamageModal.propTypes = {
   ),
   onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
-  part: PropTypes.string,
+  part: CommonPropTypes.partName,
 };
 
 UpdateDamageModal.defaultProps = {
-  damage: {
-    pricing: 0,
-    severity: '',
-  },
-  damageMode: 'all',
+  damage: undefined,
+  damageMode: DamageMode.ALL,
   images: [],
-  onConfirm: () => { },
-  onDismiss: () => { },
+  onConfirm: () => {},
+  onDismiss: () => {},
   part: '',
 };
 

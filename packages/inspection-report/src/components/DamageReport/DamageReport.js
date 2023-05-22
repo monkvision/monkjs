@@ -2,13 +2,16 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { galleryList, pictureList } from '../../mock';
-import { IconButton, TextButton } from '../common';
+import AppStateMock, { cleanMockDamages } from '../../mock';
+import { DamageMode, VehicleType } from '../../resources';
+import { IconButton } from '../common';
 import Gallery from '../Gallery';
+import MockControlPanel from './MockControlPanel';
+import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
-import UpdateDamagePopUp from './UpdateDamagePopUp';
 import UpdateDamageModal from './UpdateDamageModal';
+import UpdateDamagePopUp from './UpdateDamagePopUp';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,6 +38,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignSelf: 'stretch',
     marginBottom: 16,
+    overflowY: 'scroll',
   },
   tabGroup: {
     flexDirection: 'row',
@@ -54,30 +58,101 @@ const styles = StyleSheet.create({
   },
 });
 
-function DamageReport() {
+const Tabs = {
+  OVERVIEW: 0,
+  GALLERY: 1,
+};
+
+export default function DamageReport() {
+  // -------- MOCK --------
+  const [vehicleType, setVehicleType] = useState(VehicleType.CUV);
+  const [damageMode, setDamageMode] = useState(DamageMode.SEVERITY);
+  const [damages, setDamages] = useState(cleanMockDamages(damageMode, AppStateMock.damages));
+  const [gallery] = useState(AppStateMock.gallery);
+
+  const applyMockState = useCallback((vt, dm) => {
+    setVehicleType(vt);
+    setDamageMode(dm);
+    setDamages(cleanMockDamages(dm, AppStateMock.damages));
+  }, []);
+
+  // -------- MOCK --------
   const { t } = useTranslation();
-  const [tabIndex, setTabIndex] = useState(0);
+  const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+  const [editedDamage, setEditedDamage] = useState(undefined);
+  const [editedDamagePart, setEditedDamagePart] = useState(undefined);
+  const [editedDamageImages, setEditedDamageImages] = useState(undefined);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const onTabHandler = useCallback((index) => setTabIndex(index), []);
+  const resetEditedDamageState = useCallback(() => {
+    setEditedDamage(undefined);
+    setEditedDamagePart(undefined);
+    setEditedDamageImages(undefined);
+  }, []);
 
   const onPopUpDismiss = useCallback(() => {
+    resetEditedDamageState();
     setIsPopUpVisible(false);
   }, []);
 
   const onShowGallery = useCallback(() => {
-    onPopUpDismiss();
+    setIsPopUpVisible(false);
     setIsModalVisible(true);
   }, []);
 
-  const onGalleryConfirm = useCallback(() => {
+  const onGalleryDismiss = useCallback(() => {
+    resetEditedDamageState();
     setIsModalVisible(false);
   }, []);
 
-  const onGalleryDismiss = useCallback(() => {
+  const handlePartPressed = useCallback((partName) => {
+    const damage = damages.find((dmg) => dmg.part === partName);
+    if (!damage) {
+      setEditedDamagePart(partName);
+      setEditedDamageImages([]);
+      setIsPopUpVisible(true);
+    }
+  }, [damages]);
+
+  const handlePillPressed = useCallback((partName) => {
+    const damage = damages.find((dmg) => dmg.part === partName);
+    if (!damage) {
+      throw new Error(`Unable to find damage with corresponding pill part "${partName}"`);
+    }
+    setEditedDamage(damage);
+    setEditedDamagePart(partName);
+    setEditedDamageImages(damage.images);
+    setIsPopUpVisible(true);
+  }, [damages]);
+
+  const handleSaveDamage = useCallback((partialDamage) => {
+    if (!partialDamage) {
+      // Removing the damage
+      const newDamages = damages.filter((dmg) => dmg.part !== editedDamagePart);
+      setDamages(newDamages);
+    } else {
+      // Creating or updating a damage
+      const damage = {
+        part: editedDamagePart,
+        images: editedDamageImages,
+        ...partialDamage,
+      };
+      if (!editedDamage) {
+        // Creating a new damage
+        setDamages((dmgs) => [...dmgs, damage]);
+      } else {
+        // Editing a damage
+        const dmgs = [...damages];
+        const editedIndex = damages.findIndex((dmg) => dmg.part === editedDamage.part);
+        dmgs[editedIndex] = damage;
+        setDamages(dmgs);
+      }
+    }
+    resetEditedDamageState();
+    setIsPopUpVisible(false);
     setIsModalVisible(false);
-  }, []);
+  }, [editedDamage, damages, resetEditedDamageState, editedDamagePart, editedDamageImages]);
 
   return (
     <View style={[styles.container]}>
@@ -92,57 +167,66 @@ function DamageReport() {
           <TabGroup>
             <TabButton
               icon="360"
-              label={t('damageReport.tabs.overview_tab.label')}
-              selected={tabIndex === 0}
-              onPress={() => onTabHandler(0)}
+              label={t('damageReport.tabs.overviewTab.label')}
+              selected={currentTab === Tabs.OVERVIEW}
+              onPress={() => setCurrentTab(Tabs.OVERVIEW)}
+              position="left"
             />
             <TabButton
               icon="photo-library"
-              label={t('damageReport.tabs.photos_tab.label')}
-              selected={tabIndex === 1}
-              onPress={() => onTabHandler(1)}
+              label={t('damageReport.tabs.photosTab.label')}
+              selected={currentTab === Tabs.GALLERY}
+              onPress={() => setCurrentTab(Tabs.GALLERY)}
+              position="right"
             />
           </TabGroup>
         </View>
         <View>
-          {
-            tabIndex === 0
-              ? (
-                <View>
-                  <TextButton label="[Open Popup]" onPress={() => setIsPopUpVisible(true)} />
-                </View>
-              )
-              : <Gallery pictures={galleryList} />
-          }
+          {currentTab !== Tabs.OVERVIEW ? null : (
+            <Overview
+              damages={damages}
+              damageMode={damageMode}
+              vehicleType={vehicleType}
+              onPressPart={handlePartPressed}
+              onPressPill={handlePillPressed}
+            />
+          )}
+          {currentTab !== Tabs.GALLERY ? null : (
+            <Gallery pictures={gallery} />
+          )}
         </View>
       </View>
-
       {
         isPopUpVisible && (
           <UpdateDamagePopUp
-            part="wheel_front_right"
-            damage={null}
-            damageMode="all"
-            imageCount={pictureList.length}
+            part={editedDamagePart}
+            damage={editedDamage}
+            damageMode={damageMode}
+            imageCount={editedDamageImages.length}
             onDismiss={onPopUpDismiss}
             onShowGallery={onShowGallery}
+            onConfirm={handleSaveDamage}
           />
         )
       }
       {
         isModalVisible && (
           <UpdateDamageModal
-            damage={null}
-            damageMode="all"
-            images={pictureList}
-            onConfirm={onGalleryConfirm}
+            damage={editedDamage}
+            damageMode={damageMode}
+            images={editedDamageImages}
+            onConfirm={handleSaveDamage}
             onDismiss={onGalleryDismiss}
-            part="wheel_front_right"
+            part={editedDamagePart}
           />
         )
       }
+      <MockControlPanel
+        vehicleType={vehicleType}
+        damageMode={damageMode}
+        onSelectDamageMode={(dm) => applyMockState(vehicleType, dm)}
+        onSelectVehicleType={(vt) => applyMockState(vt, damageMode)}
+      />
     </View>
   );
 }
-
-export default DamageReport;

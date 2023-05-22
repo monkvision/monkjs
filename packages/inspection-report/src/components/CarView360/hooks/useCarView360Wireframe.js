@@ -1,17 +1,7 @@
 import { useMemo } from 'react';
 import { PartSelectorOverlays } from '@monkvision/sights/dist/partSelectors';
 
-import { CarOrientation } from './useCarOrientation';
-
-export const VehicleType = {
-  SUV: 'suv',
-  CUV: 'cuv',
-  SEDAN: 'sedan',
-  HATCHBACK: 'hatchback',
-  VAN: 'van',
-  MINIVAN: 'minivan',
-  PICKUP: 'pickup',
-};
+import { CarOrientation, VehicleType } from '../../../resources';
 
 const VEHICLE_MODEL_MAP = {
   [VehicleType.SUV]: 'jgc21',
