@@ -1,11 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-export const CarOrientation = {
-  FRONT_LEFT: 0,
-  REAR_LEFT: 1,
-  REAR_RIGHT: 2,
-  FRONT_RIGHT: 3,
-};
+import { CarOrientation } from '../../../resources';
 
 export default function useCarOrientation(initialOrientation) {
   const initialState = useMemo(
@@ -32,6 +27,7 @@ export default function useCarOrientation(initialOrientation) {
 
   return {
     orientation,
+    setOrientation,
     rotateLeft,
     rotateRight,
   };

@@ -16,5 +16,5 @@ export default function useInnerHTML({ element, damages, groupId }) {
     }
 
     return null;
-  }, [element]);
+  }, [element, damages, groupId]);
 }
