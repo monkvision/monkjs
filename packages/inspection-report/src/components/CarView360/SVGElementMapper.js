@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
+import { CommonPropTypes } from '../../resources';
 
 import { useCustomSVGAttributes, useInnerHTML, useJSXSpecialAttributes } from './hooks';
 
@@ -48,11 +49,7 @@ export default function SVGElementMapper({
 }
 
 SVGElementMapper.propTypes = {
-  damages: PropTypes.arrayOf(PropTypes.shape({
-    part: PropTypes.string.isRequired,
-    pricing: PropTypes.number,
-    severity: PropTypes.oneOf(['low', 'medium', 'high']),
-  })),
+  damages: PropTypes.arrayOf(CommonPropTypes.damage),
   element: PropTypes.any.isRequired,
   getPartAttributes: PropTypes.func,
   groupId: PropTypes.string,

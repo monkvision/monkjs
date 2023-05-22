@@ -4,6 +4,3 @@ export { default as useInnerHTML } from './useInnerHTML';
 export { default as useXMLParser } from './useXMLParser';
 export { default as useCarOrientation } from './useCarOrientation';
 export { default as useCarView360Wireframe } from './useCarView360Wireframe';
-
-export { CarOrientation } from './useCarOrientation';
-export { VehicleType } from './useCarView360Wireframe';

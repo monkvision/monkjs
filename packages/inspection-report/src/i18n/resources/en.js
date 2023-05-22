@@ -5,10 +5,10 @@ const en = {
     damageReport: {
       title: 'Damage Report',
       tabs: {
-        overview_tab: {
+        overviewTab: {
           label: 'Overview',
         },
-        photos_tab: {
+        photosTab: {
           label: 'Photos',
         },
       },
@@ -21,6 +21,7 @@ const en = {
     },
     damageManipulator: {
       damages: 'Damages',
+      damaged: 'This part is damaged',
       notDamaged: 'This part isn\'t damaged',
       severity: 'Severity',
       minor: 'Minor',
@@ -28,6 +29,13 @@ const en = {
       major: 'Major',
       repairCost: 'Repair Cost',
       done: 'Done',
+    },
+    severityLabels: {
+      pricingOnly: 'Damages',
+      low: 'Minor',
+      medium: 'Moderate',
+      high: 'Major',
+      none: 'Unknown',
     },
   },
 };

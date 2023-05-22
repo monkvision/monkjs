@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import CarParts from './carParts';
+import { CarParts } from '../../../resources';
 import { getPillDamage, isPricingPill } from './common';
 
 const styles = {
