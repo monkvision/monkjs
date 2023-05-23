@@ -34,6 +34,7 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
       dsn: config.dsn,
       environment: config.environment ?? 'local',
       debug: config.debug ?? true,
+      release: config.release ?? '1.0',
       tracesSampleRate: config.tracesSampleRate ?? 0.025,
       beforeBreadcrumb(breadcrumb, hint) {
         if (breadcrumb.category === 'xhr') {
@@ -45,6 +46,10 @@ export function MonitoringProvider({ children, config }: PropsWithChildren<Monit
         new BrowserTracing({ tracePropagationTargets: config.tracingOrigins }),
       ],
     });
+
+    if (config.customTags) {
+      Sentry.setTags(config.customTags);
+    }
   }, []);
 
   /**

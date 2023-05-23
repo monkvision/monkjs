@@ -522,6 +522,22 @@
     "overlay": "fesc20-4Wqx52oU.svg",
     "mirror_sight": "fesc20-5Ts1UkPT"
   },
+  "fesc20-Tlu3sz8A": {
+    "id": "fesc20-Tlu3sz8A",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "overlay": "fesc20-Tlu3sz8A.svg",
+    "mirror_sight": "fesc20-raHPDUNm"
+  },
   "fesc20-WIQsf_gX": {
     "id": "fesc20-WIQsf_gX",
     "label": {
@@ -545,6 +561,22 @@
     "template_image": "fesc20-WIQsf_gX.opengl.png",
     "overlay": "fesc20-WIQsf_gX.svg",
     "mirror_sight": "fesc20-dKVLig1i"
+  },
+  "fesc20-YPcJPAZE": {
+    "id": "fesc20-YPcJPAZE",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "overlay": "fesc20-YPcJPAZE.svg",
+    "mirror_sight": "fesc20-W6XrryMO"
   },
   "fesc20-P0oSEh8p": {
     "id": "fesc20-P0oSEh8p",
@@ -618,6 +650,22 @@
     "overlay": "fesc20-5Ts1UkPT.svg",
     "mirror_sight": "fesc20-4Wqx52oU"
   },
+  "fesc20-raHPDUNm": {
+    "id": "fesc20-raHPDUNm",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "overlay": "fesc20-raHPDUNm.svg",
+    "mirror_sight": "fesc20-Tlu3sz8A"
+  },
   "fesc20-dKVLig1i": {
     "id": "fesc20-dKVLig1i",
     "label": {
@@ -641,6 +689,22 @@
     "template_image": "fesc20-dKVLig1i.opengl.png",
     "overlay": "fesc20-dKVLig1i.svg",
     "mirror_sight": "fesc20-WIQsf_gX"
+  },
+  "fesc20-W6XrryMO": {
+    "id": "fesc20-W6XrryMO",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Crossover",
+      "make": "Ford",
+      "model": "Escape SE 2020",
+      "dimensions_xyz": [2.15, 4.6, 1.67]
+    },
+    "overlay": "fesc20-W6XrryMO.svg",
+    "mirror_sight": "fesc20-YPcJPAZE"
   },
   "fesc20-0mJeXBDf": {
     "id": "fesc20-0mJeXBDf",
@@ -1258,6 +1322,22 @@
     "overlay": "ff150-FqbrFVr2.svg",
     "mirror_sight": "ff150-7nvlys8r"
   },
+  "ff150-pNO26q4D": {
+    "id": "ff150-pNO26q4D",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "overlay": "ff150-pNO26q4D.svg",
+    "mirror_sight": "ff150-jUBEKij0"
+  },
   "ff150-7nvlys8r": {
     "id": "ff150-7nvlys8r",
     "label": {
@@ -1281,6 +1361,22 @@
     "template_image": "ff150-7nvlys8r.opengl.png",
     "overlay": "ff150-7nvlys8r.svg",
     "mirror_sight": "ff150-FqbrFVr2"
+  },
+  "ff150-jUBEKij0": {
+    "id": "ff150-jUBEKij0",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "overlay": "ff150-jUBEKij0.svg",
+    "mirror_sight": "ff150-pNO26q4D"
   },
   "ff150-vwE3yqdh": {
     "id": "ff150-vwE3yqdh",
@@ -1353,6 +1449,22 @@
     "template_image": "ff150-ouGGtRnf.opengl.png",
     "overlay": "ff150-ouGGtRnf.svg",
     "mirror_sight": "ff150-3rM9XB0Z"
+  },
+  "ff150-7vyfzrVQ": {
+    "id": "ff150-7vyfzrVQ",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "overlay": "ff150-7vyfzrVQ.svg",
+    "mirror_sight": "ff150-H3MCPESJ"
   },
   "ff150-3dkU10af": {
     "id": "ff150-3dkU10af",
@@ -1471,6 +1583,22 @@
     "template_image": "ff150-3rM9XB0Z.opengl.png",
     "overlay": "ff150-3rM9XB0Z.svg",
     "mirror_sight": "ff150-ouGGtRnf"
+  },
+  "ff150-H3MCPESJ": {
+    "id": "ff150-H3MCPESJ",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Pickup",
+      "make": "Ford",
+      "model": "F-150 Super Cab XL 2014",
+      "dimensions_xyz": [2.48, 5.8, 1.93]
+    },
+    "overlay": "ff150-H3MCPESJ.svg",
+    "mirror_sight": "ff150-7vyfzrVQ"
   },
   "ff150-phbX7Bef": {
     "id": "ff150-phbX7Bef",
@@ -1987,6 +2115,21 @@
     "template_image": "ffocus18-x_1SE7X-.opengl.png",
     "mirror_sight": "ffocus18-KkeGvT-F"
   },
+  "ffocus18-Eo0jqD_a": {
+    "id": "ffocus18-Eo0jqD_a",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "mirror_sight": "ffocus18-jkSlWpql"
+  },
   "ffocus18-yo9eBDW6": {
     "id": "ffocus18-yo9eBDW6",
     "label": {
@@ -2055,6 +2198,21 @@
     "angle_order": 123.69007,
     "template_image": "ffocus18-S3kgFOBb.opengl.png",
     "mirror_sight": "ffocus18-P2jFq1Ea"
+  },
+  "ffocus18-JFX8WF9P": {
+    "id": "ffocus18-JFX8WF9P",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "mirror_sight": "ffocus18-tufa4FoL"
   },
   "ffocus18-IoqRrmlA": {
     "id": "ffocus18-IoqRrmlA",
@@ -2191,6 +2349,21 @@
     "template_image": "ffocus18-P2jFq1Ea.opengl.png",
     "mirror_sight": "ffocus18-S3kgFOBb"
   },
+  "ffocus18-tufa4FoL": {
+    "id": "ffocus18-tufa4FoL",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "mirror_sight": "ffocus18-JFX8WF9P"
+  },
   "ffocus18-FdsQDaTW": {
     "id": "ffocus18-FdsQDaTW",
     "label": {
@@ -2259,6 +2432,21 @@
     "angle_order": 306.19321,
     "template_image": "ffocus18-KkeGvT-F.opengl.png",
     "mirror_sight": "ffocus18-x_1SE7X-"
+  },
+  "ffocus18-jkSlWpql": {
+    "id": "ffocus18-jkSlWpql",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "City",
+      "make": "Ford",
+      "model": "Focus",
+      "dimensions_xyz": [1.98, 4.42, 1.46]
+    },
+    "mirror_sight": "ffocus18-Eo0jqD_a"
   },
   "ffocus18-seOy3jwd": {
     "id": "ffocus18-seOy3jwd",
@@ -2842,6 +3030,22 @@
     "overlay": "ftransit18-Y0vPhBVF.svg",
     "mirror_sight": "ftransit18-4NMPqEV6"
   },
+  "ftransit18-mGSvkRHz": {
+    "id": "ftransit18-mGSvkRHz",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "overlay": "ftransit18-mGSvkRHz.svg",
+    "mirror_sight": "ftransit18-7qLSCnFP"
+  },
   "ftransit18-4NMPqEV6": {
     "id": "ftransit18-4NMPqEV6",
     "label": {
@@ -2865,6 +3069,22 @@
     "template_image": "ftransit18-4NMPqEV6.opengl.png",
     "overlay": "ftransit18-4NMPqEV6.svg",
     "mirror_sight": "ftransit18-Y0vPhBVF"
+  },
+  "ftransit18-7qLSCnFP": {
+    "id": "ftransit18-7qLSCnFP",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "overlay": "ftransit18-7qLSCnFP.svg",
+    "mirror_sight": "ftransit18-mGSvkRHz"
   },
   "ftransit18-rsXWUN8X": {
     "id": "ftransit18-rsXWUN8X",
@@ -2938,6 +3158,22 @@
     "overlay": "ftransit18-3Sbfx_KZ.svg",
     "mirror_sight": "ftransit18-RJ2D7DNz"
   },
+  "ftransit18-yxw9gmyL": {
+    "id": "ftransit18-yxw9gmyL",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "overlay": "ftransit18-yxw9gmyL.svg",
+    "mirror_sight": "ftransit18-AuCXxG5o"
+  },
   "ftransit18-G24AdP6r": {
     "id": "ftransit18-G24AdP6r",
     "label": {
@@ -2985,6 +3221,22 @@
     "template_image": "ftransit18-RJ2D7DNz.opengl.png",
     "overlay": "ftransit18-RJ2D7DNz.svg",
     "mirror_sight": "ftransit18-3Sbfx_KZ"
+  },
+  "ftransit18-AuCXxG5o": {
+    "id": "ftransit18-AuCXxG5o",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Van",
+      "make": "Ford",
+      "model": "Transit Fourgon L3H2 Trendline 2018",
+      "dimensions_xyz": [2.49, 6.01, 2.76]
+    },
+    "overlay": "ftransit18-AuCXxG5o.svg",
+    "mirror_sight": "ftransit18-yxw9gmyL"
   },
   "ftransit18-eztNpSRX": {
     "id": "ftransit18-eztNpSRX",
@@ -3602,6 +3854,22 @@
     "overlay": "haccord-W-Bn3bU1.svg",
     "mirror_sight": "haccord-OXYy5gET"
   },
+  "haccord-H_eRrLBl": {
+    "id": "haccord-H_eRrLBl",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "overlay": "haccord-H_eRrLBl.svg",
+    "mirror_sight": "haccord-9fxMGSs6"
+  },
   "haccord-OXYy5gET": {
     "id": "haccord-OXYy5gET",
     "label": {
@@ -3625,6 +3893,22 @@
     "template_image": "haccord-OXYy5gET.opengl.png",
     "overlay": "haccord-OXYy5gET.svg",
     "mirror_sight": "haccord-W-Bn3bU1"
+  },
+  "haccord-9fxMGSs6": {
+    "id": "haccord-9fxMGSs6",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "overlay": "haccord-9fxMGSs6.svg",
+    "mirror_sight": "haccord-H_eRrLBl"
   },
   "haccord-mdZ7optI": {
     "id": "haccord-mdZ7optI",
@@ -3722,6 +4006,22 @@
     "overlay": "haccord-GQcZz48C.svg",
     "mirror_sight": "haccord-KN23XXkX"
   },
+  "haccord-2v-2_QD5": {
+    "id": "haccord-2v-2_QD5",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "overlay": "haccord-2v-2_QD5.svg",
+    "mirror_sight": "haccord-boMeNVsC"
+  },
   "haccord-KN23XXkX": {
     "id": "haccord-KN23XXkX",
     "label": {
@@ -3745,6 +4045,22 @@
     "template_image": "haccord-KN23XXkX.opengl.png",
     "overlay": "haccord-KN23XXkX.svg",
     "mirror_sight": "haccord-GQcZz48C"
+  },
+  "haccord-boMeNVsC": {
+    "id": "haccord-boMeNVsC",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Sedan",
+      "make": "Honda",
+      "model": "Accord Sedan Sport US spec 2018",
+      "dimensions_xyz": [2.14, 4.88, 1.44]
+    },
+    "overlay": "haccord-boMeNVsC.svg",
+    "mirror_sight": "haccord-2v-2_QD5"
   },
   "haccord-PGr3RzzP": {
     "id": "haccord-PGr3RzzP",
@@ -4362,6 +4678,22 @@
     "overlay": "jgc21-z15ZdJL6.svg",
     "mirror_sight": "jgc21-s7WDTRmE"
   },
+  "jgc21-nVbhsBaQ": {
+    "id": "jgc21-nVbhsBaQ",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-nVbhsBaQ.svg",
+    "mirror_sight": "jgc21-S8sE69on"
+  },
   "jgc21-s7WDTRmE": {
     "id": "jgc21-s7WDTRmE",
     "label": {
@@ -4385,6 +4717,22 @@
     "template_image": "jgc21-s7WDTRmE.opengl.png",
     "overlay": "jgc21-s7WDTRmE.svg",
     "mirror_sight": "jgc21-z15ZdJL6"
+  },
+  "jgc21-S8sE69on": {
+    "id": "jgc21-S8sE69on",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-S8sE69on.svg",
+    "mirror_sight": "jgc21-nVbhsBaQ"
   },
   "jgc21-omlus7Ui": {
     "id": "jgc21-omlus7Ui",
@@ -4506,6 +4854,22 @@
     "overlay": "jgc21-3gjMwvQG.svg",
     "mirror_sight": "jgc21-RAVpqaE4"
   },
+  "jgc21-2bGeRS3I": {
+    "id": "jgc21-2bGeRS3I",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-2bGeRS3I.svg",
+    "mirror_sight": "jgc21-xwYV3_Hz"
+  },
   "jgc21-RAVpqaE4": {
     "id": "jgc21-RAVpqaE4",
     "label": {
@@ -4529,6 +4893,22 @@
     "template_image": "jgc21-RAVpqaE4.opengl.png",
     "overlay": "jgc21-RAVpqaE4.svg",
     "mirror_sight": "jgc21-3gjMwvQG"
+  },
+  "jgc21-xwYV3_Hz": {
+    "id": "jgc21-xwYV3_Hz",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Large SUV",
+      "make": "Jeep",
+      "model": "Grand Cherokee L Summit 2021",
+      "dimensions_xyz": [2.19, 5.18, 1.88]
+    },
+    "overlay": "jgc21-xwYV3_Hz.svg",
+    "mirror_sight": "jgc21-2bGeRS3I"
   },
   "jgc21-Emzc8jJA": {
     "id": "jgc21-Emzc8jJA",
@@ -5115,6 +5495,22 @@
     "overlay": "tsienna20-65mfPdRD.svg",
     "mirror_sight": "tsienna20-cI285Gon"
   },
+  "tsienna20-uz29ILgw": {
+    "id": "tsienna20-uz29ILgw",
+    "label": {
+      "en": "Front Lateral Low Left",
+      "fr": "Avant Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "overlay": "tsienna20-uz29ILgw.svg",
+    "mirror_sight": "tsienna20-K0ThKmue"
+  },
   "tsienna20-cI285Gon": {
     "id": "tsienna20-cI285Gon",
     "label": {
@@ -5138,6 +5534,22 @@
     "template_image": "tsienna20-cI285Gon.opengl.png",
     "overlay": "tsienna20-cI285Gon.svg",
     "mirror_sight": "tsienna20-65mfPdRD"
+  },
+  "tsienna20-K0ThKmue": {
+    "id": "tsienna20-K0ThKmue",
+    "label": {
+      "en": "Front Lateral Low Right",
+      "fr": "Avant Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "overlay": "tsienna20-K0ThKmue.svg",
+    "mirror_sight": "tsienna20-uz29ILgw"
   },
   "tsienna20-1LNxhgCR": {
     "id": "tsienna20-1LNxhgCR",
@@ -5259,6 +5671,22 @@
     "overlay": "tsienna20-670P2H2V.svg",
     "mirror_sight": "tsienna20-SebsoqJm"
   },
+  "tsienna20-2Zz6SEaI": {
+    "id": "tsienna20-2Zz6SEaI",
+    "label": {
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière Gauche Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "overlay": "tsienna20-2Zz6SEaI.svg",
+    "mirror_sight": "tsienna20-RP6TzN4w"
+  },
   "tsienna20-SebsoqJm": {
     "id": "tsienna20-SebsoqJm",
     "label": {
@@ -5282,6 +5710,22 @@
     "template_image": "tsienna20-SebsoqJm.opengl.png",
     "overlay": "tsienna20-SebsoqJm.svg",
     "mirror_sight": "tsienna20-670P2H2V"
+  },
+  "tsienna20-RP6TzN4w": {
+    "id": "tsienna20-RP6TzN4w",
+    "label": {
+      "en": "Rear Lateral Low Right",
+      "fr": "Arrière Droit Latéral - vue basse"
+    },
+    "category": "exterior",
+    "vehicle": {
+      "type": "Minivan",
+      "make": "Toyota",
+      "model": "Sienna Limited 2020",
+      "dimensions_xyz": [2.43, 5.24, 1.77]
+    },
+    "overlay": "tsienna20-RP6TzN4w.svg",
+    "mirror_sight": "tsienna20-2Zz6SEaI"
   },
   "tsienna20-OxFWgEPk": {
     "id": "tsienna20-OxFWgEPk",
@@ -7172,5 +7616,285 @@
     },
     "template_image": "audia7-fDo5M0Fp.opengl.png",
     "mirror_sight": "audia7-McR3TJK0"
+  },
+  "fesc20-KdA8FE02": {
+    "id": "fesc20-KdA8FE02",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-KdA8FE02.svg",
+    "mirror_sight": "fesc20-b_S_-VYh"
+  },
+  "fesc20-b_S_-VYh": {
+    "id": "fesc20-b_S_-VYh",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-b_S_-VYh.svg",
+    "mirror_sight": "fesc20-KdA8FE02"
+  },
+  "fesc20-TbH6Zfk_": {
+    "id": "fesc20-TbH6Zfk_",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-TbH6Zfk_.svg",
+    "mirror_sight": "fesc20-Hvswbpuo"
+  },
+  "fesc20-Hvswbpuo": {
+    "id": "fesc20-Hvswbpuo",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "fesc20-Hvswbpuo.svg",
+    "mirror_sight": "fesc20-TbH6Zfk_"
+  },
+  "ff150-Gx0zuL4H": {
+    "id": "ff150-Gx0zuL4H",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ff150-Gx0zuL4H.svg",
+    "mirror_sight": "ff150-Kx339Abo"
+  },
+  "ff150-Kx339Abo": {
+    "id": "ff150-Kx339Abo",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "ff150-Kx339Abo.svg",
+    "mirror_sight": "ff150-Gx0zuL4H"
+  },
+  "ff150-nTWv3M6S": {
+    "id": "ff150-nTWv3M6S",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ff150-nTWv3M6S.svg",
+    "mirror_sight": "ff150-3I-Bjtkv"
+  },
+  "ff150-3I-Bjtkv": {
+    "id": "ff150-3I-Bjtkv",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "ff150-3I-Bjtkv.svg",
+    "mirror_sight": "ff150-nTWv3M6S"
+  },
+  "ffocus18-h14N6xUZ": {
+    "id": "ffocus18-h14N6xUZ",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-h14N6xUZ.svg",
+    "mirror_sight": "ffocus18-dvP1kb2u"
+  },
+  "ffocus18-dvP1kb2u": {
+    "id": "ffocus18-dvP1kb2u",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-dvP1kb2u.svg",
+    "mirror_sight": "ffocus18-h14N6xUZ"
+  },
+  "ffocus18-Cupr9bjR": {
+    "id": "ffocus18-Cupr9bjR",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-Cupr9bjR.svg",
+    "mirror_sight": "ffocus18-SNN4sM20"
+  },
+  "ffocus18-SNN4sM20": {
+    "id": "ffocus18-SNN4sM20",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "ffocus18-SNN4sM20.svg",
+    "mirror_sight": "ffocus18-Cupr9bjR"
+  },
+  "ftransit18-EjXu4RGC": {
+    "id": "ftransit18-EjXu4RGC",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-EjXu4RGC.svg",
+    "mirror_sight": "ftransit18-biueFeY7"
+  },
+  "ftransit18-biueFeY7": {
+    "id": "ftransit18-biueFeY7",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-biueFeY7.svg",
+    "mirror_sight": "ftransit18-EjXu4RGC"
+  },
+  "ftransit18-ewzj3qTR": {
+    "id": "ftransit18-ewzj3qTR",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-ewzj3qTR.svg",
+    "mirror_sight": "ftransit18-zhgNZH_o"
+  },
+  "ftransit18-zhgNZH_o": {
+    "id": "ftransit18-zhgNZH_o",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "ftransit18-zhgNZH_o.svg",
+    "mirror_sight": "ftransit18-ewzj3qTR"
+  },
+  "haccord-4c2TDsRn": {
+    "id": "haccord-4c2TDsRn",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "haccord-4c2TDsRn.svg",
+    "mirror_sight": "haccord-r0uhi6dj"
+  },
+  "haccord-r0uhi6dj": {
+    "id": "haccord-r0uhi6dj",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "haccord-r0uhi6dj.svg",
+    "mirror_sight": "haccord-4c2TDsRn"
+  },
+  "haccord-g2ABR9ES": {
+    "id": "haccord-g2ABR9ES",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "haccord-g2ABR9ES.svg",
+    "mirror_sight": "haccord-SIywQdYc"
+  },
+  "haccord-SIywQdYc": {
+    "id": "haccord-SIywQdYc",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "haccord-SIywQdYc.svg",
+    "mirror_sight": "haccord-g2ABR9ES"
+  },
+  "jgc21-M7aCKaPN": {
+    "id": "jgc21-M7aCKaPN",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-M7aCKaPN.svg",
+    "mirror_sight": "jgc21-GmGZpI_0"
+  },
+  "jgc21-GmGZpI_0": {
+    "id": "jgc21-GmGZpI_0",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-GmGZpI_0.svg",
+    "mirror_sight": "jgc21-M7aCKaPN"
+  },
+  "jgc21-giQgZNoE": {
+    "id": "jgc21-giQgZNoE",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-giQgZNoE.svg",
+    "mirror_sight": "jgc21-DhGfIoS_"
+  },
+  "jgc21-DhGfIoS_": {
+    "id": "jgc21-DhGfIoS_",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "jgc21-DhGfIoS_.svg",
+    "mirror_sight": "jgc21-giQgZNoE"
+  },
+  "tsienna20-pnNf2nqG": {
+    "id": "tsienna20-pnNf2nqG",
+    "label": {
+      "en": "Front Wheel Left",
+      "fr": "Roue Avant Gauche"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-pnNf2nqG.svg",
+    "mirror_sight": "tsienna20-dUh-eali"
+  },
+  "tsienna20-dUh-eali": {
+    "id": "tsienna20-dUh-eali",
+    "label": {
+      "en": "Front Wheel Right",
+      "fr": "Roue Avant Droite"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-dUh-eali.svg",
+    "mirror_sight": "tsienna20-pnNf2nqG"
+  },
+  "tsienna20-nRXoUoCu": {
+    "id": "tsienna20-nRXoUoCu",
+    "label": {
+      "en": "Rear Wheel Left",
+      "fr": "Roue Arrière Gauche"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-nRXoUoCu.svg",
+    "mirror_sight": "tsienna20-bCkFE45R"
+  },
+  "tsienna20-bCkFE45R": {
+    "id": "tsienna20-bCkFE45R",
+    "label": {
+      "en": "Rear Wheel Right",
+      "fr": "Roue Arrière Droite"
+    },
+    "category": "exterior",
+    "overlay": "tsienna20-bCkFE45R.svg",
+    "mirror_sight": "tsienna20-nRXoUoCu"
   }
 }

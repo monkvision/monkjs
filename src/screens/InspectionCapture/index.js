@@ -174,6 +174,7 @@ export default function InspectionCapture() {
       <Capture
         ref={captureRef}
         task={taskName}
+        enableCarCoverage
         mapTasksToSights={mapTasksToSights}
         sightIds={sightIds}
         inspectionId={inspectionId}
@@ -185,7 +186,6 @@ export default function InspectionCapture() {
         onFinishUploadPicture={() => setCameraLoading(false)}
         onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
-        enableCarCoverage
         enableComplianceCheck={enableComplianceCheck}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}

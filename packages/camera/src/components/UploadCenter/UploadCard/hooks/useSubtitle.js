@@ -1,7 +1,18 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const UNKNOWN_SIGHT_REASON = 'UNKNOWN_SIGHT--unknown sight';
+const validErrorCodes = [
+  'UNKNOWN_SIGHT',
+  'INTERIOR_NOT_SUPPORTED',
+  'NO_CAR_BODY',
+  'UNKNOWN_VIEWPOINT',
+  'WRONG_ANGLE',
+  'WRONG_CENTER_PART',
+  'MISSING_PARTS',
+  'HIDDEN_PARTS',
+  'TOO_ZOOMED',
+  'NOT_ZOOMED_ENOUGH',
+];
 
 export default function useSubtitle({
   isComplianceUnknown,
@@ -40,10 +51,11 @@ export default function useSubtitle({
       if (badCoverage && carCov.reasons) {
         carCov.reasons.forEach((reason, index) => {
           const first = index === 0 && !badQuality;
+          const errorCode = validErrorCodes.find((code) => reason.startsWith(code));
           // display all reasons expect `UNKNOWN_SIGHT`
-          if (reason !== UNKNOWN_SIGHT_REASON) {
-            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
-              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
+          if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
+            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${errorCode}`)
+              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${errorCode}`)}`);
           }
         });
       }

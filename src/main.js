@@ -4,6 +4,7 @@ import { registerRootComponent } from 'expo';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import * as Sentry from 'sentry-expo';
+import { name, version } from '@package/json';
 import App from 'components/App';
 import './i18n';
 import { MonitoringProvider } from '@monkvision/corejs';
@@ -13,6 +14,7 @@ const config = {
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
   tracesSampleRate: 0.025,
+  release: `${name}@${version}`,
   tracingOrigins: ['localhost', 'cna.dev.monk.ai', 'cna-staging.dev.monk.ai', 'cna.preview.monk.ai', 'cna.monk.ai'],
 };
 

@@ -343,6 +343,12 @@ const Capture = forwardRef(({
   const handleResetDamageStatus = useCallback(() => {
     setAddDamageStatus(AddDamageStatus.IDLE);
     setAddDamageParts([]);
+    if (captureTourTransRef && captureTourTransRef.current
+      && captureTourTransRef.current.addDamageTransaction) {
+      utils.log(['[Event] Add-Damage sentry transaction cancels']);
+      captureTourTransRef.current.addDamageTransaction.finish(MonitoringStatus.CANCELLED);
+      captureTourTransRef.current.addDamageTransaction = null;
+    }
   }, [setAddDamageStatus, setAddDamageParts]);
 
   const handlePartSelectorHelpConfirm = useCallback(() => {
@@ -398,6 +404,10 @@ const Capture = forwardRef(({
      *    enableComplianceCheck = true and UploadCenter component is rendered
      */
     utils.log(['[Event] Capture-Tour sentry transaction finishes']);
+    captureTourTransRef.current.transaction.setTag(
+      SentryTag.ADD_DAMAGES,
+      captureTourTransRef.current.totalAddDamageTransactions,
+    );
     captureTourTransRef.current.transaction.finish();
     onComplianceCheckFinish();
   }, []);
@@ -432,7 +442,7 @@ const Capture = forwardRef(({
       SentryTransaction.PICTURE_PROCESSING,
       SentryOperation.CAPTURE_TOUR,
     );
-    // set tags to identify a transation and relate with an inspection
+    // set tags to identify a transaction and relate with an inspection
     transaction.setTag(SentryTag.TASK, task);
     transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
     transaction.setTag(SentryTag.IS_SKIP, 0);
@@ -443,8 +453,40 @@ const Capture = forwardRef(({
       transaction,
       takenPictures: 0,
       hasRetakeCalled: false,
+      addDamageTransaction: null,
+      totalAddDamageTransactions: 0,
     };
   }, []);
+
+  useEffect(() => {
+    /**
+     * create a new transaction with operation name 'Add Damage' to measure tour performance
+     */
+    if (addDamageStatus === AddDamageStatus.PART_SELECTOR) {
+      utils.log(['[Event] Add-Damage sentry transaction starts']);
+      // Start the transaction
+      const transaction = measurePerformance(
+        SentryTransaction.PICTURE_PROCESSING,
+        SentryOperation.ADD_DAMAGE,
+      );
+
+      // set tags to identify a transaction and relate with an inspection
+      transaction.setTag(SentryTag.TASK, task);
+      transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
+
+      // Set the transaction in reference
+      captureTourTransRef.current.addDamageTransaction = transaction;
+      captureTourTransRef.current.totalAddDamageTransactions += 1;
+    } else if (addDamageStatus === AddDamageStatus.IDLE) {
+      // Finish the transaction
+      if (captureTourTransRef && captureTourTransRef.current
+        && captureTourTransRef.current.addDamageTransaction) {
+        utils.log(['[Event] Add-Damage sentry transaction completed']);
+        captureTourTransRef.current.addDamageTransaction.finish();
+        captureTourTransRef.current.addDamageTransaction = null;
+      }
+    }
+  }, [addDamageStatus]);
 
   useEffect(() => {
     try {

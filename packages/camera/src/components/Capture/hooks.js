@@ -9,28 +9,6 @@ import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
 
-// const COVERAGE_360_WHITELIST = [
-//   // T-ROCK
-//   'GHbWVnMB', 'GvCtVnoD', 'IVcF1dOP', 'LE9h1xh0',
-//   'PLh198NC', 'UHZkpCuK', 'XyeyZlaU', 'vLcBGkeh',
-//   'Pzgw0WGe', 'EqLDVYj3', 'jqJOb6Ov', 'j3E2UHFc',
-//   'AoO-nOoM', 'B5s1CWT-',
-//   // AUDI A7
-//   'vxRr9chD', // Front Bumper Side Left
-//   'cDe2q69X', // Front Fender Left
-//   'R_f4g8MN', // Doors Left
-//   'vedHBC2n', // Front Roof Left
-//   'McR3TJK0', // Rear Lateral Left
-//   '7bTC-nGS', // Rear Fender Left
-//   'hhCBI9oZ', // Rear
-//   'e_QIW30o', // Rear Fender Right
-//   'fDo5M0Fp', // Rear Lateral Right
-//   'fDKWkHHp', // Doors Right
-//   '5CFsFvj7', // Front Fender Right
-//   'g30kyiVH', // Front Bumper Side Right
-//   'I0cOpT1e', // Front
-// ];
-
 /**
  * @param current
  * @return {string}
@@ -180,7 +158,7 @@ export function useStartUploadAsync({
   sights,
   uploads,
   task,
-  // enableCarCoverage,
+  enableCarCoverage,
   mapTasksToSights = [],
   onFinish = () => {},
   onPictureUploaded = () => {},
@@ -303,10 +281,9 @@ export function useStartUploadAsync({
         },
         compliances: {
           image_quality_assessment: {},
-          // coverage_360: enableCarCoverage ? { sight_id: id } : undefined,
-          // coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-          //   sight_id: id,
-          // } : undefined,
+          coverage_360: enableCarCoverage ? {
+            sight_id: id,
+          } : undefined,
         },
         tasks: tasksToMap,
         additional_data: {
@@ -387,10 +364,6 @@ export function useUploadAdditionalDamage({
         },
         compliances: {
           image_quality_assessment: {},
-          // coverage_360: enableCarCoverage ? { sight_id: id } : undefined,
-          // coverage_360: COVERAGE_360_WHITELIST.includes(id) ? {
-          //   sight_id: id,
-          // } : undefined,
         },
         detailed_viewpoint: {
           centers_on: parts,

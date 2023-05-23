@@ -77,6 +77,11 @@ const fr = {
       },
     },
     createInspection: {
+      authError: {
+        title: 'Désolé 😞',
+        message: 'Vous n\'avez pas les autorisations nécessaires pour créer une nouvelle inspection. Veuillez utiliser un autre utilisateur ou contacter les administrateurs',
+        button: 'Retourner à la page d\'accueil',
+      },
       error: {
         title: 'Désolé 😞',
         message: 'Une erreur est survenue lors de la création de l\'inspection, veuillez réessayer dans un instant.',

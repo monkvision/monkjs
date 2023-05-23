@@ -15,6 +15,10 @@ export interface MonitoringConfig {
   */
   debug: boolean;
   /**
+   * Release version of current application
+  */
+  release: string;
+  /**
    * Sample rate to determine trace sampling.
    *
    * 0.0 = 0% chance of a given trace being sent (send no traces) 1.0 = 100% chance of a given trace being sent (send
@@ -28,6 +32,10 @@ export interface MonitoringConfig {
    * Array of all the origin to browser trace.
   */
   tracingOrigins: string[];
+  /**
+   * Custom tags to add in all transaction.
+  */
+  customTags?: { [tag: string]: string };
 }
 
 /**
@@ -114,6 +122,7 @@ export enum SentryTransaction {
 export enum SentryOperation {
   IMAGES_OCR = 'Image OCR',
   DAMAGE_DETECTION = 'Damage Detection',
+  ADD_DAMAGE = 'Add Damage',
   CAPTURE_TOUR = 'Capture Tour',
   CAPTURE_SIGHT = 'Capture Sight',
 }
@@ -132,5 +141,6 @@ export enum SentryTag {
   IS_RETAKE = 'isRetake',
   TAKEN_PICTURES = 'takenPictures',
   RETAKEN_PICTURES = 'retakenPictures',
+  ADD_DAMAGES = 'addDamages',
   PERCENT_OF_NON_COMPLIANCE_PICS = 'percentOfNonCompliancePics',
 }
