@@ -1,22 +1,30 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
+
+import { useXMLParser } from './hooks';
+import SVGElementMapper from './SVGElementMapper';
 import log from '../../utils/log';
 
 export default function Overlay({ label, svg, ...passThoughProps }) {
-  const base64 = useMemo(() => btoa(unescape(encodeURIComponent(svg))), [svg]);
+  const doc = useXMLParser(svg);
+  const svgElement = useMemo(() => {
+    const svgElm = doc.children[0];
+    if (svgElm.tagName !== 'svg') {
+      throw new Error('Invalid Part View 360 SVG: expected <svg> tag as the first children of XML document.');
+    }
+    return svgElm;
+  }, [doc]);
 
   useEffect(() => {
     log(['[Event] Loading sight', label]);
   }, [label]);
 
+  console.log('passThoughProps =', passThoughProps);
+
   return (
-    <Image
-      accessibilityLabel={`Overlay ${label}`}
-      source={{ uri: `data:image/svg+xml;base64,${base64}` }}
-      width="100%"
-      height="100%"
-      {...passThoughProps}
+    <SVGElementMapper
+      element={svgElement}
+      getAttributes={{}}
     />
   );
 }
