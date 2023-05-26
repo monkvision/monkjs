@@ -1,8 +1,7 @@
-/* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 
-import { useInnerHTML, useJSXTransformAttributes, useCustomSVGAttributes } from './hooks';
+import { useCustomSVGAttributes, useInnerHTML, useJSXTransformAttributes } from './hooks';
 
 export default function SVGElementMapper({
   element,
@@ -24,15 +23,15 @@ export default function SVGElementMapper({
       ...transformedAttributes?.style ?? {},
       ...customAttributes?.style ?? {},
     },
-  }), []);
+  }), [transformedAttributes, customAttributes]);
   const children = useMemo(() => [...element.children], [element]);
 
   return (
     <Tag {...attributes}>
       {innerHTML}
-      {children.map((child, id) => (
+      {children.map((child) => (
         <SVGElementMapper
-          key={id.toString()}
+          key={child.outerHTML}
           element={child}
           rootStyles={rootStyles}
           pathStyles={pathStyles}
