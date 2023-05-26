@@ -1,26 +1,21 @@
 import { useMemo } from 'react';
 
-const styles = {
-  hidden: { display: 'none' },
-  pill: { cursor: 'pointer' },
-  pillChild: { cursor: 'pointer' },
-};
-console.log('styles =', styles);
-
 export default function useCustomSVGAttributes({
   element,
-  getAttributes,
+  rootStyles,
+  pathStyles,
 }) {
   return useMemo(() => {
     const elementTag = element.tagName;
 
-    if (['svg', 'g'].includes(elementTag)) {
-      return { pointerEvents: 'box-none' };
+    if (elementTag === 'svg') {
+      return { style: rootStyles ?? {} };
     }
 
-    return {};
+    return { style: pathStyles ?? {} };
   }, [
     element,
-    getAttributes,
+    rootStyles,
+    pathStyles,
   ]);
 }

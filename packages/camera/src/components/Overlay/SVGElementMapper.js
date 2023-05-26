@@ -2,27 +2,40 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 
-import { useCustomSVGAttributes, useJSXSpecialAttributes } from './hooks';
+import { useInnerHTML, useJSXTransformAttributes, useCustomSVGAttributes } from './hooks';
 
 export default function SVGElementMapper({
   element,
-  getAttributes,
+  rootStyles,
+  pathStyles,
 }) {
   const Tag = useMemo(() => element.tagName, [element]);
-  const attributes = useJSXSpecialAttributes(element);
+  const innerHTML = useInnerHTML({ element });
+  const transformedAttributes = useJSXTransformAttributes(element);
   const customAttributes = useCustomSVGAttributes({
     element,
-    getAttributes,
+    rootStyles,
+    pathStyles,
   });
+  const attributes = useMemo(() => ({
+    ...transformedAttributes,
+    ...customAttributes,
+    style: {
+      ...transformedAttributes?.style ?? {},
+      ...customAttributes?.style ?? {},
+    },
+  }), []);
   const children = useMemo(() => [...element.children], [element]);
 
   return (
-    <Tag {...attributes} {...customAttributes}>
+    <Tag {...attributes}>
+      {innerHTML}
       {children.map((child, id) => (
         <SVGElementMapper
           key={id.toString()}
           element={child}
-          getAttributes={getAttributes}
+          rootStyles={rootStyles}
+          pathStyles={pathStyles}
         />
       ))}
     </Tag>
@@ -31,9 +44,11 @@ export default function SVGElementMapper({
 
 SVGElementMapper.propTypes = {
   element: PropTypes.any.isRequired,
-  getAttributes: PropTypes.func,
+  pathStyles: PropTypes.object,
+  rootStyles: PropTypes.object,
 };
 
 SVGElementMapper.defaultProps = {
-  getAttributes: () => {},
+  pathStyles: {},
+  rootStyles: {},
 };
