@@ -572,8 +572,7 @@ const Capture = forwardRef(({
     <>
       {(isReady && overlay && loading === false
         && addDamageStatus !== AddDamageStatus.TAKE_PICTURE) ? (
-          <View style={[styles.overlayContainer]}
-          >
+          <View style={[styles.overlayContainer]}>
             <Overlay
               svg={overlay}
               pathStyles={overlayPathStyles}
