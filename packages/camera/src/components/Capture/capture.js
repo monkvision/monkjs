@@ -65,10 +65,11 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  overlay: {
-    flex: 1,
-    position: 'absolute',
-    justifyContent: 'center',
+  overlayContainer: {
+    position: 'fixed',
+    height: '95vh',
+    top: '2.5vh',
+    zIndex: 99,
   },
   addDamageOverlay: {
     fontSize: 14,
@@ -81,7 +82,6 @@ const styles = StyleSheet.create({
   removePosition: {
     position: 'relative',
   },
-
 });
 
 const defaultNavigationOptions = {
@@ -572,16 +572,13 @@ const Capture = forwardRef(({
     <>
       {(isReady && overlay && loading === false
         && addDamageStatus !== AddDamageStatus.TAKE_PICTURE) ? (
-          <Overlay
-            svg={overlay}
-            style={[styles.overlay, overlaySize]}
-            rootStyles={{
-              position: 'fixed',
-              height: '95vh',
-              top: '2.5vh',
-            }}
-            pathStyles={overlayPathStyles}
-          />
+          <View style={[styles.overlayContainer]}>
+            <Overlay
+              svg={overlay}
+              pathStyles={overlayPathStyles}
+              rootStyles={{ height: '100%' }}
+            />
+          </View>
         ) : null}
       {(isReady && overlay && loading === false
         && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
