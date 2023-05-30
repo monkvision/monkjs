@@ -1,11 +1,24 @@
 import { useMemo } from 'react';
 
+function keyNameTransform(key) {
+  return key.split('-')
+    .map((val, index) => {
+      if (index) {
+        return val[0].toUpperCase() + val.substring(1).toLowerCase();
+      }
+      return val;
+    })
+    .join('');
+}
+
 function tranformJsxAttribute(key, value) {
   switch (key) {
     case 'class':
       return { key: 'className', value };
     case 'xml:space':
       return { key: 'xmlSpace', value };
+    case 'data-name':
+      return { key: 'dataname', value };
     case 'style':
       return value.split(';')
         .map((style) => style.split(':'))
@@ -18,7 +31,7 @@ function tranformJsxAttribute(key, value) {
           };
         }, {});
     default:
-      return { key, value };
+      return { key: keyNameTransform(key), value };
   }
 }
 
