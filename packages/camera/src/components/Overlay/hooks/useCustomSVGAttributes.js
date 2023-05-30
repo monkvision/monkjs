@@ -9,7 +9,7 @@ export default function useCustomSVGAttributes({
     const elementTag = element.tagName;
 
     if (elementTag === 'svg') {
-      return { style: rootStyles ?? {} };
+      return { style: rootStyles ?? {}, viewBox: '0 0 500 375' };
     }
 
     return { style: pathStyles ?? {} };
