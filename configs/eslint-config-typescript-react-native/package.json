@@ -1,0 +1,47 @@
+{
+  "name": "@monkvision/eslint-config-typescript-react-native",
+  "packageManager": "yarn@3.2.4",
+  "version": "1.0.0",
+  "description": "The base ESLint config that used in MonkJs TypeScript React Native projects",
+  "author": "monkvision",
+  "main": "index.js",
+  "license": "BSD-3-Clause-Clear",
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@monkvision/eslint-config-typescript": "1.0.0",
+    "@react-native-community/eslint-config": "^3.2.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-native": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monkjs.git"
+  },
+  "keywords": [
+    "monkvision",
+    "style guide",
+    "lint",
+    "eslint",
+    "config",
+    "es6",
+    "es2015",
+    "es2016",
+    "es2017",
+    "es2018",
+    "typescript",
+    "reactnative"
+  ],
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "homepage": "https://github.com/monkvision/monkjs"
+}

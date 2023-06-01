@@ -2385,6 +2385,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/eslint-config-typescript-react-native@workspace:configs/eslint-config-typescript-react-native":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/eslint-config-typescript-react-native@workspace:configs/eslint-config-typescript-react-native"
+  peerDependencies:
+    "@monkvision/eslint-config-typescript": 1.0.0
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-react: ^7.32.2
+    eslint-plugin-react-hooks: ^4.6.0
+    eslint-plugin-react-native: ^4.0.0
+  languageName: unknown
+  linkType: soft
+
 "@monkvision/eslint-config-typescript-react@1.0.0, @monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react"

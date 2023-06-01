@@ -9,8 +9,9 @@ module.exports = {
     'react-app/jest',
     'plugin:jsx-a11y/recommended',
     '@monkvision/eslint-config-typescript',
+    '@react-native-community',
   ],
-  plugins: ['jsx-a11y', 'react', 'react-hooks'],
+  plugins: ['jsx-a11y', 'react', 'react-native', 'react-hooks'],
   parser: '@typescript-eslint/parser',
   rules: {
     'indent': ['error', 2],
