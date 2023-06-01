@@ -88,7 +88,11 @@ export default function Thumbnail({
           <ActivityIndicator style={styles.loader} color={colors[uploadStatus]} />
           )}
           {(!picture && uploadStatus !== 'pending' && !!overlay) && (
-          <Overlay svg={overlay} style={styles.overlay} label={label} />
+            <Overlay
+              svg={overlay}
+              label={label}
+              rootStyles={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+            />
           )}
           <Text style={styles.text}>{label}</Text>
         </ImageBackground>

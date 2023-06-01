@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
   },
   overlayContainer: {
     position: 'fixed',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100vw',
     height: '95vh',
     top: '2.5vh',
     zIndex: 99,
@@ -576,7 +580,7 @@ const Capture = forwardRef(({
             <Overlay
               svg={overlay}
               pathStyles={overlayPathStyles}
-              rootStyles={{ height: '100%' }}
+              rootStyles={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
             />
           </View>
         ) : null}
