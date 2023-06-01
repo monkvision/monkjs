@@ -9,6 +9,9 @@ export default function useCustomSVGAttributes({
     const elementTag = element.tagName;
 
     if (elementTag === 'svg') {
+      if (element.getAttribute('viewBox')) {
+        return { style: rootStyles ?? {} };
+      }
       return { style: rootStyles ?? {}, viewBox: '0 0 500 375' };
     }
 
