@@ -103,6 +103,7 @@ CaptureHOC.propTypes = {
           category: PropTypes.string,
           id: PropTypes.string,
           label: PropTypes.shape({
+            de: PropTypes.string,
             en: PropTypes.string,
             fr: PropTypes.string,
           }),
@@ -118,6 +119,7 @@ CaptureHOC.propTypes = {
           category: PropTypes.string,
           id: PropTypes.string,
           label: PropTypes.shape({
+            de: PropTypes.string,
             en: PropTypes.string,
             fr: PropTypes.string,
           }),

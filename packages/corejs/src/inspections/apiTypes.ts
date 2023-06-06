@@ -380,7 +380,7 @@ export type RequestInspectionReportPdfParams = {
   customer: string,
   clientName: string,
   vin?: string,
-  language?: 'fr' | 'en';
+  language?: 'fr' | 'en' | 'de';
 };
 
 /**

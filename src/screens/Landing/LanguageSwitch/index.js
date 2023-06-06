@@ -33,11 +33,20 @@ export default function LanguageSwitch() {
     }
     const en = '🇬🇧 ▼';
     const fr = '🇫🇷 ▼';
+    const de = '🇩🇪 ▼';
     if (!i18n.language) {
       setLanguage('en');
       return en;
     }
-    return i18n.language.startsWith('fr') ? fr : en;
+
+    if (i18n.language.startsWith('de')) {
+      return de;
+    }
+    if (i18n.language.startsWith('fr')) {
+      return fr;
+    }
+
+    return en;
   }, [isLoading, i18n.language]);
 
   return (
@@ -47,6 +56,7 @@ export default function LanguageSwitch() {
       anchor={<Button color="white" onPress={openMenu} disabled={isLoading}>{getButtonContent()}</Button>}
     >
       <Menu.Item onPress={() => setLanguage('en')} title="🇬🇧 English" />
+      <Menu.Item onPress={() => setLanguage('de')} title="🇩🇪 German" />
       <Menu.Item onPress={() => setLanguage('fr')} title="🇫🇷 Français" />
     </Menu>
   );

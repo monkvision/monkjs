@@ -167,6 +167,7 @@ Inspection.propTypes = {
       label: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.shape({
+          de: PropTypes.string,
           en: PropTypes.string,
           fr: PropTypes.string,
         }),

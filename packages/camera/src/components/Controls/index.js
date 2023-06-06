@@ -294,6 +294,7 @@ Controls.CloseEarlyButtonProps = {
   },
   confirm: true,
   confirmationMessage: {
+    de: 'Sie haben nicht alle erforderlichen Bilder aufgenommen. Sind Sie sicher, dass Sie die Inspektion beenden möchten?',
     en: 'You haven\'t taken all the required pictures. Are you sure you want to end the insepction ?',
     fr: 'Vous n\'avez pas terminé de prendre toutes les photos nécessaires. Êtes-vous sûr(e) de vouloir terminer l\'inspection ?',
   },
