@@ -8,11 +8,17 @@ export default function useCustomSVGAttributes({
   return useMemo(() => {
     const elementTag = element.tagName;
 
+    const viewBox = element.getAttribute('viewBox');
+    const width = element.getAttribute('width');
+    const height = element.getAttribute('height');
+
+    const additionalAttributes = {};
+
     if (elementTag === 'svg') {
-      if (element.getAttribute('viewBox')) {
-        return { style: rootStyles ?? {} };
+      if (!viewBox && width && height) {
+        additionalAttributes.viewBox = `0 0 ${width} ${height}`;
       }
-      return { style: rootStyles ?? {}, viewBox: '0 0 500 375' };
+      return { style: rootStyles ?? {}, ...additionalAttributes };
     }
 
     return { style: pathStyles ?? {} };
