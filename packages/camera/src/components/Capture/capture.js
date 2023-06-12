@@ -1,19 +1,19 @@
+import { MonitoringStatus, SentryOperation, SentryTag, SentryTransaction, useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
-import { useMonitoring, MonitoringStatus, SentryTransaction, SentryOperation, SentryTag } from '@monkvision/corejs';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useCallback, useEffect, useRef, useImperativeHandle, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
 import Constants from '../../const';
+import useEventStorage from '../../hooks/useEventStorage';
 import log from '../../utils/log';
 
 import AddDamageModal from '../AddDamageModal';
-import AddDamageOverlay from '../AddDamageOverlay';
 
 import AddDamageHelpModal from '../AddDamageModal/AddDamageHelpModal';
-import useEventStorage from '../../hooks/useEventStorage';
+import AddDamageOverlay from '../AddDamageOverlay';
 import Camera from '../Camera';
 import CloseEarlyConfirmModal from '../CloseEarlyConfirmModal';
 import Controls from '../Controls';
@@ -30,7 +30,8 @@ import {
   useSetPictureAsync,
   useStartUploadAsync,
   useTakePictureAsync,
-  useTitle, useUploadAdditionalDamage,
+  useTitle,
+  useUploadAdditionalDamage,
 } from './hooks';
 
 const AddDamageStatus = {
@@ -64,10 +65,15 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  overlay: {
-    flex: 1,
-    position: 'absolute',
+  overlayContainer: {
+    position: 'fixed',
+    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    width: '100vw',
+    height: '95vh',
+    top: '2.5vh',
+    zIndex: 99,
   },
   addDamageOverlay: {
     fontSize: 14,
@@ -80,7 +86,6 @@ const styles = StyleSheet.create({
   removePosition: {
     position: 'relative',
   },
-
 });
 
 const defaultNavigationOptions = {
@@ -126,6 +131,7 @@ const Capture = forwardRef(({
   onStartUploadPicture,
   onFinishUploadPicture,
   orientationBlockerProps,
+  overlayPathStyles,
   primaryColor,
   sightsContainerStyle,
   style,
@@ -570,10 +576,13 @@ const Capture = forwardRef(({
     <>
       {(isReady && overlay && loading === false
         && addDamageStatus !== AddDamageStatus.TAKE_PICTURE) ? (
-          <Overlay
-            svg={overlay}
-            style={[styles.overlay, overlaySize]}
-          />
+          <View style={[styles.overlayContainer]}>
+            <Overlay
+              svg={overlay}
+              pathStyles={overlayPathStyles}
+              rootStyles={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+            />
+          </View>
         ) : null}
       {(isReady && overlay && loading === false
         && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
@@ -598,7 +607,7 @@ const Capture = forwardRef(({
         </View>
       ) : null}
     </>
-  ), [isReady, loading, overlay, overlaySize, primaryColor, addDamageStatus]);
+  ), [isReady, loading, overlay, overlaySize, primaryColor, addDamageStatus, overlayPathStyles]);
 
   if (enableComplianceCheck && (endTour || (tourHasFinished && complianceHasFulfilledAll))) {
     return (
@@ -804,6 +813,7 @@ Capture.propTypes = {
   onUploadsChange: PropTypes.func,
   onWarningMessage: PropTypes.func,
   orientationBlockerProps: PropTypes.shape({ title: PropTypes.string }),
+  overlayPathStyles: PropTypes.object,
   primaryColor: PropTypes.string,
   resolutionOptions: PropTypes.shape({
     QHDDelay: PropTypes.number,
@@ -916,6 +926,7 @@ Capture.defaultProps = {
   onReady: () => {},
   onStartUploadPicture: () => {},
   orientationBlockerProps: null,
+  overlayPathStyles: {},
   primaryColor: '#FFF',
   resolutionOptions: undefined,
   sightsContainerStyle: {},
