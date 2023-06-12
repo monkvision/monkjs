@@ -148,7 +148,7 @@ export default function InspectionCapture() {
       onPress: requestFullscreen,
     },
     [
-      { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
+      // { disabled: cameraLoading, ...Controls.AddDamageButtonProps },
       { disabled: cameraLoading, ...Controls.CaptureButtonProps },
     ],
     {
