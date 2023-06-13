@@ -18,6 +18,15 @@ const en = {
       parts: {
         ...carPartLabels.en,
       },
+      error: {
+        message: 'An unexpected error occurred while fetching the inspection results.',
+        retry: 'Retry',
+      },
+      loading: 'Fetching inspection results...',
+      notReady: 'Inspection still in progress...',
+    },
+    gallery: {
+      empty: 'This inspection does not have any photo yet.',
     },
     damageManipulator: {
       damages: 'Damages',
