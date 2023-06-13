@@ -1,12 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Loader } from '@monkvision/ui';
 
-import AppStateMock, { cleanMockDamages } from '../../mock';
-import { DamageMode, VehicleType } from '../../resources';
+import { CommonPropTypes, DamageMode, VehicleType } from '../../resources';
 import { IconButton } from '../common';
 import Gallery from '../Gallery';
-import MockControlPanel from './MockControlPanel';
+import { useDamageReportStateHandlers, useFetchInspection, usePdfReport, PdfStatus } from './hooks';
 import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
@@ -56,6 +57,29 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     padding: 20,
   },
+  notReadyContainer: {
+    flex: 1,
+    display: 'flex',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notReadyMessage: {
+    fontSize: 20,
+    paddingBottom: 30,
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  retryButton: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#414659',
+  },
+  retryTxt: {
+    fontSize: 22,
+    color: '#ffffff',
+  },
 });
 
 const Tabs = {
@@ -63,138 +87,134 @@ const Tabs = {
   GALLERY: 1,
 };
 
-export default function DamageReport() {
-  // -------- MOCK --------
-  const [vehicleType, setVehicleType] = useState(VehicleType.CUV);
-  const [damageMode, setDamageMode] = useState(DamageMode.SEVERITY);
-  const [damages, setDamages] = useState(cleanMockDamages(damageMode, AppStateMock.damages));
-  const [gallery] = useState(AppStateMock.gallery);
-
-  const applyMockState = useCallback((vt, dm) => {
-    setVehicleType(vt);
-    setDamageMode(dm);
-    setDamages(cleanMockDamages(dm, AppStateMock.damages));
-  }, []);
-
-  // -------- MOCK --------
+export default function DamageReport({
+  inspectionId,
+  vehicleType,
+  damageMode,
+  generatePdf,
+  pdfOptions,
+}) {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
-  const [editedDamage, setEditedDamage] = useState(undefined);
-  const [editedDamagePart, setEditedDamagePart] = useState(undefined);
-  const [editedDamageImages, setEditedDamageImages] = useState(undefined);
-  const [isPopUpVisible, setIsPopUpVisible] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const resetEditedDamageState = useCallback(() => {
-    setEditedDamage(undefined);
-    setEditedDamagePart(undefined);
-    setEditedDamageImages(undefined);
-  }, []);
+  const {
+    isLoading,
+    isError,
+    retry,
+    isInspectionReady,
+    pictures,
+    damages,
+    setDamages,
+  } = useFetchInspection({ inspectionId });
 
-  const onPopUpDismiss = useCallback(() => {
-    resetEditedDamageState();
-    setIsPopUpVisible(false);
-  }, []);
+  const {
+    state: {
+      editedDamage,
+      editedDamagePart,
+      editedDamageImages,
+      isPopUpVisible,
+      isModalVisible,
+    },
+    handlePopUpDismiss,
+    handleShowGallery,
+    handleGalleryDismiss,
+    handlePartPressed,
+    handlePillPressed,
+    handleSaveDamage,
+  } = useDamageReportStateHandlers({
+    inspectionId,
+    damages,
+    setDamages,
+  });
 
-  const onShowGallery = useCallback(() => {
-    setIsPopUpVisible(false);
-    setIsModalVisible(true);
-  }, []);
+  const { pdfStatus, handleDownload } = usePdfReport({
+    inspectionId,
+    isInspectionReady,
+    generatePdf,
+    customer: pdfOptions?.customer,
+    clientName: pdfOptions?.clientName,
+  });
 
-  const onGalleryDismiss = useCallback(() => {
-    resetEditedDamageState();
-    setIsModalVisible(false);
-  }, []);
-
-  const handlePartPressed = useCallback((partName) => {
-    const damage = damages.find((dmg) => dmg.part === partName);
-    if (!damage) {
-      setEditedDamagePart(partName);
-      setEditedDamageImages([]);
-      setIsPopUpVisible(true);
+  const pdfIconColor = useMemo(() => {
+    switch (pdfStatus) {
+      case PdfStatus.READY:
+        return '#FFFFFF';
+      case PdfStatus.ERROR:
+        return '#9f4545';
+      default:
+        return '#575757';
     }
-  }, [damages]);
-
-  const handlePillPressed = useCallback((partName) => {
-    const damage = damages.find((dmg) => dmg.part === partName);
-    if (!damage) {
-      throw new Error(`Unable to find damage with corresponding pill part "${partName}"`);
-    }
-    setEditedDamage(damage);
-    setEditedDamagePart(partName);
-    setEditedDamageImages(damage.images);
-    setIsPopUpVisible(true);
-  }, [damages]);
-
-  const handleSaveDamage = useCallback((partialDamage) => {
-    if (!partialDamage) {
-      // Removing the damage
-      const newDamages = damages.filter((dmg) => dmg.part !== editedDamagePart);
-      setDamages(newDamages);
-    } else {
-      // Creating or updating a damage
-      const damage = {
-        part: editedDamagePart,
-        images: editedDamageImages,
-        ...partialDamage,
-      };
-      if (!editedDamage) {
-        // Creating a new damage
-        setDamages((dmgs) => [...dmgs, damage]);
-      } else {
-        // Editing a damage
-        const dmgs = [...damages];
-        const editedIndex = damages.findIndex((dmg) => dmg.part === editedDamage.part);
-        dmgs[editedIndex] = damage;
-        setDamages(dmgs);
-      }
-    }
-    resetEditedDamageState();
-    setIsPopUpVisible(false);
-    setIsModalVisible(false);
-  }, [editedDamage, damages, resetEditedDamageState, editedDamagePart, editedDamageImages]);
+  }, [pdfStatus]);
 
   return (
     <View style={[styles.container]}>
       <View style={[styles.header]}>
         <IconButton icon="keyboard-backspace" onPress={() => console.log('Back')} />
         <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
-        <IconButton icon="file-download" onPress={() => console.log('download')} />
+        <IconButton
+          icon="file-download"
+          onPress={handleDownload}
+          disabled={pdfStatus !== PdfStatus.READY}
+          color={pdfIconColor}
+          style={[generatePdf ? {} : { opacity: 0 }]}
+        />
       </View>
 
       <View style={[styles.content]}>
-        <View style={[styles.tabGroup]}>
-          <TabGroup>
-            <TabButton
-              icon="360"
-              label={t('damageReport.tabs.overviewTab.label')}
-              selected={currentTab === Tabs.OVERVIEW}
-              onPress={() => setCurrentTab(Tabs.OVERVIEW)}
-              position="left"
-            />
-            <TabButton
-              icon="photo-library"
-              label={t('damageReport.tabs.photosTab.label')}
-              selected={currentTab === Tabs.GALLERY}
-              onPress={() => setCurrentTab(Tabs.GALLERY)}
-              position="right"
-            />
-          </TabGroup>
-        </View>
-        <View>
-          {currentTab !== Tabs.OVERVIEW ? null : (
-            <Overview
-              damages={damages}
-              damageMode={damageMode}
-              vehicleType={vehicleType}
-              onPressPart={handlePartPressed}
-              onPressPill={handlePillPressed}
-            />
-          )}
-          {currentTab !== Tabs.GALLERY ? null : (
-            <Gallery pictures={gallery} />
-          )}
-        </View>
+        {isLoading && (
+          <View style={[styles.notReadyContainer]}>
+            <Loader texts={[t('damageReport.loading')]} />
+          </View>
+        )}
+        {!isLoading && isError && (
+          <View style={[styles.notReadyContainer]}>
+            <Text style={[styles.notReadyMessage]}>{t('damageReport.error.message')}</Text>
+            <TouchableOpacity style={[styles.retryButton]} onPress={retry}>
+              <Text style={[styles.retryTxt]}>{t('damageReport.error.retry')}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {!isLoading && !isError && (
+          <>
+            <View style={[styles.tabGroup]}>
+              <TabGroup>
+                <TabButton
+                  icon="360"
+                  label={t('damageReport.tabs.overviewTab.label')}
+                  selected={currentTab === Tabs.OVERVIEW}
+                  onPress={() => setCurrentTab(Tabs.OVERVIEW)}
+                  position="left"
+                />
+                <TabButton
+                  icon="photo-library"
+                  label={t('damageReport.tabs.photosTab.label')}
+                  selected={currentTab === Tabs.GALLERY}
+                  onPress={() => setCurrentTab(Tabs.GALLERY)}
+                  position="right"
+                />
+              </TabGroup>
+            </View>
+            <View>
+              {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
+                <View style={[styles.notReadyContainer]}>
+                  <Loader texts={[t('damageReport.notReady')]} />
+                </View>
+              )}
+              {currentTab === Tabs.OVERVIEW && isInspectionReady && (
+                <Overview
+                  damages={damages}
+                  damageMode={damageMode}
+                  vehicleType={vehicleType}
+                  onPressPart={handlePartPressed}
+                  onPressPill={handlePillPressed}
+                />
+              )}
+              {currentTab === Tabs.GALLERY && (
+                <Gallery pictures={pictures} />
+              )}
+            </View>
+          </>
+        )}
       </View>
       {
         isPopUpVisible && (
@@ -203,8 +223,8 @@ export default function DamageReport() {
             damage={editedDamage}
             damageMode={damageMode}
             imageCount={editedDamageImages.length}
-            onDismiss={onPopUpDismiss}
-            onShowGallery={onShowGallery}
+            onDismiss={handlePopUpDismiss}
+            onShowGallery={handleShowGallery}
             onConfirm={handleSaveDamage}
           />
         )
@@ -216,17 +236,29 @@ export default function DamageReport() {
             damageMode={damageMode}
             images={editedDamageImages}
             onConfirm={handleSaveDamage}
-            onDismiss={onGalleryDismiss}
+            onDismiss={handleGalleryDismiss}
             part={editedDamagePart}
           />
         )
       }
-      <MockControlPanel
-        vehicleType={vehicleType}
-        damageMode={damageMode}
-        onSelectDamageMode={(dm) => applyMockState(vehicleType, dm)}
-        onSelectVehicleType={(vt) => applyMockState(vt, damageMode)}
-      />
     </View>
   );
 }
+
+DamageReport.propTypes = {
+  damageMode: CommonPropTypes.damageMode,
+  generatePdf: PropTypes.bool,
+  inspectionId: PropTypes.string.isRequired,
+  pdfOptions: PropTypes.shape({
+    clientName: PropTypes.string.isRequired,
+    customer: PropTypes.string.isRequired,
+  }),
+  vehicleType: CommonPropTypes.vehicleType,
+};
+
+DamageReport.defaultProps = {
+  damageMode: DamageMode.ALL,
+  generatePdf: false,
+  pdfOptions: undefined,
+  vehicleType: VehicleType.CUV,
+};

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-function IconButton({ onPress, icon, color }) {
+function IconButton({ icon, color, ...passThrough }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity {...passThrough}>
       <MaterialIcons name={icon} size={24} color={color} />
     </TouchableOpacity>
   );
@@ -14,13 +14,11 @@ function IconButton({ onPress, icon, color }) {
 IconButton.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string,
-  onPress: PropTypes.func,
 };
 
 IconButton.defaultProps = {
   color: '#FFFFFF',
   icon: '',
-  onPress: () => {},
 };
 
 export default IconButton;

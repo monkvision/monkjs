@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, StyleSheet, View, Image, Pressable, Text, ImageBackground, ScrollView } from 'react-native';
+import { Modal, StyleSheet, View, Pressable, Text, ImageBackground } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -15,6 +15,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 15,
     overflowY: 'scroll',
+  },
+  messageContainer: {
+    alignItems: 'center',
+  },
+  message: {
+    fontSize: 20,
+    color: '#ffffff',
+    textAlign: 'center',
   },
   thumbnailWrapper: {
     marginHorizontal: 10,
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
 });
 
 function Gallery({ pictures }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
 
   const handleOnImageClick = useCallback((focusedImage) => {
@@ -75,15 +83,13 @@ function Gallery({ pictures }) {
   }, []);
 
   return (
-    <View style={styles.container}>
-        {
-          pictures.map((image, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
-              <Thumbnail image={image} click={handleOnImageClick} />
-            </View>
-          ))
-        }
+    <View style={[styles.container, pictures.length === 0 ? styles.messageContainer : {}]}>
+      {pictures.length > 0 ? pictures.map((image, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
+          <Thumbnail image={image} click={handleOnImageClick} />
+        </View>
+      )) : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
       <Modal
         animationType="slide"
         transparent
