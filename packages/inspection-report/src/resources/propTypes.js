@@ -5,11 +5,13 @@ import { DamageMode, Severity, CarOrientation, VehicleType, DisplayMode } from '
 const CommonPropTypes = {
   carOrientation: PropTypes.oneOf(Object.values(CarOrientation)),
   damage: PropTypes.shape({
+    id: PropTypes.string,
     part: PropTypes.string.isRequired,
     pricing: PropTypes.number,
     severity: PropTypes.oneOf(Object.values(Severity)),
   }),
   damageWithoutPart: PropTypes.shape({
+    id: PropTypes.string,
     pricing: PropTypes.number,
     severity: PropTypes.oneOf(Object.values(Severity)),
   }),

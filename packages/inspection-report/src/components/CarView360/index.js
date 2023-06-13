@@ -34,12 +34,16 @@ export default function CarView360({
     }
     return svg;
   }, [doc]);
+  const displayedDamages = useMemo(
+    () => damages.filter((dmg) => !!dmg.pricing && !!dmg.severity),
+    [damages],
+  );
 
   return (
     <View style={[styles.container, { width, height }]}>
       <SVGElementMapper
         element={svgElement}
-        damages={damages}
+        damages={displayedDamages}
         getPartAttributes={getPartAttributes}
         onPressPart={onPressPart}
         onPressPill={onPressPill}
