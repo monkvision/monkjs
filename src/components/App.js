@@ -1,33 +1,20 @@
 /* eslint-disable global-require */
-import { theme as initialTheme } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import 'config/corejs';
 import SilentLang from 'components/SilentLang';
 
 import Navigation from 'config/Navigation';
-import ExpoConstants from 'expo-constants';
 import * as Font from 'expo-font';
 
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { useWindowDimensions, View } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store from 'store';
 import { useMonitoring } from '@monkvision/corejs';
-
-const theme = {
-  ...DefaultTheme,
-  ...initialTheme,
-  ...ExpoConstants.manifest.extra.theme,
-};
-
-const styles = StyleSheet.create({
-  layout: {
-    backgroundColor: theme.colors.background,
-  },
-});
+import { useClient } from '../contexts';
 
 const customFonts = {
   MaterialCommunityIcons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
@@ -77,9 +64,17 @@ function App() {
     prepare();
   }, []);
 
+  const { theme } = useClient();
+
   if (!appIsReady) {
     return (
-      <View style={[styles.layout, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+      <View style={[{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.colors.background,
+      }]}
+      >
         <Loader texts={[t('appLoading')]} colors={theme.loaderDotsColors} />
       </View>
     );
@@ -89,7 +84,10 @@ function App() {
     <Provider store={store}>
       <SilentLang />
       <PaperProvider theme={theme}>
-        <View style={[styles.layout, { minHeight }]} onLayout={onLayoutRootView}>
+        <View
+          style={[{ minHeight, backgroundColor: theme.colors.background }]}
+          onLayout={onLayoutRootView}
+        >
           <Navigation />
         </View>
       </PaperProvider>

@@ -20,6 +20,7 @@ import useGetInspection from 'screens/Landing/useGetInspection';
 import * as names from 'screens/names';
 import { version } from '@package/json';
 import { authSlice } from 'store';
+import { useClient, Clients, Workflows } from '../../contexts';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateOneTask from './useUpdateOneTask';
@@ -32,6 +33,22 @@ const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
   DONE: 'check-bold',
   ERROR: 'alert-octagon',
+};
+
+const ClientParamMap = {
+  0: Clients.DEFAULT,
+  1: Clients.CAT,
+  2: Clients.FASTBACK,
+};
+
+const VehicleTypeMap = {
+  0: 'suv',
+  1: 'cuv',
+  2: 'sedan',
+  3: 'hatchback',
+  4: 'van',
+  5: 'minivan',
+  6: 'pickup',
 };
 
 export default function Landing() {
@@ -51,12 +68,21 @@ export default function Landing() {
   const vinOptionsRef = useRef();
   const dispatch = useDispatch();
 
-  const { inspectionId, token } = useMemo(() => {
+  const { workflow, setClient } = useClient();
+
+  useEffect(() => {
+    const clientParam = new URLSearchParams(window.location.search)?.get('c');
+    const client = clientParam ? (ClientParamMap[clientParam] ?? Clients.DEFAULT) : Clients.DEFAULT;
+    setClient(client);
+  }, [setClient]);
+
+  const { inspectionId, token, vehicleTypeParam } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const compressedToken = urlParams.get('token');
+    const compressedToken = urlParams.get('t');
 
     return {
-      inspectionId: urlParams.get('inspection_id'),
+      inspectionId: urlParams.get('i'),
+      vehicleTypeParam: urlParams.get('v') ?? 1,
       token: compressedToken ? decompress(compressedToken) : undefined,
     };
   }, []);
@@ -65,6 +91,19 @@ export default function Landing() {
     () => (!inspectionId || !token),
     [inspectionId, token],
   );
+
+  useEffect(() => {
+    if (workflow === Workflows.CAPTURE && !route.params?.captureComplete) {
+      navigation.navigate(
+        names.INSPECTION_CREATE,
+        {
+          selectedMod: 'car360',
+          inspectionId,
+          vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] ?? 'cuv' },
+        },
+      );
+    }
+  }, [workflow, route, navigation, inspectionId, vehicleTypeParam]);
 
   useEffect(() => {
     if (token) {
@@ -79,6 +118,10 @@ export default function Landing() {
       }));
     }
   }, [token]);
+
+  const shouldFetch = useMemo(() => (
+    workflow === Workflows.CAPTURE ? route.params?.captureComplete : true
+  ), [workflow, route]);
 
   const getInspection = useGetInspection(inspectionId);
 
@@ -197,12 +240,12 @@ export default function Landing() {
   }, [handleListItemPress, inspection]);
 
   const start = useCallback(() => {
-    if (inspectionId && getInspection.state.loading !== true && !invalidToken) {
+    if (inspectionId && getInspection.state.loading !== true && !invalidToken && shouldFetch) {
       getInspection.start().catch((err) => {
         errorHandler(err);
       });
     }
-  }, [getInspection]);
+  }, [getInspection, shouldFetch]);
 
   const intervalId = useInterval(start, 1000);
 

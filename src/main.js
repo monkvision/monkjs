@@ -8,6 +8,7 @@ import { name, version } from '@package/json';
 import App from 'components/App';
 import './i18n';
 import { MonitoringProvider } from '@monkvision/corejs';
+import { ClientProvider } from './contexts/clients';
 
 const config = {
   dsn: Constants.manifest.extra.SENTRY_DSN,
@@ -20,7 +21,14 @@ const config = {
 
 if (Platform.OS === 'web') {
   const container = document.getElementById('root');
-  render(<MonitoringProvider config={config}><App /></MonitoringProvider>, container);
+  render(
+    <MonitoringProvider config={config}>
+      <ClientProvider>
+        <App />
+      </ClientProvider>
+    </MonitoringProvider>,
+    container,
+  );
 } else {
   registerRootComponent(Sentry.Native.wrap(App));
 }

@@ -1,24 +1,24 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
-import ExpoConstants from 'expo-constants';
 import { Title } from 'react-native-paper';
+import { useClient } from '../../../contexts';
 
 import Svg from './svg';
 import styles from './styles';
 
 export default function Artwork() {
   const { t } = useTranslation();
-  const { theme, logo, companyName } = ExpoConstants.manifest.extra;
+  const { theme, info } = useClient();
 
   return (
     <View style={styles.root}>
       <Svg palette={theme.palette} />
       <Title style={styles.title}>{t('landing.logoDescription')}</Title>
       <Image
-        alt={`Logo of ${companyName}`}
-        style={{ width: logo.width, height: logo.height, resizeMode: 'contain' }}
-        {...logo}
+        alt={`Logo of ${info.companyName}`}
+        style={{ width: info.logo.width, height: info.logo.height, resizeMode: 'contain' }}
+        {...info.logo}
       />
     </View>
   );
