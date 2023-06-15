@@ -24,6 +24,13 @@ const fr = {
       },
       loading: 'Récupération des résultats...',
       notReady: 'Inspection en cours...',
+      newInspection: 'Nouvelle inspection',
+      download: 'Télécharger le rapport',
+      newInspectionModal: {
+        message: 'Si vous commencer une nouvelle inspection vous perdrez ce rapport. Êtes-vous sûr(e) de vouloir continuer ?',
+        yes: 'Oui',
+        cancel: 'Annuler',
+      },
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',

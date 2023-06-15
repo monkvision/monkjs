@@ -1,5 +1,8 @@
 import { DamageMode, DamageReport } from '@monkvision/inspection-report';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+
+import * as names from 'screens/names';
 
 const damageMode = DamageMode.ALL;
 
@@ -10,6 +13,7 @@ export default function InspectionReport() {
   //   customer: ExpoConstants.manifest.extra.PDF_REPORT_CUSTOMER,
   //   clientName: ExpoConstants.manifest.extra.PDF_REPORT_CLIENT_NAME,
   // }), []);
+  const navigation = useNavigation();
 
   return (
     <DamageReport
@@ -18,6 +22,7 @@ export default function InspectionReport() {
       // vehicleType={vehicleType}
       generatePdf
       // pdfOptions={pdfOptions}
+      onStartNewInspection={() => navigation.navigate(names.LANDING)}
     />
   );
 }
