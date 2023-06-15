@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
 export default function UpdateDamagePopUp({
   damage,
   damageMode,
-  displayMode,
   imageCount,
   part,
   onDismiss,
@@ -94,18 +93,22 @@ export default function UpdateDamagePopUp({
 }) {
   const { t } = useTranslation();
   const { height: bottomLimitY } = useWindowDimensions();
-  const [viewMode, setViewMode] = useState(null);
+  const [displayMode, setDisplayMode] = useState(damage ? DisplayMode.FULL : DisplayMode.MINIMAL);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: bottomLimitY })).current;
 
+  const handleToggleDamage = useCallback((isToggled) => {
+    setDisplayMode(isToggled ? DisplayMode.FULL : DisplayMode.MINIMAL);
+  }, []);
+
   const scrollIn = useCallback(() => {
-    const toValue = viewMode === 'full' ? topLimitY : bottomLimitY / 1.8;
+    const toValue = displayMode === DisplayMode.FULL ? topLimitY : bottomLimitY / 1.8;
     Animated.timing(pan, {
       toValue: { x: 0, y: toValue },
       duration: 200,
       useNativeDriver: Platform.OS !== 'web',
     }).start();
-  }, [viewMode, bottomLimitY]);
+  }, [displayMode, bottomLimitY]);
 
   const scrollOut = useCallback(() => {
     Animated.timing(pan, {
@@ -116,16 +119,16 @@ export default function UpdateDamagePopUp({
   }, [bottomLimitY]);
 
   const onRelease = useCallback(() => {
-    if (viewMode === 'full' && gestureState.dy >= 0) {
-      setViewMode('minimal');
-    } else if (viewMode === 'minimal') {
+    if (displayMode === DisplayMode.FULL && gestureState.dy >= 0) {
+      setDisplayMode(DisplayMode.MINIMAL);
+    } else if (displayMode === DisplayMode.MINIMAL) {
       if (gestureState.dy <= 0) {
-        setViewMode('full');
+        setDisplayMode(DisplayMode.FULL);
       } else {
         scrollOut();
       }
     }
-  }, [viewMode, gestureState]);
+  }, [displayMode, gestureState]);
 
   const handleConfirm = useCallback((dmg) => {
     onConfirm(dmg);
@@ -162,10 +165,6 @@ export default function UpdateDamagePopUp({
 
   useEffect(() => {
     scrollIn();
-  }, [viewMode]);
-
-  useEffect(() => {
-    setViewMode(displayMode);
   }, [displayMode]);
 
   return (
@@ -190,8 +189,9 @@ export default function UpdateDamagePopUp({
         <DamageManipulator
           damage={damage}
           damageMode={damageMode}
-          displayMode={viewMode}
+          displayMode={displayMode}
           onConfirm={handleConfirm}
+          onToggleDamage={handleToggleDamage}
         />
       </Animated.View>
     </View>
@@ -201,7 +201,6 @@ export default function UpdateDamagePopUp({
 UpdateDamagePopUp.propTypes = {
   damage: CommonPropTypes.damageWithoutPart,
   damageMode: CommonPropTypes.damageMode,
-  displayMode: CommonPropTypes.displayMode,
   imageCount: PropTypes.number,
   onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
@@ -213,7 +212,6 @@ UpdateDamagePopUp.propTypes = {
 UpdateDamagePopUp.defaultProps = {
   damage: undefined,
   damageMode: DamageMode.ALL,
-  displayMode: DisplayMode.MINIMAL,
   imageCount: 0,
   onConfirm: () => {},
   onDismiss: () => {},
