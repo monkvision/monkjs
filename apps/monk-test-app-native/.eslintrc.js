@@ -11,5 +11,6 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': OFF,
     'no-console': OFF,
+    "jsx-quotes": ["error", "prefer-single"]
   }
 }

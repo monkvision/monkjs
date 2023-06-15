@@ -5,12 +5,11 @@ const ERROR = 2;
 module.exports = {
   root: true,
   extends: [
-    'react-app',
-    'react-app/jest',
-    'plugin:jsx-a11y/recommended',
     '@monkvision/eslint-config-typescript',
+    'plugin:jsx-a11y/recommended',
+    'react-app',
   ],
-  plugins: ['jsx-a11y', 'react', 'react-hooks'],
+  plugins: ['react', 'react-hooks', 'jsx-a11y'],
   parser: '@typescript-eslint/parser',
   rules: {
     'indent': ['error', 2],
