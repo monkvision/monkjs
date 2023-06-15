@@ -7,12 +7,14 @@ import { Loader } from '@monkvision/ui';
 import { CommonPropTypes, DamageMode, VehicleType } from '../../resources';
 import { IconButton } from '../common';
 import Gallery from '../Gallery';
-import { useDamageReportStateHandlers, useFetchInspection, usePdfReport, PdfStatus } from './hooks';
+import { useDamageReportStateHandlers, PdfStatus } from './hooks';
 import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
 import UpdateDamageModal from './UpdateDamageModal';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
+
+import { damages as mockDamages, pictures as mockPictures } from './mock';
 
 const styles = StyleSheet.create({
   container: {
@@ -92,20 +94,27 @@ export default function DamageReport({
   vehicleType,
   damageMode,
   generatePdf,
-  pdfOptions,
+  // pdfOptions,
 }) {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
 
-  const {
-    isLoading,
-    isError,
-    retry,
-    isInspectionReady,
-    pictures,
-    damages,
-    setDamages,
-  } = useFetchInspection({ inspectionId });
+  // const {
+  //   isLoading,
+  //   isError,
+  //   retry,
+  //   isInspectionReady,
+  //   pictures,
+  //   damages,
+  //   setDamages,
+  // } = useFetchInspection({ inspectionId });
+
+  const isLoading = false;
+  const isError = false;
+  const retry = () => {};
+  const isInspectionReady = true;
+  const [damages, setDamages] = useState(mockDamages);
+  const [pictures] = useState(mockPictures);
 
   const {
     state: {
@@ -127,13 +136,18 @@ export default function DamageReport({
     setDamages,
   });
 
-  const { pdfStatus, handleDownload } = usePdfReport({
-    inspectionId,
-    isInspectionReady,
-    generatePdf,
-    customer: pdfOptions?.customer,
-    clientName: pdfOptions?.clientName,
-  });
+  // const { pdfStatus, handleDownload } = usePdfReport({
+  //   inspectionId,
+  //   isInspectionReady,
+  //   generatePdf,
+  //   customer: pdfOptions?.customer,
+  //   clientName: pdfOptions?.clientName,
+  // });
+
+  const { pdfStatus, handleDownload } = {
+    pdfStatus: PdfStatus.NOT_REQUESTED,
+    handleDownload: () => {},
+  };
 
   const pdfIconColor = useMemo(() => {
     switch (pdfStatus) {
