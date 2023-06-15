@@ -22,17 +22,6 @@ const app = {
 
 const options = [
   {
-    value: 'vinNumber',
-    title: 'inspection.vinNumber.title',
-    description: 'inspection.vinNumber.description',
-    icon: 'car-info',
-    mode: ['automatic', 'manually'], // default to automatic
-    sightIds: [
-      'sLu0CfOt', // Vin number
-    ],
-    taskName: 'images_ocr',
-  },
-  {
     value: 'car360',
     title: 'inspection.damageDetection.title',
     description: 'inspection.damageDetection.description',
