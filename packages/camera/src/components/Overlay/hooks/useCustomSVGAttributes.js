@@ -13,12 +13,15 @@ export default function useCustomSVGAttributes({
     const height = element.getAttribute('height');
 
     const additionalAttributes = {};
+    let customRootStyles = rootStyles;
 
     if (elementTag === 'svg') {
       if (!viewBox && width && height) {
         additionalAttributes.viewBox = `0 0 ${width} ${height}`;
+        customRootStyles = { ...rootStyles, width: 'inherit' };
       }
-      return { style: rootStyles ?? {}, ...additionalAttributes };
+
+      return { style: customRootStyles ?? {}, ...additionalAttributes };
     }
 
     return { style: pathStyles ?? {} };
