@@ -69,7 +69,7 @@ export default function Landing() {
       selectedMod: value,
       inspectionId,
       vehicle: { vehicleType },
-      isLastTour: !!inspectionId,
+      isLastTour: true,
     });
   }, [inspectionId, navigation, isAuthenticated, vehicleType]);
 
