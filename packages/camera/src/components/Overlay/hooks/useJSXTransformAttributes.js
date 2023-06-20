@@ -20,16 +20,19 @@ function tranformJsxAttribute(key, value) {
     case 'data-name':
       return { key: 'dataname', value };
     case 'style':
-      return value.split(';')
-        .map((style) => style.split(':'))
-        .reduce((prev, curr) => {
-          const [styleKey, styleValue] = curr;
-          const transformedKey = styleKey.replace(/-./g, (css) => css.toUpperCase()[1]);
-          return {
-            ...prev,
-            [transformedKey]: styleValue,
-          };
-        }, {});
+      return {
+        key: 'style',
+        value: value.split(';')
+          .map((style) => style.split(':'))
+          .reduce((prev, curr) => {
+            const [styleKey, styleValue] = curr;
+            const transformedKey = styleKey.replace(/-./g, (css) => css.toUpperCase()[1]);
+            return {
+              ...prev,
+              [transformedKey]: styleValue,
+            };
+          }, {}),
+      };
     default:
       return { key: keyNameTransform(key), value };
   }
