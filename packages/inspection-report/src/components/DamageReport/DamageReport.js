@@ -8,6 +8,7 @@ import { CommonPropTypes, DamageMode, VehicleType } from '../../resources';
 import { IconButton } from '../common';
 import Gallery from '../Gallery';
 import { useDamageReportStateHandlers, useFetchInspection, usePdfReport, PdfStatus } from './hooks';
+import NewInspectionConfirmModal from './NewInspectionConfirmModal';
 import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
     height: '100%',
     minHeight: '100%',
     overflow: 'hidden',
+    position: 'relative',
   },
   header: {
     alignSelf: 'stretch',
@@ -93,9 +95,11 @@ export default function DamageReport({
   damageMode,
   generatePdf,
   pdfOptions,
+  onStartNewInspection,
 }) {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+  const [showNewInspectionConfirm, setShowNewInspectionConfirm] = useState(false);
 
   const {
     isLoading,
@@ -159,88 +163,96 @@ export default function DamageReport({
           style={[generatePdf ? {} : { opacity: 0 }]}
         />
       </View>
-
       <View style={[styles.content]}>
         {isLoading && (
-          <View style={[styles.notReadyContainer]}>
-            <Loader texts={[t('damageReport.loading')]} />
-          </View>
+        <View style={[styles.notReadyContainer]}>
+          <Loader texts={[t('damageReport.loading')]} />
+        </View>
         )}
         {!isLoading && isError && (
-          <View style={[styles.notReadyContainer]}>
-            <Text style={[styles.notReadyMessage]}>{t('damageReport.error.message')}</Text>
-            <TouchableOpacity style={[styles.retryButton]} onPress={retry}>
-              <Text style={[styles.retryTxt]}>{t('damageReport.error.retry')}</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={[styles.notReadyContainer]}>
+          <Text style={[styles.notReadyMessage]}>{t('damageReport.error.message')}</Text>
+          <TouchableOpacity style={[styles.retryButton]} onPress={retry}>
+            <Text style={[styles.retryTxt]}>{t('damageReport.error.retry')}</Text>
+          </TouchableOpacity>
+        </View>
         )}
         {!isLoading && !isError && (
-          <>
-            <View style={[styles.tabGroup]}>
-              <TabGroup>
-                <TabButton
-                  icon="360"
-                  label={t('damageReport.tabs.overviewTab.label')}
-                  selected={currentTab === Tabs.OVERVIEW}
-                  onPress={() => setCurrentTab(Tabs.OVERVIEW)}
-                  position="left"
-                />
-                <TabButton
-                  icon="photo-library"
-                  label={t('damageReport.tabs.photosTab.label')}
-                  selected={currentTab === Tabs.GALLERY}
-                  onPress={() => setCurrentTab(Tabs.GALLERY)}
-                  position="right"
-                />
-              </TabGroup>
+        <>
+          <View style={[styles.tabGroup]}>
+            <TabGroup>
+              <TabButton
+                icon="360"
+                label={t('damageReport.tabs.overviewTab.label')}
+                selected={currentTab === Tabs.OVERVIEW}
+                onPress={() => setCurrentTab(Tabs.OVERVIEW)}
+                position="left"
+              />
+              <TabButton
+                icon="photo-library"
+                label={t('damageReport.tabs.photosTab.label')}
+                selected={currentTab === Tabs.GALLERY}
+                onPress={() => setCurrentTab(Tabs.GALLERY)}
+                position="right"
+              />
+            </TabGroup>
+          </View>
+          <View>
+            {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
+            <View style={[styles.notReadyContainer]}>
+              <Loader texts={[t('damageReport.notReady')]} />
             </View>
-            <View>
-              {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
-                <View style={[styles.notReadyContainer]}>
-                  <Loader texts={[t('damageReport.notReady')]} />
-                </View>
-              )}
-              {currentTab === Tabs.OVERVIEW && isInspectionReady && (
-                <Overview
-                  damages={damages}
-                  damageMode={damageMode}
-                  vehicleType={vehicleType}
-                  onPressPart={handlePartPressed}
-                  onPressPill={handlePillPressed}
-                />
-              )}
-              {currentTab === Tabs.GALLERY && (
-                <Gallery pictures={pictures} />
-              )}
-            </View>
-          </>
+            )}
+            {currentTab === Tabs.OVERVIEW && isInspectionReady && (
+            <Overview
+              damages={damages}
+              damageMode={damageMode}
+              vehicleType={vehicleType}
+              onPressPart={handlePartPressed}
+              onPressPill={handlePillPressed}
+              generatePdf={generatePdf}
+              pdfHandles={{ pdfStatus, handleDownload }}
+              onStartNewInspection={() => setShowNewInspectionConfirm(true)}
+            />
+            )}
+            {currentTab === Tabs.GALLERY && (
+            <Gallery pictures={pictures} />
+            )}
+          </View>
+        </>
         )}
       </View>
       {
-        isPopUpVisible && (
-          <UpdateDamagePopUp
-            part={editedDamagePart}
-            damage={editedDamage}
-            damageMode={damageMode}
-            imageCount={editedDamageImages.length}
-            onDismiss={handlePopUpDismiss}
-            onShowGallery={handleShowGallery}
-            onConfirm={handleSaveDamage}
-          />
-        )
-      }
+          isPopUpVisible && (
+            <UpdateDamagePopUp
+              part={editedDamagePart}
+              damage={editedDamage}
+              damageMode={damageMode}
+              imageCount={editedDamageImages.length}
+              onDismiss={handlePopUpDismiss}
+              onShowGallery={handleShowGallery}
+              onConfirm={handleSaveDamage}
+            />
+          )
+        }
       {
-        isModalVisible && (
-          <UpdateDamageModal
-            damage={editedDamage}
-            damageMode={damageMode}
-            images={editedDamageImages}
-            onConfirm={handleSaveDamage}
-            onDismiss={handleGalleryDismiss}
-            part={editedDamagePart}
-          />
-        )
-      }
+          isModalVisible && (
+            <UpdateDamageModal
+              damage={editedDamage}
+              damageMode={damageMode}
+              images={editedDamageImages}
+              onConfirm={handleSaveDamage}
+              onDismiss={handleGalleryDismiss}
+              part={editedDamagePart}
+            />
+          )
+        }
+      {showNewInspectionConfirm && (
+      <NewInspectionConfirmModal
+        onConfirm={onStartNewInspection}
+        onCancel={() => setShowNewInspectionConfirm(false)}
+      />
+      )}
     </View>
   );
 }
@@ -249,6 +261,7 @@ DamageReport.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   generatePdf: PropTypes.bool,
   inspectionId: PropTypes.string.isRequired,
+  onStartNewInspection: PropTypes.func,
   pdfOptions: PropTypes.shape({
     clientName: PropTypes.string.isRequired,
     customer: PropTypes.string.isRequired,
@@ -259,6 +272,7 @@ DamageReport.propTypes = {
 DamageReport.defaultProps = {
   damageMode: DamageMode.ALL,
   generatePdf: false,
+  onStartNewInspection: () => {},
   pdfOptions: undefined,
   vehicleType: VehicleType.CUV,
 };

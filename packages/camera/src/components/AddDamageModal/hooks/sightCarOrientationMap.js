@@ -1,11 +1,6 @@
-export const CarOrientation = {
-  FRONT_LEFT: 0,
-  REAR_LEFT: 1,
-  REAR_RIGHT: 2,
-  FRONT_RIGHT: 3,
-};
+import { CarOrientation } from '@monkvision/inspection-report';
 
-export const sightCarOrientationMap = {
+const sightCarOrientationMap = {
   'jgc21-QIvfeg0X': CarOrientation.FRONT_LEFT, // Front Low
   'jgc21-KyUUVU2P': CarOrientation.FRONT_LEFT, // Hood
   'jgc21-zCrDwYWE': CarOrientation.FRONT_LEFT, // Front Bumper Side Left
@@ -134,3 +129,5 @@ export const sightCarOrientationMap = {
   'ff150-gFp78fQO': CarOrientation.FRONT_RIGHT, // Front Wheel Right
   'ff150-7nvlys8r': CarOrientation.FRONT_RIGHT, // Front Bumper Side Right
 };
+
+export default sightCarOrientationMap;

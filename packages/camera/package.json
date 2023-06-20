@@ -74,6 +74,7 @@
   },
   "peerDependencies": {
     "@monkvision/corejs": "3.7.9",
+    "@monkvision/inspection-report": "3.7.9",
     "@monkvision/sights": "3.7.9",
     "@monkvision/toolkit": "3.7.9",
     "expo-camera": "^12.3.0",

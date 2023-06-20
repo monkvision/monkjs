@@ -20,7 +20,6 @@ export default function useCreateInspection(vehicle) {
         ...taskOptions,
         generate_subimages_parts: {},
       },
-      ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
     return monk.entity.inspection.createOne({
