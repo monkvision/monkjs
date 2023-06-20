@@ -27,7 +27,7 @@ export default function useVinModal({ isAuthenticated, inspectionId, vehicle }) 
         to: redirect,
         inspectionId,
         options,
-        isLastTour: !!inspectionId,
+        isLastTour: true,
       });
       return;
     }
@@ -38,7 +38,7 @@ export default function useVinModal({ isAuthenticated, inspectionId, vehicle }) 
       selectedMod: 'vinNumber',
       vehicle,
       inspectionId,
-      isLastTour: !!inspectionId,
+      isLastTour: true,
     });
   }, [isAuthenticated, inspectionId, navigation, vehicle]);
 

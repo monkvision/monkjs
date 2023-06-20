@@ -68,13 +68,20 @@ const styles = StyleSheet.create({
 
 const initialDamage = { pricing: 1, severity: Severity.LOW };
 
-export default function DamageManipulator({ damageMode, displayMode, onConfirm, damage }) {
+export default function DamageManipulator({
+  damageMode,
+  displayMode,
+  onConfirm,
+  damage,
+  onToggleDamage,
+}) {
   const { t } = useTranslation();
   const [editedDamage, setEditedDamage] = useState(damage);
 
   const toggleSwitch = useCallback(() => {
+    onToggleDamage(!editedDamage);
     setEditedDamage((dmg) => (dmg ? null : initialDamage));
-  }, [editedDamage, damageMode]);
+  }, [onToggleDamage, editedDamage, damageMode]);
 
   const onSliderChange = useCallback((value) => {
     if (value) {
@@ -177,6 +184,7 @@ DamageManipulator.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   displayMode: PropTypes.oneOf(Object.values(DisplayMode)),
   onConfirm: PropTypes.func,
+  onToggleDamage: PropTypes.func,
 };
 
 DamageManipulator.defaultProps = {
@@ -184,4 +192,5 @@ DamageManipulator.defaultProps = {
   damageMode: DamageMode.ALL,
   displayMode: DisplayMode.MINIMAL,
   onConfirm: () => {},
+  onToggleDamage: () => {},
 };

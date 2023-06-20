@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
@@ -33,9 +33,17 @@ const styles = StyleSheet.create({
 });
 
 function TabButton({ color, icon, label, selected, onPress, position }) {
+  const { width } = useWindowDimensions();
+  const maxWidth = useMemo(() => (width / 2) - 25, [width]);
+
   return (
     <TouchableOpacity
-      style={[styles.container, styles[position], selected ? styles.selectedContainer : null]}
+      style={[
+        styles.container,
+        { maxWidth },
+        styles[position],
+        selected ? styles.selectedContainer : null,
+      ]}
       disabled={selected}
       onPress={onPress}
     >
