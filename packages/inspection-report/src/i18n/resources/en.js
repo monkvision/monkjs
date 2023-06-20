@@ -24,6 +24,13 @@ const en = {
       },
       loading: 'Fetching inspection results...',
       notReady: 'Inspection still in progress...',
+      newInspection: 'New Inspection',
+      download: 'Download Report',
+      newInspectionModal: {
+        message: 'If you start a new inspection, you will loose this report. Are you sure you want to continue?',
+        yes: 'Yes',
+        cancel: 'Cancel',
+      },
     },
     gallery: {
       empty: 'This inspection does not have any photo yet.',
