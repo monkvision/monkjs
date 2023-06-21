@@ -15,7 +15,7 @@ const fr = {
       quit: 'Quitter',
     },
     layout: {
-      rotateDevice: 'Veuillez tourner votre appreil ↪',
+      rotateDevice: 'Veuillez tourner votre appareil ↪',
       unlockPortraitMode: 'Vous avez peut-être besoin de déverouiller le mode portrait depuis les paramètres de votre appareil',
     },
     uploadCenter: {
