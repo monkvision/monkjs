@@ -192,15 +192,15 @@ export function useStartUploadAsync({
           if (Platform.OS === 'web') {
             result = await monk.entity.image.addOne(inspectionId, data);
           } else {
-            const response = await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
+            const response = await fetch(`${monk.config.axiosConfig.baseURL}/inspections/${inspectionId}/images`, {
               method: 'post',
               headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': monk.config.accessToken
+                Authorization: monk.config.accessToken,
               },
-              body: data
-            })
-            result = await response.json()
+              body: data,
+            });
+            result = await response.json();
           }
           onPictureUploaded({ result, picture, inspectionId, id });
 
@@ -296,7 +296,7 @@ export function useStartUploadAsync({
       let file;
       if (Platform.OS === 'web') {
         const res = await axios.get(picture.uri, { responseType: 'blob' });
-        fileBits = [res.data];
+        const fileBits = [res.data];
         file = await new File(
           fileBits,
           multiPartKeys.filename,
@@ -306,8 +306,8 @@ export function useStartUploadAsync({
         file = {
           uri: picture.uri,
           type: multiPartKeys.type,
-         name: multiPartKeys.filename
-        }
+          name: multiPartKeys.filename,
+        };
       }
 
       addElement({ multiPartKeys, json, file, id, picture });
@@ -327,7 +327,7 @@ export function useStartUploadAsync({
 
 export function useUploadAdditionalDamage({
   inspectionId,
-  onPictureUploaded = () => {}
+  onPictureUploaded = () => {},
 }) {
   return useCallback(async ({ picture, parts }) => {
     if (!inspectionId) {
@@ -335,7 +335,6 @@ export function useUploadAdditionalDamage({
     }
 
     try {
-
       let fileType;
       let filename;
       let fileKey;
@@ -345,7 +344,7 @@ export function useUploadAdditionalDamage({
         fileKey = 'image';
       } else {
         const fileExtension = picture.uri.split(/[#?]/)[0].split('.').pop().trim();
-        fileType = 'image/' + fileExtension;
+        fileType = `image/${fileExtension}`;
         filename = `close-up-${Date.now()}-${inspectionId}.${fileType}`;
         fileKey = filename;
       }
@@ -379,7 +378,7 @@ export function useUploadAdditionalDamage({
       let file;
       if (Platform.OS === 'web') {
         const res = await axios.get(picture.uri, { responseType: 'blob' });
-        fileBits = [res.data];
+        const fileBits = [res.data];
         file = await new File(
           fileBits,
           multiPartKeys.filename,
@@ -389,8 +388,8 @@ export function useUploadAdditionalDamage({
         file = {
           uri: picture.uri,
           type: multiPartKeys.type,
-         name: multiPartKeys.filename
-        }
+          name: multiPartKeys.filename,
+        };
       }
 
       try {
@@ -401,15 +400,15 @@ export function useUploadAdditionalDamage({
         if (Platform.OS === 'web') {
           result = await monk.entity.image.addOne(inspectionId, data);
         } else {
-          const response = await fetch(monk.config.axiosConfig.baseURL + '/inspections/' + inspectionId + '/images',{
+          const response = await fetch(`${monk.config.axiosConfig.baseURL}/inspections/${inspectionId}/images`, {
             method: 'post',
             headers: {
               'Content-Type': 'multipart/form-data',
-              'Authorization': monk.config.accessToken
+              Authorization: monk.config.accessToken,
             },
-            body: data
+            body: data,
           });
-          result = await response.json()
+          result = await response.json();
         }
 
         onPictureUploaded({ result, picture, inspectionId });
