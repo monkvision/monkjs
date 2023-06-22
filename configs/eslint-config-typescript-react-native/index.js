@@ -6,11 +6,10 @@ module.exports = {
   root: true,
   extends: [
     '@monkvision/eslint-config-typescript',
-    '@react-native-community',
     'plugin:jsx-a11y/recommended',
     'react-app',
   ],
-  plugins: ['react', 'react-native', 'react-hooks', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'jsx-a11y'],
   parser: '@typescript-eslint/parser',
   rules: {
     'indent': ['error', 2],

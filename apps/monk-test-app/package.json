@@ -40,6 +40,14 @@
     "@monkvision/prettier-config": "1.0.0",
     "@monkvision/typescript-config": "1.0.0",
     "eslint": "^8.29.0",
+    "jest": "^29.3.1",
+    "prettier": "^2.7.1",
+    "regexpp": "^3.2.0",
+    "ts-jest": "^29.0.3"
+  },
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-formatter-pretty": "^4.1.0",
@@ -51,15 +59,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-utils": "^3.0.0",
-    "jest": "^29.3.1",
-    "prettier": "^2.7.1",
-    "regexpp": "^3.2.0",
-    "ts-jest": "^29.0.3"
-  },
-  "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.43.0",
-    "@typescript-eslint/parser": "^5.43.0"
+    "eslint-utils": "^3.0.0"
   },
   "prettier": "@monkvision/prettier-config",
   "browserslist": {
