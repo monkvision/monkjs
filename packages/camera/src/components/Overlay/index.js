@@ -1,31 +1,42 @@
-import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
+import React, { useEffect, useMemo } from 'react';
 import log from '../../utils/log';
 
-export default function Overlay({ label, svg, ...passThoughProps }) {
-  const base64 = useMemo(() => btoa(unescape(encodeURIComponent(svg))), [svg]);
+import { useXMLParser } from './hooks';
+import SVGElementMapper from './SVGElementMapper';
+
+export default function Overlay({ label, svg, rootStyles, pathStyles }) {
+  const doc = useXMLParser(svg);
+  const svgElement = useMemo(() => {
+    const svgElm = doc.children[0];
+    if (svgElm.tagName !== 'svg') {
+      throw new Error('Invalid Overlay SVG: expected <svg> tag as the first children of XML document.');
+    }
+    return svgElm;
+  }, [doc]);
 
   useEffect(() => {
     log(['[Event] Loading sight', label]);
   }, [label]);
 
   return (
-    <Image
-      accessibilityLabel={`Overlay ${label}`}
-      source={{ uri: `data:image/svg+xml;base64,${base64}` }}
-      width="100%"
-      height="100%"
-      {...passThoughProps}
+    <SVGElementMapper
+      element={svgElement}
+      rootStyles={rootStyles}
+      pathStyles={pathStyles}
     />
   );
 }
 
 Overlay.propTypes = {
   label: PropTypes.string,
+  pathStyles: PropTypes.object,
+  rootStyles: PropTypes.object,
   svg: PropTypes.string.isRequired,
 };
 
 Overlay.defaultProps = {
   label: '',
+  pathStyles: {},
+  rootStyles: {},
 };
