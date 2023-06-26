@@ -93,7 +93,7 @@ export default function UpdateDamagePopUp({
 }) {
   const { t } = useTranslation();
   const { height: bottomLimitY } = useWindowDimensions();
-  const [displayMode, setDisplayMode] = useState(damage ? DisplayMode.FULL : DisplayMode.MINIMAL);
+  const [displayMode, setDisplayMode] = useState(null);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: bottomLimitY })).current;
 
@@ -115,7 +115,7 @@ export default function UpdateDamagePopUp({
       toValue: { x: 0, y: bottomLimitY },
       duration: 200,
       useNativeDriver: Platform.OS !== 'web',
-    }).start(onDismiss);
+    }).start(() => { console.warn('### FIRST'); onDismiss(); });
   }, [bottomLimitY]);
 
   const onRelease = useCallback(() => {
