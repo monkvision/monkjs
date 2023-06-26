@@ -153,10 +153,10 @@ export default function DamageManipulator({
               <Slider
                 style={{ marginRight: 15 }}
                 minimumValue={0}
-                maximumValue={9999}
+                maximumValue={3000}
                 lowerLimit={0}
-                upperLimit={9999}
-                step={1}
+                upperLimit={3000}
+                step={20}
                 disabled={displayMode === DisplayMode.FULL && !editedDamage}
                 value={editedDamage?.pricing ?? 0}
                 thumbTintColor="#8da8ff"
