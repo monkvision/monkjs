@@ -19,7 +19,6 @@ export default function useCreateInspection(vehicle) {
       damageDetection: {
         ...taskOptions,
         generate_subimages_parts: {},
-        generate_subimages_damages: {},
       },
     };
 
