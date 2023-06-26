@@ -93,42 +93,43 @@ export default function UpdateDamagePopUp({
 }) {
   const { t } = useTranslation();
   const { height: bottomLimitY } = useWindowDimensions();
-  const [displayMode, setDisplayMode] = useState(null);
+  const [displayMode] = useState(damage ? DisplayMode.FULL : DisplayMode.MINIMAL);
+  const [viewMode, setViewMode] = useState(null);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: bottomLimitY })).current;
 
   const handleToggleDamage = useCallback((isToggled) => {
-    setDisplayMode(isToggled ? DisplayMode.FULL : DisplayMode.MINIMAL);
+    setViewMode(isToggled ? DisplayMode.FULL : DisplayMode.MINIMAL);
   }, []);
 
   const scrollIn = useCallback(() => {
-    const toValue = displayMode === DisplayMode.FULL ? topLimitY : bottomLimitY / 1.8;
+    const toValue = viewMode === DisplayMode.FULL ? topLimitY : bottomLimitY / 1.8;
     Animated.timing(pan, {
       toValue: { x: 0, y: toValue },
       duration: 200,
       useNativeDriver: Platform.OS !== 'web',
     }).start();
-  }, [displayMode, bottomLimitY]);
+  }, [viewMode, bottomLimitY]);
 
   const scrollOut = useCallback(() => {
     Animated.timing(pan, {
       toValue: { x: 0, y: bottomLimitY },
       duration: 200,
       useNativeDriver: Platform.OS !== 'web',
-    }).start(() => { console.warn('### FIRST'); onDismiss(); });
+    }).start(onDismiss);
   }, [bottomLimitY]);
 
   const onRelease = useCallback(() => {
-    if (displayMode === DisplayMode.FULL && gestureState.dy >= 0) {
-      setDisplayMode(DisplayMode.MINIMAL);
-    } else if (displayMode === DisplayMode.MINIMAL) {
+    if (viewMode === DisplayMode.FULL && gestureState.dy >= 0) {
+      setViewMode(DisplayMode.MINIMAL);
+    } else if (viewMode === DisplayMode.MINIMAL) {
       if (gestureState.dy <= 0) {
-        setDisplayMode(DisplayMode.FULL);
+        setViewMode(DisplayMode.FULL);
       } else {
         scrollOut();
       }
     }
-  }, [displayMode, gestureState]);
+  }, [viewMode, gestureState]);
 
   const handleConfirm = useCallback((dmg) => {
     onConfirm(dmg);
@@ -165,6 +166,10 @@ export default function UpdateDamagePopUp({
 
   useEffect(() => {
     scrollIn();
+  }, [viewMode]);
+
+  useEffect(() => {
+    setViewMode(displayMode);
   }, [displayMode]);
 
   return (
@@ -189,7 +194,7 @@ export default function UpdateDamagePopUp({
         <DamageManipulator
           damage={damage}
           damageMode={damageMode}
-          displayMode={displayMode}
+          displayMode={viewMode}
           onConfirm={handleConfirm}
           onToggleDamage={handleToggleDamage}
         />
