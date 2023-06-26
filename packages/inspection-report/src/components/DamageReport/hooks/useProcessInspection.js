@@ -51,9 +51,11 @@ export default function useProcessInspection() {
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
-    setIsInspectionReady(axiosResponse.data.tasks.every(
-      (task) => (task.status === monk.types.InspectionStatus.DONE),
-    ));
+    setIsInspectionReady(
+      axiosResponse.data.tasks
+        .filter((task) => (task.name !== 'inspection_pdf'))
+        .every((task) => (task.status === monk.types.InspectionStatus.DONE)),
+    );
     setPictures(getPictures(axiosResponse.data));
     setDamages(getDamages(axiosResponse.data));
   }, []);
