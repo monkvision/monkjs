@@ -349,7 +349,6 @@ const Capture = forwardRef(({
   }, [api, onReady, states]);
 
   const handleAddDamagePressed = useCallback(() => {
-    console.error("handleAddDamagePressed entered")
     if (lastAddDamageHelpTimestamp) {
       setAddDamageStatus(AddDamageStatus.PART_SELECTOR);
     } else {
@@ -369,7 +368,6 @@ const Capture = forwardRef(({
   }, [setAddDamageStatus, setAddDamageParts]);
 
   const handlePartSelectorHelpConfirm = useCallback(() => {
-    console.error("handlePartSelectorHelpConfirm entered")
     fireAddDamageHelpEvent();
     setAddDamageStatus(AddDamageStatus.PART_SELECTOR);
   }, [setAddDamageStatus, fireAddDamageHelpEvent]);
@@ -485,7 +483,6 @@ const Capture = forwardRef(({
     /**
      * create a new transaction with operation name 'Add Damage' to measure tour performance
      */
-    console.error("AddDamageStatus.PART_SELECTOR fired")
     if (addDamageStatus === AddDamageStatus.PART_SELECTOR) {
       utils.log(['[Event] Add-Damage sentry transaction starts']);
       // Start the transaction
@@ -647,7 +644,6 @@ const Capture = forwardRef(({
       />
     );
   }
-  console.error("addDamageStatus = ", addDamageStatus)
   return (
     <View
       accessibilityLabel="Capture component"

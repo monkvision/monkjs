@@ -21,16 +21,10 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
     }
     return undefined;
   }
-
-  // console.error("SVGComponentMapper enter with element == ", element)
-  // console.error("SVGComponentMapper enter with element.attributes.length == ", element.attributes.length)
   const names = [];
   for (let i = 0; i < element.attributes.length; i = i + 1) {
-    console.error("SVGComponentMapper enter with element.attributes[",i,"].name == ",element.attributes[i].name)
     names.push(element.attributes[i].name);
   }
-
-  // console.error("SVGComponentMapper names == ",names)
 
   const attributes = useMemo(() => names.reduce((prev, attr) => ({
     ...prev,
@@ -39,7 +33,6 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
 
   const elementClass = getAttribute(element, 'class');
   const elementId = getAttribute(element, 'id');
-  console.error("SVGComponentMapper elementClass = ",elementClass)
   let partKey = null;
   if (groupName && CAR_PARTS.includes(groupName)) {
     partKey = groupName;
@@ -47,8 +40,6 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
   if (elementClass && elementClass.includes('selectable') && CAR_PARTS.includes(elementId)) {
     partKey = elementId;
   }
-
-  console.error("SVGComponentMapper partKey = ",partKey)
 
   const color = isPartSelected(partKey) ? SELECTED_FILL_COLOR : UNSELECTED_FILL_COLOR;
   const onPress = () => {
@@ -61,12 +52,7 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
       elementChildren.push(element.childNodes[i]);
     }
   }
-
-  // console.error("SVGComponentMapper elementChildren = ",elementChildren)
-  // console.error("SVGComponentMapper brefore children")
-  // console.error("SVGComponentMapper brefore children = ", [...elementChildren])
   const children = useMemo(() => [...elementChildren], [element]);
-  // console.error("SVGComponentMapper children = ", children)
   const passThroughGroupName = useMemo(
     () => {
       if (element.tagName === 'g') {
@@ -77,7 +63,6 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
     [element],
   );
 
-  console.error("SVGComponentMapper after passThroughGroupName")
   if (element.tagName === 'svg') {
     return (
       <Svg {...attributes}>
