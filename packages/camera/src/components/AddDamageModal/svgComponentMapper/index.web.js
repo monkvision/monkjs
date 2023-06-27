@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import useCustomSVGAttributes from './hooks/useCustomSVGAttributes';
+import useCustomSVGAttributes from '../hooks/useCustomSVGAttributes';
 
 const jsxSpecialAttributes = {
   class: 'className',

@@ -25,17 +25,17 @@ function Camera({
   const [cameraRef, setCameraRef] = useState(null);
 
   useImperativeHandle(ref, () => ({
-    async takePictureAsync(options) { 
-      return await cameraRef?.takePictureAsync(options);
+    async takePictureAsync(options) {
+      return cameraRef?.takePictureAsync(options);
     },
     resumePreview() {
-      cameraRef?.resumePreview()
+      cameraRef?.resumePreview();
     },
     pausePreview() {
-      cameraRef?.pausePreview()
-    }
+      cameraRef?.pausePreview();
+    },
   }));
-  
+
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
   const size = getSize(ratio, { windowHeight, windowWidth });
 
@@ -46,8 +46,8 @@ function Camera({
   if (permissions.granted && permissions.status === PermissionStatus.GRANTED) {
     return (
       <ExpoCamera
-        ref={ref => {
-          setCameraRef(ref) ;
+        ref={(reference) => {
+          setCameraRef(reference);
         }}
         ratio={ratio}
         onMountError={handleError}

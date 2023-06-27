@@ -66,14 +66,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   overlayContainer: {
-    position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100vw',
-    height: '95vh',
-    top: '2.5vh',
     zIndex: 99,
+    ...Platform.select({
+      web: {
+        position: 'fixed',
+        height: '95vh',
+        width: '100vw',
+        top: '2.5vh',
+      },
+      native: {
+        position: 'static',
+        height: '95%',
+        width: '100%',
+        top: '2.5%',
+      },
+    })
   },
   addDamageOverlay: {
     fontSize: 14,
@@ -339,6 +349,7 @@ const Capture = forwardRef(({
   }, [api, onReady, states]);
 
   const handleAddDamagePressed = useCallback(() => {
+    console.error("handleAddDamagePressed entered")
     if (lastAddDamageHelpTimestamp) {
       setAddDamageStatus(AddDamageStatus.PART_SELECTOR);
     } else {
@@ -358,6 +369,7 @@ const Capture = forwardRef(({
   }, [setAddDamageStatus, setAddDamageParts]);
 
   const handlePartSelectorHelpConfirm = useCallback(() => {
+    console.error("handlePartSelectorHelpConfirm entered")
     fireAddDamageHelpEvent();
     setAddDamageStatus(AddDamageStatus.PART_SELECTOR);
   }, [setAddDamageStatus, fireAddDamageHelpEvent]);
@@ -473,6 +485,7 @@ const Capture = forwardRef(({
     /**
      * create a new transaction with operation name 'Add Damage' to measure tour performance
      */
+    console.error("AddDamageStatus.PART_SELECTOR fired")
     if (addDamageStatus === AddDamageStatus.PART_SELECTOR) {
       utils.log(['[Event] Add-Damage sentry transaction starts']);
       // Start the transaction
@@ -634,6 +647,7 @@ const Capture = forwardRef(({
       />
     );
   }
+  console.error("addDamageStatus = ", addDamageStatus)
   return (
     <View
       accessibilityLabel="Capture component"
@@ -668,7 +682,9 @@ const Capture = forwardRef(({
           {children}
         </Camera>
       </Layout>
-      {[AddDamageStatus.HELP, AddDamageStatus.PART_SELECTOR].includes(addDamageStatus) ? (
+      {
+        
+      [AddDamageStatus.HELP, AddDamageStatus.PART_SELECTOR].includes(addDamageStatus) ? (
         <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {addDamageStatus === AddDamageStatus.HELP ? (
             <AddDamageHelpModal
@@ -685,7 +701,8 @@ const Capture = forwardRef(({
             />
           ) : null}
         </View>
-      ) : null}
+      ) : null
+      }
       {closeEarlyModalState.show ? (
         <CloseEarlyConfirmModal
           confirmationMessage={closeEarlyModalState.message}

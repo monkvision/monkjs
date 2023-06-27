@@ -14,7 +14,7 @@ export default StyleSheet.create({
     color: 'white',
     ...Platform.select({
       web: {
-        fontFamily: 'monospace'
+        fontFamily: 'monospace',
       },
     }),
     fontSize: 14,

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     color: 'white',
     ...Platform.select({
       web: {
-        fontFamily: 'monospace'
+        fontFamily: 'monospace',
       },
     }),
     textAlign: 'center',

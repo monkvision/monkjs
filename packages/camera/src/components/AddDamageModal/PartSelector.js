@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { useWireframe, useXMLParser } from './hooks';
-import SVGComponentMapper from './SVGComponentMapper';
+import SVGComponentMapper from './svgComponentMapper';
 
 const PART_SELECTOR_CONTAINER_WIDTH = 420;
 const PART_SELECTOR_CONTAINER_HEIGHT_DIMENSION = [

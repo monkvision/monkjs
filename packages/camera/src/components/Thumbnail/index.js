@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     ...Platform.select({
       web: {
-        fontFamily: 'monospace'
+        fontFamily: 'monospace',
       },
     }),
     textAlign: 'center',

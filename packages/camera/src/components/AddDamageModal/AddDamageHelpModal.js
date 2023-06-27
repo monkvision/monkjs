@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 5,
     maxWidth: 400,
-    maxHeight: 235
+    maxHeight: 235,
   },
   header: {
     alignSelf: 'stretch',

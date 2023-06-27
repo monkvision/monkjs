@@ -9,7 +9,7 @@ export const SIDE_WIDTH = SIDE;
 const styles = StyleSheet.create({
   rotate: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   container: {
     flexDirection: 'row',
@@ -79,21 +79,20 @@ function Layout({ backgroundColor, children, isReady, left, right }) {
         <View accessibilityLabel="Side right" style={rightStyle}>{isReady && right}</View>
       </View>
     );
-  } else {
-    return (
-      <View
-        accessibilityLabel="Layout"
-        style={[
-          styles.rotate,
-          { width, height, backgroundColor },
-        ]}
-      >
-        <Text style={styles.title}>
-            {t('layout.rotateDevice')}
-        </Text>
-      </View>
-    );
   }
+  return (
+    <View
+      accessibilityLabel="Layout"
+      style={[
+        styles.rotate,
+        { width, height, backgroundColor },
+      ]}
+    >
+      <Text style={styles.title}>
+        {t('layout.rotateDevice')}
+      </Text>
+    </View>
+  );
 }
 
 Layout.propTypes = {
