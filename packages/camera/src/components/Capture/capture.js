@@ -400,8 +400,13 @@ const Capture = forwardRef(({
       show: false,
       message: '',
     });
-    handleCloseCaptureEarly();
-  }, [setCloseEarlyModalState, handleCloseCaptureEarly]);
+
+    if (addDamageStatus === AddDamageStatus.TAKE_PICTURE) {
+      handleResetDamageStatus();
+    } else {
+      handleCloseCaptureEarly();
+    }
+  }, [addDamageStatus, setCloseEarlyModalState, handleCloseCaptureEarly]);
 
   const handleComplianceCheckFinish = useCallback(() => {
     /**
