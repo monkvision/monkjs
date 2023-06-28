@@ -10,10 +10,7 @@ const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={names.INSPECTION_REPORT}
-        screenOptions={{ headerShown: false }}
-      >
+      <Stack.Navigator initialRouteName={names.LANDING} screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name={names.LANDING}
           component={Screens.Landing}
