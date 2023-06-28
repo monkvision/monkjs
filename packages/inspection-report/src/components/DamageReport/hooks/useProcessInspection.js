@@ -31,8 +31,8 @@ function getDamages(inspection) {
   return inspection.severity_results?.map((severityResult) => ({
     id: severityResult.id,
     part: severityResult.label,
-    images: inspection.damages?.find(
-      (inspectionDmg) => (inspectionDmg.part_ids?.includes(severityResult.related_item_id)),
+    images: inspection.parts?.find(
+      (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
     )?.related_images?.map((relatedImage) => ({ url: relatedImage.path })) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing,
@@ -51,9 +51,11 @@ export default function useProcessInspection() {
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
-    setIsInspectionReady(axiosResponse.data.tasks.every(
-      (task) => (task.status === monk.types.InspectionStatus.DONE),
-    ));
+    setIsInspectionReady(
+      axiosResponse.data.tasks
+        .filter((task) => (task.name !== 'inspection_pdf'))
+        .every((task) => (task.status === monk.types.InspectionStatus.DONE)),
+    );
     setPictures(getPictures(axiosResponse.data));
     setDamages(getDamages(axiosResponse.data));
   }, []);
