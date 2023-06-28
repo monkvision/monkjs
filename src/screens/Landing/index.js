@@ -84,7 +84,7 @@ export default function Landing() {
     return {
       inspectionId: urlParams.get('i'),
       vehicleTypeParam: urlParams.get('v') ?? 1,
-      clientId: clientParam ? ClientParamMap[clientParam] : Clients.DEFAULT,
+      clientId: clientParam ? ClientParamMap[clientParam] : undefined,
       token: compressedToken ? decompress(compressedToken) : undefined,
     };
   }, []);
