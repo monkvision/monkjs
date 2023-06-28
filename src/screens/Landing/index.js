@@ -36,9 +36,9 @@ const ICON_BY_STATUS = {
 };
 
 const ClientParamMap = {
-  0: Clients.DEFAULT,
-  1: Clients.CAT,
-  2: Clients.FASTBACK,
+  d9m: Clients.DEFAULT,
+  pd8: Clients.CAT,
+  '2bd': Clients.FASTBACK,
 };
 
 const VehicleTypeMap = {
@@ -76,20 +76,22 @@ export default function Landing() {
     setClient(client);
   }, [setClient]);
 
-  const { inspectionId, token, vehicleTypeParam } = useMemo(() => {
+  const { clientId, inspectionId, token, vehicleTypeParam } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const compressedToken = urlParams.get('t');
+    const clientParam = urlParams.get('c');
 
     return {
       inspectionId: urlParams.get('i'),
       vehicleTypeParam: urlParams.get('v') ?? 1,
+      clientId: clientParam ? ClientParamMap[clientParam] : Clients.DEFAULT,
       token: compressedToken ? decompress(compressedToken) : undefined,
     };
   }, []);
 
   const invalidParams = useMemo(
-    () => (!inspectionId || !token),
-    [inspectionId, token],
+    () => (!clientId || !inspectionId || !token),
+    [clientId, inspectionId, token],
   );
 
   useEffect(() => {
