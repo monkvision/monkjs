@@ -89,6 +89,7 @@ export default function UpdateDamagePopUp({
   onDismiss,
   onConfirm,
   onShowGallery,
+  isEditable,
   style = {},
 }) {
   const { t } = useTranslation();
@@ -197,6 +198,7 @@ export default function UpdateDamagePopUp({
           displayMode={viewMode}
           onConfirm={handleConfirm}
           onToggleDamage={handleToggleDamage}
+          isEditable={isEditable}
         />
       </Animated.View>
     </View>
@@ -207,6 +209,7 @@ UpdateDamagePopUp.propTypes = {
   damage: CommonPropTypes.damageWithoutPart,
   damageMode: CommonPropTypes.damageMode,
   imageCount: PropTypes.number,
+  isEditable: PropTypes.bool,
   onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
   onShowGallery: PropTypes.func,
@@ -217,6 +220,7 @@ UpdateDamagePopUp.propTypes = {
 UpdateDamagePopUp.defaultProps = {
   damage: undefined,
   damageMode: DamageMode.ALL,
+  isEditable: true,
   imageCount: 0,
   onConfirm: () => {},
   onDismiss: () => {},

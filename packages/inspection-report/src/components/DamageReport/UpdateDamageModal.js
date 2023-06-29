@@ -10,7 +10,7 @@ import {
   Text,
   View,
   useWindowDimensions,
-  Platform, TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, images }) {
+function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, images, isEditable }) {
   const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -231,6 +231,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
               damageMode={damageMode}
               displayMode="full"
               onConfirm={onConfirm}
+              isEditable={isEditable}
             />
           </View>
         </View>
@@ -247,6 +248,7 @@ UpdateDamageModal.propTypes = {
       url: PropTypes.string,
     }),
   ),
+  isEditable: PropTypes.bool,
   onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
   part: CommonPropTypes.partName,
@@ -256,6 +258,7 @@ UpdateDamageModal.defaultProps = {
   damage: undefined,
   damageMode: DamageMode.ALL,
   images: [],
+  isEditable: true,
   onConfirm: () => {},
   onDismiss: () => {},
   part: '',

@@ -1,14 +1,14 @@
+import { Loader } from '@monkvision/ui';
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Loader } from '@monkvision/ui';
 
 import { CommonPropTypes, DamageMode, VehicleType } from '../../resources';
 import { IconButton } from '../common';
 import Gallery from '../Gallery';
-import { useDamageReportStateHandlers, useFetchInspection, usePdfReport, PdfStatus } from './hooks';
-import NewInspectionConfirmModal from './NewInspectionConfirmModal';
+import ConfirmModal from './ConfirmModal';
+import { PdfStatus, useConfirmModals, useDamageReportStateHandlers, useFetchInspection, usePdfReport } from './hooks';
 import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
@@ -99,7 +99,6 @@ export default function DamageReport({
 }) {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
-  const [showNewInspectionConfirm, setShowNewInspectionConfirm] = useState(false);
 
   const {
     isLoading,
@@ -118,6 +117,7 @@ export default function DamageReport({
       editedDamageImages,
       isPopUpVisible,
       isModalVisible,
+      isEditable,
     },
     handlePopUpDismiss,
     handleShowGallery,
@@ -125,18 +125,35 @@ export default function DamageReport({
     handlePartPressed,
     handlePillPressed,
     handleSaveDamage,
+    setIsEditable,
   } = useDamageReportStateHandlers({
     inspectionId,
     damages,
     setDamages,
   });
 
-  const { pdfStatus, handleDownload } = usePdfReport({
+  const {
+    pdfStatus,
+    requestPdf,
+    handleDownload,
+  } = usePdfReport({
     inspectionId,
     isInspectionReady,
     generatePdf,
     customer: pdfOptions?.customer,
     clientName: pdfOptions?.clientName,
+  });
+
+  const {
+    confirmModal,
+    handleHideConfirmModal,
+    handleValidateInspection,
+    handleNewInspection,
+  } = useConfirmModals({
+    generatePdf,
+    requestPdf,
+    setIsEditable,
+    onStartNewInspection,
   });
 
   const pdfIconColor = useMemo(() => {
@@ -199,24 +216,26 @@ export default function DamageReport({
           </View>
           <View>
             {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
-            <View style={[styles.notReadyContainer]}>
-              <Loader texts={[t('damageReport.notReady')]} />
-            </View>
+              <View style={[styles.notReadyContainer]}>
+                <Loader texts={[t('damageReport.notReady')]} />
+              </View>
             )}
             {currentTab === Tabs.OVERVIEW && isInspectionReady && (
-            <Overview
-              damages={damages}
-              damageMode={damageMode}
-              vehicleType={vehicleType}
-              onPressPart={handlePartPressed}
-              onPressPill={handlePillPressed}
-              generatePdf={generatePdf}
-              pdfHandles={{ pdfStatus, handleDownload }}
-              onStartNewInspection={() => setShowNewInspectionConfirm(true)}
-            />
+              <Overview
+                isInspectionCompleted={!isEditable}
+                damages={damages}
+                damageMode={damageMode}
+                vehicleType={vehicleType}
+                onPressPart={handlePartPressed}
+                onPressPill={handlePillPressed}
+                generatePdf={generatePdf}
+                onValidateInspection={handleValidateInspection}
+                pdfHandles={{ pdfStatus, handleDownload }}
+                onStartNewInspection={handleNewInspection}
+              />
             )}
             {currentTab === Tabs.GALLERY && (
-            <Gallery pictures={pictures} />
+              <Gallery pictures={pictures} />
             )}
           </View>
         </>
@@ -232,6 +251,7 @@ export default function DamageReport({
               onDismiss={handlePopUpDismiss}
               onShowGallery={handleShowGallery}
               onConfirm={handleSaveDamage}
+              isEditable={isEditable}
             />
           )
         }
@@ -244,14 +264,16 @@ export default function DamageReport({
               onConfirm={handleSaveDamage}
               onDismiss={handleGalleryDismiss}
               part={editedDamagePart}
+              isEditable={isEditable}
             />
           )
         }
-      {showNewInspectionConfirm && (
-      <NewInspectionConfirmModal
-        onConfirm={onStartNewInspection}
-        onCancel={() => setShowNewInspectionConfirm(false)}
-      />
+      {confirmModal && (
+        <ConfirmModal
+          texts={confirmModal.texts}
+          onConfirm={confirmModal.onConfirm}
+          onCancel={handleHideConfirmModal}
+        />
       )}
     </View>
   );
