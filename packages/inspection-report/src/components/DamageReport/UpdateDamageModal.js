@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 282,
     width: '100%',
-    padding: 10,
   },
   carouselCard: {
     height: '100%',
