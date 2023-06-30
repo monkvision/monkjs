@@ -17,10 +17,6 @@
 node_modules
 .idea
 
-# production
-apps/monk-test-app/build
-apps/monk-test-app-native/build
-
 # testing
 coverage/
 

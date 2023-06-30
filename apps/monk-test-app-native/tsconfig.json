@@ -1,4 +1,4 @@
 {
-  "extends": "@monkvision/typescript-config/tsconfig.reactnative.json",
+  "extends": "@monkvision/typescript-config/tsconfig.react-native.json",
   "include": ["src"]
 }
