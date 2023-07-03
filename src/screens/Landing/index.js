@@ -39,6 +39,7 @@ const ClientParamMap = {
   d9m: Clients.DEFAULT,
   pd8: Clients.CAT,
   '2bd': Clients.FASTBACK,
+  a3o: Clients.ALPHA,
 };
 
 const VehicleTypeMap = {
