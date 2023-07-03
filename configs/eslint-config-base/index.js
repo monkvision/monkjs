@@ -6,12 +6,20 @@ module.exports = {
   root: true,
   extends: [
     'airbnb-base',
-    'plugin:promise/recommended',
+    'eslint:recommended',
+    'plugin:jest/recommended',
+    'plugin:import/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:prettier/recommended',
+    'plugin:promise/recommended',
   ],
-  plugins: ['jest', 'import', 'prettier'],
+  plugins: ['import', 'prettier', 'jest'],
+  env: {
+    browser: true,
+    es6: true,
+    jest: true,
+  },
   settings: {
     'import/resolver': {
       node: {

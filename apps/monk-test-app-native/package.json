@@ -1,16 +1,16 @@
 {
-  "name": "@monkvision/monk-test-app",
+  "name": "@monkvision/monk-test-app-native",
   "version": "1.0.0",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
-  "description": "MonkJs test app with react and typescript",
+  "description": "MonkJs test app with react-native and typescript",
   "author": "monkvision",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --no-watch --no-watchAll",
-    "eject": "react-scripts eject",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
     "eslint": "eslint --format=pretty ./src",
@@ -25,23 +25,32 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.18",
-    "@types/react": "^18.0.28",
+    "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.11",
-    "react": "^18.2.0",
+    "@types/react-test-renderer": "^18.0.0",
+    "react": "18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "react-native": "0.71.8",
+    "typescript": "4.8.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@babel/preset-env": "^7.20.0",
+    "@babel/runtime": "^7.20.0",
     "@monkvision/eslint-config-base": "1.0.0",
     "@monkvision/eslint-config-typescript": "1.0.0",
-    "@monkvision/eslint-config-typescript-react": "1.0.0",
+    "@monkvision/eslint-config-typescript-react-native": "1.0.0",
     "@monkvision/prettier-config": "1.0.0",
     "@monkvision/typescript-config": "1.0.0",
+    "@react-native-community/eslint-config": "*",
+    "@react-native-community/eslint-plugin": "*",
+    "@tsconfig/react-native": "^2.0.2",
+    "babel-jest": "^29.2.1",
     "eslint": "^8.29.0",
     "jest": "^29.3.1",
+    "metro-react-native-babel-preset": "0.73.9",
     "prettier": "^2.7.1",
+    "react-test-renderer": "18.2.0",
     "regexpp": "^3.2.0",
     "ts-jest": "^29.0.3"
   },
@@ -59,19 +68,14 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-native": "^4.0.0",
     "eslint-utils": "^3.0.0"
   },
-  "prettier": "@monkvision/prettier-config",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "prettier": "@monkvision/prettier-config"
 }

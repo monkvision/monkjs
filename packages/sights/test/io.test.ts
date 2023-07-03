@@ -82,7 +82,7 @@ describe('I/O module', () => {
       expect(result).toBe(true);
     });
 
-    it('should create the directory and return true if it does not exist', () => {
+    it('should create the directory and return false if it does not exist', () => {
       const path = 'path';
       fs.existsSync = jest.fn().mockImplementation((p: PathLike) => p === path);
       const mkdirSpy = jest.spyOn(fs, 'mkdirSync');
