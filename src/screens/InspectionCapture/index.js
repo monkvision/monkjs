@@ -202,7 +202,7 @@ export default function InspectionCapture() {
         colors={colors}
         vehicleType={vehicleType}
         selectedMode={selectedMode}
-        // overlayPathStyles={{ strokeWidth: 8 }}
+        overlayPathStyles={{ strokeWidth: 2 }}
       />
       <Notice />
     </View>

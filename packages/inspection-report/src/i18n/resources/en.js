@@ -24,12 +24,30 @@ const en = {
       },
       loading: 'Fetching inspection results...',
       notReady: 'Inspection still in progress...',
+      validate: 'Validate',
       newInspection: 'New Inspection',
       download: 'Download Report',
-      newInspectionModal: {
-        message: 'If you start a new inspection, you will loose this report. Are you sure you want to continue?',
-        yes: 'Yes',
-        cancel: 'Cancel',
+      pdfStatus: {
+        generating: 'Your PDF report is being generated...',
+        ready: 'Your PDF report is ready',
+        error: 'An error occurred during the generation of your PDF report',
+      },
+      modals: {
+        validate: {
+          message: 'Are you sure you want to validate this report? You won\'t be able to edit the report after this.',
+          yes: 'Yes',
+          cancel: 'Cancel',
+        },
+        validateWithPDF: {
+          message: 'Are you sure you want to validate this report and generate the PDF? You won\'t be able to edit the report any more.',
+          yes: 'Yes',
+          cancel: 'Cancel',
+        },
+        newInspection: {
+          message: 'If you start a new inspection, you will loose this report. Are you sure you want to continue?',
+          yes: 'Yes',
+          cancel: 'Cancel',
+        },
       },
     },
     gallery: {

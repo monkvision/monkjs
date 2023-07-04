@@ -24,12 +24,30 @@ const fr = {
       },
       loading: 'Récupération des résultats...',
       notReady: 'Inspection en cours...',
+      validate: 'Valider',
       newInspection: 'Nouvelle inspection',
       download: 'Télécharger le rapport',
-      newInspectionModal: {
-        message: 'Si vous commencer une nouvelle inspection vous perdrez ce rapport. Êtes-vous sûr(e) de vouloir continuer ?',
-        yes: 'Oui',
-        cancel: 'Annuler',
+      pdfStatus: {
+        generating: 'Génération du rapport PDF en cours...',
+        ready: 'Le rapport PDF est prêt',
+        error: 'Une erreur est survenue lors de la génération du rapport PDF',
+      },
+      modals: {
+        validate: {
+          message: 'Êtes-vous sûr(e) de vouloir valider ce rapport ? Vous ne pourrez plus le modifier après cela.',
+          yes: 'Oui',
+          cancel: 'Annuler',
+        },
+        validateWithPDF: {
+          message: '\'Êtes-vous sûr(e) de vouloir valider ce rapport et générer le PDF ? Vous ne pourrez plus le modifier après cela.',
+          yes: 'Oui',
+          cancel: 'Annuler',
+        },
+        newInspection: {
+          message: 'Si vous commencer une nouvelle inspection vous perdrez ce rapport. Êtes-vous sûr(e) de vouloir continuer ?',
+          yes: 'Oui',
+          cancel: 'Annuler',
+        },
       },
     },
     gallery: {

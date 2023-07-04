@@ -3,8 +3,8 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { IconSeverityNone } from '../../../assets';
-import { CommonPropTypes, DamageMode, SeveritiesWithIcon } from '../../../resources';
+import { IconSeverityNone, SeveritiesWithIcon } from '../../../assets';
+import { CommonPropTypes, DamageMode } from '../../../resources';
 
 const styles = StyleSheet.create({
   container: {

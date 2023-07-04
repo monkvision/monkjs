@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Animated,
@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 10,
   },
+  previewContainer: {
+    backgroundColor: '#000000',
+    flex: 1,
+    paddingVertical: 10,
+  },
   closeButtonWrapper: {
     alignItems: 'center',
     color: '#fff',
@@ -32,6 +37,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 15,
     paddingBottom: 10,
+  },
+  previewCloseWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingBottom: 10,
+  },
+  previewPictureContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     color: '#fff',
@@ -44,7 +64,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 282,
     width: '100%',
-    padding: 10,
   },
   carouselCard: {
     height: '100%',
@@ -77,12 +96,20 @@ const styles = StyleSheet.create({
   },
 });
 
-function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, images }) {
+function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, images, isEditable }) {
   const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  const [fullScreenPhoto, setFullScreenPhoto] = useState(null);
+
+  const onPanResponderRelease = useCallback((event, gs) => {
+    setGestureState({ dx: gs.dx });
+    if (gs.dx === 0 && images[currentPhotoIndex]) {
+      setFullScreenPhoto(images[currentPhotoIndex]);
+    }
+  }, [currentPhotoIndex, images]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -90,14 +117,14 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
       onStartShouldSetPanResponderCapture: () => true,
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-      onPanResponderMove: (event, gestureStat) => {
-        setGestureState({ x: gestureStat.dx });
+      onPanResponderMove: (event, gs) => {
+        setGestureState({ x: gs.dx });
       },
-      onPanResponderRelease: (event, gestureStat) => {
-        setGestureState({ dx: gestureStat.dx });
-      },
+      onPanResponderRelease,
     }),
   ).current;
+
+  const handleClosePreview = useCallback(() => setFullScreenPhoto(null), []);
 
   useEffect(() => {
     if (gestureState.dx < 0 && currentPhotoIndex < images.length - 1) {
@@ -129,57 +156,85 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
       visible
       onRequestClose={onDismiss}
     >
-      <View style={styles.container}>
-        <View style={styles.closeButtonWrapper}>
-          <Pressable
-            onPress={onDismiss}
-            style={styles.closeIconWrapper}
-          >
-            <MaterialIcons
-              color="#fff"
-              name="close"
-              size={32}
-              style={styles.closeIcon}
+      {fullScreenPhoto ? (
+        <View style={styles.previewContainer}>
+          <View style={styles.previewCloseWrapper}>
+            <Pressable
+              onPress={handleClosePreview}
+            >
+              <MaterialIcons
+                color="#fff"
+                name="close"
+                size={32}
+                style={styles.closeIcon}
+              />
+            </Pressable>
+          </View>
+          <View style={styles.previewPictureContainer}>
+            <Image
+              source={{
+                width: '100%',
+                height: '100%',
+                uri: fullScreenPhoto.url,
+              }}
+              style={{ resizeMode: 'contain' }}
             />
-          </Pressable>
-          <Text style={styles.header}>{t(`damageReport.parts.${part}`)}</Text>
-        </View>
-        <View
-          style={[styles.carouselWrapper, { height: height / 3 }]}
-          {...panResponder.panHandlers}
-        >
-          {
-            images.map((image, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Animated.View style={[styles.carouselCard, { left: pan.x, width }]} key={`${image.url}-${index}`}>
-                <Image
-                  source={{
-                    width: '100%',
-                    height: '100%',
-                    uri: image?.url,
-                  }}
-                  style={{ resizeMode: 'cover' }}
-                />
-              </Animated.View>
-            ))
-          }
-          <View style={styles.counterContainer}>
-            <Text style={styles.counter}>
-              {currentPhotoIndex + 1}
-              /
-              {images.length}
-            </Text>
           </View>
         </View>
-        <View style={[styles.damageManipulatorContainer]}>
-          <DamageManipulator
-            damage={damage}
-            damageMode={damageMode}
-            displayMode="full"
-            onConfirm={onConfirm}
-          />
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.closeButtonWrapper}>
+            <Pressable
+              onPress={onDismiss}
+              style={styles.closeIconWrapper}
+            >
+              <MaterialIcons
+                color="#fff"
+                name="close"
+                size={32}
+                style={styles.closeIcon}
+              />
+            </Pressable>
+            <Text style={styles.header}>{t(`damageReport.parts.${part}`)}</Text>
+          </View>
+          <View
+            style={[styles.carouselWrapper, { height: height / 3 }]}
+            {...panResponder.panHandlers}
+          >
+            {
+                images.map((image, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <Animated.View style={[styles.carouselCard, { left: pan.x, width }]} key={`${image.url}-${index}`}>
+                    <Image
+                      source={{
+                        width: '100%',
+                        height: '100%',
+                        uri: image?.url,
+                      }}
+                      style={{ resizeMode: 'cover' }}
+                    />
+                  </Animated.View>
+                ))
+              }
+            <View style={styles.counterContainer}>
+              <Text style={styles.counter}>
+                {images.length === 0 ? 0 : (currentPhotoIndex + 1)}
+                /
+                {images.length}
+              </Text>
+            </View>
+          </View>
+          <View style={[styles.damageManipulatorContainer]}>
+            <DamageManipulator
+              damage={damage}
+              damageMode={damageMode}
+              displayMode="full"
+              onConfirm={onConfirm}
+              isEditable={isEditable}
+            />
+          </View>
         </View>
-      </View>
+      )}
     </Modal>
   );
 }
@@ -192,6 +247,7 @@ UpdateDamageModal.propTypes = {
       url: PropTypes.string,
     }),
   ),
+  isEditable: PropTypes.bool,
   onConfirm: PropTypes.func,
   onDismiss: PropTypes.func,
   part: CommonPropTypes.partName,
@@ -201,6 +257,7 @@ UpdateDamageModal.defaultProps = {
   damage: undefined,
   damageMode: DamageMode.ALL,
   images: [],
+  isEditable: true,
   onConfirm: () => {},
   onDismiss: () => {},
   part: '',

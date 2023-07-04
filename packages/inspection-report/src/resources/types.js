@@ -1,6 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-import { IconSeverityHigh, IconSeverityLow, IconSeverityMedium } from '../assets';
-
 export const DisplayMode = {
   MINIMAL: 'minimal',
   FULL: 'full',
@@ -17,12 +14,6 @@ export const Severity = {
   MEDIUM: 'medium',
   HIGH: 'high',
 };
-
-export const SeveritiesWithIcon = [
-  { key: Severity.LOW, Icon: IconSeverityLow },
-  { key: Severity.MEDIUM, Icon: IconSeverityMedium },
-  { key: Severity.HIGH, Icon: IconSeverityHigh },
-];
 
 export const CarOrientation = {
   FRONT_LEFT: 0,

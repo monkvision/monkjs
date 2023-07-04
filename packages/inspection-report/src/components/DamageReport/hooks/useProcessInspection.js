@@ -3,6 +3,8 @@ import monk from '@monkvision/corejs';
 
 import { Severity } from '../../../resources';
 
+const MAX_RELATED_IMAGES = 5;
+
 function getSeverity(severityNumber) {
   switch (severityNumber) {
     case 1:
@@ -33,7 +35,9 @@ function getDamages(inspection) {
     part: severityResult.label,
     images: inspection.parts?.find(
       (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
-    )?.related_images?.map((relatedImage) => ({ url: relatedImage.path })) ?? [],
+    )?.related_images?.slice(0, MAX_RELATED_IMAGES)?.map(
+      (relatedImage) => ({ url: relatedImage.path }),
+    ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing,
   })) ?? [];
