@@ -11,6 +11,7 @@ export default function useDamageReportStateHandlers({
   const [editedDamageImages, setEditedDamageImages] = useState(undefined);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
 
   const state = useMemo(() => ({
     editedDamage,
@@ -18,12 +19,14 @@ export default function useDamageReportStateHandlers({
     editedDamageImages,
     isPopUpVisible,
     isModalVisible,
+    isEditable,
   }), [
     editedDamage,
     editedDamagePart,
     editedDamageImages,
     isPopUpVisible,
     isModalVisible,
+    isEditable,
   ]);
 
   const {
@@ -54,13 +57,15 @@ export default function useDamageReportStateHandlers({
   }, []);
 
   const handlePartPressed = useCallback((partName) => {
-    const damage = damages.find((dmg) => dmg.part === partName);
-    if (!damage) {
-      setEditedDamagePart(partName);
-      setEditedDamageImages([]);
-      setIsPopUpVisible(true);
+    if (isEditable) {
+      const damage = damages.find((dmg) => dmg.part === partName);
+      if (!damage) {
+        setEditedDamagePart(partName);
+        setEditedDamageImages([]);
+        setIsPopUpVisible(true);
+      }
     }
-  }, [damages]);
+  }, [isEditable, damages]);
 
   const handlePillPressed = useCallback((partName) => {
     const damage = damages.find((dmg) => dmg.part === partName);
@@ -114,36 +119,39 @@ export default function useDamageReportStateHandlers({
   }, [damages, updateDamage]);
 
   const handleSaveDamage = useCallback((partialDamage) => {
-    if (!partialDamage) {
-      // Removing the damage
-      handleRemoveDamage();
-    } else {
-      // Creating or updating a damage
-      const damage = {
-        part: editedDamagePart,
-        images: editedDamageImages,
-        ...partialDamage,
-      };
-      if (!editedDamage) {
-        // Creating a new displayed damage
-        const hiddenDamage = damages.find((dmg) => dmg.part === damage.part);
-        if (hiddenDamage) {
-          // A damage already existed for this part, it was just hidden with a pricing = 0
-          damage.id = hiddenDamage;
-          handleUpdateDamage(damage);
-        } else {
-          // Creating a completely new damage
-          handleCreateDamage(damage);
-        }
+    if (isEditable) {
+      if (!partialDamage) {
+        // Removing the damage
+        handleRemoveDamage();
       } else {
-        // Editing a damage
-        handleUpdateDamage(damage);
+        // Creating or updating a damage
+        const damage = {
+          part: editedDamagePart,
+          images: editedDamageImages,
+          ...partialDamage,
+        };
+        if (!editedDamage) {
+          // Creating a new displayed damage
+          const hiddenDamage = damages.find((dmg) => dmg.part === damage.part);
+          if (hiddenDamage) {
+            // A damage already existed for this part, it was just hidden with a pricing = 0
+            damage.id = hiddenDamage;
+            handleUpdateDamage(damage);
+          } else {
+            // Creating a completely new damage
+            handleCreateDamage(damage);
+          }
+        } else {
+          // Editing a damage
+          handleUpdateDamage(damage);
+        }
       }
     }
     resetEditedDamageState();
     setIsPopUpVisible(false);
     setIsModalVisible(false);
   }, [
+    isEditable,
     handleRemoveDamage,
     editedDamagePart,
     editedDamageImages,
@@ -164,5 +172,6 @@ export default function useDamageReportStateHandlers({
     handlePartPressed,
     handlePillPressed,
     handleSaveDamage,
+    setIsEditable,
   };
 }

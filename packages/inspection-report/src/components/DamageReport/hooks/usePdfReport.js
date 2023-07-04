@@ -51,11 +51,6 @@ export default function usePdfReport({
     language: i18n.language?.substring(0, 2) ?? 'en',
   }), [i18n.language]);
 
-  const requestPdf = useCallback(
-    () => monk.entity.inspection.requestInspectionReportPdf(inspectionId, pdfRequestPayload),
-    [inspectionId, pdfRequestPayload],
-  );
-
   const fetchPdf = useCallback(
     () => monk.entity.inspection.getInspectionReportPdf(inspectionId).then((res) => {
       if (res.axiosResponse?.data?.pdfUrl) {
@@ -75,21 +70,23 @@ export default function usePdfReport({
   );
 
   useEffect(() => {
-    if (generatePdf && isInspectionReady && pdfStatus === PdfStatus.NOT_REQUESTED) {
-      requestPdf().then(() => setPdfStatus(PdfStatus.REQUESTED)).catch((err) => {
-        console.error('Error while trying to request the PDF generation :', err);
-        setPdfStatus(PdfStatus.ERROR);
-      });
-    }
-  }, [isInspectionReady, pdfStatus]);
-
-  useEffect(() => {
     if (pdfStatus === PdfStatus.REQUESTED) {
       const interval = setInterval(() => fetchPdf(), fetchInterval);
       return () => clearInterval(interval);
     }
     return () => {};
   }, [pdfStatus, fetchPdf]);
+
+  const requestPdf = useCallback(
+    () => monk.entity.inspection
+      .requestInspectionReportPdf(inspectionId, pdfRequestPayload)
+      .then(() => setPdfStatus(PdfStatus.REQUESTED))
+      .catch((err) => {
+        console.error('Error while trying to request the PDF generation :', err);
+        setPdfStatus(PdfStatus.ERROR);
+      }),
+    [generatePdf, inspectionId, isInspectionReady, pdfRequestPayload, pdfStatus],
+  );
 
   const handleDownload = useCallback(() => {
     if (pdfStatus !== PdfStatus.READY) {
@@ -103,6 +100,7 @@ export default function usePdfReport({
 
   return {
     pdfStatus,
+    requestPdf,
     handleDownload,
   };
 }

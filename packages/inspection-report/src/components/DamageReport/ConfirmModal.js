@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function NewInspectionConfirmModal({
+export default function ConfirmModal({
+  texts,
   onCancel,
   onConfirm,
 }) {
@@ -52,19 +53,19 @@ export default function NewInspectionConfirmModal({
   return (
     <View style={[styles.container]}>
       <View style={[styles.confirmPopup, { width: width - 60 }]}>
-        <Text style={[styles.confirmMessage]}>{ t('damageReport.newInspectionModal.message') }</Text>
+        <Text style={[styles.confirmMessage]}>{ t(texts.message) }</Text>
         <View style={[styles.confirmButtonsContainer]}>
           <TouchableOpacity
             style={[styles.confirmButton]}
             onPress={onConfirm}
           >
-            <Text style={[styles.confirmButtonText]}>{ t('damageReport.newInspectionModal.yes') }</Text>
+            <Text style={[styles.confirmButtonText]}>{ t(texts.yes) }</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.confirmButton]}
             onPress={onCancel}
           >
-            <Text style={[styles.confirmButtonText]}>{ t('damageReport.newInspectionModal.cancel') }</Text>
+            <Text style={[styles.confirmButtonText]}>{ t(texts.cancel) }</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -72,12 +73,17 @@ export default function NewInspectionConfirmModal({
   );
 }
 
-NewInspectionConfirmModal.propTypes = {
+ConfirmModal.propTypes = {
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
+  texts: PropTypes.shape({
+    cancel: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    yes: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-NewInspectionConfirmModal.defaultProps = {
+ConfirmModal.defaultProps = {
   onCancel: () => {},
   onConfirm: () => {},
 };

@@ -1,3 +1,4 @@
+import { Loader } from '@monkvision/ui/src';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +43,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
   },
+  pdfStatus: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    paddingTop: 16,
+  },
 });
+
+const PdfStatusMessages = {
+  [PdfStatus.REQUESTED]: 'damageReport.pdfStatus.generating',
+  [PdfStatus.READY]: 'damageReport.pdfStatus.ready',
+  [PdfStatus.ERROR]: 'damageReport.pdfStatus.error',
+};
 
 export default function Overview({
   damages,
@@ -51,6 +63,8 @@ export default function Overview({
   onPressPart,
   onPressPill,
   generatePdf,
+  isInspectionCompleted,
+  onValidateInspection,
   pdfHandles: { pdfStatus, handleDownload },
   onStartNewInspection,
 }) {
@@ -96,22 +110,36 @@ export default function Overview({
           onSelectOrientation={setOrientation}
         />
         <View style={[styles.buttonsContainer]}>
-          <TouchableOpacity
-            style={[styles.button]}
-            onPress={onStartNewInspection}
-          >
-            <Text style={[styles.buttonText]}>{ t('damageReport.newInspection') }</Text>
-          </TouchableOpacity>
-          {generatePdf && (
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: pdfButtonColor }]}
-            onPress={handleDownload}
-            disabled={pdfStatus !== PdfStatus.READY}
-          >
-            <Text style={[styles.buttonText]}>{ t('damageReport.download') }</Text>
-          </TouchableOpacity>
+          {isInspectionCompleted ? (
+            <>
+              <TouchableOpacity
+                style={[styles.button]}
+                onPress={onStartNewInspection}
+              >
+                <Text style={[styles.buttonText]}>{ t('damageReport.newInspection') }</Text>
+              </TouchableOpacity>
+              {generatePdf && (
+                <TouchableOpacity
+                  style={[styles.button, { backgroundColor: pdfButtonColor }]}
+                  onPress={handleDownload}
+                  disabled={pdfStatus !== PdfStatus.READY}
+                >
+                  <Text style={[styles.buttonText]}>{ t('damageReport.download') }</Text>
+                </TouchableOpacity>
+              )}
+            </>
+          ) : (
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={onValidateInspection}
+            >
+              <Text style={[styles.buttonText]}>{ t('damageReport.validate') }</Text>
+            </TouchableOpacity>
           )}
         </View>
+        {[PdfStatus.REQUESTED, PdfStatus.READY, PdfStatus.ERROR].includes(pdfStatus) && (
+          <Text style={[styles.pdfStatus]}>{ t(PdfStatusMessages[pdfStatus]) }</Text>
+        )}
       </View>
     </View>
   );
@@ -121,9 +149,11 @@ Overview.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   damages: PropTypes.arrayOf(CommonPropTypes.damage),
   generatePdf: PropTypes.bool,
+  isInspectionCompleted: PropTypes.bool,
   onPressPart: PropTypes.func,
   onPressPill: PropTypes.func,
   onStartNewInspection: PropTypes.func,
+  onValidateInspection: PropTypes.func,
   pdfHandles: PropTypes.shape({
     handleDownload: PropTypes.func.isRequired,
     pdfStatus: PropTypes.oneOf(Object.values(PdfStatus)).isRequired,
@@ -135,8 +165,10 @@ Overview.defaultProps = {
   damageMode: DamageMode.ALL,
   damages: [],
   generatePdf: false,
+  isInspectionCompleted: false,
   onPressPart: () => {},
   onPressPill: () => {},
   onStartNewInspection: () => {},
+  onValidateInspection: () => {},
   vehicleType: VehicleType.CUV,
 };

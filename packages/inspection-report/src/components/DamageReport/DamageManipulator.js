@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { CommonPropTypes, DamageMode, DisplayMode, SeveritiesWithIcon, Severity } from '../../resources';
+import { IconSeverity, SeveritiesWithIcon } from '../../assets';
+import { CommonPropTypes, DamageMode, DisplayMode, Severity } from '../../resources';
 import { TextButton, SwitchButton } from '../common';
 
 const styles = StyleSheet.create({
@@ -64,6 +65,13 @@ const styles = StyleSheet.create({
   disabled: {
     opacity: 0.5,
   },
+  severityUneditable: {
+    paddingVertical: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 const initialDamage = { pricing: 1, severity: Severity.LOW };
@@ -74,6 +82,7 @@ export default function DamageManipulator({
   onConfirm,
   damage,
   onToggleDamage,
+  isEditable,
 }) {
   const { t } = useTranslation();
   const [editedDamage, setEditedDamage] = useState(damage);
@@ -109,7 +118,9 @@ export default function DamageManipulator({
             {t(`damageManipulator.${editedDamage ? 'damaged' : 'notDamaged'}`)}
           </Text>
         </View>
-        <SwitchButton onPress={toggleSwitch} isEnabled={!!editedDamage} />
+        {isEditable && (
+          <SwitchButton onPress={toggleSwitch} isEnabled={!!editedDamage} />
+        )}
       </View>
       {
         ([DamageMode.SEVERITY, DamageMode.ALL].includes(damageMode)
@@ -121,21 +132,28 @@ export default function DamageManipulator({
           ]}
           >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.severity')}</Text>
-            <View style={[styles.severityContent]}>
-              {Object.values(SeveritiesWithIcon).map((severity) => (
-                <TouchableOpacity
-                  key={severity.key}
-                  style={[styles.severityButtonWrapper, getHighlightStyle(severity.key)]}
-                  onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: severity.key }))}
-                  disabled={displayMode === DisplayMode.FULL && !editedDamage}
-                >
-                  {editedDamage?.severity === severity.key && (
-                    <severity.Icon style={{ marginRight: 5 }} />
-                  )}
-                  <Text style={[styles.text, styles.subtitle]}>{t(`severityLabels.${severity.key}`)}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+            {isEditable ? (
+              <View style={[styles.severityContent]}>
+                {Object.values(SeveritiesWithIcon).map((severity) => (
+                  <TouchableOpacity
+                    key={severity.key}
+                    style={[styles.severityButtonWrapper, getHighlightStyle(severity.key)]}
+                    onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: severity.key }))}
+                    disabled={displayMode === DisplayMode.FULL && !editedDamage}
+                  >
+                    {editedDamage?.severity === severity.key && (
+                      <severity.Icon style={{ marginRight: 5 }} />
+                    )}
+                    <Text style={[styles.text, styles.subtitle]}>{t(`severityLabels.${severity.key}`)}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ) : (
+              <View style={[styles.severityUneditable]}>
+                <IconSeverity severity={editedDamage?.severity} style={{ marginRight: 10 }} />
+                <Text style={[styles.text, styles.subtitle]}>{t(`severityLabels.${editedDamage?.severity}`)}</Text>
+              </View>
+            )}
           </View>
         )
       }
@@ -149,26 +167,33 @@ export default function DamageManipulator({
           ]}
           >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.repairCost')}</Text>
-            <View style={[styles.severityContent]}>
-              <Slider
-                style={{ marginRight: 15 }}
-                minimumValue={0}
-                maximumValue={3000}
-                lowerLimit={0}
-                upperLimit={3000}
-                step={20}
-                disabled={displayMode === DisplayMode.FULL && !editedDamage}
-                value={editedDamage?.pricing ?? 0}
-                thumbTintColor="#8da8ff"
-                minimumTrackTintColor="#ffffff"
-                maximumTrackTintColor="#5d5e67"
-                onValueChange={onSliderChange}
-              />
+            {isEditable ? (
+              <View style={[styles.severityContent]}>
+                <Slider
+                  style={{ marginRight: 15 }}
+                  minimumValue={0}
+                  maximumValue={3000}
+                  lowerLimit={0}
+                  upperLimit={3000}
+                  step={20}
+                  disabled={displayMode === DisplayMode.FULL && !editedDamage}
+                  value={editedDamage?.pricing ?? 0}
+                  thumbTintColor="#8da8ff"
+                  minimumTrackTintColor="#ffffff"
+                  maximumTrackTintColor="#5d5e67"
+                  onValueChange={onSliderChange}
+                />
+                <Text style={[styles.text]}>
+                  {editedDamage?.pricing ?? 0}
+                  €
+                </Text>
+              </View>
+            ) : (
               <Text style={[styles.text]}>
                 {editedDamage?.pricing ?? 0}
                 €
               </Text>
-            </View>
+            )}
           </View>
         )
       }
@@ -183,6 +208,7 @@ DamageManipulator.propTypes = {
   damage: CommonPropTypes.damageWithoutPart,
   damageMode: CommonPropTypes.damageMode,
   displayMode: PropTypes.oneOf(Object.values(DisplayMode)),
+  isEditable: PropTypes.bool,
   onConfirm: PropTypes.func,
   onToggleDamage: PropTypes.func,
 };
@@ -191,6 +217,7 @@ DamageManipulator.defaultProps = {
   damage: undefined,
   damageMode: DamageMode.ALL,
   displayMode: DisplayMode.MINIMAL,
+  isEditable: true,
   onConfirm: () => {},
   onToggleDamage: () => {},
 };
