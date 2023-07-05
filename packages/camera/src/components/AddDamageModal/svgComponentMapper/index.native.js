@@ -14,7 +14,7 @@ const jsxSpecialAttributes = {
 
 export default function SVGComponentMapper({ element, togglePart, isPartSelected, groupName }) {
   function getAttribute(attributeElement, name) {
-    for (let i = 0; i < attributeElement.attributes.length; i = i + 1) {
+    for (let i = 0; i < attributeElement.attributes.length; i += 1) {
       if (attributeElement.attributes[i].name === name) {
         return attributeElement.attributes[i].nodeValue;
       }
@@ -22,7 +22,7 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
     return undefined;
   }
   const names = [];
-  for (let i = 0; i < element.attributes.length; i = i + 1) {
+  for (let i = 0; i < element.attributes.length; i += 1) {
     names.push(element.attributes[i].name);
   }
 
@@ -48,7 +48,7 @@ export default function SVGComponentMapper({ element, togglePart, isPartSelected
 
   const elementChildren = [];
   if (element.childNodes) {
-    for (let i = 0; i < element.childNodes.length; i = i + 1) {
+    for (let i = 0; i < element.childNodes.length; i += 1) {
       elementChildren.push(element.childNodes[i]);
     }
   }

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SvgXml } from 'react-native-svg';
+import { SvgCss } from 'react-native-svg';
 
 export default function Overlay({ label, svg, ...passThoughProps }) {
   return (
-    <SvgXml
+    <SvgCss
       xml={svg}
       width="100%"
       height="100%"

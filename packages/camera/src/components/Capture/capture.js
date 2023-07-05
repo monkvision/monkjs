@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         width: '100%',
         top: '2.5%',
       },
-    })
+    }),
   },
   addDamageOverlay: {
     fontSize: 14,
@@ -679,7 +679,6 @@ const Capture = forwardRef(({
         </Camera>
       </Layout>
       {
-        
       [AddDamageStatus.HELP, AddDamageStatus.PART_SELECTOR].includes(addDamageStatus) ? (
         <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {addDamageStatus === AddDamageStatus.HELP ? (
