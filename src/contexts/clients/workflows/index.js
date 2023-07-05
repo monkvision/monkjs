@@ -3,7 +3,7 @@ import Workflows from './workflows';
 
 const ClientWorkflows = {
   [Clients.DEFAULT]: Workflows.DEFAULT,
-  [Clients.CAT]: Workflows.CAPTURE,
+  [Clients.CAT]: Workflows.CAPTURE_VEHICLE_SELECTION,
   [Clients.FASTBACK]: Workflows.DEFAULT,
   [Clients.ALPHA]: Workflows.DEFAULT,
 };

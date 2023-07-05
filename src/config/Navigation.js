@@ -22,6 +22,11 @@ export default function Navigation() {
           title="Monk - Inspection Capture"
         />
         <Stack.Screen
+          name={names.CAPTURE_VEHICLE_SELECTION}
+          component={Screens.CaptureVehicleSelection}
+          title="Monk - Inspection Capture Vehicle Selection"
+        />
+        <Stack.Screen
           name={names.INSPECTION_CREATE}
           component={Screens.InspectionCreate}
           title="Monk - Inspection Create"
