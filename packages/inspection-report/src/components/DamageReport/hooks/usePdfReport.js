@@ -45,7 +45,7 @@ export default function usePdfReport({
   const { i18n } = useTranslation();
 
   const pdfRequestPayload = useMemo(() => ({
-    pricing: false,
+    pricing: true,
     customer,
     clientName,
     language: i18n.language?.substring(0, 2) ?? 'en',

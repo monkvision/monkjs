@@ -1,8 +1,7 @@
-import { Loader } from '@monkvision/ui/src';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 import { CarOrientation, CommonPropTypes, DamageMode, VehicleType } from '../../../resources';
 import CarView360 from '../../CarView360';
@@ -78,6 +77,15 @@ export default function Overview({
   const damageCounts = useDamageCounts(damages);
   const { t } = useTranslation();
 
+  const pdfBtnDisabledState = useMemo(() => {
+    switch (pdfStatus) {
+      case PdfStatus.READY:
+        return false;
+      default:
+        return true;
+    }
+  }, [pdfStatus]);
+
   const pdfButtonColor = useMemo(() => {
     switch (pdfStatus) {
       case PdfStatus.READY:
@@ -120,11 +128,21 @@ export default function Overview({
               </TouchableOpacity>
               {generatePdf && (
                 <TouchableOpacity
-                  style={[styles.button, { backgroundColor: pdfButtonColor }]}
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: pdfButtonColor,
+                      paddingHorizontal: pdfBtnDisabledState ? 65 : 20,
+                    },
+                  ]}
                   onPress={handleDownload}
-                  disabled={pdfStatus !== PdfStatus.READY}
+                  disabled={pdfBtnDisabledState}
                 >
-                  <Text style={[styles.buttonText]}>{ t('damageReport.download') }</Text>
+                  {
+                    pdfBtnDisabledState
+                      ? <ActivityIndicator size="small" color="white" />
+                      : <Text style={[styles.buttonText]}>{ t('damageReport.download') }</Text>
+                  }
                 </TouchableOpacity>
               )}
             </>

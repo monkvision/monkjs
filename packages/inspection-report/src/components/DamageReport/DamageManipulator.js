@@ -172,9 +172,9 @@ export default function DamageManipulator({
                 <Slider
                   style={{ marginRight: 15 }}
                   minimumValue={0}
-                  maximumValue={3000}
+                  maximumValue={1500}
                   lowerLimit={0}
-                  upperLimit={3000}
+                  upperLimit={1500}
                   step={20}
                   disabled={displayMode === DisplayMode.FULL && !editedDamage}
                   value={editedDamage?.pricing ?? 0}
