@@ -28,28 +28,12 @@ import useVinModal from './useVinModal';
 import useZlibCompression from './useZlibCompression';
 import VehicleType from './VehicleType';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
+import { ClientParamMap, VehicleTypeMap } from '../paramsMap';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
   DONE: 'check-bold',
   ERROR: 'alert-octagon',
-};
-
-const ClientParamMap = {
-  d9m: Clients.DEFAULT,
-  pd8: Clients.CAT,
-  '2bd': Clients.FASTBACK,
-  a3o: Clients.ALPHA,
-};
-
-const VehicleTypeMap = {
-  0: 'suv',
-  1: 'cuv',
-  2: 'sedan',
-  3: 'hatchback',
-  4: 'van',
-  5: 'minivan',
-  6: 'pickup',
 };
 
 export default function Landing() {
@@ -81,10 +65,11 @@ export default function Landing() {
     const urlParams = new URLSearchParams(window.location.search);
     const compressedToken = urlParams.get('t');
     const clientParam = urlParams.get('c');
+    const vehicleParam = urlParams.get('v');
 
     return {
       inspectionId: urlParams.get('i'),
-      vehicleTypeParam: urlParams.get('v') ?? 1,
+      vehicleTypeParam: (clientParam === 'pd8') ? vehicleParam : vehicleParam ?? 1,
       clientId: clientParam ? ClientParamMap[clientParam] : undefined,
       token: compressedToken ? decompress(compressedToken) : undefined,
     };
@@ -105,6 +90,19 @@ export default function Landing() {
           vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] ?? 'cuv' },
         },
       );
+    } else if (workflow === Workflows.CAPTURE_VEHICLE_SELECTION && !route.params?.captureComplete) {
+      if (vehicleTypeParam && VehicleTypeMap[vehicleTypeParam]) {
+        navigation.navigate(
+          names.INSPECTION_CREATE,
+          {
+            selectedMod: 'car360',
+            inspectionId,
+            vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] },
+          },
+        );
+      } else {
+        navigation.navigate(names.CAPTURE_VEHICLE_SELECTION, { inspectionId });
+      }
     }
   }, [workflow, route, navigation, inspectionId, vehicleTypeParam]);
 
