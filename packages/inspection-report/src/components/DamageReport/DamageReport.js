@@ -41,12 +41,16 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignSelf: 'stretch',
     marginBottom: 16,
-    overflowY: 'scroll',
+    overflowY: 'hidden',
   },
   tabGroup: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 32,
+  },
+  tabContent: {
+    flex: 1,
+    overflowY: 'scroll',
   },
   text: {
     color: '#fafafa',
@@ -217,7 +221,7 @@ export default function DamageReport({
               />
             </TabGroup>
           </View>
-          <View>
+          <View style={[styles.tabContent]}>
             {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
               <View style={[styles.notReadyContainer]}>
                 <Loader texts={[t('damageReport.notReady')]} />
