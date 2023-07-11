@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Animated,
@@ -10,6 +10,7 @@ import {
   useWindowDimensions, Platform,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useOrientation } from '../../../hooks';
 import { CommonPropTypes, DamageMode, DisplayMode } from '../../../resources';
 
 import ImageButton from './ImageButton';
@@ -53,6 +54,14 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: '#5E5E62',
   },
+  contentWrapper: {
+    flex: 1,
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: '500px',
+    position: 'relative',
+    overflowY: 'scroll',
+  },
   content: {
     display: 'flex',
     flexDirection: 'row',
@@ -93,6 +102,7 @@ export default function UpdateDamagePopUp({
   style = {},
 }) {
   const { t } = useTranslation();
+  const windowOrientation = useOrientation();
   const { height: bottomLimitY } = useWindowDimensions();
   const [displayMode] = useState(damage ? DisplayMode.FULL : DisplayMode.MINIMAL);
   const [viewMode, setViewMode] = useState(null);
@@ -161,13 +171,18 @@ export default function UpdateDamagePopUp({
     }),
   ).current;
 
+  const topOffset = useMemo(
+    () => (viewMode === DisplayMode.FULL ? topLimitY : bottomLimitY / 1.8),
+    [viewMode, bottomLimitY],
+  );
+
   useEffect(() => {
     onRelease();
   }, [gestureState]);
 
   useEffect(() => {
     scrollIn();
-  }, [viewMode]);
+  }, [viewMode, windowOrientation]);
 
   useEffect(() => {
     setViewMode(displayMode);
@@ -187,19 +202,20 @@ export default function UpdateDamagePopUp({
           <View style={[styles.horizontalBar]} />
         </View>
 
-        <View style={[styles.content]}>
-          <Text style={[styles.text, styles.title]}>{t(`damageReport.parts.${part}`)}</Text>
-          <ImageButton imageCount={imageCount} onPress={onShowGallery} />
+        <View style={[styles.contentWrapper, { marginBottom: topOffset }]}>
+          <View style={[styles.content]}>
+            <Text style={[styles.text, styles.title]}>{t(`damageReport.parts.${part}`)}</Text>
+            <ImageButton imageCount={imageCount} onPress={onShowGallery} />
+          </View>
+          <DamageManipulator
+            damage={damage}
+            damageMode={damageMode}
+            displayMode={viewMode}
+            onConfirm={handleConfirm}
+            onToggleDamage={handleToggleDamage}
+            isEditable={isEditable}
+          />
         </View>
-
-        <DamageManipulator
-          damage={damage}
-          damageMode={damageMode}
-          displayMode={viewMode}
-          onConfirm={handleConfirm}
-          onToggleDamage={handleToggleDamage}
-          isEditable={isEditable}
-        />
       </Animated.View>
     </View>
   );

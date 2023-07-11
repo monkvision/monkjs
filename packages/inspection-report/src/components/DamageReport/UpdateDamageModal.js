@@ -92,6 +92,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   damageManipulatorContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: '500px',
+    overflowY: 'scroll',
     paddingHorizontal: 20,
   },
 });
