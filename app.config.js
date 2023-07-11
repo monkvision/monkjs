@@ -280,6 +280,6 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.preview.env,
+    ...eas.build.development.env,
   },
 };
