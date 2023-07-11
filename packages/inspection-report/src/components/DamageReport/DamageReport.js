@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingTop: 13,
     paddingBottom: 13,
     marginBottom: 16,
@@ -41,16 +41,24 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignSelf: 'stretch',
     marginBottom: 16,
-    overflowY: 'scroll',
+    overflowY: 'hidden',
   },
   tabGroup: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 32,
   },
+  tabContent: {
+    flex: 1,
+    overflowY: 'scroll',
+  },
   text: {
     color: '#fafafa',
     fontSize: 18,
+  },
+  fileIcon: {
+    position: 'absolute',
+    right: 0,
   },
   title: {
     fontSize: 20,
@@ -170,14 +178,13 @@ export default function DamageReport({
   return (
     <View style={[styles.container]}>
       <View style={[styles.header]}>
-        <IconButton icon="keyboard-backspace" onPress={() => console.log('Back')} />
         <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
         <IconButton
           icon="file-download"
           onPress={handleDownload}
           disabled={pdfStatus !== PdfStatus.READY}
           color={pdfIconColor}
-          style={[generatePdf ? {} : { opacity: 0 }]}
+          style={[styles.fileIcon, generatePdf ? {} : { opacity: 0 }]}
         />
       </View>
       <View style={[styles.content]}>
@@ -214,7 +221,7 @@ export default function DamageReport({
               />
             </TabGroup>
           </View>
-          <View>
+          <View style={[styles.tabContent]}>
             {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
               <View style={[styles.notReadyContainer]}>
                 <Loader texts={[t('damageReport.notReady')]} />

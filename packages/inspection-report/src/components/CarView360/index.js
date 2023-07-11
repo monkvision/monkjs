@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { CarOrientation, VehicleType } from '../../resources';
+import { useOrientation, ORIENTATION_MODE } from '../../hooks';
 import { useCarView360Wireframe, useXMLParser } from './hooks';
 import SVGElementMapper from './SVGElementMapper';
 
@@ -26,6 +27,7 @@ export default function CarView360({
   onPressPill,
 }) {
   const wireframeXML = useCarView360Wireframe({ orientation, vehicleType });
+  const windowOrientation = useOrientation();
   const doc = useXMLParser(wireframeXML);
   const svgElement = useMemo(() => {
     const svg = doc.children[0];
@@ -38,9 +40,13 @@ export default function CarView360({
     () => damages.filter((dmg) => !!dmg.pricing && !!dmg.severity),
     [damages],
   );
+  const maxWidth = useMemo(
+    () => (windowOrientation === ORIENTATION_MODE.Landscape ? '50%' : '100%'),
+    [windowOrientation],
+  );
 
   return (
-    <View style={[styles.container, { width, height }]}>
+    <View style={[styles.container, { width, height, maxWidth }]}>
       <SVGElementMapper
         element={svgElement}
         damages={displayedDamages}
