@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import useDamageAPI from './useDamageAPI';
+import { RepairOperation } from '../../../resources';
 
 export default function useDamageReportStateHandlers({
   inspectionId,
@@ -59,7 +60,7 @@ export default function useDamageReportStateHandlers({
   const handlePartPressed = useCallback((partName) => {
     if (isEditable) {
       const damage = damages.find((dmg) => dmg.part === partName);
-      if (!damage) {
+      if (!damage || !damage?.severity) {
         setEditedDamagePart(partName);
         setEditedDamageImages([]);
         setIsPopUpVisible(true);
@@ -83,7 +84,12 @@ export default function useDamageReportStateHandlers({
     const newDamages = damages.filter((dmg) => dmg.part !== editedDamagePart);
     setDamages(newDamages);
     if (damage) {
-      deleteDamage(damage.id).catch((err) => {
+      deleteDamage(damage.id).then(() => {
+        setDamages((dmgs) => [
+          ...dmgs,
+          { ...damage, pricing: 0, severity: undefined, repairOperation: RepairOperation.REPAIR },
+        ]);
+      }).catch((err) => {
         console.error(err);
         setDamages((dmgs) => [...dmgs, damage]);
       });
@@ -120,7 +126,7 @@ export default function useDamageReportStateHandlers({
 
   const handleSaveDamage = useCallback((partialDamage) => {
     if (isEditable) {
-      if (!partialDamage) {
+      if (!partialDamage?.pricing && !partialDamage?.severity) {
         // Removing the damage
         handleRemoveDamage();
       } else {
@@ -135,7 +141,7 @@ export default function useDamageReportStateHandlers({
           const hiddenDamage = damages.find((dmg) => dmg.part === damage.part);
           if (hiddenDamage) {
             // A damage already existed for this part, it was just hidden with a pricing = 0
-            damage.id = hiddenDamage;
+            damage.id = hiddenDamage.id;
             handleUpdateDamage(damage);
           } else {
             // Creating a completely new damage
