@@ -14,6 +14,7 @@ export default function useCustomSVGAttributes({
 
     const additionalAttributes = {};
     let customRootStyles = rootStyles;
+    let customPathStyles = pathStyles;
 
     if (elementTag === 'svg') {
       if (!viewBox && width && height) {
@@ -24,7 +25,16 @@ export default function useCustomSVGAttributes({
       return { style: customRootStyles ?? {}, ...additionalAttributes };
     }
 
-    return { style: pathStyles ?? {} };
+    if (elementTag === 'path') {
+      customPathStyles = {
+        ...pathStyles,
+        vectorEffect: 'non-scaling-stroke',
+        strokeMiterlimit: 8,
+        strokeWidth: pathStyles.strokeWidth ?? 4,
+      };
+    }
+
+    return { style: customPathStyles ?? {} };
   }, [
     element,
     rootStyles,
