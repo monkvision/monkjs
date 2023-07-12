@@ -17,11 +17,12 @@ function getSeverityLevel(severity) {
 }
 
 export default function useDamageAPI({ inspectionId }) {
-  const createDamage = useCallback(({ part, pricing, severity }) => {
+  const createDamage = useCallback(({ part, pricing, severity, repairOperation }) => {
     const data = {
       label: part,
       ...(!!pricing && { pricing }),
       ...(!!severity && { level: getSeverityLevel(severity) }),
+      ...(!!repairOperation && { repair_operation: repairOperation }),
     };
     return axios.request({
       ...monk.config.axiosConfig,
@@ -31,10 +32,11 @@ export default function useDamageAPI({ inspectionId }) {
     });
   }, [inspectionId]);
 
-  const updateDamage = useCallback(({ id, pricing, severity }) => {
+  const updateDamage = useCallback(({ id, pricing, severity, repairOperation }) => {
     const data = {
       ...(!!pricing && { pricing }),
       ...(!!severity && { level: getSeverityLevel(severity) }),
+      ...(!!repairOperation && { repair_operation: repairOperation }),
     };
     return axios.request({
       ...monk.config.axiosConfig,
