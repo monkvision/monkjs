@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IconSeverity, SeveritiesWithIcon } from '../../assets';
-import { CommonPropTypes, DamageMode, DisplayMode, Severity } from '../../resources';
+import { CommonPropTypes, DamageMode, DisplayMode, Severity, RepairOperation } from '../../resources';
 import { TextButton, SwitchButton } from '../common';
 
 const styles = StyleSheet.create({
@@ -74,7 +74,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const initialDamage = { pricing: 1, severity: Severity.LOW };
+const initialDamage = {
+  pricing: 1,
+  repairOperation: RepairOperation.REPAIR,
+  severity: Severity.LOW,
+};
+
+const replaceDamage = {
+  pricing: 0,
+  repairOperation: RepairOperation.REPLACE,
+  severity: Severity.HIGH,
+};
 
 export default function DamageManipulator({
   damageMode,
@@ -85,12 +95,31 @@ export default function DamageManipulator({
   isEditable,
 }) {
   const { t } = useTranslation();
+  const [isReplaced, setReplaced] = useState(damage?.repairOperation === RepairOperation.REPLACE);
+  const [hasDamage, setHasDamage] = useState(!!damage);
   const [editedDamage, setEditedDamage] = useState(damage);
 
-  const toggleSwitch = useCallback(() => {
-    onToggleDamage(!editedDamage);
-    setEditedDamage((dmg) => (dmg ? null : initialDamage));
-  }, [onToggleDamage, editedDamage, damageMode]);
+  const toggleReplaceSwitch = useCallback(() => {
+    const newIsReplaced = !isReplaced;
+    setReplaced(newIsReplaced);
+    setEditedDamage((prevState) => ({
+      ...(prevState ?? {}),
+      ...(newIsReplaced ? replaceDamage : initialDamage),
+    }));
+  }, [isReplaced, editedDamage]);
+
+  const toggleDamageSwitch = useCallback(() => {
+    const newHasDamage = !hasDamage;
+    onToggleDamage(newHasDamage);
+    setHasDamage(newHasDamage);
+    setReplaced((prevState) => (newHasDamage ? prevState : false));
+    setEditedDamage((prevState) => ({
+      ...(prevState ?? {}),
+      ...initialDamage,
+      pricing: newHasDamage ? (prevState?.pricing ?? initialDamage?.pricing) : 0,
+      severity: newHasDamage ? (prevState?.severity ?? initialDamage?.severity) : undefined,
+    }));
+  }, [onToggleDamage, hasDamage, editedDamage, damageMode]);
 
   const onSliderChange = useCallback((value) => {
     if (value) {
@@ -115,11 +144,11 @@ export default function DamageManipulator({
         <View>
           <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.damages')}</Text>
           <Text style={[styles.text, styles.subtitle]}>
-            {t(`damageManipulator.${editedDamage ? 'damaged' : 'notDamaged'}`)}
+            {t(`damageManipulator.${hasDamage ? 'damaged' : 'notDamaged'}`)}
           </Text>
         </View>
         {isEditable && (
-          <SwitchButton onPress={toggleSwitch} isEnabled={!!editedDamage} />
+          <SwitchButton isEnabled={hasDamage} onPress={toggleDamageSwitch} />
         )}
       </View>
       {
@@ -127,8 +156,32 @@ export default function DamageManipulator({
         && displayMode === DisplayMode.FULL) && (
           <View style={[
             styles.content,
+            (displayMode === DisplayMode.FULL && !hasDamage) && styles.disabled,
+          ]}
+          >
+            <View>
+              <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.damages')}</Text>
+              <Text style={[styles.text, styles.subtitle]}>
+                {t(`damageManipulator.${isReplaced ? 'replaced' : 'notReplaced'}`)}
+              </Text>
+            </View>
+            {isEditable && (
+              <SwitchButton
+                isEnabled={isReplaced}
+                disabled={displayMode === DisplayMode.FULL && !hasDamage}
+                onPress={toggleReplaceSwitch}
+              />
+            )}
+          </View>
+        )
+      }
+      {
+        ([DamageMode.SEVERITY, DamageMode.ALL].includes(damageMode)
+        && displayMode === DisplayMode.FULL) && (
+          <View style={[
+            styles.content,
             styles.columnContent,
-            (displayMode === DisplayMode.FULL && !editedDamage) && styles.disabled,
+            (displayMode === DisplayMode.FULL && (!hasDamage || isReplaced)) && styles.disabled,
           ]}
           >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.severity')}</Text>
@@ -139,7 +192,7 @@ export default function DamageManipulator({
                     key={severity.key}
                     style={[styles.severityButtonWrapper, getHighlightStyle(severity.key)]}
                     onPress={() => setEditedDamage((dmg) => ({ ...dmg, severity: severity.key }))}
-                    disabled={displayMode === DisplayMode.FULL && !editedDamage}
+                    disabled={displayMode === DisplayMode.FULL && (!hasDamage || isReplaced)}
                   >
                     {editedDamage?.severity === severity.key && (
                       <severity.Icon style={{ marginRight: 5 }} />
@@ -163,7 +216,7 @@ export default function DamageManipulator({
           <View style={[
             styles.content,
             styles.columnContent,
-            (displayMode === DisplayMode.FULL && !editedDamage) && styles.disabled,
+            (displayMode === DisplayMode.FULL && (!hasDamage || isReplaced)) && styles.disabled,
           ]}
           >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.repairCost')}</Text>
@@ -176,7 +229,7 @@ export default function DamageManipulator({
                   lowerLimit={0}
                   upperLimit={1500}
                   step={20}
-                  disabled={displayMode === DisplayMode.FULL && !editedDamage}
+                  disabled={displayMode === DisplayMode.FULL && (!hasDamage || isReplaced)}
                   value={editedDamage?.pricing ?? 0}
                   thumbTintColor="#8da8ff"
                   minimumTrackTintColor="#ffffff"

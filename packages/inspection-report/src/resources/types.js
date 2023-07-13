@@ -31,3 +31,8 @@ export const VehicleType = {
   MINIVAN: 'minivan',
   PICKUP: 'pickup',
 };
+
+export const RepairOperation = {
+  REPAIR: 'repair',
+  REPLACE: 'replace',
+};

@@ -57,6 +57,8 @@ const fr = {
       damages: 'Dégâts',
       damaged: 'Cette partie est endommagée',
       notDamaged: 'Cette partie n\'est pas endommagée',
+      replaced: 'Cette pièce doit être remplacé',
+      notReplaced: 'Cette pièce ne doit pas être remplacé',
       severity: 'Sévérité',
       minor: 'Mineure',
       moderate: 'Modéré',

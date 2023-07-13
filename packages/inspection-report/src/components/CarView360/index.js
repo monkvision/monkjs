@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { CarOrientation, VehicleType } from '../../resources';
+import { CarOrientation, RepairOperation, VehicleType } from '../../resources';
 import { useOrientation, ORIENTATION_MODE } from '../../hooks';
 import { useCarView360Wireframe, useXMLParser } from './hooks';
 import SVGElementMapper from './SVGElementMapper';
@@ -37,7 +37,9 @@ export default function CarView360({
     return svg;
   }, [doc]);
   const displayedDamages = useMemo(
-    () => damages.filter((dmg) => !!dmg.pricing && !!dmg.severity),
+    () => damages.filter((dmg) => (
+      (!!dmg.pricing && !!dmg.severity) || (dmg.repairOperation === RepairOperation.REPLACE)
+    )),
     [damages],
   );
   const maxWidth = useMemo(
