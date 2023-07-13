@@ -60,7 +60,7 @@ export default function useDamageReportStateHandlers({
   const handlePartPressed = useCallback((partName) => {
     if (isEditable) {
       const damage = damages.find((dmg) => dmg.part === partName);
-      if (!damage || !damage?.severity) {
+      if (!damage || !damage?.pricing) {
         setEditedDamagePart(partName);
         setEditedDamageImages([]);
         setIsPopUpVisible(true);
@@ -87,7 +87,7 @@ export default function useDamageReportStateHandlers({
       deleteDamage(damage.id).then(() => {
         setDamages((dmgs) => [
           ...dmgs,
-          { ...damage, pricing: 0, severity: undefined, repairOperation: RepairOperation.REPAIR },
+          { ...damage, pricing: 0, severity: 'low', repairOperation: RepairOperation.REPAIR },
         ]);
       }).catch((err) => {
         console.error(err);
