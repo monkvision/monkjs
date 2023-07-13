@@ -30,7 +30,7 @@ export default function useCustomSVGAttributes({
         ...pathStyles,
         vectorEffect: 'non-scaling-stroke',
         strokeMiterlimit: 8,
-        strokeWidth: pathStyles.strokeWidth ?? 4,
+        strokeWidth: pathStyles.strokeWidth ?? 2,
       };
     }
 
