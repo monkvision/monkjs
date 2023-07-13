@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { getPillDamage } from './common';
+import { RepairOperation } from '../../../resources';
 
 export default function useInnerHTML({ element, damages, groupId }) {
   return useMemo(() => {
@@ -12,6 +13,9 @@ export default function useInnerHTML({ element, damages, groupId }) {
       const { damage } = getPillDamage({ damages, pillId: groupId });
       if (damage?.pricing) {
         return `${damage.pricing}€`;
+      }
+      if (damage?.repairOperation === RepairOperation.REPLACE) {
+        return `🔄`;
       }
     }
 

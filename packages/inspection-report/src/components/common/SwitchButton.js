@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function SwitchButton({ onPress, isEnabled }) {
+function SwitchButton({ onPress, isEnabled, disabled }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable disabled={disabled} onPress={onPress}>
       <View style={[styles.switchContainer, isEnabled && styles.activeSwitchContainer]}>
         <View style={[styles.switch, isEnabled && styles.activeSwitch]} />
       </View>
@@ -40,11 +40,13 @@ function SwitchButton({ onPress, isEnabled }) {
 }
 
 SwitchButton.propTypes = {
+  disabled: PropTypes.bool,
   isEnabled: PropTypes.bool,
   onPress: PropTypes.func,
 };
 
 SwitchButton.defaultProps = {
+  disabled: false,
   isEnabled: false,
   onPress: () => { },
 };

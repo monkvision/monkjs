@@ -57,6 +57,8 @@ const en = {
       damages: 'Damages',
       damaged: 'This part is damaged',
       notDamaged: 'This part isn\'t damaged',
+      replaced: 'This part needs to be replaced',
+      notReplaced: 'This part doesn\'t need to be replaced',
       severity: 'Severity',
       minor: 'Minor',
       moderate: 'Moderate',
