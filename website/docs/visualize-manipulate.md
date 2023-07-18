@@ -28,8 +28,7 @@ Here is an example of how we can show damage report of an inspection.
 ```javascript
 import React, { useMemo } from 'react';
 import { DamageMode, DamageReport } from '@monkvision/inspection-report';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import * as names from 'screens/names';
+import { useRoute } from '@react-navigation/native';
 
 const damageMode = DamageMode.ALL;
 
@@ -40,7 +39,6 @@ export default function InspectionReport() {
     customer: 'PDF_REPORT_CUSTOMER',
     clientName: 'PDF_REPORT_CLIENT_NAME',
   }), []);
-  const navigation = useNavigation();
 
   return (
     <DamageReport
@@ -49,7 +47,9 @@ export default function InspectionReport() {
       vehicleType={vehicleType}
       generatePdf
       pdfOptions={pdfOptions}
-      onStartNewInspection={() => navigation.navigate(names.LANDING)}
+      onStartNewInspection={() => {
+        // navigate to landing page
+      }
     />
   );
 }
