@@ -14,7 +14,7 @@ const palette = {
   'color-primary-600': '#013c65',
   'color-primary-700': '#022944',
   'color-primary-800': '#032034',
-  'color-primary-900': '#041e2f',
+  'color-primary-900': '#00548e',
   'color-success-100': '#c1ecce',
   'color-success-200': '#95e5ac',
   'color-success-300': '#53d77a',
