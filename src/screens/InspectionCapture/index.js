@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import axios from 'axios';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -10,11 +11,12 @@ import monk, { useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
-import { useClient } from '../../contexts';
+import { Clients, useClient } from '../../contexts';
 import mapTasksToSights from './mapTasksToSights';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
+import useGetInspection from '../Landing/useGetInspection';
 
 const enableComplianceCheck = true;
 
@@ -27,7 +29,7 @@ export default function InspectionCapture() {
   const { errorHandler } = useMonitoring();
 
   const { inspectionId, taskName, vehicleType, selectedMode } = route.params;
-  const { sights } = useClient();
+  const { clients, sights } = useClient();
   const sightIds = useMemo(() => (sights[vehicleType ?? 'cuv']), [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
@@ -35,8 +37,14 @@ export default function InspectionCapture() {
   const [cameraLoading, setCameraLoading] = useState(false);
   const { setShowMessage, Notice } = useSnackbar();
   const { isFullscreen, requestFullscreen } = useFullscreen();
+  const getInspection = useGetInspection(inspectionId);
 
-  const handleNavigate = useCallback((confirm = false) => {
+  const inspection = useMemo(
+    () => getInspection?.denormalizedEntities[0],
+    [getInspection],
+  );
+
+  const handleNavigate = useCallback(async (confirm = false) => {
     if (confirm) {
       if (Platform.OS === 'web') {
         // eslint-disable-next-line no-alert
@@ -60,7 +68,28 @@ export default function InspectionCapture() {
         }],
         { cancelable: true },
       );
-    } else { navigation.navigate(names.LANDING, { inspectionId, captureComplete: true }); }
+    } else {
+      const damageDetectionTask = inspection.tasks.find(
+        (task) => task.name === monk.types.TaskName.DAMAGE_DETECTION,
+      );
+
+      if (clients === Clients.CAT) {
+        try {
+          await axios.request({
+            method: 'post',
+            url: damageDetectionTask.arguments?.callbacks?.[0]?.url,
+            data: {
+              id: inspectionId,
+              tasks: inspection.tasks.map(({ id, name, status }) => ({ id, name, status })),
+            },
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
+    }
   }, [inspectionId, navigation]);
 
   const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
@@ -132,7 +161,7 @@ export default function InspectionCapture() {
         const hasFailedUploadButNoCheck = ((failedUploads + fulfilledUploads) === totalPictures);
 
         if (hasPictures && (hasBeenUploaded || hasFailedUploadButNoCheck) && state
-        && hasAllFulfilledAndCompliant) {
+          && hasAllFulfilledAndCompliant) {
           setSuccess(true);
         }
       } catch (err) {
@@ -194,7 +223,7 @@ export default function InspectionCapture() {
         colors={colors}
         vehicleType={vehicleType}
         selectedMode={selectedMode}
-        // overlayPathStyles={{ strokeWidth: 8 }}
+      // overlayPathStyles={{ strokeWidth: 8 }}
       />
       <Notice />
     </View>
