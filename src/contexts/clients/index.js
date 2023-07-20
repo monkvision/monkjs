@@ -19,7 +19,7 @@ export const ClientContext = createContext({
 });
 
 export function ClientProvider({ children }) {
-  const [client, setClient] = useState(Clients.DEFAULT);
+  const [client, setClient] = useState();
 
   const clientContextValue = useMemo(() => ({
     client,

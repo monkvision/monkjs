@@ -3,7 +3,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 const allTransactions = [];
-const sentryEndPoint = 'https://sentry.dev.monk.ai';
+const sentryEndPoint = 'https://monkai.sentry.io';
 const organizations = 'monk';
 const statsPeriod = '7d';
 const recordPerPage = 100;
