@@ -15,7 +15,7 @@ import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
 
-const enableComplianceCheck = true;
+const enableComplianceCheck = false;
 
 export default function InspectionCapture() {
   const route = useRoute();
@@ -169,6 +169,12 @@ export default function InspectionCapture() {
     return () => setFocused(false);
   });
 
+  const handleCaptureTourFinish = useCallback(() => {
+    if (!enableComplianceCheck) {
+      setSuccess(true);
+    }
+  }, [setSuccess]);
+
   return (
     <View style={styles.root}>
       <Capture
@@ -187,6 +193,7 @@ export default function InspectionCapture() {
         onWarningMessage={(message) => setShowMessage(message)}
         onChange={handleChange}
         enableComplianceCheck={enableComplianceCheck}
+        onCaptureTourFinish={handleCaptureTourFinish}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         vehicleType={vehicleType}
