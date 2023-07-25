@@ -34,7 +34,7 @@ export default function useDamageAPI({ inspectionId }) {
 
   const updateDamage = useCallback(({ id, pricing, severity, repairOperation }) => {
     const data = {
-      ...(!!pricing && { pricing }),
+      ...{ pricing: (!pricing ? null : pricing) },
       ...(!!severity && { level: getSeverityLevel(severity) }),
       ...(!!repairOperation && { repair_operation: repairOperation }),
     };
