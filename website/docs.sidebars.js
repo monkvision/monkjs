@@ -40,6 +40,6 @@ module.exports = {
   },
   'troubleshooting',
   'monitoring',
-  'visualize-manipulate',
+  'inspection-report',
   ],
 };
