@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { RepairOperation } from '../../../../resources';
 
 export default function useDamageCounts(damages) {
   return useMemo(
@@ -6,7 +7,7 @@ export default function useDamageCounts(damages) {
       (prev, curr) => {
         const counts = { ...prev };
         const key = curr.severity ?? 'none';
-        counts[key] += 1;
+        counts[key] += (!curr.pricing && curr.repairOperation === RepairOperation.REPAIR) ? 0 : 1;
         return counts;
       },
       { low: 0, medium: 0, high: 0, none: 0 },
