@@ -1,9 +1,20 @@
 import { useCallback, useState } from 'react';
 import monk from '@monkvision/corejs';
 
-import { Severity } from '../../../resources';
+import { RepairOperation, Severity } from '../../../resources';
 
 const MAX_RELATED_IMAGES = 5;
+
+function getRepairOperation(repairType) {
+  switch (repairType) {
+    case true:
+      return RepairOperation.REPLACE;
+    case false:
+      return RepairOperation.REPAIR;
+    default:
+      return RepairOperation.REPAIR;
+  }
+}
 
 function getSeverity(severityNumber) {
   switch (severityNumber) {
@@ -39,7 +50,9 @@ function getDamages(inspection) {
       (relatedImage) => ({ url: relatedImage.path }),
     ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
-    pricing: severityResult.value.custom_severity.pricing,
+    pricing: severityResult.value.custom_severity.pricing ?? 0,
+    // eslint-disable-next-line max-len
+    repairOperation: getRepairOperation(severityResult.value.custom_severity.repair_operation?.REPLACE),
   })) ?? [];
 }
 
