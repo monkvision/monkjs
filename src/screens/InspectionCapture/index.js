@@ -29,7 +29,7 @@ export default function InspectionCapture() {
   const { errorHandler } = useMonitoring();
 
   const { inspectionId, taskName, vehicleType, selectedMode } = route.params;
-  const { clients, sights } = useClient();
+  const { client, sights } = useClient();
   const sightIds = useMemo(() => (sights[vehicleType ?? 'cuv']), [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
@@ -42,6 +42,11 @@ export default function InspectionCapture() {
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
     [getInspection],
+  );
+
+  const allTasks = useMemo(
+    () => inspection?.tasks?.length && inspection?.tasks,
+    [inspection?.tasks],
   );
 
   const handleNavigate = useCallback(async (confirm = false) => {
@@ -69,28 +74,30 @@ export default function InspectionCapture() {
         { cancelable: true },
       );
     } else {
-      const damageDetectionTask = inspection.tasks.find(
-        (task) => task.name === monk.types.TaskName.DAMAGE_DETECTION,
-      );
+      if (client === Clients.CAT) {
+        const damageDetectionTask = allTasks.find(
+          (task) => task.name === monk.types.TaskName.DAMAGE_DETECTION,
+        );
 
-      if (clients === Clients.CAT) {
-        try {
-          await axios.request({
-            method: 'post',
-            url: damageDetectionTask.arguments?.callbacks?.[0]?.url,
-            data: {
-              id: inspectionId,
-              tasks: inspection.tasks.map(({ id, name, status }) => ({ id, name, status })),
-            },
-          });
-        } catch (error) {
-          console.error(error);
+        if (damageDetectionTask?.arguments?.callbacks?.[0]?.url) {
+          try {
+            await axios.request({
+              method: 'post',
+              url: damageDetectionTask.arguments.callbacks[0].url,
+              data: {
+                id: inspectionId,
+                tasks: allTasks.map(({ id, name, status }) => ({ id, name, status })),
+              },
+            });
+          } catch (error) {
+            console.error(error);
+          }
         }
       }
 
       navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
     }
-  }, [inspectionId, navigation]);
+  }, [inspectionId, navigation, allTasks]);
 
   const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
 
