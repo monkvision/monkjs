@@ -51,8 +51,9 @@ function getDamages(inspection) {
     ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing ?? 0,
-    // eslint-disable-next-line max-len
-    repairOperation: getRepairOperation(severityResult.value.custom_severity.repair_operation?.REPLACE),
+    repairOperation: getRepairOperation(
+      severityResult.value.custom_severity.repair_operation?.REPLACE,
+    ),
   })) ?? [];
 }
 
