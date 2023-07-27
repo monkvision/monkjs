@@ -58,18 +58,6 @@ import { DamageReport } from '@monkvision/inspection-report';
 This component is a single page component that implements the visualizing and editing of the damage report.
 
 #### Props
-| Prop                    | Type          | Description                                                                                       | Required | Default Value     |
-|-------------------------|---------------|---------------------------------------------------------------------------------------------------|----------|-------------------|
-| `inspectionId`          | `string`      | The ID of the inspection                                                                          | ✔        |                   |
-| `damageMode`            | `DamageMode`  | Indicates how the damages are dislpayed in the report. See the `DamageMode` type for more details |          | `DamageMode.ALL`  |
-| `vehicleType`           | `VehicleType` | The type of vehicle displayed in the wireframes of the report                                     |          | `VehicleType.CUV` |
-| `onStartNewInspection`  | `function`    | Callback called when the user leaves the screen by starting a new inspection                      |          | `() => {}`        |
-| `generatePdf`           | `boolean`     | Boolean indicating if the user should have the option to generate the PDF report or not           |          | `false`           |
-| `pdfOptions`            | `object`      | If `generatePdf` is set to `true`, these will be the options used to generate the PDF report      |          | `undefined`       |
-| `pdfOptions.clientName` | `string`      | The name of the client generating the PDF                                                         | ✔        |                   |
-| `pdfOptions.customer`   | `string`      | The ID of the client generating the PDF                                                           | ✔        |                   |
-
-#### Props
 | Prop                      | Type              | Description                                                                                                                                                            | Required | Default Value |
 |---------------------------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `element`                 | `HTMLElement`     | The HTML SVG element to display                                                                                                                                        | ✔        |               |
