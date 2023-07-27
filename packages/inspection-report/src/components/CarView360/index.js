@@ -64,6 +64,7 @@ CarView360.propTypes = {
   damages: PropTypes.arrayOf(PropTypes.shape({
     part: PropTypes.string.isRequired,
     pricing: PropTypes.number,
+    repairOperation: PropTypes.oneOf(Object.values(RepairOperation)),
     severity: PropTypes.oneOf(['low', 'medium', 'high']),
   })),
   getPartAttributes: PropTypes.func,

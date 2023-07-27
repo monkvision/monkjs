@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import axios from 'axios';
 import monk from '@monkvision/corejs';
-import { Severity } from '../../../resources';
+import { Severity, RepairOperation } from '../../../resources';
 
 function getSeverityLevel(severity) {
   switch (severity) {
@@ -50,7 +50,7 @@ export default function useDamageAPI({ inspectionId }) {
     ...monk.config.axiosConfig,
     method: 'patch',
     url: `/inspections/${inspectionId}/severity_pricing/${id}`,
-    data: { pricing: 0 },
+    data: { level: 1, pricing: 0, repair_operation: RepairOperation.REPAIR },
   }), [inspectionId]);
 
   return {
