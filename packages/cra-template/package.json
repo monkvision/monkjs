@@ -4,7 +4,6 @@
   "license": "BSD-3-Clause-Clear",
   "description": "Monk's create react-app template for internal or new projects.",
   "version": "4.0.0",
-  "private": false,
   "keywords": [
     "react",
     "create-react-app",
