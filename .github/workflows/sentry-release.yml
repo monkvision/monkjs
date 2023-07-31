@@ -32,7 +32,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: monk
           SENTRY_PROJECT: 'capture-app'
-          SENTRY_URL: 'https://sentry.dev.monk.ai/'
+          SENTRY_URL: 'https://monkai.sentry.io/'
         with:
           tagName: ${{ github.ref }}
           environment: ${{ needs.check_env.outputs.env_name }}
