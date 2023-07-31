@@ -2,7 +2,7 @@
   "name": "@monkvision/sights",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
-  "version": "3.7.9",
+  "version": "3.8.0",
   "main": "dist/index.json",
   "private": false,
   "description": "Vehicle sights assets for AI-powered damage detection",
