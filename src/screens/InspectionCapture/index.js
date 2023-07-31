@@ -25,7 +25,7 @@ export default function InspectionCapture() {
   const { colors } = useTheme();
   const { errorHandler } = useMonitoring();
 
-  const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
+  const { inspectionId, sightIds, taskName, vehicleType, selectedMode, isLastTour } = route.params;
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -57,8 +57,12 @@ export default function InspectionCapture() {
         }],
         { cancelable: true },
       );
-    } else { navigation.navigate(names.LANDING, { inspectionId }); }
-  }, [inspectionId, navigation]);
+    } else if (isLastTour) {
+      navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
+    } else {
+      navigation.navigate(names.LANDING, { inspectionId });
+    }
+  }, [inspectionId, navigation, vehicleType]);
 
   const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
 
@@ -198,7 +202,7 @@ export default function InspectionCapture() {
         colors={colors}
         vehicleType={vehicleType}
         selectedMode={selectedMode}
-        // overlayPathStyles={{ strokeWidth: 8 }}
+        overlayPathStyles={{ strokeWidth: 2 }}
       />
       <Notice />
     </View>

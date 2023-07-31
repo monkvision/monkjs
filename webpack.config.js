@@ -21,6 +21,7 @@ module.exports = async function (env, argv) {
   config.resolve.alias['@monkvision/sights'] = path.resolve(__dirname, './packages/sights');
   config.resolve.alias['@monkvision/toolkit'] = path.resolve(__dirname, './packages/toolkit');
   config.resolve.alias['@monkvision/visualization'] = path.resolve(__dirname, './packages/visualization');
+  config.resolve.alias['@monkvision/inspection-report'] = path.resolve(__dirname, './packages/inspection-report');
 
   if (config.mode === 'development') {
     config.devServer.compress = false;

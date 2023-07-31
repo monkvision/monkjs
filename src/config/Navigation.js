@@ -46,6 +46,11 @@ export default function Navigation() {
           component={Screens.InspectionPrompt}
           title="Monk - Inspection Prompt"
         />
+        <Stack.Screen
+          name={names.INSPECTION_REPORT}
+          component={Screens.InspectionReport}
+          title="Monk - Inspection Report"
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
