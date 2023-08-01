@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { registerRootComponent } from 'expo';
 import { Platform } from 'react-native';
