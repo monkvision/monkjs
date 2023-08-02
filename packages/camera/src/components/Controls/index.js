@@ -1,7 +1,6 @@
 import React, { createElement, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { isIOS } from 'react-device-detect';
 
 import AddDamageButton from './AddDamageButton';
 import CloseEarlyButton from './CloseEarlyButton';
@@ -362,10 +361,9 @@ Controls.getFullScreenButtonProps = (isFullscreen) => ({
     shadowColor: '#181829',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 0 },
-    visibility: isIOS ? 'hidden' : 'visible',
     ...Platform.select({
-      native: { shadowRadius: 2 },
-      default: { shadowRadius: '2px 2px' },
+      native: { shadowRadius: 2, opacity: 0 },
+      default: { shadowRadius: '2px 2px', visibility: 'visible' },
     }),
   },
 });
