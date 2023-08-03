@@ -1,10 +1,8 @@
-import { useMonitoring } from '@monkvision/corejs';
-import { useInterval } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import useSnackbar from 'hooks/useSnackbar';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, useWindowDimensions } from 'react-native';
 import { Card, List, useTheme } from 'react-native-paper';
@@ -15,7 +13,6 @@ import * as names from 'screens/names';
 import Artwork from '../Landing/Artwork';
 import LanguageSwitch from '../Landing/LanguageSwitch';
 import useGetInspection from '../Landing/useGetInspection';
-import { Clients, Workflows, useClient } from '../../contexts';
 import VehicleType from '../Landing/VehicleType';
 import useUpdateInspectionVehicle from '../Landing/useUpdateInspectionVehicle';
 import useZlibCompression from '../Landing/useZlibCompression';
@@ -25,7 +22,6 @@ import { ClientParamMap } from '../paramsMap';
 export default function CaptureVehicleSelection() {
   const { colors } = useTheme();
   const { height } = useWindowDimensions();
-  const { errorHandler } = useMonitoring();
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { Notice } = useSnackbar(true);
@@ -33,16 +29,6 @@ export default function CaptureVehicleSelection() {
 
   const [vehicleType, setVehicleType] = useState('');
   const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
-
-  const route = useRoute();
-
-  const { workflow, setClient } = useClient();
-
-  useEffect(() => {
-    const clientParam = new URLSearchParams(window.location.search)?.get('c');
-    const client = clientParam ? (ClientParamMap[clientParam] ?? Clients.DEFAULT) : Clients.DEFAULT;
-    setClient(client);
-  }, [setClient]);
 
   const { clientId, inspectionId, token } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -75,16 +61,20 @@ export default function CaptureVehicleSelection() {
     [clientId, inspectionId, token],
   );
 
-  const shouldFetch = useMemo(() => (
-    workflow === Workflows.CAPTURE ? route.params?.captureComplete : true
-  ), [workflow, route]);
-
   const getInspection = useGetInspection(inspectionId);
 
   const invalidToken = useMemo(
     () => (getInspection?.state?.error?.response?.status === 401),
     [getInspection],
   );
+
+  useEffect(() => {
+    if (inspectionId && getInspection.state.loading !== true && !invalidToken) {
+      // Getting inspection data only once at the start to get all
+      // the task for callback in CAT client
+      getInspection.start();
+    }
+  }, []);
 
   const inspection = useMemo(
     () => getInspection?.denormalizedEntities[0],
@@ -95,21 +85,6 @@ export default function CaptureVehicleSelection() {
     inspectionId,
     { vehicleType, vin: inspection?.vehicle?.vin },
   );
-
-  const start = useCallback(() => {
-    if (inspectionId && getInspection.state.loading !== true && !invalidToken && shouldFetch) {
-      getInspection.start().catch((err) => {
-        errorHandler(err);
-      });
-    }
-  }, [getInspection, shouldFetch]);
-
-  const intervalId = useInterval(start, 1000);
-
-  useFocusEffect(useCallback(() => {
-    start();
-    return () => clearInterval(intervalId);
-  }, [intervalId]));
 
   const invalidParamsContent = useMemo(() => (
     <View style={[styles.invalidParamsContainer, { backgroundColor: colors.background }]}>

@@ -121,7 +121,8 @@ export default function Landing() {
   }, [token]);
 
   const shouldFetch = useMemo(() => (
-    workflow === Workflows.CAPTURE ? route.params?.captureComplete : true
+    [Workflows.CAPTURE, Workflows.CAPTURE_VEHICLE_SELECTION].includes(workflow)
+      ? route.params?.captureComplete : true
   ), [workflow, route]);
 
   const getInspection = useGetInspection(inspectionId);
