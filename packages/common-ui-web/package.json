@@ -1,0 +1,70 @@
+{
+  "name": "@monkvision/common-ui-web",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "description": "Monk's Web UI library for common elements for React applications",
+  "version": "4.0.0",
+  "packageManager": "yarn@3.2.4",
+  "main": "lib/index.js",
+  "files": [
+    "package.json",
+    "README.md",
+    "lib"
+  ],
+  "scripts": {
+    "clean": "rimraf lib && mkdirp lib",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "",
+    "prettier": "prettier --check ./src",
+    "prettier:fix": "prettier --write ./src",
+    "eslint": "eslint --format=pretty ./src",
+    "eslint:fix": "eslint --fix --format=pretty ./src",
+    "lint": "yarn run prettier && yarn run eslint",
+    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@testing-library/dom": "^8.20.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/babel__core": "^7",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.18",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "eslint": "^8.29.0",
+    "jest": "^29.3.1",
+    "mkdirp": "^1.0.4",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^29.0.3"
+  },
+  "peerDependencies": {
+    "@monkvision/eslint-config-typescript-react": "1.0.0",
+    "@monkvision/prettier-config": "1.0.0",
+    "@monkvision/typescript-config": "1.0.0"
+  },
+  "prettier": "@monkvision/prettier-config",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "common-ui-web"
+  ],
+  "homepage": "https://github.com/monkvision/monkjs/packages/common-ui-web/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/common-ui-web"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  }
+}
