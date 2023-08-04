@@ -10,7 +10,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "module": "esnext",
-    "noEmit": true,
+    "noEmit": false,
     "skipLibCheck": true
   },
   "include": ["src"],

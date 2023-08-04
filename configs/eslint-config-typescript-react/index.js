@@ -7,7 +7,6 @@ module.exports = {
   extends: [
     '@monkvision/eslint-config-typescript',
     'plugin:jsx-a11y/recommended',
-    'react-app',
   ],
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
   parser: '@typescript-eslint/parser',

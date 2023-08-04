@@ -10,7 +10,7 @@
     ],
     "allowJs": true,
     "jsx": "react-native",
-    "noEmit": true,
+    "noEmit": false,
     "isolatedModules": true,
     "strict": true,
     "moduleResolution": "node",
