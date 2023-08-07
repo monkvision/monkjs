@@ -16,4 +16,12 @@ module.exports = {
     'react/function-component-definition': [ERROR, { namedComponent: 'arrow-function' }],
   },
   ignorePatterns: ['**/*.js', 'node_modules', 'dist'],
+  overrides: [
+    {
+      files: ['test/**/*.{ts,tsx}'],
+      rules: {
+        'import/first': OFF,
+      },
+    },
+  ],
 };

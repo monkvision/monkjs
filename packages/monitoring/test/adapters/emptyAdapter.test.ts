@@ -5,7 +5,7 @@ global.console = {
   error: jest.fn(),
 } as any;
 
-import { EmptyMonitoringAdapter } from '../../src/adapters/emptyAdapter';
+import { EmptyMonitoringAdapter } from '../../src';
 
 interface ConsoleSpy {
   debug: jest.SpyInstance | null;

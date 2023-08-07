@@ -5,8 +5,7 @@ global.console = {
   error: jest.fn(),
 } as any;
 
-import { Severity } from '../../src/adapters/adapter';
-import { DebugMonitoringAdapter } from '../../src/adapters/debugAdapter';
+import { Severity, DebugMonitoringAdapter } from '../../src';
 
 interface ConsoleSpy {
   debug: jest.SpyInstance | null;

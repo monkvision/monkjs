@@ -25,7 +25,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.{ts,tsx}'],
       rules: {
         '@typescript-eslint/no-shadow': [ERROR],
         'no-shadow': OFF,
@@ -36,6 +36,7 @@ module.exports = {
       files: ['test/**/*.{ts,tsx}'],
       rules: {
         'import/first': OFF,
+        '@typescript-eslint/no-empty-function': OFF,
       },
     },
   ],
