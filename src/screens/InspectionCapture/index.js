@@ -75,12 +75,12 @@ export default function InspectionCapture() {
       );
     } else {
       if (client === Clients.CAT) {
-        const damageDetectionTask = allTasks.find(
-          (task) => task.name === monk.types.TaskName.DAMAGE_DETECTION,
-        );
+        try {
+          const damageDetectionTask = allTasks.find(
+            (task) => task.name === monk.types.TaskName.DAMAGE_DETECTION,
+          );
 
-        if (damageDetectionTask?.arguments?.callbacks?.[0]?.url) {
-          try {
+          if (damageDetectionTask?.arguments?.callbacks?.[0]?.url) {
             await axios.request({
               method: 'post',
               url: damageDetectionTask.arguments.callbacks[0].url,
@@ -89,15 +89,15 @@ export default function InspectionCapture() {
                 tasks: allTasks.map(({ id, name, status }) => ({ id, name, status })),
               },
             });
-          } catch (error) {
-            console.error(error);
           }
+        } catch (error) {
+          console.error(error);
         }
       }
 
       navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
     }
-  }, [inspectionId, navigation, allTasks]);
+  }, [inspectionId, navigation]);
 
   const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
 
