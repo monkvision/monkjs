@@ -48,6 +48,9 @@
     "@monkvision/prettier-config": "1.0.0",
     "@monkvision/typescript-config": "1.0.0"
   },
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
   "prettier": "@monkvision/prettier-config",
   "browserslist": {
     "production": [
