@@ -28,6 +28,10 @@ export interface LogContext {
  */
 export interface TransactionContext {
   /**
+   * Name of the transaction.
+   */
+  name?: string;
+  /**
    * Description of the transaction.
    */
   description?: string;
