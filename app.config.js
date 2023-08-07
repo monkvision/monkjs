@@ -236,7 +236,7 @@ export default {
           project: 'app-native',
           authToken: 'bd32270ed42749aca5996f4a7793506bd7216a9ed9384cb688677a60f2b9c9ab',
           setCommits: true,
-          url: 'https://sentry.dev.monk.ai',
+          url: 'https://monkai.sentry.io',
         },
       },
     ],
