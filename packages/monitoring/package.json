@@ -28,10 +28,10 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "1.0.0",
-    "@monkvision/eslint-config-typescript": "1.0.0",
-    "@monkvision/prettier-config": "1.0.0",
-    "@monkvision/typescript-config": "1.0.0",
+    "@monkvision/eslint-config-base": "4.0.0",
+    "@monkvision/eslint-config-typescript": "4.0.0",
+    "@monkvision/prettier-config": "4.0.0",
+    "@monkvision/typescript-config": "4.0.0",
     "@types/jest": "^29.2.2",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",

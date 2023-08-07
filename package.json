@@ -13,14 +13,16 @@
     "apps/*"
   ],
   "scripts": {
-    "clean": "rimraf node_modules && yarn cache clean && yarn install",
-    "build": "yarn workspaces foreach -pt run build",
-    "test": "yarn workspaces foreach -pt run test",
-    "test:coverage": "yarn workspaces foreach -pt run test:coverage",
-    "lint": "yarn workspaces foreach -pt run lint",
-    "lint:fix": "yarn workspaces foreach -pt run lint:fix"
+    "clean": "rimraf node_modules && yarn cache clean && yarn install && lerna run clean",
+    "build": "lerna run build --scope '@monkvision/*'",
+    "build:all": "lerna run build",
+    "test": "lerna run test",
+    "test:coverage": "lerna run test:coverage",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix"
   },
   "devDependencies": {
+    "lerna": "^7.1.4",
     "rimraf": "^3.0.2"
   },
   "repository": {
