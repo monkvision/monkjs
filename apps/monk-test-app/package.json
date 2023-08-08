@@ -19,9 +19,9 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@monkvision/common-ui-web": "4.0.0",
     "@monkvision/monitoring": "4.0.0",
     "@monkvision/sentry": "4.0.0",
-    "@monkvision/common-ui-web": "4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",

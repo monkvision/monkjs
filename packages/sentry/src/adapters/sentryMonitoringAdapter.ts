@@ -30,27 +30,27 @@ export enum MonitoringStatus {
 export interface SentryMonitoringOptions {
   /**
    * DSN key for sentry.io application
-   * 
+   *
    * @default ""
-  */
+   */
   dsn: string;
   /**
    * The current environment of your application (e.g. "production")
-   * 
+   *
    * @default ""
-  */
+   */
   environment: string;
   /**
    * Enable debug functionality in the SDK itself
-   * 
+   *
    * @default false
-  */
+   */
   debug: boolean;
   /**
    * Release version of current application
-   * 
+   *
    * @default ""
-  */
+   */
   release: string;
   /**
    * Sample rate to determine trace sampling.
@@ -60,29 +60,29 @@ export interface SentryMonitoringOptions {
    *
    * Tracing is enabled if either this or `tracesSampler` is defined. If both are defined, `tracesSampleRate` is
    * ignored.
-   * 
+   *
    * @default 0.025
-  */
+   */
   tracesSampleRate: number;
   /**
    * Array of all the origin to browser trace.
-   * 
+   *
    * @default []
-  */
+   */
   tracingOrigins: string[];
   /**
    * Custom tags to add in all transaction.
-   * 
-  */
+   *
+   */
   customTags?: { [tag: string]: string };
 }
 
 const defaultOptions: SentryMonitoringOptions = {
-  dsn: "",
-  environment: "",
+  dsn: '',
+  environment: '',
   debug: false,
   tracesSampleRate: 0.025,
-  release: "",
+  release: '',
   tracingOrigins: [],
 };
 
@@ -129,7 +129,7 @@ export class SentryMonitoringAdapter implements MonitoringAdapter {
         }
 
         return breadcrumb;
-      }
+      },
     });
 
     if (this.options.customTags) {
@@ -169,7 +169,7 @@ export class SentryMonitoringAdapter implements MonitoringAdapter {
       startMeasurement: (name: string, data?: { [key: string]: number | string }) => {
         transactionSpansObj[name] = transaction.startChild({
           op: name,
-          data: data || {}
+          data: data || {},
         });
       },
       stopMeasurement: () => (name: string) => {
