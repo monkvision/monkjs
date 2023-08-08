@@ -19,6 +19,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@monkvision/common-ui-web": "4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -37,13 +38,15 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "eslint": "^8.29.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.3.1",
     "prettier": "^2.7.1",
     "regexpp": "^3.2.0",
     "ts-jest": "^29.0.3"
   },
   "peerDependencies": {
-    "@monkvision/common-ui-web": "4.0.0",
     "@monkvision/eslint-config-typescript-react": "1.0.0",
     "@monkvision/prettier-config": "1.0.0",
     "@monkvision/typescript-config": "1.0.0"
