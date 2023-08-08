@@ -109,20 +109,13 @@ const defaultOptions: SentryMonitoringOptions = {
  * }
  */
 export class SentryMonitoringAdapter implements MonitoringAdapter {
-  protected readonly options: Partial<SentryMonitoringOptions>;
-
-  constructor(optionsParam?: Partial<SentryMonitoringOptions>) {
-    this.options = {
-      ...defaultOptions,
-      ...(optionsParam ?? {}),
-    };
-
+  constructor(optionsParam: Partial<SentryMonitoringOptions>) {
     Sentry.init({
-      dsn: this.options.dsn || '',
-      environment: this.options.environment ?? 'local',
-      debug: this.options.debug ?? true,
-      release: this.options.release ?? '1.0',
-      tracesSampleRate: this.options.tracesSampleRate ?? 0.025,
+      dsn: optionsParam.dsn || '',
+      environment: optionsParam.environment ?? 'local',
+      debug: optionsParam.debug ?? true,
+      release: optionsParam.release ?? '1.0',
+      tracesSampleRate: optionsParam.tracesSampleRate ?? 0.025,
       beforeBreadcrumb(breadcrumb, hint) {
         if (breadcrumb.category === 'xhr') {
           return null;
@@ -132,8 +125,8 @@ export class SentryMonitoringAdapter implements MonitoringAdapter {
       },
     });
 
-    if (this.options.customTags) {
-      Sentry.setTags(this.options.customTags);
+    if (optionsParam.customTags) {
+      Sentry.setTags(optionsParam.customTags);
     }
   }
 
@@ -160,6 +153,7 @@ export class SentryMonitoringAdapter implements MonitoringAdapter {
       tags: context.tags || {},
       sampled: true,
     });
+    console.log('🚀 ~ SentryMonitoringAdapter ~ createTransaction ~ transaction:', transaction);
 
     // Create an object to map spans for a transaction
     const transactionSpansObj: { [key: string]: any } = {};

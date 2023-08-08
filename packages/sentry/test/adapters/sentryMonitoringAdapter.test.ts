@@ -1,95 +1,62 @@
-global.console = {
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-} as any;
-
+import * as Sentry from '@sentry/react';
 import { SentryMonitoringAdapter } from '../../src/adapters/sentryMonitoringAdapter';
 
-interface ConsoleSpy {
-  debug: jest.SpyInstance | null;
-  info: jest.SpyInstance | null;
-  warn: jest.SpyInstance | null;
-  error: jest.SpyInstance | null;
+jest.mock('@sentry/react');
+
+const defaultConfiguration = {
+  dsn: 'https://9daf5f76b1d7190d75eb25f7cafea2f2@o4505568095109120.ingest.sentry.io/4505662672076810',
+  environment: 'test',
+  debug: true,
+  release: '1.0',
+  tracesSampleRate: 0.025,
 }
 
-describe('Empty Monitoring Adapter', () => {
-  const consoleSpy: ConsoleSpy = {
-    debug: jest.spyOn(global.console, 'debug'),
-    info: jest.spyOn(global.console, 'info'),
-    warn: jest.spyOn(global.console, 'warn'),
-    error: jest.spyOn(global.console, 'error'),
-  };
-
+describe('Sentry Monitoring Adapter', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   describe('setUserId function', () => {
-    it('should display a warning in the console when used', () => {
-      const adapter = new SentryMonitoringAdapter();
+    it('should set a user id in sentry', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
       adapter.setUserId('test id');
-      expect(consoleSpy.warn).toHaveBeenCalled();
+      expect(Sentry.setUser).toHaveBeenCalled();
+      expect(Sentry.setUser).toHaveBeenCalledWith({ id: 'test id' });
     });
-
-    // it('should not display a warning in the console is showUnsupportedMethodWarnings is set to false', () => {
-    //   const adapter = new SentryMonitoringAdapter({ showUnsupportedMethodWarnings: false });
-    //   adapter.setUserId('test id');
-    //   expect(consoleSpy.warn).not.toHaveBeenCalled();
-    // });
   });
 
-  // describe('log function', () => {
-  //   it('should display a warning in the console when used', () => {
-  //     const adapter = new SentryMonitoringAdapter();
-  //     adapter.log('test msg');
-  //     expect(consoleSpy.warn).toHaveBeenCalled();
-  //   });
+  describe('log function', () => {
+    it('should log a message in sentry', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      adapter.log('test log');
+      expect(Sentry.captureMessage).toHaveBeenCalled();
+      expect(Sentry.captureMessage).toHaveBeenCalledWith('test log', undefined);
+    });
+  });
 
-  //   it('should not display a warning in the console is showUnsupportedMethodWarnings is set to false', () => {
-  //     const adapter = new SentryMonitoringAdapter({ showUnsupportedMethodWarnings: false });
-  //     adapter.log('test msg');
-  //     expect(consoleSpy.warn).not.toHaveBeenCalled();
-  //   });
-  // });
-
-  // describe('handleError function', () => {
-  //   it('should display a warning in the console when used', () => {
-  //     const adapter = new SentryMonitoringAdapter();
-  //     adapter.handleError(new Error('test error'));
-  //     expect(consoleSpy.warn).toHaveBeenCalled();
-  //   });
-
-  //   it('should not display a warning in the console is showUnsupportedMethodWarnings is set to false', () => {
-  //     const adapter = new SentryMonitoringAdapter({ showUnsupportedMethodWarnings: false });
-  //     adapter.handleError(new Error('test error'));
-  //     expect(consoleSpy.warn).not.toHaveBeenCalled();
-  //   });
-  // });
+  describe('handleError function', () => {
+    it('should log a message in sentry', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      adapter.handleError('test error');
+      expect(Sentry.captureException).toHaveBeenCalled();
+      expect(Sentry.captureException).toHaveBeenCalledWith('test error', undefined);
+    });
+  });
 
   // describe('createTransaction function', () => {
-  //   it('should display a warning in the console when used', () => {
-  //     const adapter = new SentryMonitoringAdapter();
-  //     adapter.createTransaction({});
-  //     expect(consoleSpy.warn).toHaveBeenCalled();
-  //   });
+    // it('should create a dummy transaction', () => {
+    //   const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+    //   const transaction = adapter.createTransaction({
+    //     name: 'capture-tour',
+    //     operation: 'capture-tour'
+    //   });
 
-  //   it('should not display a warning in the console is showUnsupportedMethodWarnings is set to false', () => {
-  //     const adapter = new SentryMonitoringAdapter({ showUnsupportedMethodWarnings: false });
-  //     adapter.createTransaction({});
-  //     expect(consoleSpy.warn).not.toHaveBeenCalled();
-  //   });
-
-  //   it('should create a dummy transaction', () => {
-  //     const adapter = new SentryMonitoringAdapter();
-  //     const transaction = adapter.createTransaction({});
-  //     expect(() => {
-  //       transaction.setTag('test', 'value');
-  //       transaction.startMeasurement('test');
-  //       transaction.stopMeasurement('test');
-  //       transaction.finish('test');
-  //     }).not.toThrow();
-  //   });
+    //   expect(() => {
+    //     transaction.setTag('test', 'value');
+    //     transaction.startMeasurement('test');
+    //     transaction.stopMeasurement('test');
+    //     transaction.finish('test');
+    //   }).not.toThrow();
+    // });
   // });
 });
