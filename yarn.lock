@@ -3031,9 +3031,9 @@ __metadata:
     ts-jest: ^29.0.3
     typescript: ^4.9.5
   peerDependencies:
-    "@monkvision/eslint-config-typescript-react": 1.0.0
-    "@monkvision/prettier-config": 1.0.0
-    "@monkvision/typescript-config": 1.0.0
+    "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/prettier-config": 4.0.0
+    "@monkvision/typescript-config": 4.0.0
   languageName: unknown
   linkType: soft
 
@@ -14564,9 +14564,9 @@ __metadata:
     typescript: ^4.9.5
     web-vitals: ^2.1.4
   peerDependencies:
-    "@monkvision/eslint-config-typescript-react": 1.0.0
-    "@monkvision/prettier-config": 1.0.0
-    "@monkvision/typescript-config": 1.0.0
+    "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/prettier-config": 4.0.0
+    "@monkvision/typescript-config": 4.0.0
   languageName: unknown
   linkType: soft
 

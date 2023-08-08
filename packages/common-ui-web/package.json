@@ -49,9 +49,9 @@
     "ts-jest": "^29.0.3"
   },
   "peerDependencies": {
-    "@monkvision/eslint-config-typescript-react": "1.0.0",
-    "@monkvision/prettier-config": "1.0.0",
-    "@monkvision/typescript-config": "1.0.0"
+    "@monkvision/eslint-config-typescript-react": "4.0.0",
+    "@monkvision/prettier-config": "4.0.0",
+    "@monkvision/typescript-config": "4.0.0"
   },
   "prettier": "@monkvision/prettier-config",
   "publishConfig": {

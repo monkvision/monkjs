@@ -1,6 +1,6 @@
 {
   "name": "monk-test-app-native",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs test app with react-native and typescript",
