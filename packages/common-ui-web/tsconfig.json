@@ -1,0 +1,4 @@
+{
+  "extends": "@monkvision/typescript-config/tsconfig.react.json",
+  "include": ["src"]
+}

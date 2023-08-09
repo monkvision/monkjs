@@ -1,16 +1,20 @@
 {
-  "name": "monkjs-app-test",
-  "version": "4.0.0",
-  "license": "BSD-3-Clause-Clear",
-  "packageManager": "yarn@3.2.4",
-  "description": "MonkJs test app with react and typescript",
+  "name": "@monkvision/common-ui-web",
   "author": "monkvision",
-  "private": true,
+  "license": "BSD-3-Clause-Clear",
+  "description": "Monk's Web UI library for common elements for React applications",
+  "version": "4.0.0",
+  "packageManager": "yarn@3.2.4",
+  "main": "lib/index.js",
+  "files": [
+    "package.json",
+    "README.md",
+    "lib"
+  ],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --no-watch --no-watchAll",
-    "eject": "react-scripts eject",
+    "clean": "rimraf lib && mkdirp lib",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
     "eslint": "eslint --format=pretty ./src",
@@ -19,12 +23,9 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/common-ui-web": "4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.9.5"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
@@ -42,8 +43,9 @@
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.3.1",
+    "mkdirp": "^1.0.4",
     "prettier": "^2.7.1",
-    "regexpp": "^3.2.0",
+    "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3"
   },
   "peerDependencies": {
@@ -51,20 +53,21 @@
     "@monkvision/prettier-config": "4.0.0",
     "@monkvision/typescript-config": "4.0.0"
   },
-  "installConfig": {
-    "hoistingLimits": "workspaces"
-  },
   "prettier": "@monkvision/prettier-config",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "common-ui-web"
+  ],
+  "homepage": "https://github.com/monkvision/monkjs/packages/common-ui-web/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/common-ui-web"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
   }
 }
