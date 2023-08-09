@@ -1,5 +1,5 @@
-import Ajv2020 from 'ajv/dist/2020';
 import { join } from 'path';
+import Ajv2020 from 'ajv/dist/2020';
 import { loadJSON, MONK_DATA_PATH, readDir } from '../io';
 import { loadSchemas } from './schemas';
 
