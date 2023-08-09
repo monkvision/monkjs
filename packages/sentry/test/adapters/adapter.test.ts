@@ -1,15 +1,15 @@
 import * as Sentry from '@sentry/react';
-import { SentryMonitoringAdapter } from '../../src/adapters/sentryMonitoringAdapter';
+import { SentryMonitoringAdapter } from '../../src';
 
 jest.mock('@sentry/react');
 
 const defaultConfiguration = {
-  dsn: 'https://9daf5f76b1d7190d75eb25f7cafea2f2@o4505568095109120.ingest.sentry.io/4505662672076810',
+  dsn: 'https://db38973466bcef38767064fd025e20c6@o4505669501648896.ingest.sentry.io/4505673881092096',
   environment: 'test',
   debug: true,
   release: '1.0',
   tracesSampleRate: 0.025,
-}
+};
 
 describe('Sentry Monitoring Adapter', () => {
   afterEach(() => {
@@ -43,20 +43,25 @@ describe('Sentry Monitoring Adapter', () => {
     });
   });
 
-  // describe('createTransaction function', () => {
-    // it('should create a dummy transaction', () => {
-    //   const adapter = new SentryMonitoringAdapter(defaultConfiguration);
-    //   const transaction = adapter.createTransaction({
-    //     name: 'capture-tour',
-    //     operation: 'capture-tour'
-    //   });
+  describe('createTransaction function', () => {
+    it('should create a dummy sentry transaction', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      adapter.createTransaction({
+        name: 'capture-tour',
+        operation: 'capture-tour',
+        description: 'Capture tour description',
+      });
 
-    //   expect(() => {
-    //     transaction.setTag('test', 'value');
-    //     transaction.startMeasurement('test');
-    //     transaction.stopMeasurement('test');
-    //     transaction.finish('test');
-    //   }).not.toThrow();
-    // });
-  // });
+      expect(Sentry.startTransaction).toHaveBeenCalled();
+      expect(Sentry.startTransaction).toHaveBeenCalledWith({
+        name: 'capture-tour',
+        op: 'capture-tour',
+        description: 'Capture tour description',
+        data: {},
+        traceId: '',
+        tags: {},
+        sampled: true,
+      });
+    });
+  });
 });

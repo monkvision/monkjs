@@ -1,4 +1,3 @@
-import React from 'react';
 import { Hello } from '@monkvision/common-ui-web';
 
 function App() {

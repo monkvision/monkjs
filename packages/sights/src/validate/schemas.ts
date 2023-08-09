@@ -14,7 +14,7 @@ export interface Schema {
   data: AnySchema;
 }
 
-export type SchemaSet = { [key: string]: AnySchema };
+export type SchemaSet = Record<string, AnySchema>;
 
 function findSchemasInDirectory(path: string): SchemaFile[] {
   return readDir(path)
