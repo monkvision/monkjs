@@ -9,7 +9,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ixIWggNGVrA5FUFxCzHJJfiSdJ9mHXto",
         "AUTH_DOMAIN": "idp.monk.ai",
-        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN": "https://28d672df7c81eb082ddbae7919503585@o4505568095109120.ingest.sentry.io/4505622355312640",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
         "PDF_REPORT_CLIENT_NAME": "Monk"
       }
@@ -24,7 +24,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn",
         "AUTH_DOMAIN": "idp.preview.monk.ai",
-        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN": "https://28d672df7c81eb082ddbae7919503585@o4505568095109120.ingest.sentry.io/4505622355312640",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
         "PDF_REPORT_CLIENT_NAME": "Monk"
       }
@@ -39,7 +39,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
         "AUTH_DOMAIN": "idp.staging.monk.ai",
-        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN": "https://28d672df7c81eb082ddbae7919503585@o4505568095109120.ingest.sentry.io/4505622355312640",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
         "PDF_REPORT_CLIENT_NAME": "Monk"
       }
@@ -54,7 +54,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
         "AUTH_DOMAIN": "idp.staging.monk.ai",
-        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN": "https://28d672df7c81eb082ddbae7919503585@o4505568095109120.ingest.sentry.io/4505622355312640",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
         "PDF_REPORT_CLIENT_NAME": "Monk"
       }
@@ -69,7 +69,7 @@
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
         "AUTH_CLIENT_ID": "ZH7GK6zgjyVDiHN0A6kY98PBWVeJfKvX",
         "AUTH_DOMAIN": "idp.dev.monk.ai",
-        "SENTRY_DSN": "https://b883345bef184d588d038ed18a563170@sentry.dev.monk.ai/3",
+        "SENTRY_DSN": "https://28d672df7c81eb082ddbae7919503585@o4505568095109120.ingest.sentry.io/4505622355312640",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
         "PDF_REPORT_CLIENT_NAME": "Monk"
       }

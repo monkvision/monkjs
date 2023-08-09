@@ -69,7 +69,7 @@ export default function SignIn() {
         <Paragraph style={styles.p}>
           {t('signin.success.message')}
         </Paragraph>
-        <Button mode="contained" color={colors.success} style={styles.button} onPress={handleNext}>
+        <Button mode="contained" color={colors.primary} style={styles.button} onPress={handleNext}>
           {t('signin.success.button')}
         </Button>
       </View>

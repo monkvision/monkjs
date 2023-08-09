@@ -52,6 +52,7 @@ export default function InspectionCreate() {
     vin,
     mode,
     vehicle,
+    isLastTour,
   } = route.params || {};
   const [inspectionId, setInspectionId] = useState(idFromParams || '');
 
@@ -95,6 +96,7 @@ export default function InspectionCreate() {
       taskName: option.taskName,
       selectedMode: selected,
       vehicleType,
+      isLastTour,
     };
 
     navigation.navigate(names.INSPECTION_CAPTURE, args);

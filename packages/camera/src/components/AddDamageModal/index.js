@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { CarOrientation, useCarOrientation } from '@monkvision/inspection-report';
 import { RotateLeft, RotateRight } from './assets';
-import { useCarOrientation, usePartSelector } from './hooks';
+import { sightCarOrientationMap, usePartSelector } from './hooks';
 import PartSelector from './PartSelector';
 
 const CONTAINER_PADDING = 10;
@@ -91,7 +92,11 @@ export default function AddDamageModal({
 }) {
   const { togglePart, isPartSelected, selectedParts } = usePartSelector();
   const { t } = useTranslation();
-  const { orientation, rotateLeft, rotateRight } = useCarOrientation(currentSight);
+  const {
+    orientation,
+    rotateLeft,
+    rotateRight,
+  } = useCarOrientation(sightCarOrientationMap[currentSight] ?? CarOrientation.FRONT_LEFT);
   const { height: windowHeight } = useWindowDimensions();
   const isCompact = useMemo(() => (windowHeight < 370), [windowHeight]);
 

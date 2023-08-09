@@ -22,17 +22,6 @@ const app = {
 
 const options = [
   {
-    value: 'vinNumber',
-    title: 'inspection.vinNumber.title',
-    description: 'inspection.vinNumber.description',
-    icon: 'car-info',
-    mode: ['automatic', 'manually'], // default to automatic
-    sightIds: [
-      'sLu0CfOt', // Vin number
-    ],
-    taskName: 'images_ocr',
-  },
-  {
     value: 'car360',
     title: 'inspection.damageDetection.title',
     description: 'inspection.damageDetection.description',
@@ -236,7 +225,7 @@ export default {
           project: 'app-native',
           authToken: 'bd32270ed42749aca5996f4a7793506bd7216a9ed9384cb688677a60f2b9c9ab',
           setCommits: true,
-          url: 'https://sentry.dev.monk.ai',
+          url: 'https://monkai.sentry.io',
         },
       },
     ],
@@ -280,6 +269,6 @@ export default {
       palette,
     },
     ...app,
-    ...eas.build.development.env,
+    ...eas.build.preview.env,
   },
 };

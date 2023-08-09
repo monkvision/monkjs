@@ -1,0 +1,61 @@
+{
+  "name": "@monkvision/inspection-report",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "version": "3.8.0",
+  "private": false,
+  "description": "AI-powered vehicle damage detection for React Native",
+  "homepage": "https://github.com/monkvision/monkjs/packages/inspection-report/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monkvision/monkjs.git",
+    "directory": "packages/inspection-report"
+  },
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "keywords": [
+    "react native",
+    "inspection report",
+    "native components",
+    "vehicle damage detection"
+  ],
+  "main": "commonjs/index.js",
+  "module": "module/index.js",
+  "react-native": "src/index.js",
+  "files": [
+    "commonjs",
+    "module",
+    "src",
+    ".editorconfig",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "watch": "watch 'yarn run build' src",
+    "lint": "eslint src --cache",
+    "lint-fix": "eslint src --fix",
+    "build": "bob build",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
+    "@react-native-community/slider": "^4.4.2",
+    "i18next": "^21.8.13",
+    "react-i18next": "^11.18.0"
+  },
+  "devDependencies": {
+    "prop-types": "^15.8.1",
+    "react-native-builder-bob": "^0.18.2",
+    "release-it": "*"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-svg": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
