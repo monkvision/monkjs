@@ -13,7 +13,7 @@
     "apps/*"
   ],
   "scripts": {
-    "clean": "rimraf node_modules && yarn cache clean && yarn install && lerna run clean",
+    "clean": "lerna run clean && rimraf node_modules && yarn cache clean && yarn install",
     "build": "lerna run build --scope '@monkvision/*'",
     "build:all": "lerna run build",
     "test": "lerna run test",
