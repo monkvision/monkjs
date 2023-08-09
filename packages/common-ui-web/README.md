@@ -24,9 +24,11 @@ function App() {
 }
 ```
 
+# Available components
 ## SVGElement
+### Description
 A component that takes an SVG as a string and displays it programmatically, meaning each SVG tag is mapped to an element that can be programmatically altered. Web uses an XML parser and HTML tags to display the SVG.
-
+### Example
 ```typescript jsx
 import { SVGElement } from '@monkvision/common-ui-web';
 
@@ -38,3 +40,7 @@ function App() {
   );
 }
 ```
+### Props
+| Prop | Type | Description | Required | Default Value |
+| - | - | - | - | - |
+| `svg` | `string` | SVG data to render on screen |  | `""` |
