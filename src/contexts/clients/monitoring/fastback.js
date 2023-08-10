@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import { name, version } from '@package/json';
 
 const fastbackConfig = {
-  dsn: 'https://6761bb83748b010e89ecef755c368779@o4505568095109120.ingest.sentry.io/4505622375563264',
+  dsn: 'https://89c3d33723b77db216379592144efd47@o4505669501648896.ingest.sentry.io/4505673902260224',
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
   tracesSampleRate: 0.025,
