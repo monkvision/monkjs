@@ -35,7 +35,10 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
   },
   selectedDot: {
-    transform: { scale: 1.5 },
+    ...Platform.select({
+      web: { transform: { scale: 1.5 } },
+      native: { transform: [{ scale: 1.5 }] },
+    }),
     backgroundColor: '#FFFFFF',
   },
 });

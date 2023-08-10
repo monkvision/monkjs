@@ -37,6 +37,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 15,
     paddingBottom: 10,
+    ...Platform.select({
+      native: { paddingTop: 50 },
+    }),
   },
   previewCloseWrapper: {
     display: 'flex',
@@ -45,6 +48,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 15,
     paddingBottom: 10,
+    ...Platform.select({
+      native: { paddingTop: 50 },
+    }),
   },
   previewPictureContainer: {
     flex: 1,
@@ -56,7 +62,10 @@ const styles = StyleSheet.create({
   header: {
     color: '#fff',
     fontSize: 20,
-    fontWeight: 600,
+    ...Platform.select({
+      web: { fontWeight: 600 },
+      native: { fontWeight: '600' },
+    }),
     paddingVertical: 10,
   },
   carouselWrapper: {
@@ -95,7 +104,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     width: '100%',
-    maxWidth: '500px',
+    ...Platform.select({
+      web: { maxWidth: '500px' },
+    }),
     overflowY: 'scroll',
     paddingHorizontal: 20,
   },
@@ -209,7 +220,18 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
             {
                 images.map((image, index) => (
                   // eslint-disable-next-line react/no-array-index-key
-                  <Animated.View style={[styles.carouselCard, { left: pan.x, width }]} key={`${image.url}-${index}`}>
+                  <Animated.View
+                    style={[styles.carouselCard, { ...Platform.select({
+                      web: {
+                        left: pan.x,
+                      },
+                      native: {
+                        transform: [{ translateX: pan.x }],
+                      },
+                    }),
+                    width }]}
+                    key={`${image.url}-${index}`}
+                  >
                     <Image
                       source={{
                         width: '100%',

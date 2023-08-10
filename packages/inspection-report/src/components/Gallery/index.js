@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, StyleSheet, View, Pressable, Text, ImageBackground } from 'react-native';
+import { Modal, StyleSheet, View, Pressable, Text, ImageBackground, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 99,
+    ...Platform.select({
+      native: { paddingTop: 50 },
+    }),
   },
   title: {
     fontSize: 24,
@@ -65,6 +68,9 @@ const styles = StyleSheet.create({
     top: 20,
     right: 20,
     zIndex: 999,
+    ...Platform.select({
+      native: { paddingTop: 50 },
+    }),
   },
 });
 

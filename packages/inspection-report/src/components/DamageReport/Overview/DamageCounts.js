@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 
 import { IconSeverityNone, SeveritiesWithIcon } from '../../../assets';
 import { CommonPropTypes, DamageMode } from '../../../resources';
@@ -31,7 +31,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   severityCount: {
-    fontWeight: 'medium',
+    ...Platform.select({
+      web: { fontWeight: 'medium' },
+      native: { fontWeight: 'normal' },
+    }),
     fontSize: 12,
     color: '#FFFFFF',
   },
