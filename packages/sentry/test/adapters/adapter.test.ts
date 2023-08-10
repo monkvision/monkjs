@@ -20,7 +20,6 @@ describe('Sentry Monitoring Adapter', () => {
     it('should set a user id in sentry', () => {
       const adapter = new SentryMonitoringAdapter(defaultConfiguration);
       adapter.setUserId('test id');
-      expect(Sentry.setUser).toHaveBeenCalled();
       expect(Sentry.setUser).toHaveBeenCalledWith({ id: 'test id' });
     });
   });
@@ -29,7 +28,6 @@ describe('Sentry Monitoring Adapter', () => {
     it('should log a message in sentry', () => {
       const adapter = new SentryMonitoringAdapter(defaultConfiguration);
       adapter.log('test log');
-      expect(Sentry.captureMessage).toHaveBeenCalled();
       expect(Sentry.captureMessage).toHaveBeenCalledWith('test log', undefined);
     });
   });
@@ -38,7 +36,6 @@ describe('Sentry Monitoring Adapter', () => {
     it('should log a message in sentry', () => {
       const adapter = new SentryMonitoringAdapter(defaultConfiguration);
       adapter.handleError('test error');
-      expect(Sentry.captureException).toHaveBeenCalled();
       expect(Sentry.captureException).toHaveBeenCalledWith('test error', undefined);
     });
   });
@@ -52,7 +49,6 @@ describe('Sentry Monitoring Adapter', () => {
         description: 'Capture tour description',
       });
 
-      expect(Sentry.startTransaction).toHaveBeenCalled();
       expect(Sentry.startTransaction).toHaveBeenCalledWith({
         name: 'capture-tour',
         op: 'capture-tour',

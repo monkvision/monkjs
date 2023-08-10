@@ -67,7 +67,7 @@ export interface Transaction {
   /**
    * Start a measurement.
    * @param name The name of the measurement. This name will be treated as the identifier of the measurement.
-   * @param data Optional data to be send at the start of measurements.
+   * @param data Optional data to be sent at the start of measurements.
    */
   startMeasurement: (name: string, data?: Record<string, number | string>) => void;
   /**

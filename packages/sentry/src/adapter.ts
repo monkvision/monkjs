@@ -55,7 +55,7 @@ export interface SentryConfig {
   /**
    * Release version of application.
    *
-   * @default '''
+   * @default ''
    */
   release: string;
   /**
@@ -63,7 +63,7 @@ export interface SentryConfig {
    *
    * 0.0 = 0% chance of a given trace being sent (send no traces) 1.0 = 100% chance of a given trace being sent (send
    * all traces).
-   * 
+   *
    * @default 0.025
    */
   tracesSampleRate: number;
@@ -104,7 +104,7 @@ export class SentryMonitoringAdapter implements MonitoringAdapter {
   constructor(optionsParam: SentryAdapterConfig) {
     this.options = {
       ...defaultOptions,
-      ...(optionsParam ?? {}),
+      ...optionsParam,
     };
 
     Sentry.init({
@@ -139,8 +139,6 @@ export class SentryMonitoringAdapter implements MonitoringAdapter {
       tags: context.tags ?? {},
       sampled: true,
     });
-
-    // Create an object to map spans for a transaction.
     const transactionSpans: Record<string, Span> = {};
 
     return {
