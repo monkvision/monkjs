@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import { name, version } from '@package/json';
 
 const alphaConfig = {
-  dsn: 'https://43eff3005b2ff287a354dd90562d10da@o4505568095109120.ingest.sentry.io/4505622369337344',
+  dsn: 'https://723118e6e7b146317643c7a6ecd60d85@o4505669501648896.ingest.sentry.io/4505673897345024',
   environment: Constants.manifest.extra.ENV,
   debug: Constants.manifest.extra.ENV !== 'production',
   tracesSampleRate: 0.025,
