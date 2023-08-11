@@ -143,6 +143,12 @@ export default function InspectionCapture() {
     }
   }, [success, isFocused]);
 
+  const handleCaptureClose = useCallback(() => {
+    if (!enableComplianceCheck) {
+      navigation.navigate(names.LANDING, { inspectionId });
+    }
+  }, [enableComplianceCheck, inspectionId]);
+
   const captureRef = useRef();
 
   const controls = [
@@ -195,6 +201,7 @@ export default function InspectionCapture() {
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
         onWarningMessage={(message) => setShowMessage(message)}
+        onCaptureClose={handleCaptureClose}
         onChange={handleChange}
         enableComplianceCheck={enableComplianceCheck}
         onCaptureTourFinish={handleCaptureTourFinish}

@@ -127,6 +127,7 @@ const Capture = forwardRef(({
   onPictureUploaded,
   onPictureTaken,
   onWarningMessage,
+  onCaptureClose,
   onReady,
   onStartUploadPicture,
   onFinishUploadPicture,
@@ -375,6 +376,7 @@ const Capture = forwardRef(({
     utils.log(['[Event] Capture-Tour sentry transaction cancels']);
     captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
     setEndTour(true);
+    onCaptureClose();
   }, [setEndTour]);
 
   const handleCloseEarlyClick = useCallback(({ confirm, confirmationMessage }) => {
@@ -801,6 +803,7 @@ Capture.propTypes = {
   offline: PropTypes.objectOf(PropTypes.any),
   onCameraPermissionError: PropTypes.func,
   onCameraPermissionSuccess: PropTypes.func,
+  onCaptureClose: PropTypes.func,
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
@@ -916,6 +919,7 @@ Capture.defaultProps = {
   onPictureTaken: () => {},
   onCameraPermissionError: () => {},
   onCameraPermissionSuccess: () => {},
+  onCaptureClose: () => {},
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},
