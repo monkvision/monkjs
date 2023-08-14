@@ -28,7 +28,7 @@ well known Monitoring platform. If you want to use this adapter, take a look at 
 
 # Basic Usage
 ## Set Up
-In order to configure the monitoring inside your application, you first need to instanciate the Monitoring Adapter you
+In order to configure the monitoring inside your application, you first need to instantiate the Monitoring Adapter you
 want to use, and then wrap your root component in the `MonitoringProvider` and passing it the adapter as a prop :
 
 ```typescript jsx
@@ -104,7 +104,7 @@ class MyCustomMonitoringAdapter extends EmptyMonitoringAdapter {
 
 Note that when doing so, the unimplemented methods will work : even though they will do nothing, they won't throw any
 error. If you try to use one of the features that is not implemented, a warning will be displayed in the console
-indicating that the feature is not supported by the current Monitoring Adapter. This behaviour can be configured in the
+indicating that the feature is not supported by the current Monitoring Adapter. This behavior can be configured in the
 options given to the `EmptyMonitoringAdapter` constructor.
 
 # API
@@ -146,7 +146,7 @@ export interface Transaction {
   // Set a tag in the transaction
   setTag: (name: string, value: string) => void;
   // Start a performance measurement
-  startMeasurement: (name: string) => void;
+  startMeasurement: (name: string, data?: Record<string, number | string>) => void;
   // Stop a given measurement
   stopMeasurement: (name: string) => void;
   // Complete the transaction

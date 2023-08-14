@@ -19,14 +19,18 @@ export enum Severity {
  */
 export interface LogContext {
   level?: Severity;
-  extras?: { [key: string]: unknown };
-  tags?: { [key: string]: Primitive };
+  extras?: Record<string, unknown>;
+  tags?: Record<string, Primitive>;
 }
 
 /**
  * Context provided when creating a transaction.
  */
 export interface TransactionContext {
+  /**
+   * Name of the transaction.
+   */
+  name?: string;
   /**
    * Description of the transaction.
    */
@@ -42,15 +46,11 @@ export interface TransactionContext {
   /**
    * Tags of the transaction.
    */
-  tags?: {
-    [key: string]: Primitive;
-  };
+  tags?: Record<string, Primitive>;
   /**
    * Data of the transaction.
    */
-  data?: {
-    [key: string]: any;
-  };
+  data?: Record<string, any>;
 }
 
 /**
@@ -67,8 +67,9 @@ export interface Transaction {
   /**
    * Start a measurement.
    * @param name The name of the measurement. This name will be treated as the identifier of the measurement.
+   * @param data Optional data to be sent at the start of measurements.
    */
-  startMeasurement: (name: string) => void;
+  startMeasurement: (name: string, data?: Record<string, number | string>) => void;
   /**
    * Stop (and complete) a measurement that was created using the Transaction.startMeasurement method.
    * @param name The name of the measurement. This name must be the same as the one given to the
