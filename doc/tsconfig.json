@@ -1,0 +1,9 @@
+{
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@monkvision/typescript-config/tsconfig.react.json",
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "compilerOptions": {
+    "baseUrl": "."
+  }
+}
