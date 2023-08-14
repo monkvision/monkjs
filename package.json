@@ -10,9 +10,11 @@
   "workspaces": [
     "configs/*",
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "doc"
   ],
   "scripts": {
+    "start:doc": "cd doc && yarn run doc:start",
     "clean": "lerna run clean && rimraf node_modules && yarn cache clean && yarn install",
     "build": "lerna run build --scope '@monkvision/*'",
     "build:all": "lerna run build",

@@ -16,6 +16,7 @@
 # modules
 node_modules
 .idea
+.docusaurus/
 
 # testing
 coverage/
