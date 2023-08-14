@@ -41,6 +41,7 @@ module.exports = {
       files: ['test/**/*.{js,jsx}'],
       rules: {
         'import/first': OFF,
+        '@typescript-eslint/no-empty-function': OFF,
       },
     },
   ],

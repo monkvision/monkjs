@@ -10,8 +10,5 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': OFF,
     'no-console': OFF,
-    '@typescript-eslint/no-explicit-any': OFF,
-    'class-methods-use-this': OFF,
-    '@typescript-eslint/no-empty-function': OFF,
   }
 }
