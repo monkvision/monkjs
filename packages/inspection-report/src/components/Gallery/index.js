@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, StyleSheet, View, Pressable, Text, ImageBackground, Platform } from 'react-native';
+import { Modal, StyleSheet, View, Pressable, Text, ImageBackground, Platform, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +10,11 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'flex-start',
     flex: 1,
-    flexDirection: 'row',
+    ...Platform.select({
+      web: {
+        flexDirection: 'row',
+      },
+    }),
     flexWrap: 'wrap',
     justifyContent: 'center',
     paddingVertical: 15,
@@ -88,14 +92,34 @@ function Gallery({ pictures }) {
     setFocusedPhoto(null);
   }, []);
 
+  const renderList = useCallback(() => {
+    if (Platform.OS === 'web') {
+      return (
+        pictures.map((image, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
+            <Thumbnail image={image} click={handleOnImageClick} />
+          </View>
+        ))
+      );
+    }
+    return (
+      <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        {
+          pictures.map((image, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <View style={[styles.thumbnailWrapper, { width: image.width, flexDirection: 'row' }]} key={`${image.url}-${index}`}>
+              <Thumbnail image={image} click={handleOnImageClick} />
+            </View>
+          ))
+        }
+      </ScrollView>
+    );
+  }, [pictures]);
+
   return (
     <View style={[styles.container, pictures.length === 0 ? styles.messageContainer : {}]}>
-      {pictures.length > 0 ? pictures.map((image, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
-          <Thumbnail image={image} click={handleOnImageClick} />
-        </View>
-      )) : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
+      {pictures.length > 0 ? renderList() : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
       <Modal
         animationType="slide"
         transparent
