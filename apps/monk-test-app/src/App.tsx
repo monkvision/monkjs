@@ -1,11 +1,10 @@
-import { Hello } from '@monkvision/common-ui-web';
+import React from 'react';
+import { Camera } from '@monkvision/camera-web';
 
 function App() {
   return (
-    <div>
-      <header>
-        <Hello />
-      </header>
+    <div className='container'>
+      <Camera />
     </div>
   );
 }

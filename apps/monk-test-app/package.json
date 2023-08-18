@@ -7,7 +7,7 @@
   "author": "monkvision",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --no-watch --no-watchAll",
     "eject": "react-scripts eject",
@@ -19,6 +19,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@monkvision/camera-web": "4.0.0",
     "@monkvision/common-ui-web": "4.0.0",
     "@monkvision/monitoring": "4.0.0",
     "@monkvision/sentry": "4.0.0",
