@@ -10,7 +10,7 @@
     "alwaysStrict": true,
     "declaration": true,
     "esModuleInterop": true,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
     "forceConsistentCasingInFileNames": true,
     "lib": ["esnext"],
     "module": "commonjs",

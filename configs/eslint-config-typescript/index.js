@@ -22,6 +22,7 @@ module.exports = {
     'prettier/prettier': ERROR,
     '@typescript-eslint/lines-between-class-members': OFF,
     'no-useless-constructor': OFF,
+    '@typescript-eslint/no-empty-function': [ERROR, { allow: ['arrowFunctions'] }]
   },
   overrides: [
     {

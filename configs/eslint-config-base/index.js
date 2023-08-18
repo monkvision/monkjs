@@ -35,6 +35,8 @@ module.exports = {
     'no-plusplus': [ERROR, { allowForLoopAfterthoughts: true }],
     'lines-between-class-members': OFF,
     'dot-notation': OFF,
+    'indent': OFF,
+    'promise/catch-or-return': [ERROR, { allowFinally: true }],
   },
   overrides: [
     {
