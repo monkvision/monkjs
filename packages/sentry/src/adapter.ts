@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  DebugMonitoringAdapter,
   LogContext,
   MonitoringAdapter,
   Severity,
@@ -98,38 +98,41 @@ const defaultOptions: Omit<SentryConfig, 'dsn'> = {
  * application and Sentry. `log` and `handleError` methods will log data and errors respectively in the Sentry dashboards.
  * While `createTransaction` method used to measure a performance of an application at any given point.
  */
-export class SentryMonitoringAdapter implements MonitoringAdapter {
-  private readonly options: SentryConfig;
+export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements MonitoringAdapter {
+  private readonly sentryOptions: SentryConfig;
 
   constructor(optionsParam: SentryAdapterConfig) {
-    this.options = {
+    super();
+    this.sentryOptions = {
       ...defaultOptions,
       ...optionsParam,
     };
 
     Sentry.init({
       ...this.options,
-      beforeBreadcrumb: (breadcrumb, hint) => (breadcrumb.category === 'xhr' ? null : breadcrumb),
+      beforeBreadcrumb: (breadcrumb) => (breadcrumb.category === 'xhr' ? null : breadcrumb),
     });
 
-    if (this.options.customTags) {
-      Sentry.setTags(this.options.customTags);
+    if (this.sentryOptions.customTags) {
+      Sentry.setTags(this.sentryOptions.customTags);
     }
   }
 
-  setUserId(id: string): void {
+  override setUserId(id: string): void {
     Sentry.setUser({ id });
   }
 
-  log(msg: string, context?: LogContext | Severity): void {
+  override log(msg: string, context?: LogContext | Severity): void {
+    super.log(msg, context);
     Sentry.captureMessage(msg, context);
   }
 
-  handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+  override handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+    super.handleError(err, context);
     Sentry.captureException(err, context);
   }
 
-  createTransaction(context: TransactionContext): Transaction {
+  override createTransaction(context: TransactionContext): Transaction {
     const transaction = Sentry.startTransaction({
       name: context.name ?? '',
       data: context.data ?? {},
