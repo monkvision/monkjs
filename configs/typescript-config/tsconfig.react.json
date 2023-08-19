@@ -9,7 +9,7 @@
     ],
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "module": "esnext",
+    "module": "commonjs",
     "skipLibCheck": true
   },
   "include": ["src"],

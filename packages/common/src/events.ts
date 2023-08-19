@@ -15,7 +15,7 @@ export type HandlerFn = (...args: never) => unknown;
  *   onPictureTaken?: (picture: Picture) => unknown,
  * }
  */
-export type MonkEventHandlers = Record<string, HandlerFn>;
+export type MonkEventHandlers = { [key in string]?: HandlerFn };
 
 /**
  * Merge multiple event handlers into one single object. The handler functions will all be called, in the order

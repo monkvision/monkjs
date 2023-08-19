@@ -1,7 +1,9 @@
+const { react } = require('@monkvision/jest-config');
+
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  testMatch: ['**/test/**/*.test.{ts,tsx}'],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['lcov'],
+  ...react,
+  // moduleNameMapper:{
+  //   '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+  //   '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
+  // }
 };

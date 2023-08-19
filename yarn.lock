@@ -2702,6 +2702,7 @@ __metadata:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/jest-config": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/typescript-config": 4.0.0
@@ -2790,6 +2791,7 @@ __metadata:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
@@ -2879,6 +2881,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/jest-config@4.0.0, @monkvision/jest-config@workspace:configs/jest-config":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/jest-config@workspace:configs/jest-config"
+  peerDependencies:
+    prettier: ^2.7.1
+  languageName: unknown
+  linkType: soft
+
 "@monkvision/monitoring@4.0.0, @monkvision/monitoring@workspace:packages/monitoring":
   version: 0.0.0-use.local
   resolution: "@monkvision/monitoring@workspace:packages/monitoring"
@@ -2886,6 +2896,7 @@ __metadata:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/react": ^14.0.0
@@ -2924,6 +2935,7 @@ __metadata:
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
+    "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@types/jest": ^29.2.2
@@ -2999,6 +3011,7 @@ __metadata:
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
+    "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@types/jest": ^29.2.2

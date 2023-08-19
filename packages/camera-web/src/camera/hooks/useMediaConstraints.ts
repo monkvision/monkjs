@@ -60,7 +60,7 @@ const CAMERA_RESOLUTION_SIZES: {
   [CameraResolution.HD_720P]: { width: 1280, height: 720 },
   [CameraResolution.FHD_1080P]: { width: 1920, height: 1080 },
   [CameraResolution.QHD_2K]: { width: 2560, height: 1440 },
-  [CameraResolution.UHD_4K]: { width: 3840, height: 3840 },
+  [CameraResolution.UHD_4K]: { width: 3840, height: 2160 },
 };
 
 /**

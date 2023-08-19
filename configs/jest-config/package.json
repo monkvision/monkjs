@@ -1,17 +1,22 @@
 {
-  "name": "@monkvision/typescript-config",
+  "name": "@monkvision/jest-config",
   "packageManager": "yarn@3.2.4",
   "version": "4.0.0",
-  "description": "The TSConfigs used in MonkJs TypeScript projects",
+  "description": "Jest configuration files used in MonkJs projects",
   "author": "monkvision",
+  "main": "index.js",
   "license": "BSD-3-Clause-Clear",
   "files": [
-    "tsconfig.json",
-    "tsconfig.react.json",
-    "tsconfig.react-native.json",
+    "index.js",
+    "base.js",
+    "react.js",
+    "__mocks__",
     "LICENSE",
     "README.md"
   ],
+  "peerDependencies": {
+    "prettier": "^2.7.1"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -21,9 +26,10 @@
   },
   "keywords": [
     "monkvision",
-    "config",
-    "typescript",
-    "tsconfig"
+    "style guide",
+    "lint",
+    "prettier",
+    "config"
   ],
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"

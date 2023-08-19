@@ -29,6 +29,7 @@
   "devDependencies": {
     "@monkvision/eslint-config-base": "4.0.0",
     "@monkvision/eslint-config-typescript": "4.0.0",
+    "@monkvision/jest-config": "4.0.0",
     "@monkvision/prettier-config": "4.0.0",
     "@monkvision/typescript-config": "4.0.0",
     "@types/jest": "^29.2.2",

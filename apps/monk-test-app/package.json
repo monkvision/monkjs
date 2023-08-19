@@ -9,7 +9,7 @@
   "scripts": {
     "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --no-watch --no-watchAll",
+    "test": "react-scripts test --no-watch --no-watchAll --passWithNoTests",
     "eject": "react-scripts eject",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
