@@ -3,7 +3,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/test/**/*.test.ts'],
-  coverageDirectory: 'olaf',
+  coverageDirectory: 'coverage',
   coverageReporters: ['lcov'],
   collectCoverageFrom: [
     'src/**/*.ts',

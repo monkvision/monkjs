@@ -1,12 +1,12 @@
 import React from 'react';
-import { CameraConfig, useCamera } from './hooks';
+import { CameraConfig, useCameraPreview } from './hooks';
 import './styles.css';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CameraProps extends CameraConfig {}
 
 export function Camera({ options }: CameraProps) {
-  const { videoRef } = useCamera({ options });
+  const { videoRef } = useCameraPreview({ options });
 
   return (
     <div className='camera-container'>

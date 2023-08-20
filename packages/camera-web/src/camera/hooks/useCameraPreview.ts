@@ -16,10 +16,9 @@ export interface CameraConfig {
 }
 
 /**
- * An object containing utilities used to handle the Monk camera. This set of handles is obtained using the `useCamera`
- * hook.
+ * An object containing properties used to handle the camera preview.
  */
-export interface CameraHandles {
+export interface CameraPreviewDetails {
   /**
    * React MutableRefObject referencing the video element displaying the camera preview.
    */
@@ -39,13 +38,13 @@ export interface CameraHandles {
 }
 
 /**
- * Custom hook used to initialize and handle the camera. It initializes the camera stream based on the given
- * configuration, and provides handles to manage the camera such as taking pictures etc...
+ * Custom hook used to initialize and handle the camera preview. It initializes the camera stream based on the given
+ * configuration, and provides handles to manage the camera such as the ref to the video element etc.
  *
  * @param options Optional configuration options for the camera.
- * @return A set of handles for the camera.
+ * @return A set of properties used to manage the camera preview.
  */
-export function useCamera({ options }: CameraConfig = {}): CameraHandles {
+export function useCameraPreview({ options }: CameraConfig = {}): CameraPreviewDetails {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { handleError } = useMonitoring();
   const constraints = useMediaConstraints(options);

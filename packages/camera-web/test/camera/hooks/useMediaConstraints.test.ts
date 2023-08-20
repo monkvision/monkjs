@@ -1,7 +1,12 @@
-import React from 'react';
-import { CameraResolution, useMediaConstraints } from '../../../src';
+import { renderHook } from '@testing-library/react';
+import { CameraFacingMode, CameraResolution, useMediaConstraints } from '../../../src';
 
-jest.mock('react');
+const EXPECTED_FACING_MODE_VALUES: {
+  [key in CameraFacingMode]: string;
+} = {
+  [CameraFacingMode.ENVIRONMENT]: 'environment',
+  [CameraFacingMode.USER]: 'user',
+};
 
 const EXPECTED_CAMERA_RESOLUTION_SIZES: {
   [key in CameraResolution]: { width: number; height: number };
@@ -24,16 +29,57 @@ const DEFAULT_EXPECTED_CONSTRAINTS = {
 };
 
 describe('useMediaConstraints hook', () => {
-  beforeEach(() => {
-    React.useMemo = jest.fn((callback) => callback());
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should return the default constraints when no options are specified', () => {
-    const constraints = useMediaConstraints();
-    expect(constraints).toEqual(DEFAULT_EXPECTED_CONSTRAINTS);
+    const { result, unmount } = renderHook(useMediaConstraints);
+    expect(result.current).toEqual(DEFAULT_EXPECTED_CONSTRAINTS);
+    unmount();
   });
+
+  it('should properly map the deviceId option', () => {
+    const deviceId = 'test-id';
+    const { result, unmount } = renderHook(useMediaConstraints, {
+      initialProps: { deviceId },
+    });
+    expect(result.current).toEqual({
+      ...DEFAULT_EXPECTED_CONSTRAINTS,
+      video: {
+        ...DEFAULT_EXPECTED_CONSTRAINTS.video,
+        deviceId,
+      },
+    });
+    unmount();
+  });
+
+  Object.values(CameraFacingMode).forEach((facingMode) =>
+    it(`should properly map the '${facingMode}' facingMode option`, () => {
+      const { result, unmount } = renderHook(useMediaConstraints, {
+        initialProps: { facingMode },
+      });
+      expect(result.current).toEqual({
+        ...DEFAULT_EXPECTED_CONSTRAINTS,
+        video: {
+          ...DEFAULT_EXPECTED_CONSTRAINTS.video,
+          facingMode: EXPECTED_FACING_MODE_VALUES[facingMode],
+        },
+      });
+      unmount();
+    }),
+  );
+
+  Object.values(CameraResolution).forEach((resolution) =>
+    it(`should properly map the '${resolution}' resolution option`, () => {
+      const { result, unmount } = renderHook(useMediaConstraints, {
+        initialProps: { quality: { resolution } },
+      });
+      expect(result.current).toEqual({
+        ...DEFAULT_EXPECTED_CONSTRAINTS,
+        video: {
+          ...DEFAULT_EXPECTED_CONSTRAINTS.video,
+          width: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[resolution].width },
+          height: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[resolution].height },
+        },
+      });
+      unmount();
+    }),
+  );
 });
