@@ -160,6 +160,7 @@ const Capture = forwardRef(({
     },
   });
   const [endTour, setEndTour] = useState(false);
+  const [isTourClosed, setIsTourClosed] = useState(false);
   const { height, width } = useWindowDimensions();
   const { errorHandler, measurePerformance } = useMonitoring();
 
@@ -375,7 +376,7 @@ const Capture = forwardRef(({
     // finish 'capture tour' transaction unsuccessfully
     utils.log(['[Event] Capture-Tour sentry transaction cancels']);
     captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
-    setEndTour(true);
+    setIsTourClosed(true);
     onCaptureClose();
   }, [setEndTour]);
 
@@ -470,6 +471,25 @@ const Capture = forwardRef(({
       totalAddDamageTransactions: 0,
     };
   }, []);
+
+  useEffect(() => {
+    const id = sights.state.current.id;
+    const status = uploads.state[id].status;
+    const picture = uploads.state[id].picture;
+    const uploadCount = uploads.state[id].uploadCount;
+    if (isTourClosed) {
+      if (status === 'idle' && !picture && uploadCount >= 1) {
+        // Retake the pic for a particular sight ID and tour is already closed
+        setEndTour(false);
+      } else if (status === 'fulfilled' && picture && uploadCount >= 1) {
+        // If you take a pic from capture-phase and tour is already closed
+        setEndTour(true);
+      } else if (status === 'idle' && !picture && !uploadCount) {
+        // If you close the tour by clicking on close button
+        setEndTour(true);
+      }
+    }
+  }, [sights.state, uploads.state, isTourClosed]);
 
   useEffect(() => {
     /**
