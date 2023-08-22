@@ -15,7 +15,7 @@ import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
 
-const enableComplianceCheck = true;
+const enableComplianceCheck = false;
 
 export default function InspectionCapture() {
   const route = useRoute();
