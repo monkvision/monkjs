@@ -6,6 +6,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import * as names from 'screens/names';
 
 const damageMode = DamageMode.ALL;
+const currencyCharacter = '€';
 
 export default function InspectionReport() {
   const route = useRoute();
@@ -20,6 +21,7 @@ export default function InspectionReport() {
     <DamageReport
       inspectionId={inspectionId}
       damageMode={damageMode}
+      currencyCharacter={currencyCharacter}
       vehicleType={vehicleType}
       generatePdf
       pdfOptions={pdfOptions}
