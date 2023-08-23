@@ -276,7 +276,7 @@ const Capture = forwardRef(({
     endTour,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
-  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId });
+  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId, addDamageParts });
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
