@@ -7,7 +7,9 @@ import {
   PanResponder,
   StyleSheet,
   TouchableWithoutFeedback,
-  useWindowDimensions, Platform,
+  useWindowDimensions,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useOrientation } from '../../../hooks';
@@ -36,12 +38,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingTop: 6,
-    paddingBottom: 6,
+    ...Platform.select({
+      web: { paddingBottom: 6 },
+      native: { paddingBottom: 100 },
+    }),
     paddingLeft: 16,
     paddingRight: 16,
     ...Platform.select({
-      web: { top: 650, },
-      native: { top: 200, },
+      web: { top: 650 },
+      native: { top: 50 },
     }),
   },
   horizontalBarContent: {
@@ -111,7 +116,7 @@ export default function UpdateDamagePopUp({
   const [viewMode, setViewMode] = useState(null);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: bottomLimitY })).current;
-  const topLimitY = Platform.OS === 'web' ? 145 : -30;
+  const topLimitY = Platform.OS === 'web' ? 145 : 0;
 
   const handleToggleDamage = useCallback((isToggled) => {
     setViewMode(isToggled ? DisplayMode.FULL : DisplayMode.MINIMAL);
@@ -164,9 +169,11 @@ export default function UpdateDamagePopUp({
           pan.setValue({ x: 0, y: bottomLimitY });
         } else {
           Animated.event(
-            [{ moveX: pan.x, moveY: pan.y }, { nativeEvent: {
-              contentOffset: { y: pan.y, x: pan.x },
-            } }],
+            [{ moveX: pan.x, moveY: pan.y }, {
+              nativeEvent: {
+                contentOffset: { y: pan.y, x: pan.x },
+              },
+            }],
             { useNativeDriver: Platform.OS !== 'web' },
           )(event, gestureStat);
         }
@@ -194,6 +201,31 @@ export default function UpdateDamagePopUp({
     setViewMode(displayMode);
   }, [displayMode]);
 
+  const getDamageManipulator = useCallback(() => (
+    <View style={[styles.contentWrapper, { marginBottom: topOffset }]}>
+      <View style={[styles.content]}>
+        <Text style={[styles.text, styles.title]}>{t(`damageReport.parts.${part}`)}</Text>
+        <ImageButton imageCount={imageCount} onPress={onShowGallery} />
+      </View>
+      <DamageManipulator
+        damage={damage}
+        damageMode={damageMode}
+        displayMode={viewMode}
+        onConfirm={handleConfirm}
+        onToggleDamage={handleToggleDamage}
+        isEditable={isEditable}
+      />
+    </View>
+  ), [topOffset,
+    imageCount,
+    damage,
+    damageMode,
+    viewMode,
+    isEditable,
+    onShowGallery,
+    handleConfirm,
+    handleToggleDamage]);
+
   return (
     <View style={[styles.container, style]}>
       <TouchableWithoutFeedback onPress={scrollOut}>
@@ -217,21 +249,9 @@ export default function UpdateDamagePopUp({
         >
           <View style={[styles.horizontalBar]} />
         </View>
-
-        <View style={[styles.contentWrapper, { marginBottom: topOffset }]}>
-          <View style={[styles.content]}>
-            <Text style={[styles.text, styles.title]}>{t(`damageReport.parts.${part}`)}</Text>
-            <ImageButton imageCount={imageCount} onPress={onShowGallery} />
-          </View>
-          <DamageManipulator
-            damage={damage}
-            damageMode={damageMode}
-            displayMode={viewMode}
-            onConfirm={handleConfirm}
-            onToggleDamage={handleToggleDamage}
-            isEditable={isEditable}
-          />
-        </View>
+        {
+          Platform.OS === 'web' ? getDamageManipulator() : <ScrollView>{getDamageManipulator()}</ScrollView>
+        }
       </Animated.View>
     </View>
   );
@@ -254,9 +274,9 @@ UpdateDamagePopUp.defaultProps = {
   damageMode: DamageMode.ALL,
   isEditable: true,
   imageCount: 0,
-  onConfirm: () => {},
-  onDismiss: () => {},
-  onShowGallery: () => {},
+  onConfirm: () => { },
+  onDismiss: () => { },
+  onShowGallery: () => { },
   part: '',
   style: {},
 };

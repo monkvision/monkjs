@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Platform } from 'react-native';
 
 import { CarOrientation, CommonPropTypes, DamageMode, VehicleType } from '../../../resources';
 import CarView360 from '../../CarView360';

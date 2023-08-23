@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 
 import { IconChevronLeft, IconChevronRight } from '../../assets';
 import { CarOrientation, CommonPropTypes } from '../../resources';
