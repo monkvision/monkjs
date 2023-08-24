@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from 'jwt-decode';
 
 import discoveries from 'config/discoveries';
-import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
+import { makeRedirectUri, Prompt, ResponseType, revokeAsync, useAuthRequest } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
@@ -27,12 +27,22 @@ const scopes = ['openid', 'email', 'profile', 'read:current_user', 'update:curre
 
 export const ASYNC_STORAGE_AUTH_KEY = '@auth_Storage';
 
-export function dispatchSignOut(dispatch) {
-  dispatch(authSlice.actions.update({
-    accessToken: null,
-    isLoading: false,
-    isSignedOut: true,
-  }));
+export async function dispatchSignOut(dispatch) {
+  const revokeResponse = await revokeAsync(
+    {
+      clientId: monk.config.authConfig.clientId,
+      token: monk.config?.accessToken,
+    },
+    discoveries
+  );
+
+  if (revokeResponse) {
+    dispatch(authSlice.actions.update({
+      accessToken: null,
+      isLoading: false,
+      isSignedOut: true,
+    }));
+  }
 }
 
 export function onAuthenticationSuccess(authentication, dispatch) {
@@ -61,6 +71,7 @@ export default function useSignIn(callbacks = {}) {
       clientId: monk.config.authConfig.clientId,
       scopes,
       redirectUri,
+      prompt: Prompt.Login,
       extraParams: {
         audience: monk.config.authConfig.audience,
       },
