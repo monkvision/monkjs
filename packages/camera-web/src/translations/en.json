@@ -1,0 +1,9 @@
+{
+  "retry": "Retry",
+  "errors": {
+    "permission": "Camera preview unavailable because camera access was not granted to the page.",
+    "inactive": "The camera video stream was closed unexpectedly.",
+    "invalid": "Unable to process the camera video stream.",
+    "other": "An unexpected error occurred when fetching the camera video stream."
+  }
+}

@@ -11,7 +11,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": false,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": false,
     "lib": ["esnext"],
     "module": "commonjs",
     "moduleResolution": "node",
@@ -31,7 +31,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "esnext",
-    "types": ["jest", "node"],
+    "types": ["jest", "node", "@monkvision/typescript-config"],
     "useUnknownInCatchVariables": true
   }
 }

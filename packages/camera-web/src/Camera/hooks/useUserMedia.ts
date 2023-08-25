@@ -1,0 +1,243 @@
+import { useMonitoring } from '@monkvision/monitoring';
+import deepEqual from 'fast-deep-equal';
+import { useCallback, useEffect, useState } from 'react';
+
+type MediaTrackKind = 'audio' | 'video';
+
+enum InvalidStreamErrorName {
+  NO_VIDEO_TRACK = 'NoVideoTrack',
+  TOO_MANY_VIDEO_TRACKS = 'TooManyVideoTracks',
+  NO_DIMENSIONS = 'NoDimensions',
+}
+
+class InvalidStreamError extends Error {
+  constructor(message: string, name: InvalidStreamErrorName) {
+    super(message);
+    this.name = name;
+  }
+}
+
+/**
+ * The type of errors that the `useUserMedia` hook can return.
+ *
+ * @see useUserMedia
+ */
+export enum UserMediaErrorType {
+  /**
+   * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
+   */
+  NOT_ALLOWED = 'not_allowed',
+  /**
+   * The camera stream was successfully fetched, but it could be processed. This error can happen for the following
+   * reasons :
+   * - The stream did not contain any video track, or contained multiple ones.
+   * - The stream's video track did not have any width or height property defined.
+   */
+  INVALID_STREAM = 'invalid_stream',
+  /**
+   * The camera stream was successfully fetched, but was made inactive for some unknown reason. Some known reasons that
+   * could be causing this error are :
+   * - The user revoked the camera access rights of the webpage while the stream was running.
+   * - On Safari, making a call to `navigator.mediaDevices.getUserMedia` will close all other existing streams on the
+   * web page. When using the Monk Camera package, you need to make sure that your app does not call `getUserMedia`
+   * while the camera stream is running. You can take a look at
+   * [this page](https://webrtchacks.com/guide-to-safari-webrtc/) for more reading about this behaviour.
+   */
+  STREAM_INACTIVE = 'stream_inactive',
+  /**
+   * Any other error.
+   */
+  OTHER = 'other',
+}
+
+/**
+ * Type definition for the error wrapper that the `useUserMedia` hook can return in case of error. See the
+ * `UserMediaErrorType` enum for details about the type of errors that can be catched.
+ *
+ * @see UserMediaErrorType
+ */
+export interface UserMediaError {
+  /**
+   * The type of error that occurred.
+   */
+  type: UserMediaErrorType;
+  /**
+   * The JavaScript `Error` object containing details about the error.
+   */
+  nativeError: Error | unknown;
+}
+
+/**
+ * The dimensions in pixels of a video stream.
+ */
+export interface MediaStreamDimensions {
+  /**
+   * The width of the stream in pixels.
+   */
+  width: number;
+  /**
+   * The height of the stream in pixels.
+   */
+  height: number;
+}
+
+/**
+ * Interface describing the result of the `useUserMedia` hook.
+ *
+ * @see useUserMedia
+ */
+export interface UserMediaResult {
+  /**
+   * The resulting video stream. The stream can be null when not initialized or in case of an error.
+   */
+  stream: MediaStream | null;
+  /**
+   * The dimensions of the resulting camera stream. Note that these dimensions can differ from the ones given in the
+   * stream constraints if they are not supported or available on the current device.
+   */
+  dimensions: MediaStreamDimensions | null;
+  /**
+   * The error details. If no error has occurred, this object will be null.
+   */
+  error: UserMediaError | null;
+  /**
+   * A loading indicator. This field is `true` while the hook is currently fetching the stream or applying new
+   * constraints.
+   */
+  isLoading: boolean;
+  /**
+   * A function used to retry in case of error. If there has been no error, or if the stream is loading, this function
+   * will do nothing. In case of an error, this function resets the state and tries to fetch a camera stream again.
+   */
+  retry: () => void;
+}
+
+function getStreamDimensions(stream: MediaStream): MediaStreamDimensions {
+  const videoTracks = stream.getVideoTracks();
+  if (videoTracks.length === 0) {
+    throw new InvalidStreamError(
+      'Unable to set up the Monk camera screenshoter because the video stream does contain any video tracks.',
+      InvalidStreamErrorName.NO_VIDEO_TRACK,
+    );
+  }
+  if (videoTracks.length > 1) {
+    throw new InvalidStreamError(
+      'Unable to set up the Monk camera screenshoter because the video stream contains multiple video tracks.',
+      InvalidStreamErrorName.TOO_MANY_VIDEO_TRACKS,
+    );
+  }
+  const { width, height } = stream.getVideoTracks()[0].getSettings();
+  if (!width || !height) {
+    throw new InvalidStreamError(
+      'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
+      InvalidStreamErrorName.NO_DIMENSIONS,
+    );
+  }
+  return { width, height };
+}
+
+/**
+ * React hook that wraps the `navigator.mediaDevices.getUserMedia` browser function in order to add React logic layers
+ * and utility tools :
+ * - Creates an effect for `getUserMedia` that will be run everytime some state parameters are updated.
+ * - Will call `track.applyConstraints` when the video contstraints are updated in order to update the video stream.
+ * - Makes sure that the `getUserMedia` is only called when it needs to be using memoized state.
+ * - Provides various utilities such as error catching, loading information and a retry on failure feature.
+ *
+ * @param constraints The same media constraints you would pass to the `getUserMedia` function. Note that this hook has
+ * been designed for video only, so audio constraints could provoke unexpected behaviour.
+ * @return The result of this hook contains the resulting video stream, an error object if there has been an error, a
+ * loading indicator and a retry function that tries to get a camera stream again. See the `UserMediaResult` interface
+ * for more information.
+ * @see UserMediaResult
+ */
+export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResult {
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [dimensions, setDimensions] = useState<MediaStreamDimensions | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<UserMediaError | null>(null);
+  const [lastConstraintsApplied, setLastConstraintsApplied] =
+    useState<MediaStreamConstraints | null>(null);
+  const { handleError } = useMonitoring();
+
+  const handleGetUserMediaError = useCallback((err: unknown) => {
+    let type = UserMediaErrorType.OTHER;
+    if (err instanceof Error && err.name === 'NotAllowedError') {
+      type = UserMediaErrorType.NOT_ALLOWED;
+    } else if (
+      err instanceof Error &&
+      Object.values(InvalidStreamErrorName).includes(err.name as InvalidStreamErrorName)
+    ) {
+      type = UserMediaErrorType.INVALID_STREAM;
+    }
+    setError({ type, nativeError: err });
+    setIsLoading(false);
+  }, []);
+
+  const onStreamInactive = useCallback(() => {
+    setError({
+      type: UserMediaErrorType.STREAM_INACTIVE,
+      nativeError: new Error('The camera stream was closed.'),
+    });
+    setIsLoading(false);
+  }, []);
+
+  const retry = useCallback(() => {
+    if (error && !isLoading) {
+      setError(null);
+      setStream(null);
+      setIsLoading(false);
+      setLastConstraintsApplied(null);
+    }
+  }, [error, isLoading]);
+
+  useEffect(() => {
+    if (error || isLoading || deepEqual(lastConstraintsApplied, constraints)) {
+      return () => {};
+    }
+    setLastConstraintsApplied(constraints);
+
+    if (stream) {
+      setIsLoading(true);
+      stream.getTracks().forEach((track) => {
+        const trackConstraints = constraints[track.kind as MediaTrackKind];
+        const constraintsToApply: MediaTrackConstraints | undefined =
+          typeof trackConstraints === 'boolean' ? {} : trackConstraints;
+        track
+          .applyConstraints(constraintsToApply)
+          .catch((err) => handleError(err))
+          .finally(() => setIsLoading(false));
+      });
+      return () => {};
+    }
+
+    let didCancel = false;
+    const getUserMedia = async () => {
+      try {
+        setIsLoading(true);
+        const str = await navigator.mediaDevices.getUserMedia(constraints);
+        if (!didCancel) {
+          str?.addEventListener('inactive', onStreamInactive);
+          setStream(str);
+          setDimensions(getStreamDimensions(str));
+          setIsLoading(false);
+        }
+      } catch (err) {
+        if (!didCancel) {
+          handleGetUserMediaError(err);
+        }
+        throw err;
+      }
+    };
+
+    if (!stream) {
+      getUserMedia().catch((err) => handleError(err));
+      return () => {};
+    }
+    return () => {
+      didCancel = true;
+    };
+  }, [constraints, stream, error, isLoading, lastConstraintsApplied, onStreamInactive]);
+
+  return { stream, dimensions, error, retry, isLoading };
+}

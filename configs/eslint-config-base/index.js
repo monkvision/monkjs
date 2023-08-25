@@ -37,6 +37,7 @@ module.exports = {
     'dot-notation': OFF,
     'indent': OFF,
     'promise/catch-or-return': [ERROR, { allowFinally: true }],
+    'import/no-unresolved': [ERROR, { caseSensitive: false }],
   },
   overrides: [
     {

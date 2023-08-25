@@ -1,12 +1,11 @@
 html,
 body,
-#root,
-.container {
+#root {
   height: 100%;
   width: 100%;
 }
 
 body {
   margin: 0;
-  background-color: red; /* for testing only, TODO : Change this to black */
+  background-color: #000000;
 }

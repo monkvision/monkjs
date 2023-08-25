@@ -1,2 +1,3 @@
+export * from './i18n';
 export * from './state';
-export * from './events';
+export * from './theme';

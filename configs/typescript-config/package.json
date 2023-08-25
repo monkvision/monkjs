@@ -9,9 +9,11 @@
     "tsconfig.json",
     "tsconfig.react.json",
     "tsconfig.react-native.json",
+    "types.d.ts",
     "LICENSE",
     "README.md"
   ],
+  "types": "./types.d.ts",
   "publishConfig": {
     "access": "public"
   },

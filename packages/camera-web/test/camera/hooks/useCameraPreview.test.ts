@@ -67,9 +67,10 @@ describe('useCameraPreview hook', () => {
     unmount();
   });
 
-  it('should return the error and retry values from useUserMedia', async () => {
+  it('should return the stream, error and retry values from useUserMedia', async () => {
     const { result, unmount } = renderHook(useCameraPreview);
     await waitFor(() => {
+      expect(result.current.stream).toEqual(stream);
       expect(result.current.error).toEqual(error);
       expect(result.current.retry).toEqual(retry);
     });
@@ -81,7 +82,11 @@ describe('useCameraPreview hook', () => {
 
     stream = { id: 'new-stream-id' } as MediaStream;
     const videoEl = {} as HTMLVideoElement;
-    result.current.videoRef.current = videoEl;
+    Object.defineProperty(result.current.videoRef, 'current', {
+      value: videoEl,
+      configurable: true,
+      writable: true,
+    });
     rerender();
 
     await waitFor(() => {
@@ -98,7 +103,11 @@ describe('useCameraPreview hook', () => {
       play: jest.fn(() => Promise.resolve(undefined)),
     } as unknown as HTMLVideoElement;
     const spy = jest.spyOn(videoEl, 'play');
-    result.current.videoRef.current = videoEl;
+    Object.defineProperty(result.current.videoRef, 'current', {
+      value: videoEl,
+      configurable: true,
+      writable: true,
+    });
     rerender();
 
     await waitFor(() => {
@@ -119,7 +128,11 @@ describe('useCameraPreview hook', () => {
     const videoEl = {
       play: jest.fn(() => Promise.reject(playError)),
     } as unknown as HTMLVideoElement;
-    result.current.videoRef.current = videoEl;
+    Object.defineProperty(result.current.videoRef, 'current', {
+      value: videoEl,
+      configurable: true,
+      writable: true,
+    });
     rerender();
 
     await waitFor(() => {

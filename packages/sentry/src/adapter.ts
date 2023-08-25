@@ -11,7 +11,7 @@ import * as Sentry from '@sentry/react';
 import { Span } from '@sentry/types';
 
 /**
- * The status of an Transaction/Span.
+ * Transaction statuses available in the Sentry platform.
  */
 export enum SentryTransactionStatus {
   /**
@@ -91,12 +91,13 @@ const defaultOptions: Omit<SentryConfig, 'dsn'> = {
 };
 
 /**
- * This is a Sentry Monitoring Adapter that logs element in the Sentry.
+ * This is a Monitoring Adapter that connects the app to the Sentry platform.
  * There are four methods implemented which are `setUserId`, `log`, `handleError` and `createTransaction`,
  *
- * At the initialization level, user have to pass required sentry configuration keys to make connection between
- * application and Sentry. `log` and `handleError` methods will log data and errors respectively in the Sentry dashboards.
- * While `createTransaction` method used to measure a performance of an application at any given point.
+ * When initializing the adapter, the user have to pass required sentry configuration keys to make connection between
+ * the application and Sentry. The `log` and `handleError` methods will log data and errors respectively in the Sentry
+ * dashboards, as well as log them in the console. The `createTransaction` method used to measure performances in an
+ * application at any given point.
  */
 export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements MonitoringAdapter {
   private readonly sentryOptions: SentryConfig;
