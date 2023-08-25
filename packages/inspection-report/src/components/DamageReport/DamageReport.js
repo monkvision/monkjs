@@ -182,6 +182,12 @@ export default function DamageReport({
     }
   }, [pdfStatus]);
 
+  useEffect(() => {
+    if (pdfStatus === PdfStatus.ERROR) {
+      setIsEditable(true);
+    }
+  }, [pdfStatus])
+
   return (
     <View style={[styles.container]}>
       <View style={[styles.header]}>

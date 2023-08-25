@@ -30,7 +30,7 @@ const fr = {
       pdfStatus: {
         generating: 'Génération du rapport PDF en cours...',
         ready: 'Le rapport PDF est prêt',
-        error: 'Une erreur est survenue lors de la génération du rapport PDF',
+        error: 'Une erreur s\'est produite lors de la génération de votre rapport PDF. Veuillez réessayer.',
       },
       modals: {
         validate: {
