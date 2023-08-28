@@ -30,7 +30,7 @@ const en = {
       pdfStatus: {
         generating: 'Your PDF report is being generated...',
         ready: 'Your PDF report is ready',
-        error: 'An error occurred during the generation of your PDF report',
+        error: 'An error occurred during the generation of your PDF report. Please try again.',
       },
       modals: {
         validate: {
