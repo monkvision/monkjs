@@ -242,19 +242,27 @@ export default function Landing() {
   }, [handleListItemPress, inspection]);
 
   const start = useCallback(() => {
-    if (inspectionId && getInspection.state.loading !== true && !invalidToken && shouldFetch) {
+    if (inspectionId && getInspection.state.loading !== true
+       && !invalidToken && !allTasksAreCompleted
+       && shouldFetch && route.params?.captureComplete) {
       getInspection.start().catch((err) => {
         errorHandler(err);
       });
     }
-  }, [getInspection, shouldFetch]);
+  }, [
+    inspectionId,
+    allTasksAreCompleted,
+    route.params?.captureComplete,
+    getInspection,
+    shouldFetch,
+  ]);
 
   const intervalId = useInterval(start, 1000);
 
   useFocusEffect(useCallback(() => {
     start();
     return () => clearInterval(intervalId);
-  }, [intervalId]));
+  }, [start, intervalId]));
 
   useEffect(() => {
     if (inspectionId && !allTasksAreCompleted) {
@@ -275,11 +283,6 @@ export default function Landing() {
     ];
   }, [inspection, i18n.language]);
 
-  const isPdfDisabled = useMemo(
-    () => !allTasksAreCompleted || !reportUrl,
-    [allTasksAreCompleted, reportUrl],
-  );
-
   useEffect(() => {
     if (!vehicleType || vehicleType === inspection?.vehicle?.vehicleType
       || !inspectionId || !inspection?.vehicle?.vin) { return; }
@@ -290,6 +293,11 @@ export default function Landing() {
       }
     })();
   }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId, inspection?.vehicle?.vin]);
+
+  const isPdfDisabled = useMemo(
+    () => !allTasksAreCompleted || !reportUrl,
+    [allTasksAreCompleted, reportUrl],
+  );
 
   const pdfDownloadLeft = useCallback(
     () => (pdfLoading
