@@ -28,9 +28,9 @@ export default function InspectionCapture() {
   const { colors } = useTheme();
   const { errorHandler } = useMonitoring();
 
-  const { inspectionId, taskName, vehicleType, selectedMode } = route.params;
+  const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
   const { client, sights } = useClient();
-  const sightIds = useMemo(() => (sights[vehicleType ?? 'cuv']), [sights, vehicleType]);
+  const newSightIds = useMemo(() => ((taskName === monk.types.TaskName.IMAGES_OCR) ? sightIds : (sights[vehicleType ?? 'cuv'])), [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -113,7 +113,7 @@ export default function InspectionCapture() {
 
       try {
         const promises = Object.values(mapTasksToSights)
-          .filter(((taskBySight) => sightIds.includes(taskBySight.id)))
+          .filter(((taskBySight) => newSightIds.includes(taskBySight.id)))
           .map(mapTaskBySightToTasknames)
           .flat()
           .concat([taskName])
@@ -215,7 +215,7 @@ export default function InspectionCapture() {
         task={taskName}
         enableCarCoverage
         mapTasksToSights={mapTasksToSights}
-        sightIds={sightIds}
+        sightIds={newSightIds}
         inspectionId={inspectionId}
         isFocused={isFocused}
         controls={controls}
