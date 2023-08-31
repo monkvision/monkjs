@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     paddingVertical: 15,
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   messageContainer: {
     alignItems: 'center',

@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   tabContent: {
     flex: 1,
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   text: {
     color: '#fafafa',
