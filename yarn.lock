@@ -2716,6 +2716,7 @@ __metadata:
     "@monkvision/jest-config": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/test-utils": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/react": ^14.0.0
     "@types/copyfiles": ^2
@@ -2811,6 +2812,7 @@ __metadata:
     "@monkvision/eslint-config-typescript-react": 4.0.0
     "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/test-utils": 4.0.0
     "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/react": ^14.0.0
@@ -3018,6 +3020,7 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.7.1
     react: ^18.2.0
+    react-dom: ^18.2.0
     regexpp: ^3.2.0
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
@@ -3066,6 +3069,47 @@ __metadata:
   resolution: "@monkvision/svgo-config@workspace:configs/svgo-config"
   peerDependencies:
     prettier: ^2.7.1
+  languageName: unknown
+  linkType: soft
+
+"@monkvision/test-utils@4.0.0, @monkvision/test-utils@workspace:packages/test-utils":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/test-utils@workspace:packages/test-utils"
+  dependencies:
+    "@monkvision/eslint-config-base": 4.0.0
+    "@monkvision/eslint-config-typescript": 4.0.0
+    "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/jest-config": 4.0.0
+    "@monkvision/monitoring": 4.0.0
+    "@monkvision/prettier-config": 4.0.0
+    "@monkvision/typescript-config": 4.0.0
+    "@testing-library/react": ^14.0.0
+    "@types/jest": ^29.2.2
+    "@types/node": ^18.11.9
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-formatter-pretty: ^4.1.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react-hooks: ^4.3.0
+    eslint-utils: ^3.0.0
+    jest: ^29.3.1
+    mkdirp: ^1.0.4
+    prettier: ^2.7.1
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    regexpp: ^3.2.0
+    rimraf: ^3.0.2
+    ts-jest: ^29.0.3
+    typescript: ^4.8.4
   languageName: unknown
   linkType: soft
 

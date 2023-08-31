@@ -14,7 +14,8 @@
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
     "build": "yarn run clean && yarn run svgo && tsc -p tsconfig.build.json && copyfiles -u 1 src/**/*.{css,svg} lib/",
-    "test": "",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "svgo": "svgo .",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",

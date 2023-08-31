@@ -39,7 +39,7 @@ export interface CameraEventHandlers {
  * Props accepted by a CameraHUD component.
  */
 export interface CameraHUDProps extends CameraEventHandlers {
-  handle?: CameraHandle;
+  handle?: Partial<CameraHandle>;
 }
 
 /**

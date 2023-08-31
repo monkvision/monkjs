@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { CameraFacingMode, CameraResolution, useMediaConstraints } from '../../../src';
+import { CameraFacingMode, CameraResolution } from '../../../src';
+import { useMediaConstraints } from '../../../src/Camera/hooks';
 
 const EXPECTED_FACING_MODE_VALUES: {
   [key in CameraFacingMode]: string;

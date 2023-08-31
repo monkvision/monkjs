@@ -4,9 +4,21 @@ import { useCallback, useEffect, useState } from 'react';
 
 type MediaTrackKind = 'audio' | 'video';
 
-enum InvalidStreamErrorName {
+/**
+ * Enumeration of the different Native error names that can happen when a stream is invalid.
+ */
+export enum InvalidStreamErrorName {
+  /**
+   * The stream had no video track.
+   */
   NO_VIDEO_TRACK = 'NoVideoTrack',
+  /**
+   * The stream had too many video tracks (more than one).
+   */
   TOO_MANY_VIDEO_TRACKS = 'TooManyVideoTracks',
+  /**
+   * The stream's video track had no dimensions.
+   */
   NO_DIMENSIONS = 'NoDimensions',
 }
 
@@ -171,6 +183,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
       type = UserMediaErrorType.INVALID_STREAM;
     }
     setError({ type, nativeError: err });
+    setStream(null);
     setIsLoading(false);
   }, []);
 

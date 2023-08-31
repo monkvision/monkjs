@@ -37,6 +37,7 @@ module.exports = {
       files: ['test/**/*.{ts,tsx}'],
       rules: {
         'import/first': OFF,
+        'import/order': OFF,
         '@typescript-eslint/no-empty-function': OFF,
       },
     },

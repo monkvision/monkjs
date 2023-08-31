@@ -1,50 +1,37 @@
-import { renderHook, waitFor } from '@testing-library/react';
-import * as UseMediaConstraintsModule from '../../../src/camera/hooks/useMediaConstraints';
-import * as UseUserMediaModule from '../../../src/camera/hooks/useUserMedia';
-import {
-  CameraFacingMode,
-  CameraOptions,
-  CameraResolution,
-  useCameraPreview,
-  UserMediaError,
-  UserMediaErrorType,
-} from '../../../src';
-import { mockUseMonitoring, UseMonitoringMock } from '../../mocks';
+const handleErrorMock = jest.fn();
+jest.mock('@monkvision/monitoring', () => ({
+  useMonitoring: jest.fn(() => ({ handleError: handleErrorMock })),
+}));
 
-jest.mock('@monkvision/monitoring');
-jest.mock('../../../src/camera/hooks/useMediaConstraints');
-jest.mock('../../../src/camera/hooks/useUserMedia');
+const constraints: MediaStreamConstraints = { audio: false, video: true };
+const useMediaConstraintsMock = jest.fn(() => constraints);
+jest.mock('../../../src/Camera/hooks/useMediaConstraints', () => ({
+  ...jest.requireActual('../../../src/Camera/hooks/useMediaConstraints'),
+  useMediaConstraints: useMediaConstraintsMock,
+}));
+
+let stream = { id: 'test-stream-id' };
+const error = { type: 'other', nativeError: null };
+const retry = jest.fn();
+const useUserMediaMock = jest.fn(() => ({ stream, error, retry }));
+jest.mock('../../../src/Camera/hooks/useUserMedia', () => ({
+  ...jest.requireActual('../../../src/Camera/hooks/useUserMedia'),
+  useUserMedia: useUserMediaMock,
+}));
+
+import { renderHook, waitFor } from '@testing-library/react';
+import { CameraFacingMode, CameraOptions, CameraResolution } from '../../../src';
+import { useCameraPreview } from '../../../src/Camera/hooks';
 
 describe('useCameraPreview hook', () => {
-  let useMonitoringMock: UseMonitoringMock | null = null;
-  const constraints: MediaStreamConstraints = { audio: false, video: true };
-  let stream = { id: 'test-stream-id' } as MediaStream;
-  const error: UserMediaError = { type: UserMediaErrorType.OTHER, nativeError: null };
-  const retry = () => {};
-
-  beforeEach(() => {
-    useMonitoringMock = mockUseMonitoring();
-    Object.defineProperty(UseMediaConstraintsModule, 'useMediaConstraints', {
-      value: jest.fn(() => constraints),
-      configurable: true,
-      writable: true,
-    });
-    Object.defineProperty(UseUserMediaModule, 'useUserMedia', {
-      value: jest.fn(() => ({ stream, error, retry })),
-      configurable: true,
-      writable: true,
-    });
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should make a call to useMediaConstraints with the given camera options', async () => {
-    const spy = jest.spyOn(UseMediaConstraintsModule, 'useMediaConstraints');
     const { unmount, rerender } = renderHook(useCameraPreview);
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith(undefined);
+      expect(useMediaConstraintsMock).toHaveBeenCalledWith(undefined);
     });
     const options: CameraOptions = {
       deviceId: 'test-id',
@@ -53,16 +40,15 @@ describe('useCameraPreview hook', () => {
     };
     rerender({ options });
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith(options);
+      expect(useMediaConstraintsMock).toHaveBeenCalledWith(options);
     });
     unmount();
   });
 
   it('should make a call to useUserMedia with constraints obtained from useUserMedia', async () => {
-    const spy = jest.spyOn(UseUserMediaModule, 'useUserMedia');
     const { unmount } = renderHook(useCameraPreview);
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith(constraints);
+      expect(useUserMediaMock).toHaveBeenCalledWith(constraints);
     });
     unmount();
   });
@@ -80,7 +66,7 @@ describe('useCameraPreview hook', () => {
   it('should update the srcObject property of the videoRef', async () => {
     const { result, unmount, rerender } = renderHook(useCameraPreview);
 
-    stream = { id: 'new-stream-id' } as MediaStream;
+    stream = { id: 'new-stream-id' };
     const videoEl = {} as HTMLVideoElement;
     Object.defineProperty(result.current.videoRef, 'current', {
       value: videoEl,
@@ -98,7 +84,7 @@ describe('useCameraPreview hook', () => {
   it('should auto-play the video when the stream is fetched', async () => {
     const { result, unmount, rerender } = renderHook(useCameraPreview);
 
-    stream = { id: 'new-stream-id' } as MediaStream;
+    stream = { id: 'new-stream-id-2' };
     const videoEl = {
       play: jest.fn(() => Promise.resolve(undefined)),
     } as unknown as HTMLVideoElement;
@@ -123,7 +109,7 @@ describe('useCameraPreview hook', () => {
   it('should make a call to Monitoring.handleError if the play callback fails', async () => {
     const { result, unmount, rerender } = renderHook(useCameraPreview);
 
-    stream = { id: 'new-stream-id' } as MediaStream;
+    stream = { id: 'new-stream-id-45' };
     const playError = new Error('test');
     const videoEl = {
       play: jest.fn(() => Promise.reject(playError)),
@@ -140,7 +126,7 @@ describe('useCameraPreview hook', () => {
       if (videoEl.onloadedmetadata) {
         videoEl.onloadedmetadata({} as Event);
       }
-      expect(useMonitoringMock?.spys.handleError).toHaveBeenCalledWith(playError);
+      expect(handleErrorMock).toHaveBeenCalledWith(playError);
     });
     unmount();
   });

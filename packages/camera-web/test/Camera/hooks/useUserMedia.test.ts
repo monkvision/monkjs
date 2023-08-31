@@ -1,21 +1,18 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
-import { UserMediaErrorType, useUserMedia } from '../../../src';
-import {
-  GetUserMediaMock,
-  mockGetUserMedia,
-  mockUseMonitoring,
-  UseMonitoringMock,
-} from '../../mocks';
+const handleErrorMock = jest.fn();
+jest.mock('@monkvision/monitoring', () => ({
+  useMonitoring: jest.fn(() => ({ handleError: handleErrorMock })),
+}));
 
-jest.mock('@monkvision/monitoring');
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { UserMediaErrorType } from '../../../src';
+import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
+import { GetUserMediaMock, mockGetUserMedia } from '../../mocks';
 
 describe('useUserMedia hook', () => {
   let gumMock: GetUserMediaMock | null = null;
-  let useMonitoringMock: UseMonitoringMock | null = null;
 
   beforeEach(() => {
     gumMock = mockGetUserMedia();
-    useMonitoringMock = mockUseMonitoring();
   });
 
   afterEach(() => {
@@ -31,13 +28,13 @@ describe('useUserMedia hook', () => {
       initialProps: constraints,
     });
     await waitFor(() => {
-      expect(gumMock?.spys.getUserMedia).toHaveBeenCalledTimes(1);
-      expect(gumMock?.spys.getUserMedia).toHaveBeenCalledWith(constraints);
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledTimes(1);
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith(constraints);
     });
     unmount();
   });
 
-  it('should return the stream obtain with getUserMedia in case of success', async () => {
+  it('should return the stream obtained with getUserMedia in case of success', async () => {
     const constraints: MediaStreamConstraints = {
       audio: false,
       video: { width: 123, height: 456 },
@@ -48,6 +45,7 @@ describe('useUserMedia hook', () => {
     await waitFor(() => {
       expect(result.current).toEqual({
         stream: gumMock?.stream,
+        dimensions: gumMock?.tracks[0].getSettings(),
         error: null,
         isLoading: false,
         retry: expect.any(Function),
@@ -91,6 +89,7 @@ describe('useUserMedia hook', () => {
     await waitFor(() => {
       expect(result.current).toEqual({
         stream: null,
+        dimensions: null,
         error: {
           type: UserMediaErrorType.NOT_ALLOWED,
           nativeError,
@@ -102,6 +101,87 @@ describe('useUserMedia hook', () => {
     unmount();
   });
 
+  it('should return an InvalidStream error if the stream has no tracks', async () => {
+    mockGetUserMedia({ tracks: [] });
+    const { result, unmount } = renderHook(useUserMedia);
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        stream: null,
+        dimensions: null,
+        error: {
+          type: UserMediaErrorType.INVALID_STREAM,
+          nativeError: expect.objectContaining({ name: InvalidStreamErrorName.NO_VIDEO_TRACK }),
+        },
+        isLoading: false,
+        retry: expect.any(Function),
+      });
+    });
+    unmount();
+  });
+
+  it('should return an InvalidStream error if the stream has more than one track', async () => {
+    const tracks = [
+      {
+        kind: 'video',
+        applyConstraints: jest.fn(() => Promise.resolve(undefined)),
+        getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+      },
+      {
+        kind: 'video',
+        applyConstraints: jest.fn(() => Promise.resolve(undefined)),
+        getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+      },
+    ] as unknown as MediaStreamTrack[];
+    mockGetUserMedia({ tracks });
+    const { result, unmount } = renderHook(useUserMedia);
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        stream: null,
+        dimensions: null,
+        error: {
+          type: UserMediaErrorType.INVALID_STREAM,
+          nativeError: expect.objectContaining({
+            name: InvalidStreamErrorName.TOO_MANY_VIDEO_TRACKS,
+          }),
+        },
+        isLoading: false,
+        retry: expect.any(Function),
+      });
+    });
+    unmount();
+  });
+
+  it("should return an InvalidStream error if the stream's track has no dimensions", async () => {
+    const invalidSettings = [{ width: 456 }, { height: 123 }, {}];
+    for (let i = 0; i < invalidSettings.length; i++) {
+      const tracks = [
+        {
+          kind: 'video',
+          applyConstraints: jest.fn(() => Promise.resolve(undefined)),
+          getSettings: jest.fn(() => invalidSettings[i]),
+        },
+      ] as unknown as MediaStreamTrack[];
+      mockGetUserMedia({ tracks });
+      const { result, unmount } = renderHook(useUserMedia);
+      // eslint-disable-next-line no-await-in-loop
+      await waitFor(() => {
+        expect(result.current).toEqual({
+          stream: null,
+          dimensions: null,
+          error: {
+            type: UserMediaErrorType.INVALID_STREAM,
+            nativeError: expect.objectContaining({
+              name: InvalidStreamErrorName.NO_DIMENSIONS,
+            }),
+          },
+          isLoading: false,
+          retry: expect.any(Function),
+        });
+      });
+      unmount();
+    }
+  });
+
   it('should return an OtherType error in case of unknown error', async () => {
     const nativeError = new Error('hello');
     mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
@@ -109,6 +189,7 @@ describe('useUserMedia hook', () => {
     await waitFor(() => {
       expect(result.current).toEqual({
         stream: null,
+        dimensions: null,
         error: {
           type: UserMediaErrorType.OTHER,
           nativeError,
@@ -125,7 +206,7 @@ describe('useUserMedia hook', () => {
     mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
     const { unmount } = renderHook(useUserMedia);
     await waitFor(() => {
-      expect(useMonitoringMock?.spys.handleError).toHaveBeenCalledWith(nativeError);
+      expect(handleErrorMock).toHaveBeenCalledWith(nativeError);
     });
     unmount();
   });
@@ -150,7 +231,7 @@ describe('useUserMedia hook', () => {
     await waitFor(() => {
       expect(result.current.error).toBeNull();
       expect(result.current.stream).toEqual(mock.stream);
-      expect(mock.spys.getUserMedia).toHaveBeenCalledTimes(2);
+      expect(mock.getUserMediaSpy).toHaveBeenCalledTimes(2);
     });
     unmount();
   });
@@ -176,7 +257,11 @@ describe('useUserMedia hook', () => {
     };
     rerender(newConstraints);
     await waitFor(() => {
-      expect(gumMock?.spys.tracksApplyConstraints[0]).toHaveBeenCalledWith(newConstraints.video);
+      gumMock?.tracks
+        .filter((track) => track.kind === 'video')
+        .forEach((track) => {
+          expect(track.applyConstraints).toHaveBeenCalledWith(newConstraints.video);
+        });
     });
     unmount();
   });

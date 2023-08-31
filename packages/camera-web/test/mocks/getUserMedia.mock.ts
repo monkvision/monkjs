@@ -2,40 +2,35 @@ export type GetUserMediaFn = (constraints?: MediaStreamConstraints) => Promise<M
 
 export interface MockGetUserMediaParams {
   tracks?: MediaStreamTrack[];
-  stream?: MediaStream;
   createMock?: (stream: MediaStream) => GetUserMediaFn;
-}
-
-export interface GetUserMediaSpys {
-  getUserMedia: jest.SpyInstance;
-  streamAddEventListener: jest.SpyInstance;
-  tracksApplyConstraints: jest.SpyInstance[];
 }
 
 export interface GetUserMediaMock {
   tracks: MediaStreamTrack[];
   stream: MediaStream;
-  spys: GetUserMediaSpys;
+  getUserMediaSpy: jest.SpyInstance;
 }
 
-let tracks: MediaStreamTrack[] = [];
-let stream: MediaStream = {} as MediaStream;
+const defaultMockTrack = {
+  kind: 'video',
+  applyConstraints: jest.fn(() => Promise.resolve(undefined)),
+  getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+} as unknown as MediaStreamTrack;
+
+const tracks: MediaStreamTrack[] = [];
+const stream = {
+  addEventListener: jest.fn(),
+  getTracks: jest.fn(() => tracks),
+  getVideoTracks: jest.fn(() => tracks),
+} as unknown as MediaStream;
 
 export function mockGetUserMedia(params?: MockGetUserMediaParams): GetUserMediaMock {
-  tracks =
-    params?.tracks ??
-    ([
-      {
-        kind: 'video',
-        applyConstraints: jest.fn(() => Promise.resolve(undefined)),
-      },
-    ] as unknown as MediaStreamTrack[]);
-  stream =
-    params?.stream ??
-    ({
-      addEventListener: jest.fn(),
-      getTracks: jest.fn(() => tracks),
-    } as unknown as MediaStream);
+  tracks.length = 0;
+  if (params?.tracks) {
+    tracks.push(...params.tracks);
+  } else {
+    tracks.push(defaultMockTrack);
+  }
   Object.defineProperty(global.navigator, 'mediaDevices', {
     value: {
       getUserMedia: params?.createMock
@@ -45,14 +40,9 @@ export function mockGetUserMedia(params?: MockGetUserMediaParams): GetUserMediaM
     configurable: true,
     writable: true,
   });
-  const spys: GetUserMediaSpys = {
-    getUserMedia: jest.spyOn(global.navigator.mediaDevices, 'getUserMedia'),
-    streamAddEventListener: jest.spyOn(stream, 'addEventListener'),
-    tracksApplyConstraints: tracks.map((track) => jest.spyOn(track, 'applyConstraints')),
-  };
   return {
     tracks,
     stream,
-    spys,
+    getUserMediaSpy: jest.spyOn(global.navigator.mediaDevices, 'getUserMedia'),
   };
 }

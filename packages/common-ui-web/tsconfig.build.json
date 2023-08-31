@@ -3,5 +3,5 @@
   "compilerOptions": {
     "outDir": "lib"
   },
-  "exclude": ["node_modules"]
+  "exclude": ["test"]
 }

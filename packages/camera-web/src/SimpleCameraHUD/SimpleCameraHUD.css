@@ -67,7 +67,10 @@
   text-align: center;
   color: white;
   max-width: 60vw;
-  padding-bottom: 20px;
+}
+
+.retry-btn {
+  margin-top: 20px;
 }
 
 @media screen and (orientation: portrait) {

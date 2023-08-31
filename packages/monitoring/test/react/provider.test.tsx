@@ -36,7 +36,7 @@ describe('MonitoringProvider component', () => {
     const handleErrorSpy = jest.spyOn(adapter, 'handleError');
     const createTransactionSpy = jest.spyOn(adapter, 'createTransaction');
 
-    render(
+    const { unmount } = render(
       <MonitoringProvider adapter={adapter}>
         <TestComponent />
       </MonitoringProvider>,
@@ -50,5 +50,6 @@ describe('MonitoringProvider component', () => {
     expect(handleErrorSpy).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByTestId('create-transaction-btn'));
     expect(createTransactionSpy).toHaveBeenCalledTimes(1);
+    unmount();
   });
 });

@@ -38,12 +38,15 @@ module.exports = {
     'indent': OFF,
     'promise/catch-or-return': [ERROR, { allowFinally: true }],
     'import/no-unresolved': [ERROR, { caseSensitive: false }],
+    'jest/no-mocks-import': OFF,
+    'jest/expect-expect': OFF,
   },
   overrides: [
     {
       files: ['test/**/*.{js,jsx}'],
       rules: {
         'import/first': OFF,
+        'import/order': OFF,
         '@typescript-eslint/no-empty-function': OFF,
       },
     },

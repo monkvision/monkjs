@@ -44,14 +44,22 @@ export const SimpleCameraHUD = i18nWrap(({ handle, onPictureTaken }: CameraHUDPr
     <div className='simple-camera-hud-container'>
       {!handle?.isLoading && !!handle?.error && (
         <div className='message-container'>
-          <div className='error-message'>{t(errorTranslationKey)}</div>
-          <Button variant='outline' icon='sync-problem' onClick={handle?.retry}>
-            {t('retry')}
-          </Button>
+          <div data-testid='error-message' className='error-message'>
+            {t(errorTranslationKey)}
+          </div>
+          {handle?.retry && (
+            <Button className='retry-btn' variant='outline' icon='refresh' onClick={handle.retry}>
+              {t('retry')}
+            </Button>
+          )}
         </div>
       )}
       <div className={withDisableSuffix('take-picture-btn')}>
-        <button onClick={takePicture} disabled={isHUDDisabled}></button>
+        <button
+          data-testid='take-picture-btn'
+          onClick={takePicture}
+          disabled={isHUDDisabled}
+        ></button>
       </div>
     </div>
   );

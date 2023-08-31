@@ -37,6 +37,7 @@
     "@monkvision/eslint-config-typescript-react": "4.0.0",
     "@monkvision/jest-config": "4.0.0",
     "@monkvision/prettier-config": "4.0.0",
+    "@monkvision/test-utils": "4.0.0",
     "@monkvision/typescript-config": "4.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.2.2",

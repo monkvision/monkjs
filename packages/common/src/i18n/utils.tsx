@@ -2,7 +2,6 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { createInstance, i18n, Resource } from 'i18next';
 import {
   ComponentType,
-  ElementType,
   forwardRef,
   ForwardRefExoticComponent,
   PropsWithoutRef,
@@ -109,13 +108,15 @@ export function i18nCreateSDKInstance({ resources }: I18NSDKOptions): i18n {
  *
  * @param Component The component to wrap in the provider.
  * @param instance The i18n instance created using the `i18nCreateSDKInstance` function.
+ * @typeParam T - The type of the ref of the wrapped component.
+ * @typeParam P - The type of the props of the wrapped component.
  * @return The Component passed in the arguments. wrapped in an I18nextProvider.
  */
-export function i18nWrap<T>(
-  Component: ComponentType<T>,
+export function i18nWrap<T, P>(
+  Component: ComponentType<P>,
   instance: i18n,
-): ForwardRefExoticComponent<PropsWithoutRef<T> & RefAttributes<ElementType<T>>> {
-  return forwardRef<ElementType<T>, T>((props, ref) => (
+): ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> {
+  return forwardRef<T, P>((props, ref) => (
     <I18nextProvider i18n={instance}>
       <Component ref={ref} {...props} />
     </I18nextProvider>

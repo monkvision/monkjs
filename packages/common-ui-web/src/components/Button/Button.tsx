@@ -91,7 +91,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
               className='button-spinner'
               style={spinner.style}
               size={spinner.size}
-              color={spinner.color}
+              primaryColor={spinner.color}
             />
           </div>
         ) : (
@@ -99,7 +99,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
             className='button-spinner'
             style={spinner.style}
             size={spinner.size}
-            color={spinner.color}
+            primaryColor={spinner.color}
           />
         ),
       [preserveWidthOnLoading, content, spinner],
@@ -112,6 +112,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
         className={`${buttonClassName} ${className}`}
         disabled={disabled || loading}
         onMouseDown={handleMouseDown}
+        data-testid='monk-btn'
         {...passThroughProps}
       >
         {loading ? loadingContent : content}
