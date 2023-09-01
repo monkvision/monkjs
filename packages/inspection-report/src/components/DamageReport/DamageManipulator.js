@@ -7,7 +7,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IconSeverity, SeveritiesWithIcon } from '../../assets';
 import { CommonPropTypes, DamageMode, DisplayMode, Severity, RepairOperation } from '../../resources';
 import { TextButton, SwitchButton } from '../common';
-import { useCurrency } from './../../hooks';
+import { useCurrency } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
