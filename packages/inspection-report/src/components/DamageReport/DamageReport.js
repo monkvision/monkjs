@@ -14,7 +14,7 @@ import TabButton from './TabButton';
 import TabGroup from './TabGroup';
 import UpdateDamageModal from './UpdateDamageModal';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
-import { useCurrency } from './../../hooks';
+import { useCurrency } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -300,8 +300,8 @@ export default function DamageReport({
 }
 
 DamageReport.propTypes = {
+  currencyCharacter: PropTypes.string,
   damageMode: CommonPropTypes.damageMode,
-  currencyCharacter: PropTypes.string.isRequired,
   generatePdf: PropTypes.bool,
   inspectionId: PropTypes.string.isRequired,
   onStartNewInspection: PropTypes.func,
@@ -313,8 +313,8 @@ DamageReport.propTypes = {
 };
 
 DamageReport.defaultProps = {
-  damageMode: DamageMode.ALL,
   currencyCharacter: '€',
+  damageMode: DamageMode.ALL,
   generatePdf: false,
   onStartNewInspection: () => { },
   pdfOptions: undefined,
