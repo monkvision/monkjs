@@ -126,6 +126,12 @@ const fr = {
         on: 'Activer',
         off: 'Désactiver',
       },
+      skipRetake: {
+        error: {
+          message: 'Désolé, nous n\'avons pas pu terminer l\'inspection',
+          label: 'Commencer une nouvelle inspection',
+        },
+      },
       custom: '+',
     },
   },
