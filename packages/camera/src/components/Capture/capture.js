@@ -137,6 +137,7 @@ const Capture = forwardRef(({
   onPictureUploaded,
   onPictureTaken,
   onWarningMessage,
+  onCaptureClose,
   onReady,
   onStartUploadPicture,
   onFinishUploadPicture,
@@ -169,6 +170,7 @@ const Capture = forwardRef(({
     },
   });
   const [endTour, setEndTour] = useState(false);
+  const [isTourClosed, setIsTourClosed] = useState(false);
   const { height, width } = useWindowDimensions();
   const { errorHandler, measurePerformance } = useMonitoring();
 
@@ -284,7 +286,7 @@ const Capture = forwardRef(({
     endTour,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
-  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId, onPictureUploaded });
+  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId, addDamageParts, onPictureUploaded });
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
@@ -384,7 +386,8 @@ const Capture = forwardRef(({
     // finish 'capture tour' transaction unsuccessfully
     utils.log(['[Event] Capture-Tour sentry transaction cancels']);
     captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
-    setEndTour(true);
+    setIsTourClosed(true);
+    onCaptureClose();
   }, [setEndTour]);
 
   const handleCloseEarlyClick = useCallback(({ confirm, confirmationMessage }) => {
@@ -478,6 +481,25 @@ const Capture = forwardRef(({
       totalAddDamageTransactions: 0,
     };
   }, []);
+
+  useEffect(() => {
+    const id = sights.state.current.id;
+    const status = uploads.state[id].status;
+    const picture = uploads.state[id].picture;
+    const uploadCount = uploads.state[id].uploadCount;
+    if (isTourClosed) {
+      if (status === 'idle' && !picture && uploadCount >= 1) {
+        // Retake the pic for a particular sight ID and tour is already closed
+        setEndTour(false);
+      } else if (status === 'fulfilled' && picture && uploadCount >= 1) {
+        // If you take a pic from capture-phase and tour is already closed
+        setEndTour(true);
+      } else if (status === 'idle' && !picture && !uploadCount) {
+        // If you close the tour by clicking on close button
+        setEndTour(true);
+      }
+    }
+  }, [sights.state, uploads.state, isTourClosed]);
 
   useEffect(() => {
     /**
@@ -813,6 +835,7 @@ Capture.propTypes = {
   offline: PropTypes.objectOf(PropTypes.any),
   onCameraPermissionError: PropTypes.func,
   onCameraPermissionSuccess: PropTypes.func,
+  onCaptureClose: PropTypes.func,
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
@@ -928,6 +951,7 @@ Capture.defaultProps = {
   onPictureTaken: () => {},
   onCameraPermissionError: () => {},
   onCameraPermissionSuccess: () => {},
+  onCaptureClose: () => {},
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},

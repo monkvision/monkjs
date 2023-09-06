@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       web: { maxWidth: '500px' },
     }),
     position: 'relative',
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   content: {
     display: 'flex',

@@ -5,6 +5,7 @@ import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Actions from '../../actions';
 import Constants from '../../const';
 import log from '../../utils/log';
@@ -325,10 +326,9 @@ export function useStartUploadAsync({
   }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
 }
 
-export function useUploadAdditionalDamage({
-  inspectionId,
-  onPictureUploaded = () => {},
-}) {
+export function useUploadAdditionalDamage({ inspectionId, addDamageParts, onPictureUploaded = () => {}, }) {
+  const { t, i18n } = useTranslation();
+
   return useCallback(async ({ picture, parts }) => {
     if (!inspectionId) {
       throw Error(`Please provide a valid "inspectionId". Got ${inspectionId}.`);
@@ -356,6 +356,15 @@ export function useUploadAdditionalDamage({
         filename,
       };
 
+      const part = addDamageParts[0];
+      const resources = Object.keys(i18n.options.resources);
+      const metadata = {
+        category: 'exterior',
+        label: resources.reduce((accumulator, lng) => {
+          accumulator[lng] = t(`partSelector.parts.${part}`, { lng });
+          return accumulator;
+        }, {}),
+      };
       const json = JSON.stringify({
         acquisition: {
           strategy: 'upload_multipart_form_keys',
@@ -370,6 +379,7 @@ export function useUploadAdditionalDamage({
         tasks: ['damage_detection'],
         image_type: 'close_up',
         additional_data: {
+          ...metadata,
           overlay: undefined,
           createdAt: new Date(),
         },
@@ -422,7 +432,7 @@ export function useUploadAdditionalDamage({
 
       throw err;
     }
-  }, [inspectionId]);
+  }, [inspectionId, addDamageParts]);
 }
 
 /**

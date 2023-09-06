@@ -256,6 +256,13 @@ const handleOnUploadsChange = () => console.log('Uploads has been changed');
 const handleOnWarningMessage = () => console.log('Warning messages');
 ```
 
+## onCaptureClose
+`PropTypes.func`
+
+```js
+const handleOnCaptureClose = () => console.log('Capture Closed');
+```
+
 ## onSettingsChange
 `PropTypes.func`
 

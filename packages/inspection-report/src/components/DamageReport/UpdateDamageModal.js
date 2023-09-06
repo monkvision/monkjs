@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: { maxWidth: '500px' },
     }),
-    overflowY: 'scroll',
+    overflowY: 'auto',
     paddingHorizontal: 20,
   },
 });
@@ -120,42 +120,41 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const [fullScreenPhoto, setFullScreenPhoto] = useState(null);
 
-  const onPanResponderRelease = useCallback((event, gs) => {
-    setGestureState({ dx: gs.dx });
-    if (gs.dx === 0 && images[currentPhotoIndex]) {
-      setFullScreenPhoto(images[currentPhotoIndex]);
-    }
-  }, [currentPhotoIndex, images]);
-
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onStartShouldSetPanResponderCapture: () => true,
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-      onPanResponderMove: (event, gs) => {
-        setGestureState({ x: gs.dx });
-      },
-      onPanResponderRelease,
+      onPanResponderMove: (event, gs) => setGestureState({ x: gs.dx }),
+      onPanResponderRelease: (event, gs) => setGestureState({ dx: gs.dx }),
     }),
   ).current;
 
   const handleClosePreview = useCallback(() => setFullScreenPhoto(null), []);
 
   useEffect(() => {
-    if (gestureState.dx < 0 && currentPhotoIndex < images.length - 1) {
-      setCurrentPhotoIndex(currentPhotoIndex + 1);
-    } else if (gestureState.dx > 0 && currentPhotoIndex > 0) {
-      setCurrentPhotoIndex(currentPhotoIndex - 1);
-    }
-
     if (
       (gestureState.x < 0 && currentPhotoIndex < images.length - 1)
       || (gestureState.x > 0 && currentPhotoIndex > 0)
     ) {
       pan.setValue({ x: -((currentPhotoIndex * width) - gestureState.x), y: 0 });
     }
-  }, [gestureState]);
+  }, [gestureState.x]);
+
+  useEffect(() => {
+    let newCurrentPhotoIndex = currentPhotoIndex;
+    if (gestureState.dx < 0 && currentPhotoIndex < images.length - 1) {
+      newCurrentPhotoIndex = currentPhotoIndex + 1;
+    } else if (gestureState.dx > 0 && currentPhotoIndex > 0) {
+      newCurrentPhotoIndex = currentPhotoIndex - 1;
+    }
+
+    setCurrentPhotoIndex(newCurrentPhotoIndex);
+    if (gestureState.dx === 0 && images[newCurrentPhotoIndex]) {
+      setFullScreenPhoto(images[newCurrentPhotoIndex]);
+    }
+  }, [gestureState.dx]);
 
   useEffect(() => {
     Animated.timing(pan, {

@@ -7,6 +7,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native
 import { IconSeverity, SeveritiesWithIcon } from '../../assets';
 import { CommonPropTypes, DamageMode, DisplayMode, Severity, RepairOperation } from '../../resources';
 import { TextButton, SwitchButton } from '../common';
+import { useCurrency } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -95,6 +96,7 @@ export default function DamageManipulator({
   isEditable,
 }) {
   const { t } = useTranslation();
+  const { formateValue } = useCurrency();
   const [isReplaced, setReplaced] = useState(damage?.repairOperation === RepairOperation.REPLACE);
   const [hasDamage, setHasDamage] = useState(!!damage);
   const [editedDamage, setEditedDamage] = useState(damage);
@@ -153,7 +155,7 @@ export default function DamageManipulator({
       </View>
       {
         ([DamageMode.SEVERITY, DamageMode.ALL].includes(damageMode)
-        && displayMode === DisplayMode.FULL) && (
+          && displayMode === DisplayMode.FULL) && (
           <View style={[
             styles.content,
             (displayMode === DisplayMode.FULL && !hasDamage) && styles.disabled,
@@ -185,7 +187,7 @@ export default function DamageManipulator({
           ]}
           >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.severity')}</Text>
-            {isEditable ? (
+            {(isEditable && !isReplaced) ? (
               <View style={[styles.severityContent]}>
                 {Object.values(SeveritiesWithIcon).map((severity) => (
                   <TouchableOpacity
@@ -220,7 +222,7 @@ export default function DamageManipulator({
           ]}
           >
             <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.repairCost')}</Text>
-            {isEditable ? (
+            {isEditable && !isReplaced ? (
               <View style={[styles.severityContent]}>
                 <Slider
                   style={{ marginRight: 15,
@@ -240,15 +242,13 @@ export default function DamageManipulator({
                   onValueChange={onSliderChange}
                 />
                 <Text style={[styles.text]}>
-                  {editedDamage?.pricing ?? 0}
-                  €
+                  {formateValue(editedDamage?.pricing ?? 0)}
                 </Text>
               </View>
             ) : (
               <View>
                 <Text style={[styles.text]}>
-                  {editedDamage?.pricing ?? 0}
-                  €
+                  {formateValue(editedDamage?.pricing ?? 0)}
                 </Text>
               </View>
             )}

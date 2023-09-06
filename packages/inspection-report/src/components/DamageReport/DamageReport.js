@@ -1,6 +1,6 @@
 import { Loader } from '@monkvision/ui';
 import PropTypes from 'prop-types';
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -14,6 +14,7 @@ import TabButton from './TabButton';
 import TabGroup from './TabGroup';
 import UpdateDamageModal from './UpdateDamageModal';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
+import { useCurrency } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
   tabContent: {
     flex: 1,
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   text: {
     color: '#fafafa',
@@ -101,13 +102,19 @@ export default function DamageReport({
   inspectionId,
   vehicleType,
   damageMode,
+  currencyCharacter,
   generatePdf,
   pdfOptions,
   onStartNewInspection,
   onPdfPressed,
 }) {
   const { t } = useTranslation();
+  const { updateCurrency } = useCurrency();
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+
+  useEffect(() => {
+    updateCurrency(currencyCharacter);
+  }, [currencyCharacter]);
 
   const {
     isLoading,
@@ -182,6 +189,12 @@ export default function DamageReport({
     }
   }, [pdfStatus]);
 
+  useEffect(() => {
+    if (pdfStatus === PdfStatus.ERROR) {
+      setIsEditable(true);
+    }
+  }, [pdfStatus])
+
   return (
     <View style={[styles.container]}>
       <View style={[styles.header]}>
@@ -196,17 +209,17 @@ export default function DamageReport({
       </View>
       <View style={[styles.content]}>
         {isLoading && (
-        <View style={[styles.notReadyContainer]}>
-          <Loader texts={[t('damageReport.loading')]} />
-        </View>
+          <View style={[styles.notReadyContainer]}>
+            <Loader texts={[t('damageReport.loading')]} />
+          </View>
         )}
         {!isLoading && isError && (
-        <View style={[styles.notReadyContainer]}>
-          <Text style={[styles.notReadyMessage]}>{t('damageReport.error.message')}</Text>
-          <TouchableOpacity style={[styles.retryButton]} onPress={retry}>
-            <Text style={[styles.retryTxt]}>{t('damageReport.error.retry')}</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={[styles.notReadyContainer]}>
+            <Text style={[styles.notReadyMessage]}>{t('damageReport.error.message')}</Text>
+            <TouchableOpacity style={[styles.retryButton]} onPress={retry}>
+              <Text style={[styles.retryTxt]}>{t('damageReport.error.retry')}</Text>
+            </TouchableOpacity>
+          </View>
         )}
         {!isLoading && !isError && (
         <>
@@ -270,18 +283,18 @@ export default function DamageReport({
           )
         }
       {
-          isModalVisible && (
-            <UpdateDamageModal
-              damage={editedDamage}
-              damageMode={damageMode}
-              images={editedDamageImages}
-              onConfirm={handleSaveDamage}
-              onDismiss={handleGalleryDismiss}
-              part={editedDamagePart}
-              isEditable={isEditable}
-            />
-          )
-        }
+        isModalVisible && (
+          <UpdateDamageModal
+            damage={editedDamage}
+            damageMode={damageMode}
+            images={editedDamageImages}
+            onConfirm={handleSaveDamage}
+            onDismiss={handleGalleryDismiss}
+            part={editedDamagePart}
+            isEditable={isEditable}
+          />
+        )
+      }
       {confirmModal && (
         <ConfirmModal
           texts={confirmModal.texts}
@@ -294,6 +307,7 @@ export default function DamageReport({
 }
 
 DamageReport.propTypes = {
+  currencyCharacter: PropTypes.string,
   damageMode: CommonPropTypes.damageMode,
   generatePdf: PropTypes.bool,
   inspectionId: PropTypes.string.isRequired,
@@ -307,6 +321,7 @@ DamageReport.propTypes = {
 };
 
 DamageReport.defaultProps = {
+  currencyCharacter: '€',
   damageMode: DamageMode.ALL,
   generatePdf: false,
   onStartNewInspection: () => {},
