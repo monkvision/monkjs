@@ -10,6 +10,7 @@ import monk, { useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
+import ErrorModal from 'components/ErrorModal';
 import mapTasksToSights from './mapTasksToSights';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
@@ -30,6 +31,7 @@ export default function InspectionCapture() {
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
+  const [errorModal, setErrorModal] = useState(null);
   const { setShowMessage, Notice } = useSnackbar();
   const { isFullscreen, requestFullscreen } = useFullscreen();
 
@@ -89,6 +91,18 @@ export default function InspectionCapture() {
             }).then(({ entities, result }) => {
               dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
               resolve(name);
+            }).catch((err) => {
+              errorHandler(err);
+              setErrorModal({
+                texts: {
+                  message: t('capture.skipRetake.error.message'),
+                  label: t('capture.skipRetake.error.label'),
+                },
+                onPress: () => {
+                  setErrorModal(null);
+                  navigation.navigate(names.LANDING);
+                },
+              });
             });
           }));
 
@@ -212,6 +226,12 @@ export default function InspectionCapture() {
         overlayPathStyles={{ strokeWidth: 2 }}
       />
       <Notice />
+      {errorModal && (
+        <ErrorModal
+          texts={errorModal.texts}
+          onPress={errorModal.onPress}
+        />
+      )}
     </View>
   );
 }
