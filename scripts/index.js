@@ -29,7 +29,7 @@ async function getTransactions(clusterEnd, projectId) {
   return axios.request({
     method: 'get',
     headers: { Authorization: `Bearer ${process.env.TOKEN}` },
-    url: `${sentryEndPoint}/api/0/organizations/${organizations}/eventsv2/?field=id&field=transaction.op&field=transaction.status&field=task&field=inspectionId&field=timestamp&field=retakenPictures&field=takenPictures&field=percentOfNonCompliancePics&statsPeriod=${statsPeriod}&per_page=${recordPerPage}&query=${query}&referrer=api.discover.query-table&cursor=0:${clusterEnd}:0&project=${projectId}&environment=${process.env.ENVIRONMENT}`,
+    url: `${sentryEndPoint}/api/0/organizations/${organizations}/events/?field=id&field=transaction.op&field=transaction.status&field=task&field=inspectionId&field=timestamp&field=retakenPictures&field=takenPictures&field=percentOfNonCompliancePics&statsPeriod=${statsPeriod}&per_page=${recordPerPage}&query=${query}&referrer=api.discover.query-table&cursor=0:${clusterEnd}:0&project=${projectId}&environment=${process.env.ENVIRONMENT}`,
   });
 }
 

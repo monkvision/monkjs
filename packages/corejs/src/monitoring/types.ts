@@ -140,7 +140,14 @@ export enum SentryTag {
   IS_SKIP = 'isSkip',
   IS_RETAKE = 'isRetake',
   TAKEN_PICTURES = 'takenPictures',
-  RETAKEN_PICTURES = 'retakenPictures',
   ADD_DAMAGES = 'addDamages',
+  NON_COMPLIANCE_PICS = 'nonCompliancePics',
   PERCENT_OF_NON_COMPLIANCE_PICS = 'percentOfNonCompliancePics',
+  IMAGE_TYPE = 'imageType',
+}
+
+export enum SentryImageTypes {
+  CAPTURE = 'capture',
+  ZOOM = 'zoom',
+  RETAKE = 'retake',
 }

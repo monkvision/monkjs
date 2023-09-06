@@ -53,6 +53,7 @@ export default function useHandlers({
     compliance.dispatch({ type: Actions.compliance.UPDATE_COMPLIANCE, payload: compliancePayload });
     uploads.dispatch({ type: Actions.uploads.UPDATE_UPLOAD, payload: uploadsPayload });
     sights.dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
+    onRetakeAll();
   }, [compliance, sights, uploads]);
 
   const handleReUpload = useCallback(async (id, picture, language) => {

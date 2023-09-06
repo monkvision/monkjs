@@ -1,4 +1,4 @@
-import { MonitoringStatus, SentryOperation, SentryTag, SentryTransaction, useMonitoring } from '@monkvision/corejs';
+import { MonitoringStatus, SentryImageTypes, SentryOperation, SentryTag, SentryTransaction, useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
@@ -150,6 +150,7 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
+  const [isRetake, setRetake] = useState(false);
   const [addDamageStatus, setAddDamageStatus] = useState(AddDamageStatus.IDLE);
   const [addDamageParts, setAddDamageParts] = useState([]);
   const [closeEarlyModalState, setCloseEarlyModalState] = useState({
@@ -427,6 +428,7 @@ const Capture = forwardRef(({
   }, []);
 
   const onRetakeAll = useCallback(() => {
+    setRetake(true);
     captureTourTransRef.current.hasRetakeCalled = true;
     captureTourTransRef.current.transaction.setTag(SentryTag.IS_RETAKE, 1);
   }, []);
@@ -439,7 +441,7 @@ const Capture = forwardRef(({
     if (!captureTourTransRef.current.hasRetakeCalled) {
       const { transaction } = captureTourTransRef.current;
       const percentOfNonCompliancePics = ((100 * retakesNeeded) / states.sights.state.ids.length);
-      transaction.setTag(SentryTag.RETAKEN_PICTURES, retakesNeeded);
+      transaction.setTag(SentryTag.NON_COMPLIANCE_PICS, retakesNeeded);
       transaction.setTag(SentryTag.PERCENT_OF_NON_COMPLIANCE_PICS, percentOfNonCompliancePics);
     }
   }, []);
@@ -462,7 +464,6 @@ const Capture = forwardRef(({
     transaction.setTag(SentryTag.IS_SKIP, 0);
     transaction.setTag(SentryTag.IS_RETAKE, 0);
     transaction.setTag(SentryTag.TAKEN_PICTURES, 0);
-    transaction.setTag(SentryTag.RETAKEN_PICTURES, 0);
     captureTourTransRef.current = {
       transaction,
       takenPictures: 0,
@@ -500,11 +501,12 @@ const Capture = forwardRef(({
       // Start the transaction
       const transaction = measurePerformance(
         SentryTransaction.PICTURE_PROCESSING,
-        SentryOperation.ADD_DAMAGE,
+        SentryOperation.CAPTURE_SIGHT,
       );
 
       // set tags to identify a transaction and relate with an inspection
       transaction.setTag(SentryTag.TASK, task);
+      transaction.setTag(SentryTag.IMAGE_TYPE, SentryImageTypes.ZOOM);
       transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
 
       // Set the transaction in reference
@@ -581,6 +583,7 @@ const Capture = forwardRef(({
       containerStyle={controlsContainerStyle}
       elements={controls}
       loading={loading}
+      isRetake={isRetake}
       state={states}
       onCloseEarly={handleCloseEarlyClick}
       onAddDamagePressed={handleAddDamagePressed}
