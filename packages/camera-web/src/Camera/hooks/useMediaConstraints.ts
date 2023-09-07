@@ -64,40 +64,26 @@ const CAMERA_RESOLUTION_SIZES: {
 };
 
 /**
- * Quality options for the camera. If no camera on the device meets the requirements, the closest match will be used.
- * Notes :
- * - The Monk Camera package will always try to fetch a stream with a 16:9 resolution format.
- * - The implementation of the algorithm used to choose the closest camera can differ between browsers, and if the
- * exact requirements can't be met, the resulting stream's quality can differ between browsers.
- */
-export interface CameraQualityOptions {
-  /**
-   * The resolution of the camera.
-   *
-   * @default CameraResolution.UHD_4K
-   */
-  resolution?: CameraResolution;
-}
-
-/**
  * Specifications for the camera stream that the Monk `Camera` component should fetch from the device.
  */
-export interface CameraOptions {
+export interface CameraConfig {
   /**
    * Specifies which camera to use if the devices has a front and a rear camera. If the device does not have a camera
    * meeting the requirements, the closest one will be used.
    *
    * @default `CameraFacingMode.ENVIRONMENT`
    */
-  facingMode?: CameraFacingMode;
+  facingMode: CameraFacingMode;
   /**
-   * Quality options for the camera. If no camera on the device meets the requirements, the closest match will be used.
-   * See the `CameraQualityOptions` interface tsdoc description for more details.
+   * Resolution quality for the camera. If no camera on the device meets the requirements, the closest match will be
+   * used. Notes :
+   * - The Monk Camera package will always try to fetch a stream with a 16:9 resolution format.
+   * - The implementation of the algorithm used to choose the closest camera can differ between browsers, and if the
+   * exact requirements can't be met, the resulting stream's quality can differ between browsers.
    *
-   * @see CameraQualityOptions
-   * @default See the `CameraQualityOptions` description for the default values.
+   * @default `CameraResolution.UHD_4K`
    */
-  quality?: CameraQualityOptions;
+  resolution: CameraResolution;
   /**
    * The ID of the camera device to use. This ID can be fetched using the native
    * `navigator.mediaDevices?.enumerateDevices` function. If this ID is specified, it will prevail over the `facingMode`
@@ -106,43 +92,30 @@ export interface CameraOptions {
   deviceId?: string;
 }
 
-const DEFAULT_CONSTRAINTS = {
-  facingMode: CameraFacingMode.ENVIRONMENT,
-  quality: {
-    resolution: CameraResolution.UHD_4K,
-  },
-};
-
 /**
  * This hook is used by the Monk Camera package in order to add a layer of abstraction to the media constraints passed
  * to the `useUserMedia` hook. It takes an optional `CameraOptions` parameter and creates a `MediaStreamConstraints`
  * corresponding to the given options. The default option for each `CameraOptions` field can be found in their
  * respsective tsdoc descriptions, refer to the `CameraOptions` interface for more details.
  *
- * @param options The camera options to convert into media constraints.
- * @return A `MediaStreamConstraints` object that can be passed to the `useUserMedia` hook.
- * @see CameraOptions
+ * @see CameraConfig
  * @see useUserMedia
  */
-export function useMediaConstraints(options?: CameraOptions): MediaStreamConstraints {
+export function useMediaConstraints(config: CameraConfig): MediaStreamConstraints {
   const video = useMemo(() => {
-    const facingMode = options?.facingMode ?? DEFAULT_CONSTRAINTS.facingMode;
-    const { width, height } =
-      CAMERA_RESOLUTION_SIZES[
-        options?.quality?.resolution ?? DEFAULT_CONSTRAINTS.quality.resolution
-      ];
+    const { width, height } = CAMERA_RESOLUTION_SIZES[config.resolution];
 
     const constraints: MediaTrackConstraints = {
       width: { ideal: width },
       height: { ideal: height },
-      facingMode,
+      facingMode: config.facingMode,
     };
 
-    if (options?.deviceId) {
-      constraints.deviceId = options.deviceId;
+    if (config.deviceId) {
+      constraints.deviceId = config.deviceId;
     }
     return constraints;
-  }, [options]);
+  }, [config]);
 
   return {
     audio: false,

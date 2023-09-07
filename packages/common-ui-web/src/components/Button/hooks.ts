@@ -95,7 +95,9 @@ function getDefaultsIfNotProvided(
   return { variant, size, primaryColor, secondaryColor };
 }
 
-export function useButtonStyle(props: MonkButtonProps & { isDisabled: boolean }): ButtonStyle {
+export function useButtonStyle(
+  props: MonkButtonProps & { isDisabled: boolean; hasChildren: boolean },
+): ButtonStyle {
   const { utils, palette } = useMonkTheme();
   return useMemo(() => {
     const requiredProps = getDefaultsIfNotProvided(props);
@@ -124,7 +126,9 @@ export function useButtonStyle(props: MonkButtonProps & { isDisabled: boolean })
       icon: {
         color,
         size: contentSize,
-        className: `monk-btn-icon ${requiredProps.variant} ${requiredProps.size}`,
+        className: `monk-btn-icon ${requiredProps.variant} ${requiredProps.size} ${
+          props.hasChildren ? '' : 'icon-only'
+        }`,
       },
       spinner: {
         color,

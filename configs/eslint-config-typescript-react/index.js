@@ -14,6 +14,8 @@ module.exports = {
     'no-console': ERROR,
     'react/function-component-definition': [ERROR, { namedComponent: 'arrow-function' }],
     'jsx-a11y/media-has-caption': OFF,
+    'jsx-a11y/anchor-has-content': OFF,
+    'jsx-a11y/anchor-is-valid': OFF,
   },
   ignorePatterns: ['**/*.js', 'node_modules', 'dist'],
   overrides: [

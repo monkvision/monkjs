@@ -1,4 +1,5 @@
-import { ComponentType, ReactElement, useMemo } from 'react';
+import { ComponentType, ReactElement, useEffect, useMemo } from 'react';
+import { MonkPicture } from './useCompression';
 import { UserMediaError } from './useUserMedia';
 
 /**
@@ -8,7 +9,7 @@ export interface CameraHandle {
   /**
    * A function that you can call to ask the camera to take a picture.
    */
-  takePicture: () => ImageData;
+  takePicture: () => MonkPicture;
   /**
    * The error details if there has been an error when fetching the camera stream.
    */
@@ -32,13 +33,16 @@ export interface CameraEventHandlers {
    *
    * @param picture The picture that has been taken.
    */
-  onPictureTaken?: (picture: ImageData) => void;
+  onPictureTaken?: (picture: MonkPicture) => void;
 }
 
 /**
  * Props accepted by a CameraHUD component.
  */
 export interface CameraHUDProps extends CameraEventHandlers {
+  /**
+   * The handle used to control the camera.
+   */
   handle?: Partial<CameraHandle>;
 }
 

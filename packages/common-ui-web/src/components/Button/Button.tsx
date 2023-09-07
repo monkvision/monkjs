@@ -56,6 +56,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
       loading,
       preserveWidthOnLoading,
       isDisabled,
+      hasChildren: !!children,
     });
     const handleMouseDown = useCallback(
       (event: MouseEvent<HTMLButtonElement>) => {

@@ -206,50 +206,28 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
 
   useEffect(() => {
     if (error || isLoading || deepEqual(lastConstraintsApplied, constraints)) {
-      return () => {};
+      return;
     }
     setLastConstraintsApplied(constraints);
 
-    if (stream) {
-      setIsLoading(true);
-      stream.getTracks().forEach((track) => {
-        const trackConstraints = constraints[track.kind as MediaTrackKind];
-        const constraintsToApply: MediaTrackConstraints | undefined =
-          typeof trackConstraints === 'boolean' ? {} : trackConstraints;
-        track
-          .applyConstraints(constraintsToApply)
-          .catch((err) => handleError(err))
-          .finally(() => setIsLoading(false));
-      });
-      return () => {};
-    }
-
-    let didCancel = false;
     const getUserMedia = async () => {
       try {
         setIsLoading(true);
+        if (stream) {
+          stream.removeEventListener('inactive', onStreamInactive);
+          stream.getTracks().forEach((track) => track.stop());
+        }
         const str = await navigator.mediaDevices.getUserMedia(constraints);
-        if (!didCancel) {
-          str?.addEventListener('inactive', onStreamInactive);
-          setStream(str);
-          setDimensions(getStreamDimensions(str));
-          setIsLoading(false);
-        }
+        str?.addEventListener('inactive', onStreamInactive);
+        setStream(str);
+        setDimensions(getStreamDimensions(str));
+        setIsLoading(false);
       } catch (err) {
-        if (!didCancel) {
-          handleGetUserMediaError(err);
-        }
+        handleGetUserMediaError(err);
         throw err;
       }
     };
-
-    if (!stream) {
-      getUserMedia().catch((err) => handleError(err));
-      return () => {};
-    }
-    return () => {
-      didCancel = true;
-    };
+    getUserMedia().catch((err) => handleError(err));
   }, [constraints, stream, error, isLoading, lastConstraintsApplied, onStreamInactive]);
 
   return { stream, dimensions, error, retry, isLoading };

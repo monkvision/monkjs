@@ -20,7 +20,7 @@ jest.mock('../../../src/Camera/hooks/useUserMedia', () => ({
 }));
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { CameraFacingMode, CameraOptions, CameraResolution } from '../../../src';
+import { CameraFacingMode, CameraConfig, CameraResolution } from '../../../src';
 import { useCameraPreview } from '../../../src/Camera/hooks';
 
 describe('useCameraPreview hook', () => {
@@ -33,7 +33,7 @@ describe('useCameraPreview hook', () => {
     await waitFor(() => {
       expect(useMediaConstraintsMock).toHaveBeenCalledWith(undefined);
     });
-    const options: CameraOptions = {
+    const options: CameraConfig = {
       deviceId: 'test-id',
       facingMode: CameraFacingMode.USER,
       quality: { resolution: CameraResolution.QHD_2K },
@@ -68,7 +68,7 @@ describe('useCameraPreview hook', () => {
 
     stream = { id: 'new-stream-id' };
     const videoEl = {} as HTMLVideoElement;
-    Object.defineProperty(result.current.videoRef, 'current', {
+    Object.defineProperty(result.current.ref, 'current', {
       value: videoEl,
       configurable: true,
       writable: true,
@@ -89,7 +89,7 @@ describe('useCameraPreview hook', () => {
       play: jest.fn(() => Promise.resolve(undefined)),
     } as unknown as HTMLVideoElement;
     const spy = jest.spyOn(videoEl, 'play');
-    Object.defineProperty(result.current.videoRef, 'current', {
+    Object.defineProperty(result.current.ref, 'current', {
       value: videoEl,
       configurable: true,
       writable: true,
@@ -114,7 +114,7 @@ describe('useCameraPreview hook', () => {
     const videoEl = {
       play: jest.fn(() => Promise.reject(playError)),
     } as unknown as HTMLVideoElement;
-    Object.defineProperty(result.current.videoRef, 'current', {
+    Object.defineProperty(result.current.ref, 'current', {
       value: videoEl,
       configurable: true,
       writable: true,

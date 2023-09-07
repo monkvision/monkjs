@@ -61,11 +61,11 @@
   background-image: linear-gradient(#ffffff1f, #ffffff1f);
 }
 
-.monk-btn .monk-btn-icon {
+.monk-btn .monk-btn-icon:not(.icon-only) {
   margin-right: 10px;
 }
 
-.monk-btn .monk-btn-icon.small {
+.monk-btn .monk-btn-icon.small:not(.icon-only) {
   margin-right: 8px;
 }
 

@@ -1,4 +1,5 @@
-import { RefObject, useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback } from 'react';
+import { getCanvasHandle } from './getCanvasHandle';
 import { MediaStreamDimensions } from './useUserMedia';
 
 /**
@@ -10,6 +11,10 @@ export interface CameraScreenshotConfig {
    */
   videoRef: RefObject<HTMLVideoElement>;
   /**
+   * The ref to the canvas element used to draw the screenshots
+   */
+  canvasRef: RefObject<HTMLCanvasElement>;
+  /**
    * The dimensions of the screenshot.
    */
   dimensions: MediaStreamDimensions | null;
@@ -18,7 +23,7 @@ export interface CameraScreenshotConfig {
 /**
  * Interface describing a handle that can be used to take a screenshot of a video element.
  */
-export interface CameraScreenshotHandles {
+export interface CameraScreenshotHandle {
   /**
    * The ref to the canvas element. Pass this ref to a canvas element on your web page in order to use this canvas as a
    * support for drawing and generating the screenshot.
@@ -35,35 +40,14 @@ export interface CameraScreenshotHandles {
 /**
  * Custom hook used to take screenshots of a video element. This hook is aimed to be used in pair with a `<canvas>`
  * element referenced by the returned ref.
- *
- * @param videoRef The ref to the video element to take screenshots of.
- * @param dimensions The dimensions of the screenshot.
- * @return A handle used to take the screenshots.
  */
 export function useCameraScreenshot({
   videoRef,
+  canvasRef,
   dimensions,
-}: CameraScreenshotConfig): CameraScreenshotHandles {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    if (dimensions && canvasRef.current) {
-      canvasRef.current.width = dimensions.width;
-      canvasRef.current.height = dimensions.height;
-    }
-  }, [dimensions]);
-
+}: CameraScreenshotConfig): CameraScreenshotHandle {
   const takeScreenshot = useCallback(() => {
-    if (!canvasRef.current) {
-      throw new Error('Unable to take a picture because the canvas element is null.');
-    }
-    const context = canvasRef.current.getContext('2d', {
-      alpha: false,
-      willReadFrequently: true,
-    });
-    if (!context) {
-      throw new Error('Unable to take a picture because the canvas context is null.');
-    }
+    const { context } = getCanvasHandle(canvasRef);
     if (!dimensions) {
       throw new Error('Unable to take a picture because the video stream has no dimension.');
     }
