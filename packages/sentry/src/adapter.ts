@@ -1,11 +1,13 @@
 import {
   DebugMonitoringAdapter,
   LogContext,
+  MeasurementUnit,
   MonitoringAdapter,
   Severity,
   Transaction,
   TransactionContext,
 } from '@monkvision/monitoring';
+import { MeasurementContext } from '@monkvision/monitoring/src';
 
 import * as Sentry from '@sentry/react';
 import { Span } from '@sentry/types';
@@ -133,32 +135,54 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
     Sentry.captureException(err, context);
   }
 
-  override createTransaction(context: TransactionContext): Transaction {
+  override createTransaction(context?: TransactionContext): Transaction {
     const transaction = Sentry.startTransaction({
-      name: context.name ?? '',
-      data: context.data ?? {},
-      op: context.operation ?? '',
-      description: context.description ?? '',
-      traceId: context.traceId ?? '',
-      tags: context.tags ?? {},
+      parentSpanId: context?.parentId,
+      name: context?.name ?? '',
+      data: context?.data ?? {},
+      op: context?.operation ?? '',
+      description: context?.description ?? '',
+      traceId: context?.traceId ?? '',
+      tags: context?.tags ?? {},
       sampled: true,
     });
     const transactionSpans: Record<string, Span> = {};
 
     return {
+      id: transaction.spanId,
       setTag: (tagName: string, tagValue: string) => transaction.setTag(tagName, tagValue),
-      startMeasurement: (name: string, data?: Record<string, number | string>) => {
+      startMeasurement: (name: string, measurementContext?: MeasurementContext) => {
         transactionSpans[name] = transaction.startChild({
+          ...(measurementContext ?? {}),
           op: name,
-          data: data ?? {},
         });
       },
-      stopMeasurement: () => (name: string) => {
-        if (transactionSpans[name]) {
-          transactionSpans[name].setStatus(SentryTransactionStatus.OK);
-          transactionSpans[name].finish();
-          delete transactionSpans[name];
+      stopMeasurement: (name: string) => {
+        if (!transactionSpans[name]) {
+          this.handleError(
+            new Error(
+              `Unable to stop measurement in SentryMonitoringAdapter : Unknown measurement name "${name}"`,
+            ),
+          );
+          return;
         }
+        transactionSpans[name].setStatus(SentryTransactionStatus.OK);
+        transactionSpans[name].finish();
+        delete transactionSpans[name];
+      },
+      setMeasurementTag: (measurementName: string, tagName: string, value: string) => {
+        if (!transactionSpans[measurementName]) {
+          this.handleError(
+            new Error(
+              `Unable to set tag to measurement in SentryMonitoringAdapter : Unknown measurement name "${measurementName}"`,
+            ),
+          );
+          return;
+        }
+        transactionSpans[measurementName].setTag(tagName, value);
+      },
+      setMeasurement: (name: string, value: number, unit: MeasurementUnit = 'none') => {
+        transaction.setMeasurement(name, value, unit);
       },
       finish: (status: string = SentryTransactionStatus.OK) => {
         transaction.setStatus(status);

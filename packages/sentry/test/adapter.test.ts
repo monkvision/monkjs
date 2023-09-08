@@ -1,5 +1,7 @@
+import { MeasurementContext, TransactionContext } from '@monkvision/monitoring';
+import { Transaction } from '@sentry/react';
 import * as Sentry from '@sentry/react';
-import { SentryMonitoringAdapter } from '../src';
+import { SentryMonitoringAdapter, SentryTransactionStatus } from '../src';
 
 jest.mock('@sentry/react');
 
@@ -41,23 +43,136 @@ describe('Sentry Monitoring Adapter', () => {
   });
 
   describe('createTransaction function', () => {
-    it('should create a dummy sentry transaction', () => {
+    it('should create a sentry transaction', () => {
       const adapter = new SentryMonitoringAdapter(defaultConfiguration);
-      adapter.createTransaction({
-        name: 'capture-tour',
-        operation: 'capture-tour',
-        description: 'Capture tour description',
-      });
+      const id = 'test-id';
+      jest
+        .spyOn(Sentry, 'startTransaction')
+        .mockImplementation(() => ({ spanId: id } as unknown as Transaction));
+      const context: TransactionContext = {
+        parentId: 'parent-id',
+        operation: 'test-op',
+        name: 'test-name',
+        description: 'test-description',
+        data: { test: 'value' },
+        traceId: 'trace-id',
+        tags: { test: 'tag' },
+      };
+      const result = adapter.createTransaction(context);
 
       expect(Sentry.startTransaction).toHaveBeenCalledWith({
-        name: 'capture-tour',
-        op: 'capture-tour',
-        description: 'Capture tour description',
-        data: {},
-        traceId: '',
-        tags: {},
+        parentSpanId: context.parentId,
+        name: context.name,
+        op: context.operation,
+        description: context.description,
+        data: context.data,
+        traceId: context.traceId,
+        tags: context.tags,
         sampled: true,
       });
+      expect(result.id).toEqual(id);
+    });
+
+    it('should use the setTag method from Sentry', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const sentryTransaction = { spanId: '', setTag: jest.fn() } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const tagName = 'tag-name';
+      const tagValue = 'tag-value';
+      transaction.setTag(tagName, tagValue);
+
+      expect(sentryTransaction.setTag).toHaveBeenCalledWith(tagName, tagValue);
+    });
+
+    it('should use the startChild method from Sentry', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const sentryTransaction = { spanId: '', startChild: jest.fn() } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const name = 'name';
+      const context: MeasurementContext = {
+        data: { test: 'value' },
+        tags: { test: 'tag' },
+        description: 'descr',
+      };
+      transaction.startMeasurement(name, context);
+
+      expect(sentryTransaction.startChild).toHaveBeenCalledWith({ op: name, ...context });
+    });
+
+    it('should use the finish the child transaction', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const childTransaction = { setStatus: jest.fn(), finish: jest.fn() };
+      const sentryTransaction = {
+        spanId: '',
+        startChild: jest.fn(() => childTransaction),
+      } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const name = 'name';
+      transaction.startMeasurement(name);
+      transaction.stopMeasurement(name);
+
+      expect(childTransaction.setStatus).toHaveBeenCalledWith(SentryTransactionStatus.OK);
+      expect(childTransaction.finish).toHaveBeenCalled();
+    });
+
+    it('should use the setMeasurement method from Sentry', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const sentryTransaction = { spanId: '', setMeasurement: jest.fn() } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const name = 'name';
+      const value = 15;
+      const unit = 'second';
+      transaction.setMeasurement(name, value, unit);
+
+      expect(sentryTransaction.setMeasurement).toHaveBeenCalledWith(name, value, unit);
+    });
+
+    it('should use the "none" unit when no unit is provided', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const sentryTransaction = { spanId: '', setMeasurement: jest.fn() } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      transaction.setMeasurement('name', 15);
+
+      expect(sentryTransaction.setMeasurement).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.stringMatching(/(^$)|(^none$)/gi),
+      );
+    });
+
+    it('should finish the transaction', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const sentryTransaction = {
+        spanId: '',
+        setStatus: jest.fn(),
+        finish: jest.fn(),
+      } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const status = 'status';
+      transaction.finish(status);
+
+      expect(sentryTransaction.setStatus).toHaveBeenCalledWith(status);
+      expect(sentryTransaction.finish).toHaveBeenCalled();
+    });
+
+    it('should use the OK status by default if no status is provided', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const sentryTransaction = {
+        spanId: '',
+        setStatus: jest.fn(),
+        finish: jest.fn(),
+      } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      transaction.finish();
+
+      expect(sentryTransaction.setStatus).toHaveBeenCalledWith(SentryTransactionStatus.OK);
     });
   });
 });

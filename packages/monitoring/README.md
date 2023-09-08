@@ -143,12 +143,16 @@ has the following structure :
 
 ```typescript
 export interface Transaction {
+  // The ID of the transaction
+  id: string;
   // Set a tag in the transaction
   setTag: (name: string, value: string) => void;
   // Start a performance measurement
   startMeasurement: (name: string, data?: Record<string, number | string>) => void;
   // Stop a given measurement
   stopMeasurement: (name: string) => void;
+  // Set a custom measurement value
+  setMeasurement: (name: string, value: number, unit?: MeasurementUnit) => void;
   // Complete the transaction
   finish: (status?: string) => void;
 }

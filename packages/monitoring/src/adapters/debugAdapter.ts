@@ -12,7 +12,6 @@ const CONSOLE_LOG_FUNCTIONS: { [severity in Severity]: (...data: any[]) => void 
 /**
  * Options available when instanciating the Debug Monitoring Adapter.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DebugAdapterOptions extends EmptyAdapterOptions {}
 
 const defaultOptions: DebugAdapterOptions = {
