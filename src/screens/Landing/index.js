@@ -243,8 +243,9 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true
-       && !invalidToken && !allTasksAreCompleted
-       && shouldFetch && route.params?.captureComplete) {
+      && !invalidToken && !allTasksAreCompleted
+      && shouldFetch &&
+      (route.params?.captureComplete || (route.params?.mode === 'manually' && route.params?.vin))) {
       getInspection.start().catch((err) => {
         errorHandler(err);
       });
