@@ -1,7 +1,7 @@
-import { MeasurementContext, TransactionContext } from '@monkvision/monitoring';
+import { MeasurementContext, TransactionContext, TransactionStatus } from '@monkvision/monitoring';
 import { Transaction } from '@sentry/react';
 import * as Sentry from '@sentry/react';
-import { SentryMonitoringAdapter, SentryTransactionStatus } from '../src';
+import { SentryMonitoringAdapter } from '../src';
 
 jest.mock('@sentry/react');
 
@@ -114,8 +114,40 @@ describe('Sentry Monitoring Adapter', () => {
       transaction.startMeasurement(name);
       transaction.stopMeasurement(name);
 
-      expect(childTransaction.setStatus).toHaveBeenCalledWith(SentryTransactionStatus.OK);
       expect(childTransaction.finish).toHaveBeenCalled();
+    });
+
+    it('should finish the child transaction with the given status', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const childTransaction = { setStatus: jest.fn(), finish: jest.fn() };
+      const sentryTransaction = {
+        spanId: '',
+        startChild: jest.fn(() => childTransaction),
+      } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const name = 'name';
+      const status = 'test-status';
+      transaction.startMeasurement(name);
+      transaction.stopMeasurement(name, status);
+
+      expect(childTransaction.setStatus).toHaveBeenCalledWith(status);
+    });
+
+    it('should finish the child transaction with the OK status by default', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const childTransaction = { setStatus: jest.fn(), finish: jest.fn() };
+      const sentryTransaction = {
+        spanId: '',
+        startChild: jest.fn(() => childTransaction),
+      } as unknown as Transaction;
+      jest.spyOn(Sentry, 'startTransaction').mockImplementation(() => sentryTransaction);
+      const transaction = adapter.createTransaction();
+      const name = 'name';
+      transaction.startMeasurement(name);
+      transaction.stopMeasurement(name);
+
+      expect(childTransaction.setStatus).toHaveBeenCalledWith(TransactionStatus.OK);
     });
 
     it('should use the setMeasurement method from Sentry', () => {
@@ -172,7 +204,7 @@ describe('Sentry Monitoring Adapter', () => {
       const transaction = adapter.createTransaction();
       transaction.finish();
 
-      expect(sentryTransaction.setStatus).toHaveBeenCalledWith(SentryTransactionStatus.OK);
+      expect(sentryTransaction.setStatus).toHaveBeenCalledWith(TransactionStatus.OK);
     });
   });
 });

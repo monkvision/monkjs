@@ -6,33 +6,12 @@ import {
   Severity,
   Transaction,
   TransactionContext,
+  MeasurementContext,
+  TransactionStatus,
 } from '@monkvision/monitoring';
-import { MeasurementContext } from '@monkvision/monitoring/src';
 
 import * as Sentry from '@sentry/react';
 import { Span } from '@sentry/types';
-
-/**
- * Transaction statuses available in the Sentry platform.
- */
-export enum SentryTransactionStatus {
-  /**
-   * The operation completed successfully.
-   */
-  OK = 'ok',
-  /**
-   * Unknown. Any non-standard HTTP status code.
-   */
-  UNKNOWN_ERROR = 'unknown_error',
-  /**
-   * The operation was cancelled (typically by the user).
-   */
-  CANCELLED = 'cancelled',
-  /**
-   * The operation was aborted, typically due to a concurrency issue.
-   */
-  ABORTED = 'aborted',
-}
 
 /**
  * Config required when instantiating the Sentry Monitoring Adapter.
@@ -111,8 +90,9 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
       ...optionsParam,
     };
 
+    Sentry.addTracingExtensions();
     Sentry.init({
-      ...this.options,
+      ...this.sentryOptions,
       beforeBreadcrumb: (breadcrumb) => (breadcrumb.category === 'xhr' ? null : breadcrumb),
     });
 
@@ -157,7 +137,10 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
           op: name,
         });
       },
-      stopMeasurement: (name: string) => {
+      stopMeasurement: (
+        name: string,
+        status: TransactionStatus | string = TransactionStatus.OK,
+      ) => {
         if (!transactionSpans[name]) {
           this.handleError(
             new Error(
@@ -166,7 +149,7 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
           );
           return;
         }
-        transactionSpans[name].setStatus(SentryTransactionStatus.OK);
+        transactionSpans[name].setStatus(status);
         transactionSpans[name].finish();
         delete transactionSpans[name];
       },
@@ -184,7 +167,7 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
       setMeasurement: (name: string, value: number, unit: MeasurementUnit = 'none') => {
         transaction.setMeasurement(name, value, unit);
       },
-      finish: (status: string = SentryTransactionStatus.OK) => {
+      finish: (status: TransactionStatus | string = TransactionStatus.OK) => {
         transaction.setStatus(status);
         transaction.finish();
       },

@@ -125,6 +125,28 @@ export type NoneUnit = '' | 'none';
 export type MeasurementUnit = DurationUnit | InformationUnit | FractionUnit | NoneUnit;
 
 /**
+ * The status of a transaction when it is ended.
+ */
+export enum TransactionStatus {
+  /**
+   * The operation completed successfully.
+   */
+  OK = 'ok',
+  /**
+   * Unknown. Any non-standard HTTP status code.
+   */
+  UNKNOWN_ERROR = 'unknown_error',
+  /**
+   * The operation was cancelled (typically by the user).
+   */
+  CANCELLED = 'cancelled',
+  /**
+   * The operation was aborted, typically due to a concurrency issue.
+   */
+  ABORTED = 'aborted',
+}
+
+/**
  * A transaction object (used for performance measurement etc.), created using
  * the MonitoringAdapter.createTransaction method.
  */
@@ -153,7 +175,7 @@ export interface Transaction {
    * @param name The name of the measurement. This name must be the same as the one given to the
    * Transaction.startMeasurement method.
    */
-  stopMeasurement: (name: string) => void;
+  stopMeasurement: (name: string, status?: TransactionStatus | string) => void;
   /**
    * Add a tag in a measurement that was created using the Transaction.startMeasurement method.
    *
@@ -175,7 +197,7 @@ export interface Transaction {
    *
    * @param status The status of the transaction when completed.
    */
-  finish: (status?: string) => void;
+  finish: (status?: TransactionStatus | string) => void;
 }
 
 /**

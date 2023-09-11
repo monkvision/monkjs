@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { Transaction } from '@monkvision/monitoring';
+import React, { useMemo, useState } from 'react';
 import './Camera.css';
 import {
   CameraConfig,
@@ -13,7 +14,9 @@ import {
   useCameraPreview,
   useCameraScreenshot,
   useCompression,
+  useTakePicture,
 } from './hooks';
+import { CameraMonitoringConfig } from './monitoring';
 
 /**
  * Props given to the Camera component.
@@ -26,6 +29,10 @@ export interface CameraProps
    * Optional HUD component to display above the camera preview.
    */
   HUDComponent?: CameraHUDComponent;
+  /**
+   * Additional monitoring config that can be provided to the Camera component.
+   */
+  monitoring?: CameraMonitoringConfig;
 }
 
 export function Camera({
@@ -35,12 +42,9 @@ export function Camera({
   format = CompressionFormat.JPEG,
   quality = 0.8,
   HUDComponent,
+  monitoring,
   onPictureTaken,
 }: CameraProps) {
-  const cameraConfig = useMemo(
-    () => ({ facingMode, resolution, deviceId }),
-    [facingMode, resolution, deviceId],
-  );
   const compressionOptions = useMemo(() => ({ format, quality }), [format, quality]);
   const {
     ref: videoRef,
@@ -48,21 +52,17 @@ export function Camera({
     error,
     retry,
     isLoading: isPreviewLoading,
-  } = useCameraPreview(cameraConfig);
+  } = useCameraPreview({ facingMode, resolution, deviceId });
   const { ref: canvasRef } = useCameraCanvas({ dimensions });
   const { takeScreenshot } = useCameraScreenshot({ videoRef, canvasRef, dimensions });
   const { compress } = useCompression({ canvasRef, options: compressionOptions });
   const isLoading = useMemo(() => isPreviewLoading, [isPreviewLoading]);
-  const takePicture = useCallback(() => compress(takeScreenshot()), [takeScreenshot, compress]);
-  const cameraHUDParams = useMemo(
-    () => ({
-      component: HUDComponent,
-      handle: { takePicture, error, retry, isLoading },
-      eventHandlers: { onPictureTaken },
-    }),
-    [HUDComponent, takePicture, error, retry, isLoading, onPictureTaken],
-  );
-  const HUDElement = useCameraHUD(cameraHUDParams);
+  const takePicture = useTakePicture({ compress, takeScreenshot, monitoring });
+  const HUDElement = useCameraHUD({
+    component: HUDComponent,
+    handle: { takePicture, error, retry, isLoading },
+    eventHandlers: { onPictureTaken },
+  });
 
   return (
     <div className='camera-container'>

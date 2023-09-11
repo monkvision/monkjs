@@ -5,3 +5,4 @@ export * from './useUserMedia';
 export * from './useCameraHUD';
 export * from './useCameraCanvas';
 export * from './useCompression';
+export * from './useTakePicture';

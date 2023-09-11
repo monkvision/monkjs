@@ -17,16 +17,31 @@ export interface CanvasHandle {
 /**
  * Utility function used to retreive a canvas handle or throw if it is not available.
  */
-export function getCanvasHandle(ref: RefObject<HTMLCanvasElement>): CanvasHandle {
+export function getCanvasHandle(
+  ref: RefObject<HTMLCanvasElement>,
+  onError?: (err: Error) => void,
+): CanvasHandle {
   if (!ref.current) {
-    throw new Error('Unable to process the camera picture because the canvas element is null.');
+    const err = new Error(
+      'Unable to process the camera picture because the canvas element is null.',
+    );
+    if (onError) {
+      onError(err);
+    }
+    throw err;
   }
   const context = ref.current.getContext('2d', {
     alpha: false,
     willReadFrequently: true,
   });
   if (!context) {
-    throw new Error('Unable to process the camera picture because the canvas context is null.');
+    const err = new Error(
+      'Unable to process the camera picture because the canvas context is null.',
+    );
+    if (onError) {
+      onError(err);
+    }
+    throw err;
   }
   return { canvas: ref.current, context };
 }
