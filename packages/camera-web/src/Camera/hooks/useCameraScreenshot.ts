@@ -71,11 +71,7 @@ function setScreeshotSizeMeasurement(
   image: ImageData,
 ): void {
   const imageSizeBytes = image.data.length;
-  monitoring.transaction?.setMeasurement(
-    ScreenshotSizeMeasurement.name,
-    imageSizeBytes,
-    'byte',
-  );
+  monitoring.transaction?.setMeasurement(ScreenshotSizeMeasurement.name, imageSizeBytes, 'byte');
 }
 
 /**

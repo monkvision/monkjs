@@ -2,8 +2,6 @@ import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
 import { useCallback, useEffect, useState } from 'react';
 
-type MediaTrackKind = 'audio' | 'video';
-
 /**
  * Enumeration of the different Native error names that can happen when a stream is invalid.
  */

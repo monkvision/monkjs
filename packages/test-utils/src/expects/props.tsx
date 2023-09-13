@@ -4,7 +4,10 @@ import {
   createRef,
   CSSProperties,
   ForwardRefExoticComponent,
+  JSXElementConstructor,
+  ReactElement,
   RefAttributes,
+  RefObject,
 } from 'react';
 
 /**
@@ -75,6 +78,29 @@ export function expectComponentToPassDownOtherPropsToHTMLElement<P extends Simpl
 }
 
 /**
+ * Expect the HTMLElement ith the given ID to have the given ref.
+ */
+export function expectHTMLElementToHaveRef<T>(
+  elementTestId: string,
+  ref: RefObject<T>,
+  testPropValues: Partial<T> = { id: 'test-pass-down-id' } as unknown as Partial<T>,
+) {
+  expect(ref.current).toBeDefined();
+  Object.keys(testPropValues).forEach((prop) => {
+    if (ref.current) {
+      const key = prop as keyof T;
+      // eslint-disable-next-line no-param-reassign
+      ref.current[key] = testPropValues[key] as NonNullable<T>[keyof T];
+    }
+  });
+  Object.keys(testPropValues).forEach((prop) => {
+    expect(screen.getByTestId(elementTestId)[prop as keyof HTMLElement]).toEqual(
+      testPropValues[prop as keyof T],
+    );
+  });
+}
+
+/**
  * Expects that the given component will pass down the ref given to it to the child HTMLElement that has the given test
  * ID.
  */
@@ -87,17 +113,6 @@ export function expectComponentToPassDownRefToHTMLElement<T>(
   const { unmount, rerender } = render(<Component ref={ref} />);
   rerender(<Component ref={ref} />);
 
-  expect(ref.current).toBeDefined();
-  Object.keys(testPropValues).forEach((prop) => {
-    if (ref.current) {
-      const key = prop as keyof T;
-      ref.current[key] = testPropValues[key] as NonNullable<T>[keyof T];
-    }
-  });
-  Object.keys(testPropValues).forEach((prop) => {
-    expect(screen.getByTestId(elementTestId)[prop as keyof HTMLElement]).toEqual(
-      testPropValues[prop as keyof T],
-    );
-  });
+  expectHTMLElementToHaveRef(elementTestId, ref, testPropValues);
   unmount();
 }

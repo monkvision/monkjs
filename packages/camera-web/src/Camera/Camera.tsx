@@ -56,8 +56,15 @@ export function Camera({
   const { ref: canvasRef } = useCameraCanvas({ dimensions });
   const { takeScreenshot } = useCameraScreenshot({ videoRef, canvasRef, dimensions });
   const { compress } = useCompression({ canvasRef, options: compressionOptions });
-  const isLoading = useMemo(() => isPreviewLoading, [isPreviewLoading]);
-  const takePicture = useTakePicture({ compress, takeScreenshot, monitoring });
+  const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
+    compress,
+    takeScreenshot,
+    monitoring,
+  });
+  const isLoading = useMemo(
+    () => isPreviewLoading || isTakePictureLoading,
+    [isPreviewLoading, isTakePictureLoading],
+  );
   const HUDElement = useCameraHUD({
     component: HUDComponent,
     handle: { takePicture, error, retry, isLoading },
@@ -66,8 +73,15 @@ export function Camera({
 
   return (
     <div className='camera-container'>
-      <video ref={videoRef} className='camera-preview' autoPlay playsInline controls={false} />
-      <canvas ref={canvasRef} className='camera-canvas' />
+      <video
+        data-testid='camera-video-preview'
+        ref={videoRef}
+        className='camera-preview'
+        autoPlay
+        playsInline
+        controls={false}
+      />
+      <canvas data-testid='camera-canvas' ref={canvasRef} className='camera-canvas' />
       <div className='hud-container'>{HUDElement}</div>
     </div>
   );

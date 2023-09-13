@@ -236,7 +236,7 @@ describe('useUserMedia hook', () => {
     unmount();
   });
 
-  it('should call applyConstraints when the constraints change', async () => {
+  it('should stop the stream and call getUserMedia again when the constraints change', async () => {
     const initialConstraints: MediaStreamConstraints = {
       audio: false,
       video: { width: 356, height: 234 },
@@ -255,13 +255,17 @@ describe('useUserMedia hook', () => {
         height: 7953,
       },
     };
+
     rerender(newConstraints);
     await waitFor(() => {
-      gumMock?.tracks
-        .filter((track) => track.kind === 'video')
-        .forEach((track) => {
-          expect(track.applyConstraints).toHaveBeenCalledWith(newConstraints.video);
-        });
+      expect(gumMock?.stream.removeEventListener).toHaveBeenCalledWith(
+        'inactive',
+        expect.any(Function),
+      );
+      gumMock?.tracks.forEach((track) => {
+        expect(track.stop).toHaveBeenCalled();
+      });
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith(newConstraints);
     });
     unmount();
   });

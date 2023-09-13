@@ -107,7 +107,7 @@ function stopCompressionMeasurement(
   monitoring.transaction?.stopMeasurement(CompressionMeasurement.operation, status);
 }
 
-function setCustomMeasurement(
+function setCustomMeasurements(
   monitoring: InternalCameraMonitoringConfig,
   image: ImageData,
   picture: MonkPicture,
@@ -146,7 +146,7 @@ export function useCompression({ canvasRef, options }: UseCompressionParams): Co
       startCompressionMeasurement(monitoring, options, image);
       try {
         const picture = compressUsingBrowser(image, canvasRef, options);
-        setCustomMeasurement(monitoring, image, picture);
+        setCustomMeasurements(monitoring, image, picture);
         stopCompressionMeasurement(monitoring, TransactionStatus.OK);
         return picture;
       } catch (err) {

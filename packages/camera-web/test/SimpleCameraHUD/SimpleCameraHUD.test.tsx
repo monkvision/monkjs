@@ -24,7 +24,7 @@ jest.mock('../../src/i18n', () => ({
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { SimpleCameraHUD, UserMediaErrorType } from '../../src';
+import { MonkPicture, SimpleCameraHUD, UserMediaErrorType } from '../../src';
 
 describe('SimpleCameraHUD component', () => {
   afterEach(() => {
@@ -59,7 +59,7 @@ describe('SimpleCameraHUD component', () => {
   });
 
   it('should call the onPictureTaken callback when provided', () => {
-    const picture = 'test-data' as unknown as ImageData;
+    const picture = {} as MonkPicture;
     const onPictureTaken = jest.fn();
     const { unmount } = render(
       <SimpleCameraHUD handle={{ takePicture: () => picture }} onPictureTaken={onPictureTaken} />,

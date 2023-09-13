@@ -20,49 +20,36 @@ const EXPECTED_CAMERA_RESOLUTION_SIZES: {
   [CameraResolution.UHD_4K]: { width: 3840, height: 2160 },
 };
 
-const DEFAULT_EXPECTED_CONSTRAINTS = {
-  audio: false,
-  video: {
-    facingMode: 'environment',
-    width: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[CameraResolution.UHD_4K].width },
-    height: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[CameraResolution.UHD_4K].height },
-  },
-};
-
 describe('useMediaConstraints hook', () => {
-  it('should return the default constraints when no options are specified', () => {
-    const { result, unmount } = renderHook(useMediaConstraints);
-    expect(result.current).toEqual(DEFAULT_EXPECTED_CONSTRAINTS);
-    unmount();
-  });
-
   it('should properly map the deviceId option', () => {
     const deviceId = 'test-id';
     const { result, unmount } = renderHook(useMediaConstraints, {
-      initialProps: { deviceId },
-    });
-    expect(result.current).toEqual({
-      ...DEFAULT_EXPECTED_CONSTRAINTS,
-      video: {
-        ...DEFAULT_EXPECTED_CONSTRAINTS.video,
+      initialProps: {
         deviceId,
+        facingMode: CameraFacingMode.ENVIRONMENT,
+        resolution: CameraResolution.UHD_4K,
       },
     });
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        video: expect.objectContaining({ deviceId }),
+      }),
+    );
     unmount();
   });
 
   Object.values(CameraFacingMode).forEach((facingMode) =>
     it(`should properly map the '${facingMode}' facingMode option`, () => {
       const { result, unmount } = renderHook(useMediaConstraints, {
-        initialProps: { facingMode },
+        initialProps: { facingMode, resolution: CameraResolution.UHD_4K },
       });
-      expect(result.current).toEqual({
-        ...DEFAULT_EXPECTED_CONSTRAINTS,
-        video: {
-          ...DEFAULT_EXPECTED_CONSTRAINTS.video,
-          facingMode: EXPECTED_FACING_MODE_VALUES[facingMode],
-        },
-      });
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          video: expect.objectContaining({ facingMode: EXPECTED_FACING_MODE_VALUES[facingMode] }),
+        }),
+      );
       unmount();
     }),
   );
@@ -70,16 +57,17 @@ describe('useMediaConstraints hook', () => {
   Object.values(CameraResolution).forEach((resolution) =>
     it(`should properly map the '${resolution}' resolution option`, () => {
       const { result, unmount } = renderHook(useMediaConstraints, {
-        initialProps: { quality: { resolution } },
+        initialProps: { resolution, facingMode: CameraFacingMode.ENVIRONMENT },
       });
-      expect(result.current).toEqual({
-        ...DEFAULT_EXPECTED_CONSTRAINTS,
-        video: {
-          ...DEFAULT_EXPECTED_CONSTRAINTS.video,
-          width: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[resolution].width },
-          height: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[resolution].height },
-        },
-      });
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          video: expect.objectContaining({
+            width: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[resolution].width },
+            height: { ideal: EXPECTED_CAMERA_RESOLUTION_SIZES[resolution].height },
+          }),
+        }),
+      );
       unmount();
     }),
   );

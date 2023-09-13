@@ -15,11 +15,13 @@ const defaultMockTrack = {
   kind: 'video',
   applyConstraints: jest.fn(() => Promise.resolve(undefined)),
   getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+  stop: jest.fn(),
 } as unknown as MediaStreamTrack;
 
 const tracks: MediaStreamTrack[] = [];
 const stream = {
   addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
   getTracks: jest.fn(() => tracks),
   getVideoTracks: jest.fn(() => tracks),
 } as unknown as MediaStream;
