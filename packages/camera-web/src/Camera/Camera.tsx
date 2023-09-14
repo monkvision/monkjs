@@ -1,5 +1,4 @@
-import { Transaction } from '@monkvision/monitoring';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import './Camera.css';
 import {
   CameraConfig,
@@ -35,6 +34,16 @@ export interface CameraProps
   monitoring?: CameraMonitoringConfig;
 }
 
+/**
+ * Component used in MonkJs project used to :
+ * - Display a camera preview on the screen
+ * - Display a given camera HUD (buttons) on top of the camera preview
+ * - Provide tools to control the camera (take picture, compress images etc...)
+ *
+ * Please refer to the official documentation of the @monkvision/camera-web package (available
+ * [here](https://github.com/monkvision/monkjs/blob/main/packages/camera-web/README.md)) for more details on how this
+ * component works.
+ */
 export function Camera({
   facingMode = CameraFacingMode.ENVIRONMENT,
   resolution = CameraResolution.UHD_4K,
@@ -59,6 +68,7 @@ export function Camera({
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
     compress,
     takeScreenshot,
+    onPictureTaken,
     monitoring,
   });
   const isLoading = useMemo(
@@ -68,7 +78,6 @@ export function Camera({
   const HUDElement = useCameraHUD({
     component: HUDComponent,
     handle: { takePicture, error, retry, isLoading },
-    eventHandlers: { onPictureTaken },
   });
 
   return (

@@ -15,16 +15,15 @@ describe('useCameraHUD hook', () => {
       isLoading: false,
       retry: () => {},
     } as CameraHandle;
-    const onPictureTaken = () => {};
 
     const { result, unmount: unmountHook } = renderHook(useCameraHUD, {
-      initialProps: { handle, eventHandlers: { onPictureTaken }, component: MockHUDComponent },
+      initialProps: { handle, component: MockHUDComponent },
     });
     const HUDComponent = result.current;
 
     const { unmount: unmountDOM } = render(<div>{HUDComponent}</div>);
 
-    expectPropsOnChildMock(MockHUDComponent, { handle, onPictureTaken });
+    expectPropsOnChildMock(MockHUDComponent, { handle });
     unmountDOM();
     unmountHook();
   });
@@ -36,10 +35,9 @@ describe('useCameraHUD hook', () => {
       isLoading: false,
       retry: () => {},
     } as CameraHandle;
-    const onPictureTaken = () => {};
 
     const { result, unmount } = renderHook(useCameraHUD, {
-      initialProps: { handle, eventHandlers: { onPictureTaken } },
+      initialProps: { handle },
     });
 
     expect(result.current).toBeNull();

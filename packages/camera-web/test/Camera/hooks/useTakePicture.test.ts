@@ -42,6 +42,26 @@ describe('useTakePicture hook', () => {
     unmount();
   });
 
+  it('should call onPictureTaken when the picture is taken', () => {
+    const screenshot = { test: 'test' } as unknown as ImageData;
+    const picture = { uri: 'test-uri' } as unknown as MonkPicture;
+    const takeScreenshot = jest.fn(() => screenshot);
+    const compress = jest.fn(() => picture);
+    const onPictureTaken = jest.fn();
+
+    const { result, unmount } = renderHook(useTakePicture, {
+      initialProps: { compress, takeScreenshot, onPictureTaken, monitoring },
+    });
+
+    act(() => {
+      result.current.takePicture();
+
+      expect(onPictureTaken).toHaveBeenCalledWith(picture);
+    });
+
+    unmount();
+  });
+
   /*
    * For now, the picture taking process is synchronous, so the loading has no effect. But if at some point, the picture
    * taking process becomes asynchronous, we should add tests to verify that the loading is working properly.

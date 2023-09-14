@@ -45,8 +45,8 @@ render((
 ```
 
 ## useMonitoring hook
-Once you have wrapped up your application in the `MonitoringProvider` component, you can now access all of the
-monitoring features in your app components using the `useMonitoring` hook :
+Once you have wrapped up your application in the `MonitoringProvider` component, you can now access every monitoring
+features in your app components using the `useMonitoring` hook :
 
 ```typescript jsx
 import { useMonitoring } from '@monkvision/monitoring';

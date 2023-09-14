@@ -21,7 +21,8 @@ i18n
       fr: { translation: fr },
       de: { translation: de },
     },
-  });
+  })
+  .catch((err) => console.error(err));
 
 i18nLinkSDKInstances(i18n, [i18nCamera]);
 

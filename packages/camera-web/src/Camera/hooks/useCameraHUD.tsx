@@ -1,4 +1,4 @@
-import { ComponentType, ReactElement, useEffect, useMemo } from 'react';
+import { ComponentType, ReactElement, useMemo } from 'react';
 import { MonkPicture } from './useCompression';
 import { UserMediaError } from './useUserMedia';
 
@@ -39,7 +39,7 @@ export interface CameraEventHandlers {
 /**
  * Props accepted by a CameraHUD component.
  */
-export interface CameraHUDProps extends CameraEventHandlers {
+export interface CameraHUDProps {
   /**
    * The handle used to control the camera.
    */
@@ -51,22 +51,32 @@ export interface CameraHUDProps extends CameraEventHandlers {
  */
 export type CameraHUDComponent = ComponentType<CameraHUDProps>;
 
+/**
+ * Element type definition for a Camera HUD component.
+ */
 export type CameraHUDElement = ReactElement<CameraHUDProps>;
 
+/**
+ * Parameters passed to the useCameraHUD hook.
+ */
 export interface UseCameraHUDParams {
+  /**
+   * The camera handle used to control the camera.
+   */
   handle: CameraHandle;
+  /**
+   * The camera HUD component.
+   */
   component?: CameraHUDComponent;
-  eventHandlers?: CameraEventHandlers;
 }
 
-export function useCameraHUD({
-  handle,
-  component,
-  eventHandlers = {},
-}: UseCameraHUDParams): CameraHUDElement | null {
+/**
+ * A custom hook used by the Camera component to instanciate the CameraHUD component given to it as a prop.
+ */
+export function useCameraHUD({ handle, component }: UseCameraHUDParams): CameraHUDElement | null {
   const HUDComponent = component;
   return useMemo(
-    () => (HUDComponent ? <HUDComponent handle={handle} {...eventHandlers} /> : null),
-    [component, handle, eventHandlers],
+    () => (HUDComponent ? <HUDComponent handle={handle} /> : null),
+    [component, handle],
   );
 }

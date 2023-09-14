@@ -13,3 +13,4 @@ export {
   type UserMediaError,
   UserMediaErrorType,
 } from './hooks';
+export { type CameraMonitoringConfig } from './monitoring';

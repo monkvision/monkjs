@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function App(): JSX.Element {
+function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {

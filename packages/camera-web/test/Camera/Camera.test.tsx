@@ -160,19 +160,32 @@ describe('Camera component', () => {
     unmount();
   });
 
-  it('should pass the compress function, takeScreenshot function and the monitoring config to the useTakePicture hook', () => {
+  it('should pass the proper options to the useTakePicture hook', () => {
     const monitoring = {
       parentId: 'test-id',
       tags: { testTagName: 'testTagValue' },
       data: { testDataName: 'testDataValue' },
     };
-    const { unmount } = render(<Camera monitoring={monitoring} />);
+    const onPictureTaken = () => {};
+    const { unmount } = render(<Camera monitoring={monitoring} onPictureTaken={onPictureTaken} />);
 
     expect(useTakePictureMock).toHaveBeenCalledWith({
       compress: compressMock,
       takeScreenshot: takeScreenshotMock,
+      onPictureTaken,
       monitoring,
     });
+    unmount();
+  });
+
+  it('should use no onPictureTaken handler by default', () => {
+    const { unmount } = render(<Camera />);
+
+    expect(useTakePictureMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        onPictureTaken: undefined,
+      }),
+    );
     unmount();
   });
 
@@ -187,12 +200,9 @@ describe('Camera component', () => {
     unmount();
   });
 
-  it('should pass the HUDComponent, camera handle and event handlers to the useCameraHUD hook', () => {
+  it('should pass the HUDComponent and camera handle to the useCameraHUD hook', () => {
     const HUDComponent = (<div></div>) as unknown as CameraHUDComponent;
-    const onPictureTaken = () => {};
-    const { unmount } = render(
-      <Camera HUDComponent={HUDComponent} onPictureTaken={onPictureTaken} />,
-    );
+    const { unmount } = render(<Camera HUDComponent={HUDComponent} />);
 
     expect(useCameraHUD).toHaveBeenCalledWith({
       component: HUDComponent,
@@ -202,7 +212,6 @@ describe('Camera component', () => {
         retry: retryMock,
         isLoading: isPreviewLoadingMock || isTakePictureLoadingMock,
       },
-      eventHandlers: { onPictureTaken },
     });
     unmount();
   });
@@ -211,13 +220,6 @@ describe('Camera component', () => {
     const { unmount } = render(<Camera />);
 
     expect(useCameraHUD).toHaveBeenCalledWith(expect.objectContaining({ component: undefined }));
-    unmount();
-  });
-
-  it('should use no event handlers if not specified', () => {
-    const { unmount } = render(<Camera />);
-
-    expect(useCameraHUD).toHaveBeenCalledWith(expect.objectContaining({ eventHandlers: {} }));
     unmount();
   });
 

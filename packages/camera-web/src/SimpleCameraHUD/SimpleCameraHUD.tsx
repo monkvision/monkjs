@@ -10,21 +10,13 @@ import './SimpleCameraHUD.css';
  * The basic Camera HUD provided by the Monk camera package. It displays a button to take pictures, as well as error
  * messages (and a retry button) in case of errors with the Camera stream.
  */
-export const SimpleCameraHUD = i18nWrap(({ handle, onPictureTaken }: CameraHUDProps) => {
+export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
   const { t } = useTranslation();
   const isHUDDisabled = useMemo(() => handle?.isLoading || !!handle?.error, [handle]);
   const withDisableSuffix = useCallback(
     (className: string) => `${className}${isHUDDisabled ? ' disabled' : ''}`,
     [isHUDDisabled],
   );
-  const takePicture = useCallback(() => {
-    if (handle?.takePicture) {
-      const picture = handle.takePicture();
-      if (onPictureTaken) {
-        onPictureTaken(picture);
-      }
-    }
-  }, [handle, onPictureTaken]);
   const errorTranslationKey = useMemo(() => {
     switch (handle?.error?.type) {
       case UserMediaErrorType.NOT_ALLOWED:
@@ -57,7 +49,7 @@ export const SimpleCameraHUD = i18nWrap(({ handle, onPictureTaken }: CameraHUDPr
       <div className={withDisableSuffix('take-picture-btn')}>
         <button
           data-testid='take-picture-btn'
-          onClick={takePicture}
+          onClick={handle?.takePicture}
           disabled={isHUDDisabled}
         ></button>
       </div>

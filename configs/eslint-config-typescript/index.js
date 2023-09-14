@@ -40,6 +40,7 @@ module.exports = {
         'import/first': OFF,
         'import/order': OFF,
         '@typescript-eslint/no-empty-function': OFF,
+        '@typescript-eslint/no-explicit-any': OFF,
       },
     },
   ],

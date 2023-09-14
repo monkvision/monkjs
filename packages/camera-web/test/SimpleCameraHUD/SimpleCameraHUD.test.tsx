@@ -58,18 +58,6 @@ describe('SimpleCameraHUD component', () => {
     }).not.toThrow();
   });
 
-  it('should call the onPictureTaken callback when provided', () => {
-    const picture = {} as MonkPicture;
-    const onPictureTaken = jest.fn();
-    const { unmount } = render(
-      <SimpleCameraHUD handle={{ takePicture: () => picture }} onPictureTaken={onPictureTaken} />,
-    );
-
-    fireEvent.click(screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID));
-    expect(onPictureTaken).toHaveBeenCalledWith(picture);
-    unmount();
-  });
-
   it('should disable the take picture button if the camera is loading', () => {
     const { unmount, rerender } = render(<SimpleCameraHUD />);
 

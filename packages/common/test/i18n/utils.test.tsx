@@ -9,10 +9,13 @@ const instanceMock = createMockI18nInstance();
 const createInstanceMock = jest.fn(() => instanceMock);
 jest.mock('i18next', () => ({ createInstance: createInstanceMock }));
 
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import {
+  expectComponentToPassDownRefToHTMLElement,
+  expectPropsOnChildMock,
+} from '@monkvision/test-utils';
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { i18n, Resource, ThirdPartyModule } from 'i18next';
-import { FC, PropsWithChildren } from 'react';
+import { FC, forwardRef, PropsWithChildren } from 'react';
 import { initReactI18next } from 'react-i18next';
 import { i18nCreateSDKInstance, i18nLinkSDKInstances, i18nWrap, useI18nLink } from '../../src';
 
@@ -145,30 +148,14 @@ describe('Monkvision i18n utils', () => {
       unmount();
     });
 
-    //   it('should forward the ref to the wrapped component', () => {
-    //     const instance = createMockI18nInstance();
-    //     const newHandleVal = 'new-handle-val';
-    //     function RefTestComponent() {
-    //       const ref = useRef<{ setHandleVal: (val: string) => void }>(null);
-    //       const Wrapped = i18nWrap(TestComponent, instance);
-    //       return (
-    //         <div>
-    //           <button
-    //             data-testid='test-handle-act'
-    //             onClick={() => ref?.current?.setHandleVal(newHandleVal)}
-    //           >
-    //             handle-act
-    //           </button>
-    //           <Wrapped ref={ref} a='' b={false} c={0} />
-    //         </div>
-    //       );
-    //     }
-    //
-    //     const { unmount } = render(<RefTestComponent />);
-    //     expect(screen.getByTestId('test-handle').textContent).toEqual(initialHandleVal);
-    //     fireEvent.click(screen.getByTestId('test-handle-act'));
-    //     expect(screen.getByTestId('test-handle').textContent).toEqual(newHandleVal);
-    //     unmount();
-    //   });
+    it('should forward the ref to the wrapped component', () => {
+      const instance = createMockI18nInstance();
+      const ForwardRefTestComponent = forwardRef<HTMLDivElement>((_, ref) => (
+        <div ref={ref} data-testid={TEST_COMPONENT_TEST_ID}></div>
+      ));
+      const Wrapped = i18nWrap(ForwardRefTestComponent, instance as unknown as i18n);
+
+      expectComponentToPassDownRefToHTMLElement(Wrapped, TEST_COMPONENT_TEST_ID);
+    });
   });
 });

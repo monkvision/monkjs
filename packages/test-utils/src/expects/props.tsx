@@ -4,8 +4,6 @@ import {
   createRef,
   CSSProperties,
   ForwardRefExoticComponent,
-  JSXElementConstructor,
-  ReactElement,
   RefAttributes,
   RefObject,
 } from 'react';
