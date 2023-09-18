@@ -1,0 +1,38 @@
+{
+  "name": "@monkvision/jest-config",
+  "packageManager": "yarn@3.2.4",
+  "version": "4.0.0",
+  "description": "Jest configuration files used in MonkJs projects",
+  "author": "monkvision",
+  "main": "index.js",
+  "license": "BSD-3-Clause-Clear",
+  "files": [
+    "index.js",
+    "base.js",
+    "react.js",
+    "__mocks__",
+    "LICENSE",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "prettier": "^2.7.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monkvision/monkjs.git"
+  },
+  "keywords": [
+    "monkvision",
+    "style guide",
+    "lint",
+    "prettier",
+    "config"
+  ],
+  "bugs": {
+    "url": "https://github.com/monkvision/monkjs/issues"
+  },
+  "homepage": "https://github.com/monkvision/monkjs"
+}

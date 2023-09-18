@@ -1,5 +1,5 @@
 # @monkvision/sentry
-This package exports a monitoring adapter that can be used to configure the monitoring of MonkJs projects using the @monkvision/monitoring project. The adapter exported by this packages uses Sentry, a monitoring platform used by MonkJs to log, report errors and measure performances in its project. If you want to know more about monitoring adapters and the features they offer, please refer to the official documentation of the @monkvision/monitoring package.
+This package exports a monitoring adapter that can be used to configure the monitoring of MonkJs projects using the @monkvision/monitoring project. The adapter exported by this package uses Sentry, a monitoring platform used by MonkJs to log, report errors and measure performances in its project. If you want to know more about monitoring adapters and the features they offer, please refer to the official documentation of the @monkvision/monitoring package.
 
 # Installing
 To install the package, you can run the following command :

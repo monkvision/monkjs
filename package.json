@@ -20,7 +20,8 @@
     "test:packages": "lerna run test --scope '@monkvision/*'",
     "test:coverage": "lerna run test:coverage",
     "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix"
+    "lint:fix": "lerna run lint:fix",
+    "svgo": "lerna run svgo"
   },
   "devDependencies": {
     "lerna": "^7.1.4",

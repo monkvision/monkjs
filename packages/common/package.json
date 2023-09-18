@@ -25,15 +25,19 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@monkvision/types": "4.0.0",
+    "i18next": "^23.4.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.2.0"
   },
   "devDependencies": {
     "@monkvision/eslint-config-base": "4.0.0",
     "@monkvision/eslint-config-typescript": "4.0.0",
     "@monkvision/eslint-config-typescript-react": "4.0.0",
+    "@monkvision/jest-config": "4.0.0",
     "@monkvision/prettier-config": "4.0.0",
-    "@monkvision/types": "4.0.0",
+    "@monkvision/test-utils": "4.0.0",
     "@monkvision/typescript-config": "4.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.2.2",

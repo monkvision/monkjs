@@ -1,3 +1,2 @@
-import Hello from './Hello';
-
-export { Hello };
+export * from './components';
+export * from './icons';

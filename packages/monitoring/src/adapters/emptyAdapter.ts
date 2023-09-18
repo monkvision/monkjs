@@ -79,16 +79,19 @@ export class EmptyMonitoringAdapter implements MonitoringAdapter {
     }
   }
 
-  createTransaction(context: TransactionContext): Transaction {
+  createTransaction(context?: TransactionContext): Transaction {
     if (this.options.showUnsupportedMethodWarnings) {
       console.warn(
         'Transactions are not supported by the current Monk Monitoring Adapter and calling createTransaction will have no effect.',
       );
     }
     return {
+      id: '',
       setTag: () => {},
       startMeasurement: () => {},
       stopMeasurement: () => {},
+      setMeasurementTag: () => {},
+      setMeasurement: () => {},
       finish: () => {},
     };
   }

@@ -1,0 +1,90 @@
+:root {
+  --take-picture-btn-size: 80px;
+  --take-picture-btn-border: 3px;
+  --take-picture-btn-color: #f3f3f3;
+  --take-picture-btn-color-hover: #e3e3e3;
+  --take-picture-btn-color-active: #cbcbcb;
+  --take-picture-btn-color-disabled: #b6b6b6be;
+}
+
+.simple-camera-hud-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.take-picture-btn {
+  border: var(--take-picture-btn-border) solid var(--take-picture-btn-color);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.take-picture-btn.disabled {
+  border-color: var(--take-picture-btn-color-disabled);
+}
+
+.take-picture-btn > button {
+  background-color: #f3f3f3;
+  border: none;
+  width: var(--take-picture-btn-size);
+  height: var(--take-picture-btn-size);
+  border-radius: 50%;
+  margin: var(--take-picture-btn-border);
+  cursor: pointer;
+}
+
+.take-picture-btn:not(.disabled) > button:hover {
+  background-color: var(--take-picture-btn-color-hover);
+}
+
+.take-picture-btn:not(.disabled) > button:active {
+  background-color: var(--take-picture-btn-color-active);
+}
+
+.take-picture-btn.disabled > button {
+  background-color: var(--take-picture-btn-color-disabled);
+}
+
+.message-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  font-size: 16px;
+  font-family: sans-serif;
+  text-align: center;
+  color: white;
+  max-width: 60vw;
+}
+
+.retry-btn {
+  margin-top: 20px;
+}
+
+@media screen and (orientation: portrait) {
+  .simple-camera-hud-container {
+    flex-direction: column;
+  }
+
+  .take-picture-btn {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .error-message {
+    max-width: none;
+    padding: 20px;
+  }
+}

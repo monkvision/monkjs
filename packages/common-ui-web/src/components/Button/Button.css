@@ -1,0 +1,82 @@
+.monk-btn {
+  padding: 10px 24px;
+  border-radius: 999px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.monk-btn.disabled {
+  opacity: 0.37;
+}
+
+.monk-btn.loading {
+  padding: 10px;
+}
+
+.monk-btn.small {
+  padding: 6px 16px;
+
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.monk-btn.small.loading {
+  padding: 6px;
+}
+
+.monk-btn.outline {
+  border-style: solid;
+  border-width: 2px;
+}
+
+.monk-btn.text-link {
+  padding: 0;
+}
+
+.monk-btn:focus {
+  outline-offset: 2px;
+  outline-width: 2px;
+  outline-style: solid;
+}
+
+.monk-btn:enabled {
+  cursor: pointer;
+}
+
+.monk-btn:not(.text-link):hover:enabled {
+  background-image: linear-gradient(#ffffff14, #ffffff14);
+}
+
+.monk-btn:not(.text-link):active:enabled {
+  background-image: linear-gradient(#ffffff1f, #ffffff1f);
+}
+
+.monk-btn .monk-btn-icon:not(.icon-only) {
+  margin-right: 10px;
+}
+
+.monk-btn .monk-btn-icon.small:not(.icon-only) {
+  margin-right: 8px;
+}
+
+.monk-btn .fixed-loading-container {
+  position: relative;
+}
+
+.monk-btn .loading-hidden-content {
+  visibility: hidden;
+}
+
+.monk-btn .fixed-loading-container .button-spinner {
+  position: absolute;
+}

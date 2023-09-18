@@ -1,36 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  DebugMonitoringAdapter,
   LogContext,
+  MeasurementUnit,
   MonitoringAdapter,
   Severity,
   Transaction,
   TransactionContext,
+  MeasurementContext,
+  TransactionStatus,
 } from '@monkvision/monitoring';
 
 import * as Sentry from '@sentry/react';
 import { Span } from '@sentry/types';
-
-/**
- * The status of an Transaction/Span.
- */
-export enum SentryTransactionStatus {
-  /**
-   * The operation completed successfully.
-   */
-  OK = 'ok',
-  /**
-   * Unknown. Any non-standard HTTP status code.
-   */
-  UNKNOWN_ERROR = 'unknown_error',
-  /**
-   * The operation was cancelled (typically by the user).
-   */
-  CANCELLED = 'cancelled',
-  /**
-   * The operation was aborted, typically due to a concurrency issue.
-   */
-  ABORTED = 'aborted',
-}
 
 /**
  * Config required when instantiating the Sentry Monitoring Adapter.
@@ -91,72 +72,102 @@ const defaultOptions: Omit<SentryConfig, 'dsn'> = {
 };
 
 /**
- * This is a Sentry Monitoring Adapter that logs element in the Sentry.
+ * This is a Monitoring Adapter that connects the app to the Sentry platform.
  * There are four methods implemented which are `setUserId`, `log`, `handleError` and `createTransaction`,
  *
- * At the initialization level, user have to pass required sentry configuration keys to make connection between
- * application and Sentry. `log` and `handleError` methods will log data and errors respectively in the Sentry dashboards.
- * While `createTransaction` method used to measure a performance of an application at any given point.
+ * When initializing the adapter, the user have to pass required sentry configuration keys to make connection between
+ * the application and Sentry. The `log` and `handleError` methods will log data and errors respectively in the Sentry
+ * dashboards, as well as log them in the console. The `createTransaction` method used to measure performances in an
+ * application at any given point.
  */
-export class SentryMonitoringAdapter implements MonitoringAdapter {
-  private readonly options: SentryConfig;
+export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements MonitoringAdapter {
+  private readonly sentryOptions: SentryConfig;
 
   constructor(optionsParam: SentryAdapterConfig) {
-    this.options = {
+    super();
+    this.sentryOptions = {
       ...defaultOptions,
       ...optionsParam,
     };
 
+    Sentry.addTracingExtensions();
     Sentry.init({
-      ...this.options,
-      beforeBreadcrumb: (breadcrumb, hint) => (breadcrumb.category === 'xhr' ? null : breadcrumb),
+      ...this.sentryOptions,
+      beforeBreadcrumb: (breadcrumb) => (breadcrumb.category === 'xhr' ? null : breadcrumb),
     });
 
-    if (this.options.customTags) {
-      Sentry.setTags(this.options.customTags);
+    if (this.sentryOptions.customTags) {
+      Sentry.setTags(this.sentryOptions.customTags);
     }
   }
 
-  setUserId(id: string): void {
+  override setUserId(id: string): void {
     Sentry.setUser({ id });
   }
 
-  log(msg: string, context?: LogContext | Severity): void {
+  override log(msg: string, context?: LogContext | Severity): void {
+    super.log(msg, context);
     Sentry.captureMessage(msg, context);
   }
 
-  handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+  override handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+    super.handleError(err, context);
     Sentry.captureException(err, context);
   }
 
-  createTransaction(context: TransactionContext): Transaction {
+  override createTransaction(context?: TransactionContext): Transaction {
     const transaction = Sentry.startTransaction({
-      name: context.name ?? '',
-      data: context.data ?? {},
-      op: context.operation ?? '',
-      description: context.description ?? '',
-      traceId: context.traceId ?? '',
-      tags: context.tags ?? {},
+      parentSpanId: context?.parentId,
+      name: context?.name ?? '',
+      data: context?.data ?? {},
+      op: context?.operation ?? '',
+      description: context?.description ?? '',
+      traceId: context?.traceId ?? '',
+      tags: context?.tags ?? {},
       sampled: true,
     });
     const transactionSpans: Record<string, Span> = {};
 
     return {
+      id: transaction.spanId,
       setTag: (tagName: string, tagValue: string) => transaction.setTag(tagName, tagValue),
-      startMeasurement: (name: string, data?: Record<string, number | string>) => {
+      startMeasurement: (name: string, measurementContext?: MeasurementContext) => {
         transactionSpans[name] = transaction.startChild({
+          ...(measurementContext ?? {}),
           op: name,
-          data: data ?? {},
         });
       },
-      stopMeasurement: () => (name: string) => {
-        if (transactionSpans[name]) {
-          transactionSpans[name].setStatus(SentryTransactionStatus.OK);
-          transactionSpans[name].finish();
-          delete transactionSpans[name];
+      stopMeasurement: (
+        name: string,
+        status: TransactionStatus | string = TransactionStatus.OK,
+      ) => {
+        if (!transactionSpans[name]) {
+          this.handleError(
+            new Error(
+              `Unable to stop measurement in SentryMonitoringAdapter : Unknown measurement name "${name}"`,
+            ),
+          );
+          return;
         }
+        transactionSpans[name].setStatus(status);
+        transactionSpans[name].finish();
+        delete transactionSpans[name];
       },
-      finish: (status: string = SentryTransactionStatus.OK) => {
+      setMeasurementTag: (measurementName: string, tagName: string, value: string) => {
+        if (!transactionSpans[measurementName]) {
+          this.handleError(
+            new Error(
+              `Unable to set tag to measurement in SentryMonitoringAdapter : Unknown measurement name "${measurementName}"`,
+            ),
+          );
+          return;
+        }
+        transactionSpans[measurementName].setTag(tagName, value);
+      },
+      setMeasurement: (name: string, value: number, unit: MeasurementUnit = 'none') => {
+        transaction.setMeasurement(name, value, unit);
+      },
+      finish: (status: TransactionStatus | string = TransactionStatus.OK) => {
         transaction.setStatus(status);
         transaction.finish();
       },

@@ -85,32 +85,31 @@ function TestComponent() {
 }
 
 describe('MonkProvider component', () => {
-  // eslint-disable-next-line jest/expect-expect
   it('should initialize the MonkContext with empty values', () => {
-    render(
+    const { unmount } = render(
       <MonkProvider>
         <TestComponent />
       </MonkProvider>,
     );
 
     assertState(createEmptyMonkState());
+    unmount();
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it('should initialize the MonkContext with an initial value', () => {
     const initialState = createState('test-1');
-    render(
+    const { unmount } = render(
       <MonkProvider initialState={initialState}>
         <TestComponent />
       </MonkProvider>,
     );
 
     assertState(initialState);
+    unmount();
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it('should provide a valid dispatch function', async () => {
-    render(
+    const { unmount } = render(
       <MonkProvider>
         <TestComponent />
       </MonkProvider>,
@@ -121,13 +120,13 @@ describe('MonkProvider component', () => {
     const state = createEmptyMonkState();
     state.inspections.push({ id: testId } as Inspection);
     assertState(state);
+    unmount();
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it('should not initialize a state if it is already defined', async () => {
     const state1 = createState('test-1');
     const state2 = createState('test-2');
-    render(
+    const { unmount } = render(
       <MonkProvider initialState={state1}>
         <MonkProvider initialState={state2}>
           <TestComponent />
@@ -136,5 +135,6 @@ describe('MonkProvider component', () => {
     );
 
     assertState(state1);
+    unmount();
   });
 });

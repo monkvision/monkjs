@@ -1,5 +1,6 @@
 # @monkvision/typescript-config
-This package provides the TSConfgis used in MonkJs Typescript projects.
+This package provides the TSConfigs used in MonkJs Typescript projects. It also exports useful type declarations for
+compiling.
 
 # Install
 To install the project simply run the following command :
@@ -36,7 +37,8 @@ We also recommend using a second tsconfig file used for building your sources us
 # Available configs
 Here is a list of available Typescript config files exported by this project :
 
-| Name                    | Usage                                         |
-|-------------------------|-----------------------------------------------|
-| `tsconfig.json`         | Base configuration for any typescript project |
-
+| Name                         | Usage                                        |
+|------------------------------|----------------------------------------------|
+| `tsconfig.json`              | Base configuration for TypeScript projects   |
+| `tsconfig.react.json`        | Base configuration for React projects        |
+| `tsconfig.react-native.json` | Base configuration for React Native projects |

@@ -88,6 +88,8 @@ describe('Empty Monitoring Adapter', () => {
         transaction.setTag('test', 'value');
         transaction.startMeasurement('test');
         transaction.stopMeasurement('test');
+        transaction.setMeasurementTag('test', 'test', 'wow');
+        transaction.setMeasurement('test', 2, 'second');
         transaction.finish('test');
       }).not.toThrow();
     });

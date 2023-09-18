@@ -10,7 +10,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
     "eslint": "eslint --format=pretty ./src",
