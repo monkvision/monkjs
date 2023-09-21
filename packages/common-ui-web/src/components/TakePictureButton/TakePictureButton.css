@@ -1,0 +1,37 @@
+:root {
+  --take-picture-btn-border: 3px;
+  --take-picture-btn-color: #f3f3f3;
+  --take-picture-btn-color-hover: #e3e3e3;
+  --take-picture-btn-color-active: #cbcbcb;
+  --take-picture-btn-color-disabled: #b6b6b6be;
+}
+
+.take-picture-btn {
+  border: var(--take-picture-btn-border) solid var(--take-picture-btn-color);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.take-picture-btn.disabled {
+  border-color: var(--take-picture-btn-color-disabled);
+}
+
+.take-picture-btn > button {
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.take-picture-btn:not(.disabled) > button:hover {
+  background-color: var(--take-picture-btn-color-hover);
+}
+
+.take-picture-btn:not(.disabled) > button:active {
+  background-color: var(--take-picture-btn-color-active);
+}
+
+.take-picture-btn.disabled > button {
+  background-color: var(--take-picture-btn-color-disabled);
+  cursor: initial;
+}

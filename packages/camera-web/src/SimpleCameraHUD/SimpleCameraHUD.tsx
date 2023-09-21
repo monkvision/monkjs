@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { i18nWrap } from '@monkvision/common';
-import { Button } from '@monkvision/common-ui-web';
+import { Button, TakePictureButton } from '@monkvision/common-ui-web';
 import { i18nCamera } from '../i18n';
 import { CameraHUDProps, UserMediaErrorType } from '../Camera';
 import './SimpleCameraHUD.css';
@@ -13,10 +13,6 @@ import './SimpleCameraHUD.css';
 export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
   const { t } = useTranslation();
   const isHUDDisabled = useMemo(() => handle?.isLoading || !!handle?.error, [handle]);
-  const withDisableSuffix = useCallback(
-    (className: string) => `${className}${isHUDDisabled ? ' disabled' : ''}`,
-    [isHUDDisabled],
-  );
   const errorTranslationKey = useMemo(() => {
     switch (handle?.error?.type) {
       case UserMediaErrorType.NOT_ALLOWED:
@@ -46,13 +42,7 @@ export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
           )}
         </div>
       )}
-      <div className={withDisableSuffix('take-picture-btn')}>
-        <button
-          data-testid='take-picture-btn'
-          onClick={handle?.takePicture}
-          disabled={isHUDDisabled}
-        ></button>
-      </div>
+      <TakePictureButton disabled={isHUDDisabled} onClick={handle?.takePicture} size={60} />
     </div>
   );
 }, i18nCamera);
