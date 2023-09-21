@@ -159,9 +159,13 @@ export default function DamageManipulator({
           <View style={[
             styles.content,
             (displayMode === DisplayMode.FULL && !hasDamage) && styles.disabled,
+            { width: '100%' },
           ]}
           >
-            <View>
+            <View style={{ ...Platform.select({
+              native: { width: '80%' },
+            }) }}
+            >
               <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.damages')}</Text>
               <Text style={[styles.text, styles.subtitle]}>
                 {t(`damageManipulator.${isReplaced ? 'replaced' : 'notReplaced'}`)}
@@ -227,7 +231,7 @@ export default function DamageManipulator({
                 <Slider
                   style={{ marginRight: 15,
                     ...Platform.select({
-                      native: { width: '85%' },
+                      native: { width: '80%' },
                     }) }}
                   minimumValue={0}
                   maximumValue={1500}
@@ -246,7 +250,10 @@ export default function DamageManipulator({
                 </Text>
               </View>
             ) : (
-              <View>
+              <View style={{ ...Platform.select({
+                native: { width: '20%' },
+              }) }}
+              >
                 <Text style={[styles.text]}>
                   {formateValue(editedDamage?.pricing ?? 0)}
                 </Text>
