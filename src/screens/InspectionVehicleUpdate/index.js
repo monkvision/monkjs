@@ -72,9 +72,7 @@ export default function InspectionVehicleUpdate() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => {
-        // TODO: Add Monitoring code for setUser in MN-182
-      });
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => { });
     }
   }, [isAuthenticated]);
 

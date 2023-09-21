@@ -70,7 +70,6 @@ export default function InspectionCreate() {
       utils.log(['[Click] Inspection task chosen: ', selected]);
       const response = await createInspection.start(selected);
       if (response !== null) {
-        // TODO: Add Monitoring code for setTag in MN-182
         setInspectionId(response.result);
       }
     }
@@ -108,9 +107,7 @@ export default function InspectionCreate() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => {
-        // TODO: Add Monitoring code for setTag and setUser in MN-182
-      });
+      axios.get(`https://${ExpoConstants.manifest.extra.AUTH_DOMAIN}/userinfo?access_token=${accessToken}`).then(() => { });
     }
   }, [isAuthenticated]);
 

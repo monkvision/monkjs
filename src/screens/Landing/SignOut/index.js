@@ -16,7 +16,6 @@ export default function SignOut({ onSuccess }) {
 
   const signOut = () => {
     utils.log(['[Click]', 'Sign-out user']);
-    // TODO: Add Monitoring code for setUser in MN-182
     AsyncStorage.removeItem(ASYNC_STORAGE_AUTH_KEY)
       .catch((err) => {
         errorHandler(err);
