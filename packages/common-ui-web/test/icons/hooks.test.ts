@@ -28,6 +28,7 @@ describe('useIconAsset hook', () => {
   it('should throw an error if the asset is not found', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     expect(() => renderHook(useIconAsset, { initialProps: 'zzz' as IconName })).toThrowError();
+    jest.spyOn(console, 'error').mockRestore();
   });
 
   it('should memoize the icon asset', () => {

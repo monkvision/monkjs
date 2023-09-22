@@ -15,6 +15,11 @@ export type DashConcat<T extends string, K extends string> = `${T}-${K}`;
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
 
 /**
- * Deep partial type that applies the TypeScript `Partial` to all children and children of children.
+ * Utility type that applies the `Required` type only to certain properties.
  */
 export type RequiredProperties<T, K extends keyof T> = T & Required<Pick<T, K>>;
+
+/**
+ * Utility type that applies the `Partial` type only to certain properties.
+ */
+export type PartialProperties<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>;
