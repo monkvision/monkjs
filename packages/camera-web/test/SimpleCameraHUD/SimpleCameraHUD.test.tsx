@@ -1,4 +1,4 @@
-const TAKE_PICTURE_BTN_TEST_ID = 'take-picture-btn';
+const TAKE_PICTURE_MOCK_BTN_TEST_ID = 'take-picture-mock-btn';
 const ERROR_MESSAGE_TEST_ID = 'error-message';
 const BUTTON_MOCK_TEST_ID = 'button-mock';
 
@@ -13,8 +13,10 @@ jest.mock('@monkvision/common', () => ({
 }));
 
 const ButtonMock = jest.fn(() => <div data-testid={BUTTON_MOCK_TEST_ID} />);
+const TakePictureButtonMock = jest.fn(() => <div data-testid={TAKE_PICTURE_MOCK_BTN_TEST_ID} />);
 jest.mock('@monkvision/common-ui-web', () => ({
   Button: ButtonMock,
+  TakePictureButton: TakePictureButtonMock,
 }));
 
 const i18nCameraMock = {};
@@ -23,8 +25,8 @@ jest.mock('../../src/i18n', () => ({
 }));
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { MonkPicture, SimpleCameraHUD, UserMediaErrorType } from '../../src';
+import { render, screen } from '@testing-library/react';
+import { SimpleCameraHUD, UserMediaErrorType } from '../../src';
 
 describe('SimpleCameraHUD component', () => {
   afterEach(() => {
@@ -38,51 +40,55 @@ describe('SimpleCameraHUD component', () => {
     unmount();
   });
 
-  it('should display a take picture button that calls the handle.takePicture method', () => {
-    const handle = { takePicture: jest.fn() };
-    const { unmount } = render(<SimpleCameraHUD handle={handle} />);
-
-    fireEvent.click(screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID));
-    expect(handle.takePicture).toHaveBeenCalled();
-    unmount();
-  });
-
-  it('should not throw any error when no handle is provided', () => {
-    expect(() => {
-      const { unmount, rerender } = render(<SimpleCameraHUD />);
-      fireEvent.click(screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID));
-
-      rerender(<SimpleCameraHUD handle={{}} />);
-      fireEvent.click(screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID));
-      unmount();
-    }).not.toThrow();
-  });
-
   it('should disable the take picture button if the camera is loading', () => {
     const { unmount, rerender } = render(<SimpleCameraHUD />);
-
-    let takePictureBtn = screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID);
-    expect((takePictureBtn as HTMLButtonElement).disabled).toBe(false);
+    expectPropsOnChildMock(TakePictureButtonMock, { disabled: false });
 
     rerender(<SimpleCameraHUD handle={{ isLoading: true }} />);
-    takePictureBtn = screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID);
-    expect((takePictureBtn as HTMLButtonElement).disabled).toBe(true);
+    expectPropsOnChildMock(TakePictureButtonMock, { disabled: true });
     unmount();
   });
 
   it('should disable the take picture button if the camera is in error', () => {
     const { unmount, rerender } = render(<SimpleCameraHUD />);
-
-    let takePictureBtn = screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID);
-    expect((takePictureBtn as HTMLButtonElement).disabled).toBe(false);
+    expectPropsOnChildMock(TakePictureButtonMock, { disabled: false });
 
     rerender(
       <SimpleCameraHUD
         handle={{ error: { type: UserMediaErrorType.INVALID_STREAM, nativeError: null } }}
       />,
     );
-    takePictureBtn = screen.getByTestId(TAKE_PICTURE_BTN_TEST_ID);
-    expect((takePictureBtn as HTMLButtonElement).disabled).toBe(true);
+    expectPropsOnChildMock(TakePictureButtonMock, { disabled: true });
+    unmount();
+  });
+
+  it('should display a take picture button', () => {
+    const { unmount } = render(<SimpleCameraHUD />);
+
+    expect(TakePictureButtonMock).toHaveBeenCalled();
+    expect(screen.queryByTestId(TAKE_PICTURE_MOCK_BTN_TEST_ID)).toBeDefined();
+    unmount();
+  });
+
+  it('should pass the take picture callback from the handle to the TakePictureButton', () => {
+    const handle = { takePicture: jest.fn() };
+    const { unmount } = render(<SimpleCameraHUD handle={handle} />);
+
+    expectPropsOnChildMock(TakePictureButtonMock, { onClick: handle.takePicture });
+    unmount();
+  });
+
+  it('should not pass any onClick event to the TakePictureButton by default', () => {
+    const { unmount } = render(<SimpleCameraHUD />);
+
+    expectPropsOnChildMock(TakePictureButtonMock, { onClick: undefined });
+    unmount();
+  });
+
+  it('should set the size of the TakePictureButton to 60', () => {
+    const { unmount } = render(<SimpleCameraHUD />);
+
+    expectPropsOnChildMock(TakePictureButtonMock, { size: 60 });
     unmount();
   });
 
@@ -106,7 +112,7 @@ describe('SimpleCameraHUD component', () => {
     });
   });
 
-  it('should display a rety button that calls the retry function of the handle', () => {
+  it('should display a retry button that calls the retry function of the handle', () => {
     const handle = {
       error: { type: UserMediaErrorType.INVALID_STREAM, nativeError: null },
       retry: () => {},
