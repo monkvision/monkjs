@@ -88,3 +88,41 @@ function App() {
 | icon         | number    | The name of the icon to display.                           | ✔️       |               |
 | size         | number    | The size (width and height, in pixels) of the icon.        |          | `50`          |
 | primaryColor | ColorProp | The name or the hexcode of the color to apply to the icon. |          | `black`       |
+
+---
+
+## DynamicSVG
+### Description
+A component that lets you display an SVG image based on an XML string, and then apply dynamic style and event handlers
+to the SVG elements inside it.
+
+### Example
+```typescript jsx
+import React, { useCallback } from 'react';
+import { DynamicSVG } from '@monkvision/common-ui-web';
+
+const svg = '<svg height="100" width="100"><circle id="circle1" cx="20" cy="20" r="30"/><circle id="circle2" cx="80" cy="80" r="30"/></svg>';
+
+// Applies a red fill and an onClick handler on the element with ID "circle1"
+function MyCustomSVG() {
+  const getAttributes = useCallback((element: Element) => {
+    if (element.getAttribute('id') === 'circle1') {
+      return {
+        style: { fill: 'red' },
+        onClick: () => console.log('hello'),
+        pointerEvents: 'all',
+      };
+    }
+    return null;
+  }, []);
+
+  return <DynamicSVG svg={svg} width={300} getAttributes={getAttributes} />
+}
+```
+
+### Props
+| Prop          | Type                                                                                       | Description                                                                                                                                                                         | Required | Default Value |
+|---------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| svg           | string                                                                                     | The XML string representing the SVG to display                                                                                                                                      | ✔️       |               |
+| getAttributes | <code>(element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
+| getInnerText  | <code>(element: Element, groupIds: string[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
