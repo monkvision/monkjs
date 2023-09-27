@@ -2912,6 +2912,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/inspection-capture-web@workspace:packages/inspection-capture-web"
   dependencies:
+    "@monkvision/camera-web": 4.0.0
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0

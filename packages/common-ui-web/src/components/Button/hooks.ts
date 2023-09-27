@@ -114,7 +114,7 @@ export function useButtonStyle(
     const contentSize = requiredProps.size === 'normal' ? 24 : 18;
 
     return {
-      className: `monk-btn ${requiredProps.variant} ${requiredProps.size}${
+      className: `mnk-button ${requiredProps.variant} ${requiredProps.size}${
         props.isDisabled ? ' disabled' : ''
       }${props.loading && !props.preserveWidthOnLoading ? ' loading' : ''}`,
       style: {
@@ -126,7 +126,7 @@ export function useButtonStyle(
       icon: {
         color,
         size: contentSize,
-        className: `monk-btn-icon ${requiredProps.variant} ${requiredProps.size} ${
+        className: `mnk-button-icon ${requiredProps.variant} ${requiredProps.size} ${
           props.hasChildren ? '' : 'icon-only'
         }`,
       },

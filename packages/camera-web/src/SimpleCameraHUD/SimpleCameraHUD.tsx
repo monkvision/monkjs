@@ -29,20 +29,25 @@ export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
   }, [handle]);
 
   return (
-    <div className='simple-camera-hud-container'>
+    <div className='mnk-simple-camera-hud-container'>
       {!handle?.isLoading && !!handle?.error && (
-        <div className='message-container'>
-          <div data-testid='error-message' className='error-message'>
+        <div className='mnk-message-container'>
+          <div data-testid='error-message' className='mnk-error-message'>
             {t(errorTranslationKey)}
           </div>
           {handle?.retry && (
-            <Button className='retry-btn' variant='outline' icon='refresh' onClick={handle.retry}>
+            <Button className='mnk-retry-btn' variant='outline' icon='refresh' onClick={handle.retry}>
               {t('retry')}
             </Button>
           )}
         </div>
       )}
-      <TakePictureButton disabled={isHUDDisabled} onClick={handle?.takePicture} size={60} />
+      <TakePictureButton
+        className='mnk-simple-camera-hud-take-picture-btn'
+        disabled={isHUDDisabled}
+        onClick={handle?.takePicture}
+        size={60}
+      />
     </div>
   );
 }, i18nCamera);

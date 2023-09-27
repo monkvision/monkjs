@@ -18,7 +18,7 @@ export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButton
 
     return (
       <div
-        className={withDisableSuffix('take-picture-btn')}
+        className={withDisableSuffix('mnk-take-picture-button')}
         data-testid='take-picture-btn-outer-layer'
         style={{ ...outerLayer }}
       >

@@ -1,4 +1,4 @@
-@-webkit-keyframes container-spin {
+@-webkit-keyframes mnk-spinner-container-spin {
   0% {
     -webkit-transform: rotate(0deg);
   }
@@ -6,7 +6,7 @@
     -webkit-transform: rotate(360deg);
   }
 }
-@keyframes container-spin {
+@keyframes mnk-spinner-container-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -14,7 +14,7 @@
     transform: rotate(360deg);
   }
 }
-@-webkit-keyframes layer-1-spin {
+@-webkit-keyframes mnk-spinner-layer-1-spin {
   0% {
     -webkit-transform: rotate(0deg);
   }
@@ -22,7 +22,7 @@
     -webkit-transform: rotate(220deg);
   }
 }
-@keyframes layer-1-spin {
+@keyframes mnk-spinner-layer-1-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -30,7 +30,7 @@
     transform: rotate(220deg);
   }
 }
-@-webkit-keyframes layer-2-spin {
+@-webkit-keyframes mnk-spinner-layer-2-spin {
   0% {
     -webkit-transform: rotate(-140deg);
   }
@@ -41,7 +41,7 @@
     -webkit-transform: rotate(140deg);
   }
 }
-@keyframes layer-2-spin {
+@keyframes mnk-spinner-layer-2-spin {
   0% {
     transform: rotate(-140deg);
   }
@@ -53,13 +53,13 @@
   }
 }
 
-.monk-spinner .monk-spinner-container {
+.mnk-spinner .mnk-spinner-container {
   position: relative;
-  -webkit-animation: container-spin 4.8s linear infinite;
-  animation: container-spin 4.8s linear infinite;
+  -webkit-animation: mnk-spinner-container-spin 4.8s linear infinite;
+  animation: mnk-spinner-container-spin 4.8s linear infinite;
 }
 
-.monk-spinner .monk-spinner-layer-1 {
+.mnk-spinner .mnk-spinner-layer-1 {
   display: block;
   position: absolute;
   top: 0;
@@ -67,11 +67,11 @@
   bottom: 0;
   right: 0;
   margin: auto;
-  -webkit-animation: layer-1-spin 1.2s linear infinite;
-  animation: layer-1-spin 1.2s linear infinite;
+  -webkit-animation: mnk-spinner-layer-1-spin 1.2s linear infinite;
+  animation: mnk-spinner-layer-1-spin 1.2s linear infinite;
 }
 
-.monk-spinner .monk-spinner-layer-2 {
+.mnk-spinner .mnk-spinner-layer-2 {
   position: absolute;
   top: 0;
   left: 0;
@@ -82,6 +82,6 @@
   border-radius: 50%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-animation: layer-2-spin 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
-  animation: layer-2-spin 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  -webkit-animation: mnk-spinner-layer-2-spin 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  animation: mnk-spinner-layer-2-spin 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
 }

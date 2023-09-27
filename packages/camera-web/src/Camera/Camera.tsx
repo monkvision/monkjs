@@ -81,16 +81,16 @@ export function Camera({
   });
 
   return (
-    <div className='camera-container'>
+    <div className='mnk-camera-container'>
       <video
         data-testid='camera-video-preview'
         ref={videoRef}
-        className='camera-preview'
+        className='mnk-camera-preview'
         autoPlay
         playsInline
         controls={false}
       />
-      <canvas data-testid='camera-canvas' ref={canvasRef} className='camera-canvas' />
+      <canvas data-testid='camera-canvas' ref={canvasRef} className='mnk-camera-canvas' />
       <div className='hud-container'>{HUDElement}</div>
     </div>
   );
