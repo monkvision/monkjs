@@ -2908,7 +2908,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/inspection-capture-web@workspace:packages/inspection-capture-web":
+"@monkvision/inspection-capture-web@4.0.0, @monkvision/inspection-capture-web@workspace:packages/inspection-capture-web":
   version: 0.0.0-use.local
   resolution: "@monkvision/inspection-capture-web@workspace:packages/inspection-capture-web"
   dependencies:
@@ -14636,6 +14636,7 @@ __metadata:
     "@monkvision/camera-web": 4.0.0
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
+    "@monkvision/inspection-capture-web": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/sentry": 4.0.0
     "@testing-library/dom": ^8.20.0

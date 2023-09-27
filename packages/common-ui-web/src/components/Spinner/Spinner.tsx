@@ -22,7 +22,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         <div className='mnk-spinner-container' style={container}>
           <span className='mnk-spinner-layer-1' style={layer1}>
             <span
-              data-testid='mnk-spinner-colored-layer'
+              data-testid='monk-spinner-colored-layer'
               className='mnk-spinner-layer-2'
               style={layer2}
             ></span>

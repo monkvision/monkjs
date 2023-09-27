@@ -267,7 +267,7 @@ describe('Camera component', () => {
 
     const videoEl = container.querySelector('video');
     expect(videoEl).not.toBeNull();
-    expect(videoEl?.className).toEqual('camera-preview');
+    expect(videoEl?.className).toEqual('mnk-camera-preview');
     unmount();
   });
 
@@ -276,7 +276,7 @@ describe('Camera component', () => {
 
     const canvasEl = container.querySelector('canvas');
     expect(canvasEl).not.toBeNull();
-    expect(canvasEl?.className).toEqual('camera-canvas');
+    expect(canvasEl?.className).toEqual('mnk-camera-canvas');
     unmount();
   });
 

@@ -36,7 +36,12 @@ export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
             {t(errorTranslationKey)}
           </div>
           {handle?.retry && (
-            <Button className='mnk-retry-btn' variant='outline' icon='refresh' onClick={handle.retry}>
+            <Button
+              className='mnk-retry-btn'
+              variant='outline'
+              icon='refresh'
+              onClick={handle.retry}
+            >
               {t('retry')}
             </Button>
           )}
