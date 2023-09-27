@@ -35,7 +35,15 @@ function getPictures(inspection) {
     width: image.width,
     height: image.height,
     mimetype: image.mimetype,
+    image_type: image.image_type,
     url: image.path,
+    rendered_outputs: image.rendered_outputs.map((damagedImage) => {
+      return { 
+        isRendered: true,
+        label: image.additional_data?.label ?? undefined,
+        url: damagedImage.path,
+      }
+    }),
     label: image.additional_data?.label ?? undefined,
   }));
 }

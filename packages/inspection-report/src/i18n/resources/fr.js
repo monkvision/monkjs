@@ -52,6 +52,7 @@ const fr = {
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',
+      renderedOutput: '(rendu d\'image)'
     },
     damageManipulator: {
       damages: 'Dégâts',
