@@ -64,11 +64,11 @@ export default function usePdfReport({
       if (!status || status !== 422) {
         console.error('Error while trying to fetch the PDF download URL :', err);
         setPdfStatus(PdfStatus.ERROR);
-      }
 
-      setTimeout(() => {
-        setPdfStatus(PdfStatus.NOT_REQUESTED);
-      }, 5000);
+        setTimeout(() => {
+          setPdfStatus(PdfStatus.NOT_REQUESTED);
+        }, 5000);
+      }
     }),
     [inspectionId],
   );
