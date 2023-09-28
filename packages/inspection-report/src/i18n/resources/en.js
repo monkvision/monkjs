@@ -52,6 +52,7 @@ const en = {
     },
     gallery: {
       empty: 'This inspection does not have any photo yet.',
+      renderedOutput: '(rendered output)'
     },
     damageManipulator: {
       damages: 'Damages',
