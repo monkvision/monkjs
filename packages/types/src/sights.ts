@@ -1,3 +1,5 @@
+import { TaskName } from './state';
+
 /**
  * The category of a Sight.
  */
@@ -60,31 +62,6 @@ export enum VehicleType {
    * Small Crossover/SUV : Volkswagen T-Roc
    */
   VWTROC = 'vwtroc',
-}
-
-/**
- * Names of the tasks that can be executed during an inspection.
- *
- */
-export enum TaskName {
-  /**
-   * Detection of damages on different parts of the car (except the wheels).
-   */
-  DAMAGE_DETECTION = 'damage_detection',
-  /**
-   * Inspection of the condition of the wheels.
-   */
-  WHEEL_ANALYSIS = 'wheels_analysis',
-  /**
-   * Estimation of the repair operations (and their cost) that has to be done to fix the damages detected by the
-   * damage detection task.
-   */
-  REPAIR_ESTIMATE = 'repair_estimate',
-  /**
-   * Optical character recognition  : this task is used to automatically "scan" some text like the VIN number for
-   * instance.
-   */
-  IMAGES_OCR = 'images_ocr',
 }
 
 /**

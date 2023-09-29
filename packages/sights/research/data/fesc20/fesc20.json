@@ -60,7 +60,7 @@
     "overlay": "fesc20-4Wqx52oU.svg",
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-5Ts1UkPT",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-Tlu3sz8A": {
     "id": "fesc20-Tlu3sz8A",
@@ -70,7 +70,7 @@
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-raHPDUNm",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "fesc20-5Ts1UkPT": {
     "id": "fesc20-5Ts1UkPT",
@@ -86,7 +86,7 @@
     "overlay": "fesc20-5Ts1UkPT.svg",
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-4Wqx52oU",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-raHPDUNm": {
     "id": "fesc20-raHPDUNm",
@@ -96,7 +96,7 @@
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-Tlu3sz8A",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "fesc20-6GPUkfYn": {
     "id": "fesc20-6GPUkfYn",
@@ -325,7 +325,7 @@
     "overlay": "fesc20-WIQsf_gX.svg",
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-dKVLig1i",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-YPcJPAZE": {
     "id": "fesc20-YPcJPAZE",
@@ -335,7 +335,7 @@
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-W6XrryMO",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "fesc20-WMUaKDp1": {
     "id": "fesc20-WMUaKDp1",
@@ -409,7 +409,7 @@
     "overlay": "fesc20-dKVLig1i.svg",
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-WIQsf_gX",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-W6XrryMO": {
     "id": "fesc20-W6XrryMO",
@@ -419,7 +419,7 @@
     "vehicle_type": "fesc20",
     "mirror_sight": "fesc20-YPcJPAZE",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "fesc20-dfICsfSV": {
     "id": "fesc20-dfICsfSV",

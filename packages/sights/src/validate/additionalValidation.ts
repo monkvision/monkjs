@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { VehicleType } from '@monkvision/types';
 import { loadJSON, MONK_DATA_PATH, readDir } from '../io';
-import { VehicleType } from '../lib/types';
 
 interface SightForValidation {
   id: string;

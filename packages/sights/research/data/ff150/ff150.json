@@ -104,7 +104,7 @@
     "overlay": "ff150-3rM9XB0Z.svg",
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-ouGGtRnf",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-H3MCPESJ": {
     "id": "ff150-H3MCPESJ",
@@ -114,7 +114,7 @@
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-7vyfzrVQ",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "ff150-7UI3m9B3": {
     "id": "ff150-7UI3m9B3",
@@ -145,7 +145,7 @@
     "overlay": "ff150-7nvlys8r.svg",
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-FqbrFVr2",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-jUBEKij0": {
     "id": "ff150-jUBEKij0",
@@ -155,7 +155,7 @@
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-pNO26q4D",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "ff150-BmXfb-qD": {
     "id": "ff150-BmXfb-qD",
@@ -187,7 +187,7 @@
     "overlay": "ff150-FqbrFVr2.svg",
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-7nvlys8r",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-pNO26q4D": {
     "id": "ff150-pNO26q4D",
@@ -197,7 +197,7 @@
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-jUBEKij0",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "ff150-GOx2s_9L": {
     "id": "ff150-GOx2s_9L",
@@ -409,7 +409,7 @@
     "overlay": "ff150-ouGGtRnf.svg",
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-3rM9XB0Z",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-7vyfzrVQ": {
     "id": "ff150-7vyfzrVQ",
@@ -419,7 +419,7 @@
     "vehicle_type": "ff150",
     "mirror_sight": "ff150-H3MCPESJ",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "ff150-phbX7Bef": {
     "id": "ff150-phbX7Bef",

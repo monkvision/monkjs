@@ -75,7 +75,7 @@
     "overlay": "tsienna20-65mfPdRD.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-cI285Gon",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-uz29ILgw": {
     "id": "tsienna20-uz29ILgw",
@@ -85,7 +85,7 @@
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-K0ThKmue",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "tsienna20-670P2H2V": {
     "id": "tsienna20-670P2H2V",
@@ -101,7 +101,7 @@
     "overlay": "tsienna20-670P2H2V.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-SebsoqJm",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-2Zz6SEaI": {
     "id": "tsienna20-2Zz6SEaI",
@@ -111,7 +111,7 @@
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-RP6TzN4w",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "tsienna20-D6pPBrXx": {
     "id": "tsienna20-D6pPBrXx",
@@ -248,7 +248,7 @@
     "overlay": "tsienna20-SebsoqJm.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-670P2H2V",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-RP6TzN4w": {
     "id": "tsienna20-RP6TzN4w",
@@ -258,7 +258,7 @@
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-2Zz6SEaI",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "tsienna20-TI4TVvT9": {
     "id": "tsienna20-TI4TVvT9",
@@ -366,7 +366,7 @@
     "overlay": "tsienna20-cI285Gon.svg",
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-65mfPdRD",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-K0ThKmue": {
     "id": "tsienna20-K0ThKmue",
@@ -376,7 +376,7 @@
     "vehicle_type": "tsienna20",
     "mirror_sight": "tsienna20-uz29ILgw",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "tsienna20-g2uWI1l8": {
     "id": "tsienna20-g2uWI1l8",

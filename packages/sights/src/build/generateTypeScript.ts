@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { VehicleType } from '../lib/types';
+import { VehicleType } from '@monkvision/types';
 
 export const OUTPUT_PATH = join(__dirname, '../../src/lib');
 const DATA_IMPORT_KEYWORD = '###__IMPORT_VEHICLE_SIGHTS__###';
@@ -19,6 +19,13 @@ export function generateIndex(): void {
     encoding: 'utf-8',
   });
   writeFileSync(join(OUTPUT_PATH, 'index.ts'), template, { encoding: 'utf-8' });
+}
+
+export function generateUtils(): void {
+  const template = readFileSync(join(__dirname, '../../src/templates/utils.ts.template'), {
+    encoding: 'utf-8',
+  });
+  writeFileSync(join(OUTPUT_PATH, 'utils.ts'), template, { encoding: 'utf-8' });
 }
 
 export function generateData(): void {

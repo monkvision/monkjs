@@ -1,5 +1,5 @@
 import { buildJSONs } from './buildJSONs';
-import { generateData, generateIndex } from './generateTypeScript';
+import { generateData, generateIndex, generateUtils } from './generateTypeScript';
 
 export function build(): void {
   console.log('📂 Building JSON files...');
@@ -7,4 +7,5 @@ export function build(): void {
   console.log('🛠️ Generating TypeScript files...');
   generateIndex();
   generateData();
+  generateUtils();
 }

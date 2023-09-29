@@ -74,7 +74,7 @@
     "overlay": "jgc21-3gjMwvQG.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-RAVpqaE4",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "jgc21-2bGeRS3I": {
     "id": "jgc21-2bGeRS3I",
@@ -84,7 +84,7 @@
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-xwYV3_Hz",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "jgc21-5lovhZgA": {
     "id": "jgc21-5lovhZgA",
@@ -249,7 +249,7 @@
     "overlay": "jgc21-RAVpqaE4.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-3gjMwvQG",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "jgc21-xwYV3_Hz": {
     "id": "jgc21-xwYV3_Hz",
@@ -259,7 +259,7 @@
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-2bGeRS3I",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "jgc21-RE3li6rE": {
     "id": "jgc21-RE3li6rE",
@@ -460,7 +460,7 @@
     "overlay": "jgc21-s7WDTRmE.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-z15ZdJL6",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "jgc21-S8sE69on": {
     "id": "jgc21-S8sE69on",
@@ -470,7 +470,7 @@
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-nVbhsBaQ",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "jgc21-tbF2Ax8v": {
     "id": "jgc21-tbF2Ax8v",
@@ -500,7 +500,7 @@
     "overlay": "jgc21-z15ZdJL6.svg",
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-s7WDTRmE",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "jgc21-nVbhsBaQ": {
     "id": "jgc21-nVbhsBaQ",
@@ -510,7 +510,7 @@
     "vehicle_type": "jgc21",
     "mirror_sight": "jgc21-S8sE69on",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "jgc21-zCrDwYWE": {
     "id": "jgc21-zCrDwYWE",

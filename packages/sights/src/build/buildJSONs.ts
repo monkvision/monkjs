@@ -1,7 +1,12 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import {
+  LabelDictionary,
+  SightDictionary,
+  VehicleDictionary,
+  VehicleType,
+} from '@monkvision/types';
 import { createDirIfNotExist, loadJSON, MONK_DATA_PATH, readDir, saveLibJSON } from '../io';
-import { LabelDictionary, SightDictionary, VehicleDictionary, VehicleType } from '../lib/types';
 
 const DATA_OUTPUT_PATH = join(__dirname, '../../src/lib/data');
 
