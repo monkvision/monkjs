@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 jest.mock('fs');
 jest.mock('../../src/io');
 
 import fs from 'fs';
 import { join } from 'path';
-import { SightCategory, VehicleType } from '../../src/lib/types';
+import { SightCategory, VehicleType } from '@monkvision/types';
 import * as io from '../../src/io';
 import { validateAdditionalRules } from '../../src/validate/additionalValidation';
 import { pathsEqual } from '../test.utils';

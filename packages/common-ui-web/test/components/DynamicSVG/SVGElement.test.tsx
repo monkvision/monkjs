@@ -1,5 +1,5 @@
 const attributesMock: Record<string, string> = { width: '123' };
-const useJSXMapttributesMock = jest.fn(() => attributesMock);
+const useJSXTransformAttributesMock = jest.fn(() => attributesMock);
 
 const customAttributesMock: Record<string, string> = { height: '456' };
 const useCustomAttributesMock = jest.fn(() => customAttributesMock);
@@ -11,7 +11,7 @@ const childrenGroupIdsMock = ['test-id'];
 const useChildrenGroupIdsMock = jest.fn(() => childrenGroupIdsMock);
 
 jest.mock('../../../src/components/DynamicSVG/hooks', () => ({
-  useJSXMapttributes: useJSXMapttributesMock,
+  useJSXTransformAttributes: useJSXTransformAttributesMock,
   useCustomAttributes: useCustomAttributesMock,
   useInnerHTML: useInnerHTMLMock,
   useChildrenGroupIds: useChildrenGroupIdsMock,
@@ -19,11 +19,6 @@ jest.mock('../../../src/components/DynamicSVG/hooks', () => ({
 
 import { render } from '@testing-library/react';
 import { SVGElement } from '../../../src';
-import {
-  useChildrenGroupIds,
-  useCustomAttributes,
-  useInnerHTML,
-} from '../../../src/components/DynamicSVG/hooks';
 
 describe('SVGElement component', () => {
   afterEach(() => {
@@ -45,7 +40,7 @@ describe('SVGElement component', () => {
 
     const { unmount } = render(<SVGElement element={element} />);
 
-    expect(useJSXMapttributesMock).toHaveBeenCalledWith(element);
+    expect(useJSXTransformAttributesMock).toHaveBeenCalledWith(element);
     unmount();
   });
 

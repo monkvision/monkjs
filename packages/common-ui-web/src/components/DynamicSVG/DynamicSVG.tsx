@@ -5,7 +5,9 @@ import { DynamicSVGCustomizationFunctions, useXMLParser } from './hooks';
 /**
  * Props that can be passed to the DynamicSVG component.
  */
-export interface DynamicSVGProps extends DynamicSVGCustomizationFunctions, SVGProps<SVGSVGElement> {
+export interface DynamicSVGProps
+  extends DynamicSVGCustomizationFunctions,
+    Omit<SVGProps<SVGSVGElement>, 'ref'> {
   /**
    * A string representing the SVG image to display. This string will be parsed using the `useXMLParser` hook.
    */

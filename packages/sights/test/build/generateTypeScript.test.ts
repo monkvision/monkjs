@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 jest.mock('fs', () => {
   const mockedFs = jest.createMockFromModule('fs') as any;
   const actualFs = jest.requireActual('fs');
@@ -16,8 +11,8 @@ jest.mock('fs', () => {
 
 import fs, { readFileSync } from 'fs';
 import { join } from 'path';
+import { VehicleType } from '@monkvision/types';
 import { generateData, generateIndex } from '../../src/build/generateTypeScript';
-import { VehicleType } from '../../src/lib/types';
 import { pathsEqual } from '../test.utils';
 
 describe('TypeScript generation module', () => {

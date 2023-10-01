@@ -3,7 +3,7 @@ jest.mock('../../src/io');
 
 import fs from 'fs';
 import { join, resolve } from 'path';
-import { SightCategory, VehicleSights, VehicleType } from '../../src/lib/types';
+import { SightCategory, VehicleSights, VehicleType } from '@monkvision/types';
 import { buildJSONs } from '../../src/build/buildJSONs';
 import * as io from '../../src/io';
 import { pathsEqual } from '../test.utils';
