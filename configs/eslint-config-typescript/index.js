@@ -24,6 +24,7 @@ module.exports = {
     'no-useless-constructor': OFF,
     '@typescript-eslint/no-empty-function': [ERROR, { allow: ['arrowFunctions'] }],
     '@typescript-eslint/no-empty-interface': OFF,
+    '@typescript-eslint/no-unused-vars': ERROR,
   },
   overrides: [
     {
