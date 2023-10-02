@@ -26,7 +26,9 @@
   },
   "dependencies": {
     "@monkvision/common": "4.0.0",
-    "@monkvision/common-ui-web": "4.0.0",
+    "@monkvision/common-ui-web": "4.0.0"
+  },
+  "peerDependencies": {
     "i18next": "^23.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

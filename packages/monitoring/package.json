@@ -24,7 +24,7 @@
     "lint": "yarn run prettier && yarn run eslint",
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

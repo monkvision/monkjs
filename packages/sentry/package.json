@@ -29,7 +29,9 @@
   },
   "dependencies": {
     "@monkvision/monitoring": "4.0.0",
-    "@sentry/react": "^7.61.1",
+    "@sentry/react": "^7.61.1"
+  },
+  "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
