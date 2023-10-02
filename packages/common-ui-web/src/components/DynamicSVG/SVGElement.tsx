@@ -1,4 +1,4 @@
-import { forwardRef, JSX, useMemo } from 'react';
+import { JSX, useMemo } from 'react';
 import { JSXIntrinsicSVGElements } from '@monkvision/types';
 import {
   DynamicSVGCustomizationFunctions,
