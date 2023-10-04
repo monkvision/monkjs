@@ -240,7 +240,7 @@ describe('Button component', () => {
 
     const testDivEl = screen.queryByTestId(testId);
     expect(testDivEl).toBeDefined();
-    expect(testDivEl?.parentElement?.className).toEqual('loading-hidden-content');
+    expect(testDivEl?.parentElement?.className).toEqual('mnk-button-loading-hidden-content');
     const spinnerEl = screen.queryByTestId('monk-spinner-mock');
     expect(spinnerEl).toBeDefined();
     unmount();

@@ -22,6 +22,7 @@
     "@monkvision/camera-web": "4.0.0",
     "@monkvision/common": "4.0.0",
     "@monkvision/common-ui-web": "4.0.0",
+    "@monkvision/inspection-capture-web": "4.0.0",
     "@monkvision/monitoring": "4.0.0",
     "@monkvision/sentry": "4.0.0",
     "axios": "^1.5.0",

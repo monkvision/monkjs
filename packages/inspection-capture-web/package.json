@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
-    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "build": "yarn run clean && tsc -p tsconfig.build.json && copyfiles -u 1 src/**/*.{css,svg} lib/",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --check ./src ./test",
@@ -25,6 +25,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@monkvision/camera-web": "4.0.0",
     "@monkvision/common": "4.0.0",
     "@monkvision/common-ui-web": "4.0.0"
   },

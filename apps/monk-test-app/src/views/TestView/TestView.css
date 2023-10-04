@@ -1,5 +1,15 @@
 .test-view-container {
   height: 100%;
   width: 100%;
-  background-color: black;
+  display: flex;
+  justify-content: flex-end;
+  background-image: url(https://patch.com/img/cdn/users/808388/2012/03/raw/89f37be82565bb43654092d52a403a67.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+@media screen and (orientation: portrait) {
+  .test-view-container {
+    flex-direction: column;
+  }
 }

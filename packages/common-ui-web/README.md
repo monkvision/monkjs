@@ -1,6 +1,6 @@
 # @monkvision/common-ui-web
-This package exports reusable UI components for React web application. These components are used throughout the
-different MonkJs SDK and web application.
+This package exports reusable UI components and hooks for React web application. These components are used throughout
+the different MonkJs SDK and web application.
 
 # Installing
 To install the package, you can run the following command :

@@ -15,15 +15,15 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
       <div
         ref={ref}
         data-testid='monk-spinner'
-        className={`monk-spinner ${className}`}
+        className={`mnk-spinner ${className}`}
         style={{ ...spinner, ...style }}
         {...passThroughProps}
       >
-        <div className='monk-spinner-container' style={container}>
-          <span className='monk-spinner-layer-1' style={layer1}>
+        <div className='mnk-spinner-container' style={container}>
+          <span className='mnk-spinner-layer-1' style={layer1}>
             <span
               data-testid='monk-spinner-colored-layer'
-              className='monk-spinner-layer-2'
+              className='mnk-spinner-layer-2'
               style={layer2}
             ></span>
           </span>

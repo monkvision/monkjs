@@ -86,8 +86,8 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
     const loadingContent = useMemo(
       () =>
         preserveWidthOnLoading ? (
-          <div className='fixed-loading-container'>
-            <div className='loading-hidden-content'>{content}</div>
+          <div className='mnk-button-fixed-loading-container'>
+            <div className='mnk-button-loading-hidden-content'>{content}</div>
             <Spinner
               className='button-spinner'
               style={spinner.style}
@@ -97,7 +97,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
           </div>
         ) : (
           <Spinner
-            className='button-spinner'
+            className='mnk-button-spinner'
             style={spinner.style}
             size={spinner.size}
             primaryColor={spinner.color}

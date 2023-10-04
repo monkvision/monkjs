@@ -1,0 +1,68 @@
+:root {
+  --mnk-capture-hud-buttons-container-background: rgba(0, 0, 0, 0.5);
+
+  --mnk-capture-button-size: 60px;
+  --mnk-capture-button-border-width: 2px;
+  --mnk-capture-button-background: #1b1c1e;
+  --mnk-capture-button-background-hover: #2d2e30;
+  --mnk-capture-button-background-active: #373839;
+  --mnk-capture-button-background-disabled: #2d2e30be;
+  --mnk-capture-button-color: #f3f3f3;
+  --mnk-capture-button-color-hover: #e3e3e3;
+  --mnk-capture-button-color-active: #cbcbcb;
+  --mnk-capture-button-color-disabled: #b6b6b6be;
+}
+
+.mnk-capture-hud-buttons-container {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 30px 40px;
+  background-color: var(--mnk-capture-hud-buttons-container-background);
+}
+
+.mnk-capture-hud-buttons-container .mnk-capture-hud-button {
+  width: var(--mnk-capture-button-size);
+  height: var(--mnk-capture-button-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--mnk-capture-button-background);
+  border: solid var(--mnk-capture-button-color) var(--mnk-capture-button-border-width);
+  cursor: pointer;
+  padding: 0;
+}
+
+.mnk-capture-hud-buttons-container .mnk-capture-hud-button:not(.disabled):hover {
+  background-color: var(--mnk-capture-button-background-hover);
+  border-color: var(--mnk-capture-button-color-hover);
+}
+
+.mnk-capture-hud-buttons-container .mnk-capture-hud-button:not(.disabled):active {
+  background-color: var(--mnk-capture-button-background-active);
+  border-color: var(--mnk-capture-button-color-active);
+}
+
+.mnk-capture-hud-buttons-container .mnk-capture-hud-button.disabled {
+  background-color: var(--mnk-capture-button-background-disabled);
+  border-color: var(--mnk-capture-button-color-disabled);
+  cursor: default;
+}
+
+.mnk-capture-hud-buttons-container .mnk-capture-hud-button > .mnk-background-cover {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+@media screen and (orientation: portrait) {
+  .mnk-capture-hud-buttons-container {
+    padding: 20px;
+    flex-direction: row-reverse;
+  }
+}
