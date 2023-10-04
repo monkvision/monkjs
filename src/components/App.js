@@ -2,7 +2,6 @@
 import { theme as initialTheme } from '@monkvision/toolkit';
 import { Loader } from '@monkvision/ui';
 import 'config/corejs';
-import SilentAuth from 'components/SilentAuth';
 import SilentLang from 'components/SilentLang';
 
 import Navigation from 'config/Navigation';
@@ -88,7 +87,6 @@ function App() {
 
   return (
     <Provider store={store}>
-      <SilentAuth />
       <SilentLang />
       <PaperProvider theme={theme}>
         <View style={[styles.layout, { minHeight }]} onLayout={onLayoutRootView}>
