@@ -8,8 +8,8 @@
     "Category": {
       "$ref": "subschemas/category.schema"
     },
-    "VehicleType": {
-      "$ref": "subschemas/vehicleType.schema"
+    "Vehicle": {
+      "$ref": "subschemas/vehicle.schema"
     },
     "Task": {
       "$ref": "subschemas/task.schema"
@@ -38,14 +38,14 @@
     "overlay": {
       "type": "string"
     },
-    "vehicle_type": {
-      "$ref": "#/definitions/VehicleType"
+    "vehicle": {
+      "$ref": "#/definitions/Vehicle"
     },
     "tasks": {
       "$ref": "#/definitions/Task"
     }
   },
-  "required": ["category", "label", "overlay", "vehicle_type", "tasks"],
+  "required": ["category", "label", "overlay", "vehicle", "tasks"],
   "allOf": [
     {
       "if": {

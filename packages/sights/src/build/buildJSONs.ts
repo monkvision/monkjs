@@ -4,7 +4,7 @@ import {
   LabelDictionary,
   SightDictionary,
   VehicleDictionary,
-  VehicleType,
+  VehicleModel,
 } from '@monkvision/types';
 import { createDirIfNotExist, loadJSON, MONK_DATA_PATH, readDir, saveLibJSON } from '../io';
 
@@ -15,8 +15,10 @@ function mapLabels(labels: LabelDictionary): LabelDictionary {
     (prev: LabelDictionary, [key, labelTranslation]) => ({
       ...prev,
       [key]: {
+        key,
         fr: labelTranslation.fr,
         en: labelTranslation.en,
+        de: labelTranslation.de,
       },
     }),
     {},
@@ -25,9 +27,10 @@ function mapLabels(labels: LabelDictionary): LabelDictionary {
 
 function mapVehicles(vehicles: VehicleDictionary): VehicleDictionary {
   return Object.entries(vehicles).reduce(
-    (prev: Partial<VehicleDictionary>, [type, vehicleDetails]) => ({
+    (prev: Partial<VehicleDictionary>, [model, vehicleDetails]) => ({
       ...prev,
-      [type]: {
+      [model]: {
+        id: model,
         make: vehicleDetails.make,
         model: vehicleDetails.model,
         type: vehicleDetails.type,
@@ -44,7 +47,7 @@ function readOverlay(path: string): string {
 
 function mapSights(
   sights: SightDictionary,
-  vehicleType: VehicleType,
+  vehicle: VehicleModel,
   overlaysPath: string,
 ): SightDictionary {
   return Object.entries(sights).reduce(
@@ -56,7 +59,7 @@ function mapSights(
         label: sight.label,
         overlay: readOverlay(join(overlaysPath, sight.overlay)),
         tasks: sight.tasks,
-        vehicleType,
+        vehicle,
       },
     }),
     {},
@@ -75,12 +78,12 @@ export function buildJSONs(): void {
   const libVehicles = mapVehicles(researchVehicles);
   saveLibJSON(libVehicles, join(DATA_OUTPUT_PATH, 'vehicles.json'));
 
-  readDir(MONK_DATA_PATH).directories.forEach((vehicleType) => {
+  readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
     const researchSights = loadJSON(
-      join(MONK_DATA_PATH, vehicleType, `${vehicleType}.json`),
+      join(MONK_DATA_PATH, vehicle, `${vehicle}.json`),
     ) as SightDictionary;
-    const overlaysPath = join(MONK_DATA_PATH, vehicleType, 'overlays');
-    const libSights = mapSights(researchSights, vehicleType as VehicleType, overlaysPath);
-    saveLibJSON(libSights, join(DATA_OUTPUT_PATH, 'sights', `${vehicleType}.json`));
+    const overlaysPath = join(MONK_DATA_PATH, vehicle, 'overlays');
+    const libSights = mapSights(researchSights, vehicle as VehicleModel, overlaysPath);
+    saveLibJSON(libSights, join(DATA_OUTPUT_PATH, 'sights', `${vehicle}.json`));
   });
 }

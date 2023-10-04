@@ -18,7 +18,7 @@ Object.defineProperty(global.window, 'atob', {
 });
 
 import { TransactionStatus } from '@monkvision/monitoring';
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { RefObject } from 'react';
 import { CompressionFormat, useCompression } from '../../../src/Camera/hooks';
 import {

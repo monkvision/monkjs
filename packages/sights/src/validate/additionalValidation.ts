@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { VehicleType } from '@monkvision/types';
+import { VehicleModel } from '@monkvision/types';
 import { loadJSON, MONK_DATA_PATH, readDir } from '../io';
 
 interface SightForValidation {
@@ -17,7 +17,7 @@ interface AdditionalValidationError {
   value: string;
 }
 
-interface VehicleTypeFileNameError extends AdditionalValidationError {
+interface VehicleFileNameError extends AdditionalValidationError {
   type: 'missingDir' | 'missingJson' | 'unknownDir' | 'unknownJson';
 }
 
@@ -27,42 +27,42 @@ interface MirrorSightError extends AdditionalValidationError {
 }
 
 interface AdditionalValidationResults {
-  vehicleTypes: VehicleTypeFileNameError[];
+  vehicles: VehicleFileNameError[];
   mirrorSight: MirrorSightError[];
   missingOverlay: AdditionalValidationError[];
   minifiedOverlay: AdditionalValidationError[];
   unusedOverlay: AdditionalValidationError[];
 }
 
-function validateVehicleTypeFileNames() {
-  const results: VehicleTypeFileNameError[] = [];
-  const vehicleTypes = Object.values(VehicleType);
-  vehicleTypes.forEach((vehicleType) => {
-    if (!existsSync(join(MONK_DATA_PATH, vehicleType))) {
+function validateVehicleFileNames() {
+  const results: VehicleFileNameError[] = [];
+  const vehicles = Object.values(VehicleModel);
+  vehicles.forEach((vehicle) => {
+    if (!existsSync(join(MONK_DATA_PATH, vehicle))) {
       results.push({
-        value: vehicleType,
+        value: vehicle,
         type: 'missingDir',
       });
-    } else if (!existsSync(join(MONK_DATA_PATH, vehicleType, `${vehicleType}.json`))) {
+    } else if (!existsSync(join(MONK_DATA_PATH, vehicle, `${vehicle}.json`))) {
       results.push({
-        value: vehicleType,
+        value: vehicle,
         type: 'missingJson',
       });
     }
   });
-  readDir(MONK_DATA_PATH).directories.forEach((vehicleTypeDir) => {
-    if (!(vehicleTypes as string[]).includes(vehicleTypeDir)) {
+  readDir(MONK_DATA_PATH).directories.forEach((vehicleDir) => {
+    if (!(vehicles as string[]).includes(vehicleDir)) {
       results.push({
-        value: vehicleTypeDir,
+        value: vehicleDir,
         type: 'unknownDir',
       });
     } else {
-      readDir(join(MONK_DATA_PATH, vehicleTypeDir))
-        .files.filter((fileName) => fileName !== `${vehicleTypeDir}.json`)
-        .filter((fileName) => fileName !== `${vehicleTypeDir}.schema.json`)
+      readDir(join(MONK_DATA_PATH, vehicleDir))
+        .files.filter((fileName) => fileName !== `${vehicleDir}.json`)
+        .filter((fileName) => fileName !== `${vehicleDir}.schema.json`)
         .forEach((fileName) => {
           results.push({
-            value: `${vehicleTypeDir}/${fileName}`,
+            value: `${vehicleDir}/${fileName}`,
             type: 'unknownJson',
           });
         });
@@ -132,10 +132,10 @@ function printResults(results: AdditionalValidationResults): boolean {
     unknownJson: 'Unknown vehicle data set. Only the sights index and its schema are allowed here.',
   };
 
-  if (results.vehicleTypes.length > 0) {
+  if (results.vehicles.length > 0) {
     containsErrors = true;
     console.error('\n⚠️  Some JSON files are invalid or missing :');
-    results.vehicleTypes.forEach((error) => {
+    results.vehicles.forEach((error) => {
       console.error(`  - ${error.value} : ${errorDescriptionMap[error.type]}`);
     });
   }
@@ -181,18 +181,18 @@ function printResults(results: AdditionalValidationResults): boolean {
 
 export function validateAdditionalRules(print = true): void {
   const results: AdditionalValidationResults = {
-    vehicleTypes: validateVehicleTypeFileNames(),
+    vehicles: validateVehicleFileNames(),
     mirrorSight: [],
     missingOverlay: [],
     minifiedOverlay: [],
     unusedOverlay: [],
   };
 
-  readDir(MONK_DATA_PATH).directories.forEach((vehicleType) => {
+  readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
     const sights = loadJSON(
-      join(MONK_DATA_PATH, vehicleType, `${vehicleType}.json`),
+      join(MONK_DATA_PATH, vehicle, `${vehicle}.json`),
     ) as SightForValidationDictionary;
-    const overlayDirPath = join(MONK_DATA_PATH, vehicleType, 'overlays');
+    const overlayDirPath = join(MONK_DATA_PATH, vehicle, 'overlays');
     Object.values(sights).forEach((sight) => {
       const mirrorSight = validateMirrorSight(sight, sights);
       if (mirrorSight) {

@@ -1,0 +1,68 @@
+:root {
+  --sight-card-border-radius: 10px;
+}
+
+.sight-card {
+  margin: 20px;
+  border-radius: var(--sight-card-border-radius);
+  background-color: var(--sight-card-background);
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.overlay-container {
+  border-top-left-radius: var(--sight-card-border-radius);
+  border-top-right-radius: var(--sight-card-border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-container {
+  width: 100%;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+}
+
+.id {
+  cursor: pointer;
+  border-radius: 9999999px;
+  padding: 5px 10px;
+  background-color: var(--sight-card-id-background);
+  border: none;
+  outline: none;
+  margin-left: 10px;
+  position: relative;
+}
+
+.id:hover {
+  background-color: var(--sight-card-id-background-hover);
+}
+
+.id:active {
+  background-color: var(--sight-card-id-background-active);
+}
+
+.details-container {
+  width: 100%;
+  border-bottom-left-radius: var(--sight-card-border-radius);
+  border-bottom-right-radius: var(--sight-card-border-radius);
+  background-color: var(--sight-card-details-background);
+  cursor: text;
+  font-family: monospace;
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.test {
+}

@@ -3,7 +3,8 @@ jest.mock('@monkvision/monitoring', () => ({
   useMonitoring: jest.fn(() => ({ handleError: handleErrorMock })),
 }));
 
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
 import { GetUserMediaMock, mockGetUserMedia } from '../../mocks';

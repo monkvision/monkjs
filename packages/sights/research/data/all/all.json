@@ -4,7 +4,7 @@
     "category": "interior",
     "label": "rear-seats",
     "overlay": "all-1c89235c.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-35104fb6": {
@@ -12,7 +12,7 @@
     "category": "interior",
     "label": "left-front-door",
     "overlay": "all-35104fb6.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-356a10ca": {
@@ -20,7 +20,7 @@
     "category": "interior",
     "label": "dashboard-from-back-seat",
     "overlay": "all-356a10ca.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-50eebfb7": {
@@ -28,7 +28,7 @@
     "category": "interior",
     "label": "rear-seats",
     "overlay": "all-50eebfb7.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-526bc540": {
@@ -36,7 +36,7 @@
     "category": "interior",
     "label": "engine-right-side",
     "overlay": "all-526bc540.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-545d81e5": {
@@ -44,7 +44,7 @@
     "category": "interior",
     "label": "dashboard-from-back-seat",
     "overlay": "all-545d81e5.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-602375f5": {
@@ -52,7 +52,7 @@
     "category": "interior",
     "label": "dashboard-from-back-seat",
     "overlay": "all-602375f5.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-6f747948": {
@@ -60,7 +60,7 @@
     "category": "interior",
     "label": "front-seats",
     "overlay": "all-6f747948.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-76822eac": {
@@ -68,7 +68,7 @@
     "category": "interior",
     "label": "trunk-right-side",
     "overlay": "all-76822eac.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-7af3fb1f": {
@@ -76,7 +76,7 @@
     "category": "interior",
     "label": "dashboard",
     "overlay": "all-7af3fb1f.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-96fee1d8": {
@@ -84,7 +84,7 @@
     "category": "interior",
     "label": "trunk-left-side",
     "overlay": "all-96fee1d8.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-98d26745": {
@@ -92,7 +92,7 @@
     "category": "interior",
     "label": "engine-left-side",
     "overlay": "all-98d26745.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-9c2d7b19": {
@@ -100,7 +100,7 @@
     "category": "interior",
     "label": "open-trunk",
     "overlay": "all-9c2d7b19.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-IqwSM3": {
@@ -108,7 +108,7 @@
     "category": "interior",
     "label": "front-seats",
     "overlay": "all-IqwSM3.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-ad16621c": {
@@ -116,7 +116,7 @@
     "category": "interior",
     "label": "interior-roof",
     "overlay": "all-ad16621c.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-e7663823": {
@@ -124,7 +124,7 @@
     "category": "interior",
     "label": "front-seats",
     "overlay": "all-e7663823.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-ed8a75b6": {
@@ -132,7 +132,7 @@
     "category": "interior",
     "label": "dashboard-from-driver-seat",
     "overlay": "all-ed8a75b6.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-ff87ff59": {
@@ -140,7 +140,7 @@
     "category": "interior",
     "label": "front-seats",
     "overlay": "all-ff87ff59.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-qhKA2z": {
@@ -148,7 +148,7 @@
     "category": "interior",
     "label": "trunk",
     "overlay": "all-qhKA2z.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-rSvk2C": {
@@ -156,7 +156,7 @@
     "category": "interior",
     "label": "dashboard",
     "overlay": "all-rSvk2C.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-rj5mhm": {
@@ -164,7 +164,7 @@
     "category": "interior",
     "label": "back-seats",
     "overlay": "all-rj5mhm.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   },
   "all-sLu0CfOt": {
@@ -172,7 +172,7 @@
     "category": "misc",
     "label": "vin",
     "overlay": "all-sLu0CfOt.svg",
-    "vehicle_type": "all",
+    "vehicle": "all",
     "tasks": ["damage_detection"]
   }
 }

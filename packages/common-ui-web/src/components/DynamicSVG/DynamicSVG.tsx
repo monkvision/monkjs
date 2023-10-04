@@ -1,6 +1,6 @@
-import { forwardRef, SVGProps, useMemo } from 'react';
-import { SVGElement } from './SVGElement';
+import { SVGProps, useMemo } from 'react';
 import { DynamicSVGCustomizationFunctions, useXMLParser } from './hooks';
+import { SVGElement } from './SVGElement';
 
 /**
  * Props that can be passed to the DynamicSVG component.
@@ -45,19 +45,17 @@ export interface DynamicSVGProps
  *   return <DynamicSVG svg={svg} width={300} getAttributes={getAttributes} />
  * }
  */
-export const DynamicSVG = forwardRef<SVGSVGElement, DynamicSVGProps>(
-  ({ svg, ...passThroughProps }, ref) => {
-    const doc = useXMLParser(svg);
-    const svgEl = useMemo(() => {
-      const element = doc.children[0];
-      if (element.tagName !== 'svg') {
-        throw new Error(
-          'Invalid SVG string provided to the DynamicSVG component: expected <svg> tag as the first children of XML document.',
-        );
-      }
-      return element;
-    }, [doc]);
+export function DynamicSVG({ svg, ...passThroughProps }: DynamicSVGProps) {
+  const doc = useXMLParser(svg);
+  const svgEl = useMemo(() => {
+    const element = doc.children[0];
+    if (element.tagName !== 'svg') {
+      throw new Error(
+        'Invalid SVG string provided to the DynamicSVG component: expected <svg> tag as the first children of XML document.',
+      );
+    }
+    return element;
+  }, [doc]);
 
-    return <SVGElement ref={ref} element={svgEl} {...passThroughProps} />;
-  },
-);
+  return <SVGElement element={svgEl} {...passThroughProps} />;
+}

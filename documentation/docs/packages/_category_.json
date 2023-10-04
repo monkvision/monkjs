@@ -1,0 +1,8 @@
+{
+  "label": "Packages",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Check out the documentation for each package of the MonkJs SDK."
+  }
+}

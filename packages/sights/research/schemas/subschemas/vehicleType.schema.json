@@ -3,15 +3,14 @@
   "$id": "subschemas/vehicleType.schema",
   "type": "string",
   "enum": [
-    "all",
-    "audia7",
-    "fesc20",
-    "ff150",
-    "ffocus18",
-    "ftransit18",
-    "haccord",
-    "jgc21",
-    "tsienna20",
-    "vwtroc"
+    "hatchback",
+    "crossover",
+    "pickup",
+    "city",
+    "van",
+    "sedan",
+    "large-suv",
+    "minivan",
+    "suv"
   ]
 }

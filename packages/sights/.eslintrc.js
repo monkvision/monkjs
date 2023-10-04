@@ -11,5 +11,14 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': OFF,
     'no-console': OFF,
-  }
+  },
+  overrides: [
+    {
+      files: ['src/lib/*.ts'],
+      rules: {
+        '@typescript-eslint/ban-ts-comment': OFF,
+        'import/no-unresolved': OFF,
+      },
+    },
+  ],
 }

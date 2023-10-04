@@ -6,7 +6,8 @@ jest.mock('@monkvision/monitoring', () => ({
 }));
 
 import { TransactionStatus } from '@monkvision/monitoring';
-import { act, renderHook } from '@testing-library/react';
+import { act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { MonkPicture, useTakePicture } from '../../../src/Camera/hooks';
 import { TakePictureTransaction } from '../../../src/Camera/monitoring';
 

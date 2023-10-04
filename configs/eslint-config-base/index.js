@@ -48,6 +48,7 @@ module.exports = {
         'import/first': OFF,
         'import/order': OFF,
         '@typescript-eslint/no-empty-function': OFF,
+        'class-methods-use-this': OFF,
       },
     },
   ],

@@ -1,0 +1,1 @@
+export { IconCard } from './IconCard';

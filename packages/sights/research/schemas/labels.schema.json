@@ -10,14 +10,20 @@
     "": {
       "type": "object",
       "properties": {
+        "key": {
+          "type": "string"
+        },
         "en": {
           "type": "string"
         },
         "fr": {
           "type": "string"
+        },
+        "de": {
+          "type": "string"
         }
       },
-      "required": ["en", "fr"],
+      "required": ["key", "en", "fr", "de"],
       "unevaluatedProperties": false
     }
   },

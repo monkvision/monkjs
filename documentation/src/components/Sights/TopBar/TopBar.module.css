@@ -1,0 +1,50 @@
+.top-bar {
+  width: 100%;
+  background-color: var(--ifm-navbar-background-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: var(--ifm-navbar-height);
+  box-shadow: var(--ifm-navbar-shadow);
+  left: 0;
+  z-index: 999;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.tab {
+  border-width: 0 0 4px 0;
+  border-color: transparent;
+  padding: 15px 20px;
+  font-size: 16px;
+  color: var(--text-color);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background-color: #ffffff14;
+  border-color: #a2a2a2;
+}
+
+.tab:active {
+  background-color: #ffffff1f;
+  border-color: #58585b;
+}
+
+.tab.selected {
+  color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary) !important;
+}
+
+.filters {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}

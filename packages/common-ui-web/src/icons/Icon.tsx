@@ -1,7 +1,8 @@
 import { useMonkTheme } from '@monkvision/common';
 import { ColorProp } from '@monkvision/types';
-import { forwardRef, SVGProps } from 'react';
-import { useIconAsset } from './hooks';
+import { SVGProps, useMemo } from 'react';
+import { DynamicSVG } from '../components/DynamicSVG';
+import { MonkIconAssetsMap } from './assets';
 import { IconName } from './names';
 
 /**
@@ -32,11 +33,21 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'heig
 /**
  * Icon component use to easily place an SVG icon into your page by just specifying the name if the icon to place.
  */
-export const Icon = forwardRef<SVGSVGElement, IconProps>(
-  ({ icon, size = 50, primaryColor = '#000000', ...passThroughProps }, ref) => {
-    const { utils } = useMonkTheme();
-    const IconAsset = useIconAsset(icon);
-    const fill = utils.getColor(primaryColor);
-    return <IconAsset ref={ref} fill={fill} width={size} height={size} {...passThroughProps} />;
-  },
-);
+export function Icon({
+  icon,
+  size = 50,
+  primaryColor = '#000000',
+  ...passThroughProps
+}: IconProps) {
+  const { utils } = useMonkTheme();
+  const fill = utils.getColor(primaryColor);
+  const svg = useMemo(() => {
+    const asset = MonkIconAssetsMap[icon];
+    if (!asset) {
+      throw new Error(`Unknown icon name : ${icon}`);
+    }
+    return asset;
+  }, [icon]);
+
+  return <DynamicSVG svg={svg} fill={fill} width={size} height={size} {...passThroughProps} />;
+}

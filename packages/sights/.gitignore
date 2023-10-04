@@ -1,8 +1,8 @@
-dist
-lib
-node_modules
-coverage
-.eslintcache
-yarn-error.log
-.idea
-src/lib
+/dist
+/lib
+/node_modules
+/coverage
+/.eslintcache
+/yarn-error.log
+/.idea
+/src/lib/data
