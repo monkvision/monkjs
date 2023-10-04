@@ -3,8 +3,6 @@ import monk from '@monkvision/corejs';
 
 import { RepairOperation, Severity } from '../../../resources';
 
-const MAX_RELATED_IMAGES = 5;
-
 function getRepairOperation(repairType) {
   switch (repairType) {
     case true:
@@ -35,7 +33,15 @@ function getPictures(inspection) {
     width: image.width,
     height: image.height,
     mimetype: image.mimetype,
+    image_type: image.image_type,
     url: image.path,
+    rendered_outputs: image.rendered_outputs.map((damagedImage) => {
+      return { 
+        isRendered: true,
+        label: image.additional_data?.label ?? undefined,
+        url: damagedImage.path,
+      }
+    }),
     label: image.additional_data?.label ?? undefined,
   }));
 }
@@ -46,8 +52,12 @@ function getDamages(inspection) {
     part: severityResult.label,
     images: inspection.parts?.find(
       (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
-    )?.related_images?.slice(0, MAX_RELATED_IMAGES)?.map(
-      (relatedImage) => ({ url: relatedImage.path }),
+    )?.related_images?.map(
+      (relatedImage) => ({
+        base_image_type: relatedImage.base_image_type,
+        object_type: relatedImage.object_type,
+        url: relatedImage.path,
+      }),
     ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing ?? 0,

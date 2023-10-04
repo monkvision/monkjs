@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import Thumbnail from './Thumbnail';
+import { useDesktopMode } from './../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
 
 function Gallery({ pictures }) {
   const { i18n, t } = useTranslation();
+  const isDesktopMode = useDesktopMode();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
 
   const handleOnImageClick = useCallback((focusedImage) => {
@@ -83,12 +85,26 @@ function Gallery({ pictures }) {
   }, []);
 
   return (
-    <View style={[styles.container, pictures.length === 0 ? styles.messageContainer : {}]}>
+    <View style={[
+      styles.container,
+      isDesktopMode ? { justifyContent: 'flex-start' } : { justifyContent: 'center' },
+      pictures.length === 0 ? styles.messageContainer : {}
+    ]}>
       {pictures.length > 0 ? pictures.map((image, index) => (
         // eslint-disable-next-line react/no-array-index-key
-        <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
-          <Thumbnail image={image} click={handleOnImageClick} />
-        </View>
+        <React.Fragment key={`${image.url}-${index}`}>
+          <View style={styles.thumbnailWrapper}>
+            <Thumbnail image={image} click={handleOnImageClick} />
+          </View>
+          {
+            isDesktopMode && image?.rendered_outputs && image?.rendered_outputs.length > 0 &&
+            image.rendered_outputs.map((innerImage, innerIndex) => (
+              <View style={styles.thumbnailWrapper} key={`${innerImage.url}-${innerIndex}`}>
+                <Thumbnail image={innerImage} click={handleOnImageClick} />
+              </View>
+            ))
+          }
+        </React.Fragment>
       )) : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
       <Modal
         animationType="slide"
