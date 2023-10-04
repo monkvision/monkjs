@@ -1,4 +1,4 @@
-import { toCamelCase, uncapitalize } from '@monkvision/common';
+import { toCamelCase, capitalize } from '@monkvision/common';
 import type { AtRule, Comment, Declaration, Rule } from 'css';
 import cssParse from 'css/lib/parse';
 import { CSSProperties } from 'react';
@@ -18,8 +18,8 @@ function transformCssDeclaration(declaration: Declaration | Comment): CSSPropert
     return {};
   }
   let declarationKey = toCamelCase(declaration.property);
-  if (declaration.property.startsWith('-ms')) {
-    declarationKey = uncapitalize(declarationKey);
+  if (declaration.property.startsWith('-') && !declaration.property.startsWith('-ms')) {
+    declarationKey = capitalize(declarationKey);
   }
   return { [declarationKey]: declaration.value };
 }
