@@ -49,6 +49,9 @@ const fr = {
           cancel: 'Annuler',
         },
       },
+      pictures: 'Images',
+      partsPictures: 'Images de la partie de voiture',
+      zoomedPicturesOfThePart: 'Images zoomées de la partie de voiture',
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',

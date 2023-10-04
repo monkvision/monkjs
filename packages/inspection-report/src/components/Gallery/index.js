@@ -85,7 +85,11 @@ function Gallery({ pictures }) {
   }, []);
 
   return (
-    <View style={[styles.container, pictures.length === 0 ? styles.messageContainer : {}]}>
+    <View style={[
+      styles.container,
+      isDesktopMode ? { justifyContent: 'flex-start' } : { justifyContent: 'center' },
+      pictures.length === 0 ? styles.messageContainer : {}
+    ]}>
       {pictures.length > 0 ? pictures.map((image, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={`${image.url}-${index}`}>
@@ -93,7 +97,8 @@ function Gallery({ pictures }) {
             <Thumbnail image={image} click={handleOnImageClick} />
           </View>
           {
-            isDesktopMode && image.rendered_outputs.map((innerImage, innerIndex) => (
+            isDesktopMode && image?.rendered_outputs && image?.rendered_outputs.length > 0 &&
+            image.rendered_outputs.map((innerImage, innerIndex) => (
               <View style={styles.thumbnailWrapper} key={`${innerImage.url}-${innerIndex}`}>
                 <Thumbnail image={innerImage} click={handleOnImageClick} />
               </View>

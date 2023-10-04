@@ -49,6 +49,9 @@ const en = {
           cancel: 'Cancel',
         },
       },
+      pictures: 'Pictures',
+      partsPictures: 'Parts Pictures',
+      zoomedPicturesOfThePart: 'Zoomed pictures of the part',
     },
     gallery: {
       empty: 'This inspection does not have any photo yet.',

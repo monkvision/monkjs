@@ -10,6 +10,8 @@ export default function useDamageReportStateHandlers({
   const [editedDamage, setEditedDamage] = useState(undefined);
   const [editedDamagePart, setEditedDamagePart] = useState(undefined);
   const [editedDamageImages, setEditedDamageImages] = useState(undefined);
+  const [editedPartDamageImages, setEditedPartDamageImages] = useState(undefined);
+  const [editedZoomedDamageImages, setEditedZoomedDamageImages] = useState(undefined);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
@@ -18,6 +20,8 @@ export default function useDamageReportStateHandlers({
     editedDamage,
     editedDamagePart,
     editedDamageImages,
+    editedPartDamageImages,
+    editedZoomedDamageImages,
     isPopUpVisible,
     isModalVisible,
     isEditable,
@@ -25,6 +29,8 @@ export default function useDamageReportStateHandlers({
     editedDamage,
     editedDamagePart,
     editedDamageImages,
+    editedPartDamageImages,
+    editedZoomedDamageImages,
     isPopUpVisible,
     isModalVisible,
     isEditable,
@@ -40,6 +46,8 @@ export default function useDamageReportStateHandlers({
     setEditedDamage(undefined);
     setEditedDamagePart(undefined);
     setEditedDamageImages(undefined);
+    setEditedPartDamageImages(undefined);
+    setEditedZoomedDamageImages(undefined);
   }, []);
 
   const handlePopUpDismiss = useCallback(() => {
@@ -63,6 +71,8 @@ export default function useDamageReportStateHandlers({
       if (!damage || !damage?.pricing) {
         setEditedDamagePart(partName);
         setEditedDamageImages([]);
+        setEditedPartDamageImages([]);
+        setEditedZoomedDamageImages([]);
         setIsPopUpVisible(true);
       }
     }
@@ -73,9 +83,14 @@ export default function useDamageReportStateHandlers({
     if (!damage) {
       throw new Error(`Unable to find damage with corresponding pill part "${partName}"`);
     }
+    const { images } = damage;
+    const partDamageImages = images.filter(img => img.base_image_type === "beauty_shot");
+    const zoomedDamageImages = images.filter(img => img.base_image_type === "close_up");
     setEditedDamage(damage);
     setEditedDamagePart(partName);
-    setEditedDamageImages(damage.images);
+    setEditedDamageImages(images);
+    setEditedPartDamageImages(partDamageImages);
+    setEditedZoomedDamageImages(zoomedDamageImages);
     setIsPopUpVisible(true);
   }, [damages]);
 

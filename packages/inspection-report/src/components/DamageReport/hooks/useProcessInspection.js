@@ -53,7 +53,11 @@ function getDamages(inspection) {
     images: inspection.parts?.find(
       (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
     )?.related_images?.map(
-      (relatedImage) => ({ url: relatedImage.path }),
+      (relatedImage) => ({
+        base_image_type: relatedImage.base_image_type,
+        object_type: relatedImage.object_type,
+        url: relatedImage.path,
+      }),
     ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing ?? 0,
