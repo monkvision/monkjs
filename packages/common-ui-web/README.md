@@ -126,3 +126,34 @@ function MyCustomSVG() {
 | svg           | string                                                                                     | The XML string representing the SVG to display                                                                                                                                      | ✔️       |               |
 | getAttributes | <code>(element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
 | getInnerText  | <code>(element: Element, groupIds: string[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
+
+---
+
+## SightOverlay
+### Description
+A component that displays the SVG overlay of the given sight. The SVG element can be customized the exact same way as
+the `DynamicSVG` component described in the section above.
+
+### Example
+```typescript jsx
+import React, { useCallback } from 'react';
+import { getSightById } from '@monkvision/sights';
+import { SightOverlay } from '@monkvision/common-ui-web';
+
+function MyComponent() {
+  return (
+    <SightOverlay 
+      sight={getSightById('audia7-5CFsFvj7')}
+      width={300}
+      getAttributes={() => ({ strokeWidth: 2 })}
+    />
+  );
+}
+```
+
+### Props
+| Prop          | Type                                                                                       | Description                                                                                                                                                                         | Required | Default Value |
+|---------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| sight         | Sight                                                                                      | The sight to display the SVG overlay of.                                                                                                                                            | ✔️       |               |
+| getAttributes | <code>(element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
+| getInnerText  | <code>(element: Element, groupIds: string[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |

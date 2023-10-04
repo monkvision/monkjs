@@ -102,7 +102,7 @@
     "overlay": "haccord-GQcZz48C.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-KN23XXkX",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-2v-2_QD5": {
     "id": "haccord-2v-2_QD5",
@@ -112,7 +112,7 @@
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-boMeNVsC",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "haccord-GdWvsqrm": {
     "id": "haccord-GdWvsqrm",
@@ -174,7 +174,7 @@
     "overlay": "haccord-KN23XXkX.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-GQcZz48C",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-boMeNVsC": {
     "id": "haccord-boMeNVsC",
@@ -184,7 +184,7 @@
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-2v-2_QD5",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "haccord-KvP-pm8L": {
     "id": "haccord-KvP-pm8L",
@@ -216,7 +216,7 @@
     "overlay": "haccord-OXYy5gET.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-W-Bn3bU1",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-9fxMGSs6": {
     "id": "haccord-9fxMGSs6",
@@ -226,7 +226,7 @@
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-H_eRrLBl",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "haccord-PGr3RzzP": {
     "id": "haccord-PGr3RzzP",
@@ -289,7 +289,7 @@
     "overlay": "haccord-W-Bn3bU1.svg",
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-OXYy5gET",
-    "tasks": ["damage_detection", "wheels_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-H_eRrLBl": {
     "id": "haccord-H_eRrLBl",
@@ -299,7 +299,7 @@
     "vehicle_type": "haccord",
     "mirror_sight": "haccord-9fxMGSs6",
     "dev": true,
-    "tasks": ["wheels_analysis"]
+    "tasks": ["wheel_analysis"]
   },
   "haccord-Z84erkMb": {
     "id": "haccord-Z84erkMb",

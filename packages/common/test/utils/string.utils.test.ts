@@ -1,4 +1,4 @@
-import { permutations, suffix } from '../../src';
+import { capitalize, permutations, suffix, toCamelCase, uncapitalize, words } from '../../src';
 
 describe('String utils', () => {
   describe('suffix function', () => {
@@ -47,6 +47,83 @@ describe('String utils', () => {
       const result = suffix(str, suffixes);
 
       expect(result).toEqual(`${str} ${addedSuffix}`);
+    });
+  });
+
+  describe('words function', () => {
+    it('should properly split the given string into words', () => {
+      const str = 'testWord_word test SUPER_TEST SUPERwordTesting 99 $%@ Test#ing98WordsTEST';
+      const expectedWords = [
+        'test',
+        'Word',
+        'word',
+        'test',
+        'SUPER',
+        'TEST',
+        'SUPE',
+        'Rword',
+        'Testing',
+        '99',
+        'Test',
+        'ing',
+        '98',
+        'Words',
+        'TEST',
+      ];
+
+      const result = words(str);
+
+      expect(result).toEqual(expectedWords);
+    });
+  });
+
+  describe('capitalize function', () => {
+    it('should capitalize the given string', () => {
+      expect(capitalize('test string')).toEqual('Test string');
+    });
+
+    it('should not change anything if the first letter is already in upper case', () => {
+      expect(capitalize('Test value')).toEqual('Test value');
+    });
+
+    it('should not change anything if the first letter is a special character', () => {
+      expect(capitalize('#test String')).toEqual('#test String');
+    });
+  });
+
+  describe('uncapitalize function', () => {
+    it('should uncapitalize the given string', () => {
+      expect(uncapitalize('Test string')).toEqual('test string');
+    });
+
+    it('should not change anything if the first letter is already in lower case', () => {
+      expect(uncapitalize('test Value')).toEqual('test Value');
+    });
+
+    it('should not change anything if the first letter is a special character', () => {
+      expect(uncapitalize('#Test string')).toEqual('#Test string');
+    });
+  });
+
+  describe('toCamelCase function', () => {
+    [
+      { str: 'test string strtest', expectedResult: 'testStringStrtest' },
+      { str: 'tESt vAlue', expectedResult: 'tEStVAlue' },
+      { str: 'tESSSSSt vAAAAAAlue', expectedResult: 'tEssssStVAaaaaAlue' },
+      { str: 'test-ok-testo', expectedResult: 'testOkTesto' },
+      { str: 'Pascal_Case_Test', expectedResult: 'pascalCaseTest' },
+      { str: 'test-with98 numbers23test', expectedResult: 'testWith98Numbers23Test' },
+      { str: 'SCREAMING_CASE_98_TEST', expectedResult: 'screamingCase98Test' },
+      { str: 'kebab-case-test-case', expectedResult: 'kebabCaseTestCase' },
+      { str: 'alreadyCamelCase', expectedResult: 'alreadyCamelCase' },
+      {
+        str: 'Test_with#special*&characters_)test',
+        expectedResult: 'testWithSpecialCharactersTest',
+      },
+    ].forEach(({ str, expectedResult }) => {
+      it(`should convert "${str}" to "${expectedResult}"`, () => {
+        expect(toCamelCase(str)).toEqual(expectedResult);
+      });
     });
   });
 });

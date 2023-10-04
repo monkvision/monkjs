@@ -4,8 +4,17 @@
   "type": "array",
   "items": {
     "type": "string",
-    "enum": ["damage_detection", "wheels_analysis", "repair_estimate", "images_ocr"]
+    "enum": [
+      "damage_detection",
+      "wheel_analysis",
+      "repair_estimate",
+      "images_ocr",
+      "image_editing",
+      "inspection_pdf",
+      "pricing",
+      "dashboard_ocr"
+    ]
   },
   "minItems": 1,
-  "maxItems": 4
+  "maxItems": 8
 }

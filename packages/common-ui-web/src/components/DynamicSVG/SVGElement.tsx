@@ -6,7 +6,7 @@ import {
   useChildrenGroupIds,
   useCustomAttributes,
   useInnerHTML,
-  useJSXMapttributes,
+  useJSXTransformAttributes,
 } from './hooks';
 
 /**
@@ -36,7 +36,7 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
   ...passThroughProps
 }: SVGElementProps<T>) {
   const Tag = useMemo(() => element.tagName, [element]) as T;
-  const attributes = useJSXMapttributes(element);
+  const attributes = useJSXTransformAttributes(element);
   const customAttributes = useCustomAttributes({ element, groupIds, getAttributes });
   const tagAttr = { ...attributes, ...customAttributes, ...passThroughProps } as any;
   const innerHTML = useInnerHTML({ element, groupIds, getInnerText });

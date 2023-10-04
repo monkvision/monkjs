@@ -13,9 +13,8 @@ jest.mock('../../../src/components/DynamicSVG/SVGElement.tsx', () => ({
   SVGElement: SVGElementMock,
 }));
 
-import { expectHTMLElementToHaveRef, expectPropsOnChildMock } from '@monkvision/test-utils';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { render, screen } from '@testing-library/react';
-import { createRef } from 'react';
 import { DynamicSVG } from '../../../src';
 
 describe('DynamicSVG component', () => {
