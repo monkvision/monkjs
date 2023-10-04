@@ -10,7 +10,7 @@ import {
   useWindowDimensions, Platform,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useOrientation } from '../../../hooks';
+import { useOrientation, useDesktopMode } from '../../../hooks';
 import { CommonPropTypes, DamageMode, DisplayMode } from '../../../resources';
 
 import ImageButton from './ImageButton';
@@ -21,7 +21,6 @@ const topLimitY = 145;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    width: '100%',
     height: '100%',
   },
   touchable: {
@@ -103,6 +102,7 @@ export default function UpdateDamagePopUp({
 }) {
   const { t } = useTranslation();
   const windowOrientation = useOrientation();
+  const isDesktopMode = useDesktopMode();
   const { height: bottomLimitY } = useWindowDimensions();
   const [displayMode] = useState(damage ? DisplayMode.FULL : DisplayMode.MINIMAL);
   const [viewMode, setViewMode] = useState(null);
@@ -189,7 +189,7 @@ export default function UpdateDamagePopUp({
   }, [displayMode]);
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style, isDesktopMode ? { width: '50%', left: 5 } : { width: '100%' }]}>
       <TouchableWithoutFeedback onPress={scrollOut}>
         <View style={[styles.touchable]} />
       </TouchableWithoutFeedback>
@@ -205,7 +205,11 @@ export default function UpdateDamagePopUp({
         <View style={[styles.contentWrapper, { marginBottom: topOffset }]}>
           <View style={[styles.content]}>
             <Text style={[styles.text, styles.title]}>{t(`damageReport.parts.${part}`)}</Text>
-            <ImageButton imageCount={imageCount} onPress={onShowGallery} />
+            {
+              !isDesktopMode && (
+                <ImageButton imageCount={imageCount} onPress={onShowGallery} />
+              )
+            }
           </View>
           <DamageManipulator
             damage={damage}
@@ -238,9 +242,9 @@ UpdateDamagePopUp.defaultProps = {
   damageMode: DamageMode.ALL,
   isEditable: true,
   imageCount: 0,
-  onConfirm: () => {},
-  onDismiss: () => {},
-  onShowGallery: () => {},
+  onConfirm: () => { },
+  onDismiss: () => { },
+  onShowGallery: () => { },
   part: '',
   style: {},
 };

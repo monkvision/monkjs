@@ -12,9 +12,10 @@ import { PdfStatus, useConfirmModals, useDamageReportStateHandlers, useFetchInsp
 import Overview from './Overview';
 import TabButton from './TabButton';
 import TabGroup from './TabGroup';
+import Accordion from './Accordion';
 import UpdateDamageModal from './UpdateDamageModal';
 import UpdateDamagePopUp from './UpdateDamagePopUp';
-import { useCurrency } from '../../hooks';
+import { useCurrency, useDesktopMode } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,6 +53,14 @@ const styles = StyleSheet.create({
   tabContent: {
     flex: 1,
     overflowY: 'auto',
+  },
+  tabDesktopContent: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  tabDesktopInnerContainer: {
+    width: '50%',
+    paddingHorizontal: 15
   },
   text: {
     color: '#fafafa',
@@ -91,6 +100,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: '#ffffff',
   },
+  partsImageWrapper: {
+    border: '1px solid #a29e9e',
+    borderRadius: 8,
+    marginTop: 15,
+  },
+  galleryWrapper: {
+    maxHeight: '39vh',
+    overflowY: 'auto',
+  },
 });
 
 const Tabs = {
@@ -109,7 +127,9 @@ export default function DamageReport({
 }) {
   const { t } = useTranslation();
   const { updateCurrency } = useCurrency();
+  const isDesktopMode = useDesktopMode();
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+  const [showPictures, setShowPictures] = useState(true);
 
   useEffect(() => {
     updateCurrency(currencyCharacter);
@@ -128,6 +148,8 @@ export default function DamageReport({
   const {
     state: {
       editedDamage,
+      editedPartDamageImages,
+      editedZoomedDamageImages,
       editedDamagePart,
       editedDamageImages,
       isPopUpVisible,
@@ -188,6 +210,14 @@ export default function DamageReport({
     }
   }, [pdfStatus])
 
+  useEffect(() => {
+    if (isPopUpVisible) {
+      setShowPictures(false);
+    } else {
+      setShowPictures(true);
+    }
+  }, [isPopUpVisible])
+
   return (
     <View style={[styles.container]}>
       <View style={[styles.header]}>
@@ -216,47 +246,77 @@ export default function DamageReport({
         )}
         {!isLoading && !isError && (
           <>
-            <View style={[styles.tabGroup]}>
-              <TabGroup>
-                <TabButton
-                  icon="360"
-                  label={t('damageReport.tabs.overviewTab.label')}
-                  selected={currentTab === Tabs.OVERVIEW}
-                  onPress={() => setCurrentTab(Tabs.OVERVIEW)}
-                  position="left"
-                />
-                <TabButton
-                  icon="photo-library"
-                  label={t('damageReport.tabs.photosTab.label')}
-                  selected={currentTab === Tabs.GALLERY}
-                  onPress={() => setCurrentTab(Tabs.GALLERY)}
-                  position="right"
-                />
-              </TabGroup>
-            </View>
-            <View style={[styles.tabContent]}>
-              {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
-                <View style={[styles.notReadyContainer]}>
-                  <Loader texts={[t('damageReport.notReady')]} />
-                </View>
-              )}
-              {currentTab === Tabs.OVERVIEW && isInspectionReady && (
-                <Overview
-                  isInspectionCompleted={!isEditable}
-                  damages={damages}
-                  damageMode={damageMode}
-                  vehicleType={vehicleType}
-                  onPressPart={handlePartPressed}
-                  onPressPill={handlePillPressed}
-                  generatePdf={generatePdf}
-                  onValidateInspection={handleValidateInspection}
-                  pdfHandles={{ pdfStatus, handleDownload }}
-                  onStartNewInspection={handleNewInspection}
-                />
-              )}
-              {currentTab === Tabs.GALLERY && (
-                <Gallery pictures={pictures} />
-              )}
+            {
+              !isDesktopMode &&
+              <View style={[styles.tabGroup]}>
+                <TabGroup>
+                  <TabButton
+                    icon="360"
+                    label={t('damageReport.tabs.overviewTab.label')}
+                    selected={currentTab === Tabs.OVERVIEW}
+                    onPress={() => setCurrentTab(Tabs.OVERVIEW)}
+                    position="left"
+                  />
+                  <TabButton
+                    icon="photo-library"
+                    label={t('damageReport.tabs.photosTab.label')}
+                    selected={currentTab === Tabs.GALLERY}
+                    onPress={() => setCurrentTab(Tabs.GALLERY)}
+                    position="right"
+                  />
+                </TabGroup>
+              </View>
+            }
+            <View style={[styles.tabContent, isDesktopMode && styles.tabDesktopContent]}>
+              <View style={[isDesktopMode && styles.tabDesktopInnerContainer]}>
+                {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
+                  <View style={[styles.notReadyContainer]}>
+                    <Loader texts={[t('damageReport.notReady')]} />
+                  </View>
+                )}
+                {currentTab === Tabs.OVERVIEW && isInspectionReady && (
+                  <Overview
+                    isInspectionCompleted={!isEditable}
+                    damages={damages}
+                    damageMode={damageMode}
+                    vehicleType={vehicleType}
+                    onPressPart={handlePartPressed}
+                    onPressPill={handlePillPressed}
+                    generatePdf={generatePdf}
+                    onValidateInspection={handleValidateInspection}
+                    pdfHandles={{ pdfStatus, handleDownload }}
+                    onStartNewInspection={handleNewInspection}
+                  />
+                )}
+                {currentTab === Tabs.GALLERY && (
+                  <Gallery pictures={pictures} />
+                )}
+              </View>
+              {
+                isDesktopMode && (
+                  <View style={styles.tabDesktopInnerContainer}>
+                    <Accordion title={t('damageReport.pictures')} isCollapsed={!showPictures} onPress={() => setShowPictures(!showPictures)}>
+                      <View style={styles.galleryWrapper}>
+                        <Gallery pictures={pictures} />
+                      </View>
+                    </Accordion>
+                    {
+                      isPopUpVisible && (
+                        <View style={[styles.partsImageWrapper, styles.galleryWrapper]}>
+                          <View>
+                            <Text style={[styles.text, { padding: 10 }]}>{t('damageReport.partsPictures')}</Text>
+                            <Gallery pictures={editedPartDamageImages || []} />
+                          </View>
+                          <View>
+                            <Text style={[styles.text, { paddingHorizontal: 10 }]}>{t('damageReport.zoomedPicturesOfThePart')}</Text>
+                            <Gallery pictures={editedZoomedDamageImages || []} />
+                          </View>
+                        </View>
+                      )
+                    }
+                  </View>
+                )
+              }
             </View>
           </>
         )}
