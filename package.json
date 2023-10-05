@@ -91,6 +91,7 @@
     "moment": "^2.29.2",
     "moment-timezone": "^0.5.34",
     "normalizr": "^3.6.2",
+    "pako": "^2.1.0",
     "path": "^0.12.7",
     "prop-types": "^15.8.1",
     "raw-loader": "^4.0.2",

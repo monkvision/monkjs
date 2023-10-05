@@ -42,6 +42,9 @@ const fr = {
       downloadPdf: 'Télécharger le PDF',
       downloadPdfDescription: 'Disponible lorsque toutes les tâches sont terminées',
       appVersion: 'Version de l\'application',
+      invalidParams: 'Oups ! L\'URL à laquelle vous tentez d\'accéder est invalide 😔 Veuillez réessayer avec une autre URL.',
+      invalidToken: 'Oups ! L\'URL à laquelle vous tentez d\'accéder est expirée 😔 Veuillez réessayer avec une autre URL.',
+      selectVehicle: 'Séléctionnez le type de véhicule',
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',
