@@ -1,6 +1,6 @@
 import defaultSights from './default';
 
-const sights = {
+const defaultWithVin = {
   suv: [
     'sLu0CfOt', // Vin number
     ...defaultSights.suv,
@@ -31,4 +31,4 @@ const sights = {
   ],
 };
 
-export default sights;
+export default defaultWithVin;

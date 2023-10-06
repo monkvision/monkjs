@@ -5,6 +5,7 @@ export const ClientParamMap = {
   pd8: Clients.CAT,
   '2bd': Clients.FASTBACK,
   a3o: Clients.ALPHA,
+  m4n: Clients.ALGODRIVEN,
 };
 
 export const VehicleTypeMap = {

@@ -1,12 +1,13 @@
 import Clients from '../clients';
 import defaultSights from './default';
-import catSights from './cat';
+import defaultWithVin from './defaultWithVin';
 
 const ClientSights = {
   [Clients.DEFAULT]: defaultSights,
-  [Clients.CAT]: catSights,
+  [Clients.CAT]: defaultWithVin,
   [Clients.FASTBACK]: defaultSights,
   [Clients.ALPHA]: defaultSights,
+  [Clients.ALGODRIVEN]: defaultSights,
 };
 
 export default ClientSights;

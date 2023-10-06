@@ -3,6 +3,7 @@ const Clients = {
   CAT: 'cat',
   FASTBACK: 'fastback',
   ALPHA: 'alpha',
+  ALGODRIVEN: 'algodriven',
 };
 
 export default Clients;

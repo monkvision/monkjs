@@ -10,6 +10,7 @@ const ClientPalettes = {
   [Clients.CAT]: catPalette,
   [Clients.FASTBACK]: defaultPalette,
   [Clients.ALPHA]: defaultPalette,
+  [Clients.ALGODRIVEN]: defaultPalette,
 };
 
 export default function getClientTheme(client) {

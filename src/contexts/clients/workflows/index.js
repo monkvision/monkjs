@@ -6,6 +6,7 @@ const ClientWorkflows = {
   [Clients.CAT]: Workflows.CAPTURE_VEHICLE_SELECTION,
   [Clients.FASTBACK]: Workflows.DEFAULT,
   [Clients.ALPHA]: Workflows.DEFAULT,
+  [Clients.ALGODRIVEN]: Workflows.CAPTURE,
 };
 
 export default ClientWorkflows;
