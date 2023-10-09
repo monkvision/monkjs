@@ -71,7 +71,10 @@ const styles = StyleSheet.create({
     right: 0,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
+  },
+  subTitle: {
+    fontSize: 14,
   },
   button: {
     marginLeft: 20,
@@ -108,6 +111,7 @@ const styles = StyleSheet.create({
   galleryWrapper: {
     maxHeight: '39vh',
     overflowY: 'auto',
+    paddingBottom: 15
   },
 });
 
@@ -140,6 +144,7 @@ export default function DamageReport({
     isError,
     retry,
     isInspectionReady,
+    vinNumber,
     pictures,
     damages,
     setDamages,
@@ -221,7 +226,17 @@ export default function DamageReport({
   return (
     <View style={[styles.container]}>
       <View style={[styles.header]}>
-        <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={[styles.text, styles.title]}>{t('damageReport.title')}</Text>
+          {
+            isDesktopMode && (
+              <>
+                <Text style={[styles.text, styles.subTitle]}>{t('damageReport.inspection')} : {inspectionId}</Text>
+                <Text style={[styles.text, styles.subTitle]}>{t('damageReport.vinNumber')} : {vinNumber}</Text>
+              </>
+            )
+          }
+        </View>
         <IconButton
           icon="file-download"
           onPress={handleDownload}
@@ -304,11 +319,11 @@ export default function DamageReport({
                       isPopUpVisible && (
                         <View style={[styles.partsImageWrapper, styles.galleryWrapper]}>
                           <View>
-                            <Text style={[styles.text, { padding: 10 }]}>{t('damageReport.partsPictures')}</Text>
+                            <Text style={[styles.text, styles.title, { padding: 10 }]}>{t('damageReport.partsPictures')}</Text>
                             <Gallery pictures={editedPartDamageImages || []} />
                           </View>
                           <View>
-                            <Text style={[styles.text, { paddingHorizontal: 10 }]}>{t('damageReport.zoomedPicturesOfThePart')}</Text>
+                            <Text style={[styles.text, styles.title, { paddingHorizontal: 10 }]}>{t('damageReport.zoomedPicturesOfThePart')}</Text>
                             <Gallery pictures={editedZoomedDamageImages || []} />
                           </View>
                         </View>
