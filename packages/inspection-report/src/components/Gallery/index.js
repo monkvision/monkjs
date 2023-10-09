@@ -1,6 +1,17 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, StyleSheet, View, Pressable, Text, ImageBackground } from 'react-native';
+import {
+  Animated,
+  Easing,
+  Modal,
+  PanResponder,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -67,12 +78,27 @@ const styles = StyleSheet.create({
     right: 20,
     zIndex: 999,
   },
+  partsImageWrapper: {
+    borderColor: '#a29e9e',
+    borderRadius: 8,
+    borderWidth: 1,
+    flexDirection: 'row',
+    margin: 5,
+    paddingTop: 10,
+  }
 });
 
 function Gallery({ pictures }) {
   const { i18n, t } = useTranslation();
   const isDesktopMode = useDesktopMode();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const { width, height } = useWindowDimensions();
+  const [gestureState, setGestureState] = useState({});
+  const [transformX, setTransformX] = useState('center');
+  const [transformY, setTransformY] = useState('center');
+  const scale = useRef(new Animated.Value(1)).current;
+  const transformOffsetFromCenter = 100;
 
   const handleOnImageClick = useCallback((focusedImage) => {
     if (focusedImage.url) {
@@ -81,18 +107,61 @@ function Gallery({ pictures }) {
   }, [focusedPhoto]);
 
   const handleUnfocusPhoto = useCallback(() => {
+    scale.setValue(1);
+    setTransformX('center');
+    setTransformY('center');
     setFocusedPhoto(null);
-  }, []);
+  }, [scale]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+      onPanResponderMove: () => true,
+      onPanResponderRelease: (event, gs) => setGestureState({ dx: gs.x0, dy: gs.y0 }),
+    }),
+  ).current;
+
+  useEffect(() => {
+    Animated.timing(scale, {
+      duration: 200,
+      easing: Easing.ease,
+      toValue: isZoomed ? 2 : 1,
+      useNativeDriver: Platform.OS !== 'web',
+    }).start();
+  }, [isZoomed]);
+
+  useEffect(() => {
+    if (gestureState.dx && gestureState.dy) {
+      setIsZoomed(!isZoomed);
+      let dx = 'center';
+      let dy = 'center';
+      if (gestureState.dx > (width / 2) - transformOffsetFromCenter) {
+        dx = 'left';
+      } else if (gestureState.dx > (width / 2) + transformOffsetFromCenter) {
+        dx = 'right';
+      }
+
+      if (gestureState.dy > (height / 2) - transformOffsetFromCenter) {
+        dy = 'top';
+      } else if (gestureState.dy > (height / 2) + transformOffsetFromCenter) {
+        dy = 'bottom';
+      }
+      setTransformX(dx);
+      setTransformY(dy);
+    }
+  }, [gestureState]);
 
   return (
     <View style={[
       styles.container,
-      isDesktopMode ? { justifyContent: 'flex-start' } : { justifyContent: 'center' },
       pictures.length === 0 ? styles.messageContainer : {}
     ]}>
       {pictures.length > 0 ? pictures.map((image, index) => (
         // eslint-disable-next-line react/no-array-index-key
-        <React.Fragment key={`${image.url}-${index}`}>
+        <View key={`${image.url}-${index}`} style={isDesktopMode && styles.partsImageWrapper}>
           <View style={styles.thumbnailWrapper}>
             <Thumbnail image={image} click={handleOnImageClick} />
           </View>
@@ -104,7 +173,7 @@ function Gallery({ pictures }) {
               </View>
             ))
           }
-        </React.Fragment>
+        </View>
       )) : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
       <Modal
         animationType="slide"
@@ -117,7 +186,7 @@ function Gallery({ pictures }) {
             <Text style={[styles.title]}>{(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''}</Text>
           </View>
           <Pressable
-            onPress={() => setFocusedPhoto(null)}
+            onPress={handleUnfocusPhoto}
             style={styles.closeBtn}
           >
             <MaterialIcons
@@ -127,7 +196,19 @@ function Gallery({ pictures }) {
               style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
             />
           </Pressable>
-          <ImageBackground source={{ uri: focusedPhoto?.url }} resizeMode="contain" style={{ flex: 1 }} />
+          <Animated.Image
+            source={{ uri: focusedPhoto?.url }}
+            style={{
+              flex: 1,
+              cursor: isZoomed ? 'zoom-out' : 'zoom-in',
+              transformOrigin: `${transformX} ${transformY}`,
+              transform: [
+                { scale },
+              ],
+            }}
+            resizeMode='cover'
+            {...panResponder.panHandlers}
+          />
         </View>
       </Modal>
     </View>

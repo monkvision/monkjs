@@ -35,13 +35,15 @@ function getPictures(inspection) {
     mimetype: image.mimetype,
     image_type: image.image_type,
     url: image.path,
-    rendered_outputs: image.rendered_outputs.map((damagedImage) => {
-      return { 
-        isRendered: true,
-        label: image.additional_data?.label ?? undefined,
-        url: damagedImage.path,
-      }
-    }),
+    rendered_outputs: image.rendered_outputs
+      .filter((damage) => damage?.additional_data?.description === 'rendering of detected damages')
+      .map((damagedImage) => {
+        return {
+          isRendered: true,
+          label: image.additional_data?.label ?? undefined,
+          url: damagedImage.path,
+        }
+      }),
     label: image.additional_data?.label ?? undefined,
   }));
 }
@@ -69,6 +71,7 @@ function getDamages(inspection) {
 
 export default function useProcessInspection() {
   const [isInspectionReady, setIsInspectionReady] = useState(false);
+  const [vinNumber, setVinNumber] = useState('');
   const [pictures, setPictures] = useState([]);
   const [damages, setDamages] = useState([]);
 
@@ -86,12 +89,14 @@ export default function useProcessInspection() {
     );
     setPictures(getPictures(axiosResponse.data));
     setDamages(getDamages(axiosResponse.data));
+    setVinNumber(axiosResponse.data?.vehicle?.vin);
   }, []);
 
   return {
     processInspection,
     resetState,
     isInspectionReady,
+    vinNumber,
     pictures,
     damages,
     setDamages,
