@@ -12,6 +12,7 @@ import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
 import { Clients, useClient } from '../../contexts';
+import ErrorModal from 'components/ErrorModal';
 import mapTasksToSights from './mapTasksToSights';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
@@ -28,13 +29,14 @@ export default function InspectionCapture() {
   const { colors } = useTheme();
   const { errorHandler } = useMonitoring();
 
-  const { inspectionId, sightIds, taskName, vehicleType, selectedMode } = route.params;
+  const { inspectionId, sightIds, taskName, vehicleType, selectedMode, isLastTour } = route.params;
   const { client, sights } = useClient();
   const newSightIds = useMemo(() => ((taskName === monk.types.TaskName.IMAGES_OCR) ? sightIds : (sights[vehicleType ?? 'cuv'])), [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
   const [cameraLoading, setCameraLoading] = useState(false);
+  const [errorModal, setErrorModal] = useState(null);
   const { setShowMessage, Notice } = useSnackbar();
   const { isFullscreen, requestFullscreen } = useFullscreen();
   const getInspection = useGetInspection(inspectionId);
@@ -94,8 +96,11 @@ export default function InspectionCapture() {
           console.error(error);
         }
       }
-
-      navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
+      if (isLastTour) {
+        navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
+      } else {
+        navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
+      }
     }
   }, [inspectionId, navigation]);
 
@@ -124,6 +129,18 @@ export default function InspectionCapture() {
             }).then(({ entities, result }) => {
               dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
               resolve(name);
+            }).catch((err) => {
+              errorHandler(err);
+              setErrorModal({
+                texts: {
+                  message: t('capture.skipRetake.error.message'),
+                  label: t('capture.skipRetake.error.label'),
+                },
+                onPress: () => {
+                  setErrorModal(null);
+                  navigation.navigate(names.LANDING);
+                },
+              });
             });
           }));
 
@@ -178,6 +195,12 @@ export default function InspectionCapture() {
     }
   }, [success, isFocused]);
 
+  const handleCaptureClose = useCallback(() => {
+    if (!enableComplianceCheck) {
+      navigation.navigate(names.LANDING, { inspectionId });
+    }
+  }, [enableComplianceCheck, inspectionId]);
+
   const captureRef = useRef();
 
   const controls = [
@@ -208,6 +231,12 @@ export default function InspectionCapture() {
     return () => setFocused(false);
   });
 
+  const handleCaptureTourFinish = useCallback(() => {
+    if (!enableComplianceCheck) {
+      setSuccess(true);
+    }
+  }, [setSuccess]);
+
   return (
     <View style={styles.root}>
       <Capture
@@ -224,15 +253,23 @@ export default function InspectionCapture() {
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
         onWarningMessage={(message) => setShowMessage(message)}
+        onCaptureClose={handleCaptureClose}
         onChange={handleChange}
         enableComplianceCheck={enableComplianceCheck}
+        onCaptureTourFinish={handleCaptureTourFinish}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         vehicleType={vehicleType}
         selectedMode={selectedMode}
-      // overlayPathStyles={{ strokeWidth: 8 }}
+        overlayPathStyles={{ strokeWidth: 2 }}
       />
       <Notice />
+      {errorModal && (
+        <ErrorModal
+          texts={errorModal.texts}
+          onPress={errorModal.onPress}
+        />
+      )}
     </View>
   );
 }

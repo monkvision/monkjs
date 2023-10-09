@@ -149,6 +149,11 @@ export default function Landing() {
     [inspection?.tasks],
   );
 
+  const handleReset = useCallback(() => {
+    utils.log(['[Click] Resetting the inspection: ', inspectionId]);
+    navigation.navigate(names.LANDING);
+  }, [navigation, inspectionId]);
+
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
   const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
@@ -173,16 +178,20 @@ export default function Landing() {
     }
   }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
+  const [listPressCount, setListPressCount] = useState(0);
+
   const handleListItemPress = useCallback((value) => {
+    const isLastTour = listPressCount === 1;
+    setListPressCount((count) => count + 1);
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
-    if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
+    if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(isLastTour); return; }
 
     navigation.navigate(
       names.INSPECTION_CREATE,
-      { selectedMod: value, inspectionId, vehicle: { vehicleType } },
+      { selectedMod: value, inspectionId, vehicle: { vehicleType }, isLastTour },
     );
-  }, [inspectionId, navigation, isAuthenticated, vehicleType]);
+  }, [inspectionId, navigation, isAuthenticated, vehicleType, listPressCount]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;

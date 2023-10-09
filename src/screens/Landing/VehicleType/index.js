@@ -66,7 +66,7 @@ export default function VehicleType({ selected, onSelect, loading, locallySelect
           key={key}
           selected={key === selected}
           onPress={() => onSelect(key)}
-          style={[styles.vehicleTypeChip, { backgroundColor: composeColor(key) }]}
+          style={[styles.vehicleTypeChip, { backgroundColor: composeColor(key), paddingHorizontal: key === selected ? 0 : 11 }]}
           mode="outlined"
           disabled={loading}
         >

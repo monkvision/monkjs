@@ -1,13 +1,7 @@
-import useCarOrientation from './useCarOrientation';
-import useCustomSVGAttributes from './useCustomSVGAttributes';
 import usePartSelector from './usePartSelector';
-import useWireframe from './useWireframe';
-import useXMLParser from './useXMLParser';
+import sightCarOrientationMap from './sightCarOrientationMap';
 
 export {
-  useCarOrientation,
-  useCustomSVGAttributes,
   usePartSelector,
-  useWireframe,
-  useXMLParser,
+  sightCarOrientationMap,
 };

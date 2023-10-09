@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { registerRootComponent } from 'expo';
 import { Platform } from 'react-native';
 import * as Sentry from 'sentry-expo';
@@ -21,11 +22,12 @@ function SentryWrapper() {
 
 if (Platform.OS === 'web') {
   const container = document.getElementById('root');
-  render(
+  const root = createRoot(container);
+  root.render(
     <ClientProvider>
       <SentryWrapper />
     </ClientProvider>,
-    container,
+  );
   );
 } else {
   registerRootComponent(Sentry.Native.wrap(App));

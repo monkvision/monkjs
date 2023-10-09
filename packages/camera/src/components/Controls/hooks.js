@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
-import { useMonitoring, SentryTransaction, SentryOperation, SentrySpan, SentryTag } from '@monkvision/corejs';
+import { useMonitoring, SentryImageTypes, SentryTransaction, SentryOperation, SentrySpan, SentryTag } from '@monkvision/corejs';
 import Actions from '../../actions';
 import log from '../../utils/log';
 
@@ -12,6 +12,7 @@ const useHandlers = ({
   stream,
   onResetAddDamageStatus,
   onPictureTaken,
+  isRetake,
 }) => {
   const { measurePerformance } = useMonitoring();
   const capture = useCallback(async (controlledState, api, event, addDamageParts) => {
@@ -62,6 +63,10 @@ const useHandlers = ({
        */
       transaction.setTag(SentryTag.TASK, task);
       transaction.setTag(SentryTag.SIGHT_ID, current.id);
+      transaction.setTag(
+        SentryTag.IMAGE_TYPE,
+        isRetake ? SentryImageTypes.RETAKE : SentryImageTypes.CAPTURE,
+      );
       transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
 
       // add a process to queue

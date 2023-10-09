@@ -1,4 +1,4 @@
-import { MonitoringStatus, SentryOperation, SentryTag, SentryTransaction, useMonitoring } from '@monkvision/corejs';
+import { MonitoringStatus, SentryImageTypes, SentryOperation, SentryTag, SentryTransaction, useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
@@ -127,6 +127,7 @@ const Capture = forwardRef(({
   onPictureUploaded,
   onPictureTaken,
   onWarningMessage,
+  onCaptureClose,
   onReady,
   onStartUploadPicture,
   onFinishUploadPicture,
@@ -149,6 +150,7 @@ const Capture = forwardRef(({
 }, combinedRefs) => {
   // STATES //
   const [isReady, setReady] = useState(false);
+  const [isRetake, setRetake] = useState(false);
   const [addDamageStatus, setAddDamageStatus] = useState(AddDamageStatus.IDLE);
   const [addDamageParts, setAddDamageParts] = useState([]);
   const [closeEarlyModalState, setCloseEarlyModalState] = useState({
@@ -159,6 +161,7 @@ const Capture = forwardRef(({
     },
   });
   const [endTour, setEndTour] = useState(false);
+  const [isTourClosed, setIsTourClosed] = useState(false);
   const { height, width } = useWindowDimensions();
   const { errorHandler, measurePerformance } = useMonitoring();
 
@@ -274,7 +277,7 @@ const Capture = forwardRef(({
     endTour,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
-  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId });
+  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId, addDamageParts });
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
@@ -374,7 +377,8 @@ const Capture = forwardRef(({
     // finish 'capture tour' transaction unsuccessfully
     utils.log(['[Event] Capture-Tour sentry transaction cancels']);
     captureTourTransRef.current.transaction.finish(MonitoringStatus.CANCELLED);
-    setEndTour(true);
+    setIsTourClosed(true);
+    onCaptureClose();
   }, [setEndTour]);
 
   const handleCloseEarlyClick = useCallback(({ confirm, confirmationMessage }) => {
@@ -424,6 +428,7 @@ const Capture = forwardRef(({
   }, []);
 
   const onRetakeAll = useCallback(() => {
+    setRetake(true);
     captureTourTransRef.current.hasRetakeCalled = true;
     captureTourTransRef.current.transaction.setTag(SentryTag.IS_RETAKE, 1);
   }, []);
@@ -436,7 +441,7 @@ const Capture = forwardRef(({
     if (!captureTourTransRef.current.hasRetakeCalled) {
       const { transaction } = captureTourTransRef.current;
       const percentOfNonCompliancePics = ((100 * retakesNeeded) / states.sights.state.ids.length);
-      transaction.setTag(SentryTag.RETAKEN_PICTURES, retakesNeeded);
+      transaction.setTag(SentryTag.NON_COMPLIANCE_PICS, retakesNeeded);
       transaction.setTag(SentryTag.PERCENT_OF_NON_COMPLIANCE_PICS, percentOfNonCompliancePics);
     }
   }, []);
@@ -459,7 +464,6 @@ const Capture = forwardRef(({
     transaction.setTag(SentryTag.IS_SKIP, 0);
     transaction.setTag(SentryTag.IS_RETAKE, 0);
     transaction.setTag(SentryTag.TAKEN_PICTURES, 0);
-    transaction.setTag(SentryTag.RETAKEN_PICTURES, 0);
     captureTourTransRef.current = {
       transaction,
       takenPictures: 0,
@@ -470,6 +474,25 @@ const Capture = forwardRef(({
   }, []);
 
   useEffect(() => {
+    const id = sights.state.current.id;
+    const status = uploads.state[id].status;
+    const picture = uploads.state[id].picture;
+    const uploadCount = uploads.state[id].uploadCount;
+    if (isTourClosed) {
+      if (status === 'idle' && !picture && uploadCount >= 1) {
+        // Retake the pic for a particular sight ID and tour is already closed
+        setEndTour(false);
+      } else if (status === 'fulfilled' && picture && uploadCount >= 1) {
+        // If you take a pic from capture-phase and tour is already closed
+        setEndTour(true);
+      } else if (status === 'idle' && !picture && !uploadCount) {
+        // If you close the tour by clicking on close button
+        setEndTour(true);
+      }
+    }
+  }, [sights.state, uploads.state, isTourClosed]);
+
+  useEffect(() => {
     /**
      * create a new transaction with operation name 'Add Damage' to measure tour performance
      */
@@ -478,11 +501,12 @@ const Capture = forwardRef(({
       // Start the transaction
       const transaction = measurePerformance(
         SentryTransaction.PICTURE_PROCESSING,
-        SentryOperation.ADD_DAMAGE,
+        SentryOperation.CAPTURE_SIGHT,
       );
 
       // set tags to identify a transaction and relate with an inspection
       transaction.setTag(SentryTag.TASK, task);
+      transaction.setTag(SentryTag.IMAGE_TYPE, SentryImageTypes.ZOOM);
       transaction.setTag(SentryTag.INSPECTION_ID, inspectionId);
 
       // Set the transaction in reference
@@ -559,6 +583,7 @@ const Capture = forwardRef(({
       containerStyle={controlsContainerStyle}
       elements={controls}
       loading={loading}
+      isRetake={isRetake}
       state={states}
       onCloseEarly={handleCloseEarlyClick}
       onAddDamagePressed={handleAddDamagePressed}
@@ -801,6 +826,7 @@ Capture.propTypes = {
   offline: PropTypes.objectOf(PropTypes.any),
   onCameraPermissionError: PropTypes.func,
   onCameraPermissionSuccess: PropTypes.func,
+  onCaptureClose: PropTypes.func,
   onCaptureTourFinish: PropTypes.func,
   onCaptureTourStart: PropTypes.func,
   onChange: PropTypes.func,
@@ -916,6 +942,7 @@ Capture.defaultProps = {
   onPictureTaken: () => {},
   onCameraPermissionError: () => {},
   onCameraPermissionSuccess: () => {},
+  onCaptureClose: () => {},
   onCaptureTourFinish: () => {},
   onCaptureTourStart: () => {},
   onChange: () => {},

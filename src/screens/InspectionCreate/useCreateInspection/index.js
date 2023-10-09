@@ -19,20 +19,27 @@ export default function useCreateInspection(vehicle) {
       damageDetection: {
         ...taskOptions,
         generate_subimages_parts: {},
+        generate_subimages_damages: {},
+        damage_score_threshold: 0.3,
+        generate_visual_output: {
+          generate_parts: true,
+          generate_damages: true
+        },
       },
-      ...(vehicle?.vin ? {} : { imagesOcr: taskOptions }),
     };
 
     return monk.entity.inspection.createOne({
       tasks,
       vehicle,
       damage_severity: { output_format: 'toyota' },
+      additionalData: {
+        damage_detection_version: "v2",
+      },
     });
   }, []);
 
   const handleRequestSuccess = useCallback(({ entities, result }) => {
     setInspectionId(result);
-    // TODO: Add Monitoring code for setTag in MN-182
     utils.log(['[Event] Starting inspection', result]);
     dispatch(monk.actions.gotOneInspection({ entities, result }));
   }, [dispatch]);
