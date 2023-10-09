@@ -58,7 +58,7 @@ function Thumbnail({ image, click }) {
           )
         }
         <Text style={styles.text}>
-          {label} {image?.isRendered && t('gallery.renderedOutput')}
+          {label} {image?.isRendered && t('gallery.withDamages')}
         </Text>
       </View>
     </TouchableOpacity>
