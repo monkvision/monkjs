@@ -53,7 +53,8 @@ export default function Landing() {
   const vinOptionsRef = useRef();
   const dispatch = useDispatch();
 
-  const { workflow, setClient } = useClient();
+  const { workflow, setClient, info } = useClient();
+  const [isLastTour, setIsLastTour] = useState(workflow !== Workflows.DEFAULT);
 
   useEffect(() => {
     const clientParam = new URLSearchParams(window.location.search)?.get('c');
@@ -88,6 +89,7 @@ export default function Landing() {
           selectedMod: 'car360',
           inspectionId,
           vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] ?? 'cuv' },
+          isLastTour: true,
         },
       );
     } else if (workflow === Workflows.CAPTURE_VEHICLE_SELECTION && !route.params?.captureComplete) {
@@ -98,6 +100,7 @@ export default function Landing() {
             selectedMod: 'car360',
             inspectionId,
             vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] },
+            isLastTour: true,
           },
         );
       } else {
@@ -136,7 +139,12 @@ export default function Landing() {
     () => getInspection?.denormalizedEntities[0],
     [getInspection],
   );
-  const selectors = useVinModal({ isAuthenticated, inspectionId, vehicle: { vehicleType } });
+  const selectors = useVinModal({
+    isAuthenticated,
+    inspectionId,
+    vehicle: { vehicleType },
+    isLastTour,
+  });
 
   const updateInspectionVehicle = useUpdateInspectionVehicle(
     inspectionId,
@@ -148,11 +156,6 @@ export default function Landing() {
       .every(({ status }) => status === monk.types.ProgressStatus.DONE),
     [inspection?.tasks],
   );
-
-  const handleReset = useCallback(() => {
-    utils.log(['[Click] Resetting the inspection: ', inspectionId]);
-    navigation.navigate(names.LANDING);
-  }, [navigation, inspectionId]);
 
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
   // so that the user can generate the pdf
@@ -166,10 +169,10 @@ export default function Landing() {
   } = useGetPdfReport(inspectionId);
 
   useEffect(() => {
-    if (allTasksAreCompleted && !reportUrl) {
+    if (allTasksAreCompleted && !reportUrl && !info.vm) {
       preparePdf();
     }
-  }, [allTasksAreCompleted, reportUrl]);
+  }, [allTasksAreCompleted, reportUrl, info]);
 
   useEffect(() => {
     if (inspection?.vehicle?.vin
@@ -178,20 +181,17 @@ export default function Landing() {
     }
   }, [inspection?.vehicle?.vin, inspection?.tasks]);
 
-  const [listPressCount, setListPressCount] = useState(0);
-
   const handleListItemPress = useCallback((value) => {
-    const isLastTour = listPressCount === 1;
-    setListPressCount((count) => count + 1);
     const isVin = value === 'vinNumber';
     const vinOption = ExpoConstants.manifest.extra.options.find((option) => option.value === 'vinNumber');
-    if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(isLastTour); return; }
+    if (isVin && vinOption?.mode.includes('manually')) { vinOptionsRef.current?.open(); return; }
 
     navigation.navigate(
       names.INSPECTION_CREATE,
       { selectedMod: value, inspectionId, vehicle: { vehicleType }, isLastTour },
     );
-  }, [inspectionId, navigation, isAuthenticated, vehicleType, listPressCount]);
+    setIsLastTour(true);
+  }, [inspectionId, navigation, isAuthenticated, vehicleType, isLastTour]);
 
   const renderListItem = useCallback(({ item, index }) => {
     const { title, icon, value, description } = item;
@@ -253,8 +253,8 @@ export default function Landing() {
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true
       && !invalidToken && !allTasksAreCompleted
-      && shouldFetch &&
-      (route.params?.captureComplete || (route.params?.mode === 'manually' && route.params?.vin))) {
+      && shouldFetch
+      && (route.params?.captureComplete || (route.params?.mode === 'manually' && route.params?.vin))) {
       getInspection.start().catch((err) => {
         errorHandler(err);
       });
@@ -305,8 +305,8 @@ export default function Landing() {
   }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId, inspection?.vehicle?.vin]);
 
   const isPdfDisabled = useMemo(
-    () => !allTasksAreCompleted || !reportUrl,
-    [allTasksAreCompleted, reportUrl],
+    () => !allTasksAreCompleted || !reportUrl || info.vm,
+    [allTasksAreCompleted, reportUrl, info],
   );
 
   const pdfDownloadLeft = useCallback(
@@ -370,18 +370,20 @@ export default function Landing() {
               keyExtractor={(item) => item.value}
             />
           </List.Section>
-          <List.Section>
-            <List.Item
-              title={t('landing.downloadPdf')}
-              description={t('landing.downloadPdfDescription')}
-              left={pdfDownloadLeft}
-              right={pdfDownloadRight}
-              onPress={handleDownload}
-              disabled={isPdfDisabled}
-              titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}
-              descriptionStyle={isPdfDisabled ? { color: '#8686868a' } : undefined}
-            />
-          </List.Section>
+          {info.vm ? null : (
+            <List.Section>
+              <List.Item
+                title={t('landing.downloadPdf')}
+                description={t('landing.downloadPdfDescription')}
+                left={pdfDownloadLeft}
+                right={pdfDownloadRight}
+                onPress={handleDownload}
+                disabled={isPdfDisabled}
+                titleStyle={isPdfDisabled ? { color: '#8d8d8dde' } : undefined}
+                descriptionStyle={isPdfDisabled ? { color: '#8686868a' } : undefined}
+              />
+            </List.Section>
+          )}
           <Card.Actions style={styles.actions}>
             <LanguageSwitch />
           </Card.Actions>

@@ -10,6 +10,7 @@ const info = {
     height: 71,
   },
   description: 'AlgoDriven Capture App enables high level car inspections with helpers and specific user interfaces.',
+  vm: true,
 };
 
 export default info;

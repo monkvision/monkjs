@@ -51,6 +51,7 @@ export default function CaptureVehicleSelection() {
           selectedMod: 'car360',
           inspectionId,
           vehicle: { vehicleType },
+          isLastTour: true,
         },
       );
     }

@@ -10,6 +10,7 @@ const info = {
     height: 71,
   },
   description: 'CAT Capture App enables high level car inspections with helpers and specific user interfaces.',
+  vm: false,
 };
 
 export default info;

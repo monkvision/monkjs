@@ -30,7 +30,7 @@ export default function InspectionCapture() {
   const { errorHandler } = useMonitoring();
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode, isLastTour } = route.params;
-  const { client, sights } = useClient();
+  const { client, sights, info } = useClient();
   const newSightIds = useMemo(() => ((taskName === monk.types.TaskName.IMAGES_OCR) ? sightIds : (sights[vehicleType ?? 'cuv'])), [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
@@ -50,6 +50,12 @@ export default function InspectionCapture() {
     () => inspection?.tasks?.length && inspection?.tasks,
     [inspection?.tasks],
   );
+
+  useEffect(() => {
+    if (inspectionId && getInspection.state.loading !== true && !inspection) {
+      getInspection.start();
+    }
+  }, [inspection]);
 
   const handleNavigate = useCallback(async (confirm = false) => {
     if (confirm) {
@@ -96,13 +102,13 @@ export default function InspectionCapture() {
           console.error(error);
         }
       }
-      if (isLastTour) {
+      if (isLastTour && info.vm) {
         navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
       } else {
         navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
       }
     }
-  }, [inspectionId, navigation]);
+  }, [inspectionId, navigation, info, isLastTour, allTasks, inspection]);
 
   const getTaskName = useCallback((task) => (typeof task === 'string' ? task : task?.name), []);
 
