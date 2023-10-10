@@ -10,8 +10,8 @@ const validErrorCodes = [
   'WRONG_CENTER_PART',
   'MISSING_PARTS',
   'HIDDEN_PARTS',
-  'TOO_ZOOMED',
-  'NOT_ZOOMED_ENOUGH',
+  // 'TOO_ZOOMED',
+  // 'NOT_ZOOMED_ENOUGH',
 ];
 
 export default function useSubtitle({
