@@ -42,9 +42,12 @@ export default function useSubtitle({
 
       if (badQuality && iqa.reasons) {
         iqa.reasons.forEach((reason, index) => {
-          const first = index === 0;
-          reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
-            : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
+          const errorCode = validErrorCodes.find((code) => reason.startsWith(code));
+          if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
+            const first = index === 0;
+            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
+              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
+          }
         });
       }
 
