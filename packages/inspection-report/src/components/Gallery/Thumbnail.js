@@ -26,7 +26,7 @@ const responsiveImageSizes = [
 ];
 
 function Thumbnail({ image, click }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { width } = useWindowDimensions();
   const label = useMemo(() => (image.label ? image.label[i18n.language] : ''), [i18n]);
 
@@ -57,7 +57,11 @@ function Thumbnail({ image, click }) {
             />
           )
         }
-        <Text style={styles.text}>{label}</Text>
+        <Text style={styles.text}>
+          {label}
+          {' '}
+          {image?.isRendered && t('gallery.renderedOutput')}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -66,6 +70,7 @@ function Thumbnail({ image, click }) {
 Thumbnail.propTypes = {
   click: PropTypes.func,
   image: PropTypes.shape({
+    isRendered: PropTypes.bool,
     label: PropTypes.shape({
       en: PropTypes.string,
       fr: PropTypes.string,
@@ -82,6 +87,7 @@ Thumbnail.defaultProps = {
       fr: '',
     },
     url: '',
+    isRendered: false,
   },
 };
 

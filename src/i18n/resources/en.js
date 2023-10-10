@@ -127,6 +127,12 @@ const en = {
         on: 'On',
         off: 'Off',
       },
+      skipRetake: {
+        error: {
+          message: 'Sorry, we couldn\'t finish the inspection',
+          label: 'Start New Inspection',
+        },
+      },
       custom: '+',
     },
   },

@@ -3,7 +3,7 @@
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "description": "Monk's create react-app template for internal or new projects.",
-  "version": "3.8.1",
+  "version": "3.8.3",
   "private": false,
   "homepage": "https://github.com/monkvision/monkjs/packages/cra-template/#readme",
   "repository": {

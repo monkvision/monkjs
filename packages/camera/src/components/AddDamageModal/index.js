@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   footer: {
     display: 'flex',

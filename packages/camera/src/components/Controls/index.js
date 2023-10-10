@@ -48,6 +48,7 @@ export default function Controls({
   containerStyle,
   elements,
   loading,
+  isRetake,
   state,
   hideAddDamage,
   onAddDamagePressed,
@@ -70,6 +71,7 @@ export default function Controls({
     stream: api.camera.current?.stream,
     onResetAddDamageStatus,
     onPictureTaken,
+    isRetake,
   });
 
   const isAddDamageButtonAndDisabled = useCallback(
@@ -205,6 +207,7 @@ Controls.propTypes = {
   ])),
   hideAddDamage: PropTypes.bool,
   isPortraitModeVinLayoutView: PropTypes.bool,
+  isRetake: PropTypes.bool,
   loading: PropTypes.bool,
   onAddDamagePressed: PropTypes.func,
   onAddDamageUploadPicture: PropTypes.func,
@@ -239,6 +242,7 @@ Controls.defaultProps = {
   elements: [],
   hideAddDamage: false,
   loading: false,
+  isRetake: false,
   state: {},
   onCloseEarly: () => {},
   onPictureTaken: () => {},

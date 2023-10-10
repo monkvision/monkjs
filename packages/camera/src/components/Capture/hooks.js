@@ -326,7 +326,7 @@ export function useStartUploadAsync({
   }, [uploads, inspectionId, sights.state, mapTasksToSights, task, onFinish, endTour]);
 }
 
-export function useUploadAdditionalDamage({ inspectionId, addDamageParts, onPictureUploaded = () => {}, }) {
+export function useUploadAdditionalDamage({ inspectionId, addDamageParts, onPictureUploaded = () => {} }) {
   const { t, i18n } = useTranslation();
 
   return useCallback(async ({ picture, parts }) => {
