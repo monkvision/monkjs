@@ -95,10 +95,8 @@ function Gallery({ pictures }) {
   const [isZoomed, setIsZoomed] = useState(false);
   const { width, height } = useWindowDimensions();
   const [gestureState, setGestureState] = useState({});
-  const [transformX, setTransformX] = useState('center');
-  const [transformY, setTransformY] = useState('center');
   const scale = useRef(new Animated.Value(1)).current;
-  const transformOffsetFromCenter = 100;
+  const transform = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
 
   const handleOnImageClick = useCallback((focusedImage) => {
     if (focusedImage.url) {
@@ -108,8 +106,7 @@ function Gallery({ pictures }) {
 
   const handleUnfocusPhoto = useCallback(() => {
     scale.setValue(1);
-    setTransformX('center');
-    setTransformY('center');
+    transform.setValue({ x: 0, y: 0 });
     setFocusedPhoto(null);
   }, [scale]);
 
@@ -120,37 +117,47 @@ function Gallery({ pictures }) {
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: () => true,
-      onPanResponderRelease: (event, gs) => setGestureState({ dx: gs.x0, dy: gs.y0 }),
+      onPanResponderRelease: (event, gestureStat) => setGestureState({ dx: gestureStat.x0, dy: gestureStat.y0 }),
     }),
   ).current;
 
   useEffect(() => {
-    Animated.timing(scale, {
-      duration: 200,
-      easing: Easing.ease,
-      toValue: isZoomed ? 2 : 1,
-      useNativeDriver: Platform.OS !== 'web',
-    }).start();
-  }, [isZoomed]);
-
-  useEffect(() => {
-    if (gestureState.dx && gestureState.dy) {
+    if (isDesktopMode && gestureState.dx && gestureState.dy) {
       setIsZoomed(!isZoomed);
-      let dx = 'center';
-      let dy = 'center';
-      if (gestureState.dx > (width / 2) - transformOffsetFromCenter) {
-        dx = 'left';
-      } else if (gestureState.dx > (width / 2) + transformOffsetFromCenter) {
-        dx = 'right';
+
+      Animated.timing(scale, {
+        duration: 200,
+        easing: Easing.ease,
+        toValue: isZoomed ? 1 : 2,
+        useNativeDriver: Platform.OS !== 'web',
+      }).start();
+
+      let x = 0;
+      let y = 0;
+      let { dx, dy } = gestureState;
+
+      if (isZoomed) {
+        x = 0;
+        y = 0;
+      } else {
+        x = (width / 2) - dx;
+        y = (height / 2) - dy;
+
+        // x > 0 will check whether we clicked on left side of image or not
+        if ((dx < x && x > 0) || (dx > x && x < 0)) {
+          x = x / 2;
+        }
+        // y > 0 will check whether we clicked on top side of image or not
+        if ((dy < y && y > 0) || (dy > y && y < 0)) {
+          y = y / 2;
+        }
       }
 
-      if (gestureState.dy > (height / 2) - transformOffsetFromCenter) {
-        dy = 'top';
-      } else if (gestureState.dy > (height / 2) + transformOffsetFromCenter) {
-        dy = 'bottom';
-      }
-      setTransformX(dx);
-      setTransformY(dy);
+      Animated.timing(transform, {
+        toValue: { x, y },
+        duration: 200,
+        useNativeDriver: Platform.OS !== 'web',
+      }).start();
     }
   }, [gestureState]);
 
@@ -200,13 +207,10 @@ function Gallery({ pictures }) {
             source={{ uri: focusedPhoto?.url }}
             style={{
               flex: 1,
-              cursor: isZoomed ? 'zoom-out' : 'zoom-in',
-              transformOrigin: `${transformX} ${transformY}`,
-              transform: [
-                { scale },
-              ],
+              cursor: isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',
+              transform: [{ scale }, { translateX: transform.x }, { translateY: transform.y }],
             }}
-            resizeMode='cover'
+            resizeMode={isDesktopMode ? 'cover' : 'contain'}
             {...panResponder.panHandlers}
           />
         </View>
