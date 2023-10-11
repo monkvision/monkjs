@@ -160,6 +160,40 @@ function Gallery({ pictures }) {
     }
   }, [gestureState]);
 
+  useEffect(() => {
+    if (focusedPhoto) {
+      const handleKeyboardChange = (event) => {
+        if (event.defaultPrevented) {
+          return; // Do nothing if the event was already processed
+        }
+
+        const currentPictureIndex = pictures.findIndex(pic => pic.id === focusedPhoto.id);
+        switch (event.key) {
+          case "ArrowLeft":
+            if (currentPictureIndex - 1 >= 0) {
+              setFocusedPhoto(pictures[currentPictureIndex - 1]);
+            }
+            break;
+          case "ArrowRight":
+            if (currentPictureIndex + 1 < pictures.length) {
+              setFocusedPhoto(pictures[currentPictureIndex + 1]);
+            }
+            break;
+          default:
+            return; // Quit when this doesn't handle the key event.
+        }
+
+        // Cancel the default action to avoid it being handled twice
+        event.preventDefault();
+      };
+
+      window.addEventListener('keydown', handleKeyboardChange);
+      return () => {
+        window.removeEventListener('keydown', handleKeyboardChange);
+      };
+    }
+  }, [pictures, focusedPhoto]);
+
   return (
     <View style={[
       styles.container,
@@ -206,7 +240,7 @@ function Gallery({ pictures }) {
             source={{ uri: focusedPhoto?.url }}
             style={{
               flex: 1,
-              cursor: isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',
+              cursor: !isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',
               transform: [{ scale }, { translateX: transform.x }, { translateY: transform.y }],
             }}
             resizeMode={isDesktopMode ? 'cover' : 'contain'}
