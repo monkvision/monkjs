@@ -39,6 +39,7 @@ function getPictures(inspection) {
       .filter((damage) => damage?.additional_data?.description === 'rendering of detected damages')
       .map((damagedImage) => {
         return {
+          id: image.id,
           isRendered: true,
           label: image.additional_data?.label ?? undefined,
           url: damagedImage.path,
@@ -56,6 +57,7 @@ function getDamages(inspection) {
       (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
     )?.related_images?.map(
       (relatedImage) => ({
+        id: relatedImage.base_image_id,
         base_image_type: relatedImage.base_image_type,
         object_type: relatedImage.object_type,
         url: relatedImage.path,

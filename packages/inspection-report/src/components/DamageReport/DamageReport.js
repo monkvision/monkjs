@@ -172,6 +172,7 @@ export default function DamageReport({
     inspectionId,
     damages,
     setDamages,
+    pictures,
   });
 
   const {
