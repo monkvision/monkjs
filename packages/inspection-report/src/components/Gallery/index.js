@@ -170,13 +170,27 @@ function Gallery({ pictures }) {
         const currentPictureIndex = pictures.findIndex(pic => pic.id === focusedPhoto.id);
         switch (event.key) {
           case "ArrowLeft":
-            if (currentPictureIndex - 1 >= 0) {
-              setFocusedPhoto(pictures[currentPictureIndex - 1]);
+            if ((focusedPhoto?.isRendered && currentPictureIndex >= 0) || currentPictureIndex - 1 >= 0) {
+              if (focusedPhoto.isRendered) {
+                setFocusedPhoto(pictures[currentPictureIndex]);
+              } else {
+                setFocusedPhoto(
+                  pictures[currentPictureIndex - 1]?.rendered_outputs?.length > 0 ?
+                    pictures[currentPictureIndex - 1]?.rendered_outputs[0] : pictures[currentPictureIndex]
+                );
+              }
             }
             break;
           case "ArrowRight":
-            if (currentPictureIndex + 1 < pictures.length) {
-              setFocusedPhoto(pictures[currentPictureIndex + 1]);
+            if ((!focusedPhoto?.isRendered && currentPictureIndex < pictures.length) || currentPictureIndex + 1 < pictures.length) {
+              if (focusedPhoto.isRendered) {
+                setFocusedPhoto(pictures[currentPictureIndex + 1]);
+              } else {
+                setFocusedPhoto(
+                  pictures[currentPictureIndex]?.rendered_outputs?.length > 0 ?
+                    pictures[currentPictureIndex]?.rendered_outputs[0] : pictures[currentPictureIndex + 1]
+                );
+              }
             }
             break;
           default:
@@ -223,7 +237,9 @@ function Gallery({ pictures }) {
       >
         <View style={{ flex: 1, backgroundColor: '#000000', position: 'relative' }}>
           <View style={[styles.header]}>
-            <Text style={[styles.title]}>{(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''}</Text>
+            <Text style={[styles.title]}>
+              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''} {focusedPhoto?.isRendered && t('gallery.withDamages')}
+            </Text>
           </View>
           <Pressable
             onPress={handleUnfocusPhoto}
