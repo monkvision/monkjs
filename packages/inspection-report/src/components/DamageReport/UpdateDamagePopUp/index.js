@@ -18,6 +18,8 @@ import { CommonPropTypes, DamageMode, DisplayMode } from '../../../resources';
 import ImageButton from './ImageButton';
 import DamageManipulator from '../DamageManipulator';
 
+const topLimitY = 145;
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
@@ -116,7 +118,7 @@ export default function UpdateDamagePopUp({
   const [viewMode, setViewMode] = useState(null);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: bottomLimitY })).current;
-  const topLimitY = Platform.OS === 'web' ? 145 : 0;
+  const topLimitY = Platform.OS === 'web' ? topLimitY : 0;
 
   const handleToggleDamage = useCallback((isToggled) => {
     setViewMode(isToggled ? DisplayMode.FULL : DisplayMode.MINIMAL);

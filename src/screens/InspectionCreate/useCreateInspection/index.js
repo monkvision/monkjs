@@ -18,13 +18,15 @@ export default function useCreateInspection(vehicle) {
       },
       damageDetection: {
         ...taskOptions,
-        generate_subimages_parts: {},
-        generate_subimages_damages: {},
-        damage_score_threshold: 0.3,
-        generate_visual_output: {
-          generate_parts: true,
-          generate_damages: true
+        generate_subimages_parts: {
+          generate_tight: false,
         },
+        // generate_subimages_damages: {},
+        damage_score_threshold: 0.3,
+        // generate_visual_output: {
+        //   generate_parts: true,
+        //   generate_damages: true,
+        // },
       },
     };
 
@@ -33,7 +35,8 @@ export default function useCreateInspection(vehicle) {
       vehicle,
       damage_severity: { output_format: 'toyota' },
       additionalData: {
-        damage_detection_version: "v2",
+        damage_detection_version: 'v2',
+        use_dynamic_crops: true,
       },
     });
   }, []);

@@ -26,6 +26,8 @@ const fr = {
       notReady: 'Inspection en cours...',
       validate: 'Valider',
       newInspection: 'Nouvelle inspection',
+      inspection: 'Inspection ID',
+      vinNumber: 'VIN',
       download: 'Télécharger le rapport',
       pdfStatus: {
         generating: 'Génération du rapport PDF en cours...',
@@ -55,7 +57,7 @@ const fr = {
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',
-      renderedOutput: '(rendu d\'image)',
+      withDamages: '(avec dommages)'
     },
     damageManipulator: {
       damages: 'Dégâts',

@@ -26,6 +26,8 @@ const en = {
       notReady: 'Inspection still in progress...',
       validate: 'Validate',
       newInspection: 'New Inspection',
+      inspection: 'Inspection ID',
+      vinNumber: 'VIN',
       download: 'Download Report',
       pdfStatus: {
         generating: 'Your PDF report is being generated...',
@@ -55,7 +57,7 @@ const en = {
     },
     gallery: {
       empty: 'This inspection does not have any photo yet.',
-      renderedOutput: '(rendered output)',
+      withDamages: '(with damages)'
     },
     damageManipulator: {
       damages: 'Damages',

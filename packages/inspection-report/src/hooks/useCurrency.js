@@ -7,7 +7,7 @@ const signAheadCurrencies = ['$', '£'];
 */
 export const Context = createContext({
   formateValue: (value) => { },
-  updateCurrency: () => { },
+  updateCurrency: () => { }
 });
 
 /**
@@ -27,13 +27,14 @@ export function CurrencyProvider({ children }) {
   const formateValue = useCallback((value) => {
     if (signAheadCurrencies.includes(currency)) {
       return `${currency}${value}`;
+    } else {
+      return `${value}${currency}`;
     }
-    return `${value}${currency}`;
   }, [currency]);
 
-  const currencyContextValue = useMemo(
-    () => ({ updateCurrency: setCurrency, formateValue }),
-    [currency],
+  const currencyContextValue = useMemo(() =>
+    ({ updateCurrency: setCurrency, formateValue }),
+    [currency]
   );
 
   return (

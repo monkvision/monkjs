@@ -49,10 +49,10 @@ function Accordion({ title, isCollapsed, children, onPress }) {
 }
 
 Accordion.propTypes = {
-  children: PropTypes.element,
-  isCollapsed: PropTypes.bool,
-  onPress: PropTypes.func,
   title: PropTypes.string,
+  isCollapsed: PropTypes.bool,
+  children: PropTypes.element,
+  onPress: PropTypes.func,
 };
 
 Accordion.defaultProps = {
