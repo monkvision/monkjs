@@ -3,7 +3,8 @@ const Clients = {
   CAT: 'cat',
   FASTBACK: 'fastback',
   ALPHA: 'alpha',
-  ALGODRIVEN: 'algodriven',
+  ALGODRIVEN_CAPTURE: 'algodriven_capture',
+  ALGODRIVEN_REPORT: 'algodriven_report',
 };
 
 export default Clients;

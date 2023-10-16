@@ -10,7 +10,8 @@ const ClientInfo = {
   [Clients.CAT]: catInfo,
   [Clients.FASTBACK]: fastbackInfo,
   [Clients.ALPHA]: alphaInfo,
-  [Clients.ALGODRIVEN]: algodrivenInfo,
+  [Clients.ALGODRIVEN_CAPTURE]: algodrivenInfo,
+  [Clients.ALGODRIVEN_REPORT]: algodrivenInfo,
 };
 
 export default ClientInfo;

@@ -92,6 +92,16 @@ export default function Landing() {
           isLastTour: true,
         },
       );
+    } else if (workflow === Workflows.INSPECTION_REPORT && !route.params?.captureComplete) {
+      navigation.navigate(
+        names.INSPECTION_REPORT,
+        {
+          selectedMod: 'car360',
+          inspectionId,
+          vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] ?? 'cuv' },
+          isLastTour: true,
+        },
+      );
     } else if (workflow === Workflows.CAPTURE_VEHICLE_SELECTION && !route.params?.captureComplete) {
       if (vehicleTypeParam && VehicleTypeMap[vehicleTypeParam]) {
         navigation.navigate(
