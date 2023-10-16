@@ -385,12 +385,13 @@ const Capture = forwardRef(({
     if (confirm) {
       setCloseEarlyModalState({
         show: true,
-        message: confirmationMessage,
+        message: addDamageStatus === AddDamageStatus.TAKE_PICTURE
+          ? confirmationMessage.zoomed : confirmationMessage.normal,
       });
     } else {
       handleCloseCaptureEarly();
     }
-  }, [handleCloseCaptureEarly, setCloseEarlyModalState]);
+  }, [addDamageStatus, handleCloseCaptureEarly, setCloseEarlyModalState]);
 
   const handleCloseEarlyCancel = useCallback(() => {
     setCloseEarlyModalState({
