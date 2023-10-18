@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   root: {
     display: 'flex',
     justifyContent: 'center',
+    cursor: 'pointer',
     width: LENGTH,
     height: LENGTH,
     margin: MARGIN,
