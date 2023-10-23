@@ -462,7 +462,9 @@ const Capture = forwardRef(({
   }, [sights.dispatch, sightBeforeRetake, onPictureTaken]);
 
   const handleSightPressed = useCallback((id) => {
-    setSightBeforeRetake(id);
+    if (!sightBeforeRetake) {
+      setSightBeforeRetake(id);
+    }
   }, [sightBeforeRetake]);
 
   // END HANDLERS //
