@@ -10,7 +10,7 @@ const info = {
     height: 71,
   },
   description: 'Alpha Controller App enables high level car inspections with helpers and specific user interfaces.',
-  vm: false,
+  vm: true,
 };
 
 export default info;
