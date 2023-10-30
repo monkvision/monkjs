@@ -6,6 +6,12 @@ import { useMonitoring } from '@monkvision/corejs';
 
 export const ASYNC_STORAGE_LANG_KEY = '@lang_Storage';
 
+const BUTTON_CONTENTS = {
+  en: '🇬🇧 ▼',
+  fr: '🇫🇷 ▼',
+  de: '🇩🇪 ▼',
+};
+
 export default function LanguageSwitch() {
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = React.useState(false);
@@ -31,13 +37,11 @@ export default function LanguageSwitch() {
     if (isLoading) {
       return <ActivityIndicator animating />;
     }
-    const en = '🇬🇧 ▼';
-    const fr = '🇫🇷 ▼';
     if (!i18n.language) {
       setLanguage('en');
-      return en;
+      return BUTTON_CONTENTS.en;
     }
-    return i18n.language.startsWith('fr') ? fr : en;
+    return BUTTON_CONTENTS[i18n.language.substring(0, 2)] ?? BUTTON_CONTENTS.en;
   }, [isLoading, i18n.language]);
 
   return (
@@ -48,6 +52,7 @@ export default function LanguageSwitch() {
     >
       <Menu.Item onPress={() => setLanguage('en')} title="🇬🇧 English" />
       <Menu.Item onPress={() => setLanguage('fr')} title="🇫🇷 Français" />
+      <Menu.Item onPress={() => setLanguage('de')} title="🇩🇪 Deutsch" />
     </Menu>
   );
 }

@@ -225,6 +225,7 @@ export default function InspectionCapture() {
       confirmationMessage: {
         en: 'Your inspection is not complete, are you sure you want to stop it ?',
         fr: 'Votre inspection n\'est pas complète, êtes-vous sûr(e) de vouloir l\'arrêter ?',
+        de: 'Ihre Inspektion ist nicht abgeschlossen. Sind Sie sicher, dass Sie sie beenden möchten?',
       },
       disabled: cameraLoading,
     },

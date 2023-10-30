@@ -11,6 +11,7 @@ const info = {
   },
   description: 'Alpha Controller App enables high level car inspections with helpers and specific user interfaces.',
   vm: true,
+  preferredLanguage: 'de',
 };
 
 export default info;

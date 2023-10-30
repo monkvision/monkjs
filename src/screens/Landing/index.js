@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import monk, { useMonitoring } from '@monkvision/corejs';
 import { useInterval } from '@monkvision/toolkit';
 import { Container } from '@monkvision/ui';
+import { version } from '@package/json';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import Modal from 'components/Modal';
 import ExpoConstants from 'expo-constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import useAuth from 'hooks/useAuth';
 import useSnackbar from 'hooks/useSnackbar';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Text, useWindowDimensions, View } from 'react-native';
 import { ActivityIndicator, Card, List, Surface, useTheme } from 'react-native-paper';
@@ -18,17 +19,16 @@ import LanguageSwitch from 'screens/Landing/LanguageSwitch';
 import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
-import { version } from '@package/json';
 import { authSlice } from 'store';
-import { useClient, Clients, Workflows } from '../../contexts';
+import { useClient, Workflows } from '../../contexts';
+import { ClientParamMap, VehicleTypeMap } from '../paramsMap';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
+import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
 import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
 import useZlibCompression from './useZlibCompression';
 import VehicleType from './VehicleType';
-import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
-import { ClientParamMap, VehicleTypeMap } from '../paramsMap';
 
 const ICON_BY_STATUS = {
   NOT_STARTED: 'chevron-right',
@@ -57,10 +57,12 @@ export default function Landing() {
   const [isLastTour, setIsLastTour] = useState(workflow !== Workflows.DEFAULT);
 
   useEffect(() => {
-    const clientParam = new URLSearchParams(window.location.search)?.get('c');
-    const client = clientParam ? (ClientParamMap[clientParam] ?? Clients.DEFAULT) : Clients.DEFAULT;
-    setClient(client);
-  }, [setClient]);
+    if (info.preferredLanguage) {
+      i18n.changeLanguage(info.preferredLanguage).catch((err) => {
+        errorHandler(err);
+      });
+    }
+  }, [info, i18n]);
 
   const { clientId, inspectionId, token, vehicleTypeParam } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -75,6 +77,10 @@ export default function Landing() {
       token: compressedToken ? decompress(compressedToken) : undefined,
     };
   }, []);
+
+  useEffect(() => {
+    setClient(clientId);
+  }, [clientId]);
 
   const invalidParams = useMemo(
     () => (!clientId || !inspectionId || !token),
@@ -329,7 +335,7 @@ export default function Landing() {
         {t(invalidParams ? 'landing.invalidParams' : 'landing.invalidToken')}
       </Text>
     </View>
-  ), [invalidParams]);
+  ), [invalidParams, i18n.language]);
 
   return invalidParams || invalidToken ? invalidParamsContent : (
     <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
