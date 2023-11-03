@@ -54,6 +54,8 @@ const en = {
       pictures: 'Pictures',
       partsPictures: 'Parts Pictures',
       zoomedPicturesOfThePart: 'Zoomed pictures of the part',
+      showDamages: 'See damages',
+      hideDamages: 'Hide damages',
     },
     gallery: {
       empty: 'This inspection does not have any photo yet.',
