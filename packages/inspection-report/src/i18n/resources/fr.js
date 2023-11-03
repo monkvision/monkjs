@@ -54,6 +54,8 @@ const fr = {
       pictures: 'Images',
       partsPictures: 'Images de la partie de voiture',
       zoomedPicturesOfThePart: 'Images zoomées de la partie de voiture',
+      showDamages: 'Voir les dommages',
+      hideDamages: 'Cacher les dommages',
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',
