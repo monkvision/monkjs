@@ -60,7 +60,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -165,7 +165,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -337,7 +337,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -441,7 +441,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -476,7 +476,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -511,7 +511,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -615,7 +615,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -652,7 +652,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -725,7 +725,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -762,7 +762,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -783,7 +783,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -820,7 +820,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -841,7 +841,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -878,7 +878,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -915,7 +915,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -952,7 +952,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -973,7 +973,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1010,7 +1010,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1031,7 +1031,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1068,7 +1068,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -1105,7 +1105,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1178,7 +1178,7 @@
     "label": {
       "en": "Rear Roof Right",
       "fr": "Toit (arrière droit)",
-      "de": "unknown translation"
+      "de": "Hinteres Dach rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1397,7 +1397,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -1467,7 +1467,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -1570,7 +1570,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1640,7 +1640,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1778,7 +1778,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1813,7 +1813,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -1881,7 +1881,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -1918,7 +1918,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -1955,7 +1955,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -1976,7 +1976,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2013,7 +2013,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2034,7 +2034,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2071,7 +2071,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2108,7 +2108,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2145,7 +2145,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2238,7 +2238,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2275,7 +2275,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2312,7 +2312,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2349,7 +2349,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2370,7 +2370,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2407,7 +2407,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2592,7 +2592,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2696,7 +2696,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2765,7 +2765,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs Avant Droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -2905,7 +2905,7 @@
     "label": {
       "en": "Rear Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten links"
     },
     "category": "exterior",
     "vehicle": {
@@ -2976,7 +2976,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3011,7 +3011,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3047,7 +3047,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -3115,7 +3115,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3151,7 +3151,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3171,7 +3171,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3207,7 +3207,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3243,7 +3243,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3279,7 +3279,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3299,7 +3299,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -3405,7 +3405,7 @@
     "label": {
       "en": "Rear Roof Right",
       "fr": "Toit Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinteres Dach rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3440,7 +3440,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3476,7 +3476,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3512,7 +3512,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3532,7 +3532,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3568,7 +3568,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3604,7 +3604,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3640,7 +3640,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3660,7 +3660,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -3915,7 +3915,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -3983,7 +3983,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4121,7 +4121,7 @@
     "label": {
       "en": "Rear Up Left",
       "fr": "Arrière haut gauche",
-      "de": "unknown translation"
+      "de": "Hinten oben links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4261,7 +4261,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4330,7 +4330,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4365,7 +4365,7 @@
     "label": {
       "en": "Front Lateral Right",
       "fr": "Avant latéral droit",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4400,7 +4400,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4435,7 +4435,7 @@
     "label": {
       "en": "Rear Up Right",
       "fr": "Arrière haut droit",
-      "de": "unknown translation"
+      "de": "Hinten oben rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4470,7 +4470,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4543,7 +4543,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4580,7 +4580,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4601,7 +4601,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4638,7 +4638,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4659,7 +4659,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4696,7 +4696,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4733,7 +4733,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4770,7 +4770,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4791,7 +4791,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4828,7 +4828,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4865,7 +4865,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4886,7 +4886,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -4923,7 +4923,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -4960,7 +4960,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5145,7 +5145,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -5213,7 +5213,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -5318,7 +5318,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -5490,7 +5490,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5594,7 +5594,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5629,7 +5629,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5700,7 +5700,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5773,7 +5773,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -5810,7 +5810,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -5831,7 +5831,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5868,7 +5868,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5889,7 +5889,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -5926,7 +5926,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -5963,7 +5963,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -6000,7 +6000,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -6037,7 +6037,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -6058,7 +6058,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6095,7 +6095,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6116,7 +6116,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6153,7 +6153,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -6190,7 +6190,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6263,7 +6263,7 @@
     "label": {
       "en": "Rear Roof Right",
       "fr": "Toit (arrière droit)",
-      "de": "unknown translation"
+      "de": "Hinteres Dach rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6482,7 +6482,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -6585,7 +6585,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -6655,7 +6655,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6828,7 +6828,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6863,7 +6863,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -6898,7 +6898,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -6966,7 +6966,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7003,7 +7003,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7040,7 +7040,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7061,7 +7061,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7098,7 +7098,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7119,7 +7119,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7156,7 +7156,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7193,7 +7193,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7230,7 +7230,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7267,7 +7267,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7304,7 +7304,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7325,7 +7325,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7362,7 +7362,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7383,7 +7383,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7420,7 +7420,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7493,7 +7493,7 @@
     "label": {
       "en": "Rear Roof Right",
       "fr": "Toit (arrière droit)",
-      "de": "unknown translation"
+      "de": "Hinteres Dach rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -7748,7 +7748,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7818,7 +7818,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -7990,7 +7990,7 @@
     "label": {
       "en": "Front Low",
       "fr": "Avant (position basse)",
-      "de": "unknown translation"
+      "de": "Vorderseite Niedrig"
     },
     "category": "exterior",
     "vehicle": {
@@ -8058,7 +8058,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8128,7 +8128,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8197,7 +8197,7 @@
     "label": {
       "en": "Rear Right",
       "fr": "Arrière droit",
-      "de": "unknown translation"
+      "de": "Hinten rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8232,7 +8232,7 @@
     "label": {
       "en": "Front Full Right",
       "fr": "Avant Droit",
-      "de": "unknown translation"
+      "de": "Vorderseite Ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8269,7 +8269,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8306,7 +8306,7 @@
     "label": {
       "en": "Front Lateral Low Left",
       "fr": "Avant Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8327,7 +8327,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8364,7 +8364,7 @@
     "label": {
       "en": "Front Lateral Low Right",
       "fr": "Avant Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8385,7 +8385,7 @@
     "label": {
       "en": "Lateral Low Left",
       "fr": "Latéral Gauche - vue basse",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8422,7 +8422,7 @@
     "label": {
       "en": "Lateral Low Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8459,7 +8459,7 @@
     "label": {
       "en": "Lateral Full Left",
       "fr": "Latéral Gauche",
-      "de": "unknown translation"
+      "de": "Seitlich voll links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8496,7 +8496,7 @@
     "label": {
       "en": "Lateral Full Right",
       "fr": "Latéral Droit",
-      "de": "unknown translation"
+      "de": "Seitlich voll rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8533,7 +8533,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8570,7 +8570,7 @@
     "label": {
       "en": "Rear Lateral Low Left",
       "fr": "Arrière Gauche Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8591,7 +8591,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8628,7 +8628,7 @@
     "label": {
       "en": "Rear Lateral Low Right",
       "fr": "Arrière Droit Latéral - vue basse",
-      "de": "unknown translation"
+      "de": "Hinten Seitlich Niedrig Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8685,7 +8685,7 @@
     "label": {
       "en": "Rear Roof Right",
       "fr": "Toit (arrière droit)",
-      "de": "unknown translation"
+      "de": "Hinteres Dach rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8721,7 +8721,7 @@
     "label": {
       "en": "Rear Full Left",
       "fr": "Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinten ganz links"
     },
     "category": "exterior",
     "vehicle": {
@@ -8758,7 +8758,7 @@
     "label": {
       "en": "Rear Full Right",
       "fr": "Arrière Droit",
-      "de": "unknown translation"
+      "de": "Hinten ganz rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -8943,7 +8943,7 @@
     "label": {
       "en": "Interior Roof",
       "fr": "Pavillon Intérieur",
-      "de": "unknown translation"
+      "de": "Innen Dach"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -8954,7 +8954,7 @@
     "label": {
       "en": "Front Seats",
       "fr": "Sièges Avant",
-      "de": "unknown translation"
+      "de": "Vordersitze"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -8965,7 +8965,7 @@
     "label": {
       "en": "Front Seats",
       "fr": "Sièges Avant",
-      "de": "unknown translation"
+      "de": "Vordersitze"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -8976,7 +8976,7 @@
     "label": {
       "en": "Front Seats",
       "fr": "Sièges Avant",
-      "de": "unknown translation"
+      "de": "Vordersitze"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -8987,7 +8987,7 @@
     "label": {
       "en": "Trunk Left Side",
       "fr": "Coffre Gauche",
-      "de": "unknown translation"
+      "de": "Kofferraum Linke Seite"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -8998,7 +8998,7 @@
     "label": {
       "en": "Trunk Right Side",
       "fr": "Coffre Droite",
-      "de": "unknown translation"
+      "de": "Kofferraum Rechte Seite"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9009,7 +9009,7 @@
     "label": {
       "en": "Engine Left Side",
       "fr": "Moteur Gauche",
-      "de": "unknown translation"
+      "de": "Motor Linke Seite"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9020,7 +9020,7 @@
     "label": {
       "en": "Engine Right Side",
       "fr": "Moteur Droite",
-      "de": "unknown translation"
+      "de": "Motor rechte Seite"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9031,7 +9031,7 @@
     "label": {
       "en": "Left Front Door",
       "fr": "Porte Avant Gauche",
-      "de": "unknown translation"
+      "de": "Linke Vordertür"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9042,7 +9042,7 @@
     "label": {
       "en": "Open Trunk",
       "fr": "Coffre Ouvert",
-      "de": "unknown translation"
+      "de": "Offener Kofferraum"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9053,7 +9053,7 @@
     "label": {
       "en": "Dashboard from Back Seat",
       "fr": "Tableau de bord depuis Siège Arrière",
-      "de": "unknown translation"
+      "de": "Armaturenbrett vom Rücksitz aus"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9075,7 +9075,7 @@
     "label": {
       "en": "Dashboard from Driver Seat",
       "fr": "Tableau de bord du siège conducteur",
-      "de": "unknown translation"
+      "de": "Armaturenbrett vom Fahrersitz aus"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9086,7 +9086,7 @@
     "label": {
       "en": "Dashboard from Back Seat",
       "fr": "Tableau de bord du Siège Arrière",
-      "de": "unknown translation"
+      "de": "Armaturenbrett vom Rücksitz aus"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9097,7 +9097,7 @@
     "label": {
       "en": "Dashboard from Back Seat",
       "fr": "Tableau de bord du Siège Arrière",
-      "de": "unknown translation"
+      "de": "Armaturenbrett vom Rücksitz aus"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9108,7 +9108,7 @@
     "label": {
       "en": "Rear Seats",
       "fr": "Sièges Arrière",
-      "de": "unknown translation"
+      "de": "Rücksitze"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9119,7 +9119,7 @@
     "label": {
       "en": "Rear Seats",
       "fr": "Sièges Arrière",
-      "de": "unknown translation"
+      "de": "Rücksitze"
     },
     "category": "interior",
     "vehicleType": "undefined",
@@ -9589,7 +9589,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -9619,7 +9619,7 @@
     "label": {
       "en": "Rear Roof Right",
       "fr": "Toit (arrière droit)",
-      "de": "unknown translation"
+      "de": "Hinteres Dach rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -9710,7 +9710,7 @@
     "label": {
       "en": "Rocker Panel Left (Rear)",
       "fr": "Bas de caisse gauche (arrière)",
-      "de": "unknown translation"
+      "de": "Schwellerverkleidung links (hinten)"
     },
     "category": "exterior",
     "vehicle": {
@@ -9741,7 +9741,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -9772,7 +9772,7 @@
     "label": {
       "en": "Rear Bumper Side Left",
       "fr": "Pare-chocs arrière côté gauche",
-      "de": "unknown translation"
+      "de": "Hintere Stoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -10143,7 +10143,7 @@
     "label": {
       "en": "Front Lateral Right",
       "fr": "Avant latéral droit",
-      "de": "unknown translation"
+      "de": "Vorne Seitlich Rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10205,7 +10205,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10360,7 +10360,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10391,7 +10391,7 @@
     "label": {
       "en": "Rocker Panel Right",
       "fr": "Bas de caisse droit",
-      "de": "unknown translation"
+      "de": "Schwellerverkleidung rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10422,7 +10422,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10484,7 +10484,7 @@
     "label": {
       "en": "Rear Bumper Side Right",
       "fr": "Pare-chocs arrière côté droit",
-      "de": "unknown translation"
+      "de": "Hintere Stoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10546,7 +10546,7 @@
     "label": {
       "en": "Rocker Panel Right",
       "fr": "Bas de caisse droit",
-      "de": "unknown translation"
+      "de": "Schwellerverkleidung rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -10577,7 +10577,7 @@
     "label": {
       "en": "Rocker Panel Right (Rear)",
       "fr": "Bas de caisse droit (arrière)",
-      "de": "unknown translation"
+      "de": "Schwellerverkleidung rechts (hinten)"
     },
     "category": "exterior",
     "vehicle": {
@@ -10794,7 +10794,7 @@
     "label": {
       "en": "Front Bumper Side Left",
       "fr": "Pare-chocs avant côté gauche",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite links"
     },
     "category": "exterior",
     "vehicle": {
@@ -10825,7 +10825,7 @@
     "label": {
       "en": "Front Bumper Side Right",
       "fr": "Pare-chocs avant côté droit",
-      "de": "unknown translation"
+      "de": "Frontstoßstange Seite rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -11040,7 +11040,7 @@
     "label": {
       "en": "Front Roof Left",
       "fr": "Toit (avant gauche)",
-      "de": "unknown translation"
+      "de": "Vorderes Dach links"
     },
     "category": "exterior",
     "vehicle": {
@@ -11193,7 +11193,7 @@
     "label": {
       "en": "Rear Lateral Right",
       "fr": "Arrière latéral droit",
-      "de": "unknown translation"
+      "de": "Hinten seitlich rechts"
     },
     "category": "exterior",
     "vehicle": {
@@ -11224,7 +11224,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "fesc20-KdA8FE02.svg",
@@ -11235,7 +11235,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "fesc20-b_S_-VYh.svg",
@@ -11246,7 +11246,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "fesc20-TbH6Zfk_.svg",
@@ -11257,7 +11257,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "fesc20-Hvswbpuo.svg",
@@ -11268,7 +11268,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "ff150-Gx0zuL4H.svg",
@@ -11279,7 +11279,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "ff150-Kx339Abo.svg",
@@ -11290,7 +11290,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "ff150-nTWv3M6S.svg",
@@ -11301,7 +11301,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "ff150-3I-Bjtkv.svg",
@@ -11312,7 +11312,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "ffocus18-h14N6xUZ.svg",
@@ -11323,7 +11323,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "ffocus18-dvP1kb2u.svg",
@@ -11334,7 +11334,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "ffocus18-Cupr9bjR.svg",
@@ -11345,7 +11345,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "ffocus18-SNN4sM20.svg",
@@ -11356,7 +11356,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "ftransit18-EjXu4RGC.svg",
@@ -11367,7 +11367,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "ftransit18-biueFeY7.svg",
@@ -11378,7 +11378,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "ftransit18-ewzj3qTR.svg",
@@ -11389,7 +11389,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "ftransit18-zhgNZH_o.svg",
@@ -11400,7 +11400,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "haccord-4c2TDsRn.svg",
@@ -11411,7 +11411,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "haccord-r0uhi6dj.svg",
@@ -11422,7 +11422,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "haccord-g2ABR9ES.svg",
@@ -11433,7 +11433,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "haccord-SIywQdYc.svg",
@@ -11444,7 +11444,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "jgc21-M7aCKaPN.svg",
@@ -11455,7 +11455,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "jgc21-GmGZpI_0.svg",
@@ -11466,7 +11466,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "jgc21-giQgZNoE.svg",
@@ -11477,7 +11477,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "jgc21-DhGfIoS_.svg",
@@ -11488,7 +11488,7 @@
     "label": {
       "en": "Front Wheel Left",
       "fr": "Roue Avant Gauche",
-      "de": "unknown translation"
+      "de": "Vorderrad links"
     },
     "category": "exterior",
     "overlay": "tsienna20-pnNf2nqG.svg",
@@ -11499,7 +11499,7 @@
     "label": {
       "en": "Front Wheel Right",
       "fr": "Roue Avant Droite",
-      "de": "unknown translation"
+      "de": "Vorderrad rechts"
     },
     "category": "exterior",
     "overlay": "tsienna20-dUh-eali.svg",
@@ -11510,7 +11510,7 @@
     "label": {
       "en": "Rear Wheel Left",
       "fr": "Roue Arrière Gauche",
-      "de": "unknown translation"
+      "de": "Hinterrad links"
     },
     "category": "exterior",
     "overlay": "tsienna20-nRXoUoCu.svg",
@@ -11521,7 +11521,7 @@
     "label": {
       "en": "Rear Wheel Right",
       "fr": "Roue Arrière Droite",
-      "de": "unknown translation"
+      "de": "Hinterrad rechts"
     },
     "category": "exterior",
     "overlay": "tsienna20-bCkFE45R.svg",
