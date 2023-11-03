@@ -7,7 +7,8 @@ const ClientSights = {
   [Clients.CAT]: defaultWithVin,
   [Clients.FASTBACK]: defaultSights,
   [Clients.ALPHA]: defaultSights,
-  [Clients.ALGODRIVEN]: defaultSights,
+  [Clients.ALGODRIVEN_CAPTURE]: defaultSights,
+  [Clients.ALGODRIVEN_REPORT]: defaultSights,
 };
 
 export default ClientSights;

@@ -16,6 +16,12 @@ const Workflows = {
    * - Vehicle type in params /If no vehicle type : redirected to vehicle type selection page
    */
   CAPTURE_VEHICLE_SELECTION: 'capture vehicle selection',
+  /**
+   * Inspection Report workflow :
+   * - No landing screen / No Capture
+   * - Inspection Report only
+   */
+  INSPECTION_REPORT: 'inspection report',
 };
 
 export default Workflows;
