@@ -12,6 +12,7 @@ export default function useCreateInspection(vehicle) {
   const axiosRequest = useCallback(async () => {
     const taskOptions = { status: monk.types.ProgressStatusUpdate.NOT_STARTED };
     const tasks = {
+      // imagesOcr: taskOptions,
       wheelAnalysis: {
         ...taskOptions,
         useLongshots: true,

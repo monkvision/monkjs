@@ -11,8 +11,8 @@ import monk, { useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
-import { Clients, useClient } from '../../contexts';
 import ErrorModal from 'components/ErrorModal';
+import { Clients, useClient } from '../../contexts';
 import mapTasksToSights from './mapTasksToSights';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
@@ -63,7 +63,7 @@ export default function InspectionCapture() {
         // eslint-disable-next-line no-alert
         const ok = window.confirm(t('capture.quit.title'));
         if (ok) {
-          navigation.navigate(names.LANDING, { inspectionId });
+          navigation.navigate(names.LANDING, { inspectionId, isLastTour: true });
         }
       }
 
@@ -76,7 +76,7 @@ export default function InspectionCapture() {
         }, {
           text: t('capture.quit.ok'),
           onPress: () => {
-            navigation.navigate(names.LANDING, { inspectionId });
+            navigation.navigate(names.LANDING, { inspectionId, isLastTour: true });
           },
         }],
         { cancelable: true },
@@ -105,7 +105,10 @@ export default function InspectionCapture() {
       if (isLastTour && info.vm) {
         navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
       } else {
-        navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
+        navigation.navigate(
+          names.LANDING,
+          { inspectionId, captureComplete: true, isLastTour: true },
+        );
       }
     }
   }, [inspectionId, navigation, info, isLastTour, allTasks, inspection]);
@@ -144,7 +147,7 @@ export default function InspectionCapture() {
                 },
                 onPress: () => {
                   setErrorModal(null);
-                  navigation.navigate(names.LANDING);
+                  navigation.navigate(names.LANDING, { isLastTour: true });
                 },
               });
             });
@@ -203,7 +206,7 @@ export default function InspectionCapture() {
 
   const handleCaptureClose = useCallback(() => {
     if (!enableComplianceCheck) {
-      navigation.navigate(names.LANDING, { inspectionId });
+      navigation.navigate(names.LANDING, { inspectionId, isLastTour: true });
     }
   }, [enableComplianceCheck, inspectionId]);
 

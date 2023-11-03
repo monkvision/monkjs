@@ -47,7 +47,7 @@ const REQUIRED_INSPECTION_TASKS_FOR_PDF = [
 
 const debugParams = {
   client: Clients.ALPHA,
-  inspectionId: '2d13d243-7d84-599b-2d79-703c7aa27330',
+  inspectionId: '252e2125-4a2f-a19f-2544-835a4d098b34',
   token: '',
   vehicleType: VehicleTypes.HATCHBACK,
 };
@@ -72,7 +72,7 @@ export default function Landing() {
   const dispatch = useDispatch();
 
   const { workflow, setClient, info } = useClient();
-  const [isLastTour, setIsLastTour] = useState(workflow !== Workflows.DEFAULT);
+  const isLastTour = route.params?.isLastTour ?? workflow !== Workflows.DEFAULT;
 
   useEffect(() => {
     if (info.preferredLanguage) {
@@ -123,7 +123,7 @@ export default function Landing() {
           selectedMod: 'car360',
           inspectionId,
           vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] ?? 'cuv' },
-          isLastTour: true,
+          isLastTour,
         },
       );
     } else if (workflow === Workflows.CAPTURE_VEHICLE_SELECTION && !route.params?.captureComplete) {
@@ -134,14 +134,14 @@ export default function Landing() {
             selectedMod: 'car360',
             inspectionId,
             vehicle: { vehicleType: VehicleTypeMap[vehicleTypeParam] },
-            isLastTour: true,
+            isLastTour,
           },
         );
       } else {
         navigation.navigate(names.CAPTURE_VEHICLE_SELECTION, { inspectionId });
       }
     }
-  }, [workflow, route, navigation, inspectionId, vehicleTypeParam]);
+  }, [workflow, route, navigation, inspectionId, vehicleTypeParam, isLastTour]);
 
   useEffect(() => {
     if (token) {
@@ -243,7 +243,6 @@ export default function Landing() {
       names.INSPECTION_CREATE,
       { selectedMod: value, inspectionId, vehicle: { vehicleType }, isLastTour },
     );
-    setIsLastTour(true);
   }, [inspectionId, navigation, isAuthenticated, vehicleType, isLastTour]);
 
   const renderListItem = useCallback(({ item, index }) => {
