@@ -10,8 +10,8 @@ const validErrorCodes = [
   'WRONG_CENTER_PART',
   'MISSING_PARTS',
   'HIDDEN_PARTS',
-  'TOO_ZOOMED',
-  'NOT_ZOOMED_ENOUGH',
+  // 'TOO_ZOOMED',
+  // 'NOT_ZOOMED_ENOUGH',
 ];
 
 export default function useSubtitle({
@@ -42,9 +42,12 @@ export default function useSubtitle({
 
       if (badQuality && iqa.reasons) {
         iqa.reasons.forEach((reason, index) => {
-          const first = index === 0;
-          reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
-            : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
+          const errorCode = validErrorCodes.find((code) => reason.startsWith(code));
+          if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
+            const first = index === 0;
+            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
+              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
+          }
         });
       }
 

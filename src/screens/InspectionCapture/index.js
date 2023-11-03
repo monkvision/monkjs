@@ -223,9 +223,16 @@ export default function InspectionCapture() {
       ...Controls.CloseEarlyButtonProps,
       confirm: true,
       confirmationMessage: {
-        en: 'Your inspection is not complete, are you sure you want to stop it ?',
-        fr: 'Votre inspection n\'est pas complète, êtes-vous sûr(e) de vouloir l\'arrêter ?',
-        de: 'Ihre Inspektion ist nicht abgeschlossen. Sind Sie sicher, dass Sie sie beenden möchten?',
+        zoomed: {
+          en: 'Do you want to cancel this zoomed damage ?',
+          fr: 'Voulez vous annuler cet ajout de dommage ?',
+          de: 'Möchten Sie diesen gezoomten Schaden rückgängig machen?',
+        },
+        normal: {
+          en: 'Your inspection is not complete, are you sure you want to stop it ?',
+          fr: 'Votre inspection n\'est pas complète, êtes-vous sûr(e) de vouloir l\'arrêter ?',
+          de: 'Ihre Inspektion ist nicht abgeschlossen. Sind Sie sicher, dass Sie sie beenden möchten?',
+        },
       },
       disabled: cameraLoading,
     },
