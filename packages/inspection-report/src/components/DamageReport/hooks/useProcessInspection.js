@@ -27,6 +27,22 @@ function getSeverity(severityNumber) {
   }
 }
 
+function getRenderedOutputImages(image) {
+  const damagedImage = image.rendered_outputs
+    .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
+
+  if (!damagedImage) {
+    return;
+  }
+
+  return {
+    id: damagedImage.id,
+    isRendered: true,
+    label: image.additional_data?.label ?? undefined,
+    url: damagedImage.path,
+  }
+}
+
 function getPictures(inspection) {
   return inspection.images.map((image) => ({
     id: image.id,
@@ -35,16 +51,7 @@ function getPictures(inspection) {
     mimetype: image.mimetype,
     image_type: image.image_type,
     url: image.path,
-    rendered_outputs: image.rendered_outputs
-      .filter((damage) => damage?.additional_data?.description === 'rendering of detected damages')
-      .map((damagedImage) => {
-        return {
-          id: image.id,
-          isRendered: true,
-          label: image.additional_data?.label ?? undefined,
-          url: damagedImage.path,
-        }
-      }),
+    rendered_outputs: getRenderedOutputImages(image),
     label: image.additional_data?.label ?? undefined,
   }));
 }
