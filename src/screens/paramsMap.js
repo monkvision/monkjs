@@ -8,12 +8,22 @@ export const ClientParamMap = {
   m4n: Clients.ALGODRIVEN,
 };
 
+export const VehicleTypes = {
+  SUV: 'suv',
+  CUV: 'cuv',
+  SEDAN: 'sedan',
+  HATCHBACK: 'hatchback',
+  VAN: 'van',
+  MINIVAN: 'minivan',
+  PICKUP: 'pickup',
+};
+
 export const VehicleTypeMap = {
-  0: 'suv',
-  1: 'cuv',
-  2: 'sedan',
-  3: 'hatchback',
-  4: 'van',
-  5: 'minivan',
-  6: 'pickup',
+  0: VehicleTypes.SUV,
+  1: VehicleTypes.CUV,
+  2: VehicleTypes.SEDAN,
+  3: VehicleTypes.HATCHBACK,
+  4: VehicleTypes.VAN,
+  5: VehicleTypes.MINIVAN,
+  6: VehicleTypes.PICKUP,
 };

@@ -20,8 +20,8 @@ import useGetInspection from 'screens/Landing/useGetInspection';
 
 import * as names from 'screens/names';
 import { authSlice } from 'store';
-import { useClient, Workflows } from '../../contexts';
-import { ClientParamMap, VehicleTypeMap } from '../paramsMap';
+import { Clients, useClient, Workflows } from '../../contexts';
+import { ClientParamMap, VehicleTypeMap, VehicleTypes } from '../paramsMap';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
@@ -35,6 +35,15 @@ const ICON_BY_STATUS = {
   DONE: 'check-bold',
   ERROR: 'alert-octagon',
 };
+
+const debugParams = {
+  client: Clients.ALPHA,
+  inspectionId: '2d13d243-7d84-599b-2d79-703c7aa27330',
+  token: '',
+  vehicleType: VehicleTypes.HATCHBACK,
+};
+
+const USE_DEBUG_PARAMS = false;
 
 export default function Landing() {
   const { colors } = useTheme();
@@ -65,6 +74,16 @@ export default function Landing() {
   }, [info, i18n]);
 
   const { clientId, inspectionId, token, vehicleTypeParam } = useMemo(() => {
+    if (USE_DEBUG_PARAMS) {
+      return {
+        clientId: debugParams.client,
+        inspectionId: debugParams.inspectionId,
+        token: debugParams.token,
+        vehicleTypeParam: Object.entries(VehicleTypeMap)
+          .find(([, value]) => value === debugParams.vehicleType)[0],
+      };
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const compressedToken = urlParams.get('t');
     const clientParam = urlParams.get('c');
