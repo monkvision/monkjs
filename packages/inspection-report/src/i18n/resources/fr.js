@@ -22,6 +22,12 @@ const fr = {
         message: 'Une erreur inattendue est survenue lors de la récupération des résultats de l\'inspection.',
         retry: 'Réessayer',
       },
+      inspectionInError: {
+        message: 'Désolé, une erreur inattendue est survenue lors de l\'inspection. Veuillez contacter le support avec les informations suivantes :',
+        id: 'Identifiant de l\'inspection',
+        tasks: 'Tâches en erreur',
+        startNewInspection: 'Nouvelle Inspection',
+      },
       loading: 'Récupération des résultats...',
       notReady: 'Inspection en cours...',
       validate: 'Valider',
