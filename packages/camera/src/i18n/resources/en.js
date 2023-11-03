@@ -13,6 +13,7 @@ const en = {
       exitFullScreen: 'Exit Full Screen',
       settings: 'Settings',
       quit: 'Quit',
+      addDamage: 'Zoomed Damage',
     },
     layout: {
       rotateDevice: 'Please rotate your device ↪',

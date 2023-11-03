@@ -13,6 +13,7 @@ const de = {
       exitFullScreen: 'Vollbild verlassen',
       settings: 'Einstellungen',
       quit: 'Beenden',
+      addDamage: 'Zoom Schaden',
     },
     layout: {
       rotateDevice: 'Bitte drehen Sie Ihr Gerät ↪',
