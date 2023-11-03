@@ -1,58 +1,67 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Button, Menu } from 'react-native-paper';
 import { useMonitoring } from '@monkvision/corejs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 
 export const ASYNC_STORAGE_LANG_KEY = '@lang_Storage';
 
-const BUTTON_CONTENTS = {
-  en: '🇬🇧 ▼',
-  fr: '🇫🇷 ▼',
-  de: '🇩🇪 ▼',
-};
+const options = [
+  { label: '🇬🇧 English', value: 'en' },
+  { label: '🇫🇷 French', value: 'fr' },
+];
+
+const styles = StyleSheet.create({
+  dropdown: {
+    margin: 16,
+    height: 50,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+    cursor: 'pointer',
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+    color: '#efefef',
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  containerStyle: {
+    backgroundColor: '#313240',
+    color: '#efefef',
+  },
+  itemTextStyle: {
+    color: '#efefef',
+  },
+});
 
 export default function LanguageSwitch() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [visible, setVisible] = React.useState(false);
   const { errorHandler } = useMonitoring();
   const { i18n } = useTranslation();
 
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
-
   const setLanguage = (lng) => {
-    setIsLoading(true);
-    closeMenu();
     i18n.changeLanguage(lng)
       .then(() => AsyncStorage.setItem(ASYNC_STORAGE_LANG_KEY, lng))
-      .then(() => setIsLoading(false))
-      .catch((err) => {
-        setIsLoading(false);
-        errorHandler(err);
-      });
+      .catch((err) => errorHandler(err));
   };
 
-  const getButtonContent = useCallback(() => {
-    if (isLoading) {
-      return <ActivityIndicator animating />;
-    }
-    if (!i18n.language) {
-      setLanguage('en');
-      return BUTTON_CONTENTS.en;
-    }
-    return BUTTON_CONTENTS[i18n.language.substring(0, 2)] ?? BUTTON_CONTENTS.en;
-  }, [isLoading, i18n.language]);
-
   return (
-    <Menu
-      visible={visible}
-      onDismiss={closeMenu}
-      anchor={<Button color="white" onPress={openMenu} disabled={isLoading}>{getButtonContent()}</Button>}
-    >
-      <Menu.Item onPress={() => setLanguage('en')} title="🇬🇧 English" />
-      <Menu.Item onPress={() => setLanguage('fr')} title="🇫🇷 Français" />
-      <Menu.Item onPress={() => setLanguage('de')} title="🇩🇪 Deutsch" />
-    </Menu>
+    <Dropdown
+      style={styles.dropdown}
+      selectedTextStyle={styles.selectedTextStyle}
+      containerStyle={styles.containerStyle}
+      itemTextStyle={styles.itemTextStyle}
+      iconStyle={styles.iconStyle}
+      activeColor="#424456"
+      data={options}
+      labelField="label"
+      valueField="value"
+      placeholder="Change language"
+      value={i18n.language}
+      onChange={(item) => setLanguage(item.value)}
+      backgroundColor="#00000080"
+    />
   );
 }
