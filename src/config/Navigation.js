@@ -51,6 +51,11 @@ export default function Navigation() {
           component={Screens.InspectionReport}
           title="Monk - Inspection Report"
         />
+        <Stack.Screen
+          name={names.INSPECTION_FEEDBACK}
+          component={Screens.InspectionFeedback}
+          title="Monk - Inspection Feedback"
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

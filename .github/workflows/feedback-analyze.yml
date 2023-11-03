@@ -1,4 +1,4 @@
-name: Check Camera package
+name: Check Feedback package
 
 on:
   push:
@@ -25,6 +25,6 @@ jobs:
         with:
           node-version: '16'
           cache: 'yarn'
-      - run: cd packages/camera && yarn install
-      - run: cd packages/camera && yarn lint
-      - run: cd packages/camera && yarn run build
+      - run: cd packages/feedback && yarn install
+      - run: cd packages/feedback && yarn lint
+      - run: cd packages/feedback && yarn run build

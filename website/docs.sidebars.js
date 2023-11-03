@@ -41,5 +41,6 @@ module.exports = {
   'troubleshooting',
   'monitoring',
   'inspection-report',
+  'feedback',
   ],
 };

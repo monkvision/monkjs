@@ -13,6 +13,7 @@ config.resolver = {
     '@monkvision/toolkit',
     '@monkvision/visualization',
     '@monkvision/inspection-report',
+    '@monkvision/feedback',
   ],
 };
 
