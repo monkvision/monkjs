@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   tabDesktopInnerContainer: {
     width: '50%',
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   text: {
     color: '#fafafa',
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   galleryWrapper: {
     maxHeight: '39vh',
     overflowY: 'auto',
-    paddingBottom: 15
+    paddingBottom: 15,
   },
 });
 
@@ -144,6 +144,7 @@ export default function DamageReport({
     isError,
     retry,
     isInspectionReady,
+    inspectionErrors,
     vinNumber,
     pictures,
     damages,
@@ -213,7 +214,7 @@ export default function DamageReport({
     if (pdfStatus === PdfStatus.ERROR) {
       setIsEditable(true);
     }
-  }, [pdfStatus])
+  }, [pdfStatus]);
 
   useEffect(() => {
     if (isPopUpVisible) {
@@ -221,7 +222,7 @@ export default function DamageReport({
     } else {
       setShowPictures(true);
     }
-  }, [isPopUpVisible])
+  }, [isPopUpVisible]);
 
   return (
     <View style={[styles.container]}>
@@ -231,8 +232,20 @@ export default function DamageReport({
           {
             isDesktopMode && (
               <>
-                <Text style={[styles.text, styles.subTitle]}>{t('damageReport.inspection')} : {inspectionId}</Text>
-                <Text style={[styles.text, styles.subTitle]}>{t('damageReport.vinNumber')} : {vinNumber}</Text>
+                <Text style={[styles.text, styles.subTitle]}>
+                  {t('damageReport.inspection')}
+                  {' '}
+                  :
+                  {' '}
+                  {inspectionId}
+                </Text>
+                <Text style={[styles.text, styles.subTitle]}>
+                  {t('damageReport.vinNumber')}
+                  {' '}
+                  :
+                  {' '}
+                  {vinNumber}
+                </Text>
               </>
             )
           }
@@ -259,10 +272,29 @@ export default function DamageReport({
             </TouchableOpacity>
           </View>
         )}
-        {!isLoading && !isError && (
+        {!isLoading && inspectionErrors.isInError && (
+          <View style={[styles.notReadyContainer]}>
+            <Text style={[styles.notReadyMessage]}>{t('damageReport.inspectionInError.message')}</Text>
+            <Text
+              style={[styles.notReadyMessage, { fontFamily: 'monospace' }]}
+            >
+              {`${t('damageReport.inspectionInError.id')} : ${inspectionId}`}
+            </Text>
+            <Text
+              style={[styles.notReadyMessage, { fontFamily: 'monospace' }]}
+            >
+              {`${t('damageReport.inspectionInError.tasks')} : ${inspectionErrors.tasks.join(', ')}`}
+            </Text>
+            <TouchableOpacity style={[styles.retryButton]} onPress={onStartNewInspection}>
+              <Text style={[styles.retryTxt]}>{t('damageReport.inspectionInError.startNewInspection')}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {!isLoading && !isError && !inspectionErrors.isInError && (
           <>
             {
-              !isDesktopMode &&
+              !isDesktopMode
+              && (
               <View style={[styles.tabGroup]}>
                 <TabGroup>
                   <TabButton
@@ -281,6 +313,7 @@ export default function DamageReport({
                   />
                 </TabGroup>
               </View>
+              )
             }
             <View style={[styles.tabContent, isDesktopMode && styles.tabDesktopContent]}>
               <View style={[isDesktopMode && styles.tabDesktopInnerContainer]}>

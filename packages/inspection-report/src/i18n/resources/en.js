@@ -22,6 +22,12 @@ const en = {
         message: 'An unexpected error occurred while fetching the inspection results.',
         retry: 'Retry',
       },
+      inspectionInError: {
+        message: 'Sorry, an unexpected error occurred during the inspection. Please contact the support with the following information :',
+        id: 'Inspection ID',
+        tasks: 'Failed tasks',
+        startNewInspection: 'New Inspection',
+      },
       loading: 'Fetching inspection results...',
       notReady: 'Inspection still in progress...',
       validate: 'Validate',

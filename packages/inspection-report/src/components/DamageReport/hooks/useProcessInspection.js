@@ -3,6 +3,15 @@ import monk from '@monkvision/corejs';
 
 import { RepairOperation, Severity } from '../../../resources';
 
+const REQUIRED_INSPECTION_TASKS = [
+  'damage_detection',
+  'wheel_analysis',
+  'images_ocr',
+  'repair_estimate',
+  'pricing',
+  'dashboard_ocr',
+];
+
 function getRepairOperation(repairType) {
   switch (repairType) {
     case true:
@@ -40,7 +49,7 @@ function getRenderedOutputImages(image) {
     isRendered: true,
     label: image.additional_data?.label ?? undefined,
     url: damagedImage.path,
-  }
+  };
 }
 
 function getPictures(inspection) {
@@ -80,6 +89,7 @@ function getDamages(inspection) {
 
 export default function useProcessInspection() {
   const [isInspectionReady, setIsInspectionReady] = useState(false);
+  const [inspectionErrors, setInspectionErrors] = useState({ isInError: false, tasks: [] });
   const [vinNumber, setVinNumber] = useState('');
   const [pictures, setPictures] = useState([]);
   const [damages, setDamages] = useState([]);
@@ -91,11 +101,17 @@ export default function useProcessInspection() {
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
+    const tasks = axiosResponse.data.tasks
+      .filter((task) => REQUIRED_INSPECTION_TASKS.includes(task.name));
     setIsInspectionReady(
-      axiosResponse.data.tasks
-        .filter((task) => (task.name !== 'inspection_pdf'))
-        .every((task) => (task.status === monk.types.InspectionStatus.DONE)),
+      tasks.every((task) => (task.status === monk.types.InspectionStatus.DONE)),
     );
+    const tasksInError = tasks
+      .filter((task) => (task.status === monk.types.InspectionStatus.ERROR));
+    setInspectionErrors({
+      isInError: tasksInError.length > 0,
+      tasks: tasksInError,
+    });
     setPictures(getPictures(axiosResponse.data));
     setDamages(getDamages(axiosResponse.data));
     setVinNumber(axiosResponse.data?.vehicle?.vin);
@@ -105,6 +121,7 @@ export default function useProcessInspection() {
     processInspection,
     resetState,
     isInspectionReady,
+    inspectionErrors,
     vinNumber,
     pictures,
     damages,
