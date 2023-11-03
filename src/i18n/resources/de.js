@@ -45,6 +45,12 @@ const de = {
       invalidParams: 'Oops! Die URL, auf die Sie zuzugreifen versuchen, ist ungültig 😔 Bitte versuchen Sie es erneut mit einer anderen URL.',
       invalidToken: 'Oops! Die URL, auf die Sie zuzugreifen versuchen, ist abgelaufen 😔 Bitte versuchen Sie es erneut mit einer anderen URL.',
       selectVehicle: 'Fahrzeugtyp auswählen',
+      inspectionInError: {
+        title: 'Fehler bei der Inspektion',
+        message: 'Es tut uns leid, während der Prüfung ist ein unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie den Support mit den folgenden Informationen:',
+        id: 'Inspektion ID',
+        tasks: 'Fehlgeschlagene Aufgaben',
+      },
     },
     vinModal: {
       title: 'Wie wird die Fahrgestellnummer festgelegt?',

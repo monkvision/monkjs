@@ -10,7 +10,7 @@ import useAuth from 'hooks/useAuth';
 import useSnackbar from 'hooks/useSnackbar';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Text, useWindowDimensions, View } from 'react-native';
+import { Alert, FlatList, Text, useWindowDimensions, View } from 'react-native';
 import { ActivityIndicator, Card, List, Surface, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
@@ -35,6 +35,15 @@ const ICON_BY_STATUS = {
   DONE: 'check-bold',
   ERROR: 'alert-octagon',
 };
+
+const REQUIRED_INSPECTION_TASKS_FOR_PDF = [
+  'damage_detection',
+  'wheel_analysis',
+  'images_ocr',
+  'repair_estimate',
+  'pricing',
+  'dashboard_ocr',
+];
 
 const debugParams = {
   client: Clients.ALPHA,
@@ -177,9 +186,28 @@ export default function Landing() {
   );
 
   const allTasksAreCompleted = useMemo(
-    () => inspection?.tasks?.length && inspection?.tasks
-      .every(({ status }) => status === monk.types.ProgressStatus.DONE),
-    [inspection?.tasks],
+    () => {
+      const tasks = inspection?.tasks
+        .filter((task) => REQUIRED_INSPECTION_TASKS_FOR_PDF.includes(task)) ?? [];
+      const tasksInError = tasks
+        .filter((task) => task.status === monk.types.ProgressStatus.ERROR)
+        .map((task) => task.status);
+      if (tasksInError.length > 0) {
+        Alert.alert(
+          t('landing.inspectionInError.title'),
+          `${t('landing.inspectionInError.message')} \n${t('landing.inspectionInError.id')} : ${inspectionId} \n${t('landing.inspectionInError.tasks')} : ${tasksInError.join(', ')}`,
+          [{
+            text: t('capture.quit.ok'),
+            onPress: () => {},
+          }],
+          { cancelable: true },
+        );
+      }
+
+      return tasks.length > 0 && tasks
+        .every((task) => task.status === monk.types.ProgressStatus.DONE);
+    },
+    [inspection?.tasks, i18n.language],
   );
 
   // NOTE(Ilyass):We update the ocr once the vin got changed manually,
