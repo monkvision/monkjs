@@ -70,6 +70,7 @@ export default function Sights({
   ids,
   navigationOptions,
   offline,
+  onSightPressed,
   takenPictures,
   thumbnailStyle,
   tour,
@@ -79,11 +80,12 @@ export default function Sights({
   const { height: windowHeight } = useWindowDimensions();
 
   const handlePress = useCallback((id, e) => {
-    if (navigationOptions.allowNavigate) {
+    if (navigationOptions.allowNavigate && id !== current.id) {
       e.preventDefault();
+      onSightPressed(current.id);
       dispatch({ type: Actions.sights.SET_CURRENT_SIGHT, payload: { id } });
     }
-  }, [dispatch, navigationOptions.allowNavigate]);
+  }, [current.id, dispatch, navigationOptions.allowNavigate]);
 
   const scrollViewRef = useRef(null);
   // const handleScrollToNext = (i, rowHeight) => scrollViewRef.current.scrollTo({
@@ -178,6 +180,7 @@ Sights.propTypes = {
   })),
   contentContainerStyle: PropTypes.objectOf(PropTypes.any),
   current: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     metadata: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -194,6 +197,7 @@ Sights.propTypes = {
     retakeMinTry: PropTypes.number,
   }).isRequired,
   offline: PropTypes.objectOf(PropTypes.any),
+  onSightPressed: PropTypes.func,
   takenPictures: PropTypes.objectOf(PropTypes.object),
   thumbnailStyle: PropTypes.objectOf(PropTypes.any),
   tour: PropTypes.arrayOf(PropTypes.shape({
@@ -220,6 +224,7 @@ Sights.defaultProps = {
   contentContainerStyle: {},
   footer: null,
   offline: null,
+  onSightPressed: () => {},
   takenPictures: {},
   thumbnailStyle: {},
 };

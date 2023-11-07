@@ -22,6 +22,12 @@ const en = {
         message: 'An unexpected error occurred while fetching the inspection results.',
         retry: 'Retry',
       },
+      inspectionInError: {
+        message: 'Sorry, an unexpected error occurred during the inspection. Please contact the support with the following information :',
+        id: 'Inspection ID',
+        tasks: 'Failed tasks',
+        startNewInspection: 'New Inspection',
+      },
       loading: 'Fetching inspection results...',
       notReady: 'Inspection still in progress...',
       validate: 'Validate',
@@ -54,6 +60,8 @@ const en = {
       pictures: 'Pictures',
       partsPictures: 'Parts Pictures',
       zoomedPicturesOfThePart: 'Zoomed pictures of the part',
+      showDamages: 'See damages',
+      hideDamages: 'Hide damages',
     },
     gallery: {
       empty: 'This inspection does not have any photo yet.',

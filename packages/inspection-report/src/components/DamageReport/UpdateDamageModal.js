@@ -68,6 +68,10 @@ const styles = StyleSheet.create({
     }),
     paddingVertical: 10,
   },
+  damageLabel: {
+    color: '#fff',
+    fontSize: 14,
+  },
   carouselWrapper: {
     display: 'flex',
     flexDirection: 'row',
@@ -95,6 +99,11 @@ const styles = StyleSheet.create({
     left: 15,
     position: 'absolute',
   },
+  damageIconWrapper: {
+    position: 'absolute',
+    right: 15,
+    textAlign: 'center',
+  },
   closeIcon: {
     alignItems: 'center',
     display: 'flex',
@@ -117,6 +126,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [gestureState, setGestureState] = useState({});
+  const [seeDamages, setSeeDamages] = useState(false);
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const [fullScreenPhoto, setFullScreenPhoto] = useState(null);
 
@@ -132,6 +142,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   ).current;
 
   const handleClosePreview = useCallback(() => setFullScreenPhoto(null), []);
+  const handleVisibilityOfDamages = useCallback(() => setSeeDamages(!seeDamages), [seeDamages]);
 
   useEffect(() => {
     if (
@@ -190,7 +201,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
               source={{
                 width: '100%',
                 height: '100%',
-                uri: fullScreenPhoto.url,
+                uri: seeDamages ? fullScreenPhoto?.rendered_outputs?.url : fullScreenPhoto?.url,
               }}
               style={{ resizeMode: 'contain' }}
             />
@@ -211,6 +222,10 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
               />
             </Pressable>
             <Text style={styles.header}>{t(`damageReport.parts.${part}`)}</Text>
+            <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
+              <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+              <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
+            </Pressable>
           </View>
           <View
             style={[styles.carouselWrapper, { height: height / 3 }]}
@@ -235,7 +250,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
                       source={{
                         width: '100%',
                         height: '100%',
-                        uri: image?.url,
+                        uri: seeDamages ? image?.rendered_outputs?.url : image?.url,
                       }}
                       style={{ resizeMode: 'cover' }}
                     />
@@ -284,8 +299,8 @@ UpdateDamageModal.defaultProps = {
   damageMode: DamageMode.ALL,
   images: [],
   isEditable: true,
-  onConfirm: () => {},
-  onDismiss: () => {},
+  onConfirm: () => { },
+  onDismiss: () => { },
   part: '',
 };
 

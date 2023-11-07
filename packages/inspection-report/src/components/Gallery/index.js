@@ -17,7 +17,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import Thumbnail from './Thumbnail';
-import { useDesktopMode } from '../../hooks';
+import { useDesktopMode } from './../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,18 +45,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 10,
   },
-  closeButtonWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    color: '#fff',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    backgroundColor: '#121212',
+  damageIconWrapper: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    right: 20,
+    textAlign: 'center',
+    top: 20,
+    zIndex: 99,
+  },
+  damageLabel: {
+    color: '#fff',
+    fontSize: 14,
   },
   header: {
     position: 'absolute',
@@ -83,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
     top: 20,
-    right: 20,
+    left: 20,
     zIndex: 999,
     ...Platform.select({
       native: { paddingTop: 50 },
@@ -104,11 +102,13 @@ function Gallery({ pictures }) {
   const isDesktopMode = useDesktopMode();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [seeDamages, setSeeDamages] = useState(false);
   const { width, height } = useWindowDimensions();
   const [gestureState, setGestureState] = useState({});
   const scale = useRef(new Animated.Value(1)).current;
   const transform = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
 
+  const handleVisibilityOfDamages = useCallback(() => setSeeDamages(!seeDamages), [seeDamages]);
   const handleOnImageClick = useCallback((focusedImage) => {
     if (focusedImage.url) {
       setFocusedPhoto(focusedImage);
@@ -281,11 +281,6 @@ function Gallery({ pictures }) {
         onRequestClose={handleUnfocusPhoto}
       >
         <View style={{ flex: 1, backgroundColor: '#000000', position: 'relative' }}>
-          <View style={[styles.header]}>
-            <Text style={[styles.title]}>
-              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''} {focusedPhoto?.isRendered && t('gallery.withDamages')}
-            </Text>
-          </View>
           <Pressable
             onPress={handleUnfocusPhoto}
             style={styles.closeBtn}
@@ -297,8 +292,22 @@ function Gallery({ pictures }) {
               style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
             />
           </Pressable>
+          <View style={[styles.header]}>
+            <Text style={[styles.title]}>
+              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''} {focusedPhoto?.isRendered && t('gallery.withDamages')}
+            </Text>
+          </View>
+          {
+            !isDesktopMode && (
+              <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
+                <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+                <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
+              </Pressable>
+            )
+          }
+
           <Animated.Image
-            source={{ uri: focusedPhoto?.url }}
+            source={{ uri: seeDamages ? focusedPhoto?.rendered_outputs?.url : focusedPhoto?.url }}
             style={{
               flex: 1,
               cursor: !isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',

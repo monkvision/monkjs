@@ -3,6 +3,15 @@ import monk from '@monkvision/corejs';
 
 import { RepairOperation, Severity } from '../../../resources';
 
+const REQUIRED_INSPECTION_TASKS = [
+  'damage_detection',
+  'wheel_analysis',
+  'images_ocr',
+  'repair_estimate',
+  'pricing',
+  'dashboard_ocr',
+];
+
 function getRepairOperation(repairType) {
   switch (repairType) {
     case true:
@@ -27,6 +36,22 @@ function getSeverity(severityNumber) {
   }
 }
 
+function getRenderedOutputImages(image) {
+  const damagedImage = image.rendered_outputs
+    .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
+
+  if (!damagedImage) {
+    return;
+  }
+
+  return {
+    id: damagedImage.id,
+    isRendered: true,
+    label: image.additional_data?.label ?? undefined,
+    url: damagedImage.path,
+  };
+}
+
 function getPictures(inspection) {
   return inspection.images.map((image) => ({
     id: image.id,
@@ -35,16 +60,7 @@ function getPictures(inspection) {
     mimetype: image.mimetype,
     image_type: image.image_type,
     url: image.path,
-    rendered_outputs: image.rendered_outputs
-      .filter((damage) => damage?.additional_data?.description === 'rendering of detected damages')
-      .map((damagedImage) => {
-        return {
-          id: image.id,
-          isRendered: true,
-          label: image.additional_data?.label ?? undefined,
-          url: damagedImage.path,
-        }
-      }),
+    rendered_outputs: getRenderedOutputImages(image),
     label: image.additional_data?.label ?? undefined,
   }));
 }
@@ -73,6 +89,7 @@ function getDamages(inspection) {
 
 export default function useProcessInspection() {
   const [isInspectionReady, setIsInspectionReady] = useState(false);
+  const [inspectionErrors, setInspectionErrors] = useState({ isInError: false, tasks: [] });
   const [vinNumber, setVinNumber] = useState('');
   const [pictures, setPictures] = useState([]);
   const [damages, setDamages] = useState([]);
@@ -84,11 +101,17 @@ export default function useProcessInspection() {
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
+    const tasks = axiosResponse.data.tasks
+      .filter((task) => REQUIRED_INSPECTION_TASKS.includes(task.name));
     setIsInspectionReady(
-      axiosResponse.data.tasks
-        .filter((task) => (task.name !== 'inspection_pdf'))
-        .every((task) => (task.status === monk.types.InspectionStatus.DONE)),
+      tasks.every((task) => (task.status === monk.types.InspectionStatus.DONE)),
     );
+    const tasksInError = tasks
+      .filter((task) => (task.status === monk.types.InspectionStatus.ERROR));
+    setInspectionErrors({
+      isInError: tasksInError.length > 0,
+      tasks: tasksInError,
+    });
     setPictures(getPictures(axiosResponse.data));
     setDamages(getDamages(axiosResponse.data));
     setVinNumber(axiosResponse.data?.vehicle?.vin);
@@ -98,6 +121,7 @@ export default function useProcessInspection() {
     processInspection,
     resetState,
     isInspectionReady,
+    inspectionErrors,
     vinNumber,
     pictures,
     damages,

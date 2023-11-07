@@ -85,7 +85,7 @@ Thumbnail.defaultProps = {
       fr: '',
     },
     url: '',
-    isRendered: false,
+    isRendered: false
   },
 };
 

@@ -22,6 +22,12 @@ const fr = {
         message: 'Une erreur inattendue est survenue lors de la récupération des résultats de l\'inspection.',
         retry: 'Réessayer',
       },
+      inspectionInError: {
+        message: 'Désolé, une erreur inattendue est survenue lors de l\'inspection. Veuillez contacter le support avec les informations suivantes :',
+        id: 'Identifiant de l\'inspection',
+        tasks: 'Tâches en erreur',
+        startNewInspection: 'Nouvelle Inspection',
+      },
       loading: 'Récupération des résultats...',
       notReady: 'Inspection en cours...',
       validate: 'Valider',
@@ -54,6 +60,8 @@ const fr = {
       pictures: 'Images',
       partsPictures: 'Images de la partie de voiture',
       zoomedPicturesOfThePart: 'Images zoomées de la partie de voiture',
+      showDamages: 'Voir les dommages',
+      hideDamages: 'Cacher les dommages',
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',

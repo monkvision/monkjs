@@ -1,6 +1,6 @@
 import { Loader } from '@monkvision/ui';
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 
@@ -152,6 +152,7 @@ export default function DamageReport({
     isError,
     retry,
     isInspectionReady,
+    inspectionErrors,
     vinNumber,
     pictures,
     damages,
@@ -164,7 +165,6 @@ export default function DamageReport({
       editedPartDamageImages,
       editedZoomedDamageImages,
       editedDamagePart,
-      editedDamageImages,
       isPopUpVisible,
       isModalVisible,
       isEditable,
@@ -246,8 +246,20 @@ export default function DamageReport({
           {
             isDesktopMode && (
               <>
-                <Text style={[styles.text, styles.subTitle]}>{t('damageReport.inspection')} : {inspectionId}</Text>
-                <Text style={[styles.text, styles.subTitle]}>{t('damageReport.vinNumber')} : {vinNumber}</Text>
+                <Text style={[styles.text, styles.subTitle]}>
+                  {t('damageReport.inspection')}
+                  {' '}
+                  :
+                  {' '}
+                  {inspectionId}
+                </Text>
+                <Text style={[styles.text, styles.subTitle]}>
+                  {t('damageReport.vinNumber')}
+                  {' '}
+                  :
+                  {' '}
+                  {vinNumber}
+                </Text>
               </>
             )
           }
@@ -274,7 +286,25 @@ export default function DamageReport({
             </TouchableOpacity>
           </View>
         )}
-        {!isLoading && !isError && (
+        {!isLoading && inspectionErrors.isInError && (
+          <View style={[styles.notReadyContainer]}>
+            <Text style={[styles.notReadyMessage]}>{t('damageReport.inspectionInError.message')}</Text>
+            <Text
+              style={[styles.notReadyMessage, { fontFamily: 'monospace' }]}
+            >
+              {`${t('damageReport.inspectionInError.id')} : ${inspectionId}`}
+            </Text>
+            <Text
+              style={[styles.notReadyMessage, { fontFamily: 'monospace' }]}
+            >
+              {`${t('damageReport.inspectionInError.tasks')} : ${inspectionErrors.tasks.join(', ')}`}
+            </Text>
+            <TouchableOpacity style={[styles.retryButton]} onPress={onStartNewInspection}>
+              <Text style={[styles.retryTxt]}>{t('damageReport.inspectionInError.startNewInspection')}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {!isLoading && !isError && !inspectionErrors.isInError && (
           <>
             {
               !isDesktopMode
@@ -300,28 +330,30 @@ export default function DamageReport({
               )
             }
             <View style={[styles.tabContent, isDesktopMode && styles.tabDesktopContent]}>
-              {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
-                <View style={[styles.notReadyContainer]}>
-                  <Loader texts={[t('damageReport.notReady')]} />
-                </View>
-              )}
-              {currentTab === Tabs.OVERVIEW && isInspectionReady && (
-                <Overview
-                  isInspectionCompleted={!isEditable}
-                  damages={damages}
-                  damageMode={damageMode}
-                  vehicleType={vehicleType}
-                  onPressPart={handlePartPressed}
-                  onPressPill={handlePillPressed}
-                  generatePdf={generatePdf}
-                  onValidateInspection={handleValidateInspection}
-                  pdfHandles={{ pdfStatus, handleDownload: handlePDFDownload }}
-                  onStartNewInspection={handleNewInspection}
-                />
-              )}
-              {currentTab === Tabs.GALLERY && (
-                <Gallery pictures={pictures} />
-              )}
+              <View style={[isDesktopMode && styles.tabDesktopInnerContainer]}>
+                {currentTab === Tabs.OVERVIEW && !isInspectionReady && (
+                  <View style={[styles.notReadyContainer]}>
+                    <Loader texts={[t('damageReport.notReady')]} />
+                  </View>
+                )}
+                {currentTab === Tabs.OVERVIEW && isInspectionReady && (
+                  <Overview
+                    isInspectionCompleted={!isEditable}
+                    damages={damages}
+                    damageMode={damageMode}
+                    vehicleType={vehicleType}
+                    onPressPart={handlePartPressed}
+                    onPressPill={handlePillPressed}
+                    generatePdf={generatePdf}
+                    onValidateInspection={handleValidateInspection}
+                    pdfHandles={{ pdfStatus, handleDownload: handlePDFDownload }}
+                    onStartNewInspection={handleNewInspection}
+                  />
+                )}
+                {currentTab === Tabs.GALLERY && (
+                  <Gallery pictures={pictures} />
+                )}
+              </View>
               {
                 isDesktopMode && (
                   <View style={styles.tabDesktopInnerContainer}>
@@ -334,11 +366,11 @@ export default function DamageReport({
                       isPopUpVisible && (
                         <View style={[styles.partsImageWrapper, styles.galleryWrapper]}>
                           <View>
-                            <Text style={[styles.text, { padding: 10 }]}>{t('damageReport.partsPictures')}</Text>
+                            <Text style={[styles.text, styles.title, { padding: 10 }]}>{t('damageReport.partsPictures')}</Text>
                             <Gallery pictures={editedPartDamageImages || []} />
                           </View>
                           <View>
-                            <Text style={[styles.text, { paddingHorizontal: 10 }]}>{t('damageReport.zoomedPicturesOfThePart')}</Text>
+                            <Text style={[styles.text, styles.title, { paddingHorizontal: 10 }]}>{t('damageReport.zoomedPicturesOfThePart')}</Text>
                             <Gallery pictures={editedZoomedDamageImages || []} />
                           </View>
                         </View>
@@ -370,7 +402,7 @@ export default function DamageReport({
           <UpdateDamageModal
             damage={editedDamage}
             damageMode={damageMode}
-            images={editedDamageImages}
+            images={editedPartDamageImages}
             onConfirm={handleSaveDamage}
             onDismiss={handleGalleryDismiss}
             part={editedDamagePart}
