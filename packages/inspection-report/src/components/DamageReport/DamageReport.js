@@ -1,6 +1,6 @@
 import { Loader } from '@monkvision/ui';
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 
@@ -389,7 +389,7 @@ export default function DamageReport({
             part={editedDamagePart}
             damage={editedDamage}
             damageMode={damageMode}
-            imageCount={(editedDamageImages ?? []).length}
+            imageCount={(editedPartDamageImages ?? []).length}
             onDismiss={handlePopUpDismiss}
             onShowGallery={handleShowGallery}
             onConfirm={handleSaveDamage}
