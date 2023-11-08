@@ -47,9 +47,9 @@ const REQUIRED_INSPECTION_TASKS_FOR_PDF = [
 
 const debugParams = {
   client: Clients.ALPHA,
-  inspectionId: '252e2125-4a2f-a19f-2544-835a4d098b34',
+  inspectionId: '5ea5b35e-e9e2-ca79-5ecf-1121eec4e0bc',
   token: '',
-  vehicleType: VehicleTypes.HATCHBACK,
+  vehicleType: VehicleTypes.SUV,
 };
 
 const USE_DEBUG_PARAMS = false;

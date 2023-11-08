@@ -44,7 +44,10 @@ export default function InspectionPrompt() {
 
   useEffect(() => {
     if (value) {
-      navigation.navigate(to || names.LANDING, { [key]: value, inspectionId, ...route.params });
+      navigation.navigate(
+        to || names.LANDING,
+        { [key]: value, inspectionId, ...route.params, isLastTour: true },
+      );
     }
   }, [value]);
 
