@@ -87,6 +87,16 @@ function getDamages(inspection) {
   })) ?? [];
 }
 
+function isTaskDone(task, inspection) {
+  switch (task.name) {
+    case monk.types.TaskName.IMAGES_OCR:
+      return task.status === monk.types.ProgressStatus.DONE
+        || (task.status === monk.types.ProgressStatus.NOT_STARTED && !!inspection.vehicle.vin);
+    default:
+      return task.status === monk.types.ProgressStatus.DONE;
+  }
+}
+
 export default function useProcessInspection() {
   const [isInspectionReady, setIsInspectionReady] = useState(false);
   const [inspectionErrors, setInspectionErrors] = useState({ isInError: false, tasks: [] });
@@ -101,20 +111,18 @@ export default function useProcessInspection() {
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
-    const tasks = axiosResponse.data.tasks
-      .filter((task) => REQUIRED_INSPECTION_TASKS.includes(task.name));
-    setIsInspectionReady(
-      tasks.every((task) => (task.status === monk.types.InspectionStatus.DONE)),
-    );
+    const inspection = axiosResponse.data;
+    const tasks = inspection.tasks.filter((task) => REQUIRED_INSPECTION_TASKS.includes(task.name));
+    setIsInspectionReady(tasks.every((task) => isTaskDone(task, inspection)));
     const tasksInError = tasks
       .filter((task) => (task.status === monk.types.InspectionStatus.ERROR));
     setInspectionErrors({
       isInError: tasksInError.length > 0,
       tasks: tasksInError,
     });
-    setPictures(getPictures(axiosResponse.data));
-    setDamages(getDamages(axiosResponse.data));
-    setVinNumber(axiosResponse.data?.vehicle?.vin);
+    setPictures(getPictures(inspection));
+    setDamages(getDamages(inspection));
+    setVinNumber(inspection.vehicle?.vin);
   }, []);
 
   return {

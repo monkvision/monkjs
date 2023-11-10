@@ -24,8 +24,8 @@ import { Clients, useClient, Workflows } from '../../contexts';
 import { ClientParamMap, VehicleTypeMap, VehicleTypes } from '../paramsMap';
 import styles from './styles';
 import useGetPdfReport from './useGetPdfReport';
+import useInspectionTasksStatus from './useTasksCompleted';
 import useUpdateInspectionVehicle from './useUpdateInspectionVehicle';
-import useUpdateOneTask from './useUpdateOneTask';
 import useVinModal from './useVinModal';
 import useZlibCompression from './useZlibCompression';
 import VehicleType from './VehicleType';
@@ -36,18 +36,9 @@ const ICON_BY_STATUS = {
   ERROR: 'alert-octagon',
 };
 
-const REQUIRED_INSPECTION_TASKS_FOR_PDF = [
-  'damage_detection',
-  'wheel_analysis',
-  'images_ocr',
-  'repair_estimate',
-  'pricing',
-  'dashboard_ocr',
-];
-
 const debugParams = {
   client: Clients.ALPHA,
-  inspectionId: '5ea5b35e-e9e2-ca79-5ecf-1121eec4e0bc',
+  inspectionId: '7c46f156-45cf-5efb-7c2c-532942e9743e',
   token: '',
   vehicleType: VehicleTypes.SUV,
 };
@@ -185,34 +176,25 @@ export default function Landing() {
     { vehicleType, vin: inspection?.vehicle?.vin },
   );
 
-  const allTasksAreCompleted = useMemo(
-    () => {
-      const tasks = inspection?.tasks
-        .filter((task) => REQUIRED_INSPECTION_TASKS_FOR_PDF.includes(task)) ?? [];
-      const tasksInError = tasks
-        .filter((task) => task.status === monk.types.ProgressStatus.ERROR)
-        .map((task) => task.status);
-      if (tasksInError.length > 0) {
-        Alert.alert(
-          t('landing.inspectionInError.title'),
-          `${t('landing.inspectionInError.message')} \n${t('landing.inspectionInError.id')} : ${inspectionId} \n${t('landing.inspectionInError.tasks')} : ${tasksInError.join(', ')}`,
-          [{
-            text: t('capture.quit.ok'),
-            onPress: () => {},
-          }],
-          { cancelable: true },
-        );
-      }
+  const {
+    isDone,
+    isError,
+    tasksInError,
+  } = useInspectionTasksStatus(inspection);
 
-      return tasks.length > 0 && tasks
-        .every((task) => task.status === monk.types.ProgressStatus.DONE);
-    },
-    [inspection?.tasks, i18n.language],
-  );
-
-  // NOTE(Ilyass):We update the ocr once the vin got changed manually,
-  // so that the user can generate the pdf
-  const { startUpdateOneTask } = useUpdateOneTask(inspectionId, monk.types.TaskName.IMAGES_OCR);
+  useEffect(() => {
+    if (tasksInError.length > 0) {
+      Alert.alert(
+        t('landing.inspectionInError.title'),
+        `${t('landing.inspectionInError.message')} \n${t('landing.inspectionInError.id')} : ${inspectionId} \n${t('landing.inspectionInError.tasks')} : ${tasksInError.join(', ')}`,
+        [{
+          text: t('capture.quit.ok'),
+          onPress: () => {},
+        }],
+        { cancelable: true },
+      );
+    }
+  }, [tasksInError, i18n.language, inspectionId]);
 
   const {
     preparePdf,
@@ -222,17 +204,10 @@ export default function Landing() {
   } = useGetPdfReport(inspectionId);
 
   useEffect(() => {
-    if (allTasksAreCompleted && !reportUrl && !info.vm) {
+    if (isDone && !isError && !reportUrl && !info.vm) {
       preparePdf();
     }
-  }, [allTasksAreCompleted, reportUrl, info]);
-
-  useEffect(() => {
-    if (inspection?.vehicle?.vin
-      && inspection?.tasks?.find((item) => item.name === monk.types.TaskName.IMAGES_OCR)) {
-      startUpdateOneTask();
-    }
-  }, [inspection?.vehicle?.vin, inspection?.tasks]);
+  }, [isDone, isError, reportUrl, info]);
 
   const handleListItemPress = useCallback((value) => {
     const isVin = value === 'vinNumber';
@@ -304,7 +279,7 @@ export default function Landing() {
 
   const start = useCallback(() => {
     if (inspectionId && getInspection.state.loading !== true
-      && !invalidToken && !allTasksAreCompleted
+      && !invalidToken && !isDone
       && shouldFetch
       && (route.params?.captureComplete || (route.params?.mode === 'manually' && route.params?.vin))) {
       getInspection.start().catch((err) => {
@@ -313,7 +288,7 @@ export default function Landing() {
     }
   }, [
     inspectionId,
-    allTasksAreCompleted,
+    isDone,
     route.params?.captureComplete,
     getInspection,
     shouldFetch,
@@ -327,10 +302,10 @@ export default function Landing() {
   }, [start, intervalId]));
 
   useEffect(() => {
-    if (inspectionId && !allTasksAreCompleted) {
+    if (inspectionId && !isDone) {
       setShowTranslatedMessage('landing.workflowReminder');
     } else { setShowTranslatedMessage(null); }
-  }, [allTasksAreCompleted, inspectionId]);
+  }, [isDone, inspectionId]);
 
   const vinModalItems = useMemo(() => {
     const vinTask = Object.values(inspection?.tasks || {}).find((task) => task?.name === 'images_ocr');
@@ -357,8 +332,8 @@ export default function Landing() {
   }, [vehicleType, inspection?.vehicle?.vehicleType, inspectionId, inspection?.vehicle?.vin]);
 
   const isPdfDisabled = useMemo(
-    () => !allTasksAreCompleted || !reportUrl || info.vm,
-    [allTasksAreCompleted, reportUrl, info],
+    () => !isDone || isError || !reportUrl || info.vm,
+    [isDone, isError, reportUrl, info],
   );
 
   const pdfDownloadLeft = useCallback(
