@@ -13,7 +13,8 @@ import {
   expectComponentToPassDownRefToHTMLElement,
   expectPropsOnChildMock,
 } from '@monkvision/test-utils';
-import { render, renderHook, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { i18n, Resource, ThirdPartyModule } from 'i18next';
 import { FC, forwardRef, PropsWithChildren } from 'react';
 import { initReactI18next } from 'react-i18next';

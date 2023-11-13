@@ -2,6 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "vehicles.schema",
   "definitions": {
+    "Vehicle": {
+      "$ref": "subschemas/vehicle.schema"
+    },
+    "VehicleType": {
+      "$ref": "subschemas/vehicleType.schema"
+    },
     "xyzArray": {
       "$ref": "subschemas/xyzArray.schema"
     }
@@ -15,6 +21,9 @@
     "": {
       "type": "object",
       "properties": {
+        "id": {
+          "$ref": "#/definitions/Vehicle"
+        },
         "dimensions_xyz": {
           "$ref": "#/definitions/xyzArray"
         },
@@ -25,7 +34,7 @@
           "type": "string"
         },
         "type": {
-          "type": "string"
+          "$ref": "#/definitions/VehicleType"
         }
       },
       "required": ["make", "model", "type"],

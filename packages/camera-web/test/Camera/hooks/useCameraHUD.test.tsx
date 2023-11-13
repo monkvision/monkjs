@@ -1,5 +1,6 @@
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { render, renderHook } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { CameraHandle, useCameraHUD } from '../../../src/Camera/hooks';
 
 describe('useCameraHUD hook', () => {
@@ -8,7 +9,7 @@ describe('useCameraHUD hook', () => {
   });
 
   it('should instanciate the HUD component with the proper props', () => {
-    const MockHUDComponent = jest.fn();
+    const MockHUDComponent = jest.fn(() => <div></div>);
     const handle = {
       takePicture: () => {},
       error: null,

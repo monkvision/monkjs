@@ -10,7 +10,7 @@
     "category": "exterior",
     "label": "hood",
     "overlay": "ffocus18-3TiCVAaN.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-43ljK5xC": {
@@ -24,7 +24,7 @@
     "category": "exterior",
     "label": "front-bumper-side-left",
     "overlay": "ffocus18-43ljK5xC.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-lRDlWiwR",
     "tasks": ["damage_detection"]
   },
@@ -40,7 +40,7 @@
     "category": "exterior",
     "label": "lateral-full-left",
     "overlay": "ffocus18-6FX31ty1.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-FdsQDaTW",
     "tasks": ["damage_detection"]
   },
@@ -56,7 +56,7 @@
     "category": "exterior",
     "label": "rear-full-right",
     "overlay": "ffocus18-8WjvbtMD.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-IoqRrmlA",
     "tasks": ["damage_detection"]
   },
@@ -72,7 +72,7 @@
     "category": "exterior",
     "label": "rear-left",
     "overlay": "ffocus18-9MeSIqp7.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-jWOq2CNN",
     "tasks": ["damage_detection"]
   },
@@ -87,7 +87,7 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "ffocus18-D_QaaCTd.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-FdsQDaTW": {
@@ -102,7 +102,7 @@
     "category": "exterior",
     "label": "lateral-full-right",
     "overlay": "ffocus18-FdsQDaTW.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-6FX31ty1",
     "tasks": ["damage_detection"]
   },
@@ -117,7 +117,7 @@
     "category": "exterior",
     "label": "beauty-shot-left",
     "overlay": "ffocus18-GgOSpLl6.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-GiTxaJUq": {
@@ -131,7 +131,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "ffocus18-GiTxaJUq.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-zgLKB-Do",
     "tasks": ["damage_detection"]
   },
@@ -147,7 +147,7 @@
     "category": "exterior",
     "label": "rear-full-left",
     "overlay": "ffocus18-IoqRrmlA.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-8WjvbtMD",
     "tasks": ["damage_detection"]
   },
@@ -163,7 +163,7 @@
     "category": "exterior",
     "label": "front-lateral-low-right",
     "overlay": "ffocus18-KkeGvT-F.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-x_1SE7X-",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -172,7 +172,7 @@
     "category": "exterior",
     "label": "front-lateral-low-right",
     "overlay": "ffocus18-jkSlWpql.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-Eo0jqD_a",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -189,7 +189,7 @@
     "category": "exterior",
     "label": "rear-low",
     "overlay": "ffocus18-L2UM_68Q.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-L_oZ0LyK": {
@@ -203,7 +203,7 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "ffocus18-L_oZ0LyK.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-P2jFq1Ea": {
@@ -218,7 +218,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-right",
     "overlay": "ffocus18-P2jFq1Ea.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-S3kgFOBb",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -227,7 +227,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-right",
     "overlay": "ffocus18-tufa4FoL.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-JFX8WF9P",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -244,7 +244,7 @@
     "category": "exterior",
     "label": "front-door-left",
     "overlay": "ffocus18-QKfhXU7o.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-cXSAj2ez",
     "tasks": ["damage_detection"]
   },
@@ -260,7 +260,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-left",
     "overlay": "ffocus18-S3kgFOBb.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-P2jFq1Ea",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -269,7 +269,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-left",
     "overlay": "ffocus18-JFX8WF9P.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-tufa4FoL",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -286,7 +286,7 @@
     "category": "exterior",
     "label": "rear-door-right",
     "overlay": "ffocus18-U3Bcfc2Q.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-cPUyM28L",
     "tasks": ["damage_detection"]
   },
@@ -302,7 +302,7 @@
     "category": "exterior",
     "label": "rear-zoomed",
     "overlay": "ffocus18-UBB7HoxF.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-Wo8PkcLF": {
@@ -316,7 +316,7 @@
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "ffocus18-Wo8PkcLF.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-vFR9PKjB",
     "tasks": ["damage_detection"]
   },
@@ -332,7 +332,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "ffocus18-X2LDjCvr.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-XlfgjQb9": {
@@ -346,7 +346,7 @@
     "category": "exterior",
     "label": "front-low",
     "overlay": "ffocus18-XlfgjQb9.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-ZXKOomlv": {
@@ -361,7 +361,7 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "ffocus18-ZXKOomlv.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-cPUyM28L": {
@@ -376,7 +376,7 @@
     "category": "exterior",
     "label": "rear-door-left",
     "overlay": "ffocus18-cPUyM28L.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-U3Bcfc2Q",
     "tasks": ["damage_detection"]
   },
@@ -392,7 +392,7 @@
     "category": "exterior",
     "label": "front-door-right",
     "overlay": "ffocus18-cXSAj2ez.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-QKfhXU7o",
     "tasks": ["damage_detection"]
   },
@@ -408,7 +408,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "ffocus18-e5netaNs.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-iQvwc6wa": {
@@ -423,7 +423,7 @@
     "category": "exterior",
     "label": "rear-roof-right",
     "overlay": "ffocus18-iQvwc6wa.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-jWOq2CNN": {
@@ -438,7 +438,7 @@
     "category": "exterior",
     "label": "rear-right",
     "overlay": "ffocus18-jWOq2CNN.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-9MeSIqp7",
     "tasks": ["damage_detection"]
   },
@@ -454,7 +454,7 @@
     "category": "exterior",
     "label": "front-bumper-side-right",
     "overlay": "ffocus18-lRDlWiwR.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-43ljK5xC",
     "tasks": ["damage_detection"]
   },
@@ -470,7 +470,7 @@
     "category": "exterior",
     "label": "rear-roof",
     "overlay": "ffocus18-p6mBZGcW.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-seOy3jwd": {
@@ -485,7 +485,7 @@
     "category": "exterior",
     "label": "front-full-right",
     "overlay": "ffocus18-seOy3jwd.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "tasks": ["damage_detection"]
   },
   "ffocus18-ts3buSD1": {
@@ -500,7 +500,7 @@
     "category": "exterior",
     "label": "lateral-low-right",
     "overlay": "ffocus18-ts3buSD1.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-yo9eBDW6",
     "tasks": ["damage_detection"]
   },
@@ -515,7 +515,7 @@
     "category": "exterior",
     "label": "rear-lateral-left",
     "overlay": "ffocus18-vFR9PKjB.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-Wo8PkcLF",
     "tasks": ["damage_detection"]
   },
@@ -531,7 +531,7 @@
     "category": "exterior",
     "label": "front-lateral-low-left",
     "overlay": "ffocus18-x_1SE7X-.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-KkeGvT-F",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -540,7 +540,7 @@
     "category": "exterior",
     "label": "front-lateral-low-left",
     "overlay": "ffocus18-Eo0jqD_a.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-jkSlWpql",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -557,7 +557,7 @@
     "category": "exterior",
     "label": "lateral-low-left",
     "overlay": "ffocus18-yo9eBDW6.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-ts3buSD1",
     "tasks": ["damage_detection"]
   },
@@ -572,7 +572,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "ffocus18-zgLKB-Do.svg",
-    "vehicle_type": "ffocus18",
+    "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-GiTxaJUq",
     "tasks": ["damage_detection"]
   }

@@ -3,10 +3,10 @@ jest.mock('../../src/io');
 
 import fs from 'fs';
 import { join, resolve } from 'path';
-import { SightCategory, VehicleSights, VehicleType } from '@monkvision/types';
+import { SightCategory, SightDictionary, TaskName, VehicleModel } from '@monkvision/types';
 import { buildJSONs } from '../../src/build/buildJSONs';
 import * as io from '../../src/io';
-import { pathsEqual } from '../test.utils';
+import { pathsEqual } from '../utils';
 
 describe('JSON builder module', () => {
   const labels = {
@@ -28,28 +28,28 @@ describe('JSON builder module', () => {
       extra: 'extra',
     },
   };
-  const sights = Object.values(VehicleType).reduce(
-    (prev: VehicleSights, vehicleType) => ({
+  const sights = Object.values(VehicleModel).reduce(
+    (prev: SightDictionary, vehicle) => ({
       ...prev,
-      [vehicleType]: {
-        [`${vehicleType}-uno`]: {
-          id: `${vehicleType}-uno`,
-          category: SightCategory.INTERIOR,
-          label: 'test-key',
-          overlay: 'overlay1.svg',
-          vehicleType,
-        },
-        [`${vehicleType}-dos`]: {
-          id: `${vehicleType}-dos`,
-          category: SightCategory.INTERIOR,
-          label: 'test-key-2',
-          overlay: 'overlay2.svg',
-          vehicleType,
-          extra: 'extra',
-        },
+      [`${vehicle}-uno`]: {
+        id: `${vehicle}-uno`,
+        category: SightCategory.INTERIOR,
+        label: 'test-key',
+        overlay: 'overlay1.svg',
+        tasks: [TaskName.DAMAGE_DETECTION],
+        vehicle,
+      },
+      [`${vehicle}-dos`]: {
+        id: `${vehicle}-dos`,
+        category: SightCategory.INTERIOR,
+        label: 'test-key-2',
+        overlay: 'overlay2.svg',
+        vehicle,
+        tasks: [TaskName.DAMAGE_DETECTION],
+        extra: 'extra',
       },
     }),
-    {} as VehicleSights,
+    {} as SightDictionary,
   );
 
   beforeEach(() => {
@@ -60,11 +60,14 @@ describe('JSON builder module', () => {
       if (pathsEqual(path as string, join(__dirname, '../../research/data/vehicles.json'))) {
         return vehicles;
       }
-      const vehicleType = Object.values(VehicleType).find((type) =>
+      const vehicle = Object.values(VehicleModel).find((type) =>
         pathsEqual(path as string, join(__dirname, `../../research/data/${type}/${type}.json`)),
       );
-      if (vehicleType) {
-        return sights[vehicleType];
+      if (vehicle) {
+        return {
+          [`${vehicle}-uno`]: sights[`${vehicle}-uno`],
+          [`${vehicle}-dos`]: sights[`${vehicle}-dos`],
+        };
       }
       return null;
     });
@@ -73,7 +76,7 @@ describe('JSON builder module', () => {
       if (pathsEqual(path, join(__dirname, '../../research/data'))) {
         return {
           files: [],
-          directories: Object.values(VehicleType),
+          directories: Object.values(VehicleModel),
         };
       }
       return { files: [], directories: [] };
@@ -111,6 +114,7 @@ describe('JSON builder module', () => {
         (prev, [key, value]) => ({
           ...prev,
           [key]: {
+            key,
             fr: value.fr,
             en: value.en,
           },
@@ -124,7 +128,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(sights).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
       expect(call?.[0]).toEqual(properlyMappedLabels);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/labels.json')),
@@ -137,6 +141,7 @@ describe('JSON builder module', () => {
         (prev, [key, value]) => ({
           ...prev,
           [key]: {
+            id: key,
             make: value.make,
             model: value.model,
             type: value.type,
@@ -152,7 +157,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(sights).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
       expect(call?.[0]).toEqual(properlyMappedVehicles);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/vehicles.json')),
@@ -162,26 +167,20 @@ describe('JSON builder module', () => {
     it('should properly map the sights and write them in the lib directory', () => {
       const saveLibJSONSpy = jest.spyOn(io, 'saveLibJSON');
       const properlyMappedSights = Object.entries(sights).reduce(
-        (prev: VehicleSights, [key, value]) => ({
+        (prev: SightDictionary, [id, value]) => ({
           ...prev,
-          [key]: Object.entries(value).reduce(
-            (sightPrev, [sightKey, sightValue]) => ({
-              ...sightPrev,
-              [sightKey]: {
-                id: sightValue.id,
-                category: sightValue.category,
-                label: sightValue.label,
-                tasks: sightValue.tasks,
-                overlay: resolve(
-                  join(__dirname, `../../research/data/${key}/overlays/${sightValue.overlay}`),
-                ),
-                vehicleType: sightValue.vehicleType,
-              },
-            }),
-            {},
-          ),
+          [id]: {
+            id,
+            category: value.category,
+            label: value.label,
+            tasks: value.tasks,
+            overlay: resolve(
+              join(__dirname, `../../research/data/${value.vehicle}/overlays/${value.overlay}`),
+            ),
+            vehicle: value.vehicle,
+          },
         }),
-        {} as VehicleSights,
+        {} as SightDictionary,
       );
 
       buildJSONs();
@@ -191,15 +190,18 @@ describe('JSON builder module', () => {
           !(args[1] as string).endsWith('vehicles.json'),
       );
 
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(sights).length);
-      expect(calls.length).toEqual(Object.values(VehicleType).length);
-      Object.values(VehicleType).forEach((vehicleType) => {
-        const call = calls.find((args) => (args[1] as string).endsWith(`${vehicleType}.json`));
-        expect(call?.[0]).toEqual(properlyMappedSights[vehicleType]);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(calls.length).toEqual(Object.values(VehicleModel).length);
+      Object.values(VehicleModel).forEach((vehicle) => {
+        const call = calls.find((args) => (args[1] as string).endsWith(`${vehicle}.json`));
+        expect(call?.[0]).toEqual({
+          [`${vehicle}-uno`]: properlyMappedSights[`${vehicle}-uno`],
+          [`${vehicle}-dos`]: properlyMappedSights[`${vehicle}-dos`],
+        });
         expect(
           pathsEqual(
             call?.[1] as string,
-            join(__dirname, `../../src/lib/data/sights/${vehicleType}.json`),
+            join(__dirname, `../../src/lib/data/sights/${vehicle}.json`),
           ),
         ).toBe(true);
       });

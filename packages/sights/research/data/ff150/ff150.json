@@ -10,7 +10,7 @@
     "category": "exterior",
     "label": "rear-left",
     "overlay": "ff150--xPZZd83.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-t3KBMPeD",
     "tasks": ["damage_detection"]
   },
@@ -26,7 +26,7 @@
     "category": "exterior",
     "label": "lateral-low-right",
     "overlay": "ff150-18YVVN-G.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-vwE3yqdh",
     "tasks": ["damage_detection"]
   },
@@ -41,7 +41,7 @@
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "ff150-2WUJ179s.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-xbOhu7nK",
     "tasks": ["damage_detection"]
   },
@@ -57,7 +57,7 @@
     "category": "exterior",
     "label": "rear-low",
     "overlay": "ff150-3dkU10af.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-3he9UOwy": {
@@ -71,7 +71,7 @@
     "category": "exterior",
     "label": "hood",
     "overlay": "ff150-3he9UOwy.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-3lKZIoxw": {
@@ -86,7 +86,7 @@
     "category": "exterior",
     "label": "front-full-right",
     "overlay": "ff150-3lKZIoxw.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-7UI3m9B3",
     "tasks": ["damage_detection"]
   },
@@ -102,7 +102,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-right",
     "overlay": "ff150-3rM9XB0Z.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-ouGGtRnf",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -111,7 +111,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-right",
     "overlay": "ff150-H3MCPESJ.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-7vyfzrVQ",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -127,7 +127,7 @@
     "category": "exterior",
     "label": "beauty-shot-left",
     "overlay": "ff150-7UI3m9B3.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-3lKZIoxw",
     "tasks": ["damage_detection"]
   },
@@ -143,7 +143,7 @@
     "category": "exterior",
     "label": "front-lateral-low-right",
     "overlay": "ff150-7nvlys8r.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-FqbrFVr2",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -152,7 +152,7 @@
     "category": "exterior",
     "label": "front-lateral-low-right",
     "overlay": "ff150-jUBEKij0.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-pNO26q4D",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -169,7 +169,7 @@
     "category": "exterior",
     "label": "front-door-right",
     "overlay": "ff150-BmXfb-qD.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-g_xBOOS2",
     "tasks": ["damage_detection"]
   },
@@ -185,7 +185,7 @@
     "category": "exterior",
     "label": "front-lateral-low-left",
     "overlay": "ff150-FqbrFVr2.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-7nvlys8r",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -194,7 +194,7 @@
     "category": "exterior",
     "label": "front-lateral-low-left",
     "overlay": "ff150-pNO26q4D.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-jUBEKij0",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -211,7 +211,7 @@
     "category": "exterior",
     "label": "lateral-full-left",
     "overlay": "ff150-GOx2s_9L.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-_UIadfVL",
     "tasks": ["damage_detection"]
   },
@@ -226,7 +226,7 @@
     "category": "exterior",
     "label": "front-bumper-side-left",
     "overlay": "ff150-KgHVkQBW.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-gFp78fQO",
     "tasks": ["damage_detection"]
   },
@@ -241,7 +241,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "ff150-OviO2DlY.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-wO_fJ3DL",
     "tasks": ["damage_detection"]
   },
@@ -256,7 +256,7 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "ff150-Ttsc7q6V.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-V-xzfWsx": {
@@ -271,7 +271,7 @@
     "category": "exterior",
     "label": "rear-door-left",
     "overlay": "ff150-V-xzfWsx.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-eOjyMInj",
     "tasks": ["damage_detection"]
   },
@@ -286,7 +286,7 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "ff150-_AoeFdVO.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-_UIadfVL": {
@@ -301,7 +301,7 @@
     "category": "exterior",
     "label": "lateral-full-right",
     "overlay": "ff150-_UIadfVL.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-GOx2s_9L",
     "tasks": ["damage_detection"]
   },
@@ -317,7 +317,7 @@
     "category": "exterior",
     "label": "rear-door-right",
     "overlay": "ff150-eOjyMInj.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-V-xzfWsx",
     "tasks": ["damage_detection"]
   },
@@ -332,7 +332,7 @@
     "category": "exterior",
     "label": "front-bumper-side-right",
     "overlay": "ff150-gFp78fQO.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-KgHVkQBW",
     "tasks": ["damage_detection"]
   },
@@ -348,7 +348,7 @@
     "category": "exterior",
     "label": "front-door-left",
     "overlay": "ff150-g_xBOOS2.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-BmXfb-qD",
     "tasks": ["damage_detection"]
   },
@@ -364,7 +364,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "ff150-k4kh7Vra.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-nF_oFvhI": {
@@ -378,7 +378,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "ff150-nF_oFvhI.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-o8MiTw8u": {
@@ -392,7 +392,7 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "ff150-o8MiTw8u.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   },
   "ff150-ouGGtRnf": {
@@ -407,7 +407,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-left",
     "overlay": "ff150-ouGGtRnf.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-3rM9XB0Z",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -416,7 +416,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-left",
     "overlay": "ff150-7vyfzrVQ.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-H3MCPESJ",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -433,7 +433,7 @@
     "category": "exterior",
     "label": "rear-full-left",
     "overlay": "ff150-phbX7Bef.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-tT8sqplK",
     "tasks": ["damage_detection"]
   },
@@ -448,7 +448,7 @@
     "category": "exterior",
     "label": "rear-right",
     "overlay": "ff150-t3KBMPeD.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150--xPZZd83",
     "tasks": ["damage_detection"]
   },
@@ -464,7 +464,7 @@
     "category": "exterior",
     "label": "rear-full-right",
     "overlay": "ff150-tT8sqplK.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-phbX7Bef",
     "tasks": ["damage_detection"]
   },
@@ -480,7 +480,7 @@
     "category": "exterior",
     "label": "lateral-low-left",
     "overlay": "ff150-vwE3yqdh.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-18YVVN-G",
     "tasks": ["damage_detection"]
   },
@@ -495,7 +495,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "ff150-wO_fJ3DL.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-OviO2DlY",
     "tasks": ["damage_detection"]
   },
@@ -510,7 +510,7 @@
     "category": "exterior",
     "label": "rear-lateral-left",
     "overlay": "ff150-xbOhu7nK.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "mirror_sight": "ff150-2WUJ179s",
     "tasks": ["damage_detection"]
   },
@@ -525,7 +525,7 @@
     "category": "exterior",
     "label": "front-low",
     "overlay": "ff150-zXbg0l3z.svg",
-    "vehicle_type": "ff150",
+    "vehicle": "ff150",
     "tasks": ["damage_detection"]
   }
 }

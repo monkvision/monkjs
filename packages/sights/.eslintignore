@@ -4,5 +4,4 @@ node_modules
 jest.config.js
 dist
 ./lib
-src/lib/**
-!src/lib/types.ts
+src/lib/data/**

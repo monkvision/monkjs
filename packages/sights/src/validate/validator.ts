@@ -37,8 +37,8 @@ export class JSONValidator {
   }
 
   private validateVehicleSights(): void {
-    readDir(MONK_DATA_PATH).directories.forEach((vehicleType) => {
-      this.validate(join(MONK_DATA_PATH, vehicleType, `${vehicleType}.json`), vehicleType);
+    readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
+      this.validate(join(MONK_DATA_PATH, vehicle, `${vehicle}.json`), vehicle);
     });
   }
 }

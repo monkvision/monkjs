@@ -10,10 +10,12 @@
   "workspaces": [
     "configs/*",
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "documentation"
   ],
   "scripts": {
-    "clean": "lerna run clean && rimraf node_modules && yarn cache clean && yarn install",
+    "clean": "rimraf node_modules && yarn cache clean && yarn install",
+    "clean:all": "lerna run clean && rimraf node_modules && yarn cache clean && yarn install",
     "build": "lerna run build --scope '@monkvision/*'",
     "build:all": "lerna run build",
     "test": "lerna run test",
@@ -22,6 +24,10 @@
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "svgo": "lerna run svgo"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "lerna": "^7.1.4",

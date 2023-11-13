@@ -24,7 +24,14 @@ module.exports = {
     'no-useless-constructor': OFF,
     '@typescript-eslint/no-empty-function': [ERROR, { allow: ['arrowFunctions'] }],
     '@typescript-eslint/no-empty-interface': OFF,
-    '@typescript-eslint/no-unused-vars': ERROR,
+    '@typescript-eslint/no-unused-vars': [
+      ERROR,
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
   },
   overrides: [
     {
@@ -42,6 +49,7 @@ module.exports = {
         'import/order': OFF,
         '@typescript-eslint/no-empty-function': OFF,
         '@typescript-eslint/no-explicit-any': OFF,
+        'class-methods-use-this': OFF,
       },
     },
   ],

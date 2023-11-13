@@ -3,10 +3,10 @@ jest.mock('../../src/io');
 
 import fs from 'fs';
 import { join } from 'path';
-import { SightCategory, VehicleType } from '@monkvision/types';
+import { SightCategory, VehicleModel } from '@monkvision/types';
 import * as io from '../../src/io';
 import { validateAdditionalRules } from '../../src/validate/additionalValidation';
-import { pathsEqual } from '../test.utils';
+import { pathsEqual } from '../utils';
 
 describe('Additional validation module', () => {
   let testSights: any;
@@ -18,7 +18,7 @@ describe('Additional validation module', () => {
         category: SightCategory.EXTERIOR,
         label: 'label-key-1',
         overlay: 'overlay-1.svg',
-        vehicle_type: VehicleType.AUDIA7,
+        vehicle: VehicleModel.AUDIA7,
         mirror_sight: 'sight2',
       },
       sight2: {
@@ -26,7 +26,7 @@ describe('Additional validation module', () => {
         category: SightCategory.INTERIOR,
         label: 'label-key-2',
         overlay: 'overlay-2.svg',
-        vehicle_type: VehicleType.AUDIA7,
+        vehicle: VehicleModel.AUDIA7,
         mirror_sight: 'sight1',
       },
     };
@@ -37,7 +37,7 @@ describe('Additional validation module', () => {
       if (pathsEqual(path, join(__dirname, '../../research/data'))) {
         return {
           files: [],
-          directories: [VehicleType.AUDIA7],
+          directories: [VehicleModel.AUDIA7],
         };
       }
       return {
@@ -50,7 +50,7 @@ describe('Additional validation module', () => {
       if (
         pathsEqual(
           path as string,
-          join(__dirname, `../../research/data/${VehicleType.AUDIA7}/${VehicleType.AUDIA7}.json`),
+          join(__dirname, `../../research/data/${VehicleModel.AUDIA7}/${VehicleModel.AUDIA7}.json`),
         )
       ) {
         return testSights;
@@ -71,7 +71,7 @@ describe('Additional validation module', () => {
     });
 
     it('should check for missing vehicle type directories', () => {
-      const missingVehicleType = VehicleType.AUDIA7;
+      const missingVehicleType = VehicleModel.AUDIA7;
       jest.spyOn(io, 'readDir').mockImplementation(() => ({
         files: [],
         directories: [],
@@ -87,7 +87,7 @@ describe('Additional validation module', () => {
     });
 
     it('should check for missing vehicle type JSON files', () => {
-      const missingVehicleType = VehicleType.FFOCUS18;
+      const missingVehicleType = VehicleModel.FFOCUS18;
       jest.spyOn(io, 'readDir').mockImplementation(() => ({
         files: [],
         directories: [],
@@ -115,7 +115,7 @@ describe('Additional validation module', () => {
         if (pathsEqual(path, join(__dirname, '../../research/data'))) {
           return {
             files: [],
-            directories: [...Object.values(VehicleType), unknownDirectory],
+            directories: [...Object.values(VehicleModel), unknownDirectory],
           };
         }
         return {
@@ -128,14 +128,14 @@ describe('Additional validation module', () => {
     });
 
     it('should check for unknown files', () => {
-      const vehicleType = VehicleType.JGC21;
+      const vehicleType = VehicleModel.JGC21;
       const unknownFile = 'test.txt';
       fs.existsSync = jest.fn().mockImplementation(() => true);
       jest.spyOn(io, 'readDir').mockImplementation((path: string) => {
         if (pathsEqual(path, join(__dirname, '../../research/data'))) {
           return {
             files: [],
-            directories: [...Object.values(VehicleType)],
+            directories: [...Object.values(VehicleModel)],
           };
         }
         if (pathsEqual(path, join(__dirname, `../../research/data/${vehicleType}`))) {
@@ -174,7 +174,7 @@ describe('Additional validation module', () => {
               path as string,
               join(
                 __dirname,
-                `../../research/data/${VehicleType.AUDIA7}/overlays/${testSights.sight1.overlay}`,
+                `../../research/data/${VehicleModel.AUDIA7}/overlays/${testSights.sight1.overlay}`,
               ),
             ),
         );
@@ -189,7 +189,7 @@ describe('Additional validation module', () => {
             path as string,
             join(
               __dirname,
-              `../../research/data/${VehicleType.AUDIA7}/overlays/${testSights.sight1.overlay}`,
+              `../../research/data/${VehicleModel.AUDIA7}/overlays/${testSights.sight1.overlay}`,
             ),
           )
         ) {
@@ -206,11 +206,11 @@ describe('Additional validation module', () => {
         if (pathsEqual(path, join(__dirname, '../../research/data'))) {
           return {
             files: [],
-            directories: [VehicleType.AUDIA7],
+            directories: [VehicleModel.AUDIA7],
           };
         }
         if (
-          pathsEqual(path, join(__dirname, `../../research/data/${VehicleType.AUDIA7}/overlays`))
+          pathsEqual(path, join(__dirname, `../../research/data/${VehicleModel.AUDIA7}/overlays`))
         ) {
           return {
             files: ['unknownFile.svg'],

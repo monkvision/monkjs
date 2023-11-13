@@ -1,0 +1,40 @@
+:root {
+  --copy-popup-width: 160px;
+  --copy-popup-arrow-height: 8px;
+  --copy-popup-arrow-half-width: 5px;
+}
+
+.popup-container {
+  position: absolute;
+  bottom: calc(100% + var(--copy-popup-arrow-height));
+  width: var(--copy-popup-width);
+  left: calc(50% - var(--copy-popup-width) / 2);
+  border-radius: 9999999px;
+  padding: 5px 10px;
+  background-color: var(--ifm-color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 99;
+  white-space: nowrap;
+  cursor: default;
+  font-family: sans-serif;
+  font-size: 13.3333px;
+}
+
+.popup-container > span {
+  margin-right: 10px;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.popup-container > .arrow-down {
+  position: absolute;
+  top: 100%;
+  left: calc(50% - var(--copy-popup-arrow-half-width));
+  width: 0;
+  height: 0;
+  border-left: var(--copy-popup-arrow-half-width) solid transparent;
+  border-right: var(--copy-popup-arrow-half-width) solid transparent;
+  border-top: var(--copy-popup-arrow-height) solid var(--ifm-color-primary);
+}

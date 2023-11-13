@@ -4,7 +4,7 @@ jest.mock('../../../../src/components/DynamicSVG/hooks/transformInlineCss', () =
   transformInlineCss: transformInlineCssMock,
 }));
 
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { CSSProperties } from 'react';
 import { useJSXTransformAttributes } from '../../../../src/components/DynamicSVG/hooks';
 

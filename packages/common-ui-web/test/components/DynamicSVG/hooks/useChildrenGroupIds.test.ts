@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { useChildrenGroupIds } from '../../../../src/components/DynamicSVG/hooks';
 
 describe('useChildrenGroupIds hook', () => {

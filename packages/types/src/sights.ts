@@ -23,43 +23,92 @@ export enum SightCategory {
  */
 export enum VehicleType {
   /**
+   * A compact or subcompact sedan with a squared-off roof and a rear flip-up hatch door that provides access to the
+   * vehicle's cargo area instead of a conventional trunk.
+   */
+  HATCHBACK = 'hatchback',
+  /**
+   * A vehicle that is built on a car platform but has an increased ride height with a higher ground clearance like an
+   * SUV, that can handle any terrain.
+   */
+  CROSSOVER = 'crossover',
+  /**
+   * A light-duty truck that has an enclosed cabin, and a back end made up of a cargo bed that is enclosed by three low
+   * walls with no roof.
+   */
+  PICKUP = 'pickup',
+  /**
+   * A small car designed to be used primarily in urban areas and conurbations.
+   */
+  CITY = 'city',
+  /**
+   * A type of road vehicle used for transporting goods or people.
+   */
+  VAN = 'van',
+  /**
+   * A 4-door passenger car with a trunk that is separate from the passengers with a three-box body: the engine, the
+   * area for passengers, and the trunk.
+   */
+  SEDAN = 'sedan',
+  /**
+   * A large SUV, distinguishable by its ability to tow large items, handle rough terrain, contain plenty of space for
+   * passengers and cargo, and has 3 rows of seats.
+   */
+  LARGE_SUV = 'large-suv',
+  /**
+   * A vehicle designed to transport passengers in the rear seating row(s), with reconfigurable seats in two or three
+   * rows.
+   */
+  MINIVAN = 'minivan',
+  /**
+   * "Sports Utility Vehicle" : A sleek looking vehicles that offer elegant city driving but also handle rugged terrain
+   * thanks to a typical 4x4 capability.
+   */
+  SUV = 'suv',
+}
+
+/**
+ * The different vehicle models used in the Sights package.
+ */
+export enum VehicleModel {
+  /**
    * All vehicle types. This vehicle type is used by sights that can be used in any vehicle.
    */
   ALL = 'all',
   /**
-   * Hatchback : Audi A7
+   * Audi A7 (Hatchback)
    */
   AUDIA7 = 'audia7',
   /**
-   * Crossover : Ford Escape SE 2020
+   * Ford Escape SE 2020 (Crossover)
    */
   FESC20 = 'fesc20',
   /**
-   * Pickup : Ford F-150 Super Cab XL 2014
+   * Ford F-150 Super Cab XL 2014 (Pickup)
    */
   FF150 = 'ff150',
   /**
-   * City : Ford Focus
+   * Ford Focus (City)
    */
   FFOCUS18 = 'ffocus18',
   /**
-   * Van : Ford Transit Fourgon L3H2 Trendline 2018
+   * Ford Transit Fourgon L3H2 Trendline 2018 (Van)
    */
   FTRANSIT18 = 'ftransit18',
   /**
-   * Sedan : Honda Accord Sedan Sport US spec 2018
+   * Honda Accord Sedan Sport US spec 2018 (Sedan)
    */
   HACCORD = 'haccord',
   /**
-   * Large SUV : Jeep Grand Cherokee L Summit 2021
+   * Jeep Grand Cherokee L Summit 2021 (Large SUV)
    */
   JGC21 = 'jgc21',
   /**
-   * Minivan : Toyota Sienna Limited 2020
+   * Toyota Sienna Limited 2020 (Minivan)
    */
   TSIENNA20 = 'tsienna20',
   /**
-   * Small Crossover/SUV : Volkswagen T-Roc
+   * Volkswagen T-Roc (SUV)
    */
   VWTROC = 'vwtroc',
 }
@@ -85,9 +134,9 @@ export interface Sight {
    */
   overlay: string;
   /**
-   * The vehicle type used in the sight overlay.
+   * The vehicle model used in the sight overlay.
    */
-  vehicleType: VehicleType;
+  vehicle: VehicleModel;
   /**
    * The list of tasks that must be run on this sight.
    */
@@ -99,6 +148,10 @@ export interface Sight {
  */
 export interface VehicleDetails {
   /**
+   * The ID of the vehicle.
+   */
+  id: Exclude<VehicleModel, VehicleModel.ALL>;
+  /**
    * The make of the vehicle.
    */
   make: string;
@@ -109,7 +162,7 @@ export interface VehicleDetails {
   /**
    * The type of the vehicle (Crossover, SUV...).
    */
-  type: string;
+  type: VehicleType;
   /**
    * The dimensions of the vehicle in meters in the following format : [X, Y, Z].
    *
@@ -119,43 +172,38 @@ export interface VehicleDetails {
 }
 
 /**
- * The translation of a Sight label.
+ * The translation of labels for Sights, VehicleTypes etc.
  */
 export interface LabelTranslation {
   /**
-   * The English translation of the Sight's label.
+   * The key of the label.
+   */
+  key: string;
+  /**
+   * The English translation of the label.
    */
   en: string;
   /**
-   * The French translation of the Sight's label.
+   * The French translation of the label.
    */
   fr: string;
+  /**
+   * The German translation of the label.
+   */
+  de: string;
 }
 
 /**
  * A dictionary that maps vehicle types to vehicle details objects.
  */
-export type VehicleDictionary = {
-  [type in VehicleType]: VehicleDetails;
-};
+export type VehicleDictionary = Record<Exclude<VehicleModel, VehicleModel.ALL>, VehicleDetails>;
 
 /**
  * A dictionary that maps translation keys (strings) to label translations objects.
  */
-export type LabelDictionary = {
-  [key: string]: LabelTranslation;
-};
+export type LabelDictionary = Record<string, LabelTranslation>;
 
 /**
  * A dictionary that maps sight ids to sight objects.
  */
-export type SightDictionary = {
-  [id: string]: Sight;
-};
-
-/**
- * An object that maps vehicle types to a list of sights for this vehicle.
- */
-export type VehicleSights = {
-  [key in VehicleType]: SightDictionary;
-};
+export type SightDictionary = Record<string, Sight>;

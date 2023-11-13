@@ -10,7 +10,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "audia7-5CFsFvj7.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-cDe2q69X",
     "tasks": ["damage_detection"]
   },
@@ -25,7 +25,7 @@
     "category": "exterior",
     "label": "rear-fender-left",
     "overlay": "audia7-7bTC-nGS.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-e_QIW30o",
     "tasks": ["damage_detection"]
   },
@@ -40,7 +40,7 @@
     "category": "exterior",
     "label": "front",
     "overlay": "audia7-I0cOpT1e.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "tasks": ["damage_detection"]
   },
   "audia7-McR3TJK0": {
@@ -54,7 +54,7 @@
     "category": "exterior",
     "label": "rear-lateral-left",
     "overlay": "audia7-McR3TJK0.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-fDo5M0Fp",
     "tasks": ["damage_detection"]
   },
@@ -69,7 +69,7 @@
     "category": "exterior",
     "label": "doors-left",
     "overlay": "audia7-R_f4g8MN.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-fDKWkHHp",
     "tasks": ["damage_detection"]
   },
@@ -84,7 +84,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "audia7-WKJlxkiF.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "tasks": ["damage_detection"]
   },
   "audia7-cDe2q69X": {
@@ -98,7 +98,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "audia7-cDe2q69X.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-5CFsFvj7",
     "tasks": ["damage_detection"]
   },
@@ -113,7 +113,7 @@
     "category": "exterior",
     "label": "rear-fender-right",
     "overlay": "audia7-e_QIW30o.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-7bTC-nGS",
     "tasks": ["damage_detection"]
   },
@@ -128,7 +128,7 @@
     "category": "exterior",
     "label": "doors-right",
     "overlay": "audia7-fDKWkHHp.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-R_f4g8MN",
     "tasks": ["damage_detection"]
   },
@@ -143,7 +143,7 @@
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "audia7-fDo5M0Fp.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-McR3TJK0",
     "tasks": ["damage_detection"]
   },
@@ -158,7 +158,7 @@
     "category": "exterior",
     "label": "front-bumper-side-right",
     "overlay": "audia7-g30kyiVH.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-vxRr9chD",
     "tasks": ["damage_detection"]
   },
@@ -173,7 +173,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "audia7-hhCBI9oZ.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "tasks": ["damage_detection"]
   },
   "audia7-vedHBC2n": {
@@ -187,7 +187,7 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "audia7-vedHBC2n.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "tasks": ["damage_detection"]
   },
   "audia7-vxRr9chD": {
@@ -201,7 +201,7 @@
     "category": "exterior",
     "label": "front-bumper-side-left",
     "overlay": "audia7-vxRr9chD.svg",
-    "vehicle_type": "audia7",
+    "vehicle": "audia7",
     "mirror_sight": "audia7-g30kyiVH",
     "tasks": ["damage_detection"]
   }

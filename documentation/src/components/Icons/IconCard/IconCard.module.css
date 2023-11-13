@@ -1,0 +1,33 @@
+:root {
+  --icon-card-border-radius: 10px;
+}
+
+.icon-card {
+  margin: 20px;
+  border: none;
+  padding: 20px;
+  border-radius: var(--icon-card-border-radius);
+  background-color: var(--icon-card-background);
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-card:hover {
+  background-color: var(--icon-card-background-hover);
+}
+
+.icon-card:active {
+  background-color: var(--icon-card-background-active);
+}
+
+.icon-name {
+  margin-top: 20px;
+  font-size: 16px;
+  font-family: monospace;
+  position: relative;
+}

@@ -1,5 +1,4 @@
 import { Sight } from '@monkvision/types';
-import { forwardRef } from 'react';
 import { DynamicSVG, DynamicSVGProps } from '../DynamicSVG';
 
 /**
@@ -18,8 +17,6 @@ export interface SightOverlayProps extends Omit<DynamicSVGProps, 'svg'> {
  *
  * @see DynamicSVG
  */
-export const SightOverlay = forwardRef<SVGSVGElement, SightOverlayProps>(
-  ({ sight, ...passThroughProps }, ref) => {
-    return <DynamicSVG ref={ref} svg={sight.overlay} {...passThroughProps} />;
-  },
-);
+export function SightOverlay({ sight, ...passThroughProps }: SightOverlayProps) {
+  return <DynamicSVG svg={sight.overlay} {...passThroughProps} />;
+}

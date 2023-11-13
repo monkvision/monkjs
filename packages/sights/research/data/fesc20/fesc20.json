@@ -11,7 +11,7 @@
     "category": "exterior",
     "label": "front-full-right",
     "overlay": "fesc20-0mJeXBDf.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-bD8CBhYZ",
     "tasks": ["damage_detection"]
   },
@@ -27,7 +27,7 @@
     "category": "exterior",
     "label": "lateral-full-left",
     "overlay": "fesc20-26n47kaO.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-HYz5ziHi",
     "tasks": ["damage_detection"]
   },
@@ -43,7 +43,7 @@
     "category": "exterior",
     "label": "rear-roof",
     "overlay": "fesc20-2bLRuhEQ.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-4Wqx52oU": {
@@ -58,7 +58,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-left",
     "overlay": "fesc20-4Wqx52oU.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-5Ts1UkPT",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -67,7 +67,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-left",
     "overlay": "fesc20-Tlu3sz8A.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-raHPDUNm",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -84,7 +84,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-right",
     "overlay": "fesc20-5Ts1UkPT.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-4Wqx52oU",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -93,7 +93,7 @@
     "category": "exterior",
     "label": "rear-lateral-low-right",
     "overlay": "fesc20-raHPDUNm.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-Tlu3sz8A",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -109,7 +109,7 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "fesc20-6GPUkfYn.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-CEGtqHkk": {
@@ -123,7 +123,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "fesc20-CEGtqHkk.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-GdIxD-_N",
     "tasks": ["damage_detection"]
   },
@@ -139,7 +139,7 @@
     "category": "exterior",
     "label": "rear-roof-right",
     "overlay": "fesc20-DBLpo-52.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-EJ0tXYBW": {
@@ -154,7 +154,7 @@
     "category": "exterior",
     "label": "rear-full-right",
     "overlay": "fesc20-EJ0tXYBW.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-T4dIGLgy",
     "tasks": ["damage_detection"]
   },
@@ -169,7 +169,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "fesc20-GdIxD-_N.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-CEGtqHkk",
     "tasks": ["damage_detection"]
   },
@@ -184,7 +184,7 @@
     "category": "exterior",
     "label": "front-low",
     "overlay": "fesc20-H1dfdfvH.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-HYz5ziHi": {
@@ -199,7 +199,7 @@
     "category": "exterior",
     "label": "lateral-full-right",
     "overlay": "fesc20-HYz5ziHi.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-26n47kaO",
     "tasks": ["damage_detection"]
   },
@@ -214,7 +214,7 @@
     "category": "exterior",
     "label": "front-bumper-side-left",
     "overlay": "fesc20-LTe3X2bg.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-Wzdtgqqz",
     "tasks": ["damage_detection"]
   },
@@ -229,7 +229,7 @@
     "category": "exterior",
     "label": "rear-right",
     "overlay": "fesc20-LZc7p2kK.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-dfICsfSV",
     "tasks": ["damage_detection"]
   },
@@ -245,7 +245,7 @@
     "category": "exterior",
     "label": "rear-door-left",
     "overlay": "fesc20-NLdqASzl.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-gg1Xyrpu",
     "tasks": ["damage_detection"]
   },
@@ -261,7 +261,7 @@
     "category": "exterior",
     "label": "lateral-low-right",
     "overlay": "fesc20-P0oSEh8p.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-fOt832UV",
     "tasks": ["damage_detection"]
   },
@@ -276,7 +276,7 @@
     "category": "exterior",
     "label": "rear-lateral-left",
     "overlay": "fesc20-P470Q-jm.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-r_UeXQRO",
     "tasks": ["damage_detection"]
   },
@@ -292,7 +292,7 @@
     "category": "exterior",
     "label": "rear-full-left",
     "overlay": "fesc20-T4dIGLgy.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-EJ0tXYBW",
     "tasks": ["damage_detection"]
   },
@@ -308,7 +308,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "fesc20-UjtbRtJS.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-WIQsf_gX": {
@@ -323,7 +323,7 @@
     "category": "exterior",
     "label": "front-lateral-low-left",
     "overlay": "fesc20-WIQsf_gX.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-dKVLig1i",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -332,7 +332,7 @@
     "category": "exterior",
     "label": "front-lateral-low-left",
     "overlay": "fesc20-YPcJPAZE.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-W6XrryMO",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -348,7 +348,7 @@
     "category": "exterior",
     "label": "hood",
     "overlay": "fesc20-WMUaKDp1.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-Wzdtgqqz": {
@@ -362,7 +362,7 @@
     "category": "exterior",
     "label": "front-bumper-side-right",
     "overlay": "fesc20-Wzdtgqqz.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-LTe3X2bg",
     "tasks": ["damage_detection"]
   },
@@ -377,7 +377,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "fesc20-X8k7UFGf.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-bD8CBhYZ": {
@@ -391,7 +391,7 @@
     "category": "exterior",
     "label": "beauty-shot-left",
     "overlay": "fesc20-bD8CBhYZ.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-0mJeXBDf",
     "tasks": ["damage_detection"]
   },
@@ -407,7 +407,7 @@
     "category": "exterior",
     "label": "front-lateral-low-right",
     "overlay": "fesc20-dKVLig1i.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-WIQsf_gX",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
@@ -416,7 +416,7 @@
     "category": "exterior",
     "label": "front-lateral-low-right",
     "overlay": "fesc20-W6XrryMO.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-YPcJPAZE",
     "dev": true,
     "tasks": ["wheel_analysis"]
@@ -432,7 +432,7 @@
     "category": "exterior",
     "label": "rear-left",
     "overlay": "fesc20-dfICsfSV.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-LZc7p2kK",
     "tasks": ["damage_detection"]
   },
@@ -448,7 +448,7 @@
     "category": "exterior",
     "label": "lateral-low-left",
     "overlay": "fesc20-fOt832UV.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-P0oSEh8p",
     "tasks": ["damage_detection"]
   },
@@ -464,7 +464,7 @@
     "category": "exterior",
     "label": "rear-door-right",
     "overlay": "fesc20-gg1Xyrpu.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-NLdqASzl",
     "tasks": ["damage_detection"]
   },
@@ -480,7 +480,7 @@
     "category": "exterior",
     "label": "front-door-left",
     "overlay": "fesc20-hp3Tk53x.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-j3H8Z415",
     "tasks": ["damage_detection"]
   },
@@ -495,7 +495,7 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "fesc20-iUN0g_Zn.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-j3H8Z415": {
@@ -510,7 +510,7 @@
     "category": "exterior",
     "label": "front-door-right",
     "overlay": "fesc20-j3H8Z415.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-hp3Tk53x",
     "tasks": ["damage_detection"]
   },
@@ -525,7 +525,7 @@
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "fesc20-r_UeXQRO.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "mirror_sight": "fesc20-P470Q-jm",
     "tasks": ["damage_detection"]
   },
@@ -541,7 +541,7 @@
     "category": "exterior",
     "label": "rear-low",
     "overlay": "fesc20-xBFiEy-_.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   },
   "fesc20-xDFQNR3C": {
@@ -555,7 +555,7 @@
     "category": "exterior",
     "label": "lateral-left",
     "overlay": "fesc20-xDFQNR3C.svg",
-    "vehicle_type": "fesc20",
+    "vehicle": "fesc20",
     "tasks": ["damage_detection"]
   }
 }

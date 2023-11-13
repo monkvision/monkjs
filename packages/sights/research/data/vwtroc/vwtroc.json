@@ -10,7 +10,7 @@
     "category": "exterior",
     "label": "front-lateral-right",
     "overlay": "vwtroc-0U14gFyk.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-zjAIjUgU",
     "tasks": ["damage_detection"]
   },
@@ -25,7 +25,7 @@
     "category": "exterior",
     "label": "rear-door-left",
     "overlay": "vwtroc-1-gwCM0m.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-6MR5C13s",
     "tasks": ["damage_detection"]
   },
@@ -40,7 +40,7 @@
     "category": "exterior",
     "label": "rear-door-right",
     "overlay": "vwtroc-2RFF3Uf8.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-OOJDJ7go",
     "tasks": ["damage_detection"]
   },
@@ -55,7 +55,7 @@
     "category": "exterior",
     "label": "front-door-right",
     "overlay": "vwtroc-2wVqenwP.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-T24v9XS8",
     "tasks": ["damage_detection"]
   },
@@ -70,7 +70,7 @@
     "category": "exterior",
     "label": "rear-roof-right",
     "overlay": "vwtroc-36qmcrgr.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-3a3OheoD": {
@@ -84,7 +84,7 @@
     "category": "exterior",
     "label": "rear-fender-left",
     "overlay": "vwtroc-3a3OheoD.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-3vKXafwc": {
@@ -98,7 +98,7 @@
     "category": "exterior",
     "label": "rear-fender-left",
     "overlay": "vwtroc-3vKXafwc.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-Cce1KCd3",
     "tasks": ["damage_detection"]
   },
@@ -113,7 +113,7 @@
     "category": "exterior",
     "label": "rear-door-right",
     "overlay": "vwtroc-6MR5C13s.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-1-gwCM0m",
     "tasks": ["damage_detection"]
   },
@@ -128,7 +128,7 @@
     "category": "exterior",
     "label": "rear-wheel-left",
     "overlay": "vwtroc-8_W2PO8L.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-rN39Y3HR",
     "tasks": ["damage_detection"]
   },
@@ -143,7 +143,7 @@
     "category": "exterior",
     "label": "doors-left",
     "overlay": "vwtroc-AEc967h1.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-AoO-nOoM": {
@@ -157,7 +157,7 @@
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "vwtroc-AoO-nOoM.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-GvCtVnoD",
     "tasks": ["damage_detection"]
   },
@@ -172,7 +172,7 @@
     "category": "exterior",
     "label": "rocker-panel-right",
     "overlay": "vwtroc-B5s1CWT-.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-UHZkpCuK",
     "tasks": ["damage_detection"]
   },
@@ -187,7 +187,7 @@
     "category": "exterior",
     "label": "front-bumper-side-right",
     "overlay": "vwtroc-CELBsvYD.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xfbBpq3Q",
     "tasks": ["damage_detection"]
   },
@@ -202,7 +202,7 @@
     "category": "exterior",
     "label": "rear-fender-right",
     "overlay": "vwtroc-Cce1KCd3.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-3vKXafwc",
     "tasks": ["damage_detection"]
   },
@@ -217,7 +217,7 @@
     "category": "exterior",
     "label": "rear-lateral-left",
     "overlay": "vwtroc-ClEZSucK.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-QqBpHiVP",
     "tasks": ["damage_detection"]
   },
@@ -232,7 +232,7 @@
     "category": "exterior",
     "label": "rear-door-left",
     "overlay": "vwtroc-D4r9OKHt.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-TDLex8-D",
     "tasks": ["damage_detection"]
   },
@@ -247,7 +247,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "vwtroc-EqLDVYj3.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-PLh198NC",
     "tasks": ["damage_detection"]
   },
@@ -262,7 +262,7 @@
     "category": "exterior",
     "label": "front-undercarriage",
     "overlay": "vwtroc-Fh972HlF.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-GHbWVnMB": {
@@ -276,7 +276,7 @@
     "category": "exterior",
     "label": "rear-fender-left",
     "overlay": "vwtroc-GHbWVnMB.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-j3E2UHFc",
     "tasks": ["damage_detection"]
   },
@@ -291,7 +291,7 @@
     "category": "exterior",
     "label": "front-door-left",
     "overlay": "vwtroc-GOQq1-nN.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-QJ_yOnBl",
     "tasks": ["damage_detection"]
   },
@@ -306,7 +306,7 @@
     "category": "exterior",
     "label": "rear-lateral-left",
     "overlay": "vwtroc-GvCtVnoD.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-AoO-nOoM",
     "tasks": ["damage_detection"]
   },
@@ -321,7 +321,7 @@
     "category": "exterior",
     "label": "doors-left",
     "overlay": "vwtroc-IVcF1dOP.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-Pzgw0WGe",
     "tasks": ["damage_detection"]
   },
@@ -336,7 +336,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "vwtroc-IzMR_OzQ.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-LDRoAPnk": {
@@ -350,7 +350,7 @@
     "category": "exterior",
     "label": "rear-bumper-side-right",
     "overlay": "vwtroc-LDRoAPnk.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-j8YHvnDP",
     "tasks": ["damage_detection"]
   },
@@ -365,7 +365,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "vwtroc-LE9h1xh0.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-jqJOb6Ov",
     "tasks": ["damage_detection"]
   },
@@ -380,7 +380,7 @@
     "category": "exterior",
     "label": "rear-door-left",
     "overlay": "vwtroc-OOJDJ7go.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-2RFF3Uf8",
     "tasks": ["damage_detection"]
   },
@@ -395,7 +395,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "vwtroc-PLh198NC.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-EqLDVYj3",
     "tasks": ["damage_detection"]
   },
@@ -410,7 +410,7 @@
     "category": "exterior",
     "label": "front-wheel-right",
     "overlay": "vwtroc-PuIw17h0.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xQKQ0bXS",
     "tasks": ["damage_detection"]
   },
@@ -425,7 +425,7 @@
     "category": "exterior",
     "label": "doors-right",
     "overlay": "vwtroc-Pzgw0WGe.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-IVcF1dOP",
     "tasks": ["damage_detection"]
   },
@@ -440,7 +440,7 @@
     "category": "exterior",
     "label": "front-door-right",
     "overlay": "vwtroc-QJ_yOnBl.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-GOQq1-nN",
     "tasks": ["damage_detection"]
   },
@@ -455,7 +455,7 @@
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "vwtroc-QqBpHiVP.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-ClEZSucK",
     "tasks": ["damage_detection"]
   },
@@ -470,7 +470,7 @@
     "category": "exterior",
     "label": "hood-windshield",
     "overlay": "vwtroc-RMeCZRbd.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-T24v9XS8": {
@@ -484,7 +484,7 @@
     "category": "exterior",
     "label": "front-door-left",
     "overlay": "vwtroc-T24v9XS8.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-2wVqenwP",
     "tasks": ["damage_detection"]
   },
@@ -499,7 +499,7 @@
     "category": "exterior",
     "label": "rear-door-right",
     "overlay": "vwtroc-TDLex8-D.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-D4r9OKHt",
     "tasks": ["damage_detection"]
   },
@@ -514,7 +514,7 @@
     "category": "exterior",
     "label": "rocker-panel-left",
     "overlay": "vwtroc-UHZkpCuK.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-B5s1CWT-",
     "tasks": ["damage_detection"]
   },
@@ -529,7 +529,7 @@
     "category": "exterior",
     "label": "front-door-left",
     "overlay": "vwtroc-VmFL3v2A.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-enHQTFae",
     "tasks": ["damage_detection"]
   },
@@ -544,7 +544,7 @@
     "category": "exterior",
     "label": "rocker-panel-right",
     "overlay": "vwtroc-WWZsroCu.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-eOkUJUBk",
     "tasks": ["damage_detection"]
   },
@@ -559,7 +559,7 @@
     "category": "exterior",
     "label": "rear",
     "overlay": "vwtroc-XyeyZlaU.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-dQOmxo13": {
@@ -573,7 +573,7 @@
     "category": "exterior",
     "label": "rocker-panel-rear-left",
     "overlay": "vwtroc-dQOmxo13.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-eWZsEThb",
     "tasks": ["damage_detection"]
   },
@@ -588,7 +588,7 @@
     "category": "exterior",
     "label": "rocker-panel-left",
     "overlay": "vwtroc-eOkUJUBk.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-WWZsroCu",
     "tasks": ["damage_detection"]
   },
@@ -603,7 +603,7 @@
     "category": "exterior",
     "label": "rocker-panel-rear-right",
     "overlay": "vwtroc-eWZsEThb.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-dQOmxo13",
     "tasks": ["damage_detection"]
   },
@@ -618,7 +618,7 @@
     "category": "exterior",
     "label": "front-door-right",
     "overlay": "vwtroc-enHQTFae.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-VmFL3v2A",
     "tasks": ["damage_detection"]
   },
@@ -633,7 +633,7 @@
     "category": "exterior",
     "label": "rear-fender-right",
     "overlay": "vwtroc-j3E2UHFc.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-GHbWVnMB",
     "tasks": ["damage_detection"]
   },
@@ -648,7 +648,7 @@
     "category": "exterior",
     "label": "rear-bumper-side-left",
     "overlay": "vwtroc-j8YHvnDP.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-LDRoAPnk",
     "tasks": ["damage_detection"]
   },
@@ -663,7 +663,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "vwtroc-jgB-cu5G.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xsuH1g5T",
     "tasks": ["damage_detection"]
   },
@@ -678,7 +678,7 @@
     "category": "exterior",
     "label": "front-fender-right",
     "overlay": "vwtroc-jqJOb6Ov.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-LE9h1xh0",
     "tasks": ["damage_detection"]
   },
@@ -693,7 +693,7 @@
     "category": "exterior",
     "label": "front-roof-left",
     "overlay": "vwtroc-m1rhrZ88.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-oIk8RQ3w": {
@@ -707,7 +707,7 @@
     "category": "exterior",
     "label": "windshield",
     "overlay": "vwtroc-oIk8RQ3w.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-rN39Y3HR": {
@@ -721,7 +721,7 @@
     "category": "exterior",
     "label": "rear-wheel-right",
     "overlay": "vwtroc-rN39Y3HR.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-8_W2PO8L",
     "tasks": ["damage_detection"]
   },
@@ -736,7 +736,7 @@
     "category": "exterior",
     "label": "front",
     "overlay": "vwtroc-vLcBGkeh.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "tasks": ["damage_detection"]
   },
   "vwtroc-xQKQ0bXS": {
@@ -750,7 +750,7 @@
     "category": "exterior",
     "label": "front-wheel-left",
     "overlay": "vwtroc-xQKQ0bXS.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-PuIw17h0",
     "tasks": ["damage_detection"]
   },
@@ -765,7 +765,7 @@
     "category": "exterior",
     "label": "front-bumper-side-left",
     "overlay": "vwtroc-xfbBpq3Q.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-CELBsvYD",
     "tasks": ["damage_detection"]
   },
@@ -780,7 +780,7 @@
     "category": "exterior",
     "label": "front-fender-left",
     "overlay": "vwtroc-xsuH1g5T.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-jgB-cu5G",
     "tasks": ["damage_detection"]
   },
@@ -795,7 +795,7 @@
     "category": "exterior",
     "label": "front-lateral-left",
     "overlay": "vwtroc-zjAIjUgU.svg",
-    "vehicle_type": "vwtroc",
+    "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-0U14gFyk",
     "tasks": ["damage_detection"]
   }
