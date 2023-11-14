@@ -85,11 +85,11 @@ export default function useDamageReportStateHandlers({
       throw new Error(`Unable to find damage with corresponding pill part "${partName}"`);
     }
     const { images } = damage;
-    const partDamageImages = images.filter(img => img.base_image_type === "beauty_shot").map((img, index) => ({
+    const partDamageImages = images.filter((img) => img.image_type === 'beauty_shot').map((img) => ({
       ...img,
-      rendered_outputs: pictures.find(pic => pic.id === img?.id)?.rendered_outputs
+      rendered_outputs: pictures.find((pic) => pic.id === img?.id)?.rendered_outputs,
     }));
-    const zoomedDamageImages = images.filter(img => img.base_image_type === "close_up");
+    const zoomedDamageImages = images.filter((img) => img.image_type === 'close_up');
     setEditedDamage(damage);
     setEditedDamagePart(partName);
     setEditedDamageImages(images);
