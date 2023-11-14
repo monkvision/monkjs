@@ -41,7 +41,7 @@ function getRenderedOutputImages(image) {
     .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
 
   if (!damagedImage) {
-    return;
+    return undefined;
   }
 
   return {

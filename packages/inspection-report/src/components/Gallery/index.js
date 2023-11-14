@@ -16,7 +16,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import Thumbnail from './Thumbnail';
-import { useDesktopMode } from './../../hooks';
+import { useDesktopMode } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 5,
     paddingTop: 10,
-  }
+  },
 });
 
 function Gallery({ pictures }) {
@@ -116,7 +116,8 @@ function Gallery({ pictures }) {
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: () => true,
-      onPanResponderRelease: (event, gestureStat) => setGestureState({ dx: gestureStat.x0, dy: gestureStat.y0 }),
+      onPanResponderRelease:
+        (event, gestureStat) => setGestureState({ dx: gestureStat.x0, dy: gestureStat.y0 }),
     }),
   ).current;
 
@@ -133,7 +134,7 @@ function Gallery({ pictures }) {
 
       let x = 0;
       let y = 0;
-      let { dx, dy } = gestureState;
+      const { dx, dy } = gestureState;
 
       if (isZoomed) {
         x = 0;
@@ -144,11 +145,11 @@ function Gallery({ pictures }) {
 
         // x > 0 will check whether we clicked on left side of image or not
         if ((dx < x && x > 0) || (dx > x && x < 0)) {
-          x = x / 2;
+          x /= 2;
         }
         // y > 0 will check whether we clicked on top side of image or not
         if ((dy < y && y > 0) || (dy > y && y < 0)) {
-          y = y / 2;
+          y /= 2;
         }
       }
 
@@ -167,28 +168,32 @@ function Gallery({ pictures }) {
           return; // Do nothing if the event was already processed
         }
 
-        const currentPictureIndex = pictures.findIndex(pic => pic.id === focusedPhoto.id);
+        const currentPictureIndex = pictures.findIndex((pic) => pic.id === focusedPhoto.id);
         switch (event.key) {
-          case "ArrowLeft":
-            if ((focusedPhoto?.isRendered && currentPictureIndex >= 0) || currentPictureIndex - 1 >= 0) {
+          case 'ArrowLeft':
+            if ((focusedPhoto?.isRendered && currentPictureIndex >= 0)
+              || currentPictureIndex - 1 >= 0) {
               if (focusedPhoto.isRendered) {
                 setFocusedPhoto(pictures[currentPictureIndex]);
               } else {
                 setFocusedPhoto(
-                  pictures[currentPictureIndex - 1]?.rendered_outputs ?
-                    pictures[currentPictureIndex - 1]?.rendered_outputs : pictures[currentPictureIndex]
+                  pictures[currentPictureIndex - 1]?.rendered_outputs
+                    ? pictures[currentPictureIndex - 1]?.rendered_outputs
+                    : pictures[currentPictureIndex],
                 );
               }
             }
             break;
-          case "ArrowRight":
-            if ((!focusedPhoto?.isRendered && currentPictureIndex < pictures.length) || currentPictureIndex + 1 < pictures.length) {
+          case 'ArrowRight':
+            if ((!focusedPhoto?.isRendered && currentPictureIndex < pictures.length)
+              || currentPictureIndex + 1 < pictures.length) {
               if (focusedPhoto.isRendered) {
                 setFocusedPhoto(pictures[currentPictureIndex + 1]);
               } else {
                 setFocusedPhoto(
-                  pictures[currentPictureIndex]?.rendered_outputs ?
-                    pictures[currentPictureIndex]?.rendered_outputs : pictures[currentPictureIndex + 1]
+                  pictures[currentPictureIndex]?.rendered_outputs
+                    ? pictures[currentPictureIndex]?.rendered_outputs
+                    : pictures[currentPictureIndex + 1],
                 );
               }
             }
@@ -206,13 +211,15 @@ function Gallery({ pictures }) {
         window.removeEventListener('keydown', handleKeyboardChange);
       };
     }
+    return () => {};
   }, [pictures, focusedPhoto]);
 
   return (
     <View style={[
       styles.container,
-      pictures.length === 0 ? styles.messageContainer : {}
-    ]}>
+      pictures.length === 0 ? styles.messageContainer : {},
+    ]}
+    >
       {pictures.length > 0 ? pictures.map((image, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <View key={`${image.url}-${index}`} style={isDesktopMode && styles.partsImageWrapper}>
@@ -220,7 +227,7 @@ function Gallery({ pictures }) {
             <Thumbnail image={image} click={handleOnImageClick} />
           </View>
           {
-            isDesktopMode && image?.rendered_outputs && image?.rendered_outputs && (
+            isDesktopMode && image?.rendered_outputs && (
               <View style={styles.thumbnailWrapper}>
                 <Thumbnail image={image.rendered_outputs} click={handleOnImageClick} />
               </View>
@@ -248,13 +255,15 @@ function Gallery({ pictures }) {
           </Pressable>
           <View style={[styles.header]}>
             <Text style={[styles.title]}>
-              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''} {focusedPhoto?.isRendered && t('gallery.withDamages')}
+              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''}
+              {' '}
+              {focusedPhoto?.isRendered && t('gallery.withDamages')}
             </Text>
           </View>
           {
             !isDesktopMode && (
               <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
-                <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+                <MaterialIcons name={seeDamages ? 'visibility-off' : 'visibility'} size={20} color="#fff" />
                 <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
               </Pressable>
             )
