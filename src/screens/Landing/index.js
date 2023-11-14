@@ -36,14 +36,15 @@ const ICON_BY_STATUS = {
   ERROR: 'alert-octagon',
 };
 
-const debugParams = {
+export const debugParams = {
   client: Clients.ALPHA,
-  inspectionId: '7c46f156-45cf-5efb-7c2c-532942e9743e',
+  inspectionId: '84fbc38a-b4c9-27e6-8491-61f5b3ef0ce6',
   token: '',
   vehicleType: VehicleTypes.SUV,
+  numberOfSightsToUse: 5,
 };
 
-const USE_DEBUG_PARAMS = false;
+export const USE_DEBUG_PARAMS = false;
 
 export default function Landing() {
   const { colors } = useTheme();

@@ -17,6 +17,7 @@ import mapTasksToSights from './mapTasksToSights';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
+import { USE_DEBUG_PARAMS, debugParams } from '../Landing';
 import useGetInspection from '../Landing/useGetInspection';
 
 const enableComplianceCheck = true;
@@ -31,7 +32,10 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode, isLastTour } = route.params;
   const { client, sights, info } = useClient();
-  const newSightIds = useMemo(() => ((taskName === monk.types.TaskName.IMAGES_OCR) ? sightIds : (sights[vehicleType ?? 'cuv'])), [sights, vehicleType]);
+  const sightIdsToUse = useMemo(() => {
+    const newSightIds = taskName === monk.types.TaskName.IMAGES_OCR ? sightIds : sights[vehicleType ?? 'cuv'];
+    return USE_DEBUG_PARAMS ? newSightIds.slice(0, debugParams.numberOfSightsToUse) : newSightIds;
+  }, [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -127,7 +131,7 @@ export default function InspectionCapture() {
 
       try {
         const promises = Object.values(mapTasksToSights)
-          .filter(((taskBySight) => newSightIds.includes(taskBySight.id)))
+          .filter(((taskBySight) => sightIdsToUse.includes(taskBySight.id)))
           .map(mapTaskBySightToTasknames)
           .flat()
           .concat([taskName])
@@ -261,7 +265,7 @@ export default function InspectionCapture() {
         task={taskName}
         enableCarCoverage
         mapTasksToSights={mapTasksToSights}
-        sightIds={newSightIds}
+        sightIds={sightIdsToUse}
         inspectionId={inspectionId}
         isFocused={isFocused}
         controls={controls}
