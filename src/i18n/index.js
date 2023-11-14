@@ -19,8 +19,10 @@ i18n.use(initReactI18next).init({
 
 i18n.on(
   'languageChanged',
-  (lng) => i18nCamera.changeLanguage(lng).catch((err) => console.error(err)),
-  (lng) => i18nDamageReport.changeLanguage(lng).catch((err) => console.error(err)),
+  (lng) => {
+    i18nCamera.changeLanguage(lng).catch(console.error);
+    i18nDamageReport.changeLanguage(lng).catch(console.error);
+  },
 );
 
 export default i18n;
