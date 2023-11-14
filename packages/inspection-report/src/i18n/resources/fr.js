@@ -65,7 +65,7 @@ const fr = {
     },
     gallery: {
       empty: 'Cette inspection n\'a pas encore de photo.',
-      withDamages: '(avec dommages)'
+      withDamages: '(avec dommages)',
     },
     damageManipulator: {
       damages: 'Dégâts',

@@ -115,7 +115,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [gestureState, setGestureState] = useState({});
-  const [seeDamages, setSeeDamages] = useState(false);
+  const [seeDamages, setSeeDamages] = useState(true);
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const [fullScreenPhoto, setFullScreenPhoto] = useState(null);
 
@@ -212,7 +212,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
             </Pressable>
             <Text style={styles.header}>{t(`damageReport.parts.${part}`)}</Text>
             <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
-              <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+              <MaterialIcons name={seeDamages ? 'visibility-off' : 'visibility'} size={20} color="#fff" />
               <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
             </Pressable>
           </View>

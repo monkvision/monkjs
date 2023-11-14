@@ -41,7 +41,7 @@ function getRenderedOutputImages(image) {
     .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
 
   if (!damagedImage) {
-    return;
+    return undefined;
   }
 
   return {
@@ -66,25 +66,34 @@ function getPictures(inspection) {
 }
 
 function getDamages(inspection) {
-  return inspection.severity_results?.map((severityResult) => ({
-    id: severityResult.id,
-    part: severityResult.label,
-    images: inspection.parts?.find(
-      (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
-    )?.related_images?.map(
-      (relatedImage) => ({
-        id: relatedImage.base_image_id,
-        base_image_type: relatedImage.base_image_type,
-        object_type: relatedImage.object_type,
-        url: relatedImage.path,
-      }),
-    ) ?? [],
-    severity: getSeverity(severityResult.value.custom_severity.level),
-    pricing: severityResult.value.custom_severity.pricing ?? 0,
-    repairOperation: getRepairOperation(
+  return inspection.severity_results?.map((severityResult) => {
+    const damageId = severityResult.id;
+    const partName = severityResult.label;
+    const partId = inspection.parts?.find((part) => part.part_type === partName)?.id;
+    const images = inspection.images?.filter(
+      (image) => (['beauty_shot', 'close_up'].includes(image.image_type)
+        && image.views?.some((view) => view?.element_id === partId)),
+    )?.map((image) => ({
+      id: image.id,
+      image_type: image.image_type,
+      object_type: image.object_type,
+      url: image.path,
+    })) ?? [];
+    const severity = getSeverity(severityResult.value.custom_severity.level);
+    const pricing = severityResult.value.custom_severity.pricing ?? 0;
+    const repairOperation = getRepairOperation(
       severityResult.value.custom_severity.repair_operation?.REPLACE,
-    ),
-  })) ?? [];
+    );
+
+    return {
+      id: damageId,
+      part: partName,
+      images,
+      severity,
+      pricing,
+      repairOperation,
+    };
+  }) ?? [];
 }
 
 function isTaskDone(task, inspection) {
