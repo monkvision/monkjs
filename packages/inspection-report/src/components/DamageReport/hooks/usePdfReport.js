@@ -69,10 +69,6 @@ export default function usePdfReport({
           setPdfStatus(PdfStatus.NOT_REQUESTED);
         }, 5000);
       }
-
-      setTimeout(() => {
-        setPdfStatus(PdfStatus.NOT_REQUESTED);
-      }, 5000);
     }),
     [inspectionId],
   );
