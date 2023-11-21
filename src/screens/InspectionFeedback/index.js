@@ -1,100 +1,124 @@
 import React, { useCallback, useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useMediaQuery } from 'react-responsive';
+import { Card, List, useTheme } from 'react-native-paper';
+import { View, useWindowDimensions } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { version } from '@package/json';
+
 import { Feedback } from '@monkvision/feedback';
-import { View } from 'react-native';
+import { Container } from '@monkvision/ui';
+import * as names from 'screens/names';
+
+import Artwork from '../Landing/Artwork';
+import styles from './styles';
 
 export default function InspectionFeedback() {
-  const [interior, setInterior] = useState('');
-  const [windShieldCondition, setWindShieldCondition] = useState('');
+  const { colors } = useTheme();
+  const { height } = useWindowDimensions();
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
+  const route = useRoute();
+  const { inspectionId, vehicleType } = route.params || {};
+
   const [tireCondition, setTireCondition] = useState('');
-  const [tireConditionSingleSelect, setTireConditionSingleSelect] = useState('');
-  const [tireConditionMultiSelect, setTireConditionMultiSelect] = useState([]);
+  const [windShieldCondition, setWindShieldCondition] = useState('');
   const [vehicleInterior, setVehicleInterior] = useState('');
+  const [additionInfo, setAdditionInfo] = useState('');
 
   const handleSubmit = useCallback(() => {
-    console.log('🚀 interior : ', interior);
-    console.log('🚀 windShieldCondition : ', windShieldCondition);
-    console.log('🚀 tireCondition : ', tireCondition);
-    console.log('🚀 tireConditionSingleSelect : ', tireConditionSingleSelect);
-    console.log('🚀 tireConditionMultiSelect : ', tireConditionMultiSelect);
-    console.log('🚀 vehicleInterior : ', vehicleInterior);
+    const data = {
+      tireCondition,
+      windShieldCondition,
+      vehicleInterior,
+      additionInfo
+    }
+    console.log('🚀 ~ handleSubmit ~ data : ', data);
+    navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
   }, [
-    interior,
-    windShieldCondition,
+    inspectionId,
+    vehicleType,
+    navigation,
     tireCondition,
-    tireConditionSingleSelect,
-    tireConditionMultiSelect,
-    vehicleInterior
+    windShieldCondition,
+    vehicleInterior,
+    additionInfo,
   ]);
 
   return (
-    <View style={{ backgroundColor: '#121212', flex: 1, padding: 15 }}>
-      <Feedback
-        questions={[{
-          type: 'text',
-          question: 'How is the interior of the vehicle?',
-          answer: interior,
-          onChange: (value) => setInterior(value)
-        }, {
-          type: 'radio',
-          question: 'Is the windshield in good condition?',
-          answer: windShieldCondition,
-          onChange: (data) => setWindShieldCondition(data.value),
-          options: [
-            { label: 'Y', value: true },
-            { label: 'N', value: false },
-          ],
-        }, {
-          type: 'select',
-          question: 'Is the tire condition normal (Single Select)?',
-          answer: tireConditionSingleSelect,
-          onChange: (data) => setTireConditionSingleSelect(data),
-          options: [
-            { label: 'Poor', value: 'Poor' },
-            { label: 'Medium', value: 'Medium' },
-            { label: 'Good', value: 'Good' },
-            { label: 'Great', value: 'Great' },
-          ],
-        }, {
-          type: 'select',
-          question: 'Is the tire condition normal (Multi Select)?',
-          answer: tireConditionMultiSelect,
-          config: {
-            isMulti: true,
-          },
-          onChange: (data) => setTireConditionMultiSelect(data),
-          options: [
-            { label: 'Poor', value: 'Poor' },
-            { label: 'Medium', value: 'Medium' },
-            { label: 'Good', value: 'Good' },
-            { label: 'Great', value: 'Great' },
-          ],
-        }, {
-          type: 'radio',
-          question: 'Is the tire condition normal?',
-          answer: tireCondition,
-          onChange: (data) => setTireCondition(data.value),
-          options: [
-            { label: 'Poor', value: 'Poor' },
-            { label: 'Medium', value: 'Medium' },
-            { label: 'Good', value: 'Good' },
-            { label: 'Great', value: 'Great' },
-          ],
-        }, {
-          type: 'radio',
-          question: 'How is the interior of the vehicle?',
-          answer: vehicleInterior,
-          onChange: (data) => setVehicleInterior(data.value),
-          options: [
-            { label: 'Poor', value: 'Poor' },
-            { label: 'Medium', value: 'Medium' },
-            { label: 'Good', value: 'Good' },
-          ],
-        }, {
-          type: 'button',
-          question: 'Submit',
-          onChange: () => handleSubmit()
-        }]}
+    <View style={[styles.root, { minHeight: height, backgroundColor: colors.background }]}>
+      <LinearGradient
+        colors={[colors.gradient, colors.background]}
+        style={[styles.background, { height }]}
       />
+      <Container style={[styles.container, isPortrait ? styles.portrait : {}]}>
+        <View style={[styles.left, isPortrait ? styles.leftPortrait : {}]}>
+          <Artwork />
+        </View>
+        <Card style={[styles.card, styles.right, isPortrait ? styles.rightPortrait : {}]}>
+          <List.Section style={styles.textAlignRight}>
+            <List.Subheader>
+              {t('landing.appVersion')}
+              {': '}
+              {version}
+            </List.Subheader>
+          </List.Section>
+          <List.Section>
+            <List.Subheader>Feedback</List.Subheader>
+            <View style={styles.feedbackWrapper}>
+              <Feedback
+                questions={[{
+                  type: 'radio',
+                  question: 'What is the condition of the tires?',
+                  answer: tireCondition,
+                  onChange: (data) => setTireCondition(data.value),
+                  options: [
+                    { label: 'Poor', value: 'Poor' },
+                    { label: 'Average', value: 'Average' },
+                    { label: 'Good', value: 'Good' },
+                  ],
+                }, {
+                  type: 'radio',
+                  question: 'What is the condition of the windshield?',
+                  answer: windShieldCondition,
+                  onChange: (data) => setWindShieldCondition(data.value),
+                  options: [
+                    { label: 'Poor', value: 'Poor' },
+                    { label: 'Average', value: 'Average' },
+                    { label: 'Good', value: 'Good' },
+                  ],
+                }, {
+                  type: 'radio',
+                  question: 'What is the condition of the vehicle\'s interior?',
+                  answer: vehicleInterior,
+                  onChange: (data) => setVehicleInterior(data.value),
+                  options: [
+                    { label: 'Poor', value: 'Poor' },
+                    { label: 'Average', value: 'Average' },
+                    { label: 'Good', value: 'Good' },
+                  ],
+                }, {
+                  type: 'text',
+                  question: 'Any additional info?',
+                  answer: additionInfo,
+                  onChange: (value) => setAdditionInfo(value),
+                }, {
+                  type: 'button',
+                  question: 'Skip',
+                  onChange: () => handleSubmit()
+                }, {
+                  type: 'button',
+                  question: 'Validate',
+                  onChange: () => handleSubmit()
+                }]}
+              />
+            </View>
+          </List.Section>
+        </Card>
+      </Container>
     </View>
   );
 }
