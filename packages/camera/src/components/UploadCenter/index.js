@@ -118,8 +118,8 @@ export default function UploadCenter({
   const displayRetakeAll = useMemo(
     () => Object.values(uploads.state).some((u) => !!u.error) || Object.values(compliance.state)
       .some((c) => ['rejected', 'unsatisfied'].includes(c.status)
-        || c?.result?.data?.compliances?.image_quality_assessment?.is_compliant === false
-        || c?.result?.data?.compliances?.zoom_level?.is_compliant === false),
+        || c?.result?.data?.compliances?.image_quality_assessment?.is_compliant === false),
+    // || c?.result?.data?.compliances?.zoom_level?.is_compliant === false),
     [compliance, uploads],
   );
 
@@ -141,11 +141,11 @@ export default function UploadCenter({
             reasons: value?.result?.data?.compliances?.image_quality_assessment?.reasons,
             status: value?.result?.data?.compliances?.image_quality_assessment?.status,
           },
-          zoom_level: {
-            isCompliant: value?.result?.data?.compliances?.zoom_level?.is_compliant,
-            reasons: value?.result?.data?.compliances?.zoom_level?.reasons,
-            status: value?.result?.data?.compliances?.zoom_level?.status,
-          },
+          // zoom_level: {
+          //   isCompliant: value?.result?.data?.compliances?.zoom_level?.is_compliant,
+          //   reasons: value?.result?.data?.compliances?.zoom_level?.reasons,
+          //   status: value?.result?.data?.compliances?.zoom_level?.status,
+          // },
         },
       })),
   }), [ids, compliance.state]);

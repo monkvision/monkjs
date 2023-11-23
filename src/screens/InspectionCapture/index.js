@@ -11,12 +11,13 @@ import monk, { useMonitoring } from '@monkvision/corejs';
 import { utils } from '@monkvision/toolkit';
 
 import * as names from 'screens/names';
-import { Clients, useClient } from '../../contexts';
 import ErrorModal from 'components/ErrorModal';
+import { Clients, useClient } from '../../contexts';
 import mapTasksToSights from './mapTasksToSights';
 import styles from './styles';
 import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
+import { USE_DEBUG_PARAMS, debugParams } from '../Landing';
 import useGetInspection from '../Landing/useGetInspection';
 
 const enableComplianceCheck = true;
@@ -31,7 +32,10 @@ export default function InspectionCapture() {
 
   const { inspectionId, sightIds, taskName, vehicleType, selectedMode, isLastTour } = route.params;
   const { client, sights, info } = useClient();
-  const newSightIds = useMemo(() => ((taskName === monk.types.TaskName.IMAGES_OCR) ? sightIds : (sights[vehicleType ?? 'cuv'])), [sights, vehicleType]);
+  const sightIdsToUse = useMemo(() => {
+    const newSightIds = taskName === monk.types.TaskName.IMAGES_OCR ? sightIds : sights[vehicleType ?? 'cuv'];
+    return USE_DEBUG_PARAMS ? newSightIds.slice(0, debugParams.numberOfSightsToUse) : newSightIds;
+  }, [sights, vehicleType]);
 
   const [isFocused, setFocused] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -63,7 +67,7 @@ export default function InspectionCapture() {
         // eslint-disable-next-line no-alert
         const ok = window.confirm(t('capture.quit.title'));
         if (ok) {
-          navigation.navigate(names.LANDING, { inspectionId });
+          navigation.navigate(names.LANDING, { inspectionId, isLastTour: true });
         }
       }
 
@@ -76,7 +80,7 @@ export default function InspectionCapture() {
         }, {
           text: t('capture.quit.ok'),
           onPress: () => {
-            navigation.navigate(names.LANDING, { inspectionId });
+            navigation.navigate(names.LANDING, { inspectionId, isLastTour: true });
           },
         }],
         { cancelable: true },
@@ -105,7 +109,10 @@ export default function InspectionCapture() {
       if (isLastTour && info.vm) {
         navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
       } else {
-        navigation.navigate(names.LANDING, { inspectionId, captureComplete: true });
+        navigation.navigate(
+          names.LANDING,
+          { inspectionId, captureComplete: true, isLastTour: true },
+        );
       }
     }
   }, [inspectionId, navigation, info, isLastTour, allTasks, inspection]);
@@ -124,7 +131,7 @@ export default function InspectionCapture() {
 
       try {
         const promises = Object.values(mapTasksToSights)
-          .filter(((taskBySight) => newSightIds.includes(taskBySight.id)))
+          .filter(((taskBySight) => sightIdsToUse.includes(taskBySight.id)))
           .map(mapTaskBySightToTasknames)
           .flat()
           .concat([taskName])
@@ -144,7 +151,7 @@ export default function InspectionCapture() {
                 },
                 onPress: () => {
                   setErrorModal(null);
-                  navigation.navigate(names.LANDING);
+                  navigation.navigate(names.LANDING, { isLastTour: true });
                 },
               });
             });
@@ -203,7 +210,7 @@ export default function InspectionCapture() {
 
   const handleCaptureClose = useCallback(() => {
     if (!enableComplianceCheck) {
-      navigation.navigate(names.LANDING, { inspectionId });
+      navigation.navigate(names.LANDING, { inspectionId, isLastTour: true });
     }
   }, [enableComplianceCheck, inspectionId]);
 
@@ -223,8 +230,16 @@ export default function InspectionCapture() {
       ...Controls.CloseEarlyButtonProps,
       confirm: true,
       confirmationMessage: {
-        en: 'Your inspection is not complete, are you sure you want to stop it ?',
-        fr: 'Votre inspection n\'est pas complète, êtes-vous sûr(e) de vouloir l\'arrêter ?',
+        zoomed: {
+          en: 'Do you want to cancel this zoomed damage ?',
+          fr: 'Voulez vous annuler cet ajout de dommage ?',
+          de: 'Möchten Sie diesen gezoomten Schaden rückgängig machen?',
+        },
+        normal: {
+          en: 'Your inspection is not complete, are you sure you want to stop it ?',
+          fr: 'Votre inspection n\'est pas complète, êtes-vous sûr(e) de vouloir l\'arrêter ?',
+          de: 'Ihre Inspektion ist nicht abgeschlossen. Sind Sie sicher, dass Sie sie beenden möchten?',
+        },
       },
       disabled: cameraLoading,
     },
@@ -250,7 +265,7 @@ export default function InspectionCapture() {
         task={taskName}
         enableCarCoverage
         mapTasksToSights={mapTasksToSights}
-        sightIds={newSightIds}
+        sightIds={sightIdsToUse}
         inspectionId={inspectionId}
         isFocused={isFocused}
         controls={controls}

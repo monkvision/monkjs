@@ -45,6 +45,12 @@ const fr = {
       invalidParams: 'Oups ! L\'URL à laquelle vous tentez d\'accéder est invalide 😔 Veuillez réessayer avec une autre URL.',
       invalidToken: 'Oups ! L\'URL à laquelle vous tentez d\'accéder est expirée 😔 Veuillez réessayer avec une autre URL.',
       selectVehicle: 'Séléctionnez le type de véhicule',
+      inspectionInError: {
+        title: 'Erreur lors de l\'inspection',
+        message: 'Désolé, une erreur inattendue est survenue lors de l\'inspection. Veuillez contacter le support avec les informations suivantes :',
+        id: 'Identifiant de l\'inspection',
+        tasks: 'Tâches en erreur',
+      },
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',

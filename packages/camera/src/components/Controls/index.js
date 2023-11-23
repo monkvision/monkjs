@@ -155,10 +155,8 @@ export default function Controls({
 
     if (action === Actions.sights.ADD_PROCESS_TO_QUEUE) {
       if (noOfProcesses < MAX_LIMIT_FOR_PROCESSES && current.index !== (ids.length - 1)) {
-        setTimeout(() => {
-          onFinishUploadPicture(state, api);
-          api.goNextSight();
-        }, 500);
+        onFinishUploadPicture(state, api);
+        api.goNextSight();
       }
     } else if (action === Actions.sights.REMOVE_PROCESS_FROM_QUEUE) {
       if (noOfProcesses === (MAX_LIMIT_FOR_PROCESSES - 1) && current.index !== (ids.length - 1)) {
@@ -300,6 +298,7 @@ Controls.CloseEarlyButtonProps = {
   confirmationMessage: {
     en: 'You haven\'t taken all the required pictures. Are you sure you want to end the insepction ?',
     fr: 'Vous n\'avez pas terminé de prendre toutes les photos nécessaires. Êtes-vous sûr(e) de vouloir terminer l\'inspection ?',
+    de: 'Sie haben nicht alle erforderlichen Bilder aufgenommen. Sind Sie sicher, dass Sie die Inspektion beenden möchten?',
   },
 };
 
@@ -320,7 +319,6 @@ Controls.AddDamageButtonProps = {
   id: 'add-damage',
   accessibilityLabel: 'Zoomed Damage',
   children: <AddDamageButton
-    label="Zoomed Damage"
     customStyle={{
       fontSize: 12,
       color: '#020202',

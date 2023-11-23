@@ -23,6 +23,8 @@ import SelectedParts from '../SelectedParts';
 import Sights from '../Sights';
 import UploadCenter from '../UploadCenter';
 
+import Actions from '../../actions';
+
 import {
   useCheckComplianceAsync,
   useCreateDamageDetectionAsync,
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
 });
 
 const defaultNavigationOptions = {
-  allowNavigate: false,
+  allowNavigate: true,
   allowRetake: true,
   allowSkip: false,
   allowSkipImageQualityCheck: true,
@@ -162,6 +164,7 @@ const Capture = forwardRef(({
   });
   const [endTour, setEndTour] = useState(false);
   const [isTourClosed, setIsTourClosed] = useState(false);
+  const [sightBeforeRetake, setSightBeforeRetake] = useState('');
   const { height, width } = useWindowDimensions();
   const { errorHandler, measurePerformance } = useMonitoring();
 
@@ -385,12 +388,13 @@ const Capture = forwardRef(({
     if (confirm) {
       setCloseEarlyModalState({
         show: true,
-        message: confirmationMessage,
+        message: addDamageStatus === AddDamageStatus.TAKE_PICTURE
+          ? confirmationMessage.zoomed : confirmationMessage.normal,
       });
     } else {
       handleCloseCaptureEarly();
     }
-  }, [handleCloseCaptureEarly, setCloseEarlyModalState]);
+  }, [addDamageStatus, handleCloseCaptureEarly, setCloseEarlyModalState]);
 
   const handleCloseEarlyCancel = useCallback(() => {
     setCloseEarlyModalState({
@@ -445,6 +449,23 @@ const Capture = forwardRef(({
       transaction.setTag(SentryTag.PERCENT_OF_NON_COMPLIANCE_PICS, percentOfNonCompliancePics);
     }
   }, []);
+
+  const handlePictureTaken = useCallback(() => {
+    onPictureTaken();
+    if (sightBeforeRetake) {
+      sights.dispatch({
+        type: Actions.sights.SET_CURRENT_SIGHT,
+        payload: { id: sightBeforeRetake },
+      });
+      setSightBeforeRetake('');
+    }
+  }, [sights.dispatch, sightBeforeRetake, onPictureTaken]);
+
+  const handleSightPressed = useCallback((id) => {
+    if (!sightBeforeRetake) {
+      setSightBeforeRetake(id);
+    }
+  }, [sightBeforeRetake]);
 
   // END HANDLERS //
   // EFFECTS //
@@ -564,6 +585,7 @@ const Capture = forwardRef(({
         footer={footer}
         navigationOptions={navigationOptions}
         offline={offline}
+        onSightPressed={handleSightPressed}
         thumbnailStyle={thumbnailStyle}
         uploads={uploads}
         additionalPictures={additionalPictures.state.takenPictures}
@@ -593,7 +615,7 @@ const Capture = forwardRef(({
       onResetAddDamageStatus={handleResetDamageStatus}
       hideAddDamage={hideAddDamage}
       isPortraitModeVinLayoutView={isPortraitModeVinLayoutView}
-      onPictureTaken={onPictureTaken}
+      onPictureTaken={handlePictureTaken}
     />
   ), [
     api, controlsContainerStyle, controls, loading,
@@ -938,25 +960,25 @@ Capture.defaultProps = {
   mapTasksToSights: [],
   navigationOptions: defaultNavigationOptions,
   offline: null,
-  onPictureUploaded: () => {},
-  onPictureTaken: () => {},
-  onCameraPermissionError: () => {},
-  onCameraPermissionSuccess: () => {},
-  onCaptureClose: () => {},
-  onCaptureTourFinish: () => {},
-  onCaptureTourStart: () => {},
-  onChange: () => {},
-  onCloseEarly: () => {},
-  onComplianceChange: () => {},
-  onSettingsChange: () => {},
-  onSightsChange: () => {},
-  onUploadsChange: () => {},
-  onComplianceCheckFinish: () => {},
-  onComplianceCheckStart: () => {},
-  onFinishUploadPicture: () => {},
-  onWarningMessage: () => {},
-  onReady: () => {},
-  onStartUploadPicture: () => {},
+  onPictureUploaded: () => { },
+  onPictureTaken: () => { },
+  onCameraPermissionError: () => { },
+  onCameraPermissionSuccess: () => { },
+  onCaptureClose: () => { },
+  onCaptureTourFinish: () => { },
+  onCaptureTourStart: () => { },
+  onChange: () => { },
+  onCloseEarly: () => { },
+  onComplianceChange: () => { },
+  onSettingsChange: () => { },
+  onSightsChange: () => { },
+  onUploadsChange: () => { },
+  onComplianceCheckFinish: () => { },
+  onComplianceCheckStart: () => { },
+  onFinishUploadPicture: () => { },
+  onWarningMessage: () => { },
+  onReady: () => { },
+  onStartUploadPicture: () => { },
   orientationBlockerProps: null,
   overlayPathStyles: {},
   primaryColor: '#FFF',

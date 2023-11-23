@@ -45,6 +45,12 @@ const en = {
       invalidParams: 'Oops ! The URL you are trying to access is invalid 😔 Please try again with another URL.',
       invalidToken: 'Oops ! The URL you are trying to access is expired 😔 Please try again with another URL.',
       selectVehicle: 'Select vehicle type',
+      inspectionInError: {
+        title: 'Error in Inspection',
+        message: 'Sorry, an unexpected error occurred during the inspection. Please contact the support with the following information :',
+        id: 'Inspection ID',
+        tasks: 'Failed tasks',
+      },
     },
     vinModal: {
       title: 'How to set VIN number?',

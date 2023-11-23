@@ -13,6 +13,7 @@ const fr = {
       exitFullScreen: 'Quitter Plein Écran',
       settings: 'Paramètres',
       quit: 'Quitter',
+      addDamage: 'Zoom Dégât',
     },
     layout: {
       rotateDevice: 'Veuillez tourner votre appareil ↪',

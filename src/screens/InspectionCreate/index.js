@@ -67,7 +67,7 @@ export default function InspectionCreate() {
   }, [inspectionId, isAuthenticated, createInspection]);
 
   const handleGoBack = useCallback(
-    () => navigation.navigate(names.LANDING),
+    () => navigation.navigate(names.LANDING, { isLastTour }),
     [navigation],
   );
 
@@ -75,7 +75,7 @@ export default function InspectionCreate() {
     const option = ExpoConstants.manifest.extra.options.find((o) => o.value === selected);
     if (!isAuthenticated || isEmpty(inspectionId) || !option) { return; }
 
-    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId }); return; }
+    if (mode === 'manually') { navigation.navigate(names.LANDING, { ...route.params, inspectionId, isLastTour }); return; }
 
     const vehicleType = vehicle.vehicleType || 'cuv';
     const sightIds = option.value === CAR_360 ? option.sightIds[vehicleType] : option.sightIds;
