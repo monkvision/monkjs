@@ -16,7 +16,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import Thumbnail from './Thumbnail';
-import { useDesktopMode } from './../../hooks';
+import { useDesktopMode, useDamageVisibility } from './../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -91,13 +91,13 @@ function Gallery({ pictures }) {
   const isDesktopMode = useDesktopMode();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
   const [isZoomed, setIsZoomed] = useState(false);
-  const [seeDamages, setSeeDamages] = useState(false);
   const { width, height } = useWindowDimensions();
   const [gestureState, setGestureState] = useState({});
   const scale = useRef(new Animated.Value(1)).current;
   const transform = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  const { visibleDamages, updateVisibility } = useDamageVisibility();
 
-  const handleVisibilityOfDamages = useCallback(() => setSeeDamages(!seeDamages), [seeDamages]);
+  const handleVisibilityOfDamages = useCallback(() => updateVisibility(!visibleDamages), [visibleDamages]);
   const handleOnImageClick = useCallback((focusedImage) => {
     if (focusedImage.url) {
       setFocusedPhoto(focusedImage);
@@ -254,14 +254,14 @@ function Gallery({ pictures }) {
           {
             !isDesktopMode && (
               <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
-                <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
-                <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
+                <MaterialIcons name={visibleDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+                <Text style={styles.damageLabel}>{visibleDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
               </Pressable>
             )
           }
 
           <Animated.Image
-            source={{ uri: seeDamages ? focusedPhoto?.rendered_outputs?.url : focusedPhoto?.url }}
+            source={{ uri: visibleDamages ? focusedPhoto?.rendered_outputs?.url : focusedPhoto?.url }}
             style={{
               flex: 1,
               cursor: !isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',
