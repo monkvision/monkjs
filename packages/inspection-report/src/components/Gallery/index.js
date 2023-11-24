@@ -22,11 +22,11 @@ import { useDesktopMode } from './../../hooks';
 const styles = StyleSheet.create({
   container: {
     alignContent: 'flex-start',
-    flex: 1,
     ...Platform.select({
       web: {
         flexDirection: 'row',
-      },
+        flex: 1,
+      }
     }),
     flexWrap: 'wrap',
     justifyContent: 'center',
