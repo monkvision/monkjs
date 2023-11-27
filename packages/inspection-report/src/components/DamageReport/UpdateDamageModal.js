@@ -15,6 +15,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { CommonPropTypes, DamageMode } from '../../resources';
+import { useDamageVisibility } from '../../hooks';
 
 import DamageManipulator from './DamageManipulator';
 
@@ -114,10 +115,10 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const [seeDamages, setSeeDamages] = useState(false);
   const [gestureState, setGestureState] = useState({});
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const [fullScreenPhoto, setFullScreenPhoto] = useState(null);
+  const { visibleDamages, updateVisibility } = useDamageVisibility();
 
   const panResponder = useRef(
     PanResponder.create({
@@ -131,7 +132,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   ).current;
 
   const handleClosePreview = useCallback(() => setFullScreenPhoto(null), []);
-  const handleVisibilityOfDamages = useCallback(() => setSeeDamages(!seeDamages), [seeDamages]);
+  const handleVisibilityOfDamages = useCallback(() => updateVisibility(!visibleDamages), [visibleDamages]);
 
   useEffect(() => {
     if (
@@ -190,7 +191,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
               source={{
                 width: '100%',
                 height: '100%',
-                uri: seeDamages ? fullScreenPhoto?.rendered_outputs?.url : fullScreenPhoto?.url,
+                uri: visibleDamages ? fullScreenPhoto?.rendered_outputs?.url : fullScreenPhoto?.url,
               }}
               style={{ resizeMode: 'contain' }}
             />
@@ -212,8 +213,8 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
             </Pressable>
             <Text style={styles.header}>{t(`damageReport.parts.${part}`)}</Text>
             <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
-              <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
-              <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
+              <MaterialIcons name={visibleDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+              <Text style={styles.damageLabel}>{visibleDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
             </Pressable>
           </View>
           <View
@@ -228,7 +229,7 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
                     source={{
                       width: '100%',
                       height: '100%',
-                      uri: seeDamages ? image?.rendered_outputs?.url : image?.url,
+                      uri: visibleDamages ? image?.rendered_outputs?.url : image?.url,
                     }}
                     style={{ resizeMode: 'cover' }}
                   />
