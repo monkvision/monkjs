@@ -34,11 +34,11 @@
       "distribution": "internal",
       "env": {
         "ENV": "staging",
-        "IRA_DOMAIN": "ira-staging.dev.monk.ai",
-        "API_DOMAIN": "api.staging.monk.ai/v1",
+        "IRA_DOMAIN": "ira.preview.monk.ai",
+        "API_DOMAIN": "api.preview.monk.ai/v1",
         "AUTH_AUDIENCE": "https://api.monk.ai/v1/",
-        "AUTH_CLIENT_ID": "DAeZWqeeOfgItYBcQzFeFwSrlvmUdN7L",
-        "AUTH_DOMAIN": "idp.staging.monk.ai",
+        "AUTH_CLIENT_ID": "soZ7P2c6b9I5jarQoRrhh87x9TpOSaGn",
+        "AUTH_DOMAIN": "idp.preview.monk.ai",
         "SENTRY_DSN": "https://56d057cf1dd65909c21f471cf7decab3@o4505669501648896.ingest.sentry.io/4505673908355072",
         "PDF_REPORT_CUSTOMER": "monk_QSBtYXJ0aW5pLiBTaGFrZW4sIG5vdCBzdGlycmVkLgo=",
         "PDF_REPORT_CLIENT_NAME": "Monk"
