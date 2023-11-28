@@ -171,31 +171,13 @@ function Gallery({ pictures }) {
         const currentPictureIndex = pictures.findIndex((pic) => pic.id === focusedPhoto.id);
         switch (event.key) {
           case 'ArrowLeft':
-            if ((focusedPhoto?.isRendered && currentPictureIndex >= 0)
-              || currentPictureIndex - 1 >= 0) {
-              if (focusedPhoto.isRendered) {
-                setFocusedPhoto(pictures[currentPictureIndex]);
-              } else {
-                setFocusedPhoto(
-                  pictures[currentPictureIndex - 1]?.rendered_outputs
-                    ? pictures[currentPictureIndex - 1]?.rendered_outputs
-                    : pictures[currentPictureIndex],
-                );
-              }
+            if (currentPictureIndex - 1 >= 0) {
+              setFocusedPhoto(pictures[currentPictureIndex - 1]);
             }
             break;
           case 'ArrowRight':
-            if ((!focusedPhoto?.isRendered && currentPictureIndex < pictures.length)
-              || currentPictureIndex + 1 < pictures.length) {
-              if (focusedPhoto.isRendered) {
-                setFocusedPhoto(pictures[currentPictureIndex + 1]);
-              } else {
-                setFocusedPhoto(
-                  pictures[currentPictureIndex]?.rendered_outputs
-                    ? pictures[currentPictureIndex]?.rendered_outputs
-                    : pictures[currentPictureIndex + 1],
-                );
-              }
+            if (currentPictureIndex + 1 < pictures.length) {
+              setFocusedPhoto(pictures[currentPictureIndex + 1]);
             }
             break;
           default:
@@ -227,7 +209,7 @@ function Gallery({ pictures }) {
             <Thumbnail image={image} click={handleOnImageClick} />
           </View>
           {
-            isDesktopMode && image?.rendered_outputs && (
+            isDesktopMode && image?.rendered_outputs && image?.rendered_outputs?.url && (
               <View style={styles.thumbnailWrapper}>
                 <Thumbnail image={image.rendered_outputs} click={handleOnImageClick} />
               </View>
