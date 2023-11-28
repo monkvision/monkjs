@@ -270,6 +270,7 @@ export default function InspectionCapture() {
         isFocused={isFocused}
         controls={controls}
         loading={cameraLoading}
+        settings={{ resolution: info.resolution }}
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}

@@ -11,6 +11,7 @@ const info = {
   },
   description: 'Monk Capture App enables high level car inspections with helpers and specific user interfaces.',
   vm: false,
+  resolution: 'FHD'
 };
 
 export default info;
