@@ -78,6 +78,9 @@ function getDamages(inspection) {
       image_type: image.image_type,
       object_type: image.object_type,
       url: image.path,
+      rendered_outputs: getRenderedOutputImages(
+        inspection.images.find((pic) => pic.id === relatedImage?.base_image_id),
+      ),
     })) ?? [];
     const severity = getSeverity(severityResult.value.custom_severity.level);
     const pricing = severityResult.value.custom_severity.pricing ?? 0;
