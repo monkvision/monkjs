@@ -147,6 +147,7 @@ export default function DamageReport({
     inspectionErrors,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   } = useFetchInspection({ inspectionId });
@@ -166,7 +167,6 @@ export default function DamageReport({
     handleShowGallery,
     handleGalleryDismiss,
     handlePartPressed,
-    handlePillPressed,
     handleSaveDamage,
     setIsEditable,
   } = useDamageReportStateHandlers({
@@ -174,6 +174,7 @@ export default function DamageReport({
     damages,
     setDamages,
     pictures,
+    parts,
   });
 
   const {
@@ -330,7 +331,7 @@ export default function DamageReport({
                     damageMode={damageMode}
                     vehicleType={vehicleType}
                     onPressPart={handlePartPressed}
-                    onPressPill={handlePillPressed}
+                    onPressPill={handlePartPressed}
                     generatePdf={generatePdf}
                     onValidateInspection={handleValidateInspection}
                     pdfHandles={{ pdfStatus, handleDownload }}

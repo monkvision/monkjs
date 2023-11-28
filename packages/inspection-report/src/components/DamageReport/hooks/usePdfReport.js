@@ -32,6 +32,8 @@ export const PdfStatus = {
   ERROR: 'ERROR',
 };
 
+const ALLOWED_PDF_LANGUAGES = ['en', 'fr'];
+
 export default function usePdfReport({
   inspectionId,
   generatePdf,
@@ -44,11 +46,15 @@ export default function usePdfReport({
   const [reportUrl, setReportUrl] = useState(null);
   const { i18n } = useTranslation();
 
+  const getPdfLang = useCallback(() => {
+    return ALLOWED_PDF_LANGUAGES.includes(i18n.language?.substring(0, 2)) ? i18n.language?.substring(0, 2) : 'en'
+  }, [i18n.language]);
+
   const pdfRequestPayload = useMemo(() => ({
     pricing: true,
     customer,
     clientName,
-    language: i18n.language?.substring(0, 2) ?? 'en',
+    language: getPdfLang(),
   }), [i18n.language]);
 
   const fetchPdf = useCallback(
