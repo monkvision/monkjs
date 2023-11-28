@@ -77,6 +77,9 @@ function getDamages(inspection) {
         base_image_type: relatedImage.base_image_type,
         object_type: relatedImage.object_type,
         url: relatedImage.path,
+        rendered_outputs: getRenderedOutputImages(
+          inspection.images.find((pic) => pic.id === relatedImage?.base_image_id),
+        ),
       }),
     ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
