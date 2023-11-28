@@ -11,6 +11,7 @@ const info = {
   },
   description: 'Fastback Capture App enables high level car inspections with helpers and specific user interfaces.',
   vm: false,
+  resolution: 'FHD'
 };
 
 export default info;

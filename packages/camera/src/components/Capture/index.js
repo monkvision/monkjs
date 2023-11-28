@@ -34,7 +34,7 @@ const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, 
   const unControlledUploads = useUploads({ sightIds, initialState: initialState.uploads });
   const unControlledSights = useSights({ sightIds, initialState: initialState.sights });
   const unControlledAdditionalPictures = useAdditionalPictures();
-  const unControlledSettings = useSettings({ camera, initialState: initialState.settings });
+  const unControlledSettings = useSettings({ camera, initialState: settings || initialState.settings });
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -43,7 +43,7 @@ const CaptureHOC = forwardRef(({ compliance, settings, sights, uploads, colors, 
         uploads={uploads || unControlledUploads}
         sights={sights || unControlledSights}
         additionalPictures={unControlledAdditionalPictures}
-        settings={settings || unControlledSettings}
+        settings={unControlledSettings}
         ref={combinedRefs}
         colors={{ ...initialColors, ...colors }}
         {...rest}

@@ -74,7 +74,7 @@ function Camera({
 
   useTimeout(() => {
     const supportsQHD = utils.inaccuratelyCheckQHDSupport(takePicture);
-    if (supportsQHD) { setResolution('QHD'); } else { setResolution('FHD'); }
+    if (!supportsQHD) { setResolution('FHD'); }
   }, delay);
 
   return (
