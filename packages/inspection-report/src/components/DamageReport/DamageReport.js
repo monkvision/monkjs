@@ -146,6 +146,7 @@ export default function DamageReport({
     isInspectionReady,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   } = useFetchInspection({ inspectionId });
@@ -173,6 +174,7 @@ export default function DamageReport({
     damages,
     setDamages,
     pictures,
+    parts,
   });
 
   const {

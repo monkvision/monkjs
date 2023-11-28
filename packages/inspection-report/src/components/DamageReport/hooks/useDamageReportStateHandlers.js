@@ -7,12 +7,13 @@ export default function useDamageReportStateHandlers({
   damages,
   setDamages,
   pictures,
+  parts,
 }) {
   const [editedDamage, setEditedDamage] = useState(undefined);
   const [editedDamagePart, setEditedDamagePart] = useState(undefined);
-  const [editedDamageImages, setEditedDamageImages] = useState(undefined);
-  const [editedPartDamageImages, setEditedPartDamageImages] = useState(undefined);
-  const [editedZoomedDamageImages, setEditedZoomedDamageImages] = useState(undefined);
+  const [editedDamageImages, setEditedDamageImages] = useState([]);
+  const [editedPartDamageImages, setEditedPartDamageImages] = useState([]);
+  const [editedZoomedDamageImages, setEditedZoomedDamageImages] = useState([]);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
@@ -68,14 +69,26 @@ export default function useDamageReportStateHandlers({
 
   const handlePartPressed = useCallback((partName) => {
     if (isEditable) {
-      const damage = damages.find((dmg) => dmg.part === partName);
-      if (!damage || !damage?.pricing) {
-        setEditedDamagePart(partName);
+      let selectedPart = parts.find((prt) => prt.part_type === partName);
+      if (selectedPart) {
+        const partPictures = pictures.filter((pic) => pic.views.find((view) => view.element_id === selectedPart.id));
+        const partDamageImages = partPictures.filter(img => img.image_type === "beauty_shot").map((img, index) => ({
+          ...img,
+          rendered_outputs: pictures.find(pic => pic.id === img?.id)?.rendered_outputs
+        }));
+        const zoomedDamageImages = partPictures.filter(img => img.image_type === "close_up");
+
+        setEditedDamageImages(partPictures);
+        setEditedPartDamageImages(partDamageImages);
+        setEditedZoomedDamageImages(zoomedDamageImages);
+      } else {
         setEditedDamageImages([]);
         setEditedPartDamageImages([]);
         setEditedZoomedDamageImages([]);
-        setIsPopUpVisible(true);
       }
+
+      setEditedDamagePart(partName);
+      setIsPopUpVisible(true);
     }
   }, [isEditable, damages]);
 

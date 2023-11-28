@@ -32,7 +32,12 @@ function getRenderedOutputImages(image) {
     .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
 
   if (!damagedImage) {
-    return;
+    return {
+      id: '',
+      isRendered: true,
+      label: '',
+      url: '',
+    };
   }
 
   return {
@@ -51,6 +56,7 @@ function getPictures(inspection) {
     mimetype: image.mimetype,
     image_type: image.image_type,
     url: image.path,
+    views: image.views,
     rendered_outputs: getRenderedOutputImages(image),
     label: image.additional_data?.label ?? undefined,
   }));
@@ -86,11 +92,13 @@ export default function useProcessInspection() {
   const [vinNumber, setVinNumber] = useState('');
   const [pictures, setPictures] = useState([]);
   const [damages, setDamages] = useState([]);
+  const [parts, setParts] = useState([]);
 
   const resetState = useCallback(() => {
     setIsInspectionReady(false);
     setPictures([]);
     setDamages([]);
+    setParts([]);
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
@@ -100,6 +108,7 @@ export default function useProcessInspection() {
         .every((task) => (task.status === monk.types.InspectionStatus.DONE)),
     );
     setPictures(getPictures(axiosResponse.data));
+    setParts(axiosResponse.data.parts);
     setDamages(getDamages(axiosResponse.data));
     setVinNumber(axiosResponse.data?.vehicle?.vin);
   }, []);
@@ -110,6 +119,7 @@ export default function useProcessInspection() {
     isInspectionReady,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   };

@@ -18,6 +18,7 @@ export default function useFetchInspection({
     isInspectionReady,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   } = useProcessInspection();
@@ -62,6 +63,7 @@ export default function useFetchInspection({
     isInspectionReady,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   };
