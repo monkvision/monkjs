@@ -156,6 +156,7 @@ export default function DamageReport({
       editedDamage,
       editedPartDamageImages,
       editedZoomedDamageImages,
+      editedDamageImages,
       editedDamagePart,
       isPopUpVisible,
       isModalVisible,
@@ -375,7 +376,7 @@ export default function DamageReport({
             part={editedDamagePart}
             damage={editedDamage}
             damageMode={damageMode}
-            imageCount={editedPartDamageImages.length}
+            imageCount={editedDamageImages.length}
             onDismiss={handlePopUpDismiss}
             onShowGallery={handleShowGallery}
             onConfirm={handleSaveDamage}
@@ -388,7 +389,7 @@ export default function DamageReport({
           <UpdateDamageModal
             damage={editedDamage}
             damageMode={damageMode}
-            images={editedPartDamageImages}
+            images={editedDamageImages}
             onConfirm={handleSaveDamage}
             onDismiss={handleGalleryDismiss}
             part={editedDamagePart}
