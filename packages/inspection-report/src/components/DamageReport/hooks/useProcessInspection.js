@@ -37,11 +37,25 @@ function getSeverity(severityNumber) {
 }
 
 function getRenderedOutputImages(image) {
+  if (!image) {
+    return {
+      id: '',
+      isRendered: true,
+      label: undefined,
+      url: '',
+    };
+  }
+
   const damagedImage = image.rendered_outputs
     .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
 
   if (!damagedImage) {
-    return undefined;
+    return {
+      id: '',
+      isRendered: true,
+      label: undefined,
+      url: '',
+    };
   }
 
   return {
@@ -60,8 +74,23 @@ function getPictures(inspection) {
     mimetype: image.mimetype,
     image_type: image.image_type,
     url: image.path,
+    views: image.views,
     rendered_outputs: getRenderedOutputImages(image),
     label: image.additional_data?.label ?? undefined,
+  }));
+}
+
+function getParts(inspection) {
+  return inspection.parts.map((part) => ({
+    ...part,
+    images: part.related_images.map((image) => ({
+      id: image.base_image_id,
+      mimetype: image.mimetype,
+      image_type: image.base_image_type,
+      url: image.path,
+      rendered_outputs: getRenderedOutputImages(),
+      label: undefined,
+    }))
   }));
 }
 
@@ -78,9 +107,7 @@ function getDamages(inspection) {
       image_type: image.image_type,
       object_type: image.object_type,
       url: image.path,
-      rendered_outputs: getRenderedOutputImages(
-        inspection.images.find((pic) => pic.id === relatedImage?.base_image_id),
-      ),
+      rendered_outputs: getRenderedOutputImages(inspection.images.find((pic) => pic.id === image.base_image_id)),
     })) ?? [];
     const severity = getSeverity(severityResult.value.custom_severity.level);
     const pricing = severityResult.value.custom_severity.pricing ?? 0;
@@ -115,11 +142,13 @@ export default function useProcessInspection() {
   const [vinNumber, setVinNumber] = useState('');
   const [pictures, setPictures] = useState([]);
   const [damages, setDamages] = useState([]);
+  const [parts, setParts] = useState([]);
 
   const resetState = useCallback(() => {
     setIsInspectionReady(false);
     setPictures([]);
     setDamages([]);
+    setParts([]);
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
@@ -133,6 +162,7 @@ export default function useProcessInspection() {
       tasks: tasksInError,
     });
     setPictures(getPictures(inspection));
+    setParts(getParts(inspection));
     setDamages(getDamages(inspection));
     setVinNumber(inspection.vehicle?.vin);
   }, []);
@@ -144,6 +174,7 @@ export default function useProcessInspection() {
     inspectionErrors,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   };
