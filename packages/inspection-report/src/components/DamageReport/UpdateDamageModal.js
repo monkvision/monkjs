@@ -132,7 +132,10 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
   ).current;
 
   const handleClosePreview = useCallback(() => setFullScreenPhoto(null), []);
-  const handleVisibilityOfDamages = useCallback(() => updateVisibility(!visibleDamages), [visibleDamages]);
+  const handleVisibilityOfDamages = useCallback(
+    () => updateVisibility(!visibleDamages),
+    [visibleDamages],
+  );
 
   useEffect(() => {
     if (
