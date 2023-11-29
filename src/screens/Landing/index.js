@@ -38,10 +38,12 @@ const ICON_BY_STATUS = {
 
 export const debugParams = {
   client: Clients.ALPHA,
-  inspectionId: '84fbc38a-b4c9-27e6-8491-61f5b3ef0ce6',
+  inspectionId: 'fbb66145-b3e3-9476-fbdc-c33ab4c5bf1c',
   token: '',
   vehicleType: VehicleTypes.SUV,
   numberOfSightsToUse: 5,
+  vmOnly: true,
+  lang: 'en',
 };
 
 export const USE_DEBUG_PARAMS = false;
@@ -67,12 +69,16 @@ export default function Landing() {
   const isLastTour = route.params?.isLastTour ?? workflow !== Workflows.DEFAULT;
 
   useEffect(() => {
-    if (info.preferredLanguage) {
+    if (USE_DEBUG_PARAMS && debugParams.lang) {
+      i18n.changeLanguage(debugParams.lang).catch((err) => {
+        errorHandler(err);
+      });
+    } else if (info.preferredLanguage) {
       i18n.changeLanguage(info.preferredLanguage).catch((err) => {
         errorHandler(err);
       });
     }
-  }, [info, i18n]);
+  }, [info]);
 
   const { clientId, inspectionId, token, vehicleTypeParam } = useMemo(() => {
     if (USE_DEBUG_PARAMS) {
@@ -158,6 +164,15 @@ export default function Landing() {
       }));
     }
   }, [token]);
+
+  useEffect(() => {
+    if (USE_DEBUG_PARAMS && debugParams.vmOnly) {
+      navigation.navigate(
+        names.INSPECTION_REPORT,
+        { inspectionId, vehicleType: VehicleTypeMap[vehicleTypeParam] },
+      );
+    }
+  }, []);
 
   const shouldFetch = useMemo(() => (
     [Workflows.CAPTURE, Workflows.CAPTURE_VEHICLE_SELECTION].includes(workflow)
