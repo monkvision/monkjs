@@ -80,19 +80,29 @@ function getPictures(inspection) {
   }));
 }
 
+function getPartPictures(part, inspection) {
+  const closeUps = inspection.images.filter((image) => (
+    image.image_type === 'close_up'
+      && image.detailed_viewpoint?.centers_on.includes(part.part_type)
+  ));
+  const beautyShots = inspection.images.filter((image) => (
+    image.image_type === 'beauty_shot'
+      && image.views?.some((view) => view.element_id === part.id)
+  ));
+  return [...closeUps, ...beautyShots].map((image) => ({
+    id: image.id,
+    mimetype: image.mimetype,
+    image_type: image.image_type,
+    url: image.path,
+    rendered_outputs: getRenderedOutputImage(image),
+    label: image.additional_data?.label,
+  }));
+}
+
 function getParts(inspection) {
   return inspection.parts.map((part) => ({
     ...part,
-    images: inspection.images
-      .filter((image) => image.views?.some((view) => view.element_id === part.id))
-      .map((image) => ({
-        id: image.id,
-        mimetype: image.mimetype,
-        image_type: image.image_type,
-        url: image.path,
-        rendered_outputs: getRenderedOutputImage(image),
-        label: image.additional_data?.label,
-      })),
+    images: getPartPictures(part, inspection),
   }));
 }
 
@@ -100,19 +110,6 @@ function getDamages(inspection) {
   return inspection.severity_results?.map((severityResult) => ({
     id: severityResult.id,
     part: severityResult.label,
-    images: inspection.parts?.find(
-      (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
-    )?.related_images?.map(
-      (relatedImage) => ({
-        id: relatedImage.base_image_id,
-        base_image_type: relatedImage.base_image_type,
-        object_type: relatedImage.object_type,
-        url: relatedImage.path,
-        rendered_outputs: getRenderedOutputImage(
-          inspection.images.find((pic) => pic.id === relatedImage?.base_image_id),
-        ),
-      }),
-    ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing ?? 0,
     repairOperation: getRepairOperation(
