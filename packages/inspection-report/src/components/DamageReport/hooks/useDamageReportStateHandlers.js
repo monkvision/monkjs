@@ -6,7 +6,6 @@ export default function useDamageReportStateHandlers({
   inspectionId,
   damages,
   setDamages,
-  pictures,
   parts,
 }) {
   const [editedDamage, setEditedDamage] = useState(undefined);
@@ -77,10 +76,7 @@ export default function useDamageReportStateHandlers({
       const selectedPart = parts.find((prt) => prt.part_type === partName);
       if (selectedPart) {
         const { images } = selectedPart;
-        const partDamageImages = images.filter((img) => img.image_type === 'beauty_shot').map((img) => ({
-          ...img,
-          rendered_outputs: pictures.find((pic) => pic.id === img?.id)?.rendered_outputs,
-        }));
+        const partDamageImages = images.filter((img) => img.image_type === 'beauty_shot');
         const zoomedDamageImages = images.filter((img) => img.image_type === 'close_up');
 
         setEditedDamageImages(images);

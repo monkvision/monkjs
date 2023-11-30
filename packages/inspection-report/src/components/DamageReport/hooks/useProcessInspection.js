@@ -80,54 +80,42 @@ function getPictures(inspection) {
   }));
 }
 
+function getPartPictures(part, inspection) {
+  const closeUps = inspection.images.filter((image) => (
+    image.image_type === 'close_up'
+      && image.detailed_viewpoint?.centers_on.includes(part.part_type)
+  ));
+  const beautyShots = inspection.images.filter((image) => (
+    image.image_type === 'beauty_shot'
+      && image.views?.some((view) => view.element_id === part.id)
+  ));
+  return [...closeUps, ...beautyShots].map((image) => ({
+    id: image.id,
+    mimetype: image.mimetype,
+    image_type: image.image_type,
+    url: image.path,
+    rendered_outputs: getRenderedOutputImage(image),
+    label: image.additional_data?.label,
+  }));
+}
+
 function getParts(inspection) {
   return inspection.parts.map((part) => ({
     ...part,
-    images: inspection.images
-      .filter((image) => image.views?.some((view) => view.element_id === part.id))
-      .map((image) => ({
-        id: image.id,
-        mimetype: image.mimetype,
-        image_type: image.image_type,
-        url: image.path,
-        rendered_outputs: getRenderedOutputImage(image),
-        label: image.additional_data?.label,
-      })),
+    images: getPartPictures(part, inspection),
   }));
 }
 
 function getDamages(inspection) {
-  return inspection.severity_results?.map((severityResult) => {
-    const damageId = severityResult.id;
-    const partName = severityResult.label;
-    const partId = inspection.parts?.find((part) => part.part_type === partName)?.id;
-    const images = inspection.images?.filter(
-      (image) => (['beauty_shot', 'close_up'].includes(image.image_type)
-        && image.views?.some((view) => view?.element_id === partId)),
-    )?.map((image) => ({
-      id: image.id,
-      image_type: image.image_type,
-      object_type: image.object_type,
-      url: image.path,
-      rendered_outputs: getRenderedOutputImage(
-        inspection.images.find((pic) => pic.id === image.base_image_id),
-      ),
-    })) ?? [];
-    const severity = getSeverity(severityResult.value.custom_severity.level);
-    const pricing = severityResult.value.custom_severity.pricing ?? 0;
-    const repairOperation = getRepairOperation(
+  return inspection.severity_results?.map((severityResult) => ({
+    id: severityResult.id,
+    part: severityResult.label,
+    severity: getSeverity(severityResult.value.custom_severity.level),
+    pricing: severityResult.value.custom_severity.pricing ?? 0,
+    repairOperation: getRepairOperation(
       severityResult.value.custom_severity.repair_operation?.REPLACE,
-    );
-
-    return {
-      id: damageId,
-      part: partName,
-      images,
-      severity,
-      pricing,
-      repairOperation,
-    };
-  }) ?? [];
+    ),
+  })) ?? [];
 }
 
 function isTaskDone(task, inspection) {
