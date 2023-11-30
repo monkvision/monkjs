@@ -38,7 +38,7 @@ const ICON_BY_STATUS = {
 
 export const debugParams = {
   client: Clients.ALPHA,
-  inspectionId: 'fbb66145-b3e3-9476-fbdc-c33ab4c5bf1c',
+  inspectionId: '492241e6-5563-0a4d-4948-e39952452127',
   token: '',
   vehicleType: VehicleTypes.SUV,
   numberOfSightsToUse: 5,
