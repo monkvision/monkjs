@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Platform } from 'react-native';
 
 import { CarOrientation, CommonPropTypes, DamageMode, VehicleType } from '../../../resources';
 import CarView360 from '../../CarView360';
@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  overviewViewContainer: {
+    paddingVertical: 20,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
   buttonsContainer: {
     marginTop: 20,
@@ -67,7 +72,7 @@ export default function Overview({
   pdfHandles: { pdfStatus, handleDownload },
   onStartNewInspection,
 }) {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const {
     orientation,
     rotateLeft,
@@ -101,7 +106,12 @@ export default function Overview({
     <View style={[styles.container]}>
       <DamageCounts damageMode={damageMode} counts={damageCounts} />
       <View style={[styles.carViewContainer]}>
-        <View style={[styles.carViewContainer]}>
+        <View style={[Platform.OS === 'web' ? styles.carViewContainer : styles.overviewViewContainer, {
+          ...Platform.select({
+            native: { width: width - 40, height: height / 3.0 },
+          }),
+        }]}
+        >
           <CarView360
             damages={damages}
             vehicleType={vehicleType}

@@ -1,10 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   overlay: {
-    position: 'fixed',
+    ...Platform.select({
+      web: {
+        position: 'fixed'
+      },
+      native: {
+        position: 'static'
+      }
+    }),
     margin: 'auto',
     left: 0,
     right: 0,

@@ -68,14 +68,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   overlayContainer: {
-    position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100vw',
-    height: '95vh',
-    top: '2.5vh',
     zIndex: 99,
+    ...Platform.select({
+      web: {
+        position: 'fixed',
+        height: '95vh',
+        width: '100vw',
+        top: '2.5vh',
+      },
+      native: {
+        position: 'static',
+        height: '95%',
+        width: '100%',
+        top: '2.5%',
+      },
+    }),
   },
   addDamageOverlay: {
     fontSize: 14,
@@ -280,7 +290,9 @@ const Capture = forwardRef(({
     endTour,
   };
   const startUploadAsync = useStartUploadAsync(startUploadAsyncParams);
-  const uploadAdditionalDamage = useUploadAdditionalDamage({ inspectionId, addDamageParts });
+  const uploadAdditionalDamage = useUploadAdditionalDamage({
+    inspectionId, addDamageParts, onPictureUploaded,
+  });
 
   const [goPrevSight, goNextSight] = useNavigationBetweenSights({ sights });
 
@@ -317,7 +329,8 @@ const Capture = forwardRef(({
 
   const windowDimensions = useWindowDimensions();
   const tourHasFinished = useMemo(
-    () => Object.values(uploads.state).every(({ status, uploadCount }) => (status === 'rejected' || status === 'fulfilled') && uploadCount >= 1),
+    () => Object.values(uploads.state)
+      .every(({ status, uploadCount }) => (status === 'rejected' || status === 'fulfilled') && uploadCount >= 1),
     [uploads.state],
   );
   const overlaySize = useMemo(
@@ -371,7 +384,7 @@ const Capture = forwardRef(({
   const handlePartSelectorConfirm = useCallback((selectedParts) => {
     setAddDamageParts(selectedParts);
     setAddDamageStatus(AddDamageStatus.TAKE_PICTURE);
-  }, [setAddDamageStatus]);
+  }, [setAddDamageParts, setAddDamageStatus]);
 
   const handleCloseCaptureEarly = useCallback(() => {
     if (typeof onCloseEarly === 'function') {
@@ -715,7 +728,8 @@ const Capture = forwardRef(({
           {children}
         </Camera>
       </Layout>
-      {[AddDamageStatus.HELP, AddDamageStatus.PART_SELECTOR].includes(addDamageStatus) ? (
+      {
+      [AddDamageStatus.HELP, AddDamageStatus.PART_SELECTOR].includes(addDamageStatus) ? (
         <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {addDamageStatus === AddDamageStatus.HELP ? (
             <AddDamageHelpModal
@@ -732,7 +746,8 @@ const Capture = forwardRef(({
             />
           ) : null}
         </View>
-      ) : null}
+      ) : null
+      }
       {closeEarlyModalState.show ? (
         <CloseEarlyConfirmModal
           confirmationMessage={closeEarlyModalState.message}

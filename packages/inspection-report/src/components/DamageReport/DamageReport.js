@@ -1,8 +1,8 @@
 import { Loader } from '@monkvision/ui';
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 
 import { CommonPropTypes, DamageMode, VehicleType } from '../../resources';
 import { IconButton } from '../common';
@@ -109,7 +109,14 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   galleryWrapper: {
-    maxHeight: '39vh',
+    ...Platform.select({
+      web: {
+        maxHeight: '39vh',
+      },
+      native: {
+        maxHeight: '39%',
+      },
+    }),
     overflowY: 'auto',
     paddingBottom: 15,
   },
@@ -128,6 +135,7 @@ export default function DamageReport({
   generatePdf,
   pdfOptions,
   onStartNewInspection,
+  onPdfPressed,
 }) {
   const { t } = useTranslation();
   const { updateCurrency } = useCurrency();
@@ -178,6 +186,7 @@ export default function DamageReport({
   });
 
   const {
+    reportUrl,
     pdfStatus,
     requestPdf,
     handleDownload,
@@ -187,6 +196,11 @@ export default function DamageReport({
     generatePdf,
     customer: pdfOptions?.customer,
     clientName: pdfOptions?.clientName,
+  });
+
+  const handlePDFDownload = useCallback(() => {
+    handleDownload();
+    onPdfPressed(reportUrl);
   });
 
   const {
@@ -254,7 +268,7 @@ export default function DamageReport({
         </View>
         <IconButton
           icon="file-download"
-          onPress={handleDownload}
+          onPress={handlePDFDownload}
           disabled={pdfStatus !== PdfStatus.READY}
           color={pdfIconColor}
           style={[styles.fileIcon, generatePdf ? {} : { opacity: 0 }]}
@@ -334,7 +348,7 @@ export default function DamageReport({
                     onPressPill={handlePartPressed}
                     generatePdf={generatePdf}
                     onValidateInspection={handleValidateInspection}
-                    pdfHandles={{ pdfStatus, handleDownload }}
+                    pdfHandles={{ pdfStatus, handleDownload: handlePDFDownload }}
                     onStartNewInspection={handleNewInspection}
                   />
                 )}
@@ -377,7 +391,7 @@ export default function DamageReport({
             part={editedDamagePart}
             damage={editedDamage}
             damageMode={damageMode}
-            imageCount={editedDamageImages.length}
+            imageCount={(editedDamageImages ?? []).length}
             onDismiss={handlePopUpDismiss}
             onShowGallery={handleShowGallery}
             onConfirm={handleSaveDamage}
@@ -398,13 +412,15 @@ export default function DamageReport({
           />
         )
       }
-      {confirmModal && (
-        <ConfirmModal
-          texts={confirmModal.texts}
-          onConfirm={confirmModal.onConfirm}
-          onCancel={handleHideConfirmModal}
-        />
-      )}
+      {
+        confirmModal && (
+          <ConfirmModal
+            texts={confirmModal.texts}
+            onConfirm={confirmModal.onConfirm}
+            onCancel={handleHideConfirmModal}
+          />
+        )
+      }
     </View>
   );
 }
@@ -414,6 +430,7 @@ DamageReport.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   generatePdf: PropTypes.bool,
   inspectionId: PropTypes.string.isRequired,
+  onPdfPressed: PropTypes.func,
   onStartNewInspection: PropTypes.func,
   pdfOptions: PropTypes.shape({
     clientName: PropTypes.string.isRequired,
@@ -427,6 +444,7 @@ DamageReport.defaultProps = {
   damageMode: DamageMode.ALL,
   generatePdf: false,
   onStartNewInspection: () => { },
+  onPdfPressed: () => { },
   pdfOptions: undefined,
   vehicleType: VehicleType.CUV,
 };

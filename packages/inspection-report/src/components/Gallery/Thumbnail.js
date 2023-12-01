@@ -58,7 +58,9 @@ function Thumbnail({ image, click }) {
           )
         }
         <Text style={styles.text}>
-          {label} {image?.isRendered && t('gallery.withDamages')}
+          {label}
+          {' '}
+          {image?.isRendered && t('gallery.withDamages')}
         </Text>
       </View>
     </TouchableOpacity>
@@ -68,12 +70,12 @@ function Thumbnail({ image, click }) {
 Thumbnail.propTypes = {
   click: PropTypes.func,
   image: PropTypes.shape({
+    isRendered: PropTypes.bool,
     label: PropTypes.shape({
       en: PropTypes.string,
       fr: PropTypes.string,
     }),
     url: PropTypes.string,
-    isRendered: PropTypes.bool,
   }),
 };
 
@@ -85,7 +87,7 @@ Thumbnail.defaultProps = {
       fr: '',
     },
     url: '',
-    isRendered: false
+    isRendered: false,
   },
 };
 

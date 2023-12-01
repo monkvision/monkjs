@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import { IconButton } from '../common';
 
 const styles = StyleSheet.create({
@@ -13,12 +13,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: '10px',
+    ...Platform.select({
+      web: {
+        padding: '10px',
+      },
+      native: {
+        pospaddingition: 10,
+      },
+    }),
   },
   title: {
     color: '#fafafa',
     fontSize: 18,
-  }
+  },
 });
 
 function Accordion({ title, isCollapsed, children, onPress }) {
@@ -29,7 +36,7 @@ function Accordion({ title, isCollapsed, children, onPress }) {
           <Text style={styles.title}>{title}</Text>
           <IconButton
             icon={isCollapsed ? 'add' : 'remove'}
-            color='#fafafa'
+            color="#fafafa"
             onPress={onPress}
           />
         </View>
@@ -42,10 +49,10 @@ function Accordion({ title, isCollapsed, children, onPress }) {
 }
 
 Accordion.propTypes = {
-  title: PropTypes.string,
-  isCollapsed: PropTypes.bool,
   children: PropTypes.element,
+  isCollapsed: PropTypes.bool,
   onPress: PropTypes.func,
+  title: PropTypes.string,
 };
 
 Accordion.defaultProps = {

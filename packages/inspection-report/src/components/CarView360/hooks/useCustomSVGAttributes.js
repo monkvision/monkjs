@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Platform } from 'react-native';
 
 import { CarParts } from '../../../resources';
 import { getPillDamage, isPricingPill } from './common';
@@ -53,7 +54,7 @@ function getCustomPillChildAttributes({ damages, groupId, elementClass, onPressP
   const onClick = () => onPressPill(part);
 
   return {
-    pointerEvents: 'all',
+    pointerEvents: Platform.OS === 'web' ? 'all' : 'box-only',
     style: styles.pillChild,
     onClick,
   };
@@ -107,7 +108,7 @@ export default function useCustomSVGAttributes({
       const onClick = () => onPressPart(part);
 
       return {
-        pointerEvents: 'all',
+        pointerEvents: Platform.OS === 'web' ? 'all' : 'box-only',
         onClick,
         ...partAttributes,
       };

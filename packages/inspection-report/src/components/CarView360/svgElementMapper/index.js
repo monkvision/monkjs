@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
-import { CommonPropTypes } from '../../resources';
+import { CommonPropTypes } from '../../../resources';
 
-import { useCustomSVGAttributes, useInnerHTML, useJSXSpecialAttributes } from './hooks';
+import { useCustomSVGAttributes, useInnerHTML, useJSXSpecialAttributes } from '../hooks';
 
 export default function SVGElementMapper({
   element,

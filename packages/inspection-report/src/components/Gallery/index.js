@@ -11,6 +11,7 @@ import {
   Text,
   useWindowDimensions,
   View,
+  ScrollView,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -21,8 +22,12 @@ import { useDesktopMode, useDamageVisibility } from '../../hooks';
 const styles = StyleSheet.create({
   container: {
     alignContent: 'flex-start',
-    flex: 1,
-    flexDirection: 'row',
+    ...Platform.select({
+      web: {
+        flexDirection: 'row',
+        flex: 1,
+      },
+    }),
     flexWrap: 'wrap',
     justifyContent: 'center',
     paddingVertical: 15,
@@ -62,6 +67,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 99,
+    ...Platform.select({
+      native: { paddingTop: 50 },
+    }),
   },
   title: {
     fontSize: 24,
@@ -75,6 +83,9 @@ const styles = StyleSheet.create({
     top: 20,
     left: 20,
     zIndex: 999,
+    ...Platform.select({
+      native: { paddingTop: 50 },
+    }),
   },
   partsImageWrapper: {
     borderColor: '#a29e9e',
@@ -162,7 +173,7 @@ function Gallery({ pictures }) {
   }, [gestureState]);
 
   useEffect(() => {
-    if (focusedPhoto) {
+    if (focusedPhoto && Platform.OS === 'web') {
       const handleKeyboardChange = (event) => {
         if (event.defaultPrevented) {
           return; // Do nothing if the event was already processed
@@ -196,27 +207,51 @@ function Gallery({ pictures }) {
     return () => { };
   }, [pictures, focusedPhoto]);
 
+  const renderList = useCallback(() => {
+    if (Platform.OS === 'web') {
+      return (
+        pictures.map((image, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={`${image.url}-${index}`} style={isDesktopMode && styles.partsImageWrapper}>
+            <View style={styles.thumbnailWrapper}>
+              <Thumbnail image={image} click={handleOnImageClick} />
+            </View>
+            {
+              isDesktopMode && image?.rendered_outputs && image?.rendered_outputs?.url > 0
+              && (
+                <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
+                  <Thumbnail image={image} click={handleOnImageClick} />
+                </View>
+              )
+            }
+          </View>
+        ))
+      );
+    }
+    return (
+      <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        {
+          pictures.map((image, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <View key={`${image.url}-${index}`} style={isDesktopMode && styles.partsImageWrapper}>
+              <View style={[styles.thumbnailWrapper, { width: image.width, flexDirection: 'row' }]}>
+                <Thumbnail image={image} click={handleOnImageClick} />
+              </View>
+            </View>
+          ))
+        }
+      </ScrollView>
+    );
+  }, [pictures]);
+
   return (
     <View style={[
       styles.container,
+      isDesktopMode ? { justifyContent: 'flex-start' } : { justifyContent: 'center' },
       pictures.length === 0 ? styles.messageContainer : {},
     ]}
     >
-      {pictures.length > 0 ? pictures.map((image, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <View key={`${image.url}-${index}`} style={isDesktopMode && styles.partsImageWrapper}>
-          <View style={styles.thumbnailWrapper}>
-            <Thumbnail image={image} click={handleOnImageClick} />
-          </View>
-          {
-            isDesktopMode && image?.rendered_outputs && image?.rendered_outputs?.url && (
-              <View style={styles.thumbnailWrapper}>
-                <Thumbnail image={image.rendered_outputs} click={handleOnImageClick} />
-              </View>
-            )
-          }
-        </View>
-      )) : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
+      {pictures.length > 0 ? renderList() : (<Text style={[styles.message]}>{t('gallery.empty')}</Text>)}
       <Modal
         animationType="slide"
         transparent

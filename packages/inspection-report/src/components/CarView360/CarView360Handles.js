@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 
 import { IconChevronLeft, IconChevronRight } from '../../assets';
 import { CarOrientation, CommonPropTypes } from '../../resources';
@@ -35,7 +35,10 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
   },
   selectedDot: {
-    transform: { scale: 1.5 },
+    ...Platform.select({
+      web: { transform: { scale: 1.5 } },
+      native: { transform: [{ scale: 1.5 }] },
+    }),
     backgroundColor: '#FFFFFF',
   },
 });

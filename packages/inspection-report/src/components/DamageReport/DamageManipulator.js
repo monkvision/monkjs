@@ -3,7 +3,7 @@ import Slider from '@react-native-community/slider';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import { IconSeverity, SeveritiesWithIcon } from '../../assets';
 import { CommonPropTypes, DamageMode, DisplayMode, Severity, RepairOperation } from '../../resources';
 import { TextButton, SwitchButton } from '../common';
@@ -159,9 +159,13 @@ export default function DamageManipulator({
           <View style={[
             styles.content,
             (displayMode === DisplayMode.FULL && !hasDamage) && styles.disabled,
+            { width: '100%' },
           ]}
           >
-            <View>
+            <View style={{ ...Platform.select({
+              native: { width: '80%' },
+            }) }}
+            >
               <Text style={[styles.text, styles.smallText]}>{t('damageManipulator.damages')}</Text>
               <Text style={[styles.text, styles.subtitle]}>
                 {t(`damageManipulator.${isReplaced ? 'replaced' : 'notReplaced'}`)}
@@ -225,7 +229,10 @@ export default function DamageManipulator({
             {isEditable && !isReplaced ? (
               <View style={[styles.severityContent]}>
                 <Slider
-                  style={{ marginRight: 15 }}
+                  style={{ marginRight: 15,
+                    ...Platform.select({
+                      native: { width: '80%' },
+                    }) }}
                   minimumValue={0}
                   maximumValue={1500}
                   lowerLimit={0}
@@ -243,9 +250,14 @@ export default function DamageManipulator({
                 </Text>
               </View>
             ) : (
-              <Text style={[styles.text]}>
-                {formateValue(editedDamage?.pricing ?? 0)}
-              </Text>
+              <View style={{ ...Platform.select({
+                native: { width: '20%' },
+              }) }}
+              >
+                <Text style={[styles.text]}>
+                  {formateValue(editedDamage?.pricing ?? 0)}
+                </Text>
+              </View>
             )}
           </View>
         )
