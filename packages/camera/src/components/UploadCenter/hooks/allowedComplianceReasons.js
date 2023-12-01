@@ -1,4 +1,5 @@
 const ALLOWED_COMPLIANCE_REASONS = [
+  'NO_CAR_BODY',
   'LOW_RESOLUTION',
   'BLURRINESS',
   'UNDEREXPOSURE',
@@ -16,7 +17,7 @@ export default function filterUnwantedComplianceReasons(reasons) {
   }
   return reasons.filter(
     (reason) => ALLOWED_COMPLIANCE_REASONS
-      .findIndex((allowedReason) => reason.startsWith(allowedReason)) !== -1,
+      .findIndex((allowedReason) => reason.toUpperCase().startsWith(allowedReason)) !== -1,
   );
 }
 
@@ -35,6 +36,7 @@ export default function filterUnwantedComplianceReasons(reasons) {
  * REFLECTIONS
  * UNKNOWN_SIGHT
  * UNKNOWN_VIEWPOINT
+ * NO_CAR_BODY
  * NO_VEHICLE
  * WRONG_ANGLE
  * WRONG_CENTER_PART
