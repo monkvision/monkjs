@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const translatedErrorCodes = [
+  'NO_CAR_BODY',
   'BLURRINESS',
   'UNDEREXPOSURE',
   'OVEREXPOSURE',
