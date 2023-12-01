@@ -398,7 +398,7 @@ export function useUploadAdditionalDamage({ inspectionId, addDamageParts }) {
 export function useCheckComplianceAsync({
   compliance, inspectionId, sightId: currentSighId,
 }) {
-  return useCallback(async (imageId, customSightId) => {
+  return useCallback(async (imageId, customSightId, increment = false) => {
     const { dispatch } = compliance;
     const sightId = customSightId || currentSighId;
 
@@ -409,7 +409,7 @@ export function useCheckComplianceAsync({
     try {
       dispatch({
         type: Actions.compliance.UPDATE_COMPLIANCE,
-        increment: true,
+        increment,
         payload: { id: sightId, status: 'pending', imageId },
       });
 

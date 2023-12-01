@@ -39,9 +39,9 @@ const de = {
         reasonsStart: 'Dieses Bild',
         reasonsJoin: 'und',
         reasons: {
-          blurriness: 'ist unscharf',
-          underexposure: 'ist unterbelichtet (zu dunkel)',
-          overexposure: 'ist überbelichtet (zu hell)',
+          BLURRINESS: 'ist unscharf',
+          UNDEREXPOSURE: 'ist unterbelichtet (zu dunkel)',
+          OVEREXPOSURE: 'ist überbelichtet (zu hell)',
           TOO_ZOOMED: 'ist zu stark gezoomt',
           NOT_ZOOMED_ENOUGH: 'ist zu weit vom Fahrzeug entfernt',
           WRONG_ANGLE: 'wurde aus dem falschen Winkel aufgenommen',

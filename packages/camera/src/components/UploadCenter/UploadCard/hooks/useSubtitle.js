@@ -2,6 +2,9 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const translatedErrorCodes = [
+  'BLURRINESS',
+  'UNDEREXPOSURE',
+  'OVEREXPOSURE',
   'TOO_ZOOMED',
   'NOT_ZOOMED_ENOUGH',
   'WRONG_ANGLE',
@@ -12,6 +15,19 @@ const translatedErrorCodes = [
   'UNKNOWN_SIGHT',
   'INTERIOR_NOT_SUPPORTED',
 ];
+
+function getSubtitle(reasons, t) {
+  if (reasons.length === 0) {
+    return t('uploadCenter.subtitle.unknown');
+  }
+  const translatedReasons = reasons.map((reason) => {
+    const key = translatedErrorCodes
+      .find((errorCode) => reason.toUpperCase().startsWith(errorCode));
+    return key ? t(`uploadCenter.subtitle.reasons.${key}`) : `[MISSING TRANSLATION : ${reason}]`;
+  });
+  const joinedReasons = translatedReasons.join(`${t('uploadCenter.subtitle.reasonsJoin')} `);
+  return `${t('uploadCenter.subtitle.reasonsStart')} ${joinedReasons}`;
+}
 
 export default function useSubtitle({
   isComplianceUnknown,
@@ -40,31 +56,14 @@ export default function useSubtitle({
       const reasons = [];
 
       if (badQuality && iqa.reasons) {
-        iqa.reasons.forEach((reason, index) => {
-          const errorCode = translatedErrorCodes.find((code) => reason.startsWith(code));
-          if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
-            const first = index === 0;
-            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
-              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${reason}`)}`);
-          }
-        });
+        reasons.push(...iqa.reasons);
       }
 
       if (badCoverage && carCov.reasons) {
-        carCov.reasons.forEach((reason, index) => {
-          const first = index === 0 && !badQuality;
-          const errorCode = translatedErrorCodes.find((code) => reason.startsWith(code));
-          // display all reasons expect `UNKNOWN_SIGHT`
-          if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
-            reasons.push(first ? t(`uploadCenter.subtitle.reasons.${errorCode}`)
-              : `${t('uploadCenter.subtitle.reasonsJoin')} ${t(`uploadCenter.subtitle.reasons.${errorCode}`)}`);
-          }
-        });
+        reasons.push(...carCov.reasons);
       }
 
-      if (reasons.length > 0) {
-        return `${t('uploadCenter.subtitle.reasonsStart')} ${reasons.join(' ')}`;
-      }
+      return getSubtitle(reasons, t);
     }
 
     return t('uploadCenter.subtitle.queueBlocked');

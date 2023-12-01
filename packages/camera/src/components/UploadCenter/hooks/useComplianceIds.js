@@ -35,9 +35,14 @@ export default function useComplianceIds({
       const handleChangeReasons = (compliances) => ({
         ...item,
         requestCount,
-        result: { ...result,
+        result: {
+          ...result,
           data: {
-            ...result.data, compliances: { ...result.data.compliances, ...compliances } } } });
+            ...result.data,
+            compliances: { ...result.data.compliances, ...compliances },
+          },
+        },
+      });
 
       const hasReachedMaxRetries = requestCount >= 2;
 
