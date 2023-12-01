@@ -16,7 +16,7 @@ export default function filterUnwantedComplianceReasons(reasons) {
   }
   return reasons.filter(
     (reason) => ALLOWED_COMPLIANCE_REASONS
-      .findIndex((allowedReason) => reason.startsWith(allowedReason)) !== -1,
+      .findIndex((allowedReason) => reason.toUpperCase().startsWith(allowedReason)) !== -1,
   );
 }
 
