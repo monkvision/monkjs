@@ -39,9 +39,9 @@ const en = {
         reasonsStart: 'This image',
         reasonsJoin: 'and',
         reasons: {
-          blurriness: 'is blurry',
-          underexposure: 'is underexposed (too dark)',
-          overexposure: 'is overexposed (too bright)',
+          BLURRINESS: 'is blurry',
+          UNDEREXPOSURE: 'is underexposed (too dark)',
+          OVEREXPOSURE: 'is overexposed (too bright)',
           TOO_ZOOMED: 'is too zoomed',
           NOT_ZOOMED_ENOUGH: 'is too far from vehicle',
           WRONG_ANGLE: 'is taken from incorrect angle',
