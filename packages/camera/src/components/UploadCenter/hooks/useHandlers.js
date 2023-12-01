@@ -70,7 +70,7 @@ export default function useHandlers({
     // double check if the compliance is not invalid
     const hasTodoCompliances = Object.values(compliances).some((c) => hasTodo(c));
     if (!hasTodoCompliances) { return; }
-    setTimeout(async () => { await checkComplianceAsync(pictureId, currentId); }, 500);
+    setTimeout(async () => { await checkComplianceAsync(pictureId, currentId, true); }, 500);
   }, [compliance.state]);
 
   const handleRecheck = useCallback((id) => {
