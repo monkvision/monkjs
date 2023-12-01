@@ -1,7 +1,7 @@
 const imageDataMock = { data: [0, 2, 3, 23, 45, 123] };
 const contextMock = { drawImage: jest.fn(), getImageData: jest.fn(() => imageDataMock) };
 const getCanvasHandleMock = jest.fn(() => ({ context: contextMock })) as jest.Mock;
-jest.mock('../../../src/Camera/hooks/getCanvasHandle', () => ({
+jest.mock('../../../src/Camera/hooks/utils/getCanvasHandle', () => ({
   getCanvasHandle: getCanvasHandleMock,
 }));
 

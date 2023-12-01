@@ -14,7 +14,7 @@ If you are using TypeScript, this package comes with its type definitions integr
 ## Set Up
 In order to configure the sentry inside your application, you first need to instantiate the Sentry Adapter and then wrap your root component in the `MonitoringProvider` and passing it the adapter as a prop :
 
-```typescript jsx
+```tsx
 import { SentryMonitoringAdapter } from '@monkvision/sentry';
 import { MonitoringProvider } from '@monkvision/monitoring';
 
@@ -37,7 +37,7 @@ render((
 # API
 ## SentryMonitoringAdapter
 ### Description
-A Sentry Adapter logs everything in the Sentry platform. This can be used in your app when you want to implement Sentry for advanced Monitoring Features such as error handling, logs messages and performance measurements. 
+A Sentry Adapter logs everything in the Sentry platform. This can be used in your app when you want to implement Sentry for advanced Monitoring Features such as error handling, logs messages and performance measurements.
 
 ### Config Options
 | Option                          | Description                                                                                                                                                           | Required | Default Value |
@@ -50,7 +50,7 @@ A Sentry Adapter logs everything in the Sentry platform. This can be used in you
 | `customTags`                    | Custom tags to add in all transaction.                                                                                                                                |          | `[]`          |
 
 ### Examples of Usage
-```typescript jsx
+```tsx
 import { SentryMonitoringAdapter } from '@monkvision/sentry';
 import { MonitoringProvider } from '@monkvision/monitoring';
 const adapter = new DebugMonitoringAdapter();

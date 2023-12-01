@@ -14,7 +14,7 @@ Monk state.
 This package exports a component called `MonkProvider` which is a context provider that will let you access and use the
 Monk state in your application. We recommend placing this provider at the top of your application :
 
-```typescript jsx
+```tsx
 import { MonkProvider } from '@monkvision/common';
 
 function RootComponent() {
@@ -38,7 +38,7 @@ optional `initialState` prop to the provider to initialize the satte with custom
 Once you have initialized the Monk state in your app using the `MonkProvider` component, you can access the state using
 the `useMonkState` hook as follows :
 
-```typescript jsx
+```tsx
 import { useMonkState } from '@monkvision/common';
 
 function MyComponent() {

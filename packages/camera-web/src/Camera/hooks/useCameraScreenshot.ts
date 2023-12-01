@@ -5,7 +5,7 @@ import {
   ScreenshotMeasurement,
   ScreenshotSizeMeasurement,
 } from '../monitoring';
-import { getCanvasHandle } from './getCanvasHandle';
+import { getCanvasHandle } from './utils';
 import { MediaStreamDimensions } from './useUserMedia';
 
 /**

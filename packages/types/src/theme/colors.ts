@@ -1,4 +1,4 @@
-import { DashConcat } from '../utils';
+import { DashConcat } from '../type-utils';
 
 /**
  * Type definition for a color code. For now, this type is just an alias for `string`.
@@ -230,3 +230,31 @@ export type ColorName =
  * (ColorName type) or the hexcode of the color.
  */
 export type ColorProp = ColorName | Color;
+
+/**
+ * Object containing the color component (red, green, blue) values of a color.
+ */
+export interface RGB {
+  /**
+   * The red component (from 0 to 255).
+   */
+  r: number;
+  /**
+   * The green component (from 0 to 255).
+   */
+  g: number;
+  /**
+   * The blue component (from 0 to 255).
+   */
+  b: number;
+}
+
+/**
+ * Object containing the color component (red, green, blue) values of a color as well as its alpha value.
+ */
+export interface RGBA extends RGB {
+  /**
+   * The alpha value of the color (from 0 to 1).
+   */
+  a: number;
+}

@@ -6,7 +6,7 @@ import {
   InternalCameraMonitoringConfig,
   PictureSizeMeasurement,
 } from '../monitoring';
-import { getCanvasHandle } from './getCanvasHandle';
+import { getCanvasHandle } from './utils';
 
 /**
  * Enumeration of the different compression format available for the Monk Camera

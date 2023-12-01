@@ -1,19 +1,7 @@
 import { MonkPicture } from '@monkvision/camera-web';
-import {
-  Icon,
-  TakePictureButton,
-  InteractiveColor,
-  useInteractiveColor,
-} from '@monkvision/common-ui-web';
-import { suffix } from '@monkvision/common';
-import './CaptureHUDButtons.css';
-
-const captureBtnColors: InteractiveColor = {
-  regular: '#f3f3f3',
-  hover: '#e3e3e3',
-  active: '#cbcbcb',
-  disabled: '#b6b6b6be',
-};
+import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
+import { useInteractiveStatus } from '@monkvision/common';
+import { useCaptureHUDButtonsStyles } from './hooks';
 
 export interface CaptureHUDButtonsProps {
   galleryPreview?: MonkPicture;
@@ -34,42 +22,42 @@ export function CaptureHUDButtons({
   takePictureDisabled = false,
   closeDisabled = false,
 }: CaptureHUDButtonsProps) {
-  const { color: galleryColor, events: galleryEvents } = useInteractiveColor(
-    captureBtnColors,
-    galleryDisabled,
-  );
-  const { color: closeColor, events: closeEvents } = useInteractiveColor(
-    captureBtnColors,
-    galleryDisabled,
-  );
+  const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
+    disabled: galleryDisabled,
+  });
+  const { status: closeStatus, eventHandlers: closeEventHandlers } = useInteractiveStatus({
+    disabled: closeDisabled,
+  });
+  const { containerStyle, gallery, close, backgroundCoverStyle } = useCaptureHUDButtonsStyles({
+    galleryStatus,
+    closeStatus,
+    galleryPreviewUrl: galleryPreview?.uri,
+  });
 
   return (
-    <div className='mnk-capture-hud-buttons-container'>
+    <div style={containerStyle}>
       <button
-        data-testid='monk-gallery-btn'
-        className={suffix('mnk-capture-hud-button', { disabled: galleryDisabled })}
+        style={gallery.style}
         disabled={galleryDisabled}
         onClick={onOpenGallery}
-        {...galleryEvents}
+        {...galleryEventHandlers}
+        data-testid='monk-gallery-btn'
       >
         {galleryPreview ? (
-          <div
-            className='mnk-background-cover'
-            style={{ backgroundImage: `url(${galleryPreview.uri})` }}
-          ></div>
+          <div style={backgroundCoverStyle}></div>
         ) : (
-          <Icon icon='image' size={30} primaryColor={galleryColor} />
+          <Icon icon='image' size={30} primaryColor={gallery.iconColor} />
         )}
       </button>
       <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />
       <button
-        data-testid='monk-close-btn'
-        className={suffix('mnk-capture-hud-button', { disabled: closeDisabled })}
+        style={close.style}
         disabled={closeDisabled}
         onClick={onClose}
-        {...closeEvents}
+        {...closeEventHandlers}
+        data-testid='monk-close-btn'
       >
-        <Icon icon='close' size={30} primaryColor={closeColor} />
+        <Icon icon='close' size={30} primaryColor={close.iconColor} />
       </button>
     </div>
   );

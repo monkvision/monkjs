@@ -9,7 +9,7 @@ This package exports a component called `MonkThemeProvider` which is a context p
 theme you want to apply to the Monk SDK. In order for this to work, you need to place this component above any Monk SDK
 component :
 
-```typescript jsx
+```tsx
 import { MonkThemeProvider } from '@monkvision/common';
 import { InspectionCapture } from '@monkvision/inspection-capture-web';
 
@@ -36,7 +36,7 @@ hook will return the following values :
 - A `palette` object containing the current color palette
 - A `utils` object containing various utility functions
 
-```typescript jsx
+```tsx
 import { useMonkTheme } from '@monkvision/common';
 
 function MyComponent() {

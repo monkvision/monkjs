@@ -1,33 +1,50 @@
-import './TakePictureButton.css';
+import { useInteractiveStatus } from '@monkvision/common';
+import React, { ButtonHTMLAttributes, forwardRef } from 'react';
+import { MonkTakePictureButtonProps, useTakePictureButtonStyle } from './hooks';
 
-import React, { forwardRef, useCallback } from 'react';
-
-import { TakePictureButtonProps, useTakePictureButtonStyle } from './hooks';
+/**
+ * Props that the TakePictureButton component can accept.
+ */
+export type TakePictureButtonProps = MonkTakePictureButtonProps &
+  ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
  * A custom button that is used as a take-picture button in camera HUDs throughout the MonkJs SDK.
  */
 export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButtonProps>(
-  ({ size = 60, disabled = false, style, ...passThroughProps }, ref) => {
-    const { innerLayer, outerLayer } = useTakePictureButtonStyle({ size });
-
-    const withDisableSuffix = useCallback(
-      (className: string) => `${className}${disabled ? ' disabled' : ''}`,
-      [disabled],
-    );
+  (
+    {
+      size = 60,
+      disabled = false,
+      style = {},
+      onMouseEnter,
+      onMouseLeave,
+      onMouseDown,
+      onMouseUp,
+      ...passThroughProps
+    },
+    ref,
+  ) => {
+    const { status, eventHandlers } = useInteractiveStatus({
+      disabled,
+      componentHandlers: {
+        onMouseEnter,
+        onMouseLeave,
+        onMouseDown,
+        onMouseUp,
+      },
+    });
+    const { innerLayer, outerLayer } = useTakePictureButtonStyle({ size, status });
 
     return (
-      <div
-        className={withDisableSuffix('mnk-take-picture-button')}
-        data-testid='take-picture-btn-outer-layer'
-        style={{ ...outerLayer }}
-      >
+      <div style={{ ...outerLayer, ...style }} data-testid='take-picture-btn-outer-layer'>
         <button
           ref={ref}
-          data-testid='take-picture-btn'
+          style={{ ...innerLayer }}
           disabled={disabled}
-          style={{ ...innerLayer, ...style }}
+          {...eventHandlers}
           {...passThroughProps}
+          data-testid='take-picture-btn'
         ></button>
       </div>
     );

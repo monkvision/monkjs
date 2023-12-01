@@ -18,4 +18,5 @@ you can refer to their own README directly :
 - [State Management](README/STATE_MANAGEMENT.md).
 - [Theming](README/THEMING.md).
 - [Internationalization](README/INTERNATIONALIZATION.md).
+- [Hooks](README/HOOKS.md).
 - [Utilities](README/UTILITIES.md).

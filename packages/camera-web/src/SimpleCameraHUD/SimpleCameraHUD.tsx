@@ -1,10 +1,24 @@
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { i18nWrap } from '@monkvision/common';
+import { i18nWrap, useResponsiveStyle } from '@monkvision/common';
 import { Button, TakePictureButton } from '@monkvision/common-ui-web';
 import { i18nCamera } from '../i18n';
 import { CameraHUDProps, UserMediaErrorType } from '../Camera';
-import './SimpleCameraHUD.css';
+import { styles } from './SimpleCameraHUD.styles';
+
+function getErrorTranslationKey(error?: UserMediaErrorType): string {
+  switch (error) {
+    case UserMediaErrorType.NOT_ALLOWED:
+      return 'errors.permission';
+    case UserMediaErrorType.STREAM_INACTIVE:
+      return 'errors.inactive';
+    case UserMediaErrorType.INVALID_STREAM:
+      return 'errors.invalid';
+    case UserMediaErrorType.OTHER:
+      return 'errors.other';
+    default:
+      return 'errors.other';
+  }
+}
 
 /**
  * The basic Camera HUD provided by the Monk camera package. It displays a button to take pictures, as well as error
@@ -12,32 +26,22 @@ import './SimpleCameraHUD.css';
  */
 export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
   const { t } = useTranslation();
-  const isHUDDisabled = useMemo(() => handle?.isLoading || !!handle?.error, [handle]);
-  const errorTranslationKey = useMemo(() => {
-    switch (handle?.error?.type) {
-      case UserMediaErrorType.NOT_ALLOWED:
-        return 'errors.permission';
-      case UserMediaErrorType.STREAM_INACTIVE:
-        return 'errors.inactive';
-      case UserMediaErrorType.INVALID_STREAM:
-        return 'errors.invalid';
-      case UserMediaErrorType.OTHER:
-        return 'errors.other';
-      default:
-        return '';
-    }
-  }, [handle]);
+  const { responsive } = useResponsiveStyle();
+  const isHUDDisabled = handle?.isLoading || !!handle?.error;
 
   return (
-    <div className='mnk-simple-camera-hud-container'>
+    <div style={{ ...styles['container'], ...responsive(styles['containerPortrait']) }}>
       {!handle?.isLoading && !!handle?.error && (
-        <div className='mnk-message-container'>
-          <div data-testid='error-message' className='mnk-error-message'>
-            {t(errorTranslationKey)}
+        <div style={styles['messageContainer']}>
+          <div
+            data-testid='error-message'
+            style={{ ...styles['errorMessage'], ...responsive(styles['errorMessagePortrait']) }}
+          >
+            {t(getErrorTranslationKey(handle?.error?.type))}
           </div>
           {handle?.retry && (
             <Button
-              className='mnk-retry-btn'
+              style={styles['retryButton']}
               variant='outline'
               icon='refresh'
               onClick={handle.retry}
@@ -48,7 +52,7 @@ export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
         </div>
       )}
       <TakePictureButton
-        className='mnk-simple-camera-hud-take-picture-btn'
+        style={{ ...styles['takePictureButton'], ...responsive(styles['takePicturePortrait']) }}
         disabled={isHUDDisabled}
         onClick={handle?.takePicture}
         size={60}

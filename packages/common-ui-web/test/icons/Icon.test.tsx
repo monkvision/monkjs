@@ -12,6 +12,7 @@ jest.mock('../../src/icons/assets', () => ({
 
 const getColorMock = jest.fn((color) => color);
 jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
   useMonkTheme: jest.fn(() => ({
     utils: {
       getColor: getColorMock,
