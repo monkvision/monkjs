@@ -1,17 +1,16 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const validErrorCodes = [
-  'UNKNOWN_SIGHT',
-  'INTERIOR_NOT_SUPPORTED',
-  'NO_CAR_BODY',
-  'UNKNOWN_VIEWPOINT',
+const translatedErrorCodes = [
+  'TOO_ZOOMED',
+  'NOT_ZOOMED_ENOUGH',
   'WRONG_ANGLE',
+  'UNKNOWN_VIEWPOINT',
   'WRONG_CENTER_PART',
   'MISSING_PARTS',
   'HIDDEN_PARTS',
-  // 'TOO_ZOOMED',
-  // 'NOT_ZOOMED_ENOUGH',
+  'UNKNOWN_SIGHT',
+  'INTERIOR_NOT_SUPPORTED',
 ];
 
 export default function useSubtitle({
@@ -42,7 +41,7 @@ export default function useSubtitle({
 
       if (badQuality && iqa.reasons) {
         iqa.reasons.forEach((reason, index) => {
-          const errorCode = validErrorCodes.find((code) => reason.startsWith(code));
+          const errorCode = translatedErrorCodes.find((code) => reason.startsWith(code));
           if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
             const first = index === 0;
             reasons.push(first ? t(`uploadCenter.subtitle.reasons.${reason}`)
@@ -54,7 +53,7 @@ export default function useSubtitle({
       if (badCoverage && carCov.reasons) {
         carCov.reasons.forEach((reason, index) => {
           const first = index === 0 && !badQuality;
-          const errorCode = validErrorCodes.find((code) => reason.startsWith(code));
+          const errorCode = translatedErrorCodes.find((code) => reason.startsWith(code));
           // display all reasons expect `UNKNOWN_SIGHT`
           if (errorCode && errorCode !== 'UNKNOWN_SIGHT') {
             reasons.push(first ? t(`uploadCenter.subtitle.reasons.${errorCode}`)

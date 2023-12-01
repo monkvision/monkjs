@@ -6,13 +6,13 @@ export default function useDamageReportStateHandlers({
   inspectionId,
   damages,
   setDamages,
-  pictures,
+  parts,
 }) {
   const [editedDamage, setEditedDamage] = useState(undefined);
   const [editedDamagePart, setEditedDamagePart] = useState(undefined);
-  const [editedDamageImages, setEditedDamageImages] = useState(undefined);
-  const [editedPartDamageImages, setEditedPartDamageImages] = useState(undefined);
-  const [editedZoomedDamageImages, setEditedZoomedDamageImages] = useState(undefined);
+  const [editedDamageImages, setEditedDamageImages] = useState([]);
+  const [editedPartDamageImages, setEditedPartDamageImages] = useState([]);
+  const [editedZoomedDamageImages, setEditedZoomedDamageImages] = useState([]);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
@@ -69,38 +69,29 @@ export default function useDamageReportStateHandlers({
   const handlePartPressed = useCallback((partName) => {
     if (isEditable) {
       const damage = damages.find((dmg) => dmg.part === partName);
-      if (!damage || !damage?.pricing) {
-        setEditedDamagePart(partName);
+      if (damage?.pricing || damage?.repairOperation === RepairOperation.REPLACE) {
+        setEditedDamage(damage);
+      }
+
+      const selectedPart = parts.find((prt) => prt.part_type === partName);
+      if (selectedPart) {
+        const { images } = selectedPart;
+        const partDamageImages = images.filter((img) => img.image_type === 'beauty_shot');
+        const zoomedDamageImages = images.filter((img) => img.image_type === 'close_up');
+
+        setEditedDamageImages(images);
+        setEditedPartDamageImages(partDamageImages);
+        setEditedZoomedDamageImages(zoomedDamageImages);
+      } else {
         setEditedDamageImages([]);
         setEditedPartDamageImages([]);
         setEditedZoomedDamageImages([]);
-        setIsPopUpVisible(true);
       }
+
+      setEditedDamagePart(partName);
+      setIsPopUpVisible(true);
     }
   }, [isEditable, damages]);
-
-  const handlePillPressed = useCallback((partName) => {
-    const damage = damages.find((dmg) => dmg.part === partName);
-    if (!damage) {
-      throw new Error(`Unable to find damage with corresponding pill part "${partName}"`);
-    }
-    const { images } = damage;
-    const damagedPartImage = pictures.find(img => img.id === damage?.images[0]?.id)?.rendered_outputs?.map(img => ({
-      id: img.id + '1',
-      url: img.url,
-    })) ?? [];
-    const partDamageImages = images.filter(img => img.base_image_type === "beauty_shot").map((img, index) => ({
-      ...img,
-      rendered_outputs: index === 0 ? pictures.find(pic => pic.id === img?.id)?.rendered_outputs : []
-    }));
-    const zoomedDamageImages = images.filter(img => img.base_image_type === "close_up");
-    setEditedDamage(damage);
-    setEditedDamagePart(partName);
-    setEditedDamageImages(images);
-    setEditedPartDamageImages(partDamageImages);
-    setEditedZoomedDamageImages(zoomedDamageImages);
-    setIsPopUpVisible(true);
-  }, [damages]);
 
   const handleRemoveDamage = useCallback(() => {
     const damage = damages.find((dmg) => dmg.part === editedDamagePart);
@@ -199,7 +190,6 @@ export default function useDamageReportStateHandlers({
     handleShowGallery,
     handleGalleryDismiss,
     handlePartPressed,
-    handlePillPressed,
     handleSaveDamage,
     setIsEditable,
   };

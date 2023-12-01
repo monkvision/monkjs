@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import filterUnwantedComplianceReasons from './allowedComplianceReasons';
 
 const getIndexById = (id, array) => array.findIndex((item) => item.id === id);
 const hasTodo = (c) => c?.is_compliant === null || c?.status === 'TODO';
@@ -25,6 +26,10 @@ export default function useComplianceIds({
     .map(({ result, requestCount, ...item }) => {
       const carCov = result.data.compliances.coverage_360;
       const iqa = result.data.compliances.image_quality_assessment;
+
+      // Filter unwanted reasons
+      carCov.reasons = filterUnwantedComplianceReasons(carCov.reasons);
+      iqa.reasons = filterUnwantedComplianceReasons(iqa.reasons);
 
       // `handleChangeReasons` returns the full result object with the given compliances
       const handleChangeReasons = (compliances) => ({

@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
         maxHeight: '39vh',
       },
       native: {
-        maxHeight: '39%'
-      }
+        maxHeight: '39%',
+      },
     }),
     overflowY: 'auto',
-    paddingBottom: 15
+    paddingBottom: 15,
   },
 });
 
@@ -156,6 +156,7 @@ export default function DamageReport({
     vinNumber,
     pictures,
     damages,
+    parts,
     setDamages,
   } = useFetchInspection({ inspectionId });
 
@@ -164,6 +165,7 @@ export default function DamageReport({
       editedDamage,
       editedPartDamageImages,
       editedZoomedDamageImages,
+      editedDamageImages,
       editedDamagePart,
       isPopUpVisible,
       isModalVisible,
@@ -173,7 +175,6 @@ export default function DamageReport({
     handleShowGallery,
     handleGalleryDismiss,
     handlePartPressed,
-    handlePillPressed,
     handleSaveDamage,
     setIsEditable,
   } = useDamageReportStateHandlers({
@@ -181,6 +182,7 @@ export default function DamageReport({
     damages,
     setDamages,
     pictures,
+    parts,
   });
 
   const {
@@ -309,24 +311,24 @@ export default function DamageReport({
             {
               !isDesktopMode
               && (
-              <View style={[styles.tabGroup]}>
-                <TabGroup>
-                  <TabButton
-                    icon="360"
-                    label={t('damageReport.tabs.overviewTab.label')}
-                    selected={currentTab === Tabs.OVERVIEW}
-                    onPress={() => setCurrentTab(Tabs.OVERVIEW)}
-                    position="left"
-                  />
-                  <TabButton
-                    icon="photo-library"
-                    label={t('damageReport.tabs.photosTab.label')}
-                    selected={currentTab === Tabs.GALLERY}
-                    onPress={() => setCurrentTab(Tabs.GALLERY)}
-                    position="right"
-                  />
-                </TabGroup>
-              </View>
+                <View style={[styles.tabGroup]}>
+                  <TabGroup>
+                    <TabButton
+                      icon="360"
+                      label={t('damageReport.tabs.overviewTab.label')}
+                      selected={currentTab === Tabs.OVERVIEW}
+                      onPress={() => setCurrentTab(Tabs.OVERVIEW)}
+                      position="left"
+                    />
+                    <TabButton
+                      icon="photo-library"
+                      label={t('damageReport.tabs.photosTab.label')}
+                      selected={currentTab === Tabs.GALLERY}
+                      onPress={() => setCurrentTab(Tabs.GALLERY)}
+                      position="right"
+                    />
+                  </TabGroup>
+                </View>
               )
             }
             <View style={[styles.tabContent, isDesktopMode && styles.tabDesktopContent]}>
@@ -343,7 +345,7 @@ export default function DamageReport({
                     damageMode={damageMode}
                     vehicleType={vehicleType}
                     onPressPart={handlePartPressed}
-                    onPressPill={handlePillPressed}
+                    onPressPill={handlePartPressed}
                     generatePdf={generatePdf}
                     onValidateInspection={handleValidateInspection}
                     pdfHandles={{ pdfStatus, handleDownload: handlePDFDownload }}
@@ -389,7 +391,7 @@ export default function DamageReport({
             part={editedDamagePart}
             damage={editedDamage}
             damageMode={damageMode}
-            imageCount={(editedPartDamageImages ?? []).length}
+            imageCount={(editedDamageImages ?? []).length}
             onDismiss={handlePopUpDismiss}
             onShowGallery={handleShowGallery}
             onConfirm={handleSaveDamage}
@@ -402,7 +404,7 @@ export default function DamageReport({
           <UpdateDamageModal
             damage={editedDamage}
             damageMode={damageMode}
-            images={editedPartDamageImages}
+            images={editedDamageImages}
             onConfirm={handleSaveDamage}
             onDismiss={handleGalleryDismiss}
             part={editedDamagePart}

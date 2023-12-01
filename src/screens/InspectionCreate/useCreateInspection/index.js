@@ -23,10 +23,10 @@ export default function useCreateInspection(vehicle) {
         },
         // generate_subimages_damages: {},
         damage_score_threshold: 0.3,
-        // generate_visual_output: {
-        //   generate_parts: true,
-        //   generate_damages: true,
-        // },
+        generate_visual_output: {
+          // generate_parts: true,
+          generate_damages: true,
+        },
       },
     };
 

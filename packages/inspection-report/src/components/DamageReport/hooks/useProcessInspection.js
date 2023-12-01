@@ -36,12 +36,26 @@ function getSeverity(severityNumber) {
   }
 }
 
-function getRenderedOutputImages(image) {
+function getRenderedOutputImage(image) {
+  if (!image) {
+    return {
+      id: '',
+      isRendered: true,
+      label: undefined,
+      url: '',
+    };
+  }
+
   const damagedImage = image.rendered_outputs
     .find((damage) => damage?.additional_data?.description === 'rendering of detected damages');
 
   if (!damagedImage) {
-    return;
+    return {
+      id: '',
+      isRendered: true,
+      label: undefined,
+      url: '',
+    };
   }
 
   return {
@@ -60,8 +74,35 @@ function getPictures(inspection) {
     mimetype: image.mimetype,
     image_type: image.image_type,
     url: image.path,
-    rendered_outputs: getRenderedOutputImages(image),
+    views: image.views,
+    rendered_outputs: getRenderedOutputImage(image),
     label: image.additional_data?.label ?? undefined,
+  }));
+}
+
+function getPartPictures(part, inspection) {
+  const closeUps = inspection.images.filter((image) => (
+    image.image_type === 'close_up'
+      && image.detailed_viewpoint?.centers_on.includes(part.part_type)
+  ));
+  const beautyShots = inspection.images.filter((image) => (
+    image.image_type === 'beauty_shot'
+      && image.views?.some((view) => view.element_id === part.id)
+  ));
+  return [...closeUps, ...beautyShots].map((image) => ({
+    id: image.id,
+    mimetype: image.mimetype,
+    image_type: image.image_type,
+    url: image.path,
+    rendered_outputs: getRenderedOutputImage(image),
+    label: image.additional_data?.label,
+  }));
+}
+
+function getParts(inspection) {
+  return inspection.parts.map((part) => ({
+    ...part,
+    images: getPartPictures(part, inspection),
   }));
 }
 
@@ -69,16 +110,6 @@ function getDamages(inspection) {
   return inspection.severity_results?.map((severityResult) => ({
     id: severityResult.id,
     part: severityResult.label,
-    images: inspection.parts?.find(
-      (inspectionPart) => (inspectionPart.id === severityResult.related_item_id),
-    )?.related_images?.map(
-      (relatedImage) => ({
-        id: relatedImage.base_image_id,
-        base_image_type: relatedImage.base_image_type,
-        object_type: relatedImage.object_type,
-        url: relatedImage.path,
-      }),
-    ) ?? [],
     severity: getSeverity(severityResult.value.custom_severity.level),
     pricing: severityResult.value.custom_severity.pricing ?? 0,
     repairOperation: getRepairOperation(
@@ -87,34 +118,46 @@ function getDamages(inspection) {
   })) ?? [];
 }
 
+function isTaskDone(task, inspection) {
+  switch (task.name) {
+    case monk.types.TaskName.IMAGES_OCR:
+      return task.status === monk.types.ProgressStatus.DONE
+        || (task.status === monk.types.ProgressStatus.NOT_STARTED && !!inspection.vehicle.vin);
+    default:
+      return task.status === monk.types.ProgressStatus.DONE;
+  }
+}
+
 export default function useProcessInspection() {
   const [isInspectionReady, setIsInspectionReady] = useState(false);
   const [inspectionErrors, setInspectionErrors] = useState({ isInError: false, tasks: [] });
   const [vinNumber, setVinNumber] = useState('');
   const [pictures, setPictures] = useState([]);
   const [damages, setDamages] = useState([]);
+  const [parts, setParts] = useState([]);
 
   const resetState = useCallback(() => {
     setIsInspectionReady(false);
     setPictures([]);
     setDamages([]);
+    setParts([]);
   }, []);
 
   const processInspection = useCallback((axiosResponse) => {
-    const tasks = axiosResponse.data.tasks
-      .filter((task) => REQUIRED_INSPECTION_TASKS.includes(task.name));
-    setIsInspectionReady(
-      tasks.every((task) => (task.status === monk.types.InspectionStatus.DONE)),
-    );
+    const inspection = axiosResponse.data;
+    const tasks = inspection.tasks.filter((task) => REQUIRED_INSPECTION_TASKS.includes(task.name));
+    setIsInspectionReady(tasks.every((task) => isTaskDone(task, inspection)));
     const tasksInError = tasks
-      .filter((task) => (task.status === monk.types.InspectionStatus.ERROR));
+      .filter((task) => (task.status === monk.types.InspectionStatus.ERROR))
+      .map((task) => task.name);
     setInspectionErrors({
       isInError: tasksInError.length > 0,
       tasks: tasksInError,
     });
-    setPictures(getPictures(axiosResponse.data));
-    setDamages(getDamages(axiosResponse.data));
-    setVinNumber(axiosResponse.data?.vehicle?.vin);
+    setPictures(getPictures(inspection));
+    setParts(getParts(inspection));
+    setDamages(getDamages(inspection));
+    setVinNumber(inspection.vehicle?.vin);
   }, []);
 
   return {
@@ -124,6 +167,7 @@ export default function useProcessInspection() {
     inspectionErrors,
     vinNumber,
     pictures,
+    parts,
     damages,
     setDamages,
   };

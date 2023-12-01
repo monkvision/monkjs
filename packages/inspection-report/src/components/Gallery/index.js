@@ -11,13 +11,13 @@ import {
   Text,
   useWindowDimensions,
   View,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import Thumbnail from './Thumbnail';
-import { useDesktopMode } from './../../hooks';
+import { useDesktopMode, useDamageVisibility } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
       web: {
         flexDirection: 'row',
         flex: 1,
-      }
+      },
     }),
     flexWrap: 'wrap',
     justifyContent: 'center',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 5,
     paddingTop: 10,
-  }
+  },
 });
 
 function Gallery({ pictures }) {
@@ -102,13 +102,13 @@ function Gallery({ pictures }) {
   const isDesktopMode = useDesktopMode();
   const [focusedPhoto, setFocusedPhoto] = useState(null);
   const [isZoomed, setIsZoomed] = useState(false);
-  const [seeDamages, setSeeDamages] = useState(false);
   const { width, height } = useWindowDimensions();
   const [gestureState, setGestureState] = useState({});
   const scale = useRef(new Animated.Value(1)).current;
   const transform = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  const { visibleDamages, updateVisibility } = useDamageVisibility();
 
-  const handleVisibilityOfDamages = useCallback(() => setSeeDamages(!seeDamages), [seeDamages]);
+  const handleVisibilityOfDamages = useCallback(() => updateVisibility(!visibleDamages), [visibleDamages]);
   const handleOnImageClick = useCallback((focusedImage) => {
     if (focusedImage.url) {
       setFocusedPhoto(focusedImage);
@@ -127,7 +127,8 @@ function Gallery({ pictures }) {
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: () => true,
-      onPanResponderRelease: (event, gestureStat) => setGestureState({ dx: gestureStat.x0, dy: gestureStat.y0 }),
+      onPanResponderRelease:
+        (event, gestureStat) => setGestureState({ dx: gestureStat.x0, dy: gestureStat.y0 }),
     }),
   ).current;
 
@@ -144,7 +145,7 @@ function Gallery({ pictures }) {
 
       let x = 0;
       let y = 0;
-      let { dx, dy } = gestureState;
+      const { dx, dy } = gestureState;
 
       if (isZoomed) {
         x = 0;
@@ -155,11 +156,11 @@ function Gallery({ pictures }) {
 
         // x > 0 will check whether we clicked on left side of image or not
         if ((dx < x && x > 0) || (dx > x && x < 0)) {
-          x = x / 2;
+          x /= 2;
         }
         // y > 0 will check whether we clicked on top side of image or not
         if ((dy < y && y > 0) || (dy > y && y < 0)) {
-          y = y / 2;
+          y /= 2;
         }
       }
 
@@ -178,30 +179,16 @@ function Gallery({ pictures }) {
           return; // Do nothing if the event was already processed
         }
 
-        const currentPictureIndex = pictures.findIndex(pic => pic.id === focusedPhoto.id);
+        const currentPictureIndex = pictures.findIndex((pic) => pic.id === focusedPhoto.id);
         switch (event.key) {
-          case "ArrowLeft":
-            if ((focusedPhoto?.isRendered && currentPictureIndex >= 0) || currentPictureIndex - 1 >= 0) {
-              if (focusedPhoto.isRendered) {
-                setFocusedPhoto(pictures[currentPictureIndex]);
-              } else {
-                setFocusedPhoto(
-                  pictures[currentPictureIndex - 1]?.rendered_outputs?.length > 0 ?
-                    pictures[currentPictureIndex - 1]?.rendered_outputs[0] : pictures[currentPictureIndex]
-                );
-              }
+          case 'ArrowLeft':
+            if (currentPictureIndex - 1 >= 0) {
+              setFocusedPhoto(pictures[currentPictureIndex - 1]);
             }
             break;
-          case "ArrowRight":
-            if ((!focusedPhoto?.isRendered && currentPictureIndex < pictures.length) || currentPictureIndex + 1 < pictures.length) {
-              if (focusedPhoto.isRendered) {
-                setFocusedPhoto(pictures[currentPictureIndex + 1]);
-              } else {
-                setFocusedPhoto(
-                  pictures[currentPictureIndex]?.rendered_outputs?.length > 0 ?
-                    pictures[currentPictureIndex]?.rendered_outputs[0] : pictures[currentPictureIndex + 1]
-                );
-              }
+          case 'ArrowRight':
+            if (currentPictureIndex + 1 < pictures.length) {
+              setFocusedPhoto(pictures[currentPictureIndex + 1]);
             }
             break;
           default:
@@ -217,6 +204,7 @@ function Gallery({ pictures }) {
         window.removeEventListener('keydown', handleKeyboardChange);
       };
     }
+    return () => { };
   }, [pictures, focusedPhoto]);
 
   const renderList = useCallback(() => {
@@ -229,17 +217,16 @@ function Gallery({ pictures }) {
               <Thumbnail image={image} click={handleOnImageClick} />
             </View>
             {
-              isDesktopMode && image?.rendered_outputs && image?.rendered_outputs.length > 0
-              && image.rendered_outputs.map((innerImage, innerIndex) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <View style={styles.thumbnailWrapper} key={`${innerImage.url}-${innerIndex}`}>
-                  <Thumbnail image={innerImage} click={handleOnImageClick} />
+              isDesktopMode && image?.rendered_outputs && image?.rendered_outputs?.url > 0
+              && (
+                <View style={styles.thumbnailWrapper} key={`${image.url}-${index}`}>
+                  <Thumbnail image={image} click={handleOnImageClick} />
                 </View>
-              ))
+              )
             }
           </View>
         ))
-      )
+      );
     }
     return (
       <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -250,15 +237,6 @@ function Gallery({ pictures }) {
               <View style={[styles.thumbnailWrapper, { width: image.width, flexDirection: 'row' }]}>
                 <Thumbnail image={image} click={handleOnImageClick} />
               </View>
-              {
-                isDesktopMode && image?.rendered_outputs && image?.rendered_outputs.length > 0
-                && image.rendered_outputs.map((innerImage, innerIndex) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <View style={[styles.thumbnailWrapper, { width: image.width, flexDirection: 'row' }]} key={`${innerImage.url}-${innerIndex}`}>
-                    <Thumbnail image={innerImage} click={handleOnImageClick} />
-                  </View>
-                ))
-              }
             </View>
           ))
         }
@@ -294,20 +272,22 @@ function Gallery({ pictures }) {
           </Pressable>
           <View style={[styles.header]}>
             <Text style={[styles.title]}>
-              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''} {focusedPhoto?.isRendered && t('gallery.withDamages')}
+              {(focusedPhoto?.label) ? focusedPhoto.label[i18n.language] : ''}
+              {' '}
+              {focusedPhoto?.isRendered && t('gallery.withDamages')}
             </Text>
           </View>
           {
             !isDesktopMode && (
               <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
-                <MaterialIcons name={seeDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
-                <Text style={styles.damageLabel}>{seeDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
+                <MaterialIcons name={visibleDamages ? 'visibility-off' : 'visibility'} size={20} color="#fff" />
+                <Text style={styles.damageLabel}>{visibleDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
               </Pressable>
             )
           }
 
           <Animated.Image
-            source={{ uri: seeDamages ? focusedPhoto?.rendered_outputs?.url : focusedPhoto?.url }}
+            source={{ uri: visibleDamages ? focusedPhoto?.rendered_outputs?.url : focusedPhoto?.url }}
             style={{
               flex: 1,
               cursor: !isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',

@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     ...Platform.select({
       web: {
-        padding: '10px'
+        padding: '10px',
       },
       native: {
-        pospaddingition: 10
-      }
-    })
+        pospaddingition: 10,
+      },
+    }),
   },
   title: {
     color: '#fafafa',
@@ -49,10 +49,10 @@ function Accordion({ title, isCollapsed, children, onPress }) {
 }
 
 Accordion.propTypes = {
-  title: PropTypes.string,
-  isCollapsed: PropTypes.bool,
   children: PropTypes.element,
+  isCollapsed: PropTypes.bool,
   onPress: PropTypes.func,
+  title: PropTypes.string,
 };
 
 Accordion.defaultProps = {

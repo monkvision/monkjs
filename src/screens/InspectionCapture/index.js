@@ -60,7 +60,7 @@ export default function InspectionCapture() {
         { cancelable: true },
       );
     } else if (isLastTour) {
-      navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
+      navigation.navigate(names.INSPECTION_FEEDBACK, { inspectionId, vehicleType });
     } else {
       navigation.navigate(names.LANDING, { inspectionId });
     }
