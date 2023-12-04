@@ -1,12 +1,5 @@
 import { useInteractiveStatus } from '@monkvision/common';
-import {
-  ButtonHTMLAttributes,
-  forwardRef,
-  MouseEvent,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-} from 'react';
+import { ButtonHTMLAttributes, forwardRef, MouseEvent, PropsWithChildren, useMemo } from 'react';
 import { Icon } from '../../icons';
 import { Spinner } from '../Spinner';
 import { styles } from './Button.styles';
@@ -47,15 +40,12 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
     ref,
   ) => {
     const isDisabled = !!disabled || !!loading;
-    const handleMouseDown = useCallback(
-      (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (onMouseDown) {
-          onMouseDown(event);
-        }
-      },
-      [onMouseDown],
-    );
+    const handleMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      if (onMouseDown) {
+        onMouseDown(event);
+      }
+    };
     const { status, eventHandlers } = useInteractiveStatus({
       disabled: isDisabled,
       componentHandlers: { onMouseUp, onMouseEnter, onMouseLeave, onMouseDown: handleMouseDown },
