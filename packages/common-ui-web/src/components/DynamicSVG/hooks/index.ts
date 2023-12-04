@@ -1,5 +1,4 @@
-export * from './propTypes';
-export * from './useChildrenGroupIds';
+export * from './types';
 export * from './useCustomAttributes';
 export * from './useInnerHTML';
 export * from './useJSXTransformAttributes';

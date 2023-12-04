@@ -1,4 +1,4 @@
-import { transformInlineCss } from '../../../../src/components/DynamicSVG/hooks/transformInlineCss';
+import { transformInlineCss } from '../../../../../src/components/DynamicSVG/hooks/utils';
 
 describe('transformInlineCss helper function', () => {
   it('should properly map CSS properties', () => {

@@ -7,14 +7,10 @@ const useCustomAttributesMock = jest.fn(() => customAttributesMock);
 const innerHTMLMock = 'test-inner-html';
 const useInnerHTMLMock = jest.fn(() => innerHTMLMock);
 
-const childrenGroupIdsMock = ['test-id'];
-const useChildrenGroupIdsMock = jest.fn(() => childrenGroupIdsMock);
-
 jest.mock('../../../src/components/DynamicSVG/hooks', () => ({
   useJSXTransformAttributes: useJSXTransformAttributesMock,
   useCustomAttributes: useCustomAttributesMock,
   useInnerHTML: useInnerHTMLMock,
-  useChildrenGroupIds: useChildrenGroupIdsMock,
 }));
 
 import { render } from '@testing-library/react';
@@ -26,7 +22,11 @@ describe('SVGElement component', () => {
   });
 
   it('should place the JSX instrisic tag of the given element', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -36,7 +36,11 @@ describe('SVGElement component', () => {
   });
 
   it('should pass the proper props to the useJSXMapttributes hook', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
 
     const { unmount } = render(<SVGElement element={element} />);
 
@@ -45,7 +49,11 @@ describe('SVGElement component', () => {
   });
 
   it('should pass the proper props to the useCustomAttributes hook', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
     const groupIds = ['test-id', 'test-id-23'];
     const getAttributes = jest.fn();
 
@@ -58,7 +66,11 @@ describe('SVGElement component', () => {
   });
 
   it('should pass the proper props to the useInnerHTML hook', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
     const groupIds = ['test-id', 'test-id-23'];
     const getInnerText = jest.fn();
 
@@ -70,18 +82,12 @@ describe('SVGElement component', () => {
     unmount();
   });
 
-  it('should pass the proper props to the useChildrenGroupIds hook', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
-    const groupIds = ['test-id', 'test-id-23'];
-
-    const { unmount } = render(<SVGElement element={element} groupIds={groupIds} />);
-
-    expect(useChildrenGroupIdsMock).toHaveBeenCalledWith({ element, groupIds });
-    unmount();
-  });
-
   it('should pass the attributes from the useJSXMapttributes hook down to the JSX tag', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -95,7 +101,11 @@ describe('SVGElement component', () => {
   });
 
   it('should pass the attributes from the useCustomAttributes hook down to the JSX tag', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -109,7 +119,11 @@ describe('SVGElement component', () => {
   });
 
   it('should pass down props to the JSX tag', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
     const props: Record<string, string> = { id: 'test-id', from: 'test-from' };
 
     const { unmount, container } = render(<SVGElement element={element} {...props} />);
@@ -124,7 +138,11 @@ describe('SVGElement component', () => {
   });
 
   it('should set the inner HTML to the one from the useInnerHTML hook', () => {
-    const element = { tagName: 'svg', children: [] } as unknown as Element;
+    const element = {
+      tagName: 'svg',
+      children: [],
+      getAttribute: (a: string) => a,
+    } as unknown as Element;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -138,9 +156,10 @@ describe('SVGElement component', () => {
     const element = {
       tagName: 'svg',
       children: [
-        { tagName: 'g', children: [] },
-        { tagName: 'path', children: [] },
+        { tagName: 'g', children: [], getAttribute: (a: string) => a },
+        { tagName: 'path', children: [], getAttribute: (a: string) => a },
       ],
+      getAttribute: (a: string) => a,
     } as unknown as Element;
 
     const { unmount, container } = render(<SVGElement element={element} />);
@@ -153,28 +172,11 @@ describe('SVGElement component', () => {
     unmount();
   });
 
-  it('should pass the group IDs to the children component', () => {
-    const element = {
-      tagName: 'svg',
-      children: [{ tagName: 'g', children: [] }],
-    } as unknown as Element;
-
-    const { unmount } = render(<SVGElement element={element} />);
-
-    expect(useChildrenGroupIdsMock).toHaveBeenCalledTimes(2);
-    expect(useChildrenGroupIdsMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        element: element.children[0],
-        groupIds: childrenGroupIdsMock,
-      }),
-    );
-    unmount();
-  });
-
   it('should pass the customization functions to the children component', () => {
     const element = {
       tagName: 'svg',
-      children: [{ tagName: 'g', children: [] }],
+      children: [{ tagName: 'g', children: [], getAttribute: (a: string) => a }],
+      getAttribute: (a: string) => a,
     } as unknown as Element;
     const getAttributes = jest.fn();
     const getInnerText = jest.fn();

@@ -1,6 +1,6 @@
 const inlineStyleMock = { height: '34px' };
 const transformInlineCssMock = jest.fn(() => inlineStyleMock);
-jest.mock('../../../../src/components/DynamicSVG/hooks/transformInlineCss', () => ({
+jest.mock('../../../../src/components/DynamicSVG/hooks/utils', () => ({
   transformInlineCss: transformInlineCssMock,
 }));
 

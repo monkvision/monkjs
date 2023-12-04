@@ -1,6 +1,6 @@
 import { toCamelCase } from '@monkvision/common';
 import { CSSProperties, useMemo } from 'react';
-import { transformInlineCss } from './transformInlineCss';
+import { transformInlineCss } from './utils';
 
 interface HtmlAttribute {
   key: string;
