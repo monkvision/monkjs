@@ -12,6 +12,7 @@ const ClientPalettes = {
   [Clients.ALPHA]: defaultPalette,
   [Clients.ALGODRIVEN_CAPTURE]: defaultPalette,
   [Clients.ALGODRIVEN_REPORT]: defaultPalette,
+  [Clients.VIDEO_POC]: defaultPalette,
 };
 
 export default function getClientTheme(client) {
