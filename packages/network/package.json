@@ -63,5 +63,8 @@
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"
   },
-  "homepage": "https://github.com/monkvision/monkjs"
+  "homepage": "https://github.com/monkvision/monkjs",
+  "dependencies": {
+    "axios": "^1.6.2"
+  }
 }

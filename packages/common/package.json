@@ -27,6 +27,7 @@
   "dependencies": {
     "@monkvision/types": "4.0.0",
     "i18next": "^23.4.5",
+    "pako": "^2.1.0",
     "react-i18next": "^13.2.0"
   },
   "peerDependencies": {
@@ -45,6 +46,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.2.2",
     "@types/node": "^18.11.9",
+    "@types/pako": "^2",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "eslint": "^8.29.0",
