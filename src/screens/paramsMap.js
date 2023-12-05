@@ -7,6 +7,7 @@ export const ClientParamMap = {
   a3o: Clients.ALPHA,
   m4n: Clients.ALGODRIVEN_CAPTURE,
   zxg: Clients.ALGODRIVEN_REPORT,
+  e5j: Clients.VIDEO_POC,
 };
 
 export const VehicleTypes = {

@@ -9,6 +9,7 @@ const ClientSights = {
   [Clients.ALPHA]: defaultSights,
   [Clients.ALGODRIVEN_CAPTURE]: defaultSights,
   [Clients.ALGODRIVEN_REPORT]: defaultSights,
+  [Clients.VIDEO_POC]: defaultSights,
 };
 
 export default ClientSights;

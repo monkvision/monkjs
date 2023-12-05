@@ -8,6 +8,7 @@ const ClientWorkflows = {
   [Clients.ALPHA]: Workflows.DEFAULT,
   [Clients.ALGODRIVEN_CAPTURE]: Workflows.CAPTURE,
   [Clients.ALGODRIVEN_REPORT]: Workflows.INSPECTION_REPORT,
+  [Clients.VIDEO_POC]: Workflows.INSPECTION_REPORT,
 };
 
 export default ClientWorkflows;
