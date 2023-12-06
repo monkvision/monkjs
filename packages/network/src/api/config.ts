@@ -8,7 +8,7 @@ export const sdkVersion = packageJson.version;
  */
 export interface MonkAPIRequestConfig {
   /**
-   * The HTTP domain of the Monk API.
+   * The domain of the Monk API.
    */
   apiDomain: string;
   /**
@@ -18,24 +18,18 @@ export interface MonkAPIRequestConfig {
 }
 
 export function getBaseAxiosConfig(config: MonkAPIRequestConfig): AxiosRequestConfig {
-  const baseURL = config.apiDomain.endsWith('/')
+  const apiDomain = config.apiDomain.endsWith('/')
     ? config.apiDomain.substring(0, config.apiDomain.length - 1)
     : config.apiDomain;
   const authorizationHeader = config.authToken.startsWith('Bearer ')
     ? config.authToken
     : `Bearer ${config.authToken}`;
   return {
-    baseURL,
+    baseURL: `https://${apiDomain}`,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': authorizationHeader,
       'X-Monk-SDK-Version': sdkVersion,
     },
-  };
-}
-
-export function getBaseAdditionalData(): Record<string, string> {
-  return {
-    sdkVersion,
   };
 }
