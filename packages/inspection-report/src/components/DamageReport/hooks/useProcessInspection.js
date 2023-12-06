@@ -87,8 +87,17 @@ function getPartPictures(part, inspection) {
   ));
   const beautyShots = inspection.images.filter((image) => (
     image.image_type === 'beauty_shot'
-      && image.views?.some((view) => view.element_id === part.id)
-  ));
+    && image.views?.some((view) => view.element_id === part.id)
+  )).map((beautyShot) => {
+    const view = beautyShot.views?.find((view) => view.element_id === part.id);
+    return {
+      ...beautyShot,
+      size: view?.image_region?.specification?.bounding_box?.width * view?.image_region?.specification?.bounding_box?.height || 0
+    }
+  }).sort((a, b) => {
+    return b.size - a.size;
+  });
+
   return [...closeUps, ...beautyShots].map((image) => ({
     id: image.id,
     mimetype: image.mimetype,
