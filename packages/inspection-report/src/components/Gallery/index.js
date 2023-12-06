@@ -206,12 +206,12 @@ function Gallery({ pictures }) {
         // eslint-disable-next-line react/no-array-index-key
         <View key={`${image.url}-${index}`} style={isDesktopMode && styles.partsImageWrapper}>
           <View style={styles.thumbnailWrapper}>
-            <Thumbnail image={image} click={handleOnImageClick} />
+            <Thumbnail image={image} click={() => handleOnImageClick(image)} />
           </View>
           {
             isDesktopMode && image?.rendered_outputs && image?.rendered_outputs?.url && (
               <View style={styles.thumbnailWrapper}>
-                <Thumbnail image={image.rendered_outputs} click={handleOnImageClick} />
+                <Thumbnail image={image.rendered_outputs} click={() => handleOnImageClick(image)} />
               </View>
             )
           }
