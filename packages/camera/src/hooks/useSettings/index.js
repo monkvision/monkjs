@@ -45,7 +45,8 @@ function reducer(state, action) {
  * }}
  */
 export default function useSettings({ initialState = initialSettingsState, camera }) {
-  // User will pass only few settings from init, we need to set all the other default settings in initialState.
+  // User will pass only few settings from init,
+  // we need to set all the other default settings in initialState.
   initialState = { ...initialSettingsState, ...initialState };
   const [state, dispatch] = useReducer(reducer, { initialState }, init);
 
