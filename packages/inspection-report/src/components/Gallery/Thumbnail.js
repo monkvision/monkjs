@@ -68,12 +68,13 @@ function Thumbnail({ image, click }) {
 Thumbnail.propTypes = {
   click: PropTypes.func,
   image: PropTypes.shape({
+    isRendered: PropTypes.bool,
     label: PropTypes.shape({
+      de: PropTypes.string,
       en: PropTypes.string,
       fr: PropTypes.string,
     }),
     url: PropTypes.string,
-    isRendered: PropTypes.bool,
   }),
 };
 
@@ -81,11 +82,12 @@ Thumbnail.defaultProps = {
   click: null,
   image: {
     label: {
+      de: '',
       en: '',
       fr: '',
     },
     url: '',
-    isRendered: false
+    isRendered: false,
   },
 };
 

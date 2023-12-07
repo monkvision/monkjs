@@ -199,6 +199,7 @@ Sights.propTypes = {
   tour: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.shape({
+      de: PropTypes.string,
       en: PropTypes.string,
       fr: PropTypes.string,
     }),

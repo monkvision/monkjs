@@ -271,6 +271,7 @@ Gallery.propTypes = {
   pictures: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.shape({
+        de: PropTypes.string,
         en: PropTypes.string,
         fr: PropTypes.string,
       }),
