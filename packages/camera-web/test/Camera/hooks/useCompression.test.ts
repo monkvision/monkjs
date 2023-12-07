@@ -5,7 +5,7 @@ const getCanvasHandleMock = jest.fn(() => ({
   canvas: canvasMock,
   context: contextMock,
 })) as jest.Mock;
-jest.mock('../../../src/Camera/hooks/getCanvasHandle', () => ({
+jest.mock('../../../src/Camera/hooks/utils/getCanvasHandle', () => ({
   getCanvasHandle: getCanvasHandleMock,
 }));
 

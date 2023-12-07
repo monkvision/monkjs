@@ -53,7 +53,7 @@ console.log(toCamelCase('My-str-test'));
 Converts a string to camel case.
 
 # Array Utils
-## permutations
+### permutations
 ```typescript
 import { permutations } from '@monkvision/common';
 
@@ -62,17 +62,57 @@ console.log(permutations([1, 2, 3]));
 ```
 Returns an array containing all the possible permutations of the given array.
 
-# Queue Utils
-## useQueue
+# Color Utils
+### getRGBAFromString
 ```typescript
-import { useQueue } from '@monkvision/common';
+import { getRGBAFromString } from '@monkvision/common';
 
-function TestComponent() {
-  const queue = useQueue<string>((item) => console.log(item));
-  ...
-}
+console.log(JSON.stringify(getRGBAFromString('#AF270CCC')));
+// Output : {"r":175,"g":39,"b":12,"a":0.8}
 ```
+Returns the RGBA values of the given color. The accepted formats are :
+- RGB : `rgb(167, 224, 146)`
+- RGBA : `rgb(167, 224, 146, 0.03)`
+- HEX : `#A7E092`
+- HEX (alpha) : `#A7E09208`
+- HEX (short) : `#AE9`
+- HEX (short + alpha) : `#AE98`
 
-This hook is used to create a processing queue. The `process` function passed as a parameter is an async function
-that is used to process items in the queue. You can find more details on how the queue works by taking a look at the
-TSDoc of the `Queue` interface.
+This function is case-insensitive and ignores white spaces.
+
+### getHexFromRGBA
+```typescript
+import { getHexFromRGBA } from '@monkvision/common';
+
+console.log(getHexFromRGBA({ r: 111, g: 222, b: 0, a: 0.67 }));
+// Output : #6FDE00AB
+```
+Converts RGBA values to their hexadecimal representation.
+
+### shadeColor
+```typescript
+import { shadeColor } from '@monkvision/common';
+
+console.log(shadeColor('#FC72A7', 0.7));
+// Output : #FFC2FFFF
+```
+Apply a shade of black or white over the given color. The amount of shade to apply works as a ratio :
+- use positive values like 0.08 to lighten the color by 8%
+- use negative values like -0.08 to darken the color by 8%
+
+### getInteractiveVariants
+```typescript
+import { getInteractiveVariants } from '@monkvision/common';
+
+const variants = getInteractiveVariants('#FC72A7');
+/*
+ * variants = {
+ *   [InteractiveStatus.DEFAULT]: '#FC72A7',
+ *   [InteractiveStatus.HOVERED]: '#FF7BB4',
+ *   [InteractiveStatus.ACTIVE]: '#FF80BB',
+ *   [InteractiveStatus.DISABLED]: '#FC72A7',
+ * }
+ */
+```
+Create interactive variants (hovered, active...) for the given color. You can specify as an additional parameter the
+type of variation to use for the interactive colors (lighten or darken the color, default = lighten).

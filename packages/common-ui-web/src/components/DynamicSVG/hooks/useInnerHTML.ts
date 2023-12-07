@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './propTypes';
+import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './types';
 
 /**
  * Custom hook used to generate the inner HTML of an SVG element encapsulated by an SVGElement component. This hook

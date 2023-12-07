@@ -1,7 +1,19 @@
-import { useMonkTheme } from '@monkvision/common';
-import { Color, ColorProp, RequiredProperties } from '@monkvision/types';
-import { CSSProperties, useMemo } from 'react';
+import { getInteractiveVariants, InteractiveVariation, useMonkTheme } from '@monkvision/common';
+import {
+  Color,
+  ColorProp,
+  InteractiveStatus,
+  RequiredProperties,
+  ResponsiveStyleProperties,
+} from '@monkvision/types';
+import { useMemo } from 'react';
 import { IconName } from '../../icons';
+import {
+  BUTTON_CONTENT_SIZE_NORMAL,
+  BUTTON_CONTENT_SIZE_SMALL,
+  buttonTextBackgrounds,
+  styles,
+} from './Button.styles';
 
 /**
  * Variant of the button.
@@ -12,6 +24,11 @@ export type ButtonVariant = 'fill' | 'outline' | 'text' | 'text-link';
  * Size of the button.
  */
 export type ButtonSize = 'normal' | 'small';
+
+/**
+ * Shade of the button.
+ */
+export type ButtonShade = 'dark' | 'light';
 
 /**
  * Additional props that can be passed to the Button component.
@@ -63,81 +80,103 @@ export interface MonkButtonProps {
    * @default false
    */
   preserveWidthOnLoading?: boolean;
+  /**
+   * Value indicating if the button is a light color button or a dark color button (used for interactive colors).
+   *
+   * @default: dark
+   */
+  shade?: ButtonShade;
 }
 
-interface ButtonIconStyle {
+interface MonkButtonChildStyle {
+  style: ResponsiveStyleProperties;
   color: Color;
   size: number;
-  className: string;
 }
 
-interface ButtonSpinnerStyle {
-  color: Color;
-  size: number;
-  style: CSSProperties;
+interface MonkButtonStyle {
+  style: ResponsiveStyleProperties;
+  iconStyle: MonkButtonChildStyle;
+  spinnerStyle: MonkButtonChildStyle;
 }
 
-interface ButtonStyle {
-  className: string;
-  style: CSSProperties;
-  icon: ButtonIconStyle;
-  spinner: ButtonSpinnerStyle;
+interface MonkButtonStyleParams
+  extends RequiredProperties<
+    MonkButtonProps,
+    'variant' | 'size' | 'primaryColor' | 'secondaryColor' | 'shade'
+  > {
+  status: InteractiveStatus;
+  hasChildren: boolean;
 }
 
-function getDefaultsIfNotProvided(
-  props: MonkButtonProps,
-): RequiredProperties<MonkButtonProps, 'variant' | 'size' | 'primaryColor' | 'secondaryColor'> {
-  const variant = props.variant ?? 'fill';
-  const size = props.size ?? 'normal';
-  const primaryColor = props.primaryColor ?? (variant === 'outline' ? 'primary-xlight' : 'primary');
-  const secondaryColor =
-    props.secondaryColor ?? (variant === 'outline' ? 'surface-s1' : 'text-white');
-  return { variant, size, primaryColor, secondaryColor };
+function getInteractiveVariation(shade: ButtonShade): InteractiveVariation {
+  return shade === 'dark' ? InteractiveVariation.LIGHTEN : InteractiveVariation.DARKEN;
 }
 
-export function useButtonStyle(
-  props: MonkButtonProps & { isDisabled: boolean; hasChildren: boolean },
-): ButtonStyle {
-  const { utils, palette } = useMonkTheme();
+export function useButtonStyle(params: MonkButtonStyleParams): MonkButtonStyle {
+  const { utils } = useMonkTheme();
+  const { primary, secondary } = useMemo(
+    () => ({
+      primary: getInteractiveVariants(
+        utils.getColor(params.primaryColor),
+        getInteractiveVariation(params.shade),
+      ),
+      secondary: getInteractiveVariants(
+        utils.getColor(params.secondaryColor),
+        getInteractiveVariation(params.shade),
+      ),
+    }),
+    [params, utils],
+  );
+
   return useMemo(() => {
-    const requiredProps = getDefaultsIfNotProvided(props);
-    const primary = utils.getColor(requiredProps.primaryColor);
-    const secondary = utils.getColor(requiredProps.secondaryColor);
-
-    const color = requiredProps.variant === 'fill' ? secondary : primary;
-    let backgroundColor = 'transparent';
-    if (requiredProps.variant === 'fill') {
-      backgroundColor = primary;
-    } else if (requiredProps.variant === 'outline') {
-      backgroundColor = secondary;
+    let foregroundColor = primary[InteractiveStatus.DEFAULT];
+    if (params.variant === 'fill') {
+      foregroundColor = secondary[InteractiveStatus.DEFAULT];
+    } else if (params.variant === 'text-link') {
+      foregroundColor = primary[params.status];
     }
-    const contentSize = requiredProps.size === 'normal' ? 24 : 18;
+
+    let backgroundColor = 'transparent';
+    if (params.variant === 'fill') {
+      backgroundColor = primary[params.status];
+    } else if (params.variant === 'outline') {
+      backgroundColor = secondary[params.status];
+    } else if (params.variant === 'text') {
+      backgroundColor = buttonTextBackgrounds[params.status];
+    }
+    const contentSize =
+      params.size === 'normal' ? BUTTON_CONTENT_SIZE_NORMAL : BUTTON_CONTENT_SIZE_SMALL;
 
     return {
-      className: `mnk-button ${requiredProps.variant} ${requiredProps.size}${
-        props.isDisabled ? ' disabled' : ''
-      }${props.loading && !props.preserveWidthOnLoading ? ' loading' : ''}`,
       style: {
-        color,
+        ...styles['button'],
+        ...(params.status === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
+        ...(params.size === 'small' ? styles['buttonSmall'] : {}),
+        ...(params.variant === 'outline' ? styles['buttonOutline'] : {}),
+        ...(params.variant === 'text-link' ? styles['buttonTextLink'] : {}),
+        color: foregroundColor,
+        borderColor: foregroundColor,
         backgroundColor,
-        borderColor: requiredProps.variant === 'outline' ? primary : 'transparent',
-        outlineColor: palette.outline.base,
       },
-      icon: {
-        color,
+      iconStyle: {
+        style: {
+          ...styles['icon'],
+          ...(params.size === 'small' ? styles['iconSmall'] : {}),
+          ...(!params.hasChildren ? styles['iconOnly'] : {}),
+        },
+        color: foregroundColor,
         size: contentSize,
-        className: `mnk-button-icon ${requiredProps.variant} ${requiredProps.size} ${
-          props.hasChildren ? '' : 'icon-only'
-        }`,
       },
-      spinner: {
-        color,
-        size: contentSize,
+      spinnerStyle: {
         style: {
           top: `calc(50% - ${contentSize / 2}px)`,
           left: `calc(50% - ${contentSize / 2}px)`,
+          ...(params.preserveWidthOnLoading ? styles['spinnerFixedWith'] : {}),
         },
+        color: foregroundColor,
+        size: contentSize,
       },
     };
-  }, [props, utils, palette]);
+  }, [params, primary, secondary]);
 }

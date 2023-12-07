@@ -262,21 +262,17 @@ describe('Camera component', () => {
     unmount();
   });
 
-  it('should display a video element with the "camera-preview" class', () => {
-    const { unmount, container } = render(<Camera />);
+  it('should display a video element', () => {
+    const { unmount } = render(<Camera />);
 
-    const videoEl = container.querySelector('video');
-    expect(videoEl).not.toBeNull();
-    expect(videoEl?.className).toEqual('mnk-camera-preview');
+    expect(screen.queryByTestId(VIDEO_PREVIEW_TEST_ID)).not.toBeNull();
     unmount();
   });
 
-  it('should display a canvas element with the "camera-canvas" class', () => {
-    const { unmount, container } = render(<Camera />);
+  it('should display a canvas element', () => {
+    const { unmount } = render(<Camera />);
 
-    const canvasEl = container.querySelector('canvas');
-    expect(canvasEl).not.toBeNull();
-    expect(canvasEl?.className).toEqual('mnk-camera-canvas');
+    expect(screen.queryByTestId(CANVAS_TEST_ID)).not.toBeNull();
     unmount();
   });
 

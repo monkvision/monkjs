@@ -20,3 +20,4 @@ import { ... } from '@monkvision/test-utils';
 # Available Utils
 This package exports the following test utilities :
 - Useful `expect` test assertions (declared in the `src/expects` directory).
+- Useful `dom` test utils (declared in the `src/dom.ts` directory).

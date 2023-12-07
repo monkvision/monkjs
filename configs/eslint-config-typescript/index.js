@@ -32,6 +32,7 @@ module.exports = {
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
+    'no-underscore-dangle': OFF,
   },
   overrides: [
     {

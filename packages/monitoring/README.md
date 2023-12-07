@@ -31,7 +31,7 @@ well known Monitoring platform. If you want to use this adapter, take a look at 
 In order to configure the monitoring inside your application, you first need to instantiate the Monitoring Adapter you
 want to use, and then wrap your root component in the `MonitoringProvider` and passing it the adapter as a prop :
 
-```typescript jsx
+```tsx
 import { DebugMonitoringAdapter, MonitoringProvider } from '@monkvision/monitoring';
 
 const adapter = new DebugMonitoringAdapter();
@@ -48,7 +48,7 @@ render((
 Once you have wrapped up your application in the `MonitoringProvider` component, you can now access every monitoring
 features in your app components using the `useMonitoring` hook :
 
-```typescript jsx
+```tsx
 import { useMonitoring } from '@monkvision/monitoring';
 
 function MyCustomComponent() {
@@ -171,7 +171,7 @@ this adapter directly in your app, or you can extend it to create your own parti
 | `showUnsupportedMethodWarnings` | Indicates if warnings should be displayed in the console when using unsupported feature. | `true`        |
 
 #### Examples of Usage
-```typescript jsx
+```tsx
 import { EmptyMonitoringAdapter, MonitoringProvider } from '@monkvision/monitoring';
 const adapter = new EmptyMonitoringAdapter();
 
@@ -205,7 +205,7 @@ along the message or error, but the tags will be ignored.
 | `showUnsupportedMethodWarnings` | Indicates if warnings should be displayed in the console when using unsupported feature. | `true`        |
 
 #### Examples of Usage
-```typescript jsx
+```tsx
 import { DebugMonitoringAdapter, MonitoringProvider } from '@monkvision/monitoring';
 const adapter = new DebugMonitoringAdapter();
 

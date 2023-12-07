@@ -1,5 +1,5 @@
 import { SVGProps, useMemo } from 'react';
-import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './propTypes';
+import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './types';
 
 /**
  * Custom hook used to create the custom attributes given to an SVG element encapsulated in an SVGElement component.

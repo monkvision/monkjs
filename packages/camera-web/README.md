@@ -24,7 +24,7 @@ functionnalities that let you access the user camera :
 - React memoization of elements
 - Render optimizations
 
-```typescript jsx
+```tsx
 // This super simple bit of code will let you display a camera preview in your app.
 import { Camera } from '@monkvision/camera-web';
 
@@ -41,7 +41,7 @@ The video stream of the camera that is fetched from the user's device is configu
 
 These values can be configured using props on the camera component in the following ways :
 
-```typescript jsx
+```tsx
 import { Camera, CameraFacingMode, CameraResolution } from '@monkvision/camera-web';
 
 function MyCameraPreview() {
@@ -72,7 +72,7 @@ Notes :
 When pictures are taken by the camera, they are compressed and encoded. The compression format and quality can be
 configured using props on the camera component in the following ways :
 
-```typescript jsx
+```tsx
 import { Camera, CameraFacingMode, CameraResolution } from '@monkvision/camera-web';
 
 function MyCameraPreview() {
@@ -95,7 +95,7 @@ to fetch the camera stream again if there was an error.
 
 To use this HUD, simply pass the component to the `HUDComponent` prop of the Camera component :
 
-```typescript jsx
+```tsx
 import { Camera, SimpleCameraHUD } from '@monkvision/camera-web';
 
 function MyCameraPreviewWithHUD() {
@@ -111,7 +111,7 @@ customize the display language, you have two options :
   [here](https://github.com/monkvision/monkjs/blob/main/packages/common/README/INTERNATIONALIZATION.md).
 - Simply specify the fixed language you want to use by using the `language` prop of the component like this :
 
-```typescript jsx
+```tsx
 import { Camera, SimpleCameraHUD } from '@monkvision/camera-web';
 
 function MyCameraPreviewWithGermanHUD() {
@@ -132,7 +132,7 @@ The currently supported languages are :
 In order to implement custom Camera HUD, you simply need to create a component that will take a camera handle as a
 prop :
 
-```typescript jsx
+```tsx
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 
 function MyCustomCameraHUD({ handle }: CameraHUDProps) {

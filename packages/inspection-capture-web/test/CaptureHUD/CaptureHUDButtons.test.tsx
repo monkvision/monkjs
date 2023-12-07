@@ -1,3 +1,8 @@
+import { MonkPicture } from '@monkvision/camera-web';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { InteractiveStatus } from '@monkvision/types';
+
 const GALLERY_BTN_TEST_ID = 'monk-gallery-btn';
 const TAKE_PICTURE_BTN_TEST_ID = 'monk-take-picture-btn';
 const CLOSE_BTN_TEST_ID = 'monk-close-btn';
@@ -7,23 +12,27 @@ const TakePictureButtonMock = jest.fn(() => <div data-testid={TAKE_PICTURE_BTN_T
 const IconMock = jest.fn(({ icon }: { icon: string }) => (
   <div data-testid={getIconTestId(icon)}></div>
 ));
-const interactiveColorValueMock = '#654321';
-const interactiveColorEventsMock = {};
-const useInteractiveColorMock = jest.fn(() => ({
-  color: interactiveColorValueMock,
-  events: interactiveColorEventsMock,
-}));
 
 jest.mock('@monkvision/common-ui-web', () => ({
   TakePictureButton: TakePictureButtonMock,
   Icon: IconMock,
-  useInteractiveColor: useInteractiveColorMock,
 }));
 
-import { MonkPicture } from '@monkvision/camera-web';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
+const useInteractiveStatusMock = jest.fn(() => ({
+  status: InteractiveStatus.DEFAULT,
+  eventHandlers: {},
+}));
+
+const useResponsiveStyleMock = jest.fn(() => ({ responsive: jest.fn(() => null) }));
+
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
+  useInteractiveStatus: useInteractiveStatusMock,
+  useResponsiveStyle: useResponsiveStyleMock,
+}));
+
 import { CaptureHUDButtons } from '../../src';
+import { captureButtonForegroundColors } from '../../src/CaptureHUD/CaptureHUDButtons/CaptureHUDButtons.styles';
 
 describe('CaptureHUDButtons component', () => {
   afterEach(() => {
@@ -59,15 +68,6 @@ describe('CaptureHUDButtons component', () => {
       unmount();
     });
 
-    it('should have the disabled class when disabled', () => {
-      const { unmount } = render(<CaptureHUDButtons galleryDisabled={true} />);
-
-      const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
-      expect(galleryBtnEl.className).toContain('disabled');
-
-      unmount();
-    });
-
     it('should get passed the onOpenGallery callback', () => {
       const onOpenGallery = jest.fn();
       const { unmount } = render(<CaptureHUDButtons onOpenGallery={onOpenGallery} />);
@@ -89,7 +89,7 @@ describe('CaptureHUDButtons component', () => {
         {
           icon: expectedIcon,
           size: 30,
-          primaryColor: interactiveColorValueMock,
+          primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
         expect.anything(),
       ]);
@@ -164,15 +164,6 @@ describe('CaptureHUDButtons component', () => {
       unmount();
     });
 
-    it('should have the disabled class when disabled', () => {
-      const { unmount } = render(<CaptureHUDButtons closeDisabled={true} />);
-
-      const galleryBtnEl = screen.getByTestId(CLOSE_BTN_TEST_ID);
-      expect(galleryBtnEl.className).toContain('disabled');
-
-      unmount();
-    });
-
     it('should get passed the onClose callback', () => {
       const onClose = jest.fn();
       const { unmount } = render(<CaptureHUDButtons onClose={onClose} />);
@@ -194,7 +185,7 @@ describe('CaptureHUDButtons component', () => {
         {
           icon: expectedIcon,
           size: 30,
-          primaryColor: interactiveColorValueMock,
+          primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
         expect.anything(),
       ]);

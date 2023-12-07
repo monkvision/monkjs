@@ -1,20 +1,14 @@
-import {
-  ButtonHTMLAttributes,
-  forwardRef,
-  MouseEvent,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-} from 'react';
+import { useInteractiveStatus } from '@monkvision/common';
+import { ButtonHTMLAttributes, forwardRef, MouseEvent, PropsWithChildren, useMemo } from 'react';
 import { Icon } from '../../icons';
 import { Spinner } from '../Spinner';
-import './Button.css';
+import { styles } from './Button.styles';
 import { MonkButtonProps, useButtonStyle } from './hooks';
 
 /**
  * Props that the Button component can accept.
  */
-export type ButtonProps = Partial<MonkButtonProps> & ButtonHTMLAttributes<HTMLButtonElement>;
+export type ButtonProps = MonkButtonProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
  * Basic button component, available with 4 variants. Accepts optional MonkButtonProps (see the `MonkButtonProps`
@@ -32,50 +26,55 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
       size,
       icon,
       loading,
+      shade,
       preserveWidthOnLoading = false,
       style = {},
-      className = '',
       disabled,
+      onMouseUp,
       onMouseDown,
+      onMouseEnter,
+      onMouseLeave,
       children,
       ...passThroughProps
     },
     ref,
   ) => {
-    const isDisabled = useMemo(() => !!disabled || !!loading, [disabled, loading]);
+    const isDisabled = !!disabled || !!loading;
+    const handleMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      if (onMouseDown) {
+        onMouseDown(event);
+      }
+    };
+    const { status, eventHandlers } = useInteractiveStatus({
+      disabled: isDisabled,
+      componentHandlers: { onMouseUp, onMouseEnter, onMouseLeave, onMouseDown: handleMouseDown },
+    });
     const {
       style: buttonStyle,
-      className: buttonClassName,
-      spinner,
-      icon: iconStyle,
+      iconStyle,
+      spinnerStyle,
     } = useButtonStyle({
-      primaryColor,
-      secondaryColor,
-      variant,
-      size,
+      primaryColor: primaryColor ?? (variant === 'outline' ? 'primary-xlight' : 'primary'),
+      secondaryColor: secondaryColor ?? (variant === 'outline' ? 'surface-s1' : 'text-white'),
+      variant: variant ?? 'fill',
+      size: size ?? 'normal',
+      shade: shade ?? 'dark',
       loading,
       preserveWidthOnLoading,
-      isDisabled,
+      status,
       hasChildren: !!children,
     });
-    const handleMouseDown = useCallback(
-      (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (onMouseDown) {
-          onMouseDown(event);
-        }
-      },
-      [onMouseDown],
-    );
+
     const content = useMemo(
       () => (
         <>
           {icon && (
             <Icon
-              className={iconStyle.className}
               icon={icon}
               size={iconStyle.size}
               primaryColor={iconStyle.color}
+              style={iconStyle.style}
             />
           )}
           {children}
@@ -86,35 +85,32 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
     const loadingContent = useMemo(
       () =>
         preserveWidthOnLoading ? (
-          <div className='mnk-button-fixed-loading-container'>
-            <div className='mnk-button-loading-hidden-content'>{content}</div>
+          <div style={styles['fixedLoadingContainer']}>
+            <div style={styles['loadingHiddenContent']}>{content}</div>
             <Spinner
-              className='button-spinner'
-              style={spinner.style}
-              size={spinner.size}
-              primaryColor={spinner.color}
+              size={spinnerStyle.size}
+              primaryColor={spinnerStyle.color}
+              style={spinnerStyle.style}
             />
           </div>
         ) : (
           <Spinner
-            className='mnk-button-spinner'
-            style={spinner.style}
-            size={spinner.size}
-            primaryColor={spinner.color}
+            size={spinnerStyle.size}
+            primaryColor={spinnerStyle.color}
+            style={spinnerStyle.style}
           />
         ),
-      [preserveWidthOnLoading, content, spinner],
+      [preserveWidthOnLoading, content, spinnerStyle],
     );
 
     return (
       <button
         ref={ref}
         style={{ ...buttonStyle, ...style }}
-        className={`${buttonClassName} ${className}`}
-        disabled={disabled || loading}
-        onMouseDown={handleMouseDown}
-        data-testid='monk-btn'
+        disabled={isDisabled}
+        {...eventHandlers}
         {...passThroughProps}
+        data-testid='monk-btn'
       >
         {loading ? loadingContent : content}
       </button>

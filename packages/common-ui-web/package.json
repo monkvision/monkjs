@@ -13,16 +13,15 @@
   ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
-    "build": "yarn run clean && yarn run svgo && tsc -p tsconfig.build.json && copyfiles -u 1 src/**/*.{css,svg} lib/",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "svgo": "svgo .",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
     "eslint": "eslint --format=pretty ./src",
     "eslint:fix": "eslint --fix --format=pretty ./src",
     "lint": "yarn run prettier && yarn run eslint",
-    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix && yarn run svgo"
+    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
     "@monkvision/common": "4.0.0",
@@ -39,7 +38,6 @@
     "@monkvision/eslint-config-typescript": "4.0.0",
     "@monkvision/eslint-config-typescript-react": "4.0.0",
     "@monkvision/prettier-config": "4.0.0",
-    "@monkvision/svgo-config": "4.0.0",
     "@monkvision/typescript-config": "4.0.0",
     "@testing-library/dom": "^8.20.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -54,7 +52,6 @@
     "@types/react-dom": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
-    "copyfiles": "^2.4.1",
     "eslint": "^8.29.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
@@ -70,7 +67,6 @@
     "mkdirp": "^1.0.4",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "svgo": "^3.0.2",
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
   },

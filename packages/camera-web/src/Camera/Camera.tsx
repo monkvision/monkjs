@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import './Camera.css';
 import {
   CameraConfig,
   CameraEventHandlers,
@@ -16,6 +15,7 @@ import {
   useTakePicture,
 } from './hooks';
 import { CameraMonitoringConfig } from './monitoring';
+import { styles } from './Camera.styles';
 
 /**
  * Props given to the Camera component.
@@ -81,17 +81,17 @@ export function Camera({
   });
 
   return (
-    <div className='mnk-camera-container'>
+    <div style={styles['container']}>
       <video
-        data-testid='camera-video-preview'
+        style={styles['cameraPreview']}
         ref={videoRef}
-        className='mnk-camera-preview'
         autoPlay
         playsInline
         controls={false}
+        data-testid='camera-video-preview'
       />
-      <canvas data-testid='camera-canvas' ref={canvasRef} className='mnk-camera-canvas' />
-      <div className='hud-container'>{HUDElement}</div>
+      <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />
+      <div style={styles['hudContainer']}>{HUDElement}</div>
     </div>
   );
 }

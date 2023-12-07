@@ -17,7 +17,7 @@ processes the custom props and passes the extra props to the underlying HTMLButt
 forwards its ref to the button element.
 
 ### Example
-```typescript jsx
+```tsx
 import { Button } from '@monkvision/common-ui-web';
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
 A simple spinner component that displays a loading spinner.
 
 ### Example
-```typescript jsx
+```tsx
 import { Spinner } from '@monkvision/common-ui-web';
 
 function App() {
@@ -74,7 +74,7 @@ function App() {
 An Icon component that displays an icon based on a given name.
 
 ### Example
-```typescript jsx
+```tsx
 import { Spinner } from '@monkvision/common-ui-web';
 
 function App() {
@@ -97,7 +97,7 @@ A component that lets you display an SVG image based on an XML string, and then 
 to the SVG elements inside it.
 
 ### Example
-```typescript jsx
+```tsx
 import React, { useCallback } from 'react';
 import { DynamicSVG } from '@monkvision/common-ui-web';
 
@@ -135,14 +135,14 @@ A component that displays the SVG overlay of the given sight. The SVG element ca
 the `DynamicSVG` component described in the section above.
 
 ### Example
-```typescript jsx
+```tsx
 import React, { useCallback } from 'react';
 import { getSightById } from '@monkvision/sights';
 import { SightOverlay } from '@monkvision/common-ui-web';
 
 function MyComponent() {
   return (
-    <SightOverlay 
+    <SightOverlay
       sight={getSightById('audia7-5CFsFvj7')}
       width={300}
       getAttributes={() => ({ strokeWidth: 2 })}

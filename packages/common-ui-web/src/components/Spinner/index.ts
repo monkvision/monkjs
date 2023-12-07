@@ -1,2 +1,1 @@
-export { Spinner } from './Spinner';
-export type { SpinnerProps } from './hooks';
+export { Spinner, type SpinnerProps } from './Spinner';

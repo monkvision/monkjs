@@ -63,7 +63,7 @@ This hook takes two parameters :
 - An array of i18n instances used by the Monk SDK packages used in your app
 
 ### Example of usage
-```typescript jsx
+```tsx
 import React from 'react';
 import { useI18nLink } from '@monkvision/common';
 import { i18nInspectionCapture } from '@monkvision/inspection-capture-web';

@@ -1,9 +1,8 @@
-import { JSX, useMemo } from 'react';
+import { JSX } from 'react';
 import { JSXIntrinsicSVGElements } from '@monkvision/types';
 import {
   DynamicSVGCustomizationFunctions,
   SVGElementCustomProps,
-  useChildrenGroupIds,
   useCustomAttributes,
   useInnerHTML,
   useJSXTransformAttributes,
@@ -18,6 +17,11 @@ import {
 export type SVGElementProps<T extends keyof JSXIntrinsicSVGElements> = JSX.IntrinsicElements[T] &
   DynamicSVGCustomizationFunctions &
   SVGElementCustomProps;
+
+function getChildrenGroupIds({ element, groupIds }: Required<SVGElementCustomProps>): string[] {
+  const id = element.getAttribute('id');
+  return element.tagName === 'g' && id ? [...groupIds, id] : groupIds;
+}
 
 /**
  * A custom component used to encapsulate an SVG element (usually parsed from a string using the `useXMLParser` hook).
@@ -35,19 +39,18 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
   getInnerText,
   ...passThroughProps
 }: SVGElementProps<T>) {
-  const Tag = useMemo(() => element.tagName, [element]) as T;
+  const Tag = element.tagName as T;
   const attributes = useJSXTransformAttributes(element);
   const customAttributes = useCustomAttributes({ element, groupIds, getAttributes });
   const tagAttr = { ...attributes, ...customAttributes, ...passThroughProps } as any;
   const innerHTML = useInnerHTML({ element, groupIds, getInnerText });
-  const children = useMemo(() => Array.from(element.children), [element]);
-  const childrenGroupIds = useChildrenGroupIds({ element, groupIds });
+  const childrenGroupIds = getChildrenGroupIds({ element, groupIds });
 
   return (
     <Tag {...tagAttr}>
       {[
         innerHTML,
-        ...children.map((child, id) => (
+        ...Array.from(element.children).map((child, id) => (
           <SVGElement
             key={id.toString()}
             element={child}
