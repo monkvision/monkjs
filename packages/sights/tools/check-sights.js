@@ -10,7 +10,7 @@ function getSvgPath(sightId) {
 }
 
 function hasValidLabel(sight) {
-  return typeof sight.label === 'object' && !!sight.label.en && !!sight.label.fr;
+  return typeof sight.label === 'object' && !!sight.label.en && !!sight.label.fr && !!sight.label.de;
 }
 
 function hasOverlay(sightId) {

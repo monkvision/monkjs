@@ -158,6 +158,7 @@ const Capture = forwardRef(({
   const [closeEarlyModalState, setCloseEarlyModalState] = useState({
     show: false,
     message: {
+      de: '',
       en: '',
       fr: '',
     },
@@ -890,6 +891,7 @@ Capture.propTypes = {
           category: PropTypes.string,
           id: PropTypes.string,
           label: PropTypes.shape({
+            de: PropTypes.string,
             en: PropTypes.string,
             fr: PropTypes.string,
           }),
@@ -905,6 +907,7 @@ Capture.propTypes = {
           category: PropTypes.string,
           id: PropTypes.string,
           label: PropTypes.shape({
+            de: PropTypes.string,
             en: PropTypes.string,
             fr: PropTypes.string,
           }),

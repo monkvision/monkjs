@@ -13,7 +13,7 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
   resources,
-  supportedLngs: ['en', 'fr'],
+  supportedLngs: ['en', 'fr', 'de'],
   nonExplicitSupportedLngs: true,
 });
 
