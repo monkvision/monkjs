@@ -3,9 +3,8 @@ import createElement from 'react-native-web/dist/exports/createElement';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import { utils, useTimeout } from '@monkvision/toolkit';
+import { utils } from '@monkvision/toolkit';
 
-import Actions from '../../actions';
 import Constants from '../../const';
 
 import styles from './styles';
@@ -26,23 +25,13 @@ function Camera({
   containerStyle,
   onCameraReady,
   settings,
-  enableQHDWhenSupported,
   onWarningMessage,
-  resolutionOptions,
   compressionOptions,
   onCameraPermissionError,
   onCameraPermissionSuccess,
   isDisplayed,
 }, ref) {
-  const [resolution, setResolution] = useMemo(() => {
-    const cameraResolution = Constants.resolution[settings.state.resolution];
-    const updateResolution = (r) => settings.dispatch({
-      type: Actions.settings.UPDATE_SETTINGS,
-      payload: { resolution: r },
-    });
-
-    return [cameraResolution, updateResolution];
-  }, [settings]);
+  const resolution = useMemo(() => Constants.resolution[settings.state.resolution], [settings]);
 
   const {
     videoRef,
@@ -63,19 +52,9 @@ function Camera({
   });
 
   useImperativeHandle(ref, () => ({ takePicture, resumePreview, pausePreview, stream }));
-  const delay = useMemo(
-    () => (enableQHDWhenSupported && stream && videoRef.current
-      ? resolutionOptions?.QHDDelay ?? 500 : null),
-    [stream],
-  );
 
   // stopping the stream when the component unmount
   useEffect(() => stopStream, [stopStream]);
-
-  useTimeout(() => {
-    const supportsQHD = utils.inaccuratelyCheckQHDSupport(takePicture);
-    if (supportsQHD) { setResolution('QHD'); } else { setResolution('FHD'); }
-  }, delay);
 
   return (
     <View
@@ -103,7 +82,6 @@ Camera.propTypes = {
     quality: PropTypes.number,
   }),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  enableQHDWhenSupported: PropTypes.bool,
   isDisplayed: PropTypes.bool,
   onCameraPermissionError: PropTypes.func,
   onCameraPermissionSuccess: PropTypes.func,
@@ -124,7 +102,6 @@ Camera.propTypes = {
 Camera.defaultProps = {
   compressionOptions: undefined,
   containerStyle: null,
-  enableQHDWhenSupported: true,
   isDisplayed: true,
   onCameraPermissionError: () => {},
   onCameraPermissionSuccess: () => {},
