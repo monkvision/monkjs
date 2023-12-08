@@ -7,7 +7,7 @@ import getOS from '../../utils/getOS';
 import Actions from '../../actions';
 
 const initialSettingsState = {
-  resolution: 'FHD',
+  resolution: 'QHD',
   ratio: '4:3',
   zoom: 0,
   type: CameraType.back,
@@ -45,6 +45,11 @@ function reducer(state, action) {
  * }}
  */
 export default function useSettings({ initialState = initialSettingsState, camera }) {
+  // User will pass only few settings from init,
+  // we need to set all the other default settings in initialState.
+  // eslint-disable-next-line no-param-reassign
+  initialState = { ...initialSettingsState, ...initialState };
+
   const [state, dispatch] = useReducer(reducer, { initialState }, init);
 
   const getSettings = useCallback(async (prevSettings) => {

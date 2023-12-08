@@ -17,6 +17,7 @@ import useSnackbar from '../../hooks/useSnackbar';
 import useFullscreen from './useFullscreen';
 
 const enableComplianceCheck = true;
+const DEFAULT_CAMERA_RESOLUTION = 'QHD';
 
 export default function InspectionCapture() {
   const route = useRoute();
@@ -217,6 +218,7 @@ export default function InspectionCapture() {
         isFocused={isFocused}
         controls={controls}
         loading={cameraLoading}
+        settings={{ resolution: DEFAULT_CAMERA_RESOLUTION }}
         onReady={() => setCameraLoading(false)}
         onStartUploadPicture={() => setCameraLoading(true)}
         onFinishUploadPicture={() => setCameraLoading(false)}
