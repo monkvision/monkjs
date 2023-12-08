@@ -8,8 +8,8 @@
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
   "workspaces": [
-    "configs/*",
-    "packages/*",
+    "packages/private/*",
+    "packages/public/*",
     "apps/*",
     "documentation"
   ],
