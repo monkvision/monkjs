@@ -10,6 +10,7 @@ export const ASYNC_STORAGE_LANG_KEY = '@lang_Storage';
 const options = [
   { label: '🇬🇧 English', value: 'en' },
   { label: '🇫🇷 French', value: 'fr' },
+  { label: '🇩🇪 German', value: 'de' },
 ];
 
 const styles = StyleSheet.create({

@@ -180,13 +180,15 @@ export default function InspectionCapture() {
       confirm: true,
       confirmationMessage: {
         zoomed: {
+          de: 'Möchten Sie diesen gezoomten Schaden rückgängig machen ?',
           en: 'Do you want to cancel this zoomed damage ?',
           fr: 'Voulez vous annuler cet ajout de dommage ?',
         },
         normal: {
+          de: 'Ihre Inspektion ist nicht abgeschlossen. Sind Sie sicher, dass Sie sie beenden möchten ?',
           en: 'Your inspection is not complete, are you sure you want to stop it ?',
           fr: 'Votre inspection n\'est pas complète, êtes-vous sûr(e) de vouloir l\'arrêter ?',
-        }
+        },
       },
       disabled: cameraLoading,
     },

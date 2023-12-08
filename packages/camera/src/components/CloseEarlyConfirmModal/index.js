@@ -93,6 +93,7 @@ export default function CloseEarlyConfirmModal({ confirmationMessage, onConfirm,
 
 CloseEarlyConfirmModal.propTypes = {
   confirmationMessage: PropTypes.shape({
+    de: PropTypes.string.isRequired,
     en: PropTypes.string.isRequired,
     fr: PropTypes.string.isRequired,
   }).isRequired,
