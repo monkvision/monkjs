@@ -243,7 +243,7 @@ function Gallery({ pictures }) {
             </Text>
           </View>
           {
-            !isDesktopMode && (
+            !isDesktopMode && focusedPhoto?.image_type !== 'close_up' && (
               <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
                 <MaterialIcons name={visibleDamages ? 'visibility-off' : 'visibility'} size={20} color="#fff" />
                 <Text style={styles.damageLabel}>{visibleDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
