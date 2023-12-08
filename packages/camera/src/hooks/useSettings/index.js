@@ -7,7 +7,7 @@ import getOS from '../../utils/getOS';
 import Actions from '../../actions';
 
 const initialSettingsState = {
-  resolution: 'FHD',
+  resolution: 'QHD',
   ratio: '4:3',
   zoom: 0,
   type: CameraType.back,

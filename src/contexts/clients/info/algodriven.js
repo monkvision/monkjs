@@ -11,7 +11,7 @@ const info = {
   },
   description: 'AlgoDriven Capture App enables high level car inspections with helpers and specific user interfaces.',
   vm: true,
-  resolution: 'FHD'
+  resolution: 'QHD'
 };
 
 export default info;
