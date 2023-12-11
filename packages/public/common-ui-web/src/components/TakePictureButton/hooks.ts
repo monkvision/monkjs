@@ -1,5 +1,5 @@
 import { InteractiveStatus } from '@monkvision/types';
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, useMemo, useState } from 'react';
 import { styles, takePictureButtonColors } from './TakePictureButton.styles';
 
 /**
@@ -15,8 +15,11 @@ export interface MonkTakePictureButtonProps {
 }
 
 interface TakePictureButtonStyles {
-  innerLayer: CSSProperties;
-  outerLayer: CSSProperties;
+  buttonStyles: {
+    innerLayer: CSSProperties;
+    outerLayer: CSSProperties;
+  };
+  animateClick: () => void;
 }
 
 interface MonkTakePictureButtonStyleParams extends Required<MonkTakePictureButtonProps> {
@@ -24,14 +27,21 @@ interface MonkTakePictureButtonStyleParams extends Required<MonkTakePictureButto
 }
 
 const INNER_BUTTON_SIZE_RATIO = 0.84;
+const PRESS_ANIMATION_DURATION_MS = 150;
 
 export function useTakePictureButtonStyle(
   params: MonkTakePictureButtonStyleParams,
 ): TakePictureButtonStyles {
+  const [isPressed, setIsPressed] = useState(false);
   const borderWidth = (params.size * (1 - INNER_BUTTON_SIZE_RATIO)) / 4;
 
-  return useMemo(() => {
-    return {
+  const animateClick = () => {
+    setIsPressed(true);
+    setTimeout(() => setIsPressed(false), PRESS_ANIMATION_DURATION_MS);
+  };
+
+  const buttonStyles = useMemo(
+    () => ({
       outerLayer: {
         ...styles['outerLayer'],
         ...(params.status === InteractiveStatus.DISABLED ? styles['outerLayerDisabled'] : {}),
@@ -48,7 +58,15 @@ export function useTakePictureButtonStyle(
         margin: borderWidth,
         backgroundColor: takePictureButtonColors[params.status],
         border: 'none',
+        transform: isPressed ? 'scale(0.7)' : 'scale(1)',
+        transition: `transform ${PRESS_ANIMATION_DURATION_MS / 2}ms ease-in`,
       },
-    };
-  }, [params]);
+    }),
+    [params],
+  );
+
+  return {
+    buttonStyles,
+    animateClick,
+  };
 }
