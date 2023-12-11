@@ -107,5 +107,5 @@ Camera.defaultProps = {
   onCameraPermissionSuccess: () => {},
   onWarningMessage: () => {},
   resolutionOptions: undefined,
-  settings: { state: { resolution: 'FHD' }, dispatch: () => {} },
+  settings: { state: { resolution: 'QHD' }, dispatch: () => {} },
 };
