@@ -1,14 +1,11 @@
 import React, { useMemo } from 'react';
 import {
   CameraConfig,
-  CameraEventHandlers,
   CameraFacingMode,
-  CameraHUDComponent,
   CameraResolution,
   CompressionFormat,
   CompressionOptions,
   useCameraCanvas,
-  useCameraHUD,
   useCameraPreview,
   useCameraScreenshot,
   useCompression,
@@ -16,6 +13,7 @@ import {
 } from './hooks';
 import { CameraMonitoringConfig } from './monitoring';
 import { styles } from './Camera.styles';
+import { CameraEventHandlers, CameraHUDComponent } from './CameraHUD.types';
 
 /**
  * Props given to the Camera component.
@@ -75,23 +73,26 @@ export function Camera({
     () => isPreviewLoading || isTakePictureLoading,
     [isPreviewLoading, isTakePictureLoading],
   );
-  const HUDElement = useCameraHUD({
-    component: HUDComponent,
-    handle: { takePicture, error, retry, isLoading },
-  });
+  const cameraPreview = useMemo(
+    () => (
+      <div style={styles['container']}>
+        <video
+          style={styles['cameraPreview']}
+          ref={videoRef}
+          autoPlay
+          playsInline
+          controls={false}
+          data-testid='camera-video-preview'
+        />
+        <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />
+      </div>
+    ),
+    [],
+  );
 
-  return (
-    <div style={styles['container']}>
-      <video
-        style={styles['cameraPreview']}
-        ref={videoRef}
-        autoPlay
-        playsInline
-        controls={false}
-        data-testid='camera-video-preview'
-      />
-      <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />
-      <div style={styles['hudContainer']}>{HUDElement}</div>
-    </div>
+  return HUDComponent ? (
+    <HUDComponent handle={{ takePicture, error, retry, isLoading }} cameraPreview={cameraPreview} />
+  ) : (
+    <>{cameraPreview}</>
   );
 }

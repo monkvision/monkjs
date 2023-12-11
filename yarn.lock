@@ -3721,7 +3721,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/network@4.0.0, @monkvision/network@workspace:packages/public/network":
+"@monkvision/network@workspace:packages/public/network":
   version: 0.0.0-use.local
   resolution: "@monkvision/network@workspace:packages/public/network"
   dependencies:
@@ -3852,19 +3852,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/test-utils@workspace:packages/private/test-utils"
   dependencies:
-    "@monkvision/camera-web": 4.0.0
-    "@monkvision/common": 4.0.0
-    "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
-    "@monkvision/inspection-capture-web": 4.0.0
     "@monkvision/jest-config": 4.0.0
-    "@monkvision/monitoring": 4.0.0
-    "@monkvision/network": 4.0.0
     "@monkvision/prettier-config": 4.0.0
-    "@monkvision/sentry": 4.0.0
-    "@monkvision/sights": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1

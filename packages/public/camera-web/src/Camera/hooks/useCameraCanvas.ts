@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react';
-import { MediaStreamDimensions } from './useUserMedia';
+import { PixelDimensions } from '@monkvision/types';
 
 /**
  * Object used to configure the camera canvas.
@@ -8,7 +8,7 @@ export interface CameraCanvasConfig {
   /**
    * The dimensions of the video stream.
    */
-  dimensions: MediaStreamDimensions | null;
+  dimensions: PixelDimensions | null;
 }
 
 /**

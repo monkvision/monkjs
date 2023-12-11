@@ -1,12 +1,12 @@
-import { TransactionStatus } from '@monkvision/monitoring';
 import { RefObject, useCallback } from 'react';
+import { TransactionStatus } from '@monkvision/monitoring';
+import { PixelDimensions } from '@monkvision/types';
 import {
   InternalCameraMonitoringConfig,
   ScreenshotMeasurement,
   ScreenshotSizeMeasurement,
 } from '../monitoring';
 import { getCanvasHandle } from './utils';
-import { MediaStreamDimensions } from './useUserMedia';
 
 /**
  * Configuration parameters for the `useCameraScreenshot` hook.
@@ -23,18 +23,13 @@ export interface CameraScreenshotConfig {
   /**
    * The dimensions of the screenshot.
    */
-  dimensions: MediaStreamDimensions | null;
+  dimensions: PixelDimensions | null;
 }
 
 /**
  * Interface describing a handle that can be used to take a screenshot of a video element.
  */
 export interface CameraScreenshotHandle {
-  /**
-   * The ref to the canvas element. Pass this ref to a canvas element on your web page in order to use this canvas as a
-   * support for drawing and generating the screenshot.
-   */
-  canvasRef: RefObject<HTMLCanvasElement>;
   /**
    * Callback used to take a screenshot.
    *
@@ -45,7 +40,7 @@ export interface CameraScreenshotHandle {
 
 function startScreenshotMeasurement(
   monitoring: InternalCameraMonitoringConfig,
-  dimensions: MediaStreamDimensions | null,
+  dimensions: PixelDimensions | null,
 ): void {
   monitoring.transaction?.startMeasurement(ScreenshotMeasurement.operation, {
     data: monitoring.data,
@@ -106,8 +101,5 @@ export function useCameraScreenshot({
     [dimensions],
   );
 
-  return {
-    canvasRef,
-    takeScreenshot,
-  };
+  return { takeScreenshot };
 }

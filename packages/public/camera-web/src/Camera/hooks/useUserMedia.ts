@@ -1,6 +1,7 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
 import { useCallback, useEffect, useState } from 'react';
+import { PixelDimensions } from '@monkvision/types';
 
 /**
  * Enumeration of the different Native error names that can happen when a stream is invalid.
@@ -78,20 +79,6 @@ export interface UserMediaError {
 }
 
 /**
- * The dimensions in pixels of a video stream.
- */
-export interface MediaStreamDimensions {
-  /**
-   * The width of the stream in pixels.
-   */
-  width: number;
-  /**
-   * The height of the stream in pixels.
-   */
-  height: number;
-}
-
-/**
  * Interface describing the result of the `useUserMedia` hook.
  *
  * @see useUserMedia
@@ -105,7 +92,7 @@ export interface UserMediaResult {
    * The dimensions of the resulting camera stream. Note that these dimensions can differ from the ones given in the
    * stream constraints if they are not supported or available on the current device.
    */
-  dimensions: MediaStreamDimensions | null;
+  dimensions: PixelDimensions | null;
   /**
    * The error details. If no error has occurred, this object will be null.
    */
@@ -122,7 +109,7 @@ export interface UserMediaResult {
   retry: () => void;
 }
 
-function getStreamDimensions(stream: MediaStream): MediaStreamDimensions {
+function getStreamDimensions(stream: MediaStream): PixelDimensions {
   const videoTracks = stream.getVideoTracks();
   if (videoTracks.length === 0) {
     throw new InvalidStreamError(
@@ -163,7 +150,7 @@ function getStreamDimensions(stream: MediaStream): MediaStreamDimensions {
  */
 export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [dimensions, setDimensions] = useState<MediaStreamDimensions | null>(null);
+  const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UserMediaError | null>(null);
   const [lastConstraintsApplied, setLastConstraintsApplied] =

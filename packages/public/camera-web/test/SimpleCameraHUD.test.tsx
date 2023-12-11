@@ -21,27 +21,38 @@ describe('SimpleCameraHUD component', () => {
   });
 
   it('should wrap the component with the i18nWrap method', () => {
-    const { unmount } = render(<SimpleCameraHUD />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} />);
 
     expect(i18nWrap).toHaveBeenCalledWith(expect.any(Function), i18nCamera);
     unmount();
   });
 
+  it('should display the camera preview on the screen', () => {
+    const cameraPreviewTestId = 'camera-preview-test-id';
+    const { unmount } = render(
+      <SimpleCameraHUD cameraPreview={<div data-testid={cameraPreviewTestId}></div>} />,
+    );
+
+    expect(screen.queryByTestId(cameraPreviewTestId)).not.toBeNull();
+    unmount();
+  });
+
   it('should disable the take picture button if the camera is loading', () => {
-    const { unmount, rerender } = render(<SimpleCameraHUD />);
+    const { unmount, rerender } = render(<SimpleCameraHUD cameraPreview={<></>} />);
     expectPropsOnChildMock(TakePictureButton, { disabled: false });
 
-    rerender(<SimpleCameraHUD handle={{ isLoading: true }} />);
+    rerender(<SimpleCameraHUD cameraPreview={<></>} handle={{ isLoading: true }} />);
     expectPropsOnChildMock(TakePictureButton, { disabled: true });
     unmount();
   });
 
   it('should disable the take picture button if the camera is in error', () => {
-    const { unmount, rerender } = render(<SimpleCameraHUD />);
+    const { unmount, rerender } = render(<SimpleCameraHUD cameraPreview={<></>} />);
     expectPropsOnChildMock(TakePictureButton, { disabled: false });
 
     rerender(
       <SimpleCameraHUD
+        cameraPreview={<></>}
         handle={{ error: { type: UserMediaErrorType.INVALID_STREAM, nativeError: null } }}
       />,
     );
@@ -50,7 +61,7 @@ describe('SimpleCameraHUD component', () => {
   });
 
   it('should display a take picture button', () => {
-    const { unmount } = render(<SimpleCameraHUD />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} />);
 
     expect(TakePictureButton).toHaveBeenCalled();
     unmount();
@@ -58,21 +69,21 @@ describe('SimpleCameraHUD component', () => {
 
   it('should pass the take picture callback from the handle to the TakePictureButton', () => {
     const handle = { takePicture: jest.fn() };
-    const { unmount } = render(<SimpleCameraHUD handle={handle} />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} handle={handle} />);
 
     expectPropsOnChildMock(TakePictureButton, { onClick: handle.takePicture });
     unmount();
   });
 
   it('should not pass any onClick event to the TakePictureButton by default', () => {
-    const { unmount } = render(<SimpleCameraHUD />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} />);
 
     expectPropsOnChildMock(TakePictureButton, { onClick: undefined });
     unmount();
   });
 
   it('should set the size of the TakePictureButton to 60', () => {
-    const { unmount } = render(<SimpleCameraHUD />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} />);
 
     expectPropsOnChildMock(TakePictureButton, { size: 60 });
     unmount();
@@ -88,7 +99,7 @@ describe('SimpleCameraHUD component', () => {
     Object.values(UserMediaErrorType).forEach((type) => {
       jest.clearAllMocks();
       const { unmount } = render(
-        <SimpleCameraHUD handle={{ error: { type, nativeError: null } }} />,
+        <SimpleCameraHUD cameraPreview={<></>} handle={{ error: { type, nativeError: null } }} />,
       );
 
       const tMock = (useTranslation as jest.Mock).mock.results[0].value.t;
@@ -104,7 +115,7 @@ describe('SimpleCameraHUD component', () => {
       error: { type: UserMediaErrorType.INVALID_STREAM, nativeError: null },
       retry: () => {},
     };
-    const { unmount } = render(<SimpleCameraHUD handle={handle} />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} handle={handle} />);
 
     expectPropsOnChildMock(Button, { onClick: handle.retry });
     unmount();
@@ -115,7 +126,7 @@ describe('SimpleCameraHUD component', () => {
       error: { type: UserMediaErrorType.INVALID_STREAM, nativeError: null },
       retry: () => {},
     };
-    const { unmount } = render(<SimpleCameraHUD handle={handle} />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} handle={handle} />);
 
     const tMock = (useTranslation as jest.Mock).mock.results[0].value.t;
     expectPropsOnChildMock(Button, { children: 'retry' });
@@ -127,7 +138,7 @@ describe('SimpleCameraHUD component', () => {
     const handle = {
       error: { type: UserMediaErrorType.INVALID_STREAM, nativeError: null },
     };
-    const { unmount } = render(<SimpleCameraHUD handle={handle} />);
+    const { unmount } = render(<SimpleCameraHUD cameraPreview={<></>} handle={handle} />);
 
     expect(Button).not.toHaveBeenCalled();
     unmount();

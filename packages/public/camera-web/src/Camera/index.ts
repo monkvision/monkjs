@@ -5,12 +5,14 @@ export {
   CameraResolution,
   type CompressionOptions,
   CompressionFormat,
-  type CameraEventHandlers,
-  type CameraHUDComponent,
-  type CameraHUDProps,
-  type CameraHandle,
   type MonkPicture,
   type UserMediaError,
   UserMediaErrorType,
 } from './hooks';
+export {
+  type CameraEventHandlers,
+  type CameraHUDComponent,
+  type CameraHUDProps,
+  type CameraHandle,
+} from './CameraHUD.types';
 export { type CameraMonitoringConfig } from './monitoring';

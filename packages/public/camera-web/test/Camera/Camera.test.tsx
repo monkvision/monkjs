@@ -20,7 +20,7 @@ jest.mock('../../src/Camera/hooks', () => ({
 }));
 
 import { render, screen } from '@testing-library/react';
-import { expectHTMLElementToHaveRef } from '@monkvision/test-utils';
+import { expectHTMLElementToHaveRef, expectPropsOnChildMock } from '@monkvision/test-utils';
 import {
   Camera,
   CameraFacingMode,
@@ -30,7 +30,6 @@ import {
 } from '../../src';
 import {
   useCameraCanvas,
-  useCameraHUD,
   useCameraPreview,
   useCameraScreenshot,
   useCompression,
@@ -190,71 +189,61 @@ describe('Camera component', () => {
     unmount();
   });
 
-  it('should pass the HUDComponent and camera handle to the useCameraHUD hook', () => {
-    const HUDComponent = (<div></div>) as unknown as CameraHUDComponent;
+  it('should pass the camera handle & preview to the HUDComponent', () => {
+    const HUDComponent = jest.fn(() => <></>) as unknown as CameraHUDComponent;
     const { unmount } = render(<Camera HUDComponent={HUDComponent} />);
 
     const useTakePictureResultMock = (useTakePicture as jest.Mock).mock.results[0].value;
     const useCameraPreviewResultMock = (useCameraPreview as jest.Mock).mock.results[0].value;
-    expect(useCameraHUD).toHaveBeenCalledWith({
-      component: HUDComponent,
+    expectPropsOnChildMock(HUDComponent as jest.Mock, {
       handle: {
         takePicture: useTakePictureResultMock.takePicture,
         error: useCameraPreviewResultMock.error,
         retry: useCameraPreviewResultMock.retry,
         isLoading: useCameraPreviewResultMock.isLoading || useTakePictureResultMock.isLoading,
       },
+      cameraPreview: expect.anything(),
     });
     unmount();
   });
 
-  it('should use no HUDComponent if not provided', () => {
-    const { unmount } = render(<Camera />);
-
-    expect(useCameraHUD).toHaveBeenCalledWith(expect.objectContaining({ component: undefined }));
-    unmount();
-  });
-
   it('should not be loading when both the preview and the take picture are not loading', () => {
-    const { unmount } = render(<Camera />);
+    const HUDComponent = jest.fn(() => <></>) as unknown as CameraHUDComponent;
+    const { unmount } = render(<Camera HUDComponent={HUDComponent} />);
 
-    expect(useCameraHUD).toHaveBeenCalledWith(
-      expect.objectContaining({
-        handle: expect.objectContaining({ isLoading: false }),
-      }),
-    );
+    expectPropsOnChildMock(HUDComponent as jest.Mock, {
+      handle: expect.objectContaining({ isLoading: false }),
+    });
     unmount();
   });
 
   it('should be loading when the preview is loading', () => {
+    const HUDComponent = jest.fn(() => <></>) as unknown as CameraHUDComponent;
     const defaultValue = (useCameraPreview as jest.Mock)();
     (useCameraPreview as jest.Mock).mockImplementationOnce(() => ({
       ...defaultValue,
       isLoading: true,
     }));
-    const { unmount } = render(<Camera />);
+    const { unmount } = render(<Camera HUDComponent={HUDComponent} />);
 
-    expect(useCameraHUD).toHaveBeenCalledWith(
-      expect.objectContaining({
-        handle: expect.objectContaining({ isLoading: true }),
-      }),
-    );
+    expectPropsOnChildMock(HUDComponent as jest.Mock, {
+      handle: expect.objectContaining({ isLoading: true }),
+    });
     unmount();
   });
 
   it('should be loading when the take picture is loading', () => {
+    const HUDComponent = jest.fn(() => <></>) as unknown as CameraHUDComponent;
     const defaultValue = (useTakePicture as jest.Mock)();
     (useTakePicture as jest.Mock).mockImplementationOnce(() => ({
       ...defaultValue,
       isLoading: true,
     }));
-    const { unmount } = render(<Camera />);
+    const { unmount } = render(<Camera HUDComponent={HUDComponent} />);
 
-    expect(useCameraHUD).toHaveBeenCalledWith(
-      expect.objectContaining({
-        handle: expect.objectContaining({ isLoading: true }),
-      }),
-    );
+    expectPropsOnChildMock(HUDComponent as jest.Mock, {
+      handle: expect.objectContaining({ isLoading: true }),
+    });
     unmount();
   });
 
