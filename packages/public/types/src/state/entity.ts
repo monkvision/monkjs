@@ -3,15 +3,18 @@
  * that is stored by our back-end and that can usually be fetched.
  */
 export enum MonkEntityType {
-  DAMAGE = 'damage',
-  IMAGE = 'image',
-  INSPECTION = 'inspection',
-  PART = 'part',
-  PART_OPERATION = 'partOperation',
-  SEVERITY_RESULT = 'severityResult',
-  TASK = 'task',
-  VEHICLE = 'vehicle',
-  WHEEL_ANALYSIS = 'wheel_analysis',
+  DAMAGE = 'DAMAGE',
+  IMAGE = 'IMAGE',
+  IMAGE_REGION = 'IMAGE_REGION',
+  INSPECTION = 'INSPECTION',
+  PART = 'PART',
+  PART_OPERATION = 'PART_OPERATION',
+  RENDERED_OUTPUT = 'RENDERED_OUTPUT',
+  SEVERITY_RESULT = 'SEVERITY_RESULT',
+  TASK = 'TASK',
+  VEHICLE = 'VEHICLE',
+  VIEW = 'VIEW',
+  WHEEL_ANALYSIS = 'WHEEL_ANALYSIS',
 }
 
 /**

@@ -1,7 +1,23 @@
 import { MonkEntity, MonkEntityType } from './entity';
 
 /**
- * Details of specific damage on a specific part.
+ * Enumeration of the types of damages that the models can detect.
+ */
+export enum DamageType {
+  SCRATCH = 'scratch',
+  DENT = 'dent',
+  BROKEN_GLASS = 'broken_glass',
+  BROKEN_LIGHT = 'broken_light',
+  HUBCAP_SCRATCH = 'hubcap_scratch',
+  MISSING_HUBCAP = 'missing_hubcap',
+  SMASH = 'smash',
+  BODY_CRACK = 'body_crack',
+  MISSING_PIECE = 'missing_piece',
+  RUSTINESS = 'rustiness',
+}
+
+/**
+ * Details of damage detected during the inspection
  */
 export interface Damage extends MonkEntity {
   /**
@@ -15,11 +31,7 @@ export interface Damage extends MonkEntity {
   /**
    * The type of the damage.
    */
-  type: string;
-  /**
-   * The ID of the vehicle parts that this damage is on.
-   */
-  parts: string[];
+  type: DamageType;
   /**
    * The size of the damage (in cm).
    */
@@ -27,5 +39,5 @@ export interface Damage extends MonkEntity {
   /**
    * The IDs of the images related to this damage.
    */
-  relatedImages?: string[];
+  relatedImages: string[];
 }
