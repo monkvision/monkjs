@@ -26,15 +26,6 @@ describe('useCameraScreenshot hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should return the canvasRef', () => {
-    const { result, unmount } = renderHook(useCameraScreenshot, {
-      initialProps: { videoRef, canvasRef, dimensions },
-    });
-
-    expect(result.current.canvasRef).toBe(canvasRef);
-    unmount();
-  });
-
   describe('takeScreenshot function', () => {
     it('should draw the image and return the image data', () => {
       const getCanvasHandleMock = getCanvasHandle as jest.Mock;

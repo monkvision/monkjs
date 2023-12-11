@@ -6,25 +6,22 @@ import {
   MonkPicture,
   SimpleCameraHUD,
 } from '@monkvision/camera-web';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import './CameraView.css';
-import { LastPictureDetails, TestPanel } from './components';
+// import { LastPictureDetails, TestPanel } from './components';
 
 export function CameraView() {
-  const [state, setState] = useState({
+  const [state] = useState({
     facingMode: CameraFacingMode.ENVIRONMENT,
     resolution: CameraResolution.UHD_4K,
     compressionFormat: CompressionFormat.JPEG,
     quality: '0.8',
   });
-  const [lastPicture, setLastPicture] = useState<LastPictureDetails | null>(null);
-  const handlePictureTaken = useCallback(
-    (picture: MonkPicture) => {
-      console.log('Picture Taken :', picture);
-      setLastPicture({ picture, state });
-    },
-    [state],
-  );
+  // const [lastPicture, setLastPicture] = useState<LastPictureDetails | null>(null);
+  const handlePictureTaken = (picture: MonkPicture) => {
+    console.log('Picture Taken :', picture);
+    // setLastPicture({ picture, state });
+  };
 
   return (
     <div className='camera-view-container'>
@@ -36,7 +33,7 @@ export function CameraView() {
         quality={Number(state.quality)}
         onPictureTaken={handlePictureTaken}
       />
-      <TestPanel lastPicture={lastPicture} state={state} onChange={setState} />
+      {/* <TestPanel lastPicture={lastPicture} state={state} onChange={setState} /> */}
     </div>
   );
 }

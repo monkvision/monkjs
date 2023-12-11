@@ -1,7 +1,7 @@
 .test-view-container {
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-color: red;
   display: flex;
   align-items: center;
   justify-content: flex-end;

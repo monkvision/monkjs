@@ -17,6 +17,7 @@ export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButton
       size = 60,
       disabled = false,
       style = {},
+      onClick,
       onMouseEnter,
       onMouseLeave,
       onMouseDown,
@@ -34,7 +35,16 @@ export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButton
         onMouseUp,
       },
     });
-    const { innerLayer, outerLayer } = useTakePictureButtonStyle({ size, status });
+    const {
+      buttonStyles: { innerLayer, outerLayer },
+      animateClick,
+    } = useTakePictureButtonStyle({ size, status });
+    const onButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      animateClick();
+      if (onClick) {
+        onClick(event);
+      }
+    };
 
     return (
       <div style={{ ...outerLayer, ...style }} data-testid='take-picture-btn-outer-layer'>
@@ -42,6 +52,7 @@ export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButton
           ref={ref}
           style={{ ...innerLayer }}
           disabled={disabled}
+          onClick={onButtonClick}
           {...eventHandlers}
           {...passThroughProps}
           data-testid='take-picture-btn'

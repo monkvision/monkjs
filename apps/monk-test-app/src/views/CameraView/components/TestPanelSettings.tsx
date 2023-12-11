@@ -1,5 +1,5 @@
 import { CameraFacingMode, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
-import React, { useCallback } from 'react';
+import React from 'react';
 import './styles.css';
 import { TestPanelRow } from './TestPanelRow';
 
@@ -16,10 +16,8 @@ export interface TestPanelSettingsProps {
 }
 
 export function TestPanelSettings({ state, onChange }: TestPanelSettingsProps) {
-  const handleChange = useCallback(
-    (modifiedState: Partial<TestPanelState>) => onChange({ ...state, ...modifiedState }),
-    [onChange, state],
-  );
+  const handleChange = (modifiedState: Partial<TestPanelState>) =>
+    onChange({ ...state, ...modifiedState });
 
   return (
     <>

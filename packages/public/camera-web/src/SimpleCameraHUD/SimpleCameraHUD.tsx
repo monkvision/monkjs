@@ -24,13 +24,14 @@ function getErrorTranslationKey(error?: UserMediaErrorType): string {
  * The basic Camera HUD provided by the Monk camera package. It displays a button to take pictures, as well as error
  * messages (and a retry button) in case of errors with the Camera stream.
  */
-export const SimpleCameraHUD = i18nWrap(({ handle }: CameraHUDProps) => {
+export const SimpleCameraHUD = i18nWrap(({ cameraPreview, handle }: CameraHUDProps) => {
   const { t } = useTranslation();
   const { responsive } = useResponsiveStyle();
   const isHUDDisabled = handle?.isLoading || !!handle?.error;
 
   return (
     <div style={{ ...styles['container'], ...responsive(styles['containerPortrait']) }}>
+      <div style={styles['previewContainer']}>{cameraPreview}</div>
       {!handle?.isLoading && !!handle?.error && (
         <div style={styles['messageContainer']}>
           <div

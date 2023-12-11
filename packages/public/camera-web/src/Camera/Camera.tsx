@@ -1,14 +1,11 @@
 import React, { useMemo } from 'react';
 import {
   CameraConfig,
-  CameraEventHandlers,
   CameraFacingMode,
-  CameraHUDComponent,
   CameraResolution,
   CompressionFormat,
   CompressionOptions,
   useCameraCanvas,
-  useCameraHUD,
   useCameraPreview,
   useCameraScreenshot,
   useCompression,
@@ -16,6 +13,7 @@ import {
 } from './hooks';
 import { CameraMonitoringConfig } from './monitoring';
 import { styles } from './Camera.styles';
+import { CameraEventHandlers, CameraHUDComponent } from './CameraHUD.types';
 
 /**
  * Props given to the Camera component.
@@ -54,7 +52,6 @@ export function Camera({
   monitoring,
   onPictureTaken,
 }: CameraProps) {
-  const compressionOptions = useMemo(() => ({ format, quality }), [format, quality]);
   const {
     ref: videoRef,
     dimensions,
@@ -64,34 +61,34 @@ export function Camera({
   } = useCameraPreview({ facingMode, resolution, deviceId });
   const { ref: canvasRef } = useCameraCanvas({ dimensions });
   const { takeScreenshot } = useCameraScreenshot({ videoRef, canvasRef, dimensions });
-  const { compress } = useCompression({ canvasRef, options: compressionOptions });
+  const { compress } = useCompression({ canvasRef, options: { format, quality } });
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
     compress,
     takeScreenshot,
     onPictureTaken,
     monitoring,
   });
-  const isLoading = useMemo(
-    () => isPreviewLoading || isTakePictureLoading,
-    [isPreviewLoading, isTakePictureLoading],
+  const isLoading = isPreviewLoading || isTakePictureLoading;
+  const cameraPreview = useMemo(
+    () => (
+      <div style={styles['container']}>
+        <video
+          style={styles['cameraPreview']}
+          ref={videoRef}
+          autoPlay
+          playsInline
+          controls={false}
+          data-testid='camera-video-preview'
+        />
+        <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />
+      </div>
+    ),
+    [],
   );
-  const HUDElement = useCameraHUD({
-    component: HUDComponent,
-    handle: { takePicture, error, retry, isLoading },
-  });
 
-  return (
-    <div style={styles['container']}>
-      <video
-        style={styles['cameraPreview']}
-        ref={videoRef}
-        autoPlay
-        playsInline
-        controls={false}
-        data-testid='camera-video-preview'
-      />
-      <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />
-      <div style={styles['hudContainer']}>{HUDElement}</div>
-    </div>
+  return HUDComponent ? (
+    <HUDComponent handle={{ takePicture, error, retry, isLoading }} cameraPreview={cameraPreview} />
+  ) : (
+    <>{cameraPreview}</>
   );
 }

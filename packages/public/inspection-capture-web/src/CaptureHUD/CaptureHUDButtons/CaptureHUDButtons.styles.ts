@@ -18,7 +18,7 @@ export const styles: Styles = {
     justifyContent: 'space-between',
     flexDirection: 'column',
     padding: '30px 40px',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#000000',
   },
   containersPortrait: {
     __media: { portrait: true },

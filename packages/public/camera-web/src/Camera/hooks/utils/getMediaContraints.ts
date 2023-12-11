@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 /**
  * Enumeration of the facing modes for the camera constraints.
  */
@@ -93,29 +91,26 @@ export interface CameraConfig {
 }
 
 /**
- * This hook is used by the Monk Camera package in order to add a layer of abstraction to the media constraints passed
- * to the `useUserMedia` hook. It takes an optional `CameraOptions` parameter and creates a `MediaStreamConstraints`
- * corresponding to the given options. The default option for each `CameraOptions` field can be found in their
- * respsective tsdoc descriptions, refer to the `CameraOptions` interface for more details.
+ * This function is used by the Monk Camera package in order to add a layer of abstraction to the media constraints
+ * passed to the `useUserMedia` hook. It takes an optional `CameraOptions` parameter and creates a
+ * `MediaStreamConstraints` corresponding to the given options. The default option for each `CameraOptions` field can be
+ * found in their respsective tsdoc descriptions, refer to the `CameraOptions` interface for more details.
  *
  * @see CameraConfig
  * @see useUserMedia
  */
-export function useMediaConstraints(config: CameraConfig): MediaStreamConstraints {
-  const video = useMemo(() => {
-    const { width, height } = CAMERA_RESOLUTION_SIZES[config.resolution];
+export function getMediaConstraints(config: CameraConfig): MediaStreamConstraints {
+  const { width, height } = CAMERA_RESOLUTION_SIZES[config.resolution];
 
-    const constraints: MediaTrackConstraints = {
-      width: { ideal: width },
-      height: { ideal: height },
-      facingMode: config.facingMode,
-    };
+  const video: MediaTrackConstraints = {
+    width: { ideal: width },
+    height: { ideal: height },
+    facingMode: config.facingMode,
+  };
 
-    if (config.deviceId) {
-      constraints.deviceId = config.deviceId;
-    }
-    return constraints;
-  }, [config]);
+  if (config.deviceId) {
+    video.deviceId = config.deviceId;
+  }
 
   return {
     audio: false,

@@ -1,5 +1,5 @@
 import { TransactionStatus } from '@monkvision/monitoring';
-import { RefObject, useCallback } from 'react';
+import { RefObject } from 'react';
 import {
   CompressionMeasurement,
   CompressionSizeRatioMeasurement,
@@ -141,20 +141,18 @@ function compressUsingBrowser(
  * Custom hook used to manage the camera <canvas> element used to take video screenshots and encode images.
  */
 export function useCompression({ canvasRef, options }: UseCompressionParams): CompressionHandle {
-  const compress = useCallback(
-    (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
-      startCompressionMeasurement(monitoring, options, image);
-      try {
-        const picture = compressUsingBrowser(image, canvasRef, options);
-        setCustomMeasurements(monitoring, image, picture);
-        stopCompressionMeasurement(monitoring, TransactionStatus.OK);
-        return picture;
-      } catch (err) {
-        stopCompressionMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
-        throw err;
-      }
-    },
-    [options],
-  );
+  const compress = (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
+    startCompressionMeasurement(monitoring, options, image);
+    try {
+      const picture = compressUsingBrowser(image, canvasRef, options);
+      setCustomMeasurements(monitoring, image, picture);
+      stopCompressionMeasurement(monitoring, TransactionStatus.OK);
+      return picture;
+    } catch (err) {
+      stopCompressionMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+      throw err;
+    }
+  };
+
   return { compress };
 }

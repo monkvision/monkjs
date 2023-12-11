@@ -1,7 +1,7 @@
 jest.mock('@monkvision/monitoring');
-jest.mock('../../../src/Camera/hooks/useMediaConstraints', () => ({
-  ...jest.requireActual('../../../src/Camera/hooks/useMediaConstraints'),
-  useMediaConstraints: jest.fn(() => ({ audio: false, video: true })),
+jest.mock('../../../src/Camera/hooks/utils', () => ({
+  ...jest.requireActual('../../../src/Camera/hooks/utils'),
+  getMediaConstraints: jest.fn(() => ({ audio: false, video: true })),
 }));
 jest.mock('../../../src/Camera/hooks/useUserMedia', () => ({
   ...jest.requireActual('../../../src/Camera/hooks/useUserMedia'),
@@ -17,7 +17,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import * as monitoring from '@monkvision/monitoring';
 import { MonitoringAdapter } from '@monkvision/monitoring';
 import { CameraFacingMode, CameraConfig, CameraResolution } from '../../../src';
-import { useCameraPreview, useMediaConstraints, useUserMedia } from '../../../src/Camera/hooks';
+import { useCameraPreview, useUserMedia } from '../../../src/Camera/hooks';
+import { getMediaConstraints } from '../../../src/Camera/hooks/utils';
 
 describe('useCameraPreview hook', () => {
   afterEach(() => {
@@ -27,7 +28,7 @@ describe('useCameraPreview hook', () => {
   it('should make a call to useMediaConstraints with the given camera options', async () => {
     const { unmount, rerender } = renderHook(useCameraPreview);
     await waitFor(() => {
-      expect(useMediaConstraints).toHaveBeenCalledWith(undefined);
+      expect(getMediaConstraints).toHaveBeenCalledWith(undefined);
     });
     const options: CameraConfig = {
       deviceId: 'test-id',
@@ -36,7 +37,7 @@ describe('useCameraPreview hook', () => {
     };
     rerender(options);
     await waitFor(() => {
-      expect(useMediaConstraints).toHaveBeenCalledWith(options);
+      expect(getMediaConstraints).toHaveBeenCalledWith(options);
     });
     unmount();
   });
@@ -44,7 +45,7 @@ describe('useCameraPreview hook', () => {
   it('should make a call to useUserMedia with constraints obtained from useUserMedia', async () => {
     const { unmount } = renderHook(useCameraPreview);
     await waitFor(() => {
-      expect(useUserMedia).toHaveBeenCalledWith((useMediaConstraints as jest.Mock)());
+      expect(useUserMedia).toHaveBeenCalledWith((getMediaConstraints as jest.Mock)());
     });
     unmount();
   });

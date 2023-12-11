@@ -1,6 +1,5 @@
-import { ComponentType, ReactElement, useMemo } from 'react';
-import { MonkPicture } from './useCompression';
-import { UserMediaError } from './useUserMedia';
+import { ComponentType, ReactElement } from 'react';
+import { MonkPicture, UserMediaError } from './hooks';
 
 /**
  * A set of properties used to handle a Camera preview.
@@ -41,6 +40,11 @@ export interface CameraEventHandlers {
  */
 export interface CameraHUDProps {
   /**
+   * The camera preview element. The HUD component is exepcted to take this element as a prop and display it however it
+   * wants to.
+   */
+  cameraPreview: ReactElement;
+  /**
    * The handle used to control the camera.
    */
   handle?: Partial<CameraHandle>;
@@ -65,18 +69,11 @@ export interface UseCameraHUDParams {
    */
   handle: CameraHandle;
   /**
+   * The preview of the camera as a React element.
+   */
+  cameraPreview: ReactElement;
+  /**
    * The camera HUD component.
    */
   component?: CameraHUDComponent;
-}
-
-/**
- * A custom hook used by the Camera component to instanciate the CameraHUD component given to it as a prop.
- */
-export function useCameraHUD({ handle, component }: UseCameraHUDParams): CameraHUDElement | null {
-  const HUDComponent = component;
-  return useMemo(
-    () => (HUDComponent ? <HUDComponent handle={handle} /> : null),
-    [component, handle],
-  );
 }

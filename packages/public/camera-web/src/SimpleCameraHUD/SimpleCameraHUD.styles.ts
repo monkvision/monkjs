@@ -8,6 +8,14 @@ export const styles: Styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    position: 'relative',
+  },
+  previewContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
   },
   containerPortrait: {
     __media: { portrait: true },
@@ -23,6 +31,7 @@ export const styles: Styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 3,
   },
   errorMessage: {
     fontSize: 16,
@@ -41,6 +50,7 @@ export const styles: Styles = {
   },
   takePictureButton: {
     marginRight: 20,
+    zIndex: 2,
   },
   takePicturePortrait: {
     __media: { portrait: true },

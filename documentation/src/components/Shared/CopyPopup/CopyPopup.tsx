@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { Icon } from '@monkvision/common-ui-web';
 import styles from './CopyPopup.module.css';
 
@@ -16,17 +16,14 @@ export const CopyPopup = forwardRef<CopyPopupHandle, CopyPopupProps>(
   ({ displayed = false }, ref) => {
     const [isDisplayed, setIsDisplayed] = useState(displayed);
 
-    const open = useCallback(() => setIsDisplayed(true), []);
-    const close = useCallback(() => setIsDisplayed(false), []);
-    const openForMs = useCallback(
-      (durationMs: number) => {
-        open();
-        setTimeout(() => {
-          close();
-        }, durationMs);
-      },
-      [open, close],
-    );
+    const open = () => setIsDisplayed(true);
+    const close = () => setIsDisplayed(false);
+    const openForMs = (durationMs: number) => {
+      open();
+      setTimeout(() => {
+        close();
+      }, durationMs);
+    };
     useImperativeHandle(ref, () => ({ open, close, openForMs }));
 
     return isDisplayed ? (
