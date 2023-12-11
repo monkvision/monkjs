@@ -4,7 +4,7 @@
 export function permutations<T>(array: T[]): T[][] {
   const result: T[][] = [];
 
-  array.forEach((value, index) => {
+  array.forEach((_, index) => {
     const rest = permutations(array.slice(0, index).concat(array.slice(index + 1)));
 
     if (rest.length === 0) {

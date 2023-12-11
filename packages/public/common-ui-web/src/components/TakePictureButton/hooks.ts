@@ -1,5 +1,5 @@
 import { InteractiveStatus } from '@monkvision/types';
-import { CSSProperties, useMemo, useState } from 'react';
+import { CSSProperties, useState } from 'react';
 import { styles, takePictureButtonColors } from './TakePictureButton.styles';
 
 /**
@@ -40,30 +40,27 @@ export function useTakePictureButtonStyle(
     setTimeout(() => setIsPressed(false), PRESS_ANIMATION_DURATION_MS);
   };
 
-  const buttonStyles = useMemo(
-    () => ({
-      outerLayer: {
-        ...styles['outerLayer'],
-        ...(params.status === InteractiveStatus.DISABLED ? styles['outerLayerDisabled'] : {}),
-        width: params.size - 2 * borderWidth,
-        height: params.size - 2 * borderWidth,
-        borderWidth,
-        borderColor: takePictureButtonColors[InteractiveStatus.DEFAULT],
-      },
-      innerLayer: {
-        ...styles['innerLayer'],
-        ...(params.status === InteractiveStatus.DISABLED ? styles['innerLayerDisabled'] : {}),
-        width: params.size * INNER_BUTTON_SIZE_RATIO,
-        height: params.size * INNER_BUTTON_SIZE_RATIO,
-        margin: borderWidth,
-        backgroundColor: takePictureButtonColors[params.status],
-        border: 'none',
-        transform: isPressed ? 'scale(0.7)' : 'scale(1)',
-        transition: `transform ${PRESS_ANIMATION_DURATION_MS / 2}ms ease-in`,
-      },
-    }),
-    [params],
-  );
+  const buttonStyles = {
+    outerLayer: {
+      ...styles['outerLayer'],
+      ...(params.status === InteractiveStatus.DISABLED ? styles['outerLayerDisabled'] : {}),
+      width: params.size - 2 * borderWidth,
+      height: params.size - 2 * borderWidth,
+      borderWidth,
+      borderColor: takePictureButtonColors[InteractiveStatus.DEFAULT],
+    },
+    innerLayer: {
+      ...styles['innerLayer'],
+      ...(params.status === InteractiveStatus.DISABLED ? styles['innerLayerDisabled'] : {}),
+      width: params.size * INNER_BUTTON_SIZE_RATIO,
+      height: params.size * INNER_BUTTON_SIZE_RATIO,
+      margin: borderWidth,
+      backgroundColor: takePictureButtonColors[params.status],
+      border: 'none',
+      transform: isPressed ? 'scale(0.7)' : 'scale(1)',
+      transition: `transform ${PRESS_ANIMATION_DURATION_MS / 2}ms ease-in`,
+    },
+  };
 
   return {
     buttonStyles,

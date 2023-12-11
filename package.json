@@ -15,15 +15,15 @@
   ],
   "scripts": {
     "clean": "rimraf node_modules && yarn cache clean && yarn install",
-    "clean:all": "lerna run clean && rimraf node_modules && yarn cache clean && yarn install",
+    "clean:all": "lerna run clean --parallel && rimraf node_modules && yarn cache clean && yarn install",
     "build": "lerna run build --scope '@monkvision/*'",
     "build:all": "lerna run build",
-    "test": "lerna run test",
-    "test:packages": "lerna run test --scope '@monkvision/*'",
-    "test:coverage": "lerna run test:coverage",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix",
-    "svgo": "lerna run svgo"
+    "test": "lerna run test --parallel",
+    "test:packages": "lerna run test --parallel --scope '@monkvision/*'",
+    "test:coverage": "lerna run test:coverage --parallel",
+    "lint": "lerna run --parallel lint",
+    "lint:fix": "lerna run --parallel lint:fix",
+    "svgo": "lerna run svgo --parallel"
   },
   "dependencies": {
     "react": "^17.0.2",

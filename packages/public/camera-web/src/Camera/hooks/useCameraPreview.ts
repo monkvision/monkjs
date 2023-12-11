@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import { RefObject, useEffect, useRef } from 'react';
-import { CameraConfig, useMediaConstraints } from './useMediaConstraints';
+import { CameraConfig, getMediaConstraints } from './utils';
 import { UserMediaResult, useUserMedia } from './useUserMedia';
 
 /**
@@ -20,8 +20,7 @@ export interface CameraPreviewHandle extends UserMediaResult {
 export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   const ref = useRef<HTMLVideoElement>(null);
   const { handleError } = useMonitoring();
-  const constraints = useMediaConstraints(config);
-  const userMediaResult = useUserMedia(constraints);
+  const userMediaResult = useUserMedia(getMediaConstraints(config));
 
   useEffect(() => {
     if (userMediaResult.stream && ref.current) {

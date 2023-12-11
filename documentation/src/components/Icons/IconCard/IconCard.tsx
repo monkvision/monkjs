@@ -1,7 +1,7 @@
 import { useColorMode } from '@docusaurus/theme-common';
 import { Icon, IconName } from '@monkvision/common-ui-web';
 import { CopyPopup, CopyPopupHandle } from '@site/src/components';
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import styles from './IconCard.module.css';
 
 export interface IconCardProps {
@@ -12,10 +12,10 @@ export function IconCard({ icon }: IconCardProps) {
   const copyPopupRef = useRef<CopyPopupHandle>(null);
   const isDarkTheme = useColorMode().colorMode === 'dark';
 
-  const copyName = useCallback(async () => {
+  const copyName = async () => {
     await navigator.clipboard.writeText(icon);
     copyPopupRef.current?.openForMs(1000);
-  }, [icon]);
+  };
 
   return (
     <button className={styles['icon-card']} onClick={copyName}>

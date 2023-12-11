@@ -1,5 +1,5 @@
 import { useMonitoring } from '@monkvision/monitoring';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import {
   CameraMonitoringConfig,
   InternalCameraMonitoringConfig,
@@ -40,7 +40,8 @@ export function useTakePicture({
 }: UseTakePictureParams) {
   const { createTransaction } = useMonitoring();
   const [isLoading, setIsLoading] = useState(false);
-  const takePicture = useCallback(() => {
+
+  const takePicture = () => {
     setIsLoading(true);
     const transaction = createTransaction({ ...TakePictureTransaction, ...monitoring });
     const childMonitoring: InternalCameraMonitoringConfig = {
@@ -56,10 +57,7 @@ export function useTakePicture({
       onPictureTaken(picture);
     }
     return picture;
-  }, [takeScreenshot, compress, onPictureTaken, monitoring]);
-
-  return {
-    takePicture,
-    isLoading,
   };
+
+  return { takePicture, isLoading };
 }

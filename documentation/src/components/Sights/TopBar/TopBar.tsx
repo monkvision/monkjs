@@ -2,7 +2,7 @@ import { labels, sights, vehicles } from '@monkvision/sights';
 import { SearchBar } from '@site/src/components';
 import { SightCard } from '@site/src/components/Sights/SightCard';
 import clsx from 'clsx';
-import React, { ReactElement, useCallback, useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import styles from './TopBar.module.css';
 
 export interface ListItem {
@@ -56,17 +56,14 @@ export const tabs = {
 export function TopBar({ selectedTabKey, onSelectTab, onLookupInput }: TopBarProps) {
   const lookupRef = useRef<HTMLInputElement>(null);
 
-  const selectTab = useCallback(
-    (tab: Tab) => {
-      onSelectTab(tab);
-      if (lookupRef.current) {
-        onLookupInput('');
-        lookupRef.current.value = '';
-      }
-      window.scroll({ top: 0 });
-    },
-    [onSelectTab, onLookupInput],
-  );
+  const selectTab = (tab: Tab) => {
+    onSelectTab(tab);
+    if (lookupRef.current) {
+      onLookupInput('');
+      lookupRef.current.value = '';
+    }
+    window.scroll({ top: 0 });
+  };
 
   return (
     <div className={styles['top-bar']}>

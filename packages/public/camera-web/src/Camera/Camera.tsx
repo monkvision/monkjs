@@ -52,7 +52,6 @@ export function Camera({
   monitoring,
   onPictureTaken,
 }: CameraProps) {
-  const compressionOptions = useMemo(() => ({ format, quality }), [format, quality]);
   const {
     ref: videoRef,
     dimensions,
@@ -62,17 +61,14 @@ export function Camera({
   } = useCameraPreview({ facingMode, resolution, deviceId });
   const { ref: canvasRef } = useCameraCanvas({ dimensions });
   const { takeScreenshot } = useCameraScreenshot({ videoRef, canvasRef, dimensions });
-  const { compress } = useCompression({ canvasRef, options: compressionOptions });
+  const { compress } = useCompression({ canvasRef, options: { format, quality } });
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
     compress,
     takeScreenshot,
     onPictureTaken,
     monitoring,
   });
-  const isLoading = useMemo(
-    () => isPreviewLoading || isTakePictureLoading,
-    [isPreviewLoading, isTakePictureLoading],
-  );
+  const isLoading = isPreviewLoading || isTakePictureLoading;
   const cameraPreview = useMemo(
     () => (
       <div style={styles['container']}>

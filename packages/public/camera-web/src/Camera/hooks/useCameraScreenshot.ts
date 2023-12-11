@@ -1,4 +1,4 @@
-import { RefObject, useCallback } from 'react';
+import { RefObject } from 'react';
 import { TransactionStatus } from '@monkvision/monitoring';
 import { PixelDimensions } from '@monkvision/types';
 import {
@@ -78,28 +78,25 @@ export function useCameraScreenshot({
   canvasRef,
   dimensions,
 }: CameraScreenshotConfig): CameraScreenshotHandle {
-  const takeScreenshot = useCallback(
-    (monitoring: InternalCameraMonitoringConfig) => {
-      startScreenshotMeasurement(monitoring, dimensions);
-      const { context } = getCanvasHandle(canvasRef, () =>
-        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR),
-      );
-      if (!dimensions) {
-        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
-        throw new Error('Unable to take a picture because the video stream has no dimension.');
-      }
-      if (!videoRef.current) {
-        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
-        throw new Error('Unable to take a picture because the video element is null.');
-      }
-      context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
-      const imageData = context.getImageData(0, 0, dimensions.width, dimensions.height);
-      setScreeshotSizeMeasurement(monitoring, imageData);
-      stopScreenshotMeasurement(monitoring, TransactionStatus.OK);
-      return imageData;
-    },
-    [dimensions],
-  );
+  const takeScreenshot = (monitoring: InternalCameraMonitoringConfig) => {
+    startScreenshotMeasurement(monitoring, dimensions);
+    const { context } = getCanvasHandle(canvasRef, () =>
+      stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR),
+    );
+    if (!dimensions) {
+      stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+      throw new Error('Unable to take a picture because the video stream has no dimension.');
+    }
+    if (!videoRef.current) {
+      stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+      throw new Error('Unable to take a picture because the video element is null.');
+    }
+    context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
+    const imageData = context.getImageData(0, 0, dimensions.width, dimensions.height);
+    setScreeshotSizeMeasurement(monitoring, imageData);
+    stopScreenshotMeasurement(monitoring, TransactionStatus.OK);
+    return imageData;
+  };
 
   return { takeScreenshot };
 }

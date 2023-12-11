@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 /**
  * Type definition for the processing function of a queue.
@@ -179,56 +179,50 @@ export function useQueue<T>(
   const stateRef = useRef<QueueState<T>>();
   stateRef.current = { processedItems, itemsOnHold, canceledItems, options };
 
-  const clear = useCallback(
-    (cancelProcessing = false) => {
-      if (cancelProcessing) {
-        setCanceledItems((items) => [...items, ...processedItems]);
-      }
-      setProcessedItems([]);
-      setItemsOnHold([]);
-      setFailedItems([]);
-      setTotalItems(0);
-    },
-    [processedItems],
-  );
+  const clear = (cancelProcessing = false) => {
+    if (cancelProcessing) {
+      setCanceledItems((items) => [...items, ...processedItems]);
+    }
+    setProcessedItems([]);
+    setItemsOnHold([]);
+    setFailedItems([]);
+    setTotalItems(0);
+  };
 
-  const clearFailedItems = useCallback((itemsToClear: T[]) => {
+  const clearFailedItems = (itemsToClear: T[]) => {
     setFailedItems((items) => items.filter((i) => !itemsToClear.includes(i.item)));
-  }, []);
+  };
 
-  const processItem = useCallback(
-    (item: T) => {
-      setProcessedItems((items) => [...items, item]);
-      return process(item)
-        .then(() => {
-          if (stateRef.current?.canceledItems.includes(item)) {
-            setCanceledItems((items) => items.filter((i) => i !== item));
-            return;
-          }
-          if (stateRef.current?.options.onItemComplete) {
-            stateRef.current.options.onItemComplete(item);
-          }
-        })
-        .catch((error) => {
-          if (stateRef.current?.canceledItems.includes(item)) {
-            setCanceledItems((items) => items.filter((i) => i !== item));
-            return;
-          }
-          if (stateRef.current?.options.storeFailedItems) {
-            setFailedItems((items) => [...items, { error, item }]);
-          }
-          if (stateRef.current?.options.onItemFail) {
-            stateRef.current.options.onItemFail(item);
-          }
-        })
-        .finally(() => {
-          setProcessedItems((items) => items.filter((i) => i !== item));
-        });
-    },
-    [process],
-  );
+  const processItem = (item: T) => {
+    setProcessedItems((items) => [...items, item]);
+    return process(item)
+      .then(() => {
+        if (stateRef.current?.canceledItems.includes(item)) {
+          setCanceledItems((items) => items.filter((i) => i !== item));
+          return;
+        }
+        if (stateRef.current?.options.onItemComplete) {
+          stateRef.current.options.onItemComplete(item);
+        }
+      })
+      .catch((error) => {
+        if (stateRef.current?.canceledItems.includes(item)) {
+          setCanceledItems((items) => items.filter((i) => i !== item));
+          return;
+        }
+        if (stateRef.current?.options.storeFailedItems) {
+          setFailedItems((items) => [...items, { error, item }]);
+        }
+        if (stateRef.current?.options.onItemFail) {
+          stateRef.current.options.onItemFail(item);
+        }
+      })
+      .finally(() => {
+        setProcessedItems((items) => items.filter((i) => i !== item));
+      });
+  };
 
-  const shiftQueue = useCallback(() => {
+  const shiftQueue = () => {
     if (stateRef.current) {
       if (stateRef.current.itemsOnHold.length === 0) {
         return;
@@ -251,30 +245,27 @@ export function useQueue<T>(
       });
       setItemsOnHold((items) => items.filter((item) => !itemsToShift.includes(item)));
     }
-  }, [processItem]);
+  };
 
-  const push = useCallback(
-    (item: T) => {
-      if (
-        options.maxItems !== undefined &&
-        processedItems.length + itemsOnHold.length >= options.maxItems
-      ) {
-        throw new Error('Queue is full.');
-      }
-      setTotalItems((total) => total + 1);
-      if (
-        options.maxProcessingItems !== undefined &&
-        processedItems.length >= options.maxProcessingItems
-      ) {
-        setItemsOnHold((items) => [...items, item]);
-        return;
-      }
-      processItem(item)
-        .catch(() => {})
-        .finally(() => shiftQueue());
-    },
-    [options, processedItems, itemsOnHold, shiftQueue],
-  );
+  const push = (item: T) => {
+    if (
+      options.maxItems !== undefined &&
+      processedItems.length + itemsOnHold.length >= options.maxItems
+    ) {
+      throw new Error('Queue is full.');
+    }
+    setTotalItems((total) => total + 1);
+    if (
+      options.maxProcessingItems !== undefined &&
+      processedItems.length >= options.maxProcessingItems
+    ) {
+      setItemsOnHold((items) => [...items, item]);
+      return;
+    }
+    processItem(item)
+      .catch(() => {})
+      .finally(() => shiftQueue());
+  };
 
   return {
     length: processedItems.length + itemsOnHold.length,

@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 
 /**
@@ -157,7 +157,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
 
-  const handleGetUserMediaError = useCallback((err: unknown) => {
+  const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
       type = UserMediaErrorType.NOT_ALLOWED;
@@ -170,24 +170,24 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
     setError({ type, nativeError: err });
     setStream(null);
     setIsLoading(false);
-  }, []);
+  };
 
-  const onStreamInactive = useCallback(() => {
+  const onStreamInactive = () => {
     setError({
       type: UserMediaErrorType.STREAM_INACTIVE,
       nativeError: new Error('The camera stream was closed.'),
     });
     setIsLoading(false);
-  }, []);
+  };
 
-  const retry = useCallback(() => {
+  const retry = () => {
     if (error && !isLoading) {
       setError(null);
       setStream(null);
       setIsLoading(false);
       setLastConstraintsApplied(null);
     }
-  }, [error, isLoading]);
+  };
 
   useEffect(() => {
     if (error || isLoading || deepEqual(lastConstraintsApplied, constraints)) {

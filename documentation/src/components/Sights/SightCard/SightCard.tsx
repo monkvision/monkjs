@@ -3,7 +3,7 @@ import { DynamicSVG } from '@monkvision/common-ui-web';
 import { labels, sights } from '@monkvision/sights';
 import { Sight, VehicleDetails, VehicleModel } from '@monkvision/types';
 import { CopyPopup, CopyPopupHandle } from '@site/src/components';
-import React, { Fragment, useCallback, useMemo, useRef } from 'react';
+import React, { Fragment, useMemo, useRef } from 'react';
 import styles from './SightCard.module.css';
 
 const vehicleModelDisplayOverlays: Record<Exclude<VehicleModel, VehicleModel.ALL>, string> = {
@@ -44,29 +44,20 @@ export function SightCard({ item }: SightCardProps) {
       ));
   }, [item]);
 
-  const overlay = useMemo(
-    () => ('overlay' in item ? item.overlay : vehicleModelDisplayOverlays[item.id]),
-    [item],
-  );
+  const overlay = 'overlay' in item ? item.overlay : vehicleModelDisplayOverlays[item.id];
 
-  const label = useMemo(
-    () => ('label' in item ? labels[item.label].en : `${item.make} ${item.model}`),
-    [item],
-  );
+  const label = 'label' in item ? labels[item.label].en : `${item.make} ${item.model}`;
 
-  const copyId = useCallback(async () => {
+  const copyId = async () => {
     await navigator.clipboard.writeText(item.id);
     copyPopupRef.current?.open();
-  }, [item]);
+  };
 
-  const getOverlayAttributes = useCallback(
-    () => ({
-      style: {
-        stroke: isDarkTheme ? '#ffffff' : '#000000',
-      },
-    }),
-    [isDarkTheme],
-  );
+  const getOverlayAttributes = () => ({
+    style: {
+      stroke: isDarkTheme ? '#ffffff' : '#000000',
+    },
+  });
 
   return (
     <>

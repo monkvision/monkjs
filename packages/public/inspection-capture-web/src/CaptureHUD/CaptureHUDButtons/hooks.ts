@@ -1,5 +1,5 @@
 import { InteractiveStatus } from '@monkvision/types';
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties } from 'react';
 import { useResponsiveStyle } from '@monkvision/common';
 import {
   captureButtonBackgroundColors,
@@ -31,35 +31,32 @@ export function useCaptureHUDButtonsStyles(
 ): CaptureHUDButtonsStyles {
   const { responsive } = useResponsiveStyle();
 
-  return useMemo(
-    () => ({
-      containerStyle: {
-        ...styles['container'],
-        ...responsive(styles['containersPortrait']),
+  return {
+    containerStyle: {
+      ...styles['container'],
+      ...responsive(styles['containersPortrait']),
+    },
+    gallery: {
+      style: {
+        ...styles['button'],
+        backgroundColor: captureButtonBackgroundColors[params.galleryStatus],
+        borderColor: captureButtonForegroundColors[params.galleryStatus],
+        ...(params.galleryStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
       },
-      gallery: {
-        style: {
-          ...styles['button'],
-          backgroundColor: captureButtonBackgroundColors[params.galleryStatus],
-          borderColor: captureButtonForegroundColors[params.galleryStatus],
-          ...(params.galleryStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
-        },
-        iconColor: captureButtonForegroundColors[params.galleryStatus],
+      iconColor: captureButtonForegroundColors[params.galleryStatus],
+    },
+    close: {
+      style: {
+        ...styles['button'],
+        backgroundColor: captureButtonBackgroundColors[params.closeStatus],
+        borderColor: captureButtonForegroundColors[params.closeStatus],
+        ...(params.closeStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
       },
-      close: {
-        style: {
-          ...styles['button'],
-          backgroundColor: captureButtonBackgroundColors[params.closeStatus],
-          borderColor: captureButtonForegroundColors[params.closeStatus],
-          ...(params.closeStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
-        },
-        iconColor: captureButtonForegroundColors[params.closeStatus],
-      },
-      backgroundCoverStyle: {
-        ...styles['backgroundCover'],
-        backgroundImage: params.galleryPreviewUrl ? `url(${params.galleryPreviewUrl})` : 'none',
-      },
-    }),
-    [params],
-  );
+      iconColor: captureButtonForegroundColors[params.closeStatus],
+    },
+    backgroundCoverStyle: {
+      ...styles['backgroundCover'],
+      backgroundImage: params.galleryPreviewUrl ? `url(${params.galleryPreviewUrl})` : 'none',
+    },
+  };
 }
