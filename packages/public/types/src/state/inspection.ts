@@ -17,7 +17,7 @@ export interface Inspection extends MonkEntity {
    */
   tasks: string[];
   /**
-   * The IDs of the images taken and uploaded in this inspection.
+   * The IDs of the images taken and uploaded by the user in this inspection.
    */
   images: string[];
   /**
@@ -37,7 +37,7 @@ export interface Inspection extends MonkEntity {
    */
   wheelAnalysis?: string[];
   /**
-   * The IDs of the severity results in the inspection if they were generated.
+   * The IDs of the severity results (= damparts) in the inspection if they were generated.
    */
   severityResults?: string[];
   /**

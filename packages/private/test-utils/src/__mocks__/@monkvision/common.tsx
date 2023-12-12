@@ -16,20 +16,9 @@ const {
   zlibDecompress,
   MonkDefaultPalette,
   createTheme,
+  createEmptyMonkState,
   MonkActionType,
 } = jest.requireActual('@monkvision/common');
-
-const createEmptyMonkStateMock = () => ({
-  damages: [],
-  images: [],
-  inspections: [],
-  parts: [],
-  partOperations: [],
-  severityResults: [],
-  tasks: [],
-  vehicles: [],
-  wheelAnalysis: [],
-});
 
 export = {
   /* Actual exports */
@@ -57,9 +46,8 @@ export = {
   isGotManyAction: jest.fn(() => false),
   isDeletedOneAction: jest.fn(() => false),
   isDeletedManyAction: jest.fn(() => false),
-  createEmptyMonkState: jest.fn(createEmptyMonkStateMock),
-  useMonkState: jest.fn(createEmptyMonkStateMock),
-  monkReducer: jest.fn(createEmptyMonkStateMock),
+  useMonkState: jest.fn(createEmptyMonkState),
+  monkReducer: jest.fn(createEmptyMonkState),
   MonkProvider: jest.fn(({ children }) => <>{children}</>),
   i18nLinkSDKInstances: jest.fn(),
   useI18nLink: jest.fn(),

@@ -29,7 +29,7 @@ export enum ProgressStatus {
 }
 
 /**
- * Enumeration of the levels of severity for a damage.
+ * Enumeration of the levels of severity for a damage or a part.
  */
 export enum Severity {
   /**
@@ -48,6 +48,21 @@ export enum Severity {
    * High severity damage.
    */
   HIGH = 3,
+}
+
+/**
+ * A label output resulting from a model prediction.
+ */
+export interface LabelPrediction {
+  /**
+   * The label resulting from the model prediction.
+   */
+  prediction: string;
+  /**
+   * The confidence score given to this label by the model when doing its prediction. It goes from 0 (low confidence) to
+   * 1 (high confidence). The value can be -1 in the case of an error or no computation done.
+   */
+  confidence: number;
 }
 
 /**

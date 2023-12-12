@@ -110,6 +110,10 @@ export interface SeverityResult extends MonkEntity {
    */
   value?: CustomSeverityValue;
   /**
+   * Boolean indicating if the user has modified this result or not.
+   */
+  isUserModified: boolean;
+  /**
    * The ID of the item (damage or part) related to this severity result.
    */
   relatedItemId?: string;

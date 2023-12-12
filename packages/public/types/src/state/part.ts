@@ -98,15 +98,15 @@ export interface Part extends MonkEntity {
    */
   type: VehiclePart;
   /**
-   * The IDs of the damages detected on this part.
-   */
-  damages: string[];
-  /**
    * The ID of the part operation if the part needs repair.
    */
   partOperation?: string;
   /**
+   * The IDs of the damages detected on this part.
+   */
+  damages: string[];
+  /**
    * The IDs of the images related to this part.
    */
-  relatedImages?: string[];
+  relatedImages: string[];
 }

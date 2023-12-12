@@ -1,7 +1,6 @@
-import { AdditionalData, ProgressStatus } from './common';
+import { AdditionalData, ProgressStatus, LabelPrediction } from './common';
 import { MonkEntity, MonkEntityType } from './entity';
 import { VehiclePart } from './part';
-import { LabelPrediction } from './wheelAnalysis';
 
 /**
  * The type of image.
@@ -34,83 +33,6 @@ export enum ImageSubtype {
    * For images that are "close up" images focused on a damage.
    */
   CLOSE_UP_DAMAGE = 'close_up_damage',
-}
-
-/**
- * Type definition for a polygon drawn on an image, usually used to mark a damage on an image view. Polygons are
- * represented by an array of N points, each point being defined as an array of exactly 2 integers representing
- * respectively the X and Y coordinates (in pixels) of the point in the image.
- */
-export type Polygon = number[][];
-
-/**
- * This object defines the coordinates of an element (a part, a damage, a sub image etc.) on an image.
- */
-export interface BoundingBox {
-  /**
-   * The smallest X coordinate of the BoundingBox's rectangle.
-   */
-  xMin: number;
-  /**
-   * The smallest Y coordinate of the BoundingBox's rectangle.
-   */
-  yMin: number;
-  /**
-   * The width of the BoundingBox's rectangle.
-   */
-  width: number;
-  /**
-   * The height of the BoundingBox's rectangle.
-   */
-  height: number;
-}
-
-/**
- * The image details of a View. See the View interface for more details.
- *
- * @see View
- */
-export interface ViewImage {
-  /**
-   * The type of the image.
-   */
-  type?: ImageType;
-  /**
-   * The subtype of the image.
-   */
-  subtype?: ImageSubtype;
-  /**
-   * Additional data added during the upload of the image.
-   */
-  additionalData?: AdditionalData;
-}
-
-/**
- * A view associated with an image in an inspection. A view is defined as a transformation, annotation or crop of an
- * inspection image which provides more information on the algorithms detections. For instance, a view can be a zoomed
- * and cropped version of an inspection image that focuses on a detected scratch.
- */
-export interface View {
-  /**
-   * The ID of the damage associated with this View.
-   */
-  damageId: string;
-  /**
-   * The image details of the new image represented by this View.
-   */
-  newImage?: ViewImage;
-  /**
-   * The ID of the image this View was created from.
-   */
-  imageId?: string;
-  /**
-   * Polygons drawn on the image if there are any.
-   */
-  polygons?: Polygon[];
-  /**
-   * The bounding box of the View, corresponding to the coordinates of the new image in the original image.
-   */
-  boundingBox?: BoundingBox;
 }
 
 /**
@@ -243,13 +165,9 @@ export interface Image extends MonkEntity {
    */
   entityType: MonkEntityType.IMAGE;
   /**
-   * The ID of the inspection associated with this image.
-   */
-  inspectionId: string;
-  /**
    * The URL at which the image can be downloaded.
    */
-  url: string;
+  path: string;
   /**
    * The width of the image.
    */
@@ -267,21 +185,13 @@ export interface Image extends MonkEntity {
    */
   mimetype: string;
   /**
-   * The views created using this image.
-   */
-  views: View[];
-  /**
    * The type of the image.
    */
-  type?: ImageType;
+  type: ImageType;
   /**
    * The subtype of the image.
    */
   subtype?: ImageSubtype;
-  /**
-   * The ID of the results of the wheel analysis performed on this image if there was one.
-   */
-  wheelAnalysis?: string;
   /**
    * A prediction made by the AI model when trying to determine the context of this picture (where this picture was
    * taken from etc.).
@@ -295,6 +205,14 @@ export interface Image extends MonkEntity {
    * The results of the image quality assessments.
    */
   compliances?: ComplianceResults;
+  /**
+   * The IDs of the RenderedOutput entities created using this image.
+   */
+  renderedOutputs: string[];
+  /**
+   * The IDs of the View entities created using this image.
+   */
+  views: string[];
   /**
    * Additional data added during the upload of the image.
    */
