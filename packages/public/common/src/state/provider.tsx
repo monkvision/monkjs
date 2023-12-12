@@ -2,24 +2,7 @@ import React, { PropsWithChildren, useReducer } from 'react';
 import { MonkContext } from './context';
 import { useMonkState } from './hooks';
 import { monkReducer } from './reducer';
-import { MonkState } from './state';
-
-/**
- * Creates an empty state that can be used to initialize the Monk state.
- */
-export function createEmptyMonkState(): MonkState {
-  return {
-    damages: [],
-    images: [],
-    inspections: [],
-    parts: [],
-    partOperations: [],
-    severityResults: [],
-    tasks: [],
-    vehicles: [],
-    wheelAnalysis: [],
-  };
-}
+import { createEmptyMonkState, MonkState } from './state';
 
 /**
  * Prop types of the MonkProvider component.

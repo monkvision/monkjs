@@ -4,9 +4,11 @@ import {
   Inspection,
   Part,
   PartOperation,
+  RenderedOutput,
   SeverityResult,
   Task,
   Vehicle,
+  View,
   WheelAnalysis,
 } from '@monkvision/types';
 
@@ -19,21 +21,29 @@ export interface MonkState {
    */
   damages: Damage[];
   /**
-   * The images of the inspections.
+   * The images taken during inspections.
    */
   images: Image[];
+  /**
+   * The image regions created during inspections.
+   */
+  imageRegions: Image[];
   /**
    * The list of inspections currently in the state.
    */
   inspections: Inspection[];
   /**
-   * The vehicle parts detected in the inspections.
+   * The vehicle parts detected during inspections.
    */
   parts: Part[];
   /**
    * The operations needed to repair damages on inspection vehicle parts.
    */
   partOperations: PartOperation[];
+  /**
+   * The operations needed to repair damages on inspection vehicle parts.
+   */
+  renderedOutputs: RenderedOutput[];
   /**
    * The details about the severity of the damages on vehicles or veghicle parts in inspections.
    */
@@ -47,7 +57,31 @@ export interface MonkState {
    */
   vehicles: Vehicle[];
   /**
+   * The views created during inspections.
+   */
+  views: View[];
+  /**
    * The wheel analysis results available in the inspections.
    */
   wheelAnalysis: WheelAnalysis[];
+}
+
+/**
+ * Creates an empty state that can be used to initialize the Monk state.
+ */
+export function createEmptyMonkState(): MonkState {
+  return {
+    damages: [],
+    images: [],
+    imageRegions: [],
+    inspections: [],
+    parts: [],
+    partOperations: [],
+    renderedOutputs: [],
+    severityResults: [],
+    tasks: [],
+    vehicles: [],
+    views: [],
+    wheelAnalysis: [],
+  };
 }

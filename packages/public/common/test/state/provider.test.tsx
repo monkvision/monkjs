@@ -1,140 +1,101 @@
+jest.mock('../../src/state/context', () => ({
+  MonkContext: {
+    Provider: jest.fn(({ children }) => <>{children}</>),
+  },
+}));
+jest.mock('../../src/state/reducer', () => ({
+  monkReducer: jest.fn(),
+}));
+jest.mock('../../src/state/hooks', () => ({
+  useMonkState: jest.fn(() => {
+    throw new Error();
+  }),
+}));
+
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import {
-  Damage,
-  Image,
-  Inspection,
-  MonkEntity,
-  MonkEntityType,
-  Part,
-  PartOperation,
-  SeverityResult,
-  Task,
-  Vehicle,
-  WheelAnalysis,
-} from '@monkvision/types';
-import { fireEvent, render, screen } from '@testing-library/react';
-import {
-  MonkActionType,
   createEmptyMonkState,
-  MonkGotOneAction,
+  MonkContext,
   MonkProvider,
+  monkReducer,
   MonkState,
   useMonkState,
 } from '../../src';
 
-const testId = 'test-id';
-
-function display(entities?: MonkEntity[]): string {
-  return entities ? JSON.stringify(entities.map((e) => e.id)) : 'unknown';
-}
-
-function createState(id: string): MonkState {
-  return {
-    damages: [{ id: `test-damage-${id}` } as Damage],
-    images: [{ id: `test-image-${id}` } as Image],
-    inspections: [{ id: `test-inspection-${id}` } as Inspection],
-    parts: [{ id: `test-part-${id}` } as Part],
-    partOperations: [{ id: `test-part-operation-${id}` } as PartOperation],
-    severityResults: [{ id: `test-severity-result-${id}` } as SeverityResult],
-    tasks: [{ id: `test-tasks-${id}` } as Task],
-    vehicles: [{ id: `test-vehicle-${id}` } as Vehicle],
-    wheelAnalysis: [{ id: `test-wheel-analysis-${id}` } as WheelAnalysis],
-  };
-}
-
-function assertState(state: MonkState): void {
-  expect(screen.getByTestId('damages').textContent).toEqual(display(state.damages));
-  expect(screen.getByTestId('images').textContent).toEqual(display(state.images));
-  expect(screen.getByTestId('inspections').textContent).toEqual(display(state.inspections));
-  expect(screen.getByTestId('parts').textContent).toEqual(display(state.parts));
-  expect(screen.getByTestId('part-operations').textContent).toEqual(display(state.partOperations));
-  expect(screen.getByTestId('severity-results').textContent).toEqual(
-    display(state.severityResults),
-  );
-  expect(screen.getByTestId('tasks').textContent).toEqual(display(state.tasks));
-  expect(screen.getByTestId('vehicles').textContent).toEqual(display(state.vehicles));
-  expect(screen.getByTestId('wheel-analysis').textContent).toEqual(display(state.wheelAnalysis));
-}
-
-function TestComponent() {
-  const { state, dispatch } = useMonkState();
-
-  const handleDispatch = () => {
-    const action: MonkGotOneAction<Inspection> = {
-      type: MonkActionType.GOT_ONE_ENTITY,
-      entityType: MonkEntityType.INSPECTION,
-      entity: { id: testId } as Inspection,
-    };
-    dispatch(action);
-  };
-  return (
-    <div>
-      <button data-testid='dispatch-test' onClick={handleDispatch}>
-        dispatch
-      </button>
-      <div data-testid='damages'>{display(state.damages)}</div>
-      <div data-testid='images'>{display(state.images)}</div>
-      <div data-testid='inspections'>{display(state.inspections)}</div>
-      <div data-testid='parts'>{display(state.parts)}</div>
-      <div data-testid='part-operations'>{display(state.partOperations)}</div>
-      <div data-testid='severity-results'>{display(state.severityResults)}</div>
-      <div data-testid='tasks'>{display(state.tasks)}</div>
-      <div data-testid='vehicles'>{display(state.vehicles)}</div>
-      <div data-testid='wheel-analysis'>{display(state.wheelAnalysis)}</div>
-    </div>
-  );
-}
+const useReducerSpy = jest.spyOn(React, 'useReducer');
 
 describe('MonkProvider component', () => {
-  it('should initialize the MonkContext with empty values', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should display its children', () => {
+    const childTestId = 'child-test-id';
     const { unmount } = render(
       <MonkProvider>
-        <TestComponent />
+        <div data-testid={childTestId} />
       </MonkProvider>,
     );
-
-    assertState(createEmptyMonkState());
+    expect(screen.queryByTestId(childTestId)).not.toBeNull();
     unmount();
   });
 
-  it('should initialize the MonkContext with an initial value', () => {
-    const initialState = createState('test-1');
-    const { unmount } = render(
-      <MonkProvider initialState={initialState}>
-        <TestComponent />
-      </MonkProvider>,
-    );
+  it('should pass the state and dispatch values from the Monk reducer to the context', () => {
+    const { unmount } = render(<MonkProvider />);
 
-    assertState(initialState);
+    expect(useReducerSpy).toHaveBeenCalledTimes(1);
+    const [state, dispatch] = useReducerSpy.mock.results[0].value;
+    expectPropsOnChildMock(MonkContext.Provider, { value: { state, dispatch } });
     unmount();
   });
 
-  it('should provide a valid dispatch function', async () => {
+  it('should pass the monk reducer function to the useReducer hook', () => {
+    const { unmount } = render(<MonkProvider />);
+
+    expect(useReducerSpy).toHaveBeenCalledWith(monkReducer, expect.anything());
+    unmount();
+  });
+
+  it('should pass an empty state if no initial state is provided', () => {
+    const { unmount } = render(<MonkProvider />);
+
+    expect(useReducerSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining(createEmptyMonkState()),
+    );
+    unmount();
+  });
+
+  it('should pass an initialized state with the value from the prop', () => {
+    const initialState = {
+      inspections: [{ id: 'test' }, { id: 'okay' }],
+      tasks: [{ id: 'task' }],
+    } as unknown as Partial<MonkState>;
+    const { unmount } = render(<MonkProvider initialState={initialState} />);
+
+    expect(useReducerSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        ...createEmptyMonkState(),
+        ...initialState,
+      }),
+    );
+    unmount();
+  });
+
+  it('should no call the provider context if the Monk state is already defined', () => {
+    (useMonkState as jest.Mock).mockImplementationOnce(() => {});
+    const childTestId = 'child-test-id';
     const { unmount } = render(
       <MonkProvider>
-        <TestComponent />
+        <div data-testid={childTestId} />
       </MonkProvider>,
     );
 
-    fireEvent.click(screen.getByTestId('dispatch-test'));
-
-    const state = createEmptyMonkState();
-    state.inspections.push({ id: testId } as Inspection);
-    assertState(state);
-    unmount();
-  });
-
-  it('should not initialize a state if it is already defined', async () => {
-    const state1 = createState('test-1');
-    const state2 = createState('test-2');
-    const { unmount } = render(
-      <MonkProvider initialState={state1}>
-        <MonkProvider initialState={state2}>
-          <TestComponent />
-        </MonkProvider>
-      </MonkProvider>,
-    );
-
-    assertState(state1);
+    expect(MonkContext.Provider).not.toHaveBeenCalled();
+    expect(screen.queryByTestId(childTestId)).not.toBeNull();
     unmount();
   });
 });
