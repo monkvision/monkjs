@@ -3,7 +3,7 @@ import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
 import { useInteractiveStatus } from '@monkvision/common';
 import { useCaptureHUDButtonsStyles } from './hooks';
 
-export interface CaptureHUDButtonsProps {
+export interface PhotoCaptureHUDButtonsProps {
   galleryPreview?: MonkPicture;
   onTakePicture?: () => void;
   onOpenGallery?: () => void;
@@ -13,7 +13,7 @@ export interface CaptureHUDButtonsProps {
   closeDisabled?: boolean;
 }
 
-export function CaptureHUDButtons({
+export function PhotoCaptureHUDButtons({
   galleryPreview,
   onTakePicture = () => {},
   onOpenGallery = () => {},
@@ -21,7 +21,7 @@ export function CaptureHUDButtons({
   galleryDisabled = false,
   takePictureDisabled = false,
   closeDisabled = false,
-}: CaptureHUDButtonsProps) {
+}: PhotoCaptureHUDButtonsProps) {
   const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
     disabled: galleryDisabled,
   });
