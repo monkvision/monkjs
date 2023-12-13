@@ -6,7 +6,7 @@ export const sdkVersion = packageJson.version;
 /**
  * Required configuration properties used when interacting with the MonkJs API.
  */
-export interface MonkAPIRequestConfig {
+export interface MonkAPIConfig {
   /**
    * The domain of the Monk API.
    */
@@ -17,7 +17,7 @@ export interface MonkAPIRequestConfig {
   authToken: string;
 }
 
-export function getBaseAxiosConfig(config: MonkAPIRequestConfig): AxiosRequestConfig {
+export function getBaseAxiosConfig(config: MonkAPIConfig): AxiosRequestConfig {
   const apiDomain = config.apiDomain.endsWith('/')
     ? config.apiDomain.substring(0, config.apiDomain.length - 1)
     : config.apiDomain;

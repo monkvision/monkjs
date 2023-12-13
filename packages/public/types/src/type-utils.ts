@@ -23,3 +23,11 @@ export type RequiredProperties<T, K extends keyof T> = T & Required<Pick<T, K>>;
  * Utility type that applies the `Partial` type only to certain properties.
  */
 export type PartialProperties<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>;
+
+/**
+ * Standard enum type that can be used to enforce enum-like types in generic parameters.
+ */
+export type StandardEnum<T> = {
+  [id: string]: T | string;
+  [nu: number]: string;
+};

@@ -1,5 +1,5 @@
-const { base } = require('@monkvision/jest-config');
+const { react } = require('@monkvision/jest-config');
 
 module.exports = {
-  ...base,
+  ...react,
 };

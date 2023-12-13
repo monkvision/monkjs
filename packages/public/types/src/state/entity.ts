@@ -5,7 +5,6 @@
 export enum MonkEntityType {
   DAMAGE = 'DAMAGE',
   IMAGE = 'IMAGE',
-  IMAGE_REGION = 'IMAGE_REGION',
   INSPECTION = 'INSPECTION',
   PART = 'PART',
   PART_OPERATION = 'PART_OPERATION',
@@ -14,7 +13,6 @@ export enum MonkEntityType {
   TASK = 'TASK',
   VEHICLE = 'VEHICLE',
   VIEW = 'VIEW',
-  WHEEL_ANALYSIS = 'WHEEL_ANALYSIS',
 }
 
 /**

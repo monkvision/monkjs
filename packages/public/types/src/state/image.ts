@@ -65,7 +65,7 @@ export interface Viewpoint {
   /**
    * The estimated distance from the vehicle at which this picture was taken from.
    */
-  distance?: number;
+  distance?: string;
   /**
    * The list of vehicle parts that the picture is focusing on.
    */
