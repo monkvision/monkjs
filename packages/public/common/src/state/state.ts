@@ -9,7 +9,6 @@ import {
   Task,
   Vehicle,
   View,
-  WheelAnalysis,
 } from '@monkvision/types';
 
 /**
@@ -24,10 +23,6 @@ export interface MonkState {
    * The images taken during inspections.
    */
   images: Image[];
-  /**
-   * The image regions created during inspections.
-   */
-  imageRegions: Image[];
   /**
    * The list of inspections currently in the state.
    */
@@ -60,10 +55,6 @@ export interface MonkState {
    * The views created during inspections.
    */
   views: View[];
-  /**
-   * The wheel analysis results available in the inspections.
-   */
-  wheelAnalysis: WheelAnalysis[];
 }
 
 /**
@@ -73,7 +64,6 @@ export function createEmptyMonkState(): MonkState {
   return {
     damages: [],
     images: [],
-    imageRegions: [],
     inspections: [],
     parts: [],
     partOperations: [],
@@ -82,6 +72,5 @@ export function createEmptyMonkState(): MonkState {
     tasks: [],
     vehicles: [],
     views: [],
-    wheelAnalysis: [],
   };
 }

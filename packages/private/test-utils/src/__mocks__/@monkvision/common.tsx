@@ -46,7 +46,7 @@ export = {
   isGotManyAction: jest.fn(() => false),
   isDeletedOneAction: jest.fn(() => false),
   isDeletedManyAction: jest.fn(() => false),
-  useMonkState: jest.fn(createEmptyMonkState),
+  useMonkState: jest.fn(() => ({ state: createEmptyMonkState(), dispatch: jest.fn() })),
   monkReducer: jest.fn(createEmptyMonkState),
   MonkProvider: jest.fn(({ children }) => <>{children}</>),
   i18nLinkSDKInstances: jest.fn(),

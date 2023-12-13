@@ -1,4 +1,4 @@
-import { AdditionalData } from './common';
+import { AdditionalData, CurrencyCode } from './common';
 import { MonkEntity, MonkEntityType } from './entity';
 
 /**
@@ -44,7 +44,7 @@ export interface Vehicle extends MonkEntity {
   /**
    * The unit of the vehicle's market value.
    */
-  marketValueUnit?: string;
+  marketValueUnit?: CurrencyCode;
   /**
    * The market value of the vehicle.
    */

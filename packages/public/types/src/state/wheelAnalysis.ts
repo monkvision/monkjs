@@ -1,4 +1,3 @@
-import { MonkEntity, MonkEntityType } from './entity';
 import { LabelPrediction } from './common';
 
 /**
@@ -26,11 +25,7 @@ export enum WheelName {
 /**
  * The information about a wheel that has been computed from an image.
  */
-export interface WheelAnalysis extends MonkEntity {
-  /**
-   * The type of the entity.
-   */
-  entityType: MonkEntityType.WHEEL_ANALYSIS;
+export interface WheelAnalysis {
   /**
    * The ID of the inspection associated with this wheel analysis result.
    */

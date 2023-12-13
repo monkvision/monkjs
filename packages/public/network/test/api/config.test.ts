@@ -1,5 +1,5 @@
 import packageJson from '../../package.json';
-import { getBaseAxiosConfig, MonkAPIRequestConfig, sdkVersion } from '../../src/api/config';
+import { getBaseAxiosConfig, MonkAPIConfig, sdkVersion } from '../../src/api/config';
 
 describe('Network package API global config utils', () => {
   describe('sdkVersion global constant', () => {
@@ -9,7 +9,7 @@ describe('Network package API global config utils', () => {
   });
 
   describe('getBaseAxiosConfig function', () => {
-    const baseConfig: MonkAPIRequestConfig = {
+    const baseConfig: MonkAPIConfig = {
       apiDomain: 'testapidomain',
       authToken: 'Bearer testtoken',
     };

@@ -37,6 +37,10 @@ export interface Damage extends MonkEntity {
    */
   size?: number;
   /**
+   * The IDs of the parts related to this damage.
+   */
+  parts: string[];
+  /**
    * The IDs of the images related to this damage.
    */
   relatedImages: string[];

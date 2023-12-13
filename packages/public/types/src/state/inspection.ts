@@ -1,6 +1,7 @@
 import { AdditionalData } from './common';
 import { MonkEntity, MonkEntityType } from './entity';
 import { PricingV2 } from './pricingV2';
+import { WheelAnalysis } from './wheelAnalysis';
 
 /**
  * A Monk inspection is an entity representing the status of a vehicle analysis. Users of the Monk SDK can take and send
@@ -35,7 +36,7 @@ export interface Inspection extends MonkEntity {
   /**
    * The IDs of the results of the wheel analysis performed on the inspeciton images if the task was performed.
    */
-  wheelAnalysis?: string[];
+  wheelAnalysis?: WheelAnalysis[];
   /**
    * The IDs of the severity results (= damparts) in the inspection if they were generated.
    */

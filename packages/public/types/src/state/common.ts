@@ -66,6 +66,20 @@ export interface LabelPrediction {
 }
 
 /**
+ * Enumeration of the possible currency symbols used in the Monk state.
+ */
+export enum CurrencyCode {
+  /**
+   * Euro
+   */
+  EUR = 'EUR',
+  /**
+   * United-States Dollar
+   */
+  USD = 'USD',
+}
+
+/**
  * Additional data that can be added to a state entity when creating it.
  */
 export type AdditionalData = Record<string, unknown>;

@@ -1,0 +1,90 @@
+{
+  "images": [
+    {
+      "name": "hood.jpeg",
+      "acquisition": {
+        "strategy": "download_from_url",
+        "url": "https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/None-1e12c8f1-4104-415a-8fc0-f07e9f5f1b18.jpeg?generation=1701281562691106&alt=media"
+      },
+      "tasks": ["damage_detection"],
+      "additional_data": {
+        "category": "exterior",
+        "id": "ffocus18-3TiCVAaN",
+        "label": {
+          "de": "Motorhaube",
+          "en": "Hood",
+          "fr": "Capot"
+        }
+      }
+    },
+    {
+      "name": "close_up_roof.jpeg",
+      "image_type": "close_up",
+      "acquisition": {
+        "strategy": "download_from_url",
+        "url": "https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/None-a57d9ce5-e551-4d6a-99e2-510d488b0d1c.jpeg?generation=1701281575249255&alt=media"
+      },
+      "tasks": ["damage_detection"],
+      "detailed_viewpoint": {
+        "centers_on": ["roof"]
+      },
+      "additional_data": {
+        "category": "exterior",
+        "label": {
+          "de": "Dach",
+          "en": "Roof",
+          "fr": "Toit"
+        }
+      }
+    },
+    {
+      "name": "rear_lateral_low_left.jpeg",
+      "acquisition": {
+        "strategy": "download_from_url",
+        "url": "https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/None-7e0b12d0-99a8-47e4-ad4b-25718d315e52.jpeg?generation=1701281636543647&alt=media"
+      },
+      "tasks": ["damage_detection", "wheel_analysis"],
+      "additional_data": {
+        "category": "exterior",
+        "id": "ffocus18-S3kgFOBb",
+        "label": {
+          "de": "Hinten Seitlich Niedrig Links",
+          "en": "Rear Lateral Low Left",
+          "fr": "Arrière Gauche Latéral - vue basse"
+        }
+      }
+    }
+  ],
+  "tasks": {
+    "wheel_analysis": {
+      "status": "TODO",
+      "use_longshots": true
+    },
+    "damage_detection": {
+      "status": "TODO",
+      "generate_subimages_damages": {},
+      "generate_subimages_parts": {
+        "generate_tight": false
+      },
+      "damage_score_threshold": 0.3,
+      "generate_visual_output": {
+        "generate_parts": true,
+        "generate_damages": true
+      }
+    }
+  },
+  "vehicle": {
+    "vehicle_type": "",
+    "vin": "1HGEJ8244YL06777"
+  },
+  "damage_severity": {
+    "output_format": "toyota"
+  },
+  "additional_data": {
+    "damage_detection_version": "v2",
+    "use_dynamic_crops": true,
+    "environment": {
+      "custom_inspection": true
+    }
+  }
+}
