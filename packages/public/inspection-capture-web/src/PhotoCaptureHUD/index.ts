@@ -1,3 +1,3 @@
-export * from './CaptureHUDButtons'; // TODO : Remove this export later
-export * from './CaptureHUDPreview'; // TODO : Remove this export later
-export { CaptureHUD } from './CaptureHUD';
+export * from './PhotoCaptureHUDButtons'; // TODO : Remove this export later
+export * from './PhotoCaptureHUDPreview'; // TODO : Remove this export later
+export { PhotoCaptureHUD } from './PhotoCaptureHUD';
