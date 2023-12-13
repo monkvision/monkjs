@@ -6,8 +6,8 @@ import { InteractiveStatus } from '@monkvision/types';
 import { MonkPicture } from '@monkvision/camera-web';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { CaptureHUDButtons } from '../../src';
-import { captureButtonForegroundColors } from '../../src/CaptureHUD/CaptureHUDButtons/CaptureHUDButtons.styles';
+import { PhotoCaptureHUDButtons } from '../../src';
+import { captureButtonForegroundColors } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDButtons/CaptureHUDButtons.styles';
 
 const GALLERY_BTN_TEST_ID = 'monk-gallery-btn';
 const CLOSE_BTN_TEST_ID = 'monk-close-btn';
@@ -18,7 +18,7 @@ describe('CaptureHUDButtons component', () => {
   });
 
   it('should display 3 buttons : open gallery, take picture and close', () => {
-    const { unmount } = render(<CaptureHUDButtons />);
+    const { unmount } = render(<PhotoCaptureHUDButtons />);
 
     expect(Icon).toHaveBeenCalledTimes(2);
     expect(TakePictureButton).toHaveBeenCalledTimes(1);
@@ -28,7 +28,7 @@ describe('CaptureHUDButtons component', () => {
 
   describe('Gallery button', () => {
     it('should not be disabled by default', () => {
-      const { unmount } = render(<CaptureHUDButtons />);
+      const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
       expect(galleryBtnEl.getAttribute('disabled')).toBeNull();
@@ -37,7 +37,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should be disabled when the galleryDisabled prop is true', () => {
-      const { unmount } = render(<CaptureHUDButtons galleryDisabled={true} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons galleryDisabled={true} />);
 
       const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
       expect(galleryBtnEl.getAttribute('disabled')).toBeDefined();
@@ -47,7 +47,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should get passed the onOpenGallery callback', () => {
       const onOpenGallery = jest.fn();
-      const { unmount } = render(<CaptureHUDButtons onOpenGallery={onOpenGallery} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons onOpenGallery={onOpenGallery} />);
 
       const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
       fireEvent.click(galleryBtnEl);
@@ -58,7 +58,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should display an image icon when no galleryPreview is provided', () => {
       const expectedIcon = 'image';
-      const { unmount } = render(<CaptureHUDButtons />);
+      const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       expect((Icon as jest.Mock).mock.calls).toContainEqual([
         {
@@ -74,7 +74,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should display background image the galleryPreview prop is provided', () => {
       const galleryPreview = { uri: 'test-uri' } as unknown as MonkPicture;
-      const { unmount } = render(<CaptureHUDButtons galleryPreview={galleryPreview} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons galleryPreview={galleryPreview} />);
 
       const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
       const backgroundDiv = galleryBtnEl.querySelector('div');
@@ -89,7 +89,7 @@ describe('CaptureHUDButtons component', () => {
     const takePictureButtonMock = TakePictureButton as unknown as jest.Mock;
 
     it('should not be disabled by default', () => {
-      const { unmount } = render(<CaptureHUDButtons />);
+      const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       expectPropsOnChildMock(takePictureButtonMock, { disabled: false });
 
@@ -97,7 +97,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should be disabled when the takePictureDisabled prop is true', () => {
-      const { unmount } = render(<CaptureHUDButtons takePictureDisabled={true} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons takePictureDisabled={true} />);
 
       expectPropsOnChildMock(takePictureButtonMock, { disabled: true });
 
@@ -105,7 +105,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should have a size of 85px', () => {
-      const { unmount } = render(<CaptureHUDButtons />);
+      const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       expectPropsOnChildMock(takePictureButtonMock, { size: 85 });
 
@@ -114,7 +114,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should get passed the onTakePicture callback', () => {
       const onTakePicture = jest.fn();
-      const { unmount } = render(<CaptureHUDButtons onTakePicture={onTakePicture} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons onTakePicture={onTakePicture} />);
 
       expectPropsOnChildMock(takePictureButtonMock, { onClick: onTakePicture });
 
@@ -124,7 +124,7 @@ describe('CaptureHUDButtons component', () => {
 
   describe('Close button', () => {
     it('should not be disabled by default', () => {
-      const { unmount } = render(<CaptureHUDButtons />);
+      const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       const galleryBtnEl = screen.getByTestId(CLOSE_BTN_TEST_ID);
       expect(galleryBtnEl.getAttribute('disabled')).toBeNull();
@@ -133,7 +133,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should be disabled when the closeDisabled prop is true', () => {
-      const { unmount } = render(<CaptureHUDButtons closeDisabled={true} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons closeDisabled={true} />);
 
       const galleryBtnEl = screen.getByTestId(CLOSE_BTN_TEST_ID);
       expect(galleryBtnEl.getAttribute('disabled')).toBeDefined();
@@ -143,7 +143,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should get passed the onClose callback', () => {
       const onClose = jest.fn();
-      const { unmount } = render(<CaptureHUDButtons onClose={onClose} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons onClose={onClose} />);
 
       const galleryBtnEl = screen.getByTestId(CLOSE_BTN_TEST_ID);
       fireEvent.click(galleryBtnEl);
@@ -154,7 +154,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should display an image icon', () => {
       const expectedIcon = 'close';
-      const { unmount } = render(<CaptureHUDButtons />);
+      const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       expect((Icon as jest.Mock).mock.calls).toContainEqual([
         {
