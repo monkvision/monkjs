@@ -4,7 +4,7 @@ import { useObjectTranslation } from '@monkvision/common';
 import { labels } from '@monkvision/sights';
 import { usePhotoCaptureHUDPreview } from './hook';
 
-export interface PhotoCaptureHUDSliderProps {
+export interface PhotoCaptureHUDSightsSliderProps {
   sights?: Sight[];
   currentSight?: Sight;
   onSightSelected?: (sight: Sight) => void;
@@ -18,7 +18,7 @@ export function PhotoCaptureHUDSightsSlider({
   sights,
   currentSight,
   onSightSelected,
-}: PhotoCaptureHUDSliderProps) {
+}: PhotoCaptureHUDSightsSliderProps) {
   const style = usePhotoCaptureHUDPreview();
 
   function useSightLabel(): UseSightLabelResult {
