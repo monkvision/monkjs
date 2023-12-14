@@ -3725,10 +3725,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/network@workspace:packages/public/network"
   dependencies:
+    "@monkvision/common": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@types/jest": ^29.2.2
     "@types/jsonwebtoken": ^9.0.5
