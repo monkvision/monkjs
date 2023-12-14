@@ -1,19 +1,16 @@
-import { PhotoCaptureHUDPreview } from './hook';
+import { usePhotoCaptureHUDPreview } from './hook';
 
 export interface PhotoCaptureHUDCounterProps {
-  sightDisable?: string[];
-  sight: string[];
-  styles: PhotoCaptureHUDPreview;
+  totalSights?: number;
+  sightsTaken?: number;
 }
 
-export function PhotoCaptureHUDCounter({
-  sightDisable,
-  sight,
-  styles,
-}: PhotoCaptureHUDCounterProps) {
+export function PhotoCaptureHUDCounter({ totalSights, sightsTaken }: PhotoCaptureHUDCounterProps) {
+  const style = usePhotoCaptureHUDPreview();
+
   return (
-    <div style={styles.counter}>
-      {sightDisable} / {sight.length}
+    <div style={style.counter}>
+      {sightsTaken} / {totalSights}
     </div>
   );
 }

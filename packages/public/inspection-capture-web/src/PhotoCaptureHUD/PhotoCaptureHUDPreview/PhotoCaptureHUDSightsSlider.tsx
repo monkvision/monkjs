@@ -1,33 +1,48 @@
 import { Button } from '@monkvision/common-ui-web';
-import { PhotoCaptureHUDPreview } from './hook';
+import { Sight } from '@monkvision/types';
+import { useObjectTranslation } from '@monkvision/common';
+import { labels } from '@monkvision/sights';
+import { usePhotoCaptureHUDPreview } from './hook';
 
-export interface SliderProps {
-  sight: string[];
-  currentSight: string;
-  onSightSelected: (sight: string) => void;
-  styles: PhotoCaptureHUDPreview;
+export interface PhotoCaptureHUDSliderProps {
+  sights?: Sight[];
+  currentSight?: Sight;
+  onSightSelected?: (sight: Sight) => void;
+}
+
+export interface UseSightLabelResult {
+  label: (sight: Sight) => string;
 }
 
 export function PhotoCaptureHUDSightsSlider({
-  sight,
+  sights,
   currentSight,
   onSightSelected,
-  styles,
-}: SliderProps) {
+}: PhotoCaptureHUDSliderProps) {
+  const style = usePhotoCaptureHUDPreview();
+
+  function useSightLabel(): UseSightLabelResult {
+    const { tObj } = useObjectTranslation();
+    return {
+      label: (sight) => {
+        const translationObject = labels[sight.label];
+        return translationObject
+          ? tObj(translationObject)
+          : `translation-not-found[${sight.label}]`;
+      },
+    };
+  }
+  const { label } = useSightLabel();
   return (
-    <div style={styles.slider}>
-      {sight.map((label: string, key: number) => (
+    <div style={style.slider}>
+      {sights?.map((sight, key) => (
         <Button
-          style={styles.labelButton}
+          style={style.labelButton}
           key={key}
-          primaryColor={
-            label === currentSight || (key === 0 && currentSight === '')
-              ? 'primary-base'
-              : 'secondary-xdark'
-          }
-          onClick={() => onSightSelected(label)}
+          primaryColor={sight === currentSight ? 'primary-base' : 'secondary-xdark'}
+          onClick={() => onSightSelected?.(sight)}
         >
-          {label}
+          {label(sight)}
         </Button>
       ))}
     </div>
