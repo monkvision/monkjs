@@ -10,7 +10,7 @@ export function PhotoCaptureHUDCounter({ totalSights, sightsTaken }: PhotoCaptur
 
   return (
     <div style={style.counter}>
-      {sightsTaken} / {totalSights}
+      {totalSights ? `${sightsTaken} / ${totalSights}` : 'error-no-sight'}
     </div>
   );
 }

@@ -11,21 +11,3 @@ export interface PixelDimensions {
    */
   height: number;
 }
-
-/**
- * Object translated
- */
-export interface ObjectTranslation {
-  /**
-   * The English translation.
-   */
-  en: string;
-  /**
-   * The French translation.
-   */
-  fr: string;
-  /**
-   * The German translation.
-   */
-  de: string;
-}

@@ -1,4 +1,4 @@
-import { LabelTranslation } from '@monkvision/types';
+import { MonkLanguage, TranslationObject } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -10,7 +10,7 @@ export interface UseObjectTranslationResult {
    * Function translating a LabelTranslation object into a translated label sync with the actual selected language.
    * @param obj
    */
-  tObj: (obj: LabelTranslation) => string;
+  tObj: (obj: TranslationObject) => string;
 }
 
 /**
@@ -18,19 +18,9 @@ export interface UseObjectTranslationResult {
  */
 export function useObjectTranslation(): UseObjectTranslationResult {
   const { i18n } = useTranslation();
-  return {
-    tObj: (obj) => {
-      const lang = i18n.language.slice(0, 2);
-      switch (lang) {
-        case 'en':
-          return obj.en;
-        case 'fr':
-          return obj.fr;
-        case 'de':
-          return obj.de;
-        default:
-          return obj.en;
-      }
-    },
+  const tObj = (obj: TranslationObject) => {
+    const lang = i18n.language.slice(0, 2) as MonkLanguage;
+    return obj[lang] ?? 'translation-not-found';
   };
+  return { tObj };
 }

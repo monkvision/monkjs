@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import { useResponsiveStyle } from '@monkvision/common';
 import { styles } from './PhotoCaptureHUDPreview.styles';
 
 export interface PhotoCaptureHUDPreview {
@@ -7,12 +8,15 @@ export interface PhotoCaptureHUDPreview {
   counter: CSSProperties;
   slider: CSSProperties;
   labelButton: CSSProperties;
+  sightOverlay: CSSProperties;
 }
 
 export function usePhotoCaptureHUDPreview(): PhotoCaptureHUDPreview {
+  const { responsive } = useResponsiveStyle();
   return {
     containerStyle: {
       ...styles['container'],
+      ...responsive(styles['containerPortrait']),
     },
     top: {
       ...styles['top'],
@@ -25,6 +29,9 @@ export function usePhotoCaptureHUDPreview(): PhotoCaptureHUDPreview {
     },
     labelButton: {
       ...styles['labelButton'],
+    },
+    sightOverlay: {
+      ...styles['sightOverlay'],
     },
   };
 }

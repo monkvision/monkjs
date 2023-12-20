@@ -8,4 +8,9 @@ export const styles: Styles = {
     alignSelf: 'stretch',
     flex: '1',
   },
+  containerPortrait: {
+    __media: { portrait: true },
+    padding: 20,
+    flexDirection: 'row-reverse',
+  },
 };

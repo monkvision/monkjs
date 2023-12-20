@@ -19,6 +19,7 @@ export const styles: Styles = {
     flexDirection: 'column',
     padding: '30px 40px',
     backgroundColor: '#000000',
+    zIndex: '9',
   },
   containersPortrait: {
     __media: { portrait: true },

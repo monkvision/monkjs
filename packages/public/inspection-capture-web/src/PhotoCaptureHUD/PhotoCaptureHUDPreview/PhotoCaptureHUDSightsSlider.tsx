@@ -1,8 +1,8 @@
 import { Button } from '@monkvision/common-ui-web';
 import { Sight } from '@monkvision/types';
 import { useObjectTranslation } from '@monkvision/common';
-import { labels } from '@monkvision/sights';
 import { usePhotoCaptureHUDPreview } from './hook';
+import { labels } from '@monkvision/sights/';
 
 export interface PhotoCaptureHUDSightsSliderProps {
   sights?: Sight[];
@@ -17,7 +17,7 @@ export interface UseSightLabelResult {
 export function PhotoCaptureHUDSightsSlider({
   sights,
   currentSight,
-  onSightSelected,
+  onSightSelected = (sight) => {},
 }: PhotoCaptureHUDSightsSliderProps) {
   const style = usePhotoCaptureHUDPreview();
 
@@ -35,12 +35,13 @@ export function PhotoCaptureHUDSightsSlider({
   const { label } = useSightLabel();
   return (
     <div style={style.slider}>
-      {sights?.map((sight, key) => (
+      {sights?.map((sight, index) => (
         <Button
           style={style.labelButton}
-          key={key}
+          key={index}
           primaryColor={sight === currentSight ? 'primary-base' : 'secondary-xdark'}
-          onClick={() => onSightSelected?.(sight)}
+          onClick={() => onSightSelected(sight)}
+          data-testid={`sight-btn-${index}`}
         >
           {label(sight)}
         </Button>

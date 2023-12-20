@@ -1,5 +1,5 @@
 import { TaskName } from './state';
-import { ObjectTranslation } from './utils';
+import { TranslationObject } from './i18n';
 
 /**
  * The category of a Sight.
@@ -175,7 +175,7 @@ export interface VehicleDetails {
 /**
  * The translation of labels for Sights, VehicleTypes etc.
  */
-export interface LabelTranslation extends ObjectTranslation {
+export interface LabelTranslation extends TranslationObject {
   /**
    * The key of the label.
    */
