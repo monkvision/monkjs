@@ -1,7 +1,7 @@
 import { Button } from '@monkvision/common-ui-web';
 import { Sight } from '@monkvision/types';
 import { useObjectTranslation } from '@monkvision/common';
-import { labels } from '@monkvision/sights/';
+import { labels } from '@monkvision/sights';
 import { usePhotoCaptureHUDPreview } from '../hook';
 
 export interface PhotoCaptureHUDSightsSliderProps {

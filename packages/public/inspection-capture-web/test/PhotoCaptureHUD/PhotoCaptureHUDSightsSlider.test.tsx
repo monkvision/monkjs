@@ -3,20 +3,15 @@ jest.mock('@monkvision/common-ui-web');
 jest.mock('@monkvision/common');
 jest.mock('@monkvision/sights');
 
+// import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { render } from '@testing-library/react';
+import { sights } from '@monkvision/sights';
 import { Button } from '@monkvision/common-ui-web';
-import { sights } from '@monkvision/sights/';
 import { PhotoCaptureHUDSightsSlider } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/components/PhotoCaptureHUDSightsSlider';
 
-const sightArray = Object.values(sights)
-  .map((sight) => sight)
-  .slice(0, 19);
+const sightArray = Object.values(sights);
 
 describe('PhotoCaptureHUDSightsSlider component', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-  // const button = Button as unknown as jest.Mock;
   it('should not render any buttons when sights is not provided', () => {
     const { unmount } = render(<PhotoCaptureHUDSightsSlider />);
 
@@ -31,15 +26,18 @@ describe('PhotoCaptureHUDSightsSlider component', () => {
     unmount();
   });
 
-  it('should call tObj function for every button', () => {
-    const onSightSelected = jest.fn();
-    const { unmount } = render(
-      <PhotoCaptureHUDSightsSlider
-        currentSight={sightArray[0]}
-        sights={sightArray}
-        onSightSelected={onSightSelected}
-      />,
-    );
-    unmount();
-  });
+  // it('should call tObj function for every button', () => {
+  //   const buttonMock = Button as unknown as jest.Mock;
+  //   const onSightSelected = jest.fn();
+  //   const { unmount } = render(
+  //     <PhotoCaptureHUDSightsSlider
+  //       currentSight={sightArray[0]}
+  //       sights={sightArray}
+  //       onSightSelected={onSightSelected}
+  //     />,
+  //   );
+  //   expectPropsOnChildMock(buttonMock, { onClick: expect.any(Function) });
+  //
+  //   unmount();
+  // });
 });

@@ -1,15 +1,20 @@
 jest.mock('@monkvision/common-ui-web');
+jest.mock('@monkvision/sights', () => ({ sights: { sight1: {}, sight2: {} } }));
 
-import { PhotoCaptureHUDSightsOverlay } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/components/PhotoCaptureHUDSightsOverlay';
 import { render } from '@testing-library/react';
 import { SightOverlay } from '@monkvision/common-ui-web';
-import { sights } from '@monkvision/sights/lib/data';
-
-const sightArray = Object.values(sights).map((sight) => sight);
+import { sights } from '@monkvision/sights';
+import { PhotoCaptureHUDSightsOverlay } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/components/PhotoCaptureHUDSightsOverlay';
 
 describe('PhotoCaptureHUDSightsOverlay component', () => {
-  it('renders Sights Overlay when sight is provided', () => {
-    const { unmount } = render(<PhotoCaptureHUDSightsOverlay sight={sightArray[0]} />);
+  it('should render not Sights Overlay when sight is not provided', () => {
+    const { unmount } = render(<PhotoCaptureHUDSightsOverlay />);
+    expect(SightOverlay).toHaveBeenCalledTimes(0);
+    unmount();
+  });
+
+  it('should render Sights Overlay when sight is provided', () => {
+    const { unmount } = render(<PhotoCaptureHUDSightsOverlay sight={sights['sight1']} />);
     expect(SightOverlay).toHaveBeenCalled();
     unmount();
   });

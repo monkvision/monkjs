@@ -5,7 +5,10 @@ export interface PhotoCaptureHUDCounterProps {
   sightsTaken?: number;
 }
 
-export function PhotoCaptureHUDCounter({ totalSights, sightsTaken }: PhotoCaptureHUDCounterProps) {
+export function PhotoCaptureHUDCounter({
+  totalSights = 0,
+  sightsTaken = 0,
+}: PhotoCaptureHUDCounterProps) {
   const style = usePhotoCaptureHUDPreview();
 
   return (
