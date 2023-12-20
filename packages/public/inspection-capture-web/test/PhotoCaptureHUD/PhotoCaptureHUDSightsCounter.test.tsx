@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { PhotoCaptureHUDCounter } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDPreview/PhotoCaptureHUDSightsCounter';
+import { PhotoCaptureHUDCounter } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/components/PhotoCaptureHUDSightsCounter';
 
 describe('PhotoCaptureHUDSightsCounter component', () => {
   it('render counter with no props', () => {

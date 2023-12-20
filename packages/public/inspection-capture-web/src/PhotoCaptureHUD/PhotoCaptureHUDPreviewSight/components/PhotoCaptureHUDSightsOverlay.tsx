@@ -1,6 +1,6 @@
 import { Sight } from '@monkvision/types';
 import { SightOverlay } from '@monkvision/common-ui-web';
-import { usePhotoCaptureHUDPreview } from './hook';
+import { usePhotoCaptureHUDPreview } from '../hook';
 
 export interface PhotoCaptureHUDSightsOverlayProps {
   sight?: Sight;

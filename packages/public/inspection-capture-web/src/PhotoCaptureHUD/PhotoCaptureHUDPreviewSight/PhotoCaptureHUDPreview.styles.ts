@@ -2,7 +2,6 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
-    // position: 'absolute',
     display: 'flex',
     alignSelf: 'stretch',
     justifyContent: 'space-between',
@@ -16,8 +15,6 @@ export const styles: Styles = {
     flexDirection: 'row-reverse',
   },
   top: {
-    // position: 'fixed',
-    // top: '10px',
     display: 'flex',
     alignSelf: 'stretch',
     flexDirection: 'row',
@@ -36,12 +33,10 @@ export const styles: Styles = {
     zIndex: '9',
   },
   slider: {
-    // position: 'fixed',
-    // bottom: '2px',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: '35%',
+    paddingLeft: '45%',
     paddingBottom: '0%',
     overflowX: 'auto',
     overflowY: 'hidden',
@@ -55,15 +50,6 @@ export const styles: Styles = {
     zIndex: '9',
   },
   sightOverlay: {
-    // justifySelf: 'center',
-    // position: 'fixed',
-    // top: '0',
-    // left: '0',
-    // right: '0',
-    // bottom: '0',
-    // width: '100%',
-    // height: '100%',
-    // display: 'flex',
     zIndex: '9',
   },
 };

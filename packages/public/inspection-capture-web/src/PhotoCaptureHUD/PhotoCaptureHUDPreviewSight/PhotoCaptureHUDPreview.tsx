@@ -1,9 +1,9 @@
 import { Sight } from '@monkvision/types';
 import { Button } from '@monkvision/common-ui-web';
 import { PhotoCaptureHUDPreview, usePhotoCaptureHUDPreview } from './hook';
-import { PhotoCaptureHUDSightsSlider } from './PhotoCaptureHUDSightsSlider';
-import { PhotoCaptureHUDCounter } from './PhotoCaptureHUDSightsCounter';
-import { PhotoCaptureHUDSightsOverlay } from './PhotoCaptureHUDSightsOverlay';
+import { PhotoCaptureHUDSightsSlider } from './components/PhotoCaptureHUDSightsSlider';
+import { PhotoCaptureHUDCounter } from './components/PhotoCaptureHUDSightsCounter';
+import { PhotoCaptureHUDSightsOverlay } from './components/PhotoCaptureHUDSightsOverlay';
 
 export interface PhotoCaptureHUDPreviewProps {
   sights?: Sight[];

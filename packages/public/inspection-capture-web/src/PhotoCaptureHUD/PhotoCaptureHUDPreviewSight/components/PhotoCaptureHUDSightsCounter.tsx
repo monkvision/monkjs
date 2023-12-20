@@ -1,4 +1,4 @@
-import { usePhotoCaptureHUDPreview } from './hook';
+import { usePhotoCaptureHUDPreview } from '../hook';
 
 export interface PhotoCaptureHUDCounterProps {
   totalSights?: number;

@@ -1,11 +1,13 @@
 import { Button } from '@monkvision/common-ui-web';
-import { usePhotoCaptureHUDPreview } from './hook';
+import { usePhotoCaptureHUDPreview } from '../PhotoCaptureHUDPreviewSight/hook';
 
 export interface PhotoCaptureHUDAddDamageMenuProps {
   onAddDamage: (state: boolean) => void;
 }
 
-export function PhotoCaptureHUDAddDamageMenu({ onAddDamage }: PhotoCaptureHUDAddDamageMenuProps) {
+export function PhotoCaptureHUDPreviewAddDamage({
+  onAddDamage,
+}: PhotoCaptureHUDAddDamageMenuProps) {
   const style = usePhotoCaptureHUDPreview();
   return (
     <div style={style.containerStyle}>
