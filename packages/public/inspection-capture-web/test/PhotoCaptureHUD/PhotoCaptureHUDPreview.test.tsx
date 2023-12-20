@@ -1,3 +1,5 @@
+jest.mock('@monkvision/sights');
+
 import { render } from '@testing-library/react';
 import { PhotoCaptureHUDPreview } from '../../src';
 

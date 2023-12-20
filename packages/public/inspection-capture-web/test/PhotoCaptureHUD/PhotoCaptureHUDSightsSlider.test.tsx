@@ -1,6 +1,7 @@
 jest.mock('react-i18next');
 jest.mock('@monkvision/common-ui-web');
 jest.mock('@monkvision/common');
+jest.mock('@monkvision/sights');
 
 import { render } from '@testing-library/react';
 import { Button } from '@monkvision/common-ui-web';
