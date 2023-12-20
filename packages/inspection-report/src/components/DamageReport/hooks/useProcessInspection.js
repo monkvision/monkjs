@@ -83,11 +83,25 @@ function getPictures(inspection) {
 function getPartPictures(part, inspection) {
   const closeUps = inspection.images.filter((image) => (
     image.image_type === 'close_up'
-      && image.detailed_viewpoint?.centers_on.includes(part.part_type)
+    && image.detailed_viewpoint?.centers_on.includes(part.part_type)
   ));
-  const beautyShots = inspection.images.filter((image) => (
+  const beautyShotsWithDamages = inspection.images.filter((image) => (
     image.image_type === 'beauty_shot'
     && image.views?.some((view) => view.element_id === part.id)
+    && image.views?.some((view) => part.damage_ids.includes(view.element_id))
+  )).map((beautyShot) => {
+    const view = beautyShot.views?.find((view) => view.element_id === part.id);
+    return {
+      ...beautyShot,
+      size: view?.image_region?.specification?.bounding_box?.width * view?.image_region?.specification?.bounding_box?.height || 0
+    }
+  }).sort((a, b) => {
+    return b.size - a.size;
+  });
+  const beautyShotsWithoutDamages = inspection.images.filter((image) => (
+    image.image_type === 'beauty_shot'
+    && image.views?.some((view) => view.element_id === part.id)
+    && image.views?.some((view) => !part.damage_ids.includes(view.element_id))
   )).map((beautyShot) => {
     const view = beautyShot.views?.find((view) => view.element_id === part.id);
     return {
@@ -98,7 +112,7 @@ function getPartPictures(part, inspection) {
     return b.size - a.size;
   });
 
-  return [...closeUps, ...beautyShots].map((image) => ({
+  return [...closeUps, ...beautyShotsWithDamages, ...beautyShotsWithoutDamages].map((image) => ({
     id: image.id,
     mimetype: image.mimetype,
     image_type: image.image_type,
