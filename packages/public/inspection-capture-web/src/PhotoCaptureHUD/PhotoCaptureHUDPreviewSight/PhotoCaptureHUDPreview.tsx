@@ -24,13 +24,13 @@ export function PhotoCaptureHUDPreview({
 
   return (
     <div style={style.containerStyle}>
+      <PhotoCaptureHUDSightsOverlay sight={currentSight} />
       <div style={style.top}>
         <PhotoCaptureHUDCounter totalSights={sights?.length} sightsTaken={sightsTaken} />
         <Button icon='add' onClick={() => onAddDamage?.(true)} data-testid='monk-test-btn'>
           Damage
         </Button>
       </div>
-      <PhotoCaptureHUDSightsOverlay sight={currentSight} />
       <PhotoCaptureHUDSightsSlider
         sights={sights}
         currentSight={currentSight?.id}
