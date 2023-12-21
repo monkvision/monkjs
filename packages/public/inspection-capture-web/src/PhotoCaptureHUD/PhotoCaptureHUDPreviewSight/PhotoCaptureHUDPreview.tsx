@@ -33,7 +33,7 @@ export function PhotoCaptureHUDPreview({
       <PhotoCaptureHUDSightsOverlay sight={currentSight} />
       <PhotoCaptureHUDSightsSlider
         sights={sights}
-        currentSight={currentSight}
+        currentSight={currentSight?.id}
         onSightSelected={onSightSelected}
       />
     </div>

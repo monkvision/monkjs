@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { renderHook } from '@testing-library/react-hooks';
 import { useObjectTranslation } from '../../src';
 
-const obj: TranslationObject = { en: 'Hello', fr: 'Bonjour', de: 'Hallo' };
+const obj = { en: 'Hello', fr: 'Bonjour', de: 'Hallo' } as TranslationObject;
 
 describe('useObjectTranslation hook', () => {
   it('should return a tObj function', () => {
