@@ -106,6 +106,20 @@ export default function InspectionCapture() {
           console.error(error);
         }
       }
+
+      if (client === Clients.ALGODRIVEN_CAPTURE) {
+        try {
+          await axios.request({
+            method: 'post',
+            url: `https://evalexpert.io/v1/monk-ai/${inspectionId}/setStatus`,
+            data: {
+              status: "PROCESSING"
+            },
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
       if (isLastTour && info.vm) {
         navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
       } else {
