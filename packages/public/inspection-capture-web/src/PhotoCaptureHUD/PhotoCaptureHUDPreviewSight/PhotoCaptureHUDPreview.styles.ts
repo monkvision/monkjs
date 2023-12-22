@@ -10,11 +10,6 @@ export const styles: Styles = {
     backgroundColor: 'green',
     flex: '1',
   },
-  containersPortrait: {
-    __media: { portrait: true },
-    padding: 20,
-    flexDirection: 'row-reverse',
-  },
   top: {
     position: 'absolute',
     display: 'flex',

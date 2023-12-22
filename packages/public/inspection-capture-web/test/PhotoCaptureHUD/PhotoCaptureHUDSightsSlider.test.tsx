@@ -48,7 +48,6 @@ describe('PhotoCaptureHUDSightsSlider component', () => {
     sights.forEach((sight, index) => {
       expectPropsOnChildMock(buttonMock, { onClick: expect.any(Function) });
       const onClickProp = buttonMock.mock.calls[index][0].onClick;
-      // const myValue = { test: 'salut' };
       onClickProp();
       expect(onSightSelected).toHaveBeenCalledWith(sight);
     });

@@ -10,7 +10,6 @@ export const styles: Styles = {
   },
   containerPortrait: {
     __media: { portrait: true },
-    padding: 20,
-    flexDirection: 'row-reverse',
+    flexDirection: 'column',
   },
 };

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Sight } from '@monkvision/types';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
-import { styles } from './PhotoCaptureHUD.styles';
 import { PhotoCaptureHUDPreviewAddDamage } from './PhotoCaptureHUDPreviewAddDamage';
 import { PhotoCaptureHUDPreview } from './PhotoCaptureHUDPreviewSight';
+import { usePhotoCaptureHUD } from './hook';
 
 export interface PhotoCaptureHUDProps {
   sights?: Sight[];
@@ -22,8 +22,9 @@ export function PhotoCaptureHUD({ sights }: PhotoCaptureHUDProps) {
     setIsOnAddDamage(state);
   };
 
+  const style = usePhotoCaptureHUD();
   return (
-    <div style={styles['container']}>
+    <div style={style.container}>
       {!isOnAddDamage ? (
         <PhotoCaptureHUDPreview
           sights={sights}
