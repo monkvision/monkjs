@@ -165,7 +165,7 @@ export default function Landing() {
             </List.Subheader>
           </List.Section>
           <List.Section>
-            <List.Subheader>Select vehicle type</List.Subheader>
+            <List.Subheader>{t('landing.selectVehicle')}</List.Subheader>
             <VehicleType
               selected={inspection?.vehicle?.vehicleType || vehicleType}
               onSelect={(value) => setVehicleType(value)}

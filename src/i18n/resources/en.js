@@ -42,6 +42,7 @@ const en = {
       downloadPdf: 'Download PDF',
       downloadPdfDescription: 'Available when all stasks are completed',
       appVersion: 'App Version',
+      selectVehicle: 'Select vehicle type',
     },
     vinModal: {
       title: 'How to set VIN number?',
