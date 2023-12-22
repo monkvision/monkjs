@@ -269,6 +269,7 @@ UpdateDamageModal.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   images: PropTypes.arrayOf(
     PropTypes.shape({
+      image_type: PropTypes.string,
       url: PropTypes.string,
     }),
   ),
