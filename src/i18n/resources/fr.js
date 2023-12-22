@@ -42,6 +42,7 @@ const fr = {
       downloadPdf: 'Télécharger le PDF',
       downloadPdfDescription: 'Disponible lorsque toutes les tâches sont terminées',
       appVersion: 'Version de l\'application',
+      selectVehicle: 'Séléctionnez le type de véhicule',
     },
     vinModal: {
       title: 'Comment définir le numéro VIN ?',

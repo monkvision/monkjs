@@ -319,7 +319,6 @@ Controls.AddDamageButtonProps = {
   id: 'add-damage',
   accessibilityLabel: 'Zoomed Damage',
   children: <AddDamageButton
-    label="Zoomed Damage"
     customStyle={{
       fontSize: 12,
       color: '#020202',
