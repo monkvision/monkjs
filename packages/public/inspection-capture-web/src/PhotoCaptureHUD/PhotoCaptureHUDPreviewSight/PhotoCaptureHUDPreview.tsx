@@ -10,7 +10,7 @@ export interface PhotoCaptureHUDPreviewProps {
   currentSight?: Sight;
   onSightSelected?: (sight: Sight) => void;
   onAddDamage?: (state: boolean) => void;
-  sightsTaken?: number;
+  sightsTaken?: Sight[];
 }
 
 export function PhotoCaptureHUDPreview({
@@ -26,14 +26,21 @@ export function PhotoCaptureHUDPreview({
     <div style={style.containerStyle}>
       <PhotoCaptureHUDSightsOverlay sight={currentSight} />
       <div style={style.top}>
-        <PhotoCaptureHUDCounter totalSights={sights?.length} sightsTaken={sightsTaken} />
-        <Button icon='add' onClick={() => onAddDamage?.(true)} data-testid='monk-test-btn'>
+        <PhotoCaptureHUDCounter totalSights={sights?.length} sightsTaken={sightsTaken?.length} />
+        <Button
+          icon='add'
+          onClick={() => onAddDamage?.(true)}
+          primaryColor='secondary-xdark'
+          data-testid='monk-test-btn'
+          style={style.addDamageButton}
+        >
           Damage
         </Button>
       </div>
       <PhotoCaptureHUDSightsSlider
         sights={sights}
         currentSight={currentSight?.id}
+        sightsTaken={sightsTaken}
         onSightSelected={onSightSelected}
       />
     </div>

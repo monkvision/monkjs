@@ -8,6 +8,7 @@ export interface PhotoCaptureHUDPreview {
   slider: CSSProperties;
   labelButton: CSSProperties;
   sightOverlay: CSSProperties;
+  addDamageButton: CSSProperties;
 }
 
 export function usePhotoCaptureHUDPreview(): PhotoCaptureHUDPreview {
@@ -29,6 +30,9 @@ export function usePhotoCaptureHUDPreview(): PhotoCaptureHUDPreview {
     },
     sightOverlay: {
       ...styles['sightOverlay'],
+    },
+    addDamageButton: {
+      ...styles['addDamageButton'],
     },
   };
 }

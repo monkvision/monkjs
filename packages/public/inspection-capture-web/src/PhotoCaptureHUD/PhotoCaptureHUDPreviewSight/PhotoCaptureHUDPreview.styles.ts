@@ -56,4 +56,7 @@ export const styles: Styles = {
   sightOverlay: {
     zIndex: '9',
   },
+  addDamageButton: {
+    backgroundColor: 'rgba(52, 53, 63, 0.64)',
+  },
 };

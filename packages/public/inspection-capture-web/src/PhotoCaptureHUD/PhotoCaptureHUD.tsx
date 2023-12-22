@@ -12,7 +12,7 @@ export interface PhotoCaptureHUDProps {
 export function PhotoCaptureHUD({ sights }: PhotoCaptureHUDProps) {
   const [currentSight, setCurrentSight] = useState(sights?.[0]);
   const [isOnAddDamage, setIsOnAddDamage] = useState<boolean>(false);
-  const [sightsTaken] = useState(0);
+  const [sightsTaken, setSightsTaken] = useState<Sight[]>([]);
 
   const handleOnSightSelected = (sight: Sight): void => {
     setCurrentSight(sight);
@@ -36,7 +36,12 @@ export function PhotoCaptureHUD({ sights }: PhotoCaptureHUDProps) {
       ) : (
         <PhotoCaptureHUDPreviewAddDamage onAddDamage={handleOnAddDamage} />
       )}
-      <PhotoCaptureHUDButtons />
+      <PhotoCaptureHUDButtons
+        onTakePicture={() => {
+          if (currentSight && !sightsTaken.some((sightTaken) => sightTaken === currentSight))
+            setSightsTaken([...sightsTaken, currentSight]);
+        }}
+      />
     </div>
   );
 }
