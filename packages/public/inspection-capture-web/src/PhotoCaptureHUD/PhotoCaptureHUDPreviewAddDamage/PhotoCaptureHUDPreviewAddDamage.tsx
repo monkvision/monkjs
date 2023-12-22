@@ -2,11 +2,11 @@ import { Button } from '@monkvision/common-ui-web';
 import { usePhotoCaptureHUDPreview } from '../PhotoCaptureHUDPreviewSight/hook';
 
 export interface PhotoCaptureHUDAddDamageMenuProps {
-  onAddDamage: (state: boolean) => void;
+  onAddDamage?: (state: boolean) => void;
 }
 
 export function PhotoCaptureHUDPreviewAddDamage({
-  onAddDamage,
+  onAddDamage = () => {},
 }: PhotoCaptureHUDAddDamageMenuProps) {
   const style = usePhotoCaptureHUDPreview();
   return (
