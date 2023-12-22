@@ -215,10 +215,12 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
               />
             </Pressable>
             <Text style={styles.header}>{t(`damageReport.parts.${part}`)}</Text>
+            {images.length > 0 && images[currentPhotoIndex]?.image_type !== 'close_up' && (
             <Pressable style={styles.damageIconWrapper} onPress={handleVisibilityOfDamages}>
-              <MaterialIcons name={visibleDamages ? "visibility-off" : "visibility"} size={20} color="#fff" />
+              <MaterialIcons name={visibleDamages ? 'visibility-off' : 'visibility'} size={20} color="#fff" />
               <Text style={styles.damageLabel}>{visibleDamages ? t(`damageReport.hideDamages`) : t(`damageReport.showDamages`)}</Text>
             </Pressable>
+            )}
           </View>
           <View
             style={[styles.carouselWrapper, { height: height / 3 }]}
@@ -267,6 +269,7 @@ UpdateDamageModal.propTypes = {
   damageMode: CommonPropTypes.damageMode,
   images: PropTypes.arrayOf(
     PropTypes.shape({
+      image_type: PropTypes.string,
       url: PropTypes.string,
     }),
   ),
