@@ -8,13 +8,12 @@ import { useTranslation } from 'react-i18next';
 export interface UseObjectTranslationResult {
   /**
    * Function translating a LabelTranslation object into a translated label sync with the actual selected language.
-   * @param obj
    */
   tObj: (obj: TranslationObject) => string;
 }
 
 /**
- * Custom hook used to get the label with the actual selected language.
+ * Custom hook used to get a translate function tObj that translates TranslationObjects.
  */
 export function useObjectTranslation(): UseObjectTranslationResult {
   const { i18n } = useTranslation();

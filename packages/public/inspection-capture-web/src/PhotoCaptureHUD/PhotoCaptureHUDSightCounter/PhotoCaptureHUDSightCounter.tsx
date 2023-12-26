@@ -1,8 +1,8 @@
 import { usePhotoCaptureHUDPreview } from '../hook';
 
 export interface PhotoCaptureHUDCounterProps {
-  totalSights?: number;
-  sightsTaken?: number;
+  totalSights: number;
+  sightsTaken: number;
 }
 
 export function PhotoCaptureHUDCounter({
@@ -13,7 +13,7 @@ export function PhotoCaptureHUDCounter({
 
   return (
     <div style={style.counter}>
-      {totalSights ? `${sightsTaken} / ${totalSights}` : 'error-no-sight'}
+      {`${sightsTaken} / ${totalSights}`}
     </div>
   );
 }

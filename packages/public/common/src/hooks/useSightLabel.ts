@@ -9,16 +9,18 @@ export interface UseSightLabelResult {
   label: (sight: Sight) => string;
 }
 
+/**
+ * Parameters given to the useSightLabel hook.
+ */
 export interface UseSightLabelParams {
   /**
-   * Function translating a Sight object into a translated label sync with the actual selected language.
-   * @param obj
+   * A dictionary of label translations objects.
    */
   labels: LabelDictionary;
 }
 
 /**
- * Custom hook used to get the label with the actual selected language.
+ * Custom hook used to get the label of a sight with the actual selected language.
  */
 export function useSightLabel({ labels }: UseSightLabelParams): UseSightLabelResult {
   const { tObj } = useObjectTranslation();
