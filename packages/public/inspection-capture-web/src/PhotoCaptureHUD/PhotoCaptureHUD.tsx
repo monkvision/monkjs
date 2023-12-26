@@ -1,59 +1,54 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Sight } from '@monkvision/types';
+import { i18nWrap } from '@monkvision/common';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { PhotoCaptureHUDPreviewAddDamage } from './PhotoCaptureHUDPreviewAddDamage';
 import { PhotoCaptureHUDPreview } from './PhotoCaptureHUDPreviewSight';
-import { usePhotoCaptureHUD } from './hook';
+import { HUDMode, i18nAddDamage, usePhotoCaptureHUD } from './hook';
 
 export interface PhotoCaptureHUDProps {
-  sights?: Sight[];
+  sights: Sight[];
 }
 
-export function PhotoCaptureHUD({ sights }: PhotoCaptureHUDProps) {
-  const [currentSight, setCurrentSight] = useState(sights?.[0]);
+export const PhotoCaptureHUD = i18nWrap(({ sights }: PhotoCaptureHUDProps) => {
+  const [currentSight, setCurrentSight] = useState<Sight>(sights[0]);
   const [currentSightSliderIndex, setCurrentSightSliderIndex] = useState(0);
-  const [isOnAddDamage, setIsOnAddDamage] = useState<boolean>(false);
+  const [mode, setMode] = useState<HUDMode>(HUDMode.DEFAULT);
   const [sightsTaken, setSightsTaken] = useState<Sight[]>([]);
-  const ref = useRef<HTMLDivElement>(null);
 
-  const handleOnSightSelected = (sight: Sight): void => {
+  const handleOnSightSelected = (sight: Sight, index: number): void => {
     setCurrentSight(sight);
+    setCurrentSightSliderIndex(index);
   };
 
-  const handleOnAddDamage = (state: boolean): void => {
-    setIsOnAddDamage(state);
+  const handleOnAddDamage = (newMode: HUDMode): void => {
+    setMode(newMode);
   };
 
-  const onScrollToSelected = (index: number, smooth: boolean): void => {
-    if (ref.current && ref.current.children.length > index) {
-      ref.current.children[index].scrollIntoView({
-        behavior: smooth ? 'smooth' : ('instant' as ScrollBehavior),
-        inline: 'center',
-      });
-      setCurrentSightSliderIndex(index);
+  const renderSelectedHUDMode = () => {
+    switch (mode) {
+      case HUDMode.DEFAULT:
+        return (
+          <PhotoCaptureHUDPreview
+            sights={sights}
+            currentSight={currentSight}
+            onSightSelected={handleOnSightSelected}
+            sightsTaken={sightsTaken}
+            onAddDamage={handleOnAddDamage}
+            currentSightSliderIndex={currentSightSliderIndex}
+          />
+        );
+      case HUDMode.ADD_DAMAGE:
+        return <PhotoCaptureHUDPreviewAddDamage onAddDamage={handleOnAddDamage} />;
+
+      default:
+        return null;
     }
   };
-
-  useEffect(() => {
-    onScrollToSelected(currentSightSliderIndex, false);
-  }, [isOnAddDamage]);
-
   const style = usePhotoCaptureHUD();
   return (
     <div style={style.container}>
-      {!isOnAddDamage ? (
-        <PhotoCaptureHUDPreview
-          sights={sights}
-          currentSight={currentSight}
-          onSightSelected={handleOnSightSelected}
-          sightsTaken={sightsTaken}
-          onAddDamage={handleOnAddDamage}
-          onScrollToSelected={onScrollToSelected}
-          ref={ref}
-        />
-      ) : (
-        <PhotoCaptureHUDPreviewAddDamage onAddDamage={handleOnAddDamage} />
-      )}
+      {renderSelectedHUDMode()}
       <PhotoCaptureHUDButtons
         onTakePicture={() => {
           if (currentSight && !sightsTaken.some((sightTaken) => sightTaken === currentSight))
@@ -62,4 +57,4 @@ export function PhotoCaptureHUD({ sights }: PhotoCaptureHUDProps) {
       />
     </div>
   );
-}
+}, i18nAddDamage);

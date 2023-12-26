@@ -10,4 +10,5 @@ export const styles: Styles = {
     borderRadius: '8px',
     backgroundColor: 'rgba(28, 28, 30, 0.64)',
     zIndex: '9',
+  },
 };

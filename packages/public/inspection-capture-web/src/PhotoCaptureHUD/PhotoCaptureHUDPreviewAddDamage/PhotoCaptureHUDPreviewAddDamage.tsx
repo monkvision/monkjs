@@ -1,8 +1,9 @@
 import { Button } from '@monkvision/common-ui-web';
 import { usePhotoCaptureHUDPreview } from '../PhotoCaptureHUDPreviewSight/hook';
+import { HUDMode } from '../hook';
 
 export interface PhotoCaptureHUDAddDamageMenuProps {
-  onAddDamage?: (state: boolean) => void;
+  onAddDamage?: (newMode: HUDMode) => void;
 }
 
 export function PhotoCaptureHUDPreviewAddDamage({
@@ -11,7 +12,7 @@ export function PhotoCaptureHUDPreviewAddDamage({
   const style = usePhotoCaptureHUDPreview();
   return (
     <div style={style.containerStyle}>
-      <Button icon='arrow-back' onClick={() => onAddDamage(false)} />;
+      <Button icon='arrow-back' onClick={() => onAddDamage(HUDMode.DEFAULT)} />;
     </div>
   );
 }
