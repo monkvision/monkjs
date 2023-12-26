@@ -140,7 +140,7 @@ export default function InspectionCapture() {
   }, [getTaskName]);
 
   const handleSuccess = useCallback(async () => {
-    if (success && isFocused) {
+    if (success && isFocused && !cameraLoading) {
       setCameraLoading(true);
 
       try {
@@ -184,7 +184,7 @@ export default function InspectionCapture() {
         setCameraLoading(false);
       }
     }
-  }, [dispatch, handleNavigate, inspectionId, success, taskName, isFocused]);
+  }, [dispatch, handleNavigate, cameraLoading, inspectionId, success, taskName, isFocused]);
 
   const handleChange = useCallback((state) => {
     if (!success && isFocused && !enableComplianceCheck) {
@@ -292,7 +292,10 @@ export default function InspectionCapture() {
         onCaptureClose={handleCaptureClose}
         onChange={handleChange}
         enableComplianceCheck={enableComplianceCheck}
-        onCaptureTourFinish={handleCaptureTourFinish}
+        onCaptureTourFinish={() => {
+          setCameraLoading(false);
+          handleCaptureTourFinish();
+        }}
         onComplianceCheckFinish={() => setSuccess(true)}
         colors={colors}
         vehicleType={vehicleType}
