@@ -157,3 +157,35 @@ function MyComponent() {
 | sight         | Sight                                                                                      | The sight to display the SVG overlay of.                                                                                                                                            | ✔️       |               |
 | getAttributes | <code>(element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
 | getInnerText  | <code>(element: Element, groupIds: string[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
+
+## SwitchButton
+### Description
+Switch button component that can be used to turn ON or OFF a feature.
+
+### Example
+```tsx
+import { SwitchButton } from '@monkvision/common-ui-web';
+
+export function MyComponent() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <div>
+      <SwitchButton checked={checked} onSwitch={(value) => setChecked(value)} />
+    </div>
+  );
+}
+```
+
+### Props
+| Prop                    | Type                       | Description                                                                                                                                                                         | Required | Default Value   |
+|-------------------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-----------------|
+| size                    | `'normal' &#124; 'small'`  | The size of the button. Normal buttons are bigger and have their icon and labels inside the button. Small buttons are smaller, accept no label and have their icon inside the knob. |          | 'normal'        |
+| checked                 | boolean                    | Boolean used to control the SwitchButton. Set to `true` to make the Button switched on and `false` for off.                                                                         |          | false           |
+| onSwitch                | `(value: boolean) => void` | Callback called when the SwitchButton is switched. The value passed as the first parameter is the result `checked` value.                                                           |          |                 |
+| disabled                | boolean                    | Boolean indicating if the button is disabled or not.                                                                                                                                |          | false           |
+| checkedPrimaryColor     | ColorProp                  | Primary color (background and knob overlay color) of the button when it is checked.                                                                                                 |          | 'primary'       |
+| checkedSecondaryColor   | ColorProp                  | Secondary color (knob, labels and icons color) of the button when it is checked.                                                                                                    |          | 'text-white'    |
+| uncheckedPrimaryColor   | ColorProp                  | Primary color (background and knob overlay color) of the button when it is unchecked.                                                                                               |          | 'text-tertiary' |
+| uncheckedSecondaryColor | ColorProp                  | Secondary color (knob, labels and icons color) of the button when it is unchecked.                                                                                                  |          | 'text-white'    |
+| checkedLabel            | ColorProp                  | Custom label that can be displayed instead of the check icon when the button is checked. This prop is ignored for small buttons.                                                    |          |                 |
+| uncheckedLabel          | ColorProp                  | Custom label that can be displayed when the button is unchecked. This prop is ignored for small buttons.                                                                            |          |                 |

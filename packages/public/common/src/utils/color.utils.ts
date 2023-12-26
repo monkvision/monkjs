@@ -92,6 +92,17 @@ export function shadeColor(color: string, amount: number): string {
 }
 
 /**
+ * Returns a new color equal to the given color but with a different alpha value.
+ *
+ * @param color The color to change the alpha value of.
+ * @param amount The alpha value (from 0 to 1).
+ */
+export function changeAlpha(color: string, amount: number): string {
+  const { a: _, ...rgb } = getRGBAFromString(color);
+  return getHexFromRGBA({ a: amount, ...rgb });
+}
+
+/**
  * The different ways an interactive element's style is altered when the user interacts with it.
  */
 export enum InteractiveVariation {
