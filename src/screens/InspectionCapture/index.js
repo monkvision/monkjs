@@ -151,24 +151,27 @@ export default function InspectionCapture() {
           .concat([taskName])
           .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
           .map((name) => new Promise((resolve) => {
-            monk.entity.task.updateOne(inspectionId, name, {
-              status: monk.types.ProgressStatusUpdate.TODO,
-            }).then(({ entities, result }) => {
-              dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
-              resolve(name);
-            }).catch((err) => {
-              errorHandler(err);
-              setErrorModal({
-                texts: {
-                  message: t('capture.skipRetake.error.message'),
-                  label: t('capture.skipRetake.error.label'),
-                },
-                onPress: () => {
-                  setErrorModal(null);
-                  navigation.navigate(names.LANDING, { isLastTour: true });
-                },
+            const currentTask = allTasks.find(task => task.name === name);
+            if (currentTask.status === monk.types.ProgressStatusUpdate.NOT_STARTED) {
+              monk.entity.task.updateOne(inspectionId, name, {
+                status: monk.types.ProgressStatusUpdate.TODO,
+              }).then(({ entities, result }) => {
+                dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
+                resolve(name);
+              }).catch((err) => {
+                errorHandler(err);
+                setErrorModal({
+                  texts: {
+                    message: t('capture.skipRetake.error.message'),
+                    label: t('capture.skipRetake.error.label'),
+                  },
+                  onPress: () => {
+                    setErrorModal(null);
+                    navigation.navigate(names.LANDING, { isLastTour: true });
+                  },
+                });
               });
-            });
+            }
           }));
 
         await Promise.all(promises);
