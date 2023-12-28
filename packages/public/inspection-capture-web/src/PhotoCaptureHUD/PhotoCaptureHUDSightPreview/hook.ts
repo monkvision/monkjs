@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { styles } from './PhotoCaptureHUDPreview.styles';
+import { styles } from './PhotoCaptureHUDSightPreview.styles';
 
 export interface PhotoCaptureHUDPreview {
   containerStyle: CSSProperties;

@@ -1,7 +1,7 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  container: {
-    zIndex: '9',
+  button: {
+    backgroundColor: 'rgba(52, 53, 63, 0.64)',
   },
 };

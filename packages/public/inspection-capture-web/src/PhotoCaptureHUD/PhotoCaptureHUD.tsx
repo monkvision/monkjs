@@ -3,34 +3,34 @@ import { Sight } from '@monkvision/types';
 import { i18nWrap } from '@monkvision/common';
 import { CameraHUDProps } from '@monkvision/camera-web/lib/Camera/CameraHUD.types';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
-import { PhotoCaptureHUDPreviewAddDamage } from './PhotoCaptureHUDPreviewAddDamage';
-import { PhotoCaptureHUDPreview } from './PhotoCaptureHUDPreviewSight';
+import { PhotoCaptureHUDAddDamagePreview } from './PhotoCaptureHUDAddDamagePreview';
+import { PhotoCaptureHUDSightPreview } from './PhotoCaptureHUDSightPreview';
 import { HUDMode, i18nAddDamage, usePhotoCaptureHUD } from './hook';
 import { useSightState } from '../hooks/useSightState';
+import { useHUDMode } from '../hooks/useHUDMode';
 
 export interface PhotoCaptureHUDProps extends CameraHUDProps {
-  mode: HUDMode;
-  onAddDamage: (newMode: HUDMode) => void;
   sights: Sight[];
 }
 
 export const PhotoCaptureHUD = i18nWrap(
-  ({ mode, sights, onAddDamage, cameraPreview, handle }: PhotoCaptureHUDProps) => {
+  ({ sights, cameraPreview, handle }: PhotoCaptureHUDProps) => {
     const { sightSelected, handleSightSelected, sightsTaken, handleSightTaken } =
       useSightState(sights);
     const style = usePhotoCaptureHUD();
+    const { mode, handleAddDamage } = useHUDMode();
 
     const hudPreview = useMemo(
       () =>
         mode === HUDMode.ADD_DAMAGE ? (
-          <PhotoCaptureHUDPreviewAddDamage onAddDamage={onAddDamage} />
+          <PhotoCaptureHUDAddDamagePreview onAddDamage={handleAddDamage} />
         ) : (
-          <PhotoCaptureHUDPreview
+          <PhotoCaptureHUDSightPreview
             sights={sights}
             sightSelected={sightSelected}
             onSightSelected={handleSightSelected}
             sightsTaken={sightsTaken}
-            onAddDamage={onAddDamage}
+            onAddDamage={handleAddDamage}
           />
         ),
       [mode, sightSelected, sightsTaken],

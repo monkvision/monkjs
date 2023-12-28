@@ -11,16 +11,15 @@ export const styles: Styles = {
     flex: '1',
   },
   top: {
-    position: 'absolute',
+    position: 'relative',
     display: 'flex',
-    alignSelf: 'stretch',
+    alignSelf: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: '10px',
     zIndex: '9',
     top: '0',
     right: '0',
-    left: '0',
   },
   addDamageButton: {
     backgroundColor: 'rgba(52, 53, 63, 0.64)',

@@ -2,10 +2,10 @@ import { Button, IconName } from '@monkvision/common-ui-web';
 import { Sight } from '@monkvision/types';
 import { useSightLabel } from '@monkvision/common';
 import { labels } from '@monkvision/sights';
-import { useEffect, useRef } from 'react';
-import { styles } from './PhotoCaptureHUDSightSlider.styles';
+import { RefObject, useEffect, useRef } from 'react';
+import { styles } from './SightsSlider.styles';
 
-export interface PhotoCaptureHUDSightsSliderProps {
+export interface SightsSliderProps {
   sights: Sight[];
   sightSelected: Sight;
   sightsTaken: Sight[];
@@ -55,26 +55,30 @@ function SliderButton({
   );
 }
 
-export function PhotoCaptureHUDSightSlider({
+const onScrollToSelected = (
+  ref: RefObject<HTMLDivElement>,
+  index: number,
+  smooth: boolean,
+): void => {
+  if (ref.current && ref.current.children.length > index) {
+    ref.current.children[index].scrollIntoView({
+      behavior: smooth ? 'smooth' : ('instant' as ScrollBehavior),
+      inline: 'center',
+    });
+  }
+};
+
+export function SightsSlider({
   sights,
   sightSelected,
   sightsTaken,
   onSightSelected = () => {},
-}: PhotoCaptureHUDSightsSliderProps) {
+}: SightsSliderProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { label } = useSightLabel({ labels });
 
-  const onScrollToSelected = (index: number, smooth: boolean): void => {
-    if (ref.current && ref.current.children.length > index) {
-      ref.current.children[index].scrollIntoView({
-        behavior: smooth ? 'smooth' : ('instant' as ScrollBehavior),
-        inline: 'center',
-      });
-    }
-  };
-
   useEffect(() => {
-    onScrollToSelected(sights.indexOf(sightSelected), true);
+    onScrollToSelected(ref, sights.indexOf(sightSelected), true);
   }, [sightSelected, sightsTaken]);
 
   return (
