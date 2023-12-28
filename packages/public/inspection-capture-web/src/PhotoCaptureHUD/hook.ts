@@ -29,6 +29,7 @@ export const i18nAddDamage = i18nCreateSDKInstance({
 
 export interface PhotoCaptureHUD {
   container: CSSProperties;
+  previewContainer: CSSProperties;
 }
 
 export function usePhotoCaptureHUD(): PhotoCaptureHUD {
@@ -37,6 +38,9 @@ export function usePhotoCaptureHUD(): PhotoCaptureHUD {
     container: {
       ...styles['container'],
       ...responsive(styles['containerPortrait']),
+    },
+    previewContainer: {
+      ...styles['previewContainer'],
     },
   };
 }

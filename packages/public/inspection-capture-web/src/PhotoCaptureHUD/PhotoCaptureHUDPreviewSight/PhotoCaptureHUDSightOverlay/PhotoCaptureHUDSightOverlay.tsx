@@ -7,5 +7,5 @@ export interface PhotoCaptureHUDSightsOverlayProps {
 }
 
 export function PhotoCaptureHUDSightOverlay({ sight }: PhotoCaptureHUDSightsOverlayProps) {
-  return <SightOverlay style={styles['sightOverlay']} sight={sight} />;
+  return <SightOverlay style={styles['container']} sight={sight} />;
 }

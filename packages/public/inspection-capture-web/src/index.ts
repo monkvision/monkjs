@@ -1,1 +1,1 @@
-export * from './PhotoCaptureHUD'; // TODO : Remove this export later
+export { PhotoCapture } from './PhotoCapture';

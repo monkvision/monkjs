@@ -7,48 +7,48 @@ import { styles } from './PhotoCaptureHUDSightSlider.styles';
 
 export interface PhotoCaptureHUDSightsSliderProps {
   sights: Sight[];
-  currentSight: string;
+  sightSelected: Sight;
   sightsTaken: Sight[];
-  onSightSelected?: (sight: Sight, index: number) => void;
-  currentSightSliderIndex: number;
+  onSightSelected: (sight: Sight) => void;
 }
 
 interface SliderButtonProps {
-  index: number;
   sight: Sight;
-  currentSight: string;
+  sightSelected: Sight;
   sightsTaken: Sight[];
-  onSightSelected: (sight: Sight, index: number) => void;
+  onSightSelected: (sight: Sight) => void;
   label: (sight: Sight) => string;
 }
 
 function SliderButton({
-  index,
   sight,
-  currentSight,
+  sightSelected,
   sightsTaken,
   onSightSelected,
   label,
 }: SliderButtonProps) {
+  const isSelected = sight.id === sightSelected.id;
+  const isTaken = sightsTaken.some((sightTaken) => sightTaken.id === sight.id);
+
   let primaryColor = 'secondary-xdark';
   let icon = undefined as IconName | undefined;
-  if (sight.id === currentSight) {
+
+  if (isSelected) {
     primaryColor = 'primary-base';
   }
-  if (sightsTaken?.some((sightTaken) => sightTaken.id === sight.id)) {
+  if (isTaken) {
     primaryColor = 'primary-light';
     icon = 'check';
   }
   return (
     <Button
-      style={styles['labelButton']}
-      key={index}
+      style={styles['button']}
       icon={icon}
       primaryColor={primaryColor}
       onClick={() => {
-        onSightSelected(sight, index);
+        onSightSelected(sight);
       }}
-      data-testid={`sight-btn-${index}`}
+      data-testid={`sight-btn-${sight.id}`}
     >
       {label(sight)}
     </Button>
@@ -57,10 +57,9 @@ function SliderButton({
 
 export function PhotoCaptureHUDSightSlider({
   sights,
-  currentSight,
+  sightSelected,
   sightsTaken,
   onSightSelected = () => {},
-  currentSightSliderIndex,
 }: PhotoCaptureHUDSightsSliderProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { label } = useSightLabel({ labels });
@@ -75,17 +74,16 @@ export function PhotoCaptureHUDSightSlider({
   };
 
   useEffect(() => {
-    onScrollToSelected(currentSightSliderIndex, true);
-  }, [currentSight]);
+    onScrollToSelected(sights.indexOf(sightSelected), true);
+  }, [sightSelected, sightsTaken]);
 
   return (
-    <div style={styles['slider']} ref={ref}>
-      {sights?.map((sight, index) => (
+    <div style={styles['container']} ref={ref}>
+      {sights?.map((sight) => (
         <SliderButton
-          key={index}
-          index={index}
+          key={sight.id}
           sight={sight}
-          currentSight={currentSight}
+          sightSelected={sightSelected}
           sightsTaken={sightsTaken}
           onSightSelected={onSightSelected}
           label={label}

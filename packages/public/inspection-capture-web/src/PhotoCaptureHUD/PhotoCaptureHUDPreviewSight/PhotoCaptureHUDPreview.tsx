@@ -9,25 +9,23 @@ import { styles } from './PhotoCaptureHUDPreview.styles';
 
 export interface PhotoCaptureHUDPreviewProps {
   sights: Sight[];
-  currentSight: Sight;
-  onSightSelected?: (sight: Sight, index: number) => void;
+  sightSelected: Sight;
+  onSightSelected?: (sight: Sight) => void;
   onAddDamage?: (newMode: HUDMode) => void;
   sightsTaken: Sight[];
-  currentSightSliderIndex: number;
 }
 
 export function PhotoCaptureHUDPreview({
   sights,
-  currentSight,
+  sightSelected,
   onSightSelected = () => {},
   onAddDamage = () => {},
   sightsTaken,
-  currentSightSliderIndex,
 }: PhotoCaptureHUDPreviewProps) {
   const { t } = useTranslation();
   return (
     <div style={styles['container']}>
-      <PhotoCaptureHUDSightOverlay sight={currentSight} />
+      <PhotoCaptureHUDSightOverlay sight={sightSelected} />
       <div style={styles['top']}>
         <PhotoCaptureHUDSightCounter totalSights={sights.length} sightsTaken={sightsTaken.length} />
         <Button
@@ -42,10 +40,9 @@ export function PhotoCaptureHUDPreview({
       </div>
       <PhotoCaptureHUDSightSlider
         sights={sights}
-        currentSight={currentSight?.id}
+        sightSelected={sightSelected}
         sightsTaken={sightsTaken}
         onSightSelected={onSightSelected}
-        currentSightSliderIndex={currentSightSliderIndex}
       />
     </div>
   );

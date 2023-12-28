@@ -1,12 +1,13 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  slider: {
+  container: {
     position: 'absolute',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     paddingLeft: '45%',
+    paddingRight: '45%',
     paddingBottom: '0%',
     overflowX: 'auto',
     overflowY: 'hidden',
@@ -18,7 +19,7 @@ export const styles: Styles = {
     right: '0',
     left: '0',
   },
-  labelButton: {
+  button: {
     margin: '10px',
     zIndex: '9',
   },
