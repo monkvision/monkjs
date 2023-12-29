@@ -1,1 +1,1 @@
-export { PhotoCapture } from './PhotoCapture';
+export * from './PhotoCapture';

@@ -5,9 +5,9 @@ import { CameraHUDProps } from '@monkvision/camera-web/lib/Camera/CameraHUD.type
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { PhotoCaptureHUDAddDamagePreview } from './PhotoCaptureHUDAddDamagePreview';
 import { PhotoCaptureHUDSightPreview } from './PhotoCaptureHUDSightPreview';
-import { HUDMode, i18nAddDamage, usePhotoCaptureHUD } from './hook';
-import { useSightState } from '../hooks/useSightState';
-import { useHUDMode } from '../hooks/useHUDMode';
+import { HUDMode, usePhotoCaptureHUD } from './hook';
+import { useSightState, useHUDMode } from '../hooks';
+import { i18nAddDamage } from './i18n';
 
 export interface PhotoCaptureHUDProps extends CameraHUDProps {
   sights: Sight[];
@@ -37,7 +37,9 @@ export const PhotoCaptureHUD = i18nWrap(
     );
     return (
       <div style={style.container}>
-        <div style={style.previewContainer}>{cameraPreview}</div>
+        <div style={style.previewContainer} data-testid='camera-preview'>
+          {cameraPreview}
+        </div>
         {hudPreview}
         <PhotoCaptureHUDButtons
           onTakePicture={() => {

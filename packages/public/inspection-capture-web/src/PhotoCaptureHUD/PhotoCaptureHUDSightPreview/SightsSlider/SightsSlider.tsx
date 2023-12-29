@@ -9,7 +9,7 @@ export interface SightsSliderProps {
   sights: Sight[];
   sightSelected: Sight;
   sightsTaken: Sight[];
-  onSightSelected: (sight: Sight) => void;
+  onSightSelected?: (sight: Sight) => void;
 }
 
 interface SliderButtonProps {
@@ -83,7 +83,7 @@ export function SightsSlider({
 
   return (
     <div style={styles['container']} ref={ref}>
-      {sights?.map((sight) => (
+      {sights.map((sight) => (
         <SliderButton
           key={sight.id}
           sight={sight}

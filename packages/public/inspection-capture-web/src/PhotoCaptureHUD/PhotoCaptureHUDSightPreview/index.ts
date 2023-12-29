@@ -1,1 +1,1 @@
-export { PhotoCaptureHUDSightPreview } from './PhotoCaptureHUDSightPreview';
+export * from './PhotoCaptureHUDSightPreview';

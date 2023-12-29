@@ -13,7 +13,7 @@ export function PhotoCaptureHUDAddDamagePreview({
   const { t } = useTranslation();
   return (
     <div style={styles['top']}>
-      <Button onClick={() => onAddDamage(HUDMode.DEFAULT)}> {t('cancel')} </Button>;
+      <Button onClick={() => onAddDamage(HUDMode.DEFAULT)}> {t('cancel')} </Button>
     </div>
   );
 }

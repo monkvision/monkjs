@@ -22,9 +22,6 @@ export function PhotoCapture({ sights }: PhotoCaptureProps) {
     compressionFormat: CompressionFormat.JPEG,
     quality: '0.8',
   });
-  const handlePictureTaken = (picture: MonkPicture) => {
-    console.log('Picture Taken :', picture);
-  };
 
   const hud = (props: CameraHUDProps) => <PhotoCaptureHUD sights={sights} {...props} />;
   return (
@@ -35,7 +32,7 @@ export function PhotoCapture({ sights }: PhotoCaptureProps) {
         resolution={state.resolution}
         format={state.compressionFormat}
         quality={Number(state.quality)}
-        onPictureTaken={handlePictureTaken}
+        onPictureTaken={(picture: MonkPicture) => console.log('Picture Taken :', picture)}
       />
     </div>
   );
