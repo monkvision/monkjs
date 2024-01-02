@@ -24,7 +24,6 @@ export const styles: Styles = {
     left: '0',
   },
   overlay: {
-    aspectRatio: '16/9',
     zIndex: '9',
   },
 };

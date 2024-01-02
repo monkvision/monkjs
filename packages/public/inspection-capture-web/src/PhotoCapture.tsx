@@ -1,37 +1,25 @@
-import React, { useState } from 'react';
-import {
-  Camera,
-  CameraFacingMode,
-  CameraHUDProps,
-  CameraResolution,
-  CompressionFormat,
-  MonkPicture,
-} from '@monkvision/camera-web';
+import React from 'react';
+import { Camera, CameraHUDProps, MonkPicture } from '@monkvision/camera-web';
 import { Sight } from '@monkvision/types';
 import { PhotoCaptureHUD } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
+import { useCameraConfig } from './hooks/useCameraConfig';
 
 export interface PhotoCaptureProps {
   sights: Sight[];
 }
 
 export function PhotoCapture({ sights }: PhotoCaptureProps) {
-  const [state] = useState({
-    facingMode: CameraFacingMode.ENVIRONMENT,
-    resolution: CameraResolution.UHD_4K,
-    compressionFormat: CompressionFormat.JPEG,
-    quality: '0.8',
-  });
-
+  const { cameraState } = useCameraConfig();
   const hud = (props: CameraHUDProps) => <PhotoCaptureHUD sights={sights} {...props} />;
   return (
     <div style={styles['container']}>
       <Camera
         HUDComponent={hud}
-        facingMode={state.facingMode}
-        resolution={state.resolution}
-        format={state.compressionFormat}
-        quality={Number(state.quality)}
+        facingMode={cameraState.facingMode}
+        resolution={cameraState.resolution}
+        format={cameraState.compressionFormat}
+        quality={Number(cameraState.quality)}
         onPictureTaken={(picture: MonkPicture) => console.log('Picture Taken :', picture)}
       />
     </div>

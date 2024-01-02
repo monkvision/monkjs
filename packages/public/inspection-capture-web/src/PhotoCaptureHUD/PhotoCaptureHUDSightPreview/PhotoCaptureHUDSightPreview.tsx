@@ -5,6 +5,7 @@ import { SightsCounter } from './SightsCounter';
 import { HUDMode } from '../hook';
 import { styles } from './PhotoCaptureHUDSightPreview.styles';
 import { AddDamageButton } from './AddDamageButton';
+import { usePhotoCaptureHUDSightPreview } from './hook';
 
 export interface PhotoCaptureHUDPreviewProps {
   sights: Sight[];
@@ -21,9 +22,10 @@ export function PhotoCaptureHUDSightPreview({
   onAddDamage = () => {},
   sightsTaken,
 }: PhotoCaptureHUDPreviewProps) {
+  const style = usePhotoCaptureHUDSightPreview();
   return (
     <div style={styles['container']}>
-      <SightOverlay style={styles['overlay']} sight={sightSelected} />;
+      <SightOverlay style={style.overlay} sight={sightSelected} />;
       <div style={styles['top']}>
         <SightsCounter totalSights={sights.length} sightsTaken={sightsTaken.length} />
         <AddDamageButton onAddDamage={onAddDamage} />
