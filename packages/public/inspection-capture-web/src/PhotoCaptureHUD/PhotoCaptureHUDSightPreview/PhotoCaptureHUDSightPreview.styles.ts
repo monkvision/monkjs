@@ -2,13 +2,14 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
-    position: 'relative',
+    position: 'absolute',
     display: 'flex',
-    alignSelf: 'stretch',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor: 'green',
-    flex: '1',
+    top: '0',
+    right: '0',
+    left: '0',
+    bottom: '0',
   },
   top: {
     position: 'absolute',
@@ -23,6 +24,7 @@ export const styles: Styles = {
     left: '0',
   },
   overlay: {
+    aspectRatio: '16/9',
     zIndex: '9',
   },
 };

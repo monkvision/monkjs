@@ -39,8 +39,8 @@ export const PhotoCaptureHUD = i18nWrap(
       <div style={style.container}>
         <div style={style.previewContainer} data-testid='camera-preview'>
           {cameraPreview}
+          {hudPreview}
         </div>
-        {hudPreview}
         <PhotoCaptureHUDButtons
           onTakePicture={() => {
             handle?.takePicture?.();
