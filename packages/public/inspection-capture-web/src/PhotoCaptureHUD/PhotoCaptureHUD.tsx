@@ -1,54 +1,48 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Sight } from '@monkvision/types';
-import { i18nWrap } from '@monkvision/common';
 import { CameraHUDProps } from '@monkvision/camera-web/lib/Camera/CameraHUD.types';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { PhotoCaptureHUDAddDamagePreview } from './PhotoCaptureHUDAddDamagePreview';
 import { PhotoCaptureHUDSightPreview } from './PhotoCaptureHUDSightPreview';
-import { HUDMode, usePhotoCaptureHUD } from './hook';
-import { useSightState, useHUDMode } from '../hooks';
-import { i18nAddDamage } from './i18n';
+import { HUDMode, usePhotoCaptureHUDStyle } from './hook';
+import { useSightState } from '../hooks';
 
 export interface PhotoCaptureHUDProps extends CameraHUDProps {
   sights: Sight[];
 }
 
-export const PhotoCaptureHUD = i18nWrap(
-  ({ sights, cameraPreview, handle }: PhotoCaptureHUDProps) => {
-    const { sightSelected, handleSightSelected, sightsTaken, handleSightTaken } =
-      useSightState(sights);
-    const style = usePhotoCaptureHUD();
-    const { mode, handleAddDamage } = useHUDMode();
+export function PhotoCaptureHUD({ sights, cameraPreview, handle }: PhotoCaptureHUDProps) {
+  const [mode, setMode] = useState<HUDMode>(HUDMode.DEFAULT);
+  const { selectedSight, setSelectedSight, sightsTaken, handleSightTaken } = useSightState(sights);
+  const style = usePhotoCaptureHUDStyle();
 
-    const hudPreview = useMemo(
-      () =>
-        mode === HUDMode.ADD_DAMAGE ? (
-          <PhotoCaptureHUDAddDamagePreview onAddDamage={handleAddDamage} />
-        ) : (
-          <PhotoCaptureHUDSightPreview
-            sights={sights}
-            sightSelected={sightSelected}
-            onSightSelected={handleSightSelected}
-            sightsTaken={sightsTaken}
-            onAddDamage={handleAddDamage}
-          />
-        ),
-      [mode, sightSelected, sightsTaken],
-    );
-    return (
-      <div style={style.container}>
-        <div style={style.previewContainer} data-testid='camera-preview'>
-          {cameraPreview}
-          {hudPreview}
-        </div>
-        <PhotoCaptureHUDButtons
-          onTakePicture={() => {
-            handle?.takePicture?.();
-            handleSightTaken();
-          }}
+  const hudPreview = useMemo(
+    () =>
+      mode === HUDMode.ADD_DAMAGE ? (
+        <PhotoCaptureHUDAddDamagePreview onCancel={() => setMode(HUDMode.DEFAULT)} />
+      ) : (
+        <PhotoCaptureHUDSightPreview
+          sights={sights}
+          selectedSight={selectedSight}
+          onSelectedSight={setSelectedSight}
+          sightsTaken={sightsTaken}
+          onAddDamage={() => setMode(HUDMode.ADD_DAMAGE)}
         />
+      ),
+    [mode, selectedSight, sightsTaken],
+  );
+  return (
+    <div style={style.container}>
+      <div style={style.previewContainer} data-testid='camera-preview'>
+        {cameraPreview}
+        {hudPreview}
       </div>
-    );
-  },
-  i18nAddDamage,
-);
+      <PhotoCaptureHUDButtons
+        onTakePicture={() => {
+          handle?.takePicture?.();
+          handleSightTaken();
+        }}
+      />
+    </div>
+  );
+}

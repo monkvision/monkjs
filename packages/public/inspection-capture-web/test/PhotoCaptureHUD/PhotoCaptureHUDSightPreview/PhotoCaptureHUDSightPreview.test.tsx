@@ -26,7 +26,7 @@ describe('PhotoCaptureHUDPreview component', () => {
     const { unmount } = render(
       <PhotoCaptureHUDSightPreview
         sights={sights}
-        sightSelected={sights[0]}
+        selectedSight={sights[0]}
         sightsTaken={sightsTaken}
       />,
     );

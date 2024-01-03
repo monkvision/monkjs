@@ -7,27 +7,27 @@ import { styles } from './SightsSlider.styles';
 
 export interface SightsSliderProps {
   sights: Sight[];
-  sightSelected: Sight;
+  selectedSight: Sight;
   sightsTaken: Sight[];
-  onSightSelected?: (sight: Sight) => void;
+  onSelectedSight?: (sight: Sight) => void;
 }
 
 interface SliderButtonProps {
   sight: Sight;
-  sightSelected: Sight;
+  selectedSight: Sight;
   sightsTaken: Sight[];
-  onSightSelected: (sight: Sight) => void;
+  onSelectedSight: (sight: Sight) => void;
   label: (sight: Sight) => string;
 }
 
 function SliderButton({
   sight,
-  sightSelected,
+  selectedSight,
   sightsTaken,
-  onSightSelected,
+  onSelectedSight,
   label,
 }: SliderButtonProps) {
-  const isSelected = sight.id === sightSelected.id;
+  const isSelected = sight.id === selectedSight.id;
   const isTaken = sightsTaken.some((sightTaken) => sightTaken.id === sight.id);
 
   let primaryColor = 'secondary-xdark';
@@ -45,9 +45,7 @@ function SliderButton({
       style={styles['button']}
       icon={icon}
       primaryColor={primaryColor}
-      onClick={() => {
-        onSightSelected(sight);
-      }}
+      onClick={() => onSelectedSight(sight)}
       data-testid={`sight-btn-${sight.id}`}
     >
       {label(sight)}
@@ -55,7 +53,7 @@ function SliderButton({
   );
 }
 
-const onScrollToSelected = (
+const scrollToSelectedSight = (
   ref: RefObject<HTMLDivElement>,
   index: number,
   smooth: boolean,
@@ -70,16 +68,16 @@ const onScrollToSelected = (
 
 export function SightsSlider({
   sights,
-  sightSelected,
+  selectedSight,
   sightsTaken,
-  onSightSelected = () => {},
+  onSelectedSight = () => {},
 }: SightsSliderProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { label } = useSightLabel({ labels });
 
   useEffect(() => {
-    onScrollToSelected(ref, sights.indexOf(sightSelected), true);
-  }, [sightSelected, sightsTaken]);
+    scrollToSelectedSight(ref, sights.indexOf(selectedSight), true);
+  }, [selectedSight, sightsTaken]);
 
   return (
     <div style={styles['container']} ref={ref}>
@@ -87,9 +85,9 @@ export function SightsSlider({
         <SliderButton
           key={sight.id}
           sight={sight}
-          sightSelected={sightSelected}
+          selectedSight={selectedSight}
           sightsTaken={sightsTaken}
-          onSightSelected={onSightSelected}
+          onSelectedSight={onSelectedSight}
           label={label}
         />
       ))}

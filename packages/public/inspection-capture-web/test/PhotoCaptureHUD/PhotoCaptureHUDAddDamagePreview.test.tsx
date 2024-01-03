@@ -12,8 +12,8 @@ describe('PhotoCaptureHUDAddDamagePreview component', () => {
   });
 
   it('should render a Button', () => {
-    const onAddDamage = jest.fn();
-    const { unmount } = render(<PhotoCaptureHUDAddDamagePreview onAddDamage={onAddDamage} />);
+    const onCancel = jest.fn();
+    const { unmount } = render(<PhotoCaptureHUDAddDamagePreview onCancel={onCancel} />);
 
     expect(Button).toHaveBeenCalled();
 
@@ -21,9 +21,9 @@ describe('PhotoCaptureHUDAddDamagePreview component', () => {
   });
 
   it('should translate button text', () => {
-    const onAddDamage = jest.fn();
+    const onCancel = jest.fn();
     const useTranslationMock = useTranslation as jest.Mock;
-    const { unmount } = render(<PhotoCaptureHUDAddDamagePreview onAddDamage={onAddDamage} />);
+    const { unmount } = render(<PhotoCaptureHUDAddDamagePreview onCancel={onCancel} />);
     const { t } = useTranslationMock.mock.results[0].value;
 
     expect(t).toHaveBeenCalled();

@@ -5,36 +5,36 @@ import { SightsCounter } from './SightsCounter';
 import { HUDMode } from '../hook';
 import { styles } from './PhotoCaptureHUDSightPreview.styles';
 import { AddDamageButton } from './AddDamageButton';
-import { usePhotoCaptureHUDSightPreview } from './hook';
+import { usePhotoCaptureHUDSightPreviewStyle } from './hook';
 
 export interface PhotoCaptureHUDPreviewProps {
   sights: Sight[];
-  sightSelected: Sight;
-  onSightSelected?: (sight: Sight) => void;
+  selectedSight: Sight;
+  onSelectedSight?: (sight: Sight) => void;
   onAddDamage?: (newMode: HUDMode) => void;
   sightsTaken: Sight[];
 }
 
 export function PhotoCaptureHUDSightPreview({
   sights,
-  sightSelected,
-  onSightSelected = () => {},
+  selectedSight,
+  onSelectedSight = () => {},
   onAddDamage = () => {},
   sightsTaken,
 }: PhotoCaptureHUDPreviewProps) {
-  const style = usePhotoCaptureHUDSightPreview();
+  const style = usePhotoCaptureHUDSightPreviewStyle();
   return (
     <div style={styles['container']}>
-      <SightOverlay style={style.overlay} sight={sightSelected} />;
+      <SightOverlay style={style.overlay} sight={selectedSight} />
       <div style={styles['top']}>
         <SightsCounter totalSights={sights.length} sightsTaken={sightsTaken.length} />
         <AddDamageButton onAddDamage={onAddDamage} />
       </div>
       <SightsSlider
         sights={sights}
-        sightSelected={sightSelected}
+        selectedSight={selectedSight}
         sightsTaken={sightsTaken}
-        onSightSelected={onSightSelected}
+        onSelectedSight={onSelectedSight}
       />
     </div>
   );

@@ -2,13 +2,13 @@ import { CSSProperties } from 'react';
 import { styles } from './PhotoCaptureHUDSightPreview.styles';
 import { useCameraConfig } from '../../hooks/useCameraConfig';
 
-export interface PhotoCaptureHUDSightPreview {
+export interface PhotoCaptureHUDSightPreviewStyle {
   container: CSSProperties;
   top: CSSProperties;
   overlay: CSSProperties;
 }
 
-export function usePhotoCaptureHUDSightPreview(): PhotoCaptureHUDSightPreview {
+export function usePhotoCaptureHUDSightPreviewStyle(): PhotoCaptureHUDSightPreviewStyle {
   const { getCameraDimensions } = useCameraConfig();
   return {
     container: {

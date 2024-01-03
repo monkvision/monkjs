@@ -1,6 +1,6 @@
 import { Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { styles } from './AddDamageButton.styles';
+import { getHexFromRGBA, useMonkTheme, getRGBAFromString } from '@monkvision/common';
 import { HUDMode } from '../../hook';
 
 export interface AddDamageButtonProps {
@@ -9,15 +9,18 @@ export interface AddDamageButtonProps {
 
 export function AddDamageButton({ onAddDamage }: AddDamageButtonProps) {
   const { t } = useTranslation();
+  const { palette } = useMonkTheme();
+
+  const bgColor = getHexFromRGBA({ ...getRGBAFromString(palette.secondary.xdark), a: 0.64 });
+
   return (
     <Button
       icon='add'
       onClick={() => onAddDamage(HUDMode.ADD_DAMAGE)}
-      primaryColor='secondary-xdark'
       data-testid='monk-test-btn'
-      style={styles['addDamageButton']}
+      style={{ backgroundColor: bgColor }}
     >
-      {t('damage')}
+      {t('photo.hud.sight.addDamageBtn')}
     </Button>
   );
 }

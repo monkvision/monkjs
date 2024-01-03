@@ -1,0 +1,12 @@
+{
+  "photo": {
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Dégât"
+      },
+      "addDamage": {
+        "cancelBtn": "Annuler"
+      }
+    }
+  }
+}

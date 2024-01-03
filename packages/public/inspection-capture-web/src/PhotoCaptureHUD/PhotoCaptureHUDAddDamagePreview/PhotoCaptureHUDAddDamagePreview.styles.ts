@@ -20,7 +20,4 @@ export const styles: Styles = {
     top: '0',
     right: '0',
   },
-  addDamageButton: {
-    backgroundColor: 'rgba(52, 53, 63, 0.64)',
-  },
 };

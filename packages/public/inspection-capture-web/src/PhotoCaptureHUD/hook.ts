@@ -16,12 +16,12 @@ export enum HUDMode {
   ADD_DAMAGE = 'add-damage',
 }
 
-export interface PhotoCaptureHUD {
+export interface PhotoCaptureHUDStyle {
   container: CSSProperties;
   previewContainer: CSSProperties;
 }
 
-export function usePhotoCaptureHUD(): PhotoCaptureHUD {
+export function usePhotoCaptureHUDStyle(): PhotoCaptureHUDStyle {
   const { responsive } = useResponsiveStyle();
   return {
     container: {

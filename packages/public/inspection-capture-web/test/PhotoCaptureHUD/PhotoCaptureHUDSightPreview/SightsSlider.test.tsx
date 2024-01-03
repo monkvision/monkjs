@@ -22,7 +22,7 @@ describe('SightsSlider component', () => {
 
   it('should render a slider of buttons when sights is provided', () => {
     const { unmount } = render(
-      <SightsSlider sights={sights} sightSelected={sights[0]} sightsTaken={sightsTaken} />,
+      <SightsSlider sights={sights} selectedSight={sights[0]} sightsTaken={sightsTaken} />,
     );
 
     expect(Button).toHaveBeenCalledTimes(sights.length);
@@ -34,10 +34,10 @@ describe('SightsSlider component', () => {
     const onSightSelected = jest.fn();
     const { unmount } = render(
       <SightsSlider
-        sightSelected={sights[0]}
+        selectedSight={sights[0]}
         sights={sights}
         sightsTaken={sightsTaken}
-        onSightSelected={onSightSelected}
+        onSelectedSight={onSightSelected}
       />,
     );
 
@@ -56,7 +56,7 @@ describe('SightsSlider component', () => {
     it('should have primary-base as primary color if button selected', () => {
       const buttonMock = Button as unknown as jest.Mock;
       const { unmount } = render(
-        <SightsSlider sightSelected={sights[0]} sightsTaken={sightsTaken} sights={sights} />,
+        <SightsSlider selectedSight={sights[0]} sightsTaken={sightsTaken} sights={sights} />,
       );
       sights.forEach((sight, index) => {
         expectPropsOnChildMock(buttonMock, { primaryColor: expect.any(String) });
@@ -83,7 +83,7 @@ describe('SightsSlider component', () => {
     it('should call label function to translate the sight label', () => {
       const useSightLabelMock = useSightLabel as jest.Mock;
       const { unmount } = render(
-        <SightsSlider sightSelected={sights[0]} sightsTaken={sightsTaken} sights={sights} />,
+        <SightsSlider selectedSight={sights[0]} sightsTaken={sightsTaken} sights={sights} />,
       );
       const { label } = useSightLabelMock.mock.results[0].value;
       sights.forEach(() => {

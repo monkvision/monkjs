@@ -17,6 +17,7 @@ describe('AddDamage component', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it('should get passed onAddDamage callback', () => {
     const buttonMock = Button as unknown as jest.Mock;
     const onAddDamage = jest.fn();

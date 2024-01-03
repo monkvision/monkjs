@@ -5,9 +5,13 @@ jest.mock('@monkvision/camera-web');
 jest.mock('../src/PhotoCaptureHUD/PhotoCaptureHUD', () => ({
   PhotoCaptureHUD: jest.fn(() => <></>),
 }));
+jest.mock('../src/i18n', () => ({
+  i18nCamera: {},
+}));
 
 import { render } from '@testing-library/react';
 import { Sight } from '@monkvision/types';
+import { i18nWrap } from '@monkvision/common';
 import { PhotoCapture } from '../src';
 import {
   Camera,
@@ -15,6 +19,7 @@ import {
   CameraResolution,
   CompressionFormat,
 } from '@monkvision/camera-web';
+import { i18nAddDamage } from '../src/i18n';
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },
@@ -26,6 +31,13 @@ describe('PhotoCapture component', () => {
     jest.clearAllMocks();
   });
 
+  it('should wrap the component with the i18nWrap method', () => {
+    const { unmount } = render(<PhotoCapture sights={sights} />);
+
+    expect(i18nWrap).toHaveBeenCalledWith(expect.any(Function), i18nAddDamage);
+    unmount();
+  });
+
   it('should render a Camera component', () => {
     const { unmount } = render(<PhotoCapture sights={sights} />);
 
@@ -33,7 +45,8 @@ describe('PhotoCapture component', () => {
 
     unmount();
   });
-  it('should passed states, hud and handlePictureTaken to Camera component', () => {
+
+  it('should pass states, hud and handlePictureTaken to Camera component', () => {
     const CameraMock = Camera as jest.Mock;
     const state = {
       facingMode: CameraFacingMode.ENVIRONMENT,
