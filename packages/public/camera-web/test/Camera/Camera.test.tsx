@@ -201,6 +201,7 @@ describe('Camera component', () => {
         error: useCameraPreviewResultMock.error,
         retry: useCameraPreviewResultMock.retry,
         isLoading: useCameraPreviewResultMock.isLoading || useTakePictureResultMock.isLoading,
+        dimensions: useCameraPreviewResultMock.dimensions,
       },
       cameraPreview: expect.anything(),
     });

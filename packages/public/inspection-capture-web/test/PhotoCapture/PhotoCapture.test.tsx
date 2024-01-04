@@ -1,25 +1,21 @@
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-
 jest.mock('@monkvision/common-ui-web');
 jest.mock('@monkvision/camera-web');
-jest.mock('../src/PhotoCaptureHUD/PhotoCaptureHUD', () => ({
-  PhotoCaptureHUD: jest.fn(() => <></>),
-}));
-jest.mock('../src/i18n', () => ({
-  i18nCamera: {},
+jest.mock('../../src/PhotoCapture/i18n', () => ({
+  i18nPhotoCaptureHUD: {},
 }));
 
 import { render } from '@testing-library/react';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Sight } from '@monkvision/types';
 import { i18nWrap } from '@monkvision/common';
-import { PhotoCapture } from '../src';
 import {
   Camera,
   CameraFacingMode,
   CameraResolution,
   CompressionFormat,
 } from '@monkvision/camera-web';
-import { i18nAddDamage } from '../src/i18n';
+import { i18nPhotoCaptureHUD } from '../../src/PhotoCapture/i18n';
+import { PhotoCapture } from '../../src/PhotoCapture';
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },
@@ -34,7 +30,8 @@ describe('PhotoCapture component', () => {
   it('should wrap the component with the i18nWrap method', () => {
     const { unmount } = render(<PhotoCapture sights={sights} />);
 
-    expect(i18nWrap).toHaveBeenCalledWith(expect.any(Function), i18nAddDamage);
+    expect(i18nWrap).toHaveBeenCalledWith(expect.any(Function), i18nPhotoCaptureHUD);
+
     unmount();
   });
 

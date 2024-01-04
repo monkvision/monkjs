@@ -5,7 +5,7 @@ import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { PhotoCaptureHUDAddDamagePreview } from './PhotoCaptureHUDAddDamagePreview';
 import { PhotoCaptureHUDSightPreview } from './PhotoCaptureHUDSightPreview';
 import { HUDMode, usePhotoCaptureHUDStyle } from './hook';
-import { useSightState } from '../hooks';
+import { useSightState } from './hooks';
 
 export interface PhotoCaptureHUDProps extends CameraHUDProps {
   sights: Sight[];
@@ -27,9 +27,10 @@ export function PhotoCaptureHUD({ sights, cameraPreview, handle }: PhotoCaptureH
           onSelectedSight={setSelectedSight}
           sightsTaken={sightsTaken}
           onAddDamage={() => setMode(HUDMode.ADD_DAMAGE)}
+          streamDimensions={handle?.dimensions}
         />
       ),
-    [mode, selectedSight, sightsTaken],
+    [mode, selectedSight, sightsTaken, handle?.dimensions],
   );
   return (
     <div style={style.container}>

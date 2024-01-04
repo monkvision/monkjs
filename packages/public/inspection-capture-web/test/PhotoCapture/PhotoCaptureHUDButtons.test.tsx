@@ -6,8 +6,8 @@ import { InteractiveStatus } from '@monkvision/types';
 import { MonkPicture } from '@monkvision/camera-web';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { PhotoCaptureHUDButtons } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDButtons';
-import { captureButtonForegroundColors } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDButtons/CaptureHUDButtons.styles';
+import { captureButtonForegroundColors } from '../../src/PhotoCapture/PhotoCaptureHUDButtons/CaptureHUDButtons.styles';
+import { PhotoCaptureHUDButtons } from '../../src/PhotoCapture/PhotoCaptureHUDButtons';
 
 const GALLERY_BTN_TEST_ID = 'monk-gallery-btn';
 const CLOSE_BTN_TEST_ID = 'monk-close-btn';

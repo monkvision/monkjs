@@ -1,6 +1,5 @@
 import { CSSProperties } from 'react';
 import { styles } from './PhotoCaptureHUDSightPreview.styles';
-import { useCameraConfig } from '../../hooks/useCameraConfig';
 
 export interface PhotoCaptureHUDSightPreviewStyle {
   container: CSSProperties;
@@ -9,7 +8,6 @@ export interface PhotoCaptureHUDSightPreviewStyle {
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle(): PhotoCaptureHUDSightPreviewStyle {
-  const { getCameraDimensions } = useCameraConfig();
   return {
     container: {
       ...styles['container'],
@@ -19,7 +17,8 @@ export function usePhotoCaptureHUDSightPreviewStyle(): PhotoCaptureHUDSightPrevi
     },
     overlay: {
       ...styles['overlay'],
-      aspectRatio: `${getCameraDimensions().width}/${getCameraDimensions().height}`,
+      // aspectRatio: `${getCameraDimensions().width}/${getCameraDimensions().height}`,
+      aspectRatio: '16/9',
     },
   };
 }

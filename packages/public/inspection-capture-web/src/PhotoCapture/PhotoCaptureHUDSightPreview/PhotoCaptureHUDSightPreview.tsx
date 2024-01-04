@@ -1,4 +1,4 @@
-import { Sight } from '@monkvision/types';
+import { PixelDimensions, Sight } from '@monkvision/types';
 import { SightOverlay } from '@monkvision/common-ui-web';
 import { SightsSlider } from './SightsSlider';
 import { SightsCounter } from './SightsCounter';
@@ -13,6 +13,7 @@ export interface PhotoCaptureHUDPreviewProps {
   onSelectedSight?: (sight: Sight) => void;
   onAddDamage?: (newMode: HUDMode) => void;
   sightsTaken: Sight[];
+  streamDimensions?: PixelDimensions | null;
 }
 
 export function PhotoCaptureHUDSightPreview({
@@ -21,11 +22,16 @@ export function PhotoCaptureHUDSightPreview({
   onSelectedSight = () => {},
   onAddDamage = () => {},
   sightsTaken,
+  streamDimensions,
 }: PhotoCaptureHUDPreviewProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle();
+  const aspectRatio = `${streamDimensions?.width}/${streamDimensions?.height}`;
+
   return (
     <div style={styles['container']}>
-      <SightOverlay style={style.overlay} sight={selectedSight} />
+      {streamDimensions && (
+        <SightOverlay style={{ ...style.overlay, aspectRatio }} sight={selectedSight} />
+      )}
       <div style={styles['top']}>
         <SightsCounter totalSights={sights.length} sightsTaken={sightsTaken.length} />
         <AddDamageButton onAddDamage={onAddDamage} />

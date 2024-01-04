@@ -1,7 +1,7 @@
 import { Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { getHexFromRGBA, getRGBAFromString, useMonkTheme } from '@monkvision/common';
 import { styles } from './PhotoCaptureHUDAddDamagePreview.styles';
+import { usePhotoHUDButtonBackground } from '../hooks';
 
 export interface PhotoCaptureHUDAddDamageMenuProps {
   onCancel: () => void;
@@ -9,9 +9,7 @@ export interface PhotoCaptureHUDAddDamageMenuProps {
 
 export function PhotoCaptureHUDAddDamagePreview({ onCancel }: PhotoCaptureHUDAddDamageMenuProps) {
   const { t } = useTranslation();
-  const { palette } = useMonkTheme();
-
-  const bgColor = getHexFromRGBA({ ...getRGBAFromString(palette.secondary.xdark), a: 0.64 });
+  const { bgColor } = usePhotoHUDButtonBackground();
 
   return (
     <div style={styles['top']}>

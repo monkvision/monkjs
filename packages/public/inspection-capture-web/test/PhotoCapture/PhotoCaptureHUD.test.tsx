@@ -1,25 +1,22 @@
 jest.mock('react-i18next');
 jest.mock('@monkvision/common');
 jest.mock('@monkvision/common-ui-web');
-jest.mock('../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview', () => ({
+jest.mock('../../src/PhotoCapture/PhotoCaptureHUDSightPreview', () => ({
   PhotoCaptureHUDSightPreview: jest.fn(() => <></>),
 }));
-jest.mock('../../src/PhotoCaptureHUD/PhotoCaptureHUDAddDamagePreview', () => ({
-  PhotoCaptureHUDAddDamagePreview: jest.fn(() => <></>),
-}));
-jest.mock('../../src/PhotoCaptureHUD/PhotoCaptureHUDButtons', () => ({
+jest.mock('../../src/PhotoCapture/PhotoCaptureHUDButtons', () => ({
   PhotoCaptureHUDButtons: jest.fn(() => <></>),
 }));
-jest.mock('../../src/hooks', () => ({
-  ...jest.requireActual('../../src/hooks'),
+jest.mock('../../src/PhotoCapture/hooks', () => ({
+  ...jest.requireActual('../../src/PhotoCapture/hooks'),
   useSightState: jest.fn(() => ({ handleSightSelected: jest.fn() })),
 }));
 
 import { render } from '@testing-library/react';
 import { Sight } from '@monkvision/types';
-import { PhotoCaptureHUD } from '../../src/PhotoCaptureHUD';
-import { PhotoCaptureHUDSightPreview } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview';
-import { PhotoCaptureHUDButtons } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDButtons';
+import { PhotoCaptureHUD } from '../../src/PhotoCapture';
+import { PhotoCaptureHUDSightPreview } from '../../src/PhotoCapture/PhotoCaptureHUDSightPreview';
+import { PhotoCaptureHUDButtons } from '../../src/PhotoCapture/PhotoCaptureHUDButtons';
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },

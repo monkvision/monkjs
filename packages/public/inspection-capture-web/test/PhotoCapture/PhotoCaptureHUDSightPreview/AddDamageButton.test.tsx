@@ -1,8 +1,8 @@
-const { HUDMode } = jest.requireActual('../../../src/PhotoCaptureHUD/hook');
+const { HUDMode } = jest.requireActual('../../../src/PhotoCapture/hook');
 
 jest.mock('@monkvision/common-ui-web');
 jest.mock('react-i18next');
-jest.mock('../../../src/PhotoCaptureHUD/hook', () => ({
+jest.mock('../../../src/PhotoCapture/hook', () => ({
   i18nAddDamage: {},
   HUDMode,
 }));
@@ -11,7 +11,7 @@ import { render } from '@testing-library/react';
 import { Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { AddDamageButton } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/AddDamageButton';
+import { AddDamageButton } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/AddDamageButton';
 
 describe('AddDamage component', () => {
   afterEach(() => {

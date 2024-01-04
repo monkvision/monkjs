@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { SightsCounter } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/SightsCounter';
+import { SightsCounter } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/SightsCounter';
 
 describe('SightsCounter component', () => {
   it('render counter properly when sightsTaken and totalSights is provided', () => {

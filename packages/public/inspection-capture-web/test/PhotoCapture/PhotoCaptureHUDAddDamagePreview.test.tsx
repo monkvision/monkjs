@@ -4,7 +4,7 @@ jest.mock('react-i18next');
 import { render } from '@testing-library/react';
 import { Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { PhotoCaptureHUDAddDamagePreview } from '../../src/PhotoCaptureHUD/PhotoCaptureHUDAddDamagePreview';
+import { PhotoCaptureHUDAddDamagePreview } from '../../src/PhotoCapture/PhotoCaptureHUDAddDamagePreview';
 
 describe('PhotoCaptureHUDAddDamagePreview component', () => {
   afterEach(() => {

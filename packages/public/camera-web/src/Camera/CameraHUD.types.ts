@@ -1,4 +1,5 @@
 import { ComponentType, ReactElement } from 'react';
+import { PixelDimensions } from '@monkvision/types';
 import { MonkPicture, UserMediaError } from './hooks';
 
 /**
@@ -21,6 +22,11 @@ export interface CameraHandle {
    * A function to retry the camera stream fetching in case of error.
    */
   retry: () => void;
+  /**
+   * The dimensions of the resulting camera stream. Note that these dimensions can differ from the ones given in the
+   * stream constraints if they are not supported or available on the current device.
+   */
+  dimensions: PixelDimensions | null;
 }
 
 /**
@@ -40,7 +46,7 @@ export interface CameraEventHandlers {
  */
 export interface CameraHUDProps {
   /**
-   * The camera preview element. The HUD component is exepcted to take this element as a prop and display it however it
+   * The camera preview element. The HUD component is expected to take this element as a prop and display it however it
    * wants to.
    */
   cameraPreview: ReactElement;

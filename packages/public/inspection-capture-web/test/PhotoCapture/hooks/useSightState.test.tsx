@@ -3,7 +3,7 @@ jest.mock('@monkvision/common');
 import { act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Sight } from '@monkvision/types';
-import { useSightState } from '../../src/hooks';
+import { useSightState } from '../../../src/PhotoCapture/hooks';
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },

@@ -1,18 +1,31 @@
-import { Camera, CameraHUDProps, MonkPicture } from '@monkvision/camera-web';
+import {
+  Camera,
+  CameraFacingMode,
+  CameraHUDProps,
+  CameraResolution,
+  CompressionFormat,
+  MonkPicture,
+} from '@monkvision/camera-web';
 import { Sight } from '@monkvision/types';
 import { i18nWrap } from '@monkvision/common';
+import { useState } from 'react';
 import { PhotoCaptureHUD } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
-import { useCameraConfig } from './hooks/useCameraConfig';
-import { i18nAddDamage } from './i18n';
+import { i18nPhotoCaptureHUD } from './i18n';
 
 export interface PhotoCaptureProps {
   sights: Sight[];
 }
 
 export const PhotoCapture = i18nWrap(({ sights }: PhotoCaptureProps) => {
-  const { cameraState } = useCameraConfig();
+  const [cameraState] = useState({
+    facingMode: CameraFacingMode.ENVIRONMENT,
+    resolution: CameraResolution.UHD_4K,
+    compressionFormat: CompressionFormat.JPEG,
+    quality: '0.8',
+  });
   const hud = (props: CameraHUDProps) => <PhotoCaptureHUD sights={sights} {...props} />;
+
   return (
     <div style={styles['container']}>
       <Camera
@@ -25,4 +38,4 @@ export const PhotoCapture = i18nWrap(({ sights }: PhotoCaptureProps) => {
       />
     </div>
   );
-}, i18nAddDamage);
+}, i18nPhotoCaptureHUD);

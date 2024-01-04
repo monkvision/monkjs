@@ -7,7 +7,7 @@ import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button } from '@monkvision/common-ui-web';
 import { useSightLabel } from '@monkvision/common';
 import { Sight } from '@monkvision/types';
-import { SightsSlider } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/SightsSlider';
+import { SightsSlider } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/SightsSlider';
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },

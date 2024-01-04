@@ -1,19 +1,19 @@
-jest.mock('../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/SightsCounter', () => ({
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/SightsCounter', () => ({
   SightsCounter: jest.fn(() => <></>),
 }));
-jest.mock('../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/AddDamageButton', () => ({
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/AddDamageButton', () => ({
   AddDamageButton: jest.fn(() => <></>),
 }));
-jest.mock('../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/SightsSlider', () => ({
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/SightsSlider', () => ({
   SightsSlider: jest.fn(() => <></>),
 }));
 
 import { render } from '@testing-library/react';
 import { Sight } from '@monkvision/types';
-import { PhotoCaptureHUDSightPreview } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview';
-import { SightsCounter } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/SightsCounter';
-import { SightsSlider } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/SightsSlider';
-import { AddDamageButton } from '../../../src/PhotoCaptureHUD/PhotoCaptureHUDSightPreview/AddDamageButton';
+import { PhotoCaptureHUDSightPreview } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview';
+import { SightsCounter } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/SightsCounter';
+import { AddDamageButton } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/AddDamageButton';
+import { SightsSlider } from '../../../src/PhotoCapture/PhotoCaptureHUDSightPreview/SightsSlider';
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },
