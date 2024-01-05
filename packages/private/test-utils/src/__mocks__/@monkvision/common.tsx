@@ -73,4 +73,6 @@ export = {
   })),
   useResponsiveStyle: jest.fn(() => ({ responsive: jest.fn(() => null) })),
   useWindowDimensions: jest.fn(() => ({ width: 0, height: 0, isPortrait: false })),
+  useObjectTranslation: jest.fn(() => ({ tObj: jest.fn(() => {}) })),
+  useSightLabel: jest.fn(() => ({ label: jest.fn(() => {}) })),
 };

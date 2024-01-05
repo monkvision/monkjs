@@ -15,10 +15,11 @@ export const styles: Styles = {
     display: 'flex',
     alignSelf: 'stretch',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     flexDirection: 'column',
     padding: '30px 40px',
     backgroundColor: '#000000',
+    zIndex: '9',
   },
   containersPortrait: {
     __media: { portrait: true },

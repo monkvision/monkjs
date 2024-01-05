@@ -1,4 +1,0 @@
-export = {
-  /* Actual exports */
-  /* Mocks */
-};

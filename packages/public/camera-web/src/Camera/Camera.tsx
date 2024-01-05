@@ -87,7 +87,10 @@ export function Camera({
   );
 
   return HUDComponent ? (
-    <HUDComponent handle={{ takePicture, error, retry, isLoading }} cameraPreview={cameraPreview} />
+    <HUDComponent
+      handle={{ takePicture, error, retry, isLoading, dimensions }}
+      cameraPreview={cameraPreview}
+    />
   ) : (
     <>{cameraPreview}</>
   );

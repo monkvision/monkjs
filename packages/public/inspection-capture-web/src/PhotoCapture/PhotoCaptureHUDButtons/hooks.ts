@@ -7,13 +7,13 @@ import {
   styles,
 } from './CaptureHUDButtons.styles';
 
-interface CaptureHUDButtonsStylesParams {
+interface PhotoCaptureHUDButtonsStylesParams {
   galleryStatus: InteractiveStatus;
   closeStatus: InteractiveStatus;
   galleryPreviewUrl?: string;
 }
 
-interface CaptureHUDButtonsStyles {
+interface PhotoCaptureHUDButtonsStyles {
   containerStyle: CSSProperties;
   gallery: {
     style: CSSProperties;
@@ -27,8 +27,8 @@ interface CaptureHUDButtonsStyles {
 }
 
 export function useCaptureHUDButtonsStyles(
-  params: CaptureHUDButtonsStylesParams,
-): CaptureHUDButtonsStyles {
+  params: PhotoCaptureHUDButtonsStylesParams,
+): PhotoCaptureHUDButtonsStyles {
   const { responsive } = useResponsiveStyle();
 
   return {
