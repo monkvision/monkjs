@@ -4,17 +4,12 @@ mockButtonDependencies();
 
 import '@testing-library/jest-dom';
 import { createEvent, fireEvent, render, screen } from '@testing-library/react';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { expectPropsOnChildMock, getNumberFromCSSProperty } from '@monkvision/test-utils';
 import { useInteractiveStatus } from '@monkvision/common';
 import { Button, Spinner, Icon, IconProps } from '../../../src';
 import { InteractiveStatus } from '@monkvision/types';
 
 const BUTTON_TEST_ID = 'monk-btn';
-
-function getButtonFontSize(): number {
-  const buttonEl = screen.getByTestId(BUTTON_TEST_ID);
-  return Number(buttonEl.style.fontSize.substring(0, buttonEl.style.fontSize.length - 2));
-}
 
 describe('Button component', () => {
   afterEach(() => {
@@ -23,18 +18,22 @@ describe('Button component', () => {
 
   it('should take the size prop into account', () => {
     const { unmount, rerender } = render(<Button size='normal' />);
-    const normalFontSize = getButtonFontSize();
+    let buttonEl = screen.getByTestId(BUTTON_TEST_ID);
+    const normalFontSize = getNumberFromCSSProperty(buttonEl.style.fontSize);
     rerender(<Button size='small' />);
-    const smallFontSize = getButtonFontSize();
+    buttonEl = screen.getByTestId(BUTTON_TEST_ID);
+    const smallFontSize = getNumberFromCSSProperty(buttonEl.style.fontSize);
     expect(normalFontSize).toBeGreaterThan(smallFontSize);
     unmount();
   });
 
   it('should have the normal size by default', () => {
     const { unmount, rerender } = render(<Button />);
-    const defaultFontSize = getButtonFontSize();
+    let buttonEl = screen.getByTestId(BUTTON_TEST_ID);
+    const defaultFontSize = getNumberFromCSSProperty(buttonEl.style.fontSize);
     rerender(<Button size='small' />);
-    const smallFontSize = getButtonFontSize();
+    buttonEl = screen.getByTestId(BUTTON_TEST_ID);
+    const smallFontSize = getNumberFromCSSProperty(buttonEl.style.fontSize);
     expect(defaultFontSize).toBeGreaterThan(smallFontSize);
     unmount();
   });

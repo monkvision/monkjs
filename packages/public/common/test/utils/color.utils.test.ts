@@ -1,5 +1,6 @@
 import { InteractiveStatus } from '@monkvision/types';
 import {
+  changeAlpha,
   getHexFromRGBA,
   getInteractiveVariants,
   getRGBAFromString,
@@ -93,6 +94,13 @@ describe('Color utils', () => {
 
     it('should not modify the alpha value', () => {
       expect(shadeColor('#FC72A7CC', -0.2).toUpperCase()).toEqual('#CA5B86CC');
+    });
+  });
+
+  describe('changeAlpha function', () => {
+    it('should change the alpha value of the given color', () => {
+      const color = '#ffffff32';
+      expect(changeAlpha(color, 0.4)).toEqual('#ffffff66');
     });
   });
 
