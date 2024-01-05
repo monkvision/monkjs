@@ -36,6 +36,8 @@ const ICON_BY_STATUS = {
   ERROR: 'alert-octagon',
 };
 
+export const allowedLanguage = ['en', 'fr', 'de'];
+
 export const debugParams = {
   client: Clients.ALPHA,
   inspectionId: '492241e6-5563-0a4d-4948-e39952452127',
@@ -69,18 +71,19 @@ export default function Landing() {
   const isLastTour = route.params?.isLastTour ?? workflow !== Workflows.DEFAULT;
 
   useEffect(() => {
+    let language = 'en';
     if (USE_DEBUG_PARAMS && debugParams.lang) {
-      i18n.changeLanguage(debugParams.lang).catch((err) => {
-        errorHandler(err);
-      });
+      language = debugParams.lang;
     } else if (info.preferredLanguage) {
-      i18n.changeLanguage(info.preferredLanguage).catch((err) => {
-        errorHandler(err);
-      });
+      language = info.preferredLanguage;
     }
+
+    i18n.changeLanguage(language).catch((err) => {
+      errorHandler(err);
+    });
   }, [info]);
 
-  const { clientId, inspectionId, token, vehicleTypeParam } = useMemo(() => {
+  const { clientId, inspectionId, token, vehicleTypeParam, language } = useMemo(() => {
     if (USE_DEBUG_PARAMS) {
       return {
         clientId: debugParams.client,
@@ -101,8 +104,17 @@ export default function Landing() {
       vehicleTypeParam: (clientParam === 'pd8') ? vehicleParam : vehicleParam ?? 1,
       clientId: clientParam ? ClientParamMap[clientParam] : undefined,
       token: compressedToken ? decompress(compressedToken) : undefined,
+      language: urlParams.get('lang'),
     };
   }, []);
+
+  useEffect(() => {
+    if (allowedLanguage.includes(language)) {
+      i18n.changeLanguage(language).catch((err) => {
+        errorHandler(err);
+      });
+    }
+  }, [language]);
 
   useEffect(() => {
     setClient(clientId);
