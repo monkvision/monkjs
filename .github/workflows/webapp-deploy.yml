@@ -103,6 +103,9 @@ jobs:
           name: build-${{ needs.check_env.outputs.env_name }}
           path: webapp-${{ needs.check_env.outputs.env_name }}
       # Deploy to the GKE cluster
+      - name: Clean up old files
+        run: |-
+          kubectl -n poc exec -it $(kubectl get pods -n poc -l app.kubernetes.io/instance=poc-spa --no-headers | awk '{print $1}') -- rm -rf webapp-${{ needs.check_env.outputs.env_name }}
       - name: Deploy
         run: |-
           kubectl -n poc cp webapp-${{ needs.check_env.outputs.env_name }} poc/$(kubectl get pods -n poc -l app.kubernetes.io/instance=poc-spa --no-headers | awk '{print $1}'):/app/
