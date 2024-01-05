@@ -119,6 +119,8 @@ export default function InspectionCapture() {
         } catch (error) {
           console.error(error);
         }
+
+        window.location.href = "https://evalexpert.io/v1/monk-ai/image-upload-success";
       }
       if (isLastTour && info.vm) {
         navigation.navigate(names.INSPECTION_REPORT, { inspectionId, vehicleType });
