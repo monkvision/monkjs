@@ -71,16 +71,18 @@ export default function Landing() {
   const isLastTour = route.params?.isLastTour ?? workflow !== Workflows.DEFAULT;
 
   useEffect(() => {
-    let language = 'en';
+    let language;
     if (USE_DEBUG_PARAMS && debugParams.lang) {
       language = debugParams.lang;
     } else if (info.preferredLanguage) {
       language = info.preferredLanguage;
     }
 
-    i18n.changeLanguage(language).catch((err) => {
-      errorHandler(err);
-    });
+    if (language) {
+      i18n.changeLanguage(language).catch((err) => {
+        errorHandler(err);
+      });
+    }
   }, [info]);
 
   const { clientId, inspectionId, token, vehicleTypeParam, language } = useMemo(() => {
@@ -227,7 +229,7 @@ export default function Landing() {
         `${t('landing.inspectionInError.message')} \n${t('landing.inspectionInError.id')} : ${inspectionId} \n${t('landing.inspectionInError.tasks')} : ${tasksInError.join(', ')}`,
         [{
           text: t('capture.quit.ok'),
-          onPress: () => {},
+          onPress: () => { },
         }],
         { cancelable: true },
       );
