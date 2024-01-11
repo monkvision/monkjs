@@ -1,21 +1,29 @@
-import { Button } from '@monkvision/common-ui-web';
-import { useTranslation } from 'react-i18next';
+import { PixelDimensions, Sight } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDAddDamagePreview.styles';
-import { usePhotoHUDButtonBackground } from '../hooks';
+import { CloseupPreview } from './CloseupPreview';
+import { CrosshairPreview } from './CrosshairPreview';
+import { AddDamagePreviewMode } from '../hooks';
 
 export interface PhotoCaptureHUDAddDamageMenuProps {
+  sight?: Sight | undefined;
   onCancel: () => void;
+  addDamagePreviewMode: AddDamagePreviewMode;
+  streamDimensions?: PixelDimensions | null;
 }
 
-export function PhotoCaptureHUDAddDamagePreview({ onCancel }: PhotoCaptureHUDAddDamageMenuProps) {
-  const { t } = useTranslation();
-  const { bgColor } = usePhotoHUDButtonBackground();
+export function PhotoCaptureHUDAddDamagePreview({
+  onCancel,
+  sight,
+  addDamagePreviewMode,
+  streamDimensions,
+}: PhotoCaptureHUDAddDamageMenuProps) {
+  function addDamagePreview() {
+    return addDamagePreviewMode === AddDamagePreviewMode.DEFAULT ? (
+      <CrosshairPreview onCancel={onCancel} />
+    ) : (
+      <CloseupPreview sight={sight} onCancel={onCancel} streamDimensions={streamDimensions} />
+    );
+  }
 
-  return (
-    <div style={styles['top']}>
-      <Button onClick={onCancel} style={{ backgroundColor: bgColor }}>
-        {t('photo.hud.addDamage.cancelBtn')}
-      </Button>
-    </div>
-  );
+  return <div style={styles['container']}>{addDamagePreview()}</div>;
 }

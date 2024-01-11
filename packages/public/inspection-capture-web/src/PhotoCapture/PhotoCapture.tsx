@@ -26,6 +26,10 @@ export const PhotoCapture = i18nWrap(({ sights }: PhotoCaptureProps) => {
   });
   const hud = (props: CameraHUDProps) => <PhotoCaptureHUD sights={sights} {...props} />;
 
+  const handleTakePicture = (picture: MonkPicture) => {
+    console.log('Picture Taken :', picture);
+  };
+
   return (
     <div style={styles['container']}>
       <Camera
@@ -34,7 +38,7 @@ export const PhotoCapture = i18nWrap(({ sights }: PhotoCaptureProps) => {
         resolution={cameraState.resolution}
         format={cameraState.compressionFormat}
         quality={Number(cameraState.quality)}
-        onPictureTaken={(picture: MonkPicture) => console.log('Picture Taken :', picture)}
+        onPictureTaken={handleTakePicture}
       />
     </div>
   );

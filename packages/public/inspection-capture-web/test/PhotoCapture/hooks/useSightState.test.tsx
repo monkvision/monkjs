@@ -1,9 +1,10 @@
-jest.mock('@monkvision/common');
-
+import { HUDMode } from '../../../src/PhotoCapture/hook';
 import { act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Sight } from '@monkvision/types';
-import { useSightState } from '../../../src/PhotoCapture/hooks';
+import { AddDamagePreviewMode, useSightState } from '../../../src/PhotoCapture/hooks';
+
+jest.mock('@monkvision/common');
 
 const sights = [
   { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },
@@ -36,13 +37,17 @@ describe('useSightState hook', () => {
     expect(result.current.selectedSight).toEqual(newSelectedSight);
   });
 
-  it('should update sightsTaken and sightSelected when handleSightTaken is called', () => {
+  it('should update sightsTaken and sightSelected when handleSightTaken is called with mode is set to DEFAULT', () => {
     const { result } = renderHook(() => useSightState(sights));
+
+    expect(result.current.sightsTaken).toEqual([]);
+    expect(result.current.selectedSight).toEqual(sights[0]);
+    expect(result.current.mode).toEqual(HUDMode.DEFAULT);
+    expect(result.current.addDamagePreviewMode).toEqual(AddDamagePreviewMode.DEFAULT);
 
     act(() => {
       result.current.handleSightTaken();
     });
-
     expect(result.current.sightsTaken).toEqual([sights[0]]);
     expect(result.current.selectedSight).toEqual(sights[1]);
 
@@ -52,5 +57,22 @@ describe('useSightState hook', () => {
 
     expect(result.current.sightsTaken).toEqual([sights[0], sights[1]]);
     expect(result.current.selectedSight).toEqual(sights[1]);
+  });
+
+  it('should update damagedPictureTaken handleSightTaken is called', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useSightState(sights));
+
+    await act(async () => {
+      result.current.setMode(HUDMode.ADD_DAMAGE);
+      await waitForNextUpdate();
+      result.current.handleSightTaken();
+    });
+    expect(result.current.addDamagePreviewMode).toEqual(AddDamagePreviewMode.CLOSEUP_PREVIEW);
+
+    await act(async () => {
+      result.current.handleSightTaken();
+    });
+    expect(result.current.addDamagePreviewMode).toEqual(AddDamagePreviewMode.DEFAULT);
+    expect(result.current.mode).toEqual(HUDMode.DEFAULT);
   });
 });
