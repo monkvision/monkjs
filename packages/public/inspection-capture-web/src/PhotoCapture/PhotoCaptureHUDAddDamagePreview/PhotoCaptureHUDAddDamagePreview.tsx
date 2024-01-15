@@ -1,4 +1,5 @@
 import { PixelDimensions, Sight } from '@monkvision/types';
+import { useMemo } from 'react';
 import { styles } from './PhotoCaptureHUDAddDamagePreview.styles';
 import { CloseupPreview } from './CloseupPreview';
 import { CrosshairPreview } from './CrosshairPreview';
@@ -17,13 +18,13 @@ export function PhotoCaptureHUDAddDamagePreview({
   addDamagePreviewMode,
   streamDimensions,
 }: PhotoCaptureHUDAddDamageMenuProps) {
-  function addDamagePreview() {
+  const addDamagePreview = useMemo(() => {
     return addDamagePreviewMode === AddDamagePreviewMode.DEFAULT ? (
       <CrosshairPreview onCancel={onCancel} />
     ) : (
       <CloseupPreview sight={sight} onCancel={onCancel} streamDimensions={streamDimensions} />
     );
-  }
+  }, [addDamagePreviewMode, onCancel, sight, streamDimensions]);
 
-  return <div style={styles['container']}>{addDamagePreview()}</div>;
+  return <div style={styles['container']}>{addDamagePreview}</div>;
 }

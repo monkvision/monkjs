@@ -20,8 +20,9 @@ export function CloseupPreview({ sight, onCancel, streamDimensions }: CloseupPre
   const style = useCloseupPreviewStyle();
 
   const sightLabel = sight && label(sight);
-  const aspectRatio = `${streamDimensions?.width}/${streamDimensions?.height}`;
-  const addDamagePreviewMode = AddDamagePreviewMode.CLOSEUP_PREVIEW;
+  const aspectRatio = streamDimensions
+    ? `${streamDimensions?.width}/${streamDimensions?.height}`
+    : '16/9';
 
   return (
     <div style={styles['container']}>
@@ -29,7 +30,7 @@ export function CloseupPreview({ sight, onCancel, streamDimensions }: CloseupPre
         <div style={styles['frame']} />
       </div>
       <div style={styles['top']}>
-        <DamageCounter addDamagePreviewMode={addDamagePreviewMode} />
+        <DamageCounter addDamagePreviewMode={AddDamagePreviewMode.CLOSEUP_PREVIEW} />
         <CancelButton onCancel={onCancel} />
       </div>
       <div style={style.label} data-testid='sight-label'>

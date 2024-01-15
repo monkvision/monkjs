@@ -29,4 +29,7 @@ export const styles: Styles = {
     margin: '20px',
     bottom: '0',
   },
+  svg: {
+    width: '15%',
+  },
 };
