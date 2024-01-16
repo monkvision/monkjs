@@ -24,14 +24,37 @@ export const styles: Styles = {
     right: '0',
     left: '0',
   },
-  infoBtn: {
-    position: 'absolute',
-    margin: '10px',
-    bottom: '0',
-  },
-  test: {
+  frameContainer: {
     position: 'absolute',
     width: '100%',
-    aspectRatio: '16/9',
+  },
+  frame: {
+    position: 'absolute',
+    top: '25%',
+    left: '32%',
+    width: '36%',
+    height: '50%',
+    border: '2px solid #FFC000',
+    borderRadius: '10px',
+    boxShadow: '0px 0px 0px 100pc rgba(0, 0, 0, 0.5)',
+  },
+  label: {
+    position: 'absolute',
+    top: '0',
+    color: 'white',
+    margin: '20px',
+    padding: '10px 24px',
+  },
+  labelPortrait: {
+    __media: { portrait: true },
+    top: '10%',
+  },
+  infoCloseup: {
+    position: 'absolute',
+    bottom: '0',
+    color: 'white',
+    margin: '20px',
+    padding: '10px 24px',
+    textAlign: 'center',
   },
 };

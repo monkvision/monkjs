@@ -26,12 +26,10 @@ export const styles: Styles = {
   },
   infoBtn: {
     position: 'absolute',
-    margin: '10px',
+    margin: '20px',
     bottom: '0',
   },
-  test: {
-    position: 'absolute',
-    width: '100%',
-    aspectRatio: '16/9',
+  svg: {
+    width: '15%',
   },
 };

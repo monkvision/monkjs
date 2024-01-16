@@ -5,7 +5,11 @@
         "addDamageBtn": "Schaden"
       },
       "addDamage": {
-        "cancelBtn": "Stornieren"
+        "cancelBtn": "Stornieren",
+        "damagedPart": "Beschädigtes Teil",
+        "infoBtn": "Richte das Ziel auf den beschädigten Teil aus und tippe dann auf den Auslöserknopf",
+        "closeupPicture": "Nahaufnahme-Vorschau",
+        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen"
       }
     }
   }
