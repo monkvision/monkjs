@@ -12,4 +12,5 @@ export = {
   SightOverlay: jest.fn(() => <></>),
   Spinner: jest.fn(() => <></>),
   TakePictureButton: jest.fn(() => <></>),
+  SwitchButton: jest.fn(() => <></>),
 };

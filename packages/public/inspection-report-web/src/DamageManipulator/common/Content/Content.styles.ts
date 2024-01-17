@@ -1,8 +1,11 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  text: {
+  content: {
     display: 'flex',
+    flexDirection: 'row',
+    padding: '16px',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 };

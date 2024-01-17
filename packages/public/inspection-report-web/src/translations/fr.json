@@ -1,0 +1,19 @@
+{
+  "damageManipulator": {
+    "damagesSwitchBtn": {
+      "damages": "Dégâts",
+      "damaged": "Cette pièce est endommagée",
+      "notDamaged": "Cette pièce n'est pas endommagée"
+    },
+    "severitySelection": {
+      "severity": "Sévérité",
+      "low": "Mineur",
+      "moderate": "Modéré",
+      "high": "Majeur"
+    },
+    "pricing": {
+      "repairCost": "Coût de réparation"
+    },
+    "doneBtn": "Terminé"
+  }
+}

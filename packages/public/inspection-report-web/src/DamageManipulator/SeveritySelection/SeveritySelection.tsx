@@ -1,15 +1,15 @@
-import { Button } from '@monkvision/common-ui-web';
+import { Button, DynamicSVG } from '@monkvision/common-ui-web';
 import { Severity } from '@monkvision/types';
-import { styles } from './SeveritySelection.styles';
-import { Title } from '../components';
 import { useTranslation } from 'react-i18next';
-import { Damage, DamageMode, DisplayMode, severitiesWithIcons } from '../hook';
+import { useMonkTheme } from '@monkvision/common';
+import { styles } from './SeveritySelection.styles';
+import { Content, severitiesWithIcon, SeverityWithIcon, Title } from '../common';
+import { DamageInfo, DamageMode, DisplayMode } from '../hooks';
 
 interface SeverityButtonProps {
   hasDamage?: boolean;
-  editedDamageSeverity: Severity | undefined;
-  severity: Severity;
-  children: string;
+  editedDamageSeverity?: Severity | undefined;
+  severity: SeverityWithIcon;
   onSeverityChange: (severity: Severity) => void;
 }
 
@@ -17,25 +17,34 @@ function SeverityButton({
   hasDamage,
   editedDamageSeverity,
   severity,
-  children,
   onSeverityChange,
 }: SeverityButtonProps) {
-  const borderColor = editedDamageSeverity === severity ? '#ffffff' : '#5D5E67';
+  const { t } = useTranslation();
+  const { palette } = useMonkTheme();
+
+  const borderColor =
+    editedDamageSeverity === severity.key ? palette.border.base : palette.grey.dark;
+  const svg = () =>
+    editedDamageSeverity === severity.key || (severity.key === Severity.LOW && !hasDamage) ? (
+      <DynamicSVG style={{ width: '20px', paddingRight: '8px' }} svg={severity.icon} />
+    ) : null;
+
   return (
     <Button
       style={{ ...styles['severityButton'], borderColor }}
       variant='outline'
       primaryColor='text-white'
       disabled={!hasDamage}
-      onClick={() => onSeverityChange(severity)}
+      onClick={() => onSeverityChange(severity.key)}
     >
-      {children}
+      {svg()}
+      {t(severity.buttonName)}
     </Button>
   );
 }
 
 interface SeveritySelectionProps {
-  damage?: Damage;
+  damage?: DamageInfo;
   hasDamage?: boolean;
   displayMode?: DisplayMode;
   damageMode?: DamageMode;
@@ -49,32 +58,30 @@ export function SeveritySelection({
   displayMode = DisplayMode.MINIMAL,
   onSeverityChange,
 }: SeveritySelectionProps) {
-  if (displayMode === DisplayMode.MINIMAL ?? damageMode === DamageMode.PRICING) {
+  if ((displayMode === DisplayMode.MINIMAL && !hasDamage) || damageMode === DamageMode.PRICING) {
     return null;
   }
   const { t } = useTranslation();
-  console.log(damage);
+
   return (
-    <div
+    <Content
       style={{
-        ...styles['content'],
         ...styles['columnContent'],
         ...(!hasDamage && styles['disable']),
       }}
     >
-      <Title>{t('damageManipulator.severity')}</Title>
+      <Title>{t('damageManipulator.severitySelection.severity')}</Title>
       <div style={styles['severityContent']}>
-        {severitiesWithIcons.map((severity) => (
+        {severitiesWithIcon.map((severity) => (
           <SeverityButton
+            key={severity.key}
             hasDamage={hasDamage}
             editedDamageSeverity={damage?.severity}
-            severity={severity.key}
+            severity={severity}
             onSeverityChange={onSeverityChange}
-          >
-            {severity.buttonName}
-          </SeverityButton>
+          />
         ))}
       </div>
-    </div>
+    </Content>
   );
 }

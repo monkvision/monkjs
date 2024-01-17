@@ -1,51 +1,88 @@
-import { useState } from 'react';
+import { i18nWrap } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
-import { Severity } from '@monkvision/types';
+import { useMemo } from 'react';
 import { DamagesSwitchButton } from './DamagesSwitchButton';
 import { SeveritySelection } from './SeveritySelection';
 import { PricingSlider } from './PricingSlider';
 import { DoneButton } from './DoneButton';
+import {
+  DamageMode,
+  DisplayMode,
+  DamageInfo,
+  useDamageManipulator,
+  useDamageManipulatorStyle,
+} from './hooks';
+import { i18nInspectionReportWeb } from '../i18n';
+import { PartPictureButton } from './PartPictureButton';
 import { styles } from './DamageManipulator.styles';
-import { DamageMode, DisplayMode, Damage } from './hook';
 
 export interface DamageManipulatorProps {
+  partName?: string;
   damageMode?: DamageMode;
   displayMode?: DisplayMode;
-  onConfirm?: (damage: Damage) => void;
-  damage?: Damage;
-  // onToggleDamage;
-  // isEditable;
+  onConfirm?: (damage: DamageInfo) => void;
+  damage?: DamageInfo;
 }
 
-export function DamageManipulator({
-  damageMode = DamageMode.ALL,
-  displayMode = DisplayMode.MINIMAL,
-  damage,
-  onConfirm,
-}: DamageManipulatorProps) {
-  const [hasDamage, setHasDamage] = useState<boolean>(!!damage);
-  const [editedDamage, setEditedDamage] = useState(damage);
+/**
+ * Component which allow the user to update a damage
+ */
+export const DamageManipulator = i18nWrap(
+  ({
+    partName,
+    damageMode = DamageMode.ALL,
+    displayMode = DisplayMode.MINIMAL,
+    damage,
+    onConfirm,
+  }: DamageManipulatorProps) => {
+    const {
+      hasDamage,
+      editedDamage,
+      isShow,
+      showContent,
+      toggleDamageSwitch,
+      handleSeverityChange,
+      handlePriceChange,
+      handleConfirm,
+      handleShowPicture,
+    } = useDamageManipulator({ damage, onConfirm });
+    const { container } = useDamageManipulatorStyle();
+    const { t } = useTranslation();
 
-  const { t } = useTranslation();
-  console.log(damageMode, displayMode, onConfirm, editedDamage);
-  // function handleOnConfirm(value: boolean) {
-  //   setHasDamage(value);
-  // }
-  function handleSeverityChange(key: Severity) {
-    setEditedDamage((value) => ({ ...value, severity: key }));
-  }
-  return (
-    <div style={styles['container']}>
-      <DamagesSwitchButton hasDamage={hasDamage} onSwitch={(value) => setHasDamage(value)} />
-      <SeveritySelection
-        damage={editedDamage}
-        hasDamage={hasDamage}
-        displayMode={displayMode}
-        damageMode={damageMode}
-        onSeverityChange={handleSeverityChange}
-      />
-      <PricingSlider displayMode={displayMode} damageMode={damageMode} hasDamage={hasDamage} />
-      <DoneButton>{t('damageManipulator.done')}</DoneButton>
-    </div>
-  );
-}
+    const damageDetails = useMemo(
+      () =>
+        isShow && (
+          <div style={styles['content']}>
+            <PartPictureButton partName={partName} onClick={handleShowPicture} />
+            <DamagesSwitchButton hasDamage={hasDamage} onSwitch={toggleDamageSwitch} />
+            <SeveritySelection
+              damage={editedDamage}
+              hasDamage={hasDamage}
+              displayMode={displayMode}
+              damageMode={damageMode}
+              onSeverityChange={handleSeverityChange}
+            />
+            <PricingSlider
+              displayMode={displayMode}
+              damageMode={damageMode}
+              hasDamage={hasDamage}
+              onPriceChange={handlePriceChange}
+            />
+            <DoneButton onConfirm={handleConfirm}>{t('damageManipulator.doneBtn')}</DoneButton>
+          </div>
+        ),
+      [isShow, partName, hasDamage, editedDamage, DamageMode, DisplayMode, damage],
+    );
+    return (
+      <div style={container}>
+        <button
+          style={{ position: 'static', width: '40px', margin: '20px' }}
+          onClick={showContent}
+          data-testid='toggle-btn'
+        />
+        {damageDetails}
+      </div>
+    );
+  },
+  i18nInspectionReportWeb,
+);

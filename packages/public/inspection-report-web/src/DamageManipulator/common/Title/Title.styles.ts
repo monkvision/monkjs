@@ -1,7 +1,8 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  doneBtn: {
-    width: '100%',
+  title: {
+    opacity: '0.7',
+    paddingBottom: '8px',
   },
 };

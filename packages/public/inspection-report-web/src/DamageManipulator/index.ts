@@ -1,2 +1,3 @@
 export * from './DamageManipulator';
-export * from './hook';
+export type { DamageInfo } from './hooks/useDamageManipulator';
+export { DamageMode, DisplayMode } from './hooks/useDamageManipulator';
