@@ -55,6 +55,7 @@ export default {
     {
       id: '6a5e9a4c-8752-c1e6-6a34-38338074eda1',
       entityType: 'IMAGE',
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
       path: 'https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/rear_lateral_low_left.jpeg-eefefe38-b25b-471f-89ad-8adb2cbcca1f.jpeg?generation=1702474029543236&alt=media',
       width: 1920,
       height: 1080,
@@ -64,6 +65,11 @@ export default {
       viewpoint: {
         confidence: 0.9847987294197083,
         prediction: 'left'
+      },
+      label: {
+        de: 'Hinten Seitlich Niedrig Links',
+        en: 'Rear Lateral Low Left',
+        fr: 'Arrière Gauche Latéral - vue basse',
       },
       renderedOutputs: [
         '87650e8f-b8c9-6c6b-870f-acf0bfef402c',
@@ -96,7 +102,7 @@ export default {
       ],
       additionalData: {
         category: 'exterior',
-        id: 'ffocus18-S3kgFOBb',
+        sightId: 'ffocus18-S3kgFOBb',
         label: {
           de: 'Hinten Seitlich Niedrig Links',
           en: 'Rear Lateral Low Left',
@@ -115,9 +121,15 @@ export default {
       type: 'beauty_shot',
       viewpoint: {
         confidence: 0.4582550525665283,
-        prediction: 'front_left'
+        prediction: 'front_left',
       },
       compliances: {},
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
+      label: {
+        de: 'Motorhaube',
+        en: 'Hood',
+        fr: 'Capot',
+      },
       renderedOutputs: [
         'd14655ab-f662-3898-d12c-f7d4f14414df',
         'ffee30b3-6d49-58ea-ff84-92cc6a6f74ad'
@@ -137,7 +149,7 @@ export default {
       ],
       additionalData: {
         category: 'exterior',
-        id: 'ffocus18-3TiCVAaN',
+        sightId: 'ffocus18-3TiCVAaN',
         label: {
           de: 'Motorhaube',
           en: 'Hood',
@@ -147,6 +159,7 @@ export default {
     },
     {
       id: '8ad728c4-90ee-7983-8abd-8abb97c855c4',
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
       entityType: 'IMAGE',
       path: 'https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/close_up_roof.jpeg-2a10933e-0e7d-4499-9586-82b932bd0b37.jpeg?generation=1702474029574675&alt=media',
       width: 1920,
@@ -157,7 +170,12 @@ export default {
       detailedViewpoint: {
         centersOn: [
           'roof'
-        ]
+        ],
+      },
+      label: {
+        de: 'Dach',
+        en: 'Roof',
+        fr: 'Toit'
       },
       renderedOutputs: [
         '00b314cf-c28d-d75e-00d9-b6b0c5abfb19',

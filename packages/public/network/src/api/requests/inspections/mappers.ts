@@ -191,6 +191,8 @@ function mapImages(response: ApiInspectionGet): {
     images.push({
       id: image.id,
       entityType: MonkEntityType.IMAGE,
+      inspectionId: response.id,
+      label: image.additional_data?.label,
       path: image.path,
       width: image.image_width,
       height: image.image_height,

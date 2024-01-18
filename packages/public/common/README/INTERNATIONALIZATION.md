@@ -3,7 +3,7 @@ This README page is aimed at providing documentation on a specific part of the `
 internationalization. You can refer to [this page](README.md). for more general information on the package.
 
 This package exports utility functions and hooks tools that help you manage the internationalization support of the Monk
-SDK.
+SDK, as well as common translations that can be useful when interacting with the SDK.
 
 # react-i18next
 The internationalization in the Monk SDK (and in Monk Webapps) is handled using [i18n](https://www.i18next.com/) and
@@ -78,3 +78,14 @@ export function App() {
   ...
 }
 ```
+
+# Common Translations
+## Car Parts
+You can import the car parts translations like this :
+
+```typescript
+import { cartPartLabels } from '@monkvision/common';
+```
+
+The `cartPartLabels` object maps each `VehiclePart` name (enum from `@monkvision/types`) to a `TranslationObject`
+containing a label for each supported language.

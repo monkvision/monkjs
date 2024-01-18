@@ -108,7 +108,7 @@
     {
       "additional_data": {
         "category": "exterior",
-        "id": "ffocus18-S3kgFOBb",
+        "sightId": "ffocus18-S3kgFOBb",
         "label": {
           "de": "Hinten Seitlich Niedrig Links",
           "en": "Rear Lateral Low Left",
@@ -5571,7 +5571,7 @@
     {
       "additional_data": {
         "category": "exterior",
-        "id": "ffocus18-3TiCVAaN",
+        "sightId": "ffocus18-3TiCVAaN",
         "label": {
           "de": "Motorhaube",
           "en": "Hood",
