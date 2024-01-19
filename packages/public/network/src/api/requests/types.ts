@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { MonkUpdateStatePayload } from '@monkvision/common';
 import { MonkAPIConfig } from '../config';
 
@@ -11,9 +10,13 @@ export interface MonkAPIResponse<T> {
    */
   payload: MonkUpdateStatePayload;
   /**
-   * The raw response object obtained from Axios when making the request.
+   * The raw response object obtained from the fetch method when making the request.
    */
-  axiosResponse: AxiosResponse<T>;
+  response: Response;
+  /**
+   * The body of the response.
+   */
+  body: T;
 }
 
 /**

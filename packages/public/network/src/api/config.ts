@@ -1,4 +1,3 @@
-import { AxiosRequestConfig } from 'axios';
 import packageJson from '../../package.json';
 
 export const sdkVersion = packageJson.version;
@@ -17,7 +16,12 @@ export interface MonkAPIConfig {
   authToken: string;
 }
 
-export function getBaseAxiosConfig(config: MonkAPIConfig): AxiosRequestConfig {
+export interface KyConfig {
+  baseUrl: string;
+  headers: Record<string, string>;
+}
+
+export function getKyConfig(config: MonkAPIConfig): KyConfig {
   const apiDomain = config.apiDomain.endsWith('/')
     ? config.apiDomain.substring(0, config.apiDomain.length - 1)
     : config.apiDomain;
@@ -25,7 +29,7 @@ export function getBaseAxiosConfig(config: MonkAPIConfig): AxiosRequestConfig {
     ? config.authToken
     : `Bearer ${config.authToken}`;
   return {
-    baseURL: `https://${apiDomain}`,
+    baseUrl: `https://${apiDomain}`,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': authorizationHeader,

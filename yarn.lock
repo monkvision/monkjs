@@ -3721,7 +3721,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/network@workspace:packages/public/network":
+"@monkvision/network@4.0.0, @monkvision/network@workspace:packages/public/network":
   version: 0.0.0-use.local
   resolution: "@monkvision/network@workspace:packages/public/network"
   dependencies:
@@ -3737,7 +3737,6 @@ __metadata:
     "@types/node": ^18.11.9
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
-    axios: ^1.6.2
     eslint: ^8.29.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-prettier: ^8.5.0
@@ -3751,12 +3750,16 @@ __metadata:
     jest: ^29.3.1
     jsonwebtoken: ^9.0.2
     jwt-decode: ^4.0.0
+    ky: ^1.2.0
     mkdirp: ^1.0.4
     prettier: ^2.7.1
     regexpp: ^3.2.0
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
     typescript: ^4.8.4
+  peerDependencies:
+    react: ^17.0.2
+    react-dom: ^17.0.2
   languageName: unknown
   linkType: soft
 
@@ -6710,17 +6713,6 @@ __metadata:
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
   checksum: 4444f06601f4ede154183767863d2b8e472b4a6bfc5253597ed6d21899887e1fd0ee2b3de792ac4f8459fe2e359d2aa07c216e45fd8b9e4e0688a6ebf48a5a8d
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.6.2":
-  version: 1.6.2
-  resolution: "axios@npm:1.6.2"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: 4a7429e2b784be0f2902ca2680964391eae7236faa3967715f30ea45464b98ae3f1c6f631303b13dfe721b17126b01f486c7644b9ef276bfc63112db9fd379f8
   languageName: node
   linkType: hard
 
@@ -14134,6 +14126,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ky@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "ky@npm:1.2.0"
+  checksum: 10d436364d3e49e0c702adf90dfd0494812ba12853dfc4c1552a13150d769dfe0af339cd105f1076861f35ce1fb242e875858a2adb4fce62de0a5b5c7e9739fa
+  languageName: node
+  linkType: hard
+
 "language-subtag-registry@npm:~0.3.2":
   version: 0.3.22
   resolution: "language-subtag-registry@npm:0.3.22"
@@ -15216,6 +15215,7 @@ __metadata:
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/inspection-capture-web": 4.0.0
     "@monkvision/monitoring": 4.0.0
+    "@monkvision/network": 4.0.0
     "@monkvision/sentry": 4.0.0
     "@monkvision/sights": 4.0.0
     "@monkvision/types": 4.0.0

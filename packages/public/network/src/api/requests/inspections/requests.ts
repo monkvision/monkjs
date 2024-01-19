@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { getBaseAxiosConfig, MonkAPIConfig } from '../../config';
+import ky from 'ky';
+import { getKyConfig, MonkAPIConfig } from '../../config';
 import { MonkAPIRequest } from '../types';
 import { ApiInspectionGet } from '../../apiModels';
 import { mapGetInspectionResponse } from './mappers';
@@ -11,15 +11,16 @@ export const getInspection: MonkAPIRequest<[id: string], ApiInspectionGet> = asy
   id: string,
   config: MonkAPIConfig,
 ) => {
-  const axiosResponse = await axios.request<ApiInspectionGet>({
-    ...getBaseAxiosConfig(config),
-    method: 'get',
-    url: `/inspections/${id}`,
+  const { baseUrl, headers } = getKyConfig(config);
+  const response = await ky.get(`${baseUrl}/inspections/${id}`, {
+    headers,
   });
+  const body = await response.json<ApiInspectionGet>();
   return {
     payload: {
-      entities: mapGetInspectionResponse(axiosResponse.data),
+      entities: mapGetInspectionResponse(body),
     },
-    axiosResponse,
+    response,
+    body,
   };
 };

@@ -5,8 +5,8 @@
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs core package used to communicate with the API",
   "author": "monkvision",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
   "files": [
     "package.json",
     "README.md",
@@ -23,6 +23,15 @@
     "eslint:fix": "eslint --fix --format=pretty ./src ./test",
     "lint": "yarn run prettier && yarn run eslint",
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "ky": "^1.2.0"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@monkvision/common": "4.0.0",
@@ -66,10 +75,5 @@
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"
   },
-  "homepage": "https://github.com/monkvision/monkjs",
-  "dependencies": {
-    "axios": "^1.6.2",
-    "jsonwebtoken": "^9.0.2",
-    "jwt-decode": "^4.0.0"
-  }
+  "homepage": "https://github.com/monkvision/monkjs"
 }
