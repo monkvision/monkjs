@@ -1,6 +1,10 @@
-import { useMonkState } from '@monkvision/common';
+import {
+  useMonkState,
+  MonkAction,
+  MonkActionType,
+  MonkUpdateStateAction,
+} from '@monkvision/common';
 import { Dispatch } from 'react';
-import { MonkAction, MonkActionType, MonkUpdateStateAction } from '@monkvision/common/src';
 import { MonkAPIConfig } from './config';
 import { MonkAPIRequest, MonkAPIResponse } from './requests/types';
 import { MonkApi } from './requests';
