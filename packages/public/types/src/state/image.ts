@@ -1,6 +1,7 @@
 import { AdditionalData, ProgressStatus, LabelPrediction } from './common';
 import { MonkEntity, MonkEntityType } from './entity';
 import { VehiclePart } from './part';
+import { TranslationObject } from '../i18n';
 
 /**
  * The type of image.
@@ -165,6 +166,10 @@ export interface Image extends MonkEntity {
    */
   entityType: MonkEntityType.IMAGE;
   /**
+   * The ID of the inspection that this image was uploaded to.
+   */
+  inspectionId: string;
+  /**
    * The URL at which the image can be downloaded.
    */
   path: string;
@@ -188,6 +193,10 @@ export interface Image extends MonkEntity {
    * The type of the image.
    */
   type: ImageType;
+  /**
+   * The labels (one for each language) of this image.
+   */
+  label?: TranslationObject;
   /**
    * The subtype of the image.
    */

@@ -1,3 +1,4 @@
+import { TranslationObject } from '@monkvision/types';
 import type { ApiAdditionalData, ApiCenterOnElement, ApiLabelPrediction } from './common';
 import type { ApiRenderedOutputs } from './renderedOutput';
 import type { ApiImageComplianceResults } from './compliance';
@@ -22,8 +23,13 @@ export interface ApiViewpointComponent {
   is_exterior?: boolean;
 }
 
+export interface ApiImageAdditionalData extends ApiAdditionalData {
+  sightId?: string;
+  label?: TranslationObject;
+}
+
 export interface ApiImageWithViews {
-  additional_data?: ApiAdditionalData;
+  additional_data?: ApiImageAdditionalData;
   binary_size: number;
   compliances?: ApiImageComplianceResults;
   detailed_viewpoint?: ApiViewpointComponent;

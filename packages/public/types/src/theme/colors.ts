@@ -1,4 +1,4 @@
-import { DashConcat } from '../type-utils';
+import { DashConcat } from '../typeUtils';
 
 /**
  * Type definition for a color code. For now, this type is just an alias for `string`.
