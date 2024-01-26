@@ -12,7 +12,8 @@
       "high": "Major"
     },
     "pricing": {
-      "repairCost": "Repair Cost"
+      "repairCost": "Repair Cost",
+      "currency": "$"
     },
     "doneBtn": "Done"
   }

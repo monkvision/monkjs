@@ -63,6 +63,7 @@ export const DamageManipulator = i18nWrap(
               onSeverityChange={handleSeverityChange}
             />
             <PricingSlider
+              damagePricing={editedDamage?.pricing}
               displayMode={displayMode}
               damageMode={damageMode}
               hasDamage={hasDamage}

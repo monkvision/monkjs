@@ -12,7 +12,8 @@
       "high": "Wesentlich"
     },
     "pricing": {
-      "repairCost": "Reparaturkosten"
+      "repairCost": "Reparaturkosten",
+      "currency": "€"
     },
     "doneBtn": "Erledigt"
   }

@@ -1,10 +1,11 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@monkvision/common-ui-web';
 import { styles } from './PricingSelection.styles';
 import { Content, Title } from '../common';
 import { DamageMode, DisplayMode } from '../hooks';
 
 export interface PricingSelectionProps {
+  damagePricing: number | undefined;
   hasDamage?: boolean;
   displayMode?: DisplayMode;
   damageMode?: DamageMode;
@@ -12,6 +13,7 @@ export interface PricingSelectionProps {
 }
 
 export function PricingSlider({
+  damagePricing = 0,
   hasDamage = true,
   damageMode = DamageMode.ALL,
   displayMode = DisplayMode.MINIMAL,
@@ -21,6 +23,11 @@ export function PricingSlider({
     return null;
   }
   const { t } = useTranslation();
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onPriceChange?.(Number(e.target.value));
+  };
+
   return (
     <Content
       style={{
@@ -34,11 +41,22 @@ export function PricingSlider({
           width: '100%',
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'space-evenly',
+          justifyContent: 'space-between',
         }}
       >
-        <Button onClick={() => onPriceChange?.(200)}>200</Button>
-        <Button onClick={() => onPriceChange?.(4000)}>4000</Button>
+        <input
+          disabled={!hasDamage}
+          style={{ width: '80%' }}
+          type='range'
+          min='0'
+          max='100'
+          value={damagePricing}
+          onChange={handleSliderChange}
+        />
+        <label>
+          {damagePricing}
+          {t('damageManipulator.pricing.currency')}
+        </label>
       </div>
     </Content>
   );

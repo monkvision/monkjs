@@ -12,7 +12,8 @@
       "high": "Majeur"
     },
     "pricing": {
-      "repairCost": "Coût de réparation"
+      "repairCost": "Coût de réparation",
+      "currency": "€"
     },
     "doneBtn": "Terminé"
   }
