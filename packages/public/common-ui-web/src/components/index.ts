@@ -4,3 +4,4 @@ export * from './TakePictureButton';
 export * from './DynamicSVG';
 export * from './SightOverlay';
 export * from './SwitchButton';
+export * from './FullscreenModal';
