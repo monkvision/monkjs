@@ -7,3 +7,4 @@ export * from './SwitchButton';
 export * from './FullscreenModal';
 export * from './BackdropDialog';
 export * from './Slider';
+export * from './FullscreenImageModal';
