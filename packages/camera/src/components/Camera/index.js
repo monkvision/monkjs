@@ -64,11 +64,10 @@ function Camera({
     >
       <Video
         autoPlay
-        playsInline
+        playsInline={false}
         ref={videoRef}
         width={getLandscapeScreenDimensions().width}
         height={getLandscapeScreenDimensions().height}
-        controls={false}
         style={{ zIndex: -1 }}
         controlsList="nofullscreen"
       />
