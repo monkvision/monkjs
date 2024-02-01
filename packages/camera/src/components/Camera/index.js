@@ -69,6 +69,8 @@ function Camera({
         width={getLandscapeScreenDimensions().width}
         height={getLandscapeScreenDimensions().height}
         controls={false}
+        style={{ zIndex: -1 }}
+        controlsList="nofullscreen"
       />
       {children}
     </View>
@@ -103,9 +105,9 @@ Camera.defaultProps = {
   compressionOptions: undefined,
   containerStyle: null,
   isDisplayed: true,
-  onCameraPermissionError: () => {},
-  onCameraPermissionSuccess: () => {},
-  onWarningMessage: () => {},
+  onCameraPermissionError: () => { },
+  onCameraPermissionSuccess: () => { },
+  onWarningMessage: () => { },
   resolutionOptions: undefined,
-  settings: { state: { resolution: 'QHD' }, dispatch: () => {} },
+  settings: { state: { resolution: 'QHD' }, dispatch: () => { } },
 };
