@@ -3723,7 +3723,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/network@4.0.0, @monkvision/network@workspace:packages/public/network":
+"@monkvision/network@workspace:packages/public/network":
   version: 0.0.0-use.local
   resolution: "@monkvision/network@workspace:packages/public/network"
   dependencies:

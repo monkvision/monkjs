@@ -16,6 +16,7 @@ module.exports = {
     'jsx-a11y/media-has-caption': OFF,
     'jsx-a11y/anchor-has-content': OFF,
     'jsx-a11y/anchor-is-valid': OFF,
+    'jsx-a11y/no-noninteractive-element-interactions': OFF,
   },
   ignorePatterns: ['**/*.js', 'node_modules', 'dist'],
   overrides: [
