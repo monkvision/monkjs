@@ -93,9 +93,12 @@ describe('Slider component', () => {
     unmount();
   });
 
-  it('should diplay and change left CSSproperty when mouseMove event is trigeer', () => {
+  it('should display and change left CSSProperty when mouseMove event is trigger', () => {
     const onChange = jest.fn();
-    HTMLElement.prototype.getBoundingClientRect = jest.fn(() => ({
+    const { unmount } = render(<Slider value={20} onChange={onChange} />);
+
+    const sliderEl = screen.getByTestId('slider');
+    jest.spyOn(sliderEl, 'getBoundingClientRect').mockImplementation(() => ({
       x: 0,
       y: 0,
       width: 100,
@@ -106,33 +109,21 @@ describe('Slider component', () => {
       right: 100,
       toJSON: () => ({}),
     }));
-    const { unmount } = render(<Slider value={20} onChange={onChange} />);
     const thumbEl = screen.getByTestId('thumb');
-    let thumbElInitalPos = thumbEl.style.left;
+    let thumbElInitialPos = thumbEl.style.left;
 
     expect(thumbEl.style.cursor).toEqual('grab');
     fireEvent.mouseDown(thumbEl);
     expect(thumbEl.style.cursor).toEqual('grabbing');
 
     fireEvent.click(thumbEl, { clientX: 10 });
-    expect(thumbEl.style.left).not.toEqual(thumbElInitalPos);
+    expect(thumbEl.style.left).not.toEqual(thumbElInitialPos);
 
-    thumbElInitalPos = thumbEl.style.left;
+    thumbElInitialPos = thumbEl.style.left;
     fireEvent.mouseMove(thumbEl, { clientX: 100 });
-    expect(thumbEl.style.left).not.toEqual(thumbElInitalPos);
+    expect(thumbEl.style.left).not.toEqual(thumbElInitialPos);
 
     fireEvent.mouseUp(thumbEl);
-    HTMLElement.prototype.getBoundingClientRect = jest.fn(() => ({
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100,
-      top: 0,
-      left: 0,
-      bottom: 100,
-      right: 100,
-      toJSON: () => ({}),
-    }));
     expect(thumbEl.style.cursor).toEqual('grab');
 
     unmount();
@@ -140,20 +131,21 @@ describe('Slider component', () => {
 
   it('should have float percentage when step passed as props is a float number', () => {
     const onChange = jest.fn();
-    HTMLElement.prototype.getBoundingClientRect = jest.fn(() => ({
+
+    const { unmount } = render(<Slider step={0.1} onChange={onChange} />);
+
+    const sliderEl = screen.getByTestId('slider');
+    jest.spyOn(sliderEl, 'getBoundingClientRect').mockImplementation(() => ({
       x: 0,
       y: 0,
       width: 1000,
-      height: 100,
+      height: 1000,
       top: 0,
       left: 0,
       bottom: 100,
       right: 100,
       toJSON: () => ({}),
     }));
-
-    const { unmount } = render(<Slider step={0.1} onChange={onChange} />);
-
     const thumbEl = screen.getByTestId('thumb');
     fireEvent.mouseDown(thumbEl);
     fireEvent.click(thumbEl, { clientX: 57 });

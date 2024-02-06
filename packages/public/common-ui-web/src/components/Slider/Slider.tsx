@@ -1,22 +1,22 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useInteractiveStatus } from '@monkvision/common';
 import { SliderProps, useSliderStyle } from './useSliderStyle';
 import { useSlider } from './useSlider';
 
 /**
- * Slider component allows users to select a value within a specified range by dragging a thumb along a horizontal track.
+ * A Slider component that allows users to select a value within a specified range by dragging along a horizontal track.
  */
 export function Slider({
   min = 0,
   max = 100,
   value = (max - min) / 2,
-  primaryColor = 'secondary-xlight',
+  primaryColor = 'primary',
   secondaryColor = 'primary',
-  tertiaryColor = 'primary',
+  tertiaryColor = 'secondary-xlight',
   disabled = false,
   step = 1,
   onChange,
-  style = {},
+  style,
 }: SliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const { thumbPosition, handleStart, isDragging } = useSlider({
@@ -31,13 +31,14 @@ export function Slider({
   const { status, eventHandlers } = useInteractiveStatus({
     disabled,
   });
-  const { sliderStyle, thumbStyle, valueTrackStyle, trackStyle, hoverThumbStyle } = useSliderStyle({
-    primaryColor,
-    secondaryColor,
-    tertiaryColor,
-    style,
-    status,
-  });
+  const { sliderStyle, thumbStyle, progressBarStyle, trackBarStyle, hoverThumbStyle } =
+    useSliderStyle({
+      primaryColor,
+      secondaryColor,
+      tertiaryColor,
+      style,
+      status,
+    });
 
   return (
     <div
@@ -49,8 +50,8 @@ export function Slider({
       onTouchStart={handleStart}
       data-testid='slider'
     >
-      <div style={{ ...trackStyle }} data-testid='track' />
-      <div style={{ ...valueTrackStyle, width: `${thumbPosition}%` }} data-testid='value-track' />
+      <div style={{ ...trackBarStyle }} data-testid='track' />
+      <div style={{ ...progressBarStyle, width: `${thumbPosition}%` }} data-testid='value-track' />
       <div style={{ ...hoverThumbStyle, left: `${thumbPosition}%` }} data-testid='hover-thumb' />
       <div
         style={{

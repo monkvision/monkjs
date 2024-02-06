@@ -11,7 +11,7 @@ export const styles: Styles = {
     margin: '20px',
     alignItems: 'center',
   },
-  sliderBarStyle: {
+  trackBarStyle: {
     position: 'absolute',
     width: '100%',
     height: '3px',
@@ -31,7 +31,7 @@ export const styles: Styles = {
     width: '11px',
     height: '11px',
   },
-  trackStyle: {
+  progressBarStyle: {
     position: 'absolute',
     height: '3px',
     borderRadius: '5px',
