@@ -9,6 +9,8 @@ export interface GetUserMediaMock {
   tracks: MediaStreamTrack[];
   stream: MediaStream;
   getUserMediaSpy: jest.SpyInstance;
+  enumerateDevicesSpy: jest.SpyInstance;
+  matchMedia: jest.SpyInstance;
 }
 
 const defaultMockTrack = {
@@ -38,13 +40,27 @@ export function mockGetUserMedia(params?: MockGetUserMediaParams): GetUserMediaM
       getUserMedia: params?.createMock
         ? params.createMock(stream)
         : jest.fn(() => Promise.resolve(stream)),
+      enumerateDevices: jest.fn(() => Promise.resolve([])),
     },
     configurable: true,
     writable: true,
+  });
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: true, // Set the default value as needed
+      media: query,
+      onchange: null,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
   });
   return {
     tracks,
     stream,
     getUserMediaSpy: jest.spyOn(global.navigator.mediaDevices, 'getUserMedia'),
+    enumerateDevicesSpy: jest.spyOn(global.navigator.mediaDevices, 'enumerateDevices'),
+    matchMedia: jest.spyOn(global.window, 'matchMedia'),
   };
 }

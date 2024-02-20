@@ -271,4 +271,52 @@ describe('useUserMedia hook', () => {
     });
     unmount();
   });
+
+  it('should switch the dimensions if the device is mobile', async () => {
+    const userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get');
+    userAgentGetter.mockReturnValue('iphone');
+    const constraints: MediaStreamConstraints = {
+      audio: false,
+      video: { width: 123, height: 456 },
+    };
+    const { result, unmount } = renderHook(useUserMedia, {
+      initialProps: constraints,
+    });
+    await waitFor(() => {
+      expect(result.current.dimensions).toEqual({
+        height: 456,
+        width: 123,
+      });
+    });
+    unmount();
+  });
+
+  it('should filter the video constraints by removing: Telephoto and wide camera', async () => {
+    const userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get');
+    userAgentGetter.mockReturnValue('iphone');
+    const constraints: MediaStreamConstraints = {
+      audio: false,
+      video: { width: 123, height: 456 },
+    };
+    gumMock?.enumerateDevicesSpy.mockResolvedValue([
+      { kind: 'videoinput', label: 'Front Camera', deviceId: 'frontDeviceId' },
+      { kind: 'videoinput', label: 'Rear Camera', deviceId: 'rearDeviceId' },
+      { kind: 'videoinput', label: 'Wide Angle Camera', deviceId: 'wideDeviceId' },
+      { kind: 'videoinput', label: 'Telephoto Angle Camera', deviceId: 'wideDeviceId' },
+    ]);
+    const { unmount } = renderHook(useUserMedia, {
+      initialProps: constraints,
+    });
+    await waitFor(() => {
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith({
+        audio: false,
+        video: {
+          width: 123,
+          height: 456,
+          deviceId: { exact: ['frontDeviceId', 'rearDeviceId'] },
+        },
+      });
+    });
+    unmount();
+  });
 });

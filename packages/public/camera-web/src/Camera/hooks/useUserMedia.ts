@@ -133,6 +133,24 @@ function getStreamDimensions(stream: MediaStream): PixelDimensions {
   return { width, height };
 }
 
+function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
+  return {
+    width: dimensions.height,
+    height: dimensions.width,
+  };
+}
+
+function isMobileDevice(): boolean {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return (
+    userAgent.includes('mobile') ||
+    userAgent.includes('android') ||
+    userAgent.includes('iphone') ||
+    userAgent.includes('ipad') ||
+    userAgent.includes('windows phone')
+  );
+}
+
 /**
  * React hook that wraps the `navigator.mediaDevices.getUserMedia` browser function in order to add React logic layers
  * and utility tools :
@@ -202,10 +220,36 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
           stream.removeEventListener('inactive', onStreamInactive);
           stream.getTracks().forEach((track) => track.stop());
         }
-        const str = await navigator.mediaDevices.getUserMedia(constraints);
+        let str = await navigator.mediaDevices.getUserMedia(constraints);
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        if (constraints) {
+          const videoConstraints = {
+            ...(constraints.video as MediaTrackConstraints),
+            deviceId: {
+              exact: devices
+                .filter(
+                  (device) =>
+                    device.kind === 'videoinput' &&
+                    !device.label.includes('Wide') &&
+                    !device.label.includes('Telephoto') &&
+                    !device.label.includes('Triple') &&
+                    !device.label.includes('Dual') &&
+                    !device.label.includes('Ultra'),
+                )
+                .map((device) => device.deviceId),
+            },
+          };
+          str.getTracks().forEach((track) => track.stop());
+          str = await navigator.mediaDevices.getUserMedia({
+            ...constraints,
+            video: videoConstraints,
+          });
+        }
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
-        setDimensions(getStreamDimensions(str));
+
+        const dimensionsStr = getStreamDimensions(str);
+        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
@@ -214,6 +258,23 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
     };
     getUserMedia().catch((err) => handleError(err));
   }, [constraints, stream, error, isLoading, lastConstraintsApplied, onStreamInactive]);
+
+  useEffect(() => {
+    const portrait = window.matchMedia('(orientation: portrait)');
+
+    const handleOrientationChange = () => {
+      if (stream) {
+        const dimensionsStr = getStreamDimensions(stream);
+        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
+      }
+    };
+    portrait.addEventListener('change', handleOrientationChange);
+    // console.log(portrait);
+
+    return () => {
+      portrait.removeEventListener('change', handleOrientationChange);
+    };
+  }, [stream]);
 
   return { stream, dimensions, error, retry, isLoading };
 }

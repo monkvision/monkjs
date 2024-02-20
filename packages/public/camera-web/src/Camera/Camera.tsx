@@ -76,7 +76,7 @@ export function Camera({
           style={styles['cameraPreview']}
           ref={videoRef}
           autoPlay
-          playsInline
+          playsInline={true}
           controls={false}
           data-testid='camera-video-preview'
         />
