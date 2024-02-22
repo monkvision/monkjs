@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as actions from './actions';
 import config from './config';
 import * as entity from './entities';
@@ -14,6 +15,7 @@ Object.values(slices).forEach((slice) => {
 });
 
 export default {
+  apiClient: axios,
   actions,
   config,
   entity,
