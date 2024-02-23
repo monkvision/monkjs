@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import axiosRetry from 'axios-retry';
 import { camelCase, isEmpty, isNil, omitBy, snakeCase } from 'lodash';
 import mapKeysDeep from 'map-keys-deep-lodash';
 
@@ -21,6 +22,9 @@ import { NormalizedTask, Task, TaskName } from './entityTypes';
 import { TaskPayloadTypes } from './reduxTypes';
 
 import schema, { idAttribute, key } from './schema';
+
+// Define the maximum number of retry attempts
+const MAX_RETRY_ATTEMPTS: number = 4;
 
 /**
  * Get the details of a task in a specific inspection.
@@ -82,12 +86,58 @@ export async function updateOne(
   name: TaskName,
   updateTask: UpdateTask,
 ): Promise<UpdateOneTaskResponse> {
-  const axiosResponse = await axios.request<IdResponse<'id'>>({
+  /**
+   * Define the retry configuration for this specific call
+   */
+  const retryConfig = {
+    retries: MAX_RETRY_ATTEMPTS,
+    retryDelay: (retryCount) => {
+      return retryCount * 1000;
+    },
+    shouldResetTimeout: true,
+    retryCondition: (error) => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Response:', error.response);
+        console.error('Data:', error.response.data);
+        console.error('Status:', error.response.status);
+        console.error('Headers:', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Request:', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error message:', error.message);
+      }
+      console.error('Config:', error.config);
+      // Check if the request should be retried
+      /**
+       * You can specify a condition for retry here
+       * For example, retry on network errors or 5xx status codes
+       */
+      return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 500;
+    }
+  };
+
+  /**
+   * Define the configuration for this specific call
+   */
+  const apiConfig: AxiosRequestConfig = {
     ...config.axiosConfig,
     method: 'patch',
     url: `/inspections/${inspectionId}/tasks/${name}`,
     data: mapKeysDeep(updateTask, (v, k) => snakeCase(k)),
-  });
+    'axios-retry': retryConfig,
+  };
+
+  // Apply axios-retry to the axios object
+  axiosRetry(axios, apiConfig['axios-retry']);
+
+  /**
+   * Make the request with axios.request
+   */
+  const axiosResponse = await axios.request<IdResponse<'id'>>(apiConfig);
 
   const id = axiosResponse.data[idAttribute];
   const updatedTask: UpdatedTask = {
