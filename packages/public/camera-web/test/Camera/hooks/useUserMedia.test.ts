@@ -1,12 +1,17 @@
 import { useMonitoring } from '@monkvision/monitoring';
 
 jest.mock('@monkvision/monitoring');
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
+  isMobileDevice: jest.fn(() => false),
+}));
 
 import { act, waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
 import { GetUserMediaMock, mockGetUserMedia } from '../../mocks';
+import { isMobileDevice } from '@monkvision/common';
 
 describe('useUserMedia hook', () => {
   let gumMock: GetUserMediaMock | null = null;
@@ -125,11 +130,13 @@ describe('useUserMedia hook', () => {
         kind: 'video',
         applyConstraints: jest.fn(() => Promise.resolve(undefined)),
         getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+        stop: jest.fn(),
       },
       {
         kind: 'video',
         applyConstraints: jest.fn(() => Promise.resolve(undefined)),
         getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+        stop: jest.fn(),
       },
     ] as unknown as MediaStreamTrack[];
     mockGetUserMedia({ tracks });
@@ -159,6 +166,7 @@ describe('useUserMedia hook', () => {
           kind: 'video',
           applyConstraints: jest.fn(() => Promise.resolve(undefined)),
           getSettings: jest.fn(() => invalidSettings[i]),
+          stop: jest.fn(),
         },
       ] as unknown as MediaStreamTrack[];
       mockGetUserMedia({ tracks });
@@ -233,7 +241,7 @@ describe('useUserMedia hook', () => {
     await waitFor(() => {
       expect(result.current.error).toBeNull();
       expect(result.current.stream).toEqual(mock.stream);
-      expect(mock.getUserMediaSpy).toHaveBeenCalledTimes(2);
+      expect(mock.getUserMediaSpy).toHaveBeenCalledTimes(3);
     });
     unmount();
   });
@@ -275,6 +283,8 @@ describe('useUserMedia hook', () => {
   it('should switch the dimensions if the device is mobile', async () => {
     const userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get');
     userAgentGetter.mockReturnValue('iphone');
+    const isMobileDeviceMock = isMobileDevice as jest.Mock;
+    isMobileDeviceMock.mockReturnValue(true);
     const constraints: MediaStreamConstraints = {
       audio: false,
       video: { width: 123, height: 456 },

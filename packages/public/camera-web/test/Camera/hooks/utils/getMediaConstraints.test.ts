@@ -20,21 +20,6 @@ const EXPECTED_CAMERA_RESOLUTION_SIZES: {
 };
 
 describe('useMediaConstraints hook', () => {
-  it('should properly map the deviceId option', () => {
-    const deviceId = 'test-id';
-    const constraints = getMediaConstraints({
-      deviceId,
-      facingMode: CameraFacingMode.ENVIRONMENT,
-      resolution: CameraResolution.UHD_4K,
-    });
-
-    expect(constraints).toEqual(
-      expect.objectContaining({
-        video: expect.objectContaining({ deviceId }),
-      }),
-    );
-  });
-
   Object.values(CameraFacingMode).forEach((facingMode) =>
     it(`should properly map the '${facingMode}' facingMode option`, () => {
       const constraints = getMediaConstraints({ facingMode, resolution: CameraResolution.UHD_4K });

@@ -8,12 +8,7 @@ import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Sight } from '@monkvision/types';
 import { i18nWrap } from '@monkvision/common';
-import {
-  Camera,
-  CameraFacingMode,
-  CameraResolution,
-  CompressionFormat,
-} from '@monkvision/camera-web';
+import { Camera, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
 import { i18nPhotoCaptureHUD } from '../../src/PhotoCapture/i18n';
 import { PhotoCapture } from '../../src/PhotoCapture';
 
@@ -46,7 +41,6 @@ describe('PhotoCapture component', () => {
   it('should pass states, hud and handlePictureTaken to Camera component', () => {
     const CameraMock = Camera as jest.Mock;
     const state = {
-      facingMode: CameraFacingMode.ENVIRONMENT,
       resolution: CameraResolution.UHD_4K,
       compressionFormat: CompressionFormat.JPEG,
       quality: '0.8',
@@ -58,7 +52,6 @@ describe('PhotoCapture component', () => {
     });
     const { HUDComponent } = CameraMock.mock.calls[0][0];
     HUDComponent({ sights, cameraPreview: <> </>, handle: jest.fn() });
-    expect(CameraMock.mock.calls[0][0].facingMode).toEqual(state.facingMode);
     expect(CameraMock.mock.calls[0][0].resolution).toEqual(state.resolution);
     expect(CameraMock.mock.calls[0][0].format).toEqual(state.compressionFormat);
     expect(CameraMock.mock.calls[0][0].quality).toEqual(Number(state.quality));

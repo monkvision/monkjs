@@ -44,15 +44,12 @@ describe('Camera component', () => {
     jest.clearAllMocks();
   });
 
-  it('should pass the facingMode, resolution and deviceId props to the useCameraPreview hook', () => {
-    const facingMode = CameraFacingMode.USER;
+  it('should pass the resolution props to the useCameraPreview hook', () => {
+    const facingMode = CameraFacingMode.ENVIRONMENT;
     const resolution = CameraResolution.HD_720P;
-    const deviceId = 'test-device-id';
-    const { unmount } = render(
-      <Camera facingMode={facingMode} resolution={resolution} deviceId={deviceId} />,
-    );
+    const { unmount } = render(<Camera resolution={resolution} />);
 
-    expect(useCameraPreview).toHaveBeenCalledWith({ facingMode, resolution, deviceId });
+    expect(useCameraPreview).toHaveBeenCalledWith({ facingMode, resolution });
     unmount();
   });
 
@@ -73,17 +70,6 @@ describe('Camera component', () => {
     expect(useCameraPreview).toHaveBeenCalledWith(
       expect.objectContaining({
         resolution: CameraResolution.UHD_4K,
-      }),
-    );
-    unmount();
-  });
-
-  it('should not use any deviceId if not provided', () => {
-    const { unmount } = render(<Camera />);
-
-    expect(useCameraPreview).toHaveBeenCalledWith(
-      expect.objectContaining({
-        deviceId: undefined,
       }),
     );
     unmount();

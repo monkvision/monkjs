@@ -2,6 +2,8 @@ import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
+import { isMobileDevice } from '@monkvision/common';
+import { getValidCameraDeviceIds } from './utils';
 
 /**
  * Enumeration of the different Native error names that can happen when a stream is invalid.
@@ -140,17 +142,6 @@ function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
   };
 }
 
-function isMobileDevice(): boolean {
-  const userAgent = navigator.userAgent.toLowerCase();
-  return (
-    userAgent.includes('mobile') ||
-    userAgent.includes('android') ||
-    userAgent.includes('iphone') ||
-    userAgent.includes('ipad') ||
-    userAgent.includes('windows phone')
-  );
-}
-
 /**
  * React hook that wraps the `navigator.mediaDevices.getUserMedia` browser function in order to add React logic layers
  * and utility tools :
@@ -220,31 +211,15 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
           stream.removeEventListener('inactive', onStreamInactive);
           stream.getTracks().forEach((track) => track.stop());
         }
-        let str = await navigator.mediaDevices.getUserMedia(constraints);
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        if (constraints) {
-          const videoConstraints = {
-            ...(constraints.video as MediaTrackConstraints),
-            deviceId: {
-              exact: devices
-                .filter(
-                  (device) =>
-                    device.kind === 'videoinput' &&
-                    !device.label.includes('Wide') &&
-                    !device.label.includes('Telephoto') &&
-                    !device.label.includes('Triple') &&
-                    !device.label.includes('Dual') &&
-                    !device.label.includes('Ultra'),
-                )
-                .map((device) => device.deviceId),
-            },
-          };
-          str.getTracks().forEach((track) => track.stop());
-          str = await navigator.mediaDevices.getUserMedia({
-            ...constraints,
-            video: videoConstraints,
-          });
-        }
+        const cameraDeviceIds = await getValidCameraDeviceIds(constraints);
+        const updatedConstraints = {
+          ...constraints,
+          video: {
+            ...(constraints ? (constraints.video as MediaStreamConstraints) : null),
+            deviceId: { exact: cameraDeviceIds },
+          },
+        };
+        const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
 
@@ -269,7 +244,6 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
       }
     };
     portrait.addEventListener('change', handleOrientationChange);
-    // console.log(portrait);
 
     return () => {
       portrait.removeEventListener('change', handleOrientationChange);

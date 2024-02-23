@@ -82,12 +82,6 @@ export interface CameraConfig {
    * @default `CameraResolution.UHD_4K`
    */
   resolution: CameraResolution;
-  /**
-   * The ID of the camera device to use. This ID can be fetched using the native
-   * `navigator.mediaDevices?.enumerateDevices` function. If this ID is specified, it will prevail over the `facingMode`
-   * property.
-   */
-  deviceId?: string;
 }
 
 /**
@@ -107,10 +101,6 @@ export function getMediaConstraints(config: CameraConfig): MediaStreamConstraint
     height: { ideal: height },
     facingMode: config.facingMode,
   };
-
-  if (config.deviceId) {
-    video.deviceId = config.deviceId;
-  }
 
   return {
     audio: false,

@@ -34,7 +34,6 @@ export const PhotoCapture = i18nWrap(({ sights }: PhotoCaptureProps) => {
     <div style={styles['container']}>
       <Camera
         HUDComponent={hud}
-        facingMode={cameraState.facingMode}
         resolution={cameraState.resolution}
         format={cameraState.compressionFormat}
         quality={Number(cameraState.quality)}
