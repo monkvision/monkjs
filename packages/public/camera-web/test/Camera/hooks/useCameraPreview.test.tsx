@@ -31,7 +31,6 @@ describe('useCameraPreview hook', () => {
       expect(getMediaConstraints).toHaveBeenCalledWith(undefined);
     });
     const options: CameraConfig = {
-      deviceId: 'test-id',
       facingMode: CameraFacingMode.USER,
       resolution: CameraResolution.QHD_2K,
     };

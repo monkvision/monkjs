@@ -2,6 +2,8 @@ import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
+import { isMobileDevice } from '@monkvision/common';
+import { getValidCameraDeviceIds } from './utils';
 
 /**
  * Enumeration of the different Native error names that can happen when a stream is invalid.
@@ -133,6 +135,13 @@ function getStreamDimensions(stream: MediaStream): PixelDimensions {
   return { width, height };
 }
 
+function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
+  return {
+    width: dimensions.height,
+    height: dimensions.width,
+  };
+}
+
 /**
  * React hook that wraps the `navigator.mediaDevices.getUserMedia` browser function in order to add React logic layers
  * and utility tools :
@@ -202,10 +211,20 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
           stream.removeEventListener('inactive', onStreamInactive);
           stream.getTracks().forEach((track) => track.stop());
         }
-        const str = await navigator.mediaDevices.getUserMedia(constraints);
+        const cameraDeviceIds = await getValidCameraDeviceIds(constraints);
+        const updatedConstraints = {
+          ...constraints,
+          video: {
+            ...(constraints ? (constraints.video as MediaStreamConstraints) : null),
+            deviceId: { exact: cameraDeviceIds },
+          },
+        };
+        const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
-        setDimensions(getStreamDimensions(str));
+
+        const dimensionsStr = getStreamDimensions(str);
+        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
@@ -214,6 +233,22 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
     };
     getUserMedia().catch((err) => handleError(err));
   }, [constraints, stream, error, isLoading, lastConstraintsApplied, onStreamInactive]);
+
+  useEffect(() => {
+    const portrait = window.matchMedia('(orientation: portrait)');
+
+    const handleOrientationChange = () => {
+      if (stream) {
+        const dimensionsStr = getStreamDimensions(stream);
+        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
+      }
+    };
+    portrait.addEventListener('change', handleOrientationChange);
+
+    return () => {
+      portrait.removeEventListener('change', handleOrientationChange);
+    };
+  }, [stream]);
 
   return { stream, dimensions, error, retry, isLoading };
 }

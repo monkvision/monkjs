@@ -19,7 +19,7 @@ import { CameraEventHandlers, CameraHUDComponent } from './CameraHUD.types';
  * Props given to the Camera component.
  */
 export interface CameraProps
-  extends Partial<CameraConfig>,
+  extends Partial<Pick<CameraConfig, 'resolution'>>,
     Partial<CompressionOptions>,
     CameraEventHandlers {
   /**
@@ -43,9 +43,7 @@ export interface CameraProps
  * component works.
  */
 export function Camera({
-  facingMode = CameraFacingMode.ENVIRONMENT,
   resolution = CameraResolution.UHD_4K,
-  deviceId,
   format = CompressionFormat.JPEG,
   quality = 0.8,
   HUDComponent,
@@ -58,7 +56,7 @@ export function Camera({
     error,
     retry,
     isLoading: isPreviewLoading,
-  } = useCameraPreview({ facingMode, resolution, deviceId });
+  } = useCameraPreview({ resolution, facingMode: CameraFacingMode.ENVIRONMENT });
   const { ref: canvasRef } = useCameraCanvas({ dimensions });
   const { takeScreenshot } = useCameraScreenshot({ videoRef, canvasRef, dimensions });
   const { compress } = useCompression({ canvasRef, options: { format, quality } });
@@ -76,7 +74,7 @@ export function Camera({
           style={styles['cameraPreview']}
           ref={videoRef}
           autoPlay
-          playsInline
+          playsInline={true}
           controls={false}
           data-testid='camera-video-preview'
         />
