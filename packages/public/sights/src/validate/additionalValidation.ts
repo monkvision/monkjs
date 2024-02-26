@@ -51,7 +51,7 @@ function validateVehicleFileNames() {
     }
   });
   readDir(MONK_DATA_PATH).directories.forEach((vehicleDir) => {
-    if (!(vehicles as string[]).includes(vehicleDir)) {
+    if (!(vehicles as string[]).includes(vehicleDir) && !vehicleDir.includes('wireframes')) {
       results.push({
         value: vehicleDir,
         type: 'unknownDir',

@@ -161,6 +161,18 @@
     "fr": "Roue avant droite",
     "de": "Rechtes Vorderrad"
   },
+  "front-right": {
+    "key": "front-right",
+    "en": "Front Right",
+    "fr": "Avant droite",
+    "de": "Vorne rechts"
+  },
+  "front-left": {
+    "key": "front-left",
+    "en": "Front Left",
+    "fr": "Avant gauche",
+    "de": "Vorne links"
+  },
   "hood": {
     "key": "hood",
     "en": "Hood",

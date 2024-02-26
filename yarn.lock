@@ -3632,6 +3632,7 @@ __metadata:
     "@monkvision/eslint-config-typescript-react": 4.0.0
     "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/sights": 4.0.0
     "@monkvision/test-utils": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/react": ^12.1.5

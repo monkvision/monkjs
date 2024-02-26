@@ -47,8 +47,8 @@ function readOverlay(path: string): string {
 
 function mapSights(
   sights: SightDictionary,
-  vehicle: VehicleModel,
   overlaysPath: string,
+  vehicle?: VehicleModel,
 ): SightDictionary {
   return Object.entries(sights).reduce(
     (prev: SightDictionary, [id, sight]) => ({
@@ -59,7 +59,7 @@ function mapSights(
         label: sight.label,
         overlay: readOverlay(join(overlaysPath, sight.overlay)),
         tasks: sight.tasks,
-        vehicle,
+        vehicle: vehicle ?? sight.vehicle,
       },
     }),
     {},
@@ -79,11 +79,21 @@ export function buildJSONs(): void {
   saveLibJSON(libVehicles, join(DATA_OUTPUT_PATH, 'vehicles.json'));
 
   readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
+    if (!Object.values(VehicleModel).includes(vehicle as VehicleModel)) {
+      return;
+    }
     const researchSights = loadJSON(
       join(MONK_DATA_PATH, vehicle, `${vehicle}.json`),
     ) as SightDictionary;
     const overlaysPath = join(MONK_DATA_PATH, vehicle, 'overlays');
-    const libSights = mapSights(researchSights, vehicle as VehicleModel, overlaysPath);
+    const libSights = mapSights(researchSights, overlaysPath, vehicle as VehicleModel);
     saveLibJSON(libSights, join(DATA_OUTPUT_PATH, 'sights', `${vehicle}.json`));
   });
+
+  const researchWireframes = loadJSON(
+    join(MONK_DATA_PATH, 'wireframes360', 'wireframes360.json'),
+  ) as SightDictionary;
+  const overlaysPath = join(MONK_DATA_PATH, 'wireframes360', 'overlays');
+  const libWireframe = mapSights(researchWireframes, overlaysPath);
+  saveLibJSON(libWireframe, join(DATA_OUTPUT_PATH, 'wireframes360.json'));
 }

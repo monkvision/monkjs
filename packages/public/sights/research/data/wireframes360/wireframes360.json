@@ -1,0 +1,254 @@
+{
+  "fesc20-front-left": {
+    "id": "fesc20-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "fesc20-front-left.svg",
+    "vehicle": "fesc20",
+    "mirror_sight": "fesc20-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "fesc20-front-right": {
+    "id": "fesc20-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "fesc20-front-right.svg",
+    "vehicle": "fesc20",
+    "mirror_sight": "fesc20-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "fesc20-rear-left": {
+    "id": "fesc20-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "fesc20-rear-left.svg",
+    "vehicle": "fesc20",
+    "mirror_sight": "fesc20-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "fesc20-rear-right": {
+    "id": "fesc20-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "fesc20-rear-right.svg",
+    "vehicle": "fesc20",
+    "mirror_sight": "fesc20-rear-left",
+    "tasks": ["damage_detection"]
+  },
+  "ff150-front-left": {
+    "id": "ff150-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "ff150-front-left.svg",
+    "vehicle": "ff150",
+    "mirror_sight": "ff150-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "ff150-front-right": {
+    "id": "ff150-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "ff150-front-right.svg",
+    "vehicle": "ff150",
+    "mirror_sight": "ff150-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "ff150-rear-left": {
+    "id": "ff150-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "ff150-rear-left.svg",
+    "vehicle": "ff150",
+    "mirror_sight": "ff150-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "ff150-rear-right": {
+    "id": "ff150-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "ff150-rear-right.svg",
+    "vehicle": "ff150",
+    "mirror_sight": "ff150-rear-left",
+    "tasks": ["damage_detection"]
+  },
+  "ffocus18-front-left": {
+    "id": "ffocus18-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "ffocus18-front-left.svg",
+    "vehicle": "ffocus18",
+    "mirror_sight": "ffocus18-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "ffocus18-front-right": {
+    "id": "ffocus18-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "ffocus18-front-right.svg",
+    "vehicle": "ffocus18",
+    "mirror_sight": "ffocus18-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "ffocus18-rear-left": {
+    "id": "ffocus18-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "ffocus18-rear-left.svg",
+    "vehicle": "ffocus18",
+    "mirror_sight": "ffocus18-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "ffocus18-rear-right": {
+    "id": "ffocus18-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "ffocus18-rear-right.svg",
+    "vehicle": "ffocus18",
+    "mirror_sight": "ffocus18-rear-left",
+    "tasks": ["damage_detection"]
+  },
+  "ftransit18-front-left": {
+    "id": "ftransit18-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "ftransit18-front-left.svg",
+    "vehicle": "ftransit18",
+    "mirror_sight": "ftransit18-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "ftransit18-front-right": {
+    "id": "ftransit18-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "ftransit18-front-right.svg",
+    "vehicle": "ftransit18",
+    "mirror_sight": "ftransit18-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "ftransit18-rear-left": {
+    "id": "ftransit18-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "ftransit18-rear-left.svg",
+    "vehicle": "ftransit18",
+    "mirror_sight": "ftransit18-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "ftransit18-rear-right": {
+    "id": "ftransit18-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "ftransit18-rear-right.svg",
+    "vehicle": "ftransit18",
+    "mirror_sight": "ftransit18-rear-left",
+    "tasks": ["damage_detection"]
+  },
+  "haccord-front-left": {
+    "id": "haccord-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "haccord-front-left.svg",
+    "vehicle": "haccord",
+    "mirror_sight": "haccord-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "haccord-front-right": {
+    "id": "haccord-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "haccord-front-right.svg",
+    "vehicle": "haccord",
+    "mirror_sight": "haccord-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "haccord-rear-left": {
+    "id": "haccord-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "haccord-rear-left.svg",
+    "vehicle": "haccord",
+    "mirror_sight": "haccord-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "haccord-rear-right": {
+    "id": "haccord-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "haccord-rear-right.svg",
+    "vehicle": "haccord",
+    "mirror_sight": "haccord-rear-left",
+    "tasks": ["damage_detection"]
+  },
+  "jgc21-front-left": {
+    "id": "jgc21-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "jgc21-front-left.svg",
+    "vehicle": "jgc21",
+    "mirror_sight": "jgc21-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "jgc21-front-right": {
+    "id": "jgc21-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "jgc21-front-right.svg",
+    "vehicle": "jgc21",
+    "mirror_sight": "jgc21-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "jgc21-rear-left": {
+    "id": "jgc21-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "jgc21-rear-left.svg",
+    "vehicle": "jgc21",
+    "mirror_sight": "jgc21-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "jgc21-rear-right": {
+    "id": "jgc21-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "jgc21-rear-right.svg",
+    "vehicle": "jgc21",
+    "mirror_sight": "jgc21-rear-left",
+    "tasks": ["damage_detection"]
+  },
+  "tsienna20-front-left": {
+    "id": "tsienna20-front-left",
+    "category": "exterior",
+    "label": "front-left",
+    "overlay": "tsienna20-front-left.svg",
+    "vehicle": "tsienna20",
+    "mirror_sight": "tsienna20-front-right",
+    "tasks": ["damage_detection"]
+  },
+  "tsienna20-front-right": {
+    "id": "tsienna20-front-right",
+    "category": "exterior",
+    "label": "front-right",
+    "overlay": "tsienna20-front-right.svg",
+    "vehicle": "tsienna20",
+    "mirror_sight": "tsienna20-front-left",
+    "tasks": ["damage_detection"]
+  },
+  "tsienna20-rear-left": {
+    "id": "tsienna20-rear-left",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "tsienna20-rear-left.svg",
+    "vehicle": "tsienna20",
+    "mirror_sight": "tsienna20-rear-right",
+    "tasks": ["damage_detection"]
+  },
+  "tsienna20-rear-right": {
+    "id": "tsienna20-rear-right",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "tsienna20-rear-right.svg",
+    "vehicle": "tsienna20",
+    "mirror_sight": "tsienna20-rear-left",
+    "tasks": ["damage_detection"]
+  }
+}

@@ -23,6 +23,8 @@ import jgc21SightsJSON from './data/sights/jgc21.json';
 import tsienna20SightsJSON from './data/sights/tsienna20.json';
 // @ts-ignore
 import vwtrocSightsJSON from './data/sights/vwtroc.json';
+// @ts-ignore
+import wireframe360JSON from './data/wireframes360.json';
 
 /**
  * Object map associating translation keys to sight labels translations.
@@ -50,8 +52,14 @@ const sights = {
   ...vwtrocSightsJSON,
 } as SightDictionary;
 
+/**
+ * Object map associating wireframe IDs to the wireframe details.
+ */
+const wireframes = wireframe360JSON as SightDictionary;
+
 export {
   labels,
   vehicles,
   sights,
+  wireframes,
 };

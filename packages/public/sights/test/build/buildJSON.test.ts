@@ -51,6 +51,15 @@ describe('JSON builder module', () => {
     }),
     {} as SightDictionary,
   );
+  const wireframes = {
+    [`${VehicleModel}-key`]: {
+      id: `${VehicleModel}-uno`,
+      label: 'wire-key-1',
+      overlay: 'wire2.svg',
+      vehicle: VehicleModel.FF150,
+      tasks: [TaskName.DAMAGE_DETECTION],
+    },
+  };
 
   beforeEach(() => {
     jest.spyOn(io, 'loadJSON').mockImplementation((path) => {
@@ -68,6 +77,14 @@ describe('JSON builder module', () => {
           [`${vehicle}-uno`]: sights[`${vehicle}-uno`],
           [`${vehicle}-dos`]: sights[`${vehicle}-dos`],
         };
+      }
+      if (
+        pathsEqual(
+          path as string,
+          join(__dirname, '../../research/data/wireframes360/wireframes360.json'),
+        )
+      ) {
+        return wireframes;
       }
       return null;
     });
@@ -128,7 +145,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length + 1);
       expect(call?.[0]).toEqual(properlyMappedLabels);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/labels.json')),
@@ -157,7 +174,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length + 1);
       expect(call?.[0]).toEqual(properlyMappedVehicles);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/vehicles.json')),
@@ -187,10 +204,11 @@ describe('JSON builder module', () => {
       const calls = saveLibJSONSpy.mock.calls.filter(
         (args) =>
           !(args[1] as string).endsWith('labels.json') &&
+          !(args[1] as string).endsWith('wireframes360.json') &&
           !(args[1] as string).endsWith('vehicles.json'),
       );
 
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length + 1);
       expect(calls.length).toEqual(Object.values(VehicleModel).length);
       Object.values(VehicleModel).forEach((vehicle) => {
         const call = calls.find((args) => (args[1] as string).endsWith(`${vehicle}.json`));

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wireframe.schema",
+  "definitions": {
+    "Category": {
+      "$ref": "subschemas/category.schema"
+    },
+    "Vehicle": {
+      "$ref": "subschemas/vehicle.schema"
+    },
+    "Task": {
+      "$ref": "subschemas/task.schema"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "category": {
+      "$ref": "#/definitions/Category"
+    },
+    "dev": {
+      "type": "boolean"
+    },
+    "label": {
+      "type": "string",
+      "pattern": "[a-z]+(.[a-z]+)*"
+    },
+    "overlay": {
+      "type": "string"
+    },
+    "vehicle": {
+      "$ref": "#/definitions/Vehicle"
+    },
+    "tasks": {
+      "$ref": "#/definitions/Task"
+    }
+  },
+  "required": ["category", "label", "overlay", "vehicle", "tasks"]
+}
