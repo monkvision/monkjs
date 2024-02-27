@@ -173,7 +173,10 @@ export default function InspectionCapture() {
                     navigation.navigate(names.LANDING, { isLastTour: true });
                   },
                 });
-              });
+              }
+            };
+            if (currentTask.status === monk.types.ProgressStatusUpdate.NOT_STARTED) {
+              currentTaskCall();
             }
           }));
 
