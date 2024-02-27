@@ -31,12 +31,7 @@ const RETRY_CONFIG = {
   retries: MAX_RETRY_ATTEMPTS,
   retryDelay: (retryCount: number) => axiosRetry.exponentialDelay(retryCount),
   // shouldResetTimeout: true,
-  retryCondition: (error: AxiosError) => {
-    if (error.response) {
-      return error.response?.status === 500;
-    }
-    return axiosRetry.isNetworkOrIdempotentRequestError(error);
-  },
+  retryCondition: (error: AxiosError) => axiosRetry.isNetworkOrIdempotentRequestError(error) || error?.response?.status === 500,
 };
 
 /**
