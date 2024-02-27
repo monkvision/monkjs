@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import { camelCase, isEmpty, isNil, omitBy, snakeCase } from 'lodash';
 import mapKeysDeep from 'map-keys-deep-lodash';
 
@@ -21,6 +22,25 @@ import { NormalizedTask, Task, TaskName } from './entityTypes';
 import { TaskPayloadTypes } from './reduxTypes';
 
 import schema, { idAttribute, key } from './schema';
+
+/**
+ * Define the retry configuration for API calls to update the tasks
+ */
+const MAX_RETRY_ATTEMPTS: number = 4;
+const RETRY_CONFIG = {
+  retries: MAX_RETRY_ATTEMPTS,
+  retryDelay: (retryCount) => {
+    return axiosRetry.exponentialDelay(retryCount);
+  },
+  // shouldResetTimeout: true,
+  retryCondition: (error) => {
+    console.error('Error:', error);
+    /**
+     * Retry on network errors or 5xx status codes
+     */
+    return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 500;
+  }
+};
 
 /**
  * Get the details of a task in a specific inspection.
@@ -82,7 +102,17 @@ export async function updateOne(
   name: TaskName,
   updateTask: UpdateTask,
 ): Promise<UpdateOneTaskResponse> {
-  const axiosResponse = await axios.request<IdResponse<'id'>>({
+  /**
+   * Create an Axios instance
+   * Apply axios-retry to Axios instance
+   */
+  const axiosInstance = axios.create();
+  axiosRetry(axiosInstance, RETRY_CONFIG);
+
+  /**
+   * Make the request with axios.request
+   */
+  const axiosResponse = await axiosInstance.request<IdResponse<'id'>>({
     ...config.axiosConfig,
     method: 'patch',
     url: `/inspections/${inspectionId}/tasks/${name}`,
