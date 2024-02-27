@@ -90,4 +90,5 @@ export = {
     onError: jest.fn(),
   })),
   useLangProp: jest.fn(),
+  isMobileDevice: jest.fn(() => false),
 };

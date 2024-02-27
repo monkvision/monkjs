@@ -1,10 +1,10 @@
 import { act, waitFor } from '@testing-library/react';
+import { isMobileDevice } from '@monkvision/common';
 import { renderHook } from '@testing-library/react-hooks';
 import { useMonitoring } from '@monkvision/monitoring';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
 import { GetUserMediaMock, mockGetUserMedia } from '../../mocks';
-import { isMobileDevice } from '@monkvision/common';
 
 describe('useUserMedia hook', () => {
   let gumMock: GetUserMediaMock | null = null;
