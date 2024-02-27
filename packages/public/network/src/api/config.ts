@@ -1,4 +1,6 @@
+import { Options } from 'ky';
 import packageJson from '../../package.json';
+import { beforeError } from './error';
 
 export const sdkVersion = packageJson.version;
 
@@ -16,12 +18,7 @@ export interface MonkAPIConfig {
   authToken: string;
 }
 
-export interface KyConfig {
-  baseUrl: string;
-  headers: Record<string, string>;
-}
-
-export function getKyConfig(config: MonkAPIConfig): KyConfig {
+export function getDefaultOptions(config: MonkAPIConfig): Options {
   const apiDomain = config.apiDomain.endsWith('/')
     ? config.apiDomain.substring(0, config.apiDomain.length - 1)
     : config.apiDomain;
@@ -29,11 +26,14 @@ export function getKyConfig(config: MonkAPIConfig): KyConfig {
     ? config.authToken
     : `Bearer ${config.authToken}`;
   return {
-    baseUrl: `https://${apiDomain}`,
+    prefixUrl: `https://${apiDomain}`,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Authorization': authorizationHeader,
       'X-Monk-SDK-Version': sdkVersion,
+    },
+    hooks: {
+      beforeError: [beforeError],
     },
   };
 }

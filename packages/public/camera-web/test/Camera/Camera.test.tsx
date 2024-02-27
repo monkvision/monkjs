@@ -194,6 +194,15 @@ describe('Camera component', () => {
     unmount();
   });
 
+  it('should pass the HUDProps to the HUDComponent', () => {
+    const HUDComponent = jest.fn(() => <></>) as unknown as CameraHUDComponent<{ test: string }>;
+    const props = { test: 'hello' };
+    const { unmount } = render(<Camera HUDComponent={HUDComponent} hudProps={props} />);
+
+    expectPropsOnChildMock(HUDComponent as jest.Mock, props);
+    unmount();
+  });
+
   it('should not be loading when both the preview and the take picture are not loading', () => {
     const HUDComponent = jest.fn(() => <></>) as unknown as CameraHUDComponent;
     const { unmount } = render(<Camera HUDComponent={HUDComponent} />);

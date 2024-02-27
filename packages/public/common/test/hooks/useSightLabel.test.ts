@@ -1,6 +1,3 @@
-jest.mock('@monkvision/common');
-jest.mock('react-i18next');
-
 import { renderHook } from '@testing-library/react-hooks';
 import { LabelDictionary, Sight, TranslationObject } from '@monkvision/types';
 import { useObjectTranslation, useSightLabel } from '../../src';

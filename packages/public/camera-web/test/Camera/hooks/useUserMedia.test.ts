@@ -1,13 +1,6 @@
-import { useMonitoring } from '@monkvision/monitoring';
-
-jest.mock('@monkvision/monitoring');
-jest.mock('@monkvision/common', () => ({
-  ...jest.requireActual('@monkvision/common'),
-  isMobileDevice: jest.fn(() => false),
-}));
-
 import { act, waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
+import { useMonitoring } from '@monkvision/monitoring';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
 import { GetUserMediaMock, mockGetUserMedia } from '../../mocks';

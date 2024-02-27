@@ -1,5 +1,6 @@
 import packageJson from '../../package.json';
-import { getKyConfig, MonkAPIConfig, sdkVersion } from '../../src/api/config';
+import { getDefaultOptions, MonkAPIConfig, sdkVersion } from '../../src/api/config';
+import { beforeError } from '../../src/api/error';
 
 describe('Network package API global config utils', () => {
   describe('sdkVersion global constant', () => {
@@ -8,67 +9,57 @@ describe('Network package API global config utils', () => {
     });
   });
 
-  describe('getKyConfig function', () => {
+  describe('getDefaultOptions function', () => {
     const baseConfig: MonkAPIConfig = {
       apiDomain: 'testapidomain',
       authToken: 'Bearer testtoken',
     };
 
-    it('should set the baseURL property', () => {
-      expect(getKyConfig(baseConfig)).toEqual(
-        expect.objectContaining({
-          baseUrl: `https://${baseConfig.apiDomain}`,
-        }),
-      );
+    it('should return the proper prefixUrl', () => {
+      expect(getDefaultOptions(baseConfig).prefixUrl).toEqual(`https://${baseConfig.apiDomain}`);
     });
 
-    it('should remove the ending slash from the baseURL property', () => {
-      expect(getKyConfig({ ...baseConfig, apiDomain: `${baseConfig.apiDomain}/` })).toEqual(
-        expect.objectContaining({
-          baseUrl: `https://${baseConfig.apiDomain}`,
-        }),
-      );
+    it('should remove the ending slash from the prefixUrl property', () => {
+      expect(
+        getDefaultOptions({ ...baseConfig, apiDomain: `${baseConfig.apiDomain}/` }).prefixUrl,
+      ).toEqual(`https://${baseConfig.apiDomain}`);
     });
 
     it('should set the Access-Control-Allow-Origin header', () => {
-      expect(getKyConfig(baseConfig)).toEqual(
+      expect(getDefaultOptions(baseConfig).headers).toEqual(
         expect.objectContaining({
-          headers: expect.objectContaining({
-            'Access-Control-Allow-Origin': '*',
-          }),
+          'Access-Control-Allow-Origin': '*',
         }),
       );
     });
 
     it('should set the Authorization header', () => {
-      expect(getKyConfig(baseConfig)).toEqual(
+      expect(getDefaultOptions(baseConfig).headers).toEqual(
         expect.objectContaining({
-          headers: expect.objectContaining({
-            Authorization: baseConfig.authToken,
-          }),
+          Authorization: baseConfig.authToken,
         }),
       );
     });
 
     it('should add the "Bearer " prefix to the token if it is missing', () => {
       const authToken = 'testtokentest';
-      expect(getKyConfig({ ...baseConfig, authToken })).toEqual(
+      expect(getDefaultOptions({ ...baseConfig, authToken }).headers).toEqual(
         expect.objectContaining({
-          headers: expect.objectContaining({
-            Authorization: `Bearer ${authToken}`,
-          }),
+          Authorization: `Bearer ${authToken}`,
         }),
       );
     });
 
     it('should set the X-Monk-SDK-Version header', () => {
-      expect(getKyConfig(baseConfig)).toEqual(
+      expect(getDefaultOptions(baseConfig).headers).toEqual(
         expect.objectContaining({
-          headers: expect.objectContaining({
-            'X-Monk-SDK-Version': packageJson.version,
-          }),
+          'X-Monk-SDK-Version': packageJson.version,
         }),
       );
+    });
+
+    it('should return the proper beforeError hook', () => {
+      expect(getDefaultOptions(baseConfig).hooks?.beforeError).toContain(beforeError);
     });
   });
 });

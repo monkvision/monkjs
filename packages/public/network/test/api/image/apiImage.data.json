@@ -1,0 +1,58 @@
+{
+  "additional_data": {
+    "created_at": "2024-02-06T10:28:56.504Z",
+    "label": {
+      "de": "Hinten Seitlich Niedrig Links",
+      "en": "Rear Lateral Low Left",
+      "fr": "Arrière latéral gauche - vue basse",
+      "key": "rear-lateral-low-left"
+    },
+    "sight_id": "haccord-W-Bn3bU1"
+  },
+  "binary_size": 108009,
+  "compliances": {
+    "compliance_status": "non_compliant",
+    "coverage_360": {
+      "is_compliant": false,
+      "reasons": ["test_reason"],
+      "status": "DONE"
+    },
+    "image_quality_assessment": {
+      "is_compliant": false,
+      "reasons": ["test_reason_2"],
+      "status": "DONE",
+      "details": {
+        "blurriness_score": 0.8,
+        "overexposure_score": 0.6,
+        "underexposure_score": 0.4
+      }
+    },
+    "zoom_level": {
+      "is_compliant": false,
+      "reasons": ["test_reason_3"],
+      "status": "DONE",
+      "details": {
+        "zoom_score": 0.1
+      }
+    }
+  },
+  "detailed_viewpoint": {
+    "is_exterior": true,
+    "distance": 99,
+    "centers_on": ["front", "front_left"]
+  },
+  "has_vehicle": true,
+  "id": "6564fa84-7ae9-bccd-650e-58fb7dcf924b",
+  "image_height": 720,
+  "image_subtype": "test_image_subtype",
+  "image_type": "beauty_shot",
+  "image_sibling_key": "test_sibling_key",
+  "image_width": 1280,
+  "mimetype": "image/jpeg",
+  "name": "test_name",
+  "path": "https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/None-f3f8b6cc-21ea-47a8-8484-e327072c43a2.jpeg?generation=1707215333711124&alt=media",
+  "viewpoint": {
+    "prediction": "test_prediction",
+    "confidence": 0.9
+  }
+}

@@ -13,7 +13,7 @@ export interface UseObjectTranslationResult {
 }
 
 /**
- * Custom hook used to get a translate function tObj that translates TranslationObjects.
+ * Custom hook used to get a translation function tObj that translates TranslationObjects.
  */
 export function useObjectTranslation(): UseObjectTranslationResult {
   const { i18n } = useTranslation();

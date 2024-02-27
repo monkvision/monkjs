@@ -1,60 +1,269 @@
-jest.mock('@monkvision/common-ui-web');
-jest.mock('@monkvision/camera-web');
-jest.mock('../../src/PhotoCapture/i18n', () => ({
-  i18nPhotoCaptureHUD: {},
+import { sights } from '@monkvision/sights';
+
+const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
+
+jest.mock('../../src/PhotoCapture/hooks', () => ({
+  useAddDamageMode: jest.fn(() => ({
+    mode: PhotoCaptureMode.SIGHT,
+    handleAddDamage: jest.fn(),
+    updatePhotoCaptureModeAfterPictureTaken: jest.fn(),
+    handleCancelAddDamage: jest.fn(),
+  })),
+  usePhotoCaptureSightState: jest.fn(() => ({
+    selectedSight: sights['jgc21-1j-oTPag'],
+    sightsTaken: [sights['jgc21-0QM-q8k5']],
+    selectSight: jest.fn(),
+    takeSelectedSight: jest.fn(),
+    lastPictureTaken: {
+      uri: 'test-uri-test',
+      mimetype: 'test-mimetype-test',
+      width: 1234,
+      height: 4567,
+    },
+    setLastPictureTaken: jest.fn(),
+    retryLoadingInspection: jest.fn(),
+  })),
+  usePictureTaken: jest.fn(() => ({
+    handlePictureTaken: jest.fn(),
+  })),
+  useUploadQueue: jest.fn(() => ({
+    length: 3,
+  })),
+  useStartTasksOnComplete: jest.fn(() => ({
+    startTasks: jest.fn(),
+  })),
 }));
 
-import { render } from '@testing-library/react';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { Sight } from '@monkvision/types';
-import { i18nWrap } from '@monkvision/common';
+import { render, waitFor } from '@testing-library/react';
 import { Camera, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
-import { i18nPhotoCaptureHUD } from '../../src/PhotoCapture/i18n';
-import { PhotoCapture } from '../../src/PhotoCapture';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
+import {
+  useAddDamageMode,
+  usePhotoCaptureSightState,
+  usePictureTaken,
+  useStartTasksOnComplete,
+  useUploadQueue,
+} from '../../src/PhotoCapture/hooks';
+import { useLoadingState } from '@monkvision/common';
+import { TaskName } from '@monkvision/types';
+import { useMonitoring } from '@monkvision/monitoring';
 
-const sights = [
-  { id: 'id', label: { en: 'en', fr: 'fr', de: 'de' } },
-  { id: 'id2', label: { en: 'en2', fr: 'fr2', de: 'de2' } },
-] as unknown as Sight[];
+function createProps(): PhotoCaptureProps {
+  return {
+    sights: [sights['jgc21-0QM-q8k5'], sights['jgc21-1j-oTPag'], sights['jgc21-2_5eHL-F']],
+    inspectionId: 'test-inspection-test',
+    apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
+    compliances: { iqa: true },
+    onClose: jest.fn(),
+    onComplete: jest.fn(),
+    resolution: CameraResolution.NHD_360P,
+    format: CompressionFormat.JPEG,
+    quality: 0.4,
+  };
+}
 
 describe('PhotoCapture component', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should wrap the component with the i18nWrap method', () => {
-    const { unmount } = render(<PhotoCapture sights={sights} />);
-
-    expect(i18nWrap).toHaveBeenCalledWith(expect.any(Function), i18nPhotoCaptureHUD);
-
-    unmount();
-  });
-
-  it('should render a Camera component', () => {
-    const { unmount } = render(<PhotoCapture sights={sights} />);
-
-    expect(Camera).toHaveBeenCalled();
-
-    unmount();
-  });
-
-  it('should pass states, hud and handlePictureTaken to Camera component', () => {
-    const CameraMock = Camera as jest.Mock;
-    const state = {
-      resolution: CameraResolution.UHD_4K,
-      compressionFormat: CompressionFormat.JPEG,
-      quality: '0.8',
+  it('should pass the proper params to the useStartTasksOnComplete hook', () => {
+    const props = {
+      ...createProps(),
+      startTasksOnComplete: true,
+      tasksBySight: { test: [TaskName.DAMAGE_DETECTION] },
     };
-    const { unmount } = render(<PhotoCapture sights={sights} />);
+    const { unmount } = render(<PhotoCapture {...props} />);
 
-    expectPropsOnChildMock(Camera as jest.Mock, {
-      HUDComponent: expect.any(Function),
+    expect(useLoadingState).toHaveBeenCalled();
+    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(useStartTasksOnComplete).toHaveBeenCalledWith({
+      inspectionId: props.inspectionId,
+      apiConfig: props.apiConfig,
+      sights: props.sights,
+      tasksBySight: props.tasksBySight,
+      startTasksOnComplete: props.startTasksOnComplete,
+      loading,
     });
-    const { HUDComponent } = CameraMock.mock.calls[0][0];
-    HUDComponent({ sights, cameraPreview: <> </>, handle: jest.fn() });
-    expect(CameraMock.mock.calls[0][0].resolution).toEqual(state.resolution);
-    expect(CameraMock.mock.calls[0][0].format).toEqual(state.compressionFormat);
-    expect(CameraMock.mock.calls[0][0].quality).toEqual(Number(state.quality));
+
+    unmount();
+  });
+
+  it('should pass the proper params to the usePhotoCaptureSightState hooks', () => {
+    const props = { ...createProps(), tasksBySight: { test: [TaskName.DAMAGE_DETECTION] } };
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useLoadingState).toHaveBeenCalled();
+    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(usePhotoCaptureSightState).toHaveBeenCalledWith({
+      inspectionId: props.inspectionId,
+      captureSights: props.sights,
+      apiConfig: props.apiConfig,
+      loading,
+      onLastSightTaken: expect.any(Function),
+    });
+
+    unmount();
+  });
+
+  it('should call start tasks on the last sight and handle the promise correctly', async () => {
+    const startTasksMock = jest.fn(() => Promise.resolve());
+    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => ({
+      startTasks: startTasksMock,
+    }));
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useMonitoring).toHaveBeenCalled();
+    const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+    expect(useLoadingState).toHaveBeenCalled();
+    const loadingMock = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(usePhotoCaptureSightState).toHaveBeenCalled();
+    const { onLastSightTaken } = (usePhotoCaptureSightState as jest.Mock).mock.calls[0][0];
+
+    expect(startTasksMock).not.toHaveBeenCalled();
+    expect(props.onComplete).not.toHaveBeenCalled();
+    onLastSightTaken();
+
+    await waitFor(() => {
+      expect(startTasksMock).toHaveBeenCalled();
+      expect(props.onComplete).toHaveBeenCalled();
+      expect(loadingMock.onError).not.toHaveBeenCalled();
+      expect(handleErrorMock).not.toHaveBeenCalled();
+    });
+
+    startTasksMock.mockClear();
+    (props.onComplete as jest.Mock).mockClear();
+    const err = 'hello';
+    startTasksMock.mockImplementation(() => Promise.reject(err));
+    onLastSightTaken();
+
+    await waitFor(() => {
+      expect(startTasksMock).toHaveBeenCalled();
+      expect(props.onComplete).not.toHaveBeenCalled();
+      expect(loadingMock.onError).toHaveBeenCalledWith(err);
+      expect(handleErrorMock).toHaveBeenCalledWith(err);
+    });
+
+    unmount();
+    (useStartTasksOnComplete as jest.Mock).mockClear();
+  });
+
+  it('should pass the proper params to the usePhotoCaptureSightState hook', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useLoadingState).toHaveBeenCalled();
+    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(usePhotoCaptureSightState).toHaveBeenCalled();
+    const { onLastSightTaken } = (usePhotoCaptureSightState as jest.Mock).mock.calls[0][0];
+    expect(usePhotoCaptureSightState).toHaveBeenCalledWith({
+      inspectionId: props.inspectionId,
+      captureSights: props.sights,
+      apiConfig: props.apiConfig,
+      loading,
+      onLastSightTaken,
+    });
+
+    unmount();
+  });
+
+  it('should pass the proper params to the useUploadQueue hook', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useLoadingState).toHaveBeenCalled();
+    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(useUploadQueue).toHaveBeenCalledWith({
+      inspectionId: props.inspectionId,
+      apiConfig: props.apiConfig,
+      compliances: props.compliances,
+      loading,
+    });
+
+    unmount();
+  });
+
+  it('should pass the proper params to the usePictureTaken hook', () => {
+    const props = { ...createProps(), tasksBySight: { test: [TaskName.PRICING] } };
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useAddDamageMode).toHaveBeenCalled();
+    const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
+    expect(usePhotoCaptureSightState).toHaveBeenCalled();
+    const sightState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
+    expect(useUploadQueue).toHaveBeenCalled();
+    const uploadQueue = (useUploadQueue as jest.Mock).mock.results[0].value;
+    expect(usePictureTaken).toHaveBeenCalledWith({
+      addDamageHandle,
+      sightState,
+      uploadQueue,
+      tasksBySight: props.tasksBySight,
+    });
+
+    unmount();
+  });
+
+  it('should display a Camera with the given config', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expectPropsOnChildMock(Camera, {
+      resolution: props.resolution,
+      format: props.format,
+      quality: props.quality,
+    });
+
+    unmount();
+  });
+
+  it('should use the PhotoCaptureHUD component as the Camera HUD', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expectPropsOnChildMock(Camera, { HUDComponent: PhotoCaptureHUD });
+
+    unmount();
+  });
+
+  it('should pass the callback from the usePictureTaken hook to the Camera component', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(usePictureTaken).toHaveBeenCalled();
+    const { handlePictureTaken } = (usePictureTaken as jest.Mock).mock.results[0].value;
+    expectPropsOnChildMock(Camera, { onPictureTaken: handlePictureTaken });
+
+    unmount();
+  });
+
+  it('should pass the proper props to the HUD component', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useAddDamageMode).toHaveBeenCalled();
+    const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
+    expect(usePhotoCaptureSightState).toHaveBeenCalled();
+    const sightState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
+    expect(useLoadingState).toHaveBeenCalled();
+    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expectPropsOnChildMock(Camera, {
+      hudProps: {
+        sights: props.sights,
+        selectedSight: sightState.selectedSight,
+        sightsTaken: sightState.sightsTaken,
+        lastPictureTaken: sightState.lastPictureTaken,
+        mode: addDamageHandle.mode,
+        onSelectSight: sightState.selectSight,
+        onAddDamage: addDamageHandle.handleAddDamage,
+        onCancelAddDamage: addDamageHandle.handleCancelAddDamage,
+        onRetry: sightState.retryLoadingInspection,
+        loading,
+        onClose: props.onClose,
+        inspectionId: props.inspectionId,
+      },
+    });
 
     unmount();
   });

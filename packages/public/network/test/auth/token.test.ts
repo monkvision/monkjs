@@ -1,9 +1,9 @@
-import { jwtDecode } from 'jwt-decode';
-import { decodeMonkJwt } from '../../src';
-
 jest.mock('jwt-decode', () => ({
   jwtDecode: jest.fn(),
 }));
+
+import { jwtDecode } from 'jwt-decode';
+import { decodeMonkJwt } from '../../src';
 
 describe('Network package JWT utils', () => {
   afterEach(() => {

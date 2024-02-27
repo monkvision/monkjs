@@ -1,0 +1,28 @@
+{
+  "photo": {
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Schaden"
+      },
+      "addDamage": {
+        "cancelBtn": "Stornieren",
+        "damagedPartCounter": "1 / 2 • Beschädigtes Teil",
+        "closeupPictureCounter": "2 / 2 • Nahaufnahme-Vorschau",
+        "infoBtn": "Richte das Ziel auf den beschädigten Teil aus und tippe dann auf den Auslöserknopf",
+        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen"
+      },
+      "error": {
+        "retry": "Erneut versuchen",
+        "invalidToken": "Das verwendete Authentifizierungstoken ist ungültig.",
+        "expiredToken": "Das verwendete Authentifizierungstoken ist abgelaufen.",
+        "insufficientAuth": "Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.",
+        "inspectionLoading": "Beim Laden der Inspektion ist ein Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut oder kontaktieren Sie den Support mit der folgenden Inspektions-ID:"
+      },
+      "closeConfirm": {
+        "message": "Sind Sie sicher, dass Sie das Erfassungstool schließen wollen?",
+        "cancel": "Abbrechen",
+        "confirm": "Ja"
+      }
+    }
+  }
+}

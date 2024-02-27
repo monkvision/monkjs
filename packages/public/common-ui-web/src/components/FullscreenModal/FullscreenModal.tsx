@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { PropsWithChildren } from 'react';
 import { Button } from '../Button';
 import { styles } from './FullscreenModal.styles';
 
@@ -6,16 +6,21 @@ import { styles } from './FullscreenModal.styles';
  * Props that can be passed to the Fullscreen Modal component.
  */
 export interface FullscreenModalProps {
-  show: boolean;
+  show?: boolean;
   onClose?: () => void;
   title?: string;
-  children?: string | JSX.Element | JSX.Element[];
 }
 
 /**
- * Generic Fullscreen Modal component used to display a full screen modal on top of the screen.
+ * Component used to display a full screen modal on top of the screen. The content of the modal must be passed as
+ * children to this component.
  */
-export function FullscreenModal({ show, onClose, title = '', children }: FullscreenModalProps) {
+export function FullscreenModal({
+  show = false,
+  onClose,
+  title = '',
+  children,
+}: PropsWithChildren<FullscreenModalProps>) {
   return show ? (
     <div style={styles['container']} data-testid='container'>
       <div style={styles['content']}> {children}</div>
@@ -24,7 +29,7 @@ export function FullscreenModal({ show, onClose, title = '', children }: Fullscr
         style={styles['closeButton']}
         icon='close'
         variant='text'
-        primaryColor={'text-white'}
+        primaryColor='text-white'
         onClick={onClose}
       />
     </div>

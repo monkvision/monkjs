@@ -57,85 +57,66 @@ The list of actions that can be dispatched is described in the *Monk state actio
 > previously by a MonkProvider
 
 # Monk state actions
-There are 4 types of actions that can be dispatched in the Monk state. Every action must at least contain the following
-properties :
+This section enumerates the available actions that can be dispatched in the MonkState.
 
-- `type` : The type of action dispatched (described by the `MonkActionType` enum).
-- `entityType` : The type of entity affected by this action (described by the `MonkEntityType` enum).
-
-## GOT_ONE_ENTITY
-This action is designed to be dispatched when an entity has just been fetched. When this action is dispatched, if an
-entity with the same ID is already present in the state, it will be updated, if not, it will be created.
+## ResetState Action
+This action can be dispatched in order to completely reset the MonkState and clear all stored entities. This action does
+not need any payload.
 
 ```typescript
-import { Inspection, MonkEntityType } from '@monkvision/types';
-import { MonkGotOneAction, MonkActionType } from '@monkvision/common';
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
 
-const action: MonkGotOneAction<Inspection> = {
-  type: MonkActionType.GOT_ONE_ENTITY,
-  entityType: MonkEntityType.INSPECTION,
-  entity: inspection,
+const action: MonkResetStateAction = {
+  type: MonkActionType.RESET_STATE,
 }
 ```
 
-In addition to the common Monk action fields, this action contains a field called `entity` which should contain the
-entity that has been fetched. Note : In TypeScript, the `MonkGotOneAction` interface is generic, and you must specify
-the type of the entity related to the action. The TypeScript action and entity types HAVE to match with their enum
-values specified in the action fields.
-
-## GOT_MANY_ENTITIES
-This action is designed to be dispatched when multiple entities have just been fetched. When this action is dispatched,
-for each entity, if an entity with the same ID is already present in the state, it will be updated, if not, it will be
-created.
+## GotOneInspection Action
+This action can be dispatched when details about an inspection have been fetched from the API. The payload of this
+action is actually a partial MonkState containing details about every entity fetched with this inspection.
 
 ```typescript
-import { Image, MonkEntityType } from '@monkvision/types';
-import { MonkGotManyAction, MonkActionType } from '@monkvision/common';
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
 
-const action: MonkGotManyAction<Image> = {
-  type: MonkActionType.GOT_ONE_ENTITY,
-  entityType: MonkEntityType.IMAGE,
-  entities: images,
+const action: Monk = {
+  type: MonkActionType.GOT_ONE_INSPECTION,
+  payload: {
+    inspections: [...],
+    images: [...],
+    ...
+  }
 }
 ```
 
-In addition to the common Monk action fields, this action contains a field called `entities` which should contain an
-array of the entities that have been fetched. Note : In TypeScript, the `MonkGotManyAction` interface is generic, and
-you must specify the type of the entity related to the action. The TypeScript action and entity types HAVE to match
-with their enum values specified in the action fields.
-
-## DELETED_ONE_ENTITY
-This action is designed to be dispatched when an entity has just been deleted. When this action is dispatched, if an
-entity with the specified ID exists, it will be deleted.
+## CreatedOneImage Action
+This action can be dispatched after an image has beencreated and uploaded to the API. The payload of this action should
+contain the details about the image that has been created, as well as the ID of the inspection.
 
 ```typescript
-import { Image, MonkEntityType } from '@monkvision/types';
-import { MonkDeletedOneAction, MonkActionType } from '@monkvision/common';
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
 
-const action: MonkDeletedOneAction = {
-  type: MonkActionType.DELETED_ONE_ENTITY,
-  entityType: MonkEntityType.IMAGE,
-  id: '...',
+const action: Monk = {
+  type: MonkActionType.CREATED_ONE_IMAGE,
+  payload: {
+    inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+    image: {...},
+  }
 }
 ```
 
-In addition to the common Monk action fields, this action contains a field called `id` which should contain the ID of
-the entity that has been deleted.
-
-## DELETED_MANY_ENTITIES
-This action is designed to be dispatched when multiple entities have just been deleted. When this action is dispatched,
-for each entity ID, if an entity with this ID exists, it will be deleted.
+## UpdatedManyTasks Action
+This action can be dispatched after one or multiple tasks' statuses have been updated. The payload of this action should
+be an array containing the details of the tasks that have been updated.
 
 ```typescript
-import { Image, MonkEntityType } from '@monkvision/types';
-import { MonkDeletedManyAction, MonkActionType } from '@monkvision/common';
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+import { ProgressStatus } from '@monkvision/types';
 
-const action: MonkDeletedManyAction = {
-  type: MonkActionType.DELETED_MANY_ENTITIES,
-  entityType: MonkEntityType.IMAGE,
-  ids: ['...', '...'],
+const action: Monk = {
+  type: MonkActionType.CREATED_ONE_IMAGE,
+  payload: [
+    { id: '2b2ac131-c613-41a9-ac04-d00b942e2290', status: ProgressStatus.IN_PROGRESS },
+    { id: '4097bc0e-02d0-4ed8-9411-b18f0cb922f2', status: ProgressStatus.IN_PROGRESS },
+  ]
 }
 ```
-
-In addition to the common Monk action fields, this action contains a field called `ids` which should contain the list o
-IDs of the deleted entities.

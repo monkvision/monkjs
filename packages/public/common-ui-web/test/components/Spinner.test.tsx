@@ -1,5 +1,3 @@
-jest.mock('@monkvision/common');
-
 jest.mock('../../src/components/DynamicSVG', () => ({
   DynamicSVG: jest.fn(() => <></>),
 }));

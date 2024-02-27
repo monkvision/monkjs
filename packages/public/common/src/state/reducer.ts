@@ -1,49 +1,31 @@
-import { MonkEntity } from '@monkvision/types';
 import {
+  createdOneImage,
+  gotOneInspection,
+  isCreatedOneImageAction,
+  isGotOneInspectionAction,
   isResetStateAction,
-  isUpdateStateAction,
+  isUpdatedManyTasksAction,
   MonkAction,
-  MonkUpdateStatePayload,
+  resetState,
+  updatedManyTasks,
 } from './actions';
-import { createEmptyMonkState, MonkState } from './state';
-
-function updateState(state: MonkState, payload: MonkUpdateStatePayload): MonkState {
-  const newState = createEmptyMonkState();
-  Object.keys(state).forEach((key: string) => {
-    const entityKey = key as keyof MonkState;
-    state[entityKey].forEach((stateEntity) => {
-      if (!payload.deleted || !payload.deleted.includes(stateEntity.id)) {
-        (newState[entityKey] as MonkEntity[]).push(stateEntity);
-      }
-    });
-    if (payload.entities) {
-      payload.entities[entityKey]?.forEach((payloadEntity) => {
-        if (payload.deleted && payload.deleted.includes(payloadEntity.id)) {
-          return;
-        }
-        const newEntityIndex = newState[entityKey].findIndex(
-          (newEntity) => newEntity.id === payloadEntity.id,
-        );
-        if (newEntityIndex !== -1) {
-          (newState[entityKey] as MonkEntity[])[newEntityIndex] = payloadEntity;
-        } else {
-          (newState[entityKey] as MonkEntity[]).push(payloadEntity);
-        }
-      });
-    }
-  });
-  return newState;
-}
+import { MonkState } from './state';
 
 /**
  * Main reducer function for the Monk state.
  */
 export function monkReducer(state: MonkState, action: MonkAction): MonkState {
   if (isResetStateAction(action)) {
-    return createEmptyMonkState();
+    return resetState();
   }
-  if (isUpdateStateAction(action)) {
-    return updateState(state, action.payload);
+  if (isGotOneInspectionAction(action)) {
+    return gotOneInspection(state, action);
+  }
+  if (isCreatedOneImageAction(action)) {
+    return createdOneImage(state, action);
+  }
+  if (isUpdatedManyTasksAction(action)) {
+    return updatedManyTasks(state, action);
   }
   return state;
 }

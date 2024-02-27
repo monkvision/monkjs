@@ -110,7 +110,7 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
     Sentry.captureMessage(msg, context);
   }
 
-  override handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+  override handleError(err: unknown, context?: Omit<LogContext, 'level'>): void {
     super.handleError(err, context);
     Sentry.captureException(err, context);
   }

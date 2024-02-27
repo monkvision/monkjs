@@ -6,6 +6,4 @@ export function mockButtonDependencies(): void {
   jest.mock('../../../src/icons', () => ({
     Icon: jest.fn(() => <></>),
   }));
-
-  jest.mock('@monkvision/common');
 }

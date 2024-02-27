@@ -53,7 +53,7 @@ export function TestPanelLastPic({ lastPicture }: TestPanelLastPicProps) {
             anchorRef.current.download = createFileName(lastPicture);
           }
         })
-        .catch((err) => console.error(err));
+        .catch(console.error);
     }
   }, [lastPicture]);
 

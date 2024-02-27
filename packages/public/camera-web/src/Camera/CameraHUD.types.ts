@@ -53,33 +53,12 @@ export interface CameraHUDProps {
   /**
    * The handle used to control the camera.
    */
-  handle?: Partial<CameraHandle>;
+  handle: CameraHandle;
 }
 
 /**
  * Component type definition for a Camera HUD component.
  */
-export type CameraHUDComponent = ComponentType<CameraHUDProps>;
-
-/**
- * Element type definition for a Camera HUD component.
- */
-export type CameraHUDElement = ReactElement<CameraHUDProps>;
-
-/**
- * Parameters passed to the useCameraHUD hook.
- */
-export interface UseCameraHUDParams {
-  /**
-   * The camera handle used to control the camera.
-   */
-  handle: CameraHandle;
-  /**
-   * The preview of the camera as a React element.
-   */
-  cameraPreview: ReactElement;
-  /**
-   * The camera HUD component.
-   */
-  component?: CameraHUDComponent;
-}
+export type CameraHUDComponent<T extends object = Record<string, never>> = ComponentType<
+  CameraHUDProps & T
+>;

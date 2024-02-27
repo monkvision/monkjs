@@ -153,7 +153,7 @@ describe('Button component', () => {
         <span data-testid={testId}>Test</span>
       </Button>,
     );
-    expect(screen.queryByTestId(testId)).toBeDefined();
+    expect(screen.queryByTestId(testId)).not.toBeNull();
     unmount();
   });
 

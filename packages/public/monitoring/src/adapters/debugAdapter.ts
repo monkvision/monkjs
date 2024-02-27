@@ -43,15 +43,15 @@ export class DebugMonitoringAdapter extends EmptyMonitoringAdapter {
     loggingFunction(msg, context);
   }
 
-  override handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+  override handleError(err: unknown, context?: Omit<LogContext, 'level'>): void {
     const loggingFunction = DebugMonitoringAdapter.getLoggingFunction(Severity.ERROR);
     loggingFunction(err, context);
   }
 
   private static createLoggingFunction(
     consoleFunction: (...data: any[]) => void,
-  ): (msg: string | Error, context?: LogContext | Severity) => void {
-    return (msg: string | Error, context?: LogContext | Severity) => {
+  ): (msg: unknown, context?: LogContext | Severity) => void {
+    return (msg: unknown, context?: LogContext | Severity) => {
       if (typeof context === 'object' && context.extras) {
         return consoleFunction(msg, context.extras);
       }
@@ -61,7 +61,7 @@ export class DebugMonitoringAdapter extends EmptyMonitoringAdapter {
 
   private static getLoggingFunction(
     context?: LogContext | Severity,
-  ): (msg: string | Error, context?: LogContext | Severity) => void {
+  ): (msg: unknown, context?: LogContext | Severity) => void {
     let severity = Severity.INFO;
     if (typeof context === 'string') {
       severity = context;

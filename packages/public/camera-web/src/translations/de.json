@@ -1,9 +1,3 @@
 {
-  "retry": "Erneut versuchen",
-  "errors": {
-    "permission": "Die Kameravorschau ist nicht verfügbar, da für die Seite kein Kamerazugriff gewährt wurde.",
-    "inactive": "Der Video-Stream der Kamera wurde unerwartet geschlossen.",
-    "invalid": "Der Videostrom der Kamera kann nicht verarbeitet werden.",
-    "other": "Beim Abrufen des Kamera-Videostreams ist ein unerwarteter Fehler aufgetreten."
-  }
+  "retry": "Erneut versuchen"
 }

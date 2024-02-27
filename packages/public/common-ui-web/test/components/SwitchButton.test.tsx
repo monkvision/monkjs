@@ -1,4 +1,3 @@
-jest.mock('@monkvision/common');
 jest.mock('../../src/icons', () => ({
   Icon: jest.fn(() => <></>),
 }));

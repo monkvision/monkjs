@@ -11,3 +11,9 @@ export interface PixelDimensions {
    */
   height: number;
 }
+
+export interface PromiseHandlers<T> {
+  onResolve: (res: T) => void;
+  onReject: (err: any) => void;
+  onComplete: () => void;
+}

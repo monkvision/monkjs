@@ -12,4 +12,5 @@ export = {
   Camera: jest.fn(() => <></>),
   SimpleCameraHUD: jest.fn(() => <></>),
   i18nCamera: {},
+  getCameraErrorLabel: jest.fn(() => ({ en: '', fr: '', de: '' })),
 };

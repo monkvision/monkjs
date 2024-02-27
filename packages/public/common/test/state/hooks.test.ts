@@ -1,7 +1,7 @@
+jest.mock('react');
+
 import React from 'react';
 import { MonkContext, createEmptyMonkState, MonkStateWithDispatch, useMonkState } from '../../src';
-
-jest.mock('react');
 
 describe('useMonkState hook', () => {
   it('should return the MonkContext', () => {

@@ -26,7 +26,7 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
     if (userMediaResult.stream && ref.current) {
       ref.current.srcObject = userMediaResult.stream;
       ref.current.onloadedmetadata = () => {
-        ref.current?.play().catch((err) => handleError(err));
+        ref.current?.play().catch(handleError);
       };
     }
   }, [userMediaResult.stream]);
