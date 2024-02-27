@@ -153,14 +153,15 @@ export default function InspectionCapture() {
           .concat([taskName])
           .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
           .map((name) => new Promise((resolve) => {
-            const currentTask = allTasks.find(task => task.name === name);
-            if (currentTask.status === monk.types.ProgressStatusUpdate.NOT_STARTED) {
-              monk.entity.task.updateOne(inspectionId, name, {
-                status: monk.types.ProgressStatusUpdate.TODO,
-              }).then(({ entities, result }) => {
+            const currentTask = allTasks.find((task) => task.name === name);
+            const currentTaskCall = async () => {
+              try {
+                const { entities, result } = await monk.entity.task.updateOne(inspectionId, name, {
+                  status: monk.types.ProgressStatusUpdate.TODO,
+                });
                 dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
                 resolve(name);
-              }).catch((err) => {
+              } catch (err) {
                 errorHandler(err);
                 setErrorModal({
                   texts: {
