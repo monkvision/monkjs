@@ -1,8 +1,4 @@
 import { waitFor } from '@testing-library/react';
-
-jest.mock('@monkvision/common');
-jest.mock('@monkvision/network');
-
 import { renderHook } from '@testing-library/react-hooks';
 import { flatMap, LoadingState, uniq } from '@monkvision/common';
 import { sights } from '@monkvision/sights';
@@ -13,17 +9,17 @@ import { createFakePromise } from '@monkvision/test-utils';
 import {
   useStartTasksOnComplete,
   UseStartTasksOnCompleteParams,
-} from '../../../src/PhotoCapture/hooks/useStartTasksOnComplete';
+} from '../../../src/PhotoCapture/hooks';
 
 function createParams(): UseStartTasksOnCompleteParams {
   return {
     inspectionId: 'test-inspection-id',
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
     sights: [
-      sights['fesc20-0mJeXBDf'],
-      sights['fesc20-26n47kaO'],
-      sights['fesc20-2bLRuhEQ'],
-      sights['fesc20-4Wqx52oU'],
+      sights['test-sight-1'],
+      sights['test-sight-2'],
+      sights['test-sight-3'],
+      sights['test-sight-4'],
     ],
     loading: {
       start: jest.fn(),
@@ -81,10 +77,10 @@ describe('useStartTasksOnComplete hook', () => {
       ...defaultProps,
       startTasksOnComplete: true,
       tasksBySight: {
-        'fesc20-0mJeXBDf': [TaskName.DAMAGE_DETECTION, TaskName.PRICING],
-        'fesc20-26n47kaO': [TaskName.DASHBOARD_OCR],
-        'fesc20-2bLRuhEQ': [TaskName.DAMAGE_DETECTION, TaskName.IMAGES_OCR],
-        'fesc20-4Wqx52oU': [TaskName.WHEEL_ANALYSIS],
+        'test-sight-1': [TaskName.DAMAGE_DETECTION, TaskName.PRICING],
+        'test-sight-2': [TaskName.DASHBOARD_OCR],
+        'test-sight-3': [TaskName.DAMAGE_DETECTION, TaskName.IMAGES_OCR],
+        'test-sight-4': [TaskName.WHEEL_ANALYSIS],
       },
     };
     const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });

@@ -28,11 +28,7 @@ import {
 } from '../../../src';
 
 function createProps(): PhotoCaptureHUDPreviewProps {
-  const captureSights = [
-    sights['fesc20-0mJeXBDf'],
-    sights['fesc20-26n47kaO'],
-    sights['fesc20-2bLRuhEQ'],
-  ];
+  const captureSights = [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']];
   return {
     selectedSight: captureSights[1],
     sights: captureSights,

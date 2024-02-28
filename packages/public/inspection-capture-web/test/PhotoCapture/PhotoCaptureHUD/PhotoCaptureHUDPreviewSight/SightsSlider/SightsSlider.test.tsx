@@ -18,12 +18,11 @@ import {
 
 function createProps(): SightsSliderProps {
   const captureSights = [
-    sights['haccord-2a8VfA8m'],
-    sights['haccord-5LlCuIfL'],
-    sights['haccord-6kYUBv_e'],
-    sights['haccord-8YjMcu0D'],
-    sights['haccord-DUPnw5jj'],
-    sights['haccord-EfRIciFr'],
+    sights['test-sight-1'],
+    sights['test-sight-2'],
+    sights['test-sight-3'],
+    sights['test-sight-4'],
+    sights['test-sight-5'],
   ];
   return {
     sights: captureSights,

@@ -1,6 +1,3 @@
-jest.mock('@monkvision/common');
-jest.mock('@monkvision/network');
-
 import { renderHook } from '@testing-library/react-hooks';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
 import { Sight } from '@monkvision/types';
@@ -17,10 +14,10 @@ function createParams(): PhotoCaptureSightsParams {
   return {
     inspectionId: 'test-inspection-id',
     captureSights: [
-      sights['fesc20-0mJeXBDf'],
-      sights['fesc20-26n47kaO'],
-      sights['fesc20-2bLRuhEQ'],
-      sights['fesc20-4Wqx52oU'],
+      sights['test-sight-1'],
+      sights['test-sight-2'],
+      sights['test-sight-3'],
+      sights['test-sight-4'],
     ],
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
     loading: {

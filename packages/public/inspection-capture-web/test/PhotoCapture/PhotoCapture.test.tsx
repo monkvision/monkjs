@@ -10,8 +10,8 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     handleCancelAddDamage: jest.fn(),
   })),
   usePhotoCaptureSightState: jest.fn(() => ({
-    selectedSight: sights['jgc21-1j-oTPag'],
-    sightsTaken: [sights['jgc21-0QM-q8k5']],
+    selectedSight: sights['test-sight-2'],
+    sightsTaken: [sights['test-sight-1']],
     selectSight: jest.fn(),
     takeSelectedSight: jest.fn(),
     lastPictureTaken: {
@@ -51,7 +51,7 @@ import { useMonitoring } from '@monkvision/monitoring';
 
 function createProps(): PhotoCaptureProps {
   return {
-    sights: [sights['jgc21-0QM-q8k5'], sights['jgc21-1j-oTPag'], sights['jgc21-2_5eHL-F']],
+    sights: [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']],
     inspectionId: 'test-inspection-test',
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
     compliances: { iqa: true },

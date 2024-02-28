@@ -18,7 +18,7 @@
     "clean:all": "lerna run clean --parallel && rimraf node_modules && yarn cache clean && yarn install",
     "build": "lerna run build --scope '@monkvision/*'",
     "build:all": "lerna run build",
-    "test": "lerna run test",
+    "test": "lerna run test --parallel",
     "test:packages": "lerna run test --parallel --scope '@monkvision/*'",
     "test:coverage": "lerna run test:coverage --parallel",
     "lint": "lerna run --parallel lint",
