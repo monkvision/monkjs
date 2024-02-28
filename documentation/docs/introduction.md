@@ -15,7 +15,7 @@ that exposes endpoints to communicate with the AI models. The usual Monk workflo
   should be included with every request made to the Monk API.
 2. Create an *Inspection* using the `POST /inspection` endpoint, and specify which AI models (which *Tasks*) you want to
   run during this inspection.
-3. Take pictures of your vehicle and add them to your inspection using the `POST /inspection/{id}/images` endpiont. For
+3. Take pictures of your vehicle and add them to your inspection using the `POST /inspection/{id}/images` endpoint. For
   each picture, specify which *Task* you want to run on it.
 4. *(optional)* Ask the API to analyze the quality of the images before running the AI models on them
 5. Once all the pictures are uploaded, tell the API to start inspection *Tasks* by using the
@@ -36,8 +36,8 @@ implement this workflow yourself, you can refer to our [API Documentation](https
 Among other things, the MonkJs SDK offers the following tools to implement the workflow mentionned above :
 
 - A package called [network](docs/packages/network.md) that offers utility functions to easily communicate with our API.
-- A single-page component called [InspectionCapture](docs/packages/inspection-capture-web.md) that you can place in your
-  app to display a camera preview and allow users to take pictures of their vehicle, analyze the quality of the pictures
+- Single-page components like [PhotoCapture](docs/packages/inspection-capture-web.md) that you can place in your app
+  to display a camera preview and allow users to take pictures of their vehicle, analyze the quality of the pictures
   taken and upload them to the API.
 - A single-page component called [InspectionReport](docs/packages/inspection-report-web.md) that you can place in your app
   to display the results of an insepction, update the results if needed, and ask the API to generate the PDF report.
