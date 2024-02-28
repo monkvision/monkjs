@@ -154,14 +154,13 @@ export default function InspectionCapture() {
           .filter((name, index, taskNames) => taskNames.indexOf(name) === index)
           .map((name) => new Promise((resolve) => {
             const currentTask = allTasks.find((task) => task.name === name);
-            const currentTaskCall = async () => {
-              try {
-                const { entities, result } = await monk.entity.task.updateOne(inspectionId, name, {
-                  status: monk.types.ProgressStatusUpdate.TODO,
-                });
+            if (currentTask.status === monk.types.ProgressStatusUpdate.NOT_STARTED) {
+              monk.entity.task.updateOne(inspectionId, name, {
+                status: monk.types.ProgressStatusUpdate.TODO,
+              }).then(({ entities, result }) => {
                 dispatch(monk.actions.gotOneTask({ entities, result, inspectionId }));
                 resolve(name);
-              } catch (err) {
+              }).catch((err) => {
                 errorHandler(err);
                 setErrorModal({
                   texts: {
@@ -173,10 +172,7 @@ export default function InspectionCapture() {
                     navigation.navigate(names.LANDING, { isLastTour: true });
                   },
                 });
-              }
-            };
-            if (currentTask.status === monk.types.ProgressStatusUpdate.NOT_STARTED) {
-              currentTaskCall();
+              });
             }
           }));
 
