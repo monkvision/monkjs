@@ -9,6 +9,7 @@ import { mockAxiosRequest } from './utils/axiosMock.utils';
 import { deepObjectMatcher } from './utils/matcher.utils';
 
 jest.mock('axios');
+jest.mock('axios-retry');
 
 beforeAll(() => {
   initAxiosConfig();

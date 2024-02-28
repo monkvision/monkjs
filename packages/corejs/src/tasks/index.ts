@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
 import { camelCase, isEmpty, isNil, omitBy, snakeCase } from 'lodash';
 import mapKeysDeep from 'map-keys-deep-lodash';
@@ -26,20 +26,12 @@ import schema, { idAttribute, key } from './schema';
 /**
  * Define the retry configuration for API calls to update the tasks
  */
-const MAX_RETRY_ATTEMPTS: number = 4;
+const MAX_RETRY_ATTEMPTS = 4;
 const RETRY_CONFIG = {
   retries: MAX_RETRY_ATTEMPTS,
-  retryDelay: (retryCount) => {
-    return axiosRetry.exponentialDelay(retryCount);
-  },
+  retryDelay: (retryCount: number) => axiosRetry.exponentialDelay(retryCount),
   // shouldResetTimeout: true,
-  retryCondition: (error) => {
-    console.error('Error:', error);
-    /**
-     * Retry on network errors or 5xx status codes
-     */
-    return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 500;
-  }
+  retryCondition: (error: AxiosError) => axiosRetry.isNetworkOrIdempotentRequestError(error) || error?.response?.status === 500,
 };
 
 /**
