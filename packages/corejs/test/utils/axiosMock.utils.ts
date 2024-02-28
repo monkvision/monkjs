@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
 import { snakeCase } from 'lodash';
 import mapKeysDeep from 'map-keys-deep-lodash';
 
@@ -32,6 +32,7 @@ export function mockAxiosRequest<T extends Object>(
     headers: {},
     config: {},
   };
+  jest.spyOn(axios, 'create').mockImplementation((): AxiosInstance => axios);
   return {
     response,
     spy: jest.spyOn(axios, 'request').mockImplementation(() => Promise.resolve(response)) as AxiosRequestSpy<T>,
