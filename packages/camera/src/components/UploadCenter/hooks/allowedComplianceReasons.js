@@ -9,6 +9,13 @@ const ALLOWED_COMPLIANCE_REASONS = [
   'SNOWNESS',
   'WETNESS',
   'REFLECTIONS',
+  'WRONG_ANGLE',
+  'WRONG_CENTER_PART',
+  'UNKNOWN_SIGHT',
+  'UNKNOWN_VIEWPOINT',
+  'MISSING_PARTS',
+  'HIDDEN_PARTS',
+  'MISSING',
 ];
 
 export default function filterUnwantedComplianceReasons(reasons) {
