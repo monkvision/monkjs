@@ -1,7 +1,3 @@
-jest.mock('@monkvision/monitoring');
-jest.mock('i18next');
-jest.mock('react-i18next');
-
 import {
   expectComponentToPassDownRefToHTMLElement,
   expectPropsOnChildMock,
@@ -120,7 +116,7 @@ describe('Monkvision i18n utils', () => {
 
       expectPropsOnChildMock(I18nextProvider, { i18n: instance });
 
-      expect(screen.queryByTestId(TEST_COMPONENT_TEST_ID)).toBeDefined();
+      expect(screen.queryByTestId(TEST_COMPONENT_TEST_ID)).not.toBeNull();
       unmount();
     });
 

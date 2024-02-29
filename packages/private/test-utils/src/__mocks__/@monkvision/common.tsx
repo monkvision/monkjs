@@ -19,6 +19,9 @@ const {
   createTheme,
   createEmptyMonkState,
   MonkActionType,
+  getFileExtensions,
+  uniq,
+  flatMap,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -40,6 +43,9 @@ export = {
   MonkDefaultPalette,
   createTheme,
   MonkActionType,
+  getFileExtensions,
+  uniq,
+  flatMap,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
@@ -73,6 +79,16 @@ export = {
   })),
   useResponsiveStyle: jest.fn(() => ({ responsive: jest.fn(() => null) })),
   useWindowDimensions: jest.fn(() => ({ width: 0, height: 0, isPortrait: false })),
-  useObjectTranslation: jest.fn(() => ({ tObj: jest.fn(() => {}) })),
-  useSightLabel: jest.fn(() => ({ label: jest.fn(() => {}) })),
+  useObjectTranslation: jest.fn(() => ({ tObj: jest.fn(() => '') })),
+  useSightLabel: jest.fn(() => ({ label: jest.fn(() => '') })),
+  useAsyncEffect: jest.fn(),
+  useLoadingState: jest.fn(() => ({
+    isLoading: false,
+    error: null,
+    start: jest.fn(),
+    onSuccess: jest.fn(),
+    onError: jest.fn(),
+  })),
+  useLangProp: jest.fn(),
+  isMobileDevice: jest.fn(() => false),
 };

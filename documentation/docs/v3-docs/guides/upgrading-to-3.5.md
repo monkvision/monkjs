@@ -91,4 +91,3 @@ rename those sights accordingly in the list of sight given as the `sightIds` pro
 | UHZkpCuK | vwtroc-UHZkpCuK |
 | 3a3OheoD | vwtroc-3a3OheoD |
 | IVcF1dOP | vwtroc-IVcF1dOP |
-

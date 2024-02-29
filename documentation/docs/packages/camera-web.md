@@ -11,7 +11,8 @@ called Camera, that lets you display a camera preview on your app as well as an 
 to take pictures, compress images, etc.
 
 Generally speaking, as a developer using our SDK, you won't have to directly use this component, since you probably
-want to use higher level components such as the [inspection-capture-web](docs/packages/inspection-capture-web.md) package.
+want to use higher level components such as the ones available in the
+[inspection-capture-web](docs/packages/inspection-capture-web.md) package.
 
 ## Complete Documentation
 As every other package in the SDK, please refer to

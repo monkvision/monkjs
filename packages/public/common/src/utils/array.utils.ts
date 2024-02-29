@@ -18,3 +18,65 @@ export function permutations<T>(array: T[]): T[][] {
 
   return result;
 }
+
+/**
+ * Return a copy of the given array in which all duplicates have been removed.
+ */
+export function uniq<T>(array: T[]): T[] {
+  const indexablePrimitives: Record<'number' | 'string', Record<number | string, boolean>> = {
+    number: {},
+    string: {},
+  };
+  const objects: T[] = [];
+
+  return array.filter((item) => {
+    const type = typeof item;
+    if (type in indexablePrimitives) {
+      const primitiveType = type as 'number' | 'string';
+      const primitiveItem = item as number | string;
+      if (Object.hasOwn(indexablePrimitives[primitiveType], primitiveItem)) {
+        return false;
+      }
+      indexablePrimitives[primitiveType][primitiveItem] = true;
+      return true;
+    }
+    return objects.indexOf(item) >= 0 ? false : objects.push(item);
+  });
+}
+
+/**
+ * Type definition for an array of either elements of type T, or another recursive array of type T.
+ */
+export type RecursiveArray<T> = (T | RecursiveArray<T>)[];
+
+function flattenRecursive<T>(array: RecursiveArray<T>, result: T[]): void {
+  array.forEach((item) => {
+    if (Array.isArray(item)) {
+      flattenRecursive(item, result);
+    } else {
+      result.push(item);
+    }
+  });
+}
+
+/**
+ * Flatten the given array.
+ *
+ * @example
+ * console.log(flatten([ 1, [2, 3], [[4], [5, 6]]]));
+ * // Output : 1,2,3,4,5,6
+ */
+export function flatten<T>(array: RecursiveArray<T>): T[] {
+  const result: T[] = [];
+  flattenRecursive(array, result);
+  return result;
+}
+
+/**
+ * JS implementation of the
+ * [Array.prototype.flatMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap)
+ * method, available on all versions of JavaScript.
+ */
+export function flatMap<T, K>(array: T[], map: (item: T) => RecursiveArray<K>): K[] {
+  return flatten(array.map(map));
+}

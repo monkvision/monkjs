@@ -1,5 +1,3 @@
-jest.mock('@monkvision/monitoring');
-
 import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
 import { act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';

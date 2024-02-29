@@ -20,7 +20,7 @@ export interface UseSightLabelParams {
 }
 
 /**
- * Custom hook used to get the label of a sight with the actual selected language.
+ * Custom hook used to get the label of a sight with the currently selected language.
  */
 export function useSightLabel({ labels }: UseSightLabelParams): UseSightLabelResult {
   const { tObj } = useObjectTranslation();

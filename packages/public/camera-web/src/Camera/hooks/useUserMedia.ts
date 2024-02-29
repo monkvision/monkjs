@@ -231,7 +231,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
         throw err;
       }
     };
-    getUserMedia().catch((err) => handleError(err));
+    getUserMedia().catch(handleError);
   }, [constraints, stream, error, isLoading, lastConstraintsApplied, onStreamInactive]);
 
   useEffect(() => {

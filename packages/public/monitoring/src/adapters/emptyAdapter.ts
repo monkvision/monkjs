@@ -71,7 +71,7 @@ export class EmptyMonitoringAdapter implements MonitoringAdapter {
     }
   }
 
-  handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+  handleError(err: unknown, context?: Omit<LogContext, 'level'>): void {
     if (this.options.showUnsupportedMethodWarnings) {
       console.warn(
         'Error handling is not supported by the current Monk Monitoring Adapter and calling handleError will have no effect.',

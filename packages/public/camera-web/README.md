@@ -34,24 +34,18 @@ function MyCameraPreview() {
 ```
 
 ## Camera constraints
-The video stream of the camera that is fetched from the user's device is configurable in the following ways :
-- Resolution quality of the camera
-- Camera facing mode (front camera / rear camera on smartphones)
-- Device ID to choose a specific camera
+The resolution quality of the camera of the Camera video stream that is fetched from the user's device is configurable
+by passing it as a prop to the Camera component. Note that device selection (selecting which Camera will be used when
+the device has many available) is disabled for now. This is because this is instead handled automatically by the
+component in order to prevent unusable cameras (zoomed ones for instance) to be used.
 
-These values can be configured using props on the camera component in the following ways :
+Example of how to configure the resolution of the Camera :
 
 ```tsx
-import { Camera, CameraFacingMode, CameraResolution } from '@monkvision/camera-web';
+import { Camera, CameraResolution } from '@monkvision/camera-web';
 
 function MyCameraPreview() {
-  return (
-    <Camera
-      facingMode={CameraFacingMode.USER}
-      resolution={CameraResolution.HD_720P}
-      deviceId='my-specific-device-id'
-    />
-  );
+  return <Camera resolution={CameraResolution.HD_720P} />;
 }
 ```
 
@@ -62,7 +56,9 @@ Notes :
   permissions another time
 - Only the resolutions available in the `CameraResolution` enum are allowed for better results with our AI models
 - The resolutions available in the `CameraResolution` enum are all in the 16:9 format
-- If the `deviceId` prop is specificied, the `facingMode` will be ignored
+- Device selection (selecting which Camera will be used when the device has many available) is disabled for now. This is
+  because this is instead handled automatically by the component in order to prevent unusable cameras (zoomed ones for
+  instance) to be used.
 - If no device meets the given requirements, the device with the closest match will be used :
   - If the needed resolution is too high, the highest resolution will be used : this means that asking for the
     `CameraResolution.UHD_4K` resolution is a good way to get the highest resolution possible
@@ -84,9 +80,10 @@ For more details on the compression options, see the *API* section below.
 
 ## Camera HUD
 In order to control the Camera (take pictures etc.), an HUD component can be passed as a prop to the Camera component.
-An HUD component is a component that takes a camera handle as a prop (an object used to control the camera) and that
-displays head-up display on top of the camera preview. When a HUD component is passed to the Camera component, the
-Camera will place it on top of its preview, and will pass him down the camera handle.
+An HUD component is a component that takes a camera handle (an object used to control the camera) as well as
+a camera preview element as props and that will display the preview with some additional head-up display on top of it.
+When a HUD component is passed to the Camera component, the Camera will place it in the tree, and will pass him down the
+camera handle and preview already configured.
 
 It is definitely possible to write your own custom Camera HUD component, but if you just need a very basic Camera HUD,
 this package exports one already : the `SimpleCameraHUD` component. It will display a button to take the pictures, error
@@ -109,17 +106,13 @@ customize the display language, you have two options :
   your `i18n` instance with the one used by the Camera package. To do so, we highly recommend using the `i18n` utility
   tools provided by the `@monkvision/common` package. More information on this
   [here](https://github.com/monkvision/monkjs/blob/main/packages/common/README/INTERNATIONALIZATION.md).
-- Simply specify the fixed language you want to use by using the `language` prop of the component like this :
+- Simply specify the fixed language you want to use by using the `lang` prop of the component like this :
 
 ```tsx
 import { Camera, SimpleCameraHUD } from '@monkvision/camera-web';
 
 function MyCameraPreviewWithGermanHUD() {
-  return (
-    <Camera
-      HUDComponent={(props) => <SimpleCameraHUD {...props} language='de' />}
-    />
-  );
+  return <Camera HUDComponent={SimpleCameraHUD} hudProps={{ lang: 'fr' }} />;
 }
 ```
 
@@ -129,18 +122,34 @@ The currently supported languages are :
 - German : `'de'`
 
 ## Creating a Custom HUD
-In order to implement custom Camera HUD, you simply need to create a component that will take a camera handle as a
-prop :
+In order to implement custom Camera HUD, you simply need to create a component that will take a camera handle and a
+camera preview as props. Additional props can be passed to this HUD component using the `hudProps` prop of the Camera
+component :
 
 ```tsx
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 
-function MyCustomCameraHUD({ handle }: CameraHUDProps) {
-  return <button onClick={handle?.takePicture}>Take Picture</button>;
+interface MyCustomCameraHUD extends CameraHUDProps {
+  message: string;
+}
+
+function MyCustomCameraHUD({ handle, cameraPreview, message }: MyCustomCameraHUD) {
+  return (
+    <div>
+      {cameraPreview}
+      <button onClick={handle.takePicture}>Take Picture</button>
+      <div>{message}</div>
+    </div>
+  );
 }
 
 function MyCameraPreviewWithCustomHUD() {
-  return <Camera HUDComponent={MyCustomCameraHUD} />;
+  return (
+    <Camera
+      HUDComponent={MyCustomCameraHUD}
+      hudProps={{ message: 'Hello World!' }}
+    />
+  );
 }
 ```
 
@@ -148,7 +157,7 @@ The complete specification of the camera handle is available in the *API* sectio
 
 ## Camera Events
 In order to add side effects when some things happen in the Camera, you can specify event handlers callbacks in the
-Camera component props. For now the events available are :
+Camera component props. For now the supported events available are :
 
 - `onPictureTaken: (picture: MonkPicture) => void` : Callback called when the user takes a picture
 
@@ -160,12 +169,11 @@ Main component exported by this package, displays a Camera preview and the given
 ### Props
 | Prop           | Type                           | Description                                                                                                                     | Required | Default Value                  |
 |----------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------|
-| facingMode     | CameraFacingMode               | Facing mode (front camera or back camera) to specify which camera to use. Ignored if `deviceId` is specified                    |          | `CameraFacingMode.ENVIRONMENT` |
 | resolution     | CameraResolution               | Resolution of the camera to use.                                                                                                |          | `CameraResolution.UHD_4K`      |
-| deviceId       | string                         | The ID of the camera to use.                                                                                                    |          |                                |
 | format         | CompressionFormat              | The compression format used to compress images taken by the camera.                                                             |          | `CompressionFormat.JPEG`       |
 | quality        | number                         | The image quality when using a compression format that supports lossy compression. From 0 (lowest quality) to 1 (best quality). |          | `0.8`                          |
-| HUDComponent   | CameraHUDComponent             | The camera HUD component to display on top of the camera preview.                                                               |          |                                |
+| HUDComponent   | CameraHUDComponent<T>          | The camera HUD component to display on top of the camera preview.                                                               |          |                                |
+| hudProps       | T                              | Additional props passed down to the Camera HUD component.                                                                       |          |                                |
 | onPictureTaken | (picture: MonkPicture) => void | Callback called when a picture has been taken by the user.                                                                      |          |                                |
 | monitoring     | CameraMonitoringConfig         | Extra options that can be passed to configure how the monitoring is handled in the component.                                   |          |                                |
 
@@ -180,3 +188,4 @@ Object passed to Camera HUD components that is used to control the camera
 | error       | UserMediaError &#124; null | The error details if there has been an error when fetching the camera stream. |
 | isLoading   | boolean                    | Boolean indicating if the camera preview is loading.                          |
 | retry       | () => void                 | A function to retry the camera stream fetching in case of error.              |
+| dimensions  | PixelDimensions            | The Camera stream dimensions (`null` if there is no stream).                  |

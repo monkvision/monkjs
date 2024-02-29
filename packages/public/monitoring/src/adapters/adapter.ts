@@ -221,7 +221,7 @@ export interface MonitoringAdapter {
    * @param err The error to handle.
    * @param context Optional context that can be sent with the error.
    */
-  handleError: (err: Error | string, context?: Omit<LogContext, 'level'>) => void;
+  handleError: (err: unknown, context?: Omit<LogContext, 'level'>) => void;
   /**
    * Create a transaction used for performance measurement.
    * @param context Context of the transaction.

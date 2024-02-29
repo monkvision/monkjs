@@ -3,7 +3,7 @@ import { useMemo, useRef, useState } from 'react';
 /**
  * Type definition for the processing function of a queue.
  */
-export type ProcessingFunction<T> = (item: T) => Promise<void>;
+export type ProcessingFunction<T> = (item: T) => Promise<unknown>;
 
 /**
  * The options that can be used to configure a processing queue using the `useQueue` hook.

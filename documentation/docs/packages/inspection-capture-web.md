@@ -6,9 +6,9 @@ sidebar_position: 5
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/inspection-capture-web/latest.svg)
 
 ## Overview
-This package exports a single page component for React (Web) called InspectionCapture that implements the capture
-process in the Monk SDK. The capture process allows the user to take pictures of its vehicle and will automatically send
-the pictures to our API, start the tasks and check the quality of the images using our compliance features.
+This package exports single page components for React (Web) that implements different capture workflows in the Monk SDK.
+The capture process allows the user to take pictures of its vehicle, automatically send them to our API, start the tasks
+and check the quality of the images using our compliance features.
 
 ## Complete Documentation
 As every other package in the SDK, please refer to

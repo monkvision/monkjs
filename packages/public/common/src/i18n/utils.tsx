@@ -31,9 +31,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
  */
 export function i18nLinkSDKInstances(instance: i18n, sdkInstances: i18n[]): void {
   instance.on('languageChanged', (lng: string) => {
-    sdkInstances.forEach((sdkInstance) =>
-      sdkInstance.changeLanguage(lng).catch((err) => console.error(err)),
-    );
+    sdkInstances.forEach((sdkInstance) => sdkInstance.changeLanguage(lng).catch(console.error));
   });
 }
 
@@ -65,7 +63,7 @@ export function useI18nLink(instance: i18n, sdkInstances: i18n[]): void {
 
   useEffect(() => {
     sdkInstances.forEach((sdkInstance) =>
-      sdkInstance.changeLanguage(instance.language).catch((err) => handleError(err)),
+      sdkInstance.changeLanguage(instance.language).catch(handleError),
     );
   }, [instance.language]);
 }
@@ -95,10 +93,7 @@ export function i18nCreateSDKInstance({ resources }: I18NSDKOptions): i18n {
     interpolation: { escapeValue: false },
     resources,
   });
-  instance
-    .use(initReactI18next)
-    .init()
-    .catch((err) => console.error(err));
+  instance.use(initReactI18next).init().catch(console.error);
   return instance;
 }
 

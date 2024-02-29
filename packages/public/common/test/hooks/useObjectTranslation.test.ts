@@ -1,6 +1,3 @@
-jest.mock('i18next');
-jest.mock('react-i18next');
-
 import { monkLanguages, TranslationObject } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { renderHook } from '@testing-library/react-hooks';

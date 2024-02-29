@@ -1,5 +1,3 @@
-import { transformInlineCss } from '../../../../src/components/DynamicSVG/hooks/utils';
-
 jest.mock('../../../../src/components/DynamicSVG/hooks/utils', () => ({
   transformInlineCss: jest.fn(() => ({ height: '34px' })),
 }));
@@ -7,6 +5,7 @@ jest.mock('../../../../src/components/DynamicSVG/hooks/utils', () => ({
 import { renderHook } from '@testing-library/react-hooks';
 import { CSSProperties } from 'react';
 import { useJSXTransformAttributes } from '../../../../src/components/DynamicSVG/hooks';
+import { transformInlineCss } from '../../../../src/components/DynamicSVG/hooks/utils';
 
 describe('useJSXTransformAttributes hook', () => {
   afterEach(() => {

@@ -1,8 +1,9 @@
 .test-view-container {
   height: 100%;
   width: 100%;
-  background-color: red;
+  background-color: black;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  color: white;
 }

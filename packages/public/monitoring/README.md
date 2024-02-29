@@ -79,7 +79,7 @@ class MyCustomMonitoringAdapter implements MonitoringAdapter {
     // Log stuff
   }
 
-  handleError(err: Error | string, context?: Omit<LogContext, 'level'>): void {
+  handleError(err: unknown, context?: Omit<LogContext, 'level'>): void {
     // Report errors
   }
 

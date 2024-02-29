@@ -1,0 +1,28 @@
+{
+  "photo": {
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Damage"
+      },
+      "addDamage": {
+        "cancelBtn": "Cancel",
+        "damagedPartCounter": "1 / 2 • Damaged part",
+        "closeupPictureCounter": "2 / 2 • Closeup Picture",
+        "infoBtn": "Aim the target at the damaged part then tap the shutter button",
+        "infoCloseup": "Take a closeup picture of the damage"
+      },
+      "error": {
+        "retry": "Retry",
+        "invalidToken": "The authentication token used is invalid.",
+        "expiredToken": "The authentication token used is expired.",
+        "insufficientAuth": "You do not have the required autorizations to perform this action.",
+        "inspectionLoading": "An error occurred during the loading of the inspection. Please try again in a few minutes or contact the support with the following inspection id :"
+      },
+      "closeConfirm": {
+        "message": "Are you sure you want to close the capture tool?",
+        "cancel": "Cancel",
+        "confirm": "Yes"
+      }
+    }
+  }
+}

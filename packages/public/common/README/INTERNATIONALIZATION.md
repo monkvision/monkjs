@@ -46,6 +46,7 @@ i18n.use(initReactI18next).init(...);
 
 // Use the function right after initializing your i18n instance.
 i18nLinkSDKInstances(i18n, [i18nInspectionCapture, i18nInspectionReport]);
+
 export default i18n;
 ```
 

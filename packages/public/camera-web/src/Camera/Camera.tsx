@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { AllOrNone, RequiredKeys } from '@monkvision/types';
 import {
   CameraConfig,
   CameraFacingMode,
@@ -16,21 +17,45 @@ import { styles } from './Camera.styles';
 import { CameraEventHandlers, CameraHUDComponent } from './CameraHUD.types';
 
 /**
- * Props given to the Camera component.
+ * Type definition for the HUD component and its props passed to the Camera component. Monk uses this custom type in
+ * order to enforce typing on the following configurations :
+ *
+ * - If the HUD component does not have any required props, the Camera component will allow developers to pass it either
+ * the HUDComponent or both the component and its props.
+ * - If the HUD component does indeed have required props, the Camera component will only accept either BOTH the
+ * HUDComponent and its props, or none of them.
+ *
+ * This is done in order to ensure that developers do not pass HUD components that need specific props to be rendered to
+ * the Camera without actually passing those props as well.
  */
-export interface CameraProps
-  extends Partial<Pick<CameraConfig, 'resolution'>>,
-    Partial<CompressionOptions>,
-    CameraEventHandlers {
-  /**
-   * Optional HUD component to display above the camera preview.
-   */
-  HUDComponent?: CameraHUDComponent;
-  /**
-   * Additional monitoring config that can be provided to the Camera component.
-   */
-  monitoring?: CameraMonitoringConfig;
-}
+export type HUDConfigProps<T extends object> = RequiredKeys<T> extends never
+  ? {
+      /**
+       * HUD component to display above the camera preview.
+       *
+       * Note: If this component needs custom props to be rendered, don't forget to pass them to the Camera in the
+       * `hudProps` props.
+       */
+      HUDComponent?: CameraHUDComponent<T>;
+      /**
+       * Additional props passed to the HUD component when it will be rendered.
+       */
+      hudProps?: T;
+    }
+  : AllOrNone<{ HUDComponent: CameraHUDComponent<T>; hudProps: T }>;
+
+/**
+ * Props given to the Camera component. The generic T type corresponds to the prop types of the HUD.
+ */
+export type CameraProps<T extends object> = Partial<Pick<CameraConfig, 'resolution'>> &
+  Partial<CompressionOptions> &
+  CameraEventHandlers &
+  HUDConfigProps<T> & {
+    /**
+     * Additional monitoring config that can be provided to the Camera component.
+     */
+    monitoring?: CameraMonitoringConfig;
+  };
 
 /**
  * Component used in MonkJs project used to :
@@ -42,14 +67,15 @@ export interface CameraProps
  * [here](https://github.com/monkvision/monkjs/blob/main/packages/camera-web/README.md)) for more details on how this
  * component works.
  */
-export function Camera({
+export function Camera<T extends object>({
   resolution = CameraResolution.UHD_4K,
   format = CompressionFormat.JPEG,
   quality = 0.8,
   HUDComponent,
+  hudProps,
   monitoring,
   onPictureTaken,
-}: CameraProps) {
+}: CameraProps<T>) {
   const {
     ref: videoRef,
     dimensions,
@@ -88,6 +114,7 @@ export function Camera({
     <HUDComponent
       handle={{ takePicture, error, retry, isLoading, dimensions }}
       cameraPreview={cameraPreview}
+      {...((hudProps ?? {}) as T)}
     />
   ) : (
     <>{cameraPreview}</>

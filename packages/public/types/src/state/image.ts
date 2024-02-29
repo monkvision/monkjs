@@ -4,6 +4,22 @@ import { VehiclePart } from './part';
 import { TranslationObject } from '../i18n';
 
 /**
+ * Additional data that can be added to an image when it has been uploaded.
+ */
+export interface ImageAdditionalData extends AdditionalData {
+  /**
+   * The ID of the sight of the image. This value is present only if the picture is a beautyshot picture and if it was
+   * taken using the PhotoCapture component of the MonkJs SDK.
+   */
+  sight_id?: string;
+  /**
+   * The label of the image. This value is present only if the picture is a beautyshot picture and if it was taken using
+   * the PhotoCapture component of the MonkJs SDK.
+   */
+  label?: TranslationObject;
+}
+
+/**
  * The type of image.
  */
 export enum ImageType {
@@ -194,6 +210,11 @@ export interface Image extends MonkEntity {
    */
   type: ImageType;
   /**
+   * This key can be set when coupling two pictures together for the 2-shot damage detection. This key must be unique
+   * for each pair of image accross the whole inspection.
+   */
+  siblingKey?: string;
+  /**
    * The labels (one for each language) of this image.
    */
   label?: TranslationObject;
@@ -225,5 +246,5 @@ export interface Image extends MonkEntity {
   /**
    * Additional data added during the upload of the image.
    */
-  additionalData?: AdditionalData;
+  additionalData?: ImageAdditionalData;
 }

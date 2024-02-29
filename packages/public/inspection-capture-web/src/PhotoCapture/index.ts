@@ -1,2 +1,3 @@
 export * from './PhotoCaptureHUD';
-export * from './PhotoCapture';
+export { type PhotoCaptureProps } from './PhotoCapture';
+export { PhotoCaptureHOC as PhotoCapture } from './PhotoCaptureHOC';

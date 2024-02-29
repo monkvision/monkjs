@@ -53,7 +53,6 @@ A Sentry Adapter logs everything in the Sentry platform. This can be used in you
 ```tsx
 import { SentryMonitoringAdapter } from '@monkvision/sentry';
 import { MonitoringProvider } from '@monkvision/monitoring';
-const adapter = new DebugMonitoringAdapter();
 
 const adapter = new SentryMonitoringAdapter({
   dsn: '',

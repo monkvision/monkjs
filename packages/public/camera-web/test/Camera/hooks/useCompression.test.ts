@@ -1,5 +1,3 @@
-import { getCanvasHandle } from '../../../src/Camera/hooks/utils';
-
 jest.mock('../../../src/Camera/hooks/utils/getCanvasHandle', () => ({
   getCanvasHandle: jest.fn(() => ({
     canvas: { toDataURL: jest.fn(() => 'picture,test-url') },
@@ -23,6 +21,8 @@ import {
   PictureSizeMeasurement,
 } from '../../../src/Camera/monitoring';
 import { createMockInternalMonitoringConfig } from '../../mocks';
+
+const { getCanvasHandle } = jest.requireActual('../../../src/Camera/hooks/utils');
 
 const monitoringMock = createMockInternalMonitoringConfig();
 const mockImageData = {

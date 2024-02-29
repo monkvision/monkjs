@@ -7,12 +7,18 @@ const i18nextInstanceMock: any = {
 };
 
 function createMockKyRequestFn() {
-  return jest.fn(() =>
-    Promise.resolve({
-      status: 200,
+  return jest.fn(() => {
+    const helpers = {
       json: jest.fn(() => Promise.resolve({})),
-    }),
-  );
+      blob: jest.fn(() => Promise.resolve(new Blob())),
+    };
+    const response = Promise.resolve({
+      status: 200,
+      ...helpers,
+    });
+    Object.assign(response, helpers);
+    return response;
+  });
 }
 
 export = {
@@ -20,4 +26,6 @@ export = {
 
   /* Mocks */
   get: createMockKyRequestFn(),
+  post: createMockKyRequestFn(),
+  patch: createMockKyRequestFn(),
 };

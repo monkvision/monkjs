@@ -1,9 +1,3 @@
 {
-  "retry": "Réessayer",
-  "errors": {
-    "permission": "L'apperçu de la caméra n'est pas disponible car l'accès à la caméra n'est pas autorisé.",
-    "inactive": "Le flux vidéo de la caméra a été coupé de manière inattendue.",
-    "invalid": "Impossible de traiter le flux vidéo de la caméra.",
-    "other": "Une erreur inattendue est survenue lors de la récupération du flux vidéo de la caméra."
-  }
+  "retry": "Réessayer"
 }

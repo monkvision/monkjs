@@ -1,4 +1,3 @@
-jest.mock('@monkvision/monitoring');
 jest.mock('../../../src/Camera/hooks/utils', () => ({
   ...jest.requireActual('../../../src/Camera/hooks/utils'),
   getMediaConstraints: jest.fn(() => ({ audio: false, video: true })),

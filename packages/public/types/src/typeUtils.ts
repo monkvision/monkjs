@@ -25,6 +25,19 @@ export type RequiredProperties<T, K extends keyof T> = T & Required<Pick<T, K>>;
 export type PartialProperties<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>;
 
 /**
+ * Utility type that returns a union type of every required key in T. If T does not have any required key, this type
+ * resolves to `never`.
+ */
+export type RequiredKeys<T> = {
+  [K in keyof T]-?: NonNullable<unknown> extends Pick<T, K> ? never : K;
+}[keyof T];
+
+/**
+ * Utility type that either allow T or no property of T.
+ */
+export type AllOrNone<T> = T | { [K in keyof T]?: never };
+
+/**
  * Standard enum type that can be used to enforce enum-like types in generic parameters.
  */
 export type StandardEnum<T> = {
