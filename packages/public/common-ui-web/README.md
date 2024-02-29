@@ -222,6 +222,39 @@ function App() {
 
 ---
 
+## Slider
+### Description
+Slider component that can be used to select a value within a specified range by dragging along a horizontal track.
+
+### Examples
+
+```tsx
+import { useState } from 'react';
+import { Slider } from '@monkvision/common-ui-web';
+
+function App() {
+  const [value, setValue] = useState(0);
+  const handleChange = (newValue: number) => {setValue(newValue)}
+
+  return <Slider value={value} min={0} max={1000} step={20} onChange={handleChange}/>;
+}
+```
+### Props
+| Prop           | Type                      | Description                                                                                                  | Required | Default Value        |
+|----------------|---------------------------|--------------------------------------------------------------------------------------------------------------|----------|----------------------|
+| min            | number                    | The minimum value of the slider.                                                                             |          | `0`                  |
+| max            | number                    | The maximum value of the slider.                                                                             |          | `100`                |
+| value          | number                    | The current value of the slider.                                                                             |          | `(max - min) / 2`    |
+| primaryColor   | ColorProp                 | The name or hexcode used for the thumb/knob border.                                                          |          | `'primary'`          |
+| secondaryColor | ColorProp                 | The name or hexcode used for the progress bar.                                                               |          | `'primary'`          |
+| tertiaryColor  | ColorProp                 | The name or hexcode used for the track bar background.                                                       |          | `'secondary-xlight'` |
+| disabled       | boolean                   | Boolean indicating if the slider is disabled or not.                                                         |          | `false`              |
+| step           | number                    | The increment value of the slider.                                                                           |          | `1`                  |
+| onChange       | `(value: number) => void` | Callback function invoked when the slider value changes.                                                     |          |                      |
+| style          | CSSProperties             | This property allows custom CSS styles for the slider. `width` sets slider width but `height` has no effect. |          |                      |
+
+---
+
 ## Spinner
 ### Description
 A simple spinner component that displays a loading spinner.

@@ -1,7 +1,7 @@
 import { CSSProperties, useMemo } from 'react';
 import { ColorProp, InteractiveStatus } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common';
-import { styles } from './Slider.styles';
+import { styles } from '../Slider.styles';
 
 /**
  * Props that the Slider component can accept.
@@ -31,7 +31,7 @@ export interface SliderProps {
   /**
    * The primary color used for the thumb/knob border .
    *
-   * @default 'secondary-xlight'
+   * @default 'primary'
    */
   primaryColor?: ColorProp;
 
@@ -45,7 +45,7 @@ export interface SliderProps {
   /**
    * The tertiary color used for the track bar background of the slider.
    *
-   * @default 'primary'
+   * @default 'secondary-xlight'
    */
   tertiaryColor?: ColorProp;
 
@@ -57,7 +57,7 @@ export interface SliderProps {
   disabled?: boolean;
 
   /**
-   * The increment value for the slider.
+   * The increment value of the slider.
    *
    * @default 1
    */

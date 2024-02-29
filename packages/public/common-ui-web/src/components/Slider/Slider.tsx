@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { useInteractiveStatus } from '@monkvision/common';
-import { SliderProps, useSliderStyle } from './useSliderStyle';
-import { useSlider } from './useSlider';
+import { SliderProps, useSliderStyle, useSlider } from './hooks';
 
 /**
  * A Slider component that allows users to select a value within a specified range by dragging along a horizontal track.

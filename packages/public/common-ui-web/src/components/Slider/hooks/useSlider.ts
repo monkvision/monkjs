@@ -48,7 +48,7 @@ function getNewSliderValue(
   return Math.round(((max - min) * (roundedPercentage / 100) + min) * multiplier) / multiplier;
 }
 
-export interface useSliderParams {
+export interface UseSliderParams {
   sliderRef: RefObject<HTMLDivElement>;
   value: number;
   min: number;
@@ -66,7 +66,7 @@ export function useSlider({
   step,
   disabled,
   onChange,
-}: useSliderParams) {
+}: UseSliderParams) {
   const [thumbPosition, setThumbPosition] = useState(getFirstThumbPosition(min, max, value));
   const [isDragging, setIsDragging] = useState(false);
 
