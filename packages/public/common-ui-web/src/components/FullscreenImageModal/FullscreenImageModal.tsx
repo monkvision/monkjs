@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 import { FullscreenModal } from '../FullscreenModal';
 import { styles } from './FullscreenImageModal.styles';
+
+const ZOOM_SCALE = 3;
 
 /**
  * Props for the FullscreenImageModal component.
  */
 export interface FullscreenImageModalProps {
-  show: boolean;
-  label?: string;
-  onClose?: () => void;
+  /**
+   * The URL of the image to display.
+   */
   url: string;
+  /**
+   * Boolean indicating if the modal is shown or not.
+   */
+  show?: boolean;
+  /**
+   * Optional label for the image.
+   */
+  label?: string;
+  /**
+   * Callback function invoked when the modal is closed.
+   */
+  onClose?: () => void;
 }
 
 function calculatePosition(
   viewPort: number,
   imageDimension: number,
   clickPosition: number,
-  scale: number,
-) {
+  zoomScale: number,
+): number {
   if (viewPort > imageDimension * 3) {
     return 0;
   }
   const blackBand = (viewPort - imageDimension) / 2;
-  const maxPosition = (imageDimension - blackBand) / scale;
+  const maxPosition = (imageDimension - blackBand) / zoomScale;
   return Math.min(maxPosition, Math.max(-maxPosition, imageDimension / 2 - clickPosition));
 }
 
@@ -30,16 +44,15 @@ function calculatePosition(
  * FullscreenImageModal component used to display a full-screen modal for an image and able the user to zoom on it.
  */
 export function FullscreenImageModal({
-  show,
+  url,
+  show = false,
   label = '',
   onClose,
-  url,
 }: FullscreenImageModalProps) {
   const [isZoomed, setIsZoomed] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const scale = 3;
 
-  function handleZoom(event: React.MouseEvent<HTMLElement>) {
+  const handleZoom = (event: MouseEvent<HTMLElement>) => {
     if (isZoomed) {
       setPosition({ x: 0, y: 0 });
     } else {
@@ -47,18 +60,18 @@ export function FullscreenImageModal({
         window.innerWidth,
         event.currentTarget.offsetWidth,
         event.nativeEvent.offsetX,
-        scale,
+        ZOOM_SCALE,
       );
       const positionY = calculatePosition(
         window.innerHeight,
         event.currentTarget.offsetHeight,
         event.nativeEvent.offsetY,
-        scale,
+        ZOOM_SCALE,
       );
       setPosition({ x: positionX, y: positionY });
     }
     setIsZoomed(!isZoomed);
-  }
+  };
 
   return (
     <FullscreenModal show={show} title={label} onClose={onClose}>
