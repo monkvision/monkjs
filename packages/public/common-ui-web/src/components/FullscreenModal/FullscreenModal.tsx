@@ -6,8 +6,17 @@ import { styles } from './FullscreenModal.styles';
  * Props that can be passed to the Fullscreen Modal component.
  */
 export interface FullscreenModalProps {
+  /**
+   * Boolean indicating if the modal is shown or not.
+   */
   show?: boolean;
+  /**
+   * Callback function invoked when the modal is closed.
+   */
   onClose?: () => void;
+  /**
+   * Optional title for the modal.
+   */
   title?: string;
 }
 

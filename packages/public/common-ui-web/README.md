@@ -132,6 +132,39 @@ function App() {
 
 ---
 
+## FullscreenImageModal
+### Description
+Component used to display a full-screen modal for an image and able the user to zoom on it.
+
+
+### Example
+```tsx
+import { FullscreenImageModal } from '@monkvision/common-ui-web';
+
+function App() {
+  const [showFullscreenImageModal, setShowFullscreenImageModal] = useState(true);
+
+  return (
+    <FullscreenImageModal
+      url={'https://example.com/image.jpg'}
+      show={showFullscreenImageModal}
+      label='Hello World!'
+      onClose={() => setShowFullscreenImageModal(false)}
+    />
+  );
+}
+```
+
+### Props
+| Prop    | Type         | Description                                                                                   | Required | Default Value |
+|---------|--------------|-----------------------------------------------------------------------------------------------|----------|---------------|
+| url     | string       | The URL of the image to display.                                                              | ✔️       |               |
+| show    | boolean      | Boolean indicating if the fullscreen image modal is displayed on the screen.                  |          | `false`       |
+| label   | string       | Label displayed in the header at the top of the image modal.                                  |          | `''`          |
+| onClose | `() => void` | Callback called when the user presses the close button in the header at the top of the modal. |          |               |
+
+---
+
 ## FullscreenModal
 ### Description
 Component used to display a full screen modal on top of the screen. The content of the modal must be passed as children
