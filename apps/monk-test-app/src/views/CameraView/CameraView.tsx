@@ -1,6 +1,5 @@
 import {
   Camera,
-  CameraFacingMode,
   CameraResolution,
   CompressionFormat,
   MonkPicture,
@@ -12,7 +11,6 @@ import './CameraView.css';
 
 export function CameraView() {
   const [state] = useState({
-    facingMode: CameraFacingMode.ENVIRONMENT,
     resolution: CameraResolution.UHD_4K,
     compressionFormat: CompressionFormat.JPEG,
     quality: '0.8',
@@ -27,7 +25,6 @@ export function CameraView() {
     <div className='camera-view-container'>
       <Camera
         HUDComponent={SimpleCameraHUD}
-        facingMode={state.facingMode}
         resolution={state.resolution}
         format={state.compressionFormat}
         quality={Number(state.quality)}

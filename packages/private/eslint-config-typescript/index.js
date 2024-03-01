@@ -33,6 +33,12 @@ module.exports = {
       }
     ],
     'no-underscore-dangle': OFF,
+    '@typescript-eslint/naming-convention': [
+      ERROR,
+      { selector: 'interface', format: ['PascalCase'] },
+      { selector: 'enum', format: ['PascalCase'] },
+      { selector: 'typeAlias', format: ['PascalCase'] },
+    ],
   },
   overrides: [
     {
