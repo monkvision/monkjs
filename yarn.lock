@@ -3416,9 +3416,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monkvision/camera-web@4.0.0, @monkvision/camera-web@workspace:packages/public/camera-web":
+"@monkvision/camera-web@4.0.0, @monkvision/camera-web@workspace:packages/camera-web":
   version: 0.0.0-use.local
-  resolution: "@monkvision/camera-web@workspace:packages/public/camera-web"
+  resolution: "@monkvision/camera-web@workspace:packages/camera-web"
   dependencies:
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
@@ -3467,9 +3467,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/common-ui-web@4.0.0, @monkvision/common-ui-web@workspace:packages/public/common-ui-web":
+"@monkvision/common-ui-web@4.0.0, @monkvision/common-ui-web@workspace:packages/common-ui-web":
   version: 0.0.0-use.local
-  resolution: "@monkvision/common-ui-web@workspace:packages/public/common-ui-web"
+  resolution: "@monkvision/common-ui-web@workspace:packages/common-ui-web"
   dependencies:
     "@babel/core": ^7.22.9
     "@monkvision/common": 4.0.0
@@ -3516,9 +3516,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/common@4.0.0, @monkvision/common@workspace:packages/public/common":
+"@monkvision/common@4.0.0, @monkvision/common@workspace:packages/common":
   version: 0.0.0-use.local
-  resolution: "@monkvision/common@workspace:packages/public/common"
+  resolution: "@monkvision/common@workspace:packages/common"
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -3565,15 +3565,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/cra-template@workspace:packages/public/cra-template":
+"@monkvision/eslint-config-base@4.0.0, @monkvision/eslint-config-base@workspace:configs/eslint-config-base":
   version: 0.0.0-use.local
-  resolution: "@monkvision/cra-template@workspace:packages/public/cra-template"
-  languageName: unknown
-  linkType: soft
-
-"@monkvision/eslint-config-base@4.0.0, @monkvision/eslint-config-base@workspace:packages/private/eslint-config-base":
-  version: 0.0.0-use.local
-  resolution: "@monkvision/eslint-config-base@workspace:packages/private/eslint-config-base"
+  resolution: "@monkvision/eslint-config-base@workspace:configs/eslint-config-base"
   peerDependencies:
     eslint: ^8.27.0
     eslint-config-airbnb-base: ^15.0.0
@@ -3586,9 +3580,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-typescript-react-native@workspace:packages/private/eslint-config-typescript-react-native":
+"@monkvision/eslint-config-typescript-react-native@workspace:configs/eslint-config-typescript-react-native":
   version: 0.0.0-use.local
-  resolution: "@monkvision/eslint-config-typescript-react-native@workspace:packages/private/eslint-config-typescript-react-native"
+  resolution: "@monkvision/eslint-config-typescript-react-native@workspace:configs/eslint-config-typescript-react-native"
   peerDependencies:
     "@monkvision/eslint-config-typescript": 4.0.0
     eslint-plugin-jsx-a11y: ^6.7.1
@@ -3598,9 +3592,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-typescript-react@4.0.0, @monkvision/eslint-config-typescript-react@workspace:packages/private/eslint-config-typescript-react":
+"@monkvision/eslint-config-typescript-react@4.0.0, @monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react":
   version: 0.0.0-use.local
-  resolution: "@monkvision/eslint-config-typescript-react@workspace:packages/private/eslint-config-typescript-react"
+  resolution: "@monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react"
   peerDependencies:
     "@monkvision/eslint-config-typescript": 4.0.0
     eslint-plugin-jsx-a11y: ^6.7.1
@@ -3609,9 +3603,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-typescript@4.0.0, @monkvision/eslint-config-typescript@workspace:packages/private/eslint-config-typescript":
+"@monkvision/eslint-config-typescript@4.0.0, @monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript":
   version: 0.0.0-use.local
-  resolution: "@monkvision/eslint-config-typescript@workspace:packages/private/eslint-config-typescript"
+  resolution: "@monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript"
   peerDependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@typescript-eslint/eslint-plugin": ^5.43.0
@@ -3620,9 +3614,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/inspection-capture-web@4.0.0, @monkvision/inspection-capture-web@workspace:packages/public/inspection-capture-web":
+"@monkvision/inspection-capture-web@4.0.0, @monkvision/inspection-capture-web@workspace:packages/inspection-capture-web":
   version: 0.0.0-use.local
-  resolution: "@monkvision/inspection-capture-web@workspace:packages/public/inspection-capture-web"
+  resolution: "@monkvision/inspection-capture-web@workspace:packages/inspection-capture-web"
   dependencies:
     "@monkvision/camera-web": 4.0.0
     "@monkvision/common": 4.0.0
@@ -3673,17 +3667,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/jest-config@4.0.0, @monkvision/jest-config@workspace:packages/private/jest-config":
+"@monkvision/jest-config@4.0.0, @monkvision/jest-config@workspace:configs/jest-config":
   version: 0.0.0-use.local
-  resolution: "@monkvision/jest-config@workspace:packages/private/jest-config"
+  resolution: "@monkvision/jest-config@workspace:configs/jest-config"
   peerDependencies:
     prettier: ^2.7.1
   languageName: unknown
   linkType: soft
 
-"@monkvision/monitoring@4.0.0, @monkvision/monitoring@workspace:packages/public/monitoring":
+"@monkvision/monitoring@4.0.0, @monkvision/monitoring@workspace:packages/monitoring":
   version: 0.0.0-use.local
-  resolution: "@monkvision/monitoring@workspace:packages/public/monitoring"
+  resolution: "@monkvision/monitoring@workspace:packages/monitoring"
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -3723,9 +3717,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/network@4.0.0, @monkvision/network@workspace:packages/public/network":
+"@monkvision/network@4.0.0, @monkvision/network@workspace:packages/network":
   version: 0.0.0-use.local
-  resolution: "@monkvision/network@workspace:packages/public/network"
+  resolution: "@monkvision/network@workspace:packages/network"
   dependencies:
     "@monkvision/camera-web": 4.0.0
     "@monkvision/common": 4.0.0
@@ -3767,17 +3761,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/prettier-config@4.0.0, @monkvision/prettier-config@workspace:packages/private/prettier-config":
+"@monkvision/prettier-config@4.0.0, @monkvision/prettier-config@workspace:configs/prettier-config":
   version: 0.0.0-use.local
-  resolution: "@monkvision/prettier-config@workspace:packages/private/prettier-config"
+  resolution: "@monkvision/prettier-config@workspace:configs/prettier-config"
   peerDependencies:
     prettier: ^2.7.1
   languageName: unknown
   linkType: soft
 
-"@monkvision/sentry@4.0.0, @monkvision/sentry@workspace:packages/public/sentry":
+"@monkvision/sentry@4.0.0, @monkvision/sentry@workspace:packages/sentry":
   version: 0.0.0-use.local
-  resolution: "@monkvision/sentry@workspace:packages/public/sentry"
+  resolution: "@monkvision/sentry@workspace:packages/sentry"
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -3812,9 +3806,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/sights@4.0.0, @monkvision/sights@workspace:packages/public/sights":
+"@monkvision/sights@4.0.0, @monkvision/sights@workspace:packages/sights":
   version: 0.0.0-use.local
-  resolution: "@monkvision/sights@workspace:packages/public/sights"
+  resolution: "@monkvision/sights@workspace:packages/sights"
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -3849,17 +3843,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/svgo-config@4.0.0, @monkvision/svgo-config@workspace:packages/private/svgo-config":
+"@monkvision/svgo-config@4.0.0, @monkvision/svgo-config@workspace:configs/svgo-config":
   version: 0.0.0-use.local
-  resolution: "@monkvision/svgo-config@workspace:packages/private/svgo-config"
+  resolution: "@monkvision/svgo-config@workspace:configs/svgo-config"
   peerDependencies:
     prettier: ^2.7.1
   languageName: unknown
   linkType: soft
 
-"@monkvision/test-utils@4.0.0, @monkvision/test-utils@workspace:packages/private/test-utils":
+"@monkvision/test-utils@4.0.0, @monkvision/test-utils@workspace:configs/test-utils":
   version: 0.0.0-use.local
-  resolution: "@monkvision/test-utils@workspace:packages/private/test-utils"
+  resolution: "@monkvision/test-utils@workspace:configs/test-utils"
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -3898,9 +3892,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/types@4.0.0, @monkvision/types@workspace:packages/public/types":
+"@monkvision/types@4.0.0, @monkvision/types@workspace:packages/types":
   version: 0.0.0-use.local
-  resolution: "@monkvision/types@workspace:packages/public/types"
+  resolution: "@monkvision/types@workspace:packages/types"
   dependencies:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -3929,9 +3923,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/typescript-config@4.0.0, @monkvision/typescript-config@workspace:packages/private/typescript-config":
+"@monkvision/typescript-config@4.0.0, @monkvision/typescript-config@workspace:configs/typescript-config":
   version: 0.0.0-use.local
-  resolution: "@monkvision/typescript-config@workspace:packages/private/typescript-config"
+  resolution: "@monkvision/typescript-config@workspace:configs/typescript-config"
   languageName: unknown
   linkType: soft
 
