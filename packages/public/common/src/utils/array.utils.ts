@@ -49,16 +49,6 @@ export function uniq<T>(array: T[]): T[] {
  */
 export type RecursiveArray<T> = (T | RecursiveArray<T>)[];
 
-function flattenRecursive<T>(array: RecursiveArray<T>, result: T[]): void {
-  array.forEach((item) => {
-    if (Array.isArray(item)) {
-      flattenRecursive(item, result);
-    } else {
-      result.push(item);
-    }
-  });
-}
-
 /**
  * Flatten the given array.
  *
@@ -67,9 +57,14 @@ function flattenRecursive<T>(array: RecursiveArray<T>, result: T[]): void {
  * // Output : 1,2,3,4,5,6
  */
 export function flatten<T>(array: RecursiveArray<T>): T[] {
-  const result: T[] = [];
-  flattenRecursive(array, result);
-  return result;
+  return array.reduce<T[]>((acc, val) => {
+    if (Array.isArray(val)) {
+      acc.push(...flatten(val));
+    } else {
+      acc.push(val);
+    }
+    return acc;
+  }, []);
 }
 
 /**

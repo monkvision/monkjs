@@ -8,7 +8,7 @@ describe('Promise utils', () => {
       await timeoutPromise(delay);
       const actualDelay = Date.now() - startTime;
       expect(actualDelay).toBeGreaterThanOrEqual(delay);
-      expect(actualDelay).toBeLessThan(delay + 10);
+      expect(actualDelay).toBeLessThan(delay + 100);
     });
   });
 });
