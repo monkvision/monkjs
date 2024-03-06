@@ -44,55 +44,60 @@ describe('Camera component', () => {
     jest.clearAllMocks();
   });
 
-  it('should pass the resolution props to the useCameraPreview hook', () => {
-    const facingMode = CameraFacingMode.ENVIRONMENT;
-    const resolution = CameraResolution.HD_720P;
-    const { unmount } = render(<Camera resolution={resolution} />);
+  it('should pass the proper props to the useCameraPreview hook', () => {
+    const { unmount } = render(<Camera resolution={CameraResolution.HD_720P} />);
 
-    expect(useCameraPreview).toHaveBeenCalledWith({ facingMode, resolution });
-    unmount();
-  });
-
-  it('should use CameraFacingMode.ENVIRONMENT as the default facingMode', () => {
-    const { unmount } = render(<Camera />);
-
-    expect(useCameraPreview).toHaveBeenCalledWith(
-      expect.objectContaining({
-        facingMode: CameraFacingMode.ENVIRONMENT,
-      }),
-    );
-    unmount();
-  });
-
-  it('should use CameraResolution.UHD_4K as the default resolution', () => {
-    const { unmount } = render(<Camera />);
-
-    expect(useCameraPreview).toHaveBeenCalledWith(
-      expect.objectContaining({
-        resolution: CameraResolution.UHD_4K,
-      }),
-    );
-    unmount();
-  });
-
-  it('should pass the stream dimensions to the useCameraCanvas hook', () => {
-    const { unmount } = render(<Camera />);
-
-    expect(useCameraCanvas).toHaveBeenCalledWith({
-      dimensions: (useCameraPreview as jest.Mock)().dimensions,
+    expect(useCameraPreview).toHaveBeenCalledWith({
+      facingMode: CameraFacingMode.ENVIRONMENT,
+      resolution: CameraResolution.UHD_4K,
     });
     unmount();
   });
 
-  it('should pass the video ref, canvasRef and stream dimensions to the useCameraScreenshot hook', () => {
+  it('should pass the proper props to the useCameraCanvas hook', () => {
+    const allowImageUpscaling = true;
+    const resolution = CameraResolution.QHD_2K;
+    const { unmount } = render(
+      <Camera allowImageUpscaling={allowImageUpscaling} resolution={resolution} />,
+    );
+
+    const streamDimensions = (useCameraPreview as jest.Mock).mock.results[0].value.dimensions;
+
+    expect(useCameraCanvas).toHaveBeenCalledWith({
+      allowImageUpscaling,
+      resolution,
+      streamDimensions,
+    });
+    unmount();
+  });
+
+  it('should use the 4K resolution by default', () => {
     const { unmount } = render(<Camera />);
 
-    const useCameraPreviewResultMock = (useCameraPreview as jest.Mock).mock.results[0].value;
-    const canvasRefMock = (useCameraCanvas as jest.Mock).mock.results[0].value.ref;
+    expect(useCameraCanvas).toHaveBeenCalledWith(
+      expect.objectContaining({ resolution: CameraResolution.UHD_4K }),
+    );
+    unmount();
+  });
+
+  it('should not use image upscaling by default', () => {
+    const { unmount } = render(<Camera />);
+
+    expect(useCameraCanvas).toHaveBeenCalledWith(
+      expect.objectContaining({ allowImageUpscaling: false }),
+    );
+    unmount();
+  });
+
+  it('should pass the video ref, canvasRef and canvas dimensions to the useCameraScreenshot hook', () => {
+    const { unmount } = render(<Camera />);
+
+    const videoRef = (useCameraPreview as jest.Mock).mock.results[0].value.ref;
+    const { ref: canvasRef, dimensions } = (useCameraCanvas as jest.Mock).mock.results[0].value;
     expect(useCameraScreenshot).toHaveBeenCalledWith({
-      videoRef: useCameraPreviewResultMock.ref,
-      canvasRef: canvasRefMock,
-      dimensions: useCameraPreviewResultMock.dimensions,
+      videoRef,
+      canvasRef,
+      dimensions,
     });
     unmount();
   });

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { AllOrNone, RequiredKeys } from '@monkvision/types';
 import {
-  CameraConfig,
   CameraFacingMode,
   CameraResolution,
   CompressionFormat,
@@ -47,10 +46,31 @@ export type HUDConfigProps<T extends object> = RequiredKeys<T> extends never
 /**
  * Props given to the Camera component. The generic T type corresponds to the prop types of the HUD.
  */
-export type CameraProps<T extends object> = Partial<Pick<CameraConfig, 'resolution'>> &
-  Partial<CompressionOptions> &
+export type CameraProps<T extends object> = Partial<CompressionOptions> &
   CameraEventHandlers &
   HUDConfigProps<T> & {
+    /**
+     * This option specifies the resolution of the pictures taken by the Camera. This option does not affect the
+     * resolution of the Camera preview (it will always be the highest resolution possible). If the specified resolution
+     * is not equal to the one used by the device's native camera, the pictures taken will be scaled to fit the
+     * requirements. Note that if the aspect ratio of the specified resolution differs from the one of the device's
+     * camera, pictures taken will always have the same aspect ratio as the native camera one, and will be scaled in a way
+     * to make sure that neither the width, nor the height of the output picture will exceed the dimensions of the
+     * specified resolution.
+     *
+     * Note: If the specified resolution is higher than the best resolution available on the current device, output
+     * pictures will only be scaled up to the specified resolution if the `allowImageUpscaling` property is set to `true`.
+     *
+     * @default `CameraResolution.UHD_4K`
+     */
+    resolution?: CameraResolution;
+    /**
+     * When the native resolution of the device Camera is smaller than the resolution asked in the `resolution` prop,
+     * resulting pictures will only be scaled up if this property is set to `true`.
+     *
+     * @default `false`
+     */
+    allowImageUpscaling?: boolean;
     /**
      * Additional monitoring config that can be provided to the Camera component.
      */
@@ -71,6 +91,7 @@ export function Camera<T extends object>({
   resolution = CameraResolution.UHD_4K,
   format = CompressionFormat.JPEG,
   quality = 0.8,
+  allowImageUpscaling = false,
   HUDComponent,
   hudProps,
   monitoring,
@@ -78,13 +99,24 @@ export function Camera<T extends object>({
 }: CameraProps<T>) {
   const {
     ref: videoRef,
-    dimensions,
+    dimensions: streamDimensions,
     error,
     retry,
     isLoading: isPreviewLoading,
-  } = useCameraPreview({ resolution, facingMode: CameraFacingMode.ENVIRONMENT });
-  const { ref: canvasRef } = useCameraCanvas({ dimensions });
-  const { takeScreenshot } = useCameraScreenshot({ videoRef, canvasRef, dimensions });
+  } = useCameraPreview({
+    resolution: CameraResolution.UHD_4K,
+    facingMode: CameraFacingMode.ENVIRONMENT,
+  });
+  const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
+    resolution,
+    streamDimensions,
+    allowImageUpscaling,
+  });
+  const { takeScreenshot } = useCameraScreenshot({
+    videoRef,
+    canvasRef,
+    dimensions: canvasDimensions,
+  });
   const { compress } = useCompression({ canvasRef, options: { format, quality } });
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
     compress,
@@ -112,7 +144,7 @@ export function Camera<T extends object>({
 
   return HUDComponent ? (
     <HUDComponent
-      handle={{ takePicture, error, retry, isLoading, dimensions }}
+      handle={{ takePicture, error, retry, isLoading, dimensions: streamDimensions }}
       cameraPreview={cameraPreview}
       {...((hudProps ?? {}) as T)}
     />

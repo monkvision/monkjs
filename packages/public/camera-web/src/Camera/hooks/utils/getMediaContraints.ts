@@ -1,3 +1,5 @@
+import { PixelDimensions } from '@monkvision/types';
+
 /**
  * Enumeration of the facing modes for the camera constraints.
  */
@@ -50,8 +52,8 @@ export enum CameraResolution {
   UHD_4K = '4K',
 }
 
-const CAMERA_RESOLUTION_SIZES: {
-  [key in CameraResolution]: { width: number; height: number };
+const CAMERA_RESOLUTION_DIMENSIONS: {
+  [key in CameraResolution]: PixelDimensions;
 } = {
   [CameraResolution.QNHD_180P]: { width: 320, height: 180 },
   [CameraResolution.NHD_360P]: { width: 640, height: 360 },
@@ -68,8 +70,6 @@ export interface CameraConfig {
   /**
    * Specifies which camera to use if the devices has a front and a rear camera. If the device does not have a camera
    * meeting the requirements, the closest one will be used.
-   *
-   * @default `CameraFacingMode.ENVIRONMENT`
    */
   facingMode: CameraFacingMode;
   /**
@@ -78,10 +78,22 @@ export interface CameraConfig {
    * - The Monk Camera package will always try to fetch a stream with a 16:9 resolution format.
    * - The implementation of the algorithm used to choose the closest camera can differ between browsers, and if the
    * exact requirements can't be met, the resulting stream's quality can differ between browsers.
-   *
-   * @default `CameraResolution.UHD_4K`
    */
   resolution: CameraResolution;
+}
+
+/**
+ * Utility function that returns the dimensions in pixels of the given `CameraResolution`.
+ */
+export function getResolutionDimensions(
+  resolution: CameraResolution,
+  isPortrait = false,
+): PixelDimensions {
+  const dimensions = CAMERA_RESOLUTION_DIMENSIONS[resolution];
+  return {
+    width: isPortrait ? dimensions.height : dimensions.width,
+    height: isPortrait ? dimensions.width : dimensions.height,
+  };
 }
 
 /**
@@ -94,7 +106,7 @@ export interface CameraConfig {
  * @see useUserMedia
  */
 export function getMediaConstraints(config: CameraConfig): MediaStreamConstraints {
-  const { width, height } = CAMERA_RESOLUTION_SIZES[config.resolution];
+  const { width, height } = getResolutionDimensions(config.resolution);
 
   const video: MediaTrackConstraints = {
     width: { ideal: width },

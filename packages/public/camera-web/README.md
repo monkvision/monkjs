@@ -33,13 +33,9 @@ function MyCameraPreview() {
 }
 ```
 
-## Camera constraints
-The resolution quality of the camera of the Camera video stream that is fetched from the user's device is configurable
-by passing it as a prop to the Camera component. Note that device selection (selecting which Camera will be used when
-the device has many available) is disabled for now. This is because this is instead handled automatically by the
-component in order to prevent unusable cameras (zoomed ones for instance) to be used.
-
-Example of how to configure the resolution of the Camera :
+## Camera resolution
+The resolution quality of the pictures taken by the Camera component is configurable by passing it as a prop to the
+Camera component :
 
 ```tsx
 import { Camera, CameraResolution } from '@monkvision/camera-web';
@@ -49,20 +45,15 @@ function MyCameraPreview() {
 }
 ```
 
-For more details on the camera constraints options, see the *API* section below.
-
 Notes :
-- When the camera constraints are updated, the video stream is automatically updated without asking the user for
-  permissions another time
-- Only the resolutions available in the `CameraResolution` enum are allowed for better results with our AI models
-- The resolutions available in the `CameraResolution` enum are all in the 16:9 format
-- Device selection (selecting which Camera will be used when the device has many available) is disabled for now. This is
-  because this is instead handled automatically by the component in order to prevent unusable cameras (zoomed ones for
-  instance) to be used.
-- If no device meets the given requirements, the device with the closest match will be used :
-  - If the needed resolution is too high, the highest resolution will be used : this means that asking for the
-    `CameraResolution.UHD_4K` resolution is a good way to get the highest resolution possible
-  - If the needed resolution is too low the browser will crop and scale the camera's feed to meet the requirements
+- This option does not affect the resolution of the Camera preview : the preview will always use the highest
+  resolution available on the current device.
+- If the specified resolution is not equal to the one used by the device's native camera, the pictures taken will be
+  scaled to fit the requirements.
+- The resolutions available in the `CameraResolution` enum are all in the 16:9 format.
+- If the aspect ratio of the specified resolution differs from the one of the device's camera, pictures taken will
+  always have the same aspect ratio as the native camera one, and will be scaled in a way to make sure that neither the
+  width, nor the height of the output picture will exceed the dimensions of the specified resolution.
 
 ## Compression options
 When pictures are taken by the camera, they are compressed and encoded. The compression format and quality can be
@@ -169,7 +160,7 @@ Main component exported by this package, displays a Camera preview and the given
 ### Props
 | Prop           | Type                           | Description                                                                                                                     | Required | Default Value                  |
 |----------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------|
-| resolution     | CameraResolution               | Resolution of the camera to use.                                                                                                |          | `CameraResolution.UHD_4K`      |
+| resolution     | CameraResolution               | Resolution of the pictures taken by the camera. This does not affect the resolution of the Camera preview.                      |          | `CameraResolution.UHD_4K`      |
 | format         | CompressionFormat              | The compression format used to compress images taken by the camera.                                                             |          | `CompressionFormat.JPEG`       |
 | quality        | number                         | The image quality when using a compression format that supports lossy compression. From 0 (lowest quality) to 1 (best quality). |          | `0.8`                          |
 | HUDComponent   | CameraHUDComponent<T>          | The camera HUD component to display on top of the camera preview.                                                               |          |                                |
