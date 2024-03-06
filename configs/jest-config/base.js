@@ -1,6 +1,6 @@
 module.exports = {
   rootDir: './',
-  roots: ['<rootDir>', '<rootDir>/../../private/test-utils/src/__mocks__'],
+  roots: ['<rootDir>', '<rootDir>/../../configs/test-utils/src/__mocks__'],
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/test/**/*.test.ts'],
