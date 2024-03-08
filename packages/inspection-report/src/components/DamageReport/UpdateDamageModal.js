@@ -236,7 +236,6 @@ function UpdateDamageModal({ part, damageMode, damage, onConfirm, onDismiss, ima
                       height: '100%',
                       uri: visibleDamages ? image?.rendered_outputs?.url : image?.url,
                     }}
-                    style={{ resizeMode: 'cover' }}
                   />
                 </Animated.View>
               ))

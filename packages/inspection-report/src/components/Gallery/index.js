@@ -253,7 +253,6 @@ function Gallery({ pictures }) {
               cursor: !isDesktopMode ? 'auto' : isZoomed ? 'zoom-out' : 'zoom-in',
               transform: [{ scale }, { translateX: transform.x }, { translateY: transform.y }],
             }}
-            resizeMode={isDesktopMode ? 'cover' : 'contain'}
             {...panResponder.panHandlers}
           />
         </View>
