@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
 import { Sight } from '@monkvision/types';
-import { useMonitoring } from '@monkvision/monitoring';
+import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
 import { useMonkApi } from '@monkvision/network';
 import { act } from '@testing-library/react';
@@ -9,6 +9,22 @@ import {
   PhotoCaptureSightsParams,
   usePhotoCaptureSightState,
 } from '../../../src/PhotoCapture/hooks';
+import {
+  SightMeasurement,
+  InternalPhotoCaptureMonitoringConfig,
+  SightsTakenMeasurement,
+  InspectionCompletionMeasurement,
+} from '../../../src/PhotoCapture/monitoring';
+
+const monitoring = {
+  transaction: {
+    startMeasurement: jest.fn(),
+    stopMeasurement: jest.fn(),
+    setMeasurement: jest.fn(),
+  },
+  tags: { testTagName: 'testTagValue' },
+  data: { testDataKey: 'testDataValue' },
+} as unknown as InternalPhotoCaptureMonitoringConfig;
 
 function createParams(): PhotoCaptureSightsParams {
   return {
@@ -26,6 +42,7 @@ function createParams(): PhotoCaptureSightsParams {
       onError: jest.fn(),
     } as unknown as LoadingState,
     onLastSightTaken: jest.fn(),
+    monitoring,
   };
 }
 
@@ -182,6 +199,85 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(initialProps.onLastSightTaken).not.toHaveBeenCalled();
     act(() => result.current.takeSelectedSight());
     expect(initialProps.onLastSightTaken).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should start the Sight measurement once when custom hook is called', () => {
+    const initialProps = createParams();
+    const { unmount } = renderHook(usePhotoCaptureSightState, {
+      initialProps,
+    });
+
+    expect(monitoring?.transaction?.startMeasurement).toHaveBeenCalledWith(
+      SightMeasurement.operation,
+      {
+        data: monitoring.data,
+        description: SightMeasurement.description,
+        tags: {
+          [SightMeasurement.sightLabelTagName]: initialProps.captureSights[0].label,
+          ...(monitoring.tags ?? {}),
+        },
+      },
+    );
+
+    unmount();
+  });
+
+  it('should stop and start the Sight measurement when the user changes Sight selected state', () => {
+    const initialProps = createParams();
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, {
+      initialProps,
+    });
+
+    act(() => {
+      result.current.selectSight(initialProps.captureSights[1]);
+    });
+
+    expect(monitoring?.transaction?.stopMeasurement).toHaveBeenCalledWith(
+      SightMeasurement.operation,
+      TransactionStatus.OK,
+    );
+
+    expect(monitoring?.transaction?.startMeasurement).toHaveBeenCalledWith(
+      SightMeasurement.operation,
+      {
+        data: monitoring.data,
+        description: SightMeasurement.description,
+        tags: {
+          [SightMeasurement.sightLabelTagName]: initialProps.captureSights[1].label,
+          ...(monitoring.tags ?? {}),
+        },
+      },
+    );
+    unmount();
+  });
+
+  it('should set the SightsTaken measurement', () => {
+    const initialProps = createParams();
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, {
+      initialProps,
+    });
+
+    act(() => {
+      result.current.selectSight(initialProps.captureSights[2]);
+      result.current.takeSelectedSight();
+    });
+    act(() => {
+      result.current.selectSight(initialProps.captureSights[3]);
+      result.current.takeSelectedSight();
+    });
+    const { sightsTaken } = result.current;
+    expect(monitoring?.transaction?.setMeasurement).toHaveBeenCalledWith(
+      SightsTakenMeasurement.name,
+      sightsTaken.length,
+      'none',
+    );
+    expect(monitoring?.transaction?.setMeasurement).toHaveBeenCalledWith(
+      InspectionCompletionMeasurement.name,
+      sightsTaken.length / initialProps.captureSights.length,
+      'ratio',
+    );
 
     unmount();
   });

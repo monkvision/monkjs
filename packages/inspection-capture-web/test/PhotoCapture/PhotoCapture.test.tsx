@@ -3,6 +3,12 @@ import { sights } from '@monkvision/sights';
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
 jest.mock('../../src/PhotoCapture/hooks', () => ({
+  usePhotoCaptureMonitoring: jest.fn(() => ({
+    parentId: 'parent',
+    data: { data: 'data' },
+    tags: { tag: 'tags' },
+  })),
+
   useAddDamageMode: jest.fn(() => ({
     mode: PhotoCaptureMode.SIGHT,
     handleAddDamage: jest.fn(),
@@ -60,6 +66,7 @@ function createProps(): PhotoCaptureProps {
     resolution: CameraResolution.NHD_360P,
     format: CompressionFormat.JPEG,
     quality: 0.4,
+    monitoring: { parentId: 'parent', data: { data: 'data' }, tags: { tag: 'tags' } },
   };
 }
 
@@ -102,6 +109,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       loading,
       onLastSightTaken: expect.any(Function),
+      monitoring: props.monitoring,
     });
 
     unmount();
@@ -164,6 +172,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       loading,
       onLastSightTaken,
+      monitoring: props.monitoring,
     });
 
     unmount();
@@ -180,6 +189,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       compliances: props.compliances,
       loading,
+      monitoring: props.monitoring,
     });
 
     unmount();

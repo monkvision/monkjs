@@ -10,8 +10,34 @@ import {
 } from '../../../src/PhotoCapture/hooks';
 import { ImageType, TaskName } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
-import { useMonitoring } from '@monkvision/monitoring';
+import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
 import { act } from '@testing-library/react';
+import {
+  InternalPhotoCaptureMonitoringConfig,
+  UploadMeasurement,
+} from '../../../src/PhotoCapture/monitoring';
+
+const monitoring = {
+  transaction: {
+    startMeasurement: jest.fn(),
+    stopMeasurement: jest.fn(),
+    setMeasurement: jest.fn(),
+  },
+  tags: { testTagName: 'testTagValue' },
+  data: { testDataKey: 'testDataValue' },
+} as unknown as InternalPhotoCaptureMonitoringConfig;
+
+const upload: SightPictureUpload = {
+  mode: PhotoCaptureMode.SIGHT,
+  picture: {
+    uri: 'test-monk-uri',
+    mimetype: 'test-mimetype',
+    height: 1234,
+    width: 4567,
+  },
+  sightId: 'test-sight-id',
+  tasks: [TaskName.IMAGES_OCR],
+};
 
 function createParams(): UploadQueueParams {
   return {
@@ -19,6 +45,7 @@ function createParams(): UploadQueueParams {
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
     loading: { onError: jest.fn() } as unknown as LoadingState,
     compliances: { iqa: false },
+    monitoring,
   };
 }
 
@@ -50,17 +77,6 @@ describe('useUploadQueue hook', () => {
       expect(useQueue).toHaveBeenCalled();
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
-      const upload: SightPictureUpload = {
-        mode: PhotoCaptureMode.SIGHT,
-        picture: {
-          uri: 'test-monk-uri',
-          mimetype: 'test-mimetype',
-          height: 1234,
-          width: 4567,
-        },
-        sightId: 'test-sight-id',
-        tasks: [TaskName.IMAGES_OCR],
-      };
       await process(upload);
 
       expect(addImageMock).toHaveBeenCalledWith({
@@ -174,6 +190,54 @@ describe('useUploadQueue hook', () => {
       expect(handleErrorMock).toHaveBeenCalledWith(err);
       expect(initialProps.loading.onError).toHaveBeenCalledWith(err);
 
+      unmount();
+    });
+
+    it('should start and stop the Upload measurement', async () => {
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await process(upload);
+
+      expect(monitoring?.transaction?.startMeasurement).toHaveBeenCalledWith(
+        UploadMeasurement.operation,
+        {
+          data: monitoring.data,
+          description: UploadMeasurement.description,
+          tags: {
+            [UploadMeasurement.pictureDimensionTagName]: `${upload.picture.width}x${upload.picture.height}`,
+            [UploadMeasurement.pictureFormatTagName]: upload.picture.mimetype,
+            [UploadMeasurement.pictureModeTagName]: upload.mode,
+            ...(monitoring.tags ?? {}),
+          },
+        },
+      );
+
+      expect(monitoring?.transaction?.stopMeasurement).toHaveBeenCalledWith(
+        UploadMeasurement.operation,
+        TransactionStatus.OK,
+      );
+
+      unmount();
+    });
+
+    it('should stop the Upload measurement with the ERROR status if the addImage fails', async () => {
+      const err = new Error('test');
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await expect(process(upload)).rejects.toBe(err);
+
+      expect(monitoring.transaction?.stopMeasurement).toHaveBeenCalledWith(
+        UploadMeasurement.operation,
+        TransactionStatus.UNKNOWN_ERROR,
+      );
       unmount();
     });
   });
