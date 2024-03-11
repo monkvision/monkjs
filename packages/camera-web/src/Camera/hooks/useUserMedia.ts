@@ -224,7 +224,12 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
         setStream(str);
 
         const dimensionsStr = getStreamDimensions(str);
-        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
+        const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+        setDimensions(
+          dimensionsStr.width > dimensionsStr.height && isMobileDevice() && isPortrait
+            ? swapWidthAndHeight(dimensionsStr)
+            : dimensionsStr,
+        );
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
