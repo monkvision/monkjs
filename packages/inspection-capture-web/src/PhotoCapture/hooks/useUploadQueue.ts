@@ -3,8 +3,9 @@ import { MonkPicture } from '@monkvision/camera-web';
 import { AddImageOptions, ComplianceOptions, MonkAPIConfig, useMonkApi } from '@monkvision/network';
 import { ImageType, TaskName } from '@monkvision/types';
 import { useRef } from 'react';
-import { useMonitoring } from '@monkvision/monitoring';
+import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
+import { InternalPhotoCaptureMonitoringConfig, UploadMeasurement } from '../monitoring';
 
 /**
  * Parameters of the useUploadQueue hook.
@@ -26,6 +27,10 @@ export interface UploadQueueParams {
    * Compliance options used to enable or not certain compliance checks.
    */
   compliances?: ComplianceOptions;
+  /**
+   * Sight Monitoring configuration for the upload measurement.
+   */
+  monitoring?: InternalPhotoCaptureMonitoringConfig;
 }
 
 /**
@@ -112,6 +117,29 @@ function createAddImageOptions(
   };
 }
 
+function startUploadMeasurement(
+  monitoring: InternalPhotoCaptureMonitoringConfig | undefined,
+  picture: PictureUpload,
+): void {
+  monitoring?.transaction?.startMeasurement(UploadMeasurement.operation, {
+    data: monitoring?.data,
+    tags: {
+      [UploadMeasurement.pictureDimensionTagName]: `${picture.picture.width}x${picture.picture.height}`,
+      [UploadMeasurement.pictureFormatTagName]: picture.picture.mimetype,
+      [UploadMeasurement.pictureModeTagName]: picture.mode,
+      ...(monitoring.tags ?? {}),
+    },
+    description: UploadMeasurement.description,
+  });
+}
+
+function stopUploadMeasurement(
+  monitoring: InternalPhotoCaptureMonitoringConfig | undefined,
+  status: TransactionStatus,
+): void {
+  monitoring?.transaction?.stopMeasurement(UploadMeasurement.operation, status);
+}
+
 /**
  * Custom hook used to generate the UploadQueue (using the `useQueue` hook) for the PhotoCapture component.
  */
@@ -120,6 +148,7 @@ export function useUploadQueue({
   apiConfig,
   loading,
   compliances,
+  monitoring,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -131,10 +160,13 @@ export function useUploadQueue({
         siblingIdRef.current += 1;
       }
       try {
+        startUploadMeasurement(monitoring, upload);
         await addImage(
           createAddImageOptions(upload, inspectionId, siblingIdRef.current, compliances),
         );
+        stopUploadMeasurement(monitoring, TransactionStatus.OK);
       } catch (err) {
+        stopUploadMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
         handleError(err);
         loading.onError(err);
         throw err;

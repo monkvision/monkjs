@@ -7,11 +7,13 @@ import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
 import {
   useAddDamageMode,
+  usePhotoCaptureMonitoring,
   usePhotoCaptureSightState,
   usePictureTaken,
   useStartTasksOnComplete,
   useUploadQueue,
 } from './hooks';
+import { PhotoCaptureMonitoringConfig } from './monitoring';
 
 /**
  * Props of the PhotoCapture component.
@@ -58,6 +60,10 @@ export interface PhotoCaptureProps extends Partial<CameraConfig>, Partial<Compre
    * Callback called when inspection capture is complete.
    */
   onComplete?: () => void;
+  /**
+   * Additional monitoring config that can be provided to the Photo capture component.
+   */
+  monitoring?: PhotoCaptureMonitoringConfig;
 }
 
 // No ts-doc for this component : the component exported is PhotoCaptureHOC
@@ -70,8 +76,15 @@ export function PhotoCapture({
   onClose,
   onComplete,
   compliances,
+  monitoring,
   ...cameraConfig
 }: PhotoCaptureProps) {
+  const inspectionMonitoring = usePhotoCaptureMonitoring({
+    inspectionId,
+    authToken: apiConfig.authToken,
+    monitoring,
+    deps: [apiConfig],
+  });
   const { handleError } = useMonitoring();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
@@ -87,6 +100,7 @@ export function PhotoCapture({
     startTasks()
       .then(() => {
         onComplete?.();
+        inspectionMonitoring?.transaction?.finish();
       })
       .catch((err) => {
         loading.onError(err);
@@ -99,12 +113,14 @@ export function PhotoCapture({
     apiConfig,
     loading,
     onLastSightTaken,
+    monitoring: inspectionMonitoring,
   });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     compliances,
     loading,
+    monitoring: inspectionMonitoring,
   });
   const { handlePictureTaken } = usePictureTaken({
     sightState,
@@ -134,6 +150,7 @@ export function PhotoCapture({
         HUDComponent={PhotoCaptureHUD}
         onPictureTaken={handlePictureTaken}
         hudProps={hudProps}
+        monitoring={monitoring}
         {...cameraConfig}
       />
     </div>

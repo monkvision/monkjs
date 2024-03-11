@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MonkAPIConfig, MonkApiResponse, useMonkApi } from '@monkvision/network';
-import { useMonitoring } from '@monkvision/monitoring';
+import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, MonkGotOneInspectionAction, useAsyncEffect } from '@monkvision/common';
 import { Image, Sight } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { MonkPicture } from '@monkvision/camera-web';
+import {
+  InspectionCompletionMeasurement,
+  InternalPhotoCaptureMonitoringConfig,
+  SightMeasurement,
+  SightsTakenMeasurement,
+} from '../monitoring';
 
 /**
  * Object containing state management utilities for the PhotoCapture sights.
@@ -64,6 +70,10 @@ export interface PhotoCaptureSightsParams {
    * Callback called when the last sight has been taken by the user.
    */
   onLastSightTaken: () => void;
+  /**
+   * Inspection monitoring configuration for the sight transaction.
+   */
+  monitoring?: InternalPhotoCaptureMonitoringConfig;
 }
 
 function getSightsTaken(
@@ -97,6 +107,40 @@ function getLastPictureTaken(
   return null;
 }
 
+function startSightMeasurement(
+  monitoring: InternalPhotoCaptureMonitoringConfig | undefined,
+  sightLabel: string,
+): void {
+  monitoring?.transaction?.startMeasurement(SightMeasurement.operation, {
+    data: monitoring?.data,
+    tags: {
+      [SightMeasurement.sightLabelTagName]: sightLabel,
+      ...(monitoring.tags ?? {}),
+    },
+    description: SightMeasurement.description,
+  });
+}
+
+function stopSightMeasurement(
+  monitoring: InternalPhotoCaptureMonitoringConfig | undefined,
+  status: TransactionStatus,
+): void {
+  monitoring?.transaction?.stopMeasurement(SightMeasurement.operation, status);
+}
+
+function setSightsTakenMeasurement(
+  sightsTaken: number,
+  captureSights: number,
+  monitoring?: InternalPhotoCaptureMonitoringConfig,
+): void {
+  monitoring?.transaction?.setMeasurement(SightsTakenMeasurement.name, sightsTaken, 'none');
+  monitoring?.transaction?.setMeasurement(
+    InspectionCompletionMeasurement.name,
+    sightsTaken / captureSights,
+    'ratio',
+  );
+}
+
 /**
  * Custom hook used to manage the state of the PhotoCapture sights. This state is automatically fetched from the API at
  * the start of the PhotoCapture process in order to allow users to start the inspection where they left it before.
@@ -107,6 +151,7 @@ export function usePhotoCaptureSightState({
   apiConfig,
   loading,
   onLastSightTaken,
+  monitoring,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -128,7 +173,10 @@ export function usePhotoCaptureSightState({
       onResolve: (response) => {
         const alreadyTakenSights = getSightsTaken(inspectionId, response);
         setSightsTaken(alreadyTakenSights);
-        setSelectedSight(captureSights.filter((s) => !alreadyTakenSights.includes(s))[0]);
+        const alreadySelectedSight = captureSights.filter(
+          (s) => !alreadyTakenSights.includes(s),
+        )[0];
+        setSelectedSight(alreadySelectedSight);
         setLastPictureTaken(getLastPictureTaken(inspectionId, response));
         loading.onSuccess();
       },
@@ -139,6 +187,15 @@ export function usePhotoCaptureSightState({
     },
   );
 
+  const handleSelectedSight = (sight: Sight) => {
+    if (sight === selectedSight) {
+      return;
+    }
+    stopSightMeasurement(monitoring, TransactionStatus.OK);
+    setSelectedSight(sight);
+    startSightMeasurement(monitoring, sight.label);
+  };
+
   const retryLoadingInspection = () => {
     setRetryCount((value) => value + 1);
   };
@@ -146,18 +203,25 @@ export function usePhotoCaptureSightState({
   const takeSelectedSight = () => {
     const updatedSightsTaken = [...sightsTaken, selectedSight];
     setSightsTaken(updatedSightsTaken);
+    setSightsTakenMeasurement(updatedSightsTaken.length, captureSights.length, monitoring);
     const nextSight = captureSights.filter((s) => !updatedSightsTaken.includes(s))[0];
     if (nextSight) {
-      setSelectedSight(nextSight);
+      handleSelectedSight(nextSight);
     } else {
       onLastSightTaken();
     }
   };
 
+  useEffect(() => {
+    if (monitoring) {
+      startSightMeasurement(monitoring, selectedSight.label);
+    }
+  }, [monitoring]);
+
   return {
     selectedSight,
     sightsTaken,
-    selectSight: setSelectedSight,
+    selectSight: handleSelectedSight,
     takeSelectedSight,
     lastPictureTaken,
     setLastPictureTaken,

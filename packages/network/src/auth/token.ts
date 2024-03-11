@@ -32,6 +32,10 @@ export interface MonkJwtPayload extends JwtPayload {
    * The array of permissions that the user has.
    */
   permissions?: MonkApiPermission[];
+  /**
+   * The authorized party for the token. It represents the client ID of the application that is authorized to use the token.
+   */
+  azp?: string;
 }
 
 /**
