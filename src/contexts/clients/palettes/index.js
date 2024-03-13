@@ -13,6 +13,7 @@ const ClientPalettes = {
   [Clients.ALGODRIVEN_CAPTURE]: defaultPalette,
   [Clients.ALGODRIVEN_REPORT]: defaultPalette,
   [Clients.VIDEO_POC]: defaultPalette,
+  [Clients.HITL_DEMO]: defaultPalette,
 };
 
 export default function getClientTheme(client) {

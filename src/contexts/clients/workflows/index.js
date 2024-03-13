@@ -9,6 +9,7 @@ const ClientWorkflows = {
   [Clients.ALGODRIVEN_CAPTURE]: Workflows.CAPTURE,
   [Clients.ALGODRIVEN_REPORT]: Workflows.INSPECTION_REPORT,
   [Clients.VIDEO_POC]: Workflows.INSPECTION_REPORT,
+  [Clients.HITL_DEMO]: Workflows.CAPTURE_VEHICLE_SELECTION,
 };
 
 export default ClientWorkflows;

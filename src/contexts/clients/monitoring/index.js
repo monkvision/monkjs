@@ -12,6 +12,7 @@ const ClientMonitoring = {
   [Clients.ALPHA]: alphaConfig,
   [Clients.ALGODRIVEN_CAPTURE]: algoDrivenConfig,
   [Clients.ALGODRIVEN_REPORT]: algoDrivenConfig,
+  [Clients.HITL_DEMO]: defaultConfig,
 };
 
 export default ClientMonitoring;

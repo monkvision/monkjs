@@ -8,6 +8,7 @@ export const ClientParamMap = {
   m4n: Clients.ALGODRIVEN_CAPTURE,
   zxg: Clients.ALGODRIVEN_REPORT,
   e5j: Clients.VIDEO_POC,
+  vb4: Clients.HITL_DEMO,
 };
 
 export const VehicleTypes = {
