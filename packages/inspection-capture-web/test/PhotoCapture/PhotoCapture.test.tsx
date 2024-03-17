@@ -45,7 +45,7 @@ import {
   useStartTasksOnComplete,
   useUploadQueue,
 } from '../../src/PhotoCapture/hooks';
-import { useLoadingState } from '@monkvision/common';
+import { useI18nSync, useLoadingState } from '@monkvision/common';
 import { TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 
@@ -264,6 +264,16 @@ describe('PhotoCapture component', () => {
         showCloseButton: props.showCloseButton,
       },
     });
+
+    unmount();
+  });
+
+  it('should sync the local i18n language with the one passed as a prop', () => {
+    const lang = 'fr';
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture lang={lang} {...props} />);
+
+    expect(useI18nSync).toHaveBeenCalledWith(lang);
 
     unmount();
   });

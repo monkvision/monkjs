@@ -17,16 +17,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Node.Js with Yarn
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "16"
+          node-version: "20"
       - name: Printing tools versions
         run: echo NodeJs $(node -v), NPM v$(npm -v), Yarn v$(yarn -v)
       - name: Installing dependencies
         run: |
-          yarn config set enableImmutableInstalls false
+          yarn config set enableImmutableInstalls true
           yarn install
       - name: Building packages
         run: yarn build

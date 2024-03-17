@@ -1,5 +1,4 @@
-import { i18nWrap, MonkProvider, useI18nLink } from '@monkvision/common';
-import { i18nCamera } from '@monkvision/camera-web';
+import { i18nWrap, MonkProvider } from '@monkvision/common';
 import { i18nInspectionCaptureWeb } from '../i18n';
 import { PhotoCapture, PhotoCaptureProps } from './PhotoCapture';
 
@@ -27,6 +26,8 @@ import { PhotoCapture, PhotoCaptureProps } from './PhotoCapture';
  * ];
  *
  * export function PhotoCaptureScreen({ inspectionId, apiConfig }: PhotoCaptureScreenProps) {
+ *   const { i18n } = useTranslation();
+ *
  *   return (
  *     <PhotoCapture
  *       inspectionId={inspectionId}
@@ -34,13 +35,12 @@ import { PhotoCapture, PhotoCaptureProps } from './PhotoCapture';
  *       sights={PHOTO_CAPTURE_SIGHTS}
  *       compliances={{ iqa: true }}
  *       onComplete={() => { / * Navigate to another page * / }}
+ *       lang={i18n.language}
  *     />
  *   );
  * }
  */
 export const PhotoCaptureHOC = i18nWrap((props: PhotoCaptureProps) => {
-  useI18nLink(i18nInspectionCaptureWeb, [i18nCamera]);
-
   return (
     <MonkProvider>
       <PhotoCapture {...props} />

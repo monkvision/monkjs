@@ -1,14 +1,30 @@
 import { useTranslation } from 'react-i18next';
-import {
-  getEnvOrThrow,
-  useMonkAppParams,
-  zlibCompress,
-  getSearchParamFromVehicleType,
-} from '@monkvision/common';
+import { getEnvOrThrow, useMonkAppParams, zlibCompress } from '@monkvision/common';
 import { VehicleType } from '@monkvision/types';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { getSights } from '../../config';
 import styles from './PhotoCapturePage.module.css';
+
+function getSearchParamFromVehicleType(vehicleType: VehicleType | null): string {
+  switch (vehicleType) {
+    case VehicleType.SUV:
+      return '0';
+    case VehicleType.CROSSOVER:
+      return '1';
+    case VehicleType.SEDAN:
+      return '2';
+    case VehicleType.HATCHBACK:
+      return '3';
+    case VehicleType.VAN:
+      return '4';
+    case VehicleType.MINIVAN:
+      return '5';
+    case VehicleType.PICKUP:
+      return '6';
+    default:
+      return '1';
+  }
+}
 
 function createInspectionReportLink(
   authToken: string | null,
@@ -42,6 +58,7 @@ export function PhotoCapturePage() {
         inspectionId={inspectionId}
         sights={getSights(vehicleType)}
         onComplete={handleComplete}
+        lang={i18n.language}
       />
     </div>
   );

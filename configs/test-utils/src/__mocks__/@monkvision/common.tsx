@@ -55,8 +55,7 @@ export = {
   useMonkState: jest.fn(() => ({ state: createEmptyMonkState(), dispatch: jest.fn() })),
   monkReducer: jest.fn(createEmptyMonkState),
   MonkProvider: jest.fn(({ children }) => <>{children}</>),
-  i18nLinkSDKInstances: jest.fn(),
-  useI18nLink: jest.fn(),
+  useI18nSync: jest.fn(),
   i18nCreateSDKInstance: jest.fn(),
   i18nWrap: jest.fn((component) => component),
   useInteractiveStatus: jest.fn(({ componentHandlers }) => ({

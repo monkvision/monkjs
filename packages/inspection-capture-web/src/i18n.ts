@@ -1,5 +1,4 @@
-import { i18nCreateSDKInstance, i18nLinkSDKInstances } from '@monkvision/common';
-import { i18nCamera } from '@monkvision/camera-web';
+import { i18nCreateSDKInstance } from '@monkvision/common';
 import en from './translations/en.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
@@ -15,7 +14,5 @@ const i18nInspectionCaptureWeb = i18nCreateSDKInstance({
     de: { translation: de },
   },
 });
-
-i18nLinkSDKInstances(i18nInspectionCaptureWeb, [i18nCamera]);
 
 export { i18nInspectionCaptureWeb };

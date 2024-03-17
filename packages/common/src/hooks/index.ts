@@ -6,4 +6,3 @@ export * from './useObjectTranslation';
 export * from './useSightLabel';
 export * from './useLoadingState';
 export * from './useAsyncEffect';
-export * from './useLangProp';

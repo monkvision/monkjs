@@ -1,6 +1,6 @@
 import { Camera, CameraHUDProps, CompressionOptions, CameraProps } from '@monkvision/camera-web';
 import { Sight, TaskName } from '@monkvision/types';
-import { useLoadingState } from '@monkvision/common';
+import { useI18nSync, useLoadingState } from '@monkvision/common';
 import { ComplianceOptions, MonkAPIConfig } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
@@ -66,6 +66,12 @@ export interface PhotoCaptureProps
    * @default false
    */
   showCloseButton?: boolean;
+  /**
+   * The language to be used by this component.
+   *
+   * @default en
+   */
+  lang?: string | null;
 }
 
 // No ts-doc for this component : the component exported is PhotoCaptureHOC
@@ -79,8 +85,10 @@ export function PhotoCapture({
   onComplete,
   showCloseButton = false,
   compliances,
+  lang,
   ...cameraConfig
 }: PhotoCaptureProps) {
+  useI18nSync(lang);
   const { handleError } = useMonitoring();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();

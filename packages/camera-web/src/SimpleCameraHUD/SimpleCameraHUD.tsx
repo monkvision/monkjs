@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import {
   i18nWrap,
-  useLangProp,
+  useI18nSync,
   useObjectTranslation,
   useResponsiveStyle,
 } from '@monkvision/common';
@@ -17,8 +17,10 @@ import { getCameraErrorLabel } from '../utils';
 export type SimpleCameraHUDProps = CameraHUDProps & {
   /**
    * This prop can be used to specify the language to be used by the SimpleCameraHUD component.
+   *
+   * @default: en
    */
-  lang?: string;
+  lang?: string | null;
 };
 
 /**
@@ -26,7 +28,7 @@ export type SimpleCameraHUDProps = CameraHUDProps & {
  * messages (and a retry button) in case of errors with the Camera stream.
  */
 export const SimpleCameraHUD = i18nWrap(({ cameraPreview, handle, lang }: SimpleCameraHUDProps) => {
-  useLangProp(lang);
+  useI18nSync(lang);
   const { t } = useTranslation();
   const { tObj } = useObjectTranslation();
   const { responsive } = useResponsiveStyle();

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 jest.mock('../../src/config', () => ({
   getSights: jest.fn(() => [{ id: 'test' }]),
 }));
@@ -18,12 +20,15 @@ const appParams = {
 
 describe('PhotoCapture page', () => {
   it('should pass the proper props to the PhotoCapture component', () => {
+    const language = 'test';
+    (useTranslation as jest.Mock).mockImplementation(() => ({ i18n: { language } }));
     (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
     expectPropsOnChildMock(PhotoCapture, {
       apiConfig: { authToken: appParams.authToken, apiDomain: 'REACT_APP_API_DOMAIN' },
       inspectionId: appParams.inspectionId,
+      lang: language,
       sights: expect.any(Array),
       onComplete: expect.any(Function),
     });
