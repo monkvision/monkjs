@@ -28,6 +28,7 @@ export function getDefaultOptions(config: MonkAPIConfig): Options {
   return {
     prefixUrl: `https://${apiDomain}`,
     headers: {
+      'Accept': 'application/json, text/plain, */*',
       'Access-Control-Allow-Origin': '*',
       'Authorization': authorizationHeader,
       'X-Monk-SDK-Version': sdkVersion,

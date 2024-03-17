@@ -1,6 +1,6 @@
 # Internationalization
 This README page is aimed at providing documentation on a specific part of the `@monkvision/common` package : the
-internationalization. You can refer to [this page](README.md). for more general information on the package.
+internationalization. You can refer to [this page](README.md) for more general information on the package.
 
 This package exports utility functions and hooks tools that help you manage the internationalization support of the Monk
 SDK, as well as common translations that can be useful when interacting with the SDK.

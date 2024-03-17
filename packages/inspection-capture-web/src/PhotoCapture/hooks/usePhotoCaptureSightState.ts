@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { MonkAPIConfig, MonkApiResponse, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, MonkGotOneInspectionAction, useAsyncEffect } from '@monkvision/common';
-import { Image, Sight } from '@monkvision/types';
+import { Image, Sight, TaskName } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { MonkPicture } from '@monkvision/camera-web';
+import { PhotoCaptureErrorName } from '../errors';
 
 /**
  * Object containing state management utilities for the PhotoCapture sights.
@@ -64,6 +65,49 @@ export interface PhotoCaptureSightsParams {
    * Callback called when the last sight has been taken by the user.
    */
   onLastSightTaken: () => void;
+  tasksBySight?: Record<string, TaskName[]>;
+}
+
+function getCaptureTasks(
+  captureSights: Sight[],
+  tasksBySight?: Record<string, TaskName[]>,
+): TaskName[] {
+  const tasks: TaskName[] = [];
+  captureSights.forEach((sight) => {
+    const sightTasks = tasksBySight ? tasksBySight[sight.id] : sight.tasks;
+    sightTasks.forEach((task) => {
+      if (!tasks.includes(task)) {
+        tasks.push(task);
+      }
+    });
+  });
+  return tasks;
+}
+
+function assertInspectionIsValid(
+  inspectionId: string,
+  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  captureSights: Sight[],
+  tasksBySight?: Record<string, TaskName[]>,
+): void {
+  const inspectionTasks = response.action?.payload?.tasks
+    ?.filter((task) => task.inspectionId === inspectionId)
+    ?.map((task) => task.name);
+  if (inspectionTasks) {
+    const missingTasks: TaskName[] = [];
+    getCaptureTasks(captureSights, tasksBySight).forEach((captureTask) => {
+      if (!inspectionTasks.includes(captureTask)) {
+        missingTasks.push(captureTask);
+      }
+    });
+    if (missingTasks.length > 0) {
+      const error = new Error(
+        `The provided inspection is missing the following tasks required by the current capture configuration : ${missingTasks}`,
+      );
+      error.name = PhotoCaptureErrorName.MISSING_TASK_IN_INSPECTION;
+      throw error;
+    }
+  }
 }
 
 function getSightsTaken(
@@ -71,7 +115,7 @@ function getSightsTaken(
   response: MonkApiResponse<MonkGotOneInspectionAction>,
 ): Sight[] {
   return (
-    response.action.payload?.images
+    response.action?.payload?.images
       ?.filter(
         (image: Image) => image.inspectionId === inspectionId && image.additionalData?.['sight_id'],
       )
@@ -83,7 +127,7 @@ function getLastPictureTaken(
   inspectionId: string,
   response: MonkApiResponse<MonkGotOneInspectionAction>,
 ): MonkPicture | null {
-  const images = response.action.payload?.images?.filter(
+  const images = response.action?.payload?.images?.filter(
     (image: Image) => image.inspectionId === inspectionId,
   );
   if (images && images.length > 0) {
@@ -107,6 +151,7 @@ export function usePhotoCaptureSightState({
   apiConfig,
   loading,
   onLastSightTaken,
+  tasksBySight,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -126,11 +171,17 @@ export function usePhotoCaptureSightState({
     [inspectionId, retryCount],
     {
       onResolve: (response) => {
-        const alreadyTakenSights = getSightsTaken(inspectionId, response);
-        setSightsTaken(alreadyTakenSights);
-        setSelectedSight(captureSights.filter((s) => !alreadyTakenSights.includes(s))[0]);
-        setLastPictureTaken(getLastPictureTaken(inspectionId, response));
-        loading.onSuccess();
+        try {
+          const alreadyTakenSights = getSightsTaken(inspectionId, response);
+          setSightsTaken(alreadyTakenSights);
+          setSelectedSight(captureSights.filter((s) => !alreadyTakenSights.includes(s))[0]);
+          setLastPictureTaken(getLastPictureTaken(inspectionId, response));
+          assertInspectionIsValid(inspectionId, response, captureSights, tasksBySight);
+          loading.onSuccess();
+        } catch (err) {
+          handleError(err);
+          loading.onError(err);
+        }
       },
       onReject: (err) => {
         handleError(err);

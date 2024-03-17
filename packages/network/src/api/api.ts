@@ -1,4 +1,4 @@
-import { getInspection } from './inspection';
+import { getInspection, createInspection } from './inspection';
 import { addImage } from './image';
 import { startInspectionTasks, updateTaskStatus } from './task';
 
@@ -8,6 +8,7 @@ import { startInspectionTasks, updateTaskStatus } from './task';
  */
 export const MonkApi = {
   getInspection,
+  createInspection,
   addImage,
   updateTaskStatus,
   startInspectionTasks,

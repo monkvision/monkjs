@@ -11,6 +11,7 @@ describe('createTheme function', () => {
     expect(themeNoParam).toEqual({
       palette: MonkDefaultPalette,
       utils: expect.any(Object),
+      rootStyles: expect.any(Object),
     });
   });
 
@@ -33,6 +34,38 @@ describe('createTheme function', () => {
         ...partialPalette,
       },
       utils: expect.any(Object),
+      rootStyles: expect.any(Object),
+    });
+  });
+
+  it('should return root styles based on the palette', () => {
+    const partialPalette: Partial<MonkPalette> = {
+      surface: {
+        bg: 'test-bg',
+        s1: 'test-s1',
+        s2: 'test-s2',
+        s3: 'test-s3',
+        s4: 'test-s4',
+        s5: 'test-s5',
+      },
+      text: {
+        primary: 'test-primary',
+        secondary: 'test-secondary',
+        tertiary: 'test-tertiary',
+        disable: 'test-disable',
+        white: 'test-white',
+      },
+    };
+
+    const theme = createTheme({ palette: partialPalette });
+
+    expect(theme).toEqual({
+      palette: expect.any(Object),
+      utils: expect.any(Object),
+      rootStyles: {
+        backgroundColor: partialPalette.surface?.bg,
+        color: partialPalette.text?.white,
+      },
     });
   });
 

@@ -2,6 +2,7 @@ import { CameraHandle, getCameraErrorLabel } from '@monkvision/camera-web';
 import { useTranslation } from 'react-i18next';
 import { useObjectTranslation } from '@monkvision/common';
 import { MonkNetworkError } from '@monkvision/network';
+import { PhotoCaptureErrorName } from '../../errors';
 
 /**
  * Props of the PhotoCaptureHUDOverlay component.
@@ -41,23 +42,25 @@ export function usePhotoCaptureErrorLabel(
   if (handle.error && cameraErrorLabel) {
     return tObj(cameraErrorLabel);
   }
-  if (
-    captureError instanceof Error &&
-    [MonkNetworkError.MISSING_TOKEN, MonkNetworkError.INVALID_TOKEN].includes(
-      captureError.name as MonkNetworkError,
-    )
-  ) {
-    return t('photo.hud.error.invalidToken');
+  if (captureError instanceof Error) {
+    if (captureError.name === PhotoCaptureErrorName.MISSING_TASK_IN_INSPECTION) {
+      return t('photo.hud.error.missingTasks');
+    }
+    if (
+      [MonkNetworkError.MISSING_TOKEN, MonkNetworkError.INVALID_TOKEN].includes(
+        captureError.name as MonkNetworkError,
+      )
+    ) {
+      return t('photo.hud.error.invalidToken');
+    }
+    if (captureError.name === MonkNetworkError.EXPIRED_TOKEN) {
+      return t('photo.hud.error.expiredToken');
+    }
+    if (captureError.name === MonkNetworkError.INSUFFICIENT_AUTHORIZATION) {
+      return t('photo.hud.error.insufficientAuth');
+    }
   }
-  if (captureError instanceof Error && captureError.name === MonkNetworkError.EXPIRED_TOKEN) {
-    return t('photo.hud.error.expiredToken');
-  }
-  if (
-    captureError instanceof Error &&
-    captureError.name === MonkNetworkError.INSUFFICIENT_AUTHORIZATION
-  ) {
-    return t('photo.hud.error.insufficientAuth');
-  }
+
   if (captureError) {
     return `${t('photo.hud.error.inspectionLoading')} ${inspectionId}`;
   }
@@ -75,6 +78,7 @@ export function useRetry({
   if (
     captureError instanceof Error &&
     [
+      PhotoCaptureErrorName.MISSING_TASK_IN_INSPECTION,
       MonkNetworkError.MISSING_TOKEN,
       MonkNetworkError.INVALID_TOKEN,
       MonkNetworkError.EXPIRED_TOKEN,

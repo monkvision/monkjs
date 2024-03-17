@@ -13,6 +13,7 @@
       },
       "error": {
         "retry": "Retry",
+        "missingTasks": "The inspection provided is missing some tasks required by the current capture module.",
         "invalidToken": "The authentication token used is invalid.",
         "expiredToken": "The authentication token used is expired.",
         "insufficientAuth": "You do not have the required autorizations to perform this action.",

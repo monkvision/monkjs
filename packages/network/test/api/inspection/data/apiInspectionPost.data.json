@@ -1,0 +1,29 @@
+{
+  "tasks": {
+    "damage_detection": {
+      "status": "NOT_STARTED",
+      "damage_score_threshold": 0.5,
+      "generate_visual_output": {
+        "generate_damages": true
+      },
+      "generate_subimages_damages": {},
+      "generate_subimages_parts": {
+        "generate_tight": false
+      }
+    },
+    "wheel_analysis": {
+      "status": "NOT_STARTED",
+      "use_longshots": true
+    }
+  },
+  "vehicle": {
+    "vehicle_type": "hatchback"
+  },
+  "damage_severity": {
+    "output_format": "toyota"
+  },
+  "additional_data": {
+    "damage_detection_version": "v2",
+    "use_dynamic_crops": true
+  }
+}

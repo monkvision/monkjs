@@ -12,6 +12,7 @@ interface PhotoCaptureHUDButtonsStylesParams {
   closeStatus: InteractiveStatus;
   closeBtnAvailable: boolean;
   galleryPreviewUrl?: string;
+  showCloseButton?: boolean;
 }
 
 interface PhotoCaptureHUDButtonsStyles {
@@ -66,7 +67,7 @@ export function useCaptureHUDButtonsStyles(
         backgroundColor: captureButtonBackgroundColors[params.closeStatus],
         borderColor: captureButtonForegroundColors[params.closeStatus],
         ...(params.closeStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
-        visibility: params.closeBtnAvailable ? 'visible' : 'hidden',
+        visibility: params.showCloseButton ? 'visible' : 'hidden',
       },
       iconColor: captureButtonForegroundColors[params.closeStatus],
     },

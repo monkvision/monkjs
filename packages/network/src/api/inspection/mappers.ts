@@ -24,21 +24,28 @@ import {
   TaskName,
   Vehicle,
   VehiclePart,
+  VehicleType,
   View,
   WheelAnalysis,
   WheelName,
 } from '@monkvision/types';
 import {
   ApiCommentSeverityValue,
+  ApiDamageDetectionTaskPostComponent,
   ApiImageRegion,
+  ApiImagesOCRTaskPostComponent,
   ApiInspectionGet,
+  ApiInspectionPost,
   ApiPartSeverityValue,
   ApiPricingV2Details,
   ApiRenderedOutput,
   ApiSeverityResult,
+  ApiTasksComponent,
   ApiView,
+  ApiWheelAnalysisTaskPostComponent,
 } from '../models';
 import { mapApiImage } from '../image/mappers';
+import { sdkVersion } from '../config';
 
 function mapDamages(response: ApiInspectionGet): { damages: Damage[]; damageIds: string[] } {
   const damages: Damage[] = [];
@@ -382,5 +389,148 @@ export function mapApiInspectionGet(response: ApiInspectionGet): Partial<MonkSta
     tasks,
     vehicles: vehicle ? [vehicle] : [],
     views,
+  };
+}
+
+/**
+ * Additional options that you can specify when adding the damage detection task to an inspection.
+ */
+export interface CreateDamageDetectionTaskOptions {
+  /**
+   * The name of the task : `TaskName.DAMAGE_DETECTION`.
+   */
+  name: TaskName.DAMAGE_DETECTION;
+  /**
+   * The confidence threshold between 0 and 1 for the damage detection to be triggered on AI results.
+   *
+   * @default 0.3
+   */
+  damageScoreThreshold?: number;
+  /**
+   * Boolean indicating if, in addition to the prediction outputs, the AI should also generate visual representations
+   * of the damages detected. These representations will be available in the payload of the GET /inspections, where
+   * the detected damages will be highlighted using polygons on top of the original pictures.
+   *
+   * @default false
+   */
+  generateDamageVisualOutput?: boolean;
+  /**
+   * Boolean indicating if, in addition to the prediction outputs, the AI should also generate cropped images focused
+   * on each damage detected.
+   *
+   * @default true
+   */
+  generateSubimageDamages?: boolean;
+  /**
+   * Boolean indicating if, in addition to the prediction outputs, the AI should also generate cropped images focused
+   * on each car part detected.
+   *
+   * @default false
+   */
+  generateSubimageParts?: boolean;
+}
+
+/**
+ * The tasks of the inspection to be created. It is either simply the name of the task to add, or an object with the
+ * task name as well as additional configuration options for the task.
+ */
+export type InspectionCreateTask = TaskName | CreateDamageDetectionTaskOptions;
+
+/**
+ * Options that can be specified when creating a new inspection.
+ */
+export interface CreateInspectionOptions {
+  /**
+   * The tasks to add to the inspection. It is an array of either simply the name of the tasks to add, or an object with
+   * the tasks name as well as additional configuration options for the task.
+   */
+  tasks: InspectionCreateTask[];
+  /**
+   * Additional details about the vehicle of the inspection (vehicle type, VIN etc.).
+   */
+  vehicleType?: VehicleType;
+  /**
+   * Boolean indicating if the API should generate dynamic crops or not.
+   *
+   * @default true
+   */
+  useDynamicCrops?: boolean;
+}
+
+function getDamageDetectionOptions(
+  options: CreateInspectionOptions,
+): ApiDamageDetectionTaskPostComponent | undefined {
+  if (options.tasks.includes(TaskName.DAMAGE_DETECTION)) {
+    return {
+      status: ProgressStatus.NOT_STARTED,
+      damage_score_threshold: 0.3,
+      generate_subimages_parts: {
+        generate_tight: false,
+      },
+      generate_visual_output: {
+        generate_damages: true,
+      },
+    };
+  }
+  const taskOptions = options.tasks.find(
+    (task) => typeof task === 'object' && task.name === TaskName.DAMAGE_DETECTION,
+  ) as CreateDamageDetectionTaskOptions | undefined;
+  return taskOptions
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+        damage_score_threshold: taskOptions.damageScoreThreshold,
+
+        generate_visual_output: {
+          generate_damages: taskOptions.generateDamageVisualOutput,
+        },
+        generate_subimages_damages: taskOptions.generateSubimageDamages ? {} : undefined,
+        generate_subimages_parts: taskOptions.generateSubimageParts
+          ? { generate_tight: false }
+          : undefined,
+      }
+    : undefined;
+}
+
+function getWheelAnalysisOptions(
+  options: CreateInspectionOptions,
+): ApiWheelAnalysisTaskPostComponent | undefined {
+  return options.tasks.includes(TaskName.WHEEL_ANALYSIS)
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+        use_longshots: true,
+      }
+    : undefined;
+}
+
+function getImagesOCROptions(
+  options: CreateInspectionOptions,
+): ApiImagesOCRTaskPostComponent | undefined {
+  return options.tasks.includes(TaskName.IMAGES_OCR)
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+      }
+    : undefined;
+}
+
+function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
+  return {
+    damage_detection: getDamageDetectionOptions(options),
+    wheel_analysis: getWheelAnalysisOptions(options),
+    images_ocr: getImagesOCROptions(options),
+  };
+}
+
+export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspectionPost {
+  return {
+    tasks: getTasksOptions(options),
+    vehicle: options.vehicleType ? { vehicle_type: options.vehicleType } : undefined,
+    damage_severity: { output_format: 'toyota' },
+    additional_data: {
+      user_agent: navigator.userAgent,
+      connection: navigator.connection,
+      monk_sdk_version: sdkVersion,
+      damage_detection_version: 'v2',
+      use_dynamic_crops: options.useDynamicCrops ?? true,
+    },
   };
 }

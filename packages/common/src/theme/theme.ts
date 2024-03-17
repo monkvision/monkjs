@@ -1,4 +1,5 @@
 import { Color, ColorProp, MonkPalette, MonkTheme, ThemeUtils } from '@monkvision/types';
+import { CSSProperties } from 'react';
 import { MonkDefaultPalette } from './default';
 
 function createGetColors(palette: MonkPalette): (prop: ColorProp) => Color {
@@ -15,6 +16,13 @@ function createGetColors(palette: MonkPalette): (prop: ColorProp) => Color {
 function createThemeUtils(palette: MonkPalette): ThemeUtils {
   return {
     getColor: createGetColors(palette),
+  };
+}
+
+function createRootStyles(palette: MonkPalette): CSSProperties {
+  return {
+    backgroundColor: palette.surface.bg,
+    color: palette.text.white,
   };
 }
 
@@ -42,5 +50,6 @@ export function createTheme({ palette }: CreateThemeParams = {}): MonkTheme {
   return {
     palette: themePalette,
     utils: createThemeUtils(themePalette),
+    rootStyles: createRootStyles(themePalette),
   };
 }

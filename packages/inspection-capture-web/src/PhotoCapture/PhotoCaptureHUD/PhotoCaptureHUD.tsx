@@ -63,6 +63,12 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    * displayed.
    */
   onClose?: () => void;
+  /**
+   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
+   *
+   * @default false
+   */
+  showCloseButton?: boolean;
 }
 
 /**
@@ -82,6 +88,7 @@ export function PhotoCaptureHUD({
   onCancelAddDamage,
   onRetry,
   onClose,
+  showCloseButton,
   loading,
   handle,
   cameraPreview,
@@ -119,6 +126,7 @@ export function PhotoCaptureHUD({
         closeDisabled={!!loading.error || !!handle.error}
         galleryDisabled={!!loading.error || !!handle.error}
         takePictureDisabled={!!loading.error || !!handle.error}
+        showCloseButton={showCloseButton}
       />
       <PhotoCaptureHUDOverlay
         inspectionId={inspectionId}

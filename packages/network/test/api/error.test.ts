@@ -6,8 +6,10 @@ function createMockError(status: number, message: string): HTTPError {
     name: 'test-name',
     message: 'test-message',
     response: {
-      status,
-      json: jest.fn(() => Promise.resolve({ message })),
+      clone: jest.fn(() => ({
+        status,
+        json: jest.fn(() => Promise.resolve({ message })),
+      })),
     },
   } as unknown as HTTPError;
 }
@@ -56,6 +58,16 @@ describe('Network Api Error utils', () => {
           );
         }
       });
+    });
+
+    it('should put the body of the response in the error object', async () => {
+      const message = 'test';
+      const result = await beforeError(createMockError(111, message));
+      expect(result).toEqual(
+        expect.objectContaining({
+          body: { message },
+        }),
+      );
     });
 
     it('should leave the name and message untouched if the error is not recognized', async () => {

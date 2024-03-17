@@ -1,4 +1,4 @@
-import { Camera, CameraConfig, CameraHUDProps, CompressionOptions } from '@monkvision/camera-web';
+import { Camera, CameraHUDProps, CompressionOptions, CameraProps } from '@monkvision/camera-web';
 import { Sight, TaskName } from '@monkvision/types';
 import { useLoadingState } from '@monkvision/common';
 import { ComplianceOptions, MonkAPIConfig } from '@monkvision/network';
@@ -16,7 +16,9 @@ import {
 /**
  * Props of the PhotoCapture component.
  */
-export interface PhotoCaptureProps extends Partial<CameraConfig>, Partial<CompressionOptions> {
+export interface PhotoCaptureProps
+  extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
+    Partial<CompressionOptions> {
   /**
    * The list of sights to take pictures of. The values in this array should be retreived from the `@monkvision/sights`
    * package.
@@ -58,6 +60,12 @@ export interface PhotoCaptureProps extends Partial<CameraConfig>, Partial<Compre
    * Callback called when inspection capture is complete.
    */
   onComplete?: () => void;
+  /**
+   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
+   *
+   * @default false
+   */
+  showCloseButton?: boolean;
 }
 
 // No ts-doc for this component : the component exported is PhotoCaptureHOC
@@ -69,6 +77,7 @@ export function PhotoCapture({
   startTasksOnComplete = true,
   onClose,
   onComplete,
+  showCloseButton = false,
   compliances,
   ...cameraConfig
 }: PhotoCaptureProps) {
@@ -99,12 +108,12 @@ export function PhotoCapture({
     apiConfig,
     loading,
     onLastSightTaken,
+    tasksBySight,
   });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     compliances,
-    loading,
   });
   const { handlePictureTaken } = usePictureTaken({
     sightState,
@@ -126,6 +135,7 @@ export function PhotoCapture({
     loading,
     onClose,
     inspectionId,
+    showCloseButton,
   };
 
   return (

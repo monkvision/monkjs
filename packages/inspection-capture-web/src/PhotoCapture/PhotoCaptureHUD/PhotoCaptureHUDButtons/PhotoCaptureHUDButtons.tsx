@@ -27,16 +27,28 @@ export interface PhotoCaptureHUDButtonsProps {
   onClose?: () => void;
   /**
    * Boolean indicating if the gallery button is disabled.
+   *
+   * @default false
    */
   galleryDisabled?: boolean;
   /**
    * Boolean indicating if the take picture button is disabled.
+   *
+   * @default false
    */
   takePictureDisabled?: boolean;
   /**
    * Boolean indicating if the close button is disabled.
+   *
+   * @default false
    */
   closeDisabled?: boolean;
+  /**
+   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
+   *
+   * @default false
+   */
+  showCloseButton?: boolean;
 }
 
 /**
@@ -53,6 +65,7 @@ export function PhotoCaptureHUDButtons({
   galleryDisabled = false,
   takePictureDisabled = false,
   closeDisabled = false,
+  showCloseButton = false,
 }: PhotoCaptureHUDButtonsProps) {
   const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
     disabled: galleryDisabled,
@@ -65,6 +78,7 @@ export function PhotoCaptureHUDButtons({
     closeStatus,
     closeBtnAvailable: !!onClose,
     galleryPreviewUrl: galleryPreview?.uri,
+    showCloseButton,
   });
 
   return (

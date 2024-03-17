@@ -1,7 +1,7 @@
 export { type MonkAPIConfig } from './config';
 export { type MonkApiResponse, type MonkAPIRequest } from './types';
 export { useMonkApi } from './react';
-export { MonkNetworkError } from './error';
+export { MonkNetworkError, type MonkHTTPError } from './error';
 export { MonkApi } from './api';
 
 export {

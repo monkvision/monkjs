@@ -12,6 +12,7 @@ import { useObjectTranslation } from '@monkvision/common';
 import { MonkNetworkError } from '@monkvision/network';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCaptureHUDOverlay, PhotoCaptureHUDOverlayProps } from '../../../src';
+import { PhotoCaptureErrorName } from '../../../src/PhotoCapture/errors';
 
 const OVERLAY_TEST_ID = 'overlay';
 
@@ -93,6 +94,10 @@ describe('PhotoCaptureHUDOverlay component', () => {
 
   [
     {
+      errors: [PhotoCaptureErrorName.MISSING_TASK_IN_INSPECTION],
+      label: 'photo.hud.error.missingTasks',
+    },
+    {
       errors: [MonkNetworkError.MISSING_TOKEN, MonkNetworkError.INVALID_TOKEN],
       label: 'photo.hud.error.invalidToken',
     },
@@ -155,6 +160,7 @@ describe('PhotoCaptureHUDOverlay component', () => {
   });
 
   [
+    PhotoCaptureErrorName.MISSING_TASK_IN_INSPECTION,
     MonkNetworkError.MISSING_TOKEN,
     MonkNetworkError.INVALID_TOKEN,
     MonkNetworkError.EXPIRED_TOKEN,

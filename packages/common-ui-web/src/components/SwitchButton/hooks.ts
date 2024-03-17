@@ -16,7 +16,7 @@ export interface SwitchButtonProps {
    * The size of the button. Normal buttons are bigger and have their icon and labels inside the button. Small buttons
    * are smaller, accept no label and have their icon inside the knob.
    *
-   * @default normal
+   * @default 'normal'
    */
   size?: SwitchButtonSize;
   /**

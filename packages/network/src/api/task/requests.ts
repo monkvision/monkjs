@@ -1,5 +1,5 @@
 import ky from 'ky';
-import { MonkActionType, MonkUpdatedManyTasksAction } from '@monkvision/common';
+import { MonkActionType, MonkUpdatedManyTasksAction, UpdatedTask } from '@monkvision/common';
 import { ProgressStatus, TaskName } from '@monkvision/types';
 import { getDefaultOptions, MonkAPIConfig } from '../config';
 import { ApiIdColumn } from '../models';
@@ -79,7 +79,7 @@ export const startInspectionTasks: MonkAPIRequest<
   return {
     action: {
       type: MonkActionType.UPDATED_MANY_TASKS,
-      payload: responses.map((res) => res.action.payload[0]),
+      payload: responses.map((res) => res.action?.payload[0] as UpdatedTask),
     },
     response: responses[0].response,
     body: responses[0].body,

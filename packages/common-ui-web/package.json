@@ -30,13 +30,15 @@
   },
   "peerDependencies": {
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@monkvision/eslint-config-base": "4.0.0",
     "@monkvision/eslint-config-typescript": "4.0.0",
     "@monkvision/eslint-config-typescript-react": "4.0.0",
+    "@monkvision/jest-config": "4.0.0",
     "@monkvision/prettier-config": "4.0.0",
     "@monkvision/typescript-config": "4.0.0",
     "@testing-library/dom": "^8.20.0",

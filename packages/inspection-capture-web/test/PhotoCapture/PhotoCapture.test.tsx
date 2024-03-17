@@ -60,6 +60,7 @@ function createProps(): PhotoCaptureProps {
     resolution: CameraResolution.NHD_360P,
     format: CompressionFormat.JPEG,
     quality: 0.4,
+    showCloseButton: true,
   };
 }
 
@@ -102,6 +103,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       loading,
       onLastSightTaken: expect.any(Function),
+      tasksBySight: props.tasksBySight,
     });
 
     unmount();
@@ -173,13 +175,10 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
-    expect(useLoadingState).toHaveBeenCalled();
-    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
       compliances: props.compliances,
-      loading,
     });
 
     unmount();
@@ -240,7 +239,7 @@ describe('PhotoCapture component', () => {
 
   it('should pass the proper props to the HUD component', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCapture {...props} />);
+    const { unmount } = render(<PhotoCapture showCloseButton={true} {...props} />);
 
     expect(useAddDamageMode).toHaveBeenCalled();
     const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
@@ -262,6 +261,7 @@ describe('PhotoCapture component', () => {
         loading,
         onClose: props.onClose,
         inspectionId: props.inspectionId,
+        showCloseButton: props.showCloseButton,
       },
     });
 

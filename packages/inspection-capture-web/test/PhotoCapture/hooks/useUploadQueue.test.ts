@@ -1,4 +1,4 @@
-import { LoadingState, useQueue } from '@monkvision/common';
+import { useQueue } from '@monkvision/common';
 import { renderHook } from '@testing-library/react-hooks';
 import {
   AddDamage1stShotPictureUpload,
@@ -17,7 +17,6 @@ function createParams(): UploadQueueParams {
   return {
     inspectionId: 'test-inspection-id',
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
-    loading: { onError: jest.fn() } as unknown as LoadingState,
     compliances: { iqa: false },
   };
 }
@@ -172,7 +171,6 @@ describe('useUploadQueue hook', () => {
         }),
       ).rejects.toBe(err);
       expect(handleErrorMock).toHaveBeenCalledWith(err);
-      expect(initialProps.loading.onError).toHaveBeenCalledWith(err);
 
       unmount();
     });

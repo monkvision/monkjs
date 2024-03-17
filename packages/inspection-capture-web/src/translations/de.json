@@ -13,6 +13,7 @@
       },
       "error": {
         "retry": "Erneut versuchen",
+        "missingTasks": "In der vorliegenden Inspektion fehlen einige Aufgaben, die für das aktuelle Erfassungsmodul erforderlich sind.",
         "invalidToken": "Das verwendete Authentifizierungstoken ist ungültig.",
         "expiredToken": "Das verwendete Authentifizierungstoken ist abgelaufen.",
         "insufficientAuth": "Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.",

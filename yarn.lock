@@ -231,6 +231,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@auth0/auth0-react@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@auth0/auth0-react@npm:2.2.4"
+  dependencies:
+    "@auth0/auth0-spa-js": ^2.1.3
+  peerDependencies:
+    react: ^16.11.0 || ^17 || ^18
+    react-dom: ^16.11.0 || ^17 || ^18
+  checksum: 10b8d4e9eaf6fe4f1e5bdeaae61bfade9a8439f0bfb5008aea34691ce45924bc92b046757884bcae99dd8902dcb62e77295e35692d51df2ed8eca6d0d7bbd335
+  languageName: node
+  linkType: hard
+
+"@auth0/auth0-spa-js@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "@auth0/auth0-spa-js@npm:2.1.3"
+  checksum: aff5f3ab8a15ad63e9956e638ea13955dea22268b0d46d93561ae7accce0147198fc01203cbfe65637d709836c7ecf6a7efc5d38742dd0e251eb1387849efff5
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.10.4, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.16.0, @babel/code-frame@npm:^7.22.13, @babel/code-frame@npm:^7.8.3":
   version: 7.22.13
   resolution: "@babel/code-frame@npm:7.22.13"
@@ -1837,6 +1856,15 @@ __metadata:
   dependencies:
     regenerator-runtime: ^0.14.0
   checksum: 0cd0d43e6e7dc7f9152fda8c8312b08321cda2f56ef53d6c22ebdd773abdc6f5d0a69008de90aa41908d00e2c1facb24715ff121274e689305c858355ff02c70
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.23.8":
+  version: 7.24.0
+  resolution: "@babel/runtime@npm:7.24.0"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 7a6a5d40fbdd68491ec183ba2e631c07415119960083b4fd76564cce3751e9acd2f12ab89575e38496fa389fa06d458732776e69ee1858e366cc3fbdb049f847
   languageName: node
   linkType: hard
 
@@ -3464,6 +3492,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-router-dom: ^6.22.3
   languageName: unknown
   linkType: soft
 
@@ -3476,6 +3505,7 @@ __metadata:
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
@@ -3513,6 +3543,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-router-dom: ^6.22.3
   languageName: unknown
   linkType: soft
 
@@ -3533,6 +3564,7 @@ __metadata:
     "@types/jest": ^29.2.2
     "@types/node": ^18.11.9
     "@types/pako": ^2
+    "@types/sort-by": ^1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
     eslint: ^8.29.0
@@ -3551,17 +3583,21 @@ __metadata:
     i18next: ^23.4.5
     jest: ^29.3.1
     jest-environment-jsdom: ^29.6.2
+    localforage: ^1.10.0
+    match-sorter: ^6.3.4
     mkdirp: ^1.0.4
     pako: ^2.1.0
     prettier: ^2.7.1
     react-i18next: ^13.2.0
     regexpp: ^3.2.0
     rimraf: ^3.0.2
+    sort-by: ^1.2.0
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-router-dom: ^6.22.3
   languageName: unknown
   linkType: soft
 
@@ -3664,6 +3700,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-router-dom: ^6.22.3
   languageName: unknown
   linkType: soft
 
@@ -3756,8 +3793,10 @@ __metadata:
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
+    "@auth0/auth0-react": ^2.2.4
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-router-dom: ^6.22.3
   languageName: unknown
   linkType: soft
 
@@ -4352,6 +4391,13 @@ __metadata:
   version: 1.0.0-next.23
   resolution: "@polka/url@npm:1.0.0-next.23"
   checksum: 4b0330de1ceecd1002c7e7449094d0c41f2ed0e21765f4835ccc7b003f2f024ac557d503b9ffdf0918cf50b80d5b8c99dfc5a91927e7b3c468b09c6bb42a3c41
+  languageName: node
+  linkType: hard
+
+"@remix-run/router@npm:1.15.3":
+  version: 1.15.3
+  resolution: "@remix-run/router@npm:1.15.3"
+  checksum: 9e70bd334d99fdf9285f0885c10353d7e25f66369080f551d997e3ce204e1af3a12d6f12b091f94a2dc9a54c80598bbe3c5194b57cbae17b7b40ab815dcd49a0
   languageName: node
   linkType: hard
 
@@ -5520,7 +5566,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-router-dom@npm:*":
+"@types/react-router-dom@npm:*, @types/react-router-dom@npm:^5.3.3":
   version: 5.3.3
   resolution: "@types/react-router-dom@npm:5.3.3"
   dependencies:
@@ -5647,6 +5693,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 1d38b1976a97f5895a6be00cead1b2a59d842f023b6e35450b7eec8a3131c860c447aba3f7ea3c880c066d8277b0c76fae9d080be1aad475811b568ed6079d49
+  languageName: node
+  linkType: hard
+
+"@types/sort-by@npm:^1":
+  version: 1.2.3
+  resolution: "@types/sort-by@npm:1.2.3"
+  checksum: edf61bad1538c5861e8187f45ea86476420cfd2e51e5d089e42eb21cf231afa91973e77e956069d85b4d67b21df4932ecd994062ca2155560db20b6a5ecea793
   languageName: node
   linkType: hard
 
@@ -7195,6 +7248,15 @@ __metadata:
   dependencies:
     node-int64: ^0.4.0
   checksum: 9ba4dc58ce86300c862bffc3ae91f00b2a03b01ee07f3564beeeaf82aa243b8b03ba53f123b0b842c190d4399b94697970c8e7cf7b1ea44b61aa28c3526a4449
+  languageName: node
+  linkType: hard
+
+"btoa@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "btoa@npm:1.2.1"
+  bin:
+    btoa: bin/btoa.js
+  checksum: afbf004fb1b1d530e053ffa66ef5bd3878b101c59d808ac947fcff96810b4452abba2b54be687adadea2ba9efc7af48b04228742789bf824ef93f103767e690c
   languageName: node
   linkType: hard
 
@@ -9286,7 +9348,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^3.1.6, ejs@npm:^3.1.7":
+"ejs@npm:^3.1.5, ejs@npm:^3.1.6, ejs@npm:^3.1.7":
   version: 3.1.9
   resolution: "ejs@npm:3.1.9"
   dependencies:
@@ -11838,6 +11900,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immediate@npm:~3.0.5":
+  version: 3.0.6
+  resolution: "immediate@npm:3.0.6"
+  checksum: f9b3486477555997657f70318cc8d3416159f208bec4cca3ff3442fd266bc23f50f0c9bd8547e1371a6b5e82b821ec9a7044a4f7b944798b25aa3cc6d5e63e62
+  languageName: node
+  linkType: hard
+
 "immer@npm:^9.0.7":
   version: 9.0.21
   resolution: "immer@npm:9.0.21"
@@ -12540,7 +12609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-wsl@npm:^2.2.0":
+"is-wsl@npm:^2.1.1, is-wsl@npm:^2.2.0":
   version: 2.2.0
   resolution: "is-wsl@npm:2.2.0"
   dependencies:
@@ -14304,6 +14373,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lie@npm:3.1.1":
+  version: 3.1.1
+  resolution: "lie@npm:3.1.1"
+  dependencies:
+    immediate: ~3.0.5
+  checksum: 6da9f2121d2dbd15f1eca44c0c7e211e66a99c7b326ec8312645f3648935bc3a658cf0e9fa7b5f10144d9e2641500b4f55bd32754607c3de945b5f443e50ddd1
+  languageName: node
+  linkType: hard
+
 "lilconfig@npm:^2.0.3, lilconfig@npm:^2.0.5, lilconfig@npm:^2.1.0":
   version: 2.1.0
   resolution: "lilconfig@npm:2.1.0"
@@ -14371,6 +14449,15 @@ __metadata:
   version: 3.2.1
   resolution: "loader-utils@npm:3.2.1"
   checksum: 4e3ea054cdc8be1ab1f1238f49f42fdf0483039eff920fb1d442039f3f0ad4ebd11fb8e584ccdf2cb7e3c56b3d40c1832416e6408a55651b843da288960cc792
+  languageName: node
+  linkType: hard
+
+"localforage@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "localforage@npm:1.10.0"
+  dependencies:
+    lie: 3.1.1
+  checksum: f2978b434dafff9bcb0d9498de57d97eba165402419939c944412e179cab1854782830b5ec196212560b22712d1dd03918939f59cf1d4fc1d756fca7950086cf
   languageName: node
   linkType: hard
 
@@ -14738,6 +14825,16 @@ __metadata:
   version: 1.0.4
   resolution: "markdown-escapes@npm:1.0.4"
   checksum: 6833a93d72d3f70a500658872312c6fa8015c20cc835a85ae6901fa232683fbc6ed7118ebe920fea7c80039a560f339c026597d96eee0e9de602a36921804997
+  languageName: node
+  linkType: hard
+
+"match-sorter@npm:^6.3.4":
+  version: 6.3.4
+  resolution: "match-sorter@npm:6.3.4"
+  dependencies:
+    "@babel/runtime": ^7.23.8
+    remove-accents: 0.5.0
+  checksum: 950c1600173a639e216947559a389b64258d52f33aea3a6ddb97500589888b83c976a028f731f40bc08d9d8af20de7916992fabb403f38330183a1df44c7634b
   languageName: node
   linkType: hard
 
@@ -15134,16 +15231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "mkdirp@npm:1.0.4"
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
-  languageName: node
-  linkType: hard
-
-"mkdirp@npm:~0.5.1":
+"mkdirp@npm:^0.5.1, mkdirp@npm:~0.5.1":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
   dependencies:
@@ -15154,12 +15242,91 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "mkdirp@npm:1.0.4"
+  bin:
+    mkdirp: bin/cmd.js
+  checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
 "modify-values@npm:^1.0.1":
   version: 1.0.1
   resolution: "modify-values@npm:1.0.1"
   checksum: 8296610c608bc97b03c2cf889c6cdf4517e32fa2d836440096374c2209f6b7b3e256c209493a0b32584b9cb32d528e99d0dd19dcd9a14d2d915a312d391cc7e9
   languageName: node
   linkType: hard
+
+"monk-demo-app@workspace:apps/demo-app":
+  version: 0.0.0-use.local
+  resolution: "monk-demo-app@workspace:apps/demo-app"
+  dependencies:
+    "@auth0/auth0-react": ^2.2.4
+    "@babel/core": ^7.22.9
+    "@monkvision/common": 4.0.0
+    "@monkvision/common-ui-web": 4.0.0
+    "@monkvision/eslint-config-base": 4.0.0
+    "@monkvision/eslint-config-typescript": 4.0.0
+    "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/inspection-capture-web": 4.0.0
+    "@monkvision/jest-config": 4.0.0
+    "@monkvision/monitoring": 4.0.0
+    "@monkvision/network": 4.0.0
+    "@monkvision/prettier-config": 4.0.0
+    "@monkvision/sentry": 4.0.0
+    "@monkvision/sights": 4.0.0
+    "@monkvision/test-utils": 4.0.0
+    "@monkvision/types": 4.0.0
+    "@monkvision/typescript-config": 4.0.0
+    "@testing-library/dom": ^8.20.0
+    "@testing-library/jest-dom": ^5.16.5
+    "@testing-library/react": ^12.1.5
+    "@testing-library/react-hooks": ^8.0.1
+    "@testing-library/user-event": ^12.1.5
+    "@types/babel__core": ^7
+    "@types/jest": ^27.5.2
+    "@types/node": ^16.18.18
+    "@types/react": ^17.0.2
+    "@types/react-dom": ^17.0.2
+    "@types/react-router-dom": ^5.3.3
+    "@types/sort-by": ^1
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    axios: ^1.5.0
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-formatter-pretty: ^4.1.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react-hooks: ^4.3.0
+    eslint-utils: ^3.0.0
+    i18next: ^23.4.5
+    i18next-browser-languagedetector: ^7.1.0
+    jest: ^29.3.1
+    jest-watch-typeahead: ^2.2.2
+    localforage: ^1.10.0
+    match-sorter: ^6.3.4
+    prettier: ^2.7.1
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-i18next: ^13.2.0
+    react-router-dom: ^6.22.3
+    react-scripts: 5.0.1
+    regexpp: ^3.2.0
+    sort-by: ^1.2.0
+    source-map-explorer: ^2.5.3
+    ts-jest: ^29.0.3
+    typescript: ^4.9.5
+    web-vitals: ^2.1.4
+  languageName: unknown
+  linkType: soft
 
 "monk-documentation@workspace:documentation":
   version: 0.0.0-use.local
@@ -15198,67 +15365,9 @@ __metadata:
     prism-react-renderer: ^1.3.5
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-router-dom: ^6.22.3
     svgo: ^3.0.2
     typescript: ^4.8.4
-  languageName: unknown
-  linkType: soft
-
-"monk-test-app@workspace:apps/monk-test-app":
-  version: 0.0.0-use.local
-  resolution: "monk-test-app@workspace:apps/monk-test-app"
-  dependencies:
-    "@babel/core": ^7.22.9
-    "@monkvision/camera-web": 4.0.0
-    "@monkvision/common": 4.0.0
-    "@monkvision/common-ui-web": 4.0.0
-    "@monkvision/inspection-capture-web": 4.0.0
-    "@monkvision/monitoring": 4.0.0
-    "@monkvision/sentry": 4.0.0
-    "@monkvision/sights": 4.0.0
-    "@monkvision/types": 4.0.0
-    "@testing-library/dom": ^8.20.0
-    "@testing-library/jest-dom": ^5.16.5
-    "@testing-library/react": ^12.1.5
-    "@testing-library/react-hooks": ^8.0.1
-    "@testing-library/user-event": ^12.1.5
-    "@types/babel__core": ^7
-    "@types/jest": ^27.5.2
-    "@types/node": ^16.18.18
-    "@types/react": ^17.0.2
-    "@types/react-dom": ^17.0.2
-    axios: ^1.5.0
-    eslint: ^8.29.0
-    eslint-plugin-jsx-a11y: ^6.7.1
-    eslint-plugin-react: ^7.33.1
-    eslint-plugin-react-hooks: ^4.6.0
-    i18next: ^23.4.5
-    i18next-browser-languagedetector: ^7.1.0
-    jest: ^29.3.1
-    jest-watch-typeahead: ^2.2.2
-    prettier: ^2.7.1
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-i18next: ^13.2.0
-    react-scripts: 5.0.1
-    regexpp: ^3.2.0
-    ts-jest: ^29.0.3
-    typescript: ^4.9.5
-    web-vitals: ^2.1.4
-  peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^5.43.0
-    "@typescript-eslint/parser": ^5.43.0
-    eslint-config-airbnb-base: ^15.0.0
-    eslint-config-prettier: ^8.5.0
-    eslint-formatter-pretty: ^4.1.0
-    eslint-plugin-eslint-comments: ^3.2.0
-    eslint-plugin-import: ^2.26.0
-    eslint-plugin-jest: ^25.3.0
-    eslint-plugin-jsx-a11y: ^6.7.1
-    eslint-plugin-prettier: ^4.2.1
-    eslint-plugin-promise: ^6.1.1
-    eslint-plugin-react: ^7.27.1
-    eslint-plugin-react-hooks: ^4.3.0
-    eslint-utils: ^3.0.0
   languageName: unknown
   linkType: soft
 
@@ -15869,6 +15978,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"object-path@npm:0.6.0":
+  version: 0.6.0
+  resolution: "object-path@npm:0.6.0"
+  checksum: e9d7a901bcfcfe39b195cdac5bb2b8c1f030abdf86f45ed6d0385c5d0c38a8c5e4b4a30c88bf483d6b3b37b5a8d620d004dbfc6db6be8565f88e9cf0b078e945
+  languageName: node
+  linkType: hard
+
 "object.assign@npm:^4.1.0, object.assign@npm:^4.1.2, object.assign@npm:^4.1.4":
   version: 4.1.4
   resolution: "object.assign@npm:4.1.4"
@@ -15987,6 +16103,16 @@ __metadata:
   dependencies:
     mimic-fn: ^2.1.0
   checksum: 2478859ef817fc5d4e9c2f9e5728512ddd1dbc9fb7829ad263765bb6d3b91ce699d6e2332eef6b7dff183c2f490bd3349f1666427eaba4469fba0ac38dfd0d34
+  languageName: node
+  linkType: hard
+
+"open@npm:^7.3.1":
+  version: 7.4.2
+  resolution: "open@npm:7.4.2"
+  dependencies:
+    is-docker: ^2.0.0
+    is-wsl: ^2.1.1
+  checksum: 3333900ec0e420d64c23b831bc3467e57031461d843c801f569b2204a1acc3cd7b3ec3c7897afc9dde86491dfa289708eb92bba164093d8bd88fb2c231843c91
   languageName: node
   linkType: hard
 
@@ -18085,6 +18211,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-router-dom@npm:^6.22.3":
+  version: 6.22.3
+  resolution: "react-router-dom@npm:6.22.3"
+  dependencies:
+    "@remix-run/router": 1.15.3
+    react-router: 6.22.3
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 5ae3759a70e4123cd4b8efbb82199a69f5d8c4a7a434d186d2ec7b532b6ef3302df2a98e5c27db977d3f0d725c7a279010a16ae77a3bf6257f1fee96123d8b77
+  languageName: node
+  linkType: hard
+
 "react-router@npm:5.3.4, react-router@npm:^5.3.3":
   version: 5.3.4
   resolution: "react-router@npm:5.3.4"
@@ -18101,6 +18240,17 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 892d4e274a23bf4f39abc2efca54472fb646d3aed4b584020cf49654d2f50d09a2bacebe7c92b4ec7cb8925077376dfcd0664bad6442a73604397cefec9f01f9
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.22.3":
+  version: 6.22.3
+  resolution: "react-router@npm:6.22.3"
+  dependencies:
+    "@remix-run/router": 1.15.3
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 1f7d9a5a849761ff69ef8f3d3131b4c1c25d18b76317ba5ad6f0d9421192c0b8b71ab0cc818c57aad7b81ada725559e513307d0ab43296a460262f0358602672
   languageName: node
   linkType: hard
 
@@ -18550,6 +18700,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remove-accents@npm:0.5.0":
+  version: 0.5.0
+  resolution: "remove-accents@npm:0.5.0"
+  checksum: 7045b37015acb03df406d21f9cbe93c3fcf2034189f5d2e33b1dace9c7d6bdcd839929905ced21a5d76c58553557e1a42651930728702312a5774179d5b9147b
+  languageName: node
+  linkType: hard
+
 "renderkid@npm:^3.0.0":
   version: 3.0.0
   resolution: "renderkid@npm:3.0.0"
@@ -18774,6 +18931,17 @@ __metadata:
   bin:
     rimraf: dist/cjs/src/bin.js
   checksum: b786adc02651e2e24bbedb04bbdea80652fc9612632931ff2d9f898c5e4708fe30956186597373c568bd5230a4dc2fadfc816ccacba8a1daded3a006a6b74f1a
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:~2.6.2":
+  version: 2.6.3
+  resolution: "rimraf@npm:2.6.3"
+  dependencies:
+    glob: ^7.1.3
+  bin:
+    rimraf: ./bin.js
+  checksum: 3ea587b981a19016297edb96d1ffe48af7e6af69660e3b371dbfc73722a73a0b0e9be5c88089fbeeb866c389c1098e07f64929c7414290504b855f54f901ab10
   languageName: node
   linkType: hard
 
@@ -19394,6 +19562,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sort-by@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "sort-by@npm:1.2.0"
+  dependencies:
+    object-path: 0.6.0
+  checksum: 82c9812aa318eff68669fe25cc0168d172ccbff9d34d52449c345631118b5e29608e3524e9028b23dc4959c8a7601b19a40ddbe3eb05234c0a54792912c5ad2f
+  languageName: node
+  linkType: hard
+
 "sort-css-media-queries@npm:2.1.0":
   version: 2.1.0
   resolution: "sort-css-media-queries@npm:2.1.0"
@@ -19414,6 +19591,29 @@ __metadata:
   version: 2.0.1
   resolution: "source-list-map@npm:2.0.1"
   checksum: 806efc6f75e7cd31e4815e7a3aaf75a45c704871ea4075cb2eb49882c6fca28998f44fc5ac91adb6de03b2882ee6fb02f951fdc85e6a22b338c32bfe19557938
+  languageName: node
+  linkType: hard
+
+"source-map-explorer@npm:^2.5.3":
+  version: 2.5.3
+  resolution: "source-map-explorer@npm:2.5.3"
+  dependencies:
+    btoa: ^1.2.1
+    chalk: ^4.1.0
+    convert-source-map: ^1.7.0
+    ejs: ^3.1.5
+    escape-html: ^1.0.3
+    glob: ^7.1.6
+    gzip-size: ^6.0.0
+    lodash: ^4.17.20
+    open: ^7.3.1
+    source-map: ^0.7.4
+    temp: ^0.9.4
+    yargs: ^16.2.0
+  bin:
+    sme: bin/cli.js
+    source-map-explorer: bin/cli.js
+  checksum: 1d4e619d7eb224f38a3dadfb20eb34a56cfc29bd237b4815b60257e7fe5ee9f791fda3e0bba91318e0f2beffec5cca573abb8b5030a95f305ce4abee93296065
   languageName: node
   linkType: hard
 
@@ -19481,7 +19681,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.7.3":
+"source-map@npm:^0.7.3, source-map@npm:^0.7.4":
   version: 0.7.4
   resolution: "source-map@npm:0.7.4"
   checksum: 01cc5a74b1f0e1d626a58d36ad6898ea820567e87f18dfc9d24a9843a351aaa2ec09b87422589906d6ff1deed29693e176194dc88bcae7c9a852dc74b311dbf5
@@ -20162,6 +20362,16 @@ __metadata:
   version: 2.0.0
   resolution: "temp-dir@npm:2.0.0"
   checksum: cc4f0404bf8d6ae1a166e0e64f3f409b423f4d1274d8c02814a59a5529f07db6cd070a749664141b992b2c1af337fa9bb451a460a43bb9bcddc49f235d3115aa
+  languageName: node
+  linkType: hard
+
+"temp@npm:^0.9.4":
+  version: 0.9.4
+  resolution: "temp@npm:0.9.4"
+  dependencies:
+    mkdirp: ^0.5.1
+    rimraf: ~2.6.2
+  checksum: 8709d4d63278bd309ca0e49e80a268308dea543a949e71acd427b3314cd9417da9a2cc73425dd9c21c6780334dbffd67e05e7be5aaa73e9affe8479afc6f20e3
   languageName: node
   linkType: hard
 

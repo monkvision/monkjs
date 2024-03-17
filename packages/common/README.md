@@ -20,3 +20,4 @@ you can refer to their own README directly :
 - [Internationalization](README/INTERNATIONALIZATION.md).
 - [Hooks](README/HOOKS.md).
 - [Utilities](README/UTILITIES.md).
+- [Application Utilities](README/APP_UTILS.md).

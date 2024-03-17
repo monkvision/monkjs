@@ -64,11 +64,22 @@ function getErrorName(status: number, message: string): MonkNetworkError | null 
   return null;
 }
 
+/**
+ * Type definition for a network error catched by the Monk SDK. Requests made by this package will usually process the
+ * error returned by the API and will include the request body (containing the error message) with the Error object
+ * itself.
+ */
+export interface MonkHTTPError extends HTTPError {
+  body?: ApiError;
+}
+
 /* eslint-disable no-param-reassign */
 export const beforeError: BeforeErrorHook = async (error: HTTPError) => {
   const { response } = error;
-  const body = (await response.json()) as ApiError;
-  error.name = getErrorName(response.status, body.message) ?? error.name;
+  const clone = response.clone();
+  const body = (await clone.json()) as ApiError;
+  error.name = getErrorName(clone.status, body.message) ?? error.name;
   error.message = getErrorMessage(error.name) ?? error.message;
+  Object.assign(error, { body });
   return error;
 };

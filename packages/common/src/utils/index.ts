@@ -5,3 +5,4 @@ export * from './mimetype.utils';
 export * from './promise.utils';
 export * from './zlib.utils';
 export * from './browser.utils';
+export * from './env.utils';
