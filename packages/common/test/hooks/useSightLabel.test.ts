@@ -1,3 +1,7 @@
+jest.mock('../../src/hooks/useObjectTranslation', () => ({
+  useObjectTranslation: jest.fn(() => ({ tObj: jest.fn() })),
+}));
+
 import { renderHook } from '@testing-library/react-hooks';
 import { LabelDictionary, Sight, TranslationObject } from '@monkvision/types';
 import { useObjectTranslation, useSightLabel } from '../../src';
@@ -18,7 +22,8 @@ describe('useSightLabel hook', () => {
     const { result, unmount } = renderHook(() => useSightLabel({ labels }));
 
     const sight = { id: 'id', label: 'rear-back' } as unknown as Sight;
-    const { tObj } = useObjectTranslation();
+    expect(useObjectTranslation).toHaveBeenCalled();
+    const { tObj } = (useObjectTranslation as jest.Mock).mock.results[0].value;
     const myValue = { en: 'english translation', fr: 'fr', de: 'de' } as TranslationObject;
 
     expect(result.current.label(sight)).toBe(tObj(myValue));

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 /**
  * Enum of the different picture taking modes that the PhotoCapture component can be in.
@@ -46,21 +46,27 @@ export interface AddDamageHandle {
 export function useAddDamageMode(): AddDamageHandle {
   const [mode, setMode] = useState(PhotoCaptureMode.SIGHT);
 
-  const handleAddDamage = () => setMode(PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT);
+  const handleAddDamage = useCallback(() => setMode(PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT), []);
 
-  const updatePhotoCaptureModeAfterPictureTaken = () =>
-    setMode((currentMode) =>
-      currentMode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT
-        ? PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT
-        : PhotoCaptureMode.SIGHT,
-    );
+  const updatePhotoCaptureModeAfterPictureTaken = useCallback(
+    () =>
+      setMode((currentMode) =>
+        currentMode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT
+          ? PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT
+          : PhotoCaptureMode.SIGHT,
+      ),
+    [],
+  );
 
-  const handleCancelAddDamage = () => setMode(PhotoCaptureMode.SIGHT);
+  const handleCancelAddDamage = useCallback(() => setMode(PhotoCaptureMode.SIGHT), []);
 
-  return {
-    mode,
-    handleAddDamage,
-    updatePhotoCaptureModeAfterPictureTaken,
-    handleCancelAddDamage,
-  };
+  return useMemo(
+    () => ({
+      mode,
+      handleAddDamage,
+      updatePhotoCaptureModeAfterPictureTaken,
+      handleCancelAddDamage,
+    }),
+    [mode, handleAddDamage, updatePhotoCaptureModeAfterPictureTaken, handleCancelAddDamage],
+  );
 }

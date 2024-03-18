@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { RefObject, useCallback } from 'react';
 import { TransactionStatus } from '@monkvision/monitoring';
 import { PixelDimensions } from '@monkvision/types';
 import {
@@ -27,16 +27,11 @@ export interface CameraScreenshotConfig {
 }
 
 /**
- * Interface describing a handle that can be used to take a screenshot of a video element.
+ * Callback used to take a screenshot.
+ *
+ * @return A ImageData object that contains the raw pixel's data.
  */
-export interface CameraScreenshotHandle {
-  /**
-   * Callback used to take a screenshot.
-   *
-   * @return A ImageData object that contains the raw pixel's data.
-   */
-  takeScreenshot: (monitoring: InternalCameraMonitoringConfig) => ImageData;
-}
+export type TakeScreenshotFunction = (monitoring: InternalCameraMonitoringConfig) => ImageData;
 
 function startScreenshotMeasurement(
   monitoring: InternalCameraMonitoringConfig,
@@ -77,26 +72,27 @@ export function useCameraScreenshot({
   videoRef,
   canvasRef,
   dimensions,
-}: CameraScreenshotConfig): CameraScreenshotHandle {
-  const takeScreenshot = (monitoring: InternalCameraMonitoringConfig) => {
-    startScreenshotMeasurement(monitoring, dimensions);
-    const { context } = getCanvasHandle(canvasRef, () =>
-      stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR),
-    );
-    if (!dimensions) {
-      stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
-      throw new Error('Unable to take a picture because the video stream has no dimension.');
-    }
-    if (!videoRef.current) {
-      stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
-      throw new Error('Unable to take a picture because the video element is null.');
-    }
-    context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
-    const imageData = context.getImageData(0, 0, dimensions.width, dimensions.height);
-    setScreeshotSizeMeasurement(monitoring, imageData);
-    stopScreenshotMeasurement(monitoring, TransactionStatus.OK);
-    return imageData;
-  };
-
-  return { takeScreenshot };
+}: CameraScreenshotConfig): TakeScreenshotFunction {
+  return useCallback(
+    (monitoring: InternalCameraMonitoringConfig) => {
+      startScreenshotMeasurement(monitoring, dimensions);
+      const { context } = getCanvasHandle(canvasRef, () =>
+        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR),
+      );
+      if (!dimensions) {
+        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+        throw new Error('Unable to take a picture because the video stream has no dimension.');
+      }
+      if (!videoRef.current) {
+        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+        throw new Error('Unable to take a picture because the video element is null.');
+      }
+      context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
+      const imageData = context.getImageData(0, 0, dimensions.width, dimensions.height);
+      setScreeshotSizeMeasurement(monitoring, imageData);
+      stopScreenshotMeasurement(monitoring, TransactionStatus.OK);
+      return imageData;
+    },
+    [dimensions],
+  );
 }

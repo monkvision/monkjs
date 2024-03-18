@@ -112,12 +112,12 @@ export function Camera<T extends object>({
     streamDimensions,
     allowImageUpscaling,
   });
-  const { takeScreenshot } = useCameraScreenshot({
+  const takeScreenshot = useCameraScreenshot({
     videoRef,
     canvasRef,
     dimensions: canvasDimensions,
   });
-  const { compress } = useCompression({ canvasRef, options: { format, quality } });
+  const compress = useCompression({ canvasRef, options: { format, quality } });
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
     compress,
     takeScreenshot,

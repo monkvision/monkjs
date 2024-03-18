@@ -1,5 +1,5 @@
 import { TransactionStatus } from '@monkvision/monitoring';
-import { RefObject } from 'react';
+import { RefObject, useCallback } from 'react';
 import {
   CompressionMeasurement,
   CompressionSizeRatioMeasurement,
@@ -74,14 +74,12 @@ export interface MonkPicture {
 }
 
 /**
- * Handle used to compress images.
+ * Function used to compress images and create DataURI objects.
  */
-export interface CompressionHandle {
-  /**
-   * Function used to compress images and create DataURI objects.
-   */
-  compress: (image: ImageData, monitoring: InternalCameraMonitoringConfig) => MonkPicture;
-}
+export type CompressFunction = (
+  image: ImageData,
+  monitoring: InternalCameraMonitoringConfig,
+) => MonkPicture;
 
 function startCompressionMeasurement(
   monitoring: InternalCameraMonitoringConfig,
@@ -140,19 +138,20 @@ function compressUsingBrowser(
 /**
  * Custom hook used to manage the camera <canvas> element used to take video screenshots and encode images.
  */
-export function useCompression({ canvasRef, options }: UseCompressionParams): CompressionHandle {
-  const compress = (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
-    startCompressionMeasurement(monitoring, options, image);
-    try {
-      const picture = compressUsingBrowser(image, canvasRef, options);
-      setCustomMeasurements(monitoring, image, picture);
-      stopCompressionMeasurement(monitoring, TransactionStatus.OK);
-      return picture;
-    } catch (err) {
-      stopCompressionMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
-      throw err;
-    }
-  };
-
-  return { compress };
+export function useCompression({ canvasRef, options }: UseCompressionParams): CompressFunction {
+  return useCallback(
+    (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
+      startCompressionMeasurement(monitoring, options, image);
+      try {
+        const picture = compressUsingBrowser(image, canvasRef, options);
+        setCustomMeasurements(monitoring, image, picture);
+        stopCompressionMeasurement(monitoring, TransactionStatus.OK);
+        return picture;
+      } catch (err) {
+        stopCompressionMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+        throw err;
+      }
+    },
+    [options.format, options.quality],
+  );
 }

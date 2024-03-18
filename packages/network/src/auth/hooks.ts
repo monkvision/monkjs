@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { STORAGE_KEY_AUTH_TOKEN, useMonkAppParams } from '@monkvision/common';
 
 /**
@@ -68,7 +68,7 @@ export function useAuth(params?: UseAuthParams): MonkAuthHandle {
     }
   }, []);
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     const token = await getAccessTokenWithPopup();
     if (token) {
       setAuthTokenParam(token);
@@ -79,18 +79,21 @@ export function useAuth(params?: UseAuthParams): MonkAuthHandle {
       return token;
     }
     return null;
-  };
+  }, [getAccessTokenWithPopup, options.storeToken, setAuthTokenParam]);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     setAuthTokenParam(null);
     setAuthToken(null);
     localStorage.removeItem(STORAGE_KEY_AUTH_TOKEN);
     await logout({ logoutParams: { returnTo: window.location.origin } });
-  };
+  }, [logout, setAuthTokenParam]);
 
-  return {
-    authToken,
-    login: handleLogin,
-    logout: handleLogout,
-  };
+  return useMemo(
+    () => ({
+      authToken,
+      login: handleLogin,
+      logout: handleLogout,
+    }),
+    [authToken, handleLogin, handleLogout],
+  );
 }

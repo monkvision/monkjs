@@ -45,7 +45,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      const picture = result.current.compress(mockImageData, monitoringMock);
+      const picture = result.current(mockImageData, monitoringMock);
 
       const canvasHandleMock = (getCanvasHandle as jest.Mock).mock.results[0].value;
       expect(getCanvasHandle).toHaveBeenCalledWith(canvasRef);
@@ -75,7 +75,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      expect(() => result.current.compress(mockImageData, monitoringMock)).toThrow(error);
+      expect(() => result.current(mockImageData, monitoringMock)).toThrow(error);
       unmount();
     });
 
@@ -87,7 +87,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current.compress(mockImageData, monitoringMock);
+      result.current(mockImageData, monitoringMock);
 
       expect(monitoringMock.transaction?.startMeasurement).toHaveBeenCalledWith(
         CompressionMeasurement.operation,
@@ -113,7 +113,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current.compress(mockImageData, monitoringMock);
+      result.current(mockImageData, monitoringMock);
 
       expect(monitoringMock.transaction?.stopMeasurement).toHaveBeenCalledWith(
         CompressionMeasurement.operation,
@@ -135,7 +135,7 @@ describe('useCompression hook', () => {
       });
 
       try {
-        result.current.compress(mockImageData, monitoringMock);
+        result.current(mockImageData, monitoringMock);
       } catch (err) {
         if (err !== error) {
           throw err;
@@ -157,7 +157,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current.compress(mockImageData, monitoringMock);
+      result.current(mockImageData, monitoringMock);
 
       const canvasHandleMock = (getCanvasHandle as jest.Mock).mock.results[0].value;
       const atobMock = jest.spyOn(global.window, 'atob');
@@ -178,7 +178,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current.compress(mockImageData, monitoringMock);
+      result.current(mockImageData, monitoringMock);
 
       const canvasHandleMock = (getCanvasHandle as jest.Mock).mock.results[0].value;
       const atobMock = jest.spyOn(global.window, 'atob');

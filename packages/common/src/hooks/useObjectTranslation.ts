@@ -1,5 +1,6 @@
 import { MonkLanguage, TranslationObject } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 
 /**
  * The result of the useObjectTranslation. It contains a function which takes a LabelTranslation object and return the
@@ -17,9 +18,12 @@ export interface UseObjectTranslationResult {
  */
 export function useObjectTranslation(): UseObjectTranslationResult {
   const { i18n } = useTranslation();
-  const tObj = (obj: TranslationObject) => {
-    const lang = i18n.language.slice(0, 2) as MonkLanguage;
-    return obj[lang] ?? 'translation-not-found';
-  };
+  const tObj = useCallback(
+    (obj: TranslationObject) => {
+      const lang = i18n.language.slice(0, 2) as MonkLanguage;
+      return obj[lang] ?? 'translation-not-found';
+    },
+    [i18n.language],
+  );
   return { tObj };
 }

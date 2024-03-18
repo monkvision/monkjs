@@ -23,7 +23,11 @@ export function useI18nSync(language?: string | null): void {
     if (!language) {
       return;
     }
-    if (!(monkLanguages as readonly string[]).includes(language)) {
+    if (
+      monkLanguages.every(
+        (supportedLang) => !language.toLowerCase().startsWith(supportedLang.toLowerCase()),
+      )
+    ) {
       handleError(
         new Error(
           `Unsupported language passed to the MonkJs SDK : ${language}. Currently supported languages are : ${monkLanguages}.`,

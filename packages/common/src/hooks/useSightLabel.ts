@@ -1,4 +1,5 @@
 import { LabelDictionary, Sight } from '@monkvision/types';
+import { useCallback } from 'react';
 import { useObjectTranslation } from './useObjectTranslation';
 
 /**
@@ -24,10 +25,13 @@ export interface UseSightLabelParams {
  */
 export function useSightLabel({ labels }: UseSightLabelParams): UseSightLabelResult {
   const { tObj } = useObjectTranslation();
-  return {
-    label: (sight) => {
+  const label = useCallback(
+    (sight: Sight) => {
       const translationObject = labels[sight.label];
       return translationObject ? tObj(translationObject) : `translation-not-found[${sight.label}]`;
     },
-  };
+    [tObj, labels],
+  );
+
+  return { label };
 }

@@ -1,6 +1,7 @@
 import { MonkPicture } from '@monkvision/camera-web';
 import { TaskName } from '@monkvision/types';
 import { Queue } from '@monkvision/common';
+import { useCallback } from 'react';
 import { PictureUpload } from './useUploadQueue';
 import { AddDamageHandle, PhotoCaptureMode } from './useAddDamageMode';
 import { PhotoCaptureSightState } from './usePhotoCaptureSightState';
@@ -29,14 +30,9 @@ export interface UseTakePictureParams {
 }
 
 /**
- * Result returned by the usePictureTaken hook.
+ * Callback called when the user has taken a picture.
  */
-export interface UseTakePictureResult {
-  /**
-   * Callback called when the user has taken a picture.
-   */
-  handlePictureTaken: (picture: MonkPicture) => void;
-}
+export type HandleTakePictureFunction = (picture: MonkPicture) => void;
 
 /**
  * Custom hook used to generate the callback called when the user has taken a picture to handle picture upload etc.
@@ -46,24 +42,33 @@ export function usePictureTaken({
   addDamageHandle,
   uploadQueue,
   tasksBySight,
-}: UseTakePictureParams): UseTakePictureResult {
-  const handlePictureTaken = (picture: MonkPicture) => {
-    sightState.setLastPictureTaken(picture);
-    const upload: PictureUpload =
-      addDamageHandle.mode === PhotoCaptureMode.SIGHT
-        ? {
-            mode: addDamageHandle.mode,
-            picture,
-            sightId: sightState.selectedSight.id,
-            tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
-          }
-        : { mode: addDamageHandle.mode, picture };
-    uploadQueue.push(upload);
-    if (addDamageHandle.mode === PhotoCaptureMode.SIGHT) {
-      sightState.takeSelectedSight();
-    }
-    addDamageHandle.updatePhotoCaptureModeAfterPictureTaken();
-  };
-
-  return { handlePictureTaken };
+}: UseTakePictureParams): HandleTakePictureFunction {
+  return useCallback(
+    (picture: MonkPicture) => {
+      sightState.setLastPictureTaken(picture);
+      const upload: PictureUpload =
+        addDamageHandle.mode === PhotoCaptureMode.SIGHT
+          ? {
+              mode: addDamageHandle.mode,
+              picture,
+              sightId: sightState.selectedSight.id,
+              tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
+            }
+          : { mode: addDamageHandle.mode, picture };
+      uploadQueue.push(upload);
+      if (addDamageHandle.mode === PhotoCaptureMode.SIGHT) {
+        sightState.takeSelectedSight();
+      }
+      addDamageHandle.updatePhotoCaptureModeAfterPictureTaken();
+    },
+    [
+      sightState.setLastPictureTaken,
+      addDamageHandle.mode,
+      sightState.selectedSight.id,
+      tasksBySight,
+      uploadQueue.push,
+      sightState.takeSelectedSight,
+      addDamageHandle.updatePhotoCaptureModeAfterPictureTaken,
+    ],
+  );
 }

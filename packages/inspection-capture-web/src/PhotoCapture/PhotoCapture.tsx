@@ -92,7 +92,7 @@ export function PhotoCapture({
   const { handleError } = useMonitoring();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
-  const { startTasks } = useStartTasksOnComplete({
+  const startTasks = useStartTasksOnComplete({
     inspectionId,
     apiConfig,
     sights,
@@ -123,7 +123,7 @@ export function PhotoCapture({
     apiConfig,
     compliances,
   });
-  const { handlePictureTaken } = usePictureTaken({
+  const handlePictureTaken = usePictureTaken({
     sightState,
     addDamageHandle,
     uploadQueue,

@@ -2,7 +2,7 @@ import { Sight, TaskName } from '@monkvision/types';
 import { flatMap, LoadingState, uniq } from '@monkvision/common';
 import { MonkAPIConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 
 /**
  * Parameters of the useStartTasksOnComplete hook.
@@ -40,14 +40,9 @@ export interface UseStartTasksOnCompleteParams {
 }
 
 /**
- * Result of the useStartTasksOnComplete hook.
+ * Callback to be called when the PhotoCapture inspection is complete in order to start (or not) to inspection tasks.
  */
-export interface StartTasksOnCompleteHandle {
-  /**
-   * Callback to be called when the PhotoCapture inspection is complete in order to start (or not) to inspection tasks.
-   */
-  startTasks: () => Promise<void>;
-}
+export type StartTasksFunction = () => Promise<void>;
 
 function getTasksToStart({
   sights,
@@ -77,27 +72,23 @@ export function useStartTasksOnComplete({
   tasksBySight,
   startTasksOnComplete,
   loading,
-}: UseStartTasksOnCompleteParams): StartTasksOnCompleteHandle {
+}: UseStartTasksOnCompleteParams): StartTasksFunction {
   const { startInspectionTasks } = useMonkApi(apiConfig);
   const { handleError } = useMonitoring();
 
-  return useMemo(() => {
+  return useCallback(async () => {
     if (!startTasksOnComplete) {
-      return { startTasks: () => Promise.resolve() };
+      return;
     }
     const tasks = getTasksToStart({ sights, tasksBySight, startTasksOnComplete });
 
-    return {
-      startTasks: async () => {
-        loading.start();
-        try {
-          await startInspectionTasks(inspectionId, tasks);
-          loading.onSuccess();
-        } catch (err) {
-          handleError(err);
-          loading.onError(err);
-        }
-      },
-    };
+    loading.start();
+    try {
+      await startInspectionTasks(inspectionId, tasks);
+      loading.onSuccess();
+    } catch (err) {
+      handleError(err);
+      loading.onError(err);
+    }
   }, [startTasksOnComplete, loading, sights, tasksBySight, inspectionId, handleError]);
 }

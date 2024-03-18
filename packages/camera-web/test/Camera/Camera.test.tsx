@@ -10,8 +10,8 @@ jest.mock('../../src/Camera/hooks', () => ({
     isLoading: false,
   })),
   useCameraCanvas: jest.fn(() => ({ ref: createRef<HTMLCanvasElement>() })),
-  useCameraScreenshot: jest.fn(() => ({ takeScreenshot: jest.fn() })),
-  useCompression: jest.fn(() => ({ compress: jest.fn() })),
+  useCameraScreenshot: jest.fn(() => jest.fn()),
+  useCompression: jest.fn(() => jest.fn()),
   useTakePicture: jest.fn(() => ({
     takePicture: jest.fn(),
     isLoading: false,
@@ -146,12 +146,11 @@ describe('Camera component', () => {
     const onPictureTaken = () => {};
     const { unmount } = render(<Camera monitoring={monitoring} onPictureTaken={onPictureTaken} />);
 
-    const takeScreenshotMock = (useCameraScreenshot as jest.Mock).mock.results[0].value
-      .takeScreenshot;
-    const compressMock = (useCompression as jest.Mock).mock.results[0].value.compress;
+    const takeScreenshot = (useCameraScreenshot as jest.Mock).mock.results[0].value;
+    const compress = (useCompression as jest.Mock).mock.results[0].value;
     expect(useTakePicture).toHaveBeenCalledWith({
-      compress: compressMock,
-      takeScreenshot: takeScreenshotMock,
+      compress,
+      takeScreenshot,
       onPictureTaken,
       monitoring,
     });

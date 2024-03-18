@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch, useCallback } from 'react';
 import { MonkAction, useMonkState } from '@monkvision/common';
 import { MonkAPIConfig } from './config';
 import { MonkAPIRequest, MonkApiResponse } from './types';
@@ -15,13 +15,13 @@ function reactifyRequest<
   config: MonkAPIConfig,
   dispatch: Dispatch<MonkAction>,
 ): (...args: A) => Promise<MonkApiResponse<T, K, P>> {
-  return async (...args: A) => {
+  return useCallback(async (...args: A) => {
     const result = await request(...args, config);
     if (result.action) {
       dispatch(result.action);
     }
     return result;
-  };
+  }, []);
 }
 
 /**

@@ -23,15 +23,11 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     setLastPictureTaken: jest.fn(),
     retryLoadingInspection: jest.fn(),
   })),
-  usePictureTaken: jest.fn(() => ({
-    handlePictureTaken: jest.fn(),
-  })),
+  usePictureTaken: jest.fn(() => jest.fn()),
   useUploadQueue: jest.fn(() => ({
     length: 3,
   })),
-  useStartTasksOnComplete: jest.fn(() => ({
-    startTasks: jest.fn(),
-  })),
+  useStartTasksOnComplete: jest.fn(() => jest.fn()),
 }));
 
 import { render, waitFor } from '@testing-library/react';
@@ -111,9 +107,7 @@ describe('PhotoCapture component', () => {
 
   it('should call start tasks on the last sight and handle the promise correctly', async () => {
     const startTasksMock = jest.fn(() => Promise.resolve());
-    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => ({
-      startTasks: startTasksMock,
-    }));
+    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => startTasksMock);
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
@@ -231,7 +225,7 @@ describe('PhotoCapture component', () => {
     const { unmount } = render(<PhotoCapture {...props} />);
 
     expect(usePictureTaken).toHaveBeenCalled();
-    const { handlePictureTaken } = (usePictureTaken as jest.Mock).mock.results[0].value;
+    const handlePictureTaken = (usePictureTaken as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, { onPictureTaken: handlePictureTaken });
 
     unmount();

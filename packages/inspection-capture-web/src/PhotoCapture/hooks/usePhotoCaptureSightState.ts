@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { MonkAPIConfig, MonkApiResponse, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, MonkGotOneInspectionAction, useAsyncEffect } from '@monkvision/common';
@@ -190,11 +190,11 @@ export function usePhotoCaptureSightState({
     },
   );
 
-  const retryLoadingInspection = () => {
+  const retryLoadingInspection = useCallback(() => {
     setRetryCount((value) => value + 1);
-  };
+  }, []);
 
-  const takeSelectedSight = () => {
+  const takeSelectedSight = useCallback(() => {
     const updatedSightsTaken = [...sightsTaken, selectedSight];
     setSightsTaken(updatedSightsTaken);
     const nextSight = captureSights.filter((s) => !updatedSightsTaken.includes(s))[0];
@@ -203,15 +203,26 @@ export function usePhotoCaptureSightState({
     } else {
       onLastSightTaken();
     }
-  };
+  }, [sightsTaken, selectedSight, captureSights, onLastSightTaken]);
 
-  return {
-    selectedSight,
-    sightsTaken,
-    selectSight: setSelectedSight,
-    takeSelectedSight,
-    lastPictureTaken,
-    setLastPictureTaken,
-    retryLoadingInspection,
-  };
+  return useMemo(
+    () => ({
+      selectedSight,
+      sightsTaken,
+      selectSight: setSelectedSight,
+      takeSelectedSight,
+      lastPictureTaken,
+      setLastPictureTaken,
+      retryLoadingInspection,
+    }),
+    [
+      selectedSight,
+      sightsTaken,
+      setSelectedSight,
+      takeSelectedSight,
+      lastPictureTaken,
+      setLastPictureTaken,
+      retryLoadingInspection,
+    ],
+  );
 }

@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { InteractiveStatus } from '@monkvision/types';
 
 /**
@@ -79,33 +79,56 @@ export function useInteractiveStatus(
   const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);
 
-  return {
-    status: getInteractiveStatus({ hovered, active, disabled: params?.disabled }),
-    eventHandlers: {
-      onMouseEnter: (event) => {
-        setHovered(true);
-        if (params?.componentHandlers?.onMouseEnter) {
-          params.componentHandlers.onMouseEnter(event);
-        }
-      },
-      onMouseLeave: (event) => {
-        setHovered(false);
-        if (params?.componentHandlers?.onMouseLeave) {
-          params.componentHandlers.onMouseLeave(event);
-        }
-      },
-      onMouseDown: (event) => {
-        setActive(true);
-        if (params?.componentHandlers?.onMouseDown) {
-          params.componentHandlers.onMouseDown(event);
-        }
-      },
-      onMouseUp: (event) => {
-        setActive(false);
-        if (params?.componentHandlers?.onMouseUp) {
-          params.componentHandlers.onMouseUp(event);
-        }
-      },
+  const onMouseEnter = useCallback(
+    (event) => {
+      setHovered(true);
+      if (params?.componentHandlers?.onMouseEnter) {
+        params.componentHandlers.onMouseEnter(event);
+      }
     },
-  };
+    [params?.componentHandlers?.onMouseEnter],
+  );
+
+  const onMouseLeave = useCallback(
+    (event) => {
+      setHovered(false);
+      if (params?.componentHandlers?.onMouseLeave) {
+        params.componentHandlers.onMouseLeave(event);
+      }
+    },
+    [params?.componentHandlers?.onMouseLeave],
+  );
+
+  const onMouseDown = useCallback(
+    (event) => {
+      setActive(true);
+      if (params?.componentHandlers?.onMouseDown) {
+        params.componentHandlers.onMouseDown(event);
+      }
+    },
+    [params?.componentHandlers?.onMouseDown],
+  );
+
+  const onMouseUp = useCallback(
+    (event) => {
+      setActive(false);
+      if (params?.componentHandlers?.onMouseUp) {
+        params.componentHandlers.onMouseUp(event);
+      }
+    },
+    [params?.componentHandlers?.onMouseUp],
+  );
+
+  return useMemo(
+    () => ({
+      status: getInteractiveStatus({ hovered, active, disabled: params?.disabled }),
+      eventHandlers: {
+        onMouseEnter,
+        onMouseLeave,
+        onMouseDown,
+        onMouseUp,
+      },
+    }),
+    [hovered, active, params?.disabled, onMouseEnter, onMouseLeave, onMouseDown, onMouseUp],
+  );
 }
