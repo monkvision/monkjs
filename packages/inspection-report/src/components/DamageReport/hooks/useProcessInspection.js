@@ -81,10 +81,12 @@ function getPictures(inspection) {
 }
 
 function getPartPictures(part, inspection) {
-  const closeUps = inspection.images.filter((image) => (
-    image.image_type === 'close_up'
-    && image.detailed_viewpoint?.centers_on.includes(part.part_type)
-  ));
+  const closeUpImageIds = inspection.parts
+    .find((value) => value.part_type === part.part_type)
+    ?.related_images.filter((image) => image.base_image_type === 'close_up')
+    .map((image) => image.base_image_type);
+  const closeUps = inspection.images
+    .filter((image) => closeUpImageIds.includes(image.base_image_id));
   const beautyShotsWithDamages = inspection.images.filter((image) => (
     image.image_type === 'beauty_shot'
     && image.views?.some((view) => view.element_id === part.id)
