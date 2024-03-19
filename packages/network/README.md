@@ -121,7 +121,34 @@ function App() {
 # Authentication
 This package also exports tools for dealing with authentication within the Monk SDK :
 
-### JWT token decoding
+## useAuth hook
+This package exports a custom hook called `useAuth` used to easily handle authentication in Monk applications. It stores
+the current user's authentication token, and returns callbacks used to log in and out of the application using Auth0
+pop-ups. It accepts a config option called `storeToken` that indicates if the token should be fetched and stored from
+the browser local storage (default : `true`).
+
+- For this hook to work properly, you must use it in a component that is a child of an `Auth0Provider` component.
+- If, like in most Monk apps, you plan on using both the `useMonkAppParams` and the `useAuth` hooks, then
+  only the token stored and returned by the `useMonkAppParams` should be used. The token of this hook must only be
+  used when using the `useAuth` hook only. This hook will automatically synchronize both tokens for you.
+
+```tsx
+function MyAuthComponent() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogIn = () => {
+    login().then(() => {
+      navigate('/home');
+    });
+  };
+
+  return <button onClick={handleLogIn}>Log In</button>;
+}
+```
+
+## JWT Utils
+### Token decoding
 You can decode Monk JWT token issued by Auth0 using the `decodeMonkJwt` util function provided by this package :
 
 ```typescript
@@ -130,4 +157,28 @@ import { decodeMonkJwt, MonkJwtPayload } from '@monkvision/network';
 const decodedToken: MonkJwtPayload =  decodeMonkJwt(token);
 ```
 
-The available properties in the Monk JWT token payload are described in the MonkJwtPayload typescript interface.
+The available properties in the Monk JWT token payload are described in the `MonkJwtPayload` typescript interface.
+
+### isUserAuthorized
+This utility function checks if the given user has all the required authroizations. You can either pass an auth token
+to be decoded or the JWT payload directly.
+
+```typescript
+import { isUserAuthorized, MonkApiPermission } from '@monkvision/network';
+
+const requiredPermissions = [MonkApiPermission.INSPECTION_CREATE, MonkApiPermission.INSPECTION_READ];
+console.log(isUserAuthorized(value, requiredPermissions));
+// value can either be an auth token as a string or a decoded JWT payload
+```
+
+
+### isTokenExpired
+This utility function checks if an authorization token is expired or not. You can either pass an auth token to be
+decoded or the JWT payload directly.
+
+```typescript
+import { isTokenExpired } from '@monkvision/network';
+
+console.log(isTokenExpired(value));
+// value can either be an auth token as a string or a decoded JWT payload
+```

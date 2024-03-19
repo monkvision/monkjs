@@ -1,6 +1,6 @@
 # Theming
 This README page is aimed at providing documentation on a specific part of the `@monkvision/common` package : the
-theme customization. You can refer to [this page](README.md). for more general information on the package.
+theme customization. You can refer to [this page](README.md) for more general information on the package.
 
 This package exports tools that help you customize the look and feel of MonkJs applications.
 

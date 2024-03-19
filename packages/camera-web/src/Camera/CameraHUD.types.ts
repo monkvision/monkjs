@@ -59,6 +59,6 @@ export interface CameraHUDProps {
 /**
  * Component type definition for a Camera HUD component.
  */
-export type CameraHUDComponent<T extends object = Record<string, never>> = ComponentType<
+export type CameraHUDComponent<T extends object = Record<never, never>> = ComponentType<
   CameraHUDProps & T
 >;

@@ -1,6 +1,6 @@
 # Utilities
 This README page is aimed at providing documentation on a specific part of the `@monkvision/common` package : the
-utility functions. You can refer to [this page](README.md). for more general information on the package.
+utility functions. You can refer to [this page](README.md) for more general information on the package.
 
 This package exports various utility functions used throughout the MonkJs SDK.
 
@@ -108,6 +108,22 @@ const variants = getInteractiveVariants('#FC72A7');
 ```
 Create interactive variants (hovered, active...) for the given color. You can specify as an additional parameter the
 type of variation to use for the interactive colors (lighten or darken the color, default = lighten).
+
+---
+
+# Environment Utils
+### getEnvOrThrow
+```typescript
+import { getEnvOrThrow } from '@monkvision/common';
+
+try {
+  const example = getEnvOrThrow('REACT_APP_EXAMPLE');
+  console.log('Env var is defined :', example);
+} catch (err) {
+  console.log('Env var is not defined');
+}
+```
+Returns the value of a given environment variable. If the value does not exist, it throws an error.
 
 ---
 

@@ -1,4 +1,4 @@
-import { LoadingState, Queue, useQueue } from '@monkvision/common';
+import { Queue, useQueue } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/camera-web';
 import { AddImageOptions, ComplianceOptions, MonkAPIConfig, useMonkApi } from '@monkvision/network';
 import { ImageType, TaskName } from '@monkvision/types';
@@ -18,10 +18,6 @@ export interface UploadQueueParams {
    * The api config used to communicate with the API.
    */
   apiConfig: MonkAPIConfig;
-  /**
-   * Global loading state of the PhotoCapture component.
-   */
-  loading: LoadingState;
   /**
    * Compliance options used to enable or not certain compliance checks.
    */
@@ -118,7 +114,6 @@ function createAddImageOptions(
 export function useUploadQueue({
   inspectionId,
   apiConfig,
-  loading,
   compliances,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
@@ -136,7 +131,7 @@ export function useUploadQueue({
         );
       } catch (err) {
         handleError(err);
-        loading.onError(err);
+        // TODO : Handle upload errors in compliance
         throw err;
       }
     },

@@ -84,17 +84,20 @@ export function useCameraCanvas({
   allowImageUpscaling,
 }: CameraCanvasConfig): CameraCanvasHandle {
   const ref = useRef<HTMLCanvasElement>(null);
-  const dimensions = useMemo(
-    () => getCanvasDimensions({ resolution, streamDimensions, allowImageUpscaling }),
+  const handle = useMemo(
+    () => ({
+      ref,
+      dimensions: getCanvasDimensions({ resolution, streamDimensions, allowImageUpscaling }),
+    }),
     [resolution, streamDimensions],
   );
 
   useEffect(() => {
-    if (dimensions && ref.current) {
-      ref.current.width = dimensions.width;
-      ref.current.height = dimensions.height;
+    if (handle.dimensions && ref.current) {
+      ref.current.width = handle.dimensions.width;
+      ref.current.height = handle.dimensions.height;
     }
-  }, [dimensions]);
+  }, [handle.dimensions]);
 
-  return { ref, dimensions };
+  return handle;
 }

@@ -44,7 +44,7 @@ describe('useStartTasksOnComplete hook', () => {
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
       .startInspectionTasks;
 
-    result.current.startTasks();
+    result.current();
     expect(initialProps.loading.start).not.toHaveBeenCalled();
     expect(initialProps.loading.onSuccess).not.toHaveBeenCalled();
     expect(initialProps.loading.onError).not.toHaveBeenCalled();
@@ -62,7 +62,7 @@ describe('useStartTasksOnComplete hook', () => {
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
       .startInspectionTasks;
 
-    result.current.startTasks();
+    result.current();
     expect(startInspectionTasksMock).toHaveBeenCalledWith(
       initialProps.inspectionId,
       initialProps.startTasksOnComplete,
@@ -88,7 +88,7 @@ describe('useStartTasksOnComplete hook', () => {
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
       .startInspectionTasks;
 
-    result.current.startTasks();
+    result.current();
     expect(startInspectionTasksMock).toHaveBeenCalledWith(initialProps.inspectionId, [
       TaskName.DAMAGE_DETECTION,
       TaskName.PRICING,
@@ -108,7 +108,7 @@ describe('useStartTasksOnComplete hook', () => {
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
       .startInspectionTasks;
 
-    result.current.startTasks();
+    result.current();
     const tasks = uniq(flatMap(initialProps.sights, (sight) => sight.tasks));
     expect(startInspectionTasksMock).toHaveBeenCalledWith(initialProps.inspectionId, tasks);
 
@@ -129,7 +129,7 @@ describe('useStartTasksOnComplete hook', () => {
     expect(initialProps.loading.start).not.toHaveBeenCalled();
     expect(startInspectionTasksMock).not.toHaveBeenCalled();
 
-    result.current.startTasks();
+    result.current();
     expect(initialProps.loading.start).toHaveBeenCalled();
     expect(startInspectionTasksMock).toHaveBeenCalled();
     expect(initialProps.loading.onSuccess).not.toHaveBeenCalled();
@@ -158,7 +158,7 @@ describe('useStartTasksOnComplete hook', () => {
     expect(initialProps.loading.start).not.toHaveBeenCalled();
     expect(startInspectionTasksMock).not.toHaveBeenCalled();
 
-    result.current.startTasks().catch((e) => console.log('beuh', e));
+    result.current().catch((e) => console.log('beuh', e));
     expect(initialProps.loading.start).toHaveBeenCalled();
     expect(startInspectionTasksMock).toHaveBeenCalled();
     expect(initialProps.loading.onError).not.toHaveBeenCalled();

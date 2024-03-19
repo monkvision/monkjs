@@ -1,4 +1,6 @@
 jest.mock('@sentry/react');
+Object.defineProperty(global.console, 'info', { value: jest.fn() });
+Object.defineProperty(global.console, 'error', { value: jest.fn() });
 
 import { MeasurementContext, TransactionContext, TransactionStatus } from '@monkvision/monitoring';
 import { Transaction } from '@sentry/react';

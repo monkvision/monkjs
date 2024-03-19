@@ -61,14 +61,14 @@ export type CameraProps<T extends object> = Partial<CompressionOptions> &
      * Note: If the specified resolution is higher than the best resolution available on the current device, output
      * pictures will only be scaled up to the specified resolution if the `allowImageUpscaling` property is set to `true`.
      *
-     * @default `CameraResolution.UHD_4K`
+     * @default CameraResolution.UHD_4K
      */
     resolution?: CameraResolution;
     /**
      * When the native resolution of the device Camera is smaller than the resolution asked in the `resolution` prop,
      * resulting pictures will only be scaled up if this property is set to `true`.
      *
-     * @default `false`
+     * @default false
      */
     allowImageUpscaling?: boolean;
     /**
@@ -112,12 +112,12 @@ export function Camera<T extends object>({
     streamDimensions,
     allowImageUpscaling,
   });
-  const { takeScreenshot } = useCameraScreenshot({
+  const takeScreenshot = useCameraScreenshot({
     videoRef,
     canvasRef,
     dimensions: canvasDimensions,
   });
-  const { compress } = useCompression({ canvasRef, options: { format, quality } });
+  const compress = useCompression({ canvasRef, options: { format, quality } });
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
     compress,
     takeScreenshot,

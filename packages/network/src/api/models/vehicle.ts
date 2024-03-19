@@ -31,3 +31,36 @@ export interface ApiVehicleComponent {
   vehicle_type?: string;
   vin?: string;
 }
+
+export interface ApiMileage {
+  value: number;
+  unit: ApiMileageUnit;
+}
+
+export interface ApiMarketValue {
+  value: number;
+  unit: ApiMarketValueUnit;
+}
+
+export interface ApiVehiclePostPatch {
+  brand?: string;
+  model?: string;
+  plate?: string;
+  vehicle_type?: string;
+  mileage?: ApiMileage;
+  market_value?: ApiMarketValue;
+  serie?: string;
+  vehicle_style?: string;
+  vehicle_age?: string;
+  vin?: string;
+  color?: string;
+  exterior_cleanliness?: string;
+  interior_cleanliness?: string;
+  date_of_circulation?: string;
+  owner_info?: ApiOwnerInfo;
+  duplicate_keys?: boolean;
+  expertise_requested?: boolean;
+  car_registration?: boolean;
+  vehicle_quotation?: number;
+  trade_in_offer?: number;
+}

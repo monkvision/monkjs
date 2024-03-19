@@ -1,6 +1,6 @@
 # State Management
 This README page is aimed at providing documentation on a specific part of the `@monkvision/common` package : the state
-management. You can refer to [this page](README.md). for more general information on the package.
+management. You can refer to [this page](README.md) for more general information on the package.
 
 This package exports tools that help you manage the state of MonkJs applications. In Monk projects, the state of an
 inspection and everything that goes with it is represented by a set of different entities. The complete list of entities

@@ -1,20 +1,27 @@
-import { Dispatch } from 'react';
+import { Dispatch, useCallback } from 'react';
 import { MonkAction, useMonkState } from '@monkvision/common';
 import { MonkAPIConfig } from './config';
 import { MonkAPIRequest, MonkApiResponse } from './types';
 import { ApiIdColumn } from './models';
 import { MonkApi } from './api';
 
-function reactifyRequest<A extends unknown[], T extends MonkAction, K extends object = ApiIdColumn>(
-  request: MonkAPIRequest<A, T, K>,
+function reactifyRequest<
+  A extends unknown[],
+  T extends MonkAction | null,
+  K extends object = ApiIdColumn,
+  P extends object = Record<never, never>,
+>(
+  request: MonkAPIRequest<A, T, K, P>,
   config: MonkAPIConfig,
   dispatch: Dispatch<MonkAction>,
-): (...args: A) => Promise<MonkApiResponse<T, K>> {
-  return async (...args: A) => {
+): (...args: A) => Promise<MonkApiResponse<T, K, P>> {
+  return useCallback(async (...args: A) => {
     const result = await request(...args, config);
-    dispatch(result.action);
+    if (result.action) {
+      dispatch(result.action);
+    }
     return result;
-  };
+  }, []);
 }
 
 /**
@@ -37,6 +44,13 @@ export function useMonkApi(config: MonkAPIConfig) {
      * @param id The ID of the inspection.
      */
     getInspection: reactifyRequest(MonkApi.getInspection, config, dispatch),
+    /**
+     * Create a new inspection with the given options. See the `CreateInspectionOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see CreateInspectionOptions
+     */
+    createInspection: reactifyRequest(MonkApi.createInspection, config, dispatch),
     /**
      * Add a new image to an inspection. The resulting action of this request will contain the details of the image that
      * has been created in the API.

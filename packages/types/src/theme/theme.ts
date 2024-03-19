@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { MonkPalette } from './palette';
 import { ThemeUtils } from './utils';
 
@@ -13,4 +14,8 @@ export interface MonkTheme {
    * Theme utils.
    */
   utils: ThemeUtils;
+  /**
+   * Root styles of the application that define global styles such as font color etc.
+   */
+  rootStyles: CSSProperties;
 }

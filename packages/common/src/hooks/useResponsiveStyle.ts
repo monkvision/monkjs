@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useCallback } from 'react';
 import { CSSMediaQuery, ResponsiveStyleProperties } from '@monkvision/types';
 import { useWindowDimensions, WindowDimensions } from './useWindowDimensions';
 
@@ -57,12 +57,15 @@ export function useResponsiveStyle(): {
   responsive: (style: ResponsiveStyleProperties | null) => CSSProperties | null;
 } {
   const dimensions = useWindowDimensions();
-  const responsive = (style: ResponsiveStyleProperties | null) => {
-    if (areQueryConditionsMet(style?.__media, dimensions)) {
-      return style;
-    }
-    return null;
-  };
+  const responsive = useCallback(
+    (style: ResponsiveStyleProperties | null) => {
+      if (areQueryConditionsMet(style?.__media, dimensions)) {
+        return style;
+      }
+      return null;
+    },
+    [dimensions],
+  );
 
   return { responsive };
 }

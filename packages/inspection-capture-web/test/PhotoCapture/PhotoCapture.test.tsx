@@ -23,15 +23,11 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     setLastPictureTaken: jest.fn(),
     retryLoadingInspection: jest.fn(),
   })),
-  usePictureTaken: jest.fn(() => ({
-    handlePictureTaken: jest.fn(),
-  })),
+  usePictureTaken: jest.fn(() => jest.fn()),
   useUploadQueue: jest.fn(() => ({
     length: 3,
   })),
-  useStartTasksOnComplete: jest.fn(() => ({
-    startTasks: jest.fn(),
-  })),
+  useStartTasksOnComplete: jest.fn(() => jest.fn()),
 }));
 
 import { render, waitFor } from '@testing-library/react';
@@ -45,7 +41,7 @@ import {
   useStartTasksOnComplete,
   useUploadQueue,
 } from '../../src/PhotoCapture/hooks';
-import { useLoadingState } from '@monkvision/common';
+import { useI18nSync, useLoadingState } from '@monkvision/common';
 import { TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 
@@ -60,6 +56,7 @@ function createProps(): PhotoCaptureProps {
     resolution: CameraResolution.NHD_360P,
     format: CompressionFormat.JPEG,
     quality: 0.4,
+    showCloseButton: true,
   };
 }
 
@@ -102,6 +99,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       loading,
       onLastSightTaken: expect.any(Function),
+      tasksBySight: props.tasksBySight,
     });
 
     unmount();
@@ -109,9 +107,7 @@ describe('PhotoCapture component', () => {
 
   it('should call start tasks on the last sight and handle the promise correctly', async () => {
     const startTasksMock = jest.fn(() => Promise.resolve());
-    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => ({
-      startTasks: startTasksMock,
-    }));
+    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => startTasksMock);
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
@@ -173,13 +169,10 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
-    expect(useLoadingState).toHaveBeenCalled();
-    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
       compliances: props.compliances,
-      loading,
     });
 
     unmount();
@@ -232,7 +225,7 @@ describe('PhotoCapture component', () => {
     const { unmount } = render(<PhotoCapture {...props} />);
 
     expect(usePictureTaken).toHaveBeenCalled();
-    const { handlePictureTaken } = (usePictureTaken as jest.Mock).mock.results[0].value;
+    const handlePictureTaken = (usePictureTaken as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, { onPictureTaken: handlePictureTaken });
 
     unmount();
@@ -240,7 +233,7 @@ describe('PhotoCapture component', () => {
 
   it('should pass the proper props to the HUD component', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCapture {...props} />);
+    const { unmount } = render(<PhotoCapture showCloseButton={true} {...props} />);
 
     expect(useAddDamageMode).toHaveBeenCalled();
     const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
@@ -262,8 +255,19 @@ describe('PhotoCapture component', () => {
         loading,
         onClose: props.onClose,
         inspectionId: props.inspectionId,
+        showCloseButton: props.showCloseButton,
       },
     });
+
+    unmount();
+  });
+
+  it('should sync the local i18n language with the one passed as a prop', () => {
+    const lang = 'fr';
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture lang={lang} {...props} />);
+
+    expect(useI18nSync).toHaveBeenCalledWith(lang);
 
     unmount();
   });

@@ -23,6 +23,7 @@
     "test:coverage": "lerna run test:coverage --parallel",
     "lint": "lerna run --parallel lint",
     "lint:fix": "lerna run --parallel lint:fix",
+    "ci": "yarn && yarn build && yarn test && yarn lint",
     "svgo": "lerna run svgo --parallel"
   },
   "dependencies": {

@@ -25,6 +25,14 @@ describe('Network package API global config utils', () => {
       ).toEqual(`https://${baseConfig.apiDomain}`);
     });
 
+    it('should set the Accept header', () => {
+      expect(getDefaultOptions(baseConfig).headers).toEqual(
+        expect.objectContaining({
+          Accept: 'application/json, text/plain, */*',
+        }),
+      );
+    });
+
     it('should set the Access-Control-Allow-Origin header', () => {
       expect(getDefaultOptions(baseConfig).headers).toEqual(
         expect.objectContaining({

@@ -39,7 +39,8 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
     },
     ref,
   ) => {
-    const isDisabled = !!disabled || !!loading;
+    const isLoading = typeof loading === 'object' ? loading.isLoading : loading ?? false;
+    const isDisabled = !!disabled || isLoading;
     const handleMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       if (onMouseDown) {
@@ -60,7 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
       variant: variant ?? 'fill',
       size: size ?? 'normal',
       shade: shade ?? 'dark',
-      loading,
+      loading: isLoading,
       preserveWidthOnLoading,
       status,
       hasChildren: !!children,
@@ -112,7 +113,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
         {...passThroughProps}
         data-testid='monk-btn'
       >
-        {loading ? loadingContent : content}
+        {isLoading ? loadingContent : content}
       </button>
     );
   },

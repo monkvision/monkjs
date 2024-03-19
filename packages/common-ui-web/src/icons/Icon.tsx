@@ -25,7 +25,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'heig
   /**
    * The name or the hexcode of the color to apply to the icon.
    *
-   * @default black
+   * @default '#000000'
    */
   primaryColor?: ColorProp;
 }

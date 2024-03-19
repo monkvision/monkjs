@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { MonitoringAdapter } from '../adapters';
 import { MonitoringContext } from './context';
 
@@ -7,10 +7,14 @@ import { MonitoringContext } from './context';
  */
 export function useMonitoring(): MonitoringAdapter {
   const adapter = useContext(MonitoringContext);
-  return {
-    setUserId: adapter.setUserId.bind(adapter),
-    log: adapter.log.bind(adapter),
-    handleError: adapter.handleError.bind(adapter),
-    createTransaction: adapter.createTransaction.bind(adapter),
-  };
+
+  return useMemo(
+    () => ({
+      setUserId: adapter.setUserId.bind(adapter),
+      log: adapter.log.bind(adapter),
+      handleError: adapter.handleError.bind(adapter),
+      createTransaction: adapter.createTransaction.bind(adapter),
+    }),
+    [],
+  );
 }

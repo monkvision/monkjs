@@ -5,7 +5,7 @@ mockButtonDependencies();
 import '@testing-library/jest-dom';
 import { createEvent, fireEvent, render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock, getNumberFromCSSProperty } from '@monkvision/test-utils';
-import { useInteractiveStatus } from '@monkvision/common';
+import { LoadingState, useInteractiveStatus } from '@monkvision/common';
 import { Button, Spinner, Icon, IconProps } from '../../../src';
 import { InteractiveStatus } from '@monkvision/types';
 
@@ -181,6 +181,19 @@ describe('Button component', () => {
           <span data-testid={testId} />
         </Button>,
       );
+      expect(screen.queryByTestId(testId)).toBeNull();
+      unmount();
+    });
+
+    it('should also be displayed when passed a LoadingState object', () => {
+      const testId = 'test-not-id';
+      const loading = { isLoading: true } as unknown as LoadingState;
+      const { unmount } = render(
+        <Button loading={loading}>
+          <span data-testid={testId} />
+        </Button>,
+      );
+      expect(Spinner).toHaveBeenCalled();
       expect(screen.queryByTestId(testId)).toBeNull();
       unmount();
     });

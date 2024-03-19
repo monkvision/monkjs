@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
-import { Sight } from '@monkvision/types';
+import { Sight, TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
 import { useMonkApi } from '@monkvision/network';
@@ -9,6 +9,7 @@ import {
   PhotoCaptureSightsParams,
   usePhotoCaptureSightState,
 } from '../../../src/PhotoCapture/hooks';
+import { PhotoCaptureErrorName } from '../../../src/PhotoCapture/errors';
 
 function createParams(): PhotoCaptureSightsParams {
   return {
@@ -29,7 +30,7 @@ function createParams(): PhotoCaptureSightsParams {
   };
 }
 
-function mockGetInspectionResponse(inspectionId: string, takenSights: Sight[]) {
+function mockGetInspectionResponse(inspectionId: string, takenSights: Sight[], tasks?: TaskName[]) {
   return {
     action: {
       payload: {
@@ -41,6 +42,7 @@ function mockGetInspectionResponse(inspectionId: string, takenSights: Sight[]) {
           width: index * 2000,
           height: index * 1000,
         })),
+        tasks: tasks?.map((name) => ({ inspectionId, name })),
       },
     },
   };
@@ -51,11 +53,46 @@ describe('usePhotoCaptureSightState hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should throw an error if the no sights are passed', () => {
+  it('should throw an error if there are no sights are passed', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     const initialProps = { ...createParams(), captureSights: [] };
     const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
     expect(result.error).toBeDefined();
+    unmount();
+    jest.spyOn(console, 'error').mockRestore();
+  });
+
+  it('should throw an error if the inspection is missing some tasks', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const initialProps = {
+      ...createParams(),
+      tasksBySight: {
+        'test-sight-1': [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS],
+        'test-sight-2': [TaskName.DAMAGE_DETECTION],
+        'test-sight-3': [TaskName.DAMAGE_DETECTION],
+        'test-sight-4': [TaskName.DAMAGE_DETECTION],
+      },
+    };
+    const apiResponse = mockGetInspectionResponse(
+      initialProps.inspectionId,
+      [],
+      [TaskName.DAMAGE_DETECTION],
+    );
+    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    expect(useMonitoring).toHaveBeenCalled();
+    const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+    expect(handleErrorMock).not.toHaveBeenCalled();
+    expect(initialProps.loading.onSuccess).not.toHaveBeenCalled();
+    expect(useAsyncEffect).toHaveBeenCalled();
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => onResolve(apiResponse));
+
+    expect(initialProps.loading.onSuccess).not.toHaveBeenCalled();
+    expect(initialProps.loading.onError).toHaveBeenCalled();
+    const error = (initialProps.loading.onError as jest.Mock).mock.calls[0][0];
+    expect(error.name).toEqual(PhotoCaptureErrorName.MISSING_TASK_IN_INSPECTION);
+    expect(handleErrorMock).toHaveBeenCalledWith(error);
     unmount();
     jest.spyOn(console, 'error').mockRestore();
   });

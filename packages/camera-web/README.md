@@ -92,12 +92,8 @@ function MyCameraPreviewWithHUD() {
 ```
 
 The text displayed by this component (error messages, retry button label...) is by default in english. If you want to
-customize the display language, you have two options :
-- Use the `i18next` and `react-i18next` packages to set up internationalization support in your app, and then linking
-  your `i18n` instance with the one used by the Camera package. To do so, we highly recommend using the `i18n` utility
-  tools provided by the `@monkvision/common` package. More information on this
-  [here](https://github.com/monkvision/monkjs/blob/main/packages/common/README/INTERNATIONALIZATION.md).
-- Simply specify the fixed language you want to use by using the `lang` prop of the component like this :
+customize the display language, you can specify the fixed language you want to use by using the `lang` prop of the
+component like this :
 
 ```tsx
 import { Camera, SimpleCameraHUD } from '@monkvision/camera-web';

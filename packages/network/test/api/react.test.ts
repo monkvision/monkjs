@@ -3,10 +3,7 @@ jest.mock('../../src/api/api', () => ({
     getInspection: jest.fn(() =>
       Promise.resolve({ action: { test: 'getInspection' }, test: 'getInspection' }),
     ),
-    addImage: jest.fn(() => Promise.resolve({ action: { test: 'addImage' }, test: 'addImage' })),
-    updateTaskStatus: jest.fn(() =>
-      Promise.resolve({ action: { test: 'updateTaskStatus' }, test: 'updateTaskStatus' }),
-    ),
+    createInspection: jest.fn(() => Promise.resolve({ action: null, test: 'createInspection' })),
   },
 }));
 
@@ -20,7 +17,7 @@ describe('Monk API React utilities', () => {
   });
 
   describe('useMonkApi hook', () => {
-    it('should properly reactify each request in the MonkApi object', () => {
+    it('should properly reactify each request in the MonkApi object', async () => {
       const config: MonkAPIConfig = { apiDomain: 'wow-test', authToken: 'yessss' };
       const { result, unmount } = renderHook(useMonkApi, {
         initialProps: config,
@@ -29,17 +26,26 @@ describe('Monk API React utilities', () => {
       expect(useMonkState).toHaveBeenCalledTimes(1);
       const dispatchMock = (useMonkState as jest.Mock).mock.results[0].value.dispatch as jest.Mock;
 
-      Object.keys(MonkApi).forEach(async (requestKey, index) => {
-        dispatchMock.mockClear();
-        expect(typeof (result.current as any)[requestKey]).toBe('function');
+      expect(typeof result.current.getInspection).toBe('function');
 
-        const resultMock = await (result.current as any)[requestKey](index, index * 2);
-        const requestMock = MonkApi[requestKey as keyof typeof MonkApi] as jest.Mock;
-        expect(requestMock).toHaveBeenCalledWith(index, index * 2, config);
-        const requestResultMock = await requestMock.mock.results[0].value;
-        expect(dispatchMock).toHaveBeenCalledWith(requestResultMock.action);
-        expect(resultMock).toBe(requestResultMock);
-      });
+      let param = 'test-getInspection';
+      let resultMock = await result.current.getInspection(param);
+      let requestMock = MonkApi.getInspection as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config);
+      let requestResultMock = await requestMock.mock.results[0].value;
+      expect(dispatchMock).toHaveBeenCalledWith(requestResultMock.action);
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-createInspection';
+      resultMock = await (result.current.createInspection as any)(param);
+      requestMock = MonkApi.createInspection as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(dispatchMock).not.toHaveBeenCalled();
+      expect(resultMock).toBe(requestResultMock);
+
       unmount();
     });
   });

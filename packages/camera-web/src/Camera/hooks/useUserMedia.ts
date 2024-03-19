@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { isMobileDevice } from '@monkvision/common';
 import { getValidCameraDeviceIds } from './utils';
@@ -189,14 +189,14 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
     setIsLoading(false);
   };
 
-  const retry = () => {
+  const retry = useCallback(() => {
     if (error && !isLoading) {
       setError(null);
       setStream(null);
       setIsLoading(false);
       setLastConstraintsApplied(null);
     }
-  };
+  }, [error, isLoading]);
 
   useEffect(() => {
     if (error || isLoading || deepEqual(lastConstraintsApplied, constraints)) {
@@ -237,7 +237,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
       }
     };
     getUserMedia().catch(handleError);
-  }, [constraints, stream, error, isLoading, lastConstraintsApplied, onStreamInactive]);
+  }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 
   useEffect(() => {
     const portrait = window.matchMedia('(orientation: portrait)');
@@ -255,5 +255,8 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
     };
   }, [stream]);
 
-  return { stream, dimensions, error, retry, isLoading };
+  return useMemo(
+    () => ({ stream, dimensions, error, retry, isLoading }),
+    [stream, dimensions, error, retry, isLoading],
+  );
 }

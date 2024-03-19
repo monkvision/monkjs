@@ -32,7 +32,7 @@ describe('useCameraScreenshot hook', () => {
       const { result, unmount } = renderHook(useCameraScreenshot, {
         initialProps: { videoRef, canvasRef, dimensions },
       });
-      const imageData = result.current.takeScreenshot(monitoringMock);
+      const imageData = result.current(monitoringMock);
 
       expect(getCanvasHandleMock).toHaveBeenCalledWith(canvasRef, expect.anything());
       const { context } = getCanvasHandleMock.mock.results[0].value;
@@ -53,7 +53,7 @@ describe('useCameraScreenshot hook', () => {
         initialProps: { videoRef, canvasRef, dimensions: null },
       });
 
-      expect(() => result.current.takeScreenshot(monitoringMock)).toThrowError();
+      expect(() => result.current(monitoringMock)).toThrowError();
       unmount();
     });
 
@@ -62,7 +62,7 @@ describe('useCameraScreenshot hook', () => {
         initialProps: { videoRef: { current: null }, canvasRef, dimensions },
       });
 
-      expect(() => result.current.takeScreenshot(monitoringMock)).toThrowError();
+      expect(() => result.current(monitoringMock)).toThrowError();
       unmount();
     });
 
@@ -70,7 +70,7 @@ describe('useCameraScreenshot hook', () => {
       const { result, unmount } = renderHook(useCameraScreenshot, {
         initialProps: { videoRef, canvasRef, dimensions },
       });
-      result.current.takeScreenshot(monitoringMock);
+      result.current(monitoringMock);
 
       expect(monitoringMock.transaction?.startMeasurement).toHaveBeenCalledWith(
         ScreenshotMeasurement.operation,
@@ -90,7 +90,7 @@ describe('useCameraScreenshot hook', () => {
       const { result, unmount } = renderHook(useCameraScreenshot, {
         initialProps: { videoRef, canvasRef, dimensions },
       });
-      result.current.takeScreenshot(monitoringMock);
+      result.current(monitoringMock);
 
       expect(monitoringMock.transaction?.stopMeasurement).toHaveBeenCalledWith(
         ScreenshotMeasurement.operation,
@@ -109,7 +109,7 @@ describe('useCameraScreenshot hook', () => {
         initialProps: { videoRef, canvasRef, dimensions },
       });
       try {
-        result.current.takeScreenshot(monitoringMock);
+        result.current(monitoringMock);
       } catch (err) {
         if (err !== error) {
           throw err;
@@ -128,12 +128,12 @@ describe('useCameraScreenshot hook', () => {
         initialProps: { videoRef, canvasRef, dimensions: null },
       });
       try {
-        result.current.takeScreenshot(monitoringMock);
+        result.current(monitoringMock);
       } catch (err) {
         /* empty */
       }
 
-      expect(() => result.current.takeScreenshot(monitoringMock)).toThrowError();
+      expect(() => result.current(monitoringMock)).toThrowError();
       expect(monitoringMock.transaction?.stopMeasurement).toHaveBeenCalledWith(
         ScreenshotMeasurement.operation,
         TransactionStatus.UNKNOWN_ERROR,
@@ -146,12 +146,12 @@ describe('useCameraScreenshot hook', () => {
         initialProps: { videoRef: { current: null }, canvasRef, dimensions },
       });
       try {
-        result.current.takeScreenshot(monitoringMock);
+        result.current(monitoringMock);
       } catch (err) {
         /* empty */
       }
 
-      expect(() => result.current.takeScreenshot(monitoringMock)).toThrowError();
+      expect(() => result.current(monitoringMock)).toThrowError();
       expect(monitoringMock.transaction?.stopMeasurement).toHaveBeenCalledWith(
         ScreenshotMeasurement.operation,
         TransactionStatus.UNKNOWN_ERROR,
@@ -163,7 +163,7 @@ describe('useCameraScreenshot hook', () => {
       const { result, unmount } = renderHook(useCameraScreenshot, {
         initialProps: { videoRef, canvasRef, dimensions },
       });
-      result.current.takeScreenshot(monitoringMock);
+      result.current(monitoringMock);
 
       expect(monitoringMock.transaction?.setMeasurement).toHaveBeenCalledWith(
         ScreenshotSizeMeasurement.name,

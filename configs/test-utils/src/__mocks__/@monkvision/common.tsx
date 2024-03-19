@@ -13,8 +13,6 @@ const {
   shadeColor,
   InteractiveVariation,
   getInteractiveVariants,
-  zlibCompress,
-  zlibDecompress,
   MonkDefaultPalette,
   createTheme,
   createEmptyMonkState,
@@ -22,6 +20,7 @@ const {
   getFileExtensions,
   uniq,
   flatMap,
+  STORAGE_KEY_AUTH_TOKEN,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -38,14 +37,13 @@ export = {
   shadeColor,
   InteractiveVariation,
   getInteractiveVariants,
-  zlibCompress,
-  zlibDecompress,
   MonkDefaultPalette,
   createTheme,
   MonkActionType,
   getFileExtensions,
   uniq,
   flatMap,
+  STORAGE_KEY_AUTH_TOKEN,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
@@ -57,8 +55,7 @@ export = {
   useMonkState: jest.fn(() => ({ state: createEmptyMonkState(), dispatch: jest.fn() })),
   monkReducer: jest.fn(createEmptyMonkState),
   MonkProvider: jest.fn(({ children }) => <>{children}</>),
-  i18nLinkSDKInstances: jest.fn(),
-  useI18nLink: jest.fn(),
+  useI18nSync: jest.fn(),
   i18nCreateSDKInstance: jest.fn(),
   i18nWrap: jest.fn((component) => component),
   useInteractiveStatus: jest.fn(({ componentHandlers }) => ({
@@ -91,4 +88,15 @@ export = {
   })),
   useLangProp: jest.fn(),
   isMobileDevice: jest.fn(() => false),
+  zlibCompress: jest.fn(() => ''),
+  zlibDecompress: jest.fn(() => ''),
+  useMonkAppParams: jest.fn(() => ({
+    authToken: null,
+    inspectionId: null,
+    vehicleType: null,
+    setAuthToken: jest.fn(),
+    setInspectionId: jest.fn(),
+    setVehicleType: jest.fn(),
+  })),
+  getEnvOrThrow: jest.fn((name) => name),
 };

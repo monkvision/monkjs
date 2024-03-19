@@ -8,64 +8,35 @@ import {
   RefAttributes,
   useEffect,
 } from 'react';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { I18nextProvider, initReactI18next, useTranslation } from 'react-i18next';
+import { monkLanguages } from '@monkvision/types';
 
 /**
- * Use this function during your i18n initialization in order to synchronize your i18n instance with the ones used and
- * provided by the Monk SDK packages.
- *
- * **IMPORTANT NOTE : It is highly recommended to also use the `useI18nLink` hook in pair with this function for
- * optimal results.**
- *
- * @param instance The i18n instance of your application.
- * @param sdkInstances The array of i18n instances used by the Monk SDK packages used in your app.
- * @see useI18nLink
- * @example
- * import i18n from 'i18next';
- * import { i18nInspectionCapture } from '@monkvision/inspection-capture-web';
- * import { i18nInspectionReport } from '@monkvision/inspection-report-web';
- *
- * i18n.use(initReactI18next).init(...);
- * i18nLinkSDKInstances(i18n, [i18nInspectionCapture, i18nInspectionReport]);
- * export default i18n;
+ * This custom hook automatically updates the current i18n instance's language with the given language if is it not null
+ * and supported by the MonkJs SDK.
  */
-export function i18nLinkSDKInstances(instance: i18n, sdkInstances: i18n[]): void {
-  instance.on('languageChanged', (lng: string) => {
-    sdkInstances.forEach((sdkInstance) => sdkInstance.changeLanguage(lng).catch(console.error));
-  });
-}
-
-/**
- * Use this hook inside your App component in order to synchronize your i18n instance with the ones used and provided
- * by the Monk SDK packages.
- *
- * **IMPORTANT NOTE : It is highly recommended to also use the `i18nLinkSDKInstances` function in pair with this hook
- * for optimal results.**
- *
- * @param instance The i18n instance of your application, obtained using the `useTranslation` hook.
- * @param sdkInstances The array of i18n instances used by the Monk SDK packages used in your app.
- * @see i18nLinkSDKInstances
- * @example
- * import React from 'react';
- * import { useI18nLink } from '@monkvision/common';
- * import { i18nInspectionCapture } from '@monkvision/inspection-capture-web';
- * import { i18nInspectionReport } from '@monkvision/inspection-report-web';
- * import { useTranslation } from 'react-i18next';
- *
- * export function App() {
- *   const { i18n } = useTranslation();
- *   useI18nLink(i18n, [i18nInspectionCapture, i18nInspectionReport]);
- *   ...
- * }
- */
-export function useI18nLink(instance: i18n, sdkInstances: i18n[]): void {
+export function useI18nSync(language?: string | null): void {
+  const { i18n: instance } = useTranslation();
   const { handleError } = useMonitoring();
 
   useEffect(() => {
-    sdkInstances.forEach((sdkInstance) =>
-      sdkInstance.changeLanguage(instance.language).catch(handleError),
-    );
-  }, [instance.language]);
+    if (!language) {
+      return;
+    }
+    if (
+      monkLanguages.every(
+        (supportedLang) => !language.toLowerCase().startsWith(supportedLang.toLowerCase()),
+      )
+    ) {
+      handleError(
+        new Error(
+          `Unsupported language passed to the MonkJs SDK : ${language}. Currently supported languages are : ${monkLanguages}.`,
+        ),
+      );
+      return;
+    }
+    instance.changeLanguage(language).catch(handleError);
+  }, [language, instance.changeLanguage]);
 }
 
 /**

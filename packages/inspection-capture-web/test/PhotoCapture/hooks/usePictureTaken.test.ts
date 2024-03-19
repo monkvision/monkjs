@@ -45,7 +45,7 @@ describe('usePictureTaken hook', () => {
 
     expect(initialProps.sightState.setLastPictureTaken).not.toHaveBeenCalled();
     const picture = createMonkPicture();
-    result.current.handlePictureTaken(picture);
+    result.current(picture);
     expect(initialProps.sightState.setLastPictureTaken).toHaveBeenCalledWith(picture);
 
     unmount();
@@ -57,7 +57,7 @@ describe('usePictureTaken hook', () => {
 
     expect(initialProps.uploadQueue.push).not.toHaveBeenCalled();
     const picture = createMonkPicture();
-    result.current.handlePictureTaken(picture);
+    result.current(picture);
     expect(initialProps.uploadQueue.push).toHaveBeenCalledWith({
       mode: initialProps.addDamageHandle.mode,
       picture,
@@ -80,7 +80,7 @@ describe('usePictureTaken hook', () => {
 
     expect(initialProps.uploadQueue.push).not.toHaveBeenCalled();
     const picture = createMonkPicture();
-    result.current.handlePictureTaken(picture);
+    result.current(picture);
     expect(initialProps.uploadQueue.push).toHaveBeenCalledWith(expect.objectContaining({ tasks }));
 
     unmount();
@@ -99,7 +99,7 @@ describe('usePictureTaken hook', () => {
 
     expect(initialProps.uploadQueue.push).not.toHaveBeenCalled();
     const picture = createMonkPicture();
-    result.current.handlePictureTaken(picture);
+    result.current(picture);
     expect(initialProps.uploadQueue.push).toHaveBeenCalledWith({
       mode: initialProps.addDamageHandle.mode,
       picture,
@@ -113,7 +113,7 @@ describe('usePictureTaken hook', () => {
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
     expect(initialProps.sightState.takeSelectedSight).not.toHaveBeenCalled();
-    result.current.handlePictureTaken(createMonkPicture());
+    result.current(createMonkPicture());
     expect(initialProps.sightState.takeSelectedSight).toHaveBeenCalled();
 
     unmount();
@@ -130,7 +130,7 @@ describe('usePictureTaken hook', () => {
     };
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
-    result.current.handlePictureTaken(createMonkPicture());
+    result.current(createMonkPicture());
     expect(initialProps.sightState.takeSelectedSight).not.toHaveBeenCalled();
 
     unmount();
@@ -143,7 +143,7 @@ describe('usePictureTaken hook', () => {
     expect(
       initialProps.addDamageHandle.updatePhotoCaptureModeAfterPictureTaken,
     ).not.toHaveBeenCalled();
-    result.current.handlePictureTaken(createMonkPicture());
+    result.current(createMonkPicture());
     expect(initialProps.addDamageHandle.updatePhotoCaptureModeAfterPictureTaken).toHaveBeenCalled();
 
     unmount();

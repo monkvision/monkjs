@@ -9,7 +9,7 @@ jest.mock('../src/utils', () => ({
   })),
 }));
 
-import { i18nWrap, useLangProp, useObjectTranslation } from '@monkvision/common';
+import { i18nWrap, useI18nSync, useObjectTranslation } from '@monkvision/common';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { render, screen } from '@testing-library/react';
 import { Button, TakePictureButton } from '@monkvision/common-ui-web';
@@ -171,7 +171,7 @@ describe('SimpleCameraHUD component', () => {
       <SimpleCameraHUD cameraPreview={<></>} handle={{} as CameraHandle} lang={lang} />,
     );
 
-    expect(useLangProp).toHaveBeenCalledWith(lang);
+    expect(useI18nSync).toHaveBeenCalledWith(lang);
 
     unmount();
   });

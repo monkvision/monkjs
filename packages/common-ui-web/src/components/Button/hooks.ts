@@ -1,4 +1,9 @@
-import { getInteractiveVariants, InteractiveVariation, useMonkTheme } from '@monkvision/common';
+import {
+  getInteractiveVariants,
+  InteractiveVariation,
+  LoadingState,
+  useMonkTheme,
+} from '@monkvision/common';
 import {
   Color,
   ColorProp,
@@ -37,27 +42,27 @@ export interface MonkButtonProps {
   /**
    * The variant of the button.
    *
-   * @default fill
+   * @default 'fill'
    */
   variant?: ButtonVariant;
   /**
    * The size of the button.
    *
-   * @default normal
+   * @default 'normal'
    */
   size?: ButtonSize;
   /**
    * The primary color of the button. For filled buttons, it corresponds to the background color, for other buttons, it
    * corresponds to the text color.
    *
-   * @default primary-xlight for outline buttons and primary for other buttons
+   * @default 'primary-xlight' for outline buttons and 'primary' for other buttons
    */
   primaryColor?: ColorProp;
   /**
    * The secondary color of the button. For filled buttons, it corresponds to the text color and for outline buttons, it
    * corresponds to the background color. This property is ignored for text and text-link buttons.
    *
-   * @default text-white for filled buttons and surface-s1 for outline buttons.
+   * @default 'text-white' for filled buttons and 'surface-s1' for outline buttons.
    */
   secondaryColor?: ColorProp;
   /**
@@ -65,10 +70,13 @@ export interface MonkButtonProps {
    */
   icon?: IconName;
   /**
-   * Boolean indicating if the button is loading. When the button is loading, it is automatically disabled and its
-   * content is replaced by a spinner.
+   * This prop specifies if the Button is loading. A loading button is automatically disabled and its content is
+   * replaced by a spinner. This prop can either be a simple boolean indicating if the button is loading or not, or a
+   * `LoadingState` object created using the `useLoadingState` hook.
+   *
+   * @see useLoadingState
    */
-  loading?: boolean;
+  loading?: boolean | LoadingState;
   /**
    * Boolean indicating if the button should keep its original width when loading. Set this property to `true` if you
    * want a button with a `width: fit-content` that keeps its content width when the content is replaced by a spinner.
@@ -83,7 +91,7 @@ export interface MonkButtonProps {
   /**
    * Value indicating if the button is a light color button or a dark color button (used for interactive colors).
    *
-   * @default: dark
+   * @default: 'dark'
    */
   shade?: ButtonShade;
 }

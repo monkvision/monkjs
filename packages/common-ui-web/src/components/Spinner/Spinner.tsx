@@ -16,7 +16,7 @@ export interface SpinnerProps extends SVGProps<SVGSVGElement> {
   /**
    * The name or hexcode of the spinner's color.
    *
-   * @default text-white
+   * @default 'text-white'
    */
   primaryColor?: ColorProp;
 }
