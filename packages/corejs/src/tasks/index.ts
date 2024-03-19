@@ -31,7 +31,27 @@ const RETRY_CONFIG = {
   retries: MAX_RETRY_ATTEMPTS,
   retryDelay: (retryCount: number) => axiosRetry.exponentialDelay(retryCount),
   // shouldResetTimeout: true,
-  retryCondition: (error: AxiosError) => axiosRetry.isNetworkOrIdempotentRequestError(error) || error?.response?.status === 500,
+  retryCondition: (error: AxiosError) => {
+    // Check if the error response is in a range of server error status codes (5xx)
+    const hasServerError = error.response && error.response.status >= 500 && error.response.status <= 599;
+
+    // Check if the error is a CORS error
+    const isCorsError = /cors/i.test(error.message);
+
+    // Check if the error is a network or idempotent request error
+    const isNetworkError = axiosRetry.isNetworkOrIdempotentRequestError(error);
+
+    // Add a custom check for specific error messages
+    const isCustomNetworkError = error.message && error.message === 'Network Error';
+
+    // Check for other common conditions that you might want to retry
+    const shouldRetry = hasServerError
+      || isCorsError
+      || isNetworkError
+      || isCustomNetworkError;
+
+    return shouldRetry;
+  },
 };
 
 /**
