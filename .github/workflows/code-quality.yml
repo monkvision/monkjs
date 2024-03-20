@@ -7,7 +7,6 @@ on:
 
 jobs:
   checks:
-    if: false
     name: Run Checks
     runs-on: ubuntu-latest
     permissions:
