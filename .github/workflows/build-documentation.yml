@@ -1,5 +1,5 @@
 name: Build Documentation
-run-name: Checking if documentation is building successfully before merging pull request 📚
+run-name: Build Documentation On Pull Request
 
 on:
   pull_request:

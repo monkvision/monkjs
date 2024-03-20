@@ -1,5 +1,5 @@
 name: Code Quality
-run-name: Analyzing code quality before merging pull request 🔍
+run-name: Analyze Code Quality On Pull Request
 
 on:
   pull_request:

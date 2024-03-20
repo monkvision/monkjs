@@ -1,5 +1,5 @@
 name: Deploy Documentation
-run-name: Deploy the documentation website on GitHub pages after a push on the main branch 📚
+run-name: Deploy Documentation To GitHub Pages After Merge
 
 on:
   push:
