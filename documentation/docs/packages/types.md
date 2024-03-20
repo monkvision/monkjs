@@ -1,8 +1,10 @@
 ---
-sidebar_position: 1
+sidebar_position: 10
 ---
 
 # types
+Shared TypeScript types for the MonkJs SDK.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/types/latest.svg)
 
 ## Overview

@@ -11,5 +11,6 @@ module.exports = {
     '@typescript-eslint/no-var-requires': OFF,
     'global-require': OFF,
     'import/no-unresolved': OFF,
+    'react/function-component-definition': OFF,
   },
 }

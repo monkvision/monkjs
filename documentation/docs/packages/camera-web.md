@@ -3,6 +3,8 @@ sidebar_position: 1
 ---
 
 # camera-web
+Camera implementation for taking pictures and recording videos in web.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/camera-web/latest.svg)
 
 ## Overview

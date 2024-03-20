@@ -31,7 +31,6 @@ yarn-error.log*
 
 # misc
 .DS_Store
-.env*
 
 # vscode
 .vscode

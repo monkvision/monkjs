@@ -1,8 +1,10 @@
 ---
-sidebar_position: 5
+sidebar_position: 4
 ---
 
 # inspection-capture-web
+Single page components to help you integrate the Monk inspection capture workflows.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/inspection-capture-web/latest.svg)
 
 ## Overview

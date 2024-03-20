@@ -1,8 +1,10 @@
 ---
-sidebar_position: 8
+sidebar_position: 7
 ---
 
 # network
+Authentication, API and other network utilities used in the MonkJs SDK and applications.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/network/latest.svg)
 
 ## Overview

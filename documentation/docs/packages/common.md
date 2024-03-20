@@ -3,6 +3,8 @@ sidebar_position: 2
 ---
 
 # common
+Shared logic accross the MonkJs SDK and applications.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/common/latest.svg)
 
 ## Overview

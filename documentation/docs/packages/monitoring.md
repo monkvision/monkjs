@@ -1,8 +1,10 @@
 ---
-sidebar_position: 7
+sidebar_position: 6
 ---
 
 # monitoring
+Monk monitoring abstraction package.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/monitoring/latest.svg)
 
 ## Overview

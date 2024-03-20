@@ -1,8 +1,10 @@
 ---
-sidebar_position: 10
+sidebar_position: 9
 ---
 
 # sights
+Shared data for the capture Sights.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/sights/latest.svg)
 
 ## Overview

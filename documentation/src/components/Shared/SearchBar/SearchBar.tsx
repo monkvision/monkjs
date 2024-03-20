@@ -1,6 +1,6 @@
 import { useColorMode } from '@docusaurus/theme-common';
-import { Icon } from '@monkvision/common-ui-web';
 import React, { forwardRef, useMemo, useState } from 'react';
+import { Icon } from '../../domOnly';
 import styles from './SearchBar.module.css';
 
 export interface SearchBarProps {
