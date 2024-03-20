@@ -22,7 +22,7 @@ jobs:
       - name: 📱 Building the demo app
         run: yarn build:demo-app:staging
       - name: 📦 Uploading the artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: build-demo-app-staging
           path: apps/demo-app/build
@@ -35,13 +35,18 @@ jobs:
     container:
       image: dtzar/helm-kubectl:3.14.2
     runs-on: ubuntu-latest
+    env:
+      GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
+      GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+      GKE_ZONE: ${{ secrets.GKE_ZONE }}
+      GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
     steps:
       - name: Log stuff into the console
         run: |-
-          echo "${{ secrets.GKE_SA_KEY }}"
-          echo "${{ secrets.GKE_CLUSTER }}"
-          echo "${{ secrets.GKE_ZONE }}"
-          echo "${{ secrets.GKE_PROJECT }}"
+          echo GKE_CLUSTER = ["$GKE_CLUSTER"]
+          echo GKE_CLUSTER = ["$GKE_CLUSTER"]
+          echo GKE_ZONE = ["$GKE_ZONE"]
+          echo GKE_PROJECT = ["$GKE_PROJECT"]
       - name: 🔐 Authenticating to Google Cloud
         uses: google-github-actions/auth@v2.1.2
         with:
@@ -53,7 +58,7 @@ jobs:
           location: ${{ secrets.GKE_ZONE }}
           project_id: ${{ secrets.GKE_PROJECT }}
       - name: 📦 Downloading the artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.4
         with:
           name: build-demo-app-staging
           path: demo
