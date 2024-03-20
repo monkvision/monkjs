@@ -118,7 +118,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Monk, Inc.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Monk, Inc. · <a href="/monkjs/license">License</a>`,
       },
       colorMode: {
         defaultMode: 'dark',
