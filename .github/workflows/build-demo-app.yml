@@ -1,5 +1,5 @@
 name: Build Demo App
-run-name: Checking if the demo app is building successfully before merging pull request 📱
+run-name: Build Demo App On Pull Request
 
 on:
   pull_request:
