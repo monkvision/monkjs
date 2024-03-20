@@ -10,7 +10,7 @@ const config = {
   tagline: 'The complete documentation for the MonkJs SDK.',
   favicon: 'img/favicon.png',
   url: 'https://monkvision.github.io',
-  baseUrl: '/',
+  baseUrl: '/monkjs/',
   projectName: 'monk',
   organizationName: 'monkvision',
   onBrokenLinks: 'throw',

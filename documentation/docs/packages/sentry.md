@@ -1,8 +1,10 @@
 ---
-sidebar_position: 9
+sidebar_position: 8
 ---
 
 # sentry
+Sentry implementation used to monitor MonkJs SDK and applications.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/sentry/latest.svg)
 
 ## Overview

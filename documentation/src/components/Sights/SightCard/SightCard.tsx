@@ -1,9 +1,9 @@
+import React, { Fragment, useMemo, useRef } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
-import { DynamicSVG } from '@monkvision/common-ui-web';
 import { labels, sights } from '@monkvision/sights';
 import { Sight, VehicleDetails, VehicleModel } from '@monkvision/types';
 import { CopyPopup, CopyPopupHandle } from '@site/src/components';
-import React, { Fragment, useMemo, useRef } from 'react';
+import { DynamicSVG } from '../../domOnly';
 import styles from './SightCard.module.css';
 
 const vehicleModelDisplayOverlays: Record<Exclude<VehicleModel, VehicleModel.ALL>, string> = {

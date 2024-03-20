@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { Icon } from '@monkvision/common-ui-web';
+import { Icon } from '../../domOnly';
 import styles from './CopyPopup.module.css';
 
 export interface CopyPopupHandle {

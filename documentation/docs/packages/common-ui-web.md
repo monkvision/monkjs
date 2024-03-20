@@ -3,6 +3,8 @@ sidebar_position: 3
 ---
 
 # common-ui-web
+Shared ReactJs components used in the MonkJs SDK and web applications.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/common-ui-web/latest.svg)
 
 ## Overview

@@ -1,7 +1,8 @@
 import { useColorMode } from '@docusaurus/theme-common';
-import { Icon, IconName } from '@monkvision/common-ui-web';
+import { IconName } from '@monkvision/common-ui-web';
 import { CopyPopup, CopyPopupHandle } from '@site/src/components';
 import React, { useRef } from 'react';
+import { Icon } from '../../domOnly';
 import styles from './IconCard.module.css';
 
 export interface IconCardProps {

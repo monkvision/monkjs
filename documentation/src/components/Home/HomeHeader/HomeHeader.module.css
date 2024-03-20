@@ -22,6 +22,11 @@
   justify-content: center;
 }
 
+.monkjs-logo {
+  width: 70%;
+  padding-bottom: 20px;
+}
+
 .get-started {
   width: fit-content;
   color: white !important;

@@ -7,9 +7,6 @@ commonjs/
 typescript/
 web-build/
 
-# deploy
-.env*
-
 # modules
 node_modules/
 coverage/

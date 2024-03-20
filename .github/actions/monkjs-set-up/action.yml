@@ -1,0 +1,20 @@
+name: Set Up the MonkJs Project 💽
+description: Install the dependencies and build the packages before running other CI jobs.
+
+runs:
+  using: "composite"
+  steps:
+    - name: ⚙️ Setting up Node.Js with Yarn
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+    - shell: bash
+      run: "echo Current worker environment : NodeJs $(node -v), NPM v$(npm -v), Yarn v$(yarn -v)"
+    - name: 💽 Installing dependencies
+      shell: bash
+      run: |
+        yarn config set enableImmutableInstalls true
+        yarn install
+    - name: 🏗️ Building packages
+      shell: bash
+      run: yarn build

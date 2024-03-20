@@ -1,8 +1,10 @@
 ---
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 # inspection-report-web
+Single page components to help you visualize and edit Monk inspection reports.
+
 ![npm latest package](https://img.shields.io/npm/v/@monkvision/inspection-report-web/latest.svg)
 
 ## Overview
