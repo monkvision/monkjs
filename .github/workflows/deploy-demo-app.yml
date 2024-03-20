@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-demo-app-staging
-          path: apps/build
+          path: apps/demo-app/build
 
   deploy:
     name: Deploy
