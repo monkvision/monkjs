@@ -1,0 +1,35 @@
+name: Deploy Documentation
+run-name: Deploy Documentation To GitHub Pages After Merge
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: 💾 Checking out the repository
+        uses: actions/checkout@v4
+      - name: ⚙️ Setting up the MonkJs project
+        uses: ./.github/actions/monkjs-set-up
+      - name: 🔐 Authenticating using Futura's secret SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.FUTURA_SECRET }}
+      - name: 📚 Building the documentation
+        run: yarn build:documentation
+      - name: 🌐 Deploying the documentation
+        env:
+          USE_SSH: true
+          GIT_USER: git
+        run: |
+          git config --global user.email "futura@monkvision.ai"
+          git config --global user.name "Futura"
+          yarn deploy:documentation
