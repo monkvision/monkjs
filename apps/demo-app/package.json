@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "start": "env-cmd -e local react-scripts start",
+    "build:development": "env-cmd -e development react-scripts build",
     "build:staging": "env-cmd -e staging react-scripts build",
     "build:preview": "env-cmd -e preview react-scripts build",
     "test": "jest",
