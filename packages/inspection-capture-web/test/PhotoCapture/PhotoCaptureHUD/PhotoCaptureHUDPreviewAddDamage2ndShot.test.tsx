@@ -14,12 +14,15 @@ import {
   PhotoCaptureHUDCounter,
   PhotoCaptureHUDPreviewAddDamage2ndShot,
 } from '../../../src';
+import { isMobileDevice } from '@monkvision/common';
 import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
 
 const FRAME_CONTAINER_TEST_ID = 'frame-container';
 
 describe('PhotoCaptureHUDPreviewAddDamage2ndShot component', () => {
   it('should display a frame on the center of the screen', () => {
+    const isMobileDeviceMock = isMobileDevice as jest.Mock;
+    isMobileDeviceMock.mockReturnValue(true);
     const streamDimensions = { width: 5436, height: 1231 };
     const { unmount } = render(
       <PhotoCaptureHUDPreviewAddDamage2ndShot streamDimensions={streamDimensions} />,
