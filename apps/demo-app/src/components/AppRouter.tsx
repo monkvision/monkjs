@@ -1,11 +1,11 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { CreateInspectionPage, LogInPage, Page, PhotoCapturePage } from '../pages';
 import { AuthGuard } from './AuthGuard';
 import { App } from './App';
 
 export function AppRouter() {
   return (
-    <BrowserRouter>
+    <MemoryRouter>
       <Routes>
         <Route path='/' element={<App />}>
           <Route path='/' element={<Navigate to={Page.CREATE_INSPECTION} />} />
@@ -31,6 +31,6 @@ export function AppRouter() {
           <Route path='*' element={<Navigate to={Page.CREATE_INSPECTION} />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </MemoryRouter>
   );
 }

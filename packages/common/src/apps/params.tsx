@@ -9,10 +9,10 @@ import React, {
   useState,
 } from 'react';
 import { monkLanguages, VehicleType } from '@monkvision/types';
-import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMonitoring } from '@monkvision/monitoring';
 import { zlibDecompress } from '../utils';
+import { useSearchParams } from '../hooks';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
@@ -183,7 +183,7 @@ export function MonkAppParamsProvider({
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const { i18n } = useTranslation();
   const { handleError } = useMonitoring();
 
