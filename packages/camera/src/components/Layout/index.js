@@ -87,10 +87,10 @@ function Layout({ backgroundColor, children, left, right, isPortrait, selectedMo
   const { height, width } = useWindowDimensions();
   const { t } = useTranslation();
 
-  const size = StyleSheet.create({
-    height: isPortrait ? width : height,
+  const size = {
     width: isPortrait ? height : width,
-  });
+    height: isPortrait ? width : height,
+  };
 
   const containerStyle = StyleSheet.compose(
     styles.container,

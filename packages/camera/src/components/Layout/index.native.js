@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 function Layout({ backgroundColor, children, isReady, left, right }) {
   const { height, width } = useWindowDimensions();
 
-  const size = StyleSheet.create({ height, width });
+  const size = { width, height };
 
   const leftStyle = StyleSheet.compose(
     [size, styles.section, styles.side, { width: SIDE }],
