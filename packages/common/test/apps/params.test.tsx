@@ -1,6 +1,9 @@
 jest.mock('../../src/utils/zlib.utils', () => ({
   zlibDecompress: jest.fn(() => ''),
 }));
+jest.mock('../../src/hooks', () => ({
+  useSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
+}));
 
 import { render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
@@ -13,8 +16,8 @@ import {
   MonkSearchParams,
   useMonkAppParams,
   zlibDecompress,
+  useSearchParams,
 } from '../../src';
-import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 let params: MonkAppParams | null = null;
@@ -100,11 +103,9 @@ describe('Monk App Params', () => {
     it('should fetch the token from the search params if asked to', () => {
       const tokenCompressed = 'test-token-test-compressed';
       const tokenDecompressed = 'test-token-test-decompressed';
-      (useSearchParams as jest.Mock).mockImplementationOnce(() => [
-        {
-          get: jest.fn((name) => (name === MonkSearchParams.TOKEN ? tokenCompressed : null)),
-        },
-      ]);
+      (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+        get: jest.fn((name) => (name === MonkSearchParams.TOKEN ? tokenCompressed : null)),
+      }));
       (zlibDecompress as jest.Mock).mockImplementationOnce(() => tokenDecompressed);
       const onFetchAuthToken = jest.fn();
       const { unmount } = render(
@@ -125,11 +126,9 @@ describe('Monk App Params', () => {
       jest.spyOn(Storage.prototype, 'getItem').mockImplementationOnce(() => storageToken);
       const tokenCompressed = 'test-token-test-compressed-searchparams';
       const tokenDecompressed = 'test-token-test-decompressed-searchparams';
-      (useSearchParams as jest.Mock).mockImplementationOnce(() => [
-        {
-          get: jest.fn((name) => (name === MonkSearchParams.TOKEN ? tokenCompressed : null)),
-        },
-      ]);
+      (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+        get: jest.fn((name) => (name === MonkSearchParams.TOKEN ? tokenCompressed : null)),
+      }));
       (zlibDecompress as jest.Mock).mockImplementationOnce(() => tokenDecompressed);
       const { unmount } = render(
         <MonkAppParamsProvider fetchFromSearchParams={true} fetchTokenFromStorage={true}>
@@ -144,11 +143,9 @@ describe('Monk App Params', () => {
 
     it('should fetch the inspection ID from the search params if asked to', () => {
       const inspectionId = 'test-inspection-id-test';
-      (useSearchParams as jest.Mock).mockImplementationOnce(() => [
-        {
-          get: jest.fn((name) => (name === MonkSearchParams.INSPECTION_ID ? inspectionId : null)),
-        },
-      ]);
+      (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+        get: jest.fn((name) => (name === MonkSearchParams.INSPECTION_ID ? inspectionId : null)),
+      }));
       const { unmount } = render(
         <MonkAppParamsProvider fetchFromSearchParams={true}>
           <TestComponent />
@@ -162,11 +159,9 @@ describe('Monk App Params', () => {
 
     Object.values(VehicleType).forEach((vehicleType) =>
       it(`should properly fetch the ${vehicleType} vehicle type from the search params if asked to`, () => {
-        (useSearchParams as jest.Mock).mockImplementationOnce(() => [
-          {
-            get: jest.fn((name) => (name === MonkSearchParams.VEHICLE_TYPE ? vehicleType : null)),
-          },
-        ]);
+        (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+          get: jest.fn((name) => (name === MonkSearchParams.VEHICLE_TYPE ? vehicleType : null)),
+        }));
         const { unmount } = render(
           <MonkAppParamsProvider fetchFromSearchParams={true}>
             <TestComponent />
@@ -181,11 +176,9 @@ describe('Monk App Params', () => {
 
     it('should update the language from the search params if asked to', () => {
       const lang = 'fr';
-      (useSearchParams as jest.Mock).mockImplementationOnce(() => [
-        {
-          get: jest.fn((name) => (name === MonkSearchParams.LANGUAGE ? lang : null)),
-        },
-      ]);
+      (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+        get: jest.fn((name) => (name === MonkSearchParams.LANGUAGE ? lang : null)),
+      }));
       const { unmount } = render(
         <MonkAppParamsProvider fetchFromSearchParams={true} updateLanguage={true}>
           <TestComponent />

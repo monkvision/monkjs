@@ -40,7 +40,7 @@ export function CreateInspectionPage() {
   }, [inspectionId]);
 
   if (inspectionId) {
-    return <Navigate to={Page.PHOTO_CAPTURE} />;
+    return <Navigate to={Page.PHOTO_CAPTURE} replace />;
   }
 
   return (
