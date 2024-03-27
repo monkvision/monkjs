@@ -1,13 +1,19 @@
 export { type MonkAPIConfig } from './config';
-export { type MonkApiResponse, type MonkAPIRequest } from './types';
+export { type MonkApiResponse } from './types';
 export { useMonkApi } from './react';
 export { MonkNetworkError, type MonkHTTPError } from './error';
 export { MonkApi } from './api';
 
+export { type GetInspectionResponse, type CreateInspectionOptions } from './inspection';
 export {
+  type AddImageResponse,
   type ComplianceOptions,
   type AddBeautyShotImageOptions,
   type Add2ShotCloseUpImageOptions,
   type AddImageOptions,
 } from './image';
-export { type UpdateProgressStatus } from './task';
+export {
+  type UpdateProgressStatus,
+  type UpdateTaskStatusOptions,
+  type StartInspectionTasksOptions,
+} from './task';

@@ -1,21 +1,20 @@
 import { KyResponse } from 'ky';
-import { MonkAction } from '@monkvision/common';
 import { ApiIdColumn } from './models';
-import { MonkAPIConfig } from './config';
 
 /**
- * Type definition for the response of a Monk Api request.
+ * Default return type of Monk API Request, containing just the ID of the affected entity.
  */
-export type MonkApiResponse<
-  T extends MonkAction | null,
-  K extends object = ApiIdColumn,
-  P extends object = Record<never, never>,
-> = P & {
+export interface MonkId {
   /**
-   * The MonkAction to be dispatched in the MonkState if you want to synchronize the local state with the distant state
-   * after this API call has been made.
+   * The ID of the entity that was affected by the API request.
    */
-  action: T;
+  id: string;
+}
+
+/**
+ * Generic type definition for the response returned by a Monk API Request.
+ */
+export type MonkApiResponse<T extends object = MonkId, K extends object = ApiIdColumn> = T & {
   /**
    * The raw HTTP response object.
    */
@@ -25,13 +24,3 @@ export type MonkApiResponse<
    */
   body: K;
 };
-
-/**
- * Generic type definition for a utility function that makes a request to the Monk API.
- */
-export type MonkAPIRequest<
-  A extends unknown[],
-  T extends MonkAction | null,
-  K extends object = ApiIdColumn,
-  P extends object = Record<never, never>,
-> = (...args: [...A, MonkAPIConfig]) => Promise<MonkApiResponse<T, K, P>>;

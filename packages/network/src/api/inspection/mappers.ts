@@ -361,7 +361,7 @@ function mapInspection(
   };
 }
 
-export function mapApiInspectionGet(response: ApiInspectionGet): Partial<MonkState> {
+export function mapApiInspectionGet(response: ApiInspectionGet): MonkState {
   const { images, renderedOutputs, views, imageIds, renderedOutputIds, viewIds } =
     mapImages(response);
   const { damages, damageIds } = mapDamages(response);
@@ -389,6 +389,7 @@ export function mapApiInspectionGet(response: ApiInspectionGet): Partial<MonkSta
     tasks,
     vehicles: vehicle ? [vehicle] : [],
     views,
+    partOperations: [],
   };
 }
 

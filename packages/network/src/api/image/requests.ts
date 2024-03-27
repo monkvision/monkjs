@@ -1,11 +1,12 @@
 import ky from 'ky';
 import { MonkPicture } from '@monkvision/camera-web';
 import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
-import { ImageSubtype, ImageType, TaskName } from '@monkvision/types';
+import { Image, ImageSubtype, ImageType, TaskName } from '@monkvision/types';
 import { labels, sights } from '@monkvision/sights';
+import { Dispatch } from 'react';
 import { getDefaultOptions, MonkAPIConfig } from '../config';
 import { ApiImage, ApiImagePost } from '../models';
-import { MonkAPIRequest } from '../types';
+import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
 
 /**
@@ -174,17 +175,28 @@ async function createImageFormData(
 }
 
 /**
- * Add a new image to an inspection. The resulting action of this request will contain the details of the image that has
- * been created in the API.
+ * Type definition for the result of the `addImage` API request.
+ */
+export interface AddImageResponse {
+  /**
+   * The image object that has been created.
+   */
+  image: Image;
+}
+
+/**
+ * Add a new image to an inspection.
  *
  * @param options Upload options for the image.
  * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
  */
-export const addImage: MonkAPIRequest<
-  [options: AddImageOptions],
-  MonkCreatedOneImageAction,
-  ApiImage
-> = async (options: AddImageOptions, config: MonkAPIConfig) => {
+export async function addImage(
+  options: AddImageOptions,
+  config: MonkAPIConfig,
+  dispatch?: Dispatch<MonkCreatedOneImageAction>,
+): Promise<MonkApiResponse<AddImageResponse, ApiImage>> {
   const kyOptions = getDefaultOptions(config);
   const formData = await createImageFormData(options);
   const response = await ky.post(`inspections/${options.inspectionId}/images`, {
@@ -192,15 +204,13 @@ export const addImage: MonkAPIRequest<
     body: formData,
   });
   const body = await response.json<ApiImage>();
-  return {
-    action: {
-      type: MonkActionType.CREATED_ONE_IMAGE,
-      payload: {
-        inspectionId: options.inspectionId,
-        image: mapApiImage(body, options.inspectionId),
-      },
+  const image = mapApiImage(body, options.inspectionId);
+  dispatch?.({
+    type: MonkActionType.CREATED_ONE_IMAGE,
+    payload: {
+      inspectionId: options.inspectionId,
+      image,
     },
-    response,
-    body,
-  };
-};
+  });
+  return { image, response, body };
+}

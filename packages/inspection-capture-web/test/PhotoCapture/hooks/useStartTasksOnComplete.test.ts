@@ -63,10 +63,10 @@ describe('useStartTasksOnComplete hook', () => {
       .startInspectionTasks;
 
     result.current();
-    expect(startInspectionTasksMock).toHaveBeenCalledWith(
-      initialProps.inspectionId,
-      initialProps.startTasksOnComplete,
-    );
+    expect(startInspectionTasksMock).toHaveBeenCalledWith({
+      inspectionId: initialProps.inspectionId,
+      names: initialProps.startTasksOnComplete,
+    });
 
     unmount();
   });
@@ -89,13 +89,16 @@ describe('useStartTasksOnComplete hook', () => {
       .startInspectionTasks;
 
     result.current();
-    expect(startInspectionTasksMock).toHaveBeenCalledWith(initialProps.inspectionId, [
-      TaskName.DAMAGE_DETECTION,
-      TaskName.PRICING,
-      TaskName.DASHBOARD_OCR,
-      TaskName.IMAGES_OCR,
-      TaskName.WHEEL_ANALYSIS,
-    ]);
+    expect(startInspectionTasksMock).toHaveBeenCalledWith({
+      inspectionId: initialProps.inspectionId,
+      names: [
+        TaskName.DAMAGE_DETECTION,
+        TaskName.PRICING,
+        TaskName.DASHBOARD_OCR,
+        TaskName.IMAGES_OCR,
+        TaskName.WHEEL_ANALYSIS,
+      ],
+    });
 
     unmount();
   });
@@ -110,7 +113,10 @@ describe('useStartTasksOnComplete hook', () => {
 
     result.current();
     const tasks = uniq(flatMap(initialProps.sights, (sight) => sight.tasks));
-    expect(startInspectionTasksMock).toHaveBeenCalledWith(initialProps.inspectionId, tasks);
+    expect(startInspectionTasksMock).toHaveBeenCalledWith({
+      inspectionId: initialProps.inspectionId,
+      names: tasks,
+    });
 
     unmount();
   });
