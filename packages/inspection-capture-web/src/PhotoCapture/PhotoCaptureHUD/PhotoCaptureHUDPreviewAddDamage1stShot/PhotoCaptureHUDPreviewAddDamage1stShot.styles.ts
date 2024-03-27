@@ -1,4 +1,5 @@
 import { Styles } from '@monkvision/types';
+import { PHOTOCAPTUREHUB_BUTTONS_BAR_WIDTH } from '../PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
 
 export const styles: Styles = {
   container: {
@@ -24,10 +25,18 @@ export const styles: Styles = {
     right: '0',
     left: '0',
   },
+  topLandscape: {
+    __media: { landscape: true },
+    right: `${PHOTOCAPTUREHUB_BUTTONS_BAR_WIDTH * 2}px`,
+  },
   infoBtn: {
     position: 'absolute',
     margin: '20px',
     bottom: '0',
+  },
+  infoBtnPortrait: {
+    __media: { portrait: true },
+    bottom: `${PHOTOCAPTUREHUB_BUTTONS_BAR_WIDTH * 1.5}px`,
   },
   svg: {
     width: '15%',

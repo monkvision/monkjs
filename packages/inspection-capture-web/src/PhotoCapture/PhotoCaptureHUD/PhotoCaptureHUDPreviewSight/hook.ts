@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import { useResponsiveStyle } from '@monkvision/common';
 import { styles } from './PhotoCaptureHUDPreviewSight.styles';
 
 export interface PhotoCaptureHUDSightPreviewStyle {
@@ -8,12 +9,15 @@ export interface PhotoCaptureHUDSightPreviewStyle {
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle(): PhotoCaptureHUDSightPreviewStyle {
+  const { responsive } = useResponsiveStyle();
+
   return {
     container: {
       ...styles['container'],
     },
     top: {
       ...styles['top'],
+      ...responsive(styles['topLandscape']),
     },
     overlay: {
       ...styles['overlay'],

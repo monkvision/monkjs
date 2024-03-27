@@ -1,9 +1,11 @@
 import { PixelDimensions } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
+import { isMobileDevice } from '@monkvision/common';
 import { PhotoCaptureMode } from '../../hooks';
 import { styles } from './PhotoCaptureHUDPreviewAddDamage2ndShot.styles';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureHUDCancelButton } from '../PhotoCaptureHUDCancelButton';
+import { usePhotoCaptureHUDPreviewAddDamage2ndShotStyle } from './hook';
 
 /**
  * Props of the PhotoCaptureHUDPreviewAddDamage2ndShot component.
@@ -19,6 +21,13 @@ export interface PhotoCaptureHUDAddDamagePreview2ndShotProps {
   streamDimensions?: PixelDimensions | null;
 }
 
+function getAspectRatio(streamDimensions?: PixelDimensions | null) {
+  if (isMobileDevice() && streamDimensions) {
+    return `${streamDimensions?.width}/${streamDimensions?.height}`;
+  }
+  return '16/9';
+}
+
 /**
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
  * mode is ADD_DAMAGE_2ND_SHOT.
@@ -28,21 +37,20 @@ export function PhotoCaptureHUDPreviewAddDamage2ndShot({
   streamDimensions,
 }: PhotoCaptureHUDAddDamagePreview2ndShotProps) {
   const { t } = useTranslation();
+  const style = usePhotoCaptureHUDPreviewAddDamage2ndShotStyle();
 
-  const aspectRatio = streamDimensions
-    ? `${streamDimensions?.width}/${streamDimensions?.height}`
-    : '16/9';
+  const aspectRatio = getAspectRatio(streamDimensions);
 
   return (
     <div style={styles['container']}>
       <div style={{ ...styles['frameContainer'], aspectRatio }} data-testid='frame-container'>
-        <div style={styles['frame']} />
+        <div style={style.frame} />
       </div>
-      <div style={styles['top']}>
+      <div style={style.top}>
         <PhotoCaptureHUDCounter mode={PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT} />
         <PhotoCaptureHUDCancelButton onCancel={onCancel} />
       </div>
-      <div style={styles['infoCloseup']}>{t('photo.hud.addDamage.infoCloseup')}</div>
+      <div style={style.infoCloseup}>{t('photo.hud.addDamage.infoCloseup')}</div>
     </div>
   );
 }

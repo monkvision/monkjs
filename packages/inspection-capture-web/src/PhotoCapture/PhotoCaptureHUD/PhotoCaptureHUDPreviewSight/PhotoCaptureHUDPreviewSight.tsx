@@ -57,7 +57,7 @@ export function PhotoCaptureHUDPreviewSight({
       {streamDimensions && (
         <SightOverlay style={{ ...style.overlay, aspectRatio }} sight={selectedSight} />
       )}
-      <div style={styles['top']}>
+      <div style={style.top}>
         <PhotoCaptureHUDCounter
           mode={PhotoCaptureMode.SIGHT}
           totalSights={sights.length}

@@ -51,6 +51,7 @@ export function useCaptureHUDButtonsStyles(
     containerStyle: {
       ...styles['container'],
       ...responsive(styles['containersPortrait']),
+      ...responsive(styles['containersLandscape']),
     },
     gallery: {
       style: {
