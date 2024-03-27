@@ -67,26 +67,25 @@ describe('Image requests', () => {
   describe('addImage request', () => {
     it('should make a request to the proper URL and map the resulting response', async () => {
       const options = createBeautyShotImageOptions();
-      const result = await addImage(options, apiConfig);
+      const dispatch = jest.fn();
+      const result = await addImage(options, apiConfig, dispatch);
       const response = await (ky.post as jest.Mock).mock.results[0].value;
       const body = await response.json();
+      const image = mapApiImage(body, options.inspectionId);
 
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.post).toHaveBeenCalledWith(
         `inspections/${options.inspectionId}/images`,
         expect.objectContaining(getDefaultOptions(apiConfig)),
       );
-      expect(result).toEqual({
-        action: {
-          type: MonkActionType.CREATED_ONE_IMAGE,
-          payload: {
-            inspectionId: options.inspectionId,
-            image: mapApiImage(body, options.inspectionId),
-          },
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image,
         },
-        response,
-        body,
       });
+      expect(result).toEqual({ image, response, body });
     });
 
     it('should properly create the formdata for a beautyshot', async () => {

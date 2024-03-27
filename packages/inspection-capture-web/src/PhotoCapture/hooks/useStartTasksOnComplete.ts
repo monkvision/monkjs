@@ -80,11 +80,11 @@ export function useStartTasksOnComplete({
     if (!startTasksOnComplete) {
       return;
     }
-    const tasks = getTasksToStart({ sights, tasksBySight, startTasksOnComplete });
+    const names = getTasksToStart({ sights, tasksBySight, startTasksOnComplete });
 
     loading.start();
     try {
-      await startInspectionTasks(inspectionId, tasks);
+      await startInspectionTasks({ inspectionId, names });
       loading.onSuccess();
     } catch (err) {
       handleError(err);

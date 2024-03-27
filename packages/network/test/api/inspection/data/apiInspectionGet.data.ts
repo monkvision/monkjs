@@ -3470,4 +3470,5 @@ export default {
       renderedOutputs: ['662bc970-70d1-83de-6641-6b0f77f7af99'],
     },
   ],
+  partOperations: [],
 };

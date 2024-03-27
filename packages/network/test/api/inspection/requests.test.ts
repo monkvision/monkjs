@@ -23,17 +23,20 @@ describe('Inspection requests', () => {
   describe('getInspection request', () => {
     it('should make the proper API call and map the resulting response', async () => {
       const id = 'test-inspection-id';
-      const result = await getInspection(id, apiConfig);
+      const dispatch = jest.fn();
+      const result = await getInspection(id, apiConfig, dispatch);
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
+      const entities = mapApiInspectionGet(body);
 
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.get).toHaveBeenCalledWith(`inspections/${id}`, getDefaultOptions(apiConfig));
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.GOT_ONE_INSPECTION,
+        payload: entities,
+      });
       expect(result).toEqual({
-        action: {
-          type: MonkActionType.GOT_ONE_INSPECTION,
-          payload: mapApiInspectionGet(body),
-        },
+        entities,
         response,
         body,
       });
@@ -56,7 +59,6 @@ describe('Inspection requests', () => {
         json: apiInspectionPost,
       });
       expect(result).toEqual({
-        action: null,
         id: body.id,
         response,
         body,

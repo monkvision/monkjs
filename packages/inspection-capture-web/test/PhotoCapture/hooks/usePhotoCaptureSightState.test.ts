@@ -32,18 +32,16 @@ function createParams(): PhotoCaptureSightsParams {
 
 function mockGetInspectionResponse(inspectionId: string, takenSights: Sight[], tasks?: TaskName[]) {
   return {
-    action: {
-      payload: {
-        images: takenSights.map((sight, index) => ({
-          inspectionId,
-          additionalData: { sight_id: sight.id },
-          path: `test-path-${index}`,
-          mimetype: `test-mimetype-${index}`,
-          width: index * 2000,
-          height: index * 1000,
-        })),
-        tasks: tasks?.map((name) => ({ inspectionId, name })),
-      },
+    entities: {
+      images: takenSights.map((sight, index) => ({
+        inspectionId,
+        additionalData: { sight_id: sight.id },
+        path: `test-path-${index}`,
+        mimetype: `test-mimetype-${index}`,
+        width: index * 2000,
+        height: index * 1000,
+      })),
+      tasks: tasks?.map((name) => ({ inspectionId, name })),
     },
   };
 }
@@ -138,7 +136,7 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(result.current.selectedSight).toEqual(
       initialProps.captureSights.filter((s) => !takenSights.includes(s))[0],
     );
-    const { images } = apiResponse.action.payload;
+    const { images } = apiResponse.entities;
     expect(result.current.lastPictureTaken).toEqual({
       uri: images[images.length - 1].path,
       mimetype: images[images.length - 1].mimetype,

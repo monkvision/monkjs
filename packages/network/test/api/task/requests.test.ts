@@ -20,10 +20,11 @@ describe('Task requests', () => {
 
   describe('updateTaskStatus request', () => {
     it('should make the proper API call and map the resulting response', async () => {
+      const dispatch = jest.fn();
       const inspectionId = 'test-inspection-id';
       const name = TaskName.WHEEL_ANALYSIS;
       const status = ProgressStatus.TODO;
-      const result = await updateTaskStatus(inspectionId, name, status, apiConfig);
+      const result = await updateTaskStatus({ inspectionId, name, status }, apiConfig, dispatch);
       const response = await (ky.patch as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
@@ -37,11 +38,12 @@ describe('Task requests', () => {
           backoffLimit: 1500,
         },
       });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.UPDATED_MANY_TASKS,
+        payload: [{ id: undefined, status }],
+      });
       expect(result).toEqual({
-        action: {
-          type: MonkActionType.UPDATED_MANY_TASKS,
-          payload: [{ id: undefined, status }],
-        },
+        id: undefined,
         response,
         body,
       });
@@ -52,9 +54,12 @@ describe('Task requests', () => {
     it('should make the proper API calls', async () => {
       const inspectionId = 'test-inspection-id';
       const names = [TaskName.WHEEL_ANALYSIS, TaskName.DAMAGE_DETECTION];
-      const result = await startInspectionTasks(inspectionId, names, apiConfig);
-      const response = await (ky.patch as jest.Mock).mock.results[0].value;
-      const body = await response.json();
+      const dispatch = jest.fn();
+      const result = await startInspectionTasks({ inspectionId, names }, apiConfig, dispatch);
+      const response0 = await (ky.patch as jest.Mock).mock.results[0].value;
+      const body0 = await response0.json();
+      const response1 = await (ky.patch as jest.Mock).mock.results[1].value;
+      const body1 = await response1.json();
 
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       names.forEach((name) => {
@@ -68,17 +73,23 @@ describe('Task requests', () => {
           },
         });
       });
-      expect(result).toEqual({
-        action: {
-          type: MonkActionType.UPDATED_MANY_TASKS,
-          payload: [
-            { id: undefined, status: ProgressStatus.TODO },
-            { id: undefined, status: ProgressStatus.TODO },
-          ],
-        },
-        response,
-        body,
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.UPDATED_MANY_TASKS,
+        payload: [
+          { id: undefined, status: ProgressStatus.TODO },
+          { id: undefined, status: ProgressStatus.TODO },
+        ],
       });
+      expect(result).toEqual([
+        {
+          response: response0,
+          body: body0,
+        },
+        {
+          response: response1,
+          body: body1,
+        },
+      ]);
     });
   });
 });

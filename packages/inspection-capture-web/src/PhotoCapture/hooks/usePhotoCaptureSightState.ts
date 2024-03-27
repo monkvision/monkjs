@@ -1,7 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
-import { MonkAPIConfig, MonkApiResponse, useMonkApi } from '@monkvision/network';
+import {
+  GetInspectionResponse,
+  MonkAPIConfig,
+  MonkApiResponse,
+  useMonkApi,
+} from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { LoadingState, MonkGotOneInspectionAction, useAsyncEffect } from '@monkvision/common';
+import { LoadingState, useAsyncEffect } from '@monkvision/common';
 import { Image, Sight, TaskName } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { MonkPicture } from '@monkvision/camera-web';
@@ -86,11 +91,11 @@ function getCaptureTasks(
 
 function assertInspectionIsValid(
   inspectionId: string,
-  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  response: MonkApiResponse<GetInspectionResponse>,
   captureSights: Sight[],
   tasksBySight?: Record<string, TaskName[]>,
 ): void {
-  const inspectionTasks = response.action?.payload?.tasks
+  const inspectionTasks = response.entities.tasks
     ?.filter((task) => task.inspectionId === inspectionId)
     ?.map((task) => task.name);
   if (inspectionTasks) {
@@ -112,10 +117,10 @@ function assertInspectionIsValid(
 
 function getSightsTaken(
   inspectionId: string,
-  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  response: MonkApiResponse<GetInspectionResponse>,
 ): Sight[] {
   return (
-    response.action?.payload?.images
+    response.entities.images
       ?.filter(
         (image: Image) => image.inspectionId === inspectionId && image.additionalData?.['sight_id'],
       )
@@ -125,9 +130,9 @@ function getSightsTaken(
 
 function getLastPictureTaken(
   inspectionId: string,
-  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  response: MonkApiResponse<GetInspectionResponse>,
 ): MonkPicture | null {
-  const images = response.action?.payload?.images?.filter(
+  const images = response.entities.images.filter(
     (image: Image) => image.inspectionId === inspectionId,
   );
   if (images && images.length > 0) {
