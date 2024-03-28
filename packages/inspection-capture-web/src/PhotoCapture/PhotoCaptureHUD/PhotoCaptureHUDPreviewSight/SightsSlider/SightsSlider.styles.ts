@@ -15,7 +15,7 @@ export const styles: Styles = {
     scrollbarWidth: 'none',
     maxWidth: '60vw',
     zIndex: '9',
-    bottom: '0',
+    bottom: '10px',
     right: `${PHOTOCAPTUREHUB_BUTTONS_BAR_WIDTH * 2}px`,
     left: '0',
   },
