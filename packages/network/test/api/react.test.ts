@@ -27,7 +27,7 @@ describe('Monk API React utilities', () => {
       expect(typeof result.current.getInspection).toBe('function');
 
       let param = 'test-getInspection';
-      let resultMock = await result.current.getInspection(param);
+      let resultMock = await (result.current.getInspection as any)(param);
       let requestMock = MonkApi.getInspection as jest.Mock;
       expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
       let requestResultMock = await requestMock.mock.results[0].value;

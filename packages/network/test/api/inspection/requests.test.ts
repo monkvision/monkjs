@@ -6,7 +6,7 @@ jest.mock('../../../src/api/inspection/mappers', () => ({
   mapApiInspectionPost: jest.fn(() => ({ test: 'ok-ok-ok' })),
 }));
 
-import { TaskName } from '@monkvision/types';
+import { ComplianceIssue, ComplianceOptions, TaskName } from '@monkvision/types';
 import ky from 'ky';
 import { MonkActionType } from '@monkvision/common';
 import { getDefaultOptions } from '../../../src/api/config';
@@ -23,12 +23,17 @@ describe('Inspection requests', () => {
   describe('getInspection request', () => {
     it('should make the proper API call and map the resulting response', async () => {
       const id = 'test-inspection-id';
+      const compliance: ComplianceOptions = {
+        enableCompliance: true,
+        complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+      };
       const dispatch = jest.fn();
-      const result = await getInspection(id, apiConfig, dispatch);
+      const result = await getInspection({ id, compliance }, apiConfig, dispatch);
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
-      const entities = mapApiInspectionGet(body);
 
+      expect(mapApiInspectionGet).toHaveBeenCalledWith(body, compliance);
+      const entities = (mapApiInspectionGet as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.get).toHaveBeenCalledWith(`inspections/${id}`, getDefaultOptions(apiConfig));
       expect(dispatch).toHaveBeenCalledWith({

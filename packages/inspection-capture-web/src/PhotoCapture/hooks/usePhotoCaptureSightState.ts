@@ -7,7 +7,7 @@ import {
 } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
-import { Image, Sight, TaskName } from '@monkvision/types';
+import { ComplianceOptions, Image, Sight, TaskName } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { MonkPicture } from '@monkvision/camera-web';
 import { PhotoCaptureErrorName } from '../errors';
@@ -49,7 +49,7 @@ export interface PhotoCaptureSightState {
 /**
  * Parameters of the usePhotoCaptureSightState hook.
  */
-export interface PhotoCaptureSightsParams {
+export interface PhotoCaptureSightsParams extends Partial<ComplianceOptions> {
   /**
    * The inspection ID.
    */
@@ -70,6 +70,10 @@ export interface PhotoCaptureSightsParams {
    * Callback called when the last sight has been taken by the user.
    */
   onLastSightTaken: () => void;
+  /**
+   * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
+   * sight will be used.
+   */
   tasksBySight?: Record<string, TaskName[]>;
 }
 
@@ -157,6 +161,8 @@ export function usePhotoCaptureSightState({
   loading,
   onLastSightTaken,
   tasksBySight,
+  enableCompliance,
+  complianceIssues,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -171,9 +177,12 @@ export function usePhotoCaptureSightState({
   useAsyncEffect(
     () => {
       loading.start();
-      return getInspection(inspectionId);
+      return getInspection({
+        id: inspectionId,
+        compliance: { enableCompliance, complianceIssues },
+      });
     },
-    [inspectionId, retryCount],
+    [inspectionId, retryCount, enableCompliance, complianceIssues],
     {
       onResolve: (response) => {
         try {

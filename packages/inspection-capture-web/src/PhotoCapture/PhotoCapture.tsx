@@ -1,7 +1,7 @@
 import { Camera, CameraHUDProps, CompressionOptions, CameraProps } from '@monkvision/camera-web';
-import { Sight, TaskName } from '@monkvision/types';
+import { Sight, TaskName, ComplianceOptions } from '@monkvision/types';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { ComplianceOptions, MonkAPIConfig } from '@monkvision/network';
+import { MonkAPIConfig } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
@@ -18,7 +18,8 @@ import {
  */
 export interface PhotoCaptureProps
   extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
-    Partial<CompressionOptions> {
+    Partial<CompressionOptions>,
+    Partial<ComplianceOptions> {
   /**
    * The list of sights to take pictures of. The values in this array should be retreived from the `@monkvision/sights`
    * package.
@@ -34,10 +35,6 @@ export interface PhotoCaptureProps
    * one as the one that created the inspection provided in the `inspectionId` prop.
    */
   apiConfig: MonkAPIConfig;
-  /**
-   * Options used to specify compliance checks to be run on the pictures taken by the user.
-   */
-  compliances?: ComplianceOptions;
   /**
    * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
    * sight will be used.
@@ -84,7 +81,8 @@ export function PhotoCapture({
   onClose,
   onComplete,
   showCloseButton = false,
-  compliances,
+  enableCompliance,
+  complianceIssues,
   lang,
   ...cameraConfig
 }: PhotoCaptureProps) {
@@ -117,11 +115,14 @@ export function PhotoCapture({
     loading,
     onLastSightTaken,
     tasksBySight,
+    enableCompliance,
+    complianceIssues,
   });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
-    compliances,
+    enableCompliance,
+    complianceIssues,
   });
   const handlePictureTaken = usePictureTaken({
     sightState,

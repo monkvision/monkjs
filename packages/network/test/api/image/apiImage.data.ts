@@ -10,31 +10,7 @@ export default {
     sight_id: 'haccord-W-Bn3bU1',
   },
   size: 108009,
-  compliances: {
-    coverage360: {
-      isCompliant: false,
-      reasons: ['test_reason'],
-      status: 'DONE',
-    },
-    imageQualityAssessment: {
-      isCompliant: false,
-      reasons: ['test_reason_2'],
-      status: 'DONE',
-      details: {
-        blurrinessScore: 0.8,
-        overexposureScore: 0.6,
-        underexposureScore: 0.4,
-      },
-    },
-    zoomLevel: {
-      isCompliant: false,
-      reasons: ['test_reason_3'],
-      status: 'DONE',
-      details: {
-        zoomScore: 0.1,
-      },
-    },
-  },
+  status: 'success',
   detailedViewpoint: {
     isExterior: true,
     distance: 99,

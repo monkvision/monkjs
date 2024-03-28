@@ -1,24 +1,24 @@
 import ky from 'ky';
 import { MonkPicture } from '@monkvision/camera-web';
-import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
-import { Image, ImageSubtype, ImageType, TaskName } from '@monkvision/types';
-import { labels, sights } from '@monkvision/sights';
 import { Dispatch } from 'react';
+import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
+import {
+  AdditionalData,
+  ComplianceOptions,
+  Image,
+  ImageStatus,
+  ImageSubtype,
+  ImageType,
+  MonkEntityType,
+  TaskName,
+  TranslationObject,
+} from '@monkvision/types';
+import { v4 } from 'uuid';
+import { labels, sights } from '@monkvision/sights';
 import { getDefaultOptions, MonkAPIConfig } from '../config';
 import { ApiImage, ApiImagePost } from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
-
-/**
- * Options used to enable or disable certain compliance checks when uploading a picture to the Monk Api.
- */
-export interface ComplianceOptions {
-  /**
-   * Set this parameter to `true` to enable the Image Quality Assessment (IQA) compliance check. This checks will verify
-   * the picture bluriness and exposure.
-   */
-  iqa?: boolean;
-}
 
 /**
  * Options specififed when adding a beauty shot (normal "sight" image) to an inspection.
@@ -45,9 +45,9 @@ export interface AddBeautyShotImageOptions {
    */
   tasks: TaskName[];
   /**
-   * Additional options used to enable certain compliance checks on the picture.
+   * Additional options used to configure the compliance locally.
    */
-  compliances?: ComplianceOptions;
+  compliance?: ComplianceOptions;
 }
 
 /**
@@ -78,15 +78,37 @@ export interface Add2ShotCloseUpImageOptions {
    */
   firstShot: boolean;
   /**
-   * Additional options used to enable certain compliance checks on the picture.
+   * Additional options used to configure the compliance locally.
    */
-  compliances?: ComplianceOptions;
+  compliance?: ComplianceOptions;
 }
 
 /**
  * Union type describing the different options that can be specified when adding a picture to an inspection.
  */
 export type AddImageOptions = AddBeautyShotImageOptions | Add2ShotCloseUpImageOptions;
+
+function getImageLabel(options: AddImageOptions): TranslationObject | undefined {
+  if (options.type === ImageType.BEAUTY_SHOT) {
+    return sights[options.sightId] ? labels[sights[options.sightId].label] : undefined;
+  }
+  return {
+    en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+    fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
+    de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
+  };
+}
+
+function getAdditionalData(options: AddImageOptions): AdditionalData {
+  const additionalData: AdditionalData = {
+    label: getImageLabel(options),
+    created_at: new Date(),
+  };
+  if (options.type === ImageType.BEAUTY_SHOT) {
+    additionalData['sight_id'] = options.sightId;
+  }
+  return additionalData;
+}
 
 const MULTIPART_KEY_IMAGE = 'image';
 const MULTIPART_KEY_JSON = 'json';
@@ -96,23 +118,15 @@ function createBeautyShotImageData(
   filetype: string,
 ): { filename: string; body: ApiImagePost } {
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
-  const label = sights[options.sightId] ? labels[sights[options.sightId].label] : undefined;
 
   const body: ApiImagePost = {
     acquisition: {
       strategy: 'upload_multipart_form_keys',
       file_key: MULTIPART_KEY_IMAGE,
     },
-    compliances: {
-      image_quality_assessment: options.compliances?.iqa ? {} : undefined,
-    },
     image_type: ImageType.BEAUTY_SHOT,
     tasks: options.tasks,
-    additional_data: {
-      sight_id: options.sightId,
-      label,
-      created_at: new Date(),
-    },
+    additional_data: getAdditionalData(options),
   };
 
   return { filename, body };
@@ -124,28 +138,17 @@ function createCloseUpImageData(
 ): { filename: string; body: ApiImagePost } {
   const prefix = options.firstShot ? 'closeup-part' : 'closeup-damage';
   const filename = `${prefix}-${options.inspectionId}-${Date.now()}.${filetype}`;
-  const label = {
-    en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
-    fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
-    de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
-  };
 
   const body: ApiImagePost = {
     acquisition: {
       strategy: 'upload_multipart_form_keys',
       file_key: MULTIPART_KEY_IMAGE,
     },
-    compliances: {
-      image_quality_assessment: options.compliances?.iqa ? {} : undefined,
-    },
     image_type: ImageType.CLOSE_UP,
     image_subtype: options.firstShot ? ImageSubtype.CLOSE_UP_PART : ImageSubtype.CLOSE_UP_DAMAGE,
     image_sibling_key: options.siblingKey,
     tasks: [TaskName.DAMAGE_DETECTION],
-    additional_data: {
-      label,
-      created_at: new Date(),
-    },
+    additional_data: getAdditionalData(options),
   };
 
   return { filename, body };
@@ -174,6 +177,30 @@ async function createImageFormData(
   return data;
 }
 
+function createLocalImage(options: AddImageOptions): Image {
+  const image: Image = {
+    entityType: MonkEntityType.IMAGE,
+    id: v4(),
+    inspectionId: options.inspectionId,
+    path: options.picture.uri,
+    width: options.picture.width,
+    height: options.picture.height,
+    size: -1,
+    mimetype: options.picture.mimetype,
+    type: options.type,
+    status: ImageStatus.UPLOADING,
+    label: getImageLabel(options),
+    additionalData: getAdditionalData(options),
+    views: [],
+    renderedOutputs: [],
+  };
+  if (options.type === ImageType.CLOSE_UP) {
+    image.siblingKey = options.siblingKey;
+    image.subtype = options.firstShot ? ImageSubtype.CLOSE_UP_PART : ImageSubtype.CLOSE_UP_DAMAGE;
+  }
+  return image;
+}
+
 /**
  * Type definition for the result of the `addImage` API request.
  */
@@ -197,20 +224,43 @@ export async function addImage(
   config: MonkAPIConfig,
   dispatch?: Dispatch<MonkCreatedOneImageAction>,
 ): Promise<MonkApiResponse<AddImageResponse, ApiImage>> {
-  const kyOptions = getDefaultOptions(config);
-  const formData = await createImageFormData(options);
-  const response = await ky.post(`inspections/${options.inspectionId}/images`, {
-    ...kyOptions,
-    body: formData,
-  });
-  const body = await response.json<ApiImage>();
-  const image = mapApiImage(body, options.inspectionId);
+  const localImage = createLocalImage(options);
   dispatch?.({
     type: MonkActionType.CREATED_ONE_IMAGE,
     payload: {
       inspectionId: options.inspectionId,
-      image,
+      image: localImage,
     },
   });
-  return { image, response, body };
+  try {
+    const kyOptions = getDefaultOptions(config);
+    const formData = await createImageFormData(options);
+    const response = await ky.post(`inspections/${options.inspectionId}/images`, {
+      ...kyOptions,
+      body: formData,
+    });
+    const body = await response.json<ApiImage>();
+    const image = mapApiImage(body, options.inspectionId, options.compliance);
+    dispatch?.({
+      type: MonkActionType.CREATED_ONE_IMAGE,
+      payload: {
+        inspectionId: options.inspectionId,
+        image,
+        localId: localImage.id,
+      },
+    });
+    return { image, response, body };
+  } catch (err) {
+    dispatch?.({
+      type: MonkActionType.CREATED_ONE_IMAGE,
+      payload: {
+        inspectionId: options.inspectionId,
+        image: {
+          ...localImage,
+          status: ImageStatus.UPLOAD_FAILED,
+        },
+      },
+    });
+    throw err;
+  }
 }

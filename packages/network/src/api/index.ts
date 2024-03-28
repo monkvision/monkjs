@@ -4,10 +4,13 @@ export { useMonkApi } from './react';
 export { MonkNetworkError, type MonkHTTPError } from './error';
 export { MonkApi } from './api';
 
-export { type GetInspectionResponse, type CreateInspectionOptions } from './inspection';
+export {
+  type GetInspectionOptions,
+  type GetInspectionResponse,
+  type CreateInspectionOptions,
+} from './inspection';
 export {
   type AddImageResponse,
-  type ComplianceOptions,
   type AddBeautyShotImageOptions,
   type Add2ShotCloseUpImageOptions,
   type AddImageOptions,

@@ -32,9 +32,16 @@ export interface ApiZoomLevelComplianceResult {
   status: ApiTaskProgressStatus;
 }
 
+export interface ApiVehicleAnalysis {
+  is_vehicle_present: boolean;
+}
+
 export interface ApiImageComplianceResults {
   compliance_status?: ApiImageComplianceStatus;
   coverage_360?: ApiComplianceResultBase;
   image_quality_assessment?: ApiIQAComplianceResult;
   zoom_level?: ApiZoomLevelComplianceResult;
+  vehicle_analysis?: ApiVehicleAnalysis;
+  compliance_issues?: string[];
+  should_retake?: boolean;
 }

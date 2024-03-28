@@ -1,7 +1,7 @@
 import { Queue, useQueue } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/camera-web';
-import { AddImageOptions, ComplianceOptions, MonkAPIConfig, useMonkApi } from '@monkvision/network';
-import { ImageType, TaskName } from '@monkvision/types';
+import { AddImageOptions, MonkAPIConfig, useMonkApi } from '@monkvision/network';
+import { ImageType, TaskName, ComplianceOptions } from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
@@ -9,7 +9,7 @@ import { PhotoCaptureMode } from './useAddDamageMode';
 /**
  * Parameters of the useUploadQueue hook.
  */
-export interface UploadQueueParams {
+export interface UploadQueueParams extends Partial<ComplianceOptions> {
   /**
    * The inspection ID.
    */
@@ -18,10 +18,6 @@ export interface UploadQueueParams {
    * The api config used to communicate with the API.
    */
   apiConfig: MonkAPIConfig;
-  /**
-   * Compliance options used to enable or not certain compliance checks.
-   */
-  compliances?: ComplianceOptions;
 }
 
 /**
@@ -86,7 +82,7 @@ function createAddImageOptions(
   upload: PictureUpload,
   inspectionId: string,
   siblingId: number,
-  compliances?: ComplianceOptions,
+  compliance?: ComplianceOptions,
 ): AddImageOptions {
   if (upload.mode === PhotoCaptureMode.SIGHT) {
     return {
@@ -94,8 +90,8 @@ function createAddImageOptions(
       picture: upload.picture,
       sightId: upload.sightId,
       tasks: upload.tasks,
-      compliances,
       inspectionId,
+      compliance,
     };
   }
   return {
@@ -103,8 +99,8 @@ function createAddImageOptions(
     picture: upload.picture,
     siblingKey: `closeup-sibling-key-${siblingId}`,
     firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
-    compliances,
     inspectionId,
+    compliance,
   };
 }
 
@@ -114,7 +110,8 @@ function createAddImageOptions(
 export function useUploadQueue({
   inspectionId,
   apiConfig,
-  compliances,
+  enableCompliance,
+  complianceIssues,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -127,11 +124,13 @@ export function useUploadQueue({
       }
       try {
         await addImage(
-          createAddImageOptions(upload, inspectionId, siblingIdRef.current, compliances),
+          createAddImageOptions(upload, inspectionId, siblingIdRef.current, {
+            enableCompliance,
+            complianceIssues,
+          }),
         );
       } catch (err) {
         handleError(err);
-        // TODO : Handle upload errors in compliance
         throw err;
       }
     },

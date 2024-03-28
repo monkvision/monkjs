@@ -60,5 +60,26 @@ describe('CreatedOneImage action handlers', () => {
       expect(newState.inspections[0].images.length).toBe(2);
       expect(newState.inspections[0].images).toContainEqual(action.payload.image.id);
     });
+
+    it('should replace the local image if passed the localId param', () => {
+      const state = createEmptyMonkState();
+      const localId = 'test';
+      state.inspections.push({
+        id: action.payload.inspectionId,
+        images: [localId],
+      } as unknown as Inspection);
+      state.images.push({
+        id: localId,
+        siblingKey: 'test-local-image',
+      } as unknown as Image);
+      const newState = createdOneImage(state, {
+        ...action,
+        payload: { ...action.payload, localId },
+      });
+      expect(newState.inspections[0].images.length).toBe(1);
+      expect(newState.inspections[0].images).toContainEqual(action.payload.image.id);
+      expect(newState.images.length).toBe(1);
+      expect(newState.images).toContainEqual(action.payload.image);
+    });
   });
 });
