@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
-import { Sight, TaskName } from '@monkvision/types';
+import { ComplianceIssue, Sight, TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
 import { useMonkApi } from '@monkvision/network';
@@ -27,6 +27,8 @@ function createParams(): PhotoCaptureSightsParams {
       onError: jest.fn(),
     } as unknown as LoadingState,
     onLastSightTaken: jest.fn(),
+    enableCompliance: true,
+    complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
   };
 }
 
@@ -116,7 +118,13 @@ describe('usePhotoCaptureSightState hook', () => {
     const effect = (useAsyncEffect as jest.Mock).mock.calls[0][0];
     effect();
     expect(initialProps.loading.start).toHaveBeenCalled();
-    expect(getInspectionMock).toHaveBeenCalledWith(initialProps.inspectionId);
+    expect(getInspectionMock).toHaveBeenCalledWith({
+      id: initialProps.inspectionId,
+      compliance: {
+        enableCompliance: initialProps.enableCompliance,
+        complianceIssues: initialProps.complianceIssues,
+      },
+    });
 
     unmount();
   });

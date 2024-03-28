@@ -31,7 +31,7 @@ export function useMonkApi(config: MonkAPIConfig) {
     /**
      * Fetch the details of an inspection using its ID.
      *
-     * @param id The ID of the inspection.
+     * @param options The options of the request.
      */
     getInspection: reactify(MonkApi.getInspection, config, dispatch),
     /**

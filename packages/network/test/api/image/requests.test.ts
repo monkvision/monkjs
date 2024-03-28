@@ -5,18 +5,18 @@ jest.mock('@monkvision/common', () => ({
 jest.mock('../../../src/api/config', () => ({
   getDefaultOptions: jest.fn(() => ({ prefixUrl: 'getDefaultOptionsTest' })),
 }));
-jest.mock('../../../src/api/inspection/mappers', () => ({
+jest.mock('../../../src/api/image/mappers', () => ({
   mapApiImage: jest.fn(() => ({ test: 'hello' })),
 }));
 
 import { labels, sights } from '@monkvision/sights';
 import ky from 'ky';
-import { ImageSubtype, ImageType, TaskName } from '@monkvision/types';
+import { ComplianceIssue, ImageStatus, ImageSubtype, ImageType, TaskName } from '@monkvision/types';
 import { getFileExtensions, MonkActionType } from '@monkvision/common';
 import { getDefaultOptions } from '../../../src/api/config';
 import {
-  AddBeautyShotImageOptions,
   Add2ShotCloseUpImageOptions,
+  AddBeautyShotImageOptions,
   addImage,
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
@@ -35,8 +35,9 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
     inspectionId: 'test-inspection-id',
     sightId: 'test-sight-id',
     tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS],
-    compliances: {
-      iqa: true,
+    compliance: {
+      enableCompliance: true,
+      complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     },
   };
 }
@@ -53,8 +54,9 @@ function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
     inspectionId: 'test-inspection-id',
     siblingKey: 'test-sibling-key',
     firstShot: true,
-    compliances: {
-      iqa: true,
+    compliance: {
+      enableCompliance: true,
+      complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     },
   };
 }
@@ -65,27 +67,84 @@ describe('Image requests', () => {
   });
 
   describe('addImage request', () => {
-    it('should make a request to the proper URL and map the resulting response', async () => {
+    it('should make a request to the proper URL', async () => {
       const options = createBeautyShotImageOptions();
       const dispatch = jest.fn();
       const result = await addImage(options, apiConfig, dispatch);
       const response = await (ky.post as jest.Mock).mock.results[0].value;
       const body = await response.json();
-      const image = mapApiImage(body, options.inspectionId);
 
+      expect(mapApiImage).toHaveBeenCalledWith(body, options.inspectionId, options.compliance);
+      const image = (mapApiImage as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.post).toHaveBeenCalledWith(
         `inspections/${options.inspectionId}/images`,
         expect.objectContaining(getDefaultOptions(apiConfig)),
       );
+      expect(result).toEqual({ image, response, body });
+    });
+
+    it('should properly update the state', async () => {
+      const options = createBeautyShotImageOptions();
+      const dispatch = jest.fn();
+      const result = await addImage(options, apiConfig, dispatch);
+      const response = await (ky.post as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(mapApiImage).toHaveBeenCalledWith(body, options.inspectionId, options.compliance);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({
+            id: expect.any(String),
+            status: ImageStatus.UPLOADING,
+          }),
+        },
+      });
+      const localId = (dispatch as jest.Mock).mock.calls[0][0].payload.image.id;
+      const image = (mapApiImage as jest.Mock).mock.results[0].value;
       expect(dispatch).toHaveBeenCalledWith({
         type: MonkActionType.CREATED_ONE_IMAGE,
         payload: {
           inspectionId: options.inspectionId,
           image,
+          localId,
         },
       });
       expect(result).toEqual({ image, response, body });
+    });
+
+    it('should properly update the state in case of upload fail', async () => {
+      const err = new Error('Hello');
+      jest.spyOn(ky, 'post').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options = createBeautyShotImageOptions();
+      const dispatch = jest.fn();
+      await expect(addImage(options, apiConfig, dispatch)).rejects.toThrow(err);
+
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({
+            id: expect.any(String),
+            status: ImageStatus.UPLOADING,
+          }),
+        },
+      });
+      const localId = (dispatch as jest.Mock).mock.calls[0][0].payload.image.id;
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({
+            id: localId,
+            status: ImageStatus.UPLOAD_FAILED,
+          }),
+        },
+      });
     });
 
     it('should properly create the formdata for a beautyshot', async () => {
@@ -101,9 +160,6 @@ describe('Image requests', () => {
         acquisition: {
           strategy: 'upload_multipart_form_keys',
           file_key: 'image',
-        },
-        compliances: {
-          image_quality_assessment: options.compliances?.iqa ? {} : undefined,
         },
         image_type: ImageType.BEAUTY_SHOT,
         tasks: options.tasks,
@@ -139,9 +195,6 @@ describe('Image requests', () => {
         acquisition: {
           strategy: 'upload_multipart_form_keys',
           file_key: 'image',
-        },
-        compliances: {
-          image_quality_assessment: options.compliances?.iqa ? {} : undefined,
         },
         image_type: ImageType.CLOSE_UP,
         image_subtype: options.firstShot

@@ -29,7 +29,8 @@
     "@monkvision/sights": "4.0.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
-    "ky": "^1.2.0"
+    "ky": "^1.2.0",
+    "uuid": "^9.0.1"
   },
   "peerDependencies": {
     "@auth0/auth0-react": "^2.2.4",
@@ -48,6 +49,7 @@
     "@types/jest": "^29.2.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^18.11.9",
+    "@types/uuid": "^9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "eslint": "^8.29.0",

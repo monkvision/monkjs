@@ -31,15 +31,15 @@ available in this pacakge all follow the same format :
 ```typescript
 import { MonkApi } from '@monkvision/network';
 
-MonkApi.getInspection(inspectionId, apiConfig, dispatch);
+MonkApi.getInspection(options, apiConfig, dispatch);
 ```
 
 Fetch the details of an inspection using its ID. The resulting action of this request will contain the list of
 every entity that has been fetched using this API call.
 
-| Parameter    | Type         | Description                                              | Required |
-|--------------|--------------|----------------------------------------------------------|----------|
-| inspectionId | string       | The ID of the inspection to get the details of.          | ✔️       |
+| Parameter | Type                 | Description                 | Required |
+|-----------|----------------------|-----------------------------|----------|
+| options   | GetInspectionOptions | The options of the request. | ✔️       |
 
 ### addImage
 ```typescript

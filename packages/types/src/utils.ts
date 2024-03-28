@@ -14,6 +14,7 @@ export interface PixelDimensions {
 
 export interface PromiseHandlers<T> {
   onResolve: (res: T) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onReject: (err: any) => void;
   onComplete: () => void;
 }

@@ -42,7 +42,7 @@ import {
   useUploadQueue,
 } from '../../src/PhotoCapture/hooks';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { TaskName } from '@monkvision/types';
+import { ComplianceIssue, TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 
 function createProps(): PhotoCaptureProps {
@@ -50,7 +50,8 @@ function createProps(): PhotoCaptureProps {
     sights: [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']],
     inspectionId: 'test-inspection-test',
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
-    compliances: { iqa: true },
+    enableCompliance: true,
+    complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     onClose: jest.fn(),
     onComplete: jest.fn(),
     resolution: CameraResolution.NHD_360P,
@@ -100,6 +101,8 @@ describe('PhotoCapture component', () => {
       loading,
       onLastSightTaken: expect.any(Function),
       tasksBySight: props.tasksBySight,
+      enableCompliance: props.enableCompliance,
+      complianceIssues: props.complianceIssues,
     });
 
     unmount();
@@ -160,6 +163,8 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       loading,
       onLastSightTaken,
+      enableCompliance: props.enableCompliance,
+      complianceIssues: props.complianceIssues,
     });
 
     unmount();
@@ -172,7 +177,8 @@ describe('PhotoCapture component', () => {
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
-      compliances: props.compliances,
+      enableCompliance: props.enableCompliance,
+      complianceIssues: props.complianceIssues,
     });
 
     unmount();
