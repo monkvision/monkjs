@@ -16,3 +16,7 @@ export function createFakePromise<T = any>(): FakePromise<T> {
   });
   return promise as FakePromise<T>;
 }
+
+export function flushPromises() {
+  return new Promise(jest.requireActual('timers').setImmediate);
+}

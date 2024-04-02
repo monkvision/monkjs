@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import {
   GetInspectionResponse,
-  MonkAPIConfig,
+  MonkApiConfig,
   MonkApiResponse,
   useMonkApi,
 } from '@monkvision/network';
@@ -61,7 +61,7 @@ export interface PhotoCaptureSightsParams extends Partial<ComplianceOptions> {
   /**
    * The api config used to communicate with the API.
    */
-  apiConfig: MonkAPIConfig;
+  apiConfig: MonkApiConfig;
   /**
    * Global loading state of the PhotoCapture component.
    */

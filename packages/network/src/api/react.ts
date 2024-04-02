@@ -1,15 +1,15 @@
 import { Dispatch, useCallback } from 'react';
 import { MonkAction, useMonkState } from '@monkvision/common';
-import { MonkAPIConfig } from './config';
+import { MonkApiConfig } from './config';
 import { MonkApi } from './api';
 
 type MonkApiRequest<P extends Array<unknown>, A extends MonkAction, R> = (
-  ...params: [...P, MonkAPIConfig, Dispatch<A>?]
+  ...params: [...P, MonkApiConfig, Dispatch<A>?]
 ) => R;
 
 function reactify<P extends Array<unknown>, A extends MonkAction, R>(
   request: MonkApiRequest<P, A, R>,
-  config: MonkAPIConfig,
+  config: MonkApiConfig,
   dispatch: Dispatch<MonkAction>,
 ): (...params: P) => R {
   return useCallback((...params: P) => request(...params, config, dispatch), []);
@@ -24,7 +24,7 @@ function reactify<P extends Array<unknown>, A extends MonkAction, R>(
  *
  * @see MonkApi
  */
-export function useMonkApi(config: MonkAPIConfig) {
+export function useMonkApi(config: MonkApiConfig) {
   const { dispatch } = useMonkState();
 
   return {

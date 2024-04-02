@@ -1,6 +1,6 @@
 import { Queue, useQueue } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/camera-web';
-import { AddImageOptions, MonkAPIConfig, useMonkApi } from '@monkvision/network';
+import { AddImageOptions, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { ImageType, TaskName, ComplianceOptions } from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -17,7 +17,7 @@ export interface UploadQueueParams extends Partial<ComplianceOptions> {
   /**
    * The api config used to communicate with the API.
    */
-  apiConfig: MonkAPIConfig;
+  apiConfig: MonkApiConfig;
 }
 
 /**

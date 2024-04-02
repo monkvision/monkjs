@@ -7,7 +7,7 @@ jest.mock('../../src/api/api', () => ({
 
 import { renderHook } from '@testing-library/react-hooks';
 import { useMonkState } from '@monkvision/common';
-import { MonkApi, MonkAPIConfig, useMonkApi } from '../../src';
+import { MonkApi, MonkApiConfig, useMonkApi } from '../../src';
 
 describe('Monk API React utilities', () => {
   afterEach(() => {
@@ -16,7 +16,7 @@ describe('Monk API React utilities', () => {
 
   describe('useMonkApi hook', () => {
     it('should properly reactify each request in the MonkApi object', async () => {
-      const config: MonkAPIConfig = { apiDomain: 'wow-test', authToken: 'yessss' };
+      const config: MonkApiConfig = { apiDomain: 'wow-test', authToken: 'yessss' };
       const { result, unmount } = renderHook(useMonkApi, {
         initialProps: config,
       });

@@ -99,4 +99,6 @@ export = {
     setVehicleType: jest.fn(),
   })),
   getEnvOrThrow: jest.fn((name) => name),
+  useInterval: jest.fn(),
+  useAsyncInterval: jest.fn(),
 };

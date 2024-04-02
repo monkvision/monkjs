@@ -7,7 +7,7 @@ import {
 } from '@monkvision/common';
 import { ComplianceOptions } from '@monkvision/types';
 import { Dispatch } from 'react';
-import { getDefaultOptions, MonkAPIConfig } from '../config';
+import { getDefaultOptions, MonkApiConfig } from '../config';
 import { ApiIdColumn, ApiInspectionGet } from '../models';
 import { CreateInspectionOptions, mapApiInspectionGet, mapApiInspectionPost } from './mappers';
 import { MonkApiResponse } from '../types';
@@ -46,7 +46,7 @@ export interface GetInspectionResponse {
  */
 export async function getInspection(
   options: GetInspectionOptions,
-  config: MonkAPIConfig,
+  config: MonkApiConfig,
   dispatch?: Dispatch<MonkGotOneInspectionAction>,
 ): Promise<MonkApiResponse<GetInspectionResponse, ApiInspectionGet>> {
   const kyOptions = getDefaultOptions(config);
@@ -71,7 +71,7 @@ export async function getInspection(
  */
 export async function createInspection(
   options: CreateInspectionOptions,
-  config: MonkAPIConfig,
+  config: MonkApiConfig,
   _dispatch?: Dispatch<MonkAction>,
 ): Promise<MonkApiResponse> {
   const kyOptions = getDefaultOptions(config);

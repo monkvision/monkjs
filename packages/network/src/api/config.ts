@@ -7,7 +7,7 @@ export const sdkVersion = packageJson.version;
 /**
  * Required configuration properties used when interacting with the MonkJs API.
  */
-export interface MonkAPIConfig {
+export interface MonkApiConfig {
   /**
    * The domain of the Monk API.
    */
@@ -18,7 +18,7 @@ export interface MonkAPIConfig {
   authToken: string;
 }
 
-export function getDefaultOptions(config: MonkAPIConfig): Options {
+export function getDefaultOptions(config: MonkApiConfig): Options {
   const apiDomain = config.apiDomain.endsWith('/')
     ? config.apiDomain.substring(0, config.apiDomain.length - 1)
     : config.apiDomain;
