@@ -18,6 +18,6 @@ you can refer to their own README directly :
 - [State Management](README/STATE_MANAGEMENT.md).
 - [Theming](README/THEMING.md).
 - [Internationalization](README/INTERNATIONALIZATION.md).
-- [Hooks](README/HOOKS.md).
+- [Hooks](README/APP_UTILS).
 - [Utilities](README/UTILITIES.md).
-- [Application Utilities](README/APP_UTILS.md).
+- [Application Utilities](README/HOOKS).

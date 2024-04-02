@@ -2,7 +2,7 @@ import ky from 'ky';
 import { MonkActionType, MonkUpdatedManyTasksAction } from '@monkvision/common';
 import { ProgressStatus, TaskName } from '@monkvision/types';
 import { Dispatch } from 'react';
-import { getDefaultOptions, MonkAPIConfig } from '../config';
+import { getDefaultOptions, MonkApiConfig } from '../config';
 import { ApiIdColumn } from '../models';
 import { MonkApiResponse } from '../types';
 
@@ -47,7 +47,7 @@ export interface UpdateTaskStatusOptions {
  */
 export async function updateTaskStatus(
   options: UpdateTaskStatusOptions,
-  config: MonkAPIConfig,
+  config: MonkApiConfig,
   dispatch?: Dispatch<MonkUpdatedManyTasksAction>,
 ): Promise<MonkApiResponse> {
   const kyOptions = getDefaultOptions(config);
@@ -102,7 +102,7 @@ export interface StartInspectionTasksOptions {
  */
 export async function startInspectionTasks(
   options: StartInspectionTasksOptions,
-  config: MonkAPIConfig,
+  config: MonkApiConfig,
   dispatch?: Dispatch<MonkUpdatedManyTasksAction>,
 ): Promise<MonkApiResponse[]> {
   const responses = await Promise.all(

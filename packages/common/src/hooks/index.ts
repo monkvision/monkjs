@@ -7,3 +7,5 @@ export * from './useSightLabel';
 export * from './useLoadingState';
 export * from './useAsyncEffect';
 export * from './useSearchParams';
+export * from './useInterval';
+export * from './useAsyncInterval';

@@ -15,7 +15,7 @@ import {
 } from '@monkvision/types';
 import { v4 } from 'uuid';
 import { labels, sights } from '@monkvision/sights';
-import { getDefaultOptions, MonkAPIConfig } from '../config';
+import { getDefaultOptions, MonkApiConfig } from '../config';
 import { ApiImage, ApiImagePost } from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
@@ -221,7 +221,7 @@ export interface AddImageResponse {
  */
 export async function addImage(
   options: AddImageOptions,
-  config: MonkAPIConfig,
+  config: MonkApiConfig,
   dispatch?: Dispatch<MonkCreatedOneImageAction>,
 ): Promise<MonkApiResponse<AddImageResponse, ApiImage>> {
   const localImage = createLocalImage(options);

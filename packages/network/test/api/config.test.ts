@@ -1,5 +1,5 @@
 import packageJson from '../../package.json';
-import { getDefaultOptions, MonkAPIConfig, sdkVersion } from '../../src/api/config';
+import { getDefaultOptions, MonkApiConfig, sdkVersion } from '../../src/api/config';
 import { beforeError } from '../../src/api/error';
 
 describe('Network package API global config utils', () => {
@@ -10,7 +10,7 @@ describe('Network package API global config utils', () => {
   });
 
   describe('getDefaultOptions function', () => {
-    const baseConfig: MonkAPIConfig = {
+    const baseConfig: MonkApiConfig = {
       apiDomain: 'testapidomain',
       authToken: 'Bearer testtoken',
     };

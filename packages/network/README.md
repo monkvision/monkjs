@@ -114,6 +114,26 @@ function App() {
 }
 ```
 
+## Hooks
+This package also exports useful Network hooks that you can use in your React apps.
+
+### useInspectionPoll
+```tsx
+import { useInspectionPoll } from '@monkvision/network';
+
+function TestComponent() {
+  useInspectionPoll({
+    id: myInspectionId,
+    delay: 2000,
+    apiConfig,
+    onSuccess: (entities) => console.log(entities.inspections.find((inspection) => inspection.id === myInspectionId)),
+    compliance,
+  });
+}
+```
+Custom hook used to fetch an inspection every `delay` milliseconds using the `getInspection` API request. To stop the
+hook from making requests, simply pass a `null` vlaue for the `delay` param.
+
 # Authentication
 This package also exports tools for dealing with authentication within the Monk SDK :
 

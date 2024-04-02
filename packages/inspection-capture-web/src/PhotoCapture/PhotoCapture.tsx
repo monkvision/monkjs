@@ -1,7 +1,7 @@
 import { Camera, CameraHUDProps, CompressionOptions, CameraProps } from '@monkvision/camera-web';
 import { Sight, TaskName, ComplianceOptions } from '@monkvision/types';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { MonkAPIConfig } from '@monkvision/network';
+import { MonkApiConfig } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
@@ -34,7 +34,7 @@ export interface PhotoCaptureProps
    * The api config used to communicate with the API. Make sure that the user described in the auth token is the same
    * one as the one that created the inspection provided in the `inspectionId` prop.
    */
-  apiConfig: MonkAPIConfig;
+  apiConfig: MonkApiConfig;
   /**
    * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
    * sight will be used.
