@@ -450,8 +450,8 @@ const Capture = forwardRef(({
     }
   }, []);
 
-  const handlePictureTaken = useCallback(() => {
-    onPictureTaken();
+  const handlePictureTaken = useCallback((e) => {
+    onPictureTaken(e);
     if (sightBeforeRetake) {
       sights.dispatch({
         type: Actions.sights.SET_CURRENT_SIGHT,
