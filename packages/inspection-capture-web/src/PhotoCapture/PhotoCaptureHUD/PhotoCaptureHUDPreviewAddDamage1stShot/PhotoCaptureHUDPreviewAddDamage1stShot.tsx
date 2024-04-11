@@ -27,7 +27,7 @@ export function PhotoCaptureHUDPreviewAddDamage1stShot({
 }: PhotoCaptureHUDAddDamagePreview1stShotProps) {
   const [showInfoPopup, setShowInfoPopup] = useState(true);
   const { t } = useTranslation();
-  const backgroundColor = usePhotoCaptureHUDButtonBackground();
+  const primaryColor = usePhotoCaptureHUDButtonBackground();
 
   return (
     <div style={styles['container']}>
@@ -39,7 +39,8 @@ export function PhotoCaptureHUDPreviewAddDamage1stShot({
       {showInfoPopup && (
         <Button
           icon='close'
-          style={{ ...styles['infoBtn'], backgroundColor }}
+          primaryColor={primaryColor}
+          style={{ ...styles['infoBtn'] }}
           onClick={() => setShowInfoPopup(false)}
         >
           {t('photo.hud.addDamage.infoBtn')}

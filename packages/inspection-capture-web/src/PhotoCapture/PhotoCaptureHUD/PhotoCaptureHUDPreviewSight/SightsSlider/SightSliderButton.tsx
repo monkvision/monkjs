@@ -27,7 +27,7 @@ export interface SightSliderButtonProps {
  * Button representing a sight in the PhotoCapture SightsSlider component.
  */
 export function SightSliderButton({ label, isSelected, isTaken, onClick }: SightSliderButtonProps) {
-  const primaryColor = isSelected || isTaken ? 'primary-base' : 'secondary-xdark';
+  const primaryColor = isSelected || isTaken ? 'primary' : 'background-base';
   const icon = isTaken ? 'check' : undefined;
 
   return (

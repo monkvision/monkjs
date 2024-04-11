@@ -2,7 +2,7 @@ import { Color, ColorProp, MonkPalette, MonkTheme, ThemeUtils } from '@monkvisio
 import { CSSProperties } from 'react';
 import { MonkDefaultPalette } from './default';
 
-function createGetColors(palette: MonkPalette): (prop: ColorProp) => Color {
+function createGetColor(palette: MonkPalette): (prop: ColorProp) => Color {
   return (prop: ColorProp) => {
     const split = prop.split('-');
     const colorName = split[0] as keyof MonkPalette;
@@ -15,13 +15,13 @@ function createGetColors(palette: MonkPalette): (prop: ColorProp) => Color {
 
 function createThemeUtils(palette: MonkPalette): ThemeUtils {
   return {
-    getColor: createGetColors(palette),
+    getColor: createGetColor(palette),
   };
 }
 
 function createRootStyles(palette: MonkPalette): CSSProperties {
   return {
-    backgroundColor: palette.surface.bg,
+    backgroundColor: palette.background.base,
     color: palette.text.white,
   };
 }

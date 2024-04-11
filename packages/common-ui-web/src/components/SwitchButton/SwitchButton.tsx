@@ -22,9 +22,9 @@ export function SwitchButton({
   onSwitch,
   disabled = false,
   checkedPrimaryColor = 'primary',
-  checkedSecondaryColor = 'text-white',
-  uncheckedPrimaryColor = 'text-tertiary',
-  uncheckedSecondaryColor = 'text-white',
+  checkedSecondaryColor = 'text-primary',
+  uncheckedPrimaryColor = 'text-disabled',
+  uncheckedSecondaryColor = 'text-primary',
   checkedLabel,
   uncheckedLabel,
 }: SwitchButtonProps) {
