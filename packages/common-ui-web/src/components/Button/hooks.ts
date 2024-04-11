@@ -62,7 +62,7 @@ export interface MonkButtonProps {
    * The secondary color of the button. For filled buttons, it corresponds to the text color and for outline buttons, it
    * corresponds to the background color. This property is ignored for text and text-link buttons.
    *
-   * @default 'text-white' for filled buttons and 'surface-s1' for outline buttons.
+   * @default 'text-primary' for filled buttons and 'surface-dark' for outline buttons.
    */
   secondaryColor?: ColorProp;
   /**

@@ -57,7 +57,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
       spinnerStyle,
     } = useButtonStyle({
       primaryColor: primaryColor ?? (variant === 'outline' ? 'primary-xlight' : 'primary'),
-      secondaryColor: secondaryColor ?? (variant === 'outline' ? 'surface-s1' : 'text-white'),
+      secondaryColor: secondaryColor ?? (variant === 'outline' ? 'surface-dark' : 'text-primary'),
       variant: variant ?? 'fill',
       size: size ?? 'normal',
       shade: shade ?? 'dark',

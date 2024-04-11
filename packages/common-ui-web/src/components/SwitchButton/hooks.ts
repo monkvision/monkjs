@@ -38,18 +38,26 @@ export interface SwitchButtonProps {
   disabled?: boolean;
   /**
    * Primary color (background and knob overlay color) of the button when it is checked.
+   *
+   * @default primary
    */
   checkedPrimaryColor?: ColorProp;
   /**
    * Secondary color (knob, labels and icons color) of the button when it is checked.
+   *
+   * @default text-primary
    */
   checkedSecondaryColor?: ColorProp;
   /**
    * Primary color (background and knob overlay color) of the button when it is unchecked.
+   *
+   * @default text-disabled
    */
   uncheckedPrimaryColor?: ColorProp;
   /**
    * Secondary color (knob, labels and icons color) of the button when it is unchecked.
+   *
+   * @default text-primary
    */
   uncheckedSecondaryColor?: ColorProp;
   /**

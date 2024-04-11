@@ -1,11 +1,9 @@
 import {
   AccentColorVariants,
   BackgroundColorVariants,
-  BorderColorVariants,
   OutlineColorVariants,
   SurfaceColorVariants,
   TextColorVariants,
-  TextLinkColorVariants,
 } from './colors';
 
 /**
@@ -37,17 +35,9 @@ export interface MonkPalette {
    */
   information: AccentColorVariants;
   /**
-   * Color variants for grey elements of the application.
-   */
-  grey: AccentColorVariants;
-  /**
    * Color variants for the text elements of the application.
    */
   text: TextColorVariants;
-  /**
-   * Color variants for the text link elements of the application.
-   */
-  textLink: TextLinkColorVariants;
   /**
    * Color variants for the application's backgrounds.
    */
@@ -56,10 +46,6 @@ export interface MonkPalette {
    * Color variants for the application's surfaces.
    */
   surface: SurfaceColorVariants;
-  /**
-   * Color variants for the application's borders.
-   */
-  border: BorderColorVariants;
   /**
    * Color variants for the application's outlines.
    */

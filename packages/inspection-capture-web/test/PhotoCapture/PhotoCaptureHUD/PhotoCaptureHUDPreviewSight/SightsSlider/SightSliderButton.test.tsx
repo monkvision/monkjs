@@ -13,26 +13,26 @@ describe('SightSliderButton component', () => {
     unmount();
   });
 
-  it('should use the secondary-xdark color by default', () => {
+  it('should use the background-base color by default', () => {
     const { unmount } = render(<SightSliderButton />);
 
-    expectPropsOnChildMock(Button, { primaryColor: 'secondary-xdark' });
+    expectPropsOnChildMock(Button, { primaryColor: 'background-base' });
 
     unmount();
   });
 
-  it('should use the primary-base color if the sight is selected', () => {
+  it('should use the primary color if the sight is selected', () => {
     const { unmount } = render(<SightSliderButton isSelected />);
 
-    expectPropsOnChildMock(Button, { primaryColor: 'primary-base' });
+    expectPropsOnChildMock(Button, { primaryColor: 'primary' });
 
     unmount();
   });
 
-  it('should use the primary-base color if the sight is taken', () => {
+  it('should use the primary color if the sight is taken', () => {
     const { unmount } = render(<SightSliderButton isTaken />);
 
-    expectPropsOnChildMock(Button, { primaryColor: 'primary-base' });
+    expectPropsOnChildMock(Button, { primaryColor: 'primary' });
 
     unmount();
   });
