@@ -1,5 +1,9 @@
 import React, { createRef } from 'react';
 
+Object.defineProperty(HTMLMediaElement.prototype, 'muted', {
+  set: () => {},
+});
+
 jest.mock('../../src/Camera/hooks', () => ({
   ...jest.requireActual('../../src/Camera/hooks'),
   useCameraPreview: jest.fn(() => ({
@@ -35,6 +39,7 @@ import {
   useCompression,
   useTakePicture,
 } from '../../src/Camera/hooks';
+import { isMobileDevice } from '@monkvision/common';
 
 const VIDEO_PREVIEW_TEST_ID = 'camera-video-preview';
 const CANVAS_TEST_ID = 'camera-canvas';
@@ -44,13 +49,38 @@ describe('Camera component', () => {
     jest.clearAllMocks();
   });
 
-  it('should pass the proper props to the useCameraPreview hook', () => {
+  it('should ask for an environment camera for the camera preview', () => {
     const { unmount } = render(<Camera resolution={CameraResolution.HD_720P} />);
 
-    expect(useCameraPreview).toHaveBeenCalledWith({
-      facingMode: CameraFacingMode.ENVIRONMENT,
-      resolution: CameraResolution.UHD_4K,
-    });
+    expect(useCameraPreview).toHaveBeenCalledWith(
+      expect.objectContaining({
+        facingMode: CameraFacingMode.ENVIRONMENT,
+      }),
+    );
+    unmount();
+  });
+
+  it('should ask for a 4K camera for the camera preview on mobile devices', () => {
+    (isMobileDevice as jest.Mock).mockImplementationOnce(() => true);
+    const { unmount } = render(<Camera resolution={CameraResolution.HD_720P} />);
+
+    expect(useCameraPreview).toHaveBeenCalledWith(
+      expect.objectContaining({
+        resolution: CameraResolution.UHD_4K,
+      }),
+    );
+    unmount();
+  });
+
+  it('should ask for a FHD camera for the camera preview on desktop devices', () => {
+    (isMobileDevice as jest.Mock).mockImplementationOnce(() => false);
+    const { unmount } = render(<Camera resolution={CameraResolution.HD_720P} />);
+
+    expect(useCameraPreview).toHaveBeenCalledWith(
+      expect.objectContaining({
+        resolution: CameraResolution.FHD_1080P,
+      }),
+    );
     unmount();
   });
 

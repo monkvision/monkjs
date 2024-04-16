@@ -47,14 +47,7 @@ export function mockGetUserMedia(params?: MockGetUserMediaParams): GetUserMediaM
   });
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation((query) => ({
-      matches: true, // Set the default value as needed
-      media: query,
-      onchange: null,
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    })),
+    value: jest.fn().mockImplementation(() => ({ matches: true })),
   });
   return {
     tracks,

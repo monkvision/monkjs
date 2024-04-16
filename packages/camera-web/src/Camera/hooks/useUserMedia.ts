@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { isMobileDevice } from '@monkvision/common';
 import { getValidCameraDeviceIds } from './utils';
@@ -111,7 +111,14 @@ export interface UserMediaResult {
   retry: () => void;
 }
 
-function getStreamDimensions(stream: MediaStream): PixelDimensions {
+function swapDimensions(dimensions: PixelDimensions): PixelDimensions {
+  return {
+    width: dimensions.height,
+    height: dimensions.width,
+  };
+}
+
+function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): PixelDimensions {
   const videoTracks = stream.getVideoTracks();
   if (videoTracks.length === 0) {
     throw new InvalidStreamError(
@@ -132,14 +139,14 @@ function getStreamDimensions(stream: MediaStream): PixelDimensions {
       InvalidStreamErrorName.NO_DIMENSIONS,
     );
   }
-  return { width, height };
-}
+  const dimensions = { width, height };
+  if (!isMobileDevice() || !checkOrientation) {
+    return dimensions;
+  }
 
-function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
-  return {
-    width: dimensions.height,
-    height: dimensions.width,
-  };
+  const isStreamInPortrait = width < height;
+  const isDeviceInPortrait = window.matchMedia('(orientation: portrait)').matches;
+  return isStreamInPortrait !== isDeviceInPortrait ? swapDimensions(dimensions) : dimensions;
 }
 
 /**
@@ -152,12 +159,16 @@ function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
  *
  * @param constraints The same media constraints you would pass to the `getUserMedia` function. Note that this hook has
  * been designed for video only, so audio constraints could provoke unexpected behaviour.
+ * @param videoRef The ref to the video element displaying the camera preview stream.
  * @return The result of this hook contains the resulting video stream, an error object if there has been an error, a
  * loading indicator and a retry function that tries to get a camera stream again. See the `UserMediaResult` interface
  * for more information.
  * @see UserMediaResult
  */
-export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResult {
+export function useUserMedia(
+  constraints: MediaStreamConstraints,
+  videoRef: RefObject<HTMLVideoElement>,
+): UserMediaResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -215,7 +226,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
         const updatedConstraints = {
           ...constraints,
           video: {
-            ...(constraints ? (constraints.video as MediaStreamConstraints) : null),
+            ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
             deviceId: { exact: cameraDeviceIds },
           },
         };
@@ -223,13 +234,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
 
-        const dimensionsStr = getStreamDimensions(str);
-        const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-        setDimensions(
-          dimensionsStr.width > dimensionsStr.height && isMobileDevice() && isPortrait
-            ? swapWidthAndHeight(dimensionsStr)
-            : dimensionsStr,
-        );
+        setDimensions(getStreamDimensions(str, true));
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
@@ -240,18 +245,17 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
   }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 
   useEffect(() => {
-    const portrait = window.matchMedia('(orientation: portrait)');
-
-    const handleOrientationChange = () => {
-      if (stream) {
-        const dimensionsStr = getStreamDimensions(stream);
-        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
-      }
-    };
-    portrait.addEventListener('change', handleOrientationChange);
-
+    let isActive = true;
+    if (stream && videoRef.current) {
+      // eslint-disable-next-line no-param-reassign
+      videoRef.current.onresize = () => {
+        if (isActive) {
+          setDimensions(getStreamDimensions(stream, false));
+        }
+      };
+    }
     return () => {
-      portrait.removeEventListener('change', handleOrientationChange);
+      isActive = false;
     };
   }, [stream]);
 
