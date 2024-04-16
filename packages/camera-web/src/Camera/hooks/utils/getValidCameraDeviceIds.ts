@@ -13,7 +13,7 @@ function isValidCamera(device: MediaDeviceInfo) {
  */
 export async function getValidCameraDeviceIds(
   constraints: MediaStreamConstraints,
-): Promise<string[]> {
+): Promise<[string[], MediaDeviceInfo[]]> {
   const str = await navigator.mediaDevices.getUserMedia(constraints);
   const devices = await navigator.mediaDevices.enumerateDevices();
   const validCameraDeviceIds = devices
@@ -21,5 +21,5 @@ export async function getValidCameraDeviceIds(
     .map((device) => device.deviceId);
 
   str.getTracks().forEach((track) => track.stop());
-  return validCameraDeviceIds;
+  return [validCameraDeviceIds, devices];
 }

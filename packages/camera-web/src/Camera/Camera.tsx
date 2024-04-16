@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { AllOrNone, RequiredKeys } from '@monkvision/types';
+import { isMobileDevice } from '@monkvision/common';
 import {
   CameraFacingMode,
   CameraResolution,
@@ -97,14 +98,20 @@ export function Camera<T extends object>({
   monitoring,
   onPictureTaken,
 }: CameraProps<T>) {
+  const [isDebugOpen, setIsDebugOpen] = useState(false);
+  const previewResolution = useMemo(
+    () => (isMobileDevice() ? CameraResolution.UHD_4K : CameraResolution.FHD_1080P),
+    [],
+  );
   const {
     ref: videoRef,
     dimensions: streamDimensions,
     error,
     retry,
     isLoading: isPreviewLoading,
+    debug,
   } = useCameraPreview({
-    resolution: CameraResolution.UHD_4K,
+    resolution: previewResolution,
     facingMode: CameraFacingMode.ENVIRONMENT,
   });
   const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
@@ -134,6 +141,7 @@ export function Camera<T extends object>({
           autoPlay
           playsInline={true}
           controls={false}
+          muted={true}
           data-testid='camera-video-preview'
         />
         <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />
@@ -149,6 +157,99 @@ export function Camera<T extends object>({
       {...((hudProps ?? {}) as T)}
     />
   ) : (
-    <>{cameraPreview}</>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      {!isDebugOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 20,
+            margin: 20,
+            boxSizing: 'border-box',
+            color: 'white',
+            zIndex: 9,
+            borderRadius: 8,
+          }}
+        >
+          <div>
+            Canvas Dimensions : : {`${streamDimensions?.width}x${streamDimensions?.height}`}
+          </div>
+        </div>
+      )}
+      {!isDebugOpen && (
+        <button
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            border: 'none',
+            outline: 'none',
+            padding: 20,
+            margin: 20,
+            boxSizing: 'border-box',
+            color: 'white',
+            fontFamily: 'monospace',
+            cursor: 'pointer',
+            zIndex: 9,
+            borderRadius: 8,
+          }}
+          onClick={() => setIsDebugOpen(true)}
+        >
+          Show Details
+        </button>
+      )}
+      {isDebugOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 20,
+            boxSizing: 'border-box',
+            color: 'white',
+            zIndex: 9,
+            display: 'flex',
+            flexDirection: 'column',
+            fontFamily: 'monospace',
+          }}
+        >
+          <div style={{ alignSelf: 'stretch', display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              style={{
+                padding: 20,
+                border: 'none',
+                outline: 'none',
+                backgroundColor: 'transparent',
+                textDecoration: 'underline',
+                color: 'white',
+                fontFamily: 'monospace',
+                cursor: 'pointer',
+              }}
+              onClick={() => setIsDebugOpen(false)}
+            >
+              X CLOSE
+            </button>
+          </div>
+          <pre>
+            {JSON.stringify(
+              {
+                mediaQuery: debug.mediaQuery,
+                devices: debug.devices,
+              },
+              null,
+              2,
+            )}
+          </pre>
+        </div>
+      )}
+
+      {cameraPreview}
+    </div>
   );
 }
