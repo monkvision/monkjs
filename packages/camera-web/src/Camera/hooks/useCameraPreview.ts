@@ -20,7 +20,7 @@ export interface CameraPreviewHandle extends UserMediaResult {
 export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   const ref = useRef<HTMLVideoElement>(null);
   const { handleError } = useMonitoring();
-  const userMediaResult = useUserMedia(getMediaConstraints(config));
+  const userMediaResult = useUserMedia(getMediaConstraints(config), ref);
 
   useEffect(() => {
     if (userMediaResult.stream && ref.current) {

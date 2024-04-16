@@ -104,6 +104,7 @@ export function Camera<T extends object>({
     retry,
     isLoading: isPreviewLoading,
     debug,
+    log,
   } = useCameraPreview({
     resolution: CameraResolution.UHD_4K,
     facingMode: CameraFacingMode.ENVIRONMENT,
@@ -154,8 +155,8 @@ export function Camera<T extends object>({
       <div
         style={{
           position: 'absolute',
-          top: '50',
-          left: '50',
+          top: 50,
+          left: 50,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           padding: 30,
           display: 'flex',
@@ -163,8 +164,11 @@ export function Camera<T extends object>({
           color: 'white',
         }}
       >
-        <div style={{ paddingBottom: 20 }}>Requesting : {debug.requesting}</div>
-        <div style={{ paddingBottom: 20 }}>Obtained : {debug.obtained}</div>
+        <div style={{ paddingBottom: 20 }}>Media Query : {debug.mediaQuery}</div>
+        <div style={{ paddingBottom: 20 }}>
+          Current Stream Dimensions : {debug.streamDimensions}
+        </div>
+        {/* <div>Log : {log}</div> */}
       </div>
       {cameraPreview}
     </div>

@@ -1,8 +1,7 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
-import { isMobileDevice } from '@monkvision/common';
 import { getValidCameraDeviceIds } from './utils';
 
 /**
@@ -109,7 +108,8 @@ export interface UserMediaResult {
    * will do nothing. In case of an error, this function resets the state and tries to fetch a camera stream again.
    */
   retry: () => void;
-  debug: { requesting: string; obtained: string };
+  log: string;
+  debug: { mediaQuery: string; streamDimensions: string };
 }
 
 function getStreamDimensions(stream: MediaStream): PixelDimensions {
@@ -133,14 +133,15 @@ function getStreamDimensions(stream: MediaStream): PixelDimensions {
       InvalidStreamErrorName.NO_DIMENSIONS,
     );
   }
-  return { width, height };
-}
 
-function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
-  return {
-    width: dimensions.height,
-    height: dimensions.width,
-  };
+  const isStreamInPortrait = width < height;
+  const isDeviceInPortrait = window.matchMedia('(orientation: portrait)').matches;
+  return isStreamInPortrait !== isDeviceInPortrait
+    ? {
+        width: height,
+        height: width,
+      }
+    : { width, height };
 }
 
 /**
@@ -158,7 +159,10 @@ function swapWidthAndHeight(dimensions: PixelDimensions): PixelDimensions {
  * for more information.
  * @see UserMediaResult
  */
-export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResult {
+export function useUserMedia(
+  constraints: MediaStreamConstraints,
+  ref: RefObject<HTMLVideoElement>,
+): UserMediaResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -166,7 +170,8 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
-  const debug = useRef({ requesting: 'none', obtained: 'none' });
+  const [log, setLog] = useState('');
+  const debug = useRef({ mediaQuery: 'none', streamDimensions: 'none' });
 
   const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
@@ -226,19 +231,13 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
         //   updatedConstraints as any
         // ).video.height.ideal;
         // (updatedConstraints as any).video.height.ideal = w;
-        debug.current.requesting = JSON.stringify(updatedConstraints, null, 2);
+        debug.current.mediaQuery = JSON.stringify(updatedConstraints, null, 2);
         const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
 
-        const dimensionsStr = getStreamDimensions(str);
-        debug.current.obtained = JSON.stringify(dimensionsStr, null, 2);
-        const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-        setDimensions(
-          dimensionsStr.width > dimensionsStr.height && isMobileDevice() && isPortrait
-            ? swapWidthAndHeight(dimensionsStr)
-            : dimensionsStr,
-        );
+        setDimensions(getStreamDimensions(str));
+        debug.current.streamDimensions = JSON.stringify(getStreamDimensions(str), null, 2);
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
@@ -249,23 +248,25 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
   }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 
   useEffect(() => {
-    const portrait = window.matchMedia('(orientation: portrait)');
-
-    const handleOrientationChange = () => {
-      if (stream) {
-        const dimensionsStr = getStreamDimensions(stream);
-        setDimensions(isMobileDevice() ? swapWidthAndHeight(dimensionsStr) : dimensionsStr);
-      }
-    };
-    portrait.addEventListener('change', handleOrientationChange);
-
-    return () => {
-      portrait.removeEventListener('change', handleOrientationChange);
-    };
+    if (stream && ref.current) {
+      // eslint-disable-next-line no-param-reassign
+      ref.current.onresize = () => {
+        setDimensions(getStreamDimensions(stream));
+        debug.current.streamDimensions = JSON.stringify(getStreamDimensions(stream), null, 2);
+      };
+    }
   }, [stream]);
 
   return useMemo(
-    () => ({ stream, dimensions, error, retry, isLoading, debug: debug.current }),
-    [stream, dimensions, error, retry, isLoading],
+    () => ({
+      stream,
+      dimensions,
+      error,
+      retry,
+      isLoading,
+      debug: debug.current,
+      log,
+    }),
+    [stream, dimensions, error, retry, isLoading, log],
   );
 }
