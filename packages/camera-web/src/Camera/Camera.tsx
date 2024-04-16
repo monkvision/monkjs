@@ -172,7 +172,9 @@ export function Camera<T extends object>({
           Stream Dimensions : {`${streamDimensions?.width}x${streamDimensions?.height}`}
         </div>
         <div style={{ paddingBottom: 20 }}>Count : {count}</div>
-        <button onClick={() => setCount((c) => c + 1)}>Re-render</button>
+        <button style={{ zIndex: 99999 }} onClick={() => setCount((c) => c + 1)}>
+          Re-render
+        </button>
         {/* <div>Log : {log}</div> */}
       </div>
       {cameraPreview}
