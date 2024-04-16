@@ -231,13 +231,18 @@ export function useUserMedia(
         //   updatedConstraints as any
         // ).video.height.ideal;
         // (updatedConstraints as any).video.height.ideal = w;
-        debug.current.mediaQuery = JSON.stringify(updatedConstraints, null, 2);
+        // debug.current.mediaQuery = JSON.stringify(updatedConstraints, null, 2);
+        debug.current.mediaQuery = `${(updatedConstraints as any).video.width.ideal}x${
+          (updatedConstraints as any).video.height.ideal
+        }`;
         const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
 
         setDimensions(getStreamDimensions(str));
-        debug.current.streamDimensions = JSON.stringify(getStreamDimensions(str), null, 2);
+        debug.current.streamDimensions = `${getStreamDimensions(str).width}x${
+          getStreamDimensions(str).height
+        }`;
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
@@ -252,7 +257,9 @@ export function useUserMedia(
       // eslint-disable-next-line no-param-reassign
       ref.current.onresize = () => {
         setDimensions(getStreamDimensions(stream));
-        debug.current.streamDimensions = JSON.stringify(getStreamDimensions(stream), null, 2);
+        debug.current.streamDimensions = `${getStreamDimensions(stream).width}x${
+          getStreamDimensions(stream).height
+        }`;
       };
     }
   }, [stream]);

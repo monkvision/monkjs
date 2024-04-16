@@ -155,10 +155,12 @@ export function Camera<T extends object>({
       <div
         style={{
           position: 'absolute',
-          top: 50,
-          left: 50,
+          top: 0,
+          left: 0,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          padding: 30,
+          padding: 10,
+          boxSizing: 'border-box',
+          maxWidth: '100dvw',
           display: 'flex',
           flexDirection: 'column',
           color: 'white',
@@ -166,7 +168,7 @@ export function Camera<T extends object>({
       >
         <div style={{ paddingBottom: 20 }}>Media Query : {debug.mediaQuery}</div>
         <div style={{ paddingBottom: 20 }}>
-          Current Stream Dimensions : {debug.streamDimensions}
+          Stream Dimensions : {debug.streamDimensions}
         </div>
         {/* <div>Log : {log}</div> */}
       </div>
