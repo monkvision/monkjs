@@ -112,7 +112,7 @@ export interface UserMediaResult {
   debug: { mediaQuery: string };
 }
 
-function getStreamDimensions(stream: MediaStream): PixelDimensions {
+function getStreamDimensions(stream: MediaStream, checkOrientation = true): PixelDimensions {
   const videoTracks = stream.getVideoTracks();
   if (videoTracks.length === 0) {
     throw new InvalidStreamError(
@@ -132,6 +132,10 @@ function getStreamDimensions(stream: MediaStream): PixelDimensions {
       'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
       InvalidStreamErrorName.NO_DIMENSIONS,
     );
+  }
+
+  if (!checkOrientation) {
+    return { width, height };
   }
 
   const isStreamInPortrait = width < height;
@@ -254,7 +258,7 @@ export function useUserMedia(
       // eslint-disable-next-line no-param-reassign
       ref.current.onresize = () => {
         setLog((l) => l + 1);
-        setDimensions(getStreamDimensions(stream));
+        setDimensions(getStreamDimensions(stream, false));
       };
     }
   }, [stream]);
