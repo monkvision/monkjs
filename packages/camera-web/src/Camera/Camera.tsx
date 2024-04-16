@@ -167,9 +167,7 @@ export function Camera<T extends object>({
         }}
       >
         <div style={{ paddingBottom: 20 }}>Media Query : {debug.mediaQuery}</div>
-        <div style={{ paddingBottom: 20 }}>
-          Stream Dimensions : {debug.streamDimensions}
-        </div>
+        <div style={{ paddingBottom: 20 }}>Stream Dimensions : {debug.streamDimensions}</div>
         {/* <div>Log : {log}</div> */}
       </div>
       {cameraPreview}

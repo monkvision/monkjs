@@ -256,10 +256,9 @@ export function useUserMedia(
     if (stream && ref.current) {
       // eslint-disable-next-line no-param-reassign
       ref.current.onresize = () => {
-        setDimensions(getStreamDimensions(stream));
-        debug.current.streamDimensions = `${getStreamDimensions(stream).width}x${
-          getStreamDimensions(stream).height
-        }`;
+        const d = getStreamDimensions(stream);
+        debug.current.streamDimensions = `${d.width}x${d.height}`;
+        setDimensions(d);
       };
     }
   }, [stream]);
