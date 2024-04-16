@@ -175,7 +175,7 @@ export function Camera<T extends object>({
         <button style={{ zIndex: 99999 }} onClick={() => setCount((c) => c + 1)}>
           Re-render
         </button>
-        {/* <div>Log : {log}</div> */}
+        <div>Resize Call Count : {log}</div>
       </div>
       {cameraPreview}
     </div>

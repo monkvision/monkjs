@@ -108,7 +108,7 @@ export interface UserMediaResult {
    * will do nothing. In case of an error, this function resets the state and tries to fetch a camera stream again.
    */
   retry: () => void;
-  log: string;
+  log: number;
   debug: { mediaQuery: string };
 }
 
@@ -170,7 +170,7 @@ export function useUserMedia(
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
-  const [log, setLog] = useState('');
+  const [log, setLog] = useState(0);
   const debug = useRef({ mediaQuery: 'none' });
 
   const handleGetUserMediaError = (err: unknown) => {
@@ -253,6 +253,7 @@ export function useUserMedia(
     if (stream && ref.current) {
       // eslint-disable-next-line no-param-reassign
       ref.current.onresize = () => {
+        setLog((l) => l + 1);
         setDimensions(getStreamDimensions(stream));
       };
     }
