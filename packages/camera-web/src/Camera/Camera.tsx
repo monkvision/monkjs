@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { AllOrNone, RequiredKeys } from '@monkvision/types';
 import {
   CameraFacingMode,
@@ -97,6 +97,7 @@ export function Camera<T extends object>({
   monitoring,
   onPictureTaken,
 }: CameraProps<T>) {
+  const [count, setCount] = useState(0);
   const {
     ref: videoRef,
     dimensions: streamDimensions,
@@ -170,6 +171,8 @@ export function Camera<T extends object>({
         <div style={{ paddingBottom: 20 }}>
           Stream Dimensions : {`${streamDimensions?.width}x${streamDimensions?.height}`}
         </div>
+        <div style={{ paddingBottom: 20 }}>Count : {count}</div>
+        <button onClick={() => setCount((c) => c + 1)}>Re-render</button>
         {/* <div>Log : {log}</div> */}
       </div>
       {cameraPreview}
