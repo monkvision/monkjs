@@ -109,7 +109,7 @@ export interface UserMediaResult {
    */
   retry: () => void;
   log: string;
-  debug: { mediaQuery: string; streamDimensions: string };
+  debug: { mediaQuery: string };
 }
 
 function getStreamDimensions(stream: MediaStream): PixelDimensions {
@@ -171,7 +171,7 @@ export function useUserMedia(
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
   const [log, setLog] = useState('');
-  const debug = useRef({ mediaQuery: 'none', streamDimensions: 'none' });
+  const debug = useRef({ mediaQuery: 'none' });
 
   const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
@@ -240,9 +240,6 @@ export function useUserMedia(
         setStream(str);
 
         setDimensions(getStreamDimensions(str));
-        debug.current.streamDimensions = `${getStreamDimensions(str).width}x${
-          getStreamDimensions(str).height
-        }`;
         setIsLoading(false);
       } catch (err) {
         handleGetUserMediaError(err);
@@ -256,9 +253,7 @@ export function useUserMedia(
     if (stream && ref.current) {
       // eslint-disable-next-line no-param-reassign
       ref.current.onresize = () => {
-        const d = getStreamDimensions(stream);
-        debug.current.streamDimensions = `${d.width}x${d.height}`;
-        setDimensions(d);
+        setDimensions(getStreamDimensions(stream));
       };
     }
   }, [stream]);
