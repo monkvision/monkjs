@@ -103,6 +103,7 @@ export function Camera<T extends object>({
     error,
     retry,
     isLoading: isPreviewLoading,
+    debug,
   } = useCameraPreview({
     resolution: CameraResolution.UHD_4K,
     facingMode: CameraFacingMode.ENVIRONMENT,
@@ -149,6 +150,23 @@ export function Camera<T extends object>({
       {...((hudProps ?? {}) as T)}
     />
   ) : (
-    <>{cameraPreview}</>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: '50',
+          left: '50',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          padding: 30,
+          display: 'flex',
+          flexDirection: 'column',
+          color: 'white',
+        }}
+      >
+        <div style={{ paddingBottom: 20 }}>Requesting : {debug.requesting}</div>
+        <div style={{ paddingBottom: 20 }}>Obtained : {debug.obtained}</div>
+      </div>
+      {cameraPreview}
+    </div>
   );
 }

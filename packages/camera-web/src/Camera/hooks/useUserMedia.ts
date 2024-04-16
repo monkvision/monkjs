@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { isMobileDevice } from '@monkvision/common';
 import { getValidCameraDeviceIds } from './utils';
@@ -109,6 +109,7 @@ export interface UserMediaResult {
    * will do nothing. In case of an error, this function resets the state and tries to fetch a camera stream again.
    */
   retry: () => void;
+  debug: { requesting: string; obtained: string };
 }
 
 function getStreamDimensions(stream: MediaStream): PixelDimensions {
@@ -165,6 +166,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
+  const debug = useRef({ requesting: 'none', obtained: 'none' });
 
   const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
@@ -215,15 +217,22 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
         const updatedConstraints = {
           ...constraints,
           video: {
-            ...(constraints ? (constraints.video as MediaStreamConstraints) : null),
+            ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
             deviceId: { exact: cameraDeviceIds },
           },
         };
+        // const w = (updatedConstraints as any).video.width.ideal;
+        // (updatedConstraints as any).video.width.ideal = (
+        //   updatedConstraints as any
+        // ).video.height.ideal;
+        // (updatedConstraints as any).video.height.ideal = w;
+        debug.current.requesting = JSON.stringify(updatedConstraints, null, 2);
         const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
         str?.addEventListener('inactive', onStreamInactive);
         setStream(str);
 
         const dimensionsStr = getStreamDimensions(str);
+        debug.current.obtained = JSON.stringify(dimensionsStr, null, 2);
         const isPortrait = window.matchMedia('(orientation: portrait)').matches;
         setDimensions(
           dimensionsStr.width > dimensionsStr.height && isMobileDevice() && isPortrait
@@ -256,7 +265,7 @@ export function useUserMedia(constraints: MediaStreamConstraints): UserMediaResu
   }, [stream]);
 
   return useMemo(
-    () => ({ stream, dimensions, error, retry, isLoading }),
+    () => ({ stream, dimensions, error, retry, isLoading, debug: debug.current }),
     [stream, dimensions, error, retry, isLoading],
   );
 }
