@@ -9,6 +9,7 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
 import { ComplianceOptions, Image, Sight, TaskName, MonkPicture } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
+import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureErrorName } from '../errors';
 
 /**
@@ -176,10 +177,28 @@ export function usePhotoCaptureSightState({
   const [sightsTaken, setSightsTaken] = useState<Sight[]>([]);
   const { getInspection } = useMonkApi(apiConfig);
   const { handleError } = useMonitoring();
+  const analytics = useAnalytics();
+
+  const selectSight = (s: Sight) => {
+    const sightsNotTaken = captureSights.filter((sight) => !sightsTaken.includes(sight)) ?? [];
+    const nextSight = sightsNotTaken.at(sightsNotTaken.indexOf(s) + 1) ?? null;
+
+    setSelectedSight(s);
+    analytics.trackEvent(`Sight Selected`, {
+      inspectionId,
+      sightId: s.id,
+      sightLabel: s.label,
+      nextSightId: nextSight?.id,
+      nextSightLabel: nextSight?.label,
+      category: 'sight_selected',
+    });
+  };
 
   useAsyncEffect(
     () => {
       loading.start();
+      analytics.setUserProperties({ inspectionId, captureCompleted: false });
+      analytics.setEventsProperties({ inspectionId });
       return getInspection({
         id: inspectionId,
         compliance: { enableCompliance, complianceIssues },
@@ -191,7 +210,22 @@ export function usePhotoCaptureSightState({
         try {
           const alreadyTakenSights = getSightsTaken(inspectionId, response);
           setSightsTaken(alreadyTakenSights);
-          setSelectedSight(captureSights.filter((s) => !alreadyTakenSights.includes(s))[0]);
+          const updatedSelectedSight = captureSights.filter(
+            (s) => !alreadyTakenSights.includes(s),
+          )[0];
+          setSelectedSight(updatedSelectedSight);
+          analytics.setUserProperties({
+            alreadyTakenSights: alreadyTakenSights.length,
+            totalSights: captureSights.length,
+            sightSelected: updatedSelectedSight.label,
+          });
+          analytics.setEventsProperties({ totalSights: captureSights.length });
+          analytics.trackEvent('Capture Started', {
+            newInspection: !!alreadyTakenSights,
+            alreadyTakenSights: alreadyTakenSights.length,
+            totalSights: captureSights.length,
+            category: 'capture_started',
+          });
           setLastPictureTaken(getLastPictureTaken(inspectionId, response));
           assertInspectionIsValid(inspectionId, response, captureSights, tasksBySight);
           loading.onSuccess();
@@ -212,9 +246,26 @@ export function usePhotoCaptureSightState({
   }, []);
 
   const takeSelectedSight = useCallback(() => {
-    const updatedSightsTaken = [...sightsTaken, selectedSight];
+    const isRetake = sightsTaken.includes(selectedSight);
+    const updatedSightsTaken = isRetake ? sightsTaken : [...sightsTaken, selectedSight];
     setSightsTaken(updatedSightsTaken);
     const nextSight = captureSights.filter((s) => !updatedSightsTaken.includes(s))[0];
+    analytics.trackEvent(`Sight Captured`, {
+      inspectionId,
+      order: captureSights.indexOf(selectedSight) + 1,
+      alreadyTakenSights: updatedSightsTaken.length,
+      totalSights: captureSights.length,
+      sightId: selectedSight.id,
+      sightLabel: selectedSight.label,
+      nextSightId: nextSight?.id ?? null,
+      nextSightLabel: nextSight?.label ?? null,
+      retake: isRetake,
+      category: 'sight_captured',
+    });
+    analytics.setUserProperties({
+      alreadyTakenSights: updatedSightsTaken.length,
+      sightSelected: nextSight?.label ?? null,
+    });
     if (nextSight) {
       setSelectedSight(nextSight);
     } else {
@@ -226,7 +277,6 @@ export function usePhotoCaptureSightState({
     (id: string) => {
       const sightToRetake = captureSights.find((sight) => sight.id === id);
       if (sightToRetake) {
-        setSightsTaken((value) => value.filter((sight) => sight.id !== id));
         setSelectedSight(sightToRetake);
       }
     },
@@ -237,7 +287,7 @@ export function usePhotoCaptureSightState({
     () => ({
       selectedSight,
       sightsTaken,
-      selectSight: setSelectedSight,
+      selectSight,
       takeSelectedSight,
       lastPictureTaken,
       setLastPictureTaken,

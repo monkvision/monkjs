@@ -28,6 +28,7 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     length: 3,
   })),
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
+  useComplianceAnalytics: jest.fn(),
 }));
 
 import { act, render, waitFor } from '@testing-library/react';

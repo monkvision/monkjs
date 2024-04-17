@@ -6,6 +6,7 @@ import { useMonkApi } from '@monkvision/network';
 import { getEnvOrThrow, useLoadingState, useMonkAppParams } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import { TaskName } from '@monkvision/types';
+import { useAnalytics } from '@monkvision/analytics';
 import { Page } from '../pages';
 import styles from './CreateInspectionPage.module.css';
 
@@ -18,6 +19,7 @@ export function CreateInspectionPage() {
     authToken: authToken ?? '',
     apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN'),
   });
+  const { setUserId } = useAnalytics();
 
   const handleCreateInspection = () => {
     loading.start();
@@ -25,6 +27,7 @@ export function CreateInspectionPage() {
       .then((res) => {
         loading.onSuccess();
         setInspectionId(res.id);
+        setUserId(res.id);
       })
       .catch((err) => {
         loading.onError(err);

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
+import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
 import { PhotoCaptureMode } from '../hooks';
@@ -101,9 +102,14 @@ export function PhotoCaptureHUD({
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
+  const { trackEvent } = useAnalytics();
 
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
+    trackEvent('Capture Closed', {
+      inspectionId,
+      category: 'capture_closed',
+    });
     onClose?.();
   };
 

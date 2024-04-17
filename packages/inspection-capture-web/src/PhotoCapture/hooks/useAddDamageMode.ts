@@ -1,3 +1,4 @@
+import { useAnalytics } from '@monkvision/analytics';
 import { useCallback, useMemo, useState } from 'react';
 
 /**
@@ -45,20 +46,31 @@ export interface AddDamageHandle {
  */
 export function useAddDamageMode(): AddDamageHandle {
   const [mode, setMode] = useState(PhotoCaptureMode.SIGHT);
+  const { trackEvent } = useAnalytics();
 
-  const handleAddDamage = useCallback(() => setMode(PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT), []);
+  const handleAddDamage = useCallback(() => {
+    setMode(PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT);
+    trackEvent('AddDamage Selected', {
+      mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+      category: 'addDamage_selected',
+    });
+  }, []);
 
-  const updatePhotoCaptureModeAfterPictureTaken = useCallback(
-    () =>
-      setMode((currentMode) =>
-        currentMode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT
-          ? PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT
-          : PhotoCaptureMode.SIGHT,
-      ),
-    [],
-  );
+  const updatePhotoCaptureModeAfterPictureTaken = useCallback(() => {
+    setMode((currentMode) =>
+      currentMode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT
+        ? PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT
+        : PhotoCaptureMode.SIGHT,
+    );
+  }, []);
 
-  const handleCancelAddDamage = useCallback(() => setMode(PhotoCaptureMode.SIGHT), []);
+  const handleCancelAddDamage = useCallback(() => {
+    trackEvent('AddDamage Canceled', {
+      mode,
+      category: 'addDamage_canceled',
+    });
+    setMode(PhotoCaptureMode.SIGHT);
+  }, []);
 
   return useMemo(
     () => ({

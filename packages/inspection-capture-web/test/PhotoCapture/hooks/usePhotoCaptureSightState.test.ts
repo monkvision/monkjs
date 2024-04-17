@@ -229,14 +229,13 @@ describe('usePhotoCaptureSightState hook', () => {
     unmount();
   });
 
-  it('should remove the sight from the taken sights and select it when retaking a sight', () => {
+  it('should change the sightSelected when retaking a sight', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
 
     act(() => result.current.takeSelectedSight());
     act(() => result.current.takeSelectedSight());
     act(() => result.current.retakeSight('test-sight-1'));
-    expect(result.current.sightsTaken).not.toContain(sights['test-sight-1']);
     expect(result.current.selectedSight).toEqual(sights['test-sight-1']);
 
     unmount();
