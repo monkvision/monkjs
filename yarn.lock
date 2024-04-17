@@ -3444,6 +3444,49 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@monkvision/analytics@4.0.0, @monkvision/analytics@workspace:packages/analytics":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/analytics@workspace:packages/analytics"
+  dependencies:
+    "@monkvision/eslint-config-base": 4.0.0
+    "@monkvision/eslint-config-typescript": 4.0.0
+    "@monkvision/eslint-config-typescript-react": 4.0.0
+    "@monkvision/jest-config": 4.0.0
+    "@monkvision/prettier-config": 4.0.0
+    "@monkvision/types": 4.0.0
+    "@monkvision/typescript-config": 4.0.0
+    "@testing-library/react": ^12.1.5
+    "@testing-library/react-hooks": ^8.0.1
+    "@types/jest": ^29.2.2
+    "@types/node": ^18.11.9
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-formatter-pretty: ^4.1.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react-hooks: ^4.3.0
+    eslint-utils: ^3.0.0
+    jest: ^29.3.1
+    mkdirp: ^1.0.4
+    prettier: ^2.7.1
+    regexpp: ^3.2.0
+    rimraf: ^3.0.2
+    ts-jest: ^29.0.3
+    typescript: ^4.8.4
+  peerDependencies:
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  languageName: unknown
+  linkType: soft
+
 "@monkvision/camera-web@4.0.0, @monkvision/camera-web@workspace:packages/camera-web":
   version: 0.0.0-use.local
   resolution: "@monkvision/camera-web@workspace:packages/camera-web"
@@ -3559,6 +3602,7 @@ __metadata:
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
     "@monkvision/jest-config": 4.0.0
+    "@monkvision/monitoring": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/sights": 4.0.0
     "@monkvision/test-utils": 4.0.0
@@ -3659,6 +3703,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/inspection-capture-web@workspace:packages/inspection-capture-web"
   dependencies:
+    "@monkvision/analytics": 4.0.0
     "@monkvision/camera-web": 4.0.0
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
@@ -3726,6 +3771,7 @@ __metadata:
     "@monkvision/eslint-config-typescript-react": 4.0.0
     "@monkvision/jest-config": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
@@ -3803,6 +3849,44 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.22.3
+  languageName: unknown
+  linkType: soft
+
+"@monkvision/posthog@4.0.0, @monkvision/posthog@workspace:packages/posthog":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/posthog@workspace:packages/posthog"
+  dependencies:
+    "@monkvision/analytics": 4.0.0
+    "@monkvision/eslint-config-base": 4.0.0
+    "@monkvision/eslint-config-typescript": 4.0.0
+    "@monkvision/prettier-config": 4.0.0
+    "@monkvision/types": 4.0.0
+    "@monkvision/typescript-config": 4.0.0
+    "@types/jest": ^29.2.2
+    "@types/node": ^18.11.9
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-formatter-pretty: ^4.1.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    eslint-utils: ^3.0.0
+    jest: ^29.3.1
+    mkdirp: ^1.0.4
+    posthog-js: ^1.121.1
+    prettier: ^2.7.1
+    regexpp: ^3.2.0
+    rimraf: ^3.0.2
+    ts-jest: ^29.0.3
+    typescript: ^4.8.4
+  peerDependencies:
+    react: ^17.0.2
+    react-dom: ^17.0.2
   languageName: unknown
   linkType: soft
 
@@ -10561,6 +10645,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fflate@npm:^0.4.8":
+  version: 0.4.8
+  resolution: "fflate@npm:0.4.8"
+  checksum: 29d8cbe44d5e7f53e7f5a160ac7f9cc025480c7b3bfd85c5f898cbe20dfa2dad4732daa534982664bf30b35896a90af44ea33ede5d94c5ffd1b8b0c0a0a56ca2
+  languageName: node
+  linkType: hard
+
 "figures@npm:3.2.0, figures@npm:^3.0.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -15360,6 +15451,7 @@ __metadata:
   dependencies:
     "@auth0/auth0-react": ^2.2.4
     "@babel/core": ^7.22.9
+    "@monkvision/analytics": 4.0.0
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
@@ -15369,6 +15461,7 @@ __metadata:
     "@monkvision/jest-config": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/network": 4.0.0
+    "@monkvision/posthog": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/sentry": 4.0.0
     "@monkvision/sights": 4.0.0
@@ -17701,6 +17794,23 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
   checksum: 1d8611341b073143ad90486fcdfeab49edd243377b1f51834dc4f6d028e82ce5190e4f11bb2633276864503654fb7cab28e67abdc0fbf9d1f88cad4a0ff0beea
+  languageName: node
+  linkType: hard
+
+"posthog-js@npm:^1.121.1":
+  version: 1.121.1
+  resolution: "posthog-js@npm:1.121.1"
+  dependencies:
+    fflate: ^0.4.8
+    preact: ^10.19.3
+  checksum: 178d2a3530ed6293d0ca2a88e1f10c84ec42ef00ed827c53fc4f3cc3ae64311d88bf753083a8b8505eafe7e02d85dc6c9c779b78173a074899ee52aaa1d43e90
+  languageName: node
+  linkType: hard
+
+"preact@npm:^10.19.3":
+  version: 10.20.2
+  resolution: "preact@npm:10.20.2"
+  checksum: 497c755065cdaf9d687e38c1cfaf935e20e98cc95a4b8c977a538dc74d41133a13ebed26d34001d11fa08b7d6811de28add74e94a3404bf35b222aa5e966fd1b
   languageName: node
   linkType: hard
 
