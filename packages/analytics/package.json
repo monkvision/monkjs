@@ -1,9 +1,9 @@
 {
-  "name": "@monkvision/monitoring",
+  "name": "@monkvision/analytics",
   "version": "4.0.0",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
-  "description": "MonkJs abstract monitoring package",
+  "description": "MonkJs abstract analytics package",
   "author": "monkvision",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
