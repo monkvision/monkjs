@@ -46,6 +46,7 @@ export default function Inspector({ inspectionId }) {
         onReady={() => setLoading(false)}
         onStartUploadPicture={() => setLoading(true)}
         onFinishUploadPicture={() => setLoading(false)}
+        onNavigateToNextSight={onNavigateToNextSight}
         onChange={handleChange}
         sightIds={Constants.defaultSightIds}
       />
@@ -93,6 +94,7 @@ export default function Inspector({ inspectionId }) {
         onReady={() => setLoading(false)}
         onStartUploadPicture={() => setLoading(true)}
         onFinishUploadPicture={() => setLoading(false)}
+        onNavigateToNextSight={onNavigateToNextSight}
         onChange={handleChange}
         sightIds={Constants.defaultSightIds}
       />
@@ -467,6 +469,11 @@ const handleStartUploadPicture = (state, api) => console.log('Started uploading 
 `PropTypes.func`
 
 Will call a function when the uploading is finished for every picture.
+
+## onNavigateToNextSight
+`PropTypes.func`
+
+Will call a function before navigating to next sight.
 
 ```js
 const handleFinishUploadPicture = (state, api) => console.log('Finished uploading a picture');

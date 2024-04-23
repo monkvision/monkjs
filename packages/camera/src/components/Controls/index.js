@@ -156,12 +156,10 @@ export default function Controls({
     if (action === Actions.sights.ADD_PROCESS_TO_QUEUE) {
       if (noOfProcesses < MAX_LIMIT_FOR_PROCESSES && current.index !== (ids.length - 1)) {
         onFinishUploadPicture(state, api);
-        api.goNextSight();
       }
     } else if (action === Actions.sights.REMOVE_PROCESS_FROM_QUEUE) {
       if (noOfProcesses === (MAX_LIMIT_FOR_PROCESSES - 1) && current.index !== (ids.length - 1)) {
         onFinishUploadPicture(state, api);
-        api.goNextSight();
       }
     }
   }, [state.sights.state.process]);

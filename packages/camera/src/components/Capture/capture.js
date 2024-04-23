@@ -133,6 +133,7 @@ const Capture = forwardRef(({
   onReady,
   onStartUploadPicture,
   onFinishUploadPicture,
+  onNavigateToNextSight,
   orientationBlockerProps,
   overlayPathStyles,
   primaryColor,
@@ -352,6 +353,17 @@ const Capture = forwardRef(({
       setAddDamageStatus(AddDamageStatus.HELP);
     }
   }, [setAddDamageStatus, lastAddDamageHelpTimestamp]);
+
+  const handleOnFinishUploadPicture = useCallback(async () => {
+    try {
+      await onNavigateToNextSight();
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`goNextSight()\`: ${err}`], 'err');
+    } finally {
+      api.goNextSight();
+      onFinishUploadPicture();
+    }
+  }, [api]);
 
   const handleResetDamageStatus = useCallback(() => {
     setAddDamageStatus(AddDamageStatus.IDLE);
@@ -611,7 +623,7 @@ const Capture = forwardRef(({
       onCloseEarly={handleCloseEarlyClick}
       onAddDamagePressed={handleAddDamagePressed}
       onStartUploadPicture={onStartUploadPicture}
-      onFinishUploadPicture={onFinishUploadPicture}
+      onFinishUploadPicture={handleOnFinishUploadPicture}
       addDamageParts={addDamageParts}
       onResetAddDamageStatus={handleResetDamageStatus}
       hideAddDamage={hideAddDamage}
@@ -629,18 +641,18 @@ const Capture = forwardRef(({
     <>
       {(isReady && overlay && loading === false
         && addDamageStatus !== AddDamageStatus.TAKE_PICTURE) ? (
-          <View style={[styles.overlayContainer]}>
-            <Overlay
-              svg={overlay}
-              pathStyles={overlayPathStyles}
-              rootStyles={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
-            />
-          </View>
-        ) : null}
+        <View style={[styles.overlayContainer]}>
+          <Overlay
+            svg={overlay}
+            pathStyles={overlayPathStyles}
+            rootStyles={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+          />
+        </View>
+      ) : null}
       {(isReady && overlay && loading === false
         && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
-          <AddDamageOverlay />
-        ) : null}
+        <AddDamageOverlay />
+      ) : null}
       {(isReady && loading === false && addDamageStatus === AddDamageStatus.TAKE_PICTURE) ? (
         <>
           <Text style={[styles.overlay, styles.addDamageOverlay, { top: 16 }]}>
@@ -858,6 +870,7 @@ Capture.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
+  onNavigateToNextSight: PropTypes.func,
   onPictureTaken: PropTypes.func,
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
@@ -979,6 +992,7 @@ Capture.defaultProps = {
   onComplianceCheckFinish: () => { },
   onComplianceCheckStart: () => { },
   onFinishUploadPicture: () => { },
+  onNavigateToNextSight: () => { },
   onWarningMessage: () => { },
   onReady: () => { },
   onStartUploadPicture: () => { },
