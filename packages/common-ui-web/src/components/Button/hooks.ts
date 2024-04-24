@@ -163,6 +163,10 @@ export function useButtonStyle(params: MonkButtonStyleParams): MonkButtonStyle {
         ...(params.size === 'small' ? styles['buttonSmall'] : {}),
         ...(params.variant === 'outline' ? styles['buttonOutline'] : {}),
         ...(params.variant === 'text-link' ? styles['buttonTextLink'] : {}),
+        ...(!params.hasChildren && params.icon ? styles['buttonIconOnly'] : {}),
+        ...(!params.hasChildren && params.icon && params.size === 'small'
+          ? styles['buttonIconOnlySmall']
+          : {}),
         color: foregroundColor,
         borderColor: foregroundColor,
         backgroundColor,

@@ -1,0 +1,18 @@
+{
+  "card": {
+    "addDamage": "Ajouter Un Dégât"
+  },
+  "topBar": {
+    "submit": "Valider",
+    "title": "Photos",
+    "retakeFilter": "Reprises",
+    "approvedFilter": "Prises et approuvées"
+  },
+  "list": {
+    "empty": {
+      "capture": "Aucune photo. Les photos prises apparaîtront ici.",
+      "nonCapture": "Il n'y a aucune photo dans cette inspection.",
+      "filter": "Aucun résultat pour le filtre sélectionné."
+    }
+  }
+}

@@ -9,7 +9,6 @@ const {
   toCamelCase,
   getRGBAFromString,
   getHexFromRGBA,
-  changeAlpha,
   shadeColor,
   InteractiveVariation,
   getInteractiveVariants,
@@ -21,6 +20,8 @@ const {
   uniq,
   flatMap,
   STORAGE_KEY_AUTH_TOKEN,
+  complianceIssueLabels,
+  imageStatusLabels,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -33,7 +34,6 @@ export = {
   toCamelCase,
   getRGBAFromString,
   getHexFromRGBA,
-  changeAlpha,
   shadeColor,
   InteractiveVariation,
   getInteractiveVariants,
@@ -44,6 +44,9 @@ export = {
   uniq,
   flatMap,
   STORAGE_KEY_AUTH_TOKEN,
+  createEmptyMonkState,
+  complianceIssueLabels,
+  imageStatusLabels,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
@@ -58,10 +61,11 @@ export = {
   useI18nSync: jest.fn(),
   i18nCreateSDKInstance: jest.fn(),
   i18nWrap: jest.fn((component) => component),
-  useInteractiveStatus: jest.fn(({ componentHandlers }) => ({
+  useInteractiveStatus: jest.fn((props) => ({
     status: InteractiveStatus.DEFAULT,
-    eventHandlers: componentHandlers,
+    eventHandlers: props?.componentHandlers,
   })),
+  changeAlpha: jest.fn((c) => c),
   useQueue: jest.fn(() => ({
     length: 0,
     processingCount: 0,

@@ -33,6 +33,10 @@ export interface PhotoCaptureSightState {
    */
   takeSelectedSight: () => void;
   /**
+   * Callback called when a sight needs to be retaken.
+   */
+  retakeSight: (id: string) => void;
+  /**
    * Value storing the last picture taken by the user. If no picture has been taken yet, this value is null.
    */
   lastPictureTaken: MonkPicture | null;
@@ -219,6 +223,17 @@ export function usePhotoCaptureSightState({
     }
   }, [sightsTaken, selectedSight, captureSights, onLastSightTaken]);
 
+  const retakeSight = useCallback(
+    (id: string) => {
+      const sightToRetake = captureSights.find((sight) => sight.id === id);
+      if (sightToRetake) {
+        setSightsTaken((value) => value.filter((sight) => sight.id !== id));
+        setSelectedSight(sightToRetake);
+      }
+    },
+    [captureSights],
+  );
+
   return useMemo(
     () => ({
       selectedSight,
@@ -228,6 +243,7 @@ export function usePhotoCaptureSightState({
       lastPictureTaken,
       setLastPictureTaken,
       retryLoadingInspection,
+      retakeSight,
     }),
     [
       selectedSight,
@@ -237,6 +253,7 @@ export function usePhotoCaptureSightState({
       lastPictureTaken,
       setLastPictureTaken,
       retryLoadingInspection,
+      retakeSight,
     ],
   );
 }

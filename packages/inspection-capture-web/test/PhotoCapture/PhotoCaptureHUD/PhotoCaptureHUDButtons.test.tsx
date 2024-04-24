@@ -55,7 +55,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should display an image icon when no galleryPreview is provided', () => {
-      const expectedIcon = 'image';
+      const expectedIcon = 'gallery';
       const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       expect((Icon as jest.Mock).mock.calls).toContainEqual([

@@ -26,6 +26,9 @@ export const styles: Styles = {
     cursor: 'pointer',
     borderWidth: 0,
   },
+  buttonIconOnly: {
+    padding: 16,
+  },
   buttonDisabled: {
     opacity: 0.37,
     cursor: 'default',
@@ -35,6 +38,9 @@ export const styles: Styles = {
     fontSize: 14,
     lineHeight: '20px',
     letterSpacing: 0.1,
+  },
+  buttonIconOnlySmall: {
+    padding: 6,
   },
   buttonOutline: {
     borderStyle: 'solid',

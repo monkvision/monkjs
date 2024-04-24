@@ -35,12 +35,13 @@ parameters with values that can be fetched from the URL search parameters or the
   - If `fetchFromSearchParams` is also set to `true`, the token fetched from the search params will always be
     used in priority over the one fetched from the local storage.
 
-| Prop                  | Type    | Description                                                                                                                         | Required | Default Value |
-|-----------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| fetchFromSearchParams | boolean | Boolean indicating if the app params should be initialized using values from the URL search params.                                 |          | `true`        |
-| fetchTokenFromStorage | boolean | Boolean indicating if the auth token should be initialized using the value from the URL search params.                              |          | `true`        |
-| updateLanguage        | boolean | Boolean indicating if the app language should be updated using the value from the URL search params.                                |          | `true`        |
-| onFetchAuthToken      | boolean | Callback called when an authentication token has successfully been fetched from either the local storage, or the URL search params. |          |               |
+| Prop                  | Type       | Description                                                                                                                         | Required | Default Value |
+|-----------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| fetchFromSearchParams | boolean    | Boolean indicating if the app params should be initialized using values from the URL search params.                                 |          | `true`        |
+| fetchTokenFromStorage | boolean    | Boolean indicating if the auth token should be initialized using the value from the URL search params.                              |          | `true`        |
+| updateLanguage        | boolean    | Boolean indicating if the app language should be updated using the value from the URL search params.                                |          | `true`        |
+| onFetchAuthToken      | () => void | Callback called when an authentication token has successfully been fetched from either the local storage, or the URL search params. |          |               |
+| onUpdateLanguage      | () => void | Callback called when the language of the app must be updated because it has been specified in the URL params.                       |          |               |
 
 ## useMonkAppParams hook
 This hook simply returns the current value of the `MonkAppParamsContext` declared by the `MonkAppParamsProvider`

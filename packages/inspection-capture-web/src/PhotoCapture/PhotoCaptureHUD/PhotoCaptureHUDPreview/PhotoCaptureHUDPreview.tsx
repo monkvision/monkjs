@@ -9,6 +9,10 @@ import { PhotoCaptureHUDPreviewAddDamage2ndShot } from '../PhotoCaptureHUDPrevie
  */
 export interface PhotoCaptureHUDPreviewProps {
   /**
+   * The ID of the current inspection.
+   */
+  inspectionId: string;
+  /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
   selectedSight: Sight;
@@ -60,6 +64,7 @@ export function PhotoCaptureHUDPreview(params: PhotoCaptureHUDPreviewProps) {
   if (params.mode === PhotoCaptureMode.SIGHT) {
     return (
       <PhotoCaptureHUDPreviewSight
+        inspectionId={params.inspectionId}
         sights={params.sights}
         selectedSight={params.selectedSight}
         onSelectedSight={params.onSelectSight}

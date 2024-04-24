@@ -51,7 +51,7 @@ export function DynamicSVG({ svg, ...passThroughProps }: DynamicSVGProps) {
     const element = doc.children[0];
     if (element.tagName !== 'svg') {
       throw new Error(
-        'Invalid SVG string provided to the DynamicSVG component: expected <svg> tag as the first children of XML document.',
+        `Invalid SVG string provided to the DynamicSVG component: expected <svg> tag as the first children of XML document but got <${element.tagName}>.`,
       );
     }
     return element;

@@ -1,5 +1,9 @@
 {
   "photo": {
+    "orientationError": {
+      "title": "Please rotate your device.",
+      "description": "You may need to unlock your device orientation through your phone settings."
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Damage"

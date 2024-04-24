@@ -1,6 +1,6 @@
 import { PixelDimensions, Sight } from '@monkvision/types';
 import { SightOverlay } from '@monkvision/common-ui-web';
-import { SightsSlider } from './SightsSlider';
+import { SightSlider } from './SightSlider';
 import { styles } from './PhotoCaptureHUDPreviewSight.styles';
 import { AddDamageButton } from './AddDamageButton';
 import { usePhotoCaptureHUDSightPreviewStyle } from './hook';
@@ -11,6 +11,10 @@ import { PhotoCaptureMode } from '../../hooks';
  * Props of the PhotoCaptureHUDPreviewSight component.
  */
 export interface PhotoCaptureHUDSightPreviewProps {
+  /**
+   * The ID of the current inspection.
+   */
+  inspectionId: string;
   /**
    * The list of sights provided to the PhotoCapture component.
    */
@@ -42,6 +46,7 @@ export interface PhotoCaptureHUDSightPreviewProps {
  * mode is SIGHT.
  */
 export function PhotoCaptureHUDPreviewSight({
+  inspectionId,
   sights,
   selectedSight,
   onSelectedSight = () => {},
@@ -65,7 +70,8 @@ export function PhotoCaptureHUDPreviewSight({
         />
         <AddDamageButton onAddDamage={onAddDamage} />
       </div>
-      <SightsSlider
+      <SightSlider
+        inspectionId={inspectionId}
         sights={sights}
         selectedSight={selectedSight}
         sightsTaken={sightsTaken}

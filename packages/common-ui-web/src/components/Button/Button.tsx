@@ -65,6 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
       preserveWidthOnLoading,
       status,
       hasChildren: !!children,
+      icon,
     });
 
     const content = useMemo(

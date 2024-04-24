@@ -1,5 +1,9 @@
 {
   "photo": {
+    "orientationError": {
+      "title": "Veuillez tourner votre appareil.",
+      "description": "Il vous faudra peut-être débloquer l'orientation de votre appareil dans les paramètres de votre téléphone."
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Dégât"

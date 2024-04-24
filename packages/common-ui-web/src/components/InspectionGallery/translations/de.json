@@ -1,0 +1,18 @@
+{
+  "card": {
+    "addDamage": "Schaden hinzufügen"
+  },
+  "topBar": {
+    "submit": "Validieren",
+    "title": "Fotos",
+    "retakeFilter": "Wiederholungen",
+    "approvedFilter": "Genehmigt"
+  },
+  "list": {
+    "empty": {
+      "capture": "Noch keine Fotos. Die aufgenommenen Fotos werden hier angezeigt.",
+      "nonCapture": "Es gibt keine Bilder in dieser Inspektion.",
+      "filter": "Keine Übereinstimmungen mit den ausgewählten Filtern."
+    }
+  }
+}

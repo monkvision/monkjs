@@ -18,7 +18,6 @@ import {
   zlibDecompress,
   useSearchParams,
 } from '../../src';
-import { useTranslation } from 'react-i18next';
 
 let params: MonkAppParams | null = null;
 function TestComponent() {
@@ -175,19 +174,22 @@ describe('Monk App Params', () => {
     );
 
     it('should update the language from the search params if asked to', () => {
+      const onUpdateLanguage = jest.fn();
       const lang = 'fr';
       (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
         get: jest.fn((name) => (name === MonkSearchParams.LANGUAGE ? lang : null)),
       }));
       const { unmount } = render(
-        <MonkAppParamsProvider fetchFromSearchParams={true} updateLanguage={true}>
+        <MonkAppParamsProvider
+          fetchFromSearchParams={true}
+          updateLanguage={true}
+          onUpdateLanguage={onUpdateLanguage}
+        >
           <TestComponent />
         </MonkAppParamsProvider>,
       );
 
-      expect(useTranslation).toHaveBeenCalled();
-      const { i18n } = (useTranslation as jest.Mock).mock.results[0].value;
-      expect(i18n.changeLanguage).toHaveBeenCalledWith(lang);
+      expect(onUpdateLanguage).toHaveBeenCalledWith(lang);
 
       unmount();
     });

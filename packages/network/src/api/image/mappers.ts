@@ -11,6 +11,35 @@ import {
 } from '@monkvision/types';
 import { ApiImage, ApiImageComplianceResults } from '../models';
 
+const COMPLIANCE_ISSUES_PRIORITY = [
+  ComplianceIssue.NO_VEHICLE,
+
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.WRONG_CENTER_PART,
+
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.SNOWNESS,
+  ComplianceIssue.WETNESS,
+  ComplianceIssue.DIRTINESS,
+
+  ComplianceIssue.LOW_QUALITY,
+  ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  ComplianceIssue.OTHER,
+];
+
 const DEFAULT_COMPLIANCE_ISSUES = [
   // ComplianceIssue.OTHER,
   // ComplianceIssue.LOW_RESOLUTION,
@@ -36,7 +65,7 @@ const DEFAULT_COMPLIANCE_ISSUES = [
   // ComplianceIssue.LOW_QUALITY,
 ];
 
-const DEFAULT_COMPLIANCE_OPTIONS: ComplianceOptions = {
+const DEFAULT_COMPLIANCE_OPTIONS = {
   enableCompliance: true,
   complianceIssues: DEFAULT_COMPLIANCE_ISSUES,
 };
@@ -48,11 +77,11 @@ function mapCompliance(
   status: ImageStatus;
   complianceIssues?: ComplianceIssue[];
 } {
-  const options = {
-    ...DEFAULT_COMPLIANCE_OPTIONS,
-    ...(complianceOptions ?? {}),
-  } as Required<ComplianceOptions>;
-  if (!options.enableCompliance) {
+  const enableCompliance =
+    complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance;
+  const complianceIssues =
+    complianceOptions?.complianceIssues ?? DEFAULT_COMPLIANCE_OPTIONS.complianceIssues;
+  if (!enableCompliance) {
     return { status: ImageStatus.SUCCESS };
   }
   if (!complianceResult) {
@@ -66,10 +95,15 @@ function mapCompliance(
   }
   const filteredCompliances =
     (complianceResult.compliance_issues as ComplianceIssue[] | undefined)?.filter((issue) =>
-      options.complianceIssues.includes(issue),
+      complianceIssues.includes(issue),
     ) ?? [];
   if (filteredCompliances.length > 0) {
-    return { status: ImageStatus.NOT_COMPLIANT, complianceIssues: filteredCompliances };
+    return {
+      status: ImageStatus.NOT_COMPLIANT,
+      complianceIssues: filteredCompliances.sort(
+        (a, b) => COMPLIANCE_ISSUES_PRIORITY.indexOf(a) - COMPLIANCE_ISSUES_PRIORITY.indexOf(b),
+      ),
+    };
   }
   return { status: ImageStatus.SUCCESS };
 }

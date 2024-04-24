@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { getEnvOrThrow, useMonkAppParams, zlibCompress } from '@monkvision/common';
-import { VehicleType } from '@monkvision/types';
+import { DeviceOrientation, VehicleType } from '@monkvision/types';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { getSights } from '../../config';
 import styles from './PhotoCapturePage.module.css';
@@ -59,6 +59,8 @@ export function PhotoCapturePage() {
         sights={getSights(vehicleType)}
         onComplete={handleComplete}
         lang={i18n.language}
+        enforceOrientation={DeviceOrientation.LANDSCAPE}
+        allowSkipRetake={true}
       />
     </div>
   );

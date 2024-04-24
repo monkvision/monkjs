@@ -1,0 +1,18 @@
+{
+  "card": {
+    "addDamage": "Add Custom Damage"
+  },
+  "topBar": {
+    "submit": "Validate",
+    "title": "Photos",
+    "retakeFilter": "Retakes",
+    "approvedFilter": "Approved"
+  },
+  "list": {
+    "empty": {
+      "capture": "No photos yet. Pictures taken will be displayed here.",
+      "nonCapture": "There are no pictures in this inspection.",
+      "filter": "No matches for the selected filter."
+    }
+  }
+}

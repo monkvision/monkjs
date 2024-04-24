@@ -8,6 +8,10 @@ import { TranslationObject } from '../i18n';
  */
 export interface ImageAdditionalData extends AdditionalData {
   /**
+   * The Date (ISO String) at which the image was created.
+   */
+  created_at?: string;
+  /**
    * The ID of the sight of the image. This value is present only if the picture is a beautyshot picture and if it was
    * taken using the PhotoCapture component of the MonkJs SDK.
    */
@@ -116,7 +120,7 @@ export enum ImageStatus {
    * the image is NOT compliant. The list of reasons describing why the image is not compliant is available in the
    * `image.complianceReasons` array.
    */
-  NOT_COMPLIANT = ' not_compliant',
+  NOT_COMPLIANT = 'not_compliant',
 }
 
 /**
