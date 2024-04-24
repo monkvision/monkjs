@@ -1,4 +1,4 @@
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
 import { useInteractiveStatus } from '@monkvision/common';
 import { useCaptureHUDButtonsStyles } from './hooks';

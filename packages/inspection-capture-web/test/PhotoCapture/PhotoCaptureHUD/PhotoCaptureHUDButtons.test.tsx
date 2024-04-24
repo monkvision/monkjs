@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { InteractiveStatus } from '@monkvision/types';
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PhotoCaptureHUDButtons } from '../../../src';

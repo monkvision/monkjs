@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@monkvision/common": "4.0.0",
+    "@monkvision/network": "4.0.0",
     "@monkvision/sights": "4.0.0",
     "@monkvision/types": "4.0.0",
     "css": "^3.0.0",

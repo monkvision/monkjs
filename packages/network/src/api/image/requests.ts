@@ -1,5 +1,5 @@
 import ky from 'ky';
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { Dispatch } from 'react';
 import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
 import {

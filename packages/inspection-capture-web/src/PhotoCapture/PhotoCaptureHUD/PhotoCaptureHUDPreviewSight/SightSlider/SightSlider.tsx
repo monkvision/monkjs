@@ -2,8 +2,8 @@ import { ImageStatus, Sight } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef } from 'react';
 import { useMonkState, useSightLabel } from '@monkvision/common';
 import { labels } from '@monkvision/sights';
-import { styles } from './SightSlider.styles';
 import { SightSliderButton } from './SightSliderButton';
+import { useSightSliderStyles } from './hooks';
 
 /**
  * Props of the SightSlider component.
@@ -78,6 +78,7 @@ export function SightSlider({
 }: SightSliderProps) {
   const items = useSightSliderItems(inspectionId, sights);
   const { label } = useSightLabel({ labels });
+  const { container } = useSightSliderStyles();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export function SightSlider({
   }, [selectedSight, sightsTaken]);
 
   return (
-    <div style={styles['container']} ref={ref}>
+    <div style={container} ref={ref}>
       {items.map(({ sight, status }) => (
         <SightSliderButton
           key={sight.id}

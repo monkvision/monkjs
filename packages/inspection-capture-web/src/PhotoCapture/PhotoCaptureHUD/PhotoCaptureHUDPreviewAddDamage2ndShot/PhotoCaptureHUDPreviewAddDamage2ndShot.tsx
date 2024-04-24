@@ -5,7 +5,7 @@ import { PhotoCaptureMode } from '../../hooks';
 import { styles } from './PhotoCaptureHUDPreviewAddDamage2ndShot.styles';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureHUDCancelButton } from '../PhotoCaptureHUDCancelButton';
-import { usePhotoCaptureHUDPreviewAddDamage2ndShotStyle } from './hook';
+import { usePhotoCaptureHUDPreviewAddDamage2ndShotStyle } from './hooks';
 
 /**
  * Props of the PhotoCaptureHUDPreviewAddDamage2ndShot component.

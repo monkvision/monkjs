@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Sight } from '@monkvision/types';
+import { Sight, MonkPicture } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
-import { CameraHUDProps, MonkPicture } from '@monkvision/camera-web';
+import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';

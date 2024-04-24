@@ -4,7 +4,8 @@ import { getInteractiveVariants, InteractiveVariation } from '@monkvision/common
 const BUTTON_SIZE = 60;
 const BUTTON_PADDING = 20;
 const BUTTON_BORDER_WIDTH = 2;
-export const PHOTOCAPTUREHUB_BUTTONS_BAR_WIDTH = BUTTON_SIZE + BUTTON_PADDING + BUTTON_BORDER_WIDTH;
+export const PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH =
+  BUTTON_SIZE + BUTTON_PADDING + BUTTON_BORDER_WIDTH;
 
 export const captureButtonForegroundColors = getInteractiveVariants(
   '#f3f3f3',

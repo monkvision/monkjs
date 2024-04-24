@@ -6,7 +6,7 @@ import {
   UseTakePictureParams,
 } from '../../../src/PhotoCapture/hooks';
 import { renderHook } from '@testing-library/react-hooks';
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 
 function createParams(): UseTakePictureParams {
   return {

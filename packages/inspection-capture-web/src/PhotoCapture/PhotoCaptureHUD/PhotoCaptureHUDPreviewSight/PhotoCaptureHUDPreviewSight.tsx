@@ -3,7 +3,7 @@ import { SightOverlay } from '@monkvision/common-ui-web';
 import { SightSlider } from './SightSlider';
 import { styles } from './PhotoCaptureHUDPreviewSight.styles';
 import { AddDamageButton } from './AddDamageButton';
-import { usePhotoCaptureHUDSightPreviewStyle } from './hook';
+import { usePhotoCaptureHUDSightPreviewStyle } from './hooks';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureMode } from '../../hooks';
 

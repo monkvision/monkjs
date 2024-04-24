@@ -7,7 +7,7 @@ export interface PhotoCaptureHUDPreviewAddDamage1stShotStyle {
   infoBtn: CSSProperties;
 }
 
-export function usePhotoCaptureHUDPreviewAddDamage1stShotStyle(): PhotoCaptureHUDPreviewAddDamage1stShotStyle {
+export function usePhotoCaptureHUDPreviewAddDamage1stShotStyles(): PhotoCaptureHUDPreviewAddDamage1stShotStyle {
   const { responsive } = useResponsiveStyle();
 
   return {

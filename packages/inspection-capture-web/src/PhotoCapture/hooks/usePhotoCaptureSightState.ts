@@ -9,7 +9,7 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
 import { ComplianceOptions, Image, Sight, TaskName } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { PhotoCaptureErrorName } from '../errors';
 
 /**

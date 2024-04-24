@@ -1,11 +1,11 @@
 import { useMonitoring } from '@monkvision/monitoring';
+import { MonkPicture } from '@monkvision/types';
 import { useCallback, useMemo, useState } from 'react';
 import {
   CameraMonitoringConfig,
   InternalCameraMonitoringConfig,
   TakePictureTransaction,
 } from '../monitoring';
-import { MonkPicture } from './useCompression';
 
 /**
  * Type definition for the parameters of the useTakePicture hook.
