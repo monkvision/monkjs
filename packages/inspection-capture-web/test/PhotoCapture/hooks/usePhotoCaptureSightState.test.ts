@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
-import { Sight, TaskName } from '@monkvision/types';
+import { ComplianceIssue, Sight, TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
 import { useMonkApi } from '@monkvision/network';
@@ -27,23 +27,23 @@ function createParams(): PhotoCaptureSightsParams {
       onError: jest.fn(),
     } as unknown as LoadingState,
     onLastSightTaken: jest.fn(),
+    enableCompliance: true,
+    complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
   };
 }
 
 function mockGetInspectionResponse(inspectionId: string, takenSights: Sight[], tasks?: TaskName[]) {
   return {
-    action: {
-      payload: {
-        images: takenSights.map((sight, index) => ({
-          inspectionId,
-          additionalData: { sight_id: sight.id },
-          path: `test-path-${index}`,
-          mimetype: `test-mimetype-${index}`,
-          width: index * 2000,
-          height: index * 1000,
-        })),
-        tasks: tasks?.map((name) => ({ inspectionId, name })),
-      },
+    entities: {
+      images: takenSights.map((sight, index) => ({
+        inspectionId,
+        additionalData: { sight_id: sight.id },
+        path: `test-path-${index}`,
+        mimetype: `test-mimetype-${index}`,
+        width: index * 2000,
+        height: index * 1000,
+      })),
+      tasks: tasks?.map((name) => ({ inspectionId, name })),
     },
   };
 }
@@ -118,7 +118,13 @@ describe('usePhotoCaptureSightState hook', () => {
     const effect = (useAsyncEffect as jest.Mock).mock.calls[0][0];
     effect();
     expect(initialProps.loading.start).toHaveBeenCalled();
-    expect(getInspectionMock).toHaveBeenCalledWith(initialProps.inspectionId);
+    expect(getInspectionMock).toHaveBeenCalledWith({
+      id: initialProps.inspectionId,
+      compliance: {
+        enableCompliance: initialProps.enableCompliance,
+        complianceIssues: initialProps.complianceIssues,
+      },
+    });
 
     unmount();
   });
@@ -138,7 +144,7 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(result.current.selectedSight).toEqual(
       initialProps.captureSights.filter((s) => !takenSights.includes(s))[0],
     );
-    const { images } = apiResponse.action.payload;
+    const { images } = apiResponse.entities;
     expect(result.current.lastPictureTaken).toEqual({
       uri: images[images.length - 1].path,
       mimetype: images[images.length - 1].mimetype,
@@ -219,6 +225,19 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(initialProps.onLastSightTaken).not.toHaveBeenCalled();
     act(() => result.current.takeSelectedSight());
     expect(initialProps.onLastSightTaken).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should remove the sight from the taken sights and select it when retaking a sight', () => {
+    const initialProps = createParams();
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    act(() => result.current.takeSelectedSight());
+    act(() => result.current.takeSelectedSight());
+    act(() => result.current.retakeSight('test-sight-1'));
+    expect(result.current.sightsTaken).not.toContain(sights['test-sight-1']);
+    expect(result.current.selectedSight).toEqual(sights['test-sight-1']);
 
     unmount();
   });

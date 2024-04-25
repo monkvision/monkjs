@@ -7,7 +7,7 @@ import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureMode } from '../../hooks';
 import { PhotoCaptureHUDCancelButton } from '../PhotoCaptureHUDCancelButton';
 import { crosshairSvg } from '../../../assets';
-import { usePhotoCaptureHUDPreviewAddDamage1stShotStyle } from './hook';
+import { usePhotoCaptureHUDPreviewAddDamage1stShotStyles } from './hooks';
 
 /**
  * Props of the PhotoCaptureHUDPreviewAddDamage1stShot component.
@@ -28,8 +28,8 @@ export function PhotoCaptureHUDPreviewAddDamage1stShot({
 }: PhotoCaptureHUDAddDamagePreview1stShotProps) {
   const [showInfoPopup, setShowInfoPopup] = useState(true);
   const { t } = useTranslation();
-  const backgroundColor = usePhotoCaptureHUDButtonBackground();
-  const style = usePhotoCaptureHUDPreviewAddDamage1stShotStyle();
+  const primaryColor = usePhotoCaptureHUDButtonBackground();
+  const style = usePhotoCaptureHUDPreviewAddDamage1stShotStyles();
 
   return (
     <div style={styles['container']}>
@@ -41,7 +41,8 @@ export function PhotoCaptureHUDPreviewAddDamage1stShot({
       {showInfoPopup && (
         <Button
           icon='close'
-          style={{ ...style.infoBtn, backgroundColor }}
+          primaryColor={primaryColor}
+          style={style.infoBtn}
           onClick={() => setShowInfoPopup(false)}
         >
           {t('photo.hud.addDamage.infoBtn')}

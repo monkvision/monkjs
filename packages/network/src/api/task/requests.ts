@@ -1,9 +1,10 @@
 import ky from 'ky';
-import { MonkActionType, MonkUpdatedManyTasksAction, UpdatedTask } from '@monkvision/common';
+import { MonkActionType, MonkUpdatedManyTasksAction } from '@monkvision/common';
 import { ProgressStatus, TaskName } from '@monkvision/types';
-import { getDefaultOptions, MonkAPIConfig } from '../config';
+import { Dispatch } from 'react';
+import { getDefaultOptions, MonkApiConfig } from '../config';
 import { ApiIdColumn } from '../models';
-import { MonkAPIRequest } from '../types';
+import { MonkApiResponse } from '../types';
 
 /**
  * The different progress statuses that can be specified when updating the status of a task.
@@ -15,30 +16,44 @@ export type UpdateProgressStatus =
   | ProgressStatus.VALIDATED;
 
 /**
+ * Options used to specify how to update the status of an inspection task.
+ */
+export interface UpdateTaskStatusOptions {
+  /**
+   * The ID of the inspection.
+   */
+  inspectionId: string;
+  /**
+   * The name of the task to update the progress status of.
+   */
+  name: TaskName;
+  /**
+   * The new progress status of the task.
+   */
+  status: UpdateProgressStatus;
+}
+
+/**
  * Update the progress status of an inspection task.
  *
  * **Note : This API call is known to sometimes fail for unknown reasons. In order to fix this, we added a retry config
  * to this API request : when failing, this request will retry itself up to 4 times (5 API calls in total), with
  * exponentially increasing delay between each request (max delay : 1.5s).**
  *
- * @param inspectionId The ID of the inspection.
- * @param name The name of the task to update the progress status of.
- * @param status The new progress status of the task.
+ * @param options The options of the request.
  * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
  */
-export const updateTaskStatus: MonkAPIRequest<
-  [inspectionId: string, name: TaskName, status: UpdateProgressStatus],
-  MonkUpdatedManyTasksAction
-> = async (
-  inspectionId: string,
-  name: TaskName,
-  status: UpdateProgressStatus,
-  config: MonkAPIConfig,
-) => {
+export async function updateTaskStatus(
+  options: UpdateTaskStatusOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkUpdatedManyTasksAction>,
+): Promise<MonkApiResponse> {
   const kyOptions = getDefaultOptions(config);
-  const response = await ky.patch(`inspections/${inspectionId}/tasks/${name}`, {
+  const response = await ky.patch(`inspections/${options.inspectionId}/tasks/${options.name}`, {
     ...kyOptions,
-    json: { status },
+    json: { status: options.status },
     retry: {
       methods: ['patch'],
       limit: 4,
@@ -46,15 +61,30 @@ export const updateTaskStatus: MonkAPIRequest<
     },
   });
   const body = await response.json<ApiIdColumn>();
+  dispatch?.({
+    type: MonkActionType.UPDATED_MANY_TASKS,
+    payload: [{ id: body.id, status: options.status }],
+  });
   return {
-    action: {
-      type: MonkActionType.UPDATED_MANY_TASKS,
-      payload: [{ id: body.id, status }],
-    },
+    id: body.id,
     response,
     body,
   };
-};
+}
+
+/**
+ * Options passed to the `startInspectionTasks` API request.
+ */
+export interface StartInspectionTasksOptions {
+  /**
+   * The ID of the inspection.
+   */
+  inspectionId: string;
+  /**
+   * The names of the tasks to start.
+   */
+  names: TaskName[];
+}
 
 /**
  * Start some inspection tasks that were in the NOT_STARTED status. This function actually makes one API call for each
@@ -63,25 +93,29 @@ export const updateTaskStatus: MonkAPIRequest<
  * **Note : This API call is known to sometimes fail for unknown reasons. Please take note of the details provided in
  * the TSDoc of the `updateTaskStatus` function.**
  *
- * @param inspectionId The ID of the inspection.
- * @param names The names of the task to start.
+ * @param options The options of the request.
  * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
  *
  * @see updateTaskStatus
  */
-export const startInspectionTasks: MonkAPIRequest<
-  [inspectionId: string, names: TaskName[]],
-  MonkUpdatedManyTasksAction
-> = async (inspectionId: string, names: TaskName[], config: MonkAPIConfig) => {
+export async function startInspectionTasks(
+  options: StartInspectionTasksOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkUpdatedManyTasksAction>,
+): Promise<MonkApiResponse[]> {
   const responses = await Promise.all(
-    names.map((name) => updateTaskStatus(inspectionId, name, ProgressStatus.TODO, config)),
+    options.names.map((name) =>
+      updateTaskStatus(
+        { inspectionId: options.inspectionId, name, status: ProgressStatus.TODO },
+        config,
+      ),
+    ),
   );
-  return {
-    action: {
-      type: MonkActionType.UPDATED_MANY_TASKS,
-      payload: responses.map((res) => res.action?.payload[0] as UpdatedTask),
-    },
-    response: responses[0].response,
-    body: responses[0].body,
-  };
-};
+  dispatch?.({
+    type: MonkActionType.UPDATED_MANY_TASKS,
+    payload: responses.map((response) => ({ id: response.id, status: ProgressStatus.TODO })),
+  });
+  return responses;
+}

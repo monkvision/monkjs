@@ -17,10 +17,10 @@ export interface PhotoCaptureHUDCancelButtonProps {
  */
 export function PhotoCaptureHUDCancelButton({ onCancel }: PhotoCaptureHUDCancelButtonProps) {
   const { t } = useTranslation();
-  const backgroundColor = usePhotoCaptureHUDButtonBackground();
+  const primaryColor = usePhotoCaptureHUDButtonBackground();
 
   return (
-    <Button onClick={onCancel} style={{ backgroundColor }}>
+    <Button onClick={onCancel} primaryColor={primaryColor}>
       {t('photo.hud.addDamage.cancelBtn')}
     </Button>
   );

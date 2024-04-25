@@ -9,8 +9,6 @@ import React, {
   useState,
 } from 'react';
 import { monkLanguages, VehicleType } from '@monkvision/types';
-import { useTranslation } from 'react-i18next';
-import { useMonitoring } from '@monkvision/monitoring';
 import { zlibDecompress } from '../utils';
 import { useSearchParams } from '../hooks';
 
@@ -162,6 +160,11 @@ export interface MonkAppParamsProviderProps {
    * @see fetchTokenFromStorage
    */
   onFetchAuthToken?: () => void;
+  /**
+   * Callback called when the language of the app must be updated because it has been specified in the URL params. If
+   * `updateLanguage` is not set to `true`, this callback is never called.
+   */
+  onUpdateLanguage?: (lang: string) => void;
 }
 
 /**
@@ -178,14 +181,13 @@ export function MonkAppParamsProvider({
   fetchTokenFromStorage = true,
   updateLanguage = true,
   onFetchAuthToken,
+  onUpdateLanguage,
   children,
 }: PropsWithChildren<MonkAppParamsProviderProps>) {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
   const searchParams = useSearchParams();
-  const { i18n } = useTranslation();
-  const { handleError } = useMonitoring();
 
   useEffect(() => {
     let fetchedToken: string | null = null;
@@ -211,10 +213,10 @@ export function MonkAppParamsProvider({
 
       const lang = searchParams.get(MonkSearchParams.LANGUAGE);
       if (updateLanguage && lang && (monkLanguages as readonly string[]).includes(lang)) {
-        i18n.changeLanguage(lang).catch(handleError);
+        onUpdateLanguage?.(lang);
       }
     }
-  }, [searchParams, i18n.changeLanguage]);
+  }, [searchParams]);
 
   const appParams = useMemo(
     () => ({

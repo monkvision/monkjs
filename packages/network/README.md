@@ -16,12 +16,14 @@ This package exports an object called `MonkApi` that regroups the different API 
 available in this pacakge all follow the same format :
 
 - They can accept a certain amount of parameters
-- The last parameter of the function will always be the `apiConfig` object, that describes how to communicate with the
-  API (API domain and authentication token).
-- They always return the same object, containing the following properties:
-  - `action` : A `MonkAction` that you can dispatch in the `MonkState` in order to synchronize the local state of the
-    application with the distant state after this request has been made. See the documentation for the
-    `@monkvision/common` package for more details about state management.
+- The last parameters of the function will always be :
+  - The `apiConfig` object, that describes how to communicate with the
+    API (API domain and authentication token).
+  - An optional MonkState `dispatch` function that, if provided to the request function, will allow it to automatically
+    update the local React state. If not provided, the function will act as a simple TypeScript function with no React
+    functionality. To help you integrate Monk API requests more easily into your React apps, take a look at the
+    `useMonkApi` hook below.
+- Their return type always contains at least the following properties:
   - `body` : The API response body.
   - `response` :  The raw HTTP response object.
 
@@ -29,22 +31,21 @@ available in this pacakge all follow the same format :
 ```typescript
 import { MonkApi } from '@monkvision/network';
 
-MonkApi.getInspection(inspectionId, apiConfig);
+MonkApi.getInspection(options, apiConfig, dispatch);
 ```
 
 Fetch the details of an inspection using its ID. The resulting action of this request will contain the list of
 every entity that has been fetched using this API call.
 
-| Parameter    | Type         | Description                                              | Required |
-|--------------|--------------|----------------------------------------------------------|----------|
-| inspectionId | string       | The ID of the inspection to get the details of.          | ✔️       |
-| apiConfig    | ApiConfig    | Api config containing the api domain and the auth token. | ✔️       |
+| Parameter | Type                 | Description                 | Required |
+|-----------|----------------------|-----------------------------|----------|
+| options   | GetInspectionOptions | The options of the request. | ✔️       |
 
 ### addImage
 ```typescript
 import { MonkApi } from '@monkvision/network';
 
-MonkApi.addImage(options, apiConfig);
+MonkApi.addImage(options, apiConfig, dispatch);
 ```
 
 Add a new image to an inspection. The resulting action of this request will contain the details of the image that has
@@ -53,14 +54,13 @@ been created in the API.
 | Parameter | Type            | Description                                              | Required |
 |-----------|-----------------|----------------------------------------------------------|----------|
 | options   | AddImageOptions | The options used to specify how to upload the image.     | ✔️       |
-| apiConfig | ApiConfig       | Api config containing the api domain and the auth token. | ✔️       |
 
 ### updateTaskStatus
 ```typescript
 import { MonkApi } from '@monkvision/network';
 import { ProgressStatus, TaskName } from '@monkvision/types';
 
-MonkApi.updateTaskStatus(inspectionId, TaskName.DAMAGE_DETECTION, ProgressStatus.TODO);
+MonkApi.updateTaskStatus(options, apiConfig, dispatch);
 ```
 
 Update the progress status of an inspection task.
@@ -69,19 +69,16 @@ Update the progress status of an inspection task.
 to this API request : when failing, this request will retry itself up to 4 times (5 API calls in total), with
 exponentially increasing delay between each request (max delay : 1.5s).**
 
-| Parameter    | Type           | Description                                              | Required |
-|--------------|----------------|----------------------------------------------------------|----------|
-| inspectionId | string         | The ID of the inspection.                                | ✔️       |
-| name         | TaskName       | The name of the task to update the progress status of.   | ✔️       |
-| status       | ProgressStatus | The new progress status of the task.                     | ✔️       |
-| apiConfig    | ApiConfig      | Api config containing the api domain and the auth token. | ✔️       |
+| Parameter | Type                    | Description                                              | Required |
+|-----------|-------------------------|----------------------------------------------------------|----------|
+| options   | UpdateTaskStatusOptions | The options of the request.                              | ✔️       |
 
 ### startInspectionTasks
 ```typescript
 import { MonkApi } from '@monkvision/network';
 import { TaskName } from '@monkvision/types';
 
-MonkApi.startInspectionTasks(inspectionId, [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS]);
+MonkApi.startInspectionTasks(options, apiConfig, dispatch);
 ```
 
 Start some inspection tasks that were in the NOT_STARTED status. This function actually makes one API call for each
@@ -90,17 +87,16 @@ task provided using the `updateTaskStatus`.
 **Note : This API call is known to sometimes fail for unknown reasons. Please take note of the details provided in
 this documentation for the `updateTaskStatus` function.**
 
-| Parameter    | Type           | Description                                              | Required |
-|--------------|----------------|----------------------------------------------------------|----------|
-| inspectionId | string         | The ID of the inspection.                                | ✔️       |
-| names        | TaskName[]     | The names of the task to start.                          | ✔️       |
-| apiConfig    | ApiConfig      | Api config containing the api domain and the auth token. | ✔️       |
+| Parameter | Type                        | Description                                              | Required |
+|-----------|-----------------------------|----------------------------------------------------------|----------|
+| options   | StartInspectionTasksOptions | The options of the request.                              | ✔️       |
+
 
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This
 custom hook returns a custom version of the `MonkApi` object described in the section above, in which the requests do
-not need to be passed the `apiConfig` parameter (since it is already provided to the `useMonkApi` hook), and in which
-every request call will automatically dispatch the action into the MonkState :
+not need to be passed the `apiConfig` parameter (since it is already provided to the `useMonkApi` hook) and the
+MonkState `dispatch` function.
 
 ```tsx
 import { useEffect } from 'react';
@@ -117,6 +113,26 @@ function App() {
   }, []);
 }
 ```
+
+## Hooks
+This package also exports useful Network hooks that you can use in your React apps.
+
+### useInspectionPoll
+```tsx
+import { useInspectionPoll } from '@monkvision/network';
+
+function TestComponent() {
+  useInspectionPoll({
+    id: myInspectionId,
+    delay: 2000,
+    apiConfig,
+    onSuccess: (entities) => console.log(entities.inspections.find((inspection) => inspection.id === myInspectionId)),
+    compliance,
+  });
+}
+```
+Custom hook used to fetch an inspection every `delay` milliseconds using the `getInspection` API request. To stop the
+hook from making requests, simply pass a `null` vlaue for the `delay` param.
 
 # Authentication
 This package also exports tools for dealing with authentication within the Monk SDK :

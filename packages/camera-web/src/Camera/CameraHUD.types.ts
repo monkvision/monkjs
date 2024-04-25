@@ -1,6 +1,6 @@
 import { ComponentType, ReactElement } from 'react';
-import { PixelDimensions } from '@monkvision/types';
-import { MonkPicture, UserMediaError } from './hooks';
+import { PixelDimensions, MonkPicture } from '@monkvision/types';
+import { UserMediaError } from './hooks';
 
 /**
  * A set of properties used to handle a Camera preview.

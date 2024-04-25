@@ -54,3 +54,25 @@ import { cartPartLabels } from '@monkvision/common';
 
 The `cartPartLabels` object maps each `VehiclePart` name (enum from `@monkvision/types`) to a `TranslationObject`
 containing a label for each supported language.
+
+## Image Status Labels
+You can import the image status labels translations like this :
+
+```typescript
+import { imageStatusLabels } from '@monkvision/common';
+```
+
+The `imageStatusLabels` object maps each `ImageStatus` (enum from `@monkvision/types`) to an object containing a `title`
+and a `description` property, both of which are TranslationObject`s containing a label for each supported language.
+
+
+## Compliance Issue Labels
+You can import the compliance issue labels translations like this :
+
+```typescript
+import { complianceIssueLabels } from '@monkvision/common';
+```
+
+The `complianceIssueLabels` object maps each `ComplianceIssue` (enum from `@monkvision/types`) to an object containing a
+`title` and a `description` property, both of which are TranslationObject`s containing a label for each supporte
+language.

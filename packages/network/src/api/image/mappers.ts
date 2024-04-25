@@ -1,59 +1,119 @@
 import {
   CentersOnElement,
-  ComplianceResult,
-  ComplianceResults,
+  ComplianceIssue,
+  ComplianceOptions,
   Image,
+  ImageStatus,
   ImageSubtype,
   ImageType,
   MonkEntityType,
-  ProgressStatus,
   VehiclePart,
 } from '@monkvision/types';
-import { ApiComplianceResultBase, ApiImage, ApiImageComplianceResults } from '../models';
+import { ApiImage, ApiImageComplianceResults } from '../models';
 
-function mapBaseComplianceResult(result: ApiComplianceResultBase): ComplianceResult {
-  return {
-    status: result.status as ProgressStatus,
-    isCompliant: result.is_compliant,
-    reasons: result.reasons,
-  };
-}
+const COMPLIANCE_ISSUES_PRIORITY = [
+  ComplianceIssue.NO_VEHICLE,
 
-function mapApiImageComplianceResults(
-  compliances: ApiImageComplianceResults | undefined,
-): ComplianceResults | undefined {
-  if (!compliances) {
-    return undefined;
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.WRONG_CENTER_PART,
+
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.SNOWNESS,
+  ComplianceIssue.WETNESS,
+  ComplianceIssue.DIRTINESS,
+
+  ComplianceIssue.LOW_QUALITY,
+  ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  ComplianceIssue.OTHER,
+];
+
+const DEFAULT_COMPLIANCE_ISSUES = [
+  // ComplianceIssue.OTHER,
+  // ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+  // ComplianceIssue.DIRTINESS,
+  // ComplianceIssue.SNOWNESS,
+  // ComplianceIssue.WETNESS,
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.NO_VEHICLE,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  // ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  // ComplianceIssue.LOW_QUALITY,
+];
+
+const DEFAULT_COMPLIANCE_OPTIONS = {
+  enableCompliance: true,
+  complianceIssues: DEFAULT_COMPLIANCE_ISSUES,
+};
+
+function mapCompliance(
+  complianceResult?: ApiImageComplianceResults,
+  complianceOptions?: ComplianceOptions,
+): {
+  status: ImageStatus;
+  complianceIssues?: ComplianceIssue[];
+} {
+  const enableCompliance =
+    complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance;
+  const complianceIssues =
+    complianceOptions?.complianceIssues ?? DEFAULT_COMPLIANCE_OPTIONS.complianceIssues;
+  if (!enableCompliance) {
+    return { status: ImageStatus.SUCCESS };
   }
-  return {
-    imageQualityAssessment: compliances.image_quality_assessment
-      ? {
-          ...mapBaseComplianceResult(compliances.image_quality_assessment),
-          details: compliances.image_quality_assessment.details
-            ? {
-                blurrinessScore: compliances.image_quality_assessment.details.blurriness_score,
-                underexposureScore:
-                  compliances.image_quality_assessment.details.underexposure_score,
-                overexposureScore: compliances.image_quality_assessment.details.overexposure_score,
-              }
-            : undefined,
-        }
-      : undefined,
-    coverage360: compliances.coverage_360
-      ? mapBaseComplianceResult(compliances.coverage_360)
-      : undefined,
-    zoomLevel: compliances.zoom_level
-      ? {
-          ...mapBaseComplianceResult(compliances.zoom_level),
-          details: compliances.zoom_level.details
-            ? { zoomScore: compliances.zoom_level.details.zoom_score }
-            : undefined,
-        }
-      : undefined,
-  };
+  if (!complianceResult) {
+    return { status: ImageStatus.COMPLIANCE_RUNNING };
+  }
+  if (complianceResult.vehicle_analysis?.is_vehicle_present === false) {
+    return { status: ImageStatus.NOT_COMPLIANT, complianceIssues: [ComplianceIssue.NO_VEHICLE] };
+  }
+  if (!complianceResult.should_retake) {
+    return { status: ImageStatus.SUCCESS };
+  }
+  const filteredCompliances =
+    (complianceResult.compliance_issues as ComplianceIssue[] | undefined)?.filter((issue) =>
+      complianceIssues.includes(issue),
+    ) ?? [];
+  if (filteredCompliances.length > 0) {
+    return {
+      status: ImageStatus.NOT_COMPLIANT,
+      complianceIssues: filteredCompliances.sort(
+        (a, b) => COMPLIANCE_ISSUES_PRIORITY.indexOf(a) - COMPLIANCE_ISSUES_PRIORITY.indexOf(b),
+      ),
+    };
+  }
+  return { status: ImageStatus.SUCCESS };
 }
 
-export function mapApiImage(image: ApiImage, inspectionId: string): Image {
+export function mapApiImage(
+  image: ApiImage,
+  inspectionId: string,
+  complianceOptions?: ComplianceOptions,
+): Image {
+  const { status, complianceIssues } = mapCompliance(image.compliances, complianceOptions);
   return {
     id: image.id,
     entityType: MonkEntityType.IMAGE,
@@ -66,6 +126,8 @@ export function mapApiImage(image: ApiImage, inspectionId: string): Image {
     mimetype: image.mimetype,
     type: image.image_type as ImageType,
     subtype: image.image_subtype as ImageSubtype | undefined,
+    status,
+    complianceIssues,
     siblingKey: image.image_sibling_key,
     viewpoint: image.viewpoint,
     detailedViewpoint: image.detailed_viewpoint
@@ -77,7 +139,6 @@ export function mapApiImage(image: ApiImage, inspectionId: string): Image {
             | undefined,
         }
       : undefined,
-    compliances: mapApiImageComplianceResults(image.compliances),
     additionalData: image.additional_data,
     renderedOutputs: [],
     views: [],

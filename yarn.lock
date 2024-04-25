@@ -3506,7 +3506,9 @@ __metadata:
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
     "@monkvision/jest-config": 4.0.0
+    "@monkvision/network": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/sights": 4.0.0
     "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@testing-library/dom": ^8.20.0
@@ -3534,9 +3536,11 @@ __metadata:
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-react: ^7.33.1
     eslint-plugin-react-hooks: ^4.6.0
+    i18next: ^23.4.5
     jest: ^29.3.1
     mkdirp: ^1.0.4
     prettier: ^2.7.1
+    react-i18next: ^13.2.0
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
     typescript: ^4.8.4
@@ -3770,6 +3774,7 @@ __metadata:
     "@types/jest": ^29.2.2
     "@types/jsonwebtoken": ^9.0.5
     "@types/node": ^18.11.9
+    "@types/uuid": ^9
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
     eslint: ^8.29.0
@@ -3792,6 +3797,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
     typescript: ^4.8.4
+    uuid: ^9.0.1
   peerDependencies:
     "@auth0/auth0-react": ^2.2.4
     react: ^17.0.2
@@ -5737,6 +5743,13 @@ __metadata:
   version: 2.0.8
   resolution: "@types/unist@npm:2.0.8"
   checksum: f4852d10a6752dc70df363917ef74453e5d2fd42824c0f6d09d19d530618e1402193977b1207366af4415aaec81d4e262c64d00345402020c4ca179216e553c7
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9":
+  version: 9.0.8
+  resolution: "@types/uuid@npm:9.0.8"
+  checksum: b8c60b7ba8250356b5088302583d1704a4e1a13558d143c549c408bf8920535602ffc12394ede77f8a8083511b023704bc66d1345792714002bfa261b17c5275
   languageName: node
   linkType: hard
 
@@ -21407,7 +21420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.0":
+"uuid@npm:^9.0.0, uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
   bin:

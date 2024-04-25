@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { AllOrNone, RequiredKeys } from '@monkvision/types';
+import { isMobileDevice } from '@monkvision/common';
 import {
   CameraFacingMode,
   CameraResolution,
@@ -97,6 +98,10 @@ export function Camera<T extends object>({
   monitoring,
   onPictureTaken,
 }: CameraProps<T>) {
+  const previewResolution = useMemo(
+    () => (isMobileDevice() ? CameraResolution.UHD_4K : CameraResolution.FHD_1080P),
+    [],
+  );
   const {
     ref: videoRef,
     dimensions: streamDimensions,
@@ -104,7 +109,7 @@ export function Camera<T extends object>({
     retry,
     isLoading: isPreviewLoading,
   } = useCameraPreview({
-    resolution: CameraResolution.UHD_4K,
+    resolution: previewResolution,
     facingMode: CameraFacingMode.ENVIRONMENT,
   });
   const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
@@ -134,6 +139,7 @@ export function Camera<T extends object>({
           autoPlay
           playsInline={true}
           controls={false}
+          muted={true}
           data-testid='camera-video-preview'
         />
         <canvas ref={canvasRef} style={styles['cameraCanvas']} data-testid='camera-canvas' />

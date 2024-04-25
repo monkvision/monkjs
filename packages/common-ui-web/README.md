@@ -132,75 +132,6 @@ function App() {
 
 ---
 
-## FullscreenImageModal
-### Description
-Component used to display a full-screen modal for an image and able the user to zoom on it.
-
-
-### Example
-```tsx
-import { FullscreenImageModal } from '@monkvision/common-ui-web';
-
-function App() {
-  const [showFullscreenImageModal, setShowFullscreenImageModal] = useState(true);
-
-  return (
-    <FullscreenImageModal
-      url={'https://example.com/image.jpg'}
-      show={showFullscreenImageModal}
-      label='Hello World!'
-      onClose={() => setShowFullscreenImageModal(false)}
-    />
-  );
-}
-```
-
-### Props
-| Prop    | Type         | Description                                                                                   | Required | Default Value |
-|---------|--------------|-----------------------------------------------------------------------------------------------|----------|---------------|
-| url     | string       | The URL of the image to display.                                                              | ✔️       |               |
-| show    | boolean      | Boolean indicating if the fullscreen image modal is displayed on the screen.                  |          | `false`       |
-| label   | string       | Label displayed in the header at the top of the image modal.                                  |          | `''`          |
-| onClose | `() => void` | Callback called when the user presses the close button in the header at the top of the modal. |          |               |
-
----
-
-## FullscreenModal
-### Description
-Component used to display a full screen modal on top of the screen. The content of the modal must be passed as children
-to this component.
-
-### Example
-
-```tsx
-import { FullscreenModal } from '@monkvision/common-ui-web';
-
-function App() {
-  const [showFullscreenModal, setShowFullscreenModal] = useState(true);
-
-  return (
-    <FullscreenModal
-      show={showFullscreenModal}
-      title='Hello World!'
-      onClose={() => setShowFullscreenModal(false)}
-    >
-      <div>
-        This is the content of the modal!
-      </div>
-    </FullscreenModal>
-  );
-}
-```
-
-### Props
-| Prop         | Type         | Description                                                                                   | Required | Default Value |
-|--------------|--------------|-----------------------------------------------------------------------------------------------|----------|---------------|
-| show         | boolean      | Boolean indicating if the fullscreen modal is displayed on the screen.                        |          | `false`       |
-| title        | string       | Title displayed in the header at the top of the modal.                                        |          | `''`          |
-| onClose      | `() => void` | Callback called when the user presses the close button in the header at the top of the modal. |          |               |
-
----
-
 ## Icon
 ### Description
 An Icon component that displays an icon based on a given name. The list of icons is available in the official Monk SDK
@@ -221,6 +152,75 @@ function App() {
 | icon         | number    | The name of the icon to display.                           | ✔️       |               |
 | size         | number    | The size (width and height, in pixels) of the icon.        |          | `50`          |
 | primaryColor | ColorProp | The name or the hexcode of the color to apply to the icon. |          | `black`       |
+
+---
+
+## ImageDetailedView
+### Description
+This component is used to display the preview of an inspection image, as well as additional data such as its label etc.
+If this component is used mid-capture, set the `captureMode` prop to `true` so that you'll enable features such as
+compliance errors, retakes etc.
+
+### Example
+
+```tsx
+import { ImageDetailedView } from '@monkvision/common-ui-web';
+import { useMonkState } from '@monkvision/common';
+import { useMemo } from 'react';
+
+function ImageViewer({ id }: ImageViewerProps) {
+  const { state } = useMonkState();
+  const image = useMemo(() => state.images.find((i) => i.id === id), [state.images, id]);
+
+  return <ImageDetailedView image={image} />;
+}
+```
+
+### Props
+| Prop                | Type       | Description                                                                                                                         | Required | Default Value |
+|---------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| image               | Image      | The image to display the details of.                                                                                                | ✔️       |               |
+| captureMode         | boolean    | Boolean indicating if this component is displayed in "capture" mode.                                                                | ✔️       | `false`       |
+| lang                | string     | The language to be used by the component.                                                                                           |          | `en`          |
+| showGalleryButton   | boolean    | Boolean indicating if the gallery button must be displayed or not.                                                                  |          | `true`        |
+| onClose             | () => void | Callback called when the user presses the close button.                                                                             |          |               |
+| onNavigateToGallery | () => void | Callback called when the user presses the gallery button if it is displayed.                                                        |          |               |
+| showCaptureButton   | boolean    | Boolean indicating if the capture button must be displayed or not. This prop can only be specified if `captureMode` is set to true. |          | `true`        |
+| onNavigateToCapture | () => void | Callback called when the user presses the capture button. This prop can only be specified if `captureMode` is set to true.          |          |               |
+| onRetake            | () => void | Callback called when the user presses the retake button. This prop can only be specified if `captureMode` is set to true.           |          |               |
+
+---
+
+## InspectionGallery
+### Description
+This component is used to display a gallery of pictures taken during an inspection. If this component is used
+mid-capture, set the `captureMode` prop to `true` so that you'll enable features such as compliance errors, retakes etc.
+
+### Example
+```tsx
+import { InspectionGallery } from '@monkvision/common-ui-web';
+
+function App() {
+  return <InspectionGallery icon='add' primaryColor='text-white' size={30} />;
+}
+```
+
+### Props
+| Prop                | Type              | Description                                                                                                                                                                                        | Required                        | Default Value |
+|---------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|---------------|
+| inspectionId        | string            | The ID of the inspection to display the images of.                                                                                                                                                 | ✔️                              |               |
+| apiConfig           | ApiConfig         | The config used to communicate with the API.                                                                                                                                                       | ✔️                              |               |
+| captureMode         | boolean           | Boolean indicating if this component is displayed in "capture" mode.                                                                                                                               | ✔️                              |               |
+| lang                | string            | The language used by the InspectionGallery component.                                                                                                                                              |                                 | `en`          |
+| refreshIntervalMs   | number            | The delay (in milliseconds) between each `getInspection` request made to the API when polling the status of the inspection.                                                                        |                                 | `1000`        |
+| showBackButton      | boolean           | Boolean indicating if the back button of the gallery top bar should be displayed or not.                                                                                                           |                                 | `false`       |
+| onBack              | () => void        | Callback called when the user presses the back button if it is displayed.                                                                                                                          |                                 |               |
+| onValidate          | () => void        | Callback called when the user presses the validate button.                                                                                                                                         |                                 |               |
+| sights              | Sight[]           | The list of sights to be capture in the current capture flow. This prop can only be specified if `captureMode` is set to true.                                                                     | ✔️ (if `captureMode` is `true`) |               |
+| allowSkipRetake     | boolean           | Boolean indicating if the user should be allowed to skip the retaking of non-compliant pictures before validating the inspection. This prop can only be specified if `captureMode` is set to true. |                                 | `false`       |
+| onNavigateToCapture | () => void        | Callback called when the user wants to navigate back to the capture component. This prop can only be specified if `captureMode` is set to true.                                                    |                                 |               |
+| enableCompliance    | boolean           | Boolean indicating if compliance checks should be enabled or not. This prop can only be specified if `captureMode` is set to true.                                                                 |                                 |               |
+| complianceIssues    | ComplianceIssue[] | If compliance checks are enable, this property can be used to select a list of compliance issues to check. This prop can only be specified if `captureMode` is set to true.                        |                                 |               |
 
 ---
 

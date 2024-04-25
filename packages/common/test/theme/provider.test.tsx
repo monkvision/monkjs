@@ -16,7 +16,7 @@ function TestComponent() {
         />
         <div data-testid='color'>{color}</div>
         <div data-testid='primary-xlight'>{palette.primary.xlight}</div>
-        <div data-testid='surface-s5'>{palette.surface.s5}</div>
+        <div data-testid='surface-dark'>{palette.surface.dark}</div>
       </div>
     </MonkThemeProvider>
   );
@@ -29,7 +29,7 @@ describe('MonkThemeProvider component', () => {
     expect(screen.getByTestId('primary-xlight').textContent).toEqual(
       MonkDefaultPalette.primary.xlight,
     );
-    expect(screen.getByTestId('surface-s5').textContent).toEqual(MonkDefaultPalette.surface.s5);
+    expect(screen.getByTestId('surface-dark').textContent).toEqual(MonkDefaultPalette.surface.dark);
     unmount();
   });
 

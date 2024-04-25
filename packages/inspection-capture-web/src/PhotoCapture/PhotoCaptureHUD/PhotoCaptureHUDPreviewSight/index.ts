@@ -1,4 +1,4 @@
-export * from './SightsSlider';
+export * from './SightSlider';
 export * from './AddDamageButton';
 export {
   PhotoCaptureHUDPreviewSight,

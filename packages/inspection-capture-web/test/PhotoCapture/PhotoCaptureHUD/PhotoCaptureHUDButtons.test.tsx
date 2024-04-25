@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { InteractiveStatus } from '@monkvision/types';
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PhotoCaptureHUDButtons } from '../../../src';
@@ -55,7 +55,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should display an image icon when no galleryPreview is provided', () => {
-      const expectedIcon = 'image';
+      const expectedIcon = 'gallery';
       const { unmount } = render(<PhotoCaptureHUDButtons />);
 
       expect((Icon as jest.Mock).mock.calls).toContainEqual([

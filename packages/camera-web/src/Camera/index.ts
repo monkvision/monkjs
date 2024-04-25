@@ -5,7 +5,6 @@ export {
   CameraResolution,
   type CompressionOptions,
   CompressionFormat,
-  type MonkPicture,
   type UserMediaError,
   UserMediaErrorType,
 } from './hooks';

@@ -12,8 +12,35 @@ export interface PixelDimensions {
   height: number;
 }
 
+/**
+ * Enumeration of the device orientations.
+ */
+export enum DeviceOrientation {
+  /**
+   * Portrait orientation (width < height).
+   */
+  PORTRAIT = 'portrait',
+  /**
+   * Landscape orientation (width > height).
+   */
+  LANDSCAPE = 'landscape',
+}
+
+/**
+ * Callbacks used to handle the result of a promise.
+ */
 export interface PromiseHandlers<T> {
+  /**
+   * Handler called when the promise resolves.
+   */
   onResolve: (res: T) => void;
+  /**
+   * Handler called when the promise rejects.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onReject: (err: any) => void;
+  /**
+   * Handler called when the promise completes.
+   */
   onComplete: () => void;
 }

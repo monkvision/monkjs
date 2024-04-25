@@ -25,6 +25,7 @@ export default {
       type: 'paint_peeling',
       parts: ['833efbf2-dda5-8c31-8354-598dda83a076'],
       relatedImages: ['8ad728c4-90ee-7983-8abd-8abb97c855c4'],
+      size: undefined,
     },
     {
       id: '3bbe87db-c968-9a0c-3bd4-25a4ce4eb64b',
@@ -33,6 +34,7 @@ export default {
       type: 'misshape',
       parts: ['833efbf2-dda5-8c31-8354-598dda83a076'],
       relatedImages: ['8ad728c4-90ee-7983-8abd-8abb97c855c4'],
+      size: undefined,
     },
   ],
   images: [
@@ -44,12 +46,15 @@ export default {
       width: 1920,
       height: 1080,
       size: 141539,
+      siblingKey: undefined,
+      subtype: undefined,
       mimetype: 'image/jpeg',
       type: 'beauty_shot',
       viewpoint: {
         confidence: 0.9847987294197083,
         prediction: 'left',
       },
+      status: 'compliance_running',
       label: {
         de: 'Hinten Seitlich Niedrig Links',
         en: 'Rear Lateral Low Left',
@@ -84,6 +89,8 @@ export default {
         '8074a493-4434-7b65-801e-06ec43125722',
         '439bd668-c016-75e3-43f1-7417c73059a4',
       ],
+      complianceIssues: undefined,
+      detailedViewpoint: undefined,
       additionalData: {
         category: 'exterior',
         sight_id: 'ffocus18-S3kgFOBb',
@@ -107,7 +114,7 @@ export default {
         confidence: 0.4582550525665283,
         prediction: 'front_left',
       },
-      compliances: {},
+      status: 'success',
       inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
       label: {
         de: 'Motorhaube',
@@ -118,6 +125,8 @@ export default {
         'd14655ab-f662-3898-d12c-f7d4f14414df',
         'ffee30b3-6d49-58ea-ff84-92cc6a6f74ad',
       ],
+      siblingKey: undefined,
+      subtype: undefined,
       views: [
         '66937b3f-dc7a-f700-66f9-d940db5cdb47',
         '058c0533-0a74-dcb3-05e6-a74c0d52f0f4',
@@ -131,6 +140,8 @@ export default {
         '29ed50ba-aa7d-351a-2987-f2c5ad5b195d',
         'e7a16ffb-a22c-8705-e7cb-cd84a50aab42',
       ],
+      complianceIssues: undefined,
+      detailedViewpoint: undefined,
       additionalData: {
         category: 'exterior',
         sight_id: 'ffocus18-3TiCVAaN',
@@ -149,10 +160,13 @@ export default {
       width: 1920,
       height: 1080,
       size: 145095,
+      status: 'compliance_running',
       mimetype: 'image/jpeg',
       type: 'close_up',
       detailedViewpoint: {
         centersOn: ['roof'],
+        distance: undefined,
+        isExterior: undefined,
       },
       label: {
         de: 'Dach',
@@ -163,6 +177,10 @@ export default {
         '00b314cf-c28d-d75e-00d9-b6b0c5abfb19',
         'b67370af-bedc-69ad-b619-d2d0b9fa45ea',
       ],
+      siblingKey: undefined,
+      subtype: undefined,
+      viewpoint: undefined,
+      complianceIssues: undefined,
       views: [],
       additionalData: {
         category: 'exterior',
@@ -183,6 +201,7 @@ export default {
         'f3ce86b5-d3a8-27dc-f3a4-24cad48e0b9b',
         '89216d57-0d6d-dd29-894b-cf280a4bf16e',
       ],
+      vehicle: undefined,
       images: [
         '6a5e9a4c-8752-c1e6-6a34-38338074eda1',
         'a842f4bf-5404-215b-a828-56c053220d1c',
@@ -842,6 +861,8 @@ export default {
       relatedItemId: '2d917d5d-6636-5ea7-2dfb-df22611072e0',
       relatedItemType: 'part',
       value: {
+        comment: undefined,
+        repairOperation: undefined,
         level: 3,
         pricing: 282,
       },
@@ -855,6 +876,8 @@ export default {
       relatedItemId: '56c74ad5-c077-1d08-56ad-e8aac751314f',
       relatedItemType: 'part',
       value: {
+        comment: undefined,
+        repairOperation: undefined,
         level: 1,
         pricing: 264,
       },
@@ -870,6 +893,8 @@ export default {
       value: {
         level: 1,
         pricing: 480,
+        comment: undefined,
+        repairOperation: undefined,
       },
     },
   ],
@@ -916,6 +941,11 @@ export default {
       plate: '',
       vin: '1HGEJ8244YL06777',
       color: null,
+      marketValue: undefined,
+      marketValueUnit: undefined,
+      mileageUnit: undefined,
+      mileageValue: undefined,
+      type: undefined,
       exteriorCleanliness: null,
       interior_cleanliness: null,
       dateOfCirculation: null,
@@ -3470,4 +3500,5 @@ export default {
       renderedOutputs: ['662bc970-70d1-83de-6641-6b0f77f7af99'],
     },
   ],
+  partOperations: [],
 };

@@ -45,6 +45,7 @@ function createProps(): PhotoCaptureHUDProps {
     onCancelAddDamage: jest.fn(),
     onRetry: jest.fn(),
     onClose: jest.fn(),
+    onOpenGallery: jest.fn(),
     showCloseButton: true,
     handle: {
       isLoading: false,
@@ -74,6 +75,7 @@ describe('PhotoCaptureHUD component', () => {
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDPreview, {
+      inspectionId: props.inspectionId,
       selectedSight: props.selectedSight,
       sights: props.sights,
       sightsTaken: props.sightsTaken,
@@ -100,6 +102,7 @@ describe('PhotoCaptureHUD component', () => {
       galleryDisabled: !!props.loading.error || !!props.handle.error,
       takePictureDisabled: !!props.loading.error || !!props.handle.error,
       showCloseButton: props.showCloseButton,
+      onOpenGallery: props.onOpenGallery,
     });
 
     unmount();

@@ -8,9 +8,9 @@ jest.mock(
   }),
 );
 jest.mock(
-  '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/SightsSlider',
+  '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/SightSlider',
   () => ({
-    SightsSlider: jest.fn(() => <></>),
+    SightSlider: jest.fn(() => <></>),
   }),
 );
 
@@ -23,7 +23,7 @@ import {
   PhotoCaptureHUDCounter,
   PhotoCaptureHUDPreviewSight,
   PhotoCaptureHUDSightPreviewProps,
-  SightsSlider,
+  SightSlider,
 } from '../../../../src';
 import { PhotoCaptureMode } from '../../../../src/PhotoCapture/hooks';
 
@@ -35,6 +35,7 @@ function createProps(): PhotoCaptureHUDSightPreviewProps {
     sights['test-sight-4'],
   ];
   return {
+    inspectionId: 'inspection-id-test',
     sights: captureSights,
     selectedSight: captureSights[2],
     sightsTaken: [captureSights[0], captureSights[1]],
@@ -83,11 +84,12 @@ describe('PhotoCaptureHUDPreviewSight component', () => {
     unmount();
   });
 
-  it('should display the SightsSlider component with the proper props', () => {
+  it('should display the SightSlider component with the proper props', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUDPreviewSight {...props} />);
 
-    expectPropsOnChildMock(SightsSlider, {
+    expectPropsOnChildMock(SightSlider, {
+      inspectionId: props.inspectionId,
       sights: props.sights,
       selectedSight: props.selectedSight,
       sightsTaken: props.sightsTaken,

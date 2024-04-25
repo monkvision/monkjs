@@ -1,4 +1,4 @@
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
 import { useInteractiveStatus } from '@monkvision/common';
 import { useCaptureHUDButtonsStyles } from './hooks';
@@ -93,7 +93,7 @@ export function PhotoCaptureHUDButtons({
         {galleryPreview ? (
           <div style={backgroundCoverStyle}></div>
         ) : (
-          <Icon icon='image' size={30} primaryColor={gallery.iconColor} />
+          <Icon icon='gallery' size={30} primaryColor={gallery.iconColor} />
         )}
       </button>
       <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />

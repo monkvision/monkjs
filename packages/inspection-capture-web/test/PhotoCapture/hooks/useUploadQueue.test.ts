@@ -8,7 +8,7 @@ import {
   UploadQueueParams,
   useUploadQueue,
 } from '../../../src/PhotoCapture/hooks';
-import { ImageType, TaskName } from '@monkvision/types';
+import { ComplianceIssue, ImageType, TaskName } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { act } from '@testing-library/react';
@@ -17,7 +17,8 @@ function createParams(): UploadQueueParams {
   return {
     inspectionId: 'test-inspection-id',
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
-    compliances: { iqa: false },
+    enableCompliance: true,
+    complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
   };
 }
 
@@ -67,7 +68,10 @@ describe('useUploadQueue hook', () => {
         picture: upload.picture,
         sightId: upload.sightId,
         tasks: upload.tasks,
-        compliances: initialProps.compliances,
+        compliance: {
+          enableCompliance: initialProps.enableCompliance,
+          complianceIssues: initialProps.complianceIssues,
+        },
         inspectionId: initialProps.inspectionId,
       });
 
@@ -99,7 +103,10 @@ describe('useUploadQueue hook', () => {
         picture: upload1.picture,
         siblingKey: expect.any(String),
         firstShot: true,
-        compliances: initialProps.compliances,
+        compliance: {
+          enableCompliance: initialProps.enableCompliance,
+          complianceIssues: initialProps.complianceIssues,
+        },
         inspectionId: initialProps.inspectionId,
       });
       const { siblingKey } = addImageMock.mock.calls[0][0];
@@ -121,7 +128,10 @@ describe('useUploadQueue hook', () => {
         picture: upload2.picture,
         siblingKey,
         firstShot: false,
-        compliances: initialProps.compliances,
+        compliance: {
+          enableCompliance: initialProps.enableCompliance,
+          complianceIssues: initialProps.complianceIssues,
+        },
         inspectionId: initialProps.inspectionId,
       });
 

@@ -30,6 +30,7 @@ import {
 function createProps(): PhotoCaptureHUDPreviewProps {
   const captureSights = [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']];
   return {
+    inspectionId: 'test-inspection-id-test',
     selectedSight: captureSights[1],
     sights: captureSights,
     sightsTaken: [captureSights[0]],
@@ -74,6 +75,7 @@ describe('PhotoCaptureHUDPreview component', () => {
     const { unmount } = render(<PhotoCaptureHUDPreview {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDPreviewSight, {
+      inspectionId: props.inspectionId,
       sights: props.sights,
       selectedSight: props.selectedSight,
       onSelectedSight: props.onSelectSight,

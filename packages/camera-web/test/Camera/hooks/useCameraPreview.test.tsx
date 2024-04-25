@@ -40,10 +40,13 @@ describe('useCameraPreview hook', () => {
     unmount();
   });
 
-  it('should make a call to useUserMedia with constraints obtained from useUserMedia', async () => {
-    const { unmount } = renderHook(useCameraPreview);
+  it('should make a call to useUserMedia with constraints obtained from useUserMedia and the video ref', async () => {
+    const { result, unmount } = renderHook(useCameraPreview);
     await waitFor(() => {
-      expect(useUserMedia).toHaveBeenCalledWith((getMediaConstraints as jest.Mock)());
+      expect(useUserMedia).toHaveBeenCalledWith(
+        (getMediaConstraints as jest.Mock)(),
+        result.current.ref,
+      );
     });
     unmount();
   });

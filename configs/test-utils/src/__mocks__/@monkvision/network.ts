@@ -24,4 +24,5 @@ export = {
   })),
   MonkApi,
   useMonkApi: jest.fn(() => MonkApi),
+  useInspectionPoll: jest.fn(),
 };

@@ -1,4 +1,4 @@
-import { AdditionalData, ProgressStatus, LabelPrediction } from './common';
+import { AdditionalData, LabelPrediction } from './common';
 import { MonkEntity, MonkEntityType } from './entity';
 import { VehiclePart } from './part';
 import { TranslationObject } from '../i18n';
@@ -7,6 +7,10 @@ import { TranslationObject } from '../i18n';
  * Additional data that can be added to an image when it has been uploaded.
  */
 export interface ImageAdditionalData extends AdditionalData {
+  /**
+   * The Date (ISO String) at which the image was created.
+   */
+  created_at?: string;
   /**
    * The ID of the sight of the image. This value is present only if the picture is a beautyshot picture and if it was
    * taken using the PhotoCapture component of the MonkJs SDK.
@@ -90,87 +94,85 @@ export interface Viewpoint {
 }
 
 /**
- * Generic result of the assessment of the quality of an image for a specific metric.
+ * Enumeration of the possible statuses of an inspection image.
  */
-export interface ComplianceResult {
+export enum ImageStatus {
   /**
-   * The progress status of the compliance assessment.
+   * The image is currently being uploaded.
    */
-  status: ProgressStatus;
+  UPLOADING = 'uploading',
   /**
-   * Indicates if the image is compliant or not for this metric.
+   * The image has been uploaded successfully, the compliance is enabled for this image and the compliance check has not
+   * finished yet.
    */
-  isCompliant?: boolean;
+  COMPLIANCE_RUNNING = 'compliance_running',
   /**
-   * An array of codes indicating the reasons why the image is not compliant (if it is not).
+   * The image was successfully uploaded. If the compliance is enabled for this image, this status also means that the
+   * compliance has finished and the image is fully compliant.
    */
-  reasons?: string[];
+  SUCCESS = 'success',
+  /**
+   * The image couldn't be uploaded to the API.
+   */
+  UPLOAD_FAILED = 'upload_failed',
+  /**
+   * The image was successfully uploaded to the API, and the compliance chekc finished running but its result says that
+   * the image is NOT compliant. The list of reasons describing why the image is not compliant is available in the
+   * `image.complianceReasons` array.
+   */
+  NOT_COMPLIANT = 'not_compliant',
 }
 
 /**
- * The detailed results of the assessment of an image quality based on its bluriness and exposure scores.
+ * Enumeration of the possible issues that could explain why an image is not compliant.
  */
-export interface IQAComplianceDetails {
-  /**
-   * The image score for the bluriness metric. This score goes from 0 (very blurry) to 1 (not blurry).
-   */
-  blurrinessScore?: number;
-  /**
-   * The image score for the underexposure metric. This score goes from 0 (underexposed) to 1 (not underexposed).
-   */
-  underexposureScore?: number;
-  /**
-   * The image score for the overexposure metric. This score goes from 0 (overexposed) to 1 (not overexposed).
-   */
-  overexposureScore?: number;
+export enum ComplianceIssue {
+  OTHER = 'other',
+  LOW_RESOLUTION = 'low_resolution',
+  BLURRINESS = 'blurriness',
+  UNDEREXPOSURE = 'underexposure',
+  OVEREXPOSURE = 'overexposure',
+  LENS_FLARE = 'lens_flare',
+  DIRTINESS = 'dirtiness',
+  SNOWNESS = 'snowness',
+  WETNESS = 'wetness',
+  REFLECTIONS = 'reflections',
+  UNKNOWN_SIGHT = 'unknown_sight',
+  UNKNOWN_VIEWPOINT = 'unknown_viewpoint',
+  NO_VEHICLE = 'no_vehicle',
+  WRONG_ANGLE = 'wrong_angle',
+  WRONG_CENTER_PART = 'wrong_center_part',
+  MISSING_PARTS = 'missing_parts',
+  HIDDEN_PARTS = 'hidden_parts',
+  TOO_ZOOMED = 'too_zoomed',
+  NOT_ZOOMED_ENOUGH = 'not_zoomed_enough',
+  INTERIOR_NOT_SUPPORTED = 'interior_not_supported',
+  MISSING = 'missing',
+  LOW_QUALITY = 'low_quality',
 }
 
 /**
- * The result of the assessment of an image quality based on its bluriness and exposure scores.
+ * Options used to configure the compliance checks at the application level. Note that these options do NOT affect
+ * anything at the API level, and are only here to specify how the compliance should behave in the Front-End
+ * applications.
  */
-export interface IQAComplianceResult extends ComplianceResult {
+export interface ComplianceOptions {
   /**
-   * The details of the image bluriness and exposure scores.
+   * Boolean indicating if compliance checks should be enabled or not.
+   *
+   * @default true
    */
-  details?: IQAComplianceDetails;
-}
-
-/**
- * The detailed results of the assessment of an image quality based on its zoom level score.
- */
-export interface ZoomLevelComplianceDetails {
+  enableCompliance?: boolean;
   /**
-   * The image score for the zoom level metric. This score goes from 0 (bad zoom) to 1 (perfect zoom).
+   * If compliance checks are enable, this property can be used to select a list of compliance issues to check. If an
+   * image is not compliant only because of issues that are not present in this array, the image will be considered
+   * compliant. If `enableCompliance` is set to `false`, this property is ignored.
+   *
+   * @default The default compliance issues that are checked by the MonkJs SDK are listed in the README of
+   * the @monkvision/network package.
+   * @see [Network README documentation](https://github.com/monkvision/monkjs/blob/main/packages/network/README.md)
    */
-  zoomScore?: number;
-}
-
-/**
- * The result of the assessment of an image quality based on its zoom level score.
- */
-export interface ZoomLevelComplianceResult extends ComplianceResult {
-  /**
-   * The details of the image zoom level score.
-   */
-  details?: ZoomLevelComplianceDetails;
-}
-
-/**
- * Results of the assessment of the quality of an image.
- */
-export interface ComplianceResults {
-  /**
-   * The results of image's quality assessment based on its bluriness and exposure scores.
-   */
-  imageQualityAssessment?: IQAComplianceResult;
-  /**
-   * The results of image's quality assessment based on its car coverage score.
-   */
-  coverage360?: ComplianceResult;
-  /**
-   * The results of image's quality assessment based on its zoom level scores.
-   */
-  zoomLevel?: ZoomLevelComplianceResult;
+  complianceIssues?: ComplianceIssue[];
 }
 
 /**
@@ -210,6 +212,16 @@ export interface Image extends MonkEntity {
    */
   type: ImageType;
   /**
+   * The current status of the image.
+   */
+  status: ImageStatus;
+  /**
+   * If the image status is equal to `ImageStatus.NOT_COMPLIANT` meaning that the compliance was enabled for this image
+   * and the image was not compliant, the list of issues indicating why the image is not compliant is given in this
+   * field. If the compliance was not enabled for this image or if the image is compliant, this property is not defined.
+   */
+  complianceIssues?: ComplianceIssue[];
+  /**
    * This key can be set when coupling two pictures together for the 2-shot damage detection. This key must be unique
    * for each pair of image accross the whole inspection.
    */
@@ -231,10 +243,6 @@ export interface Image extends MonkEntity {
    * Additional information about the picture context (where this picture was taken from etc.).
    */
   detailedViewpoint?: Viewpoint;
-  /**
-   * The results of the image quality assessments.
-   */
-  compliances?: ComplianceResults;
   /**
    * The IDs of the RenderedOutput entities created using this image.
    */

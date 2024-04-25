@@ -7,5 +7,5 @@ import { useMemo } from 'react';
 export function usePhotoCaptureHUDButtonBackground() {
   const { palette } = useMonkTheme();
 
-  return useMemo(() => changeAlpha(palette.secondary.xdark, 0.64), [palette]);
+  return useMemo(() => changeAlpha(palette.background.base, 0.64), [palette]);
 }

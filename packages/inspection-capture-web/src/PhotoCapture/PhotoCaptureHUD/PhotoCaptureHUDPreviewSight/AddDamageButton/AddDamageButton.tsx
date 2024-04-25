@@ -17,14 +17,14 @@ export interface AddDamageButtonProps {
  */
 export function AddDamageButton({ onAddDamage }: AddDamageButtonProps) {
   const { t } = useTranslation();
-  const backgroundColor = usePhotoCaptureHUDButtonBackground();
+  const primaryColor = usePhotoCaptureHUDButtonBackground();
 
   return (
     <Button
       icon='add'
       onClick={onAddDamage}
       data-testid='monk-test-btn'
-      style={{ backgroundColor }}
+      primaryColor={primaryColor}
     >
       {t('photo.hud.sight.addDamageBtn')}
     </Button>

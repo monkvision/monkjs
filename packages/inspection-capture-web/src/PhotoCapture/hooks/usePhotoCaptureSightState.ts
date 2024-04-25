@@ -1,10 +1,15 @@
 import { useCallback, useMemo, useState } from 'react';
-import { MonkAPIConfig, MonkApiResponse, useMonkApi } from '@monkvision/network';
+import {
+  GetInspectionResponse,
+  MonkApiConfig,
+  MonkApiResponse,
+  useMonkApi,
+} from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { LoadingState, MonkGotOneInspectionAction, useAsyncEffect } from '@monkvision/common';
-import { Image, Sight, TaskName } from '@monkvision/types';
+import { LoadingState, useAsyncEffect } from '@monkvision/common';
+import { ComplianceOptions, Image, Sight, TaskName } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { PhotoCaptureErrorName } from '../errors';
 
 /**
@@ -28,6 +33,10 @@ export interface PhotoCaptureSightState {
    */
   takeSelectedSight: () => void;
   /**
+   * Callback called when a sight needs to be retaken.
+   */
+  retakeSight: (id: string) => void;
+  /**
    * Value storing the last picture taken by the user. If no picture has been taken yet, this value is null.
    */
   lastPictureTaken: MonkPicture | null;
@@ -44,7 +53,7 @@ export interface PhotoCaptureSightState {
 /**
  * Parameters of the usePhotoCaptureSightState hook.
  */
-export interface PhotoCaptureSightsParams {
+export interface PhotoCaptureSightsParams extends Partial<ComplianceOptions> {
   /**
    * The inspection ID.
    */
@@ -56,7 +65,7 @@ export interface PhotoCaptureSightsParams {
   /**
    * The api config used to communicate with the API.
    */
-  apiConfig: MonkAPIConfig;
+  apiConfig: MonkApiConfig;
   /**
    * Global loading state of the PhotoCapture component.
    */
@@ -65,6 +74,10 @@ export interface PhotoCaptureSightsParams {
    * Callback called when the last sight has been taken by the user.
    */
   onLastSightTaken: () => void;
+  /**
+   * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
+   * sight will be used.
+   */
   tasksBySight?: Record<string, TaskName[]>;
 }
 
@@ -86,11 +99,11 @@ function getCaptureTasks(
 
 function assertInspectionIsValid(
   inspectionId: string,
-  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  response: MonkApiResponse<GetInspectionResponse>,
   captureSights: Sight[],
   tasksBySight?: Record<string, TaskName[]>,
 ): void {
-  const inspectionTasks = response.action?.payload?.tasks
+  const inspectionTasks = response.entities.tasks
     ?.filter((task) => task.inspectionId === inspectionId)
     ?.map((task) => task.name);
   if (inspectionTasks) {
@@ -112,10 +125,10 @@ function assertInspectionIsValid(
 
 function getSightsTaken(
   inspectionId: string,
-  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  response: MonkApiResponse<GetInspectionResponse>,
 ): Sight[] {
   return (
-    response.action?.payload?.images
+    response.entities.images
       ?.filter(
         (image: Image) => image.inspectionId === inspectionId && image.additionalData?.['sight_id'],
       )
@@ -125,9 +138,9 @@ function getSightsTaken(
 
 function getLastPictureTaken(
   inspectionId: string,
-  response: MonkApiResponse<MonkGotOneInspectionAction>,
+  response: MonkApiResponse<GetInspectionResponse>,
 ): MonkPicture | null {
-  const images = response.action?.payload?.images?.filter(
+  const images = response.entities.images.filter(
     (image: Image) => image.inspectionId === inspectionId,
   );
   if (images && images.length > 0) {
@@ -152,6 +165,8 @@ export function usePhotoCaptureSightState({
   loading,
   onLastSightTaken,
   tasksBySight,
+  enableCompliance,
+  complianceIssues,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -166,9 +181,12 @@ export function usePhotoCaptureSightState({
   useAsyncEffect(
     () => {
       loading.start();
-      return getInspection(inspectionId);
+      return getInspection({
+        id: inspectionId,
+        compliance: { enableCompliance, complianceIssues },
+      });
     },
-    [inspectionId, retryCount],
+    [inspectionId, retryCount, enableCompliance, complianceIssues],
     {
       onResolve: (response) => {
         try {
@@ -205,6 +223,17 @@ export function usePhotoCaptureSightState({
     }
   }, [sightsTaken, selectedSight, captureSights, onLastSightTaken]);
 
+  const retakeSight = useCallback(
+    (id: string) => {
+      const sightToRetake = captureSights.find((sight) => sight.id === id);
+      if (sightToRetake) {
+        setSightsTaken((value) => value.filter((sight) => sight.id !== id));
+        setSelectedSight(sightToRetake);
+      }
+    },
+    [captureSights],
+  );
+
   return useMemo(
     () => ({
       selectedSight,
@@ -214,6 +243,7 @@ export function usePhotoCaptureSightState({
       lastPictureTaken,
       setLastPictureTaken,
       retryLoadingInspection,
+      retakeSight,
     }),
     [
       selectedSight,
@@ -223,6 +253,7 @@ export function usePhotoCaptureSightState({
       lastPictureTaken,
       setLastPictureTaken,
       retryLoadingInspection,
+      retakeSight,
     ],
   );
 }

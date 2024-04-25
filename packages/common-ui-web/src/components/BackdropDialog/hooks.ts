@@ -33,7 +33,7 @@ export function useBackdropDialogStyles(
     },
     dialog: {
       ...styles['dialog'],
-      backgroundColor: palette.surface.s1,
+      backgroundColor: palette.surface.dark,
     },
     cancelButton: {
       ...styles['button'],

@@ -1,7 +1,8 @@
 import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
 import { act } from '@testing-library/react';
+import { MonkPicture } from '@monkvision/types';
 import { renderHook } from '@testing-library/react-hooks';
-import { MonkPicture, useTakePicture } from '../../../src/Camera/hooks';
+import { useTakePicture } from '../../../src/Camera/hooks';
 import { TakePictureTransaction } from '../../../src/Camera/monitoring';
 
 const monitoring = {

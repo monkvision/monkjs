@@ -1,4 +1,4 @@
-import { MonkPicture } from '@monkvision/camera-web';
+import { MonkPicture } from '@monkvision/types';
 import { TaskName } from '@monkvision/types';
 import { Queue } from '@monkvision/common';
 import { useCallback } from 'react';

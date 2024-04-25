@@ -1,5 +1,6 @@
 import { MonkState } from '@monkvision/common';
 import {
+  ComplianceOptions,
   CurrencyCode,
   CustomSeverityValue,
   Damage,
@@ -112,7 +113,10 @@ function mapView(view: ApiView): { view: View; renderedOutputs: RenderedOutput[]
   };
 }
 
-function mapImages(response: ApiInspectionGet): {
+function mapImages(
+  response: ApiInspectionGet,
+  complianceOptions?: ComplianceOptions,
+): {
   views: View[];
   renderedOutputs: RenderedOutput[];
   images: Image[];
@@ -148,7 +152,7 @@ function mapImages(response: ApiInspectionGet): {
 
     imageIds.push(image.id);
     images.push({
-      ...mapApiImage(image, response.id),
+      ...mapApiImage(image, response.id, complianceOptions),
       renderedOutputs: imageRenderedOutputs,
       views: imageViews,
     });
@@ -361,9 +365,14 @@ function mapInspection(
   };
 }
 
-export function mapApiInspectionGet(response: ApiInspectionGet): Partial<MonkState> {
-  const { images, renderedOutputs, views, imageIds, renderedOutputIds, viewIds } =
-    mapImages(response);
+export function mapApiInspectionGet(
+  response: ApiInspectionGet,
+  complianceOptions?: ComplianceOptions,
+): MonkState {
+  const { images, renderedOutputs, views, imageIds, renderedOutputIds, viewIds } = mapImages(
+    response,
+    complianceOptions,
+  );
   const { damages, damageIds } = mapDamages(response);
   const { parts, partIds } = mapParts(response);
   const { severityResults, severityResultIds } = mapSeverityResults(response);
@@ -389,6 +398,7 @@ export function mapApiInspectionGet(response: ApiInspectionGet): Partial<MonkSta
     tasks,
     vehicles: vehicle ? [vehicle] : [],
     views,
+    partOperations: [],
   };
 }
 

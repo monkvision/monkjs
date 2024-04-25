@@ -1,6 +1,6 @@
 import { Sight, TaskName } from '@monkvision/types';
 import { flatMap, LoadingState, uniq } from '@monkvision/common';
-import { MonkAPIConfig, useMonkApi } from '@monkvision/network';
+import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useCallback } from 'react';
 
@@ -19,7 +19,7 @@ export interface UseStartTasksOnCompleteParams {
   /**
    * The api config used to communicate with the API.
    */
-  apiConfig: MonkAPIConfig;
+  apiConfig: MonkApiConfig;
   /**
    * Global loading state of the PhotoCapture component.
    */
@@ -80,11 +80,11 @@ export function useStartTasksOnComplete({
     if (!startTasksOnComplete) {
       return;
     }
-    const tasks = getTasksToStart({ sights, tasksBySight, startTasksOnComplete });
+    const names = getTasksToStart({ sights, tasksBySight, startTasksOnComplete });
 
     loading.start();
     try {
-      await startInspectionTasks(inspectionId, tasks);
+      await startInspectionTasks({ inspectionId, names });
       loading.onSuccess();
     } catch (err) {
       handleError(err);

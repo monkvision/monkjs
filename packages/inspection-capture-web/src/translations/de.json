@@ -1,5 +1,9 @@
 {
   "photo": {
+    "orientationError": {
+      "title": "Bitte drehen Sie Ihr Gerät.",
+      "description": "Möglicherweise müssen Sie die Ausrichtung Ihres Geräts über die Telefoneinstellungen entsperren."
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Schaden"

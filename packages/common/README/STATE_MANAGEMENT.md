@@ -90,7 +90,10 @@ const action: Monk = {
 
 ## CreatedOneImage Action
 This action can be dispatched after an image has beencreated and uploaded to the API. The payload of this action should
-contain the details about the image that has been created, as well as the ID of the inspection.
+contain the details about the image that has been created, as well as the ID of the inspection. You can also start by
+creating a local image (with a custom local ID), and then update this image when the API has returned the actual ID of
+the image. To do so, re-dispatch another time the same action, but with the new Id and the property `localId` in the
+payload containing the previous ID assigned to the image when it was created locally.
 
 ```typescript
 import { MonkResetStateAction, MonkActionType } from '@monkvision/common';

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Sight } from '@monkvision/types';
+import { Sight, MonkPicture } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
-import { CameraHUDProps, MonkPicture } from '@monkvision/camera-web';
+import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
@@ -59,6 +59,10 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    */
   onRetry: () => void;
   /**
+   * Callback called when the user clicks on the gallery icon.
+   */
+  onOpenGallery: () => void;
+  /**
    * Callback called when the user clicks on the close button. If this callback is not provided, the close button is not
    * displayed.
    */
@@ -86,6 +90,7 @@ export function PhotoCaptureHUD({
   onSelectSight,
   onAddDamage,
   onCancelAddDamage,
+  onOpenGallery,
   onRetry,
   onClose,
   showCloseButton,
@@ -107,6 +112,7 @@ export function PhotoCaptureHUD({
       <div style={style.previewContainer} data-testid='camera-preview'>
         {cameraPreview}
         <PhotoCaptureHUDPreview
+          inspectionId={inspectionId}
           selectedSight={selectedSight}
           sights={sights}
           sightsTaken={sightsTaken}
@@ -120,6 +126,7 @@ export function PhotoCaptureHUD({
         />
       </div>
       <PhotoCaptureHUDButtons
+        onOpenGallery={onOpenGallery}
         onTakePicture={handle?.takePicture}
         onClose={() => setShowCloseModal(true)}
         galleryPreview={lastPictureTaken ?? undefined}
