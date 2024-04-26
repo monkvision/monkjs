@@ -133,6 +133,7 @@ const Capture = forwardRef(({
   onReady,
   onStartUploadPicture,
   onFinishUploadPicture,
+  onNavigateToNextSight,
   orientationBlockerProps,
   overlayPathStyles,
   primaryColor,
@@ -351,6 +352,17 @@ const Capture = forwardRef(({
       setAddDamageStatus(AddDamageStatus.HELP);
     }
   }, [setAddDamageStatus, lastAddDamageHelpTimestamp]);
+
+  const handleOnFinishUploadPicture = useCallback(async () => {
+    try {
+      await onNavigateToNextSight();
+    } catch (err) {
+      log([`Error in \`<Capture />\` \`goNextSight()\`: ${err}`], 'err');
+    } finally {
+      api.goNextSight();
+      onFinishUploadPicture();
+    }
+  }, [api]);
 
   const handleResetDamageStatus = useCallback(() => {
     setAddDamageStatus(AddDamageStatus.IDLE);
@@ -610,7 +622,7 @@ const Capture = forwardRef(({
       onCloseEarly={handleCloseEarlyClick}
       onAddDamagePressed={handleAddDamagePressed}
       onStartUploadPicture={onStartUploadPicture}
-      onFinishUploadPicture={onFinishUploadPicture}
+      onFinishUploadPicture={handleOnFinishUploadPicture}
       addDamageParts={addDamageParts}
       onResetAddDamageStatus={handleResetDamageStatus}
       hideAddDamage={hideAddDamage}
@@ -857,6 +869,7 @@ Capture.propTypes = {
   onComplianceCheckFinish: PropTypes.func,
   onComplianceCheckStart: PropTypes.func,
   onFinishUploadPicture: PropTypes.func,
+  onNavigateToNextSight: PropTypes.func,
   onPictureTaken: PropTypes.func,
   onPictureUploaded: PropTypes.func,
   onReady: PropTypes.func,
@@ -976,6 +989,7 @@ Capture.defaultProps = {
   onComplianceCheckFinish: () => { },
   onComplianceCheckStart: () => { },
   onFinishUploadPicture: () => { },
+  onNavigateToNextSight: () => { },
   onWarningMessage: () => { },
   onReady: () => { },
   onStartUploadPicture: () => { },
