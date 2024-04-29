@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { monkLanguages, VehicleType } from '@monkvision/types';
+import { monkLanguages, SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { zlibDecompress } from '../utils';
 import { useSearchParams } from '../hooks';
 
@@ -37,6 +37,10 @@ export interface MonkAppParams {
    */
   vehicleType: VehicleType | null;
   /**
+   * The position of the steering wheel.
+   */
+  steeringWheel: SteeringWheelPosition | null;
+  /**
    * Callback used to set the current auth token.
    *
    * @see authToken
@@ -54,6 +58,12 @@ export interface MonkAppParams {
    * @see vehicleType
    */
   setVehicleType: Dispatch<SetStateAction<VehicleType | null>>;
+  /**
+   * Callback used to set the current steering wheel position.
+   *
+   * @see steeringWheel
+   */
+  setSteeringWheel: Dispatch<SetStateAction<SteeringWheelPosition | null>>;
 }
 
 /**
@@ -90,6 +100,12 @@ export enum MonkSearchParams {
    * @see monkLanguages
    */
   LANGUAGE = 'l',
+  /**
+   * Search parameter used to specify the position of the steering wheel on the car.
+   *
+   * @see SteeringWheelPosition
+   */
+  STEERING_WHEEL = 's',
 }
 
 /**
@@ -101,9 +117,11 @@ export const MonkAppParamsContext = createContext<MonkAppParams>({
   authToken: null,
   inspectionId: null,
   vehicleType: null,
+  steeringWheel: null,
   setAuthToken: () => {},
   setInspectionId: () => {},
   setVehicleType: () => {},
+  setSteeringWheel: () => {},
 });
 
 /**
@@ -187,6 +205,7 @@ export function MonkAppParamsProvider({
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
+  const [steeringWheel, setSteeringWheel] = useState<SteeringWheelPosition | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -196,11 +215,21 @@ export function MonkAppParamsProvider({
     }
     if (fetchFromSearchParams) {
       setInspectionId((param) => searchParams.get(MonkSearchParams.INSPECTION_ID) ?? param);
+
       const vehicleTypeParam = searchParams.get(MonkSearchParams.VEHICLE_TYPE);
       const newVehicleType = Object.values<string | null>(VehicleType).includes(vehicleTypeParam)
         ? (vehicleTypeParam as VehicleType)
         : null;
       setVehicleType((param) => newVehicleType ?? param);
+
+      const steeringWheelParam = searchParams.get(MonkSearchParams.STEERING_WHEEL);
+      const newSteeringWheel = Object.values<string | null>(SteeringWheelPosition).includes(
+        steeringWheelParam,
+      )
+        ? (steeringWheelParam as SteeringWheelPosition)
+        : null;
+      setSteeringWheel((param) => newSteeringWheel ?? param);
+
       const compressedToken = searchParams.get(MonkSearchParams.TOKEN);
       if (compressedToken) {
         fetchedToken = zlibDecompress(compressedToken);
@@ -223,11 +252,13 @@ export function MonkAppParamsProvider({
       authToken,
       inspectionId,
       vehicleType,
+      steeringWheel,
       setAuthToken,
       setInspectionId,
       setVehicleType,
+      setSteeringWheel,
     }),
-    [authToken, inspectionId, vehicleType, setAuthToken, setInspectionId, setVehicleType],
+    [authToken, inspectionId, vehicleType, steeringWheel],
   );
 
   return (

@@ -10,6 +10,7 @@ Most of the time, applications integrating the Monk SDK will need the same basic
 - An authentication token to make API requests
 - An inspection ID to know which inspection it should capture or visualize the reports of
 - A vehicle type to know which sights or car 360 wireframes to use in the capture screen or in the inspection report
+- A steering wheel position for the vehicles (left or right)
 - A preferred language to use instead of the default English
 
 This package export some utilies that can be used to more easily handle the state management and the initial values of

@@ -196,3 +196,17 @@ export type LabelDictionary = Record<string, LabelTranslation>;
  * A dictionary that maps sight ids to sight objects.
  */
 export type SightDictionary = Record<string, Sight>;
+
+/**
+ * Enumeration of the two positions in which the steering wheel can be.
+ */
+export enum SteeringWheelPosition {
+  /**
+   * Steering wheel on the left (France, US etc.).
+   */
+  LEFT = 'left',
+  /**
+   * Steering wheel on the right (UK etc.).
+   */
+  RIGHT = 'right',
+}

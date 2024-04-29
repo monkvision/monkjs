@@ -8,7 +8,7 @@ jest.mock('../../src/hooks', () => ({
 import { render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import React, { useContext, useEffect } from 'react';
-import { VehicleType } from '@monkvision/types';
+import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import {
   MonkAppParams,
   MonkAppParamsContext,
@@ -43,9 +43,11 @@ describe('Monk App Params', () => {
       expect(result.current.authToken).toBeNull();
       expect(result.current.inspectionId).toBeNull();
       expect(result.current.vehicleType).toBeNull();
+      expect(result.current.steeringWheel).toBeNull();
       expect(typeof result.current.setAuthToken).toEqual('function');
       expect(typeof result.current.setInspectionId).toEqual('function');
       expect(typeof result.current.setVehicleType).toEqual('function');
+      expect(typeof result.current.setSteeringWheel).toEqual('function');
 
       unmount();
     });
@@ -75,9 +77,11 @@ describe('Monk App Params', () => {
       expect(params?.authToken).toBeNull();
       expect(params?.inspectionId).toBeNull();
       expect(params?.vehicleType).toBeNull();
+      expect(params?.steeringWheel).toBeNull();
       expect(typeof params?.setAuthToken).toEqual('function');
       expect(typeof params?.setInspectionId).toEqual('function');
       expect(typeof params?.setVehicleType).toEqual('function');
+      expect(typeof params?.setSteeringWheel).toEqual('function');
 
       unmount();
     });
@@ -193,6 +197,23 @@ describe('Monk App Params', () => {
 
       unmount();
     });
+
+    Object.values(SteeringWheelPosition).forEach((steeringWheel) =>
+      it(`should properly fetch the ${steeringWheel} steering wheel position from the search params if asked to`, () => {
+        (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+          get: jest.fn((name) => (name === MonkSearchParams.STEERING_WHEEL ? steeringWheel : null)),
+        }));
+        const { unmount } = render(
+          <MonkAppParamsProvider fetchFromSearchParams={true}>
+            <TestComponent />
+          </MonkAppParamsProvider>,
+        );
+
+        expect(params?.steeringWheel).toEqual(steeringWheel);
+
+        unmount();
+      }),
+    );
   });
 
   describe('useMonkAppParams hook', () => {
