@@ -52,6 +52,26 @@ describe('PhotoCapture page', () => {
     unmount();
   });
 
+  it('should use live compliance', () => {
+    const { unmount } = render(<PhotoCapturePage />);
+
+    expectPropsOnChildMock(PhotoCapture, {
+      useLiveCompliance: true,
+    });
+
+    unmount();
+  });
+
+  it('should not allow retakes', () => {
+    const { unmount } = render(<PhotoCapturePage />);
+
+    expectPropsOnChildMock(PhotoCapture, {
+      allowSkipRetake: false,
+    });
+
+    unmount();
+  });
+
   it('should redirect to the inspection complete page after the inspection', () => {
     (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
