@@ -1,5 +1,4 @@
-import { MonkPicture } from '@monkvision/types';
-import { TaskName } from '@monkvision/types';
+import { MonkPicture, TaskName } from '@monkvision/types';
 import { Queue } from '@monkvision/common';
 import { useCallback } from 'react';
 import { PictureUpload } from './useUploadQueue';

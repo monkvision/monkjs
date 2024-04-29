@@ -3,7 +3,7 @@ import type { ApiAdditionalData, ApiCenterOnElement, ApiLabelPrediction } from '
 import type { ApiRenderedOutputs } from './renderedOutput';
 import type { ApiImageComplianceResults } from './compliance';
 import type { ApiViews } from './view';
-import { ApiBusinessTaskName, ApiImageCompliancesTaskPost } from './task';
+import { ApiBusinessTaskName, ApiHinlTaskPost, ApiImageCompliancesTaskPost } from './task';
 
 export type ApiImageType = 'unknown' | 'beauty_shot' | 'close_up';
 
@@ -78,9 +78,11 @@ export interface ApiCompliance {
   zoom_level?: ApiComplianceParameters;
 }
 
+export type ApiImagePostTask = ApiBusinessTaskName | ApiImageCompliancesTaskPost | ApiHinlTaskPost;
+
 export interface ApiImagePost {
   acquisition: ApiAcquisition;
-  tasks?: (ApiBusinessTaskName | ApiImageCompliancesTaskPost)[];
+  tasks?: ApiImagePostTask[];
   name?: string;
   image_type?: ApiImageType;
   image_subtype?: ApiImageSubType;

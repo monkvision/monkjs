@@ -44,6 +44,8 @@ export interface UseStartTasksOnCompleteParams {
  */
 export type StartTasksFunction = () => Promise<void>;
 
+const TASKS_NOT_TO_START = [TaskName.HUMAN_IN_THE_LOOP];
+
 function getTasksToStart({
   sights,
   tasksBySight,
@@ -52,13 +54,15 @@ function getTasksToStart({
   UseStartTasksOnCompleteParams,
   'sights' | 'tasksBySight' | 'startTasksOnComplete'
 >): TaskName[] {
+  let tasks = [];
   if (Array.isArray(startTasksOnComplete)) {
-    return startTasksOnComplete;
+    tasks = startTasksOnComplete;
+  } else if (tasksBySight) {
+    tasks = uniq(flatMap(sights, (sight) => tasksBySight[sight.id]));
+  } else {
+    tasks = uniq(flatMap(sights, (sight) => sight.tasks));
   }
-  if (tasksBySight) {
-    return uniq(flatMap(sights, (sight) => tasksBySight[sight.id]));
-  }
-  return uniq(flatMap(sights, (sight) => sight.tasks));
+  return tasks.filter((task) => !TASKS_NOT_TO_START.includes(task));
 }
 
 /**

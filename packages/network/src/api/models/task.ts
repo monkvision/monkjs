@@ -26,6 +26,15 @@ export interface ApiImageCompliancesTaskPost {
   wait_for_result?: boolean;
 }
 
+export interface ApiHinlImageDetails {
+  sight_label: string;
+}
+
+export interface ApiHinlTaskPost {
+  name: 'human_in_the_loop';
+  image_details: ApiHinlImageDetails;
+}
+
 export type ApiTaskProgressStatus =
   | 'NOT_STARTED'
   | 'TODO'
