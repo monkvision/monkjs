@@ -38,6 +38,13 @@ export enum TaskName {
    * the dashboard (car mileage etc.)
    */
   DASHBOARD_OCR = 'dashboard_ocr',
+  /**
+   * Compliance checks like image quality, car coverage etc. You don't have to add this task to your inspection or to
+   * your images, it is added by default when adding the dammage detection task. However, you can specify this task if
+   * you want to specify additional options used to configure how the compliance is executed (like specifying the
+   * sight_id of the image for instance).
+   */
+  COMPLIANCES = 'compliances',
 }
 
 /**

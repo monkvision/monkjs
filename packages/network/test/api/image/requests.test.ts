@@ -14,11 +14,7 @@ import ky from 'ky';
 import { ComplianceIssue, ImageStatus, ImageSubtype, ImageType, TaskName } from '@monkvision/types';
 import { getFileExtensions, MonkActionType } from '@monkvision/common';
 import { getDefaultOptions } from '../../../src/api/config';
-import {
-  Add2ShotCloseUpImageOptions,
-  AddBeautyShotImageOptions,
-  addImage,
-} from '../../../src/api/image';
+import { Add2ShotCloseUpImageOptions, AddBeautyShotImageOptions, addImage } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
 
 const apiConfig = { apiDomain: 'apiDomain', authToken: 'authToken' };
@@ -162,7 +158,10 @@ describe('Image requests', () => {
           file_key: 'image',
         },
         image_type: ImageType.BEAUTY_SHOT,
-        tasks: options.tasks,
+        tasks: [
+          ...options.tasks,
+          { name: TaskName.COMPLIANCES, image_details: { sight_id: options.sightId } },
+        ],
         additional_data: {
           sight_id: options.sightId,
           created_at: expect.any(String),
@@ -180,6 +179,19 @@ describe('Image requests', () => {
         ),
         { type: filetype },
       );
+    });
+
+    it('should remove the compliances task from the tasks of beautyshots', async () => {
+      const fileMock = { test: 'hello' } as unknown as File;
+      jest.spyOn(global, 'File').mockImplementationOnce(() => fileMock);
+      const options = createBeautyShotImageOptions();
+      options.tasks.push(TaskName.COMPLIANCES);
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+      expect(JSON.parse(formData.get('json') as string).tasks).not.toContain(TaskName.COMPLIANCES);
     });
 
     it('should properly create the formdata for a closeup', async () => {

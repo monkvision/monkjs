@@ -16,6 +16,16 @@ export type ApiBusinessTaskName =
   | 'iqa_compliance'
   | 'compliances';
 
+export interface ApiImageCompliancesDetails {
+  sight_id: string;
+}
+
+export interface ApiImageCompliancesTaskPost {
+  name: 'compliances';
+  image_details?: ApiImageCompliancesDetails;
+  wait_for_result?: boolean;
+}
+
 export type ApiTaskProgressStatus =
   | 'NOT_STARTED'
   | 'TODO'
