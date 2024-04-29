@@ -1,147 +1,116 @@
-import { Sight, VehicleType } from '@monkvision/types';
+import { Sight, SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 
 const APP_SIGHTS_BY_VEHICLE_TYPE: Partial<Record<VehicleType, Sight[]>> = {
   [VehicleType.SUV]: [
-    sights['jgc21-QIvfeg0X'],
-    sights['jgc21-KyUUVU2P'],
-    sights['jgc21-zCrDwYWE'],
-    sights['jgc21-z15ZdJL6'],
-    sights['jgc21-RE3li6rE'],
-    sights['jgc21-omlus7Ui'],
-    sights['jgc21-m2dDoMup'],
-    sights['jgc21-3gjMwvQG'],
-    sights['jgc21-ezXzTRkj'],
-    sights['jgc21-tbF2Ax8v'],
-    sights['jgc21-3JJvM7_B'],
-    sights['jgc21-RAVpqaE4'],
-    sights['jgc21-F-PPd4qN'],
-    sights['jgc21-XXh8GWm8'],
-    sights['jgc21-TRN9Des4'],
-    sights['jgc21-s7WDTRmE'],
-    sights['jgc21-__JKllz9'],
+    sights['jgc21-QIvfeg0X'], // Front Low
+    sights['jgc21-imomJ2V0'], // Front Roof Left
+    sights['jgc21-QIkcNhc_'], // Front Fender Left
+    sights['jgc21-TEoi50Ff'], // Lateral Full Left
+    sights['jgc21-ezXzTRkj'], // Rear Left
+    sights['jgc21-TyJPUs8E'], // Rear Low
+    sights['jgc21-3JJvM7_B'], // Rear Right
+    sights['jgc21-1j-oTPag'], // Lateral Full Right
+    sights['jgc21-QwNQX0Cr'], // Front Fender Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
   [VehicleType.CROSSOVER]: [
-    sights['fesc20-H1dfdfvH'],
-    sights['fesc20-WMUaKDp1'],
-    sights['fesc20-LTe3X2bg'],
-    sights['fesc20-WIQsf_gX'],
-    sights['fesc20-hp3Tk53x'],
-    sights['fesc20-fOt832UV'],
-    sights['fesc20-NLdqASzl'],
-    sights['fesc20-4Wqx52oU'],
-    sights['fesc20-dfICsfSV'],
-    sights['fesc20-X8k7UFGf'],
-    sights['fesc20-LZc7p2kK'],
-    sights['fesc20-5Ts1UkPT'],
-    sights['fesc20-gg1Xyrpu'],
-    sights['fesc20-P0oSEh8p'],
-    sights['fesc20-j3H8Z415'],
-    sights['fesc20-dKVLig1i'],
-    sights['fesc20-Wzdtgqqz'],
+    sights['fesc20-H1dfdfvH'], // Front Low
+    sights['fesc20-6GPUkfYn'], // Front Roof Left
+    sights['fesc20-GdIxD-N'], // Front Fender Left
+    sights['fesc20-26n47kaO'], // Lateral Full Left
+    sights['fesc20-dfICsfSV'], // Rear Left
+    sights['fesc20-xBFiEy-'], // Rear Low
+    sights['fesc20-LZc7p2kK'], // Rear Right
+    sights['fesc20-HYz5ziHi'], // Lateral Full Right
+    sights['fesc20-CEGtqHkk'], // Front Fender Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
   [VehicleType.SEDAN]: [
-    sights['haccord-8YjMcu0D'],
-    sights['haccord-DUPnw5jj'],
-    sights['haccord-hsCc_Nct'],
-    sights['haccord-GQcZz48C'],
-    sights['haccord-QKfhXU7o'],
-    sights['haccord-mdZ7optI'],
-    sights['haccord-bSAv3Hrj'],
-    sights['haccord-W-Bn3bU1'],
-    sights['haccord-GdWvsqrm'],
-    sights['haccord-ps7cWy6K'],
-    sights['haccord-Jq65fyD4'],
-    sights['haccord-OXYy5gET'],
-    sights['haccord-5LlCuIfL'],
-    sights['haccord-Gtt0JNQl'],
-    sights['haccord-cXSAj2ez'],
-    sights['haccord-KN23XXkX'],
-    sights['haccord-Z84erkMb'],
+    sights['haccord-8YjMcu0D'], // Front Low
+    sights['haccord-oiY_yPTR'], // Front Roof Left
+    sights['haccord-2a8VfA8m'], // Front Fender Left
+    sights['haccord-_YnTubBA'], // Lateral Full Left
+    sights['haccord-GdWvsqrm'], // Rear Left
+    sights['haccord-6kYUBv_e'], // Rear Low
+    sights['haccord-Jq65fyD4'], // Rear Right
+    sights['haccord-PGr3RzzP'], // Lateral Full Right
+    sights['haccord-EfRIciFr'], // Front Fender Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
   [VehicleType.HATCHBACK]: [
-    sights['ffocus18-XlfgjQb9'],
-    sights['ffocus18-3TiCVAaN'],
-    sights['ffocus18-43ljK5xC'],
-    sights['ffocus18-x_1SE7X-'],
-    sights['ffocus18-QKfhXU7o'],
-    sights['ffocus18-yo9eBDW6'],
-    sights['ffocus18-cPUyM28L'],
-    sights['ffocus18-S3kgFOBb'],
-    sights['ffocus18-9MeSIqp7'],
-    sights['ffocus18-X2LDjCvr'],
-    sights['ffocus18-jWOq2CNN'],
-    sights['ffocus18-P2jFq1Ea'],
-    sights['ffocus18-U3Bcfc2Q'],
-    sights['ffocus18-ts3buSD1'],
-    sights['ffocus18-cXSAj2ez'],
-    sights['ffocus18-KkeGvT-F'],
-    sights['ffocus18-lRDlWiwR'],
+    sights['ffocus18-XlfgjQb9'], // Front Low
+    sights['ffocus18-ZXKOomlv'], // Front Roof Left
+    sights['ffocus18-GiTxaJUq'], // Front Fender Left
+    sights['ffocus18-6FX31ty1'], // Lateral Full Left
+    sights['ffocus18-9MeSIqp7'], // Rear Left
+    sights['ffocus18-L2UM_68Q'], // Rear Low
+    sights['ffocus18-jWOq2CNN'], // Rear Right
+    sights['ffocus18-FdsQDaTW'], // Lateral Full Right
+    sights['ffocus18-zgLKB-Do'], // Front Fender Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
   [VehicleType.VAN]: [
-    sights['ftransit18-wyXf7MTv'],
-    sights['ftransit18-UNAZWJ-r'],
-    sights['ftransit18-5SiNC94w'],
-    sights['ftransit18-Y0vPhBVF'],
-    sights['ftransit18-xyp1rU0h'],
-    sights['ftransit18-6khKhof0'],
-    sights['ftransit18-eXJDDYmE'],
-    sights['ftransit18-3Sbfx_KZ'],
-    sights['ftransit18-iu1Vj2Oa'],
-    sights['ftransit18-aA2K898S'],
-    sights['ftransit18-NwBMLo3Z'],
-    sights['ftransit18-cf0e-pcB'],
-    sights['ftransit18-FFP5b34o'],
-    sights['ftransit18-RJ2D7DNz'],
-    sights['ftransit18-3fnjrISV'],
-    sights['ftransit18-eztNpSRX'],
-    sights['ftransit18-TkXihCj4'],
-    sights['ftransit18-4NMPqEV6'],
-    sights['ftransit18-IIVI_pnX'],
+    sights['ftransit18-wyXf7MTv'], // Front Low
+    sights['ftransit18-5SiNC94w'], // Front Bumper Side Left
+    sights['ftransit18-rsXWUN8X'], // Lateral Full Left
+    sights['ftransit18-iu1Vj2Oa'], // Rear Left
+    sights['ftransit18-3dkU10af'], // Rear Low
+    sights['ftransit18-FFP5b34o'], // Rear Right
+    sights['ftransit18-G24AdP6r'], // Lateral Full Right
+    sights['ftransit18-IIVI_pnX'], // Front Bumper Side Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
   [VehicleType.MINIVAN]: [
-    sights['tsienna20-YwrRNr9n'],
-    sights['tsienna20-HykkFbXf'],
-    sights['tsienna20-TI4TVvT9'],
-    sights['tsienna20-65mfPdRD'],
-    sights['tsienna20-Ia0SGJ6z'],
-    sights['tsienna20-1LNxhgCR'],
-    sights['tsienna20-U_FqYq-a'],
-    sights['tsienna20-670P2H2V'],
-    sights['tsienna20-1n_z8bYy'],
-    sights['tsienna20-qA3aAUUq'],
-    sights['tsienna20--a2RmRcs'],
-    sights['tsienna20-SebsoqJm'],
-    sights['tsienna20-u57qDaN_'],
-    sights['tsienna20-Rw0Gtt7O'],
-    sights['tsienna20-TibS83Qr'],
-    sights['tsienna20-cI285Gon'],
-    sights['tsienna20-KHB_Cd9k'],
+    sights['tsienna20-YwrRNr9n'], // Front Low
+    sights['tsienna20-is1tpnqR'], // Front Roof Left
+    sights['tsienna20-gkvZE2c7'], // Front Fender Left
+    sights['tsienna20-4ihRwDkS'], // Lateral Full Left
+    sights['tsienna20-1n_z8bYy'], // Rear Left
+    sights['tsienna20-qA3aAUUq'], // Rear
+    sights['tsienna20--a2RmRcs'], // Rear Right
+    sights['tsienna20-uIHdpQ9y'], // Lateral Full Right
+    sights['tsienna20-xtDcn3GS'], // Front Fender Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
   [VehicleType.PICKUP]: [
-    sights['ff150-zXbg0l3z'],
-    sights['ff150-3he9UOwy'],
-    sights['ff150-KgHVkQBW'],
-    sights['ff150-FqbrFVr2'],
-    sights['ff150-g_xBOOS2'],
-    sights['ff150-vwE3yqdh'],
-    sights['ff150-V-xzfWsx'],
-    sights['ff150-ouGGtRnf'],
-    sights['ff150--xPZZd83'],
-    sights['ff150-nF_oFvhI'],
-    sights['ff150-t3KBMPeD'],
-    sights['ff150-3rM9XB0Z'],
-    sights['ff150-eOjyMInj'],
-    sights['ff150-18YVVN-G'],
-    sights['ff150-BmXfb-qD'],
-    sights['ff150-gFp78fQO'],
-    sights['ff150-7nvlys8r'],
+    sights['ff150-zXbg0l3z'], // Front Low
+    sights['ff150-Ttsc7q6V'], // Front Roof Left
+    sights['ff150-wO_fJ3DL'], // Front Fender Left
+    sights['ff150-GOx2s_9L'], // Lateral Full Left
+    sights['ff150--xPZZd83'], // Rear Left
+    sights['ff150-3dkU10af'], // Rear Low
+    sights['ff150-t3KBMPeD'], // Rear Right
+    sights['ff150-_UIadfVL'], // Lateral Full Right
+    sights['ff150-OviO2DlY'], // Front Fender Right
+    sights['all-IqwSM3'], // Front Seats
+    sights['all-rSvk2C'], // Dashboard
   ],
 };
 
-export function getSights(vehicleType: VehicleType | null): Sight[] {
-  return (
-    APP_SIGHTS_BY_VEHICLE_TYPE[vehicleType ?? VehicleType.CROSSOVER] ??
-    (APP_SIGHTS_BY_VEHICLE_TYPE[VehicleType.CROSSOVER] as Sight[])
-  );
+export function getSights(
+  vehicleType: VehicleType | null,
+  steeringWheel: SteeringWheelPosition | null,
+): Sight[] {
+  const type =
+    !vehicleType || !Object.values(VehicleType).includes(vehicleType)
+      ? VehicleType.CROSSOVER
+      : vehicleType;
+  const captureSights = APP_SIGHTS_BY_VEHICLE_TYPE[type] as Sight[];
+
+  if (steeringWheel === SteeringWheelPosition.RIGHT) {
+    return [
+      captureSights[0],
+      ...captureSights.slice(1, captureSights.length - 2).reverse(),
+      sights['all-T4HrF8KA'],
+      captureSights[captureSights.length - 1],
+    ];
+  }
+  return captureSights;
 }

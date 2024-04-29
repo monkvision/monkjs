@@ -21,9 +21,11 @@ function getTasksBySight(sights: Sight[]): Record<string, TaskName[]> {
 export function PhotoCapturePage() {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
-  const { authToken, inspectionId, vehicleType } = useMonkAppParams({ required: true });
-  const sights = getSights(vehicleType);
-  const tasksBySight = useMemo(() => getTasksBySight(sights), [vehicleType]);
+  const { authToken, inspectionId, vehicleType, steeringWheel } = useMonkAppParams({
+    required: true,
+  });
+  const sights = useMemo(() => getSights(vehicleType, steeringWheel), [vehicleType, steeringWheel]);
+  const tasksBySight = useMemo(() => getTasksBySight(sights), [sights]);
 
   const handleComplete = () => {
     navigate(Page.INSPECTION_COMPLETE);
@@ -34,7 +36,7 @@ export function PhotoCapturePage() {
       <PhotoCapture
         apiConfig={{ authToken, apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN') }}
         inspectionId={inspectionId}
-        sights={getSights(vehicleType)}
+        sights={sights}
         tasksBySight={tasksBySight}
         onComplete={handleComplete}
         lang={i18n.language}

@@ -19,7 +19,8 @@ import { getSights } from '../../src/config';
 const appParams = {
   authToken: 'test-auth-token',
   inspectionId: 'test-inspection-id',
-  vehicleType: '0',
+  vehicleType: 'cuv',
+  steeringWheel: 'left',
 };
 
 describe('PhotoCapture page', () => {
@@ -48,9 +49,9 @@ describe('PhotoCapture page', () => {
     (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
-    expect(getSights).toHaveBeenCalledWith(appParams.vehicleType);
+    expect(getSights).toHaveBeenCalledWith(appParams.vehicleType, appParams.steeringWheel);
     expectPropsOnChildMock(PhotoCapture, {
-      sights: getSights(VehicleType.SUV),
+      sights: getSights(VehicleType.SUV, null),
     });
 
     unmount();
