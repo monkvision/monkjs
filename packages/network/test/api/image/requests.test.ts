@@ -62,6 +62,13 @@ function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
 }
 
 describe('Image requests', () => {
+  let fileMock: File;
+  let fileConstructorSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    fileMock = { test: 'hello' } as unknown as File;
+    fileConstructorSpy = jest.spyOn(global, 'File').mockImplementationOnce(() => fileMock);
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -148,8 +155,6 @@ describe('Image requests', () => {
     });
 
     it('should properly create the formdata for a beautyshot', async () => {
-      const fileMock = { test: 'hello' } as unknown as File;
-      const fileConstructorSpy = jest.spyOn(global, 'File').mockImplementationOnce(() => fileMock);
       const options = createBeautyShotImageOptions();
       await addImage(options, apiConfig);
 
@@ -162,7 +167,14 @@ describe('Image requests', () => {
           file_key: 'image',
         },
         image_type: ImageType.BEAUTY_SHOT,
-        tasks: options.tasks,
+        tasks: [
+          ...options.tasks,
+          {
+            name: TaskName.COMPLIANCES,
+            image_details: { sight_id: options.sightId },
+            wait_for_result: false,
+          },
+        ],
         additional_data: {
           sight_id: options.sightId,
           created_at: expect.any(String),
@@ -183,8 +195,6 @@ describe('Image requests', () => {
     });
 
     it('should properly create the formdata for a closeup', async () => {
-      const fileMock = { test: 'hello' } as unknown as File;
-      const fileConstructorSpy = jest.spyOn(global, 'File').mockImplementationOnce(() => fileMock);
       const options = createCloseUpImageOptions();
       await addImage(options, apiConfig);
 
@@ -201,7 +211,7 @@ describe('Image requests', () => {
           ? ImageSubtype.CLOSE_UP_PART
           : ImageSubtype.CLOSE_UP_DAMAGE,
         image_sibling_key: options.siblingKey,
-        tasks: [TaskName.DAMAGE_DETECTION],
+        tasks: [TaskName.DAMAGE_DETECTION, { name: TaskName.COMPLIANCES, wait_for_result: false }],
         additional_data: {
           label: {
             en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
@@ -221,6 +231,49 @@ describe('Image requests', () => {
         expect.stringMatching(new RegExp(`${prefix}-${options.inspectionId}-\\d{13}.${filetype}`)),
         { type: filetype },
       );
+    });
+
+    it('should properly set up the live compliance', async () => {
+      const options = createBeautyShotImageOptions();
+      options.compliance = { enableCompliance: true, useLiveCompliance: true };
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+      expect(JSON.parse(formData.get('json') as string).tasks).toContainEqual(
+        expect.objectContaining({
+          name: 'compliances',
+          wait_for_result: true,
+        }),
+      );
+    });
+
+    it('should not enable live compliance if compliance is not enabled', async () => {
+      const options = createBeautyShotImageOptions();
+      options.compliance = { enableCompliance: false, useLiveCompliance: true };
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+      expect(JSON.parse(formData.get('json') as string).tasks).toContainEqual(
+        expect.objectContaining({
+          name: 'compliances',
+          wait_for_result: false,
+        }),
+      );
+    });
+
+    it('should remove the compliances task from the tasks of beautyshots', async () => {
+      const options = createBeautyShotImageOptions();
+      options.tasks.push(TaskName.COMPLIANCES);
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+      expect(JSON.parse(formData.get('json') as string).tasks).not.toContain(TaskName.COMPLIANCES);
     });
   });
 });

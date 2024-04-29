@@ -1,5 +1,4 @@
 import ky from 'ky';
-import { MonkPicture } from '@monkvision/types';
 import { Dispatch } from 'react';
 import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
 import {
@@ -10,13 +9,19 @@ import {
   ImageSubtype,
   ImageType,
   MonkEntityType,
+  MonkPicture,
   TaskName,
   TranslationObject,
 } from '@monkvision/types';
 import { v4 } from 'uuid';
 import { labels, sights } from '@monkvision/sights';
 import { getDefaultOptions, MonkApiConfig } from '../config';
-import { ApiImage, ApiImagePost } from '../models';
+import {
+  ApiBusinessTaskName,
+  ApiImage,
+  ApiImageCompliancesTaskPost,
+  ApiImagePost,
+} from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
 
@@ -118,6 +123,16 @@ function createBeautyShotImageData(
   filetype: string,
 ): { filename: string; body: ApiImagePost } {
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
+  const tasks: (ApiBusinessTaskName | ApiImageCompliancesTaskPost)[] = options.tasks.filter(
+    (task) => task !== TaskName.COMPLIANCES,
+  );
+  tasks.push({
+    name: TaskName.COMPLIANCES,
+    image_details: { sight_id: options.sightId },
+    wait_for_result: !!(
+      options.compliance?.enableCompliance && options.compliance?.useLiveCompliance
+    ),
+  });
 
   const body: ApiImagePost = {
     acquisition: {
@@ -125,7 +140,7 @@ function createBeautyShotImageData(
       file_key: MULTIPART_KEY_IMAGE,
     },
     image_type: ImageType.BEAUTY_SHOT,
-    tasks: options.tasks,
+    tasks,
     additional_data: getAdditionalData(options),
   };
 
@@ -147,7 +162,15 @@ function createCloseUpImageData(
     image_type: ImageType.CLOSE_UP,
     image_subtype: options.firstShot ? ImageSubtype.CLOSE_UP_PART : ImageSubtype.CLOSE_UP_DAMAGE,
     image_sibling_key: options.siblingKey,
-    tasks: [TaskName.DAMAGE_DETECTION],
+    tasks: [
+      TaskName.DAMAGE_DETECTION,
+      {
+        name: TaskName.COMPLIANCES,
+        wait_for_result: !!(
+          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance
+        ),
+      },
+    ],
     additional_data: getAdditionalData(options),
   };
 
