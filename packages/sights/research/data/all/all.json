@@ -109,7 +109,17 @@
     "label": "front-seats",
     "overlay": "all-IqwSM3.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "mirror_sight": "all-T4HrF8KA"
+  },
+  "all-T4HrF8KA": {
+    "id": "all-T4HrF8KA",
+    "category": "interior",
+    "label": "front-seats",
+    "overlay": "all-T4HrF8KA.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection"],
+    "mirror_sight": "all-IqwSM3"
   },
   "all-ad16621c": {
     "id": "all-ad16621c",

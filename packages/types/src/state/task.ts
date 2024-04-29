@@ -46,9 +46,8 @@ export enum TaskName {
    */
   COMPLIANCES = 'compliances',
   /**
-   * Human in the loop task.
-   *
-   * // TODO : Add better doc for this task.
+   * Human in the Loop is a service to include a layer of manual damage detection on top of AI damage detection. After
+   * damages are detected they are sent to an annotator that will review them and edit them if needed.
    */
   HUMAN_IN_THE_LOOP = 'human_in_the_loop',
 }
