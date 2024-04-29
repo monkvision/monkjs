@@ -1,0 +1,23 @@
+{
+  "login": {
+    "actions": {
+      "log-in": "Log In",
+      "log-out": "Log Out"
+    },
+    "errors": {
+      "popup-closed": "Oops! We couldn't log you in because the popup was closed. Let's try again!",
+      "token-expired": "Your authentication token is expired. Please log-in again.",
+      "insufficient-authorization": "You do not have the required authorizations to use this application. Please log out and use a different account.",
+      "unknown": "Oops! An unexpected error occurred during the log in. Let's try again!"
+    }
+  },
+  "create-inspection": {
+    "errors": {
+      "retry": "Retry",
+      "create-inspection": "An unexpected error occurred while creating the inspection."
+    }
+  },
+  "inspection-complete": {
+    "thank-message": "Thank you for taking the time to complete the inspection."
+  }
+}

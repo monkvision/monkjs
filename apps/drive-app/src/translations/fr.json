@@ -1,0 +1,23 @@
+{
+  "login": {
+    "actions": {
+      "log-in": "Se Connecter",
+      "log-out": "Se Déconnecter"
+    },
+    "errors": {
+      "popup-closed": "Oups ! Nous n'avons pas pu vous connecter car la pop-up s'est fermée. Essayons à nouveau !",
+      "token-expired": "Votre token d'authentification est expiré. Veuillez vous reconnecter.",
+      "insufficient-authorization": "Vous n'avez pas les autorisations nécessaires pour utiliser cette application. Veuillez vous déconnecter et utiliser un autre compte.",
+      "unknown": "Oups ! Une erreur inattendue est survenue lors de la connection. Essayons à nouveau !"
+    }
+  },
+  "create-inspection": {
+    "errors": {
+      "retry": "Réessayer",
+      "create-inspection": "Une erreur inattendue est survenue lors de la création de l'inspection."
+    }
+  },
+  "inspection-complete": {
+    "thank-message": "Merci d'avoir pris le temps pour compléter l'inspection."
+  }
+}
