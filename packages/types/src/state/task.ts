@@ -45,6 +45,12 @@ export enum TaskName {
    * sight_id of the image for instance).
    */
   COMPLIANCES = 'compliances',
+  /**
+   * Human in the loop task.
+   *
+   * // TODO : Add better doc for this task.
+   */
+  HUMAN_IN_THE_LOOP = 'human_in_the_loop',
 }
 
 /**

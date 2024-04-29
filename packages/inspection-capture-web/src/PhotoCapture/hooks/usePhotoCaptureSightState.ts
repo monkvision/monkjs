@@ -7,9 +7,8 @@ import {
 } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
-import { ComplianceOptions, Image, Sight, TaskName } from '@monkvision/types';
+import { ComplianceOptions, Image, Sight, TaskName, MonkPicture } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import { MonkPicture } from '@monkvision/types';
 import { PhotoCaptureErrorName } from '../errors';
 
 /**

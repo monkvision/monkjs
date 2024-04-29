@@ -180,4 +180,23 @@ describe('useStartTasksOnComplete hook', () => {
 
     unmount();
   });
+
+  it('should not start the Human in the Loop task', () => {
+    const initialProps = {
+      ...createParams(),
+      startTasksOnComplete: [TaskName.WHEEL_ANALYSIS, TaskName.HUMAN_IN_THE_LOOP],
+    };
+    const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
+
+    const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
+      .startInspectionTasks;
+    result.current();
+    expect(startInspectionTasksMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        names: [TaskName.WHEEL_ANALYSIS],
+      }),
+    );
+
+    unmount();
+  });
 });

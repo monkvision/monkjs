@@ -33,8 +33,8 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
       mimetype: 'image/jpeg',
     },
     inspectionId: 'test-inspection-id',
-    sightId: 'test-sight-id',
-    tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS],
+    sightId: 'test-sight-1',
+    tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS, TaskName.HUMAN_IN_THE_LOOP],
     compliance: {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
@@ -168,11 +168,14 @@ describe('Image requests', () => {
         },
         image_type: ImageType.BEAUTY_SHOT,
         tasks: [
-          ...options.tasks,
+          ...options.tasks.filter((task) => task !== TaskName.HUMAN_IN_THE_LOOP),
           {
             name: TaskName.COMPLIANCES,
             image_details: { sight_id: options.sightId },
-            wait_for_result: false,
+          },
+          {
+            name: TaskName.HUMAN_IN_THE_LOOP,
+            image_details: { sight_label: sights[options.sightId].label },
           },
         ],
         additional_data: {
@@ -211,7 +214,7 @@ describe('Image requests', () => {
           ? ImageSubtype.CLOSE_UP_PART
           : ImageSubtype.CLOSE_UP_DAMAGE,
         image_sibling_key: options.siblingKey,
-        tasks: [TaskName.DAMAGE_DETECTION, { name: TaskName.COMPLIANCES, wait_for_result: false }],
+        tasks: [TaskName.DAMAGE_DETECTION, { name: TaskName.COMPLIANCES }],
         additional_data: {
           label: {
             en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',

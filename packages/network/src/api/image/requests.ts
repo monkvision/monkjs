@@ -16,12 +16,7 @@ import {
 import { v4 } from 'uuid';
 import { labels, sights } from '@monkvision/sights';
 import { getDefaultOptions, MonkApiConfig } from '../config';
-import {
-  ApiBusinessTaskName,
-  ApiImage,
-  ApiImageCompliancesTaskPost,
-  ApiImagePost,
-} from '../models';
+import { ApiImage, ApiImagePost, ApiImagePostTask } from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
 
@@ -123,16 +118,21 @@ function createBeautyShotImageData(
   filetype: string,
 ): { filename: string; body: ApiImagePost } {
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
-  const tasks: (ApiBusinessTaskName | ApiImageCompliancesTaskPost)[] = options.tasks.filter(
-    (task) => task !== TaskName.COMPLIANCES,
-  );
+  const tasks = options.tasks.filter(
+    (task) => ![TaskName.COMPLIANCES, TaskName.HUMAN_IN_THE_LOOP].includes(task),
+  ) as ApiImagePostTask[];
   tasks.push({
     name: TaskName.COMPLIANCES,
     image_details: { sight_id: options.sightId },
-    wait_for_result: !!(
-      options.compliance?.enableCompliance && options.compliance?.useLiveCompliance
-    ),
+    wait_for_result: options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
   });
+
+  if (options.tasks.includes(TaskName.HUMAN_IN_THE_LOOP)) {
+    tasks.push({
+      name: TaskName.HUMAN_IN_THE_LOOP,
+      image_details: { sight_label: sights[options.sightId].label },
+    });
+  }
 
   const body: ApiImagePost = {
     acquisition: {
@@ -166,9 +166,8 @@ function createCloseUpImageData(
       TaskName.DAMAGE_DETECTION,
       {
         name: TaskName.COMPLIANCES,
-        wait_for_result: !!(
-          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance
-        ),
+        wait_for_result:
+          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
       },
     ],
     additional_data: getAdditionalData(options),
