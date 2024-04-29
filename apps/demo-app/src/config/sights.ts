@@ -140,8 +140,9 @@ const APP_SIGHTS_BY_VEHICLE_TYPE: Partial<Record<VehicleType, Sight[]>> = {
 };
 
 export function getSights(vehicleType: VehicleType | null): Sight[] {
-  return (
-    APP_SIGHTS_BY_VEHICLE_TYPE[vehicleType ?? VehicleType.CROSSOVER] ??
-    (APP_SIGHTS_BY_VEHICLE_TYPE[VehicleType.CROSSOVER] as Sight[])
-  );
+  const type =
+    !vehicleType || !Object.keys(APP_SIGHTS_BY_VEHICLE_TYPE).includes(vehicleType)
+      ? VehicleType.CROSSOVER
+      : vehicleType;
+  return APP_SIGHTS_BY_VEHICLE_TYPE[type] as Sight[];
 }

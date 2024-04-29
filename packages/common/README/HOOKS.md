@@ -166,6 +166,18 @@ This hook returns takes a `ResponsiveStyleProperties` declarations object (see t
 `@monkvision/types` package for more details) containing a media query and returns either the CSSProperties contained in
 the type, or `null` if the query conditions are not met. Note that if there are no query, the style will be applied.
 
+### useSearchParams
+```tsx
+import { sights } from '@monkvision/sights';
+import { useSearchParams } from '@monkvision/common';
+
+function TestComponent() {
+  const searchParams = useSearchParams();
+  console.log(searchParams.get('myParam'));
+}
+```
+Custom hook used to fetch search params from the current window URL.
+
 ### useSightLabel
 ```tsx
 import { sights } from '@monkvision/sights';
