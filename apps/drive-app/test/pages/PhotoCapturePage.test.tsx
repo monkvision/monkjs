@@ -1,12 +1,16 @@
+import { Sight, TaskName, VehicleType } from '@monkvision/types';
+
 jest.mock('../../src/config', () => ({
-  getSights: jest.fn(() => [{ id: 'test' }]),
+  getSights: jest.fn(() => [
+    { id: 'test-1', tasks: [TaskName.DAMAGE_DETECTION] },
+    { id: 'test-2', tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] },
+  ]),
 }));
 
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { useMonkAppParams } from '@monkvision/common';
-import { VehicleType } from '@monkvision/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Page, PhotoCapturePage } from '../../src/pages';
@@ -67,6 +71,21 @@ describe('PhotoCapture page', () => {
 
     expectPropsOnChildMock(PhotoCapture, {
       allowSkipRetake: false,
+    });
+
+    unmount();
+  });
+
+  it('should add human in the loop for every sight', () => {
+    const { unmount } = render(<PhotoCapturePage />);
+
+    expectPropsOnChildMock(PhotoCapture, {
+      sights: expect.any(Array),
+      tasksBySight: expect.any(Object),
+    });
+    const { sights, tasksBySight } = (PhotoCapture as unknown as jest.Mock).mock.calls[0][0];
+    sights.forEach((sight: Sight) => {
+      expect(tasksBySight[sight.id]).toEqual([...sight.tasks, TaskName.HUMAN_IN_THE_LOOP]);
     });
 
     unmount();
