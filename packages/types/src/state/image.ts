@@ -173,6 +173,14 @@ export interface ComplianceOptions {
    * @see [Network README documentation](https://github.com/monkvision/monkjs/blob/main/packages/network/README.md)
    */
   complianceIssues?: ComplianceIssue[];
+  /**
+   * Boolean indicating if live compliance should be enabled or not. With this feature enabled, you directly get the
+   * result of the compliance checks in the response of the POST image request, at the cost of the request taking more
+   * time to complete. If `enableCompliance` is set to `false`, this option is ignored.
+   *
+   * @default false
+   */
+  useLiveCompliance?: boolean;
 }
 
 /**

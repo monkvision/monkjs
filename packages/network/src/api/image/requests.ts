@@ -129,6 +129,9 @@ function createBeautyShotImageData(
   tasks.push({
     name: TaskName.COMPLIANCES,
     image_details: { sight_id: options.sightId },
+    wait_for_result: !!(
+      options.compliance?.enableCompliance && options.compliance?.useLiveCompliance
+    ),
   });
 
   const body: ApiImagePost = {
@@ -159,7 +162,15 @@ function createCloseUpImageData(
     image_type: ImageType.CLOSE_UP,
     image_subtype: options.firstShot ? ImageSubtype.CLOSE_UP_PART : ImageSubtype.CLOSE_UP_DAMAGE,
     image_sibling_key: options.siblingKey,
-    tasks: [TaskName.DAMAGE_DETECTION],
+    tasks: [
+      TaskName.DAMAGE_DETECTION,
+      {
+        name: TaskName.COMPLIANCES,
+        wait_for_result: !!(
+          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance
+        ),
+      },
+    ],
     additional_data: getAdditionalData(options),
   };
 
