@@ -7,6 +7,7 @@ import { PhotoCaptureHUDButtons } from '../../../src';
 import { captureButtonForegroundColors } from '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
 
 const GALLERY_BTN_TEST_ID = 'monk-gallery-btn';
+const GALLERY_BADGE_TEST_ID = 'monk-gallery-badge';
 const CLOSE_BTN_TEST_ID = 'monk-close-btn';
 
 describe('CaptureHUDButtons component', () => {
@@ -77,6 +78,24 @@ describe('CaptureHUDButtons component', () => {
       const backgroundDiv = galleryBtnEl.querySelector('div');
       expect(backgroundDiv).toBeDefined();
       expect(backgroundDiv?.style.backgroundImage).toEqual(`url(${galleryPreview.uri})`);
+
+      unmount();
+    });
+
+    it('should not display the notification badge if not asked to', () => {
+      const { unmount } = render(<PhotoCaptureHUDButtons showGalleryBadge={false} />);
+
+      const galleryBadgeEl = screen.getByTestId(GALLERY_BADGE_TEST_ID);
+      expect(galleryBadgeEl).toHaveStyle({ visibility: 'hidden' });
+
+      unmount();
+    });
+
+    it('should display the notification badge if asked to', () => {
+      const { unmount } = render(<PhotoCaptureHUDButtons showGalleryBadge={true} />);
+
+      const galleryBadgeEl = screen.getByTestId(GALLERY_BADGE_TEST_ID);
+      expect(galleryBadgeEl).toHaveStyle({ visibility: 'visible' });
 
       unmount();
     });

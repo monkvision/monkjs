@@ -166,6 +166,7 @@ export function usePhotoCaptureSightState({
   tasksBySight,
   enableCompliance,
   complianceIssues,
+  useLiveCompliance,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -182,10 +183,10 @@ export function usePhotoCaptureSightState({
       loading.start();
       return getInspection({
         id: inspectionId,
-        compliance: { enableCompliance, complianceIssues },
+        compliance: { enableCompliance, complianceIssues, useLiveCompliance },
       });
     },
-    [inspectionId, retryCount, enableCompliance, complianceIssues],
+    [inspectionId, retryCount, enableCompliance, complianceIssues, useLiveCompliance],
     {
       onResolve: (response) => {
         try {

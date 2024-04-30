@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Image, ImageStatus, Sight } from '@monkvision/types';
-import { MonkState, useMonkState } from '@monkvision/common';
+import { ImageStatus, Sight } from '@monkvision/types';
+import { getInspectionImages, MonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
 import { InspectionGalleryItem, InspectionGalleryProps } from '../types';
 
@@ -62,35 +62,12 @@ function getItems(
   enableCompliance: boolean,
   inspectionSights?: Sight[],
 ): InspectionGalleryItem[] {
-  const inspection = entities.inspections.find((i) => i.id === inspectionId);
-  const items: InspectionGalleryItem[] = [];
-  entities.images
-    .filter((image) => inspection?.images.includes(image.id))
-    .forEach((image) => {
-      const item: InspectionGalleryItem = { isTaken: true, isAddDamage: false, image };
-      const itemSightId = image.additionalData?.sight_id;
-      if (!captureMode || !itemSightId) {
-        items.push(item);
-      } else {
-        const index = items.findIndex(
-          (i) => !i.isAddDamage && i.isTaken && i.image.additionalData?.sight_id === itemSightId,
-        );
-        if (index >= 0) {
-          const itemDateISO = image.additionalData?.created_at;
-          const alreadyExistingImageDateISO = (items[index] as { image: Image }).image
-            .additionalData?.created_at;
-          if (
-            alreadyExistingImageDateISO &&
-            itemDateISO &&
-            new Date(itemDateISO) > new Date(alreadyExistingImageDateISO)
-          ) {
-            items[index] = item;
-          }
-        } else {
-          items.push(item);
-        }
-      }
-    });
+  const images = getInspectionImages(inspectionId, entities.images, captureMode);
+  const items: InspectionGalleryItem[] = images.map((image) => ({
+    isTaken: true,
+    isAddDamage: false,
+    image,
+  }));
   inspectionSights?.forEach((sight) => {
     if (
       !items.find(
@@ -141,7 +118,11 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
     id: props.inspectionId,
     apiConfig: props.apiConfig,
     compliance: props.captureMode
-      ? { enableCompliance, complianceIssues: props.complianceIssues }
+      ? {
+          enableCompliance,
+          complianceIssues: props.complianceIssues,
+          useLiveCompliance: props.useLiveCompliance,
+        }
       : undefined,
     delay: shouldFetch ? props.refreshIntervalMs ?? DEFAULT_REFRESH_INTERVAL_MS : null,
     onSuccess,

@@ -22,6 +22,7 @@ const {
   STORAGE_KEY_AUTH_TOKEN,
   complianceIssueLabels,
   imageStatusLabels,
+  getInspectionImages,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -47,6 +48,7 @@ export = {
   createEmptyMonkState,
   complianceIssueLabels,
   imageStatusLabels,
+  getInspectionImages,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

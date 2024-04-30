@@ -43,6 +43,7 @@ export const styles: Styles = {
     right: '0',
   },
   button: {
+    position: 'relative',
     width: BUTTON_SIZE,
     height: BUTTON_SIZE,
     display: 'flex',
@@ -53,6 +54,14 @@ export const styles: Styles = {
     borderWidth: BUTTON_BORDER_WIDTH,
     cursor: 'pointer',
     padding: 0,
+  },
+  buttonBadge: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    width: 18,
+    height: 18,
+    borderRadius: '50%',
   },
   buttonDisabled: {
     cursor: 'default',

@@ -106,6 +106,7 @@ export function PhotoCapture({
   onComplete,
   showCloseButton = false,
   enableCompliance = true,
+  useLiveCompliance = false,
   allowSkipRetake = false,
   complianceIssues,
   lang,
@@ -139,12 +140,14 @@ export function PhotoCapture({
     tasksBySight,
     enableCompliance,
     complianceIssues,
+    useLiveCompliance,
   });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     enableCompliance,
     complianceIssues,
+    useLiveCompliance,
   });
   const handlePictureTaken = usePictureTaken({
     sightState,
@@ -232,6 +235,7 @@ export function PhotoCapture({
           allowSkipRetake={allowSkipRetake}
           enableCompliance={enableCompliance}
           complianceIssues={complianceIssues}
+          useLiveCompliance={useLiveCompliance}
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}

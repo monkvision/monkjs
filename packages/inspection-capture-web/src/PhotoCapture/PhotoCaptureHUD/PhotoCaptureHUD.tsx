@@ -5,7 +5,7 @@ import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
-import { usePhotoCaptureHUDStyle } from './hooks';
+import { useComplianceNotification, usePhotoCaptureHUDStyle } from './hooks';
 import { PhotoCaptureMode } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
 import { PhotoCaptureHUDPreview } from './PhotoCaptureHUDPreview';
@@ -101,6 +101,7 @@ export function PhotoCaptureHUD({
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
+  const showGalleryBadge = useComplianceNotification(inspectionId);
 
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
@@ -134,6 +135,7 @@ export function PhotoCaptureHUD({
         galleryDisabled={!!loading.error || !!handle.error}
         takePictureDisabled={!!loading.error || !!handle.error}
         showCloseButton={showCloseButton}
+        showGalleryBadge={showGalleryBadge}
       />
       <PhotoCaptureHUDOverlay
         inspectionId={inspectionId}

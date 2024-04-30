@@ -49,6 +49,12 @@ export interface PhotoCaptureHUDButtonsProps {
    * @default false
    */
   showCloseButton?: boolean;
+  /**
+   * Boolean indicating if the little notification badge on top of the gallery button should be displayed.
+   *
+   * @default false
+   */
+  showGalleryBadge?: boolean;
 }
 
 /**
@@ -66,6 +72,7 @@ export function PhotoCaptureHUDButtons({
   takePictureDisabled = false,
   closeDisabled = false,
   showCloseButton = false,
+  showGalleryBadge = false,
 }: PhotoCaptureHUDButtonsProps) {
   const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
     disabled: galleryDisabled,
@@ -73,13 +80,15 @@ export function PhotoCaptureHUDButtons({
   const { status: closeStatus, eventHandlers: closeEventHandlers } = useInteractiveStatus({
     disabled: closeDisabled,
   });
-  const { containerStyle, gallery, close, backgroundCoverStyle } = useCaptureHUDButtonsStyles({
-    galleryStatus,
-    closeStatus,
-    closeBtnAvailable: !!onClose,
-    galleryPreviewUrl: galleryPreview?.uri,
-    showCloseButton,
-  });
+  const { containerStyle, gallery, galleryBadgeStyle, close, backgroundCoverStyle } =
+    useCaptureHUDButtonsStyles({
+      galleryStatus,
+      closeStatus,
+      closeBtnAvailable: !!onClose,
+      galleryPreviewUrl: galleryPreview?.uri,
+      showCloseButton,
+      showGalleryBadge,
+    });
 
   return (
     <div style={containerStyle}>
@@ -90,11 +99,14 @@ export function PhotoCaptureHUDButtons({
         {...galleryEventHandlers}
         data-testid='monk-gallery-btn'
       >
-        {galleryPreview ? (
-          <div style={backgroundCoverStyle}></div>
-        ) : (
-          <Icon icon='gallery' size={30} primaryColor={gallery.iconColor} />
-        )}
+        <>
+          {galleryPreview ? (
+            <div style={backgroundCoverStyle}></div>
+          ) : (
+            <Icon icon='gallery' size={30} primaryColor={gallery.iconColor} />
+          )}
+          <div data-testid='monk-gallery-badge' style={galleryBadgeStyle}></div>
+        </>
       </button>
       <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />
       <button

@@ -111,6 +111,7 @@ export function useUploadQueue({
   apiConfig,
   enableCompliance,
   complianceIssues,
+  useLiveCompliance,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -126,6 +127,7 @@ export function useUploadQueue({
           createAddImageOptions(upload, inspectionId, siblingIdRef.current, {
             enableCompliance,
             complianceIssues,
+            useLiveCompliance,
           }),
         );
       } catch (err) {
