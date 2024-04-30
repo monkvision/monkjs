@@ -52,6 +52,12 @@ export interface PhotoCaptureHUDPreviewProps {
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
+   *
+   * @default true
+   */
+  enableAddDamage?: boolean;
 }
 
 /**
@@ -71,6 +77,7 @@ export function PhotoCaptureHUDPreview(params: PhotoCaptureHUDPreviewProps) {
         onAddDamage={params.onAddDamage}
         streamDimensions={params.streamDimensions}
         images={params.images}
+        enableAddDamage={params.enableAddDamage}
       />
     );
   }

@@ -63,6 +63,7 @@ function createProps(): PhotoCaptureProps {
     showCloseButton: true,
     lang: 'de',
     allowSkipRetake: true,
+    enableAddDamage: true,
   };
 }
 
@@ -233,6 +234,7 @@ describe('PhotoCapture component', () => {
         showCloseButton: props.showCloseButton,
         onOpenGallery: expect.any(Function),
         images,
+        enableAddDamage: props.enableAddDamage,
       },
     });
 

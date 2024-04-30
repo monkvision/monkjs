@@ -89,6 +89,12 @@ export interface PhotoCaptureProps
    * @default false
    */
   allowSkipRetake?: boolean;
+  /**
+   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
+   *
+   * @default true
+   */
+  enableAddDamage?: boolean;
 }
 
 enum PhotoCaptureScreen {
@@ -109,6 +115,7 @@ export function PhotoCapture({
   enableCompliance = true,
   useLiveCompliance = false,
   allowSkipRetake = false,
+  enableAddDamage = true,
   complianceIssues,
   lang,
   enforceOrientation,
@@ -204,6 +211,7 @@ export function PhotoCapture({
     inspectionId,
     showCloseButton,
     images,
+    enableAddDamage,
   };
 
   return (

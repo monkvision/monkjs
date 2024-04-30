@@ -39,6 +39,12 @@ export interface PhotoCaptureHUDSightPreviewProps {
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * Boolean indicating whether the Add Damage feature is disabled. If disabled, the `Add Damage` button will be hidden.
+   *
+   * @default true
+   */
+  enableAddDamage?: boolean;
 }
 
 /**
@@ -53,6 +59,7 @@ export function PhotoCaptureHUDPreviewSight({
   sightsTaken,
   streamDimensions,
   images,
+  enableAddDamage,
 }: PhotoCaptureHUDSightPreviewProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle();
   const aspectRatio = `${streamDimensions?.width}/${streamDimensions?.height}`;
@@ -68,7 +75,7 @@ export function PhotoCaptureHUDPreviewSight({
           totalSights={sights.length}
           sightsTaken={sightsTaken.length}
         />
-        <AddDamageButton onAddDamage={onAddDamage} />
+        <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
       </div>
       <SightSlider
         sights={sights}

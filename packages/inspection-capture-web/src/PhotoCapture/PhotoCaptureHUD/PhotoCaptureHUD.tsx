@@ -77,6 +77,12 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
+   *
+   * @default true
+   */
+  enableAddDamage?: boolean;
 }
 
 /**
@@ -102,6 +108,7 @@ export function PhotoCaptureHUD({
   handle,
   cameraPreview,
   images,
+  enableAddDamage,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -135,6 +142,7 @@ export function PhotoCaptureHUD({
           error={loading.error ?? handle.error}
           streamDimensions={handle.dimensions}
           images={images}
+          enableAddDamage={enableAddDamage}
         />
       </div>
       <PhotoCaptureHUDButtons
