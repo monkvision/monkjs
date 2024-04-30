@@ -18,6 +18,8 @@ function getLoginErrorMessage(err: unknown): string {
   return 'login.errors.unknown';
 }
 
+const allowCreateInspection = process.env['REACT_APP_ALLOW_CREATE_INSPECTION'] === 'true';
+
 export function LogInPage() {
   const [isExpired, setIsExpired] = useState(false);
   const loading = useLoadingState();
@@ -28,6 +30,11 @@ export function LogInPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!authToken && !allowCreateInspection) {
+      setAuthToken(null);
+      setIsExpired(false);
+      loading.onError('login.errors.missing-token');
+    }
     if (authToken && !isUserAuthorized(authToken, REQUIRED_AUTHORIZATIONS)) {
       loading.onError('login.errors.insufficient-authorization');
     }
@@ -62,11 +69,12 @@ export function LogInPage() {
         <div className={styles['error-message']}>{t('login.errors.token-expired')}</div>
       )}
       {loading.error && <div className={styles['error-message']}>{t(loading.error)}</div>}
-      {authToken ? (
+      {authToken && allowCreateInspection && (
         <Button primaryColor='alert' loading={loading} onClick={logout}>
           {t('login.actions.log-out')}
         </Button>
-      ) : (
+      )}
+      {!authToken && allowCreateInspection && (
         <Button loading={loading} onClick={handleLogin}>
           {t('login.actions.log-in')}
         </Button>

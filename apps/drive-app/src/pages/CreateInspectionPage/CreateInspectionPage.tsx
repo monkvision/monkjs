@@ -9,6 +9,11 @@ import { TaskName } from '@monkvision/types';
 import { Page } from '../pages';
 import styles from './CreateInspectionPage.module.css';
 
+enum CreateInspectionPageError {
+  CREATE_INSPECTION = 'create-inspection.errors.create-inspection',
+  MISSING_INSPECTION_ID = 'create-inspection.errors.missing-inspection-id',
+}
+
 export function CreateInspectionPage() {
   const loading = useLoadingState();
   const { t } = useTranslation();
@@ -27,15 +32,20 @@ export function CreateInspectionPage() {
         setInspectionId(res.id);
       })
       .catch((err) => {
-        loading.onError(err);
+        loading.onError(CreateInspectionPageError.CREATE_INSPECTION);
         handleError(err);
       });
   };
 
   useEffect(() => {
     if (!inspectionId) {
-      loading.start();
-      handleCreateInspection();
+      if (process.env['REACT_APP_ALLOW_CREATE_INSPECTION'] === 'true') {
+        // On local environment, we allow creating the inspection if the ID is not provided.
+        loading.start();
+        handleCreateInspection();
+      } else {
+        loading.onError(CreateInspectionPageError.MISSING_INSPECTION_ID);
+      }
     }
   }, [inspectionId]);
 
@@ -48,12 +58,14 @@ export function CreateInspectionPage() {
       {loading.isLoading && <Spinner size={80} />}
       {!loading.isLoading && loading.error && (
         <>
-          <div className={styles['error-message']}>
-            {t('create-inspection.errors.create-inspection')}
-          </div>
-          <Button variant='outline' icon='refresh' onClick={handleCreateInspection}>
-            {t('create-inspection.errors.retry')}
-          </Button>
+          <div className={styles['error-message']}>{t(loading.error)}</div>
+          {loading.error === CreateInspectionPageError.CREATE_INSPECTION && (
+            <div className={styles['retry-btn-container']}>
+              <Button variant='outline' icon='refresh' onClick={handleCreateInspection}>
+                {t('create-inspection.errors.retry')}
+              </Button>
+            </div>
+          )}
         </>
       )}
     </div>
