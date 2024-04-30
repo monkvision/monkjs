@@ -1,4 +1,20 @@
 import { sights } from '@monkvision/sights';
+import { act, render, waitFor } from '@testing-library/react';
+import { Camera, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
+import {
+  useAddDamageMode,
+  usePhotoCaptureImages,
+  usePhotoCaptureSightState,
+  usePictureTaken,
+  useStartTasksOnComplete,
+  useUploadQueue,
+} from '../../src/PhotoCapture/hooks';
+import { useI18nSync, useLoadingState } from '@monkvision/common';
+import { ComplianceIssue, TaskName } from '@monkvision/types';
+import { InspectionGallery } from '@monkvision/common-ui-web';
+import { useMonitoring } from '@monkvision/monitoring';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -28,23 +44,8 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     length: 3,
   })),
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
+  usePhotoCaptureImages: jest.fn(() => [{ id: 'test' }]),
 }));
-
-import { act, render, waitFor } from '@testing-library/react';
-import { Camera, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
-import {
-  useAddDamageMode,
-  usePhotoCaptureSightState,
-  usePictureTaken,
-  useStartTasksOnComplete,
-  useUploadQueue,
-} from '../../src/PhotoCapture/hooks';
-import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
-import { InspectionGallery } from '@monkvision/common-ui-web';
-import { useMonitoring } from '@monkvision/monitoring';
 
 function createProps(): PhotoCaptureProps {
   return {
@@ -213,6 +214,8 @@ describe('PhotoCapture component', () => {
     const sightState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
     expect(useLoadingState).toHaveBeenCalled();
     const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
+    const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,
@@ -229,6 +232,7 @@ describe('PhotoCapture component', () => {
         inspectionId: props.inspectionId,
         showCloseButton: props.showCloseButton,
         onOpenGallery: expect.any(Function),
+        images,
       },
     });
 

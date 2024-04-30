@@ -4,9 +4,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .error-message {
   text-align: center;
-  padding-bottom: 20px;
+}
+
+.retry-btn-container {
+  padding-top: 20px;
 }

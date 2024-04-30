@@ -1,3 +1,5 @@
+import { Image, ImageStatus } from '@monkvision/types';
+
 jest.mock('../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDCounter', () => ({
   PhotoCaptureHUDCounter: jest.fn(() => <></>),
 }));
@@ -35,13 +37,16 @@ function createProps(): PhotoCaptureHUDSightPreviewProps {
     sights['test-sight-4'],
   ];
   return {
-    inspectionId: 'inspection-id-test',
     sights: captureSights,
     selectedSight: captureSights[2],
     sightsTaken: [captureSights[0], captureSights[1]],
     onSelectedSight: jest.fn(),
     onAddDamage: jest.fn(),
     streamDimensions: { width: 4563, height: 992 },
+    images: [
+      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
+      { additionalData: { sight_id: 'test-sight-2' }, status: ImageStatus.SUCCESS },
+    ] as Image[],
   };
 }
 
@@ -89,11 +94,11 @@ describe('PhotoCaptureHUDPreviewSight component', () => {
     const { unmount } = render(<PhotoCaptureHUDPreviewSight {...props} />);
 
     expectPropsOnChildMock(SightSlider, {
-      inspectionId: props.inspectionId,
       sights: props.sights,
       selectedSight: props.selectedSight,
       sightsTaken: props.sightsTaken,
       onSelectedSight: props.onSelectedSight,
+      images: props.images,
     });
 
     unmount();

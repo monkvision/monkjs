@@ -61,7 +61,7 @@ export interface ApiCallback {
   url: string;
   headers: Record<string, unknown>;
   callback_event?: ApiCallbackEvent;
-  params: Record<string, unknown>;
+  params?: Record<string, unknown>;
 }
 
 export type ApiCallbacks = ApiCallback[];
@@ -102,8 +102,14 @@ export interface ApiImagesOCRTaskPostComponent {
   callbacks?: ApiCallbacks;
 }
 
+export interface ApiHinlTaskPostComponent {
+  status?: ApiTaskPostProgressStatus;
+  callbacks?: ApiCallbacks;
+}
+
 export interface ApiTasksComponent {
   damage_detection?: ApiDamageDetectionTaskPostComponent;
   wheel_analysis?: ApiWheelAnalysisTaskPostComponent;
   images_ocr?: ApiImagesOCRTaskPostComponent;
+  human_in_the_loop?: ApiHinlTaskPostComponent;
 }

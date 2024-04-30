@@ -33,6 +33,7 @@ import {
 import {
   ApiCommentSeverityValue,
   ApiDamageDetectionTaskPostComponent,
+  ApiHinlTaskPostComponent,
   ApiImageRegion,
   ApiImagesOCRTaskPostComponent,
   ApiInspectionGet,
@@ -403,6 +404,28 @@ export function mapApiInspectionGet(
 }
 
 /**
+ * Options used to specify a callback that will be called by the API when a task is complete.
+ */
+export interface TaskCallbackOptions {
+  /**
+   * The URL of the callback.
+   */
+  url: string;
+  /**
+   * The headers of the request.
+   */
+  headers: Record<string, string>;
+  /**
+   * The parameters of the callback.
+   */
+  params?: Record<string, unknown>;
+  /**
+   * The event of the callback.
+   */
+  event?: string;
+}
+
+/**
  * Additional options that you can specify when adding the damage detection task to an inspection.
  */
 export interface CreateDamageDetectionTaskOptions {
@@ -441,10 +464,27 @@ export interface CreateDamageDetectionTaskOptions {
 }
 
 /**
+ * Additional options that you can specify when adding the human in the loop task to an inspection.
+ */
+export interface CreateHinlTaskOptions {
+  /**
+   * The name of the task : `TaskName.HUMAN_IN_THE_LOOP`.
+   */
+  name: TaskName.HUMAN_IN_THE_LOOP;
+  /**
+   * The callbacks called at the end of the Human in the Loop task.
+   */
+  callbacks?: TaskCallbackOptions[];
+}
+
+/**
  * The tasks of the inspection to be created. It is either simply the name of the task to add, or an object with the
  * task name as well as additional configuration options for the task.
  */
-export type InspectionCreateTask = TaskName | CreateDamageDetectionTaskOptions;
+export type InspectionCreateTask =
+  | TaskName
+  | CreateDamageDetectionTaskOptions
+  | CreateHinlTaskOptions;
 
 /**
  * Options that can be specified when creating a new inspection.
@@ -465,6 +505,23 @@ export interface CreateInspectionOptions {
    * @default true
    */
   useDynamicCrops?: boolean;
+}
+
+function getHumanInTheLoopOptions(
+  options: CreateInspectionOptions,
+): ApiHinlTaskPostComponent | undefined {
+  if (options.tasks.includes(TaskName.HUMAN_IN_THE_LOOP)) {
+    return { status: ProgressStatus.NOT_STARTED };
+  }
+  const taskOptions = options.tasks.find(
+    (task) => typeof task === 'object' && task.name === TaskName.HUMAN_IN_THE_LOOP,
+  ) as CreateHinlTaskOptions | undefined;
+  return taskOptions
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+        callbacks: taskOptions.callbacks,
+      }
+    : undefined;
 }
 
 function getDamageDetectionOptions(
@@ -527,6 +584,7 @@ function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
     damage_detection: getDamageDetectionOptions(options),
     wheel_analysis: getWheelAnalysisOptions(options),
     images_ocr: getImagesOCROptions(options),
+    human_in_the_loop: getHumanInTheLoopOptions(options),
   };
 }
 

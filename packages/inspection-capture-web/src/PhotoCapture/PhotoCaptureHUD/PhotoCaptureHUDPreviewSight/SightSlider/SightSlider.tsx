@@ -1,6 +1,6 @@
-import { ImageStatus, Sight } from '@monkvision/types';
+import { Image, ImageStatus, Sight } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef } from 'react';
-import { useMonkState, useSightLabel } from '@monkvision/common';
+import { useSightLabel } from '@monkvision/common';
 import { labels } from '@monkvision/sights';
 import { SightSliderButton } from './SightSliderButton';
 import { useSightSliderStyles } from './hooks';
@@ -9,10 +9,6 @@ import { useSightSliderStyles } from './hooks';
  * Props of the SightSlider component.
  */
 export interface SightSliderProps {
-  /**
-   * The ID of the current inspection.
-   */
-  inspectionId: string;
   /**
    * The list of sights provided to the PhotoCapture component.
    */
@@ -29,6 +25,10 @@ export interface SightSliderProps {
    * Callback called when the user manually select a new sight.
    */
   onSelectedSight?: (sight: Sight) => void;
+  /**
+   * The current images taken by the user (ignoring retaken pictures etc.).
+   */
+  images: Image[];
 }
 
 const scrollToSelectedSight = (
@@ -49,18 +49,14 @@ interface SightSliderItem {
   status?: ImageStatus;
 }
 
-function useSightSliderItems(inspectionId: string, sights: Sight[]): SightSliderItem[] {
-  const { state } = useMonkState();
+function useSightSliderItems(sights: Sight[], images: Image[]): SightSliderItem[] {
   return useMemo(
     () =>
       sights.map((sight) => ({
         sight,
-        status: state.images.find(
-          (image) =>
-            image.inspectionId === inspectionId && image.additionalData?.sight_id === sight.id,
-        )?.status,
+        status: images.find((image) => image.additionalData?.sight_id === sight.id)?.status,
       })),
-    [state.images, sights],
+    [sights, images],
   );
 }
 
@@ -70,13 +66,13 @@ function useSightSliderItems(inspectionId: string, sights: Sight[]): SightSlider
  * sight.
  */
 export function SightSlider({
-  inspectionId,
   sights,
   selectedSight,
   sightsTaken,
   onSelectedSight = () => {},
+  images,
 }: SightSliderProps) {
-  const items = useSightSliderItems(inspectionId, sights);
+  const items = useSightSliderItems(sights, images);
   const { label } = useSightLabel({ labels });
   const { container } = useSightSliderStyles();
   const ref = useRef<HTMLDivElement>(null);

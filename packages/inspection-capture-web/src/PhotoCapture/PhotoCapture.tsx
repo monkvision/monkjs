@@ -13,6 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import {
   useAddDamageMode,
+  usePhotoCaptureImages,
   usePhotoCaptureSightState,
   usePictureTaken,
   useStartTasksOnComplete,
@@ -149,6 +150,7 @@ export function PhotoCapture({
     complianceIssues,
     useLiveCompliance,
   });
+  const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
     sightState,
     addDamageHandle,
@@ -201,6 +203,7 @@ export function PhotoCapture({
     onClose,
     inspectionId,
     showCloseButton,
+    images,
   };
 
   return (

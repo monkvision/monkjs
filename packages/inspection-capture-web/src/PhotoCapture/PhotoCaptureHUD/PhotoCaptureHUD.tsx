@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Sight, MonkPicture } from '@monkvision/types';
+import { useMemo, useState } from 'react';
+import { Sight, MonkPicture, Image, ImageStatus } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
-import { useComplianceNotification, usePhotoCaptureHUDStyle } from './hooks';
+import { usePhotoCaptureHUDStyle } from './hooks';
 import { PhotoCaptureMode } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
 import { PhotoCaptureHUDPreview } from './PhotoCaptureHUDPreview';
@@ -73,6 +73,10 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    * @default false
    */
   showCloseButton?: boolean;
+  /**
+   * The current images taken by the user (ignoring retaken pictures etc.).
+   */
+  images: Image[];
 }
 
 /**
@@ -97,11 +101,18 @@ export function PhotoCaptureHUD({
   loading,
   handle,
   cameraPreview,
+  images,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
-  const showGalleryBadge = useComplianceNotification(inspectionId);
+  const showGalleryBadge = useMemo(
+    () =>
+      images.some((image) =>
+        [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED].includes(image.status),
+      ),
+    [images],
+  );
 
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
@@ -113,7 +124,6 @@ export function PhotoCaptureHUD({
       <div style={style.previewContainer} data-testid='camera-preview'>
         {cameraPreview}
         <PhotoCaptureHUDPreview
-          inspectionId={inspectionId}
           selectedSight={selectedSight}
           sights={sights}
           sightsTaken={sightsTaken}
@@ -124,6 +134,7 @@ export function PhotoCaptureHUD({
           isLoading={loading.isLoading || handle.isLoading}
           error={loading.error ?? handle.error}
           streamDimensions={handle.dimensions}
+          images={images}
         />
       </div>
       <PhotoCaptureHUDButtons
