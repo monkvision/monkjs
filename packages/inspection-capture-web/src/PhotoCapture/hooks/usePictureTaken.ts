@@ -1,6 +1,7 @@
 import { MonkPicture, TaskName } from '@monkvision/types';
 import { Queue } from '@monkvision/common';
 import { useCallback } from 'react';
+import { useAnalytics } from '@monkvision/analytics';
 import { PictureUpload } from './useUploadQueue';
 import { AddDamageHandle, PhotoCaptureMode } from './useAddDamageMode';
 import { PhotoCaptureSightState } from './usePhotoCaptureSightState';
@@ -42,6 +43,7 @@ export function usePictureTaken({
   uploadQueue,
   tasksBySight,
 }: UseTakePictureParams): HandleTakePictureFunction {
+  const { trackEvent } = useAnalytics();
   return useCallback(
     (picture: MonkPicture) => {
       sightState.setLastPictureTaken(picture);
@@ -57,6 +59,10 @@ export function usePictureTaken({
       uploadQueue.push(upload);
       if (addDamageHandle.mode === PhotoCaptureMode.SIGHT) {
         sightState.takeSelectedSight();
+      } else {
+        trackEvent('AddDamage Captured', {
+          mode: addDamageHandle.mode,
+        });
       }
       addDamageHandle.updatePhotoCaptureModeAfterPictureTaken();
     },

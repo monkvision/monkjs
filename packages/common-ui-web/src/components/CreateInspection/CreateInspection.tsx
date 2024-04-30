@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useMonkApi } from '@monkvision/network';
 import { i18nWrap, useI18nSync, useLoadingState, useMonkAppState } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
+import { useAnalytics } from '@monkvision/analytics';
 import { styles } from './CreateInspection.styles';
 import { i18nCreateInspection } from './i18n';
 import { Spinner } from '../Spinner';
@@ -45,6 +46,7 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
     authToken: authToken ?? '',
     apiDomain: config.apiDomain,
   });
+  const { setUserId } = useAnalytics();
 
   const handleCreateInspection = () => {
     loading.start();
@@ -53,6 +55,7 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
         .then((res) => {
           loading.onSuccess();
           setInspectionId(res.id);
+          setUserId(res.id);
         })
         .catch((err) => {
           loading.onError(CreateInspectionError.CREATE_INSPECTION);

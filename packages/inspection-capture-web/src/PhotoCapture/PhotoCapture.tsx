@@ -14,6 +14,7 @@ import {
   useObjectMemo,
 } from '@monkvision/common';
 import { MonkApiConfig } from '@monkvision/network';
+import { useAnalytics } from '@monkvision/analytics';
 import { useMonitoring } from '@monkvision/monitoring';
 import {
   Icon,
@@ -25,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import {
   useAddDamageMode,
   usePhotoCaptureImages,
+  useComplianceAnalytics,
   usePhotoCaptureSightState,
   usePictureTaken,
   useStartTasksOnComplete,
@@ -123,8 +125,10 @@ export function PhotoCapture({
   const { handleError } = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
   const dimensions = useWindowDimensions();
+  const analytics = useAnalytics();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
+  useComplianceAnalytics({ inspectionId, sights });
   const startTasks = useStartTasksOnComplete({
     inspectionId,
     apiConfig,
@@ -157,7 +161,10 @@ export function PhotoCapture({
     uploadQueue,
     tasksBySight,
   });
-  const handleOpenGallery = () => setCurrentScreen(PhotoCaptureScreen.GALLERY);
+  const handleOpenGallery = () => {
+    setCurrentScreen(PhotoCaptureScreen.GALLERY);
+    analytics.trackEvent('Gallery Opened');
+  };
   const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);
   const handleNavigateToCapture = (options: NavigateToCaptureOptions) => {
     if (options.reason === NavigateToCaptureReason.ADD_DAMAGE) {
@@ -176,6 +183,8 @@ export function PhotoCapture({
   const handleGalleryValidate = () => {
     startTasks()
       .then(() => {
+        analytics.trackEvent('Capture Completed');
+        analytics.setUserProperties({ captureCompleted: true });
         onComplete?.();
       })
       .catch((err) => {
