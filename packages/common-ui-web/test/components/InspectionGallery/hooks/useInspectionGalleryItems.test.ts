@@ -1,12 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { sights } from '@monkvision/sights';
-import {
-  ComplianceIssue,
-  ComplianceOptions,
-  Image,
-  ImageStatus,
-  Inspection,
-} from '@monkvision/types';
+import { ComplianceIssue, ComplianceOptions, Image, ImageStatus } from '@monkvision/types';
 import { createEmptyMonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
 import { act } from '@testing-library/react';
@@ -33,18 +27,16 @@ describe('useInspectionGalleryItems hook', () => {
   it('should initialize the gallery items using the local Monk state', () => {
     const initialProps = createProps();
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1', 'image-2'],
-    } as unknown as Inspection);
     state.images.push(
       {
         id: 'image-1',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-2' },
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
         id: 'image-2',
+        inspectionId: initialProps.inspectionId,
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
     );
@@ -65,22 +57,21 @@ describe('useInspectionGalleryItems hook', () => {
   it('should properly update the items after each inspection poll', () => {
     const initialProps = createProps();
     const entities = createEmptyMonkState();
-    entities.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1', 'image-2', 'image-3'],
-    } as unknown as Inspection);
     entities.images.push(
       {
         id: 'image-1',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1' },
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
         id: 'image-2',
+        inspectionId: initialProps.inspectionId,
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
         id: 'image-3',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-3' },
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
@@ -112,22 +103,21 @@ describe('useInspectionGalleryItems hook', () => {
   it('should put items to retake first in the list', () => {
     const initialProps = createProps();
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1', 'image-2', 'image-3'],
-    } as unknown as Inspection);
     state.images.push(
       {
         id: 'image-1',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1' },
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
         id: 'image-2',
+        inspectionId: initialProps.inspectionId,
         status: ImageStatus.NOT_COMPLIANT,
       } as unknown as Image,
       {
         id: 'image-3',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-3' },
         status: ImageStatus.NOT_COMPLIANT,
       } as unknown as Image,
@@ -150,21 +140,20 @@ describe('useInspectionGalleryItems hook', () => {
     const initialProps = createProps();
     initialProps.captureMode = false;
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1', 'image-2', 'image-3'],
-    } as unknown as Inspection);
     state.images.push(
       {
         id: 'image-1',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1' },
       } as unknown as Image,
       {
         id: 'image-2',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-2' },
       } as unknown as Image,
       {
         id: 'image-3',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-3' },
       } as unknown as Image,
     );
@@ -194,21 +183,20 @@ describe('useInspectionGalleryItems hook', () => {
     const initialProps = createProps();
     initialProps.captureMode = true;
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1', 'image-2', 'image-3'],
-    } as unknown as Inspection);
     state.images.push(
       {
         id: 'image-1',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1', created_at: '2020-01-01T01:01:01.001Z' },
       } as unknown as Image,
       {
         id: 'image-2',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1', created_at: '1999-01-01T01:01:01.001Z' },
       } as unknown as Image,
       {
         id: 'image-3',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1', created_at: '2023-01-01T01:01:01.001Z' },
       } as unknown as Image,
     );
@@ -229,17 +217,15 @@ describe('useInspectionGalleryItems hook', () => {
     const initialProps = createProps();
     initialProps.captureMode = false;
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1', 'image-2'],
-    } as unknown as Inspection);
     state.images.push(
       {
         id: 'image-1',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1', created_at: '2020-01-01T01:01:01.001Z' },
       } as unknown as Image,
       {
         id: 'image-2',
+        inspectionId: initialProps.inspectionId,
         additionalData: { sight_id: 'test-sight-1', created_at: '1999-01-01T01:01:01.001Z' },
       } as unknown as Image,
     );
@@ -290,12 +276,9 @@ describe('useInspectionGalleryItems hook', () => {
     const initialProps = createProps();
     initialProps.refreshIntervalMs = 1234;
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1'],
-    } as unknown as Inspection);
     state.images.push({
       id: 'image-1',
+      inspectionId: initialProps.inspectionId,
       status: ImageStatus.UPLOADING,
     } as unknown as Image);
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
@@ -314,12 +297,9 @@ describe('useInspectionGalleryItems hook', () => {
     const initialProps = createProps();
     initialProps.refreshIntervalMs = 1234;
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1'],
-    } as unknown as Inspection);
     state.images.push({
       id: 'image-1',
+      inspectionId: initialProps.inspectionId,
       status: ImageStatus.COMPLIANCE_RUNNING,
     } as unknown as Image);
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
@@ -338,12 +318,9 @@ describe('useInspectionGalleryItems hook', () => {
     const initialProps = createProps();
     initialProps.refreshIntervalMs = undefined;
     const state = createEmptyMonkState();
-    state.inspections.push({
-      id: initialProps.inspectionId,
-      images: ['image-1'],
-    } as unknown as Inspection);
     state.images.push({
       id: 'image-1',
+      inspectionId: initialProps.inspectionId,
       status: ImageStatus.COMPLIANCE_RUNNING,
     } as unknown as Image);
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));

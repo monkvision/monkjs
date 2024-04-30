@@ -1,3 +1,7 @@
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
+  ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
+  useComplianceNotification: jest.fn(() => false),
+}));
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons', () => ({
   PhotoCaptureHUDButtons: jest.fn(() => <></>),
 }));
@@ -21,6 +25,7 @@ import {
   PhotoCaptureHUDOverlay,
   PhotoCaptureHUDPreview,
   PhotoCaptureHUDProps,
+  useComplianceNotification,
 } from '../../../src';
 import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
 
@@ -154,6 +159,20 @@ describe('PhotoCaptureHUD component', () => {
     act(() => onConfirm());
     expectPropsOnChildMock(BackdropDialog, { show: false });
     expect(props.onClose).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('shoulddisplay the gallery badge if there are compliance notifications', () => {
+    (useComplianceNotification as jest.Mock).mockImplementationOnce(() => false);
+    const props = createProps();
+    const { unmount, rerender } = render(<PhotoCaptureHUD {...props} />);
+
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false });
+    (useComplianceNotification as jest.Mock).mockImplementationOnce(() => true);
+
+    rerender(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: true });
 
     unmount();
   });

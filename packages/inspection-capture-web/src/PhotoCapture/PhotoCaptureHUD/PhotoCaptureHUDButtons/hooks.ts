@@ -1,6 +1,11 @@
 import { InteractiveStatus } from '@monkvision/types';
 import { CSSProperties, useState } from 'react';
-import { useAsyncEffect, useResponsiveStyle, timeoutPromise } from '@monkvision/common';
+import {
+  timeoutPromise,
+  useAsyncEffect,
+  useMonkTheme,
+  useResponsiveStyle,
+} from '@monkvision/common';
 import {
   captureButtonBackgroundColors,
   captureButtonForegroundColors,
@@ -13,6 +18,7 @@ interface PhotoCaptureHUDButtonsStylesParams {
   closeBtnAvailable: boolean;
   galleryPreviewUrl?: string;
   showCloseButton?: boolean;
+  showGalleryBadge?: boolean;
 }
 
 interface PhotoCaptureHUDButtonsStyles {
@@ -21,6 +27,7 @@ interface PhotoCaptureHUDButtonsStyles {
     style: CSSProperties;
     iconColor: string;
   };
+  galleryBadgeStyle: CSSProperties;
   close: {
     style: CSSProperties;
     iconColor: string;
@@ -35,6 +42,7 @@ export function useCaptureHUDButtonsStyles(
 ): PhotoCaptureHUDButtonsStyles {
   const [backgroundAnimationStart, setBackgroundAnimationStart] = useState(false);
   const { responsive } = useResponsiveStyle();
+  const { palette } = useMonkTheme();
 
   useAsyncEffect(
     () => {
@@ -61,6 +69,11 @@ export function useCaptureHUDButtonsStyles(
         ...(params.galleryStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
       },
       iconColor: captureButtonForegroundColors[params.galleryStatus],
+    },
+    galleryBadgeStyle: {
+      ...styles['buttonBadge'],
+      backgroundColor: palette.alert.base,
+      visibility: params.showGalleryBadge ? 'visible' : 'hidden',
     },
     close: {
       style: {

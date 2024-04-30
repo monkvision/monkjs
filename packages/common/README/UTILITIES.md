@@ -171,6 +171,19 @@ This function creates and returns a new Promise that will resolve to void after 
 
 ---
 
+# State Utils
+### getInspectionImages
+```typescript
+import { getInspectionImages } from '@monkvision/common';
+
+console.log(getInspectionImages(inspectionId, images, filterRetakes));
+// Returns an array of all the images having the given inspectionId.
+```
+Utility function that extracts the images of the given inspection. Set `filterRetakes` to `false` to filter retaken
+pictures.
+
+---
+
 # String Utils
 ### suffix
 ```typescript

@@ -52,6 +52,7 @@ function createProps(): PhotoCaptureProps {
     inspectionId: 'test-inspection-test',
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
     enableCompliance: true,
+    useLiveCompliance: true,
     complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     onClose: jest.fn(),
     onComplete: jest.fn(),
@@ -106,6 +107,7 @@ describe('PhotoCapture component', () => {
       tasksBySight: props.tasksBySight,
       enableCompliance: props.enableCompliance,
       complianceIssues: props.complianceIssues,
+      useLiveCompliance: props.useLiveCompliance,
     });
 
     unmount();
@@ -127,6 +129,7 @@ describe('PhotoCapture component', () => {
       onLastSightTaken,
       enableCompliance: props.enableCompliance,
       complianceIssues: props.complianceIssues,
+      useLiveCompliance: props.useLiveCompliance,
     });
 
     unmount();
@@ -141,6 +144,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       enableCompliance: props.enableCompliance,
       complianceIssues: props.complianceIssues,
+      useLiveCompliance: props.useLiveCompliance,
     });
 
     unmount();
