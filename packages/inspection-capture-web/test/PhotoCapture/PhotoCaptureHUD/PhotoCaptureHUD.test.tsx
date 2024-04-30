@@ -1,3 +1,5 @@
+import { Image, ImageStatus } from '@monkvision/types';
+
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
   ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
   useComplianceNotification: jest.fn(() => false),
@@ -25,7 +27,6 @@ import {
   PhotoCaptureHUDOverlay,
   PhotoCaptureHUDPreview,
   PhotoCaptureHUDProps,
-  useComplianceNotification,
 } from '../../../src';
 import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
 
@@ -58,6 +59,9 @@ function createProps(): PhotoCaptureHUDProps {
       dimensions: { height: 2, width: 4 },
     } as unknown as CameraHandle,
     cameraPreview: <div data-testid={cameraTestId}></div>,
+    images: [
+      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
+    ] as Image[],
   };
 }
 
@@ -80,7 +84,6 @@ describe('PhotoCaptureHUD component', () => {
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDPreview, {
-      inspectionId: props.inspectionId,
       selectedSight: props.selectedSight,
       sights: props.sights,
       sightsTaken: props.sightsTaken,
@@ -91,6 +94,7 @@ describe('PhotoCaptureHUD component', () => {
       isLoading: props.loading.isLoading || props.handle.isLoading,
       error: props.loading.error ?? props.handle.error,
       streamDimensions: props.handle.dimensions,
+      images: props.images,
     });
 
     unmount();
@@ -163,16 +167,28 @@ describe('PhotoCaptureHUD component', () => {
     unmount();
   });
 
-  it('shoulddisplay the gallery badge if there are compliance notifications', () => {
-    (useComplianceNotification as jest.Mock).mockImplementationOnce(() => false);
+  const RETAKE_STATUSES = [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED];
+
+  RETAKE_STATUSES.forEach((status) => {
+    it(`should display the gallery badge if there are images with the ${status} status`, () => {
+      const props = createProps();
+      props.images = [{ status }] as Image[];
+      const { unmount } = render(<PhotoCaptureHUD {...props} />);
+
+      expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: true });
+
+      unmount();
+    });
+  });
+
+  it('should not display the gallery badge if there are no images with retake statuses', () => {
     const props = createProps();
-    const { unmount, rerender } = render(<PhotoCaptureHUD {...props} />);
+    props.images = Object.values(ImageStatus)
+      .filter((status) => !RETAKE_STATUSES.includes(status))
+      .map((status) => ({ status } as Image));
+    const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false });
-    (useComplianceNotification as jest.Mock).mockImplementationOnce(() => true);
-
-    rerender(<PhotoCaptureHUD {...props} />);
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: true });
 
     unmount();
   });

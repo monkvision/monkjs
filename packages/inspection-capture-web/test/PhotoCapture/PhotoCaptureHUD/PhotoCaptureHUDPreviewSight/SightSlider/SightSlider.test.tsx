@@ -7,12 +7,12 @@ jest.mock(
 
 import { sights } from '@monkvision/sights';
 import { render } from '@testing-library/react';
-import { useMonkState, useSightLabel } from '@monkvision/common';
-import { ImageStatus, Sight } from '@monkvision/types';
+import { useSightLabel } from '@monkvision/common';
+import { Image, ImageStatus, Sight } from '@monkvision/types';
 import {
+  SightSlider,
   SightSliderButton,
   SightSliderButtonProps,
-  SightSlider,
   SightSliderProps,
 } from '../../../../../src';
 
@@ -25,11 +25,14 @@ function createProps(): SightSliderProps {
     sights['test-sight-5'],
   ];
   return {
-    inspectionId: 'test-inspection-id-test',
     sights: captureSights,
     selectedSight: captureSights[2],
     sightsTaken: [captureSights[0], captureSights[1]],
     onSelectedSight: jest.fn(),
+    images: [
+      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
+      { additionalData: { sight_id: 'test-sight-2' }, status: ImageStatus.SUCCESS },
+    ] as Image[],
   };
 }
 
@@ -39,26 +42,6 @@ describe('SightSlider component', () => {
   });
 
   it('should display a Button for each sight with the proper props', () => {
-    const state = {
-      images: [
-        {
-          inspectionId: createProps().inspectionId,
-          additionalData: { sight_id: 'test-sight-1' },
-          status: ImageStatus.SUCCESS,
-        },
-        {
-          inspectionId: createProps().inspectionId,
-          additionalData: { sight_id: 'test-sight-4' },
-          status: ImageStatus.COMPLIANCE_RUNNING,
-        },
-        {
-          inspectionId: createProps().inspectionId,
-          additionalData: { sight_id: 'test-sight-5' },
-          status: ImageStatus.NOT_COMPLIANT,
-        },
-      ],
-    };
-    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
     (useSightLabel as jest.Mock).mockImplementation(() => ({ label: (sight: Sight) => sight.id }));
     const props = createProps();
     const { unmount } = render(<SightSlider {...props} />);
@@ -73,11 +56,7 @@ describe('SightSlider component', () => {
       expect(buttonProps).toBeDefined();
       expect(buttonProps.isSelected).toEqual(props.selectedSight === sight);
       expect(buttonProps.status).toEqual(
-        state.images.find(
-          (image) =>
-            image.inspectionId === props.inspectionId &&
-            image.additionalData?.sight_id === sight.id,
-        )?.status,
+        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status,
       );
       expect(typeof buttonProps.onClick).toBe('function');
       buttonProps.onClick?.();

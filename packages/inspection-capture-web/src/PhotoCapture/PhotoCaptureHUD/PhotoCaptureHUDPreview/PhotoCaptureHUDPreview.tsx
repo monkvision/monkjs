@@ -1,4 +1,4 @@
-import { PixelDimensions, Sight } from '@monkvision/types';
+import { Image, PixelDimensions, Sight } from '@monkvision/types';
 import { PhotoCaptureMode } from '../../hooks';
 import { PhotoCaptureHUDPreviewSight } from '../PhotoCaptureHUDPreviewSight';
 import { PhotoCaptureHUDPreviewAddDamage1stShot } from '../PhotoCaptureHUDPreviewAddDamage1stShot';
@@ -8,10 +8,6 @@ import { PhotoCaptureHUDPreviewAddDamage2ndShot } from '../PhotoCaptureHUDPrevie
  * Props of the PhotoCaptureHUDPreview component.
  */
 export interface PhotoCaptureHUDPreviewProps {
-  /**
-   * The ID of the current inspection.
-   */
-  inspectionId: string;
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -52,6 +48,10 @@ export interface PhotoCaptureHUDPreviewProps {
    * The error that occurred in the PhotoCapture component. Set this value to `null` if there is no error.
    */
   error?: unknown | null;
+  /**
+   * The current images taken by the user (ignoring retaken pictures etc.).
+   */
+  images: Image[];
 }
 
 /**
@@ -64,13 +64,13 @@ export function PhotoCaptureHUDPreview(params: PhotoCaptureHUDPreviewProps) {
   if (params.mode === PhotoCaptureMode.SIGHT) {
     return (
       <PhotoCaptureHUDPreviewSight
-        inspectionId={params.inspectionId}
         sights={params.sights}
         selectedSight={params.selectedSight}
         onSelectedSight={params.onSelectSight}
         sightsTaken={params.sightsTaken}
         onAddDamage={params.onAddDamage}
         streamDimensions={params.streamDimensions}
+        images={params.images}
       />
     );
   }

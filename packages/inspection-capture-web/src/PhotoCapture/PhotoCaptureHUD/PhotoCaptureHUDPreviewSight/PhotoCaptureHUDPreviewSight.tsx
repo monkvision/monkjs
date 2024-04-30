@@ -1,4 +1,4 @@
-import { PixelDimensions, Sight } from '@monkvision/types';
+import { Image, PixelDimensions, Sight } from '@monkvision/types';
 import { SightOverlay } from '@monkvision/common-ui-web';
 import { SightSlider } from './SightSlider';
 import { styles } from './PhotoCaptureHUDPreviewSight.styles';
@@ -11,10 +11,6 @@ import { PhotoCaptureMode } from '../../hooks';
  * Props of the PhotoCaptureHUDPreviewSight component.
  */
 export interface PhotoCaptureHUDSightPreviewProps {
-  /**
-   * The ID of the current inspection.
-   */
-  inspectionId: string;
   /**
    * The list of sights provided to the PhotoCapture component.
    */
@@ -39,6 +35,10 @@ export interface PhotoCaptureHUDSightPreviewProps {
    * The dimensions of the Camera video stream.
    */
   streamDimensions?: PixelDimensions | null;
+  /**
+   * The current images taken by the user (ignoring retaken pictures etc.).
+   */
+  images: Image[];
 }
 
 /**
@@ -46,13 +46,13 @@ export interface PhotoCaptureHUDSightPreviewProps {
  * mode is SIGHT.
  */
 export function PhotoCaptureHUDPreviewSight({
-  inspectionId,
   sights,
   selectedSight,
   onSelectedSight = () => {},
   onAddDamage = () => {},
   sightsTaken,
   streamDimensions,
+  images,
 }: PhotoCaptureHUDSightPreviewProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle();
   const aspectRatio = `${streamDimensions?.width}/${streamDimensions?.height}`;
@@ -71,11 +71,11 @@ export function PhotoCaptureHUDPreviewSight({
         <AddDamageButton onAddDamage={onAddDamage} />
       </div>
       <SightSlider
-        inspectionId={inspectionId}
         sights={sights}
         selectedSight={selectedSight}
         sightsTaken={sightsTaken}
         onSelectedSight={onSelectedSight}
+        images={images}
       />
     </div>
   );

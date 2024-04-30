@@ -1,3 +1,5 @@
+import { Image, ImageStatus } from '@monkvision/types';
+
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight', () => ({
   PhotoCaptureHUDPreviewSight: jest.fn(() => <></>),
 }));
@@ -30,7 +32,6 @@ import {
 function createProps(): PhotoCaptureHUDPreviewProps {
   const captureSights = [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']];
   return {
-    inspectionId: 'test-inspection-id-test',
     selectedSight: captureSights[1],
     sights: captureSights,
     sightsTaken: [captureSights[0]],
@@ -41,6 +42,9 @@ function createProps(): PhotoCaptureHUDPreviewProps {
     streamDimensions: { height: 1234, width: 45678 },
     isLoading: false,
     error: null,
+    images: [
+      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
+    ] as Image[],
   };
 }
 
@@ -75,13 +79,13 @@ describe('PhotoCaptureHUDPreview component', () => {
     const { unmount } = render(<PhotoCaptureHUDPreview {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDPreviewSight, {
-      inspectionId: props.inspectionId,
       sights: props.sights,
       selectedSight: props.selectedSight,
       onSelectedSight: props.onSelectSight,
       sightsTaken: props.sightsTaken,
       onAddDamage: props.onAddDamage,
       streamDimensions: props.streamDimensions,
+      images: props.images,
     });
     expect(PhotoCaptureHUDPreviewAddDamage1stShot).not.toHaveBeenCalled();
     expect(PhotoCaptureHUDPreviewAddDamage2ndShot).not.toHaveBeenCalled();
