@@ -2,12 +2,29 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button, Spinner } from '@monkvision/common-ui-web';
-import { useMonkApi } from '@monkvision/network';
+import { CreateInspectionOptions, useMonkApi } from '@monkvision/network';
 import { getEnvOrThrow, useLoadingState, useMonkAppParams } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import { TaskName } from '@monkvision/types';
 import { Page } from '../pages';
 import styles from './CreateInspectionPage.module.css';
+
+const options: CreateInspectionOptions = {
+  tasks: [
+    TaskName.DAMAGE_DETECTION,
+    TaskName.WHEEL_ANALYSIS,
+    {
+      name: TaskName.HUMAN_IN_THE_LOOP,
+      callbacks: [
+        {
+          url: 'https://webhook.site/15f8682f-91a8-4df0-8e73-74adc6c74ca4',
+          headers: {},
+          params: {},
+        },
+      ],
+    },
+  ],
+};
 
 enum CreateInspectionPageError {
   CREATE_INSPECTION = 'create-inspection.errors.create-inspection',
@@ -26,7 +43,7 @@ export function CreateInspectionPage() {
 
   const handleCreateInspection = () => {
     loading.start();
-    createInspection({ tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] })
+    createInspection(options)
       .then((res) => {
         loading.onSuccess();
         setInspectionId(res.id);
