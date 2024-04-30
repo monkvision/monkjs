@@ -24,6 +24,7 @@ export function PhotoCapturePage() {
   const { authToken, inspectionId, vehicleType, steeringWheel } = useMonkAppParams({
     required: true,
   });
+  console.log(getSights(vehicleType, steeringWheel));
   const sights = useMemo(() => getSights(vehicleType, steeringWheel), [vehicleType, steeringWheel]);
   const tasksBySight = useMemo(() => getTasksBySight(sights), [sights]);
 

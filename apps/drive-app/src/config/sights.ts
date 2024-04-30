@@ -20,10 +20,10 @@ const APP_SIGHTS_BY_VEHICLE_TYPE: Partial<Record<VehicleType, Sight[]>> = {
     sights['fesc20-CEGtqHkk'], // Front Fender Right
     sights['fesc20-HYz5ziHi'], // Lateral Full Right
     sights['fesc20-LZc7p2kK'], // Rear Right
-    sights['fesc20-xBFiEy-'], // Rear Low
+    sights['fesc20-xBFiEy-_'], // Rear Low
     sights['fesc20-dfICsfSV'], // Rear Left
     sights['fesc20-26n47kaO'], // Lateral Full Left
-    sights['fesc20-GdIxD-N'], // Front Fender Left
+    sights['fesc20-GdIxD-_N'], // Front Fender Left
     sights['fesc20-6GPUkfYn'], // Front Roof Left
     sights['all-IqwSM3'], // Front Seats
     sights['all-rSvk2C'], // Dashboard
