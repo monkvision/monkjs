@@ -67,11 +67,11 @@ describe('PhotoCapture page', () => {
     unmount();
   });
 
-  it('should not allow retakes', () => {
+  it('should allow retakes', () => {
     const { unmount } = render(<PhotoCapturePage />);
 
     expectPropsOnChildMock(PhotoCapture, {
-      allowSkipRetake: false,
+      allowSkipRetake: true,
     });
 
     unmount();
