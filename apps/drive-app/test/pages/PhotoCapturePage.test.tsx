@@ -10,7 +10,7 @@ jest.mock('../../src/config', () => ({
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { useMonkAppParams } from '@monkvision/common';
+import { useMonkAppParams, useSearchParams } from '@monkvision/common';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Page, PhotoCapturePage } from '../../src/pages';
@@ -105,6 +105,25 @@ describe('PhotoCapture page', () => {
     expect(navigate).not.toHaveBeenCalled();
     onComplete();
     expect(navigate).toHaveBeenCalledWith(Page.INSPECTION_COMPLETE);
+
+    unmount();
+  });
+
+  it('should redirect to the redirectLink if `r` is specified in URL param after the inspection', () => {
+    Object.defineProperty(window, 'location', {
+      value: { href: '' },
+      writable: true,
+    });
+    const redirectLink = 'redirectLinkTest';
+    (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
+      get: jest.fn(() => redirectLink),
+    }));
+    const { unmount } = render(<PhotoCapturePage />);
+    const navigate = (useNavigate as jest.Mock).mock.results[0].value;
+    const { onComplete } = (PhotoCapture as unknown as jest.Mock).mock.calls[0][0];
+    onComplete();
+    expect(navigate).not.toHaveBeenCalled();
+    expect(window.location.href).toEqual(redirectLink);
 
     unmount();
   });

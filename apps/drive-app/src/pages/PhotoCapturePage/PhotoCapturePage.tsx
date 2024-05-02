@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { getEnvOrThrow, useMonkAppParams } from '@monkvision/common';
+import { getEnvOrThrow, useMonkAppParams, useSearchParams } from '@monkvision/common';
 import { DeviceOrientation, Sight, TaskName } from '@monkvision/types';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { useNavigate } from 'react-router-dom';
@@ -24,11 +24,16 @@ export function PhotoCapturePage() {
   const { authToken, inspectionId, vehicleType, steeringWheel } = useMonkAppParams({
     required: true,
   });
-  console.log(getSights(vehicleType, steeringWheel));
   const sights = useMemo(() => getSights(vehicleType, steeringWheel), [vehicleType, steeringWheel]);
   const tasksBySight = useMemo(() => getTasksBySight(sights), [sights]);
+  const searchParams = useSearchParams();
 
   const handleComplete = () => {
+    const redirectUrl = searchParams.get('r');
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+      return;
+    }
     navigate(Page.INSPECTION_COMPLETE);
   };
 
