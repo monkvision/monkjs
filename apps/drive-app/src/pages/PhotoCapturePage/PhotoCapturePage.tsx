@@ -44,6 +44,7 @@ export function PhotoCapturePage() {
         enforceOrientation={DeviceOrientation.LANDSCAPE}
         allowSkipRetake={false}
         useLiveCompliance={true}
+        enableCompliance={false}
         enableAddDamage={false}
       />
     </div>
