@@ -25,4 +25,15 @@ describe('AddDamageButton component', () => {
 
     unmount();
   });
+
+  it('should be disabled and not visible when enableAddDamage is false', () => {
+    const onAddDamage = jest.fn();
+    const { unmount } = render(
+      <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={false} />,
+    );
+
+    expectPropsOnChildMock(Button, { style: { visibility: 'hidden' }, disabled: true });
+
+    unmount();
+  });
 });
