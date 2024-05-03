@@ -99,6 +99,17 @@ describe('CaptureHUDButtons component', () => {
 
       unmount();
     });
+
+    it('should display the notification badge with the number of pictures to retake', () => {
+      const { unmount } = render(
+        <PhotoCaptureHUDButtons showGalleryBadge={true} retakeCount={10} />,
+      );
+
+      const galleryBadgeEl = screen.getByTestId(GALLERY_BADGE_TEST_ID);
+      expect(galleryBadgeEl.textContent).toBe('10');
+
+      unmount();
+    });
   });
 
   describe('Take Picture Button button', () => {

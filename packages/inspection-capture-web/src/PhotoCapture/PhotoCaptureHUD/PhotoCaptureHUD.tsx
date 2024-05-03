@@ -155,6 +155,7 @@ export function PhotoCaptureHUD({
         takePictureDisabled={!!loading.error || !!handle.error}
         showCloseButton={showCloseButton}
         showGalleryBadge={showGalleryBadge}
+        retakeCount={images.filter((image) => image.status === ImageStatus.NOT_COMPLIANT).length}
       />
       <PhotoCaptureHUDOverlay
         inspectionId={inspectionId}
