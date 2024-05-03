@@ -70,42 +70,59 @@ const DEFAULT_COMPLIANCE_OPTIONS = {
   complianceIssues: DEFAULT_COMPLIANCE_ISSUES,
 };
 
+function filterCompliances(
+  issues: string[] | undefined,
+  validIssues: ComplianceIssue[],
+): ComplianceIssue[] {
+  return (
+    (issues as ComplianceIssue[] | undefined)?.filter((issue) => validIssues.includes(issue)) ?? []
+  );
+}
+
+function compareComplianceIssues(a: ComplianceIssue, b: ComplianceIssue): number {
+  return COMPLIANCE_ISSUES_PRIORITY.indexOf(a) - COMPLIANCE_ISSUES_PRIORITY.indexOf(b);
+}
+
 function mapCompliance(
+  sightId?: string,
   complianceResult?: ApiImageComplianceResults,
   complianceOptions?: ComplianceOptions,
 ): {
   status: ImageStatus;
   complianceIssues?: ComplianceIssue[];
 } {
-  const enableCompliance =
+  const enableComplianceGlobal =
     complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance;
-  const complianceIssues =
+  const enableCompliance =
+    sightId && complianceOptions?.enableCompliancePerSight
+      ? complianceOptions.enableCompliancePerSight.includes(sightId)
+      : enableComplianceGlobal;
+  const complianceIssuesGlobal =
     complianceOptions?.complianceIssues ?? DEFAULT_COMPLIANCE_OPTIONS.complianceIssues;
+  const complianceIssues =
+    sightId && complianceOptions?.complianceIssuesPerSight?.[sightId]
+      ? complianceOptions.complianceIssuesPerSight[sightId]
+      : complianceIssuesGlobal;
   if (!enableCompliance) {
     return { status: ImageStatus.SUCCESS };
   }
   if (!complianceResult) {
     return { status: ImageStatus.COMPLIANCE_RUNNING };
   }
-  if (complianceResult.vehicle_analysis?.is_vehicle_present === false) {
-    return { status: ImageStatus.NOT_COMPLIANT, complianceIssues: [ComplianceIssue.NO_VEHICLE] };
-  }
   if (!complianceResult.should_retake) {
     return { status: ImageStatus.SUCCESS };
   }
-  const filteredCompliances =
-    (complianceResult.compliance_issues as ComplianceIssue[] | undefined)?.filter((issue) =>
-      complianceIssues.includes(issue),
-    ) ?? [];
-  if (filteredCompliances.length > 0) {
-    return {
-      status: ImageStatus.NOT_COMPLIANT,
-      complianceIssues: filteredCompliances.sort(
-        (a, b) => COMPLIANCE_ISSUES_PRIORITY.indexOf(a) - COMPLIANCE_ISSUES_PRIORITY.indexOf(b),
-      ),
-    };
+  const filteredCompliances = filterCompliances(
+    complianceResult.compliance_issues,
+    complianceIssues,
+  );
+  if (filteredCompliances.length === 0) {
+    return { status: ImageStatus.SUCCESS };
   }
-  return { status: ImageStatus.SUCCESS };
+  return {
+    status: ImageStatus.NOT_COMPLIANT,
+    complianceIssues: filteredCompliances.sort(compareComplianceIssues),
+  };
 }
 
 export function mapApiImage(
@@ -113,7 +130,11 @@ export function mapApiImage(
   inspectionId: string,
   complianceOptions?: ComplianceOptions,
 ): Image {
-  const { status, complianceIssues } = mapCompliance(image.compliances, complianceOptions);
+  const { status, complianceIssues } = mapCompliance(
+    image.additional_data?.sight_id,
+    image.compliances,
+    complianceOptions,
+  );
   return {
     id: image.id,
     entityType: MonkEntityType.IMAGE,

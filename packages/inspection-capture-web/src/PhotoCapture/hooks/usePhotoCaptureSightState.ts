@@ -52,7 +52,7 @@ export interface PhotoCaptureSightState {
 /**
  * Parameters of the usePhotoCaptureSightState hook.
  */
-export interface PhotoCaptureSightsParams extends Partial<ComplianceOptions> {
+export interface PhotoCaptureSightsParams {
   /**
    * The inspection ID.
    */
@@ -73,6 +73,10 @@ export interface PhotoCaptureSightsParams extends Partial<ComplianceOptions> {
    * Callback called when the last sight has been taken by the user.
    */
   onLastSightTaken: () => void;
+  /**
+   * The options for the compliance conf
+   */
+  complianceOptions: ComplianceOptions;
   /**
    * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
    * sight will be used.
@@ -164,9 +168,7 @@ export function usePhotoCaptureSightState({
   loading,
   onLastSightTaken,
   tasksBySight,
-  enableCompliance,
-  complianceIssues,
-  useLiveCompliance,
+  complianceOptions,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -183,10 +185,10 @@ export function usePhotoCaptureSightState({
       loading.start();
       return getInspection({
         id: inspectionId,
-        compliance: { enableCompliance, complianceIssues, useLiveCompliance },
+        compliance: complianceOptions,
       });
     },
-    [inspectionId, retryCount, enableCompliance, complianceIssues, useLiveCompliance],
+    [inspectionId, retryCount, complianceOptions],
     {
       onResolve: (response) => {
         try {

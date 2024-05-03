@@ -8,7 +8,7 @@ import { PhotoCaptureMode } from './useAddDamageMode';
 /**
  * Parameters of the useUploadQueue hook.
  */
-export interface UploadQueueParams extends Partial<ComplianceOptions> {
+export interface UploadQueueParams {
   /**
    * The inspection ID.
    */
@@ -17,6 +17,10 @@ export interface UploadQueueParams extends Partial<ComplianceOptions> {
    * The api config used to communicate with the API.
    */
   apiConfig: MonkApiConfig;
+  /**
+   * The options for the compliance conf
+   */
+  complianceOptions: ComplianceOptions;
 }
 
 /**
@@ -109,9 +113,7 @@ function createAddImageOptions(
 export function useUploadQueue({
   inspectionId,
   apiConfig,
-  enableCompliance,
-  complianceIssues,
-  useLiveCompliance,
+  complianceOptions,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -124,11 +126,7 @@ export function useUploadQueue({
       }
       try {
         await addImage(
-          createAddImageOptions(upload, inspectionId, siblingIdRef.current, {
-            enableCompliance,
-            complianceIssues,
-            useLiveCompliance,
-          }),
+          createAddImageOptions(upload, inspectionId, siblingIdRef.current, complianceOptions),
         );
       } catch (err) {
         handleError(err);
