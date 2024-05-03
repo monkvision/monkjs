@@ -1,0 +1,18 @@
+{
+  "card": {
+    "addDamage": "Voeg aangepaste schade toe"
+  },
+  "topBar": {
+    "submit": "Valideer",
+    "title": "Foto's",
+    "retakeFilter": "Opnieuw genomen",
+    "approvedFilter": "Goedgekeurd"
+  },
+  "list": {
+    "empty": {
+      "capture": "Er zijn nog geen foto's. Foto's die genomen worden, worden hier weergegeven.",
+      "nonCapture": "Er zijn geen foto's in deze inspectie.",
+      "filter": "Geen overeenkomsten voor de geselecteerde filter."
+    }
+  }
+}

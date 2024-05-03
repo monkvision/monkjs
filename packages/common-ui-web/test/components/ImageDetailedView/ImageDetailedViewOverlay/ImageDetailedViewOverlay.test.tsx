@@ -106,7 +106,7 @@ describe('ImageDetailedViewOverlay component', () => {
 
   it('should display the image label with the proper icon', () => {
     const props = createProps();
-    props.image.label = { en: 'test', fr: 'fr', de: 'test-de' };
+    props.image.label = { en: 'test', fr: 'fr', de: 'test-de', nl: 'test-nl' };
     const icon = 'hello-test-icon';
     const primaryColor = 'test-primary-test';
     (useImageLabelIcon as jest.Mock).mockImplementationOnce(() => ({ icon, primaryColor }));
