@@ -109,4 +109,5 @@ export = {
   getEnvOrThrow: jest.fn((name) => name),
   useInterval: jest.fn(),
   useAsyncInterval: jest.fn(),
+  useSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
 };
