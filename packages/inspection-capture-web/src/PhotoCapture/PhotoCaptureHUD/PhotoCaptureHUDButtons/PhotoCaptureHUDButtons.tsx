@@ -55,6 +55,12 @@ export interface PhotoCaptureHUDButtonsProps {
    * @default false
    */
   showGalleryBadge?: boolean;
+  /**
+   * Total number of sights to retake
+   *
+   * @default 0
+   */
+  retakeCount?: number;
 }
 
 /**
@@ -73,6 +79,7 @@ export function PhotoCaptureHUDButtons({
   closeDisabled = false,
   showCloseButton = false,
   showGalleryBadge = false,
+  retakeCount = 0,
 }: PhotoCaptureHUDButtonsProps) {
   const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
     disabled: galleryDisabled,
@@ -105,7 +112,9 @@ export function PhotoCaptureHUDButtons({
           ) : (
             <Icon icon='gallery' size={30} primaryColor={gallery.iconColor} />
           )}
-          <div data-testid='monk-gallery-badge' style={galleryBadgeStyle}></div>
+          <div data-testid='monk-gallery-badge' style={galleryBadgeStyle}>
+            {retakeCount > 0 && retakeCount}
+          </div>
         </>
       </button>
       <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />

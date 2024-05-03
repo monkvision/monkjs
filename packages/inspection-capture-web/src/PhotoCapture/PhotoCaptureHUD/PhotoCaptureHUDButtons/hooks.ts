@@ -73,6 +73,7 @@ export function useCaptureHUDButtonsStyles(
     galleryBadgeStyle: {
       ...styles['buttonBadge'],
       backgroundColor: palette.alert.base,
+      color: palette.text.primary,
       visibility: params.showGalleryBadge ? 'visible' : 'hidden',
     },
     close: {
