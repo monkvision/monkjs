@@ -29,6 +29,7 @@ function createProps(): SightSliderProps {
     selectedSight: captureSights[2],
     sightsTaken: [captureSights[0], captureSights[1]],
     onSelectedSight: jest.fn(),
+    onRetakeSight: jest.fn(),
     images: [
       { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
       { additionalData: { sight_id: 'test-sight-2' }, status: ImageStatus.SUCCESS },
@@ -60,7 +61,35 @@ describe('SightSlider component', () => {
       );
       expect(typeof buttonProps.onClick).toBe('function');
       buttonProps.onClick?.();
+      if (
+        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status ===
+        ImageStatus.NOT_COMPLIANT
+      ) {
+        return;
+      }
       expect(props.onSelectedSight).toHaveBeenCalledWith(sight);
+    });
+
+    props.sights.forEach((sight) => {
+      (props.onSelectedSight as jest.Mock).mockClear();
+      const buttonProps = (SightSliderButton as unknown as jest.Mock).mock.calls.find(
+        (args) => args[0].label === sight.id,
+      )?.[0] as SightSliderButtonProps & { key: string };
+
+      expect(buttonProps).toBeDefined();
+      expect(buttonProps.isSelected).toEqual(props.selectedSight === sight);
+      expect(buttonProps.status).toEqual(
+        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status,
+      );
+      expect(typeof buttonProps.onClick).toBe('function');
+      buttonProps.onClick?.();
+      if (
+        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status !==
+        ImageStatus.NOT_COMPLIANT
+      ) {
+        return;
+      }
+      expect(props.onRetakeSight).toHaveBeenCalledWith(sight.id);
     });
 
     unmount();

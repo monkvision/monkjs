@@ -47,6 +47,7 @@ function createProps(): PhotoCaptureHUDProps {
     mode: PhotoCaptureMode.SIGHT,
     loading: { isLoading: false, error: null } as unknown as LoadingState,
     onSelectSight: jest.fn(),
+    onRetakeSight: jest.fn(),
     onAddDamage: jest.fn(),
     onCancelAddDamage: jest.fn(),
     onRetry: jest.fn(),

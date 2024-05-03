@@ -203,6 +203,7 @@ export function PhotoCapture({
     mode: addDamageHandle.mode,
     onOpenGallery: handleOpenGallery,
     onSelectSight: sightState.selectSight,
+    onRetakeSight: sightState.retakeSight,
     onAddDamage: addDamageHandle.handleAddDamage,
     onCancelAddDamage: addDamageHandle.handleCancelAddDamage,
     onRetry: sightState.retryLoadingInspection,

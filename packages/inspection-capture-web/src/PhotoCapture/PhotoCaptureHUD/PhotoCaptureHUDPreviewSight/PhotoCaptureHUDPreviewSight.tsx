@@ -24,6 +24,10 @@ export interface PhotoCaptureHUDSightPreviewProps {
    */
   onSelectedSight?: (sight: Sight) => void;
   /**
+   * Callback called when the user manually select a sight non compliant.
+   */
+  onRetakeSight?: (sight: string) => void;
+  /**
    * Callback called when the user clicks on the AddDamage button.
    */
   onAddDamage?: () => void;
@@ -55,6 +59,7 @@ export function PhotoCaptureHUDPreviewSight({
   sights,
   selectedSight,
   onSelectedSight = () => {},
+  onRetakeSight = () => {},
   onAddDamage = () => {},
   sightsTaken,
   streamDimensions,
@@ -82,6 +87,7 @@ export function PhotoCaptureHUDPreviewSight({
         selectedSight={selectedSight}
         sightsTaken={sightsTaken}
         onSelectedSight={onSelectedSight}
+        onRetakeSight={onRetakeSight}
         images={images}
       />
     </div>
