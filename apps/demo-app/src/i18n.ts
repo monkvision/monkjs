@@ -5,6 +5,7 @@ import { monkLanguages } from '@monkvision/types';
 import en from './translations/en.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
+import nl from './translations/nl.json';
 
 i18n
   .use(I18nextBrowserLanguageDetector)
@@ -19,6 +20,7 @@ i18n
       en: { translation: en },
       fr: { translation: fr },
       de: { translation: de },
+      nl: { translation: nl },
     },
   })
   .catch(console.error);
