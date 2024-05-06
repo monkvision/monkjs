@@ -37,6 +37,10 @@ export interface PhotoCaptureHUDPreviewProps {
    */
   onSelectSight: (sight: Sight) => void;
   /**
+   * Callback called when the user manually select a sight non compliant.
+   */
+  onRetakeSight: (sight: string) => void;
+  /**
    * The dimensions of the Camera video stream.
    */
   streamDimensions: PixelDimensions | null;
@@ -73,6 +77,7 @@ export function PhotoCaptureHUDPreview(params: PhotoCaptureHUDPreviewProps) {
         sights={params.sights}
         selectedSight={params.selectedSight}
         onSelectedSight={params.onSelectSight}
+        onRetakeSight={params.onRetakeSight}
         sightsTaken={params.sightsTaken}
         onAddDamage={params.onAddDamage}
         streamDimensions={params.streamDimensions}

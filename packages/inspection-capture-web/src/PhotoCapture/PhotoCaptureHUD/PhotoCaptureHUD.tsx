@@ -47,6 +47,10 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    */
   onSelectSight: (sight: Sight) => void;
   /**
+   * Callback called when the user manually select a sight non compliant.
+   */
+  onRetakeSight: (sight: string) => void;
+  /**
    * Callback to be called when the user clicks on the "Add Damage" button.
    */
   onAddDamage: () => void;
@@ -98,6 +102,7 @@ export function PhotoCaptureHUD({
   lastPictureTaken,
   mode,
   onSelectSight,
+  onRetakeSight,
   onAddDamage,
   onCancelAddDamage,
   onOpenGallery,
@@ -138,6 +143,7 @@ export function PhotoCaptureHUD({
           onAddDamage={onAddDamage}
           onCancelAddDamage={onCancelAddDamage}
           onSelectSight={onSelectSight}
+          onRetakeSight={onRetakeSight}
           isLoading={loading.isLoading || handle.isLoading}
           error={loading.error ?? handle.error}
           streamDimensions={handle.dimensions}

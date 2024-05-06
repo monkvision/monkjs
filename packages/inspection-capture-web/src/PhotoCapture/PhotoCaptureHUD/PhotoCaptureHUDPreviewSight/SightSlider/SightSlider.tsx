@@ -26,6 +26,10 @@ export interface SightSliderProps {
    */
   onSelectedSight?: (sight: Sight) => void;
   /**
+   * Callback called when the user manually select a sight non compliant.
+   */
+  onRetakeSight?: (sight: string) => void;
+  /**
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
@@ -70,6 +74,7 @@ export function SightSlider({
   selectedSight,
   sightsTaken,
   onSelectedSight = () => {},
+  onRetakeSight = () => {},
   images,
 }: SightSliderProps) {
   const items = useSightSliderItems(sights, images);
@@ -89,7 +94,9 @@ export function SightSlider({
           label={label(sight)}
           isSelected={sight === selectedSight}
           status={status}
-          onClick={() => onSelectedSight(sight)}
+          onClick={() =>
+            status === ImageStatus.NOT_COMPLIANT ? onRetakeSight(sight.id) : onSelectedSight(sight)
+          }
         />
       ))}
     </div>

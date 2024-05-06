@@ -39,6 +39,7 @@ function createProps(): PhotoCaptureHUDPreviewProps {
     onAddDamage: jest.fn(),
     onCancelAddDamage: jest.fn(),
     onSelectSight: jest.fn(),
+    onRetakeSight: jest.fn(),
     streamDimensions: { height: 1234, width: 45678 },
     isLoading: false,
     error: null,
