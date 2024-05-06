@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useObjectMemo } from './useObjectMemo';
 
 /**
  * An object containing data about a task.
@@ -50,14 +51,11 @@ export function useLoadingState(): LoadingState {
     setIsLoading(false);
   }, []);
 
-  return useMemo(
-    () => ({
-      isLoading,
-      error,
-      start,
-      onSuccess,
-      onError,
-    }),
-    [isLoading, error, start, onSuccess, onError],
-  );
+  return useObjectMemo({
+    isLoading,
+    error,
+    start,
+    onSuccess,
+    onError,
+  });
 }

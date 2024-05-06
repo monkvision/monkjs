@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Camera, CameraHUDProps, CameraProps, CompressionOptions } from '@monkvision/camera-web';
 import { ComplianceOptions, DeviceOrientation, Sight, TaskName } from '@monkvision/types';
-import { useI18nSync, useLoadingState, useWindowDimensions } from '@monkvision/common';
+import {
+  useI18nSync,
+  useLoadingState,
+  useWindowDimensions,
+  useObjectMemo,
+} from '@monkvision/common';
 import { MonkApiConfig } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import {
@@ -113,15 +118,24 @@ export function PhotoCapture({
   onComplete,
   showCloseButton = false,
   enableCompliance = true,
+  enableCompliancePerSight,
+  complianceIssues,
+  complianceIssuesPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
   enableAddDamage = true,
-  complianceIssues,
   lang,
   enforceOrientation,
   ...cameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
+  const complianceOptions: ComplianceOptions = useObjectMemo({
+    enableCompliance,
+    enableCompliancePerSight,
+    complianceIssues,
+    complianceIssuesPerSight,
+    useLiveCompliance,
+  });
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
@@ -146,16 +160,12 @@ export function PhotoCapture({
     loading,
     onLastSightTaken,
     tasksBySight,
-    enableCompliance,
-    complianceIssues,
-    useLiveCompliance,
+    complianceOptions,
   });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
-    enableCompliance,
-    complianceIssues,
-    useLiveCompliance,
+    complianceOptions,
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
@@ -246,7 +256,9 @@ export function PhotoCapture({
           sights={sights}
           allowSkipRetake={allowSkipRetake}
           enableCompliance={enableCompliance}
+          enableCompliancePerSight={enableCompliancePerSight}
           complianceIssues={complianceIssues}
+          complianceIssuesPerSight={complianceIssuesPerSight}
           useLiveCompliance={useLiveCompliance}
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}

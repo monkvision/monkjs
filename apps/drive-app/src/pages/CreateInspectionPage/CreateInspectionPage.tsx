@@ -13,16 +13,17 @@ const options: CreateInspectionOptions = {
   tasks: [
     TaskName.DAMAGE_DETECTION,
     TaskName.WHEEL_ANALYSIS,
-    {
-      name: TaskName.HUMAN_IN_THE_LOOP,
-      callbacks: [
-        {
-          url: 'https://webhook.site/15f8682f-91a8-4df0-8e73-74adc6c74ca4',
-          headers: {},
-          params: {},
-        },
-      ],
-    },
+    // HinL task is disabled in local, and we only create the inspection manually in local.
+    // {
+    //   name: TaskName.HUMAN_IN_THE_LOOP,
+    //   callbacks: [
+    //     {
+    //       url: 'https://webhook.site/15f8682f-91a8-4df0-8e73-74adc6c74ca4',
+    //       headers: {},
+    //       params: {},
+    //     },
+    //   ],
+    // },
   ],
 };
 

@@ -36,21 +36,16 @@ function needsToBeRetaken(item: InspectionGalleryItem): boolean {
 function compareGalleryItems(
   a: InspectionGalleryItem,
   b: InspectionGalleryItem,
-  enableCompliance: boolean,
+  captureMode: boolean,
   inspectionSights?: Sight[],
 ): number {
   const aSightIndex = getSightSortIndex(a, inspectionSights);
   const bSightIndex = getSightSortIndex(b, inspectionSights);
-  if (enableCompliance) {
-    if (needsToBeRetaken(a) && needsToBeRetaken(b)) {
-      return aSightIndex - bSightIndex;
-    }
-    if (needsToBeRetaken(a) && !needsToBeRetaken(b)) {
-      return -1;
-    }
-    if (!needsToBeRetaken(a) && needsToBeRetaken(b)) {
-      return 1;
-    }
+  if (captureMode && needsToBeRetaken(a) && !needsToBeRetaken(b)) {
+    return -1;
+  }
+  if (captureMode && !needsToBeRetaken(a) && needsToBeRetaken(b)) {
+    return 1;
   }
   return aSightIndex - bSightIndex;
 }
@@ -59,7 +54,6 @@ function getItems(
   inspectionId: string,
   captureMode: boolean,
   entities: MonkState,
-  enableCompliance: boolean,
   inspectionSights?: Sight[],
 ): InspectionGalleryItem[] {
   const images = getInspectionImages(inspectionId, entities.images, captureMode);
@@ -70,6 +64,7 @@ function getItems(
   }));
   inspectionSights?.forEach((sight) => {
     if (
+      captureMode &&
       !items.find(
         (item) =>
           !item.isAddDamage && item.isTaken && item.image.additionalData?.sight_id === sight.id,
@@ -81,7 +76,7 @@ function getItems(
   if (captureMode) {
     items.push({ isAddDamage: true });
   }
-  return items.sort((a, b) => compareGalleryItems(a, b, enableCompliance, inspectionSights));
+  return items.sort((a, b) => compareGalleryItems(a, b, captureMode, inspectionSights));
 }
 
 function shouldContinueToFetch(items: InspectionGalleryItem[]): boolean {
@@ -94,22 +89,15 @@ function shouldContinueToFetch(items: InspectionGalleryItem[]): boolean {
 }
 
 export function useInspectionGalleryItems(props: InspectionGalleryProps): InspectionGalleryItem[] {
-  const enableCompliance = props.captureMode && props.enableCompliance !== false;
   const inspectionSights = props.captureMode ? props.sights : undefined;
   const { state } = useMonkState();
   const [items, setItems] = useState<InspectionGalleryItem[]>(
-    getItems(props.inspectionId, props.captureMode, state, enableCompliance, inspectionSights),
+    getItems(props.inspectionId, props.captureMode, state, inspectionSights),
   );
   const [shouldFetch, setShouldFetch] = useState(shouldContinueToFetch(items));
 
   const onSuccess = (entities: MonkState) => {
-    const newItems = getItems(
-      props.inspectionId,
-      props.captureMode,
-      entities,
-      enableCompliance,
-      inspectionSights,
-    );
+    const newItems = getItems(props.inspectionId, props.captureMode, entities, inspectionSights);
     setItems(newItems);
     setShouldFetch(shouldContinueToFetch(newItems));
   };
@@ -119,8 +107,10 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
     apiConfig: props.apiConfig,
     compliance: props.captureMode
       ? {
-          enableCompliance,
+          enableCompliance: props.enableCompliance,
+          enableCompliancePerSight: props.enableCompliancePerSight,
           complianceIssues: props.complianceIssues,
+          complianceIssuesPerSight: props.complianceIssuesPerSight,
           useLiveCompliance: props.useLiveCompliance,
         }
       : undefined,

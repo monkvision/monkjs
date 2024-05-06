@@ -17,8 +17,13 @@ function createParams(): UploadQueueParams {
   return {
     inspectionId: 'test-inspection-id',
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
-    enableCompliance: true,
-    complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+    complianceOptions: {
+      enableCompliance: true,
+      complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+      enableCompliancePerSight: ['test-sight'],
+      complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
+      useLiveCompliance: true,
+    },
   };
 }
 
@@ -68,10 +73,7 @@ describe('useUploadQueue hook', () => {
         picture: upload.picture,
         sightId: upload.sightId,
         tasks: upload.tasks,
-        compliance: {
-          enableCompliance: initialProps.enableCompliance,
-          complianceIssues: initialProps.complianceIssues,
-        },
+        compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
       });
 
@@ -103,10 +105,7 @@ describe('useUploadQueue hook', () => {
         picture: upload1.picture,
         siblingKey: expect.any(String),
         firstShot: true,
-        compliance: {
-          enableCompliance: initialProps.enableCompliance,
-          complianceIssues: initialProps.complianceIssues,
-        },
+        compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
       });
       const { siblingKey } = addImageMock.mock.calls[0][0];
@@ -128,10 +127,7 @@ describe('useUploadQueue hook', () => {
         picture: upload2.picture,
         siblingKey,
         firstShot: false,
-        compliance: {
-          enableCompliance: initialProps.enableCompliance,
-          complianceIssues: initialProps.complianceIssues,
-        },
+        compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
       });
 

@@ -27,8 +27,13 @@ function createParams(): PhotoCaptureSightsParams {
       onError: jest.fn(),
     } as unknown as LoadingState,
     onLastSightTaken: jest.fn(),
-    enableCompliance: true,
-    complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+    complianceOptions: {
+      enableCompliance: true,
+      complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+      enableCompliancePerSight: ['test-sight'],
+      complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
+      useLiveCompliance: true,
+    },
   };
 }
 
@@ -120,10 +125,7 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(initialProps.loading.start).toHaveBeenCalled();
     expect(getInspectionMock).toHaveBeenCalledWith({
       id: initialProps.inspectionId,
-      compliance: {
-        enableCompliance: initialProps.enableCompliance,
-        complianceIssues: initialProps.complianceIssues,
-      },
+      compliance: initialProps.complianceOptions,
     });
 
     unmount();

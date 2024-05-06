@@ -164,7 +164,7 @@ describe('useStartTasksOnComplete hook', () => {
     expect(initialProps.loading.start).not.toHaveBeenCalled();
     expect(startInspectionTasksMock).not.toHaveBeenCalled();
 
-    result.current().catch((e) => console.log('beuh', e));
+    result.current().catch((e) => console.log('b', e));
     expect(initialProps.loading.start).toHaveBeenCalled();
     expect(startInspectionTasksMock).toHaveBeenCalled();
     expect(initialProps.loading.onError).not.toHaveBeenCalled();

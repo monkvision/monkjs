@@ -152,6 +152,116 @@ export enum ComplianceIssue {
 }
 
 /**
+ * The order of priority of compliance issues in the SDK. This array is used to sort compliance issue arrays. The
+ * smaller the index, the higher the priority of the compliance issue.
+ */
+export const COMPLIANCE_ISSUES_PRIORITY = [
+  ComplianceIssue.NO_VEHICLE,
+
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.WRONG_CENTER_PART,
+
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.SNOWNESS,
+  ComplianceIssue.WETNESS,
+  ComplianceIssue.DIRTINESS,
+
+  ComplianceIssue.LOW_QUALITY,
+  ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  ComplianceIssue.OTHER,
+];
+
+/**
+ * The default compliance issues used in the SDK. This array is the default value for the `complianceIssues` property of
+ * the `ComplianceOptions` interface. If a compliance issue is not in this array, then it is disabled by default in the
+ * SDK.
+ *
+ * @see ComplianceOptions
+ */
+export const DEFAULT_COMPLIANCE_ISSUES = [
+  // ComplianceIssue.OTHER,
+  // ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+  // ComplianceIssue.DIRTINESS,
+  // ComplianceIssue.SNOWNESS,
+  // ComplianceIssue.WETNESS,
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.NO_VEHICLE,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  // ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  // ComplianceIssue.LOW_QUALITY,
+];
+
+/**
+ * An array of compliance issues used to make the IQA checks (Image Quality Assessment). Spread this array in the
+ * `complianceIssues` property of the `ComplianceOptions` interface to enable IQA.
+ */
+export const IQA_COMPLIANCE_ISSUES = [
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+];
+
+/**
+ * An array of compliance issues used to make the VQA checks (Vehicle Quality Assessment). Spread this array in the
+ * `complianceIssues` property of the `ComplianceOptions` interface to enable VQA.
+ */
+export const VQA_COMPLIANCE_ISSUES = [
+  ComplianceIssue.DIRTINESS,
+  ComplianceIssue.SNOWNESS,
+  ComplianceIssue.WETNESS,
+  ComplianceIssue.REFLECTIONS,
+];
+
+/**
+ * An array of compliance issues used to make the zoom level checks. Spread this array in the `complianceIssues`
+ * property of the `ComplianceOptions` interface to enable zoom level checks.
+ */
+export const ZOOM_LEVEL_COMPLIANCE_ISSUES = [
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+];
+
+/**
+ * An array of compliance issues used to make the car coverage checks (is the sight properly aligned etc.). Spread this
+ * array in the `complianceIssues` property of the `ComplianceOptions` interface to enable car coverage.
+ */
+export const CAR_COVERAGE_COMPLIANCE_ISSUES = [
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.NO_VEHICLE,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.HIDDEN_PARTS,
+];
+
+/**
  * Options used to configure the compliance checks at the application level. Note that these options do NOT affect
  * anything at the API level, and are only here to specify how the compliance should behave in the Front-End
  * applications.
@@ -164,15 +274,32 @@ export interface ComplianceOptions {
    */
   enableCompliance?: boolean;
   /**
+   * An array of Sight IDs that indicates for which sight IDs the compliance should be enabled. If this property is
+   * defined, it overrides the value of the `enableCompliance` property, meaning that for images taken for a specific
+   * Sight, the compliance will only be enabled if the Sight's ID is included in the array. For images taken without
+   * Sights (close-ups for instance), this property is ignored and only the value from `enableCompliance` will be taken
+   * into account.
+   */
+  enableCompliancePerSight?: string[];
+  /**
    * If compliance checks are enable, this property can be used to select a list of compliance issues to check. If an
    * image is not compliant only because of issues that are not present in this array, the image will be considered
    * compliant. If `enableCompliance` is set to `false`, this property is ignored.
    *
-   * @default The default compliance issues that are checked by the MonkJs SDK are listed in the README of
-   * the @monkvision/network package.
-   * @see [Network README documentation](https://github.com/monkvision/monkjs/blob/main/packages/network/README.md)
+   * @default DEFAULT_COMPLIANCE_ISSUES
+   * @see DEFAULT_COMPLIANCE_ISSUES
    */
   complianceIssues?: ComplianceIssue[];
+  /**
+   * A map associating Sight IDs to a list of compliance issues to check. This property overrides the `complianceIssues`
+   * property, meaning that for images taken for a specific Sight, if this map contains a value, it will be used as the
+   * list of valid compliance issues for this image. If the map does not contain a value for the given Sight ID, or if
+   * the image does not have a corresponding Sight (like close-up pictures for instance), then the value used will be
+   * the one given by the `complianceIssues` property (or the default value if `complianceIssues` is not defined).
+   *
+   * @see complianceIssues
+   */
+  complianceIssuesPerSight?: Record<string, ComplianceIssue[]>;
   /**
    * Boolean indicating if live compliance should be enabled or not. With this feature enabled, you directly get the
    * result of the compliance checks in the response of the POST image request, at the cost of the request taking more

@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useObjectMemo } from '@monkvision/common';
 
 /**
  * Enum of the different picture taking modes that the PhotoCapture component can be in.
@@ -60,13 +61,10 @@ export function useAddDamageMode(): AddDamageHandle {
 
   const handleCancelAddDamage = useCallback(() => setMode(PhotoCaptureMode.SIGHT), []);
 
-  return useMemo(
-    () => ({
-      mode,
-      handleAddDamage,
-      updatePhotoCaptureModeAfterPictureTaken,
-      handleCancelAddDamage,
-    }),
-    [mode, handleAddDamage, updatePhotoCaptureModeAfterPictureTaken, handleCancelAddDamage],
-  );
+  return useObjectMemo({
+    mode,
+    handleAddDamage,
+    updatePhotoCaptureModeAfterPictureTaken,
+    handleCancelAddDamage,
+  });
 }

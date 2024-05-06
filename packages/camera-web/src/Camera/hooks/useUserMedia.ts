@@ -1,8 +1,8 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { RefObject, useCallback, useEffect, useMemo, useState } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
-import { isMobileDevice } from '@monkvision/common';
+import { isMobileDevice, useObjectMemo } from '@monkvision/common';
 import { getValidCameraDeviceIds } from './utils';
 
 /**
@@ -259,8 +259,5 @@ export function useUserMedia(
     };
   }, [stream]);
 
-  return useMemo(
-    () => ({ stream, dimensions, error, retry, isLoading }),
-    [stream, dimensions, error, retry, isLoading],
-  );
+  return useObjectMemo({ stream, dimensions, error, retry, isLoading });
 }

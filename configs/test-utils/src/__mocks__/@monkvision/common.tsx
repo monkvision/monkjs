@@ -110,4 +110,5 @@ export = {
   useInterval: jest.fn(),
   useAsyncInterval: jest.fn(),
   useSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
+  useObjectMemo: jest.fn((obj) => obj),
 };

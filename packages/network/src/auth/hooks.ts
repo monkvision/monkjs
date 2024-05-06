@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { STORAGE_KEY_AUTH_TOKEN, useMonkAppParams } from '@monkvision/common';
+import { useCallback, useEffect, useState } from 'react';
+import { STORAGE_KEY_AUTH_TOKEN, useMonkAppParams, useObjectMemo } from '@monkvision/common';
 
 /**
  * Parameters of the `useAuth` hook.
@@ -88,12 +88,9 @@ export function useAuth(params?: UseAuthParams): MonkAuthHandle {
     await logout({ logoutParams: { returnTo: window.location.origin } });
   }, [logout, setAuthTokenParam]);
 
-  return useMemo(
-    () => ({
-      authToken,
-      login: handleLogin,
-      logout: handleLogout,
-    }),
-    [authToken, handleLogin, handleLogout],
-  );
+  return useObjectMemo({
+    authToken,
+    login: handleLogin,
+    logout: handleLogout,
+  });
 }

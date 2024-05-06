@@ -53,8 +53,10 @@ function createProps(): PhotoCaptureProps {
     inspectionId: 'test-inspection-test',
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
     enableCompliance: true,
-    useLiveCompliance: true,
+    enableCompliancePerSight: ['test-sight-id'],
     complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+    complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
+    useLiveCompliance: true,
     onClose: jest.fn(),
     onComplete: jest.fn(),
     resolution: CameraResolution.NHD_360P,
@@ -107,31 +109,13 @@ describe('PhotoCapture component', () => {
       loading,
       onLastSightTaken: expect.any(Function),
       tasksBySight: props.tasksBySight,
-      enableCompliance: props.enableCompliance,
-      complianceIssues: props.complianceIssues,
-      useLiveCompliance: props.useLiveCompliance,
-    });
-
-    unmount();
-  });
-
-  it('should pass the proper params to the usePhotoCaptureSightState hook', () => {
-    const props = createProps();
-    const { unmount } = render(<PhotoCapture {...props} />);
-
-    expect(useLoadingState).toHaveBeenCalled();
-    const loading = (useLoadingState as jest.Mock).mock.results[0].value;
-    expect(usePhotoCaptureSightState).toHaveBeenCalled();
-    const { onLastSightTaken } = (usePhotoCaptureSightState as jest.Mock).mock.calls[0][0];
-    expect(usePhotoCaptureSightState).toHaveBeenCalledWith({
-      inspectionId: props.inspectionId,
-      captureSights: props.sights,
-      apiConfig: props.apiConfig,
-      loading,
-      onLastSightTaken,
-      enableCompliance: props.enableCompliance,
-      complianceIssues: props.complianceIssues,
-      useLiveCompliance: props.useLiveCompliance,
+      complianceOptions: {
+        enableCompliance: props.enableCompliance,
+        enableCompliancePerSight: props.enableCompliancePerSight,
+        complianceIssues: props.complianceIssues,
+        complianceIssuesPerSight: props.complianceIssuesPerSight,
+        useLiveCompliance: props.useLiveCompliance,
+      },
     });
 
     unmount();
@@ -144,9 +128,13 @@ describe('PhotoCapture component', () => {
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
-      enableCompliance: props.enableCompliance,
-      complianceIssues: props.complianceIssues,
-      useLiveCompliance: props.useLiveCompliance,
+      complianceOptions: {
+        enableCompliance: props.enableCompliance,
+        enableCompliancePerSight: props.enableCompliancePerSight,
+        complianceIssues: props.complianceIssues,
+        complianceIssuesPerSight: props.complianceIssuesPerSight,
+        useLiveCompliance: props.useLiveCompliance,
+      },
     });
 
     unmount();
@@ -271,7 +259,10 @@ describe('PhotoCapture component', () => {
       sights: props.sights,
       allowSkipRetake: props.allowSkipRetake,
       enableCompliance: props.enableCompliance,
+      enableCompliancePerSight: props.enableCompliancePerSight,
       complianceIssues: props.complianceIssues,
+      complianceIssuesPerSight: props.complianceIssuesPerSight,
+      useLiveCompliance: props.useLiveCompliance,
       onBack: expect.any(Function),
       onNavigateToCapture: expect.any(Function),
       onValidate: expect.any(Function),

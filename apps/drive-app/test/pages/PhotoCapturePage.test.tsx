@@ -5,6 +5,10 @@ jest.mock('../../src/config', () => ({
     { id: 'test-1', tasks: [TaskName.DAMAGE_DETECTION] },
     { id: 'test-2', tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] },
   ]),
+  getTasksBySight: jest.fn(() => ({
+    test: [TaskName.DAMAGE_DETECTION, TaskName.HUMAN_IN_THE_LOOP],
+  })),
+  enableCompliancePerSight: { hello: 'world' },
 }));
 
 import { render } from '@testing-library/react';
@@ -14,7 +18,7 @@ import { useMonkAppParams, useSearchParams } from '@monkvision/common';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Page, PhotoCapturePage } from '../../src/pages';
-import { getSights } from '../../src/config';
+import { complianceIssuesPerSight, getSights, getTasksBySight } from '../../src/config';
 
 const appParams = {
   authToken: 'test-auth-token',
@@ -77,16 +81,27 @@ describe('PhotoCapture page', () => {
     unmount();
   });
 
-  it('should add human in the loop for every sight', () => {
+  it('should pass the proper tasksBySight value', () => {
+    const { unmount } = render(<PhotoCapturePage />);
+
+    expect(getSights).toHaveBeenCalledWith(appParams.vehicleType, appParams.steeringWheel);
+    const sights = (getSights as jest.Mock).mock.results[0].value;
+    expect(getTasksBySight).toHaveBeenCalledWith(sights);
+    const tasksBySight = (getTasksBySight as jest.Mock).mock.results[0].value;
+    expectPropsOnChildMock(PhotoCapture, {
+      sights: expect.any(Array),
+      tasksBySight,
+    });
+
+    unmount();
+  });
+
+  it('should pass the proper complianceIssuesPerSight value', () => {
     const { unmount } = render(<PhotoCapturePage />);
 
     expectPropsOnChildMock(PhotoCapture, {
       sights: expect.any(Array),
-      tasksBySight: expect.any(Object),
-    });
-    const { sights, tasksBySight } = (PhotoCapture as unknown as jest.Mock).mock.calls[0][0];
-    sights.forEach((sight: Sight) => {
-      expect(tasksBySight[sight.id]).toEqual([...sight.tasks, TaskName.HUMAN_IN_THE_LOOP]);
+      complianceIssuesPerSight,
     });
 
     unmount();

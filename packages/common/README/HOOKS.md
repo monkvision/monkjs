@@ -33,7 +33,6 @@ Custom hook that can be used to run asyncrhonous effects. It is similar to `useE
 effect handlers if the effect's Promise resolves after the current component as been dismounted.
 
 ### useAsyncInterval
-
 ```tsx
 import { useAsyncInterval } from '@monkvision/common';
 
@@ -110,6 +109,19 @@ function useCustomApiCall() {
 ```
 Custom hook used to create a `LoadingState` object. This object can be used to track the processing of a task in the
 component. For instance, you can use this hook to handle the loading and errors of API calls in your components.
+
+### useObjectMemo
+```tsx
+import { useMemo } from 'React';
+import { useObjectMemo } from '@monkvision/common';
+
+function TestComponent() {
+  // These 2 lines are equivalent
+  const foo = useMemo(() => ({ bar, baz }), [bar, baz]);
+  const foo = useObjectMemo({ bar, baz });
+}
+```
+This custom hook is used to have a more handy way of memoizing a record of values.
 
 ### useObjectTranslation
 ```tsx
