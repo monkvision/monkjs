@@ -21,9 +21,12 @@
         },
         "de": {
           "type": "string"
+        },
+        "nl": {
+          "type": "string"
         }
       },
-      "required": ["key", "en", "fr", "de"],
+      "required": ["key", "en", "fr", "de", "nl"],
       "unevaluatedProperties": false
     }
   },

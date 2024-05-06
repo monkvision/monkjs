@@ -12,24 +12,28 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         en: 'Camera preview unavailable because camera access was not granted to the page.',
         fr: "L'apperçu de la caméra n'est pas disponible car l'accès à la caméra n'est pas autorisé.",
         de: 'Die Kameravorschau ist nicht verfügbar, da für die Seite kein Kamerazugriff gewährt wurde.',
+        nl: 'De cameravoorbeeld is niet beschikbaar omdat er geen toegang tot de camera is verleend aan de pagina.',
       };
     case UserMediaErrorType.STREAM_INACTIVE:
       return {
         en: 'The camera video stream was closed unexpectedly.',
         fr: 'Le flux vidéo de la caméra a été coupé de manière inattendue.',
         de: 'Der Video-Stream der Kamera wurde unerwartet geschlossen.',
+        nl: 'De videostream van de camera is onverwacht gesloten.',
       };
     case UserMediaErrorType.INVALID_STREAM:
       return {
         en: 'Unable to process the camera video stream.',
         fr: 'Impossible de traiter le flux vidéo de la caméra.',
         de: 'Der Videostrom der Kamera kann nicht verarbeitet werden.',
+        nl: 'De videostream van de camera kan niet worden verwerkt.',
       };
     default:
       return {
         en: 'An unexpected error occurred when fetching the camera video stream.',
         fr: 'Une erreur inattendue est survenue lors de la récupération du flux vidéo de la caméra.',
         de: 'Beim Abrufen des Kamera-Videostreams ist ein unerwarteter Fehler aufgetreten.',
+        nl: 'Er is een onverwachte fout opgetreden bij het ophalen van de videostream van de camera.',
       };
   }
 }

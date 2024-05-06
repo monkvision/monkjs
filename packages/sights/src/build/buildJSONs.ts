@@ -19,6 +19,7 @@ function mapLabels(labels: LabelDictionary): LabelDictionary {
         fr: labelTranslation.fr,
         en: labelTranslation.en,
         de: labelTranslation.de,
+        nl: labelTranslation.nl,
       },
     }),
     {},

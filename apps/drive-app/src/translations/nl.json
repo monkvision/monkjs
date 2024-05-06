@@ -1,0 +1,25 @@
+{
+  "login": {
+    "actions": {
+      "log-in": "Inloggen",
+      "log-out": "Uitloggen"
+    },
+    "errors": {
+      "popup-closed": "Oeps! We konden u niet inloggen omdat het pop-upvenster werd gesloten. Probeer het nog eens!",
+      "token-expired": "Uw verificatietoken is verlopen. Log opnieuw in.",
+      "insufficient-authorization": "U heeft niet de juiste machtigingen om deze applicatie te gebruiken. Log uit en gebruik een ander account.",
+      "unknown": "Oeps! Er is een onverwachte fout opgetreden tijdens het inloggen. Probeer het nog eens!",
+      "missing-token": "De URL die u probeert te bereiken is ongeldig."
+    }
+  },
+  "create-inspection": {
+    "errors": {
+      "retry": "Opnieuw proberen",
+      "create-inspection": "Er is een onverwachte fout opgetreden tijdens het maken van de inspectie.",
+      "missing-inspection-id": "De URL die u probeert te bereiken is ongeldig."
+    }
+  },
+  "inspection-complete": {
+    "thank-message": "Bedankt voor het nemen van de tijd om de inspectie te voltooien."
+  }
+}

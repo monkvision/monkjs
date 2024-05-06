@@ -21,6 +21,7 @@ specify to it which language you want it to use. The following languages are sup
 - English (default)
 - French
 - German
+- Dutch
 
 # i18n Utilities
 ## useI18nSync hook

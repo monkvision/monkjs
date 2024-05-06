@@ -96,6 +96,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
     fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
     de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
+    nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
   };
 }
 

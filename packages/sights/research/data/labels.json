@@ -3,474 +3,553 @@
     "key": "back-seats",
     "en": "Back Seats",
     "fr": "Sièges arrière",
-    "de": "Rücksitze"
+    "de": "Rücksitze",
+    "nl": "Achterbank"
   },
   "beauty-shot-left": {
     "key": "beauty-shot-left",
     "en": "Beauty Shot Left",
     "fr": "Vue entière gauche",
-    "de": "Linke Vollansicht"
+    "de": "Linke Vollansicht",
+    "nl": "Mooie shot links"
   },
   "dashboard": {
     "key": "dashboard",
     "en": "Dashboard",
     "fr": "Tableau de bord",
-    "de": "Armaturenbrett"
+    "de": "Armaturenbrett",
+    "nl": "Dashboard"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
     "en": "Dashboard From Back Seat",
     "fr": "Tableau de bord siège arrière",
-    "de": "Armaturenbrett vom Rücksitz"
+    "de": "Armaturenbrett vom Rücksitz",
+    "nl": "Dashboard vanaf achterbank"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
     "en": "Dashboard From Driver Seat",
     "fr": "Tableau de bord siège conducteur",
-    "de": "Armaturenbrett vom Fahrersitz aus"
+    "de": "Armaturenbrett vom Fahrersitz aus",
+    "nl": "Dashboard vanaf bestuurdersstoel"
   },
   "doors-left": {
     "key": "doors-left",
     "en": "Doors Left",
     "fr": "Portières gauches",
-    "de": "Linke Tür"
+    "de": "Linke Tür",
+    "nl": "Linkerdeuren"
   },
   "doors-right": {
     "key": "doors-right",
     "en": "Doors Right",
     "fr": "Portières droites",
-    "de": "Gerade Türen"
+    "de": "Gerade Türen",
+    "nl": "Rechterdeuren"
   },
   "engine-left-side": {
     "key": "engine-left-side",
     "en": "Engine Left Side",
     "fr": "Moteur gauche",
-    "de": "Linker Motor"
+    "de": "Linker Motor",
+    "nl": "Linkermotor"
   },
   "engine-right-side": {
     "key": "engine-right-side",
     "en": "Engine Right Side",
     "fr": "Moteur droite",
-    "de": "Rechter Motor"
+    "de": "Rechter Motor",
+    "nl": "Rechtermotor"
   },
   "front": {
     "key": "front",
     "en": "Front",
     "fr": "Avant",
-    "de": "Vorderseite"
+    "de": "Vorderseite",
+    "nl": "Voorzijde"
   },
   "front-bumper-side-left": {
     "key": "front-bumper-side-left",
     "en": "Front Bumper Side Left",
     "fr": "Pare-chocs avant gauche",
-    "de": "Stoßstange vorne links"
+    "de": "Stoßstange vorne links",
+    "nl": "Voorbumper links"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
     "en": "Front Bumper Side Right",
     "fr": "Pare-chocs avant droite",
-    "de": "Stoßstange vorne rechts"
+    "de": "Stoßstange vorne rechts",
+    "nl": "Voorbumper rechts"
   },
   "front-door-left": {
     "key": "front-door-left",
     "en": "Front Door Left",
     "fr": "Portière avant gauche",
-    "de": "Tür vorne links"
+    "de": "Tür vorne links",
+    "nl": "Voordeur links"
   },
   "front-door-right": {
     "key": "front-door-right",
     "en": "Front Door Right",
     "fr": "Portière avant droite",
-    "de": "Vordertür rechts"
+    "de": "Vordertür rechts",
+    "nl": "Voordeur rechts"
   },
   "front-fender-left": {
     "key": "front-fender-left",
     "en": "Front Fender Left",
     "fr": "Aile avant gauche",
-    "de": "Linker vorderer Kotflügel"
+    "de": "Linker vorderer Kotflügel",
+    "nl": "Linkervoorste spatbord"
   },
   "front-fender-right": {
     "key": "front-fender-right",
     "en": "Front Fender Right",
     "fr": "Aile avant droite",
-    "de": "Rechter vorderer Flügel"
+    "de": "Rechter vorderer Flügel",
+    "nl": "Rechtervoorste spatbord"
   },
   "front-full-right": {
     "key": "front-full-right",
     "en": "Front Full Right",
     "fr": "Avant droite",
-    "de": "Vorne rechts"
+    "de": "Vorne rechts",
+    "nl": "Volledige voorkant rechts"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
     "en": "Front Lateral Left",
     "fr": "Avant latéral gauche",
-    "de": "Vorderseite seitlich links"
+    "de": "Vorderseite seitlich links",
+    "nl": "Voorzijde zijwaarts links"
   },
   "front-lateral-low-left": {
     "key": "front-lateral-low-left",
     "en": "Front Lateral Low Left",
     "fr": "Avant latéral gauche - vue basse",
-    "de": "Vorne Seitlich Niedrig Links"
+    "de": "Vorne Seitlich Niedrig Links",
+    "nl": "Voorzijde zijwaarts laag links"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
     "en": "Front Lateral Low Right",
     "fr": "Avant latéral droite - vue basse",
-    "de": "Vorne Seitlich Niedrig Rechts"
+    "de": "Vorne Seitlich Niedrig Rechts",
+    "nl": "Voorzijde zijwaarts laag rechts"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
     "en": "Front Lateral Right",
     "fr": "Avant latéral droite",
-    "de": "Vorderseite seitlich rechts"
+    "de": "Vorderseite seitlich rechts",
+    "nl": "Voorzijde zijwaarts rechts"
   },
   "front-low": {
     "key": "front-low",
     "en": "Front Low",
     "fr": "Avant - vue basse",
-    "de": "Vorderseite Niedrig"
+    "de": "Vorderseite Niedrig",
+    "nl": "Voorzijde laag"
   },
   "front-roof-left": {
     "key": "front-roof-left",
     "en": "Front Roof Left",
     "fr": "Toit avant gauche",
-    "de": "Dach vorne links"
+    "de": "Dach vorne links",
+    "nl": "Voorzijde dak links"
   },
   "front-seats": {
     "key": "front-seats",
     "en": "Front Seats",
     "fr": "Sièges avant",
-    "de": "Vordersitze"
+    "de": "Vordersitze",
+    "nl": "Voorstoelen"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
     "en": "Front Undercarriage",
     "fr": "Châssis avant",
-    "de": "Vorderes Fahrwerk"
+    "de": "Vorderes Fahrwerk",
+    "nl": "Voorzijde onderstel"
   },
   "front-wheel-left": {
     "key": "front-wheel-left",
     "en": "Front Wheel Left",
     "fr": "Roue avant gauche",
-    "de": "Vorderrad links"
+    "de": "Vorderrad links",
+    "nl": "Voorwiel links"
   },
   "front-wheel-right": {
     "key": "front-wheel-right",
     "en": "Front Wheel Right",
     "fr": "Roue avant droite",
-    "de": "Rechtes Vorderrad"
+    "de": "Rechtes Vorderrad",
+    "nl": "Voorwiel rechts"
   },
   "hood": {
     "key": "hood",
     "en": "Hood",
     "fr": "Capot",
-    "de": "Abdeckhaube"
+    "de": "Abdeckhaube",
+    "nl": "Motorkap"
   },
   "hood-windshield": {
     "key": "hood-windshield",
     "en": "Hood / Windshield",
     "fr": "Capot / pare-brise",
-    "de": "Motorhaube / Windschutzscheibe"
+    "de": "Motorhaube / Windschutzscheibe",
+    "nl": "Motorkap / voorruit"
   },
   "interior-roof": {
     "key": "interior-roof",
     "en": "Interior Roof",
     "fr": "Pavillon intérieur",
-    "de": "Innen Dach"
+    "de": "Innen Dach",
+    "nl": "Interieur dak"
   },
   "lateral-full-left": {
     "key": "lateral-full-left",
     "en": "Lateral Full Left",
     "fr": "Latéral gauche - vue complète",
-    "de": "Seitlich voll links"
+    "de": "Seitlich voll links",
+    "nl": "Zijwaarts volledig links"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
     "en": "Lateral Full Right",
     "fr": "Latéral droite - vue complète",
-    "de": "Seitlich voll rechts"
+    "de": "Seitlich voll rechts",
+    "nl": "Zijwaarts volledig rechts"
   },
   "lateral-left": {
     "key": "lateral-left",
     "en": "Lateral Left",
     "fr": "Latéral gauche",
-    "de": "Linke Seite"
+    "de": "Linke Seite",
+    "nl": "Zijwaarts links"
   },
   "lateral-low-left": {
     "key": "lateral-low-left",
     "en": "Lateral Low Left",
     "fr": "Latéral gauche - vue basse",
-    "de": "Seitlich tief links"
+    "de": "Seitlich tief links",
+    "nl": "Zijwaarts laag links"
   },
   "lateral-low-right": {
     "key": "lateral-low-right",
     "en": "Lateral Low Right",
     "fr": "Latéral droite - vue basse",
-    "de": "Seitlich Niedrig Rechts"
+    "de": "Seitlich Niedrig Rechts",
+    "nl": "Zijwaarts laag rechts"
   },
   "left-front-door": {
     "key": "left-front-door",
     "en": "Left Front Door",
     "fr": "Porte avant gauche",
-    "de": "Tür vorne links"
+    "de": "Tür vorne links",
+    "nl": "Linker voordeur"
   },
   "open-trunk": {
     "key": "open-trunk",
     "en": "Open Trunk",
     "fr": "Coffre ouvert",
-    "de": "Offene Truhe"
+    "de": "Offene Truhe",
+    "nl": "Opengeklapte koffer"
   },
   "rear": {
     "key": "rear",
     "en": "Rear",
     "fr": "Arrière",
-    "de": "Hinten"
+    "de": "Hinten",
+    "nl": "Achterkant"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
     "en": "Rear Bumper Side Left",
     "fr": "Pare-chocs arrière gauche",
-    "de": "Stoßstange hinten links"
+    "de": "Stoßstange hinten links",
+    "nl": "Achterbumper links"
   },
   "rear-bumper-side-right": {
     "key": "rear-bumper-side-right",
     "en": "Rear Bumper Side Right",
     "fr": "Pare-chocs arrière droite",
-    "de": "Stoßstange hinten rechts"
+    "de": "Stoßstange hinten rechts",
+    "nl": "Achterbumper rechts"
   },
   "rear-door-left": {
     "key": "rear-door-left",
     "en": "Rear Door Left",
     "fr": "Portière arrière gauche",
-    "de": "Tür hinten links"
+    "de": "Tür hinten links",
+    "nl": "Achterdeur links"
   },
   "rear-door-right": {
     "key": "rear-door-right",
     "en": "Rear Door Right",
     "fr": "Portière arrière droite",
-    "de": "Tür hinten rechts"
+    "de": "Tür hinten rechts",
+    "nl": "Achterdeur rechts"
   },
   "rear-fender-left": {
     "key": "rear-fender-left",
     "en": "Rear Fender Left",
     "fr": "Aile arrière gauche",
-    "de": "Kotflügel hinten links"
+    "de": "Kotflügel hinten links",
+    "nl": "Achterkant spatbord links"
   },
   "rear-fender-right": {
     "key": "rear-fender-right",
     "en": "Rear Fender Right",
     "fr": "Aile arrière droite",
-    "de": "Kotflügel hinten rechts"
+    "de": "Kotflügel hinten rechts",
+    "nl": "Achterkant spatbord rechts"
   },
   "rear-full-left": {
     "key": "rear-full-left",
     "en": "Rear Full Left",
     "fr": "Arrière gauche - vue complète",
-    "de": "Hinten ganz links"
+    "de": "Hinten ganz links",
+    "nl": "Achterkant volledig links"
   },
   "rear-full-right": {
     "key": "rear-full-right",
     "en": "Rear Full Right",
     "fr": "Arrière droite - vue complète",
-    "de": "Hinten ganz rechts"
+    "de": "Hinten ganz rechts",
+    "nl": "Achterkant volledig rechts"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
     "en": "Rear Lateral Left",
     "fr": "Arrière latéral gauche",
-    "de": "Hinten seitlich links"
+    "de": "Hinten seitlich links",
+    "nl": "Achterkant zijwaarts links"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
     "en": "Rear Lateral Low Left",
     "fr": "Arrière latéral gauche - vue basse",
-    "de": "Hinten Seitlich Niedrig Links"
+    "de": "Hinten Seitlich Niedrig Links",
+    "nl": "Achterkant zijwaarts laag links"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
     "en": "Rear Lateral Low Right",
     "fr": "Arrière latéral droite - vue basse",
-    "de": "Hinten Seitlich Niedrig Rechts"
+    "de": "Hinten Seitlich Niedrig Rechts",
+    "nl": "Achterkant zijwaarts laag rechts"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
     "en": "Rear Lateral Right",
     "fr": "Arrière latéral droite",
-    "de": "Hinten seitlich rechts"
+    "de": "Hinten seitlich rechts",
+    "nl": "Achterkant zijwaarts rechts"
   },
   "rear-left": {
     "key": "rear-left",
     "en": "Rear Left",
     "fr": "Arrière gauche",
-    "de": "Hinten links"
+    "de": "Hinten links",
+    "nl": "Achterkant links"
   },
   "rear-low": {
     "key": "rear-low",
     "en": "Rear Low",
     "fr": "Arrière - vue basse",
-    "de": "Hinten Niedrig"
+    "de": "Hinten Niedrig",
+    "nl": "Achterkant laag"
   },
   "rear-right": {
     "key": "rear-right",
     "en": "Rear Right",
     "fr": "Arrière droite",
-    "de": "Hinten rechts"
+    "de": "Hinten rechts",
+    "nl": "Achterkant rechts"
   },
   "rear-roof": {
     "key": "rear-roof",
     "en": "Rear Roof",
     "fr": "Toit Arrière",
-    "de": "Hinteres Dach"
+    "de": "Hinteres Dach",
+    "nl": "Achterkant dak"
   },
   "rear-roof-right": {
     "key": "rear-roof-right",
     "en": "Rear Roof Right",
     "fr": "Toit arrière droite",
-    "de": "Hinteres Dach rechts"
+    "de": "Hinteres Dach rechts",
+    "nl": "Achterkant dak rechts"
   },
   "rear-seats": {
     "key": "rear-seats",
     "en": "Rear Seats",
     "fr": "Sièges arrière",
-    "de": "Rücksitze"
+    "de": "Rücksitze",
+    "nl": "Achterbank"
   },
   "rear-up-left": {
     "key": "rear-up-left",
     "en": "Rear Up Left",
     "fr": "Arrière gauche - vue haute",
-    "de": "Hinten oben links"
+    "de": "Hinten oben links",
+    "nl": "Achterkant omhoog links"
   },
   "rear-up-right": {
     "key": "rear-up-right",
     "en": "Rear Up Right",
     "fr": "Arrière droite - vue haute",
-    "de": "Hinten oben rechts"
+    "de": "Hinten oben rechts",
+    "nl": "Achterkant omhoog rechts"
   },
   "rear-wheel-left": {
     "key": "rear-wheel-left",
     "en": "Rear Wheel Left",
     "fr": "Roue arrière gauche",
-    "de": "XXXXXXXXXXXXXX"
+    "de": "Linkes Hinterrad",
+    "nl": "Achterwiel links"
   },
   "rear-wheel-right": {
     "key": "rear-wheel-right",
     "en": "Rear Wheel Right",
     "fr": "Roue arrière droite",
-    "de": "Linkes Hinterrad"
+    "de": "Linkes Hinterrad",
+    "nl": "Achterwiel rechts"
   },
   "rear-zoomed": {
     "key": "rear-zoomed",
     "en": "Rear Zoomed",
     "fr": "Arrière zoomé",
-    "de": "Gezoomter Hinterkopf"
+    "de": "Gezoomter Hinterkopf",
+    "nl": "Achterkant ingezoomd"
   },
   "rocker-panel-left": {
     "key": "rocker-panel-left",
     "en": "Rocker Panel Left",
     "fr": "Bas de caisse gauche",
-    "de": "Schwellerverkleidung links"
+    "de": "Schwellerverkleidung links",
+    "nl": "Drempelpaneel links"
   },
   "rocker-panel-rear-left": {
     "key": "rocker-panel-rear-left",
     "en": "Rocker Panel Rear Left",
     "fr": "Bas de caisse arrière gauche",
-    "de": "Schwellerverkleidung hinten links"
+    "de": "Schwellerverkleidung hinten links",
+    "nl": "Achterste drempelpaneel links"
   },
   "rocker-panel-right": {
     "key": "rocker-panel-right",
     "en": "Rocker Panel Right",
     "fr": "Bas de caisse droite",
-    "de": "Schwellerverkleidung rechts"
+    "de": "Schwellerverkleidung rechts",
+    "nl": "Drempelpaneel rechts"
   },
   "rocker-panel-rear-right": {
     "key": "rocker-panel-rear-right",
     "en": "Rocker Panel Rear Right",
     "fr": "Bas de caisse arrière droite",
-    "de": "Schwellerverkleidung hinten rechts"
+    "de": "Schwellerverkleidung hinten rechts",
+    "nl": "Achterste drempelpaneel rechts"
   },
   "trunk": {
     "key": "trunk",
     "en": "Trunk",
     "fr": "Coffre",
-    "de": "Kofferraum"
+    "de": "Kofferraum",
+    "nl": "Kofferbak"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
     "en": "Trunk Left Side",
     "fr": "Coffre gauche",
-    "de": "Kofferraum Linke Seite"
+    "de": "Kofferraum Linke Seite",
+    "nl": "Linkerkant kofferbak"
   },
   "trunk-right-side": {
     "key": "trunk-right-side",
     "en": "Trunk Right Side",
     "fr": "Coffre droite",
-    "de": "Kofferraum Rechte Seite"
+    "de": "Kofferraum Rechte Seite",
+    "nl": "Rechterkant kofferbak"
   },
   "vin": {
     "key": "vin",
     "en": "VIN",
     "fr": "VIN",
-    "de": "VIN"
+    "de": "VIN",
+    "nl": "VIN"
   },
   "windshield": {
     "key": "windshield",
     "en": "Windshield",
     "fr": "Pare-brise",
-    "de": "Windschutzscheibe"
+    "de": "Windschutzscheibe",
+    "nl": "Voorruit"
   },
   "hatchback": {
     "key": "hatchback",
     "en": "Hatchback",
     "fr": "Compacte",
-    "de": "Schrägheck"
+    "de": "Schrägheck",
+    "nl": "Hatchback"
   },
   "crossover": {
     "key": "crossover",
     "en": "Crossover",
     "fr": "Crossover",
-    "de": "Crossover"
+    "de": "Crossover",
+    "nl": "Crossover"
   },
   "pickup": {
     "key": "pickup",
     "en": "Pickup",
     "fr": "Pickup",
-    "de": "Pickup"
+    "de": "Pickup",
+    "nl": "Pickup"
   },
   "city": {
     "key": "city",
     "en": "City",
     "fr": "Citadine",
-    "de": "Stadtauto"
+    "de": "Stadtauto",
+    "nl": "Stadswagen"
   },
   "van": {
     "key": "van",
     "en": "Van",
     "fr": "Utilitaire",
-    "de": "Van"
+    "de": "Van",
+    "nl": "Bestelwagen"
   },
   "sedan": {
     "key": "sedan",
     "en": "Sedan",
     "fr": "Berline",
-    "de": "Limousine"
+    "de": "Limousine",
+    "nl": "Sedan"
   },
   "large-suv": {
     "key": "large-suv",
     "en": "Large SUV",
     "fr": "Grand SUV",
-    "de": "Großen Geländewagen"
+    "de": "Großen Geländewagen",
+    "nl": "Grote SUV"
   },
   "minivan": {
     "key": "minivan",
     "en": "Minivan",
     "fr": "Monospace",
-    "de": "Minivan"
+    "de": "Minivan",
+    "nl": "Minivan"
   },
   "suv": {
     "key": "suv",
     "en": "SUV",
     "fr": "SUV",
-    "de": "Geländewagen"
+    "de": "Geländewagen",
+    "nl": "SUV"
   }
 }

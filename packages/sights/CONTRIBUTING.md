@@ -72,7 +72,7 @@ The research database consists of JSON files stored in the `research/data` direc
 the following files :
 
 - `labels.json` : A list of sight label translations. It maps a translation key to clear translations in
-  English and in French.
+  English, French, German and in Dutch.
 - `vehicles.json` : A list of vehicle models for the sights. It maps a vehicle type key to the vehicle details.
 - A directory per vehicle type key that contains :
   - A JSON file containing the sight details for this vehicle type.
