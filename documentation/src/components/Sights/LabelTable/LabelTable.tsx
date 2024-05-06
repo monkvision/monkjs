@@ -20,6 +20,7 @@ export function LabelTable() {
         <div className={clsx(styles['col'], styles['header-col'])}>English</div>
         <div className={clsx(styles['col'], styles['header-col'])}>French</div>
         <div className={clsx(styles['col'], styles['header-col'])}>German</div>
+        <div className={clsx(styles['col'], styles['header-col'])}>Dutch</div>
       </div>
       {rows}
     </div>

@@ -107,6 +107,7 @@ The currently supported languages are :
 - English : `'en'` (default)
 - French : `'fr'`
 - German : `'de'`
+- Dutch : `'nl'`
 
 ## Creating a Custom HUD
 In order to implement custom Camera HUD, you simply need to create a component that will take a camera handle and a

@@ -14,7 +14,7 @@ This app contains the following features :
   - Encrypted authentication token using ZLib (the user does not have to log in)
   - Inspection ID (instead of creating a new one automatically)
   - Vehicle type used for the Sights (default one is Crossover)
-  - Application language (English / French / German)
+  - Application language (English / French / German / Dutch)
 
 # Running the App
 In order to run the app, you will need to have [NodeJs](https://nodejs.org/en) >= 16 and

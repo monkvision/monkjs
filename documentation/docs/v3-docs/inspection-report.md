@@ -255,3 +255,5 @@ const carPartLabels = {
 The currently available languages are :
 - English : `en`
 - French : `fr`
+- German : `de`
+- Dutch : `nl`
