@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Camera, CameraHUDProps, CameraProps, CompressionOptions } from '@monkvision/camera-web';
 import { ComplianceOptions, DeviceOrientation, Sight, TaskName } from '@monkvision/types';
-import { useI18nSync, useLoadingState, useWindowDimensions } from '@monkvision/common';
+import {
+  useI18nSync,
+  useLoadingState,
+  useWindowDimensions,
+  useObjectMemo,
+} from '@monkvision/common';
 import { MonkApiConfig } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import {
@@ -124,13 +129,13 @@ export function PhotoCapture({
   ...cameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
-  const complianceOptions: ComplianceOptions = {
+  const complianceOptions: ComplianceOptions = useObjectMemo({
     enableCompliance,
     enableCompliancePerSight,
     complianceIssues,
     complianceIssuesPerSight,
     useLiveCompliance,
-  };
+  });
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);

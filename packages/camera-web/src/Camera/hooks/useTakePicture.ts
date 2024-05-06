@@ -1,6 +1,7 @@
 import { useMonitoring } from '@monkvision/monitoring';
+import { useObjectMemo } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/types';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   CameraMonitoringConfig,
   InternalCameraMonitoringConfig,
@@ -59,5 +60,5 @@ export function useTakePicture({
     return picture;
   }, [createTransaction, monitoring, takeScreenshot, compress, onPictureTaken]);
 
-  return useMemo(() => ({ takePicture, isLoading }), [takePicture, isLoading]);
+  return useObjectMemo({ takePicture, isLoading });
 }

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   GetInspectionResponse,
   MonkApiConfig,
@@ -6,7 +6,7 @@ import {
   useMonkApi,
 } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { LoadingState, useAsyncEffect } from '@monkvision/common';
+import { LoadingState, useAsyncEffect, useObjectMemo } from '@monkvision/common';
 import { ComplianceOptions, Image, Sight, TaskName, MonkPicture } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { PhotoCaptureErrorName } from '../errors';
@@ -236,26 +236,14 @@ export function usePhotoCaptureSightState({
     [captureSights],
   );
 
-  return useMemo(
-    () => ({
-      selectedSight,
-      sightsTaken,
-      selectSight: setSelectedSight,
-      takeSelectedSight,
-      lastPictureTaken,
-      setLastPictureTaken,
-      retryLoadingInspection,
-      retakeSight,
-    }),
-    [
-      selectedSight,
-      sightsTaken,
-      setSelectedSight,
-      takeSelectedSight,
-      lastPictureTaken,
-      setLastPictureTaken,
-      retryLoadingInspection,
-      retakeSight,
-    ],
-  );
+  return useObjectMemo({
+    selectedSight,
+    sightsTaken,
+    selectSight: setSelectedSight,
+    takeSelectedSight,
+    lastPictureTaken,
+    setLastPictureTaken,
+    retryLoadingInspection,
+    retakeSight,
+  });
 }

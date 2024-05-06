@@ -102,7 +102,9 @@ export function getSights(
     !vehicleType || !Object.values(VehicleType).includes(vehicleType)
       ? VehicleType.CROSSOVER
       : vehicleType;
-  const captureSights = APP_SIGHTS_BY_VEHICLE_TYPE[type] as Sight[];
+  const captureSights =
+    APP_SIGHTS_BY_VEHICLE_TYPE[type] ??
+    (APP_SIGHTS_BY_VEHICLE_TYPE[VehicleType.CROSSOVER] as Sight[]);
 
   if (steeringWheel === SteeringWheelPosition.RIGHT) {
     return [

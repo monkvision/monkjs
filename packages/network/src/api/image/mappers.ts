@@ -1,7 +1,9 @@
 import {
   CentersOnElement,
+  COMPLIANCE_ISSUES_PRIORITY,
   ComplianceIssue,
   ComplianceOptions,
+  DEFAULT_COMPLIANCE_ISSUES,
   Image,
   ImageStatus,
   ImageSubtype,
@@ -10,60 +12,6 @@ import {
   VehiclePart,
 } from '@monkvision/types';
 import { ApiImage, ApiImageComplianceResults } from '../models';
-
-const COMPLIANCE_ISSUES_PRIORITY = [
-  ComplianceIssue.NO_VEHICLE,
-
-  ComplianceIssue.BLURRINESS,
-  ComplianceIssue.OVEREXPOSURE,
-  ComplianceIssue.UNDEREXPOSURE,
-  ComplianceIssue.LENS_FLARE,
-
-  ComplianceIssue.TOO_ZOOMED,
-  ComplianceIssue.NOT_ZOOMED_ENOUGH,
-  ComplianceIssue.WRONG_ANGLE,
-  ComplianceIssue.HIDDEN_PARTS,
-  ComplianceIssue.MISSING_PARTS,
-  ComplianceIssue.WRONG_CENTER_PART,
-
-  ComplianceIssue.REFLECTIONS,
-  ComplianceIssue.SNOWNESS,
-  ComplianceIssue.WETNESS,
-  ComplianceIssue.DIRTINESS,
-
-  ComplianceIssue.LOW_QUALITY,
-  ComplianceIssue.LOW_RESOLUTION,
-  ComplianceIssue.UNKNOWN_SIGHT,
-  ComplianceIssue.UNKNOWN_VIEWPOINT,
-  ComplianceIssue.INTERIOR_NOT_SUPPORTED,
-  ComplianceIssue.MISSING,
-  ComplianceIssue.OTHER,
-];
-
-const DEFAULT_COMPLIANCE_ISSUES = [
-  // ComplianceIssue.OTHER,
-  // ComplianceIssue.LOW_RESOLUTION,
-  ComplianceIssue.BLURRINESS,
-  ComplianceIssue.UNDEREXPOSURE,
-  ComplianceIssue.OVEREXPOSURE,
-  ComplianceIssue.LENS_FLARE,
-  // ComplianceIssue.DIRTINESS,
-  // ComplianceIssue.SNOWNESS,
-  // ComplianceIssue.WETNESS,
-  ComplianceIssue.REFLECTIONS,
-  ComplianceIssue.UNKNOWN_SIGHT,
-  ComplianceIssue.UNKNOWN_VIEWPOINT,
-  ComplianceIssue.NO_VEHICLE,
-  ComplianceIssue.WRONG_ANGLE,
-  ComplianceIssue.WRONG_CENTER_PART,
-  ComplianceIssue.MISSING_PARTS,
-  ComplianceIssue.HIDDEN_PARTS,
-  ComplianceIssue.TOO_ZOOMED,
-  ComplianceIssue.NOT_ZOOMED_ENOUGH,
-  // ComplianceIssue.INTERIOR_NOT_SUPPORTED,
-  ComplianceIssue.MISSING,
-  // ComplianceIssue.LOW_QUALITY,
-];
 
 const DEFAULT_COMPLIANCE_OPTIONS = {
   enableCompliance: true,

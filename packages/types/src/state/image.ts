@@ -152,6 +152,116 @@ export enum ComplianceIssue {
 }
 
 /**
+ * The order of priority of compliance issues in the SDK. This array is used to sort compliance issue arrays. The
+ * smaller the index, the higher the priority of the compliance issue.
+ */
+export const COMPLIANCE_ISSUES_PRIORITY = [
+  ComplianceIssue.NO_VEHICLE,
+
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.WRONG_CENTER_PART,
+
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.SNOWNESS,
+  ComplianceIssue.WETNESS,
+  ComplianceIssue.DIRTINESS,
+
+  ComplianceIssue.LOW_QUALITY,
+  ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  ComplianceIssue.OTHER,
+];
+
+/**
+ * The default compliance issues used in the SDK. This array is the default value for the `complianceIssues` property of
+ * the `ComplianceOptions` interface. If a compliance issue is not in this array, then it is disabled by default in the
+ * SDK.
+ *
+ * @see ComplianceOptions
+ */
+export const DEFAULT_COMPLIANCE_ISSUES = [
+  // ComplianceIssue.OTHER,
+  // ComplianceIssue.LOW_RESOLUTION,
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+  // ComplianceIssue.DIRTINESS,
+  // ComplianceIssue.SNOWNESS,
+  // ComplianceIssue.WETNESS,
+  ComplianceIssue.REFLECTIONS,
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.NO_VEHICLE,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+  // ComplianceIssue.INTERIOR_NOT_SUPPORTED,
+  ComplianceIssue.MISSING,
+  // ComplianceIssue.LOW_QUALITY,
+];
+
+/**
+ * An array of compliance issues used to make the IQA checks (Image Quality Assessment). Spread this array in the
+ * `complianceIssues` property of the `ComplianceOptions` interface to enable IQA.
+ */
+export const IQA_COMPLIANCE_ISSUES = [
+  ComplianceIssue.BLURRINESS,
+  ComplianceIssue.UNDEREXPOSURE,
+  ComplianceIssue.OVEREXPOSURE,
+  ComplianceIssue.LENS_FLARE,
+];
+
+/**
+ * An array of compliance issues used to make the VQA checks (Vehicle Quality Assessment). Spread this array in the
+ * `complianceIssues` property of the `ComplianceOptions` interface to enable VQA.
+ */
+export const VQA_COMPLIANCE_ISSUES = [
+  ComplianceIssue.DIRTINESS,
+  ComplianceIssue.SNOWNESS,
+  ComplianceIssue.WETNESS,
+  ComplianceIssue.REFLECTIONS,
+];
+
+/**
+ * An array of compliance issues used to make the zoom level checks. Spread this array in the `complianceIssues`
+ * property of the `ComplianceOptions` interface to enable zoom level checks.
+ */
+export const ZOOM_LEVEL_COMPLIANCE_ISSUES = [
+  ComplianceIssue.TOO_ZOOMED,
+  ComplianceIssue.NOT_ZOOMED_ENOUGH,
+];
+
+/**
+ * An array of compliance issues used to make the car coverage checks (is the sight properly aligned etc.). Spread this
+ * array in the `complianceIssues` property of the `ComplianceOptions` interface to enable car coverage.
+ */
+export const CAR_COVERAGE_COMPLIANCE_ISSUES = [
+  ComplianceIssue.UNKNOWN_SIGHT,
+  ComplianceIssue.UNKNOWN_VIEWPOINT,
+  ComplianceIssue.NO_VEHICLE,
+  ComplianceIssue.WRONG_ANGLE,
+  ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.MISSING_PARTS,
+  ComplianceIssue.HIDDEN_PARTS,
+];
+
+/**
  * Options used to configure the compliance checks at the application level. Note that these options do NOT affect
  * anything at the API level, and are only here to specify how the compliance should behave in the Front-End
  * applications.
@@ -176,23 +286,8 @@ export interface ComplianceOptions {
    * image is not compliant only because of issues that are not present in this array, the image will be considered
    * compliant. If `enableCompliance` is set to `false`, this property is ignored.
    *
-   * @default [
-   *   ComplianceIssue.BLURRINESS,
-   *   ComplianceIssue.UNDEREXPOSURE,
-   *   ComplianceIssue.OVEREXPOSURE,
-   *   ComplianceIssue.LENS_FLARE,
-   *   ComplianceIssue.REFLECTIONS,
-   *   ComplianceIssue.UNKNOWN_SIGHT,
-   *   ComplianceIssue.UNKNOWN_VIEWPOINT,
-   *   ComplianceIssue.NO_VEHICLE,
-   *   ComplianceIssue.WRONG_ANGLE,
-   *   ComplianceIssue.WRONG_CENTER_PART,
-   *   ComplianceIssue.MISSING_PARTS,
-   *   ComplianceIssue.HIDDEN_PARTS,
-   *   ComplianceIssue.TOO_ZOOMED,
-   *   ComplianceIssue.NOT_ZOOMED_ENOUGH,
-   *   ComplianceIssue.MISSING,
-   * ]
+   * @default DEFAULT_COMPLIANCE_ISSUES
+   * @see DEFAULT_COMPLIANCE_ISSUES
    */
   complianceIssues?: ComplianceIssue[];
   /**
