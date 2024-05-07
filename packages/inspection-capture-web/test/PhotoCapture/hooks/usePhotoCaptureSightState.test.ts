@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { LoadingState, useAsyncEffect } from '@monkvision/common';
-import { ComplianceIssue, Sight, TaskName } from '@monkvision/types';
+import { LoadingState, useAsyncEffect, useMonkState } from '@monkvision/common';
+import { ComplianceIssue, Image, ImageStatus, Sight, TaskName } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
 import { useMonkApi } from '@monkvision/network';
@@ -37,20 +37,42 @@ function createParams(): PhotoCaptureSightsParams {
   };
 }
 
-function mockGetInspectionResponse(inspectionId: string, takenSights: Sight[], tasks?: TaskName[]) {
-  return {
+function mockGetInspectionResponse(
+  inspectionId: string,
+  takenSights: Sight[],
+  tasks?: TaskName[],
+  nonCompliantSightIndex?: number,
+) {
+  const apiResponse = {
     entities: {
-      images: takenSights.map((sight, index) => ({
-        inspectionId,
-        additionalData: { sight_id: sight.id },
-        path: `test-path-${index}`,
-        mimetype: `test-mimetype-${index}`,
-        width: index * 2000,
-        height: index * 1000,
-      })),
+      images: [] as Image[],
       tasks: tasks?.map((name) => ({ inspectionId, name })),
     },
   };
+  takenSights.forEach((sight, index) => {
+    apiResponse.entities.images.push({
+      inspectionId,
+      sightId: sight.id,
+      createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
+      path: `test-path-${index}`,
+      mimetype: `test-mimetype-${index}`,
+      width: index * 2000,
+      height: index * 1000,
+      status: nonCompliantSightIndex === index ? ImageStatus.NOT_COMPLIANT : ImageStatus.SUCCESS,
+    } as Image);
+    apiResponse.entities.images.push({
+      inspectionId,
+      sightId: sight.id,
+      createdAt: Date.parse('1998-01-01T01:01:01.001Z'),
+      path: `test-path-old-${index}`,
+      mimetype: `test-mimetype-old-${index}`,
+      width: index * 4000,
+      height: index * 2000,
+      status: ImageStatus.NOT_COMPLIANT,
+    } as Image);
+  });
+  (useMonkState as jest.Mock).mockImplementation(() => ({ state: apiResponse.entities }));
+  return apiResponse;
 }
 
 describe('usePhotoCaptureSightState hook', () => {
@@ -154,6 +176,60 @@ describe('usePhotoCaptureSightState hook', () => {
       height: images[images.length - 1].height,
     });
     expect(initialProps.loading.onSuccess).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should call onLastSightTaken if all sights have been taken after the getInspection API call', () => {
+    const initialProps = createParams();
+    const takenSights = initialProps.captureSights;
+    const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
+    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    expect(useAsyncEffect).toHaveBeenCalled();
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => onResolve(apiResponse));
+    expect(initialProps.onLastSightTaken).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should select the first non compliant sight if all sights are taken after the getInspection API call', () => {
+    const initialProps = createParams();
+    const takenSights = initialProps.captureSights;
+    const sightToRetake = 2;
+    const apiResponse = mockGetInspectionResponse(
+      initialProps.inspectionId,
+      takenSights,
+      undefined,
+      sightToRetake,
+    );
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    expect(useAsyncEffect).toHaveBeenCalled();
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => onResolve(apiResponse));
+    expect(result.current.selectedSight).toEqual(initialProps.captureSights[sightToRetake]);
+    expect(result.current.sightsTaken).not.toContain(initialProps.captureSights[sightToRetake]);
+
+    unmount();
+  });
+
+  it('should select the last sight if all sights are taken and compliant after the getInspection API call', () => {
+    const initialProps = createParams();
+    const takenSights = initialProps.captureSights;
+    const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    expect(useAsyncEffect).toHaveBeenCalled();
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => onResolve(apiResponse));
+    expect(result.current.selectedSight).toEqual(
+      initialProps.captureSights[initialProps.captureSights.length - 1],
+    );
+    expect(result.current.sightsTaken).not.toContain(
+      initialProps.captureSights[initialProps.captureSights.length - 1],
+    );
 
     unmount();
   });

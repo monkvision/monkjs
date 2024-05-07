@@ -18,17 +18,13 @@ export function getInspectionImages(
   }
   const filteredRetakes: Image[] = [];
   inspectionImages.forEach((image) => {
-    if (image.additionalData?.sight_id) {
-      const index = filteredRetakes.findIndex(
-        (i) => i.additionalData?.sight_id === image.additionalData?.sight_id,
-      );
+    if (image.sightId) {
+      const index = filteredRetakes.findIndex((i) => i.sightId === image.sightId);
       if (index >= 0) {
-        const imageDateISO = image.additionalData?.created_at;
-        const alreadyExistingImageDateISO = filteredRetakes[index].additionalData?.created_at;
         if (
-          alreadyExistingImageDateISO &&
-          imageDateISO &&
-          new Date(imageDateISO) > new Date(alreadyExistingImageDateISO)
+          image.createdAt &&
+          filteredRetakes[index].createdAt &&
+          image.createdAt > (filteredRetakes[index].createdAt as number)
         ) {
           filteredRetakes[index] = image;
         }

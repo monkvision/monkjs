@@ -2,9 +2,9 @@ import ky from 'ky';
 import { Dispatch } from 'react';
 import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
 import {
-  AdditionalData,
   ComplianceOptions,
   Image,
+  ImageAdditionalData,
   ImageStatus,
   ImageSubtype,
   ImageType,
@@ -100,13 +100,13 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   };
 }
 
-function getAdditionalData(options: AddImageOptions): AdditionalData {
-  const additionalData: AdditionalData = {
+function getAdditionalData(options: AddImageOptions): ImageAdditionalData {
+  const additionalData: ImageAdditionalData = {
     label: getImageLabel(options),
-    created_at: new Date(),
+    created_at: new Date().toISOString(),
   };
   if (options.type === ImageType.BEAUTY_SHOT) {
-    additionalData['sight_id'] = options.sightId;
+    additionalData.sight_id = options.sightId;
   }
   return additionalData;
 }
@@ -201,6 +201,7 @@ async function createImageFormData(
 }
 
 function createLocalImage(options: AddImageOptions): Image {
+  const additionalData = getAdditionalData(options);
   const image: Image = {
     entityType: MonkEntityType.IMAGE,
     id: v4(),
@@ -213,7 +214,9 @@ function createLocalImage(options: AddImageOptions): Image {
     type: options.type,
     status: ImageStatus.UPLOADING,
     label: getImageLabel(options),
-    additionalData: getAdditionalData(options),
+    additionalData,
+    sightId: additionalData.sight_id,
+    createdAt: additionalData.created_at ? Date.parse(additionalData.created_at) : undefined,
     views: [],
     renderedOutputs: [],
   };

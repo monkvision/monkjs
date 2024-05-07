@@ -44,44 +44,34 @@ describe('State utils', () => {
         {
           id: 'test-2',
           inspectionId,
-          additionalData: {
-            sight_id: 'sight-1',
-            created_at: Date.parse('1998-01-01T01:01:01.001Z'),
-          },
+          sightId: 'sight-1',
+          createdAt: Date.parse('1998-01-01T01:01:01.001Z'),
         },
         {
           id: 'test-3',
           inspectionId,
-          additionalData: {
-            sight_id: 'sight-1',
-            created_at: Date.parse('2020-01-01T01:01:01.001Z'),
-          },
+          sightId: 'sight-1',
+          createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
         },
         {
           id: 'test-4',
           inspectionId,
-          additionalData: {
-            sight_id: 'sight-1',
-            created_at: Date.parse('2024-01-01T01:01:01.001Z'),
-          },
+          sightId: 'sight-1',
+          createdAt: Date.parse('2024-01-01T01:01:01.001Z'),
         },
         { id: 'test-5', inspectionId },
         { id: 'test-6', inspectionId },
         {
           id: 'test-7',
           inspectionId,
-          additionalData: {
-            sight_id: 'sight-2',
-            created_at: Date.parse('2024-01-01T01:01:01.001Z'),
-          },
+          sightId: 'sight-2',
+          createdAt: Date.parse('2024-01-01T01:01:01.001Z'),
         },
         {
           id: 'test-8',
           inspectionId,
-          additionalData: {
-            sight_id: 'sight-2',
-            created_at: Date.parse('1998-01-01T01:01:01.001Z'),
-          },
+          sightId: 'sight-2',
+          createdAt: Date.parse('1998-01-01T01:01:01.001Z'),
         },
       ] as Image[];
       const inspectionImages = getInspectionImages(inspectionId, images, true);
@@ -89,10 +79,8 @@ describe('State utils', () => {
       expect(inspectionImages).toContainEqual({
         id: 'test-4',
         inspectionId,
-        additionalData: {
-          sight_id: 'sight-1',
-          created_at: Date.parse('2024-01-01T01:01:01.001Z'),
-        },
+        sightId: 'sight-1',
+        createdAt: Date.parse('2024-01-01T01:01:01.001Z'),
       });
       expect(inspectionImages).toContainEqual({
         id: 'test-5',
@@ -105,10 +93,8 @@ describe('State utils', () => {
       expect(inspectionImages).toContainEqual({
         id: 'test-7',
         inspectionId,
-        additionalData: {
-          sight_id: 'sight-2',
-          created_at: Date.parse('2024-01-01T01:01:01.001Z'),
-        },
+        sightId: 'sight-2',
+        createdAt: Date.parse('2024-01-01T01:01:01.001Z'),
       });
     });
   });

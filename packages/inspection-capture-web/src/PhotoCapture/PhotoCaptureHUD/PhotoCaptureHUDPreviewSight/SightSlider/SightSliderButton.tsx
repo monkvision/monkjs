@@ -59,6 +59,7 @@ function useSliderStyle({
   }
   if (isSelected) {
     sliderStyle.primaryColor = 'primary';
+    sliderStyle.disabled = false;
   }
   return sliderStyle;
 }

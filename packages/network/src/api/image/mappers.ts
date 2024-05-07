@@ -78,16 +78,17 @@ export function mapApiImage(
   inspectionId: string,
   complianceOptions?: ComplianceOptions,
 ): Image {
-  const { status, complianceIssues } = mapCompliance(
-    image.additional_data?.sight_id,
-    image.compliances,
-    complianceOptions,
-  );
+  const sightId = image.additional_data?.sight_id;
+  const { status, complianceIssues } = mapCompliance(sightId, image.compliances, complianceOptions);
   return {
     id: image.id,
     entityType: MonkEntityType.IMAGE,
     inspectionId,
     label: image.additional_data?.label,
+    sightId,
+    createdAt: image.additional_data?.created_at
+      ? Date.parse(image.additional_data.created_at)
+      : undefined,
     path: image.path,
     width: image.image_width,
     height: image.image_height,

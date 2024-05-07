@@ -25,33 +25,51 @@ export interface ImageLabelIcon {
   primaryColor: ColorProp;
 }
 
-export function isComplianceContainerDisplayed(props: ImageDetailedViewOverlayProps): boolean {
+export function isImageValid(props: ImageDetailedViewOverlayProps): boolean {
   return (
-    props.captureMode &&
-    [ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT].includes(props.image.status)
+    !props.captureMode ||
+    ![ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT].includes(props.image.status)
   );
 }
 
-export function useComplianceLabels(
-  props: ImageDetailedViewOverlayProps,
-): { title: string; description: string } | null {
+export function useRetakeOverlay(props: ImageDetailedViewOverlayProps): {
+  title: string;
+  description: string;
+  icon: IconName;
+  iconColor: ColorProp;
+  buttonColor: ColorProp;
+} {
   const { tObj } = useObjectTranslation();
 
-  if (!isComplianceContainerDisplayed(props)) {
-    return null;
+  const success = {
+    title: tObj(imageStatusLabels[ImageStatus.SUCCESS].title),
+    description: tObj(imageStatusLabels[ImageStatus.SUCCESS].description),
+    iconColor: 'text-secondary',
+    icon: 'check-circle' as IconName,
+    buttonColor: 'primary',
+  };
+
+  if (isImageValid(props)) {
+    return success;
   }
   if (props.image.status === ImageStatus.UPLOAD_FAILED) {
     return {
       title: tObj(imageStatusLabels[ImageStatus.UPLOAD_FAILED].title),
       description: tObj(imageStatusLabels[ImageStatus.UPLOAD_FAILED].description),
+      iconColor: 'alert',
+      icon: 'error',
+      buttonColor: 'alert',
     };
   }
   if (!props.image.complianceIssues || props.image.complianceIssues.length === 0) {
-    return null;
+    return success;
   }
   return {
     title: tObj(complianceIssueLabels[props.image.complianceIssues[0]].title),
     description: tObj(complianceIssueLabels[props.image.complianceIssues[0]].description),
+    iconColor: 'alert',
+    icon: 'error',
+    buttonColor: 'alert',
   };
 }
 
@@ -88,25 +106,17 @@ export function useImageDetailedViewOverlayStyles(props: ImageDetailedViewOverla
   const { responsive } = useResponsiveStyle();
   const { palette } = useMonkTheme();
 
-  let overlayDisplayJustifyContent = 'space-between';
-  if (!isComplianceContainerDisplayed(props)) {
-    overlayDisplayJustifyContent = 'end';
-  }
-  if (!props.image.label) {
-    overlayDisplayJustifyContent = 'start';
-  }
-
   return {
     mainContainerStyle: {
       ...styles['mainContainer'],
       ...responsive(styles['mainContainerSmall']),
-      background: isComplianceContainerDisplayed(props)
+      background: isImageValid(props)
         ? 'linear-gradient(rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%)'
         : 'transparent',
     },
     overlayDisplayStyle: {
       ...styles['overlayDisplay'],
-      justifyContent: overlayDisplayJustifyContent,
+      justifyContent: props.image.label ? 'space-between' : 'start',
     },
     complianceContainerStyle: {
       ...styles['complianceContainer'],

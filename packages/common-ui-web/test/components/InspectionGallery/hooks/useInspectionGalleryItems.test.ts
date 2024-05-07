@@ -31,7 +31,7 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-2' },
+        sightId: 'test-sight-2',
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
@@ -61,7 +61,7 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1' },
+        sightId: 'test-sight-1',
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
@@ -72,7 +72,7 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-3',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-3' },
+        sightId: 'test-sight-3',
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
     );
@@ -107,7 +107,7 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1' },
+        sightId: 'test-sight-1',
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
       {
@@ -118,7 +118,7 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-3',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-3' },
+        sightId: 'test-sight-3',
         status: ImageStatus.NOT_COMPLIANT,
       } as unknown as Image,
     );
@@ -144,17 +144,17 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1' },
+        sightId: 'test-sight-1',
       } as unknown as Image,
       {
         id: 'image-2',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-2' },
+        sightId: 'test-sight-2',
       } as unknown as Image,
       {
         id: 'image-3',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-3' },
+        sightId: 'test-sight-3',
       } as unknown as Image,
     );
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
@@ -187,17 +187,20 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1', created_at: '2020-01-01T01:01:01.001Z' },
+        sightId: 'test-sight-1',
+        createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
       } as unknown as Image,
       {
         id: 'image-2',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1', created_at: '1999-01-01T01:01:01.001Z' },
+        sightId: 'test-sight-1',
+        createdAt: Date.parse('1999-01-01T01:01:01.001Z'),
       } as unknown as Image,
       {
         id: 'image-3',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1', created_at: '2023-01-01T01:01:01.001Z' },
+        sightId: 'test-sight-1',
+        createdAt: Date.parse('2023-01-01T01:01:01.001Z'),
       } as unknown as Image,
     );
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
@@ -221,12 +224,14 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1', created_at: '2020-01-01T01:01:01.001Z' },
+        sightId: 'test-sight-1',
+        createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
       } as unknown as Image,
       {
         id: 'image-2',
         inspectionId: initialProps.inspectionId,
-        additionalData: { sight_id: 'test-sight-1', created_at: '1999-01-01T01:01:01.001Z' },
+        sightId: 'test-sight-1',
+        createdAt: Date.parse('1999-01-01T01:01:01.001Z'),
       } as unknown as Image,
     );
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));

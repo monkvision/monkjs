@@ -2,8 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useObjectTranslation } from '@monkvision/common';
 import {
   ImageDetailedViewOverlayProps,
-  isComplianceContainerDisplayed,
-  useComplianceLabels,
+  useRetakeOverlay,
   useImageDetailedViewOverlayStyles,
   useImageLabelIcon,
 } from './hooks';
@@ -14,7 +13,7 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
   const { t } = useTranslation();
   const { tObj } = useObjectTranslation();
   const labelIcon = useImageLabelIcon(props);
-  const complianceLabels = useComplianceLabels(props);
+  const retakeOverlay = useRetakeOverlay(props);
   const {
     mainContainerStyle,
     overlayDisplayStyle,
@@ -32,25 +31,27 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
   return (
     <div style={mainContainerStyle}>
       <div style={overlayDisplayStyle}>
-        {isComplianceContainerDisplayed(props) && (
-          <div style={complianceContainerStyle}>
-            <div style={complianceMessageContainerStyle}>
-              <Icon icon='error' primaryColor='alert' size={complianceIcon.size} />
-              <div style={complianceMessageStyle}>
-                <div style={complianceTitleStyle}>{complianceLabels?.title}</div>
-                <div style={complianceDescriptionStyle}>{complianceLabels?.description}</div>
-              </div>
+        <div style={complianceContainerStyle}>
+          <div style={complianceMessageContainerStyle}>
+            <Icon
+              icon={retakeOverlay.icon}
+              primaryColor={retakeOverlay.iconColor}
+              size={complianceIcon.size}
+            />
+            <div style={complianceMessageStyle}>
+              <div style={complianceTitleStyle}>{retakeOverlay.title}</div>
+              <div style={complianceDescriptionStyle}>{retakeOverlay.description}</div>
             </div>
-            <Button
-              style={complianceRetakeButton.style}
-              size={complianceRetakeButton.size}
-              primaryColor='alert'
-              onClick={props.onRetake}
-            >
-              {t('retake')}
-            </Button>
           </div>
-        )}
+          <Button
+            style={complianceRetakeButton.style}
+            size={complianceRetakeButton.size}
+            primaryColor={retakeOverlay.buttonColor}
+            onClick={props.onRetake}
+          >
+            {t('retake')}
+          </Button>
+        </div>
         {props.image.label && (
           <div style={imageLabelStyle}>
             {labelIcon && (

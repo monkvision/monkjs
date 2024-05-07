@@ -1,5 +1,3 @@
-import { useTranslation } from 'react-i18next';
-
 jest.mock('../../../../src/components/Button', () => ({
   Button: jest.fn(() => <></>),
 }));
@@ -11,17 +9,24 @@ jest.mock('../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay
     '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay/hooks',
   ),
   useImageLabelIcon: jest.fn(() => null),
-  useComplianceLabels: jest.fn(() => null),
-  isComplianceContainerDisplayed: jest.fn(() => false),
+  useRetakeOverlay: jest.fn(() => ({
+    title: '',
+    description: '',
+    iconColor: '',
+    icon: '',
+    buttonColor: '',
+  })),
+  isImageValid: jest.fn(() => true),
 }));
 
+import { useTranslation } from 'react-i18next';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { render, screen } from '@testing-library/react';
 import { ImageDetailedViewOverlay } from '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay';
 import {
   ImageDetailedViewOverlayProps,
-  isComplianceContainerDisplayed,
-  useComplianceLabels,
+  isImageValid,
+  useRetakeOverlay,
   useImageLabelIcon,
 } from '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay/hooks';
 import { Image, ImageStatus } from '@monkvision/types';
@@ -41,65 +46,40 @@ describe('ImageDetailedViewOverlay component', () => {
     jest.clearAllMocks();
   });
 
-  it('should display a retake button if the compliance container is displayed', () => {
-    (isComplianceContainerDisplayed as jest.Mock).mockImplementationOnce(() => true);
-    const props = createProps();
-    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+  [true, false].forEach((isValid) => {
+    it(`should display a retake button if isImageValid is ${isValid}`, () => {
+      (isImageValid as jest.Mock).mockImplementationOnce(() => isValid);
+      const props = createProps();
+      const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
 
-    expect(useTranslation).toHaveBeenCalled();
-    const { t } = (useTranslation as jest.Mock).mock.results[0].value;
-    expect(t).toHaveBeenCalledWith('retake');
-    expectPropsOnChildMock(Button, {
-      children: 'retake',
-      onClick: expect.any(Function),
+      expect(useTranslation).toHaveBeenCalled();
+      const { t } = (useTranslation as jest.Mock).mock.results[0].value;
+      expect(t).toHaveBeenCalledWith('retake');
+      expectPropsOnChildMock(Button, {
+        children: 'retake',
+        onClick: expect.any(Function),
+      });
+      const { onClick } = (Button as unknown as jest.Mock).mock.calls.find(
+        (args) => args[0].children === 'retake',
+      )[0];
+      expect(props.onRetake).not.toHaveBeenCalled();
+      onClick();
+      expect(props.onRetake).toHaveBeenCalled();
+
+      unmount();
     });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls.find(
-      (args) => args[0].children === 'retake',
-    )[0];
-    expect(props.onRetake).not.toHaveBeenCalled();
-    onClick();
-    expect(props.onRetake).toHaveBeenCalled();
-
-    unmount();
   });
 
-  it('should not display a retake button if the compliance container is not displayed', () => {
-    (isComplianceContainerDisplayed as jest.Mock).mockImplementationOnce(() => false);
-    const props = createProps();
-    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
-
-    expect(Button).not.toHaveBeenCalledWith(
-      expect.objectContaining({ children: 'retake' }),
-      expect.anything(),
-    );
-
-    unmount();
-  });
-
-  it('should contain the compliance labels if the compliance container is displayed', () => {
+  it('should contain the retake labels', () => {
     const title = 'test-title-test';
     const description = 'test-description-test';
-    (isComplianceContainerDisplayed as jest.Mock).mockImplementationOnce(() => true);
-    (useComplianceLabels as jest.Mock).mockImplementationOnce(() => ({ title, description }));
+    (isImageValid as jest.Mock).mockImplementationOnce(() => true);
+    (useRetakeOverlay as jest.Mock).mockImplementationOnce(() => ({ title, description }));
     const props = createProps();
     const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
 
     expect(screen.queryByText(title)).not.toBeNull();
     expect(screen.queryByText(description)).not.toBeNull();
-
-    unmount();
-  });
-
-  it('should not contain the compliance labels if the compliance container is not displayed', () => {
-    const title = 'test-title-test';
-    const description = 'test-description-test';
-    (isComplianceContainerDisplayed as jest.Mock).mockImplementationOnce(() => false);
-    (useComplianceLabels as jest.Mock).mockImplementationOnce(() => ({ title, description }));
-    const props = createProps();
-    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
-
-    expect(screen.queryByText(title)).toBeNull();
-    expect(screen.queryByText(description)).toBeNull();
 
     unmount();
   });

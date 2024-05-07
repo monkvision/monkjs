@@ -1,7 +1,7 @@
 import {
   ImageDetailedViewOverlayProps,
-  isComplianceContainerDisplayed,
-  useComplianceLabels,
+  isImageValid,
+  useRetakeOverlay,
   useImageLabelIcon,
 } from '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay/hooks';
 import { ComplianceIssue, Image, ImageStatus } from '@monkvision/types';
@@ -15,26 +15,26 @@ import {
 } from '@monkvision/common';
 
 describe('ImageDetailedViewOverlay hooks', () => {
-  describe('isComplianceContainerDisplayed util function', () => {
-    it('should return false if not in captureMode', () => {
+  describe('isImageValid util function', () => {
+    it('should return true if not in captureMode', () => {
       expect(
-        isComplianceContainerDisplayed({
+        isImageValid({
           captureMode: false,
           image: { status: ImageStatus.NOT_COMPLIANT } as Image,
         }),
-      ).toEqual(false);
+      ).toEqual(true);
     });
 
     [
-      { status: ImageStatus.SUCCESS, value: false },
-      { status: ImageStatus.UPLOADING, value: false },
-      { status: ImageStatus.COMPLIANCE_RUNNING, value: false },
-      { status: ImageStatus.NOT_COMPLIANT, value: true },
-      { status: ImageStatus.UPLOAD_FAILED, value: true },
+      { status: ImageStatus.SUCCESS, value: true },
+      { status: ImageStatus.UPLOADING, value: true },
+      { status: ImageStatus.COMPLIANCE_RUNNING, value: true },
+      { status: ImageStatus.NOT_COMPLIANT, value: false },
+      { status: ImageStatus.UPLOAD_FAILED, value: false },
     ].forEach(({ status, value }) => {
       it(`should return ${value} in captureMode if the image has the ${status} status`, () => {
         expect(
-          isComplianceContainerDisplayed({
+          isImageValid({
             captureMode: true,
             image: { status } as Image,
           }),
@@ -43,18 +43,34 @@ describe('ImageDetailedViewOverlay hooks', () => {
     });
   });
 
-  describe('useComplianceLabels hook', () => {
-    it('should return null if overlay is not displayed', () => {
-      const { result, unmount } = renderHook(useComplianceLabels, {
+  describe('useRetakeOverlay hook', () => {
+    it('should return the proper properties if the image is valid', () => {
+      const tObj = jest.fn((obj) => {
+        if (obj === imageStatusLabels[ImageStatus.SUCCESS].title) {
+          return 'success-title';
+        }
+        if (obj === imageStatusLabels[ImageStatus.SUCCESS].description) {
+          return 'success-description';
+        }
+        return null;
+      });
+      (useObjectTranslation as jest.Mock).mockImplementation(() => ({ tObj }));
+      const { result, unmount } = renderHook(useRetakeOverlay, {
         initialProps: { captureMode: false } as ImageDetailedViewOverlayProps,
       });
 
-      expect(result.current).toBeNull();
+      expect(result.current).toEqual({
+        title: 'success-title',
+        description: 'success-description',
+        iconColor: 'text-secondary',
+        icon: 'check-circle',
+        buttonColor: 'primary',
+      });
 
       unmount();
     });
 
-    it('should return the proper labels when the image upload failed', () => {
+    it('should return the proper properties when the image upload failed', () => {
       const tObj = jest.fn((obj) => {
         if (obj === imageStatusLabels[ImageStatus.UPLOAD_FAILED].title) {
           return 'upload-failed-title';
@@ -65,33 +81,54 @@ describe('ImageDetailedViewOverlay hooks', () => {
         return null;
       });
       (useObjectTranslation as jest.Mock).mockImplementation(() => ({ tObj }));
-      const { result, unmount } = renderHook(useComplianceLabels, {
+      const { result, unmount } = renderHook(useRetakeOverlay, {
         initialProps: {
           captureMode: true,
           image: { status: ImageStatus.UPLOAD_FAILED },
         } as ImageDetailedViewOverlayProps,
       });
 
-      expect(result.current?.title).toEqual('upload-failed-title');
-      expect(result.current?.description).toEqual('upload-failed-description');
+      expect(result.current).toEqual({
+        title: 'upload-failed-title',
+        description: 'upload-failed-description',
+        iconColor: 'alert',
+        icon: 'error',
+        buttonColor: 'alert',
+      });
 
       unmount();
     });
 
-    it('should return null if there are no compliance issues in the image', () => {
-      const { result, unmount } = renderHook(useComplianceLabels, {
+    it('should return the proper properties if there are no compliance issues in the image', () => {
+      const tObj = jest.fn((obj) => {
+        if (obj === imageStatusLabels[ImageStatus.SUCCESS].title) {
+          return 'success-title';
+        }
+        if (obj === imageStatusLabels[ImageStatus.SUCCESS].description) {
+          return 'success-description';
+        }
+        return null;
+      });
+      (useObjectTranslation as jest.Mock).mockImplementation(() => ({ tObj }));
+      const { result, unmount } = renderHook(useRetakeOverlay, {
         initialProps: {
           captureMode: true,
           image: { status: ImageStatus.NOT_COMPLIANT, complianceIssues: [] },
         } as unknown as ImageDetailedViewOverlayProps,
       });
 
-      expect(result.current).toBeNull();
+      expect(result.current).toEqual({
+        title: 'success-title',
+        description: 'success-description',
+        iconColor: 'text-secondary',
+        icon: 'check-circle',
+        buttonColor: 'primary',
+      });
 
       unmount();
     });
 
-    it('should return the proper labels when the image is not compliant', () => {
+    it('should return the proper properties when the image is not compliant', () => {
       const image = {
         status: ImageStatus.NOT_COMPLIANT,
         complianceIssues: [ComplianceIssue.WETNESS, ComplianceIssue.UNDEREXPOSURE],
@@ -106,12 +143,17 @@ describe('ImageDetailedViewOverlay hooks', () => {
         return null;
       });
       (useObjectTranslation as jest.Mock).mockImplementation(() => ({ tObj }));
-      const { result, unmount } = renderHook(useComplianceLabels, {
+      const { result, unmount } = renderHook(useRetakeOverlay, {
         initialProps: { captureMode: true, image } as unknown as ImageDetailedViewOverlayProps,
       });
 
-      expect(result.current?.title).toEqual('expected-title');
-      expect(result.current?.description).toEqual('expected-description');
+      expect(result.current).toEqual({
+        title: 'expected-title',
+        description: 'expected-description',
+        iconColor: 'alert',
+        icon: 'error',
+        buttonColor: 'alert',
+      });
 
       unmount();
     });

@@ -45,6 +45,6 @@ export function updatedManyTasks(state: MonkState, action: MonkUpdatedManyTasksA
   });
   return {
     ...state,
-    tasks,
+    tasks: [...tasks],
   };
 }
