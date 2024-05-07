@@ -55,6 +55,7 @@ function getItems(
   captureMode: boolean,
   entities: MonkState,
   inspectionSights?: Sight[],
+  enableAddDamage?: boolean,
 ): InspectionGalleryItem[] {
   const images = getInspectionImages(inspectionId, entities.images, captureMode);
   const items: InspectionGalleryItem[] = images.map((image) => ({
@@ -73,7 +74,7 @@ function getItems(
       items.push({ isTaken: false, isAddDamage: false, sightId: sight.id });
     }
   });
-  if (captureMode) {
+  if (captureMode && enableAddDamage !== false) {
     items.push({ isAddDamage: true });
   }
   return items.sort((a, b) => compareGalleryItems(a, b, captureMode, inspectionSights));
@@ -92,12 +93,18 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
   const inspectionSights = props.captureMode ? props.sights : undefined;
   const { state } = useMonkState();
   const [items, setItems] = useState<InspectionGalleryItem[]>(
-    getItems(props.inspectionId, props.captureMode, state, inspectionSights),
+    getItems(props.inspectionId, props.captureMode, state, inspectionSights, props.enableAddDamage),
   );
   const [shouldFetch, setShouldFetch] = useState(shouldContinueToFetch(items));
 
   const onSuccess = (entities: MonkState) => {
-    const newItems = getItems(props.inspectionId, props.captureMode, entities, inspectionSights);
+    const newItems = getItems(
+      props.inspectionId,
+      props.captureMode,
+      entities,
+      inspectionSights,
+      props.enableAddDamage,
+    );
     setItems(newItems);
     setShouldFetch(shouldContinueToFetch(newItems));
   };
