@@ -54,10 +54,10 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       nl: 'Succes',
     },
     description: {
-      en: 'This image was uploaded successfully.',
-      fr: "L'image a bien été uploadée.",
-      de: 'Dieses Bild wurde erfolgreich hochgeladen.',
-      nl: 'Deze afbeelding is succesvol geüpload.',
+      en: 'This image seems good, but you can still retake it if you want.',
+      fr: 'Cette image paraît bonne, mais vous pouvez quand-même la reprendre si besoin.',
+      de: 'Dieses Bild scheint gut zu sein, aber Sie können es noch einmal aufnehmen, wenn Sie wollen.',
+      nl: 'Dit beeld lijkt goed, maar je kunt het nog steeds opnieuw maken als je wilt.',
     },
   },
   [ImageStatus.UPLOAD_FAILED]: {

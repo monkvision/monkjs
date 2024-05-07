@@ -64,7 +64,7 @@ export function createdOneImage(state: MonkState, action: MonkCreatedOneImageAct
   }
   return {
     ...state,
-    inspections,
-    images,
+    inspections: [...inspections],
+    images: [...images],
   };
 }

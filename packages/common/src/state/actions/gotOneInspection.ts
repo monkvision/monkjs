@@ -31,6 +31,7 @@ export function gotOneInspection(state: MonkState, action: MonkGotOneInspectionA
   const newState = { ...state };
   Object.keys(state).forEach((key: string) => {
     const entityKey = key as keyof MonkState;
+    newState[entityKey] = [...newState[entityKey]] as any[];
     action.payload[entityKey]?.forEach((payloadEntity) => {
       const newEntityIndex = state[entityKey].findIndex(
         (newEntity) => newEntity.id === payloadEntity.id,

@@ -56,4 +56,12 @@ describe('SightSliderButton component', () => {
       unmount();
     });
   });
+
+  it('should not be disabled if selected', () => {
+    const { unmount } = render(<SightSliderButton status={ImageStatus.SUCCESS} isSelected />);
+
+    expectPropsOnChildMock(Button, { disabled: false });
+
+    unmount();
+  });
 });

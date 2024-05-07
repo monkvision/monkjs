@@ -6,8 +6,22 @@ import {
   useMonkApi,
 } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { LoadingState, useAsyncEffect, useObjectMemo } from '@monkvision/common';
-import { ComplianceOptions, Image, Sight, TaskName, MonkPicture } from '@monkvision/types';
+import {
+  getInspectionImages,
+  LoadingState,
+  uniq,
+  useAsyncEffect,
+  useMonkState,
+  useObjectMemo,
+} from '@monkvision/common';
+import {
+  ComplianceOptions,
+  Image,
+  Sight,
+  TaskName,
+  MonkPicture,
+  ImageStatus,
+} from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { PhotoCaptureErrorName } from '../errors';
 
@@ -130,12 +144,12 @@ function getSightsTaken(
   inspectionId: string,
   response: MonkApiResponse<GetInspectionResponse>,
 ): Sight[] {
-  return (
+  return uniq(
     response.entities.images
       ?.filter(
         (image: Image) => image.inspectionId === inspectionId && image.additionalData?.['sight_id'],
       )
-      .map((image: Image) => sights[image.additionalData?.['sight_id'] as string]) ?? []
+      .map((image: Image) => sights[image.additionalData?.['sight_id'] as string]) ?? [],
   );
 }
 
@@ -179,6 +193,45 @@ export function usePhotoCaptureSightState({
   const [sightsTaken, setSightsTaken] = useState<Sight[]>([]);
   const { getInspection } = useMonkApi(apiConfig);
   const { handleError } = useMonitoring();
+  const { state } = useMonkState();
+
+  const onFetchInspection = (response: MonkApiResponse<GetInspectionResponse>) => {
+    try {
+      assertInspectionIsValid(inspectionId, response, captureSights, tasksBySight);
+      const alreadyTakenSights = getSightsTaken(inspectionId, response);
+      setSightsTaken(alreadyTakenSights);
+      const notCapturedSights = captureSights.filter((s) => !alreadyTakenSights.includes(s));
+      if (notCapturedSights.length > 0) {
+        setSelectedSight(notCapturedSights[0]);
+      } else {
+        onLastSightTaken();
+        const notCompliantSights = captureSights
+          .map((s) => ({
+            sight: s,
+            image: getInspectionImages(inspectionId, state.images, true).find(
+              (i) => i.inspectionId === inspectionId && i.additionalData?.sight_id === s.id,
+            ),
+          }))
+          .filter(
+            ({ image }) =>
+              !!image &&
+              [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED].includes(image.status),
+          )
+          .map(({ sight }) => sight);
+        const sightToRetake =
+          notCompliantSights.length > 0
+            ? notCompliantSights[0]
+            : captureSights[captureSights.length - 1];
+        setSightsTaken(alreadyTakenSights.filter((sight) => sight !== sightToRetake));
+        setSelectedSight(sightToRetake);
+      }
+      setLastPictureTaken(getLastPictureTaken(inspectionId, response));
+      loading.onSuccess();
+    } catch (err) {
+      handleError(err);
+      loading.onError(err);
+    }
+  };
 
   useAsyncEffect(
     () => {
@@ -190,19 +243,7 @@ export function usePhotoCaptureSightState({
     },
     [inspectionId, retryCount, complianceOptions],
     {
-      onResolve: (response) => {
-        try {
-          const alreadyTakenSights = getSightsTaken(inspectionId, response);
-          setSightsTaken(alreadyTakenSights);
-          setSelectedSight(captureSights.filter((s) => !alreadyTakenSights.includes(s))[0]);
-          setLastPictureTaken(getLastPictureTaken(inspectionId, response));
-          assertInspectionIsValid(inspectionId, response, captureSights, tasksBySight);
-          loading.onSuccess();
-        } catch (err) {
-          handleError(err);
-          loading.onError(err);
-        }
-      },
+      onResolve: onFetchInspection,
       onReject: (err) => {
         handleError(err);
         loading.onError(err);
