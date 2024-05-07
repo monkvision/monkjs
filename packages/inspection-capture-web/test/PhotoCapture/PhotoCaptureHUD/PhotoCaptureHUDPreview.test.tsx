@@ -43,9 +43,7 @@ function createProps(): PhotoCaptureHUDPreviewProps {
     streamDimensions: { height: 1234, width: 45678 },
     isLoading: false,
     error: null,
-    images: [
-      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
-    ] as Image[],
+    images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
   };
 }
 

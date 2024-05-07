@@ -91,9 +91,12 @@ export default {
       ],
       complianceIssues: undefined,
       detailedViewpoint: undefined,
+      sightId: 'ffocus18-S3kgFOBb',
+      createdAt: 1715092125965,
       additionalData: {
         category: 'exterior',
         sight_id: 'ffocus18-S3kgFOBb',
+        created_at: '2024-05-07T14:28:45.965Z',
         label: {
           de: 'Hinten Seitlich Niedrig Links',
           en: 'Rear Lateral Low Left',
@@ -142,9 +145,12 @@ export default {
       ],
       complianceIssues: undefined,
       detailedViewpoint: undefined,
+      sightId: 'ffocus18-3TiCVAaN',
+      createdAt: 1715092125965,
       additionalData: {
         category: 'exterior',
         sight_id: 'ffocus18-3TiCVAaN',
+        created_at: '2024-05-07T14:28:45.965Z',
         label: {
           de: 'Motorhaube',
           en: 'Hood',
@@ -182,8 +188,10 @@ export default {
       viewpoint: undefined,
       complianceIssues: undefined,
       views: [],
+      createdAt: 1715092125965,
       additionalData: {
         category: 'exterior',
+        created_at: '2024-05-07T14:28:45.965Z',
         label: {
           de: 'Dach',
           en: 'Roof',

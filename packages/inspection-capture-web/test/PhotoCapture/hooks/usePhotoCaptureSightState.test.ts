@@ -52,7 +52,8 @@ function mockGetInspectionResponse(
   takenSights.forEach((sight, index) => {
     apiResponse.entities.images.push({
       inspectionId,
-      additionalData: { sight_id: sight.id, created_at: '2020-01-01T01:01:01.001Z' },
+      sightId: sight.id,
+      createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
       path: `test-path-${index}`,
       mimetype: `test-mimetype-${index}`,
       width: index * 2000,
@@ -61,7 +62,8 @@ function mockGetInspectionResponse(
     } as Image);
     apiResponse.entities.images.push({
       inspectionId,
-      additionalData: { sight_id: sight.id, created_at: '1998-01-01T01:01:01.001Z' },
+      sightId: sight.id,
+      createdAt: Date.parse('1998-01-01T01:01:01.001Z'),
       path: `test-path-old-${index}`,
       mimetype: `test-mimetype-old-${index}`,
       width: index * 4000,

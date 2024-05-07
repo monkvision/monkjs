@@ -58,7 +58,7 @@ function useSightSliderItems(sights: Sight[], images: Image[]): SightSliderItem[
     () =>
       sights.map((sight) => ({
         sight,
-        status: images.find((image) => image.additionalData?.sight_id === sight.id)?.status,
+        status: images.find((image) => image.sightId === sight.id)?.status,
       })),
     [sights, images],
   );

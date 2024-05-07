@@ -60,9 +60,7 @@ function createProps(): PhotoCaptureHUDProps {
       dimensions: { height: 2, width: 4 },
     } as unknown as CameraHandle,
     cameraPreview: <div data-testid={cameraTestId}></div>,
-    images: [
-      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
-    ] as Image[],
+    images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
   };
 }
 

@@ -59,10 +59,10 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
   };
 
   const handleRetakeImage = (image: Image | null) => {
-    if (props.captureMode && image?.additionalData?.sight_id) {
+    if (props.captureMode && image?.sightId) {
       props.onNavigateToCapture?.({
         reason: NavigateToCaptureReason.RETAKE_PICTURE,
-        sightId: image?.additionalData.sight_id,
+        sightId: image.sightId,
       });
     } else if (props.captureMode && image?.type === ImageType.CLOSE_UP) {
       props.onNavigateToCapture?.({

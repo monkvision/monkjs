@@ -44,8 +44,8 @@ function createProps(): PhotoCaptureHUDSightPreviewProps {
     onAddDamage: jest.fn(),
     streamDimensions: { width: 4563, height: 992 },
     images: [
-      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
-      { additionalData: { sight_id: 'test-sight-2' }, status: ImageStatus.SUCCESS },
+      { sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT },
+      { sightId: 'test-sight-2', status: ImageStatus.SUCCESS },
     ] as Image[],
   };
 }

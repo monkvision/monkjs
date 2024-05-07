@@ -55,6 +55,7 @@ function createApiImage(params?: { sightId?: string }): ApiImage {
   return {
     additional_data: {
       sight_id: params?.sightId,
+      created_at: '2032-04-10T11:33:03.987Z',
       label: {
         en: 'test-label-en',
         fr: 'test-label-fr',
@@ -96,6 +97,8 @@ describe('Image API Mappers', () => {
       const apiImage = createApiImage({ sightId });
       expect(mapApiImage(apiImage, inspectionId)).toEqual({
         id: apiImage.id,
+        sightId: apiImage.additional_data?.sight_id,
+        createdAt: Date.parse(apiImage.additional_data?.created_at ?? ''),
         entityType: MonkEntityType.IMAGE,
         inspectionId,
         label: apiImage.additional_data?.label,

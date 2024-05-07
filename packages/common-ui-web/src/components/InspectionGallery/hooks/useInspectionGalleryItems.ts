@@ -11,7 +11,7 @@ function getSightSortIndex(item: InspectionGalleryItem, inspectionSights?: Sight
   if (item.isAddDamage) {
     return defaultIndex + 1;
   }
-  const sightId = item.isTaken ? item.image.additionalData?.sight_id : item.sightId;
+  const sightId = item.isTaken ? item.image.sightId : item.sightId;
   if (!sightId) {
     return defaultIndex;
   }
@@ -66,10 +66,7 @@ function getItems(
   inspectionSights?.forEach((sight) => {
     if (
       captureMode &&
-      !items.find(
-        (item) =>
-          !item.isAddDamage && item.isTaken && item.image.additionalData?.sight_id === sight.id,
-      )
+      !items.find((item) => !item.isAddDamage && item.isTaken && item.image.sightId === sight.id)
     ) {
       items.push({ isTaken: false, isAddDamage: false, sightId: sight.id });
     }

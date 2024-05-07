@@ -146,10 +146,8 @@ function getSightsTaken(
 ): Sight[] {
   return uniq(
     response.entities.images
-      ?.filter(
-        (image: Image) => image.inspectionId === inspectionId && image.additionalData?.['sight_id'],
-      )
-      .map((image: Image) => sights[image.additionalData?.['sight_id'] as string]) ?? [],
+      ?.filter((image: Image) => image.inspectionId === inspectionId && image.sightId)
+      .map((image: Image) => sights[image.sightId as string]) ?? [],
   );
 }
 
@@ -209,7 +207,7 @@ export function usePhotoCaptureSightState({
           .map((s) => ({
             sight: s,
             image: getInspectionImages(inspectionId, state.images, true).find(
-              (i) => i.inspectionId === inspectionId && i.additionalData?.sight_id === s.id,
+              (i) => i.inspectionId === inspectionId && i.sightId === s.id,
             ),
           }))
           .filter(

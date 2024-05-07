@@ -351,6 +351,19 @@ export interface Image extends MonkEntity {
    */
   status: ImageStatus;
   /**
+   * The ID of the sight of the image. This value can be `undefined` for many reasons:
+   * - The picture was not taken by the MonkJs SDK or by an old version of the SDK
+   * - The picture does not have a corresponding sight (close-up etc.)
+   * - ...
+   */
+  sightId?: string;
+  /**
+   * The timestamp at which the image was created. This value can be `undefined` for many reasons (the picture was not
+   * taken by the MonkJs SDK or by an old version of the SDK etc.). This timestamp is generated using the `Date.now()`
+   * and` Date.parse()` APIs.
+   */
+  createdAt?: number;
+  /**
    * If the image status is equal to `ImageStatus.NOT_COMPLIANT` meaning that the compliance was enabled for this image
    * and the image was not compliant, the list of issues indicating why the image is not compliant is given in this
    * field. If the compliance was not enabled for this image or if the image is compliant, this property is not defined.

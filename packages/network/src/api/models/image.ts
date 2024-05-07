@@ -25,6 +25,7 @@ export interface ApiViewpointComponent {
 }
 
 export interface ApiImageAdditionalData extends ApiAdditionalData {
+  created_at?: string;
   sight_id?: string;
   label?: TranslationObject;
 }

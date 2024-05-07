@@ -101,6 +101,7 @@
       "additional_data": {
         "category": "exterior",
         "sight_id": "ffocus18-S3kgFOBb",
+        "created_at": "2024-05-07T14:28:45.965Z",
         "label": {
           "de": "Hinten Seitlich Niedrig Links",
           "en": "Rear Lateral Low Left",
@@ -2126,6 +2127,7 @@
       "additional_data": {
         "category": "exterior",
         "sight_id": "ffocus18-3TiCVAaN",
+        "created_at": "2024-05-07T14:28:45.965Z",
         "label": {
           "de": "Motorhaube",
           "en": "Hood",
@@ -3301,6 +3303,7 @@
     {
       "additional_data": {
         "category": "exterior",
+        "created_at": "2024-05-07T14:28:45.965Z",
         "label": {
           "de": "Dach",
           "en": "Roof",

@@ -31,8 +31,8 @@ function createProps(): SightSliderProps {
     onSelectedSight: jest.fn(),
     onRetakeSight: jest.fn(),
     images: [
-      { additionalData: { sight_id: 'test-sight-1' }, status: ImageStatus.NOT_COMPLIANT },
-      { additionalData: { sight_id: 'test-sight-2' }, status: ImageStatus.SUCCESS },
+      { sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT },
+      { sightId: 'test-sight-2', status: ImageStatus.SUCCESS },
     ] as Image[],
   };
 }
@@ -57,12 +57,12 @@ describe('SightSlider component', () => {
       expect(buttonProps).toBeDefined();
       expect(buttonProps.isSelected).toEqual(props.selectedSight === sight);
       expect(buttonProps.status).toEqual(
-        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status,
+        props.images.find((image) => image.sightId === sight.id)?.status,
       );
       expect(typeof buttonProps.onClick).toBe('function');
       buttonProps.onClick?.();
       if (
-        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status ===
+        props.images.find((image) => image.sightId === sight.id)?.status ===
         ImageStatus.NOT_COMPLIANT
       ) {
         return;
@@ -79,12 +79,12 @@ describe('SightSlider component', () => {
       expect(buttonProps).toBeDefined();
       expect(buttonProps.isSelected).toEqual(props.selectedSight === sight);
       expect(buttonProps.status).toEqual(
-        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status,
+        props.images.find((image) => image.sightId === sight.id)?.status,
       );
       expect(typeof buttonProps.onClick).toBe('function');
       buttonProps.onClick?.();
       if (
-        props.images.find((image) => image.additionalData?.sight_id === sight.id)?.status !==
+        props.images.find((image) => image.sightId === sight.id)?.status !==
         ImageStatus.NOT_COMPLIANT
       ) {
         return;
