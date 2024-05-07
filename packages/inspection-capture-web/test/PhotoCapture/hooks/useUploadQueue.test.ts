@@ -37,7 +37,6 @@ describe('useUploadQueue hook', () => {
     const { result, unmount } = renderHook(useUploadQueue, { initialProps });
 
     expect(useQueue).toHaveBeenCalledWith(expect.anything(), {
-      maxProcessingItems: 5,
       storeFailedItems: true,
     });
     const queue = (useQueue as jest.Mock).mock.results[0].value;
