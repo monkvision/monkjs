@@ -21,8 +21,6 @@ export function usePhotoCaptureHUDSightPreviewStyle(): PhotoCaptureHUDSightPrevi
     },
     overlay: {
       ...styles['overlay'],
-      // aspectRatio: `${getCameraDimensions().width}/${getCameraDimensions().height}`,
-      aspectRatio: '16/9',
     },
   };
 }
