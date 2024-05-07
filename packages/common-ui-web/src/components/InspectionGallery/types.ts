@@ -99,6 +99,12 @@ export type InspectionGalleryProps = {
    * Callback called when the user presses the validate button.
    */
   onValidate?: () => void;
+  /**
+   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Custom Damage` button will be hidden.
+   *
+   * @default true
+   */
+  enableAddDamage?: boolean;
 } & (
   | ({
       /**

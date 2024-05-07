@@ -263,6 +263,7 @@ export function PhotoCapture({
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}
+          enableAddDamage={enableAddDamage}
         />
       )}
     </div>
