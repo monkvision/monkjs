@@ -59,6 +59,7 @@ function createApiImage(params?: { sightId?: string }): ApiImage {
         en: 'test-label-en',
         fr: 'test-label-fr',
         de: 'test-label-de',
+        nl: 'test-label-nl',
       },
     },
     binary_size: 123456,

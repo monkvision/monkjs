@@ -6,6 +6,7 @@ export const styles: Styles = {
     position: 'absolute',
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'column',
     top: '0',
     right: '0',
