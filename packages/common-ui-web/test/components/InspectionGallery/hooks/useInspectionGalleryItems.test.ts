@@ -3,7 +3,6 @@ import { sights } from '@monkvision/sights';
 import { ComplianceIssue, ComplianceOptions, Image, ImageStatus } from '@monkvision/types';
 import { createEmptyMonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
-import { act } from '@testing-library/react';
 import { useInspectionGalleryItems } from '../../../../src/components/InspectionGallery/hooks';
 import { InspectionGalleryProps } from '../../../../src';
 
@@ -56,8 +55,16 @@ describe('useInspectionGalleryItems hook', () => {
 
   it('should properly update the items after each inspection poll', () => {
     const initialProps = createProps();
-    const entities = createEmptyMonkState();
-    entities.images.push(
+    const entitiesMock1 = createEmptyMonkState();
+    entitiesMock1.images.push({
+      id: 'image-1',
+      sightId: 'test-sight-1',
+      inspectionId: initialProps.inspectionId,
+      status: ImageStatus.SUCCESS,
+    } as unknown as Image);
+
+    const entitiesMock2 = createEmptyMonkState();
+    entitiesMock2.images.push(
       {
         id: 'image-1',
         inspectionId: initialProps.inspectionId,
@@ -67,33 +74,26 @@ describe('useInspectionGalleryItems hook', () => {
       {
         id: 'image-2',
         inspectionId: initialProps.inspectionId,
-        status: ImageStatus.SUCCESS,
-      } as unknown as Image,
-      {
-        id: 'image-3',
-        inspectionId: initialProps.inspectionId,
-        sightId: 'test-sight-3',
+        sightId: 'test-sight-2',
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
     );
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state: entitiesMock1 }));
+    const { result, unmount, rerender } = renderHook(useInspectionGalleryItems, { initialProps });
 
     expect(result.current).toEqual([
-      { isAddDamage: false, isTaken: false, sightId: 'test-sight-1' },
+      { isAddDamage: false, isTaken: true, image: entitiesMock1.images[0] },
       { isAddDamage: false, isTaken: false, sightId: 'test-sight-2' },
       { isAddDamage: false, isTaken: false, sightId: 'test-sight-3' },
       { isAddDamage: true },
     ]);
-    expect(useInspectionPoll).toHaveBeenCalledWith(
-      expect.objectContaining({ onSuccess: expect.any(Function) }),
-    );
-    const { onSuccess } = (useInspectionPoll as jest.Mock).mock.calls[0][0];
-    act(() => onSuccess(entities));
+
+    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state: entitiesMock2 }));
+    rerender();
     expect(result.current).toEqual([
-      { isAddDamage: false, isTaken: true, image: entities.images[0] },
-      { isAddDamage: false, isTaken: false, sightId: 'test-sight-2' },
-      { isAddDamage: false, isTaken: true, image: entities.images[2] },
-      { isAddDamage: false, isTaken: true, image: entities.images[1] },
+      { isAddDamage: false, isTaken: true, image: entitiesMock2.images[0] },
+      { isAddDamage: false, isTaken: true, image: entitiesMock2.images[1] },
+      { isAddDamage: false, isTaken: false, sightId: 'test-sight-3' },
       { isAddDamage: true },
     ]);
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { ImageStatus, Sight } from '@monkvision/types';
 import { getInspectionImages, MonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
@@ -89,22 +89,19 @@ function shouldContinueToFetch(items: InspectionGalleryItem[]): boolean {
 export function useInspectionGalleryItems(props: InspectionGalleryProps): InspectionGalleryItem[] {
   const inspectionSights = props.captureMode ? props.sights : undefined;
   const { state } = useMonkState();
-  const [items, setItems] = useState<InspectionGalleryItem[]>(
-    getItems(props.inspectionId, props.captureMode, state, inspectionSights, props.enableAddDamage),
-  );
-  const [shouldFetch, setShouldFetch] = useState(shouldContinueToFetch(items));
 
-  const onSuccess = (entities: MonkState) => {
-    const newItems = getItems(
-      props.inspectionId,
-      props.captureMode,
-      entities,
-      inspectionSights,
-      props.enableAddDamage,
-    );
-    setItems(newItems);
-    setShouldFetch(shouldContinueToFetch(newItems));
-  };
+  const items = useMemo(
+    () =>
+      getItems(
+        props.inspectionId,
+        props.captureMode,
+        state,
+        inspectionSights,
+        props.enableAddDamage,
+      ),
+    [props.inspectionId, props.captureMode, state, inspectionSights, props.enableAddDamage],
+  );
+  const shouldFetch = useMemo(() => shouldContinueToFetch(items), items);
 
   useInspectionPoll({
     id: props.inspectionId,
@@ -119,7 +116,6 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
         }
       : undefined,
     delay: shouldFetch ? props.refreshIntervalMs ?? DEFAULT_REFRESH_INTERVAL_MS : null,
-    onSuccess,
   });
 
   return items;

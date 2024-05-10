@@ -134,7 +134,6 @@ export function useUploadQueue({
       }
     },
     {
-      maxProcessingItems: 5,
       storeFailedItems: true,
     },
   );
