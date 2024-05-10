@@ -2,6 +2,10 @@ import { sights } from '@monkvision/sights';
 import { act, render, waitFor } from '@testing-library/react';
 import { Camera, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { useI18nSync, useLoadingState } from '@monkvision/common';
+import { ComplianceIssue, TaskName } from '@monkvision/types';
+import { InspectionGallery } from '@monkvision/common-ui-web';
+import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
 import {
   useAddDamageMode,
@@ -11,10 +15,6 @@ import {
   useStartTasksOnComplete,
   useUploadQueue,
 } from '../../src/PhotoCapture/hooks';
-import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
-import { InspectionGallery } from '@monkvision/common-ui-web';
-import { useMonitoring } from '@monkvision/monitoring';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -54,9 +54,11 @@ function createProps(): PhotoCaptureProps {
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
     enableCompliance: true,
     enableCompliancePerSight: ['test-sight-id'],
+    useLiveCompliance: true,
     complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
-    useLiveCompliance: true,
+    customComplianceThresholds: { blurriness: 0.3 },
+    customComplianceThresholdsPerSight: { test: { overexposure: 0.6 } },
     onClose: jest.fn(),
     onComplete: jest.fn(),
     resolution: CameraResolution.NHD_360P,
@@ -112,9 +114,11 @@ describe('PhotoCapture component', () => {
       complianceOptions: {
         enableCompliance: props.enableCompliance,
         enableCompliancePerSight: props.enableCompliancePerSight,
+        useLiveCompliance: props.useLiveCompliance,
         complianceIssues: props.complianceIssues,
         complianceIssuesPerSight: props.complianceIssuesPerSight,
-        useLiveCompliance: props.useLiveCompliance,
+        customComplianceThresholds: props.customComplianceThresholds,
+        customComplianceThresholdsPerSight: props.customComplianceThresholdsPerSight,
       },
     });
 
@@ -134,6 +138,8 @@ describe('PhotoCapture component', () => {
         complianceIssues: props.complianceIssues,
         complianceIssuesPerSight: props.complianceIssuesPerSight,
         useLiveCompliance: props.useLiveCompliance,
+        customComplianceThresholds: props.customComplianceThresholds,
+        customComplianceThresholdsPerSight: props.customComplianceThresholdsPerSight,
       },
     });
 
@@ -260,9 +266,11 @@ describe('PhotoCapture component', () => {
       allowSkipRetake: props.allowSkipRetake,
       enableCompliance: props.enableCompliance,
       enableCompliancePerSight: props.enableCompliancePerSight,
+      useLiveCompliance: props.useLiveCompliance,
       complianceIssues: props.complianceIssues,
       complianceIssuesPerSight: props.complianceIssuesPerSight,
-      useLiveCompliance: props.useLiveCompliance,
+      customComplianceThresholds: props.customComplianceThresholds,
+      customComplianceThresholdsPerSight: props.customComplianceThresholdsPerSight,
       onBack: expect.any(Function),
       onNavigateToCapture: expect.any(Function),
       onValidate: expect.any(Function),

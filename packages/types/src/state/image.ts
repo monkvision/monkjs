@@ -262,6 +262,81 @@ export const CAR_COVERAGE_COMPLIANCE_ISSUES = [
 ];
 
 /**
+ * Custom thresholds that can be used to modify the strictness of the compliance for certain compliance issues.
+ * Thresholds are values between 0 and 1, where a compliance score under the thresholds indicates that the image fails
+ * the compliance check (ex: a threshold of 0 will mean that the compliance always passes).
+ */
+export interface CustomComplianceThresholds {
+  /**
+   * Custom threshold for the `ComplianceIssue.BLURRINESS` issue.
+   *
+   * @see ComplianceIssue.BLURRINESS
+   */
+  blurriness?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.OVEREXPOSURE` issue.
+   *
+   * @see ComplianceIssue.OVEREXPOSURE
+   */
+  overexposure?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.UNDEREXPOSURE` issue.
+   *
+   * @see ComplianceIssue.UNDEREXPOSURE
+   */
+  underexposure?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.LENS_FLARE` issue.
+   *
+   * @see ComplianceIssue.LENS_FLARE
+   */
+  lensFlare?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.WETNESS` issue.
+   *
+   * @see ComplianceIssue.WETNESS
+   */
+  wetness?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.SNOWNESS` issue.
+   *
+   * @see ComplianceIssue.SNOWNESS
+   */
+  snowness?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.DIRTINESS` issue.
+   *
+   * @see ComplianceIssue.DIRTINESS
+   */
+  dirtiness?: number;
+  /**
+   * Custom threshold for the `ComplianceIssue.REFLECTIONS` issue.
+   *
+   * @see ComplianceIssue.REFLECTIONS
+   */
+  reflections?: number;
+  /**
+   * Custom thresholds for the zoom level checks. The zoom level compliance score is different from the other scores.
+   * This check outputs a score number (usually between 0 and 1, but it can be a bit greater than 1) that defines the
+   * prediction of how zoomed the photo is (the lower the value, the greater the zoom). The compliance thresholds for
+   * this compliance check are two numbers `min` and `max` with `max > min`. If the compliance score is smaller than the
+   * `min` value, the photo is considered too zoomed (`ComplianceIssue.TOO_ZOOMED`), if it is greater than the `max`
+   * value, the photo is considered not zoomed enough (`ComplianceIssue.NOT_ZOOMED_ENOUGH`). Scores that fall between
+   * the `min` and `max` values indicate that the photo is compliant.
+   */
+  zoom?: {
+    /**
+     * The smallest compliant value for the zoom level compliance score.
+     */
+    min: number;
+    /**
+     * The biggest compliant value for the zoom level compliance score.
+     */
+    max: number;
+  };
+}
+
+/**
  * Options used to configure the compliance checks at the application level. Note that these options do NOT affect
  * anything at the API level, and are only here to specify how the compliance should behave in the Front-End
  * applications.
@@ -308,6 +383,23 @@ export interface ComplianceOptions {
    * @default false
    */
   useLiveCompliance?: boolean;
+  /**
+   * Custom thresholds that can be used to modify the strictness of the compliance for certain compliance issues.
+   * Thresholds are values between 0 and 1, where a compliance score under the thresholds indicates that the image fails
+   * the compliance check (ex: a threshold of 0 will mean that the compliance always passes).
+   */
+  customComplianceThresholds?: CustomComplianceThresholds;
+  /**
+   * A map associating Sight IDs to custom compliance thresholds. This property overrides the `customThresholds`
+   * property, meaning that for images taken for a specific Sight, if this map contains a value, it will be used as the
+   * list of custom compliance thresholds for this image. If the map does not contain a value for the given Sight ID, or
+   * if the image does not have a corresponding Sight (like close-up pictures for instance), then the value used will be
+   * the one given by the `customComplianceThresholds` property (or the default value if `customComplianceThresholds` is
+   * not defined).
+   *
+   * @see customComplianceThresholds
+   */
+  customComplianceThresholdsPerSight?: Record<string, CustomComplianceThresholds>;
 }
 
 /**

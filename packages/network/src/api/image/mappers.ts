@@ -3,6 +3,7 @@ import {
   COMPLIANCE_ISSUES_PRIORITY,
   ComplianceIssue,
   ComplianceOptions,
+  CustomComplianceThresholds,
   DEFAULT_COMPLIANCE_ISSUES,
   Image,
   ImageStatus,
@@ -18,13 +19,122 @@ const DEFAULT_COMPLIANCE_OPTIONS = {
   complianceIssues: DEFAULT_COMPLIANCE_ISSUES,
 };
 
-function filterCompliances(
+function getActiveComplianceOptions(
+  sightId?: string,
+  complianceOptions?: ComplianceOptions,
+): {
+  enableCompliance: boolean;
+  complianceIssues: ComplianceIssue[];
+  customComplianceThresholds?: CustomComplianceThresholds;
+} {
+  const enableComplianceGlobal =
+    complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance;
+  const enableCompliance =
+    sightId && complianceOptions?.enableCompliancePerSight
+      ? complianceOptions.enableCompliancePerSight.includes(sightId)
+      : enableComplianceGlobal;
+  const complianceIssuesGlobal =
+    complianceOptions?.complianceIssues ?? DEFAULT_COMPLIANCE_OPTIONS.complianceIssues;
+  const complianceIssues =
+    sightId && complianceOptions?.complianceIssuesPerSight?.[sightId]
+      ? complianceOptions.complianceIssuesPerSight[sightId]
+      : complianceIssuesGlobal;
+  const customComplianceThresholds = sightId
+    ? complianceOptions?.customComplianceThresholdsPerSight?.[sightId]
+    : complianceOptions?.customComplianceThresholds;
+  return { enableCompliance, complianceIssues, customComplianceThresholds };
+}
+
+function getComplianceIssue(
+  thresholdName: keyof CustomComplianceThresholds,
+): ComplianceIssue | undefined {
+  switch (thresholdName) {
+    case 'blurriness':
+      return ComplianceIssue.BLURRINESS;
+    case 'overexposure':
+      return ComplianceIssue.OVEREXPOSURE;
+    case 'underexposure':
+      return ComplianceIssue.UNDEREXPOSURE;
+    case 'lensFlare':
+      return ComplianceIssue.LENS_FLARE;
+    case 'wetness':
+      return ComplianceIssue.WETNESS;
+    case 'snowness':
+      return ComplianceIssue.SNOWNESS;
+    case 'dirtiness':
+      return ComplianceIssue.DIRTINESS;
+    case 'reflections':
+      return ComplianceIssue.REFLECTIONS;
+    default:
+      return undefined;
+  }
+}
+
+function getComplianceScore(
+  thresholdName: keyof CustomComplianceThresholds,
+  complianceResult?: ApiImageComplianceResults,
+): number | undefined {
+  switch (thresholdName) {
+    case 'blurriness':
+      return complianceResult?.image_analysis?.blurriness;
+    case 'overexposure':
+      return complianceResult?.image_analysis?.overexposure;
+    case 'underexposure':
+      return complianceResult?.image_analysis?.underexposure;
+    case 'lensFlare':
+      return complianceResult?.image_analysis?.lens_flare;
+    case 'wetness':
+      return complianceResult?.vehicle_analysis?.wetness;
+    case 'snowness':
+      return complianceResult?.vehicle_analysis?.snowness;
+    case 'dirtiness':
+      return complianceResult?.vehicle_analysis?.dirtiness;
+    case 'reflections':
+      return complianceResult?.vehicle_analysis?.reflections;
+    case 'zoom':
+      return complianceResult?.image_analysis?.zoom;
+    default:
+      return undefined;
+  }
+}
+
+function applyCustomComplianceThresholds(
   issues: string[] | undefined,
-  validIssues: ComplianceIssue[],
-): ComplianceIssue[] {
-  return (
-    (issues as ComplianceIssue[] | undefined)?.filter((issue) => validIssues.includes(issue)) ?? []
-  );
+  complianceResult: ApiImageComplianceResults,
+  customComplianceThresholds?: CustomComplianceThresholds,
+): string[] {
+  let complianceIssues = issues ?? [];
+  if (!customComplianceThresholds) {
+    return complianceIssues;
+  }
+  Object.keys(customComplianceThresholds).forEach((key) => {
+    const thresholdName = key as keyof CustomComplianceThresholds;
+    const complianceScore = getComplianceScore(thresholdName, complianceResult);
+    if (thresholdName === 'zoom' && complianceScore && customComplianceThresholds.zoom) {
+      complianceIssues = (complianceIssues as ComplianceIssue[]).filter(
+        (issue) => ![ComplianceIssue.TOO_ZOOMED, ComplianceIssue.NOT_ZOOMED_ENOUGH].includes(issue),
+      );
+      if (complianceScore < customComplianceThresholds.zoom.min) {
+        complianceIssues.push(ComplianceIssue.TOO_ZOOMED);
+      } else if (complianceScore > customComplianceThresholds.zoom.max) {
+        complianceIssues.push(ComplianceIssue.NOT_ZOOMED_ENOUGH);
+      }
+      return;
+    }
+    const customThreshold = customComplianceThresholds[thresholdName];
+    const complianceIssue = getComplianceIssue(thresholdName);
+    if (complianceScore && complianceIssue && customThreshold !== undefined) {
+      complianceIssues = complianceIssues.filter((issue) => issue !== complianceIssue);
+      if (complianceScore < customThreshold) {
+        complianceIssues.push(complianceIssue);
+      }
+    }
+  });
+  return complianceIssues;
+}
+
+function filterCompliances(issues: string[], validIssues: ComplianceIssue[]): ComplianceIssue[] {
+  return (issues as ComplianceIssue[]).filter((issue) => validIssues.includes(issue));
 }
 
 function compareComplianceIssues(a: ComplianceIssue, b: ComplianceIssue): number {
@@ -39,31 +149,20 @@ function mapCompliance(
   status: ImageStatus;
   complianceIssues?: ComplianceIssue[];
 } {
-  const enableComplianceGlobal =
-    complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance;
-  const enableCompliance =
-    sightId && complianceOptions?.enableCompliancePerSight
-      ? complianceOptions.enableCompliancePerSight.includes(sightId)
-      : enableComplianceGlobal;
-  const complianceIssuesGlobal =
-    complianceOptions?.complianceIssues ?? DEFAULT_COMPLIANCE_OPTIONS.complianceIssues;
-  const complianceIssues =
-    sightId && complianceOptions?.complianceIssuesPerSight?.[sightId]
-      ? complianceOptions.complianceIssuesPerSight[sightId]
-      : complianceIssuesGlobal;
+  const { enableCompliance, complianceIssues, customComplianceThresholds } =
+    getActiveComplianceOptions(sightId, complianceOptions);
   if (!enableCompliance) {
     return { status: ImageStatus.SUCCESS };
   }
   if (!complianceResult) {
     return { status: ImageStatus.COMPLIANCE_RUNNING };
   }
-  if (!complianceResult.should_retake) {
-    return { status: ImageStatus.SUCCESS };
-  }
-  const filteredCompliances = filterCompliances(
+  const newIssuesAfterCustomThresholds = applyCustomComplianceThresholds(
     complianceResult.compliance_issues,
-    complianceIssues,
+    complianceResult,
+    customComplianceThresholds,
   );
+  const filteredCompliances = filterCompliances(newIssuesAfterCustomThresholds, complianceIssues);
   if (filteredCompliances.length === 0) {
     return { status: ImageStatus.SUCCESS };
   }
