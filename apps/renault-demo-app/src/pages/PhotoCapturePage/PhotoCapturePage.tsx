@@ -60,8 +60,10 @@ export function PhotoCapturePage() {
         onComplete={handleComplete}
         lang={i18n.language}
         enforceOrientation={DeviceOrientation.LANDSCAPE}
-        allowSkipRetake={true}
-        useLiveCompliance={true}
+        allowSkipRetake
+        useLiveCompliance
+        showCloseButton
+        enableAddDamage={false}
       />
     </div>
   );

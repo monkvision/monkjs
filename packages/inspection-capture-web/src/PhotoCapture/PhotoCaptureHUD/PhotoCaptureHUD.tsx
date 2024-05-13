@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Sight, MonkPicture, Image, ImageStatus } from '@monkvision/types';
+import { Image, ImageStatus, MonkPicture, Sight } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';

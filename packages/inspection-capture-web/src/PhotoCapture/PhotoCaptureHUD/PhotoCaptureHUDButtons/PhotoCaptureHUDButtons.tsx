@@ -100,6 +100,16 @@ export function PhotoCaptureHUDButtons({
   return (
     <div style={containerStyle}>
       <button
+        style={close.style}
+        disabled={closeDisabled}
+        onClick={onClose}
+        {...closeEventHandlers}
+        data-testid='monk-close-btn'
+      >
+        <Icon icon='close' size={30} primaryColor={close.iconColor} />
+      </button>
+      <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />
+      <button
         style={gallery.style}
         disabled={galleryDisabled}
         onClick={onOpenGallery}
@@ -116,16 +126,6 @@ export function PhotoCaptureHUDButtons({
             {retakeCount > 0 && retakeCount}
           </div>
         </>
-      </button>
-      <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />
-      <button
-        style={close.style}
-        disabled={closeDisabled}
-        onClick={onClose}
-        {...closeEventHandlers}
-        data-testid='monk-close-btn'
-      >
-        <Icon icon='close' size={30} primaryColor={close.iconColor} />
       </button>
     </div>
   );

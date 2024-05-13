@@ -25,7 +25,8 @@ export const styles: Styles = {
     display: 'flex',
     alignSelf: 'stretch',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    alignItems: 'start',
+    justifyContent: 'end',
     margin: 10,
   },
   bottom: {
