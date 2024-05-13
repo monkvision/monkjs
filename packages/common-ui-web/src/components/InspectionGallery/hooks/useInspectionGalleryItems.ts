@@ -110,9 +110,11 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
       ? {
           enableCompliance: props.enableCompliance,
           enableCompliancePerSight: props.enableCompliancePerSight,
+          useLiveCompliance: props.useLiveCompliance,
           complianceIssues: props.complianceIssues,
           complianceIssuesPerSight: props.complianceIssuesPerSight,
-          useLiveCompliance: props.useLiveCompliance,
+          customComplianceThresholds: props.customComplianceThresholds,
+          customComplianceThresholdsPerSight: props.customComplianceThresholdsPerSight,
         }
       : undefined,
     delay: shouldFetch ? props.refreshIntervalMs ?? DEFAULT_REFRESH_INTERVAL_MS : null,

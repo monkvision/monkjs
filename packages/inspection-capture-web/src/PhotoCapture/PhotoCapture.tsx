@@ -121,6 +121,8 @@ export function PhotoCapture({
   enableCompliancePerSight,
   complianceIssues,
   complianceIssuesPerSight,
+  customComplianceThresholds,
+  customComplianceThresholdsPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
   enableAddDamage = true,
@@ -135,6 +137,8 @@ export function PhotoCapture({
     complianceIssues,
     complianceIssuesPerSight,
     useLiveCompliance,
+    customComplianceThresholds,
+    customComplianceThresholdsPerSight,
   });
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
@@ -255,15 +259,11 @@ export function PhotoCapture({
           showBackButton={true}
           sights={sights}
           allowSkipRetake={allowSkipRetake}
-          enableCompliance={enableCompliance}
-          enableCompliancePerSight={enableCompliancePerSight}
-          complianceIssues={complianceIssues}
-          complianceIssuesPerSight={complianceIssuesPerSight}
-          useLiveCompliance={useLiveCompliance}
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}
           enableAddDamage={enableAddDamage}
+          {...complianceOptions}
         />
       )}
     </div>
