@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button } from '@monkvision/common-ui-web';
-import { SightSliderButton } from '../../../../../src';
 import { ImageStatus } from '@monkvision/types';
+import { SightSliderButton } from '../../../../../src';
 
 describe('SightSliderButton component', () => {
   it('should display a Button with the proper label', () => {

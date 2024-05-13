@@ -8,7 +8,7 @@ import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
 import { PhotoCaptureMode } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
-import { PhotoCaptureHUDPreview } from './PhotoCaptureHUDPreview';
+import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -47,7 +47,7 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    */
   onSelectSight: (sight: Sight) => void;
   /**
-   * Callback called when the user manually select a sight non compliant.
+   * Callback called when the user manually select a sight to retake.
    */
   onRetakeSight: (sight: string) => void;
   /**
@@ -135,7 +135,7 @@ export function PhotoCaptureHUD({
     <div style={style.container}>
       <div style={style.previewContainer} data-testid='camera-preview'>
         {cameraPreview}
-        <PhotoCaptureHUDPreview
+        <PhotoCaptureHUDElements
           selectedSight={selectedSight}
           sights={sights}
           sightsTaken={sightsTaken}

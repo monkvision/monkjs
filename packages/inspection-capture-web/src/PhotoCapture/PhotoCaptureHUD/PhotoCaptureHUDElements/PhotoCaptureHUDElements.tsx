@@ -1,13 +1,13 @@
 import { Image, PixelDimensions, Sight } from '@monkvision/types';
 import { PhotoCaptureMode } from '../../hooks';
-import { PhotoCaptureHUDPreviewSight } from '../PhotoCaptureHUDPreviewSight';
-import { PhotoCaptureHUDPreviewAddDamage1stShot } from '../PhotoCaptureHUDPreviewAddDamage1stShot';
-import { PhotoCaptureHUDPreviewAddDamage2ndShot } from '../PhotoCaptureHUDPreviewAddDamage2ndShot';
+import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
+import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
+import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDElementsAddDamage2ndShot';
 
 /**
- * Props of the PhotoCaptureHUDPreview component.
+ * Props of the PhotoCaptureHUDElements component.
  */
-export interface PhotoCaptureHUDPreviewProps {
+export interface PhotoCaptureHUDElementsProps {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -37,7 +37,7 @@ export interface PhotoCaptureHUDPreviewProps {
    */
   onSelectSight: (sight: Sight) => void;
   /**
-   * Callback called when the user manually select a sight non compliant.
+   * Callback called when the user manually selects a sight to retake.
    */
   onRetakeSight: (sight: string) => void;
   /**
@@ -67,13 +67,13 @@ export interface PhotoCaptureHUDPreviewProps {
 /**
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process.
  */
-export function PhotoCaptureHUDPreview(params: PhotoCaptureHUDPreviewProps) {
+export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
   if (params.isLoading || !!params.error) {
     return null;
   }
   if (params.mode === PhotoCaptureMode.SIGHT) {
     return (
-      <PhotoCaptureHUDPreviewSight
+      <PhotoCaptureHUDElementsSight
         sights={params.sights}
         selectedSight={params.selectedSight}
         onSelectedSight={params.onSelectSight}
@@ -87,10 +87,10 @@ export function PhotoCaptureHUDPreview(params: PhotoCaptureHUDPreviewProps) {
     );
   }
   if (params.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT) {
-    return <PhotoCaptureHUDPreviewAddDamage1stShot onCancel={params.onCancelAddDamage} />;
+    return <PhotoCaptureHUDElementsAddDamage1stShot onCancel={params.onCancelAddDamage} />;
   }
   return (
-    <PhotoCaptureHUDPreviewAddDamage2ndShot
+    <PhotoCaptureHUDElementsAddDamage2ndShot
       onCancel={params.onCancelAddDamage}
       streamDimensions={params.streamDimensions}
     />

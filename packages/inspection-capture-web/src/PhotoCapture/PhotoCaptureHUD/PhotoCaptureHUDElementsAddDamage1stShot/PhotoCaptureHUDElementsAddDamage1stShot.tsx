@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, DynamicSVG } from '@monkvision/common-ui-web';
 import { usePhotoCaptureHUDButtonBackground } from '../hooks';
-import { styles } from './PhotoCaptureHUDPreviewAddDamage1stShot.styles';
+import { styles } from './PhotoCaptureHUDElementsAddDamage1stShot.styles';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureMode } from '../../hooks';
 import { PhotoCaptureHUDCancelButton } from '../PhotoCaptureHUDCancelButton';
 import { crosshairSvg } from '../../../assets';
-import { usePhotoCaptureHUDPreviewAddDamage1stShotStyles } from './hooks';
+import { usePhotoCaptureHUDElementsAddDamage1stShotStyles } from './hooks';
 
 /**
- * Props of the PhotoCaptureHUDPreviewAddDamage1stShot component.
+ * Props of the PhotoCaptureHUDElementsAddDamage1stShot component.
  */
-export interface PhotoCaptureHUDAddDamagePreview1stShotProps {
+export interface PhotoCaptureHUDElementsAddDamage1stShotProps {
   /**
    * Callback called when the user cancels the Add Damage mode.
    */
@@ -23,13 +23,13 @@ export interface PhotoCaptureHUDAddDamagePreview1stShotProps {
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
  * mode is ADD_DAMAGE_1ST_SHOT.
  */
-export function PhotoCaptureHUDPreviewAddDamage1stShot({
+export function PhotoCaptureHUDElementsAddDamage1stShot({
   onCancel,
-}: PhotoCaptureHUDAddDamagePreview1stShotProps) {
+}: PhotoCaptureHUDElementsAddDamage1stShotProps) {
   const [showInfoPopup, setShowInfoPopup] = useState(true);
   const { t } = useTranslation();
   const primaryColor = usePhotoCaptureHUDButtonBackground();
-  const style = usePhotoCaptureHUDPreviewAddDamage1stShotStyles();
+  const style = usePhotoCaptureHUDElementsAddDamage1stShotStyles();
 
   return (
     <div style={styles['container']}>

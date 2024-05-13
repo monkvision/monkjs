@@ -4,13 +4,13 @@ jest.mock('../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDCounter',
   PhotoCaptureHUDCounter: jest.fn(() => <></>),
 }));
 jest.mock(
-  '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/AddDamageButton',
+  '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight/AddDamageButton',
   () => ({
     AddDamageButton: jest.fn(() => <></>),
   }),
 );
 jest.mock(
-  '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/SightSlider',
+  '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight/SightSlider',
   () => ({
     SightSlider: jest.fn(() => <></>),
   }),
@@ -23,13 +23,13 @@ import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import {
   AddDamageButton,
   PhotoCaptureHUDCounter,
-  PhotoCaptureHUDPreviewSight,
-  PhotoCaptureHUDSightPreviewProps,
+  PhotoCaptureHUDElementsSight,
+  PhotoCaptureHUDElementsSightProps,
   SightSlider,
 } from '../../../../src';
 import { PhotoCaptureMode } from '../../../../src/PhotoCapture/hooks';
 
-function createProps(): PhotoCaptureHUDSightPreviewProps {
+function createProps(): PhotoCaptureHUDElementsSightProps {
   const captureSights = [
     sights['test-sight-1'],
     sights['test-sight-2'],
@@ -50,10 +50,10 @@ function createProps(): PhotoCaptureHUDSightPreviewProps {
   };
 }
 
-describe('PhotoCaptureHUDPreviewSight component', () => {
+describe('PhotoCaptureHUDElementsSight component', () => {
   it('should display the current sight overlay with the proper aspect ratio', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCaptureHUDPreviewSight {...props} />);
+    const { unmount } = render(<PhotoCaptureHUDElementsSight {...props} />);
 
     expectPropsOnChildMock(SightOverlay, {
       sight: props.selectedSight,
@@ -67,7 +67,7 @@ describe('PhotoCaptureHUDPreviewSight component', () => {
 
   it('should display the PhotoCaptureHUDCounter component with the proper props', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCaptureHUDPreviewSight {...props} />);
+    const { unmount } = render(<PhotoCaptureHUDElementsSight {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDCounter, {
       mode: PhotoCaptureMode.SIGHT,
@@ -80,7 +80,7 @@ describe('PhotoCaptureHUDPreviewSight component', () => {
 
   it('should display the AddDamageButton component with the proper props', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCaptureHUDPreviewSight {...props} />);
+    const { unmount } = render(<PhotoCaptureHUDElementsSight {...props} />);
 
     expectPropsOnChildMock(AddDamageButton, {
       onAddDamage: props.onAddDamage,
@@ -91,7 +91,7 @@ describe('PhotoCaptureHUDPreviewSight component', () => {
 
   it('should display the SightSlider component with the proper props', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCaptureHUDPreviewSight {...props} />);
+    const { unmount } = render(<PhotoCaptureHUDElementsSight {...props} />);
 
     expectPropsOnChildMock(SightSlider, {
       sights: props.sights,

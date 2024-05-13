@@ -1,5 +1,4 @@
 import { Styles } from '@monkvision/types';
-import { PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH } from '../PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
 
 export const styles: Styles = {
   container: {
@@ -8,28 +7,35 @@ export const styles: Styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    top: '0',
-    right: '0',
-    left: '0',
-    bottom: '0',
+    inset: '0 0 0 0',
+  },
+  elementsContainer: {
+    position: 'absolute',
+    inset: '0 164px 0 0',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    zIndex: 9,
+  },
+  elementsContainerPortrait: {
+    __media: { portrait: true },
+    inset: '0 0 125px 0',
   },
   top: {
-    position: 'absolute',
     display: 'flex',
     alignSelf: 'stretch',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: '10px',
-    zIndex: '9',
-    top: '0',
-    right: '0',
-    left: '0',
+    justifyContent: 'flex-end',
+    margin: 10,
   },
-  topLandscape: {
-    __media: { landscape: true },
-    right: `${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 2}px`,
+  bottom: {
+    display: 'flex',
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 9,
   },
   overlay: {
-    zIndex: '9',
+    zIndex: 9,
   },
 };

@@ -1,5 +1,5 @@
 jest.mock(
-  '../../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreviewSight/SightSlider/SightSliderButton',
+  '../../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight/SightSlider/SightSliderButton',
   () => ({
     SightSliderButton: jest.fn(() => <></>),
   }),

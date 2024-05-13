@@ -1,4 +1,4 @@
 export {
-  PhotoCaptureHUDPreviewAddDamage2ndShot,
-  type PhotoCaptureHUDAddDamagePreview2ndShotProps,
-} from './PhotoCaptureHUDPreviewAddDamage2ndShot';
+  PhotoCaptureHUDElementsAddDamage2ndShot,
+  type PhotoCaptureHUDElementsAddDamage2ndShotProps,
+} from './PhotoCaptureHUDElementsAddDamage2ndShot';

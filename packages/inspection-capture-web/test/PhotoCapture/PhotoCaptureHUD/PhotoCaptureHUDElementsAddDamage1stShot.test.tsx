@@ -12,18 +12,18 @@ import { useTranslation } from 'react-i18next';
 import {
   PhotoCaptureHUDCancelButton,
   PhotoCaptureHUDCounter,
-  PhotoCaptureHUDPreviewAddDamage1stShot,
+  PhotoCaptureHUDElementsAddDamage1stShot,
 } from '../../../src';
 import { crosshairSvg } from '../../../src/assets';
 import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
 
-describe('PhotoCaptureHUDPreviewAddDamage1stShot component', () => {
+describe('PhotoCaptureHUDElementsAddDamage1stShot component', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should display a crosshair SVG on the screen', () => {
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage1stShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage1stShot />);
 
     expectPropsOnChildMock(DynamicSVG, { svg: crosshairSvg });
 
@@ -31,7 +31,7 @@ describe('PhotoCaptureHUDPreviewAddDamage1stShot component', () => {
   });
 
   it('should display the PhotoCaptureHUDCounter component on AD 1st Shot mode', () => {
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage1stShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage1stShot />);
 
     expectPropsOnChildMock(PhotoCaptureHUDCounter, { mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT });
 
@@ -40,7 +40,7 @@ describe('PhotoCaptureHUDPreviewAddDamage1stShot component', () => {
 
   it('should display the a cancel button component and pass it the onCancel prop', () => {
     const onCancel = jest.fn();
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage1stShot onCancel={onCancel} />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage1stShot onCancel={onCancel} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDCancelButton, { onCancel });
 
@@ -51,7 +51,7 @@ describe('PhotoCaptureHUDPreviewAddDamage1stShot component', () => {
     const label = 'test-label';
     const tMock = jest.fn(() => label);
     (useTranslation as jest.Mock).mockImplementationOnce(() => ({ t: tMock }));
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage1stShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage1stShot />);
 
     expect(tMock).toHaveBeenCalledWith('photo.hud.addDamage.infoBtn');
     expectPropsOnChildMock(Button, { children: label });
@@ -62,7 +62,7 @@ describe('PhotoCaptureHUDPreviewAddDamage1stShot component', () => {
   it('should remove the info popup when the user clicks on it', () => {
     const testId = 'button-test-id';
     (Button as unknown as jest.Mock).mockImplementation(() => <div data-testid={testId}></div>);
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage1stShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage1stShot />);
 
     expect(screen.queryByTestId(testId)).not.toBeNull();
     act(() => {

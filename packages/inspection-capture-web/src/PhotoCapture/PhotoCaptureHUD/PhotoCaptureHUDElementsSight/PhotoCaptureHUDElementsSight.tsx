@@ -1,16 +1,16 @@
 import { Image, PixelDimensions, Sight } from '@monkvision/types';
 import { SightOverlay } from '@monkvision/common-ui-web';
 import { SightSlider } from './SightSlider';
-import { styles } from './PhotoCaptureHUDPreviewSight.styles';
+import { styles } from './PhotoCaptureHUDElementsSight.styles';
 import { AddDamageButton } from './AddDamageButton';
 import { usePhotoCaptureHUDSightPreviewStyle } from './hooks';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureMode } from '../../hooks';
 
 /**
- * Props of the PhotoCaptureHUDPreviewSight component.
+ * Props of the PhotoCaptureHUDElementsSight component.
  */
-export interface PhotoCaptureHUDSightPreviewProps {
+export interface PhotoCaptureHUDElementsSightProps {
   /**
    * The list of sights provided to the PhotoCapture component.
    */
@@ -24,7 +24,7 @@ export interface PhotoCaptureHUDSightPreviewProps {
    */
   onSelectedSight?: (sight: Sight) => void;
   /**
-   * Callback called when the user manually select a sight non compliant.
+   * Callback called when the user manually select a sight to retake.
    */
   onRetakeSight?: (sight: string) => void;
   /**
@@ -55,7 +55,7 @@ export interface PhotoCaptureHUDSightPreviewProps {
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
  * mode is SIGHT.
  */
-export function PhotoCaptureHUDPreviewSight({
+export function PhotoCaptureHUDElementsSight({
   sights,
   selectedSight,
   onSelectedSight = () => {},
@@ -65,31 +65,32 @@ export function PhotoCaptureHUDPreviewSight({
   streamDimensions,
   images,
   enableAddDamage,
-}: PhotoCaptureHUDSightPreviewProps) {
-  const style = usePhotoCaptureHUDSightPreviewStyle();
-  const aspectRatio = `${streamDimensions?.width}/${streamDimensions?.height}`;
+}: PhotoCaptureHUDElementsSightProps) {
+  const style = usePhotoCaptureHUDSightPreviewStyle(streamDimensions);
 
   return (
     <div style={styles['container']}>
-      {streamDimensions && (
-        <SightOverlay style={{ ...style.overlay, aspectRatio }} sight={selectedSight} />
-      )}
-      <div style={style.top}>
-        <PhotoCaptureHUDCounter
-          mode={PhotoCaptureMode.SIGHT}
-          totalSights={sights.length}
-          sightsTaken={sightsTaken.length}
-        />
-        <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
+      {streamDimensions && <SightOverlay style={style.overlay} sight={selectedSight} />}
+      <div style={style.elementsContainer}>
+        <div style={style.top}>
+          <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
+        </div>
+        <div style={style.bottom}>
+          <PhotoCaptureHUDCounter
+            mode={PhotoCaptureMode.SIGHT}
+            totalSights={sights.length}
+            sightsTaken={sightsTaken.length}
+          />
+          <SightSlider
+            sights={sights}
+            selectedSight={selectedSight}
+            sightsTaken={sightsTaken}
+            onSelectedSight={onSelectedSight}
+            onRetakeSight={onRetakeSight}
+            images={images}
+          />
+        </div>
       </div>
-      <SightSlider
-        sights={sights}
-        selectedSight={selectedSight}
-        sightsTaken={sightsTaken}
-        onSelectedSight={onSelectedSight}
-        onRetakeSight={onRetakeSight}
-        images={images}
-      />
     </div>
   );
 }

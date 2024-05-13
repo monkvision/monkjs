@@ -2,15 +2,15 @@ import { PixelDimensions } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { isMobileDevice } from '@monkvision/common';
 import { PhotoCaptureMode } from '../../hooks';
-import { styles } from './PhotoCaptureHUDPreviewAddDamage2ndShot.styles';
+import { styles } from './PhotoCaptureHUDElementsAddDamage2ndShot.styles';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureHUDCancelButton } from '../PhotoCaptureHUDCancelButton';
-import { usePhotoCaptureHUDPreviewAddDamage2ndShotStyle } from './hooks';
+import { usePhotoCaptureHUDElementsAddDamage2ndShotStyle } from './hooks';
 
 /**
- * Props of the PhotoCaptureHUDPreviewAddDamage2ndShot component.
+ * Props of the PhotoCaptureHUDElementsAddDamage2ndShot component.
  */
-export interface PhotoCaptureHUDAddDamagePreview2ndShotProps {
+export interface PhotoCaptureHUDElementsAddDamage2ndShotProps {
   /**
    * Callback called when the user cancels the Add Damage mode.
    */
@@ -32,12 +32,12 @@ function getAspectRatio(streamDimensions?: PixelDimensions | null) {
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
  * mode is ADD_DAMAGE_2ND_SHOT.
  */
-export function PhotoCaptureHUDPreviewAddDamage2ndShot({
+export function PhotoCaptureHUDElementsAddDamage2ndShot({
   onCancel,
   streamDimensions,
-}: PhotoCaptureHUDAddDamagePreview2ndShotProps) {
+}: PhotoCaptureHUDElementsAddDamage2ndShotProps) {
   const { t } = useTranslation();
-  const style = usePhotoCaptureHUDPreviewAddDamage2ndShotStyle();
+  const style = usePhotoCaptureHUDElementsAddDamage2ndShotStyle();
 
   const aspectRatio = getAspectRatio(streamDimensions);
 

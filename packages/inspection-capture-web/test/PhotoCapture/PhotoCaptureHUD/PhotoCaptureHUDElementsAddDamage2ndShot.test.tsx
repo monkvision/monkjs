@@ -12,20 +12,20 @@ import { useTranslation } from 'react-i18next';
 import {
   PhotoCaptureHUDCancelButton,
   PhotoCaptureHUDCounter,
-  PhotoCaptureHUDPreviewAddDamage2ndShot,
+  PhotoCaptureHUDElementsAddDamage2ndShot,
 } from '../../../src';
 import { isMobileDevice } from '@monkvision/common';
 import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
 
 const FRAME_CONTAINER_TEST_ID = 'frame-container';
 
-describe('PhotoCaptureHUDPreviewAddDamage2ndShot component', () => {
+describe('PhotoCaptureHUDElementsAddDamage2ndShot component', () => {
   it('should display a frame on the center of the screen', () => {
     const isMobileDeviceMock = isMobileDevice as jest.Mock;
     isMobileDeviceMock.mockReturnValue(true);
     const streamDimensions = { width: 5436, height: 1231 };
     const { unmount } = render(
-      <PhotoCaptureHUDPreviewAddDamage2ndShot streamDimensions={streamDimensions} />,
+      <PhotoCaptureHUDElementsAddDamage2ndShot streamDimensions={streamDimensions} />,
     );
 
     const frameContainerEl = screen.getByTestId(FRAME_CONTAINER_TEST_ID);
@@ -52,7 +52,7 @@ describe('PhotoCaptureHUDPreviewAddDamage2ndShot component', () => {
   });
 
   it('should give the frame container a 16:9 ratio by default if the stream dimensions are not defined', () => {
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage2ndShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage2ndShot />);
 
     const frameContainerEl = screen.getByTestId(FRAME_CONTAINER_TEST_ID);
     expect(frameContainerEl.style.aspectRatio).toEqual('16/9');
@@ -61,7 +61,7 @@ describe('PhotoCaptureHUDPreviewAddDamage2ndShot component', () => {
   });
 
   it('should display the PhotoCaptureHUDCounter in AD 2nd Shot mode', () => {
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage2ndShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage2ndShot />);
 
     expectPropsOnChildMock(PhotoCaptureHUDCounter, { mode: PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT });
 
@@ -70,7 +70,7 @@ describe('PhotoCaptureHUDPreviewAddDamage2ndShot component', () => {
 
   it('should display the a cancel button component and pass it the onCancel prop', () => {
     const onCancel = jest.fn();
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage2ndShot onCancel={onCancel} />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage2ndShot onCancel={onCancel} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDCancelButton, { onCancel });
 
@@ -81,7 +81,7 @@ describe('PhotoCaptureHUDPreviewAddDamage2ndShot component', () => {
     const label = 'test';
     const tMock = jest.fn(() => label);
     (useTranslation as jest.Mock).mockImplementationOnce(() => ({ t: tMock }));
-    const { unmount } = render(<PhotoCaptureHUDPreviewAddDamage2ndShot />);
+    const { unmount } = render(<PhotoCaptureHUDElementsAddDamage2ndShot />);
 
     expect(tMock).toHaveBeenCalledWith('photo.hud.addDamage.infoCloseup');
     expect(screen.queryByText(label)).not.toBeNull();

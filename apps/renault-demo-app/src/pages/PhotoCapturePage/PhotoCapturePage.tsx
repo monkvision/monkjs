@@ -59,7 +59,7 @@ export function PhotoCapturePage() {
         sights={getSights(vehicleType)}
         onComplete={handleComplete}
         lang={i18n.language}
-        // enforceOrientation={DeviceOrientation.LANDSCAPE}
+        enforceOrientation={DeviceOrientation.LANDSCAPE}
         allowSkipRetake={true}
         useLiveCompliance={true}
       />

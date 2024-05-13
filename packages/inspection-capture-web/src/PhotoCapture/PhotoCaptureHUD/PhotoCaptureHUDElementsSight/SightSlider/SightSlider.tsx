@@ -26,7 +26,7 @@ export interface SightSliderProps {
    */
   onSelectedSight?: (sight: Sight) => void;
   /**
-   * Callback called when the user manually select a sight non compliant.
+   * Callback called when the user manually select a sight to retake.
    */
   onRetakeSight?: (sight: string) => void;
   /**

@@ -1,1 +1,4 @@
-export { PhotoCaptureHUDPreview, type PhotoCaptureHUDPreviewProps } from './PhotoCaptureHUDPreview';
+export {
+  PhotoCaptureHUDElements,
+  type PhotoCaptureHUDElementsProps,
+} from './PhotoCaptureHUDElements';

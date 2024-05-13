@@ -1,14 +1,14 @@
 import { CSSProperties } from 'react';
 import { useResponsiveStyle } from '@monkvision/common';
-import { styles } from './PhotoCaptureHUDPreviewAddDamage2ndShot.styles';
+import { styles } from './PhotoCaptureHUDElementsAddDamage2ndShot.styles';
 
-export interface PhotoCaptureHUDPreviewAddDamage2ndShotStyle {
+export interface PhotoCaptureHUDElementsAddDamage2ndShotStyle {
   top: CSSProperties;
   infoCloseup: CSSProperties;
   frame: CSSProperties;
 }
 
-export function usePhotoCaptureHUDPreviewAddDamage2ndShotStyle(): PhotoCaptureHUDPreviewAddDamage2ndShotStyle {
+export function usePhotoCaptureHUDElementsAddDamage2ndShotStyle(): PhotoCaptureHUDElementsAddDamage2ndShotStyle {
   const { responsive } = useResponsiveStyle();
 
   return {
