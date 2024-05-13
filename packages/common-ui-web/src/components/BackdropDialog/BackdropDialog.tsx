@@ -34,7 +34,7 @@ export function BackdropDialog({
             <Button
               variant='outline'
               primaryColor='alert-light'
-              secondaryColor='surface-s1'
+              secondaryColor='surface-dark'
               icon={cancelIcon}
               style={style.cancelButton}
               onClick={onCancel}
@@ -44,7 +44,7 @@ export function BackdropDialog({
             <Button
               variant='outline'
               primaryColor='primary-xlight'
-              secondaryColor='surface-s1'
+              secondaryColor='surface-dark'
               icon={confirmIcon}
               style={style.confirmButton}
               onClick={onConfirm}

@@ -6,8 +6,10 @@ export const styles: Styles = {
     color: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '6px 12px',
-    borderRadius: '8px',
-    zIndex: '9',
+    padding: 12,
+    margin: '0 10px',
+    whiteSpace: 'nowrap',
+    borderRadius: 8,
+    zIndex: 9,
   },
 };

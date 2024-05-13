@@ -10,8 +10,8 @@ jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons', ()
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDOverlay', () => ({
   PhotoCaptureHUDOverlay: jest.fn(() => <></>),
 }));
-jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDPreview', () => ({
-  PhotoCaptureHUDPreview: jest.fn(() => <></>),
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElements', () => ({
+  PhotoCaptureHUDElements: jest.fn(() => <></>),
 }));
 
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ import {
   PhotoCaptureHUD,
   PhotoCaptureHUDButtons,
   PhotoCaptureHUDOverlay,
-  PhotoCaptureHUDPreview,
+  PhotoCaptureHUDElements,
   PhotoCaptureHUDProps,
 } from '../../../src';
 import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
@@ -78,11 +78,11 @@ describe('PhotoCaptureHUD component', () => {
     unmount();
   });
 
-  it('should display the PhotoCaptureHUDPreview component with the proper props', () => {
+  it('should display the PhotoCaptureHUDElements component with the proper props', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDPreview, {
+    expectPropsOnChildMock(PhotoCaptureHUDElements, {
       selectedSight: props.selectedSight,
       sights: props.sights,
       sightsTaken: props.sightsTaken,
