@@ -1,3 +1,3 @@
 export * from './pages';
-export * from './LogInPage';
+export * from './LoginPage';
 export * from './LiveConfigs';

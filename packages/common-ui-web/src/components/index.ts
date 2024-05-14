@@ -4,6 +4,7 @@ export * from './Button';
 export * from './DynamicSVG';
 export * from './ImageDetailedView';
 export * from './InspectionGallery';
+export * from './Login';
 export * from './SightOverlay';
 export * from './Slider';
 export * from './Spinner';

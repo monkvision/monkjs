@@ -26,7 +26,7 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />}>
-          <Route path={Page.LOG_IN} element={<LogInPage />} />
+          <Route path={Page.LOG_IN} element={<LoginPage />} />
           <Route
             path={Page.MY_PROTECTED_PAGE}
             element={
@@ -261,6 +261,37 @@ function App() {
 | onNavigateToCapture | () => void        | Callback called when the user wants to navigate back to the capture component. This prop can only be specified if `captureMode` is set to true.                                                    |                                 |               |
 | enableCompliance    | boolean           | Boolean indicating if compliance checks should be enabled or not. This prop can only be specified if `captureMode` is set to true.                                                                 |                                 |               |
 | complianceIssues    | ComplianceIssue[] | If compliance checks are enable, this property can be used to select a list of compliance issues to check. This prop can only be specified if `captureMode` is set to true.                        |                                 |               |
+
+---
+
+## Login
+### Description
+This component is a ready-to-use Login page that is used throughout the different Monk webapps to handle authentication.
+
+### Example
+
+```tsx
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getSightById } from '@monkvision/sights';
+import { Login } from '@monkvision/common-ui-web';
+
+function LoginPage() {
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  return (
+    <Login lang={i18n.language} onLoginSuccessful={() => navigate('/home')} />
+  );
+}
+```
+
+### Props
+| Prop                | Type                            | Description                                                                                                                                    | Required | Default Value |
+|---------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| allowManualLogin    | boolean                         | Boolean indicating if manual login by the user should be allowed. If this prop is set to `false`, we never display a login button to the user. |          | `true`        |
+| onLoginSuccessful   | () => void                      | Callback called when the user successfully logs in.                                                                                            |          |               |
+| lang                | <code>string &#124; null</code> | The language used by this component.                                                                                                           |          | `en`          |
+| requiredPermissions | MonkApiPermission[]             | A list of required permissions to access the application.                                                                                      |          |               |
 
 ---
 

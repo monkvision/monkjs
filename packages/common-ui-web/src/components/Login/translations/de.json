@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Einloggen",
+    "log-out": "Sich abmelden"
+  },
+  "errors": {
+    "popup-closed": "Huch! Wir konnten Sie nicht anmelden, weil das Popup geschlossen wurde. Versuchen wir es noch einmal!",
+    "token-expired": "Ihr Authentifizierungstoken ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "insufficient-authorization": "Sie haben nicht die erforderlichen Berechtigungen, um diese Anwendung zu nutzen. Bitte melden Sie sich ab und verwenden Sie ein anderes Konto.",
+    "unknown": "Huch! Beim Einloggen ist ein unerwarteter Fehler aufgetreten. Versuchen wir es noch einmal!",
+    "missing-token": "Die URL, auf die Sie zuzugreifen versuchen, ist ungültig."
+  }
+}

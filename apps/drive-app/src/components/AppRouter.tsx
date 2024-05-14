@@ -3,7 +3,7 @@ import { AuthGuard } from '@monkvision/common-ui-web';
 import {
   CreateInspectionPage,
   InspectionCompletePage,
-  LogInPage,
+  LoginPage,
   Page,
   PhotoCapturePage,
 } from '../pages';
@@ -16,7 +16,7 @@ export function AppRouter() {
       <Routes>
         <Route path='/' element={<App />}>
           <Route path='/' element={<Navigate to={Page.CREATE_INSPECTION} />} />
-          <Route path={Page.LOG_IN} element={<LogInPage />} />
+          <Route path={Page.LOG_IN} element={<LoginPage />} />
           <Route path={Page.INSPECTION_COMPLETE} element={<InspectionCompletePage />} />
           <Route
             path={Page.CREATE_INSPECTION}

@@ -4,7 +4,7 @@ import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { CreateInspectionPage, Page } from '../../src/pages';
 
-const appParams = {
+const appState = {
   authToken: 'test-auth-token',
   inspectionId: null,
   setInspectionId: jest.fn(),
@@ -17,7 +17,7 @@ describe('CreateInspection page', () => {
 
   it('should redirect to the PhotoCapture page if the inspectionId is defined', () => {
     (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
-      ...appParams,
+      ...appState,
       inspectionId: 'test',
     }));
     const { unmount } = render(<CreateInspectionPage />);
