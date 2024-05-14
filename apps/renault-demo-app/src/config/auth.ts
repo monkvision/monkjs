@@ -1,6 +1,6 @@
 import { MonkApiPermission } from '@monkvision/network';
 
-export const REQUIRED_AUTHORIZATIONS = [
+export const REQUIRED_PERMISSIONS = [
   MonkApiPermission.TASK_COMPLIANCES,
   MonkApiPermission.TASK_DAMAGE_DETECTION,
   MonkApiPermission.TASK_DAMAGE_IMAGES_OCR,

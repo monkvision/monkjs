@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthGuard } from '@monkvision/common-ui-web';
 import { LiveConfigsPage, LogInPage, Page } from '../pages';
-import { AuthGuard } from './AuthGuard';
 import { App } from './App';
 
 export function AppRouter() {
@@ -13,7 +13,7 @@ export function AppRouter() {
           <Route
             path={Page.LIVE_CONFIGS}
             element={
-              <AuthGuard>
+              <AuthGuard redirectTo={Page.LOG_IN}>
                 <LiveConfigsPage />
               </AuthGuard>
             }

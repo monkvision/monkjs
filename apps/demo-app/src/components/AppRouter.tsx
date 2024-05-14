@@ -1,7 +1,8 @@
 import { MemoryRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthGuard } from '@monkvision/common-ui-web';
 import { CreateInspectionPage, LogInPage, Page, PhotoCapturePage } from '../pages';
-import { AuthGuard } from './AuthGuard';
 import { App } from './App';
+import { REQUIRED_PERMISSIONS } from '../config';
 
 export function AppRouter() {
   return (
@@ -13,7 +14,7 @@ export function AppRouter() {
           <Route
             path={Page.CREATE_INSPECTION}
             element={
-              <AuthGuard>
+              <AuthGuard redirectTo={Page.LOG_IN} requiredPermissions={REQUIRED_PERMISSIONS}>
                 <CreateInspectionPage />
               </AuthGuard>
             }
@@ -22,7 +23,7 @@ export function AppRouter() {
           <Route
             path={Page.PHOTO_CAPTURE}
             element={
-              <AuthGuard>
+              <AuthGuard redirectTo={Page.LOG_IN} requiredPermissions={REQUIRED_PERMISSIONS}>
                 <PhotoCapturePage />
               </AuthGuard>
             }

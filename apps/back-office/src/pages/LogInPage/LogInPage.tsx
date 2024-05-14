@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@monkvision/common-ui-web';
-import { isTokenExpired, isUserAuthorized, useAuth } from '@monkvision/network';
+import { isTokenExpired, useAuth } from '@monkvision/network';
 import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import { Page } from '../pages';
-import { REQUIRED_AUTHORIZATIONS } from '../../config';
 import styles from './LogInPage.module.css';
-
-const insufficientAuthErrorMsg =
-  'You do not have the required authorizations to use this application. Please log out and use a different account.';
 
 function getLoginErrorMessage(err: unknown): string {
   if (err instanceof Error) {
@@ -29,9 +25,6 @@ export function LogInPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authToken && !isUserAuthorized(authToken, REQUIRED_AUTHORIZATIONS)) {
-      loading.onError(insufficientAuthErrorMsg);
-    }
     if (authToken && isTokenExpired(authToken)) {
       setIsExpired(true);
     }
@@ -41,13 +34,9 @@ export function LogInPage() {
     setIsExpired(false);
     loading.start();
     login()
-      .then((token) => {
-        if (isUserAuthorized(token, REQUIRED_AUTHORIZATIONS)) {
-          loading.onSuccess();
-          navigate(Page.LIVE_CONFIGS);
-        } else {
-          loading.onError(insufficientAuthErrorMsg);
-        }
+      .then(() => {
+        loading.onSuccess();
+        navigate(Page.LIVE_CONFIGS);
       })
       .catch((err) => {
         const message = getLoginErrorMessage(err);

@@ -1,5 +1,15 @@
 import { InteractiveStatus } from '@monkvision/types';
 
+function createMockLoadingState() {
+  return {
+    isLoading: false,
+    error: null,
+    start: jest.fn(),
+    onSuccess: jest.fn(),
+    onError: jest.fn(),
+  };
+}
+
 const {
   permutations,
   suffix,
@@ -85,18 +95,13 @@ export = {
   useObjectTranslation: jest.fn(() => ({ tObj: jest.fn(() => '') })),
   useSightLabel: jest.fn(() => ({ label: jest.fn(() => '') })),
   useAsyncEffect: jest.fn(),
-  useLoadingState: jest.fn(() => ({
-    isLoading: false,
-    error: null,
-    start: jest.fn(),
-    onSuccess: jest.fn(),
-    onError: jest.fn(),
-  })),
+  useLoadingState: jest.fn(() => createMockLoadingState()),
   useLangProp: jest.fn(),
   isMobileDevice: jest.fn(() => false),
   zlibCompress: jest.fn(() => ''),
   zlibDecompress: jest.fn(() => ''),
   useMonkApplicationState: jest.fn(() => ({
+    loading: createMockLoadingState(),
     authToken: null,
     inspectionId: null,
     vehicleType: null,

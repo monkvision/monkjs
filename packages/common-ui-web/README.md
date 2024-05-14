@@ -10,6 +10,46 @@ yarn add @monkvision/common-ui-web
 ```
 
 # Available components
+## AuthGuard
+### Description
+This component can be used in your application Routers (react-router-dom v6) to protect a given route and redirect the
+user to another page if they are not authorized to access this resource.
+
+**Note : For this component to work properly, it must be the child of a `MonkApplicationStateProvider` component.**
+
+### Example
+```tsx
+import { AuthGuard } from '@monkvision/common-ui-web';
+
+export function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<App />}>
+          <Route path={Page.LOG_IN} element={<LogInPage />} />
+          <Route
+            path={Page.MY_PROTECTED_PAGE}
+            element={
+              <AuthGuard redirectTo={Page.LOG_IN}>
+                <MyProtectedPage />
+              </AuthGuard>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+### Props
+| Prop                | Type                | Description                                                                        | Required | Default Value |
+|---------------------|---------------------|------------------------------------------------------------------------------------|----------|---------------|
+| redirectTo          | string              | The URL to redirect the user to if they are not authorized to access the resource. | ✔️       |               |
+| requiredPermissions | MonkApiPermission[] | A list of required permissions to access the resource.                             |          |               |
+
+---
+
 ## BackdropDialog
 ### Description
 This component can be used to display a fixed dialog on the screen, with a backdrop behind it. You can either pass a

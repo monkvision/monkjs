@@ -7,7 +7,7 @@ import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import styles from './LogInPage.module.css';
 import { Page } from '../pages';
-import { REQUIRED_AUTHORIZATIONS } from '../../config';
+import { REQUIRED_PERMISSIONS } from '../../config';
 
 function getLoginErrorMessage(err: unknown): string {
   if (err instanceof Error) {
@@ -28,7 +28,7 @@ export function LogInPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authToken && !isUserAuthorized(authToken, REQUIRED_AUTHORIZATIONS)) {
+    if (authToken && !isUserAuthorized(authToken, REQUIRED_PERMISSIONS)) {
       loading.onError('login.errors.insufficient-authorization');
     }
     if (authToken && isTokenExpired(authToken)) {
@@ -42,7 +42,7 @@ export function LogInPage() {
     loading.start();
     login()
       .then((token) => {
-        if (isUserAuthorized(token, REQUIRED_AUTHORIZATIONS)) {
+        if (isUserAuthorized(token, REQUIRED_PERMISSIONS)) {
           loading.onSuccess();
           navigate(inspectionId ? Page.PHOTO_CAPTURE : Page.CREATE_INSPECTION);
         } else {
