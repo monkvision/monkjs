@@ -14,7 +14,7 @@ jest.mock('../../src/config', () => ({
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { useMonkAppParams, useSearchParams } from '@monkvision/common';
+import { useMonkApplicationState, useSearchParams } from '@monkvision/common';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Page, PhotoCapturePage } from '../../src/pages';
@@ -35,7 +35,7 @@ describe('PhotoCapture page', () => {
   it('should pass the proper props to the PhotoCapture component', () => {
     const language = 'test';
     (useTranslation as jest.Mock).mockImplementation(() => ({ i18n: { language } }));
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
     expectPropsOnChildMock(PhotoCapture, {
@@ -50,7 +50,7 @@ describe('PhotoCapture page', () => {
   });
 
   it('should use the proper sights for all vehicle types', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
     expect(getSights).toHaveBeenCalledWith(appParams.vehicleType, appParams.steeringWheel);
@@ -108,7 +108,7 @@ describe('PhotoCapture page', () => {
   });
 
   it('should redirect to the inspection complete page after the inspection', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
     expect(useNavigate).toHaveBeenCalled();

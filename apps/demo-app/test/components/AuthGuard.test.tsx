@@ -4,7 +4,7 @@ jest.mock('react-router-dom', () => ({
   )),
 }));
 
-import { useMonkAppParams } from '@monkvision/common';
+import { useMonkApplicationState } from '@monkvision/common';
 import { render, screen } from '@testing-library/react';
 import { isTokenExpired, isUserAuthorized, MonkApiPermission } from '@monkvision/network';
 import { AuthGuard } from '../../src/components';
@@ -30,7 +30,7 @@ function mockAuthToken(params: {
   expired: boolean;
 }): string | null {
   const authToken = params.defined ? 'test-auth-token-test' : null;
-  (useMonkAppParams as jest.Mock).mockImplementation(() => ({ authToken }));
+  (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ authToken }));
   (isUserAuthorized as jest.Mock).mockImplementation(() => params.authorized);
   (isTokenExpired as jest.Mock).mockImplementation(() => params.expired);
   return authToken;

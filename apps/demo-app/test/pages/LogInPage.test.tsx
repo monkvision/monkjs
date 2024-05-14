@@ -1,7 +1,7 @@
 import { act } from 'react-dom/test-utils';
 import { useNavigate } from 'react-router-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useLoadingState, useMonkAppParams } from '@monkvision/common';
+import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { isTokenExpired, isUserAuthorized, useAuth } from '@monkvision/network';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button } from '@monkvision/common-ui-web';
@@ -19,7 +19,7 @@ describe('Log In page', () => {
   });
 
   it('should display a login button on the screen', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
     const { unmount } = render(<LogInPage />);
 
     expectPropsOnChildMock(Button, {
@@ -37,7 +37,7 @@ describe('Log In page', () => {
   });
 
   it('should redirect to the PhotoCapture page after the login if the inspectionId is defined', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
     const { unmount } = render(<LogInPage />);
 
     expect(Button).toHaveBeenCalled();
@@ -54,7 +54,7 @@ describe('Log In page', () => {
   });
 
   it('should redirect to the CreateInspection page after the login if the inspectionId is not defined', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
       ...appParams,
       authToken: null,
       inspectionId: null,
@@ -75,7 +75,7 @@ describe('Log In page', () => {
   });
 
   it('should not redirect after log in if the user does not have sufficient authorization', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
     (isUserAuthorized as jest.Mock).mockImplementation(() => false);
     const onError = jest.fn();
     const error = 'test-error';
@@ -98,7 +98,7 @@ describe('Log In page', () => {
   });
 
   it('should display an error message and a log out button if the user does not have sufficient authorizations', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     (isUserAuthorized as jest.Mock).mockImplementation(() => false);
     const onError = jest.fn();
     const error = 'test-error';
@@ -125,7 +125,7 @@ describe('Log In page', () => {
   });
 
   it('should display an error message on the screen if the token was expired', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     (isTokenExpired as jest.Mock).mockImplementation(() => true);
     const { unmount } = render(<LogInPage />);
 
@@ -149,7 +149,7 @@ describe('Log In page', () => {
     },
   ].forEach(({ testCase, err, label }) => {
     it(`should not redirect and display the proper error message ${testCase}`, async () => {
-      (useMonkAppParams as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
+      (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
       (useAuth as jest.Mock).mockImplementation(() => ({
         login: jest.fn(() => Promise.reject(err)),
       }));

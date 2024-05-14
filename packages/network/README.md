@@ -144,9 +144,8 @@ pop-ups. It accepts a config option called `storeToken` that indicates if the to
 the browser local storage (default : `true`).
 
 - For this hook to work properly, you must use it in a component that is a child of an `Auth0Provider` component.
-- If, like in most Monk apps, you plan on using both the `useMonkAppParams` and the `useAuth` hooks, then
-  only the token stored and returned by the `useMonkAppParams` should be used. The token of this hook must only be
-  used when using the `useAuth` hook only. This hook will automatically synchronize both tokens for you.
+- This hook automatically stores the token fetched in the `useMonkApplicationState` hook so that it can be accessed
+  anywhere in your app if you're using the `MonkApplicationStateProvider`.
 
 ```tsx
 function MyAuthComponent() {

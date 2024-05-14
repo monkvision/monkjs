@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { MonkAppParamsProvider, MonkProvider, useMonkTheme } from '@monkvision/common';
+import { MonkApplicationStateProvider, MonkProvider, useMonkTheme } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { Page } from '../pages';
 
@@ -9,7 +9,7 @@ export function App() {
   const { rootStyles } = useMonkTheme();
 
   return (
-    <MonkAppParamsProvider
+    <MonkApplicationStateProvider
       onFetchAuthToken={() => navigate(Page.CREATE_INSPECTION)}
       onUpdateLanguage={(lang) => i18n.changeLanguage(lang)}
     >
@@ -18,6 +18,6 @@ export function App() {
           <Outlet />
         </div>
       </MonkProvider>
-    </MonkAppParamsProvider>
+    </MonkApplicationStateProvider>
   );
 }

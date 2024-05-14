@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { Navigate } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { useLoadingState, useMonkAppParams } from '@monkvision/common';
+import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useMonkApi } from '@monkvision/network';
 import { TaskName } from '@monkvision/types';
@@ -20,7 +20,7 @@ describe('CreateInspection page', () => {
   });
 
   it('should redirect to the PhotoCapture page if the inspectionId is defined', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
       ...appParams,
       inspectionId: 'test',
     }));
@@ -35,7 +35,7 @@ describe('CreateInspection page', () => {
     const id = 'test-id-test';
     const createInspection = jest.fn(() => Promise.resolve({ id }));
     (useMonkApi as jest.Mock).mockImplementation(() => ({ createInspection }));
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<CreateInspectionPage />);
 
     expect(createInspection).toHaveBeenCalledWith({
@@ -51,7 +51,7 @@ describe('CreateInspection page', () => {
   it('should display an error message if the API call fails', async () => {
     const createInspection = jest.fn(() => Promise.reject());
     (useMonkApi as jest.Mock).mockImplementation(() => ({ createInspection }));
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const onError = jest.fn();
     const error = 'test-error';
     (useLoadingState as jest.Mock).mockImplementation(() => ({ onError, error, start: jest.fn() }));
@@ -69,7 +69,7 @@ describe('CreateInspection page', () => {
   it('should display a retry button if the API call fails', async () => {
     const createInspection = jest.fn(() => Promise.reject());
     (useMonkApi as jest.Mock).mockImplementation(() => ({ createInspection }));
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     (useLoadingState as jest.Mock).mockImplementation(() => ({
       onError: jest.fn(),
       error: 'test-error',

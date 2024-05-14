@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useLoadingState, useMonkAppParams } from '@monkvision/common';
+import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { LogInPage } from '../../src/pages';
 
 const appParams = {
@@ -15,7 +15,7 @@ describe('Log In page', () => {
   });
 
   it('should display an error message if the token is not defined', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ ...appParams, authToken: null }));
     const onError = jest.fn();
     const error = 'test-error';
     (useLoadingState as jest.Mock).mockImplementation(() => ({ onError, error, start: jest.fn() }));

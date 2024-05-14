@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@monkvision/common-ui-web';
 import { isTokenExpired, isUserAuthorized, useAuth } from '@monkvision/network';
-import { useLoadingState, useMonkAppParams } from '@monkvision/common';
+import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import styles from './LogInPage.module.css';
 import { Page } from '../pages';
@@ -23,7 +23,7 @@ const allowLogin = process.env['REACT_APP_ALLOW_LOGIN'] === 'true';
 export function LogInPage() {
   const [isExpired, setIsExpired] = useState(false);
   const loading = useLoadingState();
-  const { authToken, inspectionId, setAuthToken } = useMonkAppParams();
+  const { authToken, inspectionId, setAuthToken } = useMonkApplicationState();
   const { handleError } = useMonitoring();
   const { login, logout } = useAuth();
   const { t } = useTranslation();

@@ -9,7 +9,7 @@ import { PhotoCapturePage } from '../../src/pages';
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { useMonkAppParams } from '@monkvision/common';
+import { useMonkApplicationState } from '@monkvision/common';
 import { VehicleType } from '@monkvision/types';
 
 const appParams = {
@@ -22,7 +22,7 @@ describe('PhotoCapture page', () => {
   it('should pass the proper props to the PhotoCapture component', () => {
     const language = 'test';
     (useTranslation as jest.Mock).mockImplementation(() => ({ i18n: { language } }));
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
     expectPropsOnChildMock(PhotoCapture, {
@@ -37,7 +37,7 @@ describe('PhotoCapture page', () => {
   });
 
   it('should use the proper sights for all vehicle types', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appParams);
     const { unmount } = render(<PhotoCapturePage />);
 
     expect(getSights).toHaveBeenCalledWith(appParams.vehicleType);

@@ -18,9 +18,9 @@ import { useSearchParams } from '../hooks';
 export const STORAGE_KEY_AUTH_TOKEN = '@monk_authToken';
 
 /**
- * Parameters usually used by Monk applications to specify the user journey.
+ * Application state usually used by Monk applications to configure and handle the current user journey.
  */
-export interface MonkAppParams {
+export interface MonkApplicationState {
   /**
    * The authentication token representing the currently logged-in user. If this param is `null`, it means the user is
    * not logged in.
@@ -70,7 +70,7 @@ export interface MonkAppParams {
  * Enumeration of the usual search parameters used by Monk applications. These parameters help configure the application
  * via URL directly.
  */
-export enum MonkSearchParams {
+export enum MonkSearchParam {
   /**
    * Search parameter used to provide an authentication token directly via URL. Note : auth tokens need be compressed
    * using ZLib (ex: using the `zlibCompress` utility function available in this package) and properly URL-encoded
@@ -109,11 +109,11 @@ export enum MonkSearchParams {
 }
 
 /**
- * React context used to store the common Monk application parameters.
+ * React context used to store the current Monk application state.
  *
- * @see MonkAppParams
+ * @see MonkApplicationState
  */
-export const MonkAppParamsContext = createContext<MonkAppParams>({
+export const MonkApplicationStateContext = createContext<MonkApplicationState>({
   authToken: null,
   inspectionId: null,
   vehicleType: null,
@@ -125,13 +125,13 @@ export const MonkAppParamsContext = createContext<MonkAppParams>({
 });
 
 /**
- * Props accepted by the MonkAppParamsProvider component.
+ * Props accepted by the MonkApplicationStateProvider component.
  */
-export interface MonkAppParamsProviderProps {
+export interface MonkApplicationStateProviderProps {
   /**
    * Boolean used to indicate if the application parameters should be fetched from the URL search parameters. If this
-   * prop is set to `true`, during the first render of the MonkAppParamsProvider component, it will look in the URL for
-   * search parameters described in the `MonkSearchParams` enum in order to update the app params accordingly.
+   * prop is set to `true`, during the first render of the MonkApplicationStateProvider component, it will look in the
+   * URL for search parameters described in the `MonkSearchParams` enum in order to update the app params accordingly.
    *
    * Notes :
    * - Auth tokens need be compressed using ZLib (ex: using the `zlibCompress` utility function available in this
@@ -148,8 +148,8 @@ export interface MonkAppParamsProviderProps {
   fetchFromSearchParams?: boolean;
   /**
    * Boolean used to indicate if the authentication token should be fetched from the local storage. If this prop is set
-   * to `true`, during the first render of the MonkAppParamsProvider component, it will look in the local storage for a
-   * valid authentication token to use.
+   * to `true`, during the first render of the MonkApplicationStateProvider component, it will look in the local storage
+   * for a valid authentication token to use.
    *
    * Notes :
    * - The storage key used to read / write the auth token in the local storage is the same throughout the Monk SDK and
@@ -163,14 +163,6 @@ export interface MonkAppParamsProviderProps {
    */
   fetchTokenFromStorage?: boolean;
   /**
-   * Boolean used to indicate the application language should be updated automatically upon fetching a valid language
-   * from the URL search params. If `fetchFromSearchParams` is set to `false`, this prop is ignored.
-   *
-   * @default true
-   * @see monkLanguages
-   */
-  updateLanguage?: boolean;
-  /**
    * Callback called when an authentication token has successfully been fetched from either the local storage, or the
    * URL search params.
    *
@@ -180,28 +172,27 @@ export interface MonkAppParamsProviderProps {
   onFetchAuthToken?: () => void;
   /**
    * Callback called when the language of the app must be updated because it has been specified in the URL params. If
-   * `updateLanguage` is not set to `true`, this callback is never called.
+   * `fetchFromSearchParams` is not set to `true`, this callback is never called.
    */
-  onUpdateLanguage?: (lang: string) => void;
+  onLanguageFetchedFromSearchParams?: (lang: string) => void;
 }
 
 /**
  * A React context provider that declares the state for the common parameters used by Monk applications. The parameters
- * are described in the `MonkAppParams` interface. Using the `fetchFromSearchParams` and `fetchTokenFromStorage` props,
+ * are described in the `MonkApplicationState` interface. Using the `fetchFromSearchParams` and `fetchTokenFromStorage` props,
  * this component can also fetch initial values for these params directly from the URL search params and the web local
  * storage. See the TSDoc for these props for more details.
  *
- * @see MonkAppParams
- * @see MonkAppParamsProviderProps
+ * @see MonkApplicationState
+ * @see MonkApplicationStateProviderProps
  */
-export function MonkAppParamsProvider({
+export function MonkApplicationStateProvider({
   fetchFromSearchParams = true,
   fetchTokenFromStorage = true,
-  updateLanguage = true,
   onFetchAuthToken,
-  onUpdateLanguage,
+  onLanguageFetchedFromSearchParams,
   children,
-}: PropsWithChildren<MonkAppParamsProviderProps>) {
+}: PropsWithChildren<MonkApplicationStateProviderProps>) {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
@@ -214,15 +205,15 @@ export function MonkAppParamsProvider({
       fetchedToken = localStorage.getItem(STORAGE_KEY_AUTH_TOKEN);
     }
     if (fetchFromSearchParams) {
-      setInspectionId((param) => searchParams.get(MonkSearchParams.INSPECTION_ID) ?? param);
+      setInspectionId((param) => searchParams.get(MonkSearchParam.INSPECTION_ID) ?? param);
 
-      const vehicleTypeParam = searchParams.get(MonkSearchParams.VEHICLE_TYPE);
+      const vehicleTypeParam = searchParams.get(MonkSearchParam.VEHICLE_TYPE);
       const newVehicleType = Object.values<string | null>(VehicleType).includes(vehicleTypeParam)
         ? (vehicleTypeParam as VehicleType)
         : null;
       setVehicleType((param) => newVehicleType ?? param);
 
-      const steeringWheelParam = searchParams.get(MonkSearchParams.STEERING_WHEEL);
+      const steeringWheelParam = searchParams.get(MonkSearchParam.STEERING_WHEEL);
       const newSteeringWheel = Object.values<string | null>(SteeringWheelPosition).includes(
         steeringWheelParam,
       )
@@ -230,7 +221,7 @@ export function MonkAppParamsProvider({
         : null;
       setSteeringWheel((param) => newSteeringWheel ?? param);
 
-      const compressedToken = searchParams.get(MonkSearchParams.TOKEN);
+      const compressedToken = searchParams.get(MonkSearchParam.TOKEN);
       if (compressedToken) {
         fetchedToken = zlibDecompress(compressedToken);
       }
@@ -240,9 +231,9 @@ export function MonkAppParamsProvider({
         onFetchAuthToken?.();
       }
 
-      const lang = searchParams.get(MonkSearchParams.LANGUAGE);
-      if (updateLanguage && lang && (monkLanguages as readonly string[]).includes(lang)) {
-        onUpdateLanguage?.(lang);
+      const lang = searchParams.get(MonkSearchParam.LANGUAGE);
+      if (lang && (monkLanguages as readonly string[]).includes(lang)) {
+        onLanguageFetchedFromSearchParams?.(lang);
       }
     }
   }, [searchParams]);
@@ -262,14 +253,16 @@ export function MonkAppParamsProvider({
   );
 
   return (
-    <MonkAppParamsContext.Provider value={appParams}>{children}</MonkAppParamsContext.Provider>
+    <MonkApplicationStateContext.Provider value={appParams}>
+      {children}
+    </MonkApplicationStateContext.Provider>
   );
 }
 
 /**
- * Params accepted by the `useMonkAppParams`  hook.
+ * Params accepted by the `useMonkApplicationState`  hook.
  */
-export interface UseMonkAppParamsParams {
+export interface UseMonkApplicationStateParams {
   /**
    * Boolean indicating if the `authToken` and the `inspectionId` params are required. If this value is set to `true`,
    * the hook will return non-null values (even in TypeScript typings) values for the `authToken` and the `inspectionId`
@@ -279,20 +272,25 @@ export interface UseMonkAppParamsParams {
 }
 
 /**
- * Custom hook used to get the common Monk application params (described in the `MonkAppParams` interface) for the
- * current `MonkAppParamsContext`. This hook must be called within a child of the `MonkAppParamsProvider` component.
+ * Custom hook used to get the common Monk application state (described in the `MonkApplicationState` interface) for the
+ * current `MonkApplicationStateContext`. This hook must be called within a child of the `MonkApplicationStateProvider`
+ * component.
  *
- * @see MonkAppParams
- * @see MonkAppParamsContext
- * @see MonkAppParamsProvider
+ * @see MonkApplicationState
+ * @see MonkApplicationStateContext
+ * @see MonkApplicationStateProvider
  */
-export function useMonkAppParams(): MonkAppParams;
-export function useMonkAppParams(options: { required: false | undefined }): MonkAppParams;
-export function useMonkAppParams(options: {
+export function useMonkApplicationState(): MonkApplicationState;
+export function useMonkApplicationState(options: {
+  required: false | undefined;
+}): MonkApplicationState;
+export function useMonkApplicationState(options: {
   required: true;
-}): MonkAppParams & { authToken: string; inspectionId: string };
-export function useMonkAppParams(options?: UseMonkAppParamsParams): MonkAppParams {
-  const context = useContext(MonkAppParamsContext);
+}): MonkApplicationState & { authToken: string; inspectionId: string };
+export function useMonkApplicationState(
+  options?: UseMonkApplicationStateParams,
+): MonkApplicationState {
+  const context = useContext(MonkApplicationStateContext);
   if (options?.required && !context.authToken) {
     throw new Error('Authentication token is null but was required by the current component.');
   }

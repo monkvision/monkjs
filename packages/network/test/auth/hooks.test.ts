@@ -1,4 +1,4 @@
-import { STORAGE_KEY_AUTH_TOKEN, useMonkAppParams } from '@monkvision/common';
+import { STORAGE_KEY_AUTH_TOKEN, useMonkApplicationState } from '@monkvision/common';
 import { useAuth0 } from '@auth0/auth0-react';
 import { act, waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
@@ -13,26 +13,24 @@ describe('Authentication hooks', () => {
     it('should fetch the token from the local storage if asked to', () => {
       const token = 'test-token-test';
       const spy = jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => token);
-      const { result, unmount } = renderHook(useAuth, { initialProps: { storeToken: true } });
+      const { unmount } = renderHook(useAuth, { initialProps: { storeToken: true } });
 
-      expect(useMonkAppParams).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkAppParams as jest.Mock).mock.results[0].value;
+      expect(useMonkApplicationState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
       expect(spy).toHaveBeenCalledWith(STORAGE_KEY_AUTH_TOKEN);
       expect(setAuthToken).toHaveBeenCalledWith(token);
-      expect(result.current.authToken).toEqual(token);
 
       unmount();
     });
 
     it('should not fetch the token from the local storage if not asked to', () => {
       const spy = jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => 'test');
-      const { result, unmount } = renderHook(useAuth, { initialProps: { storeToken: false } });
+      const { unmount } = renderHook(useAuth, { initialProps: { storeToken: false } });
 
-      expect(useMonkAppParams).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkAppParams as jest.Mock).mock.results[0].value;
+      expect(useMonkApplicationState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
       expect(setAuthToken).not.toHaveBeenCalled();
       expect(spy).not.toHaveBeenCalled();
-      expect(result.current.authToken).toBeNull();
 
       unmount();
     });
@@ -43,10 +41,9 @@ describe('Authentication hooks', () => {
       (useAuth0 as jest.Mock).mockImplementation(() => ({ getAccessTokenWithPopup }));
       const { result, unmount } = renderHook(useAuth, { initialProps: { storeToken: false } });
 
-      expect(useMonkAppParams).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkAppParams as jest.Mock).mock.results[0].value;
+      expect(useMonkApplicationState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
       expect(setAuthToken).not.toHaveBeenCalled();
-      expect(result.current.authToken).toBeNull();
       expect(getAccessTokenWithPopup).not.toHaveBeenCalled();
 
       let resultToken = null;
@@ -57,7 +54,6 @@ describe('Authentication hooks', () => {
       expect(getAccessTokenWithPopup).toHaveBeenCalled();
       expect(resultToken).toEqual(token);
       expect(setAuthToken).toHaveBeenCalledWith(token);
-      expect(result.current.authToken).toEqual(token);
 
       unmount();
     });
@@ -107,16 +103,13 @@ describe('Authentication hooks', () => {
       (useAuth0 as jest.Mock).mockImplementation(() => ({ logout }));
       const { result, unmount } = renderHook(useAuth, { initialProps: { storeToken: true } });
 
-      expect(result.current.authToken).toEqual(token);
-
       await act(async () => {
         await result.current.logout();
       });
 
-      expect((useMonkAppParams as jest.Mock).mock.results.length).toBeGreaterThan(1);
-      const { setAuthToken } = (useMonkAppParams as jest.Mock).mock.results[1].value;
+      expect(useMonkApplicationState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
       expect(logout).toHaveBeenCalledWith({ logoutParams: { returnTo: window.location.origin } });
-      expect(result.current.authToken).toBeNull();
       expect(setAuthToken).toHaveBeenCalledWith(null);
       expect(spy).toHaveBeenCalledWith(STORAGE_KEY_AUTH_TOKEN);
 

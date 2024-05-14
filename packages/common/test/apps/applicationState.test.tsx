@@ -10,34 +10,34 @@ import { renderHook } from '@testing-library/react-hooks';
 import React, { useContext, useEffect } from 'react';
 import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import {
-  MonkAppParams,
-  MonkAppParamsContext,
-  MonkAppParamsProvider,
-  MonkSearchParams,
-  useMonkAppParams,
+  MonkApplicationState,
+  MonkApplicationStateContext,
+  MonkApplicationStateProvider,
+  MonkSearchParam,
+  useMonkApplicationState,
   zlibDecompress,
   useSearchParams,
 } from '../../src';
 
-let params: MonkAppParams | null = null;
+let params: MonkApplicationState | null = null;
 function TestComponent() {
-  const context = useContext(MonkAppParamsContext);
+  const context = useContext(MonkApplicationStateContext);
   useEffect(() => {
     params = context;
   });
   return <></>;
 }
 
-describe('Monk App Params', () => {
+describe('Monk Application State', () => {
   afterEach(() => {
     jest.clearAllMocks();
     params = null;
   });
 
-  describe('MonkAppParams context', () => {
+  describe('MonkApplicationState context', () => {
     it('should return the proper default values', () => {
       const { result, unmount } = renderHook(() => {
-        return useContext(MonkAppParamsContext);
+        return useContext(MonkApplicationStateContext);
       });
 
       expect(result.current.authToken).toBeNull();
@@ -53,13 +53,13 @@ describe('Monk App Params', () => {
     });
   });
 
-  describe('MonkAppParamsProvider component', () => {
-    it('should pass the children to the MonkAppParamsContext', () => {
+  describe('MonkApplicationStateProvider component', () => {
+    it('should pass the children to the MonkApplicationStateContext', () => {
       const testId = 'test-id-test';
       const { unmount } = render(
-        <MonkAppParamsProvider>
+        <MonkApplicationStateProvider>
           <div data-testid={testId} />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(screen.queryByTestId(testId)).not.toBeNull();
@@ -69,9 +69,9 @@ describe('Monk App Params', () => {
 
     it('should set the proper default context values', () => {
       const { unmount } = render(
-        <MonkAppParamsProvider>
+        <MonkApplicationStateProvider>
           <TestComponent />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(params?.authToken).toBeNull();
@@ -91,9 +91,12 @@ describe('Monk App Params', () => {
       const spy = jest.spyOn(Storage.prototype, 'getItem').mockImplementationOnce(() => token);
       const onFetchAuthToken = jest.fn();
       const { unmount } = render(
-        <MonkAppParamsProvider fetchTokenFromStorage={true} onFetchAuthToken={onFetchAuthToken}>
+        <MonkApplicationStateProvider
+          fetchTokenFromStorage={true}
+          onFetchAuthToken={onFetchAuthToken}
+        >
           <TestComponent />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(spy).toHaveBeenCalled();
@@ -107,14 +110,17 @@ describe('Monk App Params', () => {
       const tokenCompressed = 'test-token-test-compressed';
       const tokenDecompressed = 'test-token-test-decompressed';
       (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
-        get: jest.fn((name) => (name === MonkSearchParams.TOKEN ? tokenCompressed : null)),
+        get: jest.fn((name) => (name === MonkSearchParam.TOKEN ? tokenCompressed : null)),
       }));
       (zlibDecompress as jest.Mock).mockImplementationOnce(() => tokenDecompressed);
       const onFetchAuthToken = jest.fn();
       const { unmount } = render(
-        <MonkAppParamsProvider fetchFromSearchParams={true} onFetchAuthToken={onFetchAuthToken}>
+        <MonkApplicationStateProvider
+          fetchFromSearchParams={true}
+          onFetchAuthToken={onFetchAuthToken}
+        >
           <TestComponent />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(zlibDecompress).toHaveBeenCalledWith(tokenCompressed);
@@ -130,13 +136,13 @@ describe('Monk App Params', () => {
       const tokenCompressed = 'test-token-test-compressed-searchparams';
       const tokenDecompressed = 'test-token-test-decompressed-searchparams';
       (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
-        get: jest.fn((name) => (name === MonkSearchParams.TOKEN ? tokenCompressed : null)),
+        get: jest.fn((name) => (name === MonkSearchParam.TOKEN ? tokenCompressed : null)),
       }));
       (zlibDecompress as jest.Mock).mockImplementationOnce(() => tokenDecompressed);
       const { unmount } = render(
-        <MonkAppParamsProvider fetchFromSearchParams={true} fetchTokenFromStorage={true}>
+        <MonkApplicationStateProvider fetchFromSearchParams={true} fetchTokenFromStorage={true}>
           <TestComponent />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(params?.authToken).toEqual(tokenDecompressed);
@@ -147,12 +153,12 @@ describe('Monk App Params', () => {
     it('should fetch the inspection ID from the search params if asked to', () => {
       const inspectionId = 'test-inspection-id-test';
       (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
-        get: jest.fn((name) => (name === MonkSearchParams.INSPECTION_ID ? inspectionId : null)),
+        get: jest.fn((name) => (name === MonkSearchParam.INSPECTION_ID ? inspectionId : null)),
       }));
       const { unmount } = render(
-        <MonkAppParamsProvider fetchFromSearchParams={true}>
+        <MonkApplicationStateProvider fetchFromSearchParams={true}>
           <TestComponent />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(params?.inspectionId).toEqual(inspectionId);
@@ -163,12 +169,12 @@ describe('Monk App Params', () => {
     Object.values(VehicleType).forEach((vehicleType) =>
       it(`should properly fetch the ${vehicleType} vehicle type from the search params if asked to`, () => {
         (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
-          get: jest.fn((name) => (name === MonkSearchParams.VEHICLE_TYPE ? vehicleType : null)),
+          get: jest.fn((name) => (name === MonkSearchParam.VEHICLE_TYPE ? vehicleType : null)),
         }));
         const { unmount } = render(
-          <MonkAppParamsProvider fetchFromSearchParams={true}>
+          <MonkApplicationStateProvider fetchFromSearchParams={true}>
             <TestComponent />
-          </MonkAppParamsProvider>,
+          </MonkApplicationStateProvider>,
         );
 
         expect(params?.vehicleType).toEqual(vehicleType);
@@ -181,16 +187,15 @@ describe('Monk App Params', () => {
       const onUpdateLanguage = jest.fn();
       const lang = 'fr';
       (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
-        get: jest.fn((name) => (name === MonkSearchParams.LANGUAGE ? lang : null)),
+        get: jest.fn((name) => (name === MonkSearchParam.LANGUAGE ? lang : null)),
       }));
       const { unmount } = render(
-        <MonkAppParamsProvider
+        <MonkApplicationStateProvider
           fetchFromSearchParams={true}
-          updateLanguage={true}
-          onUpdateLanguage={onUpdateLanguage}
+          onLanguageFetchedFromSearchParams={onUpdateLanguage}
         >
           <TestComponent />
-        </MonkAppParamsProvider>,
+        </MonkApplicationStateProvider>,
       );
 
       expect(onUpdateLanguage).toHaveBeenCalledWith(lang);
@@ -201,12 +206,12 @@ describe('Monk App Params', () => {
     Object.values(SteeringWheelPosition).forEach((steeringWheel) =>
       it(`should properly fetch the ${steeringWheel} steering wheel position from the search params if asked to`, () => {
         (useSearchParams as jest.Mock).mockImplementationOnce(() => ({
-          get: jest.fn((name) => (name === MonkSearchParams.STEERING_WHEEL ? steeringWheel : null)),
+          get: jest.fn((name) => (name === MonkSearchParam.STEERING_WHEEL ? steeringWheel : null)),
         }));
         const { unmount } = render(
-          <MonkAppParamsProvider fetchFromSearchParams={true}>
+          <MonkApplicationStateProvider fetchFromSearchParams={true}>
             <TestComponent />
-          </MonkAppParamsProvider>,
+          </MonkApplicationStateProvider>,
         );
 
         expect(params?.steeringWheel).toEqual(steeringWheel);
@@ -216,14 +221,14 @@ describe('Monk App Params', () => {
     );
   });
 
-  describe('useMonkAppParams hook', () => {
-    it('should return the current value of the MonkAppParamsContext', () => {
+  describe('useMonkApplicationState hook', () => {
+    it('should return the current value of the MonkApplicationStateContext', () => {
       const value = { test: 'hello' };
       const spy = jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppParams);
+      const { result, unmount } = renderHook(useMonkApplicationState);
 
-      expect(spy).toHaveBeenCalledWith(MonkAppParamsContext);
+      expect(spy).toHaveBeenCalledWith(MonkApplicationStateContext);
       expect(result.current).toEqual(value);
 
       unmount();
@@ -234,7 +239,7 @@ describe('Monk App Params', () => {
       const value = { inspectionId: 'hello' };
       jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppParams, {
+      const { result, unmount } = renderHook(useMonkApplicationState, {
         initialProps: { required: true },
       });
 
@@ -249,7 +254,7 @@ describe('Monk App Params', () => {
       const value = { authToken: 'hello' };
       jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppParams, {
+      const { result, unmount } = renderHook(useMonkApplicationState, {
         initialProps: { required: true },
       });
 
@@ -263,7 +268,7 @@ describe('Monk App Params', () => {
       const value = { authToken: 'hello', inspectionId: 'hi' };
       jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppParams, {
+      const { result, unmount } = renderHook(useMonkApplicationState, {
         initialProps: { required: true },
       });
 

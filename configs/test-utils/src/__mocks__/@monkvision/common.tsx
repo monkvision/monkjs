@@ -96,7 +96,7 @@ export = {
   isMobileDevice: jest.fn(() => false),
   zlibCompress: jest.fn(() => ''),
   zlibDecompress: jest.fn(() => ''),
-  useMonkAppParams: jest.fn(() => ({
+  useMonkApplicationState: jest.fn(() => ({
     authToken: null,
     inspectionId: null,
     vehicleType: null,
