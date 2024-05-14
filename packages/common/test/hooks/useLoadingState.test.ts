@@ -3,8 +3,20 @@ import { useLoadingState } from '../../src';
 import { act } from '@testing-library/react';
 
 describe('useLoadingState hook', () => {
-  it('should not be loading initially', () => {
+  it('should not starts by loading by default', () => {
     const { result, unmount } = renderHook(useLoadingState);
+    expect(result.current.isLoading).toBe(false);
+    unmount();
+  });
+
+  it('should start by loading if asked to', () => {
+    const { result, unmount } = renderHook(useLoadingState, { initialProps: true });
+    expect(result.current.isLoading).toBe(true);
+    unmount();
+  });
+
+  it('should not start by loading if not asked to', () => {
+    const { result, unmount } = renderHook(useLoadingState, { initialProps: false });
     expect(result.current.isLoading).toBe(false);
     unmount();
   });

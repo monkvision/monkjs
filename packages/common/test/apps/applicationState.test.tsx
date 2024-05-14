@@ -3,6 +3,7 @@ jest.mock('../../src/utils/zlib.utils', () => ({
 }));
 jest.mock('../../src/hooks', () => ({
   useSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
+  useLoadingState: jest.fn(() => ({ isLoading: false, onSuccess: jest.fn() })),
 }));
 
 import { render, screen } from '@testing-library/react';

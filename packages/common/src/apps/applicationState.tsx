@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { monkLanguages, SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { zlibDecompress } from '../utils';
-import { useSearchParams } from '../hooks';
+import { LoadingState, useLoadingState, useSearchParams } from '../hooks';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
@@ -21,6 +21,11 @@ export const STORAGE_KEY_AUTH_TOKEN = '@monk_authToken';
  * Application state usually used by Monk applications to configure and handle the current user journey.
  */
 export interface MonkApplicationState {
+  /**
+   * LoadingState indicating if the application state is loading. If it is loading it usually means that the provider
+   * did not have time to fetch the parameter values.
+   */
+  loading: LoadingState;
   /**
    * The authentication token representing the currently logged-in user. If this param is `null`, it means the user is
    * not logged in.
@@ -114,6 +119,13 @@ export enum MonkSearchParam {
  * @see MonkApplicationState
  */
 export const MonkApplicationStateContext = createContext<MonkApplicationState>({
+  loading: {
+    isLoading: false,
+    error: null,
+    start: () => {},
+    onSuccess: () => {},
+    onError: () => {},
+  },
   authToken: null,
   inspectionId: null,
   vehicleType: null,
@@ -193,6 +205,7 @@ export function MonkApplicationStateProvider({
   onLanguageFetchedFromSearchParams,
   children,
 }: PropsWithChildren<MonkApplicationStateProviderProps>) {
+  const loading = useLoadingState(true);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
@@ -200,6 +213,7 @@ export function MonkApplicationStateProvider({
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    loading.onSuccess();
     let fetchedToken: string | null = null;
     if (fetchTokenFromStorage) {
       fetchedToken = localStorage.getItem(STORAGE_KEY_AUTH_TOKEN);
@@ -226,20 +240,20 @@ export function MonkApplicationStateProvider({
         fetchedToken = zlibDecompress(compressedToken);
       }
 
-      if (fetchedToken) {
-        setAuthToken(fetchedToken);
-        onFetchAuthToken?.();
-      }
-
       const lang = searchParams.get(MonkSearchParam.LANGUAGE);
       if (lang && (monkLanguages as readonly string[]).includes(lang)) {
         onLanguageFetchedFromSearchParams?.(lang);
       }
     }
+    if (fetchedToken) {
+      setAuthToken(fetchedToken);
+      onFetchAuthToken?.();
+    }
   }, [searchParams]);
 
-  const appParams = useMemo(
+  const applicationState = useMemo(
     () => ({
+      loading,
       authToken,
       inspectionId,
       vehicleType,
@@ -249,11 +263,11 @@ export function MonkApplicationStateProvider({
       setVehicleType,
       setSteeringWheel,
     }),
-    [authToken, inspectionId, vehicleType, steeringWheel],
+    [loading, authToken, inspectionId, vehicleType, steeringWheel],
   );
 
   return (
-    <MonkApplicationStateContext.Provider value={appParams}>
+    <MonkApplicationStateContext.Provider value={applicationState}>
       {children}
     </MonkApplicationStateContext.Provider>
   );
