@@ -4,7 +4,12 @@ import { getEnvOrThrow, useMonkAppParams, useSearchParams } from '@monkvision/co
 import { DeviceOrientation } from '@monkvision/types';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { useNavigate } from 'react-router-dom';
-import { complianceIssuesPerSight, getSights, getTasksBySight } from '../../config';
+import {
+  complianceIssues,
+  complianceIssuesPerSight,
+  getSights,
+  getTasksBySight,
+} from '../../config';
 import styles from './PhotoCapturePage.module.css';
 import { Page } from '../pages';
 
@@ -39,6 +44,7 @@ export function PhotoCapturePage() {
         allowSkipRetake={true}
         useLiveCompliance={true}
         enableAddDamage={false}
+        complianceIssues={complianceIssues}
         complianceIssuesPerSight={complianceIssuesPerSight}
       />
     </div>

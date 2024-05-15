@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { getEnvOrThrow, useMonkAppParams, zlibCompress } from '@monkvision/common';
 import { DeviceOrientation, VehicleType } from '@monkvision/types';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { getSights } from '../../config';
+import { getSights, complianceIssues } from '../../config';
 import styles from './PhotoCapturePage.module.css';
 
 function getSearchParamFromVehicleType(vehicleType: VehicleType | null): string {
@@ -62,6 +62,7 @@ export function PhotoCapturePage() {
         enforceOrientation={DeviceOrientation.LANDSCAPE}
         allowSkipRetake={true}
         useLiveCompliance={true}
+        complianceIssues={complianceIssues}
       />
     </div>
   );
