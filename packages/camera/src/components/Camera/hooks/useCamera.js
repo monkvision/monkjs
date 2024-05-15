@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 
 import { utils } from '@monkvision/toolkit';
@@ -14,6 +14,27 @@ import log from '../../../utils/log';
 const diff = 1;
 const imageType = utils.supportsWebP ? 'image/webp' : 'image/jpeg';
 const imageFilenameExtension = imageType.substring('image/'.length);
+
+function calculateCanvasResolution(resolutionWidth, resolutionHeight, videoWidth, videoHeight) {
+  let calculationRatio = 1;
+  let canvasWidth = resolutionWidth;
+  let canvasHeight = resolutionHeight;
+
+  if (videoWidth && videoHeight) {
+    const videoAspectRatio = (videoWidth / videoHeight).toFixed(2);
+    const canvasAspectRatio = (resolutionWidth / resolutionHeight).toFixed(2);
+
+    if (videoAspectRatio !== canvasAspectRatio) {
+      const widthRatio = resolutionWidth / videoWidth;
+      const heightRatio = resolutionHeight / videoHeight;
+      calculationRatio = (widthRatio < heightRatio) ? widthRatio : heightRatio;
+      canvasWidth = Math.ceil(videoWidth * calculationRatio);
+      canvasHeight = Math.ceil(videoHeight * calculationRatio);
+    }
+  }
+
+  return { canvasWidth, canvasHeight };
+}
 
 /**
  * `useCamera` is a hook that takes the `canvasResolution` which holds the dimensions of the canvas,
@@ -48,29 +69,16 @@ export default function useCamera({
     }
   }, [stream, error]);
 
-  const canvasResolution = useMemo(() => {
-    let calculationRatio = 1;
-    let canvasWidth = width;
-    let canvasHeight = height;
-
-    if (videoRef.current && videoRef.current?.videoWidth && videoRef.current?.videoHeight) {
-      const { videoWidth, videoHeight } = videoRef.current;
-      const videoAspectRatio = (videoWidth / videoHeight).toFixed(2);
-      const canvasAspectRatio = (width / height).toFixed(2);
-
-      if (videoAspectRatio !== canvasAspectRatio) {
-        const widthRatio = width / videoWidth;
-        const heightRatio = height / videoHeight;
-        calculationRatio = (widthRatio < heightRatio) ? widthRatio : heightRatio;
-        canvasWidth = Math.ceil(videoWidth * calculationRatio);
-        canvasHeight = Math.ceil(videoHeight * calculationRatio);
-      }
-    }
-
-    return { canvasWidth, canvasHeight };
-  }, [width, height, stream]);
-
   const takePicture = useCallback(async () => {
+    if (!videoRef?.current?.videoWidth || !videoRef?.current?.videoHeight) {
+      throw new Error('Video width or height not defined');
+    }
+    const canvasResolution = calculateCanvasResolution(
+      width,
+      height,
+      videoRef.current.videoWidth,
+      videoRef.current.videoHeight,
+    );
     if (!videoRef.current || !stream) { throw new Error('Camera is not ready!'); }
 
     // create and use the separate canvas for each sight pic
@@ -100,7 +108,7 @@ export default function useCamera({
     }
 
     return { uri, canvasWidth, canvasHeight, imageType, imageFilenameExtension };
-  }, [canvasResolution, stream]);
+  }, [stream, width, height]);
 
   const resumePreview = async () => {
     if (videoRef.current) { videoRef.current.play(); }
