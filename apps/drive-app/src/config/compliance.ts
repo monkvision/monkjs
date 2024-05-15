@@ -11,5 +11,10 @@ export const complianceIssuesPerSight: Record<string, ComplianceIssue[]> = {
 };
 
 export const complianceIssues: ComplianceIssue[] = DEFAULT_COMPLIANCE_ISSUES.filter(
-  (issue) => ![ComplianceIssue.WRONG_ANGLE, ComplianceIssue.WRONG_CENTER_PART].includes(issue),
+  (issue) =>
+    ![
+      ComplianceIssue.WRONG_ANGLE,
+      ComplianceIssue.WRONG_CENTER_PART,
+      ComplianceIssue.MISSING_PARTS,
+    ].includes(issue),
 );
