@@ -3,8 +3,6 @@ export {
   type CameraConfig,
   CameraFacingMode,
   CameraResolution,
-  type CompressionOptions,
-  CompressionFormat,
   type UserMediaError,
   UserMediaErrorType,
 } from './hooks';

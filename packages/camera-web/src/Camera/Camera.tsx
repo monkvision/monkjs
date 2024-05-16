@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react';
-import { AllOrNone, RequiredKeys } from '@monkvision/types';
+import { AllOrNone, CompressionFormat, CompressionOptions, RequiredKeys } from '@monkvision/types';
 import { isMobileDevice } from '@monkvision/common';
 import {
   CameraFacingMode,
   CameraResolution,
-  CompressionFormat,
-  CompressionOptions,
   useCameraCanvas,
   useCameraPreview,
   useCameraScreenshot,

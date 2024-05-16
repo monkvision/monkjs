@@ -1,9 +1,9 @@
 import { sights } from '@monkvision/sights';
 import { act, render, waitFor } from '@testing-library/react';
-import { Camera, CameraResolution, CompressionFormat } from '@monkvision/camera-web';
+import { Camera, CameraResolution } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
+import { ComplianceIssue, TaskName, CompressionFormat } from '@monkvision/types';
 import { InspectionGallery } from '@monkvision/common-ui-web';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';

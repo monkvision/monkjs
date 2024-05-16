@@ -3,6 +3,7 @@ export * from './sights';
 export * from './theme';
 export * from './jsx';
 export * from './camera';
+export * from './config';
 export * from './i18n';
 export * from './utils';
 export * from './typeUtils';
