@@ -1,10 +1,10 @@
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
-import { flatMap, LoadingState, uniq } from '@monkvision/common';
+import { LoadingState } from '@monkvision/common';
 import { sights } from '@monkvision/sights';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useMonkApi } from '@monkvision/network';
-import { TaskName } from '@monkvision/types';
+import { Sight, TaskName } from '@monkvision/types';
 import { createFakePromise } from '@monkvision/test-utils';
 import {
   useStartTasksOnComplete,
@@ -56,7 +56,10 @@ describe('useStartTasksOnComplete hook', () => {
   });
 
   it('should start the tasks given in the startTasksOnComplete param', () => {
-    const initialProps = { ...createParams(), startTasksOnComplete: [TaskName.DASHBOARD_OCR] };
+    const initialProps = {
+      ...createParams(),
+      startTasksOnComplete: [TaskName.DASHBOARD_OCR, TaskName.WHEEL_ANALYSIS],
+    };
     const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
 
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
@@ -103,23 +106,47 @@ describe('useStartTasksOnComplete hook', () => {
     unmount();
   });
 
-  it('should start the sight tasks if startTasksOnComplete is true and no tasksBySight is given', () => {
+  it('should start the sight tasks of tasksBySight in priority and fill with the default tasks', () => {
     const defaultProps = createParams();
-    const initialProps = { ...defaultProps, startTasksOnComplete: true };
+    const initialProps = {
+      ...defaultProps,
+      startTasksOnComplete: true,
+      sights: [
+        { id: 'test-sight-1', tasks: [TaskName.DAMAGE_DETECTION, TaskName.PRICING] },
+        { id: 'test-sight-2', tasks: [TaskName.WHEEL_ANALYSIS, TaskName.PRICING] },
+        { id: 'test-sight-3', tasks: [TaskName.IMAGES_OCR, TaskName.PRICING] },
+        {
+          id: 'test-sight-3',
+          tasks: [TaskName.DAMAGE_DETECTION, TaskName.PRICING, TaskName.DASHBOARD_OCR],
+        },
+      ] as Sight[],
+      tasksBySight: {
+        'test-sight-1': [TaskName.DAMAGE_DETECTION, TaskName.PRICING, TaskName.IMAGE_EDITING],
+        'test-sight-2': [TaskName.REPAIR_ESTIMATE],
+      },
+    };
     const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
 
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
       .startInspectionTasks;
 
     result.current();
-    const tasks = uniq(flatMap(initialProps.sights, (sight) => sight.tasks));
     expect(startInspectionTasksMock).toHaveBeenCalledWith({
       inspectionId: initialProps.inspectionId,
-      names: tasks,
+      names: [
+        TaskName.DAMAGE_DETECTION,
+        TaskName.PRICING,
+        TaskName.IMAGE_EDITING,
+        TaskName.REPAIR_ESTIMATE,
+        TaskName.IMAGES_OCR,
+        TaskName.DASHBOARD_OCR,
+      ],
     });
 
     unmount();
   });
+
+  it('should start both the tasks from the tasksBySight and sights tasks lists when both are defined', () => {});
 
   it('should properly handle loading and error in case of success', async () => {
     const promise = createFakePromise<void>();

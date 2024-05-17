@@ -54,13 +54,11 @@ function getTasksToStart({
   UseStartTasksOnCompleteParams,
   'sights' | 'tasksBySight' | 'startTasksOnComplete'
 >): TaskName[] {
-  let tasks = [];
+  let tasks: TaskName[];
   if (Array.isArray(startTasksOnComplete)) {
     tasks = startTasksOnComplete;
-  } else if (tasksBySight) {
-    tasks = uniq(flatMap(sights, (sight) => tasksBySight[sight.id]));
   } else {
-    tasks = uniq(flatMap(sights, (sight) => sight.tasks));
+    tasks = uniq(flatMap(sights, (sight) => tasksBySight?.[sight.id] ?? sight.tasks));
   }
   return tasks.filter((task) => !TASKS_NOT_TO_START.includes(task));
 }
