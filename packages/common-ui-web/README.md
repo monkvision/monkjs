@@ -292,6 +292,7 @@ function LoginPage() {
 | onLoginSuccessful   | () => void                      | Callback called when the user successfully logs in.                                                                                            |          |               |
 | lang                | <code>string &#124; null</code> | The language used by this component.                                                                                                           |          | `en`          |
 | requiredPermissions | MonkApiPermission[]             | A list of required permissions to access the application.                                                                                      |          |               |
+| style               | CSSProperties                   | Custom styles applied to the main container of the page.                                                                                       |          |               |
 
 ---
 

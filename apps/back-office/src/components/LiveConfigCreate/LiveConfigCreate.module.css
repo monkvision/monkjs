@@ -1,0 +1,27 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error-message {
+  padding-bottom: 24px;
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons-container > button {
+  margin: 0 20px;
+}
+
+input {
+  display: none;
+}

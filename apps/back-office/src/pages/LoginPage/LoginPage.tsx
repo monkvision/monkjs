@@ -7,5 +7,11 @@ export function LoginPage() {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
 
-  return <Login lang={i18n.language} onLoginSuccessful={() => navigate(Page.LIVE_CONFIGS)} />;
+  return (
+    <Login
+      lang={i18n.language}
+      onLoginSuccessful={() => navigate(Page.LIVE_CONFIG)}
+      style={{ height: 'auto' }}
+    />
+  );
 }

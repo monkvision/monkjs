@@ -5,7 +5,7 @@ import { Page } from '../../pages';
 import styles from './Navbar.module.css';
 import { useNavbarTabStyle } from './hooks';
 
-export const TABS = [{ page: Page.LIVE_CONFIGS, label: 'Live Configs' }];
+export const TABS = [{ page: Page.LIVE_CONFIG, label: 'Live Config' }];
 
 export function Navbar() {
   const navigate = useNavigate();

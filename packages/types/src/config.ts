@@ -1,5 +1,5 @@
 import { CompressionOptions } from './camera';
-import { Sight, SteeringWheelPosition, VehicleType } from './sights';
+import { SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
 import { DeviceOrientation } from './utils';
@@ -20,6 +20,8 @@ export type CaptureAppConfig = Partial<CompressionOptions> &
      * - If set to `true`, the tasks described by the `tasksBySight` param (or, if not provided, the default tasks of each
      * sight) will be started.
      * - If an array of tasks is provided, the tasks started will be the ones contained in the array.
+     *
+     * @default true
      */
     startTasksOnComplete?: boolean | TaskName[];
     /**
@@ -71,16 +73,30 @@ export type CaptureAppConfig = Partial<CompressionOptions> &
         /**
          * The capture Sights per vehicle type.
          */
-        sights: Partial<Record<VehicleType, Sight[]>>;
+        sights: Partial<Record<VehicleType, string[]>>;
       }
     | {
         /**
          * Boolean indicating if the capture Sights should vary based on the steering wheel position.
          */
-        enableSteeringWheelPosition: false;
+        enableSteeringWheelPosition: true;
         /**
          * The capture Sights per vehicle type.
          */
-        sights: Record<SteeringWheelPosition, Partial<Record<VehicleType, Sight[]>>>;
+        sights: Record<SteeringWheelPosition, Partial<Record<VehicleType, string[]>>>;
       }
   );
+
+/**
+ * Live configuration used to configure Monk apps on the go.
+ */
+export type LiveConfig = CaptureAppConfig & {
+  /**
+   * The ID of the live config, used to fetch it from the API.
+   */
+  id: string;
+  /**
+   * The name of the live config.
+   */
+  name?: string;
+};

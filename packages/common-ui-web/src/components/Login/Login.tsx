@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTokenExpired, isUserAuthorized, MonkApiPermission, useAuth } from '@monkvision/network';
 import {
@@ -38,6 +38,10 @@ export interface LoginProps {
    * A list of required permissions to access the application.
    */
   requiredPermissions?: MonkApiPermission[];
+  /**
+   * Custom style applied to the main container of the page.
+   */
+  style?: CSSProperties;
 }
 
 function getLoginErrorMessage(err: unknown): string {
@@ -54,7 +58,13 @@ function getLoginErrorMessage(err: unknown): string {
  * authentication.
  */
 export const Login = i18nWrap(
-  ({ allowManualLogin = true, onLoginSuccessful, lang, requiredPermissions }: LoginProps) => {
+  ({
+    allowManualLogin = true,
+    onLoginSuccessful,
+    lang,
+    requiredPermissions,
+    style = {},
+  }: LoginProps) => {
     useI18nSync(lang);
     const [isExpired, setIsExpired] = useState(false);
     const loading = useLoadingState();
@@ -99,7 +109,7 @@ export const Login = i18nWrap(
     };
 
     return (
-      <div style={{ ...rootStyles, ...styles['container'] }}>
+      <div style={{ ...rootStyles, ...styles['container'], ...style }}>
         {isExpired && <div style={styles['error-message']}>{t('errors.token-expired')}</div>}
         {loading.error && <div style={styles['error-message']}>{t(loading.error)}</div>}
         {authToken && allowManualLogin && 'hi'}

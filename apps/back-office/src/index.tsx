@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { getEnvOrThrow, MonkThemeProvider } from '@monkvision/common';
-import { AppRouter } from './components';
+import { AppRouter } from './app';
 import './index.css';
 
 ReactDOM.render(
