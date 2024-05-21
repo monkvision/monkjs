@@ -17,15 +17,15 @@ export function PhotoCaptureHUDElementsSight({
   onRetakeSight = () => {},
   onAddDamage = () => {},
   sightsTaken,
-  streamDimensions,
+  previewDimensions,
   images,
   enableAddDamage,
 }: PhotoCaptureHUDElementsSightProps) {
-  const style = usePhotoCaptureHUDSightPreviewStyle({ streamDimensions });
+  const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
 
   return (
     <div style={styles['container']}>
-      {streamDimensions && <SightOverlay style={style.overlay} sight={selectedSight} />}
+      {previewDimensions && <SightOverlay style={style.overlay} sight={selectedSight} />}
       <div style={style.elementsContainer}>
         <div style={style.top}>
           <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />

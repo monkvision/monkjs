@@ -40,7 +40,7 @@ function createProps(): PhotoCaptureHUDElementsProps {
     onCancelAddDamage: jest.fn(),
     onSelectSight: jest.fn(),
     onRetakeSight: jest.fn(),
-    streamDimensions: { height: 1234, width: 45678 },
+    previewDimensions: { height: 1234, width: 45678 },
     isLoading: false,
     error: null,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
@@ -83,7 +83,7 @@ describe('PhotoCaptureHUDElements component', () => {
       onSelectedSight: props.onSelectSight,
       sightsTaken: props.sightsTaken,
       onAddDamage: props.onAddDamage,
-      streamDimensions: props.streamDimensions,
+      previewDimensions: props.previewDimensions,
       images: props.images,
     });
     expect(PhotoCaptureHUDElementsAddDamage1stShot).not.toHaveBeenCalled();

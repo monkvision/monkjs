@@ -1,5 +1,7 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import { RefObject, useEffect, useMemo, useRef } from 'react';
+import { PixelDimensions } from '@monkvision/types';
+import { useWindowDimensions } from '@monkvision/common';
 import { CameraConfig, getMediaConstraints } from './utils';
 import { UserMediaResult, useUserMedia } from './useUserMedia';
 
@@ -7,6 +9,10 @@ import { UserMediaResult, useUserMedia } from './useUserMedia';
  * An object containing properties used to handle the camera preview.
  */
 export interface CameraPreviewHandle extends UserMediaResult {
+  /**
+   * The effective pixel dimensions of the video stream on the client screen.
+   */
+  previewDimensions: PixelDimensions | null;
   /**
    * React MutableRefObject referencing the video element displaying the camera preview.
    */
@@ -19,8 +25,27 @@ export interface CameraPreviewHandle extends UserMediaResult {
  */
 export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   const ref = useRef<HTMLVideoElement>(null);
+  const windowDimensions = useWindowDimensions();
   const { handleError } = useMonitoring();
   const userMediaResult = useUserMedia(getMediaConstraints(config), ref);
+
+  const previewDimensions = useMemo(() => {
+    if (!windowDimensions || !userMediaResult.dimensions) {
+      return null;
+    }
+    const windowAspectRatio = windowDimensions.width / windowDimensions.height;
+    const streamAspectRatio = userMediaResult.dimensions.width / userMediaResult.dimensions.height;
+
+    return windowAspectRatio >= streamAspectRatio
+      ? {
+          width: windowDimensions.height * streamAspectRatio,
+          height: windowDimensions.height,
+        }
+      : {
+          width: windowDimensions.width,
+          height: windowDimensions.width / streamAspectRatio,
+        };
+  }, [windowDimensions, userMediaResult.dimensions]);
 
   useEffect(() => {
     if (userMediaResult.stream && ref.current) {
@@ -34,8 +59,9 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   return useMemo(
     () => ({
       ref,
+      previewDimensions,
       ...userMediaResult,
     }),
-    [userMediaResult],
+    [previewDimensions, userMediaResult],
   );
 }

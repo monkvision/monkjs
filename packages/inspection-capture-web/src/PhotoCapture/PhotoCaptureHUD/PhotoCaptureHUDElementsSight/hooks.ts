@@ -31,9 +31,9 @@ export interface PhotoCaptureHUDElementsSightProps {
    */
   sightsTaken: Sight[];
   /**
-   * The dimensions of the Camera video stream.
+   * The effective pixel dimensions of the Camera video stream on the screen.
    */
-  streamDimensions?: PixelDimensions | null;
+  previewDimensions?: PixelDimensions | null;
   /**
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
@@ -47,10 +47,9 @@ export interface PhotoCaptureHUDElementsSightProps {
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle({
-  streamDimensions,
-}: Pick<PhotoCaptureHUDElementsSightProps, 'streamDimensions'>) {
+  previewDimensions,
+}: Pick<PhotoCaptureHUDElementsSightProps, 'previewDimensions'>) {
   const { responsive } = useResponsiveStyle();
-  const aspectRatio = `${streamDimensions?.width}/${streamDimensions?.height}`;
 
   return {
     container: styles['container'],
@@ -62,7 +61,8 @@ export function usePhotoCaptureHUDSightPreviewStyle({
     bottom: styles['bottom'],
     overlay: {
       ...styles['overlay'],
-      aspectRatio,
+      width: previewDimensions?.width,
+      height: previewDimensions?.height,
     },
   };
 }

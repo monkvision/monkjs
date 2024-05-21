@@ -27,6 +27,10 @@ export interface CameraHandle {
    * stream constraints if they are not supported or available on the current device.
    */
   dimensions: PixelDimensions | null;
+  /**
+   * The effective pixel dimensions of the video stream on the client screen.
+   */
+  previewDimensions: PixelDimensions | null;
 }
 
 /**
