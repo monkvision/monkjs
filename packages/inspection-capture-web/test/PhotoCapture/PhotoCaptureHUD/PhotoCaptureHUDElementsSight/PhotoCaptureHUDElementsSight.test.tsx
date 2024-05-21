@@ -42,7 +42,7 @@ function createProps(): PhotoCaptureHUDElementsSightProps {
     sightsTaken: [captureSights[0], captureSights[1]],
     onSelectedSight: jest.fn(),
     onAddDamage: jest.fn(),
-    streamDimensions: { width: 4563, height: 992 },
+    previewDimensions: { width: 4563, height: 992 },
     images: [
       { sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT },
       { sightId: 'test-sight-2', status: ImageStatus.SUCCESS },
@@ -51,14 +51,15 @@ function createProps(): PhotoCaptureHUDElementsSightProps {
 }
 
 describe('PhotoCaptureHUDElementsSight component', () => {
-  it('should display the current sight overlay with the proper aspect ratio', () => {
+  it('should display the current sight overlay with the proper dimensions', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUDElementsSight {...props} />);
 
     expectPropsOnChildMock(SightOverlay, {
       sight: props.selectedSight,
       style: expect.objectContaining({
-        aspectRatio: `${props.streamDimensions?.width}/${props.streamDimensions?.height}`,
+        width: props.previewDimensions?.width,
+        height: props.previewDimensions?.height,
       }),
     });
 

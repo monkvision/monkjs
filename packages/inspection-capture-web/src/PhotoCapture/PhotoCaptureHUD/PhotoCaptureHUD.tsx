@@ -146,7 +146,7 @@ export function PhotoCaptureHUD({
           onRetakeSight={onRetakeSight}
           isLoading={loading.isLoading || handle.isLoading}
           error={loading.error ?? handle.error}
-          streamDimensions={handle.dimensions}
+          previewDimensions={handle.previewDimensions}
           images={images}
           enableAddDamage={enableAddDamage}
         />

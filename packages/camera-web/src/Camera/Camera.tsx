@@ -103,6 +103,7 @@ export function Camera<T extends object>({
   const {
     ref: videoRef,
     dimensions: streamDimensions,
+    previewDimensions,
     error,
     retry,
     isLoading: isPreviewLoading,
@@ -148,7 +149,14 @@ export function Camera<T extends object>({
 
   return HUDComponent ? (
     <HUDComponent
-      handle={{ takePicture, error, retry, isLoading, dimensions: streamDimensions }}
+      handle={{
+        takePicture,
+        error,
+        retry,
+        isLoading,
+        dimensions: streamDimensions,
+        previewDimensions,
+      }}
       cameraPreview={cameraPreview}
       {...((hudProps ?? {}) as T)}
     />

@@ -41,9 +41,9 @@ export interface PhotoCaptureHUDElementsProps {
    */
   onRetakeSight: (sight: string) => void;
   /**
-   * The dimensions of the Camera video stream.
+   * The effective pixel dimensions of the Camera video stream on the screen.
    */
-  streamDimensions: PixelDimensions | null;
+  previewDimensions: PixelDimensions | null;
   /**
    * Boolean indicating if the global loading state of the PhotoCapture component is loading or not.
    */
@@ -80,7 +80,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         onRetakeSight={params.onRetakeSight}
         sightsTaken={params.sightsTaken}
         onAddDamage={params.onAddDamage}
-        streamDimensions={params.streamDimensions}
+        previewDimensions={params.previewDimensions}
         images={params.images}
         enableAddDamage={params.enableAddDamage}
       />
@@ -92,7 +92,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
   return (
     <PhotoCaptureHUDElementsAddDamage2ndShot
       onCancel={params.onCancelAddDamage}
-      streamDimensions={params.streamDimensions}
+      streamDimensions={params.previewDimensions}
     />
   );
 }

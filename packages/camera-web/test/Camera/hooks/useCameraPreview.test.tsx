@@ -1,3 +1,5 @@
+import { useWindowDimensions } from '@monkvision/common';
+
 jest.mock('../../../src/Camera/hooks/utils', () => ({
   ...jest.requireActual('../../../src/Camera/hooks/utils'),
   getMediaConstraints: jest.fn(() => ({ audio: false, video: true })),
@@ -104,6 +106,77 @@ describe('useCameraPreview hook', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
     unmountRender();
+    unmount();
+  });
+
+  it('should return nuyll preview dimensions if the window dimensions or stream dimensions are null', () => {
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => null);
+    (useUserMedia as jest.Mock).mockImplementationOnce(() => ({
+      dimensions: { width: 3840, height: 2160 },
+    }));
+    const { result, rerender, unmount } = renderHook(useCameraPreview);
+
+    expect(result.current.previewDimensions).toBeNull();
+
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({
+      width: 1920,
+      height: 1080,
+    }));
+    (useUserMedia as jest.Mock).mockImplementationOnce(() => ({ dimensions: null }));
+    rerender();
+    expect(result.current.previewDimensions).toBeNull();
+
+    unmount();
+  });
+
+  it('should return the proper preview dimensions when the aspect ratios are the same', () => {
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({
+      width: 1920,
+      height: 1080,
+    }));
+    (useUserMedia as jest.Mock).mockImplementationOnce(() => ({
+      dimensions: { width: 3840, height: 2160 },
+    }));
+    const { result, unmount } = renderHook(useCameraPreview);
+
+    expect(result.current.previewDimensions).not.toBeNull();
+    expect(result.current.previewDimensions?.width).toEqual(1920);
+    expect(result.current.previewDimensions?.height).toEqual(1080);
+
+    unmount();
+  });
+
+  it('should return the proper preview dimensions when the window width is larger', () => {
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({
+      width: 1920,
+      height: 1080,
+    }));
+    (useUserMedia as jest.Mock).mockImplementationOnce(() => ({
+      dimensions: { width: 500, height: 600 },
+    }));
+    const { result, unmount } = renderHook(useCameraPreview);
+
+    expect(result.current.previewDimensions).not.toBeNull();
+    expect(result.current.previewDimensions?.width).toEqual((1080 * 500) / 600);
+    expect(result.current.previewDimensions?.height).toEqual(1080);
+
+    unmount();
+  });
+
+  it('should return the proper preview dimensions when the window height is larger', () => {
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({
+      width: 1440,
+      height: 1080,
+    }));
+    (useUserMedia as jest.Mock).mockImplementationOnce(() => ({
+      dimensions: { width: 3840, height: 2160 },
+    }));
+    const { result, unmount } = renderHook(useCameraPreview);
+
+    expect(result.current.previewDimensions).not.toBeNull();
+    expect(result.current.previewDimensions?.width).toEqual(1440);
+    expect(result.current.previewDimensions?.height).toEqual((1440 * 2160) / 3840);
+
     unmount();
   });
 

@@ -58,6 +58,7 @@ function createProps(): PhotoCaptureHUDProps {
       isLoading: false,
       error: null,
       dimensions: { height: 2, width: 4 },
+      previewDimensions: { height: 111, width: 2222 },
     } as unknown as CameraHandle,
     cameraPreview: <div data-testid={cameraTestId}></div>,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
@@ -92,7 +93,7 @@ describe('PhotoCaptureHUD component', () => {
       onSelectSight: props.onSelectSight,
       isLoading: props.loading.isLoading || props.handle.isLoading,
       error: props.loading.error ?? props.handle.error,
-      streamDimensions: props.handle.dimensions,
+      previewDimensions: props.handle.previewDimensions,
       images: props.images,
     });
 
