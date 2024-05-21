@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { Camera, CameraHUDProps, CameraProps, CompressionOptions } from '@monkvision/camera-web';
-import { ComplianceOptions, DeviceOrientation, Sight, TaskName } from '@monkvision/types';
+import { Camera, CameraHUDProps, CameraProps } from '@monkvision/camera-web';
+import {
+  CaptureAppConfig,
+  ComplianceOptions,
+  DeviceOrientation,
+  Sight,
+  CompressionOptions,
+} from '@monkvision/types';
 import {
   useI18nSync,
   useLoadingState,
@@ -32,6 +38,15 @@ import { styles } from './PhotoCapture.styles';
  */
 export interface PhotoCaptureProps
   extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
+    Pick<
+      CaptureAppConfig,
+      | 'tasksBySight'
+      | 'startTasksOnComplete'
+      | 'showCloseButton'
+      | 'enforceOrientation'
+      | 'allowSkipRetake'
+      | 'enableAddDamage'
+    >,
     Partial<CompressionOptions>,
     Partial<ComplianceOptions> {
   /**
@@ -50,19 +65,6 @@ export interface PhotoCaptureProps
    */
   apiConfig: MonkApiConfig;
   /**
-   * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
-   * sight will be used.
-   */
-  tasksBySight?: Record<string, TaskName[]>;
-  /**
-   * Value indicating if tasks should be started at the end of the inspection :
-   * - If not provided or if value is set to `false`, no tasks will be started.
-   * - If set to `true`, the tasks described by the `tasksBySight` param (or, if not provided, the default tasks of each
-   * sight) will be started.
-   * - If an array of tasks is provided, the tasks started will be the ones contained in the array.
-   */
-  startTasksOnComplete?: boolean | TaskName[];
-  /**
    * Callback called when the user clicks on the Close button. If this callback is not provided, the button will not be
    * displayed on the screen.
    */
@@ -72,34 +74,11 @@ export interface PhotoCaptureProps
    */
   onComplete?: () => void;
   /**
-   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
-   *
-   * @default false
-   */
-  showCloseButton?: boolean;
-  /**
    * The language to be used by this component.
    *
    * @default en
    */
   lang?: string | null;
-  /**
-   * Use this prop to enforce a specific device orientation for the Camera screen.
-   */
-  enforceOrientation?: DeviceOrientation;
-  /**
-   * If compliance is enabled, this prop indicate if the user is allowed to skip the retaking process if pictures are
-   * not compliant.
-   *
-   * @default false
-   */
-  allowSkipRetake?: boolean;
-  /**
-   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
-   *
-   * @default true
-   */
-  enableAddDamage?: boolean;
 }
 
 enum PhotoCaptureScreen {

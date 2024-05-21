@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button, Spinner } from '@monkvision/common-ui-web';
 import { useMonkApi } from '@monkvision/network';
-import { getEnvOrThrow, useLoadingState, useMonkAppParams } from '@monkvision/common';
+import { getEnvOrThrow, useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import { TaskName } from '@monkvision/types';
 import { Page } from '../pages';
@@ -13,7 +13,7 @@ export function CreateInspectionPage() {
   const loading = useLoadingState();
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
-  const { authToken, inspectionId, setInspectionId } = useMonkAppParams();
+  const { authToken, inspectionId, setInspectionId } = useMonkApplicationState();
   const { createInspection } = useMonkApi({
     authToken: authToken ?? '',
     apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN'),

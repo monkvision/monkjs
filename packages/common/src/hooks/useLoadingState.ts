@@ -31,9 +31,11 @@ export interface LoadingState {
 /**
  * Custom hook used to create a `LoadingState` object. This object can be used to track the processing of a task in
  * the component. For instance, you can use this hook to handle the loading and errors of API calls in your components.
+ *
+ * @param [startsLoading] Boolean indicating if the loading state starts in loading mode or not.
  */
-export function useLoadingState(): LoadingState {
-  const [isLoading, setIsLoading] = useState(false);
+export function useLoadingState(startsLoading?: boolean): LoadingState {
+  const [isLoading, setIsLoading] = useState(!!startsLoading);
   const [error, setError] = useState<unknown | null>(null);
 
   const start = useCallback(() => {

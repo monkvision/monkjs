@@ -11,6 +11,7 @@ export = {
   Icon: jest.fn(() => <></>),
   ImageDetailedView: jest.fn(() => <></>),
   InspectionGallery: jest.fn(() => <></>),
+  Login: jest.fn(() => <></>),
   SightOverlay: jest.fn(() => <></>),
   Slider: jest.fn(() => <></>),
   Spinner: jest.fn(() => <></>),

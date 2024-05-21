@@ -1,16 +1,4 @@
 {
-  "login": {
-    "actions": {
-      "log-in": "Inloggen",
-      "log-out": "Uitloggen"
-    },
-    "errors": {
-      "popup-closed": "Oeps! We konden u niet inloggen omdat het pop-upvenster werd gesloten. Probeer het nog eens!",
-      "token-expired": "Uw authenticatietoken is verlopen. Log opnieuw in.",
-      "insufficient-authorization": "U heeft niet de juiste machtigingen om deze applicatie te gebruiken. Log uit en gebruik een ander account.",
-      "unknown": "Oeps! Er is een onverwachte fout opgetreden tijdens het inloggen. Probeer het nog eens!"
-    }
-  },
   "create-inspection": {
     "errors": {
       "retry": "Opnieuw proberen",

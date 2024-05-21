@@ -10,6 +10,46 @@ yarn add @monkvision/common-ui-web
 ```
 
 # Available components
+## AuthGuard
+### Description
+This component can be used in your application Routers (react-router-dom v6) to protect a given route and redirect the
+user to another page if they are not authorized to access this resource.
+
+**Note : For this component to work properly, it must be the child of a `MonkApplicationStateProvider` component.**
+
+### Example
+```tsx
+import { AuthGuard } from '@monkvision/common-ui-web';
+
+export function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<App />}>
+          <Route path={Page.LOG_IN} element={<LoginPage />} />
+          <Route
+            path={Page.MY_PROTECTED_PAGE}
+            element={
+              <AuthGuard redirectTo={Page.LOG_IN}>
+                <MyProtectedPage />
+              </AuthGuard>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+### Props
+| Prop                | Type                | Description                                                                        | Required | Default Value |
+|---------------------|---------------------|------------------------------------------------------------------------------------|----------|---------------|
+| redirectTo          | string              | The URL to redirect the user to if they are not authorized to access the resource. | ✔️       |               |
+| requiredPermissions | MonkApiPermission[] | A list of required permissions to access the resource.                             |          |               |
+
+---
+
 ## BackdropDialog
 ### Description
 This component can be used to display a fixed dialog on the screen, with a backdrop behind it. You can either pass a
@@ -221,6 +261,38 @@ function App() {
 | onNavigateToCapture | () => void        | Callback called when the user wants to navigate back to the capture component. This prop can only be specified if `captureMode` is set to true.                                                    |                                 |               |
 | enableCompliance    | boolean           | Boolean indicating if compliance checks should be enabled or not. This prop can only be specified if `captureMode` is set to true.                                                                 |                                 |               |
 | complianceIssues    | ComplianceIssue[] | If compliance checks are enable, this property can be used to select a list of compliance issues to check. This prop can only be specified if `captureMode` is set to true.                        |                                 |               |
+
+---
+
+## Login
+### Description
+This component is a ready-to-use Login page that is used throughout the different Monk webapps to handle authentication.
+
+### Example
+
+```tsx
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getSightById } from '@monkvision/sights';
+import { Login } from '@monkvision/common-ui-web';
+
+function LoginPage() {
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  return (
+    <Login lang={i18n.language} onLoginSuccessful={() => navigate('/home')} />
+  );
+}
+```
+
+### Props
+| Prop                | Type                            | Description                                                                                                                                    | Required | Default Value |
+|---------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| allowManualLogin    | boolean                         | Boolean indicating if manual login by the user should be allowed. If this prop is set to `false`, we never display a login button to the user. |          | `true`        |
+| onLoginSuccessful   | () => void                      | Callback called when the user successfully logs in.                                                                                            |          |               |
+| lang                | <code>string &#124; null</code> | The language used by this component.                                                                                                           |          | `en`          |
+| requiredPermissions | MonkApiPermission[]             | A list of required permissions to access the application.                                                                                      |          |               |
+| style               | CSSProperties                   | Custom styles applied to the main container of the page.                                                                                       |          |               |
 
 ---
 

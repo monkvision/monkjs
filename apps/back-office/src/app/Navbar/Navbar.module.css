@@ -1,0 +1,63 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -12px 20px 0 #000000;
+}
+
+.left-container {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+}
+
+.logo {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.logo > img {
+  height: 28px;
+}
+
+.tab {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px 5px 20px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.tab:active {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.tab.selected {
+  padding-bottom: 0;
+  border-bottom: solid white 5px;
+}
+
+.right-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 14px 24px;
+}

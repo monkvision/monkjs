@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { getEnvOrThrow, useMonkAppParams, zlibCompress } from '@monkvision/common';
+import { getEnvOrThrow, useMonkApplicationState, zlibCompress } from '@monkvision/common';
 import { DeviceOrientation, VehicleType } from '@monkvision/types';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { getSights, complianceIssues } from '../../config';
@@ -40,7 +40,7 @@ function createInspectionReportLink(
 
 export function PhotoCapturePage() {
   const { i18n } = useTranslation();
-  const { authToken, inspectionId, vehicleType } = useMonkAppParams({ required: true });
+  const { authToken, inspectionId, vehicleType } = useMonkApplicationState({ required: true });
 
   const handleComplete = () => {
     window.location.href = createInspectionReportLink(

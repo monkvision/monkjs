@@ -60,7 +60,8 @@ When pictures are taken by the camera, they are compressed and encoded. The comp
 configured using props on the camera component in the following ways :
 
 ```tsx
-import { Camera, CameraFacingMode, CameraResolution } from '@monkvision/camera-web';
+import { Camera } from '@monkvision/camera-web';
+import { CompressionFormat } from '@monkvision/types';
 
 function MyCameraPreview() {
   return <Camera format={CompressionFormat.JPEG} quality={0.4} />;

@@ -1,4 +1,4 @@
 export * from './pages';
-export * from './LogInPage';
+export * from './LoginPage';
 export * from './CreateInspectionPage';
 export * from './PhotoCapturePage';

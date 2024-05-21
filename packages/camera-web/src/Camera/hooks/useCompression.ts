@@ -1,5 +1,5 @@
 import { TransactionStatus } from '@monkvision/monitoring';
-import { MonkPicture } from '@monkvision/types';
+import { CompressionOptions, MonkPicture } from '@monkvision/types';
 import { RefObject, useCallback } from 'react';
 import {
   CompressionMeasurement,
@@ -8,35 +8,6 @@ import {
   PictureSizeMeasurement,
 } from '../monitoring';
 import { getCanvasHandle } from './utils';
-
-/**
- * Enumeration of the different compression format available for the Monk Camera
- */
-export enum CompressionFormat {
-  /**
-   * Compression using the JPEG format.
-   */
-  JPEG = 'image/jpeg',
-}
-
-/**
- * Options used to specify the type of compression and encoding applied to the pictures taken by the Camera.
- */
-export interface CompressionOptions {
-  /**
-   * The output format of the compression.
-   *
-   * @default CompressionFormat.JPEG
-   */
-  format: CompressionFormat;
-  /**
-   * Value indicating image quality for the compression output. This value goes from 1 (full quality, no loss) to 0
-   * (very low quality). For compression formats that do not supported lossy compression, this option is ignored.
-   *
-   * @default 0.8
-   */
-  quality: number;
-}
 
 /**
  * Params given to the useCompression hooks.

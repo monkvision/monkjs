@@ -25,13 +25,9 @@ jest.mock('../../src/Camera/hooks', () => ({
 
 import { render, screen } from '@testing-library/react';
 import { expectHTMLElementToHaveRef, expectPropsOnChildMock } from '@monkvision/test-utils';
-import {
-  Camera,
-  CameraFacingMode,
-  CameraHUDComponent,
-  CameraResolution,
-  CompressionFormat,
-} from '../../src';
+import { isMobileDevice } from '@monkvision/common';
+import { CompressionFormat } from '@monkvision/types';
+import { Camera, CameraFacingMode, CameraHUDComponent, CameraResolution } from '../../src';
 import {
   useCameraCanvas,
   useCameraPreview,
@@ -39,7 +35,6 @@ import {
   useCompression,
   useTakePicture,
 } from '../../src/Camera/hooks';
-import { isMobileDevice } from '@monkvision/common';
 
 const VIDEO_PREVIEW_TEST_ID = 'camera-video-preview';
 const CANVAS_TEST_ID = 'camera-canvas';

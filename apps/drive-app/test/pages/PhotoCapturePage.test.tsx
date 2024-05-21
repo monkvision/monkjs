@@ -14,13 +14,13 @@ jest.mock('../../src/config', () => ({
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { useMonkAppParams, useSearchParams } from '@monkvision/common';
+import { useMonkApplicationState, useSearchParams } from '@monkvision/common';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Page, PhotoCapturePage } from '../../src/pages';
 import { complianceIssuesPerSight, getSights, getTasksBySight } from '../../src/config';
 
-const appParams = {
+const appState = {
   authToken: 'test-auth-token',
   inspectionId: 'test-inspection-id',
   vehicleType: 'cuv',
@@ -35,12 +35,12 @@ describe('PhotoCapture page', () => {
   it('should pass the proper props to the PhotoCapture component', () => {
     const language = 'test';
     (useTranslation as jest.Mock).mockImplementation(() => ({ i18n: { language } }));
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appState);
     const { unmount } = render(<PhotoCapturePage />);
 
     expectPropsOnChildMock(PhotoCapture, {
-      apiConfig: { authToken: appParams.authToken, apiDomain: 'REACT_APP_API_DOMAIN' },
-      inspectionId: appParams.inspectionId,
+      apiConfig: { authToken: appState.authToken, apiDomain: 'REACT_APP_API_DOMAIN' },
+      inspectionId: appState.inspectionId,
       lang: language,
       sights: expect.any(Array),
       onComplete: expect.any(Function),
@@ -50,10 +50,10 @@ describe('PhotoCapture page', () => {
   });
 
   it('should use the proper sights for all vehicle types', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appState);
     const { unmount } = render(<PhotoCapturePage />);
 
-    expect(getSights).toHaveBeenCalledWith(appParams.vehicleType, appParams.steeringWheel);
+    expect(getSights).toHaveBeenCalledWith(appState.vehicleType, appState.steeringWheel);
     expectPropsOnChildMock(PhotoCapture, {
       sights: getSights(VehicleType.SUV, null),
     });
@@ -84,7 +84,7 @@ describe('PhotoCapture page', () => {
   it('should pass the proper tasksBySight value', () => {
     const { unmount } = render(<PhotoCapturePage />);
 
-    expect(getSights).toHaveBeenCalledWith(appParams.vehicleType, appParams.steeringWheel);
+    expect(getSights).toHaveBeenCalledWith(appState.vehicleType, appState.steeringWheel);
     const sights = (getSights as jest.Mock).mock.results[0].value;
     expect(getTasksBySight).toHaveBeenCalledWith(sights);
     const tasksBySight = (getTasksBySight as jest.Mock).mock.results[0].value;
@@ -108,7 +108,7 @@ describe('PhotoCapture page', () => {
   });
 
   it('should redirect to the inspection complete page after the inspection', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => appParams);
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => appState);
     const { unmount } = render(<PhotoCapturePage />);
 
     expect(useNavigate).toHaveBeenCalled();

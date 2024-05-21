@@ -1,10 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { Navigate } from 'react-router-dom';
-import { useLoadingState, useMonkAppParams } from '@monkvision/common';
+import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { CreateInspectionPage, Page } from '../../src/pages';
 
-const appParams = {
+const appState = {
   authToken: 'test-auth-token',
   inspectionId: null,
   setInspectionId: jest.fn(),
@@ -16,8 +16,8 @@ describe('CreateInspection page', () => {
   });
 
   it('should redirect to the PhotoCapture page if the inspectionId is defined', () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({
-      ...appParams,
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
+      ...appState,
       inspectionId: 'test',
     }));
     const { unmount } = render(<CreateInspectionPage />);
@@ -28,7 +28,7 @@ describe('CreateInspection page', () => {
   });
 
   it('should display an error message if the inspection ID is not defined', async () => {
-    (useMonkAppParams as jest.Mock).mockImplementation(() => ({ inspectionId: null }));
+    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({ inspectionId: null }));
     const onError = jest.fn();
     const error = 'test-error';
     (useLoadingState as jest.Mock).mockImplementation(() => ({ onError, error, start: jest.fn() }));
