@@ -10,11 +10,4 @@ export const complianceIssuesPerSight: Record<string, ComplianceIssue[]> = {
   'all-T4HrF8KA': IQA_COMPLIANCE_ISSUES,
 };
 
-export const complianceIssues: ComplianceIssue[] = DEFAULT_COMPLIANCE_ISSUES.filter(
-  (issue) =>
-    ![
-      ComplianceIssue.WRONG_ANGLE,
-      ComplianceIssue.WRONG_CENTER_PART,
-      ComplianceIssue.MISSING_PARTS,
-    ].includes(issue),
-);
+export const complianceIssues: ComplianceIssue[] = DEFAULT_COMPLIANCE_ISSUES;
