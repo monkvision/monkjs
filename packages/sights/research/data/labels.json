@@ -97,19 +97,19 @@
     "de": "Vordertür rechts",
     "nl": "Voordeur rechts"
   },
-  "front-fender-left": {
-    "key": "front-fender-left",
-    "en": "Front Fender Left",
-    "fr": "Aile avant gauche",
-    "de": "Linker vorderer Kotflügel",
-    "nl": "Linkervoorste spatbord"
+  "front-left": {
+    "key": "front-left",
+    "en": "Front Left",
+    "fr": "Avant gauche",
+    "de": "Vorne links",
+    "nl": "Linksvoor"
   },
-  "front-fender-right": {
-    "key": "front-fender-right",
-    "en": "Front Fender Right",
-    "fr": "Aile avant droite",
-    "de": "Rechter vorderer Flügel",
-    "nl": "Rechtervoorste spatbord"
+  "front-right": {
+    "key": "front-right",
+    "en": "Front Right",
+    "fr": "Aile droite",
+    "de": "Vorne rechts",
+    "nl": "Rechtsvoor"
   },
   "front-full-right": {
     "key": "front-full-right",
@@ -209,19 +209,19 @@
     "de": "Innen Dach",
     "nl": "Interieur dak"
   },
-  "lateral-full-left": {
-    "key": "lateral-full-left",
-    "en": "Lateral Full Left",
-    "fr": "Latéral gauche - vue complète",
-    "de": "Seitlich voll links",
-    "nl": "Zijwaarts volledig links"
+  "full-left": {
+    "key": "full-left",
+    "en": "Full Left",
+    "fr": "Gauche vue complète",
+    "de": "Vollständig links",
+    "nl": "Volledig links"
   },
-  "lateral-full-right": {
-    "key": "lateral-full-right",
-    "en": "Lateral Full Right",
-    "fr": "Latéral droite - vue complète",
-    "de": "Seitlich voll rechts",
-    "nl": "Zijwaarts volledig rechts"
+  "full-right": {
+    "key": "full-right",
+    "en": "Full Right",
+    "fr": "Droite vue complète",
+    "de": "Volles Recht",
+    "nl": "Volledig rechts"
   },
   "lateral-left": {
     "key": "lateral-left",

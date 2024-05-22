@@ -209,7 +209,7 @@
       "rotation_xyz_deg": [83, 0, 90]
     },
     "category": "exterior",
-    "label": "lateral-full-left",
+    "label": "full-left",
     "overlay": "ff150-GOx2s_9L.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-_UIadfVL",
@@ -239,7 +239,7 @@
       "rotation_xyz_deg": [75, 0, -57]
     },
     "category": "exterior",
-    "label": "front-fender-right",
+    "label": "front-right",
     "overlay": "ff150-OviO2DlY.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-wO_fJ3DL",
@@ -299,7 +299,7 @@
       "rotation_xyz_deg": [83, 0, -90]
     },
     "category": "exterior",
-    "label": "lateral-full-right",
+    "label": "full-right",
     "overlay": "ff150-_UIadfVL.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-GOx2s_9L",
@@ -493,7 +493,7 @@
       "rotation_xyz_deg": [75, 0, 57]
     },
     "category": "exterior",
-    "label": "front-fender-left",
+    "label": "front-left",
     "overlay": "ff150-wO_fJ3DL.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-OviO2DlY",

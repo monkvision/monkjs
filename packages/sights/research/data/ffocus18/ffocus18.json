@@ -38,7 +38,7 @@
       "rotation_xyz_deg": [75, 0, 90]
     },
     "category": "exterior",
-    "label": "lateral-full-left",
+    "label": "full-left",
     "overlay": "ffocus18-6FX31ty1.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-FdsQDaTW",
@@ -100,7 +100,7 @@
       "rotation_xyz_deg": [75, 0, -90]
     },
     "category": "exterior",
-    "label": "lateral-full-right",
+    "label": "full-right",
     "overlay": "ffocus18-FdsQDaTW.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-6FX31ty1",
@@ -129,7 +129,7 @@
       "rotation_xyz_deg": [68, 0, 57]
     },
     "category": "exterior",
-    "label": "front-fender-left",
+    "label": "front-left",
     "overlay": "ffocus18-GiTxaJUq.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-zgLKB-Do",
@@ -570,7 +570,7 @@
       "rotation_xyz_deg": [68, 0, -57]
     },
     "category": "exterior",
-    "label": "front-fender-right",
+    "label": "front-right",
     "overlay": "ffocus18-zgLKB-Do.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-GiTxaJUq",

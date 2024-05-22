@@ -55,7 +55,7 @@
       "rotation_xyz_deg": [81, 0, 90]
     },
     "category": "exterior",
-    "label": "lateral-full-left",
+    "label": "full-left",
     "overlay": "tsienna20-4ihRwDkS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-uIHdpQ9y",
@@ -401,7 +401,7 @@
       "rotation_xyz_deg": [72, 0, 57]
     },
     "category": "exterior",
-    "label": "front-fender-left",
+    "label": "front-left",
     "overlay": "tsienna20-gkvZE2c7.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-xtDcn3GS",
@@ -491,7 +491,7 @@
       "rotation_xyz_deg": [81, 0, -90]
     },
     "category": "exterior",
-    "label": "lateral-full-right",
+    "label": "full-right",
     "overlay": "tsienna20-uIHdpQ9y.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-4ihRwDkS",
@@ -522,7 +522,7 @@
       "rotation_xyz_deg": [72, 0, -57]
     },
     "category": "exterior",
-    "label": "front-fender-right",
+    "label": "front-right",
     "overlay": "tsienna20-xtDcn3GS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-gkvZE2c7",

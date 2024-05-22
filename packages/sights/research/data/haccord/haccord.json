@@ -8,7 +8,7 @@
       "rotation_xyz_deg": [69, 0, 57]
     },
     "category": "exterior",
-    "label": "front-fender-left",
+    "label": "front-left",
     "overlay": "haccord-2a8VfA8m.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-EfRIciFr",
@@ -82,7 +82,7 @@
       "rotation_xyz_deg": [69, 0, -57]
     },
     "category": "exterior",
-    "label": "front-fender-right",
+    "label": "front-right",
     "overlay": "haccord-EfRIciFr.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-2a8VfA8m",
@@ -238,7 +238,7 @@
       "rotation_xyz_deg": [77, 0, -90]
     },
     "category": "exterior",
-    "label": "lateral-full-right",
+    "label": "full-right",
     "overlay": "haccord-PGr3RzzP.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-_YnTubBA",
@@ -326,7 +326,7 @@
       "rotation_xyz_deg": [77, 0, 90]
     },
     "category": "exterior",
-    "label": "lateral-full-left",
+    "label": "full-left",
     "overlay": "haccord-_YnTubBA.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-PGr3RzzP",

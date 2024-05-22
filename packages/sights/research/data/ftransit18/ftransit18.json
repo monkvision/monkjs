@@ -184,7 +184,7 @@
       "rotation_xyz_deg": [88, 0, -90]
     },
     "category": "exterior",
-    "label": "lateral-full-right",
+    "label": "full-right",
     "overlay": "ftransit18-G24AdP6r.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-rsXWUN8X",
@@ -463,7 +463,7 @@
       "rotation_xyz_deg": [88, 0, 90]
     },
     "category": "exterior",
-    "label": "lateral-full-left",
+    "label": "full-left",
     "overlay": "ftransit18-rsXWUN8X.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-G24AdP6r",
