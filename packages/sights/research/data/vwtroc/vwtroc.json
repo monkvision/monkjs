@@ -245,11 +245,11 @@
       "rotation_xyz_deg": [66, 0, -30]
     },
     "category": "exterior",
-    "label": "front-right",
+    "label": "front-fender-right",
     "overlay": "vwtroc-EqLDVYj3.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-PLh198NC",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-Fh972HlF": {
     "id": "vwtroc-Fh972HlF",
@@ -334,10 +334,10 @@
       "rotation_xyz_deg": [65.5, 0, 40]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "vwtroc-IzMR_OzQ.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-LDRoAPnk": {
     "id": "vwtroc-LDRoAPnk",
@@ -363,11 +363,11 @@
       "rotation_xyz_deg": [65, 0, 57]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "vwtroc-LE9h1xh0.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-jqJOb6Ov",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-OOJDJ7go": {
     "id": "vwtroc-OOJDJ7go",
@@ -393,11 +393,11 @@
       "rotation_xyz_deg": [66, 0, 30]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "vwtroc-PLh198NC.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-EqLDVYj3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-PuIw17h0": {
     "id": "vwtroc-PuIw17h0",
@@ -661,11 +661,11 @@
       "rotation_xyz_deg": [67, 0, -45]
     },
     "category": "exterior",
-    "label": "front-right",
+    "label": "front-fender-right",
     "overlay": "vwtroc-jgB-cu5G.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xsuH1g5T",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-jqJOb6Ov": {
     "id": "vwtroc-jqJOb6Ov",
@@ -676,11 +676,11 @@
       "rotation_xyz_deg": [65, 0, -57]
     },
     "category": "exterior",
-    "label": "front-right",
+    "label": "front-fender-right",
     "overlay": "vwtroc-jqJOb6Ov.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-LE9h1xh0",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-m1rhrZ88": {
     "id": "vwtroc-m1rhrZ88",
@@ -778,11 +778,11 @@
       "rotation_xyz_deg": [67, 0, 45]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "vwtroc-xsuH1g5T.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-jgB-cu5G",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "vwtroc-zjAIjUgU": {
     "id": "vwtroc-zjAIjUgU",

@@ -9,7 +9,7 @@
       "rotation_xyz_deg": [79, 0, -45]
     },
     "category": "exterior",
-    "label": "front-full-right",
+    "label": "front-lateral-full-right",
     "overlay": "ftransit18--w_ir_yH.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-ffghVsNz",
@@ -172,7 +172,7 @@
     "overlay": "ftransit18-FFP5b34o.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-iu1Vj2Oa",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ftransit18-G24AdP6r": {
     "id": "ftransit18-G24AdP6r",
@@ -184,11 +184,11 @@
       "rotation_xyz_deg": [88, 0, -90]
     },
     "category": "exterior",
-    "label": "full-right",
+    "label": "lateral-full-right",
     "overlay": "ftransit18-G24AdP6r.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-rsXWUN8X",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ftransit18-IIVI_pnX": {
     "id": "ftransit18-IIVI_pnX",
@@ -373,7 +373,7 @@
       "rotation_xyz_deg": [83.5, 0, -135]
     },
     "category": "exterior",
-    "label": "rear-full-right",
+    "label": "rear-lateral-full-right",
     "overlay": "ftransit18-f2W6pHaR.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-y_wTc7ED",
@@ -407,7 +407,7 @@
     "overlay": "ftransit18-iu1Vj2Oa.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-FFP5b34o",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ftransit18-klUp8BS4": {
     "id": "ftransit18-klUp8BS4",
@@ -463,11 +463,11 @@
       "rotation_xyz_deg": [88, 0, 90]
     },
     "category": "exterior",
-    "label": "full-left",
+    "label": "lateral-full-left",
     "overlay": "ftransit18-rsXWUN8X.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-G24AdP6r",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ftransit18-sLAPXyG8": {
     "id": "ftransit18-sLAPXyG8",
@@ -523,7 +523,7 @@
       "rotation_xyz_deg": [83.5, 0, 135]
     },
     "category": "exterior",
-    "label": "rear-full-left",
+    "label": "rear-lateral-full-left",
     "overlay": "ftransit18-y_wTc7ED.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-f2W6pHaR",
