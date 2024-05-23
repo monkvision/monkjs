@@ -4,7 +4,7 @@ import fr from './translations/fr.json';
 import de from './translations/de.json';
 import nl from './translations/nl.json';
 
-const i18nInspectionGallery = i18nCreateSDKInstance({
+const i18nVehicleTypeSelection = i18nCreateSDKInstance({
   resources: {
     en: { translation: en },
     fr: { translation: fr },
@@ -13,4 +13,4 @@ const i18nInspectionGallery = i18nCreateSDKInstance({
   },
 });
 
-export { i18nInspectionGallery };
+export { i18nVehicleTypeSelection };

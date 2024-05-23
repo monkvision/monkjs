@@ -10,3 +10,5 @@ export * from './Slider';
 export * from './Spinner';
 export * from './SwitchButton';
 export * from './TakePictureButton';
+export * from './VehicleTypeAsset';
+export * from './VehicleTypeSelection';

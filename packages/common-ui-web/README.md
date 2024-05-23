@@ -432,3 +432,56 @@ function App() {
 | Prop | Type   | Description                       | Required | Default Value |
 |------|--------|-----------------------------------|----------|---------------|
 | size | number | The size of the button in pixels. |          | `60`          |
+
+---
+
+## VehicleTypeAsset
+### Description
+This component displays an example image for the given vehicle type.
+
+### Example
+```tsx
+import { VehicleType } from '@monkvision/types';
+import { VehicleTypeAsset } from '@monkvision/common-ui-web';
+
+function App() {
+  return <VehicleTypeAsset vehicleType={VehicleType.CROSSOVER} />;
+}
+```
+
+### Props
+| Prop        | Type        | Description                               | Required | Default Value |
+|-------------|-------------|-------------------------------------------|----------|---------------|
+| vehicleType | VehicleType | The vehicle type to display the image of. | ✔️       |               |
+
+---
+
+## VehicleTypeSelection
+### Description
+A single page component that allows the user to select a vehicle type.
+
+### Example
+
+```tsx
+import { VehicleType } from '@monkvision/types';
+import { VehicleTypeSelection } from '@monkvision/common-ui-web';
+import { useNavigate } from 'react-router-dom';
+
+function VehicleSelectionPage() {
+  const navigate = useNavigate();
+
+  return (
+    <VehicleTypeSelection
+      onSelectVehicleType={(vehicleType) => navigate('/next-page', { state: { vehicleType } })}
+    />
+  );
+}
+```
+
+### Props
+| Prop                  | Type                        | Description                                                                                                              | Required | Default Value                                              |
+|-----------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|----------|------------------------------------------------------------|
+| selectedVehicleType   | VehicleType                 | The initially selected vehicle type.                                                                                     |          | The center-most vehicle type in the list.                  |
+| availableVehicleTypes | VehicleType[]               | A list of available vehicle type to choose from. The order of the list will be modified to always follow the same order. |          | `[SUV, CROSSOVER, SEDAN, HATCHBACK, VAN, MINIVAN, PICKUP]` |
+| onSelectVehicleType   | (type: VehicleType) => void | Callback called when the user has selected a vehicle type.                                                               |          | The center-most vehicle type in the list.                  |
+| lang                  | string                      | The language to use by the component.                                                                                    |          | `en`                                                       |
