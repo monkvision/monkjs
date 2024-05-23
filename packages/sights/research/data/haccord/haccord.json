@@ -12,7 +12,7 @@
     "overlay": "haccord-2a8VfA8m.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-EfRIciFr",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-5LlCuIfL": {
     "id": "haccord-5LlCuIfL",
@@ -86,7 +86,7 @@
     "overlay": "haccord-EfRIciFr.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-2a8VfA8m",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-GQcZz48C": {
     "id": "haccord-GQcZz48C",
@@ -127,7 +127,7 @@
     "overlay": "haccord-GdWvsqrm.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-Jq65fyD4",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-Gtt0JNQl": {
     "id": "haccord-Gtt0JNQl",
@@ -158,7 +158,7 @@
     "overlay": "haccord-Jq65fyD4.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-GdWvsqrm",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-KN23XXkX": {
     "id": "haccord-KN23XXkX",
@@ -242,7 +242,7 @@
     "overlay": "haccord-PGr3RzzP.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-_YnTubBA",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-QKfhXU7o": {
     "id": "haccord-QKfhXU7o",
@@ -330,7 +330,7 @@
     "overlay": "haccord-_YnTubBA.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-PGr3RzzP",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "haccord-bSAv3Hrj": {
     "id": "haccord-bSAv3Hrj",

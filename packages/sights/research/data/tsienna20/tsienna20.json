@@ -12,7 +12,7 @@
     "overlay": "tsienna20--a2RmRcs.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-1n_z8bYy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-1LNxhgCR": {
     "id": "tsienna20-1LNxhgCR",
@@ -43,7 +43,7 @@
     "overlay": "tsienna20-1n_z8bYy.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20--a2RmRcs",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-4ihRwDkS": {
     "id": "tsienna20-4ihRwDkS",
@@ -59,7 +59,7 @@
     "overlay": "tsienna20-4ihRwDkS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-uIHdpQ9y",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-65mfPdRD": {
     "id": "tsienna20-65mfPdRD",
@@ -405,7 +405,7 @@
     "overlay": "tsienna20-gkvZE2c7.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-xtDcn3GS",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-is1tpnqR": {
     "id": "tsienna20-is1tpnqR",
@@ -495,7 +495,7 @@
     "overlay": "tsienna20-uIHdpQ9y.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-4ihRwDkS",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "tsienna20-wlbzVAxz": {
     "id": "tsienna20-wlbzVAxz",
@@ -526,6 +526,6 @@
     "overlay": "tsienna20-xtDcn3GS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-gkvZE2c7",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   }
 }

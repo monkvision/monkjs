@@ -42,7 +42,7 @@
     "overlay": "ffocus18-6FX31ty1.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-FdsQDaTW",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ffocus18-8WjvbtMD": {
     "id": "ffocus18-8WjvbtMD",
@@ -74,7 +74,7 @@
     "overlay": "ffocus18-9MeSIqp7.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-jWOq2CNN",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ffocus18-D_QaaCTd": {
     "id": "ffocus18-D_QaaCTd",
@@ -104,7 +104,7 @@
     "overlay": "ffocus18-FdsQDaTW.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-6FX31ty1",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ffocus18-GgOSpLl6": {
     "id": "ffocus18-GgOSpLl6",
@@ -133,7 +133,7 @@
     "overlay": "ffocus18-GiTxaJUq.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-zgLKB-Do",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ffocus18-IoqRrmlA": {
     "id": "ffocus18-IoqRrmlA",
@@ -440,7 +440,7 @@
     "overlay": "ffocus18-jWOq2CNN.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-9MeSIqp7",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ffocus18-lRDlWiwR": {
     "id": "ffocus18-lRDlWiwR",
@@ -574,6 +574,6 @@
     "overlay": "ffocus18-zgLKB-Do.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-GiTxaJUq",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   }
 }

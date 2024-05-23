@@ -12,7 +12,7 @@
     "overlay": "ff150--xPZZd83.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-t3KBMPeD",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-18YVVN-G": {
     "id": "ff150-18YVVN-G",
@@ -213,7 +213,7 @@
     "overlay": "ff150-GOx2s_9L.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-_UIadfVL",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-KgHVkQBW": {
     "id": "ff150-KgHVkQBW",
@@ -243,7 +243,7 @@
     "overlay": "ff150-OviO2DlY.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-wO_fJ3DL",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-Ttsc7q6V": {
     "id": "ff150-Ttsc7q6V",
@@ -303,7 +303,7 @@
     "overlay": "ff150-_UIadfVL.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-GOx2s_9L",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-eOjyMInj": {
     "id": "ff150-eOjyMInj",
@@ -450,7 +450,7 @@
     "overlay": "ff150-t3KBMPeD.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150--xPZZd83",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-tT8sqplK": {
     "id": "ff150-tT8sqplK",
@@ -497,7 +497,7 @@
     "overlay": "ff150-wO_fJ3DL.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-OviO2DlY",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "ff150-xbOhu7nK": {
     "id": "ff150-xbOhu7nK",
