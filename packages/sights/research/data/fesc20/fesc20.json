@@ -9,7 +9,7 @@
       "rotation_xyz_deg": [69, 0, -45]
     },
     "category": "exterior",
-    "label": "front-full-right",
+    "label": "front-lateral-full-right",
     "overlay": "fesc20-0mJeXBDf.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-bD8CBhYZ",
@@ -25,7 +25,7 @@
       "rotation_xyz_deg": [78, 0, 90]
     },
     "category": "exterior",
-    "label": "full-left",
+    "label": "lateral-full-left",
     "overlay": "fesc20-26n47kaO.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-HYz5ziHi",
@@ -121,7 +121,7 @@
       "rotation_xyz_deg": [70, 0, -57]
     },
     "category": "exterior",
-    "label": "front-right",
+    "label": "front-fender-right",
     "overlay": "fesc20-CEGtqHkk.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-GdIxD-_N",
@@ -152,7 +152,7 @@
       "rotation_xyz_deg": [70, 0, -135]
     },
     "category": "exterior",
-    "label": "rear-full-right",
+    "label": "rear-lateral-full-right",
     "overlay": "fesc20-EJ0tXYBW.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-T4dIGLgy",
@@ -167,7 +167,7 @@
       "rotation_xyz_deg": [70, 0, 57]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "fesc20-GdIxD-_N.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-CEGtqHkk",
@@ -197,7 +197,7 @@
       "rotation_xyz_deg": [78, 0, -90]
     },
     "category": "exterior",
-    "label": "full-right",
+    "label": "lateral-full-right",
     "overlay": "fesc20-HYz5ziHi.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-26n47kaO",
@@ -290,7 +290,7 @@
       "rotation_xyz_deg": [70, 0, 135]
     },
     "category": "exterior",
-    "label": "rear-full-left",
+    "label": "rear-lateral-full-left",
     "overlay": "fesc20-T4dIGLgy.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-EJ0tXYBW",

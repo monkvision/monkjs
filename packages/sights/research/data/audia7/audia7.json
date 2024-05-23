@@ -8,7 +8,7 @@
       "rotation_xyz_deg": [67, 0, -57]
     },
     "category": "exterior",
-    "label": "front-right",
+    "label": "front-fender-right",
     "overlay": "audia7-5CFsFvj7.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-cDe2q69X",
@@ -82,7 +82,7 @@
       "rotation_xyz_deg": [66, 0, 45]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "audia7-WKJlxkiF.svg",
     "vehicle": "audia7",
     "tasks": ["damage_detection"]
@@ -96,7 +96,7 @@
       "rotation_xyz_deg": [67, 0, 57]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "audia7-cDe2q69X.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-5CFsFvj7",

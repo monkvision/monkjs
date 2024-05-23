@@ -97,22 +97,22 @@
     "de": "Vordertür rechts",
     "nl": "Voordeur rechts"
   },
-  "front-left": {
-    "key": "front-left",
+  "front-fender-left": {
+    "key": "front-fender-left",
     "en": "Front Left",
     "fr": "Avant gauche",
     "de": "Vorne links",
     "nl": "Linksvoor"
   },
-  "front-right": {
-    "key": "front-right",
+  "front-fender-right": {
+    "key": "front-fender-right",
     "en": "Front Right",
     "fr": "Aile droite",
     "de": "Vorne rechts",
     "nl": "Rechtsvoor"
   },
-  "front-full-right": {
-    "key": "front-full-right",
+  "front-lateral-full-right": {
+    "key": "front-lateral-full-right",
     "en": "Front Full Right",
     "fr": "Avant droite",
     "de": "Vorne rechts",
@@ -209,15 +209,15 @@
     "de": "Innen Dach",
     "nl": "Interieur dak"
   },
-  "full-left": {
-    "key": "full-left",
+  "lateral-full-left": {
+    "key": "lateral-full-left",
     "en": "Full Left",
     "fr": "Gauche vue complète",
     "de": "Vollständig links",
     "nl": "Volledig links"
   },
-  "full-right": {
-    "key": "full-right",
+  "lateral-full-right": {
+    "key": "lateral-full-right",
     "en": "Full Right",
     "fr": "Droite vue complète",
     "de": "Volles Recht",
@@ -307,15 +307,15 @@
     "de": "Kotflügel hinten rechts",
     "nl": "Achterkant spatbord rechts"
   },
-  "rear-full-left": {
-    "key": "rear-full-left",
+  "rear-lateral-full-left": {
+    "key": "rear-lateral-full-left",
     "en": "Rear Full Left",
     "fr": "Arrière gauche - vue complète",
     "de": "Hinten ganz links",
     "nl": "Achterkant volledig links"
   },
-  "rear-full-right": {
-    "key": "rear-full-right",
+  "rear-lateral-full-right": {
+    "key": "rear-lateral-full-right",
     "en": "Rear Full Right",
     "fr": "Arrière droite - vue complète",
     "de": "Hinten ganz rechts",

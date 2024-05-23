@@ -55,7 +55,7 @@
       "rotation_xyz_deg": [81, 0, 90]
     },
     "category": "exterior",
-    "label": "full-left",
+    "label": "lateral-full-left",
     "overlay": "tsienna20-4ihRwDkS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-uIHdpQ9y",
@@ -182,7 +182,7 @@
       "rotation_xyz_deg": [70, 0, -45]
     },
     "category": "exterior",
-    "label": "front-full-right",
+    "label": "front-lateral-full-right",
     "overlay": "tsienna20-MPCqHzeH.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-jY3cR5vy",
@@ -346,7 +346,7 @@
       "rotation_xyz_deg": [72, 0, 135]
     },
     "category": "exterior",
-    "label": "rear-full-left",
+    "label": "rear-lateral-full-left",
     "overlay": "tsienna20-ZlRQXL-j.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-wlbzVAxz",
@@ -401,7 +401,7 @@
       "rotation_xyz_deg": [72, 0, 57]
     },
     "category": "exterior",
-    "label": "front-left",
+    "label": "front-fender-left",
     "overlay": "tsienna20-gkvZE2c7.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-xtDcn3GS",
@@ -491,7 +491,7 @@
       "rotation_xyz_deg": [81, 0, -90]
     },
     "category": "exterior",
-    "label": "full-right",
+    "label": "lateral-full-right",
     "overlay": "tsienna20-uIHdpQ9y.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-4ihRwDkS",
@@ -507,7 +507,7 @@
       "rotation_xyz_deg": [72, 0, -135]
     },
     "category": "exterior",
-    "label": "rear-full-right",
+    "label": "rear-lateral-full-right",
     "overlay": "tsienna20-wlbzVAxz.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-ZlRQXL-j",
@@ -522,7 +522,7 @@
       "rotation_xyz_deg": [72, 0, -57]
     },
     "category": "exterior",
-    "label": "front-right",
+    "label": "front-fender-right",
     "overlay": "tsienna20-xtDcn3GS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-gkvZE2c7",
