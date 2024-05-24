@@ -1,8 +1,1 @@
-{
-  "create-inspection": {
-    "errors": {
-      "retry": "Réessayer",
-      "create-inspection": "Une erreur inattendue est survenue lors de la création de l'inspection."
-    }
-  }
-}
+{}

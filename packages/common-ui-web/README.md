@@ -134,6 +134,34 @@ function App() {
 
 ---
 
+## CreateInspection
+### Description
+This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
+inspection creation.
+
+**Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**
+
+### Example
+
+```tsx
+import { CreateInspection } from '@monkvision/common-ui-web';
+import { useNavigate } from 'react-router-dom';
+
+function VehicleTypeSelectionPage() {
+  const navigate = useNavigate();
+
+  return <CreateInspection onInspectionCreated={() => navigate('/next-page')}/>;
+}
+```
+
+### Props
+| Prop                   | Type                                     | Description                                           | Required | Default Value |
+|------------------------|------------------------------------------|-------------------------------------------------------|----------|---------------|
+| onInspectionCreated    | () => void                               | Callback called when the inspection has been created. |          |               |
+| lang                   | string                                   | The language used by the component.                   |          | `'en'`        |
+
+---
+
 ## DynamicSVG
 ### Description
 A component that lets you display an SVG image based on an XML string, and then apply dynamic style and event handlers
@@ -264,9 +292,9 @@ function App() {
 
 ---
 
-## Login
+## CreateInspection
 ### Description
-This component is a ready-to-use Login page that is used throughout the different Monk webapps to handle authentication.
+This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle authentication.
 
 ### Example
 
@@ -274,13 +302,13 @@ This component is a ready-to-use Login page that is used throughout the differen
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSightById } from '@monkvision/sights';
-import { Login } from '@monkvision/common-ui-web';
+import { CreateInspection } from '@monkvision/common-ui-web';
 
 function LoginPage() {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   return (
-    <Login lang={i18n.language} onLoginSuccessful={() => navigate('/home')} />
+    <CreateInspection lang={i18n.language} onLoginSuccessful={() => navigate('/home')} />
   );
 }
 ```

@@ -1,6 +1,7 @@
 export * from './AuthGuard';
 export * from './BackdropDialog';
 export * from './Button';
+export * from './CreateInspection';
 export * from './DynamicSVG';
 export * from './ImageDetailedView';
 export * from './InspectionGallery';

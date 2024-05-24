@@ -4,19 +4,22 @@ jest.mock('../../src/components/Button', () => ({
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { useLoadingState, useMonkApplicationState } from '@monkvision/common';
-import { isTokenExpired, isUserAuthorized, MonkApiPermission, useAuth } from '@monkvision/network';
+import { useLoadingState, useMonkAppState } from '@monkvision/common';
+import { isTokenExpired, isUserAuthorized, useAuth } from '@monkvision/network';
+import { MonkApiPermission } from '@monkvision/types';
 import { Button, Login, LoginProps } from '../../src';
 
 const appState = {
   authToken: 'test-auth-token',
   inspectionId: 'test-inspection-id',
   setAuthToken: jest.fn(),
+  config: {
+    allowManualLogin: true,
+  },
 };
 
 function createProps(): LoginProps {
   return {
-    allowManualLogin: true,
     onLoginSuccessful: jest.fn(),
   };
 }
@@ -48,7 +51,7 @@ describe('Login page', () => {
       error,
       start: jest.fn(),
     }));
-    (useMonkApplicationState as jest.Mock).mockImplementation(() => appState);
+    (useMonkAppState as jest.Mock).mockImplementation(() => appState);
   });
 
   afterEach(() => {
@@ -57,12 +60,14 @@ describe('Login page', () => {
 
   it('should display an error message if the token is not defined and manual login is disabled', () => {
     const props = createProps();
-    props.allowManualLogin = false;
-    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
+    (useMonkAppState as jest.Mock).mockImplementation(() => ({
       ...appState,
       authToken: null,
+      config: {
+        allowManualLogin: false,
+      },
     }));
-    const { unmount } = render(<Login {...props} allowManualLogin={false} />);
+    const { unmount } = render(<Login {...props} />);
 
     expect(onError).toHaveBeenCalledWith('errors.missing-token');
     expect(props.onLoginSuccessful).not.toHaveBeenCalled();
@@ -73,11 +78,15 @@ describe('Login page', () => {
 
   it('should display an error message with a log out button if the user does not have the required permissions', () => {
     const props = createProps();
-    props.requiredPermissions = [MonkApiPermission.INSPECTION_UPDATE_ORGANIZATION];
+    const requiredApiPermissions = [MonkApiPermission.INSPECTION_UPDATE_ORGANIZATION];
+    (useMonkAppState as jest.Mock).mockImplementationOnce(() => ({
+      ...appState,
+      config: { requiredApiPermissions, allowManualLogin: true },
+    }));
     useUnauthorizedUser();
     const { unmount } = render(<Login {...props} />);
 
-    expect(isUserAuthorized).toHaveBeenCalledWith(appState.authToken, props.requiredPermissions);
+    expect(isUserAuthorized).toHaveBeenCalledWith(appState.authToken, requiredApiPermissions);
     expect(onError).toHaveBeenCalledWith('errors.insufficient-authorization');
     expect(props.onLoginSuccessful).not.toHaveBeenCalled();
     expect(screen.queryByText(error)).not.toBeNull();
@@ -88,12 +97,15 @@ describe('Login page', () => {
 
   it('should display an error message but no log out button if user unauthorized with manual login disabled', () => {
     const props = createProps();
-    props.requiredPermissions = [MonkApiPermission.INSPECTION_UPDATE_ORGANIZATION];
-    props.allowManualLogin = false;
+    const requiredApiPermissions = [MonkApiPermission.INSPECTION_UPDATE_ORGANIZATION];
+    (useMonkAppState as jest.Mock).mockImplementationOnce(() => ({
+      ...appState,
+      config: { requiredApiPermissions, allowManualLogin: false },
+    }));
     useUnauthorizedUser();
     const { unmount } = render(<Login {...props} />);
 
-    expect(isUserAuthorized).toHaveBeenCalledWith(appState.authToken, props.requiredPermissions);
+    expect(isUserAuthorized).toHaveBeenCalledWith(appState.authToken, requiredApiPermissions);
     expect(onError).toHaveBeenCalledWith('errors.insufficient-authorization');
     expect(props.onLoginSuccessful).not.toHaveBeenCalled();
     expect(screen.queryByText(error)).not.toBeNull();
@@ -118,9 +130,10 @@ describe('Login page', () => {
 
   it('should call onLoginSuccessful after a successful login', async () => {
     const props = createProps();
-    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
+    (useMonkAppState as jest.Mock).mockImplementation(() => ({
       ...appState,
       authToken: null,
+      config: { allowManualLogin: true },
     }));
     const login = jest.fn(() => Promise.resolve(appState.authToken));
     (useAuth as jest.Mock).mockImplementation(() => ({ login }));
@@ -139,10 +152,11 @@ describe('Login page', () => {
 
   it('should display an error message with the logout button if user is unauthorized after login', async () => {
     const props = createProps();
-    props.requiredPermissions = [MonkApiPermission.INSPECTION_CREATE];
-    (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
+    const requiredApiPermissions = [MonkApiPermission.INSPECTION_CREATE];
+    (useMonkAppState as jest.Mock).mockImplementation(() => ({
       ...appState,
       authToken: null,
+      config: { requiredApiPermissions, allowManualLogin: true },
     }));
     const login = jest.fn(() => Promise.resolve(appState.authToken));
     (useAuth as jest.Mock).mockImplementation(() => ({ login }));
@@ -176,9 +190,10 @@ describe('Login page', () => {
   ].forEach(({ testCase, err, label }) => {
     it(`should not call onLoginSuccessful and display the proper error message ${testCase}`, async () => {
       const props = createProps();
-      (useMonkApplicationState as jest.Mock).mockImplementation(() => ({
+      (useMonkAppState as jest.Mock).mockImplementation(() => ({
         ...appState,
         authToken: null,
+        config: { allowManualLogin: true }
       }));
       (useAuth as jest.Mock).mockImplementation(() => ({
         login: jest.fn(() => Promise.reject(err)),

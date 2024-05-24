@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Opnieuw proberen",
+    "create-inspection": "Er is een onverwachte fout opgetreden tijdens het maken van de inspectie.",
+    "missing-inspection-id": "De URL die u probeert te bereiken is ongeldig."
+  }
+}

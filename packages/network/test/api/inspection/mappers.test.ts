@@ -3,12 +3,9 @@ import apiInspectionGetMapped from './data/apiInspectionGet.data';
 import apiInspectionPostData from './data/apiInspectionPost.data';
 import apiInspectionPostMapped from './data/apiInspectionPost.data.json';
 import { ApiInspectionGet } from '../../../src/api/models';
-import {
-  CreateInspectionOptions,
-  mapApiInspectionGet,
-  mapApiInspectionPost,
-} from '../../../src/api/inspection/mappers';
+import { mapApiInspectionGet, mapApiInspectionPost } from '../../../src/api/inspection/mappers';
 import { sdkVersion } from '../../../src/api/config';
+import { CreateInspectionOptions } from '@monkvision/types';
 
 describe('Inspection API Mappers', () => {
   describe('ApiInspectionGet mapper', () => {

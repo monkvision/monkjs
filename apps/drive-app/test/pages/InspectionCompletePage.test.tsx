@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
-import { InspectionCompletePage } from '../../src/pages/InspectionCompletePage';
+import { InspectionCompletePage } from '../../src/pages';
 
 describe('Inspection Complete page', () => {
   it('should display a thank message', () => {

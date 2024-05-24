@@ -1,4 +1,4 @@
-import { MonkApiPermission } from '@monkvision/network';
+import { MonkApiPermission } from '@monkvision/types';
 
 export const REQUIRED_PERMISSIONS = [
   MonkApiPermission.TASK_COMPLIANCES,

@@ -5,10 +5,10 @@ import de from './translations/de.json';
 import nl from './translations/nl.json';
 
 /**
- * i18n instance of the LoginPage component. You can use this instance to automatically sync your application
- * current language with the one used by the components of the package.
+ * i18n instance of the Login component. You can use this instance to automatically sync your application current
+ * language with the one used by the components of the package.
  */
-const i18nLoginPage = i18nCreateSDKInstance({
+const i18nLogin = i18nCreateSDKInstance({
   resources: {
     en: { translation: en },
     fr: { translation: fr },
@@ -17,4 +17,4 @@ const i18nLoginPage = i18nCreateSDKInstance({
   },
 });
 
-export { i18nLoginPage };
+export { i18nLogin };
