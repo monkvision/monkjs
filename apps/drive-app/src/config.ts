@@ -203,6 +203,7 @@ export const AppConfig: CaptureAppConfig = {
   allowVehicleTypeSelection: true,
   fetchFromSearchParams: true,
   enableAddDamage: false,
+  useLiveCompliance: true,
   allowCreateInspection: process.env['REACT_APP_ALLOW_CREATE_INSPECTION'] === 'true',
   createInspectionOptions: { tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] },
   apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN'),
