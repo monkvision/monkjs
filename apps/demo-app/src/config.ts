@@ -15,6 +15,7 @@ export const AppConfig: CaptureAppConfig = {
   fetchFromSearchParams: true,
   allowCreateInspection: true,
   useLiveCompliance: true,
+  allowSkipRetake: true,
   createInspectionOptions: { tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] },
   apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN'),
   requiredApiPermissions: [
