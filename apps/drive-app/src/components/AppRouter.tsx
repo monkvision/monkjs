@@ -6,9 +6,9 @@ import {
   LoginPage,
   Page,
   PhotoCapturePage,
+  VehicleTypeSelectionPage,
 } from '../pages';
 import { App } from './App';
-import { REQUIRED_PERMISSIONS } from '../config';
 
 export function AppRouter() {
   return (
@@ -21,8 +21,17 @@ export function AppRouter() {
           <Route
             path={Page.CREATE_INSPECTION}
             element={
-              <AuthGuard redirectTo={Page.LOG_IN} requiredPermissions={REQUIRED_PERMISSIONS}>
+              <AuthGuard redirectTo={Page.LOG_IN}>
                 <CreateInspectionPage />
+              </AuthGuard>
+            }
+            index
+          />
+          <Route
+            path={Page.VEHICLE_TYPE_SELECTION}
+            element={
+              <AuthGuard redirectTo={Page.LOG_IN}>
+                <VehicleTypeSelectionPage />
               </AuthGuard>
             }
             index
@@ -30,7 +39,7 @@ export function AppRouter() {
           <Route
             path={Page.PHOTO_CAPTURE}
             element={
-              <AuthGuard redirectTo={Page.LOG_IN} requiredPermissions={REQUIRED_PERMISSIONS}>
+              <AuthGuard redirectTo={Page.LOG_IN}>
                 <PhotoCapturePage />
               </AuthGuard>
             }

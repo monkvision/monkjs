@@ -3,6 +3,7 @@ import { SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
 import { DeviceOrientation } from './utils';
+import { CreateInspectionOptions, MonkApiPermission } from './api';
 
 /**
  * The configuration options for inspection capture applications.
@@ -56,10 +57,22 @@ export type CaptureAppConfig = Partial<CompressionOptions> &
      */
     allowManualLogin: boolean;
     /**
+     * Boolean indicating if vehicle type selection should be enabled if the vehicle type is not defined.
+     */
+    allowVehicleTypeSelection: boolean;
+    /**
      * Boolean indicating if the application state (such as auth token, inspection ID etc.) should be fetched from the URL
      * search params or not.
      */
     fetchFromSearchParams: boolean;
+    /**
+     * The API domain used to communicate with the API.
+     */
+    apiDomain: string;
+    /**
+     * Required API permissions to use the app.
+     */
+    requiredApiPermissions?: MonkApiPermission[];
     /**
      * Optional color palette to extend the default Monk palette.
      */
@@ -81,9 +94,31 @@ export type CaptureAppConfig = Partial<CompressionOptions> &
          */
         enableSteeringWheelPosition: true;
         /**
+         * The default value for the steering wheel position.
+         */
+        defaultSteeringWheelPosition: SteeringWheelPosition;
+        /**
          * The capture Sights per vehicle type.
          */
         sights: Record<SteeringWheelPosition, Partial<Record<VehicleType, string[]>>>;
+      }
+  ) &
+  (
+    | {
+        /**
+         * Boolean indicating if automatic inspection creation should be allowed or not.
+         */
+        allowCreateInspection: false;
+      }
+    | {
+        /**
+         * Boolean indicating if automatic inspection creation should be allowed or not.
+         */
+        allowCreateInspection: true;
+        /**
+         * Options used when automatically creating an inspection.
+         */
+        createInspectionOptions: CreateInspectionOptions;
       }
   );
 

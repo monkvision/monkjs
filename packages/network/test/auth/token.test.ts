@@ -4,14 +4,9 @@ jest.mock('jwt-decode', () => ({
   })),
 }));
 
+import { MonkApiPermission } from '@monkvision/types';
 import { jwtDecode } from 'jwt-decode';
-import {
-  decodeMonkJwt,
-  isTokenExpired,
-  isUserAuthorized,
-  MonkApiPermission,
-  MonkJwtPayload,
-} from '../../src';
+import { decodeMonkJwt, isTokenExpired, isUserAuthorized, MonkJwtPayload } from '../../src';
 
 describe('Network package JWT utils', () => {
   afterEach(() => {

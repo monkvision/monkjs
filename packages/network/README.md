@@ -144,8 +144,8 @@ pop-ups. It accepts a config option called `storeToken` that indicates if the to
 the browser local storage (default : `true`).
 
 - For this hook to work properly, you must use it in a component that is a child of an `Auth0Provider` component.
-- This hook automatically stores the token fetched in the `useMonkApplicationState` hook so that it can be accessed
-  anywhere in your app if you're using the `MonkApplicationStateProvider`.
+- This hook automatically stores the token fetched in the `useMonkAppState` hook so that it can be accessed
+  anywhere in your app if you're using the `MonkAppStateProvider`.
 
 ```tsx
 function MyAuthComponent() {
@@ -179,7 +179,8 @@ This utility function checks if the given user has all the required authroizatio
 to be decoded or the JWT payload directly.
 
 ```typescript
-import { isUserAuthorized, MonkApiPermission } from '@monkvision/network';
+import { MonkApiPermission } from '@monkvision/types';
+import { isUserAuthorized } from '@monkvision/network';
 
 const requiredPermissions = [MonkApiPermission.INSPECTION_CREATE, MonkApiPermission.INSPECTION_READ];
 console.log(isUserAuthorized(value, requiredPermissions));

@@ -5,11 +5,11 @@ import {
   MonkGotOneInspectionAction,
   MonkState,
 } from '@monkvision/common';
-import { ComplianceOptions } from '@monkvision/types';
+import { ComplianceOptions, CreateInspectionOptions } from '@monkvision/types';
 import { Dispatch } from 'react';
 import { getDefaultOptions, MonkApiConfig } from '../config';
 import { ApiIdColumn, ApiInspectionGet } from '../models';
-import { CreateInspectionOptions, mapApiInspectionGet, mapApiInspectionPost } from './mappers';
+import { mapApiInspectionGet, mapApiInspectionPost } from './mappers';
 import { MonkApiResponse } from '../types';
 
 /**

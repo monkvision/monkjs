@@ -1,25 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { getEnvOrThrow, useMonkApplicationState, useSearchParams } from '@monkvision/common';
-import { DeviceOrientation } from '@monkvision/types';
+import { useMonkAppState, useSearchParams } from '@monkvision/common';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
 import { useNavigate } from 'react-router-dom';
-import {
-  complianceIssues,
-  complianceIssuesPerSight,
-  getSights,
-  getTasksBySight,
-} from '../../config';
 import styles from './PhotoCapturePage.module.css';
 import { Page } from '../pages';
 
 export function PhotoCapturePage() {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
-  const { authToken, inspectionId, vehicleType, steeringWheel } = useMonkApplicationState({
-    required: true,
+  const { config, authToken, inspectionId, getCurrentSights } = useMonkAppState({
+    requireInspection: true,
   });
-  const sights = useMemo(() => getSights(vehicleType, steeringWheel), [vehicleType, steeringWheel]);
+  const currentSights = useMemo(() => getCurrentSights(), [getCurrentSights]);
   const searchParams = useSearchParams();
 
   const handleComplete = () => {
@@ -34,18 +27,26 @@ export function PhotoCapturePage() {
   return (
     <div className={styles['container']}>
       <PhotoCapture
-        apiConfig={{ authToken, apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN') }}
+        apiConfig={{ authToken, apiDomain: config.apiDomain }}
         inspectionId={inspectionId}
-        sights={sights}
-        tasksBySight={getTasksBySight(sights)}
+        sights={currentSights}
         onComplete={handleComplete}
         lang={i18n.language}
-        enforceOrientation={DeviceOrientation.LANDSCAPE}
-        allowSkipRetake={true}
-        useLiveCompliance={true}
-        enableAddDamage={false}
-        complianceIssues={complianceIssues}
-        complianceIssuesPerSight={complianceIssuesPerSight}
+        format={config.format}
+        quality={config.quality}
+        tasksBySight={config.tasksBySight}
+        startTasksOnComplete={config.startTasksOnComplete}
+        showCloseButton={config.showCloseButton}
+        enforceOrientation={config.enforceOrientation}
+        allowSkipRetake={config.allowSkipRetake}
+        enableAddDamage={config.enableAddDamage}
+        enableCompliance={config.enableCompliance}
+        enableCompliancePerSight={config.enableCompliancePerSight}
+        complianceIssues={config.complianceIssues}
+        complianceIssuesPerSight={config.complianceIssuesPerSight}
+        useLiveCompliance={config.useLiveCompliance}
+        customComplianceThresholds={config.customComplianceThresholds}
+        customComplianceThresholdsPerSight={config.customComplianceThresholdsPerSight}
       />
     </div>
   );

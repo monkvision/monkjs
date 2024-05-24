@@ -74,7 +74,7 @@ monk.config.accessToken = myOwnAccessToken;
 
 There is several ways to authenticate a user.
 
-### With Auth0 Login Box
+### With Auth0 CreateInspection Box
 > Documentation under construction, please ask directly to the team.
 
 ### With Machine to Machine requests

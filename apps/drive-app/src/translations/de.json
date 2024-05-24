@@ -1,11 +1,4 @@
 {
-  "create-inspection": {
-    "errors": {
-      "retry": "Wiederholung",
-      "create-inspection": "Bei der Erstellung der Inspektion ist ein unerwarteter Fehler aufgetreten.",
-      "missing-inspection-id": "Die URL, auf die Sie zuzugreifen versuchen, ist ungültig."
-    }
-  },
   "inspection-complete": {
     "thank-message": "Vielen Dank, dass Sie sich die Zeit genommen haben, die Inspektion durchzuführen."
   }

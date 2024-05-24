@@ -5,5 +5,6 @@ export * from './jsx';
 export * from './camera';
 export * from './config';
 export * from './i18n';
+export * from './api';
 export * from './utils';
 export * from './typeUtils';

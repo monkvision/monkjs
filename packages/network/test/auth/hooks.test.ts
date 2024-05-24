@@ -1,4 +1,4 @@
-import { STORAGE_KEY_AUTH_TOKEN, useMonkApplicationState } from '@monkvision/common';
+import { STORAGE_KEY_AUTH_TOKEN, useMonkAppState } from '@monkvision/common';
 import { useAuth0 } from '@auth0/auth0-react';
 import { act, waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
@@ -15,8 +15,8 @@ describe('Authentication hooks', () => {
       const spy = jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => token);
       const { unmount } = renderHook(useAuth, { initialProps: { storeToken: true } });
 
-      expect(useMonkApplicationState).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
+      expect(useMonkAppState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkAppState as jest.Mock).mock.results[0].value;
       expect(spy).toHaveBeenCalledWith(STORAGE_KEY_AUTH_TOKEN);
       expect(setAuthToken).toHaveBeenCalledWith(token);
 
@@ -27,8 +27,8 @@ describe('Authentication hooks', () => {
       const spy = jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => 'test');
       const { unmount } = renderHook(useAuth, { initialProps: { storeToken: false } });
 
-      expect(useMonkApplicationState).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
+      expect(useMonkAppState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkAppState as jest.Mock).mock.results[0].value;
       expect(setAuthToken).not.toHaveBeenCalled();
       expect(spy).not.toHaveBeenCalled();
 
@@ -41,8 +41,8 @@ describe('Authentication hooks', () => {
       (useAuth0 as jest.Mock).mockImplementation(() => ({ getAccessTokenWithPopup }));
       const { result, unmount } = renderHook(useAuth, { initialProps: { storeToken: false } });
 
-      expect(useMonkApplicationState).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
+      expect(useMonkAppState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkAppState as jest.Mock).mock.results[0].value;
       expect(setAuthToken).not.toHaveBeenCalled();
       expect(getAccessTokenWithPopup).not.toHaveBeenCalled();
 
@@ -107,8 +107,8 @@ describe('Authentication hooks', () => {
         await result.current.logout();
       });
 
-      expect(useMonkApplicationState).toHaveBeenCalled();
-      const { setAuthToken } = (useMonkApplicationState as jest.Mock).mock.results[0].value;
+      expect(useMonkAppState).toHaveBeenCalled();
+      const { setAuthToken } = (useMonkAppState as jest.Mock).mock.results[0].value;
       expect(logout).toHaveBeenCalledWith({ logoutParams: { returnTo: window.location.origin } });
       expect(setAuthToken).toHaveBeenCalledWith(null);
       expect(spy).toHaveBeenCalledWith(STORAGE_KEY_AUTH_TOKEN);

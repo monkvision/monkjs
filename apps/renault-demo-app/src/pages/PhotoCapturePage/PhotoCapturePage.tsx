@@ -1,46 +1,16 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getEnvOrThrow, useMonkApplicationState, zlibCompress } from '@monkvision/common';
-import { DeviceOrientation, VehicleType } from '@monkvision/types';
+import { useMonkAppState } from '@monkvision/common';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { getSights } from '../../config';
 import styles from './PhotoCapturePage.module.css';
-
-function getSearchParamFromVehicleType(vehicleType: VehicleType | null): string {
-  switch (vehicleType) {
-    case VehicleType.SUV:
-      return '0';
-    case VehicleType.CROSSOVER:
-      return '1';
-    case VehicleType.SEDAN:
-      return '2';
-    case VehicleType.HATCHBACK:
-      return '3';
-    case VehicleType.VAN:
-      return '4';
-    case VehicleType.MINIVAN:
-      return '5';
-    case VehicleType.PICKUP:
-      return '6';
-    default:
-      return '1';
-  }
-}
-
-function createInspectionReportLink(
-  authToken: string | null,
-  inspectionId: string | null,
-  language: string,
-  vehicleType: VehicleType | null,
-): string {
-  const url = getEnvOrThrow('REACT_APP_INSPECTION_REPORT_URL');
-  const token = encodeURIComponent(zlibCompress(authToken ?? ''));
-  const vType = getSearchParamFromVehicleType(vehicleType);
-  return `${url}?c=e5j&lang=${language}&i=${inspectionId}&t=${token}&v=${vType}`;
-}
+import { createInspectionReportLink } from './inspectionReport';
 
 export function PhotoCapturePage() {
   const { i18n } = useTranslation();
-  const { authToken, inspectionId, vehicleType } = useMonkApplicationState({ required: true });
+  const { config, authToken, inspectionId, vehicleType, getCurrentSights } = useMonkAppState({
+    requireInspection: true,
+  });
+  const currentSights = useMemo(() => getCurrentSights(), [getCurrentSights]);
 
   const handleComplete = () => {
     window.location.href = createInspectionReportLink(
@@ -54,16 +24,26 @@ export function PhotoCapturePage() {
   return (
     <div className={styles['container']}>
       <PhotoCapture
-        apiConfig={{ authToken, apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN') }}
+        apiConfig={{ authToken, apiDomain: config.apiDomain }}
         inspectionId={inspectionId}
-        sights={getSights(vehicleType)}
+        sights={currentSights}
         onComplete={handleComplete}
         lang={i18n.language}
-        enforceOrientation={DeviceOrientation.LANDSCAPE}
-        allowSkipRetake
-        useLiveCompliance
-        showCloseButton
-        enableAddDamage={false}
+        format={config.format}
+        quality={config.quality}
+        tasksBySight={config.tasksBySight}
+        startTasksOnComplete={config.startTasksOnComplete}
+        showCloseButton={config.showCloseButton}
+        enforceOrientation={config.enforceOrientation}
+        allowSkipRetake={config.allowSkipRetake}
+        enableAddDamage={config.enableAddDamage}
+        enableCompliance={config.enableCompliance}
+        enableCompliancePerSight={config.enableCompliancePerSight}
+        complianceIssues={config.complianceIssues}
+        complianceIssuesPerSight={config.complianceIssuesPerSight}
+        useLiveCompliance={config.useLiveCompliance}
+        customComplianceThresholds={config.customComplianceThresholds}
+        customComplianceThresholdsPerSight={config.customComplianceThresholdsPerSight}
       />
     </div>
   );

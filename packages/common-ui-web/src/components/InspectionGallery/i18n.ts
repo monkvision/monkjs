@@ -4,10 +4,6 @@ import fr from './translations/fr.json';
 import de from './translations/de.json';
 import nl from './translations/nl.json';
 
-/**
- * i18n instance of the Inspection Capture Web package. You can use this instance to automatically sync your application
- * current language with the one used by the components of the package.
- */
 const i18nInspectionGallery = i18nCreateSDKInstance({
   resources: {
     en: { translation: en },
