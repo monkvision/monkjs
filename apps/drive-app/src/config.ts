@@ -1,6 +1,7 @@
 import {
   CaptureAppConfig,
   DeviceOrientation,
+  IQA_COMPLIANCE_ISSUES,
   MonkApiPermission,
   SteeringWheelPosition,
   TaskName,
@@ -234,4 +235,9 @@ export const AppConfig: CaptureAppConfig = {
     {},
   ),
   sights: sightIds,
+  complianceIssuesPerSight: {
+    'all-IqwSM3': IQA_COMPLIANCE_ISSUES,
+    'all-rSvk2C': IQA_COMPLIANCE_ISSUES,
+    'all-T4HrF8KA': IQA_COMPLIANCE_ISSUES,
+  },
 };
