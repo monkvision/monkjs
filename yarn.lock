@@ -9414,6 +9414,7 @@ __metadata:
   dependencies:
     "@auth0/auth0-react": ^2.2.4
     "@babel/core": ^7.22.9
+    "@monkvision/analytics": 4.0.0
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
@@ -9423,6 +9424,7 @@ __metadata:
     "@monkvision/jest-config": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/network": 4.0.0
+    "@monkvision/posthog": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/sentry": 4.0.0
     "@monkvision/sights": 4.0.0
@@ -18920,6 +18922,7 @@ __metadata:
   dependencies:
     "@auth0/auth0-react": ^2.2.4
     "@babel/core": ^7.22.9
+    "@monkvision/analytics": 4.0.0
     "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
@@ -18929,6 +18932,7 @@ __metadata:
     "@monkvision/jest-config": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/network": 4.0.0
+    "@monkvision/posthog": 4.0.0
     "@monkvision/prettier-config": 4.0.0
     "@monkvision/sentry": 4.0.0
     "@monkvision/sights": 4.0.0
