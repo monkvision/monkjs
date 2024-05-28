@@ -36,12 +36,13 @@ import { DebugMonitoringAdapter, MonitoringProvider } from '@monkvision/monitori
 
 const adapter = new DebugMonitoringAdapter();
 
-const container = document.getElementById('root');
-render((
-  <MonitoringProvider adapter={adapter}>
-    <App/>
-  </MonitoringProvider>
-), container);
+function App() {
+  return (
+    <MonitoringProvider adapter={adapter}>
+      ...
+    </MonitoringProvider>
+  );
+}
 ```
 
 ## useMonitoring hook
@@ -49,15 +50,15 @@ Once you have wrapped up your application in the `MonitoringProvider` component,
 features in your app components using the `useMonitoring` hook :
 
 ```tsx
+import { useEffect } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 
-function MyCustomComponent() {
-  const {
-    setUserId,
-    log,
-    handleError,
-    createTransaction,
-  } = useMonitoring();
+function ChildComponent() {
+  const { handleError } = useMonitoring();
+
+  useEffect(() => {
+    myApiCallThatCanFail().catch(handleError);
+  }, []);
 }
 ```
 

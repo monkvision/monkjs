@@ -357,7 +357,7 @@ export interface ComplianceOptions {
    */
   enableCompliancePerSight?: string[];
   /**
-   * If compliance checks are enable, this property can be used to select a list of compliance issues to check. If an
+   * If compliance checks are enabled, this property can be used to select a list of compliance issues to check. If an
    * image is not compliant only because of issues that are not present in this array, the image will be considered
    * compliant. If `enableCompliance` is set to `false`, this property is ignored.
    *
