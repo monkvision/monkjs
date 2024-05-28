@@ -25,7 +25,7 @@ const sightIds = {
       'all-IqwSM3', // Front Seats
       'all-rSvk2C', // Dashboard
     ],
-    [VehicleType.CROSSOVER]: [
+    [VehicleType.CUV]: [
       'fesc20-H1dfdfvH', // Front Low
       'fesc20-CEGtqHkk', // Front Fender Right
       'fesc20-HYz5ziHi', // Lateral Full Right
@@ -117,7 +117,7 @@ const sightIds = {
       'all-T4HrF8KA', // Front Seats
       'all-rSvk2C', // Dashboard
     ],
-    [VehicleType.CROSSOVER]: [
+    [VehicleType.CUV]: [
       'fesc20-H1dfdfvH', // Front Low
       'fesc20-6GPUkfYn', // Front Roof Left
       'fesc20-GdIxD-_N', // Front Fender Left
@@ -199,7 +199,7 @@ const sightIds = {
 
 export const AppConfig: CaptureAppConfig = {
   enforceOrientation: DeviceOrientation.LANDSCAPE,
-  defaultVehicleType: VehicleType.CROSSOVER,
+  defaultVehicleType: VehicleType.CUV,
   allowManualLogin: process.env['REACT_APP_ALLOW_LOGIN'] === 'true',
   allowVehicleTypeSelection: true,
   fetchFromSearchParams: true,

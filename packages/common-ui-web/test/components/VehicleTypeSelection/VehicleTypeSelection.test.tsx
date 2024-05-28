@@ -42,7 +42,7 @@ describe('VehicleTypeSelection component', () => {
   });
 
   it('should select a vehicle when clicking on a card', () => {
-    const availableVehicleTypes = [VehicleType.HATCHBACK, VehicleType.CITY, VehicleType.CROSSOVER];
+    const availableVehicleTypes = [VehicleType.HATCHBACK, VehicleType.CITY, VehicleType.CUV];
     const { unmount } = render(
       <VehicleTypeSelection availableVehicleTypes={availableVehicleTypes} />,
     );

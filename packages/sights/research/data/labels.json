@@ -496,12 +496,12 @@
     "de": "Schrägheck",
     "nl": "Hatchback"
   },
-  "crossover": {
-    "key": "crossover",
-    "en": "Crossover",
-    "fr": "Crossover",
-    "de": "Crossover",
-    "nl": "Crossover"
+  "cuv": {
+    "key": "cuv",
+    "en": "CUV",
+    "fr": "CUV",
+    "de": "CUV",
+    "nl": "CUV"
   },
   "pickup": {
     "key": "pickup",

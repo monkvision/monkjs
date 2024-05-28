@@ -5,7 +5,7 @@ function getSearchParamFromVehicleType(vehicleType: VehicleType | null): string 
   switch (vehicleType) {
     case VehicleType.SUV:
       return '0';
-    case VehicleType.CROSSOVER:
+    case VehicleType.CUV:
       return '1';
     case VehicleType.SEDAN:
       return '2';

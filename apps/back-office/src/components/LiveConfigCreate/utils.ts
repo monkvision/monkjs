@@ -32,7 +32,7 @@ export function createConfig(): LiveConfig {
     showCloseButton: false,
     allowSkipRetake: false,
     enableAddDamage: true,
-    defaultVehicleType: VehicleType.CROSSOVER,
+    defaultVehicleType: VehicleType.CUV,
     allowManualLogin: true,
     fetchFromSearchParams: true,
     enableSteeringWheelPosition: false,
@@ -56,7 +56,7 @@ export function createConfig(): LiveConfig {
         'jgc21-s7WDTRmE',
         'jgc21-__JKllz9',
       ],
-      [VehicleType.CROSSOVER]: [
+      [VehicleType.CUV]: [
         'fesc20-H1dfdfvH',
         'fesc20-WMUaKDp1',
         'fesc20-LTe3X2bg',

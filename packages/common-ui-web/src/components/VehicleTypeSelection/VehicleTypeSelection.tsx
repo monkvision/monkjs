@@ -22,7 +22,7 @@ export interface VehicleTypeSelectionProps {
    * A list of available vehicle type to choose from. The order of the list will be modified to always follow the same
    * order.
    *
-   * @default [SUV, CROSSOVER, SEDAN, HATCHBACK, VAN, MINIVAN, PICKUP]
+   * @default [SUV, CUV, SEDAN, HATCHBACK, VAN, MINIVAN, PICKUP]
    */
   availableVehicleTypes?: VehicleType[];
   /**

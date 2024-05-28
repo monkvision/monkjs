@@ -52,7 +52,7 @@ export const iconNames = [
   'credit-card',
   'credit-score',
   'crop',
-  'crossover',
+  'cuv',
   'delete',
   'diamond',
   'directions-car',
