@@ -32,7 +32,7 @@ export enum VehicleType {
    * A vehicle that is built on a car platform but has an increased ride height with a higher ground clearance like an
    * SUV, that can handle any terrain.
    */
-  CROSSOVER = 'crossover',
+  CUV = 'cuv',
   /**
    * A light-duty truck that has an enclosed cabin, and a back end made up of a cargo bed that is enclosed by three low
    * walls with no roof.
@@ -81,7 +81,7 @@ export enum VehicleModel {
    */
   AUDIA7 = 'audia7',
   /**
-   * Ford Escape SE 2020 (Crossover)
+   * Ford Escape SE 2020 (CUV)
    */
   FESC20 = 'fesc20',
   /**
@@ -161,7 +161,7 @@ export interface VehicleDetails {
    */
   model: string;
   /**
-   * The type of the vehicle (Crossover, SUV...).
+   * The type of the vehicle (CUV, SUV...).
    */
   type: VehicleType;
   /**

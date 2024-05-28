@@ -5,7 +5,7 @@ const vehicles = {
     id: VehicleModel.FESC20,
     make: 'Ford',
     model: 'Escape SE 2020',
-    type: VehicleType.CROSSOVER,
+    type: VehicleType.CUV,
   },
 };
 

@@ -38,10 +38,10 @@ function createProps(): MonkAppStateProviderProps {
     config: {
       fetchFromSearchParams: false,
       enableSteeringWheelPosition: false,
-      defaultVehicleType: VehicleType.CROSSOVER,
+      defaultVehicleType: VehicleType.CUV,
       sights: {
         [VehicleType.HATCHBACK]: ['test-sight-1', 'test-sight-2'],
-        [VehicleType.CROSSOVER]: ['test-sight-3', 'test-sight-4'],
+        [VehicleType.CUV]: ['test-sight-3', 'test-sight-4'],
       },
     } as CaptureAppConfig,
     onFetchAuthToken: jest.fn(),
@@ -237,11 +237,11 @@ describe('MonkAppStateProvider', () => {
         (props.config as any).sights = {
           [SteeringWheelPosition.RIGHT]: {
             [VehicleType.HATCHBACK]: ['test-sight-1', 'test-sight-2'],
-            [VehicleType.CROSSOVER]: ['test-sight-3', 'test-sight-4'],
+            [VehicleType.CUV]: ['test-sight-3', 'test-sight-4'],
           },
         };
         mockSearchParams({
-          [MonkSearchParam.VEHICLE_TYPE]: VehicleType.CROSSOVER,
+          [MonkSearchParam.VEHICLE_TYPE]: VehicleType.CUV,
           [MonkSearchParam.STEERING_WHEEL]: SteeringWheelPosition.RIGHT,
         });
         const { unmount } = render(
@@ -261,7 +261,7 @@ describe('MonkAppStateProvider', () => {
       it('should use the default vehicle type from the config options', () => {
         const props = createProps();
         props.config.fetchFromSearchParams = true;
-        props.config.defaultVehicleType = VehicleType.CROSSOVER;
+        props.config.defaultVehicleType = VehicleType.CUV;
         const { unmount } = render(
           <MonkAppStateProvider {...props}>
             <TestComponent />
@@ -284,11 +284,11 @@ describe('MonkAppStateProvider', () => {
         (props.config as any).sights = {
           [SteeringWheelPosition.LEFT]: {
             [VehicleType.HATCHBACK]: ['test-sight-1', 'test-sight-2'],
-            [VehicleType.CROSSOVER]: ['test-sight-3', 'test-sight-4'],
+            [VehicleType.CUV]: ['test-sight-3', 'test-sight-4'],
           },
         };
         mockSearchParams({
-          [MonkSearchParam.VEHICLE_TYPE]: VehicleType.CROSSOVER,
+          [MonkSearchParam.VEHICLE_TYPE]: VehicleType.CUV,
         });
         const { unmount } = render(
           <MonkAppStateProvider {...props}>

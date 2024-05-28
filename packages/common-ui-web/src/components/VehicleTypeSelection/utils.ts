@@ -3,7 +3,7 @@ import { VehicleType } from '@monkvision/types';
 export const VEHICLE_TYPE_ORDER = [
   VehicleType.HATCHBACK,
   VehicleType.SEDAN,
-  VehicleType.CROSSOVER,
+  VehicleType.CUV,
   VehicleType.SUV,
   VehicleType.PICKUP,
   VehicleType.MINIVAN,
@@ -14,7 +14,7 @@ export const VEHICLE_TYPE_ORDER = [
 
 export const DEFAULT_AVAILABLE_VEHICLE_TYPES = [
   VehicleType.SUV,
-  VehicleType.CROSSOVER,
+  VehicleType.CUV,
   VehicleType.SEDAN,
   VehicleType.HATCHBACK,
   VehicleType.VAN,

@@ -9,7 +9,7 @@ import { getEnvOrThrow } from '@monkvision/common';
 
 export const AppConfig: CaptureAppConfig = {
   enforceOrientation: DeviceOrientation.LANDSCAPE,
-  defaultVehicleType: VehicleType.CROSSOVER,
+  defaultVehicleType: VehicleType.CUV,
   allowManualLogin: true,
   allowVehicleTypeSelection: true,
   fetchFromSearchParams: true,
@@ -49,7 +49,7 @@ export const AppConfig: CaptureAppConfig = {
       'jgc21-s7WDTRmE',
       'jgc21-__JKllz9',
     ],
-    [VehicleType.CROSSOVER]: [
+    [VehicleType.CUV]: [
       'fesc20-H1dfdfvH',
       'fesc20-WMUaKDp1',
       'fesc20-LTe3X2bg',

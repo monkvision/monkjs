@@ -1,6 +1,6 @@
 import { VehicleType } from '@monkvision/types';
 import { VehicleTypeHatchbackAsset } from './hatchback';
-import { VehicleTypeCrossoverAsset } from './crossover';
+import { VehicleTypeCuvAsset } from './cuv';
 import { VehicleTypeCityAsset } from './city';
 import { VehicleTypePickupAsset } from './pickup';
 import { VehicleTypeVanAsset } from './van';
@@ -11,7 +11,7 @@ import { VehicleTypeSuvAsset } from './suv';
 
 export const VehicleTypeAssetsMap: Record<VehicleType, string> = {
   [VehicleType.HATCHBACK]: VehicleTypeHatchbackAsset,
-  [VehicleType.CROSSOVER]: VehicleTypeCrossoverAsset,
+  [VehicleType.CUV]: VehicleTypeCuvAsset,
   [VehicleType.CITY]: VehicleTypeCityAsset,
   [VehicleType.PICKUP]: VehicleTypePickupAsset,
   [VehicleType.VAN]: VehicleTypeVanAsset,

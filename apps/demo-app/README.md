@@ -13,7 +13,7 @@ This app contains the following features :
 - Possiblity of passing the following configuration in the URL search params :
   - Encrypted authentication token using ZLib (the user does not have to log in)
   - Inspection ID (instead of creating a new one automatically)
-  - Vehicle type used for the Sights (default one is Crossover)
+  - Vehicle type used for the Sights (default one is CUV)
   - Application language (English / French / German / Dutch)
 
 # Running the App
