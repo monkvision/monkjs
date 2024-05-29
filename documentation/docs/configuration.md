@@ -5,7 +5,7 @@ sidebar_position: 3
 # Configuration
 Most of the web applications integrating the MonkJs SDK will need the same configuration properties. To simplify the
 syntax when configuring your app, we provide a TypeScript interface called `CaptureAppConfig` that contains the usual
-configuration properties needed. You can create a file in your app that will contain the MoknJs configuration, so that
+configuration properties needed. You can create a file in your app that will contain the MonkJs configuration, so that
 it will be easy to modify the config properties if needed:
 
 ```typescript

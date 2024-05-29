@@ -82,7 +82,7 @@ prop, it will override the `enableCompliance` prop.
 
 ### Blocking Compliance
 By default, the compliance in the `PhotoCapture` component is blocking, meaning that the user can't complete the Photo
-Capture wofklow if there are still some images that are not compliant. They will need to retake non-compliant picture
+Capture worfklow if there are still some images that are not compliant. They will need to retake non-compliant picture
 until every Sight's picture is compliant in order to finish the process. To disable this feature and allow the user to
 skip the retaking process, simply set the `allowSkipRetake` prop to `true`.
 

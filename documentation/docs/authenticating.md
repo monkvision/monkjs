@@ -55,7 +55,7 @@ fetching from the search param and the decompression for you. More details on th
 [next section](/docs/application-state.md).
 
 ## Manual Login
-If you want to allow you users to manually log in using their own credentials, you can install the `@auth0/auth0-react`
+If you want to allow your users to manually log in using their own credentials, you can install the `@auth0/auth0-react`
 package and follow [their official documentation](https://auth0.com/docs/libraries/auth0-react) to generate an
 authentication token after the user has logged in.
 
