@@ -1,5 +1,7 @@
 import {
   CaptureAppConfig,
+  ComplianceIssue,
+  DEFAULT_COMPLIANCE_ISSUES,
   DeviceOrientation,
   MonkApiPermission,
   TaskName,
@@ -166,4 +168,12 @@ export const AppConfig: CaptureAppConfig = {
       'ff150-7nvlys8r',
     ],
   },
+  complianceIssues: DEFAULT_COMPLIANCE_ISSUES.filter(
+    (issue) =>
+      ![
+        ComplianceIssue.WRONG_ANGLE,
+        ComplianceIssue.TOO_ZOOMED,
+        ComplianceIssue.NOT_ZOOMED_ENOUGH,
+      ].includes(issue),
+  ),
 };
