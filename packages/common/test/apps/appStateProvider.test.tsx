@@ -1,5 +1,6 @@
 const searchParamsGet = jest.fn(() => null) as jest.Mock;
 
+jest.mock('jwt-decode');
 jest.mock('../../src/apps/searchParams', () => ({
   ...jest.requireActual('../../src/apps/searchParams'),
   useMonkSearchParams: jest.fn(() => ({ get: searchParamsGet })),

@@ -1,3 +1,6 @@
+import * as Sentry from '@sentry/react';
+import { Span } from '@sentry/types';
+import { Primitive } from '@monkvision/types';
 import {
   DebugMonitoringAdapter,
   LogContext,
@@ -9,9 +12,6 @@ import {
   MeasurementContext,
   TransactionStatus,
 } from '@monkvision/monitoring';
-
-import * as Sentry from '@sentry/react';
-import { Span } from '@sentry/types';
 
 /**
  * Config required when instantiating the Sentry Monitoring Adapter.
@@ -172,5 +172,9 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
         transaction.finish();
       },
     };
+  }
+
+  override setTags(tags: Record<string, Primitive>): void {
+    Sentry.setTags(tags);
   }
 }

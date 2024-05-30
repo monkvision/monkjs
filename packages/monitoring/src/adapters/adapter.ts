@@ -228,4 +228,10 @@ export interface MonitoringAdapter {
    * @param context Context of the transaction.
    */
   createTransaction: (context?: TransactionContext) => Transaction;
+  /**
+   * Set the global tags for any monitoring log or request.
+   *
+   * @param tags
+   */
+  setTags: (tags: Record<string, Primitive>) => void;
 }

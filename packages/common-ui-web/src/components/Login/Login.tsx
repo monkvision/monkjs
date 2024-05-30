@@ -1,6 +1,6 @@
 import { CSSProperties, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isTokenExpired, isUserAuthorized, useAuth } from '@monkvision/network';
+import { decodeMonkJwt, isTokenExpired, isUserAuthorized, useAuth } from '@monkvision/network';
 import {
   i18nWrap,
   useI18nSync,
@@ -53,7 +53,7 @@ export const Login = i18nWrap(({ onLoginSuccessful, lang, style = {} }: LoginPro
   const [isExpired, setIsExpired] = useState(false);
   const loading = useLoadingState();
   const { authToken, setAuthToken, config } = useMonkAppState();
-  const { handleError } = useMonitoring();
+  const { handleError, setUserId } = useMonitoring();
   const { login, logout } = useAuth();
   const { t } = useTranslation();
   const { rootStyles } = useMonkTheme();
@@ -90,6 +90,10 @@ export const Login = i18nWrap(({ onLoginSuccessful, lang, style = {} }: LoginPro
         } else {
           loading.onSuccess();
           onLoginSuccessful?.();
+          const userId = token ? decodeMonkJwt(token) : undefined;
+          if (userId?.sub) {
+            setUserId(userId.sub);
+          }
         }
       })
       .catch((err) => {

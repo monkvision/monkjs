@@ -1,0 +1,3 @@
+export = {
+  jwtDecode: jest.fn(() => ({})),
+};

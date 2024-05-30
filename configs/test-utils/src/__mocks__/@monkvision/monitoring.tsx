@@ -33,6 +33,7 @@ export = {
     log: jest.fn(),
     handleError: jest.fn(),
     createTransaction: createTransactionMock,
+    setTags: jest.fn(),
   })),
   MonitoringProvider: jest.fn(({ children }) => <>{children}</>),
 };

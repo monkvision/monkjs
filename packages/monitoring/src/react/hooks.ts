@@ -14,6 +14,7 @@ export function useMonitoring(): MonitoringAdapter {
       log: adapter.log.bind(adapter),
       handleError: adapter.handleError.bind(adapter),
       createTransaction: adapter.createTransaction.bind(adapter),
+      setTags: adapter.setTags.bind(adapter),
     }),
     [],
   );

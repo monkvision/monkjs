@@ -3632,6 +3632,8 @@ __metadata:
     i18next: ^23.4.5
     jest: ^29.3.1
     jest-environment-jsdom: ^29.6.2
+    jsonwebtoken: ^9.0.2
+    jwt-decode: ^4.0.0
     localforage: ^1.10.0
     match-sorter: ^6.3.4
     mkdirp: ^1.0.4
@@ -3906,6 +3908,7 @@ __metadata:
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/monitoring": 4.0.0
     "@monkvision/prettier-config": 4.0.0
+    "@monkvision/types": 4.0.0
     "@monkvision/typescript-config": 4.0.0
     "@sentry/react": ^7.61.1
     "@types/jest": ^29.2.2

@@ -94,4 +94,18 @@ describe('Empty Monitoring Adapter', () => {
       }).not.toThrow();
     });
   });
+
+  describe('setTags function', () => {
+    it('should display a warning in the console when used', () => {
+      const adapter = new EmptyMonitoringAdapter();
+      adapter.setTags({ test: 'hello' });
+      expect(consoleSpy.warn).toHaveBeenCalled();
+    });
+
+    it('should not display a warning in the console is showUnsupportedMethodWarnings is set to false', () => {
+      const adapter = new EmptyMonitoringAdapter({ showUnsupportedMethodWarnings: false });
+      adapter.setTags({ test: 'hello' });
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
+    });
+  });
 });

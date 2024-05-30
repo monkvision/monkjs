@@ -3,7 +3,7 @@ import React from 'react';
 import { MonitoringAdapter, MonitoringProvider, useMonitoring } from '../../src';
 
 function TestComponent() {
-  const { setUserId, log, handleError, createTransaction } = useMonitoring();
+  const { setUserId, log, handleError, createTransaction, setTags } = useMonitoring();
 
   return (
     <div>
@@ -19,6 +19,9 @@ function TestComponent() {
       <button data-testid='create-transaction-btn' onClick={() => createTransaction({})}>
         createTransaction
       </button>
+      <button data-testid='set-tags-btn' onClick={() => setTags({ test: 'test' })}>
+        setTags
+      </button>
     </div>
   );
 }
@@ -30,11 +33,13 @@ describe('MonitoringProvider component', () => {
       log: jest.fn(),
       handleError: jest.fn(),
       createTransaction: jest.fn(),
+      setTags: jest.fn(),
     };
     const setUserIdSpy = jest.spyOn(adapter, 'setUserId');
     const logSpy = jest.spyOn(adapter, 'log');
     const handleErrorSpy = jest.spyOn(adapter, 'handleError');
     const createTransactionSpy = jest.spyOn(adapter, 'createTransaction');
+    const setTagsSpy = jest.spyOn(adapter, 'setTags');
 
     const { unmount } = render(
       <MonitoringProvider adapter={adapter}>
@@ -50,6 +55,8 @@ describe('MonitoringProvider component', () => {
     expect(handleErrorSpy).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByTestId('create-transaction-btn'));
     expect(createTransactionSpy).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByTestId('set-tags-btn'));
+    expect(setTagsSpy).toHaveBeenCalledTimes(1);
     unmount();
   });
 });

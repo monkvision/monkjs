@@ -29,6 +29,8 @@
     "@monkvision/sights": "4.0.0",
     "@monkvision/types": "4.0.0",
     "i18next": "^23.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "pako": "^2.1.0",
