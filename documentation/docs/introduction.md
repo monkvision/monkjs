@@ -17,12 +17,12 @@ that exposes endpoints to communicate with the AI models. The usual Monk workflo
   run during this inspection.
 3. Take pictures of your vehicle and add them to your inspection using the `POST /inspection/{id}/images` endpoint. For
   each picture, specify which *Task* you want to run on it.
-4. *(optional)* Ask the API to analyze the quality of the images before running the AI models on them
-5. Once all the pictures are uploaded, tell the API to start inspection *Tasks* by using the
+4. Analyze the result of the image quality checks and retake non-compliant pictures.
+5. Once all the pictures are uploaded, tell the API to start the inspection *Tasks* by using the
   `PATCH /inspection/{id}/tasks/{name}` endpoint.
 6. Wait for the *Tasks* to complete.
 7. Obtain the results of the inspection using the `GET /inspection` endpoint.
-8. *(optional)* Update the AI results if some of them are wrong using the different severity endpoints.
+8. Update the AI results if some of them are wrong using the different severity endpoints.
 9. Ask the API to generate a PDF report containing the summary of the inspection results using the
   `POST /inspections/${id}/pdf` endpoint.
 10. Wait for the PDF to be generated.

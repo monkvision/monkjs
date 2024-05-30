@@ -5,7 +5,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { getEnvOrThrow, MonkThemeProvider } from '@monkvision/common';
 import { sentryMonitoringAdapter } from './sentry';
 import { AppRouter } from './components';
-import { palette } from './config';
+import { AppConfig } from './config';
 import './index.css';
 import './i18n';
 
@@ -20,7 +20,7 @@ ReactDOM.render(
         prompt: 'login',
       }}
     >
-      <MonkThemeProvider palette={palette}>
+      <MonkThemeProvider palette={AppConfig.palette}>
         <AppRouter />
       </MonkThemeProvider>
     </Auth0Provider>
