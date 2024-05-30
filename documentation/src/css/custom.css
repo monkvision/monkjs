@@ -56,3 +56,7 @@ html[data-theme='dark'] {
   --icon-card-background-hover: #353637;
   --icon-card-background-active: #3f4040;
 }
+
+body {
+  overscroll-behavior-y: none;
+}
