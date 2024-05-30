@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Image, ImageStatus, MonkPicture, Sight } from '@monkvision/types';
+import { Image, ImageStatus, Sight } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -34,7 +34,7 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
   /**
    * Value storing the last picture taken by the user. If no picture has been taken yet, this value is null.
    */
-  lastPictureTaken: MonkPicture | null;
+  lastPictureTakenUri: string | null;
   /**
    * The current mode of the component.
    */
@@ -100,7 +100,7 @@ export function PhotoCaptureHUD({
   sights,
   selectedSight,
   sightsTaken,
-  lastPictureTaken,
+  lastPictureTakenUri,
   mode,
   onSelectSight,
   onRetakeSight,
@@ -147,7 +147,7 @@ export function PhotoCaptureHUD({
           onCancelAddDamage={onCancelAddDamage}
           onSelectSight={onSelectSight}
           onRetakeSight={onRetakeSight}
-          isLoading={loading.isLoading || handle.isLoading}
+          isLoading={loading.isLoading}
           error={loading.error ?? handle.error}
           previewDimensions={handle.previewDimensions}
           images={images}
@@ -158,10 +158,12 @@ export function PhotoCaptureHUD({
         onOpenGallery={onOpenGallery}
         onTakePicture={handle?.takePicture}
         onClose={() => setShowCloseModal(true)}
-        galleryPreview={lastPictureTaken ?? undefined}
+        galleryPreview={lastPictureTakenUri ?? undefined}
         closeDisabled={!!loading.error || !!handle.error}
         galleryDisabled={!!loading.error || !!handle.error}
-        takePictureDisabled={!!loading.error || !!handle.error}
+        takePictureDisabled={
+          !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
+        }
         showCloseButton={showCloseButton}
         showGalleryBadge={showGalleryBadge}
         retakeCount={images.filter((image) => image.status === ImageStatus.NOT_COMPLIANT).length}

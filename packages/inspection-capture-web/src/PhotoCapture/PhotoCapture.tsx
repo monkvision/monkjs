@@ -201,7 +201,7 @@ export function PhotoCapture({
     sights,
     selectedSight: sightState.selectedSight,
     sightsTaken: sightState.sightsTaken,
-    lastPictureTaken: sightState.lastPictureTaken,
+    lastPictureTakenUri: sightState.lastPictureTakenUri,
     mode: addDamageHandle.mode,
     onOpenGallery: handleOpenGallery,
     onSelectSight: sightState.selectSight,

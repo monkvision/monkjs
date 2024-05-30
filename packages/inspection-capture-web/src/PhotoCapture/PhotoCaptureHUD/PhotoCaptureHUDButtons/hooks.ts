@@ -16,7 +16,7 @@ interface PhotoCaptureHUDButtonsStylesParams {
   galleryStatus: InteractiveStatus;
   closeStatus: InteractiveStatus;
   closeBtnAvailable: boolean;
-  galleryPreviewUrl?: string;
+  galleryPreview?: string;
   showCloseButton?: boolean;
   showGalleryBadge?: boolean;
 }
@@ -49,7 +49,7 @@ export function useCaptureHUDButtonsStyles(
       setBackgroundAnimationStart(true);
       return timeoutPromise(ANIMATION_DELAY_MS);
     },
-    [params.galleryPreviewUrl],
+    [params.galleryPreview],
     {
       onResolve: () => setBackgroundAnimationStart(false),
     },
@@ -88,7 +88,7 @@ export function useCaptureHUDButtonsStyles(
     },
     backgroundCoverStyle: {
       ...styles['backgroundCover'],
-      backgroundImage: params.galleryPreviewUrl ? `url(${params.galleryPreviewUrl})` : 'none',
+      backgroundImage: params.galleryPreview ? `url(${params.galleryPreview})` : 'none',
       transition: backgroundAnimationStart ? 'none' : 'transform 0.2s ease-out',
       transform: `scale(${backgroundAnimationStart ? 0.3 : 1})`,
     },

@@ -134,7 +134,7 @@ export function useUploadQueue({
       }
     },
     {
-      storeFailedItems: true,
+      storeFailedItems: false,
     },
   );
 }

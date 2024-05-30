@@ -27,6 +27,7 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
   return {
     type: ImageType.BEAUTY_SHOT,
     picture: {
+      blob: { size: 424 } as Blob,
       uri: 'test-uri',
       height: 720,
       width: 1280,
@@ -46,6 +47,7 @@ function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
   return {
     type: ImageType.CLOSE_UP,
     picture: {
+      blob: { size: 424 } as Blob,
       uri: 'test-uri',
       height: 720,
       width: 1280,
@@ -186,10 +188,8 @@ describe('Image requests', () => {
       });
       expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);
       const filetype = (getFileExtensions as jest.Mock).mock.results[0].value[0];
-      expect(ky.get).toHaveBeenCalledWith(options.picture.uri);
-      const blob = await (ky.get as jest.Mock).mock.results[0].value.blob();
       expect(fileConstructorSpy).toHaveBeenCalledWith(
-        [blob],
+        [options.picture.blob],
         expect.stringMatching(
           new RegExp(`${options.sightId}-${options.inspectionId}-\\d{13}.${filetype}`),
         ),
@@ -227,11 +227,9 @@ describe('Image requests', () => {
       });
       expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);
       const filetype = (getFileExtensions as jest.Mock).mock.results[0].value[0];
-      expect(ky.get).toHaveBeenCalledWith(options.picture.uri);
-      const blob = await (ky.get as jest.Mock).mock.results[0].value.blob();
       const prefix = options.firstShot ? 'closeup-part' : 'closeup-damage';
       expect(fileConstructorSpy).toHaveBeenCalledWith(
-        [blob],
+        [options.picture.blob],
         expect.stringMatching(new RegExp(`${prefix}-${options.inspectionId}-\\d{13}.${filetype}`)),
         { type: filetype },
       );

@@ -29,7 +29,7 @@ export interface UseCompressionParams {
 export type CompressFunction = (
   image: ImageData,
   monitoring: InternalCameraMonitoringConfig,
-) => MonkPicture;
+) => Promise<MonkPicture>;
 
 function startCompressionMeasurement(
   monitoring: InternalCameraMonitoringConfig,
@@ -61,7 +61,7 @@ function setCustomMeasurements(
   picture: MonkPicture,
 ): void {
   const imageSizeBytes = image.data.length;
-  const pictureSizeBytes = window.atob(picture.uri.split(',')[1]).length;
+  const pictureSizeBytes = picture.blob.size;
   monitoring.transaction?.setMeasurement(
     CompressionSizeRatioMeasurement.name,
     pictureSizeBytes / imageSizeBytes,
@@ -74,15 +74,24 @@ function compressUsingBrowser(
   image: ImageData,
   canvasRef: RefObject<HTMLCanvasElement>,
   options: CompressionOptions,
-): MonkPicture {
+): Promise<MonkPicture> {
   const { canvas, context } = getCanvasHandle(canvasRef);
   context.putImageData(image, 0, 0);
-  return {
-    uri: canvas.toDataURL(options.format, options.quality),
-    mimetype: options.format,
-    width: image.width,
-    height: image.height,
-  };
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error('Unable to convert canvas to Blob, toBlob() returned null.'));
+      } else {
+        resolve({
+          blob,
+          uri: URL.createObjectURL(blob),
+          mimetype: options.format,
+          width: image.width,
+          height: image.height,
+        });
+      }
+    }, options.format);
+  });
 }
 
 /**
@@ -90,10 +99,10 @@ function compressUsingBrowser(
  */
 export function useCompression({ canvasRef, options }: UseCompressionParams): CompressFunction {
   return useCallback(
-    (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
+    async (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
       startCompressionMeasurement(monitoring, options, image);
       try {
-        const picture = compressUsingBrowser(image, canvasRef, options);
+        const picture = await compressUsingBrowser(image, canvasRef, options);
         setCustomMeasurements(monitoring, image, picture);
         stopCompressionMeasurement(monitoring, TransactionStatus.OK);
         return picture;

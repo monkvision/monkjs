@@ -7,6 +7,7 @@ import {
   InternalCameraMonitoringConfig,
   TakePictureTransaction,
 } from '../monitoring';
+import { CompressFunction } from './useCompression';
 
 /**
  * Type definition for the parameters of the useTakePicture hook.
@@ -15,7 +16,7 @@ export interface UseTakePictureParams {
   /**
    * Callback used to compress the screenshot taken by the takeScreenshot function.
    */
-  compress: (image: ImageData, monitoring: InternalCameraMonitoringConfig) => MonkPicture;
+  compress: CompressFunction;
   /**
    * Callback used to take the screenshot of the camera video stream.
    */
@@ -42,7 +43,7 @@ export function useTakePicture({
   const { createTransaction } = useMonitoring();
   const [isLoading, setIsLoading] = useState(false);
 
-  const takePicture = useCallback(() => {
+  const takePicture = useCallback(async () => {
     setIsLoading(true);
     const transaction = createTransaction({ ...TakePictureTransaction, ...monitoring });
     const childMonitoring: InternalCameraMonitoringConfig = {
@@ -51,7 +52,7 @@ export function useTakePicture({
       tags: monitoring?.tags,
     };
     const screenshot = takeScreenshot(childMonitoring);
-    const picture = compress(screenshot, childMonitoring);
+    const picture = await compress(screenshot, childMonitoring);
     transaction.finish();
     setIsLoading(false);
     if (onPictureTaken) {

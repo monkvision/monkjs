@@ -16,18 +16,18 @@ describe('useTakePicture hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should take the screenshot, compress it and return it', () => {
+  it('should take the screenshot, compress it and return it', async () => {
     const screenshot = { test: 'test' } as unknown as ImageData;
     const picture = { uri: 'test-uri' } as unknown as MonkPicture;
     const takeScreenshot = jest.fn(() => screenshot);
-    const compress = jest.fn(() => picture);
+    const compress = jest.fn(() => Promise.resolve(picture));
 
     const { result, unmount } = renderHook(useTakePicture, {
       initialProps: { compress, takeScreenshot, monitoring },
     });
 
-    act(() => {
-      const pictureResult = result.current.takePicture();
+    await act(async () => {
+      const pictureResult = await result.current.takePicture();
 
       expect(takeScreenshot).toHaveBeenCalled();
       expect(compress).toHaveBeenCalledWith(screenshot, expect.anything());
@@ -37,19 +37,19 @@ describe('useTakePicture hook', () => {
     unmount();
   });
 
-  it('should call onPictureTaken when the picture is taken', () => {
+  it('should call onPictureTaken when the picture is taken', async () => {
     const screenshot = { test: 'test' } as unknown as ImageData;
     const picture = { uri: 'test-uri' } as unknown as MonkPicture;
     const takeScreenshot = jest.fn(() => screenshot);
-    const compress = jest.fn(() => picture);
+    const compress = jest.fn(() => Promise.resolve(picture));
     const onPictureTaken = jest.fn();
 
     const { result, unmount } = renderHook(useTakePicture, {
       initialProps: { compress, takeScreenshot, onPictureTaken, monitoring },
     });
 
-    act(() => {
-      result.current.takePicture();
+    await act(async () => {
+      await result.current.takePicture();
 
       expect(onPictureTaken).toHaveBeenCalledWith(picture);
     });
@@ -62,7 +62,7 @@ describe('useTakePicture hook', () => {
    * taking process becomes asynchronous, we should add tests to verify that the loading is working properly.
    */
 
-  it('should create the TakePicture transaction', () => {
+  it('should create the TakePicture transaction', async () => {
     const takeScreenshot = jest.fn();
     const compress = jest.fn();
 
@@ -70,8 +70,8 @@ describe('useTakePicture hook', () => {
       initialProps: { compress, takeScreenshot, monitoring },
     });
 
-    act(() => {
-      result.current.takePicture();
+    await act(async () => {
+      await result.current.takePicture();
 
       const createTransactionMock = (useMonitoring as jest.Mock).mock.results[0].value
         .createTransaction;
@@ -84,7 +84,7 @@ describe('useTakePicture hook', () => {
     unmount();
   });
 
-  it('should stop the TakePicture transaction', () => {
+  it('should stop the TakePicture transaction', async () => {
     const takeScreenshot = jest.fn();
     const compress = jest.fn();
 
@@ -92,8 +92,8 @@ describe('useTakePicture hook', () => {
       initialProps: { compress, takeScreenshot, monitoring },
     });
 
-    act(() => {
-      result.current.takePicture();
+    await act(async () => {
+      await result.current.takePicture();
 
       const createTransactionMock = (useMonitoring as jest.Mock).mock.results[0].value
         .createTransaction;
@@ -105,7 +105,7 @@ describe('useTakePicture hook', () => {
     unmount();
   });
 
-  it('should pass the child monitoring config to the compress and takeScreenshot functions', () => {
+  it('should pass the child monitoring config to the compress and takeScreenshot functions', async () => {
     const takeScreenshot = jest.fn();
     const compress = jest.fn();
 
@@ -113,8 +113,8 @@ describe('useTakePicture hook', () => {
       initialProps: { compress, takeScreenshot, monitoring },
     });
 
-    act(() => {
-      result.current.takePicture();
+    await act(async () => {
+      await result.current.takePicture();
 
       const createTransactionMock = (useMonitoring as jest.Mock).mock.results[0].value
         .createTransaction;

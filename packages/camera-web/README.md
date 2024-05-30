@@ -173,7 +173,7 @@ Object passed to Camera HUD components that is used to control the camera
 ### Properties
 | Prop              | Type                        | Description                                                                                              |
 |-------------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
-| takePicture       | () => MonkPicture           | A function that you can call to ask the camera to take a picture.                                        |
+| takePicture       | () => Promise<MonkPicture>  | A function that you can call to ask the camera to take a picture.                                        |
 | error             | UserMediaError &#124; null  | The error details if there has been an error when fetching the camera stream.                            |
 | isLoading         | boolean                     | Boolean indicating if the camera preview is loading.                                                     |
 | retry             | () => void                  | A function to retry the camera stream fetching in case of error.                                         |

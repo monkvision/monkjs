@@ -3,7 +3,11 @@
  */
 export interface MonkPicture {
   /**
-   * The DataURI of the picture.
+   * The Blob containing the picture data.
+   */
+  blob: Blob;
+  /**
+   * The DataURI of the picture, pointing to the local Blob object.
    */
   uri: string;
   /**

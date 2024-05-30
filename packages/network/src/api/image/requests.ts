@@ -190,8 +190,7 @@ async function createImageFormData(
       ? createBeautyShotImageData(options, filetype)
       : createCloseUpImageData(options, filetype);
 
-  const blob = await ky.get(options.picture.uri).blob();
-  const file = new File([blob], filename, { type: filetype });
+  const file = new File([options.picture.blob], filename, { type: filetype });
 
   const data = new FormData();
   data.append(MULTIPART_KEY_JSON, JSON.stringify(body));

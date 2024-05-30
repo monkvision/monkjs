@@ -1,4 +1,3 @@
-import { MonkPicture } from '@monkvision/types';
 import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
 import { useInteractiveStatus } from '@monkvision/common';
 import { useCaptureHUDButtonsStyles } from './hooks';
@@ -8,10 +7,10 @@ import { useCaptureHUDButtonsStyles } from './hooks';
  */
 export interface PhotoCaptureHUDButtonsProps {
   /**
-   * Picture displayed in the gallery button icon. Usually, this is the last picture taken by the user. If no picture
-   * is provided, a gallery icon will be displayed instead.
+   * URI of the picture displayed in the gallery button icon. Usually, this is the last picture taken by the user. If no
+   * picture is provided, a gallery icon will be displayed instead.
    */
-  galleryPreview?: MonkPicture;
+  galleryPreview?: string;
   /**
    * Callback called when the user clicks on the take picture button.
    */
@@ -92,7 +91,7 @@ export function PhotoCaptureHUDButtons({
       galleryStatus,
       closeStatus,
       closeBtnAvailable: !!onClose,
-      galleryPreviewUrl: galleryPreview?.uri,
+      galleryPreview,
       showCloseButton,
       showGalleryBadge,
     });

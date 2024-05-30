@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { InteractiveStatus, MonkPicture } from '@monkvision/types';
+import { InteractiveStatus } from '@monkvision/types';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PhotoCaptureHUDButtons } from '../../../src';
@@ -71,13 +71,13 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should display background image the galleryPreview prop is provided', () => {
-      const galleryPreview = { uri: 'test-uri' } as unknown as MonkPicture;
-      const { unmount } = render(<PhotoCaptureHUDButtons galleryPreview={galleryPreview} />);
+      const uri = 'test-uri';
+      const { unmount } = render(<PhotoCaptureHUDButtons galleryPreview={uri} />);
 
       const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
       const backgroundDiv = galleryBtnEl.querySelector('div');
       expect(backgroundDiv).toBeDefined();
-      expect(backgroundDiv?.style.backgroundImage).toEqual(`url(${galleryPreview.uri})`);
+      expect(backgroundDiv?.style.backgroundImage).toEqual(`url(${uri})`);
 
       unmount();
     });
