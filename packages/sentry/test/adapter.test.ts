@@ -209,4 +209,13 @@ describe('Sentry Monitoring Adapter', () => {
       expect(sentryTransaction.setStatus).toHaveBeenCalledWith(TransactionStatus.OK);
     });
   });
+
+  describe('setTags function', () => {
+    it('should call the Sentry.setTags method', () => {
+      const tags = { test: 'hello-world' };
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      adapter.setTags(tags);
+      expect(Sentry.setTags).toHaveBeenCalledWith(tags);
+    });
+  });
 });

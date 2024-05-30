@@ -40,7 +40,7 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
   useI18nSync(lang);
   const loading = useLoadingState();
   const { t } = useTranslation();
-  const { handleError } = useMonitoring();
+  const { handleError, setTags } = useMonitoring();
   const { config, authToken, inspectionId, setInspectionId } = useMonkAppState();
   const { createInspection } = useMonkApi({
     authToken: authToken ?? '',
@@ -73,9 +73,10 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
         loading.onError(CreateInspectionError.MISSING_INSPECTION_ID);
       }
     } else {
+      setTags({ inspectionId });
       onInspectionCreated?.();
     }
-  }, [inspectionId]);
+  }, [inspectionId, setTags]);
 
   return (
     <div style={styles['container']}>

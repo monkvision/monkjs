@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Primitive } from '@monkvision/types';
 import {
   LogContext,
   MonitoringAdapter,
@@ -94,5 +95,13 @@ export class EmptyMonitoringAdapter implements MonitoringAdapter {
       setMeasurement: () => {},
       finish: () => {},
     };
+  }
+
+  setTags(tags: Record<string, Primitive>): void {
+    if (this.options.showUnsupportedMethodWarnings) {
+      console.warn(
+        'Tags are not supported by the current Monk Monitoring Adapter and calling setTags will have no effect.',
+      );
+    }
   }
 }

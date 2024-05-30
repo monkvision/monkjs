@@ -4,6 +4,7 @@ import React, { PropsWithChildren, useCallback, useContext, useEffect, useState 
 import { useLoadingState, useObjectMemo } from '../hooks';
 import { MonkSearchParam, useMonkSearchParams } from './searchParams';
 import { MonkAppState, MonkAppStateContext } from './appState';
+import { useAppStateMonitoring } from './monitoring';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
@@ -76,6 +77,7 @@ export function MonkAppStateProvider({
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
   const [steeringWheel, setSteeringWheel] = useState<SteeringWheelPosition | null>(null);
   const monkSearchParams = useMonkSearchParams();
+  useAppStateMonitoring({ authToken, inspectionId, vehicleType, steeringWheel });
 
   useEffect(() => {
     loading.onSuccess();
