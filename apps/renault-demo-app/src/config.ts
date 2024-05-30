@@ -1,9 +1,13 @@
 import {
   CaptureAppConfig,
+  CAR_COVERAGE_COMPLIANCE_ISSUES,
+  ComplianceIssue,
+  DEFAULT_COMPLIANCE_ISSUES,
   DeviceOrientation,
   MonkApiPermission,
   TaskName,
   VehicleType,
+  ZOOM_LEVEL_COMPLIANCE_ISSUES,
 } from '@monkvision/types';
 import { getEnvOrThrow } from '@monkvision/common';
 
@@ -15,6 +19,7 @@ export const AppConfig: CaptureAppConfig = {
   fetchFromSearchParams: true,
   allowCreateInspection: true,
   useLiveCompliance: true,
+  allowSkipRetake: true,
   createInspectionOptions: { tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] },
   apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN'),
   requiredApiPermissions: [
@@ -164,6 +169,20 @@ export const AppConfig: CaptureAppConfig = {
       'ff150-gFp78fQO',
       'ff150-7nvlys8r',
     ],
+  },
+  complianceIssues: DEFAULT_COMPLIANCE_ISSUES.filter(
+    (issue) =>
+      ![
+        ComplianceIssue.WRONG_ANGLE,
+        ComplianceIssue.TOO_ZOOMED,
+        ComplianceIssue.NOT_ZOOMED_ENOUGH,
+      ].includes(issue),
+  ),
+  complianceIssuesPerSight: {
+    'ff150-nF_oFvhI': DEFAULT_COMPLIANCE_ISSUES.filter(
+      (issue) =>
+        ![...ZOOM_LEVEL_COMPLIANCE_ISSUES, ...CAR_COVERAGE_COMPLIANCE_ISSUES].includes(issue),
+    ),
   },
   palette: {
     primary: {
