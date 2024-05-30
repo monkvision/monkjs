@@ -1,11 +1,13 @@
 import {
   CaptureAppConfig,
+  CAR_COVERAGE_COMPLIANCE_ISSUES,
   ComplianceIssue,
   DEFAULT_COMPLIANCE_ISSUES,
   DeviceOrientation,
   MonkApiPermission,
   TaskName,
   VehicleType,
+  ZOOM_LEVEL_COMPLIANCE_ISSUES,
 } from '@monkvision/types';
 import { getEnvOrThrow } from '@monkvision/common';
 
@@ -176,4 +178,10 @@ export const AppConfig: CaptureAppConfig = {
         ComplianceIssue.NOT_ZOOMED_ENOUGH,
       ].includes(issue),
   ),
+  complianceIssuesPerSight: {
+    'ff150-nF_oFvhI': DEFAULT_COMPLIANCE_ISSUES.filter(
+      (issue) =>
+        ![...ZOOM_LEVEL_COMPLIANCE_ISSUES, ...CAR_COVERAGE_COMPLIANCE_ISSUES].includes(issue),
+    ),
+  },
 };
