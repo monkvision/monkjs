@@ -110,9 +110,6 @@ export function useImageDetailedViewOverlayStyles(props: ImageDetailedViewOverla
     mainContainerStyle: {
       ...styles['mainContainer'],
       ...responsive(styles['mainContainerSmall']),
-      background: isImageValid(props)
-        ? 'linear-gradient(rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%)'
-        : 'transparent',
     },
     overlayDisplayStyle: {
       ...styles['overlayDisplay'],
