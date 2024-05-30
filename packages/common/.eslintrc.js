@@ -9,6 +9,7 @@ module.exports = {
   },
   rules: {
     'import/no-extraneous-dependencies': OFF,
+    '@typescript-eslint/no-explicit-any': OFF,
     'no-console': OFF,
   }
 }

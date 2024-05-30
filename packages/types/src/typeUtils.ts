@@ -44,3 +44,8 @@ export type StandardEnum<T> = {
   [id: string]: T | string;
   [nu: number]: string;
 };
+
+/**
+ * Primitive JavaScript type used in analytics tags.
+ */
+export type Primitive = number | string | boolean | bigint | symbol | null | undefined;

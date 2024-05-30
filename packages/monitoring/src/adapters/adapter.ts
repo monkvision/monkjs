@@ -1,7 +1,4 @@
-/**
- * Primitive JavaScript type used in monitoring tags.
- */
-export type Primitive = number | string | boolean | bigint | symbol | null | undefined;
+import { Primitive } from '@monkvision/types';
 
 /**
  * Severity level of a log element.
@@ -207,23 +204,27 @@ export interface Transaction {
 export interface MonitoringAdapter {
   /**
    * Set the ID of the user currently using the application. Ignore this if you have no user system.
+   *
    * @param id The ID of the user.
    */
   setUserId: (id: string) => void;
   /**
    * Log a message in the adapter.
+   *
    * @param msg The message to log.
    * @param context Optional context that can be sent with the log.
    */
   log: (msg: string, context?: LogContext | Severity) => void;
   /**
    * Handle an error.
+   *
    * @param err The error to handle.
    * @param context Optional context that can be sent with the error.
    */
   handleError: (err: unknown, context?: Omit<LogContext, 'level'>) => void;
   /**
    * Create a transaction used for performance measurement.
+   *
    * @param context Context of the transaction.
    */
   createTransaction: (context?: TransactionContext) => Transaction;

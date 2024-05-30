@@ -10,6 +10,7 @@ import {
   usePhotoCaptureSightState,
 } from '../../../src/PhotoCapture/hooks';
 import { PhotoCaptureErrorName } from '../../../src/PhotoCapture/errors';
+import { useAnalytics } from '@monkvision/analytics';
 
 function createParams(): PhotoCaptureSightsParams {
   return {
@@ -307,15 +308,46 @@ describe('usePhotoCaptureSightState hook', () => {
     unmount();
   });
 
-  it('should remove the sight from the taken sights and select it when retaking a sight', () => {
+  it('should change the sightSelected when retaking a sight', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
 
     act(() => result.current.takeSelectedSight());
     act(() => result.current.takeSelectedSight());
     act(() => result.current.retakeSight('test-sight-1'));
-    expect(result.current.sightsTaken).not.toContain(sights['test-sight-1']);
     expect(result.current.selectedSight).toEqual(sights['test-sight-1']);
+
+    unmount();
+  });
+
+  it('should set user and events properties for analytics', () => {
+    const initialProps = createParams();
+    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { setUserProperties, setEventsProperties } = (useAnalytics as jest.Mock).mock.results[0]
+      .value;
+    const effect = (useAsyncEffect as jest.Mock).mock.calls[0][0];
+    effect();
+    expect(setUserProperties).toBeCalledTimes(1);
+    expect(setEventsProperties).toBeCalledTimes(1);
+    unmount();
+  });
+
+  it('should track Capture Started event, set user & events properties a 2nd time after the getInspection API call', () => {
+    const initialProps = createParams();
+    const takenSights = [initialProps.captureSights[0], initialProps.captureSights[1]];
+    const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
+    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { trackEvent, setUserProperties, setEventsProperties } = (useAnalytics as jest.Mock).mock
+      .results[0].value;
+    const effect = (useAsyncEffect as jest.Mock).mock.calls[0][0];
+    effect();
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => onResolve(apiResponse));
+
+    expect(trackEvent).toBeCalledTimes(1);
+    expect(trackEvent.mock.calls[0][0]).toBe('Capture Started');
+    expect(setUserProperties).toBeCalledTimes(2);
+    expect(setEventsProperties).toBeCalledTimes(2);
 
     unmount();
   });

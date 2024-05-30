@@ -25,11 +25,13 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@monkvision/analytics": "4.0.0",
     "@monkvision/common": "4.0.0",
     "@monkvision/common-ui-web": "4.0.0",
     "@monkvision/inspection-capture-web": "4.0.0",
     "@monkvision/monitoring": "4.0.0",
     "@monkvision/network": "4.0.0",
+    "@monkvision/posthog": "4.0.0",
     "@monkvision/sentry": "4.0.0",
     "@monkvision/sights": "4.0.0",
     "@monkvision/types": "4.0.0",

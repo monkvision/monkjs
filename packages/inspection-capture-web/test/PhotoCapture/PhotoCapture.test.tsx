@@ -45,6 +45,7 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   })),
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
   usePhotoCaptureImages: jest.fn(() => [{ id: 'test' }]),
+  useComplianceAnalytics: jest.fn(),
 }));
 
 function createProps(): PhotoCaptureProps {
