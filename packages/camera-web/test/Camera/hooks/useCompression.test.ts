@@ -53,6 +53,7 @@ describe('useCompression hook', () => {
       expect(canvasHandleMock.canvas.toBlob).toHaveBeenCalledWith(
         expect.any(Function),
         options.format,
+        options.quality,
       );
       expect(global.URL.createObjectURL).toHaveBeenCalledWith(blobMock);
       expect(picture).toEqual({

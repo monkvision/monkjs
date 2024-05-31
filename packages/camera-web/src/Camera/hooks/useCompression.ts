@@ -78,19 +78,23 @@ function compressUsingBrowser(
   const { canvas, context } = getCanvasHandle(canvasRef);
   context.putImageData(image, 0, 0);
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        reject(new Error('Unable to convert canvas to Blob, toBlob() returned null.'));
-      } else {
-        resolve({
-          blob,
-          uri: URL.createObjectURL(blob),
-          mimetype: options.format,
-          width: image.width,
-          height: image.height,
-        });
-      }
-    }, options.format);
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error('Unable to convert canvas to Blob, toBlob() returned null.'));
+        } else {
+          resolve({
+            blob,
+            uri: URL.createObjectURL(blob),
+            mimetype: options.format,
+            width: image.width,
+            height: image.height,
+          });
+        }
+      },
+      options.format,
+      options.quality,
+    );
   });
 }
 
