@@ -36,5 +36,6 @@ export function getDefaultOptions(config: MonkApiConfig): Options {
     hooks: {
       beforeError: [beforeError],
     },
+    timeout: 30000,
   };
 }
