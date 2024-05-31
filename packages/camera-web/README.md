@@ -38,7 +38,8 @@ The resolution quality of the pictures taken by the Camera component is configur
 Camera component :
 
 ```tsx
-import { Camera, CameraResolution } from '@monkvision/camera-web';
+import { CameraResolution } from '@monkvision/types';
+import { Camera } from '@monkvision/camera-web';
 
 function MyCameraPreview() {
   return <Camera resolution={CameraResolution.HD_720P} />;

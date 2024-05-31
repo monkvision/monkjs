@@ -1,4 +1,4 @@
-import { CompressionOptions } from './camera';
+import { CameraResolution, CompressionOptions } from './camera';
 import { SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
@@ -10,6 +10,28 @@ import { CreateInspectionOptions, MonkApiPermission } from './api';
  */
 export type CaptureAppConfig = Partial<CompressionOptions> &
   Partial<ComplianceOptions> & {
+    /**
+     * This option specifies the resolution of the pictures taken by the Camera. This option does not affect the
+     * resolution of the Camera preview (it will always be the highest resolution possible). If the specified resolution
+     * is not equal to the one used by the device's native camera, the pictures taken will be scaled to fit the
+     * requirements. Note that if the aspect ratio of the specified resolution differs from the one of the device's
+     * camera, pictures taken will always have the same aspect ratio as the native camera one, and will be scaled in a way
+     * to make sure that neither the width, nor the height of the output picture will exceed the dimensions of the
+     * specified resolution.
+     *
+     * Note: If the specified resolution is higher than the best resolution available on the current device, output
+     * pictures will only be scaled up to the specified resolution if the `allowImageUpscaling` property is set to `true`.
+     *
+     * @default CameraResolution.UHD_4K
+     */
+    resolution?: CameraResolution;
+    /**
+     * When the native resolution of the device Camera is smaller than the resolution asked in the `resolution` prop,
+     * resulting pictures will only be scaled up if this property is set to `true`.
+     *
+     * @default false
+     */
+    allowImageUpscaling?: boolean;
     /**
      * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
      * sight will be used.

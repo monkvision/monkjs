@@ -1,4 +1,5 @@
-import { CameraFacingMode, CameraResolution } from '../../../../src';
+import { CameraResolution } from '@monkvision/types';
+import { CameraFacingMode } from '../../../../src';
 import { getMediaConstraints, getResolutionDimensions } from '../../../../src/Camera/hooks/utils';
 
 const EXPECTED_FACING_MODE_VALUES: {

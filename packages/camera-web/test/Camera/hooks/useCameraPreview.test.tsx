@@ -1,5 +1,3 @@
-import { useWindowDimensions } from '@monkvision/common';
-
 jest.mock('../../../src/Camera/hooks/utils', () => ({
   ...jest.requireActual('../../../src/Camera/hooks/utils'),
   getMediaConstraints: jest.fn(() => ({ audio: false, video: true })),
@@ -13,11 +11,13 @@ jest.mock('../../../src/Camera/hooks/useUserMedia', () => ({
   })),
 }));
 
+import { CameraResolution } from '@monkvision/types';
 import { render, waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import * as monitoring from '@monkvision/monitoring';
 import { MonitoringAdapter } from '@monkvision/monitoring';
-import { CameraFacingMode, CameraConfig, CameraResolution } from '../../../src';
+import { useWindowDimensions } from '@monkvision/common';
+import { CameraFacingMode, CameraConfig } from '../../../src';
 import { useCameraPreview, useUserMedia } from '../../../src/Camera/hooks';
 import { getMediaConstraints } from '../../../src/Camera/hooks/utils';
 

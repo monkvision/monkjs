@@ -32,6 +32,8 @@ export function PhotoCapturePage() {
         sights={currentSights}
         onComplete={handleComplete}
         lang={i18n.language}
+        resolution={config.resolution}
+        allowImageUpscaling={config.allowImageUpscaling}
         format={config.format}
         quality={config.quality}
         tasksBySight={config.tasksBySight}
