@@ -3,12 +3,13 @@ import { act, render, waitFor } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { ComplianceIssue, TaskName, CompressionFormat, CameraResolution } from '@monkvision/types';
-import { InspectionGallery } from '@monkvision/common-ui-web';
+import { CameraResolution, ComplianceIssue, CompressionFormat, TaskName } from '@monkvision/types';
+import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
 import {
   useAddDamageMode,
+  useBadConnectionWarning,
   usePhotoCaptureImages,
   usePhotoCaptureSightState,
   usePictureTaken,
@@ -41,6 +42,12 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
   usePhotoCaptureImages: jest.fn(() => [{ id: 'test' }]),
   useComplianceAnalytics: jest.fn(),
+  useBadConnectionWarning: jest.fn(() => ({
+    isBadConnectionWarningDialogDisplayed: true,
+    closeBadConnectionWarningDialog: jest.fn(),
+    onUploadSuccess: jest.fn(),
+    onUploadTimeout: jest.fn(),
+  })),
 }));
 
 function createProps(): PhotoCaptureProps {
@@ -64,6 +71,7 @@ function createProps(): PhotoCaptureProps {
     lang: 'de',
     allowSkipRetake: true,
     enableAddDamage: true,
+    maxUploadDurationWarning: 456,
   };
 }
 
@@ -121,10 +129,24 @@ describe('PhotoCapture component', () => {
     unmount();
   });
 
+  it('should pass the proper params to the useBadConnectionWarning hooks', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useBadConnectionWarning).toHaveBeenCalledWith({
+      maxUploadDurationWarning: props.maxUploadDurationWarning,
+    });
+
+    unmount();
+  });
+
   it('should pass the proper params to the useUploadQueue hook', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
+    expect(useBadConnectionWarning).toHaveBeenCalled();
+    const { onUploadSuccess, onUploadTimeout } = (useBadConnectionWarning as jest.Mock).mock
+      .results[0].value;
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
@@ -137,6 +159,8 @@ describe('PhotoCapture component', () => {
         customComplianceThresholds: props.customComplianceThresholds,
         customComplianceThresholdsPerSight: props.customComplianceThresholdsPerSight,
       },
+      onUploadSuccess,
+      onUploadTimeout,
     });
 
     unmount();
@@ -281,53 +305,77 @@ describe('PhotoCapture component', () => {
 
     unmount();
   });
-});
 
-it('should call start tasks on gallery validate', async () => {
-  const startTasksMock = jest.fn(() => Promise.resolve());
-  (useStartTasksOnComplete as jest.Mock).mockImplementation(() => startTasksMock);
-  const props = createProps();
-  const { unmount } = render(<PhotoCapture {...props} />);
+  it('should call start tasks on gallery validate', async () => {
+    const startTasksMock = jest.fn(() => Promise.resolve());
+    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => startTasksMock);
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
 
-  expect(InspectionGallery).not.toHaveBeenCalled();
-  expectPropsOnChildMock(Camera, {
-    hudProps: expect.objectContaining({ onOpenGallery: expect.any(Function) }),
-  });
-  const { onOpenGallery } = (Camera as unknown as jest.Mock).mock.calls[0][0].hudProps;
-  expect(InspectionGallery).not.toHaveBeenCalled();
-  act(() => onOpenGallery());
-  expectPropsOnChildMock(InspectionGallery, {
-    onValidate: expect.any(Function),
-  });
-  const { onValidate } = (InspectionGallery as unknown as jest.Mock).mock.calls[0][0];
+    expect(InspectionGallery).not.toHaveBeenCalled();
+    expectPropsOnChildMock(Camera, {
+      hudProps: expect.objectContaining({ onOpenGallery: expect.any(Function) }),
+    });
+    const { onOpenGallery } = (Camera as unknown as jest.Mock).mock.calls[0][0].hudProps;
+    expect(InspectionGallery).not.toHaveBeenCalled();
+    act(() => onOpenGallery());
+    expectPropsOnChildMock(InspectionGallery, {
+      onValidate: expect.any(Function),
+    });
+    const { onValidate } = (InspectionGallery as unknown as jest.Mock).mock.calls[0][0];
 
-  expect(useMonitoring).toHaveBeenCalled();
-  const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
-  expect(useLoadingState).toHaveBeenCalled();
-  const loadingMock = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(useMonitoring).toHaveBeenCalled();
+    const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+    expect(useLoadingState).toHaveBeenCalled();
+    const loadingMock = (useLoadingState as jest.Mock).mock.results[0].value;
 
-  expect(startTasksMock).not.toHaveBeenCalled();
-  expect(props.onComplete).not.toHaveBeenCalled();
-  onValidate();
-
-  await waitFor(() => {
-    expect(startTasksMock).toHaveBeenCalled();
-    expect(props.onComplete).toHaveBeenCalled();
-    expect(loadingMock.onError).not.toHaveBeenCalled();
-    expect(handleErrorMock).not.toHaveBeenCalled();
-  });
-
-  startTasksMock.mockClear();
-  (props.onComplete as jest.Mock).mockClear();
-  const err = 'hello';
-  startTasksMock.mockImplementation(() => Promise.reject(err));
-  onValidate();
-
-  await waitFor(() => {
-    expect(startTasksMock).toHaveBeenCalled();
+    expect(startTasksMock).not.toHaveBeenCalled();
     expect(props.onComplete).not.toHaveBeenCalled();
+    onValidate();
+
+    await waitFor(() => {
+      expect(startTasksMock).toHaveBeenCalled();
+      expect(props.onComplete).toHaveBeenCalled();
+      expect(loadingMock.onError).not.toHaveBeenCalled();
+      expect(handleErrorMock).not.toHaveBeenCalled();
+    });
+
+    startTasksMock.mockClear();
+    (props.onComplete as jest.Mock).mockClear();
+    const err = 'hello';
+    startTasksMock.mockImplementation(() => Promise.reject(err));
+    onValidate();
+
+    await waitFor(() => {
+      expect(startTasksMock).toHaveBeenCalled();
+      expect(props.onComplete).not.toHaveBeenCalled();
+    });
+
+    unmount();
+    (useStartTasksOnComplete as jest.Mock).mockClear();
   });
 
-  unmount();
-  (useStartTasksOnComplete as jest.Mock).mockClear();
+  it('should pass the proper params to the BackdropDialog component', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useBadConnectionWarning).toHaveBeenCalled();
+    const { isBadConnectionWarningDialogDisplayed, closeBadConnectionWarningDialog } = (
+      useBadConnectionWarning as jest.Mock
+    ).mock.results[0].value;
+    expectPropsOnChildMock(BackdropDialog, {
+      show: isBadConnectionWarningDialogDisplayed,
+      dialogIcon: 'warning-outline',
+      dialogIconPrimaryColor: 'caution-base',
+      message: 'photo.badConnectionWarning.message',
+      confirmLabel: 'photo.badConnectionWarning.confirm',
+      onConfirm: expect.any(Function),
+    });
+    const { onConfirm } = (BackdropDialog as unknown as jest.Mock).mock.calls[0][0];
+    expect(closeBadConnectionWarningDialog).not.toHaveBeenCalled();
+    onConfirm();
+    expect(closeBadConnectionWarningDialog).toHaveBeenCalled();
+
+    unmount();
+  });
 });

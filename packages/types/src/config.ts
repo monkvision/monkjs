@@ -58,6 +58,13 @@ export type CaptureAppConfig = Partial<CompressionOptions> &
      */
     enforceOrientation?: DeviceOrientation;
     /**
+     * A number indicating the maximum allowed duration in milliseconds for an upload before raising a "Bad Connection"
+     * warning to the user. Set this value to -1 to never show this warning to the user.
+     *
+     * @default 15000
+     */
+    maxUploadDurationWarning?: number;
+    /**
      * If compliance is enabled, this prop indicate if the user is allowed to skip the retaking process if pictures are
      * not compliant.
      *

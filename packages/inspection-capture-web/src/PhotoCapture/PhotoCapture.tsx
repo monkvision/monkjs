@@ -17,6 +17,7 @@ import { MonkApiConfig } from '@monkvision/network';
 import { useAnalytics } from '@monkvision/analytics';
 import { useMonitoring } from '@monkvision/monitoring';
 import {
+  BackdropDialog,
   Icon,
   InspectionGallery,
   NavigateToCaptureOptions,
@@ -31,6 +32,7 @@ import {
   usePictureTaken,
   useStartTasksOnComplete,
   useUploadQueue,
+  useBadConnectionWarning,
 } from './hooks';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
@@ -42,6 +44,7 @@ export interface PhotoCaptureProps
   extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
     Pick<
       CaptureAppConfig,
+      | 'maxUploadDurationWarning'
       | 'tasksBySight'
       | 'startTasksOnComplete'
       | 'showCloseButton'
@@ -97,6 +100,7 @@ export function PhotoCapture({
   startTasksOnComplete = true,
   onClose,
   onComplete,
+  maxUploadDurationWarning = 15000,
   showCloseButton = false,
   enableCompliance = true,
   enableCompliancePerSight,
@@ -149,10 +153,18 @@ export function PhotoCapture({
     tasksBySight,
     complianceOptions,
   });
+  const {
+    isBadConnectionWarningDialogDisplayed,
+    closeBadConnectionWarningDialog,
+    onUploadSuccess,
+    onUploadTimeout,
+  } = useBadConnectionWarning({ maxUploadDurationWarning });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     complianceOptions,
+    onUploadSuccess,
+    onUploadTimeout,
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
@@ -254,6 +266,15 @@ export function PhotoCapture({
           {...complianceOptions}
         />
       )}
+      <BackdropDialog
+        show={isBadConnectionWarningDialogDisplayed}
+        showCancelButton={false}
+        dialogIcon='warning-outline'
+        dialogIconPrimaryColor='caution-base'
+        message={t('photo.badConnectionWarning.message')}
+        confirmLabel={t('photo.badConnectionWarning.confirm')}
+        onConfirm={closeBadConnectionWarningDialog}
+      />
     </div>
   );
 }

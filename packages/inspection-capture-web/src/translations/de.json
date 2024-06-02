@@ -4,6 +4,10 @@
       "title": "Bitte drehen Sie Ihr Gerät.",
       "description": "Möglicherweise müssen Sie die Ausrichtung Ihres Geräts über die Telefoneinstellungen entsperren."
     },
+    "badConnectionWarning": {
+      "message": "Es scheint, dass Ihre Verbindung instabil ist. Das Hochladen von Bildern kann lange dauern oder unmöglich sein.",
+      "confirm": "Ich verstehe"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Schaden"
