@@ -46,7 +46,7 @@ export function usePictureTaken({
   const { trackEvent } = useAnalytics();
   return useCallback(
     (picture: MonkPicture) => {
-      sightState.setLastPictureTaken(picture);
+      sightState.setLastPictureTakenUri(picture.uri);
       const upload: PictureUpload =
         addDamageHandle.mode === PhotoCaptureMode.SIGHT
           ? {
@@ -67,7 +67,7 @@ export function usePictureTaken({
       addDamageHandle.updatePhotoCaptureModeAfterPictureTaken();
     },
     [
-      sightState.setLastPictureTaken,
+      sightState.setLastPictureTakenUri,
       addDamageHandle.mode,
       sightState.selectedSight.id,
       tasksBySight,

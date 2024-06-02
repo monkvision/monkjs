@@ -10,7 +10,7 @@ import { renderHook } from '@testing-library/react-hooks';
 function createParams(): UseTakePictureParams {
   return {
     sightState: {
-      setLastPictureTaken: jest.fn(),
+      setLastPictureTakenUri: jest.fn(),
       takeSelectedSight: jest.fn(),
       selectedSight: { id: 'test-selected-sight', tasks: [TaskName.WHEEL_ANALYSIS] },
     },
@@ -26,6 +26,7 @@ function createParams(): UseTakePictureParams {
 
 function createMonkPicture(): MonkPicture {
   return {
+    blob: {} as Blob,
     uri: 'test-monk-uri',
     mimetype: 'test-mimetype',
     height: 1234,
@@ -42,10 +43,10 @@ describe('usePictureTaken hook', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
-    expect(initialProps.sightState.setLastPictureTaken).not.toHaveBeenCalled();
+    expect(initialProps.sightState.setLastPictureTakenUri).not.toHaveBeenCalled();
     const picture = createMonkPicture();
     result.current(picture);
-    expect(initialProps.sightState.setLastPictureTaken).toHaveBeenCalledWith(picture);
+    expect(initialProps.sightState.setLastPictureTakenUri).toHaveBeenCalledWith(picture.uri);
 
     unmount();
   });

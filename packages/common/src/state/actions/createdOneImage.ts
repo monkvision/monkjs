@@ -49,6 +49,10 @@ export function isCreatedOneImageAction(action: MonkAction): action is MonkCreat
  */
 export function createdOneImage(state: MonkState, action: MonkCreatedOneImageAction): MonkState {
   const { inspections } = state;
+  const localImage = state.images.find((image) => image.id === action.payload.localId);
+  if (localImage) {
+    URL.revokeObjectURL(localImage.path);
+  }
   const images = state.images.filter(
     (image) => ![action.payload.image.id, action.payload.localId].includes(image.id),
   );

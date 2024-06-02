@@ -1,9 +1,15 @@
 import React, { useMemo } from 'react';
-import { AllOrNone, CompressionFormat, CompressionOptions, RequiredKeys } from '@monkvision/types';
+import {
+  AllOrNone,
+  CameraResolution,
+  CaptureAppConfig,
+  CompressionFormat,
+  CompressionOptions,
+  RequiredKeys,
+} from '@monkvision/types';
 import { isMobileDevice } from '@monkvision/common';
 import {
   CameraFacingMode,
-  CameraResolution,
   useCameraCanvas,
   useCameraPreview,
   useCameraScreenshot,
@@ -47,29 +53,8 @@ export type HUDConfigProps<T extends object> = RequiredKeys<T> extends never
  */
 export type CameraProps<T extends object> = Partial<CompressionOptions> &
   CameraEventHandlers &
-  HUDConfigProps<T> & {
-    /**
-     * This option specifies the resolution of the pictures taken by the Camera. This option does not affect the
-     * resolution of the Camera preview (it will always be the highest resolution possible). If the specified resolution
-     * is not equal to the one used by the device's native camera, the pictures taken will be scaled to fit the
-     * requirements. Note that if the aspect ratio of the specified resolution differs from the one of the device's
-     * camera, pictures taken will always have the same aspect ratio as the native camera one, and will be scaled in a way
-     * to make sure that neither the width, nor the height of the output picture will exceed the dimensions of the
-     * specified resolution.
-     *
-     * Note: If the specified resolution is higher than the best resolution available on the current device, output
-     * pictures will only be scaled up to the specified resolution if the `allowImageUpscaling` property is set to `true`.
-     *
-     * @default CameraResolution.UHD_4K
-     */
-    resolution?: CameraResolution;
-    /**
-     * When the native resolution of the device Camera is smaller than the resolution asked in the `resolution` prop,
-     * resulting pictures will only be scaled up if this property is set to `true`.
-     *
-     * @default false
-     */
-    allowImageUpscaling?: boolean;
+  HUDConfigProps<T> &
+  Pick<CaptureAppConfig, 'resolution' | 'allowImageUpscaling'> & {
     /**
      * Additional monitoring config that can be provided to the Camera component.
      */

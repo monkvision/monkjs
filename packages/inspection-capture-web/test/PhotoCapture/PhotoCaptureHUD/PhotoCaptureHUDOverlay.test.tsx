@@ -72,12 +72,12 @@ describe('PhotoCaptureHUDOverlay component', () => {
     unmount();
   });
 
-  it('should display a spinner on the screen if the camera is loading', () => {
+  it('should NOT display a spinner on the screen if the camera is loading', () => {
     const props = createProps();
     props.handle.isLoading = true;
     const { unmount } = render(<PhotoCaptureHUDOverlay {...props} />);
 
-    expect(Spinner).toHaveBeenCalled();
+    expect(Spinner).not.toHaveBeenCalled();
 
     unmount();
   });

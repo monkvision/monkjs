@@ -1,20 +1,21 @@
+const blobMock = { size: 42 };
 jest.mock('../../../src/Camera/hooks/utils/getCanvasHandle', () => ({
   getCanvasHandle: jest.fn(() => ({
-    canvas: { toDataURL: jest.fn(() => 'picture,test-url') },
+    canvas: {
+      toBlob: jest.fn((callback) => callback(blobMock)),
+    },
     context: { putImageData: jest.fn() },
   })),
 }));
 
-Object.defineProperty(global.window, 'atob', {
-  value: jest.fn(() => 'test-url-test-test'),
-  configurable: true,
-  writable: true,
-});
+const testUrl = 'test-url-test-test';
+global.URL.createObjectURL = jest.fn(() => testUrl);
 
 import { TransactionStatus } from '@monkvision/monitoring';
 import { renderHook } from '@testing-library/react-hooks';
 import { RefObject } from 'react';
 import { CompressionFormat } from '@monkvision/types';
+import { getCanvasHandle } from '../../../src/Camera/hooks/utils';
 import { useCompression } from '../../../src/Camera/hooks';
 import {
   CompressionMeasurement,
@@ -22,8 +23,6 @@ import {
   PictureSizeMeasurement,
 } from '../../../src/Camera/monitoring';
 import { createMockInternalMonitoringConfig } from '../../mocks';
-
-const { getCanvasHandle } = jest.requireActual('../../../src/Camera/hooks/utils');
 
 const monitoringMock = createMockInternalMonitoringConfig();
 const mockImageData = {
@@ -38,7 +37,7 @@ describe('useCompression hook', () => {
   });
 
   describe('compress function', () => {
-    it('should compress images in JPEG', () => {
+    it('should compress images in JPEG', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
       const options = { format: CompressionFormat.JPEG, quality: 0.8 };
 
@@ -46,17 +45,20 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      const picture = result.current(mockImageData, monitoringMock);
+      const picture = await result.current(mockImageData, monitoringMock);
 
       const canvasHandleMock = (getCanvasHandle as jest.Mock).mock.results[0].value;
       expect(getCanvasHandle).toHaveBeenCalledWith(canvasRef);
       expect(canvasHandleMock.context.putImageData).toHaveBeenCalledWith(mockImageData, 0, 0);
-      expect(canvasHandleMock.canvas.toDataURL).toHaveBeenCalledWith(
+      expect(canvasHandleMock.canvas.toBlob).toHaveBeenCalledWith(
+        expect.any(Function),
         options.format,
         options.quality,
       );
+      expect(global.URL.createObjectURL).toHaveBeenCalledWith(blobMock);
       expect(picture).toEqual({
-        uri: canvasHandleMock.canvas.toDataURL(),
+        blob: blobMock,
+        uri: testUrl,
         mimetype: options.format,
         width: mockImageData.width,
         height: mockImageData.height,
@@ -64,7 +66,7 @@ describe('useCompression hook', () => {
       unmount();
     });
 
-    it('should throw an error if the getCanvasHandle function fails', () => {
+    it('should throw an error if the getCanvasHandle function fails', async () => {
       const error = new Error('test');
       (getCanvasHandle as jest.Mock).mockImplementationOnce(() => {
         throw error;
@@ -76,7 +78,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      expect(() => result.current(mockImageData, monitoringMock)).toThrow(error);
+      await expect(result.current(mockImageData, monitoringMock)).rejects.toEqual(error);
       unmount();
     });
 
@@ -106,7 +108,7 @@ describe('useCompression hook', () => {
       unmount();
     });
 
-    it('should stop the Compression measurement with the OK status', () => {
+    it('should stop the Compression measurement with the OK status', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
       const options = { format: CompressionFormat.JPEG, quality: 0.8 };
 
@@ -114,7 +116,7 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current(mockImageData, monitoringMock);
+      await result.current(mockImageData, monitoringMock);
 
       expect(monitoringMock.transaction?.stopMeasurement).toHaveBeenCalledWith(
         CompressionMeasurement.operation,
@@ -123,7 +125,7 @@ describe('useCompression hook', () => {
       unmount();
     });
 
-    it('should stop the Compression measurement with the ERROR status if the getCanvasHandle fails', () => {
+    it('should stop the Compression measurement with the ERROR status if the getCanvasHandle fails', async () => {
       const error = new Error('test');
       (getCanvasHandle as jest.Mock).mockImplementationOnce(() => {
         throw error;
@@ -136,7 +138,7 @@ describe('useCompression hook', () => {
       });
 
       try {
-        result.current(mockImageData, monitoringMock);
+        await result.current(mockImageData, monitoringMock);
       } catch (err) {
         if (err !== error) {
           throw err;
@@ -150,7 +152,7 @@ describe('useCompression hook', () => {
       unmount();
     });
 
-    it('should set the CompressionSizeRatio measurement', () => {
+    it('should set the CompressionSizeRatio measurement', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
       const options = { format: CompressionFormat.JPEG, quality: 0.8 };
 
@@ -158,20 +160,17 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current(mockImageData, monitoringMock);
+      await result.current(mockImageData, monitoringMock);
 
-      const canvasHandleMock = (getCanvasHandle as jest.Mock).mock.results[0].value;
-      const atobMock = jest.spyOn(global.window, 'atob');
-      expect(atobMock).toHaveBeenCalledWith(canvasHandleMock.canvas.toDataURL().split(',')[1]);
       expect(monitoringMock.transaction?.setMeasurement).toHaveBeenCalledWith(
         CompressionSizeRatioMeasurement.name,
-        atobMock.mock.results[0].value.length / mockImageData.data.length,
+        blobMock.size / mockImageData.data.length,
         'ratio',
       );
       unmount();
     });
 
-    it('should set the PictureSize measurement', () => {
+    it('should set the PictureSize measurement', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
       const options = { format: CompressionFormat.JPEG, quality: 0.8 };
 
@@ -179,14 +178,11 @@ describe('useCompression hook', () => {
         initialProps: { canvasRef, options },
       });
 
-      result.current(mockImageData, monitoringMock);
+      await result.current(mockImageData, monitoringMock);
 
-      const canvasHandleMock = (getCanvasHandle as jest.Mock).mock.results[0].value;
-      const atobMock = jest.spyOn(global.window, 'atob');
-      expect(atobMock).toHaveBeenCalledWith(canvasHandleMock.canvas.toDataURL().split(',')[1]);
       expect(monitoringMock.transaction?.setMeasurement).toHaveBeenCalledWith(
         PictureSizeMeasurement.name,
-        atobMock.mock.results[0].value.length,
+        blobMock.size,
         'byte',
       );
       unmount();

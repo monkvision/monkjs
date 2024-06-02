@@ -9,7 +9,7 @@ export interface CameraHandle {
   /**
    * A function that you can call to ask the camera to take a picture.
    */
-  takePicture: () => MonkPicture;
+  takePicture: () => Promise<MonkPicture>;
   /**
    * The error details if there has been an error when fetching the camera stream.
    */

@@ -8,7 +8,8 @@ jest.mock('../../../src/Camera/hooks/utils', () => ({
 
 import { renderHook } from '@testing-library/react-hooks';
 import React from 'react';
-import { CameraCanvasConfig, CameraResolution, useCameraCanvas } from '../../../src/Camera/hooks';
+import { CameraCanvasConfig, useCameraCanvas } from '../../../src/Camera/hooks';
+import { CameraResolution } from '@monkvision/types';
 
 function createProps(): CameraCanvasConfig {
   return {

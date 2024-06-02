@@ -1,10 +1,8 @@
-const { CameraFacingMode, CameraResolution, UserMediaErrorType } =
-  jest.requireActual('@monkvision/camera-web');
+const { CameraFacingMode, UserMediaErrorType } = jest.requireActual('@monkvision/camera-web');
 
 export = {
   /* Actual exports */
   CameraFacingMode,
-  CameraResolution,
   UserMediaErrorType,
 
   /* Mocks */

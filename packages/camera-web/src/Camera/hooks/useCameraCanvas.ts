@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useMemo, useRef } from 'react';
-import { PixelDimensions } from '@monkvision/types';
-import { CameraResolution, getResolutionDimensions } from './utils';
+import { CameraResolution, PixelDimensions } from '@monkvision/types';
+import { getResolutionDimensions } from './utils';
 
 /**
  * Object used to configure the camera canvas.

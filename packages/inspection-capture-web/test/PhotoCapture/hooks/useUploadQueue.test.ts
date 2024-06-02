@@ -37,7 +37,7 @@ describe('useUploadQueue hook', () => {
     const { result, unmount } = renderHook(useUploadQueue, { initialProps });
 
     expect(useQueue).toHaveBeenCalledWith(expect.anything(), {
-      storeFailedItems: true,
+      storeFailedItems: false,
     });
     const queue = (useQueue as jest.Mock).mock.results[0].value;
     expect(result.current).toBe(queue);
@@ -57,6 +57,7 @@ describe('useUploadQueue hook', () => {
       const upload: SightPictureUpload = {
         mode: PhotoCaptureMode.SIGHT,
         picture: {
+          blob: { size: 42 } as Blob,
           uri: 'test-monk-uri',
           mimetype: 'test-mimetype',
           height: 1234,
@@ -90,6 +91,7 @@ describe('useUploadQueue hook', () => {
       const upload1: AddDamage1stShotPictureUpload = {
         mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
         picture: {
+          blob: { size: 42 } as Blob,
           uri: 'test-monk-uri-1',
           mimetype: 'test-mimetype-1',
           height: 12341,
@@ -113,6 +115,7 @@ describe('useUploadQueue hook', () => {
       const upload2: AddDamage2ndShotPictureUpload = {
         mode: PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT,
         picture: {
+          blob: { size: 42 } as Blob,
           uri: 'test-monk-uri-2',
           mimetype: 'test-mimetype-2',
           height: 12342,

@@ -43,7 +43,7 @@ function createProps(): PhotoCaptureHUDProps {
     ],
     selectedSight: sights['test-sight-2'],
     sightsTaken: [sights['test-sight-1']],
-    lastPictureTaken: { uri: 'test-last-pic-taken', height: 1, width: 2, mimetype: 'test' },
+    lastPictureTakenUri: 'test-last-pic-taken',
     mode: PhotoCaptureMode.SIGHT,
     loading: { isLoading: false, error: null } as unknown as LoadingState,
     onSelectSight: jest.fn(),
@@ -106,7 +106,7 @@ describe('PhotoCaptureHUD component', () => {
 
     expectPropsOnChildMock(PhotoCaptureHUDButtons, {
       onTakePicture: props.handle?.takePicture,
-      galleryPreview: props.lastPictureTaken ?? undefined,
+      galleryPreview: props.lastPictureTakenUri ?? undefined,
       closeDisabled: !!props.loading.error || !!props.handle.error,
       galleryDisabled: !!props.loading.error || !!props.handle.error,
       takePictureDisabled: !!props.loading.error || !!props.handle.error,

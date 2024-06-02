@@ -14,14 +14,7 @@ import {
   useMonkState,
   useObjectMemo,
 } from '@monkvision/common';
-import {
-  ComplianceOptions,
-  Image,
-  Sight,
-  TaskName,
-  MonkPicture,
-  ImageStatus,
-} from '@monkvision/types';
+import { ComplianceOptions, Image, Sight, TaskName, ImageStatus } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureErrorName } from '../errors';
@@ -53,11 +46,11 @@ export interface PhotoCaptureSightState {
   /**
    * Value storing the last picture taken by the user. If no picture has been taken yet, this value is null.
    */
-  lastPictureTaken: MonkPicture | null;
+  lastPictureTakenUri: string | null;
   /**
    * Callback used to manually update the last picture taken by the user after they take a picture.
    */
-  setLastPictureTaken: (picture: MonkPicture) => void;
+  setLastPictureTakenUri: (uri: string) => void;
   /**
    * Callback that can be used to retry fetching this state object from the API in case the previous fetch failed.
    */
@@ -152,22 +145,14 @@ function getSightsTaken(
   );
 }
 
-function getLastPictureTaken(
+function getLastPictureTakenUri(
   inspectionId: string,
   response: MonkApiResponse<GetInspectionResponse>,
-): MonkPicture | null {
+): string | null {
   const images = response.entities.images.filter(
     (image: Image) => image.inspectionId === inspectionId,
   );
-  if (images && images.length > 0) {
-    return {
-      uri: images[images.length - 1].path,
-      mimetype: images[images.length - 1].mimetype,
-      width: images[images.length - 1].width,
-      height: images[images.length - 1].height,
-    };
-  }
-  return null;
+  return images && images.length > 0 ? images[images.length - 1].path : null;
 }
 
 /**
@@ -187,7 +172,7 @@ export function usePhotoCaptureSightState({
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
   }
   const [retryCount, setRetryCount] = useState(0);
-  const [lastPictureTaken, setLastPictureTaken] = useState<MonkPicture | null>(null);
+  const [lastPictureTakenUri, setLastPictureTakenUri] = useState<string | null>(null);
   const [selectedSight, setSelectedSight] = useState(captureSights[0]);
   const [sightsTaken, setSightsTaken] = useState<Sight[]>([]);
   const { getInspection } = useMonkApi(apiConfig);
@@ -237,7 +222,7 @@ export function usePhotoCaptureSightState({
         setSightsTaken(alreadyTakenSights.filter((sight) => sight !== sightToRetake));
         setSelectedSight(sightToRetake);
       }
-      setLastPictureTaken(getLastPictureTaken(inspectionId, response));
+      setLastPictureTakenUri(getLastPictureTakenUri(inspectionId, response));
       loading.onSuccess();
     } catch (err) {
       handleError(err);
@@ -323,8 +308,8 @@ export function usePhotoCaptureSightState({
     sightsTaken,
     selectSight,
     takeSelectedSight,
-    lastPictureTaken,
-    setLastPictureTaken,
+    lastPictureTakenUri,
+    setLastPictureTakenUri,
     retryLoadingInspection,
     retakeSight,
   });

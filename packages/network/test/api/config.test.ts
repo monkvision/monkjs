@@ -69,5 +69,9 @@ describe('Network package API global config utils', () => {
     it('should return the proper beforeError hook', () => {
       expect(getDefaultOptions(baseConfig).hooks?.beforeError).toContain(beforeError);
     });
+
+    it('should set a default timeout of 30s', () => {
+      expect(getDefaultOptions(baseConfig).timeout).toEqual(30000);
+    });
   });
 });

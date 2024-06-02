@@ -130,7 +130,7 @@ describe('usePhotoCaptureSightState hook', () => {
     const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
     expect(result.current.selectedSight).toEqual(initialProps.captureSights[0]);
     expect(result.current.sightsTaken).toEqual([]);
-    expect(result.current.lastPictureTaken).toBeNull();
+    expect(result.current.lastPictureTakenUri).toBeNull();
     unmount();
   });
 
@@ -170,12 +170,7 @@ describe('usePhotoCaptureSightState hook', () => {
       initialProps.captureSights.filter((s) => !takenSights.includes(s))[0],
     );
     const { images } = apiResponse.entities;
-    expect(result.current.lastPictureTaken).toEqual({
-      uri: images[images.length - 1].path,
-      mimetype: images[images.length - 1].mimetype,
-      width: images[images.length - 1].width,
-      height: images[images.length - 1].height,
-    });
+    expect(result.current.lastPictureTakenUri).toEqual(images[images.length - 1].path);
     expect(initialProps.loading.onSuccess).toHaveBeenCalled();
 
     unmount();

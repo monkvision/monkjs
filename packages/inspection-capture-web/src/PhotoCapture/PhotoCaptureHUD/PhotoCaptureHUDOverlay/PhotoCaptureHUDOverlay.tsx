@@ -20,15 +20,13 @@ export function PhotoCaptureHUDOverlay({
   const error = usePhotoCaptureErrorLabel(captureError, handle, inspectionId);
   const handleRetry = useRetry({ captureError, handle, onRetry });
 
-  if (!isCaptureLoading && !handle.isLoading && !error) {
+  if (!isCaptureLoading && !error) {
     return null;
   }
 
   return (
     <div style={styles['overlay']} data-testid='overlay'>
-      {!error && (isCaptureLoading || handle.isLoading) && (
-        <Spinner size={80} primaryColor='primary' />
-      )}
+      {!error && isCaptureLoading && <Spinner size={80} primaryColor='primary' />}
       {error && (
         <>
           <div

@@ -1,4 +1,4 @@
-import { PixelDimensions } from '@monkvision/types';
+import { CameraResolution, PixelDimensions } from '@monkvision/types';
 
 /**
  * Enumeration of the facing modes for the camera constraints.
@@ -12,44 +12,6 @@ export enum CameraFacingMode {
    * Enironment-facing camera (back camera).
    */
   ENVIRONMENT = 'environment',
-}
-
-/**
- * Enumeration of the 16:9 resolutions that can be used to specify the constraints of a video stream fetched by the
- * Monk camera.
- *
- * ***Important Note : Lower quality resolutions should only be used for testing, as AI models can have a hard time
- * detecting damages on lower res pictures.***
- */
-export enum CameraResolution {
-  /**
-   * QnHD quality (180p) : 320x180 pixels.
-   *
-   * *Note : This quality is to be used for testing purposes only.*
-   */
-  QNHD_180P = '180p',
-  /**
-   * nHD quality (360p) : 640x360 pixels.
-   *
-   * *Note : This quality is to be used for testing purposes only.*
-   */
-  NHD_360P = '360p',
-  /**
-   * HD quality (720p) : 1280x720 pixels.
-   */
-  HD_720P = '720p',
-  /**
-   * FHD quality (1080p) : 1920x1080 pixels.
-   */
-  FHD_1080P = '1080p',
-  /**
-   * QHD quality (2K) : 2560x1440 pixels.
-   */
-  QHD_2K = '2K',
-  /**
-   * UHD quality (4K) : 3840x2160 pixels.
-   */
-  UHD_4K = '4K',
 }
 
 const CAMERA_RESOLUTION_DIMENSIONS: {

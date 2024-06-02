@@ -1,9 +1,9 @@
 import { sights } from '@monkvision/sights';
 import { act, render, waitFor } from '@testing-library/react';
-import { Camera, CameraResolution } from '@monkvision/camera-web';
+import { Camera } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
-import { ComplianceIssue, TaskName, CompressionFormat } from '@monkvision/types';
+import { ComplianceIssue, TaskName, CompressionFormat, CameraResolution } from '@monkvision/types';
 import { InspectionGallery } from '@monkvision/common-ui-web';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
@@ -30,13 +30,8 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     sightsTaken: [sights['test-sight-1']],
     selectSight: jest.fn(),
     takeSelectedSight: jest.fn(),
-    lastPictureTaken: {
-      uri: 'test-uri-test',
-      mimetype: 'test-mimetype-test',
-      width: 1234,
-      height: 4567,
-    },
-    setLastPictureTaken: jest.fn(),
+    lastPictureTakenUri: 'test-uri-test',
+    setLastPictureTakenUri: jest.fn(),
     retryLoadingInspection: jest.fn(),
   })),
   usePictureTaken: jest.fn(() => jest.fn()),
@@ -217,7 +212,7 @@ describe('PhotoCapture component', () => {
         sights: props.sights,
         selectedSight: sightState.selectedSight,
         sightsTaken: sightState.sightsTaken,
-        lastPictureTaken: sightState.lastPictureTaken,
+        lastPictureTakenUri: sightState.lastPictureTakenUri,
         mode: addDamageHandle.mode,
         onSelectSight: sightState.selectSight,
         onAddDamage: addDamageHandle.handleAddDamage,
