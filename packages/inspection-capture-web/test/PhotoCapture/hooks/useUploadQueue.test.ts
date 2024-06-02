@@ -214,6 +214,24 @@ describe('useUploadQueue hook', () => {
       unmount();
     });
 
+    it('should call the onUploadTimeout if the API call fails because of no connection', async () => {
+      const err = new Error('test');
+      err.message = 'Failed to fetch';
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      expect(useQueue).toHaveBeenCalled();
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      expect(initialProps.onUploadTimeout).toHaveBeenCalled();
+
+      unmount();
+    });
+
     it('should call the onUploadTimeout if the error is not a timeout', async () => {
       const err = new Error('test');
       (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
