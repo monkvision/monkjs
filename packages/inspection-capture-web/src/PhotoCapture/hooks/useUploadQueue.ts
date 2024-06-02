@@ -137,8 +137,10 @@ export function useUploadQueue({
       const uploadDurationMs = Date.now() - startTs;
       onUploadSuccess(uploadDurationMs);
     } catch (err) {
-      if (err instanceof Error && err.name === 'TimeoutError') {
-        onUploadTimeout();
+      if (err instanceof Error) {
+        if (err.name === 'TimeoutError' || err.message === 'Failed to fetch') {
+          onUploadTimeout();
+        }
       }
       handleError(err);
       throw err;
