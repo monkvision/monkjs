@@ -1,11 +1,14 @@
 jest.mock('../../src/components/Button', () => ({
   Button: jest.fn(() => <></>),
 }));
+jest.mock('../../src/icons/Icon', () => ({
+  Icon: jest.fn(() => <></>),
+}));
 
 import '@testing-library/jest-dom';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { render, screen } from '@testing-library/react';
-import { BackdropDialog, Button } from '../../src';
+import { BackdropDialog, Button, Icon } from '../../src';
 
 const BACKDROP_TEST_ID = 'backdrop';
 
@@ -49,6 +52,59 @@ describe('BackdropDialog component', () => {
     expect(backdrop).toHaveStyle({
       backgroundColor: 'rgba(0,0,0,0.7)',
     });
+    unmount();
+  });
+
+  it('should not display the cancel button if showCancelButton is false', () => {
+    const cancelLabel = 'test-cancel-label';
+    const { unmount } = render(<BackdropDialog show={true} cancelLabel={cancelLabel} showCancelButton={false} />);
+    expect(Button).toHaveBeenCalled();
+    const props = (Button as unknown as jest.Mock).mock.calls.find(
+      (args) => args[0]?.children === cancelLabel,
+    )?.[0];
+    expect(props.style.display).toEqual('none');
+    unmount();
+  });
+
+  it('should display the cancel button if showCancelButton is true', () => {
+    const cancelLabel = 'test-cancel-label';
+    const { unmount } = render(<BackdropDialog show={true} cancelLabel={cancelLabel} showCancelButton={true} />);
+    expect(Button).toHaveBeenCalled();
+    const props = (Button as unknown as jest.Mock).mock.calls.find(
+      (args) => args[0]?.children === cancelLabel,
+    )?.[0];
+    expect(props.style.display).not.toEqual('none');
+    unmount();
+  });
+
+  it('should display the cancel button by default', () => {
+    const cancelLabel = 'test-cancel-label';
+    const { unmount } = render(<BackdropDialog show={true} cancelLabel={cancelLabel} />);
+    expect(Button).toHaveBeenCalled();
+    const props = (Button as unknown as jest.Mock).mock.calls.find(
+      (args) => args[0]?.children === cancelLabel,
+    )?.[0];
+    expect(props.style.display).not.toEqual('none');
+    unmount();
+  });
+
+  it('should display a dialog icon if asked to', () => {
+    const icon = 'delete';
+    const { unmount } = render(<BackdropDialog show={true} dialogIcon={icon} />);
+    expectPropsOnChildMock(Icon, { icon });
+    unmount();
+  });
+
+  it('should not display a dialog icon if dialogIcon is not provided', () => {
+    const { unmount } = render(<BackdropDialog show={true} />);
+    expect(Icon).not.toHaveBeenCalled();
+    unmount();
+  });
+
+  it('should pass the proper color to the dialog icon if it is displayed', () => {
+    const primaryColor = 'test-color';
+    const { unmount } = render(<BackdropDialog show={true} dialogIcon='delete' dialogIconPrimaryColor={primaryColor} />);
+    expectPropsOnChildMock(Icon, { primaryColor });
     unmount();
   });
 

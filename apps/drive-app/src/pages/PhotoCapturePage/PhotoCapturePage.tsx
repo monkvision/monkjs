@@ -40,6 +40,7 @@ export function PhotoCapturePage() {
         startTasksOnComplete={config.startTasksOnComplete}
         showCloseButton={config.showCloseButton}
         enforceOrientation={config.enforceOrientation}
+        maxUploadDurationWarning={config.maxUploadDurationWarning}
         allowSkipRetake={config.allowSkipRetake}
         enableAddDamage={config.enableAddDamage}
         enableCompliance={config.enableCompliance}

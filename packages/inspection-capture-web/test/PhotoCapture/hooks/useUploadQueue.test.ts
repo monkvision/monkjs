@@ -4,7 +4,6 @@ import {
   AddDamage1stShotPictureUpload,
   AddDamage2ndShotPictureUpload,
   PhotoCaptureMode,
-  SightPictureUpload,
   UploadQueueParams,
   useUploadQueue,
 } from '../../../src/PhotoCapture/hooks';
@@ -24,8 +23,24 @@ function createParams(): UploadQueueParams {
       complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
       useLiveCompliance: true,
     },
+    onUploadSuccess: jest.fn(),
+    onUploadTimeout: jest.fn(),
   };
 }
+
+const defaultUploadOptions = {
+  mode: PhotoCaptureMode.SIGHT,
+  picture: {
+    uri: 'test-monk-uri',
+    mimetype: 'test-mimetype',
+    height: 1234,
+    width: 4567,
+  },
+  sightId: 'test-sight-id',
+  tasks: [TaskName.IMAGES_OCR],
+};
+
+jest.useFakeTimers();
 
 describe('useUploadQueue hook', () => {
   afterEach(() => {
@@ -36,9 +51,7 @@ describe('useUploadQueue hook', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(useUploadQueue, { initialProps });
 
-    expect(useQueue).toHaveBeenCalledWith(expect.anything(), {
-      storeFailedItems: false,
-    });
+    expect(useQueue).toHaveBeenCalledWith(expect.any(Function));
     const queue = (useQueue as jest.Mock).mock.results[0].value;
     expect(result.current).toBe(queue);
 
@@ -54,25 +67,13 @@ describe('useUploadQueue hook', () => {
       expect(useQueue).toHaveBeenCalled();
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
-      const upload: SightPictureUpload = {
-        mode: PhotoCaptureMode.SIGHT,
-        picture: {
-          blob: { size: 42 } as Blob,
-          uri: 'test-monk-uri',
-          mimetype: 'test-mimetype',
-          height: 1234,
-          width: 4567,
-        },
-        sightId: 'test-sight-id',
-        tasks: [TaskName.IMAGES_OCR],
-      };
-      await process(upload);
+      await process(defaultUploadOptions);
 
       expect(addImageMock).toHaveBeenCalledWith({
         type: ImageType.BEAUTY_SHOT,
-        picture: upload.picture,
-        sightId: upload.sightId,
-        tasks: upload.tasks,
+        picture: defaultUploadOptions.picture,
+        sightId: defaultUploadOptions.sightId,
+        tasks: defaultUploadOptions.tasks,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
       });
@@ -165,20 +166,67 @@ describe('useUploadQueue hook', () => {
       expect(useQueue).toHaveBeenCalled();
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
-      await expect(
-        process({
-          mode: PhotoCaptureMode.SIGHT,
-          picture: {
-            uri: 'test-monk-uri',
-            mimetype: 'test-mimetype',
-            height: 1234,
-            width: 4567,
-          },
-          sightId: 'test-sight-id',
-          tasks: [TaskName.IMAGES_OCR],
-        }),
-      ).rejects.toBe(err);
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
       expect(handleErrorMock).toHaveBeenCalledWith(err);
+
+      unmount();
+    });
+
+    it('should call the onUploadSuccess with the proper duration after a successful upload', async () => {
+      const durationMs = 1234;
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(
+          () =>
+            new Promise((resolve) => {
+              setTimeout(() => resolve(null), durationMs);
+            }),
+        ),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      expect(useQueue).toHaveBeenCalled();
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      const promise = process(defaultUploadOptions);
+      jest.advanceTimersByTime(durationMs);
+      await promise;
+      expect(initialProps.onUploadSuccess).toHaveBeenCalledWith(durationMs);
+
+      unmount();
+    });
+
+    it('should call the onUploadTimeout if the API call times out', async () => {
+      const err = new Error('test');
+      err.name = 'TimeoutError';
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      expect(useQueue).toHaveBeenCalled();
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      expect(initialProps.onUploadTimeout).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should call the onUploadTimeout if the error is not a timeout', async () => {
+      const err = new Error('test');
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      expect(useQueue).toHaveBeenCalled();
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      expect(initialProps.onUploadTimeout).not.toHaveBeenCalled();
 
       unmount();
     });

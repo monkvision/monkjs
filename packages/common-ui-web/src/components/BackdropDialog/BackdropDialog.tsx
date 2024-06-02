@@ -1,6 +1,7 @@
 import { BackdropDialogProps, useBackdropDialogStyles } from './hooks';
 import { styles } from './BackdropDialog.styles';
 import { Button } from '../Button';
+import { Icon } from '../../icons';
 
 /**
  * This component can be used to display a fixed dialog on the screen, with a backdrop behind it. You can either pass a
@@ -9,6 +10,9 @@ import { Button } from '../Button';
 export function BackdropDialog({
   show = false,
   backdropOpacity = 0.7,
+  showCancelButton = true,
+  dialogIcon,
+  dialogIconPrimaryColor,
   message = '',
   confirmLabel = '',
   cancelLabel = '',
@@ -19,37 +23,42 @@ export function BackdropDialog({
   dialog,
 }: BackdropDialogProps) {
   const style = useBackdropDialogStyles({
-    show,
     backdropOpacity,
-    message,
-    confirmLabel,
-    cancelLabel,
+    showCancelButton,
   });
   return show ? (
     <div style={style.backdrop} data-testid='backdrop'>
       {dialog ?? (
         <div style={style.dialog}>
+          {dialogIcon && (
+            <Icon
+              icon={dialogIcon}
+              size={80}
+              primaryColor={dialogIconPrimaryColor}
+              style={styles['dialogIcon']}
+            />
+          )}
           <div style={styles['message']}>{message}</div>
           <div style={styles['buttonsContainer']}>
             <Button
               variant='outline'
-              primaryColor='alert-light'
-              secondaryColor='surface-dark'
-              icon={cancelIcon}
-              style={style.cancelButton}
-              onClick={onCancel}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              variant='outline'
               primaryColor='primary-xlight'
-              secondaryColor='surface-dark'
+              secondaryColor='background-dark'
               icon={confirmIcon}
               style={style.confirmButton}
               onClick={onConfirm}
             >
               {confirmLabel}
+            </Button>
+            <Button
+              variant='outline'
+              primaryColor='alert-light'
+              secondaryColor='background-dark'
+              icon={cancelIcon}
+              style={style.cancelButton}
+              onClick={onCancel}
+            >
+              {cancelLabel}
             </Button>
           </div>
         </div>

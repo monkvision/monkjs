@@ -1,7 +1,5 @@
 import { Styles } from '@monkvision/types';
 
-const DIALOG_BORDER_RADIUS = 15;
-
 export const styles: Styles = {
   backdrop: {
     position: 'fixed',
@@ -16,14 +14,19 @@ export const styles: Styles = {
     transition: 'opacity 0.5s ease-out',
   },
   dialog: {
-    borderRadius: DIALOG_BORDER_RADIUS,
+    borderRadius: 15,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    maxWidth: '70%',
+    overflow: 'hidden',
+  },
+  dialogIcon: {
+    margin: 30,
   },
   message: {
-    padding: 30,
+    padding: '0 30px 30px 30px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -41,11 +44,6 @@ export const styles: Styles = {
     flex: 1,
     alignSelf: 'stretch',
     padding: '15px 24px',
-  },
-  cancelButton: {
-    borderRadius: `0 0 0 ${DIALOG_BORDER_RADIUS}px`,
-  },
-  confirmButton: {
-    borderRadius: `0 0 ${DIALOG_BORDER_RADIUS}px 0`,
+    borderRadius: 0,
   },
 };

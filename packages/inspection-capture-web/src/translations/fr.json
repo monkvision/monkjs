@@ -4,6 +4,10 @@
       "title": "Veuillez tourner votre appareil.",
       "description": "Il vous faudra peut-être débloquer l'orientation de votre appareil dans les paramètres de votre téléphone."
     },
+    "badConnectionWarning": {
+      "message": "Il semble que votre connexion soit instable. Les téléchargements d'images peuvent être longs ou impossibles.",
+      "confirm": "J'ai compris"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Dégât"

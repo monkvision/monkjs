@@ -4,11 +4,15 @@ import { ImageType, TaskName, ComplianceOptions, MonkPicture } from '@monkvision
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
+import { BadConnectionWarningHandle } from './useBadConnectionWarning';
 
 /**
  * Parameters of the useUploadQueue hook.
  */
-export interface UploadQueueParams {
+export type UploadQueueParams = Pick<
+  BadConnectionWarningHandle,
+  'onUploadSuccess' | 'onUploadTimeout'
+> & {
   /**
    * The inspection ID.
    */
@@ -21,7 +25,7 @@ export interface UploadQueueParams {
    * The options for the compliance conf
    */
   complianceOptions: ComplianceOptions;
-}
+};
 
 /**
  * Upload options for a normal sight picture.
@@ -114,27 +118,30 @@ export function useUploadQueue({
   inspectionId,
   apiConfig,
   complianceOptions,
+  onUploadSuccess,
+  onUploadTimeout,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
   const { addImage } = useMonkApi(apiConfig);
 
-  return useQueue<PictureUpload>(
-    async (upload: PictureUpload) => {
-      if (upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT) {
-        siblingIdRef.current += 1;
+  return useQueue<PictureUpload>(async (upload: PictureUpload) => {
+    if (upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT) {
+      siblingIdRef.current += 1;
+    }
+    try {
+      const startTs = Date.now();
+      await addImage(
+        createAddImageOptions(upload, inspectionId, siblingIdRef.current, complianceOptions),
+      );
+      const uploadDurationMs = Date.now() - startTs;
+      onUploadSuccess(uploadDurationMs);
+    } catch (err) {
+      if (err instanceof Error && err.name === 'TimeoutError') {
+        onUploadTimeout();
       }
-      try {
-        await addImage(
-          createAddImageOptions(upload, inspectionId, siblingIdRef.current, complianceOptions),
-        );
-      } catch (err) {
-        handleError(err);
-        throw err;
-      }
-    },
-    {
-      storeFailedItems: false,
-    },
-  );
+      handleError(err);
+      throw err;
+    }
+  });
 }

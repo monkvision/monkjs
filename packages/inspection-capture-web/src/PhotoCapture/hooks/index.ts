@@ -5,3 +5,4 @@ export * from './useUploadQueue';
 export * from './usePictureTaken';
 export * from './usePhotoCaptureImages';
 export * from './useComplianceAnalytics';
+export * from './useBadConnectionWarning';
