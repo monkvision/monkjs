@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { CaptureAppConfig } from '@monkvision/types';
+import { UploadEventHandlers } from './useUploadQueue';
 
 /**
  * Parameters accepted by the useBadConnectionWarning hook.
@@ -22,15 +23,9 @@ export interface BadConnectionWarningHandle {
    */
   closeBadConnectionWarningDialog: () => void;
   /**
-   * Callback called when a picture upload successfully completes.
-   *
-   * @param durationMs The total elapsed time in milliseconds between the start of the upload and the end of the upload.
+   * A set of event handlers listening to upload events.
    */
-  onUploadSuccess: (durationMs: number) => void;
-  /**
-   * Callback called when a picture upload fails because of a timeout.
-   */
-  onUploadTimeout: () => void;
+  uploadEventHandlers: UploadEventHandlers;
 }
 
 /**
@@ -41,7 +36,7 @@ export function useBadConnectionWarning({
 }: BadConnectionWarningParams): BadConnectionWarningHandle {
   const [isBadConnectionWarningDialogDisplayed, setIsBadConnectionWarningDialogDisplayed] =
     useState(false);
-  const [hadDialogBeenDisplayed, setHasDialogBeenDisplayed] = useState(false);
+  const hadDialogBeenDisplayed = useRef(false);
 
   const closeBadConnectionWarningDialog = useCallback(
     () => setIsBadConnectionWarningDialogDisplayed(false),
@@ -53,26 +48,28 @@ export function useBadConnectionWarning({
       if (
         maxUploadDurationWarning >= 0 &&
         durationMs > maxUploadDurationWarning &&
-        !hadDialogBeenDisplayed
+        !hadDialogBeenDisplayed.current
       ) {
         setIsBadConnectionWarningDialogDisplayed(true);
-        setHasDialogBeenDisplayed(true);
+        hadDialogBeenDisplayed.current = true;
       }
     },
     [maxUploadDurationWarning, hadDialogBeenDisplayed],
   );
 
   const onUploadTimeout = useCallback(() => {
-    if (maxUploadDurationWarning >= 0 && !hadDialogBeenDisplayed) {
+    if (maxUploadDurationWarning >= 0 && !hadDialogBeenDisplayed.current) {
       setIsBadConnectionWarningDialogDisplayed(true);
-      setHasDialogBeenDisplayed(true);
+      hadDialogBeenDisplayed.current = true;
     }
   }, [maxUploadDurationWarning, hadDialogBeenDisplayed]);
 
   return useObjectMemo({
     isBadConnectionWarningDialogDisplayed,
     closeBadConnectionWarningDialog,
-    onUploadSuccess,
-    onUploadTimeout,
+    uploadEventHandlers: {
+      onUploadSuccess,
+      onUploadTimeout,
+    },
   });
 }

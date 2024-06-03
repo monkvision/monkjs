@@ -23,8 +23,16 @@ function createParams(): UploadQueueParams {
       complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
       useLiveCompliance: true,
     },
-    onUploadSuccess: jest.fn(),
-    onUploadTimeout: jest.fn(),
+    eventHandlers: [
+      {
+        onUploadSuccess: jest.fn(),
+        onUploadTimeout: jest.fn(),
+      },
+      {
+        onUploadSuccess: jest.fn(),
+        onUploadTimeout: jest.fn(),
+      },
+    ],
   };
 }
 
@@ -191,7 +199,9 @@ describe('useUploadQueue hook', () => {
       const promise = process(defaultUploadOptions);
       jest.advanceTimersByTime(durationMs);
       await promise;
-      expect(initialProps.onUploadSuccess).toHaveBeenCalledWith(durationMs);
+      initialProps.eventHandlers?.forEach((eventHandlers) => {
+        expect(eventHandlers.onUploadSuccess).toHaveBeenCalledWith(durationMs);
+      });
 
       unmount();
     });
@@ -209,7 +219,9 @@ describe('useUploadQueue hook', () => {
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
       await expect(process(defaultUploadOptions)).rejects.toBe(err);
-      expect(initialProps.onUploadTimeout).toHaveBeenCalled();
+      initialProps.eventHandlers?.forEach((eventHandlers) => {
+        expect(eventHandlers.onUploadTimeout).toHaveBeenCalledWith();
+      });
 
       unmount();
     });
@@ -227,7 +239,9 @@ describe('useUploadQueue hook', () => {
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
       await expect(process(defaultUploadOptions)).rejects.toBe(err);
-      expect(initialProps.onUploadTimeout).toHaveBeenCalled();
+      initialProps.eventHandlers?.forEach((eventHandlers) => {
+        expect(eventHandlers.onUploadTimeout).toHaveBeenCalledWith();
+      });
 
       unmount();
     });
@@ -244,7 +258,9 @@ describe('useUploadQueue hook', () => {
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
       await expect(process(defaultUploadOptions)).rejects.toBe(err);
-      expect(initialProps.onUploadTimeout).not.toHaveBeenCalled();
+      initialProps.eventHandlers?.forEach((eventHandlers) => {
+        expect(eventHandlers.onUploadTimeout).not.toHaveBeenCalledWith();
+      });
 
       unmount();
     });

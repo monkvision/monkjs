@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useBadConnectionWarning } from '../../../src/PhotoCapture/hooks';
 import { act } from '@testing-library/react';
+import { createFakePromise } from '@monkvision/test-utils';
 
 describe('useBadConnectionWarning hook', () => {
   afterEach(() => {
@@ -25,7 +26,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -39,7 +40,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning - 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning - 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 
@@ -53,7 +54,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -67,8 +68,8 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadSuccess(100000);
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadSuccess?.(100000);
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 
@@ -82,11 +83,11 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -100,7 +101,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
@@ -118,7 +119,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
@@ -126,11 +127,43 @@ describe('useBadConnectionWarning hook', () => {
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
+    });
+    expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
+
+    unmount();
+  });
+
+  it('should never display the dialog again after it has been displayed and dismissed once even in async results', async () => {
+    const maxUploadDurationWarning = 5;
+    const { result, unmount } = renderHook(useBadConnectionWarning, {
+      initialProps: { maxUploadDurationWarning },
+    });
+
+    const { onUploadTimeout } = result.current.uploadEventHandlers;
+
+    const promise = createFakePromise();
+    promise
+      .then(() => {
+        onUploadTimeout?.();
+      })
+      .catch(() => {});
+
+    act(() => {
+      result.current.uploadEventHandlers.onUploadTimeout?.();
+    });
+    expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
+    act(() => {
+      result.current.closeBadConnectionWarningDialog();
+    });
+    expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
+    await act(async () => {
+      promise.resolve(null);
+      await promise;
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 

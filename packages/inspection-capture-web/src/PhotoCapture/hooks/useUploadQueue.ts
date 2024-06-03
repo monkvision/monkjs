@@ -1,18 +1,30 @@
 import { Queue, useQueue } from '@monkvision/common';
 import { AddImageOptions, MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { ImageType, TaskName, ComplianceOptions, MonkPicture } from '@monkvision/types';
+import { ComplianceOptions, ImageType, MonkPicture, TaskName } from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
-import { BadConnectionWarningHandle } from './useBadConnectionWarning';
+
+/**
+ * Type definition for upload event handlers.
+ */
+export interface UploadEventHandlers {
+  /**
+   * Callback called when a picture upload successfully completes.
+   *
+   * @param durationMs The total elapsed time in milliseconds between the start of the upload and the end of the upload.
+   */
+  onUploadSuccess?: (durationMs: number) => void;
+  /**
+   * Callback called when a picture upload fails because of a timeout.
+   */
+  onUploadTimeout?: () => void;
+}
 
 /**
  * Parameters of the useUploadQueue hook.
  */
-export type UploadQueueParams = Pick<
-  BadConnectionWarningHandle,
-  'onUploadSuccess' | 'onUploadTimeout'
-> & {
+export interface UploadQueueParams {
   /**
    * The inspection ID.
    */
@@ -25,7 +37,11 @@ export type UploadQueueParams = Pick<
    * The options for the compliance conf
    */
   complianceOptions: ComplianceOptions;
-};
+  /**
+   * A collection of event handlers listening to upload events.
+   */
+  eventHandlers?: UploadEventHandlers[];
+}
 
 /**
  * Upload options for a normal sight picture.
@@ -118,8 +134,7 @@ export function useUploadQueue({
   inspectionId,
   apiConfig,
   complianceOptions,
-  onUploadSuccess,
-  onUploadTimeout,
+  eventHandlers,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -135,11 +150,11 @@ export function useUploadQueue({
         createAddImageOptions(upload, inspectionId, siblingIdRef.current, complianceOptions),
       );
       const uploadDurationMs = Date.now() - startTs;
-      onUploadSuccess(uploadDurationMs);
+      eventHandlers?.forEach((handlers) => handlers.onUploadSuccess?.(uploadDurationMs));
     } catch (err) {
       if (err instanceof Error) {
         if (err.name === 'TimeoutError' || err.message === 'Failed to fetch') {
-          onUploadTimeout();
+          eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
         }
       }
       handleError(err);

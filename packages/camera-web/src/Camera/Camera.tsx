@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import {
   AllOrNone,
+  CameraConfig,
   CameraResolution,
-  CaptureAppConfig,
   CompressionFormat,
-  CompressionOptions,
   RequiredKeys,
 } from '@monkvision/types';
 import { isMobileDevice } from '@monkvision/common';
@@ -51,10 +50,9 @@ export type HUDConfigProps<T extends object> = RequiredKeys<T> extends never
 /**
  * Props given to the Camera component. The generic T type corresponds to the prop types of the HUD.
  */
-export type CameraProps<T extends object> = Partial<CompressionOptions> &
+export type CameraProps<T extends object> = CameraConfig &
   CameraEventHandlers &
-  HUDConfigProps<T> &
-  Pick<CaptureAppConfig, 'resolution' | 'allowImageUpscaling'> & {
+  HUDConfigProps<T> & {
     /**
      * Additional monitoring config that can be provided to the Camera component.
      */
