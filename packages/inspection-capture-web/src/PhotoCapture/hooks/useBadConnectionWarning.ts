@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { CaptureAppConfig } from '@monkvision/types';
 import { UploadEventHandlers } from './useUploadQueue';
@@ -36,7 +36,7 @@ export function useBadConnectionWarning({
 }: BadConnectionWarningParams): BadConnectionWarningHandle {
   const [isBadConnectionWarningDialogDisplayed, setIsBadConnectionWarningDialogDisplayed] =
     useState(false);
-  const [hadDialogBeenDisplayed, setHasDialogBeenDisplayed] = useState(false);
+  const hadDialogBeenDisplayed = useRef(false);
 
   const closeBadConnectionWarningDialog = useCallback(
     () => setIsBadConnectionWarningDialogDisplayed(false),
@@ -48,19 +48,19 @@ export function useBadConnectionWarning({
       if (
         maxUploadDurationWarning >= 0 &&
         durationMs > maxUploadDurationWarning &&
-        !hadDialogBeenDisplayed
+        !hadDialogBeenDisplayed.current
       ) {
         setIsBadConnectionWarningDialogDisplayed(true);
-        setHasDialogBeenDisplayed(true);
+        hadDialogBeenDisplayed.current = true;
       }
     },
     [maxUploadDurationWarning, hadDialogBeenDisplayed],
   );
 
   const onUploadTimeout = useCallback(() => {
-    if (maxUploadDurationWarning >= 0 && !hadDialogBeenDisplayed) {
+    if (maxUploadDurationWarning >= 0 && !hadDialogBeenDisplayed.current) {
       setIsBadConnectionWarningDialogDisplayed(true);
-      setHasDialogBeenDisplayed(true);
+      hadDialogBeenDisplayed.current = true;
     }
   }, [maxUploadDurationWarning, hadDialogBeenDisplayed]);
 
