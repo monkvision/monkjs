@@ -25,7 +25,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -39,7 +39,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning - 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning - 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 
@@ -53,7 +53,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -67,8 +67,8 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadSuccess(100000);
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadSuccess?.(100000);
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 
@@ -82,11 +82,11 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -100,7 +100,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
@@ -118,7 +118,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
@@ -126,11 +126,11 @@ describe('useBadConnectionWarning hook', () => {
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
     act(() => {
-      result.current.onUploadTimeout();
+      result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
     act(() => {
-      result.current.onUploadSuccess(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 

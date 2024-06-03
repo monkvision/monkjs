@@ -8,6 +8,7 @@ import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
 import {
+  useAdaptiveCameraConfig,
   useAddDamageMode,
   useBadConnectionWarning,
   usePhotoCaptureImages,
@@ -45,8 +46,22 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   useBadConnectionWarning: jest.fn(() => ({
     isBadConnectionWarningDialogDisplayed: true,
     closeBadConnectionWarningDialog: jest.fn(),
-    onUploadSuccess: jest.fn(),
-    onUploadTimeout: jest.fn(),
+    uploadEventHandlers: {
+      onUploadSuccess: jest.fn(),
+      onUploadTimeout: jest.fn(),
+    },
+  })),
+  useAdaptiveCameraConfig: jest.fn(() => ({
+    adaptiveCameraConfig: {
+      resolution: CameraResolution.QHD_2K,
+      format: CompressionFormat.JPEG,
+      allowImageUpscaling: false,
+      quality: 0.9,
+    },
+    uploadEventHandlers: {
+      onUploadSuccess: jest.fn(),
+      onUploadTimeout: jest.fn(),
+    },
   })),
 }));
 
@@ -69,6 +84,8 @@ function createProps(): PhotoCaptureProps {
     quality: 0.4,
     showCloseButton: true,
     lang: 'de',
+    allowImageUpscaling: true,
+    useAdaptiveImageQuality: false,
     allowSkipRetake: true,
     enableAddDamage: true,
     maxUploadDurationWarning: 456,
@@ -78,6 +95,37 @@ function createProps(): PhotoCaptureProps {
 describe('PhotoCapture component', () => {
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should pass the proper params to the useAdaptiveCameraConfig hook', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useAdaptiveCameraConfig).toHaveBeenCalledWith({
+      initialCameraConfig: expect.objectContaining({
+        quality: props.quality,
+        format: props.format,
+        resolution: props.resolution,
+        allowImageUpscaling: props.allowImageUpscaling,
+      }),
+      useAdaptiveImageQuality: props.useAdaptiveImageQuality,
+    });
+
+    unmount();
+  });
+
+  it('should use adaptive image quality by default', () => {
+    const props = createProps();
+    props.useAdaptiveImageQuality = undefined;
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(useAdaptiveCameraConfig).toHaveBeenCalledWith(
+      expect.objectContaining({
+        useAdaptiveImageQuality: true,
+      }),
+    );
+
+    unmount();
   });
 
   it('should pass the proper params to the useStartTasksOnComplete hook', () => {
@@ -144,9 +192,12 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
+    expect(useAdaptiveCameraConfig).toHaveBeenCalled();
+    const adaptiveConfigEventHandlers = (useAdaptiveCameraConfig as jest.Mock).mock.results[0].value
+      .uploadEventHandlers;
     expect(useBadConnectionWarning).toHaveBeenCalled();
-    const { onUploadSuccess, onUploadTimeout } = (useBadConnectionWarning as jest.Mock).mock
-      .results[0].value;
+    const badConnectionEventHandlers = (useBadConnectionWarning as jest.Mock).mock.results[0].value
+      .uploadEventHandlers;
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
@@ -159,8 +210,10 @@ describe('PhotoCapture component', () => {
         customComplianceThresholds: props.customComplianceThresholds,
         customComplianceThresholdsPerSight: props.customComplianceThresholdsPerSight,
       },
-      onUploadSuccess,
-      onUploadTimeout,
+      eventHandlers: expect.arrayContaining([
+        adaptiveConfigEventHandlers,
+        badConnectionEventHandlers,
+      ]),
     });
 
     unmount();
@@ -186,15 +239,13 @@ describe('PhotoCapture component', () => {
     unmount();
   });
 
-  it('should display a Camera with the given config', () => {
+  it('should display a Camera with the config obtained from the useAdaptiveCameraConfig', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
-    expectPropsOnChildMock(Camera, {
-      resolution: props.resolution,
-      format: props.format,
-      quality: props.quality,
-    });
+    expect(useAdaptiveCameraConfig).toHaveBeenCalled();
+    const { adaptiveCameraConfig } = (useAdaptiveCameraConfig as jest.Mock).mock.results[0].value;
+    expectPropsOnChildMock(Camera, adaptiveCameraConfig);
 
     unmount();
   });

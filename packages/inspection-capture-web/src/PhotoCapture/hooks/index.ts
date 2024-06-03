@@ -6,3 +6,4 @@ export * from './usePictureTaken';
 export * from './usePhotoCaptureImages';
 export * from './useComplianceAnalytics';
 export * from './useBadConnectionWarning';
+export * from './useAdaptiveCameraConfig';

@@ -6,6 +6,7 @@ import {
   DeviceOrientation,
   Sight,
   CompressionOptions,
+  CameraConfig,
 } from '@monkvision/types';
 import {
   useI18nSync,
@@ -33,6 +34,7 @@ import {
   useStartTasksOnComplete,
   useUploadQueue,
   useBadConnectionWarning,
+  useAdaptiveCameraConfig,
 } from './hooks';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
@@ -44,7 +46,9 @@ export interface PhotoCaptureProps
   extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
     Pick<
       CaptureAppConfig,
+      | keyof CameraConfig
       | 'maxUploadDurationWarning'
+      | 'useAdaptiveImageQuality'
       | 'tasksBySight'
       | 'startTasksOnComplete'
       | 'showCloseButton'
@@ -111,9 +115,10 @@ export function PhotoCapture({
   useLiveCompliance = false,
   allowSkipRetake = false,
   enableAddDamage = true,
+  useAdaptiveImageQuality = true,
   lang,
   enforceOrientation,
-  ...cameraConfig
+  ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
   const complianceOptions: ComplianceOptions = useObjectMemo({
@@ -133,6 +138,11 @@ export function PhotoCapture({
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
   useComplianceAnalytics({ inspectionId, sights });
+  const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
+    useAdaptiveCameraConfig({
+      initialCameraConfig,
+      useAdaptiveImageQuality,
+    });
   const startTasks = useStartTasksOnComplete({
     inspectionId,
     apiConfig,
@@ -156,15 +166,13 @@ export function PhotoCapture({
   const {
     isBadConnectionWarningDialogDisplayed,
     closeBadConnectionWarningDialog,
-    onUploadSuccess,
-    onUploadTimeout,
+    uploadEventHandlers: badConnectionWarningUploadEventHandlers,
   } = useBadConnectionWarning({ maxUploadDurationWarning });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     complianceOptions,
-    onUploadSuccess,
-    onUploadTimeout,
+    eventHandlers: [adaptiveUploadEventHandlers, badConnectionWarningUploadEventHandlers],
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
@@ -247,7 +255,7 @@ export function PhotoCapture({
           HUDComponent={PhotoCaptureHUD}
           onPictureTaken={handlePictureTaken}
           hudProps={hudProps}
-          {...cameraConfig}
+          {...adaptiveCameraConfig}
         />
       )}
       {currentScreen === PhotoCaptureScreen.GALLERY && (

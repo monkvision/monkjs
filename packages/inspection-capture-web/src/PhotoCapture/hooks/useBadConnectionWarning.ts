@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { CaptureAppConfig } from '@monkvision/types';
+import { UploadEventHandlers } from './useUploadQueue';
 
 /**
  * Parameters accepted by the useBadConnectionWarning hook.
@@ -22,15 +23,9 @@ export interface BadConnectionWarningHandle {
    */
   closeBadConnectionWarningDialog: () => void;
   /**
-   * Callback called when a picture upload successfully completes.
-   *
-   * @param durationMs The total elapsed time in milliseconds between the start of the upload and the end of the upload.
+   * A set of event handlers listening to upload events.
    */
-  onUploadSuccess: (durationMs: number) => void;
-  /**
-   * Callback called when a picture upload fails because of a timeout.
-   */
-  onUploadTimeout: () => void;
+  uploadEventHandlers: UploadEventHandlers;
 }
 
 /**
@@ -72,7 +67,9 @@ export function useBadConnectionWarning({
   return useObjectMemo({
     isBadConnectionWarningDialogDisplayed,
     closeBadConnectionWarningDialog,
-    onUploadSuccess,
-    onUploadTimeout,
+    uploadEventHandlers: {
+      onUploadSuccess,
+      onUploadTimeout,
+    },
   });
 }

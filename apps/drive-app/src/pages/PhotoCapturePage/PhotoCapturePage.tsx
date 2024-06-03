@@ -41,6 +41,7 @@ export function PhotoCapturePage() {
         showCloseButton={config.showCloseButton}
         enforceOrientation={config.enforceOrientation}
         maxUploadDurationWarning={config.maxUploadDurationWarning}
+        useAdaptiveImageQuality={config.useAdaptiveImageQuality}
         allowSkipRetake={config.allowSkipRetake}
         enableAddDamage={config.enableAddDamage}
         enableCompliance={config.enableCompliance}
