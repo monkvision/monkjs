@@ -100,6 +100,7 @@ export = {
   isMobileDevice: jest.fn(() => false),
   zlibCompress: jest.fn(() => ''),
   zlibDecompress: jest.fn(() => ''),
+  MonkAppStateProvider: jest.fn(() => <></>),
   useMonkAppState: jest.fn(() => ({
     loading: createMockLoadingState(),
     config: {},

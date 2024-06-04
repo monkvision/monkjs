@@ -292,9 +292,44 @@ function App() {
 
 ---
 
-## CreateInspection
+## LiveConfigAppProvider
 ### Description
-This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle authentication.
+This component is used in Monk web applications that support Live Configurations. It acts as both an automatic live
+configuration fetcher and a MonkAppStateProvider.
+
+### Example
+
+```tsx
+import React, { useCallback } from 'react';
+import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
+
+function App() {
+  return (
+    <LiveConfigAppProvider id='my-live-config-id'>
+      ...
+    </LiveConfigAppProvider>
+  );
+}
+```
+
+### Props
+This component accepts the same props as the `MonkAppStateProvider` component (except for the `config` prop which is
+replaced by the live config). Please refer to the
+[@monkvision/common package documentation](https://github.com/monkvision/monkjs/blob/main/packages/common/README/APP_UTILS.md)
+for more details.
+
+| Prop        | Type                            | Description                                                           | Required | Default Value |
+|-------------|---------------------------------|-----------------------------------------------------------------------|----------|---------------|
+| id          | string                          | The ID of the application Live Config.                                | ✔️       |               |
+| localConfig | CaptureAppConfig                | Use this prop to configure a configuration on your local environment. |          |               |
+| lang        | <code>string &#124; null</code> | The language used by this component.                                  |          | `en`          |
+
+---
+
+## LoginPage
+### Description
+This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
+authentication.
 
 ### Example
 

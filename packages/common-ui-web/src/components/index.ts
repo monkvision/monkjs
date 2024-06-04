@@ -5,6 +5,7 @@ export * from './CreateInspection';
 export * from './DynamicSVG';
 export * from './ImageDetailedView';
 export * from './InspectionGallery';
+export * from './LiveConfigAppProvider';
 export * from './Login';
 export * from './SightOverlay';
 export * from './Slider';
