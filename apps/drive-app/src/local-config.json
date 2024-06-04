@@ -1,0 +1,257 @@
+{
+  "allowSkipRetake": true,
+  "enableAddDamage": false,
+  "allowVehicleTypeSelection": true,
+  "allowManualLogin": true,
+  "fetchFromSearchParams": true,
+  "allowCreateInspection": true,
+  "createInspectionOptions": {
+    "tasks": [
+      "damage_detection",
+      "wheel_analysis"
+    ]
+  },
+  "apiDomain": "api.preview.monk.ai/v1",
+  "startTasksOnComplete": true,
+  "showCloseButton": false,
+  "enforceOrientation": "landscape",
+  "maxUploadDurationWarning": 15000,
+  "useAdaptiveImageQuality": true,
+  "format": "image/jpeg",
+  "quality": 0.6,
+  "resolution": "4K",
+  "allowImageUpscaling": false,
+  "enableCompliance": true,
+  "useLiveCompliance": true,
+  "complianceIssues": [
+    "blurriness",
+    "underexposure",
+    "overexposure",
+    "lens_flare",
+    "reflections",
+    "unknown_sight",
+    "unknown_viewpoint",
+    "no_vehicle",
+    "wrong_center_part",
+    "missing_parts",
+    "hidden_parts",
+    "missing"
+  ],
+  "complianceIssuesPerSight": {
+    "all-IqwSM3": [
+      "blurriness",
+      "underexposure",
+      "overexposure",
+      "lens_flare"
+    ],
+    "all-rSvk2C": [
+      "blurriness",
+      "underexposure",
+      "overexposure",
+      "lens_flare"
+    ],
+    "all-T4HrF8KA": [
+      "blurriness",
+      "underexposure",
+      "overexposure",
+      "lens_flare"
+    ]
+  },
+  "defaultVehicleType": "cuv",
+  "enableSteeringWheelPosition": true,
+  "defaultSteeringWheelPosition": "left",
+  "sights": {
+    "left": {
+      "suv": [
+        "jgc21-QIvfeg0X",
+        "jgc21-QwNQX0Cr",
+        "jgc21-1j-oTPag",
+        "jgc21-3JJvM7_B",
+        "jgc21-TyJPUs8E",
+        "jgc21-ezXzTRkj",
+        "jgc21-TEoi50Ff",
+        "jgc21-QIkcNhc_",
+        "jgc21-imomJ2V0",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ],
+      "cuv": [
+        "fesc20-H1dfdfvH",
+        "fesc20-CEGtqHkk",
+        "fesc20-HYz5ziHi",
+        "fesc20-LZc7p2kK",
+        "fesc20-xBFiEy-_",
+        "fesc20-dfICsfSV",
+        "fesc20-26n47kaO",
+        "fesc20-GdIxD-_N",
+        "fesc20-6GPUkfYn",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ],
+      "sedan": [
+        "haccord-8YjMcu0D",
+        "haccord-EfRIciFr",
+        "haccord-PGr3RzzP",
+        "haccord-Jq65fyD4",
+        "haccord-6kYUBv_e",
+        "haccord-GdWvsqrm",
+        "haccord-_YnTubBA",
+        "haccord-2a8VfA8m",
+        "haccord-oiY_yPTR",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ],
+      "hatchback": [
+        "ffocus18-XlfgjQb9",
+        "ffocus18-zgLKB-Do",
+        "ffocus18-FdsQDaTW",
+        "ffocus18-jWOq2CNN",
+        "ffocus18-L2UM_68Q",
+        "ffocus18-9MeSIqp7",
+        "ffocus18-6FX31ty1",
+        "ffocus18-GiTxaJUq",
+        "ffocus18-ZXKOomlv",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ],
+      "van": [
+        "ftransit18-wyXf7MTv",
+        "ftransit18-IIVI_pnX",
+        "ftransit18-G24AdP6r",
+        "ftransit18-FFP5b34o",
+        "ftransit18-3dkU10af",
+        "ftransit18-iu1Vj2Oa",
+        "ftransit18-rsXWUN8X",
+        "ftransit18-5SiNC94w",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ],
+      "minivan": [
+        "tsienna20-YwrRNr9n",
+        "tsienna20-xtDcn3GS",
+        "tsienna20-uIHdpQ9y",
+        "tsienna20--a2RmRcs",
+        "tsienna20-qA3aAUUq",
+        "tsienna20-1n_z8bYy",
+        "tsienna20-4ihRwDkS",
+        "tsienna20-gkvZE2c7",
+        "tsienna20-is1tpnqR",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ],
+      "pickup": [
+        "ff150-zXbg0l3z",
+        "ff150-OviO2DlY",
+        "ff150-_UIadfVL",
+        "ff150-t3KBMPeD",
+        "ff150-3dkU10af",
+        "ff150--xPZZd83",
+        "ff150-GOx2s_9L",
+        "ff150-wO_fJ3DL",
+        "ff150-Ttsc7q6V",
+        "all-IqwSM3",
+        "all-rSvk2C"
+      ]
+    },
+    "right": {
+      "suv": [
+        "jgc21-QIvfeg0X",
+        "jgc21-imomJ2V0",
+        "jgc21-QIkcNhc_",
+        "jgc21-TEoi50Ff",
+        "jgc21-ezXzTRkj",
+        "jgc21-TyJPUs8E",
+        "jgc21-3JJvM7_B",
+        "jgc21-1j-oTPag",
+        "jgc21-QwNQX0Cr",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ],
+      "cuv": [
+        "fesc20-H1dfdfvH",
+        "fesc20-6GPUkfYn",
+        "fesc20-GdIxD-_N",
+        "fesc20-26n47kaO",
+        "fesc20-dfICsfSV",
+        "fesc20-xBFiEy-_",
+        "fesc20-LZc7p2kK",
+        "fesc20-HYz5ziHi",
+        "fesc20-CEGtqHkk",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ],
+      "sedan": [
+        "haccord-8YjMcu0D",
+        "haccord-oiY_yPTR",
+        "haccord-2a8VfA8m",
+        "haccord-_YnTubBA",
+        "haccord-GdWvsqrm",
+        "haccord-6kYUBv_e",
+        "haccord-Jq65fyD4",
+        "haccord-PGr3RzzP",
+        "haccord-EfRIciFr",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ],
+      "hatchback": [
+        "ffocus18-XlfgjQb9",
+        "ffocus18-ZXKOomlv",
+        "ffocus18-GiTxaJUq",
+        "ffocus18-6FX31ty1",
+        "ffocus18-9MeSIqp7",
+        "ffocus18-L2UM_68Q",
+        "ffocus18-jWOq2CNN",
+        "ffocus18-FdsQDaTW",
+        "ffocus18-zgLKB-Do",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ],
+      "van": [
+        "ftransit18-wyXf7MTv",
+        "ftransit18-5SiNC94w",
+        "ftransit18-rsXWUN8X",
+        "ftransit18-iu1Vj2Oa",
+        "ftransit18-3dkU10af",
+        "ftransit18-FFP5b34o",
+        "ftransit18-G24AdP6r",
+        "ftransit18-IIVI_pnX",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ],
+      "minivan": [
+        "tsienna20-YwrRNr9n",
+        "tsienna20-is1tpnqR",
+        "tsienna20-gkvZE2c7",
+        "tsienna20-4ihRwDkS",
+        "tsienna20-1n_z8bYy",
+        "tsienna20-qA3aAUUq",
+        "tsienna20--a2RmRcs",
+        "tsienna20-uIHdpQ9y",
+        "tsienna20-xtDcn3GS",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ],
+      "pickup": [
+        "ff150-zXbg0l3z",
+        "ff150-Ttsc7q6V",
+        "ff150-wO_fJ3DL",
+        "ff150-GOx2s_9L",
+        "ff150--xPZZd83",
+        "ff150-3dkU10af",
+        "ff150-t3KBMPeD",
+        "ff150-_UIadfVL",
+        "ff150-OviO2DlY",
+        "all-T4HrF8KA",
+        "all-rSvk2C"
+      ]
+    }
+  },
+  "requiredApiPermissions": [
+    "monk_core_api:compliances",
+    "monk_core_api:damage_detection",
+    "monk_core_api:wheel_analysis",
+    "monk_core_api:inspections:read",
+    "monk_core_api:inspections:update",
+    "monk_core_api:inspections:write"
+  ]
+}
