@@ -151,12 +151,12 @@ describe('Camera component', () => {
     unmount();
   });
 
-  it('should use 0.8 as the default compression quality', () => {
+  it('should use 0.6 as the default compression quality', () => {
     const { unmount } = render(<Camera />);
 
     expect(useCompression).toHaveBeenCalledWith(
       expect.objectContaining({
-        options: expect.objectContaining({ quality: 0.8 }),
+        options: expect.objectContaining({ quality: 0.6 }),
       }),
     );
     unmount();

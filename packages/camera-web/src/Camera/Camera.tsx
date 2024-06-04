@@ -72,7 +72,7 @@ export type CameraProps<T extends object> = CameraConfig &
 export function Camera<T extends object>({
   resolution = CameraResolution.UHD_4K,
   format = CompressionFormat.JPEG,
-  quality = 0.8,
+  quality = 0.6,
   allowImageUpscaling = false,
   HUDComponent,
   hudProps,

@@ -48,7 +48,7 @@ export interface CompressionOptions {
    * Value indicating image quality for the compression output. This value goes from 1 (full quality, no loss) to 0
    * (very low quality). For compression formats that do not supported lossy compression, this option is ignored.
    *
-   * @default 0.8
+   * @default 0.6
    */
   quality: number;
 }
