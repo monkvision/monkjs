@@ -149,7 +149,7 @@ export const AppConfig: CaptureAppConfig = {
       ].includes(issue),
   ),
   complianceIssuesPerSight: {
-    'ff150-nF_oFvhI': DEFAULT_COMPLIANCE_ISSUES.filter(
+    'ff150-3dkU10af': DEFAULT_COMPLIANCE_ISSUES.filter(
       (issue) =>
         ![...ZOOM_LEVEL_COMPLIANCE_ISSUES, ...CAR_COVERAGE_COMPLIANCE_ISSUES].includes(issue),
     ),
