@@ -9,7 +9,7 @@ import { useObjectMemo } from '@monkvision/common';
 import { UploadEventHandlers } from './useUploadQueue';
 
 const DEFAULT_CAMERA_CONFIG: Required<CameraConfig> = {
-  quality: 0.8,
+  quality: 0.6,
   format: CompressionFormat.JPEG,
   resolution: CameraResolution.UHD_4K,
   allowImageUpscaling: false,

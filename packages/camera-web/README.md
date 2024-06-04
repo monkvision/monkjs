@@ -157,15 +157,15 @@ Camera component props. For now the supported events available are :
 Main component exported by this package, displays a Camera preview and the given HUD on top of it.
 
 ### Props
-| Prop           | Type                           | Description                                                                                                                     | Required | Default Value                  |
-|----------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------|
-| resolution     | CameraResolution               | Resolution of the pictures taken by the camera. This does not affect the resolution of the Camera preview.                      |          | `CameraResolution.UHD_4K`      |
-| format         | CompressionFormat              | The compression format used to compress images taken by the camera.                                                             |          | `CompressionFormat.JPEG`       |
-| quality        | number                         | The image quality when using a compression format that supports lossy compression. From 0 (lowest quality) to 1 (best quality). |          | `0.8`                          |
-| HUDComponent   | CameraHUDComponent<T>          | The camera HUD component to display on top of the camera preview.                                                               |          |                                |
-| hudProps       | T                              | Additional props passed down to the Camera HUD component.                                                                       |          |                                |
-| onPictureTaken | (picture: MonkPicture) => void | Callback called when a picture has been taken by the user.                                                                      |          |                                |
-| monitoring     | CameraMonitoringConfig         | Extra options that can be passed to configure how the monitoring is handled in the component.                                   |          |                                |
+| Prop           | Type                           | Description                                                                                                                     | Required | Default Value             |
+|----------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------|
+| resolution     | CameraResolution               | Resolution of the pictures taken by the camera. This does not affect the resolution of the Camera preview.                      |          | `CameraResolution.UHD_4K` |
+| format         | CompressionFormat              | The compression format used to compress images taken by the camera.                                                             |          | `CompressionFormat.JPEG`  |
+| quality        | number                         | The image quality when using a compression format that supports lossy compression. From 0 (lowest quality) to 1 (best quality). |          | `0.6`                     |
+| HUDComponent   | CameraHUDComponent<T>          | The camera HUD component to display on top of the camera preview.                                                               |          |                           |
+| hudProps       | T                              | Additional props passed down to the Camera HUD component.                                                                       |          |                           |
+| onPictureTaken | (picture: MonkPicture) => void | Callback called when a picture has been taken by the user.                                                                      |          |                           |
+| monitoring     | CameraMonitoringConfig         | Extra options that can be passed to configure how the monitoring is handled in the component.                                   |          |                           |
 
 ## Camera Handle interface
 ### Description

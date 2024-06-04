@@ -20,7 +20,7 @@ describe('useAdaptiveCameraConfigTest hook', () => {
 
     expect(result.current.adaptiveCameraConfig.resolution).toEqual(CameraResolution.UHD_4K);
     expect(result.current.adaptiveCameraConfig.format).toEqual(CompressionFormat.JPEG);
-    expect(result.current.adaptiveCameraConfig.quality).toEqual(0.8);
+    expect(result.current.adaptiveCameraConfig.quality).toEqual(0.6);
     expect(result.current.adaptiveCameraConfig.allowImageUpscaling).toEqual(false);
 
     unmount();

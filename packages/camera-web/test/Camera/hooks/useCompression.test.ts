@@ -39,7 +39,7 @@ describe('useCompression hook', () => {
   describe('compress function', () => {
     it('should compress images in JPEG', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
@@ -72,7 +72,7 @@ describe('useCompression hook', () => {
         throw error;
       });
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
@@ -84,7 +84,7 @@ describe('useCompression hook', () => {
 
     it('should start the Compression measurement with the proper config', () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
@@ -110,7 +110,7 @@ describe('useCompression hook', () => {
 
     it('should stop the Compression measurement with the OK status', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
@@ -131,7 +131,7 @@ describe('useCompression hook', () => {
         throw error;
       });
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
@@ -154,7 +154,7 @@ describe('useCompression hook', () => {
 
     it('should set the CompressionSizeRatio measurement', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
@@ -172,7 +172,7 @@ describe('useCompression hook', () => {
 
     it('should set the PictureSize measurement', async () => {
       const canvasRef = {} as RefObject<HTMLCanvasElement>;
-      const options = { format: CompressionFormat.JPEG, quality: 0.8 };
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
 
       const { result, unmount } = renderHook(useCompression, {
         initialProps: { canvasRef, options },
