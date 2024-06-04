@@ -15,6 +15,12 @@ describe('Network package API global config utils', () => {
       authToken: 'Bearer testtoken',
     };
 
+    it('should return no prefixUrl and Authorization header if no API config is provided', () => {
+      const options = getDefaultOptions();
+      expect(options.prefixUrl).toBeUndefined();
+      expect(options.headers).toEqual(expect.objectContaining({ Authorization: undefined }));
+    });
+
     it('should return the proper prefixUrl', () => {
       expect(getDefaultOptions(baseConfig).prefixUrl).toEqual(`https://${baseConfig.apiDomain}`);
     });

@@ -9,6 +9,20 @@ type MonkApiRequest<P extends Array<unknown>, A extends MonkAction, R extends Pr
   ...params: [...P, MonkApiConfig, Dispatch<A>?]
 ) => R;
 
+function handleAPIError(
+  err: unknown,
+  handleError: (err: unknown, context?: Omit<LogContext, 'level'>) => void,
+): void {
+  const { body } = err as MonkHTTPError;
+  handleError(err, {
+    extras: {
+      body,
+      completeResponse: JSON.stringify(body),
+    },
+  });
+  throw err;
+}
+
 function reactify<P extends Array<unknown>, A extends MonkAction, R extends Promise<unknown>>(
   request: MonkApiRequest<P, A, R>,
   config: MonkApiConfig,
@@ -17,16 +31,7 @@ function reactify<P extends Array<unknown>, A extends MonkAction, R extends Prom
 ): (...params: P) => R {
   return useCallback(
     (...params: P) =>
-      request(...params, config, dispatch).catch((err) => {
-        const { body } = err as MonkHTTPError;
-        handleError(err, {
-          extras: {
-            body,
-            completeResponse: JSON.stringify(body),
-          },
-        });
-        throw err;
-      }) as R,
+      request(...params, config, dispatch).catch((err) => handleAPIError(err, handleError)) as R,
     [],
   );
 }
@@ -86,5 +91,11 @@ export function useMonkApi(config: MonkApiConfig) {
      * @see updateTaskStatus
      */
     startInspectionTasks: reactify(MonkApi.startInspectionTasks, config, dispatch, handleError),
+    /**
+     * Fetch a webapp live configuration from the API.
+     *
+     * @param id The ID of the live config to get.
+     */
+    getLiveConfig: useCallback((id: string) => MonkApi.getLiveConfig(id).catch((err) => handleAPIError(err, handleError)), [handleError]),
   };
 }

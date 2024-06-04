@@ -171,8 +171,4 @@ export type LiveConfig = CaptureAppConfig & {
    * The ID of the live config, used to fetch it from the API.
    */
   id: string;
-  /**
-   * The name of the live config.
-   */
-  name?: string;
 };
