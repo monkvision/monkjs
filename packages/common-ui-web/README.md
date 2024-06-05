@@ -134,6 +134,34 @@ function App() {
 
 ---
 
+## Checkbox
+### Description
+Custom component implementing a simple checkbox.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { Checkbox } from '@monkvision/common-ui-web';
+
+function MyComponent() {
+  const [checked, setchecked] = useState(false);
+
+  return <Checkbox checked={checked} onChange={setchecked} />;
+}
+```
+
+### Props
+| Prop           | Type                       | Description                                                               | Required | Default Value        |
+|----------------|----------------------------|---------------------------------------------------------------------------|----------|----------------------|
+| checked        | boolean                    | Boolean indicating if the checkbox is checked or not.                     |          | `false`              |
+| disabled       | boolean                    | Boolean indicating if the checkbox is disabed or not.                     |          | `false`              |
+| onChange       | (checked: boolean) => void | Callback called when the checkbox "checked" value is changed.             |          |                      |
+| primaryColor   | ColorProp                  | The background color of the checkbox when it is checked.                  |          | `'primary-base'`     |
+| secondaryColor | ColorProp                  | The color of the checked icon when the checkbox is checked.               |          | `'text-primary'`     |
+| tertiaryColor  | ColorProp                  | The color of the checkbox when it is not checked (background and border). |          | `'background-light'` |
+
+---
+
 ## CreateInspection
 ### Description
 This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
@@ -142,7 +170,6 @@ inspection creation.
 **Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**
 
 ### Example
-
 ```tsx
 import { CreateInspection } from '@monkvision/common-ui-web';
 import { useNavigate } from 'react-router-dom';
