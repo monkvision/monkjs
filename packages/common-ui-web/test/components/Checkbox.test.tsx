@@ -58,10 +58,19 @@ describe('Checkbox component', () => {
     unmount();
   });
 
+  it('should display the labelon the screen', () => {
+    const label = 'test-label';
+    const { unmount } = render(<Checkbox label={label} />);
+
+    expect(screen.queryByText(label)).not.toBeNull();
+
+    unmount();
+  });
+
   it('should have the proper style when unchecked', () => {
     const tertiaryColor = '#012345';
     const alphaChanged = '#123456';
-    (changeAlpha as jest.Mock).mockImplementationOnce(() => alphaChanged);
+    (changeAlpha as jest.Mock).mockImplementation(() => alphaChanged);
     const { unmount } = render(<Checkbox tertiaryColor={tertiaryColor} checked={false} />);
 
     expect(changeAlpha).toHaveBeenCalledWith(tertiaryColor, 0.5);

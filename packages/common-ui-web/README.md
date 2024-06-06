@@ -159,6 +159,8 @@ function MyComponent() {
 | primaryColor   | ColorProp                  | The background color of the checkbox when it is checked.                  |          | `'primary-base'`     |
 | secondaryColor | ColorProp                  | The color of the checked icon when the checkbox is checked.               |          | `'text-primary'`     |
 | tertiaryColor  | ColorProp                  | The color of the checkbox when it is not checked (background and border). |          | `'background-light'` |
+| labelColor     | ColorProp                  | The color of the label.                                                   |          | `'text-primary'`     |
+| label          | string                     | The label of the checkbox.                                                |          |                      |
 
 ---
 

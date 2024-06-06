@@ -1,5 +1,7 @@
+import { useInteractiveStatus } from '@monkvision/common';
 import { CheckboxProps, useCheckboxStyles } from './hooks';
 import { Icon } from '../../icons';
+import { styles } from './Checkbox.styles';
 
 /**
  * Custom component implementing a simple checkbox.
@@ -11,24 +13,34 @@ export function Checkbox({
   primaryColor = 'primary-base',
   secondaryColor = 'text-primary',
   tertiaryColor = 'background-light',
+  labelColor = 'text-primary',
+  label,
 }: CheckboxProps) {
-  const { checkboxStyles, icon } = useCheckboxStyles({
+  const { status, eventHandlers } = useInteractiveStatus({ disabled });
+  const { checkboxStyles, icon, interactiveOverlayStyle, labelStyle } = useCheckboxStyles({
     checked,
-    disabled,
+    status,
     primaryColor,
     secondaryColor,
     tertiaryColor,
+    labelColor,
   });
 
   return (
-    <button
-      style={checkboxStyles}
-      disabled={disabled}
-      type='button'
-      onClick={() => onChange?.(!checked)}
-      data-testid='checkbox-btn'
-    >
-      {checked && <Icon icon='check' size={18} primaryColor={icon.primaryColor} />}
-    </button>
+    <div style={styles['container']}>
+      <div style={interactiveOverlayStyle}>
+        <button
+          style={checkboxStyles}
+          disabled={disabled}
+          type='button'
+          onClick={() => onChange?.(!checked)}
+          {...eventHandlers}
+          data-testid='checkbox-btn'
+        >
+          {checked && <Icon icon='check' size={18} primaryColor={icon.primaryColor} />}
+        </button>
+      </div>
+      {label && <div style={labelStyle}>{label}</div>}
+    </div>
   );
 }

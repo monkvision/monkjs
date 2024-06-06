@@ -1,4 +1,4 @@
-import { ColorProp } from '@monkvision/types';
+import { ColorProp, InteractiveStatus } from '@monkvision/types';
 import { changeAlpha, useMonkTheme } from '@monkvision/common';
 import { CSSProperties, useMemo } from 'react';
 import { styles } from './Checkbox.styles';
@@ -41,15 +41,25 @@ export interface CheckboxProps {
    * @default 'background-light'
    */
   tertiaryColor?: ColorProp;
+  /**
+   * The color of the label.
+   *
+   * @default 'text-primary'
+   */
+  labelColor?: ColorProp;
+  /**
+   * The label of the checkbox.
+   */
+  label?: string;
 }
 
 export function useCheckboxStyles(
   props: Required<
     Pick<
       CheckboxProps,
-      'checked' | 'disabled' | 'primaryColor' | 'secondaryColor' | 'tertiaryColor'
+      'checked' | 'primaryColor' | 'secondaryColor' | 'tertiaryColor' | 'labelColor'
     >
-  >,
+  > & { status: InteractiveStatus },
 ) {
   const { utils } = useMonkTheme();
 
@@ -57,23 +67,44 @@ export function useCheckboxStyles(
     const primary = utils.getColor(props.primaryColor);
     const secondary = utils.getColor(props.secondaryColor);
     const tertiary = utils.getColor(props.tertiaryColor);
+    const label = utils.getColor(props.labelColor);
     return {
       primary,
+      primary5: changeAlpha(primary, 0.05),
+      primary18: changeAlpha(primary, 0.18),
       secondary,
       tertiary,
-      tertiaryBg: changeAlpha(tertiary, 0.5),
+      tertiary5: changeAlpha(tertiary, 0.05),
+      tertiary18: changeAlpha(tertiary, 0.18),
+      tertiary50: changeAlpha(tertiary, 0.5),
+      label,
     };
   }, [props.primaryColor, props.secondaryColor, props.tertiaryColor]);
+
+  let interactiveOverlayBackgroundColor = 'transparent';
+  if (props.status === InteractiveStatus.HOVERED) {
+    interactiveOverlayBackgroundColor = props.checked ? colors.primary5 : colors.tertiary5;
+  } else if (props.status === InteractiveStatus.ACTIVE) {
+    interactiveOverlayBackgroundColor = props.checked ? colors.primary18 : colors.tertiary18;
+  }
 
   return {
     checkboxStyles: {
       ...styles['checkbox'],
-      ...(props.disabled ? styles['checkboxDisabled'] : {}),
-      backgroundColor: props.checked ? colors.primary : colors.tertiaryBg,
+      ...(props.status === InteractiveStatus.DISABLED ? styles['checkboxDisabled'] : {}),
+      backgroundColor: props.checked ? colors.primary : colors.tertiary50,
       borderColor: props.checked ? colors.primary : colors.tertiary,
     } as CSSProperties,
     icon: {
       primaryColor: colors.secondary,
+    },
+    interactiveOverlayStyle: {
+      ...styles['interactiveOverlay'],
+      backgroundColor: interactiveOverlayBackgroundColor,
+    },
+    labelStyle: {
+      ...styles['label'],
+      color: colors.label,
     },
   };
 }
