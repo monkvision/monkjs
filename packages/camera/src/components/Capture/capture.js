@@ -354,14 +354,14 @@ const Capture = forwardRef(({
     }
   }, [setAddDamageStatus, lastAddDamageHelpTimestamp]);
 
-  const handleOnFinishUploadPicture = useCallback(async () => {
+  const handleOnFinishUploadPicture = useCallback(async (state, a) => {
     try {
       await onNavigateToNextSight();
     } catch (err) {
       log([`Error in \`<Capture />\` \`goNextSight()\`: ${err}`], 'err');
     } finally {
       api.goNextSight();
-      onFinishUploadPicture();
+      onFinishUploadPicture(state, a);
     }
   }, [api]);
 
