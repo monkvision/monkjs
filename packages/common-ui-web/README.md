@@ -525,6 +525,46 @@ function App() {
 
 ---
 
+## TextField
+### Description
+Custom component implementing a simple one-liner text field.
+
+### Example
+
+```tsx
+import { useState } from 'react';
+import { TextField } from '@monkvision/common-ui-web';
+
+function App() {
+  const [value, setValue] = useState('');
+
+  return <TextField value={value} onChange={setValue} />;
+}
+```
+
+### Props
+| Prop            | Type                                                              | Description                                                                                           | Required | Default Value        |
+|-----------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|----------|----------------------|
+| type            | <code>'email' &#124; 'password' &#124; 'tel' &#124; 'text'</code> | The type of the underlying HTMLInput element.                                                         |          | `'text'`             |
+| value           | string                                                            | The value of the text field.                                                                          |          | `''`                 |
+| onChange        | (newValue: string) => void                                        | Callback called when the value of the text field changes.                                             |          |                      |
+| disabled        | boolean                                                           | Boolean indicating if the text field is disabled or not.                                              |          | `false`              |
+| highlighted     | boolean                                                           | Boolean indicating if the input should be highlighted (ex: in case of errors).                        |          | `false`              |
+| monospace       | boolean                                                           | Boolean indicating if the font family of the input should be monospace.                               |          | `false`              |
+| label           | string                                                            | The label of the text field.                                                                          |          | `''`                 |
+| placeholder     | string                                                            | The placeholder of the input.                                                                         |          | `''`                 |
+| unit            | string                                                            | The unit symbol of the text field.                                                                    |          |                      |
+| unitPosition    | <code>'left' &#124; 'right'</code>                                | The position of the unit symbol.                                                                      |          | `'left'`             |
+| icon            | IconName                                                          | The name of the icon on the left of the text field.                                                   |          |                      |
+| showClearButton | boolean                                                           | Boolean indicating if the button allowing the user to clear the field should be displayed or not.     |          | `true`               |
+| assistiveText   | string                                                            | Assistive text label under the text field.                                                            |          |                      |
+| fixedWidth      | number                                                            | Fixed width for the text field. If not set, the text field expands to the max width of its container. |          |                      |
+| focusColor      | ColorProp                                                         | The accent color of the text field when focused.                                                      |          | `'primary-base'`     |
+| neutralColor    | ColorProp                                                         | The accent color of the text field when not focused.                                                  |          | `'text-primary'`     |
+| backgroundColor | ColorProp                                                         | The background color of the text field.                                                               |          | `'background-light'` |
+
+---
+
 ## VehicleTypeAsset
 ### Description
 This component displays an example image for the given vehicle type.

@@ -13,5 +13,6 @@ export * from './Slider';
 export * from './Spinner';
 export * from './SwitchButton';
 export * from './TakePictureButton';
+export * from './TextField';
 export * from './VehicleTypeAsset';
 export * from './VehicleTypeSelection';
