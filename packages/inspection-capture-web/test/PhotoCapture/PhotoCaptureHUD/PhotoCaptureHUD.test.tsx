@@ -167,15 +167,19 @@ describe('PhotoCaptureHUD component', () => {
     unmount();
   });
 
-  const RETAKE_STATUSES = [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED];
+  const RETAKE_STATUSES = [
+    ImageStatus.NOT_COMPLIANT,
+    ImageStatus.UPLOAD_FAILED,
+    ImageStatus.UPLOAD_ERROR,
+  ];
 
   RETAKE_STATUSES.forEach((status) => {
     it(`should display the gallery badge if there are images with the ${status} status`, () => {
       const props = createProps();
-      props.images = [{ status }] as Image[];
+      props.images = [{ status }, { status }, { status: 'test' }] as Image[];
       const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-      expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: true });
+      expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: true, retakeCount: 2 });
 
       unmount();
     });
@@ -188,7 +192,7 @@ describe('PhotoCaptureHUD component', () => {
       .map((status) => ({ status } as Image));
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false });
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false, retakeCount: 0 });
 
     unmount();
   });
