@@ -135,10 +135,6 @@ function createBeautyShotImageData(
     });
   }
 
-  if (options.sightId === 'jgc21-zCrDwYWE') {
-    tasks.push({ name: 'dwqdqwqdq' } as any);
-  }
-
   const body: ApiImagePost = {
     acquisition: {
       strategy: 'upload_multipart_form_keys',
