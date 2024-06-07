@@ -135,6 +135,10 @@ function createBeautyShotImageData(
     });
   }
 
+  if (options.sightId === 'jgc21-zCrDwYWE') {
+    tasks.push({ name: 'dwqdqwqdq' } as any);
+  }
+
   const body: ApiImagePost = {
     acquisition: {
       strategy: 'upload_multipart_form_keys',
@@ -276,13 +280,17 @@ export async function addImage(
     });
     return { image, response, body };
   } catch (err) {
+    const status =
+      err instanceof Error && (err.name === 'TimeoutError' || err.message === 'Failed to fetch')
+        ? ImageStatus.UPLOAD_FAILED
+        : ImageStatus.UPLOAD_ERROR;
     dispatch?.({
       type: MonkActionType.CREATED_ONE_IMAGE,
       payload: {
         inspectionId: options.inspectionId,
         image: {
           ...localImage,
-          status: ImageStatus.UPLOAD_FAILED,
+          status,
         },
       },
     });

@@ -30,10 +30,10 @@ const CARD_BTN_TEST_ID = 'card-btn';
 const CARD_PREVIEW_TEST_ID = 'preview';
 const CARD_PREVIEW_OVERLAY_TEST_ID = 'preview-overlay';
 
-const changeAlphaColor = '#002200';
 const palette = {
   surface: { dark: '#010101' },
   alert: { base: '#123456' },
+  caution: { dark: '#123123' },
   text: { primary: '#654321' },
   primary: { base: '#001122', dark: '#445522' },
 };
@@ -41,7 +41,6 @@ const palette = {
 (useMonkTheme as jest.Mock).mockImplementation(() => ({
   palette,
 }));
-(changeAlpha as jest.Mock).mockImplementation(() => changeAlphaColor);
 
 function createProps(): InspectionGalleryItemCardProps {
   return {
@@ -92,9 +91,24 @@ describe('InspectionGalleryItemCard component', () => {
 
     const overlay = screen.getByTestId(CARD_PREVIEW_OVERLAY_TEST_ID);
     expect(useMonkTheme).toHaveBeenCalled();
-    expect(changeAlpha).toHaveBeenCalledWith(palette.alert.base, 0.5);
+    expect(changeAlpha).toHaveBeenCalledWith(palette.caution.dark, 0.5);
     expect(overlay).toHaveStyle({
-      backgroundColor: changeAlphaColor,
+      backgroundColor: palette.caution.dark,
+    });
+
+    unmount();
+  });
+
+  it('should display an overlay on top of the picture if the image upload is in error', () => {
+    const props = createProps();
+    (props.item as { image: Image }).image.status = ImageStatus.UPLOAD_ERROR;
+    const { unmount } = render(<InspectionGalleryItemCard {...props} />);
+
+    const overlay = screen.getByTestId(CARD_PREVIEW_OVERLAY_TEST_ID);
+    expect(useMonkTheme).toHaveBeenCalled();
+    expect(changeAlpha).toHaveBeenCalledWith(palette.caution.dark, 0.5);
+    expect(overlay).toHaveStyle({
+      backgroundColor: palette.caution.dark,
     });
 
     unmount();
@@ -109,7 +123,7 @@ describe('InspectionGalleryItemCard component', () => {
     expect(useMonkTheme).toHaveBeenCalled();
     expect(changeAlpha).toHaveBeenCalledWith(palette.alert.base, 0.5);
     expect(overlay).toHaveStyle({
-      backgroundColor: changeAlphaColor,
+      backgroundColor: palette.alert.base,
     });
 
     unmount();
@@ -118,12 +132,12 @@ describe('InspectionGalleryItemCard component', () => {
   it('should not display an overlay on top of the picture when not in capture mode', () => {
     const props = createProps();
     props.captureMode = false;
-    (props.item as { image: Image }).image.status = ImageStatus.UPLOAD_FAILED;
+    (props.item as { image: Image }).image.status = ImageStatus.NOT_COMPLIANT;
     const { unmount } = render(<InspectionGalleryItemCard {...props} />);
 
     const overlay = screen.getByTestId(CARD_PREVIEW_OVERLAY_TEST_ID);
     expect(overlay).not.toHaveStyle({
-      backgroundColor: changeAlphaColor,
+      backgroundColor: palette.alert.base,
     });
 
     unmount();

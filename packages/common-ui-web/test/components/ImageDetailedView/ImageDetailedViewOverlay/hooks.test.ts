@@ -31,6 +31,7 @@ describe('ImageDetailedViewOverlay hooks', () => {
       { status: ImageStatus.COMPLIANCE_RUNNING, value: true },
       { status: ImageStatus.NOT_COMPLIANT, value: false },
       { status: ImageStatus.UPLOAD_FAILED, value: false },
+      { status: ImageStatus.UPLOAD_ERROR, value: false },
     ].forEach(({ status, value }) => {
       it(`should return ${value} in captureMode if the image has the ${status} status`, () => {
         expect(
@@ -92,7 +93,36 @@ describe('ImageDetailedViewOverlay hooks', () => {
         title: 'upload-failed-title',
         description: 'upload-failed-description',
         iconColor: 'alert',
-        icon: 'error',
+        icon: 'wifi-off',
+        buttonColor: 'alert',
+      });
+
+      unmount();
+    });
+
+    it('should return the proper properties when the image upload is in error', () => {
+      const tObj = jest.fn((obj) => {
+        if (obj === imageStatusLabels[ImageStatus.UPLOAD_ERROR].title) {
+          return 'upload-error-title';
+        }
+        if (obj === imageStatusLabels[ImageStatus.UPLOAD_ERROR].description) {
+          return 'upload-error-description';
+        }
+        return null;
+      });
+      (useObjectTranslation as jest.Mock).mockImplementation(() => ({ tObj }));
+      const { result, unmount } = renderHook(useRetakeOverlay, {
+        initialProps: {
+          captureMode: true,
+          image: { status: ImageStatus.UPLOAD_ERROR },
+        } as ImageDetailedViewOverlayProps,
+      });
+
+      expect(result.current).toEqual({
+        title: 'upload-error-title',
+        description: 'upload-error-description',
+        iconColor: 'alert',
+        icon: 'sync-problem',
         buttonColor: 'alert',
       });
 
@@ -181,7 +211,8 @@ describe('ImageDetailedViewOverlay hooks', () => {
         primaryColor: 'text-black-0.5',
       },
       { status: ImageStatus.SUCCESS, icon: 'check-circle', primaryColor: 'text-black' },
-      { status: ImageStatus.UPLOAD_FAILED, icon: 'error', primaryColor: 'alert' },
+      { status: ImageStatus.UPLOAD_FAILED, icon: 'wifi-off', primaryColor: 'alert' },
+      { status: ImageStatus.UPLOAD_ERROR, icon: 'sync-problem', primaryColor: 'alert' },
       { status: ImageStatus.NOT_COMPLIANT, icon: 'error', primaryColor: 'alert' },
     ].forEach(({ status, icon, primaryColor }) => {
       it(`should return the proper icon for the ${status} status`, () => {

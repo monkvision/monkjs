@@ -28,7 +28,9 @@ export interface ImageLabelIcon {
 export function isImageValid(props: ImageDetailedViewOverlayProps): boolean {
   return (
     !props.captureMode ||
-    ![ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT].includes(props.image.status)
+    ![ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR, ImageStatus.NOT_COMPLIANT].includes(
+      props.image.status,
+    )
   );
 }
 
@@ -57,7 +59,16 @@ export function useRetakeOverlay(props: ImageDetailedViewOverlayProps): {
       title: tObj(imageStatusLabels[ImageStatus.UPLOAD_FAILED].title),
       description: tObj(imageStatusLabels[ImageStatus.UPLOAD_FAILED].description),
       iconColor: 'alert',
-      icon: 'error',
+      icon: 'wifi-off',
+      buttonColor: 'alert',
+    };
+  }
+  if (props.image.status === ImageStatus.UPLOAD_ERROR) {
+    return {
+      title: tObj(imageStatusLabels[ImageStatus.UPLOAD_ERROR].title),
+      description: tObj(imageStatusLabels[ImageStatus.UPLOAD_ERROR].description),
+      iconColor: 'alert',
+      icon: 'sync-problem',
       buttonColor: 'alert',
     };
   }
@@ -93,7 +104,9 @@ export function useImageLabelIcon(props: ImageDetailedViewOverlayProps): ImageLa
     case ImageStatus.SUCCESS:
       return { icon: 'check-circle', primaryColor: 'text-black' };
     case ImageStatus.UPLOAD_FAILED:
-      return { icon: 'error', primaryColor: 'alert' };
+      return { icon: 'wifi-off', primaryColor: 'alert' };
+    case ImageStatus.UPLOAD_ERROR:
+      return { icon: 'sync-problem', primaryColor: 'alert' };
     case ImageStatus.NOT_COMPLIANT:
       return { icon: 'error', primaryColor: 'alert' };
     default:

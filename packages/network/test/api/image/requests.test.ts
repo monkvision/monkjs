@@ -124,7 +124,7 @@ describe('Image requests', () => {
       expect(result).toEqual({ image, response, body });
     });
 
-    it('should properly update the state in case of upload fail', async () => {
+    it('should properly update the state in case of upload error', async () => {
       const err = new Error('Hello');
       jest.spyOn(ky, 'post').mockImplementationOnce(() => {
         throw err;
@@ -143,6 +143,51 @@ describe('Image requests', () => {
           }),
         },
       });
+      const localId = (dispatch as jest.Mock).mock.calls[0][0].payload.image.id;
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({
+            id: localId,
+            status: ImageStatus.UPLOAD_ERROR,
+          }),
+        },
+      });
+    });
+
+    it('should properly update the state in case of upload fail', async () => {
+      const err = new Error('Failed to fetch');
+      jest.spyOn(ky, 'post').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options = createBeautyShotImageOptions();
+      const dispatch = jest.fn();
+      await expect(addImage(options, apiConfig, dispatch)).rejects.toThrow(err);
+
+      const localId = (dispatch as jest.Mock).mock.calls[0][0].payload.image.id;
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({
+            id: localId,
+            status: ImageStatus.UPLOAD_FAILED,
+          }),
+        },
+      });
+    });
+
+    it('should properly update the state in case of upload timeout', async () => {
+      const err = new Error('Ftest');
+      err.name = 'TimeoutError';
+      jest.spyOn(ky, 'post').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options = createBeautyShotImageOptions();
+      const dispatch = jest.fn();
+      await expect(addImage(options, apiConfig, dispatch)).rejects.toThrow(err);
+
       const localId = (dispatch as jest.Mock).mock.calls[0][0].payload.image.id;
       expect(dispatch).toHaveBeenCalledWith({
         type: MonkActionType.CREATED_ONE_IMAGE,

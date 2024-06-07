@@ -112,9 +112,13 @@ export enum ImageStatus {
    */
   SUCCESS = 'success',
   /**
-   * The image couldn't be uploaded to the API.
+   * The image couldn't be uploaded to the API due to connection issues.
    */
   UPLOAD_FAILED = 'upload_failed',
+  /**
+   * An HTTP error resulted from the API call made to upload the image.
+   */
+  UPLOAD_ERROR = 'upload_error',
   /**
    * The image was successfully uploaded to the API, and the compliance chekc finished running but its result says that
    * the image is NOT compliant. The list of reasons describing why the image is not compliant is available in the
