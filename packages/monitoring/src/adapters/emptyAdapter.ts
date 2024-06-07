@@ -3,7 +3,7 @@ import { Primitive } from '@monkvision/types';
 import {
   LogContext,
   MonitoringAdapter,
-  Severity,
+  LogSeverity,
   Transaction,
   TransactionContext,
 } from './adapter';
@@ -64,7 +64,7 @@ export class EmptyMonitoringAdapter implements MonitoringAdapter {
     }
   }
 
-  log(msg: string, context?: LogContext | Severity): void {
+  log(msg: string, context?: LogContext | LogSeverity): void {
     if (this.options.showUnsupportedMethodWarnings) {
       console.warn(
         'Logging is not supported by the current Monk Monitoring Adapter and calling log will have no effect.',

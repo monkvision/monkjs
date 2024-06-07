@@ -1,4 +1,4 @@
-const { Severity, TransactionStatus } = jest.requireActual('@monkvision/monitoring');
+const { LogSeverity, TransactionStatus } = jest.requireActual('@monkvision/monitoring');
 
 const createTransactionMock = jest.fn(() => ({
   id: '',
@@ -22,7 +22,7 @@ export = {
   MonitoringAdapterMock,
 
   /* Actual exports */
-  Severity,
+  LogSeverity,
   TransactionStatus,
 
   /* Mocks */

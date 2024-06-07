@@ -5,7 +5,7 @@ global.console = {
   error: jest.fn(),
 } as any;
 
-import { Severity, DebugMonitoringAdapter } from '../../src';
+import { LogSeverity, DebugMonitoringAdapter } from '../../src';
 
 interface ConsoleSpy {
   debug: jest.SpyInstance | null;
@@ -36,25 +36,25 @@ describe('Debug Monitoring Adapter', () => {
 
     it('should be able to log elements to console.debug', () => {
       const msg = 'test debug';
-      adapter.log(msg, Severity.DEBUG);
+      adapter.log(msg, LogSeverity.DEBUG);
       expect(consoleSpy.debug).toHaveBeenCalledWith(msg);
     });
 
     it('should be able to log elements to console.info', () => {
       const msg = 'test info';
-      adapter.log(msg, Severity.INFO);
+      adapter.log(msg, LogSeverity.INFO);
       expect(consoleSpy.info).toHaveBeenCalledWith(msg);
     });
 
     it('should be able to log elements to console.warn', () => {
       const msg = 'test warn';
-      adapter.log(msg, Severity.WARNING);
+      adapter.log(msg, LogSeverity.WARNING);
       expect(consoleSpy.warn).toHaveBeenCalledWith(msg);
     });
 
     it('should be able to log elements to console.error', () => {
       const msg = 'test error';
-      adapter.log(msg, Severity.ERROR);
+      adapter.log(msg, LogSeverity.ERROR);
       expect(consoleSpy.error).toHaveBeenCalledWith(msg);
     });
 
@@ -69,7 +69,7 @@ describe('Debug Monitoring Adapter', () => {
       const msg = 'test debug extras';
       const extras = { test: 'debug extra' };
       adapter.log(msg, {
-        level: Severity.DEBUG,
+        level: LogSeverity.DEBUG,
         extras,
       });
       expect(consoleSpy.debug).toHaveBeenCalledWith(msg, extras);
@@ -79,7 +79,7 @@ describe('Debug Monitoring Adapter', () => {
       const msg = 'test info extras';
       const extras = { test: 'info extra' };
       adapter.log(msg, {
-        level: Severity.INFO,
+        level: LogSeverity.INFO,
         extras,
       });
       expect(consoleSpy.info).toHaveBeenCalledWith(msg, extras);
@@ -89,7 +89,7 @@ describe('Debug Monitoring Adapter', () => {
       const msg = 'test warn extras';
       const extras = { test: 'warn extra' };
       adapter.log(msg, {
-        level: Severity.WARNING,
+        level: LogSeverity.WARNING,
         extras,
       });
       expect(consoleSpy.warn).toHaveBeenCalledWith(msg, extras);
@@ -99,7 +99,7 @@ describe('Debug Monitoring Adapter', () => {
       const msg = 'test error extras';
       const extras = { test: 'error extra' };
       adapter.log(msg, {
-        level: Severity.ERROR,
+        level: LogSeverity.ERROR,
         extras,
       });
       expect(consoleSpy.error).toHaveBeenCalledWith(msg, extras);

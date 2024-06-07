@@ -3,7 +3,7 @@ import { Primitive } from '@monkvision/types';
 /**
  * Severity level of a log element.
  */
-export enum Severity {
+export enum LogSeverity {
   DEBUG = 'debug',
   INFO = 'info',
   WARNING = 'warning',
@@ -15,7 +15,7 @@ export enum Severity {
  * Context provided when logging something.
  */
 export interface LogContext {
-  level?: Severity;
+  level?: LogSeverity;
   extras?: Record<string, unknown>;
   tags?: Record<string, Primitive>;
 }
@@ -214,7 +214,7 @@ export interface MonitoringAdapter {
    * @param msg The message to log.
    * @param context Optional context that can be sent with the log.
    */
-  log: (msg: string, context?: LogContext | Severity) => void;
+  log: (msg: string, context?: LogContext | LogSeverity) => void;
   /**
    * Handle an error.
    *
