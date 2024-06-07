@@ -1,17 +1,17 @@
 import * as Sentry from '@sentry/react';
-import { Span } from '@sentry/types';
-import { Primitive } from '@monkvision/types';
+import { Span, Scope } from '@sentry/types';
 import {
   DebugMonitoringAdapter,
   LogContext,
   MeasurementUnit,
   MonitoringAdapter,
-  Severity,
+  LogSeverity,
   Transaction,
   TransactionContext,
   MeasurementContext,
   TransactionStatus,
 } from '@monkvision/monitoring';
+import { Primitive } from '@monkvision/types';
 
 /**
  * Config required when instantiating the Sentry Monitoring Adapter.
@@ -71,6 +71,27 @@ const defaultOptions: Omit<SentryConfig, 'dsn'> = {
   release: '',
 };
 
+function getScopeFn(context?: Omit<LogContext, 'level'>): (scope: Scope) => Scope {
+  return (scope: Scope) => {
+    if (context?.tags) {
+      scope.setTags(context.tags);
+    }
+    if (context?.extras) {
+      scope.setContext('extras', context.extras);
+    }
+    return scope;
+  };
+}
+
+function getLogContext(
+  context?: LogContext | LogSeverity,
+): ((scope: Scope) => Scope) | LogSeverity | undefined {
+  if (!context || typeof context === 'string') {
+    return context;
+  }
+  return getScopeFn(context);
+}
+
 /**
  * This is a Monitoring Adapter that connects the app to the Sentry platform.
  * There are four methods implemented which are `setUserId`, `log`, `handleError` and `createTransaction`,
@@ -105,14 +126,14 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
     Sentry.setUser({ id });
   }
 
-  override log(msg: string, context?: LogContext | Severity): void {
+  override log(msg: string, context?: LogContext | LogSeverity): void {
     super.log(msg, context);
-    Sentry.captureMessage(msg, context);
+    Sentry.captureMessage(msg, getLogContext(context));
   }
 
   override handleError(err: unknown, context?: Omit<LogContext, 'level'>): void {
     super.handleError(err, context);
-    Sentry.captureException(err, context);
+    Sentry.captureException(err, getScopeFn(context));
   }
 
   override createTransaction(context?: TransactionContext): Transaction {

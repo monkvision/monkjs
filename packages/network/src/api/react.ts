@@ -1,18 +1,34 @@
 import { Dispatch, useCallback } from 'react';
 import { MonkAction, useMonkState } from '@monkvision/common';
+import { LogContext, useMonitoring } from '@monkvision/monitoring';
 import { MonkApiConfig } from './config';
 import { MonkApi } from './api';
+import { MonkHTTPError } from './error';
 
-type MonkApiRequest<P extends Array<unknown>, A extends MonkAction, R> = (
+type MonkApiRequest<P extends Array<unknown>, A extends MonkAction, R extends Promise<unknown>> = (
   ...params: [...P, MonkApiConfig, Dispatch<A>?]
 ) => R;
 
-function reactify<P extends Array<unknown>, A extends MonkAction, R>(
+function reactify<P extends Array<unknown>, A extends MonkAction, R extends Promise<unknown>>(
   request: MonkApiRequest<P, A, R>,
   config: MonkApiConfig,
   dispatch: Dispatch<MonkAction>,
+  handleError: (err: unknown, context?: Omit<LogContext, 'level'>) => void,
 ): (...params: P) => R {
-  return useCallback((...params: P) => request(...params, config, dispatch), []);
+  return useCallback(
+    (...params: P) =>
+      request(...params, config, dispatch).catch((err) => {
+        const { body } = err as MonkHTTPError;
+        handleError(err, {
+          extras: {
+            body,
+            completeResponse: JSON.stringify(body),
+          },
+        });
+        throw err;
+      }) as R,
+    [],
+  );
 }
 
 /**
@@ -26,6 +42,7 @@ function reactify<P extends Array<unknown>, A extends MonkAction, R>(
  */
 export function useMonkApi(config: MonkApiConfig) {
   const { dispatch } = useMonkState();
+  const { handleError } = useMonitoring();
 
   return {
     /**
@@ -33,20 +50,20 @@ export function useMonkApi(config: MonkApiConfig) {
      *
      * @param options The options of the request.
      */
-    getInspection: reactify(MonkApi.getInspection, config, dispatch),
+    getInspection: reactify(MonkApi.getInspection, config, dispatch, handleError),
     /**
      * Create a new inspection with the given options. See the `CreateInspectionOptions` interface for more details.
      *
      * @param options The options of the inspection.
      * @see CreateInspectionOptions
      */
-    createInspection: reactify(MonkApi.createInspection, config, dispatch),
+    createInspection: reactify(MonkApi.createInspection, config, dispatch, handleError),
     /**
      * Add a new image to an inspection.
      *
      * @param options Upload options for the image.
      */
-    addImage: reactify(MonkApi.addImage, config, dispatch),
+    addImage: reactify(MonkApi.addImage, config, dispatch, handleError),
     /**
      * Update the progress status of an inspection task.
      *
@@ -56,7 +73,7 @@ export function useMonkApi(config: MonkApiConfig) {
      *
      * @param options The options of the request.
      */
-    updateTaskStatus: reactify(MonkApi.updateTaskStatus, config, dispatch),
+    updateTaskStatus: reactify(MonkApi.updateTaskStatus, config, dispatch, handleError),
     /**
      * Start some inspection tasks that were in the NOT_STARTED status. This function actually makes one API call for each
      * task provided using the `updateTaskStatus`.
@@ -68,6 +85,6 @@ export function useMonkApi(config: MonkApiConfig) {
      *
      * @see updateTaskStatus
      */
-    startInspectionTasks: reactify(MonkApi.startInspectionTasks, config, dispatch),
+    startInspectionTasks: reactify(MonkApi.startInspectionTasks, config, dispatch, handleError),
   };
 }

@@ -2,7 +2,14 @@ jest.mock('@sentry/react');
 Object.defineProperty(global.console, 'info', { value: jest.fn() });
 Object.defineProperty(global.console, 'error', { value: jest.fn() });
 
-import { MeasurementContext, TransactionContext, TransactionStatus } from '@monkvision/monitoring';
+import { Scope } from '@sentry/types';
+import {
+  LogContext,
+  MeasurementContext,
+  LogSeverity,
+  TransactionContext,
+  TransactionStatus,
+} from '@monkvision/monitoring';
 import { Transaction } from '@sentry/react';
 import * as Sentry from '@sentry/react';
 import { SentryMonitoringAdapter } from '../src';
@@ -14,6 +21,16 @@ const defaultConfiguration = {
   release: '1.0',
   tracesSampleRate: 0.025,
 };
+
+function expectScopeFunction(
+  scopeFn: (scope: Scope) => Scope,
+  context: Omit<LogContext, 'level'>,
+): void {
+  const scope = { setTags: jest.fn(), setContext: jest.fn(), test: 'hello' } as unknown as Scope;
+  expect(scopeFn(scope)).toEqual(scope);
+  expect(scope.setTags).toHaveBeenCalledWith(context.tags);
+  expect(scope.setContext).toHaveBeenCalledWith('extras', context.extras);
+}
 
 describe('Sentry Monitoring Adapter', () => {
   afterEach(() => {
@@ -34,13 +51,37 @@ describe('Sentry Monitoring Adapter', () => {
       adapter.log('test log');
       expect(Sentry.captureMessage).toHaveBeenCalledWith('test log', undefined);
     });
+
+    it('should pass the severity along', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      adapter.log('test log', LogSeverity.ERROR);
+      expect(Sentry.captureMessage).toHaveBeenCalledWith(expect.anything(), LogSeverity.ERROR);
+    });
+
+    it('should properly map the log context', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const context = { tags: { hello: 'world' }, extras: { test: { hello: 'test' } } };
+      adapter.log('test log', context);
+      expect(Sentry.captureMessage).toHaveBeenCalledWith(expect.anything(), expect.any(Function));
+      const scopeFn = (Sentry.captureMessage as jest.Mock).mock.calls[0][1];
+      expectScopeFunction(scopeFn, context);
+    });
   });
 
   describe('handleError function', () => {
     it('should log a message in sentry', () => {
       const adapter = new SentryMonitoringAdapter(defaultConfiguration);
       adapter.handleError('test error');
-      expect(Sentry.captureException).toHaveBeenCalledWith('test error', undefined);
+      expect(Sentry.captureException).toHaveBeenCalledWith('test error', expect.anything());
+    });
+
+    it('should properly map the log context', () => {
+      const adapter = new SentryMonitoringAdapter(defaultConfiguration);
+      const context = { tags: { hello: 'world' }, extras: { test: { hello: 'test' } } };
+      adapter.handleError('test log', context);
+      expect(Sentry.captureException).toHaveBeenCalledWith(expect.anything(), expect.any(Function));
+      const scopeFn = (Sentry.captureException as jest.Mock).mock.calls[0][1];
+      expectScopeFunction(scopeFn, context);
     });
   });
 

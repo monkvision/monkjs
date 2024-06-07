@@ -105,8 +105,8 @@ export const Login = i18nWrap(({ onLoginSuccessful, lang, style = {} }: LoginPro
 
   return (
     <div style={{ ...rootStyles, ...styles['container'], ...style }}>
-      {isExpired && <div style={styles['error-message']}>{t('errors.token-expired')}</div>}
-      {loading.error && <div style={styles['error-message']}>{t(loading.error)}</div>}
+      {isExpired && <div style={styles['errorMessage']}>{t('errors.token-expired')}</div>}
+      {loading.error && <div style={styles['errorMessage']}>{t(loading.error)}</div>}
       {authToken && config?.allowManualLogin && 'hi'}
       {authToken && config?.allowManualLogin && (
         <Button primaryColor='alert' loading={loading} onClick={logout}>

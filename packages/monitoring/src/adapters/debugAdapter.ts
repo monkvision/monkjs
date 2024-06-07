@@ -1,12 +1,12 @@
-import { LogContext, Severity } from './adapter';
+import { LogContext, LogSeverity } from './adapter';
 import { EmptyAdapterOptions, EmptyMonitoringAdapter } from './emptyAdapter';
 
-const CONSOLE_LOG_FUNCTIONS: { [severity in Severity]: (...data: any[]) => void } = {
-  [Severity.DEBUG]: console.debug,
-  [Severity.INFO]: console.info,
-  [Severity.WARNING]: console.warn,
-  [Severity.ERROR]: console.error,
-  [Severity.FATAL]: console.error,
+const CONSOLE_LOG_FUNCTIONS: { [severity in LogSeverity]: (...data: any[]) => void } = {
+  [LogSeverity.DEBUG]: console.debug,
+  [LogSeverity.INFO]: console.info,
+  [LogSeverity.WARNING]: console.warn,
+  [LogSeverity.ERROR]: console.error,
+  [LogSeverity.FATAL]: console.error,
 };
 
 /**
@@ -38,20 +38,20 @@ export class DebugMonitoringAdapter extends EmptyMonitoringAdapter {
     };
   }
 
-  override log(msg: string, context?: LogContext | Severity): void {
+  override log(msg: string, context?: LogContext | LogSeverity): void {
     const loggingFunction = DebugMonitoringAdapter.getLoggingFunction(context);
     loggingFunction(msg, context);
   }
 
   override handleError(err: unknown, context?: Omit<LogContext, 'level'>): void {
-    const loggingFunction = DebugMonitoringAdapter.getLoggingFunction(Severity.ERROR);
+    const loggingFunction = DebugMonitoringAdapter.getLoggingFunction(LogSeverity.ERROR);
     loggingFunction(err, context);
   }
 
   private static createLoggingFunction(
     consoleFunction: (...data: any[]) => void,
-  ): (msg: unknown, context?: LogContext | Severity) => void {
-    return (msg: unknown, context?: LogContext | Severity) => {
+  ): (msg: unknown, context?: LogContext | LogSeverity) => void {
+    return (msg: unknown, context?: LogContext | LogSeverity) => {
       if (typeof context === 'object' && context.extras) {
         return consoleFunction(msg, context.extras);
       }
@@ -60,9 +60,9 @@ export class DebugMonitoringAdapter extends EmptyMonitoringAdapter {
   }
 
   private static getLoggingFunction(
-    context?: LogContext | Severity,
-  ): (msg: unknown, context?: LogContext | Severity) => void {
-    let severity = Severity.INFO;
+    context?: LogContext | LogSeverity,
+  ): (msg: unknown, context?: LogContext | LogSeverity) => void {
+    let severity = LogSeverity.INFO;
     if (typeof context === 'string') {
       severity = context;
     } else if (typeof context === 'object' && context.level) {

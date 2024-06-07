@@ -119,14 +119,16 @@ export function PhotoCaptureHUD({
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
-  const showGalleryBadge = useMemo(
+  const { trackEvent } = useAnalytics();
+  const retakeCount = useMemo(
     () =>
-      images.some((image) =>
-        [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED].includes(image.status),
-      ),
+      images.filter((image) =>
+        [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR].includes(
+          image.status,
+        ),
+      ).length,
     [images],
   );
-  const { trackEvent } = useAnalytics();
 
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
@@ -165,8 +167,8 @@ export function PhotoCaptureHUD({
           !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
         }
         showCloseButton={showCloseButton}
-        showGalleryBadge={showGalleryBadge}
-        retakeCount={images.filter((image) => image.status === ImageStatus.NOT_COMPLIANT).length}
+        showGalleryBadge={retakeCount > 0}
+        retakeCount={retakeCount}
       />
       <PhotoCaptureHUDOverlay
         inspectionId={inspectionId}

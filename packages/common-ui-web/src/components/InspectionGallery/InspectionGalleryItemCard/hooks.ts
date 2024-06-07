@@ -42,7 +42,9 @@ export function useInspectionGalleryItemStatusIconName({
     case ImageStatus.SUCCESS:
       return 'check-circle';
     case ImageStatus.UPLOAD_FAILED:
-      return 'error';
+      return 'wifi-off';
+    case ImageStatus.UPLOAD_ERROR:
+      return 'sync-problem';
     case ImageStatus.NOT_COMPLIANT:
       return 'error';
     default:
@@ -66,7 +68,8 @@ export function useInspectionGalleryItemCardStyles({
   const colors = useMemo(
     () => ({
       previewBackground: changeAlpha(palette.surface.dark, 0.56),
-      previewOverlayBackground: changeAlpha(palette.alert.base, 0.5),
+      previewOverlayBackgroundNetwork: changeAlpha(palette.caution.dark, 0.5),
+      previewOverlayBackgroundCompliance: changeAlpha(palette.alert.base, 0.5),
       labelBackground: changeAlpha(palette.surface.dark, 0.32),
     }),
     [palette],
@@ -78,6 +81,16 @@ export function useInspectionGalleryItemCardStyles({
   }
   if (status === InteractiveStatus.ACTIVE) {
     labelColor = palette.primary.dark;
+  }
+
+  let previewOverlayBackground = 'transparent';
+  if (captureMode && !item.isAddDamage && item.isTaken) {
+    if ([ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR].includes(item.image.status)) {
+      previewOverlayBackground = colors.previewOverlayBackgroundNetwork;
+    }
+    if (item.image.status === ImageStatus.NOT_COMPLIANT) {
+      previewOverlayBackground = colors.previewOverlayBackgroundCompliance;
+    }
   }
 
   return {
@@ -94,13 +107,7 @@ export function useInspectionGalleryItemCardStyles({
     },
     previewOverlayStyle: {
       ...styles['previewOverlay'],
-      backgroundColor:
-        captureMode &&
-        !item.isAddDamage &&
-        item.isTaken &&
-        [ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT].includes(item.image.status)
-          ? colors.previewOverlayBackground
-          : 'transparent',
+      backgroundColor: previewOverlayBackground,
     },
     labelStyle: {
       ...styles['label'],

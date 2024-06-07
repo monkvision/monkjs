@@ -1,5 +1,7 @@
 import {
   CaptureAppConfig,
+  ComplianceIssue,
+  DEFAULT_COMPLIANCE_ISSUES,
   DeviceOrientation,
   IQA_COMPLIANCE_ISSUES,
   MonkApiPermission,
@@ -9,6 +11,19 @@ import {
 } from '@monkvision/types';
 import { flatten, getEnvOrThrow, uniq } from '@monkvision/common';
 import { sights } from '@monkvision/sights';
+
+const complianceIssues = DEFAULT_COMPLIANCE_ISSUES.filter(
+  (issue) =>
+    ![
+      ComplianceIssue.WRONG_ANGLE,
+      ComplianceIssue.TOO_ZOOMED,
+      ComplianceIssue.NOT_ZOOMED_ENOUGH,
+    ].includes(issue),
+);
+
+const frontRoofLeftComplianceIssues = complianceIssues.filter(
+  (issue) => issue !== ComplianceIssue.NO_VEHICLE,
+);
 
 const sightIds = {
   [SteeringWheelPosition.LEFT]: {
@@ -240,5 +255,13 @@ export const AppConfig: CaptureAppConfig = {
     'all-IqwSM3': IQA_COMPLIANCE_ISSUES,
     'all-rSvk2C': IQA_COMPLIANCE_ISSUES,
     'all-T4HrF8KA': IQA_COMPLIANCE_ISSUES,
+    'jgc21-imomJ2V0': frontRoofLeftComplianceIssues,
+    'fesc20-6GPUkfYn': frontRoofLeftComplianceIssues,
+    'haccord-oiY_yPTR': frontRoofLeftComplianceIssues,
+    'ffocus18-ZXKOomlv': frontRoofLeftComplianceIssues,
+    'tsienna20-is1tpnqR': frontRoofLeftComplianceIssues,
+    'ff150-Ttsc7q6V': frontRoofLeftComplianceIssues,
+    'ff150-3dkU10af': IQA_COMPLIANCE_ISSUES,
   },
+  complianceIssues,
 };

@@ -44,8 +44,24 @@ describe('SightSliderButton component', () => {
       disabled: true,
     },
     { status: ImageStatus.SUCCESS, icon: 'check-circle', primaryColor: 'primary', disabled: true },
-    { status: ImageStatus.UPLOAD_FAILED, icon: 'error', primaryColor: 'alert', disabled: false },
-    { status: ImageStatus.NOT_COMPLIANT, icon: 'error', primaryColor: 'alert', disabled: false },
+    {
+      status: ImageStatus.UPLOAD_FAILED,
+      icon: 'wifi-off',
+      primaryColor: 'alert-dark',
+      disabled: false,
+    },
+    {
+      status: ImageStatus.UPLOAD_ERROR,
+      icon: 'sync-problem',
+      primaryColor: 'alert-dark',
+      disabled: false,
+    },
+    {
+      status: ImageStatus.NOT_COMPLIANT,
+      icon: 'error',
+      primaryColor: 'alert-dark',
+      disabled: false,
+    },
     { status: null, icon: undefined, primaryColor: 'background-base', disabled: false },
   ].forEach(({ status, icon, primaryColor, disabled }) => {
     it(`should properly handle the ${status} status`, () => {

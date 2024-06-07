@@ -47,11 +47,15 @@ function useSliderStyle({
       sliderStyle.icon = 'check-circle';
       break;
     case ImageStatus.UPLOAD_FAILED:
-      sliderStyle.primaryColor = 'alert';
-      sliderStyle.icon = 'error';
+      sliderStyle.primaryColor = 'alert-dark';
+      sliderStyle.icon = 'wifi-off';
+      break;
+    case ImageStatus.UPLOAD_ERROR:
+      sliderStyle.primaryColor = 'alert-dark';
+      sliderStyle.icon = 'sync-problem';
       break;
     case ImageStatus.NOT_COMPLIANT:
-      sliderStyle.primaryColor = 'alert';
+      sliderStyle.primaryColor = 'alert-dark';
       sliderStyle.icon = 'error';
       break;
     default:

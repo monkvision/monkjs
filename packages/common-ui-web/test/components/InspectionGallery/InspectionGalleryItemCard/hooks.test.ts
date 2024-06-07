@@ -137,7 +137,22 @@ describe('InspectionGalleryItemCard hooks', () => {
         initialProps: { item, captureMode: true },
       });
 
-      expect(result.current).toEqual('error');
+      expect(result.current).toEqual('wifi-off');
+
+      unmount();
+    });
+
+    it('should return the error icon if the image upload is in error', () => {
+      const item: InspectionGalleryItem = {
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.UPLOAD_ERROR } as Image,
+      };
+      const { result, unmount } = renderHook(useInspectionGalleryItemStatusIconName, {
+        initialProps: { item, captureMode: true },
+      });
+
+      expect(result.current).toEqual('sync-problem');
 
       unmount();
     });

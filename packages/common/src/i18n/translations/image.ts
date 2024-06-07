@@ -74,6 +74,20 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       nl: 'Zorg ervoor dat je een goede verbinding hebt en neem de foto opnieuw.',
     },
   },
+  [ImageStatus.UPLOAD_ERROR]: {
+    title: {
+      en: 'Upload error',
+      fr: "Erreur d'upload",
+      de: 'Upload-Fehler',
+      nl: 'Fout bij uploaden',
+    },
+    description: {
+      en: 'An error occurred during the image upload.',
+      fr: "Une erreur s'est produite lors de l'upload de l'image.",
+      de: 'Beim Hochladen des Bildes ist ein Fehler aufgetreten.',
+      nl: 'Er is een fout opgetreden tijdens het uploaden van de afbeelding.',
+    },
+  },
   [ImageStatus.NOT_COMPLIANT]: {
     title: {
       en: 'Error',

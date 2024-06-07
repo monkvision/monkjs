@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { isMobileDevice, useObjectMemo } from '@monkvision/common';
 import { getValidCameraDeviceIds } from './utils';
@@ -176,6 +176,13 @@ export function useUserMedia(
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
+  const isActive = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isActive.current = false;
+    };
+  }, []);
 
   const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
@@ -232,31 +239,30 @@ export function useUserMedia(
         };
         const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
         str?.addEventListener('inactive', onStreamInactive);
-        setStream(str);
-
-        setDimensions(getStreamDimensions(str, true));
-        setIsLoading(false);
+        if (isActive.current) {
+          setStream(str);
+          setDimensions(getStreamDimensions(str, true));
+          setIsLoading(false);
+        }
       } catch (err) {
-        handleGetUserMediaError(err);
-        throw err;
+        if (isActive.current) {
+          handleGetUserMediaError(err);
+          throw err;
+        }
       }
     };
     getUserMedia().catch(handleError);
   }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 
   useEffect(() => {
-    let isActive = true;
     if (stream && videoRef.current) {
       // eslint-disable-next-line no-param-reassign
       videoRef.current.onresize = () => {
-        if (isActive) {
+        if (isActive.current) {
           setDimensions(getStreamDimensions(stream, false));
         }
       };
     }
-    return () => {
-      isActive = false;
-    };
   }, [stream]);
 
   return useObjectMemo({ stream, dimensions, error, retry, isLoading });

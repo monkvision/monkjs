@@ -69,14 +69,14 @@ If you want to create your own Monitoring Adapter, you just have to implement th
 by this package :
 
 ```typescript
-import { LogContext, MonitoringAdapter, Severity, Transaction, TransactionContext } from '@monkvision/monitoring';
+import { LogContext, MonitoringAdapter, LogSeverity, Transaction, TransactionContext } from '@monkvision/monitoring';
 
 class MyCustomMonitoringAdapter implements MonitoringAdapter {
   setUserId(id: string): void {
     // Set the current user ID
   }
 
-  log(msg: string, context?: LogContext | Severity): void {
+  log(msg: string, context?: LogContext | LogSeverity): void {
     // Log stuff
   }
 
@@ -94,10 +94,10 @@ Note that all the methods and features of the MonitoringAdapter interface are re
 custom adapter that does not implement all features, you can extend the `EmptyMonitoringAdapter` class :
 
 ```typescript
-import { LogContext, Severity, EmptyMonitoringAdapter } from '@monkvision/monitoring';
+import { LogContext, LogSeverity, EmptyMonitoringAdapter } from '@monkvision/monitoring';
 
 class MyCustomMonitoringAdapter extends EmptyMonitoringAdapter {
-  override log(msg: string, context?: LogContext | Severity): void {
+  override log(msg: string, context?: LogContext | LogSeverity): void {
     // ...
   }
 }
@@ -120,7 +120,7 @@ This method defines the current user using the application. Users are identified
 
 #### log
 ```typescript
-log: (msg: string, context?: LogContext | Severity) => void
+log: (msg: string, context?: LogContext | LogSeverity) => void
 ```
 This method logs messages. An optional context can be provided that can contain :
 - A log severity level (default: `info`)
@@ -181,10 +181,10 @@ render((<MonitoringProvider adapter={adapter}><App/></MonitoringProvider>), cont
 ```
 
 ```typescript
-import { LogContext, Severity, EmptyMonitoringAdapter } from '@monkvision/monitoring';
+import { LogContext, LogSeverity, EmptyMonitoringAdapter } from '@monkvision/monitoring';
 
 class MyCustomMonitoringAdapter extends EmptyMonitoringAdapter {
-  override log(msg: string, context?: LogContext | Severity): void {
+  override log(msg: string, context?: LogContext | LogSeverity): void {
     // ...
   }
 }

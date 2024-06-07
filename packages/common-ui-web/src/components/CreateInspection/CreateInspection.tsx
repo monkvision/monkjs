@@ -83,9 +83,9 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
       {loading.isLoading && <Spinner size={80} />}
       {!loading.isLoading && loading.error && (
         <>
-          <div style={styles['error-message']}>{t(loading.error)}</div>
+          <div style={styles['errorMessage']}>{t(loading.error)}</div>
           {loading.error === CreateInspectionError.CREATE_INSPECTION && (
-            <div style={styles['retry-btn-container']}>
+            <div style={styles['retryBtnContainer']}>
               <Button variant='outline' icon='refresh' onClick={handleCreateInspection}>
                 {t('errors.retry')}
               </Button>

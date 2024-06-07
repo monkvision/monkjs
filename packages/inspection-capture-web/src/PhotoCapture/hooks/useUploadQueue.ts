@@ -152,10 +152,11 @@ export function useUploadQueue({
       const uploadDurationMs = Date.now() - startTs;
       eventHandlers?.forEach((handlers) => handlers.onUploadSuccess?.(uploadDurationMs));
     } catch (err) {
-      if (err instanceof Error) {
-        if (err.name === 'TimeoutError' || err.message === 'Failed to fetch') {
-          eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
-        }
+      if (
+        err instanceof Error &&
+        (err.name === 'TimeoutError' || err.message === 'Failed to fetch')
+      ) {
+        eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
       }
       handleError(err);
       throw err;
