@@ -15,18 +15,16 @@ export interface WindowDimensions extends PixelDimensions {
  * Custom hook used to listen to the browser window resize event and keep track of the current dimensions of the
  * inner window.
  */
-export function useWindowDimensions(): WindowDimensions | null {
-  const [dimensions, setDimensions] = useState<WindowDimensions | null>(null);
-
+export function useWindowDimensions(): WindowDimensions {
+  const getWindowDimensions = () =>
+    ({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      isPortrait: window.innerHeight - window.innerWidth > 0,
+    } as WindowDimensions);
+  const [dimensions, setDimensions] = useState<WindowDimensions>(getWindowDimensions());
   useLayoutEffect(() => {
-    const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isPortrait: window.innerHeight - window.innerWidth > 0,
-      });
-    };
-
+    const handleResize = () => setDimensions(getWindowDimensions);
     handleResize();
     window.addEventListener('resize', handleResize);
 
