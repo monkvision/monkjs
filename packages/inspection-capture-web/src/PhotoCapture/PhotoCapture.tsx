@@ -49,6 +49,7 @@ export interface PhotoCaptureProps
       | keyof CameraConfig
       | 'maxUploadDurationWarning'
       | 'useAdaptiveImageQuality'
+      | 'additionalTasks'
       | 'tasksBySight'
       | 'startTasksOnComplete'
       | 'showCloseButton'
@@ -100,6 +101,7 @@ export function PhotoCapture({
   sights,
   inspectionId,
   apiConfig,
+  additionalTasks,
   tasksBySight,
   startTasksOnComplete = true,
   onClose,
@@ -147,6 +149,7 @@ export function PhotoCapture({
     inspectionId,
     apiConfig,
     sights,
+    additionalTasks,
     tasksBySight,
     startTasksOnComplete,
     loading,
@@ -171,6 +174,7 @@ export function PhotoCapture({
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
+    additionalTasks,
     complianceOptions,
     eventHandlers: [adaptiveUploadEventHandlers, badConnectionWarningUploadEventHandlers],
   });

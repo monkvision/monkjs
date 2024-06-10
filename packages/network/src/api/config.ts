@@ -18,19 +18,30 @@ export interface MonkApiConfig {
   authToken: string;
 }
 
-export function getDefaultOptions(config: MonkApiConfig): Options {
+function getPrefixUrl(config?: MonkApiConfig): string | undefined {
+  if (!config) {
+    return undefined;
+  }
   const apiDomain = config.apiDomain.endsWith('/')
     ? config.apiDomain.substring(0, config.apiDomain.length - 1)
     : config.apiDomain;
-  const authorizationHeader = config.authToken.startsWith('Bearer ')
-    ? config.authToken
-    : `Bearer ${config.authToken}`;
+  return `https://${apiDomain}`;
+}
+
+function getAuthorizationHeader(config?: MonkApiConfig): string | undefined {
+  if (!config) {
+    return undefined;
+  }
+  return config.authToken.startsWith('Bearer ') ? config.authToken : `Bearer ${config.authToken}`;
+}
+
+export function getDefaultOptions(config?: MonkApiConfig): Options {
   return {
-    prefixUrl: `https://${apiDomain}`,
+    prefixUrl: getPrefixUrl(config),
     headers: {
       'Accept': 'application/json, text/plain, */*',
       'Access-Control-Allow-Origin': '*',
-      'Authorization': authorizationHeader,
+      'Authorization': getAuthorizationHeader(config),
       'X-Monk-SDK-Version': sdkVersion,
     },
     hooks: {

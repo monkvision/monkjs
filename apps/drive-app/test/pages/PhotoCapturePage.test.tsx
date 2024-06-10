@@ -1,16 +1,3 @@
-import { Sight, TaskName, VehicleType } from '@monkvision/types';
-
-jest.mock('../../src/config', () => ({
-  getSights: jest.fn(() => [
-    { id: 'test-1', tasks: [TaskName.DAMAGE_DETECTION] },
-    { id: 'test-2', tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS] },
-  ]),
-  getTasksBySight: jest.fn(() => ({
-    test: [TaskName.DAMAGE_DETECTION, TaskName.HUMAN_IN_THE_LOOP],
-  })),
-  enableCompliancePerSight: { hello: 'world' },
-}));
-
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';

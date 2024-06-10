@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { MonitoringProvider } from '@monkvision/monitoring';
 import { AnalyticsProvider } from '@monkvision/analytics';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { getEnvOrThrow, MonkThemeProvider } from '@monkvision/common';
+import { getEnvOrThrow } from '@monkvision/common';
 import { sentryMonitoringAdapter } from './sentry';
 import { posthogAnalyticsAdapter } from './posthog';
 import { AppRouter } from './components';
@@ -22,9 +22,7 @@ ReactDOM.render(
           prompt: 'login',
         }}
       >
-        <MonkThemeProvider>
-          <AppRouter />
-        </MonkThemeProvider>
+        <AppRouter />
       </Auth0Provider>
     </AnalyticsProvider>
   </MonitoringProvider>,

@@ -1,0 +1,6 @@
+{
+  "error": {
+    "message": "Impossible de récupérer la configuration de l'application. Veuillez réessayer dans quelques minutes.",
+    "retry": "Réessayer"
+  }
+}

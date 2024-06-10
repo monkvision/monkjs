@@ -1,4 +1,4 @@
-import { Sight, TaskName } from '@monkvision/types';
+import { CaptureAppConfig, Sight, TaskName } from '@monkvision/types';
 import { flatMap, LoadingState, uniq } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -7,7 +7,8 @@ import { useCallback } from 'react';
 /**
  * Parameters of the useStartTasksOnComplete hook.
  */
-export interface UseStartTasksOnCompleteParams {
+export interface UseStartTasksOnCompleteParams
+  extends Pick<CaptureAppConfig, 'additionalTasks' | 'tasksBySight' | 'startTasksOnComplete'> {
   /**
    * The inspection ID.
    */
@@ -24,19 +25,6 @@ export interface UseStartTasksOnCompleteParams {
    * Global loading state of the PhotoCapture component.
    */
   loading: LoadingState;
-  /**
-   * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
-   * sight will be used.
-   */
-  tasksBySight?: Record<string, TaskName[]>;
-  /**
-   * Value indicating if tasks should be started at the end of the inspection :
-   * - If not provided or if value is set to `false`, no tasks will be started.
-   * - If set to `true`, the tasks described by the `tasksBySight` param (or, if not provided, the default tasks of each
-   * sight) will be started.
-   * - If an array of tasks is provided, the tasks started will be the ones contained in the array.
-   */
-  startTasksOnComplete?: boolean | TaskName[];
 }
 
 /**
@@ -48,17 +36,23 @@ const TASKS_NOT_TO_START = [TaskName.HUMAN_IN_THE_LOOP];
 
 function getTasksToStart({
   sights,
+  additionalTasks,
   tasksBySight,
   startTasksOnComplete,
 }: Pick<
   UseStartTasksOnCompleteParams,
-  'sights' | 'tasksBySight' | 'startTasksOnComplete'
+  'sights' | 'additionalTasks' | 'tasksBySight' | 'startTasksOnComplete'
 >): TaskName[] {
   let tasks: TaskName[];
   if (Array.isArray(startTasksOnComplete)) {
     tasks = startTasksOnComplete;
   } else {
     tasks = uniq(flatMap(sights, (sight) => tasksBySight?.[sight.id] ?? sight.tasks));
+    additionalTasks?.forEach((additionalTask) => {
+      if (!tasks.includes(additionalTask)) {
+        tasks.push(additionalTask);
+      }
+    });
   }
   return tasks.filter((task) => !TASKS_NOT_TO_START.includes(task));
 }
@@ -71,6 +65,7 @@ export function useStartTasksOnComplete({
   inspectionId,
   apiConfig,
   sights,
+  additionalTasks,
   tasksBySight,
   startTasksOnComplete,
   loading,
@@ -82,7 +77,7 @@ export function useStartTasksOnComplete({
     if (!startTasksOnComplete) {
       return;
     }
-    const names = getTasksToStart({ sights, tasksBySight, startTasksOnComplete });
+    const names = getTasksToStart({ sights, additionalTasks, tasksBySight, startTasksOnComplete });
 
     loading.start();
     try {

@@ -91,6 +91,18 @@ this documentation for the `updateTaskStatus` function.**
 |-----------|-----------------------------|----------------------------------------------------------|----------|
 | options   | StartInspectionTasksOptions | The options of the request.                              | ✔️       |
 
+### getLiveConfig
+```typescript
+import { MonkApi } from '@monkvision/network';https://acvauctions.fls.jetbrains.com
+
+MonkApi.getLiveConfig(id);
+```
+
+Fetch a webapp live configuration from the API.
+
+| Parameter | Type   | Description                       | Required |
+|-----------|--------|-----------------------------------|----------|
+| id        | string | The ID of the live config to get. | ✔️       |
 
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This

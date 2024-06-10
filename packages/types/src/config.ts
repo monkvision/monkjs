@@ -39,6 +39,10 @@ export type CameraConfig = Partial<CompressionOptions> & {
 export type CaptureAppConfig = CameraConfig &
   Partial<ComplianceOptions> & {
     /**
+     * An optional list of additional tasks to run on every Sight of the inspection.
+     */
+    additionalTasks?: TaskName[];
+    /**
      * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
      * sight will be used.
      */
@@ -172,7 +176,7 @@ export type LiveConfig = CaptureAppConfig & {
    */
   id: string;
   /**
-   * The name of the live config.
+   * The description of the configuration.
    */
-  name?: string;
+  description: string;
 };

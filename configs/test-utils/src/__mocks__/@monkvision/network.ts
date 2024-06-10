@@ -6,6 +6,7 @@ const MonkApi = {
   addImage: jest.fn(() => Promise.resolve()),
   updateTaskStatus: jest.fn(() => Promise.resolve()),
   startInspectionTasks: jest.fn(() => Promise.resolve()),
+  getLiveConfig: jest.fn(() => Promise.resolve({})),
 };
 
 export = {

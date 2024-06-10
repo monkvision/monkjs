@@ -1,6 +1,7 @@
 import { getInspection, createInspection } from './inspection';
 import { addImage } from './image';
 import { startInspectionTasks, updateTaskStatus } from './task';
+import { getLiveConfig } from './liveConfigs';
 
 /**
  * Object regrouping the different API requests available to communicate with the API using the `@monkvision/network`
@@ -12,4 +13,5 @@ export const MonkApi = {
   addImage,
   updateTaskStatus,
   startInspectionTasks,
+  getLiveConfig,
 };

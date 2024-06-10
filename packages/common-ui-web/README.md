@@ -134,6 +134,36 @@ function App() {
 
 ---
 
+## Checkbox
+### Description
+Custom component implementing a simple checkbox.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { Checkbox } from '@monkvision/common-ui-web';
+
+function MyComponent() {
+  const [checked, setchecked] = useState(false);
+
+  return <Checkbox checked={checked} onChange={setchecked} />;
+}
+```
+
+### Props
+| Prop           | Type                       | Description                                                               | Required | Default Value        |
+|----------------|----------------------------|---------------------------------------------------------------------------|----------|----------------------|
+| checked        | boolean                    | Boolean indicating if the checkbox is checked or not.                     |          | `false`              |
+| disabled       | boolean                    | Boolean indicating if the checkbox is disabed or not.                     |          | `false`              |
+| onChange       | (checked: boolean) => void | Callback called when the checkbox "checked" value is changed.             |          |                      |
+| primaryColor   | ColorProp                  | The background color of the checkbox when it is checked.                  |          | `'primary-base'`     |
+| secondaryColor | ColorProp                  | The color of the checked icon when the checkbox is checked.               |          | `'text-primary'`     |
+| tertiaryColor  | ColorProp                  | The color of the checkbox when it is not checked (background and border). |          | `'background-light'` |
+| labelColor     | ColorProp                  | The color of the label.                                                   |          | `'text-primary'`     |
+| label          | string                     | The label of the checkbox.                                                |          |                      |
+
+---
+
 ## CreateInspection
 ### Description
 This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
@@ -142,7 +172,6 @@ inspection creation.
 **Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**
 
 ### Example
-
 ```tsx
 import { CreateInspection } from '@monkvision/common-ui-web';
 import { useNavigate } from 'react-router-dom';
@@ -292,9 +321,44 @@ function App() {
 
 ---
 
-## CreateInspection
+## LiveConfigAppProvider
 ### Description
-This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle authentication.
+This component is used in Monk web applications that support Live Configurations. It acts as both an automatic live
+configuration fetcher and a MonkAppStateProvider.
+
+### Example
+
+```tsx
+import React, { useCallback } from 'react';
+import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
+
+function App() {
+  return (
+    <LiveConfigAppProvider id='my-live-config-id'>
+      ...
+    </LiveConfigAppProvider>
+  );
+}
+```
+
+### Props
+This component accepts the same props as the `MonkAppStateProvider` component (except for the `config` prop which is
+replaced by the live config). Please refer to the
+[@monkvision/common package documentation](https://github.com/monkvision/monkjs/blob/main/packages/common/README/APP_UTILS.md)
+for more details.
+
+| Prop        | Type                            | Description                                                           | Required | Default Value |
+|-------------|---------------------------------|-----------------------------------------------------------------------|----------|---------------|
+| id          | string                          | The ID of the application Live Config.                                | ✔️       |               |
+| localConfig | CaptureAppConfig                | Use this prop to configure a configuration on your local environment. |          |               |
+| lang        | <code>string &#124; null</code> | The language used by this component.                                  |          | `en`          |
+
+---
+
+## LoginPage
+### Description
+This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
+authentication.
 
 ### Example
 
@@ -460,6 +524,46 @@ function App() {
 | Prop | Type   | Description                       | Required | Default Value |
 |------|--------|-----------------------------------|----------|---------------|
 | size | number | The size of the button in pixels. |          | `60`          |
+
+---
+
+## TextField
+### Description
+Custom component implementing a simple one-liner text field.
+
+### Example
+
+```tsx
+import { useState } from 'react';
+import { TextField } from '@monkvision/common-ui-web';
+
+function App() {
+  const [value, setValue] = useState('');
+
+  return <TextField value={value} onChange={setValue} />;
+}
+```
+
+### Props
+| Prop            | Type                                                              | Description                                                                                           | Required | Default Value        |
+|-----------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|----------|----------------------|
+| type            | <code>'email' &#124; 'password' &#124; 'tel' &#124; 'text'</code> | The type of the underlying HTMLInput element.                                                         |          | `'text'`             |
+| value           | string                                                            | The value of the text field.                                                                          |          | `''`                 |
+| onChange        | (newValue: string) => void                                        | Callback called when the value of the text field changes.                                             |          |                      |
+| disabled        | boolean                                                           | Boolean indicating if the text field is disabled or not.                                              |          | `false`              |
+| highlighted     | boolean                                                           | Boolean indicating if the input should be highlighted (ex: in case of errors).                        |          | `false`              |
+| monospace       | boolean                                                           | Boolean indicating if the font family of the input should be monospace.                               |          | `false`              |
+| label           | string                                                            | The label of the text field.                                                                          |          | `''`                 |
+| placeholder     | string                                                            | The placeholder of the input.                                                                         |          | `''`                 |
+| unit            | string                                                            | The unit symbol of the text field.                                                                    |          |                      |
+| unitPosition    | <code>'left' &#124; 'right'</code>                                | The position of the unit symbol.                                                                      |          | `'left'`             |
+| icon            | IconName                                                          | The name of the icon on the left of the text field.                                                   |          |                      |
+| showClearButton | boolean                                                           | Boolean indicating if the button allowing the user to clear the field should be displayed or not.     |          | `true`               |
+| assistiveText   | string                                                            | Assistive text label under the text field.                                                            |          |                      |
+| fixedWidth      | number                                                            | Fixed width for the text field. If not set, the text field expands to the max width of its container. |          |                      |
+| focusColor      | ColorProp                                                         | The accent color of the text field when focused.                                                      |          | `'primary-base'`     |
+| neutralColor    | ColorProp                                                         | The accent color of the text field when not focused.                                                  |          | `'text-primary'`     |
+| backgroundColor | ColorProp                                                         | The background color of the text field.                                                               |          | `'background-light'` |
 
 ---
 

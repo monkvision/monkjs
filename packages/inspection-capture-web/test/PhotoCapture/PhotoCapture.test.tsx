@@ -70,6 +70,9 @@ function createProps(): PhotoCaptureProps {
     sights: [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']],
     inspectionId: 'test-inspection-test',
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
+    additionalTasks: [TaskName.DASHBOARD_OCR],
+    tasksBySight: { 'test-sight-1': [TaskName.IMAGE_EDITING] },
+    startTasksOnComplete: [TaskName.COMPLIANCES],
     enableCompliance: true,
     enableCompliancePerSight: ['test-sight-id'],
     useLiveCompliance: true,
@@ -129,11 +132,7 @@ describe('PhotoCapture component', () => {
   });
 
   it('should pass the proper params to the useStartTasksOnComplete hook', () => {
-    const props = {
-      ...createProps(),
-      startTasksOnComplete: true,
-      tasksBySight: { test: [TaskName.DAMAGE_DETECTION] },
-    };
+    const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
     expect(useLoadingState).toHaveBeenCalled();
@@ -142,6 +141,7 @@ describe('PhotoCapture component', () => {
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
       sights: props.sights,
+      additionalTasks: props.additionalTasks,
       tasksBySight: props.tasksBySight,
       startTasksOnComplete: props.startTasksOnComplete,
       loading,
@@ -201,6 +201,7 @@ describe('PhotoCapture component', () => {
     expect(useUploadQueue).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       apiConfig: props.apiConfig,
+      additionalTasks: props.additionalTasks,
       complianceOptions: {
         enableCompliance: props.enableCompliance,
         enableCompliancePerSight: props.enableCompliancePerSight,
