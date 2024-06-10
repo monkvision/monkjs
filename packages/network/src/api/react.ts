@@ -96,6 +96,9 @@ export function useMonkApi(config: MonkApiConfig) {
      *
      * @param id The ID of the live config to get.
      */
-    getLiveConfig: useCallback((id: string) => MonkApi.getLiveConfig(id).catch((err) => handleAPIError(err, handleError)), [handleError]),
+    getLiveConfig: useCallback(
+      (id: string) => MonkApi.getLiveConfig(id).catch((err) => handleAPIError(err, handleError)),
+      [handleError],
+    ),
   };
 }
