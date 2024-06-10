@@ -58,6 +58,13 @@ describe('useStartTasksOnComplete hook', () => {
   it('should start the tasks given in the startTasksOnComplete param', () => {
     const initialProps = {
       ...createParams(),
+      tasksBySight: {
+        'test-sight-1': [TaskName.DAMAGE_DETECTION],
+        'test-sight-2': [TaskName.DAMAGE_DETECTION],
+        'test-sight-3': [TaskName.DAMAGE_DETECTION],
+        'test-sight-4': [TaskName.DAMAGE_DETECTION],
+      },
+      additionalTasks: [TaskName.IMAGE_EDITING],
       startTasksOnComplete: [TaskName.DASHBOARD_OCR, TaskName.WHEEL_ANALYSIS],
     };
     const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
@@ -106,7 +113,7 @@ describe('useStartTasksOnComplete hook', () => {
     unmount();
   });
 
-  it('should start the sight tasks of tasksBySight in priority and fill with the default tasks', () => {
+  it('should start the sight tasks of tasksBySight in priority and fill with the default and additional tasks', () => {
     const defaultProps = createParams();
     const initialProps = {
       ...defaultProps,
@@ -116,7 +123,7 @@ describe('useStartTasksOnComplete hook', () => {
         { id: 'test-sight-2', tasks: [TaskName.WHEEL_ANALYSIS, TaskName.PRICING] },
         { id: 'test-sight-3', tasks: [TaskName.IMAGES_OCR, TaskName.PRICING] },
         {
-          id: 'test-sight-3',
+          id: 'test-sight-4',
           tasks: [TaskName.DAMAGE_DETECTION, TaskName.PRICING, TaskName.DASHBOARD_OCR],
         },
       ] as Sight[],
@@ -124,6 +131,7 @@ describe('useStartTasksOnComplete hook', () => {
         'test-sight-1': [TaskName.DAMAGE_DETECTION, TaskName.PRICING, TaskName.IMAGE_EDITING],
         'test-sight-2': [TaskName.REPAIR_ESTIMATE],
       },
+      additionalTasks: [TaskName.INSPECTION_PDF, TaskName.DASHBOARD_OCR],
     };
     const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
 
@@ -140,13 +148,12 @@ describe('useStartTasksOnComplete hook', () => {
         TaskName.REPAIR_ESTIMATE,
         TaskName.IMAGES_OCR,
         TaskName.DASHBOARD_OCR,
+        TaskName.INSPECTION_PDF,
       ],
     });
 
     unmount();
   });
-
-  it('should start both the tasks from the tasksBySight and sights tasks lists when both are defined', () => {});
 
   it('should properly handle loading and error in case of success', async () => {
     const promise = createFakePromise<void>();

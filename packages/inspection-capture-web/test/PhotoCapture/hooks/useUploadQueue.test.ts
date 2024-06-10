@@ -89,6 +89,34 @@ describe('useUploadQueue hook', () => {
       unmount();
     });
 
+    it('should properly add a sight image with additional tasks', async () => {
+      const initialProps = createParams();
+      const tasks = [TaskName.DAMAGE_DETECTION, TaskName.IMAGE_EDITING];
+      initialProps.additionalTasks = [TaskName.INSPECTION_PDF, TaskName.IMAGE_EDITING];
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+      expect(useMonkApi).toHaveBeenCalled();
+      const addImageMock = (useMonkApi as jest.Mock).mock.results[0].value.addImage;
+      expect(useQueue).toHaveBeenCalled();
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await process({ ...defaultUploadOptions, tasks });
+
+      expect(addImageMock).toHaveBeenCalledWith({
+        type: ImageType.BEAUTY_SHOT,
+        picture: defaultUploadOptions.picture,
+        sightId: defaultUploadOptions.sightId,
+        tasks: expect.arrayContaining([
+          TaskName.DAMAGE_DETECTION,
+          TaskName.IMAGE_EDITING,
+          TaskName.INSPECTION_PDF,
+        ]),
+        compliance: initialProps.complianceOptions,
+        inspectionId: initialProps.inspectionId,
+      });
+
+      unmount();
+    });
+
     it('should properly add an add damage images', async () => {
       const initialProps = createParams();
       const { unmount } = renderHook(useUploadQueue, { initialProps });

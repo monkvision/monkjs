@@ -6,10 +6,7 @@
   "fetchFromSearchParams": true,
   "allowCreateInspection": true,
   "createInspectionOptions": {
-    "tasks": [
-      "damage_detection",
-      "wheel_analysis"
-    ]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "apiDomain": "api.preview.monk.ai/v1",
   "startTasksOnComplete": true,
@@ -38,24 +35,9 @@
     "missing"
   ],
   "complianceIssuesPerSight": {
-    "all-IqwSM3": [
-      "blurriness",
-      "underexposure",
-      "overexposure",
-      "lens_flare"
-    ],
-    "all-rSvk2C": [
-      "blurriness",
-      "underexposure",
-      "overexposure",
-      "lens_flare"
-    ],
-    "all-T4HrF8KA": [
-      "blurriness",
-      "underexposure",
-      "overexposure",
-      "lens_flare"
-    ]
+    "all-IqwSM3": ["blurriness", "underexposure", "overexposure", "lens_flare"],
+    "all-rSvk2C": ["blurriness", "underexposure", "overexposure", "lens_flare"],
+    "all-T4HrF8KA": ["blurriness", "underexposure", "overexposure", "lens_flare"]
   },
   "defaultVehicleType": "cuv",
   "enableSteeringWheelPosition": true,
