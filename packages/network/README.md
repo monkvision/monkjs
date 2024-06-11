@@ -104,6 +104,19 @@ Fetch a webapp live configuration from the API.
 |-----------|--------|-----------------------------------|----------|
 | id        | string | The ID of the live config to get. | ✔️       |
 
+### updateInspectionVehicle
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.updateInspectionVehicule(options, apiConfig, dispatch);
+```
+
+Update the vehicle of an inspection.
+
+| Parameter | Type                           | Description                 | Required |
+|-----------|--------------------------------|-----------------------------|----------|
+| options   | UpdateInspectionVehicleOptions | The options of the request. | ✔️       |
+
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This
 custom hook returns a custom version of the `MonkApi` object described in the section above, in which the requests do

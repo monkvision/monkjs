@@ -299,11 +299,12 @@ function mapVehicle(response: ApiInspectionGet): Vehicle | undefined {
   return response?.vehicle
     ? {
         id: response.vehicle.id,
+        inspectionId: response.id,
         entityType: MonkEntityType.VEHICLE,
         brand: response.vehicle.brand,
         model: response.vehicle.model,
         plate: response.vehicle.plate,
-        type: response.vehicle.type,
+        type: response.vehicle.vehicle_type,
         mileageUnit: response.vehicle.mileage_unit as MileageUnit | undefined,
         mileageValue: response.vehicle.mileage_value,
         marketValueUnit: response.vehicle.market_value_unit as CurrencyCode | undefined,
@@ -311,7 +312,7 @@ function mapVehicle(response: ApiInspectionGet): Vehicle | undefined {
         vin: response.vehicle.vin,
         color: response.vehicle.color,
         exteriorCleanliness: response.vehicle.exterior_cleanliness,
-        interior_cleanliness: response.vehicle.interior_cleanliness,
+        interiorCleanliness: response.vehicle.interior_cleanliness,
         dateOfCirculation: response.vehicle.date_of_circulation,
         duplicateKeys: response.vehicle.duplicate_keys,
         expertiseRequested: response.vehicle.expertise_requested,

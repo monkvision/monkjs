@@ -18,6 +18,10 @@ export interface Vehicle extends MonkEntity {
    */
   entityType: MonkEntityType.VEHICLE;
   /**
+   * The inpectionId of the vehicle.
+   */
+  inspectionId?: string;
+  /**
    * The brand of the vehicle.
    */
   brand?: string;
@@ -64,7 +68,7 @@ export interface Vehicle extends MonkEntity {
   /**
    * The interior cleanliness of the vehicle.
    */
-  interior_cleanliness?: string;
+  interiorCleanliness?: string;
   /**
    * The date of circulation of the vehicle.
    */
