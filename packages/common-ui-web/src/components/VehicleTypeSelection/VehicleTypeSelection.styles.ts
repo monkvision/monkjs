@@ -15,6 +15,10 @@ export const styles: Styles = {
                   'slider' 1fr 
                   'button' 1fr/ auto`,
   },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   header: {
     alignSelf: 'stretch',
     display: 'flex',

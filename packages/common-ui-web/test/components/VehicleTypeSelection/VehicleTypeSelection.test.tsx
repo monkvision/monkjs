@@ -10,6 +10,16 @@ import { VehicleType } from '@monkvision/types';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button, VehicleTypeSelection } from '../../../src';
 import { VehicleTypeSelectionCard } from '../../../src/components/VehicleTypeSelection/VehicleTypeSelectionCard';
+import { useMonkAppState } from '@monkvision/common';
+import { useMonkApi } from '@monkvision/network';
+
+const appState = {
+  authToken: 'test-auth-token',
+  inspectionId: 'test-inspection-id',
+  config: {
+    apiDomain: 'test-api-domain',
+  },
+};
 
 describe('VehicleTypeSelection component', () => {
   afterEach(() => {
@@ -90,5 +100,48 @@ describe('VehicleTypeSelection component', () => {
     expect(onSelectVehicleType).toHaveBeenCalledWith(vehicleType);
 
     unmount();
+  });
+
+  it('should update the vehicle in the inspection when user confirms his vehicle choice', () => {
+    const onSelectVehicleType = jest.fn();
+    const updateInspectionVehicule = jest.fn(() => {});
+    (useMonkAppState as jest.Mock).mockImplementation(() => appState);
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ updateInspectionVehicule }));
+    const { unmount } = render(<VehicleTypeSelection onSelectVehicleType={onSelectVehicleType} />);
+
+    const { vehicleType } = (VehicleTypeSelectionCard as jest.Mock).mock.calls.find(
+      (args) => args[0].isSelected,
+    )[0];
+    expectPropsOnChildMock(Button, {
+      children: 'header.confirm',
+    });
+    const { onClick } = (Button as unknown as jest.Mock).mock.calls.find(
+      (args) => args[0].children === 'header.confirm',
+    )[0];
+
+    onClick();
+    expect(updateInspectionVehicule).toHaveBeenCalled();
+    expect(updateInspectionVehicule).toHaveBeenCalledWith({
+      inspectionId: appState.inspectionId,
+      vehicle: { type: vehicleType },
+    });
+
+    unmount();
+  });
+
+  it('should trigger the onSelectVehicle if VehicleType is found in the fetched inspection', async () => {
+    const onSelectVehicleType = jest.fn();
+    (useMonkAppState as jest.Mock).mockImplementation(() => appState);
+    const vehicleMock = {
+      entities: { vehicles: [{ inspectionId: 'test-inspection-id', type: 'van' }] },
+    };
+    const getInspection = jest.fn(() => Promise.resolve(vehicleMock));
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ getInspection }));
+    await act(async () => {
+      render(<VehicleTypeSelection onSelectVehicleType={onSelectVehicleType} />);
+    });
+
+    expect(onSelectVehicleType).toHaveBeenCalled();
+    expect(onSelectVehicleType).toHaveBeenCalledWith(vehicleMock.entities.vehicles[0].type);
   });
 });
