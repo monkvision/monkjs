@@ -18,6 +18,10 @@ export enum MonkActionType {
    * Clear and reset the state.
    */
   RESET_STATE = 'reset_state',
+  /**
+   * A vehicle has been updated.
+   */
+  UPDATED_VEHICLE = 'updated_vehicle',
 }
 
 /**
