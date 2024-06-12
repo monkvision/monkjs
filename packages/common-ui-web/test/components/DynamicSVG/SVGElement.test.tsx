@@ -22,7 +22,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -36,7 +36,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
 
     const { unmount } = render(<SVGElement element={element} />);
 
@@ -49,7 +49,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
     const groupIds = ['test-id', 'test-id-23'];
     const getAttributes = jest.fn();
 
@@ -66,7 +66,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
     const groupIds = ['test-id', 'test-id-23'];
     const getInnerText = jest.fn();
 
@@ -83,7 +83,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -102,7 +102,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -121,7 +121,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
     const props: Record<string, string> = { id: 'test-id', from: 'test-from' };
 
     const { unmount, container } = render(<SVGElement element={element} {...props} />);
@@ -140,7 +140,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -158,7 +158,7 @@ describe('SVGElement component', () => {
         { tagName: 'path', children: [], getAttribute: (a: string) => a },
       ],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
 
     const { unmount, container } = render(<SVGElement element={element} />);
 
@@ -175,7 +175,7 @@ describe('SVGElement component', () => {
       tagName: 'svg',
       children: [{ tagName: 'g', children: [], getAttribute: (a: string) => a }],
       getAttribute: (a: string) => a,
-    } as unknown as Element;
+    } as unknown as SVGSVGElement;
     const getAttributes = jest.fn();
     const getInnerText = jest.fn();
 
