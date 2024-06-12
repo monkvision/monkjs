@@ -53,7 +53,7 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
         ...Array.from(element.children).map((child, id) => (
           <SVGElement
             key={id.toString()}
-            element={child}
+            element={child as SVGSVGElement}
             groupIds={childrenGroupIds}
             getAttributes={getAttributes}
             getInnerText={getInnerText}

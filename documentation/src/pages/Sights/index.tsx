@@ -1,9 +1,9 @@
-import { LabelTable, ListItem, Tab, tabs, TopBar } from '@site/src/components';
+import { LabelTable, ListItem, SightCard, Tab, tabs, TopBar } from '@site/src/components';
 import Layout from '@theme/Layout';
-import React, { ReactElement, useMemo, useState } from 'react';
+import React, { FunctionComponentElement, useMemo, useState } from 'react';
 import styles from './styles.module.css';
 
-function lookupItems(lookup: string, items: ListItem[]): ReactElement[] {
+function lookupItems(lookup: string, items: ListItem[]): FunctionComponentElement<typeof SightCard>[] {
   const str = lookup.toLowerCase();
   const filtered = str
     ? items.filter((item) => item.lookups.some((lookupStr) => lookupStr.includes(str)))
