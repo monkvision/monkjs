@@ -41,7 +41,12 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
 }: SVGElementProps<T>) {
   const Tag = element.tagName as T;
   const attributes = useJSXTransformAttributes(element);
-  const customAttributes = useCustomAttributes({ element, groupIds, getAttributes });
+  const customAttributes = useCustomAttributes({
+    element,
+    groupIds,
+    getAttributes,
+    style: attributes.style,
+  });
   const tagAttr = { ...attributes, ...customAttributes, ...passThroughProps } as any;
   const innerHTML = useInnerHTML({ element, groupIds, getInnerText });
   const childrenGroupIds = getChildrenGroupIds({ element, groupIds });

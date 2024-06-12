@@ -3,7 +3,10 @@ import Layout from '@theme/Layout';
 import React, { FunctionComponentElement, useMemo, useState } from 'react';
 import styles from './styles.module.css';
 
-function lookupItems(lookup: string, items: ListItem[]): FunctionComponentElement<typeof SightCard>[] {
+function lookupItems(
+  lookup: string,
+  items: ListItem[],
+): FunctionComponentElement<typeof SightCard>[] {
   const str = lookup.toLowerCase();
   const filtered = str
     ? items.filter((item) => item.lookups.some((lookupStr) => lookupStr.includes(str)))

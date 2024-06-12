@@ -3,9 +3,9 @@ import { useColorMode } from '@docusaurus/theme-common';
 import { labels, sights } from '@monkvision/sights';
 import { Sight, VehicleDetails, VehicleModel } from '@monkvision/types';
 import { CopyPopup, CopyPopupHandle } from '@site/src/components';
+import { DynamicSVGCustomizationFunctions } from '@monkvision/common-ui-web';
 import { DynamicSVG } from '../../domOnly';
 import styles from './SightCard.module.css';
-import { DynamicSVGCustomizationFunctions } from '@monkvision/common-ui-web';
 
 const vehicleModelDisplayOverlays: Record<Exclude<VehicleModel, VehicleModel.ALL>, string> = {
   [VehicleModel.AUDIA7]: sights['audia7-WKJlxkiF'].overlay,
@@ -54,9 +54,12 @@ export function SightCard({ item }: SightCardProps) {
     copyPopupRef.current?.open();
   };
 
-  const getOverlayAttributes: DynamicSVGCustomizationFunctions['getAttributes'] = (element) => {
-    element.attributeStyleMap.set('stroke', isDarkTheme ? '#ffffff' : '#000000');
-    return null;
+  const getOverlayAttributes: DynamicSVGCustomizationFunctions['getAttributes'] = () => {
+    return {
+      style: {
+        stroke: isDarkTheme ? '#ffffff' : '#000000',
+      },
+    };
   };
 
   return (
