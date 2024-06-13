@@ -7,7 +7,11 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    gap: '20px',
     alignItems: 'center',
+    textAlign: 'center',
+    maxWidth: '70%',
+    margin: 'auto',
   },
   errorMessage: {
     textAlign: 'center',
