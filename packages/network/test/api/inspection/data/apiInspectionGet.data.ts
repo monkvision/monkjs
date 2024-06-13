@@ -169,6 +169,7 @@ export default {
       status: 'compliance_running',
       mimetype: 'image/jpeg',
       type: 'close_up',
+      sightId: undefined,
       detailedViewpoint: {
         centersOn: ['roof'],
         distance: undefined,
@@ -943,6 +944,7 @@ export default {
   vehicles: [
     {
       id: '051b7118-915f-4bec-0571-d367967967ab',
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
       entityType: 'VEHICLE',
       brand: 'Toyota',
       model: 'Aygo',
@@ -953,9 +955,9 @@ export default {
       marketValueUnit: undefined,
       mileageUnit: undefined,
       mileageValue: undefined,
-      type: undefined,
+      type: 'car',
       exteriorCleanliness: null,
-      interior_cleanliness: null,
+      interiorCleanliness: null,
       dateOfCirculation: null,
       duplicateKeys: null,
       expertiseRequested: null,

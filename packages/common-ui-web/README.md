@@ -611,9 +611,10 @@ function VehicleSelectionPage() {
 ```
 
 ### Props
-| Prop                  | Type                        | Description                                                                                                              | Required | Default Value                                              |
-|-----------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|----------|------------------------------------------------------------|
-| selectedVehicleType   | VehicleType                 | The initially selected vehicle type.                                                                                     |          | The center-most vehicle type in the list.                  |
+| Prop                  | Type                        | Description                                                                                                              | Required | Default Value                                        |
+|-----------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|----------|------------------------------------------------------|
+| selectedVehicleType   | VehicleType                 | The initially selected vehicle type.                                                                                     |          | The center-most vehicle type in the list.            |
 | availableVehicleTypes | VehicleType[]               | A list of available vehicle type to choose from. The order of the list will be modified to always follow the same order. |          | `[SUV, CUV, SEDAN, HATCHBACK, VAN, MINIVAN, PICKUP]` |
-| onSelectVehicleType   | (type: VehicleType) => void | Callback called when the user has selected a vehicle type.                                                               |          | The center-most vehicle type in the list.                  |
-| lang                  | string                      | The language to use by the component.                                                                                    |          | `en`                                                       |
+| onSelectVehicleType   | (type: VehicleType) => void | Callback called when the user has selected a vehicle type.                                                               |          | The center-most vehicle type in the list.            |
+| lang                  | string                      | The language to use by the component.                                                                                    |          | `en`                                                 |
+| patchInspection       | boolean                     | Boolean indicating if the patch vehicle inspection feature is enabled.                                                   |          | `true`                                               |

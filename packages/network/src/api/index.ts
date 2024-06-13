@@ -17,3 +17,4 @@ export {
   type UpdateTaskStatusOptions,
   type StartInspectionTasksOptions,
 } from './task';
+export { type UpdateInspectionVehicleOptions } from './vehicle';

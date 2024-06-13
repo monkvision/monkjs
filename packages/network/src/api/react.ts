@@ -100,5 +100,16 @@ export function useMonkApi(config: MonkApiConfig) {
       (id: string) => MonkApi.getLiveConfig(id).catch((err) => handleAPIError(err, handleError)),
       [handleError],
     ),
+    /**
+     * Update the vehicle of an inspection.
+     *
+     * @param options The options of the request.
+     */
+    updateInspectionVehicule: reactify(
+      MonkApi.updateInspectionVehicule,
+      config,
+      dispatch,
+      handleError,
+    ),
   };
 }

@@ -26,7 +26,6 @@ export interface ApiVehicleComponent {
   owner_info?: ApiOwnerInfo;
   plate?: string;
   trade_in_offer?: number;
-  type?: string;
   vehicle_quotation?: number;
   vehicle_type?: string;
   vin?: string;
