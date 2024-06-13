@@ -71,6 +71,7 @@ const config = {
           },
           { to: 'sights', label: 'Sights', position: 'left' },
           { to: 'icons', label: 'Icons', position: 'left' },
+          { to: 'configValidator', label: 'Config Validator', position: 'left' },
           {
             href: 'https://github.com/monkvision/monkjs',
             label: 'GitHub',

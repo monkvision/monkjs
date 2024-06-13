@@ -1,0 +1,36 @@
+.container {
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 10px;
+  background-color: var(--drag-and-drop-background);
+  border: solid var(--results-border-color) 2px;
+}
+
+.container.valid {
+  border-color: var(--results-valid);
+  color: var(--results-valid);
+}
+
+.container.invalid {
+  border-color: var(--results-invalid);
+  color: var(--results-invalid);
+}
+
+.error-message {
+  padding-top: 16px;
+}
+
+.error-message:not(:last-child) {
+  border-bottom: solid var(--results-invalid) 1px;
+  padding-bottom: 16px;
+}
+
+.error-message-at {
+  opacity: 0.7;
+  font-family: monospace;
+}
+
+.error-message-at > .label {
+  padding-left: 16px;
+  font-style: italic;
+}

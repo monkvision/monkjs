@@ -37,7 +37,7 @@ export type CameraConfig = Partial<CompressionOptions> & {
  * The configuration options for inspection capture applications.
  */
 export type CaptureAppConfig = CameraConfig &
-  Partial<ComplianceOptions> & {
+  ComplianceOptions & {
     /**
      * An optional list of additional tasks to run on every Sight of the inspection.
      */
