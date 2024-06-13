@@ -218,7 +218,6 @@ export function PhotoCapture({
   };
   const isViolatingEnforcedOrientation =
     enforceOrientation &&
-    dimensions &&
     (enforceOrientation === DeviceOrientation.PORTRAIT) !== dimensions.isPortrait;
 
   const hudProps: Omit<PhotoCaptureHUDProps, keyof CameraHUDProps> = {

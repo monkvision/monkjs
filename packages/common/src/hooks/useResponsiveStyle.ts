@@ -1,12 +1,12 @@
 import { CSSProperties, useCallback } from 'react';
-import { CSSMediaQuery, ResponsiveStyleProperties } from '@monkvision/types';
+import { ResponsiveStyleProperties } from '@monkvision/types';
 import { useWindowDimensions, WindowDimensions } from './useWindowDimensions';
 
 function areQueryConditionsMet(
-  query: CSSMediaQuery | null | undefined,
-  dimensions: WindowDimensions | null | undefined,
+  query: ResponsiveStyleProperties['__media'],
+  dimensions: WindowDimensions,
 ): boolean {
-  if (!query || !dimensions) {
+  if (!query) {
     return true;
   }
   if (query.maxWidth !== undefined && dimensions.width > query.maxWidth) {

@@ -2,10 +2,18 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
-    width: '100%',
     height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    width: '100%',
+    display: 'grid',
+    gridTemplate: `'title button' auto
+                    'slider slider' 1fr / 1fr auto`,
+    justifyItems: 'start',
+  },
+  containerSmall: {
+    __media: { maxWidth: 500 },
+    gridTemplate: `'title' 0
+                  'slider' 1fr 
+                  'button' 1fr/ auto`,
   },
   header: {
     alignSelf: 'stretch',
@@ -14,17 +22,26 @@ export const styles: Styles = {
     padding: '12px 50px',
   },
   title: {
-    display: 'flex',
-    alignItems: 'center',
+    gridArea: 'title',
     fontSize: 22,
+    padding: '50px',
+  },
+  button: {
+    gridArea: 'button',
+    margin: '10px',
+    placeSelf: 'center',
   },
   sliderContainer: {
-    flex: 1,
-    alignSelf: 'stretch',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    gridArea: 'slider',
+    width: '100%',
+    maxWidth: '100vw',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  sliderContainerSmall: {
+    __media: { maxWidth: 500 },
+    marginBottom: '0',
+    translate: '0 50%',
   },
   slider: {
     alignSelf: 'stretch',

@@ -19,13 +19,4 @@ describe('useItemListFillers hook', () => {
 
     unmount();
   });
-
-  it('should return 0 if the window dimensions are not defined', () => {
-    (useWindowDimensions as jest.Mock).mockImplementation(() => null);
-    const { result, unmount } = renderHook(useItemListFillers, { initialProps: 16 });
-
-    expect(result.current).toEqual(0);
-
-    unmount();
-  });
 });

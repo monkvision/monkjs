@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { i18nWrap, useI18nSync, useMonkTheme } from '@monkvision/common';
+import { i18nWrap, useI18nSync, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
 import { VehicleType } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { styles } from './VehicleTypeSelection.styles';
@@ -72,22 +72,32 @@ export const VehicleTypeSelection = i18nWrap(
     const { t } = useTranslation();
     const { rootStyles } = useMonkTheme();
     const sliderRef = useRef<HTMLDivElement>(null);
-
+    const { responsive } = useResponsiveStyle();
     useEffect(() => {
       const index = vehicleTypes.indexOf(selected);
       if (index >= 0) {
         setInitialScroll(false);
         scrollToSelectedVehicleType(sliderRef, index, !initialScroll);
       }
-    }, [vehicleTypes, selected]);
-
+    }, []);
     return (
-      <div style={{ ...rootStyles, ...styles['container'] }}>
-        <div style={styles['header']}>
-          <div style={styles['title']}>{t('header.title')}</div>
-          <Button onClick={() => onSelectVehicleType?.(selected)}>{t('header.confirm')}</Button>
-        </div>
-        <div style={styles['sliderContainer']}>
+      <div
+        style={{
+          ...rootStyles,
+          ...styles['container'],
+          ...responsive(styles['containerSmall']),
+        }}
+      >
+        <div style={styles['title']}>{t('header.title')}</div>
+        <Button style={styles['button']} onClick={() => onSelectVehicleType?.(selected)}>
+          {t('header.confirm')}
+        </Button>
+        <div
+          style={{
+            ...styles['sliderContainer'],
+            ...responsive(styles['sliderContainerSmall']),
+          }}
+        >
           <div style={styles['slider']} ref={sliderRef}>
             {vehicleTypes.map((v) => (
               <VehicleTypeSelectionCard

@@ -141,9 +141,7 @@ export function useImageDetailedViewOverlayStyles(props: ImageDetailedViewOverla
         ...styles['complianceRetakeButton'],
         ...responsive(styles['complianceRetakeButtonSmall']),
       },
-      size: (dimensions && dimensions.width >= SMALL_WIDTH_BREAKPOINT
-        ? 'normal'
-        : 'small') as ButtonSize,
+      size: (dimensions.width >= SMALL_WIDTH_BREAKPOINT ? 'normal' : 'small') as ButtonSize,
     },
     complianceMessageStyle: {
       ...styles['complianceMessage'],
