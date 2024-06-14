@@ -54,13 +54,11 @@ export function SightCard({ item }: SightCardProps) {
     copyPopupRef.current?.open();
   };
 
-  const getOverlayAttributes: DynamicSVGCustomizationFunctions['getAttributes'] = () => {
-    return {
-      style: {
-        stroke: isDarkTheme ? '#ffffff' : '#000000',
-      },
-    };
-  };
+  const getOverlayAttributes: DynamicSVGCustomizationFunctions['getAttributes'] = () => ({
+    style: {
+      stroke: isDarkTheme ? '#ffffff' : '#000000',
+    },
+  });
 
   return (
     <>
