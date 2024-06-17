@@ -24,11 +24,11 @@ export interface UpdateInspectionVehicleOptions {
  *
  * @param options The options of the request.
  * @param config The API config.
- * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * @param [_dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
  * state management for you.
  */
 
-export async function updateInspectionVehicule(
+export async function updateInspectionVehicle(
   options: UpdateInspectionVehicleOptions,
   config: MonkApiConfig,
   _dispatch?: Dispatch<MonkAction>,

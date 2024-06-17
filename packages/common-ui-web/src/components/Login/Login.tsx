@@ -9,6 +9,7 @@ import {
   useMonkTheme,
 } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
+import { useAnalytics } from '@monkvision/analytics';
 import { Button } from '../Button';
 import { i18nLogin } from './i18n';
 import { styles } from './Login.styles';
@@ -54,6 +55,7 @@ export const Login = i18nWrap(({ onLoginSuccessful, lang, style = {} }: LoginPro
   const loading = useLoadingState();
   const { authToken, setAuthToken, config } = useMonkAppState();
   const { handleError, setUserId } = useMonitoring();
+  const analytics = useAnalytics();
   const { login, logout } = useAuth();
   const { t } = useTranslation();
   const { rootStyles } = useMonkTheme();
@@ -93,6 +95,7 @@ export const Login = i18nWrap(({ onLoginSuccessful, lang, style = {} }: LoginPro
           const userId = token ? decodeMonkJwt(token) : undefined;
           if (userId?.sub) {
             setUserId(userId.sub);
+            analytics.setUserProperties({ authToken: userId.sub });
           }
         }
       })

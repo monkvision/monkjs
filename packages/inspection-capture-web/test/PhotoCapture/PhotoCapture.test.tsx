@@ -63,6 +63,7 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
       onUploadTimeout: jest.fn(),
     },
   })),
+  useTracking: jest.fn(),
 }));
 
 function createProps(): PhotoCaptureProps {

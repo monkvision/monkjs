@@ -5,6 +5,7 @@ import { useLoadingState, useObjectMemo } from '../hooks';
 import { MonkSearchParam, useMonkSearchParams } from './searchParams';
 import { MonkAppState, MonkAppStateContext } from './appState';
 import { useAppStateMonitoring } from './monitoring';
+import { useAppStateAnalytics } from './analytics';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
@@ -78,6 +79,7 @@ export function MonkAppStateProvider({
   const [steeringWheel, setSteeringWheel] = useState<SteeringWheelPosition | null>(null);
   const monkSearchParams = useMonkSearchParams();
   useAppStateMonitoring({ authToken, inspectionId, vehicleType, steeringWheel });
+  useAppStateAnalytics({ inspectionId });
 
   useEffect(() => {
     loading.onSuccess();

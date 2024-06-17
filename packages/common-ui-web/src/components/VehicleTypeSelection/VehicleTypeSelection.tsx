@@ -9,8 +9,9 @@ import {
 } from '@monkvision/common';
 import { VehicleType } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
-import { useMonkApi } from '@monkvision/network';
+import { decodeMonkJwt, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
+import { useAnalytics } from '@monkvision/analytics';
 import { styles } from './VehicleTypeSelection.styles';
 import { i18nVehicleTypeSelection } from './i18n';
 import { Button } from '../Button';
@@ -82,12 +83,13 @@ export const VehicleTypeSelection = i18nWrap(
   }: VehicleTypeSelectionProps) => {
     useI18nSync(lang);
     const { config, authToken, inspectionId } = useMonkAppState();
-    const { updateInspectionVehicule, getInspection } = useMonkApi({
+    const { updateInspectionVehicle, getInspection } = useMonkApi({
       authToken: authToken ?? '',
       apiDomain: config.apiDomain,
     });
     const loading = useLoadingState(true);
-    const { handleError } = useMonitoring();
+    const { handleError, setTags, setUserId } = useMonitoring();
+    const analytics = useAnalytics();
     const [initialScroll, setInitialScroll] = useState(true);
     const vehicleTypes = useMemo(
       () => getVehicleTypes(availableVehicleTypes),
@@ -103,10 +105,22 @@ export const VehicleTypeSelection = i18nWrap(
 
     const onValidate = (type: VehicleType) => {
       if (patchInspection && inspectionId) {
-        updateInspectionVehicule({ inspectionId, vehicle: { type } });
+        updateInspectionVehicle({ inspectionId, vehicle: { type } });
       }
       onSelectVehicleType?.(type);
     };
+
+    useEffect(() => {
+      if (inspectionId) {
+        setTags({ inspectionId });
+        analytics.setUserId(inspectionId);
+      }
+      const userId = authToken ? decodeMonkJwt(authToken) : undefined;
+      if (userId?.sub) {
+        setUserId(userId.sub);
+        analytics.setUserProperties({ authToken: userId.sub });
+      }
+    }, [inspectionId, authToken, analytics, setTags, setUserId]);
 
     useEffect(() => {
       const fetchInspection = async () => {
