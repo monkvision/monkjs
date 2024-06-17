@@ -35,6 +35,7 @@ import {
   useUploadQueue,
   useBadConnectionWarning,
   useAdaptiveCameraConfig,
+  useTracking,
 } from './hooks';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { styles } from './PhotoCapture.styles';
@@ -133,12 +134,13 @@ export function PhotoCapture({
     customComplianceThresholdsPerSight,
   });
   const { t } = useTranslation();
-  const { handleError } = useMonitoring();
+  const monitoring = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
   const dimensions = useWindowDimensions();
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
+  useTracking({ inspectionId, authToken: apiConfig.authToken });
   useComplianceAnalytics({ inspectionId, sights });
   const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
     useAdaptiveCameraConfig({
@@ -213,7 +215,7 @@ export function PhotoCapture({
       })
       .catch((err) => {
         loading.onError(err);
-        handleError(err);
+        monitoring.handleError(err);
       });
   };
   const isViolatingEnforcedOrientation =

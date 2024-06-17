@@ -46,7 +46,7 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
     authToken: authToken ?? '',
     apiDomain: config.apiDomain,
   });
-  const { setUserId } = useAnalytics();
+  const analytics = useAnalytics();
 
   const handleCreateInspection = () => {
     loading.start();
@@ -55,7 +55,6 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
         .then((res) => {
           loading.onSuccess();
           setInspectionId(res.id);
-          setUserId(res.id);
         })
         .catch((err) => {
           loading.onError(CreateInspectionError.CREATE_INSPECTION);
@@ -74,9 +73,10 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
       }
     } else {
       setTags({ inspectionId });
+      analytics.setUserId(inspectionId);
       onInspectionCreated?.();
     }
-  }, [inspectionId, setTags]);
+  }, [inspectionId, setTags, analytics]);
 
   return (
     <div style={styles['container']}>

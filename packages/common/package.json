@@ -25,6 +25,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@monkvision/analytics": "4.0.0",
     "@monkvision/monitoring": "4.0.0",
     "@monkvision/sights": "4.0.0",
     "@monkvision/types": "4.0.0",

@@ -3598,6 +3598,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/common@workspace:packages/common"
   dependencies:
+    "@monkvision/analytics": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
@@ -3880,7 +3881,7 @@ __metadata:
     eslint-utils: ^3.0.0
     jest: ^29.3.1
     mkdirp: ^1.0.4
-    posthog-js: ^1.130.1
+    posthog-js: ^1.139.1
     prettier: ^2.7.1
     regexpp: ^3.2.0
     rimraf: ^3.0.2
@@ -17876,13 +17877,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.130.1":
-  version: 1.130.1
-  resolution: "posthog-js@npm:1.130.1"
+"posthog-js@npm:^1.139.1":
+  version: 1.139.1
+  resolution: "posthog-js@npm:1.139.1"
   dependencies:
     fflate: ^0.4.8
     preact: ^10.19.3
-  checksum: fe6b1815237f07b69f1cbfecab9efaf044ff1438b914e44673c80d32a9008540430b2f47b321f32beaaf7feb1c6f69161182e6fd8d0b71a04eeace34e6940d14
+  checksum: 365f0aac0d7db27530bf58737211f9fc222c5ef81b34c9ab9a9c76f85877f8def3bb8630da7a2b6688fd961b6b4388902f189611e156cc11248ab88cdf1a3393
   languageName: node
   linkType: hard
 
