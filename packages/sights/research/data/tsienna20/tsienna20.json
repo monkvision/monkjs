@@ -460,7 +460,7 @@
       "rotation_xyz_deg": [75, 0, -180]
     },
     "category": "exterior",
-    "label": "rear",
+    "label": "rear-low",
     "overlay": "tsienna20-qA3aAUUq.svg",
     "vehicle": "tsienna20",
     "tasks": ["damage_detection"]
