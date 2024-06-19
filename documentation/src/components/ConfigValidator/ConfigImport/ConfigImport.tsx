@@ -25,11 +25,9 @@ export function ConfigImport({ onImportConfig, onImportError }: ConfigImportProp
       reader.onload = (event) => {
         if (typeof event.target?.result === 'string') {
           onImportConfig?.(event.target.result);
-          console.log(event.target.result);
         }
       };
-      reader.onerror = (err) => {
-        console.error(err);
+      reader.onerror = () => {
         onImportError?.();
       };
       reader.readAsText(file);
