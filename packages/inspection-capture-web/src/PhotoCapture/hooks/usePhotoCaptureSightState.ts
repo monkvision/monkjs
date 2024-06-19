@@ -271,7 +271,7 @@ export function usePhotoCaptureSightState({
     });
     analytics.setUserProperties({
       alreadyTakenSights: updatedSightsTaken.length,
-      sightSelected: nextSight?.label ?? null,
+      sightSelected: selectedSight.label,
     });
     if (nextSight) {
       setSelectedSight(nextSight);
