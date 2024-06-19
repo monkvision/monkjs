@@ -105,6 +105,7 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
         captureMode={props.captureMode}
         onValidate={props.onValidate}
         allowSkipRetake={props.captureMode && !!props.allowSkipRetake}
+        validateButtonLabel={props.validateButtonLabel}
       />
       <div style={itemListStyle}>
         {filteredItems.length === 0 && <div style={emptyStyle}>{emptyLabel}</div>}
