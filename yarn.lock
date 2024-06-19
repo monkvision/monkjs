@@ -15607,6 +15607,7 @@ __metadata:
     "@docusaurus/preset-classic": 2.4.3
     "@docusaurus/theme-common": ^2.4.3
     "@mdx-js/react": ^1.6.22
+    "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0

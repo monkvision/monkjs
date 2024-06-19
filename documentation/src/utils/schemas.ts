@@ -224,7 +224,7 @@ export const LiveConfigSchema = z
     allowManualLogin: z.boolean(),
     allowVehicleTypeSelection: z.boolean(),
     fetchFromSearchParams: z.boolean(),
-    apiDomain: z.string(),
+    apiDomain: z.enum(['api.monk.ai/v1', 'api.preview.monk.ai/v1', 'api.staging.monk.ai/v1']),
     requiredApiPermissions: z.array(z.nativeEnum(MonkApiPermission)).optional(),
     palette: MonkPaletteSchema.partial().optional(),
   })
