@@ -1,3 +1,3 @@
 export * from './getCanvasHandle';
 export * from './getMediaContraints';
-export * from './getValidCameraDeviceIds';
+export * from './analyzeCameraDevices';

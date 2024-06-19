@@ -3,7 +3,7 @@ import deepEqual from 'fast-deep-equal';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { isMobileDevice, useObjectMemo } from '@monkvision/common';
-import { getValidCameraDeviceIds } from './utils';
+import { analyzeCameraDevices } from './utils';
 
 /**
  * Enumeration of the different Native error names that can happen when a stream is invalid.
@@ -109,16 +109,17 @@ export interface UserMediaResult {
    * will do nothing. In case of an error, this function resets the state and tries to fetch a camera stream again.
    */
   retry: () => void;
+  /**
+   * The list of all available camera devices on the user's phone.
+   */
+  availableCameraDevices: MediaDeviceInfo[];
+  /**
+   * The ID of the selected camera device for picture taking.
+   */
+  selectedCameraDeviceId: string | null;
 }
 
-function swapDimensions(dimensions: PixelDimensions): PixelDimensions {
-  return {
-    width: dimensions.height,
-    height: dimensions.width,
-  };
-}
-
-function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): PixelDimensions {
+function getStreamVideoTrackSettings(stream: MediaStream): MediaTrackSettings {
   const videoTracks = stream.getVideoTracks();
   if (videoTracks.length === 0) {
     throw new InvalidStreamError(
@@ -132,7 +133,23 @@ function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): Pi
       InvalidStreamErrorName.TOO_MANY_VIDEO_TRACKS,
     );
   }
-  const { width, height } = stream.getVideoTracks()[0].getSettings();
+  return stream.getVideoTracks()[0].getSettings();
+}
+
+function getStreamDeviceId(stream: MediaStream): string | null {
+  const settings = getStreamVideoTrackSettings(stream);
+  return settings.deviceId ?? null;
+}
+
+function swapDimensions(dimensions: PixelDimensions): PixelDimensions {
+  return {
+    width: dimensions.height,
+    height: dimensions.width,
+  };
+}
+
+function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): PixelDimensions {
+  const { width, height } = getStreamVideoTrackSettings(stream);
   if (!width || !height) {
     throw new InvalidStreamError(
       'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
@@ -173,6 +190,8 @@ export function useUserMedia(
   const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UserMediaError | null>(null);
+  const [availableCameraDevices, setAvailableCameraDevices] = useState<MediaDeviceInfo[]>([]);
+  const [selectedCameraDeviceId, setSelectedCameraDeviceId] = useState<string | null>(null);
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
@@ -229,12 +248,12 @@ export function useUserMedia(
           stream.removeEventListener('inactive', onStreamInactive);
           stream.getTracks().forEach((track) => track.stop());
         }
-        const cameraDeviceIds = await getValidCameraDeviceIds(constraints);
+        const deviceDetails = await analyzeCameraDevices(constraints);
         const updatedConstraints = {
           ...constraints,
           video: {
             ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
-            deviceId: { exact: cameraDeviceIds },
+            deviceId: { exact: deviceDetails.validDeviceIds },
           },
         };
         const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
@@ -243,6 +262,8 @@ export function useUserMedia(
           setStream(str);
           setDimensions(getStreamDimensions(str, true));
           setIsLoading(false);
+          setAvailableCameraDevices(deviceDetails.availableDevices);
+          setSelectedCameraDeviceId(getStreamDeviceId(str));
         }
       } catch (err) {
         if (isActive.current) {
@@ -265,5 +286,13 @@ export function useUserMedia(
     }
   }, [stream]);
 
-  return useObjectMemo({ stream, dimensions, error, retry, isLoading });
+  return useObjectMemo({
+    stream,
+    dimensions,
+    error,
+    retry,
+    isLoading,
+    availableCameraDevices,
+    selectedCameraDeviceId,
+  });
 }

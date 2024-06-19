@@ -1,15 +1,32 @@
 import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
-import { act } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import { MonkPicture } from '@monkvision/types';
 import { renderHook } from '@testing-library/react-hooks';
-import { useTakePicture } from '../../../src/Camera/hooks';
+import { useTakePicture, UseTakePictureParams } from '../../../src/Camera/hooks';
 import { TakePictureTransaction } from '../../../src/Camera/monitoring';
+import { createFakePromise } from '@monkvision/test-utils';
 
-const monitoring = {
-  parentId: 'test-parent-id',
-  tags: { testTagName: 'testTagValue' },
-  data: { testDataKey: 'testDataValue' },
-};
+function createParams(): UseTakePictureParams & { screenshot: ImageData; picture: MonkPicture } {
+  const screenshot = { test: 'test' } as unknown as ImageData;
+  const picture = { uri: 'test-uri' } as unknown as MonkPicture;
+  return {
+    screenshot,
+    picture,
+    takeScreenshot: jest.fn(() => screenshot),
+    compress: jest.fn(() => Promise.resolve(picture)),
+    onPictureTaken: jest.fn(),
+    monitoring: {
+      parentId: 'test-parent-id',
+      tags: { testTagName: 'testTagValue' },
+      data: { testDataKey: 'testDataValue' },
+    },
+    availableCameraDevices: [
+      { label: 'test-uno', deviceId: '1' },
+      { label: 'test-dos', deviceId: '2' },
+    ],
+    selectedCameraDeviceId: '2',
+  } as unknown as UseTakePictureParams & { screenshot: ImageData; picture: MonkPicture };
+}
 
 describe('useTakePicture hook', () => {
   afterEach(() => {
@@ -17,58 +34,65 @@ describe('useTakePicture hook', () => {
   });
 
   it('should take the screenshot, compress it and return it', async () => {
-    const screenshot = { test: 'test' } as unknown as ImageData;
-    const picture = { uri: 'test-uri' } as unknown as MonkPicture;
-    const takeScreenshot = jest.fn(() => screenshot);
-    const compress = jest.fn(() => Promise.resolve(picture));
+    const initialProps = createParams();
 
-    const { result, unmount } = renderHook(useTakePicture, {
-      initialProps: { compress, takeScreenshot, monitoring },
-    });
+    const { result, unmount } = renderHook(useTakePicture, { initialProps });
 
     await act(async () => {
       const pictureResult = await result.current.takePicture();
 
-      expect(takeScreenshot).toHaveBeenCalled();
-      expect(compress).toHaveBeenCalledWith(screenshot, expect.anything());
-      expect(pictureResult).toBe(picture);
+      expect(initialProps.takeScreenshot).toHaveBeenCalled();
+      expect(initialProps.compress).toHaveBeenCalledWith(
+        initialProps.screenshot,
+        expect.anything(),
+      );
+      expect(pictureResult).toBe(initialProps.picture);
     });
 
     unmount();
   });
 
   it('should call onPictureTaken when the picture is taken', async () => {
-    const screenshot = { test: 'test' } as unknown as ImageData;
-    const picture = { uri: 'test-uri' } as unknown as MonkPicture;
-    const takeScreenshot = jest.fn(() => screenshot);
-    const compress = jest.fn(() => Promise.resolve(picture));
-    const onPictureTaken = jest.fn();
+    const initialProps = createParams();
 
-    const { result, unmount } = renderHook(useTakePicture, {
-      initialProps: { compress, takeScreenshot, onPictureTaken, monitoring },
-    });
+    const { result, unmount } = renderHook(useTakePicture, { initialProps });
 
     await act(async () => {
       await result.current.takePicture();
 
-      expect(onPictureTaken).toHaveBeenCalledWith(picture);
+      expect(initialProps.onPictureTaken).toHaveBeenCalledWith(initialProps.picture);
     });
 
     unmount();
   });
 
-  /*
-   * For now, the picture taking process is synchronous, so the loading has no effect. But if at some point, the picture
-   * taking process becomes asynchronous, we should add tests to verify that the loading is working properly.
-   */
+  it('should put the camera into loading while the picture is being taken', async () => {
+    const promise = createFakePromise();
+    const initialProps = createParams();
+    initialProps.compress = jest.fn(() => promise);
 
-  it('should create the TakePicture transaction', async () => {
-    const takeScreenshot = jest.fn();
-    const compress = jest.fn();
+    const { result, unmount } = renderHook(useTakePicture, { initialProps });
 
-    const { result, unmount } = renderHook(useTakePicture, {
-      initialProps: { compress, takeScreenshot, monitoring },
+    expect(result.current.isLoading).toBe(false);
+    act(() => {
+      result.current.takePicture();
     });
+    expect(result.current.isLoading).toBe(true);
+    await act(async () => {
+      promise.resolve(initialProps.picture);
+      await promise;
+    });
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    unmount();
+  });
+
+  it('should create the TakePicture transaction with the proper params', async () => {
+    const initialProps = createParams();
+
+    const { result, unmount } = renderHook(useTakePicture, { initialProps });
 
     await act(async () => {
       await result.current.takePicture();
@@ -77,7 +101,12 @@ describe('useTakePicture hook', () => {
         .createTransaction;
       expect(createTransactionMock).toHaveBeenCalledWith({
         ...TakePictureTransaction,
-        ...monitoring,
+        ...initialProps.monitoring,
+        data: {
+          ...initialProps.monitoring?.data,
+          availableCameras: ['test-uno (1)', 'test-dos (2)'],
+          selectedCameraId: '2',
+        },
       });
     });
 
@@ -85,12 +114,9 @@ describe('useTakePicture hook', () => {
   });
 
   it('should stop the TakePicture transaction', async () => {
-    const takeScreenshot = jest.fn();
-    const compress = jest.fn();
+    const initialProps = createParams();
 
-    const { result, unmount } = renderHook(useTakePicture, {
-      initialProps: { compress, takeScreenshot, monitoring },
-    });
+    const { result, unmount } = renderHook(useTakePicture, { initialProps });
 
     await act(async () => {
       await result.current.takePicture();
@@ -106,12 +132,9 @@ describe('useTakePicture hook', () => {
   });
 
   it('should pass the child monitoring config to the compress and takeScreenshot functions', async () => {
-    const takeScreenshot = jest.fn();
-    const compress = jest.fn();
+    const initialProps = createParams();
 
-    const { result, unmount } = renderHook(useTakePicture, {
-      initialProps: { compress, takeScreenshot, monitoring },
-    });
+    const { result, unmount } = renderHook(useTakePicture, { initialProps });
 
     await act(async () => {
       await result.current.takePicture();
@@ -121,11 +144,11 @@ describe('useTakePicture hook', () => {
       const transactionMock = createTransactionMock.mock.results[0].value;
       const childMonitoring = {
         transaction: transactionMock,
-        data: monitoring?.data,
-        tags: monitoring?.tags,
+        data: initialProps.monitoring?.data,
+        tags: initialProps.monitoring?.tags,
       };
-      expect(takeScreenshot).toHaveBeenCalledWith(childMonitoring);
-      expect(compress.mock.calls[0][1]).toEqual(childMonitoring);
+      expect(initialProps.takeScreenshot).toHaveBeenCalledWith(childMonitoring);
+      expect((initialProps.compress as jest.Mock).mock.calls[0][1]).toEqual(childMonitoring);
     });
 
     unmount();
