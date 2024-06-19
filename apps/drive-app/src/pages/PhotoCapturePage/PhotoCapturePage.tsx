@@ -7,7 +7,7 @@ import styles from './PhotoCapturePage.module.css';
 import { Page } from '../pages';
 
 export function PhotoCapturePage() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const { config, authToken, inspectionId, getCurrentSights } = useMonkAppState({
     requireInspection: true,
@@ -51,6 +51,7 @@ export function PhotoCapturePage() {
         useLiveCompliance={config.useLiveCompliance}
         customComplianceThresholds={config.customComplianceThresholds}
         customComplianceThresholdsPerSight={config.customComplianceThresholdsPerSight}
+        validateButtonLabel={t('photo-capture.validate-label')}
       />
     </div>
   );

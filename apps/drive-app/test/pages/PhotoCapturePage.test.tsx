@@ -30,6 +30,7 @@ const appState = {
     useLiveCompliance: 'test-useLiveCompliance-test',
     customComplianceThresholds: 'test-customComplianceThresholds-test',
     customComplianceThresholdsPerSight: 'test-customComplianceThresholdsPerSight-test',
+    validateButtonLabel: 'photo-capture.validate-label',
   },
 };
 
@@ -40,9 +41,11 @@ describe('PhotoCapture page', () => {
 
   it('should pass the proper props to the PhotoCapture component', () => {
     const language = 'test';
-    (useTranslation as jest.Mock).mockImplementation(() => ({ i18n: { language } }));
+    (useTranslation as jest.Mock).mockImplementation(() => ({ i18n: { language }, t: jest.fn() }));
     (useMonkAppState as jest.Mock).mockImplementation(() => appState);
     const { unmount } = render(<PhotoCapturePage />);
+
+    const { t } = (useTranslation as jest.Mock).mock.results[0].value;
 
     expectPropsOnChildMock(PhotoCapture, {
       apiConfig: { authToken: appState.authToken, apiDomain: appState.config.apiDomain },
@@ -66,6 +69,7 @@ describe('PhotoCapture page', () => {
       useLiveCompliance: appState.config.useLiveCompliance,
       customComplianceThresholds: appState.config.customComplianceThresholds,
       customComplianceThresholdsPerSight: appState.config.customComplianceThresholdsPerSight,
+      validateButtonLabel: t(appState.config.validateButtonLabel),
     });
 
     unmount();

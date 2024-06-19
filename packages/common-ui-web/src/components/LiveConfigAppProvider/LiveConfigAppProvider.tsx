@@ -1,5 +1,4 @@
 import {
-  i18nWrap,
   MonkAppStateProvider,
   MonkAppStateProviderProps,
   useI18nSync,
@@ -9,10 +8,8 @@ import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { CaptureAppConfig } from '@monkvision/types';
 import { MonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { useTranslation } from 'react-i18next';
 import { styles } from './LiveConfigAppProvider.styles';
 import { Spinner } from '../Spinner';
-import { i18nLiveConfigAppProvider } from './i18n';
 import { Button } from '../Button';
 
 /**
@@ -42,67 +39,62 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
  *
  * @see MonkAppStateProvider
  */
-export const LiveConfigAppProvider = i18nWrap<
-  unknown,
-  PropsWithChildren<LiveConfigAppProviderProps>
->(
-  ({
-    id,
-    localConfig,
-    lang,
-    children,
-    ...passThroughProps
-  }: PropsWithChildren<LiveConfigAppProviderProps>) => {
-    useI18nSync(lang);
-    const loading = useLoadingState(true);
-    const [config, setConfig] = useState<CaptureAppConfig | null>(null);
-    const { handleError } = useMonitoring();
-    const { t } = useTranslation();
+export function LiveConfigAppProvider({
+  id,
+  localConfig,
+  lang,
+  children,
+  ...passThroughProps
+}: PropsWithChildren<LiveConfigAppProviderProps>) {
+  useI18nSync(lang);
+  const loading = useLoadingState(true);
+  const [config, setConfig] = useState<CaptureAppConfig | null>(null);
+  const { handleError } = useMonitoring();
 
-    const fetchLiveConfig = useCallback(() => {
-      if (localConfig) {
-        loading.onSuccess();
-        setConfig(localConfig);
-        return;
-      }
-      loading.start();
-      setConfig(null);
-      MonkApi.getLiveConfig(id)
-        .then((result) => {
-          loading.onSuccess();
-          setConfig(result);
-        })
-        .catch((err) => {
-          handleError(err);
-          loading.onError();
-        });
-    }, [id, localConfig]);
-
-    useEffect(() => {
-      fetchLiveConfig();
-    }, [fetchLiveConfig]);
-
-    if (loading.isLoading || loading.error || !config) {
-      return (
-        <div style={styles['container']}>
-          {loading.isLoading && <Spinner primaryColor='primary' size={70} />}
-          {!loading.isLoading && (
-            <>
-              <div style={styles['errorMessage']}>{t('error.message')}</div>
-              <Button variant='outline' icon='refresh' onClick={fetchLiveConfig}>
-                {t('error.retry')}
-              </Button>
-            </>
-          )}
-        </div>
-      );
+  const fetchLiveConfig = useCallback(() => {
+    if (localConfig) {
+      loading.onSuccess();
+      setConfig(localConfig);
+      return;
     }
+    loading.start();
+    setConfig(null);
+    MonkApi.getLiveConfig(id)
+      .then((result) => {
+        loading.onSuccess();
+        setConfig(result);
+      })
+      .catch((err) => {
+        handleError(err);
+        loading.onError();
+      });
+  }, [id, localConfig]);
 
+  useEffect(() => {
+    fetchLiveConfig();
+  }, [fetchLiveConfig]);
+
+  if (loading.isLoading || loading.error || !config) {
     return (
-      <MonkAppStateProvider config={config} {...passThroughProps}>
-        {children}
-      </MonkAppStateProvider>
+      <div style={styles['container']}>
+        {loading.isLoading && <Spinner primaryColor='primary' size={70} />}
+        {!loading.isLoading && (
+          <>
+            <div style={styles['errorMessage']} data-testid='error-msg'>
+              Unable to fetch application configuration. Please try again in a few minutes.
+            </div>
+            <Button variant='outline' icon='refresh' onClick={fetchLiveConfig}>
+              Retry
+            </Button>
+          </>
+        )}
+      </div>
     );
-  },
-  i18nLiveConfigAppProvider,
-);
+  }
+
+  return (
+    <MonkAppStateProvider config={config} {...passThroughProps}>
+      {children}
+    </MonkAppStateProvider>
+  );
+}

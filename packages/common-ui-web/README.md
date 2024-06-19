@@ -274,17 +274,17 @@ function ImageViewer({ id }: ImageViewerProps) {
 ```
 
 ### Props
-| Prop                | Type       | Description                                                                                                                         | Required | Default Value |
-|---------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| image               | Image      | The image to display the details of.                                                                                                | ✔️       |               |
-| captureMode         | boolean    | Boolean indicating if this component is displayed in "capture" mode.                                                                | ✔️       | `false`       |
-| lang                | string     | The language to be used by the component.                                                                                           |          | `en`          |
-| showGalleryButton   | boolean    | Boolean indicating if the gallery button must be displayed or not.                                                                  |          | `true`        |
-| onClose             | () => void | Callback called when the user presses the close button.                                                                             |          |               |
-| onNavigateToGallery | () => void | Callback called when the user presses the gallery button if it is displayed.                                                        |          |               |
-| showCaptureButton   | boolean    | Boolean indicating if the capture button must be displayed or not. This prop can only be specified if `captureMode` is set to true. |          | `true`        |
-| onNavigateToCapture | () => void | Callback called when the user presses the capture button. This prop can only be specified if `captureMode` is set to true.          |          |               |
-| onRetake            | () => void | Callback called when the user presses the retake button. This prop can only be specified if `captureMode` is set to true.           |          |               |
+| Prop                | Type                | Description                                                                                                                         | Required | Default Value |
+|---------------------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| image               | Image               | The image to display the details of.                                                                                                | ✔️       |               |
+| captureMode         | boolean             | Boolean indicating if this component is displayed in "capture" mode.                                                                | ✔️       | `false`       |
+| lang                | string              | The language to be used by the component.                                                                                           |          | `en`          |
+| showGalleryButton   | boolean             | Boolean indicating if the gallery button must be displayed or not.                                                                  |          | `true`        |
+| onClose             | () => void          | Callback called when the user presses the close button.                                                                             |          |               |
+| onNavigateToGallery | () => void          | Callback called when the user presses the gallery button if it is displayed.                                                        |          |               |
+| showCaptureButton   | boolean             | Boolean indicating if the capture button must be displayed or not. This prop can only be specified if `captureMode` is set to true. |          | `true`        |
+| onNavigateToCapture | () => void          | Callback called when the user presses the capture button. This prop can only be specified if `captureMode` is set to true.          |          |               |
+| onRetake            | () => void          | Callback called when the user presses the retake button. This prop can only be specified if `captureMode` is set to true.           |          |               |
 
 ---
 
@@ -318,6 +318,7 @@ function App() {
 | onNavigateToCapture | () => void        | Callback called when the user wants to navigate back to the capture component. This prop can only be specified if `captureMode` is set to true.                                                    |                                 |               |
 | enableCompliance    | boolean           | Boolean indicating if compliance checks should be enabled or not. This prop can only be specified if `captureMode` is set to true.                                                                 |                                 |               |
 | complianceIssues    | ComplianceIssue[] | If compliance checks are enable, this property can be used to select a list of compliance issues to check. This prop can only be specified if `captureMode` is set to true.                        |                                 |               |
+| validateButtonLabel | `string`          | Custom label for validate button.                                                                                                                                                                  |                                 |               |
 
 ---
 

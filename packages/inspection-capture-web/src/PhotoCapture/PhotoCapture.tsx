@@ -90,6 +90,10 @@ export interface PhotoCaptureProps
    * @default en
    */
   lang?: string | null;
+  /**
+   * Custom label for validate button in gallery view.
+   */
+  validateButtonLabel?: string;
 }
 
 enum PhotoCaptureScreen {
@@ -121,6 +125,7 @@ export function PhotoCapture({
   useAdaptiveImageQuality = true,
   lang,
   enforceOrientation,
+  validateButtonLabel,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -276,6 +281,7 @@ export function PhotoCapture({
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}
           enableAddDamage={enableAddDamage}
+          validateButtonLabel={validateButtonLabel}
           {...complianceOptions}
         />
       )}
