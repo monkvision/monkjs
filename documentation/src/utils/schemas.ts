@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z, CustomErrorParams } from 'zod';
 import {
   CameraResolution,
   ComplianceIssue,
@@ -9,6 +9,36 @@ import {
   TaskName,
   VehicleType,
 } from '@monkvision/types';
+import { sights } from '@monkvision/sights';
+import { flatten } from '@monkvision/common';
+
+function isValidSightId(sightId: string): boolean {
+  return !!sights[sightId];
+}
+
+function validateSightIds(value?: string[] | Record<string, unknown>): boolean {
+  if (!value) {
+    return true;
+  }
+  const sightIds = Array.isArray(value) ? value : Object.keys(value);
+  return sightIds.every(isValidSightId);
+}
+
+function getInvalidSightIdsMessage(value?: string[] | Record<string, unknown>): CustomErrorParams {
+  if (!value) {
+    return {};
+  }
+  const sightIds = Array.isArray(value) ? value : Object.keys(value);
+  const invalidIds = sightIds.filter((sightId) => !isValidSightId(sightId)).join(', ');
+  const plural = invalidIds.length > 1 ? 's' : '';
+  return { message: `Invalid sight ID${plural} : ${invalidIds}` };
+}
+
+function getAllSightsByVehicleType(
+  vehicleSights?: Partial<Record<VehicleType, string[]>>,
+): string[] | undefined {
+  return vehicleSights ? flatten(Object.values(vehicleSights)) : undefined;
+}
 
 export const CompressionOptionsSchema = z.object({
   format: z.nativeEnum(CompressionFormat),
@@ -45,14 +75,21 @@ export const CustomComplianceThresholdsSchema = z
 
 export const ComplianceOptionsSchema = z.object({
   enableCompliance: z.boolean().optional(),
-  enableCompliancePerSight: z.array(z.string()).optional(),
+  enableCompliancePerSight: z
+    .array(z.string())
+    .optional()
+    .refine(validateSightIds, getInvalidSightIdsMessage),
   complianceIssues: z.array(z.nativeEnum(ComplianceIssue)).optional(),
-  complianceIssuesPerSight: z.record(z.string(), z.array(z.nativeEnum(ComplianceIssue))).optional(),
+  complianceIssuesPerSight: z
+    .record(z.string(), z.array(z.nativeEnum(ComplianceIssue)))
+    .optional()
+    .refine(validateSightIds, getInvalidSightIdsMessage),
   useLiveCompliance: z.boolean().optional(),
   customComplianceThresholds: CustomComplianceThresholdsSchema.optional(),
   customComplianceThresholdsPerSight: z
     .record(z.string(), CustomComplianceThresholdsSchema)
-    .optional(),
+    .optional()
+    .refine(validateSightIds, getInvalidSightIdsMessage),
 });
 
 export const AccentColorVariantsSchema = z.object({
@@ -101,7 +138,12 @@ export const MonkPaletteSchema = z.object({
   outline: OutlineColorVariantsSchema,
 });
 
-export const SightsByVehicleTypeSchema = z.record(z.nativeEnum(VehicleType), z.array(z.string()));
+export const SightsByVehicleTypeSchema = z
+  .record(z.nativeEnum(VehicleType), z.array(z.string()))
+  .refine(
+    (vehicleSights) => validateSightIds(getAllSightsByVehicleType(vehicleSights)),
+    (vehicleSights) => getInvalidSightIdsMessage(getAllSightsByVehicleType(vehicleSights)),
+  );
 
 export const SteeringWheelDiscriminatedUnionSchema = z.discriminatedUnion(
   'enableSteeringWheelPosition',

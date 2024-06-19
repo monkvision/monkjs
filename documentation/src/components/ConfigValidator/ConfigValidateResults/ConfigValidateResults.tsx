@@ -45,7 +45,7 @@ export function ConfigValidateResults({ config }: ConfigValidateResultsProps) {
       {isInvalid && <div>Invalid webapp configuration :</div>}
       {isInvalid &&
         errors.map((error) => (
-          <div className={styles['error-message']}>
+          <div id={error.message} className={styles['error-message']}>
             <div>{error.message}</div>
             <div className={styles['error-message-at']}>
               <span className={styles['label']}>At : </span>
