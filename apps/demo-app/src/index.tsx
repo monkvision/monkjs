@@ -3,7 +3,6 @@ import { MonitoringProvider } from '@monkvision/monitoring';
 import { AnalyticsProvider } from '@monkvision/analytics';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { getEnvOrThrow } from '@monkvision/common';
-import { PreventExit } from '@monkvision/common-ui-web';
 import { sentryMonitoringAdapter } from './sentry';
 import { posthogAnalyticsAdapter } from './posthog';
 import { AppRouter } from './components';
@@ -22,7 +21,6 @@ ReactDOM.render(
           prompt: 'login',
         }}
       >
-        <PreventExit />
         <AppRouter />
       </Auth0Provider>
     </AnalyticsProvider>

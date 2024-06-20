@@ -136,6 +136,18 @@ function TestComponent() {
 ```
 Custom hook used to get a translation function tObj that translates TranslationObjects.
 
+### usePreventExit
+```tsx
+import { usePreventExit } from '@monkvision/common';
+
+function TestComponent() {
+  usePreventExit();
+  return <>...</>;
+}
+```
+This hook is used to prevent the user from leaving the page by displaying a confirmation dialog when the user tries to
+leave the page.
+
 ### useQueue
 ```tsx
 import { useQueue } from '@monkvision/common';

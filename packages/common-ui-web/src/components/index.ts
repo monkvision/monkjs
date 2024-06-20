@@ -16,4 +16,3 @@ export * from './TakePictureButton';
 export * from './TextField';
 export * from './VehicleTypeAsset';
 export * from './VehicleTypeSelection';
-export * from './PreventExit';
