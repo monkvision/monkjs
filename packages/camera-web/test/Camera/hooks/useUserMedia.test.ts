@@ -1,3 +1,10 @@
+const validDeviceIds = ['id-1', 'id-2'];
+const availableDevices = [{ test: 'hello' }, { test2: 'hello2' }];
+
+jest.mock('../../../src/Camera/hooks/utils/analyzeCameraDevices', () => ({
+  analyzeCameraDevices: jest.fn(() => ({ validDeviceIds, availableDevices })),
+}));
+
 import { act, waitFor } from '@testing-library/react';
 import { isMobileDevice } from '@monkvision/common';
 import { renderHook } from '@testing-library/react-hooks';
@@ -5,6 +12,7 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
 import { GetUserMediaMock, mockGetUserMedia } from '../../mocks';
+import { analyzeCameraDevices } from '../../../src/Camera/hooks/utils';
 import { RefObject } from 'react';
 import { createFakePromise } from '@monkvision/test-utils';
 
@@ -38,8 +46,15 @@ describe('useUserMedia hook', () => {
     };
     const { unmount } = renderUseUserMedia({ constraints, videoRef });
     await waitFor(() => {
+      expect(analyzeCameraDevices).toHaveBeenCalled();
       expect(gumMock?.getUserMediaSpy).toHaveBeenCalledTimes(1);
-      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith(constraints);
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith({
+        ...constraints,
+        video: {
+          ...(constraints?.video as any),
+          deviceId: { exact: validDeviceIds },
+        },
+      });
     });
     unmount();
   });
@@ -51,13 +66,16 @@ describe('useUserMedia hook', () => {
       video: { width: 123, height: 456 },
     };
     const { result, unmount } = renderUseUserMedia({ constraints, videoRef });
+    const settings = gumMock?.tracks[0].getSettings();
     await waitFor(() => {
       expect(result.current).toEqual({
         stream: gumMock?.stream,
-        dimensions: gumMock?.tracks[0].getSettings(),
+        dimensions: { width: settings?.width, height: settings?.height },
         error: null,
         isLoading: false,
         retry: expect.any(Function),
+        availableCameraDevices: availableDevices,
+        selectedCameraDeviceId: settings?.deviceId,
       });
     });
     unmount();
@@ -100,6 +118,8 @@ describe('useUserMedia hook', () => {
         },
         isLoading: false,
         retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
       });
     });
     unmount();
@@ -119,6 +139,8 @@ describe('useUserMedia hook', () => {
         },
         isLoading: false,
         retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
       });
     });
     unmount();
@@ -154,6 +176,8 @@ describe('useUserMedia hook', () => {
         },
         isLoading: false,
         retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
       });
     });
     unmount();
@@ -186,6 +210,8 @@ describe('useUserMedia hook', () => {
           },
           isLoading: false,
           retry: expect.any(Function),
+          availableCameraDevices: [],
+          selectedCameraDeviceId: null,
         });
       });
       unmount();
@@ -207,6 +233,8 @@ describe('useUserMedia hook', () => {
         },
         isLoading: false,
         retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
       });
     });
     unmount();
@@ -246,7 +274,7 @@ describe('useUserMedia hook', () => {
     await waitFor(() => {
       expect(result.current.error).toBeNull();
       expect(result.current.stream).toEqual(mock.stream);
-      expect(mock.getUserMediaSpy).toHaveBeenCalledTimes(3);
+      expect(mock.getUserMediaSpy).toHaveBeenCalledTimes(2);
     });
     unmount();
   });
@@ -282,31 +310,11 @@ describe('useUserMedia hook', () => {
       gumMock?.tracks.forEach((track) => {
         expect(track.stop).toHaveBeenCalled();
       });
-      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith(newConstraints);
-    });
-    unmount();
-  });
-
-  it('should filter the video constraints by removing: Telephoto and wide camera', async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    const constraints: MediaStreamConstraints = {
-      audio: false,
-      video: { width: 123, height: 456 },
-    };
-    gumMock?.enumerateDevicesSpy.mockResolvedValue([
-      { kind: 'videoinput', label: 'Front Camera', deviceId: 'frontDeviceId' },
-      { kind: 'videoinput', label: 'Rear Camera', deviceId: 'rearDeviceId' },
-      { kind: 'videoinput', label: 'Wide Angle Camera', deviceId: 'wideDeviceId' },
-      { kind: 'videoinput', label: 'Telephoto Angle Camera', deviceId: 'wideDeviceId' },
-    ]);
-    const { unmount } = renderUseUserMedia({ constraints, videoRef });
-    await waitFor(() => {
       expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith({
-        audio: false,
+        ...newConstraints,
         video: {
-          width: 123,
-          height: 456,
-          deviceId: { exact: ['frontDeviceId', 'rearDeviceId'] },
+          ...(newConstraints.video as any),
+          deviceId: { exact: validDeviceIds },
         },
       });
     });
