@@ -57,7 +57,12 @@ describe('SVGElement component', () => {
       <SVGElement element={element} groupIds={groupIds} getAttributes={getAttributes} />,
     );
 
-    expect(useCustomAttributes).toHaveBeenCalledWith({ element, groupIds, getAttributes });
+    expect(useCustomAttributes).toHaveBeenCalledWith({
+      element,
+      groupIds,
+      getAttributes,
+      style: {},
+    });
     unmount();
   });
 

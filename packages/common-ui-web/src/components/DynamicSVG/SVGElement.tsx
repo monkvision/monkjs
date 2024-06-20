@@ -45,7 +45,7 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
     element,
     groupIds,
     getAttributes,
-    style: attributes.style,
+    style: attributes.style ?? {},
   });
   const tagAttr = { ...attributes, ...customAttributes, ...passThroughProps } as any;
   const innerHTML = useInnerHTML({ element, groupIds, getInnerText });

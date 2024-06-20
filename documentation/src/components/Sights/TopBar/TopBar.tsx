@@ -2,13 +2,13 @@ import { labels, sights, vehicles } from '@monkvision/sights';
 import { SearchBar } from '@site/src/components';
 import { SightCard } from '@site/src/components/Sights/SightCard';
 import clsx from 'clsx';
-import React, { FunctionComponentElement, useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import styles from './TopBar.module.css';
 
 export interface ListItem {
   id: string;
   lookups: string[];
-  component: FunctionComponentElement<typeof SightCard>;
+  component: ReactElement;
 }
 
 export interface Tab {

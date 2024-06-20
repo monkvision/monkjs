@@ -53,4 +53,18 @@ describe('useCustomAttributes hook', () => {
     expect(result.current).toEqual(customAttr);
     unmount();
   });
+
+  it('should apply style correctly', () => {
+    const elementStyle = { stroke: '#fff' },
+      customStyle = { color: 'test-color' };
+    const element = { tagName: 'path', style: { stroke: '#fff' } } as SVGSVGElement;
+    const groupIds = ['test-id-1', 'test-id-2'];
+    const getAttributes = jest.fn(() => ({ style: customStyle }));
+    const { result, unmount } = renderHook(useCustomAttributes, {
+      initialProps: { element, groupIds, getAttributes, style: elementStyle },
+    });
+    expect(getAttributes).toHaveBeenCalledWith(element, groupIds);
+    expect(result.current).toEqual({ style: { ...elementStyle, ...customStyle } });
+    unmount();
+  });
 });
