@@ -3,26 +3,39 @@ import {
   i18nWrap,
   useI18nSync,
   useLoadingState,
-  useMonkAppState,
   useMonkTheme,
   useResponsiveStyle,
 } from '@monkvision/common';
-import { VehicleType } from '@monkvision/types';
+import { AllOrNone, VehicleType } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
-import { decodeMonkJwt, useMonkApi } from '@monkvision/network';
+import { decodeMonkJwt, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useAnalytics } from '@monkvision/analytics';
 import { styles } from './VehicleTypeSelection.styles';
 import { i18nVehicleTypeSelection } from './i18n';
 import { Button } from '../Button';
-import { getInitialSelectedVehicleType, getVehicleTypes } from './utils';
+import {
+  getInitialSelectedVehicleType,
+  getVehicleTypeFromInspection,
+  getVehicleTypes,
+} from './utils';
 import { VehicleTypeSelectionCard } from './VehicleTypeSelectionCard';
 import { Spinner } from '../Spinner';
 
 /**
+ * Props used to check if a vehicle type is already defined before displaying vehicle type selection.
+ */
+export interface MonkApiProps extends MonkApiConfig {
+  /**
+   * The ID of the inspection.
+   */
+  inspectionId: string;
+}
+
+/**
  * Props accepted by the VehicleTypeSelection component.
  */
-export interface VehicleTypeSelectionProps {
+export type VehicleTypeSelectionProps = {
   /**
    * The initially selected vehicle type.
    *
@@ -46,16 +59,7 @@ export interface VehicleTypeSelectionProps {
    * @default en
    */
   lang?: string;
-  /**
-   * Boolean indicating if the patch vehicle inspection feature is enabled. If true, it will trigger 2 actions:
-   * - At the start, it will check if a vehicle type is defined. If so, it will immediately
-   *   call the 'onSelectVehicleType' callback.
-   * - When the 'confirm button' is pressed by the user, it will make a request to the API to PATCH the vehicle type of the inspection.
-   *
-   * @default true
-   */
-  patchInspection?: boolean;
-}
+} & AllOrNone<MonkApiProps>;
 
 function scrollToSelectedVehicleType(
   ref: RefObject<HTMLDivElement>,
@@ -73,126 +77,105 @@ function scrollToSelectedVehicleType(
 /**
  * A single page component that allows the user to select a vehicle type.
  */
-export const VehicleTypeSelection = i18nWrap(
-  ({
-    availableVehicleTypes,
-    selectedVehicleType,
-    onSelectVehicleType,
-    lang,
-    patchInspection = true,
-  }: VehicleTypeSelectionProps) => {
-    useI18nSync(lang);
-    const { config, authToken, inspectionId } = useMonkAppState();
-    const { updateInspectionVehicle, getInspection } = useMonkApi({
-      authToken: authToken ?? '',
-      apiDomain: config.apiDomain,
-    });
-    const loading = useLoadingState(true);
-    const { handleError, setTags, setUserId } = useMonitoring();
-    const analytics = useAnalytics();
-    const [initialScroll, setInitialScroll] = useState(true);
-    const vehicleTypes = useMemo(
-      () => getVehicleTypes(availableVehicleTypes),
-      [availableVehicleTypes],
-    );
-    const [selected, setSelected] = useState(
-      getInitialSelectedVehicleType(vehicleTypes, selectedVehicleType),
-    );
-    const { t } = useTranslation();
-    const { rootStyles } = useMonkTheme();
-    const sliderRef = useRef<HTMLDivElement>(null);
-    const { responsive } = useResponsiveStyle();
+export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) => {
+  useI18nSync(props.lang);
+  const { getInspection } = useMonkApi({
+    authToken: props.authToken ?? '',
+    apiDomain: props.apiDomain ?? '',
+  });
+  const loading = useLoadingState(true);
+  const { handleError, setTags, setUserId } = useMonitoring();
+  const analytics = useAnalytics();
+  const [initialScroll, setInitialScroll] = useState(true);
+  const vehicleTypes = useMemo(
+    () => getVehicleTypes(props.availableVehicleTypes),
+    [props.availableVehicleTypes],
+  );
+  const [selected, setSelected] = useState(
+    getInitialSelectedVehicleType(vehicleTypes, props.selectedVehicleType),
+  );
+  const { t } = useTranslation();
+  const { rootStyles } = useMonkTheme();
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const { responsive } = useResponsiveStyle();
 
-    const onValidate = (type: VehicleType) => {
-      if (patchInspection && inspectionId) {
-        updateInspectionVehicle({ inspectionId, vehicle: { type } });
+  useEffect(() => {
+    if (props.inspectionId) {
+      setTags({ inspectionId: props.inspectionId });
+      analytics.setUserId(props.inspectionId);
+    }
+    const userId = props.authToken ? decodeMonkJwt(props.authToken) : undefined;
+    if (userId?.sub) {
+      setUserId(userId.sub);
+      analytics.setUserProperties({ authToken: userId.sub });
+    }
+  }, [props.inspectionId, props.authToken, analytics, setTags, setUserId]);
+
+  useEffect(() => {
+    const fetchInspection = async () => {
+      if (!props.inspectionId) {
+        loading.onSuccess();
+        return;
       }
-      onSelectVehicleType?.(type);
+      loading.start();
+      const fetchedInspection = await getInspection({
+        id: props.inspectionId,
+      });
+      const vehicleType = getVehicleTypeFromInspection(fetchedInspection);
+      if (vehicleType && props.availableVehicleTypes?.includes(vehicleType)) {
+        props.onSelectVehicleType?.(vehicleType);
+      }
+      loading.onSuccess();
     };
 
-    useEffect(() => {
-      if (inspectionId) {
-        setTags({ inspectionId });
-        analytics.setUserId(inspectionId);
-      }
-      const userId = authToken ? decodeMonkJwt(authToken) : undefined;
-      if (userId?.sub) {
-        setUserId(userId.sub);
-        analytics.setUserProperties({ authToken: userId.sub });
-      }
-    }, [inspectionId, authToken, analytics, setTags, setUserId]);
+    fetchInspection().catch(handleError);
+  }, [props.inspectionId]);
 
-    useEffect(() => {
-      const fetchInspection = async () => {
-        if (patchInspection && inspectionId) {
-          const fetchedInspection = await getInspection({
-            id: inspectionId,
-          });
+  useEffect(() => {
+    const index = vehicleTypes.indexOf(selected);
+    if (index >= 0 && !loading.isLoading) {
+      scrollToSelectedVehicleType(sliderRef, index, !initialScroll);
+      setInitialScroll(false);
+    }
+  }, [vehicleTypes, selected, loading]);
 
-          const vehicle = fetchedInspection.entities.vehicles.find(
-            (v) => v.inspectionId === inspectionId,
-          );
-          const vehicleTypeFoundInInspection = Object.values(VehicleType).find(
-            (vehicleType) => vehicleType === vehicle?.type,
-          );
-          if (vehicleTypeFoundInInspection) {
-            onSelectVehicleType?.(vehicleTypeFoundInInspection);
-          }
-        }
-        loading.onSuccess();
-      };
+  const loadingContainer = loading.isLoading ? styles['loadingContainer'] : {};
 
-      loading.start();
-      fetchInspection().catch(handleError);
-    }, [patchInspection, inspectionId]);
-
-    useEffect(() => {
-      const index = vehicleTypes.indexOf(selected);
-      if (index >= 0 && !loading.isLoading) {
-        scrollToSelectedVehicleType(sliderRef, index, !initialScroll);
-        setInitialScroll(false);
-      }
-    }, [vehicleTypes, selected, loading]);
-
-    const loadingContainer = loading.isLoading ? styles['loadingContainer'] : {};
-
-    return (
-      <div
-        style={{
-          ...rootStyles,
-          ...styles['container'],
-          ...loadingContainer,
-          ...responsive(styles['containerSmall']),
-        }}
-      >
-        {loading.isLoading && <Spinner size={80} />}
-        {!loading.isLoading && !loading.error && (
-          <>
-            <div style={styles['title']}>{t('header.title')}</div>
-            <Button style={styles['button']} onClick={() => onValidate(selected)}>
-              {t('header.confirm')}
-            </Button>
-            <div
-              style={{
-                ...styles['sliderContainer'],
-                ...responsive(styles['sliderContainerSmall']),
-              }}
-            >
-              <div style={styles['slider']} ref={sliderRef}>
-                {vehicleTypes.map((v) => (
-                  <VehicleTypeSelectionCard
-                    key={v}
-                    vehicleType={v}
-                    isSelected={selected === v}
-                    onClick={() => setSelected(v)}
-                  />
-                ))}
-              </div>
+  return (
+    <div
+      style={{
+        ...rootStyles,
+        ...styles['container'],
+        ...loadingContainer,
+        ...responsive(styles['containerSmall']),
+      }}
+    >
+      {loading.isLoading && <Spinner size={80} />}
+      {!loading.isLoading && !loading.error && (
+        <>
+          <div style={styles['title']}>{t('header.title')}</div>
+          <Button style={styles['button']} onClick={() => props.onSelectVehicleType?.(selected)}>
+            {t('header.confirm')}
+          </Button>
+          <div
+            style={{
+              ...styles['sliderContainer'],
+              ...responsive(styles['sliderContainerSmall']),
+            }}
+          >
+            <div style={styles['slider']} ref={sliderRef}>
+              {vehicleTypes.map((v) => (
+                <VehicleTypeSelectionCard
+                  key={v}
+                  vehicleType={v}
+                  isSelected={selected === v}
+                  onClick={() => setSelected(v)}
+                />
+              ))}
             </div>
-          </>
-        )}
-      </div>
-    );
-  },
-  i18nVehicleTypeSelection,
-);
+          </div>
+        </>
+      )}
+    </div>
+  );
+}, i18nVehicleTypeSelection);
