@@ -1,5 +1,8 @@
 {
   "inspection-complete": {
     "thank-message": "Vielen Dank, dass Sie sich die Zeit genommen haben, die Inspektion durchzuführen."
+  },
+  "photo-capture": {
+    "validate-label": "Bilder Hochladen"
   }
 }

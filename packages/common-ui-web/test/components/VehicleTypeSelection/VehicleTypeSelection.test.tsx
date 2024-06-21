@@ -104,9 +104,9 @@ describe('VehicleTypeSelection component', () => {
 
   it('should update the vehicle in the inspection when user confirms his vehicle choice', () => {
     const onSelectVehicleType = jest.fn();
-    const updateInspectionVehicule = jest.fn(() => {});
+    const updateInspectionVehicle = jest.fn(() => Promise.resolve());
     (useMonkAppState as jest.Mock).mockImplementation(() => appState);
-    (useMonkApi as jest.Mock).mockImplementation(() => ({ updateInspectionVehicule }));
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ updateInspectionVehicle }));
     const { unmount } = render(<VehicleTypeSelection onSelectVehicleType={onSelectVehicleType} />);
 
     const { vehicleType } = (VehicleTypeSelectionCard as jest.Mock).mock.calls.find(
@@ -120,8 +120,8 @@ describe('VehicleTypeSelection component', () => {
     )[0];
 
     onClick();
-    expect(updateInspectionVehicule).toHaveBeenCalled();
-    expect(updateInspectionVehicule).toHaveBeenCalledWith({
+    expect(updateInspectionVehicle).toHaveBeenCalled();
+    expect(updateInspectionVehicle).toHaveBeenCalledWith({
       inspectionId: appState.inspectionId,
       vehicle: { type: vehicleType },
     });

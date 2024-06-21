@@ -3,6 +3,7 @@ import { useColorMode } from '@docusaurus/theme-common';
 import { labels, sights } from '@monkvision/sights';
 import { Sight, VehicleDetails, VehicleModel } from '@monkvision/types';
 import { CopyPopup, CopyPopupHandle } from '@site/src/components';
+import { DynamicSVGCustomizationFunctions } from '@monkvision/common-ui-web';
 import { DynamicSVG } from '../../domOnly';
 import styles from './SightCard.module.css';
 
@@ -53,7 +54,7 @@ export function SightCard({ item }: SightCardProps) {
     copyPopupRef.current?.open();
   };
 
-  const getOverlayAttributes = () => ({
+  const getOverlayAttributes: DynamicSVGCustomizationFunctions['getAttributes'] = () => ({
     style: {
       stroke: isDarkTheme ? '#ffffff' : '#000000',
     },

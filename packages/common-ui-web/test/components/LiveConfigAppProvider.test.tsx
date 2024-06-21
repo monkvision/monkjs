@@ -84,8 +84,8 @@ describe('LiveConfigAppProvider component', () => {
 
     expect(MonkAppStateProvider).not.toHaveBeenCalled();
     await waitFor(() => {
-      expect(screen.getByText('error.message')).not.toBeNull();
-      expectPropsOnChildMock(Button, { children: 'error.retry', onClick: expect.any(Function) });
+      expect(screen.getByTestId('error-msg')).not.toBeNull();
+      expectPropsOnChildMock(Button, { children: 'Retry', onClick: expect.any(Function) });
     });
     const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));

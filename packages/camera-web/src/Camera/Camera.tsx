@@ -90,6 +90,8 @@ export function Camera<T extends object>({
     error,
     retry,
     isLoading: isPreviewLoading,
+    availableCameraDevices,
+    selectedCameraDeviceId,
   } = useCameraPreview({
     resolution: previewResolution,
     facingMode: CameraFacingMode.ENVIRONMENT,
@@ -110,6 +112,8 @@ export function Camera<T extends object>({
     takeScreenshot,
     onPictureTaken,
     monitoring,
+    availableCameraDevices,
+    selectedCameraDeviceId,
   });
   const isLoading = isPreviewLoading || isTakePictureLoading;
   const cameraPreview = useMemo(

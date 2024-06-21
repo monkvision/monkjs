@@ -1,6 +1,0 @@
-{
-  "error": {
-    "message": "Unable to fetch application configuration. Please try again in a few minutes.",
-    "retry": "Retry"
-  }
-}

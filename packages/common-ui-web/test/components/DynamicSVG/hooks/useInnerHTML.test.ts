@@ -7,7 +7,7 @@ describe('useInnerHTML hook', () => {
   });
 
   it('should return the element innerHTML if it is a style tag', () => {
-    const element = { tagName: 'style', innerHTML: 'test-html' } as unknown as Element;
+    const element = { tagName: 'style', innerHTML: 'test-html' } as unknown as SVGSVGElement;
 
     const { result, unmount } = renderHook(useInnerHTML, {
       initialProps: { element, groupIds: [] },
@@ -18,7 +18,7 @@ describe('useInnerHTML hook', () => {
   });
 
   it('should return null if no customization function is passed', () => {
-    const element = { tagName: 'path' } as unknown as Element;
+    const element = { tagName: 'path' } as unknown as SVGSVGElement;
 
     const { result, unmount } = renderHook(useInnerHTML, {
       initialProps: { element, groupIds: [] },
@@ -29,13 +29,13 @@ describe('useInnerHTML hook', () => {
   });
 
   it('should return the result of the customization function', () => {
-    const element = { innerHTML: 'test-html' } as unknown as Element;
+    const element = { innerHTML: 'test-html' } as unknown as SVGSVGElement;
     const groupIds = ['test-id-1', 'test-id-2'];
     const innerText = 'inner-text-test';
     const getInnerText = jest.fn(() => innerText);
 
     const { result, unmount } = renderHook(useInnerHTML, {
-      initialProps: { element, groupIds, getInnerText },
+      initialProps: { element, groupIds, getInnerText, style: {} },
     });
 
     expect(getInnerText).toHaveBeenCalledWith(element, groupIds);

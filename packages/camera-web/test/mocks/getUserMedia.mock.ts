@@ -16,7 +16,7 @@ export interface GetUserMediaMock {
 const defaultMockTrack = {
   kind: 'video',
   applyConstraints: jest.fn(() => Promise.resolve(undefined)),
-  getSettings: jest.fn(() => ({ width: 456, height: 123 })),
+  getSettings: jest.fn(() => ({ width: 456, height: 123, deviceId: 'test-device-id-test' })),
   stop: jest.fn(),
 } as unknown as MediaStreamTrack;
 

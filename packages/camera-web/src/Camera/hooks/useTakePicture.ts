@@ -8,11 +8,13 @@ import {
   TakePictureTransaction,
 } from '../monitoring';
 import { CompressFunction } from './useCompression';
+import { UserMediaResult } from './useUserMedia';
 
 /**
  * Type definition for the parameters of the useTakePicture hook.
  */
-export interface UseTakePictureParams {
+export interface UseTakePictureParams
+  extends Pick<UserMediaResult, 'availableCameraDevices' | 'selectedCameraDeviceId'> {
   /**
    * Callback used to compress the screenshot taken by the takeScreenshot function.
    */
@@ -31,6 +33,23 @@ export interface UseTakePictureParams {
   monitoring?: CameraMonitoringConfig;
 }
 
+function createTakePictureTransactionData({
+  monitoring,
+  availableCameraDevices,
+  selectedCameraDeviceId,
+}: Pick<
+  UseTakePictureParams,
+  'monitoring' | 'availableCameraDevices' | 'selectedCameraDeviceId'
+>): Record<string, string | string[] | null> {
+  return {
+    ...monitoring?.data,
+    availableCameras: availableCameraDevices.map(
+      (deviceInfo) => `${deviceInfo.label} (${deviceInfo.deviceId})`,
+    ),
+    selectedCameraId: selectedCameraDeviceId,
+  };
+}
+
 /**
  * Custom hook used by the Camera component to create the take picture function.
  */
@@ -39,13 +58,20 @@ export function useTakePicture({
   takeScreenshot,
   onPictureTaken,
   monitoring,
+  availableCameraDevices,
+  selectedCameraDeviceId,
 }: UseTakePictureParams) {
   const { createTransaction } = useMonitoring();
   const [isLoading, setIsLoading] = useState(false);
 
   const takePicture = useCallback(async () => {
     setIsLoading(true);
-    const transaction = createTransaction({ ...TakePictureTransaction, ...monitoring });
+    const data = createTakePictureTransactionData({
+      monitoring,
+      availableCameraDevices,
+      selectedCameraDeviceId,
+    });
+    const transaction = createTransaction({ ...TakePictureTransaction, ...monitoring, data });
     const childMonitoring: InternalCameraMonitoringConfig = {
       transaction,
       data: monitoring?.data,

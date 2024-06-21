@@ -26,6 +26,13 @@
   --icon-card-background: #efefef;
   --icon-card-background-hover: #dcdcdc;
   --icon-card-background-active: #d2d2d2;
+
+  /* Config Validator */
+  --drag-and-drop-background: #e1e1e1;
+  --results-border-color: #989898;
+  --results-valid: #196c26;
+  --results-invalid: #992923;
+  --text-area-background: #e1e1e1;
 }
 
 html[data-theme='dark'] {
@@ -55,6 +62,13 @@ html[data-theme='dark'] {
   --icon-card-background: #242526;
   --icon-card-background-hover: #353637;
   --icon-card-background-active: #3f4040;
+
+  /* Config Validator */
+  --drag-and-drop-background: #242526;
+  --results-border-color: #989898;
+  --results-valid: #32d74b;
+  --results-invalid: #ff453a;
+  --text-area-background: #242526;
 }
 
 body {

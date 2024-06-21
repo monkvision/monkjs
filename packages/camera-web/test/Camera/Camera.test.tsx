@@ -12,6 +12,8 @@ jest.mock('../../src/Camera/hooks', () => ({
     error: { type: 'test-error' },
     retry: jest.fn(),
     isLoading: false,
+    availableCameraDevices: [{ test: 'device' }],
+    selectedCameraDeviceId: 'test-device-test-id',
   })),
   useCameraCanvas: jest.fn(() => ({ ref: createRef<HTMLCanvasElement>() })),
   useCameraScreenshot: jest.fn(() => jest.fn()),
@@ -171,6 +173,8 @@ describe('Camera component', () => {
     const onPictureTaken = () => {};
     const { unmount } = render(<Camera monitoring={monitoring} onPictureTaken={onPictureTaken} />);
 
+    const { availableCameraDevices, selectedCameraDeviceId } = (useCameraPreview as jest.Mock).mock
+      .results[0].value;
     const takeScreenshot = (useCameraScreenshot as jest.Mock).mock.results[0].value;
     const compress = (useCompression as jest.Mock).mock.results[0].value;
     expect(useTakePicture).toHaveBeenCalledWith({
@@ -178,6 +182,8 @@ describe('Camera component', () => {
       takeScreenshot,
       onPictureTaken,
       monitoring,
+      availableCameraDevices,
+      selectedCameraDeviceId,
     });
     unmount();
   });

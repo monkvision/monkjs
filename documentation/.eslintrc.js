@@ -12,5 +12,6 @@ module.exports = {
     'global-require': OFF,
     'import/no-unresolved': OFF,
     'react/function-component-definition': OFF,
+    'no-console': OFF,
   },
 }

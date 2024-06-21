@@ -31,7 +31,7 @@ function tranformJsxAttribute(attr: HtmlAttribute): JsxAttribute {
  * Custom hook used to map HTML attributes to their JSX counterpart (ex: "class" becomes "className", properly mapping
  * inline style values etc.).
  */
-export function useJSXTransformAttributes(element: Element) {
+export function useJSXTransformAttributes(element: Element): Partial<JSX.IntrinsicElements> {
   return useMemo(
     () =>
       element.getAttributeNames().reduce((prev, attr) => {

@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.drag-and-drop-container {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 10px;
+  background-color: var(--drag-and-drop-background);
+  border: solid var(--drag-and-drop-background) 2px;
+}
+
+.drag-and-drop-container-dragging-over {
+  border-color: var(--ifm-color-primary);
+  z-index: 601;
+}
+
+.drag-and-drop-label {
+  padding-left: 16px;
+}
+
+.drag-and-drop-container-dragging-over > .drag-and-drop-label {
+  color: var(--ifm-color-primary);
+}
+
+.or-separator {
+  padding: 0 20px;
+}
+
+.drag-overlay {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 600;
+  pointer-events: none;
+}
+
+.drag-overlay-dragging-over {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 700px) {
+  .drag-and-drop-container,
+  .or-separator {
+    display: none;
+  }
+}

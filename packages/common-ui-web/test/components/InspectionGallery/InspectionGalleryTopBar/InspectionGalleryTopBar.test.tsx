@@ -139,6 +139,17 @@ describe('InspectionGalleryTopBar component', () => {
     unmount();
   });
 
+  it('should use validateButtonLabel to display validate button label if it is defined', () => {
+    const customLabel = 'customLabel';
+    const props = { validateButtonLabel: customLabel, ...createProps() };
+
+    const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+
+    expectPropsOnChildMock(Button, { children: customLabel });
+
+    unmount();
+  });
+
   it('should disable the validate button if there are some untaken pictures', () => {
     const props = createProps();
     props.captureMode = true;

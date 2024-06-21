@@ -194,7 +194,7 @@ export function usePhotoCaptureSightState({
       });
       analytics.setEventsProperties({ totalSights: captureSights.length });
       analytics.trackEvent('Capture Started', {
-        newInspection: !!alreadyTakenSights,
+        newInspection: alreadyTakenSights.length === 0,
         alreadyTakenSights: alreadyTakenSights.length,
         totalSights: captureSights.length,
       });
@@ -233,7 +233,7 @@ export function usePhotoCaptureSightState({
   useAsyncEffect(
     () => {
       loading.start();
-      analytics.setUserProperties({ inspectionId, captureCompleted: false });
+      analytics.setUserProperties({ inspectionId });
       analytics.setEventsProperties({ inspectionId });
       return getInspection({
         id: inspectionId,
@@ -271,7 +271,7 @@ export function usePhotoCaptureSightState({
     });
     analytics.setUserProperties({
       alreadyTakenSights: updatedSightsTaken.length,
-      sightSelected: nextSight?.label ?? null,
+      sightSelected: selectedSight.label,
     });
     if (nextSight) {
       setSelectedSight(nextSight);

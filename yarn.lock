@@ -3598,6 +3598,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/common@workspace:packages/common"
   dependencies:
+    "@monkvision/analytics": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
     "@monkvision/eslint-config-typescript-react": 4.0.0
@@ -3880,7 +3881,7 @@ __metadata:
     eslint-utils: ^3.0.0
     jest: ^29.3.1
     mkdirp: ^1.0.4
-    posthog-js: ^1.130.1
+    posthog-js: ^1.139.1
     prettier: ^2.7.1
     regexpp: ^3.2.0
     rimraf: ^3.0.2
@@ -15606,6 +15607,7 @@ __metadata:
     "@docusaurus/preset-classic": 2.4.3
     "@docusaurus/theme-common": ^2.4.3
     "@mdx-js/react": ^1.6.22
+    "@monkvision/common": 4.0.0
     "@monkvision/common-ui-web": 4.0.0
     "@monkvision/eslint-config-base": 4.0.0
     "@monkvision/eslint-config-typescript": 4.0.0
@@ -15636,6 +15638,7 @@ __metadata:
     react-router-dom: ^6.22.3
     svgo: ^3.0.2
     typescript: ^4.8.4
+    zod: ^3.23.8
   languageName: unknown
   linkType: soft
 
@@ -17875,13 +17878,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.130.1":
-  version: 1.130.1
-  resolution: "posthog-js@npm:1.130.1"
+"posthog-js@npm:^1.139.1":
+  version: 1.139.1
+  resolution: "posthog-js@npm:1.139.1"
   dependencies:
     fflate: ^0.4.8
     preact: ^10.19.3
-  checksum: fe6b1815237f07b69f1cbfecab9efaf044ff1438b914e44673c80d32a9008540430b2f47b321f32beaaf7feb1c6f69161182e6fd8d0b71a04eeace34e6940d14
+  checksum: 365f0aac0d7db27530bf58737211f9fc222c5ef81b34c9ab9a9c76f85877f8def3bb8630da7a2b6688fd961b6b4388902f189611e156cc11248ab88cdf1a3393
   languageName: node
   linkType: hard
 
@@ -22902,6 +22905,13 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.23.8":
+  version: 3.23.8
+  resolution: "zod@npm:3.23.8"
+  checksum: 15949ff82118f59c893dacd9d3c766d02b6fa2e71cf474d5aa888570c469dbf5446ac5ad562bb035bf7ac9650da94f290655c194f4a6de3e766f43febd432c5c
   languageName: node
   linkType: hard
 

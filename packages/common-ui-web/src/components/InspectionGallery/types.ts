@@ -105,6 +105,10 @@ export type InspectionGalleryProps = {
    * @default true
    */
   enableAddDamage?: boolean;
+  /**
+   * Custom label for validate button.
+   */
+  validateButtonLabel?: string;
 } & (
   | ({
       /**

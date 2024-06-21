@@ -9,6 +9,7 @@ const rows = Object.values(labels).map((label) => (
     <div className={clsx(styles['col'], styles['label-col'])}>{label.en}</div>
     <div className={clsx(styles['col'], styles['label-col'])}>{label.fr}</div>
     <div className={clsx(styles['col'], styles['label-col'])}>{label.de}</div>
+    <div className={clsx(styles['col'], styles['label-col'])}>{label.nl}</div>
   </div>
 ));
 

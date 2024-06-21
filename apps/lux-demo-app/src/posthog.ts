@@ -1,9 +1,10 @@
 import { PosthogAnalyticsAdapter } from '@monkvision/posthog';
+import { getEnvOrThrow } from '@monkvision/common';
 
 export const posthogAnalyticsAdapter = new PosthogAnalyticsAdapter({
-  token: 'phc_azbiXVxUvUjxUAVLb5zrrlzNCFpf0RSClkiJ9RxTDGU',
+  token: 'phc_9mKWu5rYzvrUT6Bo3bTzrclNa5sOILKthH9BA9sna0M',
   api_host: 'https://eu.posthog.com',
-  environnement: 'development',
-  projectName: 'test',
+  environnement: getEnvOrThrow('REACT_APP_ENVIRONMENT'),
+  projectName: 'lux-app',
   release: '1.0.0',
 });

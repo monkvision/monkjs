@@ -105,8 +105,8 @@ export function useMonkApi(config: MonkApiConfig) {
      *
      * @param options The options of the request.
      */
-    updateInspectionVehicule: reactify(
-      MonkApi.updateInspectionVehicule,
+    updateInspectionVehicle: reactify(
+      MonkApi.updateInspectionVehicle,
       config,
       dispatch,
       handleError,

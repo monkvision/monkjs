@@ -1,4 +1,4 @@
-import { SVGProps, useMemo } from 'react';
+import { CSSProperties, SVGProps, useMemo } from 'react';
 import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './types';
 
 /**
@@ -10,15 +10,16 @@ export function useCustomAttributes({
   element,
   groupIds,
   getAttributes,
+  style,
 }: Pick<DynamicSVGCustomizationFunctions, 'getAttributes'> &
-  Required<SVGElementCustomProps>): SVGProps<SVGSVGElement> | null {
+  Required<SVGElementCustomProps> & { style: CSSProperties }): SVGProps<SVGElement> | null {
   return useMemo(() => {
     const elementTag = element.tagName;
-
     if (['svg', 'g'].includes(elementTag)) {
       return { pointerEvents: 'box-none' };
     }
-
-    return getAttributes ? getAttributes(element, groupIds) : null;
+    if (!getAttributes) return { style };
+    const attributes = getAttributes(element, groupIds);
+    return { ...attributes, style: { ...attributes?.style, ...style } };
   }, [element, groupIds, getAttributes]);
 }
