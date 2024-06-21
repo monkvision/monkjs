@@ -1,22 +1,5 @@
 import { sights } from '@monkvision/sights';
-import { act, render, waitFor } from '@testing-library/react';
-import { Camera } from '@monkvision/camera-web';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { useI18nSync, useLoadingState } from '@monkvision/common';
 import { CameraResolution, ComplianceIssue, CompressionFormat, TaskName } from '@monkvision/types';
-import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
-import { useMonitoring } from '@monkvision/monitoring';
-import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
-import {
-  useAdaptiveCameraConfig,
-  useAddDamageMode,
-  useBadConnectionWarning,
-  usePhotoCaptureImages,
-  usePhotoCaptureSightState,
-  usePictureTaken,
-  useStartTasksOnComplete,
-  useUploadQueue,
-} from '../../src/PhotoCapture/hooks';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -65,6 +48,24 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   })),
   useTracking: jest.fn(),
 }));
+
+import { act, render, waitFor } from '@testing-library/react';
+import { Camera } from '@monkvision/camera-web';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
+import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
+import { useMonitoring } from '@monkvision/monitoring';
+import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
+import {
+  useAdaptiveCameraConfig,
+  useAddDamageMode,
+  useBadConnectionWarning,
+  usePhotoCaptureImages,
+  usePhotoCaptureSightState,
+  usePictureTaken,
+  useStartTasksOnComplete,
+  useUploadQueue,
+} from '../../src/PhotoCapture/hooks';
 
 function createProps(): PhotoCaptureProps {
   return {
@@ -428,6 +429,15 @@ describe('PhotoCapture component', () => {
     expect(closeBadConnectionWarningDialog).not.toHaveBeenCalled();
     onConfirm();
     expect(closeBadConnectionWarningDialog).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should ask the user for confirmation before exit', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expect(usePreventExit).toHaveBeenCalled();
 
     unmount();
   });
