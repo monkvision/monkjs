@@ -13,6 +13,7 @@ import {
   useLoadingState,
   useWindowDimensions,
   useObjectMemo,
+  usePreventExit,
 } from '@monkvision/common';
 import { MonkApiConfig } from '@monkvision/network';
 import { useAnalytics } from '@monkvision/analytics';
@@ -139,6 +140,7 @@ export function PhotoCapture({
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
+  usePreventExit();
   useComplianceAnalytics({ inspectionId, sights });
   const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
     useAdaptiveCameraConfig({

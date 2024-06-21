@@ -1,6 +1,5 @@
 import { MemoryRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthGuard } from '@monkvision/common-ui-web';
-import { usePreventExit } from '@monkvision/common';
 import {
   CreateInspectionPage,
   LoginPage,
@@ -11,7 +10,6 @@ import {
 import { App } from './App';
 
 export function AppRouter() {
-  usePreventExit();
   return (
     <MemoryRouter>
       <Routes>

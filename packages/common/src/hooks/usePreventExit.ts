@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 /**
  * Hook that prevents the user from leaving the page without confirmation.
+ *
  * @example
  * ```tsx
  * import { usePreventExit } from '@monkvision/common';
