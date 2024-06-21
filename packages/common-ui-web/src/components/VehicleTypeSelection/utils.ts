@@ -1,3 +1,5 @@
+import { GetInspectionResponse } from '@monkvision/network';
+import { sights, vehicles } from '@monkvision/sights';
 import { VehicleType } from '@monkvision/types';
 
 export const VEHICLE_TYPE_ORDER = [
@@ -39,4 +41,22 @@ export function getInitialSelectedVehicleType(
     return selectedVehicleType;
   }
   return vehicleTypes[Math.floor(vehicleTypes.length / 2)];
+}
+
+export function getVehicleTypeFromInspection(
+  response: GetInspectionResponse,
+): VehicleType | undefined {
+  const imageWithSightId = response.entities.images.find((image) => image.sightId);
+  if (!imageWithSightId) {
+    return undefined;
+  }
+
+  const sight = Object.values(sights).find((s) => s.id === imageWithSightId.sightId);
+  if (!sight) {
+    return undefined;
+  }
+
+  const vehicle = Object.values(vehicles).find((v) => v.id === sight.vehicle);
+
+  return vehicle?.type;
 }
