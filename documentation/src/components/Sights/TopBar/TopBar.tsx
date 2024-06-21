@@ -21,8 +21,7 @@ export interface TopBarProps {
   onSelectTab: (tab: Tab) => void;
   onLookupInput: (value: string) => void;
 }
-
-export const tabs = {
+export const tabs: Record<'sights' | 'vehicles' | 'labels', Tab> = {
   sights: {
     key: 'sights',
     items: Object.values(sights).map((sight) => ({

@@ -14,7 +14,7 @@ export interface DynamicSVGCustomizationFunctions {
    * @return This callback should return a set of custom HTML attributes to pass to the element or `null` for no
    * attributes.
    */
-  getAttributes?: (element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> | null;
+  getAttributes?: (element: SVGElement, groupIds: string[]) => SVGProps<SVGElement>;
   /**
    * A callback used to customize the inner text of SVG tags in a DynamicSVG component based on the HTMLElement itself,
    * or the IDs of the groups this element is part of.
@@ -23,7 +23,7 @@ export interface DynamicSVGCustomizationFunctions {
    * @param groupIds The IDs of the SVG group elements this element is part of (the IDs are in order).
    * @return This callback should return a string to use for the innerText of the element or `null` for no innerText.
    */
-  getInnerText?: (element: Element, groupIds: string[]) => string | null;
+  getInnerText?: (element: SVGSVGElement, groupIds: string[]) => string | null;
 }
 
 /**
@@ -34,7 +34,7 @@ export interface SVGElementCustomProps {
   /**
    * The HTMLElement representing the SVG tag that the SVGElement is supposed to display.
    */
-  element: Element;
+  element: SVGSVGElement;
   /**
    * The IDs of the SVG groups this element is part of (in order).
    *

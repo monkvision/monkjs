@@ -48,7 +48,7 @@ export interface DynamicSVGProps
 export function DynamicSVG({ svg, ...passThroughProps }: DynamicSVGProps) {
   const doc = useXMLParser(svg);
   const svgEl = useMemo(() => {
-    const element = doc.children[0];
+    const element = doc.children[0] as SVGSVGElement;
     if (element.tagName !== 'svg') {
       throw new Error(
         `Invalid SVG string provided to the DynamicSVG component: expected <svg> tag as the first children of XML document but got <${element.tagName}>.`,
