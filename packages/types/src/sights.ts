@@ -198,6 +198,10 @@ export interface VehicleDetails {
   dimensionsXYZ?: number[];
 }
 
+export interface PartSelectionWireframes {
+  // TODO
+}
+
 /**
  * The translation of labels for Sights, VehicleTypes etc.
  */
@@ -222,6 +226,11 @@ export type LabelDictionary = Record<string, LabelTranslation>;
  * A dictionary that maps sight ids to sight objects.
  */
 export type SightDictionary = Record<string, Sight>;
+
+// TODO
+export type PartSelectionWireframesDictionnary = Partial<
+  Record<VehicleModel, PartSelectionWireframes>
+>;
 
 /**
  * Enumeration of the two positions in which the steering wheel can be.
