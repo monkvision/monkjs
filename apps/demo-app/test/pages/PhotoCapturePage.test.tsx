@@ -28,6 +28,7 @@ const appState = {
     useLiveCompliance: 'test-useLiveCompliance-test',
     customComplianceThresholds: 'test-customComplianceThresholds-test',
     customComplianceThresholdsPerSight: 'test-customComplianceThresholdsPerSight-test',
+    additionalTasks: 'test-additionalTasks-test',
   },
 };
 
@@ -60,6 +61,7 @@ describe('PhotoCapture page', () => {
       useLiveCompliance: appState.config.useLiveCompliance,
       customComplianceThresholds: appState.config.customComplianceThresholds,
       customComplianceThresholdsPerSight: appState.config.customComplianceThresholdsPerSight,
+      additionalTasks: appState.config.additionalTasks,
     });
 
     unmount();
