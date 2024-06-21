@@ -30,6 +30,7 @@ const appState = {
     useLiveCompliance: 'test-useLiveCompliance-test',
     customComplianceThresholds: 'test-customComplianceThresholds-test',
     customComplianceThresholdsPerSight: 'test-customComplianceThresholdsPerSight-test',
+    additionalTasks: 'test-additional-tasks',
     validateButtonLabel: 'photo-capture.validate-label',
   },
 };
@@ -69,6 +70,7 @@ describe('PhotoCapture page', () => {
       useLiveCompliance: appState.config.useLiveCompliance,
       customComplianceThresholds: appState.config.customComplianceThresholds,
       customComplianceThresholdsPerSight: appState.config.customComplianceThresholdsPerSight,
+      additionalTasks: appState.config.additionalTasks,
       validateButtonLabel: t(appState.config.validateButtonLabel),
     });
 
