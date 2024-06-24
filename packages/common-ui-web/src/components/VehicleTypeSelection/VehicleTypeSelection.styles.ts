@@ -12,10 +12,11 @@ export const styles: Styles = {
   containerSmall: {
     __media: { maxWidth: 500 },
     gridTemplate: `'title' 0
-                  'slider' 1fr 
+                  'slider' 1fr
                   'button' 1fr/ auto`,
   },
   loadingContainer: {
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },

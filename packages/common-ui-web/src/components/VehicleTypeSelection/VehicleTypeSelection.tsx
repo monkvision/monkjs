@@ -83,7 +83,7 @@ export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) 
     authToken: props.authToken ?? '',
     apiDomain: props.apiDomain ?? '',
   });
-  const loading = useLoadingState(true);
+  const loading = useLoadingState();
   const { handleError, setTags, setUserId } = useMonitoring();
   const analytics = useAnalytics();
   const [initialScroll, setInitialScroll] = useState(true);
@@ -112,17 +112,17 @@ export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) 
   }, [props.inspectionId, props.authToken, analytics, setTags, setUserId]);
 
   useEffect(() => {
+    loading.start();
     const fetchInspection = async () => {
       if (!props.inspectionId) {
         loading.onSuccess();
         return;
       }
-      loading.start();
       const fetchedInspection = await getInspection({
         id: props.inspectionId,
       });
       const vehicleType = getVehicleTypeFromInspection(fetchedInspection);
-      if (vehicleType && props.availableVehicleTypes?.includes(vehicleType)) {
+      if (vehicleType && vehicleTypes.includes(vehicleType)) {
         props.onSelectVehicleType?.(vehicleType);
       }
       loading.onSuccess();
@@ -146,8 +146,8 @@ export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) 
       style={{
         ...rootStyles,
         ...styles['container'],
-        ...loadingContainer,
         ...responsive(styles['containerSmall']),
+        ...loadingContainer,
       }}
     >
       {loading.isLoading && <Spinner size={80} />}
