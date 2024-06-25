@@ -35,6 +35,7 @@ function createParams(): PhotoCaptureSightsParams {
       complianceIssuesPerSight: { test: [ComplianceIssue.OVEREXPOSURE] },
       useLiveCompliance: true,
     },
+    setIsInitialInspectionFetched: jest.fn(),
   };
 }
 

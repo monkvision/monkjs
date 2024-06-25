@@ -22,7 +22,7 @@ describe('useComplianceAnalytics hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should only track non compliant image', () => {
+  it('should not send event for the first inspection fetch', () => {
     const initialProps = createParams();
     const state = createEmptyMonkState();
     state.inspections.push({
@@ -53,7 +53,7 @@ describe('useComplianceAnalytics hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
     const { unmount } = renderHook(useComplianceAnalytics, { initialProps });
     const { trackEvent } = (useAnalytics as jest.Mock).mock.results[0].value;
-    expect(trackEvent).toBeCalledTimes(1);
+    expect(trackEvent).not.toBeCalled();
 
     unmount();
   });

@@ -25,7 +25,9 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   })),
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
   usePhotoCaptureImages: jest.fn(() => [{ id: 'test' }]),
-  useComplianceAnalytics: jest.fn(),
+  useComplianceAnalytics: jest.fn(() => ({
+    isInitialInspectionFetched: jest.fn(),
+  })),
   useBadConnectionWarning: jest.fn(() => ({
     isBadConnectionWarningDialogDisplayed: true,
     closeBadConnectionWarningDialog: jest.fn(),

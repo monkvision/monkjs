@@ -85,6 +85,7 @@ export interface PhotoCaptureSightsParams {
    * The options for the compliance conf
    */
   complianceOptions: ComplianceOptions;
+  setIsInitialInspectionFetched: (state: boolean) => void;
   /**
    * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
    * sight will be used.
@@ -166,6 +167,7 @@ export function usePhotoCaptureSightState({
   loading,
   onLastSightTaken,
   tasksBySight,
+  setIsInitialInspectionFetched,
   complianceOptions,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
@@ -182,6 +184,7 @@ export function usePhotoCaptureSightState({
 
   const onFetchInspection = (response: MonkApiResponse<GetInspectionResponse>) => {
     try {
+      setIsInitialInspectionFetched(true);
       assertInspectionIsValid(inspectionId, response, captureSights, tasksBySight);
       const alreadyTakenSights = getSightsTaken(inspectionId, response);
       setSightsTaken(alreadyTakenSights);

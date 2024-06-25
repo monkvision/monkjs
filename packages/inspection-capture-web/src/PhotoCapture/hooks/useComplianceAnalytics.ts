@@ -26,6 +26,7 @@ export interface ComplianceAnalyticsParams {
  */
 export function useComplianceAnalytics({ inspectionId, sights }: ComplianceAnalyticsParams) {
   const [imagesEventTracking, setImagesEventTracking] = useState<ImageEventTracking[]>([]);
+  const [isInitialInspectionFetched, setIsInitialInspectionFetched] = useState(false);
   const { state } = useMonkState();
   const { trackEvent } = useAnalytics();
 
@@ -38,11 +39,13 @@ export function useComplianceAnalytics({ inspectionId, sights }: ComplianceAnaly
           return imageEventTracking;
         }
         if (image.status === ImageStatus.NOT_COMPLIANT && image.complianceIssues) {
-          trackEvent('Compliance Issue', {
-            complianceIssue: image.complianceIssues.at(0),
-            sightId: image.sightId,
-            sightLabel: sights.find((sight) => sight.id === image.sightId)?.label,
-          });
+          if (isInitialInspectionFetched) {
+            trackEvent('Compliance Issue', {
+              complianceIssue: image.complianceIssues.at(0),
+              sightId: image.sightId,
+              sightLabel: sights.find((sight) => sight.id === image.sightId)?.label,
+            });
+          }
           return { ...image, isAlreadySent: true };
         }
         return { ...image, isAlreadySent: false };
@@ -50,4 +53,5 @@ export function useComplianceAnalytics({ inspectionId, sights }: ComplianceAnaly
 
     setImagesEventTracking(newImagesEventTracking);
   }, [state]);
+  return { setIsInitialInspectionFetched };
 }
