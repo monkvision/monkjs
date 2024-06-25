@@ -1,22 +1,11 @@
-import { useState } from 'react';
+import { useAnalytics } from '@monkvision/analytics';
 import { Camera, CameraHUDProps, CameraProps } from '@monkvision/camera-web';
-import {
-  CaptureAppConfig,
-  ComplianceOptions,
-  DeviceOrientation,
-  Sight,
-  CompressionOptions,
-  CameraConfig,
-} from '@monkvision/types';
 import {
   useI18nSync,
   useLoadingState,
-  useWindowDimensions,
   useObjectMemo,
+  useWindowDimensions,
 } from '@monkvision/common';
-import { MonkApiConfig } from '@monkvision/network';
-import { useAnalytics } from '@monkvision/analytics';
-import { useMonitoring } from '@monkvision/monitoring';
 import {
   BackdropDialog,
   Icon,
@@ -24,21 +13,32 @@ import {
   NavigateToCaptureOptions,
   NavigateToCaptureReason,
 } from '@monkvision/common-ui-web';
-import { useTranslation } from 'react-i18next';
+import { useMonitoring } from '@monkvision/monitoring';
+import { MonkApiConfig } from '@monkvision/network';
 import {
+  CameraConfig,
+  CaptureAppConfig,
+  ComplianceOptions,
+  CompressionOptions,
+  DeviceOrientation,
+  Sight,
+} from '@monkvision/types';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { styles } from './PhotoCapture.styles';
+import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
+import {
+  useAdaptiveCameraConfig,
   useAddDamageMode,
-  usePhotoCaptureImages,
+  useBadConnectionWarning,
   useComplianceAnalytics,
+  usePhotoCaptureImages,
   usePhotoCaptureSightState,
   usePictureTaken,
   useStartTasksOnComplete,
-  useUploadQueue,
-  useBadConnectionWarning,
-  useAdaptiveCameraConfig,
   useTracking,
+  useUploadQueue,
 } from './hooks';
-import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
-import { styles } from './PhotoCapture.styles';
 
 /**
  * Props of the PhotoCapture component.
@@ -146,7 +146,7 @@ export function PhotoCapture({
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
   useTracking({ inspectionId, authToken: apiConfig.authToken });
-  useComplianceAnalytics({ inspectionId, sights });
+  const { setIsInitialInspectionFetched } = useComplianceAnalytics({ inspectionId, sights });
   const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
     useAdaptiveCameraConfig({
       initialCameraConfig,
@@ -172,6 +172,7 @@ export function PhotoCapture({
     onLastSightTaken,
     tasksBySight,
     complianceOptions,
+    setIsInitialInspectionFetched,
   });
   const {
     isBadConnectionWarningDialogDisplayed,
