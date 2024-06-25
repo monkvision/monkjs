@@ -216,7 +216,10 @@ export function PhotoCapture({
     startTasks()
       .then(() => {
         analytics.trackEvent('Capture Completed');
-        analytics.setUserProperties({ captureCompleted: true });
+        analytics.setUserProperties({
+          captureCompleted: true,
+          sightSelected: 'inspection-completed',
+        });
         onComplete?.();
       })
       .catch((err) => {
