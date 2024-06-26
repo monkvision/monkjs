@@ -4,6 +4,7 @@ import {
   useI18nSync,
   useLoadingState,
   useObjectMemo,
+  usePreventExit,
   useWindowDimensions,
 } from '@monkvision/common';
 import {
@@ -212,6 +213,7 @@ export function PhotoCapture({
     }
     setCurrentScreen(PhotoCaptureScreen.CAMERA);
   };
+  const { allowRedirect } = usePreventExit(sightState.sightsTaken.length !== 0);
   const handleGalleryValidate = () => {
     startTasks()
       .then(() => {
@@ -220,6 +222,7 @@ export function PhotoCapture({
           captureCompleted: true,
           sightSelected: 'inspection-completed',
         });
+        allowRedirect();
         onComplete?.();
       })
       .catch((err) => {
@@ -230,7 +233,6 @@ export function PhotoCapture({
   const isViolatingEnforcedOrientation =
     enforceOrientation &&
     (enforceOrientation === DeviceOrientation.PORTRAIT) !== dimensions.isPortrait;
-
   const hudProps: Omit<PhotoCaptureHUDProps, keyof CameraHUDProps> = {
     sights,
     selectedSight: sightState.selectedSight,
