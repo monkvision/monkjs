@@ -1,6 +1,13 @@
-import { LabelDictionary, SightDictionary, VehicleDictionary } from '@monkvision/types';
+import {
+  LabelDictionary,
+  SightDictionary,
+  VehicleDictionary,
+  WireFrameDictionary,
+} from '@monkvision/types';
 // @ts-ignore
 import labelsJSON from './data/labels.json';
+// @ts-ignore
+import wireFrameJSON from './data/wireframes.json';
 // @ts-ignore
 import vehiclesJSON from './data/vehicles.json';
 // @ts-ignore
@@ -50,8 +57,9 @@ const sights = {
   ...vwtrocSightsJSON,
 } as SightDictionary;
 
-export {
-  labels,
-  vehicles,
-  sights,
-};
+/**
+ * associating vehicle models to part selection wire frames if it present.
+ */
+const wireFrame: WireFrameDictionary = wireFrameJSON;
+
+export { labels, sights, vehicles, wireFrame };
