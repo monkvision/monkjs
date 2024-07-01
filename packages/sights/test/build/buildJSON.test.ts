@@ -1,9 +1,9 @@
 jest.mock('fs');
 jest.mock('../../src/io');
 
+import { SightCategory, SightDictionary, TaskName, VehicleModel } from '@monkvision/types';
 import fs from 'fs';
 import { join, resolve } from 'path';
-import { SightCategory, SightDictionary, TaskName, VehicleModel } from '@monkvision/types';
 import { buildJSONs } from '../../src/build/buildJSONs';
 import * as io from '../../src/io';
 import { pathsEqual } from '../utils';
@@ -128,7 +128,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
       expect(call?.[0]).toEqual(properlyMappedLabels);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/labels.json')),
@@ -157,7 +157,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
       expect(call?.[0]).toEqual(properlyMappedVehicles);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/vehicles.json')),
@@ -187,10 +187,11 @@ describe('JSON builder module', () => {
       const calls = saveLibJSONSpy.mock.calls.filter(
         (args) =>
           !(args[1] as string).endsWith('labels.json') &&
-          !(args[1] as string).endsWith('vehicles.json'),
+          !(args[1] as string).endsWith('vehicles.json') &&
+          !(args[1] as string).endsWith('wireFrames.json'),
       );
 
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
       expect(calls.length).toEqual(Object.values(VehicleModel).length);
       Object.values(VehicleModel).forEach((vehicle) => {
         const call = calls.find((args) => (args[1] as string).endsWith(`${vehicle}.json`));
