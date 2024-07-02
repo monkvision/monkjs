@@ -1,7 +1,7 @@
 import { Button } from '@monkvision/common-ui-web';
-import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePhotoCaptureHUDButtonBackground } from '../../hooks';
+import { getVisilityStyle } from '../utils';
 
 /**
  * Props of the AddDamageButton component.
@@ -19,10 +19,6 @@ export interface AddDamageButtonProps {
   enableAddDamage?: boolean;
 }
 
-function getButtonStyle(enableAddDamage?: boolean): CSSProperties {
-  return { visibility: enableAddDamage ? 'visible' : 'hidden' };
-}
-
 /**
  * Custom button displayed in the PhotoCapture Camera HUD that allows user to enter add damage mode.
  */
@@ -31,15 +27,19 @@ export function AddDamageButton({ onAddDamage, enableAddDamage }: AddDamageButto
   const primaryColor = usePhotoCaptureHUDButtonBackground();
 
   return (
-    <Button
-      icon='add'
-      style={getButtonStyle(enableAddDamage)}
-      disabled={!enableAddDamage}
-      onClick={onAddDamage}
-      data-testid='monk-test-btn'
-      primaryColor={primaryColor}
-    >
-      {t('photo.hud.sight.addDamageBtn')}
-    </Button>
+    <>
+      {enableAddDamage && (
+        <Button
+          icon='add'
+          style={getVisilityStyle(enableAddDamage)}
+          disabled={!enableAddDamage}
+          onClick={onAddDamage}
+          data-testid='monk-test-btn'
+          primaryColor={primaryColor}
+        >
+          {t('photo.hud.sight.addDamageBtn')}
+        </Button>
+      )}
+    </>
   );
 }

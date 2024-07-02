@@ -24,19 +24,16 @@ export const styles: Styles = {
   top: {
     display: 'flex',
     alignSelf: 'stretch',
-    flexDirection: 'row',
     alignItems: 'start',
-    justifyContent: 'end',
+    justifyContent: 'space-between',
     margin: 10,
+    zIndex: '10',
   },
   bottom: {
     display: 'flex',
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 9,
-  },
-  overlay: {
     zIndex: 9,
   },
 };

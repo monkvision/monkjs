@@ -1,4 +1,4 @@
-import { Image, PixelDimensions, Sight } from '@monkvision/types';
+import { Image, PixelDimensions, Sight, SightGuideline } from '@monkvision/types';
 import { useResponsiveStyle } from '@monkvision/common';
 import { styles } from './PhotoCaptureHUDElementsSight.styles';
 
@@ -44,6 +44,16 @@ export interface PhotoCaptureHUDElementsSightProps {
    * @default true
    */
   enableAddDamage?: boolean;
+  /**
+   *
+   */
+  sightGuidelines?: SightGuideline[];
+  /**
+   * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be hidden.
+   *
+   * @default true
+   */
+  enableSightGuideline?: boolean;
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle({
@@ -64,5 +74,7 @@ export function usePhotoCaptureHUDSightPreviewStyle({
       width: previewDimensions?.width,
       height: previewDimensions?.height,
     },
+    guidelineBtn: styles['guidelineBtn'],
+    addDamageBtn: styles['addDamageBtn'],
   };
 }
