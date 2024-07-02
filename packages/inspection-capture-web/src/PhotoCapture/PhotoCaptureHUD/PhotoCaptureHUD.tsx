@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Image, ImageStatus, Sight } from '@monkvision/types';
+import { Image, ImageStatus, Sight, SightGuideline } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -88,6 +88,16 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    * @default true
    */
   enableAddDamage?: boolean;
+  /**
+   *
+   */
+  sightGuidelines?: SightGuideline[];
+  /**
+   * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be hidden.
+   *
+   * @default true
+   */
+  enableSightGuideline?: boolean;
 }
 
 /**
@@ -115,6 +125,8 @@ export function PhotoCaptureHUD({
   cameraPreview,
   images,
   enableAddDamage,
+  sightGuidelines,
+  enableSightGuideline,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -154,6 +166,8 @@ export function PhotoCaptureHUD({
           previewDimensions={handle.previewDimensions}
           images={images}
           enableAddDamage={enableAddDamage}
+          sightGuidelines={sightGuidelines}
+          enableSightGuideline={enableSightGuideline}
         />
       </div>
       <PhotoCaptureHUDButtons

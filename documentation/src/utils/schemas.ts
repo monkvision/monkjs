@@ -8,6 +8,7 @@ import {
   SteeringWheelPosition,
   TaskName,
   VehicleType,
+  SightGuideline, SightLabel,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { flatten } from '@monkvision/common';
@@ -91,6 +92,16 @@ export const ComplianceOptionsSchema = z.object({
     .optional()
     .refine(validateSightIds, getInvalidSightIdsMessage),
 });
+
+export const SightGuidelineSchema = z.object({
+  sightIds: z.array(z.string()),
+  en: z.string(),
+  fr: z.string().optional(),
+  de: z.string().optional(),
+  nl: z.string().optional(),
+  information: z.string().optional()
+})
+
 
 export const AccentColorVariantsSchema = z.object({
   xdark: z.string(),
@@ -220,6 +231,8 @@ export const LiveConfigSchema = z
     useAdaptiveImageQuality: z.boolean().optional(),
     allowSkipRetake: z.boolean().optional(),
     enableAddDamage: z.boolean().optional(),
+    enableSightGuideline: z.boolean().optional(),
+    sightGuidelines: z.array(SightGuidelineSchema),
     defaultVehicleType: z.nativeEnum(VehicleType),
     allowManualLogin: z.boolean(),
     allowVehicleTypeSelection: z.boolean(),

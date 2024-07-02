@@ -5,9 +5,21 @@ import { Button } from '@monkvision/common-ui-web';
 import { AddDamageButton } from '../../../../src';
 
 describe('AddDamageButton component', () => {
+  it('should not render when enableAddDamage is false', () => {
+    const onAddDamage = jest.fn();
+    const { unmount } = render(
+      <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={false} />,
+    );
+    expect(Button).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
   it('should pass the onAddDamage callback to the onClick event of the Button', () => {
     const onAddDamage = jest.fn();
-    const { unmount } = render(<AddDamageButton onAddDamage={onAddDamage} />);
+    const { unmount } = render(
+      <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={true} />,
+    );
 
     expectPropsOnChildMock(Button, { onClick: onAddDamage });
 
@@ -18,21 +30,10 @@ describe('AddDamageButton component', () => {
     const label = 'test-label-ok';
     const tMock = jest.fn(() => label);
     (useTranslation as jest.Mock).mockImplementationOnce(() => ({ t: tMock }));
-    const { unmount } = render(<AddDamageButton />);
+    const { unmount } = render(<AddDamageButton enableAddDamage={true} />);
 
     expect(tMock).toHaveBeenCalledWith('photo.hud.sight.addDamageBtn');
     expectPropsOnChildMock(Button, { children: label });
-
-    unmount();
-  });
-
-  it('should be disabled and not visible when enableAddDamage is false', () => {
-    const onAddDamage = jest.fn();
-    const { unmount } = render(
-      <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={false} />,
-    );
-
-    expectPropsOnChildMock(Button, { style: { visibility: 'hidden' }, disabled: true });
 
     unmount();
   });

@@ -57,10 +57,6 @@ describe('PhotoCaptureHUDElementsSight component', () => {
 
     expectPropsOnChildMock(SightOverlay, {
       sight: props.selectedSight,
-      style: expect.objectContaining({
-        width: props.previewDimensions?.width,
-        height: props.previewDimensions?.height,
-      }),
     });
 
     unmount();

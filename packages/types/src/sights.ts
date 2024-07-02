@@ -115,6 +115,174 @@ export enum VehicleModel {
 }
 
 /**
+ * Enumeration of the different sight label used in Sights package.
+ */
+export enum SightLabel {
+  /**
+   * Hood label
+   */
+  HOOD = 'hood',
+  /**
+   * Front bumper side left label
+   */
+  FRONT_BUMPER_SIDE_LEFT = 'front-bumper-side-left',
+  /**
+   * Lateral full left label
+   */
+  LATERAL_FULL_LEFT = 'lateral-full-left',
+  /**
+   * Rear lateral full right label
+   */
+  REAR_LATERAL_FULL_RIGHT = 'rear-lateral-full-right',
+  /**
+   * Rear left label
+   */
+  REAR_LEFT = 'rear-left',
+  /**
+   * Lateral left label
+   */
+  LATERAL_LEFT = 'lateral-left',
+  /**
+   * Lateral full right label
+   */
+  LATERAL_FULL_RIGHT = 'lateral-full-right',
+  /**
+   * Beauty shot left label
+   */
+  BEAUTY_SHOT_LEFT = 'beauty-shot-left',
+  /**
+   * Front fender left label
+   */
+  FRONT_FENDER_LEFT = 'front-fender-left',
+  /**
+   * Rear lateral full left label
+   */
+  REAR_LATERAL_FULL_LEFT = 'rear-lateral-full-left',
+  /**
+   * Front lateral low right label
+   */
+  FRONT_LATERAL_LOW_RIGHT = 'front-lateral-low-right',
+  /**
+   * Rear low label
+   */
+  REAR_LOW = 'rear-low',
+  /**
+   * Rear lateral low right label
+   */
+  REAR_LATERAL_LOW_RIGHT = 'rear-lateral-low-right',
+  /**
+   * Front door left label
+   */
+  FRONT_DOOR_LEFT = 'front-door-left',
+  /**
+   * Rear lateral low left label
+   */
+  REAR_LATERAL_LOW_LEFT = 'rear-lateral-low-left',
+  /**
+   * Rear door right label
+   */
+  REAR_DOOR_RIGHT = 'rear-door-right',
+  /**
+   * Rear zoomed label
+   */
+  REAR_ZOOMED = 'rear-zoomed',
+  /**
+   * Rear lateral right label
+   */
+  REAR_LATERAL_RIGHT = 'rear_lateral-right',
+  /**
+   * Rear label
+   */
+  REAR = 'rear',
+  /**
+   * Front low label
+   */
+  FRONT_LOW = 'front-low',
+  /**
+   * Front roof left label
+   */
+  FRONT_ROOF_LEFT = 'front-roof-left',
+  /**
+   * Rear door left label
+   */
+  REAR_DOOR_LEFT = 'rear-door-left',
+  /**
+   * Front door right label
+   */
+  FRONT_DOOR_RIGHT = 'front-door-right',
+  /**
+   * Rear roof right label
+   */
+  REAR_ROOF_RIGHT = 'rear-roof-right',
+  /**
+   * Rear right label
+   */
+  REAR_RIGHT = 'rear-right',
+  /**
+   * Front bumper side right label
+   */
+  FRONT_BUMPER_SIDE_RIGHT = 'front-bumper-side-right',
+  /**
+   * Rear roof label
+   */
+  REAR_ROOF = 'rear-roof',
+  /**
+   * Front lateral full right label
+   */
+  FRONT_LATERAL_FULL_RIGHT = 'front-lateral-full-right',
+  /**
+   * Lateral low right label
+   */
+  LATERAL_LOW_RIGHT = 'lateral-low-right',
+  /**
+   * Rear lateracl left label
+   */
+  REAR_LATERAL_LEFT = 'rear-lateral-left',
+  /**
+   * Front lateral low left label
+   */
+  FRONT_LATERAL_LOW_LEFT = 'front-lateral-low-left',
+  /**
+   * Lateral low left label
+   */
+  LATERAL_LOW_LEFT = 'lateral-low-left',
+  /**
+   * Front fender right label
+   */
+  FRONT_FENDER_RIGHT = 'front-fender-right',
+}
+
+/**
+ * Interface describing the sight guideline.
+ */
+export interface SightGuideline {
+  /**
+   * The list of sight IDs associated with this guideline.
+   */
+  sightIds: string[];
+  /**
+   * The guideline text in English.
+   */
+  en: string;
+  /**
+   * The guideline text in French.
+   */
+  fr?: string;
+  /**
+   * The guideline text in German.
+   */
+  de?: string;
+  /**
+   * The guideline text in Dutch.
+   */
+  nl?: string;
+  /**
+   * Divers information about guideline.
+   */
+  information?: string;
+}
+
+/**
  * Details of a sight with its overlay as an SVG string.
  */
 export interface Sight {
@@ -129,7 +297,7 @@ export interface Sight {
   /**
    * The translation key of the sight's label.
    */
-  label: string;
+  label: SightLabel;
   /**
    * The sight's overlay as an SVG string.
    */

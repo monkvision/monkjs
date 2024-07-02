@@ -1,4 +1,4 @@
-import { Image, PixelDimensions, Sight } from '@monkvision/types';
+import { Image, PixelDimensions, Sight, SightGuideline } from '@monkvision/types';
 import { PhotoCaptureMode } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
@@ -62,6 +62,16 @@ export interface PhotoCaptureHUDElementsProps {
    * @default true
    */
   enableAddDamage?: boolean;
+  /**
+   *
+   */
+  sightGuidelines?: SightGuideline[];
+  /**
+   * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be hidden.
+   *
+   * @default true
+   */
+  enableSightGuideline?: boolean;
 }
 
 /**
@@ -83,6 +93,8 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         previewDimensions={params.previewDimensions}
         images={params.images}
         enableAddDamage={params.enableAddDamage}
+        sightGuidelines={params.sightGuidelines}
+        enableSightGuideline={params.enableSightGuideline}
       />
     );
   }

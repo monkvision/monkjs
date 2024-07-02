@@ -96,6 +96,17 @@ function createProps(): PhotoCaptureProps {
     allowSkipRetake: true,
     enableAddDamage: true,
     maxUploadDurationWarning: 456,
+    enableSightGuideline: true,
+    sightGuidelines: [
+      {
+        en: 'en-test',
+        fr: 'fr-test',
+        de: 'de-test',
+        nl: 'nl-test',
+        information: 'info-test',
+        sightIds: ['sightId-test-1', 'sightId-test-2'],
+      },
+    ],
   };
 }
 
@@ -305,6 +316,8 @@ describe('PhotoCapture component', () => {
         onOpenGallery: expect.any(Function),
         images,
         enableAddDamage: props.enableAddDamage,
+        enableSightGuideline: props.enableSightGuideline,
+        sightGuidelines: props.sightGuidelines,
       },
     });
 
