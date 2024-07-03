@@ -137,20 +137,22 @@ function TestComponent() {
 Custom hook used to get a translation function tObj that translates TranslationObjects.
 
 ### usePreventExit
-TODO: need to add
 ```ts
 import { usePreventExit } from '@monkvision/common';
 
 function MyComponent() {
- const { forceOut } = usePreventExit(true);// commonly it should be a expression.
+ const { allowRedirect } = usePreventExit(true);
  function anyEvent(){
-  forceOut();
-  // Possible Navigation
+  allowRedirect();
+  /** ... */
  }
 }
 ```
+
 This hook is used to prevent the user from leaving the page by displaying a confirmation dialog when the user tries to
 leave the page.
+usePreventExit expects a boolean value generally a expression.
+allowRedirect - usePreventExit can be used multiple places. This act as a temporary override to allow to navigate.
 
 ### useQueue
 ```tsx

@@ -8,6 +8,7 @@ function checkNoMorePreventExit() {
   }
   return false;
 }
+
 function publish(id: symbol, preventExit: boolean) {
   allPreventExitState[id] = preventExit;
   if (!checkNoMorePreventExit())
@@ -16,31 +17,36 @@ function publish(id: symbol, preventExit: boolean) {
       return 'Confirm Alert appears';
     };
 }
+
+interface PreventExitListenerResult {
+  /**
+   * To change the preventExit state of the component.
+   */
+  setPreventExit: (preventExit: boolean) => void;
+  /**
+   * Allows the user to leave the page without confirmation temporarily.
+   * This should be used when the developer wants to explicitly allow navigation.
+   */
+  allowRedirect: () => void;
+  /**
+   * Performs garbage collection by removing the preventExit state associated with the component.
+   * This should be used when the component is unmounted.
+   */
+  cleanup: () => void;
+}
+
 /**
  * Creates a listener function that manages the preventExit state of a component.
  */
-export function createPreventExitListener() {
+export function createPreventExitListener(): PreventExitListenerResult {
   const key = Symbol('PreventExitListener');
   allPreventExitState[key] = true;
   keys.push(key);
   return {
-    /**
-     * To change the preventExit state of the component.
-     */
-    setPreventExit: (preventExit: boolean) => {
-      publish(key, preventExit);
-    },
-    /**
-     * Allows the user to leave the page without confirmation temporarily.
-     * This should be used when the developer wants to explicitly allow navigation.
-     */
+    setPreventExit: (preventExit) => publish(key, preventExit),
     allowRedirect: () => {
       window.onbeforeunload = null;
     },
-    /**
-     * Performs garbage collection by removing the preventExit state associated with the component.
-     * This should be used when the component is unmounted.
-     */
     cleanup: () => {
       delete allPreventExitState[key];
       checkNoMorePreventExit();

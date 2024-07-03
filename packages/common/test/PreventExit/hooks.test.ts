@@ -10,10 +10,10 @@ jest.mock('../../src/PreventExit/store', () => ({
   })),
 }));
 describe('PreventExit hook usePreventExit', () => {
-  let spyCreatePreventExitListener: jest.SpyInstance<typeof createPreventExitListener>;
+  let spyCreatePreventExitListener: jest.SpyInstance<ReturnType<typeof createPreventExitListener>>;
   beforeEach(() => {
     spyCreatePreventExitListener = jest.spyOn(
-      require('../../src/PreventExit/store'),
+      { createPreventExitListener },
       'createPreventExitListener',
     );
   });
