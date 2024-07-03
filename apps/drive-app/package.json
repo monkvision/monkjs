@@ -12,6 +12,7 @@
     "build:staging": "env-cmd -e staging react-scripts build",
     "build:preview": "env-cmd -e preview react-scripts build",
     "build:production": "env-cmd -e production react-scripts build",
+    "build:admin": "env-cmd -e admin react-scripts build",
     "build:backend-staging-qa": "env-cmd -e backend-staging-qa react-scripts build",
     "test": "jest",
     "test:coverage": "jest --coverage",
