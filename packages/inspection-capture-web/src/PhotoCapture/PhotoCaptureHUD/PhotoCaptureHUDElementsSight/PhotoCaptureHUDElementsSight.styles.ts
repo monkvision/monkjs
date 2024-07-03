@@ -24,9 +24,9 @@ export const styles: Styles = {
   top: {
     display: 'flex',
     alignSelf: 'stretch',
-    flexDirection: 'row',
     alignItems: 'start',
-    justifyContent: 'end',
+    justifyContent: 'space-between',
+    gap: 10,
     margin: 10,
   },
   bottom: {
@@ -34,9 +34,6 @@ export const styles: Styles = {
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 9,
-  },
-  overlay: {
     zIndex: 9,
   },
 };

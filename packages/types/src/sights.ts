@@ -115,6 +115,32 @@ export enum VehicleModel {
 }
 
 /**
+ * Interface describing the sight guideline.
+ */
+export interface SightGuideline {
+  /**
+   * The list of sight IDs associated with this guideline.
+   */
+  sightIds: string[];
+  /**
+   * The guideline text in English.
+   */
+  en: string;
+  /**
+   * The guideline text in French.
+   */
+  fr: string;
+  /**
+   * The guideline text in German.
+   */
+  de: string;
+  /**
+   * The guideline text in Dutch.
+   */
+  nl: string;
+}
+
+/**
  * Details of a sight with its overlay as an SVG string.
  */
 export interface Sight {

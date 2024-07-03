@@ -1,4 +1,4 @@
-import { Image, PixelDimensions, Sight } from '@monkvision/types';
+import { CaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
 import { PhotoCaptureMode } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
@@ -7,7 +7,8 @@ import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDEleme
 /**
  * Props of the PhotoCaptureHUDElements component.
  */
-export interface PhotoCaptureHUDElementsProps {
+export interface PhotoCaptureHUDElementsProps
+  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -56,12 +57,6 @@ export interface PhotoCaptureHUDElementsProps {
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
-  /**
-   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
-   *
-   * @default true
-   */
-  enableAddDamage?: boolean;
 }
 
 /**
@@ -83,6 +78,8 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         previewDimensions={params.previewDimensions}
         images={params.images}
         enableAddDamage={params.enableAddDamage}
+        sightGuidelines={params.sightGuidelines}
+        enableSightGuidelines={params.enableSightGuidelines}
       />
     );
   }

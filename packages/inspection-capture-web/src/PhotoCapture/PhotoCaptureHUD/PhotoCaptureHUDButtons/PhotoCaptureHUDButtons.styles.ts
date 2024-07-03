@@ -24,7 +24,6 @@ export const styles: Styles = {
     justifyContent: 'space-evenly',
     flexDirection: 'column',
     padding: '30px 40px',
-    zIndex: '9',
     backgroundColor: '#00000080',
     position: 'absolute',
   },

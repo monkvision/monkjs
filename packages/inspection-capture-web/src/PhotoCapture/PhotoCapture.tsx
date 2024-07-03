@@ -57,6 +57,8 @@ export interface PhotoCaptureProps
       | 'enforceOrientation'
       | 'allowSkipRetake'
       | 'enableAddDamage'
+      | 'sightGuidelines'
+      | 'enableSightGuidelines'
     >,
     Partial<CompressionOptions>,
     Partial<ComplianceOptions> {
@@ -122,6 +124,8 @@ export function PhotoCapture({
   useLiveCompliance = false,
   allowSkipRetake = false,
   enableAddDamage = true,
+  sightGuidelines,
+  enableSightGuidelines = true,
   useAdaptiveImageQuality = true,
   lang,
   enforceOrientation,
@@ -249,6 +253,8 @@ export function PhotoCapture({
     showCloseButton,
     images,
     enableAddDamage,
+    sightGuidelines,
+    enableSightGuidelines,
   };
 
   return (

@@ -1,6 +1,7 @@
 {
   "allowSkipRetake": true,
   "enableAddDamage": true,
+  "enableSightGuidelines": true,
   "allowVehicleTypeSelection": true,
   "allowManualLogin": true,
   "fetchFromSearchParams": true,
@@ -183,6 +184,22 @@
       "ff150-7nvlys8r"
     ]
   },
+  "sightGuidelines": [
+    {
+      "en": "Stand centred in front of the vehicle",
+      "fr": "Placez-vous centré devant le véhicule",
+      "de": "Stellen Sie sich zentriert vor das Fahrzeug",
+      "nl": "Plaats jezelf in het midden voor het voertuig",
+      "sightIds": ["jgc21-QIvfeg0X", "ff150-zXbg0l3z"]
+    },
+    {
+      "en": "Stand centred in front of the vehicle, aligned with the front grille. Center the vehicle in the frame, ensuring the entire hood, windshield and side mirrors are visible. Include the top of the vehicle in the shot.",
+      "fr": "Placez-vous au centré devant le véhicule, aligné avec la calandre avant. Centrez le véhicule dans le cadre, en veillant à ce que l'ensemble du capot, du pare-brise et des rétroviseurs soient visibles. Incluez le haut du véhicule dans la prise de vue.",
+      "de": "Stellen Sie sich zentriert vor das Fahrzeug, ausgerichtet an der Frontstoßstange. Zentrieren Sie das Fahrzeug im Rahmen, achten Sie darauf, dass die gesamte Motorhaube, die Windschutzscheibe und die Seitenspiegel sichtbar sind. Nehmen Sie die Oberseite des Fahrzeugs in den Schuss auf.",
+      "nl": "Plaats jezelf in het midden voor het voertuig, uitgelijnd met de voorgril. Centreren Sie het voertuig in de beeldframe, zorg ervoor dat de hele motorkap, de voorruit en de zijspiegels zichtbaar zijn. Neem de bovenkant van het voertuig op in de opname.",
+      "sightIds": ["jgc21-KyUUVU2P", "ffocus18-XlfgjQb9 ", "ff150-3he9UOwy"]
+    }
+  ],
   "requiredApiPermissions": [
     "monk_core_api:compliances",
     "monk_core_api:damage_detection",
