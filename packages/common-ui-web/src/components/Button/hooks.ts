@@ -156,6 +156,12 @@ export function useButtonStyle(params: MonkButtonStyleParams): MonkButtonStyle {
     const contentSize =
       params.size === 'normal' ? BUTTON_CONTENT_SIZE_NORMAL : BUTTON_CONTENT_SIZE_SMALL;
 
+    const iconStyle = {
+      ...styles['icon'],
+      ...(params.size === 'small' ? styles['iconSmall'] : {}),
+      ...(!params.hasChildren ? styles['iconOnly'] : {}),
+    };
+
     return {
       style: {
         ...styles['button'],
@@ -172,13 +178,16 @@ export function useButtonStyle(params: MonkButtonStyleParams): MonkButtonStyle {
         backgroundColor,
       },
       iconStyle: {
-        style: {
-          ...styles['icon'],
-          ...(params.size === 'small' ? styles['iconSmall'] : {}),
-          ...(!params.hasChildren ? styles['iconOnly'] : {}),
-        },
+        style: iconStyle,
         color: foregroundColor,
         size: contentSize,
+      },
+      iconContainerStyle: {
+        style: {
+          width: contentSize,
+          height: contentSize,
+          ...iconStyle,
+        },
       },
       spinnerStyle: {
         style: {

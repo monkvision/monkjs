@@ -92,6 +92,14 @@ export const ComplianceOptionsSchema = z.object({
     .refine(validateSightIds, getInvalidSightIdsMessage),
 });
 
+export const SightGuidelineSchema = z.object({
+  sightIds: z.array(z.string()),
+  en: z.string(),
+  fr: z.string(),
+  de: z.string(),
+  nl: z.string(),
+});
+
 export const AccentColorVariantsSchema = z.object({
   xdark: z.string(),
   dark: z.string(),
@@ -220,6 +228,8 @@ export const LiveConfigSchema = z
     useAdaptiveImageQuality: z.boolean().optional(),
     allowSkipRetake: z.boolean().optional(),
     enableAddDamage: z.boolean().optional(),
+    enableSightGuidelines: z.boolean().optional(),
+    sightGuidelines: z.array(SightGuidelineSchema).optional(),
     defaultVehicleType: z.nativeEnum(VehicleType),
     allowManualLogin: z.boolean(),
     allowVehicleTypeSelection: z.boolean(),

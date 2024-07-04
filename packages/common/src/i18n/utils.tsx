@@ -9,7 +9,7 @@ import {
   useEffect,
 } from 'react';
 import { I18nextProvider, initReactI18next, useTranslation } from 'react-i18next';
-import { monkLanguages } from '@monkvision/types';
+import { MonkLanguage, monkLanguages } from '@monkvision/types';
 
 /**
  * This custom hook automatically updates the current i18n instance's language with the given language if is it not null
@@ -87,4 +87,16 @@ export function i18nWrap<T, P>(
       <Component ref={ref} {...props} />
     </I18nextProvider>
   ));
+}
+
+/**
+ * This function retrieves the language prefix from a given language string.
+ * If the prefix is not found in the list of supported languages (monkLanguages in Types package), defaults to 'en'.
+ *
+ * @param language - The full language string (e.g., 'en-US', 'fr-CA').
+ * @returns The language prefix if it is supported; otherwise, 'en'.
+ */
+export function getLanguage(language: string): MonkLanguage {
+  const languagePrefix = language.slice(0, 2) as MonkLanguage;
+  return monkLanguages.includes(languagePrefix) ? languagePrefix : 'en';
 }

@@ -5,6 +5,7 @@ import { AddDamageButton } from './AddDamageButton';
 import { PhotoCaptureHUDElementsSightProps, usePhotoCaptureHUDSightPreviewStyle } from './hooks';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
 import { PhotoCaptureMode } from '../../hooks';
+import { SightGuideline } from './SightGuideline';
 
 /**
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
@@ -20,14 +21,22 @@ export function PhotoCaptureHUDElementsSight({
   previewDimensions,
   images,
   enableAddDamage,
+  sightGuidelines,
+  enableSightGuidelines,
 }: PhotoCaptureHUDElementsSightProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
 
   return (
     <div style={styles['container']}>
-      {previewDimensions && <SightOverlay style={style.overlay} sight={selectedSight} />}
+      {previewDimensions && <SightOverlay sight={selectedSight} />}
       <div style={style.elementsContainer}>
         <div style={style.top}>
+          <SightGuideline
+            sightId={selectedSight.id}
+            sightGuidelines={sightGuidelines}
+            enableSightGuidelines={enableSightGuidelines}
+            enableAddDamage={enableAddDamage}
+          />
           <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
         </div>
         <div style={style.bottom}>

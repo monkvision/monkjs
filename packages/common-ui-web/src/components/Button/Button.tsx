@@ -72,12 +72,14 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
       () => (
         <>
           {icon && (
-            <Icon
-              icon={icon}
-              size={iconStyle.size}
-              primaryColor={iconStyle.color}
-              style={iconStyle.style}
-            />
+            <div style={{ width: iconStyle.size, height: iconStyle.size, ...iconStyle.style }}>
+              <Icon
+                icon={icon}
+                primaryColor={iconStyle.color}
+                size={iconStyle.size}
+                style={iconStyle.style}
+              />
+            </div>
           )}
           {children}
         </>

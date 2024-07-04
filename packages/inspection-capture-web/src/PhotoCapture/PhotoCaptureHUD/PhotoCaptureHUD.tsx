@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Image, ImageStatus, Sight } from '@monkvision/types';
+import { CaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -14,7 +14,9 @@ import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 /**
  * Props of the PhotoCaptureHUD component.
  */
-export interface PhotoCaptureHUDProps extends CameraHUDProps {
+export interface PhotoCaptureHUDProps
+  extends CameraHUDProps,
+    Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
   /**
    * The inspection ID.
    */
@@ -82,12 +84,6 @@ export interface PhotoCaptureHUDProps extends CameraHUDProps {
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
-  /**
-   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
-   *
-   * @default true
-   */
-  enableAddDamage?: boolean;
 }
 
 /**
@@ -115,6 +111,8 @@ export function PhotoCaptureHUD({
   cameraPreview,
   images,
   enableAddDamage,
+  sightGuidelines,
+  enableSightGuidelines,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -154,6 +152,8 @@ export function PhotoCaptureHUD({
           previewDimensions={handle.previewDimensions}
           images={images}
           enableAddDamage={enableAddDamage}
+          sightGuidelines={sightGuidelines}
+          enableSightGuidelines={enableSightGuidelines}
         />
       </div>
       <PhotoCaptureHUDButtons

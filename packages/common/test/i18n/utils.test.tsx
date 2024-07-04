@@ -7,7 +7,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { createInstance, i18n, Resource } from 'i18next';
 import { FC, forwardRef } from 'react';
 import { I18nextProvider, initReactI18next, useTranslation } from 'react-i18next';
-import { i18nCreateSDKInstance, i18nWrap, useI18nSync } from '../../src';
+import { getLanguage, i18nCreateSDKInstance, i18nWrap, useI18nSync } from '../../src';
 
 describe('Monkvision i18n utils', () => {
   afterEach(() => {
@@ -102,6 +102,16 @@ describe('Monkvision i18n utils', () => {
       const Wrapped = i18nWrap(ForwardRefTestComponent, instance as unknown as i18n);
 
       expectComponentToPassDownRefToHTMLElement(Wrapped, TEST_COMPONENT_TEST_ID);
+    });
+  });
+
+  describe('getLangage function', () => {
+    it('should return the prefix if langage is avalaible in monkLangages types package', () => {
+      expect(getLanguage('fr-GA')).toEqual('fr');
+    });
+
+    it("should return 'en' prefix by default if langage is not found in monkLangages types package", () => {
+      expect(getLanguage('es-TEST')).toEqual('en');
     });
   });
 });

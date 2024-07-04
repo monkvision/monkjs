@@ -45,6 +45,16 @@ function MyComponent(props: MyComponentProps) {
 }
 ```
 
+## getLanguage
+```ts
+import i18n from 'i18next';
+import { getLanguage } from '@monkvision/common';
+
+console.log(getLanguage(i18n.language));
+```
+This function retrieves the language prefix from a given language string.
+If the prefix is not found in the list of supported languages (monkLanguages in Types package), it returns 'en' as default.
+
 # Common Translations
 ## Car Parts
 You can import the car parts translations like this :

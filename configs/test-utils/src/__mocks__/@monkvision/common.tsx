@@ -119,4 +119,5 @@ export = {
   useSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
   useObjectMemo: jest.fn((obj) => obj),
   usePreventExit: jest.fn(),
+  getLanguage: jest.fn(),
 };

@@ -1,5 +1,5 @@
 import { CameraResolution, CompressionOptions } from './camera';
-import { SteeringWheelPosition, VehicleType } from './sights';
+import { SightGuideline, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
 import { DeviceOrientation } from './utils';
@@ -93,6 +93,16 @@ export type CaptureAppConfig = CameraConfig &
      * @default true
      */
     enableAddDamage?: boolean;
+    /**
+     * A collection of sight guidelines in different language with a list of sightIds associate to it.
+     */
+    sightGuidelines?: SightGuideline[];
+    /**
+     * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be hidden.
+     *
+     * @default true
+     */
+    enableSightGuidelines?: boolean;
     /**
      * The default vehicle type used if no vehicle type is defined.
      */
