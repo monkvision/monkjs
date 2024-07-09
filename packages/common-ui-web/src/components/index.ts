@@ -14,5 +14,7 @@ export * from './Spinner';
 export * from './SwitchButton';
 export * from './TakePictureButton';
 export * from './TextField';
+export * from './VehicleDynamicWireframe';
+export * from './VehiclePartSelection';
 export * from './VehicleTypeAsset';
 export * from './VehicleTypeSelection';
