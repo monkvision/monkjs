@@ -8,13 +8,13 @@ import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './types
  */
 export function useInnerHTML({
   element,
-  groupIds,
+  groups,
   getInnerText,
 }: Pick<DynamicSVGCustomizationFunctions, 'getInnerText'> & Required<SVGElementCustomProps>) {
   return useMemo(() => {
     if (element.tagName === 'style') {
       return element.innerHTML;
     }
-    return getInnerText ? getInnerText(element, groupIds) : null;
-  }, [element, groupIds, getInnerText]);
+    return getInnerText ? getInnerText(element, groups) : null;
+  }, [element, groups, getInnerText]);
 }

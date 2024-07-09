@@ -8,18 +8,19 @@ import { DynamicSVGCustomizationFunctions, SVGElementCustomProps } from './types
  */
 export function useCustomAttributes({
   element,
-  groupIds,
+  groups,
   getAttributes,
   style,
 }: Pick<DynamicSVGCustomizationFunctions, 'getAttributes'> &
   Required<SVGElementCustomProps> & { style: CSSProperties }): SVGProps<SVGElement> | null {
   return useMemo(() => {
     const elementTag = element.tagName;
-    if (['svg', 'g'].includes(elementTag)) {
+    if (elementTag === 'svg') {
       return { pointerEvents: 'box-none' };
     }
     if (!getAttributes) return { style };
-    const attributes = getAttributes(element, groupIds);
+    const attributes = getAttributes(element, groups);
+    if (elementTag === 'g') attributes.pointerEvents = 'box-none';
     return { ...attributes, style: { ...attributes?.style, ...style } };
-  }, [element, groupIds, getAttributes]);
+  }, [element, groups, getAttributes]);
 }

@@ -10,7 +10,7 @@ describe('useCustomAttributes hook', () => {
     const element = { tagName: 'svg' } as unknown as SVGSVGElement;
 
     const { result, unmount } = renderHook(useCustomAttributes, {
-      initialProps: { element, groupIds: [], style: {} },
+      initialProps: { element, groups: [], style: {} },
     });
 
     expect(result.current).toEqual({ pointerEvents: 'box-none' });
@@ -21,10 +21,15 @@ describe('useCustomAttributes hook', () => {
     const element = { tagName: 'g' } as unknown as SVGSVGElement;
 
     const { result, unmount } = renderHook(useCustomAttributes, {
-      initialProps: { element, groupIds: [], style: {} },
+      initialProps: {
+        element,
+        groups: [],
+        style: {},
+        getAttributes: jest.fn().mockReturnValue({}),
+      },
     });
 
-    expect(result.current).toEqual({ pointerEvents: 'box-none' });
+    expect(result.current).toEqual({ pointerEvents: 'box-none', style: {} });
     unmount();
   });
 
@@ -32,7 +37,7 @@ describe('useCustomAttributes hook', () => {
     const element = { tagName: 'path' } as unknown as SVGSVGElement;
 
     const { result, unmount } = renderHook(useCustomAttributes, {
-      initialProps: { element, groupIds: [], style: {} },
+      initialProps: { element, groups: [], style: {} },
     });
 
     expect(result.current).toEqual({ style: {} });
@@ -41,15 +46,15 @@ describe('useCustomAttributes hook', () => {
 
   it('should return the result of the customization function', () => {
     const element = { tagName: 'path' } as unknown as SVGSVGElement;
-    const groupIds = ['test-id-1', 'test-id-2'];
+    const groups = [{ id: 'test-id-1' }, { id: 'test-id-2' }] as SVGGElement[];
     const customAttr = { style: { color: 'test-color' } };
     const getAttributes = jest.fn(() => customAttr);
 
     const { result, unmount } = renderHook(useCustomAttributes, {
-      initialProps: { element, groupIds, getAttributes, style: customAttr.style },
+      initialProps: { element, groups, getAttributes, style: customAttr.style },
     });
 
-    expect(getAttributes).toHaveBeenCalledWith(element, groupIds);
+    expect(getAttributes).toHaveBeenCalledWith(element, groups);
     expect(result.current).toEqual(customAttr);
     unmount();
   });
@@ -58,12 +63,12 @@ describe('useCustomAttributes hook', () => {
     const elementStyle = { stroke: '#fff' },
       customStyle = { color: 'test-color' };
     const element = { tagName: 'path', style: { stroke: '#fff' } } as SVGSVGElement;
-    const groupIds = ['test-id-1', 'test-id-2'];
+    const groups = [{ id: 'test-id-1' }, { id: 'test-id-2' }] as SVGGElement[];
     const getAttributes = jest.fn(() => ({ style: customStyle }));
     const { result, unmount } = renderHook(useCustomAttributes, {
-      initialProps: { element, groupIds, getAttributes, style: elementStyle },
+      initialProps: { element, groups, getAttributes, style: elementStyle },
     });
-    expect(getAttributes).toHaveBeenCalledWith(element, groupIds);
+    expect(getAttributes).toHaveBeenCalledWith(element, groups);
     expect(result.current).toEqual({ style: { ...elementStyle, ...customStyle } });
     unmount();
   });
