@@ -1,7 +1,8 @@
 import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
 import { useState } from 'react';
-import { Icon } from '../icons';
-import { VehicleDynamicWireframe } from './VehicleDynamicWireframe';
+import { Icon } from '../../icons';
+import { VehicleDynamicWireframe } from '../VehicleDynamicWireframe';
+import { useMergeMultipleEvent } from './hooks';
 
 export interface VehiclePartSelectionProps {
   vehicleModel: VehicleModel;
@@ -38,6 +39,10 @@ export function VehiclePartSelection({
         : (currentIndex - 1 + partSelectionOrientations.length) % partSelectionOrientations.length;
     setOrientation(partSelectionOrientations[nextIndex]);
   };
+  const [selectedParts, partSelectedOrientation] = useMergeMultipleEvent<
+    VehiclePart,
+    PartSelectionOrientation
+  >(partSelectionOrientations, onPartsSelected ?? (() => {}));
   return (
     <div
       style={{
@@ -52,7 +57,8 @@ export function VehiclePartSelection({
       <VehicleDynamicWireframe
         vehicleModel={vehicleModel}
         orientation={orientation}
-        onPartsSelected={onPartsSelected}
+        parts={selectedParts}
+        onPartsSelected={partSelectedOrientation(orientation)}
       />
       <Icon icon='redo' primaryColor='text-primary' onClick={() => moveOrientation('previous')} />
     </div>

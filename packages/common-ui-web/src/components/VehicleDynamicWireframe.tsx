@@ -7,6 +7,7 @@ import { DynamicSVG, DynamicSVGCustomizationFunctions } from './DynamicSVG';
 export interface VehicleDynamicWireframeProps {
   vehicleModel: VehicleModel;
   orientation?: PartSelectionOrientation;
+  parts: VehiclePart[];
   /**
    * emit when change in the selected parts.
    */
@@ -20,13 +21,14 @@ export interface VehicleDynamicWireframeProps {
 export function VehicleDynamicWireframe({
   vehicleModel,
   orientation = PartSelectionOrientation.FRONT_LEFT,
+  parts,
   onPartsSelected = () => {},
 }: VehicleDynamicWireframeProps) {
   const partSelectionWireframes = wireFrame[vehicleModel];
   if (partSelectionWireframes === undefined)
     throw new Error(`No wireframe found for vehicle type ${vehicleModel}`);
   const overlay = partSelectionWireframes[orientation];
-  const [selectedParts, setSelectedParts] = useState<Array<VehiclePart>>([]);
+  const [selectedParts, setSelectedParts] = useState<Array<VehiclePart>>(parts ?? []);
   useMemo(() => onPartsSelected(selectedParts), [selectedParts]);
   const { utils } = useMonkTheme();
 
