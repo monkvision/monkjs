@@ -51,16 +51,25 @@ export function VehiclePartSelection({
         justifyContent: 'center',
         alignItems: 'center',
         inset: '0 0 0 0',
+        gap: '30px',
       }}
     >
-      <Icon icon='undo' primaryColor='text-primary' onClick={() => moveOrientation('next')} />
+      <Icon
+        icon='rotate-left'
+        primaryColor='text-primary'
+        onClick={() => moveOrientation('next')}
+      />
       <VehicleDynamicWireframe
         vehicleModel={vehicleModel}
         orientation={orientation}
         parts={selectedParts}
         onPartsSelected={partSelectedOrientation(orientation)}
       />
-      <Icon icon='redo' primaryColor='text-primary' onClick={() => moveOrientation('previous')} />
+      <Icon
+        icon='rotate-right'
+        primaryColor='text-primary'
+        onClick={() => moveOrientation('previous')}
+      />
     </div>
   );
 }

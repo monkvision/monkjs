@@ -165,6 +165,8 @@ export const iconNames = [
   'wifi',
   'zoom-in',
   'zoom-out',
+  'rotate-left',
+  'rotate-right',
 ] as const;
 
 /**
