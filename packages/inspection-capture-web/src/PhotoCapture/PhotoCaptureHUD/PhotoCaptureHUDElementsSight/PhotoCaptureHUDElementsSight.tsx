@@ -28,7 +28,7 @@ export function PhotoCaptureHUDElementsSight({
 
   return (
     <div style={styles['container']}>
-      {previewDimensions && <SightOverlay sight={selectedSight} />}
+      {previewDimensions && <SightOverlay style={style.overlay} sight={selectedSight} />}
       <div style={style.elementsContainer}>
         <div style={style.top}>
           <SightGuideline
