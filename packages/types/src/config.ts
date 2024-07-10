@@ -125,6 +125,10 @@ export type CaptureAppConfig = CameraConfig &
      */
     apiDomain: string;
     /**
+     * The API domain used to communicate with the resize micro service
+     */
+    thumbnailDomain: string;
+    /**
      * Required API permissions to use the app.
      */
     requiredApiPermissions?: MonkApiPermission[];

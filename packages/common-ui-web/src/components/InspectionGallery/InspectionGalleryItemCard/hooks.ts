@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { changeAlpha, useMonkTheme, useObjectTranslation, useSightLabel } from '@monkvision/common';
 import { labels, sights } from '@monkvision/sights';
-import { ImageStatus, InteractiveStatus } from '@monkvision/types';
+import { ImageStatus, InteractiveStatus, Image } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { styles } from './InspectionGalleryItemCard.styles';
 import { InspectionGalleryItem } from '../types';
@@ -10,6 +10,7 @@ import { IconName } from '../../../icons';
 export interface InspectionGalleryItemCardProps {
   item: InspectionGalleryItem;
   captureMode: boolean;
+  getThumbnailUrl: (image: Image) => string;
   onClick?: () => void;
 }
 
@@ -55,12 +56,14 @@ export function useInspectionGalleryItemStatusIconName({
 export interface UseInspectionGalleryItemCardStylesParams {
   item: InspectionGalleryItem;
   status: InteractiveStatus;
+  getThumbnailUrl: (image: Image) => string;
   captureMode: boolean;
 }
 
 export function useInspectionGalleryItemCardStyles({
   item,
   status,
+  getThumbnailUrl,
   captureMode,
 }: UseInspectionGalleryItemCardStylesParams) {
   const { palette } = useMonkTheme();
@@ -93,6 +96,13 @@ export function useInspectionGalleryItemCardStyles({
     }
   }
 
+  let backgroundImage = 'none';
+  if (!item.isAddDamage && item.isTaken) {
+    backgroundImage = item.image.path.startsWith('blob')
+      ? `url(${item.image.path})`
+      : `url(${getThumbnailUrl(item.image)})`;
+  }
+
   return {
     cardStyle: {
       ...styles['card'],
@@ -103,7 +113,7 @@ export function useInspectionGalleryItemCardStyles({
     previewStyle: {
       ...styles['preview'],
       backgroundColor: colors.previewBackground,
-      backgroundImage: !item.isAddDamage && item.isTaken ? `url(${item.image.path})` : 'none',
+      backgroundImage,
     },
     previewOverlayStyle: {
       ...styles['previewOverlay'],

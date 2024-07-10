@@ -11,6 +11,7 @@ import { SightOverlay } from '../../SightOverlay';
 
 export function InspectionGalleryItemCard({
   item,
+  getThumbnailUrl,
   captureMode,
   onClick,
 }: InspectionGalleryItemCardProps) {
@@ -23,7 +24,7 @@ export function InspectionGalleryItemCard({
     statusIcon,
     sightOverlay,
     addDamageIcon,
-  } = useInspectionGalleryItemCardStyles({ item, captureMode, status });
+  } = useInspectionGalleryItemCardStyles({ item, captureMode, status, getThumbnailUrl });
   const statusIconName = useInspectionGalleryItemStatusIconName({ item, captureMode });
   const label = useInspectionGalleryItemLabel(item);
 

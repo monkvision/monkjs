@@ -4,6 +4,11 @@ import { VehiclePart } from './part';
 import { TranslationObject } from '../i18n';
 
 /**
+ * The resize ratio which will be apply to the image.
+ */
+export const THUMBNAIL_RESIZE_RATIO = 0.1;
+
+/**
  * Additional data that can be added to an image when it has been uploaded.
  */
 export interface ImageAdditionalData extends AdditionalData {
