@@ -56,7 +56,6 @@ export function usePhotoCaptureHUDSightPreviewStyle({
     top: styles['top'],
     bottom: styles['bottom'],
     overlay: {
-      ...styles['overlay'],
       width: previewDimensions?.width,
       height: previewDimensions?.height,
     },
