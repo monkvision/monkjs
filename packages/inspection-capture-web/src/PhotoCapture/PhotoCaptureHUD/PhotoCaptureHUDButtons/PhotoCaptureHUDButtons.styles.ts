@@ -24,7 +24,7 @@ export const styles: Styles = {
     justifyContent: 'space-evenly',
     flexDirection: 'column',
     padding: '30px 40px',
-    backgroundColor: '#00000080',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     position: 'absolute',
   },
   containersPortrait: {
