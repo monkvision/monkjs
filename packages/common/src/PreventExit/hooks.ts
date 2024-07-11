@@ -2,24 +2,23 @@ import { useEffect, useMemo } from 'react';
 import { createPreventExitListener } from './store';
 
 /**
- * Custom hook that allows you
- * to access the PreventExit Context methods inside a component.
+ * Custom hook that allows preventing the user from exiting the page or navigating away.
  *
- * Note : If this hook is called inside a component
- * that is not a child of a PreventExit component,
- * it will throw an error.
+ * @param preventExit - A boolean value indicating whether to prevent the user from exiting the page or not.
  *
  * @example
  * ```tsx
  * function MyComponent() {
- *  const { forceOut } = usePreventExit(true);// commonly it should be a expression.
- *  return <div onClick={() => forceOut()}>My Component</div>;
+ *   const { allowRedirect } = usePreventExit(true);
+ *   return <div onClick={allowRedirect}>My Component</div>;
  * }
  * ```
  */
-export function usePreventExit(preventExit: boolean) {
+export function usePreventExit(
+  preventExit: boolean,
+): Pick<ReturnType<typeof createPreventExitListener>, 'allowRedirect'> {
   const { cleanup, setPreventExit, allowRedirect } = useMemo(createPreventExitListener, []);
-  useMemo(() => setPreventExit(preventExit), [preventExit]);
+  useEffect(() => setPreventExit(preventExit), [preventExit]);
   useEffect(() => cleanup, []);
   return { allowRedirect };
 }

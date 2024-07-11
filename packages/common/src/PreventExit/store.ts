@@ -1,26 +1,27 @@
 const keys: Array<symbol> = [];
 const allPreventExitState: Record<symbol, boolean> = {};
 
-function checkNoMorePreventExit() {
+function arePreventExitRemaining() {
   if (keys.map((key) => allPreventExitState[key]).every((i) => i === false)) {
     window.onbeforeunload = null;
     return true;
   }
+
   return false;
 }
 
 function publish(id: symbol, preventExit: boolean) {
   allPreventExitState[id] = preventExit;
-  if (!checkNoMorePreventExit())
+  if (!arePreventExitRemaining())
     window.onbeforeunload = (e) => {
       e.preventDefault();
-      return 'Confirm Alert appears';
+      return 'prevent-exit';
     };
 }
 
 interface PreventExitListenerResult {
   /**
-   * To change the preventExit state of the component.
+   * Callback used to set the value indicating if direct exit of the page is currently allowed or not.
    */
   setPreventExit: (preventExit: boolean) => void;
   /**
@@ -42,6 +43,7 @@ export function createPreventExitListener(): PreventExitListenerResult {
   const key = Symbol('PreventExitListener');
   allPreventExitState[key] = true;
   keys.push(key);
+
   return {
     setPreventExit: (preventExit) => publish(key, preventExit),
     allowRedirect: () => {
@@ -49,7 +51,7 @@ export function createPreventExitListener(): PreventExitListenerResult {
     },
     cleanup: () => {
       delete allPreventExitState[key];
-      checkNoMorePreventExit();
+      arePreventExitRemaining();
     },
   };
 }

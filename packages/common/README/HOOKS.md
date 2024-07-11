@@ -141,11 +141,12 @@ Custom hook used to get a translation function tObj that translates TranslationO
 import { usePreventExit } from '@monkvision/common';
 
 function MyComponent() {
- const { allowRedirect } = usePreventExit(true);
- function anyEvent(){
-  allowRedirect();
-  /** ... */
- }
+  const { allowRedirect } = usePreventExit(true);
+
+  const anyEvent = useCallback(() => {
+    allowRedirect();
+    /** ... */
+  }, [allowRedirect])
 }
 ```
 
