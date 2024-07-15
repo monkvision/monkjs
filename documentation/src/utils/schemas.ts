@@ -235,6 +235,11 @@ export const LiveConfigSchema = z
     allowVehicleTypeSelection: z.boolean(),
     fetchFromSearchParams: z.boolean(),
     apiDomain: z.enum(['api.monk.ai/v1', 'api.preview.monk.ai/v1', 'api.staging.monk.ai/v1']),
+    thumbnailDomain: z.enum([
+      'europe-west1-monk-staging-321715.cloudfunctions.net/image_resize',
+      'europe-west1-monk-preview-321715.cloudfunctions.net/image_resize',
+      'europe-west1-monk-prod.cloudfunctions.net/image_resize',
+    ]),
     requiredApiPermissions: z.array(z.nativeEnum(MonkApiPermission)).optional(),
     palette: MonkPaletteSchema.partial().optional(),
   })

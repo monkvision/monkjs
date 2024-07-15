@@ -74,6 +74,7 @@ function createProps(): PhotoCaptureProps {
     sights: [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']],
     inspectionId: 'test-inspection-test',
     apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
+    thumbnailDomain: 'test-thumbnail-domain',
     additionalTasks: [TaskName.DASHBOARD_OCR],
     tasksBySight: { 'test-sight-1': [TaskName.IMAGE_EDITING] },
     startTasksOnComplete: [TaskName.COMPLIANCES],

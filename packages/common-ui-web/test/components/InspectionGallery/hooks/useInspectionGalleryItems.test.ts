@@ -13,6 +13,7 @@ function createProps(): InspectionGalleryProps {
     enableCompliance: true,
     complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
+    thumbnailDomain: 'test-thumbnail-domain',
     refreshIntervalMs: 1234,
     captureMode: true,
   };

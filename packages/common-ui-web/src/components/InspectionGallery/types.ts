@@ -73,6 +73,10 @@ export type InspectionGalleryProps = {
    */
   apiConfig: MonkApiConfig;
   /**
+   * The API domain used to communicate with the resize micro service
+   */
+  thumbnailDomain: string;
+  /**
    * The language used by the InspectionGallery component.
    *
    * @default en

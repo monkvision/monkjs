@@ -214,6 +214,17 @@ function TestComponent() {
 ```
 Custom hook used to get the label of a sight with the currently selected language.
 
+### useThumbnail
+```tsx
+import { useThumbnail } from '@monkvision/common';
+
+function TestComponent() {
+  const { getThumbnailUrl } = useThumbnail(thumbnailDomain);
+  console.log(getThumbnailUrl(image));
+}
+```
+Custom hook used to generates a thumbnail URL from a full resolution picture.
+
 ### useWindowDimensions
 ```tsx
 import { useWindowDimensions } from '@monkvision/common';
