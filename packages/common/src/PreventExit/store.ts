@@ -19,7 +19,10 @@ function publish(id: symbol, preventExit: boolean) {
     };
 }
 
-interface PreventExitListenerResult {
+/**
+ * Returns a listener which can used to calculate the state of prevent exit
+ */
+export interface PreventExitListenerResult {
   /**
    * Callback used to set the value indicating if direct exit of the page is currently allowed or not.
    */

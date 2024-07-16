@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { createPreventExitListener } from './store';
+import { PreventExitListenerResult, createPreventExitListener } from './store';
 
 /**
  * Custom hook that allows preventing the user from exiting the page or navigating away.
@@ -16,7 +16,7 @@ import { createPreventExitListener } from './store';
  */
 export function usePreventExit(
   preventExit: boolean,
-): Pick<ReturnType<typeof createPreventExitListener>, 'allowRedirect'> {
+): Pick<PreventExitListenerResult, 'allowRedirect'> {
   const { cleanup, setPreventExit, allowRedirect } = useMemo(createPreventExitListener, []);
   useEffect(() => setPreventExit(preventExit), [preventExit]);
   useEffect(() => cleanup, []);
