@@ -1,3 +1,4 @@
+import { PartSelectionOrientation, VehiclePart } from '@monkvision/types';
 import { useMemo, useState } from 'react';
 
 /**
@@ -6,30 +7,40 @@ import { useMemo, useState } from 'react';
  * with it own merge logic and emit the merged value.
  * NOTE: we can do if needed.
  */
-export function useMergeMultipleEvent<R, T extends string>(allState: Array<T>, emitter: Function) {
-  type Result = Array<R>;
-  const [result, setResult] = useState<Record<T, Result>>(
-    allState.reduce((x, i) => {
-      x[i] = [] as Result;
-      return x;
-    }, {} as Partial<Record<T, Result>>) as Record<T, Result>,
+export function useMergePartSelectionMultipleEvent(
+  orientations: Array<PartSelectionOrientation>,
+  partSelectionEvent: Function,
+) {
+  type Result = Array<VehiclePart>;
+  const [orientationVsPartsSelected, setOrientationVsPartsSelected] = useState<
+    Record<PartSelectionOrientation, Result>
+  >(
+    orientations.reduce((orientationVsParts, orientation) => {
+      orientationVsParts[orientation] = [] as Result;
+      return orientationVsParts;
+    }, {} as Partial<Record<PartSelectionOrientation, Result>>) as Record<
+      PartSelectionOrientation,
+      Result
+    >,
   );
   const calculatedValue = useMemo(() => {
-    const mergedValue = Object.entries<Result>(result).reduce(
-      (x, i) =>
-        i[1].reduce((x, i) => {
-          return x.includes(i) ? x : [...x, i];
-        }, x),
+    const mergedValue = Object.entries<Result>(orientationVsPartsSelected).reduce(
+      (selectedPartsOfOrientation, [, selectedParts]) =>
+        selectedParts.reduce((newSelectedParts, selectedPart) => {
+          return newSelectedParts.includes(selectedPart)
+            ? newSelectedParts
+            : [...newSelectedParts, selectedPart];
+        }, selectedPartsOfOrientation),
       [] as Result,
     );
-    emitter(mergedValue);
+    partSelectionEvent(mergedValue);
     return mergedValue;
-  }, [result]);
+  }, [orientationVsPartsSelected]);
   return [
     calculatedValue,
-    (state: T) => {
+    (state: PartSelectionOrientation) => {
       return (value: Result) => {
-        setResult({ ...result, [state]: value });
+        setOrientationVsPartsSelected({ ...orientationVsPartsSelected, [state]: value });
       };
     },
   ] as const;
