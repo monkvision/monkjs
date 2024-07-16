@@ -1,7 +1,7 @@
 import { CSSProperties, Dispatch, Reducer, ReducerAction, SVGProps, useReducer } from 'react';
-import { DynamicSVGCustomizationFunctions } from '../DynamicSVG';
 import { ThemeUtils, VehiclePart } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common';
+import { DynamicSVGCustomizationFunctions } from '../DynamicSVG';
 
 type ReduceSelectedParts = Reducer<Array<VehiclePart>, { type: 'push' | 'pop'; part: VehiclePart }>;
 

@@ -9,13 +9,14 @@ import { useMemo, useState } from 'react';
  */
 export function useMergePartSelectionMultipleEvent(
   orientations: Array<PartSelectionOrientation>,
-  partSelectionEvent: Function,
+  partSelectionEvent: (selectedParts: Array<VehiclePart>) => void,
 ) {
   type Result = Array<VehiclePart>;
   const [orientationVsPartsSelected, setOrientationVsPartsSelected] = useState<
     Record<PartSelectionOrientation, Result>
   >(
     orientations.reduce((orientationVsParts, orientation) => {
+      // eslint-disable-next-line no-param-reassign
       orientationVsParts[orientation] = [] as Result;
       return orientationVsParts;
     }, {} as Partial<Record<PartSelectionOrientation, Result>>) as Record<
