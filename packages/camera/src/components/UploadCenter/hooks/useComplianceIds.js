@@ -28,8 +28,12 @@ export default function useComplianceIds({
       const iqa = result.data.compliances.image_quality_assessment;
 
       // Filter unwanted reasons
-      carCov.reasons = filterUnwantedComplianceReasons(carCov.reasons);
-      iqa.reasons = filterUnwantedComplianceReasons(iqa.reasons);
+      if (carCov) {
+        carCov.reasons = filterUnwantedComplianceReasons(carCov.reasons);
+      }
+      if (iqa) {
+        iqa.reasons = filterUnwantedComplianceReasons(iqa.reasons);
+      }
 
       // `handleChangeReasons` returns the full result object with the given compliances
       const handleChangeReasons = (compliances) => ({
@@ -61,7 +65,7 @@ export default function useComplianceIds({
       if (!carCov?.reasons) { return { ...item, requestCount, result }; }
 
       // remove the UNKNOWN_SIGHT from the carCov reasons array
-      const newCarCovReasons = carCov.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
+      const newCarCovReasons = carCov?.reasons?.filter((reason) => reason !== UNKNOWN_SIGHT_REASON);
       return handleChangeReasons({
         coverage_360: { reasons: newCarCovReasons, is_compliant: !newCarCovReasons.length },
       });
