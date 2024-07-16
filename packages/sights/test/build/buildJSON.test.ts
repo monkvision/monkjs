@@ -1,7 +1,14 @@
 jest.mock('fs');
 jest.mock('../../src/io');
 
-import { SightCategory, SightDictionary, TaskName, VehicleModel } from '@monkvision/types';
+import {
+  PartSelectionOrientation,
+  PartSelectionWireFrames,
+  SightCategory,
+  SightDictionary,
+  TaskName,
+  VehicleModel,
+} from '@monkvision/types';
 import fs from 'fs';
 import { join, resolve } from 'path';
 import { buildJSONs } from '../../src/build/buildJSONs';
@@ -206,6 +213,42 @@ describe('JSON builder module', () => {
           ),
         ).toBe(true);
       });
+    });
+
+    it('should property create wireframe file', () => {
+      const saveLibJSONSpy = jest.spyOn(io, 'saveLibJSON');
+      fs.existsSync = jest
+        .fn()
+        .mockImplementation((path: string) => path.includes('vehicle-key-2'));
+      buildJSONs();
+      const call = saveLibJSONSpy.mock.calls.find((args) =>
+        (args[1] as string).endsWith('wireFrames.json'),
+      );
+      expect(call?.[0]).toEqual({
+        'vehicle-key-2': {
+          [PartSelectionOrientation.FRONT_LEFT]: expect.any(String),
+          [PartSelectionOrientation.FRONT_RIGHT]: expect.any(String),
+          [PartSelectionOrientation.REAR_LEFT]: expect.any(String),
+          [PartSelectionOrientation.REAR_RIGHT]: expect.any(String),
+        },
+      } as Partial<Record<'test-key-2', PartSelectionWireFrames>>);
+    });
+
+    it('should throw error when not all the four wireframe not present', () => {
+      fs.existsSync = jest
+        .fn()
+        .mockImplementation((path: string) => path.includes('vehicle-key-2'));
+      fs.readFileSync = jest
+        .fn()
+        .mockImplementation((path: string, options?: { encoding: BufferEncoding }) => {
+          if (path.endsWith(`vehicle-key-2-${PartSelectionOrientation.FRONT_LEFT}.svg`))
+            throw new Error('File Not found');
+          if (options?.encoding === 'utf-8') {
+            return `    ${resolve(path)}  `;
+          }
+          return null;
+        });
+      expect(() => buildJSONs()).toThrowError('File Not found');
     });
   });
 });
