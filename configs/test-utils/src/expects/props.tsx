@@ -24,6 +24,16 @@ export function expectPropsOnChildMock(
   expect(Component).toHaveBeenCalledWith(expect.objectContaining(props), expect.anything());
 }
 
+/**
+ * Same as expectPropsOnChildMock but check for last called only
+ */
+export function expectPropsOnChildMockStrict<T extends jest.Mock | FC<any> | ForwardedRef<any>>(
+  Component: T,
+  props: T extends (prop: infer P) => any ? Partial<P> : never,
+): void {
+  expect(Component).toHaveBeenLastCalledWith(expect.objectContaining(props), expect.anything());
+}
+
 export type SimpleTestProps = { [key: string]: unknown };
 
 /**
