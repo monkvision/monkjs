@@ -21,13 +21,32 @@ import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
 
 /**
+ * The different upload types for inspection images.
+ */
+export enum ImageUploadType {
+  /**
+   * Upload type corresponding to a sight image in the PhotoCapture process (beauty shot image).
+   */
+  BEAUTY_SHOT = 'beauty_shot',
+  /**
+   * Upload type corresponding to a close-up picture (add-damage) in the PhotoCapture process, when using the 2-shot
+   * add damage workflow.
+   */
+  CLOSE_UP_2_SHOT = 'close_up_2_shot',
+  /**
+   * Upload type corresponding to a video frame in the VideoCapture process.
+   */
+  VIDEO_FRAME = 'video_frame',
+}
+
+/**
  * Options specififed when adding a beauty shot (normal "sight" image) to an inspection.
  */
 export interface AddBeautyShotImageOptions {
   /**
-   * The type of the image : `ImageType.BEAUTY_SHOT`;
+   * The type of the image upload : `ImageUploadType.BEAUTY_SHOT`;
    */
-  type: ImageType.BEAUTY_SHOT;
+  uploadType: ImageUploadType.BEAUTY_SHOT;
   /**
    * The picture to add to the inspection.
    */
@@ -55,9 +74,9 @@ export interface AddBeautyShotImageOptions {
  */
 export interface Add2ShotCloseUpImageOptions {
   /**
-   * The type of the image : `ImageType.CLOSE_UP`;
+   * The type of the image upload : `ImageUploadType.CLOSE_UP_2_SHOT`;
    */
-  type: ImageType.CLOSE_UP;
+  uploadType: ImageUploadType.CLOSE_UP_2_SHOT;
   /**
    * The picture to add to the inspection.
    */
@@ -84,13 +103,63 @@ export interface Add2ShotCloseUpImageOptions {
 }
 
 /**
+ * Options specififed when adding a close up (an "add damage" image) to an inspection using the 2-shot process.
+ */
+export interface AddVideoFrameOptions {
+  /**
+   * The type of the image upload : `ImageUploadType.VIDEO_FRAME`;
+   */
+  uploadType: ImageUploadType.VIDEO_FRAME;
+  /**
+   * The picture to add to the inspection.
+   */
+  picture: MonkPicture;
+  /**
+   * The ID of the inspection to add the video frame to.
+   */
+  inspectionId: string;
+  /**
+   * The index of the frame in the video. This index starts at 0 and increases by 1 for each video frame uploaded.
+   */
+  frameIndex: number;
+  /**
+   * The duration (in milliseconds) between this video frame capture time and the previous one. For the first frame of
+   * the video, this value is equal to 0.
+   */
+  timestamp: number;
+}
+
+/**
  * Union type describing the different options that can be specified when adding a picture to an inspection.
  */
-export type AddImageOptions = AddBeautyShotImageOptions | Add2ShotCloseUpImageOptions;
+export type AddImageOptions =
+  | AddBeautyShotImageOptions
+  | Add2ShotCloseUpImageOptions
+  | AddVideoFrameOptions;
+
+interface AddImageData {
+  filename: string;
+  body: ApiImagePost;
+}
+
+function getImageType(options: AddImageOptions): ImageType {
+  if (options.uploadType === ImageUploadType.CLOSE_UP_2_SHOT) {
+    return ImageType.CLOSE_UP;
+  }
+  return ImageType.BEAUTY_SHOT;
+}
 
 function getImageLabel(options: AddImageOptions): TranslationObject | undefined {
-  if (options.type === ImageType.BEAUTY_SHOT) {
+  if (options.uploadType === ImageUploadType.BEAUTY_SHOT) {
     return sights[options.sightId] ? labels[sights[options.sightId].label] : undefined;
+  }
+  if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
+    return {
+      en: `Video Frame ${options.frameIndex}`,
+      fr: `Trame Vidéo ${options.frameIndex}`,
+      de: `Videobild ${options.frameIndex}`,
+      nl: `Videoframe ${options.frameIndex}`,
+    };
   }
   return {
     en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
@@ -105,8 +174,12 @@ function getAdditionalData(options: AddImageOptions): ImageAdditionalData {
     label: getImageLabel(options),
     created_at: new Date().toISOString(),
   };
-  if (options.type === ImageType.BEAUTY_SHOT) {
+  if (options.uploadType === ImageUploadType.BEAUTY_SHOT) {
     additionalData.sight_id = options.sightId;
+  }
+  if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
+    additionalData.frame_index = options.frameIndex;
+    additionalData.timestamp = options.timestamp;
   }
   return additionalData;
 }
@@ -117,7 +190,7 @@ const MULTIPART_KEY_JSON = 'json';
 function createBeautyShotImageData(
   options: AddBeautyShotImageOptions,
   filetype: string,
-): { filename: string; body: ApiImagePost } {
+): AddImageData {
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
   const tasks = options.tasks.filter(
     (task) => ![TaskName.COMPLIANCES, TaskName.HUMAN_IN_THE_LOOP].includes(task),
@@ -151,7 +224,7 @@ function createBeautyShotImageData(
 function createCloseUpImageData(
   options: Add2ShotCloseUpImageOptions,
   filetype: string,
-): { filename: string; body: ApiImagePost } {
+): AddImageData {
   const prefix = options.firstShot ? 'closeup-part' : 'closeup-damage';
   const filename = `${prefix}-${options.inspectionId}-${Date.now()}.${filetype}`;
 
@@ -177,18 +250,42 @@ function createCloseUpImageData(
   return { filename, body };
 }
 
-async function createImageFormData(
-  options: AddImageOptions | Add2ShotCloseUpImageOptions,
-): Promise<FormData> {
+function createVideoFrameData(options: AddVideoFrameOptions, filetype: string): AddImageData {
+  const filename = `video-frame-${options.frameIndex}.${filetype}`;
+
+  const body: ApiImagePost = {
+    acquisition: {
+      strategy: 'upload_multipart_form_keys',
+      file_key: MULTIPART_KEY_IMAGE,
+    },
+    tasks: [TaskName.DAMAGE_DETECTION],
+    additional_data: getAdditionalData(options),
+  };
+
+  return { filename, body };
+}
+
+function getAddImageData(options: AddImageOptions, filetype: string): AddImageData {
+  switch (options.uploadType) {
+    case ImageUploadType.BEAUTY_SHOT:
+      return createBeautyShotImageData(options, filetype);
+    case ImageUploadType.CLOSE_UP_2_SHOT:
+      return createCloseUpImageData(options, filetype);
+    case ImageUploadType.VIDEO_FRAME:
+      return createVideoFrameData(options, filetype);
+    default:
+      throw new Error('Unknown image upload type.');
+  }
+}
+
+async function createImageFormData(options: AddImageOptions): Promise<FormData> {
   const extensions = getFileExtensions(options.picture.mimetype);
   if (!extensions) {
     throw new Error(`Unknown picture mimetype : ${options.picture.mimetype}`);
   }
   const filetype = extensions[0];
-  const { filename, body } =
-    options.type === ImageType.BEAUTY_SHOT
-      ? createBeautyShotImageData(options, filetype)
-      : createCloseUpImageData(options, filetype);
+
+  const { filename, body } = getAddImageData(options, filetype);
 
   const file = new File([options.picture.blob], filename, { type: filetype });
 
@@ -210,7 +307,7 @@ function createLocalImage(options: AddImageOptions): Image {
     height: options.picture.height,
     size: -1,
     mimetype: options.picture.mimetype,
-    type: options.type,
+    type: getImageType(options),
     status: ImageStatus.UPLOADING,
     label: getImageLabel(options),
     additionalData,
@@ -219,7 +316,7 @@ function createLocalImage(options: AddImageOptions): Image {
     views: [],
     renderedOutputs: [],
   };
-  if (options.type === ImageType.CLOSE_UP) {
+  if (options.uploadType === ImageUploadType.CLOSE_UP_2_SHOT) {
     image.siblingKey = options.siblingKey;
     image.subtype = options.firstShot ? ImageSubtype.CLOSE_UP_PART : ImageSubtype.CLOSE_UP_DAMAGE;
   }
@@ -265,7 +362,11 @@ export async function addImage(
       body: formData,
     });
     const body = await response.json<ApiImage>();
-    const image = mapApiImage(body, options.inspectionId, options.compliance);
+    const image = mapApiImage(
+      body,
+      options.inspectionId,
+      (options as AddBeautyShotImageOptions).compliance,
+    );
     dispatch?.({
       type: MonkActionType.CREATED_ONE_IMAGE,
       payload: {

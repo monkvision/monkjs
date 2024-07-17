@@ -1,12 +1,6 @@
 import { Queue, uniq, useQueue } from '@monkvision/common';
-import { AddImageOptions, MonkApiConfig, useMonkApi } from '@monkvision/network';
-import {
-  CaptureAppConfig,
-  ComplianceOptions,
-  ImageType,
-  MonkPicture,
-  TaskName,
-} from '@monkvision/types';
+import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
+import { CaptureAppConfig, ComplianceOptions, MonkPicture, TaskName } from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
@@ -116,7 +110,7 @@ function createAddImageOptions(
 ): AddImageOptions {
   if (upload.mode === PhotoCaptureMode.SIGHT) {
     return {
-      type: ImageType.BEAUTY_SHOT,
+      uploadType: ImageUploadType.BEAUTY_SHOT,
       picture: upload.picture,
       sightId: upload.sightId,
       tasks: additionalTasks ? uniq([...upload.tasks, ...additionalTasks]) : upload.tasks,
@@ -125,7 +119,7 @@ function createAddImageOptions(
     };
   }
   return {
-    type: ImageType.CLOSE_UP,
+    uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
     picture: upload.picture,
     siblingKey: `closeup-sibling-key-${siblingId}`,
     firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,

@@ -1,4 +1,5 @@
-const { MonkApiPermission, MonkNetworkError } = jest.requireActual('@monkvision/network');
+const { MonkApiPermission, MonkNetworkError, ImageUploadType } =
+  jest.requireActual('@monkvision/network');
 
 const MonkApi = {
   getInspection: jest.fn(() => Promise.resolve()),
@@ -13,6 +14,7 @@ export = {
   /* Actual exports */
   MonkApiPermission,
   MonkNetworkError,
+  ImageUploadType,
 
   /* Mocks */
   decodeMonkJwt: jest.fn((str) => str),
