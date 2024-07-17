@@ -10,7 +10,7 @@ function arePreventExitRemaining() {
   return false;
 }
 
-function publish(id: symbol, preventExit: boolean) {
+function publish(id: symbol, preventExit: boolean): void {
   allPreventExitState[id] = preventExit;
   if (!arePreventExitRemaining())
     window.onbeforeunload = (e) => {

@@ -152,8 +152,6 @@ function MyComponent() {
 
 This hook is used to prevent the user from leaving the page by displaying a confirmation dialog when the user tries to
 leave the page.
-usePreventExit expects a boolean value generally a expression.
-allowRedirect - usePreventExit can be used multiple places. This act as a temporary override to allow to navigate.
 
 ### useQueue
 ```tsx
