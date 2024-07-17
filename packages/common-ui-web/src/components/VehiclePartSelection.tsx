@@ -1,8 +1,8 @@
 import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
-import { useState } from 'react';
-import { Icon } from '../../icons';
-import { VehicleDynamicWireframe } from '../VehicleDynamicWireframe';
-import { useMergePartSelectionMultipleEvent } from './hooks';
+import { useEffect, useState } from 'react';
+import { useMonkTheme } from '@monkvision/common';
+import { Icon } from '../icons';
+import { VehicleDynamicWireframe, VehicleDynamicWireframeProps } from './VehicleDynamicWireframe';
 
 export interface VehiclePartSelectionProps {
   vehicleModel: VehicleModel;
@@ -20,7 +20,7 @@ export interface VehiclePartSelectionProps {
 export function VehiclePartSelection({
   vehicleModel,
   orientation: initialOrientation,
-  onPartsSelected,
+  onPartsSelected = () => {},
 }: VehiclePartSelectionProps) {
   const partSelectionOrientations = [
     PartSelectionOrientation.FRONT_LEFT,
@@ -39,10 +39,28 @@ export function VehiclePartSelection({
         : (currentIndex - 1 + partSelectionOrientations.length) % partSelectionOrientations.length;
     setOrientation(partSelectionOrientations[nextIndex]);
   };
-  const [selectedParts, partSelectedOrientation] = useMergePartSelectionMultipleEvent(
-    partSelectionOrientations,
-    onPartsSelected ?? (() => {}),
-  );
+  const [selectedParts, setSelectedParts] = useState<Array<VehiclePart>>([]);
+  useEffect(() => {
+    onPartsSelected(selectedParts);
+  }, [selectedParts]);
+  const togglePart = (part: VehiclePart) => {
+    if (selectedParts.includes(part)) {
+      setSelectedParts(selectedParts.filter((p) => p !== part));
+    } else {
+      setSelectedParts([...selectedParts, part]);
+    }
+  };
+  const { utils } = useMonkTheme();
+  const getPartAttributes: VehicleDynamicWireframeProps['getPartAttributes'] = (
+    part: VehiclePart,
+  ) => ({
+    style: {
+      // TODO: need to finalize the color for the selected parts.
+      fill: selectedParts.includes(part) ? '#2196f3' : undefined,
+      stroke: utils.getColor('text-primary'),
+      display: 'block',
+    },
+  });
   return (
     <div
       style={{
@@ -62,8 +80,8 @@ export function VehiclePartSelection({
       <VehicleDynamicWireframe
         vehicleModel={vehicleModel}
         orientation={orientation}
-        parts={selectedParts}
-        onPartsSelected={partSelectedOrientation(orientation)}
+        onClickPart={togglePart}
+        getPartAttributes={getPartAttributes}
       />
       <Icon
         icon='rotate-right'

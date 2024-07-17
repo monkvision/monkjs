@@ -658,11 +658,17 @@ function Component() {
   />
 }
 ```
+vehicleModel
+orientation
+onClickPart
+getPartAttributes
+
 ### Props
-| Prop            | Type                           | Description                                                                             | Required| Default Value|
-|-----------------|--------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
-| vehicleModel    | VehicleModel                   | Initial vehicle model.                                                                  | ✔️       |              |
-| orientation     | PartSelectionOrientation       | Orientation where the vehicle want to face.                                             |         | front-left   |
-| parts           | VehiclePart[]                  | Initial selected parts. Mainly used to persist selected parts state between rerendering |         | []           |
-| onPartsSelected | (parts: VehiclePart[]) => void | Callback called when update selected parts.                                             |         |              |
+| Prop              | Type                            | Description                                                                             | Required| Default Value|
+|-------------------|---------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
+| vehicleModel      | VehicleModel                    | Initial vehicle model.                                                                  | ✔️       |              |
+| orientation       | PartSelectionOrientation        | Orientation where the vehicle want to face.                                             |         | front-left   |
+| parts             | VehiclePart[]                   | Initial selected parts. Mainly used to persist selected parts state between rerendering.|         | []           |
+| onClickPart       | (part: VehiclePart) => void     | Callback called when a part is clicked.                                                 |         |              |
+| getPartAttributes | (part: VehiclePart) => SVGProps | Custom function for HTML attributes to give to the tags based on part.                  |         |              |
 

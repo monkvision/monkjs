@@ -4,7 +4,6 @@ import * as iconsModule from '../../src/icons';
 import { VehiclePartSelection } from '../../src/components/VehiclePartSelection';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { FC } from 'react';
 
 jest.mock('../../src/components/VehicleDynamicWireframe');
 jest.mock('../../src/icons');
@@ -15,14 +14,15 @@ describe('VehiclePartSelection component', () => {
   >;
   let iconsModuleMock: jest.MockedObjectDeep<typeof iconsModule>;
 
-  let selectedParts = [VehiclePart.BUMPER_BACK];
+  let selectedParts = VehiclePart.BUMPER_BACK;
   beforeEach(() => {
     vehicleDynamicWireframeModuleMock = jest.mocked(vehicleDynamicWireframeModule, true);
     iconsModuleMock = jest.mocked(iconsModule, true);
     vehicleDynamicWireframeModuleMock.VehicleDynamicWireframe.mockImplementation(
-      ({ onPartsSelected }) => (
+      ({ onClickPart }) => (
         <button
-          onClick={() => onPartsSelected!(selectedParts)}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          onClick={() => onClickPart!(selectedParts)}
           data-testid='VehicleDynamicWireframe'
         ></button>
       ),
@@ -65,7 +65,7 @@ describe('VehiclePartSelection component', () => {
       />,
     );
     fireEvent.click(screen.getByTestId('VehicleDynamicWireframe'));
-    selectedParts = [VehiclePart.BUMPER_FRONT];
+    selectedParts = VehiclePart.BUMPER_FRONT;
     fireEvent.click(screen.getByTestId('rotate-left'));
     fireEvent.click(screen.getByTestId('VehicleDynamicWireframe'));
     expect(mockPartSelect).toHaveBeenLastCalledWith([
