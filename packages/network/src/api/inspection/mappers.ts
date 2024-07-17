@@ -498,6 +498,7 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
       monk_sdk_version: sdkVersion,
       damage_detection_version: 'v2',
       use_dynamic_crops: options.useDynamicCrops ?? true,
+      is_video_capture: options.isVideoCapture ?? false,
     },
   };
 }

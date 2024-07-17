@@ -13,4 +13,5 @@ export default {
   ],
   vehicleType: 'hatchback',
   useDynamicCrops: true,
+  isVideoCapture: true,
 };
