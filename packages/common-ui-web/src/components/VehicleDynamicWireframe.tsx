@@ -1,11 +1,16 @@
 import { useMonkTheme } from '@monkvision/common';
-import { wireFrame } from '@monkvision/sights';
-import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
+import { partSelectionWireframes } from '@monkvision/sights';
+import {
+  PartSelectionOrientation,
+  VehiclePart,
+  VehicleType,
+  VehicleTypeMapVehicleModel,
+} from '@monkvision/types';
 import { SVGProps } from 'react';
 import { DynamicSVG, DynamicSVGCustomizationFunctions } from './DynamicSVG';
 
 export interface VehicleDynamicWireframeProps {
-  vehicleModel: VehicleModel;
+  vehicleType: VehicleType;
   orientation?: PartSelectionOrientation;
   onClickPart?: (parts: VehiclePart) => void;
   getPartAttributes?: (part: VehiclePart) => SVGProps<SVGElement>;
@@ -47,15 +52,15 @@ function getOverlayAttributes(
  * allowing the user to select parts of the vehicle.
  */
 export function VehicleDynamicWireframe({
-  vehicleModel,
+  vehicleType,
   orientation = PartSelectionOrientation.FRONT_LEFT,
   onClickPart = () => {},
   getPartAttributes = () => ({}),
 }: VehicleDynamicWireframeProps) {
-  const partSelectionWireframes = wireFrame[vehicleModel];
-  if (partSelectionWireframes === undefined)
-    throw new Error(`No wireframe found for vehicle type ${vehicleModel}`);
-  const overlay = partSelectionWireframes[orientation];
+  const orientationsAndWireframe = partSelectionWireframes[VehicleTypeMapVehicleModel[vehicleType]];
+  if (orientationsAndWireframe === undefined)
+    throw new Error(`No wireframe found for vehicle type ${vehicleType}`);
+  const overlay = orientationsAndWireframe[orientation];
   const { utils } = useMonkTheme();
   return (
     <DynamicSVG

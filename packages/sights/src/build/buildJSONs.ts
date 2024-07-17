@@ -1,10 +1,11 @@
 import {
   LabelDictionary,
   PartSelectionOrientation,
+  PartSelectionWireframes,
   SightDictionary,
   VehicleDictionary,
   VehicleModel,
-  WireFrameDictionary,
+  WireframeDictionary,
 } from '@monkvision/types';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
@@ -69,50 +70,23 @@ function mapSights(
   );
 }
 
-function mapWireFrames(vehicles: VehicleDictionary): WireFrameDictionary {
-  const wireFrames: WireFrameDictionary = {};
+function mapWireframes(vehicles: VehicleDictionary): WireframeDictionary {
+  const wireframes: WireframeDictionary = {};
   Object.keys(vehicles).forEach((vehicle) => {
-    if (!existsSync(join(MONK_DATA_PATH, vehicle, 'partSelectionWireframes'))) return;
-    const svgFrontLeft = readOverlay(
-      join(
-        MONK_DATA_PATH,
-        vehicle,
-        'partSelectionWireframes',
-        `${vehicle}-${PartSelectionOrientation.FRONT_LEFT}.svg`,
-      ),
+    if (!existsSync(join(MONK_DATA_PATH, vehicle, 'partSelectionWireframes'))) {
+      return;
+    }
+    wireframes[vehicle as VehicleModel] = Object.values(PartSelectionOrientation).reduce(
+      (prev, curr) => ({
+        ...prev,
+        [curr]: readOverlay(
+          join(MONK_DATA_PATH, vehicle, 'partSelectionWireframes', `${vehicle}-${curr}.svg`),
+        ),
+      }),
+      {} as PartSelectionWireframes,
     );
-    const svgFrontRight = readOverlay(
-      join(
-        MONK_DATA_PATH,
-        vehicle,
-        'partSelectionWireframes',
-        `${vehicle}-${PartSelectionOrientation.FRONT_RIGHT}.svg`,
-      ),
-    );
-    const svgRearLeft = readOverlay(
-      join(
-        MONK_DATA_PATH,
-        vehicle,
-        'partSelectionWireframes',
-        `${vehicle}-${PartSelectionOrientation.REAR_LEFT}.svg`,
-      ),
-    );
-    const svgRearRight = readOverlay(
-      join(
-        MONK_DATA_PATH,
-        vehicle,
-        'partSelectionWireframes',
-        `${vehicle}-${PartSelectionOrientation.REAR_RIGHT}.svg`,
-      ),
-    );
-    wireFrames[vehicle as VehicleModel] = {
-      [PartSelectionOrientation.FRONT_LEFT]: svgFrontLeft,
-      [PartSelectionOrientation.FRONT_RIGHT]: svgFrontRight,
-      [PartSelectionOrientation.REAR_LEFT]: svgRearLeft,
-      [PartSelectionOrientation.REAR_RIGHT]: svgRearRight,
-    };
   });
-  return wireFrames;
+  return wireframes;
 }
 
 export function buildJSONs(): void {
@@ -127,8 +101,8 @@ export function buildJSONs(): void {
   const libVehicles = mapVehicles(researchVehicles);
   saveLibJSON(libVehicles, join(DATA_OUTPUT_PATH, 'vehicles.json'));
 
-  const libWireFrames = mapWireFrames(libVehicles);
-  saveLibJSON(libWireFrames, join(DATA_OUTPUT_PATH, 'wireFrames.json'));
+  const libWireframes = mapWireframes(libVehicles);
+  saveLibJSON(libWireframes, join(DATA_OUTPUT_PATH, 'wireframes.json'));
 
   readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
     const researchSights = loadJSON(

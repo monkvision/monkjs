@@ -1,11 +1,11 @@
-import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
+import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
 import { useEffect, useState } from 'react';
 import { useMonkTheme } from '@monkvision/common';
 import { Icon } from '../icons';
 import { VehicleDynamicWireframe, VehicleDynamicWireframeProps } from './VehicleDynamicWireframe';
 
 export interface VehiclePartSelectionProps {
-  vehicleModel: VehicleModel;
+  vehicleType: VehicleType;
   orientation?: PartSelectionOrientation;
   /**
    * emit when change in the selected parts.
@@ -18,7 +18,7 @@ export interface VehiclePartSelectionProps {
  * And choose the parts
  */
 export function VehiclePartSelection({
-  vehicleModel,
+  vehicleType,
   orientation: initialOrientation,
   onPartsSelected = () => {},
 }: VehiclePartSelectionProps) {
@@ -78,7 +78,7 @@ export function VehiclePartSelection({
         onClick={() => moveOrientation('next')}
       />
       <VehicleDynamicWireframe
-        vehicleModel={vehicleModel}
+        vehicleType={vehicleType}
         orientation={orientation}
         onClickPart={togglePart}
         getPartAttributes={getPartAttributes}

@@ -1,9 +1,9 @@
-import { PartSelectionOrientation, VehicleModel } from '@monkvision/types';
+import { PartSelectionOrientation, VehicleModel, VehicleType } from '@monkvision/types';
 import { VehicleDynamicWireframe } from '../../src/components/VehicleDynamicWireframe';
 import * as dynamicSVGModule from '../../src/components/DynamicSVG';
 import { fireEvent, render } from '@testing-library/react';
-import { expectPropsOnChildMockStrict } from '@monkvision/test-utils';
-import { wireFrame } from '@monkvision/sights';
+import { expectLastPropsOnChildMock } from '@monkvision/test-utils';
+import { partSelectionWireframes } from '@monkvision/sights';
 
 jest.mock('../../src/components/DynamicSVG');
 
@@ -15,33 +15,32 @@ describe('VehicleDynamicWireframe component', () => {
   });
   afterEach(() => jest.clearAllMocks());
   it('should not throw error if wireframe found', () => {
-    render(<VehicleDynamicWireframe vehicleModel={VehicleModel.FESC20} />);
+    render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} />);
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(1);
   });
 
   it('should throw error if wireframe not found', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<VehicleDynamicWireframe vehicleModel={VehicleModel.ALL} />)).toThrow();
-    expect(() => render(<VehicleDynamicWireframe vehicleModel={VehicleModel.ALL} />)).toThrowError(
-      `No wireframe found for vehicle type ${VehicleModel.ALL}`,
+    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.SUV} />)).toThrowError(
+      `No wireframe found for vehicle type ${VehicleType.SUV}`,
     );
   });
 
   it('should update the overlay while changing the orientation', () => {
-    const { rerender } = render(<VehicleDynamicWireframe vehicleModel={VehicleModel.AUDIA7} />);
+    const { rerender } = render(<VehicleDynamicWireframe vehicleType={VehicleType.HATCHBACK} />);
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(1);
-    expectPropsOnChildMockStrict(dynamicSVGModuleMock.DynamicSVG, {
-      svg: wireFrame[VehicleModel.AUDIA7]?.[PartSelectionOrientation.FRONT_LEFT],
+    expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
+      svg: partSelectionWireframes[VehicleModel.AUDIA7]?.[PartSelectionOrientation.FRONT_LEFT],
     });
     rerender(
       <VehicleDynamicWireframe
-        vehicleModel={VehicleModel.AUDIA7}
+        vehicleType={VehicleType.HATCHBACK}
         orientation={PartSelectionOrientation.REAR_LEFT}
       />,
     );
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(2);
-    expectPropsOnChildMockStrict(dynamicSVGModuleMock.DynamicSVG, {
-      svg: wireFrame[VehicleModel.AUDIA7]?.[PartSelectionOrientation.REAR_LEFT],
+    expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
+      svg: partSelectionWireframes[VehicleModel.AUDIA7]?.[PartSelectionOrientation.REAR_LEFT],
     });
   });
 
@@ -55,7 +54,7 @@ describe('VehicleDynamicWireframe component', () => {
       return <svg onClick={attributes.onClick}></svg>;
     });
     const mockFn = jest.fn();
-    render(<VehicleDynamicWireframe vehicleModel={VehicleModel.AUDIA7} onClickPart={mockFn} />);
+    render(<VehicleDynamicWireframe vehicleType={VehicleType.HATCHBACK} onClickPart={mockFn} />);
     fireEvent.click(document.querySelector('svg') as Element);
     expect(mockFn).toBeCalled();
   });
@@ -75,7 +74,7 @@ describe('VehicleDynamicWireframe component', () => {
     });
     render(
       <VehicleDynamicWireframe
-        vehicleModel={VehicleModel.AUDIA7}
+        vehicleType={VehicleType.HATCHBACK}
         getPartAttributes={getPartAttributes}
       />,
     );
@@ -98,7 +97,7 @@ describe('VehicleDynamicWireframe component', () => {
     });
     render(
       <VehicleDynamicWireframe
-        vehicleModel={VehicleModel.AUDIA7}
+        vehicleType={VehicleType.HATCHBACK}
         getPartAttributes={getPartAttributes}
       />,
     );

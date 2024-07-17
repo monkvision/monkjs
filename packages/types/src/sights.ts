@@ -115,6 +115,21 @@ export enum VehicleModel {
 }
 
 /**
+ * A mapping of vehicle types to vehicle models.
+ */
+export const VehicleTypeMapVehicleModel: Record<VehicleType, VehicleModel> = {
+  [VehicleType.HATCHBACK]: VehicleModel.AUDIA7,
+  [VehicleType.CUV]: VehicleModel.FESC20,
+  [VehicleType.PICKUP]: VehicleModel.FF150,
+  [VehicleType.CITY]: VehicleModel.FFOCUS18,
+  [VehicleType.VAN]: VehicleModel.FTRANSIT18,
+  [VehicleType.SEDAN]: VehicleModel.HACCORD,
+  [VehicleType.LARGE_SUV]: VehicleModel.JGC21,
+  [VehicleType.MINIVAN]: VehicleModel.TSIENNA20,
+  [VehicleType.SUV]: VehicleModel.VWTROC,
+};
+
+/**
  * Interface describing the sight guideline.
  */
 export interface SightGuideline {
@@ -141,7 +156,7 @@ export interface SightGuideline {
 }
 
 /**
- * The different orientations of a part selection.
+ * The different orientations of a part selection wireframe.
  */
 export enum PartSelectionOrientation {
   FRONT_LEFT = 'front-left',
@@ -208,7 +223,10 @@ export interface VehicleDetails {
   dimensionsXYZ?: number[];
 }
 
-export type PartSelectionWireFrames = Record<PartSelectionOrientation, string>;
+/**
+ * Details of sight overlay of all the possible orientations
+ */
+export type PartSelectionWireframes = Record<PartSelectionOrientation, string>;
 
 /**
  * The translation of labels for Sights, VehicleTypes etc.
@@ -236,9 +254,9 @@ export type LabelDictionary = Record<string, LabelTranslation>;
 export type SightDictionary = Record<string, Sight>;
 
 /**
- * A dictionary that maps vehicle models to part selection wire frames.
+ * A dictionary that maps vehicle models to part selection wireframes.
  */
-export type WireFrameDictionary = Partial<Record<VehicleModel, PartSelectionWireFrames>>;
+export type WireframeDictionary = Partial<Record<VehicleModel, PartSelectionWireframes>>;
 
 /**
  * Enumeration of the two positions in which the steering wheel can be.

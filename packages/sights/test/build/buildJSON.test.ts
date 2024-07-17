@@ -3,7 +3,6 @@ jest.mock('../../src/io');
 
 import {
   PartSelectionOrientation,
-  PartSelectionWireFrames,
   SightCategory,
   SightDictionary,
   TaskName,
@@ -195,7 +194,7 @@ describe('JSON builder module', () => {
         (args) =>
           !(args[1] as string).endsWith('labels.json') &&
           !(args[1] as string).endsWith('vehicles.json') &&
-          !(args[1] as string).endsWith('wireFrames.json'),
+          !(args[1] as string).endsWith('wireframes.json'),
       );
 
       expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
@@ -215,14 +214,14 @@ describe('JSON builder module', () => {
       });
     });
 
-    it('should property create wireframe file', () => {
+    it('should property create the wireframes file', () => {
       const saveLibJSONSpy = jest.spyOn(io, 'saveLibJSON');
       fs.existsSync = jest
         .fn()
         .mockImplementation((path: string) => path.includes('vehicle-key-2'));
       buildJSONs();
       const call = saveLibJSONSpy.mock.calls.find((args) =>
-        (args[1] as string).endsWith('wireFrames.json'),
+        (args[1] as string).endsWith('wireframes.json'),
       );
       expect(call?.[0]).toEqual({
         'vehicle-key-2': {
@@ -231,10 +230,10 @@ describe('JSON builder module', () => {
           [PartSelectionOrientation.REAR_LEFT]: expect.any(String),
           [PartSelectionOrientation.REAR_RIGHT]: expect.any(String),
         },
-      } as Partial<Record<'test-key-2', PartSelectionWireFrames>>);
+      });
     });
 
-    it('should throw error when not all the four wireframe not present', () => {
+    it('should throw an error when some wireframes are missing', () => {
       fs.existsSync = jest
         .fn()
         .mockImplementation((path: string) => path.includes('vehicle-key-2'));

@@ -4,7 +4,7 @@ import {
   VehicleModel,
   VehiclePart,
   VehicleType,
-  WireFrameDictionary,
+  WireframeDictionary,
 } from '@monkvision/types';
 
 const vehicles = {
@@ -87,7 +87,7 @@ const sights = {
   },
 };
 
-const wireFrame: WireFrameDictionary = {
+const partSelectionWireframes: WireframeDictionary = {
   [VehicleModel.FESC20]: {
     [PartSelectionOrientation.FRONT_LEFT]: `<svg><path id="${VehiclePart.BUMPER_BACK}"></path></svg>`,
     [PartSelectionOrientation.REAR_LEFT]: '<svg>FR</svg>',
@@ -106,5 +106,5 @@ export = {
   vehicles,
   labels,
   sights,
-  wireFrame,
+  partSelectionWireframes,
 };

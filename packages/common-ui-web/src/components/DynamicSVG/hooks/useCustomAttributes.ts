@@ -18,9 +18,13 @@ export function useCustomAttributes({
     if (elementTag === 'svg') {
       return { pointerEvents: 'box-none' };
     }
-    if (!getAttributes) return { style };
+    if (!getAttributes) {
+      return { style };
+    }
     const attributes = getAttributes(element, groups);
-    if (elementTag === 'g') attributes.pointerEvents = 'box-none';
+    if (elementTag === 'g') {
+      attributes.pointerEvents = 'box-none';
+    }
     return { ...attributes, style: { ...attributes?.style, ...style } };
   }, [element, groups, getAttributes]);
 }

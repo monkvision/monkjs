@@ -1,4 +1,4 @@
-import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
+import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
 import * as vehicleDynamicWireframeModule from '../../src/components/VehicleDynamicWireframe';
 import * as iconsModule from '../../src/icons';
 import { VehiclePartSelection } from '../../src/components/VehiclePartSelection';
@@ -35,13 +35,13 @@ describe('VehiclePartSelection component', () => {
   it('should emit when parts are selected from one', () => {
     const mockPartSelect = jest.fn();
     render(
-      <VehiclePartSelection vehicleModel={VehicleModel.AUDIA7} onPartsSelected={mockPartSelect} />,
+      <VehiclePartSelection vehicleType={VehicleType.HATCHBACK} onPartsSelected={mockPartSelect} />,
     );
     fireEvent.click(screen.getByTestId('VehicleDynamicWireframe'));
     expect(mockPartSelect).toBeCalledWith([VehiclePart.BUMPER_BACK]);
   });
   it('should change orientation when Icons are clicked', () => {
-    render(<VehiclePartSelection vehicleModel={VehicleModel.AUDIA7} />);
+    render(<VehiclePartSelection vehicleType={VehicleType.HATCHBACK} />);
     expectPropsOnChildMock(vehicleDynamicWireframeModuleMock.VehicleDynamicWireframe, {
       orientation: PartSelectionOrientation.FRONT_LEFT,
     });
@@ -59,7 +59,7 @@ describe('VehiclePartSelection component', () => {
     const mockPartSelect = jest.fn();
     render(
       <VehiclePartSelection
-        vehicleModel={VehicleModel.AUDIA7}
+        vehicleType={VehicleType.HATCHBACK}
         onPartsSelected={mockPartSelect}
         orientation={PartSelectionOrientation.FRONT_LEFT}
       />,
