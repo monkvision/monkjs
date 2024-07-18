@@ -1,12 +1,11 @@
 const keys: Array<symbol> = [];
 const allPreventExitState: Record<symbol, boolean> = {};
 
-function arePreventExitRemaining() {
+function arePreventExitRemaining(): boolean {
   if (keys.map((key) => allPreventExitState[key]).every((i) => i === false)) {
     window.onbeforeunload = null;
     return true;
   }
-
   return false;
 }
 
@@ -20,7 +19,7 @@ function publish(id: symbol, preventExit: boolean): void {
 }
 
 /**
- * Returns a listener which can used to calculate the state of prevent exit
+ * Returns a listener which can used to calculate the state of prevent exit.
  */
 export interface PreventExitListenerResult {
   /**
