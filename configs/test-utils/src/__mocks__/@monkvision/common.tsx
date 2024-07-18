@@ -118,6 +118,6 @@ export = {
   useAsyncInterval: jest.fn(),
   useSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
   useObjectMemo: jest.fn((obj) => obj),
-  usePreventExit: jest.fn(),
   getLanguage: jest.fn(),
+  usePreventExit: jest.fn(() => ({ allowRedirect: jest.fn() })),
 };

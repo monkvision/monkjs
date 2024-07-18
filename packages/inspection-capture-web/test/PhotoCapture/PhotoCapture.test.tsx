@@ -51,12 +51,12 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   useTracking: jest.fn(),
 }));
 
-import { act, render, waitFor } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { useI18nSync, useLoadingState } from '@monkvision/common';
+import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
 import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { useMonitoring } from '@monkvision/monitoring';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { act, render, waitFor } from '@testing-library/react';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
 import {
   useAdaptiveCameraConfig,
@@ -445,6 +445,13 @@ describe('PhotoCapture component', () => {
     onConfirm();
     expect(closeBadConnectionWarningDialog).toHaveBeenCalled();
 
+    unmount();
+  });
+
+  it('should ask the user for confirmation before exit', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+    expect(usePreventExit).toHaveBeenCalled();
     unmount();
   });
 });

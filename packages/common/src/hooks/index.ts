@@ -10,5 +10,4 @@ export * from './useSearchParams';
 export * from './useInterval';
 export * from './useAsyncInterval';
 export * from './useObjectMemo';
-export * from './usePreventExit';
 export * from './useThumbnail';
