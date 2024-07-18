@@ -103,7 +103,7 @@ export interface Add2ShotCloseUpImageOptions {
 }
 
 /**
- * Options specififed when adding a close up (an "add damage" image) to an inspection using the 2-shot process.
+ * Options specififed when adding a video frame to a VideoCapture inspection.
  */
 export interface AddVideoFrameOptions {
   /**
