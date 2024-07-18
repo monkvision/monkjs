@@ -24,6 +24,7 @@
   },
   "additional_data": {
     "damage_detection_version": "v2",
-    "use_dynamic_crops": true
+    "use_dynamic_crops": true,
+    "is_video_capture": true
   }
 }

@@ -18,6 +18,8 @@ import {
   Add2ShotCloseUpImageOptions,
   AddBeautyShotImageOptions,
   addImage,
+  AddVideoFrameOptions,
+  ImageUploadType,
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
 
@@ -25,7 +27,7 @@ const apiConfig = { apiDomain: 'apiDomain', authToken: 'authToken' };
 
 function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
   return {
-    type: ImageType.BEAUTY_SHOT,
+    uploadType: ImageUploadType.BEAUTY_SHOT,
     picture: {
       blob: { size: 424 } as Blob,
       uri: 'test-uri',
@@ -45,7 +47,7 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
 
 function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
   return {
-    type: ImageType.CLOSE_UP,
+    uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
     picture: {
       blob: { size: 424 } as Blob,
       uri: 'test-uri',
@@ -60,6 +62,22 @@ function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     },
+  };
+}
+
+function createVideoFrameOptions(): AddVideoFrameOptions {
+  return {
+    uploadType: ImageUploadType.VIDEO_FRAME,
+    picture: {
+      blob: { size: 424 } as Blob,
+      uri: 'test-uri',
+      height: 720,
+      width: 1280,
+      mimetype: 'image/jpeg',
+    },
+    inspectionId: 'test-inspection-id',
+    frameIndex: 12,
+    timestamp: 2312,
   };
 }
 
@@ -276,6 +294,40 @@ describe('Image requests', () => {
       expect(fileConstructorSpy).toHaveBeenCalledWith(
         [options.picture.blob],
         expect.stringMatching(new RegExp(`${prefix}-${options.inspectionId}-\\d{13}.${filetype}`)),
+        { type: filetype },
+      );
+    });
+
+    it('should properly create the formdata for a video frame', async () => {
+      const options = createVideoFrameOptions();
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+      expect(JSON.parse(formData.get('json') as string)).toEqual({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: 'image',
+        },
+        tasks: [TaskName.DAMAGE_DETECTION],
+        additional_data: {
+          label: {
+            en: `Video Frame ${options.frameIndex}`,
+            fr: `Trame Vidéo ${options.frameIndex}`,
+            de: `Videobild ${options.frameIndex}`,
+            nl: `Videoframe ${options.frameIndex}`,
+          },
+          created_at: expect.any(String),
+          frame_index: options.frameIndex,
+          timestamp: options.timestamp,
+        },
+      });
+      expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);
+      const filetype = (getFileExtensions as jest.Mock).mock.results[0].value[0];
+      expect(fileConstructorSpy).toHaveBeenCalledWith(
+        [options.picture.blob],
+        `video-frame-${options.frameIndex}.${filetype}`,
         { type: filetype },
       );
     });

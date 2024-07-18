@@ -11,6 +11,8 @@ export {
   type AddBeautyShotImageOptions,
   type Add2ShotCloseUpImageOptions,
   type AddImageOptions,
+  type AddVideoFrameOptions,
+  ImageUploadType,
 } from './image';
 export {
   type UpdateProgressStatus,

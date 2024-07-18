@@ -26,6 +26,16 @@ export interface ImageAdditionalData extends AdditionalData {
    * the PhotoCapture component of the MonkJs SDK.
    */
   label?: TranslationObject;
+  /**
+   * The index of the video frame starting from 0 (only defined if the image is a picture uploaded in a VideoCapture
+   * workflow).
+   */
+  frame_index?: number;
+  /**
+   * The duration (in milliseconds) between this video frame capture time and the previous one. For the first frame of
+   * the video, this value is equal to 0.
+   */
+  timestamp?: number;
 }
 
 /**

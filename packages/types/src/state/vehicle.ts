@@ -10,7 +10,7 @@ export enum MileageUnit {
 }
 
 /**
- * An object containing all the information about a vehicle that is being inspected during an inspection.
+ * An object containing all the information abou t a vehicle that is being inspected during an inspection.
  */
 export interface Vehicle extends MonkEntity {
   /**

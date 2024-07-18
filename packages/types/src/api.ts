@@ -126,4 +126,10 @@ export interface CreateInspectionOptions {
    * @default true
    */
   useDynamicCrops?: boolean;
+  /**
+   * Boolean indicating if the inspection to create will be used with the VideoCapture workflow or not.
+   *
+   * @default false
+   */
+  isVideoCapture?: boolean;
 }

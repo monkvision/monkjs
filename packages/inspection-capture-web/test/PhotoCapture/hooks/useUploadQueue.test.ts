@@ -7,8 +7,8 @@ import {
   UploadQueueParams,
   useUploadQueue,
 } from '../../../src/PhotoCapture/hooks';
-import { ComplianceIssue, ImageType, TaskName } from '@monkvision/types';
-import { useMonkApi } from '@monkvision/network';
+import { ComplianceIssue, TaskName } from '@monkvision/types';
+import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { act } from '@testing-library/react';
 
@@ -78,7 +78,7 @@ describe('useUploadQueue hook', () => {
       await process(defaultUploadOptions);
 
       expect(addImageMock).toHaveBeenCalledWith({
-        type: ImageType.BEAUTY_SHOT,
+        uploadType: ImageUploadType.BEAUTY_SHOT,
         picture: defaultUploadOptions.picture,
         sightId: defaultUploadOptions.sightId,
         tasks: defaultUploadOptions.tasks,
@@ -102,7 +102,7 @@ describe('useUploadQueue hook', () => {
       await process({ ...defaultUploadOptions, tasks });
 
       expect(addImageMock).toHaveBeenCalledWith({
-        type: ImageType.BEAUTY_SHOT,
+        uploadType: ImageUploadType.BEAUTY_SHOT,
         picture: defaultUploadOptions.picture,
         sightId: defaultUploadOptions.sightId,
         tasks: expect.arrayContaining([
@@ -139,7 +139,7 @@ describe('useUploadQueue hook', () => {
         await process(upload1);
       });
       expect(addImageMock).toHaveBeenCalledWith({
-        type: ImageType.CLOSE_UP,
+        uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload1.picture,
         siblingKey: expect.any(String),
         firstShot: true,
@@ -162,7 +162,7 @@ describe('useUploadQueue hook', () => {
       await process(upload2);
 
       expect(addImageMock).toHaveBeenCalledWith({
-        type: ImageType.CLOSE_UP,
+        uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload2.picture,
         siblingKey,
         firstShot: false,
