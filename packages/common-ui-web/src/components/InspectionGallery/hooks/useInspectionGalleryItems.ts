@@ -23,7 +23,9 @@ function needsToBeRetaken(item: InspectionGalleryItem): boolean {
   return (
     !item.isAddDamage &&
     item.isTaken &&
-    [ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT].includes(item.image.status)
+    [ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_ERROR].includes(
+      item.image.status,
+    )
   );
 }
 
