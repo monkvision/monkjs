@@ -14,6 +14,12 @@ const vehicles = {
     model: 'Escape SE 2020',
     type: VehicleType.CUV,
   },
+  [VehicleModel.FF150]: {
+    id: VehicleModel.FF150,
+    make: 'Ford',
+    model: 'F-150 Super Cab XL 2014',
+    type: VehicleType.PICKUP,
+  },
 };
 
 const labels = {

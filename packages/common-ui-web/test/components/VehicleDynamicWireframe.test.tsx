@@ -14,6 +14,7 @@ describe('VehicleDynamicWireframe component', () => {
     dynamicSVGModuleMock.DynamicSVG.mockImplementation(() => <></>);
   });
   afterEach(() => jest.clearAllMocks());
+
   it('should not throw error if wireframe found', () => {
     render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} />);
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(1);
@@ -21,26 +22,26 @@ describe('VehicleDynamicWireframe component', () => {
 
   it('should throw error if wireframe not found', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.SUV} />)).toThrowError(
-      `No wireframe found for vehicle type ${VehicleType.SUV}`,
+    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.PICKUP} />)).toThrowError(
+      `No wireframe found for vehicle type ${VehicleType.PICKUP}`,
     );
   });
 
   it('should update the overlay while changing the orientation', () => {
-    const { rerender } = render(<VehicleDynamicWireframe vehicleType={VehicleType.HATCHBACK} />);
+    const { rerender } = render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} />);
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(1);
     expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
-      svg: partSelectionWireframes[VehicleModel.AUDIA7]?.[PartSelectionOrientation.FRONT_LEFT],
+      svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.FRONT_LEFT],
     });
     rerender(
       <VehicleDynamicWireframe
-        vehicleType={VehicleType.HATCHBACK}
+        vehicleType={VehicleType.CUV}
         orientation={PartSelectionOrientation.REAR_LEFT}
       />,
     );
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(2);
     expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
-      svg: partSelectionWireframes[VehicleModel.AUDIA7]?.[PartSelectionOrientation.REAR_LEFT],
+      svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.REAR_LEFT],
     });
   });
 
@@ -54,10 +55,11 @@ describe('VehicleDynamicWireframe component', () => {
       return <svg onClick={attributes.onClick}></svg>;
     });
     const mockFn = jest.fn();
-    render(<VehicleDynamicWireframe vehicleType={VehicleType.HATCHBACK} onClickPart={mockFn} />);
+    render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} onClickPart={mockFn} />);
     fireEvent.click(document.querySelector('svg') as Element);
     expect(mockFn).toBeCalled();
   });
+
   it('should get value from getPartAttributes', () => {
     const getPartAttributes = jest.fn(() => ({
       style: {
@@ -74,13 +76,14 @@ describe('VehicleDynamicWireframe component', () => {
     });
     render(
       <VehicleDynamicWireframe
-        vehicleType={VehicleType.HATCHBACK}
+        vehicleType={VehicleType.CUV}
         getPartAttributes={getPartAttributes}
       />,
     );
     expect(getPartAttributes).toBeCalled();
     expect(document.querySelector('svg')?.getAttribute('style')).toBe('fill: red;');
   });
+
   it('should get value from getPartAttributes, selectable to have correct onClick', () => {
     const getPartAttributes = jest.fn(() => ({
       style: {
@@ -97,7 +100,7 @@ describe('VehicleDynamicWireframe component', () => {
     });
     render(
       <VehicleDynamicWireframe
-        vehicleType={VehicleType.HATCHBACK}
+        vehicleType={VehicleType.CUV}
         getPartAttributes={getPartAttributes}
       />,
     );

@@ -115,21 +115,6 @@ export enum VehicleModel {
 }
 
 /**
- * A mapping of vehicle types to vehicle models.
- */
-export const VehicleTypeMapVehicleModel: Record<VehicleType, VehicleModel> = {
-  [VehicleType.HATCHBACK]: VehicleModel.AUDIA7,
-  [VehicleType.CUV]: VehicleModel.FESC20,
-  [VehicleType.PICKUP]: VehicleModel.FF150,
-  [VehicleType.CITY]: VehicleModel.FFOCUS18,
-  [VehicleType.VAN]: VehicleModel.FTRANSIT18,
-  [VehicleType.SEDAN]: VehicleModel.HACCORD,
-  [VehicleType.LARGE_SUV]: VehicleModel.JGC21,
-  [VehicleType.MINIVAN]: VehicleModel.TSIENNA20,
-  [VehicleType.SUV]: VehicleModel.VWTROC,
-};
-
-/**
  * Interface describing the sight guideline.
  */
 export interface SightGuideline {

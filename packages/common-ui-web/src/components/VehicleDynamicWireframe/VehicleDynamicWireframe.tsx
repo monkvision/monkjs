@@ -1,12 +1,12 @@
 import { useMonkTheme } from '@monkvision/common';
 import {
   PartSelectionOrientation,
+  VehicleModel,
   VehiclePart,
   VehicleType,
-  VehicleTypeMapVehicleModel,
 } from '@monkvision/types';
 import { SVGProps } from 'react';
-import { partSelectionWireframes } from '@monkvision/sights';
+import { partSelectionWireframes, vehicles } from '@monkvision/sights';
 import { DynamicSVG, DynamicSVGCustomizationFunctions } from '../DynamicSVG';
 import { styles } from './VehicleDynamicWireframe.style';
 
@@ -59,6 +59,16 @@ function createGetAttributesCallback(
   };
 }
 
+function getVehicleModel(vehicleType: VehicleType): VehicleModel {
+  const detail = Object.entries(vehicles)
+    .filter(([type]) => type !== VehicleModel.AUDIA7)
+    .find(([, details]) => details.type === vehicleType)?.[1];
+  if (detail === undefined) {
+    throw new Error(`No vehicle model found for vehicle type ${vehicleType}`);
+  }
+  return detail.id;
+}
+
 /**
  * Component that displays a dynamic wireframe of a vehicle, allowing the user to select parts of the vehicle.
  */
@@ -68,7 +78,7 @@ export function VehicleDynamicWireframe({
   onClickPart = () => {},
   getPartAttributes = () => ({}),
 }: VehicleDynamicWireframeProps) {
-  const wireframes = partSelectionWireframes[VehicleTypeMapVehicleModel[vehicleType]];
+  const wireframes = partSelectionWireframes[getVehicleModel(vehicleType)];
   if (wireframes === undefined) {
     throw new Error(`No wireframe found for vehicle type ${vehicleType}`);
   }
