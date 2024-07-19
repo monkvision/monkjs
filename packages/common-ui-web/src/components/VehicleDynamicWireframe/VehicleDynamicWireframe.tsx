@@ -7,7 +7,8 @@ import {
 } from '@monkvision/types';
 import { SVGProps } from 'react';
 import { partSelectionWireframes } from '@monkvision/sights';
-import { DynamicSVG, DynamicSVGCustomizationFunctions } from './DynamicSVG';
+import { DynamicSVG, DynamicSVGCustomizationFunctions } from '../DynamicSVG';
+import { styles } from './VehicleDynamicWireframe.style';
 
 export interface VehicleDynamicWireframeProps {
   /**
@@ -44,7 +45,7 @@ function createGetAttributesCallback(
     } else if (isCarPartElement(element)) {
       part = element.id as VehiclePart;
     } else {
-      return { style: { display: 'none' } };
+      return { style: styles['notCarPart'] };
     }
     const attributes = getPartAttributes(part);
     if (element.tagName === 'g') {
@@ -52,9 +53,7 @@ function createGetAttributesCallback(
     }
     if (element.classList.contains('selectable') && element.id) {
       attributes.onClick = () => onClickPart(part);
-      attributes.style = attributes.style ?? {};
-      attributes.style.pointerEvents = 'fill';
-      attributes.style.cursor = 'pointer';
+      attributes.style = { ...attributes.style, ...styles['selectAble'] };
     }
     return attributes;
   };

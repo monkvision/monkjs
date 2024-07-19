@@ -1,8 +1,9 @@
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
 import { useEffect, useState } from 'react';
 import { useMonkTheme } from '@monkvision/common';
-import { Icon } from '../icons';
-import { VehicleDynamicWireframe, VehicleDynamicWireframeProps } from './VehicleDynamicWireframe';
+import { Icon } from '../../icons';
+import { VehicleDynamicWireframe, VehicleDynamicWireframeProps } from '../VehicleDynamicWireframe';
+import { styles } from './VehiclePartSelection.style';
 
 export interface VehiclePartSelectionProps {
   /**
@@ -70,16 +71,7 @@ export function VehiclePartSelection({
   }, [selectedParts]);
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        inset: '0 0 0 0',
-        gap: '30px',
-      }}
-    >
+    <div style={styles['wrapper']}>
       <Icon icon='rotate-left' primaryColor='text-primary' onClick={rotateRight} />
       <VehicleDynamicWireframe
         vehicleType={vehicleType}
