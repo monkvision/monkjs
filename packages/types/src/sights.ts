@@ -159,9 +159,21 @@ export interface SightGuideline {
  * The different orientations of a part selection wireframe.
  */
 export enum PartSelectionOrientation {
+  /**
+   * Wireframe of the vehicle when looking at its front left side.
+   */
   FRONT_LEFT = 'front-left',
+  /**
+   * Wireframe of the vehicle when looking at its front right side.
+   */
   FRONT_RIGHT = 'front-right',
+  /**
+   * Wireframe of the vehicle when looking at its rear left side.
+   */
   REAR_LEFT = 'rear-left',
+  /**
+   * Wireframe of the vehicle when looking at its rear right side.
+   */
   REAR_RIGHT = 'rear-right',
 }
 
@@ -224,7 +236,7 @@ export interface VehicleDetails {
 }
 
 /**
- * Details of sight overlay of all the possible orientations
+ * Details of sight overlay of all the possible orientations.
  */
 export type PartSelectionWireframes = Record<PartSelectionOrientation, string>;
 

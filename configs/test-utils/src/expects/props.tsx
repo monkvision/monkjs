@@ -25,7 +25,7 @@ export function expectPropsOnChildMock(
 }
 
 /**
- * Similar to expectPropsOnChildMock but check for last mock call only
+ * Similar to expectPropsOnChildMock but check for last mock call only.
  */
 export function expectLastPropsOnChildMock<T extends jest.Mock | FC<any> | ForwardedRef<any>>(
   Component: T,
