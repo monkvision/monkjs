@@ -88,7 +88,7 @@ describe('useUploadQueue hook', () => {
         tasks: defaultUploadOptions.tasks,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
-        enableThumbnail: true,
+        useThumbnailCaching: true,
       });
 
       unmount();
@@ -110,7 +110,7 @@ describe('useUploadQueue hook', () => {
         uploadType: ImageUploadType.BEAUTY_SHOT,
         picture: defaultUploadOptions.picture,
         sightId: defaultUploadOptions.sightId,
-        enableThumbnail: true,
+        useThumbnailCaching: true,
         tasks: expect.arrayContaining([
           TaskName.DAMAGE_DETECTION,
           TaskName.IMAGE_EDITING,
@@ -148,7 +148,7 @@ describe('useUploadQueue hook', () => {
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload1.picture,
         siblingKey: expect.any(String),
-        enableThumbnail: true,
+        useThumbnailCaching: true,
         firstShot: true,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
@@ -172,7 +172,7 @@ describe('useUploadQueue hook', () => {
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload2.picture,
         siblingKey,
-        enableThumbnail: true,
+        useThumbnailCaching: true,
         firstShot: false,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,

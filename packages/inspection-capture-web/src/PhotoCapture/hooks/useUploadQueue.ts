@@ -117,7 +117,7 @@ function createAddImageOptions(
       tasks: additionalTasks ? uniq([...upload.tasks, ...additionalTasks]) : upload.tasks,
       inspectionId,
       compliance,
-      enableThumbnail,
+      useThumbnailCaching: enableThumbnail,
     };
   }
   return {
@@ -127,7 +127,7 @@ function createAddImageOptions(
     firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
     inspectionId,
     compliance,
-    enableThumbnail,
+    useThumbnailCaching: enableThumbnail,
   };
 }
 

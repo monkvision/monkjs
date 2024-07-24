@@ -26,6 +26,7 @@ const appState = {
   authToken: 'test-auth-token',
   inspectionId: 'test-inspection-id',
   apiDomain: 'test-api-domain',
+  thumbnailDomain: 'test-thumbnail-domain',
 };
 
 describe('VehicleTypeSelection component', () => {

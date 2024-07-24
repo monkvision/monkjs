@@ -19,7 +19,7 @@ import { changeAlpha, useMonkTheme } from '@monkvision/common';
 import { Icon, SightOverlay } from '../../../../src';
 import { InspectionGalleryItemCard } from '../../../../src/components/InspectionGallery/InspectionGalleryItemCard';
 import {
-  InspectionGalleryItemCardProps, useInspectionGalleryItemCardStyles,
+  InspectionGalleryItemCardProps,
   useInspectionGalleryItemLabel,
   useInspectionGalleryItemStatusIconName,
 } from '../../../../src/components/InspectionGallery/InspectionGalleryItemCard/hooks';
@@ -47,9 +47,12 @@ function createProps(): InspectionGalleryItemCardProps {
     item: {
       isAddDamage: false,
       isTaken: true,
-      image: { path: 'test-image-path', status: ImageStatus.SUCCESS } as unknown as Image,
+      image: {
+        path: 'test-image-path',
+        thumnailPath: 'test-image-thumbnail-path',
+        status: ImageStatus.SUCCESS,
+      } as unknown as Image,
     },
-    getThumbnailUrl: jest.fn(() => 'test-thumbnail-url'),
     captureMode: true,
     onClick: jest.fn(),
   };
@@ -79,7 +82,7 @@ describe('InspectionGalleryItemCard component', () => {
 
     const preview = screen.getByTestId(CARD_PREVIEW_TEST_ID);
     expect(preview).toHaveStyle({
-      backgroundImage: `url(${props.getThumbnailUrl})`,
+      backgroundImage: `url(${(props.item as { image: Image }).image.thumbnailPath})`,
     });
 
     unmount();

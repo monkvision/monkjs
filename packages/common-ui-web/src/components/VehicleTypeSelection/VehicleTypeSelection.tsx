@@ -82,6 +82,7 @@ export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) 
   const { getInspection } = useMonkApi({
     authToken: props.authToken ?? '',
     apiDomain: props.apiDomain ?? '',
+    thumbnailDomain: props.thumbnailDomain ?? '',
   });
   const loading = useLoadingState();
   const { handleError, setTags, setUserId } = useMonitoring();

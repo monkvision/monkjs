@@ -1,4 +1,4 @@
-import { i18nWrap, useI18nSync, useThumbnail } from '@monkvision/common';
+import { i18nWrap, useI18nSync } from '@monkvision/common';
 import { useMemo, useState } from 'react';
 import { Image, ImageType } from '@monkvision/types';
 import { InspectionGalleryItem, InspectionGalleryProps, NavigateToCaptureReason } from './types';
@@ -44,7 +44,6 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
     captureMode: props.captureMode,
     isFilterActive: currentFilter !== null,
   });
-  const { getThumbnailUrl } = useThumbnail(props.thumbnailDomain);
 
   const handleItemClick = (item: InspectionGalleryItem) => {
     if (item.isAddDamage && props.captureMode) {
@@ -114,7 +113,6 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
           <div style={itemStyle} key={getItemKey(item)}>
             <InspectionGalleryItemCard
               item={item}
-              getThumbnailUrl={getThumbnailUrl}
               captureMode={props.captureMode}
               onClick={() => handleItemClick(item)}
             />
