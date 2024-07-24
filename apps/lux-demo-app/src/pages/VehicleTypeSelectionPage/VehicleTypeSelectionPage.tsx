@@ -19,6 +19,7 @@ export function VehicleTypeSelectionPage() {
       inspectionId={inspectionId ?? ''}
       authToken={authToken ?? ''}
       apiDomain={config.apiDomain}
+      thumbnailDomain={config.thumbnailDomain}
     />
   );
 }

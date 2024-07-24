@@ -28,7 +28,11 @@ export function PhotoCapturePage() {
     <div className={styles['container']}>
       <PhotoCapture
         {...config}
-        apiConfig={{ authToken, apiDomain: config.apiDomain }}
+        apiConfig={{
+          authToken,
+          apiDomain: config.apiDomain,
+          thumbnailDomain: config.thumbnailDomain,
+        }}
         inspectionId={inspectionId}
         onComplete={handleComplete}
         lang={i18n.language}
