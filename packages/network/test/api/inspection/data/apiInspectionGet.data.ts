@@ -43,6 +43,8 @@ export default {
       entityType: 'IMAGE',
       inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
       path: 'https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/rear_lateral_low_left.jpeg-eefefe38-b25b-471f-89ad-8adb2cbcca1f.jpeg?generation=1702474029543236&alt=media',
+      thumbnailPath:
+        'https:///?image_url=https%3A%2F%2Fwww.googleapis.com%2Fdownload%2Fstorage%2Fv1%2Fb%2Fcore-preview-images%2Fo%2Frear_lateral_low_left.jpeg-eefefe38-b25b-471f-89ad-8adb2cbcca1f.jpeg%3Fgeneration%3D1702474029543236%26alt%3Dmedia&width=192&height=108',
       width: 1920,
       height: 1080,
       size: 141539,
@@ -108,6 +110,8 @@ export default {
       id: 'a842f4bf-5404-215b-a828-56c053220d1c',
       entityType: 'IMAGE',
       path: 'https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/hood.jpeg-8d7dadf7-414d-4771-9d0e-127312706291.jpeg?generation=1702474029549060&alt=media',
+      thumbnailPath:
+        'https:///?image_url=https%3A%2F%2Fwww.googleapis.com%2Fdownload%2Fstorage%2Fv1%2Fb%2Fcore-preview-images%2Fo%2Fhood.jpeg-8d7dadf7-414d-4771-9d0e-127312706291.jpeg%3Fgeneration%3D1702474029549060%26alt%3Dmedia&width=192&height=108',
       width: 1920,
       height: 1080,
       size: 160207,
@@ -163,6 +167,8 @@ export default {
       inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
       entityType: 'IMAGE',
       path: 'https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/close_up_roof.jpeg-2a10933e-0e7d-4499-9586-82b932bd0b37.jpeg?generation=1702474029574675&alt=media',
+      thumbnailPath:
+        'https:///?image_url=https%3A%2F%2Fwww.googleapis.com%2Fdownload%2Fstorage%2Fv1%2Fb%2Fcore-preview-images%2Fo%2Fclose_up_roof.jpeg-2a10933e-0e7d-4499-9586-82b932bd0b37.jpeg%3Fgeneration%3D1702474029574675%26alt%3Dmedia&width=192&height=108',
       width: 1920,
       height: 1080,
       size: 145095,

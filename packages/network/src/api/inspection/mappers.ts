@@ -118,6 +118,7 @@ function mapView(view: ApiView): { view: View; renderedOutputs: RenderedOutput[]
 
 function mapImages(
   response: ApiInspectionGet,
+  thumbnailDomain: string,
   complianceOptions?: ComplianceOptions,
 ): {
   views: View[];
@@ -155,7 +156,7 @@ function mapImages(
 
     imageIds.push(image.id);
     images.push({
-      ...mapApiImage(image, response.id, complianceOptions),
+      ...mapApiImage(image, response.id, thumbnailDomain, complianceOptions),
       renderedOutputs: imageRenderedOutputs,
       views: imageViews,
     });
@@ -371,10 +372,12 @@ function mapInspection(
 
 export function mapApiInspectionGet(
   response: ApiInspectionGet,
+  thumbnailDomain: string,
   complianceOptions?: ComplianceOptions,
 ): MonkState {
   const { images, renderedOutputs, views, imageIds, renderedOutputIds, viewIds } = mapImages(
     response,
+    thumbnailDomain,
     complianceOptions,
   );
   const { damages, damageIds } = mapDamages(response);

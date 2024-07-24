@@ -10,7 +10,7 @@ import { CreateInspectionOptions } from '@monkvision/types';
 describe('Inspection API Mappers', () => {
   describe('ApiInspectionGet mapper', () => {
     it('should properly map the ApiInspectionGet object', () => {
-      const result = mapApiInspectionGet(apiInspectionGetData as unknown as ApiInspectionGet);
+      const result = mapApiInspectionGet(apiInspectionGetData as unknown as ApiInspectionGet, '');
       expect(result).toEqual(apiInspectionGetMapped);
     });
   });

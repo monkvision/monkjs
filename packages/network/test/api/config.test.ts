@@ -13,6 +13,7 @@ describe('Network package API global config utils', () => {
     const baseConfig: MonkApiConfig = {
       apiDomain: 'testapidomain',
       authToken: 'Bearer testtoken',
+      thumbnailDomain: 'thumbnailDomain',
     };
 
     it('should return no prefixUrl and Authorization header if no API config is provided', () => {

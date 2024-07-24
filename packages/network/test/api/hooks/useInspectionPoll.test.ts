@@ -12,7 +12,11 @@ function createParams(): UseInspectionPollParams {
   return {
     id: 'test-id-test',
     delay: 1234,
-    apiConfig: { apiDomain: 'test-api-domain-test', authToken: 'test-auth-token-test' },
+    apiConfig: {
+      apiDomain: 'test-api-domain-test',
+      authToken: 'test-auth-token-test',
+      thumbnailDomain: 'thumbnailDomain',
+    },
     onSuccess: jest.fn(),
     compliance: {
       enableCompliance: true,

@@ -4,11 +4,6 @@ import { VehiclePart } from './part';
 import { TranslationObject } from '../i18n';
 
 /**
- * The resize ratio which will be apply to the image.
- */
-export const THUMBNAIL_RESIZE_RATIO = 0.1;
-
-/**
  * Additional data that can be added to an image when it has been uploaded.
  */
 export interface ImageAdditionalData extends AdditionalData {
@@ -437,6 +432,10 @@ export interface Image extends MonkEntity {
    * The URL at which the image can be downloaded.
    */
   path: string;
+  /**
+   * The API domain used to communicate with the resize micro service.
+   */
+  thumbnailPath: string;
   /**
    * The width of the image.
    */

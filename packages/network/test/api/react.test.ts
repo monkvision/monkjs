@@ -17,7 +17,11 @@ describe('Monk API React utilities', () => {
 
   describe('useMonkApi hook', () => {
     it('should properly reactify each request in the MonkApi object', async () => {
-      const config: MonkApiConfig = { apiDomain: 'wow-test', authToken: 'yessss' };
+      const config: MonkApiConfig = {
+        apiDomain: 'wow-test',
+        authToken: 'yessss',
+        thumbnailDomain: 'thumbnailDomain',
+      };
       const { result, unmount } = renderHook(useMonkApi, {
         initialProps: config,
       });
@@ -51,7 +55,11 @@ describe('Monk API React utilities', () => {
       Object.assign(httpError, { body: { test: 'hello' } });
       (MonkApi.getInspection as jest.Mock).mockImplementation(() => Promise.reject(httpError));
       const { result, unmount } = renderHook(useMonkApi, {
-        initialProps: { apiDomain: 'wow-test', authToken: 'yessss' },
+        initialProps: {
+          apiDomain: 'wow-test',
+          authToken: 'yessss',
+          thumbnailDomain: 'thumbnailDomain',
+        },
       });
 
       expect(useMonitoring).toHaveBeenCalled();
