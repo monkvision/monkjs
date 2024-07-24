@@ -105,6 +105,7 @@ function createAddImageOptions(
   upload: PictureUpload,
   inspectionId: string,
   siblingId: number,
+  enableThumbnail: boolean,
   additionalTasks?: CaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
 ): AddImageOptions {
@@ -116,6 +117,7 @@ function createAddImageOptions(
       tasks: additionalTasks ? uniq([...upload.tasks, ...additionalTasks]) : upload.tasks,
       inspectionId,
       compliance,
+      enableThumbnail,
     };
   }
   return {
@@ -125,6 +127,7 @@ function createAddImageOptions(
     firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
     inspectionId,
     compliance,
+    enableThumbnail,
   };
 }
 
@@ -153,6 +156,7 @@ export function useUploadQueue({
           upload,
           inspectionId,
           siblingIdRef.current,
+          true,
           additionalTasks,
           complianceOptions,
         ),

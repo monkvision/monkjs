@@ -21,7 +21,11 @@ function createParams(): PhotoCaptureSightsParams {
       sights['test-sight-3'],
       sights['test-sight-4'],
     ],
-    apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
+    apiConfig: {
+      apiDomain: 'test-api-domain',
+      authToken: 'test-auth-token',
+      thumbnailDomain: 'test-thumbnail-domain',
+    },
     loading: {
       start: jest.fn(),
       onSuccess: jest.fn(),

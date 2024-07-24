@@ -60,7 +60,6 @@ export interface PhotoCaptureProps
       | 'enableAddDamage'
       | 'sightGuidelines'
       | 'enableSightGuidelines'
-      | 'thumbnailDomain'
     >,
     Partial<CompressionOptions>,
     Partial<ComplianceOptions> {
@@ -132,7 +131,6 @@ export function PhotoCapture({
   lang,
   enforceOrientation,
   validateButtonLabel,
-  thumbnailDomain,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -286,7 +284,6 @@ export function PhotoCapture({
         <InspectionGallery
           inspectionId={inspectionId}
           apiConfig={apiConfig}
-          thumbnailDomain={thumbnailDomain}
           captureMode={true}
           lang={lang}
           showBackButton={true}
