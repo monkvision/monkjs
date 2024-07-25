@@ -6,8 +6,8 @@ import { SVGProps } from 'react';
  */
 export interface DynamicSVGCustomizationFunctions {
   /**
-   * A callback used to customize SVG tags in a DynamicSVG component based on the HTMLElement itself, or the Elements of the
-   * groups this element is part of.
+   * A callback used to customize SVG tags in a DynamicSVG component based on the HTMLElement itself, or the Elements
+   * of the groups this element is part of.
    *
    * @param element The element to apply the custom attributes to.
    * @param groups SVG group elements this element is part of (the elements are in order).

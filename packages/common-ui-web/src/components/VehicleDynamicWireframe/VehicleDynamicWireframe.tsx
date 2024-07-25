@@ -29,7 +29,8 @@ export interface VehicleDynamicWireframeProps {
    */
   onClickPart?: (parts: VehiclePart) => void;
   /**
-   * Callback used to customize the display style of each vehicle part on the wireframe. See `DynamicSVGCustomizationFunctions` for more details.
+   * Callback used to customize the display style of each vehicle part on the wireframe.
+   * See `DynamicSVGCustomizationFunctions` for more details.
    *
    * @see DynamicSVGCustomizationFunctions
    */

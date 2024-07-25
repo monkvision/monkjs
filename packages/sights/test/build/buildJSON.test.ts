@@ -240,8 +240,9 @@ describe('JSON builder module', () => {
       fs.readFileSync = jest
         .fn()
         .mockImplementation((path: string, options?: { encoding: BufferEncoding }) => {
-          if (path.endsWith(`vehicle-key-2-${PartSelectionOrientation.FRONT_LEFT}.svg`))
+          if (path.endsWith(`vehicle-key-2-${PartSelectionOrientation.FRONT_LEFT}.svg`)) {
             throw new Error('File Not found');
+          }
           if (options?.encoding === 'utf-8') {
             return `    ${resolve(path)}  `;
           }

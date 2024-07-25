@@ -11,11 +11,12 @@ function arePreventExitRemaining(): boolean {
 
 function publish(id: symbol, preventExit: boolean): void {
   allPreventExitState[id] = preventExit;
-  if (!arePreventExitRemaining())
+  if (!arePreventExitRemaining()) {
     window.onbeforeunload = (e) => {
       e.preventDefault();
       return 'prevent-exit';
     };
+  }
 }
 
 /**

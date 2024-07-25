@@ -24,7 +24,8 @@ export interface AnalyticsAdapter {
   resetUser: () => void;
   /**
    * Track an event.
-   * We recommend using the '[object][verb]' format for your event names, where '[object]' is the entity that the behavior relates to, and '[verb]' is the behavior itself.
+   * We recommend using the '[object][verb]' format for your event names, where '[object]' is the entity that the
+   * behavior relates to, and '[verb]' is the behavior itself.
    * For example: `Project Created`, `User Signed Up`, or `Invite Sent`.
    *
    * @param name The name of the event.

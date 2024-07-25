@@ -104,7 +104,8 @@ export type InspectionGalleryProps = {
    */
   onValidate?: () => void;
   /**
-   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Custom Damage` button will be hidden.
+   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Custom Damage` button
+   * will be hidden.
    *
    * @default true
    */
@@ -127,8 +128,8 @@ export type InspectionGalleryProps = {
        */
       sights: Sight[];
       /**
-       * Boolean indicating if the user should be allowed to skip the retaking of non-compliant pictures before validating
-       * the inspection. This prop can only be specified if `captureMode` is set to true.
+       * Boolean indicating if the user should be allowed to skip the retaking of non-compliant pictures before
+       * validating the inspection. This prop can only be specified if `captureMode` is set to true.
        *
        * @default false
        */
