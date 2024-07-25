@@ -1,1 +1,1 @@
-export * from './VehiclePartSelection';
+export { VehiclePartSelection, type VehiclePartSelectionProps } from './VehiclePartSelection';

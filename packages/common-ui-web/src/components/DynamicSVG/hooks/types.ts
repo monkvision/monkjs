@@ -6,21 +6,21 @@ import { SVGProps } from 'react';
  */
 export interface DynamicSVGCustomizationFunctions {
   /**
-   * A callback used to customize SVG tags in a DynamicSVG component based on the HTMLElement itself, or the IDs of the
+   * A callback used to customize SVG tags in a DynamicSVG component based on the HTMLElement itself, or the Elements of the
    * groups this element is part of.
    *
    * @param element The element to apply the custom attributes to.
-   * @param groups SVG group elements this element is part of (the IDs are in order).
+   * @param groups SVG group elements this element is part of (the elements are in order).
    * @return This callback should return a set of custom HTML attributes to pass to the element or `null` for no
    * attributes.
    */
   getAttributes?: (element: SVGElement, groups: SVGGElement[]) => SVGProps<SVGElement>;
   /**
    * A callback used to customize the inner text of SVG tags in a DynamicSVG component based on the HTMLElement itself,
-   * or the IDs of the groups this element is part of.
+   * or the Elements of the groups this element is part of.
    *
    * @param element The element to set the innerText.
-   * @param groups SVG group elements this element is part of (the IDs are in order).
+   * @param groups SVG group elements this element is part of (the elements are in order).
    * @return This callback should return a string to use for the innerText of the element or `null` for no innerText.
    */
   getInnerText?: (element: SVGElement, groups: SVGGElement[]) => string | null;
@@ -36,7 +36,7 @@ export interface SVGElementCustomProps {
    */
   element: SVGElement;
   /**
-   * The IDs of the SVG groups this element is part of (in order).
+   * The Elements of the SVG groups this element is part of (in order).
    *
    * @default []
    */

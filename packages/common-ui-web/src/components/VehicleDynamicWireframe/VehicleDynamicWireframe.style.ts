@@ -4,7 +4,7 @@ export const styles: Styles = {
   notCarPart: {
     display: 'none',
   },
-  selectAble: {
+  selectable: {
     pointerEvents: 'fill',
     cursor: 'pointer',
   },

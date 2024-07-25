@@ -1,1 +1,4 @@
-export * from './VehicleDynamicWireframe';
+export {
+  VehicleDynamicWireframe,
+  type VehicleDynamicWireframeProps,
+} from './VehicleDynamicWireframe';

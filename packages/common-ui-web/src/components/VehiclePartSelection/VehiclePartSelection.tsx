@@ -5,6 +5,9 @@ import { Icon } from '../../icons';
 import { VehicleDynamicWireframe, VehicleDynamicWireframeProps } from '../VehicleDynamicWireframe';
 import { styles } from './VehiclePartSelection.style';
 
+/**
+ * Props accepted by the VehiclePartSelection component
+ */
 export interface VehiclePartSelectionProps {
   /**
    * Vehicle type to display the wireframe for.
@@ -15,7 +18,7 @@ export interface VehiclePartSelectionProps {
    */
   orientation?: PartSelectionOrientation;
   /**
-   * Emit when change in the selected parts.
+   * Callback called when the selected parts are updated (the user selects or unselects a new part).
    */
   onPartsSelected?: (parts: VehiclePart[]) => void;
 }
@@ -28,8 +31,7 @@ const ORIENTATIONS = [
 ];
 
 /**
- * Component that displays a rotatable vehicle wireframe that allows the user to
- * select multiple vehicle parts.
+ * Component that displays a rotatable vehicle wireframe that allows the user to select multiple vehicle parts.
  */
 export function VehiclePartSelection({
   vehicleType,

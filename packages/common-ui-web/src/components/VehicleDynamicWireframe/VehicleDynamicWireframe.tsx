@@ -10,6 +10,9 @@ import { partSelectionWireframes, vehicles } from '@monkvision/sights';
 import { DynamicSVG, DynamicSVGCustomizationFunctions } from '../DynamicSVG';
 import { styles } from './VehicleDynamicWireframe.style';
 
+/**
+ * Props accepted by the VehicleDynamicWireframe component.
+ */
 export interface VehicleDynamicWireframeProps {
   /**
    * Vehicle type to display the wireframe for.
@@ -17,14 +20,18 @@ export interface VehicleDynamicWireframeProps {
   vehicleType: VehicleType;
   /**
    * The orientation of the wireframe.
+   *
+   * @default PartSelectionOrientation.FRONT_LEFT
    */
   orientation?: PartSelectionOrientation;
   /**
-   * Callback to return the clicked part.
+   * Callback when the user clicks a part.
    */
   onClickPart?: (parts: VehiclePart) => void;
   /**
-   * Callback to return the attributes of the SVG HTML element from parent based on style.
+   * Callback used to customize the display style of each vehicle part on the wireframe. See `DynamicSVGCustomizationFunctions` for more details.
+   *
+   * @see DynamicSVGCustomizationFunctions
    */
   getPartAttributes?: (part: VehiclePart) => SVGProps<SVGElement>;
 }
@@ -53,7 +60,7 @@ function createGetAttributesCallback(
     }
     if (element.classList.contains('selectable') && element.id) {
       attributes.onClick = () => onClickPart(part);
-      attributes.style = { ...attributes.style, ...styles['selectAble'] };
+      attributes.style = { ...attributes.style, ...styles['selectable'] };
     }
     return attributes;
   };
