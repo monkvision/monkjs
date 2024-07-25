@@ -1,5 +1,5 @@
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMonkTheme } from '@monkvision/common';
 import { Icon } from '../../icons';
 import { VehicleDynamicWireframe, VehicleDynamicWireframeProps } from '../VehicleDynamicWireframe';
@@ -15,6 +15,8 @@ export interface VehiclePartSelectionProps {
   vehicleType: VehicleType;
   /**
    * The initial orientation of the wireframe when the component is mounted.
+   *
+   * @default PartSelectionOrientation.FRONT_LEFT
    */
   orientation?: PartSelectionOrientation;
   /**
@@ -57,20 +59,18 @@ export function VehiclePartSelection({
       ? selectedParts.filter((p) => p !== part)
       : [...selectedParts, part];
     setSelectedParts(newSelectedParts);
+    onPartsSelected(selectedParts);
   };
   const getPartAttributes: VehicleDynamicWireframeProps['getPartAttributes'] = (
     part: VehiclePart,
   ) => ({
     style: {
       // TODO: need to finalize the color for the selected parts.
-      fill: selectedParts.includes(part) ? '#2196f3' : undefined,
+      fill: selectedParts.includes(part) ? palette.primary.xlight : undefined,
       stroke: palette.primary.light,
       display: 'block',
     },
   });
-  useEffect(() => {
-    onPartsSelected(selectedParts);
-  }, [selectedParts]);
 
   return (
     <div style={styles['wrapper']}>
