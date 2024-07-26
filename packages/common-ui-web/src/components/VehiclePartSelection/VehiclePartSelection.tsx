@@ -59,7 +59,7 @@ export function VehiclePartSelection({
       ? selectedParts.filter((p) => p !== part)
       : [...selectedParts, part];
     setSelectedParts(newSelectedParts);
-    onPartsSelected(selectedParts);
+    onPartsSelected(newSelectedParts);
   };
   const getPartAttributes: VehicleDynamicWireframeProps['getPartAttributes'] = (
     part: VehiclePart,
