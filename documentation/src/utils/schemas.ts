@@ -212,6 +212,48 @@ export const CreateInspectionDiscriminatedUnionSchema = z.discriminatedUnion(
   ],
 );
 
+const domainsByEnv = {
+  staging: {
+    api: 'api.staging.monk.ai/v1',
+    thumbnail: 'europe-west1-monk-staging-321715.cloudfunctions.net/image_resize',
+  },
+  preview: {
+    api: 'api.preview.monk.ai/v1',
+    thumbnail: 'europe-west1-monk-preview-321715.cloudfunctions.net/image_resize',
+  },
+  production: {
+    api: 'api.monk.ai/v1',
+    thumbnail: 'europe-west1-monk-prod.cloudfunctions.net/image_resize',
+  },
+};
+
+const apiDomains = Object.values(domainsByEnv).map((env) => env.api) as [string, ...string[]];
+const thumbnailDomains = Object.values(domainsByEnv).map((env) => env.thumbnail) as [
+  string,
+  ...string[],
+];
+
+export const DomainsSchema = z
+  .object({
+    apiDomain: z.enum(apiDomains),
+    thumbnailDomain: z.enum(thumbnailDomains),
+  })
+  .refine(
+    (data) => {
+      const apiEnv = Object.values(domainsByEnv).find((env) => env.api === data.apiDomain);
+      const thumbnailEnv = Object.values(domainsByEnv).find(
+        (env) => env.thumbnail === data.thumbnailDomain,
+      );
+      return !!apiEnv && apiEnv === thumbnailEnv;
+    },
+    (data) => ({
+      message: `The selected thumbnailDomain must correspond to the selected apiDomain. Please use the corresponding thumbnailDomain: ${
+        thumbnailDomains[apiDomains.indexOf(data.apiDomain)]
+      }`,
+      path: ['thumbnailDomain'],
+    }),
+  );
+
 export const LiveConfigSchema = z
   .object({
     id: z.string(),
@@ -234,15 +276,10 @@ export const LiveConfigSchema = z
     allowManualLogin: z.boolean(),
     allowVehicleTypeSelection: z.boolean(),
     fetchFromSearchParams: z.boolean(),
-    apiDomain: z.enum(['api.monk.ai/v1', 'api.preview.monk.ai/v1', 'api.staging.monk.ai/v1']),
-    thumbnailDomain: z.enum([
-      'europe-west1-monk-staging-321715.cloudfunctions.net/image_resize',
-      'europe-west1-monk-preview-321715.cloudfunctions.net/image_resize',
-      'europe-west1-monk-prod.cloudfunctions.net/image_resize',
-    ]),
     requiredApiPermissions: z.array(z.nativeEnum(MonkApiPermission)).optional(),
     palette: MonkPaletteSchema.partial().optional(),
   })
+  .and(DomainsSchema)
   .and(SteeringWheelDiscriminatedUnionSchema)
   .and(CreateInspectionDiscriminatedUnionSchema)
   .and(CameraConfigSchema)

@@ -16,6 +16,10 @@ export interface MonkApiConfig {
    * The authentication token used to communicate with the API.
    */
   authToken: string;
+  /**
+   * The API domain used to communicate with the resize micro service.
+   */
+  thumbnailDomain: string;
 }
 
 function getPrefixUrl(config?: MonkApiConfig): string | undefined {

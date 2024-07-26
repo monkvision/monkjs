@@ -23,7 +23,11 @@ import {
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
 
-const apiConfig = { apiDomain: 'apiDomain', authToken: 'authToken' };
+const apiConfig = {
+  apiDomain: 'apiDomain',
+  authToken: 'authToken',
+  thumbnailDomain: 'thumbnailDomain',
+};
 
 function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
   return {
@@ -42,6 +46,7 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     },
+    useThumbnailCaching: true,
   };
 }
 
@@ -62,6 +67,7 @@ function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
     },
+    useThumbnailCaching: true,
   };
 }
 
@@ -101,7 +107,12 @@ describe('Image requests', () => {
       const response = await (ky.post as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
-      expect(mapApiImage).toHaveBeenCalledWith(body, options.inspectionId, options.compliance);
+      expect(mapApiImage).toHaveBeenCalledWith(
+        body,
+        options.inspectionId,
+        apiConfig.thumbnailDomain,
+        options.compliance,
+      );
       const image = (mapApiImage as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.post).toHaveBeenCalledWith(
@@ -118,7 +129,12 @@ describe('Image requests', () => {
       const response = await (ky.post as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
-      expect(mapApiImage).toHaveBeenCalledWith(body, options.inspectionId, options.compliance);
+      expect(mapApiImage).toHaveBeenCalledWith(
+        body,
+        options.inspectionId,
+        apiConfig.thumbnailDomain,
+        options.compliance,
+      );
       expect(dispatch).toHaveBeenCalledWith({
         type: MonkActionType.CREATED_ONE_IMAGE,
         payload: {
@@ -373,6 +389,27 @@ describe('Image requests', () => {
       const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
       expect(typeof formData?.get('json')).toBe('string');
       expect(JSON.parse(formData.get('json') as string).tasks).not.toContain(TaskName.COMPLIANCES);
+    });
+
+    it('should fetch thumbnail image for beautyshots or closeup if thumbnail enabled', async () => {
+      const options = createBeautyShotImageOptions();
+      const imageMock = { thumbnailPath: 'thumbnailPath' };
+      options.tasks.push(TaskName.COMPLIANCES);
+      (mapApiImage as jest.Mock).mockImplementationOnce(() => imageMock);
+      await addImage(options, apiConfig);
+
+      expect(ky.get).toHaveBeenCalled();
+      expect(ky.get).toHaveBeenCalledWith(imageMock.thumbnailPath);
+    });
+
+    it('should not fetch thumbnail image if thumbnail disabled', async () => {
+      const options = createBeautyShotImageOptions();
+      const imageMock = { thumbnailPath: 'thumbnailPath' };
+      options.tasks.push(TaskName.COMPLIANCES);
+      (mapApiImage as jest.Mock).mockImplementationOnce(() => imageMock);
+      await addImage({ ...options, useThumbnailCaching: false }, apiConfig);
+
+      expect(ky.get).not.toHaveBeenCalled();
     });
   });
 });

@@ -13,6 +13,7 @@ import {
   VehiclePart,
 } from '@monkvision/types';
 import { ApiImage, ApiImageComplianceResults } from '../models';
+import { getThumbnailUrl } from '../utils';
 
 const DEFAULT_COMPLIANCE_OPTIONS = {
   enableCompliance: true,
@@ -175,6 +176,7 @@ function mapCompliance(
 export function mapApiImage(
   image: ApiImage,
   inspectionId: string,
+  thumbnailDomain: string,
   complianceOptions?: ComplianceOptions,
 ): Image {
   const sightId = image.additional_data?.sight_id;
@@ -189,6 +191,10 @@ export function mapApiImage(
       ? Date.parse(image.additional_data.created_at)
       : undefined,
     path: image.path,
+    thumbnailPath: getThumbnailUrl(thumbnailDomain, image.path, {
+      height: image.image_height,
+      width: image.image_width,
+    }),
     width: image.image_width,
     height: image.image_height,
     size: image.binary_size,

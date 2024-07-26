@@ -13,7 +13,11 @@ import { getDefaultOptions } from '../../../src/api/config';
 import { createInspection, getInspection } from '../../../src/api/inspection';
 import { mapApiInspectionGet, mapApiInspectionPost } from '../../../src/api/inspection/mappers';
 
-const apiConfig = { apiDomain: 'apiDomain', authToken: 'authToken' };
+const apiConfig = {
+  apiDomain: 'apiDomain',
+  authToken: 'authToken',
+  thumbnailDomain: 'thumbnailDomain',
+};
 
 describe('Inspection requests', () => {
   afterEach(() => {
@@ -32,7 +36,7 @@ describe('Inspection requests', () => {
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
-      expect(mapApiInspectionGet).toHaveBeenCalledWith(body, compliance);
+      expect(mapApiInspectionGet).toHaveBeenCalledWith(body, apiConfig.thumbnailDomain, compliance);
       const entities = (mapApiInspectionGet as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.get).toHaveBeenCalledWith(`inspections/${id}`, getDefaultOptions(apiConfig));

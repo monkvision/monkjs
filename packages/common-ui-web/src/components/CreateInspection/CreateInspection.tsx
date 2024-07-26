@@ -45,6 +45,7 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
   const { createInspection } = useMonkApi({
     authToken: authToken ?? '',
     apiDomain: config.apiDomain,
+    thumbnailDomain: config.thumbnailDomain,
   });
   const analytics = useAnalytics();
 

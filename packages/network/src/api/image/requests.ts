@@ -64,6 +64,10 @@ export interface AddBeautyShotImageOptions {
    */
   tasks: TaskName[];
   /**
+   * Boolean indicating if a thumbnail request will be sent when addImage is called.
+   */
+  useThumbnailCaching?: boolean;
+  /**
    * Additional options used to configure the compliance locally.
    */
   compliance?: ComplianceOptions;
@@ -96,6 +100,10 @@ export interface Add2ShotCloseUpImageOptions {
    * Boolean indicating if this picture is the first picture or the second picture of the 2-shot process.
    */
   firstShot: boolean;
+  /**
+   * Boolean indicating if a thumbnail request will be sent when addImage is called.
+   */
+  useThumbnailCaching?: boolean;
   /**
    * Additional options used to configure the compliance locally.
    */
@@ -303,6 +311,7 @@ function createLocalImage(options: AddImageOptions): Image {
     id: v4(),
     inspectionId: options.inspectionId,
     path: options.picture.uri,
+    thumbnailPath: options.picture.uri,
     width: options.picture.width,
     height: options.picture.height,
     size: -1,
@@ -321,6 +330,10 @@ function createLocalImage(options: AddImageOptions): Image {
     image.subtype = options.firstShot ? ImageSubtype.CLOSE_UP_PART : ImageSubtype.CLOSE_UP_DAMAGE;
   }
   return image;
+}
+
+function precacheThumbnail(image: Image): Promise<void> {
+  return ky.get(image.thumbnailPath).then(() => {});
 }
 
 /**
@@ -365,8 +378,17 @@ export async function addImage(
     const image = mapApiImage(
       body,
       options.inspectionId,
+      config.thumbnailDomain,
       (options as AddBeautyShotImageOptions).compliance,
     );
+    if (
+      options.uploadType !== ImageUploadType.VIDEO_FRAME &&
+      options.useThumbnailCaching !== false
+    ) {
+      precacheThumbnail(image).catch((error) =>
+        console.error(`Thumbnail GET request failed: ${error}`),
+      );
+    }
     dispatch?.({
       type: MonkActionType.CREATED_ONE_IMAGE,
       payload: {

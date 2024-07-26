@@ -14,7 +14,11 @@ import {
 function createParams(): UseStartTasksOnCompleteParams {
   return {
     inspectionId: 'test-inspection-id',
-    apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
+    apiConfig: {
+      apiDomain: 'test-api-domain',
+      authToken: 'test-auth-token',
+      thumbnailDomain: 'test-thumbnail-domain',
+    },
     sights: [
       sights['test-sight-1'],
       sights['test-sight-2'],

@@ -52,7 +52,7 @@ export async function getInspection(
   const kyOptions = getDefaultOptions(config);
   const response = await ky.get(`inspections/${options.id}`, kyOptions);
   const body = await response.json<ApiInspectionGet>();
-  const entities = mapApiInspectionGet(body, options.compliance);
+  const entities = mapApiInspectionGet(body, config.thumbnailDomain, options.compliance);
   dispatch?.({
     type: MonkActionType.GOT_ONE_INSPECTION,
     payload: entities,

@@ -11,7 +11,11 @@ import { MonkActionType } from '@monkvision/common';
 import { getDefaultOptions } from '../../../src/api/config';
 import { startInspectionTasks, updateTaskStatus } from '../../../src/api/task';
 
-const apiConfig = { apiDomain: 'apiDomain', authToken: 'authToken' };
+const apiConfig = {
+  apiDomain: 'apiDomain',
+  authToken: 'authToken',
+  thumbnailDomain: 'thumbnailDomain',
+};
 
 describe('Task requests', () => {
   afterEach(() => {

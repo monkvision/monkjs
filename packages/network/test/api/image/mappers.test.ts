@@ -7,6 +7,7 @@ import {
   ImageType,
   MonkEntityType,
 } from '@monkvision/types';
+import { getThumbnailUrl } from '../../../src/api/utils';
 
 const EXPECTED_DEFAULT_COMPLIANCE_ISSUES = [
   ComplianceIssue.BLURRINESS,
@@ -93,9 +94,14 @@ describe('Image API Mappers', () => {
   describe('ApiImage mapper', () => {
     it('should properly map the basic image fields', () => {
       const inspectionId = 'test-inspection-test';
+      const thumbnailDomain = 'test-thumbnail-domain';
       const sightId = 'test-sight-id';
       const apiImage = createApiImage({ sightId });
-      expect(mapApiImage(apiImage, inspectionId)).toEqual({
+      const thumbnailUrl = getThumbnailUrl(thumbnailDomain, apiImage.path, {
+        width: apiImage.image_width,
+        height: apiImage.image_height,
+      });
+      expect(mapApiImage(apiImage, inspectionId, thumbnailDomain)).toEqual({
         id: apiImage.id,
         sightId: apiImage.additional_data?.sight_id,
         createdAt: Date.parse(apiImage.additional_data?.created_at ?? ''),
@@ -103,6 +109,7 @@ describe('Image API Mappers', () => {
         inspectionId,
         label: apiImage.additional_data?.label,
         path: apiImage.path,
+        thumbnailPath: thumbnailUrl,
         width: apiImage.image_width,
         height: apiImage.image_height,
         size: apiImage.binary_size,
@@ -131,7 +138,7 @@ describe('Image API Mappers', () => {
           should_retake: true,
           compliance_issues: ['overexposure'],
         };
-        expect(mapApiImage(apiImage, '')).toEqual(
+        expect(mapApiImage(apiImage, '', '')).toEqual(
           expect.objectContaining({
             status: ImageStatus.NOT_COMPLIANT,
             complianceIssues: [ComplianceIssue.OVEREXPOSURE],
@@ -145,7 +152,7 @@ describe('Image API Mappers', () => {
           should_retake: true,
           compliance_issues: ['overexposure'],
         };
-        expect(mapApiImage(apiImage, '', { enableCompliance: false })).toEqual(
+        expect(mapApiImage(apiImage, '', '', { enableCompliance: false })).toEqual(
           expect.objectContaining({
             status: ImageStatus.SUCCESS,
             complianceIssues: undefined,
@@ -160,7 +167,7 @@ describe('Image API Mappers', () => {
           compliance_issues: ['overexposure'],
         };
         expect(
-          mapApiImage(apiImage, '', {
+          mapApiImage(apiImage, '', '', {
             enableCompliance: true,
             enableCompliancePerSight: ['test-sight-2'],
           }),
@@ -178,7 +185,7 @@ describe('Image API Mappers', () => {
           should_retake: false,
           compliance_issues: [],
         };
-        expect(mapApiImage(apiImage, '', { enableCompliance: true })).toEqual(
+        expect(mapApiImage(apiImage, '', '', { enableCompliance: true })).toEqual(
           expect.objectContaining({
             status: ImageStatus.SUCCESS,
             complianceIssues: undefined,
@@ -189,7 +196,7 @@ describe('Image API Mappers', () => {
       it('should return the status COMPLIANCE_RUNNING if compliance is not defined', () => {
         const apiImage = createApiImage();
         apiImage.compliances = undefined;
-        expect(mapApiImage(apiImage, '', { enableCompliance: true })).toEqual(
+        expect(mapApiImage(apiImage, '', '', { enableCompliance: true })).toEqual(
           expect.objectContaining({
             status: ImageStatus.COMPLIANCE_RUNNING,
           }),
@@ -199,7 +206,7 @@ describe('Image API Mappers', () => {
       it('should return the status SUCCESS if compliance is not defined but not enabled either', () => {
         const apiImage = createApiImage();
         apiImage.compliances = undefined;
-        expect(mapApiImage(apiImage, '', { enableCompliance: false })).toEqual(
+        expect(mapApiImage(apiImage, '', '', { enableCompliance: false })).toEqual(
           expect.objectContaining({
             status: ImageStatus.SUCCESS,
           }),
@@ -217,7 +224,7 @@ describe('Image API Mappers', () => {
             'not_zoomed_enough',
           ],
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: [ComplianceIssue.UNDEREXPOSURE, ComplianceIssue.NOT_ZOOMED_ENOUGH],
         });
@@ -233,7 +240,7 @@ describe('Image API Mappers', () => {
           should_retake: true,
           compliance_issues: ['overexposure'],
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: [ComplianceIssue.UNDEREXPOSURE],
         });
@@ -253,7 +260,7 @@ describe('Image API Mappers', () => {
             'not_zoomed_enough',
           ],
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
           complianceIssuesPerSight: {
@@ -277,7 +284,7 @@ describe('Image API Mappers', () => {
             'not_zoomed_enough',
           ],
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: [ComplianceIssue.UNDEREXPOSURE, ComplianceIssue.NOT_ZOOMED_ENOUGH],
           complianceIssuesPerSight: {
@@ -296,7 +303,7 @@ describe('Image API Mappers', () => {
           should_retake: true,
           compliance_issues: Object.values(ComplianceIssue),
         };
-        const result = mapApiImage(apiImage, '', { enableCompliance: true });
+        const result = mapApiImage(apiImage, '', '', { enableCompliance: true });
         expect(result.status).toEqual(ImageStatus.NOT_COMPLIANT);
         expect(result.complianceIssues?.sort()).toEqual(EXPECTED_DEFAULT_COMPLIANCE_ISSUES.sort());
       });
@@ -307,7 +314,7 @@ describe('Image API Mappers', () => {
           should_retake: true,
           compliance_issues: Object.values(ComplianceIssue),
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
         });
@@ -333,7 +340,7 @@ describe('Image API Mappers', () => {
             reflections: 0.86,
           } as ApiVehicleAnalysis,
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
           customComplianceThresholds: {
@@ -365,7 +372,7 @@ describe('Image API Mappers', () => {
           compliance_issues: ['too_zoomed', 'underexposure'],
           image_analysis: { zoom: 0.6 } as ApiImageAnalysis,
         };
-        let result = mapApiImage(apiImage, '', {
+        let result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
           customComplianceThresholds: {
@@ -382,7 +389,7 @@ describe('Image API Mappers', () => {
           compliance_issues: ['not_zoomed_enough', 'overexposure'],
           image_analysis: { zoom: 0.6 } as ApiImageAnalysis,
         };
-        result = mapApiImage(apiImage, '', {
+        result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
           customComplianceThresholds: {
@@ -399,7 +406,7 @@ describe('Image API Mappers', () => {
           compliance_issues: ['not_zoomed_enough'],
           image_analysis: { zoom: 0.3 } as ApiImageAnalysis,
         };
-        result = mapApiImage(apiImage, '', {
+        result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
           customComplianceThresholds: {
@@ -425,7 +432,7 @@ describe('Image API Mappers', () => {
             dirtiness: 0.1,
           } as ApiVehicleAnalysis,
         };
-        const result = mapApiImage(apiImage, '', {
+        const result = mapApiImage(apiImage, '', '', {
           enableCompliance: true,
           complianceIssues: Object.values(ComplianceIssue),
           customComplianceThresholds: {

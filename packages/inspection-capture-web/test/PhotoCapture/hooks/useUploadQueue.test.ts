@@ -15,7 +15,11 @@ import { act } from '@testing-library/react';
 function createParams(): UploadQueueParams {
   return {
     inspectionId: 'test-inspection-id',
-    apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
+    apiConfig: {
+      apiDomain: 'test-api-domain',
+      authToken: 'test-auth-token',
+      thumbnailDomain: 'test-thumbnail-domain',
+    },
     complianceOptions: {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
@@ -84,6 +88,7 @@ describe('useUploadQueue hook', () => {
         tasks: defaultUploadOptions.tasks,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
+        useThumbnailCaching: true,
       });
 
       unmount();
@@ -105,6 +110,7 @@ describe('useUploadQueue hook', () => {
         uploadType: ImageUploadType.BEAUTY_SHOT,
         picture: defaultUploadOptions.picture,
         sightId: defaultUploadOptions.sightId,
+        useThumbnailCaching: true,
         tasks: expect.arrayContaining([
           TaskName.DAMAGE_DETECTION,
           TaskName.IMAGE_EDITING,
@@ -142,6 +148,7 @@ describe('useUploadQueue hook', () => {
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload1.picture,
         siblingKey: expect.any(String),
+        useThumbnailCaching: true,
         firstShot: true,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
@@ -165,6 +172,7 @@ describe('useUploadQueue hook', () => {
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload2.picture,
         siblingKey,
+        useThumbnailCaching: true,
         firstShot: false,
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,

@@ -12,8 +12,11 @@ function createProps(): InspectionGalleryProps {
     sights: [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']],
     enableCompliance: true,
     complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
-    apiConfig: { apiDomain: 'test-api-domain', authToken: 'test-auth-token' },
-    thumbnailDomain: 'test-thumbnail-domain',
+    apiConfig: {
+      apiDomain: 'test-api-domain',
+      authToken: 'test-auth-token',
+      thumbnailDomain: 'test-thumbnail-domain',
+    },
     refreshIntervalMs: 1234,
     captureMode: true,
   };
