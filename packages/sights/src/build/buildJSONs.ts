@@ -1,12 +1,15 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import {
   LabelDictionary,
+  PartSelectionOrientation,
+  PartSelectionWireframes,
   SightDictionary,
   VehicleDictionary,
   VehicleModel,
+  WireframeDictionary,
 } from '@monkvision/types';
-import { createDirIfNotExist, loadJSON, MONK_DATA_PATH, readDir, saveLibJSON } from '../io';
+import { existsSync, readFileSync } from 'fs';
+import { join } from 'path';
+import { MONK_DATA_PATH, createDirIfNotExist, loadJSON, readDir, saveLibJSON } from '../io';
 
 const DATA_OUTPUT_PATH = join(__dirname, '../../src/lib/data');
 
@@ -67,6 +70,25 @@ function mapSights(
   );
 }
 
+function mapWireframes(vehicles: VehicleDictionary): WireframeDictionary {
+  const wireframes: WireframeDictionary = {};
+  Object.keys(vehicles).forEach((vehicle) => {
+    if (!existsSync(join(MONK_DATA_PATH, vehicle, 'partSelectionWireframes'))) {
+      return;
+    }
+    wireframes[vehicle as VehicleModel] = Object.values(PartSelectionOrientation).reduce(
+      (prev, curr) => ({
+        ...prev,
+        [curr]: readOverlay(
+          join(MONK_DATA_PATH, vehicle, 'partSelectionWireframes', `${vehicle}-${curr}.svg`),
+        ),
+      }),
+      {} as PartSelectionWireframes,
+    );
+  });
+  return wireframes;
+}
+
 export function buildJSONs(): void {
   createDirIfNotExist(DATA_OUTPUT_PATH);
   createDirIfNotExist(join(DATA_OUTPUT_PATH, 'sights'));
@@ -78,6 +100,9 @@ export function buildJSONs(): void {
   const researchVehicles = loadJSON(join(MONK_DATA_PATH, 'vehicles.json')) as VehicleDictionary;
   const libVehicles = mapVehicles(researchVehicles);
   saveLibJSON(libVehicles, join(DATA_OUTPUT_PATH, 'vehicles.json'));
+
+  const libWireframes = mapWireframes(libVehicles);
+  saveLibJSON(libWireframes, join(DATA_OUTPUT_PATH, 'wireframes.json'));
 
   readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
     const researchSights = loadJSON(

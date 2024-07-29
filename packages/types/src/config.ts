@@ -50,8 +50,8 @@ export type CaptureAppConfig = CameraConfig &
     /**
      * Value indicating if tasks should be started at the end of the inspection :
      * - If not provided or if value is set to `false`, no tasks will be started.
-     * - If set to `true`, the tasks described by the `tasksBySight` param (or, if not provided, the default tasks of each
-     * sight) will be started.
+     * - If set to `true`, the tasks described by the `tasksBySight` param (or, if not provided, the default tasks of
+     * each sight) will be started.
      * - If an array of tasks is provided, the tasks started will be the ones contained in the array.
      *
      * @default true
@@ -88,7 +88,8 @@ export type CaptureAppConfig = CameraConfig &
      */
     allowSkipRetake?: boolean;
     /**
-     * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will be hidden.
+     * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will
+     * be hidden.
      *
      * @default true
      */
@@ -98,7 +99,8 @@ export type CaptureAppConfig = CameraConfig &
      */
     sightGuidelines?: SightGuideline[];
     /**
-     * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be hidden.
+     * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be
+     * hidden.
      *
      * @default true
      */
@@ -116,8 +118,8 @@ export type CaptureAppConfig = CameraConfig &
      */
     allowVehicleTypeSelection: boolean;
     /**
-     * Boolean indicating if the application state (such as auth token, inspection ID etc.) should be fetched from the URL
-     * search params or not.
+     * Boolean indicating if the application state (such as auth token, inspection ID etc.) should be fetched from the
+     * URL search params or not.
      */
     fetchFromSearchParams: boolean;
     /**

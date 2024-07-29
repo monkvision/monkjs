@@ -141,6 +141,28 @@ export interface SightGuideline {
 }
 
 /**
+ * The different orientations of a part selection wireframe.
+ */
+export enum PartSelectionOrientation {
+  /**
+   * Wireframe of the vehicle when looking at its front left side.
+   */
+  FRONT_LEFT = 'front-left',
+  /**
+   * Wireframe of the vehicle when looking at its front right side.
+   */
+  FRONT_RIGHT = 'front-right',
+  /**
+   * Wireframe of the vehicle when looking at its rear left side.
+   */
+  REAR_LEFT = 'rear-left',
+  /**
+   * Wireframe of the vehicle when looking at its rear right side.
+   */
+  REAR_RIGHT = 'rear-right',
+}
+
+/**
  * Details of a sight with its overlay as an SVG string.
  */
 export interface Sight {
@@ -199,6 +221,11 @@ export interface VehicleDetails {
 }
 
 /**
+ * Details of sight overlay of all the possible orientations.
+ */
+export type PartSelectionWireframes = Record<PartSelectionOrientation, string>;
+
+/**
  * The translation of labels for Sights, VehicleTypes etc.
  */
 export interface LabelTranslation extends TranslationObject {
@@ -222,6 +249,11 @@ export type LabelDictionary = Record<string, LabelTranslation>;
  * A dictionary that maps sight ids to sight objects.
  */
 export type SightDictionary = Record<string, Sight>;
+
+/**
+ * A dictionary that maps vehicle models to part selection wireframes.
+ */
+export type WireframeDictionary = Partial<Record<VehicleModel, PartSelectionWireframes>>;
 
 /**
  * Enumeration of the two positions in which the steering wheel can be.

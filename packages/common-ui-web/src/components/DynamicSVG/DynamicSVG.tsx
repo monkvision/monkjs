@@ -27,7 +27,8 @@ export interface DynamicSVGProps
  * import React, { useCallback } from 'react';
  * import { DynamicSVG } from '@monkvision/common-ui-web';
  *
- * const svg = '<svg height="100" width="100"><circle id="circle1" cx="20" cy="20" r="30"/><circle id="circle2" cx="80" cy="80" r="30"/></svg>';
+ * const svg = `<svg height="100" width="100">
+ *  <circle id="circle1" cx="20" cy="20" r="30"/><circle id="circle2" cx="80" cy="80" r="30"/></svg>`;
  *
  * // Applies a red fill and an onClick handler on the element with ID "circle1"
  * function MyCustomSVG() {

@@ -224,8 +224,8 @@ function App() {
 | Prop          | Type                                                                                       | Description                                                                                                                                                                         | Required | Default Value |
 |---------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | svg           | string                                                                                     | The XML string representing the SVG to display                                                                                                                                      | ✔️       |               |
-| getAttributes | <code>(element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
-| getInnerText  | <code>(element: Element, groupIds: string[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
+| getAttributes | <code>(element: Element, groups: SVGGElement[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
+| getInnerText  | <code>(element: Element, groups: SVGGElement[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
 
 ---
 
@@ -415,8 +415,8 @@ function App() {
 | Prop          | Type                                                                                       | Description                                                                                                                                                                         | Required | Default Value |
 |---------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | sight         | Sight                                                                                      | The sight to display the SVG overlay of.                                                                                                                                            | ✔️       |               |
-| getAttributes | <code>(element: Element, groupIds: string[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
-| getInnerText  | <code>(element: Element, groupIds: string[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
+| getAttributes | <code>(element: Element, groups: SVGGElement[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
+| getInnerText  | <code>(element: Element, groups: SVGGElement[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
 
 ---
 
@@ -621,3 +621,54 @@ function VehicleSelectionPage() {
 | inspectionId          | string                      | The ID of the inspection.                                                                                                |          |                                                      |
 | apiDomain             | string                      | The domain of the Monk API.                                                                                              |          |                                                      |
 | authToken             | string                      | The authentication token used to communicate with the API.                                                               |          |                                                      |
+## VehiclePartSelection
+I shows the collections of VehicleDynamicWireframe and we can switch between 4 different views front left, front right, rear left and rear right.
+### Example
+```tsx
+function Component() {
+  return <VehiclePartSelection
+    vehicleModel={VehicleModel.FESC20}
+    onPartsSelected={(p) => console.log(p)} />
+}
+```
+### Props
+| Prop            | Type                           | Description                                                                             | Required| Default Value|
+|-----------------|--------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
+| vehicleModel    | VehicleModel                   | Initial vehicle model.                                                                  | ✔️       |              |
+| orientation     | PartSelectionOrientation       | Orientation where the vehicle want to face.                                             |         | front-left   |
+| onPartsSelected | (parts: VehiclePart[]) => void | Callback called when update selected parts.                                             |         |              |
+
+## VehicleDynamicWireframe
+For the given Vehicle Model and orientation. It shows the wireframe on the view and we can able to select it.
+### Example
+```tsx
+import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
+
+function Component() {
+  const [parts, setParts] = useState<Array<VehiclePart>>([]);
+  const onPartSelected = (parts) => {
+    console.log(parts);
+    setParts(parts);
+  }
+  return <VehicleDynamicWireframe
+    vehicleModel={VehicleModel.FESC20}
+    orientation={PartSelectionOrientation.FRONT_LEFT}
+    parts={selectedParts}
+    onPartsSelected={onPartSelected}
+  />
+}
+```
+vehicleModel
+orientation
+onClickPart
+getPartAttributes
+
+### Props
+| Prop              | Type                            | Description                                                                             | Required| Default Value|
+|-------------------|---------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
+| vehicleModel      | VehicleModel                    | Initial vehicle model.                                                                  | ✔️       |              |
+| orientation       | PartSelectionOrientation        | Orientation where the vehicle want to face.                                             |         | front-left   |
+| parts             | VehiclePart[]                   | Initial selected parts. Mainly used to persist selected parts state between rerendering.|         | []           |
+| onClickPart       | (part: VehiclePart) => void     | Callback called when a part is clicked.                                                 |         |              |
+| getPartAttributes | (part: VehiclePart) => SVGProps | Custom function for HTML attributes to give to the tags based on part.                  |         |              |
+

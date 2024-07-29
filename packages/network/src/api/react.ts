@@ -72,19 +72,19 @@ export function useMonkApi(config: MonkApiConfig) {
     /**
      * Update the progress status of an inspection task.
      *
-     * **Note : This API call is known to sometimes fail for unknown reasons. In order to fix this, we added a retry config
-     * to this API request : when failing, this request will retry itself up to 4 times (5 API calls in total), with
-     * exponentially increasing delay between each request (max delay : 1.5s).**
+     * **Note : This API call is known to sometimes fail for unknown reasons. In order to fix this, we added a retry
+     * config to this API request : when failing, this request will retry itself up to 4 times (5 API calls in total),
+     * with exponentially increasing delay between each request (max delay : 1.5s).**
      *
      * @param options The options of the request.
      */
     updateTaskStatus: reactify(MonkApi.updateTaskStatus, config, dispatch, handleError),
     /**
-     * Start some inspection tasks that were in the NOT_STARTED status. This function actually makes one API call for each
-     * task provided using the `updateTaskStatus`.
+     * Start some inspection tasks that were in the NOT_STARTED status. This function actually makes one API call for
+     * each task provided using the `updateTaskStatus`.
      *
-     * **Note : This API call is known to sometimes fail for unknown reasons. Please take note of the details provided in
-     * the TSDoc of the `updateTaskStatus` function.**
+     * **Note : This API call is known to sometimes fail for unknown reasons. Please take note of the details provided
+     * in the TSDoc of the `updateTaskStatus` function.**
      *
      * @param options The options of the request.
      *

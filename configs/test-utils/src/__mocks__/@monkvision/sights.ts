@@ -1,4 +1,11 @@
-import { TaskName, VehicleModel, VehicleType } from '@monkvision/types';
+import {
+  PartSelectionOrientation,
+  TaskName,
+  VehicleModel,
+  VehiclePart,
+  VehicleType,
+  WireframeDictionary,
+} from '@monkvision/types';
 
 const vehicles = {
   [VehicleModel.FESC20]: {
@@ -6,6 +13,12 @@ const vehicles = {
     make: 'Ford',
     model: 'Escape SE 2020',
     type: VehicleType.CUV,
+  },
+  [VehicleModel.FF150]: {
+    id: VehicleModel.FF150,
+    make: 'Ford',
+    model: 'F-150 Super Cab XL 2014',
+    type: VehicleType.PICKUP,
   },
 };
 
@@ -80,8 +93,24 @@ const sights = {
   },
 };
 
+const partSelectionWireframes: WireframeDictionary = {
+  [VehicleModel.FESC20]: {
+    [PartSelectionOrientation.FRONT_LEFT]: `<svg><path id="${VehiclePart.BUMPER_BACK}"></path></svg>`,
+    [PartSelectionOrientation.REAR_LEFT]: '<svg>FR</svg>',
+    [PartSelectionOrientation.REAR_RIGHT]: '<svg>RL</svg>',
+    [PartSelectionOrientation.FRONT_RIGHT]: '<svg>RR</svg>',
+  },
+  [VehicleModel.AUDIA7]: {
+    [PartSelectionOrientation.FRONT_LEFT]: `<svg><path id="${VehiclePart.BUMPER_FRONT}"></path></svg>`,
+    [PartSelectionOrientation.REAR_LEFT]: `<svg><path id="${VehiclePart.BUMPER_BACK}"></path></svg>`,
+    [PartSelectionOrientation.REAR_RIGHT]: `<svg><path id="${VehiclePart.TAIL_LIGHT_RIGHT}"></path></svg>`,
+    [PartSelectionOrientation.FRONT_RIGHT]: `<svg><path id="${VehiclePart.WHEEL_BACK_RIGHT}"></path></svg>`,
+  },
+};
+
 export = {
   vehicles,
   labels,
   sights,
+  partSelectionWireframes,
 };

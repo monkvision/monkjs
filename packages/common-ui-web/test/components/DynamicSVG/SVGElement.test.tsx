@@ -5,12 +5,12 @@ jest.mock('../../../src/components/DynamicSVG/hooks', () => ({
 }));
 
 import { render } from '@testing-library/react';
+import { SVGElement } from '../../../src';
 import {
   useCustomAttributes,
   useInnerHTML,
   useJSXTransformAttributes,
 } from '../../../src/components/DynamicSVG/hooks';
-import { SVGElement } from '../../../src';
 
 describe('SVGElement component', () => {
   afterEach(() => {
@@ -50,16 +50,16 @@ describe('SVGElement component', () => {
       children: [],
       getAttribute: (a: string) => a,
     } as unknown as SVGSVGElement;
-    const groupIds = ['test-id', 'test-id-23'];
+    const groups = [{ id: 'test-id-1' }, { id: 'test-id-2' }] as SVGGElement[];
     const getAttributes = jest.fn();
 
     const { unmount } = render(
-      <SVGElement element={element} groupIds={groupIds} getAttributes={getAttributes} />,
+      <SVGElement element={element} groups={groups} getAttributes={getAttributes} />,
     );
 
     expect(useCustomAttributes).toHaveBeenCalledWith({
       element,
-      groupIds,
+      groups,
       getAttributes,
       style: {},
     });
@@ -72,14 +72,14 @@ describe('SVGElement component', () => {
       children: [],
       getAttribute: (a: string) => a,
     } as unknown as SVGSVGElement;
-    const groupIds = ['test-id', 'test-id-23'];
+    const groups = [{ id: 'test-id-1' }, { id: 'test-id-2' }] as SVGGElement[];
     const getInnerText = jest.fn();
 
     const { unmount } = render(
-      <SVGElement element={element} groupIds={groupIds} getInnerText={getInnerText} />,
+      <SVGElement element={element} groups={groups} getInnerText={getInnerText} />,
     );
 
-    expect(useInnerHTML).toHaveBeenCalledWith({ element, groupIds, getInnerText });
+    expect(useInnerHTML).toHaveBeenCalledWith({ element, groups, getInnerText });
     unmount();
   });
 

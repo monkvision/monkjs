@@ -1,5 +1,5 @@
-import { JSX } from 'react';
 import { JSXIntrinsicSVGElements } from '@monkvision/types';
+import { JSX } from 'react';
 import {
   DynamicSVGCustomizationFunctions,
   SVGElementCustomProps,
@@ -18,9 +18,8 @@ export type SVGElementProps<T extends keyof JSXIntrinsicSVGElements> = JSX.Intri
   DynamicSVGCustomizationFunctions &
   SVGElementCustomProps;
 
-function getChildrenGroupIds({ element, groupIds }: Required<SVGElementCustomProps>): string[] {
-  const id = element.getAttribute('id');
-  return element.tagName === 'g' && id ? [...groupIds, id] : groupIds;
+function getChildrenGroupIds({ element, groups }: Required<SVGElementCustomProps>): SVGGElement[] {
+  return element.tagName === 'g' ? [...groups, element as SVGGElement] : groups;
 }
 
 /**
@@ -34,7 +33,7 @@ function getChildrenGroupIds({ element, groupIds }: Required<SVGElementCustomPro
  */
 export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
   element,
-  groupIds = [],
+  groups = [],
   getAttributes,
   getInnerText,
   ...passThroughProps
@@ -43,13 +42,13 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
   const attributes = useJSXTransformAttributes(element);
   const customAttributes = useCustomAttributes({
     element,
-    groupIds,
+    groups,
     getAttributes,
     style: attributes.style ?? {},
   });
   const tagAttr = { ...attributes, ...customAttributes, ...passThroughProps } as any;
-  const innerHTML = useInnerHTML({ element, groupIds, getInnerText });
-  const childrenGroupIds = getChildrenGroupIds({ element, groupIds });
+  const innerHTML = useInnerHTML({ element, groups, getInnerText });
+  const childrenGroupIds = getChildrenGroupIds({ element, groups });
 
   return (
     <Tag {...tagAttr}>
@@ -59,7 +58,7 @@ export function SVGElement<T extends keyof JSXIntrinsicSVGElements = 'svg'>({
           <SVGElement
             key={id.toString()}
             element={child as SVGSVGElement}
-            groupIds={childrenGroupIds}
+            groups={childrenGroupIds}
             getAttributes={getAttributes}
             getInnerText={getInnerText}
           />

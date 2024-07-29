@@ -1,9 +1,15 @@
 jest.mock('fs');
 jest.mock('../../src/io');
 
+import {
+  PartSelectionOrientation,
+  SightCategory,
+  SightDictionary,
+  TaskName,
+  VehicleModel,
+} from '@monkvision/types';
 import fs from 'fs';
 import { join, resolve } from 'path';
-import { SightCategory, SightDictionary, TaskName, VehicleModel } from '@monkvision/types';
 import { buildJSONs } from '../../src/build/buildJSONs';
 import * as io from '../../src/io';
 import { pathsEqual } from '../utils';
@@ -128,7 +134,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
       expect(call?.[0]).toEqual(properlyMappedLabels);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/labels.json')),
@@ -157,7 +163,7 @@ describe('JSON builder module', () => {
       );
 
       expect(call).not.toBeUndefined();
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
       expect(call?.[0]).toEqual(properlyMappedVehicles);
       expect(
         pathsEqual(call?.[1] as string, join(__dirname, '../../src/lib/data/vehicles.json')),
@@ -187,10 +193,11 @@ describe('JSON builder module', () => {
       const calls = saveLibJSONSpy.mock.calls.filter(
         (args) =>
           !(args[1] as string).endsWith('labels.json') &&
-          !(args[1] as string).endsWith('vehicles.json'),
+          !(args[1] as string).endsWith('vehicles.json') &&
+          !(args[1] as string).endsWith('wireframes.json'),
       );
 
-      expect(saveLibJSONSpy).toHaveBeenCalledTimes(2 + Object.keys(VehicleModel).length);
+      expect(saveLibJSONSpy).toHaveBeenCalledTimes(3 + Object.keys(VehicleModel).length);
       expect(calls.length).toEqual(Object.values(VehicleModel).length);
       Object.values(VehicleModel).forEach((vehicle) => {
         const call = calls.find((args) => (args[1] as string).endsWith(`${vehicle}.json`));
@@ -205,6 +212,43 @@ describe('JSON builder module', () => {
           ),
         ).toBe(true);
       });
+    });
+
+    it('should property create the wireframes file', () => {
+      const saveLibJSONSpy = jest.spyOn(io, 'saveLibJSON');
+      fs.existsSync = jest
+        .fn()
+        .mockImplementation((path: string) => path.includes('vehicle-key-2'));
+      buildJSONs();
+      const call = saveLibJSONSpy.mock.calls.find((args) =>
+        (args[1] as string).endsWith('wireframes.json'),
+      );
+      expect(call?.[0]).toEqual({
+        'vehicle-key-2': {
+          [PartSelectionOrientation.FRONT_LEFT]: expect.any(String),
+          [PartSelectionOrientation.FRONT_RIGHT]: expect.any(String),
+          [PartSelectionOrientation.REAR_LEFT]: expect.any(String),
+          [PartSelectionOrientation.REAR_RIGHT]: expect.any(String),
+        },
+      });
+    });
+
+    it('should throw an error when some wireframes are missing', () => {
+      fs.existsSync = jest
+        .fn()
+        .mockImplementation((path: string) => path.includes('vehicle-key-2'));
+      fs.readFileSync = jest
+        .fn()
+        .mockImplementation((path: string, options?: { encoding: BufferEncoding }) => {
+          if (path.endsWith(`vehicle-key-2-${PartSelectionOrientation.FRONT_LEFT}.svg`)) {
+            throw new Error('File Not found');
+          }
+          if (options?.encoding === 'utf-8') {
+            return `    ${resolve(path)}  `;
+          }
+          return null;
+        });
+      expect(() => buildJSONs()).toThrowError('File Not found');
     });
   });
 });
