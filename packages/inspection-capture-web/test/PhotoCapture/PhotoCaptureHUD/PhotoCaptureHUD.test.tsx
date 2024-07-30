@@ -62,6 +62,10 @@ function createProps(): PhotoCaptureHUDProps {
     } as unknown as CameraHandle,
     cameraPreview: <div data-testid={cameraTestId}></div>,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
+    currentTutorialStep: null,
+    allowSkipTutorial: false,
+    onNextTutorialStep: jest.fn(),
+    onCloseTutorial: jest.fn(),
   };
 }
 

@@ -15,7 +15,6 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    zIndex: 9,
   },
   elementsContainerPortrait: {
     __media: { portrait: true },

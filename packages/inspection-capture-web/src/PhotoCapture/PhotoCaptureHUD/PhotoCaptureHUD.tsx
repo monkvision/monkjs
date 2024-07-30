@@ -7,16 +7,24 @@ import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { PhotoCaptureMode } from '../hooks';
+import { PhotoCaptureMode, TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
+import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 
 /**
  * Props of the PhotoCaptureHUD component.
  */
 export interface PhotoCaptureHUDProps
   extends CameraHUDProps,
-    Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
+    Pick<
+      CaptureAppConfig,
+      | 'enableSightGuidelines'
+      | 'sightGuidelines'
+      | 'enableAddDamage'
+      | 'showCloseButton'
+      | 'allowSkipTutorial'
+    > {
   /**
    * The inspection ID.
    */
@@ -46,6 +54,18 @@ export interface PhotoCaptureHUDProps
    */
   loading: LoadingState;
   /**
+   * The current tutorial step in PhotoCapture component.
+   */
+  currentTutorialStep: TutorialSteps | null;
+  /**
+   * Callback called when the user clicks on "Next" button in PhotoCapture tutorial.
+   */
+  onNextTutorialStep: () => void;
+  /**
+   * Callback called when the user clicks on "Close" button in PhotoCapture tutorial.
+   */
+  onCloseTutorial: () => void;
+  /**
    * Callback called when the user manually select a new sight.
    */
   onSelectSight: (sight: Sight) => void;
@@ -74,12 +94,6 @@ export interface PhotoCaptureHUDProps
    * displayed.
    */
   onClose?: () => void;
-  /**
-   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
-   *
-   * @default false
-   */
-  showCloseButton?: boolean;
   /**
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
@@ -113,6 +127,10 @@ export function PhotoCaptureHUD({
   enableAddDamage,
   sightGuidelines,
   enableSightGuidelines,
+  currentTutorialStep,
+  allowSkipTutorial,
+  onNextTutorialStep,
+  onCloseTutorial,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -154,6 +172,7 @@ export function PhotoCaptureHUD({
           enableAddDamage={enableAddDamage}
           sightGuidelines={sightGuidelines}
           enableSightGuidelines={enableSightGuidelines}
+          tutorialStep={currentTutorialStep}
         />
       </div>
       <PhotoCaptureHUDButtons
@@ -184,6 +203,14 @@ export function PhotoCaptureHUD({
         confirmLabel={t('photo.hud.closeConfirm.confirm')}
         onCancel={() => setShowCloseModal(false)}
         onConfirm={handleCloseConfirm}
+      />
+      <PhotoCaptureHUDTutorial
+        currentTutorialStep={handle.error || loading.error ? null : currentTutorialStep}
+        onNextTutorialStep={onNextTutorialStep}
+        onCloseTutorial={onCloseTutorial}
+        allowSkipTutorial={allowSkipTutorial}
+        sightId={selectedSight.id}
+        sightGuidelines={sightGuidelines}
       />
     </div>
   );

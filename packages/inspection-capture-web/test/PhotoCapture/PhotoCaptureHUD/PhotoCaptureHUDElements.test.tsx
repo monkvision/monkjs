@@ -44,6 +44,7 @@ function createProps(): PhotoCaptureHUDElementsProps {
     isLoading: false,
     error: null,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
+    tutorialStep: null,
   };
 }
 

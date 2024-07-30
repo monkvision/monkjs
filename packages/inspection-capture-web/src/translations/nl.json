@@ -31,6 +31,14 @@
         "message": "Weet je zeker dat je de capture tool wilt sluiten?",
         "cancel": "Annuleren",
         "confirm": "Ja"
+      },
+      "tutorial": {
+        "welcome": "Welkom bij uw eerste inspectie!",
+        "title": "Hoe te gebruiken",
+        "guideline": "Ga rond het voertuig om alle foto's te nemen en volg de richtlijnen bovenaan om op de juiste hoek te staan.",
+        "sightTutorial": "Gebruik het plaatje linksonder om je te leiden bij het kadreren.<br>Klik erop voor een gedetailleerde uitleg.",
+        "sight": "Richt het voertuig zo goed mogelijk uit op de lijnen om de beste foto te krijgen.<br>Druk op de knop om de foto te nemen.",
+        "next": "Volgende"
       }
     }
   }

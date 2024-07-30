@@ -27,7 +27,7 @@ import {
   PhotoCaptureHUDElementsSightProps,
   SightSlider,
 } from '../../../../src';
-import { PhotoCaptureMode } from '../../../../src/PhotoCapture/hooks';
+import { PhotoCaptureMode, TutorialSteps } from '../../../../src/PhotoCapture/hooks';
 
 function createProps(): PhotoCaptureHUDElementsSightProps {
   const captureSights = [
@@ -47,6 +47,7 @@ function createProps(): PhotoCaptureHUDElementsSightProps {
       { sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT },
       { sightId: 'test-sight-2', status: ImageStatus.SUCCESS },
     ] as Image[],
+    tutorialStep: null,
   };
 }
 
@@ -64,7 +65,9 @@ describe('PhotoCaptureHUDElementsSight component', () => {
 
   it('should display the PhotoCaptureHUDCounter component with the proper props', () => {
     const props = createProps();
-    const { unmount } = render(<PhotoCaptureHUDElementsSight {...props} />);
+    const { unmount } = render(
+      <PhotoCaptureHUDElementsSight {...props} tutorialStep={TutorialSteps.SIGHT} />,
+    );
 
     expectPropsOnChildMock(PhotoCaptureHUDCounter, {
       mode: PhotoCaptureMode.SIGHT,

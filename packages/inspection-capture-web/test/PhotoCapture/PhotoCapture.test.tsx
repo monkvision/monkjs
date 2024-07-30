@@ -1,5 +1,11 @@
 import { sights } from '@monkvision/sights';
-import { CameraResolution, ComplianceIssue, CompressionFormat, TaskName } from '@monkvision/types';
+import {
+  CameraResolution,
+  ComplianceIssue,
+  CompressionFormat,
+  PhotoCaptureTutorialOption,
+  TaskName,
+} from '@monkvision/types';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -49,6 +55,11 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     },
   })),
   useTracking: jest.fn(),
+  usePhotoCaptureTutorial: jest.fn(() => ({
+    currentTutorialStep: 'welcome',
+    goToNextTutorialStep: jest.fn(),
+    closeTutorial: jest.fn(),
+  })),
 }));
 
 import { Camera } from '@monkvision/camera-web';
@@ -67,6 +78,7 @@ import {
   usePictureTaken,
   useStartTasksOnComplete,
   useUploadQueue,
+  usePhotoCaptureTutorial,
 } from '../../src/PhotoCapture/hooks';
 
 function createProps(): PhotoCaptureProps {
@@ -111,6 +123,9 @@ function createProps(): PhotoCaptureProps {
         sightIds: ['sightId-test-1', 'sightId-test-2'],
       },
     ],
+    enableTutorial: PhotoCaptureTutorialOption.ENABLED,
+    allowSkipTutorial: true,
+    enableSightTutorial: true,
   };
 }
 
@@ -302,6 +317,8 @@ describe('PhotoCapture component', () => {
     const loading = (useLoadingState as jest.Mock).mock.results[0].value;
     expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
+    const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
+    console.log(tutorial);
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,
@@ -322,6 +339,10 @@ describe('PhotoCapture component', () => {
         enableAddDamage: props.enableAddDamage,
         enableSightGuidelines: props.enableSightGuidelines,
         sightGuidelines: props.sightGuidelines,
+        currentTutorialStep: tutorial.currentTutorialStep,
+        onNextTutorialStep: tutorial.goToNextTutorialStep,
+        onCloseTutorial: tutorial.closeTutorial,
+        allowSkipTutorial: props.allowSkipRetake,
       },
     });
 

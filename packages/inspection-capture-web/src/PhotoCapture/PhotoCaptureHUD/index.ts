@@ -8,3 +8,4 @@ export * from './PhotoCaptureHUDElements';
 export * from './PhotoCaptureHUDElementsAddDamage1stShot';
 export * from './PhotoCaptureHUDElementsAddDamage2ndShot';
 export * from './PhotoCaptureHUDElementsSight';
+export * from './PhotoCaptureHUDTutorial';
