@@ -14,6 +14,20 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         de: 'Die Kameravorschau ist nicht verfügbar, da für die Seite kein Kamerazugriff gewährt wurde.',
         nl: 'De cameravoorbeeld is niet beschikbaar omdat er geen toegang tot de camera is verleend aan de pagina.',
       };
+    case UserMediaErrorType.NOT_ALLOWED_WEBPAGE:
+      return {
+        en: 'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
+        fr: "Impossible d'accéder à la caméra. Veuillez vous assurer d'appuyer sur “Autoriser” lorsqu'on vous propose d'autoriser l'accès à la caméra pour cette page web.",
+        de: 'Die Kamera kann nicht zugelassen werden. Stellen Sie sicher, dass Sie auf „Zulassen“ drücken, wenn Sie aufgefordert werden, die Kamera für diese Webseite zuzulassen.',
+        nl: 'Kan geen toestemming krijgen voor de camera. Zorg ervoor dat u op “Toestaan” drukt wanneer u wordt gevraagd om toestemming te geven voor het gebruik van de camera op deze webpagina.',
+      };
+    case UserMediaErrorType.NOT_ALLOWED_BROWSER:
+      return {
+        en: "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
+        fr: "Impossible d'accéder à la caméra. Veuillez vous assurer d'autoriser l'accès à la caméra pour ce navigateur internet dans les paramètres de votre téléphone.",
+        de: 'Der Zugriff auf die Kamera ist nicht möglich. Stellen Sie sicher, dass Sie in den Einstellungen Ihres Geräts den Kamerazugriff für Ihren aktuellen Internetbrowser zulassen.',
+        nl: 'Kan geen cameratoegang krijgen. Zorg ervoor dat u de camera toegang verleent tot uw huidige internet browser in de instellingen van uw apparaat.',
+      };
     case UserMediaErrorType.STREAM_INACTIVE:
       return {
         en: 'The camera video stream was closed unexpectedly.',

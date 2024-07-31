@@ -38,6 +38,15 @@ class InvalidStreamError extends Error {
 export enum UserMediaErrorType {
   /**
    * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
+   * if both webpage and browser permissions are denied, this error will be returned.
+   */
+  NOT_ALLOWED_WEBPAGE = 'not_allowed_webpage',
+  /**
+   * The camera stream couldn't be fetched because the browser does not support the `getUserMedia` function.
+   */
+  NOT_ALLOWED_BROWSER = 'not_allowed_browser',
+  /**
+   * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
    */
   NOT_ALLOWED = 'not_allowed',
   /**
@@ -203,10 +212,21 @@ export function useUserMedia(
     };
   }, []);
 
-  const handleGetUserMediaError = (err: unknown) => {
+  const handleGetUserMediaError = async (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
       type = UserMediaErrorType.NOT_ALLOWED;
+      try {
+        const permission = await navigator.permissions.query({ name: 'camera' as PermissionName });
+        switch (permission.state) {
+          case 'denied':
+            type = UserMediaErrorType.NOT_ALLOWED_WEBPAGE;
+            break;
+          case 'granted':
+            type = UserMediaErrorType.NOT_ALLOWED_BROWSER;
+            break;
+        }
+      } catch (error) {}
     } else if (
       err instanceof Error &&
       Object.values(InvalidStreamErrorName).includes(err.name as InvalidStreamErrorName)
@@ -256,7 +276,7 @@ export function useUserMedia(
             deviceId: { exact: deviceDetails.validDeviceIds },
           },
         };
-        const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
+        const str = await navigator.mediaDevices.getUserMedia(updatedConstraints); // CHANGE
         str?.addEventListener('inactive', onStreamInactive);
         if (isActive.current) {
           setStream(str);
