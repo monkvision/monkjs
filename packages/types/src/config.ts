@@ -6,6 +6,24 @@ import { DeviceOrientation } from './utils';
 import { CreateInspectionOptions, MonkApiPermission } from './api';
 
 /**
+ * Enumeration of the tutorial options.
+ */
+export enum PhotoCaptureTutorialOption {
+  /**
+   * Photo capture is disabled.
+   */
+  DISABLED = 'disabled',
+  /**
+   * Photo capture is enable.
+   */
+  ENABLED = 'enabled',
+  /**
+   * Photo capture is enable only time.
+   */
+  FIRST_TIME_ONLY = 'first_time_only',
+}
+
+/**
  * Configuration used to configure the Camera and picture output of the SDK.
  */
 export type CameraConfig = Partial<CompressionOptions> & {
@@ -127,9 +145,28 @@ export type CaptureAppConfig = CameraConfig &
      */
     apiDomain: string;
     /**
-     * The API domain used to communicate with the resize micro service
+     * The API domain used to communicate with the resize micro service.
      */
     thumbnailDomain: string;
+    /**
+     * Options for displaying the photo capture tutorial.
+     *
+     * @default PhotoCaptureTutorialOption.FIRST_TIME_ONLY.
+     */
+    enableTutorial?: PhotoCaptureTutorialOption;
+    /**
+     * Boolean indicating if the user can skip the PhotoCapture tutorial.
+     *
+     * @default true
+     */
+    allowSkipTutorial?: boolean;
+    /**
+     * Boolean indicating whether the sight tutorial feature is enabled. If disabled, the sight tutorial icon displayed
+     * on the bottom left will be hidden.
+     *
+     * @default true
+     */
+    enableSightTutorial?: boolean;
     /**
      * Required API permissions to use the app.
      */

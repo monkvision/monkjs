@@ -2,6 +2,7 @@ import { CaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/typ
 import { useResponsiveStyle } from '@monkvision/common';
 import { CSSProperties } from 'react';
 import { styles } from './PhotoCaptureHUDElementsSight.styles';
+import { TutorialSteps } from '../../hooks';
 
 /**
  * Props of the PhotoCaptureHUDElementsSight component.
@@ -16,6 +17,10 @@ export interface PhotoCaptureHUDElementsSightProps
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
   selectedSight: Sight;
+  /**
+   * The current tutorial step in PhotoCapture component.
+   */
+  tutorialStep: TutorialSteps | null;
   /**
    * Callback called when the user manually select a new sight.
    */

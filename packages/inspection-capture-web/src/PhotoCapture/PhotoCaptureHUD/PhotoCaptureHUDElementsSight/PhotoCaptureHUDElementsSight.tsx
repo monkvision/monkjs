@@ -4,7 +4,7 @@ import { styles } from './PhotoCaptureHUDElementsSight.styles';
 import { AddDamageButton } from './AddDamageButton';
 import { PhotoCaptureHUDElementsSightProps, usePhotoCaptureHUDSightPreviewStyle } from './hooks';
 import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
-import { PhotoCaptureMode } from '../../hooks';
+import { PhotoCaptureMode, TutorialSteps } from '../../hooks';
 import { SightGuideline } from './SightGuideline';
 
 /**
@@ -23,38 +23,43 @@ export function PhotoCaptureHUDElementsSight({
   enableAddDamage,
   sightGuidelines,
   enableSightGuidelines,
+  tutorialStep,
 }: PhotoCaptureHUDElementsSightProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
 
+  const showSight = previewDimensions && (!tutorialStep || tutorialStep === TutorialSteps.SIGHT);
+
   return (
     <div style={styles['container']}>
-      {previewDimensions && <SightOverlay style={style.overlay} sight={selectedSight} />}
-      <div style={style.elementsContainer}>
-        <div style={style.top}>
-          <SightGuideline
-            sightId={selectedSight.id}
-            sightGuidelines={sightGuidelines}
-            enableSightGuidelines={enableSightGuidelines}
-            enableAddDamage={enableAddDamage}
-          />
-          <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
+      {showSight && <SightOverlay style={style.overlay} sight={selectedSight} />}
+      {!tutorialStep && (
+        <div style={style.elementsContainer}>
+          <div style={style.top}>
+            <SightGuideline
+              sightId={selectedSight.id}
+              sightGuidelines={sightGuidelines}
+              enableSightGuidelines={enableSightGuidelines}
+              enableAddDamage={enableAddDamage}
+            />
+            <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
+          </div>
+          <div style={style.bottom}>
+            <PhotoCaptureHUDCounter
+              mode={PhotoCaptureMode.SIGHT}
+              totalSights={sights.length}
+              sightsTaken={sightsTaken.length}
+            />
+            <SightSlider
+              sights={sights}
+              selectedSight={selectedSight}
+              sightsTaken={sightsTaken}
+              onSelectedSight={onSelectedSight}
+              onRetakeSight={onRetakeSight}
+              images={images}
+            />
+          </div>
         </div>
-        <div style={style.bottom}>
-          <PhotoCaptureHUDCounter
-            mode={PhotoCaptureMode.SIGHT}
-            totalSights={sights.length}
-            sightsTaken={sightsTaken.length}
-          />
-          <SightSlider
-            sights={sights}
-            selectedSight={selectedSight}
-            sightsTaken={sightsTaken}
-            onSelectedSight={onSelectedSight}
-            onRetakeSight={onRetakeSight}
-            images={images}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

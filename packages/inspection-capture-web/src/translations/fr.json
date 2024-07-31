@@ -31,6 +31,14 @@
         "message": "Êtes-vous sûr(e) de vouloir fermer l'outil de capture ?",
         "cancel": "Annuler",
         "confirm": "Oui"
+      },
+      "tutorial": {
+        "welcome": "Bienvenue à votre première inspection!",
+        "title": "Comment l'utiliser",
+        "guideline": "Faites le tour du véhicule pour prendre toutes les photos et suivez les directives en haut pour vous positionner sous le bon angle.",
+        "sightTutorial": "Utilisez l'image en bas à gauche pour vous guider dans le cadrage.<br>Appuyez dessus pour voir une explication détaillée.",
+        "sight": "Alignez le véhicule avec les lignes autant que possible pour obtenir la meilleure photo.<br>Appuyez sur le déclencheur pour prendre la photo.",
+        "next": "Suivant"
       }
     }
   }

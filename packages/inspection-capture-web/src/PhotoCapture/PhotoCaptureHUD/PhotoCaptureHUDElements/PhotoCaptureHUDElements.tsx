@@ -1,5 +1,5 @@
 import { CaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
-import { PhotoCaptureMode } from '../../hooks';
+import { PhotoCaptureMode, TutorialSteps } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
 import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDElementsAddDamage2ndShot';
@@ -25,6 +25,10 @@ export interface PhotoCaptureHUDElementsProps
    * The current mode of the component.
    */
   mode: PhotoCaptureMode;
+  /**
+   * The current tutorial step in PhotoCapture component.
+   */
+  tutorialStep: TutorialSteps | null;
   /**
    * Callback called when the user presses the Add Damage button.
    */
@@ -80,6 +84,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         enableAddDamage={params.enableAddDamage}
         sightGuidelines={params.sightGuidelines}
         enableSightGuidelines={params.enableSightGuidelines}
+        tutorialStep={params.tutorialStep}
       />
     );
   }

@@ -22,6 +22,7 @@ import {
   ComplianceOptions,
   CompressionOptions,
   DeviceOrientation,
+  PhotoCaptureTutorialOption,
   Sight,
 } from '@monkvision/types';
 import { useState } from 'react';
@@ -35,6 +36,7 @@ import {
   useComplianceAnalytics,
   usePhotoCaptureImages,
   usePhotoCaptureSightState,
+  usePhotoCaptureTutorial,
   usePictureTaken,
   useStartTasksOnComplete,
   useTracking,
@@ -60,6 +62,9 @@ export interface PhotoCaptureProps
       | 'enableAddDamage'
       | 'sightGuidelines'
       | 'enableSightGuidelines'
+      | 'enableTutorial'
+      | 'allowSkipTutorial'
+      | 'enableSightTutorial'
     >,
     Partial<CompressionOptions>,
     Partial<ComplianceOptions> {
@@ -126,6 +131,9 @@ export function PhotoCapture({
   allowSkipRetake = false,
   enableAddDamage = true,
   sightGuidelines,
+  enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
+  allowSkipTutorial = true,
+  enableSightTutorial = true,
   enableSightGuidelines = true,
   useAdaptiveImageQuality = true,
   lang,
@@ -178,6 +186,11 @@ export function PhotoCapture({
     tasksBySight,
     complianceOptions,
     setIsInitialInspectionFetched,
+  });
+  const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
+    enableTutorial,
+    enableSightGuidelines,
+    enableSightTutorial,
   });
   const {
     isBadConnectionWarningDialogDisplayed,
@@ -257,6 +270,10 @@ export function PhotoCapture({
     enableAddDamage,
     sightGuidelines,
     enableSightGuidelines,
+    currentTutorialStep,
+    onNextTutorialStep: goToNextTutorialStep,
+    onCloseTutorial: closeTutorial,
+    allowSkipTutorial,
   };
 
   return (
