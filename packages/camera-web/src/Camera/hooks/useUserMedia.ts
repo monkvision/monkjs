@@ -206,6 +206,7 @@ export function useUserMedia(
   const { handleError } = useMonitoring();
   const isActive = useRef(true);
 
+  let cameraPermissionState: PermissionStatus['state'] | null = null;
   useEffect(() => {
     return () => {
       isActive.current = false;
@@ -216,17 +217,18 @@ export function useUserMedia(
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
       type = UserMediaErrorType.NOT_ALLOWED;
-      try {
-        const permission = await navigator.permissions.query({ name: 'camera' as PermissionName });
-        switch (permission.state) {
+      if (cameraPermissionState) {
+        switch (cameraPermissionState) {
           case 'denied':
             type = UserMediaErrorType.NOT_ALLOWED_WEBPAGE;
             break;
           case 'granted':
             type = UserMediaErrorType.NOT_ALLOWED_BROWSER;
             break;
+          default:
+            type = UserMediaErrorType.NOT_ALLOWED;
         }
-      } catch (error) {}
+      }
     } else if (
       err instanceof Error &&
       Object.values(InvalidStreamErrorName).includes(err.name as InvalidStreamErrorName)
@@ -292,6 +294,14 @@ export function useUserMedia(
         }
       }
     };
+    navigator.permissions
+      .query({ name: 'camera' as PermissionName })
+      .then((status) => {
+        if (isActive.current) {
+          cameraPermissionState = status.state;
+        }
+      })
+      .catch(console.error);
     getUserMedia().catch(handleError);
   }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 

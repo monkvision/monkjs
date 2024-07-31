@@ -32,6 +32,13 @@ describe('useUserMedia hook', () => {
 
   beforeEach(() => {
     gumMock = mockGetUserMedia();
+    Object.defineProperty(global.navigator, 'permissions', {
+      value: {
+        query: jest.fn(() => Promise.reject()),
+      },
+      configurable: true,
+      writable: true,
+    });
   });
 
   afterEach(() => {
@@ -123,6 +130,56 @@ describe('useUserMedia hook', () => {
       });
     });
     unmount();
+  });
+
+  it('should return a NotAllowed for webpage error in case of camera permission error', async () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+    const nativeError = new Error();
+    nativeError.name = 'NotAllowedError';
+    mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
+    navigator.permissions.query = jest.fn(() =>
+      Promise.resolve({ state: 'granted' } as PermissionStatus),
+    );
+    const { result } = renderUseUserMedia({ constraints: {}, videoRef });
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        stream: null,
+        dimensions: null,
+        error: {
+          type: UserMediaErrorType.NOT_ALLOWED_BROWSER,
+          nativeError,
+        },
+        isLoading: false,
+        retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
+      });
+    });
+  });
+
+  it('should return a NotAllowed for browser error in case of camera permission error', async () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+    const nativeError = new Error();
+    nativeError.name = 'NotAllowedError';
+    mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
+    navigator.permissions.query = jest.fn(() =>
+      Promise.resolve({ state: 'denied' } as PermissionStatus),
+    );
+    const { result } = renderUseUserMedia({ constraints: {}, videoRef });
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        stream: null,
+        dimensions: null,
+        error: {
+          type: UserMediaErrorType.NOT_ALLOWED_WEBPAGE,
+          nativeError,
+        },
+        isLoading: false,
+        retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
+      });
+    });
   });
 
   it('should return an InvalidStream error if the stream has no tracks', async () => {
