@@ -213,21 +213,18 @@ export function useUserMedia(
     };
   }, []);
 
-  const handleGetUserMediaError = async (err: unknown) => {
+  const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
-      type = UserMediaErrorType.NOT_ALLOWED;
-      if (cameraPermissionState) {
-        switch (cameraPermissionState) {
-          case 'denied':
-            type = UserMediaErrorType.NOT_ALLOWED_WEBPAGE;
-            break;
-          case 'granted':
-            type = UserMediaErrorType.NOT_ALLOWED_BROWSER;
-            break;
-          default:
-            type = UserMediaErrorType.NOT_ALLOWED;
-        }
+      switch (cameraPermissionState) {
+        case 'denied':
+          type = UserMediaErrorType.NOT_ALLOWED_WEBPAGE;
+          break;
+        case 'granted':
+          type = UserMediaErrorType.NOT_ALLOWED_BROWSER;
+          break;
+        default:
+          type = UserMediaErrorType.NOT_ALLOWED;
       }
     } else if (
       err instanceof Error &&
@@ -264,45 +261,56 @@ export function useUserMedia(
     setLastConstraintsApplied(constraints);
 
     const getUserMedia = async () => {
+      setIsLoading(true);
+      if (stream) {
+        stream.removeEventListener('inactive', onStreamInactive);
+        stream.getTracks().forEach((track) => track.stop());
+      }
+      const deviceDetails = await analyzeCameraDevices(constraints);
+      const updatedConstraints = {
+        ...constraints,
+        video: {
+          ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
+          deviceId: { exact: deviceDetails.validDeviceIds },
+        },
+      };
+      const str = await navigator.mediaDevices.getUserMedia(updatedConstraints); // CHANGE
+      str?.addEventListener('inactive', onStreamInactive);
+      if (isActive.current) {
+        setStream(str);
+        setDimensions(getStreamDimensions(str, true));
+        setIsLoading(false);
+        setAvailableCameraDevices(deviceDetails.availableDevices);
+        setSelectedCameraDeviceId(getStreamDeviceId(str));
+      }
+    };
+    const getCameraPermissionState = async () => {
       try {
-        setIsLoading(true);
-        if (stream) {
-          stream.removeEventListener('inactive', onStreamInactive);
-          stream.getTracks().forEach((track) => track.stop());
-        }
-        const deviceDetails = await analyzeCameraDevices(constraints);
-        const updatedConstraints = {
-          ...constraints,
-          video: {
-            ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
-            deviceId: { exact: deviceDetails.validDeviceIds },
-          },
-        };
-        const str = await navigator.mediaDevices.getUserMedia(updatedConstraints); // CHANGE
-        str?.addEventListener('inactive', onStreamInactive);
-        if (isActive.current) {
-          setStream(str);
-          setDimensions(getStreamDimensions(str, true));
-          setIsLoading(false);
-          setAvailableCameraDevices(deviceDetails.availableDevices);
-          setSelectedCameraDeviceId(getStreamDeviceId(str));
-        }
+        return await navigator.permissions.query({
+          name: 'camera' as PermissionName,
+        });
       } catch (err) {
-        if (isActive.current) {
+        return null;
+      }
+    };
+    getUserMedia()
+      .catch((err) => {
+        return Promise.all([err, getCameraPermissionState()]);
+      })
+      .then((result) => {
+        if (!result) {
+          return Promise.all([null, getCameraPermissionState()]);
+        }
+        return result;
+      })
+      .then(([err, cameraPermission]) => {
+        cameraPermissionState = cameraPermission?.state ?? null;
+        if (err && isActive.current) {
           handleGetUserMediaError(err);
           throw err;
         }
-      }
-    };
-    navigator.permissions
-      .query({ name: 'camera' as PermissionName })
-      .then((status) => {
-        if (isActive.current) {
-          cameraPermissionState = status.state;
-        }
       })
-      .catch(console.error);
-    getUserMedia().catch(handleError);
+      .catch(handleError);
   }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 
   useEffect(() => {
