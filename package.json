@@ -14,6 +14,7 @@
     "documentation"
   ],
   "scripts": {
+    "repair": "lerna repair",
     "clean": "rimraf node_modules && yarn cache clean && yarn install",
     "clean:all": "lerna run clean --parallel && rimraf node_modules && yarn cache clean && yarn install",
     "build": "lerna run build --scope '@monkvision/*'",
@@ -25,6 +26,7 @@
     "build:drive-app:staging": "lerna run build:staging --scope 'drive-app'",
     "build:drive-app:preview": "lerna run build:preview --scope 'drive-app'",
     "deploy:documentation": "lerna run deploy --scope 'monk-documentation'",
+    "deploy:packages": "lerna publish --no-private --force-publish --create-release=github",
     "test": "lerna run test --parallel",
     "test:packages": "lerna run test --parallel --scope '@monkvision/*'",
     "test:coverage": "lerna run test:coverage --parallel",

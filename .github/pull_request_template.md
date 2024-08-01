@@ -10,6 +10,7 @@ Jira Ticket Reference : [MN-XXX](https://acvauctions.atlassian.net/browse/MN-XXX
 
 - [ ] I have updated the unit tests based on the changes I made
 - [ ] I have updated the docs (TSDoc / README / global doc) to reflect my changes
+- [ ] I have updated the local app configs if needed
 - [ ] I have performed self-QA of my feature by testing the apps and packages and made sure that :
   - No regression or new bug has occurred
   - The acceptance criteria listed in the ticket are met
