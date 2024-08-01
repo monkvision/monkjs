@@ -26,7 +26,7 @@
     "build:drive-app:staging": "lerna run build:staging --scope 'drive-app'",
     "build:drive-app:preview": "lerna run build:preview --scope 'drive-app'",
     "deploy:documentation": "lerna run deploy --scope 'monk-documentation'",
-    "deploy:packages": "lerna publish --no-private --force-publish --create-release=github",
+    "deploy:packages": "lerna publish --force-publish=* --no-private",
     "test": "lerna run test --parallel",
     "test:packages": "lerna run test --parallel --scope '@monkvision/*'",
     "test:coverage": "lerna run test:coverage --parallel",
