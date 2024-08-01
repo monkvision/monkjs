@@ -28,8 +28,8 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/analytics": "4.0.0",
-    "@monkvision/types": "4.0.0",
+    "@monkvision/analytics": "^4.0.0",
+    "@monkvision/types": "^4.0.0",
     "posthog-js": "^1.139.1"
   },
   "peerDependencies": {

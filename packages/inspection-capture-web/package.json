@@ -25,11 +25,11 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/analytics": "4.0.0",
-    "@monkvision/camera-web": "4.0.0",
-    "@monkvision/common": "4.0.0",
-    "@monkvision/common-ui-web": "4.0.0",
-    "@monkvision/sights": "4.0.0",
+    "@monkvision/analytics": "^4.0.0",
+    "@monkvision/camera-web": "^4.0.0",
+    "@monkvision/common": "^4.0.0",
+    "@monkvision/common-ui-web": "^4.0.0",
+    "@monkvision/sights": "^4.0.0",
     "i18next": "^23.4.5",
     "react-i18next": "^13.2.0"
   },
@@ -43,7 +43,7 @@
     "@monkvision/eslint-config-typescript": "4.0.0",
     "@monkvision/eslint-config-typescript-react": "4.0.0",
     "@monkvision/jest-config": "4.0.0",
-    "@monkvision/network": "4.0.0",
+    "@monkvision/network": "^4.0.0",
     "@monkvision/prettier-config": "4.0.0",
     "@monkvision/sights": "4.0.0",
     "@monkvision/test-utils": "4.0.0",

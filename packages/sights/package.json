@@ -30,7 +30,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix && yarn run svgo"
   },
   "dependencies": {
-    "@monkvision/types": "4.0.0"
+    "@monkvision/types": "^4.0.0"
   },
   "devDependencies": {
     "@monkvision/eslint-config-base": "4.0.0",
