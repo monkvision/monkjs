@@ -5,6 +5,7 @@
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs testing utilities",
   "author": "monkvision",
+  "private": true,
   "main": "index.ts",
   "files": [
     "package.json",
