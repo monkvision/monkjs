@@ -146,7 +146,7 @@ describe('useUserMedia hook', () => {
         stream: null,
         dimensions: null,
         error: {
-          type: UserMediaErrorType.NOT_ALLOWED_BROWSER,
+          type: UserMediaErrorType.BROWSER_NOT_ALLOWED,
           nativeError,
         },
         isLoading: false,
@@ -171,7 +171,7 @@ describe('useUserMedia hook', () => {
         stream: null,
         dimensions: null,
         error: {
-          type: UserMediaErrorType.NOT_ALLOWED_WEBPAGE,
+          type: UserMediaErrorType.WEBPAGE_NOT_ALLOWED,
           nativeError,
         },
         isLoading: false,

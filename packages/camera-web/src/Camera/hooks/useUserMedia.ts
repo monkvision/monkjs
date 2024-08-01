@@ -38,13 +38,13 @@ class InvalidStreamError extends Error {
 export enum UserMediaErrorType {
   /**
    * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
-   * if both webpage and browser permissions are denied, this error will be returned.
+   * If both webpage and browser permissions are denied, this error will be returned.
    */
-  NOT_ALLOWED_WEBPAGE = 'not_allowed_webpage',
+  WEBPAGE_NOT_ALLOWED = 'not_allowed_webpage',
   /**
    * The camera stream couldn't be fetched because the browser does not support the `getUserMedia` function.
    */
-  NOT_ALLOWED_BROWSER = 'not_allowed_browser',
+  BROWSER_NOT_ALLOWED = 'not_allowed_browser',
   /**
    * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
    */
@@ -206,7 +206,7 @@ export function useUserMedia(
   const { handleError } = useMonitoring();
   const isActive = useRef(true);
 
-  let cameraPermissionState: PermissionStatus['state'] | null = null;
+  let cameraPermissionState: PermissionState | null = null;
   useEffect(() => {
     return () => {
       isActive.current = false;
@@ -218,10 +218,10 @@ export function useUserMedia(
     if (err instanceof Error && err.name === 'NotAllowedError') {
       switch (cameraPermissionState) {
         case 'denied':
-          type = UserMediaErrorType.NOT_ALLOWED_WEBPAGE;
+          type = UserMediaErrorType.WEBPAGE_NOT_ALLOWED;
           break;
         case 'granted':
-          type = UserMediaErrorType.NOT_ALLOWED_BROWSER;
+          type = UserMediaErrorType.BROWSER_NOT_ALLOWED;
           break;
         default:
           type = UserMediaErrorType.NOT_ALLOWED;
