@@ -10,7 +10,8 @@
   "files": [
     "package.json",
     "README.md",
-    "lib"
+    "lib/**/*",
+    "!lib/**/*.map"
   ],
   "scripts": {
     "clean": "rimraf dist lib src/lib/data && mkdirp dist lib",

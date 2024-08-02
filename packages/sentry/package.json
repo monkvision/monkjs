@@ -10,7 +10,8 @@
   "files": [
     "package.json",
     "README.md",
-    "lib"
+    "lib/**/*",
+    "!lib/**/*.map"
   ],
   "installConfig": {
     "hoistingLimits": "workspaces"
