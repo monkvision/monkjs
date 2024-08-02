@@ -274,7 +274,7 @@ export function useUserMedia(
           deviceId: { exact: deviceDetails.validDeviceIds },
         },
       };
-      const str = await navigator.mediaDevices.getUserMedia(updatedConstraints); // CHANGE
+      const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
       str?.addEventListener('inactive', onStreamInactive);
       if (isActive.current) {
         setStream(str);
