@@ -6,9 +6,17 @@
   "version": "4.0.3",
   "packageManager": "yarn@3.2.4",
   "main": "lib/index.js",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "README.md",
+    "lib"
+  ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
-    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "build": "yarn run build:development",
+    "build:development": "yarn run clean && tsc -p tsconfig.build.development.json",
+    "build:production": "yarn run clean && tsc -p tsconfig.build.production.json",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --check ./src",

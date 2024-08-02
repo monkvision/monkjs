@@ -7,9 +7,17 @@
   "author": "monkvision",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "README.md",
+    "lib"
+  ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
-    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "build": "yarn run build:development",
+    "build:development": "yarn run clean && tsc -p tsconfig.build.development.json",
+    "build:production": "yarn run clean && tsc -p tsconfig.build.production.json",
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
     "eslint": "eslint --format=pretty ./src",

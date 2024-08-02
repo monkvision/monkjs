@@ -20,4 +20,4 @@ jobs:
       - name: ⚙️ Setting up the MonkJs project
         uses: ./.github/actions/monkjs-set-up
       - name: 📱 Building the demo app
-        run: yarn build:demo-app:staging
+        run: cd apps/demo-app && yarn build:staging
