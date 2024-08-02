@@ -6,12 +6,6 @@
   "version": "4.0.2",
   "packageManager": "yarn@3.2.4",
   "main": "lib/index.js",
-  "files": [
-    "package.json",
-    "README.md",
-    "lib/**/*",
-    "!lib/**/*.map"
-  ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
     "build": "yarn run clean && tsc -p tsconfig.build.json",

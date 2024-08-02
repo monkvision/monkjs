@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/monkvision/monkjs.git"
+    "url": "git+https://github.com/monkvision/monkjs.git"
   },
   "keywords": [
     "monkvision",

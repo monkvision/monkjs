@@ -46,7 +46,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/monkvision/monkjs.git"
+    "url": "git+https://github.com/monkvision/monkjs.git"
   },
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"

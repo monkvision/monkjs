@@ -7,12 +7,6 @@
   "author": "monkvision",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "package.json",
-    "README.md",
-    "lib/**/*",
-    "!lib/**/*.map"
-  ],
   "scripts": {
     "clean": "rimraf lib && mkdirp lib",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
@@ -72,7 +66,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/monkvision/monkjs.git"
+    "url": "git+https://github.com/monkvision/monkjs.git"
   },
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"

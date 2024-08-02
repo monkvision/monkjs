@@ -7,12 +7,6 @@
   "author": "monkvision",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "package.json",
-    "README.md",
-    "lib/**/*",
-    "!lib/**/*.map"
-  ],
   "scripts": {
     "clean": "rimraf dist lib src/lib/data && mkdirp dist lib",
     "compile": "yarn run clean && yarn run svgo && tsc -p tsconfig.compile.json",
@@ -70,7 +64,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/monkvision/monkjs.git"
+    "url": "git+https://github.com/monkvision/monkjs.git"
   },
   "bugs": {
     "url": "https://github.com/monkvision/monkjs/issues"
