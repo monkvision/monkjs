@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/network",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs core package used to communicate with the API",
@@ -20,8 +20,8 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/common": "4.0.2",
-    "@monkvision/sights": "4.0.2",
+    "@monkvision/common": "4.0.3",
+    "@monkvision/sights": "4.0.3",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "ky": "^1.2.0",
@@ -38,7 +38,7 @@
     "@monkvision/eslint-config-typescript": "4.0.0",
     "@monkvision/jest-config": "4.0.0",
     "@monkvision/prettier-config": "4.0.0",
-    "@monkvision/types": "4.0.2",
+    "@monkvision/types": "4.0.3",
     "@monkvision/typescript-config": "4.0.0",
     "@types/jest": "^29.2.2",
     "@types/jsonwebtoken": "^9.0.5",
