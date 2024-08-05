@@ -28,7 +28,9 @@ function getItemKey(item: InspectionGalleryItem): string {
  * mid-capture, set the `captureMode` prop to `true` so that you'll enable features such as compliance errors, retakes
  * etc.
  */
-export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
+export const InspectionGallery = i18nWrap(function InspectionGallery(
+  props: InspectionGalleryProps,
+) {
   useI18nSync(props.lang);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const items = useInspectionGalleryItems(props);
@@ -125,4 +127,5 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
       </div>
     </div>
   );
-}, i18nInspectionGallery);
+},
+i18nInspectionGallery);

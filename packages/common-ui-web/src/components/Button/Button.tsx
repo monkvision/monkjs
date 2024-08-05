@@ -17,107 +17,105 @@ export type ButtonProps = MonkButtonProps & ButtonHTMLAttributes<HTMLButtonEleme
  *
  * @see MonkButtonProps
  */
-export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
-  (
-    {
-      primaryColor,
-      secondaryColor,
-      variant,
-      size,
-      icon,
-      loading,
-      shade,
-      preserveWidthOnLoading = false,
-      style = {},
-      disabled,
-      onMouseUp,
-      onMouseDown,
-      onMouseEnter,
-      onMouseLeave,
-      children,
-      ...passThroughProps
-    },
-    ref,
-  ) => {
-    const isLoading = typeof loading === 'object' ? loading.isLoading : loading ?? false;
-    const isDisabled = !!disabled || isLoading;
-    const handleMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      if (onMouseDown) {
-        onMouseDown(event);
-      }
-    };
-    const { status, eventHandlers } = useInteractiveStatus({
-      disabled: isDisabled,
-      componentHandlers: { onMouseUp, onMouseEnter, onMouseLeave, onMouseDown: handleMouseDown },
-    });
-    const {
-      style: buttonStyle,
-      iconStyle,
-      spinnerStyle,
-    } = useButtonStyle({
-      primaryColor: primaryColor ?? (variant === 'outline' ? 'primary-xlight' : 'primary'),
-      secondaryColor: secondaryColor ?? (variant === 'outline' ? 'surface-dark' : 'text-primary'),
-      variant: variant ?? 'fill',
-      size: size ?? 'normal',
-      shade: shade ?? 'dark',
-      loading: isLoading,
-      preserveWidthOnLoading,
-      status,
-      hasChildren: !!children,
-      icon,
-    });
+export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(function Button(
+  {
+    primaryColor,
+    secondaryColor,
+    variant,
+    size,
+    icon,
+    loading,
+    shade,
+    preserveWidthOnLoading = false,
+    style = {},
+    disabled,
+    onMouseUp,
+    onMouseDown,
+    onMouseEnter,
+    onMouseLeave,
+    children,
+    ...passThroughProps
+  },
+  ref,
+) {
+  const isLoading = typeof loading === 'object' ? loading.isLoading : loading ?? false;
+  const isDisabled = !!disabled || isLoading;
+  const handleMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (onMouseDown) {
+      onMouseDown(event);
+    }
+  };
+  const { status, eventHandlers } = useInteractiveStatus({
+    disabled: isDisabled,
+    componentHandlers: { onMouseUp, onMouseEnter, onMouseLeave, onMouseDown: handleMouseDown },
+  });
+  const {
+    style: buttonStyle,
+    iconStyle,
+    spinnerStyle,
+  } = useButtonStyle({
+    primaryColor: primaryColor ?? (variant === 'outline' ? 'primary-xlight' : 'primary'),
+    secondaryColor: secondaryColor ?? (variant === 'outline' ? 'surface-dark' : 'text-primary'),
+    variant: variant ?? 'fill',
+    size: size ?? 'normal',
+    shade: shade ?? 'dark',
+    loading: isLoading,
+    preserveWidthOnLoading,
+    status,
+    hasChildren: !!children,
+    icon,
+  });
 
-    const content = useMemo(
-      () => (
-        <>
-          {icon && (
-            <div style={{ width: iconStyle.size, height: iconStyle.size, ...iconStyle.style }}>
-              <Icon
-                icon={icon}
-                primaryColor={iconStyle.color}
-                size={iconStyle.size}
-                style={iconStyle.style}
-              />
-            </div>
-          )}
-          {children}
-        </>
-      ),
-      [icon, iconStyle, children],
-    );
-    const loadingContent = useMemo(
-      () =>
-        preserveWidthOnLoading ? (
-          <div style={styles['fixedLoadingContainer']}>
-            <div style={styles['loadingHiddenContent']}>{content}</div>
-            <Spinner
-              size={spinnerStyle.size}
-              primaryColor={spinnerStyle.color}
-              style={spinnerStyle.style}
+  const content = useMemo(
+    () => (
+      <>
+        {icon && (
+          <div style={{ width: iconStyle.size, height: iconStyle.size, ...iconStyle.style }}>
+            <Icon
+              icon={icon}
+              primaryColor={iconStyle.color}
+              size={iconStyle.size}
+              style={iconStyle.style}
             />
           </div>
-        ) : (
+        )}
+        {children}
+      </>
+    ),
+    [icon, iconStyle, children],
+  );
+  const loadingContent = useMemo(
+    () =>
+      preserveWidthOnLoading ? (
+        <div style={styles['fixedLoadingContainer']}>
+          <div style={styles['loadingHiddenContent']}>{content}</div>
           <Spinner
             size={spinnerStyle.size}
             primaryColor={spinnerStyle.color}
             style={spinnerStyle.style}
           />
-        ),
-      [preserveWidthOnLoading, content, spinnerStyle],
-    );
+        </div>
+      ) : (
+        <Spinner
+          size={spinnerStyle.size}
+          primaryColor={spinnerStyle.color}
+          style={spinnerStyle.style}
+        />
+      ),
+    [preserveWidthOnLoading, content, spinnerStyle],
+  );
 
-    return (
-      <button
-        ref={ref}
-        style={{ ...buttonStyle, ...style }}
-        disabled={isDisabled}
-        {...eventHandlers}
-        {...passThroughProps}
-        data-testid='monk-btn'
-      >
-        {isLoading ? loadingContent : content}
-      </button>
-    );
-  },
-);
+  return (
+    <button
+      ref={ref}
+      style={{ ...buttonStyle, ...style }}
+      disabled={isDisabled}
+      {...eventHandlers}
+      {...passThroughProps}
+      data-testid='monk-btn'
+    >
+      {isLoading ? loadingContent : content}
+    </button>
+  );
+});

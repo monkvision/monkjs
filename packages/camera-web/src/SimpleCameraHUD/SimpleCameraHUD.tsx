@@ -27,7 +27,11 @@ export type SimpleCameraHUDProps = CameraHUDProps & {
  * The basic Camera HUD provided by the Monk camera package. It displays a button to take pictures, as well as error
  * messages (and a retry button) in case of errors with the Camera stream.
  */
-export const SimpleCameraHUD = i18nWrap(({ cameraPreview, handle, lang }: SimpleCameraHUDProps) => {
+export const SimpleCameraHUD = i18nWrap(function SimpleCameraHUD({
+  cameraPreview,
+  handle,
+  lang,
+}: SimpleCameraHUDProps) {
   useI18nSync(lang);
   const { t } = useTranslation();
   const { tObj } = useObjectTranslation();
@@ -64,4 +68,5 @@ export const SimpleCameraHUD = i18nWrap(({ cameraPreview, handle, lang }: Simple
       />
     </div>
   );
-}, i18nCamera);
+},
+i18nCamera);
