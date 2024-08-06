@@ -38,15 +38,17 @@ class InvalidStreamError extends Error {
 export enum UserMediaErrorType {
   /**
    * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
-   * If both webpage and browser permissions are denied, this error will be returned.
    */
-  WEBPAGE_NOT_ALLOWED = 'not_allowed_webpage',
+  WEBPAGE_NOT_ALLOWED = 'webpage_not_allowed',
   /**
-   * The camera stream couldn't be fetched because the browser does not support the `getUserMedia` function.
+   * The camera stream couldn't be fetched because the camera permissions are not granted to the browser in the device
+   * settings.
    */
-  BROWSER_NOT_ALLOWED = 'not_allowed_browser',
+  BROWSER_NOT_ALLOWED = 'browser_not_allowed',
   /**
-   * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
+   * The camera stream couldn't be fetched, but the app is unable to know if it is because of the website or
+   * the browser not being allowed to have camera permission access. This error is usually returned on Firefox and
+   * other similar browsers where `navigator.permissions.query` is not supported for videoinput devices.
    */
   NOT_ALLOWED = 'not_allowed',
   /**
