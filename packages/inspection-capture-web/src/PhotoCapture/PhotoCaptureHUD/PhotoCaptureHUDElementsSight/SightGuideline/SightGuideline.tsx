@@ -15,6 +15,12 @@ export interface SightGuidelineProps
    * The id of the sight.
    */
   sightId: string;
+  /**
+   * Display a default message if no sightGuideline is found.
+   *
+   * @default false
+   */
+  enableDefaultMessage?: boolean;
 }
 
 /**
@@ -25,16 +31,21 @@ export function SightGuideline({
   sightGuidelines,
   enableSightGuidelines,
   enableAddDamage,
+  enableDefaultMessage = false,
 }: SightGuidelineProps) {
   const [showGuideline, setShowGuideline] = useState(true);
   const primaryColor = usePhotoCaptureHUDButtonBackground();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const style = enableAddDamage ? styles['container'] : styles['containerWide'];
 
   const guidelineFound = sightGuidelines?.find((value) => value.sightIds.includes(sightId));
 
-  const guideline = guidelineFound ? guidelineFound[getLanguage(i18n.language)] : undefined;
+  const defaultMessage = enableDefaultMessage
+    ? t('photo.hud.guidelines.defaultGuideline')
+    : undefined;
+
+  const guideline = guidelineFound ? guidelineFound[getLanguage(i18n.language)] : defaultMessage;
 
   useEffect(() => setShowGuideline(true), [sightId]);
 

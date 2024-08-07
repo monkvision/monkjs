@@ -61,6 +61,7 @@ export function PhotoCaptureHUDTutorial({
               sightGuidelines={sightGuidelines}
               enableSightGuidelines={currentTutorialStep === TutorialSteps.GUIDELINE}
               enableAddDamage={true}
+              enableDefaultMessage={true}
             />
             <Button
               style={{ ...styles['closeButton'], ...getButtonStyle(allowSkipTutorial) }}

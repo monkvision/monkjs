@@ -32,6 +32,9 @@
         "cancel": "Cancel",
         "confirm": "Yes"
       },
+      "guidelines": {
+        "defaultGuideline": "Picture view point indications can be displayed here."
+      },
       "tutorial": {
         "welcome": "Welcome to your first inspection!",
         "title": "How to use it",
