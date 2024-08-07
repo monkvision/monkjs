@@ -26,6 +26,7 @@ jobs:
         with:
           name: build-demo-app-staging
           path: build
+          if-no-files-found: error
 
   deploy:
     name: Deploy
