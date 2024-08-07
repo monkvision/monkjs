@@ -35,12 +35,12 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "4.0.0",
-    "@monkvision/eslint-config-typescript": "4.0.0",
-    "@monkvision/eslint-config-typescript-react": "4.0.0",
-    "@monkvision/jest-config": "4.0.0",
-    "@monkvision/prettier-config": "4.0.0",
-    "@monkvision/typescript-config": "4.0.0",
+    "@monkvision/eslint-config-base": "4.0.4",
+    "@monkvision/eslint-config-typescript": "4.0.4",
+    "@monkvision/eslint-config-typescript-react": "4.0.4",
+    "@monkvision/jest-config": "4.0.4",
+    "@monkvision/prettier-config": "4.0.4",
+    "@monkvision/typescript-config": "4.0.4",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.2.2",

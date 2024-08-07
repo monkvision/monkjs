@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/eslint-config-typescript",
   "packageManager": "yarn@3.2.4",
-  "version": "4.0.0",
+  "version": "4.0.4",
   "description": "The base ESLint config that used in MonkJs TypeScript projects",
   "author": "monkvision",
   "private": true,
@@ -13,7 +13,7 @@
     "README.md"
   ],
   "peerDependencies": {
-    "@monkvision/eslint-config-base": "4.0.0",
+    "@monkvision/eslint-config-base": "*",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "typescript": "^4.8.4"
