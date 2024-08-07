@@ -205,11 +205,6 @@ export function usePhotoCaptureSightState({
       const alreadyTakenSights = getSightsTaken(inspectionId, response);
       setSightsTaken(alreadyTakenSights);
       const notCapturedSights = captureSights.filter((s) => !alreadyTakenSights.includes(s));
-      setIsInspectionCompleted(
-        response.entities.tasks
-          .filter((task) => task.inspectionId === inspectionId)
-          .find((task) => task.status === ProgressStatus.NOT_STARTED) === undefined,
-      );
       analytics.setUserProperties({
         alreadyTakenSights: alreadyTakenSights.length,
         totalSights: captureSights.length,
@@ -247,6 +242,11 @@ export function usePhotoCaptureSightState({
       }
       setLastPictureTakenUri(getLastPictureTakenUri(inspectionId, response));
       loading.onSuccess();
+      setIsInspectionCompleted(
+        response.entities.tasks
+          .filter((task) => task.inspectionId === inspectionId)
+          .find((task) => task.status === ProgressStatus.NOT_STARTED) === undefined,
+      );
     } catch (err) {
       handleError(err);
       loading.onError(err);

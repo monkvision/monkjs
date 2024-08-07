@@ -240,8 +240,8 @@ export function PhotoCapture({
           sightSelected: 'inspection-completed',
         });
         allowRedirect();
-        sightState.setIsInspectionCompleted(true);
         onComplete?.();
+        sightState.setIsInspectionCompleted(true);
       })
       .catch((err) => {
         loading.onError(err);
