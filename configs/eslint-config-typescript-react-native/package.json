@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/eslint-config-typescript-react-native",
   "packageManager": "yarn@3.2.4",
-  "version": "4.0.4",
+  "version": "4.0.6",
   "description": "The base ESLint config that used in MonkJs TypeScript React Native projects",
   "author": "monkvision",
   "private": true,
