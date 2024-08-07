@@ -1,6 +1,12 @@
 name: Set Up the MonkJs Project 💽
 description: Install the dependencies and build the packages before running other CI jobs.
 
+inputs:
+  build-env:
+    description: 'Environement specified when building the packages (development or production).'
+    required: false
+    default: 'development'
+
 runs:
   using: "composite"
   steps:
@@ -17,4 +23,6 @@ runs:
         yarn install
     - name: 🏗️ Building packages
       shell: bash
-      run: yarn build
+      run: yarn build:$BUILD_ENV
+      env:
+        BUILD_ENV: ${{ inputs.build-env }}
