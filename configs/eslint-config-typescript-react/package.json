@@ -4,7 +4,6 @@
   "version": "4.0.6",
   "description": "The base ESLint config that used in MonkJs TypeScript React projects",
   "author": "monkvision",
-  "private": true,
   "main": "index.js",
   "license": "BSD-3-Clause-Clear",
   "files": [

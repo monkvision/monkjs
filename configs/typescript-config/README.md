@@ -41,4 +41,3 @@ Here is a list of available Typescript config files exported by this project :
 |------------------------------|----------------------------------------------|
 | `tsconfig.json`              | Base configuration for TypeScript projects   |
 | `tsconfig.react.json`        | Base configuration for React projects        |
-| `tsconfig.react-native.json` | Base configuration for React Native projects |
