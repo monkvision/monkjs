@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/eslint-config-typescript-react-native",
   "packageManager": "yarn@3.2.4",
-  "version": "4.0.0",
+  "version": "4.0.4",
   "description": "The base ESLint config that used in MonkJs TypeScript React Native projects",
   "author": "monkvision",
   "private": true,
@@ -13,11 +13,11 @@
     "README.md"
   ],
   "peerDependencies": {
-    "@monkvision/eslint-config-typescript": "4.0.0",
+    "@monkvision/eslint-config-typescript": "*",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-react-native": "^4.0.0"
+    "eslint-plugin-react-native": "^4.0.4"
   },
   "publishConfig": {
     "access": "public"

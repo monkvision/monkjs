@@ -1,6 +1,5 @@
 {
-  "name": "monk",
-  "version": "4.0.0",
+  "name": "monkjs",
   "packageManager": "yarn@3.2.4",
   "description": "Monorepo for the MonkJs project",
   "private": true,
@@ -22,7 +21,7 @@
     "build:production": "lerna run build:production --scope '@monkvision/*'",
     "build:documentation": "lerna run build --scope 'monk-documentation'",
     "version": "yarn install && git stage yarn.lock",
-    "deploy:packages": "yarn run build:production && lerna publish --force-publish --no-private --exact",
+    "deploy:packages": "yarn run build:production && lerna publish --force-publish --exact",
     "deploy:documentation": "lerna run deploy --scope 'monk-documentation'",
     "test": "lerna run test --parallel",
     "test:packages": "lerna run test --parallel --scope '@monkvision/*'",
