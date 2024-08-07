@@ -30,6 +30,7 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '3px',
+    alignItems: 'center',
   },
   buttonsContainer: {
     display: 'flex',

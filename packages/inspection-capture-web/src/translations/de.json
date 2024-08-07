@@ -32,6 +32,9 @@
         "cancel": "Abbrechen",
         "confirm": "Ja"
       },
+      "guidelines": {
+        "defaultGuideline": "Blickwinkelanzeigen für Bilder können hier angezeigt werden."
+      },
       "tutorial": {
         "welcome": "Willkommen zu Ihrer ersten Inspektion!",
         "title": "So verwenden Sie es",
