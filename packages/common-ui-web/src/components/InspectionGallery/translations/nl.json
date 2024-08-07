@@ -6,7 +6,8 @@
     "submit": "Valideer",
     "title": "Foto's",
     "retakeFilter": "Opnieuw genomen",
-    "approvedFilter": "Goedgekeurd"
+    "approvedFilter": "Goedgekeurd",
+    "completed": "Deze inspectie is voltooid"
   },
   "list": {
     "empty": {

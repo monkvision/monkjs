@@ -13,7 +13,12 @@ export interface InspectionGalleryFilter {
 
 export type InspectionGalleryTopBarProps = Pick<
   InspectionGalleryProps,
-  'showBackButton' | 'onBack' | 'captureMode' | 'onValidate' | 'validateButtonLabel'
+  | 'showBackButton'
+  | 'onBack'
+  | 'captureMode'
+  | 'onValidate'
+  | 'validateButtonLabel'
+  | 'isInspectionCompleted'
 > & {
   items: InspectionGalleryItem[];
   currentFilter: InspectionGalleryFilter | null;
@@ -82,9 +87,13 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
           </div>
         )}
       </div>
-      <Button disabled={!isSubmitAvailable} onClick={props.onValidate}>
-        {props.validateButtonLabel || t('topBar.submit')}
-      </Button>
+      {props.isInspectionCompleted ? (
+        <div style={titleStyle}>{t('topBar.completed')}</div>
+      ) : (
+        <Button disabled={!isSubmitAvailable} onClick={props.onValidate}>
+          {props.validateButtonLabel || t('topBar.submit')}
+        </Button>
+      )}
     </div>
   );
 }

@@ -110,6 +110,10 @@ export type InspectionGalleryProps = {
    * Custom label for validate button.
    */
   validateButtonLabel?: string;
+  /**
+   * Boolean indicating if there any task are on not started state
+   */
+  isInspectionCompleted?: boolean;
 } & (
   | ({
       /**

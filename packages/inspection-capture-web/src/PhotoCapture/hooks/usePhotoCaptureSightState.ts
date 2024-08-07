@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import {
   GetInspectionResponse,
   MonkApiConfig,
@@ -14,7 +14,14 @@ import {
   useMonkState,
   useObjectMemo,
 } from '@monkvision/common';
-import { ComplianceOptions, Image, Sight, TaskName, ImageStatus } from '@monkvision/types';
+import {
+  ComplianceOptions,
+  Image,
+  Sight,
+  TaskName,
+  ImageStatus,
+  ProgressStatus,
+} from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureErrorName } from '../errors';
@@ -55,6 +62,14 @@ export interface PhotoCaptureSightState {
    * Callback that can be used to retry fetching this state object from the API in case the previous fetch failed.
    */
   retryLoadingInspection: () => void;
+  /**
+   * Boolean indicating if the inspection is completed or not.
+   */
+  isInspectionCompleted: boolean;
+  /**
+   * Callback used to manually update the completion state of the inspection.
+   */
+  setIsInspectionCompleted: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
@@ -176,6 +191,7 @@ export function usePhotoCaptureSightState({
   const [retryCount, setRetryCount] = useState(0);
   const [lastPictureTakenUri, setLastPictureTakenUri] = useState<string | null>(null);
   const [selectedSight, setSelectedSight] = useState(captureSights[0]);
+  const [isInspectionCompleted, setIsInspectionCompleted] = useState(false);
   const [sightsTaken, setSightsTaken] = useState<Sight[]>([]);
   const { getInspection } = useMonkApi(apiConfig);
   const { handleError } = useMonitoring();
@@ -189,7 +205,11 @@ export function usePhotoCaptureSightState({
       const alreadyTakenSights = getSightsTaken(inspectionId, response);
       setSightsTaken(alreadyTakenSights);
       const notCapturedSights = captureSights.filter((s) => !alreadyTakenSights.includes(s));
-
+      setIsInspectionCompleted(
+        response.entities.tasks
+          .filter((task) => task.inspectionId === inspectionId)
+          .find((task) => task.status === ProgressStatus.NOT_STARTED) === undefined,
+      );
       analytics.setUserProperties({
         alreadyTakenSights: alreadyTakenSights.length,
         totalSights: captureSights.length,
@@ -307,6 +327,8 @@ export function usePhotoCaptureSightState({
   };
 
   return useObjectMemo({
+    isInspectionCompleted,
+    setIsInspectionCompleted,
     selectedSight,
     sightsTaken,
     selectSight,
