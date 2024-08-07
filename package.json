@@ -1,6 +1,5 @@
 {
-  "name": "monk",
-  "version": "4.0.0",
+  "name": "monkjs",
   "packageManager": "yarn@3.2.4",
   "description": "Monorepo for the MonkJs project",
   "private": true,
