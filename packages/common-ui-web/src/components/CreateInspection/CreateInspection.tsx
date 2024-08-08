@@ -36,7 +36,10 @@ enum CreateInspectionError {
  *
  * **Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**
  */
-export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateInspectionProps) => {
+export const CreateInspection = i18nWrap(function CreateInspection({
+  lang,
+  onInspectionCreated,
+}: CreateInspectionProps) {
   useI18nSync(lang);
   const loading = useLoadingState();
   const { t } = useTranslation();
@@ -96,4 +99,5 @@ export const CreateInspection = i18nWrap(({ lang, onInspectionCreated }: CreateI
       )}
     </div>
   );
-}, i18nCreateInspection);
+},
+i18nCreateInspection);

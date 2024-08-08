@@ -6,7 +6,8 @@
     "submit": "Valider",
     "title": "Photos",
     "retakeFilter": "Reprises",
-    "approvedFilter": "Prises et approuvées"
+    "approvedFilter": "Prises et approuvées",
+    "completed": "Cette inspection est terminée"
   },
   "list": {
     "empty": {

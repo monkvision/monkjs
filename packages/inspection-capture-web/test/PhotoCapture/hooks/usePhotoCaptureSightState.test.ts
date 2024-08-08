@@ -1,9 +1,17 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { LoadingState, useAsyncEffect, useMonkState } from '@monkvision/common';
-import { ComplianceIssue, Image, ImageStatus, Sight, TaskName } from '@monkvision/types';
+import {
+  ComplianceIssue,
+  Image,
+  ImageStatus,
+  MonkEntityType,
+  ProgressStatus,
+  Sight,
+  TaskName,
+} from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
-import { useMonkApi } from '@monkvision/network';
+import { GetInspectionResponse, useMonkApi } from '@monkvision/network';
 import { act } from '@testing-library/react';
 import {
   PhotoCaptureSightsParams,
@@ -46,13 +54,28 @@ function createParams(): PhotoCaptureSightsParams {
 function mockGetInspectionResponse(
   inspectionId: string,
   takenSights: Sight[],
-  tasks?: TaskName[],
-  nonCompliantSightIndex?: number,
+  tasks: TaskName[] = [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS],
+  nonCompliantSightIndex = -1,
 ) {
-  const apiResponse = {
+  const apiResponse: GetInspectionResponse = {
     entities: {
-      images: [] as Image[],
-      tasks: tasks?.map((name) => ({ inspectionId, name })),
+      images: [],
+      tasks: tasks.map((name) => ({
+        inspectionId,
+        name,
+        entityType: MonkEntityType.TASK,
+        id: name,
+        images: [],
+        status: ProgressStatus.NOT_STARTED,
+      })),
+      damages: [],
+      parts: [],
+      inspections: [],
+      partOperations: [],
+      renderedOutputs: [],
+      severityResults: [],
+      vehicles: [],
+      views: [],
     },
   };
   takenSights.forEach((sight, index) => {
@@ -202,7 +225,7 @@ describe('usePhotoCaptureSightState hook', () => {
     const apiResponse = mockGetInspectionResponse(
       initialProps.inspectionId,
       takenSights,
-      undefined,
+      [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS],
       sightToRetake,
     );
     const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
@@ -349,6 +372,22 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(setUserProperties).toBeCalledTimes(2);
     expect(setEventsProperties).toBeCalledTimes(2);
 
+    unmount();
+  });
+  it('should return true if the task is not started', () => {
+    const initialProps = createParams();
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    expect(result.current.isInspectionCompleted).toBe(false);
+    unmount();
+  });
+  it('should return false if the one task is in other state than not started', () => {
+    const initialProps = createParams();
+    const takenSights = [initialProps.captureSights[0], initialProps.captureSights[1]];
+    const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => onResolve(apiResponse));
+    expect(result.current.isInspectionCompleted).toBe(false);
     unmount();
   });
 });

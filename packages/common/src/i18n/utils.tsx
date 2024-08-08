@@ -69,10 +69,10 @@ export function i18nCreateSDKInstance({ resources }: I18NSDKOptions): i18n {
 }
 
 /**
- * This function is used internally by the Monk SDK to wrap its exported components in an I18nextProvder. The ref passed
- * to the resulting component is forwarded to the wrapped component.
+ * This function is used internally by the Monk SDK to wrap its exported components in an I18nextProvider. The ref
+ * passed to the resulting component is forwarded to the wrapped component.
  *
- * @param Component The component to wrap in the provider.
+ * @param Component The component to wrap in the provider. It should be an functional component
  * @param instance The i18n instance created using the `i18nCreateSDKInstance` function.
  * @typeParam T - The type of the ref of the wrapped component.
  * @typeParam P - The type of the props of the wrapped component.
@@ -82,11 +82,13 @@ export function i18nWrap<T, P>(
   Component: ComponentType<P>,
   instance: i18n,
 ): ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> {
-  return forwardRef<T, P>((props, ref) => (
-    <I18nextProvider i18n={instance}>
-      <Component ref={ref} {...props} />
-    </I18nextProvider>
-  ));
+  return forwardRef<T, P>(function I18nWrappedComponent(props, ref) {
+    return (
+      <I18nextProvider i18n={instance}>
+        <Component ref={ref} {...props} />
+      </I18nextProvider>
+    );
+  });
 }
 
 /**

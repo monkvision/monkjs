@@ -20,6 +20,7 @@ import {
   InspectionGalleryTopBar,
   InspectionGalleryTopBarProps,
 } from '../../../../src/components/InspectionGallery/InspectionGalleryTopBar';
+import { debug } from 'console';
 
 function createProps(): InspectionGalleryTopBarProps {
   return {
@@ -36,6 +37,7 @@ function createProps(): InspectionGalleryTopBarProps {
     currentFilter: null,
     allowSkipRetake: false,
     onUpdateFilter: jest.fn(),
+    isInspectionCompleted: false,
   };
 }
 
@@ -411,5 +413,12 @@ describe('InspectionGalleryTopBar component', () => {
     ).toEqual(true);
 
     unmount();
+  });
+  it('should display only message if isInspectionCompleted is true', () => {
+    const props = createProps();
+    props.isInspectionCompleted = true;
+    render(<InspectionGalleryTopBar {...props} />);
+    expect(Button).toBeCalledTimes(1);
+    expect(screen.queryAllByText('topBar.submit')).toHaveLength(0);
   });
 });

@@ -12,7 +12,7 @@ export type TakePictureButtonProps = MonkTakePictureButtonProps &
  * A custom button that is used as a take-picture button in camera HUDs throughout the MonkJs SDK.
  */
 export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButtonProps>(
-  (
+  function TakePictureButton(
     {
       size = 60,
       disabled = false,
@@ -25,7 +25,7 @@ export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButton
       ...passThroughProps
     },
     ref,
-  ) => {
+  ) {
     const { status, eventHandlers } = useInteractiveStatus({
       disabled,
       componentHandlers: {

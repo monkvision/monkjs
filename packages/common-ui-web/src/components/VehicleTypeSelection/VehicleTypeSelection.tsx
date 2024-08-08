@@ -77,7 +77,9 @@ function scrollToSelectedVehicleType(
 /**
  * A single page component that allows the user to select a vehicle type.
  */
-export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) => {
+export const VehicleTypeSelection = i18nWrap(function VehicleTypeSelection(
+  props: VehicleTypeSelectionProps,
+) {
   useI18nSync(props.lang);
   const { getInspection } = useMonkApi({
     authToken: props.authToken ?? '',
@@ -179,4 +181,5 @@ export const VehicleTypeSelection = i18nWrap((props: VehicleTypeSelectionProps) 
       )}
     </div>
   );
-}, i18nVehicleTypeSelection);
+},
+i18nVehicleTypeSelection);

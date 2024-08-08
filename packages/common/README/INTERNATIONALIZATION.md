@@ -24,6 +24,36 @@ specify to it which language you want it to use. The following languages are sup
 - Dutch
 
 # i18n Utilities
+## i18nWrap wrapper
+### Description
+This wrapped is used by internal monk SDK to wrap the component with I18nextProvider.
+
+### Example of usage
+
+```ts
+import i18n from '@monkvision/common';
+import { i18nMyComponent } from './i18n';
+
+const MyComponent = i18nWrap(function MyComponent(){
+  return <></>
+}, i18nMyComponent)
+/// in i18n.ts
+import { i18nCreateSDKInstance } from '@monkvision/common';
+import en from './translations/en.json';
+import fr from './translations/fr.json';
+import de from './translations/de.json';
+import nl from './translations/nl.json';
+
+const i18nMyComponent = i18nCreateSDKInstance({
+  resources: {
+    en: { translation: en },
+    fr: { translation: fr },
+    de: { translation: de },
+    nl: { translation: nl },
+  }
+})
+```
+
 ## useI18nSync hook
 ### Description
 This hook is used mostly by MonkJs packages internally to synchronize their own i18n instance with the language param
@@ -31,7 +61,7 @@ or prop that they are provided.
 
 ### Example of usage
 
-```typescript
+```ts
 import i18n from 'i18next';
 import { useI18nSync } from '@monkvision/common';
 
