@@ -111,7 +111,10 @@ export type InspectionGalleryProps = {
    */
   validateButtonLabel?: string;
   /**
-   * Boolean indicating if there any task are on not started state
+   * Boolean indicating if the inspection is completed.
+   * If true, there are no tasks in the "not started" state.
+   *
+   * @default false
    */
   isInspectionCompleted?: boolean;
 } & (
