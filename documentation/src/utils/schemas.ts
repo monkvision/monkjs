@@ -9,6 +9,7 @@ import {
   SteeringWheelPosition,
   TaskName,
   VehicleType,
+  AddDamage,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { flatten } from '@monkvision/common';
@@ -270,7 +271,7 @@ export const LiveConfigSchema = z
     maxUploadDurationWarning: z.number().positive().or(z.literal(-1)).optional(),
     useAdaptiveImageQuality: z.boolean().optional(),
     allowSkipRetake: z.boolean().optional(),
-    enableAddDamage: z.boolean().optional(),
+    addDamage: z.nativeEnum(AddDamage).optional(),
     enableSightGuidelines: z.boolean().optional(),
     sightGuidelines: z.array(SightGuidelineSchema).optional(),
     enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),

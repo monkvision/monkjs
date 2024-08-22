@@ -21,7 +21,7 @@ export interface PhotoCaptureHUDProps
       CaptureAppConfig,
       | 'enableSightGuidelines'
       | 'sightGuidelines'
-      | 'enableAddDamage'
+      | 'addDamage'
       | 'showCloseButton'
       | 'allowSkipTutorial'
     > {
@@ -124,7 +124,7 @@ export function PhotoCaptureHUD({
   handle,
   cameraPreview,
   images,
-  enableAddDamage,
+  addDamage,
   sightGuidelines,
   enableSightGuidelines,
   currentTutorialStep,
@@ -169,7 +169,7 @@ export function PhotoCaptureHUD({
           error={loading.error ?? handle.error}
           previewDimensions={handle.previewDimensions}
           images={images}
-          enableAddDamage={enableAddDamage}
+          addDamage={addDamage}
           sightGuidelines={sightGuidelines}
           enableSightGuidelines={enableSightGuidelines}
           tutorialStep={currentTutorialStep}

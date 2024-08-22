@@ -1,4 +1,4 @@
-import { ComplianceOptions, Image, Sight } from '@monkvision/types';
+import { AddDamage, ComplianceOptions, Image, Sight } from '@monkvision/types';
 import { MonkApiConfig } from '@monkvision/network';
 
 /**
@@ -105,7 +105,7 @@ export type InspectionGalleryProps = {
    *
    * @default true
    */
-  enableAddDamage?: boolean;
+  addDamage?: AddDamage;
   /**
    * Custom label for validate button.
    */

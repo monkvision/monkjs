@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@monkvision/common-ui-web';
-import { CaptureAppConfig } from '@monkvision/types';
+import { AddDamage, CaptureAppConfig } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDTutorial.styles';
 import { TutorialSteps } from '../../hooks';
 import { usePhotoCaptureHUDButtonBackground } from '../hooks';
@@ -60,7 +60,7 @@ export function PhotoCaptureHUDTutorial({
               sightId={sightId}
               sightGuidelines={sightGuidelines}
               enableSightGuidelines={currentTutorialStep === TutorialSteps.GUIDELINE}
-              enableAddDamage={true}
+              addDamage={AddDamage.TWO_SHOT}
             />
             <Button
               style={{ ...styles['closeButton'], ...getButtonStyle(allowSkipTutorial) }}

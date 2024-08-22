@@ -1,5 +1,6 @@
 import { sights } from '@monkvision/sights';
 import {
+  AddDamage,
   CameraResolution,
   ComplianceIssue,
   CompressionFormat,
@@ -111,7 +112,7 @@ function createProps(): PhotoCaptureProps {
     allowImageUpscaling: true,
     useAdaptiveImageQuality: false,
     allowSkipRetake: true,
-    enableAddDamage: true,
+    addDamage: AddDamage.TWO_SHOT,
     maxUploadDurationWarning: 456,
     enableSightGuidelines: true,
     sightGuidelines: [
@@ -336,7 +337,7 @@ describe('PhotoCapture component', () => {
         showCloseButton: props.showCloseButton,
         onOpenGallery: expect.any(Function),
         images,
-        enableAddDamage: props.enableAddDamage,
+        addDamage: props.addDamage,
         enableSightGuidelines: props.enableSightGuidelines,
         sightGuidelines: props.sightGuidelines,
         currentTutorialStep: tutorial.currentTutorialStep,

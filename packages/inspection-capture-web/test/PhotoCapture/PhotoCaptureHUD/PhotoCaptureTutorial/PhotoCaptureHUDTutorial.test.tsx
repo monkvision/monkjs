@@ -14,6 +14,7 @@ import {
 } from '../../../../src';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { TutorialSteps } from '../../../../src/PhotoCapture/hooks';
+import { AddDamage } from '@monkvision/types';
 
 const BACKDROP_TEST_ID = 'backdrop';
 const TITLE_TEST_ID = 'title';
@@ -57,7 +58,7 @@ describe('PhotoCaptureHUDTutorial component', () => {
       sightId: props.sightId,
       sightGuidelines: props.sightGuidelines,
       enableSightGuidelines: props.currentTutorialStep === TutorialSteps.GUIDELINE,
-      enableAddDamage: true,
+      addDamage: AddDamage.TWO_SHOT,
     });
 
     expect(DynamicSVG).not.toHaveBeenCalled();

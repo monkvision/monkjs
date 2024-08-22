@@ -24,6 +24,23 @@ export enum PhotoCaptureTutorialOption {
 }
 
 /**
+ * Enumeration of the possible values for the Add Damage type.
+ */
+export enum AddDamage {
+  /**
+   * The Add Damage feature is disabled.
+   */
+  DISABLED = 'disabled',
+  /**
+   * The Add Damage feature is enabled with two shot. first for the zoom out image and second for the damaged image.
+   */
+  TWO_SHOT = 'two_shot',
+  /**
+   * The Add Damage feature is enabled with a single shot after part selected.
+   */
+  PART_SELECT = 'part_select',
+}
+/**
  * Configuration used to configure the Camera and picture output of the SDK.
  */
 export type CameraConfig = Partial<CompressionOptions> & {
@@ -106,12 +123,11 @@ export type CaptureAppConfig = CameraConfig &
      */
     allowSkipRetake?: boolean;
     /**
-     * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will
-     * be hidden.
+     * Indicating if Add Damage type. If disabled, the `Add Damage` button will be hidden.
      *
-     * @default true
+     * @default AddDamage.TWO_SHOT
      */
-    enableAddDamage?: boolean;
+    addDamage?: AddDamage;
     /**
      * A collection of sight guidelines in different language with a list of sightIds associate to it.
      */

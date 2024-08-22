@@ -20,7 +20,7 @@ export function PhotoCaptureHUDElementsSight({
   sightsTaken,
   previewDimensions,
   images,
-  enableAddDamage,
+  addDamage,
   sightGuidelines,
   enableSightGuidelines,
   tutorialStep,
@@ -39,9 +39,9 @@ export function PhotoCaptureHUDElementsSight({
               sightId={selectedSight.id}
               sightGuidelines={sightGuidelines}
               enableSightGuidelines={enableSightGuidelines}
-              enableAddDamage={enableAddDamage}
+              addDamage={addDamage}
             />
-            <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
+            <AddDamageButton onAddDamage={onAddDamage} addDamage={addDamage} />
           </div>
           <div style={style.bottom}>
             <PhotoCaptureHUDCounter

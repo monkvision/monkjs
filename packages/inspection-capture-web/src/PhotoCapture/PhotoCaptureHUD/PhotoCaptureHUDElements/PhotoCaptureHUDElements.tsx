@@ -8,7 +8,7 @@ import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDEleme
  * Props of the PhotoCaptureHUDElements component.
  */
 export interface PhotoCaptureHUDElementsProps
-  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
+  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -81,7 +81,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         onAddDamage={params.onAddDamage}
         previewDimensions={params.previewDimensions}
         images={params.images}
-        enableAddDamage={params.enableAddDamage}
+        addDamage={params.addDamage}
         sightGuidelines={params.sightGuidelines}
         enableSightGuidelines={params.enableSightGuidelines}
         tutorialStep={params.tutorialStep}
