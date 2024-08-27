@@ -1,4 +1,3 @@
-import { useMonkTheme } from '@monkvision/common';
 import {
   PartSelectionOrientation,
   VehicleModel,
@@ -68,6 +67,10 @@ function createGetAttributesCallback(
 }
 
 function getVehicleModel(vehicleType: VehicleType): VehicleModel {
+  if (vehicleType === VehicleType.SUV) {
+    // eslint-disable-next-line no-param-reassign
+    vehicleType = VehicleType.CUV;
+  }
   const detail = Object.entries(vehicles)
     .filter(([type]) => type !== VehicleModel.AUDIA7)
     .find(([, details]) => details.type === vehicleType)?.[1];
@@ -91,14 +94,12 @@ export function VehicleDynamicWireframe({
     throw new Error(`No wireframe found for vehicle type ${vehicleType}`);
   }
   const overlay = wireframes[orientation];
-  const { utils } = useMonkTheme();
 
   return (
     <DynamicSVG
       svg={overlay}
       style={{
         width: '100%',
-        color: utils.getColor('text-primary'),
       }}
       getAttributes={createGetAttributesCallback(onClickPart, getPartAttributes)}
     />
