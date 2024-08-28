@@ -30,7 +30,7 @@ import {
   useImageLabelIcon,
 } from '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay/hooks';
 import { Image, ImageStatus } from '@monkvision/types';
-import { Button, Icon } from '../../../../src';
+import { Button, Icon, IconName } from '../../../../src';
 import { useObjectTranslation } from '@monkvision/common';
 
 function createProps(): ImageDetailedViewOverlayProps {
@@ -87,7 +87,7 @@ describe('ImageDetailedViewOverlay component', () => {
   it('should display the image label with the proper icon', () => {
     const props = createProps();
     props.image.label = { en: 'test', fr: 'fr', de: 'test-de', nl: 'test-nl' };
-    const icon = 'hello-test-icon';
+    const icon = 'hello-test-icon' as IconName;
     const primaryColor = 'test-primary-test';
     (useImageLabelIcon as jest.Mock).mockImplementationOnce(() => ({ icon, primaryColor }));
     const label = 'valid-test-label';

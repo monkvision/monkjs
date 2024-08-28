@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { PhotoCapture } from '@monkvision/inspection-capture-web';
+import { PhotoCapture, PhotoCaptureProps } from '@monkvision/inspection-capture-web';
 import { useMonkAppState } from '@monkvision/common';
 import { PhotoCapturePage } from '../../src/pages';
 
@@ -62,7 +62,7 @@ describe('PhotoCapture page', () => {
       customComplianceThresholds: appState.config.customComplianceThresholds,
       customComplianceThresholdsPerSight: appState.config.customComplianceThresholdsPerSight,
       additionalTasks: appState.config.additionalTasks,
-    });
+    } as unknown as PhotoCaptureProps);
 
     unmount();
   });
@@ -74,7 +74,7 @@ describe('PhotoCapture page', () => {
     expect(appState.getCurrentSights).toHaveBeenCalled();
     expectPropsOnChildMock(PhotoCapture, {
       sights: appState.getCurrentSights(),
-    });
+    } as PhotoCaptureProps);
 
     unmount();
   });

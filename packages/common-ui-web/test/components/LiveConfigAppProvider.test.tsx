@@ -19,7 +19,7 @@ describe('LiveConfigAppProvider component', () => {
   });
 
   it('should fetch the live config and pass it to the MonkAppStateProvider component', async () => {
-    const config = { hello: 'world' };
+    const config = { hello: 'world' } as unknown as CaptureAppConfig;
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
     const id = 'test-id-test';
     const { unmount } = render(<LiveConfigAppProvider id={id} />);

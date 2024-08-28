@@ -290,7 +290,7 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
-    expectPropsOnChildMock(Camera, { HUDComponent: PhotoCaptureHUD });
+    expectPropsOnChildMock(Camera, { HUDComponent: PhotoCaptureHUD as any });
 
     unmount();
   });

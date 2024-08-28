@@ -7,7 +7,7 @@ import {
   UploadQueueParams,
   useUploadQueue,
 } from '../../../src/PhotoCapture/hooks';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
+import { AddDamage, ComplianceIssue, TaskName } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { act } from '@testing-library/react';
@@ -146,6 +146,7 @@ describe('useUploadQueue hook', () => {
       });
       expect(addImageMock).toHaveBeenCalledWith({
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
+        closeUpType: AddDamage.TWO_SHOT,
         picture: upload1.picture,
         siblingKey: expect.any(String),
         useThumbnailCaching: true,
@@ -170,6 +171,7 @@ describe('useUploadQueue hook', () => {
 
       expect(addImageMock).toHaveBeenCalledWith({
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
+        closeUpType: AddDamage.TWO_SHOT,
         picture: upload2.picture,
         siblingKey,
         useThumbnailCaching: true,

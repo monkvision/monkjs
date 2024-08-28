@@ -17,9 +17,9 @@ import {
  * If you want to test the children passed to the child component, you can add the `children` property to the props
  * object.
  */
-export function expectPropsOnChildMock(
-  Component: jest.Mock | FC<any> | ForwardedRef<any>,
-  props: { [key: string]: unknown },
+export function expectPropsOnChildMock<T extends jest.Mock | FC<any> | ForwardedRef<any>>(
+  Component: T,
+  props: T extends (prop: infer P) => any ? Partial<P> : never,
 ): void {
   expect(Component).toHaveBeenCalledWith(expect.objectContaining(props), expect.anything());
 }
