@@ -127,7 +127,7 @@ export type CaptureAppConfig = CameraConfig &
      *
      * @default AddDamage.TWO_SHOT
      */
-    addDamage?: AddDamage;
+    addDamage: AddDamage;
     /**
      * A collection of sight guidelines in different language with a list of sightIds associate to it.
      */

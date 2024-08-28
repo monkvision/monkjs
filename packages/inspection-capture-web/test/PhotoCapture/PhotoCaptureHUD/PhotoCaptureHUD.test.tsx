@@ -1,4 +1,4 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus } from '@monkvision/types';
 
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
   ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
@@ -60,6 +60,7 @@ function createProps(): PhotoCaptureHUDProps {
       dimensions: { height: 2, width: 4 },
       previewDimensions: { height: 111, width: 2222 },
     } as unknown as CameraHandle,
+    addDamage: AddDamage.TWO_SHOT,
     cameraPreview: <div data-testid={cameraTestId}></div>,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     currentTutorialStep: null,
