@@ -18,4 +18,5 @@ export = {
   SVGElement: jest.fn(() => <></>),
   SwitchButton: jest.fn(() => <></>),
   TakePictureButton: jest.fn(() => <></>),
+  VehiclePartSelection: jest.fn(() => <></>),
 };

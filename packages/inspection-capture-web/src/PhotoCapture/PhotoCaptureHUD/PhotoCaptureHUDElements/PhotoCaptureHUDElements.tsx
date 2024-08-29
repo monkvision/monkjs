@@ -3,6 +3,7 @@ import { PhotoCaptureMode, TutorialSteps } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
 import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDElementsAddDamage2ndShot';
+import { PhotoCaptureHUDElementsAddPartSelectShot } from '../PhotoCaptureHUDElementsAddPartSelectShot';
 
 /**
  * Props of the PhotoCaptureHUDElements component.
@@ -91,10 +92,11 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
   if (params.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT) {
     return <PhotoCaptureHUDElementsAddDamage1stShot onCancel={params.onCancelAddDamage} />;
   }
-  return (
-    <PhotoCaptureHUDElementsAddDamage2ndShot
-      onCancel={params.onCancelAddDamage}
-      streamDimensions={params.previewDimensions}
-    />
-  );
+  if (params.mode === PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT) {
+    return <PhotoCaptureHUDElementsAddDamage2ndShot onCancel={params.onCancelAddDamage} />;
+  }
+  if (params.mode === PhotoCaptureMode.ADD_DAMAGE_PART_SELECT) {
+    return <PhotoCaptureHUDElementsAddPartSelectShot onCancel={params.onCancelAddDamage} />;
+  }
+  return null as never;
 }

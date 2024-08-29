@@ -65,7 +65,6 @@ export function VehiclePartSelection({
     part: VehiclePart,
   ) => ({
     style: {
-      // TODO: need to finalize the color for the selected parts.
       fill: selectedParts.includes(part) ? palette.primary.base : undefined,
       stroke: palette.text.primary,
       display: 'block',

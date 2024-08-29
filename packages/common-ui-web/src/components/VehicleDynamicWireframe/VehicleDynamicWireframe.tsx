@@ -100,6 +100,7 @@ export function VehicleDynamicWireframe({
       svg={overlay}
       style={{
         width: '100%',
+        height: '100%',
       }}
       getAttributes={createGetAttributesCallback(onClickPart, getPartAttributes)}
     />
