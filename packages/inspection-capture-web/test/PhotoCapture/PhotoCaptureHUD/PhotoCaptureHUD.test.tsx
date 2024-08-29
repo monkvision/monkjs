@@ -112,10 +112,11 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDButtons, {
       onTakePicture: props.handle?.takePicture,
       galleryPreview: props.lastPictureTakenUri ?? undefined,
-      closeDisabled: !!props.loading.error || !!props.handle.error,
+      action: 'close',
+      actionDisabled: !!props.loading.error || !!props.handle.error,
       galleryDisabled: !!props.loading.error || !!props.handle.error,
       takePictureDisabled: !!props.loading.error || !!props.handle.error,
-      showCloseButton: props.showCloseButton,
+      showActionButton: props.showCloseButton,
       onOpenGallery: props.onOpenGallery,
     });
 
@@ -155,11 +156,12 @@ describe('PhotoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    const { onClose } = (PhotoCaptureHUDButtons as jest.Mock).mock.calls[0][0];
+    const { onAction } = (PhotoCaptureHUDButtons as jest.MockedFn<typeof PhotoCaptureHUDButtons>)
+      .mock.calls[0][0];
     expectPropsOnChildMock(BackdropDialog, { show: false });
     jest.clearAllMocks();
 
-    act(() => onClose());
+    act(() => onAction!());
     expectPropsOnChildMock(BackdropDialog, { show: true });
     const { onConfirm } = (BackdropDialog as jest.Mock).mock.calls[0][0];
     jest.clearAllMocks();

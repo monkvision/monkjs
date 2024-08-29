@@ -18,6 +18,10 @@ export enum PhotoCaptureMode {
    * ADD_DAMAGE_2ND_SHOT mode : user is asked to take a zoomed picture of a damage on the car.
    */
   ADD_DAMAGE_2ND_SHOT = 'add_damage_2nd_shot',
+  /**
+   * ADD_DAMAGE_PART_SELECT mode : user is asked to take a close-up picture of a damage on the car part.
+   */
+  ADD_DAMAGE_PART_SELECT = 'add_damage_part_select',
 }
 
 /**

@@ -14,10 +14,10 @@ import {
 
 interface PhotoCaptureHUDButtonsStylesParams {
   galleryStatus: InteractiveStatus;
-  closeStatus: InteractiveStatus;
-  closeBtnAvailable: boolean;
+  actionButtonStatus: InteractiveStatus;
+  actionBtnAvailable: boolean;
   galleryPreview?: string;
-  showCloseButton?: boolean;
+  showActionButton: boolean;
   showGalleryBadge?: boolean;
 }
 
@@ -28,7 +28,7 @@ interface PhotoCaptureHUDButtonsStyles {
     iconColor: string;
   };
   galleryBadgeStyle: CSSProperties;
-  close: {
+  actionButton: {
     style: CSSProperties;
     iconColor: string;
   };
@@ -76,15 +76,17 @@ export function useCaptureHUDButtonsStyles(
       color: palette.text.primary,
       visibility: params.showGalleryBadge ? 'visible' : 'hidden',
     },
-    close: {
+    actionButton: {
       style: {
         ...styles['button'],
-        backgroundColor: captureButtonBackgroundColors[params.closeStatus],
-        borderColor: captureButtonForegroundColors[params.closeStatus],
-        ...(params.closeStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
-        visibility: params.showCloseButton ? 'visible' : 'hidden',
+        backgroundColor: captureButtonBackgroundColors[params.actionButtonStatus],
+        borderColor: captureButtonForegroundColors[params.actionButtonStatus],
+        ...(params.actionButtonStatus === InteractiveStatus.DISABLED
+          ? styles['buttonDisabled']
+          : {}),
+        visibility: params.showActionButton ? 'visible' : 'hidden',
       },
-      iconColor: captureButtonForegroundColors[params.closeStatus],
+      iconColor: captureButtonForegroundColors[params.actionButtonStatus],
     },
     backgroundCoverStyle: {
       ...styles['backgroundCover'],

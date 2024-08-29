@@ -1,4 +1,4 @@
-import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
+import { Icon, IconName, TakePictureButton } from '@monkvision/common-ui-web';
 import { useInteractiveStatus } from '@monkvision/common';
 import { useCaptureHUDButtonsStyles } from './hooks';
 
@@ -20,11 +20,6 @@ export interface PhotoCaptureHUDButtonsProps {
    */
   onOpenGallery?: () => void;
   /**
-   * Callback called when the user clicks on the close button. If this callback is not provided, the close button will
-   * not be displayed on the screen.
-   */
-  onClose?: () => void;
-  /**
    * Boolean indicating if the gallery button is disabled.
    *
    * @default false
@@ -37,18 +32,6 @@ export interface PhotoCaptureHUDButtonsProps {
    */
   takePictureDisabled?: boolean;
   /**
-   * Boolean indicating if the close button is disabled.
-   *
-   * @default false
-   */
-  closeDisabled?: boolean;
-  /**
-   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
-   *
-   * @default false
-   */
-  showCloseButton?: boolean;
-  /**
    * Boolean indicating if the little notification badge on top of the gallery button should be displayed.
    *
    * @default false
@@ -60,52 +43,81 @@ export interface PhotoCaptureHUDButtonsProps {
    * @default 0
    */
   retakeCount?: number;
+  /**
+   * Type of the action button to display. If the value is 'close', the button will display a close icon.
+   *
+   * @default 'close'
+   */
+  action?: ('close' | 'check') & IconName;
+  /**
+   * Boolean indicating if the action button is disabled.
+   *
+   * @default false
+   */
+  actionDisabled?: boolean;
+  /**
+   * Boolean indicating if the action button should be displayed in the HUD on top of the Camera preview.
+   *
+   * @default false
+   */
+  showActionButton?: boolean;
+  /**
+   * Callback called when the user clicks on the action button. If this callback is not provided, the action button will
+   * not be displayed on the screen.
+   */
+  onAction?: () => void;
 }
 
 /**
  * Components implementing the main buttons of the PhotoCapture Camera HUD. This component implements 3 buttons :
  * - A take picture button
  * - A gallery button
- * - A close button (only displayed if the `onClose` callback is defined)
+ * - A action button (only displayed if the `onAction` callback is defined)
  */
 export function PhotoCaptureHUDButtons({
   galleryPreview,
   onTakePicture,
   onOpenGallery,
-  onClose,
   galleryDisabled = false,
   takePictureDisabled = false,
-  closeDisabled = false,
-  showCloseButton = false,
   showGalleryBadge = false,
   retakeCount = 0,
+  onAction,
+  actionDisabled = false,
+  showActionButton = false,
+  action = 'close',
 }: PhotoCaptureHUDButtonsProps) {
   const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
     disabled: galleryDisabled,
   });
-  const { status: closeStatus, eventHandlers: closeEventHandlers } = useInteractiveStatus({
-    disabled: closeDisabled,
+  const { status: actionButtonStatus, eventHandlers: actionEventHandlers } = useInteractiveStatus({
+    disabled: actionDisabled,
   });
-  const { containerStyle, gallery, galleryBadgeStyle, close, backgroundCoverStyle } =
-    useCaptureHUDButtonsStyles({
-      galleryStatus,
-      closeStatus,
-      closeBtnAvailable: !!onClose,
-      galleryPreview,
-      showCloseButton,
-      showGalleryBadge,
-    });
+  const {
+    containerStyle,
+    gallery,
+    galleryBadgeStyle,
+    actionButton: confirmButton,
+    backgroundCoverStyle,
+  } = useCaptureHUDButtonsStyles({
+    galleryStatus,
+    actionButtonStatus,
+    actionBtnAvailable: !!onAction,
+    galleryPreview,
+    showActionButton,
+    showGalleryBadge,
+  });
 
   return (
     <div style={containerStyle}>
       <button
-        style={close.style}
-        disabled={closeDisabled}
-        onClick={onClose}
-        {...closeEventHandlers}
-        data-testid='monk-close-btn'
+        style={confirmButton.style}
+        disabled={actionDisabled}
+        onClick={onAction}
+        {...actionEventHandlers}
+        data-testid='monk-action-btn'
       >
-        <Icon icon='close' size={30} primaryColor={close.iconColor} />
+        <Icon icon={action} size={30} primaryColor={confirmButton.iconColor} />
       </button>
       <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />
       <button

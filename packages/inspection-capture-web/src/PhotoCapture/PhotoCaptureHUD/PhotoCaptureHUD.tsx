@@ -178,14 +178,15 @@ export function PhotoCaptureHUD({
       <PhotoCaptureHUDButtons
         onOpenGallery={onOpenGallery}
         onTakePicture={handle?.takePicture}
-        onClose={() => setShowCloseModal(true)}
         galleryPreview={lastPictureTakenUri ?? undefined}
-        closeDisabled={!!loading.error || !!handle.error}
         galleryDisabled={!!loading.error || !!handle.error}
         takePictureDisabled={
           !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
         }
-        showCloseButton={showCloseButton}
+        action={'close'}
+        onAction={() => setShowCloseModal(true)}
+        actionDisabled={!!loading.error || !!handle.error}
+        showActionButton={showCloseButton}
         showGalleryBadge={retakeCount > 0}
         retakeCount={retakeCount}
       />
