@@ -25,6 +25,7 @@ import {
   PhotoCaptureTutorialOption,
   Sight,
   AddDamage,
+  VehiclePart,
 } from '@monkvision/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -204,6 +205,7 @@ export function PhotoCapture({
     additionalTasks,
     complianceOptions,
     eventHandlers: [adaptiveUploadEventHandlers, badConnectionWarningUploadEventHandlers],
+    damageVehicleParts: [VehiclePart.BUMPER_FRONT], // TODO: Handle this properly
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({

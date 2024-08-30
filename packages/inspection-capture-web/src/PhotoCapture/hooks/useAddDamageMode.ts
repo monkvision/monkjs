@@ -75,7 +75,7 @@ export function useAddDamageMode(): AddDamageHandle {
       case AddDamage.PART_SELECT:
         setMode(PhotoCaptureMode.ADD_DAMAGE_PART_SELECT);
         trackEvent('AddDamage Selected', {
-          mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+          mode: PhotoCaptureMode.ADD_DAMAGE_PART_SELECT,
         });
         return;
       case AddDamage.DISABLED:

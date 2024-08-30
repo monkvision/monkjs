@@ -1,6 +1,11 @@
 import ky from 'ky';
 import { Dispatch } from 'react';
-import { getFileExtensions, MonkActionType, MonkCreatedOneImageAction } from '@monkvision/common';
+import {
+  getFileExtensions,
+  MonkActionType,
+  MonkCreatedOneImageAction,
+  vehiclePartLabels,
+} from '@monkvision/common';
 import {
   ComplianceOptions,
   Image,
@@ -12,6 +17,7 @@ import {
   MonkPicture,
   TaskName,
   TranslationObject,
+  VehiclePart,
 } from '@monkvision/types';
 import { v4 } from 'uuid';
 import { labels, sights } from '@monkvision/sights';
@@ -33,6 +39,11 @@ export enum ImageUploadType {
    * add damage workflow.
    */
   CLOSE_UP_2_SHOT = 'close_up_2_shot',
+  /**
+   * Upload type corresponding to a part selection shot in the PhotoCapture process. when using the part select add
+   * damage workflow.
+   */
+  PART_SELECT_SHOT = 'part_select_shot',
   /**
    * Upload type corresponding to a video frame in the VideoCapture process.
    */
@@ -110,6 +121,15 @@ export interface Add2ShotCloseUpImageOptions {
   compliance?: ComplianceOptions;
 }
 
+export type AddPartSelectCloseUpImageOptions = Pick<
+  Add2ShotCloseUpImageOptions,
+  'picture' | 'inspectionId' | 'compliance' | 'useThumbnailCaching'
+> & {
+  uploadType: ImageUploadType.PART_SELECT_SHOT;
+  image_type: ImageType.CLOSE_UP;
+  vehicleParts: VehiclePart[];
+};
+
 /**
  * Options specififed when adding a video frame to a VideoCapture inspection.
  */
@@ -143,7 +163,8 @@ export interface AddVideoFrameOptions {
 export type AddImageOptions =
   | AddBeautyShotImageOptions
   | Add2ShotCloseUpImageOptions
-  | AddVideoFrameOptions;
+  | AddVideoFrameOptions
+  | AddPartSelectCloseUpImageOptions;
 
 interface AddImageData {
   filename: string;
@@ -151,7 +172,10 @@ interface AddImageData {
 }
 
 function getImageType(options: AddImageOptions): ImageType {
-  if (options.uploadType === ImageUploadType.CLOSE_UP_2_SHOT) {
+  if (
+    options.uploadType === ImageUploadType.CLOSE_UP_2_SHOT ||
+    options.uploadType === ImageUploadType.PART_SELECT_SHOT
+  ) {
     return ImageType.CLOSE_UP;
   }
   return ImageType.BEAUTY_SHOT;
@@ -169,12 +193,24 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       nl: `Videoframe ${options.frameIndex}`,
     };
   }
-  return {
-    en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
-    fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
-    de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
-    nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
-  };
+  if (options.uploadType === ImageUploadType.PART_SELECT_SHOT) {
+    const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
+    return {
+      en: `Damage on ${partsTranslation.map((part) => part.en).join(', ')}`,
+      fr: `Dommages sur ${partsTranslation.map((part) => part.en).join(', ')}`,
+      de: `Schaden an ${partsTranslation.map((part) => part.en).join(', ')}`,
+      nl: `Schade aan ${partsTranslation.map((part) => part.en).join(', ')}`,
+    };
+  }
+  if (options.uploadType === ImageUploadType.CLOSE_UP_2_SHOT) {
+    return {
+      en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+      fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
+      de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
+      nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
+    };
+  }
+  return undefined as never;
 }
 
 function getAdditionalData(options: AddImageOptions): ImageAdditionalData {
@@ -229,7 +265,33 @@ function createBeautyShotImageData(
   return { filename, body };
 }
 
-function createCloseUpImageData(
+function createPartSelectImageData(options: AddPartSelectCloseUpImageOptions): AddImageData {
+  const filename = `part-select-${options.inspectionId}-${Date.now()}.jpg`;
+
+  const body: ApiImagePost = {
+    acquisition: {
+      strategy: 'upload_multipart_form_keys',
+      file_key: MULTIPART_KEY_IMAGE,
+    },
+    image_type: ImageType.CLOSE_UP,
+    tasks: [
+      TaskName.DAMAGE_DETECTION,
+      {
+        name: TaskName.COMPLIANCES,
+        wait_for_result:
+          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
+      },
+    ],
+    detailed_viewpoint: {
+      centers_on: options.vehicleParts,
+    },
+    additional_data: getAdditionalData(options),
+  };
+
+  return { filename, body };
+}
+
+function createCloseUp2ShotImageData(
   options: Add2ShotCloseUpImageOptions,
   filetype: string,
 ): AddImageData {
@@ -278,11 +340,13 @@ function getAddImageData(options: AddImageOptions, filetype: string): AddImageDa
     case ImageUploadType.BEAUTY_SHOT:
       return createBeautyShotImageData(options, filetype);
     case ImageUploadType.CLOSE_UP_2_SHOT:
-      return createCloseUpImageData(options, filetype);
+      return createCloseUp2ShotImageData(options, filetype);
     case ImageUploadType.VIDEO_FRAME:
       return createVideoFrameData(options, filetype);
+    case ImageUploadType.PART_SELECT_SHOT:
+      return createPartSelectImageData(options);
     default:
-      throw new Error('Unknown image upload type.');
+      return 'Unknown image upload type.' as never;
   }
 }
 

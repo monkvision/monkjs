@@ -1,6 +1,13 @@
 import { Queue, uniq, useQueue } from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { CaptureAppConfig, ComplianceOptions, MonkPicture, TaskName } from '@monkvision/types';
+import {
+  CaptureAppConfig,
+  ComplianceOptions,
+  ImageType,
+  MonkPicture,
+  TaskName,
+  VehiclePart,
+} from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
@@ -41,6 +48,10 @@ export interface UploadQueueParams extends Pick<CaptureAppConfig, 'additionalTas
    * A collection of event handlers listening to upload events.
    */
   eventHandlers?: UploadEventHandlers[];
+  /**
+   * The vehicle parts that have been damaged.
+   */
+  damageVehicleParts?: VehiclePart[];
 }
 
 /**
@@ -94,12 +105,26 @@ export interface AddDamage2ndShotPictureUpload {
 }
 
 /**
+ * Upload options for a part select picture in the add damage process.
+ */
+export interface AddDamagePartSelectPictureUpload {
+  /**
+   * Upload mode : `PhotoCaptureMode.ADD_DAMAGE_PART_SELECTION`.
+   */
+  mode: PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+  /**
+   * The picture to upload.
+   */
+  picture: MonkPicture;
+}
+/**
  * Union type describing every possible upload configurations for a picture taken.
  */
 export type PictureUpload =
   | SightPictureUpload
   | AddDamage1stShotPictureUpload
-  | AddDamage2ndShotPictureUpload;
+  | AddDamage2ndShotPictureUpload
+  | AddDamagePartSelectPictureUpload;
 
 function createAddImageOptions(
   upload: PictureUpload,
@@ -108,6 +133,7 @@ function createAddImageOptions(
   enableThumbnail: boolean,
   additionalTasks?: CaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
+  vehicleParts?: VehiclePart[],
 ): AddImageOptions {
   if (upload.mode === PhotoCaptureMode.SIGHT) {
     return {
@@ -117,6 +143,17 @@ function createAddImageOptions(
       tasks: additionalTasks ? uniq([...upload.tasks, ...additionalTasks]) : upload.tasks,
       inspectionId,
       compliance,
+      useThumbnailCaching: enableThumbnail,
+    };
+  }
+  if (upload.mode === PhotoCaptureMode.ADD_DAMAGE_PART_SELECT) {
+    return {
+      uploadType: ImageUploadType.PART_SELECT_SHOT,
+      picture: upload.picture,
+      inspectionId,
+      vehicleParts: vehicleParts!,
+      compliance,
+      image_type: ImageType.CLOSE_UP,
       useThumbnailCaching: enableThumbnail,
     };
   }
@@ -140,6 +177,7 @@ export function useUploadQueue({
   additionalTasks,
   complianceOptions,
   eventHandlers,
+  damageVehicleParts,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -159,6 +197,7 @@ export function useUploadQueue({
           true,
           additionalTasks,
           complianceOptions,
+          damageVehicleParts,
         ),
       );
       const uploadDurationMs = Date.now() - startTs;
