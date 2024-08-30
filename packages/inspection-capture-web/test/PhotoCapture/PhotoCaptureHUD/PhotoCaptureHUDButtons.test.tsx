@@ -4,7 +4,7 @@ import { InteractiveStatus } from '@monkvision/types';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PhotoCaptureHUDButtons } from '../../../src';
-import { captureButtonForegroundColors } from '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
+import { actionButtonForegroundColors } from '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
 
 const GALLERY_BTN_TEST_ID = 'monk-gallery-btn';
 const GALLERY_BADGE_TEST_ID = 'monk-gallery-badge';
@@ -62,7 +62,7 @@ describe('CaptureHUDButtons component', () => {
         {
           icon: expectedIcon,
           size: 30,
-          primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
+          primaryColor: actionButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
         expect.anything(),
       ]);
@@ -149,7 +149,7 @@ describe('CaptureHUDButtons component', () => {
     });
   });
 
-  describe('Close button', () => {
+  describe('Action button', () => {
     it('should not be displayed by default', () => {
       const { unmount } = render(<PhotoCaptureHUDButtons />);
 
@@ -205,7 +205,7 @@ describe('CaptureHUDButtons component', () => {
         {
           icon: expectedIcon,
           size: 30,
-          primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
+          primaryColor: actionButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
         expect.anything(),
       ]);

@@ -7,13 +7,17 @@ const BUTTON_BORDER_WIDTH = 2;
 export const PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH =
   BUTTON_SIZE + BUTTON_PADDING + BUTTON_BORDER_WIDTH;
 
-export const captureButtonForegroundColors = getInteractiveVariants(
+export const actionButtonForegroundColors = getInteractiveVariants(
   '#f3f3f3',
   InteractiveVariation.DARKEN,
 );
 export const captureButtonBackgroundColors = getInteractiveVariants(
   '#1b1c1e',
   InteractiveVariation.LIGHTEN,
+);
+export const checkButtonBackgroundColors = getInteractiveVariants(
+  '#0A84FF',
+  InteractiveVariation.DARKEN,
 );
 
 export const styles: Styles = {
@@ -68,6 +72,7 @@ export const styles: Styles = {
   },
   buttonDisabled: {
     cursor: 'default',
+    opacity: 0.3,
   },
   backgroundCover: {
     width: '100%',

@@ -1,1 +1,2 @@
-export { PhotoCaptureHUDButtons, type PhotoCaptureHUDButtonsProps } from './PhotoCaptureHUDButtons';
+export { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
+export { type PhotoCaptureHUDButtonsProps } from './PhotoCaptureHUDButtons.model';

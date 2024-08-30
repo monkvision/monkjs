@@ -1,4 +1,2 @@
-export {
-  PhotoCaptureHUDElements,
-  type PhotoCaptureHUDElementsProps,
-} from './PhotoCaptureHUDElements';
+export { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
+export { type PhotoCaptureHUDElementsProps } from './PhotoCaptureHUDElements.model';

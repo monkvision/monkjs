@@ -1,7 +1,3 @@
-/**
- * 3. select parts should show on UI.
- */
-
 import { getLanguage, MonkAppState, useMonkAppState } from '@monkvision/common';
 import { Button, VehiclePartSelection } from '@monkvision/common-ui-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
@@ -24,26 +20,48 @@ describe('PhotoCaptureHUDElementsAddPartSelectShot component', () => {
       <button onClick={onClick} data-testid='close-button' />
     ));
     const { getByTestId } = render(
-      <PhotoCaptureHUDElementsAddPartSelectShot onCancel={onCancel} />,
+      <PhotoCaptureHUDElementsAddPartSelectShot
+        onCancel={onCancel}
+        onAddDamageParts={() => {}}
+        partSelectState='part-select'
+      />,
     );
     fireEvent.click(getByTestId('close-button'));
     expect(onCancel).toHaveBeenCalled();
   });
 
   it('should use correct vehicle type', () => {
-    render(<PhotoCaptureHUDElementsAddPartSelectShot onCancel={() => {}} />);
+    render(
+      <PhotoCaptureHUDElementsAddPartSelectShot
+        onCancel={() => {}}
+        onAddDamageParts={() => {}}
+        partSelectState='part-select'
+      />,
+    );
     expectPropsOnChildMock(VehiclePartSelection, {
       vehicleType: VehicleType.CUV,
     });
   });
 
   it('should show instruction to select parts', () => {
-    const re = render(<PhotoCaptureHUDElementsAddPartSelectShot onCancel={jest.fn()} />);
+    const re = render(
+      <PhotoCaptureHUDElementsAddPartSelectShot
+        onCancel={jest.fn()}
+        onAddDamageParts={() => {}}
+        partSelectState='part-select'
+      />,
+    );
     expect(re.getByText('Please select the parts you want to capture')).toBeInTheDocument();
   });
 
   it('should show selected parts', () => {
-    const re = render(<PhotoCaptureHUDElementsAddPartSelectShot onCancel={() => {}} />);
+    const re = render(
+      <PhotoCaptureHUDElementsAddPartSelectShot
+        onCancel={() => {}}
+        onAddDamageParts={() => {}}
+        partSelectState='part-select'
+      />,
+    );
     const onPartsSelected = (
       VehiclePartSelection as jest.MockedFunction<typeof VehiclePartSelection>
     ).mock.calls[0][0].onPartsSelected!;
@@ -51,5 +69,32 @@ describe('PhotoCaptureHUDElementsAddPartSelectShot component', () => {
     act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
     console.log(prettyDOM(re.container));
     expect(re.getByTestId('part-select-notification')).toBeInTheDocument();
+  });
+
+  it('should return null on image-capture', () => {
+    const { container } = render(
+      <PhotoCaptureHUDElementsAddPartSelectShot
+        onCancel={() => {}}
+        onAddDamageParts={() => {}}
+        partSelectState='image-capture'
+      />,
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('should callback the updated selectedParts to onAddDamageParts', () => {
+    const onAddDamageParts = jest.fn();
+    render(
+      <PhotoCaptureHUDElementsAddPartSelectShot
+        onCancel={() => {}}
+        onAddDamageParts={onAddDamageParts}
+        partSelectState='part-select'
+      />,
+    );
+    const onPartsSelected = (
+      VehiclePartSelection as jest.MockedFunction<typeof VehiclePartSelection>
+    ).mock.calls[0][0].onPartsSelected!;
+    act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
+    expect(onAddDamageParts).toHaveBeenCalledWith([VehiclePart.BUMPER_BACK]);
   });
 });

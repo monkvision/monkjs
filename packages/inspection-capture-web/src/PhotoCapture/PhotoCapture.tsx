@@ -262,6 +262,8 @@ export function PhotoCapture({
     onSelectSight: sightState.selectSight,
     onRetakeSight: sightState.retakeSight,
     onAddDamage: addDamageHandle.handleAddDamage,
+    damageVehicleParts: addDamageHandle.vehicleParts,
+    onAddDamageParts: addDamageHandle.handleAddParts,
     onCancelAddDamage: addDamageHandle.handleCancelAddDamage,
     onRetry: sightState.retryLoadingInspection,
     loading,

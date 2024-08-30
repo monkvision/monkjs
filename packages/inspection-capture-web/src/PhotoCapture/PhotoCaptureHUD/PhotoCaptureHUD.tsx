@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { CaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
+import { CaptureAppConfig, Image, ImageStatus, Sight, VehiclePart } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -7,9 +7,9 @@ import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { PhotoCaptureMode, TutorialSteps } from '../hooks';
+import { AddDamageHandle, PhotoCaptureMode, TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
-import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
+import { PhotoCaptureHUDElements, PhotoCaptureHUDElementsProps } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 
 /**
@@ -76,11 +76,20 @@ export interface PhotoCaptureHUDProps
   /**
    * Callback to be called when the user clicks on the "Add Damage" button.
    */
-  onAddDamage: () => void;
+  onAddDamage: AddDamageHandle['handleAddDamage'];
+  /**
+   * Used to add damage on part select mode. This is used to store the parts that the user has selected to take a
+   * picture
+   */
+  damageVehicleParts: AddDamageHandle['vehicleParts'];
+  /**
+   * Callback to be called when the user selects the parts to take a picture of.
+   */
+  onAddDamageParts: AddDamageHandle['handleAddParts'];
   /**
    * Callback to be called when the user clicks on the "Cancel" button of the Add Damage mode.
    */
-  onCancelAddDamage: () => void;
+  onCancelAddDamage: AddDamageHandle['handleCancelAddDamage'];
   /**
    * Callback that can be used to retry fetching this state object from the API in case the previous fetch failed.
    */
@@ -115,6 +124,8 @@ export function PhotoCaptureHUD({
   onSelectSight,
   onRetakeSight,
   onAddDamage,
+  damageVehicleParts,
+  onAddDamageParts,
   onCancelAddDamage,
   onOpenGallery,
   onRetry,
@@ -136,6 +147,8 @@ export function PhotoCaptureHUD({
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
   const { trackEvent } = useAnalytics();
+  const [addDamagePartSelectState, setAddDamagePartSelectState] =
+    useState<PhotoCaptureHUDElementsProps['addDamagePartSelectState']>('part-select');
   const retakeCount = useMemo(
     () =>
       images.filter((image) =>
@@ -151,7 +164,8 @@ export function PhotoCaptureHUD({
     trackEvent('Capture Closed');
     onClose?.();
   };
-
+  const showValidateAction =
+    mode === PhotoCaptureMode.ADD_DAMAGE_PART_SELECT && addDamagePartSelectState === 'part-select';
   return (
     <div style={style.container}>
       <div style={style.previewContainer} data-testid='camera-preview'>
@@ -162,6 +176,8 @@ export function PhotoCaptureHUD({
           sightsTaken={sightsTaken}
           mode={mode}
           onAddDamage={onAddDamage}
+          addDamagePartSelectState={addDamagePartSelectState}
+          onAddDamageParts={onAddDamageParts}
           onCancelAddDamage={onCancelAddDamage}
           onSelectSight={onSelectSight}
           onRetakeSight={onRetakeSight}
@@ -181,12 +197,22 @@ export function PhotoCaptureHUD({
         galleryPreview={lastPictureTakenUri ?? undefined}
         galleryDisabled={!!loading.error || !!handle.error}
         takePictureDisabled={
-          !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
+          !!loading.error ||
+          !!handle.error ||
+          handle.isLoading ||
+          loading.isLoading ||
+          showValidateAction
         }
-        action={'close'}
-        onAction={() => setShowCloseModal(true)}
-        actionDisabled={!!loading.error || !!handle.error}
-        showActionButton={showCloseButton}
+        action={showValidateAction ? 'check' : 'close'}
+        onAction={() =>
+          showValidateAction
+            ? setAddDamagePartSelectState('image-capture')
+            : setShowCloseModal(true)
+        }
+        actionDisabled={
+          !!loading.error || !!handle.error || (showValidateAction && !damageVehicleParts.length)
+        }
+        showActionButton={showCloseButton || showValidateAction}
         showGalleryBadge={retakeCount > 0}
         retakeCount={retakeCount}
       />

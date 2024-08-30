@@ -48,6 +48,8 @@ function createProps(): PhotoCaptureHUDProps {
     loading: { isLoading: false, error: null } as unknown as LoadingState,
     onSelectSight: jest.fn(),
     onRetakeSight: jest.fn(),
+    damageVehicleParts: [],
+    onAddDamageParts: jest.fn(),
     onAddDamage: jest.fn(),
     onCancelAddDamage: jest.fn(),
     onRetry: jest.fn(),
@@ -202,5 +204,62 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false, retakeCount: 0 });
 
     unmount();
+  });
+
+  it('should set takePictureDisabled to true when on part select', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { takePictureDisabled: true });
+  });
+
+  it('should set actionDisabled to true when on part select no parts are selected', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { actionDisabled: true });
+  });
+
+  it('should set showActionButton to true on part select', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showActionButton: true });
+  });
+
+  it('should set takePictureDisabled to false when on image-capture mode', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    act(() => {
+      (PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>).mock
+        .calls[0][0].onAction!();
+    });
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { takePictureDisabled: false });
+  });
+
+  it('should use check action when on part select mode', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { action: 'check' });
+  });
+
+  it('should use close action when not on part select mode', () => {
+    const props = createProps();
+    render(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { action: 'close' });
+  });
+
+  it('onAction should setAddDamagePartSelectState to image-capture when on part select mode', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    act(() => {
+      (PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>).mock
+        .calls[0][0].onAction!();
+    });
+    expect(props.onAddDamageParts).not.toHaveBeenCalled();
+    expect(props.onClose).not.toHaveBeenCalled();
   });
 });
