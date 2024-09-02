@@ -551,5 +551,12 @@
     "fr": "SUV",
     "de": "Geländewagen",
     "nl": "SUV"
+  },
+  "tire": {
+    "key": "tire",
+    "en": "Tire",
+    "fr": "Pneu",
+    "de": "Reifen",
+    "nl": "Band"
   }
 }
