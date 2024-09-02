@@ -1,7 +1,7 @@
 const { react } = require('@monkvision/jest-config');
 
 module.exports = {
-  ...react,
+  ...react({ monorepo: true }),
   coverageThreshold: {
     global: {
       branches: 0,
