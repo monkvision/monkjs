@@ -243,9 +243,10 @@ export function usePhotoCaptureSightState({
       setLastPictureTakenUri(getLastPictureTakenUri(inspectionId, response));
       loading.onSuccess();
       setIsInspectionCompleted(
-        response.entities.tasks
-          .filter((task) => task.inspectionId === inspectionId)
-          .find((task) => task.status === ProgressStatus.NOT_STARTED) === undefined,
+        !response.entities.tasks.some(
+          (task) =>
+            task.inspectionId === inspectionId && task.status === ProgressStatus.NOT_STARTED,
+        ),
       );
     } catch (err) {
       handleError(err);
