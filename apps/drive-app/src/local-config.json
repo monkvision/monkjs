@@ -6,7 +6,7 @@
   "allowVehicleTypeSelection": true,
   "allowManualLogin": true,
   "fetchFromSearchParams": true,
-  "allowCreateInspection": true,
+  "allowCreateInspection": false,
   "createInspectionOptions": {
     "tasks": ["damage_detection", "wheel_analysis"]
   },

@@ -5,10 +5,10 @@ const SMALL_SCREEN__BREAKPOINT_PX = 650;
 export const styles: Styles = {
   bar: {
     zIndex: 9,
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100dvw',
+    // position: 'fixed',
+    // top: 0,
+    // left: 0,
+    // width: '100dvw',
     padding: '16px 24px',
     boxSizing: 'border-box',
     display: 'flex',

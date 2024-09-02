@@ -8,6 +8,7 @@ import {
 } from './hooks';
 import { Icon } from '../../../icons';
 import { Button } from '../../Button';
+import { useEffect } from 'react';
 
 export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
   const { t } = useTranslation();
@@ -28,10 +29,12 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
     imageLabelIcon,
   } = useImageDetailedViewOverlayStyles(props);
 
+  useEffect(() => {console.log(props.image.renderedOutputs)}, [])
+
   return (
     <div style={mainContainerStyle}>
       <div style={overlayDisplayStyle}>
-        <div style={complianceContainerStyle}>
+        <div style={{...complianceContainerStyle, visibility: props.reportMode ? 'hidden' : 'visible'}}>
           <div style={complianceMessageContainerStyle}>
             <Icon
               icon={retakeOverlay.icon}

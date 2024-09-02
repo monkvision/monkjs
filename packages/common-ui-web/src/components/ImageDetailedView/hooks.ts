@@ -1,6 +1,6 @@
-import { Image } from '@monkvision/types';
-import { changeAlpha, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
-import { CSSProperties, useMemo } from 'react';
+import { Image, RenderedOutput } from '@monkvision/types';
+import { changeAlpha, useMonkState, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
+import { CSSProperties, useEffect, useMemo } from 'react';
 import { styles } from './ImageDetailedView.styles';
 
 /**
@@ -16,6 +16,7 @@ export type ImageDetailedViewProps = {
    *
    * @default en
    */
+  showDamage: boolean;
   lang?: string | null;
   /**
    * Boolean indicating if the gallery button (used to go back to the gallery if this component is used inside the
@@ -32,6 +33,10 @@ export type ImageDetailedViewProps = {
    * Callback called when the user presses the gallery button if it is displayed.
    */
   onNavigateToGallery?: () => void;
+
+  onShowDamage?: () => void;
+
+  reportMode?: boolean;
 } & (
   | {
       /**
@@ -72,9 +77,19 @@ export type ImageDetailedViewProps = {
     }
 );
 
+function getBackgroundImage (image: Image, renderedOutputs: RenderedOutput[], reportMode: boolean | undefined, showDamage: boolean): string {
+if (!reportMode) {
+    return `url(${image.path})`;
+  }
+
+  const renderedOutput = renderedOutputs.find(item => item.id === image.renderedOutputs[1]);
+  return showDamage ? `url(${renderedOutput?.path || image.path})` : `url(${image.path})`;
+}
+
 export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
   const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
+  const { state } = useMonkState();
 
   const colors = useMemo(
     () => ({
@@ -82,6 +97,8 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
     }),
     [palette],
   );
+
+  const backgroundImage = getBackgroundImage(props.image, state.renderedOutputs, props.reportMode, props.showDamage);
 
   let rightContainerJustifyContent = 'start';
   if (props.captureMode) {
@@ -93,7 +110,8 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
       ...styles['mainContainer'],
       ...responsive(styles['mainContainerSmall']),
       backgroundColor: palette.background.base,
-      backgroundImage: `url(${props.image.path})`,
+      // backgroundImage: `url(${props.image.path})`,
+      backgroundImage,
     },
     leftContainerStyle: styles['leftContainer'],
     overlayContainerStyle: styles['overlayContainer'],

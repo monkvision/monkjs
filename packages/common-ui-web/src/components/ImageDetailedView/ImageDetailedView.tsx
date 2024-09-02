@@ -36,18 +36,29 @@ export const ImageDetailedView = i18nWrap((props: ImageDetailedViewProps) => {
         <ImageDetailedViewOverlay
           image={props.image}
           captureMode={props.captureMode}
+          reportMode={!!props.reportMode}
           onRetake={props.captureMode ? props.onRetake : undefined}
         />
       </div>
       <div style={rightContainerStyle}>
-        <Button
-          disabled={!(props.showGalleryButton ?? true)}
-          onClick={props.onNavigateToGallery}
-          icon='gallery'
-          primaryColor={galleryButton.primaryColor}
-          secondaryColor={galleryButton.secondaryColor}
-          style={galleryButton.style}
-        />
+          {props.reportMode ?
+            (<Button
+              disabled={!(props.showGalleryButton ?? true)}
+              onClick={props.onShowDamage}
+              icon={props.showDamage ? 'visibility-off' : 'visibility-on'}
+              primaryColor={galleryButton.primaryColor}
+              secondaryColor={galleryButton.secondaryColor}
+              style={galleryButton.style}
+            >{props.showDamage ? 'Hide Damage' : 'Show Damage'}</Button>)
+            :
+            (<Button
+                disabled={!(props.showGalleryButton ?? true)}
+                onClick={props.onNavigateToGallery}
+                icon='gallery'
+                primaryColor={galleryButton.primaryColor}
+                secondaryColor={galleryButton.secondaryColor}
+                style={galleryButton.style}
+              />)}
         <Button
           disabled={!props.captureMode || !(props.showCaptureButton ?? true)}
           onClick={props.captureMode ? props.onNavigateToCapture : undefined}

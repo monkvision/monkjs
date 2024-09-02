@@ -1,4 +1,4 @@
-import { ComplianceOptions, Image, Sight } from '@monkvision/types';
+import { ComplianceOptions, Image, Sight, VehiclePart } from '@monkvision/types';
 import { MonkApiConfig } from '@monkvision/network';
 
 /**
@@ -110,6 +110,8 @@ export type InspectionGalleryProps = {
    * Custom label for validate button.
    */
   validateButtonLabel?: string;
+  reportMode?: boolean;
+  filterByPart?: VehiclePart;
 } & (
   | ({
       /**

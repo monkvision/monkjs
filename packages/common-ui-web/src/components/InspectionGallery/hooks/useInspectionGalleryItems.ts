@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ImageStatus, Sight } from '@monkvision/types';
+import { ImageStatus, Sight, VehiclePart } from '@monkvision/types';
 import { getInspectionImages, MonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
 import { InspectionGalleryItem, InspectionGalleryProps } from '../types';
@@ -58,6 +58,7 @@ function getItems(
   entities: MonkState,
   inspectionSights?: Sight[],
   enableAddDamage?: boolean,
+  // filterByPart?: VehiclePart,
 ): InspectionGalleryItem[] {
   const images = getInspectionImages(inspectionId, entities.images, captureMode);
   const items: InspectionGalleryItem[] = images.map((image) => ({
@@ -76,6 +77,10 @@ function getItems(
   if (captureMode && enableAddDamage !== false) {
     items.push({ isAddDamage: true });
   }
+  // if (filterByPart) {
+  //   const imageFilteredByPart = entities.parts.find((part) => part.type === filterByPart)?.relatedImages;
+  //   return imageFilteredByPart;
+  // }
   return items.sort((a, b) => compareGalleryItems(a, b, captureMode, inspectionSights));
 }
 

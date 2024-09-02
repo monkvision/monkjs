@@ -1,4 +1,4 @@
-import { i18nWrap, useI18nSync } from '@monkvision/common';
+import { i18nWrap, useI18nSync, useMonkState } from '@monkvision/common';
 import { useMemo, useState } from 'react';
 import { Image, ImageType } from '@monkvision/types';
 import { InspectionGalleryItem, InspectionGalleryProps, NavigateToCaptureReason } from './types';
@@ -31,12 +31,25 @@ function getItemKey(item: InspectionGalleryItem): string {
 export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
   useI18nSync(props.lang);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [showDamage, setShowDamage] = useState(false);
   const items = useInspectionGalleryItems(props);
   const [currentFilter, setCurrentFilter] = useState<InspectionGalleryFilter | null>(null);
-  const filteredItems = useMemo(
-    () => (currentFilter ? items.filter(currentFilter.callback) : items),
-    [items, currentFilter],
-  );
+  const { state } = useMonkState();
+  const filteredItems = useMemo(() => {
+    const defaultFiteredItems = currentFilter ? items.filter(currentFilter.callback) : items;
+    if (props.filterByPart) {
+      const imageIdsFilteredByPart = state.parts.find(
+        (part) => part.type === props.filterByPart,
+      )?.relatedImages;
+      return imageIdsFilteredByPart
+        ? items.filter(
+            (item) =>
+              !item.isAddDamage && item.isTaken && imageIdsFilteredByPart?.includes(item.image.id),
+          )
+        : defaultFiteredItems;
+    }
+    return defaultFiteredItems;
+  }, [items, currentFilter, props.filterByPart]);
   const { containerStyle, itemListStyle, itemStyle, fillerItemStyle, emptyStyle } =
     useInspectionGalleryStyles();
   const fillerCount = useItemListFillers(filteredItems.length);
@@ -87,6 +100,9 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
         lang={props.lang}
         image={selectedImage}
         showGalleryButton={true}
+        reportMode={!!props.reportMode}
+        showDamage={showDamage}
+        onShowDamage={() => setShowDamage(!showDamage)}
         onClose={() => setSelectedImage(null)}
         onNavigateToGallery={() => setSelectedImage(null)}
         {...imageDetailedviewCaptureProps}
@@ -96,17 +112,19 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
 
   return (
     <div style={containerStyle}>
-      <InspectionGalleryTopBar
-        items={items}
-        currentFilter={currentFilter}
-        onUpdateFilter={(filter) => setCurrentFilter((c) => (c === filter ? null : filter))}
-        showBackButton={props.showBackButton}
-        onBack={props.onBack}
-        captureMode={props.captureMode}
-        onValidate={props.onValidate}
-        allowSkipRetake={props.captureMode && !!props.allowSkipRetake}
-        validateButtonLabel={props.validateButtonLabel}
-      />
+      {!props.reportMode && (
+        <InspectionGalleryTopBar
+          items={items}
+          currentFilter={currentFilter}
+          onUpdateFilter={(filter) => setCurrentFilter((c) => (c === filter ? null : filter))}
+          showBackButton={props.showBackButton}
+          onBack={props.onBack}
+          captureMode={props.captureMode}
+          onValidate={props.onValidate}
+          allowSkipRetake={props.captureMode && !!props.allowSkipRetake}
+          validateButtonLabel={props.validateButtonLabel}
+        />
+      )}
       <div style={itemListStyle}>
         {filteredItems.length === 0 && <div style={emptyStyle}>{emptyLabel}</div>}
         {filteredItems.map((item) => (

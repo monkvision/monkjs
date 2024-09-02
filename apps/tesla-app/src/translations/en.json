@@ -1,0 +1,25 @@
+{
+  "damageManipulator": {
+    "damagesSwitchBtn": {
+      "damages": "Damages",
+      "damaged": "This part is damaged",
+      "notDamaged": "This part isn't damaged",
+      "replaced": "This part needs to be replaced",
+      "notReplaced": "This part doesn't need to be replaced"
+    },
+    "severitySelection": {
+      "severity": "Severity",
+      "low": "Minor",
+      "moderate": "Moderate",
+      "high": "Major"
+    },
+    "pricing": {
+      "repairCost": "Repair Cost",
+      "currency": "$"
+    },
+    "doneBtn": "Done"
+  },
+    "damage": {
+      "report": "Tesla Damage Report"
+}
+}

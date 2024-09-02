@@ -17,6 +17,7 @@ import { ButtonSize } from '../../Button';
 export interface ImageDetailedViewOverlayProps {
   image: Image;
   captureMode: boolean;
+  reportMode: boolean;
   onRetake?: () => void;
 }
 

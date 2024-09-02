@@ -4,7 +4,7 @@ export const SMALL_WIDTH_BREAKPOINT = 700;
 
 export const styles: Styles = {
   mainContainer: {
-    position: 'relative',
+    position: 'fixed',
     width: '100%',
     height: '100%',
     backgroundPosition: 'center',
@@ -12,6 +12,7 @@ export const styles: Styles = {
     backgroundRepeat: 'no-repeat',
     display: 'flex',
     justifyContent: 'space-between',
+    inset: 0
   },
   mainContainerSmall: {
     __media: { maxWidth: SMALL_WIDTH_BREAKPOINT },
