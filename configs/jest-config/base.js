@@ -1,4 +1,6 @@
-module.exports = {
+// const esModules = ['@monkvision/test-utils', 'ky'].join('|');
+
+module.exports = (options) => ({
   rootDir: './',
   roots: ['<rootDir>', '<rootDir>/../../configs/test-utils/src/__mocks__'],
   preset: 'ts-jest',
@@ -9,6 +11,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.ts',
   ],
+  // transformIgnorePatterns: options?.monorepo ? [] : [`node_modules/(?!${esModules})`],
   coverageThreshold: {
     global: {
       branches: 60,
@@ -17,4 +20,4 @@ module.exports = {
       statements: 60,
     },
   },
-};
+})

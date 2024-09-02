@@ -1,7 +1,7 @@
 const { base } = require('@monkvision/jest-config');
 
 module.exports = {
-  ...base,
+  ...base({ monorepo: true }),
   coveragePathIgnorePatterns: [
     'src/lib/*',
   ],
