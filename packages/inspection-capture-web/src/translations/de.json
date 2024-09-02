@@ -17,7 +17,8 @@
         "damagedPartCounter": "1 / 2 • Beschädigtes Teil",
         "closeupPictureCounter": "2 / 2 • Nahaufnahme-Vorschau",
         "infoBtn": "Richte das Ziel auf den beschädigten Teil aus und tippe dann auf den Auslöserknopf",
-        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen"
+        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen",
+        "selectParts": "Wählen Sie die Teile aus, an denen Sie Schaden nehmen"
       },
       "error": {
         "retry": "Erneut versuchen",

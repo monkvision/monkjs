@@ -48,10 +48,6 @@ export interface UploadQueueParams extends Pick<CaptureAppConfig, 'additionalTas
    * A collection of event handlers listening to upload events.
    */
   eventHandlers?: UploadEventHandlers[];
-  /**
-   * The vehicle parts that have been damaged.
-   */
-  damageVehicleParts?: VehiclePart[];
 }
 
 /**
@@ -116,6 +112,10 @@ export interface AddDamagePartSelectPictureUpload {
    * The picture to upload.
    */
   picture: MonkPicture;
+  /**
+   * User selected damaged parts.
+   */
+  vehicleParts: VehiclePart[];
 }
 /**
  * Union type describing every possible upload configurations for a picture taken.
@@ -133,7 +133,6 @@ function createAddImageOptions(
   enableThumbnail: boolean,
   additionalTasks?: CaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
-  vehicleParts?: VehiclePart[],
 ): AddImageOptions {
   if (upload.mode === PhotoCaptureMode.SIGHT) {
     return {
@@ -151,21 +150,27 @@ function createAddImageOptions(
       uploadType: ImageUploadType.PART_SELECT_SHOT,
       picture: upload.picture,
       inspectionId,
-      vehicleParts: vehicleParts!,
+      vehicleParts: upload.vehicleParts!,
       compliance,
       image_type: ImageType.CLOSE_UP,
       useThumbnailCaching: enableThumbnail,
     };
   }
-  return {
-    uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
-    picture: upload.picture,
-    siblingKey: `closeup-sibling-key-${siblingId}`,
-    firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
-    inspectionId,
-    compliance,
-    useThumbnailCaching: enableThumbnail,
-  };
+  if (
+    upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT ||
+    upload.mode === PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT
+  ) {
+    return {
+      uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
+      picture: upload.picture,
+      siblingKey: `closeup-sibling-key-${siblingId}`,
+      firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+      inspectionId,
+      compliance,
+      useThumbnailCaching: enableThumbnail,
+    };
+  }
+  return '' as never;
 }
 
 /**
@@ -177,7 +182,6 @@ export function useUploadQueue({
   additionalTasks,
   complianceOptions,
   eventHandlers,
-  damageVehicleParts,
 }: UploadQueueParams): Queue<PictureUpload> {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
@@ -197,7 +201,6 @@ export function useUploadQueue({
           true,
           additionalTasks,
           complianceOptions,
-          damageVehicleParts,
         ),
       );
       const uploadDurationMs = Date.now() - startTs;

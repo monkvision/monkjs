@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { CaptureAppConfig, Image, ImageStatus, Sight, VehiclePart } from '@monkvision/types';
+import { CaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';

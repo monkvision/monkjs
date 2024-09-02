@@ -44,19 +44,32 @@ export function usePictureTaken({
   tasksBySight,
 }: UseTakePictureParams): HandleTakePictureFunction {
   const { trackEvent } = useAnalytics();
-  return useCallback(
+  return useCallback<HandleTakePictureFunction>(
     (picture: MonkPicture) => {
       sightState.setLastPictureTakenUri(picture.uri);
-      const upload: PictureUpload =
-        addDamageHandle.mode === PhotoCaptureMode.SIGHT
-          ? {
-              mode: addDamageHandle.mode,
-              picture,
-              sightId: sightState.selectedSight.id,
-              tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
-            }
-          : { mode: addDamageHandle.mode, picture };
-      uploadQueue.push(upload);
+      switch (addDamageHandle.mode) {
+        case PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT:
+        case PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT:
+          uploadQueue.push({ mode: addDamageHandle.mode, picture });
+          break;
+        case PhotoCaptureMode.SIGHT:
+          uploadQueue.push({
+            mode: addDamageHandle.mode,
+            picture,
+            sightId: sightState.selectedSight.id,
+            tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
+          });
+          break;
+        case PhotoCaptureMode.ADD_DAMAGE_PART_SELECT:
+          uploadQueue.push({
+            mode: addDamageHandle.mode,
+            picture,
+            vehicleParts: addDamageHandle.vehicleParts,
+          });
+          break;
+        default:
+          throw new Error('Not Implemented Photo Capture Mode');
+      }
       if (addDamageHandle.mode === PhotoCaptureMode.SIGHT) {
         sightState.takeSelectedSight();
       } else {

@@ -121,12 +121,24 @@ export interface Add2ShotCloseUpImageOptions {
   compliance?: ComplianceOptions;
 }
 
+/**
+ * Options specified when adding a close up (an "add damage" image) to an inspection using the part select process.
+ */
 export type AddPartSelectCloseUpImageOptions = Pick<
   Add2ShotCloseUpImageOptions,
   'picture' | 'inspectionId' | 'compliance' | 'useThumbnailCaching'
 > & {
+  /**
+   * The type of the image upload : `ImageUploadType.PART_SELECT_SHOT`;
+   */
   uploadType: ImageUploadType.PART_SELECT_SHOT;
+  /**
+   * To mark image type as close up.
+   */
   image_type: ImageType.CLOSE_UP;
+  /**
+   * List of damage parts chosen by User with part selected wireframe
+   */
   vehicleParts: VehiclePart[];
 };
 

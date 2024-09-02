@@ -21,7 +21,7 @@ export function PhotoCaptureHUDElementsAddPartSelectShot({
   const { vehicleType } = useMonkAppState();
   const { palette } = useMonkTheme();
   const [selectedParts, setSelectedParts] = useState<VehiclePart[]>([]);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const style = usePhotoCaptureHUDElementsAddPartSelectShotStyle();
   useEffect(() => onAddDamageParts(selectedParts), [selectedParts]);
   if (partSelectState === 'image-capture') {
@@ -42,7 +42,7 @@ export function PhotoCaptureHUDElementsAddPartSelectShot({
             ...style.notification,
           }}
         >
-          Please select the parts you want to capture
+          {t('photo.hud.addDamage.selectParts ')}
         </div>
         <VehiclePartSelection vehicleType={vehicleType!} onPartsSelected={setSelectedParts} />
         {selectedParts.length !== 0 && (

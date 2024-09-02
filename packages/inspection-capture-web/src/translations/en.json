@@ -17,7 +17,8 @@
         "damagedPartCounter": "1 / 2 • Damaged part",
         "closeupPictureCounter": "2 / 2 • Closeup Picture",
         "infoBtn": "Aim the target at the damaged part then tap the shutter button",
-        "infoCloseup": "Take a closeup picture of the damage"
+        "infoCloseup": "Take a closeup picture of the damage",
+        "selectParts": "Select the parts where you damage is"
       },
       "error": {
         "retry": "Retry",

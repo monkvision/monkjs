@@ -51,7 +51,7 @@ describe('PhotoCaptureHUDElementsAddPartSelectShot component', () => {
         partSelectState='part-select'
       />,
     );
-    expect(re.getByText('Please select the parts you want to capture')).toBeInTheDocument();
+    expect(re.getByText('photo.hud.addDamage.selectParts')).toBeInTheDocument();
   });
 
   it('should show selected parts', () => {
