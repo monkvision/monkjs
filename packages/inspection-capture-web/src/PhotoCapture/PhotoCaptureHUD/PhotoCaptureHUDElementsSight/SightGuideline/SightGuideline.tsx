@@ -10,7 +10,8 @@ import { styles } from './SightGuideline.styles';
  * Props of the SightGuideline component.
  */
 export interface SightGuidelineProps
-  extends Pick<CaptureAppConfig, 'addDamage' | 'sightGuidelines' | 'enableSightGuidelines'> {
+  extends Pick<CaptureAppConfig, 'sightGuidelines' | 'enableSightGuidelines'>,
+    Partial<Pick<CaptureAppConfig, 'addDamage'>> {
   /**
    * The id of the sight.
    */
