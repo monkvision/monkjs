@@ -32,13 +32,13 @@ module.exports = {
 ## Project Configurations
 The following packages export shared configurations used to configure local development dependencies :
 
-- [@monkvision/jest-config](https://github.com/monkvision/monkjs/blob/main/configs/jest-config]/README.md) :
+- [@monkvision/jest-config](https://github.com/monkvision/monkjs/blob/main/configs/jest-config/README.md) :
   [Jest](https://jestjs.io/) configurations for unit testing.
-- [@monkvision/prettier-config](https://github.com/monkvision/monkjs/blob/main/configs/prettier-config]/README.md) :
+- [@monkvision/prettier-config](https://github.com/monkvision/monkjs/blob/main/configs/prettier-config/README.md) :
   [Prettier](https://prettier.io/) configurations for code formatting.
-- [@monkvision/svgo-config](https://github.com/monkvision/monkjs/blob/main/configs/svgo-config]/README.md) :
+- [@monkvision/svgo-config](https://github.com/monkvision/monkjs/blob/main/configs/svgo-config/README.md) :
   [SVGO](https://svgo.dev/) configurations for SVG linting.
-- [@monkvision/typescript-config](https://github.com/monkvision/monkjs/blob/main/configs/typescript-config]/README.md) :
+- [@monkvision/typescript-config](https://github.com/monkvision/monkjs/blob/main/configs/typescript-config/README.md) :
   Ready-to-use TypeScript config files.
 
 ## Testing Utilities

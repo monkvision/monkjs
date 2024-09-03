@@ -7,10 +7,7 @@
   "main": "index.js",
   "license": "BSD-3-Clause-Clear",
   "files": [
-    "index.js",
-    "base.js",
-    "react.js",
-    "__mocks__",
+    "*.js",
     "LICENSE",
     "README.md"
   ],
