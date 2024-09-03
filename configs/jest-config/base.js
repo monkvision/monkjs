@@ -2,7 +2,7 @@ const esModules = ['@monkvision/test-utils', 'ky'].join('|');
 
 module.exports = (options) => ({
   rootDir: './',
-  roots: options.monorepo ? ['<rootDir>', '<rootDir>/../../configs/test-utils/src/__mocks__'] : ['<rootDir>'],
+  roots: options?.monorepo ? ['<rootDir>', '<rootDir>/../../configs/test-utils/src/__mocks__'] : ['<rootDir>'],
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/test/**/*.test.ts'],
