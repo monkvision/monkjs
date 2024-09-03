@@ -184,5 +184,13 @@
     "overlay": "all-sLu0CfOt.svg",
     "vehicle": "all",
     "tasks": ["damage_detection"]
+  },
+  "all-9cw4tn4s": {
+    "id": "all-9cw4tn4s",
+    "category": "misc",
+    "label": "tire",
+    "overlay": "all-9cw4tn4s.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection", "wheel_analysis"]
   }
 }
