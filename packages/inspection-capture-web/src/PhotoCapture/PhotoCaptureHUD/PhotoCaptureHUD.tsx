@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
@@ -158,7 +158,9 @@ export function PhotoCaptureHUD({
       ).length,
     [images],
   );
-
+  useEffect(() => {
+    setAddDamagePartSelectState('part-select');
+  }, [mode]);
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
     trackEvent('Capture Closed');

@@ -42,7 +42,7 @@ export function PhotoCaptureHUDElementsAddPartSelectShot({
             ...style.notification,
           }}
         >
-          {t('photo.hud.addDamage.selectParts ')}
+          {t('photo.hud.addDamage.selectParts')}
         </div>
         <VehiclePartSelection vehicleType={vehicleType!} onPartsSelected={setSelectedParts} />
         {selectedParts.length !== 0 && (
