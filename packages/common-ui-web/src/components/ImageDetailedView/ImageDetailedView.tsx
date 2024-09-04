@@ -9,7 +9,9 @@ import { ImageDetailedViewOverlay } from './ImageDetailedViewOverlay';
  * etc. If this component is used mid-capture, set the `captureMode` prop to `true` so that you'll enable features such
  * as compliance errors, retakes etc.
  */
-export const ImageDetailedView = i18nWrap((props: ImageDetailedViewProps) => {
+export const ImageDetailedView = i18nWrap(function ImageDetailedView(
+  props: ImageDetailedViewProps,
+) {
   useI18nSync(props.lang);
   const {
     mainContainerStyle,
@@ -57,4 +59,5 @@ export const ImageDetailedView = i18nWrap((props: ImageDetailedViewProps) => {
       </div>
     </div>
   );
-}, i18nImageDetailedView);
+},
+i18nImageDetailedView);

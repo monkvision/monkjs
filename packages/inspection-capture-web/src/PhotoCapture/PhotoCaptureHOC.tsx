@@ -40,7 +40,7 @@ import { PhotoCapture, PhotoCaptureProps } from './PhotoCapture';
  *   );
  * }
  */
-export const PhotoCaptureHOC = i18nWrap((props: PhotoCaptureProps) => {
+export const PhotoCaptureHOC = i18nWrap(function PhotoCaptureHOC(props: PhotoCaptureProps) {
   return (
     <MonkProvider>
       <PhotoCapture {...props} />

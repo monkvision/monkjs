@@ -7,7 +7,10 @@ export interface SearchBarProps {
   onInput: (value: string) => void;
 }
 
-export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(({ onInput }, ref) => {
+export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(function SearchBar(
+  { onInput },
+  ref,
+) {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const isDarkTheme = useColorMode().colorMode === 'dark';
   const inputColor = useMemo(() => {

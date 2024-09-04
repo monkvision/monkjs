@@ -49,7 +49,7 @@ function getLoginErrorMessage(err: unknown): string {
  *
  * **Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**
  */
-export const Login = i18nWrap(({ onLoginSuccessful, lang, style = {} }: LoginProps) => {
+export const Login = i18nWrap(function Login({ onLoginSuccessful, lang, style = {} }: LoginProps) {
   useI18nSync(lang);
   const [isExpired, setIsExpired] = useState(false);
   const loading = useLoadingState();

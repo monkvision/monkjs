@@ -241,6 +241,7 @@ export function PhotoCapture({
         });
         allowRedirect();
         onComplete?.();
+        sightState.setIsInspectionCompleted(true);
       })
       .catch((err) => {
         loading.onError(err);
@@ -311,6 +312,7 @@ export function PhotoCapture({
           onValidate={handleGalleryValidate}
           enableAddDamage={enableAddDamage}
           validateButtonLabel={validateButtonLabel}
+          isInspectionCompleted={sightState.isInspectionCompleted}
           {...complianceOptions}
         />
       )}
