@@ -39,6 +39,17 @@ export enum UserMediaErrorType {
   /**
    * The camera stream couldn't be fetched because the web page does not have the permissions to access the camera.
    */
+  WEBPAGE_NOT_ALLOWED = 'webpage_not_allowed',
+  /**
+   * The camera stream couldn't be fetched because the camera permissions are not granted to the browser in the device
+   * settings.
+   */
+  BROWSER_NOT_ALLOWED = 'browser_not_allowed',
+  /**
+   * The camera stream couldn't be fetched, but the app is unable to know if it is because of the website or
+   * the browser not being allowed to have camera permission access. This error is usually returned on Firefox and
+   * other similar browsers where `navigator.permissions.query` is not supported for videoinput devices.
+   */
   NOT_ALLOWED = 'not_allowed',
   /**
    * The camera stream was successfully fetched, but it could be processed. This error can happen for the following
@@ -197,6 +208,7 @@ export function useUserMedia(
   const { handleError } = useMonitoring();
   const isActive = useRef(true);
 
+  let cameraPermissionState: PermissionState | null = null;
   useEffect(() => {
     return () => {
       isActive.current = false;
@@ -206,7 +218,16 @@ export function useUserMedia(
   const handleGetUserMediaError = (err: unknown) => {
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
-      type = UserMediaErrorType.NOT_ALLOWED;
+      switch (cameraPermissionState) {
+        case 'denied':
+          type = UserMediaErrorType.WEBPAGE_NOT_ALLOWED;
+          break;
+        case 'granted':
+          type = UserMediaErrorType.BROWSER_NOT_ALLOWED;
+          break;
+        default:
+          type = UserMediaErrorType.NOT_ALLOWED;
+      }
     } else if (
       err instanceof Error &&
       Object.values(InvalidStreamErrorName).includes(err.name as InvalidStreamErrorName)
@@ -242,37 +263,56 @@ export function useUserMedia(
     setLastConstraintsApplied(constraints);
 
     const getUserMedia = async () => {
+      setIsLoading(true);
+      if (stream) {
+        stream.removeEventListener('inactive', onStreamInactive);
+        stream.getTracks().forEach((track) => track.stop());
+      }
+      const deviceDetails = await analyzeCameraDevices(constraints);
+      const updatedConstraints = {
+        ...constraints,
+        video: {
+          ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
+          deviceId: { exact: deviceDetails.validDeviceIds },
+        },
+      };
+      const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
+      str?.addEventListener('inactive', onStreamInactive);
+      if (isActive.current) {
+        setStream(str);
+        setDimensions(getStreamDimensions(str, true));
+        setIsLoading(false);
+        setAvailableCameraDevices(deviceDetails.availableDevices);
+        setSelectedCameraDeviceId(getStreamDeviceId(str));
+      }
+    };
+    const getCameraPermissionState = async () => {
       try {
-        setIsLoading(true);
-        if (stream) {
-          stream.removeEventListener('inactive', onStreamInactive);
-          stream.getTracks().forEach((track) => track.stop());
-        }
-        const deviceDetails = await analyzeCameraDevices(constraints);
-        const updatedConstraints = {
-          ...constraints,
-          video: {
-            ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
-            deviceId: { exact: deviceDetails.validDeviceIds },
-          },
-        };
-        const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
-        str?.addEventListener('inactive', onStreamInactive);
-        if (isActive.current) {
-          setStream(str);
-          setDimensions(getStreamDimensions(str, true));
-          setIsLoading(false);
-          setAvailableCameraDevices(deviceDetails.availableDevices);
-          setSelectedCameraDeviceId(getStreamDeviceId(str));
-        }
+        return await navigator.permissions.query({
+          name: 'camera' as PermissionName,
+        });
       } catch (err) {
-        if (isActive.current) {
+        return null;
+      }
+    };
+    getUserMedia()
+      .catch((err) => {
+        return Promise.all([err, getCameraPermissionState()]);
+      })
+      .then((result) => {
+        if (!result) {
+          return Promise.all([null, getCameraPermissionState()]);
+        }
+        return result;
+      })
+      .then(([err, cameraPermission]) => {
+        cameraPermissionState = cameraPermission?.state ?? null;
+        if (err && isActive.current) {
           handleGetUserMediaError(err);
           throw err;
         }
-      }
-    };
-    getUserMedia().catch(handleError);
+      })
+      .catch(handleError);
   }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
 
   useEffect(() => {
