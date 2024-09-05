@@ -1,8 +1,0 @@
-{
-  "create-inspection": {
-    "errors": {
-      "retry": "Opnieuw proberen",
-      "create-inspection": "Er is een onverwachte fout opgetreden tijdens het maken van de inspectie."
-    }
-  }
-}
