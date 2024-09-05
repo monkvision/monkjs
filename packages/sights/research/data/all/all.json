@@ -192,5 +192,21 @@
     "overlay": "all-9cw4tn4s.svg",
     "vehicle": "all",
     "tasks": ["damage_detection", "wheel_analysis"]
+  },
+  "all-11w-_e9c": {
+    "id": "all-9cw4tn4s",
+    "category": "misc",
+    "label": "dashboard-screen",
+    "overlay": "all-11w-_e9c.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection"]
+  },
+  "all-mdwq0pl4": {
+    "id": "all-mdwq0pl4",
+    "category": "misc",
+    "label": "keys",
+    "overlay": "empty.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection"]
   }
 }

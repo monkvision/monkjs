@@ -558,5 +558,19 @@
     "fr": "Pneu",
     "de": "Reifen",
     "nl": "Band"
+  },
+  "dashboard-screen": {
+    "key": "dashboard-screen",
+    "en": "Dashboard Screen",
+    "fr": "Écran de tableau de bord",
+    "de": "Armaturenbrett Bildschirm",
+    "nl": "Dashboard scherm"
+  },
+  "keys": {
+    "key": "keys",
+    "en": "Keys",
+    "fr": "Clés",
+    "de": "Tasten",
+    "nl": "Sleutels"
   }
 }
