@@ -1,8 +1,0 @@
-{
-  "create-inspection": {
-    "errors": {
-      "retry": "Wiederholung",
-      "create-inspection": "Bei der Erstellung der Inspektion ist ein unerwarteter Fehler aufgetreten."
-    }
-  }
-}
