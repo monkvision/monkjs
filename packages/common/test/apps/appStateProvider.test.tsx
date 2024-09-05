@@ -85,6 +85,9 @@ describe('MonkAppStateProvider', () => {
       expect(params?.authToken).toBeNull();
       expect(params?.inspectionId).toBeNull();
       expect(params?.vehicleType).toBeNull();
+      expect(params?.availableVehicleTypes).toEqual(
+        expect.arrayContaining(Object.keys(props.config.sights)),
+      );
       expect(params?.steeringWheel).toBeNull();
       expect(typeof params?.getCurrentSights).toEqual('function');
       expect(typeof params?.setAuthToken).toEqual('function');

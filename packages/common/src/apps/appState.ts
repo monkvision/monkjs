@@ -32,6 +32,10 @@ export interface MonkAppState {
    */
   vehicleType: VehicleType | null;
   /**
+   * The list of available vehicle types in the app based on the sights in the app config.
+   */
+  availableVehicleTypes: VehicleType[];
+  /**
    * The position of the steering wheel.
    */
   steeringWheel: SteeringWheelPosition | null;
