@@ -129,6 +129,7 @@ export function MonkAppStateProvider({
     authToken,
     inspectionId,
     vehicleType,
+    availableVehicleTypes,
     steeringWheel,
     getCurrentSights,
     setAuthToken,
