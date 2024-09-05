@@ -19,6 +19,7 @@ import {
   MonkSearchParam,
   STORAGE_KEY_AUTH_TOKEN,
   useMonkAppState,
+  useMonkSearchParams,
 } from '../../src';
 
 let params: MonkAppState | null = null;
@@ -210,6 +211,23 @@ describe('MonkAppStateProvider', () => {
       unmount();
     });
 
+    it('should pass the available sights from the config to the useMonkSearchParams hook', () => {
+      const props = createProps();
+      const { unmount } = render(
+        <MonkAppStateProvider {...props}>
+          <TestComponent />
+        </MonkAppStateProvider>,
+      );
+
+      expect(useMonkSearchParams).toHaveBeenCalledWith(
+        expect.objectContaining({
+          availableVehicleTypes: expect.arrayContaining(Object.keys(props.config.sights)),
+        }),
+      );
+
+      unmount();
+    });
+
     describe('getCurrentSights function', () => {
       it('should return the proper sights when steering wheel is not enabled', () => {
         const props = createProps();
@@ -236,6 +254,10 @@ describe('MonkAppStateProvider', () => {
         props.config.fetchFromSearchParams = true;
         props.config.enableSteeringWheelPosition = true;
         (props.config as any).sights = {
+          [SteeringWheelPosition.LEFT]: {
+            [VehicleType.HATCHBACK]: ['test-sight-3', 'test-sight-4'],
+            [VehicleType.CUV]: ['test-sight-1', 'test-sight-2'],
+          },
           [SteeringWheelPosition.RIGHT]: {
             [VehicleType.HATCHBACK]: ['test-sight-1', 'test-sight-2'],
             [VehicleType.CUV]: ['test-sight-3', 'test-sight-4'],

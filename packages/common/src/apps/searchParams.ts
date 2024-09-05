@@ -73,11 +73,25 @@ function validateParamValue<T extends string>(
 }
 
 /**
+ * Options accepted by the useMonkSearchParams hook.
+ */
+export interface UseMonkSearchParamsOptions {
+  /**
+   * The list of available vehicle types to allow.
+   *
+   * @default Object.values(VehicleType)
+   */
+  availableVehicleTypes?: VehicleType[];
+}
+
+/**
  * Custom hook used to return a getter function used to fetch the value of different MonkSearchParams.
  *
  * @see MonkSearchParam
  */
-export function useMonkSearchParams(): { get: MonkSearchParamsGetter } {
+export function useMonkSearchParams({ availableVehicleTypes }: UseMonkSearchParamsOptions = {}): {
+  get: MonkSearchParamsGetter;
+} {
   const searchParams = useSearchParams();
 
   const get = useCallback(
@@ -89,7 +103,7 @@ export function useMonkSearchParams(): { get: MonkSearchParamsGetter } {
         case MonkSearchParam.INSPECTION_ID:
           return value;
         case MonkSearchParam.VEHICLE_TYPE:
-          return validateParamValue(value, VehicleType);
+          return validateParamValue(value, availableVehicleTypes ?? VehicleType);
         case MonkSearchParam.STEERING_WHEEL:
           return validateParamValue(value, SteeringWheelPosition);
         case MonkSearchParam.LANGUAGE:

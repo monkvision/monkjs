@@ -1,4 +1,6 @@
 import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
+import { renderHook } from '@testing-library/react-hooks';
+import { MonkSearchParam, useMonkSearchParams, useSearchParams, zlibDecompress } from '../../src';
 
 const zlibDecompressResult = 'zlibDecompress-result-test';
 
@@ -9,9 +11,6 @@ jest.mock('../../src/hooks', () => ({
 jest.mock('../../src/utils', () => ({
   zlibDecompress: jest.fn(() => zlibDecompressResult),
 }));
-
-import { renderHook } from '@testing-library/react-hooks';
-import { MonkSearchParam, useMonkSearchParams, zlibDecompress, useSearchParams } from '../../src';
 
 function mockSearchParams(searchParams: Partial<Record<MonkSearchParam, string>>) {
   const get = jest.fn((param) => searchParams[param as MonkSearchParam]);
@@ -87,10 +86,23 @@ describe('MonkSearchParams utils', () => {
       unmount();
     });
 
+    it('should return a null vehicle type if the value found in the search params is not in the available vehicle types', () => {
+      mockSearchParams({ [MonkSearchParam.VEHICLE_TYPE]: VehicleType.VAN });
+      const { result, unmount } = renderHook(useMonkSearchParams, {
+        initialProps: { availableVehicleTypes: [VehicleType.HATCHBACK, VehicleType.CITY] },
+      });
+
+      expect(result.current.get(MonkSearchParam.VEHICLE_TYPE)).toBeNull();
+
+      unmount();
+    });
+
     it('should return the vehicle type if it is found in the search params', () => {
       const vehicleType = VehicleType.HATCHBACK;
       mockSearchParams({ [MonkSearchParam.VEHICLE_TYPE]: vehicleType });
-      const { result, unmount } = renderHook(useMonkSearchParams);
+      const { result, unmount } = renderHook(useMonkSearchParams, {
+        initialProps: { availableVehicleTypes: [vehicleType] },
+      });
 
       expect(result.current.get(MonkSearchParam.VEHICLE_TYPE)).toEqual(vehicleType);
 
