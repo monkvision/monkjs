@@ -1,6 +1,13 @@
 import { CaptureAppConfig, Sight, SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import React, { PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useLoadingState, useObjectMemo } from '../hooks';
 import { MonkSearchParam, useMonkSearchParams } from './searchParams';
 import { MonkAppState, MonkAppStateContext } from './appState';
@@ -57,6 +64,14 @@ function getSights(
   });
 }
 
+function getAvailableVehicleTypes(config: CaptureAppConfig): VehicleType[] {
+  return (
+    config.enableSteeringWheelPosition
+      ? Object.keys(config.sights.left)
+      : Object.keys(config.sights)
+  ) as VehicleType[];
+}
+
 /**
  * A React context provider that declares the state for the common parameters used by Monk applications. The parameters
  * are described in the `MonkAppState` interface. Using options available in the App config (`config` prop),  this
@@ -77,7 +92,8 @@ export function MonkAppStateProvider({
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
   const [steeringWheel, setSteeringWheel] = useState<SteeringWheelPosition | null>(null);
-  const monkSearchParams = useMonkSearchParams();
+  const availableVehicleTypes = useMemo(() => getAvailableVehicleTypes(config), [config]);
+  const monkSearchParams = useMonkSearchParams({ availableVehicleTypes });
   useAppStateMonitoring({ authToken, inspectionId, vehicleType, steeringWheel });
   useAppStateAnalytics({ inspectionId });
 
