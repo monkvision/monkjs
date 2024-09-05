@@ -1,25 +1,25 @@
-#name: Build Demo App
-#run-name: Build Demo App On Pull Request
-#
-#on:
-#  pull_request:
-#    branches: [main]
-#
-#jobs:
-#  build:
-#    name: Build
-#    runs-on: ubuntu-latest
-#    permissions:
-#      actions: read
-#      contents: read
-#      security-events: write
-#
-#    steps:
-#      - name: 💾 Checking out the repository
-#        uses: actions/checkout@v4
-#      - name: ⚙️ Setting up the MonkJs project
-#        uses: ./.github/actions/monkjs-set-up
-#        with:
-#          build-env: production
-#      - name: 📱 Building the demo app
-#        run: cd apps/demo-app && yarn build:staging
+name: Build Demo App
+run-name: Build Demo App On Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: 💾 Checking out the repository
+        uses: actions/checkout@v4
+      - name: ⚙️ Setting up the MonkJs project
+        uses: ./.github/actions/monkjs-set-up
+        with:
+          build-env: production
+      - name: 📱 Building the demo app
+        run: cd apps/demo-app && yarn build:staging
