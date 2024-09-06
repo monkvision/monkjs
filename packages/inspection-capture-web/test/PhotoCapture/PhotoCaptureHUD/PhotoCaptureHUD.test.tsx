@@ -114,11 +114,10 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDButtons, {
       onTakePicture: props.handle?.takePicture,
       galleryPreview: props.lastPictureTakenUri ?? undefined,
-      action: 'close',
-      actionDisabled: !!props.loading.error || !!props.handle.error,
+      closeDisabled: !!props.loading.error || !!props.handle.error,
       galleryDisabled: !!props.loading.error || !!props.handle.error,
       takePictureDisabled: !!props.loading.error || !!props.handle.error,
-      showActionButton: props.showCloseButton,
+      showCloseButton: props.showCloseButton,
       onOpenGallery: props.onOpenGallery,
     });
 
@@ -158,12 +157,11 @@ describe('PhotoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    const { onAction } = (PhotoCaptureHUDButtons as jest.MockedFn<typeof PhotoCaptureHUDButtons>)
-      .mock.calls[0][0];
+    const { onClose } = (PhotoCaptureHUDButtons as jest.Mock).mock.calls[0][0];
     expectPropsOnChildMock(BackdropDialog, { show: false });
     jest.clearAllMocks();
 
-    act(() => onAction!());
+    act(() => onClose());
     expectPropsOnChildMock(BackdropDialog, { show: true });
     const { onConfirm } = (BackdropDialog as jest.Mock).mock.calls[0][0];
     jest.clearAllMocks();
@@ -213,42 +211,11 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDButtons, { takePictureDisabled: true });
   });
 
-  it('should set actionDisabled to true when on part select no parts are selected', () => {
-    const props = createProps();
-    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
-    render(<PhotoCaptureHUD {...props} />);
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { actionDisabled: true });
-  });
-
   it('should set showActionButton to true on part select', () => {
     const props = createProps();
     props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
     render(<PhotoCaptureHUD {...props} />);
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showActionButton: true });
-  });
-
-  it('should set takePictureDisabled to false when on image-capture mode', () => {
-    const props = createProps();
-    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
-    render(<PhotoCaptureHUD {...props} />);
-    act(() => {
-      (PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>).mock
-        .calls[0][0].onAction!();
-    });
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { takePictureDisabled: false });
-  });
-
-  it('should use check action when on part select mode', () => {
-    const props = createProps();
-    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
-    render(<PhotoCaptureHUD {...props} />);
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { action: 'check' });
-  });
-
-  it('should use close action when not on part select mode', () => {
-    const props = createProps();
-    render(<PhotoCaptureHUD {...props} />);
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { action: 'close' });
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showCloseButton: true });
   });
 
   it('onAction should setAddDamagePartSelectState to image-capture when on part select mode', () => {
@@ -257,7 +224,7 @@ describe('PhotoCaptureHUD component', () => {
     render(<PhotoCaptureHUD {...props} />);
     act(() => {
       (PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>).mock
-        .calls[0][0].onAction!();
+        .calls[0][0].onClose!();
     });
     expect(props.onAddDamageParts).not.toHaveBeenCalled();
     expect(props.onClose).not.toHaveBeenCalled();

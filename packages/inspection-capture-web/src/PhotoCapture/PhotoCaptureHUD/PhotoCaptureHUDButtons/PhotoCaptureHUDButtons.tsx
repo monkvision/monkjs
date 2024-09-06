@@ -7,54 +7,47 @@ import { PhotoCaptureHUDButtonsProps } from './PhotoCaptureHUDButtons.model';
  * Components implementing the main buttons of the PhotoCapture Camera HUD. This component implements 3 buttons :
  * - A take picture button
  * - A gallery button
- * - A action button (only displayed if the `onAction` callback is defined)
+ * - A close button (only displayed if the `onClose` callback is defined)
  */
 export function PhotoCaptureHUDButtons({
   galleryPreview,
   onTakePicture,
   onOpenGallery,
+  onClose,
   galleryDisabled = false,
   takePictureDisabled = false,
+  closeDisabled = false,
+  showCloseButton = false,
   showGalleryBadge = false,
   retakeCount = 0,
-  onAction,
-  actionDisabled = false,
-  showActionButton = false,
   action = 'close',
 }: PhotoCaptureHUDButtonsProps) {
   const { status: galleryStatus, eventHandlers: galleryEventHandlers } = useInteractiveStatus({
     disabled: galleryDisabled,
   });
-  const { status: actionButtonStatus, eventHandlers: actionEventHandlers } = useInteractiveStatus({
-    disabled: actionDisabled,
+  const { status: closeStatus, eventHandlers: closeEventHandlers } = useInteractiveStatus({
+    disabled: closeDisabled,
   });
-  const {
-    containerStyle,
-    gallery,
-    galleryBadgeStyle,
-    actionButton: confirmButton,
-    backgroundCoverStyle,
-  } = useCaptureHUDButtonsStyles({
-    galleryStatus,
-    actionButtonStatus,
-    actionDisabled,
-    actionBtnAvailable: !!onAction,
-    galleryPreview,
-    showActionButton,
-    action,
-    showGalleryBadge,
-  });
+  const { containerStyle, gallery, galleryBadgeStyle, close, backgroundCoverStyle } =
+    useCaptureHUDButtonsStyles({
+      galleryStatus,
+      closeStatus,
+      closeBtnAvailable: !!onClose,
+      galleryPreview,
+      showCloseButton,
+      showGalleryBadge,
+    });
 
   return (
     <div style={containerStyle}>
       <button
-        style={confirmButton.style}
-        disabled={actionDisabled}
-        onClick={onAction}
-        {...actionEventHandlers}
-        data-testid='monk-action-btn'
+        style={close.style}
+        disabled={closeDisabled}
+        onClick={onClose}
+        {...closeEventHandlers}
+        data-testid='monk-close-btn'
       >
-        <Icon icon={action} size={30} primaryColor={confirmButton.iconColor} />
+        <Icon icon={action} size={30} primaryColor={close.iconColor} />
       </button>
       <TakePictureButton onClick={onTakePicture} size={85} disabled={takePictureDisabled} />
       <button

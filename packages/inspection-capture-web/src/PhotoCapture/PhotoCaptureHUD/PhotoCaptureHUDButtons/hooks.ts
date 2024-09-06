@@ -7,17 +7,16 @@ import {
   useResponsiveStyle,
 } from '@monkvision/common';
 import {
-  actionButtonForegroundColors,
+  captureButtonForegroundColors,
   styles,
   captureButtonBackgroundColors,
-  checkButtonBackgroundColors,
 } from './PhotoCaptureHUDButtons.styles';
 import { ActionButtonProps } from './PhotoCaptureHUDButtons.model';
 
-type PhotoCaptureHUDButtonsStylesParams = Exclude<ActionButtonProps, 'onAction'> & {
+type PhotoCaptureHUDButtonsStylesParams = Exclude<ActionButtonProps, 'onClose'> & {
   galleryStatus: InteractiveStatus;
-  actionButtonStatus: InteractiveStatus;
-  actionBtnAvailable: boolean;
+  closeStatus: InteractiveStatus;
+  closeBtnAvailable: boolean;
   galleryPreview?: string;
   showGalleryBadge?: boolean;
 };
@@ -29,7 +28,7 @@ interface PhotoCaptureHUDButtonsStyles {
     iconColor: string;
   };
   galleryBadgeStyle: CSSProperties;
-  actionButton: {
+  close: {
     style: CSSProperties;
     iconColor: string;
   };
@@ -66,10 +65,10 @@ export function useCaptureHUDButtonsStyles(
       style: {
         ...styles['button'],
         backgroundColor: captureButtonBackgroundColors[params.galleryStatus],
-        borderColor: actionButtonForegroundColors[params.galleryStatus],
+        borderColor: captureButtonForegroundColors[params.galleryStatus],
         ...(params.galleryStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
       },
-      iconColor: actionButtonForegroundColors[params.galleryStatus],
+      iconColor: captureButtonForegroundColors[params.galleryStatus],
     },
     galleryBadgeStyle: {
       ...styles['buttonBadge'],
@@ -77,20 +76,15 @@ export function useCaptureHUDButtonsStyles(
       color: palette.text.primary,
       visibility: params.showGalleryBadge ? 'visible' : 'hidden',
     },
-    actionButton: {
+    close: {
       style: {
         ...styles['button'],
-        backgroundColor:
-          params.action === 'close'
-            ? captureButtonBackgroundColors[params.galleryStatus]
-            : checkButtonBackgroundColors[params.galleryStatus],
-        borderColor: actionButtonForegroundColors[params.actionButtonStatus],
-        ...(params.actionButtonStatus === InteractiveStatus.DISABLED
-          ? styles['buttonDisabled']
-          : {}),
-        visibility: params.showActionButton ? 'visible' : 'hidden',
+        backgroundColor: captureButtonBackgroundColors[params.closeStatus],
+        borderColor: captureButtonForegroundColors[params.closeStatus],
+        ...(params.closeStatus === InteractiveStatus.DISABLED ? styles['buttonDisabled'] : {}),
+        visibility: params.showCloseButton ? 'visible' : 'hidden',
       },
-      iconColor: actionButtonForegroundColors[params.actionButtonStatus],
+      iconColor: captureButtonForegroundColors[params.closeStatus],
     },
     backgroundCoverStyle: {
       ...styles['backgroundCover'],

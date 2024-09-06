@@ -319,7 +319,6 @@ describe('PhotoCapture component', () => {
     expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
-    console.log(tutorial);
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,

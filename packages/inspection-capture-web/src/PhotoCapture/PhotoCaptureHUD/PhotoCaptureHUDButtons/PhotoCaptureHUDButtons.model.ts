@@ -9,24 +9,24 @@ export interface ActionButtonProps {
    *
    * @default 'close'
    */
-  action?: ('close' | 'check') & IconName;
+  action?: 'close' & IconName;
   /**
-   * Boolean indicating if the action button is disabled.
+   * Boolean indicating if the close button is disabled.
    *
    * @default false
    */
-  actionDisabled?: boolean;
+  closeDisabled?: boolean;
   /**
-   * Boolean indicating if the action button should be displayed in the HUD on top of the Camera preview.
+   * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
    *
    * @default false
    */
-  showActionButton?: boolean;
+  showCloseButton?: boolean;
   /**
-   * Callback called when the user clicks on the action button. If this callback is not provided, the action button will
+   * Callback called when the user clicks on the close button. If this callback is not provided, the close button will
    * not be displayed on the screen.
    */
-  onAction?: () => void;
+  onClose?: () => void;
 }
 
 /**

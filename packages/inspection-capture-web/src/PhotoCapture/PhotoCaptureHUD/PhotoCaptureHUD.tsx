@@ -196,7 +196,9 @@ export function PhotoCaptureHUD({
       <PhotoCaptureHUDButtons
         onOpenGallery={onOpenGallery}
         onTakePicture={handle?.takePicture}
+        onClose={() => setShowCloseModal(true)}
         galleryPreview={lastPictureTakenUri ?? undefined}
+        closeDisabled={!!loading.error || !!handle.error}
         galleryDisabled={!!loading.error || !!handle.error}
         takePictureDisabled={
           !!loading.error ||
@@ -205,16 +207,7 @@ export function PhotoCaptureHUD({
           loading.isLoading ||
           showValidateAction
         }
-        action={showValidateAction ? 'check' : 'close'}
-        onAction={() =>
-          showValidateAction
-            ? setAddDamagePartSelectState('image-capture')
-            : setShowCloseModal(true)
-        }
-        actionDisabled={
-          !!loading.error || !!handle.error || (showValidateAction && !damageVehicleParts.length)
-        }
-        showActionButton={showCloseButton || showValidateAction}
+        showCloseButton={showCloseButton}
         showGalleryBadge={retakeCount > 0}
         retakeCount={retakeCount}
       />

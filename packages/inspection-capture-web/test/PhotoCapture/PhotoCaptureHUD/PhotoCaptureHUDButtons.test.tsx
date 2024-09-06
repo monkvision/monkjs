@@ -4,11 +4,11 @@ import { InteractiveStatus } from '@monkvision/types';
 import { TakePictureButton, Icon } from '@monkvision/common-ui-web';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PhotoCaptureHUDButtons } from '../../../src';
-import { actionButtonForegroundColors } from '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
+import { captureButtonForegroundColors } from '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
 
 const GALLERY_BTN_TEST_ID = 'monk-gallery-btn';
 const GALLERY_BADGE_TEST_ID = 'monk-gallery-badge';
-const CLOSE_BTN_TEST_ID = 'monk-action-btn';
+const CLOSE_BTN_TEST_ID = 'monk-close-btn';
 
 describe('CaptureHUDButtons component', () => {
   afterEach(() => {
@@ -62,7 +62,7 @@ describe('CaptureHUDButtons component', () => {
         {
           icon: expectedIcon,
           size: 30,
-          primaryColor: actionButtonForegroundColors[InteractiveStatus.DEFAULT],
+          primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
         expect.anything(),
       ]);
@@ -160,7 +160,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should displayed when showCloseButton is true', () => {
-      const { unmount } = render(<PhotoCaptureHUDButtons showActionButton />);
+      const { unmount } = render(<PhotoCaptureHUDButtons showCloseButton />);
 
       const closeBtn = screen.getByTestId(CLOSE_BTN_TEST_ID);
       expect(closeBtn).toHaveStyle({ visibility: 'visible' });
@@ -169,7 +169,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should not be disabled by default', () => {
-      const { unmount } = render(<PhotoCaptureHUDButtons showActionButton />);
+      const { unmount } = render(<PhotoCaptureHUDButtons showCloseButton />);
 
       const closeBtn = screen.getByTestId(CLOSE_BTN_TEST_ID);
       expect(closeBtn.getAttribute('disabled')).toBeNull();
@@ -178,7 +178,7 @@ describe('CaptureHUDButtons component', () => {
     });
 
     it('should be disabled when the closeDisabled prop is true', () => {
-      const { unmount } = render(<PhotoCaptureHUDButtons showActionButton actionDisabled={true} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons showCloseButton closeDisabled={true} />);
 
       const closeBtn = screen.getByTestId(CLOSE_BTN_TEST_ID);
       expect(closeBtn.getAttribute('disabled')).toBeDefined();
@@ -188,7 +188,7 @@ describe('CaptureHUDButtons component', () => {
 
     it('should get passed the onClose callback', () => {
       const onClose = jest.fn();
-      const { unmount } = render(<PhotoCaptureHUDButtons showActionButton onAction={onClose} />);
+      const { unmount } = render(<PhotoCaptureHUDButtons showCloseButton onClose={onClose} />);
 
       const closeBtn = screen.getByTestId(CLOSE_BTN_TEST_ID);
       fireEvent.click(closeBtn);
@@ -199,13 +199,13 @@ describe('CaptureHUDButtons component', () => {
 
     it('should display an image icon', () => {
       const expectedIcon = 'close';
-      const { unmount } = render(<PhotoCaptureHUDButtons showActionButton />);
+      const { unmount } = render(<PhotoCaptureHUDButtons showCloseButton />);
 
       expect((Icon as jest.Mock).mock.calls).toContainEqual([
         {
           icon: expectedIcon,
           size: 30,
-          primaryColor: actionButtonForegroundColors[InteractiveStatus.DEFAULT],
+          primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
         expect.anything(),
       ]);
