@@ -78,11 +78,6 @@ export interface PhotoCaptureHUDProps
    */
   onAddDamage: AddDamageHandle['handleAddDamage'];
   /**
-   * Used to add damage on part select mode. This is used to store the parts that the user has selected to take a
-   * picture
-   */
-  damageVehicleParts: AddDamageHandle['vehicleParts'];
-  /**
    * Callback to be called when the user selects the parts to take a picture of.
    */
   onAddDamageParts: AddDamageHandle['handleAddParts'];
@@ -124,7 +119,6 @@ export function PhotoCaptureHUD({
   onSelectSight,
   onRetakeSight,
   onAddDamage,
-  damageVehicleParts,
   onAddDamageParts,
   onCancelAddDamage,
   onOpenGallery,
@@ -147,8 +141,6 @@ export function PhotoCaptureHUD({
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
   const { trackEvent } = useAnalytics();
-  const [addDamagePartSelectState, setAddDamagePartSelectState] =
-    useState<PhotoCaptureHUDElementsProps['addDamagePartSelectState']>('part-select');
   const retakeCount = useMemo(
     () =>
       images.filter((image) =>
@@ -158,16 +150,11 @@ export function PhotoCaptureHUD({
       ).length,
     [images],
   );
-  useEffect(() => {
-    setAddDamagePartSelectState('part-select');
-  }, [mode]);
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
     trackEvent('Capture Closed');
     onClose?.();
   };
-  const showValidateAction =
-    mode === PhotoCaptureMode.ADD_DAMAGE_PART_SELECT && addDamagePartSelectState === 'part-select';
   return (
     <div style={style.container}>
       <div style={style.previewContainer} data-testid='camera-preview'>
@@ -178,7 +165,6 @@ export function PhotoCaptureHUD({
           sightsTaken={sightsTaken}
           mode={mode}
           onAddDamage={onAddDamage}
-          addDamagePartSelectState={addDamagePartSelectState}
           onAddDamageParts={onAddDamageParts}
           onCancelAddDamage={onCancelAddDamage}
           onSelectSight={onSelectSight}
@@ -201,11 +187,7 @@ export function PhotoCaptureHUD({
         closeDisabled={!!loading.error || !!handle.error}
         galleryDisabled={!!loading.error || !!handle.error}
         takePictureDisabled={
-          !!loading.error ||
-          !!handle.error ||
-          handle.isLoading ||
-          loading.isLoading ||
-          showValidateAction
+          !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
         }
         showCloseButton={showCloseButton}
         showGalleryBadge={retakeCount > 0}

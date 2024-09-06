@@ -48,7 +48,6 @@ function createProps(): PhotoCaptureHUDProps {
     loading: { isLoading: false, error: null } as unknown as LoadingState,
     onSelectSight: jest.fn(),
     onRetakeSight: jest.fn(),
-    damageVehicleParts: [],
     onAddDamageParts: jest.fn(),
     onAddDamage: jest.fn(),
     onCancelAddDamage: jest.fn(),
@@ -202,13 +201,6 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false, retakeCount: 0 });
 
     unmount();
-  });
-
-  it('should set takePictureDisabled to true when on part select', () => {
-    const props = createProps();
-    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
-    render(<PhotoCaptureHUD {...props} />);
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { takePictureDisabled: true });
   });
 
   it('should set showActionButton to true on part select', () => {

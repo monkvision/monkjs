@@ -35,10 +35,6 @@ export interface PhotoCaptureHUDElementsProps
    */
   onAddDamageParts: AddDamageHandle['handleAddParts'];
   /**
-   * The current state of the Add Damage mode of part selection.
-   */
-  addDamagePartSelectState: 'part-select' | 'image-capture';
-  /**
    * Callback to be called when the user clicks on the "Cancel" button of the Add Damage mode.
    */
   onCancelAddDamage: AddDamageHandle['handleCancelAddDamage'];

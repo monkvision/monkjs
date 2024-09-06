@@ -55,7 +55,6 @@ function createProps(): PhotoCaptureHUDElementsProps {
     tutorialStep: null,
     addDamage: AddDamage.TWO_SHOT,
     onAddDamageParts: jest.fn(),
-    addDamagePartSelectState: 'part-select',
   };
 }
 
@@ -138,7 +137,6 @@ describe('PhotoCaptureHUDElements component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDElementsAddPartSelectShot, {
       onCancel: props.onCancelAddDamage,
       onAddDamageParts: props.onAddDamageParts,
-      partSelectState: props.addDamagePartSelectState,
     });
     expect(PhotoCaptureHUDElementsSight).not.toHaveBeenCalled();
     expect(PhotoCaptureHUDElementsAddDamage1stShot).not.toHaveBeenCalled();

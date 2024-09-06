@@ -18,7 +18,9 @@
         "closeupPictureCounter": "2 / 2 • Closeup foto",
         "infoBtn": "Richt de markering op het beschadigde onderdeel en tik vervolgens op de sluitertknop",
         "infoCloseup": "Neem een closeup foto van de schade",
-        "selectParts": "Selecteer de onderdelen waar je schade zit"
+        "selectParts": "Selecteer de onderdelen waar je schade zit",
+        "accept": "Accepteren",
+        "cancel": "Annuleren"
       },
       "error": {
         "retry": "Opnieuw proberen",

@@ -1,57 +1,29 @@
 import { useMonkTheme } from '@monkvision/common';
 import { CSSProperties } from 'react';
-import { PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH } from '../PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
 
 export function usePhotoCaptureHUDElementsAddPartSelectShotStyle(): Record<
-  | 'notification'
-  | 'closeButton'
-  | 'infoNotification'
-  | 'partSelectNotification'
-  | 'stackItem'
-  | 'wrapper',
+  'popup' | 'dialogButtonGroup' | 'vehicleSelect' | 'button',
   CSSProperties
 > {
   const { palette } = useMonkTheme();
+  const minValueWithAspectRatio = (width: number) => `min(${width}dvw, calc(${width}dvh * 1.5))`;
   return {
-    notification: {
-      position: 'absolute',
-      padding: '10px 20px',
-      borderRadius: 30,
-      color: palette.information.xdark,
-      backgroundColor: palette.information.xlight,
-    },
-    infoNotification: {
-      top: 20,
-    },
-    partSelectNotification: {
-      bottom: 20,
-      maxWidth: `calc(98% - (${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 8}px))`,
-      fontSize: 14,
-    },
-    stackItem: {
-      position: 'absolute',
-      inset: 0,
+    popup: {
+      width: `clamp(${minValueWithAspectRatio(80)}, 80%, ${minValueWithAspectRatio(90)})`,
       backgroundColor: palette.background.base,
       display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
       flexDirection: 'column',
-    },
-    wrapper: {
-      width: `calc(98% - (${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 4}px))`,
-      height: '100%',
-      backgroundColor: palette.background.dark,
-      display: 'flex',
-      justifyContent: 'center',
-      flexDirection: 'column',
+      justifyItems: 'center',
+      padding: '3svw',
+      gap: 10,
+      borderRadius: '3svmin',
       alignItems: 'center',
+      boxSizing: 'border-box',
+      overflow: 'scroll',
+      maxHeight: '100%',
     },
-    closeButton: {
-      position: 'absolute',
-      left: 22,
-      top: 22,
-      width: 44,
-      height: 44,
-    },
+    dialogButtonGroup: { display: 'flex', gap: 20 },
+    vehicleSelect: { alignSelf: 'stretch', justifySelf: 'stretch' },
+    button: { padding: '.5svw 2svw', fontSize: 'min(14px, 3svmin)', borderRadius: '4svmin' },
   };
 }

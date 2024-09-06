@@ -41,7 +41,6 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
       <PhotoCaptureHUDElementsAddPartSelectShot
         onCancel={params.onCancelAddDamage}
         onAddDamageParts={params.onAddDamageParts}
-        partSelectState={params.addDamagePartSelectState}
       />
     );
   }
