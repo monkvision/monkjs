@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@monkvision/common-ui-web';
-import { AddDamage, CaptureAppConfig } from '@monkvision/types';
+import { CaptureAppConfig } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDTutorial.styles';
 import { TutorialSteps } from '../../hooks';
 import { usePhotoCaptureHUDButtonBackground } from '../hooks';
