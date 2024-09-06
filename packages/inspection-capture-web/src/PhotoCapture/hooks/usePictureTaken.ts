@@ -52,19 +52,19 @@ export function usePictureTaken({
         case PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT:
           uploadQueue.push({ mode: addDamageHandle.mode, picture });
           break;
+        case PhotoCaptureMode.ADD_DAMAGE_PART_SELECT:
+          uploadQueue.push({
+            mode: addDamageHandle.mode,
+            picture,
+            vehicleParts: addDamageHandle.vehicleParts,
+          });
+          break;
         case PhotoCaptureMode.SIGHT:
           uploadQueue.push({
             mode: addDamageHandle.mode,
             picture,
             sightId: sightState.selectedSight.id,
             tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
-          });
-          break;
-        case PhotoCaptureMode.ADD_DAMAGE_PART_SELECT:
-          uploadQueue.push({
-            mode: addDamageHandle.mode,
-            picture,
-            vehicleParts: addDamageHandle.vehicleParts,
           });
           break;
         default:

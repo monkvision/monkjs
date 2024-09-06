@@ -125,7 +125,7 @@ export type CaptureAppConfig = CameraConfig &
     /**
      * Indicating if Add Damage type. If disabled, the `Add Damage` button will be hidden.
      *
-     * @default AddDamage.TWO_SHOT
+     * @default AddDamage.PART_SELECT
      */
     addDamage: AddDamage;
     /**

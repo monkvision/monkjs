@@ -28,6 +28,7 @@ function createProps(): PhotoCaptureHUDTutorialProps {
     allowSkipTutorial: false,
     sightGuidelines: [],
     sightId: 'test-sight-id',
+    addDamage: AddDamage.TWO_SHOT,
   };
 }
 

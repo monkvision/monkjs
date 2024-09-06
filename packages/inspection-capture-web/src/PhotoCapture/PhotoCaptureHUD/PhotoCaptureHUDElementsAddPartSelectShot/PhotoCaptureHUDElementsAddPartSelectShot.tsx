@@ -15,6 +15,7 @@ export type PhotoCaptureHUDElementsAddPartSelectShotProps = Pick<
    */
   onCancel: PhotoCaptureHUDElementsProps['onCancelAddDamage'];
 };
+
 export function PhotoCaptureHUDElementsAddPartSelectShot({
   onCancel,
   onAddDamageParts,

@@ -214,6 +214,7 @@ export function PhotoCaptureHUD({
         onCloseTutorial={onCloseTutorial}
         allowSkipTutorial={allowSkipTutorial}
         sightId={selectedSight.id}
+        addDamage={addDamage}
         sightGuidelines={sightGuidelines}
       />
     </div>

@@ -209,7 +209,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
     return {
       en: `Damage on ${partsTranslation.map((part) => part.en).join(', ')}`,
-      fr: `Dommages sur ${partsTranslation.map((part) => part.en).join(', ')}`,
+      fr: `Dégât sur ${partsTranslation.map((part) => part.en).join(', ')}`,
       de: `Schaden an ${partsTranslation.map((part) => part.en).join(', ')}`,
       nl: `Schade aan ${partsTranslation.map((part) => part.en).join(', ')}`,
     };

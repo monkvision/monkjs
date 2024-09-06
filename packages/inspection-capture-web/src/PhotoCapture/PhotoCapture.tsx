@@ -130,7 +130,7 @@ export function PhotoCapture({
   customComplianceThresholdsPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
-  addDamage = AddDamage.TWO_SHOT,
+  addDamage = AddDamage.PART_SELECT,
   sightGuidelines,
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
   allowSkipTutorial = true,
