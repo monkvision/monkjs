@@ -2,7 +2,7 @@
   "id": "demo-app-dev",
   "description": "Config for the dev Demo App.",
   "allowSkipRetake": true,
-  "addDamage": "two_shot",
+  "addDamage": "part_select",
   "enableSightGuidelines": true,
   "allowVehicleTypeSelection": true,
   "allowManualLogin": true,
