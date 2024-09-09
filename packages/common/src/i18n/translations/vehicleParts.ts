@@ -442,16 +442,34 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
     de: 'Kofferraum',
     nl: 'Kofferbak',
   },
+  [VehiclePart.BACKGROUND]: {
+    en: 'Background',
+    fr: 'Arrière-plan',
+    de: 'Hintergrund',
+    nl: 'Achtergrond',
+  },
+  [VehiclePart.CAR_INSIDE]: {
+    en: 'Car Inside',
+    fr: 'Intérieur',
+    de: 'Auto innen',
+    nl: 'Auto binnen',
+  },
+  [VehiclePart.DAMAGED_CAR_INSIDE]: {
+    en: 'Damaged Car Inside',
+    fr: 'Intérieur endommagé',
+    de: 'Beschädigtes Auto innen',
+    nl: 'Beschadigde auto binnen',
+  },
+  [VehiclePart.HANDLE_BACK_CENTER]: {
+    en: 'Handle Back Center',
+    fr: 'Poignée arrière centre',
+    de: 'Griff Rückseite Mitte',
+    nl: 'Handgreep Terug Midden',
+  },
   [VehiclePart.IGNORE]: {
     en: 'IGNORE',
     fr: 'IGNORE',
     de: 'IGNORE',
     nl: 'IGNORE',
-  },
-  [VehiclePart.BACKGROUND]: {
-    en: 'BACKGROUND',
-    fr: 'BACKGROUND',
-    de: 'BACKGROUND',
-    nl: 'BACKGROUND',
   },
 };
