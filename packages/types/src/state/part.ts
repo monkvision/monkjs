@@ -79,6 +79,9 @@ export enum VehiclePart {
   WIPER_BACK = 'wiper_back',
   WIPER_FRONT = 'wiper_front',
   WHEEL = 'wheel',
+  CAR_INSIDE = 'car_inside',
+  DAMAGED_CAR_INSIDE = 'damaged_car_inside',
+  HANDLE_BACK_CENTER = 'handle_back_center',
 }
 
 /**
