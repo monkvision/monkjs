@@ -123,7 +123,6 @@ export class SentryMonitoringAdapter extends DebugMonitoringAdapter implements M
   }
 
   override setUserId(id: string): void {
-    console.log('Hello');
     Sentry.setUser({ id });
   }
 
