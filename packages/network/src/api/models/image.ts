@@ -1,4 +1,4 @@
-import { TranslationObject } from '@monkvision/types';
+import { TranslationObject, VehiclePart } from '@monkvision/types';
 import type { ApiAdditionalData, ApiCenterOnElement, ApiLabelPrediction } from './common';
 import type { ApiRenderedOutputs } from './renderedOutput';
 import type { ApiImageComplianceResults } from './compliance';
@@ -19,7 +19,7 @@ export interface ApiRelatedImage {
 export type ApiRelatedImages = ApiRelatedImage[];
 
 export interface ApiViewpointComponent {
-  centers_on: ApiCenterOnElement[];
+  centers_on: Array<ApiCenterOnElement | VehiclePart>;
   distance?: string;
   is_exterior?: boolean;
 }

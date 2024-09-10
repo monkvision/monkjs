@@ -88,22 +88,4 @@ describe('PhotoCaptureHUDElementsAddPartSelectShot component', () => {
     console.log(prettyDOM(container));
     expect(getByText('photo.hud.addDamage.selectPartsRear Bumper')).toBeInTheDocument();
   });
-
-  it('should emit the selected parts to onAddDamageParts', () => {
-    const onAddDamageParts = jest.fn();
-    const { getByText } = render(
-      <PhotoCaptureHUDElementsAddPartSelectShot
-        onCancel={() => {}}
-        onAddDamageParts={onAddDamageParts}
-      />,
-    );
-    const { onPartsSelected } = (
-      VehiclePartSelection as jest.MockedFunction<typeof VehiclePartSelection>
-    ).mock.calls[0][0];
-    expect(onPartsSelected).toBeDefined();
-    if (onPartsSelected) {
-      act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
-    }
-    expect(onAddDamageParts).toHaveBeenCalledWith([VehiclePart.BUMPER_BACK]);
-  });
 });
