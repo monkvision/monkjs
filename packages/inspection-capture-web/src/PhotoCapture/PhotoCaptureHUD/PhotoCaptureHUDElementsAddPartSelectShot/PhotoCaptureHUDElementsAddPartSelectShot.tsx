@@ -34,6 +34,9 @@ export function PhotoCaptureHUDElementsAddPartSelectShot({
     setShowDialog(false);
     onAddDamageParts(selectedParts);
   };
+  if (!vehicleType) {
+    throw new Error('Vehicle type state is not found from useMonkAppState');
+  }
   return (
     <BackdropDialog
       show={showDialog}
@@ -41,7 +44,7 @@ export function PhotoCaptureHUDElementsAddPartSelectShot({
         <div style={style.popup}>
           {t('photo.hud.addDamage.selectParts')}
           <span style={style.vehicleSelect}>
-            <VehiclePartSelection vehicleType={vehicleType!} onPartsSelected={setSelectedParts} />
+            <VehiclePartSelection vehicleType={vehicleType} onPartsSelected={setSelectedParts} />
           </span>
           {selectedParts
             .map((part) => vehiclePartLabels[part][getLanguage(i18n.language)])

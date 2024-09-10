@@ -77,11 +77,14 @@ describe('PhotoCaptureHUDElementsAddPartSelectShot component', () => {
     const { getByText, container } = render(
       <PhotoCaptureHUDElementsAddPartSelectShot onCancel={() => {}} onAddDamageParts={() => {}} />,
     );
-    const onPartsSelected = (
+    const { onPartsSelected } = (
       VehiclePartSelection as jest.MockedFunction<typeof VehiclePartSelection>
-    ).mock.calls[0][0].onPartsSelected!;
+    ).mock.calls[0][0];
+    expect(onPartsSelected).toBeDefined();
     expect(getByText('photo.hud.addDamage.selectParts')).toBeInTheDocument();
-    act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
+    if (onPartsSelected) {
+      act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
+    }
     console.log(prettyDOM(container));
     expect(getByText('photo.hud.addDamage.selectPartsRear Bumper')).toBeInTheDocument();
   });
@@ -94,11 +97,13 @@ describe('PhotoCaptureHUDElementsAddPartSelectShot component', () => {
         onAddDamageParts={onAddDamageParts}
       />,
     );
-    const onPartsSelected = (
+    const { onPartsSelected } = (
       VehiclePartSelection as jest.MockedFunction<typeof VehiclePartSelection>
-    ).mock.calls[0][0].onPartsSelected!;
-    act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
-    fireEvent.click(getByText('photo.hud.addDamage.accept'));
+    ).mock.calls[0][0];
+    expect(onPartsSelected).toBeDefined();
+    if (onPartsSelected) {
+      act(() => onPartsSelected([VehiclePart.BUMPER_BACK]));
+    }
     expect(onAddDamageParts).toHaveBeenCalledWith([VehiclePart.BUMPER_BACK]);
   });
 });

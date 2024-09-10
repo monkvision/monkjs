@@ -214,10 +214,15 @@ describe('PhotoCaptureHUD component', () => {
     const props = createProps();
     props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
     render(<PhotoCaptureHUD {...props} />);
-    act(() => {
-      (PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>).mock
-        .calls[0][0].onClose!();
-    });
+    const { onClose } = (
+      PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>
+    ).mock.calls[0][0];
+    expect(onClose).toBeDefined();
+    if (onClose) {
+      act(() => {
+        onClose();
+      });
+    }
     expect(props.onAddDamageParts).not.toHaveBeenCalled();
     expect(props.onClose).not.toHaveBeenCalled();
   });

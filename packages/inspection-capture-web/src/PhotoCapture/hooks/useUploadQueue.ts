@@ -150,7 +150,7 @@ function createAddImageOptions(
       uploadType: ImageUploadType.PART_SELECT_SHOT,
       picture: upload.picture,
       inspectionId,
-      vehicleParts: upload.vehicleParts!,
+      vehicleParts: upload.vehicleParts,
       compliance,
       image_type: ImageType.CLOSE_UP,
       useThumbnailCaching: enableThumbnail,
