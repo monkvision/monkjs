@@ -30,7 +30,7 @@ This wrapped is used by internal monk SDK to wrap the component with I18nextProv
 
 ### Example of usage
 
-```ts
+```tsx
 import i18n from '@monkvision/common';
 import { i18nMyComponent } from './i18n';
 
