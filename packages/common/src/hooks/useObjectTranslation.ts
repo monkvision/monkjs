@@ -1,5 +1,5 @@
 import { TranslationObject } from '@monkvision/types';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, UseTranslationOptions } from 'react-i18next';
 import { useCallback } from 'react';
 import { getLanguage } from '../i18n';
 
@@ -17,8 +17,11 @@ export interface UseObjectTranslationResult {
 /**
  * Custom hook used to get a translation function tObj that translates TranslationObjects.
  */
-export function useObjectTranslation(): UseObjectTranslationResult {
-  const { i18n } = useTranslation();
+export function useObjectTranslation(
+  ns?: string,
+  options?: UseTranslationOptions<any>,
+): UseObjectTranslationResult {
+  const { i18n } = useTranslation(ns, options);
   const tObj = useCallback(
     (obj: TranslationObject) => {
       return obj[getLanguage(i18n.language)] ?? 'translation-not-found';
