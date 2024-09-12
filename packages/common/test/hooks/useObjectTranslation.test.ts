@@ -29,4 +29,13 @@ describe('useObjectTranslation hook', () => {
     expect(typeof result.current.tObj({} as TranslationObject)).toBe('string');
     unmount();
   });
+
+  it('should pass the options parameters to the useTranslation hook', () => {
+    const ns = 'test-ns';
+    const options = { lng: 'nl' };
+    const { unmount } = renderHook(() => useObjectTranslation(ns, options));
+    expect(useTranslation).toHaveBeenCalledWith(ns, options);
+
+    unmount();
+  });
 });
