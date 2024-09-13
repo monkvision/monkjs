@@ -65,9 +65,8 @@ export function VehiclePartSelection({
     part: VehiclePart,
   ) => ({
     style: {
-      // TODO: need to finalize the color for the selected parts.
-      fill: selectedParts.includes(part) ? palette.primary.xlight : undefined,
-      stroke: palette.primary.light,
+      fill: selectedParts.includes(part) ? palette.primary.base : undefined,
+      stroke: palette.text.primary,
       display: 'block',
     },
   });

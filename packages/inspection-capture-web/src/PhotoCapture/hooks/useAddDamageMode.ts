@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
-import { useObjectMemo } from '@monkvision/common';
+import { useMonkAppState, useObjectMemo } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
+import { AddDamage, VehiclePart } from '@monkvision/types';
 
 /**
  * Enum of the different picture taking modes that the PhotoCapture component can be in.
@@ -18,6 +19,10 @@ export enum PhotoCaptureMode {
    * ADD_DAMAGE_2ND_SHOT mode : user is asked to take a zoomed picture of a damage on the car.
    */
   ADD_DAMAGE_2ND_SHOT = 'add_damage_2nd_shot',
+  /**
+   * ADD_DAMAGE_PART_SELECT mode : user is asked to take a close-up picture of a damage on the car part.
+   */
+  ADD_DAMAGE_PART_SELECT = 'add_damage_part_select',
 }
 
 /**
@@ -29,11 +34,19 @@ export interface AddDamageHandle {
    */
   mode: PhotoCaptureMode;
   /**
+   * The list of parts that the user has selected to take a picture of.
+   */
+  vehicleParts: VehiclePart[];
+  /**
    * Callback to be called when the user clicks on the "Add Damage" button.
    */
   handleAddDamage: () => void;
   /**
-   * Callback to be called everytime the user takes a picture to update the mode after it.
+   * Callback to be called when the user selects the parts to take a picture of.
+   */
+  handleAddParts: (parts: VehiclePart[]) => void;
+  /**
+   * Callback to be called every time the user takes a picture to update the mode after it.
    */
   updatePhotoCaptureModeAfterPictureTaken: () => void;
   /**
@@ -47,13 +60,29 @@ export interface AddDamageHandle {
  */
 export function useAddDamageMode(): AddDamageHandle {
   const [mode, setMode] = useState(PhotoCaptureMode.SIGHT);
+  const [vehicleParts, setVehicleParts] = useState<VehiclePart[]>([]);
   const { trackEvent } = useAnalytics();
+  const { config } = useMonkAppState();
 
   const handleAddDamage = useCallback(() => {
-    setMode(PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT);
-    trackEvent('AddDamage Selected', {
-      mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
-    });
+    switch (config.addDamage) {
+      case AddDamage.TWO_SHOT:
+        setMode(PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT);
+        trackEvent('AddDamage Selected', {
+          mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+        });
+        return;
+      case AddDamage.PART_SELECT:
+        setMode(PhotoCaptureMode.ADD_DAMAGE_PART_SELECT);
+        trackEvent('AddDamage Selected', {
+          mode: PhotoCaptureMode.ADD_DAMAGE_PART_SELECT,
+        });
+        return;
+      case AddDamage.DISABLED:
+        throw new Error('Add Damage feature is disabled');
+      default:
+        throw new Error('Unknown Add Damage type');
+    }
   }, []);
 
   const updatePhotoCaptureModeAfterPictureTaken = useCallback(() => {
@@ -71,9 +100,14 @@ export function useAddDamageMode(): AddDamageHandle {
     setMode(PhotoCaptureMode.SIGHT);
   }, []);
 
+  const handleAddParts = useCallback((parts: VehiclePart[]) => {
+    setVehicleParts(parts);
+  }, []);
   return useObjectMemo({
     mode,
+    vehicleParts,
     handleAddDamage,
+    handleAddParts,
     updatePhotoCaptureModeAfterPictureTaken,
     handleCancelAddDamage,
   });

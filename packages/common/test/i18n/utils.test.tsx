@@ -72,8 +72,8 @@ describe('Monkvision i18n utils', () => {
     }>;
 
     it('should wrap the component in a I18nextProvider with the given instance', () => {
-      const instance = { test: 'test' };
-      const Wrapped = i18nWrap(TestComponent, instance as unknown as i18n);
+      const instance = { test: 'test' } as unknown as i18n;
+      const Wrapped = i18nWrap(TestComponent, instance);
 
       const { unmount } = render(<Wrapped />);
 

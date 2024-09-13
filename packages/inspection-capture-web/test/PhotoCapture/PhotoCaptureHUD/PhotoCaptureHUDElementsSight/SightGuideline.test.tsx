@@ -4,6 +4,7 @@ import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button } from '@monkvision/common-ui-web';
 import { SightGuideline } from '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight/SightGuideline';
 import { getLanguage } from '@monkvision/common';
+import { AddDamage } from '@monkvision/types';
 
 function createProps() {
   return {
@@ -18,7 +19,7 @@ function createProps() {
         information: 'info-test',
       },
     ],
-    enableAddDamage: true,
+    addDamage: AddDamage.TWO_SHOT,
     enableSightGuidelines: true,
   };
 }

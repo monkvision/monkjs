@@ -1,4 +1,4 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus } from '@monkvision/types';
 
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
   ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
@@ -48,6 +48,7 @@ function createProps(): PhotoCaptureHUDProps {
     loading: { isLoading: false, error: null } as unknown as LoadingState,
     onSelectSight: jest.fn(),
     onRetakeSight: jest.fn(),
+    onAddDamageParts: jest.fn(),
     onAddDamage: jest.fn(),
     onCancelAddDamage: jest.fn(),
     onRetry: jest.fn(),
@@ -60,6 +61,7 @@ function createProps(): PhotoCaptureHUDProps {
       dimensions: { height: 2, width: 4 },
       previewDimensions: { height: 111, width: 2222 },
     } as unknown as CameraHandle,
+    addDamage: AddDamage.TWO_SHOT,
     cameraPreview: <div data-testid={cameraTestId}></div>,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     currentTutorialStep: null,
@@ -199,5 +201,29 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false, retakeCount: 0 });
 
     unmount();
+  });
+
+  it('should set showActionButton to true on part select', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showCloseButton: true });
+  });
+
+  it('onAction should setAddDamagePartSelectState to image-capture when on part select mode', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUD {...props} />);
+    const { onClose } = (
+      PhotoCaptureHUDButtons as jest.MockedFunction<typeof PhotoCaptureHUDButtons>
+    ).mock.calls[0][0];
+    expect(onClose).toBeDefined();
+    if (onClose) {
+      act(() => {
+        onClose();
+      });
+    }
+    expect(props.onAddDamageParts).not.toHaveBeenCalled();
+    expect(props.onClose).not.toHaveBeenCalled();
   });
 });

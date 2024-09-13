@@ -1,5 +1,6 @@
 import { sights } from '@monkvision/sights';
 import {
+  AddDamage,
   CameraResolution,
   ComplianceIssue,
   CompressionFormat,
@@ -111,7 +112,7 @@ function createProps(): PhotoCaptureProps {
     allowImageUpscaling: true,
     useAdaptiveImageQuality: false,
     allowSkipRetake: true,
-    enableAddDamage: true,
+    addDamage: AddDamage.TWO_SHOT,
     maxUploadDurationWarning: 456,
     enableSightGuidelines: true,
     sightGuidelines: [
@@ -289,7 +290,7 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
 
-    expectPropsOnChildMock(Camera, { HUDComponent: PhotoCaptureHUD });
+    expectPropsOnChildMock(Camera, { HUDComponent: PhotoCaptureHUD as any });
 
     unmount();
   });
@@ -318,7 +319,6 @@ describe('PhotoCapture component', () => {
     expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
-    console.log(tutorial);
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,
@@ -336,7 +336,7 @@ describe('PhotoCapture component', () => {
         showCloseButton: props.showCloseButton,
         onOpenGallery: expect.any(Function),
         images,
-        enableAddDamage: props.enableAddDamage,
+        addDamage: props.addDamage,
         enableSightGuidelines: props.enableSightGuidelines,
         sightGuidelines: props.sightGuidelines,
         currentTutorialStep: tutorial.currentTutorialStep,

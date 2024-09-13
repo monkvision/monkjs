@@ -8,7 +8,7 @@ import { TutorialSteps } from '../../hooks';
  * Props of the PhotoCaptureHUDElementsSight component.
  */
 export interface PhotoCaptureHUDElementsSightProps
-  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
+  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The list of sights provided to the PhotoCapture component.
    */

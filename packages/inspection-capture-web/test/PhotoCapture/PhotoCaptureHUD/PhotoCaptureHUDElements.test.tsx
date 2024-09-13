@@ -1,4 +1,4 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus } from '@monkvision/types';
 
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight', () => ({
   PhotoCaptureHUDElementsSight: jest.fn(() => <></>),
@@ -16,6 +16,13 @@ jest.mock(
   }),
 );
 
+jest.mock(
+  '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsAddPartSelectShot',
+  () => ({
+    PhotoCaptureHUDElementsAddPartSelectShot: jest.fn(() => <></>),
+  }),
+);
+
 import { sights } from '@monkvision/sights';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
@@ -28,6 +35,7 @@ import {
   PhotoCaptureHUDElementsProps,
   PhotoCaptureHUDElementsSight,
 } from '../../../src';
+import { PhotoCaptureHUDElementsAddPartSelectShot } from '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsAddPartSelectShot';
 
 function createProps(): PhotoCaptureHUDElementsProps {
   const captureSights = [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']];
@@ -45,6 +53,8 @@ function createProps(): PhotoCaptureHUDElementsProps {
     error: null,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     tutorialStep: null,
+    addDamage: AddDamage.TWO_SHOT,
+    onAddDamageParts: jest.fn(),
   };
 }
 
@@ -119,5 +129,16 @@ describe('PhotoCaptureHUDElements component', () => {
     expect(PhotoCaptureHUDElementsAddDamage1stShot).not.toHaveBeenCalled();
 
     unmount();
+  });
+  it('should return the PhotoCaptureHUDElementsAddPartSelectShot componet if the mode is part select', () => {
+    const props = createProps();
+    props.mode = PhotoCaptureMode.ADD_DAMAGE_PART_SELECT;
+    render(<PhotoCaptureHUDElements {...props} />);
+    expectPropsOnChildMock(PhotoCaptureHUDElementsAddPartSelectShot, {
+      onCancel: props.onCancelAddDamage,
+      onAddDamageParts: props.onAddDamageParts,
+    });
+    expect(PhotoCaptureHUDElementsSight).not.toHaveBeenCalled();
+    expect(PhotoCaptureHUDElementsAddDamage1stShot).not.toHaveBeenCalled();
   });
 });

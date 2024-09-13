@@ -1,0 +1,1 @@
+export { PhotoCaptureHUDElementsAddPartSelectShot } from './PhotoCaptureHUDElementsAddPartSelectShot';

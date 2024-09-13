@@ -68,6 +68,7 @@ export const styles: Styles = {
   },
   buttonDisabled: {
     cursor: 'default',
+    opacity: 0.3,
   },
   backgroundCover: {
     width: '100%',

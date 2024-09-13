@@ -1,4 +1,4 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus } from '@monkvision/types';
 
 jest.mock('../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDCounter', () => ({
   PhotoCaptureHUDCounter: jest.fn(() => <></>),
@@ -48,6 +48,7 @@ function createProps(): PhotoCaptureHUDElementsSightProps {
       { sightId: 'test-sight-2', status: ImageStatus.SUCCESS },
     ] as Image[],
     tutorialStep: null,
+    addDamage: AddDamage.TWO_SHOT,
   };
 }
 

@@ -1,6 +1,12 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { sights } from '@monkvision/sights';
-import { ComplianceIssue, ComplianceOptions, Image, ImageStatus } from '@monkvision/types';
+import {
+  AddDamage,
+  ComplianceIssue,
+  ComplianceOptions,
+  Image,
+  ImageStatus,
+} from '@monkvision/types';
 import { createEmptyMonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
 import { useInspectionGalleryItems } from '../../../../src/components/InspectionGallery/hooks';
@@ -19,6 +25,7 @@ function createProps(): InspectionGalleryProps {
     },
     refreshIntervalMs: 1234,
     captureMode: true,
+    addDamage: AddDamage.TWO_SHOT,
   };
 }
 

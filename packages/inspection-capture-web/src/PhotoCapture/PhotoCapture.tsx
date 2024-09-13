@@ -24,6 +24,7 @@ import {
   DeviceOrientation,
   PhotoCaptureTutorialOption,
   Sight,
+  AddDamage,
 } from '@monkvision/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -59,7 +60,7 @@ export interface PhotoCaptureProps
       | 'showCloseButton'
       | 'enforceOrientation'
       | 'allowSkipRetake'
-      | 'enableAddDamage'
+      | 'addDamage'
       | 'sightGuidelines'
       | 'enableSightGuidelines'
       | 'enableTutorial'
@@ -129,7 +130,7 @@ export function PhotoCapture({
   customComplianceThresholdsPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
-  enableAddDamage = true,
+  addDamage = AddDamage.PART_SELECT,
   sightGuidelines,
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
   allowSkipTutorial = true,
@@ -261,6 +262,7 @@ export function PhotoCapture({
     onSelectSight: sightState.selectSight,
     onRetakeSight: sightState.retakeSight,
     onAddDamage: addDamageHandle.handleAddDamage,
+    onAddDamageParts: addDamageHandle.handleAddParts,
     onCancelAddDamage: addDamageHandle.handleCancelAddDamage,
     onRetry: sightState.retryLoadingInspection,
     loading,
@@ -268,7 +270,7 @@ export function PhotoCapture({
     inspectionId,
     showCloseButton,
     images,
-    enableAddDamage,
+    addDamage,
     sightGuidelines,
     enableSightGuidelines,
     currentTutorialStep,
@@ -310,7 +312,7 @@ export function PhotoCapture({
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}
-          enableAddDamage={enableAddDamage}
+          addDamage={addDamage}
           validateButtonLabel={validateButtonLabel}
           isInspectionCompleted={sightState.isInspectionCompleted}
           {...complianceOptions}

@@ -1,5 +1,7 @@
 import { InteractiveStatus } from '@monkvision/types';
 
+const { vehiclePartLabels } = jest.requireActual('@monkvision/common');
+
 function createMockLoadingState() {
   return {
     isLoading: false,
@@ -59,6 +61,7 @@ export = {
   complianceIssueLabels,
   imageStatusLabels,
   getInspectionImages,
+  vehiclePartLabels,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

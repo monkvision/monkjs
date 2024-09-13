@@ -149,7 +149,7 @@ describe('CaptureHUDButtons component', () => {
     });
   });
 
-  describe('Close button', () => {
+  describe('Action button', () => {
     it('should not be displayed by default', () => {
       const { unmount } = render(<PhotoCaptureHUDButtons />);
 

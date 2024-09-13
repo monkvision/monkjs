@@ -7,7 +7,7 @@ import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { PhotoCaptureMode, TutorialSteps } from '../hooks';
+import { AddDamageHandle, PhotoCaptureMode, TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
@@ -21,7 +21,7 @@ export interface PhotoCaptureHUDProps
       CaptureAppConfig,
       | 'enableSightGuidelines'
       | 'sightGuidelines'
-      | 'enableAddDamage'
+      | 'addDamage'
       | 'showCloseButton'
       | 'allowSkipTutorial'
     > {
@@ -76,11 +76,15 @@ export interface PhotoCaptureHUDProps
   /**
    * Callback to be called when the user clicks on the "Add Damage" button.
    */
-  onAddDamage: () => void;
+  onAddDamage: AddDamageHandle['handleAddDamage'];
+  /**
+   * Callback to be called when the user selects the parts to take a picture of.
+   */
+  onAddDamageParts: AddDamageHandle['handleAddParts'];
   /**
    * Callback to be called when the user clicks on the "Cancel" button of the Add Damage mode.
    */
-  onCancelAddDamage: () => void;
+  onCancelAddDamage: AddDamageHandle['handleCancelAddDamage'];
   /**
    * Callback that can be used to retry fetching this state object from the API in case the previous fetch failed.
    */
@@ -115,6 +119,7 @@ export function PhotoCaptureHUD({
   onSelectSight,
   onRetakeSight,
   onAddDamage,
+  onAddDamageParts,
   onCancelAddDamage,
   onOpenGallery,
   onRetry,
@@ -124,7 +129,7 @@ export function PhotoCaptureHUD({
   handle,
   cameraPreview,
   images,
-  enableAddDamage,
+  addDamage,
   sightGuidelines,
   enableSightGuidelines,
   currentTutorialStep,
@@ -145,13 +150,11 @@ export function PhotoCaptureHUD({
       ).length,
     [images],
   );
-
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
     trackEvent('Capture Closed');
     onClose?.();
   };
-
   return (
     <div style={style.container}>
       <div style={style.previewContainer} data-testid='camera-preview'>
@@ -162,6 +165,7 @@ export function PhotoCaptureHUD({
           sightsTaken={sightsTaken}
           mode={mode}
           onAddDamage={onAddDamage}
+          onAddDamageParts={onAddDamageParts}
           onCancelAddDamage={onCancelAddDamage}
           onSelectSight={onSelectSight}
           onRetakeSight={onRetakeSight}
@@ -169,7 +173,7 @@ export function PhotoCaptureHUD({
           error={loading.error ?? handle.error}
           previewDimensions={handle.previewDimensions}
           images={images}
-          enableAddDamage={enableAddDamage}
+          addDamage={addDamage}
           sightGuidelines={sightGuidelines}
           enableSightGuidelines={enableSightGuidelines}
           tutorialStep={currentTutorialStep}
@@ -210,6 +214,7 @@ export function PhotoCaptureHUD({
         onCloseTutorial={onCloseTutorial}
         allowSkipTutorial={allowSkipTutorial}
         sightId={selectedSight.id}
+        addDamage={addDamage}
         sightGuidelines={sightGuidelines}
       />
     </div>

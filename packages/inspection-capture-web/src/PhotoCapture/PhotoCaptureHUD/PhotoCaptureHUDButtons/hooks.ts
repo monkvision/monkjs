@@ -7,19 +7,19 @@ import {
   useResponsiveStyle,
 } from '@monkvision/common';
 import {
-  captureButtonBackgroundColors,
   captureButtonForegroundColors,
   styles,
+  captureButtonBackgroundColors,
 } from './PhotoCaptureHUDButtons.styles';
+import { ActionButtonProps } from './PhotoCaptureHUDButtons.model';
 
-interface PhotoCaptureHUDButtonsStylesParams {
+type PhotoCaptureHUDButtonsStylesParams = Exclude<ActionButtonProps, 'onClose'> & {
   galleryStatus: InteractiveStatus;
   closeStatus: InteractiveStatus;
   closeBtnAvailable: boolean;
   galleryPreview?: string;
-  showCloseButton?: boolean;
   showGalleryBadge?: boolean;
-}
+};
 
 interface PhotoCaptureHUDButtonsStyles {
   containerStyle: CSSProperties;

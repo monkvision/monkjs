@@ -164,7 +164,7 @@ describe('InspectionGalleryItemCard component', () => {
     const { unmount } = render(<InspectionGalleryItemCard {...props} />);
 
     expect(useInspectionGalleryItemStatusIconName).toHaveBeenCalled();
-    expectPropsOnChildMock(Icon, { icon: useInspectionGalleryItemStatusIconName({} as any) });
+    expectPropsOnChildMock(Icon, { icon: useInspectionGalleryItemStatusIconName({} as any)! });
 
     unmount();
   });
