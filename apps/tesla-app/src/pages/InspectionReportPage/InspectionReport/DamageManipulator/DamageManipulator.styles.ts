@@ -28,6 +28,7 @@ export const styles: Styles = {
   price: {
     color: 'white',
     border: 0,
+    outlineWidth: 0,
     width: '40px',
     fontSize: '15px',
     letterSpacing: '0.5px',

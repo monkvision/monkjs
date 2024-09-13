@@ -1,4 +1,10 @@
 {
   "extends": "@monkvision/typescript-config/tsconfig.react.json",
-  "include": ["src", "test"]
+  "include": ["src", "test"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  }
 }

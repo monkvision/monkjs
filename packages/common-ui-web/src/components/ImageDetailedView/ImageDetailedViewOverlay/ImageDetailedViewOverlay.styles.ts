@@ -10,7 +10,7 @@ export const styles: Styles = {
     alignItems: 'center',
     padding: '20px 140px',
     boxSizing: 'border-box',
-    background: 'linear-gradient(rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%)',
+    // background: 'linear-gradient(rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%)',
   },
   mainContainerSmall: {
     __media: { maxWidth: SMALL_WIDTH_BREAKPOINT },

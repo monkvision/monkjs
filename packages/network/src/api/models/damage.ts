@@ -12,3 +12,8 @@ export interface ApiDamage {
 export type ApiDamages = ApiDamage[];
 
 export type ApiDamageIds = string[];
+
+export interface ApiDamagePost {
+  damage_type: string;
+  part_type: string;
+}

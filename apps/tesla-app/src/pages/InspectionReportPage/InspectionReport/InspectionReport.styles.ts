@@ -9,10 +9,11 @@ export const styles: Styles = {
     height: '100%',
   },
   title: {
-    position: 'absolute',
-    width: '100%',
+    // position: 'absolute',
+    // width: '100%',
     display: 'flex',
     padding: '16px',
+    marginBottom: '20px',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -24,6 +25,7 @@ export const styles: Styles = {
     width: `${VEHICLE360_WIDTH_PX}px`,
     position: 'absolute',
     paddingLeft: '35px',
+    paddingRight: '35px',
     // top: '50px'
   },
   vehicle360SmallScreen: {
@@ -35,5 +37,20 @@ export const styles: Styles = {
     height: '100%',
     overflow: 'auto',
     right: 0,
+  },
+  header: {
+    // position: 'absolute',
+    width: '100%',
+    display: 'flex',
+    // padding: '16px',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  switchButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '10px',
+    alignItems: 'center',
   },
 };

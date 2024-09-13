@@ -1,5 +1,5 @@
 import { i18nWrap, useI18nSync, useMonkState } from '@monkvision/common';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Image, ImageType } from '@monkvision/types';
 import { InspectionGalleryItem, InspectionGalleryProps, NavigateToCaptureReason } from './types';
 import {
@@ -48,8 +48,19 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
           )
         : defaultFiteredItems;
     }
+    if (props.filterInterior) {
+      const imageFilteredBySightId = state.images
+        .filter((image) => image.sightId?.includes('all'))
+        .map((i) => i.id);
+      return imageFilteredBySightId
+        ? items.filter(
+            (item) =>
+              !item.isAddDamage && item.isTaken && imageFilteredBySightId?.includes(item.image.id),
+          )
+        : defaultFiteredItems;
+    }
     return defaultFiteredItems;
-  }, [items, currentFilter, props.filterByPart]);
+  }, [items, currentFilter, props.filterByPart, props.filterInterior]);
   const { containerStyle, itemListStyle, itemStyle, fillerItemStyle, emptyStyle } =
     useInspectionGalleryStyles();
   const fillerCount = useItemListFillers(filteredItems.length);
@@ -93,6 +104,54 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
         onRetake: () => handleRetakeImage(selectedImage),
       }
     : { captureMode: false };
+
+  useEffect(() => {
+    const findCurrentImageIndex = () =>
+      filteredItems.findIndex(
+        (item) => !item.isAddDamage && item.isTaken && item.image.id === selectedImage?.id,
+      );
+
+    const moveToPreviousImage = () => {
+      const itemIndex = findCurrentImageIndex();
+      const previousItem = filteredItems.at(!selectedImage ? 0 : itemIndex - 1);
+
+      if (previousItem && !previousItem.isAddDamage && previousItem.isTaken) {
+        setSelectedImage(previousItem.image);
+      }
+    };
+
+    const moveToNextImage = () => {
+      const itemIndex = findCurrentImageIndex();
+      const isLastItem = itemIndex + 1 === filteredItems.length;
+      const nextItem = filteredItems.at(isLastItem || !selectedImage ? 0 : itemIndex + 1);
+
+      if (nextItem && !nextItem.isAddDamage && nextItem.isTaken) {
+        setSelectedImage(nextItem.image);
+      }
+    };
+
+    const keyActions: { [key: string]: () => void } = {
+      s: () => setShowDamage(!showDamage),
+      S: () => setShowDamage(!showDamage),
+      ArrowLeft: moveToPreviousImage,
+      ArrowRight: moveToNextImage,
+      q: () => setSelectedImage(null),
+      Escape: () => setSelectedImage(null),
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const action = keyActions[event.key];
+      if (action) {
+        action();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedImage, filteredItems, showDamage]);
 
   if (selectedImage) {
     return (

@@ -22,6 +22,10 @@ export enum MonkActionType {
    * A vehicle has been updated.
    */
   UPDATED_VEHICLE = 'updated_vehicle',
+  /**
+   * A damage has been created.
+   */
+  CREATED_DAMAGE = 'created_damage',
 }
 
 /**

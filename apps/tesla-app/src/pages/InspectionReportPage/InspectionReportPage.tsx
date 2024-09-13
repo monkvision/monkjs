@@ -2,7 +2,7 @@ import { useMonkAppState } from '@monkvision/common';
 import { InspectionReport } from './InspectionReport/InspectionReport';
 
 export function InspectionReportPage() {
-  const { config, authToken, inspectionId, vehicleType, getCurrentSights } = useMonkAppState({
+  const { config, authToken, inspectionId } = useMonkAppState({
     requireInspection: true,
   });
 

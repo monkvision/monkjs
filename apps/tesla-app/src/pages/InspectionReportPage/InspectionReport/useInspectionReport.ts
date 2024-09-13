@@ -1,6 +1,5 @@
 import { LoadingState, useLoadingState } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { Image } from '@monkvision/types';
 import { useEffect, useState } from 'react';
 
 export interface InspectionReportParams {
@@ -10,7 +9,6 @@ export interface InspectionReportParams {
 }
 
 export function useInspectionReport({ inspectionId, apiConfig, loading }: InspectionReportParams) {
-  const [images, setImages] = useState<Image[]>();
   const { getInspection } = useMonkApi(apiConfig);
 
   useEffect(() => {
@@ -23,18 +21,25 @@ export function useInspectionReport({ inspectionId, apiConfig, loading }: Inspec
       const fetchedInspection = await getInspection({
         id: inspectionId,
       });
+      console.log(fetchedInspection.entities);
 
-      setImages(fetchedInspection.entities.images);
       loading.onSuccess();
+      fetchedInspection.entities.images.forEach((image) => {
+        const imgPath = new Image();
+        const imgRenderedOutput = new Image();
+        imgPath.src = image.path;
+        const renderedOutput = fetchedInspection.entities.renderedOutputs.find(
+          (item) => item.id === image.renderedOutputs[1],
+        );
+        imgRenderedOutput.src = renderedOutput?.path ?? '';
+      });
     };
 
     fetchInspection()
       .then(loading.onSuccess)
-      .catch(() => {
+      .catch((e) => {
         loading.onError('GET inspection failed: wrong inspection ID');
-        console.error('getInspection failed');
+        console.error('getInspection failed', e);
       });
   }, [inspectionId]);
-
-  return { images };
 }

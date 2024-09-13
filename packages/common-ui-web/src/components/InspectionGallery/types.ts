@@ -112,6 +112,7 @@ export type InspectionGalleryProps = {
   validateButtonLabel?: string;
   reportMode?: boolean;
   filterByPart?: VehiclePart;
+  filterInterior?: boolean;
 } & (
   | ({
       /**

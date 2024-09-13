@@ -8,7 +8,7 @@ import {
 } from '@monkvision/types';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { InspectionGallery, Spinner } from '@monkvision/common-ui-web';
+import { DynamicSVG, InspectionGallery, Spinner, SwitchButton } from '@monkvision/common-ui-web';
 import { useLoadingState, useMonkState } from '@monkvision/common';
 import { DamageManipulator } from './DamageManipulator';
 import { styles } from './InspectionReport.styles';
@@ -16,6 +16,10 @@ import { useInspectionReport } from './useInspectionReport';
 import { Vehicle360 } from '../Vehicle360';
 import { useInspectionReportStyles } from './useInspectionReportStyle';
 import { DamageInfo } from './DamageManipulator/hooks';
+import { InteriorDamageTable } from '../InteriorDamageTable';
+
+const teslaLogo =
+  '<svg width="300px" height="74x" viewBox="0 -21.2 278.7 78.7" id="Layer_1" xmlns="http://www.w3.org/2000/svg"> <style>.st0{fill:#5e5e5e}</style> <g id="TESLA"> <path class="st0" d="M238.1 14.4v21.9h7V21.7h25.6v14.6h7V14.4h-39.6M244.3 7.3h27c3.8-.7 6.5-4.1 7.3-7.3H237c.8 3.2 3.6 6.5 7.3 7.3M216.8 36.3c3.5-1.5 5.4-4.1 6.2-7.1h-31.5V.1h-7.1v36.2h32.4M131.9 7.2h25c3.8-1.1 6.9-4 7.7-7.1H125v21.4h32.4V29H132c-4 1.1-7.4 3.8-9.1 7.3h41.5V14.4H132l-.1-7.2M70.3 7.3h27c3.8-.7 6.6-4.1 7.3-7.3H62.9c.8 3.2 3.6 6.5 7.4 7.3M70.3 21.6h27c3.8-.7 6.6-4.1 7.3-7.3H62.9c.8 3.2 3.6 6.5 7.4 7.3M70.3 36.3h27c3.8-.7 6.6-4.1 7.3-7.3H62.9c.8 3.2 3.6 6.6 7.4 7.3"/> <g> <path class="st0" d="M0 .1c.8 3.2 3.6 6.4 7.3 7.2h11.4l.6.2v28.7h7.1V7.5l.6-.2h11.4c3.8-1 6.5-4 7.3-7.2V0L0 .1"/> </g> </g> </svg>';
 
 export interface InspectionReportProps {
   inspectionId: string;
@@ -30,15 +34,15 @@ export function InspectionReport({
 }: InspectionReportProps) {
   const [selectedPart, setSelectedPart] = useState<VehiclePart | undefined>();
   const loading = useLoadingState(true);
-  const { t } = useTranslation();
   const { state } = useMonkState();
   const style = useInspectionReportStyles();
-  const { images } = useInspectionReport({
+  useInspectionReport({
     inspectionId,
     apiConfig,
     loading,
   });
   const [copyState, setCopyState] = useState(state);
+  const [showInterior, setShowInterior] = useState(false);
 
   const isDamage = useMemo(() => {
     const damage = copyState.parts.find((part) => part.type === selectedPart);
@@ -58,7 +62,6 @@ export function InspectionReport({
     }
     return [];
   }, [state, selectedPart, copyState]);
-
   const mappingPartSeverity = useMemo(() => {
     return copyState.severityResults.map((s) => ({
       vehiclePart: s.label,
@@ -81,6 +84,8 @@ export function InspectionReport({
       newState.damages = newState.damages.filter(
         (d) => !(partState.damages.includes(d.id) && !editedDamage.damagesType.includes(d.type)),
       );
+      // TODO: remove below
+      console.log(copyState.damages, newState.damages);
       editedDamage.damagesType.forEach((d) => {
         const damageAlreadyCreated = newState.damages.find((dam) => {
           return partState.damages.includes(dam.id) && dam.type === d;
@@ -99,6 +104,8 @@ export function InspectionReport({
         }
       });
       const severiyAlreadyCreated = newState.severityResults.find((s) => s.label === selectedPart);
+      // TODO: remove below
+      console.log(severiyAlreadyCreated);
       if (severiyAlreadyCreated) {
         newState.severityResults = newState.severityResults.filter((s) => s.label !== selectedPart);
       }
@@ -137,16 +144,32 @@ export function InspectionReport({
       {!loading.isLoading && !loading.error && (
         <div style={styles['container']}>
           <div style={style.vehicle360Style}>
-            {!selectedPart && <div style={styles['title']}>{t('damage.report')}</div>}
-            <Vehicle360
-              partSelected={selectedPart}
-              priceByPart={mappingPartSeverity}
-              vehicleType={VehicleType.SEDAN}
-              enableMultiplePartSelection={false}
-              onPartsSelected={(selectedParts: VehiclePart[]) => {
-                setSelectedPart(selectedParts.at(0));
-              }}
-            />
+            <div style={styles['header']}>
+              {/* <div style={styles['title']}>{t('damage.report')}</div> */}
+              <div style={styles['title']}>
+                <DynamicSVG svg={teslaLogo} />
+              </div>
+              <div style={styles['switchButton']}>
+                <SwitchButton
+                  checked={showInterior}
+                  onSwitch={() => setShowInterior(!showInterior)}
+                />
+                <div>Show Interior</div>
+              </div>
+            </div>
+            {!showInterior ? (
+              <Vehicle360
+                partSelected={selectedPart}
+                priceByPart={mappingPartSeverity}
+                vehicleType={VehicleType.SEDAN}
+                enableMultiplePartSelection={false}
+                onPartsSelected={(selectedParts: VehiclePart[]) => {
+                  setSelectedPart(selectedParts.at(0));
+                }}
+              />
+            ) : (
+              <InteriorDamageTable />
+            )}
             <DamageManipulator
               show={!!selectedPart}
               partName={selectedPart}
@@ -172,6 +195,7 @@ export function InspectionReport({
               showBackButton={true}
               reportMode={true}
               filterByPart={selectedPart}
+              filterInterior={showInterior}
             />
           </div>
         </div>

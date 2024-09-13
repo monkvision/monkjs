@@ -77,12 +77,17 @@ export type ImageDetailedViewProps = {
     }
 );
 
-function getBackgroundImage (image: Image, renderedOutputs: RenderedOutput[], reportMode: boolean | undefined, showDamage: boolean): string {
-if (!reportMode) {
+function getBackgroundImage(
+  image: Image,
+  renderedOutputs: RenderedOutput[],
+  reportMode: boolean | undefined,
+  showDamage: boolean,
+): string {
+  if (!reportMode) {
     return `url(${image.path})`;
   }
 
-  const renderedOutput = renderedOutputs.find(item => item.id === image.renderedOutputs[1]);
+  const renderedOutput = renderedOutputs.find((item) => item.id === image.renderedOutputs[1]);
   return showDamage ? `url(${renderedOutput?.path || image.path})` : `url(${image.path})`;
 }
 
@@ -98,7 +103,12 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
     [palette],
   );
 
-  const backgroundImage = getBackgroundImage(props.image, state.renderedOutputs, props.reportMode, props.showDamage);
+  const backgroundImage = getBackgroundImage(
+    props.image,
+    state.renderedOutputs,
+    props.reportMode,
+    props.showDamage,
+  );
 
   let rightContainerJustifyContent = 'start';
   if (props.captureMode) {

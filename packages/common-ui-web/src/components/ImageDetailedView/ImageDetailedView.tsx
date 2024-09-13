@@ -41,24 +41,27 @@ export const ImageDetailedView = i18nWrap((props: ImageDetailedViewProps) => {
         />
       </div>
       <div style={rightContainerStyle}>
-          {props.reportMode ?
-            (<Button
-              disabled={!(props.showGalleryButton ?? true)}
-              onClick={props.onShowDamage}
-              icon={props.showDamage ? 'visibility-off' : 'visibility-on'}
-              primaryColor={galleryButton.primaryColor}
-              secondaryColor={galleryButton.secondaryColor}
-              style={galleryButton.style}
-            >{props.showDamage ? 'Hide Damage' : 'Show Damage'}</Button>)
-            :
-            (<Button
-                disabled={!(props.showGalleryButton ?? true)}
-                onClick={props.onNavigateToGallery}
-                icon='gallery'
-                primaryColor={galleryButton.primaryColor}
-                secondaryColor={galleryButton.secondaryColor}
-                style={galleryButton.style}
-              />)}
+        {props.reportMode ? (
+          <Button
+            disabled={!(props.showGalleryButton ?? true)}
+            onClick={props.onShowDamage}
+            icon={props.showDamage ? 'visibility-off' : 'visibility-on'}
+            primaryColor={galleryButton.primaryColor}
+            secondaryColor={galleryButton.secondaryColor}
+            style={galleryButton.style}
+          >
+            {props.showDamage ? 'Hide Damage' : 'Show Damage'}
+          </Button>
+        ) : (
+          <Button
+            disabled={!(props.showGalleryButton ?? true)}
+            onClick={props.onNavigateToGallery}
+            icon='gallery'
+            primaryColor={galleryButton.primaryColor}
+            secondaryColor={galleryButton.secondaryColor}
+            style={galleryButton.style}
+          />
+        )}
         <Button
           disabled={!props.captureMode || !(props.showCaptureButton ?? true)}
           onClick={props.captureMode ? props.onNavigateToCapture : undefined}
