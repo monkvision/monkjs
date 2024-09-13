@@ -37,6 +37,8 @@ export const styles: Styles = {
     height: '100%',
     overflow: 'auto',
     right: 0,
+    paddingTop: '75px',
+    paddingRight: '20px',
   },
   header: {
     // position: 'absolute',

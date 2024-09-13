@@ -12,11 +12,11 @@ export const styles: Styles = {
     flexDirection: 'column',
     // justifyContent: 'center',
     boxSizing: 'border-box',
-    padding: `${60 + GALLERY_PADDING_PX}px ${GALLERY_PADDING_PX}px ${GALLERY_PADDING_PX}px`,
+    padding: `${GALLERY_PADDING_PX}px ${GALLERY_PADDING_PX}px ${GALLERY_PADDING_PX}px`,
   },
   containerSmallScreen: {
     __media: { maxWidth: 550 },
-    padding: `${60 + GALLERY_PADDING_PX}px 0 ${GALLERY_PADDING_PX}px`,
+    padding: `${GALLERY_PADDING_PX}px 0 ${GALLERY_PADDING_PX}px`,
   },
   itemList: {
     display: 'flex',

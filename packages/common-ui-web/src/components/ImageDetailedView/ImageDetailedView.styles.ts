@@ -34,7 +34,8 @@ export const styles: Styles = {
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'stretch',
-    padding: '32px 40px',
+    // padding: '32px 40px',
+    padding: '10px 10px',
   },
   rightContainerSmall: {
     __media: { maxWidth: SMALL_WIDTH_BREAKPOINT },
