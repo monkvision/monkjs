@@ -25,7 +25,9 @@
         "invalidToken": "Das verwendete Authentifizierungstoken ist ungültig.",
         "expiredToken": "Das verwendete Authentifizierungstoken ist abgelaufen.",
         "insufficientAuth": "Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.",
-        "inspectionLoading": "Beim Laden der Inspektion ist ein Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut oder kontaktieren Sie den Support mit der folgenden Inspektions-ID:"
+        "inspectionLoading": "Beim Laden der Inspektion ist ein Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut oder kontaktieren Sie den Support mit der folgenden Inspektions-ID:",
+        "resourceNotFound": "Inspektions-ID nicht gefunden.",
+        "invalidArgument": "Entwicklungsfehler: Eines oder mehrere der angegebenen Argumente sind ungültig."
       },
       "closeConfirm": {
         "message": "Sind Sie sicher, dass Sie das Erfassungstool schließen wollen?",

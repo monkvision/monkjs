@@ -59,6 +59,12 @@ export function usePhotoCaptureErrorLabel(
     if (captureError.name === MonkNetworkError.INSUFFICIENT_AUTHORIZATION) {
       return t('photo.hud.error.insufficientAuth');
     }
+    if (captureError.name === MonkNetworkError.RESOURCE_NOT_FOUND) {
+      return t('photo.hud.error.resourceNotFound');
+    }
+    if (captureError.name === MonkNetworkError.INVALID_ARGUMENT) {
+      return t('photo.hud.error.invalidArgument');
+    }
   }
 
   if (captureError) {
@@ -83,6 +89,8 @@ export function useRetry({
       MonkNetworkError.INVALID_TOKEN,
       MonkNetworkError.EXPIRED_TOKEN,
       MonkNetworkError.INSUFFICIENT_AUTHORIZATION,
+      MonkNetworkError.RESOURCE_NOT_FOUND,
+      MonkNetworkError.INVALID_ARGUMENT,
     ].includes(captureError.name as MonkNetworkError)
   ) {
     return null;
