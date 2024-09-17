@@ -127,6 +127,12 @@ export interface CreateInspectionOptions {
    */
   useDynamicCrops?: boolean;
   /**
+   * Boolean indicating if the pricing V2 (format Toyota) should be enabled or not.
+   *
+   * @default false
+   */
+  usePricingV2?: boolean;
+  /**
    * Boolean indicating if the inspection to create will be used with the VideoCapture workflow or not.
    *
    * @default false
