@@ -2,6 +2,7 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
+    // width: '150px',
     display: 'flex',
     flexDirection: 'row',
     padding: '16px',
@@ -13,6 +14,7 @@ export const styles: Styles = {
     paddingBottom: '8px',
   },
   doneBtn: {
-    width: '100%',
+    borderRadius: '9px',
+    width: '200px',
   },
 };

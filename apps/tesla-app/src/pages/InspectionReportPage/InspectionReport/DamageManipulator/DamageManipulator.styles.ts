@@ -14,7 +14,7 @@ export const styles: Styles = {
     top: '35px',
     // transform: 'translate(0, -50%)',
     // width: '375px',
-    width: `calc(${VEHICLE360_WIDTH_PX - 35}px)`,
+    width: `calc(${VEHICLE360_WIDTH_PX - 45}px)`,
   },
   containerPortrait: {
     __media: { portrait: true },
@@ -29,9 +29,10 @@ export const styles: Styles = {
     color: 'white',
     border: 0,
     outlineWidth: 0,
-    width: '40px',
+    width: '300px',
     fontSize: '15px',
     letterSpacing: '0.5px',
+    padding: '16px',
   },
   title: {
     padding: '16px',
@@ -42,5 +43,37 @@ export const styles: Styles = {
   },
   section: {
     padding: '16px',
+  },
+  inputSectionContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  inputSection: {
+    display: 'flex',
+    flexDirection: 'row',
+    border: 'solid rgba(1,1,1,0.4)',
+    paddingRight: '10px',
+    margin: '0px 19px 0px 19px',
+  },
+  footerContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    width: '200px',
+    padding: '10px 20px',
+    border: 'solid rgba(1, 1, 1, .2)',
+    cursor: 'pointer',
+    fontSize: '16px',
+    color: 'black',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '20px',
+    borderRadius: '9px',
   },
 };

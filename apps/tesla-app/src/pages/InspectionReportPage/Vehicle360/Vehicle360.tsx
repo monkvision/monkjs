@@ -83,7 +83,7 @@ export function Vehicle360({
     style: {
       // TODO: need to finalize the color for the selected parts.
       fill: selectedParts.includes(part) ? palette.primary.base : undefined,
-      stroke: palette.text.white,
+      stroke: palette.text.black,
       display: 'block',
     },
   });
@@ -103,9 +103,17 @@ export function Vehicle360({
         onClickPart={togglePart}
         getPartAttributes={getPartAttributes}
       />
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-        <Icon icon='rotate-left' primaryColor='text-primary' onClick={rotateRight} />
-        <Icon icon='rotate-right' primaryColor='text-primary' onClick={rotateLeft} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '600px',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-around',
+        }}
+      >
+        <Icon icon='rotate-left' primaryColor='text-secondary' onClick={rotateRight} />
+        <Icon icon='rotate-right' primaryColor='text-secondary' onClick={rotateLeft} />
       </div>
     </div>
   );

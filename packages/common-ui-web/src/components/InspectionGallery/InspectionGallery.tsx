@@ -37,7 +37,7 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
   const { state } = useMonkState();
   const filteredItems = useMemo(() => {
     const defaultFiteredItems = currentFilter ? items.filter(currentFilter.callback) : items;
-    if (props.filterByPart) {
+    if (props.filterByPart && !props.filterInterior) {
       const imageIdsFilteredByPart = state.parts.find(
         (part) => part.type === props.filterByPart,
       )?.relatedImages;
@@ -158,7 +158,7 @@ export const InspectionGallery = i18nWrap((props: InspectionGalleryProps) => {
       <ImageDetailedView
         lang={props.lang}
         image={selectedImage}
-        showGalleryButton={true}
+        showGalleryButton={!props.filterInterior}
         reportMode={!!props.reportMode}
         showDamage={showDamage}
         onShowDamage={() => setShowDamage(!showDamage)}

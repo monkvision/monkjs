@@ -1,4 +1,4 @@
-import { Image, RenderedOutput } from '@monkvision/types';
+import { Image, RenderedOutput, InteractiveStatus } from '@monkvision/types';
 import { changeAlpha, useMonkState, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
 import { CSSProperties, useEffect, useMemo } from 'react';
 import { styles } from './ImageDetailedView.styles';
@@ -91,7 +91,10 @@ function getBackgroundImage(
   return showDamage ? `url(${renderedOutput?.path || image.path})` : `url(${image.path})`;
 }
 
-export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
+export function useImageDetailedViewStyles(
+  props: ImageDetailedViewProps,
+  status: InteractiveStatus,
+) {
   const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
   const { state } = useMonkState();
@@ -119,16 +122,23 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
     mainContainerStyle: {
       ...styles['mainContainer'],
       ...responsive(styles['mainContainerSmall']),
-      backgroundColor: palette.background.base,
+      // backgroundColor: palette.background.base,
       // backgroundImage: `url(${props.image.path})`,
       backgroundImage,
     },
-    leftContainerStyle: styles['leftContainer'],
-    overlayContainerStyle: styles['overlayContainer'],
+    leftContainerStyle: {
+      ...styles['leftContainer'],
+      opacity: [InteractiveStatus.HOVERED, InteractiveStatus.ACTIVE].includes(status) ? '1' : '0',
+    },
+    overlayContainerStyle: {
+      ...styles['overlayContainer'],
+      opacity: [InteractiveStatus.HOVERED, InteractiveStatus.ACTIVE].includes(status) ? '1' : '0',
+    },
     rightContainerStyle: {
       ...styles['rightContainer'],
       ...responsive(styles['rightContainerSmall']),
       justifyContent: rightContainerJustifyContent,
+      opacity: [InteractiveStatus.HOVERED, InteractiveStatus.ACTIVE].includes(status) ? '1' : '0',
     },
     closeButton: {
       primaryColor: colors.darkButtonBackground,

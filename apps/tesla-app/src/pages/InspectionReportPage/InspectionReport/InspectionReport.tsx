@@ -7,8 +7,7 @@ import {
   VehicleType,
 } from '@monkvision/types';
 import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DynamicSVG, InspectionGallery, Spinner, SwitchButton } from '@monkvision/common-ui-web';
+import { DynamicSVG, InspectionGallery, Spinner } from '@monkvision/common-ui-web';
 import { useLoadingState, useMonkState } from '@monkvision/common';
 import { DamageManipulator } from './DamageManipulator';
 import { styles } from './InspectionReport.styles';
@@ -17,6 +16,7 @@ import { Vehicle360 } from '../Vehicle360';
 import { useInspectionReportStyles } from './useInspectionReportStyle';
 import { DamageInfo } from './DamageManipulator/hooks';
 import { InteriorDamageTable } from '../InteriorDamageTable';
+import { TabMode, TabsComponent } from './Tabs';
 
 const teslaLogo =
   '<svg width="300px" height="74x" viewBox="0 -21.2 278.7 78.7" id="Layer_1" xmlns="http://www.w3.org/2000/svg"> <style>.st0{fill:#5e5e5e}</style> <g id="TESLA"> <path class="st0" d="M238.1 14.4v21.9h7V21.7h25.6v14.6h7V14.4h-39.6M244.3 7.3h27c3.8-.7 6.5-4.1 7.3-7.3H237c.8 3.2 3.6 6.5 7.3 7.3M216.8 36.3c3.5-1.5 5.4-4.1 6.2-7.1h-31.5V.1h-7.1v36.2h32.4M131.9 7.2h25c3.8-1.1 6.9-4 7.7-7.1H125v21.4h32.4V29H132c-4 1.1-7.4 3.8-9.1 7.3h41.5V14.4H132l-.1-7.2M70.3 7.3h27c3.8-.7 6.6-4.1 7.3-7.3H62.9c.8 3.2 3.6 6.5 7.4 7.3M70.3 21.6h27c3.8-.7 6.6-4.1 7.3-7.3H62.9c.8 3.2 3.6 6.5 7.4 7.3M70.3 36.3h27c3.8-.7 6.6-4.1 7.3-7.3H62.9c.8 3.2 3.6 6.6 7.4 7.3"/> <g> <path class="st0" d="M0 .1c.8 3.2 3.6 6.4 7.3 7.2h11.4l.6.2v28.7h7.1V7.5l.6-.2h11.4c3.8-1 6.5-4 7.3-7.2V0L0 .1"/> </g> </g> </svg>';
@@ -25,6 +25,25 @@ export interface InspectionReportProps {
   inspectionId: string;
   apiConfig: MonkApiConfig;
   currency?: CurrencyCode;
+}
+
+interface AdditionalDataTesla {
+  additionalData: {
+    country: 'USA';
+    other_damages: [
+      {
+        area: 'seats';
+        damage_type: 'scratch';
+        repair_cost: 544;
+      },
+    ];
+  };
+}
+
+interface InteriorDamage {
+  area: string;
+  damage_type: string;
+  repair_cost: number | null;
 }
 
 export function InspectionReport({
@@ -43,6 +62,8 @@ export function InspectionReport({
   });
   const [copyState, setCopyState] = useState(state);
   const [showInterior, setShowInterior] = useState(false);
+  const [interiorDamage, setInteriorDamage] = useState<InteriorDamage[]>([]);
+  const [selectedInteriorDamageIndex, setSelectedInteriorDamageIndex] = useState<number | null>();
 
   const isDamage = useMemo(() => {
     const damage = copyState.parts.find((part) => part.type === selectedPart);
@@ -70,8 +91,43 @@ export function InspectionReport({
     }));
   }, [state, copyState, selectedPart]);
 
+  const handleCancel = () => setSelectedPart(undefined);
+
+  const handleEditDamage = (index: number) => {
+    setSelectedInteriorDamageIndex(index);
+    setSelectedPart(VehiclePart.IGNORE);
+  };
+
+  const handleDeleteDamage = (index: number) => {
+    const newInteriorDamage = [...interiorDamage];
+    newInteriorDamage.splice(index, 1);
+    setInteriorDamage(newInteriorDamage);
+    setSelectedInteriorDamageIndex(null);
+    setSelectedPart(undefined);
+  };
+
   const handleOnConfirm = (editedDamage: DamageInfo) => {
     const newState = { ...copyState };
+    if (showInterior && editedDamage.interiorDamage) {
+      let newInteriorDamage = interiorDamage;
+      if (typeof selectedInteriorDamageIndex === 'number') {
+        newInteriorDamage[selectedInteriorDamageIndex] = editedDamage.interiorDamage;
+      } else {
+        newInteriorDamage = [
+          ...interiorDamage,
+          {
+            area: editedDamage.interiorDamage.area,
+            damage_type: editedDamage.interiorDamage.damage_type,
+            repair_cost: editedDamage.interiorDamage.repair_cost,
+          },
+        ];
+      }
+      console.log(newInteriorDamage);
+      setInteriorDamage(newInteriorDamage);
+      setSelectedPart(undefined);
+      setSelectedInteriorDamageIndex(null);
+      return;
+    }
     const partState = newState.parts.find((part) => part.type === selectedPart);
     if (!editedDamage.isDamaged) {
       newState.damages = newState.damages.filter((d) => !partState?.damages.includes(d.id));
@@ -137,9 +193,10 @@ export function InspectionReport({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
       }}
     >
-      {loading.isLoading && <Spinner size={80} />}
+      {loading.isLoading && <Spinner primaryColor='gray' size={80} />}
       {loading.error && <div>{loading.error}</div>}
       {!loading.isLoading && !loading.error && (
         <div style={styles['container']}>
@@ -149,15 +206,19 @@ export function InspectionReport({
               <div style={styles['title']}>
                 <DynamicSVG svg={teslaLogo} />
               </div>
-              <div style={styles['switchButton']}>
-                <SwitchButton
-                  checked={showInterior}
-                  onSwitch={() => setShowInterior(!showInterior)}
-                />
-                <div>Show Interior</div>
-              </div>
+              <TabsComponent
+                mode={showInterior ? TabMode.INTERIOR : TabMode.EXTERIOR}
+                onClick={(mode) => setShowInterior(mode === TabMode.INTERIOR)}
+              />
+              {/* <div style={styles['switchButton']}> */}
+              {/*   <SwitchButton */}
+              {/*     checked={showInterior} */}
+              {/*     onSwitch={() => setShowInterior(!showInterior)} */}
+              {/*   /> */}
+              {/*   <div>Show Interior</div> */}
+              {/* </div> */}
             </div>
-            {!showInterior ? (
+            {!showInterior && !selectedPart && (
               <Vehicle360
                 partSelected={selectedPart}
                 priceByPart={mappingPartSeverity}
@@ -167,13 +228,20 @@ export function InspectionReport({
                   setSelectedPart(selectedParts.at(0));
                 }}
               />
-            ) : (
-              <InteriorDamageTable />
+            )}
+            {showInterior && !selectedPart && (
+              <InteriorDamageTable
+                damages={interiorDamage}
+                onAddDamage={() => setSelectedPart(VehiclePart.IGNORE)}
+                onEdit={handleEditDamage}
+                onDelete={handleDeleteDamage}
+              />
             )}
             <DamageManipulator
               show={!!selectedPart}
               partName={selectedPart}
               currency={currency}
+              isInterior={showInterior}
               damage={{
                 isDamaged: isDamage,
                 needsReplacement:
@@ -184,6 +252,8 @@ export function InspectionReport({
                   mappingPartSeverity.find((p) => p.vehiclePart === selectedPart)?.price ?? 0,
               }}
               onConfirm={handleOnConfirm}
+              onCancel={handleCancel}
+              interiorDamage={interiorDamage[selectedInteriorDamageIndex ?? -1]}
             />
           </div>
           <div style={style.galleryStyle}>

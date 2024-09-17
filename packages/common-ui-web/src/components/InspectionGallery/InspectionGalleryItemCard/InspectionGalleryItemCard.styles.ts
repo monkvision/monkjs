@@ -49,6 +49,7 @@ export const styles: Styles = {
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     textAlign: 'left',
     borderBottomLeftRadius: CARD_BORDER_RADIUS_PX,
     borderBottomRightRadius: CARD_BORDER_RADIUS_PX,

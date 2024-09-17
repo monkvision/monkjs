@@ -1,4 +1,4 @@
-import { i18nWrap, useI18nSync } from '@monkvision/common';
+import { i18nWrap, useI18nSync, useInteractiveStatus } from '@monkvision/common';
 import { i18nImageDetailedView } from './i18n';
 import { ImageDetailedViewProps, useImageDetailedViewStyles } from './hooks';
 import { Button } from '../Button';
@@ -11,6 +11,7 @@ import { ImageDetailedViewOverlay } from './ImageDetailedViewOverlay';
  */
 export const ImageDetailedView = i18nWrap((props: ImageDetailedViewProps) => {
   useI18nSync(props.lang);
+  const { status, eventHandlers } = useInteractiveStatus();
   const {
     mainContainerStyle,
     leftContainerStyle,
@@ -19,10 +20,10 @@ export const ImageDetailedView = i18nWrap((props: ImageDetailedViewProps) => {
     closeButton,
     galleryButton,
     cameraButton,
-  } = useImageDetailedViewStyles(props);
+  } = useImageDetailedViewStyles(props, status);
 
   return (
-    <div style={mainContainerStyle}>
+    <div style={mainContainerStyle} {...eventHandlers}>
       <div style={leftContainerStyle}>
         <Button
           onClick={props.onClose}

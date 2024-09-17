@@ -36,32 +36,34 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
   return (
     <div style={mainContainerStyle}>
       <div style={overlayDisplayStyle}>
-        <div
-          style={{
-            ...complianceContainerStyle,
-            visibility: props.reportMode ? 'hidden' : 'visible',
-          }}
-        >
-          <div style={complianceMessageContainerStyle}>
-            <Icon
-              icon={retakeOverlay.icon}
-              primaryColor={retakeOverlay.iconColor}
-              size={complianceIcon.size}
-            />
-            <div style={complianceMessageStyle}>
-              <div style={complianceTitleStyle}>{retakeOverlay.title}</div>
-              <div style={complianceDescriptionStyle}>{retakeOverlay.description}</div>
-            </div>
-          </div>
-          <Button
-            style={complianceRetakeButton.style}
-            size={complianceRetakeButton.size}
-            primaryColor={retakeOverlay.buttonColor}
-            onClick={props.onRetake}
+        {!props.reportMode && (
+          <div
+            style={{
+              ...complianceContainerStyle,
+              visibility: props.reportMode ? 'hidden' : 'visible',
+            }}
           >
-            {t('retake')}
-          </Button>
-        </div>
+            <div style={complianceMessageContainerStyle}>
+              <Icon
+                icon={retakeOverlay.icon}
+                primaryColor={retakeOverlay.iconColor}
+                size={complianceIcon.size}
+              />
+              <div style={complianceMessageStyle}>
+                <div style={complianceTitleStyle}>{retakeOverlay.title}</div>
+                <div style={complianceDescriptionStyle}>{retakeOverlay.description}</div>
+              </div>
+            </div>
+            <Button
+              style={complianceRetakeButton.style}
+              size={complianceRetakeButton.size}
+              primaryColor={retakeOverlay.buttonColor}
+              onClick={props.onRetake}
+            >
+              {t('retake')}
+            </Button>
+          </div>
+        )}
         {props.image.label && (
           <div style={imageLabelStyle}>
             {labelIcon && (

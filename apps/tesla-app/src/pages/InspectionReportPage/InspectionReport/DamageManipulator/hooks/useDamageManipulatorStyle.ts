@@ -13,13 +13,14 @@ export function useDamageManipulatorStyle(): DamageManipulatorStyle {
   return {
     container: {
       ...styles['container'],
-      ...{ backgroundColor: palette.background.base },
-      ...{ color: palette.text.white },
+      ...{ backgroundColor: palette.text.white },
+      ...{ color: palette.text.black },
       ...responsive(styles['containerPortrait']),
     },
     price: {
       ...styles['price'],
-      ...{ backgroundColor: palette.background.base },
+      ...{ color: palette.text.black },
+      // ...{ backgroundColor: palette.background.base },
     },
   };
 }

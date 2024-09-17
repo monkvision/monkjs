@@ -9,7 +9,7 @@ export function useInspectionGalleryStyles() {
     containerStyle: {
       ...styles['container'],
       ...responsive(styles['containerSmallScreen']),
-      backgroundColor: palette.background.base,
+      // backgroundColor: palette.background.base,
     },
     itemListStyle: styles['itemList'],
     itemStyle: styles['item'],

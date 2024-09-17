@@ -13,7 +13,7 @@ export function useInspectionReportStyles() {
     },
     galleryStyle: {
       ...styles['gallery'],
-      backgroundColor: palette.background.base,
+      // backgroundColor: palette.background.base,
     },
     leftContainerStyle: styles['leftContainer'],
     pillContainerStyle: {

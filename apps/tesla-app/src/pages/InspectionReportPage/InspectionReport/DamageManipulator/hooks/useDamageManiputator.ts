@@ -33,12 +33,18 @@ export enum DisplayMode {
   FULL = 'full',
 }
 
+interface InteriorDamage {
+  area: string;
+  damage_type: string;
+  repair_cost: number | null;
+}
 export interface DamageInfo {
   isDamaged: boolean;
   needsReplacement: boolean;
   damagesType: DamageType[];
   severity?: Severity;
   pricing?: number;
+  interiorDamage?: InteriorDamage;
 }
 
 const initialDamage = {
@@ -50,6 +56,7 @@ export interface DamageManipulator {
   damage: DamageInfo;
   show: boolean;
   onConfirm?: (damage: DamageInfo) => void;
+  interiorDamage?: InteriorDamage;
 }
 
 /**
@@ -57,7 +64,12 @@ export interface DamageManipulator {
  * @param damage
  * @param onConfirm
  */
-export function useDamageManipulator({ damage, show, onConfirm }: DamageManipulator) {
+export function useDamageManipulator({
+  damage,
+  show,
+  onConfirm,
+  interiorDamage,
+}: DamageManipulator) {
   const [hasDamage, setHasDamage] = useState<boolean>(damage.isDamaged);
   const [listDamages, setListDamages] = useState(damage.damagesType);
   const [needsReplacement, setNeedsReplecement] = useState<boolean>(damage.needsReplacement);
@@ -121,6 +133,39 @@ export function useDamageManipulator({ damage, show, onConfirm }: DamageManipula
     setEditedDamage((value) => ({ ...value, severity: key }));
   }
 
+  const handleAreaChange = (area: string) => {
+    setEditedDamage((prevState) => ({
+      ...prevState,
+      interiorDamage: {
+        area,
+        damage_type: prevState.interiorDamage?.damage_type ?? '',
+        repair_cost: prevState.interiorDamage?.repair_cost ?? null,
+      },
+    }));
+  };
+
+  const handleInteriorDamageTypeChange = (damageType: string) => {
+    setEditedDamage((prevState) => ({
+      ...prevState,
+      interiorDamage: {
+        area: prevState.interiorDamage?.area ?? '',
+        damage_type: damageType ?? '',
+        repair_cost: prevState.interiorDamage?.repair_cost ?? null,
+      },
+    }));
+  };
+
+  const handleInteriorDeductionChange = (deduction: number | null) => {
+    setEditedDamage((prevState) => ({
+      ...prevState,
+      interiorDamage: {
+        area: prevState.interiorDamage?.area ?? '',
+        damage_type: prevState.interiorDamage?.damage_type ?? '',
+        repair_cost: deduction,
+      },
+    }));
+  };
+
   function handlePriceChange(selectedPrice: number | null) {
     // if (!price) {
     //   return;
@@ -139,7 +184,10 @@ export function useDamageManipulator({ damage, show, onConfirm }: DamageManipula
     setListDamages(damage.damagesType);
     setPrice(damage.pricing);
     setEditedDamage(damage);
-  }, [show, damage]);
+    if (interiorDamage) {
+      setEditedDamage({ ...damage, interiorDamage });
+    }
+  }, [show, damage, interiorDamage]);
 
   return {
     hasDamage,
@@ -155,5 +203,8 @@ export function useDamageManipulator({ damage, show, onConfirm }: DamageManipula
     handleSeverityChange,
     handlePriceChange,
     handleShowPicture,
+    handleAreaChange,
+    handleInteriorDamageTypeChange,
+    handleInteriorDeductionChange,
   };
 }

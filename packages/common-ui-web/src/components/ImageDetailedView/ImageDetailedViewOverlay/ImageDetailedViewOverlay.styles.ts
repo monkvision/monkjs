@@ -8,7 +8,7 @@ export const styles: Styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '20px 140px',
+    padding: '10px 140px',
     boxSizing: 'border-box',
     // background: 'linear-gradient(rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%)',
   },

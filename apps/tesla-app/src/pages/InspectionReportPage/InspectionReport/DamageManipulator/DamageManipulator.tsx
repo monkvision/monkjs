@@ -1,14 +1,8 @@
-import {
-  damages,
-  getLanguage,
-  i18nWrap,
-  useMonkTheme,
-  vehiclePartLabels,
-} from '@monkvision/common';
+import { damages, getLanguage, useMonkTheme, vehiclePartLabels } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { Button, Slider } from '@monkvision/common-ui-web';
-import { CurrencyCode, DamageType, VehiclePart } from '@monkvision/types';
+import { CurrencyCode, DamageType, SightCategory, VehiclePart } from '@monkvision/types';
 import { DamagesSwitchButton } from './DamageSwitchButton';
 // import { SeveritySelection } from './SeveritySelection';
 // import { PricingSlider } from './PricingSlider';
@@ -25,6 +19,12 @@ import {
 import { styles } from './DamageManipulator.styles';
 import { ReplacementSwitchButton } from './ReplacementSwitchButton';
 
+interface InteriorDamage {
+  area: string;
+  damage_type: string;
+  repair_cost: number | null;
+}
+
 export interface DamageManipulatorProps {
   damage: DamageInfo;
   show: boolean;
@@ -32,7 +32,11 @@ export interface DamageManipulatorProps {
   partName?: VehiclePart;
   damageMode?: DamageMode;
   displayMode?: DisplayMode;
+  mode?: SightCategory;
+  isInterior?: boolean;
   onConfirm?: (damage: DamageInfo) => void;
+  onCancel?: () => void;
+  interiorDamage?: InteriorDamage;
 }
 
 const firstColumnItems = [DamageType.SCRATCH, DamageType.DENT, DamageType.BROKEN_GLASS];
@@ -50,10 +54,14 @@ export function DamageManipulator({
   partName,
   damageMode = DamageMode.ALL,
   displayMode = DisplayMode.MINIMAL,
+  mode = SightCategory.EXTERIOR,
   currency = CurrencyCode.USD,
+  isInterior = false,
   damage,
   show,
+  interiorDamage,
   onConfirm,
+  onCancel,
 }: DamageManipulatorProps) {
   const {
     hasDamage,
@@ -69,32 +77,82 @@ export function DamageManipulator({
     handlePriceChange,
     handleConfirm,
     handleShowPicture,
-  } = useDamageManipulator({ damage, show, onConfirm });
+    handleAreaChange,
+    handleInteriorDamageTypeChange,
+    handleInteriorDeductionChange,
+  } = useDamageManipulator({ damage, show, onConfirm, interiorDamage });
   const { container, price } = useDamageManipulatorStyle();
   const { t, i18n } = useTranslation();
   const { palette } = useMonkTheme();
 
-  const damageDetails = useMemo(
-    () =>
-      isShow && (
-        <div style={styles['content']}>
-          <DamagesSwitchButton hasDamage={hasDamage} onSwitch={toggleDamageSwitch} />
-          {hasDamage && (
-            <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-              <Slider
-                disabled={!hasDamage}
-                step={10}
-                value={editedDamage?.pricing}
-                onChange={handlePriceChange}
-              />
-              <input disabled={!hasDamage} style={price} value={editedDamage?.pricing} />
-            </div>
-          )}
-          <DoneButton onConfirm={handleConfirm}>{t('damageManipulator.doneBtn')}</DoneButton>
+  if (isInterior && isShow) {
+    return (
+      <div style={container}>
+        <div style={styles['inputSectionContainer']}>
+          <div style={styles['section']}>{t('Area')}</div>
+          <div style={styles['inputSection']}>
+            <input
+              type='text'
+              style={price}
+              value={editedDamage?.interiorDamage?.area ?? ''}
+              placeholder='Input Area'
+              onChange={(e) => {
+                const { value } = e.target;
+                handleAreaChange(value);
+              }}
+            />
+          </div>
         </div>
-      ),
-    [isShow, partName, hasDamage, editedDamage, DamageMode, DisplayMode, damage, show],
-  );
+        <div style={styles['inputSectionContainer']}>
+          <div style={styles['section']}>{t('Damage Types')}</div>
+          <div style={styles['inputSection']}>
+            <input
+              type='text'
+              style={price}
+              value={editedDamage?.interiorDamage?.damage_type ?? ''}
+              placeholder='Input Damage types'
+              onChange={(e) => {
+                const { value } = e.target;
+                handleInteriorDamageTypeChange(value);
+              }}
+            />
+          </div>
+          <div style={styles['inputSectionContainer']}>
+            <div style={styles['section']}>{t('Deduction')}</div>
+            <div style={styles['inputSection']}>
+              {currency === CurrencyCode.USD && (
+                <div style={{ alignSelf: 'center', paddingLeft: '20px', paddingRight: '5px' }}>
+                  $
+                </div>
+              )}
+              <input
+                type='text'
+                style={price}
+                maxLength={4}
+                value={editedDamage?.interiorDamage?.repair_cost ?? ''}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  if (value === '' || /^\d*$/.test(value)) {
+                    handleInteriorDeductionChange(value === '' ? null : Number(value));
+                  }
+                }}
+              />
+              {currency === CurrencyCode.EUR && <div>€</div>}
+            </div>
+          </div>
+        </div>
+        <div style={styles['footerContainer']}>
+          <button style={styles['button']} onClick={onCancel}>
+            CANCEL
+          </button>
+          <DoneButton onConfirm={handleConfirm}>
+            {t('damageManipulator.doneBtn').toUpperCase()}
+          </DoneButton>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={container}>
       {isShow && (
@@ -151,24 +209,9 @@ export function DamageManipulator({
             </>
           )}
           {hasDamage && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                width: '100%',
-                justifyContent: 'space-between',
-              }}
-            >
+            <div style={styles['inputSectionContainer']}>
               <div style={styles['section']}>{t('Price')}</div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  border: 'solid rgba(255,255,255,0.4)',
-                  borderRadius: '10px',
-                  paddingRight: '10px',
-                }}
-              >
+              <div style={styles['inputSection']}>
                 {currency === CurrencyCode.USD && (
                   <div style={{ alignSelf: 'center', paddingLeft: '20px', paddingRight: '5px' }}>
                     $
@@ -191,7 +234,14 @@ export function DamageManipulator({
               </div>
             </div>
           )}
-          <DoneButton onConfirm={handleConfirm}>{t('damageManipulator.doneBtn')}</DoneButton>
+          <div style={styles['footerContainer']}>
+            <button style={styles['button']} onClick={onCancel}>
+              CANCEL
+            </button>
+            <DoneButton onConfirm={handleConfirm}>
+              {t('damageManipulator.doneBtn').toUpperCase()}
+            </DoneButton>
+          </div>
         </div>
       )}
     </div>
