@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/sights",
-  "version": "4.0.18",
+  "version": "4.0.19",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "Monk sights library providing sight details and overlays",
@@ -33,15 +33,15 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix && yarn run svgo"
   },
   "dependencies": {
-    "@monkvision/types": "4.0.18"
+    "@monkvision/types": "4.0.19"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "4.0.18",
-    "@monkvision/eslint-config-typescript": "4.0.18",
-    "@monkvision/jest-config": "4.0.18",
-    "@monkvision/prettier-config": "4.0.18",
-    "@monkvision/svgo-config": "4.0.18",
-    "@monkvision/typescript-config": "4.0.18",
+    "@monkvision/eslint-config-base": "4.0.19",
+    "@monkvision/eslint-config-typescript": "4.0.19",
+    "@monkvision/jest-config": "4.0.19",
+    "@monkvision/prettier-config": "4.0.19",
+    "@monkvision/svgo-config": "4.0.19",
+    "@monkvision/typescript-config": "4.0.19",
     "@types/jest": "^29.2.2",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
