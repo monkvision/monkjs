@@ -22,6 +22,9 @@
   "damage_severity": {
     "output_format": "toyota"
   },
+  "pricing": {
+    "output_format": "toyota"
+  },
   "additional_data": {
     "damage_detection_version": "v2",
     "use_dynamic_crops": true,

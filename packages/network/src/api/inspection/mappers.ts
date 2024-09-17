@@ -495,6 +495,7 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
     tasks: getTasksOptions(options),
     vehicle: options.vehicleType ? { vehicle_type: options.vehicleType } : undefined,
     damage_severity: { output_format: 'toyota' },
+    pricing: options.useDynamicCrops ? { output_format: 'toyota' } : undefined,
     additional_data: {
       user_agent: navigator.userAgent,
       connection: navigator.connection,

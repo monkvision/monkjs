@@ -198,6 +198,7 @@ export const CreateInspectionOptionsSchema = z.object({
   tasks: z.array(InspectionCreateTaskSchema),
   vehicleType: z.nativeEnum(VehicleType).optional(),
   useDynamicCrops: z.boolean().optional(),
+  usePricingV2: z.boolean().optional(),
 });
 
 export const CreateInspectionDiscriminatedUnionSchema = z.discriminatedUnion(
