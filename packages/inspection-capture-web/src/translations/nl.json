@@ -32,6 +32,9 @@
         "cancel": "Annuleren",
         "confirm": "Ja"
       },
+      "guidelines": {
+        "defaultGuideline": "Afbeeldingsstandpuntaanwijzingen kunnen hier worden weergegeven."
+      },
       "tutorial": {
         "welcome": "Welkom bij uw eerste inspectie!",
         "title": "Hoe te gebruiken",
