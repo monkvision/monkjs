@@ -71,7 +71,9 @@ export function PhotoCaptureHUDTutorial({
               onClick={onCloseTutorial}
             />
           </div>
-          <ArrowIcon tutorialStep={currentTutorialStep} />
+          <div style={styles['arrows']}>
+            <ArrowIcon tutorialStep={currentTutorialStep} />
+          </div>
         </div>
         <DisplayText tutorialStep={currentTutorialStep} />
         <Button style={styles['nextButton']} primaryColor='primary' onClick={onNextTutorialStep}>

@@ -4,10 +4,7 @@ import { PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH } from '../PhotoCaptureHUDButtons/P
 export const styles: Styles = {
   backdropContainer: {
     position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    inset: 0,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,6 +51,10 @@ export const styles: Styles = {
     fontWeight: 'bold',
     fontSize: '20px',
     paddingBottom: '5px',
+  },
+  arrows: {
+    display: 'flex',
+    justifyContent: 'center',
   },
   arrowGuideline: {
     height: '40px',
