@@ -34,5 +34,6 @@ export const styles: Styles = {
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 9,
+    paddingBottom: '12px',
   },
 };
