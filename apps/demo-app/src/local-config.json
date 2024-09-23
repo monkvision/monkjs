@@ -13,8 +13,6 @@
   },
   "apiDomain": "api.preview.monk.ai/v1",
   "thumbnailDomain": "europe-west1-monk-preview-321715.cloudfunctions.net/image_resize",
-  "enableTutorial": "enabled",
-  "allowSkipTutorial": true,
   "enableSightTutorial": false,
   "startTasksOnComplete": true,
   "showCloseButton": false,
@@ -192,18 +190,19 @@
   },
   "sightGuidelines": [
     {
-      "en": "Stand centred in front of the vehicle",
-      "fr": "Placez-vous centré devant le véhicule",
-      "de": "Stellen Sie sich zentriert vor das Fahrzeug",
-      "nl": "Plaats jezelf in het midden voor het voertuig",
-      "sightIds": ["jgc21-QIvfeg0X", "ff150-zXbg0l3z"]
-    },
-    {
-      "en": "Stand centred in front of the vehicle, aligned with the front grille. Center the vehicle in the frame, ensuring the entire hood, windshield and side mirrors are visible. Include the top of the vehicle in the shot.",
-      "fr": "Placez-vous au centré devant le véhicule, aligné avec la calandre avant. Centrez le véhicule dans le cadre, en veillant à ce que l'ensemble du capot, du pare-brise et des rétroviseurs soient visibles. Incluez le haut du véhicule dans la prise de vue.",
-      "de": "Stellen Sie sich zentriert vor das Fahrzeug, ausgerichtet an der Frontstoßstange. Zentrieren Sie das Fahrzeug im Rahmen, achten Sie darauf, dass die gesamte Motorhaube, die Windschutzscheibe und die Seitenspiegel sichtbar sind. Nehmen Sie die Oberseite des Fahrzeugs in den Schuss auf.",
-      "nl": "Plaats jezelf in het midden voor het voertuig, uitgelijnd met de voorgril. Centreren Sie het voertuig in de beeldframe, zorg ervoor dat de hele motorkap, de voorruit en de zijspiegels zichtbaar zijn. Neem de bovenkant van het voertuig op in de opname.",
-      "sightIds": ["jgc21-KyUUVU2P", "ffocus18-XlfgjQb9 ", "ff150-3he9UOwy"]
+      "en": "Kneel or bend low in front of the car, aligned with the grille. Centre the car in the frame, ensuring the front grille, headlights, and registration plate are fully visible. Include the top of the car and the bottom of the bumper in the shot.",
+      "fr": "Agenouillez-vous ou penchez-vous devant la voiture, aligné avec la calandre. Centrez la voiture dans le cadre, en vous assurant que la calandre avant, les phares et la plaque d'immatriculation soient bien visibles. Veillez à inclure le toit de la voiture et le bas du pare-chocs dans la photo.",
+      "nl": "Kniel of buk laag voor de auto, uitgelijnd met het rooster. Centreer de auto in het frame, zorg ervoor dat het voorrooster, de koplampen en het kenteken volledig zichtbaar zijn. Zorg ervoor dat de bovenkant van de auto en de onderkant van de bumper in de foto zichtbaar zijn.",
+      "de": "Knien oder beugen Sie sich vor dem Auto, ausgerichtet mit dem Kühlergrill. Zentrieren Sie das Auto im Bild, sodass der vordere Kühlergrill, die Scheinwerfer und das Nummernschild vollständig sichtbar sind. Achten Sie darauf, dass das Dach des Autos und der untere Teil der Stoßstange im Bild zu sehen sind.",
+      "sightIds": [
+        "ffocus18-XlfgjQb9",
+        "jgc21-QIvfeg0X",
+        "ff150-zXbg0l3z",
+        "ftransit18-wyXf7MTv",
+        "tsienna20-YwrRNr9n",
+        "fesc20-H1dfdfvH",
+        "haccord-8YjMcu0D"
+      ]
     }
   ],
   "requiredApiPermissions": [
