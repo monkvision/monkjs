@@ -1,0 +1,66 @@
+{
+  "man12-2VHq5s6d": {
+    "id": "man12-2VHq5s6d",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "man12-2VHq5s6d.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-aOHkUnUo": {
+    "id": "man12-aOHkUnUo",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "man12-aOHkUnUo.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-AUlxkp6e": {
+    "id": "man12-AUlxkp6e",
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "man12-AUlxkp6e.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-cjam9ZnA": {
+    "id": "man12-cjam9ZnA",
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "man12-cjam9ZnA.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-E3yAloDS": {
+    "id": "man12-E3yAloDS",
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "man12-E3yAloDS.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-iNR6WXR_": {
+    "id": "man12-iNR6WXR_",
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "man12-iNR6WXR_.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-u8GNhGqe": {
+    "id": "man12-u8GNhGqe",
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "man12-u8GNhGqe.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  },
+  "man12-YIhu2ntW": {
+    "id": "man12-YIhu2ntW",
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "man12-YIhu2ntW.svg",
+    "vehicle": "man12",
+    "tasks": ["damage_detection"]
+  }
+}
