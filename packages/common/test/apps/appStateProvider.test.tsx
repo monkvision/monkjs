@@ -5,6 +5,9 @@ jest.mock('../../src/apps/searchParams', () => ({
   ...jest.requireActual('../../src/apps/searchParams'),
   useMonkSearchParams: jest.fn(() => ({ get: searchParamsGet })),
 }));
+jest.mock('../../src/utils', () => ({
+  getAvailableVehicleTypes: jest.fn(({ sights }) => Object.keys(sights)),
+}));
 
 import React, { useContext, useEffect } from 'react';
 import { CaptureAppConfig, SteeringWheelPosition, VehicleType } from '@monkvision/types';

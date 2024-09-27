@@ -13,6 +13,7 @@ import { MonkSearchParam, useMonkSearchParams } from './searchParams';
 import { MonkAppState, MonkAppStateContext } from './appState';
 import { useAppStateMonitoring } from './monitoring';
 import { useAppStateAnalytics } from './analytics';
+import { getAvailableVehicleTypes } from '../utils';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
@@ -62,14 +63,6 @@ function getSights(
     }
     return sights[id];
   });
-}
-
-function getAvailableVehicleTypes(config: CaptureAppConfig): VehicleType[] {
-  return (
-    config.enableSteeringWheelPosition
-      ? Object.keys(config.sights.left)
-      : Object.keys(config.sights)
-  ) as VehicleType[];
 }
 
 /**
