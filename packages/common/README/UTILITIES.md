@@ -111,6 +111,16 @@ type of variation to use for the interactive colors (lighten or darken the color
 
 ---
 
+# Config Utils
+### getAvailableVehicleTypes
+```typescript
+import { getAvailableVehicleTypes } from '@monkvision/common';
+
+console.log(getAvailableVehicleTypes(config));
+// Output : [VehicleType.CITY, VehicleType.SUV]
+```
+Returns the list of available vehicle types based on the `sights` property of a `CaptureAppConfig` object.
+
 # Environment Utils
 ### getEnvOrThrow
 ```typescript
