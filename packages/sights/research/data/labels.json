@@ -552,6 +552,13 @@
     "de": "Geländewagen",
     "nl": "SUV"
   },
+  "hgv": {
+    "key": "hgv",
+    "en": "HGV",
+    "fr": "HGV",
+    "de": "HGV",
+    "nl": "HGV"
+  },
   "tire": {
     "key": "tire",
     "en": "Tire",

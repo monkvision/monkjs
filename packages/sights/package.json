@@ -30,7 +30,7 @@
     "eslint": "eslint --format=pretty ./src ./test",
     "eslint:fix": "eslint --fix --format=pretty ./src ./test",
     "lint": "yarn run prettier && yarn run eslint",
-    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix && yarn run svgo"
+    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix && echo \"Running SVGO on package overlays...\" && yarn run svgo"
   },
   "dependencies": {
     "@monkvision/types": "4.0.19"

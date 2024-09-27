@@ -59,5 +59,11 @@
     "make": "Volkswagen",
     "model": "T-Roc",
     "type": "suv"
+  },
+  "man12": {
+    "id": "man12",
+    "make": "MAN",
+    "model": "TGL 12.250",
+    "type": "hgv"
   }
 }

@@ -45,30 +45,5 @@
       "$ref": "#/definitions/Task"
     }
   },
-  "required": ["category", "label", "overlay", "vehicle", "tasks"],
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "dev": {
-            "anyOf": [
-              {
-                "const": null
-              },
-              {
-                "const": false
-              }
-            ]
-          },
-          "category": {
-            "const": "exterior"
-          }
-        },
-        "required": ["category"]
-      },
-      "then": {
-        "required": ["camera"]
-      }
-    }
-  ]
+  "required": ["category", "label", "overlay", "vehicle", "tasks"]
 }

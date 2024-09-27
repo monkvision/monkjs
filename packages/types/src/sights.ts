@@ -66,6 +66,10 @@ export enum VehicleType {
    * thanks to a typical 4x4 capability.
    */
   SUV = 'suv',
+  /**
+   * Huge transportation trucks.
+   */
+  HGV = 'hgv',
 }
 
 /**
@@ -112,6 +116,10 @@ export enum VehicleModel {
    * Volkswagen T-Roc (SUV)
    */
   VWTROC = 'vwtroc',
+  /**
+   * Man 12 (HGV)
+   */
+  MAN12 = 'man12',
 }
 
 /**

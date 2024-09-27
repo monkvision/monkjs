@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { VehicleTypeSelection } from '@monkvision/common-ui-web';
 import { useMonkAppState } from '@monkvision/common';
+import { VehicleType } from '@monkvision/types';
 import { Page } from '../pages';
 
 export function VehicleTypeSelectionPage() {
@@ -20,6 +21,7 @@ export function VehicleTypeSelectionPage() {
       authToken={authToken ?? ''}
       apiDomain={config.apiDomain}
       thumbnailDomain={config.thumbnailDomain}
+      availableVehicleTypes={[VehicleType.HGV]} // TODO : Remove this line
     />
   );
 }
