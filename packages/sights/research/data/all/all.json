@@ -204,8 +204,16 @@
   "all-mdwq0pl4": {
     "id": "all-mdwq0pl4",
     "category": "misc",
-    "label": "keys",
-    "overlay": "empty.svg",
+    "label": "card-keys",
+    "overlay": "all-mdwq0pl4.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection"]
+  },
+  "all-8jdq7f5m": {
+    "id": "all-8jdq7f5m",
+    "category": "misc",
+    "label": "penny-test",
+    "overlay": "all-8jdq7f5m.svg",
     "vehicle": "all",
     "tasks": ["damage_detection"]
   }
