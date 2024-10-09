@@ -80,27 +80,29 @@ export function useAdaptiveCameraConfig({
 
   const onUploadTimeout = useCallback(() => lowerMaxImageQuality(), []);
 
-  const config = {
-    quality: initialCameraConfig.quality ?? DEFAULT_CAMERA_CONFIG.quality,
-    resolution: initialCameraConfig.resolution ?? DEFAULT_CAMERA_CONFIG.resolution,
-    format: initialCameraConfig.format ?? DEFAULT_CAMERA_CONFIG.format,
-    allowImageUpscaling:
-      initialCameraConfig.allowImageUpscaling ?? DEFAULT_CAMERA_CONFIG.allowImageUpscaling,
-  };
-
   const adaptiveCameraConfig: Required<CameraConfig> = useMemo(() => {
+    const config = {
+      quality: initialCameraConfig.quality ?? DEFAULT_CAMERA_CONFIG.quality,
+      resolution: initialCameraConfig.resolution ?? DEFAULT_CAMERA_CONFIG.resolution,
+      format: initialCameraConfig.format ?? DEFAULT_CAMERA_CONFIG.format,
+      allowImageUpscaling:
+        initialCameraConfig.allowImageUpscaling ?? DEFAULT_CAMERA_CONFIG.allowImageUpscaling,
+    };
     const adaptiveConfig = {
       quality: Math.min(maxQuality, config.quality),
       resolution: getLowestResolutionBetween(maxResolution, config.resolution),
       format: initialCameraConfig.format ?? config.format,
       allowImageUpscaling: isImageUpscalingAllowed && config.allowImageUpscaling,
     };
-    return useAdaptiveImageQuality ? adaptiveConfig : config;
+    if (useAdaptiveImageQuality) {
+      return adaptiveConfig;
+    }
+    return config;
   }, [
-    config.quality,
-    config.resolution,
-    config.format,
-    config.allowImageUpscaling,
+    initialCameraConfig.quality,
+    initialCameraConfig.resolution,
+    initialCameraConfig.format,
+    initialCameraConfig.allowImageUpscaling,
     maxQuality,
     maxResolution,
     isImageUpscalingAllowed,

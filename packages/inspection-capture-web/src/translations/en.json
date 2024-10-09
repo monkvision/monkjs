@@ -25,7 +25,9 @@
         "invalidToken": "The authentication token used is invalid.",
         "expiredToken": "The authentication token used is expired.",
         "insufficientAuth": "You do not have the required autorizations to perform this action.",
-        "inspectionLoading": "An error occurred during the loading of the inspection. Please try again in a few minutes or contact the support with the following inspection id :"
+        "inspectionLoading": "An error occurred during the loading of the inspection. Please try again in a few minutes or contact the support with the following inspection id :",
+        "resourceNotFound": "Inspection ID not found.",
+        "invalidArgument": "Dev Error: One or more of the provided arguments are invalid."
       },
       "closeConfirm": {
         "message": "Are you sure you want to close the capture tool?",
