@@ -579,5 +579,19 @@
     "fr": "Clés",
     "de": "Tasten",
     "nl": "Sleutels"
+  },
+  "card-keys": {
+    "key": "card-keys",
+    "en": "Card Keys",
+    "fr": "Cartes-clés",
+    "de": "Kartenschlüssel",
+    "nl": "Kaartsleutels"
+  },
+  "penny-test": {
+    "key": "penny-test",
+    "en": "Penny Test",
+    "fr": "Test de Penny",
+    "de": "Penny-Test",
+    "nl": "Penny Test"
   }
 }
