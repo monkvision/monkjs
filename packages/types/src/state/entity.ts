@@ -13,6 +13,7 @@ export enum MonkEntityType {
   TASK = 'TASK',
   VEHICLE = 'VEHICLE',
   VIEW = 'VIEW',
+  PRICING = 'PRICING',
 }
 
 /**

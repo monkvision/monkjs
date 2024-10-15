@@ -4,6 +4,7 @@ import {
   Inspection,
   Part,
   PartOperation,
+  PricingV2,
   RenderedOutput,
   SeverityResult,
   Task,
@@ -55,6 +56,10 @@ export interface MonkState {
    * The views created during inspections.
    */
   views: View[];
+  /**
+   * The pricings created during inspections.
+   */
+  pricings: PricingV2[];
 }
 
 /**
@@ -72,5 +77,6 @@ export function createEmptyMonkState(): MonkState {
     tasks: [],
     vehicles: [],
     views: [],
+    pricings: [],
   };
 }

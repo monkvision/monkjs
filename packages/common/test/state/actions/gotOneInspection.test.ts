@@ -13,6 +13,8 @@ import {
   Inspection,
   Part,
   PartOperation,
+  PricingV2,
+  PricingV2RelatedItemType,
   RenderedOutput,
   SeverityResult,
   Task,
@@ -34,6 +36,7 @@ const action: MonkGotOneInspectionAction = {
     tasks: [{ id: 'tasks-test' } as Task],
     vehicles: [{ id: 'vehicles-test' } as Vehicle],
     views: [{ id: 'views-test' } as View],
+    pricings: [{ id: 'pricings-test' } as PricingV2],
   },
 };
 
@@ -66,6 +69,7 @@ describe('GotOneInspection action handlers', () => {
         tasks: [{ id: 'tasks-test-111111' } as Task],
         vehicles: [{ id: 'vehicles-test-111111' } as Vehicle],
         views: [{ id: 'views-test-111111' } as View],
+        pricings: [{ id: 'pricings-test-111111' } as PricingV2],
       };
       const newState = gotOneInspection(state, action);
       Object.keys(createEmptyMonkState()).forEach((key) => {
@@ -87,6 +91,12 @@ describe('GotOneInspection action handlers', () => {
         tasks: [{ id: 'tasks-test', images: ['ok'] } as Task],
         vehicles: [{ id: 'vehicles-test', type: 'nice' } as Vehicle],
         views: [{ id: 'views-test', elementId: 'ww' } as View],
+        pricings: [
+          {
+            id: 'pricings-test',
+            relatedItemType: PricingV2RelatedItemType.PART,
+          } as PricingV2,
+        ],
       };
       const newState = gotOneInspection(state, action);
       Object.keys(createEmptyMonkState()).forEach((key) => {

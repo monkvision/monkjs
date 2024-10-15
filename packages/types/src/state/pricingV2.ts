@@ -1,3 +1,5 @@
+import { MonkEntity } from './entity';
+
 /**
  * Enumeration of the types of items that a PricingV2 object can refer to.
  */
@@ -32,7 +34,7 @@ export enum RepairOperationType {
  * Details of the pricing using the expanded pricing feature. Provides details about the operations and the hours of
  * labour required and the cost of repairs for a specific part or on the entirety of the vehicle.
  */
-export interface PricingV2Details {
+export interface PricingV2Details extends MonkEntity {
   /**
    * The ID of the inspection associated with this pricing information.
    */
