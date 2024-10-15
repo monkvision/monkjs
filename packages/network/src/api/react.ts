@@ -111,5 +111,32 @@ export function useMonkApi(config: MonkApiConfig) {
       dispatch,
       handleError,
     ),
+    /**
+     * Update the additional data of an inspection.
+     *
+     * @param options The options of the request.
+     */
+    updateAdditionalData: reactify(MonkApi.updateAdditionalData, config, dispatch, handleError),
+    /**
+     * Create a new pricing with the given options. See the `CreatePricingOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see CreatePricingOptions
+     */
+    createPricing: reactify(MonkApi.createPricing, config, dispatch, handleError),
+    /**
+     * Delete a pricing with the given options. See the `DeletePricingOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see DeletePricingOptions
+     */
+    deletePricing: reactify(MonkApi.deletePricing, config, dispatch, handleError),
+    /**
+     * Update a pricing with the given options. See the `UpdatePricingOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see UpdatePricingOptions
+     */
+    updatePricing: reactify(MonkApi.updatePricing, config, dispatch, handleError),
   };
 }

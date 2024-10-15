@@ -15,7 +15,6 @@ import {
   MonkEntityType,
   Part,
   PricingV2,
-  PricingV2Details,
   PricingV2RelatedItemType,
   ProgressStatus,
   RenderedOutput,
@@ -193,10 +192,12 @@ function mapParts(response: ApiInspectionGet): { parts: Part[]; partIds: string[
 function mapPricingV2Details(
   apiPricingV2Details: ApiPricingV2Details | undefined,
   inspectionId: string,
-): PricingV2Details {
+): PricingV2 {
   const details = apiPricingV2Details as ApiPricingV2Details;
   return {
     inspectionId,
+    id: details.id,
+    entityType: MonkEntityType.PRICING,
     relatedItemType: details.related_item_type as PricingV2RelatedItemType,
     relatedItemId: details.related_item_id,
     pricing: details.pricing,
@@ -205,22 +206,21 @@ function mapPricingV2Details(
   };
 }
 
-function mapPricingV2(response: ApiInspectionGet): PricingV2 | undefined {
+function mapPricingV2(response: ApiInspectionGet): {
+  pricings: PricingV2[];
+  pricingIds: string[];
+} {
+  const pricings: PricingV2[] = [];
+  const pricingIds: string[] = [];
+
   if (!response.pricing) {
-    return undefined;
+    return { pricings, pricingIds };
   }
-  return {
-    details: response?.pricing.details
-      ? Object.keys(response.pricing.details).reduce(
-          (prev, curr) => ({
-            ...prev,
-            [curr]: mapPricingV2Details(response.pricing?.details[curr], response.id),
-          }),
-          {} as Record<string, PricingV2Details>,
-        )
-      : {},
-    totalPrice: response.pricing.total_price,
-  };
+  Object.values(response.pricing.details).forEach((details) => {
+    pricingIds.push(details.id);
+    pricings.push(mapPricingV2Details(details, response.id));
+  });
+  return { pricings, pricingIds };
 }
 
 function mapSeverityResultRepairOperation(
@@ -353,6 +353,7 @@ function mapInspection(
     severityResultIds: string[];
     taskIds: string[];
     vehicleId?: string;
+    pricingIds: string[];
   },
 ): Inspection {
   return {
@@ -365,7 +366,7 @@ function mapInspection(
     vehicle: ids.vehicleId,
     wheelAnalysis: mapWheelAnalysis(response),
     severityResults: ids.severityResultIds,
-    pricing: mapPricingV2(response),
+    pricings: ids.pricingIds,
     additionalData: response.additional_data,
   };
 }
@@ -384,6 +385,7 @@ export function mapApiInspectionGet(
   const { parts, partIds } = mapParts(response);
   const { severityResults, severityResultIds } = mapSeverityResults(response);
   const { tasks, taskIds } = mapTasks(response);
+  const { pricings, pricingIds } = mapPricingV2(response);
   const vehicle = mapVehicle(response);
   const inspection = mapInspection(response, {
     imageIds,
@@ -393,6 +395,7 @@ export function mapApiInspectionGet(
     partIds,
     severityResultIds,
     taskIds,
+    pricingIds,
   });
 
   return {
@@ -405,6 +408,7 @@ export function mapApiInspectionGet(
     tasks,
     vehicles: vehicle ? [vehicle] : [],
     views,
+    pricings,
     partOperations: [],
   };
 }

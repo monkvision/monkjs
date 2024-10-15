@@ -262,10 +262,11 @@ export default {
         'ca8b97ee-a50f-919b-cae1-3591a229bddc',
         '5dfffeae-6b5f-a699-5d95-5cd16c798ade',
       ],
-      pricing: {
-        details: {},
-        totalPrice: 0,
-      },
+      pricings: [
+        '8bbfcba0-fdee-4268-8bd5-69dffac87aea',
+        'fed5af09-1e6d-0aac-febf-0d76194b3256',
+        'b5d64933-4bce-9e9e-b5bc-eb4c4ce8a61c',
+      ],
       additionalData: {
         damage_detection_version: 'v2',
         environment: {
@@ -3514,6 +3515,41 @@ export default {
         },
       },
       renderedOutputs: ['662bc970-70d1-83de-6641-6b0f77f7af99'],
+    },
+  ],
+  pricings: [
+    {
+      entityType: 'PRICING',
+      hours: {
+        INGREDIENT: 2,
+        PAINT: 2,
+      },
+      id: '8bbfcba0-fdee-4268-8bd5-69dffac87aea',
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
+      operations: ['painting'],
+      pricing: 200,
+      relatedItemId: 'fd6dd94c-d202-c9c4-fd07-7b33d524f14e',
+      relatedItemType: 'part',
+    },
+    {
+      entityType: 'PRICING',
+      hours: null,
+      id: 'fed5af09-1e6d-0aac-febf-0d76194b3256',
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
+      operations: null,
+      pricing: 200,
+      relatedItemId: 'f78040b7-5562-55cf-f7ea-e2c852446d45',
+      relatedItemType: 'part',
+    },
+    {
+      entityType: 'PRICING',
+      hours: null,
+      id: 'b5d64933-4bce-9e9e-b5bc-eb4c4ce8a61c',
+      inspectionId: '42242f0b-378b-1325-424e-8d7430ad3f62',
+      operations: null,
+      pricing: 100,
+      relatedItemId: '41c29e52-6780-63e9-41a8-3c2d60a65b63',
+      relatedItemType: 'part',
     },
   ],
   partOperations: [],
