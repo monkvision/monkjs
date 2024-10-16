@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/analytics",
-  "version": "4.0.24",
+  "version": "4.1.0",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs abstract analytics package",
@@ -28,19 +28,19 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/types": "4.0.24"
+    "@monkvision/types": "4.1.0"
   },
   "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "4.0.24",
-    "@monkvision/eslint-config-typescript": "4.0.24",
-    "@monkvision/eslint-config-typescript-react": "4.0.24",
-    "@monkvision/jest-config": "4.0.24",
-    "@monkvision/prettier-config": "4.0.24",
-    "@monkvision/typescript-config": "4.0.24",
+    "@monkvision/eslint-config-base": "4.1.0",
+    "@monkvision/eslint-config-typescript": "4.1.0",
+    "@monkvision/eslint-config-typescript-react": "4.1.0",
+    "@monkvision/jest-config": "4.1.0",
+    "@monkvision/prettier-config": "4.1.0",
+    "@monkvision/typescript-config": "4.1.0",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.2.2",
