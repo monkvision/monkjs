@@ -3941,8 +3941,39 @@
   ],
   "pdf_generation_ready": true,
   "pricing": {
-    "details": {},
-    "total_price": 0
+    "details": {
+      "bumper_back": {
+        "hours": {
+          "INGREDIENT": 2,
+          "PAINT": 2
+        },
+        "id": "8bbfcba0-fdee-4268-8bd5-69dffac87aea",
+        "inspection_id": "5843de96-21d3-282b-5829-7ce926f510a9",
+        "operations": ["painting"],
+        "pricing": 200,
+        "related_item_id": "fd6dd94c-d202-c9c4-fd07-7b33d524f14e",
+        "related_item_type": "part"
+      },
+      "roof": {
+        "hours": null,
+        "id": "fed5af09-1e6d-0aac-febf-0d76194b3256",
+        "inspection_id": "5843de96-21d3-282b-5829-7ce926f510a9",
+        "operations": null,
+        "pricing": 200,
+        "related_item_id": "f78040b7-5562-55cf-f7ea-e2c852446d45",
+        "related_item_type": "part"
+      },
+      "wheel_front_left": {
+        "hours": null,
+        "id": "b5d64933-4bce-9e9e-b5bc-eb4c4ce8a61c",
+        "inspection_id": "5843de96-21d3-282b-5829-7ce926f510a9",
+        "operations": null,
+        "pricing": 100,
+        "related_item_id": "41c29e52-6780-63e9-41a8-3c2d60a65b63",
+        "related_item_type": "part"
+      }
+    },
+    "total_price": 500
   },
   "related_inspection_id": null,
   "severity_results": [

@@ -2,6 +2,9 @@ jest.mock('../../src/api/api', () => ({
   MonkApi: {
     getInspection: jest.fn(() => Promise.resolve({ test: 'getInspection' })),
     createInspection: jest.fn(() => Promise.resolve({ test: 'createInspection' })),
+    createPricing: jest.fn(() => Promise.resolve({ test: 'createPricing' })),
+    deletePricing: jest.fn(() => Promise.resolve({ test: 'deletePricing' })),
+    updatePricing: jest.fn(() => Promise.resolve({ test: 'updatePricing' })),
   },
 }));
 
@@ -43,6 +46,33 @@ describe('Monk API React utilities', () => {
       param = 'test-createInspection';
       resultMock = await (result.current.createInspection as any)(param);
       requestMock = MonkApi.createInspection as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-createPricing';
+      resultMock = await (result.current.createPricing as any)(param);
+      requestMock = MonkApi.createPricing as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-deletePricing';
+      resultMock = await (result.current.deletePricing as any)(param);
+      requestMock = MonkApi.deletePricing as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-updatePricing';
+      resultMock = await (result.current.updatePricing as any)(param);
+      requestMock = MonkApi.updatePricing as jest.Mock;
       expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
       requestResultMock = await requestMock.mock.results[0].value;
       expect(resultMock).toBe(requestResultMock);

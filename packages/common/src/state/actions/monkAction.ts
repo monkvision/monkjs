@@ -7,6 +7,10 @@ export enum MonkActionType {
    */
   GOT_ONE_INSPECTION = 'got_one_inspection',
   /**
+   * An inspection additional data has been updated.
+   */
+  UPDATED_ONE_INSPECTION_ADDITIONAL_DATA = 'updated_one_inspection_additional_data',
+  /**
    * An image has been uploaded to the API.
    */
   CREATED_ONE_IMAGE = 'created_one_image',
@@ -15,13 +19,25 @@ export enum MonkActionType {
    */
   UPDATED_MANY_TASKS = 'updated_many_tasks',
   /**
-   * Clear and reset the state.
-   */
-  RESET_STATE = 'reset_state',
-  /**
    * A vehicle has been updated.
    */
   UPDATED_VEHICLE = 'updated_vehicle',
+  /**
+   * A pricing has been uploaded to the API.
+   */
+  CREATED_ONE_PRICING = 'created_one_pricing',
+  /**
+   * A pricing has been updated.
+   */
+  UPDATED_ONE_PRICING = 'updated_one_pricing',
+  /**
+   * A pricing has been deleted.
+   */
+  DELETED_ONE_PRICING = 'deleted_one_pricing',
+  /**
+   * Clear and reset the state.
+   */
+  RESET_STATE = 'reset_state',
 }
 
 /**

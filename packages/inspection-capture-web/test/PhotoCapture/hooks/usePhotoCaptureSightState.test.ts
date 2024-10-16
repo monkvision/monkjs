@@ -76,6 +76,7 @@ function mockGetInspectionResponse(
       severityResults: [],
       vehicles: [],
       views: [],
+      pricings: [],
     },
   };
   takenSights.forEach((sight, index) => {

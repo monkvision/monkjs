@@ -1,6 +1,5 @@
 import { AdditionalData } from './common';
 import { MonkEntity, MonkEntityType } from './entity';
-import { PricingV2 } from './pricingV2';
 import { WheelAnalysis } from './wheelAnalysis';
 
 /**
@@ -44,7 +43,7 @@ export interface Inspection extends MonkEntity {
   /**
    * The details about the cost of the vehicle reparations using the PricingV2 API if it was requested.
    */
-  pricing?: PricingV2;
+  pricings?: string[];
   /**
    * Additional data added during the creation of the inspection.
    */

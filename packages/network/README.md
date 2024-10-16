@@ -117,6 +117,59 @@ Update the vehicle of an inspection.
 |-----------|--------------------------------|-----------------------------|----------|
 | options   | UpdateInspectionVehicleOptions | The options of the request. | ✔️       |
 
+### createPricing
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.createPricing(options, apiConfig, dispatch);
+```
+
+Create a new pricing of an inspection.
+
+| Parameter | Type                 | Description                 | Required |
+|-----------|----------------------|-----------------------------|----------|
+| options   | CreatePricingOptions | The options of the request. | ✔️       |
+
+### updatePricing
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.updatePricing(options, apiConfig, dispatch);
+```
+
+Update a pricing of an inspection.
+
+| Parameter | Type                 | Description                 | Required |
+|-----------|----------------------|-----------------------------|----------|
+| options   | UpdatePricingOptions | The options of the request. | ✔️       |
+
+### deletePricing
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.deletePricing(options, apiConfig, dispatch);
+```
+
+Update a pricing of an inspection.
+
+| Parameter | Type                 | Description                 | Required |
+|-----------|----------------------|-----------------------------|----------|
+| options   | DeletePricingOptions | The options of the request. | ✔️       |
+
+### updateAdditionalData
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.updateAdditionalData(options, apiConfig, dispatch);
+```
+
+Update the additional data of an inspection.
+
+| Parameter | Type                        | Description                 | Required |
+|-----------|-----------------------------|-----------------------------|----------|
+| options   | UpdateAdditionalDataOptions | The options of the request. | ✔️       |
+
+
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This
 custom hook returns a custom version of the `MonkApi` object described in the section above, in which the requests do

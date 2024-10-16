@@ -4,3 +4,7 @@ export * from './gotOneInspection';
 export * from './createdOneImage';
 export * from './updatedManyTasks';
 export * from './updatedVehicle';
+export * from './createdOnePricing';
+export * from './deletedOnePricing';
+export * from './updatedOnePricing';
+export * from './updatedOneInspectionAdditionalData';

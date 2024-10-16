@@ -1,3 +1,5 @@
+import { PricingV2RelatedItemType, VehiclePart } from '@monkvision/types';
+
 export type ApiRelatedItemType = 'part' | 'vehicle';
 
 export type ApiRepairOperationsTypes =
@@ -15,6 +17,7 @@ export type ApiRepairOperationsTypes =
 export type ApiHours = Record<string, number>;
 
 export interface ApiPricingV2Details {
+  id: string;
   hours?: ApiHours;
   operations?: ApiRepairOperationsTypes[];
   pricing?: number;
@@ -27,4 +30,10 @@ export type ApiDetails = Record<string, ApiPricingV2Details>;
 export interface ApiPricingV2 {
   details: ApiDetails;
   total_price?: number;
+}
+
+export interface ApiPricingPost {
+  pricing: number;
+  related_item_type: PricingV2RelatedItemType;
+  part_type: VehiclePart | undefined;
 }
