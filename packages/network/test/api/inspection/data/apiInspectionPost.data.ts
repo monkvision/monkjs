@@ -14,6 +14,7 @@ export default {
   vehicle: {
     brand: 'brand',
     model: 'model',
+    serie: 'serie',
     plate: 'plate',
     type: 'hatchback',
     mileageUnit: 'mileageUnit',
