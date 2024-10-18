@@ -165,7 +165,7 @@ import { MonkApi } from '@monkvision/network';
 MonkApi.deletePricing(options, apiConfig, dispatch);
 ```
 
-Update a pricing of an inspection.
+Delete a pricing of an inspection.
 
 | Parameter | Type                 | Description                 | Required |
 |-----------|----------------------|-----------------------------|----------|
@@ -184,6 +184,31 @@ Update the additional data of an inspection.
 |-----------|-----------------------------|-----------------------------|----------|
 | options   | UpdateAdditionalDataOptions | The options of the request. | ✔️       |
 
+### createDamage
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.createDamage(options, apiConfig, dispatch);
+```
+
+Create a new damage of an inspection.
+
+| Parameter | Type                | Description                 | Required |
+|-----------|---------------------|-----------------------------|----------|
+| options   | CreateDamageOptions | The options of the request. | ✔️       |
+
+### deleteDamage
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.deleteDamage(options, apiConfig, dispatch);
+```
+
+Delete a damage of an inspection.
+
+| Parameter | Type                | Description                 | Required |
+|-----------|---------------------|-----------------------------|----------|
+| options   | DeleteDamageOptions | The options of the request. | ✔️       |
 
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This

@@ -1,3 +1,4 @@
+import { DamageType, VehiclePart } from '@monkvision/types';
 import type { ApiRelatedImages } from './image';
 import type { ApiPartIds } from './part';
 
@@ -12,3 +13,8 @@ export interface ApiDamage {
 export type ApiDamages = ApiDamage[];
 
 export type ApiDamageIds = string[];
+
+export interface ApiDamagePost {
+  damage_type: DamageType;
+  part_type: VehiclePart;
+}

@@ -5,7 +5,7 @@ import {
   RepairOperationType,
   VehiclePart,
 } from '@monkvision/types';
-import { ApiPricingPost, ApiPricingV2Details } from '../models';
+import { ApiPricingPostPatch, ApiPricingV2Details } from '../models';
 import { PricingOptions } from './types';
 
 export function mapApiPricingPost(inspectionId: string, response: ApiPricingV2Details): PricingV2 {
@@ -21,7 +21,7 @@ export function mapApiPricingPost(inspectionId: string, response: ApiPricingV2De
   };
 }
 
-export function mapApiPricingPostRequest(options: PricingOptions): ApiPricingPost {
+export function mapApiPricingPostRequest(options: PricingOptions): ApiPricingPostPatch {
   return {
     pricing: options.pricing >= 0 ? options.pricing : 0,
     related_item_type: options.type,
