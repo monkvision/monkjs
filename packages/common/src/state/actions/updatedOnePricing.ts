@@ -7,7 +7,7 @@ import { MonkState } from '../state';
  */
 export interface MonkUpdatedOnePricingPayload {
   /**
-   * The pricing created.
+   * The pricing updated.
    */
   pricing: PricingV2;
 }
