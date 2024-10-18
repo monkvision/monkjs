@@ -17,7 +17,9 @@ describe('Inspection API Mappers', () => {
 
   describe('ApiInspectionPost mapper', () => {
     it('should properly map the ApiInspectionGet object', () => {
-      const result = mapApiInspectionPost(apiInspectionPostData as CreateInspectionOptions);
+      const result = mapApiInspectionPost(
+        apiInspectionPostData as unknown as CreateInspectionOptions,
+      );
       (apiInspectionPostMapped.additional_data as any).user_agent = expect.any(String);
       (apiInspectionPostMapped.additional_data as any).monk_sdk_version = sdkVersion;
       expect(result).toEqual(apiInspectionPostMapped);

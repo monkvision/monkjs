@@ -62,4 +62,5 @@ export interface ApiVehiclePostPatch {
   car_registration?: boolean;
   vehicle_quotation?: number;
   trade_in_offer?: number;
+  additional_data?: ApiAdditionalData;
 }

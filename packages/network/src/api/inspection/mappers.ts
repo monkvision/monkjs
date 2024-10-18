@@ -497,7 +497,40 @@ function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
 export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspectionPost {
   return {
     tasks: getTasksOptions(options),
-    vehicle: options.vehicleType ? { vehicle_type: options.vehicleType } : undefined,
+    vehicle: options.vehicle
+      ? {
+          brand: options.vehicle.brand,
+          model: options.vehicle.model,
+          plate: options.vehicle.plate,
+          vehicle_type: options.vehicle.type,
+          mileage:
+            options.vehicle.mileageUnit && options.vehicle.mileageValue
+              ? {
+                  value: options.vehicle.mileageValue,
+                  unit: options.vehicle.mileageUnit,
+                }
+              : undefined,
+          market_value:
+            options.vehicle.marketValueUnit && options.vehicle.marketValue
+              ? {
+                  value: options.vehicle.marketValue,
+                  unit: options.vehicle.marketValueUnit,
+                }
+              : undefined,
+          vin: options.vehicle.vin,
+          color: options.vehicle.color,
+          exterior_cleanliness: options.vehicle.exteriorCleanliness,
+          interior_cleanliness: options.vehicle.interiorCleanliness,
+          date_of_circulation: options.vehicle.dateOfCirculation,
+          duplicate_keys: options.vehicle.duplicateKeys,
+          expertise_requested: options.vehicle.expertiseRequested,
+          car_registration: options.vehicle.carRegistration,
+          vehicle_quotation: options.vehicle.vehicleQuotation,
+          trade_in_offer: options.vehicle.tradeInOffer,
+          owner_info: options.vehicle.ownerInfo,
+          additional_data: options.vehicle.additionalData,
+        }
+      : undefined,
     damage_severity: { output_format: 'toyota' },
     pricing: options.usePricingV2 ? { output_format: 'toyota' } : undefined,
     additional_data: {
@@ -507,6 +540,7 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
       damage_detection_version: 'v2',
       use_dynamic_crops: options.useDynamicCrops ?? true,
       is_video_capture: options.isVideoCapture ?? false,
+      ...options.additionalData,
     },
   };
 }

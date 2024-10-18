@@ -41,6 +41,21 @@ every entity that has been fetched using this API call.
 |-----------|----------------------|-----------------------------|----------|
 | options   | GetInspectionOptions | The options of the request. | ✔️       |
 
+
+### createInspection
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.createInspection(options, apiConfig);
+```
+
+Create a new inspection. This request does not modify the local state. To fetch the inspection details, use the
+`getInspection` request after creating one, using the ID returned by this request.
+
+| Parameter | Type                    | Description                 | Required |
+|-----------|-------------------------|-----------------------------|----------|
+| options   | CreateInspectionOptions | The options of the request. | ✔️       |
+
 ### addImage
 ```typescript
 import { MonkApi } from '@monkvision/network';
