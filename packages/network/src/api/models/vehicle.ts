@@ -23,6 +23,7 @@ export interface ApiVehicleComponent {
   mileage_unit?: ApiMileageUnit;
   mileage_value?: number;
   model?: string;
+  serie?: string;
   owner_info?: ApiOwnerInfo;
   plate?: string;
   trade_in_offer?: number;

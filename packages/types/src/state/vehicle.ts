@@ -30,6 +30,10 @@ export interface Vehicle extends MonkEntity {
    */
   model?: string;
   /**
+   * The serie / trim of the vehicle.
+   */
+  serie?: string;
+  /**
    * The license plate number of the vehicle.
    */
   plate?: string;

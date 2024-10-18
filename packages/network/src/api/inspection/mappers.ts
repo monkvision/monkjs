@@ -304,6 +304,7 @@ function mapVehicle(response: ApiInspectionGet): Vehicle | undefined {
         entityType: MonkEntityType.VEHICLE,
         brand: response.vehicle.brand,
         model: response.vehicle.model,
+        serie: response.vehicle.serie,
         plate: response.vehicle.plate,
         type: response.vehicle.vehicle_type,
         mileageUnit: response.vehicle.mileage_unit as MileageUnit | undefined,
@@ -501,6 +502,7 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
       ? {
           brand: options.vehicle.brand,
           model: options.vehicle.model,
+          serie: options.vehicle.serie,
           plate: options.vehicle.plate,
           vehicle_type: options.vehicle.type,
           mileage:

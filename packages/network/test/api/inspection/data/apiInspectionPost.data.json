@@ -19,6 +19,7 @@
   "vehicle": {
     "brand": "brand",
     "model": "model",
+    "serie": "serie",
     "plate": "plate",
     "vehicle_type": "hatchback",
     "mileage": {
