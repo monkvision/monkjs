@@ -34,11 +34,11 @@
     "exterior_cleanliness": "exteriorCleanliness",
     "interior_cleanliness": "interiorCleanliness",
     "date_of_circulation": "dateOfCirculation",
-    "duplicate_keys": "duplicateKeys",
-    "expertise_requested": "expertiseRequested",
-    "car_registration": "carRegistration",
-    "vehicle_quotation": "vehicleQuotation",
-    "trade_in_offer": "tradeInOffer",
+    "duplicate_keys": true,
+    "expertise_requested": true,
+    "car_registration": true,
+    "vehicle_quotation": 12,
+    "trade_in_offer": 66,
     "owner_info": {
       "test": "data"
     },
