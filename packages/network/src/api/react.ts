@@ -138,5 +138,19 @@ export function useMonkApi(config: MonkApiConfig) {
      * @see UpdatePricingOptions
      */
     updatePricing: reactify(MonkApi.updatePricing, config, dispatch, handleError),
+    /**
+     * Create a new damage with the given options. See the `CreateDamageOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see CreateDamageOptions
+     */
+    createDamage: reactify(MonkApi.createDamage, config, dispatch, handleError),
+    /**
+     * Delete a damage with the given options. See the `DeleteDamageOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see DeleteDamageOptions
+     */
+    deleteDamage: reactify(MonkApi.deleteDamage, config, dispatch, handleError),
   };
 }

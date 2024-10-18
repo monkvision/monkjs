@@ -32,7 +32,7 @@ export interface ApiPricingV2 {
   total_price?: number;
 }
 
-export interface ApiPricingPost {
+export interface ApiPricingPostPatch {
   pricing: number;
   related_item_type: PricingV2RelatedItemType;
   part_type: VehiclePart | undefined;

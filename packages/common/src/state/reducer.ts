@@ -18,6 +18,10 @@ import {
   updatedOnePricing,
   updatedOneInspectionAdditionalData,
   updatedVehicle,
+  createdOneDamage,
+  isCreatedOneDamageAction,
+  deletedOneDamage,
+  isDeletedOneDamageAction,
 } from './actions';
 import { MonkState } from './state';
 
@@ -51,6 +55,12 @@ export function monkReducer(state: MonkState, action: MonkAction): MonkState {
   }
   if (isUpdatedVehicleAction(action)) {
     return updatedVehicle(state, action);
+  }
+  if (isCreatedOneDamageAction(action)) {
+    return createdOneDamage(state, action);
+  }
+  if (isDeletedOneDamageAction(action)) {
+    return deletedOneDamage(state, action);
   }
   return state;
 }

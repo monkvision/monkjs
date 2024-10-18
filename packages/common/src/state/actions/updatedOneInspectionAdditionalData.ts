@@ -7,7 +7,7 @@ import { MonkState } from '../state';
  */
 export interface MonkUpdatedOneInspectionAdditionalDataPayload {
   /**
-   * The ID of the inspection to which the pricing was updated.
+   * The ID of the inspection to which the additionalData was updated.
    */
   inspectionId: string;
   /**
