@@ -118,7 +118,7 @@ export interface CreateInspectionOptions {
   /**
    * Additional details about the vehicle of the inspection (vehicle type, VIN etc.).
    */
-  vehicle?: Vehicle;
+  vehicle?: Omit<Vehicle, 'id' | 'entityType' | 'inspectionId'>;
   /**
    * Boolean indicating if the API should generate dynamic crops or not.
    *

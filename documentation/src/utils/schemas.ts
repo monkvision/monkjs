@@ -3,7 +3,9 @@ import {
   CameraResolution,
   ComplianceIssue,
   CompressionFormat,
+  CurrencyCode,
   DeviceOrientation,
+  MileageUnit,
   MonkApiPermission,
   PhotoCaptureTutorialOption,
   SteeringWheelPosition,
@@ -194,11 +196,37 @@ export const InspectionCreateTaskSchema = z
   .or(CreateDamageDetectionTaskOptionsSchema)
   .or(CreateDamageDetectionTaskOptionsSchema);
 
+export const AdditionalDataSchema = z.record(z.string(), z.unknown());
+
+export const InspectionCreateVehicleSchema = z.object({
+  brand: z.string().optional(),
+  model: z.string().optional(),
+  plate: z.string().optional(),
+  type: z.string().optional(),
+  mileageUnit: z.nativeEnum(MileageUnit).optional(),
+  mileageValue: z.number().optional(),
+  marketValueUnit: z.nativeEnum(CurrencyCode).optional(),
+  marketValue: z.number().optional(),
+  vin: z.string().optional(),
+  color: z.string().optional(),
+  exteriorCleanliness: z.string().optional(),
+  interiorCleanliness: z.string().optional(),
+  dateOfCirculation: z.string().optional(),
+  duplicateKeys: z.boolean().optional(),
+  expertiseRequested: z.boolean().optional(),
+  carRegistration: z.boolean().optional(),
+  vehicleQuotation: z.number().optional(),
+  tradeInOffer: z.number().optional(),
+  ownerInfo: z.record(z.string().optional(), z.unknown()).optional(),
+  additionalData: AdditionalDataSchema.optional(),
+});
+
 export const CreateInspectionOptionsSchema = z.object({
   tasks: z.array(InspectionCreateTaskSchema),
-  vehicleType: z.nativeEnum(VehicleType).optional(),
+  vehicle: InspectionCreateVehicleSchema.optional(),
   useDynamicCrops: z.boolean().optional(),
   usePricingV2: z.boolean().optional(),
+  additionalData: AdditionalDataSchema.optional(),
 });
 
 export const CreateInspectionDiscriminatedUnionSchema = z.discriminatedUnion(
