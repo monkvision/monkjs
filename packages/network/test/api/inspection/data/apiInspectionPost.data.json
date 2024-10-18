@@ -17,7 +17,34 @@
     }
   },
   "vehicle": {
-    "vehicle_type": "hatchback"
+    "brand": "brand",
+    "model": "model",
+    "plate": "plate",
+    "vehicle_type": "hatchback",
+    "mileage": {
+      "unit": "mileageUnit",
+      "value": 34
+    },
+    "market_value": {
+      "unit": "marketValueUnit",
+      "value": 45
+    },
+    "vin": "vin",
+    "color": "color",
+    "exterior_cleanliness": "exteriorCleanliness",
+    "interior_cleanliness": "interiorCleanliness",
+    "date_of_circulation": "dateOfCirculation",
+    "duplicate_keys": "duplicateKeys",
+    "expertise_requested": "expertiseRequested",
+    "car_registration": "carRegistration",
+    "vehicle_quotation": "vehicleQuotation",
+    "trade_in_offer": "tradeInOffer",
+    "owner_info": {
+      "test": "data"
+    },
+    "additional_data": {
+      "additional": "data"
+    }
   },
   "damage_severity": {
     "output_format": "toyota"
@@ -28,6 +55,8 @@
   "additional_data": {
     "damage_detection_version": "v2",
     "use_dynamic_crops": true,
-    "is_video_capture": true
+    "is_video_capture": true,
+    "test": "uno",
+    "test2": "dos"
   }
 }

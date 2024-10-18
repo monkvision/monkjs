@@ -1,5 +1,4 @@
-import { TaskName } from './state';
-import { VehicleType } from './sights';
+import { AdditionalData, TaskName, Vehicle } from './state';
 
 /**
  * Enumeration of the API permissions included in the Monk authentication token.
@@ -119,7 +118,7 @@ export interface CreateInspectionOptions {
   /**
    * Additional details about the vehicle of the inspection (vehicle type, VIN etc.).
    */
-  vehicleType?: VehicleType;
+  vehicle?: Vehicle;
   /**
    * Boolean indicating if the API should generate dynamic crops or not.
    *
@@ -138,4 +137,8 @@ export interface CreateInspectionOptions {
    * @default false
    */
   isVideoCapture?: boolean;
+  /**
+   * Additional data of the inspection.
+   */
+  additionalData?: AdditionalData;
 }
