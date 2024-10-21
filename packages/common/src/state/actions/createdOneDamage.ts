@@ -13,7 +13,7 @@ export interface MonkCreatedOneDamagePayload {
 }
 
 /**
- * Action dispatched when a vehicle have been updated.
+ * Action dispatched when a damage have been created.
  */
 export interface MonkCreatedOneDamageAction extends MonkAction {
   /**
@@ -48,9 +48,16 @@ export function createdOneDamage(state: MonkState, action: MonkCreatedOneDamageA
   const partsRelated = action.payload.damage.parts
     .map((part) => parts.find((value) => value.type === part)?.id)
     .filter((v) => v !== undefined) as string[];
-  damages.push({ ...action.payload.damage, parts: partsRelated });
+  const newParts = parts.map((part) => {
+    if (partsRelated.includes(part.id)) {
+      return { ...part, damages: [...part.damages, payload.damage.id] };
+    }
+    return part;
+  });
+  damages.push({ ...payload.damage, parts: partsRelated });
   return {
     ...state,
+    parts: newParts,
     damages: [...damages],
     inspections: [...inspections],
   };
