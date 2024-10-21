@@ -3444,17 +3444,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monkvision/analytics@4.2.2, @monkvision/analytics@workspace:packages/analytics":
+"@monkvision/analytics@4.2.3, @monkvision/analytics@workspace:packages/analytics":
   version: 0.0.0-use.local
   resolution: "@monkvision/analytics@workspace:packages/analytics"
   dependencies:
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
     "@types/jest": ^29.2.2
@@ -3487,20 +3487,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/camera-web@4.2.2, @monkvision/camera-web@workspace:packages/camera-web":
+"@monkvision/camera-web@4.2.3, @monkvision/camera-web@workspace:packages/camera-web":
   version: 0.0.0-use.local
   resolution: "@monkvision/camera-web@workspace:packages/camera-web"
   dependencies:
-    "@monkvision/common": 4.2.2
-    "@monkvision/common-ui-web": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/monitoring": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/test-utils": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/common": 4.2.3
+    "@monkvision/common-ui-web": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/monitoring": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/test-utils": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
     "@types/fscreen": ^1.0.1
@@ -3540,21 +3540,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/common-ui-web@4.2.2, @monkvision/common-ui-web@workspace:packages/common-ui-web":
+"@monkvision/common-ui-web@4.2.3, @monkvision/common-ui-web@workspace:packages/common-ui-web":
   version: 0.0.0-use.local
   resolution: "@monkvision/common-ui-web@workspace:packages/common-ui-web"
   dependencies:
     "@babel/core": ^7.22.9
-    "@monkvision/common": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/network": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/sights": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/common": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/network": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/sights": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/dom": ^8.20.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^12.1.5
@@ -3596,21 +3596,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/common@4.2.2, @monkvision/common@workspace:packages/common":
+"@monkvision/common@4.2.3, @monkvision/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@monkvision/common@workspace:packages/common"
   dependencies:
-    "@monkvision/analytics": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/monitoring": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/sights": 4.2.2
-    "@monkvision/test-utils": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/analytics": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/monitoring": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/sights": 4.2.3
+    "@monkvision/test-utils": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
     "@types/jest": ^29.2.2
@@ -3655,7 +3655,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-base@4.2.2, @monkvision/eslint-config-base@workspace:configs/eslint-config-base":
+"@monkvision/eslint-config-base@4.2.3, @monkvision/eslint-config-base@workspace:configs/eslint-config-base":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-base@workspace:configs/eslint-config-base"
   peerDependencies:
@@ -3670,7 +3670,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-typescript-react@4.2.2, @monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react":
+"@monkvision/eslint-config-typescript-react@4.2.3, @monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react"
   peerDependencies:
@@ -3681,7 +3681,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/eslint-config-typescript@4.2.2, @monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript":
+"@monkvision/eslint-config-typescript@4.2.3, @monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript"
   peerDependencies:
@@ -3692,23 +3692,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/inspection-capture-web@4.2.2, @monkvision/inspection-capture-web@workspace:packages/inspection-capture-web":
+"@monkvision/inspection-capture-web@4.2.3, @monkvision/inspection-capture-web@workspace:packages/inspection-capture-web":
   version: 0.0.0-use.local
   resolution: "@monkvision/inspection-capture-web@workspace:packages/inspection-capture-web"
   dependencies:
-    "@monkvision/analytics": 4.2.2
-    "@monkvision/camera-web": 4.2.2
-    "@monkvision/common": 4.2.2
-    "@monkvision/common-ui-web": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/network": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/sights": 4.2.2
-    "@monkvision/test-utils": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/analytics": 4.2.3
+    "@monkvision/camera-web": 4.2.3
+    "@monkvision/common": 4.2.3
+    "@monkvision/common-ui-web": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/network": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/sights": 4.2.3
+    "@monkvision/test-utils": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
     "@types/copyfiles": ^2
@@ -3748,7 +3748,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/jest-config@4.2.2, @monkvision/jest-config@workspace:configs/jest-config":
+"@monkvision/jest-config@4.2.3, @monkvision/jest-config@workspace:configs/jest-config":
   version: 0.0.0-use.local
   resolution: "@monkvision/jest-config@workspace:configs/jest-config"
   peerDependencies:
@@ -3756,17 +3756,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/monitoring@4.2.2, @monkvision/monitoring@workspace:packages/monitoring":
+"@monkvision/monitoring@4.2.3, @monkvision/monitoring@workspace:packages/monitoring":
   version: 0.0.0-use.local
   resolution: "@monkvision/monitoring@workspace:packages/monitoring"
   dependencies:
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
     "@types/jest": ^29.2.2
@@ -3799,18 +3799,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/network@4.2.2, @monkvision/network@workspace:packages/network":
+"@monkvision/network@4.2.3, @monkvision/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@monkvision/network@workspace:packages/network"
   dependencies:
-    "@monkvision/common": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/sights": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/common": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/sights": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@types/jest": ^29.2.2
     "@types/jsonwebtoken": ^9.0.5
     "@types/node": ^18.11.9
@@ -3846,16 +3846,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/posthog@4.2.2, @monkvision/posthog@workspace:packages/posthog":
+"@monkvision/posthog@4.2.3, @monkvision/posthog@workspace:packages/posthog":
   version: 0.0.0-use.local
   resolution: "@monkvision/posthog@workspace:packages/posthog"
   dependencies:
-    "@monkvision/analytics": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/analytics": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@types/jest": ^29.2.2
     "@types/node": ^18.11.9
     "@typescript-eslint/eslint-plugin": ^5.43.0
@@ -3884,7 +3884,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/prettier-config@4.2.2, @monkvision/prettier-config@workspace:configs/prettier-config":
+"@monkvision/prettier-config@4.2.3, @monkvision/prettier-config@workspace:configs/prettier-config":
   version: 0.0.0-use.local
   resolution: "@monkvision/prettier-config@workspace:configs/prettier-config"
   peerDependencies:
@@ -3892,16 +3892,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/sentry@4.2.2, @monkvision/sentry@workspace:packages/sentry":
+"@monkvision/sentry@4.2.3, @monkvision/sentry@workspace:packages/sentry":
   version: 0.0.0-use.local
   resolution: "@monkvision/sentry@workspace:packages/sentry"
   dependencies:
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/monitoring": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/monitoring": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@sentry/react": ^7.61.1
     "@types/jest": ^29.2.2
     "@types/node": ^18.11.9
@@ -3930,17 +3930,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/sights@4.2.2, @monkvision/sights@workspace:packages/sights":
+"@monkvision/sights@4.2.3, @monkvision/sights@workspace:packages/sights":
   version: 0.0.0-use.local
   resolution: "@monkvision/sights@workspace:packages/sights"
   dependencies:
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/svgo-config": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/svgo-config": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@types/jest": ^29.2.2
     "@types/node": ^18.11.9
     "@typescript-eslint/eslint-plugin": ^5.43.0
@@ -3967,7 +3967,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/svgo-config@4.2.2, @monkvision/svgo-config@workspace:configs/svgo-config":
+"@monkvision/svgo-config@4.2.3, @monkvision/svgo-config@workspace:configs/svgo-config":
   version: 0.0.0-use.local
   resolution: "@monkvision/svgo-config@workspace:configs/svgo-config"
   peerDependencies:
@@ -3975,16 +3975,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/test-utils@4.2.2, @monkvision/test-utils@workspace:configs/test-utils":
+"@monkvision/test-utils@4.2.3, @monkvision/test-utils@workspace:configs/test-utils":
   version: 0.0.0-use.local
   resolution: "@monkvision/test-utils@workspace:configs/test-utils"
   dependencies:
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^8.0.1
     "@types/jest": ^29.2.2
@@ -4016,14 +4016,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/types@4.2.2, @monkvision/types@workspace:packages/types":
+"@monkvision/types@4.2.3, @monkvision/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@monkvision/types@workspace:packages/types"
   dependencies:
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@types/node": ^18.11.9
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
@@ -4047,7 +4047,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/typescript-config@4.2.2, @monkvision/typescript-config@workspace:configs/typescript-config":
+"@monkvision/typescript-config@4.2.3, @monkvision/typescript-config@workspace:configs/typescript-config":
   version: 0.0.0-use.local
   resolution: "@monkvision/typescript-config@workspace:configs/typescript-config"
   languageName: unknown
@@ -15375,23 +15375,23 @@ __metadata:
   dependencies:
     "@auth0/auth0-react": ^2.2.4
     "@babel/core": ^7.22.9
-    "@monkvision/analytics": 4.2.2
-    "@monkvision/common": 4.2.2
-    "@monkvision/common-ui-web": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/inspection-capture-web": 4.2.2
-    "@monkvision/jest-config": 4.2.2
-    "@monkvision/monitoring": 4.2.2
-    "@monkvision/network": 4.2.2
-    "@monkvision/posthog": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/sentry": 4.2.2
-    "@monkvision/sights": 4.2.2
-    "@monkvision/test-utils": 4.2.2
-    "@monkvision/types": 4.2.2
-    "@monkvision/typescript-config": 4.2.2
+    "@monkvision/analytics": 4.2.3
+    "@monkvision/common": 4.2.3
+    "@monkvision/common-ui-web": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/inspection-capture-web": 4.2.3
+    "@monkvision/jest-config": 4.2.3
+    "@monkvision/monitoring": 4.2.3
+    "@monkvision/network": 4.2.3
+    "@monkvision/posthog": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/sentry": 4.2.3
+    "@monkvision/sights": 4.2.3
+    "@monkvision/test-utils": 4.2.3
+    "@monkvision/types": 4.2.3
+    "@monkvision/typescript-config": 4.2.3
     "@testing-library/dom": ^8.20.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^12.1.5
@@ -15452,15 +15452,15 @@ __metadata:
     "@docusaurus/preset-classic": 2.4.3
     "@docusaurus/theme-common": ^2.4.3
     "@mdx-js/react": ^1.6.22
-    "@monkvision/common": 4.2.2
-    "@monkvision/common-ui-web": 4.2.2
-    "@monkvision/eslint-config-base": 4.2.2
-    "@monkvision/eslint-config-typescript": 4.2.2
-    "@monkvision/eslint-config-typescript-react": 4.2.2
-    "@monkvision/prettier-config": 4.2.2
-    "@monkvision/sights": 4.2.2
-    "@monkvision/svgo-config": 4.2.2
-    "@monkvision/types": 4.2.2
+    "@monkvision/common": 4.2.3
+    "@monkvision/common-ui-web": 4.2.3
+    "@monkvision/eslint-config-base": 4.2.3
+    "@monkvision/eslint-config-typescript": 4.2.3
+    "@monkvision/eslint-config-typescript-react": 4.2.3
+    "@monkvision/prettier-config": 4.2.3
+    "@monkvision/sights": 4.2.3
+    "@monkvision/svgo-config": 4.2.3
+    "@monkvision/types": 4.2.3
     "@tsconfig/docusaurus": ^1.0.5
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0

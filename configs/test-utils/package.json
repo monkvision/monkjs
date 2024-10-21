@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/test-utils",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs testing utilities",
@@ -22,12 +22,12 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "4.2.2",
-    "@monkvision/eslint-config-typescript": "4.2.2",
-    "@monkvision/eslint-config-typescript-react": "4.2.2",
-    "@monkvision/jest-config": "4.2.2",
-    "@monkvision/prettier-config": "4.2.2",
-    "@monkvision/typescript-config": "4.2.2",
+    "@monkvision/eslint-config-base": "4.2.3",
+    "@monkvision/eslint-config-typescript": "4.2.3",
+    "@monkvision/eslint-config-typescript-react": "4.2.3",
+    "@monkvision/jest-config": "4.2.3",
+    "@monkvision/prettier-config": "4.2.3",
+    "@monkvision/typescript-config": "4.2.3",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.2.2",

@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/eslint-config-base",
   "packageManager": "yarn@3.2.4",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "The base ESLint config used in MonkJs projects",
   "author": "monkvision",
   "main": "index.js",

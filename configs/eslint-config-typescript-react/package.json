@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/eslint-config-typescript-react",
   "packageManager": "yarn@3.2.4",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "The base ESLint config that used in MonkJs TypeScript React projects",
   "author": "monkvision",
   "main": "index.js",

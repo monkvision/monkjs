@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/types",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "Type definitions for the MonkJs project",
@@ -26,10 +26,10 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "4.2.2",
-    "@monkvision/eslint-config-typescript": "4.2.2",
-    "@monkvision/prettier-config": "4.2.2",
-    "@monkvision/typescript-config": "4.2.2",
+    "@monkvision/eslint-config-base": "4.2.3",
+    "@monkvision/eslint-config-typescript": "4.2.3",
+    "@monkvision/prettier-config": "4.2.3",
+    "@monkvision/typescript-config": "4.2.3",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",

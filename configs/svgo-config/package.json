@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/svgo-config",
   "packageManager": "yarn@3.2.4",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "SVGO configuration files used in MonkJs projects",
   "author": "monkvision",
   "main": "index.js",

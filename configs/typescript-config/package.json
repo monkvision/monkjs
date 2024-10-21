@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/typescript-config",
   "packageManager": "yarn@3.2.4",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "The TSConfigs used in MonkJs TypeScript projects",
   "author": "monkvision",
   "license": "BSD-3-Clause-Clear",
