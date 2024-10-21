@@ -43,6 +43,7 @@ describe('CreatedOneDamage action handlers', () => {
       const part = {
         id: 'part-id',
         type: VehiclePart.ROOF,
+        damages: [] as string[],
       };
       state.inspections.push({
         id: 'inspections-test',
@@ -56,6 +57,8 @@ describe('CreatedOneDamage action handlers', () => {
 
       expect(inspectionDamage?.length).toBe(1);
       expect(inspectionDamage).toContainEqual(action.payload.damage.id);
+      expect(inspectionDamage).toContainEqual(action.payload.damage.id);
+      expect(newState.parts).toContainEqual({ ...part, damages: [action.payload.damage.id] });
       expect(newState.damages).toContainEqual({
         ...action.payload.damage,
         parts: [part.id],

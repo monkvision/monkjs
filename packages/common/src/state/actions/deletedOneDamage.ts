@@ -16,7 +16,7 @@ export interface MonkDeletedOneDamagePayload {
 }
 
 /**
- * Action dispatched when a vehicle have been updated.
+ * Action dispatched when a damage have been deleted.
  */
 export interface MonkDeletedOneDamageAction extends MonkAction {
   /**
@@ -41,7 +41,7 @@ export function isDeletedOneDamageAction(action: MonkAction): action is MonkDele
  * Reducer function for a deletedOneDamage action.
  */
 export function deletedOneDamage(state: MonkState, action: MonkDeletedOneDamageAction): MonkState {
-  const { damages, inspections } = state;
+  const { damages, parts, inspections } = state;
   const { payload } = action;
 
   const inspection = inspections.find((value) => value.id === payload.inspectionId);
@@ -49,8 +49,15 @@ export function deletedOneDamage(state: MonkState, action: MonkDeletedOneDamageA
     inspection.damages = inspection.damages?.filter((damageId) => damageId !== payload.damageId);
   }
   const newDamages = damages.filter((damage) => damage.id !== payload.damageId);
+  const newParts = parts.map((part) => {
+    if (part.damages.includes(payload.damageId)) {
+      return { ...part, damages: part.damages.filter((damageId) => damageId !== payload.damageId) };
+    }
+    return part;
+  });
   return {
     ...state,
+    parts: newParts,
     damages: [...newDamages],
     inspections: [...inspections],
   };
