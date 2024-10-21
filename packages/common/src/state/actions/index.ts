@@ -8,3 +8,5 @@ export * from './createdOnePricing';
 export * from './deletedOnePricing';
 export * from './updatedOnePricing';
 export * from './updatedOneInspectionAdditionalData';
+export * from './createdOneDamage';
+export * from './deletedOneDamage';

@@ -13,7 +13,7 @@ export interface MonkCreatedOnePricingPayload {
 }
 
 /**
- * Action dispatched when a vehicle have been updated.
+ * Action dispatched when a pricing have been updated.
  */
 export interface MonkCreatedOnePricingAction extends MonkAction {
   /**

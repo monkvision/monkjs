@@ -4,6 +4,7 @@ import { startInspectionTasks, updateTaskStatus } from './task';
 import { getLiveConfig } from './liveConfigs';
 import { updateInspectionVehicle } from './vehicle';
 import { createPricing, deletePricing, updatePricing } from './pricing';
+import { createDamage, deleteDamage } from './damage';
 
 /**
  * Object regrouping the different API requests available to communicate with the API using the `@monkvision/network`
@@ -21,4 +22,6 @@ export const MonkApi = {
   createPricing,
   deletePricing,
   updatePricing,
+  createDamage,
+  deleteDamage,
 };

@@ -35,6 +35,14 @@ export enum MonkActionType {
    */
   DELETED_ONE_PRICING = 'deleted_one_pricing',
   /**
+   * A damage has been uploaded to the API.
+   */
+  CREATED_ONE_DAMAGE = 'created_one_damage',
+  /**
+   * A damage has been deleted.
+   */
+  DELETED_ONE_DAMAGE = 'deleted_one_damage',
+  /**
    * Clear and reset the state.
    */
   RESET_STATE = 'reset_state',
