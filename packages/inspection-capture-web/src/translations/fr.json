@@ -17,7 +17,10 @@
         "damagedPartCounter": "1 / 2 • Pièce endommagée",
         "closeupPictureCounter": "2 / 2 • Dégât en gros plan",
         "infoBtn": "Placer le viseur sur la pièce endommagée puis enclencher le bouton capture de la photo",
-        "infoCloseup": "Prendre une photo en gros plan du dégât"
+        "infoCloseup": "Veuillez prendre une photo en gros plan du dégât",
+        "selectParts": "Veuillez sélectionner les pièces endommagées",
+        "accept": "Accepter",
+        "cancel": "Annuler"
       },
       "error": {
         "retry": "Réessayer",
@@ -25,7 +28,9 @@
         "invalidToken": "Le token d'authentification utilisé est invalide.",
         "expiredToken": "Le token d'authentification utilisé est expiré.",
         "insufficientAuth": "Vous n'avez pas les autorisations nécessaires pour effectuer cette action.",
-        "inspectionLoading": "Une erreur est survenue lors du chargement de l'inspection. Veuillez réessayer dans quelques instants ou contacter le support avec l'identifiant d'inspection suivant :"
+        "inspectionLoading": "Une erreur est survenue lors du chargement de l'inspection. Veuillez réessayer dans quelques instants ou contacter le support avec l'identifiant d'inspection suivant :",
+        "resourceNotFound": "ID d'inspection introuvable.",
+        "invalidArgument": "Erreur de développement : un ou plusieurs des arguments fournis ne sont pas valides."
       },
       "closeConfirm": {
         "message": "Êtes-vous sûr(e) de vouloir fermer l'outil de capture ?",

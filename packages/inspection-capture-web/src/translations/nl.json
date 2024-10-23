@@ -17,7 +17,10 @@
         "damagedPartCounter": "1 / 2 • Beschadigd onderdeel",
         "closeupPictureCounter": "2 / 2 • Closeup foto",
         "infoBtn": "Richt de markering op het beschadigde onderdeel en tik vervolgens op de sluitertknop",
-        "infoCloseup": "Neem een closeup foto van de schade"
+        "infoCloseup": "Neem een closeup foto van de schade",
+        "selectParts": "Selecteer de onderdelen waar je schade zit",
+        "accept": "Accepteren",
+        "cancel": "Annuleren"
       },
       "error": {
         "retry": "Opnieuw proberen",
@@ -25,7 +28,9 @@
         "invalidToken": "Het gebruikte authenticatietoken is ongeldig.",
         "expiredToken": "Het gebruikte authenticatietoken is verlopen.",
         "insufficientAuth": "U heeft niet de vereiste autorisaties om deze actie uit te voeren.",
-        "inspectionLoading": "Er is een fout opgetreden tijdens het laden van de inspectie. Probeer het later nog eens of neem contact op met de ondersteuning met het volgende inspectie-id :"
+        "inspectionLoading": "Er is een fout opgetreden tijdens het laden van de inspectie. Probeer het later nog eens of neem contact op met de ondersteuning met het volgende inspectie-id :",
+        "resourceNotFound": "Inspectie-ID niet gevonden.",
+        "invalidArgument": "Ontwikkelaarsfout: een of meer van de opgegeven argumenten zijn ongeldig."
       },
       "closeConfirm": {
         "message": "Weet je zeker dat je de capture tool wilt sluiten?",

@@ -23,6 +23,14 @@ export enum MonkNetworkError {
    * authorization to perform the request.
    */
   INSUFFICIENT_AUTHORIZATION = 'InsufficientAuthorization',
+  /**
+   * The resource requested was not found.
+   */
+  RESOURCE_NOT_FOUND = 'ResourceNotFoundError',
+  /**
+   * The argument provided in the request is invalid.
+   */
+  INVALID_ARGUMENT = 'InvalidArgumentError',
 }
 
 function getErrorMessage(name: string): string | null {
