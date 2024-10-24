@@ -103,6 +103,7 @@ function createProps(): PhotoCaptureProps {
     customComplianceThresholdsPerSight: { test: { overexposure: 0.6 } },
     onClose: jest.fn(),
     onComplete: jest.fn(),
+    onPictureTaken: jest.fn(),
     resolution: CameraResolution.NHD_360P,
     format: CompressionFormat.JPEG,
     quality: 0.4,
@@ -269,6 +270,7 @@ describe('PhotoCapture component', () => {
       sightState,
       uploadQueue,
       tasksBySight: props.tasksBySight,
+      onPictureTaken: props.onPictureTaken,
     });
 
     unmount();
@@ -318,7 +320,6 @@ describe('PhotoCapture component', () => {
     expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
-    console.log(tutorial);
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,

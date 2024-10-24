@@ -27,6 +27,10 @@ export interface UseTakePictureParams {
    * will be used.
    */
   tasksBySight?: Record<string, TaskName[]>;
+  /**
+   * User defined callback that can be called when a picture has been taken in the PhotoCapture process.
+   */
+  onPictureTaken?: (picture: MonkPicture) => void;
 }
 
 /**
@@ -42,10 +46,12 @@ export function usePictureTaken({
   addDamageHandle,
   uploadQueue,
   tasksBySight,
+  onPictureTaken,
 }: UseTakePictureParams): HandleTakePictureFunction {
   const { trackEvent } = useAnalytics();
   return useCallback(
     (picture: MonkPicture) => {
+      onPictureTaken?.(picture);
       sightState.setLastPictureTakenUri(picture.uri);
       const upload: PictureUpload =
         addDamageHandle.mode === PhotoCaptureMode.SIGHT
@@ -74,6 +80,7 @@ export function usePictureTaken({
       uploadQueue.push,
       sightState.takeSelectedSight,
       addDamageHandle.updatePhotoCaptureModeAfterPictureTaken,
+      onPictureTaken,
     ],
   );
 }
