@@ -17,7 +17,7 @@ jest.mock('ky', () => ({
   ),
 }));
 
-import { PricingV2RelatedItemType, VehiclePart } from '@monkvision/types';
+import { MonkEntityType, PricingV2RelatedItemType, VehiclePart } from '@monkvision/types';
 import {
   createPricing,
   deletePricing,
@@ -65,9 +65,23 @@ describe('Pricing requests', () => {
         ...kyOptions,
         json: apiPricingPost,
       });
-      expect(dispatch).toHaveBeenCalledWith({
+      expect(dispatch.mock.calls[0][0]).toEqual({
         type: MonkActionType.CREATED_ONE_PRICING,
-        payload: { pricing: apiPricing },
+        payload: {
+          pricing: {
+            entityType: MonkEntityType.PRICING,
+            id: expect.any(String),
+            inspectionId: id,
+            relatedItemType: pricing.type,
+            pricing: pricing.pricing,
+            relatedItemId:
+              pricing.type === PricingV2RelatedItemType.PART ? pricing.vehiclePart : undefined,
+          },
+        },
+      });
+      expect(dispatch.mock.calls[1][0]).toEqual({
+        type: MonkActionType.CREATED_ONE_PRICING,
+        payload: { pricing: apiPricing, localId: expect.any(String) },
       });
       expect(result).toEqual({
         id: body.id,

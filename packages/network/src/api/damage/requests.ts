@@ -5,6 +5,7 @@ import {
 } from '@monkvision/common';
 import { DamageType, MonkEntityType, VehiclePart } from '@monkvision/types';
 import ky from 'ky';
+import { v4 } from 'uuid';
 import { Dispatch } from 'react';
 import { getDefaultOptions, MonkApiConfig } from '../config';
 import { ApiIdColumn } from '../models';
@@ -44,6 +45,20 @@ export async function createDamage(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkCreatedOneDamageAction>,
 ): Promise<MonkApiResponse> {
+  const localId = v4();
+  dispatch?.({
+    type: MonkActionType.CREATED_ONE_DAMAGE,
+    payload: {
+      damage: {
+        entityType: MonkEntityType.DAMAGE,
+        id: localId,
+        inspectionId: options.id,
+        parts: [options.vehiclePart],
+        relatedImages: [],
+        type: options.damageType,
+      },
+    },
+  });
   const kyOptions = getDefaultOptions(config);
   const response = await ky.post(`inspections/${options.id}/damages`, {
     ...kyOptions,
@@ -61,6 +76,7 @@ export async function createDamage(
         relatedImages: [],
         type: options.damageType,
       },
+      localId,
     },
   });
   return {

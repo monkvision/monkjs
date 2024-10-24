@@ -61,7 +61,20 @@ describe('Damage requests', () => {
         ...kyOptions,
         json: apiDamage,
       });
-      expect(dispatch).toHaveBeenCalledWith({
+      expect(dispatch.mock.calls[0][0]).toEqual({
+        type: MonkActionType.CREATED_ONE_DAMAGE,
+        payload: {
+          damage: {
+            entityType: MonkEntityType.DAMAGE,
+            id: expect.any(String),
+            inspectionId: damage.id,
+            parts: [damage.vehiclePart],
+            relatedImages: [],
+            type: damage.damageType,
+          },
+        },
+      });
+      expect(dispatch.mock.calls[1][0]).toEqual({
         type: MonkActionType.CREATED_ONE_DAMAGE,
         payload: {
           damage: {
@@ -72,6 +85,7 @@ describe('Damage requests', () => {
             relatedImages: [],
             type: damage.damageType,
           },
+          localId: expect.any(String),
         },
       });
       expect(result).toEqual({
