@@ -10,6 +10,12 @@ export interface MonkCreatedOneDamagePayload {
    * The damage created.
    */
   damage: Damage;
+  /**
+   * This ID is used when you first want to create the entity locally while you wait for the API to give you the true
+   * ID of the damage. You first create the damage with a custom local ID, then you dispatch the action a second time
+   * and specify this custom ID in the `localId` param. The damage will then be updated instead of added.
+   */
+  localId?: string;
 }
 
 /**
@@ -43,8 +49,14 @@ export function createdOneDamage(state: MonkState, action: MonkCreatedOneDamageA
 
   const inspection = inspections.find((value) => value.id === payload.damage.inspectionId);
   if (inspection) {
-    inspection.damages.push(action.payload.damage.id);
+    inspection.damages = inspection.damages.filter(
+      (damageId) => ![payload.damage.id, payload.localId].includes(damageId),
+    );
+    inspection.damages.push(payload.damage.id);
   }
+  const newDamages = damages.filter(
+    (damage) => ![payload.damage.id, payload.localId].includes(damage.id),
+  );
   const partsRelated = action.payload.damage.parts
     .map((part) => parts.find((value) => value.type === part)?.id)
     .filter((v) => v !== undefined) as string[];
@@ -54,11 +66,11 @@ export function createdOneDamage(state: MonkState, action: MonkCreatedOneDamageA
     }
     return part;
   });
-  damages.push({ ...payload.damage, parts: partsRelated });
+  newDamages.push({ ...payload.damage, parts: partsRelated });
   return {
     ...state,
     parts: newParts,
-    damages: [...damages],
+    damages: newDamages,
     inspections: [...inspections],
   };
 }

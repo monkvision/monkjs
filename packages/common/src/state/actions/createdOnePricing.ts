@@ -10,6 +10,12 @@ export interface MonkCreatedOnePricingPayload {
    * The pricing created.
    */
   pricing: PricingV2;
+  /**
+   * This ID is used when you first want to create the entity locally while you wait for the API to give you the true
+   * ID of the damage. You first create the damage with a custom local ID, then you dispatch the action a second time
+   * and specify this custom ID in the `localId` param. The damage will then be updated instead of added.
+   */
+  localId?: string;
 }
 
 /**
@@ -48,12 +54,18 @@ export function createdOnePricing(
 
   const inspection = inspections.find((value) => value.id === payload.pricing.inspectionId);
   if (inspection) {
-    inspection.pricings?.push(action.payload.pricing.id);
+    inspection.pricings = inspection.pricings?.filter(
+      (pricingId) => ![payload.pricing.id, payload.localId].includes(pricingId),
+    );
+    inspection.pricings?.push(payload.pricing.id);
   }
-  pricings.push(action.payload.pricing);
+  const newPricings = pricings.filter(
+    (pricing) => ![payload.pricing.id, payload.localId].includes(pricing.id),
+  );
+  newPricings.push(action.payload.pricing);
   return {
     ...state,
-    pricings: [...pricings],
+    pricings: newPricings,
     inspections: [...inspections],
   };
 }

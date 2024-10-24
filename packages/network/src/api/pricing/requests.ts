@@ -6,6 +6,8 @@ import {
   MonkUpdatedOnePricingAction,
 } from '@monkvision/common';
 import ky from 'ky';
+import { v4 } from 'uuid';
+import { MonkEntityType, PricingV2RelatedItemType } from '@monkvision/types';
 import { getDefaultOptions, MonkApiConfig } from '../config';
 import { MonkApiResponse } from '../types';
 import { ApiIdColumn, ApiPricingV2Details } from '../models';
@@ -41,6 +43,24 @@ export async function createPricing(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkCreatedOnePricingAction>,
 ): Promise<MonkApiResponse> {
+  const localId = v4();
+  const localPricing = {
+    entityType: MonkEntityType.PRICING,
+    id: localId,
+    inspectionId: options.id,
+    relatedItemType: options.pricing.type,
+    pricing: options.pricing.pricing,
+    relatedItemId:
+      options.pricing.type === PricingV2RelatedItemType.PART
+        ? options.pricing.vehiclePart
+        : undefined,
+  };
+  dispatch?.({
+    type: MonkActionType.CREATED_ONE_PRICING,
+    payload: {
+      pricing: localPricing,
+    },
+  });
   const kyOptions = getDefaultOptions(config);
   const response = await ky.post(`inspections/${options.id}/pricing`, {
     ...kyOptions,
@@ -50,7 +70,7 @@ export async function createPricing(
   const pricing = mapApiPricingPost(options.id, body);
   dispatch?.({
     type: MonkActionType.CREATED_ONE_PRICING,
-    payload: { pricing },
+    payload: { pricing, localId },
   });
   return {
     id: body.id,

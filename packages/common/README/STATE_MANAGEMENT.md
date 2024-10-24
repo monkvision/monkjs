@@ -89,7 +89,7 @@ const action: Monk = {
 ```
 
 ## CreatedOneImage Action
-This action can be dispatched after an image has beencreated and uploaded to the API. The payload of this action should
+This action can be dispatched after an image has been created and uploaded to the API. The payload of this action should
 contain the details about the image that has been created, as well as the ID of the inspection. You can also start by
 creating a local image (with a custom local ID), and then update this image when the API has returned the actual ID of
 the image. To do so, re-dispatch another time the same action, but with the new Id and the property `localId` in the
@@ -122,4 +122,127 @@ const action: Monk = {
     { id: '4097bc0e-02d0-4ed8-9411-b18f0cb922f2', status: ProgressStatus.IN_PROGRESS },
   ]
 }
+
+```
+## CreatedOnePricing Action
+This action can be dispatched after pricing has been created and uploaded to the API. Similar to the image, you can
+first create a local pricing entry with a custom local ID and then update it once the API returns the actual ID.
+
+```typescript
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+import { PricingV2RelatedItemType} from '@monkvision/types';
+
+const action: Monk = {
+  type: MonkActionType.CREATED_ONE_PRICING,
+  payload: {
+    pricing: {
+      entityType: MonkEntityType.PRICING,
+      id: '2b2ac131-c613-41a9-ac04-d00b942e2290',
+      inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+      relatedItemType: PricingV2RelatedItemType.PART,
+      pricing: 500,
+    },
+  }
+};
+```
+
+##  UpdatedOnePricing Action
+This action can be dispatched after a pricing entry has been updated. The payload should contain the details of the
+pricing that has been updated along with the inspection ID.
+
+```typescript
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+
+const action: Monk = {
+  type: MonkActionType.UPDATED_ONE_PRICING,
+  payload: {
+    inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+    pricing: {
+      id: 'pricing-id',
+      ...updatedPricingDetails,
+    },
+  }
+};
+
+```
+
+## DeletedOnePricing Action
+This action can be dispatched after a pricing entry has been deleted from the API. The payload contains the ID of the
+inspection and the ID of the pricing that was deleted.
+
+```typescript
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+
+const action: Monk = {
+  type: MonkActionType.DELETED_ONE_PRICING,
+  payload: {
+    inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+    pricingId: 'pricing-id-to-be-deleted',
+  }
+};
+
+```
+
+## CreatedOneDamage Action
+This action can be dispatched after a damage has been created and uploaded to the API. You can start with a locally
+created damage and update it later once the API returns the actual ID.
+
+```typescript
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+
+const action: Monk = {
+  type: MonkActionType.CREATED_ONE_DAMAGE,
+  payload: {
+    inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+    damage: {
+      entityType: MonkEntityType.DAMAGE,
+      id: '2b2ac131-c613-41a9-ac04-d00b942e2290',
+      inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+      parts: [VehiclePart.BUMPER_BACK],
+      relatedImages: [],
+      type: DamageType.BODY_CRACK,
+    },
+  }
+};
+```
+
+## DeletedOneDamage Action
+This action can be dispatched after a damage entry has been deleted from the API. The payload contains the ID of the
+inspection and the ID of the damage that was deleted.
+
+```typescript
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+
+const action: Monk = {
+  type: MonkActionType.DELETED_ONE_DAMAGE,
+  payload: {
+    pricing: {
+      entityType: MonkEntityType.PRICING,
+      id: '2b2ac131-c613-41a9-ac04-d00b942e2290',
+      inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+      relatedItemType: PricingV2RelatedItemType.PART,
+      pricing: 800,
+    },
+  }
+};
+```
+
+## UpdatedOneInspectionAdditionalData Action
+This action can be dispatched after the additional data of an inspection has been updated in the API. The payload
+contains the ID of the inspection and any additional data used for the update.
+
+```typescript
+import { MonkResetStateAction, MonkActionType } from '@monkvision/common';
+import { AdditionalData } from '@monkvision/types';
+
+const action: Monk = {
+  type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
+  payload: {
+    inspectionId: 'e1cb2852-77f3-4fb5-a851-e700cf31a7d1',
+    additionalData: {
+      someKey: 'someValue',
+      ...otherData,
+    },
+  },
+};
 ```
