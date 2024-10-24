@@ -21,6 +21,7 @@ function createParams(): UseTakePictureParams {
     uploadQueue: {
       push: jest.fn(),
     },
+    onPictureTaken: jest.fn(),
   } as unknown as UseTakePictureParams;
 }
 
@@ -145,6 +146,18 @@ describe('usePictureTaken hook', () => {
     ).not.toHaveBeenCalled();
     result.current(createMonkPicture());
     expect(initialProps.addDamageHandle.updatePhotoCaptureModeAfterPictureTaken).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should call the onPictureTaken callback if passed', () => {
+    const initialProps = createParams();
+    const { result, unmount } = renderHook(usePictureTaken, { initialProps });
+
+    const picture = createMonkPicture();
+    expect(initialProps.onPictureTaken).not.toHaveBeenCalled();
+    result.current(picture);
+    expect(initialProps.onPictureTaken).toHaveBeenCalledWith(picture);
 
     unmount();
   });

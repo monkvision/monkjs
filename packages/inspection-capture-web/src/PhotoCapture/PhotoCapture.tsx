@@ -22,6 +22,7 @@ import {
   ComplianceOptions,
   CompressionOptions,
   DeviceOrientation,
+  MonkPicture,
   PhotoCaptureTutorialOption,
   Sight,
 } from '@monkvision/types';
@@ -93,6 +94,10 @@ export interface PhotoCaptureProps
    */
   onComplete?: () => void;
   /**
+   * Callback called when a picture has been taken by the user.
+   */
+  onPictureTaken?: (picture: MonkPicture) => void;
+  /**
    * The language to be used by this component.
    *
    * @default en
@@ -119,6 +124,7 @@ export function PhotoCapture({
   startTasksOnComplete = true,
   onClose,
   onComplete,
+  onPictureTaken,
   maxUploadDurationWarning = 15000,
   showCloseButton = false,
   enableCompliance = true,
@@ -210,6 +216,7 @@ export function PhotoCapture({
     addDamageHandle,
     uploadQueue,
     tasksBySight,
+    onPictureTaken,
   });
   const handleOpenGallery = () => {
     setCurrentScreen(PhotoCaptureScreen.GALLERY);
