@@ -62,7 +62,13 @@ export function createdOneDamage(state: MonkState, action: MonkCreatedOneDamageA
     .filter((v) => v !== undefined) as string[];
   const newParts = parts.map((part) => {
     if (partsRelated.includes(part.id)) {
-      return { ...part, damages: [...part.damages, payload.damage.id] };
+      const damageIds = part.damages.filter(
+        (damageId) => ![payload.damage.id, payload.localId].includes(damageId),
+      );
+      return {
+        ...part,
+        damages: [...damageIds, payload.damage.id],
+      };
     }
     return part;
   });
