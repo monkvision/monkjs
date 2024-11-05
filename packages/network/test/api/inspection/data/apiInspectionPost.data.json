@@ -48,10 +48,10 @@
     }
   },
   "damage_severity": {
-    "output_format": "toyota"
+    "output_format": "default"
   },
   "pricing": {
-    "output_format": "toyota"
+    "output_format": "default"
   },
   "additional_data": {
     "damage_detection_version": "v2",

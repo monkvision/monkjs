@@ -533,8 +533,8 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
           additional_data: options.vehicle.additionalData,
         }
       : undefined,
-    damage_severity: { output_format: 'toyota' },
-    pricing: options.usePricingV2 ? { output_format: 'toyota' } : undefined,
+    damage_severity: { output_format: 'default' },
+    pricing: options.usePricingV2 ? { output_format: 'default' } : undefined,
     additional_data: {
       user_agent: navigator.userAgent,
       connection: navigator.connection,
