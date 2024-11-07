@@ -44,5 +44,19 @@
         "next": "Suivant"
       }
     }
+  },
+  "damageDisclosure": {
+    "home": {
+      "discloseDamage": {
+        "title": "Signaler un dégât",
+        "description": "Ajoutez des photos de bosses, de rayures ou d'autres dégâts présents sur le véhicule.",
+        "action": "Ajouter des photos de dégâts"
+      },
+      "close": {
+        "title": "Capturer l'état du véhicule",
+        "description": "Pas de bosses ou de rayures ? Faites le tour du véhicule et prenez des photos.",
+        "action": "Prendre les photos"
+      }
+    }
   }
 }

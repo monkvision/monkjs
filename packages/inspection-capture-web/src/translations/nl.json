@@ -44,5 +44,19 @@
         "next": "Volgende"
       }
     }
+  },
+  "damageDisclosure": {
+    "home": {
+      "discloseDamage": {
+        "title": "Schade rapporteren",
+        "description": "Voeg foto's toe van deuken, krassen of andere schade aan het voertuig.",
+        "action": "Foto's van schade toevoegen"
+      },
+      "close": {
+        "title": "Toestand vastleggen",
+        "description": "Geen deuken of krassen? Loop rond het voertuig en neem foto's.",
+        "action": "Foto's maken"
+      }
+    }
   }
 }

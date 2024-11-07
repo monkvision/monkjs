@@ -44,5 +44,19 @@
         "next": "Weiter"
       }
     }
+  },
+  "damageDisclosure": {
+    "home": {
+      "discloseDamage": {
+        "title": "Schäden melden",
+        "description": "Fügen Sie Fotos von Beulen, Kratzern oder anderen Schäden am Fahrzeug hinzu.",
+        "action": "Fotos von Beschädigungen hinzufügen"
+      },
+      "close": {
+        "title": "Zustand erfassen",
+        "description": "Keine Dellen oder Kratzer? Gehen Sie um das Fahrzeug herum und machen Sie Fotos.",
+        "action": "Fotos aufnehmen"
+      }
+    }
   }
 }

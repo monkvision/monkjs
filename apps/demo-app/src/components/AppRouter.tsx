@@ -2,6 +2,7 @@ import { MemoryRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthGuard } from '@monkvision/common-ui-web';
 import {
   CreateInspectionPage,
+  DamageDisclosurePage,
   LoginPage,
   Page,
   PhotoCapturePage,
@@ -30,6 +31,15 @@ export function AppRouter() {
             element={
               <AuthGuard redirectTo={Page.LOG_IN}>
                 <VehicleTypeSelectionPage />
+              </AuthGuard>
+            }
+            index
+          />
+          <Route
+            path={Page.DAMAGE_DISCLOSURE}
+            element={
+              <AuthGuard redirectTo={Page.LOG_IN}>
+                <DamageDisclosurePage />
               </AuthGuard>
             }
             index

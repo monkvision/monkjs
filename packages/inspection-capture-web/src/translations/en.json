@@ -44,5 +44,19 @@
         "next": "Next"
       }
     }
+  },
+  "damageDisclosure": {
+    "home": {
+      "discloseDamage": {
+        "title": "Report Damage",
+        "description": "Add photos of dents, scratches or other damages present on the vehicle.",
+        "action": "Add Damage Photos"
+      },
+      "close": {
+        "title": "Capture Condition",
+        "description": "No dents or scratches? Walk around the vehicle and take photos.",
+        "action": "Take Photos"
+      }
+    }
   }
 }

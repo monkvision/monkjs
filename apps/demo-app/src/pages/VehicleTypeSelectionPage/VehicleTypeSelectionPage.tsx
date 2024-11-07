@@ -9,7 +9,7 @@ export function VehicleTypeSelectionPage() {
   const { i18n } = useTranslation();
 
   if (vehicleType || !config.allowVehicleTypeSelection) {
-    return <Navigate to={Page.PHOTO_CAPTURE} replace />;
+    return <Navigate to={Page.DAMAGE_DISCLOSURE} replace />;
   }
 
   return (
