@@ -11,6 +11,7 @@ import {
   SteeringWheelPosition,
   TaskName,
   VehicleType,
+  BusinessClients,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { flatten } from '@monkvision/common';
@@ -191,10 +192,16 @@ export const CreateHinlTaskOptionsSchema = z.object({
   callbacks: z.array(TaskCallbackOptionsSchema).optional(),
 });
 
+export const CreatePricingTaskOptionsSchema = z.object({
+  name: z.literal(TaskName.PRICING),
+  outputFormat: z.nativeEnum(BusinessClients).optional(),
+});
+
 export const InspectionCreateTaskSchema = z
   .nativeEnum(TaskName)
   .or(CreateDamageDetectionTaskOptionsSchema)
-  .or(CreateDamageDetectionTaskOptionsSchema);
+  .or(CreateHinlTaskOptionsSchema)
+  .or(CreatePricingTaskOptionsSchema);
 
 export const AdditionalDataSchema = z.record(z.string(), z.unknown());
 
@@ -225,7 +232,6 @@ export const CreateInspectionOptionsSchema = z.object({
   tasks: z.array(InspectionCreateTaskSchema),
   vehicle: InspectionCreateVehicleSchema.optional(),
   useDynamicCrops: z.boolean().optional(),
-  usePricingV2: z.boolean().optional(),
   additionalData: AdditionalDataSchema.optional(),
 });
 

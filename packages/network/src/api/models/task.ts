@@ -1,3 +1,5 @@
+export type ApiBusinessClients = 'default' | 'toyota' | 'veb' | 'tesla';
+
 export interface ApiImageInTask {
   image_id: string;
 }
@@ -107,9 +109,16 @@ export interface ApiHinlTaskPostComponent {
   callbacks?: ApiCallbacks;
 }
 
+export interface ApiPricingTaskPostComponent {
+  status?: ApiTaskPostProgressStatus;
+  callbacks?: ApiCallbacks;
+  output_format?: ApiBusinessClients;
+}
+
 export interface ApiTasksComponent {
   damage_detection?: ApiDamageDetectionTaskPostComponent;
   wheel_analysis?: ApiWheelAnalysisTaskPostComponent;
   images_ocr?: ApiImagesOCRTaskPostComponent;
   human_in_the_loop?: ApiHinlTaskPostComponent;
+  pricing?: ApiPricingTaskPostComponent;
 }

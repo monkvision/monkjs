@@ -4,6 +4,7 @@ import {
   CreateDamageDetectionTaskOptions,
   CreateHinlTaskOptions,
   CreateInspectionOptions,
+  CreatePricingTaskOptions,
   CurrencyCode,
   CustomSeverityValue,
   Damage,
@@ -40,6 +41,7 @@ import {
   ApiInspectionGet,
   ApiInspectionPost,
   ApiPartSeverityValue,
+  ApiPricingTaskPostComponent,
   ApiPricingV2Details,
   ApiRenderedOutput,
   ApiSeverityResult,
@@ -486,12 +488,33 @@ function getImagesOCROptions(
     : undefined;
 }
 
+function getPricingOptions(
+  options: CreateInspectionOptions,
+): ApiPricingTaskPostComponent | undefined {
+  if (options.tasks.includes(TaskName.PRICING)) {
+    return {
+      status: ProgressStatus.TODO,
+      output_format: 'default',
+    };
+  }
+  const taskOptions = options.tasks.find(
+    (task) => typeof task === 'object' && task.name === TaskName.PRICING,
+  ) as CreatePricingTaskOptions | undefined;
+  return taskOptions
+    ? {
+        status: ProgressStatus.TODO,
+        output_format: taskOptions.outputFormat ?? 'default',
+      }
+    : undefined;
+}
+
 function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
   return {
     damage_detection: getDamageDetectionOptions(options),
     wheel_analysis: getWheelAnalysisOptions(options),
     images_ocr: getImagesOCROptions(options),
     human_in_the_loop: getHumanInTheLoopOptions(options),
+    pricing: getPricingOptions(options),
   };
 }
 
@@ -534,7 +557,6 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
         }
       : undefined,
     damage_severity: { output_format: 'default' },
-    pricing: options.usePricingV2 ? { output_format: 'default' } : undefined,
     additional_data: {
       user_agent: navigator.userAgent,
       connection: navigator.connection,
