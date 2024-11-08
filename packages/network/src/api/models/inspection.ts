@@ -4,7 +4,7 @@ import type { ApiImagePost, ApiImages } from './image';
 import type { ApiParts } from './part';
 import type { ApiPricingV2 } from './pricingV2';
 import type { ApiSeverityResults } from './severityResult';
-import type { ApiTasks } from './task';
+import type { ApiBusinessClients, ApiTasks } from './task';
 import type { ApiVehicleComponent } from './vehicle';
 import type { ApiWheelAnalysis } from './wheelAnalysis';
 import { ApiVehiclePostPatch } from './vehicle';
@@ -29,8 +29,6 @@ export interface ApiInspectionGet {
   wheel_analysis?: ApiWheelAnalysis;
 }
 
-export type ApiBusinessClients = 'default' | 'toyota' | 'veb';
-
 export interface ApiDamageSeverity {
   output_format: ApiBusinessClients;
 }
@@ -41,5 +39,4 @@ export interface ApiInspectionPost {
   images?: ApiImagePost[];
   vehicle?: ApiVehiclePostPatch;
   damage_severity?: ApiDamageSeverity;
-  pricing?: ApiDamageSeverity;
 }

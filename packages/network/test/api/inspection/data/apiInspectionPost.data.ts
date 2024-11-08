@@ -10,6 +10,7 @@ export default {
       generateSubimageDamages: true,
       generateSubimageParts: true,
     },
+    TaskName.PRICING,
   ],
   vehicle: {
     brand: 'brand',
@@ -39,7 +40,6 @@ export default {
     },
   },
   useDynamicCrops: true,
-  usePricingV2: true,
   isVideoCapture: true,
   additionalData: {
     test: 'uno',

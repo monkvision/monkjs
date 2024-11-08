@@ -24,6 +24,28 @@ export enum MonkApiPermission {
 }
 
 /**
+ * Enumeration of Monk response format.
+ */
+export enum BusinessClients {
+  /**
+   * Default format.
+   */
+  DEFAULT = 'default',
+  /**
+   * Toyota format.
+   */
+  TOYOTA = 'toyota',
+  /**
+   * Veb format.
+   */
+  VEB = 'veb',
+  /**
+   * Tesla format.
+   */
+  TESLA = 'tesla',
+}
+
+/**
  * Options used to specify a callback that will be called by the API when a task is complete.
  */
 export interface TaskCallbackOptions {
@@ -98,13 +120,30 @@ export interface CreateHinlTaskOptions {
 }
 
 /**
+ * Additional options that you can specify when adding the pricing task to an inspection.
+ */
+export interface CreatePricingTaskOptions {
+  /**
+   * The name of the task : `TaskName.PRICING`.
+   */
+  name: TaskName.PRICING;
+  /**
+   * The client's output format.
+   *
+   * @default 'default'
+   */
+  outputFormat?: BusinessClients;
+}
+
+/**
  * The tasks of the inspection to be created. It is either simply the name of the task to add, or an object with the
  * task name as well as additional configuration options for the task.
  */
 export type InspectionCreateTask =
   | TaskName
   | CreateDamageDetectionTaskOptions
-  | CreateHinlTaskOptions;
+  | CreateHinlTaskOptions
+  | CreatePricingTaskOptions;
 
 /**
  * Options that can be specified when creating a new inspection.
@@ -125,12 +164,6 @@ export interface CreateInspectionOptions {
    * @default true
    */
   useDynamicCrops?: boolean;
-  /**
-   * Boolean indicating if the pricing V2 (format Toyota) should be enabled or not.
-   *
-   * @default false
-   */
-  usePricingV2?: boolean;
   /**
    * Boolean indicating if the inspection to create will be used with the VideoCapture workflow or not.
    *
