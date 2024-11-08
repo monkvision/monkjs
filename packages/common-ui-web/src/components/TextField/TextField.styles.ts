@@ -13,7 +13,7 @@ export const styles: Styles = {
   componentsContainer: {
     display: 'flex',
     alignItems: 'center',
-    paddingTop: 16,
+    paddingTop: 6,
     paddingBottom: 4,
     borderStyle: 'solid',
     minHeight: 53,
@@ -68,7 +68,6 @@ export const styles: Styles = {
   clearButton: {
     padding: 4,
     marginLeft: 16,
-    transform: 'translateY(-4px)',
   },
   assistiveText: {
     padding: '5px 16px 0 16px',

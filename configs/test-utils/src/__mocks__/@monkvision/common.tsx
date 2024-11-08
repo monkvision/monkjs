@@ -33,6 +33,10 @@ const {
   complianceIssueLabels,
   imageStatusLabels,
   getInspectionImages,
+  BasicValidationErrors,
+  mergeValidationFunctions,
+  required,
+  email,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -59,6 +63,10 @@ export = {
   complianceIssueLabels,
   imageStatusLabels,
   getInspectionImages,
+  BasicValidationErrors,
+  mergeValidationFunctions,
+  required,
+  email,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
@@ -120,4 +128,12 @@ export = {
   useObjectMemo: jest.fn((obj) => obj),
   getLanguage: jest.fn(),
   usePreventExit: jest.fn(() => ({ allowRedirect: jest.fn() })),
+  useForm: jest.fn(() => ({
+    getInputValue: jest.fn(),
+    getInputProps: jest.fn(() => ({})),
+    isValid: jest.fn(() => false),
+    getInputError: jest.fn(() => null),
+    isInputErrorDisplayed: jest.fn(() => false),
+    isInputTouchedOrDirty: jest.fn(() => false),
+  })),
 };

@@ -23,6 +23,10 @@ export interface TextFieldProps {
    */
   onChange?: (newValue: string) => void;
   /**
+   * Callback called when the text field is blurred.
+   */
+  onBlur?: () => void;
+  /**
    * Boolean indicating if the text field is disabled or not.
    *
    * @default false
@@ -94,6 +98,14 @@ export interface TextFieldProps {
    * @default 'background-light'
    */
   backgroundColor?: ColorProp;
+  /**
+   * The ID passed down to the input element.
+   */
+  id?: string;
+  /**
+   * Additional styles passed to the main container of the input.
+   */
+  style?: CSSProperties;
 }
 
 export type TextFieldStylesParams = RequiredProperties<
@@ -142,7 +154,9 @@ export function useTextFieldStyles(props: TextFieldStylesParams) {
       ...styles['componentsContainer'],
       paddingLeft: props.icon ? 12 : 16,
       paddingRight: props.showClearButton ? 12 : 16,
-      borderWidth: props.highlighted ? 1 : 0,
+      borderTopWidth: props.highlighted ? 1 : 0,
+      borderLeftWidth: props.highlighted ? 1 : 0,
+      borderRightWidth: props.highlighted ? 1 : 0,
       borderBottomWidth: props.isFocused ? 2 : 1,
       borderColor,
       marginBottom: props.isFocused ? 0 : 1,

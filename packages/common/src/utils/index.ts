@@ -8,3 +8,4 @@ export * from './browser.utils';
 export * from './env.utils';
 export * from './state.utils';
 export * from './config.utils';
+export * from './formValidation.utils';

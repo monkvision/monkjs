@@ -5,11 +5,13 @@ jest.mock('../../src/components/Button', () => ({
   Button: jest.fn(() => <></>),
 }));
 
+import '@testing-library/jest-dom';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Button, Icon, TextField } from '../../src';
 
 const INPUT_TEST_ID = 'input';
+const ROOT_TEST_ID = 'root';
 
 describe('TextField component', () => {
   afterEach(() => {
@@ -27,6 +29,17 @@ describe('TextField component', () => {
     expect(onChange).not.toHaveBeenCalled();
     fireEvent.change(input, { target: { value: newValue } });
     expect(onChange).toHaveBeenCalledWith(newValue);
+
+    unmount();
+  });
+
+  it('should pass the onBlur event onto the input component', () => {
+    const onBlur = jest.fn();
+    const { unmount } = render(<TextField onBlur={onBlur} />);
+
+    const input = screen.getByTestId<HTMLInputElement>(INPUT_TEST_ID);
+    fireEvent.blur(input);
+    expect(onBlur).toHaveBeenCalled();
 
     unmount();
   });
@@ -143,6 +156,26 @@ describe('TextField component', () => {
     const input = screen.getByTestId<HTMLInputElement>(INPUT_TEST_ID);
     expect(input.disabled).toBe(true);
     expectPropsOnChildMock(Button, { icon: 'close', disabled: true });
+
+    unmount();
+  });
+
+  it('should pass the ID to the input', () => {
+    const id = 'test-id';
+    const { unmount } = render(<TextField id={id} />);
+
+    const input = screen.getByTestId<HTMLInputElement>(INPUT_TEST_ID);
+    expect(input.id).toEqual(id);
+
+    unmount();
+  });
+
+  it('should pass the styles to the root container', () => {
+    const marginTop = 66;
+    const { unmount } = render(<TextField style={{ marginTop }} />);
+
+    const input = screen.getByTestId(ROOT_TEST_ID);
+    expect(input).toHaveStyle({ marginTop });
 
     unmount();
   });

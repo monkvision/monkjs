@@ -551,6 +551,7 @@ function App() {
 | type            | <code>'email' &#124; 'password' &#124; 'tel' &#124; 'text'</code> | The type of the underlying HTMLInput element.                                                         |          | `'text'`             |
 | value           | string                                                            | The value of the text field.                                                                          |          | `''`                 |
 | onChange        | (newValue: string) => void                                        | Callback called when the value of the text field changes.                                             |          |                      |
+| onBlur          | () => void                                                        | Callback called when the text field is blurred.                                                       |          |                      |
 | disabled        | boolean                                                           | Boolean indicating if the text field is disabled or not.                                              |          | `false`              |
 | highlighted     | boolean                                                           | Boolean indicating if the input should be highlighted (ex: in case of errors).                        |          | `false`              |
 | monospace       | boolean                                                           | Boolean indicating if the font family of the input should be monospace.                               |          | `false`              |
@@ -565,6 +566,8 @@ function App() {
 | focusColor      | ColorProp                                                         | The accent color of the text field when focused.                                                      |          | `'primary-base'`     |
 | neutralColor    | ColorProp                                                         | The accent color of the text field when not focused.                                                  |          | `'text-primary'`     |
 | backgroundColor | ColorProp                                                         | The background color of the text field.                                                               |          | `'background-light'` |
+| id              | string                                                            | The ID passed down to the input element.                                                              |          |                      |
+| style           | CSSProperties                                                     | Additional styles passed to the main container of the input.                                          |          |                      |
 
 ---
 
