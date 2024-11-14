@@ -52,7 +52,7 @@
     }
   },
   "damage_severity": {
-    "output_format": "default"
+    "output_format": "toyota"
   },
   "additional_data": {
     "damage_detection_version": "v2",
