@@ -169,6 +169,12 @@ export interface CreateInspectionOptions {
    */
   useDynamicCrops?: boolean;
   /**
+   * Boolean indicating if the Pricing V1 (damage severity) feature should be enabled or not.
+   *
+   * @default true
+   */
+  enablePricingV1?: boolean;
+  /**
    * Boolean indicating if the inspection to create will be used with the VideoCapture workflow or not.
    *
    * @default false
