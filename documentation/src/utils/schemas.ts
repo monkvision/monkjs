@@ -195,6 +195,7 @@ export const CreateHinlTaskOptionsSchema = z.object({
 export const CreatePricingTaskOptionsSchema = z.object({
   name: z.literal(TaskName.PRICING),
   outputFormat: z.nativeEnum(BusinessClients).optional(),
+  config: z.string().optional(),
 });
 
 export const InspectionCreateTaskSchema = z
@@ -232,6 +233,7 @@ export const CreateInspectionOptionsSchema = z.object({
   tasks: z.array(InspectionCreateTaskSchema),
   vehicle: InspectionCreateVehicleSchema.optional(),
   useDynamicCrops: z.boolean().optional(),
+  enablePricingV1: z.boolean().optional(),
   additionalData: AdditionalDataSchema.optional(),
 });
 
