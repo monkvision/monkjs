@@ -27,7 +27,21 @@ export enum DeviceOrientation {
 }
 
 /**
- * Callbacks used to handle the result of a promise.
+ * Enumeration of the possible sort orders.
+ */
+export enum SortOrder {
+  /**
+   * Sort in ascending order.
+   */
+  ASC = 'asc',
+  /**
+   * Sort in descending order.
+   */
+  DESC = 'desc',
+}
+
+/**
+ * Callbacks used to handle the result of a promise
  */
 export interface PromiseHandlers<T> {
   /**

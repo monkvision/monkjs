@@ -1,4 +1,9 @@
-import { getInspection, createInspection, updateAdditionalData } from './inspection';
+import {
+  getInspection,
+  createInspection,
+  updateAdditionalData,
+  getInspections,
+} from './inspection';
 import { addImage } from './image';
 import { startInspectionTasks, updateTaskStatus } from './task';
 import { getLiveConfig } from './liveConfigs';
@@ -12,6 +17,7 @@ import { createDamage, deleteDamage } from './damage';
  */
 export const MonkApi = {
   getInspection,
+  getInspections,
   createInspection,
   addImage,
   updateTaskStatus,

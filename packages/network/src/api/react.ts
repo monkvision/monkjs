@@ -57,6 +57,12 @@ export function useMonkApi(config: MonkApiConfig) {
      */
     getInspection: reactify(MonkApi.getInspection, config, dispatch, handleError),
     /**
+     * Fetch multiple inspection.
+     *
+     * @param options The options of the request.
+     */
+    getInspections: reactify(MonkApi.getInspections, config, dispatch, handleError),
+    /**
      * Create a new inspection with the given options. See the `CreateInspectionOptions` interface for more details.
      *
      * @param options The options of the inspection.

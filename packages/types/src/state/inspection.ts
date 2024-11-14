@@ -45,6 +45,10 @@ export interface Inspection extends MonkEntity {
    */
   pricings?: string[];
   /**
+   * The URL of the PDF report generated for this inspection.
+   */
+  pdfUrl?: string;
+  /**
    * Additional data added during the creation of the inspection.
    */
   additionalData?: AdditionalData;

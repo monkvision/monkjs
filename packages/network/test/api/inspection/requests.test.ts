@@ -28,6 +28,7 @@ const mockInspection: Inspection = {
   parts: [],
   tasks: [],
 };
+const mockUrlParams = 'test-url-params';
 
 jest.mock('../../../src/api/config', () => ({
   getDefaultOptions: jest.fn(() => ({ prefixUrl: 'getDefaultOptionsTest' })),
@@ -37,12 +38,26 @@ jest.mock('../../../src/api/inspection/mappers', () => ({
     inspections: [mockInspection] as unknown as Inspection[],
     parts: [],
   })),
+  mapApiInspectionsGet: jest.fn(() => ({
+    inspections: [mockInspection] as unknown as Inspection[],
+    parts: [],
+  })),
   mapApiInspectionPost: jest.fn(() => ({ test: 'ok-ok-ok' })),
+  mapApiInspectionsUrlParamsGet: jest.fn(() => mockUrlParams),
 }));
 
 import { getDefaultOptions } from '../../../src/api/config';
-import { createInspection, getInspection, updateAdditionalData } from '../../../src/api/inspection';
-import { mapApiInspectionGet, mapApiInspectionPost } from '../../../src/api/inspection/mappers';
+import {
+  createInspection,
+  getInspection,
+  getInspections,
+  updateAdditionalData,
+} from '../../../src/api/inspection';
+import {
+  mapApiInspectionGet,
+  mapApiInspectionPost,
+  mapApiInspectionsGet,
+} from '../../../src/api/inspection/mappers';
 
 const apiConfig = {
   apiDomain: 'apiDomain',
@@ -128,6 +143,32 @@ describe('Inspection requests', () => {
       });
       expect(result).toEqual({
         id: body.id,
+        response,
+        body,
+      });
+    });
+  });
+
+  describe('getInspections request', () => {
+    it('should make the proper API call and map the resulting response', async () => {
+      const dispatch = jest.fn();
+      const result = await getInspections({ filters: { test: 'test' } }, apiConfig, dispatch);
+      const response = await (ky.get as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(mapApiInspectionsGet).toHaveBeenCalledWith(body, apiConfig.thumbnailDomain);
+      const entities = (mapApiInspectionsGet as jest.Mock).mock.results[0].value;
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      expect(ky.get).toHaveBeenCalledWith(
+        `inspections${mockUrlParams}`,
+        getDefaultOptions(apiConfig),
+      );
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.GOT_ONE_INSPECTION,
+        payload: entities,
+      });
+      expect(result).toEqual({
+        entities,
         response,
         body,
       });
