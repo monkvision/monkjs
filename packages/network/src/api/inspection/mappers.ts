@@ -504,6 +504,7 @@ function getPricingOptions(
     ? {
         status: ProgressStatus.TODO,
         output_format: taskOptions.outputFormat ?? 'default',
+        config: taskOptions.config,
       }
     : undefined;
 }

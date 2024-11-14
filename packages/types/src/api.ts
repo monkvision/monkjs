@@ -130,9 +130,13 @@ export interface CreatePricingTaskOptions {
   /**
    * The client's output format.
    *
-   * @default 'default'
+   * @default 'BusinessClients.DEFAULT'
    */
   outputFormat?: BusinessClients;
+  /**
+   * The custom pricing matrix to use.
+   */
+  config?: string;
 }
 
 /**

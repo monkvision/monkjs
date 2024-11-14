@@ -1,4 +1,4 @@
-import { TaskName } from '@monkvision/types';
+import { BusinessClients, TaskName } from '@monkvision/types';
 
 export default {
   tasks: [
@@ -10,7 +10,11 @@ export default {
       generateSubimageDamages: true,
       generateSubimageParts: true,
     },
-    TaskName.PRICING,
+    {
+      name: TaskName.PRICING,
+      outputFormat: BusinessClients.VEB,
+      config: 'config',
+    },
   ],
   vehicle: {
     brand: 'brand',

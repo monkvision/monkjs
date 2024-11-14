@@ -113,6 +113,7 @@ export interface ApiPricingTaskPostComponent {
   status?: ApiTaskPostProgressStatus;
   callbacks?: ApiCallbacks;
   output_format?: ApiBusinessClients;
+  config?: string;
 }
 
 export interface ApiTasksComponent {
