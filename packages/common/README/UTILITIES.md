@@ -137,6 +137,48 @@ Returns the value of a given environment variable. If the value does not exist, 
 
 ---
 
+# Form Validation Utils
+### mergeValidationFunctions
+```typescript
+import { mergeValidationFunctions } from '@monkvision/common';
+
+const merged = mergeValidationFunctions(
+  (value: any) => typeof value === 'string' && value.length > 3 ? null : 'too-short',
+  (value: any) => typeof value === 'string' && value.length < 3 ? null : 'too-long',
+);
+console.log(merged('ab')); // Output : 'too-short'
+console.log(merged('abcd')); // Output : 'too-long'
+console.log(merged(123)); // Output : 'too-short'
+console.log(merged('abc')); // Output : null
+```
+Util function used to merge multiple validation functions into a single one. The first error discovered will be
+returned.
+
+### required
+```typescript
+import { required } from '@monkvision/common';
+
+console.log(required('')); // Output : 'required'
+console.log(required(null)); // Output : 'required'
+console.log(required(12)); // Output : null
+console.log(merged('abc')); // Output : null
+console.log(merged(false)); // Output : null
+```
+Validation function for required fields.
+
+### email
+```typescript
+import { email } from '@monkvision/common';
+
+console.log(email('')); // Output : 'required'
+console.log(email('abc')); // Output : 'emailNotValid'
+console.log(email(123)); // Output : 'emailNotValid'
+console.log(email('test@acvauctions.com')); // Output : null'
+```
+Validation function for valid email fields.
+
+---
+
 # Mimetype Utils
 ### MIMETYPE_FILE_EXTENSIONS
 ```typescript

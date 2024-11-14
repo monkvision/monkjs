@@ -10,6 +10,7 @@ export function TextField({
   type = 'text',
   value,
   onChange,
+  onBlur,
   disabled = false,
   highlighted = false,
   monospace = false,
@@ -24,6 +25,8 @@ export function TextField({
   focusColor = 'primary-base',
   neutralColor = 'text-primary',
   backgroundColor = 'background-light',
+  id,
+  style,
 }: TextFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -51,8 +54,14 @@ export function TextField({
     isFocused,
     isFilled,
   });
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    onBlur?.();
+  };
+
   return (
-    <div style={mainContainerStyle}>
+    <div style={{ ...mainContainerStyle, ...(style ?? {}) }} data-testid='root'>
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
       <div style={componentsContainerStyle} onClick={() => inputRef.current?.focus()}>
         {icon && (
@@ -67,6 +76,7 @@ export function TextField({
           <label style={labelStyle}>{label}</label>
           {(isFocused || isFilled) && unit && <div style={unitStyle}>{unit}</div>}
           <input
+            id={id}
             ref={inputRef}
             type={type}
             style={inputStyle}
@@ -75,7 +85,7 @@ export function TextField({
             disabled={disabled}
             onChange={(e) => onChange?.(e.target.value)}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onBlur={handleBlur}
             data-testid='input'
           />
         </div>

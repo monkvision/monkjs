@@ -83,6 +83,45 @@ function TestComponent() {
 This custom hook creates an interval that calls the provided callback every `delay` milliseconds. If `delay` is `null`
 or less than 0, the callback will not be called.
 
+### useForm
+
+```tsx
+import { useTranslation } from 'react-i18next';
+import { useForm, required, email } from '@monkvision/common';
+import { Button, TextField } from '@monkvision/common-ui-web';
+
+function TestComponent() {
+  const { t } = useTranslation();
+  const form = useForm({
+    initialValues: {
+      email: '',
+    },
+    validate: {
+      email,
+    },
+  });
+
+  return (
+    <form onSubmit={() => console.log('Submit')}>
+      <label htmlFor='email'>Email</label>
+      <TextField
+        id='email'
+        focusColor={form.isInputErrorDisplayed('email') ? 'alert-base' : 'primary-base'}
+        assistiveText={
+          form.isInputErrorDisplayed('email')
+            ? t(`form.errors.${form.getInputError('email')}`)
+            : undefined
+        }
+        highlighted={form.isInputErrorDisplayed('email')}
+        {...form.getInputProps('email')}
+      />
+      <Button type='submit'>Confirm</Button>
+    </form>
+  );
+}
+```
+Custom hook used to manage forms in ReactJs.
+
 ### useLangProp
 ```tsx
 import { useLangProp } from '@monkvision/common';
