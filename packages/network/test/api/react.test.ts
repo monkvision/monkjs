@@ -7,6 +7,7 @@ jest.mock('../../src/api/api', () => ({
     updatePricing: jest.fn(() => Promise.resolve({ test: 'updatePricing' })),
     createDamage: jest.fn(() => Promise.resolve({ test: 'createDamage' })),
     deleteDamage: jest.fn(() => Promise.resolve({ test: 'deleteDamage' })),
+    getInspections: jest.fn(() => Promise.resolve({ test: 'getInspections' })),
   },
 }));
 
@@ -96,6 +97,16 @@ describe('Monk API React utilities', () => {
       expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
       requestResultMock = await requestMock.mock.results[0].value;
       expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-getInspections';
+      resultMock = await (result.current.getInspections as any)(param);
+      requestMock = MonkApi.getInspections as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
       unmount();
     });
 

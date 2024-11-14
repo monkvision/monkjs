@@ -9,8 +9,14 @@ import {
 import { AdditionalData, ComplianceOptions, CreateInspectionOptions } from '@monkvision/types';
 import { Dispatch } from 'react';
 import { getDefaultOptions, MonkApiConfig } from '../config';
-import { ApiIdColumn, ApiInspectionGet } from '../models';
-import { mapApiInspectionGet, mapApiInspectionPost } from './mappers';
+import { ApiIdColumn, ApiInspectionGet, ApiInspectionsGet } from '../models';
+import {
+  GetInspectionsOptions,
+  mapApiInspectionGet,
+  mapApiInspectionPost,
+  mapApiInspectionsGet,
+  mapApiInspectionsUrlParamsGet,
+} from './mappers';
 import { MonkApiResponse } from '../types';
 
 /**
@@ -142,4 +148,28 @@ export async function updateAdditionalData(
     response,
     body,
   };
+}
+
+/**
+ * Fetch the details of multiple inspections.
+ *
+ * @param options The options of the request.
+ * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
+ */
+export async function getInspections(
+  options: GetInspectionsOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkGotOneInspectionAction>,
+): Promise<MonkApiResponse | MonkApiResponse<GetInspectionResponse, ApiInspectionsGet>> {
+  const kyOptions = getDefaultOptions(config);
+  const response = await ky.get(`inspections${mapApiInspectionsUrlParamsGet(options)}`, kyOptions);
+  const body = await response.json<ApiInspectionsGet>();
+  const entities = mapApiInspectionsGet(body, config.thumbnailDomain);
+  dispatch?.({
+    type: MonkActionType.GOT_ONE_INSPECTION,
+    payload: entities,
+  });
+  return { entities, response, body };
 }

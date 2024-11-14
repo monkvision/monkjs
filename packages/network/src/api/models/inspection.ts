@@ -1,3 +1,4 @@
+import { SortOrder } from '@monkvision/types';
 import type { ApiAdditionalData } from './common';
 import type { ApiDamages } from './damage';
 import type { ApiImagePost, ApiImages } from './image';
@@ -27,6 +28,37 @@ export interface ApiInspectionGet {
   tasks: ApiTasks;
   vehicle?: ApiVehicleComponent;
   wheel_analysis?: ApiWheelAnalysis;
+}
+
+interface ApiData
+  extends Pick<
+    ApiInspectionGet,
+    'id' | 'additional_data' | 'images' | 'damages' | 'pricing' | 'parts' | 'vehicle'
+  > {
+  pdf_url?: string;
+}
+
+interface ApiPaginationParams {
+  limit?: number;
+  before?: string;
+  after?: string;
+  pagination_order?: SortOrder;
+}
+
+interface ApiCursors {
+  before?: Pick<ApiPaginationParams, 'before'>;
+  after?: Pick<ApiPaginationParams, 'after'>;
+  next?: ApiPaginationParams;
+  previous?: ApiPaginationParams;
+}
+
+interface ApiPagination {
+  cursors: ApiCursors;
+}
+
+export interface ApiInspectionsGet {
+  data: ApiData[];
+  paging: ApiPagination;
 }
 
 export interface ApiDamageSeverity {

@@ -24,6 +24,7 @@ import {
   Severity,
   SeverityResult,
   SeverityResultTargetType,
+  SortOrder,
   Task,
   TaskName,
   Vehicle,
@@ -40,6 +41,7 @@ import {
   ApiImagesOCRTaskPostComponent,
   ApiInspectionGet,
   ApiInspectionPost,
+  ApiInspectionsGet,
   ApiPartSeverityValue,
   ApiPricingTaskPostComponent,
   ApiPricingV2Details,
@@ -374,6 +376,60 @@ function mapInspection(
   };
 }
 
+export function mapApiInspectionsGet(
+  response: ApiInspectionsGet,
+  thumbnailDomain: string,
+): MonkState {
+  const state: MonkState = {
+    damages: [],
+    images: [],
+    inspections: [],
+    parts: [],
+    renderedOutputs: [],
+    severityResults: [],
+    tasks: [],
+    vehicles: [],
+    views: [],
+    pricings: [],
+    partOperations: [],
+  };
+  if (!response.data) {
+    return state;
+  }
+  return response.data.reduce<MonkState>((acc, inspection) => {
+    const { images, renderedOutputs, imageIds, renderedOutputIds, viewIds } = mapImages(
+      inspection as ApiInspectionGet,
+      thumbnailDomain,
+    );
+    const { damages, damageIds } = mapDamages(inspection as ApiInspectionGet);
+    const { parts, partIds } = mapParts(inspection as ApiInspectionGet);
+    const { pricings, pricingIds } = mapPricingV2(inspection as ApiInspectionGet);
+    const vehicle = mapVehicle(inspection as ApiInspectionGet);
+    const mappedInspection = mapInspection(inspection as ApiInspectionGet, {
+      imageIds,
+      renderedOutputIds,
+      viewIds,
+      damageIds,
+      partIds,
+      severityResultIds: [],
+      taskIds: [],
+      pricingIds,
+      vehicleId: vehicle?.id,
+    });
+    acc.damages.push(...damages);
+    acc.images.push(...images);
+    acc.inspections.push(mappedInspection);
+    acc.parts.push(...parts);
+    acc.renderedOutputs.push(...renderedOutputs);
+    if (vehicle) {
+      acc.vehicles.push(vehicle);
+    }
+    acc.pricings.push(...pricings);
+
+    return acc;
+  }, state);
+}
+
 export function mapApiInspectionGet(
   response: ApiInspectionGet,
   thumbnailDomain: string,
@@ -568,4 +624,87 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
       ...options.additionalData,
     },
   };
+}
+
+/**
+ * Parameters for pagination requests.
+ */
+export interface PaginationRequestParams {
+  /**
+   * The number of inspections fetched.
+   *
+   * @default 100
+   */
+  limit?: number;
+  /**
+   * The inspection ID to filter that occurred before this ID.
+   */
+  before?: string;
+  /**
+   * The inspection ID to filter that occurred after this date.
+   */
+  after?: string;
+}
+
+/**
+ * Parameters for sorting requests.
+ */
+export interface SortRequestParams {
+  /**
+   * The property to sort by.
+   */
+  sortByProperty: string;
+  /**
+   * The order of the pagination.
+   *
+   * @default SortOrder.DESC
+   */
+  sortOrder?: SortOrder;
+}
+
+/**
+ * Options passed to the `getInspections` API request.
+ */
+export interface GetInspectionsOptions {
+  /**
+   * If true, only the total count of inspections will be returned.
+   *
+   * @default false
+   */
+  count?: boolean;
+  /**
+   * The filter request parameters.
+   */
+  filters?: Record<string, string | number>;
+  /**
+   * The pagination request parameters.
+   */
+  pagination?: PaginationRequestParams;
+  /**
+   * The sort request parameters.
+   */
+  sort?: SortRequestParams;
+}
+
+export function mapApiInspectionsUrlParamsGet(options: GetInspectionsOptions): string {
+  const params = new URLSearchParams();
+  let url = options.count ? '/count' : '';
+  url = options.filters || options.pagination ? `${url}?` : url;
+
+  if (options.filters) {
+    Object.entries(options.filters).forEach(([key, value]) => {
+      params.append(key, value.toString());
+    });
+  }
+  if (options.pagination) {
+    Object.entries(options.pagination).forEach(([key, value]) => {
+      params.append(key, value.toString());
+    });
+  }
+  if (options.sort) {
+    Object.entries(options.sort).forEach(([key, value]) => {
+      params.append(key, value.toString());
+    });
+  }
+  return `${url}${params.toString()}`;
 }
