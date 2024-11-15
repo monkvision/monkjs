@@ -14,6 +14,14 @@ export enum DamageType {
   BODY_CRACK = 'body_crack',
   MISSING_PIECE = 'missing_piece',
   RUSTINESS = 'rustiness',
+  DIRT = 'dirt',
+  MISSHAPE = 'misshape',
+  PAINT_PEELING = 'paint_peeling',
+  SCATTERED_SCRATCHES = 'scattered_scratches',
+  LIGHT_REFLECTION = 'light_reflection',
+  SHADOW = 'shadow',
+  CAR_CURVE = 'car_curve',
+  PAINT_DAMAGE = 'paint_damage',
 }
 
 /**
