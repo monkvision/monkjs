@@ -64,4 +64,52 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     de: 'Rostigkeit',
     nl: 'Roest',
   },
+  [DamageType.DIRT]: {
+    en: 'Dirt',
+    fr: 'Saleté',
+    de: 'Dreck',
+    nl: 'Vuil',
+  },
+  [DamageType.MISSHAPE]: {
+    en: 'Misshape',
+    fr: 'Forme irrégulière',
+    de: 'Fehlform',
+    nl: 'Misvorm',
+  },
+  [DamageType.PAINT_PEELING]: {
+    en: 'Paint Peeling',
+    fr: 'Peinture écaillée',
+    de: 'Abblätternde Farbe',
+    nl: 'Afbladderende verf',
+  },
+  [DamageType.SCATTERED_SCRATCHES]: {
+    en: 'Scattered Scratches',
+    fr: 'Rayures éparses',
+    de: 'Verstreute Kratzer',
+    nl: 'Verspreide krassen',
+  },
+  [DamageType.LIGHT_REFLECTION]: {
+    en: 'Light Reflection',
+    fr: 'Réflexion de la lumière',
+    de: 'Lichtreflexion',
+    nl: 'Licht Reflectie',
+  },
+  [DamageType.SHADOW]: {
+    en: 'Shadow',
+    fr: 'Ombre',
+    de: 'Schatten',
+    nl: 'Schaduw',
+  },
+  [DamageType.CAR_CURVE]: {
+    en: 'Car Curve',
+    fr: 'Courbe de la voiture',
+    de: 'Auto-Kurve',
+    nl: 'Auto kromming',
+  },
+  [DamageType.PAINT_DAMAGE]: {
+    en: 'Paint Damage',
+    fr: 'Dégât sur la peinture',
+    de: 'Lackschäden',
+    nl: 'Beschadigde verf',
+  },
 };
