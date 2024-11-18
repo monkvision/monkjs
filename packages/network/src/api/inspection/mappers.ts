@@ -663,15 +663,9 @@ export interface SortRequestParams {
 }
 
 /**
- * Options passed to the `getInspections` API request.
+ * Options passed to the `getInspections` or `getInspectionsCount` API request.
  */
 export interface GetInspectionsOptions {
-  /**
-   * If true, only the total count of inspections will be returned.
-   *
-   * @default false
-   */
-  count?: boolean;
   /**
    * The filter request parameters.
    */
@@ -688,8 +682,7 @@ export interface GetInspectionsOptions {
 
 export function mapApiInspectionsUrlParamsGet(options: GetInspectionsOptions): string {
   const params = new URLSearchParams();
-  let url = options.count ? '/count' : '';
-  url = options.filters || options.pagination ? `${url}?` : url;
+  const url = options.filters || options.pagination ? '?' : '';
 
   if (options.filters) {
     Object.entries(options.filters).forEach(([key, value]) => {

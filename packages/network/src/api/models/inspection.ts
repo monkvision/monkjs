@@ -61,6 +61,10 @@ export interface ApiInspectionsGet {
   paging: ApiPagination;
 }
 
+export interface ApiInspectionsCountGet {
+  total: number;
+}
+
 export interface ApiDamageSeverity {
   output_format: ApiBusinessClients;
 }
