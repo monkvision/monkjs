@@ -311,10 +311,12 @@ function mapVehicle(response: ApiInspectionGet): Vehicle | undefined {
         serie: response.vehicle.serie,
         plate: response.vehicle.plate,
         type: response.vehicle.vehicle_type,
-        mileageUnit: response.vehicle.mileage_unit as MileageUnit | undefined,
-        mileageValue: response.vehicle.mileage_value,
-        marketValueUnit: response.vehicle.market_value_unit as CurrencyCode | undefined,
-        marketValue: response.vehicle.market_value_value,
+        mileageUnit: response.vehicle.mileage?.mileage_unit as MileageUnit | undefined,
+        mileageValue: response.vehicle.mileage?.mileage_value,
+        marketValueUnit: response.vehicle.market_value?.market_value_unit as
+          | CurrencyCode
+          | undefined,
+        marketValue: response.vehicle.market_value?.market_value_value,
         vin: response.vehicle.vin,
         color: response.vehicle.color,
         exteriorCleanliness: response.vehicle.exterior_cleanliness,
@@ -588,15 +590,15 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
           mileage:
             options.vehicle.mileageUnit && options.vehicle.mileageValue
               ? {
-                  value: options.vehicle.mileageValue,
-                  unit: options.vehicle.mileageUnit,
+                  mileage_value: options.vehicle.mileageValue,
+                  mileage_unit: options.vehicle.mileageUnit,
                 }
               : undefined,
           market_value:
             options.vehicle.marketValueUnit && options.vehicle.marketValue
               ? {
-                  value: options.vehicle.marketValue,
-                  unit: options.vehicle.marketValueUnit,
+                  market_value_value: options.vehicle.marketValue,
+                  market_value_unit: options.vehicle.marketValueUnit,
                 }
               : undefined,
           vin: options.vehicle.vin,
