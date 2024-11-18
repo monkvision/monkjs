@@ -51,6 +51,7 @@ import {
   createInspection,
   getInspection,
   getInspections,
+  getInspectionsCount,
   updateAdditionalData,
 } from '../../../src/api/inspection';
 import {
@@ -169,6 +170,26 @@ describe('Inspection requests', () => {
       });
       expect(result).toEqual({
         entities,
+        response,
+        body,
+      });
+    });
+  });
+
+  describe('getInspectionsCount request', () => {
+    it('should make the proper API call and map the resulting response', async () => {
+      const dispatch = jest.fn();
+      const result = await getInspectionsCount({ filters: { test: 'test' } }, apiConfig, dispatch);
+      const response = await (ky.get as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      expect(ky.get).toHaveBeenCalledWith(
+        `inspections/count${mockUrlParams}`,
+        getDefaultOptions(apiConfig),
+      );
+      expect(result).toEqual({
+        count: body.count,
         response,
         body,
       });

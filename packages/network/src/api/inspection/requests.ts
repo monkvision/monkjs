@@ -9,7 +9,12 @@ import {
 import { AdditionalData, ComplianceOptions, CreateInspectionOptions } from '@monkvision/types';
 import { Dispatch } from 'react';
 import { getDefaultOptions, MonkApiConfig } from '../config';
-import { ApiIdColumn, ApiInspectionGet, ApiInspectionsGet } from '../models';
+import {
+  ApiIdColumn,
+  ApiInspectionGet,
+  ApiInspectionsCountGet,
+  ApiInspectionsGet,
+} from '../models';
 import {
   GetInspectionsOptions,
   mapApiInspectionGet,
@@ -41,6 +46,16 @@ export interface GetInspectionResponse {
    * The normalized entities related to the inspection that have been fetched from the API.
    */
   entities: MonkState;
+}
+
+/**
+ * Type definition for the result of the `getInspectionsCount` API request.
+ */
+export interface GetInspectionsCountResponse {
+  /**
+   * The total number of inspections that match the given filters.
+   */
+  count: number;
 }
 
 /**
@@ -172,4 +187,26 @@ export async function getInspections(
     payload: entities,
   });
   return { entities, response, body };
+}
+
+/**
+ * Gets the count of inspections that match the given filters.
+ *
+ * @param options The options of the request.
+ * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
+ */
+export async function getInspectionsCount(
+  options: GetInspectionsOptions,
+  config: MonkApiConfig,
+  _dispatch?: Dispatch<MonkAction>,
+): Promise<MonkApiResponse<GetInspectionsCountResponse, ApiInspectionsCountGet>> {
+  const kyOptions = getDefaultOptions(config);
+  const response = await ky.get(
+    `inspections/count${mapApiInspectionsUrlParamsGet(options)}`,
+    kyOptions,
+  );
+  const body = await response.json<ApiInspectionsCountGet>();
+  return { count: body.total, response, body };
 }

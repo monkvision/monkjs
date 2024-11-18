@@ -224,6 +224,20 @@ a list of all entities that match the specified criteria.
 |-----------|-----------------------|-----------------------------|----------|
 | options   | getInspectionsOptions | The options of the request. | ✔️       |
 
+
+### getInspectionsCount
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.getInspectionsCount(options, apiConfig, dispatch);
+```
+
+Gets the count of inspections that match the given filters.
+
+| Parameter | Type                  | Description                 | Required |
+|-----------|-----------------------|-----------------------------|----------|
+| options   | getInspectionsOptions | The options of the request. | ✔️       |
+
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This
 custom hook returns a custom version of the `MonkApi` object described in the section above, in which the requests do
