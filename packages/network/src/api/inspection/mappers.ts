@@ -590,15 +590,15 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
           mileage:
             options.vehicle.mileageUnit && options.vehicle.mileageValue
               ? {
-                  mileage_value: options.vehicle.mileageValue,
-                  mileage_unit: options.vehicle.mileageUnit,
+                  value: options.vehicle.mileageValue,
+                  unit: options.vehicle.mileageUnit,
                 }
               : undefined,
           market_value:
             options.vehicle.marketValueUnit && options.vehicle.marketValue
               ? {
-                  market_value_value: options.vehicle.marketValue,
-                  market_value_unit: options.vehicle.marketValueUnit,
+                  value: options.vehicle.marketValue,
+                  unit: options.vehicle.marketValueUnit,
                 }
               : undefined,
           vin: options.vehicle.vin,

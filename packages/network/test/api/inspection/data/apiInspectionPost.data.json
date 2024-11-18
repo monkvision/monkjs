@@ -28,12 +28,12 @@
     "plate": "plate",
     "vehicle_type": "hatchback",
     "mileage": {
-      "mileage_unit": "mileageUnit",
-      "mileage_value": 34
+      "unit": "mileageUnit",
+      "value": 34
     },
     "market_value": {
-      "market_value_unit": "marketValueUnit",
-      "market_value_value": 45
+      "unit": "marketValueUnit",
+      "value": 45
     },
     "vin": "vin",
     "color": "color",

@@ -6,12 +6,12 @@ export type ApiMileageUnit = 'km' | 'miles';
 
 export type ApiMarketValueUnit = 'USD' | 'EUR';
 
-export interface ApiMileage {
+export interface ApiMileageGet {
   mileage_value: number;
   mileage_unit: ApiMileageUnit;
 }
 
-export interface ApiMarketValue {
+export interface ApiMarketValueGet {
   market_value_value: number;
   market_value_unit: ApiMarketValueUnit;
 }
@@ -28,8 +28,8 @@ export interface ApiVehicleComponent {
   exterior_cleanliness?: string;
   id: string;
   interior_cleanliness?: string;
-  mileage?: ApiMileage;
-  market_value?: ApiMarketValue;
+  mileage?: ApiMileageGet;
+  market_value?: ApiMarketValueGet;
   model?: string;
   serie?: string;
   owner_info?: ApiOwnerInfo;
@@ -40,13 +40,23 @@ export interface ApiVehicleComponent {
   vin?: string;
 }
 
+export interface ApiMileagePost {
+  value: number;
+  unit: ApiMileageUnit;
+}
+
+export interface ApiMarketValuePost {
+  value: number;
+  unit: ApiMarketValueUnit;
+}
+
 export interface ApiVehiclePostPatch {
   brand?: string;
   model?: string;
   plate?: string;
   vehicle_type?: string;
-  mileage?: ApiMileage;
-  market_value?: ApiMarketValue;
+  mileage?: ApiMileagePost;
+  market_value?: ApiMarketValuePost;
   serie?: string;
   vehicle_style?: string;
   vehicle_age?: string;
