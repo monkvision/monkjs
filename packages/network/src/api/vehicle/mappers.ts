@@ -10,13 +10,13 @@ export function mapApiVehiclePatch(options: Partial<Vehicle>): ApiVehiclePostPat
     mileage:
       options.mileageValue && options.mileageUnit
         ? {
-            mileage_value: options.mileageValue,
-            mileage_unit: options.mileageUnit,
+            value: options.mileageValue,
+            unit: options.mileageUnit,
           }
         : undefined,
     market_value:
       options.marketValue && options.marketValueUnit
-        ? { market_value_value: options.marketValue, market_value_unit: options.marketValueUnit }
+        ? { value: options.marketValue, unit: options.marketValueUnit }
         : undefined,
     vin: options.vin,
     color: options.color,
