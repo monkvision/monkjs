@@ -6,14 +6,19 @@ jest.mock('../../src/components/Button', () => ({
 jest.mock('../../src/components/Spinner', () => ({
   Spinner: jest.fn(() => <></>),
 }));
+const { useAsyncEffect: useAsyncEffectActual } = jest.requireActual('@monkvision/common');
 
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { createFakePromise, expectPropsOnChildMock } from '@monkvision/test-utils';
-import { MonkAppStateProvider, useLoadingState } from '@monkvision/common';
+import { MonkAppStateProvider, useAsyncEffect, useLoadingState } from '@monkvision/common';
 import { MonkApi } from '@monkvision/network';
 import { Button, LiveConfigAppProvider, Spinner } from '../../src';
 
 describe('LiveConfigAppProvider component', () => {
+  beforeEach(() => {
+    (useAsyncEffect as jest.Mock).mockImplementation(useAsyncEffectActual);
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

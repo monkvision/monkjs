@@ -83,6 +83,26 @@ function TestComponent() {
 This custom hook creates an interval that calls the provided callback every `delay` milliseconds. If `delay` is `null`
 or less than 0, the callback will not be called.
 
+### useIsMounted
+```tsx
+import { useIsMounted } from '@monkvision/common';
+
+function TestComponent() {
+  const [example, setExample] = useState(0);
+  const isMounted = useIsMounted();
+
+  useEffect(() => {
+    myAsyncFunc().then((value) => {
+      if (isMounted()) {
+        setExample(value);
+      }
+    }).catch(console.error);
+  }, [isMounted]);
+}
+```
+Custom hook returning a ref to a util function returning `true` if the component using the hook is mounted, and false
+otherwise. Can be used to cancel asynchronous calls on component unmounts.
+
 ### useForm
 
 ```tsx

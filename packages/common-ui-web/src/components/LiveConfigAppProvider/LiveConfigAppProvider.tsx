@@ -1,10 +1,11 @@
 import {
   MonkAppStateProvider,
   MonkAppStateProviderProps,
+  useAsyncEffect,
   useI18nSync,
   useLoadingState,
 } from '@monkvision/common';
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { CaptureAppConfig } from '@monkvision/types';
 import { MonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -50,29 +51,29 @@ export function LiveConfigAppProvider({
   const loading = useLoadingState(true);
   const [config, setConfig] = useState<CaptureAppConfig | null>(null);
   const { handleError } = useMonitoring();
+  const [retry, setRetry] = useState(0);
 
-  const fetchLiveConfig = useCallback(() => {
-    if (localConfig) {
-      loading.onSuccess();
-      setConfig(localConfig);
-      return;
-    }
-    loading.start();
-    setConfig(null);
-    MonkApi.getLiveConfig(id)
-      .then((result) => {
+  useAsyncEffect(
+    () => {
+      if (localConfig) {
+        return Promise.resolve(localConfig);
+      }
+      loading.start();
+      setConfig(null);
+      return MonkApi.getLiveConfig(id);
+    },
+    [id, localConfig, retry],
+    {
+      onResolve: (result) => {
         loading.onSuccess();
         setConfig(result);
-      })
-      .catch((err) => {
+      },
+      onReject: (err) => {
         handleError(err);
         loading.onError();
-      });
-  }, [id, localConfig]);
-
-  useEffect(() => {
-    fetchLiveConfig();
-  }, [fetchLiveConfig]);
+      },
+    },
+  );
 
   if (loading.isLoading || loading.error || !config) {
     return (
@@ -83,7 +84,7 @@ export function LiveConfigAppProvider({
             <div style={styles['errorMessage']} data-testid='error-msg'>
               Unable to fetch application configuration. Please try again in a few minutes.
             </div>
-            <Button variant='outline' icon='refresh' onClick={fetchLiveConfig}>
+            <Button variant='outline' icon='refresh' onClick={() => setRetry((value) => value + 1)}>
               Retry
             </Button>
           </>

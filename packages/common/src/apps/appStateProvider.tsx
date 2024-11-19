@@ -14,6 +14,7 @@ import { MonkAppState, MonkAppStateContext } from './appState';
 import { useAppStateMonitoring } from './monitoring';
 import { useAppStateAnalytics } from './analytics';
 import { getAvailableVehicleTypes } from '../utils';
+import { useIsMounted } from '../hooks/useIsMounted';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
@@ -87,6 +88,7 @@ export function MonkAppStateProvider({
   const [steeringWheel, setSteeringWheel] = useState<SteeringWheelPosition | null>(null);
   const availableVehicleTypes = useMemo(() => getAvailableVehicleTypes(config), [config]);
   const monkSearchParams = useMonkSearchParams({ availableVehicleTypes });
+  const isMounted = useIsMounted();
   useAppStateMonitoring({ authToken, inspectionId, vehicleType, steeringWheel });
   useAppStateAnalytics({ inspectionId });
 
@@ -100,12 +102,12 @@ export function MonkAppStateProvider({
       setVehicleType((param) => monkSearchParams.get(MonkSearchParam.VEHICLE_TYPE) ?? param);
       setSteeringWheel((param) => monkSearchParams.get(MonkSearchParam.STEERING_WHEEL) ?? param);
       const lang = monkSearchParams.get(MonkSearchParam.LANGUAGE);
-      if (lang) {
+      if (lang && isMounted()) {
         onFetchLanguage?.(lang);
       }
     }
 
-    if (fetchedToken) {
+    if (fetchedToken && isMounted()) {
       setAuthToken(fetchedToken);
       onFetchAuthToken?.();
     }
