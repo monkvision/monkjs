@@ -46,8 +46,8 @@ interface ApiPaginationParams {
 }
 
 interface ApiCursors {
-  before?: Pick<ApiPaginationParams, 'before'>;
-  after?: Pick<ApiPaginationParams, 'after'>;
+  before?: string;
+  after?: string;
   next?: ApiPaginationParams;
   previous?: ApiPaginationParams;
 }
@@ -75,4 +75,9 @@ export interface ApiInspectionPost {
   images?: ApiImagePost[];
   vehicle?: ApiVehiclePostPatch;
   damage_severity?: ApiDamageSeverity;
+}
+
+export interface ApiInspectionsSortRequest {
+  sort_by_property?: string;
+  sort_drder?: SortOrder;
 }
