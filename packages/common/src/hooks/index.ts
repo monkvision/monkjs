@@ -11,3 +11,4 @@ export * from './useInterval';
 export * from './useAsyncInterval';
 export * from './useObjectMemo';
 export * from './useForm';
+export * from './useIsMounted';
