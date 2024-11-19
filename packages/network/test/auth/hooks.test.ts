@@ -1,8 +1,9 @@
 import { STORAGE_KEY_AUTH_TOKEN, useMonkAppState } from '@monkvision/common';
-import { useAuth0 } from '@auth0/auth0-react';
+import { Auth0ContextInterface, useAuth0 } from '@auth0/auth0-react';
 import { act, waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { useAuth } from '../../src';
+import { Context } from 'react';
 
 describe('Authentication hooks', () => {
   afterEach(() => {
@@ -115,6 +116,15 @@ describe('Authentication hooks', () => {
 
       unmount();
       (useAuth0 as jest.Mock).mockRestore();
+    });
+
+    it('should pass the Auth0 context provided to the useAuth0 hook', async () => {
+      const context = { test: 'hello' } as unknown as Context<Auth0ContextInterface>;
+      const { unmount } = renderHook(useAuth, { initialProps: { context } });
+
+      expect(useAuth0).toHaveBeenCalledWith(context);
+
+      unmount();
     });
   });
 });

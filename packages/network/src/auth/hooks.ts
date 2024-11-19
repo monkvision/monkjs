@@ -1,5 +1,5 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { useCallback, useEffect } from 'react';
+import { Auth0ContextInterface, useAuth0 } from '@auth0/auth0-react';
+import { Context, useCallback, useEffect } from 'react';
 import { STORAGE_KEY_AUTH_TOKEN, useMonkAppState, useObjectMemo } from '@monkvision/common';
 
 /**
@@ -12,6 +12,10 @@ export interface UseAuthParams {
    * @default true
    */
   storeToken?: boolean;
+  /**
+   * Optional custom Auth0 context that will be passed through to the `useAuth0` hook.
+   */
+  context?: Context<Auth0ContextInterface>;
 }
 
 /**
@@ -43,7 +47,7 @@ const defaultOptions = {
  */
 export function useAuth(params?: UseAuthParams): MonkAuthHandle {
   const options = { ...defaultOptions, ...(params ?? {}) };
-  const { getAccessTokenWithPopup, logout } = useAuth0();
+  const { getAccessTokenWithPopup, logout } = useAuth0(params?.context);
   const { setAuthToken } = useMonkAppState();
 
   useEffect(() => {
