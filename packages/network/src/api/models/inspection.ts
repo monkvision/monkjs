@@ -76,8 +76,3 @@ export interface ApiInspectionPost {
   vehicle?: ApiVehiclePostPatch;
   damage_severity?: ApiDamageSeverity;
 }
-
-export interface ApiInspectionsSortRequest {
-  sort_by_property?: string;
-  sort_drder?: SortOrder;
-}

@@ -697,10 +697,10 @@ export function mapApiInspectionsUrlParamsGet(options: GetInspectionsOptions): s
     });
   }
   if (options.sort?.sortByProperty) {
-    params.append('sort_by_property', options.sort.sortByProperty);
+    params.append('order_by', options.sort.sortByProperty);
   }
   if (options.sort?.sortOrder) {
-    params.append('sort_order', options.sort.sortOrder.toString());
+    params.append('pagination_order', options.sort.sortOrder.toString());
   }
   return `${url}${params.toString()}`;
 }
