@@ -1,7 +1,13 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useMonkApi } from '@monkvision/network';
-import { i18nWrap, useI18nSync, useLoadingState, useMonkAppState } from '@monkvision/common';
+import {
+  i18nWrap,
+  useI18nSync,
+  useIsMounted,
+  useLoadingState,
+  useMonkAppState,
+} from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useAnalytics } from '@monkvision/analytics';
 import { styles } from './CreateInspection.styles';
@@ -41,6 +47,7 @@ export const CreateInspection = i18nWrap(function CreateInspection({
   onInspectionCreated,
 }: CreateInspectionProps) {
   useI18nSync(lang);
+  const [retry, setRetry] = useState(0);
   const loading = useLoadingState();
   const { t } = useTranslation();
   const { handleError, setTags } = useMonitoring();
@@ -51,27 +58,27 @@ export const CreateInspection = i18nWrap(function CreateInspection({
     thumbnailDomain: config.thumbnailDomain,
   });
   const analytics = useAnalytics();
-
-  const handleCreateInspection = () => {
-    loading.start();
-    if (config?.allowCreateInspection) {
-      createInspection(config.createInspectionOptions)
-        .then((res) => {
-          loading.onSuccess();
-          setInspectionId(res.id);
-        })
-        .catch((err) => {
-          loading.onError(CreateInspectionError.CREATE_INSPECTION);
-          handleError(err);
-        });
-    }
-  };
+  const isMounted = useIsMounted();
 
   useEffect(() => {
     if (!inspectionId) {
       if (config?.allowCreateInspection) {
         loading.start();
-        handleCreateInspection();
+        if (config?.allowCreateInspection) {
+          createInspection(config.createInspectionOptions)
+            .then((res) => {
+              if (isMounted()) {
+                loading.onSuccess();
+                setInspectionId(res.id);
+              }
+            })
+            .catch((err) => {
+              if (isMounted()) {
+                loading.onError(CreateInspectionError.CREATE_INSPECTION);
+                handleError(err);
+              }
+            });
+        }
       } else {
         loading.onError(CreateInspectionError.MISSING_INSPECTION_ID);
       }
@@ -80,7 +87,7 @@ export const CreateInspection = i18nWrap(function CreateInspection({
       analytics.setUserId(inspectionId);
       onInspectionCreated?.();
     }
-  }, [inspectionId, setTags, analytics]);
+  }, [inspectionId, setTags, analytics, retry, isMounted]);
 
   return (
     <div style={styles['container']}>
@@ -90,7 +97,11 @@ export const CreateInspection = i18nWrap(function CreateInspection({
           <div style={styles['errorMessage']}>{t(loading.error)}</div>
           {loading.error === CreateInspectionError.CREATE_INSPECTION && (
             <div style={styles['retryBtnContainer']}>
-              <Button variant='outline' icon='refresh' onClick={handleCreateInspection}>
+              <Button
+                variant='outline'
+                icon='refresh'
+                onClick={() => setRetry((value) => value + 1)}
+              >
                 {t('errors.retry')}
               </Button>
             </div>
