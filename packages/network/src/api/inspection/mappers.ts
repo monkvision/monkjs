@@ -696,10 +696,11 @@ export function mapApiInspectionsUrlParamsGet(options: GetInspectionsOptions): s
       params.append(key, value.toString());
     });
   }
-  if (options.sort) {
-    Object.entries(options.sort).forEach(([key, value]) => {
-      params.append(key, value.toString());
-    });
+  if (options.sort?.sortByProperty) {
+    params.append('sort_by_property', options.sort.sortByProperty);
+  }
+  if (options.sort?.sortOrder) {
+    params.append('sort_order', options.sort.sortOrder.toString());
   }
   return `${url}${params.toString()}`;
 }
