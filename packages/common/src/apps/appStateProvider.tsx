@@ -8,13 +8,12 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { useLoadingState, useObjectMemo } from '../hooks';
+import { useLoadingState, useObjectMemo, useIsMounted } from '../hooks';
 import { MonkSearchParam, useMonkSearchParams } from './searchParams';
 import { MonkAppState, MonkAppStateContext } from './appState';
 import { useAppStateMonitoring } from './monitoring';
 import { useAppStateAnalytics } from './analytics';
 import { getAvailableVehicleTypes } from '../utils';
-import { useIsMounted } from '../hooks/useIsMounted';
 
 /**
  * Local storage key used within Monk web applications to store the authentication token.
