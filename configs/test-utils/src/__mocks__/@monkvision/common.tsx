@@ -136,4 +136,5 @@ export = {
     isInputErrorDisplayed: jest.fn(() => false),
     isInputTouchedOrDirty: jest.fn(() => false),
   })),
+  useIsMounted: jest.fn(() => jest.fn(() => true)),
 };
