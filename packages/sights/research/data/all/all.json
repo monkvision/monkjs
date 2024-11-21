@@ -137,6 +137,14 @@
     "vehicle": "all",
     "tasks": ["damage_detection"]
   },
+  "all-y6329hj8": {
+    "id": "all-y6329hj8",
+    "category": "interior",
+    "label": "front-seats",
+    "overlay": "all-y6329hj8.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection"]
+  },
   "all-ed8a75b6": {
     "id": "all-ed8a75b6",
     "category": "interior",
@@ -193,8 +201,16 @@
     "vehicle": "all",
     "tasks": ["damage_detection", "wheel_analysis"]
   },
+  "all-Pj-K822I": {
+    "id": "all-Pj-K822I",
+    "category": "misc",
+    "label": "tire",
+    "overlay": "all-Pj-K822I.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection", "wheel_analysis"]
+  },
   "all-11w-_e9c": {
-    "id": "all-9cw4tn4s",
+    "id": "all-11w-_e9c",
     "category": "misc",
     "label": "dashboard-screen",
     "overlay": "all-11w-_e9c.svg",
@@ -206,6 +222,14 @@
     "category": "misc",
     "label": "card-keys",
     "overlay": "all-mdwq0pl4.svg",
+    "vehicle": "all",
+    "tasks": ["damage_detection"]
+  },
+  "all-hJLGOqvb": {
+    "id": "all-hJLGOqvb",
+    "category": "misc",
+    "label": "card-keys",
+    "overlay": "all-hJLGOqvb.svg",
     "vehicle": "all",
     "tasks": ["damage_detection"]
   },
