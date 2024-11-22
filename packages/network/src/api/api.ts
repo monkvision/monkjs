@@ -2,8 +2,8 @@ import {
   getInspection,
   createInspection,
   updateAdditionalData,
-  getInspections,
-  getInspectionsCount,
+  getAllInspections,
+  getAllInspectionsCount,
 } from './inspection';
 import { addImage } from './image';
 import { startInspectionTasks, updateTaskStatus } from './task';
@@ -18,8 +18,8 @@ import { createDamage, deleteDamage } from './damage';
  */
 export const MonkApi = {
   getInspection,
-  getInspections,
-  getInspectionsCount,
+  getAllInspections,
+  getAllInspectionsCount,
   createInspection,
   addImage,
   updateTaskStatus,

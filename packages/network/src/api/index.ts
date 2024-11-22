@@ -5,7 +5,13 @@ export { MonkNetworkError, type MonkHTTPError } from './error';
 export { MonkApi } from './api';
 export * from './hooks';
 
-export { type GetInspectionOptions, type GetInspectionResponse } from './inspection';
+export {
+  type GetInspectionOptions,
+  type GetInspectionResponse,
+  type GetAllInspectionsCountResponse,
+  type UpdateAdditionalDataOptions,
+  type GetAllInspectionsResponse,
+} from './inspection';
 export {
   type AddImageResponse,
   type AddBeautyShotImageOptions,

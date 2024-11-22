@@ -1,15 +1,14 @@
-import { SortOrder } from '@monkvision/types';
 import type { ApiAdditionalData } from './common';
-import type { ApiDamages } from './damage';
-import type { ApiImagePost, ApiImages } from './image';
-import type { ApiParts } from './part';
+import { ApiDamages, ApiDamageSimplifiedGet } from './damage';
+import { ApiImage, ApiImagePost, ApiImages } from './image';
+import { ApiParts, ApiPartSimplifiedGet } from './part';
 import type { ApiPricingV2 } from './pricingV2';
 import type { ApiSeverityResults } from './severityResult';
 import type { ApiBusinessClients, ApiTasks } from './task';
-import type { ApiVehicleComponent } from './vehicle';
-import type { ApiWheelAnalysis } from './wheelAnalysis';
-import { ApiVehiclePostPatch } from './vehicle';
 import { ApiTasksComponent } from './task';
+import type { ApiVehicleComponent } from './vehicle';
+import { ApiVehiclePostPatch } from './vehicle';
+import type { ApiWheelAnalysis } from './wheelAnalysis';
 
 export interface ApiInspectioAdditionalData extends ApiAdditionalData {
   is_video_capture?: boolean;
@@ -30,39 +29,53 @@ export interface ApiInspectionGet {
   wheel_analysis?: ApiWheelAnalysis;
 }
 
-interface ApiData
-  extends Pick<
-    ApiInspectionGet,
-    'id' | 'additional_data' | 'images' | 'damages' | 'pricing' | 'parts' | 'vehicle'
-  > {
-  pdf_url?: string;
-}
+export type ApiPaginationOrder = 'asc' | 'desc';
 
-interface ApiPaginationParams {
+export interface ApiPaginationParameters {
   limit?: number;
   before?: string;
   after?: string;
-  pagination_order?: SortOrder;
+  pagination_order?: ApiPaginationOrder;
 }
 
-interface ApiCursors {
-  before?: string;
+export interface ApiCursors {
   after?: string;
-  next?: ApiPaginationParams;
-  previous?: ApiPaginationParams;
+  before?: string;
+  next?: ApiPaginationParameters;
+  previous?: ApiPaginationParameters;
 }
 
-interface ApiPagination {
-  cursors: ApiCursors;
+export interface ApiPagination {
+  cursors: ApiPaginationParameters;
 }
 
-export interface ApiInspectionsGet {
-  data: ApiData[];
+export interface ApiPaginatedResponse<T> {
+  data: T[];
   paging: ApiPagination;
+}
+
+export interface ApiAllInspectionsGet {
+  id: string;
+  images: ApiImage[];
+  owner_id: string;
+  creator_id: string;
+  created_at: string;
+  deleted_at?: string;
+  additional_data?: ApiInspectioAdditionalData;
+}
+
+export interface ApiAllInspectionsVerboseGet extends ApiAllInspectionsGet {
+  pricing?: ApiPricingV2;
+  pdf_url?: string;
+  plate?: string;
+  damages: ApiDamageSimplifiedGet[];
+  parts: ApiPartSimplifiedGet[];
+  vehicle?: ApiVehicleComponent;
 }
 
 export interface ApiInspectionsCountGet {
   total: number;
+  sub_count?: Record<string, number>;
 }
 
 export interface ApiDamageSeverity {

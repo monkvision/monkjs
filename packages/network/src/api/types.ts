@@ -24,3 +24,8 @@ export type MonkApiResponse<T extends object = MonkId, K extends object = ApiIdC
    */
   body: K;
 };
+
+export interface PaginationResponse {
+  before?: string;
+  after?: string;
+}

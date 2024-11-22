@@ -1,0 +1,178 @@
+[
+  {
+    "id": "id-1",
+    "images": [
+      {
+        "additional_data": {
+          "category": "exterior",
+          "sight_id": "ffocus18-S3kgFOBb",
+          "created_at": "2024-05-07T14:28:45.965Z",
+          "label": {
+            "de": "Hinten Seitlich Niedrig Links",
+            "en": "Rear Lateral Low Left",
+            "fr": "Arrière Gauche Latéral - vue basse"
+          }
+        },
+        "binary_size": 141539,
+        "has_vehicle": true,
+        "id": "6a5e9a4c-8752-c1e6-6a34-38338074eda1",
+        "image_height": 1080,
+        "image_type": "beauty_shot",
+        "image_width": 1920,
+        "mimetype": "image/jpeg",
+        "name": "rear_lateral_low_left.jpeg",
+        "object_type": "IMAGE",
+        "path": "https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/rear_lateral_low_left.jpeg-eefefe38-b25b-471f-89ad-8adb2cbcca1f.jpeg?generation=1702474029543236&alt=media",
+        "viewpoint": {
+          "confidence": 0.9847987294197083,
+          "prediction": "left"
+        }
+      },
+      {
+        "additional_data": {
+          "category": "exterior",
+          "sight_id": "ffocus18-3TiCVAaN",
+          "created_at": "2024-05-07T14:28:45.965Z",
+          "label": {
+            "de": "Motorhaube",
+            "en": "Hood",
+            "fr": "Capot"
+          }
+        },
+        "binary_size": 160207,
+        "compliances": {
+          "compliance_issues": ["low_resolution"],
+          "compliance_status": "non_compliant",
+          "coverage_analysis": {
+            "compliance_issues": [],
+            "is_compliant_with_sight": true,
+            "probability_by_viewpoint": {
+              "front_left": 1.0
+            }
+          },
+          "image_analysis": {
+            "binary_size": 160207,
+            "blurriness": 0.28681227564811707,
+            "image_height": 1920,
+            "image_width": 1080,
+            "lens_flare": 0.22103191912174225,
+            "orientation": "landscape",
+            "overexposure": 0.11703607439994812,
+            "predicted_image_type": "unknown",
+            "underexposure": 0.021420717239379883,
+            "zoom": 0.7965673208236694
+          },
+          "should_retake": true,
+          "vehicle_analysis": {
+            "dirtiness": 0.22652102261781693,
+            "is_vehicle_present": true,
+            "ratio_of_vehicle_to_image_pixels": 0.4923013117283951,
+            "reflections": 0.5470188856124878,
+            "snowness": 0.09955208003520966,
+            "vehicle_type": "unknown",
+            "wetness": 0.44983914494514465
+          }
+        },
+        "has_vehicle": true,
+        "id": "a842f4bf-5404-215b-a828-56c053220d1c",
+        "image_height": 1080,
+        "image_type": "beauty_shot",
+        "image_width": 1920,
+        "mimetype": "image/jpeg",
+        "name": "hood.jpeg",
+        "object_type": "IMAGE",
+        "path": "https://www.googleapis.com/download/storage/v1/b/core-preview-images/o/hood.jpeg-8d7dadf7-414d-4771-9d0e-127312706291.jpeg?generation=1702474029549060&alt=media",
+        "viewpoint": {
+          "confidence": 0.4582550525665283,
+          "prediction": "front_left"
+        }
+      }
+    ],
+    "owner_id": "owner_id-1",
+    "creator_id": "creator_id-1",
+    "created_at": "created_at-1",
+    "deleted_at": "deleted_at-1",
+    "additional_data": {
+      "additional_data-1": "additional_data-1"
+    },
+    "pricing": {
+      "details": {
+        "test": {
+          "id": "id-1",
+          "hours": {
+            "test-3": 4
+          },
+          "operations": ["polishing", "sanding"],
+          "pricing": 3,
+          "related_item_id": "related_item_id-1",
+          "related_item_type": "part"
+        }
+      },
+      "total_price": 12
+    },
+    "pdf_url": "pdf_url-1",
+    "plate": "plate-1",
+    "damages": [
+      {
+        "damage_type": "scratch",
+        "id": "damage-id-1",
+        "part_ids": ["part-id-1", "part-id-2"],
+        "damage_size_cm": 65
+      },
+      {
+        "damage_type": "dent",
+        "id": "damage-id-2",
+        "part_ids": ["part-id-2", "part-id-3"],
+        "damage_size_cm": 12
+      }
+    ],
+    "parts": [
+      {
+        "id": "part-id-1",
+        "part_type": "hood"
+      },
+      {
+        "id": "part-id-1",
+        "part_type": "fender_front_left"
+      }
+    ],
+    "vehicle": {
+      "additional_data": {
+        "brand": {
+          "confidence": 0.8455246090888977,
+          "prediction": "Toyota"
+        },
+        "model": {
+          "confidence": 0.8455246090888977,
+          "prediction": "Aygo"
+        },
+        "plate": {
+          "confidence": -1.0,
+          "prediction": ""
+        },
+        "vehicle_type": "car"
+      },
+      "brand": "Toyota",
+      "car_registration": null,
+      "color": null,
+      "created_at": "2023-12-13T13:27:09.065973+00:00",
+      "date_of_circulation": null,
+      "deleted_at": null,
+      "duplicate_keys": null,
+      "expertise_requested": null,
+      "exterior_cleanliness": null,
+      "id": "051b7118-915f-4bec-0571-d367967967ab",
+      "interior_cleanliness": null,
+      "market_value": {},
+      "mileage": {},
+      "model": "Aygo",
+      "object_type": "VEHICLE",
+      "owner_info": null,
+      "plate": "",
+      "trade_in_offer": null,
+      "vehicle_quotation": null,
+      "vehicle_type": "car",
+      "vin": "1HGEJ8244YL06777"
+    }
+  }
+]

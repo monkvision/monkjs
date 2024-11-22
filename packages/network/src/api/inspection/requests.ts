@@ -10,19 +10,20 @@ import { AdditionalData, ComplianceOptions, CreateInspectionOptions } from '@mon
 import { Dispatch } from 'react';
 import { getDefaultOptions, MonkApiConfig } from '../config';
 import {
+  ApiAllInspectionsVerboseGet,
   ApiIdColumn,
   ApiInspectionGet,
   ApiInspectionsCountGet,
-  ApiInspectionsGet,
+  ApiPaginatedResponse,
 } from '../models';
 import {
-  GetInspectionsOptions,
+  GetAllInspectionsOptions,
+  mapApiAllInspectionsUrlParamsGet,
+  mapApiAllInspectionsVerboseGet,
   mapApiInspectionGet,
   mapApiInspectionPost,
-  mapApiInspectionsGet,
-  mapApiInspectionsUrlParamsGet,
 } from './mappers';
-import { MonkApiResponse } from '../types';
+import { MonkApiResponse, PaginationResponse } from '../types';
 
 /**
  * Options passed to the `getInspection` API request.
@@ -49,9 +50,9 @@ export interface GetInspectionResponse {
 }
 
 /**
- * Type definition for the result of the `getInspectionsCount` API request.
+ * Type definition for the result of the `getAllInspectionsCount` API request.
  */
-export interface GetInspectionsCountResponse {
+export interface GetAllInspectionsCountResponse {
   /**
    * The total number of inspections that match the given filters.
    */
@@ -166,6 +167,20 @@ export async function updateAdditionalData(
 }
 
 /**
+ * Type definition for the result of the `getAllInspection` API request.
+ */
+export interface GetAllInspectionsResponse {
+  /**
+   * The normalized entities related to the inspections that have been fetched from the API.
+   */
+  entities: MonkState;
+  /**
+   * The pagination details.
+   */
+  pagination: PaginationResponse;
+}
+
+/**
  * Fetch the details of multiple inspections.
  *
  * @param options The options of the request.
@@ -173,20 +188,29 @@ export async function updateAdditionalData(
  * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
  * state management for you.
  */
-export async function getInspections(
-  options: GetInspectionsOptions,
+export async function getAllInspections(
+  options: GetAllInspectionsOptions,
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkGotOneInspectionAction>,
-): Promise<MonkApiResponse<GetInspectionResponse, ApiInspectionsGet>> {
+): Promise<
+  MonkApiResponse<GetAllInspectionsResponse, ApiPaginatedResponse<ApiAllInspectionsVerboseGet>>
+> {
   const kyOptions = getDefaultOptions(config);
-  const response = await ky.get(`inspections${mapApiInspectionsUrlParamsGet(options)}`, kyOptions);
-  const body = await response.json<ApiInspectionsGet>();
-  const entities = mapApiInspectionsGet(body, config.thumbnailDomain);
+  const response = await ky.get(
+    `inspections${mapApiAllInspectionsUrlParamsGet(options, true)}`,
+    kyOptions,
+  );
+  const body = await response.json<ApiPaginatedResponse<ApiAllInspectionsVerboseGet>>();
+  const entities = mapApiAllInspectionsVerboseGet(body.data, config.thumbnailDomain);
+  const pagination = {
+    before: body.paging.cursors.before,
+    after: body.paging.cursors.after,
+  };
   dispatch?.({
     type: MonkActionType.GOT_ONE_INSPECTION,
     payload: entities,
   });
-  return { entities, response, body };
+  return { entities, pagination, response, body };
 }
 
 /**
@@ -194,17 +218,17 @@ export async function getInspections(
  *
  * @param options The options of the request.
  * @param config The API config.
- * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * @param [_dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
  * state management for you.
  */
-export async function getInspectionsCount(
-  options: GetInspectionsOptions,
+export async function getAllInspectionsCount(
+  options: GetAllInspectionsOptions,
   config: MonkApiConfig,
   _dispatch?: Dispatch<MonkAction>,
-): Promise<MonkApiResponse<GetInspectionsCountResponse, ApiInspectionsCountGet>> {
+): Promise<MonkApiResponse<GetAllInspectionsCountResponse, ApiInspectionsCountGet>> {
   const kyOptions = getDefaultOptions(config);
   const response = await ky.get(
-    `inspections/count${mapApiInspectionsUrlParamsGet(options)}`,
+    `inspections/count${mapApiAllInspectionsUrlParamsGet(options, false)}`,
     kyOptions,
   );
   const body = await response.json<ApiInspectionsCountGet>();
