@@ -22,9 +22,10 @@ export function useObjectTranslation(
   options?: UseTranslationOptions<any>,
 ): UseObjectTranslationResult {
   const { i18n } = useTranslation(ns, options);
+  const language = options?.lng ? options.lng : i18n.language;
   const tObj = useCallback(
     (obj: TranslationObject) => {
-      return obj[getLanguage(i18n.language)] ?? 'translation-not-found';
+      return obj[getLanguage(language)] ?? 'translation-not-found';
     },
     [i18n.language],
   );
