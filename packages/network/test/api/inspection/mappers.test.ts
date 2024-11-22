@@ -84,8 +84,11 @@ describe('Inspection API Mappers', () => {
     });
 
     it('should properly map the verbose param', () => {
-      const result = mapApiAllInspectionsUrlParamsGet({}, false);
+      let result = mapApiAllInspectionsUrlParamsGet({}, false);
       expect(result).toEqual('?verbose=0');
+
+      result = mapApiAllInspectionsUrlParamsGet({}, null);
+      expect(result).toEqual('');
     });
   });
 });

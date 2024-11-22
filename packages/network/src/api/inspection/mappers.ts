@@ -709,10 +709,12 @@ export interface GetAllInspectionsOptions {
 
 export function mapApiAllInspectionsUrlParamsGet(
   options: GetAllInspectionsOptions,
-  verbose: boolean,
+  verbose: boolean | null,
 ): string {
   const params = new URLSearchParams();
-  params.append('verbose', verbose ? '1' : '0');
+  if (verbose !== null) {
+    params.append('verbose', verbose ? '1' : '0');
+  }
 
   const ignoredFilters = ['verbose'];
   if (options.filters) {
@@ -733,5 +735,6 @@ export function mapApiAllInspectionsUrlParamsGet(
   if (options.sort?.sortOrder) {
     params.append('pagination_order', options.sort.sortOrder.toString());
   }
-  return `?${params.toString()}`;
+  const paramsStr = params.toString();
+  return `${paramsStr.length > 0 ? '?' : ''}${paramsStr}`;
 }
