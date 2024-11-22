@@ -34,27 +34,34 @@ import {
   WheelName,
 } from '@monkvision/types';
 import {
+  ApiAllInspectionsVerboseGet,
   ApiCommentSeverityValue,
   ApiDamageDetectionTaskPostComponent,
+  type ApiDamageIds,
   ApiHinlTaskPostComponent,
   ApiImageRegion,
   ApiImagesOCRTaskPostComponent,
   ApiInspectionGet,
   ApiInspectionPost,
-  ApiInspectionsGet,
   ApiPartSeverityValue,
   ApiPricingTaskPostComponent,
   ApiPricingV2Details,
+  type ApiRelatedImages,
   ApiRenderedOutput,
+  type ApiRenderedOutputs,
   ApiSeverityResult,
   ApiTasksComponent,
   ApiView,
+  type ApiViews,
   ApiWheelAnalysisTaskPostComponent,
 } from '../models';
 import { mapApiImage } from '../image/mappers';
 import { sdkVersion } from '../config';
 
-function mapDamages(response: ApiInspectionGet): { damages: Damage[]; damageIds: string[] } {
+function mapDamages(response: ApiInspectionGet | ApiAllInspectionsVerboseGet): {
+  damages: Damage[];
+  damageIds: string[];
+} {
   const damages: Damage[] = [];
   const damageIds: string[] = [];
   response.damages?.forEach((damage) => {
@@ -65,7 +72,12 @@ function mapDamages(response: ApiInspectionGet): { damages: Damage[]; damageIds:
       type: damage.damage_type as DamageType,
       size: damage.damage_size_cm,
       parts: damage.part_ids ?? [],
-      relatedImages: damage.related_images?.map((relatedImage) => relatedImage.base_image_id) ?? [],
+      relatedImages:
+        ('related_images' in damage
+          ? (damage.related_images as ApiRelatedImages | undefined)?.map(
+              (relatedImage) => relatedImage.base_image_id,
+            )
+          : []) ?? [],
     });
     damageIds.push(damage.id);
   });
@@ -120,7 +132,7 @@ function mapView(view: ApiView): { view: View; renderedOutputs: RenderedOutput[]
 }
 
 function mapImages(
-  response: ApiInspectionGet,
+  response: ApiInspectionGet | ApiAllInspectionsVerboseGet,
   thumbnailDomain: string,
   complianceOptions?: ComplianceOptions,
 ): {
@@ -142,20 +154,24 @@ function mapImages(
     const imageRenderedOutputs: string[] = [];
     const imageViews: string[] = [];
 
-    image.rendered_outputs?.forEach((renderedOutput) => {
-      renderedOutputIds.push(renderedOutput.id);
-      imageRenderedOutputs.push(renderedOutput.id);
-      renderedOutputs.push(mapRenderedOutput(renderedOutput));
-    });
+    if ('rendered_outputs' in image) {
+      (image.rendered_outputs as ApiRenderedOutputs | undefined)?.forEach((renderedOutput) => {
+        renderedOutputIds.push(renderedOutput.id);
+        imageRenderedOutputs.push(renderedOutput.id);
+        renderedOutputs.push(mapRenderedOutput(renderedOutput));
+      });
+    }
 
-    image.views?.forEach((apiView) => {
-      const { view, renderedOutputs: viewRenderedOutputs } = mapView(apiView);
-      viewIds.push(view.id);
-      imageViews.push(view.id);
-      views.push(view);
-      renderedOutputs.push(...viewRenderedOutputs);
-      renderedOutputIds.push(...view.renderedOutputs);
-    });
+    if ('views' in image) {
+      (image.views as ApiViews | undefined)?.forEach((apiView) => {
+        const { view, renderedOutputs: viewRenderedOutputs } = mapView(apiView);
+        viewIds.push(view.id);
+        imageViews.push(view.id);
+        views.push(view);
+        renderedOutputs.push(...viewRenderedOutputs);
+        renderedOutputIds.push(...view.renderedOutputs);
+      });
+    }
 
     imageIds.push(image.id);
     images.push({
@@ -175,7 +191,10 @@ function mapImages(
   };
 }
 
-function mapParts(response: ApiInspectionGet): { parts: Part[]; partIds: string[] } {
+function mapParts(response: ApiInspectionGet | ApiAllInspectionsVerboseGet): {
+  parts: Part[];
+  partIds: string[];
+} {
   const parts: Part[] = [];
   const partIds: string[] = [];
 
@@ -186,8 +205,13 @@ function mapParts(response: ApiInspectionGet): { parts: Part[]; partIds: string[
       entityType: MonkEntityType.PART,
       inspectionId: response.id,
       type: part.part_type as VehiclePart,
-      damages: part.damage_ids ?? [],
-      relatedImages: part.related_images?.map((relatedImage) => relatedImage.base_image_id) ?? [],
+      damages: ('damage_ids' in part ? (part.damage_ids as ApiDamageIds | undefined) : []) ?? [],
+      relatedImages:
+        ('related_images' in part
+          ? (part.related_images as ApiRelatedImages | undefined)?.map(
+              (relatedImage) => relatedImage.base_image_id,
+            )
+          : []) ?? [],
     });
   });
   return { partIds, parts };
@@ -210,7 +234,7 @@ function mapPricingV2Details(
   };
 }
 
-function mapPricingV2(response: ApiInspectionGet): {
+function mapPricingV2(response: ApiInspectionGet | ApiAllInspectionsVerboseGet): {
   pricings: PricingV2[];
   pricingIds: string[];
 } {
@@ -300,7 +324,7 @@ function mapTasks(response: ApiInspectionGet): { tasks: Task[]; taskIds: string[
   return { taskIds, tasks };
 }
 
-function mapVehicle(response: ApiInspectionGet): Vehicle | undefined {
+function mapVehicle(response: ApiInspectionGet | ApiAllInspectionsVerboseGet): Vehicle | undefined {
   return response?.vehicle
     ? {
         id: response.vehicle.id,
@@ -333,24 +357,28 @@ function mapVehicle(response: ApiInspectionGet): Vehicle | undefined {
     : undefined;
 }
 
-function mapWheelAnalysis(response: ApiInspectionGet): WheelAnalysis[] {
+function mapWheelAnalysis(
+  response: ApiInspectionGet | ApiAllInspectionsVerboseGet,
+): WheelAnalysis[] {
   return (
-    response.wheel_analysis?.map((wheelAnalysis) => ({
-      inspectionId: response.id,
-      rimCondition: wheelAnalysis.rim_condition,
-      rimMaterial: wheelAnalysis.rim_material,
-      rimVisualAspect: wheelAnalysis.rim_visual_aspect,
-      hubcapOverRim: wheelAnalysis.hubcap_over_rim,
-      hubcapCondition: wheelAnalysis.hubcap_condition,
-      hubcapVisualAspect: wheelAnalysis.hubcap_visual_aspect,
-      imageId: wheelAnalysis.image_id,
-      wheelName: wheelAnalysis.wheel_name as WheelName | undefined,
-    })) ?? []
+    ('wheel_analysis' in response
+      ? response.wheel_analysis?.map((wheelAnalysis) => ({
+          inspectionId: response.id,
+          rimCondition: wheelAnalysis.rim_condition,
+          rimMaterial: wheelAnalysis.rim_material,
+          rimVisualAspect: wheelAnalysis.rim_visual_aspect,
+          hubcapOverRim: wheelAnalysis.hubcap_over_rim,
+          hubcapCondition: wheelAnalysis.hubcap_condition,
+          hubcapVisualAspect: wheelAnalysis.hubcap_visual_aspect,
+          imageId: wheelAnalysis.image_id,
+          wheelName: wheelAnalysis.wheel_name as WheelName | undefined,
+        }))
+      : []) ?? []
   );
 }
 
 function mapInspection(
-  response: ApiInspectionGet,
+  response: ApiInspectionGet | ApiAllInspectionsVerboseGet,
   ids: {
     imageIds: string[];
     renderedOutputIds: string[];
@@ -378,8 +406,8 @@ function mapInspection(
   };
 }
 
-export function mapApiInspectionsGet(
-  response: ApiInspectionsGet,
+export function mapApiAllInspectionsVerboseGet(
+  data: ApiAllInspectionsVerboseGet[],
   thumbnailDomain: string,
 ): MonkState {
   const state: MonkState = {
@@ -395,19 +423,16 @@ export function mapApiInspectionsGet(
     pricings: [],
     partOperations: [],
   };
-  if (!response.data) {
-    return state;
-  }
-  return response.data.reduce<MonkState>((acc, inspection) => {
+  return data.reduce<MonkState>((acc, inspection) => {
     const { images, renderedOutputs, imageIds, renderedOutputIds, viewIds } = mapImages(
-      inspection as ApiInspectionGet,
+      inspection,
       thumbnailDomain,
     );
-    const { damages, damageIds } = mapDamages(inspection as ApiInspectionGet);
-    const { parts, partIds } = mapParts(inspection as ApiInspectionGet);
-    const { pricings, pricingIds } = mapPricingV2(inspection as ApiInspectionGet);
-    const vehicle = mapVehicle(inspection as ApiInspectionGet);
-    const mappedInspection = mapInspection(inspection as ApiInspectionGet, {
+    const { damages, damageIds } = mapDamages(inspection);
+    const { parts, partIds } = mapParts(inspection);
+    const { pricings, pricingIds } = mapPricingV2(inspection);
+    const vehicle = mapVehicle(inspection);
+    const mappedInspection = mapInspection(inspection, {
       imageIds,
       renderedOutputIds,
       viewIds,
@@ -665,9 +690,9 @@ export interface SortRequestParams {
 }
 
 /**
- * Options passed to the `getInspections` or `getInspectionsCount` API request.
+ * Options passed to the `getAllInspections` or `getAllInspectionsCount` API request.
  */
-export interface GetInspectionsOptions {
+export interface GetAllInspectionsOptions {
   /**
    * The filter request parameters.
    */
@@ -682,13 +707,19 @@ export interface GetInspectionsOptions {
   sort?: SortRequestParams;
 }
 
-export function mapApiInspectionsUrlParamsGet(options: GetInspectionsOptions): string {
+export function mapApiAllInspectionsUrlParamsGet(
+  options: GetAllInspectionsOptions,
+  verbose: boolean,
+): string {
   const params = new URLSearchParams();
-  const url = options.filters || options.pagination ? '?' : '';
+  params.append('verbose', verbose ? '1' : '0');
 
+  const ignoredFilters = ['verbose'];
   if (options.filters) {
     Object.entries(options.filters).forEach(([key, value]) => {
-      params.append(key, value.toString());
+      if (!ignoredFilters.includes(key)) {
+        params.append(key, value.toString());
+      }
     });
   }
   if (options.pagination) {
@@ -702,5 +733,5 @@ export function mapApiInspectionsUrlParamsGet(options: GetInspectionsOptions): s
   if (options.sort?.sortOrder) {
     params.append('pagination_order', options.sort.sortOrder.toString());
   }
-  return `${url}${params.toString()}`;
+  return `?${params.toString()}`;
 }

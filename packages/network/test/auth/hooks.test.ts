@@ -120,6 +120,7 @@ describe('Authentication hooks', () => {
 
     it('should pass the Auth0 context provided to the useAuth0 hook', async () => {
       const context = { test: 'hello' } as unknown as Context<Auth0ContextInterface>;
+      (useAuth0 as jest.Mock).mockImplementation(() => ({}));
       const { unmount } = renderHook(useAuth, { initialProps: { context } });
 
       expect(useAuth0).toHaveBeenCalledWith(context);

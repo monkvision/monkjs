@@ -8,6 +8,11 @@ export interface ApiPart {
   related_images?: ApiRelatedImages;
 }
 
+export interface ApiPartSimplifiedGet {
+  id: string;
+  part_type: string;
+}
+
 export type ApiParts = ApiPart[];
 
 export type ApiPartIds = string[];

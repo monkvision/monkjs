@@ -38,27 +38,28 @@ jest.mock('../../../src/api/inspection/mappers', () => ({
     inspections: [mockInspection] as unknown as Inspection[],
     parts: [],
   })),
-  mapApiInspectionsGet: jest.fn(() => ({
+  mapApiAllInspectionsVerboseGet: jest.fn(() => ({
     inspections: [mockInspection] as unknown as Inspection[],
     parts: [],
   })),
   mapApiInspectionPost: jest.fn(() => ({ test: 'ok-ok-ok' })),
-  mapApiInspectionsUrlParamsGet: jest.fn(() => mockUrlParams),
+  mapApiAllInspectionsUrlParamsGet: jest.fn(() => mockUrlParams),
 }));
 
 import { getDefaultOptions } from '../../../src/api/config';
 import {
   createInspection,
   getInspection,
-  getInspections,
-  getInspectionsCount,
+  getAllInspections,
+  getAllInspectionsCount,
   updateAdditionalData,
 } from '../../../src/api/inspection';
 import {
+  mapApiAllInspectionsVerboseGet,
   mapApiInspectionGet,
   mapApiInspectionPost,
-  mapApiInspectionsGet,
 } from '../../../src/api/inspection/mappers';
+import { ApiAllInspectionsVerboseGet, ApiPaginatedResponse } from '../../../src/api/models';
 
 const apiConfig = {
   apiDomain: 'apiDomain',
@@ -150,15 +151,37 @@ describe('Inspection requests', () => {
     });
   });
 
-  describe('getInspections request', () => {
+  describe('getAllInspections request', () => {
     it('should make the proper API call and map the resulting response', async () => {
+      const before = 'before';
+      const after = 'after';
+      (ky.get as jest.Mock).mockImplementationOnce(() => {
+        const helpers = {
+          json: jest.fn(() =>
+            Promise.resolve({
+              data: ['test'],
+              paging: { cursors: { before, after } },
+            }),
+          ),
+          blob: jest.fn(() => Promise.resolve(new Blob())),
+        };
+        const response = Promise.resolve({
+          status: 200,
+          ...helpers,
+        });
+        Object.assign(response, helpers);
+        return response;
+      });
       const dispatch = jest.fn();
-      const result = await getInspections({ filters: { test: 'test' } }, apiConfig, dispatch);
+      const result = await getAllInspections({ filters: { test: 'test' } }, apiConfig, dispatch);
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
-      expect(mapApiInspectionsGet).toHaveBeenCalledWith(body, apiConfig.thumbnailDomain);
-      const entities = (mapApiInspectionsGet as jest.Mock).mock.results[0].value;
+      expect(mapApiAllInspectionsVerboseGet).toHaveBeenCalledWith(
+        (body as ApiPaginatedResponse<ApiAllInspectionsVerboseGet>).data,
+        apiConfig.thumbnailDomain,
+      );
+      const entities = (mapApiAllInspectionsVerboseGet as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.get).toHaveBeenCalledWith(
         `inspections${mockUrlParams}`,
@@ -172,14 +195,19 @@ describe('Inspection requests', () => {
         entities,
         response,
         body,
+        pagination: { before, after },
       });
     });
   });
 
-  describe('getInspectionsCount request', () => {
+  describe('getAllInspectionsCount request', () => {
     it('should make the proper API call and map the resulting response', async () => {
       const dispatch = jest.fn();
-      const result = await getInspectionsCount({ filters: { test: 'test' } }, apiConfig, dispatch);
+      const result = await getAllInspectionsCount(
+        { filters: { test: 'test' } },
+        apiConfig,
+        dispatch,
+      );
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
 

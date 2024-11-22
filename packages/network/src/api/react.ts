@@ -61,13 +61,13 @@ export function useMonkApi(config: MonkApiConfig) {
      *
      * @param options The options of the request.
      */
-    getInspections: reactify(MonkApi.getInspections, config, dispatch, handleError),
+    getAllInspections: reactify(MonkApi.getAllInspections, config, dispatch, handleError),
     /**
      * Gets the count of inspections that match the given filters.
      *
      * @param options The options of the request.
      */
-    getInspectionsCount: reactify(MonkApi.getInspectionsCount, config, dispatch, handleError),
+    getAllInspectionsCount: reactify(MonkApi.getAllInspectionsCount, config, dispatch, handleError),
     /**
      * Create a new inspection with the given options. See the `CreateInspectionOptions` interface for more details.
      *

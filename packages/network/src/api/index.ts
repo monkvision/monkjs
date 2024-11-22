@@ -8,8 +8,9 @@ export * from './hooks';
 export {
   type GetInspectionOptions,
   type GetInspectionResponse,
-  type GetInspectionsCountResponse,
+  type GetAllInspectionsCountResponse,
   type UpdateAdditionalDataOptions,
+  type GetAllInspectionsResponse,
 } from './inspection';
 export {
   type AddImageResponse,

@@ -210,33 +210,33 @@ Delete a damage of an inspection.
 |-----------|---------------------|-----------------------------|----------|
 | options   | DeleteDamageOptions | The options of the request. | ✔️       |
 
-### getInspections
+### getAllInspections
 ```typescript
 import { MonkApi } from '@monkvision/network';
 
-MonkApi.getInspections(options, apiConfig, dispatch);
+MonkApi.getAllInspections(options, apiConfig, dispatch);
 ```
 
 Fetch the details of multiple inspections using the provided filters. The resulting action of this request will contain
 a list of all entities that match the specified criteria.
 
-| Parameter | Type                  | Description                 | Required |
-|-----------|-----------------------|-----------------------------|----------|
-| options   | getInspectionsOptions | The options of the request. | ✔️       |
+| Parameter | Type                     | Description                 | Required |
+|-----------|--------------------------|-----------------------------|----------|
+| options   | GetAllInspectionsOptions | The options of the request. | ✔️       |
 
 
-### getInspectionsCount
+### getAllInspectionsCount
 ```typescript
 import { MonkApi } from '@monkvision/network';
 
-MonkApi.getInspectionsCount(options, apiConfig, dispatch);
+MonkApi.getAllInspectionsCount(options, apiConfig, dispatch);
 ```
 
 Gets the count of inspections that match the given filters.
 
-| Parameter | Type                  | Description                 | Required |
-|-----------|-----------------------|-----------------------------|----------|
-| options   | getInspectionsOptions | The options of the request. | ✔️       |
+| Parameter | Type                     | Description                 | Required |
+|-----------|--------------------------|-----------------------------|----------|
+| options   | GetAllInspectionsOptions | The options of the request. | ✔️       |
 
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This

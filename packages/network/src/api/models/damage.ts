@@ -10,6 +10,13 @@ export interface ApiDamage {
   related_images?: ApiRelatedImages;
 }
 
+export interface ApiDamageSimplifiedGet {
+  damage_type: string;
+  id: string;
+  part_ids: ApiPartIds;
+  damage_size_cm?: number;
+}
+
 export type ApiDamages = ApiDamage[];
 
 export type ApiDamageIds = string[];
