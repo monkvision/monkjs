@@ -11,6 +11,7 @@ export {
   type GetAllInspectionsCountResponse,
   type UpdateAdditionalDataOptions,
   type GetAllInspectionsResponse,
+  type GetAllInspectionsOptions,
 } from './inspection';
 export {
   type AddImageResponse,
