@@ -238,6 +238,32 @@ Gets the count of inspections that match the given filters.
 |-----------|--------------------------|-----------------------------|----------|
 | options   | GetAllInspectionsOptions | The options of the request. | ✔️       |
 
+### getPdf
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.getPdf(options, apiConfig, dispatch);
+```
+
+Gets the PDF url of an inspection.
+
+| Parameter | Type          | Description                 | Required |
+|-----------|---------------|-----------------------------|----------|
+| options   | GetPdfOptions | The options of the request. | ✔️       |
+
+### uploadPdf
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.uploadPdf(options, apiConfig, dispatch);
+```
+
+Upload a new PDF to an inspection.
+
+| Parameter | Type             | Description                 | Required |
+|-----------|------------------|-----------------------------|----------|
+| options   | UploadPdfOptions | The options of the request. | ✔️       |
+
 # React Tools
 In order to simply integrate the Monk Api requests into your React app, you can make use of the `useMonkApi` hook. This
 custom hook returns a custom version of the `MonkApi` object described in the section above, in which the requests do

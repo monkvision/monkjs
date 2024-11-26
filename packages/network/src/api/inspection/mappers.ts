@@ -402,6 +402,7 @@ function mapInspection(
     wheelAnalysis: mapWheelAnalysis(response),
     severityResults: ids.severityResultIds,
     pricings: ids.pricingIds,
+    pdfUrl: 'pdf_url' in response ? response.pdf_url : undefined,
     additionalData: response.additional_data,
   };
 }

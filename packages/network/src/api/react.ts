@@ -164,5 +164,19 @@ export function useMonkApi(config: MonkApiConfig) {
      * @see DeleteDamageOptions
      */
     deleteDamage: reactify(MonkApi.deleteDamage, config, dispatch, handleError),
+    /**
+     * Upload a PDF file to the API. See the `UploadPdfOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see UploadPdfOptions
+     */
+    uploadPdf: reactify(MonkApi.uploadPdf, config, dispatch, handleError),
+    /**
+     * Get a PDF file from an inspection. See the `GetPdfOptions` interface for more details.
+     *
+     * @param options The options of the inspection.
+     * @see GetPdfOptions
+     */
+    getPdf: reactify(MonkApi.getPdf, config, dispatch, handleError),
   };
 }
