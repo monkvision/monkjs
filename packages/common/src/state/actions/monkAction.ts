@@ -46,6 +46,10 @@ export enum MonkActionType {
    * Clear and reset the state.
    */
   RESET_STATE = 'reset_state',
+  /**
+   * An inspection PDF has been fetched from the API.
+   */
+  GOT_ONE_INSPECTION_PDF = 'got_one_inspection_pdf',
 }
 
 /**

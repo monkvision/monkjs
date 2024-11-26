@@ -10,3 +10,4 @@ export * from './updatedOnePricing';
 export * from './updatedOneInspectionAdditionalData';
 export * from './createdOneDamage';
 export * from './deletedOneDamage';
+export * from './gotOneInspectionPdf';
