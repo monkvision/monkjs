@@ -23,6 +23,10 @@ export enum MonkNetworkError {
    * authorization to perform the request.
    */
   INSUFFICIENT_AUTHORIZATION = 'InsufficientAuthorization',
+  /**
+   * The PDF requested is not available.
+   */
+  UNAVAILABLE_PDF = 'UnavailablePdf',
 }
 
 function getErrorMessage(name: string): string | null {
@@ -35,6 +39,8 @@ function getErrorMessage(name: string): string | null {
       return 'Authentication token is expired.';
     case MonkNetworkError.INSUFFICIENT_AUTHORIZATION:
       return 'User does not have the proper authorization grants to perform this request.';
+    case MonkNetworkError.UNAVAILABLE_PDF:
+      return 'The PDF requested is not available.';
     default:
       return null;
   }
@@ -59,6 +65,9 @@ function getErrorName(status: number, message: string): MonkNetworkError | null 
   }
   if (status === 401 && message.includes('Token is expired')) {
     return MonkNetworkError.EXPIRED_TOKEN;
+  }
+  if (status === 422 && message.includes('PDF has not been required to be generated')) {
+    return MonkNetworkError.UNAVAILABLE_PDF;
   }
   // TODO : Also check conditions for MonkNetworkError.INSUFFICIENT_AUTHORIZATION.
   return null;

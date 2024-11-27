@@ -10,6 +10,7 @@ jest.mock('../../src/state/actions', () => ({
   isDeletedOneDamageAction: jest.fn(() => false),
   isUpdatedOneInspectionAdditionalDataAction: jest.fn(() => false),
   isUpdatedVehicleAction: jest.fn(() => false),
+  isGotOneInspectionPdfAction: jest.fn(() => false),
   createdOneImage: jest.fn(() => null),
   gotOneInspection: jest.fn(() => null),
   resetState: jest.fn(() => null),
@@ -21,6 +22,7 @@ jest.mock('../../src/state/actions', () => ({
   deletedOneDamage: jest.fn(() => null),
   updatedOneInspectionAdditionalData: jest.fn(() => null),
   updatedVehicle: jest.fn(() => null),
+  gotOneInspectionPdf: jest.fn(() => null),
 }));
 
 import {
@@ -33,6 +35,7 @@ import {
   deletedOneDamage,
   updatedOneInspectionAdditionalData,
   updatedVehicle,
+  gotOneInspectionPdf,
   isCreatedOneImageAction,
   isGotOneInspectionAction,
   isResetStateAction,
@@ -44,6 +47,7 @@ import {
   isDeletedOneDamageAction,
   isUpdatedOneInspectionAdditionalDataAction,
   isUpdatedVehicleAction,
+  isGotOneInspectionPdfAction,
   MonkAction,
   monkReducer,
   MonkState,
@@ -66,6 +70,7 @@ const actions = [
     handler: updatedOneInspectionAdditionalData,
   },
   { matcher: isUpdatedVehicleAction, handler: updatedVehicle },
+  { matcher: isGotOneInspectionPdfAction, handler: gotOneInspectionPdf },
 ] as unknown as { matcher: jest.Mock; handler: jest.Mock; noParams?: boolean }[];
 
 describe('Monk state reducer', () => {

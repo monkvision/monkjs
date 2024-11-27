@@ -33,7 +33,7 @@ export interface CreateDamageOptions {
 /**
  * Create a new damage with the given options. See the `CreateDamageOptions` interface for more details.
  *
- * @param options The options of the inspection.
+ * @param options The options of the request.
  * @param config The API config.
  * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
  * state management for you.
@@ -103,7 +103,7 @@ export interface DeleteDamageOptions {
 /**
  * Delete a damage with the given options. See the `DeleteDamageOptions` interface for more details.
  *
- * @param options The options of the inspection.
+ * @param options The options of the request.
  * @param config The API config.
  * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
  * state management for you.

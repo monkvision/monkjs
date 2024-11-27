@@ -115,6 +115,7 @@ export default {
       wheelAnalysis: [],
       severityResults: [],
       pricings: ['id-1'],
+      pdfUrl: 'pdf_url-1',
       additionalData: {
         'additional_data-1': 'additional_data-1',
       },

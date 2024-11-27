@@ -22,6 +22,8 @@ import {
   isCreatedOneDamageAction,
   deletedOneDamage,
   isDeletedOneDamageAction,
+  isGotOneInspectionPdfAction,
+  gotOneInspectionPdf,
 } from './actions';
 import { MonkState } from './state';
 
@@ -61,6 +63,9 @@ export function monkReducer(state: MonkState, action: MonkAction): MonkState {
   }
   if (isDeletedOneDamageAction(action)) {
     return deletedOneDamage(state, action);
+  }
+  if (isGotOneInspectionPdfAction(action)) {
+    return gotOneInspectionPdf(state, action);
   }
   return state;
 }
