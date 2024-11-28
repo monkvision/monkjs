@@ -1,7 +1,5 @@
 import { ApiPricingMethodology } from './pricingV2';
 
-export type ApiBusinessClients = 'default' | 'toyota' | 'veb' | 'tesla';
-
 export interface ApiImageInTask {
   image_id: string;
 }
@@ -114,7 +112,7 @@ export interface ApiHinlTaskPostComponent {
 export interface ApiPricingTaskPostComponent {
   status?: ApiTaskPostProgressStatus;
   callbacks?: ApiCallbacks;
-  output_format?: ApiBusinessClients;
+  output_format?: string;
   config?: string;
   methodology?: ApiPricingMethodology;
 }
