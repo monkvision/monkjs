@@ -96,19 +96,21 @@
       "additional_data-1": "additional_data-1"
     },
     "pricing": {
-      "details": {
-        "test": {
-          "id": "id-1",
-          "hours": {
-            "test-3": 4
-          },
-          "operations": ["polishing", "sanding"],
-          "pricing": 3,
-          "related_item_id": "related_item_id-1",
-          "related_item_type": "part"
-        }
-      },
-      "total_price": 12
+      "flat_rate": {
+        "details": {
+          "test": {
+            "id": "id-1",
+            "hours": {
+              "test-3": 4
+            },
+            "operations": ["polishing", "sanding"],
+            "pricing": 3,
+            "related_item_id": "related_item_id-1",
+            "related_item_type": "part"
+          }
+        },
+        "total_price": 12
+      }
     },
     "pdf_url": "pdf_url-1",
     "plate": "plate-1",

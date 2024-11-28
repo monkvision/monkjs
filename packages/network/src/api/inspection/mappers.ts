@@ -45,6 +45,7 @@ import {
   ApiInspectionPost,
   ApiPartSeverityValue,
   ApiPricingTaskPostComponent,
+  ApiPricingV2,
   ApiPricingV2Details,
   type ApiRelatedImages,
   ApiRenderedOutput,
@@ -244,9 +245,14 @@ function mapPricingV2(response: ApiInspectionGet | ApiAllInspectionsVerboseGet):
   if (!response.pricing) {
     return { pricings, pricingIds };
   }
-  Object.values(response.pricing.details).forEach((details) => {
-    pricingIds.push(details.id);
-    pricings.push(mapPricingV2Details(details, response.id));
+  Object.values(response.pricing).forEach((value) => {
+    const pricing = value as ApiPricingV2[keyof ApiPricingV2];
+    if (pricing) {
+      Object.values(pricing.details).forEach((details) => {
+        pricingIds.push(details.id);
+        pricings.push(mapPricingV2Details(details, response.id));
+      });
+    }
   });
   return { pricings, pricingIds };
 }
@@ -589,6 +595,7 @@ function getPricingOptions(
         status: ProgressStatus.TODO,
         output_format: taskOptions.outputFormat ?? 'default',
         config: taskOptions.config,
+        methodology: taskOptions.methodology,
       }
     : undefined;
 }

@@ -1,4 +1,4 @@
-import { BusinessClients, TaskName } from '@monkvision/types';
+import { BusinessClients, PricingMethodology, TaskName } from '@monkvision/types';
 
 export default {
   tasks: [
@@ -14,6 +14,7 @@ export default {
       name: TaskName.PRICING,
       outputFormat: BusinessClients.VEB,
       config: 'config',
+      methodology: PricingMethodology.FLAT_RATE,
     },
   ],
   vehicle: {

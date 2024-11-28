@@ -120,6 +120,20 @@ export interface CreateHinlTaskOptions {
 }
 
 /**
+ * The different methodologies that can be used to calculate pricing values.
+ */
+export enum PricingMethodology {
+  /**
+   * The pricing are calculated using a labor cost matrix (ex: it costs 20 to perform 1h of painting).
+   */
+  LABOR_COST = 'labor_cost',
+  /**
+   * The pricing are calculated using a flat rate per damage size (ex: it costs 20 to fix a 10cm scratch on the fender).
+   */
+  FLAT_RATE = 'flat_rate',
+}
+
+/**
  * Additional options that you can specify when adding the pricing task to an inspection.
  */
 export interface CreatePricingTaskOptions {
@@ -130,13 +144,20 @@ export interface CreatePricingTaskOptions {
   /**
    * The client's output format.
    *
-   * @default 'BusinessClients.DEFAULT'
+   * @default BusinessClients.DEFAULT
    */
   outputFormat?: BusinessClients;
   /**
    * The custom pricing matrix to use.
    */
   config?: string;
+  /**
+   * The methodology used to calculate the pricing values. When the custom pricing matrix has been specified in the
+   * `config` param.
+   *
+   * @default PricingMethodology.LABOR
+   */
+  methodology?: PricingMethodology;
 }
 
 /**
