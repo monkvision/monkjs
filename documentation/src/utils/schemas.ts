@@ -11,7 +11,6 @@ import {
   SteeringWheelPosition,
   TaskName,
   VehicleType,
-  BusinessClients,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { flatten } from '@monkvision/common';
@@ -194,8 +193,9 @@ export const CreateHinlTaskOptionsSchema = z.object({
 
 export const CreatePricingTaskOptionsSchema = z.object({
   name: z.literal(TaskName.PRICING),
-  outputFormat: z.nativeEnum(BusinessClients).optional(),
+  outputFormat: z.string().optional(),
   config: z.string().optional(),
+  methodology: z.string().optional(),
 });
 
 export const InspectionCreateTaskSchema = z

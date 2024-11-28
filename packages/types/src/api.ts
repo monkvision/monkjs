@@ -24,28 +24,6 @@ export enum MonkApiPermission {
 }
 
 /**
- * Enumeration of Monk response format.
- */
-export enum BusinessClients {
-  /**
-   * Default format.
-   */
-  DEFAULT = 'default',
-  /**
-   * Toyota format.
-   */
-  TOYOTA = 'toyota',
-  /**
-   * Veb format.
-   */
-  VEB = 'veb',
-  /**
-   * Tesla format.
-   */
-  TESLA = 'tesla',
-}
-
-/**
  * Options used to specify a callback that will be called by the API when a task is complete.
  */
 export interface TaskCallbackOptions {
@@ -144,9 +122,9 @@ export interface CreatePricingTaskOptions {
   /**
    * The client's output format.
    *
-   * @default BusinessClients.DEFAULT
+   * @default 'default'
    */
-  outputFormat?: BusinessClients;
+  outputFormat?: string;
   /**
    * The custom pricing matrix to use.
    */

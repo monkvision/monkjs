@@ -4,7 +4,7 @@ import { ApiImage, ApiImagePost, ApiImages } from './image';
 import { ApiParts, ApiPartSimplifiedGet } from './part';
 import type { ApiPricingV2 } from './pricingV2';
 import type { ApiSeverityResults } from './severityResult';
-import type { ApiBusinessClients, ApiTasks } from './task';
+import type { ApiTasks } from './task';
 import { ApiTasksComponent } from './task';
 import type { ApiVehicleComponent } from './vehicle';
 import { ApiVehiclePostPatch } from './vehicle';
@@ -79,7 +79,7 @@ export interface ApiInspectionsCountGet {
 }
 
 export interface ApiDamageSeverity {
-  output_format: ApiBusinessClients;
+  output_format: string;
 }
 
 export interface ApiInspectionPost {
