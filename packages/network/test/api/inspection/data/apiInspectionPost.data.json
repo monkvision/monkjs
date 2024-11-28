@@ -18,7 +18,8 @@
     "pricing": {
       "status": "TODO",
       "output_format": "veb",
-      "config": "config"
+      "config": "config",
+      "methodology": "flat_rate"
     }
   },
   "vehicle": {

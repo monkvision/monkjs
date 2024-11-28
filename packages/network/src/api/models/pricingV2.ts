@@ -27,9 +27,21 @@ export interface ApiPricingV2Details {
 
 export type ApiDetails = Record<string, ApiPricingV2Details>;
 
-export interface ApiPricingV2 {
+export type ApiPricingMethodology = 'labor_cost' | 'flat_rate';
+
+export interface PricingLaborCostGet {
   details: ApiDetails;
   total_price?: number;
+}
+
+export interface PricingFlatRateGet {
+  details: ApiDetails;
+  total_price?: number;
+}
+
+export interface ApiPricingV2 {
+  labor_cost?: PricingLaborCostGet;
+  total_price?: PricingFlatRateGet;
 }
 
 export interface ApiPricingPostPatch {
