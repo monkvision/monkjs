@@ -1,5 +1,5 @@
 import { InteractiveStatus } from '@monkvision/types';
-import { fullyColorSVG } from '@monkvision/common/src';
+import { fullyColorSVG, useDeviceOrientation } from '@monkvision/common/src';
 
 function createMockLoadingState() {
   return {
@@ -139,4 +139,9 @@ export = {
   })),
   useIsMounted: jest.fn(() => jest.fn(() => true)),
   fullyColorSVG: jest.fn(() => ({})),
+  useDeviceOrientation: jest.fn(() => ({
+    isPermissionGranted: false,
+    alpha: 0,
+    requestCompassPermission: jest.fn(() => Promise.resolve()),
+  })),
 };
