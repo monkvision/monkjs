@@ -180,3 +180,16 @@ Object passed to Camera HUD components that is used to control the camera
 | retry             | () => void                  | A function to retry the camera stream fetching in case of error.                                         |
 | dimensions        | PixelDimensions &#124; null | The Camera stream dimensions (`null` if there is no stream).                                             |
 | previewDimensions | PixelDimensions &#124; null | The effective video dimensions of the Camera stream on the client screen (`null` if there is no stream). |
+
+
+## Hooks
+### useCameraPermission
+```tsx
+import { useCameraPermission } from '@monkvision/camera-web';
+
+function TestComponent() {
+  const { requestCameraPermission } = useCameraPermission();
+  return <button onClick={useCameraPermission}>Request Camera Permissions</button>;
+}
+```
+Custom hook that can be used to request the camera permissions on the current device.
