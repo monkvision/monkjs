@@ -45,6 +45,7 @@ export const iconNames = [
   'close',
   'cloud-download',
   'cloud-upload',
+  'compass-outline',
   'content-cut',
   'convertible',
   'copy',

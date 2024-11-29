@@ -1,4 +1,5 @@
 import { InteractiveStatus, RGBA } from '@monkvision/types';
+import { SVGProps } from 'react';
 
 const RGBA_REGEXP = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)$/i;
 const HEX_REGEXP = /^#(?:(?:[0-9a-f]{3}){1,2}|(?:[0-9a-f]{4}){1,2})$/i;
@@ -130,4 +131,31 @@ export function getInteractiveVariants(
     [InteractiveStatus.ACTIVE]: shadeColor(color, factor * 0.12),
     [InteractiveStatus.DISABLED]: color,
   };
+}
+
+const COLOR_ATTRIBUTES = ['fill', 'stroke'];
+
+/**
+ * This utility function can be passed to the `DynamicSVG` component's `getAttributes` prop to completely color an SVG
+ * with the given color. This is useful when wanting to color a single-color icon or logo.
+ *
+ * @example
+ * function TestComponent() {
+ *   const getAttributes = useCallback((element: Element) => fullyColorSVG(element, '#FFFFFF'), []);
+ *   return (
+ *     <DynamicSVG svg={logoSVG} getAttributes={getAttributes} />
+ *   );
+ * }
+ */
+export function fullyColorSVG(element: Element, color: string): SVGProps<SVGElement> {
+  return COLOR_ATTRIBUTES.reduce((customAttributes, colorAttribute) => {
+    const attr = element.getAttribute(colorAttribute);
+    if (attr && !['transparent', 'none'].includes(attr)) {
+      return {
+        ...customAttributes,
+        [colorAttribute]: color,
+      };
+    }
+    return customAttributes;
+  }, {});
 }

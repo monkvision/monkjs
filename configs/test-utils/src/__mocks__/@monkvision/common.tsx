@@ -1,4 +1,5 @@
 import { InteractiveStatus } from '@monkvision/types';
+import { fullyColorSVG } from '@monkvision/common/src';
 
 function createMockLoadingState() {
   return {
@@ -137,4 +138,5 @@ export = {
     isInputTouchedOrDirty: jest.fn(() => false),
   })),
   useIsMounted: jest.fn(() => jest.fn(() => true)),
+  fullyColorSVG: jest.fn(() => ({})),
 };

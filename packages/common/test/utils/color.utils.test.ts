@@ -1,6 +1,7 @@
 import { InteractiveStatus } from '@monkvision/types';
 import {
   changeAlpha,
+  fullyColorSVG,
   getHexFromRGBA,
   getInteractiveVariants,
   getRGBAFromString,
@@ -127,6 +128,44 @@ describe('Color utils', () => {
       expect(getInteractiveVariants('#FC72A7')).toEqual(
         getInteractiveVariants('#FC72A7', InteractiveVariation.LIGHTEN),
       );
+    });
+  });
+
+  describe('fullyColorSVG function', () => {
+    const color = '#A3B68C';
+    [
+      {
+        name: 'should replace the color attributes of the element with the given color',
+        attributes: { fill: '#1234356', stroke: '#654321', width: '220' },
+        expected: { fill: color, stroke: color },
+      },
+      {
+        name: 'should not add new color attributes',
+        attributes: { height: '220' },
+        expected: {},
+      },
+      {
+        name: 'should ignore transparent color attributes',
+        attributes: { fill: 'transparent', stroke: '#FF6600' },
+        expected: { stroke: color },
+      },
+      {
+        name: 'should ignore none color attributes',
+        attributes: { fill: 'none', stroke: 'none' },
+        expected: {},
+      },
+    ].forEach(({ name, attributes, expected }) => {
+      // eslint-disable-next-line jest/valid-title
+      it(name, () => {
+        const element = {
+          getAttribute: jest.fn(
+            (attr: string) => (attributes as Record<string, string | undefined>)[attr] ?? null,
+          ),
+        } as unknown as Element;
+        const actual = fullyColorSVG(element, color);
+        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(expected).toEqual(expect.objectContaining(actual));
+      });
     });
   });
 });
