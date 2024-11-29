@@ -1,5 +1,4 @@
 import { InteractiveStatus } from '@monkvision/types';
-import { fullyColorSVG, useDeviceOrientation } from '@monkvision/common/src';
 
 function createMockLoadingState() {
   return {

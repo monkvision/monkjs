@@ -100,7 +100,7 @@ export interface UserMediaResult {
   /**
    * The getUserMedia function that can be used to fetch the stream data manually if no videoRef is passed.
    */
-  getUserMedia: () => Promise<MediaStream>
+  getUserMedia: () => Promise<MediaStream>;
   /**
    * The resulting video stream. The stream can be null when not initialized or in case of an error.
    */
@@ -314,7 +314,7 @@ export function useUserMedia(
             throw err;
           }
         }
-      }
+      };
       effect().catch(handleError);
     }
   }, [constraints, stream, error, isLoading, lastConstraintsApplied, getUserMedia, videoRef]);

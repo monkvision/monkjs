@@ -43,8 +43,8 @@ export function useDeviceOrientation(): DeviceOrientationHandle {
   const [alpha, setAlpha] = useState(0);
 
   const handleDeviceOrientationEvent = useCallback((event: DeviceOrientationEvent) => {
-    const alpha = (event as DeviceOrientationEventiOS).webkitCompassHeading ?? event.alpha ?? 0;
-    setAlpha(alpha);
+    const value = (event as DeviceOrientationEventiOS).webkitCompassHeading ?? event.alpha ?? 0;
+    setAlpha(value);
   }, []);
 
   const requestCompassPermission = useCallback(async () => {

@@ -21,8 +21,10 @@ function renderUseUserMedia(initialProps: {
   videoRef: RefObject<HTMLVideoElement> | null;
 }) {
   return renderHook(
-    (props: { constraints: MediaStreamConstraints; videoRef: RefObject<HTMLVideoElement> | null }) =>
-      useUserMedia(props.constraints, props.videoRef),
+    (props: {
+      constraints: MediaStreamConstraints;
+      videoRef: RefObject<HTMLVideoElement> | null;
+    }) => useUserMedia(props.constraints, props.videoRef),
     { initialProps },
   );
 }

@@ -44,5 +44,19 @@
         "next": "Suivant"
       }
     }
+  },
+  "video": {
+    "permissions": {
+      "title": "Enregistrer une vidéo d'inspection du véhicule",
+      "camera": {
+        "title": "Caméra",
+        "description": "Pour enregistrer une vidéo, vous devez autoriser l'accès à la caméra de l'appareil"
+      },
+      "compass": {
+        "title": "Boussole",
+        "description": "Pour détecter une circulation complète à 360° du véhicule, vous devez autoriser l'accès à la boussole de l'appareil"
+      },
+      "confirm": "Gérer les autorisations"
+    }
   }
 }

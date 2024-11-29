@@ -44,5 +44,19 @@
         "next": "Weiter"
       }
     }
+  },
+  "video": {
+    "permissions": {
+      "title": "Aufzeichnung eines Videos zur Fahrzeugbegehung",
+      "camera": {
+        "title": "Kamera",
+        "description": "Um Videos aufzunehmen, müssen Sie den Zugriff auf die Kamera des Geräts erlauben"
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "Um einen vollständigen 360°-Umlauf des Fahrzeugs zu erfassen, müssen Sie den Zugriff auf den Kompass des Geräts erlauben"
+      },
+      "confirm": "Berechtigungen verwalten"
+    }
   }
 }

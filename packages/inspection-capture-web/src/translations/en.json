@@ -44,5 +44,19 @@
         "next": "Next"
       }
     }
+  },
+  "video": {
+    "permissions": {
+      "title": "Record a vehicle walkaround video",
+      "camera": {
+        "title": "Camera",
+        "description": "To record video, you need to allow access to the device's camera"
+      },
+      "compass": {
+        "title": "Compass",
+        "description": "To detect a full 360° circulation of the vehicle, you need to allow access to the device's compass"
+      },
+      "confirm": "Manage Permissions"
+    }
   }
 }

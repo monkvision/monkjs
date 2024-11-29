@@ -44,5 +44,19 @@
         "next": "Volgende"
       }
     }
+  },
+  "video": {
+    "permissions": {
+      "title": "Een doorloopvideo van een voertuig opnemen",
+      "camera": {
+        "title": "Camera",
+        "description": "Om video's op te nemen, moet u toegang verlenen tot de camera van het apparaat"
+      },
+      "compass": {
+        "title": "Kompas",
+        "description": "Om een volledige 360°-omloop van het voertuig te detecteren, moet u toegang tot het kompas van het apparaat toestaan"
+      },
+      "confirm": "Machtigingen beheren"
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { act, fireEvent } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import { useDeviceOrientation } from '../../src';
 
 function useDefaultDeviceOrientationEvent(): void {
@@ -92,7 +92,9 @@ describe('useDeviceOrientation hook', () => {
       await result.current.requestCompassPermission();
     });
     expect(spy).toHaveBeenCalledWith('deviceorientation', expect.any(Function));
-    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as Function;
+    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as (
+      event: any,
+    ) => void;
     expect(result.current.alpha).toBe(0);
 
     const value = 42;
@@ -111,13 +113,14 @@ describe('useDeviceOrientation hook', () => {
       await result.current.requestCompassPermission();
     });
     expect(spy).toHaveBeenCalledWith('deviceorientation', expect.any(Function));
-    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as Function;
+    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as (
+      event: any,
+    ) => void;
     expect(result.current.alpha).toBe(0);
 
     const value = 2223;
     act(() => eventHandler({ alpha: value }));
     expect(result.current.alpha).toEqual(value);
-
 
     unmount();
   });

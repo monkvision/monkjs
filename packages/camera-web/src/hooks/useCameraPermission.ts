@@ -20,10 +20,11 @@ export interface CameraPermissionHandle {
  */
 export function useCameraPermission(): CameraPermissionHandle {
   const contraints = useMemo(
-    () => getMediaConstraints({
-      resolution: isMobileDevice() ? CameraResolution.UHD_4K : CameraResolution.FHD_1080P,
-      facingMode: CameraFacingMode.ENVIRONMENT,
-    }),
+    () =>
+      getMediaConstraints({
+        resolution: isMobileDevice() ? CameraResolution.UHD_4K : CameraResolution.FHD_1080P,
+        facingMode: CameraFacingMode.ENVIRONMENT,
+      }),
     [],
   );
   const { getUserMedia } = useUserMedia(contraints, null);
