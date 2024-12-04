@@ -4,6 +4,12 @@ import { TranslationObject, VehiclePart } from '@monkvision/types';
  * The translated labels for each vehicle part available in the SDK.
  */
 export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
+  [VehiclePart.IGNORE]: {
+    en: 'IGNORE',
+    fr: 'IGNORE',
+    de: 'IGNORE',
+    nl: 'IGNORE',
+  },
   [VehiclePart.BUMPER_BACK]: {
     en: 'Rear Bumper',
     fr: 'Pare-chocs arrière',
@@ -466,10 +472,34 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
     de: 'Griff Rückseite Mitte',
     nl: 'Handgreep Terug Midden',
   },
-  [VehiclePart.IGNORE]: {
-    en: 'IGNORE',
-    fr: 'IGNORE',
-    de: 'IGNORE',
-    nl: 'IGNORE',
+  [VehiclePart.RIM_BACK_LEFT]: {
+    en: 'Back left rim',
+    fr: 'Jante arrière gauche',
+    de: 'Hintere linke Felge',
+    nl: 'Achtervelg links',
+  },
+  [VehiclePart.RIM_BACK_RIGHT]: {
+    en: 'Back right rim',
+    fr: 'Jante arrière droite',
+    de: 'Hintere rechte Felge',
+    nl: 'Achtervelg rechts',
+  },
+  [VehiclePart.RIM_FRONT_LEFT]: {
+    en: 'Front left rim',
+    fr: 'Jante avant gauche',
+    de: 'Vordere linke Felge',
+    nl: 'Voorvelg links',
+  },
+  [VehiclePart.RIM_FRONT_RIGHT]: {
+    en: 'Front right rim',
+    fr: 'Jante avant droite',
+    de: 'Vordere rechte Felge',
+    nl: 'Voorvelg rechts',
+  },
+  [VehiclePart.INTERIOR]: {
+    en: 'Interior',
+    fr: 'Intérieur',
+    de: 'Innenraum',
+    nl: 'Interieur',
   },
 };

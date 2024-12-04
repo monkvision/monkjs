@@ -82,6 +82,11 @@ export enum VehiclePart {
   CAR_INSIDE = 'car_inside',
   DAMAGED_CAR_INSIDE = 'damaged_car_inside',
   HANDLE_BACK_CENTER = 'handle_back_center',
+  RIM_BACK_LEFT = 'rim_back_left',
+  RIM_BACK_RIGHT = 'rim_back_right',
+  RIM_FRONT_LEFT = 'rim_front_left',
+  RIM_FRONT_RIGHT = 'rim_front_right',
+  INTERIOR = 'interior',
 }
 
 /**
