@@ -489,6 +489,7 @@ export function mapApiInspectionGet(
     severityResultIds,
     taskIds,
     pricingIds,
+    vehicleId: vehicle?.id,
   });
 
   return {
