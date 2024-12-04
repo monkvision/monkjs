@@ -216,7 +216,7 @@ export default {
         'f3ce86b5-d3a8-27dc-f3a4-24cad48e0b9b',
         '89216d57-0d6d-dd29-894b-cf280a4bf16e',
       ],
-      vehicle: undefined,
+      vehicle: '051b7118-915f-4bec-0571-d367967967ab',
       images: [
         '6a5e9a4c-8752-c1e6-6a34-38338074eda1',
         'a842f4bf-5404-215b-a828-56c053220d1c',
