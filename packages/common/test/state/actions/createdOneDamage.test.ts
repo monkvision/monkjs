@@ -44,6 +44,7 @@ describe('CreatedOneDamage action handlers', () => {
         id: 'part-id',
         type: VehiclePart.ROOF,
         damages: [] as string[],
+        inspectionId: 'inspections-test',
       };
       state.inspections.push({
         id: 'inspections-test',
