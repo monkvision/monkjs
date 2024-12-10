@@ -46,8 +46,10 @@
     }
   },
   "video": {
+    "introduction": {
+      "title": "Record a vehicle walkaround video"
+    },
     "permissions": {
-      "title": "Record a vehicle walkaround video",
       "camera": {
         "title": "Camera",
         "description": "To record video, you need to allow access to the device's camera"
@@ -57,6 +59,21 @@
         "description": "To detect a full 360° circulation of the vehicle, you need to allow access to the device's compass"
       },
       "confirm": "Manage Permissions"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Start at the Front",
+        "description": "Keep a 3 to 4-foot distance and walk slowly around the vehicle, capturing from the roofline to the ground."
+      },
+      "finish": {
+        "title": "Finish where you began",
+        "description": "You should be done recording in about 45 seconds."
+      },
+      "photos": {
+        "title": "Take photos as needed",
+        "description": "Press the shutter button to capture remarketing or damage photos while you're recording."
+      },
+      "confirm": "Record a Video"
     }
   }
 }

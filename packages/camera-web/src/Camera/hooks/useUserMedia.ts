@@ -1,8 +1,8 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
-import { isMobileDevice, useObjectMemo } from '@monkvision/common';
+import { isMobileDevice, useIsMounted, useObjectMemo } from '@monkvision/common';
 import { analyzeCameraDevices } from './utils';
 
 /**
@@ -212,13 +212,7 @@ export function useUserMedia(
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
-  const isActive = useRef(true);
-
-  useEffect(() => {
-    return () => {
-      isActive.current = false;
-    };
-  }, []);
+  const isMounted = useIsMounted();
 
   const handleGetUserMediaError = (err: unknown, permissionState: PermissionState | null) => {
     let type = UserMediaErrorType.OTHER;
@@ -245,11 +239,13 @@ export function useUserMedia(
   };
 
   const onStreamInactive = () => {
-    setError({
-      type: UserMediaErrorType.STREAM_INACTIVE,
-      nativeError: new Error('The camera stream was closed.'),
-    });
-    setIsLoading(false);
+    if (isMounted()) {
+      setError({
+        type: UserMediaErrorType.STREAM_INACTIVE,
+        nativeError: new Error('The camera stream was closed.'),
+      });
+      setIsLoading(false);
+    }
   };
 
   const retry = useCallback(() => {
@@ -277,7 +273,7 @@ export function useUserMedia(
     };
     const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
     str?.addEventListener('inactive', onStreamInactive);
-    if (isActive.current) {
+    if (isMounted()) {
       setStream(str);
       setDimensions(getStreamDimensions(str, true));
       setIsLoading(false);
@@ -309,7 +305,7 @@ export function useUserMedia(
           await getUserMedia();
         } catch (err) {
           const permissionState = (await getCameraPermissionState())?.state ?? null;
-          if (err && isActive.current) {
+          if (err && isMounted()) {
             handleGetUserMediaError(err, permissionState);
             throw err;
           }
@@ -323,7 +319,7 @@ export function useUserMedia(
     if (stream && videoRef && videoRef.current) {
       // eslint-disable-next-line no-param-reassign
       videoRef.current.onresize = () => {
-        if (isActive.current) {
+        if (isMounted()) {
           setDimensions(getStreamDimensions(stream, false));
         }
       };

@@ -46,8 +46,10 @@
     }
   },
   "video": {
+    "introduction": {
+      "title": "Aufzeichnung eines Videos zur Fahrzeugbegehung"
+    },
     "permissions": {
-      "title": "Aufzeichnung eines Videos zur Fahrzeugbegehung",
       "camera": {
         "title": "Kamera",
         "description": "Um Videos aufzunehmen, müssen Sie den Zugriff auf die Kamera des Geräts erlauben"
@@ -57,6 +59,21 @@
         "description": "Um einen vollständigen 360°-Umlauf des Fahrzeugs zu erfassen, müssen Sie den Zugriff auf den Kompass des Geräts erlauben"
       },
       "confirm": "Berechtigungen verwalten"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Beginnen Sie an der Vorderseite",
+        "description": "Halten Sie einen Abstand von 1 Meter und gehen Sie langsam um das Fahrzeug herum, indem Sie es von der Dachlinie bis zum Boden aufnehmen."
+      },
+      "finish": {
+        "title": "Beenden Sie die Aufnahme dort, wo Sie begonnen haben.",
+        "description": "Sie sollten die Aufnahme in etwa 45 Sekunden beenden."
+      },
+      "photos": {
+        "title": "Machen Sie nach Bedarf Fotos",
+        "description": "Drücken Sie den Auslöser, um während der Aufnahme Fotos von der Wiedervermarktung oder von Schäden zu machen."
+      },
+      "confirm": "Ein Video aufnehmen"
     }
   }
 }

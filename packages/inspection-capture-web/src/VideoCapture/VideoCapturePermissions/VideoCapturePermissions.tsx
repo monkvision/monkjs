@@ -1,10 +1,8 @@
-import { Button, DynamicSVG, Icon } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { useLoadingState } from '@monkvision/common';
+import { useIsMounted, useLoadingState } from '@monkvision/common';
 import { useCameraPermission } from '@monkvision/camera-web';
 import { useMonitoring } from '@monkvision/monitoring';
-import { styles, useVideoCapturePermissionsStyles } from './VideoCapturePermissions.styles';
-import { monkLogoSVG } from '../../assets/logos.asset';
+import { IntroLayoutItem, VideoCaptureIntroLayout } from '../VideoCaptureIntroLayout';
 
 /**
  * Props accepted by the VideoCapturePermissions component.
@@ -32,13 +30,7 @@ export function VideoCapturePermissions({
   const loading = useLoadingState();
   const { handleError } = useMonitoring();
   const { requestCameraPermission } = useCameraPermission();
-  const {
-    logoProps,
-    permissionIconProps,
-    titleStyle,
-    permissionTitleStyle,
-    permissionDescriptionStyle,
-  } = useVideoCapturePermissionsStyles();
+  const isMounted = useIsMounted();
 
   const handleConfirm = async () => {
     loading.start();
@@ -48,42 +40,33 @@ export function VideoCapturePermissions({
         await requestCompassPermission();
       }
       onSuccess?.();
-      loading.onSuccess();
+      if (isMounted()) {
+        loading.onSuccess();
+      }
     } catch (err) {
       loading.onError(err);
       handleError(err);
     }
   };
 
+  const confirmButtonProps = {
+    onClick: handleConfirm,
+    loading,
+    children: t('video.permissions.confirm'),
+  };
+
   return (
-    <div style={styles['container']}>
-      <DynamicSVG svg={monkLogoSVG} {...logoProps} />
-      <div style={titleStyle}>{t('video.permissions.title')}</div>
-      <div style={styles['permissionsContainer']}>
-        <div style={styles['permission']}>
-          <Icon icon='camera-outline' style={styles['permissionIcon']} {...permissionIconProps} />
-          <div style={styles['permissionLabels']}>
-            <div style={permissionTitleStyle}>{t('video.permissions.camera.title')}</div>
-            <div style={permissionDescriptionStyle}>
-              {t('video.permissions.camera.description')}
-            </div>
-          </div>
-        </div>
-        <div style={styles['permission']}>
-          <Icon icon='compass-outline' style={styles['permissionIcon']} {...permissionIconProps} />
-          <div style={styles['permissionLabels']}>
-            <div style={permissionTitleStyle}>{t('video.permissions.compass.title')}</div>
-            <div style={permissionDescriptionStyle}>
-              {t('video.permissions.compass.description')}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style={styles['confirmContainer']}>
-        <Button onClick={handleConfirm} loading={loading}>
-          {t('video.permissions.confirm')}
-        </Button>
-      </div>
-    </div>
+    <VideoCaptureIntroLayout confirmButtonProps={confirmButtonProps}>
+      <IntroLayoutItem
+        icon='camera-outline'
+        title={t('video.permissions.camera.title')}
+        description={t('video.permissions.camera.description')}
+      />
+      <IntroLayoutItem
+        icon='compass-outline'
+        title={t('video.permissions.compass.title')}
+        description={t('video.permissions.compass.description')}
+      />
+    </VideoCaptureIntroLayout>
   );
 }

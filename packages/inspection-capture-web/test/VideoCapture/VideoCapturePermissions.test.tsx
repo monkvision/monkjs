@@ -1,12 +1,40 @@
+jest.mock('../../src/VideoCapture/VideoCaptureIntroLayout', () => ({
+  VideoCaptureIntroLayout: jest.fn(() => <></>),
+  IntroLayoutItem: jest.fn(() => <></>),
+}));
+
 import { render, waitFor } from '@testing-library/react';
 import { useCameraPermission } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { Button } from '@monkvision/common-ui-web';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
+import {
+  IntroLayoutItem,
+  VideoCaptureIntroLayout,
+} from '../../src/VideoCapture/VideoCaptureIntroLayout';
+
+function expectVideoCaptureIntroLayoutConfirmButtonProps(): jest.Mock {
+  expectPropsOnChildMock(VideoCaptureIntroLayout, {
+    confirmButtonProps: {
+      children: 'video.permissions.confirm',
+      loading: expect.anything(),
+      onClick: expect.any(Function),
+    },
+  });
+  const { onClick } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0].confirmButtonProps;
+  return onClick;
+}
 
 describe('VideoCapturePermissions component', () => {
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should use the VideoCaptureIntroLayout component for the layout', () => {
+    const { unmount } = render(<VideoCapturePermissions />);
+
+    expect(VideoCaptureIntroLayout).toHaveBeenCalled();
+
+    unmount();
   });
 
   it('should request compass and camera permissions when pressing on the button', async () => {
@@ -21,8 +49,7 @@ describe('VideoCapturePermissions component', () => {
     expect(requestCompassPermission).not.toHaveBeenCalled();
     expect(requestCameraPermission).not.toHaveBeenCalled();
 
-    expectPropsOnChildMock(Button, { onClick: expect.any(Function) });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
+    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -43,8 +70,7 @@ describe('VideoCapturePermissions component', () => {
       />,
     );
 
-    expectPropsOnChildMock(Button, { onClick: expect.any(Function) });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
+    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -64,8 +90,7 @@ describe('VideoCapturePermissions component', () => {
       />,
     );
 
-    expectPropsOnChildMock(Button, { onClick: expect.any(Function) });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
+    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -88,8 +113,7 @@ describe('VideoCapturePermissions component', () => {
       />,
     );
 
-    expectPropsOnChildMock(Button, { onClick: expect.any(Function) });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
+    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -97,5 +121,37 @@ describe('VideoCapturePermissions component', () => {
     });
 
     unmount();
+  });
+
+  it('should display an item for the camera permission', () => {
+    const { unmount } = render(<VideoCapturePermissions />);
+    unmount();
+
+    expect(IntroLayoutItem).not.toHaveBeenCalled();
+    const { children } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0];
+    const { unmount: unmount2 } = render(children);
+    expectPropsOnChildMock(IntroLayoutItem, {
+      icon: 'camera-outline',
+      title: 'video.permissions.camera.title',
+      description: 'video.permissions.camera.description',
+    });
+
+    unmount2();
+  });
+
+  it('should display an item for the compass permission', () => {
+    const { unmount } = render(<VideoCapturePermissions />);
+    unmount();
+
+    expect(IntroLayoutItem).not.toHaveBeenCalled();
+    const { children } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0];
+    const { unmount: unmount2 } = render(children);
+    expectPropsOnChildMock(IntroLayoutItem, {
+      icon: 'compass-outline',
+      title: 'video.permissions.compass.title',
+      description: 'video.permissions.compass.description',
+    });
+
+    unmount2();
   });
 });

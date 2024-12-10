@@ -46,8 +46,10 @@
     }
   },
   "video": {
+    "introduction": {
+      "title": "Enregistrer une vidéo d'inspection du véhicule"
+    },
     "permissions": {
-      "title": "Enregistrer une vidéo d'inspection du véhicule",
       "camera": {
         "title": "Caméra",
         "description": "Pour enregistrer une vidéo, vous devez autoriser l'accès à la caméra de l'appareil"
@@ -57,6 +59,21 @@
         "description": "Pour détecter une circulation complète à 360° du véhicule, vous devez autoriser l'accès à la boussole de l'appareil"
       },
       "confirm": "Gérer les autorisations"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Commencez par l'avant",
+        "description": "Gardez une distance d'un mètre et faites lentement le tour du véhicule, en capturant la ligne de toit jusqu'au sol."
+      },
+      "finish": {
+        "title": "Terminez là où vous avez commencé",
+        "description": "L'enregistrement devrait être terminé au bout d'environ 45 secondes."
+      },
+      "photos": {
+        "title": "Prenez des photos si nécessaire",
+        "description": "Appuyez sur le bouton de capture pour prendre des photos de remarketing ou de dommages pendant l'enregistrement."
+      },
+      "confirm": "Enregistrer une vidéo"
     }
   }
 }

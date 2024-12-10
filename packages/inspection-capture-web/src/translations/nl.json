@@ -46,8 +46,10 @@
     }
   },
   "video": {
+    "introduction": {
+      "title": "Een doorloopvideo van een voertuig opnemen"
+    },
     "permissions": {
-      "title": "Een doorloopvideo van een voertuig opnemen",
       "camera": {
         "title": "Camera",
         "description": "Om video's op te nemen, moet u toegang verlenen tot de camera van het apparaat"
@@ -57,6 +59,21 @@
         "description": "Om een volledige 360°-omloop van het voertuig te detecteren, moet u toegang tot het kompas van het apparaat toestaan"
       },
       "confirm": "Machtigingen beheren"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Begin aan de voorkant",
+        "description": "Houd 1 meter afstand en loop langzaam rond het voertuig, waarbij je vanaf de daklijn naar de grond loopt."
+      },
+      "finish": {
+        "title": "Eindig waar je begon",
+        "description": "Je moet na ongeveer 45 seconden klaar zijn met opnemen."
+      },
+      "photos": {
+        "title": "Maak foto's als dat nodig is",
+        "description": "Druk op de ontspanknop om remarketing- of schadefoto's te maken terwijl je opneemt."
+      },
+      "confirm": "Een video opnemen"
     }
   }
 }
