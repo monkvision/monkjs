@@ -8,6 +8,7 @@ export * from './ImageDetailedView';
 export * from './InspectionGallery';
 export * from './LiveConfigAppProvider';
 export * from './Login';
+export * from './RecordVideoButton';
 export * from './SightOverlay';
 export * from './Slider';
 export * from './Spinner';

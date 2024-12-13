@@ -389,6 +389,29 @@ function LoginPage() {
 
 ---
 
+## RecordVideoButton
+### Description
+Button used on the VideoCapture component, displayed on top of the camera preview to allow the user to record a video.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { RecordVideoButton } from '@monkvision/common-ui-web';
+
+function App() {
+  const [isRecording, setIsRecording] = useState(false);
+  return <RecordVideoButton isRecording={isRecording} onClick={() => setIsRecording((v) => !v)} />;
+}
+```
+
+### Props
+| Prop        | Type    | Description                                                           | Required | Default Value |
+|-------------|---------|-----------------------------------------------------------------------|----------|---------------|
+| size        | number  | The size of the button in pixels.                                     |          | `80`          |
+| isRecording | boolean | Boolean indicating if the user is currently recording a video or not. |          | `false`       |
+
+---
+
 ## SightOverlay
 ### Description
 A component that displays the SVG overlay of the given sight. The SVG element can be customized the exact same way as

@@ -1,7 +1,7 @@
 import { getInteractiveVariants, InteractiveVariation } from '@monkvision/common';
 import { Styles } from '@monkvision/types';
 
-export const takePictureButtonColors = getInteractiveVariants(
+export const TAKE_PICTURE_BUTTON_COLORS = getInteractiveVariants(
   '#f3f3f3',
   InteractiveVariation.DARKEN,
 );
