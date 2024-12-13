@@ -647,22 +647,8 @@ function VehicleSelectionPage() {
 | inspectionId          | string                      | The ID of the inspection.                                                                                                |          |                                                      |
 | apiDomain             | string                      | The domain of the Monk API.                                                                                              |          |                                                      |
 | authToken             | string                      | The authentication token used to communicate with the API.                                                               |          |                                                      |
-## VehiclePartSelection
-I shows the collections of VehicleDynamicWireframe and we can switch between 4 different views front left, front right, rear left and rear right.
-### Example
-```tsx
-function Component() {
-  return <VehiclePartSelection
-    vehicleModel={VehicleModel.FESC20}
-    onPartsSelected={(p) => console.log(p)} />
-}
-```
-### Props
-| Prop            | Type                           | Description                                                                             | Required| Default Value|
-|-----------------|--------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
-| vehicleModel    | VehicleModel                   | Initial vehicle model.                                                                  | ✔️       |              |
-| orientation     | PartSelectionOrientation       | Orientation where the vehicle want to face.                                             |         | front-left   |
-| onPartsSelected | (parts: VehiclePart[]) => void | Callback called when update selected parts.                                             |         |              |
+
+---
 
 ## VehicleDynamicWireframe
 For the given Vehicle Model and orientation. It shows the wireframe on the view and we can able to select it.
@@ -698,3 +684,40 @@ getPartAttributes
 | onClickPart       | (part: VehiclePart) => void     | Callback called when a part is clicked.                                                 |         |              |
 | getPartAttributes | (part: VehiclePart) => SVGProps | Custom function for HTML attributes to give to the tags based on part.                  |         |              |
 
+---
+
+## VehicleWalkaroundIndicator
+Component used to display a position indicator to the user when they are walking around their vehicle in the
+VideoCapture process.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { useDeviceOrientation } from '@monkvision/common';
+import { Button, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
+
+function TestComponent() {
+  const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
+  const { alpha, requestCompassPermission, isPermissionGranted } = useDeviceOrientation();
+
+  if (!isPermissionGranted) {
+    return <Button onClick={requestCompassPermission}>Grant Compass Permission</Button>;
+  }
+
+  if (startingAlpha === null) {
+    return <button onClick={() => setStartingAlpha(alpha)}>Start</button>;
+  }
+
+  const diff = startingAlpha - alpha;
+  const rotation = diff < 0 ? 360 + diff : diff;
+
+  return (
+    <VehicleWalkaroundIndicator alpha={rotation} />
+  );
+}
+```
+### Props
+| Prop  | Type   | Description                                                      | Required | Default Value |
+|-------|--------|------------------------------------------------------------------|----------|---------------|
+| alpha | number | The rotation of the user around the vehicle (between 0 and 359). | ✔️       |               |
+| size  | number | The size of the indicator in pixels.                             |          | 60            |

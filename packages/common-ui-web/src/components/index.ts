@@ -19,3 +19,4 @@ export * from './VehicleDynamicWireframe';
 export * from './VehiclePartSelection';
 export * from './VehicleTypeAsset';
 export * from './VehicleTypeSelection';
+export * from './VehicleWalkaroundIndicator';
