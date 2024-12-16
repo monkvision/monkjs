@@ -26,7 +26,9 @@ enum VideoCaptureScreen {
 export function VideoCapture({ lang }: VideoCaptureProps) {
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
-  const { requestCompassPermission } = useDeviceOrientation();
+  const { requestCompassPermission, alpha } = useDeviceOrientation();
+
+  const hudProps = { alpha };
 
   return (
     <div style={styles['container']}>
@@ -36,7 +38,9 @@ export function VideoCapture({ lang }: VideoCaptureProps) {
           onSuccess={() => setScreen(VideoCaptureScreen.CAPTURE)}
         />
       )}
-      {screen === VideoCaptureScreen.CAPTURE && <Camera HUDComponent={VideoCaptureHUD} />}
+      {screen === VideoCaptureScreen.CAPTURE && (
+        <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
+      )}
     </div>
   );
 }

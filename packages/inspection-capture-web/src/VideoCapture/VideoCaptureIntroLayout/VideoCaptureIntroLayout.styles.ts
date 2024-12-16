@@ -3,8 +3,7 @@ import { DynamicSVGProps } from '@monkvision/common-ui-web';
 import { CSSProperties, useCallback } from 'react';
 import { fullyColorSVG, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
 import { VideoCaptureIntroLayoutProps } from './VideoCaptureIntroLayout.types';
-
-const INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT = 500;
+import { INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT } from './IntroLayoutItem/IntroLayoutItem.styles';
 
 export const styles: Styles = {
   container: {
@@ -26,7 +25,7 @@ export const styles: Styles = {
     __media: {
       maxHeight: INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
-    margin: '16px 0',
+    display: 'none',
   },
   title: {
     fontSize: 32,
@@ -38,10 +37,10 @@ export const styles: Styles = {
     __media: {
       maxHeight: INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     textAlign: 'center',
-    padding: '0 16px 10px 16px',
+    padding: '10px 16px 10px 16px',
   },
   childrenContainer: {
     flex: 1,

@@ -35,10 +35,10 @@ export function VideoCapturePermissions({
   const handleConfirm = async () => {
     loading.start();
     try {
-      await requestCameraPermission();
       if (requestCompassPermission) {
         await requestCompassPermission();
       }
+      await requestCameraPermission();
       onSuccess?.();
       if (isMounted()) {
         loading.onSuccess();
