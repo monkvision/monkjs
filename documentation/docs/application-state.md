@@ -18,7 +18,7 @@ containing the following properties:
 | Name             | Type                                                            | Description                                                                                                        |
 |------------------|-----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | loading          | `LoadingState`                                                  | Loading state indicating if the app state provider is loading.                                                     |
-| config           | `CaptureAppConfig`                                              | The current application configuration.                                                                             |
+| config           | `PhotoCaptureAppConfig`                                         | The current application configuration.                                                                             |
 | authToken        | <code>string &#124; null</code>                                 | The authentication token.                                                                                          |
 | inspectionId     | <code>string &#124; null</code>                                 | The current inspection ID.                                                                                         |
 | vehicleType      | <code>VehicleType &#124; null</code>                            | The vehicle of the user.                                                                                           |
@@ -33,9 +33,9 @@ To use it, simply wrap you application inside the provider component and pass it
 
 ```tsx
 import { MonkAppStateProvider } from '@monkvision/common';
-import { CaptureAppConfig } from '@monkvision/types';
+import { PhotoCaptureAppConfig } from '@monkvision/types';
 
-const AppConfig: CaptureAppConfig = {
+const AppConfig: PhotoCaptureAppConfig = {
   ...
 };
 

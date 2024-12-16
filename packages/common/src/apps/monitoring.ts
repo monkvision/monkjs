@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useMonitoring } from '@monkvision/monitoring';
-import { MonkAppState } from './appState';
+import { MonkAppState, PhotoCaptureAppState } from './appState';
 
 export function useAppStateMonitoring({
   authToken,
   inspectionId,
   vehicleType,
   steeringWheel,
-}: Pick<MonkAppState, 'authToken' | 'inspectionId' | 'vehicleType' | 'steeringWheel'>): void {
+}: Partial<
+  Pick<MonkAppState, 'authToken' | 'inspectionId'> &
+    Pick<PhotoCaptureAppState, 'vehicleType' | 'steeringWheel'>
+>): void {
   const { setTags, setUserId } = useMonitoring();
 
   useEffect(() => {

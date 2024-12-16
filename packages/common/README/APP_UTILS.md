@@ -37,11 +37,11 @@ parameters with values that can be fetched from the URL search parameters or the
   - If `fetchFromSearchParams` is also set to `true`, the token fetched from the search params will always be
     used in priority over the one fetched from the local storage.
 
-| Prop             | Type             | Description                                                                                                                         | Required | Default Value |
-|------------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| config           | CaptureAppConfig | The current configuration of the application.                                                                                       | ✔️       |               |
-| onFetchAuthToken | () => void       | Callback called when an authentication token has successfully been fetched from either the local storage, or the URL search params. |          |               |
-| onFetchLanguage  | () => void       | Callback called when the language of the app must be updated because it has been specified in the URL params.                       |          |               |
+| Prop             | Type                  | Description                                                                                                                         | Required | Default Value |
+|------------------|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| config           | PhotoCaptureAppConfig | The current configuration of the application.                                                                                       | ✔️       |               |
+| onFetchAuthToken | () => void            | Callback called when an authentication token has successfully been fetched from either the local storage, or the URL search params. |          |               |
+| onFetchLanguage  | () => void            | Callback called when the language of the app must be updated because it has been specified in the URL params.                       |          |               |
 
 ## useMonkAppState hook
 This hook simply returns the current value of the `MonkAppStateContext` declared by the `MonkAppStateProvider`component.

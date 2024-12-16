@@ -351,7 +351,7 @@ for more details.
 | Prop        | Type                            | Description                                                           | Required | Default Value |
 |-------------|---------------------------------|-----------------------------------------------------------------------|----------|---------------|
 | id          | string                          | The ID of the application Live Config.                                | ✔️       |               |
-| localConfig | CaptureAppConfig                | Use this prop to configure a configuration on your local environment. |          |               |
+| localConfig | PhotoCaptureAppConfig           | Use this prop to configure a configuration on your local environment. |          |               |
 | lang        | <code>string &#124; null</code> | The language used by this component.                                  |          | `en`          |
 
 ---

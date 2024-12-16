@@ -1,13 +1,13 @@
 import { useCallback, useRef, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
-import { CaptureAppConfig } from '@monkvision/types';
+import { PhotoCaptureAppConfig } from '@monkvision/types';
 import { UploadEventHandlers } from './useUploadQueue';
 
 /**
  * Parameters accepted by the useBadConnectionWarning hook.
  */
 export type BadConnectionWarningParams = Required<
-  Pick<CaptureAppConfig, 'maxUploadDurationWarning'>
+  Pick<PhotoCaptureAppConfig, 'maxUploadDurationWarning'>
 >;
 
 /**

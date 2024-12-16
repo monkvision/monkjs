@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMonkAppState } from '@monkvision/common';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
+import { CaptureWorkflow } from '@monkvision/types';
 import styles from './PhotoCapturePage.module.css';
 import { createInspectionReportLink } from './inspectionReport';
 
@@ -9,6 +10,7 @@ export function PhotoCapturePage() {
   const { i18n } = useTranslation();
   const { config, authToken, inspectionId, vehicleType, getCurrentSights } = useMonkAppState({
     requireInspection: true,
+    requireWorkflow: CaptureWorkflow.PHOTO,
   });
   const currentSights = useMemo(() => getCurrentSights(), [getCurrentSights]);
 

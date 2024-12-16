@@ -2,13 +2,13 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { getEnvOrThrow, MonkProvider } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
-import { CaptureAppConfig } from '@monkvision/types';
+import { LiveConfig } from '@monkvision/types';
 import { Page } from '../pages';
 import * as config from '../local-config.json';
 import { AppContainer } from './AppContainer';
 
 const localConfig =
-  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true' ? (config as CaptureAppConfig) : undefined;
+  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true' ? (config as LiveConfig) : undefined;
 
 export function App() {
   const navigate = useNavigate();

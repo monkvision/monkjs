@@ -1,6 +1,7 @@
 import { useI18nSync, useDeviceOrientation } from '@monkvision/common';
 import { useState } from 'react';
 import { Camera } from '@monkvision/camera-web';
+import { MonkApiConfig } from '@monkvision/network';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD } from './VideoCaptureHUD';
@@ -9,6 +10,15 @@ import { VideoCaptureHUD } from './VideoCaptureHUD';
  * Props of the VideoCapture component.
  */
 export interface VideoCaptureProps {
+  /**
+   * The ID of the inspection to add the video frames to.
+   */
+  inspectionId: string;
+  /**
+   * The api config used to communicate with the API. Make sure that the user described in the auth token is the same
+   * one as the one that created the inspection provided in the `inspectionId` prop.
+   */
+  apiConfig: MonkApiConfig;
   /**
    * The language to be used by this component.
    *

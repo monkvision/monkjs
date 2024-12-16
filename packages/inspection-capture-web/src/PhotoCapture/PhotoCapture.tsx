@@ -1,5 +1,5 @@
 import { useAnalytics } from '@monkvision/analytics';
-import { Camera, CameraHUDProps, CameraProps } from '@monkvision/camera-web';
+import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import {
   useI18nSync,
   useLoadingState,
@@ -18,11 +18,10 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { MonkApiConfig } from '@monkvision/network';
 import {
   CameraConfig,
-  CaptureAppConfig,
   ComplianceOptions,
-  CompressionOptions,
   DeviceOrientation,
   MonkPicture,
+  PhotoCaptureAppConfig,
   PhotoCaptureTutorialOption,
   Sight,
 } from '@monkvision/types';
@@ -48,9 +47,8 @@ import {
  * Props of the PhotoCapture component.
  */
 export interface PhotoCaptureProps
-  extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
-    Pick<
-      CaptureAppConfig,
+  extends Pick<
+      PhotoCaptureAppConfig,
       | keyof CameraConfig
       | 'maxUploadDurationWarning'
       | 'useAdaptiveImageQuality'
@@ -67,7 +65,6 @@ export interface PhotoCaptureProps
       | 'allowSkipTutorial'
       | 'enableSightTutorial'
     >,
-    Partial<CompressionOptions>,
     Partial<ComplianceOptions> {
   /**
    * The list of sights to take pictures of. The values in this array should be retreived from the `@monkvision/sights`

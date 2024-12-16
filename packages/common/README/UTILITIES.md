@@ -135,7 +135,7 @@ import { getAvailableVehicleTypes } from '@monkvision/common';
 console.log(getAvailableVehicleTypes(config));
 // Output : [VehicleType.CITY, VehicleType.SUV]
 ```
-Returns the list of available vehicle types based on the `sights` property of a `CaptureAppConfig` object.
+Returns the list of available vehicle types based on the `sights` property of a `PhotoCaptureAppConfig` object.
 
 # Environment Utils
 ### getEnvOrThrow

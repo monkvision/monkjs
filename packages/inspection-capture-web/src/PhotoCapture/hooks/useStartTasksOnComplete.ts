@@ -1,4 +1,4 @@
-import { CaptureAppConfig, Sight, TaskName } from '@monkvision/types';
+import { PhotoCaptureAppConfig, Sight, TaskName } from '@monkvision/types';
 import { flatMap, LoadingState, uniq } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -8,7 +8,7 @@ import { useCallback } from 'react';
  * Parameters of the useStartTasksOnComplete hook.
  */
 export interface UseStartTasksOnCompleteParams
-  extends Pick<CaptureAppConfig, 'additionalTasks' | 'tasksBySight' | 'startTasksOnComplete'> {
+  extends Pick<PhotoCaptureAppConfig, 'additionalTasks' | 'tasksBySight' | 'startTasksOnComplete'> {
   /**
    * The inspection ID.
    */
