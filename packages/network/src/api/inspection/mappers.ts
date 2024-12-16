@@ -705,7 +705,7 @@ export interface GetAllInspectionsOptions {
   /**
    * The filter request parameters.
    */
-  filters?: Record<string, string | number>;
+  filters?: Record<string, string | number | boolean>;
   /**
    * The pagination request parameters.
    */
@@ -719,13 +719,15 @@ export interface GetAllInspectionsOptions {
 export function mapApiAllInspectionsUrlParamsGet(
   options: GetAllInspectionsOptions,
   verbose: boolean | null,
+  showDeleted: boolean,
 ): string {
   const params = new URLSearchParams();
   if (verbose !== null) {
     params.append('verbose', verbose ? '1' : '0');
   }
+  params.append('show_deleted', showDeleted ? 'true' : 'false');
 
-  const ignoredFilters = ['verbose'];
+  const ignoredFilters = ['verbose', 'show_deleted'];
   if (options.filters) {
     Object.entries(options.filters).forEach(([key, value]) => {
       if (!ignoredFilters.includes(key)) {

@@ -197,7 +197,7 @@ export async function getAllInspections(
 > {
   const kyOptions = getDefaultOptions(config);
   const response = await ky.get(
-    `inspections${mapApiAllInspectionsUrlParamsGet(options, true)}`,
+    `inspections${mapApiAllInspectionsUrlParamsGet(options, true, false)}`,
     kyOptions,
   );
   const body = await response.json<ApiPaginatedResponse<ApiAllInspectionsVerboseGet>>();
@@ -228,7 +228,7 @@ export async function getAllInspectionsCount(
 ): Promise<MonkApiResponse<GetAllInspectionsCountResponse, ApiInspectionsCountGet>> {
   const kyOptions = getDefaultOptions(config);
   const response = await ky.get(
-    `inspections/count${mapApiAllInspectionsUrlParamsGet(options, null)}`,
+    `inspections/count${mapApiAllInspectionsUrlParamsGet(options, null, false)}`,
     kyOptions,
   );
   const body = await response.json<ApiInspectionsCountGet>();

@@ -61,9 +61,10 @@ describe('Inspection API Mappers', () => {
           limit: 32,
         },
       };
-      let result = mapApiAllInspectionsUrlParamsGet(options, true);
+      let result = mapApiAllInspectionsUrlParamsGet(options, true, false);
       const params = [
         'verbose=1',
+        'show_deleted=false',
         'test=testFilter',
         'test2=5',
         'formatTest=test+special%26chars',
@@ -84,11 +85,11 @@ describe('Inspection API Mappers', () => {
     });
 
     it('should properly map the verbose param', () => {
-      let result = mapApiAllInspectionsUrlParamsGet({}, false);
-      expect(result).toEqual('?verbose=0');
+      let result = mapApiAllInspectionsUrlParamsGet({}, false, false);
+      expect(result).toEqual('?verbose=0&show_deleted=false');
 
-      result = mapApiAllInspectionsUrlParamsGet({}, null);
-      expect(result).toEqual('');
+      result = mapApiAllInspectionsUrlParamsGet({}, null, false);
+      expect(result).toEqual('?show_deleted=false');
     });
   });
 });

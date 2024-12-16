@@ -179,7 +179,7 @@ describe('Inspection requests', () => {
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
-      expect(mapApiAllInspectionsUrlParamsGet).toHaveBeenCalledWith(options, true);
+      expect(mapApiAllInspectionsUrlParamsGet).toHaveBeenCalledWith(options, true, false);
       expect(mapApiAllInspectionsVerboseGet).toHaveBeenCalledWith(
         (body as ApiPaginatedResponse<ApiAllInspectionsVerboseGet>).data,
         apiConfig.thumbnailDomain,
@@ -211,7 +211,7 @@ describe('Inspection requests', () => {
       const response = await (ky.get as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
-      expect(mapApiAllInspectionsUrlParamsGet).toHaveBeenCalledWith(options, null);
+      expect(mapApiAllInspectionsUrlParamsGet).toHaveBeenCalledWith(options, null, false);
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.get).toHaveBeenCalledWith(
         `inspections/count${mockUrlParams}`,
