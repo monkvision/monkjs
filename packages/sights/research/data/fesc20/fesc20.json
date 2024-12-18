@@ -216,7 +216,7 @@
     "overlay": "fesc20-LTe3X2bg.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-Wzdtgqqz",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-LZc7p2kK": {
     "id": "fesc20-LZc7p2kK",
@@ -278,7 +278,7 @@
     "overlay": "fesc20-P470Q-jm.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-r_UeXQRO",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-T4dIGLgy": {
     "id": "fesc20-T4dIGLgy",
@@ -364,7 +364,7 @@
     "overlay": "fesc20-Wzdtgqqz.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-LTe3X2bg",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-X8k7UFGf": {
     "id": "fesc20-X8k7UFGf",
@@ -527,7 +527,7 @@
     "overlay": "fesc20-r_UeXQRO.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-P470Q-jm",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "fesc20-xBFiEy-_": {
     "id": "fesc20-xBFiEy-_",
