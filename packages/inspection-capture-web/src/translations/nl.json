@@ -17,7 +17,8 @@
         "damagedPartCounter": "1 / 2 • Beschadigd onderdeel",
         "closeupPictureCounter": "2 / 2 • Closeup foto",
         "infoBtn": "Richt de markering op het beschadigde onderdeel en tik vervolgens op de sluitertknop",
-        "infoCloseup": "Neem een closeup foto van de schade"
+        "infoCloseup": "Neem een closeup foto van de schade",
+        "selectParts": "Selecteer de onderdelen waar je schade zit"
       },
       "error": {
         "retry": "Opnieuw proberen",
@@ -43,6 +44,9 @@
         "sight": "Richt het voertuig zo goed mogelijk uit op de lijnen om de beste foto te krijgen.<br>Druk op de knop om de foto te nemen.",
         "next": "Volgende"
       }
+    },
+    "gallery": {
+      "next": "Volgende: Voertuigfoto's"
     }
   }
 }

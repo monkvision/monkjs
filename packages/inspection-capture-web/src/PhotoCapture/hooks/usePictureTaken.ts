@@ -53,16 +53,25 @@ export function usePictureTaken({
     (picture: MonkPicture) => {
       onPictureTaken?.(picture);
       sightState.setLastPictureTakenUri(picture.uri);
-      const upload: PictureUpload =
-        addDamageHandle.mode === PhotoCaptureMode.SIGHT
-          ? {
-              mode: addDamageHandle.mode,
-              picture,
-              sightId: sightState.selectedSight.id,
-              tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
-            }
-          : { mode: addDamageHandle.mode, picture };
-      uploadQueue.push(upload);
+      switch (addDamageHandle.mode) {
+        case PhotoCaptureMode.ADD_DAMAGE_PART_SELECT:
+          uploadQueue.push({
+            mode: addDamageHandle.mode,
+            picture,
+            vehicleParts: addDamageHandle.vehicleParts,
+          });
+          break;
+        case PhotoCaptureMode.SIGHT:
+          uploadQueue.push({
+            mode: addDamageHandle.mode,
+            picture,
+            sightId: sightState.selectedSight.id,
+            tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
+          });
+          break;
+        default:
+          uploadQueue.push({ mode: addDamageHandle.mode, picture });
+      }
       if (addDamageHandle.mode === PhotoCaptureMode.SIGHT) {
         sightState.takeSelectedSight();
       } else {

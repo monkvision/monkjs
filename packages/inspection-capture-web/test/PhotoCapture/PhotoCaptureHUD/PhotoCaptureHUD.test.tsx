@@ -66,6 +66,9 @@ function createProps(): PhotoCaptureHUDProps {
     allowSkipTutorial: false,
     onNextTutorialStep: jest.fn(),
     onCloseTutorial: jest.fn(),
+    onValidateVehicleParts: jest.fn(),
+    vehicleParts: [],
+    showVehiclePartSelector: false,
   };
 }
 
