@@ -1,4 +1,4 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus } from '@monkvision/types';
 
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight', () => ({
   PhotoCaptureHUDElementsSight: jest.fn(() => <></>),
@@ -45,6 +45,10 @@ function createProps(): PhotoCaptureHUDElementsProps {
     error: null,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     tutorialStep: null,
+    onValidateVehicleParts: jest.fn(),
+    vehicleParts: [],
+    addDamage: AddDamage.PART_SELECT,
+    showVehiclePartSelector: false,
   };
 }
 

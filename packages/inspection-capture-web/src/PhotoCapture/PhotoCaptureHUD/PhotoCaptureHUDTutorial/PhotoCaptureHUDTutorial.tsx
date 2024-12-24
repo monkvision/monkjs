@@ -13,7 +13,7 @@ import { DisplayText } from './DisplayText';
  * Props of the PhotoCaptureHUDTutorial component.
  */
 export interface PhotoCaptureHUDTutorialProps
-  extends Pick<CaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines'> {
+  extends Pick<CaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The id of the sight.
    */
@@ -46,6 +46,7 @@ export function PhotoCaptureHUDTutorial({
   sightId,
   onNextTutorialStep,
   onCloseTutorial,
+  addDamage,
 }: PhotoCaptureHUDTutorialProps) {
   const { t } = useTranslation();
   const primaryColor = usePhotoCaptureHUDButtonBackground();
@@ -60,7 +61,7 @@ export function PhotoCaptureHUDTutorial({
               sightId={sightId}
               sightGuidelines={sightGuidelines}
               enableSightGuidelines={currentTutorialStep === TutorialSteps.GUIDELINE}
-              enableAddDamage={true}
+              addDamage={addDamage}
               enableDefaultMessage={true}
             />
             <Button

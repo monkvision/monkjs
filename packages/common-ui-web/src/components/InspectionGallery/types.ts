@@ -1,4 +1,4 @@
-import { ComplianceOptions, Image, Sight } from '@monkvision/types';
+import { AddDamage, ComplianceOptions, Image, Sight } from '@monkvision/types';
 import { MonkApiConfig } from '@monkvision/network';
 
 /**
@@ -100,12 +100,17 @@ export type InspectionGalleryProps = {
    */
   onValidate?: () => void;
   /**
-   * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Custom Damage` button
-   * will be hidden.
+   * Options for Add Damage. If disabled, the `Add Custom Damage` button will be hidden.
    *
-   * @default true
+   * @default AddDamage.PART_SELECT.
    */
-  enableAddDamage?: boolean;
+  addDamage?: AddDamage;
+  /**
+   * Boolean indicating if Sight pictures of the gallery top bar should be displayed or not.
+   *
+   * @default false
+   */
+  disableSightPicture?: boolean;
   /**
    * Custom label for validate button.
    */

@@ -89,5 +89,6 @@ export interface ApiImagePost {
   image_subtype?: ApiImageSubType;
   image_sibling_key?: string;
   compliances?: ApiCompliance;
+  detailed_viewpoint?: ApiViewpointComponent;
   additional_data?: ApiImageAdditionalData;
 }

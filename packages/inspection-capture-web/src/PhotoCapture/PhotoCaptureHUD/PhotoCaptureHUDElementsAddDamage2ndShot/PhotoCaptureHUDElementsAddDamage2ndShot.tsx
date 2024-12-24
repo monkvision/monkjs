@@ -16,6 +16,10 @@ export interface PhotoCaptureHUDElementsAddDamage2ndShotProps {
    */
   onCancel?: () => void;
   /**
+   * Boolean indicating whether the counter should be displayed.
+   */
+  showCounter?: boolean;
+  /**
    * The dimensions of the Camera video stream.
    */
   streamDimensions?: PixelDimensions | null;
@@ -34,6 +38,7 @@ function getAspectRatio(streamDimensions?: PixelDimensions | null) {
  */
 export function PhotoCaptureHUDElementsAddDamage2ndShot({
   onCancel,
+  showCounter = true,
   streamDimensions,
 }: PhotoCaptureHUDElementsAddDamage2ndShotProps) {
   const { t } = useTranslation();
@@ -47,7 +52,7 @@ export function PhotoCaptureHUDElementsAddDamage2ndShot({
         <div style={style.frame} />
       </div>
       <div style={style.top}>
-        <PhotoCaptureHUDCounter mode={PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT} />
+        {showCounter && <PhotoCaptureHUDCounter mode={PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT} />}
         <PhotoCaptureHUDCancelButton onCancel={onCancel} />
       </div>
       <div style={style.infoCloseup}>{t('photo.hud.addDamage.infoCloseup')}</div>

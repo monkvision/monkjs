@@ -32,6 +32,7 @@ export const styles: Styles = {
   frameContainer: {
     position: 'absolute',
     width: '100%',
+    maxHeight: '100%',
   },
   frame: {
     position: 'absolute',

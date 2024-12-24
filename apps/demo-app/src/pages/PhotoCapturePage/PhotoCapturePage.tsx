@@ -34,6 +34,7 @@ export function PhotoCapturePage() {
         sights={currentSights}
         onComplete={handleComplete}
         lang={i18n.language}
+        damageDisclosure={false}
       />
     </div>
   );

@@ -1,14 +1,15 @@
-import { CaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
+import { CaptureAppConfig, Image, PixelDimensions, Sight, VehiclePart } from '@monkvision/types';
 import { PhotoCaptureMode, TutorialSteps } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
 import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDElementsAddDamage2ndShot';
+import { PhotoCaptureHUDElementsAddDamagePartSelectShot } from '../PhotoCaptureHUDElementsAddDamagePartSelectShot';
 
 /**
  * Props of the PhotoCaptureHUDElements component.
  */
 export interface PhotoCaptureHUDElementsProps
-  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
+  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -30,9 +31,21 @@ export interface PhotoCaptureHUDElementsProps
    */
   tutorialStep: TutorialSteps | null;
   /**
+   * Current vehicle parts selected to take a picture of.
+   */
+  vehicleParts: VehiclePart[];
+  /**
+   * Boolean indicating if the vehicle part selector is currently displayed.
+   */
+  showVehiclePartSelector: boolean;
+  /**
    * Callback called when the user presses the Add Damage button.
    */
   onAddDamage: () => void;
+  /**
+   * Callback called when the user selects the parts to take a picture of.
+   */
+  onAddDamagePartsSelected?: (parts: VehiclePart[]) => void;
   /**
    * Callback called when the user cancels the Add Damage mode.
    */
@@ -45,6 +58,10 @@ export interface PhotoCaptureHUDElementsProps
    * Callback called when the user manually selects a sight to retake.
    */
   onRetakeSight: (sight: string) => void;
+  /**
+   * Callback called when the user clicks on the "Validate" button of the Add Damage mode.
+   */
+  onValidateVehicleParts: () => void;
   /**
    * The effective pixel dimensions of the Camera video stream on the screen.
    */
@@ -81,7 +98,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         onAddDamage={params.onAddDamage}
         previewDimensions={params.previewDimensions}
         images={params.images}
-        enableAddDamage={params.enableAddDamage}
+        addDamage={params.addDamage}
         sightGuidelines={params.sightGuidelines}
         enableSightGuidelines={params.enableSightGuidelines}
         tutorialStep={params.tutorialStep}
@@ -91,10 +108,21 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
   if (params.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT) {
     return <PhotoCaptureHUDElementsAddDamage1stShot onCancel={params.onCancelAddDamage} />;
   }
+  if (params.mode === PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT) {
+    return (
+      <PhotoCaptureHUDElementsAddDamage2ndShot
+        onCancel={params.onCancelAddDamage}
+        streamDimensions={params.previewDimensions}
+      />
+    );
+  }
   return (
-    <PhotoCaptureHUDElementsAddDamage2ndShot
+    <PhotoCaptureHUDElementsAddDamagePartSelectShot
       onCancel={params.onCancelAddDamage}
-      streamDimensions={params.previewDimensions}
+      vehicleParts={params.vehicleParts}
+      showVehiclePartSelector={params.showVehiclePartSelector}
+      onValidateVehicleParts={params.onValidateVehicleParts}
+      onAddDamagePartsSelected={params.onAddDamagePartsSelected}
     />
   );
 }
