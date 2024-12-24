@@ -8,7 +8,9 @@ import * as config from '../local-config.json';
 import { AppContainer } from './AppContainer';
 
 const localConfig =
-  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true' ? (config as LiveConfig) : undefined;
+  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true'
+    ? (config as unknown as LiveConfig)
+    : undefined;
 
 export function App() {
   const navigate = useNavigate();

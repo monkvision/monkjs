@@ -74,6 +74,13 @@
         "description": "Drücken Sie den Auslöser, um während der Aufnahme Fotos von der Wiedervermarktung oder von Schäden zu machen."
       },
       "confirm": "Ein Video aufnehmen"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Möchten Sie das Video verwerfen? Sie sind noch nicht ganz um das Fahrzeug herumgekommen.",
+        "keepRecording": "Aufnahme beibehalten",
+        "discardVideo": "Video verwerfen"
+      }
     }
   }
 }

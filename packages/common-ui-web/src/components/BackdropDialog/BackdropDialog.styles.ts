@@ -32,6 +32,9 @@ export const styles: Styles = {
     justifyContent: 'center',
     fontSize: 18,
   },
+  messageNoIcon: {
+    paddingTop: 30,
+  },
   buttonsContainer: {
     width: '100%',
     display: 'flex',

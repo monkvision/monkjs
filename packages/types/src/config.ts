@@ -253,6 +253,12 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
    * The capture workflow of the capture app.
    */
   workflow: CaptureWorkflow.VIDEO;
+  /**
+   * The duration of a recording in milliseconds.
+   *
+   * @default 15000
+   */
+  minRecordingDuration?: number;
 };
 
 /**

@@ -6,9 +6,23 @@ import {
   TakePictureButton,
   VehicleWalkaroundIndicator,
 } from '@monkvision/common-ui-web';
-import { VideoCaptureRecording } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording';
+import {
+  VideoCaptureRecording,
+  VideoCaptureRecordingProps,
+} from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording';
 
 const VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID = 'walkaround-indicator-container';
+
+function createProps(): VideoCaptureRecordingProps {
+  return {
+    walkaroundPosition: 200,
+    isRecording: false,
+    isRecordingPaused: false,
+    recordingDurationMs: 75800,
+    onClickRecordVideo: jest.fn(),
+    onClickTakePicture: jest.fn(),
+  };
+}
 
 describe('VideoCaptureRecording component', () => {
   afterEach(() => {
@@ -16,30 +30,34 @@ describe('VideoCaptureRecording component', () => {
   });
 
   it('should display the VehicleWalkaroundIndicator component', () => {
-    const walkaroundPosition = 344.7;
-    const { unmount } = render(
-      <VideoCaptureRecording walkaroundPosition={walkaroundPosition} isRecording />,
-    );
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} />);
 
-    expectPropsOnChildMock(VehicleWalkaroundIndicator, { alpha: walkaroundPosition });
+    expectPropsOnChildMock(VehicleWalkaroundIndicator, { alpha: props.walkaroundPosition });
 
     unmount();
   });
 
   it('should change the style of the VehicleWalkaroundIndicator component when not recording', () => {
+    const props = createProps();
     const disabledStyle = {
       filter: 'grayscale(1)',
       opacity: 0.7,
     };
     const { rerender, unmount } = render(
-      <VideoCaptureRecording walkaroundPosition={35} isRecording={false} />,
+      <VideoCaptureRecording {...props} isRecording={true} isRecordingPaused={false} />,
     );
-    expect(screen.queryByTestId(VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID)).toHaveStyle(
+    expect(screen.getByTestId(VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID)).not.toHaveStyle(
       disabledStyle,
     );
 
-    rerender(<VideoCaptureRecording walkaroundPosition={22} isRecording />);
-    expect(screen.queryByTestId(VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID)).not.toHaveStyle(
+    rerender(<VideoCaptureRecording {...props} isRecording={false} isRecordingPaused={true} />);
+    expect(screen.getByTestId(VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID)).toHaveStyle(
+      disabledStyle,
+    );
+
+    rerender(<VideoCaptureRecording {...props} isRecording={false} isRecordingPaused={false} />);
+    expect(screen.getByTestId(VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID)).toHaveStyle(
       disabledStyle,
     );
 
@@ -47,40 +65,34 @@ describe('VideoCaptureRecording component', () => {
   });
 
   it('should display the RecordVideoButton and pass it the recording state', () => {
-    const { rerender, unmount } = render(
-      <VideoCaptureRecording walkaroundPosition={22} isRecording />,
-    );
+    const props = createProps();
+    const { rerender, unmount } = render(<VideoCaptureRecording {...props} isRecording={true} />);
 
     expectPropsOnChildMock(RecordVideoButton, { isRecording: true });
-    rerender(<VideoCaptureRecording walkaroundPosition={22} isRecording={false} />);
+    rerender(<VideoCaptureRecording {...props} isRecording={false} />);
     expectPropsOnChildMock(RecordVideoButton, { isRecording: false });
 
     unmount();
   });
 
   it('should call the onClickRecordVideo callback when the user clicks on the RecordVideoButton', () => {
-    const onClickRecordVideo = jest.fn();
-    const { unmount } = render(
-      <VideoCaptureRecording
-        walkaroundPosition={22}
-        isRecording
-        onClickRecordVideo={onClickRecordVideo}
-      />,
-    );
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} />);
 
     expectPropsOnChildMock(RecordVideoButton, { onClick: expect.any(Function) });
     const { onClick } = (RecordVideoButton as unknown as jest.Mock).mock.calls[0][0];
-    expect(onClickRecordVideo).not.toHaveBeenCalled();
+    expect(props.onClickRecordVideo).not.toHaveBeenCalled();
     act(() => {
       onClick();
     });
-    expect(onClickRecordVideo).toHaveBeenCalled();
+    expect(props.onClickRecordVideo).toHaveBeenCalled();
 
     unmount();
   });
 
   it('should display the TakePictureButton', () => {
-    const { unmount } = render(<VideoCaptureRecording walkaroundPosition={22} isRecording />);
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} />);
 
     expect(TakePictureButton).toHaveBeenCalled();
 
@@ -88,34 +100,51 @@ describe('VideoCaptureRecording component', () => {
   });
 
   it('should disable the TakePictureButton when not recording', () => {
-    const { rerender, unmount } = render(
-      <VideoCaptureRecording walkaroundPosition={22} isRecording />,
-    );
+    const props = createProps();
+    const { rerender, unmount } = render(<VideoCaptureRecording {...props} isRecording={true} />);
 
     expectPropsOnChildMock(TakePictureButton, { disabled: false });
-    rerender(<VideoCaptureRecording walkaroundPosition={22} isRecording={false} />);
+    rerender(<VideoCaptureRecording {...props} isRecording={false} />);
     expectPropsOnChildMock(TakePictureButton, { disabled: true });
 
     unmount();
   });
 
   it('should call the onClickTakePicture callback when the user clicks on the TakePictureButton', () => {
-    const onClickTakePicture = jest.fn();
-    const { unmount } = render(
-      <VideoCaptureRecording
-        walkaroundPosition={22}
-        isRecording
-        onClickTakePicture={onClickTakePicture}
-      />,
-    );
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} isRecording={true} />);
 
     expectPropsOnChildMock(TakePictureButton, { onClick: expect.any(Function) });
     const { onClick } = (TakePictureButton as unknown as jest.Mock).mock.calls[0][0];
-    expect(onClickTakePicture).not.toHaveBeenCalled();
+    expect(props.onClickTakePicture).not.toHaveBeenCalled();
     act(() => {
       onClick();
     });
-    expect(onClickTakePicture).toHaveBeenCalled();
+    expect(props.onClickTakePicture).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should display the current recording time properly formatted when recording or recording paused', () => {
+    const props = createProps();
+    const { rerender, unmount } = render(
+      <VideoCaptureRecording {...props} isRecording={true} isRecordingPaused={false} />,
+    );
+
+    expect(screen.queryByText('01:15')).not.toBeNull();
+    rerender(<VideoCaptureRecording {...props} isRecording={false} isRecordingPaused={true} />);
+    expect(screen.queryByText('01:15')).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should not display the current recording time when not recording', () => {
+    const props = createProps();
+    const { unmount } = render(
+      <VideoCaptureRecording {...props} isRecording={false} isRecordingPaused={false} />,
+    );
+
+    expect(screen.queryByText('01:15')).toBeNull();
 
     unmount();
   });

@@ -1,15 +1,26 @@
 import { useI18nSync, useDeviceOrientation } from '@monkvision/common';
 import { useState } from 'react';
-import { Camera } from '@monkvision/camera-web';
+import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
+import { CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
-import { VideoCaptureHUD } from './VideoCaptureHUD';
+import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 
 /**
  * Props of the VideoCapture component.
  */
-export interface VideoCaptureProps {
+export interface VideoCaptureProps
+  extends Pick<
+    VideoCaptureAppConfig,
+    | keyof CameraConfig
+    | 'maxUploadDurationWarning'
+    | 'useAdaptiveImageQuality'
+    | 'additionalTasks'
+    | 'startTasksOnComplete'
+    | 'enforceOrientation'
+    | 'minRecordingDuration'
+  > {
   /**
    * The ID of the inspection to add the video frames to.
    */
@@ -33,12 +44,26 @@ enum VideoCaptureScreen {
 }
 
 // No ts-doc for this component : the component exported is VideoCaptureHOC
-export function VideoCapture({ lang }: VideoCaptureProps) {
+export function VideoCapture({
+  inspectionId,
+  apiConfig,
+  maxUploadDurationWarning,
+  useAdaptiveImageQuality,
+  additionalTasks,
+  startTasksOnComplete,
+  enforceOrientation,
+  minRecordingDuration = 15000,
+  lang,
+}: VideoCaptureProps) {
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const { requestCompassPermission, alpha } = useDeviceOrientation();
 
-  const hudProps = { alpha };
+  const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
+    alpha,
+    minRecordingDuration,
+    onRecordingComplete: () => console.log('Recording complete!'),
+  };
 
   return (
     <div style={styles['container']}>

@@ -15375,23 +15375,23 @@ __metadata:
   dependencies:
     "@auth0/auth0-react": ^2.2.4
     "@babel/core": ^7.22.9
-    "@monkvision/analytics": 4.5.3
-    "@monkvision/common": 4.5.3
-    "@monkvision/common-ui-web": 4.5.3
-    "@monkvision/eslint-config-base": 4.5.3
-    "@monkvision/eslint-config-typescript": 4.5.3
-    "@monkvision/eslint-config-typescript-react": 4.5.3
-    "@monkvision/inspection-capture-web": 4.5.3
-    "@monkvision/jest-config": 4.5.3
-    "@monkvision/monitoring": 4.5.3
-    "@monkvision/network": 4.5.3
-    "@monkvision/posthog": 4.5.3
-    "@monkvision/prettier-config": 4.5.3
-    "@monkvision/sentry": 4.5.3
-    "@monkvision/sights": 4.5.3
-    "@monkvision/test-utils": 4.5.3
-    "@monkvision/types": 4.5.3
-    "@monkvision/typescript-config": 4.5.3
+    "@monkvision/analytics": 4.5.5
+    "@monkvision/common": 4.5.5
+    "@monkvision/common-ui-web": 4.5.5
+    "@monkvision/eslint-config-base": 4.5.5
+    "@monkvision/eslint-config-typescript": 4.5.5
+    "@monkvision/eslint-config-typescript-react": 4.5.5
+    "@monkvision/inspection-capture-web": 4.5.5
+    "@monkvision/jest-config": 4.5.5
+    "@monkvision/monitoring": 4.5.5
+    "@monkvision/network": 4.5.5
+    "@monkvision/posthog": 4.5.5
+    "@monkvision/prettier-config": 4.5.5
+    "@monkvision/sentry": 4.5.5
+    "@monkvision/sights": 4.5.5
+    "@monkvision/test-utils": 4.5.5
+    "@monkvision/types": 4.5.5
+    "@monkvision/typescript-config": 4.5.5
     "@testing-library/dom": ^8.20.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^12.1.5

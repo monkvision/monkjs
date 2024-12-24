@@ -1,5 +1,5 @@
 import { Styles } from '@monkvision/types';
-import { useIsMounted, useResponsiveStyle } from '@monkvision/common';
+import { useIsMounted, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
 import { useState } from 'react';
 import { VideoCaptureRecordingProps } from './VideoCaptureRecording.types';
 
@@ -10,12 +10,29 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignSelf: 'stretch',
   },
   containerLandscape: {
     __media: { landscape: true },
     flexDirection: 'row',
+  },
+  indicators: {
+    alignSelf: 'stretch',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+    flexDirection: 'row',
+    padding: 20,
+  },
+  indicatorsLandscape: {
+    __media: { landscape: true },
+    justifyContent: 'start',
+    flexDirection: 'column',
+  },
+  recordingDuration: {
+    padding: 10,
+    borderRadius: 9999,
   },
   controls: {
     alignSelf: 'stretch',
@@ -53,6 +70,7 @@ export function useVideoCaptureRecordingStyles({
   isRecording,
 }: Pick<VideoCaptureRecordingProps, 'isRecording'>) {
   const [isTakePictureFlashVisible, setTakePictureFlashVisible] = useState(false);
+  const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
   const isMounted = useIsMounted();
 
@@ -69,6 +87,15 @@ export function useVideoCaptureRecordingStyles({
     container: {
       ...styles['container'],
       ...responsive(styles['containerLandscape']),
+    },
+    indicators: {
+      ...styles['indicators'],
+      ...responsive(styles['indicatorsLandscape']),
+    },
+    recordingDuration: {
+      ...styles['recordingDuration'],
+      color: palette.text.primary,
+      backgroundColor: palette.alert.base,
     },
     controls: {
       ...styles['controls'],

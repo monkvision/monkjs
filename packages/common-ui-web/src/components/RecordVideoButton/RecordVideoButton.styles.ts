@@ -29,6 +29,8 @@ export const styles: Styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 0,
+    margin: 0,
   },
   buttonDisabled: {
     opacity: 0.75,

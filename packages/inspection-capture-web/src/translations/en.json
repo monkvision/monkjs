@@ -74,6 +74,13 @@
         "description": "Press the shutter button to capture remarketing or damage photos while you're recording."
       },
       "confirm": "Record a Video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Do you want to discard the video? You haven' t gone all the way around the vehicle.",
+        "keepRecording": "Keep Recording",
+        "discardVideo": "Discard Video"
+      }
     }
   }
 }

@@ -74,6 +74,13 @@
         "description": "Druk op de ontspanknop om remarketing- of schadefoto's te maken terwijl je opneemt."
       },
       "confirm": "Een video opnemen"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Wil je de video weggooien? Je hebt het voertuig nog niet helemaal rondgereden.",
+        "keepRecording": "Opname behouden",
+        "discardVideo": "Video weggooien"
+      }
     }
   }
 }

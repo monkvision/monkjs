@@ -74,6 +74,13 @@
         "description": "Appuyez sur le bouton de capture pour prendre des photos de remarketing ou de dommages pendant l'enregistrement."
       },
       "confirm": "Enregistrer une vidéo"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Voulez-vous annuler la vidéo ? Vous n'avez pas fait le tour complet du véhicule.",
+        "keepRecording": "Continuer l'enregistrement",
+        "discardVideo": "Annuler la vidéo"
+      }
     }
   }
 }

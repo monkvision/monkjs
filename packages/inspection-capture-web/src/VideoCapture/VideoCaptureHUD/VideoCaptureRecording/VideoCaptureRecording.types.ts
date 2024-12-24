@@ -11,6 +11,14 @@ export interface VideoCaptureRecordingProps {
    */
   isRecording: boolean;
   /**
+   * Boolean indicating if the video recording is paused or not.
+   */
+  isRecordingPaused: boolean;
+  /**
+   * The total duration (in milliseconds) of the current video recording.
+   */
+  recordingDurationMs: number;
+  /**
    * Callback called when the user clicks on the record video button.
    */
   onClickRecordVideo?: () => void;

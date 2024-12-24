@@ -12,9 +12,25 @@ export interface UseVehicleWalkaroundParams {
 }
 
 /**
+ * Handle returned by the useVehicleWalkaround hook to manage the VehicleWalkaround feature.
+ */
+export interface VehicleWalkaroundHandle {
+  /**
+   * Callback called at the start of the recording, to set the initial alpha position of the user.
+   */
+  startWalkaround: () => void;
+  /**
+   * The current position of the user around the vehicle (between 0 and 360).
+   */
+  walkaroundPosition: number;
+}
+
+/**
  * Custom hook used to manage the vehicle walkaround tracking.
  */
-export function useVehicleWalkaround({ alpha }: UseVehicleWalkaroundParams) {
+export function useVehicleWalkaround({
+  alpha,
+}: UseVehicleWalkaroundParams): VehicleWalkaroundHandle {
   const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
   const [checkpoint, setCheckpoint] = useState(45);
   const [nextCheckpoint, setNextCheckpoint] = useState(90);
