@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   AllOrNone,
   CameraConfig,
@@ -115,6 +115,7 @@ export function Camera<T extends object>({
     availableCameraDevices,
     selectedCameraDeviceId,
   });
+
   const isLoading = isPreviewLoading || isTakePictureLoading;
   const cameraPreview = useMemo(
     () => (
@@ -134,10 +135,15 @@ export function Camera<T extends object>({
     [],
   );
 
+  const getImageData = useCallback(() => takeScreenshot(), [takeScreenshot]);
+  const compressImage = useCallback((image: ImageData) => compress(image), [compress]);
+
   return HUDComponent ? (
     <HUDComponent
       handle={{
         takePicture,
+        getImageData,
+        compressImage,
         error,
         retry,
         isLoading,
