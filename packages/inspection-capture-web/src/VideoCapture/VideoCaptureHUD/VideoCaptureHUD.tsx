@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { CameraHUDProps } from '@monkvision/camera-web';
-import { useMonitoring } from '@monkvision/monitoring';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
+import { MonkPicture } from '@monkvision/types';
 import { styles } from './VideoCaptureHUD.styles';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
-import { useVehicleWalkaround, useVideoRecording, UseVideoRecordingParams } from '../hooks';
+import {
+  useFrameSelection,
+  useVehicleWalkaround,
+  useVideoRecording,
+  UseVideoRecordingParams,
+} from '../hooks';
 
 /**
  * Props accepted by the VideoCaptureHUD component.
@@ -24,7 +29,8 @@ export interface VideoCaptureHUDProps
   onRecordingComplete?: () => void;
 }
 
-const SCREENSHOT_INTERVAL_MS = 1000;
+const SCREENSHOT_INTERVAL_MS = 200;
+const FRAME_SELECTION_INTERVAL_MS = 1000;
 
 /**
  * HUD component displayed on top of the camera preview for the VideoCapture process.
@@ -38,18 +44,17 @@ export function VideoCaptureHUD({
 }: VideoCaptureHUDProps) {
   const [isTutorialDisplayed, setIsTutorialDisplayed] = useState(true);
   const { t } = useTranslation();
-  const { handleError } = useMonitoring();
   const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
 
-  const onCaptureVideoFrame = async () => {
-    try {
-      const picture = await handle.takePicture();
-      console.log('Picture taken :', picture.blob.size);
-    } catch (err) {
-      handleError(err);
-    }
+  const onFrameSelected = (picture: MonkPicture) => {
+    console.log('Frame selected :', picture.blob.size);
   };
 
+  const { onCaptureVideoFrame } = useFrameSelection({
+    handle,
+    frameSelectionInterval: FRAME_SELECTION_INTERVAL_MS,
+    onFrameSelected,
+  });
   const {
     isRecording,
     isRecordingPaused,
