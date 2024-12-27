@@ -12,7 +12,8 @@
       "image_editing",
       "inspection_pdf",
       "pricing",
-      "dashboard_ocr"
+      "dashboard_ocr",
+      "compliances"
     ]
   },
   "minItems": 1,

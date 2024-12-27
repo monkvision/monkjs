@@ -5,7 +5,7 @@
     "label": "rear-seats",
     "overlay": "all-1c89235c.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-35104fb6": {
     "id": "all-35104fb6",
@@ -13,7 +13,7 @@
     "label": "left-front-door",
     "overlay": "all-35104fb6.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-356a10ca": {
     "id": "all-356a10ca",
@@ -21,7 +21,7 @@
     "label": "dashboard-from-back-seat",
     "overlay": "all-356a10ca.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-50eebfb7": {
     "id": "all-50eebfb7",
@@ -29,7 +29,7 @@
     "label": "rear-seats",
     "overlay": "all-50eebfb7.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-526bc540": {
     "id": "all-526bc540",
@@ -37,7 +37,7 @@
     "label": "engine-right-side",
     "overlay": "all-526bc540.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-545d81e5": {
     "id": "all-545d81e5",
@@ -45,7 +45,7 @@
     "label": "dashboard-from-back-seat",
     "overlay": "all-545d81e5.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-602375f5": {
     "id": "all-602375f5",
@@ -53,7 +53,7 @@
     "label": "dashboard-from-back-seat",
     "overlay": "all-602375f5.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-6f747948": {
     "id": "all-6f747948",
@@ -61,7 +61,7 @@
     "label": "front-seats",
     "overlay": "all-6f747948.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-76822eac": {
     "id": "all-76822eac",
@@ -69,7 +69,7 @@
     "label": "trunk-right-side",
     "overlay": "all-76822eac.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-7af3fb1f": {
     "id": "all-7af3fb1f",
@@ -77,7 +77,7 @@
     "label": "dashboard",
     "overlay": "all-7af3fb1f.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-96fee1d8": {
     "id": "all-96fee1d8",
@@ -85,7 +85,7 @@
     "label": "trunk-left-side",
     "overlay": "all-96fee1d8.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-98d26745": {
     "id": "all-98d26745",
@@ -93,7 +93,7 @@
     "label": "engine-left-side",
     "overlay": "all-98d26745.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-9c2d7b19": {
     "id": "all-9c2d7b19",
@@ -101,7 +101,7 @@
     "label": "open-trunk",
     "overlay": "all-9c2d7b19.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-IqwSM3": {
     "id": "all-IqwSM3",
@@ -109,7 +109,7 @@
     "label": "front-seats",
     "overlay": "all-IqwSM3.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"],
+    "tasks": ["compliances"],
     "mirror_sight": "all-T4HrF8KA"
   },
   "all-T4HrF8KA": {
@@ -118,7 +118,7 @@
     "label": "front-seats",
     "overlay": "all-T4HrF8KA.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"],
+    "tasks": ["compliances"],
     "mirror_sight": "all-IqwSM3"
   },
   "all-ad16621c": {
@@ -127,7 +127,7 @@
     "label": "interior-roof",
     "overlay": "all-ad16621c.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-e7663823": {
     "id": "all-e7663823",
@@ -135,7 +135,7 @@
     "label": "front-seats",
     "overlay": "all-e7663823.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-y6329hj8": {
     "id": "all-y6329hj8",
@@ -143,7 +143,7 @@
     "label": "front-seats",
     "overlay": "all-y6329hj8.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-ed8a75b6": {
     "id": "all-ed8a75b6",
@@ -151,7 +151,7 @@
     "label": "dashboard-from-driver-seat",
     "overlay": "all-ed8a75b6.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-ff87ff59": {
     "id": "all-ff87ff59",
@@ -159,7 +159,7 @@
     "label": "front-seats",
     "overlay": "all-ff87ff59.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-qhKA2z": {
     "id": "all-qhKA2z",
@@ -167,7 +167,7 @@
     "label": "trunk",
     "overlay": "all-qhKA2z.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-rSvk2C": {
     "id": "all-rSvk2C",
@@ -175,7 +175,7 @@
     "label": "dashboard",
     "overlay": "all-rSvk2C.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-rj5mhm": {
     "id": "all-rj5mhm",
@@ -183,7 +183,7 @@
     "label": "back-seats",
     "overlay": "all-rj5mhm.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-sLu0CfOt": {
     "id": "all-sLu0CfOt",
@@ -191,7 +191,7 @@
     "label": "vin",
     "overlay": "all-sLu0CfOt.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-9cw4tn4s": {
     "id": "all-9cw4tn4s",
@@ -199,7 +199,7 @@
     "label": "tire",
     "overlay": "all-9cw4tn4s.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["compliances", "wheel_analysis"]
   },
   "all-Pj-K822I": {
     "id": "all-Pj-K822I",
@@ -207,7 +207,7 @@
     "label": "tire",
     "overlay": "all-Pj-K822I.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["compliances", "wheel_analysis"]
   },
   "all-11w-_e9c": {
     "id": "all-11w-_e9c",
@@ -215,7 +215,7 @@
     "label": "dashboard-screen",
     "overlay": "all-11w-_e9c.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-mdwq0pl4": {
     "id": "all-mdwq0pl4",
@@ -223,7 +223,7 @@
     "label": "card-keys",
     "overlay": "all-mdwq0pl4.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-hJLGOqvb": {
     "id": "all-hJLGOqvb",
@@ -231,7 +231,7 @@
     "label": "card-keys",
     "overlay": "all-hJLGOqvb.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   },
   "all-8jdq7f5m": {
     "id": "all-8jdq7f5m",
@@ -239,6 +239,6 @@
     "label": "penny-test",
     "overlay": "all-8jdq7f5m.svg",
     "vehicle": "all",
-    "tasks": ["damage_detection"]
+    "tasks": ["compliances"]
   }
 }
