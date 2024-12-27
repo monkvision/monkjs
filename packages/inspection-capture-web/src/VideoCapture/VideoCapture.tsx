@@ -6,6 +6,7 @@ import { CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
+import { useVideoUploadQueue } from './hooks';
 
 /**
  * Props of the VideoCapture component.
@@ -20,6 +21,7 @@ export interface VideoCaptureProps
     | 'startTasksOnComplete'
     | 'enforceOrientation'
     | 'minRecordingDuration'
+    | 'maxRetryCount'
   > {
   /**
    * The ID of the inspection to add the video frames to.
@@ -53,16 +55,19 @@ export function VideoCapture({
   startTasksOnComplete,
   enforceOrientation,
   minRecordingDuration = 15000,
+  maxRetryCount = 3,
   lang,
 }: VideoCaptureProps) {
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const { requestCompassPermission, alpha } = useDeviceOrientation();
+  const { onFrameSelected } = useVideoUploadQueue({ apiConfig, inspectionId, maxRetryCount });
 
   const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
     alpha,
     minRecordingDuration,
     onRecordingComplete: () => console.log('Recording complete!'),
+    onFrameSelected,
   };
 
   return (

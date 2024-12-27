@@ -259,6 +259,12 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
    * @default 15000
    */
   minRecordingDuration?: number;
+  /**
+   * The maximum number of retries for failed image uploads.
+   *
+   * @default 3
+   */
+  maxRetryCount?: number;
 };
 
 /**

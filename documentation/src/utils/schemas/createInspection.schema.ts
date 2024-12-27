@@ -64,6 +64,7 @@ export const CreateInspectionOptionsSchema = z.object({
   vehicle: InspectionCreateVehicleSchema.optional(),
   useDynamicCrops: z.boolean().optional(),
   enablePricingV1: z.boolean().optional(),
+  isVideoCapture: z.boolean().optional(),
   additionalData: AdditionalDataSchema.optional(),
 });
 

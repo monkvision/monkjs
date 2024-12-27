@@ -27,6 +27,10 @@ export interface VideoCaptureHUDProps
    * Callback called when the recording is complete.
    */
   onRecordingComplete?: () => void;
+  /**
+   * Callback called when a video frame has been selected by the frame selection hook.
+   */
+  onFrameSelected?: (picture: MonkPicture) => void;
 }
 
 const SCREENSHOT_INTERVAL_MS = 200;
@@ -41,14 +45,11 @@ export function VideoCaptureHUD({
   alpha,
   minRecordingDuration,
   onRecordingComplete,
+  onFrameSelected,
 }: VideoCaptureHUDProps) {
   const [isTutorialDisplayed, setIsTutorialDisplayed] = useState(true);
   const { t } = useTranslation();
   const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
-
-  const onFrameSelected = (picture: MonkPicture) => {
-    console.log('Frame selected :', picture.blob.size);
-  };
 
   const { onCaptureVideoFrame } = useFrameSelection({
     handle,

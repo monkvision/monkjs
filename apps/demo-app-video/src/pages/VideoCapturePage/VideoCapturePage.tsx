@@ -6,7 +6,8 @@ import styles from './VideoCapturePage.module.css';
 
 export function VideoCapturePage() {
   const { i18n } = useTranslation();
-  const { config } = useMonkAppState({
+  const { config, authToken, inspectionId } = useMonkAppState({
+    requireInspection: true,
     requireWorkflow: CaptureWorkflow.VIDEO,
   });
 
@@ -15,11 +16,11 @@ export function VideoCapturePage() {
       <VideoCapture
         {...config}
         apiConfig={{
-          authToken: 'test',
-          apiDomain: 'test',
-          thumbnailDomain: 'test',
+          authToken,
+          apiDomain: config.apiDomain,
+          thumbnailDomain: config.thumbnailDomain,
         }}
-        inspectionId='test'
+        inspectionId={inspectionId}
         lang={i18n.language}
       />
     </div>
