@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { MonkPicture } from '@monkvision/types';
+import { MonkApiConfig } from '@monkvision/network';
 import { styles } from './VideoCaptureHUD.styles';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
@@ -11,7 +11,9 @@ import {
   useVehicleWalkaround,
   useVideoRecording,
   UseVideoRecordingParams,
+  useVideoUploadQueue,
 } from '../hooks';
+import { VideoCaptureProcessing } from '../VideoCaptureProcessing';
 
 /**
  * Props accepted by the VideoCaptureHUD component.
@@ -20,21 +22,36 @@ export interface VideoCaptureHUDProps
   extends CameraHUDProps,
     Pick<UseVideoRecordingParams, 'minRecordingDuration'> {
   /**
+   * The ID of the inspection to add the video frames to.
+   */
+  inspectionId: string;
+  /**
+   * The api config used to communicate with the API. Make sure that the user described in the auth token is the same
+   * one as the one that created the inspection provided in the `inspectionId` prop.
+   */
+  apiConfig: MonkApiConfig;
+  /**
    * The alpha value of the device orientaiton.
    */
   alpha: number;
   /**
-   * Callback called when the recording is complete.
+   * The maximum number of retries for failed image uploads.
    */
-  onRecordingComplete?: () => void;
+  maxRetryCount: number;
   /**
-   * Callback called when a video frame has been selected by the frame selection hook.
+   * Callback called when the inspection capture is complete.
    */
-  onFrameSelected?: (picture: MonkPicture) => void;
+  onComplete?: () => void;
 }
 
 const SCREENSHOT_INTERVAL_MS = 200;
 const FRAME_SELECTION_INTERVAL_MS = 1000;
+
+enum VideoCaptureHUDScreen {
+  TUTORIAL = 'tutorial',
+  RECORDING = 'recording',
+  PROCESSING = 'processing',
+}
 
 /**
  * HUD component displayed on top of the camera preview for the VideoCapture process.
@@ -42,16 +59,24 @@ const FRAME_SELECTION_INTERVAL_MS = 1000;
 export function VideoCaptureHUD({
   handle,
   cameraPreview,
+  inspectionId,
+  apiConfig,
   alpha,
+  maxRetryCount,
   minRecordingDuration,
-  onRecordingComplete,
-  onFrameSelected,
+  onComplete,
 }: VideoCaptureHUDProps) {
-  const [isTutorialDisplayed, setIsTutorialDisplayed] = useState(true);
+  const [screen, setScreen] = useState(VideoCaptureHUDScreen.TUTORIAL);
   const { t } = useTranslation();
   const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
 
-  const { onCaptureVideoFrame } = useFrameSelection({
+  const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
+    apiConfig,
+    inspectionId,
+    maxRetryCount,
+  });
+
+  const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
     handle,
     frameSelectionInterval: FRAME_SELECTION_INTERVAL_MS,
     onFrameSelected,
@@ -70,7 +95,7 @@ export function VideoCaptureHUD({
     walkaroundPosition,
     startWalkaround,
     onCaptureVideoFrame,
-    onRecordingComplete,
+    onRecordingComplete: () => setScreen(VideoCaptureHUDScreen.PROCESSING),
   });
 
   const handleTakePictureClick = () => {};
@@ -79,9 +104,10 @@ export function VideoCaptureHUD({
     <div style={styles['container']}>
       {cameraPreview}
       <div style={styles['hudContainer']}>
-        {isTutorialDisplayed ? (
-          <VideoCaptureTutorial onClose={() => setIsTutorialDisplayed(false)} />
-        ) : (
+        {screen === VideoCaptureHUDScreen.TUTORIAL && (
+          <VideoCaptureTutorial onClose={() => setScreen(VideoCaptureHUDScreen.RECORDING)} />
+        )}
+        {screen === VideoCaptureHUDScreen.RECORDING && (
           <VideoCaptureRecording
             walkaroundPosition={isRecording || isRecordingPaused ? walkaroundPosition : 0}
             isRecording={isRecording}
@@ -89,6 +115,15 @@ export function VideoCaptureHUD({
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
+          />
+        )}
+        {screen === VideoCaptureHUDScreen.PROCESSING && (
+          <VideoCaptureProcessing
+            processedFrames={processedFrames}
+            totalProcessingFrames={totalProcessingFrames}
+            uploadedFrames={uploadedFrames}
+            totalUploadingFrames={totalUploadingFrames}
+            onComplete={onComplete}
           />
         )}
       </div>

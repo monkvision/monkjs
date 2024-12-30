@@ -3,7 +3,7 @@ import { Styles } from '@monkvision/types';
 import { useMonkTheme, useResponsiveStyle } from '@monkvision/common';
 import { IconProps } from '@monkvision/common-ui-web';
 
-export const INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT = 600;
+export const PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT = 600;
 
 export const styles: Styles = {
   container: {
@@ -28,7 +28,7 @@ export const styles: Styles = {
   },
   titleSmall: {
     __media: {
-      maxHeight: INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT,
+      maxHeight: PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
     fontSize: 14,
     fontWeight: 500,
@@ -41,20 +41,20 @@ export const styles: Styles = {
   },
   descriptionSmall: {
     __media: {
-      maxHeight: INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT,
+      maxHeight: PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
     fontSize: 12,
     fontWeight: 400,
   },
 };
 
-interface IntroLayoutItemStyle {
+interface PageLayoutItemStyle {
   iconProps: Partial<IconProps>;
   titleStyle: CSSProperties;
   descriptionStyle: CSSProperties;
 }
 
-export function useIntroLayoutItemStyles(): IntroLayoutItemStyle {
+export function usePageLayoutItemStyles(): PageLayoutItemStyle {
   const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
 

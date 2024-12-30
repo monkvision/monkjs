@@ -152,4 +152,21 @@ describe('useFrameSelection hook', () => {
 
     unmount();
   });
+
+  it('should return the processed frames and the total processing frames', () => {
+    const totalItems = 4321;
+    const processingCount = 876;
+    (useQueue as jest.Mock).mockImplementationOnce(() => ({
+      push: jest.fn(),
+      totalItems,
+      processingCount,
+    }));
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(useFrameSelection, { initialProps });
+
+    expect(result.current.processedFrames).toEqual(totalItems - processingCount);
+    expect(result.current.totalProcessingFrames).toEqual(totalItems);
+
+    unmount();
+  });
 });

@@ -81,6 +81,12 @@
         "keepRecording": "Aufnahme beibehalten",
         "discardVideo": "Video verwerfen"
       }
+    },
+    "processing": {
+      "processing": "Bearbeitung des Videos...",
+      "uploading": "Hochladen des Videos...",
+      "success": "Videobearbeitung abgeschlossen!",
+      "done": "Erledigt"
     }
   }
 }

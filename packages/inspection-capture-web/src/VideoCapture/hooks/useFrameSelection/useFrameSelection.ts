@@ -28,6 +28,14 @@ export interface UseFrameSelectionParams {
  */
 export interface FrameSelectionHandle {
   /**
+   * The number of frames that have successfully been processed and added to the upload queue.
+   */
+  processedFrames: number;
+  /**
+   * The total number of frames added to the processing queue.
+   */
+  totalProcessingFrames: number;
+  /**
    * Callback called when a video frame should be captured.
    */
   onCaptureVideoFrame: () => void;
@@ -78,5 +86,9 @@ export function useFrameSelection({
     bestFrame.current = null;
   }, frameSelectionInterval);
 
-  return useObjectMemo({ onCaptureVideoFrame });
+  return useObjectMemo({
+    processedFrames: processingQueue.totalItems - processingQueue.processingCount,
+    totalProcessingFrames: processingQueue.totalItems,
+    onCaptureVideoFrame,
+  });
 }

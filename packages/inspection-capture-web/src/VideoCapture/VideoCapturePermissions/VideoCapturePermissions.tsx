@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useIsMounted, useLoadingState } from '@monkvision/common';
 import { useCameraPermission } from '@monkvision/camera-web';
 import { useMonitoring } from '@monkvision/monitoring';
-import { IntroLayoutItem, VideoCaptureIntroLayout } from '../VideoCaptureIntroLayout';
+import { PageLayoutItem, VideoCapturePageLayout } from '../VideoCapturePageLayout';
 
 /**
  * Props accepted by the VideoCapturePermissions component.
@@ -56,17 +56,17 @@ export function VideoCapturePermissions({
   };
 
   return (
-    <VideoCaptureIntroLayout confirmButtonProps={confirmButtonProps}>
-      <IntroLayoutItem
+    <VideoCapturePageLayout confirmButtonProps={confirmButtonProps}>
+      <PageLayoutItem
         icon='camera-outline'
         title={t('video.permissions.camera.title')}
         description={t('video.permissions.camera.description')}
       />
-      <IntroLayoutItem
+      <PageLayoutItem
         icon='compass-outline'
         title={t('video.permissions.compass.title')}
         description={t('video.permissions.compass.description')}
       />
-    </VideoCaptureIntroLayout>
+    </VideoCapturePageLayout>
   );
 }

@@ -81,6 +81,12 @@
         "keepRecording": "Opname behouden",
         "discardVideo": "Video weggooien"
       }
+    },
+    "processing": {
+      "processing": "De video verwerken...",
+      "uploading": "Video uploaden...",
+      "success": "Videobewerking voltooid!",
+      "done": "Gedaan"
     }
   }
 }

@@ -1,10 +1,10 @@
 import { Icon, IconName } from '@monkvision/common-ui-web';
-import { styles, useIntroLayoutItemStyles } from './IntroLayoutItem.styles';
+import { styles, usePageLayoutItemStyles } from './PageLayoutItem.styles';
 
 /**
- * Props accepted by the IntroLayoutItem component.
+ * Props accepted by the PageLayoutItem component.
  */
-export interface IntroLayoutItemProps {
+export interface PageLayoutItemProps {
   /**
    * The name of the item icon.
    */
@@ -22,8 +22,8 @@ export interface IntroLayoutItemProps {
 /**
  * A custom list item that is displayed in VideoCapture Intro screens.
  */
-export function IntroLayoutItem({ icon, title, description }: IntroLayoutItemProps) {
-  const { iconProps, titleStyle, descriptionStyle } = useIntroLayoutItemStyles();
+export function PageLayoutItem({ icon, title, description }: PageLayoutItemProps) {
+  const { iconProps, titleStyle, descriptionStyle } = usePageLayoutItemStyles();
 
   return (
     <div style={styles['container']}>

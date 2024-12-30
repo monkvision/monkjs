@@ -132,4 +132,21 @@ describe('useVideoUploadQueue hook', () => {
 
     unmount();
   });
+
+  it('should return the uploaded frames and the total uploading frames', () => {
+    const totalItems = 2345;
+    const processingCount = 123;
+    (useQueue as jest.Mock).mockImplementationOnce(() => ({
+      push: jest.fn(),
+      totalItems,
+      processingCount,
+    }));
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(useVideoUploadQueue, { initialProps });
+
+    expect(result.current.uploadedFrames).toEqual(totalItems - processingCount);
+    expect(result.current.totalUploadingFrames).toEqual(totalItems);
+
+    unmount();
+  });
 });

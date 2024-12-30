@@ -1,13 +1,13 @@
-jest.mock('../../../src/VideoCapture/VideoCaptureIntroLayout', () => ({
-  VideoCaptureIntroLayout: jest.fn(() => <></>),
-  IntroLayoutItem: jest.fn(() => <></>),
+jest.mock('../../../src/VideoCapture/VideoCapturePageLayout', () => ({
+  VideoCapturePageLayout: jest.fn(() => <></>),
+  PageLayoutItem: jest.fn(() => <></>),
 }));
 
 import { render } from '@testing-library/react';
 import {
-  IntroLayoutItem,
-  VideoCaptureIntroLayout,
-} from '../../../src/VideoCapture/VideoCaptureIntroLayout';
+  PageLayoutItem,
+  VideoCapturePageLayout,
+} from '../../../src/VideoCapture/VideoCapturePageLayout';
 import { VideoCaptureTutorial } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureTutorial';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 
@@ -16,10 +16,10 @@ describe('VideoCaptureTutorial component', () => {
     jest.clearAllMocks();
   });
 
-  it('should use the VideoCaptureIntroLayout component for the layout', () => {
+  it('should use the VideoCapturePageLayout component for the layout', () => {
     const { unmount } = render(<VideoCaptureTutorial />);
 
-    expectPropsOnChildMock(VideoCaptureIntroLayout, { showBackdrop: true });
+    expectPropsOnChildMock(VideoCapturePageLayout, { showBackdrop: true });
 
     unmount();
   });
@@ -28,10 +28,10 @@ describe('VideoCaptureTutorial component', () => {
     const onClose = jest.fn();
     const { unmount } = render(<VideoCaptureTutorial onClose={onClose} />);
 
-    expectPropsOnChildMock(VideoCaptureIntroLayout, {
+    expectPropsOnChildMock(VideoCapturePageLayout, {
       confirmButtonProps: { children: 'video.tutorial.confirm', onClick: expect.any(Function) },
     });
-    const { onClick } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0].confirmButtonProps;
+    const { onClick } = (VideoCapturePageLayout as jest.Mock).mock.calls[0][0].confirmButtonProps;
     expect(onClose).not.toHaveBeenCalled();
     onClick();
     expect(onClose).toHaveBeenCalled();
@@ -43,8 +43,8 @@ describe('VideoCaptureTutorial component', () => {
     const { unmount } = render(<VideoCaptureTutorial />);
     unmount();
 
-    expect(IntroLayoutItem).not.toHaveBeenCalled();
-    const { children } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0];
+    expect(PageLayoutItem).not.toHaveBeenCalled();
+    const { children } = (VideoCapturePageLayout as jest.Mock).mock.calls[0][0];
     const { unmount: unmount2 } = render(children);
     [
       {
@@ -63,7 +63,7 @@ describe('VideoCaptureTutorial component', () => {
         description: 'video.tutorial.photos.description',
       },
     ].forEach(({ icon, title, description }) => {
-      expectPropsOnChildMock(IntroLayoutItem, {
+      expectPropsOnChildMock(PageLayoutItem, {
         icon,
         title,
         description,

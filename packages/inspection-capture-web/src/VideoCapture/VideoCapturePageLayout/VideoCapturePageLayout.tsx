@@ -2,27 +2,28 @@ import { PropsWithChildren } from 'react';
 import { Button, DynamicSVG } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { monkLogoSVG } from '../../assets/logos.asset';
-import { styles, useVideoCaptureIntroLayoutStyles } from './VideoCaptureIntroLayout.styles';
-import { VideoCaptureIntroLayoutProps } from './VideoCaptureIntroLayout.types';
+import { styles, useVideoCapturePageLayoutStyles } from './VideoCapturePageLayout.styles';
+import { VideoCapturePageLayoutProps } from './VideoCapturePageLayout.types';
 
 /**
- * This component is used to display the same layout for every "introduction" screen for the VideoCapture process (the
+ * This component is used to display the same layout for every "default" screen for the VideoCapture process (the
  * premissions screen, the tutorial etc.).
  */
-export function VideoCaptureIntroLayout({
-  showBackdrop,
+export function VideoCapturePageLayout({
+  showBackdrop = false,
+  showTitle = true,
   confirmButtonProps,
   children,
-}: PropsWithChildren<VideoCaptureIntroLayoutProps>) {
+}: PropsWithChildren<VideoCapturePageLayoutProps>) {
   const { t } = useTranslation();
-  const { logoProps, containerStyle, titleStyle } = useVideoCaptureIntroLayoutStyles({
+  const { logoProps, containerStyle, titleStyle } = useVideoCapturePageLayoutStyles({
     showBackdrop,
   });
 
   return (
     <div style={containerStyle}>
       <DynamicSVG svg={monkLogoSVG} {...logoProps} />
-      <div style={titleStyle}>{t('video.introduction.title')}</div>
+      {showTitle && <div style={titleStyle}>{t('video.introduction.title')}</div>}
       <div style={styles['childrenContainer']}>{children}</div>
       <div style={styles['confirmContainer']}>
         <Button {...(confirmButtonProps ?? {})} />

@@ -3,15 +3,15 @@ import { render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button, DynamicSVG } from '@monkvision/common-ui-web';
 import { monkLogoSVG } from '../../../src/assets/logos.asset';
-import { VideoCaptureIntroLayout } from '../../../src/VideoCapture/VideoCaptureIntroLayout';
+import { VideoCapturePageLayout } from '../../../src/VideoCapture/VideoCapturePageLayout';
 
-describe('VideoCaptureIntroLayout component', () => {
+describe('VideoCapturePageLayout component', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should display the Monk Logo', () => {
-    const { unmount } = render(<VideoCaptureIntroLayout />);
+    const { unmount } = render(<VideoCapturePageLayout />);
 
     expectPropsOnChildMock(DynamicSVG, { svg: monkLogoSVG });
 
@@ -19,7 +19,7 @@ describe('VideoCaptureIntroLayout component', () => {
   });
 
   it('should not display a backdrop by default', () => {
-    const { container, unmount } = render(<VideoCaptureIntroLayout />);
+    const { container, unmount } = render(<VideoCapturePageLayout />);
 
     expect(container.children.length).toEqual(1);
     expect(container.children.item(0)).not.toHaveStyle({ backgroundColor: 'rgba(0, 0, 0, 0.5)' });
@@ -28,7 +28,7 @@ describe('VideoCaptureIntroLayout component', () => {
   });
 
   it('should display a backdrop behind it if asked to', () => {
-    const { container, unmount } = render(<VideoCaptureIntroLayout showBackdrop />);
+    const { container, unmount } = render(<VideoCapturePageLayout showBackdrop />);
 
     expect(container.children.length).toEqual(1);
     expect(container.children.item(0)).toHaveStyle({ backgroundColor: 'rgba(0, 0, 0, 0.5)' });
@@ -37,9 +37,17 @@ describe('VideoCaptureIntroLayout component', () => {
   });
 
   it('should display the title on the screen', () => {
-    const { unmount } = render(<VideoCaptureIntroLayout />);
+    const { unmount } = render(<VideoCapturePageLayout />);
 
     expect(screen.queryByText('video.introduction.title')).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should not display the title if the showTitle prop is set to false', () => {
+    const { unmount } = render(<VideoCapturePageLayout showTitle={false} />);
+
+    expect(screen.queryByText('video.introduction.title')).toBeNull();
 
     unmount();
   });
@@ -47,9 +55,9 @@ describe('VideoCaptureIntroLayout component', () => {
   it('should display the children on the screen', () => {
     const testId = 'test-id';
     const { unmount } = render(
-      <VideoCaptureIntroLayout>
+      <VideoCapturePageLayout>
         <div data-testid={testId}></div>
-      </VideoCaptureIntroLayout>,
+      </VideoCapturePageLayout>,
     );
 
     expect(screen.queryByTestId(testId)).not.toBeNull();
@@ -59,7 +67,7 @@ describe('VideoCaptureIntroLayout component', () => {
 
   it('should display a confirm button on the screen and pass it down the props', () => {
     const confirmButtonProps = { children: 'hello', onClick: () => {} };
-    const { unmount } = render(<VideoCaptureIntroLayout confirmButtonProps={confirmButtonProps} />);
+    const { unmount } = render(<VideoCapturePageLayout confirmButtonProps={confirmButtonProps} />);
 
     expectPropsOnChildMock(Button, confirmButtonProps);
 

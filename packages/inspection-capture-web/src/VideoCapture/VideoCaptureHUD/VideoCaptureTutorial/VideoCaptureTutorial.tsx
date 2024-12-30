@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { IntroLayoutItem, VideoCaptureIntroLayout } from '../../VideoCaptureIntroLayout';
+import { PageLayoutItem, VideoCapturePageLayout } from '../../VideoCapturePageLayout';
 
 /**
  * Props accepted by the VideoCaptureTutorial component.
@@ -23,22 +23,22 @@ export function VideoCaptureTutorial({ onClose }: VideoCaptureTutorialProps) {
   };
 
   return (
-    <VideoCaptureIntroLayout showBackdrop confirmButtonProps={confirmButtonProps}>
-      <IntroLayoutItem
+    <VideoCapturePageLayout showBackdrop confirmButtonProps={confirmButtonProps}>
+      <PageLayoutItem
         icon='car-arrow'
         title={t('video.tutorial.start.title')}
         description={t('video.tutorial.start.description')}
       />
-      <IntroLayoutItem
+      <PageLayoutItem
         icon='360'
         title={t('video.tutorial.finish.title')}
         description={t('video.tutorial.finish.description')}
       />
-      <IntroLayoutItem
+      <PageLayoutItem
         icon='circle-dot'
         title={t('video.tutorial.photos.title')}
         description={t('video.tutorial.photos.description')}
       />
-    </VideoCaptureIntroLayout>
+    </VideoCapturePageLayout>
   );
 }

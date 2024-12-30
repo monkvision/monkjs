@@ -81,6 +81,12 @@
         "keepRecording": "Keep Recording",
         "discardVideo": "Discard Video"
       }
+    },
+    "processing": {
+      "processing": "Processing the video...",
+      "uploading": "Uploading the video...",
+      "success": "Video processing completed!",
+      "done": "Done"
     }
   }
 }

@@ -1,20 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import {
-  IntroLayoutItem,
-  IntroLayoutItemProps,
-} from '../../../src/VideoCapture/VideoCaptureIntroLayout';
+  PageLayoutItem,
+  PageLayoutItemProps,
+} from '../../../src/VideoCapture/VideoCapturePageLayout';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Icon } from '@monkvision/common-ui-web';
 
-const props: IntroLayoutItemProps = {
+const props: PageLayoutItemProps = {
   icon: 'add-photo',
   title: 'test-title-wow',
   description: 'test description test test',
 };
 
-describe('IntroLayoutItem component', () => {
+describe('PageLayoutItem component', () => {
   it('should display an icon with the given name', () => {
-    const { unmount } = render(<IntroLayoutItem {...props} />);
+    const { unmount } = render(<PageLayoutItem {...props} />);
 
     expectPropsOnChildMock(Icon, { icon: props.icon });
 
@@ -22,7 +22,7 @@ describe('IntroLayoutItem component', () => {
   });
 
   it('should display the given title', () => {
-    const { unmount } = render(<IntroLayoutItem {...props} />);
+    const { unmount } = render(<PageLayoutItem {...props} />);
 
     expect(screen.queryByText(props.title)).not.toBeNull();
 
@@ -30,7 +30,7 @@ describe('IntroLayoutItem component', () => {
   });
 
   it('should display the given description', () => {
-    const { unmount } = render(<IntroLayoutItem {...props} />);
+    const { unmount } = render(<PageLayoutItem {...props} />);
 
     expect(screen.queryByText(props.description)).not.toBeNull();
 

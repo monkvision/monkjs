@@ -1,6 +1,6 @@
-jest.mock('../../src/VideoCapture/VideoCaptureIntroLayout', () => ({
-  VideoCaptureIntroLayout: jest.fn(() => <></>),
-  IntroLayoutItem: jest.fn(() => <></>),
+jest.mock('../../src/VideoCapture/VideoCapturePageLayout', () => ({
+  VideoCapturePageLayout: jest.fn(() => <></>),
+  PageLayoutItem: jest.fn(() => <></>),
 }));
 
 import { render, waitFor } from '@testing-library/react';
@@ -8,19 +8,19 @@ import { useCameraPermission } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
 import {
-  IntroLayoutItem,
-  VideoCaptureIntroLayout,
-} from '../../src/VideoCapture/VideoCaptureIntroLayout';
+  PageLayoutItem,
+  VideoCapturePageLayout,
+} from '../../src/VideoCapture/VideoCapturePageLayout';
 
-function expectVideoCaptureIntroLayoutConfirmButtonProps(): jest.Mock {
-  expectPropsOnChildMock(VideoCaptureIntroLayout, {
+function expectVideoCapturePageLayoutConfirmButtonProps(): jest.Mock {
+  expectPropsOnChildMock(VideoCapturePageLayout, {
     confirmButtonProps: {
       children: 'video.permissions.confirm',
       loading: expect.anything(),
       onClick: expect.any(Function),
     },
   });
-  const { onClick } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0].confirmButtonProps;
+  const { onClick } = (VideoCapturePageLayout as jest.Mock).mock.calls[0][0].confirmButtonProps;
   return onClick;
 }
 
@@ -29,10 +29,10 @@ describe('VideoCapturePermissions component', () => {
     jest.clearAllMocks();
   });
 
-  it('should use the VideoCaptureIntroLayout component for the layout', () => {
+  it('should use the VideoCapturePageLayout component for the layout', () => {
     const { unmount } = render(<VideoCapturePermissions />);
 
-    expect(VideoCaptureIntroLayout).toHaveBeenCalled();
+    expect(VideoCapturePageLayout).toHaveBeenCalled();
 
     unmount();
   });
@@ -49,7 +49,7 @@ describe('VideoCapturePermissions component', () => {
     expect(requestCompassPermission).not.toHaveBeenCalled();
     expect(requestCameraPermission).not.toHaveBeenCalled();
 
-    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
+    const onClick = expectVideoCapturePageLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -70,7 +70,7 @@ describe('VideoCapturePermissions component', () => {
       />,
     );
 
-    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
+    const onClick = expectVideoCapturePageLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -90,7 +90,7 @@ describe('VideoCapturePermissions component', () => {
       />,
     );
 
-    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
+    const onClick = expectVideoCapturePageLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -113,7 +113,7 @@ describe('VideoCapturePermissions component', () => {
       />,
     );
 
-    const onClick = expectVideoCaptureIntroLayoutConfirmButtonProps();
+    const onClick = expectVideoCapturePageLayoutConfirmButtonProps();
     onClick();
 
     await waitFor(() => {
@@ -127,10 +127,10 @@ describe('VideoCapturePermissions component', () => {
     const { unmount } = render(<VideoCapturePermissions />);
     unmount();
 
-    expect(IntroLayoutItem).not.toHaveBeenCalled();
-    const { children } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0];
+    expect(PageLayoutItem).not.toHaveBeenCalled();
+    const { children } = (VideoCapturePageLayout as jest.Mock).mock.calls[0][0];
     const { unmount: unmount2 } = render(children);
-    expectPropsOnChildMock(IntroLayoutItem, {
+    expectPropsOnChildMock(PageLayoutItem, {
       icon: 'camera-outline',
       title: 'video.permissions.camera.title',
       description: 'video.permissions.camera.description',
@@ -143,10 +143,10 @@ describe('VideoCapturePermissions component', () => {
     const { unmount } = render(<VideoCapturePermissions />);
     unmount();
 
-    expect(IntroLayoutItem).not.toHaveBeenCalled();
-    const { children } = (VideoCaptureIntroLayout as jest.Mock).mock.calls[0][0];
+    expect(PageLayoutItem).not.toHaveBeenCalled();
+    const { children } = (VideoCapturePageLayout as jest.Mock).mock.calls[0][0];
     const { unmount: unmount2 } = render(children);
-    expectPropsOnChildMock(IntroLayoutItem, {
+    expectPropsOnChildMock(PageLayoutItem, {
       icon: 'compass-outline',
       title: 'video.permissions.compass.title',
       description: 'video.permissions.compass.description',

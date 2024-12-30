@@ -35,6 +35,14 @@ export interface VideoUploadQueueParams {
  */
 export interface VideoUploadQueueHandle {
   /**
+   * The number of frames that have successfully been uploaded to the API.
+   */
+  uploadedFrames: number;
+  /**
+   * The total number of frames added to the uploading queue.
+   */
+  totalUploadingFrames: number;
+  /**
    * Callback called when a frame has been selected by the frame selection hook.
    */
   onFrameSelected: (picture: MonkPicture) => void;
@@ -88,5 +96,9 @@ export function useVideoUploadQueue({
     [queue.push],
   );
 
-  return useObjectMemo({ onFrameSelected });
+  return useObjectMemo({
+    uploadedFrames: queue.totalItems - queue.processingCount,
+    totalUploadingFrames: queue.totalItems,
+    onFrameSelected,
+  });
 }

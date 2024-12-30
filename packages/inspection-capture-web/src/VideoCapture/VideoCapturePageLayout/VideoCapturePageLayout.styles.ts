@@ -2,8 +2,8 @@ import { Styles } from '@monkvision/types';
 import { DynamicSVGProps } from '@monkvision/common-ui-web';
 import { CSSProperties, useCallback } from 'react';
 import { fullyColorSVG, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
-import { VideoCaptureIntroLayoutProps } from './VideoCaptureIntroLayout.types';
-import { INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT } from './IntroLayoutItem/IntroLayoutItem.styles';
+import { VideoCapturePageLayoutProps } from './VideoCapturePageLayout.types';
+import { PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT } from './PageLayoutItem/PageLayoutItem.styles';
 
 export const styles: Styles = {
   container: {
@@ -23,7 +23,7 @@ export const styles: Styles = {
   },
   logoSmall: {
     __media: {
-      maxHeight: INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT,
+      maxHeight: PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
     display: 'none',
   },
@@ -35,7 +35,7 @@ export const styles: Styles = {
   },
   titleSmall: {
     __media: {
-      maxHeight: INTRO_LAYOUT_MAX_HEIGHT_BREAKPOINT,
+      maxHeight: PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
     fontSize: 20,
     fontWeight: 700,
@@ -61,15 +61,15 @@ export const styles: Styles = {
   },
 };
 
-interface VideoCaptureIntroLayoutStyles {
+interface VideoCapturePageLayoutStyles {
   logoProps: Partial<DynamicSVGProps>;
   containerStyle: CSSProperties;
   titleStyle: CSSProperties;
 }
 
-export function useVideoCaptureIntroLayoutStyles({
+export function useVideoCapturePageLayoutStyles({
   showBackdrop,
-}: Pick<VideoCaptureIntroLayoutProps, 'showBackdrop'>): VideoCaptureIntroLayoutStyles {
+}: Required<Pick<VideoCapturePageLayoutProps, 'showBackdrop'>>): VideoCapturePageLayoutStyles {
   const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
 
