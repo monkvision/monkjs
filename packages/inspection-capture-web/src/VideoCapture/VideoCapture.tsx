@@ -1,11 +1,18 @@
-import { useI18nSync, useDeviceOrientation } from '@monkvision/common';
+import {
+  useI18nSync,
+  useDeviceOrientation,
+  useLoadingState,
+  usePreventExit,
+} from '@monkvision/common';
 import { useState } from 'react';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
 import { CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
+import { useMonitoring } from '@monkvision/monitoring';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
+import { useStartTasksOnComplete } from '../hooks';
 
 /**
  * Props of the VideoCapture component.
@@ -64,10 +71,29 @@ export function VideoCapture({
 }: VideoCaptureProps) {
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
+  const { handleError } = useMonitoring();
   const { requestCompassPermission, alpha } = useDeviceOrientation();
+  const startTasksLoading = useLoadingState();
+
+  const startTasks = useStartTasksOnComplete({
+    inspectionId,
+    apiConfig,
+    additionalTasks,
+    startTasksOnComplete,
+    loading: startTasksLoading,
+  });
+  const { allowRedirect } = usePreventExit(true);
 
   const handleComplete = () => {
-    console.log('Recording complete!');
+    startTasks()
+      .then(() => {
+        allowRedirect();
+        onComplete?.();
+      })
+      .catch((err) => {
+        startTasksLoading.onError(err);
+        handleError(err);
+      });
   };
 
   const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
@@ -76,6 +102,7 @@ export function VideoCapture({
     maxRetryCount,
     apiConfig,
     minRecordingDuration,
+    startTasksLoading,
     onComplete: handleComplete,
   };
 

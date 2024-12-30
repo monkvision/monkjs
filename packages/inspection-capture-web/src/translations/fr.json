@@ -86,6 +86,7 @@
       "processing": "Traitement de la vidéo...",
       "uploading": "Téléchargement de la vidéo...",
       "success": "Traitement de la vidéo terminé !",
+      "error": "Une erreur s'est produite lors de la finalisation de l'inspection. ID d'inspection :",
       "done": "Terminé"
     }
   }

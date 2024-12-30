@@ -14,10 +14,6 @@ export interface UseStartTasksOnCompleteParams
    */
   inspectionId: string;
   /**
-   * The list of sights passed to the PhotoCapture component.
-   */
-  sights: Sight[];
-  /**
    * The api config used to communicate with the API.
    */
   apiConfig: MonkApiConfig;
@@ -25,6 +21,10 @@ export interface UseStartTasksOnCompleteParams
    * Global loading state of the PhotoCapture component.
    */
   loading: LoadingState;
+  /**
+   * The list of sights passed to the PhotoCapture component.
+   */
+  sights?: Sight[];
 }
 
 /**
@@ -47,7 +47,9 @@ function getTasksToStart({
   if (Array.isArray(startTasksOnComplete)) {
     tasks = startTasksOnComplete;
   } else {
-    tasks = uniq(flatMap(sights, (sight) => tasksBySight?.[sight.id] ?? sight.tasks));
+    tasks = sights
+      ? uniq(flatMap(sights, (sight) => tasksBySight?.[sight.id] ?? sight.tasks))
+      : [TaskName.DAMAGE_DETECTION];
     additionalTasks?.forEach((additionalTask) => {
       if (!tasks.includes(additionalTask)) {
         tasks.push(additionalTask);

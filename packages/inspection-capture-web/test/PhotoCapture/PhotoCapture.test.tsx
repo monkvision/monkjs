@@ -6,6 +6,24 @@ import {
   PhotoCaptureTutorialOption,
   TaskName,
 } from '@monkvision/types';
+import { Camera } from '@monkvision/camera-web';
+import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
+import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
+import { useMonitoring } from '@monkvision/monitoring';
+import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { act, render, waitFor } from '@testing-library/react';
+import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
+import {
+  useAdaptiveCameraConfig,
+  useAddDamageMode,
+  useBadConnectionWarning,
+  usePhotoCaptureImages,
+  usePhotoCaptureSightState,
+  usePhotoCaptureTutorial,
+  usePictureTaken,
+  useUploadQueue,
+} from '../../src/PhotoCapture/hooks';
+import { useStartTasksOnComplete } from '../../src/hooks';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -62,24 +80,9 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   })),
 }));
 
-import { Camera } from '@monkvision/camera-web';
-import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
-import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
-import { useMonitoring } from '@monkvision/monitoring';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { act, render, waitFor } from '@testing-library/react';
-import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
-import {
-  useAdaptiveCameraConfig,
-  useAddDamageMode,
-  useBadConnectionWarning,
-  usePhotoCaptureImages,
-  usePhotoCaptureSightState,
-  usePictureTaken,
-  useStartTasksOnComplete,
-  useUploadQueue,
-  usePhotoCaptureTutorial,
-} from '../../src/PhotoCapture/hooks';
+jest.mock('../../src/hooks', () => ({
+  useStartTasksOnComplete: jest.fn(() => jest.fn()),
+}));
 
 function createProps(): PhotoCaptureProps {
   return {

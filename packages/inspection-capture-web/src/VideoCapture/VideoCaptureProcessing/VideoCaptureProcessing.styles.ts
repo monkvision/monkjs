@@ -32,6 +32,10 @@ export const styles: Styles = {
     height: 10,
     borderRadius: 9999,
   },
+  errorMessage: {
+    padding: '0 16px',
+    textAlign: 'center',
+  },
 };
 
 export function useVideoCaptureProcessingStyles(progress: number) {

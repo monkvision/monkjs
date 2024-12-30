@@ -86,6 +86,7 @@
       "processing": "Processing the video...",
       "uploading": "Uploading the video...",
       "success": "Video processing completed!",
+      "error": "An error occurred when finalizing the inspection. Inspection ID :",
       "done": "Done"
     }
   }

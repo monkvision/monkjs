@@ -16,10 +16,12 @@ function getLabel(processingProgress: number, uploadingProgress: number): string
  * and uploading of video frames.
  */
 export function VideoCaptureProcessing({
+  inspectionId,
   processedFrames,
   totalProcessingFrames,
   uploadedFrames,
   totalUploadingFrames,
+  loading,
   onComplete,
 }: VideoCaptureProcessingProps) {
   const processingProgress = processedFrames / totalProcessingFrames;
@@ -31,20 +33,30 @@ export function VideoCaptureProcessing({
 
   const confirmButtonProps: ButtonProps = {
     onClick: onComplete,
-    disabled: processingProgress < 1 || uploadingProgress < 1,
+    loading: loading.isLoading,
+    disabled: processingProgress < 1 || uploadingProgress < 1 || !!loading.error,
     children: t('video.processing.done'),
   };
 
   return (
     <VideoCapturePageLayout showBackdrop showTitle={false} confirmButtonProps={confirmButtonProps}>
       <div style={containerStyle}>
-        <div style={styles['labelContainer']}>
-          <div>{t(getLabel(processingProgress, uploadingProgress))}</div>
-          <div>{Math.floor(progress * 100)}%</div>
-        </div>
-        <div style={progressBarContainerStyle}>
-          <div style={progressBarStyle} data-testid='progress-bar' />
-        </div>
+        {!loading.error && (
+          <>
+            <div style={styles['labelContainer']}>
+              <div>{t(getLabel(processingProgress, uploadingProgress))}</div>
+              <div>{Math.floor(progress * 100)}%</div>
+            </div>
+            <div style={progressBarContainerStyle}>
+              <div style={progressBarStyle} data-testid='progress-bar' />
+            </div>
+          </>
+        )}
+        {loading.error && (
+          <div style={styles['errorMessage']}>
+            {t('video.processing.error')} {inspectionId}
+          </div>
+        )}
       </div>
     </VideoCapturePageLayout>
   );

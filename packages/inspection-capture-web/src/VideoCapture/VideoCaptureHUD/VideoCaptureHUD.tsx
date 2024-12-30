@@ -3,6 +3,7 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { MonkApiConfig } from '@monkvision/network';
+import { LoadingState } from '@monkvision/common';
 import { styles } from './VideoCaptureHUD.styles';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
@@ -39,6 +40,10 @@ export interface VideoCaptureHUDProps
    */
   maxRetryCount: number;
   /**
+   * The loading state for the start task feature.
+   */
+  startTasksLoading: LoadingState;
+  /**
    * Callback called when the inspection capture is complete.
    */
   onComplete?: () => void;
@@ -64,6 +69,7 @@ export function VideoCaptureHUD({
   alpha,
   maxRetryCount,
   minRecordingDuration,
+  startTasksLoading,
   onComplete,
 }: VideoCaptureHUDProps) {
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.TUTORIAL);
@@ -119,10 +125,12 @@ export function VideoCaptureHUD({
         )}
         {screen === VideoCaptureHUDScreen.PROCESSING && (
           <VideoCaptureProcessing
+            inspectionId={inspectionId}
             processedFrames={processedFrames}
             totalProcessingFrames={totalProcessingFrames}
             uploadedFrames={uploadedFrames}
             totalUploadingFrames={totalUploadingFrames}
+            loading={startTasksLoading}
             onComplete={onComplete}
           />
         )}

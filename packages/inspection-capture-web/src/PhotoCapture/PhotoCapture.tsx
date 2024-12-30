@@ -29,6 +29,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
+import { useStartTasksOnComplete } from '../hooks';
 import {
   useAdaptiveCameraConfig,
   useAddDamageMode,
@@ -38,7 +39,6 @@ import {
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
   usePictureTaken,
-  useStartTasksOnComplete,
   useTracking,
   useUploadQueue,
 } from './hooks';

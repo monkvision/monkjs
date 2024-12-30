@@ -1,6 +1,12 @@
 import { MemoryRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthGuard } from '@monkvision/common-ui-web';
-import { CreateInspectionPage, LoginPage, Page, VideoCapturePage } from '../pages';
+import {
+  CreateInspectionPage,
+  InspectionCompletePage,
+  LoginPage,
+  Page,
+  VideoCapturePage,
+} from '../pages';
 import { App } from './App';
 
 export function AppRouter() {
@@ -10,6 +16,7 @@ export function AppRouter() {
         <Route path='/' element={<App />}>
           <Route path='/' element={<Navigate to={Page.CREATE_INSPECTION} />} />
           <Route path={Page.LOG_IN} element={<LoginPage />} />
+          <Route path={Page.INSPECTION_COMPLETE} element={<InspectionCompletePage />} />
           <Route
             path={Page.CREATE_INSPECTION}
             element={

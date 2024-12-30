@@ -86,6 +86,7 @@
       "processing": "Bearbeitung des Videos...",
       "uploading": "Hochladen des Videos...",
       "success": "Videobearbeitung abgeschlossen!",
+      "error": "Beim Abschluss der Inspektion ist ein Fehler aufgetreten. Inspektion ID :",
       "done": "Erledigt"
     }
   }

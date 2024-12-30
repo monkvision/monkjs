@@ -86,6 +86,7 @@
       "processing": "De video verwerken...",
       "uploading": "Video uploaden...",
       "success": "Videobewerking voltooid!",
+      "error": "Er is een fout opgetreden bij het afronden van de inspectie. Inspectie ID :",
       "done": "Gedaan"
     }
   }
