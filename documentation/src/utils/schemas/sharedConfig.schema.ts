@@ -51,8 +51,6 @@ export const SharedCaptureAppConfigSchema = z
     additionalTasks: z.array(z.nativeEnum(TaskName)).optional(),
     startTasksOnComplete: z.array(z.nativeEnum(TaskName)).or(z.boolean()).optional(),
     enforceOrientation: z.nativeEnum(DeviceOrientation).optional(),
-    maxUploadDurationWarning: z.number().optional(),
-    useAdaptiveImageQuality: z.boolean().optional(),
     allowManualLogin: z.boolean().optional(),
     fetchFromSearchParams: z.boolean().optional(),
     requiredApiPermissions: z.array(z.nativeEnum(MonkApiPermission)).optional(),

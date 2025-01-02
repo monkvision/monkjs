@@ -11,6 +11,7 @@ import { PhotoCaptureMode, TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
+import { OrientationEnforcer } from '../../components';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -24,6 +25,7 @@ export interface PhotoCaptureHUDProps
       | 'enableAddDamage'
       | 'showCloseButton'
       | 'allowSkipTutorial'
+      | 'enforceOrientation'
     > {
   /**
    * The inspection ID.
@@ -131,6 +133,7 @@ export function PhotoCaptureHUD({
   allowSkipTutorial,
   onNextTutorialStep,
   onCloseTutorial,
+  enforceOrientation,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -212,6 +215,7 @@ export function PhotoCaptureHUD({
         sightId={selectedSight.id}
         sightGuidelines={sightGuidelines}
       />
+      <OrientationEnforcer orientation={enforceOrientation} />
     </div>
   );
 }

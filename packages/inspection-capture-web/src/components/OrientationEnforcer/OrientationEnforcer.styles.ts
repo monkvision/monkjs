@@ -1,13 +1,11 @@
 import { Styles } from '@monkvision/types';
+import { useMonkTheme } from '@monkvision/common';
 
 export const styles: Styles = {
   container: {
-    height: '100%',
-    width: '100%',
-  },
-  errorContainer: {
-    height: '100%',
-    width: '100%',
+    position: 'fixed',
+    inset: 0,
+    zIndex: 999999,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -15,18 +13,29 @@ export const styles: Styles = {
     boxSizing: 'border-box',
     padding: '50px 10%',
   },
-  errorTitleContainer: {
+  titleContainer: {
     display: 'flex',
     alignItems: 'center',
   },
-  errorTitle: {
+  title: {
     fontSize: 18,
     marginLeft: 16,
   },
-  errorDescription: {
+  description: {
     fontSize: 16,
     paddingTop: 16,
     opacity: 0.8,
     textAlign: 'center',
   },
 };
+
+export function useOrientationEnforcerStyles() {
+  const { palette } = useMonkTheme();
+
+  return {
+    containerStyle: {
+      ...styles['container'],
+      backgroundColor: palette.background.base,
+    },
+  };
+}

@@ -1,6 +1,6 @@
 import {
-  useI18nSync,
   useDeviceOrientation,
+  useI18nSync,
   useLoadingState,
   usePreventExit,
 } from '@monkvision/common';
@@ -13,7 +13,7 @@ import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
-import { OrientationEnforcer } from '../components';
+import { useFastMovementsDetection } from './hooks';
 
 /**
  * Props of the VideoCapture component.
@@ -27,6 +27,10 @@ export interface VideoCaptureProps
     | 'enforceOrientation'
     | 'minRecordingDuration'
     | 'maxRetryCount'
+    | 'enableFastWalkingWarning'
+    | 'enablePhoneShakingWarning'
+    | 'fastWalkingWarningCooldown'
+    | 'phoneShakingWarningCooldown'
   > {
   /**
    * The ID of the inspection to add the video frames to.
@@ -63,13 +67,26 @@ export function VideoCapture({
   enforceOrientation,
   minRecordingDuration = 15000,
   maxRetryCount = 3,
+  enableFastWalkingWarning = true,
+  enablePhoneShakingWarning = true,
+  fastWalkingWarningCooldown = 1000,
+  phoneShakingWarningCooldown = 1000,
   onComplete,
   lang,
 }: VideoCaptureProps) {
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
+  const [isRecording, setIsRecording] = useState(false);
   const { handleError } = useMonitoring();
-  const { requestCompassPermission, alpha } = useDeviceOrientation();
+  const { onDeviceOrientationEvent, fastMovementsWarning, onWarningDismiss } =
+    useFastMovementsDetection({
+      isRecording,
+      enableFastWalkingWarning,
+      enablePhoneShakingWarning,
+      fastWalkingWarningCooldown,
+      phoneShakingWarningCooldown,
+    });
+  const { alpha, requestCompassPermission } = useDeviceOrientation({ onDeviceOrientationEvent });
   const startTasksLoading = useLoadingState();
 
   const startTasks = useStartTasksOnComplete({
@@ -94,11 +111,16 @@ export function VideoCapture({
   };
 
   const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
-    alpha,
     inspectionId,
     maxRetryCount,
     apiConfig,
     minRecordingDuration,
+    enforceOrientation,
+    isRecording,
+    setIsRecording,
+    alpha,
+    fastMovementsWarning,
+    onWarningDismiss,
     startTasksLoading,
     onComplete: handleComplete,
   };
@@ -112,9 +134,7 @@ export function VideoCapture({
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (
-        <OrientationEnforcer orientation={enforceOrientation}>
-          <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
-        </OrientationEnforcer>
+        <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
       )}
     </div>
   );

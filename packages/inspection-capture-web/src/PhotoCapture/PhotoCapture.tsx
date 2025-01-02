@@ -34,7 +34,6 @@ import {
   useTracking,
   useUploadQueue,
 } from './hooks';
-import { OrientationEnforcer } from '../components';
 
 /**
  * Props of the PhotoCapture component.
@@ -268,19 +267,18 @@ export function PhotoCapture({
     onNextTutorialStep: goToNextTutorialStep,
     onCloseTutorial: closeTutorial,
     allowSkipTutorial,
+    enforceOrientation,
   };
 
   return (
     <div style={styles['container']}>
       {currentScreen === PhotoCaptureScreen.CAMERA && (
-        <OrientationEnforcer orientation={enforceOrientation}>
-          <Camera
-            HUDComponent={PhotoCaptureHUD}
-            onPictureTaken={handlePictureTaken}
-            hudProps={hudProps}
-            {...adaptiveCameraConfig}
-          />
-        </OrientationEnforcer>
+        <Camera
+          HUDComponent={PhotoCaptureHUD}
+          onPictureTaken={handlePictureTaken}
+          hudProps={hudProps}
+          {...adaptiveCameraConfig}
+        />
       )}
       {currentScreen === PhotoCaptureScreen.GALLERY && (
         <InspectionGallery

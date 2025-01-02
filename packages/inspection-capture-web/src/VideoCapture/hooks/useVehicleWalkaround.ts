@@ -46,6 +46,8 @@ export function useVehicleWalkaround({
 
   const startWalkaround = useCallback(() => {
     setStartingAlpha(alpha);
+    setCheckpoint(45);
+    setNextCheckpoint(90);
   }, [alpha]);
 
   useEffect(() => {

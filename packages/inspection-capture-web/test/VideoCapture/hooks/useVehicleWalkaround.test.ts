@@ -75,4 +75,27 @@ describe('useVehicleWalkaround hook', () => {
 
     unmount();
   });
+
+  it('should reset the position and checkpoints on start', () => {
+    const { result, rerender, unmount } = renderHook(useVehicleWalkaround, {
+      initialProps: { alpha: 67 },
+    });
+
+    expect(result.current.startWalkaround).toBeInstanceOf(Function);
+    act(() => result.current.startWalkaround());
+    expect(result.current.walkaroundPosition).toEqual(0);
+    rerender({ alpha: 64 });
+    expect(result.current.walkaroundPosition).toEqual(3);
+    rerender({ alpha: 40 });
+    expect(result.current.walkaroundPosition).toEqual(27);
+    act(() => {
+      result.current.startWalkaround();
+    });
+    rerender({ alpha: 38 });
+    expect(result.current.walkaroundPosition).toEqual(2);
+    rerender({ alpha: 45 });
+    expect(result.current.walkaroundPosition).toEqual(0);
+
+    unmount();
+  });
 });

@@ -83,6 +83,22 @@ describe('useDeviceOrientation hook', () => {
     unmount();
   });
 
+  it('should start with a beta value of 0', () => {
+    const { result, unmount } = renderHook(useDeviceOrientation);
+
+    expect(result.current.beta).toBe(0);
+
+    unmount();
+  });
+
+  it('should start with a gamma value of 0', () => {
+    const { result, unmount } = renderHook(useDeviceOrientation);
+
+    expect(result.current.gamma).toBe(0);
+
+    unmount();
+  });
+
   it('should update the alpha value with webkitCompassHeading when available', async () => {
     const spy = jest.spyOn(window, 'addEventListener');
     const { result, unmount } = renderHook(useDeviceOrientation);
@@ -121,6 +137,64 @@ describe('useDeviceOrientation hook', () => {
     const value = 2223;
     act(() => eventHandler({ alpha: value }));
     expect(result.current.alpha).toEqual(value);
+
+    unmount();
+  });
+
+  it('should return the beta value of the device orientation event', async () => {
+    const spy = jest.spyOn(window, 'addEventListener');
+    const { result, unmount } = renderHook(useDeviceOrientation);
+
+    await act(async () => {
+      await result.current.requestCompassPermission();
+    });
+    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as (
+      event: any,
+    ) => void;
+
+    const value = 12;
+    act(() => eventHandler({ beta: value }));
+    expect(result.current.beta).toEqual(value);
+
+    unmount();
+  });
+
+  it('should return the gamma value of the device orientation event', async () => {
+    const spy = jest.spyOn(window, 'addEventListener');
+    const { result, unmount } = renderHook(useDeviceOrientation);
+
+    await act(async () => {
+      await result.current.requestCompassPermission();
+    });
+    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as (
+      event: any,
+    ) => void;
+
+    const value = 34;
+    act(() => eventHandler({ gamma: value }));
+    expect(result.current.gamma).toEqual(value);
+
+    unmount();
+  });
+
+  it('should call the custom event handler if passed in the hook options', async () => {
+    const spy = jest.spyOn(window, 'addEventListener');
+    const onDeviceOrientationEvent = jest.fn();
+    const { result, unmount } = renderHook(useDeviceOrientation, {
+      initialProps: { onDeviceOrientationEvent },
+    });
+
+    await act(async () => {
+      await result.current.requestCompassPermission();
+    });
+    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as (
+      event: any,
+    ) => void;
+
+    const testEvent = { test: 'heloo' };
+    expect(onDeviceOrientationEvent).not.toHaveBeenCalled();
+    act(() => eventHandler(testEvent));
+    expect(onDeviceOrientationEvent).toHaveBeenCalledWith(testEvent);
 
     unmount();
   });

@@ -12,6 +12,16 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
 }
 
 /**
+ * Options accepted by the useDeviceOrientation hook.
+ */
+export interface UseDeviceOrientationOptions {
+  /**
+   * Custom event handler that will be called every time a device orientation event is fired by the device.
+   */
+  onDeviceOrientationEvent?: (event: DeviceOrientationEvent) => void;
+}
+
+/**
  * Handle used to mcontrol the device orientation.
  */
 export interface DeviceOrientationHandle {
@@ -29,23 +39,44 @@ export interface DeviceOrientationHandle {
   requestCompassPermission: () => Promise<void>;
   /**
    * The current `alpha` value of the device. This value is a number in degrees (between 0 and 360), and represents the
-   * orientation of the device on the compass (0 = pointing North, 90 = pointing East etc.). This value starts being
-   * updated once the permissions for the compass has been granted using the `requestCompassPermission` method.
+   * orientation of the device on the compass (AKA on the Z axis or "yaw", 0 = pointing North, 90 = pointing East etc.).
+   * This value starts being updated once the permissions for the compass has been granted using the
+   * `requestCompassPermission` method.
    */
   alpha: number;
+  /**
+   * A number representing the motion of the device around the X axis, expressed in degrees with values ranging from
+   * -180 (inclusive) to 180 (exclusive). This represents a front to back motion of the device AKA the "pitch".
+   */
+  beta: number;
+  /**
+   * A number representing the motion of the device around the Y axis, express in degrees with values ranging from -90
+   * (inclusive) to 90 (exclusive). This represents a left to right motion of the device AKA the "roll".
+   */
+  gamma: number;
 }
 
 /**
  * Custom hook used to get the device orientation data using the embedded compass on the device.
  */
-export function useDeviceOrientation(): DeviceOrientationHandle {
+export function useDeviceOrientation(
+  options?: UseDeviceOrientationOptions,
+): DeviceOrientationHandle {
   const [isPermissionGranted, setIsPermissionGranted] = useState(false);
   const [alpha, setAlpha] = useState(0);
+  const [beta, setBeta] = useState(0);
+  const [gamma, setGamma] = useState(0);
 
-  const handleDeviceOrientationEvent = useCallback((event: DeviceOrientationEvent) => {
-    const value = (event as DeviceOrientationEventiOS).webkitCompassHeading ?? event.alpha ?? 0;
-    setAlpha(value);
-  }, []);
+  const handleDeviceOrientationEvent = useCallback(
+    (event: DeviceOrientationEvent) => {
+      const value = (event as DeviceOrientationEventiOS).webkitCompassHeading ?? event.alpha ?? 0;
+      setAlpha(value);
+      setBeta(event.beta ?? 0);
+      setGamma(event.gamma ?? 0);
+      options?.onDeviceOrientationEvent?.(event);
+    },
+    [options?.onDeviceOrientationEvent],
+  );
 
   const requestCompassPermission = useCallback(async () => {
     if (DeviceOrientationEvent) {
@@ -72,5 +103,5 @@ export function useDeviceOrientation(): DeviceOrientationHandle {
     };
   }, [isPermissionGranted, handleDeviceOrientationEvent]);
 
-  return useObjectMemo({ isPermissionGranted, alpha, requestCompassPermission });
+  return useObjectMemo({ alpha, beta, gamma, isPermissionGranted, requestCompassPermission });
 }

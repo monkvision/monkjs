@@ -265,6 +265,32 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
    * @default 3
    */
   maxRetryCount?: number;
+  /**
+   * Boolean indicating if a warning should be shown to the user when they are walking too fast around the vehicle.
+   *
+   * @default true
+   */
+  enableFastWalkingWarning?: boolean;
+  /**
+   * Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.
+   *
+   * @default true
+   */
+  enablePhoneShakingWarning?: boolean;
+  /**
+   * The duration (in milliseconds) to wait between fast walking warnings. We recommend setting this value to at least
+   * 1000.
+   *
+   * @default 4000
+   */
+  fastWalkingWarningCooldown?: number;
+  /**
+   * The duration (in milliseconds) to wait between phone shaking warnings. We recommend setting this value to at least
+   * 1000.
+   *
+   * @default 4000
+   */
+  phoneShakingWarningCooldown?: number;
 };
 
 /**

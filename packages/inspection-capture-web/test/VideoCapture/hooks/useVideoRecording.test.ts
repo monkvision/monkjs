@@ -4,7 +4,14 @@ import { useInterval } from '@monkvision/common';
 import { act } from '@testing-library/react';
 
 function createProps(): UseVideoRecordingParams {
+  let isRecording = false;
   return {
+    get isRecording() {
+      return isRecording;
+    },
+    setIsRecording: jest.fn((param) => {
+      isRecording = typeof param === 'boolean' ? param : param(isRecording);
+    }),
     walkaroundPosition: 350,
     startWalkaround: jest.fn(),
     screenshotInterval: 200,
@@ -27,13 +34,14 @@ describe('useVideoRecording hook', () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        isRecording: false,
         isRecordingPaused: false,
         recordingDurationMs: 0,
         onClickRecordVideo: expect.any(Function),
-        onDiscardDialogDiscardVideo: expect.any(Function),
         onDiscardDialogKeepRecording: expect.any(Function),
+        onDiscardDialogDiscardVideo: expect.any(Function),
         isDiscardDialogDisplayed: false,
+        pauseRecording: expect.any(Function),
+        resumeRecording: expect.any(Function),
       }),
     );
 
@@ -56,7 +64,7 @@ describe('useVideoRecording hook', () => {
     act(() => {
       result.current.onClickRecordVideo();
     });
-    expect(result.current.isRecording).toBe(true);
+    expect(initialProps.isRecording).toBe(true);
     expect(result.current.isRecordingPaused).toBe(false);
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), initialProps.screenshotInterval);
     const callback = (useInterval as jest.Mock).mock.calls[
@@ -100,7 +108,7 @@ describe('useVideoRecording hook', () => {
       result.current.onClickRecordVideo();
     });
     expect(result.current.isDiscardDialogDisplayed).toBe(true);
-    expect(result.current.isRecording).toBe(false);
+    expect(initialProps.isRecording).toBe(false);
     expect(result.current.isRecordingPaused).toBe(true);
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), null);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration - 1);
@@ -127,7 +135,7 @@ describe('useVideoRecording hook', () => {
       result.current.onClickRecordVideo();
     });
     expect(result.current.isDiscardDialogDisplayed).toBe(true);
-    expect(result.current.isRecording).toBe(false);
+    expect(initialProps.isRecording).toBe(false);
     expect(result.current.isRecordingPaused).toBe(true);
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), null);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration + 1);
@@ -156,7 +164,7 @@ describe('useVideoRecording hook', () => {
       result.current.onDiscardDialogKeepRecording();
     });
     expect(result.current.isDiscardDialogDisplayed).toBe(false);
-    expect(result.current.isRecording).toBe(true);
+    expect(initialProps.isRecording).toBe(true);
     expect(result.current.isRecordingPaused).toBe(false);
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), initialProps.screenshotInterval);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration - 1);
@@ -190,7 +198,7 @@ describe('useVideoRecording hook', () => {
     expect(result.current.isDiscardDialogDisplayed).toBe(false);
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), null);
     expect(result.current.recordingDurationMs).toEqual(0);
-    expect(result.current.isRecording).toBe(false);
+    expect(initialProps.isRecording).toBe(false);
     expect(result.current.isRecordingPaused).toBe(false);
     jest.advanceTimersByTime(4500);
     rerender();

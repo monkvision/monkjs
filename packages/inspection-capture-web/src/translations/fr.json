@@ -76,6 +76,11 @@
         "message": "Voulez-vous annuler la vidéo ? Vous n'avez pas fait le tour complet du véhicule.",
         "keepRecording": "Continuer l'enregistrement",
         "discardVideo": "Annuler la vidéo"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Vous allez trop vite ! Ralentissez un peu. Il devrait vous falloir environ une minute pour faire le tour du véhicule.",
+        "phoneShaking": "Votre appareil tremble trop ! Essayez de garder l'appareil photo stable pendant l'enregistrement de votre véhicule.",
+        "confirm": "OK"
       }
     },
     "processing": {

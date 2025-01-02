@@ -25,7 +25,6 @@ import {
   useUploadQueue,
 } from '../../src/PhotoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
-import { OrientationEnforcer } from '../../src/components';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -84,10 +83,6 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
 
 jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
-}));
-
-jest.mock('../../src/components', () => ({
-  OrientationEnforcer: jest.fn(({ children }) => <>{children}</>),
 }));
 
 function createProps(): PhotoCaptureProps {
@@ -353,6 +348,7 @@ describe('PhotoCapture component', () => {
         onNextTutorialStep: tutorial.goToNextTutorialStep,
         onCloseTutorial: tutorial.closeTutorial,
         allowSkipTutorial: props.allowSkipRetake,
+        enforceOrientation: props.enforceOrientation,
       },
     });
 
@@ -487,29 +483,6 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
     expect(usePreventExit).toHaveBeenCalled();
-    unmount();
-  });
-
-  it('should pass the enforceOrientation prop to the OrientationEnforcer', () => {
-    const props = createProps();
-    const { unmount } = render(<PhotoCapture {...props} />);
-
-    expectPropsOnChildMock(OrientationEnforcer, { orientation: props.enforceOrientation });
-
-    unmount();
-  });
-
-  it('should place the Camera as a children of the OrientationEnforcer', () => {
-    const props = createProps();
-    const { unmount, rerender } = render(<PhotoCapture {...props} />);
-
-    expectPropsOnChildMock(OrientationEnforcer, { children: expect.anything() });
-    const { children } = (OrientationEnforcer as jest.Mock).mock.calls[0][0];
-
-    (Camera as jest.Mock).mockClear();
-    rerender(children);
-    expect(Camera).toHaveBeenCalled();
-
     unmount();
   });
 });

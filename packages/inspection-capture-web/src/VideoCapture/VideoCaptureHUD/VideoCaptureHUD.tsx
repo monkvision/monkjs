@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { MonkApiConfig } from '@monkvision/network';
 import { LoadingState } from '@monkvision/common';
+import { DeviceRotation, VideoCaptureAppConfig } from '@monkvision/types';
 import { styles } from './VideoCaptureHUD.styles';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
 import {
+  FastMovementsDetectionHandle,
+  FastMovementType,
   useFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
@@ -15,13 +18,17 @@ import {
   useVideoUploadQueue,
 } from '../hooks';
 import { VideoCaptureProcessing } from '../VideoCaptureProcessing';
+import { OrientationEnforcer } from '../../components';
 
 /**
  * Props accepted by the VideoCaptureHUD component.
  */
 export interface VideoCaptureHUDProps
   extends CameraHUDProps,
-    Pick<UseVideoRecordingParams, 'minRecordingDuration'> {
+    Pick<UseVideoRecordingParams, 'minRecordingDuration'>,
+    Pick<VideoCaptureAppConfig, 'enforceOrientation'>,
+    Pick<DeviceRotation, 'alpha'>,
+    Pick<FastMovementsDetectionHandle, 'fastMovementsWarning' | 'onWarningDismiss'> {
   /**
    * The ID of the inspection to add the video frames to.
    */
@@ -32,13 +39,17 @@ export interface VideoCaptureHUDProps
    */
   apiConfig: MonkApiConfig;
   /**
-   * The alpha value of the device orientaiton.
-   */
-  alpha: number;
-  /**
    * The maximum number of retries for failed image uploads.
    */
   maxRetryCount: number;
+  /**
+   * Boolean indicating if the video is currently recording or not.
+   */
+  isRecording: boolean;
+  /**
+   * Callback called when setting the `isRecording` state.
+   */
+  setIsRecording: Dispatch<SetStateAction<boolean>>;
   /**
    * The loading state for the start task feature.
    */
@@ -58,6 +69,17 @@ enum VideoCaptureHUDScreen {
   PROCESSING = 'processing',
 }
 
+function getFastMovementsWarningMessage(type: FastMovementType | null): string {
+  switch (type) {
+    case FastMovementType.WALKING_TOO_FAST:
+      return 'video.recording.fastMovementsDialog.walkingTooFast';
+    case FastMovementType.PHONE_SHAKING:
+      return 'video.recording.fastMovementsDialog.phoneShaking';
+    default:
+      return '';
+  }
+}
+
 /**
  * HUD component displayed on top of the camera preview for the VideoCapture process.
  */
@@ -66,7 +88,12 @@ export function VideoCaptureHUD({
   cameraPreview,
   inspectionId,
   apiConfig,
+  isRecording,
+  setIsRecording,
+  enforceOrientation,
   alpha,
+  fastMovementsWarning,
+  onWarningDismiss,
   maxRetryCount,
   minRecordingDuration,
   startTasksLoading,
@@ -88,16 +115,20 @@ export function VideoCaptureHUD({
     onFrameSelected,
   });
   const {
-    isRecording,
     isRecordingPaused,
     onClickRecordVideo,
     onDiscardDialogKeepRecording,
     onDiscardDialogDiscardVideo,
     isDiscardDialogDisplayed,
     recordingDurationMs,
+    pauseRecording,
+    resumeRecording,
   } = useVideoRecording({
+    isRecording,
+    setIsRecording,
     screenshotInterval: SCREENSHOT_INTERVAL_MS,
     minRecordingDuration,
+    enforceOrientation,
     walkaroundPosition,
     startWalkaround,
     onCaptureVideoFrame,
@@ -105,6 +136,14 @@ export function VideoCaptureHUD({
   });
 
   const handleTakePictureClick = () => {};
+
+  useEffect(() => {
+    if (fastMovementsWarning) {
+      pauseRecording();
+    } else {
+      resumeRecording();
+    }
+  }, [fastMovementsWarning, pauseRecording, resumeRecording]);
 
   return (
     <div style={styles['container']}>
@@ -143,6 +182,16 @@ export function VideoCaptureHUD({
         onConfirm={onDiscardDialogKeepRecording}
         onCancel={onDiscardDialogDiscardVideo}
       />
+      <BackdropDialog
+        show={fastMovementsWarning !== null}
+        message={t(getFastMovementsWarningMessage(fastMovementsWarning))}
+        confirmLabel={t('video.recording.fastMovementsDialog.confirm')}
+        onConfirm={onWarningDismiss}
+        showCancelButton={false}
+        dialogIcon='warning-outline'
+        dialogIconPrimaryColor='caution'
+      />
+      <OrientationEnforcer orientation={enforceOrientation} />
     </div>
   );
 }

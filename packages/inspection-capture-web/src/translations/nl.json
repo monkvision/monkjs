@@ -76,6 +76,11 @@
         "message": "Wil je de video weggooien? Je hebt het voertuig nog niet helemaal rondgereden.",
         "keepRecording": "Opname behouden",
         "discardVideo": "Video weggooien"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Je gaat te snel! Doe het wat rustiger aan, het zou ongeveer een minuut moeten duren om de walkaround van het voertuig te voltooien.",
+        "phoneShaking": "Je toestel trilt te veel! Probeer de camera stil te houden terwijl je je voertuig opneemt.",
+        "confirm": "OK"
       }
     },
     "processing": {

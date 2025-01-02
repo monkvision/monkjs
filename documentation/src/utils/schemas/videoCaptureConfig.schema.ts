@@ -7,5 +7,9 @@ export const VideoCaptureAppConfigSchema = z
     workflow: z.literal(CaptureWorkflow.VIDEO),
     minRecordingDuration: z.number().optional(),
     maxRetryCount: z.number().optional(),
+    enableFastWalkingWarning: z.boolean().optional(),
+    enablePhoneShakingWarning: z.boolean().optional(),
+    fastWalkingWarningCooldown: z.number().gte(1000).optional(),
+    phoneShakingWarningCooldown: z.number().gte(1000).optional(),
   })
   .and(SharedCaptureAppConfigSchema);

@@ -76,6 +76,11 @@
         "message": "Do you want to discard the video? You haven' t gone all the way around the vehicle.",
         "keepRecording": "Keep Recording",
         "discardVideo": "Discard Video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "You're moving too fast! Slow down a bit, it should take you around one minute to complete the vehicle walkaround.",
+        "phoneShaking": "Your device is shaking too much! Try to keep the camera steady while recording your vehicle.",
+        "confirm": "OK"
       }
     },
     "processing": {

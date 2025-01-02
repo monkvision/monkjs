@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useInterval } from '@monkvision/common';
+import { VideoCaptureAppConfig } from '@monkvision/types';
 import { VehicleWalkaroundHandle } from './useVehicleWalkaround';
+import { useEnforceOrientation } from '../../hooks';
 
 /**
  * Params accepted by the useVideoRecording hook.
  */
 export interface UseVideoRecordingParams
-  extends Pick<VehicleWalkaroundHandle, 'walkaroundPosition' | 'startWalkaround'> {
+  extends Pick<VehicleWalkaroundHandle, 'walkaroundPosition' | 'startWalkaround'>,
+    Pick<VideoCaptureAppConfig, 'enforceOrientation'> {
+  /**
+   * Boolean indicating if the video is currently recording or not.
+   */
+  isRecording: boolean;
+  /**
+   * Callback called when setting the `isRecording` state.
+   */
+  setIsRecording: Dispatch<SetStateAction<boolean>>;
   /**
    * The interval in milliseconds at which screenshots of the video stream should be taken.
    */
@@ -35,10 +46,6 @@ export interface UseVideoRecordingParams
  */
 export interface VideoRecordingHandle {
   /**
-   * Boolean indicating if the video is currently recording or not.
-   */
-  isRecording: boolean;
-  /**
    * Boolean indicating if the video recording is paused or not.
    */
   isRecordingPaused: boolean;
@@ -62,6 +69,14 @@ export interface VideoRecordingHandle {
    * Callback called when the user clicks on the "Discard Video" option of the discard video dialog.
    */
   onDiscardDialogDiscardVideo: () => void;
+  /**
+   * Callback called to pause the video recording.
+   */
+  pauseRecording: () => void;
+  /**
+   * Callback called to resume the video recording after it has been paused.
+   */
+  resumeRecording: () => void;
 }
 
 const MINIMUM_VEHICLE_WALKAROUND_POSITION = 270;
@@ -71,42 +86,60 @@ const MINIMUM_VEHICLE_WALKAROUND_POSITION = 270;
  * given interval).
  */
 export function useVideoRecording({
+  isRecording,
+  setIsRecording,
   screenshotInterval,
   minRecordingDuration,
+  enforceOrientation,
   walkaroundPosition,
   startWalkaround,
   onCaptureVideoFrame,
   onRecordingComplete,
 }: UseVideoRecordingParams): VideoRecordingHandle {
-  const [isRecording, setIsRecording] = useState(false);
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const [additionalRecordingDuration, setAdditionalRecordingDuration] = useState(0);
   const [recordingStartTimestamp, setRecordingStartTimestamp] = useState<number | null>(null);
   const [isDiscardDialogDisplayed, setDiscardDialogDisplayed] = useState(false);
+  const isViolatingEnforcedOrientation = useEnforceOrientation(enforceOrientation);
 
-  const recordingDurationMs =
-    additionalRecordingDuration +
-    (recordingStartTimestamp ? Date.now() - recordingStartTimestamp : 0);
+  const getRecordingDurationMs = useCallback(
+    () =>
+      additionalRecordingDuration +
+      (recordingStartTimestamp ? Date.now() - recordingStartTimestamp : 0),
+    [additionalRecordingDuration, recordingStartTimestamp],
+  );
 
-  const pauseRecording = () => {
-    setAdditionalRecordingDuration((value) =>
-      recordingStartTimestamp ? value + Date.now() - recordingStartTimestamp : value,
-    );
-    setRecordingStartTimestamp(null);
-    setIsRecording(false);
-    setIsRecordingPaused(true);
-  };
+  const pauseRecording = useCallback(() => {
+    setIsRecordingPaused((isRecordingPausedValue) => {
+      if (!isRecordingPausedValue) {
+        setIsRecording(false);
+        setRecordingStartTimestamp((recordingStartTimestampValue) => {
+          setAdditionalRecordingDuration((value) =>
+            recordingStartTimestampValue
+              ? value + Date.now() - recordingStartTimestampValue
+              : value,
+          );
+          return null;
+        });
+      }
+      return true;
+    });
+  }, []);
 
-  const resumeRecording = () => {
-    setRecordingStartTimestamp(Date.now());
-    setIsRecording(true);
-    setIsRecordingPaused(false);
-  };
+  const resumeRecording = useCallback(() => {
+    setIsRecordingPaused((isRecordingPausedValue) => {
+      if (isRecordingPausedValue) {
+        setRecordingStartTimestamp(Date.now());
+        setIsRecording(true);
+      }
+      return false;
+    });
+  }, []);
 
-  const onClickRecordVideo = () => {
+  const onClickRecordVideo = useCallback(() => {
     if (isRecording) {
       if (
-        recordingDurationMs < minRecordingDuration ||
+        getRecordingDurationMs() < minRecordingDuration ||
         walkaroundPosition < MINIMUM_VEHICLE_WALKAROUND_POSITION
       ) {
         pauseRecording();
@@ -121,20 +154,27 @@ export function useVideoRecording({
       setIsRecording(true);
       startWalkaround();
     }
-  };
+  }, [
+    isRecording,
+    getRecordingDurationMs,
+    minRecordingDuration,
+    walkaroundPosition,
+    pauseRecording,
+    onRecordingComplete,
+  ]);
 
-  const onDiscardDialogKeepRecording = () => {
+  const onDiscardDialogKeepRecording = useCallback(() => {
     resumeRecording();
     setDiscardDialogDisplayed(false);
-  };
+  }, [resumeRecording]);
 
-  const onDiscardDialogDiscardVideo = () => {
+  const onDiscardDialogDiscardVideo = useCallback(() => {
     setIsRecordingPaused(false);
     setAdditionalRecordingDuration(0);
     setRecordingStartTimestamp(null);
     setIsRecording(false);
     setDiscardDialogDisplayed(false);
-  };
+  }, []);
 
   useInterval(
     () => {
@@ -145,13 +185,22 @@ export function useVideoRecording({
     isRecording ? screenshotInterval : null,
   );
 
+  useEffect(() => {
+    if (isViolatingEnforcedOrientation) {
+      pauseRecording();
+    } else {
+      resumeRecording();
+    }
+  }, [isViolatingEnforcedOrientation]);
+
   return {
-    isRecording,
     isRecordingPaused,
-    recordingDurationMs,
+    recordingDurationMs: getRecordingDurationMs(),
     onClickRecordVideo,
     onDiscardDialogKeepRecording,
     onDiscardDialogDiscardVideo,
     isDiscardDialogDisplayed,
+    pauseRecording,
+    resumeRecording,
   };
 }

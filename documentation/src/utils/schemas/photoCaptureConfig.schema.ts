@@ -24,6 +24,8 @@ export const PhotoCaptureAppConfigSchema = z
     showCloseButton: z.boolean().optional(),
     allowSkipRetake: z.boolean().optional(),
     enableAddDamage: z.boolean().optional(),
+    maxUploadDurationWarning: z.number().optional(),
+    useAdaptiveImageQuality: z.boolean().optional(),
     sightGuidelines: z.array(SightGuidelineSchema).optional(),
     enableSightGuidelines: z.boolean().optional(),
     defaultVehicleType: z.nativeEnum(VehicleType),
