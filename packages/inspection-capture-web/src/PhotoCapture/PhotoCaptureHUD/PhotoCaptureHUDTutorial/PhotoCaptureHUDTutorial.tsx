@@ -4,16 +4,16 @@ import { Button } from '@monkvision/common-ui-web';
 import { PhotoCaptureAppConfig } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDTutorial.styles';
 import { TutorialSteps } from '../../hooks';
-import { usePhotoCaptureHUDButtonBackground } from '../hooks';
 import { SightGuideline } from '../PhotoCaptureHUDElementsSight';
 import { ArrowIcon } from './ArrowIcon';
 import { DisplayText } from './DisplayText';
+import { useColorBackground } from '../../../hooks';
 
 /**
  * Props of the PhotoCaptureHUDTutorial component.
  */
 export interface PhotoCaptureHUDTutorialProps
-  extends Pick<PhotoCaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines'> {
+  extends Pick<CaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The id of the sight.
    */
@@ -46,9 +46,10 @@ export function PhotoCaptureHUDTutorial({
   sightId,
   onNextTutorialStep,
   onCloseTutorial,
+  addDamage,
 }: PhotoCaptureHUDTutorialProps) {
   const { t } = useTranslation();
-  const primaryColor = usePhotoCaptureHUDButtonBackground();
+  const primaryColor = useColorBackground();
 
   return currentTutorialStep ? (
     <div style={styles['backdropContainer']} data-testid='backdrop'>
@@ -60,7 +61,7 @@ export function PhotoCaptureHUDTutorial({
               sightId={sightId}
               sightGuidelines={sightGuidelines}
               enableSightGuidelines={currentTutorialStep === TutorialSteps.GUIDELINE}
-              enableAddDamage={true}
+              addDamage={addDamage}
               enableDefaultMessage={true}
             />
             <Button

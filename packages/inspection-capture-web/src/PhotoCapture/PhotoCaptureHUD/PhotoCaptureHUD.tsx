@@ -1,17 +1,16 @@
 import { useMemo, useState } from 'react';
-import { PhotoCaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
+import { CaptureAppConfig, Image, ImageStatus, Sight, VehiclePart } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
-import { PhotoCaptureHUDButtons } from './PhotoCaptureHUDButtons';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { PhotoCaptureMode, TutorialSteps } from '../hooks';
-import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
+import { TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
-import { OrientationEnforcer } from '../../components';
+import { CaptureMode } from '../../types';
+import { HUDButtons, HUDOverlay } from '../../components';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -22,7 +21,7 @@ export interface PhotoCaptureHUDProps
       PhotoCaptureAppConfig,
       | 'enableSightGuidelines'
       | 'sightGuidelines'
-      | 'enableAddDamage'
+      | 'addDamage'
       | 'showCloseButton'
       | 'allowSkipTutorial'
       | 'enforceOrientation'
@@ -50,7 +49,7 @@ export interface PhotoCaptureHUDProps
   /**
    * The current mode of the component.
    */
-  mode: PhotoCaptureMode;
+  mode: CaptureMode;
   /**
    * Global loading state of the PhotoCapture component.
    */
@@ -59,6 +58,10 @@ export interface PhotoCaptureHUDProps
    * The current tutorial step in PhotoCapture component.
    */
   currentTutorialStep: TutorialSteps | null;
+  /**
+   * Current vehicle parts selected to take a picture of.
+   */
+  vehicleParts: VehiclePart[];
   /**
    * Callback called when the user clicks on "Next" button in PhotoCapture tutorial.
    */
@@ -76,11 +79,15 @@ export interface PhotoCaptureHUDProps
    */
   onRetakeSight: (sight: string) => void;
   /**
-   * Callback to be called when the user clicks on the "Add Damage" button.
+   * Callback called when the user clicks on the "Add Damage" button.
    */
   onAddDamage: () => void;
   /**
-   * Callback to be called when the user clicks on the "Cancel" button of the Add Damage mode.
+   * Callback called when the user selects the parts to take a picture of.
+   */
+  onAddDamagePartsSelected?: (parts: VehiclePart[]) => void;
+  /**
+   * Callback called when the user clicks on the "Cancel" button of the Add Damage mode.
    */
   onCancelAddDamage: () => void;
   /**
@@ -91,6 +98,10 @@ export interface PhotoCaptureHUDProps
    * Callback called when the user clicks on the gallery icon.
    */
   onOpenGallery: () => void;
+  /**
+   * Callback called when the user clicks on the "Validate" button of the Add Damage mode.
+   */
+  onValidateVehicleParts: () => void;
   /**
    * Callback called when the user clicks on the close button. If this callback is not provided, the close button is not
    * displayed.
@@ -114,9 +125,12 @@ export function PhotoCaptureHUD({
   sightsTaken,
   lastPictureTakenUri,
   mode,
+  vehicleParts,
   onSelectSight,
   onRetakeSight,
   onAddDamage,
+  onAddDamagePartsSelected,
+  onValidateVehicleParts,
   onCancelAddDamage,
   onOpenGallery,
   onRetry,
@@ -126,7 +140,7 @@ export function PhotoCaptureHUD({
   handle,
   cameraPreview,
   images,
-  enableAddDamage,
+  addDamage,
   sightGuidelines,
   enableSightGuidelines,
   currentTutorialStep,
@@ -164,35 +178,40 @@ export function PhotoCaptureHUD({
           sights={sights}
           sightsTaken={sightsTaken}
           mode={mode}
+          vehicleParts={vehicleParts}
           onAddDamage={onAddDamage}
           onCancelAddDamage={onCancelAddDamage}
+          onAddDamagePartsSelected={onAddDamagePartsSelected}
           onSelectSight={onSelectSight}
           onRetakeSight={onRetakeSight}
+          onValidateVehicleParts={onValidateVehicleParts}
           isLoading={loading.isLoading}
           error={loading.error ?? handle.error}
           previewDimensions={handle.previewDimensions}
           images={images}
-          enableAddDamage={enableAddDamage}
+          addDamage={addDamage}
           sightGuidelines={sightGuidelines}
           enableSightGuidelines={enableSightGuidelines}
           tutorialStep={currentTutorialStep}
         />
       </div>
-      <PhotoCaptureHUDButtons
-        onOpenGallery={onOpenGallery}
-        onTakePicture={handle?.takePicture}
-        onClose={() => setShowCloseModal(true)}
-        galleryPreview={lastPictureTakenUri ?? undefined}
-        closeDisabled={!!loading.error || !!handle.error}
-        galleryDisabled={!!loading.error || !!handle.error}
-        takePictureDisabled={
-          !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
-        }
-        showCloseButton={showCloseButton}
-        showGalleryBadge={retakeCount > 0}
-        retakeCount={retakeCount}
-      />
-      <PhotoCaptureHUDOverlay
+      {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
+        <HUDButtons
+          onOpenGallery={onOpenGallery}
+          onTakePicture={handle?.takePicture}
+          onClose={() => setShowCloseModal(true)}
+          galleryPreview={lastPictureTakenUri ?? undefined}
+          closeDisabled={!!loading.error || !!handle.error}
+          galleryDisabled={!!loading.error || !!handle.error}
+          takePictureDisabled={
+            !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
+          }
+          showCloseButton={showCloseButton}
+          showGalleryBadge={retakeCount > 0}
+          retakeCount={retakeCount}
+        />
+      )}
+      <HUDOverlay
         inspectionId={inspectionId}
         handle={handle}
         isCaptureLoading={loading.isLoading}
@@ -214,6 +233,7 @@ export function PhotoCaptureHUD({
         allowSkipTutorial={allowSkipTutorial}
         sightId={selectedSight.id}
         sightGuidelines={sightGuidelines}
+        addDamage={addDamage}
       />
       <OrientationEnforcer orientation={enforceOrientation} />
     </div>

@@ -1,33 +1,26 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus } from '@monkvision/types';
 
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight', () => ({
   PhotoCaptureHUDElementsSight: jest.fn(() => <></>),
 }));
-jest.mock(
-  '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsAddDamage1stShot',
-  () => ({
-    PhotoCaptureHUDElementsAddDamage1stShot: jest.fn(() => <></>),
-  }),
-);
-jest.mock(
-  '../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsAddDamage2ndShot',
-  () => ({
-    PhotoCaptureHUDElementsAddDamage2ndShot: jest.fn(() => <></>),
-  }),
-);
+jest.mock('../../../src/components/ZoomOutShot', () => ({
+  ZoomOutShot: jest.fn(() => <></>),
+}));
+jest.mock('../../../src/components/CloseUpShot', () => ({
+  CloseUpShot: jest.fn(() => <></>),
+}));
 
 import { sights } from '@monkvision/sights';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
+import { CaptureMode } from '../../../src/types';
 import {
   PhotoCaptureHUDElements,
-  PhotoCaptureHUDElementsAddDamage1stShot,
-  PhotoCaptureHUDElementsAddDamage2ndShot,
   PhotoCaptureHUDElementsProps,
   PhotoCaptureHUDElementsSight,
 } from '../../../src';
+import { ZoomOutShot, CloseUpShot } from '../../../src/components';
 
 function createProps(): PhotoCaptureHUDElementsProps {
   const captureSights = [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']];
@@ -35,7 +28,7 @@ function createProps(): PhotoCaptureHUDElementsProps {
     selectedSight: captureSights[1],
     sights: captureSights,
     sightsTaken: [captureSights[0]],
-    mode: PhotoCaptureMode.SIGHT,
+    mode: CaptureMode.SIGHT,
     onAddDamage: jest.fn(),
     onCancelAddDamage: jest.fn(),
     onSelectSight: jest.fn(),
@@ -45,6 +38,9 @@ function createProps(): PhotoCaptureHUDElementsProps {
     error: null,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     tutorialStep: null,
+    onValidateVehicleParts: jest.fn(),
+    vehicleParts: [],
+    addDamage: AddDamage.PART_SELECT,
   };
 }
 
@@ -75,7 +71,7 @@ describe('PhotoCaptureHUDElements component', () => {
 
   it('should return the PhotoCaptureHUDElementsSight component if the mode is Sight', () => {
     const props = createProps();
-    props.mode = PhotoCaptureMode.SIGHT;
+    props.mode = CaptureMode.SIGHT;
     const { unmount } = render(<PhotoCaptureHUDElements {...props} />);
 
     expectPropsOnChildMock(PhotoCaptureHUDElementsSight, {
@@ -87,36 +83,36 @@ describe('PhotoCaptureHUDElements component', () => {
       previewDimensions: props.previewDimensions,
       images: props.images,
     });
-    expect(PhotoCaptureHUDElementsAddDamage1stShot).not.toHaveBeenCalled();
-    expect(PhotoCaptureHUDElementsAddDamage2ndShot).not.toHaveBeenCalled();
+    expect(ZoomOutShot).not.toHaveBeenCalled();
+    expect(CloseUpShot).not.toHaveBeenCalled();
 
     unmount();
   });
 
   it('should return the PhotoCaptureHUDElementsAddDamage1stShot component if the mode is AD 1st Shot', () => {
     const props = createProps();
-    props.mode = PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT;
+    props.mode = CaptureMode.ADD_DAMAGE_1ST_SHOT;
     const { unmount } = render(<PhotoCaptureHUDElements {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDElementsAddDamage1stShot, {
+    expectPropsOnChildMock(ZoomOutShot, {
       onCancel: props.onCancelAddDamage,
     });
     expect(PhotoCaptureHUDElementsSight).not.toHaveBeenCalled();
-    expect(PhotoCaptureHUDElementsAddDamage2ndShot).not.toHaveBeenCalled();
+    expect(CloseUpShot).not.toHaveBeenCalled();
 
     unmount();
   });
 
   it('should return the PhotoCaptureHUDElementsAddDamage1stShot component if the mode is AD 2nd Shot', () => {
     const props = createProps();
-    props.mode = PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT;
+    props.mode = CaptureMode.ADD_DAMAGE_2ND_SHOT;
     const { unmount } = render(<PhotoCaptureHUDElements {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDElementsAddDamage2ndShot, {
+    expectPropsOnChildMock(CloseUpShot, {
       onCancel: props.onCancelAddDamage,
     });
     expect(PhotoCaptureHUDElementsSight).not.toHaveBeenCalled();
-    expect(PhotoCaptureHUDElementsAddDamage1stShot).not.toHaveBeenCalled();
+    expect(ZoomOutShot).not.toHaveBeenCalled();
 
     unmount();
   });

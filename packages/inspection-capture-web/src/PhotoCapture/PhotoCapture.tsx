@@ -10,6 +10,7 @@ import {
 import { useMonitoring } from '@monkvision/monitoring';
 import { MonkApiConfig } from '@monkvision/network';
 import {
+  AddDamage,
   CameraConfig,
   ComplianceOptions,
   MonkPicture,
@@ -23,17 +24,20 @@ import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
 import {
-  useAdaptiveCameraConfig,
-  useAddDamageMode,
-  useBadConnectionWarning,
   useComplianceAnalytics,
-  usePhotoCaptureImages,
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
-  usePictureTaken,
-  useTracking,
-  useUploadQueue,
+  useStartTasksOnComplete,
 } from './hooks';
+import {
+  usePictureTaken,
+  useAddDamageMode,
+  useUploadQueue,
+  usePhotoCaptureImages,
+  useAdaptiveCameraConfig,
+  useBadConnectionWarning,
+  useTracking,
+} from '../hooks';
 
 /**
  * Props of the PhotoCapture component.
@@ -50,7 +54,7 @@ export interface PhotoCaptureProps
       | 'showCloseButton'
       | 'enforceOrientation'
       | 'allowSkipRetake'
-      | 'enableAddDamage'
+      | 'addDamage'
       | 'sightGuidelines'
       | 'enableSightGuidelines'
       | 'enableTutorial'
@@ -124,7 +128,7 @@ export function PhotoCapture({
   customComplianceThresholdsPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
-  enableAddDamage = true,
+  addDamage = AddDamage.PART_SELECT,
   sightGuidelines,
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
   allowSkipTutorial = true,
@@ -151,7 +155,14 @@ export function PhotoCapture({
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
   const analytics = useAnalytics();
   const loading = useLoadingState();
-  const addDamageHandle = useAddDamageMode();
+  const handleOpenGallery = () => {
+    setCurrentScreen(PhotoCaptureScreen.GALLERY);
+    analytics.trackEvent('Gallery Opened');
+  };
+  const addDamageHandle = useAddDamageMode({
+    addDamage,
+    handleOpenGallery,
+  });
   useTracking({ inspectionId, authToken: apiConfig.authToken });
   const { setIsInitialInspectionFetched } = useComplianceAnalytics({ inspectionId, sights });
   const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
@@ -206,10 +217,6 @@ export function PhotoCapture({
     tasksBySight,
     onPictureTaken,
   });
-  const handleOpenGallery = () => {
-    setCurrentScreen(PhotoCaptureScreen.GALLERY);
-    analytics.trackEvent('Gallery Opened');
-  };
   const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);
   const handleNavigateToCapture = (options: NavigateToCaptureOptions) => {
     if (options.reason === NavigateToCaptureReason.ADD_DAMAGE) {
@@ -249,10 +256,12 @@ export function PhotoCapture({
     sightsTaken: sightState.sightsTaken,
     lastPictureTakenUri: sightState.lastPictureTakenUri,
     mode: addDamageHandle.mode,
+    vehicleParts: addDamageHandle.vehicleParts,
     onOpenGallery: handleOpenGallery,
     onSelectSight: sightState.selectSight,
     onRetakeSight: sightState.retakeSight,
     onAddDamage: addDamageHandle.handleAddDamage,
+    onAddDamagePartsSelected: addDamageHandle.handleAddDamagePartsSelected,
     onCancelAddDamage: addDamageHandle.handleCancelAddDamage,
     onRetry: sightState.retryLoadingInspection,
     loading,
@@ -260,7 +269,8 @@ export function PhotoCapture({
     inspectionId,
     showCloseButton,
     images,
-    enableAddDamage,
+    addDamage,
+    onValidateVehicleParts: addDamageHandle.handleValidateVehicleParts,
     sightGuidelines,
     enableSightGuidelines,
     currentTutorialStep,
@@ -292,7 +302,7 @@ export function PhotoCapture({
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}
-          enableAddDamage={enableAddDamage}
+          addDamage={addDamage}
           validateButtonLabel={validateButtonLabel}
           isInspectionCompleted={sightState.isInspectionCompleted}
           {...complianceOptions}
