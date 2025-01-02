@@ -6,7 +6,7 @@ jest.mock('@monkvision/common', () => ({
   getInspectionImages: jest.fn(() => inspectionImagesMock),
 }));
 
-import { usePhotoCaptureImages } from '../../../src/PhotoCapture/hooks';
+import { usePhotoCaptureImages } from '../../src/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { getInspectionImages, useMonkState } from '@monkvision/common';
 
@@ -20,7 +20,12 @@ describe('usePhotoCaptureImages hook', () => {
     const { result, unmount } = renderHook(usePhotoCaptureImages, { initialProps: inspectionId });
 
     expect(useMonkState).toHaveBeenCalled();
-    expect(getInspectionImages).toHaveBeenCalledWith(inspectionId, stateMock.images, true);
+    expect(getInspectionImages).toHaveBeenCalledWith(
+      inspectionId,
+      stateMock.images,
+      undefined,
+      true,
+    );
     expect(result.current).toEqual(inspectionImagesMock);
 
     unmount();

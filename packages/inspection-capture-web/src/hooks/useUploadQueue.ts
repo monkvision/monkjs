@@ -1,9 +1,15 @@
 import { Queue, uniq, useQueue } from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { PhotoCaptureAppConfig, ComplianceOptions, MonkPicture, TaskName } from '@monkvision/types';
+import {
+  CaptureAppConfig,
+  ComplianceOptions,
+  MonkPicture,
+  TaskName,
+  VehiclePart,
+} from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
-import { PhotoCaptureMode } from './useAddDamageMode';
+import { CaptureMode } from '../types';
 
 /**
  * Type definition for upload event handlers.
@@ -50,7 +56,7 @@ export interface SightPictureUpload {
   /**
    * Upload mode : `PhotoCaptureMode.SIGHT`.
    */
-  mode: PhotoCaptureMode.SIGHT;
+  mode: CaptureMode.SIGHT;
   /**
    * The picture to upload.
    */
@@ -72,7 +78,7 @@ export interface AddDamage1stShotPictureUpload {
   /**
    * Upload mode : `PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT`.
    */
-  mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT;
+  mode: CaptureMode.ADD_DAMAGE_1ST_SHOT;
   /**
    * The picture to upload.
    */
@@ -86,11 +92,29 @@ export interface AddDamage2ndShotPictureUpload {
   /**
    * Upload mode : `PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT`.
    */
-  mode: PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT;
+  mode: CaptureMode.ADD_DAMAGE_2ND_SHOT;
   /**
    * The picture to upload.
    */
   picture: MonkPicture;
+}
+
+/**
+ * Upload options for a part select picture in the add damage process.
+ */
+export interface AddDamagePartSelectShotPictureUpload {
+  /**
+   * Upload mode : `PhotoCaptureMode.ADD_DAMAGE_PART_SELECTION`.
+   */
+  mode: CaptureMode.ADD_DAMAGE_PART_SELECT_SHOT;
+  /**
+   * The picture to upload.
+   */
+  picture: MonkPicture;
+  /**
+   * Selected damaged parts.
+   */
+  vehicleParts: VehiclePart[];
 }
 
 /**
@@ -99,7 +123,8 @@ export interface AddDamage2ndShotPictureUpload {
 export type PictureUpload =
   | SightPictureUpload
   | AddDamage1stShotPictureUpload
-  | AddDamage2ndShotPictureUpload;
+  | AddDamage2ndShotPictureUpload
+  | AddDamagePartSelectShotPictureUpload;
 
 function createAddImageOptions(
   upload: PictureUpload,
@@ -109,7 +134,7 @@ function createAddImageOptions(
   additionalTasks?: PhotoCaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
 ): AddImageOptions {
-  if (upload.mode === PhotoCaptureMode.SIGHT) {
+  if (upload.mode === CaptureMode.SIGHT) {
     return {
       uploadType: ImageUploadType.BEAUTY_SHOT,
       picture: upload.picture,
@@ -120,11 +145,21 @@ function createAddImageOptions(
       useThumbnailCaching: enableThumbnail,
     };
   }
+  if (upload.mode === CaptureMode.ADD_DAMAGE_PART_SELECT_SHOT) {
+    return {
+      uploadType: ImageUploadType.PART_SELECT_SHOT,
+      picture: upload.picture,
+      inspectionId,
+      vehicleParts: upload.vehicleParts,
+      compliance,
+      useThumbnailCaching: enableThumbnail,
+    };
+  }
   return {
     uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
     picture: upload.picture,
     siblingKey: `closeup-sibling-key-${siblingId}`,
-    firstShot: upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+    firstShot: upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT,
     inspectionId,
     compliance,
     useThumbnailCaching: enableThumbnail,
@@ -146,7 +181,7 @@ export function useUploadQueue({
   const { addImage } = useMonkApi(apiConfig);
 
   return useQueue<PictureUpload>(async (upload: PictureUpload) => {
-    if (upload.mode === PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT) {
+    if (upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT) {
       siblingIdRef.current += 1;
     }
     try {
