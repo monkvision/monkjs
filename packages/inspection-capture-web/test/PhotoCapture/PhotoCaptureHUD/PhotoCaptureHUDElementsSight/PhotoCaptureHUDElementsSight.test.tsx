@@ -1,7 +1,7 @@
 import { Image, ImageStatus } from '@monkvision/types';
 
-jest.mock('../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDCounter', () => ({
-  PhotoCaptureHUDCounter: jest.fn(() => <></>),
+jest.mock('../../../../src/components/Counter', () => ({
+  Counter: jest.fn(() => <></>),
 }));
 jest.mock(
   '../../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight/AddDamageButton',
@@ -22,12 +22,13 @@ import { SightOverlay } from '@monkvision/common-ui-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import {
   AddDamageButton,
-  PhotoCaptureHUDCounter,
   PhotoCaptureHUDElementsSight,
   PhotoCaptureHUDElementsSightProps,
   SightSlider,
 } from '../../../../src';
-import { PhotoCaptureMode, TutorialSteps } from '../../../../src/PhotoCapture/hooks';
+import { Counter } from '../../../../src/components';
+import { CaptureMode } from '../../../../src/types';
+import { TutorialSteps } from '../../../../src/PhotoCapture/hooks';
 
 function createProps(): PhotoCaptureHUDElementsSightProps {
   const captureSights = [
@@ -69,8 +70,8 @@ describe('PhotoCaptureHUDElementsSight component', () => {
       <PhotoCaptureHUDElementsSight {...props} tutorialStep={TutorialSteps.SIGHT} />,
     );
 
-    expectPropsOnChildMock(PhotoCaptureHUDCounter, {
-      mode: PhotoCaptureMode.SIGHT,
+    expectPropsOnChildMock(Counter, {
+      mode: CaptureMode.SIGHT,
       totalSights: props.sights.length,
       sightsTaken: props.sightsTaken.length,
     });

@@ -3,9 +3,10 @@ import { SightSlider } from './SightSlider';
 import { styles } from './PhotoCaptureHUDElementsSight.styles';
 import { AddDamageButton } from './AddDamageButton';
 import { PhotoCaptureHUDElementsSightProps, usePhotoCaptureHUDSightPreviewStyle } from './hooks';
-import { PhotoCaptureHUDCounter } from '../PhotoCaptureHUDCounter';
-import { PhotoCaptureMode, TutorialSteps } from '../../hooks';
+import { TutorialSteps } from '../../hooks';
 import { SightGuideline } from './SightGuideline';
+import { Counter } from '../../../components';
+import { CaptureMode } from '../../../types';
 
 /**
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
@@ -20,7 +21,7 @@ export function PhotoCaptureHUDElementsSight({
   sightsTaken,
   previewDimensions,
   images,
-  enableAddDamage,
+  addDamage,
   sightGuidelines,
   enableSightGuidelines,
   tutorialStep,
@@ -39,13 +40,13 @@ export function PhotoCaptureHUDElementsSight({
               sightId={selectedSight.id}
               sightGuidelines={sightGuidelines}
               enableSightGuidelines={enableSightGuidelines}
-              enableAddDamage={enableAddDamage}
+              addDamage={addDamage}
             />
-            <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={enableAddDamage} />
+            <AddDamageButton onAddDamage={onAddDamage} addDamage={addDamage} />
           </div>
           <div style={style.bottom}>
-            <PhotoCaptureHUDCounter
-              mode={PhotoCaptureMode.SIGHT}
+            <Counter
+              mode={CaptureMode.SIGHT}
               totalSights={sights.length}
               sightsTaken={sightsTaken.length}
             />
