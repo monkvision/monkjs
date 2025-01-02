@@ -13,7 +13,9 @@
         "damagedPartCounter": "1 / 2 • Damaged part",
         "closeupPictureCounter": "2 / 2 • Closeup Picture",
         "infoBtn": "Aim the target at the damaged part then tap the shutter button",
-        "infoCloseup": "Take a closeup picture of the damage"
+        "infoCloseup": "Take a closeup picture of the damage",
+        "selectPart": "Tap the damaged part. Use arrows to rotate the vehicle and see the other side.",
+        "selectParts": "Tap the damaged parts. Use arrows to rotate the vehicle and see the other side."
       },
       "error": {
         "retry": "Retry",
@@ -39,6 +41,9 @@
         "sight": "Align the vehicle with the lines as much as possible to get the best shot.<br>Press the shutter button to take the photo.",
         "next": "Next"
       }
+    },
+    "gallery": {
+      "next": "Next: vehicle photos"
     }
   },
   "video": {

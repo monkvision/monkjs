@@ -97,7 +97,9 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
   return (
     <PhotoCaptureHUDElementsAddDamage2ndShot
       onCancel={params.onCancelAddDamage}
-      streamDimensions={params.previewDimensions}
+      vehicleParts={params.vehicleParts}
+      onValidateVehicleParts={params.onValidateVehicleParts}
+      onAddDamagePartsSelected={params.onAddDamagePartsSelected}
     />
   );
 }
