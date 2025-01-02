@@ -3,8 +3,8 @@ import { Queue } from '@monkvision/common';
 import { useCallback } from 'react';
 import { useAnalytics } from '@monkvision/analytics';
 import { PictureUpload } from './useUploadQueue';
-import { AddDamageHandle, PhotoCaptureMode } from './useAddDamageMode';
-import { PhotoCaptureSightState } from './usePhotoCaptureSightState';
+import { AddDamageHandle } from './useAddDamageMode';
+import { PhotoCaptureSightState, DamageDisclosureState, CaptureMode } from '../types';
 
 /**
  * Parameters of the usePictureTaken hook.
@@ -13,7 +13,7 @@ export interface UseTakePictureParams {
   /**
    * The PhotoCapture sight state, created using the usePhotoCaptureSightState hook.
    */
-  sightState: PhotoCaptureSightState;
+  sightState: PhotoCaptureSightState | DamageDisclosureState;
   /**
    * The PhotoCapture add damage handle, created using the useAddDamageMode hook.
    */
@@ -49,21 +49,38 @@ export function usePictureTaken({
   onPictureTaken,
 }: UseTakePictureParams): HandleTakePictureFunction {
   const { trackEvent } = useAnalytics();
+
+  const selectedSightId = 'selectedSight' in sightState ? sightState.selectedSight.id : undefined;
+
+  const takeSelectedSight =
+    'takeSelectedSight' in sightState ? sightState.takeSelectedSight : undefined;
+
   return useCallback(
     (picture: MonkPicture) => {
       onPictureTaken?.(picture);
       sightState.setLastPictureTakenUri(picture.uri);
-      const upload: PictureUpload =
-        addDamageHandle.mode === PhotoCaptureMode.SIGHT
-          ? {
-              mode: addDamageHandle.mode,
-              picture,
-              sightId: sightState.selectedSight.id,
-              tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
-            }
-          : { mode: addDamageHandle.mode, picture };
-      uploadQueue.push(upload);
-      if (addDamageHandle.mode === PhotoCaptureMode.SIGHT) {
+      if (addDamageHandle.mode === CaptureMode.ADD_DAMAGE_PART_SELECT_SHOT) {
+        uploadQueue.push({
+          mode: addDamageHandle.mode,
+          picture,
+          vehicleParts: addDamageHandle.vehicleParts,
+        });
+      }
+      if (addDamageHandle.mode === CaptureMode.SIGHT && 'selectedSight' in sightState) {
+        uploadQueue.push({
+          mode: addDamageHandle.mode,
+          picture,
+          sightId: sightState.selectedSight.id,
+          tasks: tasksBySight?.[sightState.selectedSight.id] ?? sightState.selectedSight.tasks,
+        });
+      }
+      if (
+        addDamageHandle.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT ||
+        addDamageHandle.mode === CaptureMode.ADD_DAMAGE_2ND_SHOT
+      ) {
+        uploadQueue.push({ mode: addDamageHandle.mode, picture });
+      }
+      if (addDamageHandle.mode === CaptureMode.SIGHT && 'takeSelectedSight' in sightState) {
         sightState.takeSelectedSight();
       } else {
         trackEvent('AddDamage Captured', {
@@ -75,10 +92,10 @@ export function usePictureTaken({
     [
       sightState.setLastPictureTakenUri,
       addDamageHandle.mode,
-      sightState.selectedSight.id,
+      selectedSightId,
       tasksBySight,
       uploadQueue.push,
-      sightState.takeSelectedSight,
+      takeSelectedSight,
       addDamageHandle.updatePhotoCaptureModeAfterPictureTaken,
       onPictureTaken,
     ],

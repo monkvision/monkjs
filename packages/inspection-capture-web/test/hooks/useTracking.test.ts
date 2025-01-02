@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useTracking, TrackingParams } from '../../../src/PhotoCapture/hooks';
+import { useTracking, TrackingParams } from '../../src/hooks';
 import { useAnalytics } from '@monkvision/analytics';
 import { useMonitoring } from '@monkvision/monitoring';
 import { decodeMonkJwt } from '@monkvision/network';

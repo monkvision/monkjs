@@ -1,11 +1,8 @@
 import { TaskName, MonkPicture } from '@monkvision/types';
-import {
-  AddDamageHandle,
-  PhotoCaptureMode,
-  usePictureTaken,
-  UseTakePictureParams,
-} from '../../../src/PhotoCapture/hooks';
+import { AddDamageHandle, usePictureTaken, UseTakePictureParams } from '../../src/hooks';
+import { CaptureMode } from '../../src/types';
 import { renderHook } from '@testing-library/react-hooks';
+import { PhotoCaptureSightState } from '../../src/PhotoCapture/hooks';
 
 function createParams(): UseTakePictureParams {
   return {
@@ -15,7 +12,7 @@ function createParams(): UseTakePictureParams {
       selectedSight: { id: 'test-selected-sight', tasks: [TaskName.WHEEL_ANALYSIS] },
     },
     addDamageHandle: {
-      mode: PhotoCaptureMode.SIGHT,
+      mode: CaptureMode.SIGHT,
       updatePhotoCaptureModeAfterPictureTaken: jest.fn(),
     },
     uploadQueue: {
@@ -62,8 +59,8 @@ describe('usePictureTaken hook', () => {
     expect(initialProps.uploadQueue.push).toHaveBeenCalledWith({
       mode: initialProps.addDamageHandle.mode,
       picture,
-      sightId: initialProps.sightState.selectedSight.id,
-      tasks: initialProps.sightState.selectedSight.tasks,
+      sightId: (initialProps.sightState as PhotoCaptureSightState).selectedSight.id,
+      tasks: (initialProps.sightState as PhotoCaptureSightState).selectedSight.tasks,
     });
 
     unmount();
@@ -74,7 +71,7 @@ describe('usePictureTaken hook', () => {
     const initialProps = {
       ...createParams(),
       tasksBySight: {
-        [createParams().sightState.selectedSight.id]: tasks,
+        [(createParams().sightState as PhotoCaptureSightState).selectedSight.id]: tasks,
       },
     };
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
@@ -93,7 +90,7 @@ describe('usePictureTaken hook', () => {
       ...defaultParams,
       addDamageHandle: {
         ...defaultParams.addDamageHandle,
-        mode: PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT,
+        mode: CaptureMode.ADD_DAMAGE_2ND_SHOT,
       } as unknown as AddDamageHandle,
     };
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
@@ -113,9 +110,13 @@ describe('usePictureTaken hook', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
-    expect(initialProps.sightState.takeSelectedSight).not.toHaveBeenCalled();
+    expect(
+      (initialProps.sightState as PhotoCaptureSightState).takeSelectedSight,
+    ).not.toHaveBeenCalled();
     result.current(createMonkPicture());
-    expect(initialProps.sightState.takeSelectedSight).toHaveBeenCalled();
+    expect(
+      (initialProps.sightState as PhotoCaptureSightState).takeSelectedSight,
+    ).toHaveBeenCalled();
 
     unmount();
   });
@@ -126,13 +127,15 @@ describe('usePictureTaken hook', () => {
       ...defaultParams,
       addDamageHandle: {
         ...defaultParams.addDamageHandle,
-        mode: PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT,
+        mode: CaptureMode.ADD_DAMAGE_2ND_SHOT,
       } as unknown as AddDamageHandle,
     };
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
     result.current(createMonkPicture());
-    expect(initialProps.sightState.takeSelectedSight).not.toHaveBeenCalled();
+    expect(
+      (initialProps.sightState as PhotoCaptureSightState).takeSelectedSight,
+    ).not.toHaveBeenCalled();
 
     unmount();
   });

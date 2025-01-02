@@ -6,7 +6,7 @@ jest.mock('@monkvision/common', () => ({
   getInspectionImages: jest.fn(() => inspectionImagesMock),
 }));
 
-import { usePhotoCaptureImages } from '../../../src/PhotoCapture/hooks';
+import { usePhotoCaptureImages } from '../../src/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { getInspectionImages, useMonkState } from '@monkvision/common';
 

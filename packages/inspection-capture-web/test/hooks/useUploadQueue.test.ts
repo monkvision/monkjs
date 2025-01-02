@@ -3,10 +3,10 @@ import { renderHook } from '@testing-library/react-hooks';
 import {
   AddDamage1stShotPictureUpload,
   AddDamage2ndShotPictureUpload,
-  PhotoCaptureMode,
   UploadQueueParams,
   useUploadQueue,
-} from '../../../src/PhotoCapture/hooks';
+} from '../../src/hooks';
+import { CaptureMode } from '../../src/types';
 import { ComplianceIssue, TaskName } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -41,7 +41,7 @@ function createParams(): UploadQueueParams {
 }
 
 const defaultUploadOptions = {
-  mode: PhotoCaptureMode.SIGHT,
+  mode: CaptureMode.SIGHT,
   picture: {
     uri: 'test-monk-uri',
     mimetype: 'test-mimetype',
@@ -132,7 +132,7 @@ describe('useUploadQueue hook', () => {
       const process = (useQueue as jest.Mock).mock.calls[0][0];
 
       const upload1: AddDamage1stShotPictureUpload = {
-        mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+        mode: CaptureMode.ADD_DAMAGE_1ST_SHOT,
         picture: {
           blob: { size: 42 } as Blob,
           uri: 'test-monk-uri-1',
@@ -157,7 +157,7 @@ describe('useUploadQueue hook', () => {
 
       addImageMock.mockClear();
       const upload2: AddDamage2ndShotPictureUpload = {
-        mode: PhotoCaptureMode.ADD_DAMAGE_2ND_SHOT,
+        mode: CaptureMode.ADD_DAMAGE_2ND_SHOT,
         picture: {
           blob: { size: 42 } as Blob,
           uri: 'test-monk-uri-2',
@@ -181,7 +181,7 @@ describe('useUploadQueue hook', () => {
       addImageMock.mockClear();
       await act(async () => {
         await process({
-          mode: PhotoCaptureMode.ADD_DAMAGE_1ST_SHOT,
+          mode: CaptureMode.ADD_DAMAGE_1ST_SHOT,
           picture: {
             uri: 'test-monk-uri-3',
             mimetype: 'test-mimetype-3',
