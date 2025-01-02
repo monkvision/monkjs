@@ -13,6 +13,7 @@ import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
+import { OrientationEnforcer } from '../components';
 
 /**
  * Props of the VideoCapture component.
@@ -21,8 +22,6 @@ export interface VideoCaptureProps
   extends Pick<
     VideoCaptureAppConfig,
     | keyof CameraConfig
-    | 'maxUploadDurationWarning'
-    | 'useAdaptiveImageQuality'
     | 'additionalTasks'
     | 'startTasksOnComplete'
     | 'enforceOrientation'
@@ -59,8 +58,6 @@ enum VideoCaptureScreen {
 export function VideoCapture({
   inspectionId,
   apiConfig,
-  maxUploadDurationWarning,
-  useAdaptiveImageQuality,
   additionalTasks,
   startTasksOnComplete,
   enforceOrientation,
@@ -115,7 +112,9 @@ export function VideoCapture({
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (
-        <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
+        <OrientationEnforcer orientation={enforceOrientation}>
+          <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
+        </OrientationEnforcer>
       )}
     </div>
   );

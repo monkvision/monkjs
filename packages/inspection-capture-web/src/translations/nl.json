@@ -1,9 +1,5 @@
 {
   "photo": {
-    "orientationError": {
-      "title": "Draai uw apparaat om.",
-      "description": "U moet mogelijk de oriëntatie van uw apparaat ontgrendelen via de instellingen van uw telefoon."
-    },
     "badConnectionWarning": {
       "message": "Het lijkt erop dat je verbinding instabiel is. Het uploaden van afbeeldingen kan lang duren of onmogelijk zijn.",
       "confirm": "Ik begrijp het"
@@ -89,5 +85,9 @@
       "error": "Er is een fout opgetreden bij het afronden van de inspectie. Inspectie ID :",
       "done": "Gedaan"
     }
+  },
+  "orientationEnforcer": {
+    "title": "Draai uw apparaat om.",
+    "description": "U moet mogelijk de oriëntatie van uw apparaat ontgrendelen via de instellingen van uw telefoon."
   }
 }

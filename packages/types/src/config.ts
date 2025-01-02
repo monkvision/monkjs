@@ -90,19 +90,6 @@ export type SharedCaptureAppConfig = CameraConfig & {
    */
   enforceOrientation?: DeviceOrientation;
   /**
-   * A number indicating the maximum allowed duration in milliseconds for an upload before raising a "Bad Connection"
-   * warning to the user. Set this value to -1 to never show this warning to the user.
-   *
-   * @default 15000
-   */
-  maxUploadDurationWarning?: number;
-  /**
-   * Boolean indicating if the image quality should be downgraded automatically in case of low connection.
-   *
-   * @default true
-   */
-  useAdaptiveImageQuality?: boolean;
-  /**
    * Boolean indicating if manual login and logout in the app should be enabled or not.
    */
   allowManualLogin: boolean;
@@ -166,6 +153,19 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      * @default false
      */
     showCloseButton?: boolean;
+    /**
+     * A number indicating the maximum allowed duration in milliseconds for an upload before raising a "Bad Connection"
+     * warning to the user. Set this value to -1 to never show this warning to the user.
+     *
+     * @default 15000
+     */
+    maxUploadDurationWarning?: number;
+    /**
+     * Boolean indicating if the image quality should be downgraded automatically in case of low connection.
+     *
+     * @default true
+     */
+    useAdaptiveImageQuality?: boolean;
     /**
      * If compliance is enabled, this prop indicate if the user is allowed to skip the retaking process if pictures are
      * not compliant.
@@ -254,7 +254,7 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
    */
   workflow: CaptureWorkflow.VIDEO;
   /**
-   * The duration of a recording in milliseconds.
+   * The minimum duration of a recording in milliseconds.
    *
    * @default 15000
    */

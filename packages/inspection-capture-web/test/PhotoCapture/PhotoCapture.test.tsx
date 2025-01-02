@@ -3,6 +3,7 @@ import {
   CameraResolution,
   ComplianceIssue,
   CompressionFormat,
+  DeviceOrientation,
   PhotoCaptureTutorialOption,
   TaskName,
 } from '@monkvision/types';
@@ -24,6 +25,7 @@ import {
   useUploadQueue,
 } from '../../src/PhotoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
+import { OrientationEnforcer } from '../../src/components';
 
 const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
 
@@ -84,6 +86,10 @@ jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
 }));
 
+jest.mock('../../src/components', () => ({
+  OrientationEnforcer: jest.fn(({ children }) => <>{children}</>),
+}));
+
 function createProps(): PhotoCaptureProps {
   return {
     sights: [sights['test-sight-1'], sights['test-sight-2'], sights['test-sight-3']],
@@ -93,7 +99,7 @@ function createProps(): PhotoCaptureProps {
       authToken: 'test-auth-token-test',
       thumbnailDomain: 'test-thumbnail-domain',
     },
-
+    enforceOrientation: DeviceOrientation.PORTRAIT,
     additionalTasks: [TaskName.DASHBOARD_OCR],
     tasksBySight: { 'test-sight-1': [TaskName.IMAGE_EDITING] },
     startTasksOnComplete: [TaskName.COMPLIANCES],
@@ -481,6 +487,29 @@ describe('PhotoCapture component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
     expect(usePreventExit).toHaveBeenCalled();
+    unmount();
+  });
+
+  it('should pass the enforceOrientation prop to the OrientationEnforcer', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    expectPropsOnChildMock(OrientationEnforcer, { orientation: props.enforceOrientation });
+
+    unmount();
+  });
+
+  it('should place the Camera as a children of the OrientationEnforcer', () => {
+    const props = createProps();
+    const { unmount, rerender } = render(<PhotoCapture {...props} />);
+
+    expectPropsOnChildMock(OrientationEnforcer, { children: expect.anything() });
+    const { children } = (OrientationEnforcer as jest.Mock).mock.calls[0][0];
+
+    (Camera as jest.Mock).mockClear();
+    rerender(children);
+    expect(Camera).toHaveBeenCalled();
+
     unmount();
   });
 });

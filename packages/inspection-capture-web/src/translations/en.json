@@ -1,9 +1,5 @@
 {
   "photo": {
-    "orientationError": {
-      "title": "Please rotate your device.",
-      "description": "You may need to unlock your device orientation through your phone settings."
-    },
     "badConnectionWarning": {
       "message": "It seems like your connection is unstable. Picture uploads might be long or impossible.",
       "confirm": "I Understand"
@@ -89,5 +85,9 @@
       "error": "An error occurred when finalizing the inspection. Inspection ID :",
       "done": "Done"
     }
+  },
+  "orientationEnforcer": {
+    "title": "Please rotate your device.",
+    "description": "You may need to unlock your device orientation through your phone settings."
   }
 }

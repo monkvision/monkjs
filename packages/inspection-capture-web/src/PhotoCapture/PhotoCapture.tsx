@@ -1,15 +1,8 @@
 import { useAnalytics } from '@monkvision/analytics';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
-import {
-  useI18nSync,
-  useLoadingState,
-  useObjectMemo,
-  usePreventExit,
-  useWindowDimensions,
-} from '@monkvision/common';
+import { useI18nSync, useLoadingState, useObjectMemo, usePreventExit } from '@monkvision/common';
 import {
   BackdropDialog,
-  Icon,
   InspectionGallery,
   NavigateToCaptureOptions,
   NavigateToCaptureReason,
@@ -19,7 +12,6 @@ import { MonkApiConfig } from '@monkvision/network';
 import {
   CameraConfig,
   ComplianceOptions,
-  DeviceOrientation,
   MonkPicture,
   PhotoCaptureAppConfig,
   PhotoCaptureTutorialOption,
@@ -42,6 +34,7 @@ import {
   useTracking,
   useUploadQueue,
 } from './hooks';
+import { OrientationEnforcer } from '../components';
 
 /**
  * Props of the PhotoCapture component.
@@ -157,7 +150,6 @@ export function PhotoCapture({
   const { t } = useTranslation();
   const monitoring = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
-  const dimensions = useWindowDimensions();
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
@@ -252,9 +244,6 @@ export function PhotoCapture({
         monitoring.handleError(err);
       });
   };
-  const isViolatingEnforcedOrientation =
-    enforceOrientation &&
-    (enforceOrientation === DeviceOrientation.PORTRAIT) !== dimensions.isPortrait;
   const hudProps: Omit<PhotoCaptureHUDProps, keyof CameraHUDProps> = {
     sights,
     selectedSight: sightState.selectedSight,
@@ -283,24 +272,15 @@ export function PhotoCapture({
 
   return (
     <div style={styles['container']}>
-      {currentScreen === PhotoCaptureScreen.CAMERA && isViolatingEnforcedOrientation && (
-        <div style={styles['orientationErrorContainer']}>
-          <div style={styles['orientationErrorTitleContainer']}>
-            <Icon icon='rotate' primaryColor='text-primary' size={30} />
-            <div style={styles['orientationErrorTitle']}>{t('photo.orientationError.title')}</div>
-          </div>
-          <div style={styles['orientationErrorDescription']}>
-            {t('photo.orientationError.description')}
-          </div>
-        </div>
-      )}
-      {currentScreen === PhotoCaptureScreen.CAMERA && !isViolatingEnforcedOrientation && (
-        <Camera
-          HUDComponent={PhotoCaptureHUD}
-          onPictureTaken={handlePictureTaken}
-          hudProps={hudProps}
-          {...adaptiveCameraConfig}
-        />
+      {currentScreen === PhotoCaptureScreen.CAMERA && (
+        <OrientationEnforcer orientation={enforceOrientation}>
+          <Camera
+            HUDComponent={PhotoCaptureHUD}
+            onPictureTaken={handlePictureTaken}
+            hudProps={hudProps}
+            {...adaptiveCameraConfig}
+          />
+        </OrientationEnforcer>
       )}
       {currentScreen === PhotoCaptureScreen.GALLERY && (
         <InspectionGallery

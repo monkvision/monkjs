@@ -1,9 +1,5 @@
 {
   "photo": {
-    "orientationError": {
-      "title": "Veuillez tourner votre appareil.",
-      "description": "Il vous faudra peut-être débloquer l'orientation de votre appareil dans les paramètres de votre téléphone."
-    },
     "badConnectionWarning": {
       "message": "Il semble que votre connexion soit instable. Les téléchargements d'images peuvent être longs ou impossibles.",
       "confirm": "J'ai compris"
@@ -89,5 +85,9 @@
       "error": "Une erreur s'est produite lors de la finalisation de l'inspection. ID d'inspection :",
       "done": "Terminé"
     }
+  },
+  "orientationEnforcer": {
+    "title": "Veuillez tourner votre appareil.",
+    "description": "Il vous faudra peut-être débloquer l'orientation de votre appareil dans les paramètres de votre téléphone."
   }
 }
