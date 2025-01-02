@@ -20,6 +20,12 @@ const vehicles = {
     model: 'F-150 Super Cab XL 2014',
     type: VehicleType.PICKUP,
   },
+  [VehicleModel.AUDIA7]: {
+    id: VehicleModel.AUDIA7,
+    make: 'Audi',
+    model: 'A7',
+    type: VehicleType.HATCHBACK,
+  },
 };
 
 const labels = {

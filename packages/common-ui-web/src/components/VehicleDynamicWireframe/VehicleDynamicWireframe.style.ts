@@ -8,4 +8,8 @@ export const styles: Styles = {
     pointerEvents: 'fill',
     cursor: 'pointer',
   },
+  svg: {
+    width: '100%',
+    height: '100%',
+  },
 };
