@@ -1,0 +1,62 @@
+name: Deploy Demo App Video
+run-name: Deploy Demo App Video To Staging After Merge
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: 💾 Checking out the repository
+        uses: actions/checkout@v4
+      - name: ⚙️ Setting up the MonkJs project
+        uses: ./.github/actions/monkjs-set-up
+        with:
+          build-env: production
+      - name: 📱 Building the demo app video
+        run: cd apps/demo-app-video && yarn build:staging
+      - name: 📦 Uploading the artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: build-demo-app-video-staging
+          path: apps/demo-app-video/build
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy
+    environment: staging
+    needs:
+      - build
+    container:
+      image: dtzar/helm-kubectl:3.14.2
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔐 Authenticating to Google Cloud
+        uses: google-github-actions/auth@v2.1.2
+        with:
+          credentials_json: "${{ secrets.GKE_SA_KEY }}"
+      - name: 🔐 Obtaining GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2.1.0
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_ZONE }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+      - name: 📦 Downloading the artifact
+        uses: actions/download-artifact@v4.1.4
+        with:
+          name: build-demo-app-video-staging
+          path: demo-video
+      - name: 🧹 Cleaning up previous build
+        run: |-
+          kubectl -n poc exec -it $(kubectl get pods -n poc -l app.kubernetes.io/instance=poc-spa --no-headers | awk '{print $1}') -- rm -rf demo-video
+      - name: 🌐 Deploying app
+        run: |-
+          kubectl -n poc cp demo-video poc/$(kubectl get pods -n poc -l app.kubernetes.io/instance=poc-spa --no-headers | awk '{print $1}'):/app/
