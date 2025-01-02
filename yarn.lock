@@ -15519,6 +15519,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monk-documentation@workspace:documentation"
   dependencies:
+    "@auth0/auth0-react": ^2.2.4
     "@docusaurus/core": 2.4.3
     "@docusaurus/module-type-aliases": 2.4.3
     "@docusaurus/plugin-content-pages": ^2.4.3
