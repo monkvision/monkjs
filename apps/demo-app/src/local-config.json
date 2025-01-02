@@ -3,7 +3,7 @@
   "description": "Config for the local Demo App.",
   "workflow": "photo",
   "allowSkipRetake": true,
-  "enableAddDamage": true,
+  "addDamage": "part_select",
   "enableSightGuidelines": true,
   "allowVehicleTypeSelection": true,
   "allowManualLogin": true,
