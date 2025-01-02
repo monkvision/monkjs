@@ -37,6 +37,10 @@ export enum ImageUploadType {
    * Upload type corresponding to a video frame in the VideoCapture process.
    */
   VIDEO_FRAME = 'video_frame',
+  /**
+   * Upload type corresponding to a manual photo in the VideoCapture process.
+   */
+  VIDEO_MANUAL_PHOTO = 'video_manual_photo',
 }
 
 /**
@@ -138,12 +142,30 @@ export interface AddVideoFrameOptions {
 }
 
 /**
+ * Options specififed when adding a manual video photo to a VideoCapture inspection.
+ */
+export interface AddVideoManualPhotoOptions {
+  /**
+   * The type of the image upload : `ImageUploadType.VIDEO_MANUAL_PHOTO`;
+   */
+  uploadType: ImageUploadType.VIDEO_MANUAL_PHOTO;
+  /**
+   * The picture to add to the inspection.
+   */
+  picture: MonkPicture;
+  /**
+   * The ID of the inspection to add the video frame to.
+   */
+  inspectionId: string;
+}
+/**
  * Union type describing the different options that can be specified when adding a picture to an inspection.
  */
 export type AddImageOptions =
   | AddBeautyShotImageOptions
   | Add2ShotCloseUpImageOptions
-  | AddVideoFrameOptions;
+  | AddVideoFrameOptions
+  | AddVideoManualPhotoOptions;
 
 interface AddImageData {
   filename: string;
@@ -167,6 +189,14 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       fr: `Trame Vidéo ${options.frameIndex}`,
       de: `Videobild ${options.frameIndex}`,
       nl: `Videoframe ${options.frameIndex}`,
+    };
+  }
+  if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
+    return {
+      en: `Video Manual Photo`,
+      fr: `Photo Manuelle Vidéo`,
+      de: `Foto Manuell Video`,
+      nl: `Foto-handleiding Video`,
     };
   }
   return {
@@ -273,6 +303,24 @@ function createVideoFrameData(options: AddVideoFrameOptions, filetype: string): 
   return { filename, body };
 }
 
+function createVideoManualPhotoData(
+  options: AddVideoManualPhotoOptions,
+  filetype: string,
+): AddImageData {
+  const filename = `video-manual-photo-${Date.now()}.${filetype}`;
+
+  const body: ApiImagePost = {
+    acquisition: {
+      strategy: 'upload_multipart_form_keys',
+      file_key: MULTIPART_KEY_IMAGE,
+    },
+    tasks: [TaskName.DAMAGE_DETECTION],
+    additional_data: getAdditionalData(options),
+  };
+
+  return { filename, body };
+}
+
 function getAddImageData(options: AddImageOptions, filetype: string): AddImageData {
   switch (options.uploadType) {
     case ImageUploadType.BEAUTY_SHOT:
@@ -281,6 +329,8 @@ function getAddImageData(options: AddImageOptions, filetype: string): AddImageDa
       return createCloseUpImageData(options, filetype);
     case ImageUploadType.VIDEO_FRAME:
       return createVideoFrameData(options, filetype);
+    case ImageUploadType.VIDEO_MANUAL_PHOTO:
+      return createVideoManualPhotoData(options, filetype);
     default:
       throw new Error('Unknown image upload type.');
   }
@@ -383,6 +433,7 @@ export async function addImage(
     );
     if (
       options.uploadType !== ImageUploadType.VIDEO_FRAME &&
+      options.uploadType !== ImageUploadType.VIDEO_MANUAL_PHOTO &&
       options.useThumbnailCaching !== false
     ) {
       precacheThumbnail(image).catch((error) =>

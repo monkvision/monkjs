@@ -2,9 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { MonkApiConfig } from '@monkvision/network';
+import { ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { LoadingState } from '@monkvision/common';
 import { DeviceRotation, VideoCaptureAppConfig } from '@monkvision/types';
+import { useMonitoring } from '@monkvision/monitoring';
 import { styles } from './VideoCaptureHUD.styles';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
@@ -101,7 +102,9 @@ export function VideoCaptureHUD({
 }: VideoCaptureHUDProps) {
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.TUTORIAL);
   const { t } = useTranslation();
+  const { handleError } = useMonitoring();
   const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
+  const { addImage } = useMonkApi(apiConfig);
 
   const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
     apiConfig,
@@ -135,7 +138,18 @@ export function VideoCaptureHUD({
     onRecordingComplete: () => setScreen(VideoCaptureHUDScreen.PROCESSING),
   });
 
-  const handleTakePictureClick = () => {};
+  const handleTakePictureClick = async () => {
+    try {
+      const picture = await handle.takePicture();
+      await addImage({
+        uploadType: ImageUploadType.VIDEO_MANUAL_PHOTO,
+        inspectionId,
+        picture,
+      });
+    } catch (err) {
+      handleError(err);
+    }
+  };
 
   useEffect(() => {
     if (fastMovementsWarning) {
