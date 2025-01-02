@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ImageStatus, Sight } from '@monkvision/types';
+import { AddDamage, ImageStatus, ImageType, Sight } from '@monkvision/types';
 import { getInspectionImages, MonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
 import { InspectionGalleryItem, InspectionGalleryProps } from '../types';
@@ -57,9 +57,10 @@ function getItems(
   captureMode: boolean,
   entities: MonkState,
   inspectionSights?: Sight[],
-  enableAddDamage?: boolean,
+  addDamage?: AddDamage,
+  filterByImageType?: ImageType,
 ): InspectionGalleryItem[] {
-  const images = getInspectionImages(inspectionId, entities.images, captureMode);
+  const images = getInspectionImages(inspectionId, entities.images, filterByImageType, captureMode);
   const items: InspectionGalleryItem[] = images.map((image) => ({
     isTaken: true,
     isAddDamage: false,
@@ -73,7 +74,7 @@ function getItems(
       items.push({ isTaken: false, isAddDamage: false, sightId: sight.id });
     }
   });
-  if (captureMode && enableAddDamage !== false) {
+  if (captureMode && addDamage !== AddDamage.DISABLED) {
     items.push({ isAddDamage: true });
   }
   return items.sort((a, b) => compareGalleryItems(a, b, captureMode, inspectionSights));
@@ -99,9 +100,17 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
         props.captureMode,
         state,
         inspectionSights,
-        props.enableAddDamage,
+        props.addDamage,
+        props.filterByImageType,
       ),
-    [props.inspectionId, props.captureMode, state, inspectionSights, props.enableAddDamage],
+    [
+      props.inspectionId,
+      props.captureMode,
+      state,
+      inspectionSights,
+      props.addDamage,
+      props.filterByImageType,
+    ],
   );
   const shouldFetch = useMemo(() => shouldContinueToFetch(items), items);
 
