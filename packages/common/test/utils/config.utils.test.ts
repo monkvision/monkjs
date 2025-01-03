@@ -1,4 +1,4 @@
-import { CaptureAppConfig, SteeringWheelPosition, VehicleType } from '@monkvision/types';
+import { PhotoCaptureAppConfig, SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { getAvailableVehicleTypes } from '../../src';
 
 describe('Config utils', () => {
@@ -7,7 +7,7 @@ describe('Config utils', () => {
       const config = {
         enableSteeringWheelPosition: false,
         sights: { [VehicleType.SEDAN]: [], [VehicleType.HGV]: [] },
-      } as unknown as CaptureAppConfig;
+      } as unknown as PhotoCaptureAppConfig;
       expect(getAvailableVehicleTypes(config)).toEqual([VehicleType.SEDAN, VehicleType.HGV]);
     });
 
@@ -18,7 +18,7 @@ describe('Config utils', () => {
           [SteeringWheelPosition.LEFT]: { [VehicleType.VAN]: [], [VehicleType.CITY]: [] },
           [SteeringWheelPosition.RIGHT]: { [VehicleType.VAN]: [], [VehicleType.CITY]: [] },
         },
-      } as unknown as CaptureAppConfig;
+      } as unknown as PhotoCaptureAppConfig;
       expect(getAvailableVehicleTypes(config)).toEqual([VehicleType.VAN, VehicleType.CITY]);
     });
 
@@ -29,7 +29,7 @@ describe('Config utils', () => {
           [SteeringWheelPosition.LEFT]: { [VehicleType.VAN]: [], [VehicleType.LARGE_SUV]: [] },
           [SteeringWheelPosition.RIGHT]: { [VehicleType.VAN]: [], [VehicleType.HATCHBACK]: [] },
         },
-      } as unknown as CaptureAppConfig;
+      } as unknown as PhotoCaptureAppConfig;
       expect(getAvailableVehicleTypes(config)).toEqual([
         VehicleType.VAN,
         VehicleType.LARGE_SUV,

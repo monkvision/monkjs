@@ -172,5 +172,17 @@ describe('useCameraScreenshot hook', () => {
       );
       unmount();
     });
+
+    it('should work properly without any monitoring as parameters', () => {
+      const { result, unmount } = renderHook(useCameraScreenshot, {
+        initialProps: { videoRef, canvasRef, dimensions },
+      });
+
+      expect(result.current()).toEqual({
+        data: expect.any(Array),
+      });
+
+      unmount();
+    });
   });
 });

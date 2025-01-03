@@ -137,4 +137,10 @@ export = {
     isInputTouchedOrDirty: jest.fn(() => false),
   })),
   useIsMounted: jest.fn(() => jest.fn(() => true)),
+  fullyColorSVG: jest.fn(() => ({})),
+  useDeviceOrientation: jest.fn(() => ({
+    isPermissionGranted: false,
+    alpha: 0,
+    requestCompassPermission: jest.fn(() => Promise.resolve()),
+  })),
 };

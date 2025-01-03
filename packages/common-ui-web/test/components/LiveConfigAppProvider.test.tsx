@@ -1,4 +1,4 @@
-import { CaptureAppConfig } from '@monkvision/types';
+import { LiveConfig } from '@monkvision/types';
 
 jest.mock('../../src/components/Button', () => ({
   Button: jest.fn(() => <></>),
@@ -107,7 +107,7 @@ describe('LiveConfigAppProvider component', () => {
   });
 
   it('should not fetch the live config and return the local config if it is used', async () => {
-    const localConfig = { hello: 'world' } as unknown as CaptureAppConfig;
+    const localConfig = { hello: 'world' } as unknown as LiveConfig;
     const id = 'test-id-test';
     const { unmount } = render(<LiveConfigAppProvider id={id} localConfig={localConfig} />);
 

@@ -28,46 +28,46 @@ export interface UseCompressionParams {
  */
 export type CompressFunction = (
   image: ImageData,
-  monitoring: InternalCameraMonitoringConfig,
+  monitoring?: InternalCameraMonitoringConfig,
 ) => Promise<MonkPicture>;
 
 function startCompressionMeasurement(
-  monitoring: InternalCameraMonitoringConfig,
   options: CompressionOptions,
   image: ImageData,
+  monitoring?: InternalCameraMonitoringConfig | undefined,
 ): void {
-  monitoring.transaction?.startMeasurement(CompressionMeasurement.operation, {
-    data: monitoring.data,
+  monitoring?.transaction?.startMeasurement(CompressionMeasurement.operation, {
+    data: monitoring?.data,
     tags: {
       [CompressionMeasurement.formatTagName]: options.format,
       [CompressionMeasurement.qualityTagName]: options.quality,
       [CompressionMeasurement.dimensionsTagName]: `${image.width}x${image.height}`,
-      ...(monitoring.tags ?? {}),
+      ...(monitoring?.tags ?? {}),
     },
     description: CompressionMeasurement.description,
   });
 }
 
 function stopCompressionMeasurement(
-  monitoring: InternalCameraMonitoringConfig,
   status: TransactionStatus,
+  monitoring?: InternalCameraMonitoringConfig | undefined,
 ): void {
-  monitoring.transaction?.stopMeasurement(CompressionMeasurement.operation, status);
+  monitoring?.transaction?.stopMeasurement(CompressionMeasurement.operation, status);
 }
 
 function setCustomMeasurements(
-  monitoring: InternalCameraMonitoringConfig,
   image: ImageData,
   picture: MonkPicture,
+  monitoring?: InternalCameraMonitoringConfig | undefined,
 ): void {
   const imageSizeBytes = image.data.length;
   const pictureSizeBytes = picture.blob.size;
-  monitoring.transaction?.setMeasurement(
+  monitoring?.transaction?.setMeasurement(
     CompressionSizeRatioMeasurement.name,
     pictureSizeBytes / imageSizeBytes,
     'ratio',
   );
-  monitoring.transaction?.setMeasurement(PictureSizeMeasurement.name, pictureSizeBytes, 'byte');
+  monitoring?.transaction?.setMeasurement(PictureSizeMeasurement.name, pictureSizeBytes, 'byte');
 }
 
 function compressUsingBrowser(
@@ -103,15 +103,15 @@ function compressUsingBrowser(
  */
 export function useCompression({ canvasRef, options }: UseCompressionParams): CompressFunction {
   return useCallback(
-    async (image: ImageData, monitoring: InternalCameraMonitoringConfig) => {
-      startCompressionMeasurement(monitoring, options, image);
+    async (image: ImageData, monitoring?: InternalCameraMonitoringConfig) => {
+      startCompressionMeasurement(options, image, monitoring);
       try {
         const picture = await compressUsingBrowser(image, canvasRef, options);
-        setCustomMeasurements(monitoring, image, picture);
-        stopCompressionMeasurement(monitoring, TransactionStatus.OK);
+        setCustomMeasurements(image, picture, monitoring);
+        stopCompressionMeasurement(TransactionStatus.OK, monitoring);
         return picture;
       } catch (err) {
-        stopCompressionMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+        stopCompressionMeasurement(TransactionStatus.UNKNOWN_ERROR, monitoring);
         throw err;
       }
     },

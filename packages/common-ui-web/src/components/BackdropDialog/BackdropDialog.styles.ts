@@ -27,10 +27,12 @@ export const styles: Styles = {
   },
   message: {
     padding: '0 30px 30px 30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     fontSize: 18,
+    wordBreak: 'break-word',
+    textAlign: 'center',
+  },
+  messageNoIcon: {
+    paddingTop: 30,
   },
   buttonsContainer: {
     width: '100%',

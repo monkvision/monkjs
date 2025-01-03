@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@monkvision/common-ui-web';
-import { CaptureAppConfig } from '@monkvision/types';
+import { PhotoCaptureAppConfig } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDTutorial.styles';
 import { TutorialSteps } from '../../hooks';
 import { usePhotoCaptureHUDButtonBackground } from '../hooks';
@@ -13,7 +13,7 @@ import { DisplayText } from './DisplayText';
  * Props of the PhotoCaptureHUDTutorial component.
  */
 export interface PhotoCaptureHUDTutorialProps
-  extends Pick<CaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines'> {
+  extends Pick<PhotoCaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines'> {
   /**
    * The id of the sight.
    */

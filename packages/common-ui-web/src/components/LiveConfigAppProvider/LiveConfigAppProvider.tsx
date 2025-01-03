@@ -6,7 +6,7 @@ import {
   useLoadingState,
 } from '@monkvision/common';
 import { PropsWithChildren, useState } from 'react';
-import { CaptureAppConfig } from '@monkvision/types';
+import { LiveConfig } from '@monkvision/types';
 import { MonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { styles } from './LiveConfigAppProvider.styles';
@@ -25,7 +25,7 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
    * Use this prop to configure a configuration on your local environment. Using this prop will prevent this component
    * from fetching a local config from the API.
    */
-  localConfig?: CaptureAppConfig;
+  localConfig?: LiveConfig;
   /**
    * The language used by this component.
    *
@@ -49,7 +49,7 @@ export function LiveConfigAppProvider({
 }: PropsWithChildren<LiveConfigAppProviderProps>) {
   useI18nSync(lang);
   const loading = useLoadingState(true);
-  const [config, setConfig] = useState<CaptureAppConfig | null>(null);
+  const [config, setConfig] = useState<LiveConfig | null>(null);
   const { handleError } = useMonitoring();
   const [retry, setRetry] = useState(0);
 
@@ -64,7 +64,7 @@ export function LiveConfigAppProvider({
     },
     [id, localConfig, retry],
     {
-      onResolve: (result) => {
+      onResolve: (result: LiveConfig) => {
         loading.onSuccess();
         setConfig(result);
       },

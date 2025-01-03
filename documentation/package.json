@@ -17,6 +17,7 @@
     "lint:fix": "yarn run typecheck && yarn run prettier:fix && yarn run eslint:fix && yarn run svgo"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
     "@docusaurus/core": "2.4.3",
     "@docusaurus/plugin-content-pages": "^2.4.3",
     "@docusaurus/preset-classic": "2.4.3",

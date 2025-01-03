@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { CaptureAppConfig, PhotoCaptureTutorialOption } from '@monkvision/types';
+import { PhotoCaptureAppConfig, PhotoCaptureTutorialOption } from '@monkvision/types';
 import { useObjectMemo } from '@monkvision/common';
 
 export const STORAGE_KEY_PHOTO_CAPTURE_TUTORIAL = '@monk_photoCaptureTutorial';
@@ -42,7 +42,7 @@ function getTutorialState(
  */
 export interface PhotoCaptureTutorial
   extends Pick<
-    CaptureAppConfig,
+    PhotoCaptureAppConfig,
     'enableTutorial' | 'enableSightTutorial' | 'enableSightGuidelines'
   > {}
 

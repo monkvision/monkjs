@@ -10,7 +10,12 @@ jest.mock('../../src/utils', () => ({
 }));
 
 import React, { useContext, useEffect } from 'react';
-import { CaptureAppConfig, SteeringWheelPosition, VehicleType } from '@monkvision/types';
+import {
+  CaptureWorkflow,
+  PhotoCaptureAppConfig,
+  SteeringWheelPosition,
+  VehicleType,
+} from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { renderHook } from '@testing-library/react-hooks';
 import { act, render, screen } from '@testing-library/react';
@@ -20,16 +25,18 @@ import {
   MonkAppStateProvider,
   MonkAppStateProviderProps,
   MonkSearchParam,
+  PhotoCaptureAppState,
   STORAGE_KEY_AUTH_TOKEN,
   useMonkAppState,
+  UseMonkAppStateOptions,
   useMonkSearchParams,
 } from '../../src';
 
-let params: MonkAppState | null = null;
+let params: PhotoCaptureAppState | null = null;
 function TestComponent() {
   const context = useContext(MonkAppStateContext);
   useEffect(() => {
-    params = context;
+    params = context as PhotoCaptureAppState;
   });
   return <></>;
 }
@@ -38,9 +45,10 @@ function mockSearchParams(searchParams: Partial<Record<MonkSearchParam, any>>): 
   searchParamsGet.mockImplementation((param) => searchParams[param as MonkSearchParam]);
 }
 
-function createProps(): MonkAppStateProviderProps {
+function createProps(): MonkAppStateProviderProps & { config: PhotoCaptureAppConfig } {
   return {
     config: {
+      workflow: CaptureWorkflow.PHOTO,
       fetchFromSearchParams: false,
       enableSteeringWheelPosition: false,
       defaultVehicleType: VehicleType.CUV,
@@ -48,11 +56,13 @@ function createProps(): MonkAppStateProviderProps {
         [VehicleType.HATCHBACK]: ['test-sight-1', 'test-sight-2'],
         [VehicleType.CUV]: ['test-sight-3', 'test-sight-4'],
       },
-    } as CaptureAppConfig,
+    } as PhotoCaptureAppConfig,
     onFetchAuthToken: jest.fn(),
     onFetchLanguage: jest.fn(),
   };
 }
+
+const useMonkAppStateTyped = useMonkAppState as (options?: UseMonkAppStateOptions) => MonkAppState;
 
 describe('MonkAppStateProvider', () => {
   afterEach(() => {
@@ -374,7 +384,7 @@ describe('MonkAppStateProvider', () => {
       const value = { test: 'hello' };
       const spy = jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppState);
+      const { result, unmount } = renderHook(useMonkAppStateTyped);
 
       expect(spy).toHaveBeenCalledWith(MonkAppStateContext);
       expect(result.current).toEqual(value);
@@ -387,7 +397,7 @@ describe('MonkAppStateProvider', () => {
       const value = { inspectionId: 'hello' };
       jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppState, {
+      const { result, unmount } = renderHook(useMonkAppStateTyped, {
         initialProps: { requireInspection: true },
       });
 
@@ -402,7 +412,7 @@ describe('MonkAppStateProvider', () => {
       const value = { authToken: 'hello' };
       jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppState, {
+      const { result, unmount } = renderHook(useMonkAppStateTyped, {
         initialProps: { requireInspection: true },
       });
 
@@ -416,7 +426,7 @@ describe('MonkAppStateProvider', () => {
       const value = { authToken: 'hello', inspectionId: 'hi' };
       jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
 
-      const { result, unmount } = renderHook(useMonkAppState, {
+      const { result, unmount } = renderHook(useMonkAppStateTyped, {
         initialProps: { requireInspection: true },
       });
 
@@ -424,6 +434,21 @@ describe('MonkAppStateProvider', () => {
       expect(result.error).not.toBeDefined();
 
       unmount();
+    });
+
+    it('should throw an error if the required workflow is different than the one of the current state', () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      const value = { config: { workflow: CaptureWorkflow.PHOTO } };
+      jest.spyOn(React, 'useContext').mockImplementationOnce(() => value);
+
+      const { result, unmount } = renderHook(useMonkAppStateTyped, {
+        initialProps: { requireWorkflow: CaptureWorkflow.VIDEO },
+      });
+
+      expect(result.error).toBeDefined();
+
+      unmount();
+      jest.spyOn(console, 'error').mockRestore();
     });
   });
 });

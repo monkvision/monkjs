@@ -1,0 +1,16 @@
+html,
+body,
+#root,
+.app-container {
+  height: 100dvh;
+  width: 100%;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #000000;
+  font-family: sans-serif;
+  color: white;
+}

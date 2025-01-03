@@ -31,13 +31,13 @@ export interface CameraScreenshotConfig {
  *
  * @return A ImageData object that contains the raw pixel's data.
  */
-export type TakeScreenshotFunction = (monitoring: InternalCameraMonitoringConfig) => ImageData;
+export type TakeScreenshotFunction = (monitoring?: InternalCameraMonitoringConfig) => ImageData;
 
 function startScreenshotMeasurement(
-  monitoring: InternalCameraMonitoringConfig,
   dimensions: PixelDimensions | null,
+  monitoring?: InternalCameraMonitoringConfig | undefined,
 ): void {
-  monitoring.transaction?.startMeasurement(ScreenshotMeasurement.operation, {
+  monitoring?.transaction?.startMeasurement(ScreenshotMeasurement.operation, {
     data: monitoring.data,
     tags: {
       [ScreenshotMeasurement.outputResolutionTagName]: dimensions
@@ -50,18 +50,18 @@ function startScreenshotMeasurement(
 }
 
 function stopScreenshotMeasurement(
-  monitoringConfig: InternalCameraMonitoringConfig,
   status: TransactionStatus,
+  monitoring: InternalCameraMonitoringConfig | undefined,
 ): void {
-  monitoringConfig.transaction?.stopMeasurement(ScreenshotMeasurement.operation, status);
+  monitoring?.transaction?.stopMeasurement(ScreenshotMeasurement.operation, status);
 }
 
 function setScreeshotSizeMeasurement(
-  monitoring: InternalCameraMonitoringConfig,
   image: ImageData,
+  monitoring?: InternalCameraMonitoringConfig | undefined,
 ): void {
   const imageSizeBytes = image.data.length;
-  monitoring.transaction?.setMeasurement(ScreenshotSizeMeasurement.name, imageSizeBytes, 'byte');
+  monitoring?.transaction?.setMeasurement(ScreenshotSizeMeasurement.name, imageSizeBytes, 'byte');
 }
 
 /**
@@ -74,23 +74,23 @@ export function useCameraScreenshot({
   dimensions,
 }: CameraScreenshotConfig): TakeScreenshotFunction {
   return useCallback(
-    (monitoring: InternalCameraMonitoringConfig) => {
-      startScreenshotMeasurement(monitoring, dimensions);
+    (monitoring?: InternalCameraMonitoringConfig) => {
+      startScreenshotMeasurement(dimensions, monitoring);
       const { context } = getCanvasHandle(canvasRef, () =>
-        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR),
+        stopScreenshotMeasurement(TransactionStatus.UNKNOWN_ERROR, monitoring),
       );
       if (!dimensions) {
-        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+        stopScreenshotMeasurement(TransactionStatus.UNKNOWN_ERROR, monitoring);
         throw new Error('Unable to take a picture because the video stream has no dimension.');
       }
       if (!videoRef.current) {
-        stopScreenshotMeasurement(monitoring, TransactionStatus.UNKNOWN_ERROR);
+        stopScreenshotMeasurement(TransactionStatus.UNKNOWN_ERROR, monitoring);
         throw new Error('Unable to take a picture because the video element is null.');
       }
       context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
       const imageData = context.getImageData(0, 0, dimensions.width, dimensions.height);
-      setScreeshotSizeMeasurement(monitoring, imageData);
-      stopScreenshotMeasurement(monitoring, TransactionStatus.OK);
+      setScreeshotSizeMeasurement(imageData, monitoring);
+      stopScreenshotMeasurement(TransactionStatus.OK, monitoring);
       return imageData;
     },
     [dimensions],

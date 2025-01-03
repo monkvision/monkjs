@@ -1,6 +1,6 @@
 import { InteractiveStatus } from '@monkvision/types';
 import { CSSProperties, useState } from 'react';
-import { styles, takePictureButtonColors } from './TakePictureButton.styles';
+import { styles, TAKE_PICTURE_BUTTON_COLORS } from './TakePictureButton.styles';
 
 /**
  * Additional props that can be passed to the TakePictureButton component.
@@ -47,7 +47,7 @@ export function useTakePictureButtonStyle(
       width: params.size - 2 * borderWidth,
       height: params.size - 2 * borderWidth,
       borderWidth,
-      borderColor: takePictureButtonColors[InteractiveStatus.DEFAULT],
+      borderColor: TAKE_PICTURE_BUTTON_COLORS[InteractiveStatus.DEFAULT],
     },
     innerLayer: {
       ...styles['innerLayer'],
@@ -55,7 +55,7 @@ export function useTakePictureButtonStyle(
       width: params.size * INNER_BUTTON_SIZE_RATIO,
       height: params.size * INNER_BUTTON_SIZE_RATIO,
       margin: borderWidth,
-      backgroundColor: takePictureButtonColors[params.status],
+      backgroundColor: TAKE_PICTURE_BUTTON_COLORS[params.status],
       border: 'none',
       transform: isPressed ? 'scale(0.7)' : 'scale(1)',
       transition: `transform ${PRESS_ANIMATION_DURATION_MS / 2}ms ease-in`,

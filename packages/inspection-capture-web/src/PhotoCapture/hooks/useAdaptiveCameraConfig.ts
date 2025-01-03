@@ -1,7 +1,7 @@
 import {
   CameraConfig,
   CameraResolution,
-  CaptureAppConfig,
+  PhotoCaptureAppConfig,
   CompressionFormat,
 } from '@monkvision/types';
 import { useCallback, useMemo, useState } from 'react';
@@ -18,7 +18,10 @@ const DEFAULT_CAMERA_CONFIG: Required<CameraConfig> = {
 /**
  * Props passed to the useAdaptiveCameraConfig hook.
  */
-export type UseAdaptiveCameraConfigOptions = Pick<CaptureAppConfig, 'useAdaptiveImageQuality'> & {
+export type UseAdaptiveCameraConfigOptions = Pick<
+  PhotoCaptureAppConfig,
+  'useAdaptiveImageQuality'
+> & {
   /**
    * The camera config passed as a prop to the PhotoCapture component.
    */

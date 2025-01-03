@@ -58,6 +58,17 @@ This custom hook creates an interval that calls the provided async callback ever
 call isn't still running. If `delay` is `null` or less than 0, the callback will not be called. The promise handlers
 provided will only be called while the component is still mounted.
 
+### useDeviceOrientation
+```tsx
+import { useDeviceOrientation } from '@monkvision/common';
+
+function TestComponent() {
+  const { alpha } = useDeviceOrientation();
+  return <div>Current compass angle : { alpha }</div>;
+}
+```
+This custom hook is used to get the device orientation data using the embedded compass on the device.
+
 ### useInteractiveStatus
 ```tsx
 import { useInteractiveStatus } from '@monkvision/common';

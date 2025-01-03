@@ -19,6 +19,7 @@ import {
   AddBeautyShotImageOptions,
   addImage,
   AddVideoFrameOptions,
+  AddVideoManualPhotoOptions,
   ImageUploadType,
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
@@ -84,6 +85,20 @@ function createVideoFrameOptions(): AddVideoFrameOptions {
     inspectionId: 'test-inspection-id',
     frameIndex: 12,
     timestamp: 2312,
+  };
+}
+
+function createVideoManualPhotoOptions(): AddVideoManualPhotoOptions {
+  return {
+    uploadType: ImageUploadType.VIDEO_MANUAL_PHOTO,
+    picture: {
+      blob: { size: 424 } as Blob,
+      uri: 'test-uri',
+      height: 720,
+      width: 1280,
+      mimetype: 'image/jpeg',
+    },
+    inspectionId: 'test-inspection-id',
   };
 }
 
@@ -344,6 +359,38 @@ describe('Image requests', () => {
       expect(fileConstructorSpy).toHaveBeenCalledWith(
         [options.picture.blob],
         `video-frame-${options.frameIndex}.${filetype}`,
+        { type: filetype },
+      );
+    });
+
+    it('should properly create the formdata for a video manual photo', async () => {
+      const options = createVideoManualPhotoOptions();
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+      expect(JSON.parse(formData.get('json') as string)).toEqual({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: 'image',
+        },
+        tasks: [TaskName.DAMAGE_DETECTION],
+        additional_data: {
+          label: {
+            en: `Video Manual Photo`,
+            fr: `Photo Manuelle Vidéo`,
+            de: `Foto Manuell Video`,
+            nl: `Foto-handleiding Video`,
+          },
+          created_at: expect.any(String),
+        },
+      });
+      expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);
+      const filetype = (getFileExtensions as jest.Mock).mock.results[0].value[0];
+      expect(fileConstructorSpy).toHaveBeenCalledWith(
+        [options.picture.blob],
+        expect.stringMatching(new RegExp(`video-manual-photo-\\d{13}.${filetype}`)),
         { type: filetype },
       );
     });

@@ -1,6 +1,7 @@
 {
-  "id": "demo-app-dev",
-  "description": "Config for the dev Demo App.",
+  "id": "demo-app-local",
+  "description": "Config for the local Demo App.",
+  "workflow": "photo",
   "allowSkipRetake": true,
   "enableAddDamage": true,
   "enableSightGuidelines": true,

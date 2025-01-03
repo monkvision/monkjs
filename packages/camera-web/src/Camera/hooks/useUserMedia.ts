@@ -1,8 +1,8 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
-import { isMobileDevice, useObjectMemo } from '@monkvision/common';
+import { isMobileDevice, useIsMounted, useObjectMemo } from '@monkvision/common';
 import { analyzeCameraDevices } from './utils';
 
 /**
@@ -98,6 +98,10 @@ export interface UserMediaError {
  */
 export interface UserMediaResult {
   /**
+   * The getUserMedia function that can be used to fetch the stream data manually if no videoRef is passed.
+   */
+  getUserMedia: () => Promise<MediaStream>;
+  /**
    * The resulting video stream. The stream can be null when not initialized or in case of an error.
    */
   stream: MediaStream | null;
@@ -180,14 +184,16 @@ function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): Pi
 /**
  * React hook that wraps the `navigator.mediaDevices.getUserMedia` browser function in order to add React logic layers
  * and utility tools :
- * - Creates an effect for `getUserMedia` that will be run everytime some state parameters are updated.
+ * - Creates an effect for `getUserMedia` that will be run everytime some state parameters are updated (the effect is
+ * run only if the videoRef is passed, if not, the `getUserMedia` function must be called manually).
  * - Will call `track.applyConstraints` when the video contstraints are updated in order to update the video stream.
  * - Makes sure that the `getUserMedia` is only called when it needs to be using memoized state.
  * - Provides various utilities such as error catching, loading information and a retry on failure feature.
  *
  * @param constraints The same media constraints you would pass to the `getUserMedia` function. Note that this hook has
  * been designed for video only, so audio constraints could provoke unexpected behaviour.
- * @param videoRef The ref to the video element displaying the camera preview stream.
+ * @param videoRef The ref to the video element displaying the camera preview stream. If the ref is not passed, the
+ * effect will not automatically be called.
  * @return The result of this hook contains the resulting video stream, an error object if there has been an error, a
  * loading indicator and a retry function that tries to get a camera stream again. See the `UserMediaResult` interface
  * for more information.
@@ -195,7 +201,7 @@ function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): Pi
  */
 export function useUserMedia(
   constraints: MediaStreamConstraints,
-  videoRef: RefObject<HTMLVideoElement>,
+  videoRef: RefObject<HTMLVideoElement> | null,
 ): UserMediaResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
@@ -206,19 +212,12 @@ export function useUserMedia(
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
   const { handleError } = useMonitoring();
-  const isActive = useRef(true);
+  const isMounted = useIsMounted();
 
-  let cameraPermissionState: PermissionState | null = null;
-  useEffect(() => {
-    return () => {
-      isActive.current = false;
-    };
-  }, []);
-
-  const handleGetUserMediaError = (err: unknown) => {
+  const handleGetUserMediaError = (err: unknown, permissionState: PermissionState | null) => {
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
-      switch (cameraPermissionState) {
+      switch (permissionState) {
         case 'denied':
           type = UserMediaErrorType.WEBPAGE_NOT_ALLOWED;
           break;
@@ -240,11 +239,13 @@ export function useUserMedia(
   };
 
   const onStreamInactive = () => {
-    setError({
-      type: UserMediaErrorType.STREAM_INACTIVE,
-      nativeError: new Error('The camera stream was closed.'),
-    });
-    setIsLoading(false);
+    if (isMounted()) {
+      setError({
+        type: UserMediaErrorType.STREAM_INACTIVE,
+        nativeError: new Error('The camera stream was closed.'),
+      });
+      setIsLoading(false);
+    }
   };
 
   const retry = useCallback(() => {
@@ -256,77 +257,77 @@ export function useUserMedia(
     }
   }, [error, isLoading]);
 
-  useEffect(() => {
-    if (error || isLoading || deepEqual(lastConstraintsApplied, constraints)) {
-      return;
+  const getUserMedia = useCallback(async () => {
+    setIsLoading(true);
+    if (stream) {
+      stream.removeEventListener('inactive', onStreamInactive);
+      stream.getTracks().forEach((track) => track.stop());
     }
-    setLastConstraintsApplied(constraints);
+    const deviceDetails = await analyzeCameraDevices(constraints);
+    const updatedConstraints = {
+      ...constraints,
+      video: {
+        ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
+        deviceId: { exact: deviceDetails.validDeviceIds },
+      },
+    };
+    const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
+    str?.addEventListener('inactive', onStreamInactive);
+    if (isMounted()) {
+      setStream(str);
+      setDimensions(getStreamDimensions(str, true));
+      setIsLoading(false);
+      setAvailableCameraDevices(deviceDetails.availableDevices);
+      setSelectedCameraDeviceId(getStreamDeviceId(str));
+    }
+    return str;
+  }, [stream, constraints]);
 
-    const getUserMedia = async () => {
-      setIsLoading(true);
-      if (stream) {
-        stream.removeEventListener('inactive', onStreamInactive);
-        stream.getTracks().forEach((track) => track.stop());
-      }
-      const deviceDetails = await analyzeCameraDevices(constraints);
-      const updatedConstraints = {
-        ...constraints,
-        video: {
-          ...(constraints ? (constraints.video as MediaTrackConstraints) : {}),
-          deviceId: { exact: deviceDetails.validDeviceIds },
-        },
-      };
-      const str = await navigator.mediaDevices.getUserMedia(updatedConstraints);
-      str?.addEventListener('inactive', onStreamInactive);
-      if (isActive.current) {
-        setStream(str);
-        setDimensions(getStreamDimensions(str, true));
-        setIsLoading(false);
-        setAvailableCameraDevices(deviceDetails.availableDevices);
-        setSelectedCameraDeviceId(getStreamDeviceId(str));
-      }
-    };
-    const getCameraPermissionState = async () => {
-      try {
-        return await navigator.permissions.query({
-          name: 'camera' as PermissionName,
-        });
-      } catch (err) {
-        return null;
-      }
-    };
-    getUserMedia()
-      .catch((err) => {
-        return Promise.all([err, getCameraPermissionState()]);
-      })
-      .then((result) => {
-        if (!result) {
-          return Promise.all([null, getCameraPermissionState()]);
-        }
-        return result;
-      })
-      .then(([err, cameraPermission]) => {
-        cameraPermissionState = cameraPermission?.state ?? null;
-        if (err && isActive.current) {
-          handleGetUserMediaError(err);
-          throw err;
-        }
-      })
-      .catch(handleError);
-  }, [constraints, stream, error, isLoading, lastConstraintsApplied]);
+  const getCameraPermissionState = async () => {
+    try {
+      return await navigator.permissions.query({
+        name: 'camera' as PermissionName,
+      });
+    } catch (err) {
+      return null;
+    }
+  };
 
   useEffect(() => {
-    if (stream && videoRef.current) {
+    if (videoRef) {
+      if (error || isLoading || deepEqual(lastConstraintsApplied, constraints)) {
+        return;
+      }
+      setLastConstraintsApplied(constraints);
+
+      const effect = async () => {
+        try {
+          await getUserMedia();
+        } catch (err) {
+          const permissionState = (await getCameraPermissionState())?.state ?? null;
+          if (err && isMounted()) {
+            handleGetUserMediaError(err, permissionState);
+            throw err;
+          }
+        }
+      };
+      effect().catch(handleError);
+    }
+  }, [constraints, stream, error, isLoading, lastConstraintsApplied, getUserMedia, videoRef]);
+
+  useEffect(() => {
+    if (stream && videoRef && videoRef.current) {
       // eslint-disable-next-line no-param-reassign
       videoRef.current.onresize = () => {
-        if (isActive.current) {
+        if (isMounted()) {
           setDimensions(getStreamDimensions(stream, false));
         }
       };
     }
-  }, [stream]);
+  }, [stream, videoRef]);
 
   return useObjectMemo({
+    getUserMedia,
     stream,
     dimensions,
     error,

@@ -1,4 +1,4 @@
-import { useMonkTheme } from '@monkvision/common';
+import { fullyColorSVG, useMonkTheme } from '@monkvision/common';
 import { ColorProp } from '@monkvision/types';
 import { SVGProps, useCallback } from 'react';
 import { DynamicSVG } from '../components/DynamicSVG';
@@ -30,8 +30,6 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'heig
   primaryColor?: ColorProp;
 }
 
-const COLOR_ATTRIBUTES = ['fill', 'stroke'];
-
 function getSvg(icon: IconName): string {
   const asset = MonkIconAssetsMap[icon];
   if (!asset) {
@@ -52,18 +50,7 @@ export function Icon({
   const { utils } = useMonkTheme();
 
   const getAttributes = useCallback(
-    (element: Element) => {
-      return COLOR_ATTRIBUTES.reduce((customAttributes, colorAttribute) => {
-        const attr = element.getAttribute(colorAttribute);
-        if (attr && !['transparent', 'none'].includes(attr)) {
-          return {
-            ...customAttributes,
-            [colorAttribute]: utils.getColor(primaryColor),
-          };
-        }
-        return customAttributes;
-      }, {});
-    },
+    (element: Element) => fullyColorSVG(element, utils.getColor(primaryColor)),
     [primaryColor, utils.getColor],
   );
 

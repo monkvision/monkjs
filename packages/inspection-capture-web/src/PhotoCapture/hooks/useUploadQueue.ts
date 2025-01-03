@@ -1,6 +1,6 @@
 import { Queue, uniq, useQueue } from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { CaptureAppConfig, ComplianceOptions, MonkPicture, TaskName } from '@monkvision/types';
+import { PhotoCaptureAppConfig, ComplianceOptions, MonkPicture, TaskName } from '@monkvision/types';
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureMode } from './useAddDamageMode';
@@ -24,7 +24,7 @@ export interface UploadEventHandlers {
 /**
  * Parameters of the useUploadQueue hook.
  */
-export interface UploadQueueParams extends Pick<CaptureAppConfig, 'additionalTasks'> {
+export interface UploadQueueParams extends Pick<PhotoCaptureAppConfig, 'additionalTasks'> {
   /**
    * The inspection ID.
    */
@@ -106,7 +106,7 @@ function createAddImageOptions(
   inspectionId: string,
   siblingId: number,
   enableThumbnail: boolean,
-  additionalTasks?: CaptureAppConfig['additionalTasks'],
+  additionalTasks?: PhotoCaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
 ): AddImageOptions {
   if (upload.mode === PhotoCaptureMode.SIGHT) {

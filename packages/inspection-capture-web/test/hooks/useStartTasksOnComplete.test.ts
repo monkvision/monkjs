@@ -6,10 +6,7 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { useMonkApi } from '@monkvision/network';
 import { Sight, TaskName } from '@monkvision/types';
 import { createFakePromise } from '@monkvision/test-utils';
-import {
-  useStartTasksOnComplete,
-  UseStartTasksOnCompleteParams,
-} from '../../../src/PhotoCapture/hooks';
+import { useStartTasksOnComplete, UseStartTasksOnCompleteParams } from '../../src/hooks';
 
 function createParams(): UseStartTasksOnCompleteParams {
   return {
@@ -234,6 +231,32 @@ describe('useStartTasksOnComplete hook', () => {
         names: [TaskName.WHEEL_ANALYSIS],
       }),
     );
+
+    unmount();
+  });
+
+  it('should start the DD task and fill with the additional tasks if no sights are provided', () => {
+    const defaultProps = createParams();
+    const initialProps = {
+      ...defaultProps,
+      startTasksOnComplete: true,
+      sights: undefined,
+      tasksBySight: {
+        'test-sight-1': [TaskName.DAMAGE_DETECTION, TaskName.PRICING, TaskName.IMAGE_EDITING],
+        'test-sight-2': [TaskName.REPAIR_ESTIMATE],
+      },
+      additionalTasks: [TaskName.INSPECTION_PDF, TaskName.DASHBOARD_OCR],
+    };
+    const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
+
+    const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
+      .startInspectionTasks;
+
+    result.current();
+    expect(startInspectionTasksMock).toHaveBeenCalledWith({
+      inspectionId: initialProps.inspectionId,
+      names: [TaskName.DAMAGE_DETECTION, TaskName.INSPECTION_PDF, TaskName.DASHBOARD_OCR],
+    });
 
     unmount();
   });

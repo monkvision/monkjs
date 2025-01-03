@@ -25,6 +25,7 @@ export function BackdropDialog({
   const style = useBackdropDialogStyles({
     backdropOpacity,
     showCancelButton,
+    dialogIcon,
   });
   return show ? (
     <div style={style.backdrop} data-testid='backdrop'>

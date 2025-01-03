@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { CaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
+import { PhotoCaptureAppConfig, Image, ImageStatus, Sight } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -11,6 +11,7 @@ import { PhotoCaptureMode, TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDOverlay } from './PhotoCaptureHUDOverlay';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
+import { OrientationEnforcer } from '../../components';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -18,12 +19,13 @@ import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 export interface PhotoCaptureHUDProps
   extends CameraHUDProps,
     Pick<
-      CaptureAppConfig,
+      PhotoCaptureAppConfig,
       | 'enableSightGuidelines'
       | 'sightGuidelines'
       | 'enableAddDamage'
       | 'showCloseButton'
       | 'allowSkipTutorial'
+      | 'enforceOrientation'
     > {
   /**
    * The inspection ID.
@@ -131,6 +133,7 @@ export function PhotoCaptureHUD({
   allowSkipTutorial,
   onNextTutorialStep,
   onCloseTutorial,
+  enforceOrientation,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -212,6 +215,7 @@ export function PhotoCaptureHUD({
         sightId={selectedSight.id}
         sightGuidelines={sightGuidelines}
       />
+      <OrientationEnforcer orientation={enforceOrientation} />
     </div>
   );
 }

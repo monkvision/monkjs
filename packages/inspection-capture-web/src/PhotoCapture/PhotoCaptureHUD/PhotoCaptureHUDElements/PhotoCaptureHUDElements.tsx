@@ -1,4 +1,4 @@
-import { CaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
+import { PhotoCaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
 import { PhotoCaptureMode, TutorialSteps } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { PhotoCaptureHUDElementsAddDamage1stShot } from '../PhotoCaptureHUDElementsAddDamage1stShot';
@@ -8,7 +8,10 @@ import { PhotoCaptureHUDElementsAddDamage2ndShot } from '../PhotoCaptureHUDEleme
  * Props of the PhotoCaptureHUDElements component.
  */
 export interface PhotoCaptureHUDElementsProps
-  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
+  extends Pick<
+    PhotoCaptureAppConfig,
+    'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'
+  > {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */

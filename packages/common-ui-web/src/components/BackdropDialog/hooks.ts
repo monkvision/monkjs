@@ -69,7 +69,8 @@ export interface BackdropDialogProps {
 }
 
 export function useBackdropDialogStyles(
-  props: Required<Pick<BackdropDialogProps, 'backdropOpacity' | 'showCancelButton'>>,
+  props: Required<Pick<BackdropDialogProps, 'backdropOpacity' | 'showCancelButton'>> &
+    Pick<BackdropDialogProps, 'dialogIcon'>,
 ) {
   const { palette } = useMonkTheme();
 
@@ -80,6 +81,7 @@ export function useBackdropDialogStyles(
     },
     dialog: {
       ...styles['dialog'],
+      ...(!props.dialogIcon ? styles['messageNoIcon'] : {}),
       backgroundColor: palette.background.dark,
     },
     cancelButton: {

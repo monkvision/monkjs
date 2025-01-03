@@ -1,3 +1,5 @@
+import { fullyColorSVG } from '@monkvision/common';
+
 jest.mock('../../src/components/DynamicSVG', () => ({
   DynamicSVG: jest.fn(() => <></>),
 }));
@@ -11,12 +13,6 @@ import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { MonkIconAssetsMap } from '../../src/icons/assets';
 import { DynamicSVG, Icon } from '../../src';
-
-function createElement(attributes: Record<string, any>): Element {
-  return {
-    getAttribute: (name: string) => attributes[name],
-  } as unknown as Element;
-}
 
 describe('Icon component', () => {
   afterEach(() => {
@@ -61,37 +57,15 @@ describe('Icon component', () => {
 
   it('should properly replace color attributes with the primary color in the DynamicSVG component', () => {
     const primaryColor = '#987654';
-
+    const attributes = { test: 'attr' };
+    (fullyColorSVG as jest.Mock).mockImplementationOnce(() => attributes);
     const { unmount } = render(<Icon icon={iconNameMock} primaryColor={primaryColor} />);
 
     expectPropsOnChildMock(DynamicSVG, { getAttributes: expect.any(Function) });
     const { getAttributes } = (DynamicSVG as unknown as jest.Mock).mock.calls[0][0];
-
-    const testCases = [
-      { inputAttr: {}, outputAttr: {} },
-      { inputAttr: { fill: '#999999' }, outputAttr: { fill: primaryColor } },
-      { inputAttr: { stroke: '#123456' }, outputAttr: { stroke: primaryColor } },
-      {
-        inputAttr: { fill: '#192834', stroke: '#123456', path: 'test' },
-        outputAttr: { fill: primaryColor, stroke: primaryColor },
-      },
-      { inputAttr: { stroke: 'none' }, outputAttr: {} },
-      { inputAttr: { fill: 'transparent' }, outputAttr: {} },
-    ];
-    testCases.forEach(({ inputAttr, outputAttr }) => {
-      const element = createElement(inputAttr);
-      expect(getAttributes(element)).toEqual(outputAttr);
-    });
-
-    unmount();
-  });
-
-  it('should use the black color by default', () => {
-    const { unmount } = render(<Icon icon={iconNameMock} />);
-
-    expectPropsOnChildMock(DynamicSVG, { getAttributes: expect.any(Function) });
-    const { getAttributes } = (DynamicSVG as unknown as jest.Mock).mock.calls[0][0];
-    expect(getAttributes(createElement({ fill: '#121212' }))).toEqual({ fill: '#000000' });
+    const element = { getAttribute: jest.fn() };
+    expect(getAttributes(element)).toEqual(attributes);
+    expect(fullyColorSVG).toHaveBeenCalledWith(element, primaryColor);
 
     unmount();
   });

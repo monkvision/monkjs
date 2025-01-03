@@ -219,6 +219,8 @@ describe('Camera component', () => {
     expectPropsOnChildMock(HUDComponent as jest.Mock, {
       handle: {
         takePicture: useTakePictureResultMock.takePicture,
+        getImageData: expect.any(Function),
+        compressImage: expect.any(Function),
         error: useCameraPreviewResultMock.error,
         retry: useCameraPreviewResultMock.retry,
         isLoading: useCameraPreviewResultMock.isLoading || useTakePictureResultMock.isLoading,
@@ -226,6 +228,19 @@ describe('Camera component', () => {
       },
       cameraPreview: expect.anything(),
     });
+    const takeScreenshotMock = (useCameraScreenshot as jest.Mock).mock.results[0].value;
+    const compressMock = (useCompression as jest.Mock).mock.results[0].value;
+    const { getImageData, compressImage } = (HUDComponent as jest.Mock).mock.calls[0][0].handle;
+
+    expect(takeScreenshotMock).not.toHaveBeenCalled();
+    getImageData();
+    expect(takeScreenshotMock).toHaveBeenCalledWith();
+
+    expect(compressMock).not.toHaveBeenCalled();
+    const value = { test: 'test' };
+    compressImage(value);
+    expect(compressMock).toHaveBeenCalledWith(value);
+
     unmount();
   });
 
