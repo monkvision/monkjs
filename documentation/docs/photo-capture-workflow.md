@@ -58,7 +58,7 @@ increase the detection rate. This feature is called `Add Damage`, and there two 
   take a close-up picture of the damage.
 
 For now, only the 2-shot workflow is implemented in the PhotoCapture workflow. This feature is enabled by default in the
-`PhotoCapture` component. To disable it, pass the `enableAddDamage` prop to `false`.
+`PhotoCapture` component. To disable it, pass the `addDamage` prop to `AddDamage.DISABLED`.
 
 ## Using Compliance
 The compliance is a feature that allows our AI models to analyze the quality of the pictures taken by the user, and if

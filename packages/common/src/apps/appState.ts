@@ -15,7 +15,6 @@ export interface MonkAppState {
    * The current configuration of the application.
    */
   config: CaptureAppConfig;
-
   /**
    * The authentication token representing the currently logged-in user. If this param is `null`, it means the user is
    * not logged in.
