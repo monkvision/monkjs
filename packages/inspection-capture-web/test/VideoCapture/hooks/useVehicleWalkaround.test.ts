@@ -48,8 +48,10 @@ describe('useVehicleWalkaround hook', () => {
     expect(result.current.walkaroundPosition).toEqual(320);
     rerender({ alpha: 77 });
     expect(result.current.walkaroundPosition).toEqual(350);
-    rerender({ alpha: 64 });
-    expect(result.current.walkaroundPosition).toEqual(3);
+    rerender({ alpha: 68 });
+    expect(result.current.walkaroundPosition).toEqual(359);
+    rerender({ alpha: 30 });
+    expect(result.current.walkaroundPosition).toEqual(359);
 
     unmount();
   });

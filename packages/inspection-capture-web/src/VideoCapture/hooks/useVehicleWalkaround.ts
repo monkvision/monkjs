@@ -41,7 +41,11 @@ export function useVehicleWalkaround({
     }
     const diff = startingAlpha - alpha;
     const position = diff < 0 ? 360 + diff : diff;
-    return position <= nextCheckpoint ? position : 0;
+    const newWalkaroundPosition = position <= nextCheckpoint ? position : 0;
+    if (nextCheckpoint === 405 && newWalkaroundPosition < 180) {
+      return 359;
+    }
+    return newWalkaroundPosition;
   }, [startingAlpha, alpha, nextCheckpoint]);
 
   const startWalkaround = useCallback(() => {
