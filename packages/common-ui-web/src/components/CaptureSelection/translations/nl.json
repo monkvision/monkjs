@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Schade melden",
+    "description": "Voeg foto's toe van deuken, krassen of andere schade aan het voertuig.",
+    "button": "Schadefoto's toevoegen"
+  },
+  "capture": {
+    "title": "Conditie vastleggen",
+    "description": "Geen deuken of krassen? Loop rond het voertuig en maak foto's.",
+    "button": "Foto's maken"
+  }
+}

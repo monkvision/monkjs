@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Signaler un dégât",
+    "description": "Ajoutez des photos d'enfoncements, rayures ou autres dégâts présents sur le véhicule.",
+    "button": "Ajouter des photos de dégâts"
+  },
+  "capture": {
+    "title": "Capturer l'état",
+    "description": "Pas d'enfoncements ni de rayures ? Faites le tour du véhicule et prenez des photos.",
+    "button": "Prendre des photos"
+  }
+}
