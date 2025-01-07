@@ -5,6 +5,21 @@ import { VehicleWalkaroundHandle } from './useVehicleWalkaround';
 import { useEnforceOrientation } from '../../hooks';
 
 /**
+ * Enumeration of the different tooltips displayed on top of the recording button during the recording process.
+ */
+export enum VideoRecordingTooltip {
+  /**
+   * Tooltip displayed before the recording has been started, to indicate to the user where to press to start the
+   * recording.
+   */
+  START = 'start',
+  /**
+   * Tooltip displayed at the end of the recording, to indicate to the user where to press to stop the recording.
+   */
+  END = 'end',
+}
+
+/**
  * Params accepted by the useVideoRecording hook.
  */
 export interface UseVideoRecordingParams
@@ -77,6 +92,10 @@ export interface VideoRecordingHandle {
    * Callback called to resume the video recording after it has been paused.
    */
   resumeRecording: () => void;
+  /**
+   * The tooltip displayed to the user.
+   */
+  tooltip: VideoRecordingTooltip | null;
 }
 
 const MINIMUM_VEHICLE_WALKAROUND_POSITION = 270;
@@ -100,6 +119,8 @@ export function useVideoRecording({
   const [additionalRecordingDuration, setAdditionalRecordingDuration] = useState(0);
   const [recordingStartTimestamp, setRecordingStartTimestamp] = useState<number | null>(null);
   const [isDiscardDialogDisplayed, setDiscardDialogDisplayed] = useState(false);
+  const [orientationPause, setOrientationPause] = useState(false);
+  const [tooltip, setTooltip] = useState<VideoRecordingTooltip | null>(VideoRecordingTooltip.START);
   const isViolatingEnforcedOrientation = useEnforceOrientation(enforceOrientation);
 
   const getRecordingDurationMs = useCallback(
@@ -153,6 +174,7 @@ export function useVideoRecording({
       setRecordingStartTimestamp(Date.now());
       setIsRecording(true);
       startWalkaround();
+      setTooltip(null);
     }
   }, [
     isRecording,
@@ -186,12 +208,24 @@ export function useVideoRecording({
   );
 
   useEffect(() => {
-    if (isViolatingEnforcedOrientation) {
+    if (isViolatingEnforcedOrientation && isRecording) {
+      setOrientationPause(true);
       pauseRecording();
-    } else {
+    } else if (!isViolatingEnforcedOrientation && orientationPause) {
+      setOrientationPause(false);
       resumeRecording();
     }
-  }, [isViolatingEnforcedOrientation]);
+  }, [isViolatingEnforcedOrientation, isRecording, orientationPause]);
+
+  useEffect(() => {
+    if (isRecording) {
+      if (walkaroundPosition > 315) {
+        setTooltip(VideoRecordingTooltip.END);
+      } else {
+        setTooltip(null);
+      }
+    }
+  }, [walkaroundPosition, isRecording]);
 
   return {
     isRecordingPaused,
@@ -202,5 +236,6 @@ export function useVideoRecording({
     isDiscardDialogDisplayed,
     pauseRecording,
     resumeRecording,
+    tooltip,
   };
 }

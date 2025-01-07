@@ -1,4 +1,8 @@
-import { useVideoRecording, UseVideoRecordingParams } from '../../../src/VideoCapture/hooks';
+import {
+  useVideoRecording,
+  UseVideoRecordingParams,
+  VideoRecordingTooltip,
+} from '../../../src/VideoCapture/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { useInterval } from '@monkvision/common';
 import { act } from '@testing-library/react';
@@ -12,7 +16,7 @@ function createProps(): UseVideoRecordingParams {
     setIsRecording: jest.fn((param) => {
       isRecording = typeof param === 'boolean' ? param : param(isRecording);
     }),
-    walkaroundPosition: 350,
+    walkaroundPosition: 300,
     startWalkaround: jest.fn(),
     screenshotInterval: 200,
     minRecordingDuration: 5000,
@@ -203,6 +207,40 @@ describe('useVideoRecording hook', () => {
     jest.advanceTimersByTime(4500);
     rerender();
     expect(result.current.recordingDurationMs).toEqual(0);
+
+    unmount();
+  });
+
+  it('should return the start tooltip initially', () => {
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(useVideoRecording, { initialProps });
+
+    expect(result.current.tooltip).toEqual(VideoRecordingTooltip.START);
+
+    unmount();
+  });
+
+  it('should dismiss the initial tooltip once the user starts recording the video', () => {
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(useVideoRecording, { initialProps });
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    expect(result.current.tooltip).toBeNull();
+
+    unmount();
+  });
+
+  it('should show the end tooltip once the compass reaches the end', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    rerender({ ...initialProps, walkaroundPosition: 316 });
+    expect(result.current.tooltip).toEqual(VideoRecordingTooltip.END);
 
     unmount();
   });

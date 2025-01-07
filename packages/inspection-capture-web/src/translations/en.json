@@ -81,6 +81,10 @@
         "walkingTooFast": "You're moving too fast! Slow down a bit, it should take you around one minute to complete the vehicle walkaround.",
         "phoneShaking": "Your device is shaking too much! Try to keep the camera steady while recording your vehicle.",
         "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Once in front of the vehicle, press the button to start recording the video.",
+        "end": "Once the vehicle walkaround is completed, press the button to stop the recording."
       }
     },
     "processing": {

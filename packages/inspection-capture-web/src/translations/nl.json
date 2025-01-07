@@ -81,6 +81,10 @@
         "walkingTooFast": "Je gaat te snel! Doe het wat rustiger aan, het zou ongeveer een minuut moeten duren om de walkaround van het voertuig te voltooien.",
         "phoneShaking": "Je toestel trilt te veel! Probeer de camera stil te houden terwijl je je voertuig opneemt.",
         "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Zodra je voor het voertuig staat, druk je op de knop om de video-opname te starten.",
+        "end": "Zodra de walkaround is voltooid, druk je op de knop om de opname te stoppen."
       }
     },
     "processing": {

@@ -10,6 +10,7 @@ import {
   VideoCaptureRecording,
   VideoCaptureRecordingProps,
 } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording';
+import { useWindowDimensions } from '@monkvision/common';
 
 const VEHICLE_WALKAROUND_INDICATOR_CONTAINER_TEST_ID = 'walkaround-indicator-container';
 
@@ -21,6 +22,7 @@ function createProps(): VideoCaptureRecordingProps {
     recordingDurationMs: 75800,
     onClickRecordVideo: jest.fn(),
     onClickTakePicture: jest.fn(),
+    tooltip: 'test-tooltip',
   };
 }
 
@@ -86,6 +88,35 @@ describe('VideoCaptureRecording component', () => {
       onClick();
     });
     expect(props.onClickRecordVideo).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should pass the tooltip to the RecordVideoButton component', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} />);
+
+    expectPropsOnChildMock(RecordVideoButton, { tooltip: props.tooltip });
+
+    unmount();
+  });
+
+  it('should pass set the RecordVideoButton tooltip position to up when in portrait', () => {
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({ isPortrait: true }));
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} />);
+
+    expectPropsOnChildMock(RecordVideoButton, { tooltipPosition: 'up' });
+
+    unmount();
+  });
+
+  it('should pass set the RecordVideoButton tooltip position to left when in landscape', () => {
+    (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({ isPortrait: false }));
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} />);
+
+    expectPropsOnChildMock(RecordVideoButton, { tooltipPosition: 'left' });
 
     unmount();
   });

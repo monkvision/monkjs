@@ -26,4 +26,8 @@ export interface VideoCaptureRecordingProps {
    * Callback called when the user clicks on the take picture button.
    */
   onClickTakePicture?: () => void;
+  /**
+   * The tooltip to display on top of the recording button.
+   */
+  tooltip?: string;
 }

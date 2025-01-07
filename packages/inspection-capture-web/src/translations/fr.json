@@ -81,6 +81,10 @@
         "walkingTooFast": "Vous allez trop vite ! Ralentissez un peu. Il devrait vous falloir environ une minute pour faire le tour du véhicule.",
         "phoneShaking": "Votre appareil tremble trop ! Essayez de garder l'appareil photo stable pendant l'enregistrement de votre véhicule.",
         "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Une fois devant le véhicule, appuyez sur le bouton pour commencer à enregistrer la vidéo.",
+        "end": "Une fois le tour du véhicule terminé, appuyez sur le bouton pour arrêter l'enregistrement."
       }
     },
     "processing": {

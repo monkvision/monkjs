@@ -17,6 +17,7 @@ import {
   useVideoRecording,
   UseVideoRecordingParams,
   useVideoUploadQueue,
+  VideoRecordingTooltip,
 } from '../hooks';
 import { VideoCaptureProcessing } from '../VideoCaptureProcessing';
 import { OrientationEnforcer } from '../../components';
@@ -81,6 +82,17 @@ function getFastMovementsWarningMessage(type: FastMovementType | null): string {
   }
 }
 
+function getTooltipLabel(tooltip: VideoRecordingTooltip | null): string | undefined {
+  switch (tooltip) {
+    case VideoRecordingTooltip.START:
+      return 'video.recording.tooltip.start';
+    case VideoRecordingTooltip.END:
+      return 'video.recording.tooltip.end';
+    default:
+      return undefined;
+  }
+}
+
 /**
  * HUD component displayed on top of the camera preview for the VideoCapture process.
  */
@@ -126,6 +138,7 @@ export function VideoCaptureHUD({
     recordingDurationMs,
     pauseRecording,
     resumeRecording,
+    tooltip,
   } = useVideoRecording({
     isRecording,
     setIsRecording,
@@ -174,6 +187,7 @@ export function VideoCaptureHUD({
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
+            tooltip={t(getTooltipLabel(tooltip))}
           />
         )}
         {screen === VideoCaptureHUDScreen.PROCESSING && (

@@ -1,6 +1,12 @@
 import { Styles } from '@monkvision/types';
-import { useIsMounted, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
+import {
+  useIsMounted,
+  useMonkTheme,
+  useResponsiveStyle,
+  useWindowDimensions,
+} from '@monkvision/common';
 import { useState } from 'react';
+import { RecordVideoButtonProps } from '@monkvision/common-ui-web';
 import { VideoCaptureRecordingProps } from './VideoCaptureRecording.types';
 
 export const styles: Styles = {
@@ -72,6 +78,8 @@ export function useVideoCaptureRecordingStyles({
   const [isTakePictureFlashVisible, setTakePictureFlashVisible] = useState(false);
   const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
+  const { isPortrait } = useWindowDimensions();
+
   const isMounted = useIsMounted();
 
   const showTakePictureFlash = () => {
@@ -109,5 +117,6 @@ export function useVideoCaptureRecordingStyles({
       ...(isRecording ? {} : styles['walkaroundIndicatorDisabled']),
     },
     showTakePictureFlash,
+    tooltipPosition: (isPortrait ? 'up' : 'left') as RecordVideoButtonProps['tooltipPosition'],
   };
 }

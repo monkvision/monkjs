@@ -25,6 +25,7 @@ export function VideoCaptureRecording({
   recordingDurationMs,
   onClickRecordVideo,
   onClickTakePicture,
+  tooltip,
 }: VideoCaptureRecordingProps) {
   const {
     container,
@@ -34,6 +35,7 @@ export function VideoCaptureRecording({
     takePictureFlash,
     walkaroundIndicator,
     showTakePictureFlash,
+    tooltipPosition,
   } = useVideoCaptureRecordingStyles({ isRecording });
 
   const handleTakePictureClick = () => {
@@ -52,7 +54,12 @@ export function VideoCaptureRecording({
         <div style={walkaroundIndicator} data-testid='walkaround-indicator-container'>
           <VehicleWalkaroundIndicator alpha={walkaroundPosition} />
         </div>
-        <RecordVideoButton isRecording={isRecording} onClick={onClickRecordVideo} />
+        <RecordVideoButton
+          isRecording={isRecording}
+          onClick={onClickRecordVideo}
+          tooltip={tooltip}
+          tooltipPosition={tooltipPosition}
+        />
         <TakePictureButton onClick={handleTakePictureClick} disabled={!isRecording} />
       </div>
       <div style={takePictureFlash} />

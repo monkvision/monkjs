@@ -81,6 +81,10 @@
         "walkingTooFast": "Sie sind zu schnell unterwegs! Fahren Sie etwas langsamer, es sollte etwa eine Minute dauern, bis Sie das Fahrzeug umrundet haben.",
         "phoneShaking": "Ihr Gerät wackelt zu stark! Versuchen Sie, die Kamera ruhig zu halten, während Sie Ihr Fahrzeug aufnehmen.",
         "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Sobald Sie sich vor dem Fahrzeug befinden, drücken Sie die Taste, um die Videoaufnahme zu starten.",
+        "end": "Drücken Sie nach Abschluss der Fahrzeugumrundung die Taste, um die Aufnahme zu beenden."
       }
     },
     "processing": {

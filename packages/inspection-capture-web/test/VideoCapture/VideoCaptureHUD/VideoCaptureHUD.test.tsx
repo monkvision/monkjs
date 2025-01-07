@@ -29,6 +29,7 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     recordingDurationMs: 234,
     pauseRecording: jest.fn(),
     resumeRecording: jest.fn(),
+    tooltip: null,
   })),
 }));
 
@@ -49,6 +50,7 @@ import {
   useVehicleWalkaround,
   useVideoRecording,
   useVideoUploadQueue,
+  VideoRecordingTooltip,
 } from '../../../src/VideoCapture/hooks';
 
 const CAMERA_TEST_ID = 'test-id';
@@ -220,6 +222,49 @@ describe('VideoCaptureHUD component', () => {
       isRecordingPaused,
       recordingDurationMs,
       onClickRecordVideo,
+      tooltip: undefined,
+    });
+
+    unmount();
+  });
+
+  it('should pass the proper tooltip label for the Start tooltip', () => {
+    const mockResult = (useVideoRecording as jest.Mock)();
+    (useVideoRecording as jest.Mock).mockImplementation(() => ({
+      ...mockResult,
+      tooltip: VideoRecordingTooltip.START,
+    }));
+
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
+    expectPropsOnChildMock(VideoCaptureRecording, {
+      tooltip: 'video.recording.tooltip.start',
+    });
+
+    unmount();
+  });
+
+  it('should pass the proper tooltip label for the End tooltip', () => {
+    const mockResult = (useVideoRecording as jest.Mock)();
+    (useVideoRecording as jest.Mock).mockImplementation(() => ({
+      ...mockResult,
+      tooltip: VideoRecordingTooltip.END,
+    }));
+
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
+    expectPropsOnChildMock(VideoCaptureRecording, {
+      tooltip: 'video.recording.tooltip.end',
     });
 
     unmount();
