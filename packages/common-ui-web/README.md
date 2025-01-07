@@ -405,10 +405,12 @@ function App() {
 ```
 
 ### Props
-| Prop        | Type    | Description                                                           | Required | Default Value |
-|-------------|---------|-----------------------------------------------------------------------|----------|---------------|
-| size        | number  | The size of the button in pixels.                                     |          | `80`          |
-| isRecording | boolean | Boolean indicating if the user is currently recording a video or not. |          | `false`       |
+| Prop            | Type                                              | Description                                                           | Required | Default Value |
+|-----------------|---------------------------------------------------|-----------------------------------------------------------------------|----------|---------------|
+| size            | number                                            | The size of the button in pixels.                                     |          | `80`          |
+| isRecording     | boolean                                           | Boolean indicating if the user is currently recording a video or not. |          | `false`       |
+| tooltip         | string                                            | Optional tooltip that will be displayed around the button.            |          |               |
+| tooltipPosition | `'up' &#124; 'down' &#124; 'right' &#124; 'left'` | The position of the tooltip around the button.                        |          | `'up'`        |
 
 ---
 

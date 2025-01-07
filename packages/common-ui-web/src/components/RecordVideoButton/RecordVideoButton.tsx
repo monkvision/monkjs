@@ -13,6 +13,8 @@ export const RecordVideoButton = forwardRef<HTMLButtonElement, RecordVideoButton
       size = 80,
       isRecording = false,
       disabled = false,
+      tooltip,
+      tooltipPosition = 'up',
       style = {},
       onClick,
       onMouseEnter,
@@ -32,7 +34,12 @@ export const RecordVideoButton = forwardRef<HTMLButtonElement, RecordVideoButton
         onMouseUp,
       },
     });
-    const { container, innerCircle } = useRecordVideoButtonStyles({ size, isRecording, status });
+    const { container, innerCircle, tooltipContainer, tooltipArrow } = useRecordVideoButtonStyles({
+      size,
+      isRecording,
+      status,
+      tooltipPosition,
+    });
 
     return (
       <button
@@ -44,6 +51,8 @@ export const RecordVideoButton = forwardRef<HTMLButtonElement, RecordVideoButton
         {...passThroughProps}
         data-testid='record-video-button'
       >
+        {tooltip && <span style={tooltipContainer}>{tooltip}</span>}
+        {tooltip && <span style={tooltipArrow}></span>}
         <span style={innerCircle}></span>
       </button>
     );

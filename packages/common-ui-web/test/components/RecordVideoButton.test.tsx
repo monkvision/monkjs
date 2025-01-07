@@ -51,6 +51,15 @@ describe('RecordVideoButton component', () => {
     unmount();
   });
 
+  it('should display the given tooltip', () => {
+    const tooltip = 'test-tooltip test';
+    const { unmount } = render(<RecordVideoButton tooltip={tooltip} />);
+
+    expect(screen.queryByText(tooltip)).not.toBeNull();
+
+    unmount();
+  });
+
   it('should have a cursor pointer', () => {
     const { unmount } = render(<RecordVideoButton />);
     const buttonEl = screen.getByTestId(RECORD_VIDEO_BUTTON_TEST_ID);

@@ -15,6 +15,16 @@ export interface MonkRecordVideoButtonProps {
    */
   isRecording?: boolean;
   /**
+   * Optional tooltip that will be displayed around the button.
+   */
+  tooltip?: string;
+  /**
+   * The position of the tooltip around the button.
+   *
+   * @default 'up'
+   */
+  tooltipPosition?: 'up' | 'down' | 'right' | 'left';
+  /**
    * Callback called when the user clicks on the button.
    */
   onClick?: () => void;
