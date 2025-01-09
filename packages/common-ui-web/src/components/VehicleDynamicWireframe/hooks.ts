@@ -8,7 +8,7 @@ function isCarPartElement(element: SVGElement): boolean {
   return element.id !== '' && element.classList.contains('car-part');
 }
 
-function getWireframes(vehicleType: VehicleType, orientation: PartSelectionOrientation) {
+function getWireframes(vehicleType: VehicleType, orientation: PartSelectionOrientation): string {
   const wireframes = partSelectionWireframes[getVehicleModel(vehicleType)];
   if (wireframes === undefined) {
     throw new Error(`No wireframe found for vehicle type ${vehicleType}`);
@@ -16,9 +16,12 @@ function getWireframes(vehicleType: VehicleType, orientation: PartSelectionOrien
   return wireframes[orientation];
 }
 
-export interface VehicleDynamicWireframeParams {
+/**
+ * Props accepted by the VehicleDynamicWireframe component.
+ */
+export interface VehicleDynamicWireframeProps {
   /**
-   * Vehicle type to display the wireframe for.
+   * The type of vehicle for which the wireframe will be displayed.
    */
   vehicleType: VehicleType;
   /**
@@ -28,11 +31,11 @@ export interface VehicleDynamicWireframeParams {
    */
   orientation?: PartSelectionOrientation;
   /**
-   * Callback when the user clicks a part.
+   * Callback when the user clicks on a vehicle part.
    */
   onClickPart?: (parts: VehiclePart) => void;
   /**
-   * Callback used to customize the display style of each vehicle part on the wireframe.
+   * Customizes the display attributes (e.g., styles, colors) of vehicle parts.
    * See `DynamicSVGCustomizationFunctions` for more details.
    *
    * @see DynamicSVGCustomizationFunctions
@@ -45,7 +48,7 @@ export function useVehicleDynamicWireframe({
   orientation = PartSelectionOrientation.FRONT_LEFT,
   onClickPart = () => {},
   getPartAttributes = () => ({}),
-}: VehicleDynamicWireframeParams) {
+}: VehicleDynamicWireframeProps) {
   const overlay = useMemo(
     () => getWireframes(vehicleType, orientation),
     [vehicleType, orientation],

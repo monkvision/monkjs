@@ -71,7 +71,6 @@ export interface PhotoCaptureHUDElementsProps
   error?: unknown | null;
   /**
    * The current images taken by the user (ignoring retaken pictures etc.).
-        props.disableSightPicture,
    */
   images: Image[];
 }

@@ -134,6 +134,37 @@ function App() {
 
 ---
 
+## CaptureSelection
+### Description
+A single page component that allows the user to select between "Add Damage" or "Photo Capture" workflow.
+
+### Example
+
+```tsx
+import { CaptureSelection } from "@monkvision/common-ui-web";
+import { useNavigate } from "react-router-dom";
+
+function App() {
+  const { navigate } = useNavigate();
+
+  return (
+    <CaptureSelection
+    onAddDamage={() => navigate('/add-damage-page')}
+    onCapture={() => navigate('/photo-capture-page')}
+    />
+  );
+}
+```
+
+### Props
+| Prop        | Type       | Description                                                    | Required | Default Value |
+|-------------|------------|----------------------------------------------------------------|----------|---------------|
+| lang        | string     | The language used by the component.                            |          | `'en'`        |
+| onAddDamage | () => void | Callback called when the user clicks on "Add Damage" button.   |          |               |
+| onCapture   | () => void | Callback called when the user clicks on "Take Picture" button. |          |               |
+
+---
+
 ## Checkbox
 ### Description
 Custom component implementing a simple checkbox.

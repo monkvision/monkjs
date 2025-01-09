@@ -8,7 +8,6 @@ import {
   DamageDisclosureParams,
   useDamageDisclosureState,
 } from '../../../src/DamageDisclosure/hooks';
-// import { DamageDisclosureErrorName } from '../../../src/PhotoCapture/errors';
 
 function createParams(): DamageDisclosureParams {
   return {

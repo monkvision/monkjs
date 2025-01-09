@@ -211,7 +211,7 @@ export function PhotoCapture({
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
-    sightState,
+    captureState: sightState,
     addDamageHandle,
     uploadQueue,
     tasksBySight,

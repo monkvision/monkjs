@@ -4,23 +4,26 @@ import { useAnalytics } from '@monkvision/analytics';
 import { AddDamage, CaptureAppConfig, VehiclePart } from '@monkvision/types';
 import { CaptureMode, CaptureScreen } from '../types';
 
-interface AddDamageModeParams extends Pick<CaptureAppConfig, 'addDamage'> {
+/**
+ * Parameters of the useAddDamageMode hook.
+ */
+export interface AddDamageModeParams extends Pick<CaptureAppConfig, 'addDamage'> {
   /**
    * The current screen of the Capture component.
    */
   currentScreen?: CaptureScreen;
   /**
-   * Boolean indicating if the only close damage will be taken first then sights picutures.
+   * Boolean indicating if the capture is in Damage Disclosure mode.
    */
   damageDisclosure?: boolean;
   /**
-   * Callback called when the user clicks on the 'close` button in vehicleDiclosure mode.
+   * Callback called when the user clicks on the 'close` button in Damage Diclosure mode.
    */
   handleOpenGallery: () => void;
 }
 
 /**
- * Handle used to modify the current PhotoCaptureMode of the PhotoCaptureComponent.
+ * Handle used to modify the current CaptureMode of the PhotoCapture or DamageDisclosure component.
  */
 export interface AddDamageHandle {
   /**
@@ -53,7 +56,7 @@ export interface AddDamageHandle {
   handleValidateVehicleParts: () => void;
 }
 
-function getInitialMode(addDamage?: AddDamage, damageDisclosure?: boolean) {
+function getInitialMode(addDamage?: AddDamage, damageDisclosure?: boolean): CaptureMode {
   if (damageDisclosure && addDamage === AddDamage.PART_SELECT) {
     return CaptureMode.ADD_DAMAGE_PART_SELECT;
   }

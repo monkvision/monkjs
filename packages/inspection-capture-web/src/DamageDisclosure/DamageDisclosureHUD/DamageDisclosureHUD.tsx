@@ -111,7 +111,7 @@ export function DamageDisclosureHUD({
 
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
-    trackEvent('Capture Closed');
+    trackEvent('Disclosure Closed');
     onClose?.();
   };
 

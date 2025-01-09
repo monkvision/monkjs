@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { styles } from './PartSelection.styles';
 import { useColorBackground } from '../../hooks';
 
+/**
+ * Props of PartSelection component.
+ */
 export interface PartSelectionProps {
   /**
    * Current vehicle parts selected to take a picture of.
@@ -32,6 +35,10 @@ export interface PartSelectionProps {
   maxSelectableParts?: number;
 }
 
+/**
+ * Component that displays a vehicle wireframe on top of the Camera Preview that is used
+ * to select the parts of the vehicle that the user wants to take a picture of.
+ */
 export function PartSelection({
   vehicleParts,
   disabled = false,

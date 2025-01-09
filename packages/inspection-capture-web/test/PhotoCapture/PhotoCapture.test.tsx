@@ -270,12 +270,12 @@ describe('PhotoCapture component', () => {
     expect(useAddDamageMode).toHaveBeenCalled();
     const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
     expect(usePhotoCaptureSightState).toHaveBeenCalled();
-    const sightState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
+    const captureState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
     expect(useUploadQueue).toHaveBeenCalled();
     const uploadQueue = (useUploadQueue as jest.Mock).mock.results[0].value;
     expect(usePictureTaken).toHaveBeenCalledWith({
       addDamageHandle,
-      sightState,
+      captureState,
       uploadQueue,
       tasksBySight: props.tasksBySight,
       onPictureTaken: props.onPictureTaken,

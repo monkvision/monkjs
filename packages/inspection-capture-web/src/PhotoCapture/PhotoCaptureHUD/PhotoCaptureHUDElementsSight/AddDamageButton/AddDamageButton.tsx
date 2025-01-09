@@ -13,8 +13,6 @@ export interface AddDamageButtonProps {
   onAddDamage?: () => void;
   /**
    * Boolean indicating whether the Add Damage feature is enabled. If disabled, the `Add Damage` button will be hidden.
-   *
-   * @default true
    */
   addDamage?: AddDamage;
 }
@@ -26,18 +24,14 @@ export function AddDamageButton({ onAddDamage, addDamage }: AddDamageButtonProps
   const { t } = useTranslation();
   const primaryColor = useColorBackground();
 
-  return (
-    <>
-      {addDamage && addDamage !== AddDamage.DISABLED && (
-        <Button
-          icon='add'
-          onClick={onAddDamage}
-          data-testid='monk-test-btn'
-          primaryColor={primaryColor}
-        >
-          {t('photo.hud.sight.addDamageBtn')}
-        </Button>
-      )}
-    </>
-  );
+  return [AddDamage.TWO_SHOT, AddDamage.PART_SELECT].includes(addDamage as AddDamage) ? (
+    <Button
+      icon='add'
+      onClick={onAddDamage}
+      data-testid='monk-test-btn'
+      primaryColor={primaryColor}
+    >
+      {t('photo.hud.sight.addDamageBtn')}
+    </Button>
+  ) : null;
 }

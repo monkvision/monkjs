@@ -66,7 +66,7 @@ export interface DamageDisclosureProps
    */
   onClose?: () => void;
   /**
-   * Callback called when inspection capture is complete.
+   * Callback called when damage disclosure is complete.
    */
   onComplete?: () => void;
   /**
@@ -147,7 +147,7 @@ export function DamageDisclosure({
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
-    sightState: disclosureState,
+    captureState: disclosureState,
     addDamageHandle,
     uploadQueue,
     onPictureTaken,

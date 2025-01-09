@@ -200,12 +200,12 @@ describe('DamageDisclosure component', () => {
     expect(useAddDamageMode).toHaveBeenCalled();
     const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
     expect(useDamageDisclosureState).toHaveBeenCalled();
-    const sightState = (useDamageDisclosureState as jest.Mock).mock.results[0].value;
+    const captureState = (useDamageDisclosureState as jest.Mock).mock.results[0].value;
     expect(useUploadQueue).toHaveBeenCalled();
     const uploadQueue = (useUploadQueue as jest.Mock).mock.results[0].value;
     expect(usePictureTaken).toHaveBeenCalledWith({
       addDamageHandle,
-      sightState,
+      captureState,
       uploadQueue,
       onPictureTaken: props.onPictureTaken,
     });

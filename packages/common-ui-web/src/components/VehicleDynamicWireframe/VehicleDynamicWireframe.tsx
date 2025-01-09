@@ -1,35 +1,7 @@
-import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
-import { SVGProps } from 'react';
+import { PartSelectionOrientation } from '@monkvision/types';
 import { DynamicSVG } from '../DynamicSVG';
-import { useVehicleDynamicWireframe } from './hooks';
+import { useVehicleDynamicWireframe, VehicleDynamicWireframeProps } from './hooks';
 import { styles } from './VehicleDynamicWireframe.style';
-
-/**
- * Props accepted by the VehicleDynamicWireframe component.
- */
-export interface VehicleDynamicWireframeProps {
-  /**
-   * Vehicle type to display the wireframe for.
-   */
-  vehicleType: VehicleType;
-  /**
-   * The orientation of the wireframe.
-   *
-   * @default PartSelectionOrientation.FRONT_LEFT
-   */
-  orientation?: PartSelectionOrientation;
-  /**
-   * Callback when the user clicks a part.
-   */
-  onClickPart?: (parts: VehiclePart) => void;
-  /**
-   * Callback used to customize the display style of each vehicle part on the wireframe.
-   * See `DynamicSVGCustomizationFunctions` for more details.
-   *
-   * @see DynamicSVGCustomizationFunctions
-   */
-  getPartAttributes?: (part: VehiclePart) => SVGProps<SVGElement>;
-}
 
 /**
  * Component that displays a dynamic wireframe of a vehicle, allowing the user to select parts of the vehicle.

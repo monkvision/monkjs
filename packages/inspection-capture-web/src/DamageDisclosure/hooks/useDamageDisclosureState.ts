@@ -11,7 +11,7 @@ import { ComplianceOptions, Image, ImageType } from '@monkvision/types';
 import { DamageDisclosureState } from '../../types';
 
 /**
- * Parameters of the useDamageDisclosureSightState hook.
+ * Parameters of the useDamageDisclosureState hook.
  */
 export interface DamageDisclosureParams {
   /**

@@ -37,8 +37,7 @@ export function SightGuideline({
   const primaryColor = useColorBackground();
   const { i18n, t } = useTranslation();
 
-  const style =
-    addDamage && addDamage === AddDamage.DISABLED ? styles['containerWide'] : styles['container'];
+  const style = addDamage === AddDamage.DISABLED ? styles['containerWide'] : styles['container'];
 
   const guidelineFound = sightGuidelines?.find((value) => value.sightIds.includes(sightId));
 

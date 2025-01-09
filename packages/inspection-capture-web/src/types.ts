@@ -88,7 +88,7 @@ export interface PhotoCaptureSightState {
 }
 
 /**
- * Object containing state management utilities for the PhotoCapture sights.
+ * Object containing state management utilities for the DamageDisclosure.
  */
 export interface DamageDisclosureState {
   /**

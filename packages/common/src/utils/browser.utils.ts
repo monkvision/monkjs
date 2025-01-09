@@ -15,9 +15,9 @@ export function isMobileDevice(): boolean {
 }
 
 /**
- * Returns the aspect ratio of the stream.
+ * Returns the aspect ratio of the stream. If not a mobile device, it will return 16/9 by default.
  */
-export function getAspectRatio(streamDimensions?: PixelDimensions | null) {
+export function getAspectRatio(streamDimensions?: PixelDimensions | null): string {
   if (isMobileDevice() && streamDimensions) {
     return `${streamDimensions?.width}/${streamDimensions?.height}`;
   }

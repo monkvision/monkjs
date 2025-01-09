@@ -6,7 +6,7 @@ import { PhotoCaptureSightState } from '../../src/PhotoCapture/hooks';
 
 function createParams(): UseTakePictureParams {
   return {
-    sightState: {
+    captureState: {
       setLastPictureTakenUri: jest.fn(),
       takeSelectedSight: jest.fn(),
       selectedSight: { id: 'test-selected-sight', tasks: [TaskName.WHEEL_ANALYSIS] },
@@ -41,10 +41,10 @@ describe('usePictureTaken hook', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
-    expect(initialProps.sightState.setLastPictureTakenUri).not.toHaveBeenCalled();
+    expect(initialProps.captureState.setLastPictureTakenUri).not.toHaveBeenCalled();
     const picture = createMonkPicture();
     result.current(picture);
-    expect(initialProps.sightState.setLastPictureTakenUri).toHaveBeenCalledWith(picture.uri);
+    expect(initialProps.captureState.setLastPictureTakenUri).toHaveBeenCalledWith(picture.uri);
 
     unmount();
   });
@@ -59,8 +59,8 @@ describe('usePictureTaken hook', () => {
     expect(initialProps.uploadQueue.push).toHaveBeenCalledWith({
       mode: initialProps.addDamageHandle.mode,
       picture,
-      sightId: (initialProps.sightState as PhotoCaptureSightState).selectedSight.id,
-      tasks: (initialProps.sightState as PhotoCaptureSightState).selectedSight.tasks,
+      sightId: (initialProps.captureState as PhotoCaptureSightState).selectedSight.id,
+      tasks: (initialProps.captureState as PhotoCaptureSightState).selectedSight.tasks,
     });
 
     unmount();
@@ -71,7 +71,7 @@ describe('usePictureTaken hook', () => {
     const initialProps = {
       ...createParams(),
       tasksBySight: {
-        [(createParams().sightState as PhotoCaptureSightState).selectedSight.id]: tasks,
+        [(createParams().captureState as PhotoCaptureSightState).selectedSight.id]: tasks,
       },
     };
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
@@ -111,11 +111,11 @@ describe('usePictureTaken hook', () => {
     const { result, unmount } = renderHook(usePictureTaken, { initialProps });
 
     expect(
-      (initialProps.sightState as PhotoCaptureSightState).takeSelectedSight,
+      (initialProps.captureState as PhotoCaptureSightState).takeSelectedSight,
     ).not.toHaveBeenCalled();
     result.current(createMonkPicture());
     expect(
-      (initialProps.sightState as PhotoCaptureSightState).takeSelectedSight,
+      (initialProps.captureState as PhotoCaptureSightState).takeSelectedSight,
     ).toHaveBeenCalled();
 
     unmount();
@@ -134,7 +134,7 @@ describe('usePictureTaken hook', () => {
 
     result.current(createMonkPicture());
     expect(
-      (initialProps.sightState as PhotoCaptureSightState).takeSelectedSight,
+      (initialProps.captureState as PhotoCaptureSightState).takeSelectedSight,
     ).not.toHaveBeenCalled();
 
     unmount();

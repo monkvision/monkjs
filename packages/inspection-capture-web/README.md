@@ -5,7 +5,9 @@ There are two main workflows for capturing pictures of a vehicle for a Monk insp
   to take pictures of the vehicle by aligning the vehicle with the Sight overlays.
 - The **VideoCapture** workflow : the user is asked to record a quick video of their vehicle by filming it and rotating
   in a full circle around it.
-- The **DamageDisclosure** workflow : The user is guided to capture close-up pictures of specific damaged parts of the vehicle. Before taking the picture, the user must first select the damaged part on the vehicle wireframe.
+- The **DamageDisclosure** workflow : The user is guided to capture close-up pictures of specific damaged parts of the vehicle. There are 2 workflows available:
+  - Part-selection: Before taking the picture, the user must first select the damaged part on the vehicle wireframe then a close-up picture of the damage.
+  - Two-shot: The user is asked to take, first a wide picture of the vehicle, then a close-up picture of the damage.
 
 # Installing
 To install the package, you can run the following command :
@@ -155,16 +157,17 @@ Props
 
 # DamageDisclosure
 
-The DamageDisclosure workflow is designed to guide users in documenting and disclosing damage to their vehicles during a Monk inspection. Once the damaged areas are identified, the user is prompted to take close-up photos of each selected area, ensuring accurate documentation for the inspection.
+The DamageDisclosure workflow is designed to guide users in documenting and disclosing damage to their vehicles during a Monk inspection.
 This workflow is ideal for capturing detailed images of specific damages such as dents, scratches, or other issues that need to be highlighted in the inspection report.
+There are 2 workflows available.
 
 Please refer to the [official MonkJs documentation](https://monkvision.github.io/monkjs/docs/photo-capture-workflow) for a comprehensive overview of the Add damage workflow.
 
 ## DamageDisclosure component
 
-This package exports a ready-to-use single-page component called DamageDisclosure that implements the DamageDisclosure workflow. You can integrate it into your application by creating a new page containing only this component. Before using it, you must generate an Auth0 authentication token and create a new inspection using the Monk API. Ensure that all task statuses in the inspection are set to NOT_STARTED. This component will automatically handle starting tasks after the capture process is complete.
+This package exports a ready-to-use single-page component called DamageDisclosure that implements the DamageDisclosure workflow. You can integrate it into your application by creating a new page containing only this component. Before using it, you must generate an Auth0 authentication token and create a new inspection using the Monk API. Ensure that all task statuses in the inspection are set to NOT_STARTED.
 
-You can then pass the inspection ID, API configuration (including the auth token), and a list of sights to be displayed to the user. Once the user completes the workflow, the onComplete callback is triggered, allowing you to navigate to another page or perform additional actions.
+You can then pass the inspection ID, API configuration (including the auth token). Once the user completes the workflow, the onComplete callback is triggered, allowing you to navigate to another page or perform additional actions.
 
 The following example demonstrates how to use the DamageDisclosure component:
 
